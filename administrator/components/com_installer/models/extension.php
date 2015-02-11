@@ -3,19 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Extension Manager Abstract Extension Model
+ * Extension Manager Abstract Extension Model.
  *
- * @abstract
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       1.5
+ * @since  1.5
  */
 class InstallerModel extends JModelList
 {
@@ -67,24 +64,30 @@ class InstallerModel extends JModelList
 			$db->setQuery($query);
 			$result = $db->loadObjectList();
 			$this->translate($result);
+
 			if (!empty($search))
 			{
+				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
+
 				foreach ($result as $i => $item)
 				{
-					if (!preg_match("/$search/i", $item->name))
+					if (!preg_match("/$escapedSearchString/i", $item->name))
 					{
 						unset($result[$i]);
 					}
 				}
 			}
+
 			JArrayHelper::sortObjects($result, $this->getState('list.ordering'), $this->getState('list.direction') == 'desc' ? -1 : 1, true, true);
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
+
 			if ($total < $limitstart)
 			{
 				$limitstart = 0;
 				$this->setState('list.start', 0);
 			}
+
 			return array_slice($result, $limitstart, $limit ? $limit : null);
 		}
 		else
@@ -92,6 +95,7 @@ class InstallerModel extends JModelList
 			$query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
 			$result = parent::_getList($query, $limitstart, $limit);
 			$this->translate($result);
+
 			return $result;
 		}
 	}
@@ -103,14 +107,16 @@ class InstallerModel extends JModelList
 	 *
 	 * @return  array The array of translated objects
 	 */
-	private function translate(&$items)
+	protected function translate(&$items)
 	{
 		$lang = JFactory::getLanguage();
+
 		foreach ($items as &$item)
 		{
 			if (strlen($item->manifest_cache))
 			{
 				$data = json_decode($item->manifest_cache);
+
 				if ($data)
 				{
 					foreach ($data as $key => $value)
@@ -120,13 +126,16 @@ class InstallerModel extends JModelList
 							// Ignore the type field
 							continue;
 						}
+
 						$item->$key = $value;
 					}
 				}
 			}
+
 			$item->author_info = @$item->authorEmail . '<br />' . @$item->authorUrl;
 			$item->client = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
 			$path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
+
 			switch ($item->type)
 			{
 				case 'component':
@@ -149,10 +158,6 @@ class InstallerModel extends JModelList
 						$lang->load("$extension.sys", $path, null, false, true)
 					||	$lang->load("$extension.sys", $source, null, false, true);
 				break;
-				case 'package':
-					$extension = $item->element;
-						$lang->load("$extension.sys", JPATH_SITE, null, false, true);
-				break;
 				case 'plugin':
 					$extension = 'plg_' . $item->folder . '_' . $item->element;
 					$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
@@ -165,12 +170,20 @@ class InstallerModel extends JModelList
 						$lang->load("$extension.sys", $path, null, false, true)
 					||	$lang->load("$extension.sys", $source, null, false, true);
 				break;
+				case 'package':
+				default:
+					$extension = $item->element;
+						$lang->load("$extension.sys", JPATH_SITE, null, false, true);
+				break;
 			}
+
 			if (!in_array($item->type, array('language', 'template', 'library')))
 			{
 				$item->name = JText::_($item->name);
 			}
+
 			settype($item->description, 'string');
+
 			if (!in_array($item->type, array('language')))
 			{
 				$item->description = JText::_($item->description);

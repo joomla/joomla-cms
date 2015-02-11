@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,9 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * Based on the standard PHP session handling mechanism it provides
  * more advanced features such as expire timeouts.
  *
- * @package     Joomla.Platform
- * @subpackage  Session
- * @since       11.1
+ * @since  11.1
  */
 class JSession implements IteratorAggregate
 {
@@ -158,6 +156,7 @@ class JSession implements IteratorAggregate
 		if ($name === 'state' || $name === 'expire')
 		{
 			$property = '_' . $name;
+
 			return $this->$property;
 		}
 	}
@@ -257,6 +256,7 @@ class JSession implements IteratorAggregate
 			{
 				$this->_state = 'expired';
 			}
+
 			return false;
 		}
 
@@ -321,6 +321,7 @@ class JSession implements IteratorAggregate
 		if (!$app->input->$method->get($token, '', 'alnum'))
 		{
 			$session = JFactory::getSession();
+
 			if ($session->isNew())
 			{
 				// Redirect to login screen.
@@ -352,6 +353,7 @@ class JSession implements IteratorAggregate
 			// @TODO : raise error
 			return null;
 		}
+
 		return session_name();
 	}
 
@@ -369,6 +371,7 @@ class JSession implements IteratorAggregate
 			// @TODO : raise error
 			return null;
 		}
+
 		return session_id();
 	}
 
@@ -439,6 +442,7 @@ class JSession implements IteratorAggregate
 	public function isNew()
 	{
 		$counter = $this->get('session.counter');
+
 		return (bool) ($counter === 1);
 	}
 
@@ -474,10 +478,11 @@ class JSession implements IteratorAggregate
 		// Add prefix to namespace to avoid collisions
 		$namespace = '__' . $namespace;
 
-		if ($this->_state !== 'active' && $this->_state !== 'expired')
+		if ($this->_state === 'destroyed')
 		{
 			// @TODO :: generated error here
 			$error = null;
+
 			return $error;
 		}
 
@@ -485,6 +490,7 @@ class JSession implements IteratorAggregate
 		{
 			return $_SESSION[$namespace][$name];
 		}
+
 		return $default;
 	}
 
@@ -570,6 +576,7 @@ class JSession implements IteratorAggregate
 		}
 
 		$value = null;
+
 		if (isset($_SESSION[$namespace][$name]))
 		{
 			$value = $_SESSION[$namespace][$name];
@@ -698,6 +705,7 @@ class JSession implements IteratorAggregate
 		session_destroy();
 
 		$this->_state = 'destroyed';
+
 		return true;
 	}
 
@@ -712,6 +720,7 @@ class JSession implements IteratorAggregate
 	public function restart()
 	{
 		$this->destroy();
+
 		if ($this->_state !== 'destroyed')
 		{
 			// @TODO :: generated error here
@@ -799,6 +808,7 @@ class JSession implements IteratorAggregate
 	protected function _setCookieParams()
 	{
 		$cookie = session_get_cookie_params();
+
 		if ($this->_force_ssl)
 		{
 			$cookie['secure'] = true;
@@ -815,6 +825,7 @@ class JSession implements IteratorAggregate
 		{
 			$cookie['path'] = $config->get('cookie_path');
 		}
+
 		session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], true);
 	}
 
@@ -833,6 +844,7 @@ class JSession implements IteratorAggregate
 		$max = strlen($chars) - 1;
 		$token = '';
 		$name = session_name();
+
 		for ($i = 0; $i < $length; ++$i)
 		{
 			$token .= $chars[(rand(0, $max))];
@@ -854,6 +866,7 @@ class JSession implements IteratorAggregate
 		++$counter;
 
 		$this->set('session.counter', $counter);
+
 		return true;
 	}
 
@@ -966,6 +979,7 @@ class JSession implements IteratorAggregate
 			if ($maxTime < $curTime)
 			{
 				$this->_state = 'expired';
+
 				return false;
 			}
 		}
@@ -988,6 +1002,7 @@ class JSession implements IteratorAggregate
 			elseif ($_SERVER['REMOTE_ADDR'] !== $ip)
 			{
 				$this->_state = 'error';
+
 				return false;
 			}
 		}

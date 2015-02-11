@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,66 +33,6 @@ class JCryptTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->object = new JCrypt;
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testDecrypt().
-	 *
-	 * @return void
-	 */
-	public function testDecrypt()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testEncrypt().
-	 *
-	 * @return void
-	 */
-	public function testEncrypt()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGenerateKey().
-	 *
-	 * @return void
-	 */
-	public function testGenerateKey()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSetKey().
-	 *
-	 * @return void
-	 */
-	public function testSetKey()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 
 	/**

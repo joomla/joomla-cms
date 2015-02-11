@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,9 +47,9 @@ if (!empty($this->items))
 		<?php if ($this->params->get('filter_field') != 'hide') :?>
 			<div class="btn-group">
 				<label class="filter-search-lbl element-invisible" for="filter-search">
-					<?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?>
+					<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL') . '&#160;'; ?>
 				</label>
-				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL'); ?>" />
+				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>" />
 			</div>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
@@ -69,7 +69,21 @@ if (!empty($this->items))
 	<?php endif; ?>
 
 	<table class="category table table-striped table-bordered table-hover">
+		<?php
+		$headerTitle    = '';
+		$headerDate     = '';
+		$headerAuthor   = '';
+		$headerHits     = '';
+		$headerEdit     = '';
+		?>
 		<?php if ($this->params->get('show_headings')) : ?>
+			<?php
+			$headerTitle    = 'headers="categorylist_header_title"';
+			$headerDate     = 'headers="categorylist_header_date"';
+			$headerAuthor   = 'headers="categorylist_header_author"';
+			$headerHits     = 'headers="categorylist_header_hits"';
+			$headerEdit     = 'headers="categorylist_header_edit"';
+			?>
 		<thead>
 			<tr>
 				<th id="categorylist_header_title">
@@ -78,11 +92,11 @@ if (!empty($this->items))
 				<?php if ($date = $this->params->get('list_show_date')) : ?>
 					<th id="categorylist_header_date">
 						<?php if ($date == "created") : ?>
-							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.created', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.created', $listDirn, $listOrder); ?>
 						<?php elseif ($date == "modified") : ?>
-							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.modified', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.modified', $listDirn, $listOrder); ?>
 						<?php elseif ($date == "published") : ?>
-							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
 						<?php endif; ?>
 					</th>
 				<?php endif; ?>
@@ -109,19 +123,19 @@ if (!empty($this->items))
 				<?php else: ?>
 				<tr class="cat-list-row<?php echo $i % 2; ?>" >
 				<?php endif; ?>
-					<td headers="categorylist_header_title" class="list-title">
+					<td <?php echo $headerTitle; ?> class="list-title">
 						<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
-							<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
+							<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 								<?php echo $this->escape($article->title); ?>
 							</a>
 						<?php else: ?>
 							<?php
-							echo $this->escape($article->title).' : ';
+							echo $this->escape($article->title) . ' : ';
 							$menu		= JFactory::getApplication()->getMenu();
 							$active		= $menu->getActive();
 							$itemId		= $active->id;
-							$link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId);
-							$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug));
+							$link = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);
+							$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language));
 							$fullURL = new JUri($link);
 							$fullURL->setVar('return', base64_encode($returnURL));
 							?>
@@ -139,14 +153,14 @@ if (!empty($this->items))
 								<?php echo JText::_('JNOTPUBLISHEDYET'); ?>
 							</span>
 						<?php endif; ?>
-						<?php if ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != '0000-00-00 00:00:00') : ?>
+						<?php if ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()) : ?>
 							<span class="list-published label label-warning">
 								<?php echo JText::_('JEXPIRED'); ?>
 							</span>
 						<?php endif; ?>
 					</td>
 					<?php if ($this->params->get('list_show_date')) : ?>
-						<td headers="categorylist_header_date" class="list-date small">
+						<td <?php echo $headerDate; ?> class="list-date small">
 							<?php
 							echo JHtml::_(
 								'date', $article->displayDate,
@@ -155,7 +169,7 @@ if (!empty($this->items))
 						</td>
 					<?php endif; ?>
 					<?php if ($this->params->get('list_show_author', 1)) : ?>
-						<td headers="categorylist_header_author" class="list-author">
+						<td <?php echo $headerAuthor; ?> class="list-author">
 							<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 								<?php $author = $article->author ?>
 								<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
@@ -168,14 +182,14 @@ if (!empty($this->items))
 						</td>
 					<?php endif; ?>
 					<?php if ($this->params->get('list_show_hits', 1)) : ?>
-						<td headers="categorylist_header_hits" class="list-hits">
+						<td <?php echo $headerHits; ?> class="list-hits">
 							<span class="badge badge-info">
 								<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $article->hits); ?>
 							</span>
 						</td>
 					<?php endif; ?>
 					<?php if ($isEditable) : ?>
-						<td headers="categorylist_header_edit" class="list-edit">
+						<td <?php echo $headerEdit; ?> class="list-edit">
 							<?php if ($article->params->get('access-edit')) : ?>
 								<?php echo JHtml::_('icon.edit', $article, $params); ?>
 							<?php endif; ?>

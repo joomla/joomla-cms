@@ -3,18 +3,18 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla! CMS Application class
  *
- * @package     Joomla.Libraries
- * @subpackage  Application
- * @since       3.2
+ * @since  3.2
  */
 class JApplicationCms extends JApplicationWeb
 {
@@ -88,19 +88,19 @@ class JApplicationCms extends JApplicationWeb
 	/**
 	 * Class constructor.
 	 *
-	 * @param   mixed  $input   An optional argument to provide dependency injection for the application's
-	 *                          input object.  If the argument is a JInput object that object will become
-	 *                          the application's input object, otherwise a default input object is created.
-	 * @param   mixed  $config  An optional argument to provide dependency injection for the application's
-	 *                          config object.  If the argument is a JRegistry object that object will become
-	 *                          the application's config object, otherwise a default config object is created.
-	 * @param   mixed  $client  An optional argument to provide dependency injection for the application's
-	 *                          client object.  If the argument is a JApplicationWebClient object that object will become
-	 *                          the application's client object, otherwise a default client object is created.
+	 * @param   JInput                 $input   An optional argument to provide dependency injection for the application's
+	 *                                          input object.  If the argument is a JInput object that object will become
+	 *                                          the application's input object, otherwise a default input object is created.
+	 * @param   Registry               $config  An optional argument to provide dependency injection for the application's
+	 *                                          config object.  If the argument is a Registry object that object will become
+	 *                                          the application's config object, otherwise a default config object is created.
+	 * @param   JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
+	 *                                          client object.  If the argument is a JApplicationWebClient object that object will become
+	 *                                          the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(JInput $input = null, JRegistry $config = null, JApplicationWebClient $client = null)
+	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
 	{
 		parent::__construct($input, $config, $client);
 
@@ -145,7 +145,7 @@ class JApplicationCms extends JApplicationWeb
 
 		if ($session->isNew())
 		{
-			$session->set('registry', new JRegistry('session'));
+			$session->set('registry', new Registry('session'));
 			$session->set('user', new JUser);
 		}
 	}
@@ -225,6 +225,12 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function enqueueMessage($msg, $type = 'message')
 	{
+		// Don't add empty messages.
+		if (!strlen($msg))
+		{
+			return;
+		}
+
 		// For empty queue, if messages exists in the session, enqueue them first.
 		$this->getMessageQueue();
 
@@ -268,6 +274,76 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
+	 * Check if the user is required to reset their password.
+	 *
+	 * If the user is required to reset their password will be redirected to the page that manage the password reset.
+	 *
+	 * @param   string  $option  The option that manage the password reset
+	 * @param   string  $view    The view that manage the password reset
+	 * @param   string  $layout  The layout of the view that manage the password reset
+	 * @param   string  $tasks   Permitted tasks
+	 *
+	 * @return  void
+	 */
+	protected function checkUserRequireReset($option, $view, $layout, $tasks)
+	{
+		if (JFactory::getUser()->get('requireReset', 0))
+		{
+			$redirect = false;
+
+			/*
+			 * By default user profile edit page is used.
+			 * That page allows you to change more than just the password and might not be the desired behavior.
+			 * This allows a developer to override the page that manage the password reset.
+			 * (can be configured using the file: configuration.php, or if extended, through the global configuration form)
+			 */
+			$name = $this->getName();
+
+			if ($this->get($name . '_reset_password_override', 0))
+			{
+				$option = $this->get($name . '_reset_password_option', '');
+				$view = $this->get($name . '_reset_password_view', '');
+				$layout = $this->get($name . '_reset_password_layout', '');
+				$tasks = $this->get($name . '_reset_password_tasks', '');
+			}
+
+			$task = $this->input->getCmd('task', '');
+
+			// Check task or option/view/layout
+			if (!empty($task))
+			{
+				$tasks = explode(',', $tasks);
+
+				// Check full task version "option/task"
+				if (array_search($this->input->getCmd('option', '') . '/' . $task, $tasks) === false)
+				{
+					// Check short task version, must be on the same option of the view
+					if ($this->input->getCmd('option', '') != $option || array_search($task, $tasks) === false)
+					{
+						// Not permitted task
+						$redirect = true;
+					}
+				}
+			}
+			else
+			{
+				if ($this->input->getCmd('option', '') != $option || $this->input->getCmd('view', '') != $view || $this->input->getCmd('layout', '') != $layout)
+				{
+					// Requested a different option/view/layout
+					$redirect = true;
+				}
+			}
+
+			if ($redirect)
+			{
+				// Redirect to the profile edit page
+				$this->enqueueMessage(JText::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
+				$this->redirect(JRoute::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
+			}
+		}
+	}
+
+	/**
 	 * Gets a configuration value.
 	 *
 	 * @param   string  $varname  The name of the value to get.
@@ -300,22 +376,15 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * This method must be invoked as: $web = JApplicationCms::getInstance();
 	 *
-	 * @param   string  $name    The name (optional) of the JApplicationCms class to instantiate.
-	 * @param   array   $config  Configuration array
+	 * @param   string  $name  The name (optional) of the JApplicationCms class to instantiate.
 	 *
 	 * @return  JApplicationCms
 	 *
 	 * @since   3.2
 	 * @throws  RuntimeException
 	 */
-	public static function getInstance($name = null, $config = null)
+	public static function getInstance($name = null)
 	{
-		// If we have an array or a standard class for the config convert it to a JRegistry object
-		if ((is_array($config) || is_object($config)) && !($config instanceof JRegistry))
-		{
-			$config = new JRegistry($config);
-		}
-
 		if (empty(static::$instances[$name]))
 		{
 			// Create a JApplicationCms object.
@@ -326,7 +395,7 @@ class JApplicationCms extends JApplicationWeb
 				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
 			}
 
-			static::$instances[$name] = new $classname(null, $config);
+			static::$instances[$name] = new $classname;
 		}
 
 		return static::$instances[$name];
@@ -471,7 +540,7 @@ class JApplicationCms extends JApplicationWeb
 		$template = new stdClass;
 
 		$template->template = 'system';
-		$template->params   = new JRegistry;
+		$template->params   = new Registry;
 
 		if ($params)
 		{
@@ -545,9 +614,8 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	protected function initialiseApp($options = array())
 	{
-		// Get the configuration set in the API. Recursively merge it in. Note this will take
-		// Priority over any intialized values.
-		$this->config->merge(JFactory::getConfig(), true);
+		// Set the configuration in the API.
+		$this->config = JFactory::getConfig();
 
 		// Check that we were given a language in the array (since by default may be blank).
 		if (isset($options['language']))
@@ -729,6 +797,9 @@ class JApplicationCms extends JApplicationWeb
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
+		// Import the user plugin group.
+		JPluginHelper::importPlugin('user');
+
 		if ($response->status === JAuthentication::STATUS_SUCCESS)
 		{
 			/*
@@ -772,9 +843,6 @@ class JApplicationCms extends JApplicationWeb
 					}
 				}
 			}
-
-			// Import the user plugin group.
-			JPluginHelper::importPlugin('user');
 
 			// OK, the credentials are authenticated and user is authorised.  Let's fire the onLogin event.
 			$results = $this->triggerEvent('onUserLogin', array((array) $response, $options));
@@ -883,14 +951,14 @@ class JApplicationCms extends JApplicationWeb
 	 * or "303 See Other" code in the header pointing to the new location. If the headers have already been
 	 * sent this will be accomplished using a JavaScript statement.
 	 *
-	 * @param   string   $url    The URL to redirect to. Can only be http/https URL
-	 * @param   boolean  $moved  True if the page is 301 Permanently Moved, otherwise 303 See Other is assumed.
+	 * @param   string   $url     The URL to redirect to. Can only be http/https URL
+	 * @param   integer  $status  The HTTP 1.1 status code to be provided. 303 is assumed by default.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	public function redirect($url, $moved = false)
+	public function redirect($url, $status = 303)
 	{
 		// Handle B/C by checking if a message was passed to the method, will be removed at 4.0
 		if (func_num_args() > 1)
@@ -903,9 +971,9 @@ class JApplicationCms extends JApplicationWeb
 			 * $args[0] = $url
 			 * $args[1] = Message to enqueue
 			 * $args[2] = Message type
-			 * $args[3] = $moved
+			 * $args[3] = $status (previously moved)
 			 */
-			if (isset($args[1]) && !empty($args[1]) && !is_bool($args[1]))
+			if (isset($args[1]) && !empty($args[1]) && (!is_bool($args[1]) && !is_int($args[1])))
 			{
 				// Log that passing the message to the function is deprecated
 				JLog::add(
@@ -924,14 +992,14 @@ class JApplicationCms extends JApplicationWeb
 				}
 				else
 				{
-					$type = null;
+					$type = 'message';
 				}
 
 				// Enqueue the message
 				$this->enqueueMessage($message, $type);
 
 				// Reset the $moved variable
-				$moved = isset($args[3]) ? (boolean) $args[3] : false;
+				$status = isset($args[3]) ? (boolean) $args[3] : false;
 			}
 		}
 
@@ -943,7 +1011,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// Hand over processing to the parent now
-		parent::redirect($url, $moved);
+		parent::redirect($url, $status);
 	}
 
 	/**

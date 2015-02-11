@@ -3,22 +3,23 @@
     <name>FOF</name>
 	<libraryname>fof</libraryname>
 	<description>LIB_FOF_XML_DESCRIPTION</description>
-	<creationDate>2014-03-09 12:54:48</creationDate>
+	<creationDate>2014-11-28 11:21:40</creationDate>
 	<author>Nicholas K. Dionysopoulos / Akeeba Ltd</author>
 	<authorEmail>nicholas@akeebabackup.com</authorEmail>
 	<authorUrl>https://www.akeebabackup.com</authorUrl>
 	<copyright>(C)2011-2014 Nicholas K. Dionysopoulos</copyright>
 	<license>GNU GPLv2 or later</license>
-	<version>2.2.1</version>
+	<version>2.4.1</version>
 	<packager>Akeeba Ltd</packager>
 	<packagerurl>https://www.AkeebaBackup.com/download.html</packagerurl>
-	
+
 	<files folder="fof">
 		<folder>autoloader</folder>
 		<folder>config</folder>
 		<folder>controller</folder>
 		<folder>database</folder>
 		<folder>dispatcher</folder>
+		<folder>download</folder>
 		<folder>encrypt</folder>
 		<folder>form</folder>
 		<folder>hal</folder>
@@ -37,10 +38,8 @@
 		<folder>toolbar</folder>
 		<folder>utils</folder>
 		<folder>view</folder>
-
 		<file>LICENSE.txt</file>
 		<file>include.php</file>
-		<file>index.html</file>
 		<file>version.txt</file>
 	</files>
 </extension>

@@ -3,18 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTML View class for the Tags component
  *
- * @package     Joomla.Site
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsViewTag extends JViewLegacy
 {
@@ -29,6 +29,8 @@ class TagsViewTag extends JViewLegacy
 	protected $pagination;
 
 	protected $params;
+
+	protected $tags_title;
 
 	/**
 	 * Execute and display a template script.
@@ -52,16 +54,18 @@ class TagsViewTag extends JViewLegacy
 		$parent     = $this->get('Parent');
 		$pagination = $this->get('Pagination');
 
-		// Change to catch
-		/*if (count($errors = $this->get('Errors'))) {
-			JError::raiseError(500, implode("\n", $errors));
-			return false;
-		}*/
+		/*
+		 * // Change to catch
+		 * if (count($errors = $this->get('Errors'))) {
+		 * JError::raiseError(500, implode("\n", $errors));
+		 * return false;
+		 */
 
 		// Check whether access level allows access.
 		// @TODO: Should already be computed in $item->params->get('access-view')
 		$user   = JFactory::getUser();
 		$groups = $user->getAuthorisedViewLevels();
+
 		foreach ($item as $itemElement)
 		{
 			if (!in_array($itemElement->access, $groups))
@@ -72,9 +76,9 @@ class TagsViewTag extends JViewLegacy
 			// Prepare the data.
 			if (!empty($itemElement))
 			{
-				$temp = new JRegistry;
+				$temp = new Registry;
 				$temp->loadString($itemElement->params);
-				$itemElement->params = clone($params);
+				$itemElement->params = clone $params;
 				$itemElement->params->merge($temp);
 				$itemElement->params = (array) json_decode($itemElement->params);
 			}
@@ -111,13 +115,13 @@ class TagsViewTag extends JViewLegacy
 			}
 		}
 
-		$this->state      = &$state;
-		$this->items      = &$items;
-		$this->children   = &$children;
-		$this->parent     = &$parent;
-		$this->pagination = &$pagination;
-		$this->user       = &$user;
-		$this->item       = &$item;
+		$this->state      = $state;
+		$this->items      = $items;
+		$this->children   = $children;
+		$this->parent     = $parent;
+		$this->pagination = $pagination;
+		$this->user       = $user;
+		$this->item       = $item;
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
@@ -126,7 +130,7 @@ class TagsViewTag extends JViewLegacy
 		// Otherwise, article params override menu item params
 		$this->params = $this->state->get('params');
 		$active       = $app->getMenu()->getActive();
-		$temp         = clone ($this->params);
+		$temp         = clone $this->params;
 
 		// Check to see which parameters should take priority
 		if ($active)
@@ -134,14 +138,15 @@ class TagsViewTag extends JViewLegacy
 			$currentLink = $active->link;
 
 			// If the current view is the active item and an tag view for one tag, then the menu item params take priority
-			if (strpos($currentLink, 'view=tag') && (strpos($currentLink, '&id[0]='.(string) $item[0]->id)))
+			if (strpos($currentLink, 'view=tag') && (strpos($currentLink, '&id[0]=' . (string) $item[0]->id)))
 			{
 				// $item->params are the article params, $temp are the menu item params
 				// Merge so that the menu item params take priority
 				$this->params->merge($temp);
 
 				// Load layout from active query (in case it is an alternative menu item)
-				if (isset($active->query['layout'])) {
+				if (isset($active->query['layout']))
+				{
 					$this->setLayout($active->query['layout']);
 				}
 			}
@@ -184,13 +189,18 @@ class TagsViewTag extends JViewLegacy
 	}
 
 	/**
-	 * Prepares the document
+	 * Prepares the document.
+	 *
+	 * @return void
 	 */
 	protected function _prepareDocument()
 	{
 		$app   = JFactory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
+
+		// Generate the tags title to use for page title, page heading and show tags title option
+		$this->tags_title = $this->getTagsTitle();
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
@@ -199,18 +209,18 @@ class TagsViewTag extends JViewLegacy
 		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+			$title = $this->params->get('page_title', $menu->title);
+
+			if ($menu->query['option'] != 'com_tags')
+			{
+				$this->params->set('page_subheading', $menu->title);
+			}
 		}
 		else
 		{
-			$this->params->def('page_heading', JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
+			$this->params->def('page_heading', $this->tags_title);
+			$title = $this->tags_title;
 		}
-
-		if ($menu && ($menu->query['option'] != 'com_tags'))
-		{
-			$this->params->set('page_subheading', $menu->title);
-		}
-
-		$title = $this->state->params->get('page_title');
 
 		if (empty($title))
 		{
@@ -233,7 +243,7 @@ class TagsViewTag extends JViewLegacy
 			{
 				$this->document->setDescription($itemElement->metadesc);
 			}
-			elseif ($itemElement->metadesc && $this->params->get('menu-meta_description'))
+			elseif (!$itemElement->metadesc && $this->params->get('menu-meta_description'))
 			{
 				$this->document->setDescription($this->params->get('menu-meta_description'));
 			}
@@ -256,7 +266,6 @@ class TagsViewTag extends JViewLegacy
 			{
 				$this->document->setMetaData('author', $itemElement->created_user_id);
 			}
-
 		}
 
 		// @TODO: create tag feed document
@@ -270,5 +279,31 @@ class TagsViewTag extends JViewLegacy
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 			$this->document->addHeadLink(JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
+	}
+
+	/**
+	 * Creates the tags title for the output
+	 *
+	 * @return bool
+	 */
+	protected function getTagsTitle()
+	{
+		$tags_title = array();
+
+		if (!empty($this->item))
+		{
+			$user   = JFactory::getUser();
+			$groups = $user->getAuthorisedViewLevels();
+
+			foreach ($this->item as $item)
+			{
+				if (in_array($item->access, $groups))
+				{
+					$tags_title[] = $item->title;
+				}
+			}
+		}
+
+		return implode(' ', $tags_title);
 	}
 }

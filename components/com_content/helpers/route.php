@@ -3,19 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Content Component Route Helper
+ * Content Component Route Helper.
  *
- * @static
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.5
+ * @since  1.5
  */
 abstract class ContentHelperRoute
 {
@@ -24,7 +21,15 @@ abstract class ContentHelperRoute
 	protected static $lang_lookup = array();
 
 	/**
-	 * @param   integer  The route of the content item
+	 * Get the article route.
+	 *
+	 * @param   integer  $id        The route of the content item.
+	 * @param   integer  $catid     The category ID.
+	 * @param   integer  $language  The language code.
+	 *
+	 * @return  string  The article route.
+	 *
+	 * @since   1.5
 	 */
 	public static function getArticleRoute($id, $catid = 0, $language = 0)
 	{
@@ -67,6 +72,16 @@ abstract class ContentHelperRoute
 		return $link;
 	}
 
+	/**
+	 * Get the category route.
+	 *
+	 * @param   integer  $catid     The category ID.
+	 * @param   integer  $language  The language code.
+	 *
+	 * @return  string  The article route.
+	 *
+	 * @since   1.5
+	 */
 	public static function getCategoryRoute($catid, $language = 0)
 	{
 		if ($catid instanceof JCategoryNode)
@@ -96,7 +111,7 @@ abstract class ContentHelperRoute
 			{
 				self::buildLanguageLookup();
 
-				if(isset(self::$lang_lookup[$language]))
+				if (isset(self::$lang_lookup[$language]))
 				{
 					$link .= '&lang=' . self::$lang_lookup[$language];
 					$needles['language'] = $language;
@@ -112,6 +127,15 @@ abstract class ContentHelperRoute
 		return $link;
 	}
 
+	/**
+	 * Get the form route.
+	 *
+	 * @param   integer  $id  The form ID.
+	 *
+	 * @return  string  The article route.
+	 *
+	 * @since   1.5
+	 */
 	public static function getFormRoute($id)
 	{
 		// Create the link
@@ -127,6 +151,13 @@ abstract class ContentHelperRoute
 		return $link;
 	}
 
+	/**
+	 * Look up language codes.
+	 *
+	 * @return  void.
+	 *
+	 * @since   1.5
+	 */
 	protected static function buildLanguageLookup()
 	{
 		if (count(self::$lang_lookup) == 0)
@@ -147,6 +178,15 @@ abstract class ContentHelperRoute
 		}
 	}
 
+	/**
+	 * Find an item ID.
+	 *
+	 * @param   array  $needles  An array of language codes.
+	 *
+	 * @return  mixed  The ID found or null otherwise.
+	 *
+	 * @since   1.5
+	 */
 	protected static function _findItem($needles = null)
 	{
 		$app      = JFactory::getApplication();
@@ -218,7 +258,9 @@ abstract class ContentHelperRoute
 		// Check if the active menuitem matches the requested language
 		$active = $menus->getActive();
 
-		if ($active && $active->component == 'com_content' && ($language == '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
+		if ($active
+			&& $active->component == 'com_content'
+			&& ($language == '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
 		{
 			return $active->id;
 		}

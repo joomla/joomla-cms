@@ -3,26 +3,29 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 // Load tooltips behavior
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
-?>
-<script type="text/javascript">
+
+JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'application.cancel' || document.formvalidator.isValid(document.id('application-form')))
+		if (task === "config.cancel.application" || document.formvalidator.isValid(document.getElementById("application-form")))
 		{
-			Joomla.submitform(task, document.getElementById('application-form'));
+			Joomla.submitform(task, document.getElementById("application-form"));
 		}
-	}
-</script>
+	};
+');
+?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
 	<div class="row-fluid">
@@ -36,7 +39,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				foreach ($this->submenumodules as $submenumodule)
 				{
 					$output = JModuleHelper::renderModule($submenumodule);
-					$params = new JRegistry;
+					$params = new Registry;
 					$params->loadString($submenumodule->params);
 					echo $output;
 				}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Categories view class for the Category package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
- * @since       1.6
+ * @since  1.6
  */
 class CategoriesViewCategories extends JViewLegacy
 {
@@ -153,15 +151,6 @@ class CategoriesViewCategories extends JViewLegacy
 			JToolbarHelper::checkin('categories.checkin');
 		}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component))
-		{
-			JToolbarHelper::deleteList('', 'categories.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			JToolbarHelper::trash('categories.trash');
-		}
-
 		// Add a batch button
 		if ($user->authorise('core.create', $extension) & $user->authorise('core.edit', $extension) && $user->authorise('core.edit.state', $extension))
 		{
@@ -178,7 +167,20 @@ class CategoriesViewCategories extends JViewLegacy
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
 			JToolbarHelper::preferences($component);
+		}
+
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component))
+		{
+			JToolbarHelper::deleteList('', 'categories.delete', 'JTOOLBAR_EMPTY_TRASH');
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::trash('categories.trash');
 		}
 
 		// Compute the ref_key if it does exist in the component

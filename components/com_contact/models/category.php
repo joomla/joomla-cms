@@ -3,13 +3,17 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
+ * Single item model for a contact
+ *
  * @package     Joomla.Site
  * @subpackage  com_contact
  * @since       1.5
@@ -40,18 +44,18 @@ class ContactModelCategory extends JModelList
 	protected $_category = null;
 
 	/**
-	 * The list of other newfeed categories.
+	 * The list of other contact categories.
 	 *
 	 * @access    protected
-	 * @var        array
+	 * @var       array
 	 */
 	protected $_categories = null;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
-	 * @see     JController
+	 * @param   array  $config  An optional associative array of configuration settings.
+
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -92,13 +96,12 @@ class ContactModelCategory extends JModelList
 			$item = & $items[$i];
 			if (!isset($this->_params))
 			{
-				$params = new JRegistry;
+				$params = new Registry;
 				$params->loadString($item->params);
 				$item->params = $params;
 			}
 			$this->tags = new JHelperTags;
 			$this->tags->getItemTags('com_contact.contact', $item->id);
-
 		}
 
 		return $items;
@@ -120,7 +123,7 @@ class ContactModelCategory extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select required fields from the categories.
-		//sqlsrv changes
+		// Changes for sqlsrv
 		$case_when = ' CASE WHEN ';
 		$case_when .= $query->charLength('a.alias', '!=', '0');
 		$case_when .= ' THEN ';
@@ -218,6 +221,7 @@ class ContactModelCategory extends JModelList
 
 		// List state information
 		$format = $app->input->getWord('format');
+
 		if ($format == 'feed')
 		{
 			$limit = $app->get('feed_limit');
@@ -226,6 +230,7 @@ class ContactModelCategory extends JModelList
 		{
 			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
 		}
+
 		$this->setState('list.limit', $limit);
 
 		$limitstart = $app->input->get('limitstart', 0, 'uint');
@@ -235,11 +240,13 @@ class ContactModelCategory extends JModelList
 		$this->setState('list.filter', $app->input->getString('filter-search'));
 
 		// Get list ordering default from the parameters
-		$menuParams = new JRegistry;
+		$menuParams = new Registry;
+
 		if ($menu = $app->getMenu()->getActive())
 		{
 			$menuParams->loadString($menu->params);
 		}
+
 		$mergedParams = clone $params;
 		$mergedParams->merge($menuParams);
 
@@ -251,24 +258,28 @@ class ContactModelCategory extends JModelList
 		$this->setState('list.ordering', $orderCol);
 
 		$listOrder = $app->input->get('filter_order_Dir', 'ASC');
+
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
 		{
 			$listOrder = 'ASC';
 		}
+
 		$this->setState('list.direction', $listOrder);
 
 		$id = $app->input->get('id', 0, 'int');
 		$this->setState('category.id', $id);
 
 		$user = JFactory::getUser();
+
 		if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact')))
 		{
-			// limit to published for people who can't edit or edit.state.
+			// Limit to published for people who can't edit or edit.state.
 			$this->setState('filter.published', 1);
 
 			// Filter by start and end dates.
 			$this->setState('filter.publish_date', true);
 		}
+
 		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
 		// Load the parameters.
@@ -278,9 +289,8 @@ class ContactModelCategory extends JModelList
 	/**
 	 * Method to get category data for the current category
 	 *
-	 * @param   integer  An optional ID
+	 * @return  object  The category object
 	 *
-	 * @return  object
 	 * @since   1.5
 	 */
 	public function getCategory()
@@ -290,7 +300,7 @@ class ContactModelCategory extends JModelList
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry;
+			$params = new Registry;
 
 			if ($active)
 			{
@@ -305,10 +315,12 @@ class ContactModelCategory extends JModelList
 			{
 				$this->_children = $this->_item->getChildren();
 				$this->_parent = false;
+
 				if ($this->_item->getParent())
 				{
 					$this->_parent = $this->_item->getParent();
 				}
+
 				$this->_rightsibling = $this->_item->getSibling();
 				$this->_leftsibling = $this->_item->getSibling(false);
 			}
@@ -325,8 +337,6 @@ class ContactModelCategory extends JModelList
 	/**
 	 * Get the parent category.
 	 *
-	 * @param   integer  An optional category id. If not supplied, the model state 'category.id' will be used.
-	 *
 	 * @return  mixed  An array of categories or false if an error occurs.
 	 */
 	public function getParent()
@@ -335,6 +345,7 @@ class ContactModelCategory extends JModelList
 		{
 			$this->getCategory();
 		}
+
 		return $this->_parent;
 	}
 
@@ -343,37 +354,43 @@ class ContactModelCategory extends JModelList
 	 *
 	 * @return  mixed  An array of categories or false if an error occurs.
 	 */
-	function &getLeftSibling()
+	public function &getLeftSibling()
 	{
 		if (!is_object($this->_item))
 		{
 			$this->getCategory();
 		}
+
 		return $this->_leftsibling;
 	}
 
-	function &getRightSibling()
+	/**
+	 * Get the sibling (adjacent) categories.
+	 *
+	 * @return  mixed  An array of categories or false if an error occurs.
+	 */
+	public function &getRightSibling()
 	{
 		if (!is_object($this->_item))
 		{
 			$this->getCategory();
 		}
+
 		return $this->_rightsibling;
 	}
 
 	/**
 	 * Get the child categories.
 	 *
-	 * @param   integer  An optional category id. If not supplied, the model state 'category.id' will be used.
-	 *
 	 * @return  mixed  An array of categories or false if an error occurs.
 	 */
-	function &getChildren()
+	public function &getChildren()
 	{
 		if (!is_object($this->_item))
 		{
 			$this->getCategory();
 		}
+
 		return $this->_children;
 	}
 

@@ -196,6 +196,18 @@
 			name="rgt"
 			type="hidden"
 			filter="unset"/>
+
+		<field
+			name="toggle_modules"
+			type="radio"
+			label="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_LABEL"
+			description="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_DESC"
+			default="1"
+			class="btn-group btn-group-yesno"
+			filter="integer">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
 	</fieldset>
 
 	<fields name="params">

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Uri
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -91,20 +91,6 @@ class JUriTest extends PHPUnit_Framework_TestCase
 			$return,
 			$this->equalTo($this->object)
 		);
-	}
-
-	/**
-	 * Test the base method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 * @covers  JUri::base
-	 */
-	public function testBase()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -648,19 +634,5 @@ class JUriTest extends PHPUnit_Framework_TestCase
 			$this->object->isSSL(),
 			$this->equalTo(false)
 		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testIsInternal().
-	 * @covers  JUri::isInternal
-	 *
-	 * @return void
-	 */
-	public function testIsInternal()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

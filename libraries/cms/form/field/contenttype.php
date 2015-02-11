@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       3.1
+ * @since  3.1
  */
 class JFormFieldContenttype extends JFormFieldList
 {
@@ -64,9 +62,10 @@ class JFormFieldContenttype extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
+		$lang = JFactory::getLanguage();
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true)
-			->select('a.type_id AS value, a.type_title AS text')
+			->select('a.type_id AS value, a.type_title AS text, a.type_alias AS alias')
 			->from('#__content_types AS a')
 
 			->order('a.type_title ASC');
@@ -88,9 +87,22 @@ class JFormFieldContenttype extends JFormFieldList
 
 		foreach ($options as $option)
 		{
-			$option->text = mb_strtoupper(str_replace(' ', '_', $option->text), 'UTF-8');
-			$option->text = 'COM_TAGS_CONTENT_TYPE_' . $option->text;
-			$option->text = JText::_($option->text);
+			// Make up the string from the component sys.ini file
+			$parts = explode('.', $option->alias);
+			$comp = array_shift($parts);
+
+			// Make sure the component sys.ini is loaded
+			$lang->load($comp . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load($comp . '.sys', JPATH_ADMINISTRATOR . '/components/' . $comp, null, false, true);
+
+			$option->string = implode('_', $parts);
+			$option->string = $comp . '_CONTENT_TYPE_' . $option->string;
+
+			if ($lang->hasKey($option->string))
+			{
+				$option->text = JText::_($option->string);
+			}
+
 		}
 
 		return $options;

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -60,66 +60,6 @@ class JHtmlMenuTest extends TestCaseDatabase
 		$this->assertThat(
 			JHtml::_('select.options', JHtml::_('menu.menuitems'), array('published' => '1')),
 			$this->stringContains('<option value="mainmenu.435">- Home</option>')
-		);
-	}
-
-	/**
-	 * Test JHtmlMenu::menuItemList
-	 *
-	 * @return  void
-	 *
-	 * @todo    Implement testMenuitemlist().
-	 */
-	public function testMenuitemlist()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test JHtmlMenu::ordering
-	 *
-	 * @return  void
-	 *
-	 * @todo    Implement testOrdering().
-	 */
-	public function testOrdering()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test JHtmlMenu::linkOptions
-	 *
-	 * @return  void
-	 *
-	 * @todo    Implement testLinkoptions().
-	 */
-	public function testLinkoptions()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test JHtmlMenu::treeRecurse
-	 *
-	 * @return  void
-	 *
-	 * @todo    Implement testTreerecurse().
-	 */
-	public function testTreerecurse()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
 		);
 	}
 }

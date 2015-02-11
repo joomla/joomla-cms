@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Languages Component Languages Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
- * @since       1.6
+ * @since  1.6
  */
 class LanguagesModelInstalled extends JModelList
 {
@@ -63,7 +61,11 @@ class LanguagesModelInstalled extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -89,26 +91,28 @@ class LanguagesModelInstalled extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id	A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
+	 *
 	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.client_id');
+		$id	.= ':' . $this->getState('filter.client_id');
 
 		return parent::getStoreId($id);
 	}
 
 	/**
-	 * Method to get the client object
+	 * Method to get the client object.
 	 *
 	 * @return  object
+	 *
 	 * @since   1.6
 	 */
-	public function &getClient()
+	public function getClient()
 	{
 		if (is_null($this->client))
 		{
@@ -119,12 +123,13 @@ class LanguagesModelInstalled extends JModelList
 	}
 
 	/**
-	 * Method to get the ftp credentials
+	 * Method to get the ftp credentials.
 	 *
 	 * @return  object
+	 *
 	 * @since   1.6
 	 */
-	public function &getFtp()
+	public function getFtp()
 	{
 		if (is_null($this->ftp))
 		{
@@ -135,12 +140,13 @@ class LanguagesModelInstalled extends JModelList
 	}
 
 	/**
-	 * Method to get the option
+	 * Method to get the option.
 	 *
 	 * @return  object
+	 *
 	 * @since   1.6
 	 */
-	public function &getOption()
+	public function getOption()
 	{
 		$option = $this->getState('option');
 
@@ -148,25 +154,27 @@ class LanguagesModelInstalled extends JModelList
 	}
 
 	/**
-	 * Method to get Languages item data
+	 * Method to get Languages item data.
 	 *
 	 * @return  array
+	 *
 	 * @since   1.6
 	 */
-	public function &getData()
+	public function getData()
 	{
-		if (is_null($this->data)) {
-
-			// Get information
+		if (is_null($this->data))
+		{
+			// Get information.
 			$path		= $this->getPath();
 			$client		= $this->getClient();
 			$langlist   = $this->getLanguageList();
 
-			// Compute all the languages
+			// Compute all the languages.
 			$data	= array ();
 
-			foreach ($langlist as $lang) {
-				$file = $path . '/' . $lang . '/' . $lang.'.xml';
+			foreach ($langlist as $lang)
+			{
+				$file = $path . '/' . $lang . '/' . $lang . '.xml';
 				$info = JApplicationHelper::parseXMLLangMetaFile($file);
 				$row = new JObject;
 				$row->language = $lang;
@@ -181,22 +189,25 @@ class LanguagesModelInstalled extends JModelList
 					$row->$key = $value;
 				}
 
-				// if current than set published
+				// If current than set published.
 				$params = JComponentHelper::getParams('com_languages');
+
 				if ($params->get($client->name, 'en-GB') == $row->language)
 				{
 					$row->published	= 1;
 				}
-				else {
+				else
+				{
 					$row->published = 0;
 				}
 
 				$row->checked_out = 0;
 				$data[] = $row;
 			}
+
 			usort($data, array($this, 'compareLanguages'));
 
-			// Prepare data
+			// Prepare data.
 			$limit = $this->getState('list.limit');
 			$start = $this->getState('list.start');
 			$total = $this->getTotal();
@@ -206,11 +217,13 @@ class LanguagesModelInstalled extends JModelList
 				$start = 0;
 				$end = $total;
 			}
-			else {
+			else
+			{
 				if ($start > $total)
 				{
 					$start = $total - $total % $limit;
 				}
+
 				$end = $start + $limit;
 
 				if ($end > $total)
@@ -219,9 +232,10 @@ class LanguagesModelInstalled extends JModelList
 				}
 			}
 
-			// Compute the displayed languages
+			// Compute the displayed languages.
 			$this->data	= array();
-			for ($i = $start;$i < $end;$i++)
+
+			for ($i = $start; $i < $end; $i++)
 			{
 				$this->data[] = & $data[$i];
 			}
@@ -233,7 +247,8 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to get installed languages data.
 	 *
-	 * @return  string	An SQL query
+	 * @return  string	An SQL query.
+	 *
 	 * @since   1.6
 	 */
 	protected function getLanguageList()
@@ -243,19 +258,18 @@ class LanguagesModelInstalled extends JModelList
 		$query = $db->getQuery(true);
 		$client = $this->getState('filter.client_id');
 		$type = "language";
+
 		// Select field element from the extensions table.
 		$query->select($this->getState('list.select', 'a.element'))
 			->from('#__extensions AS a');
 
 		$type = $db->quote($type);
-		$query->where('(a.type = '.$type.')')
-
+		$query->where('(a.type = ' . $type . ')')
 			->where('state = 0')
 			->where('enabled = 1')
-
 			->where('client_id=' . (int) $client);
 
-		// for client_id = 1 do we need to check language table also ?
+		// For client_id = 1 do we need to check language table also?
 		$db->setQuery($query);
 
 		$this->langlist = $db->loadColumn();
@@ -264,9 +278,10 @@ class LanguagesModelInstalled extends JModelList
 	}
 
 	/**
-	 * Method to get the total number of Languages items
+	 * Method to get the total number of Languages items.
 	 *
 	 * @return  integer
+	 *
 	 * @since   1.6
 	 */
 	public function getTotal()
@@ -281,9 +296,12 @@ class LanguagesModelInstalled extends JModelList
 	}
 
 	/**
-	 * Method to set the default language
+	 * Method to set the default language.
+	 *
+	 * @param   integer  $cid  Id of the language to publish.
 	 *
 	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	public function publish($cid)
@@ -298,31 +316,36 @@ class LanguagesModelInstalled extends JModelList
 			$table = JTable::getInstance('extension');
 			$id = $table->find(array('element' => 'com_languages'));
 
-			// Load
+			// Load.
 			if (!$table->load($id))
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
 			$table->params = (string) $params;
-			// pre-save checks
+
+			// Pre-save checks.
 			if (!$table->check())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
-			// save the changes
+			// Save the changes.
 			if (!$table->store())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
 		else
 		{
 			$this->setError(JText::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'));
+
 			return false;
 		}
 
@@ -335,9 +358,10 @@ class LanguagesModelInstalled extends JModelList
 	}
 
 	/**
-	 * Method to get the folders
+	 * Method to get the folders.
 	 *
-	 * @return  array  Languages folders
+	 * @return  array  Languages folders.
+	 *
 	 * @since   1.6
 	 */
 	protected function getFolders()
@@ -353,9 +377,10 @@ class LanguagesModelInstalled extends JModelList
 	}
 
 	/**
-	 * Method to get the path
+	 * Method to get the path.
 	 *
-	 * @return  string	The path to the languages folders
+	 * @return  string	The path to the languages folders.
+	 *
 	 * @since   1.6
 	 */
 	protected function getPath()
@@ -370,12 +395,13 @@ class LanguagesModelInstalled extends JModelList
 	}
 
 	/**
-	 * Method to compare two languages in order to sort them
+	 * Method to compare two languages in order to sort them.
 	 *
-	 * @param   object	$lang1 the first language
-	 * @param   object	$lang2 the second language
+	 * @param   object  $lang1  The first language.
+	 * @param   object  $lang2  The second language.
 	 *
 	 * @return  integer
+	 *
 	 * @since   1.6
 	 */
 	protected function compareLanguages($lang1, $lang2)

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
 
@@ -27,52 +27,56 @@ if ($this->type == 'image')
 	JHtml::_('script', 'system/jquery.Jcrop.min.js', false, true);
 	JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 }
-?>
-<script type="text/javascript">
-	jQuery(document).ready(function($){
 
-		// Hide all the folder when the page loads
-		$('.folder ul, .component-folder ul').hide();
+JFactory::getDocument()->addScriptDeclaration("
+jQuery(document).ready(function($){
 
-		// Display the tree after loading
-		$('.directory-tree').removeClass("directory-tree");
+	// Hide all the folder when the page loads
+	$('.folder ul, .component-folder ul').hide();
 
-		// Show all the lists in the path of an open file
-		$('.show > ul').show();
+	// Display the tree after loading
+	$('.directory-tree').removeClass('directory-tree');
 
-		// Stop the default action of anchor tag on a click event
-		$('.folder-url, .component-folder-url').click(function(event){
-			event.preventDefault();
-		});
+	// Show all the lists in the path of an open file
+	$('.show > ul').show();
 
-		// Prevent the click event from proliferating
-		$('.file, .component-file-url').bind('click',function(e){
-			e.stopPropagation();
-		});
+	// Stop the default action of anchor tag on a click event
+	$('.folder-url, .component-folder-url').click(function(event){
+		event.preventDefault();
+	});
 
-		// Toggle the child indented list on a click event
-		$('.folder, .component-folder').bind('click',function(e){
-			$(this).children('ul').toggle();
-			e.stopPropagation();
-		});
+	// Prevent the click event from proliferating
+	$('.file, .component-file-url').bind('click',function(e){
+		e.stopPropagation();
+	});
 
-		// New file tree
-		$('#fileModal .folder-url').bind('click',function(e){
-			$('.folder-url').removeClass('selected');
-			e.stopPropagation();
-			$('#fileModal input.address').val($(this).attr('data-id'));
-			$(this).addClass('selected');
-		});
+	// Toggle the child indented list on a click event
+	$('.folder, .component-folder').bind('click',function(e){
+		$(this).children('ul').toggle();
+		e.stopPropagation();
+	});
 
-		// Folder manager tree
-		$('#folderModal .folder-url').bind('click',function(e){
-			$('.folder-url').removeClass('selected');
-			e.stopPropagation();
-			$('#folderModal input.address').val($(this).attr('data-id'));
-			$(this).addClass('selected');
-		});
+	// New file tree
+	$('#fileModal .folder-url').bind('click',function(e){
+		$('.folder-url').removeClass('selected');
+		e.stopPropagation();
+		$('#fileModal input.address').val($(this).attr('data-id'));
+		$(this).addClass('selected');
+	});
 
-		<?php if($this->type == 'image'): ?>
+	// Folder manager tree
+	$('#folderModal .folder-url').bind('click',function(e){
+		$('.folder-url').removeClass('selected');
+		e.stopPropagation();
+		$('#folderModal input.address').val($(this).attr('data-id'));
+		$(this).addClass('selected');
+	});
+});");
+
+if($this->type == 'image')
+{
+	JFactory::getDocument()->addScriptDeclaration("
+		jQuery(document).ready(function() {
 			var jcrop_api;
 
 			// Configuration for image cropping
@@ -80,7 +84,7 @@ if ($this->type == 'image')
 				onChange:   showCoords,
 				onSelect:   showCoords,
 				onRelease:  clearCoords,
-				trueSize:   [<?php echo $this->image['width']; ?>,<?php echo $this->image['height']; ?>]
+				trueSize:   " . $this->image['width'] . "," . $this->image['height'] . "]
 			},function(){
 				jcrop_api = this;
 			});
@@ -99,13 +103,10 @@ if ($this->type == 'image')
 			{
 				$('#adminForm input').val('');
 			};
+		});");
+}
 
-		<?php endif; ?>
-
-	});
-</script>
-<style>
-
+JFactory::getDocument()->addStyleDeclaration("
 	/* Styles for modals */
 	.selected{
 		background: #08c;
@@ -135,23 +136,24 @@ if ($this->type == 'image')
 	.tree-holder{
 		overflow-x: auto;
 	}
+");
 
-<?php if($this->type == 'font'): ?>
+if($this->type == 'font')
+{
+	JFactory::getDocument()->addStyleDeclaration(
+		"/* Styles for font preview */
+		@font-face
+		{
+			font-family: previewFont;
+			src: url('" . $this->font['address'] . "')
+		}
 
-	/* Styles for font preview */
-	@font-face
-	{
-		font-family: previewFont;
-		src: url('<?php echo $this->font['address'] ?>')
-	}
-
-	.font-preview{
-		font-family: previewFont !important;
-	}
-
-<?php endif; ?>
-
-</style>
+		.font-preview{
+			font-family: previewFont !important;
+		}"
+	);
+}
+?>
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_TEMPLATES_TAB_EDITOR', true)); ?>
 		<div class="row-fluid">
@@ -180,7 +182,7 @@ if ($this->type == 'image')
 							<h2><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
 							<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 							<p>
-								<a href="http://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">
+								<a href="https://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">
 									<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
 								</a>
 							</p>
@@ -190,8 +192,6 @@ if ($this->type == 'image')
 				<?php if($this->type == 'file'): ?>
 					<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 
-						<p class="label"><?php echo JText::_('COM_TEMPLATES_TOGGLE_FULL_SCREEN'); ?></p>
-						<div class="clr"></div>
 						<div class="editor-border">
 							<?php echo $this->form->getInput('source'); ?>
 						</div>

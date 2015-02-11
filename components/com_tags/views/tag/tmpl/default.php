@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ $isSingleTag = (count($this->item) == 1);
 	<?php endif; ?>
 	<?php if ($this->params->get('show_tag_title', 1)) : ?>
 		<h2>
-			<?php echo JHtml::_('content.prepare', $this->item[0]->title, '', 'com_tag.tag'); ?>
+			<?php echo JHtml::_('content.prepare', $this->tags_title, '', 'com_tag.tag'); ?>
 		</h2>
 	<?php endif; ?>
 	<?php // We only show a tag description if there is a single tag. ?>

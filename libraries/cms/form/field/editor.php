@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,10 +15,8 @@ JFormHelper::loadFieldClass('textarea');
  * Form Field class for the Joomla CMS.
  * A textarea field for content creation
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @see         JEditor
- * @since       1.6
+ * @see    JEditor
+ * @since  1.6
  */
 class JFormFieldEditor extends JFormFieldTextarea
 {

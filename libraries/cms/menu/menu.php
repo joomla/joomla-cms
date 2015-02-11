@@ -3,18 +3,18 @@
  * @package     Joomla.Libraries
  * @subpackage  Menu
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * JMenu class
  *
- * @package     Joomla.Libraries
- * @subpackage  Menu
- * @since       1.5
+ * @since  1.5
  */
 class JMenu
 {
@@ -71,7 +71,7 @@ class JMenu
 			}
 
 			// Decode the item params
-			$result = new JRegistry;
+			$result = new Registry;
 			$result->loadString($item->params);
 			$item->params = $result;
 		}
@@ -157,7 +157,7 @@ class JMenu
 	 *
 	 * @since   1.5
 	 */
-	public function setDefault($id, $language = '')
+	public function setDefault($id, $language = '*')
 	{
 		if (isset($this->_items[$id]))
 		{
@@ -239,7 +239,7 @@ class JMenu
 	 * Gets menu items by attribute
 	 *
 	 * @param   mixed    $attributes  The field name(s).
-	 * @param   mixed    $values      The value(s) of the field. If an array, need to match field names 
+	 * @param   mixed    $values      The value(s) of the field. If an array, need to match field names
 	 *                                each attribute may have multiple values to lookup for.
 	 * @param   boolean  $firstonly   If true, only returns the first item found
 	 *
@@ -301,7 +301,7 @@ class JMenu
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  JRegistry  A JRegistry object
+	 * @return  Registry  A Registry object
 	 *
 	 * @since   1.5
 	 */
@@ -313,7 +313,7 @@ class JMenu
 		}
 		else
 		{
-			return new JRegistry;
+			return new Registry;
 		}
 	}
 

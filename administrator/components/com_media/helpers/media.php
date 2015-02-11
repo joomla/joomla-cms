@@ -3,16 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       1.5
+ * Media helper class.
+ * 
+ * @since       1.6
  * @deprecated  4.0  Use JHelperMedia instead
  */
 abstract class MediaHelper
@@ -56,15 +56,15 @@ abstract class MediaHelper
 	/**
 	 * Checks if the file can be uploaded
 	 *
-	 * @param   array   File information
-	 * @param   string  An error message to be returned
+	 * @param   array   $file   File information
+	 * @param   string  $error  An error message to be returned
 	 *
 	 * @return  boolean
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0  Use JHelperMedia::canUpload instead
 	 */
-	public static function canUpload($file, $err = '')
+	public static function canUpload($file, $error = '')
 	{
 		JLog::add('MediaHelper::canUpload() is deprecated. Use JHelperMedia::canUpload() instead.', JLog::WARNING, 'deprecated');
 		$mediaHelper = new JHelperMedia;
@@ -85,6 +85,7 @@ abstract class MediaHelper
 	public static function parseSize($size)
 	{
 		JLog::add('MediaHelper::parseSize() is deprecated. Use JHtmlNumber::bytes() instead.', JLog::WARNING, 'deprecated');
+
 		return JHtml::_('number.bytes', $size);
 	}
 

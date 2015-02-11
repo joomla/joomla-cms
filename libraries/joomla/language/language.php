@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,16 +17,14 @@ define('_QQ_', '"');
 /**
  * Languages/translation handler class
  *
- * @package     Joomla.Platform
- * @subpackage  Language
- * @since       11.1
+ * @since  11.1
  */
 class JLanguage
 {
 	/**
 	 * Array of JLanguage objects
 	 *
-	 * @var    array
+	 * @var    JLanguage[]
 	 * @since  11.1
 	 */
 	protected static $languages = array();
@@ -192,7 +190,8 @@ class JLanguage
 			$lang = $this->default;
 		}
 
-		$this->setLanguage($lang);
+		$this->lang = $lang;
+		$this->metadata = $this->getMetadata($this->lang);
 		$this->setDebug($debug);
 
 		$filename = JPATH_BASE . "/language/overrides/$lang.override.ini";
@@ -579,20 +578,18 @@ class JLanguage
 	/**
 	 * Returns an upper limit integer for length of search words
 	 *
-	 * @return  integer  The upper limit integer for length of search words (20 if no value was set for a specific language).
+	 * @return  integer  The upper limit integer for length of search words (200 if no value was set or if default value is < 200).
 	 *
 	 * @since   11.1
 	 */
 	public function getUpperLimitSearchWord()
 	{
-		if ($this->upperLimitSearchWordCallback !== null)
+		if ($this->upperLimitSearchWordCallback !== null && call_user_func($this->upperLimitSearchWordCallback) > 200)
 		{
 			return call_user_func($this->upperLimitSearchWordCallback);
 		}
-		else
-		{
-			return 20;
-		}
+
+		return 200;
 	}
 
 	/**
@@ -861,7 +858,6 @@ class JLanguage
 
 			// Initialise variables for manually parsing the file for common errors.
 			$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
-			$regex = '/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-\.]*\s*=(\s*(("[^"]*")|(_QQ_)))+))\s*(;.*)?$/';
 			$this->debug = false;
 			$errors = array();
 
@@ -870,21 +866,57 @@ class JLanguage
 
 			foreach ($file as $lineNumber => $line)
 			{
-				// Avoid BOM error as BOM is OK when using parse_ini
+				// Avoid BOM error as BOM is OK when using parse_ini.
 				if ($lineNumber == 0)
 				{
 					$line = str_replace("\xEF\xBB\xBF", '', $line);
 				}
 
-				// Check that the key is not in the blacklist and that the line format passes the regex.
+				$line = trim($line);
+
+				// Ignore comment lines.
+				if (!strlen($line) || $line['0'] == ';')
+				{
+					continue;
+				}
+
+				// Ignore grouping tag lines, like: [group]
+				if (preg_match('#^\[[^\]]*\](\s*;.*)?$#', $line))
+				{
+					continue;
+				}
+
+				// Remove the "_QQ_" from the equation
+				$line = str_replace('"_QQ_"', '', $line);
+				$realNumber = $lineNumber + 1;
+
+				// Check for any incorrect uses of _QQ_.
+				if (strpos($line, '_QQ_') !== false)
+				{
+					$errors[] = $realNumber;
+					continue;
+				}
+
+				// Check for odd number of double quotes.
+				if (substr_count($line, '"') % 2 != 0)
+				{
+					$errors[] = $realNumber;
+					continue;
+				}
+
+				// Check that the line passes the necessary format.
+				if (!preg_match('#^[A-Z][A-Z0-9_\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
+				{
+					$errors[] = $realNumber;
+					continue;
+				}
+
+				// Check that the key is not in the blacklist.
 				$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
 
-				// Workaround to reduce regex complexity when matching escaped quotes
-				$line = str_replace('\"', '_QQ_', $line);
-
-				if (!preg_match($regex, $line) || in_array($key, $blacklist))
+				if (in_array($key, $blacklist))
 				{
-					$errors[] = $lineNumber;
+					$errors[] = $realNumber;
 				}
 			}
 
@@ -1228,9 +1260,12 @@ class JLanguage
 	 * @return  string  Previous value.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0 (CMS) - Instantiate a new JLanguage object instead
 	 */
 	public function setLanguage($lang)
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Instantiate a new JLanguage object instead.', JLog::WARNING, 'deprecated');
+
 		$previous = $this->lang;
 		$this->lang = $lang;
 		$this->metadata = $this->getMetadata($this->lang);

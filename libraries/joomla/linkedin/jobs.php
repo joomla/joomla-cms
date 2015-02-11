@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Linkedin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Linkedin API Jobs class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Linkedin
- * @since       13.1
+ * @since  13.1
  */
 class JLinkedinJobs extends JLinkedinObject
 {
@@ -311,6 +309,7 @@ class JLinkedinJobs extends JLinkedinObject
 		if ($facet)
 		{
 			$data['facet'] = array();
+
 			for ($i = 0; $i < count($facet); $i++)
 			{
 				if ($facet[$i])
@@ -319,22 +318,27 @@ class JLinkedinJobs extends JLinkedinObject
 					{
 						$data['facet'][] = 'company,' . $this->oauth->safeEncode($facet[$i]);
 					}
+
 					if ($i == 1)
 					{
 						$data['facet'][] = 'date-posted,' . $facet[$i];
 					}
+
 					if ($i == 2)
 					{
 						$data['facet'][] = 'location,' . $facet[$i];
 					}
+
 					if ($i == 3)
 					{
 						$data['facet'][] = 'job-function,' . $this->oauth->safeEncode($facet[$i]);
 					}
+
 					if ($i == 4)
 					{
 						$data['facet'][] = 'industry,' . $facet[$i];
 					}
+
 					if ($i == 5)
 					{
 						$data['facet'][] = 'salary,' . $facet[$i];

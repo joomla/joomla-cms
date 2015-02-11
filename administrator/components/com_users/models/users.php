@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of user records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelUsers extends JModelList
 {
@@ -297,11 +295,11 @@ class UsersModelUsers extends JModelList
 		{
 			if ($active == '0')
 			{
-				$query->where('a.activation = ' . $db->quote(''));
+				$query->where('a.activation IN (' . $db->quote('') . ', ' . $db->quote('0') . ')');
 			}
 			elseif ($active == '1')
 			{
-				$query->where($query->length('a.activation') . ' = 32');
+				$query->where($query->length('a.activation') . ' > 1');
 			}
 		}
 
@@ -329,13 +327,13 @@ class UsersModelUsers extends JModelList
 		if ($this->getState('filter.search') !== '' && $this->getState('filter.search') !== null)
 		{
 			// Escape the search token.
-			$token = $db->quote('%' . $db->escape($this->getState('filter.search')) . '%');
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
 
 			// Compile the different search clauses.
 			$searches   = array();
-			$searches[] = 'a.name LIKE ' . $token;
-			$searches[] = 'a.username LIKE ' . $token;
-			$searches[] = 'a.email LIKE ' . $token;
+			$searches[] = 'a.name LIKE ' . $search;
+			$searches[] = 'a.username LIKE ' . $search;
+			$searches[] = 'a.email LIKE ' . $search;
 
 			// Add the clauses to the query.
 			$query->where('(' . implode(' OR ', $searches) . ')');
@@ -392,14 +390,14 @@ class UsersModelUsers extends JModelList
 			if ($range == 'post_year')
 			{
 				$query->where(
-					'a.registerDate < ' . $db->quote($dStart->format('Y-m-d H:i:s'))
+					$db->qn('a.registerDate') . ' < ' . $db->quote($dStart->format('Y-m-d H:i:s'))
 				);
 			}
 			else
 			{
 				$query->where(
-					'a.registerDate >= ' . $db->quote($dStart->format('Y-m-d H:i:s')) .
-						' AND a.registerDate <=' . $db->quote($dNow->format('Y-m-d H:i:s'))
+					$db->qn('a.registerDate') . ' >= ' . $db->quote($dStart->format('Y-m-d H:i:s')) .
+					' AND ' . $db->qn('a.registerDate') . ' <= ' . $db->quote($dNow->format('Y-m-d H:i:s'))
 				);
 			}
 		}
@@ -413,7 +411,7 @@ class UsersModelUsers extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.name')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->qn($db->escape($this->getState('list.ordering', 'a.name'))) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -427,7 +425,7 @@ class UsersModelUsers extends JModelList
 	 */
 	function _getUserDisplayedGroups($user_id)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = "SELECT title FROM " . $db->quoteName('#__usergroups') . " ug left join " .
 			$db->quoteName('#__user_usergroup_map') . " map on (ug.id = map.group_id)" .
 			" WHERE map.user_id=" . (int) $user_id;

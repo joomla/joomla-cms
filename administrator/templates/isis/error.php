@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 // Getting params from template
 $params = JFactory::getApplication()->getTemplate(true)->params;
@@ -62,10 +64,9 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage()); ?></title>
-	<?php // If debug  mode
-		$debug = JFactory::getConfig()->get('debug_lang');
-		if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
+	<?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>
 		<!-- Load additional CSS styles for debug mode-->
 		<link rel="stylesheet" href="<?php echo JUri::root(); ?>/media/cms/css/debug.css" type="text/css" />
 	<?php endif; ?>
@@ -111,12 +112,12 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 			}
 		</style>
 	<?php endif; ?>
-	<script src="../media/jui/js/jquery.js" type="text/javascript"></script>
-	<script src="../media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
-	<script src="../media/jui/js/bootstrap.js" type="text/javascript"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/jquery.js" type="text/javascript"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/bootstrap.js" type="text/javascript"></script>
 	<script src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/js/template.js" type="text/javascript"></script>
 	<!--[if lt IE 9]>
-		<script src="../media/jui/js/html5.js"></script>
+		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
 </head>
 
@@ -146,7 +147,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 					<?php $this->menumodules = JModuleHelper::getModules('menu'); ?>
 					<?php foreach ($this->menumodules as $menumodule) : ?>
 						<?php $output = JModuleHelper::renderModule($menumodule, array('style' => 'none')); ?>
-						<?php $params = new JRegistry; ?>
+						<?php $params = new Registry; ?>
 						<?php $params->loadString($menumodule->params); ?>
 						<?php echo $output; ?>
 					<?php endforeach; ?>
@@ -203,7 +204,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 				<?php $this->statusmodules = JModuleHelper::getModules('status'); ?>
 				<?php foreach ($this->statusmodules as $statusmodule) : ?>
 					<?php $output = JModuleHelper::renderModule($statusmodule, array('style' => 'no')); ?>
-					<?php $params = new JRegistry; ?>
+					<?php $params = new Registry; ?>
 					<?php $params->loadString($statusmodule->params); ?>
 					<?php echo $output; ?>
 				<?php endforeach; ?>
@@ -222,7 +223,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 						<!-- Begin Content -->
 						<h1 class="page-header"><?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
 						<blockquote>
-							<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo $this->error->getMessage();?>
+							<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
 						</blockquote>
 						<p><a href="<?php echo $this->baseurl; ?>" class="btn"><i class="icon-dashboard"></i> <?php echo JText::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a></p>
 						<!-- End Content -->

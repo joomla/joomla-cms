@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -306,21 +306,6 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @todo Implement testBooleanlist().
-	 *
-	 * @return void
-	 */
-	public function testBooleanlist()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * Test the genericlist method.
 	 *
 	 * @param   string   $expected   Expected generated HTML <select> string.
@@ -366,51 +351,6 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 				JHtml::_('select.genericlist', $data, $name, $attribs, $optKey, $optText, $selected, $idtag, $translate)
 			);
 		}
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGroupedlist().
-	 *
-	 * @return void
-	 */
-	public function testGroupedlist()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testIntegerlist().
-	 *
-	 * @return void
-	 */
-	public function testIntegerlist()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testOptgroup().
-	 *
-	 * @return void
-	 */
-	public function testOptgroup()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 
 	/**
@@ -503,11 +443,6 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(
 			$expected,
 			JHtml::_('select.options', $arr, $optKey, $optText, $selected, $translate)
-		);
-
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been completely implemented yet.'
 		);
 	}
 

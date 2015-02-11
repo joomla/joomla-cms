@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,15 @@ defined('_JEXEC') or die;
 /**
  * Modules Component Module Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_modules
- * @since       1.5
+ * @since  1.5
  */
 class ModulesModelModules extends JModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -56,6 +55,11 @@ class ModulesModelModules extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -80,11 +84,13 @@ class ModulesModelModules extends JModelList
 
 		$clientId = $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', 0, 'int', false);
 		$previousId = $app->getUserState($this->context . '.filter.client_id_previous', null);
+
 		if ($previousId != $clientId || $previousId === null)
 		{
 			$this->getUserStateFromRequest($this->context . '.filter.client_id_previous', 'filter_client_id_previous', 0, 'int', true);
 			$app->setUserState($this->context . '.filter.client_id_previous', $clientId);
 		}
+
 		$this->setState('filter.client_id', $clientId);
 
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
@@ -105,7 +111,7 @@ class ModulesModelModules extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string    A store id.
 	 */
@@ -126,14 +132,16 @@ class ModulesModelModules extends JModelList
 	/**
 	 * Returns an object list
 	 *
-	 * @param   string The query
-	 * @param   int    Offset
-	 * @param   int    The number of records
+	 * @param   string  $query       The query
+	 * @param   int     $limitstart  Offset
+	 * @param   int     $limit       The number of records
+	 *
 	 * @return  array
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
 		$ordering = $this->getState('list.ordering', 'ordering');
+
 		if (in_array($ordering, array('pages', 'name')))
 		{
 			$this->_db->setQuery($query);
@@ -142,11 +150,13 @@ class ModulesModelModules extends JModelList
 			JArrayHelper::sortObjects($result, $ordering, $this->getState('list.direction') == 'desc' ? -1 : 1, true, true);
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
+
 			if ($total < $limitstart)
 			{
 				$limitstart = 0;
 				$this->setState('list.start', 0);
 			}
+
 			return array_slice($result, $limitstart, $limit ? $limit : null);
 		}
 		else
@@ -156,17 +166,22 @@ class ModulesModelModules extends JModelList
 				$query->order('a.position ASC');
 				$ordering = 'a.ordering';
 			}
+
 			if ($ordering == 'language_title')
 			{
 				$ordering = 'l.title';
 			}
+
 			$query->order($this->_db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+
 			if ($ordering == 'position')
 			{
 				$query->order('a.ordering ASC');
 			}
+
 			$result = parent::_getList($query, $limitstart, $limit);
 			$this->translate($result);
+
 			return $result;
 		}
 	}
@@ -174,7 +189,8 @@ class ModulesModelModules extends JModelList
 	/**
 	 * Translate a list of objects
 	 *
-	 * @param   array The array of objects
+	 * @param   array  &$items  The array of objects
+	 *
 	 * @return  array The array of translated objects
 	 */
 	protected function translate(&$items)
@@ -189,6 +205,7 @@ class ModulesModelModules extends JModelList
 			$lang->load("$extension.sys", constant('JPATH_' . strtoupper($client)), null, false, true)
 				|| $lang->load("$extension.sys", $source, null, false, true);
 			$item->name = JText::_($item->name);
+
 			if (is_null($item->pages))
 			{
 				$item->pages = JText::_('JNONE');
@@ -262,6 +279,7 @@ class ModulesModelModules extends JModelList
 
 		// Filter by published state
 		$state = $this->getState('filter.state');
+
 		if (is_numeric($state))
 		{
 			$query->where('a.published = ' . (int) $state);
@@ -273,6 +291,7 @@ class ModulesModelModules extends JModelList
 
 		// Filter by position
 		$position = $this->getState('filter.position');
+
 		if ($position && $position != 'none')
 		{
 			$query->where('a.position = ' . $db->quote($position));
@@ -285,6 +304,7 @@ class ModulesModelModules extends JModelList
 
 		// Filter by module
 		$module = $this->getState('filter.module');
+
 		if ($module)
 		{
 			$query->where('a.module = ' . $db->quote($module));
@@ -292,6 +312,7 @@ class ModulesModelModules extends JModelList
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
+
 		if (is_numeric($clientId))
 		{
 			$query->where('a.client_id = ' . (int) $clientId . ' AND e.client_id =' . (int) $clientId);
@@ -299,6 +320,7 @@ class ModulesModelModules extends JModelList
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -307,8 +329,9 @@ class ModulesModelModules extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				$query->where('(' . 'a.title LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
+				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
+				$search = $db->quote($escapedSearchString);
+				$query->where('(' . 'a.title REGEXP ' . $search . ' OR a.note REGEXP ' . $search . ')');
 			}
 		}
 
@@ -318,7 +341,6 @@ class ModulesModelModules extends JModelList
 			$query->where('a.language = ' . $db->quote($language));
 		}
 
-		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 }

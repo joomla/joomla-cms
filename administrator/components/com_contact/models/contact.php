@@ -3,20 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contact/helpers/contact.php');
 
 /**
  * Item Model for a Contact.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contact
- * @since       1.6
+ * @since  1.6
  */
 class ContactModelContact extends JModelAdmin
 {
@@ -29,135 +29,24 @@ class ContactModelContact extends JModelAdmin
 	public $typeAlias = 'com_contact.contact';
 
 	/**
-	 * Method to perform batch operations on an item or a set of items.
+	 * Batch copy/move command. If set to false, 
+	 * the batch copy/move command is not supported
 	 *
-	 * @param   array  $commands  An array of commands to perform.
-	 * @param   array  $pks       An array of item ids.
-	 * @param   array  $contexts  An array of item contexts.
-	 *
-	 * @return  boolean  Returns true on success, false on failure.
-	 *
-	 * @since   2.5
+	 * @var string
 	 */
-	public function batch($commands, $pks, $contexts)
-	{
-		// Sanitize user ids.
-		$pks = array_unique($pks);
-		JArrayHelper::toInteger($pks);
+	protected $batch_copymove = 'category_id';
 
-		// Remove any values of zero.
-		if (array_search(0, $pks, true))
-		{
-			unset($pks[array_search(0, $pks, true)]);
-		}
-
-		if (empty($pks))
-		{
-			$this->setError(JText::_('JGLOBAL_NO_ITEM_SELECTED'));
-
-			return false;
-		}
-
-		$done = false;
-
-		// Set some needed variables.
-		$this->user = JFactory::getUser();
-		$this->table = $this->getTable();
-		$this->tableClassName = get_class($this->table);
-		$this->contentType = new JUcmType;
-		$this->type = $this->contentType->getTypeByTable($this->tableClassName);
-		$this->batchSet = true;
-
-		if ($this->type === false)
-		{
-			$type = new JUcmType;
-			$this->type = $type->getTypeByAlias($this->typeAlias);
-			$typeAlias = $this->type->type_alias;
-		}
-		else
-		{
-			$typeAlias = $this->type->type_alias;
-		}
-
-		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
-
-		if (!empty($commands['category_id']))
-		{
-			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
-
-			if ($cmd == 'c')
-			{
-				$result = $this->batchCopy($commands['category_id'], $pks, $contexts);
-
-				if (is_array($result))
-				{
-					$pks = $result;
-				}
-				else
-				{
-					return false;
-				}
-			}
-			elseif ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (!empty($commands['assetgroup_id']))
-		{
-			if (!$this->batchAccess($commands['assetgroup_id'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (!empty($commands['language_id']))
-		{
-			if (!$this->batchLanguage($commands['language_id'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (!empty($commands['tag']))
-		{
-			if (!$this->batchTag($commands['tag'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (strlen($commands['user_id']) > 0)
-		{
-			if (!$this->batchUser($commands['user_id'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (!$done)
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
-
-			return false;
-		}
-
-		// Clear the cache
-		$this->cleanCache();
-
-		return true;
-	}
+	/**
+	 * Allowed batch commands
+	 *
+	 * @var array
+	 */
+	protected $batch_commands = array(
+		'assetgroup_id' => 'batchAccess',
+		'language_id' => 'batchLanguage',
+		'tag' => 'batchTag',
+		'user_id' => 'batchUser'
+	);
 
 	/**
 	 * Batch copy items to a new category or current.
@@ -175,7 +64,7 @@ class ContactModelContact extends JModelAdmin
 		$categoryId = (int) $value;
 
 		$table = $this->getTable();
-		$i = 0;
+		$newIds = array();
 
 		if (!parent::checkCategoryId($categoryId))
 		{
@@ -197,6 +86,7 @@ class ContactModelContact extends JModelAdmin
 				{
 					// Fatal error
 					$this->setError($error);
+
 					return false;
 				}
 				else
@@ -218,13 +108,16 @@ class ContactModelContact extends JModelAdmin
 			// New category ID
 			$this->table->catid = $categoryId;
 
+			// Unpublish because we are making a copy
+			$this->table->published = 0;
+
 			// TODO: Deal with ordering?
-			//$this->table->ordering	= 1;
 
 			// Check the row.
 			if (!$this->table->check())
 			{
 				$this->setError($this->table->getError());
+
 				return false;
 			}
 
@@ -234,6 +127,7 @@ class ContactModelContact extends JModelAdmin
 			if (!$this->table->store())
 			{
 				$this->setError($this->table->getError());
+
 				return false;
 			}
 
@@ -241,8 +135,7 @@ class ContactModelContact extends JModelAdmin
 			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i] = $newId;
-			$i++;
+			$newIds[$pk] = $newId;
 		}
 
 		// Clean the cache
@@ -264,7 +157,6 @@ class ContactModelContact extends JModelAdmin
 	 */
 	protected function batchUser($value, $pks, $contexts)
 	{
-
 		foreach ($pks as $pk)
 		{
 			if ($this->user->authorise('core.edit', $contexts[$pk]))
@@ -277,7 +169,7 @@ class ContactModelContact extends JModelAdmin
 
 				if (!$this->table->store())
 				{
-					$this->this->setError($table->getError());
+					$this->setError($this->table->getError());
 
 					return false;
 				}
@@ -285,6 +177,7 @@ class ContactModelContact extends JModelAdmin
 			else
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
 				return false;
 			}
 		}
@@ -312,7 +205,9 @@ class ContactModelContact extends JModelAdmin
 			{
 				return;
 			}
+
 			$user = JFactory::getUser();
+
 			return $user->authorise('core.delete', 'com_contact.category.' . (int) $record->catid);
 		}
 	}
@@ -328,11 +223,11 @@ class ContactModelContact extends JModelAdmin
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
 		// Check against the category.
 		if (!empty($record->catid))
 		{
+			$user = JFactory::getUser();
+
 			return $user->authorise('core.edit.state', 'com_contact.category.' . (int) $record->catid);
 		}
 		// Default to component settings if category not known.
@@ -374,6 +269,7 @@ class ContactModelContact extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm('com_contact.contact', 'contact', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -411,7 +307,7 @@ class ContactModelContact extends JModelAdmin
 		if ($item = parent::getItem($pk))
 		{
 			// Convert the metadata field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->metadata);
 			$item->metadata = $registry->toArray();
 		}
@@ -477,7 +373,7 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array  The form data.
+	 * @param   array  $data  The form data.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -485,14 +381,27 @@ class ContactModelContact extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$app = JFactory::getApplication();
+		$input = JFactory::getApplication()->input;
 
-		// Alter the title for save as copy
-		if ($app->input->get('task') == 'save2copy')
+		// Alter the name for save as copy
+		if ($input->get('task') == 'save2copy')
 		{
-			list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-			$data['name'] = $name;
-			$data['alias'] = $alias;
+			$origTable = clone $this->getTable();
+			$origTable->load($input->getInt('id'));
+
+			if ($data['name'] == $origTable->name)
+			{
+				list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+				$data['name'] = $name;
+				$data['alias'] = $alias;
+			}
+			else
+			{
+				if ($data['alias'] == $origTable->alias)
+				{
+					$data['alias'] = '';
+				}
+			}
 			$data['published'] = 0;
 		}
 
@@ -508,8 +417,8 @@ class ContactModelContact extends JModelAdmin
 
 		if (parent::save($data))
 		{
-
 			$assoc = JLanguageAssociations::isEnabled();
+
 			if ($assoc)
 			{
 				$id = (int) $this->getState($this->getName() . '.id');
@@ -548,6 +457,7 @@ class ContactModelContact extends JModelAdmin
 				if ($error = $db->getErrorMsg())
 				{
 					$this->setError($error);
+
 					return false;
 				}
 
@@ -569,6 +479,7 @@ class ContactModelContact extends JModelAdmin
 					if ($error = $db->getErrorMsg())
 					{
 						$this->setError($error);
+
 						return false;
 					}
 				}
@@ -643,18 +554,24 @@ class ContactModelContact extends JModelAdmin
 		return $condition;
 	}
 
+	/**
+	 * Preprocess the form.
+	 *
+	 * @param   JForm   $form   Form object.
+	 * @param   object  $data   Data object.
+	 * @param   string  $group  Group name.
+	 *
+	 * @return  void
+	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
 		// Association content items
 		$app = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
+
 		if ($assoc)
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
-
-			// force to array (perhaps move to $this->loadFormData())
-			$data = (array) $data;
-
 			$addform = new SimpleXMLElement('<form />');
 			$fields = $addform->addChild('fields');
 			$fields->addAttribute('name', 'associations');
@@ -662,9 +579,10 @@ class ContactModelContact extends JModelAdmin
 			$fieldset->addAttribute('name', 'item_associations');
 			$fieldset->addAttribute('description', 'COM_CONTACT_ITEM_ASSOCIATIONS_FIELDSET_DESC');
 			$add = false;
+
 			foreach ($languages as $tag => $language)
 			{
-				if (empty($data['language']) || $tag != $data['language'])
+				if (empty($data->language) || $tag != $data->language)
 				{
 					$add = true;
 					$field = $fieldset->addChild('field');
@@ -677,6 +595,7 @@ class ContactModelContact extends JModelAdmin
 					$field->addAttribute('clear', 'true');
 				}
 			}
+
 			if ($add)
 			{
 				$form->load($addform, false);
@@ -705,6 +624,7 @@ class ContactModelContact extends JModelAdmin
 		if (empty($pks))
 		{
 			$this->setError(JText::_('COM_CONTACT_NO_ITEM_SELECTED'));
+
 			return false;
 		}
 
@@ -725,6 +645,7 @@ class ContactModelContact extends JModelAdmin
 		catch (Exception $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -739,9 +660,9 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param   integer  $parent_id  The id of the parent.
-	 * @param   string   $alias      The alias.
-	 * @param   string   $title      The title.
+	 * @param   integer  $category_id  The id of the parent.
+	 * @param   string   $alias        The alias.
+	 * @param   string   $name         The title.
 	 *
 	 * @return  array  Contains the modified title and alias.
 	 *
@@ -751,6 +672,7 @@ class ContactModelContact extends JModelAdmin
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
+
 		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
 		{
 			if ($name == $table->name)

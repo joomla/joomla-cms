@@ -1671,6 +1671,9 @@ legend + .control-group {
 .form-horizontal .form-actions {
 	padding-left: 180px;
 }
+.control-label .hasTooltip {
+	display: inline-block;
+}
 table {
 	max-width: 100%;
 	background-color: transparent;
@@ -3906,13 +3909,15 @@ input[type="submit"].btn.btn-mini {
 	line-height: 30px;
 }
 .modal-body {
+	width: 98%;
 	position: relative;
 	overflow-y: auto;
-	max-height: 400px;
-	padding: 15px;
+	max-height: none;
+	padding: 1%;
 }
 .modal-body iframe {
-	max-height: 390px;
+	width: 100%;
+	max-height: none;
 	border: 0 !important;
 }
 .modal-form {
@@ -6151,11 +6156,11 @@ th .tooltip-inner {
 }
 div.modal {
 	position: fixed;
-	top: 10%;
+	top: 5%;
 	left: 50%;
 	z-index: 1050;
-	width: 580px;
-	margin-left: -280px;
+	width: 80%;
+	margin-left: -40%;
 	background-color: #fff;
 	border: 1px solid #999;
 	border: 1px solid rgba(0,0,0,0.3);
@@ -6179,7 +6184,7 @@ div.modal.fade {
 	top: -25%;
 }
 div.modal.fade.in {
-	top: 10%;
+	top: 5%;
 }
 .modal-batch {
 	overflow-y: visible;
@@ -6224,8 +6229,16 @@ div.modal.fade.in {
 	display: inline-block;
 	width: 14px;
 	height: 14px;
-	*margin-right: .3em;
+	margin-right: .25em;
 	line-height: 14px;
+}
+dd > span[class^="icon-"] + time,
+dd > span[class*=" icon-"] + time {
+	margin-left: -0.25em;
+}
+dl.article-info dd.hits span[class^="icon-"],
+dl.article-info dd.hits span[class*=" icon-"] {
+	margin-right: 0;
 }
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
@@ -6950,6 +6963,10 @@ div.modal.fade.in {
 .icon-expired:before {
 	content: "\4b";
 }
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
 body.site {
 	border-top: 3px solid #0088cc;
 	padding: 20px;
@@ -7187,14 +7204,16 @@ figcaption {
 	color: #333;
 	white-space: nowrap;
 }
-.navigation .nav > li {
+.navigation .nav li {
 	position: relative;
 }
 .navigation .nav > li:hover > .nav-child,
-.navigation .nav > li > a:focus + .nav-child {
+.navigation .nav > li > a:focus + .nav-child,
+.navigation .nav li li:hover > .nav-child,
+.navigation .nav li li > a:focus + .nav-child {
 	display: block;
 }
-.navigation .nav-child:before {
+.navigation .nav > li > .nav-child:before {
 	position: absolute;
 	top: -7px;
 	left: 9px;
@@ -7205,7 +7224,7 @@ figcaption {
 	border-bottom-color: rgba(0,0,0,0.2);
 	content: '';
 }
-.navigation .nav-child:after {
+.navigation .nav > li > .nav-child:after {
 	position: absolute;
 	top: -6px;
 	left: 10px;
@@ -7213,6 +7232,30 @@ figcaption {
 	border-right: 6px solid transparent;
 	border-bottom: 6px solid #ffffff;
 	border-left: 6px solid transparent;
+	content: '';
+}
+.navigation .nav li li .nav-child {
+	top: -8px;
+	left: 100%;
+}
+.navigation .nav li li .nav-child:before {
+	position: absolute;
+	top: 9px;
+	left: -7px;
+	display: inline-block;
+	border-top: 7px solid transparent;
+	border-right: 7px solid rgba(0,0,0,0.2);
+	border-bottom: 7px solid transparent;
+	content: '';
+}
+.navigation .nav li li .nav-child:after {
+	position: absolute;
+	top: 10px;
+	left: -6px;
+	display: inline-block;
+	border-top: 6px solid transparent;
+	border-right: 6px solid #ffffff;
+	border-bottom: 6px solid transparent;
 	content: '';
 }
 .navigation .nav-child li > a:hover,

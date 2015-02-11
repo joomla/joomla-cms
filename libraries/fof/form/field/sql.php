@@ -8,10 +8,7 @@
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
-if (!class_exists('JFormFieldSql'))
-{
-	require_once JPATH_LIBRARIES . '/joomla/form/fields/sql.php';
-}
+JFormHelper::loadFieldClass('sql');
 
 /**
  * Form Field class for FOF
@@ -25,7 +22,7 @@ class FOFFormFieldSql extends JFormFieldSql implements FOFFormField
 	protected $static;
 
 	protected $repeatable;
-	
+
 	/** @var   FOFTable  The item being rendered in a repeatable form field */
 	public $item;
 
@@ -60,7 +57,7 @@ class FOFFormFieldSql extends JFormFieldSql implements FOFFormField
 					$this->repeatable = $this->getRepeatable();
 				}
 
-				return $this->static;
+				return $this->repeatable;
 				break;
 
 			default:

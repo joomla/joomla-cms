@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,9 +19,7 @@ JLoader::register('FinderIndexerStemmer', FINDER_PATH_INDEXER . '/stemmer.php');
 /**
  * Search model class for the Finder package.
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderModelSearch extends JModelList
 {
@@ -233,7 +231,7 @@ class FinderModelSearch extends JModelList
 		$nowDate = $db->quote(substr_replace(JFactory::getDate()->toSQL(), '00', -2));
 
 		// Add the publish up and publish down filters.
-		$query->where('(l.publish_start_date = ' . $nullDate . ' OR l.publish_end_date <= ' . $nowDate . ')')
+		$query->where('(l.publish_start_date = ' . $nullDate . ' OR l.publish_start_date <= ' . $nowDate . ')')
 			->where('(l.publish_end_date = ' . $nullDate . ' OR l.publish_end_date >= ' . $nowDate . ')');
 
 		/*
@@ -1083,37 +1081,28 @@ class FinderModelSearch extends JModelList
 		$request = $input->request;
 		$options = array();
 
-		// Get the query string.
-		$options['input'] = !is_null($request->get('q')) ? $request->get('q', '', 'string') : $params->get('q');
-		$options['input'] = $filter->clean($options['input'], 'string');
-
 		// Get the empty query setting.
 		$options['empty'] = $params->get('allow_empty_query', 0);
 
-		// Get the query language.
-		$options['language'] = !is_null($request->get('l')) ? $request->get('l', '', 'cmd') : $params->get('l');
-		$options['language'] = $filter->clean($options['language'], 'cmd');
-
 		// Get the static taxonomy filters.
-		$options['filter'] = !is_null($request->get('f')) ? $request->get('f', '', 'int') : $params->get('f');
-		$options['filter'] = $filter->clean($options['filter'], 'int');
+		$options['filter'] = $request->getInt('f', $params->get('f', ''));
 
 		// Get the dynamic taxonomy filters.
-		$options['filters'] = !is_null($request->get('t', '', 'array')) ? $request->get('t', '', 'array') : $params->get('t');
-		$options['filters'] = $filter->clean($options['filters'], 'array');
-		JArrayHelper::toInteger($options['filters']);
+		$options['filters'] = $request->get('t', $params->get('t', array()), '', 'array');
+
+		// Get the query string.
+		$options['input'] = $request->getString('q', $params->get('q', ''));
+
+		// Get the query language.
+		$options['language'] = $request->getCmd('l', $params->get('l', ''));
 
 		// Get the start date and start date modifier filters.
-		$options['date1'] = !is_null($request->get('d1')) ? $request->get('d1', '', 'string') : $params->get('d1');
-		$options['date1'] = $filter->clean($options['date1'], 'string');
-		$options['when1'] = !is_null($request->get('w1')) ? $request->get('w1', '', 'string') : $params->get('w1');
-		$options['when1'] = $filter->clean($options['when1'], 'string');
+		$options['date1'] = $request->getString('d1', $params->get('d1', ''));
+		$options['when1'] = $request->getString('w1', $params->get('w1', ''));
 
 		// Get the end date and end date modifier filters.
-		$options['date2'] = !is_null($request->get('d2')) ? $request->get('d2', '', 'string') : $params->get('d2');
-		$options['date2'] = $filter->clean($options['date2'], 'string');
-		$options['when2'] = !is_null($request->get('w2')) ? $request->get('w2', '', 'string') : $params->get('w2');
-		$options['when2'] = $filter->clean($options['when2'], 'string');
+		$options['date2'] = $request->getString('d2', $params->get('d2', ''));
+		$options['when2'] = $request->getString('w2', $params->get('w2', ''));
 
 		// Load the query object.
 		$this->query = new FinderIndexerQuery($options);
@@ -1127,8 +1116,14 @@ class FinderModelSearch extends JModelList
 		$this->setState('list.start', $input->get('limitstart', 0, 'uint'));
 		$this->setState('list.limit', $input->get('limit', $app->get('list_limit', 20), 'uint'));
 
-		// Load the sort ordering.
-		$order = $params->get('sort_order', 'relevance');
+		/* Load the sort ordering.
+		 * Currently this is 'hard' coded via menu item parameter but may not satisfy a users need.
+		 * More flexibility was way more user friendly. So we allow the user to pass a custom value
+		 * from the pool of fields that are indexed like the 'title' field.
+		 * Also, we allow this parameter to be passed in either case (lower/upper).
+		 */
+		$order = $input->getWord('filter_order', $params->get('sort_order', 'relevance'));
+		$order = JString::strtolower($order);
 		switch ($order)
 		{
 			case 'date':
@@ -1143,13 +1138,23 @@ class FinderModelSearch extends JModelList
 				$this->setState('list.ordering', 'm.weight');
 				break;
 
+			// Custom field that is indexed and might be required for ordering
+			case 'title':
+				$this->setState('list.ordering', 'l.title');
+				break;
+
 			default:
 				$this->setState('list.ordering', 'l.link_id');
 				break;
 		}
 
-		// Load the sort direction.
-		$dirn = $params->get('sort_direction', 'desc');
+		/* Load the sort direction.
+		 * Currently this is 'hard' coded via menu item parameter but may not satisfy a users need.
+		 * More flexibility was way more user friendly. So we allow to be inverted.
+		 * Also, we allow this parameter to be passed in either case (lower/upper).
+		 */
+		$dirn = $input->getWord('filter_order_Dir', $params->get('sort_direction', 'desc'));
+		$dirn = JString::strtolower($dirn);
 		switch ($dirn)
 		{
 			case 'asc':

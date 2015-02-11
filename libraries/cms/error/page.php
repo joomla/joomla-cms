@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Error
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Displays the custom error page when an uncaught exception occurs.
  *
- * @package     Joomla.Libraries
- * @subpackage  Error
- * @since       3.0
+ * @since  3.0
  */
 class JErrorPage
 {
@@ -38,7 +36,6 @@ class JErrorPage
 			{
 				// We're probably in an CLI environment
 				exit($error->getMessage());
-				$app->close(0);
 			}
 
 			$config = JFactory::getConfig();
@@ -78,6 +75,12 @@ class JErrorPage
 		}
 		catch (Exception $e)
 		{
+			// Try to set a 500 header if they haven't already been sent
+			if (!headers_sent())
+			{
+				header('HTTP/1.1 500 Internal Server Error');
+			}
+
 			exit('Error displaying the error page: ' . $e->getMessage() . ': ' . $error->getMessage());
 		}
 	}

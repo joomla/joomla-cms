@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,14 +23,14 @@ $published = $this->state->get('filter.published');
 	<div class="modal-body modal-batch">
 		<p><?php echo JText::_('COM_MENUS_BATCH_TIP'); ?></p>
 		<div class="row-fluid">
-            <div class="control-group span6">
+			<div class="control-group span6">
 				<div class="controls">
-					<?php echo JHtml::_('batch.access'); ?>
+					<?php echo JHtml::_('batch.language'); ?>
 				</div>
 			</div>
 			<div class="control-group span6">
 				<div class="controls">
-					<?php echo JHtml::_('batch.language'); ?>
+					<?php echo JHtml::_('batch.access'); ?>
 				</div>
 			</div>
 		</div>
@@ -54,7 +54,7 @@ $published = $this->state->get('filter.published');
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button class="btn" type="button" onclick="document.id('batch-menu-id').value='';document.id('batch-access').value='';document.id('batch-language-id').value=''" data-dismiss="modal">
+		<button class="btn" type="button" onclick="document.getElementById('batch-menu-id').value='';document.getElementById('batch-access').value='';document.getElementById('batch-language-id').value=''" data-dismiss="modal">
 			<?php echo JText::_('JCANCEL'); ?>
 		</button>
 		<button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('item.batch');">

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,16 +13,10 @@ defined('_JEXEC') or die;
  * Recaptcha Plugin.
  * Based on the official recaptcha library( https://developers.google.com/recaptcha/docs/php )
  *
- * @package     Joomla.Plugin
- * @subpackage  Captcha
- * @since       2.5
+ * @since  2.5
  */
 class PlgCaptchaRecaptcha extends JPlugin
 {
-	const RECAPTCHA_API_SERVER = "http://www.google.com/recaptcha/api";
-	const RECAPTCHA_API_SECURE_SERVER = "https://www.google.com/recaptcha/api";
-	const RECAPTCHA_VERIFY_SERVER = "www.google.com";
-
 	/**
 	 * Load the language file on instantiation.
 	 *
@@ -38,6 +32,8 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @return  Boolean	True on success, false otherwise
 	 *
+	 * @throws  Exception
+	 *
 	 * @since  2.5
 	 */
 	public function onInit($id = 'dynamic_recaptcha_1')
@@ -47,27 +43,44 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 		JHtml::_('jquery.framework');
 
-		$lang   = $this->_getLanguage();
-		$pubkey = $this->params->get('public_key', '');
-		$theme  = $this->params->get('theme', 'clean');
+		$lang       = $this->_getLanguage();
+		$version    = $this->params->get('version', '1.0');
+		$pubkey     = $this->params->get('public_key', '');
 
 		if ($pubkey == null || $pubkey == '')
 		{
 			throw new Exception(JText::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
 
-		$server = self::RECAPTCHA_API_SERVER;
-
-		if ($app->isSSLConnection())
+		switch ($version)
 		{
-			$server = self::RECAPTCHA_API_SECURE_SERVER;
+			case '1.0':
+				$theme = $this->params->get('theme', 'clean');
+
+				$file = $app->isSSLConnection() ? 'https' : 'http';
+				$file .= '://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
+				JHtml::_('script', $file);
+
+				$document->addScriptDeclaration('jQuery( document ).ready(function()
+				{
+					Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '",' . $lang . 'tabindex: 0});});'
+				);
+				break;
+			case '2.0':
+				$theme = $this->params->get('theme2', 'light');
+
+				$file = $app->isSSLConnection() ? 'https' : 'http';
+				$file .= '://www.google.com/recaptcha/api.js?hl=' . JFactory::getLanguage()
+						->getTag() . '&onload=onloadCallback&render=explicit';
+
+				JHtml::_('script', $file, true, true);
+
+				$document->addScriptDeclaration('var onloadCallback = function() {'
+					. 'grecaptcha.render("' . $id . '", {sitekey: "' . $pubkey . '", theme: "' . $theme . '"});'
+					. '}'
+				);
+				break;
 		}
-
-		JHtml::_('script', $server . '/js/recaptcha_ajax.js');
-		$document->addScriptDeclaration('jQuery( document ).ready(function()
-		{
-			Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '",' . $lang . 'tabindex: 0});});'
-		);
 
 		return true;
 	}
@@ -102,9 +115,21 @@ class PlgCaptchaRecaptcha extends JPlugin
 	{
 		$input      = JFactory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
+		$version    = $this->params->get('version', '1.0');
 		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
-		$challenge  = $input->get('recaptcha_challenge_field', '', 'string');
-		$response   = $input->get('recaptcha_response_field', '', 'string');
+
+		switch ($version)
+		{
+			case '1.0':
+				$challenge = $input->get('recaptcha_challenge_field', '', 'string');
+				$response  = $input->get('recaptcha_response_field', '', 'string');
+				$spam      = ($challenge == null || strlen($challenge) == 0 || $response == null || strlen($response) == 0);
+				break;
+			case '2.0':
+				$response = $input->get('g-recaptcha-response', '', 'string');
+				$spam     = ($response == null || strlen($response) == 0);
+				break;
+		}
 
 		// Check for Private Key
 		if (empty($privatekey))
@@ -123,36 +148,75 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 
 		// Discard spam submissions
-		if ($challenge == null || strlen($challenge) == 0 || $response == null || strlen($response) == 0)
+		if ($spam)
 		{
 			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'));
 
 			return false;
 		}
 
-		$response = $this->_recaptcha_http_post(
-			self::RECAPTCHA_VERIFY_SERVER, "/recaptcha/api/verify",
-			array(
-				'privatekey' => $privatekey,
-				'remoteip'   => $remoteip,
-				'challenge'  => $challenge,
-				'response'   => $response
-			)
-	);
+		return $this->getResponse($privatekey, $remoteip, $response, $challenge);
+	}
 
-		$answers = explode("\n", $response[1]);
+	/**
+	 * Get the reCaptcha response.
+	 *
+	 * @param   string  $privatekey  The private key for authentication.
+	 * @param   string  $remoteip    The remote IP of the visitor.
+	 * @param   string  $response    The response received from Google.
+	 * @param   string  $challenge   The challenge field from the reCaptcha.
+	 *
+	 * @return bool True if response is good | False if response is bad.
+	 *
+	 * @since   3.4
+	 */
+	private function getResponse($privatekey, $remoteip, $response, $challenge = null)
+	{
+		$version = $this->params->get('version', '1.0');
 
-		if (trim($answers[0]) == 'true')
-			{
-				return true;
-		}
-		else
+		switch ($version)
 		{
-			// @todo use exceptions here
-			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_' . strtoupper(str_replace('-', '_', $answers[1]))));
+			case '1.0':
+				$response = $this->_recaptcha_http_post(
+					'www.google.com', '/recaptcha/api/verify',
+					array(
+						'privatekey' => $privatekey,
+						'remoteip'   => $remoteip,
+						'challenge'  => $challenge,
+						'response'   => $response
+					)
+				);
 
-			return false;
+				$answers = explode("\n", $response[1]);
+
+				if (trim($answers[0]) !== 'true')
+				{
+					// @todo use exceptions here
+					$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_' . strtoupper(str_replace('-', '_', $answers[1]))));
+
+					return false;
+				}
+				break;
+			case '2.0':
+				require_once 'recaptchalib.php';
+
+				$reCaptcha = new JReCaptcha($privatekey);
+				$response  = $reCaptcha->verifyResponse($remoteip, $response);
+
+				if ( !isset($response->success) || !$response->success)
+				{
+					// @todo use exceptions here
+					foreach ($response->errorCodes as $error)
+					{
+						$this->_subject->setError($error);
+					}
+
+					return false;
+				}
+				break;
 		}
+
+		return true;
 	}
 
 	/**

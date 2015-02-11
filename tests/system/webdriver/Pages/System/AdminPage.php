@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Page
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use SeleniumClient\By;
@@ -138,7 +138,7 @@ abstract class AdminPage
 			'Help'					=> 'administrator/index.php#',
 			'Joomla Help'			=> 'administrator/index.php?option=com_admin&view=help',
 		'Official Support Forum'	=> 'http://forum.joomla.org/',
-			'Documentation Wiki'	=> 'http://docs.joomla.org/',
+			'Documentation Wiki'	=> 'https://docs.joomla.org/',
 			'Useful Joomla Links'	=> 'administrator/index.php#',
 			'Joomla Extensions'		=> 'http://extensions.joomla.org/',
 			'Joomla Translations'	=> 'http://community.joomla.org/translations.html',

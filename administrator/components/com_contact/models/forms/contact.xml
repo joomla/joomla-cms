@@ -621,7 +621,7 @@
 			/>
 
 			<field name="linke"
-				type="text"
+				type="url" filter="url"
 				label="COM_CONTACT_FIELD_LINKE_LABEL"
 				description="COM_CONTACT_FIELD_LINKE_DESC"
 				size="30"

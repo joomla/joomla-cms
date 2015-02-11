@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,16 +13,15 @@ defined('_JEXEC') or die;
  * Smart download helper. Automatically uses cURL or URL fopen() wrappers to
  * fetch the package.
  *
- * @package  Joomla.Administrator
- * @since    2.5.4
+ * @since  2.5.4
  */
 class AdmintoolsHelperDownload
 {
 	/**
-	 * Downloads from a URL and saves the result as a local file
+	 * Downloads from a URL and saves the result as a local file.
 	 *
-	 * @param   string  $url     The URL to download from
-	 * @param   string  $target  The file path to download to
+	 * @param   string  $url     The URL to download from.
+	 * @param   string  $target  The file path to download to.
 	 *
 	 * @return  bool	True on success
 	 *
@@ -32,7 +31,7 @@ class AdmintoolsHelperDownload
 	{
 		jimport('joomla.filesystem.file');
 
-		// Make sure the target does not exist
+		// Make sure the target does not exist.
 		if (JFile::exists($target))
 		{
 			if (!@unlink($target))
@@ -41,7 +40,7 @@ class AdmintoolsHelperDownload
 			}
 		}
 
-		// Try to open the output file for writing
+		// Try to open the output file for writing.
 		$fp = @fopen($target, 'wb');
 
 		if ($fp === false)
@@ -65,22 +64,23 @@ class AdmintoolsHelperDownload
 			// First try to download directly to file if $fp !== false
 			$adapters = self::getAdapters();
 			$result = false;
+
 			while (!empty($adapters) && ($result === false))
 			{
-				// Run the current download method
+				// Run the current download method.
 				$method = 'get' . strtoupper(array_shift($adapters));
 				$result = self::$method($url, $fp);
 
-				// Check if we have a download
+				// Check if we have a download.
 				if ($result === true)
 				{
-
-					// The download is complete, close the file pointer
+					// The download is complete, close the file pointer.
 					@fclose($fp);
 
 					// If the filesize is not at least 1 byte, we consider it failed.
 					clearstatcache();
 					$filesize = @filesize($target);
+
 					if ($filesize <= 0)
 					{
 						$result = false;
@@ -89,7 +89,7 @@ class AdmintoolsHelperDownload
 				}
 			}
 
-			// If we have no download, close the file pointer
+			// If we have no download, close the file pointer.
 			if ($result === false)
 			{
 				@fclose($fp);
@@ -98,8 +98,7 @@ class AdmintoolsHelperDownload
 
 		if ($result === false)
 		{
-
-			// Delete the target file if it exists
+			// Delete the target file if it exists.
 			if (file_exists($target))
 			{
 				if ( !@unlink($target) )
@@ -108,7 +107,7 @@ class AdmintoolsHelperDownload
 				}
 			}
 
-			// Download and write using JFile::write();
+			// Download and write using JFile::write().
 			$result = JFile::write($target, self::downloadAndReturn($url));
 		}
 
@@ -116,11 +115,11 @@ class AdmintoolsHelperDownload
 	}
 
 	/**
-	 * Downloads from a URL and returns the result as a string
+	 * Downloads from a URL and returns the result as a string.
 	 *
-	 * @param   string  $url  The URL to download from
+	 * @param   string  $url  The URL to download from.
 	 *
-	 * @return  mixed Result string on success, false on failure
+	 * @return  mixed Result string on success, false on failure.
 	 *
 	 * @since   2.5.4
 	 */
@@ -131,7 +130,6 @@ class AdmintoolsHelperDownload
 
 		while (!empty($adapters) && ($result === false))
 		{
-
 			// Run the current download method
 			$method = 'get' . strtoupper(array_shift($adapters));
 			$result = self::$method($url, null);
@@ -161,13 +159,13 @@ class AdmintoolsHelperDownload
 
 	/**
 	 * Downloads the contents of a URL and writes them to disk (if $fp is not null)
-	 * or returns them as a string (if $fp is null)
+	 * or returns them as a string (if $fp is null).
 	 *
-	 * @param   string    $url       The URL to download from
+	 * @param   string    $url       The URL to download from.
 	 * @param   resource  $fp        The file pointer to download to. Omit to return the contents.
 	 * @param   boolean   $nofollow  Should we follow 301/302/307 redirection HTTP headers?
 	 *
-	 * @return   bool|string False on failure, true on success ($fp not null) or the URL contents (if $fp is null)
+	 * @return   bool|string False on failure, true on success ($fp not null) or the URL contents (if $fp is null).
 	 *
 	 * @since   2.5.4
 	 */
@@ -177,7 +175,6 @@ class AdmintoolsHelperDownload
 
 		if ( !@curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1) && !$nofollow )
 		{
-
 			// Safe Mode is enabled. We have to fetch the headers and
 			// parse any redirections present in there.
 			curl_setopt($ch, CURLOPT_AUTOREFERER, true);
@@ -188,15 +185,16 @@ class AdmintoolsHelperDownload
 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
 			curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
-			// Get the headers
+			// Get the headers.
 			$data = curl_exec($ch);
 			curl_close($ch);
 
 			// Init
 			$newURL = $url;
 
-			// Parse the headers
+			// Parse the headers.
 			$lines = explode("\n", $data);
+
 			foreach ($lines as $line)
 			{
 				if (substr($line, 0, 9) == "Location:")
@@ -217,6 +215,7 @@ class AdmintoolsHelperDownload
 		else
 		{
 			@curl_setopt($ch, CURLOPT_MAXREDIRS, 20);
+
 			if (function_exists('set_time_limit'))
 			{
 				set_time_limit(0);
@@ -255,7 +254,6 @@ class AdmintoolsHelperDownload
 
 		if (is_null($result))
 		{
-
 			// If we are not allowed to use ini_get, we assume that URL fopen is
 			// disabled.
 			if (!function_exists('ini_get'))
@@ -272,12 +270,12 @@ class AdmintoolsHelperDownload
 	}
 
 	/**
-	 * Download from a URL using URL fopen() wrappers
+	 * Download from a URL using URL fopen() wrappers.
 	 *
-	 * @param   string    $url  The URL to download from
-	 * @param   resource  $fp   The file pointer to download to; leave null to return the d/l file as a string
+	 * @param   string    $url  The URL to download from.
+	 * @param   resource  $fp   The file pointer to download to; leave null to return the d/l file as a string.
 	 *
-	 * @return  bool|string False on failure, true on success ($fp not null) or the URL contents (if $fp is null)
+	 * @return  bool|string False on failure, true on success ($fp not null) or the URL contents (if $fp is null).
 	 *
 	 * @since   2.5.4
 	 */
@@ -295,12 +293,12 @@ class AdmintoolsHelperDownload
 		}
 		else
 		{
-
 			// PHP 4 way (actually, it's just a fallback)
 			if ( function_exists('ini_set') )
 			{
 				ini_set('user_agent', 'Joomla/' . JVERSION);
 			}
+
 			$ih = @fopen($url, 'r');
 		}
 
@@ -314,18 +312,22 @@ class AdmintoolsHelperDownload
 		$bytes = 0;
 		$result = true;
 		$return = '';
+
 		while (!feof($ih) && $result)
 		{
 			$contents = fread($ih, 4096);
+
 			if ($contents === false)
 			{
 				@fclose($ih);
 				$result = false;
+
 				return $result;
 			}
 			else
 			{
 				$bytes += strlen($contents);
+
 				if (is_resource($fp))
 				{
 					$result = @fwrite($fp, $contents);
@@ -356,7 +358,7 @@ class AdmintoolsHelperDownload
 
 	/**
 	 * Detect and return available download "adapters" (not really adapters, as
-	 * we don't follow the Adapter pattern, yet)
+	 * we don't follow the Adapter pattern, yet)..
 	 *
 	 * @return  array
 	 *
@@ -364,26 +366,29 @@ class AdmintoolsHelperDownload
 	 */
 	private static function getAdapters()
 	{
-		// Detect available adapters
+		// Detect available adapters.
 		$adapters = array();
+
 		if (self::hasCURL())
 		{
 			$adapters[] = 'curl';
 		}
+
 		if (self::hasFOPEN())
 		{
 			$adapters[] = 'fopen';
 		}
+
 		return $adapters;
 	}
 
 	/**
-	 * Change the permissions of a file, optionally using FTP
+	 * Change the permissions of a file, optionally using FTP.
 	 *
-	 * @param   string  $path  Absolute path to file
-	 * @param   int     $mode  Permissions, e.g. 0755
+	 * @param   string  $path  Absolute path to file.
+	 * @param   int     $mode  Permissions, e.g. 0755.
 	 *
-	 * @return  boolean True on success
+	 * @return  boolean True on success.
 	 *
 	 * @since   2.5.4
 	 */
@@ -392,6 +397,7 @@ class AdmintoolsHelperDownload
 		if (is_string($mode))
 		{
 			$mode = octdec($mode);
+
 			if ( ($mode < 0600) || ($mode > 0777) )
 			{
 				$mode = 0755;
@@ -405,7 +411,6 @@ class AdmintoolsHelperDownload
 
 		if ($ftpOptions['enabled'] == 1)
 		{
-
 			// Connect the FTP client
 			$ftp = JClientFtp::getInstance(
 				$ftpOptions['host'], $ftpOptions['port'], array(),
@@ -424,11 +429,12 @@ class AdmintoolsHelperDownload
 
 			// FTP connector throws an error
 			$ret = $ftp->chmod($path, $mode);
-		} else
+		}
+		else
 		{
 			return false;
 		}
+
 		return $ret;
 	}
-
 }

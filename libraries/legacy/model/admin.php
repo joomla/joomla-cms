@@ -3,18 +3,18 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Prototype admin model.
  *
- * @package     Joomla.Legacy
- * @subpackage  Model
- * @since       12.2
+ * @since  12.2
  */
 abstract class JModelAdmin extends JModelForm
 {
@@ -65,6 +65,32 @@ abstract class JModelAdmin extends JModelForm
 	 * @since  12.2
 	 */
 	protected $event_change_state = null;
+
+	/**
+	 * Maps events to plugin groups.
+	 *
+	 * @var array
+	 */
+	protected $events_map = null;
+
+	/**
+	 * Batch copy/move command. If set to false, 
+	 * the batch copy/move command is not supported
+	 *
+	 * @var string
+	 */
+	protected $batch_copymove = 'category_id';
+
+	/**
+	 * Allowed batch commands
+	 *
+	 * @var array
+	 */
+	protected $batch_commands = array(
+		'assetgroup_id' => 'batchAccess',
+		'language_id' => 'batchLanguage',
+		'tag' => 'batchTag'
+	);
 
 	/**
 	 * Constructor.
@@ -123,6 +149,16 @@ abstract class JModelAdmin extends JModelForm
 			$this->event_change_state = 'onContentChangeState';
 		}
 
+		$config['events_map'] = isset($config['events_map']) ? $config['events_map'] : array();
+
+		$this->events_map = array_merge(
+			array(
+				'delete'       => 'content',
+				'save'         => 'content',
+				'change_state' => 'content'
+			), $config['events_map']
+		);
+
 		// Guess the JText message prefix. Defaults to the option.
 		if (isset($config['text_prefix']))
 		{
@@ -178,38 +214,32 @@ abstract class JModelAdmin extends JModelForm
 		{
 			$type = new JUcmType;
 			$this->type = $type->getTypeByAlias($this->typeAlias);
+		}
 
-		}
-		if ($this->type === false)
-		{
-			$type = new JUcmType;
-			$this->type = $type->getTypeByAlias($this->typeAlias);
-			$typeAlias = $this->type->type_alias;
-		}
-		else
-		{
-			$typeAlias = $this->type->type_alias;
-		}
 		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
 
-		if (!empty($commands['category_id']))
+		if ($this->batch_copymove && !empty($commands[$this->batch_copymove]))
 		{
 			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
 
 			if ($cmd == 'c')
 			{
-				$result = $this->batchCopy($commands['category_id'], $pks, $contexts);
+				$result = $this->batchCopy($commands[$this->batch_copymove], $pks, $contexts);
 
 				if (is_array($result))
 				{
-					$pks = $result;
+					foreach ($result as $old => $new)
+					{
+						$contexts[$new] = $contexts[$old];
+					}
+					$pks = array_values($result);
 				}
 				else
 				{
 					return false;
 				}
 			}
-			elseif ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks, $contexts))
+			elseif ($cmd == 'm' && !$this->batchMove($commands[$this->batch_copymove], $pks, $contexts))
 			{
 				return false;
 			}
@@ -217,39 +247,23 @@ abstract class JModelAdmin extends JModelForm
 			$done = true;
 		}
 
-		if (!empty($commands['assetgroup_id']))
+		foreach ($this->batch_commands as $identifier => $command)
 		{
-			if (!$this->batchAccess($commands['assetgroup_id'], $pks, $contexts))
+			if (strlen($commands[$identifier]) > 0)
 			{
-				return false;
+				if (!$this->$command($commands[$identifier], $pks, $contexts))
+				{
+					return false;
+				}
+
+				$done = true;
 			}
-
-			$done = true;
-		}
-
-		if (!empty($commands['language_id']))
-		{
-			if (!$this->batchLanguage($commands['language_id'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (!empty($commands['tag']))
-		{
-			if (!$this->batchTag($commands['tag'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
 		}
 
 		if (!$done)
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+
 			return false;
 		}
 
@@ -339,14 +353,14 @@ abstract class JModelAdmin extends JModelForm
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		}
 
-		$i = 0;
-
 		$categoryId = $value;
 
 		if (!static::checkCategoryId($categoryId))
 		{
 			return false;
 		}
+
+		$newIds = array();
 
 		// Parent exists so let's proceed
 		while (!empty($pks))
@@ -379,6 +393,16 @@ abstract class JModelAdmin extends JModelForm
 			// Reset the ID because we are making a copy
 			$this->table->id = 0;
 
+			// Unpublish because we are making a copy
+			if (isset($this->table->published))
+			{
+				$this->table->published = 0;
+			}
+			elseif (isset($this->table->state))
+			{
+				$this->table->state = 0;
+			}
+
 			// New category ID
 			$this->table->catid = $categoryId;
 
@@ -410,8 +434,7 @@ abstract class JModelAdmin extends JModelForm
 			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i]	= $newId;
-			$i++;
+			$newIds[$pk]	= $newId;
 		}
 
 		// Clean the cache
@@ -675,13 +698,13 @@ abstract class JModelAdmin extends JModelForm
 		{
 			if ($table->load($pk))
 			{
-
 				if ($table->checked_out > 0)
 				{
 					if (!parent::checkin($pk))
 					{
 						return false;
 					}
+
 					$count++;
 				}
 			}
@@ -727,62 +750,62 @@ abstract class JModelAdmin extends JModelForm
 		$pks = (array) $pks;
 		$table = $this->getTable();
 
-		// Include the content plugins for the on delete events.
-		JPluginHelper::importPlugin('content');
+		// Include the plugins for the delete events.
+		JPluginHelper::importPlugin($this->events_map['delete']);
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
 		{
-
 			if ($table->load($pk))
 			{
-
 				if ($this->canDelete($table))
 				{
-
 					$context = $this->option . '.' . $this->name;
 
-					// Trigger the onContentBeforeDelete event.
+					// Trigger the before delete event.
 					$result = $dispatcher->trigger($this->event_before_delete, array($context, $table));
 
 					if (in_array(false, $result, true))
 					{
 						$this->setError($table->getError());
+
 						return false;
 					}
 
 					if (!$table->delete($pk))
 					{
 						$this->setError($table->getError());
+
 						return false;
 					}
 
-					// Trigger the onContentAfterDelete event.
+					// Trigger the after event.
 					$dispatcher->trigger($this->event_after_delete, array($context, $table));
-
 				}
 				else
 				{
-
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$error = $this->getError();
+
 					if ($error)
 					{
 						JLog::add($error, JLog::WARNING, 'jerror');
+
 						return false;
 					}
 					else
 					{
 						JLog::add(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+
 						return false;
 					}
 				}
-
 			}
 			else
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
@@ -808,6 +831,7 @@ abstract class JModelAdmin extends JModelForm
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
+
 		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
 		{
 			$title = JString::increment($title);
@@ -840,6 +864,7 @@ abstract class JModelAdmin extends JModelForm
 			if ($return === false && $table->getError())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
@@ -850,7 +875,7 @@ abstract class JModelAdmin extends JModelForm
 
 		if (property_exists($item, 'params'))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->params);
 			$item->params = $registry->toArray();
 		}
@@ -924,8 +949,8 @@ abstract class JModelAdmin extends JModelForm
 		$table = $this->getTable();
 		$pks = (array) $pks;
 
-		// Include the content plugins for the change of state event.
-		JPluginHelper::importPlugin('content');
+		// Include the plugins for the change of state event.
+		JPluginHelper::importPlugin($this->events_map['change_state']);
 
 		// Access checks.
 		foreach ($pks as $i => $pk)
@@ -955,7 +980,7 @@ abstract class JModelAdmin extends JModelForm
 
 		$context = $this->option . '.' . $this->name;
 
-		// Trigger the onContentChangeState event.
+		// Trigger the change state event.
 		$result = $dispatcher->trigger($this->event_change_state, array($context, $pks, $value));
 
 		if (in_array(false, $result, true))
@@ -1054,7 +1079,8 @@ abstract class JModelAdmin extends JModelForm
 	public function save($data)
 	{
 		$dispatcher = JEventDispatcher::getInstance();
-		$table = $this->getTable();
+		$table      = $this->getTable();
+		$context    = $this->option . '.' . $this->name;
 
 		if ((!empty($data['tags']) && $data['tags'][0] != ''))
 		{
@@ -1065,8 +1091,8 @@ abstract class JModelAdmin extends JModelForm
 		$pk = (!empty($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
 		$isNew = true;
 
-		// Include the content plugins for the on save events.
-		JPluginHelper::importPlugin('content');
+		// Include the plugins for the save events.
+		JPluginHelper::importPlugin($this->events_map['save']);
 
 		// Allow an exception to be thrown.
 		try
@@ -1093,15 +1119,17 @@ abstract class JModelAdmin extends JModelForm
 			if (!$table->check())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
-			// Trigger the onContentBeforeSave event.
-			$result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, $table, $isNew));
+			// Trigger the before save event.
+			$result = $dispatcher->trigger($this->event_before_save, array($context, $table, $isNew));
 
 			if (in_array(false, $result, true))
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -1109,14 +1137,15 @@ abstract class JModelAdmin extends JModelForm
 			if (!$table->store())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
 			// Clean the cache.
 			$this->cleanCache();
 
-			// Trigger the onContentAfterSave event.
-			$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, $table, $isNew));
+			// Trigger the after save event.
+			$dispatcher->trigger($this->event_after_save, array($context, $table, $isNew));
 		}
 		catch (Exception $e)
 		{
@@ -1125,12 +1154,11 @@ abstract class JModelAdmin extends JModelForm
 			return false;
 		}
 
-		$pkName = $table->getKeyName();
-
-		if (isset($table->$pkName))
+		if (isset($table->$key))
 		{
-			$this->setState($this->getName() . '.id', $table->$pkName);
+			$this->setState($this->getName() . '.id', $table->$key);
 		}
+
 		$this->setState($this->getName() . '.new', $isNew);
 
 		return true;
@@ -1184,6 +1212,7 @@ abstract class JModelAdmin extends JModelForm
 				if (!$table->store())
 				{
 					$this->setError($table->getError());
+
 					return false;
 				}
 
@@ -1266,6 +1295,7 @@ abstract class JModelAdmin extends JModelForm
 				{
 					// Fatal error
 					$this->setError($error);
+
 					return false;
 				}
 				else
@@ -1280,6 +1310,7 @@ abstract class JModelAdmin extends JModelForm
 		if (empty($categoryId))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+
 			return false;
 		}
 

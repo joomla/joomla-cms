@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="system">
+<extension version="3.1" type="plugin" group="system" method="upgrade">
 	<name>plg_system_redirect</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2009</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,10 +11,26 @@
 	<description>PLG_REDIRECT_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="redirect">redirect.php</filename>
-		<filename>index.html</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_system_redirect.ini</language>
 		<language tag="en-GB">en-GB.plg_system_redirect.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field 
+					name="collect_urls"
+					type="radio"
+					description="PLG_SYSTEM_REDIRECT_FIELD_COLLECT_URLS_DESC"
+					label="PLG_SYSTEM_REDIRECT_FIELD_COLLECT_URLS_LABEL"
+					default="1"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

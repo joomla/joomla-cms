@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.loadmodule
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +13,7 @@ defined('_JEXEC') or die;
  * Plug-in to enable loading modules into content (e.g. articles)
  * This uses the {loadmodule} syntax
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.loadmodule
- * @since       1.5
+ * @since  1.5
  */
 class PlgContentLoadmodule extends JPlugin
 {

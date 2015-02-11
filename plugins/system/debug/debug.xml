@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="system">
+<extension version="3.1" type="plugin" group="system" method="upgrade">
 	<name>plg_system_debug</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_DEBUG_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="debug">debug.php</filename>
-		<filename>index.html</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_system_debug.ini</language>
@@ -19,7 +18,6 @@
 	</languages>
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
 				<field name="filter_groups" type="usergroup"
 					description="PLG_DEBUG_FIELD_ALLOWED_GROUPS_DESC"
@@ -98,7 +96,7 @@
 					description="PLG_DEBUG_FIELD_LOG_CATEGORIES_DESC"
 				/>
 
-				<field name="log_category_mode" type="hidden" default="0"
+				<field name="log_category_mode" type="radio" default="0" class="btn-group btn-group-yesno"
 					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_DESC"
 				>
@@ -173,6 +171,16 @@
 					default="0"
 					description="PLG_DEBUG_FIELD_LOG_DEPRECATED_DESC"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field name="log-everything" type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					description="PLG_DEBUG_FIELD_LOG_EVERYTHING_DESC"
+					label="PLG_DEBUG_FIELD_LOG_EVERYTHING_LABEL"
 				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>

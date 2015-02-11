@@ -3,20 +3,20 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\Registry\Registry;
 
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 /**
  * Smart Search adapter for Joomla Categories.
  *
- * @package     Joomla.Plugin
- * @subpackage  Finder.Categories
- * @since       2.5
+ * @since  2.5
  */
 class PlgFinderCategories extends FinderIndexerAdapter
 {
@@ -199,13 +199,11 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			 */
 			foreach ($pks as $pk)
 			{
-				/* TODO: The $item variable does not seem to be used at all
 				$query = clone($this->getStateQuery());
 				$query->where('a.id = ' . (int) $pk);
 
 				$this->db->setQuery($query);
 				$item = $this->db->loadObject();
-				*/
 
 				// Translate the state.
 				$state = null;
@@ -264,11 +262,11 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$extension = ucfirst(substr($item->extension, 4));
 
 		// Initialize the item parameters.
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadString($item->params);
 		$item->params = $registry;
 
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadString($item->metadata);
 		$item->metadata = $registry;
 
@@ -303,7 +301,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		}
 		else
 		{
-			$item->route = ContentHelperRoute::getCategoryRoute($item->slug, $item->catid);
+			$item->route = ContentHelperRoute::getCategoryRoute($item->id, $item->language);
 		}
 
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
@@ -395,6 +393,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	{
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName('a.id'))
+			->select($this->db->quoteName('a.parent_id'))
 			->select('a.' . $this->state_field . ' AS state, c.published AS cat_state')
 			->select('a.access, c.access AS cat_access')
 			->from($this->db->quoteName('#__categories') . ' AS a')

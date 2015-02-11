@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Index model class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderModelIndex extends JModelList
 {
@@ -70,6 +68,7 @@ class FinderModelIndex extends JModelList
 	protected function canDelete($record)
 	{
 		$user = JFactory::getUser();
+
 		return $user->authorise('core.delete', $this->option);
 	}
 
@@ -85,6 +84,7 @@ class FinderModelIndex extends JModelList
 	protected function canEditState($record)
 	{
 		$user = JFactory::getUser();
+
 		return $user->authorise('core.edit.state', $this->option);
 	}
 
@@ -117,15 +117,18 @@ class FinderModelIndex extends JModelList
 
 					// Trigger the onContentBeforeDelete event.
 					$result = $dispatcher->trigger($this->event_before_delete, array($context, $table));
+
 					if (in_array(false, $result, true))
 					{
 						$this->setError($table->getError());
+
 						return false;
 					}
 
 					if (!$table->delete($pk))
 					{
 						$this->setError($table->getError());
+
 						return false;
 					}
 
@@ -137,6 +140,7 @@ class FinderModelIndex extends JModelList
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$error = $this->getError();
+
 					if ($error)
 					{
 						$this->setError($error);
@@ -150,6 +154,7 @@ class FinderModelIndex extends JModelList
 			else
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
@@ -191,16 +196,14 @@ class FinderModelIndex extends JModelList
 		// Check the search phrase.
 		if ($this->getState('filter.search') != '')
 		{
-			$search = $db->escape($this->getState('filter.search'));
-			$query->where(
-				'l.title LIKE ' . $db->quote('%' . $db->escape($search) . '%') . ' OR l.url LIKE ' . $db->quote('%' . $db->escape($search) . '%')
-				. ' OR l.indexdate LIKE  ' . $db->quote('%' . $db->escape($search) . '%')
-			);
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
+			$query->where('l.title LIKE ' . $search . ' OR l.url LIKE ' . $search . ' OR l.indexdate LIKE  ' . $search);
 		}
 
 		// Handle the list ordering.
 		$ordering = $this->getState('list.ordering');
 		$direction = $this->getState('list.direction');
+
 		if (!empty($ordering))
 		{
 			$query->order($db->escape($ordering) . ' ' . $db->escape($direction));
@@ -379,6 +382,7 @@ class FinderModelIndex extends JModelList
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+
 					return false;
 				}
 			}
@@ -388,6 +392,7 @@ class FinderModelIndex extends JModelList
 		if (!$table->publish($pks, $value, $user->get('id')))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -399,6 +404,7 @@ class FinderModelIndex extends JModelList
 		if (in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.gmail
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * GMail Authentication Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Authentication.gmail
- * @since       1.5
+ * @since  1.5
  */
 class PlgAuthenticationGMail extends JPlugin
 {
@@ -53,9 +51,9 @@ class PlgAuthenticationGMail extends JPlugin
 				// Check if the username isn't blacklisted
 				if (!in_array($credentials['username'], $blacklist))
 				{
-					$suffix = $this->params->get('suffix', '');
+					$suffix      = $this->params->get('suffix', '');
 					$applysuffix = $this->params->get('applysuffix', 0);
-					$offset = strpos($credentials['username'], '@');
+					$offset      = strpos($credentials['username'], '@');
 
 					// Check if we want to do suffix stuff, typically for Google Apps for Your Domain
 					if ($suffix && $applysuffix)
@@ -88,16 +86,16 @@ class PlgAuthenticationGMail extends JPlugin
 
 					switch ($code)
 					{
-						case 200:
+						case 200 :
 							$message = JText::_('JGLOBAL_AUTH_ACCESS_GRANTED');
 							$success = 1;
 							break;
 
-						case 401:
+						case 401 :
 							$message = JText::_('JGLOBAL_AUTH_ACCESS_DENIED');
 							break;
 
-						default:
+						default :
 							$message = JText::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
 							break;
 					}
@@ -142,8 +140,7 @@ class PlgAuthenticationGMail extends JPlugin
 			}
 
 			// Extra security checks with existing local accounts
-			$db = JFactory::getDbo();
-
+			$db                  = JFactory::getDbo();
 			$localUsernameChecks = array(strstr($email, '@', true), $email);
 
 			$query = $db->getQuery(true)

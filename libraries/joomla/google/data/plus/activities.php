@@ -3,30 +3,30 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Google+ data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       1234
+ * @since  12.3
  */
 class JGoogleDataPlusActivities extends JGoogleData
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    $options  Google options object
+	 * @param   Registry     $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
-	 * @since   1234
+	 * @since   12.3
 	 */
-	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
+	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
 	{
 	parent::__construct($options, $auth);
 
@@ -49,7 +49,7 @@ class JGoogleDataPlusActivities extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   1234
+	 * @since   12.3
 	 */
 	public function listActivities($userId, $collection, $fields = null, $max = 10, $token = null, $alt = null)
 	{
@@ -103,7 +103,7 @@ class JGoogleDataPlusActivities extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   1234
+	 * @since   12.3
 	 */
 	public function getActivity($id, $fields = null, $alt = null)
 	{
@@ -147,7 +147,7 @@ class JGoogleDataPlusActivities extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   1234
+	 * @since   12.3
 	 */
 	public function search($query, $fields = null, $language = null, $max = 10, $order = null, $token = null)
 	{
