@@ -377,7 +377,6 @@ class JAccess
 		}
 
 		// Make sure that we have the root
-		$root = new JAccessRules;
 		$assetTable = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
 		$rootId = $assetTable->getRootId();
 
@@ -389,6 +388,8 @@ class JAccess
 				->where('id = ' . $db->quote($rootId));
 			$db->setQuery($query);
 			$result = $db->loadResult();
+
+			$root = new JAccessRules;
 			$root->mergeCollection(array($result));
 
 			self::$assetRules['root.' . $rootId] = $root;
