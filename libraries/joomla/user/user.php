@@ -408,6 +408,7 @@ class JUser extends JObject
 
 			if (!array_key_exists($key, $this->accessCache))
 			{
+				// We want to limit the cache to ~250 entries. If the cache gets larger, we purge the oldest element.
 				if (count($this->accessCache) > 250)
 				{
 					array_shift($this->accessCache);
