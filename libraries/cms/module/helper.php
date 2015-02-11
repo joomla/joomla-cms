@@ -428,7 +428,8 @@ abstract class JModuleHelper
 		if ($frontediting)
 		{
 			// Check access for each asset rule
-			$access = $user->get('isRoot') ? array_fill_keys($assets, true) : (empty($assets) ? array() : JAccess::checkMultiple($user->get('id'), 'module.edit.frontend', $assets));
+			$access = $user->get('isRoot') ? array_fill_keys($assets, true) :
+				(empty($assets) ? array() : JAccess::checkMultiple($user->get('id'), 'module.edit.frontend', $assets));
 			foreach ($clean as $m)
 			{
 				$m->edit_frontend = !empty($access['com_modules.module.' . $m->id]);
