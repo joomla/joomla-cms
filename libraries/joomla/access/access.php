@@ -292,7 +292,7 @@ class JAccess
 		{
 			$assetTable = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
 			$rootId = $assetTable->getRootId();
-			if(empty(self::$assetRules['root.' . $rootId]))
+			if (empty(self::$assetRules['root.' . $rootId]))
 			{
 				$query->clear()
 					->select('rules')
@@ -365,9 +365,9 @@ class JAccess
 		$db->setQuery($query);
 		$result = $db->loadAssocList($key);
 
-		if($result)
+		if ($result)
 		{
-			foreach($result as $r)
+			foreach ($result as $r)
 			{
 				$name = $r[$key];
 				$rule = new JAccessRules;
@@ -376,50 +376,50 @@ class JAccess
 			}
 		}
 
-		// Get the root even if the asset is not found and in recursive mode
+		// Make sure that we have the root
 		$root = new JAccessRules;
-		if (empty($rules))
+		$assetTable = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+		$rootId = $assetTable->getRootId();
+
+		if (empty(self::$assetRules['root.' . $rootId]))
 		{
-			$assetTable = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
-			$rootId = $assetTable->getRootId();
+			$query->clear()
+				->select('rules')
+				->from('#__assets')
+				->where('id = ' . $db->quote($rootId));
+			$db->setQuery($query);
+			$result = $db->loadResult();
+			$root->mergeCollection(array($result));
 
-			if(empty(self::$assetRules['root.' . $rootId]))
-			{
-				$query->clear()
-					->select('rules')
-					->from('#__assets')
-					->where('id = ' . $db->quote($rootId));
-				$db->setQuery($query);
-				$result = $db->loadResult();
-				$root->mergeCollection(array($result));
-
-				self::$assetRules['root.' . $rootId] = $root;
-			}
-
-			$root = self::$assetRules['root.' . $rootId];
+			self::$assetRules['root.' . $rootId] = $root;
 		}
 
+		$root = self::$assetRules['root.' . $rootId];
+
 		// Check whether all rules loaded
-		foreach($assets as $asset)
+		foreach ($assets as $asset)
 		{
-			if(!empty($rules[$asset]))
+			if (!empty($rules[$asset]))
 			{
 				continue;
 			}
-			elseif($recursive)
+			elseif ($recursive)
 			{
 				$parts = explode('.', $asset);
 
 				// Search available parent
 				$parent = null;
-				while(!empty($parts))
+				while (!empty($parts))
 				{
 					array_pop($parts);
 					$parentAsset = implode('.', $parts);
-					if(!empty(self::$assetRules[$parentAsset]))
-					{
-						$parent = self::$assetRules[$parentAsset];
-						break;
+					switch (true) {
+						case !empty($parts[$parentAsset]):
+							$parent = $parts[$parentAsset];
+							break 2;
+						case !empty(self::$assetRules[$parentAsset]):
+							$parent = self::$assetRules[$parentAsset];
+							break 2;
 					}
 				}
 				$rules[$asset] = $parent ? $parent : $root;

@@ -41,7 +41,7 @@ class JDocumentRendererModules extends JDocumentRenderer
 		$menusEditing = ($editing == 2) && $user->authorise('core.edit', 'com_menus');
 		$access       = array();
 
-		if($frontediting)
+		if($frontediting && !$user->get('isRoot'))
 		{
 			// Collect asset names
 			$assets = array();
