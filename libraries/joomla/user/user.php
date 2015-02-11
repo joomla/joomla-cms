@@ -211,6 +211,14 @@ class JUser extends JObject
 	protected $userHelper = null;
 
 	/**
+	 * Cache for access data
+	 *
+	 * @var    array
+	 * @since  3.5
+	 */
+	private $accessCache = array();
+
+	/**
 	 * @var    array  JUser instances container.
 	 * @since  11.3
 	 */
@@ -390,7 +398,26 @@ class JUser extends JObject
 			}
 		}
 
-		return $this->isRoot ? true : JAccess::check($this->id, $action, $assetname);
+		if ($this->isRoot)
+		{
+			return true;
+		}
+		else
+		{
+			$key = md5($this->id . '|' . $action . '|' . $assetname);
+
+			if (!array_key_exists($key, $this->accessCache))
+			{
+				if (count($this->accessCache) > 250)
+				{
+					array_shift($this->accessCache);
+				}
+
+				$this->accessCache[$key] = JAccess::check($this->id, $action, $assetname);
+			}
+
+			return $this->accessCache[$key];
+		}
 	}
 
 	/**
@@ -490,6 +517,7 @@ class JUser extends JObject
 		$this->_authLevels = null;
 		$this->_authGroups = null;
 		$this->isRoot = null;
+		$this->accessCache = array();
 		JAccess::clearStatics();
 	}
 
