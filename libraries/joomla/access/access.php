@@ -133,7 +133,7 @@ class JAccess
 		$toLoad = array_diff($assets, array_keys(self::$assetRules));
 
 		// Load rules for give assets
-		if(!empty($toLoad))
+		if (!empty($toLoad))
 		{
 			$rules = self::getAssetRulesMultiple($toLoad, true);
 			self::$assetRules = array_merge(self::$assetRules, $rules);
@@ -147,7 +147,7 @@ class JAccess
 		$authorised = array_fill_keys($assets, null);
 		foreach ($assets as $asset)
 		{
-			if(!empty(self::$assetRules[$asset]))
+			if (!empty(self::$assetRules[$asset]))
 			{
 				$authorised[$asset] = self::$assetRules[$asset]->allow($action, $identities);
 			}

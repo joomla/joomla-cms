@@ -41,7 +41,7 @@ class JDocumentRendererModules extends JDocumentRenderer
 		$menusEditing = ($editing == 2) && $user->authorise('core.edit', 'com_menus');
 		$access       = array();
 
-		if($frontediting && !$user->get('isRoot'))
+		if ($frontediting && !$user->get('isRoot'))
 		{
 			// Collect asset names
 			$assets = array();
@@ -49,6 +49,7 @@ class JDocumentRendererModules extends JDocumentRenderer
 			{
 				$assets[] = 'com_modules.module.' . $mod->id;
 			}
+
 			// Check access for each asset rule
 			$access = empty($assets) ? array() : JAccess::checkMultiple($user->get('id'), 'module.edit.frontend', $assets);
 		}
