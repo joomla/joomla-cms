@@ -23,7 +23,7 @@ final class JVersion
 	public $RELEASE = '3.4';
 
 	/** @var  string  Maintenance version. */
-	public $DEV_LEVEL = '0-beta3';
+	public $DEV_LEVEL = '0-rc-dev';
 
 	/** @var  string  Development STATUS. */
 	public $DEV_STATUS = 'Beta';
