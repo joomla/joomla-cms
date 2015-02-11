@@ -639,6 +639,9 @@ class PlgEditorTinymce extends JPlugin
 		{
 			case 0: /* Simple mode*/
 				JFactory::getDocument()->addScriptDeclaration('
+					tinyMCE.suffix = ".min";
+					tinyMCE.baseURL = "' . JUri::root(true) . '/media/editors/tinymce";
+
 					tinymce.init({
 						// General
 						directionality: "' . $text_direction . '",
@@ -673,6 +676,9 @@ class PlgEditorTinymce extends JPlugin
 				$toolbar2 = "outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap";
 
 				JFactory::getDocument()->addScriptDeclaration('
+					tinyMCE.suffix = ".min";
+					tinyMCE.baseURL = "' . JUri::root(true) . '/media/editors/tinymce";
+
 					tinyMCE.init({
 						// General
 						directionality: "' . $text_direction . '",
@@ -716,6 +722,9 @@ class PlgEditorTinymce extends JPlugin
 
 			case 2: /* Extended mode*/
 				JFactory::getDocument()->addScriptDeclaration('
+					tinyMCE.suffix = ".min";
+					tinyMCE.baseURL = "' . JUri::root(true) . '/media/editors/tinymce";
+
 					tinyMCE.init({
 						// General
 						directionality: "' . $text_direction . '",
