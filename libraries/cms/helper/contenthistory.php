@@ -142,7 +142,10 @@ class JHelperContenthistory extends JHelper
 
 		$result = $historyTable->store();
 
-		if ($maxVersions = JComponentHelper::getParams('com_content')->get('history_limit', 0))
+		// Load history_limit config from extension.
+		$aliasParts = explode('.', $this->typeAlias);
+
+		if ($maxVersions = JComponentHelper::getParams($aliasParts[0])->get('history_limit', 0))
 		{
 			$historyTable->deleteOldVersions($maxVersions);
 		}
