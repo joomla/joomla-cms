@@ -34,31 +34,14 @@ class JDocumentRendererModules extends JDocumentRenderer
 
 		$app     = JFactory::getApplication();
 		$user    = JFactory::getUser();
-		$modules = JModuleHelper::getModules($position);
 
-		$editing      = $app->get('frontediting', 1);
-		$frontediting = ($app->isSite() && $editing && !$user->guest);
-		$menusEditing = ($editing == 2) && $user->authorise('core.edit', 'com_menus');
-		$access       = array();
-
-		if ($frontediting && !$user->get('isRoot'))
-		{
-			// Collect asset names
-			$assets = array();
-			foreach ($modules as $mod)
-			{
-				$assets[] = 'com_modules.module.' . $mod->id;
-			}
-
-			// Check access for each asset rule
-			$access = empty($assets) ? array() : JAccess::checkMultiple($user->get('id'), 'module.edit.frontend', $assets);
-		}
+		$menusEditing = ($app->get('frontediting', 1) == 2) && $user->authorise('core.edit', 'com_menus');
 
 		foreach ($modules as $mod)
 		{
 			$moduleHtml = $renderer->render($mod, $params, $content);
 
-			if ($frontediting && trim($moduleHtml) && ($user->get('isRoot') || !empty($access['com_modules.module.' . $mod->id])))
+			if (trim($moduleHtml) && !empty($mod->edit_frontend))
 			{
 				$displayData = array('moduleHtml' => &$moduleHtml, 'module' => $mod, 'position' => $position, 'menusediting' => $menusEditing);
 				JLayoutHelper::render('joomla.edit.frontediting_modules', $displayData);

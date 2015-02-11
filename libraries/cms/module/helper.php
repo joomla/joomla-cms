@@ -383,8 +383,9 @@ abstract class JModuleHelper
 		}
 
 		// Apply negative selections and eliminate duplicates
-		$negId = $Itemid ? -(int) $Itemid : false;
-		$dupes = array();
+		$negId  = $Itemid ? -(int) $Itemid : false;
+		$dupes  = array();
+		$assets = array();
 
 		for ($i = 0, $n = count($modules); $i < $n; $i++)
 		{
@@ -406,6 +407,7 @@ abstract class JModuleHelper
 			}
 
 			$dupes[$module->id] = true;
+			$assets[] = 'com_modules.module.' . $module->id;
 
 			// Only accept modules without explicit exclusions.
 			if (!$negHit)
@@ -418,6 +420,20 @@ abstract class JModuleHelper
 		}
 
 		unset($dupes);
+
+		// Check access for frontend editing
+		$editing      = $app->get('frontediting', 1);
+		$frontediting = ($app->isSite() && $editing && !$user->guest);
+
+		if ($frontediting)
+		{
+			// Check access for each asset rule
+			$access = $user->get('isRoot') ? array_fill_keys($assets, true) : (empty($assets) ? array() : JAccess::checkMultiple($user->get('id'), 'module.edit.frontend', $assets));
+			foreach ($clean as $m)
+			{
+				$m->edit_frontend = !empty($access['com_modules.module.' . $m->id]);
+			}
+		}
 
 		// Return to simple indexing that matches the query order.
 		$clean = array_values($clean);
