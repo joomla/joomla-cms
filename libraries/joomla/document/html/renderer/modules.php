@@ -37,7 +37,7 @@ class JDocumentRendererModules extends JDocumentRenderer
 
 		$menusEditing = ($app->get('frontediting', 1) == 2) && $user->authorise('core.edit', 'com_menus');
 
-		foreach ($modules as $mod)
+		foreach (JModuleHelper::getModules($position) as $mod)
 		{
 			$moduleHtml = $renderer->render($mod, $params, $content);
 
