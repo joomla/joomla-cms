@@ -203,34 +203,6 @@ class JForm
 	}
 
 	/**
-	 * Adds a new child SimpleXMLElement node to the source.
-	 *
-	 * @param   SimpleXMLElement $source The source element on which to append.
-	 * @param   SimpleXMLElement $new    The new element to append.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected static function addNode(SimpleXMLElement $source, SimpleXMLElement $new)
-	{
-		// Add the new child node.
-		$node = $source->addChild($new->getName(), trim($new));
-
-		// Add the attributes of the child node.
-		foreach ($new->attributes() as $name => $value)
-		{
-			$node->addAttribute($name, $value);
-		}
-
-		// Add any children of the new node.
-		foreach ($new->children() as $child)
-		{
-			self::addNode($node, $child);
-		}
-	}
-
-	/**
 	 * Update the attributes of a child node
 	 *
 	 * @param   SimpleXMLElement $source The source element on which to append the attributes
@@ -1150,120 +1122,6 @@ class JForm
 	}
 
 	/**
-	 * Method to load, setup and return a JFormField object based on field data.
-	 *
-	 * @param   string $element The XML element object representation of the form field.
-	 * @param   string $group   The optional dot-separated form group path on which to find the field.
-	 * @param   mixed  $value   The optional value to use as the default for the field.
-	 *
-	 * @return  mixed  The JFormField object for the field or boolean false on error.
-	 *
-	 * @since   11.1
-	 */
-	protected function loadField($element, $group = null, $value = null)
-	{
-		// Make sure there is a valid SimpleXMLElement.
-		if (!($element instanceof SimpleXMLElement))
-		{
-			return false;
-		}
-
-		// Get the field type.
-		$type = $element['type'] ? (string) $element['type'] : 'text';
-
-		// Load the JFormField object for the field.
-		$field = $this->loadFieldType($type);
-
-		// If the object could not be loaded, get a text field object.
-		if ($field === false)
-		{
-			$field = $this->loadFieldType('text');
-		}
-
-		/*
-		 * Get the value for the form field if not set.
-		 * Default to the translated version of the 'default' attribute
-		 * if 'translate_default' attribute if set to 'true' or '1'
-		 * else the value of the 'default' attribute for the field.
-		 */
-		if ($value === null)
-		{
-			$default = (string) $element['default'];
-
-			if (($translate = $element['translate_default']) && ((string) $translate == 'true' || (string) $translate == '1'))
-			{
-				$lang = JFactory::getLanguage();
-
-				if ($lang->hasKey($default))
-				{
-					$debug   = $lang->setDebug(false);
-					$default = JText::_($default);
-					$lang->setDebug($debug);
-				}
-				else
-				{
-					$default = JText::_($default);
-				}
-			}
-
-			$value = $this->getValue((string) $element['name'], $group, $default);
-		}
-
-		// Setup the JFormField object.
-		$field->setForm($this);
-
-		if ($field->setup($element, $value, $group))
-		{
-			return $field;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	/**
-	 * Proxy for {@link JFormHelper::loadFieldType()}.
-	 *
-	 * @param   string  $type The field type.
-	 * @param   boolean $new  Flag to toggle whether we should get a new instance of the object.
-	 *
-	 * @return  mixed  JFormField object on success, false otherwise.
-	 *
-	 * @since   11.1
-	 */
-	protected function loadFieldType($type, $new = true)
-	{
-		return JFormHelper::loadFieldType($type, $new);
-	}
-
-	/**
-	 * Method to get the value of a field.
-	 *
-	 * @param   string $name    The name of the field for which to get the value.
-	 * @param   string $group   The optional dot-separated form group path on which to get the value.
-	 * @param   mixed  $default The optional default value of the field value is empty.
-	 *
-	 * @return  mixed  The value of the field or the default value if empty.
-	 *
-	 * @since   11.1
-	 */
-	public function getValue($name, $group = null, $default = null)
-	{
-		// If a group is set use it.
-		if ($group)
-		{
-			$return = $this->data->get($group . '.' . $name, $default);
-		}
-		else
-		{
-			$return = $this->data->get($name, $default);
-		}
-
-		return $return;
-	}
-
-	/**
 	 * Method to get a form field markup for the field input.
 	 *
 	 * @param   string $name  The name of the form field.
@@ -1511,6 +1369,120 @@ class JForm
 		$fields = $this->xml->xpath('(//fieldset[@name="' . $name . '"]//field | //field[@fieldset="' . $name . '"])[not(ancestor::field)]');
 
 		return $fields;
+	}
+
+	/**
+	 * Method to load, setup and return a JFormField object based on field data.
+	 *
+	 * @param   string $element The XML element object representation of the form field.
+	 * @param   string $group   The optional dot-separated form group path on which to find the field.
+	 * @param   mixed  $value   The optional value to use as the default for the field.
+	 *
+	 * @return  mixed  The JFormField object for the field or boolean false on error.
+	 *
+	 * @since   11.1
+	 */
+	protected function loadField($element, $group = null, $value = null)
+	{
+		// Make sure there is a valid SimpleXMLElement.
+		if (!($element instanceof SimpleXMLElement))
+		{
+			return false;
+		}
+
+		// Get the field type.
+		$type = $element['type'] ? (string) $element['type'] : 'text';
+
+		// Load the JFormField object for the field.
+		$field = $this->loadFieldType($type);
+
+		// If the object could not be loaded, get a text field object.
+		if ($field === false)
+		{
+			$field = $this->loadFieldType('text');
+		}
+
+		/*
+		 * Get the value for the form field if not set.
+		 * Default to the translated version of the 'default' attribute
+		 * if 'translate_default' attribute if set to 'true' or '1'
+		 * else the value of the 'default' attribute for the field.
+		 */
+		if ($value === null)
+		{
+			$default = (string) $element['default'];
+
+			if (($translate = $element['translate_default']) && ((string) $translate == 'true' || (string) $translate == '1'))
+			{
+				$lang = JFactory::getLanguage();
+
+				if ($lang->hasKey($default))
+				{
+					$debug   = $lang->setDebug(false);
+					$default = JText::_($default);
+					$lang->setDebug($debug);
+				}
+				else
+				{
+					$default = JText::_($default);
+				}
+			}
+
+			$value = $this->getValue((string) $element['name'], $group, $default);
+		}
+
+		// Setup the JFormField object.
+		$field->setForm($this);
+
+		if ($field->setup($element, $value, $group))
+		{
+			return $field;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Proxy for {@link JFormHelper::loadFieldType()}.
+	 *
+	 * @param   string  $type The field type.
+	 * @param   boolean $new  Flag to toggle whether we should get a new instance of the object.
+	 *
+	 * @return  mixed  JFormField object on success, false otherwise.
+	 *
+	 * @since   11.1
+	 */
+	protected function loadFieldType($type, $new = true)
+	{
+		return JFormHelper::loadFieldType($type, $new);
+	}
+
+	/**
+	 * Method to get the value of a field.
+	 *
+	 * @param   string $name    The name of the field for which to get the value.
+	 * @param   string $group   The optional dot-separated form group path on which to get the value.
+	 * @param   mixed  $default The optional default value of the field value is empty.
+	 *
+	 * @return  mixed  The value of the field or the default value if empty.
+	 *
+	 * @since   11.1
+	 */
+	public function getValue($name, $group = null, $default = null)
+	{
+		// If a group is set use it.
+		if ($group)
+		{
+			$return = $this->data->get($group . '.' . $name, $default);
+		}
+		else
+		{
+			$return = $this->data->get($name, $default);
+		}
+
+		return $return;
 	}
 
 	/**
@@ -1770,6 +1742,34 @@ class JForm
 	public static function addRulePath($new = null)
 	{
 		return JFormHelper::addRulePath($new);
+	}
+
+	/**
+	 * Adds a new child SimpleXMLElement node to the source.
+	 *
+	 * @param   SimpleXMLElement $source The source element on which to append.
+	 * @param   SimpleXMLElement $new    The new element to append.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected static function addNode(SimpleXMLElement $source, SimpleXMLElement $new)
+	{
+		// Add the new child node.
+		$node = $source->addChild($new->getName(), trim($new));
+
+		// Add the attributes of the child node.
+		foreach ($new->attributes() as $name => $value)
+		{
+			$node->addAttribute($name, $value);
+		}
+
+		// Add any children of the new node.
+		foreach ($new->children() as $child)
+		{
+			self::addNode($node, $child);
+		}
 	}
 
 	/**
