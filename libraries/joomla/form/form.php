@@ -119,7 +119,7 @@ class JForm
 		{
 			return false;
 		}
-		
+
 		// The data must be an object or array.
 		if (!is_object($data) && !is_array($data))
 		{
@@ -142,14 +142,14 @@ class JForm
 	protected function bindLevel($group, $data)
 	{
 		$data = $this->toArray($data);
-		
+
 		// Process the input data.
 		foreach ($data as $name => $value)
 		{
 			if ($this->findField($name, $group))
 			{
 				$name = $this->getGroupName($name, $group);
-				
+
 				// If the field exists set the value.
 				$this->data->set($name, $value);
 			}
@@ -162,7 +162,7 @@ class JForm
 			}
 		}
 	}
-	
+
 	/**
 	 * Method to convert the data into an array
 	 *
@@ -172,24 +172,24 @@ class JForm
 	 */
 	protected function toArray($data)
 	{
-		if (is_array($data)) 
+		if (is_array($data))
 		{
-			// nothing to do
+			// Nothing to do
 			return $data;
 		}
-		
+
 		if (is_callable(array($data, 'toArray')))
 		{
 			return $data->toArray();
 		}
-		
+
 		if (is_callable(array($data, 'getProperties')))
 		{
 			return $data->getProperties();
 		}
 		return (array) $data;
 	}
-	
+
 	/**
 	 * Method to get a dot delimited group name
 	 *
@@ -206,7 +206,7 @@ class JForm
 		}
 		return $name;
 	}
-	
+
 	/**
 	 * Method to filter the form data.
 	 *
