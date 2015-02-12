@@ -248,21 +248,12 @@ class JForm
 			$group = implode('.', $groups);
 
 			// Get the field value from the data input.
-			if ($group)
+			$name = $this->getGroupName($name, $group);
+
+			// Filter the value if it exists.
+			if ($input->exists($name))
 			{
-				// Filter the value if it exists.
-				if ($input->exists($group . '.' . $name))
-				{
-					$output->set($group . '.' . $name, $this->filterField($field, $input->get($group . '.' . $name, (string) $field['default'])));
-				}
-			}
-			else
-			{
-				// Filter the value if it exists.
-				if ($input->exists($name))
-				{
-					$output->set($name, $this->filterField($field, $input->get($name, (string) $field['default'])));
-				}
+				$output->set($name, $this->filterField($field, $input->get($name, (string) $field['default'])));
 			}
 		}
 
@@ -629,16 +620,8 @@ class JForm
 	 */
 	public function getValue($name, $group = null, $default = null)
 	{
-		// If a group is set use it.
-		if ($group)
-		{
-			$return = $this->data->get($group . '.' . $name, $default);
-		}
-		else
-		{
-			$return = $this->data->get($name, $default);
-		}
-
+		return $this->data->get($this->getGroupName($name, $group), $default);
+	
 		return $return;
 	}
 
