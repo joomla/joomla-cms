@@ -126,40 +126,13 @@ class JForm
 			return false;
 		}
 
-		// Convert the input to an array.
-		if (is_object($data))
+		// The data must be an object or array.
+		if (!is_object($data) && !is_array($data))
 		{
-			if ($data instanceof Registry)
-			{
-				// Handle a Registry.
-				$data = $data->toArray();
-			}
-			elseif ($data instanceof JObject)
-			{
-				// Handle a JObject.
-				$data = $data->getProperties();
-			}
-			else
-			{
-				// Handle other types of objects.
-				$data = (array) $data;
-			}
+			return false;
 		}
 
-		// Process the input data.
-		foreach ($data as $k => $v)
-		{
-			if ($this->findField($k))
-			{
-				// If the field exists set the value.
-				$this->data->set($k, $v);
-			}
-			elseif (is_object($v) || JArrayHelper::isAssociative($v))
-			{
-				// If the value is an object or an associative array hand it off to the recursive bind level method.
-				$this->bindLevel($k, $v);
-			}
-		}
+		$this->bindLevel(false, $data);
 
 		return true;
 	}
@@ -176,25 +149,67 @@ class JForm
 	 */
 	protected function bindLevel($group, $data)
 	{
-		// Ensure the input data is an array.
-		settype($data, 'array');
-
+		$data = $this->toArray($data);
 		// Process the input data.
-		foreach ($data as $k => $v)
+		foreach ($data as $name => $value)
 		{
-			if ($this->findField($k, $group))
+			$name = $this->getGroupName($name, $group);
+			if ($this->findField($name, $group))
 			{
 				// If the field exists set the value.
-				$this->data->set($group . '.' . $k, $v);
+				$this->data->set($name, $value);
 			}
-			elseif (is_object($v) || JArrayHelper::isAssociative($v))
+			elseif (is_object($value) || JArrayHelper::isAssociative($value))
 			{
-				// If the value is an object or an associative array, hand it off to the recursive bind level method
-				$this->bindLevel($group . '.' . $k, $v);
+				// If the value is an object or an associative array hand it off to the recursive bind level method.
+				$this->bindLevel($name, $value);
 			}
 		}
 	}
 
+	/**
+	 * Method to convert the data into an array
+	 *
+	 * @param mixed $data object or array to normalize
+	 *
+	 * @return array
+	 */
+	protected function toArray($data)
+	{
+		if(is_array($data)) //nothing to do
+		{
+			return $data;
+		}
+
+		if (is_callable(array($data, 'toArray')))
+		{
+			return $data->toArray();
+		}
+
+		if (is_callable(array($data, 'getProperties')))
+		{
+			return $data->getProperties();
+		}
+
+		return (array) $data;
+	}
+	
+	/**
+	 * Method to get a dot delimited group name
+	 * @param string $name of the field within the group
+	 * @param mixed $group The dot-separated form group path
+	 *
+	 * @return string
+	 */
+	protected function getGroupName($name, $group = null)
+	{
+		if(!is_null($group))
+		{
+			$name = $group.'.'.$name;
+		}
+		return $name;
+	}
+	
 	/**
 	 * Method to filter the form data.
 	 *
