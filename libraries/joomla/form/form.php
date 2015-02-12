@@ -106,7 +106,7 @@ class JForm
 	/**
 	 * Method to bind data to the form.
 	 *
-	 * @param   mixed  $data  An array or object of data to bind to the form.
+	 * @param   mixed $data An array or object of data to bind to the form.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -119,13 +119,11 @@ class JForm
 		{
 			return false;
 		}
-
 		// The data must be an object or array.
 		if (!is_object($data) && !is_array($data))
 		{
 			return false;
 		}
-
 		$this->bindLevel(null, $data);
 
 		return true;
@@ -134,8 +132,8 @@ class JForm
 	/**
 	 * Method to bind data to the form for the group level.
 	 *
-	 * @param   string  $group  The dot-separated form group path on which to bind the data.
-	 * @param   mixed   $data   An array or object of data to bind to the form for the group level.
+	 * @param   string $group The dot-separated form group path on which to bind the data.
+	 * @param   mixed  $data  An array or object of data to bind to the form for the group level.
 	 *
 	 * @return  void
 	 *
@@ -170,16 +168,14 @@ class JForm
 	 */
 	protected function toArray($data)
 	{
-		if(is_array($data)) //nothing to do
+		if (is_array($data)) //nothing to do
 		{
 			return $data;
 		}
-
 		if (is_callable(array($data, 'toArray')))
 		{
 			return $data->toArray();
 		}
-
 		if (is_callable(array($data, 'getProperties')))
 		{
 			return $data->getProperties();
@@ -187,21 +183,22 @@ class JForm
 
 		return (array) $data;
 	}
-	
+
 	/**
 	 * Method to get a dot delimited group name
-	 * 
-	 * @param string $name of the field within the group
+	 *
+	 * @param string $name  of the field within the group
 	 * @param string $group The dot-separated form group path
 	 *
 	 * @return string
 	 */
 	protected function getGroupName($name, $group = null)
 	{
-		if(!is_null($group))
+		if (!is_null($group))
 		{
-			$name = $group.'.'.$name;
+			$name = $group . '.' . $name;
 		}
+
 		return $name;
 	}
 	
