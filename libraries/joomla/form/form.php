@@ -142,18 +142,21 @@ class JForm
 	protected function bindLevel($group, $data)
 	{
 		$data = $this->toArray($data);
+		
 		// Process the input data.
 		foreach ($data as $name => $value)
 		{
 			if ($this->findField($name, $group))
 			{
 				$name = $this->getGroupName($name, $group);
+				
 				// If the field exists set the value.
 				$this->data->set($name, $value);
 			}
 			elseif (is_object($value) || JArrayHelper::isAssociative($value))
 			{
 				$name = $this->getGroupName($name, $group);
+				
 				// If the value is an object or an associative array hand it off to the recursive bind level method.
 				$this->bindLevel($name, $value);
 			}
@@ -163,20 +166,23 @@ class JForm
 	/**
 	 * Method to convert the data into an array
 	 *
-	 * @param mixed $data object or array to normalize
+	 * @param   mixed  $data  object or array to normalize
 	 *
 	 * @return array
 	 */
 	protected function toArray($data)
 	{
-		if (is_array($data)) //nothing to do
+		if (is_array($data)) 
 		{
+			// nothing to do
 			return $data;
 		}
+		
 		if (is_callable(array($data, 'toArray')))
 		{
 			return $data->toArray();
 		}
+		
 		if (is_callable(array($data, 'getProperties')))
 		{
 			return $data->getProperties();
@@ -187,8 +193,8 @@ class JForm
 	/**
 	 * Method to get a dot delimited group name
 	 *
-	 * @param string $name  of the field within the group
-	 * @param string $group The dot-separated form group path
+	 * @param   string  $name   of the field within the group
+	 * @param   string  $group  The dot-separated form group path
 	 *
 	 * @return string
 	 */
