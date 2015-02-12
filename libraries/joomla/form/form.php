@@ -276,7 +276,7 @@ class JForm
 				// If the field exists set the value.
 				$this->data->set($name, $value);
 			}
-			elseif (is_object($value) || $this->isAssociative($value))
+			elseif (is_object($value) || JArrayHelper::isAssociative($value))
 			{
 				$name = $this->getGroupName($name, $group);
 				// If the value is an object or an associative array hand it off to the recursive bind level method.
