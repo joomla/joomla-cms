@@ -39,7 +39,7 @@ class ModLoginHelper
 		else
 		{
 			// Stay on the same page
-			$vars = $router->getVars();
+			$vars = $app::getRouter()->getVars();
 		}
 
 		return base64_encode('index.php?' . JUri::buildQuery($vars));
