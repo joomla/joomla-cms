@@ -91,8 +91,10 @@ elseif ($input->get('module'))
 			if (method_exists($class, $method . 'Ajax'))
 			{
 				// Load language file for module
-				$lang = JFactory::getLanguage();
-				$lang->load('mod_' . $module);
+				$basePath = JPATH_BASE;
+				$lang     = JFactory::getLanguage();
+				$lang->load('mod_' . $module, $basePath, null, false, true)
+				||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module, null, false, true);
 
 				try
 				{
