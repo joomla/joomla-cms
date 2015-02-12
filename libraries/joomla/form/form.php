@@ -126,13 +126,7 @@ class JForm
 			return false;
 		}
 
-		// The data must be an object or array.
-		if (!is_object($data) && !is_array($data))
-		{
-			return false;
-		}
-
-		$this->bindLevel(false, $data);
+		$this->bindLevel(null, $data);
 
 		return true;
 	}
@@ -196,8 +190,9 @@ class JForm
 	
 	/**
 	 * Method to get a dot delimited group name
+	 * 
 	 * @param string $name of the field within the group
-	 * @param mixed $group The dot-separated form group path
+	 * @param string $group The dot-separated form group path
 	 *
 	 * @return string
 	 */
