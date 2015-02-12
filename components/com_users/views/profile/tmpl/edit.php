@@ -52,11 +52,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 			<?php endif;?>
 			<?php foreach ($fields as $field):// Iterate through the fields in the set and display them.?>
 				<?php if ($field->hidden):// If the field is hidden, just display the input.?>
-					<div class="control-group">
-						<div class="controls">
-							<?php echo $field->input;?>
-						</div>
-					</div>
+					<?php echo $field->input;?>
 				<?php else:?>
 					<div class="control-group">
 						<div class="control-label">

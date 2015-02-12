@@ -191,6 +191,7 @@ class LanguagesModelLanguage extends JModelAdmin
 
 		$data['lang_code'] = str_replace($spaces, '', $data['lang_code']);
 		$data['sef'] = str_replace($spaces, '', $data['sef']);
+		$data['sef'] = JApplicationHelper::stringURLSafe($data['sef']);
 
 		// Bind the data.
 		if (!$table->bind($data))

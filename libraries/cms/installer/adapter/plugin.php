@@ -74,7 +74,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	protected function copyBaseFiles()
 	{
 		// Copy all necessary files
-		if ($this->parent->parseFiles($this->manifest->files, -1, $this->oldFiles) === false)
+		if ($this->parent->parseFiles($this->getManifest()->files, -1, $this->oldFiles) === false)
 		{
 			throw new RuntimeException(
 				JText::sprintf(
@@ -193,11 +193,11 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		{
 			// Backward Compatibility
 			// @todo Deprecate in future version
-			if (count($this->manifest->files->children()))
+			if (count($this->getManifest()->files->children()))
 			{
-				$type = (string) $this->manifest->attributes()->type;
+				$type = (string) $this->getManifest()->attributes()->type;
 
-				foreach ($this->manifest->files->children() as $file)
+				foreach ($this->getManifest()->files->children() as $file)
 				{
 					if ((string) $file->attributes()->$type)
 					{
@@ -245,12 +245,11 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 			);
 		}
 
-		$this->manifest = $this->parent->getManifest();
-		$element        = $this->manifest->files;
+		$element = $this->getManifest()->files;
 
 		if ($element)
 		{
-			$group = strtolower((string) $this->manifest->attributes()->group);
+			$group = strtolower((string) $this->getManifest()->attributes()->group);
 			$name = '';
 
 			if (count($element->children()))
@@ -291,8 +290,8 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	protected function parseOptionalTags()
 	{
 		// Parse optional tags -- media and language files for plugins go in admin app
-		$this->parent->parseMedia($this->manifest->media, 1);
-		$this->parent->parseLanguages($this->manifest->languages, 1);
+		$this->parent->parseMedia($this->getManifest()->media, 1);
+		$this->parent->parseLanguages($this->getManifest()->languages, 1);
 	}
 
 	/**
@@ -302,7 +301,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	 *
 	 * @since   3.4
 	 */
-	protected function prepareDiscoverInstall()
+	public function prepareDiscoverInstall()
 	{
 		$client   = JApplicationHelper::getClientInfo($this->extension->client_id);
 		$basePath = $client->path . '/plugins/' . $this->extension->folder;
@@ -319,6 +318,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
+		$this->setManifest($this->parent->getManifest());
 	}
 
 	/**
@@ -494,7 +494,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
 		$this->parent->findManifest();
-		$this->manifest = $this->parent->getManifest();
+		$this->setManifest($this->parent->getManifest());
 
 		// Attempt to load the language file; might have uninstall strings
 		$this->parent->setPath('source', JPATH_PLUGINS . '/' . $row->folder . '/' . $row->element);
@@ -507,7 +507,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		 */
 
 		// If there is an manifest class file, let's load it; we'll copy it later (don't have dest yet)
-		$manifestScript = (string) $this->manifest->scriptfile;
+		$manifestScript = (string) $this->getManifest()->scriptfile;
 
 		if ($manifestScript)
 		{
@@ -554,7 +554,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		ob_end_clean();
 
 		// Let's run the queries for the plugin
-		$utfresult = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
+		$utfresult = $this->parent->parseSQLFiles($this->getManifest()->uninstall->sql);
 
 		if ($utfresult === false)
 		{
@@ -578,11 +578,11 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		ob_end_clean();
 
 		// Remove the plugin files
-		$this->parent->removeFiles($this->manifest->files, -1);
+		$this->parent->removeFiles($this->getManifest()->files, -1);
 
 		// Remove all media and languages as well
-		$this->parent->removeFiles($this->manifest->media);
-		$this->parent->removeFiles($this->manifest->languages, 1);
+		$this->parent->removeFiles($this->getManifest()->media);
+		$this->parent->removeFiles($this->getManifest()->languages, 1);
 
 		// Remove the schema version
 		$query = $db->getQuery(true)

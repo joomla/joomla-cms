@@ -424,51 +424,52 @@ class JInstaller extends JAdapter
 			return false;
 		}
 
-		if (!$this->setupInstall())
+		if (!$adapter = $this->setupInstall('install', true))
 		{
 			$this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
 
 			return false;
 		}
 
-		$type = (string) $this->manifest->attributes()->type;
-
-		if (is_object($this->_adapters[$type]))
+		if (!is_object($adapter))
 		{
-			// Add the languages from the package itself
-			if (method_exists($this->_adapters[$type], 'loadLanguage'))
-			{
-				$this->_adapters[$type]->loadLanguage($path);
-			}
+			return false;
+		}
 
-			// Fire the onExtensionBeforeInstall event.
-			JPluginHelper::importPlugin('extension');
-			$dispatcher = JEventDispatcher::getInstance();
-			$dispatcher->trigger(
-				'onExtensionBeforeInstall',
-				array('method' => 'install', 'type' => $type, 'manifest' => $this->manifest, 'extension' => 0)
-			);
+		// Add the languages from the package itself
+		if (method_exists($adapter, 'loadLanguage'))
+		{
+			$adapter->loadLanguage($path);
+		}
 
-			// Run the install
-			$result = $this->_adapters[$type]->install();
+		// Fire the onExtensionBeforeInstall event.
+		JPluginHelper::importPlugin('extension');
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger(
+			'onExtensionBeforeInstall',
+			array(
+				'method' => 'install',
+				'type' => $this->manifest->attributes()->type,
+				'manifest' => $this->manifest,
+				'extension' => 0
+			)
+		);
 
-			// Fire the onExtensionAfterInstall
-			$dispatcher->trigger(
-				'onExtensionAfterInstall',
-				array('installer' => clone $this, 'eid' => $result)
-			);
+		// Run the install
+		$result = $adapter->install();
 
-			if ($result !== false)
-			{
-				// Refresh versionable assets cache
-				JFactory::getApplication()->flushAssets();
+		// Fire the onExtensionAfterInstall
+		$dispatcher->trigger(
+			'onExtensionAfterInstall',
+			array('installer' => clone $this, 'eid' => $result)
+		);
 
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+		if ($result !== false)
+		{
+			// Refresh versionable assets cache
+			JFactory::getApplication()->flushAssets();
+
+			return true;
 		}
 
 		return false;
@@ -485,108 +486,107 @@ class JInstaller extends JAdapter
 	 */
 	public function discover_install($eid = null)
 	{
-		if ($eid)
-		{
-			if (!$this->extension->load($eid))
-			{
-				$this->abort(JText::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));
-
-				return false;
-			}
-
-			if ($this->extension->state != -1)
-			{
-				$this->abort(JText::_('JLIB_INSTALLER_ABORT_ALREADYINSTALLED'));
-
-				return false;
-			}
-
-			$adapter = null;
-
-			// Load the adapter(s) for the install manifest
-			$type   = $this->extension->type;
-			$params = array('extension' => $this->extension, 'route' => 'discover_install');
-
-			// Lazy load the adapter
-			if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type]))
-			{
-				$adapter = $this->loadAdapter($type, $params);
-
-				if (!$adapter)
-				{
-					return false;
-				}
-
-				$this->_adapters[$type] = $adapter;
-			}
-
-			if (is_object($this->_adapters[$type]))
-			{
-				if (method_exists($this->_adapters[$type], 'discover_install'))
-				{
-					// Add the languages from the package itself
-					if (method_exists($this->_adapters[$type], 'loadLanguage'))
-					{
-						$this->_adapters[$type]->loadLanguage();
-					}
-
-					// Fire the onExtensionBeforeInstall event.
-					JPluginHelper::importPlugin('extension');
-					$dispatcher = JEventDispatcher::getInstance();
-					$dispatcher->trigger(
-						'onExtensionBeforeInstall',
-						array(
-							'method' => 'discover_install',
-							'type' => $this->extension->get('type'),
-							'manifest' => null,
-							'extension' => $this->extension->get('extension_id')
-						)
-					);
-
-					// Run the install
-					$result = $this->_adapters[$type]->discover_install();
-
-					// Fire the onExtensionAfterInstall
-					$dispatcher->trigger(
-						'onExtensionAfterInstall',
-						array('installer' => clone $this, 'eid' => $result)
-					);
-
-					if ($result !== false)
-					{
-						// Refresh versionable assets cache
-						JFactory::getApplication()->flushAssets();
-
-						return true;
-					}
-					else
-					{
-						return false;
-					}
-				}
-				else
-				{
-					$this->abort(JText::_('JLIB_INSTALLER_ABORT_METHODNOTSUPPORTED'));
-
-					return false;
-				}
-			}
-
-			return false;
-		}
-		else
+		if (!$eid)
 		{
 			$this->abort(JText::_('JLIB_INSTALLER_ABORT_EXTENSIONNOTVALID'));
 
 			return false;
 		}
+
+		if (!$this->extension->load($eid))
+		{
+			$this->abort(JText::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));
+
+			return false;
+		}
+
+		if ($this->extension->state != -1)
+		{
+			$this->abort(JText::_('JLIB_INSTALLER_ABORT_ALREADYINSTALLED'));
+
+			return false;
+		}
+
+		// Load the adapter(s) for the install manifest
+		$type   = $this->extension->type;
+		$params = array(
+			'extension' => $this->extension, 'route' => 'discover_install'
+		);
+
+		$adapter = $this->getAdapter($type, $params);
+
+		if (!is_object($adapter))
+		{
+			return false;
+		}
+
+		if (!method_exists($adapter, 'discover_install') || !$adapter->getDiscoverInstallSupported())
+		{
+			$this->abort(JText::sprintf('JLIB_INSTALLER_ERROR_DISCOVER_INSTALL_UNSUPPORTED', $type));
+
+			return false;
+		}
+
+		// The adapter needs to prepare itself
+		if (method_exists($adapter, 'prepareDiscoverInstall'))
+		{
+			try
+			{
+				$adapter->prepareDiscoverInstall();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->abort($e->getMessage());
+
+				return false;
+			}
+		}
+
+		// Add the languages from the package itself
+		if (method_exists($adapter, 'loadLanguage'))
+		{
+			$adapter->loadLanguage();
+		}
+
+		// Fire the onExtensionBeforeInstall event.
+		JPluginHelper::importPlugin('extension');
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger(
+			'onExtensionBeforeInstall',
+			array(
+				'method' => 'discover_install',
+				'type' => $this->extension->get('type'),
+				'manifest' => null,
+				'extension' => $this->extension->get('extension_id')
+			)
+		);
+
+		// Run the install
+		$result = $adapter->discover_install();
+
+		// Fire the onExtensionAfterInstall
+		$dispatcher->trigger(
+			'onExtensionAfterInstall',
+			array('installer' => clone $this, 'eid' => $result)
+		);
+
+		if ($result !== false)
+		{
+			// Refresh versionable assets cache
+			JFactory::getApplication()->flushAssets();
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
 	 * Extension discover method
+	 *
 	 * Asks each adapter to find extensions
 	 *
-	 * @return  array  JExtension
+	 * @return  JInstallerExtension[]
 	 *
 	 * @since   3.1
 	 */
@@ -636,45 +636,41 @@ class JInstaller extends JAdapter
 			return false;
 		}
 
-		if (!$this->setupInstall('update'))
+		if (!$adapter = $this->setupInstall('update', true))
 		{
 			$this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
 
 			return false;
 		}
 
-		$type = (string) $this->manifest->attributes()->type;
-
-		if (is_object($this->_adapters[$type]))
+		if (!is_object($adapter))
 		{
-			// Add the languages from the package itself
-			if (method_exists($this->_adapters[$type], 'loadLanguage'))
-			{
-				$this->_adapters[$type]->loadLanguage($path);
-			}
+			return false;
+		}
 
-			// Fire the onExtensionBeforeUpdate event.
-			JPluginHelper::importPlugin('extension');
-			$dispatcher = JEventDispatcher::getInstance();
-			$dispatcher->trigger('onExtensionBeforeUpdate', array('type' => $type, 'manifest' => $this->manifest));
+		// Add the languages from the package itself
+		if (method_exists($adapter, 'loadLanguage'))
+		{
+			$adapter->loadLanguage($path);
+		}
 
-			// Run the update
-			$result = $this->_adapters[$type]->update();
+		// Fire the onExtensionBeforeUpdate event.
+		JPluginHelper::importPlugin('extension');
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onExtensionBeforeUpdate', array('type' => $this->manifest->attributes()->type, 'manifest' => $this->manifest));
 
-			// Fire the onExtensionAfterUpdate
-			$dispatcher->trigger(
-				'onExtensionAfterUpdate',
-				array('installer' => clone $this, 'eid' => $result)
-			);
+		// Run the update
+		$result = $adapter->update();
 
-			if ($result !== false)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+		// Fire the onExtensionAfterUpdate
+		$dispatcher->trigger(
+			'onExtensionAfterUpdate',
+			array('installer' => clone $this, 'eid' => $result)
+		);
+
+		if ($result !== false)
+		{
+			return true;
 		}
 
 		return false;
@@ -693,43 +689,34 @@ class JInstaller extends JAdapter
 	 */
 	public function uninstall($type, $identifier, $cid = 0)
 	{
-		$adapter = null;
+		$params = array('extension' => $this->extension, 'route' => 'uninstall');
 
-		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type]))
+		$adapter = $this->getAdapter($type, $params);
+
+		if (!is_object($adapter))
 		{
-			$params = array('extension' => $this->extension, 'route' => 'uninstall');
-
-			if (!$this->setAdapter($type, $adapter, $params))
-			{
-				// We failed to get the right adapter
-				return false;
-			}
+			return false;
 		}
 
-		if (is_object($this->_adapters[$type]))
-		{
-			// We don't load languages here, we get the extension adapter to work it out
-			// Fire the onExtensionBeforeUninstall event.
-			JPluginHelper::importPlugin('extension');
-			$dispatcher = JEventDispatcher::getInstance();
-			$dispatcher->trigger('onExtensionBeforeUninstall', array('eid' => $identifier));
+		// We don't load languages here, we get the extension adapter to work it out
+		// Fire the onExtensionBeforeUninstall event.
+		JPluginHelper::importPlugin('extension');
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onExtensionBeforeUninstall', array('eid' => $identifier));
 
-			// Run the uninstall
-			$result = $this->_adapters[$type]->uninstall($identifier);
+		// Run the uninstall
+		$result = $adapter->uninstall($identifier);
 
-			// Fire the onExtensionAfterInstall
-			$dispatcher->trigger(
-				'onExtensionAfterUninstall',
-				array('installer' => clone $this, 'eid' => $identifier, 'result' => $result)
-			);
+		// Fire the onExtensionAfterInstall
+		$dispatcher->trigger(
+			'onExtensionAfterUninstall',
+			array('installer' => clone $this, 'eid' => $identifier, 'result' => $result)
+		);
 
-			// Refresh versionable assets cache
-			JFactory::getApplication()->flushAssets();
+		// Refresh versionable assets cache
+		JFactory::getApplication()->flushAssets();
 
-			return $result;
-		}
-
-		return false;
+		return $result;
 	}
 
 	/**
@@ -737,7 +724,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @param   integer  $eid  Extension ID
 	 *
-	 * @return  mixed  void on success, false on error @todo missing return value ?
+	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
@@ -759,46 +746,36 @@ class JInstaller extends JAdapter
 				return false;
 			}
 
-			// Lazy load the adapter
-			if (!isset($this->_adapters[$this->extension->type]) || !is_object($this->_adapters[$this->extension->type]))
+			// Fetch the adapter
+			$adapter = $this->getAdapter($this->extension->type);
+
+			if (!is_object($adapter))
 			{
-				if (!$this->setAdapter($this->extension->type))
-				{
-					return false;
-				}
+				return false;
 			}
 
-			if (is_object($this->_adapters[$this->extension->type]))
+			if (!method_exists($adapter, 'refreshManifestCache'))
 			{
-				if (method_exists($this->_adapters[$this->extension->type], 'refreshManifestCache'))
-				{
-					$result = $this->_adapters[$this->extension->type]->refreshManifestCache();
+				$this->abort(JText::sprintf('JLIB_INSTALLER_ABORT_METHODNOTSUPPORTED_TYPE', $this->extension->type));
 
-					if ($result !== false)
-					{
-						return true;
-					}
-					else
-					{
-						return false;
-					}
-				}
-				else
-				{
-					$this->abort(JText::sprintf('JLIB_INSTALLER_ABORT_METHODNOTSUPPORTED_TYPE', $this->extension->type));
-
-					return false;
-				}
+				return false;
 			}
 
-			return false;
-		}
-		else
-		{
-			$this->abort(JText::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE_VALID'));
+			$result = $adapter->refreshManifestCache();
 
-			return false;
+			if ($result !== false)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
+
+		$this->abort(JText::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE_VALID'));
+
+		return false;
 	}
 
 	// Utility functions
@@ -807,13 +784,14 @@ class JInstaller extends JAdapter
 	 * Prepare for installation: this method sets the installation directory, finds
 	 * and checks the installation file and verifies the installation type.
 	 *
-	 * @param   string  $route  The install route being followed
+	 * @param   string   $route          The install route being followed
+	 * @param   boolean  $returnAdapter  Flag to return the instantiated adapter
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean|JInstallerAdapter  JInstallerAdapter object if explicitly requested otherwise boolean
 	 *
 	 * @since   3.1
 	 */
-	public function setupInstall($route = 'install')
+	public function setupInstall($route = 'install', $returnAdapter = false)
 	{
 		// We need to find the installation manifest file
 		if (!$this->findManifest())
@@ -823,19 +801,14 @@ class JInstaller extends JAdapter
 
 		// Load the adapter(s) for the install manifest
 		$type   = (string) $this->manifest->attributes()->type;
-		$params = array('route' => $route);
+		$params = array('route' => $route, 'manifest' => $this->getManifest());
 
-		// Lazy load the adapter
-		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type]))
+		// Load the adapter
+		$adapter = $this->getAdapter($type, $params);
+
+		if ($returnAdapter)
 		{
-			$adapter = $this->loadAdapter($type, $params);
-
-			if (!$adapter)
-			{
-				return false;
-			}
-
-			$this->_adapters[$type] = $adapter;
+			return $adapter;
 		}
 
 		return true;
@@ -2213,6 +2186,33 @@ class JInstaller extends JAdapter
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Fetches an adapter and adds it to the internal storage if an instance is not set
+	 *
+	 * @param   string  $name     Name of adapter to return
+	 * @param   array   $options  Adapter options
+	 *
+	 * @return  JInstallerAdapter
+	 *
+	 * @since       3.4
+	 * @deprecated  4.0  The internal adapter cache will no longer be supported,
+	 *                   use loadAdapter() to fetch an adapter instance
+	 */
+	public function getAdapter($name, $options = array())
+	{
+		$adapter = $this->loadAdapter($name, $options);
+
+		if (!array_key_exists($name, $this->_adapters))
+		{
+			if (!$this->setAdapter($name, $adapter))
+			{
+				return false;
+			}
+		}
+
+		return $adapter;
 	}
 
 	/**
