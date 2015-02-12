@@ -74,6 +74,7 @@ elseif ($input->get('module'))
 			{
 				$class .= ucfirst($part);
 			}
+
 			$class .= 'Helper';
 		}
 		else
