@@ -241,7 +241,7 @@ class JForm
 		foreach ($fields as $field)
 		{
 			$name = (string) $field['name'];
-
+	
 			// Get the field groups for the element.
 			$attrs = $field->xpath('ancestor::fields[@name]/@name');
 			$groups = array_map('strval', $attrs ? $attrs : array());
@@ -621,8 +621,6 @@ class JForm
 	public function getValue($name, $group = null, $default = null)
 	{
 		return $this->data->get($this->getGroupName($name, $group), $default);
-	
-		return $return;
 	}
 
 	/**
