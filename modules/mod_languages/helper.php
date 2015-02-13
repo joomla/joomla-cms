@@ -42,9 +42,11 @@ abstract class ModLanguagesHelper
 
 		foreach ($languages as $item)
 		{
-			if ($menu->getDefault($item->lang_code))
+			$default = $menu->getDefault($item->lang_code);
+
+			if ($default && $default->language == $item->lang_code)
 			{
-				$homes[$item->lang_code] = $menu->getDefault($item->lang_code);
+				$homes[$item->lang_code] = $default;
 			}
 		}
 
