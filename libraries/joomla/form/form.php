@@ -241,7 +241,7 @@ class JForm
 		foreach ($fields as $field)
 		{
 			$name = (string) $field['name'];
-	
+
 			// Get the field groups for the element.
 			$attrs = $field->xpath('ancestor::fields[@name]/@name');
 			$groups = array_map('strval', $attrs ? $attrs : array());
