@@ -200,7 +200,7 @@ class JForm
 	 */
 	protected function getGroupName($name, $group = null)
 	{
-		if (!is_null($group))
+		if (!empty($group))
 		{
 			$name = $group . '.' . $name;
 		}
