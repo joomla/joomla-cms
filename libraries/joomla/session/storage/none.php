@@ -29,7 +29,7 @@ class JSessionStorageNone extends JSessionStorage
 		$handler = ini_get('session.save_handler');
 
 		// Set session.save_handler to files only if nothing else is set
-		if ($handler = '')
+		ifv(!$handler)
 		{
 			ini_set('session.save_handler', 'files');
 		}
