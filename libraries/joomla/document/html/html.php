@@ -580,7 +580,7 @@ class JDocumentHTML extends JDocument
 			ob_end_clean();
 		}
 
-		// Try to find a favicon by checking the teplate and root folder
+		// Try to find a favicon by checking the template and root folder
 		$icon = '/favicon.ico';
 	
 		foreach (array($directory, JPATH_BASE) as $dir)
