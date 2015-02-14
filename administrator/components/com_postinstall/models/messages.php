@@ -31,10 +31,6 @@ class PostinstallModelMessages extends FOFModel
 
 		$db = $this->getDbo();
 
-		// Add a forced extension filtering to the list
-		$eid = $this->getState('eid', 700);
-		$query->where($db->qn('extension_id') . ' = ' . $db->q($eid));
-
 		// Force filter only enabled messages
 		$published = $this->getState('published', 1, 'int');
 		$query->where($db->qn('enabled') . ' = ' . $db->q($published));
