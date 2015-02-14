@@ -588,7 +588,7 @@ class JDocumentHTML extends JDocument
 			if (file_exists($dir . $icon))
 			{
 				$path = str_replace(JPATH_BASE, '', $dir);
-				$path = JPath::clean($path, '/');
+				$path = str_replace('\\', '/', $path);
 				$this->addFavicon(JUri::base(true) . $path . $icon);
 				break;
 			}
