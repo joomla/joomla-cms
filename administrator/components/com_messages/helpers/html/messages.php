@@ -73,7 +73,7 @@ class JHtmlMessages
 			0	=> array('publish',	    'messages.publish',		'COM_MESSAGES_OPTION_UNREAD',	'COM_MESSAGES_MARK_AS_READ')
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-        $icon	= $state[0];
+		$icon	= $state[0];
 
 		if ($canChange)
 		{
