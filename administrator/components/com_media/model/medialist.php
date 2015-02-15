@@ -15,9 +15,7 @@ jimport('joomla.filesystem.file');
 /**
  * Media Component MediaList Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 class MediaModelMedialist extends ConfigModelForm
 {

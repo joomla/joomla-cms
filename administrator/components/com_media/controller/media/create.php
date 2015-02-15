@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Base Create Controller for media in table
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 class MediaControllerMediaCreate extends JControllerBase
 {

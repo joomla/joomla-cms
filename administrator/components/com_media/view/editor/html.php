@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Editor component
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 class MediaViewEditorHtml extends ConfigViewCmsHtml
 {

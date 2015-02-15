@@ -14,9 +14,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Delete Controller for Media Manager folders.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 class MediaControllerMedialistDelete extends MediaControllerMediaDelete
 {

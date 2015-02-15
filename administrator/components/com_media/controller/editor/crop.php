@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Base Crop Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 class MediaControllerEditorCrop extends JControllerBase
 {

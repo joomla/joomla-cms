@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper class for Media Manager
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 class MediaHelperMedia extends JHelperContent
 {

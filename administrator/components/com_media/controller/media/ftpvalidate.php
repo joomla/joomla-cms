@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Base ftpValidate Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 class MediaControllerMediaFtpvalidate extends ConfigControllerDisplay
 {

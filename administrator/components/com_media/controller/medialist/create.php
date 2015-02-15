@@ -15,9 +15,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Base Create Controller for folders
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 class MediaControllerMedialistCreate extends JControllerBase
 {

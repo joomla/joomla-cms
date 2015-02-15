@@ -11,9 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Save Controller for media editing
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 class MediaControllerEditorSave extends JControllerBase
 {

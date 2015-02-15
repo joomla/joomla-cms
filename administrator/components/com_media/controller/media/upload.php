@@ -15,9 +15,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Base Upload Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 class MediaControllerMediaUpload extends JControllerBase
 {

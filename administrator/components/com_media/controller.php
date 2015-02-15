@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Media Manager Component Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
  * @since       1.5
  * @deprecated  4.0
  */

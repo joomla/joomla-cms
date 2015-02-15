@@ -13,9 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Mediafilter field
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 class JFormFieldMediafilter extends JFormField
 {

@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Base Thumbs Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 class MediaControllerEditorThumbs extends JControllerBase
 {

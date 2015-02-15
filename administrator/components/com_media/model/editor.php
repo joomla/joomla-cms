@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Media Component Manager Editor Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 class MediaModelEditor extends MediaModelCmsitem
 {

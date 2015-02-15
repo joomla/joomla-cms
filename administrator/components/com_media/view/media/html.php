@@ -15,9 +15,7 @@ JHtml::_('jquery.framework');
 /**
  * HTML View class for the Media component
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 class MediaViewMediaHtml extends ConfigViewCmsHtml
 {

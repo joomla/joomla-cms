@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Media Table class
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 class MediaTableMedia extends JTableCorecontent
 {

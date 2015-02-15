@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Frontend component
  *
- * @package     Joomla.Site
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 class MediaViewHtml extends ConfigViewCmsHtml
 {

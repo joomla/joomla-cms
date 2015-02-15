@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Prototype model for an item or collection of items.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 class MediaModelCmslist extends MediaModelCmsitem
 {

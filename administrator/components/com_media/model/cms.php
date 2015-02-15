@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Prototype admin model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       3.5
+ * @since  3.5
  */
 abstract class MediaModelCms extends JModelDatabase
 {
