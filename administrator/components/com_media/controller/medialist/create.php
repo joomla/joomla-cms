@@ -106,7 +106,7 @@ class MediaControllerMedialistCreate extends JControllerBase
 
 					// Trigger the onContentAfterSave event.
 					$dispatcher->trigger('onContentAfterSave', array('com_media.folder', &$object_file, true));
-					$this->app->enqueueMessage(JText::sprintf('COM_MEDIA_CREATE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
+					$this->app->enqueueMessage(JText::sprintf('COM_MEDIA_FOLDER_CREATE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
 				}
 			}
 

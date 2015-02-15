@@ -323,11 +323,12 @@ JFormHelper::addFieldPath(JPATH_COMPONENT . '/model/field');
 				</div>
 
 				<div class="control-group">
-					<label for="t" class="control-label hasTooltip"
+					<label class="control-label hasTooltip"
 						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_THUMBS_FOLDER'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_FOLDER')?>
 					</label>
 					<div class="controls">
-						<input class="input-xlarge" type="text" name="t" required />
+						<input class="input-medium" type="text" readonly="readonly" value="<?php echo DIRECTORY_SEPARATOR . $this->folder . DIRECTORY_SEPARATOR; ?>" />
+						<input class="input-small" type="text" name="t" required />
 					</div>
 				</div>
 			</div>

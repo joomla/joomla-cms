@@ -49,11 +49,18 @@ class MediaControllerMediaDelete extends JControllerBase
 		$tmpl	= $this->input->get('tmpl');
 		$paths	= $this->input->get('rm', array(), 'array');
 		$folder = $this->input->get('folder', '', 'path');
+		$redirect = 'index.php?option=com_media&controller=media.display.media&folder=' . $folder;
+
+		if ($tmpl == 'component')
+		{
+			// We are inside the iframe
+			$redirect .= '&tmpl=component';
+		}
 
 		// Nothing to delete
-		if (empty($paths))
+		if (!sizeof($paths))
 		{
-			return true;
+			return $redirect;
 		}
 
 		// Authorize the user
@@ -62,7 +69,7 @@ class MediaControllerMediaDelete extends JControllerBase
 			// User is not authorised to delete
 			$this->app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
-			return false;
+			return $redirect;
 		}
 
 		// Set FTP credentials, if given
@@ -130,7 +137,7 @@ class MediaControllerMediaDelete extends JControllerBase
 
 					// Trigger the onContentAfterDelete event.
 					$dispatcher->trigger('onContentAfterDelete', array('com_media.folder', &$object_file));
-					$this->app->enqueueMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
+					$this->app->enqueueMessage(JText::sprintf('COM_MEDIA_FOLDER_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
 				}
 				else
 				{
@@ -138,14 +145,6 @@ class MediaControllerMediaDelete extends JControllerBase
 					$this->app->enqueueMessage(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_NOT_EMPTY', substr($object_file->filepath, strlen(COM_MEDIA_BASE))), 'warning');
 				}
 			}
-		}
-
-		$redirect = 'index.php?option=com_media&controller=media.display.media&folder=' . $folder;
-
-		if ($tmpl == 'component')
-		{
-			// We are inside the iframe
-			$redirect .= '&tmpl=component';
 		}
 
 		$this->app->redirect(JRoute::_($redirect, false));

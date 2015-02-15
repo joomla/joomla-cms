@@ -48,9 +48,9 @@ function sendFileToUploadController(formData,status)
 function createStatusbar(obj)
 {
      this.statusbar = jQuery("<tr></tr>");
-     this.filename = jQuery("<td style='width: 200px;'><div class='filename'></div></td>").appendTo(this.statusbar);
-     this.size = jQuery("<td><div class='filesize'></div></td>").appendTo(this.statusbar);
-     this.progressBar = jQuery("<td><div class='progress' style='width: 120px;'><div class='bar'></div></div></td>").appendTo(this.statusbar);
+     this.filename = jQuery("<td style='width: 20%;'><div class='filename'></div></td>").appendTo(this.statusbar);
+     this.size = jQuery("<td style='width: 20%;'><div class='filesize'></div></td>").appendTo(this.statusbar);
+     this.progressBar = jQuery("<td style='width: 40%;'><div class='progress'><div class='bar'></div></div></td>").appendTo(this.statusbar);
      this.abort = jQuery("<td><span class='badge badge-important'>&times;</span></td>").appendTo(this.statusbar);
 
      jQuery("#upload-container").prepend(this.statusbar);
@@ -86,7 +86,7 @@ function createStatusbar(obj)
     }
     this.setProgressError = function(error)
     {
-    	this.progressBar.find('div').addClass('progress progress-danger').removeClass('progress');
+    	this.progressBar.find('div:first').addClass('progress progress-danger').removeClass('progress');
     	this.progressBar.find('.bar').animate({ width: this.progressBar.width() }, 10).html("<div style='color: white;'>" + error + "</div>");
     	this.abort.find('span').addClass('badge-important').removeClass('badge-success').html ("error");
     }

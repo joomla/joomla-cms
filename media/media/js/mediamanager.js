@@ -67,15 +67,16 @@ var MediaManager = this.MediaManager = {
 		// Update the frame url
 		this.frameurl = this.frame.location.href;
 
+		basepath = basepath.replace('\\', '/');
 		var folder = this.getFolder();
 		if (folder) {
 			this.updatepaths.each(function(path, el){ el.value =folder; });
-			this.folderpath.val(basepath+'/'+folder+'/');
+			this.folderpath.val(basepath + '/' + folder + '/');
 //			node = this.tree.get('node_'+folder);
 //			node.toggle(false, true);
 		} else {
 			this.updatepaths.each(function(path, el){ el.value = ''; });
-			this.folderpath.val(basepath+'/');
+			this.folderpath.val(basepath + '/');
 //			node = this.tree.root;
 		}
 /*
@@ -156,7 +157,7 @@ var MediaManager = this.MediaManager = {
 	   }
 	   return params;
 	},
-
+	
 	_setFrameUrl: function(url)
 	{
 		if (url != null) {

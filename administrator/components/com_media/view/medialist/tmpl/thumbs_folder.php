@@ -11,17 +11,16 @@ defined('_JEXEC') or die;
 $user = JFactory::getUser();
 ?>
 		<li class="span2">
-			<input class="pull-left" type="checkbox" name="rm[]" value="<?php echo $this->_tmp_folder->name; ?>" id="<?php echo $this->_tmp_folder->name;?>" />
-			<?php if ($user->authorise('core.delete', 'com_media')):?>
-				<a class="close delete-item" target="_top" href="index.php?option=com_media&amp;controller=media.delete.medialist&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->get('folder'); ?>&amp;rm[]=<?php echo $this->_tmp_folder->name; ?>" rel="<?php echo $this->_tmp_folder->name; ?> :: <?php echo $this->_tmp_folder->files + $this->_tmp_folder->folders; ?>" title="<?php echo JText::_('JACTION_DELETE');?>">
-					<i class="icon-delete" style="font-size: small; color: #CB0B0B;"></i>
-				</a>
-			<?php endif;?>
-			<article class="thumbnail center" onclick="toggleCheckedStatus('<?php echo $this->_tmp_folder->name; ?>');" >
-				<div class="height-20">
-				
+			<article class="thumbnail center">
+				<div class="small height-40">
+					<input class="pull-left" type="checkbox" name="rm[]" value="<?php echo $this->_tmp_folder->name; ?>" id="<?php echo $this->_tmp_folder->name;?>" />
+					<?php if ($user->authorise('core.delete', 'com_media')):?>
+						<a class="close delete-item" target="_top" href="index.php?option=com_media&amp;controller=media.delete.medialist&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->get('folder'); ?>&amp;rm[]=<?php echo $this->_tmp_folder->name; ?>" rel="<?php echo $this->_tmp_folder->name; ?> :: <?php echo $this->_tmp_folder->files + $this->_tmp_folder->folders; ?>" title="<?php echo JText::_('JACTION_DELETE');?>">
+							<i class="icon-delete" style="font-size: x-small; color: #CB0B0B;"></i>
+						</a>
+					<?php endif;?>
 				</div>
-				<div class="height-60">
+				<div class="height-60" onclick="toggleCheckedStatus('<?php echo $this->_tmp_folder->name; ?>');">
 					<a href="index.php?option=com_media&amp;controller=media.display.medialist&amp;view=medialist&amp;tmpl=component&amp;folder=<?php echo $this->_tmp_folder->path_relative; ?>" target="folderframe">
 						<i class="icon-folder-2" style="font-size: 40px;display: initial;"></i>
 					</a>
