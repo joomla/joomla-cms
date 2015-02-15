@@ -223,11 +223,11 @@ class ContactModelContact extends JModelAdmin
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
 		// Check against the category.
 		if (!empty($record->catid))
 		{
+			$user = JFactory::getUser();
+
 			return $user->authorise('core.edit.state', 'com_contact.category.' . (int) $record->catid);
 		}
 		// Default to component settings if category not known.

@@ -3469,6 +3469,12 @@
       },
       setReversed: function(reversed) {
         vimGlobalState.isReversed = reversed;
+      },
+      getScrollbarAnnotate: function() {
+        return this.annotate;
+      },
+      setScrollbarAnnotate: function(annotate) {
+        this.annotate = annotate;
       }
     };
     function getSearchState(cm) {
@@ -3747,14 +3753,21 @@
       };
     }
     function highlightSearchMatches(cm, query) {
-      var overlay = getSearchState(cm).getOverlay();
+      var searchState = getSearchState(cm);
+      var overlay = searchState.getOverlay();
       if (!overlay || query != overlay.query) {
         if (overlay) {
           cm.removeOverlay(overlay);
         }
         overlay = searchOverlay(query);
         cm.addOverlay(overlay);
-        getSearchState(cm).setOverlay(overlay);
+        if (cm.showMatchesOnScrollbar) {
+          if (searchState.getScrollbarAnnotate()) {
+            searchState.getScrollbarAnnotate().clear();
+          }
+          searchState.setScrollbarAnnotate(cm.showMatchesOnScrollbar(query));
+        }
+        searchState.setOverlay(overlay);
       }
     }
     function findNext(cm, prev, query, repeat) {
@@ -3779,8 +3792,13 @@
       });
     }
     function clearSearchHighlight(cm) {
+      var state = getSearchState(cm);
       cm.removeOverlay(getSearchState(cm).getOverlay());
-      getSearchState(cm).setOverlay(null);
+      state.setOverlay(null);
+      if (state.getScrollbarAnnotate()) {
+        state.getScrollbarAnnotate().clear();
+        state.setScrollbarAnnotate(null);
+      }
     }
     /**
      * Check if pos is in the specified range, INCLUSIVE.
@@ -4789,6 +4807,7 @@
       var macroModeState = vimGlobalState.macroModeState;
       var lastChange = macroModeState.lastInsertModeChanges;
       var keyName = CodeMirror.keyName(e);
+      if (!keyName) { return; }
       function onKeyFound() {
         lastChange.changes.push(new InsertModeKey(keyName));
         return true;

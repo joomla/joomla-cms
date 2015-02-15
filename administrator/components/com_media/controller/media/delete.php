@@ -58,9 +58,11 @@ class MediaControllerMediaDelete extends JControllerBase
 		}
 
 		// Nothing to delete
-		if (!sizeof($paths))
+		if (empty($paths))
 		{
-			return $redirect;
+			$this->app->enqueueMessage(JText::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+
+			$this->app->redirect(JRoute::_($redirect, false));
 		}
 
 		// Authorize the user
@@ -69,7 +71,7 @@ class MediaControllerMediaDelete extends JControllerBase
 			// User is not authorised to delete
 			$this->app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
-			return $redirect;
+			$this->app->redirect(JRoute::_($redirect, false));
 		}
 
 		// Set FTP credentials, if given
@@ -77,8 +79,6 @@ class MediaControllerMediaDelete extends JControllerBase
 
 		JPluginHelper::importPlugin('content');
 		$dispatcher	= JEventDispatcher::getInstance();
-
-		$ret = true;
 
 		foreach ($paths as $path)
 		{
@@ -107,7 +107,7 @@ class MediaControllerMediaDelete extends JControllerBase
 					continue;
 				}
 
-				$ret &= JFile::delete($object_file->filepath);
+				JFile::delete($object_file->filepath);
 
 				// Delete from table
 				$model = new MediaModelMedia;
@@ -133,7 +133,7 @@ class MediaControllerMediaDelete extends JControllerBase
 						continue;
 					}
 
-					$ret &= JFolder::delete($object_file->filepath);
+					JFolder::delete($object_file->filepath);
 
 					// Trigger the onContentAfterDelete event.
 					$dispatcher->trigger('onContentAfterDelete', array('com_media.folder', &$object_file));
@@ -148,8 +148,6 @@ class MediaControllerMediaDelete extends JControllerBase
 		}
 
 		$this->app->redirect(JRoute::_($redirect, false));
-
-		return $ret;
 	}
 
 	/**

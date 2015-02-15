@@ -16,17 +16,16 @@
  * 3. Run from CLI as: 'php build.php" from build directory.
  * 4. Check the archives in the tmp directory.
  *
- * @package		Joomla.Build
- *
- * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Build
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /usr/bin/git)
 ob_start();
 passthru('which git', $systemGit);
 $systemGit = ob_get_clean();
-$gitPath = '/usr/bin/git';
+$gitPath   = '/usr/bin/git';
 
 // Sanity check - Make sure $gitPath is the same path the system recognizes
 if (substr($systemGit, 0, -1) != $gitPath)
@@ -133,7 +132,7 @@ $doNotPackage = array(
  */
 $doNotPatch = array(
 	'installation',
-    'images'
+	'images',
 );
 
 // For the packages, replace spaces in stability (RC) with underscores

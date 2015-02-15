@@ -10,7 +10,7 @@ What is this?
 ---------------------
 * This is a Joomla! 3.x installation/upgrade package.
 * Joomla's [Official website](http://www.joomla.org).
-* Joomla! 3.3 [version history](https://docs.joomla.org/Joomla_3.3_version_history).
+* Joomla! 3.4 [version history](https://docs.joomla.org/Joomla_3.4_version_history).
 * Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/master).
 
 What is Joomla?
@@ -28,7 +28,6 @@ Is Joomla! for you?
 How to find a Joomla! translation?
 ---------------------
 * Repository of [accredited language packs](http://community.joomla.org/translations.html).
-* Directory of [non-accredited language packs](http://extensions.joomla.org/extensions/languages/translations-for-joomla).
 * You can also add languages directly to your website via your Joomla! administration panel.
 
 Learn Joomla!

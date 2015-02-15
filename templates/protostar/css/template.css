@@ -6963,6 +6963,10 @@ dl.article-info dd.hits span[class*=" icon-"] {
 .icon-expired:before {
 	content: "\4b";
 }
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
 body.site {
 	border-top: 3px solid #0088cc;
 	padding: 20px;

@@ -496,13 +496,13 @@ abstract class JModuleHelper
 					$input   = JFactory::getApplication()->input;
 					$uri     = $input->getArray();
 					$safeuri = new stdClass;
+					$noHtmlFilter = JFilterInput::getInstance();
 
 					foreach ($cacheparams->modeparams as $key => $value)
 					{
 						// Use int filter for id/catid to clean out spamy slugs
 						if (isset($uri[$key]))
 						{
-							$noHtmlFilter = JFilterInput::getInstance();
 							$safeuri->$key = $noHtmlFilter->clean($uri[$key], $value);
 						}
 					}

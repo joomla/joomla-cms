@@ -15,13 +15,14 @@ JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$n			= count($this->items);
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$canOrder	= $user->authorise('core.edit.state', 'com_languages');
-$saveOrder	= $listOrder == 'a.ordering';
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$n         = count($this->items);
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$canOrder  = $user->authorise('core.edit.state', 'com_languages');
+$saveOrder = $listOrder == 'a.ordering';
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_languages&task=languages.saveOrderAjax&tmpl=component';
@@ -78,7 +79,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING');  ?></option>
 				</select>
 			</div>
-			<div class="btn-group pull-right">
+			<div class="btn-group pull-right hidden-phone">
 				<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY'); ?></label>
 				<select name="sortTable" id="sortTable" class="input-medium" onchange="Joomla.orderTable()">
 					<option value=""><?php echo JText::_('JGLOBAL_SORT_BY');?></option>

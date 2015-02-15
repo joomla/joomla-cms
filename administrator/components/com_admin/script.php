@@ -82,6 +82,28 @@ class JoomlaInstallerScript
 				}
 			}
 		}
+
+		// Check if the 2.5 EOS plugin is present and uninstall it if so
+		$id = $db->setQuery(
+			$db->getQuery(true)
+				->select('extension_id')
+				->from('#__extensions')
+				->where('name = ' . $db->quote('PLG_EOSNOTIFY'))
+		)->loadResult();
+
+		if ($id)
+		{
+			// We need to unprotect the plugin so we can uninstall it
+			$db->setQuery(
+				$db->getQuery(true)
+					->update('#__extensions')
+					->set('protected = 0')
+					->where($db->quoteName('extension_id') . ' = ' . $id)
+			)->execute();
+
+			$installer = new JInstaller;
+			$installer->uninstall('plugin', $id);
+		}
 	}
 
 	/**
@@ -1047,6 +1069,29 @@ class JoomlaInstallerScript
 			'/libraries/compat/password/index.html',
 			'/libraries/compat/password/LICENSE.md',
 			'/libraries/compat/index.html',
+			'/libraries/fof/controller.php',
+			'/libraries/fof/dispatcher.php',
+			'/libraries/fof/inflector.php',
+			'/libraries/fof/input.php',
+			'/libraries/fof/model.php',
+			'/libraries/fof/query.abstract.php',
+			'/libraries/fof/query.element.php',
+			'/libraries/fof/query.mysql.php',
+			'/libraries/fof/query.mysqli.php',
+			'/libraries/fof/query.sqlazure.php',
+			'/libraries/fof/query.sqlsrv.php',
+			'/libraries/fof/render.abstract.php',
+			'/libraries/fof/render.joomla.php',
+			'/libraries/fof/render.joomla3.php',
+			'/libraries/fof/render.strapper.php',
+			'/libraries/fof/string.utils.php',
+			'/libraries/fof/table.php',
+			'/libraries/fof/template.utils.php',
+			'/libraries/fof/toolbar.php',
+			'/libraries/fof/view.csv.php',
+			'/libraries/fof/view.html.php',
+			'/libraries/fof/view.json.php',
+			'/libraries/fof/view.php',
 			'/libraries/framework/Joomla/Application/Cli/Output/Processor/ColorProcessor.php',
 			'/libraries/framework/Joomla/Application/Cli/Output/Processor/ProcessorInterface.php',
 			'/libraries/framework/Joomla/Application/Cli/Output/Stdout.php',
@@ -1092,6 +1137,29 @@ class JoomlaInstallerScript
 			'/libraries/phpmailer/phpmailer.php',
 			'/libraries/phpmailer/pop.php',
 			'/libraries/phpmailer/smtp.php',
+			'/media/editors/codemirror/css/ambiance.css',
+			'/media/editors/codemirror/css/codemirror.css',
+			'/media/editors/codemirror/css/configuration.css',
+			'/media/editors/codemirror/css/index.html',
+			'/media/editors/codemirror/js/brace-fold.js',
+			'/media/editors/codemirror/js/clike.js',
+			'/media/editors/codemirror/js/closebrackets.js',
+			'/media/editors/codemirror/js/closetag.js',
+			'/media/editors/codemirror/js/codemirror.js',
+			'/media/editors/codemirror/js/css.js',
+			'/media/editors/codemirror/js/foldcode.js',
+			'/media/editors/codemirror/js/foldgutter.js',
+			'/media/editors/codemirror/js/fullscreen.js',
+			'/media/editors/codemirror/js/htmlmixed.js',
+			'/media/editors/codemirror/js/indent-fold.js',
+			'/media/editors/codemirror/js/index.html',
+			'/media/editors/codemirror/js/javascript.js',
+			'/media/editors/codemirror/js/less.js',
+			'/media/editors/codemirror/js/matchbrackets.js',
+			'/media/editors/codemirror/js/matchtags.js',
+			'/media/editors/codemirror/js/php.js',
+			'/media/editors/codemirror/js/xml-fold.js',
+			'/media/editors/codemirror/js/xml.js',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1171,6 +1239,8 @@ class JoomlaInstallerScript
 			'/libraries/framework',
 			'/libraries/phpmailer/language',
 			'/libraries/phpmailer',
+			'/media/editors/codemirror/css',
+			'/media/editors/codemirror/js',
 		);
 
 		jimport('joomla.filesystem.file');
