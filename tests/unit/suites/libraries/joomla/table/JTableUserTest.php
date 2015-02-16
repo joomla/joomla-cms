@@ -44,6 +44,16 @@ class JTableUserTest extends TestCaseDatabase
 	 */
 	public function testStoreNewUser()
 	{
+		/*
+		 * The updated store method uses syntax not compatible with SQLite < 3.7.11
+		 * and according to PHP's changelog, a version newer than this was not introduced
+		 * until PHP 5.5.11
+		 */
+		if (version_compare(PHP_VERSION, '5.5.11', 'lt'))
+		{
+			$this->markTestSkipped('The store method does not execute properly on SQLite < 3.7.11');
+		}
+
 		$user = new JTableUser(self::$driver);
 
 		$user->name = 'Neil Armstrong';
