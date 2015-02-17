@@ -411,6 +411,9 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 		// Remove any "as alias" statements
 		$selectCols = preg_replace("/(\sas\s[^,]*)/i", "", $selectCols);
 
+		// Remove any non-table column names, e.g. '2'
+		$selectCols = preg_replace("/\'[^\']*/", "", $selectCols);
+
 		// Remove any extra commas
 		$selectCols = preg_replace("/,{2,}/", ",", $selectCols);
 
