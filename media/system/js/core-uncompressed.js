@@ -231,7 +231,7 @@ Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
             + ',scrollbars=' + scroll + ',resizable'
     win = window.open(mypage, myname, winprops)
     win.window.focus();
-}
+};
 
 /**
  * USED IN: libraries/joomla/html/html/grid.php
