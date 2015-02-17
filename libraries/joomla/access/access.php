@@ -115,6 +115,48 @@ class JAccess
 	}
 
 	/**
+	 * Method to check if a user is authorised to perform an action on an multiple assets.
+	 *
+	 * @param   integer  $userId  Id of the user for which to check authorisation.
+	 * @param   string   $action  The name of the action to authorise.
+	 * @param   array    $assets  Array of integer asset ids or the names of the asset as a string.
+	 *
+	 * @return  array  assets name => test result
+	 */
+	public static function checkMultiple($userId, $action, $assets)
+	{
+		// Sanitise inputs.
+		$userId = (int) $userId;
+		$action = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
+
+		// Check which rules still need to load
+		$toLoad = array_diff($assets, array_keys(self::$assetRules));
+
+		// Load rules for give assets
+		if (!empty($toLoad))
+		{
+			$rules = self::getAssetRulesMultiple($toLoad, true);
+			self::$assetRules = array_merge(self::$assetRules, $rules);
+		}
+
+		// Get all groups against which the user is mapped.
+		$identities = self::getGroupsByUser($userId);
+		array_unshift($identities, $userId * -1);
+
+		// Check each asset authorisation
+		$authorised = array_fill_keys($assets, null);
+		foreach ($assets as $asset)
+		{
+			if (!empty(self::$assetRules[$asset]))
+			{
+				$authorised[$asset] = self::$assetRules[$asset]->allow($action, $identities);
+			}
+		}
+
+		return $authorised;
+	}
+
+	/**
 	 * Method to check if a group is authorised to perform an action, optionally on an asset.
 	 *
 	 * @param   integer  $groupId  The path to the group for which to check authorisation.
@@ -248,20 +290,148 @@ class JAccess
 		// Get the root even if the asset is not found and in recursive mode
 		if (empty($result))
 		{
-			$db = JFactory::getDbo();
-			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
-			$rootId = $assets->getRootId();
+			$assetTable = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+			$rootId = $assetTable->getRootId();
+			if (empty(self::$assetRules['root.' . $rootId]))
+			{
+				$query->clear()
+					->select('rules')
+					->from('#__assets')
+					->where('id = ' . $db->quote($rootId));
+				$db->setQuery($query);
+				$result = $db->loadResult();
+
+				$root = new JAccessRules;
+				$root->mergeCollection(array($result));
+				self::$assetRules['root.' . $rootId] = $root;
+			}
+			$rules = self::$assetRules['root.' . $rootId];
+		}
+		else
+		{
+			// Instantiate and return the JAccessRules object for the asset rules.
+			$rules = new JAccessRules;
+			$rules->mergeCollection($result);
+		}
+
+		return $rules;
+	}
+
+	/**
+	 * Method to return the array of JAccessRules objects for an asset.
+	 *
+	 * @param   array    $assets     Integer asset id or the name of the asset as a string.
+	 * @param   boolean  $recursive  True to return the rules object with inherited rules.
+	 *
+	 * @return  array of JAccessRules for the assets.
+	 */
+	public static function getAssetRulesMultiple($assets, $recursive = false)
+	{
+		$rules = array();
+
+		// Get the database connection object.
+		$db = JFactory::getDbo();
+
+		// Build the database query to get the rules for the asset.
+		$query = $db->getQuery(true)
+			->select($recursive ? 'b.rules, b.name, b.id' : 'a.rules, a.name, a.id')
+			->from('#__assets AS a');
+
+		// SQLsrv change
+		$query->group($recursive ? 'b.id, b.rules, b.lft' : 'a.id, a.rules, a.lft');
+
+		// SQLsrv change
+		$query->group('a.id, a.rules, a.lft');
+
+		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
+		if (is_numeric(reset($assets)))
+		{
+			$query->where('(a.id IN (' . implode(',', $assets) . '))');
+			$key = 'id';
+		}
+		else
+		{
+			$query->where('(a.name IN (' . implode(',', $db->quote($assets)) . '))');
+			$key = 'name';
+		}
+
+		// If we want the rules cascading up to the global asset node we need a self-join.
+		if ($recursive)
+		{
+			$query->join('LEFT', '#__assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt')
+				->order('b.lft');
+		}
+
+		// Execute the query and load the rules from the result.
+		$db->setQuery($query);
+		$result = $db->loadAssocList($key);
+
+		if ($result)
+		{
+			foreach ($result as $r)
+			{
+				$name = $r[$key];
+				$rule = new JAccessRules;
+				$rule->mergeCollection(array($r['rules']));
+				$rules[$name] = $rule;
+			}
+		}
+
+		// Make sure that we have the root
+		$assetTable = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+		$rootId = $assetTable->getRootId();
+
+		if (empty(self::$assetRules['root.' . $rootId]))
+		{
 			$query->clear()
 				->select('rules')
 				->from('#__assets')
 				->where('id = ' . $db->quote($rootId));
 			$db->setQuery($query);
 			$result = $db->loadResult();
-			$result = array($result);
+
+			$root = new JAccessRules;
+			$root->mergeCollection(array($result));
+
+			self::$assetRules['root.' . $rootId] = $root;
 		}
-		// Instantiate and return the JAccessRules object for the asset rules.
-		$rules = new JAccessRules;
-		$rules->mergeCollection($result);
+
+		$root = self::$assetRules['root.' . $rootId];
+
+		// Check whether all rules loaded
+		foreach ($assets as $asset)
+		{
+			if (!empty($rules[$asset]))
+			{
+				continue;
+			}
+			elseif ($recursive)
+			{
+				$parts = explode('.', $asset);
+
+				// Search available parent
+				$parent = null;
+				while (!empty($parts))
+				{
+					array_pop($parts);
+					$parentAsset = implode('.', $parts);
+					switch (true)
+					{
+						case !empty($parts[$parentAsset]):
+							$parent = $parts[$parentAsset];
+							break 2;
+						case !empty(self::$assetRules[$parentAsset]):
+							$parent = self::$assetRules[$parentAsset];
+							break 2;
+					}
+				}
+				$rules[$asset] = $parent ? $parent : $root;
+			}
+			else
+			{
+				$rules[$asset] = $root;
+			}
+		}
 
 		return $rules;
 	}
