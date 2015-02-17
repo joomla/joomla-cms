@@ -354,6 +354,7 @@ class ContactModelContact extends JModelForm
 					->select('a.title')
 					->select('a.state')
 					->select('a.access')
+					->select('a.catid')
 					->select('a.created')
 					->select('a.language');
 
