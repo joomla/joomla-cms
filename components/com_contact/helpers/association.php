@@ -49,7 +49,7 @@ abstract class ContactHelperAssociation extends CategoryHelperAssociation
 
 				foreach ($associations as $tag => $item)
 				{
-					$return[$tag] = ContactHelperRoute::getContactRoute($item->id, $item->catid, $item->language);
+					$return[$tag] = ContactHelperRoute::getContactRoute($item->id, (int) $item->catid, $item->language);
 				}
 
 				return $return;

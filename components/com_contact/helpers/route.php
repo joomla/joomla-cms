@@ -21,8 +21,6 @@ abstract class ContactHelperRoute
 {
 	protected static $lookup;
 
-	protected static $lang_lookup = array();
-
 	/**
 	 * Get the URL route for a contact from a contact ID, contact category ID and language
 	 *
@@ -57,13 +55,8 @@ abstract class ContactHelperRoute
 
 		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 		{
-			self::buildLanguageLookup();
-
-			if (isset(self::$lang_lookup[$language]))
-			{
-				$link .= '&lang=' . self::$lang_lookup[$language];
-				$needles['language'] = $language;
-			}
+			$link .= '&lang=' . $language;
+			$needles['language'] = $language;
 		}
 
 		if ($item = self::_findItem($needles))
@@ -114,13 +107,8 @@ abstract class ContactHelperRoute
 
 			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 			{
-				self::buildLanguageLookup();
-
-				if (isset(self::$lang_lookup[$language]))
-				{
-					$link .= '&lang=' . self::$lang_lookup[$language];
-					$needles['language'] = $language;
-				}
+				$link .= '&lang=' . $language;
+				$needles['language'] = $language;
 			}
 
 			if ($item = self::_findItem($needles))
@@ -130,26 +118,6 @@ abstract class ContactHelperRoute
 		}
 
 		return $link;
-	}
-
-	protected static function buildLanguageLookup()
-	{
-		if (count(self::$lang_lookup) == 0)
-		{
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('a.sef AS sef')
-				->select('a.lang_code AS lang_code')
-				->from('#__languages AS a');
-
-			$db->setQuery($query);
-			$langs = $db->loadObjectList();
-
-			foreach ($langs as $lang)
-			{
-				self::$lang_lookup[$lang->lang_code] = $lang->sef;
-			}
-		}
 	}
 
 	protected static function _findItem($needles = null)
