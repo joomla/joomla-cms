@@ -92,7 +92,7 @@ class ContentControllerAdjuntos extends JControllerForm
 
             if(JFile::upload($src, $dest)) {
 
-                $archivo = self::reformarArchivo($id, $dest);
+                $archivo = array_merge(self::reformarArchivo($id, $dest), array('mimeType' => $mimeArchivo));
                 $data = array_merge($archivo, self::guardar($archivo), $esValido);
 
                 // TODO: es posible registrar logs en la gestión de adjuntos
@@ -153,7 +153,11 @@ class ContentControllerAdjuntos extends JControllerForm
         $hash = array_shift(explode('-', $archivo));
         $nombreArchivo = substr($archivo, (strpos($archivo, '-')+1));
 
-        $arr = array("id" => $id, "nombreArchivo" => $nombreArchivo, "ruta" => $ruta, "hash" => $hash);
+        $arr = array(
+            "id" => $id,
+            "nombreArchivo" => $nombreArchivo,
+            "ruta" => $ruta,
+            "hash" => $hash);
 
         $dest = null;
 
@@ -251,12 +255,13 @@ class ContentControllerAdjuntos extends JControllerForm
 
         $query = $db->getQuery(true);
 
-        $columnas = array('propietario_id', 'nombre_archivo', 'ruta', 'hash');
+        $columnas = array('propietario_id', 'nombre_archivo', 'ruta', 'hash', 'mime_type');
         $valores = array(
             $data['id'],
             $db->quote($data['nombreArchivo']),
             $db->quote($data['ruta']),
-            $db->quote($data['hash']));
+            $db->quote($data['hash']),
+            $db->quote($data['mimeType']));
 
         $query
             ->insert($db->quoteName('#__adjuntos'))
