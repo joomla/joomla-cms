@@ -63,7 +63,7 @@ class JMime
         return $mimes;
     }
 
-    private static function checkIcon($mime) {
+    public static function checkIcon($mime) {
 
         // http://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match/1252710#answer-1252710
         $pos = strpos($mime, "/");
