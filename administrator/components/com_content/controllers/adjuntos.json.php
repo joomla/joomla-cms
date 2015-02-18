@@ -93,7 +93,9 @@ class ContentControllerAdjuntos extends JControllerForm
             if(JFile::upload($src, $dest)) {
 
                 $archivo = self::reformarArchivo($id, $dest);
-                $data = array_merge($archivo, self::guardar($archivo));
+                $data = array_merge($archivo, self::guardar($archivo), $esValido);
+
+                // TODO: es posible registrar logs en la gestión de adjuntos
 
                 print_r(json_encode($data));
 
@@ -159,8 +161,8 @@ class ContentControllerAdjuntos extends JControllerForm
     }
 
     /**
-     * Valida que el tipo mime del archivo corresponda al los tipos mime definidos en
-     * la configuración del elemento Adjuntos
+     * Valida que el tipo mime del archivo corresponda al los tipos mime de las 
+     * extensiones definidas en la configuración XML del elemento Adjuntos
      *
      * @param   $exts           Array con las extensiones de archivo permitidas,
      *                          definidas en la configuración xml
@@ -169,17 +171,18 @@ class ContentControllerAdjuntos extends JControllerForm
      *                          y tipo de mensaje
      */
 
-    private function validarTipoMime($exts, $mimeArchivo) {
+    private function validarTipoMime($exts, $mimeArchivo, $getIcon = true) {
         $mimes = JMime::set($exts);
-        $estado = array_search($mimeArchivo, $mimes, true);
+        $mime = array_search($mimeArchivo, $mimes['mime'], true);
 
         $arr = array();
 
-        if ($estado === false) {
+        if ($mime === false) {
             $arr['msg'] = JText::_('COM_CONTENT_ADJUNTOS_MSG_MIMETYPE_NO_PERMITIDO', $mimeArchivo);
             $arr['tipo'] = "warn";
             $arr['estado'] = false;
         } else {
+            $arr['icon'] = $mimes['icon'][$mime];
             $arr['msg'] = JText::_('COM_CONTENT_ADJUNTOS_MSG_MIMETYPE_PERMITIDO', $mimeArchivo);
             $arr['tipo'] = "success";
             $arr['estado'] = true;

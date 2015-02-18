@@ -8,6 +8,8 @@
 * @license GNU/GPL 3.0
 */
 
+jimport('joomla.filesystem.file');
+
 defined('JPATH_PLATFORM') or die;
 
 class JMime
@@ -16,7 +18,7 @@ class JMime
      * @param   $exts   Array con las extensiones para validación con tipo mime 
      * @return  $mimes  Array con los tipos mime de las extensiones   
      */
-    public static function set($exts) {
+    public static function set($exts, $checkIcon = true) {
 
         $catalog = self::$catalog;
 
@@ -26,6 +28,8 @@ class JMime
         }
 
         $mimes = array();
+        $mimes["mime"] = array();
+        $mimes["icon"] = array();
 
         foreach($exts as $ext) {
             // cambia a minúsculas el string de la extensión
@@ -40,8 +44,16 @@ class JMime
                 $parts = explode(',',$k);
                 $check = array_search($ext, $parts);
 
+
                 if($check !== false) {
-                    array_push($mimes, $v);
+
+                    // intenta retornar la imágen del tipo mime chequeado
+                    if ($checkIcon) {
+                        $micon = self::checkIcon($v);
+                    }
+
+                    array_push($mimes["mime"], $v);
+                    array_push($mimes["icon"], $micon);
                     break;
                 }
 
@@ -49,6 +61,25 @@ class JMime
         }
 
         return $mimes;
+    }
+
+    private static function checkIcon($mime) {
+
+        // http://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match/1252710#answer-1252710
+        $pos = strpos($mime, "/");
+        if ($pos !== false) {
+            $name = substr_replace($mime, '-', $pos, strlen("-"));
+        }
+
+        $path = JPATH_ROOT . '/media/system/images/mime/'.$name.'.png';
+        $uri = JURI::root() . '/media/system/images/mime';
+
+        $src = $uri . DS . $name . '.png';
+        $srcUnknown = $uri . DS . 'unknown.png';
+
+        $icon = file_exists($path) ? $src : $srcUnknown;
+
+        return $icon;
     }
 
     /*
