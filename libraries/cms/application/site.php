@@ -809,6 +809,10 @@ final class JApplicationSite extends JApplicationCms
 			{
 				$this->template->params = new Registry($styleParams);
 			}
+
+			// Store the template and its params to the config
+			$this->set('theme', $this->template->template);
+			$this->set('themeParams', $this->template->params);
 		}
 	}
 }

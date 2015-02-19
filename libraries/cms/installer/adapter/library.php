@@ -187,11 +187,12 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 	 *
 	 * @since   3.4
 	 */
-	protected function prepareDiscoverInstall()
+	public function prepareDiscoverInstall()
 	{
 		$manifestPath = JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
+		$this->setManifest($this->parent->getManifest());
 	}
 
 	/**
@@ -289,7 +290,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 	{
 		// Since this is just files, an update removes old files
 		// Get the extension manifest object
-		$this->manifest = $this->parent->getManifest();
+		$this->setManifest($this->parent->getManifest());
 
 		/*
 		 * ---------------------------------------------------------------------------------------------
@@ -298,7 +299,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		 */
 
 		// Set the extensions name
-		$name = (string) $this->manifest->name;
+		$name = (string) $this->getManifest()->name;
 		$name = JFilterInput::getInstance()->clean($name, 'string');
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);

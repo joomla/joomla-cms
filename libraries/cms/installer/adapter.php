@@ -115,7 +115,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(JInstaller $parent, $db, $options = array())
+	public function __construct(JInstaller $parent, JDatabaseDriver $db, array $options = array())
 	{
 		parent::__construct($parent, $db, $options);
 
@@ -180,7 +180,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
 		{
 			// Look for an update function or update tag
-			$updateElement = $this->manifest->update;
+			$updateElement = $this->getManifest()->update;
 
 			// Upgrade manually set or update function available or update tag detected
 			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
@@ -274,29 +274,6 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 */
 	public function discover_install()
 	{
-		// Check if this is supported
-		if (!$this->supportsDiscoverInstall)
-		{
-			$this->parent->abort(
-				JText::sprintf('JLIB_INSTALLER_ERROR_DISCOVER_INSTALL_UNSUPPORTED', $this->type)
-			);
-
-			return false;
-		}
-
-		// Prepare the discover install for the adapter
-		try
-		{
-			$this->prepareDiscoverInstall();
-		}
-		catch (RuntimeException $e)
-		{
-			// Install failed, roll back changes
-			$this->parent->abort($e->getMessage());
-
-			return false;
-		}
-
 		// Get the extension's description
 		$description = (string) $this->getManifest()->description;
 
@@ -411,9 +388,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		$route = $this->route == 'discover_install' ? 'install' : $this->route;
 
 		// Let's run the install queries for the component
-		if (isset($this->manifest->{$route}->sql))
+		if (isset($this->getManifest()->{$route}->sql))
 		{
-			$result = $this->parent->parseSQLFiles($this->manifest->{$route}->sql);
+			$result = $this->parent->parseSQLFiles($this->getManifest()->{$route}->sql);
 
 			if ($result === false)
 			{
@@ -454,6 +431,18 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
+	 * Checks if the adapter supports discover_install
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.4
+	 */
+	public function getDiscoverInstallSupported()
+	{
+		return $this->supportsDiscoverInstall;
+	}
+
+	/**
 	 * Get the filtered extension element from the manifest
 	 *
 	 * @param   string  $element  Optional element name to be converted
@@ -488,12 +477,6 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 */
 	public function getManifest()
 	{
-		if (!$this->manifest)
-		{
-			// We are trying to find manifest for the installed extension.
-			$this->manifest = $this->parent->getManifest();
-		}
-
 		return $this->manifest;
 	}
 
@@ -758,16 +741,16 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			}
 
 			// Set the schema version to be the latest update version
-			if ($this->manifest->update)
+			if ($this->getManifest()->update)
 			{
-				$this->parent->setSchemaVersion($this->manifest->update->schemas, $this->extension->extension_id);
+				$this->parent->setSchemaVersion($this->getManifest()->update->schemas, $this->extension->extension_id);
 			}
 		}
 		elseif ($this->route == 'update')
 		{
-			if ($this->manifest->update)
+			if ($this->getManifest()->update)
 			{
-				$result = $this->parent->parseSchemaUpdates($this->manifest->update->schemas, $this->extension->extension_id);
+				$result = $this->parent->parseSchemaUpdates($this->getManifest()->update->schemas, $this->extension->extension_id);
 
 				if ($result === false)
 				{
@@ -803,9 +786,25 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 *
 	 * @since   3.4
 	 */
-	protected function prepareDiscoverInstall()
+	public function prepareDiscoverInstall()
 	{
 		// Adapters may not support discover install or may have overridden the default task and aren't using this
+	}
+
+	/**
+	 * Set the manifest object.
+	 *
+	 * @param   object  $manifest  The manifest object
+	 *
+	 * @return  JInstallerAdapter  Instance of this class to support chaining
+	 *
+	 * @since   3.4
+	 */
+	public function setManifest($manifest)
+	{
+		$this->manifest = $manifest;
+
+		return $this;
 	}
 
 	/**
@@ -843,7 +842,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	protected function setupScriptfile()
 	{
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
-		$manifestScript = (string) $this->manifest->scriptfile;
+		$manifestScript = (string) $this->getManifest()->scriptfile;
 
 		if ($manifestScript)
 		{

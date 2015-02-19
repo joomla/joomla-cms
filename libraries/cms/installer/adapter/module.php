@@ -78,7 +78,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	protected function copyBaseFiles()
 	{
 		// Copy all necessary files
-		if ($this->parent->parseFiles($this->manifest->files, -1) === false)
+		if ($this->parent->parseFiles($this->getManifest()->files, -1) === false)
 		{
 			throw new RuntimeException(JText::_('JLIB_INSTALLER_ABORT_MOD_COPY_FILES'));
 		}
@@ -149,9 +149,9 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	{
 		if (!$element)
 		{
-			if (count($this->manifest->files->children()))
+			if (count($this->getManifest()->files->children()))
 			{
-				foreach ($this->manifest->files->children() as $file)
+				foreach ($this->getManifest()->files->children() as $file)
 				{
 					if ((string) $file->attributes()->module)
 					{
@@ -185,23 +185,23 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			$this->parent->setPath('source', $client . '/modules/' . $this->parent->extension->element);
 		}
 
-		$this->manifest = $this->parent->getManifest();
+		$this->setManifest($this->parent->getManifest());
 
-		if ($this->manifest->files)
+		if ($this->getManifest()->files)
 		{
 			$extension = $this->getElement();
 
 			if ($extension)
 			{
 				$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $extension;
-				$folder = (string) $this->manifest->files->attributes()->folder;
+				$folder = (string) $this->getManifest()->files->attributes()->folder;
 
 				if ($folder && file_exists($path . '/' . $folder))
 				{
 					$source = $path . '/' . $folder;
 				}
 
-				$client = (string) $this->manifest->attributes()->client;
+				$client = (string) $this->getManifest()->attributes()->client;
 				$this->doLoadLanguage($extension, $source, constant('JPATH_' . strtoupper($client)));
 			}
 		}
@@ -217,8 +217,8 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	protected function parseOptionalTags()
 	{
 		// Parse optional tags
-		$this->parent->parseMedia($this->manifest->media, $this->clientId);
-		$this->parent->parseLanguages($this->manifest->languages, $this->clientId);
+		$this->parent->parseMedia($this->getManifest()->media, $this->clientId);
+		$this->parent->parseLanguages($this->getManifest()->languages, $this->clientId);
 	}
 
 	/**
@@ -228,12 +228,13 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	 *
 	 * @since   3.4
 	 */
-	protected function prepareDiscoverInstall()
+	public function prepareDiscoverInstall()
 	{
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
 		$manifestPath = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
+		$this->setManifest($this->parent->getManifest());
 	}
 
 	/**
@@ -544,14 +545,14 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		// Get the module's manifest objecct
 		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file.
 		$this->parent->findManifest();
-		$this->manifest = $this->parent->getManifest();
+		$this->setManifest($this->parent->getManifest());
 
 		// Attempt to load the language file; might have uninstall strings
 		$this->loadLanguage(($this->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $element);
 
 		// If there is an manifest class file, let's load it
-		$this->scriptElement = $this->manifest->scriptfile;
-		$manifestScript      = (string) $this->manifest->scriptfile;
+		$this->scriptElement = $this->getManifest()->scriptfile;
+		$manifestScript      = (string) $this->getManifest()->scriptfile;
 
 		if ($manifestScript)
 		{
@@ -578,7 +579,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 
 		$this->triggerManifestScript('uninstall');
 
-		if (!($this->manifest instanceof SimpleXMLElement))
+		if (!($this->getManifest() instanceof SimpleXMLElement))
 		{
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
@@ -607,8 +608,8 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		$db->execute();
 
 		// Remove other files
-		$this->parent->removeFiles($this->manifest->media);
-		$this->parent->removeFiles($this->manifest->languages, $this->extension->client_id);
+		$this->parent->removeFiles($this->getManifest()->media);
+		$this->parent->removeFiles($this->getManifest()->languages, $this->extension->client_id);
 
 		// Let's delete all the module copies for the type we are uninstalling
 		$query->clear()

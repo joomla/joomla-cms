@@ -1,7 +1,7 @@
 1- What is this?
 	* This is a Joomla! installation/upgrade package to version 3.x
 	* Joomla! Official site: http://www.joomla.org
-	* Joomla 3.3 version history - https://docs.joomla.org/Joomla_3.3_version_history
+	* Joomla! 3.4 version history - https://docs.joomla.org/Joomla_3.4_version_history
 	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/master
 
 2- What is Joomla?
@@ -17,7 +17,7 @@
 
 4- How to find a Joomla! translation?
 	* Repository of accredited language packs: http://community.joomla.org/translations.html
-	* Directory of non-accredited language packs (see above for accredited): http://extensions.joomla.org/extensions/languages/translations-for-joomla
+	* You can also add languages directly to your website via your Joomla! administration panel.
 
 5- Learn Joomla!
 	* Read Getting Started with Joomla to find out the basics: https://docs.joomla.org/Getting_Started_with_Joomla!

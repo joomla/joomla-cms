@@ -84,8 +84,6 @@ class InstallerViewManage extends InstallerViewDefault
 			JToolbarHelper::divider();
 		}
 
-		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');
-
 		JHtmlSidebar::setAction('index.php?option=com_installer&view=manage');
 
 		JHtmlSidebar::addFilter(
@@ -141,5 +139,6 @@ class InstallerViewManage extends InstallerViewDefault
 		);
 
 		parent::addToolbar();
+		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');
 	}
 }

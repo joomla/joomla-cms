@@ -23,10 +23,10 @@ final class JVersion
 	public $RELEASE = '3.4';
 
 	/** @var  string  Maintenance version. */
-	public $DEV_LEVEL = '0-dev';
+	public $DEV_LEVEL = '0-rc2-dev';
 
 	/** @var  string  Development STATUS. */
-	public $DEV_STATUS = 'Development';
+	public $DEV_STATUS = 'Beta';
 
 	/** @var  string  Build number. */
 	public $BUILD = '';
@@ -35,10 +35,10 @@ final class JVersion
 	public $CODENAME = 'Ember';
 
 	/** @var  string  Release date. */
-	public $RELDATE = '01-October-2014';
+	public $RELDATE = '17-February-2015';
 
 	/** @var  string  Release time. */
-	public $RELTIME = '02:00';
+	public $RELTIME = '18:00';
 
 	/** @var  string  Release timezone. */
 	public $RELTZ = 'GMT';
