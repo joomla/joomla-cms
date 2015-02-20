@@ -323,7 +323,7 @@ class InstallerModelManage extends InstallerModel
 			$query->where('client_id=' . (int) $client);
 		}
 
-		if ($group != '' && in_array($type, array('plugin', 'library', '')))
+		if ($group != '')
 		{
 			$query->where('folder=' . $this->_db->quote($group == '*' ? '' : $group));
 		}
