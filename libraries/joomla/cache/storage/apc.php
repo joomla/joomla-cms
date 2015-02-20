@@ -54,7 +54,9 @@ class JCacheStorageApc extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			$name = $key['info'];
+
+			// Key name "info" for APC and "key" for APCu
+			$name = !empty($key['info']) ? $key['info'] : $key['key'];
 			$namearr = explode('-', $name);
 
 			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
@@ -135,9 +137,10 @@ class JCacheStorageApc extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			if (strpos($key['info'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
+			$name = !empty($key['info']) ? $key['info'] : $key['key'];
+			if (strpos($name, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
 			{
-				apc_delete($key['info']);
+				apc_delete($name);
 			}
 		}
 
@@ -159,9 +162,10 @@ class JCacheStorageApc extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			if (strpos($key['info'], $secret . '-cache-'))
+			$name = !empty($key['info']) ? $key['info'] : $key['key'];
+			if (strpos($name, $secret . '-cache-'))
 			{
-				apc_fetch($key['info']);
+				apc_fetch($name);
 			}
 		}
 	}
