@@ -332,7 +332,6 @@ class JInstaller extends JAdapter
 	 * @return  boolean  True if successful
 	 *
 	 * @since   3.1
-	 * @throws  RuntimeException
 	 */
 	public function abort($msg = null, $type = null)
 	{
@@ -406,14 +405,6 @@ class JInstaller extends JAdapter
 
 			// Get the next step and continue
 			$step = array_pop($this->stepStack);
-		}
-
-		$conf = JFactory::getConfig();
-		$debug = $conf->get('debug');
-
-		if ($debug)
-		{
-			throw new RuntimeException('Installation unexpectedly terminated: ' . $msg, 500);
 		}
 
 		return $retval;
