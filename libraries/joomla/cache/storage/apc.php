@@ -138,6 +138,7 @@ class JCacheStorageApc extends JCacheStorage
 		foreach ($keys as $key)
 		{
 			$name = !empty($key['info']) ? $key['info'] : $key['key'];
+
 			if (strpos($name, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
 			{
 				apc_delete($name);
@@ -163,6 +164,7 @@ class JCacheStorageApc extends JCacheStorage
 		foreach ($keys as $key)
 		{
 			$name = !empty($key['info']) ? $key['info'] : $key['key'];
+
 			if (strpos($name, $secret . '-cache-'))
 			{
 				apc_fetch($name);
