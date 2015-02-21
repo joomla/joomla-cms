@@ -1,0 +1,101 @@
+
+#controles-adjuntos {
+    width: 180px;
+    position:relative;
+}
+
+#adjuntos {
+    float: left;
+    position:relative;
+    width: 100%;
+}
+
+.form-adjunto {
+    clear: both;
+    margin-bottom: 3px;
+    position:relative;
+}
+
+.success-msg {
+    background-color: #dff0d8;
+    border-bottom: 1px solid #d6e9c6;
+    color: #3c763d;
+    font-weight: bold;
+    padding: 3px 10px;
+}
+
+.error-msg {
+    background-color: #f2dede;
+    border-bottom: 1px solid #ebccd1;
+    color: #a94442;
+    font-weight: bold;
+    padding: 3px 10px;
+}
+
+.warn-msg {
+    background-color: #fcf8e3;
+    border-bottom: 1px solid #faebcc;
+    color: #8a6d3b;
+    font-weight: bold;
+    padding: 3px 10px;
+}
+
+.progress {
+    background-color: #111111;
+    height: 3px;
+}
+
+.uploaded {
+    border: 1px solid #cccccc;
+    position: relative;
+    height: 38px;
+}
+
+.nombre-archivo {
+    font-size: 1.3em;
+    line-height: 1em;
+    margin-top: 3px;
+    padding: 0 40px;
+    word-wrap: break-word;
+}
+
+.uploaded .btn-adjunto {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.img-eliminar {
+    margin: 4px 0;
+}
+
+/* Presentación de la lista de adjuntos */
+#adjuntos table {
+    width: 100%;
+}
+
+#adjuntos table button,
+#adjuntos table img {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+#adjuntos table a {
+    font-size: 14px;
+    text-decoration: none;
+}
+
+#adjuntos table td.center button {
+    display: block;
+    margin: auto;
+}
+
+#adjuntos .mime-icon img {
+    margin: 0;
+}
+
+#adjuntos .mime-icon {
+    float: left;
+    margin: 3px 5px;
+}

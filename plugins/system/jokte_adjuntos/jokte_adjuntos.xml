@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" version="1.3.5" method="upgrade">
+    <name>Sistema - Jokte Adjuntos</name>
+    <author>Fabián Hernández</author>
+    <creationDate>Diciembre 2014</creationDate>
+    <copyright>CopyLeft Comparte Igual!</copyright>
+    <license>GNU GPLv3</license>
+    <authorEmail>fhernandezn@gmail.com</authorEmail>
+    <version>0.1.0</version>
+    <description>Plugin que permite recuperar los archivos del sistema de adjuntos de Jokte CMS</description>
+
+    <files>
+        <filename plugin="jokte_adjuntos">jokte_adjuntos.php</filename>
+        <folder>assets</folder>
+        <folder>assets/css</folder>
+        <folder>assets/img</folder>
+        <filename>assets/css/estilos.css</filename>
+    </files>
+
+    <media folder="assets/img" destination="adjuntos">
+        <filename>caneca.png</filename>
+        <filename>file-info-icon.png</filename>
+    </media>
+</extension>
