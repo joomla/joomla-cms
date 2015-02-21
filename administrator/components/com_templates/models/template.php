@@ -506,7 +506,7 @@ class TemplatesModelTemplate extends JModelForm
 		$return = JFile::write($filePath, $data['source']);
 
 		// Try to make the template file unwritable.
-		if (JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0444'))
+		if (!$return)
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_UNWRITABLE'), 'error');
 
