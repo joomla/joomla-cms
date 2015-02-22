@@ -165,7 +165,7 @@ class AdminModelSysInfo extends JModelLegacy
 	{
 		$disabled = explode(',', ini_get('disable_functions'));
 
-		return in_array('phpinfo', $disabled);
+		return !in_array('phpinfo', $disabled);
 	}
 
 	/**
