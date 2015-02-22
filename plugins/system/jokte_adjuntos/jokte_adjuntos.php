@@ -16,16 +16,21 @@ jimport('joomla.filesystem.mime');
 
 class plgSystemJokte_Adjuntos extends JPlugin {
 
+    private static $app;
+    private static $user;
+    private static $reqParams;
+
     function __construct(&$subject, $config) {
 
-        // Realiza comprobaciones adicionales en la inicialización
-        // del plugin para verificar si la operación se efectua desde
-        // el backend y si el usuario actual tiene permisos de edición
+        // Define las variables que serán reutilizadas en el scope del plugin
+        self::$app = JFactory::getApplication();
+        $jinput = self::$app->input;
 
-        if(!JFactory::getApplication()->isAdmin()) return;
+        // obtiene los parámetros del request para identificar el contexto un 
+        // artículo
+        self::$reqParams = $jinput->getArray(array('id' => 'int', 'view' => '','layout' => ''));
 
-        $user = JFactory::getUser();
-        if(!$user->authorise('core.edit', 'com_content')) return;
+        self::$user = JFactory::getUser();
 
         parent::__construct($subject, $config);
 
@@ -33,20 +38,19 @@ class plgSystemJokte_Adjuntos extends JPlugin {
 
     function onBeforeRender () {
 
-        $app = JFactory::getApplication();
-        $jinput = $app->input;
+        $app = self::$app;
+        $reqParams = self::$reqParams;
+        $id = $reqParams['id'];
 
-        // obtiene los parámetros del request e inicializa valores predeterminados para
-        // el contexto de edición de un artículo
-        $reqParams = $jinput->getArray(array('view' => '','layout' => ''));
+        if(!$app->isAdmin()) return;
+
+        $user = self::$user;
+        if(!$user->authorise('core.edit', 'com_content')) return;
 
         // termina la ejecución del plugin si los parametros recibidos no cumplen
         // con las condiciones preestablecidas para modificar el contexto de edición de
         // artículos
         if ($reqParams["view"] != "article" || $reqParams["layout"] != "edit") return;
-
-        // Obtiene id del artículo
-        $id = $jinput->get('id', null, null);
 
         $doc = JFactory::getDocument();
 
@@ -136,6 +140,20 @@ class plgSystemJokte_Adjuntos extends JPlugin {
         // del la vista del componente en el contexto indicado
         $newBuffer = $dom->saveHTML();
         $doc->setBuffer($newBuffer,'component');
+    }
+
+    function onAfterRender () {
+
+        $app = self::$app;
+        $reqParams = self::$reqParams;
+        $id = $reqParams['id'];
+
+        if ($app->isAdmin()) return;
+
+        JPluginHelper::importPlugin('content', 'jokteadjuntos');
+
+        $dispatcher = JDispatcher::getInstance();
+
     }
 
     private function getAttachmentsData ($id) {
