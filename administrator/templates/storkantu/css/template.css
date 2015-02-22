@@ -3412,3 +3412,9 @@ float:none;
 	float:left;
 	padding:4px;
 }
+
+/* System - Adjuntos */
+
+.adjuntos-label {
+    float:none;
+}

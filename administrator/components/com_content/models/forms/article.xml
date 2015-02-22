@@ -897,24 +897,13 @@
 	
 	<fields name="attachments">
 		<field
-			name="adjunto1"
-			type="media"
-			label="COM_CONTENT_ADJUNTO_1"
-			preview="false"
-			description="COM_CONTENT_ADJUNTO_DESC" />
-		<field
-		  name="adjunto2"
-		  type="media"
-		  label="COM_CONTENT_ADJUNTO_2"
-		  preview="false"
-		  description="COM_CONTENT_ADJUNTO_DESC" />
-		<field
-		  name="adjunto3"
-		  type="media"
-		  label="COM_CONTENT_ADJUNTO_3"
-		  preview="false"
-		  description="COM_CONTENT_ADJUNTO_DESC" />
-	</fields> 
+			name="adjuntos"
+			type="adjuntos"
+			extensiones="pdf,aw,zip,ez,flv,ogv,mp4,odt,odf,ods"
+			label="COM_CONTENT_FIELD_ADJUNTOS_LABEL"
+			labelclass="adjuntos-label"
+			description="COM_CONTENT_FIELD_ADJUNTOS_DESC" />
+	</fields>
 	
 	<fields name="metadata">
 		<field name="show_simpletags"

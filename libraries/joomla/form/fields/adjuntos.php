@@ -8,11 +8,12 @@
 
 defined ('_JEXEC') or die('Acceso directo a este archivo restringido');
 
+
 jimport('joomla.form.formfield');
 
 /*
  * Clase de campo de formulario para la plataforma Joomla
- * Provee el control para agregar adjuntos usando el mecanismo para subida de archivos de mootools  
+ * Provee el control para agregar adjuntos usando el mecanismo para subida de archivos de mootools
  *
  */
 
@@ -26,7 +27,7 @@ class JFormFieldAdjuntos extends JFormField
 
     protected $type = 'Adjuntos';
 
-    function getInput() 
+    function getInput()
     {
         $jinput = JFactory::getApplication()->input;
         $id = $jinput->get->get('id', '0', null);
@@ -34,26 +35,17 @@ class JFormFieldAdjuntos extends JFormField
         JHtml::_('script', 'system/progressbar-uncompressed.js', false, true);
         JHtml::_('script', 'system/mootools-file-upload.js', false, true);
 
-        $archivo    = $this->element['archivo'];
-        $tipo       = $this->element['tipo'];
-        $nombre     = $this->element['nombre'];
-        $descripcion= $this->element['descripcion'];
-        
-        // Path subida de archivos
-        $path       = $this->element['path'];       
+        $archivo        = $this->element['archivo'];
+        $tipo           = $this->element['tipo'];
+        $nombre         = $this->element['nombre'];
+        $descripcion    = $this->element['descripcion'];
+        $extensiones    = $this->element->getAttribute('extensiones');
 
-        $style = array();
-        $style[] = '#adjuntos {';
-        $style[] = '    float: right;';
-        $style[] = '    width: 55%;';
-        $style[] = '}';
-        $style[] = '.error-msg {';
-        $style[] = '    background-color: red;';
-        $style[] = '    color: yellow;';
-        $style[] = '    font-weight: bold;';
-        $style[] = '    padding: 3px;';
-        $style[] = '    position: relative;';
-        $style[] = '}';
+        // Path subida de archivos
+        $path       = $this->element['path'];
+
+        // Icono eliminar adjunto
+        $caneca     = JHtml::_('image', 'media/adjuntos/caneca.png', 'Eliminar adjunto', 'class="img-eliminar"', false);
 
         $script = array();
         $script[] = 'window.addEvent("domready", function(){';
@@ -62,6 +54,7 @@ class JFormFieldAdjuntos extends JFormField
 
         $script[] = 'var btnAgregarAdjunto = new Element("button", {';
         $script[] = '   id: "btn-agregar-adjunto",';
+        $script[] = '   class:"btn-adjunto",';
         $script[] = '       events: {';
         $script[] = '           click: function(event) { ';
         $script[] = '               event.preventDefault();';
@@ -70,11 +63,13 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '       }';
         $script[] = '}).set("text", "+");';
 
-        $script[] = '$("controles-adjuntos").grab(btnAgregarAdjunto);';
+        $script[] = 'contenedor = $("controles-adjuntos").getParent("fieldset")';
+
+        $script[] = '$("controles-adjuntos").grab(btnAgregarAdjunto, "top");';
 
         $script[] = '});';
 
-        $script[] = 'var adjuntoCount = 0;';     
+        $script[] = 'var adjuntoCount = 0;';
 
         $script[] = 'function agregarAdjunto() {';
 
@@ -94,60 +89,107 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '       type:"file"';
         $script[] = '   });';
 
-        $script[] = '   var progressBar = new Element("div", {';
-        $script[] = '       id:"progress-bar-"+adjuntoCount,';
-        $script[] = '   })';
-
         $script[] = '   fieldArchivo.addEvents({';
-        $script[] = '           "change": function() {'; 
+        $script[] = '           "change": function() {';
         $script[] = '               if(aId) {';
         $script[] = '                    subirArchivo();';
         $script[] = '               } else { ';
-        $script[] = '                   error = new Element("div",{';
-        $script[] = '                       class:"error-msg"';
-        $script[] = '                   }).set({"text":"Por favor guarde el Artículo antes de adjuntar archivos"});';
-        $script[] = '                   $("controles-adjuntos").grab(error,"before")';
+        $script[] = '                   msg = "'.JText::_("COM_CONTENT_ADJUNTOS_MSG_GUARDAR_ARTICULO_PRIMERO").'"';
+        $script[] = '                   mostrarMensaje(msg, "warn")';
         $script[] = '               }';
         $script[] = '           }';
-        $script[] = '   })';    
+        $script[] = '   })';
 
         $script[] = '   var btnEliminarAdjunto = new Element("button", {';
-        $script[] = '       id: "btn-eliminar-adjunto",';
+        $script[] = '       id: "btn-eliminar-adjunto-"+adjuntoCount,';
+        $script[] = '       class:"btn-adjunto",';
         $script[] = '       events: {';
-        $script[] = '           click: function() { eliminarAdjunto(this) }';
+        $script[] = '           click: function(event) {';
+        $script[] = '               eliminarAdjunto(this, event)';
+        $script[] = '           }';
         $script[] = '       }';
-        $script[] = '   }).set({"text": "-", "data-id": formAdjunto.id})';
+        $script[] = '   }).set({"html": "'.addslashes($caneca).'", "data-id": formAdjunto.id})';
 
         $script[] = '   fieldArchivo.inject(formAdjunto);';
-        $script[] = '   progressBar.inject(formAdjunto)';
         $script[] = '   btnEliminarAdjunto.inject(formAdjunto);';
-
-        $script[] = '   $("adjuntos").grab(formAdjunto);';
+        $script[] = '   $("adjuntos").grab(formAdjunto, "top");';
 
         $script[] = '   function subirArchivo() {';
         $script[] = '       var upload = new File.Upload({';
-        $script[] = '           url: "'.JURI::root().'administrator/index.php?option=com_content&view=article&layout=edit&task=adjuntos.subir",';
+        $script[] = '           url: "'.JURI::root().'administrator/index.php?option=com_content&task=adjuntos.subir&format=json&'.JUtility::getToken().'=1",';
         $script[] = '           data: {';
         $script[] = '               "campo":"campo-adjunto-"+adjuntoCount,';
+        $script[] = '               "exts":"'.$extensiones.'",';
         $script[] = '               "id":'.$id.'},';
         $script[] = '           images: ["campo-adjunto-"+adjuntoCount],';
-        $script[] = '           onComplete: function (){ console.log("Request")}';
+        $script[] = '           adjuntoId: adjuntoCount,';
+        $script[] = '           onComplete: function(res) {';
+        $script[] = '               var data = JSON.decode(res);';
+        $script[] = '               if (data.tipo == "error" || data.tipo == "warn") {';
+        $script[] = '                   mostrarMensaje(data.msg, data.tipo);';
+        $script[] = '                   return;';
+        $script[] = '               }';
+        $script[] = '               var mimeIcon = new Element("div", {';
+        $script[] = '                   class: "mime-icon"';
+        $script[] = '               });';
+        $script[] = '               var icon = new Element("img", {';
+        $script[] = '                   src: data.icon';
+        $script[] = '               })';
+        $script[] = '               icon.inject(mimeIcon);';
+        $script[] = '               var nombreArchivo = new Element("div",{';
+        $script[] = '                   class:"nombre-archivo"';
+        $script[] = '               }).set("text", data.nombreArchivo);';
+        $script[] = '               btnEliminarAdjunto.set("data-hash", data.hash)';
+        $script[] = '               uploaded = formAdjunto.getElements(".uploaded")';
+        $script[] = '               uploaded.grab(nombreArchivo,"top");';
+        $script[] = '               uploaded.grab(mimeIcon,"top");';
+        $script[] = '           }';
         $script[] = '       });';
         $script[] = '       upload.send();';
         $script[] = '   }';
 
         $script[] = '}';
 
-        $script[] = 'function eliminarAdjunto(el) {';
+        $script[] = 'function eliminarAdjunto(el, event) {';
+
+        $script[] = '   if(!confirm("Está a punto de eliminar el archivo XXX")) {';
+        $script[] = '       event.preventDefault();';
+        $script[] = '       return';
+        $script[] = '   }';
+
+        $script[] = '   event.preventDefault();';
+        $script[] = '   var hash = el.get("data-hash");';
+        $script[] = '   var request = new Request.JSON({';
+        $script[] = '       url: "'.JURI::root().'administrator/index.php?option=com_content&task=adjuntos.borrar&format=json&'.JUtility::getToken().'=1",';
+        $script[] = '       data: {';
+        $script[] = '           "id":'.$id.',';
+        $script[] = '           "hash": hash';
+        $script[] = '       },';
+        $script[] = '       onComplete: function(res) {';
+        $script[] = '           if (res.tipo == "error" || res.tipo == "success") {';
+        $script[] = '               mostrarMensaje(res.msg, res.tipo);';
+        $script[] = '               return;';
+        $script[] = '           }';
+        $script[] = '       }';
+        $script[] = '   }).send();';
         $script[] = '   $(el.get("data-id")).dispose();';
         $script[] = '}';
 
-        JFactory::getDocument()->addStyleDeclaration(implode("\n", $style));
+        $script[] = 'function mostrarMensaje(msg, type) {';
+        $script[] = '   el = new Element("div", {';
+        $script[] = '       class: type+"-msg"';
+        $script[] = '       }).set({"text": msg});';
+        $script[] = '   contenedor.grab(el, "before");';
+        $script[] = '   var slide = new Fx.Slide(el).hide().slideIn();';
+        $script[] = '';
+        $script[] = '';
+        $script[] = '}';
+
         JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
         // Salida HTML
         $html = '<div id="controles-adjuntos"></div><div id="adjuntos"></div>';
-        
+
         return $html;
     }
 
