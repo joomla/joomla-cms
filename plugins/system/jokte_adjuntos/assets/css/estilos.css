@@ -70,6 +70,13 @@
 }
 
 /* Presentación de la lista de adjuntos */
+
+#adjuntos .wrap {
+    overflow-x: none;
+    overflow-y: auto;
+    max-height: 300px;
+}
+
 #adjuntos table {
     width: 100%;
 }

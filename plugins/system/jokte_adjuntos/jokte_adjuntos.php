@@ -67,6 +67,8 @@ class plgSystemJokte_Adjuntos extends JPlugin {
         $contenedor = $dom->getElementById("adjuntos");
 
         // realiza la construcción de la tabla con el listado de adjuntos
+        $wrap = $dom->createElement("div");
+        $wrap->setAttribute("class", "wrap");
         $tabla = $dom->createElement("table");
         $tbody = $dom->createElement("tbody");
 
@@ -126,8 +128,9 @@ class plgSystemJokte_Adjuntos extends JPlugin {
             $c++;
         }
 
+        $wrap->appendChild($tabla);
         $tabla->appendChild($tbody);
-        $contenedor->appendChild($tabla);
+        $contenedor->appendChild($wrap);
 
         // aplica los cambios realizados al DOM en un nuevo buffer para actualizar la presentación
         // del la vista del componente en el contexto indicado
