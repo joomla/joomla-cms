@@ -155,6 +155,19 @@ class AdminModelSysInfo extends JModelLegacy
 	}
 
 	/**
+	 * Method to get if phpinfo method is enabled from php.ini
+	 *
+	 * @return  boolean True if enabled
+	 *
+	 * @since  3.5
+	 */
+	public function phpinfo_enabled() 
+	{
+		$disabled = explode(',', ini_get('disable_functions'));
+		return !in_array('phpinfo', $disabled);
+	}
+
+	/**
 	 * Method to get the PHP info
 	 *
 	 * @return  string PHP info
@@ -163,7 +176,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 */
 	public function &getPHPInfo()
 	{
-		if (is_null($this->php_info))
+		if (is_null($this->php_info) and $this->phpinfo_enabled())
 		{
 			ob_start();
 			date_default_timezone_set('UTC');
