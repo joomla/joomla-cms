@@ -127,9 +127,9 @@ class AdminModelSysInfo extends JModelLegacy
 		if (is_null($this->info))
 		{
 			$this->info = array();
-			$version = new JVersion;
-			$platform = new JPlatform;
-			$db = JFactory::getDbo();
+			$version    = new JVersion;
+			$platform   = new JPlatform;
+			$db         = JFactory::getDbo();
 
 			if (isset($_SERVER['SERVER_SOFTWARE']))
 			{
@@ -165,7 +165,7 @@ class AdminModelSysInfo extends JModelLegacy
 	{
 		$disabled = explode(',', ini_get('disable_functions'));
 
-		return !in_array('phpinfo', $disabled);
+		return in_array('phpinfo', $disabled);
 	}
 
 	/**
@@ -193,6 +193,10 @@ class AdminModelSysInfo extends JModelLegacy
 			$output = str_replace('</table>', '</tbody></table>', $output);
 			$output = str_replace('</div>', '', $output);
 			$this->php_info = $output;
+		}
+		else
+		{
+			$this->php_info = JText::_('COM_ADMIN_PHPINFO_DISABLED');
 		}
 
 		return $this->php_info;
@@ -341,8 +345,7 @@ class AdminModelSysInfo extends JModelLegacy
 	{
 		if (is_null($this->editor))
 		{
-			$config = JFactory::getConfig();
-			$this->editor = $config->get('editor');
+			$this->editor = JFactory::getConfig()->get('editor');
 		}
 
 		return $this->editor;
