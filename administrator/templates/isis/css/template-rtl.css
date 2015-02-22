@@ -7450,6 +7450,9 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	.row-fluid .modal-batch [class*="span"] {
 		margin-left: 0;
 	}
+	.nav-collapse.collapse.in {
+		height: auto !important;
+	}
 }
 @media (max-width: 767px) {
 	.navbar-search.pull-right {
@@ -7576,9 +7579,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	}
 	.nav-collapse .nav .nav-header {
 		color: #fff;
-	}
-	.nav-collapse.collapse.in {
-		height: auto !important;
 	}
 	.nav-collapse .nav,
 	.navbar .nav-collapse .nav.pull-right {
