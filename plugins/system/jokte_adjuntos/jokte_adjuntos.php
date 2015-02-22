@@ -18,8 +18,6 @@ class plgSystemJokte_Adjuntos extends JPlugin {
 
     function __construct(&$subject, $config) {
 
-        parent::__construct($subject, $config);
-
         // Realiza comprobaciones adicionales en la inicialización
         // del plugin para verificar si la operación se efectua desde
         // el backend y si el usuario actual tiene permisos de edición
@@ -28,6 +26,8 @@ class plgSystemJokte_Adjuntos extends JPlugin {
 
         $user = JFactory::getUser();
         if(!$user->authorise('core.edit', 'com_content')) return;
+
+        parent::__construct($subject, $config);
 
     }
 
