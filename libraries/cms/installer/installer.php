@@ -1079,7 +1079,7 @@ class JInstaller extends JAdapter
 
 					if (!count($files))
 					{
-						return false;
+						return $update_count;
 					}
 
 					$query = $db->getQuery(true)
