@@ -102,7 +102,7 @@
 	<field
 		name="published"
 		type="list"
-		class="chzn-color-state"
+		class="chosen-color-state"
 		default="1"
 		size="1"
 		label="JSTATUS"
@@ -226,7 +226,7 @@
 				label="COM_CATEGORIES_FIELD_IMAGE_LABEL"
 				description="COM_CATEGORIES_FIELD_IMAGE_DESC" />
 
-			<field 
+			<field
 				name="image_alt"
 				type="text"
 				label="COM_CATEGORIES_FIELD_IMAGE_ALT_LABEL"

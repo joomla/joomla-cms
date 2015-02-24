@@ -22,7 +22,7 @@ jQuery(document).ready(function() {
 			});
 
 			// Replace current select options. The trigger is needed for Chosen select box enhancer
-			jQuery("#" + select_id).empty().append(items).trigger("liszt:updated");
+			jQuery("#" + select_id).empty().append(items).trigger("chosen:updated");
 		});
 	});
 });

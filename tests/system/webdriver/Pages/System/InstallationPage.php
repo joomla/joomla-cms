@@ -60,7 +60,7 @@ class InstallationPage extends AdminPage
 	public function setDatabaseType($value)
 	{
 		$this->driver->findElement(By::xPath("//div[@id='jform_db_type_chzn']/a/div/b"))->click();
-		$this->driver->findElement(By::xPath("//div[@id='jform_db_type_chzn']//ul[@class='chzn-results']/li[contains(translate(.,'" . strtoupper($value) . "', '" . strtolower($value) . "'), '" . strtolower($value) . "')]"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='jform_db_type_chzn']//ul[@class='chosen-results']/li[contains(translate(.,'" . strtoupper($value) . "', '" . strtolower($value) . "'), '" . strtolower($value) . "')]"))->click();
 // 		$select = new SelectElement($this->driver->findElement(By::Id('jform_db_type')));
 // 		$element = $select->getElement();
 // 		$options = $element->findElements(By::tagName('option'));
@@ -139,7 +139,7 @@ class InstallationPage extends AdminPage
 		$this->setField('Table Prefix', $cfg->db_prefix);
 
 		$this->driver->findElement(By::xPath("//label[@for='jform_db_old1']"))->click();
-		
+
 		$this->driver->findElement(By::xPath("//li[@id='summary']/a"))->click();
 		$this->driver->waitForElementUntilIsPresent(By::xPath("//li[@id='summary'][@class='step active']"));
 

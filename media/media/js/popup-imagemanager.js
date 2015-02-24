@@ -55,8 +55,8 @@ var ImageManager = this.ImageManager = {
 		{
 			if (folder == this.folderlist.options[i].value) {
 				this.folderlist.selectedIndex = i;
-				if (this.folderlist.className.test(/\bchzn-done\b/)) {
-					$(this.folderlist).trigger('liszt:updated');
+				if (this.folderlist.className.test(/\bchosen-done\b/)) {
+					$(this.folderlist).trigger('chosen:updated');
 				}
 				break;
 			}
@@ -143,8 +143,8 @@ var ImageManager = this.ImageManager = {
 		{
 			if (folder == this.folderlist.options[i].value) {
 				this.folderlist.selectedIndex = i;
-				if (this.folderlist.className.test(/\bchzn-done\b/)) {
-					$(this.folderlist).trigger('liszt:updated');
+				if (this.folderlist.className.test(/\bchosen-done\b/)) {
+					$(this.folderlist).trigger('chosen:updated');
 				}
 				break;
 			}

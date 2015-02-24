@@ -193,7 +193,7 @@
 				self.checkFilter(element);
 
 				if (self.chosenSupport) {
-					$(element).trigger('liszt:updated');
+					$(element).trigger('chosen:updated');
 				}
 			});
 
@@ -203,14 +203,14 @@
 					self.checkFilter(element);
 
 					if (self.chosenSupport) {
-						$(element).trigger('liszt:updated');
+						$(element).trigger('chosen:updated');
 					}
 				});
 
 				// Special case to limit box to the default config limit
 				$('#list_limit').val(self.options.defaultLimit);
 				if (self.chosenSupport) {
-					$('#list_limit').trigger('liszt:updated');
+					$('#list_limit').trigger('chosen:updated');
 				}
 			}
 
@@ -353,7 +353,7 @@
 
 				});
 
-				this.orderField.trigger('liszt:updated');
+				this.orderField.trigger('chosen:updated');
 			}
 
 			this.activeOrder  = this.orderField.val();
@@ -388,7 +388,7 @@
 
 				// Trigger the chosen update
 				if (self.chosenSupport) {
-					field.trigger('liszt:updated');
+					field.trigger('chosen:updated');
 				}
 			}
 		},

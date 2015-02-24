@@ -346,44 +346,44 @@ fieldset.radio.btn-group {
 	margin: 2px 0px 10px 0px;
 	padding-bottom: 5px;
 }
-.input-prepend .chzn-container-single .chzn-single,
-.input-append .chzn-container-single .chzn-single {
+.input-prepend .chosen-container-single .chosen-single,
+.input-append .chosen-container-single .chosen-single {
 	border-color: #ccc;
 	height: 26px;
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
-.input-prepend .chzn-container-single .chzn-drop,
-.input-append .chzn-container-single .chzn-drop {
+.input-prepend .chosen-container-single .chosen-drop,
+.input-append .chosen-container-single .chosen-drop {
 	border-color: #ccc;
 }
 .input-prepend > .add-on,
 .input-append > .add-on {
 	vertical-align: top;
 }
-.input-prepend .chzn-container-single .chzn-single {
+.input-prepend .chosen-container-single .chosen-single {
 	-webkit-border-radius: 0 3px 3px 0;
 	-moz-border-radius: 0 3px 3px 0;
 	border-radius: 0 3px 3px 0;
 }
-.input-prepend .chzn-container-single .chzn-single-with-drop {
+.input-prepend .chosen-container-single .chosen-single-with-drop {
 	-webkit-border-radius: 0 3px 0 0;
 	-moz-border-radius: 0 3px 0 0;
 	border-radius: 0 3px 0 0;
 }
-.input-append .chzn-container-single .chzn-single {
+.input-append .chosen-container-single .chosen-single {
 	-webkit-border-radius: 3px 0 0 3px;
 	-moz-border-radius: 3px 0 0 3px;
 	border-radius: 3px 0 0 3px;
 }
-.input-append .chzn-container-single .chzn-single-with-drop {
+.input-append .chosen-container-single .chosen-single-with-drop {
 	-webkit-border-radius: 3px 0 0 0;
 	-moz-border-radius: 3px 0 0 0;
 	border-radius: 3px 0 0 0;
 }
-.input-prepend.input-append .chzn-container-single .chzn-single,
-.input-prepend.input-append .chzn-container-single .chzn-single-with-drop {
+.input-prepend.input-append .chosen-container-single .chosen-single,
+.input-prepend.input-append .chosen-container-single .chosen-single-with-drop {
 	-webkit-border-radius: 0;
 	-moz-border-radius: 0;
 	border-radius: 0;
@@ -410,7 +410,7 @@ fieldset.radio.btn-group {
 .width-auto {
 	width: auto;
 }
-.btn-group .chzn-results {
+.btn-group .chosen-results {
 	white-space: normal;
 }
 .accordion-body.in:hover {

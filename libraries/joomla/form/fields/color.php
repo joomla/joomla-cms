@@ -174,7 +174,7 @@ class JFormFieldColor extends JFormField
 
 		if ($control == 'simple')
 		{
-			$class = ' class="' . trim('simplecolors chzn-done ' . $class) . '"';
+			$class = ' class="' . trim('simplecolors chosen-done ' . $class) . '"';
 			JHtml::_('behavior.simplecolorpicker');
 
 			$colors = strtolower($this->colors);

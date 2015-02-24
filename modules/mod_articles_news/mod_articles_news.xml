@@ -63,7 +63,7 @@
 				<field
 					name="link_titles"
 					type="list"
-					class="chzn-color"
+					class="chosen-color"
 					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_DESC"
 				>

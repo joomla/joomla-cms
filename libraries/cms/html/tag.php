@@ -232,7 +232,7 @@ abstract class JHtmlTag
 								}
 
 								this.value = '';
-								$('" . $selector . "').trigger('liszt:updated');
+								$('" . $selector . "').trigger('chosen:updated');
 								event.preventDefault();
 
 							}

@@ -248,7 +248,7 @@ class ArticleManagerPage extends AdminManagerPage
 		$this->clickButton('toolbar-batch');
 		$this->driver->waitForElementUntilIsPresent(By::xPath("//div[@class='modal hide fade in']"));
 		$this->driver->findElement(By::xPath("//div[@id='batch_access_chzn']/a"))->click();
-		$this->driver->findElement(By::xPath("//div[@id='batch_access_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $accessLevel . "')]"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='batch_access_chzn']//ul[@class='chosen-results']/li[contains(.,'" . $accessLevel . "')]"))->click();
 		$this->driver->findElement(By::xPath("//button[contains(text(),'Process')]"))->click();
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		$this->searchFor();
@@ -289,7 +289,7 @@ class ArticleManagerPage extends AdminManagerPage
 		$this->driver->waitForElementUntilIsPresent(By::xPath("//div[@class='modal hide fade in']"));
 		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']/a"))->click();
 		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']/div/div/input"))->sendKeys($searchString);
-		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']//ul[@class = 'chzn-results']/li[contains(.,'" . $newCategory . "')]"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']//ul[@class = 'chosen-results']/li[contains(.,'" . $newCategory . "')]"))->click();
 
 		if (strtolower($action) == 'copy')
 		{
@@ -328,7 +328,7 @@ class ArticleManagerPage extends AdminManagerPage
 
 		$filterElement->click();
 		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']/div/div/input"))->sendKeys(substr($category, 0, 2));
-		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $category . "')]"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']//ul[@class='chosen-results']/li[contains(.,'" . $category . "')]"))->click();
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 	}
 }

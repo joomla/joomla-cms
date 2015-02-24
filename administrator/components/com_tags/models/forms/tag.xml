@@ -103,7 +103,7 @@
 	<field
 		name="published"
 		type="list"
-		class="chzn-color-state"
+		class="chosen-color-state"
 		label="JSTATUS"
 		description="JFIELD_PUBLISHED_DESC"
 		default="1"

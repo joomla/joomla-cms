@@ -26,17 +26,17 @@ html[dir=rtl] .js-stools .js-stools-container-list {
 	float: left;
 	text-align: left;
 }
-.js-stools .chzn-container {
+.js-stools .chosen-container {
 	text-align: left;
 }
-html[dir=rtl] .js-stools .chzn-container {
+html[dir=rtl] .js-stools .chosen-container {
 	text-align: right;
 }
 .js-stools .js-stools-container-filters select.active,
-.js-stools .js-stools-container-filters .chzn-container.active .chzn-single{
+.js-stools .js-stools-container-filters .chosen-container.active .chosen-single{
 	border: 2px solid #2384D3;
 }
-.js-stools .chzn-container-single .chzn-single span {
+.js-stools .chosen-container-single .chosen-single span {
 	overflow: visible;
 }
 .js-stools .js-stools-field-list,
