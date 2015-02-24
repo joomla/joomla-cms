@@ -27,7 +27,7 @@
 			<option value="show_with_link">COM_CONTACT_FIELD_VALUE_WITH_LINK
 			</option>
 		</field>
-		
+
 		<field
 			name="save_history"
 			type="radio"
@@ -39,7 +39,7 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-		
+
 		<field
 			name="history_limit"
 			type="text"
@@ -722,6 +722,28 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
+
+		<field name="cc_recipients"
+			type="textarea"
+			label="COM_CONTACT_FIELD_CONFIG_EMAIL_CC_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_EMAIL_CC_DESC"
+			class="inputbox"
+			rows="3"
+			cols="30"
+			validate="email"
+			multiple="multiple"
+		/>
+
+		<field name="bcc_recipients"
+			type="textarea"
+			label="COM_CONTACT_FIELD_CONFIG_EMAIL_BCC_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_EMAIL_BCC_DESC"
+			class="inputbox"
+			rows="3"
+			cols="30"
+			validate="email"
+			multiple="multiple"
+		/>
 
 		<field name="banned_email"
 			type="textarea"

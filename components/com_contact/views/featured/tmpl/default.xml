@@ -356,6 +356,28 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field name="cc_recipients"
+				type="textarea"
+				label="COM_CONTACT_FIELD_MENU_EMAIL_CC_LABEL"
+				description="COM_CONTACT_FIELD_MENU_EMAIL_CC_DESC"
+				class="inputbox"
+				validate="email"
+				multiple="multiple"
+				rows="3"
+				cols="30"
+			/>
+
+			<field name="bcc_recipients"
+				type="textarea"
+				label="COM_CONTACT_FIELD_MENU_EMAIL_BCC_LABEL"
+				description="COM_CONTACT_FIELD_MENU_EMAIL_BCC_DESC"
+				class="inputbox"
+				validate="email"
+				multiple="multiple"
+				rows="3"
+				cols="30"
+			/>
+
 			<field name="banned_email" type="textarea"
 				cols="30"
 				description="COM_CONTACT_FIELD_CONFIG_BANNED_EMAIL_DESC"
