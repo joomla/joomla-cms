@@ -440,16 +440,37 @@ class JFile
 	/**
 	 * Moves an uploaded file to a destination folder
 	 *
-	 * @param   string   $src          The name of the php (temporary) uploaded file
-	 * @param   string   $dest         The path (including filename) to move the uploaded file to
-	 * @param   boolean  $use_streams  True to use streams
+	 * @param   string   $src           The name of the php (temporary) uploaded file
+	 * @param   string   $dest          The path (including filename) to move the uploaded file to
+	 * @param   boolean  $use_streams   True to use streams
+	 * @param   boolean  $allow_unsafe  Allow the upload of unsafe files
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
-	public static function upload($src, $dest, $use_streams = false)
+	public static function upload($src, $dest, $use_streams = false, $allow_unsafe = false)
 	{
+		if (!$allow_unsafe)
+		{
+			$descriptor = array(
+				'tmp_name' => $src,
+				'name'     => basename($dest),
+				'type'     => '',
+				'error'    => '',
+				'size'     => '',
+			);
+
+			$isSafe = JFilterInput::isSafeFile($descriptor);
+
+			if (!$isSafe)
+			{
+				JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR03', $dest), JLog::WARNING, 'jerror');
+
+				return false;
+			}
+		}
+
 		// Ensure that the path is valid and clean
 		$pathObject = new JFilesystemWrapperPath;
 		$dest = $pathObject->clean($dest);
