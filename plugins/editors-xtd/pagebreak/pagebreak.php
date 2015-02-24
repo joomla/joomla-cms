@@ -42,6 +42,9 @@ class PlgButtonPagebreak extends JPlugin
 		$button->text  = JText::_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK');
 		$button->name  = 'copy';
 		$button->options = "{handler: 'iframe', size: {x: 500, y: 300}}";
+		$button->named = $name;
+		$button->plugin = $this->_name;
+		$button->editor = $name;
 
 		return $button;
 	}

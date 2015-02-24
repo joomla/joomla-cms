@@ -23,7 +23,8 @@ JFactory::getDocument()->addScriptDeclaration('
 
 		var tag = "<hr class=\"system-pagebreak\" " + title + " " + alt + "/>";
 		window.parent.jInsertEditorText(tag, ' . json_encode($this->eName) . ');
-		window.parent.jModalClose();
+		parent.window.jQuery("#modal_' . $this->eName . '").modal("hide");
+
 		return false;
 	}
 ');
