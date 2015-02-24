@@ -399,7 +399,7 @@ abstract class AdminEditPage extends AdminPage
 			$container = $checkArray[0];
 
 			$type = $container->getAttribute('class');
-			if (strpos($type, 'chzn-container-single-nosearch') > 0)
+			if (strpos($type, 'chosen-container-single-nosearch') > 0)
 			{
 				$selectElement = $this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']/a"));
 				if (!$selectElement->isDisplayed())
@@ -409,14 +409,14 @@ abstract class AdminEditPage extends AdminPage
 				$selectElement->click();
 
 				// Click the last element in the list to make sure they are all in view
-				$lastElement = $this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//ul[@class='chzn-results']/li[last()]"));
+				$lastElement = $this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//ul[@class='chosen-results']/li[last()]"));
 				if (!$lastElement->isDisplayed())
 				{
 					$lastElement->getLocationOnScreenOnceScrolledIntoView();
 				}
-				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $values['value'] . "')]"))->click();
+				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//ul[@class='chosen-results']/li[contains(.,'" . $values['value'] . "')]"))->click();
 			}
-			elseif (strpos($type, 'chzn-container-single') > 0)
+			elseif (strpos($type, 'chosen-container-single') > 0)
 			{
 				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']/a"))->click();
 				$el = $this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//input"));

@@ -28,7 +28,7 @@
 			filter="JComponentHelper::filterText" buttons="true" />
 
 		<field name="state" type="list" label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC" class="chzn-color-state"
+			description="JFIELD_PUBLISHED_DESC" class="chosen-color-state"
 			filter="intval" size="1" default="1"
 		>
 			<option value="1">
@@ -148,7 +148,7 @@
 			<field
 				name="show_title"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_SHOW_TITLE_LABEL"
 				description="JGLOBAL_SHOW_TITLE_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -159,7 +159,7 @@
 			<field
 				name="link_titles"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_LINKED_TITLES_LABEL"
 				description="JGLOBAL_LINKED_TITLES_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -169,7 +169,7 @@
 
 			<field name="show_tags"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
 				description="COM_CONTENT_FIELD_SHOW_TAGS_DESC"
 			>
@@ -180,7 +180,7 @@
 
 			<field name="show_intro"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				description="JGLOBAL_SHOW_INTRO_DESC"
 				label="JGLOBAL_SHOW_INTRO_LABEL"
 				>
@@ -203,7 +203,7 @@
 			<field
 				name="show_category"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
 				description="JGLOBAL_SHOW_CATEGORY_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -214,7 +214,7 @@
 			<field
 				name="link_category"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_LINK_CATEGORY_LABEL"
 				description="JGLOBAL_LINK_CATEGORY_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -225,7 +225,7 @@
 			<field
 				name="show_parent_category"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
 				description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC">
 				<option	value="">JGLOBAL_USE_GLOBAL</option>
@@ -236,7 +236,7 @@
 			<field
 				name="link_parent_category"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
 				description="JGLOBAL_LINK_PARENT_CATEGORY_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -247,7 +247,7 @@
 			<field
 				name="show_author"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_SHOW_AUTHOR_LABEL"
 				description="JGLOBAL_SHOW_AUTHOR_DESC">
 				<option	value="">JGLOBAL_USE_GLOBAL</option>
@@ -258,7 +258,7 @@
 			<field
 				name="link_author"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_LINK_AUTHOR_LABEL"
 				description="JGLOBAL_LINK_AUTHOR_DESC">
 				<option	value="">JGLOBAL_USE_GLOBAL</option>
@@ -269,7 +269,7 @@
 			<field
 				name="show_create_date"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
 				description="JGLOBAL_SHOW_CREATE_DATE_DESC">
 				<option	value="">JGLOBAL_USE_GLOBAL</option>
@@ -280,7 +280,7 @@
 			<field
 				name="show_modify_date"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
 				description="JGLOBAL_SHOW_MODIFY_DATE_DESC">
 				<option	value="">JGLOBAL_USE_GLOBAL</option>
@@ -291,7 +291,7 @@
 			<field
 				name="show_publish_date"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
 				description="JGLOBAL_SHOW_PUBLISH_DATE_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -302,7 +302,7 @@
 			<field
 				name="show_item_navigation"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
 				description="JGLOBAL_SHOW_NAVIGATION_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -313,7 +313,7 @@
 			<field
 				name="show_icons"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_SHOW_ICONS_LABEL"
 				description="JGLOBAL_SHOW_ICONS_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -324,7 +324,7 @@
 			<field
 				name="show_print_icon"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
 				description="JGLOBAL_SHOW_PRINT_ICON_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -335,7 +335,7 @@
 			<field
 				name="show_email_icon"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
 				description="JGLOBAL_SHOW_EMAIL_ICON_DESC">
 				<option	value="">JGLOBAL_USE_GLOBAL</option>
@@ -346,7 +346,7 @@
 			<field
 				name="show_vote"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_SHOW_VOTE_LABEL"
 				description="JGLOBAL_SHOW_VOTE_DESC"
 			>
@@ -358,7 +358,7 @@
 			<field
 				name="show_hits"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_SHOW_HITS_LABEL"
 				description="JGLOBAL_SHOW_HITS_DESC">
 				<option	value="">JGLOBAL_USE_GLOBAL</option>
@@ -369,7 +369,7 @@
 			<field
 				name="show_noauth"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
 				description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC">
 						<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -380,7 +380,7 @@
 			<field
 				name="urls_position"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
 				description="COM_CONTENT_FIELD_URLSPOSITION_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -411,7 +411,7 @@
 			<field
 				name="show_publishing_options"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				default=""
 				label="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_LABEL"
 				description="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_DESC"
@@ -424,7 +424,7 @@
 			<field
 				name="show_article_options"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				default=""
 				label="COM_CONTENT_SHOW_ARTICLE_OPTIONS_LABEL"
 				description="COM_CONTENT_SHOW_ARTICLE_OPTIONS_DESC"
@@ -437,7 +437,7 @@
 			<field
 				name="show_urls_images_backend"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				default=""
 				label="COM_CONTENT_SHOW_IMAGES_URLS_BACK_LABEL"
 				description="COM_CONTENT_SHOW_IMAGES_URLS_BACK_DESC"
@@ -450,7 +450,7 @@
 			<field
 				name="show_urls_images_frontend"
 				type="list"
-				class="chzn-color"
+				class="chosen-color"
 				default=""
 				label="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_LABEL"
 				description="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_DESC"

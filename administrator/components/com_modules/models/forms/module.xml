@@ -44,7 +44,7 @@
 		</field>
 
 		<field name="published" type="list"
-			class="chzn-color-state"
+			class="chosen-color-state"
 			default="1"
 			description="COM_MODULES_FIELD_PUBLISHED_DESC"
 			label="JSTATUS"

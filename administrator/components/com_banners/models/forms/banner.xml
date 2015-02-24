@@ -24,7 +24,7 @@
 
 		<field name="state" type="list"
 			label="JSTATUS" description="COM_BANNERS_FIELD_STATE_DESC"
-			class="chzn-color-state"
+			class="chosen-color-state"
 			size="1" default="1">
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>

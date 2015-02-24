@@ -27,7 +27,7 @@ $doc->addStyleDeclaration("
 		margin-left: 10px
 		margin-right: 0;
 	}
-	.js-stools .js-stools-container-bar .js-stools-field-filter .chzn-container {
+	.js-stools .js-stools-container-bar .js-stools-field-filter .chosen-container {
 		padding: 3px 0;
 	}
 ");

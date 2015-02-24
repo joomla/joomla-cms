@@ -68,7 +68,7 @@
 		<field
 			name="published"
 			type="list"
-			class="chzn-color-state"
+			class="chosen-color-state"
 			id="published"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"

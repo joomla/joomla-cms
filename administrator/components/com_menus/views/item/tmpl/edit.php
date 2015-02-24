@@ -42,7 +42,7 @@ jQuery(document).ready(function ($){
 				option.text(val.title).val(val.id);
 				$('#jform_parent_id').append(option);
 			});
-			$('#jform_parent_id').trigger('liszt:updated');
+			$('#jform_parent_id').trigger('chosen:updated');
 		});
 	});
 });

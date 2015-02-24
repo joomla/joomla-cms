@@ -242,7 +242,7 @@ abstract class AdminManagerPage extends AdminPage
 			$test = $el->isDisplayed();
 			$el->click();
 			sleep(2);
-			$selectElementArray = $this->driver->findElements(By::xPath("//div[@id='" . $filterId . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"));
+			$selectElementArray = $this->driver->findElements(By::xPath("//div[@id='" . $filterId . "_chzn']//ul[@class='chosen-results']/li[contains(.,'" . $value . "')]"));
 			if (count($selectElementArray) == 1)
 			{
 				$selectElement = $selectElementArray[0];
@@ -267,7 +267,7 @@ abstract class AdminManagerPage extends AdminPage
 	{
 		$container = $this->driver->findElement(By::xPath("//div[@id='list_fullordering_chzn' or @id='sortTable_chzn']/a"));
 		$container->click();
-		$el = $this->driver->findElement(By::xPath("//div[@id='list_fullordering_chzn' or @id='sortTable_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"));
+		$el = $this->driver->findElement(By::xPath("//div[@id='list_fullordering_chzn' or @id='sortTable_chzn']//ul[@class='chosen-results']/li[contains(.,'" . $value . "')]"));
 		// Make sure the container is opened. Not sure why we need this, but sometimes the $el is not displayed after the first click. This seems to fix it.
 		while (!$el->isDisplayed())
 		{
@@ -283,7 +283,7 @@ abstract class AdminManagerPage extends AdminPage
 	public function setOrderDirection($value)
 	{
 		$this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']/a/div/b"))->click();
-		$el = $this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"));
+		$el = $this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']//ul[@class='chosen-results']/li[contains(.,'" . $value . "')]"));
 		$displayedBefore = $el->isDisplayed();
 		$container = $this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']/a"));
 		while (!$el->isDisplayed())
