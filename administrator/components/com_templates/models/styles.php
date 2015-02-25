@@ -154,7 +154,7 @@ class TemplatesModelStyles extends JModelList
 			{
 				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
 				$search = $db->quote($escapedSearchString);
-				$query->where('(' . 'a.template REGEXP ' . $search . ' OR a.title REGEXP ' . $search . ')');
+				$query->where('(' . 'a.template ' . $db->regexp($search) . ' OR a.title ' . $db->regexp($search) . ')');
 			}
 		}
 

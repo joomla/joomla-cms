@@ -331,7 +331,7 @@ class ModulesModelModules extends JModelList
 			{
 				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
 				$search = $db->quote($escapedSearchString);
-				$query->where('(' . 'a.title REGEXP ' . $search . ' OR a.note REGEXP ' . $search . ')');
+				$query->where('(' . 'a.title ' . $db->regexp($search) . ' OR a.note ' . $db->regexp($search) . ')');
 			}
 		}
 
