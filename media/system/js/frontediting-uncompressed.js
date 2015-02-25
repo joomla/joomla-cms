@@ -118,7 +118,7 @@
 				$(this).addClass('jmodinside')
 					.prepend('<a class="btn jmodedit" href="#" ><span class="icon-edit"></span></a>')
 					.children(":first").attr('href', moduleEditUrl).attr('title', moduleTip)
-					.tooltip({"container": false, placement: tooltipPlacer})
+					.tooltip({"container": false, html: true, placement: tooltipPlacer})
 					.jEditMakeAbsolute(true);
 				// This class was needed for positioning the icon before making it absolute at bottom of body: We can now remove it:
 				$(this).removeClass('jmodinside');
