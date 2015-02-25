@@ -76,7 +76,7 @@ class JInputFiles extends JInput
 	{
 		if (isset($this->data[$name]))
 		{
-			// Prevent returning an unsafe file unless speciffically requested
+			// Prevent returning an unsafe file unless specifically requested
 			if (!$this->data[$name]['safe'])
 			{
 				if ($filter != 'raw')

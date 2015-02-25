@@ -201,7 +201,8 @@ class InstallerModelInstall extends JModelLegacy
 	{
 		// Get the uploaded file information.
 		$input    = JFactory::getApplication()->input;
-		$userfile = $input->files->get('install_package', null, 'array');
+		// Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See JInputFiles::get.
+		$userfile = $input->files->get('install_package', null, 'raw');
 
 		// Make sure that file uploads are enabled in php.
 		if (!(bool) ini_get('file_uploads'))
