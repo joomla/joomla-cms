@@ -327,13 +327,14 @@ class JFilterInput
 	 * Checks an uploaded for suspicious naming and potential PHP contents which could indicate a hacking attempt.
 	 *
 	 * The options you can define are:
-	 * null_byte Prevent files with a null byte in their name (buffer overflow attack)
-	 * forbidden_extensions Do not allow these strings anywhere in the file's extension
-	 * php_tag_in_content Do not allow <?php tag in content
-	 * shorttag_in_content Do not allow short tag <? in content
-	 * shorttag_extensions Which file extensions to scan for short tags in content
-	 * fobidden_ext_in_content Do not allow forbidden_extensions anywhere in content
-	 * php_ext_content_extensions Which file extensions to scan for .php in content
+	 *
+	 * null_byte                   Prevent files with a null byte in their name (buffer overflow attack)
+	 * forbidden_extensions        Do not allow these strings anywhere in the file's extension
+	 * php_tag_in_content          Do not allow <?php tag in content
+	 * shorttag_in_content         Do not allow short tag <? in content
+	 * shorttag_extensions         Which file extensions to scan for short tags in content
+	 * fobidden_ext_in_content     Do not allow forbidden_extensions anywhere in content
+	 * php_ext_content_extensions  Which file extensions to scan for .php in content
 	 *
 	 * This code is an adaptation and improvement of Admin Tools' UploadShield feature,
 	 * relicensed and contributed by its author.

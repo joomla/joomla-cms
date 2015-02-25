@@ -258,7 +258,7 @@ class InstallerModelInstall extends JModelLegacy
 
 		// Move uploaded file.
 		jimport('joomla.filesystem.file');
-		JFile::upload($tmp_src, $tmp_dest);
+		JFile::upload($tmp_src, $tmp_dest, false, true);
 
 		// Unpack the downloaded package file.
 		$package = JInstallerHelper::unpack($tmp_dest, true);
