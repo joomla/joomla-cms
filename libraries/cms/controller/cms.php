@@ -210,7 +210,9 @@ abstract class JControllerCms extends JControllerBase
 	{
 		$config = $this->normalizeConfig($config);
 
-		if (strpos($name, '.')) // allows for secondary task chaining.
+		// Allows for secondary task chaining.
+		//@todo experiment with multiple task chaining
+		if (strpos($name, '.'))
 		{
 			list($name, $task) = explode('.', $name);
 			$config['task'] = $task;
