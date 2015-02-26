@@ -24,7 +24,7 @@ defined('_JEXEC') or die;
  */
 function admin_postinstall_languageaccess340_condition()
 {
-	$db    = $this->getDbo();
+	$db    = JFactory::getDbo();
 	$query = $db->getQuery(true)
 		->select($db->quoteName('access'))
 		->from($db->quoteName('#__languages'))
@@ -55,6 +55,7 @@ function admin_postinstall_languageaccess340_condition()
  */
 function admin_postinstall_languageaccess340_action()
 {
+	$db    = JFactory::getDbo();
 	$query = $db->getQuery(true)
 		->update($db->quoteName('#__languages'))
 		->set($db->quoteName('access') . " = " . $db->quote('1'))
