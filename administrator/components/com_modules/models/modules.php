@@ -328,7 +328,7 @@ class ModulesModelModules extends JModelList
 				$query->where('a.id = ' . (int) substr($search, 3));
 			}
 			else
-			{				
+			{
 				$search = $db->quote('%' . strtolower($search) . '%');
 				$query->where('(' . ' LOWER(a.title) LIKE ' . $search . ' OR LOWER(a.note) LIKE ' . $search . ')');
 			}
