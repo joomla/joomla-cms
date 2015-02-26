@@ -3,10 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
- * This file contains post-installation message handling for the checking minimum PHP version support
+ * This file contains post-installation message handling for the checks if the installation is
+ * affected by the issue with content languages access in 3.4.0
  */
 
 defined('_JEXEC') or die;
@@ -30,7 +31,7 @@ function admin_postinstall_languageaccess340_condition()
 			->where($db->quoteName('access') . " = " . $db->quote('0'));
 	$db->setQuery($query);
 	$db->execute();
-  $numRows = $db->getNumRows();
+	$numRows = $db->getNumRows();
 	
 	if (isset($numRows) && $numRows != 0)
 	{
@@ -54,11 +55,11 @@ function admin_postinstall_languageaccess340_condition()
  */
 function admin_postinstall_languageaccess340_action()
 {
-  $query = $db->getQuery(true)
-        ->update($db->quoteName('#__languages'))
-        ->set($db->quoteName('access') . " = " . $db->quote('1'))
-        ->where($db->quoteName('access') . " = " . $db->quote('0'));
-  $db->setQuery($query);
-  $result = $db->execute();
+	$query = $db->getQuery(true)
+		->update($db->quoteName('#__languages'))
+		->set($db->quoteName('access') . " = " . $db->quote('1'))
+		->where($db->quoteName('access') . " = " . $db->quote('0'));
+	$db->setQuery($query);
+	$result = $db->execute();
 
 }
