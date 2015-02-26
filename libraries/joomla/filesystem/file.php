@@ -462,7 +462,7 @@ class JFile
 				'size'     => '',
 			);
 
-			$isSafe = JFilterInput::isSafeFile($descriptor);
+			$isSafe = JFilterInput::isSafeFile($descriptor, $safeFileOptions);
 
 			if (!$isSafe)
 			{
