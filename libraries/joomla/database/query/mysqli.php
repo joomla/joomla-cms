@@ -101,7 +101,7 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 
 		return $this;
 	}
-	
+
 	/**
 	 * Return correct regexp operator for mysqli.
 	 *

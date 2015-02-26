@@ -152,8 +152,8 @@ class TemplatesModelStyles extends JModelList
 			}
 			else
 			{				
-				$search = $db->quote('%'.strtolower($search).'%');
-				$query->where('(' . 'LOWER(a.template) LIKE ' . $search . ' OR LOWER(a.title) LIKE ' . $search . ')');
+				$search = $db->quote('%' . strtolower($search) . '%');
+				$query->where('(' . ' LOWER(a.template) LIKE ' . $search . ' OR LOWER(a.title) LIKE ' . $search . ')');
 			}
 		}
 

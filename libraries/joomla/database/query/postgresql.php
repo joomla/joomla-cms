@@ -619,7 +619,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 			return "timestamp '" . $date . "' - interval '" . ltrim($interval, '-') . " " . $datePart . "'";
 		}
 	}
-	
+
 	/**
 	 * Return correct regexp operator for Postgresql.
 	 *

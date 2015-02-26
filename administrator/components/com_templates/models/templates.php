@@ -110,8 +110,8 @@ class TemplatesModelTemplates extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%'.strtolower($search).'%');
-				$query->where('(' . 'LOWER(a.element) LIKE ' . $search . ' OR LOWER(a.name) LIKE ' . $search . ')');
+				$search = $db->quote('%' . strtolower($search) . '%');
+				$query->where('(' . ' LOWER(a.element) LIKE ' . $search . ' OR LOWER(a.name) LIKE ' . $search . ')');
 			}
 		}
 
