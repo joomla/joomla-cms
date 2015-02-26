@@ -64,7 +64,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			foreach ($this->sefs as $sef => $language)
 			{
-				if (isset($language->access) && $language->access && !in_array($language->access, $levels))
+				if ($language->access && !in_array($language->access, $levels))
 				{
 					unset($this->lang_codes[$language->lang_code]);
 					unset($this->sefs[$language->sef]);
