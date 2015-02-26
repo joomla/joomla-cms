@@ -26,11 +26,11 @@ defined('_JEXEC') or die;
 	
 	<?php else: ?>
 	
-		<?php echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'warning')); ?>
+		<?php echo JHtml::_('bootstrap.startAccordion', 'warnings', array('active' => 'warning')); ?>
 			
 			<?php foreach($this->messages as $message): ?>
 					
-				<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', $message['message'], 'warning' . ($i++)); ?>
+				<?php echo JHtml::_('bootstrap.addSlide', 'warnings', $message['message'], 'warning' . ($i++)); ?>
 			
 					<?php echo $message['description']; ?>
 					
@@ -38,7 +38,7 @@ defined('_JEXEC') or die;
 		
 			<?php endforeach; ?>
 			
-				<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'), 'furtherinfo'); ?>
+				<?php echo JHtml::_('bootstrap.addSlide', 'warnings', JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'), 'furtherinfo'); ?>
 					
 					<?php echo JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC') ?>
 					
