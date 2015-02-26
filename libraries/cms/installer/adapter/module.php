@@ -577,7 +577,14 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			}
 		}
 
-		$this->triggerManifestScript('uninstall');
+		try
+		{
+			$this->triggerManifestScript('uninstall');
+		}
+		catch (RuntimeException $e)
+		{
+			// Ignore errors for now
+		}
 
 		if (!($this->getManifest() instanceof SimpleXMLElement))
 		{

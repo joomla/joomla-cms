@@ -107,40 +107,59 @@ class JInstaller extends JAdapter
 	 *
 	 * @var    JInstaller
 	 * @since  3.1
+	 * @deprecated  4.0
 	 */
 	protected static $instance;
 
 	/**
+	 * JInstaller instances container.
+	 *
+	 * @var    JInstaller[]
+	 * @since  3.4
+	 */
+	protected static $instances;
+
+	/**
 	 * Constructor
+	 *
+	 * @param   string  $basepath       Base Path of the adapters
+	 * @param   string  $classprefix    Class prefix of adapters
+	 * @param   string  $adapterfolder  Name of folder to append to base path
 	 *
 	 * @since   3.1
 	 */
-	public function __construct()
+	public function __construct($basepath = __DIR__, $classprefix = 'JInstallerAdapter', $adapterfolder = 'adapter')
 	{
-		parent::__construct(__DIR__, 'JInstallerAdapter', __DIR__ . '/adapter');
-
-		// Override the default adapter folder
-		$this->_adapterfolder = 'adapter';
+		parent::__construct($basepath, $classprefix, $adapterfolder);
 
 		$this->extension = JTable::getInstance('extension');
 	}
 
 	/**
-	 * Returns the global Installer object, only creating it
-	 * if it doesn't already exist.
+	 * Returns the global Installer object, only creating it if it doesn't already exist.
+	 *
+	 * @param   string  $basepath       Base Path of the adapters
+	 * @param   string  $classprefix    Class prefix of adapters
+	 * @param   string  $adapterfolder  Name of folder to append to base path
 	 *
 	 * @return  JInstaller  An installer object
 	 *
 	 * @since   3.1
 	 */
-	public static function getInstance()
+	public static function getInstance($basepath = __DIR__, $classprefix = 'JInstallerAdapter', $adapterfolder = 'adapter')
 	{
-		if (!isset(self::$instance))
+		if (!isset(self::$instances[$basepath]))
 		{
-			self::$instance = new JInstaller;
+			self::$instances[$basepath] = new JInstaller($basepath, $classprefix, $adapterfolder);
+
+			// For B/C, we load the first instance into the static $instance container, remove at 4.0
+			if (!isset(self::$instance))
+			{
+				self::$instance = self::$instances[$basepath];
+			}
 		}
 
-		return self::$instance;
+		return self::$instances[$basepath];
 	}
 
 	/**
@@ -313,7 +332,6 @@ class JInstaller extends JAdapter
 	 * @return  boolean  True if successful
 	 *
 	 * @since   3.1
-	 * @throws  RuntimeException
 	 */
 	public function abort($msg = null, $type = null)
 	{
@@ -387,14 +405,6 @@ class JInstaller extends JAdapter
 
 			// Get the next step and continue
 			$step = array_pop($this->stepStack);
-		}
-
-		$conf = JFactory::getConfig();
-		$debug = $conf->get('debug');
-
-		if ($debug)
-		{
-			throw new RuntimeException('Installation unexpectedly terminated: ' . $msg, 500);
 		}
 
 		return $retval;
@@ -2297,12 +2307,26 @@ class JInstaller extends JAdapter
 	 */
 	public function loadAdapter($adapter, $options = array())
 	{
-		$class = 'JInstallerAdapter' . ucfirst($adapter);
+		$class = $this->_classprefix . ucfirst($adapter);
 
-		// Verify the class exists
 		if (!class_exists($class))
 		{
-			throw new InvalidArgumentException(sprintf('The %s install adapter does not exist.', $adapter));
+			// @deprecated 4.0 - The adapter should be autoloaded or manually included by the caller
+			$path = $this->_basepath . '/' . $this->_adapterfolder . '/' . $adapter . '.php';
+
+			// Try to load the adapter object
+			if (!file_exists($path))
+			{
+				throw new InvalidArgumentException(sprintf('The %s install adapter does not exist.', $adapter));
+			}
+
+			// Try once more to find the class
+			require_once $path;
+
+			if (!class_exists($class))
+			{
+				throw new InvalidArgumentException(sprintf('The %s install adapter does not exist.', $adapter));
+			}
 		}
 
 		// Ensure the adapter type is part of the options array

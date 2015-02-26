@@ -86,8 +86,6 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 			JToolbarHelper::divider();
 		}
 
-		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATESITES');
-
 		JHtmlSidebar::setAction('index.php?option=com_installer&view=updatesites');
 
 		JHtmlSidebar::addFilter(
@@ -115,5 +113,6 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 		);
 
 		parent::addToolbar();
+		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATESITES');
 	}
 }
