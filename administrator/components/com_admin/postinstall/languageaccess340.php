@@ -45,22 +45,3 @@ function admin_postinstall_languageaccess340_condition()
 	  return false;
 	}
 }
-
-/**
- * Updating the language access '0' to '1' as action.
- *
- * @return  void
- *
- * @since   3.4.1
- */
-function admin_postinstall_languageaccess340_action()
-{
-	$db    = JFactory::getDbo();
-	$query = $db->getQuery(true)
-		->update($db->quoteName('#__languages'))
-		->set($db->quoteName('access') . " = " . $db->quote('1'))
-		->where($db->quoteName('access') . " = " . $db->quote('0'));
-	$db->setQuery($query);
-	$result = $db->execute();
-
-}
