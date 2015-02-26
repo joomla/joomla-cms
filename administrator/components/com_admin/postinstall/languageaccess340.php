@@ -41,7 +41,7 @@ function admin_postinstall_languageaccess340_condition()
 	}
 	else
 	{
-		// All good the query retrun nothing.
+		// All good the query return nothing.
 		return false;
 	}
 }
