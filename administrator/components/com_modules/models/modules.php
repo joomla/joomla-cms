@@ -328,10 +328,9 @@ class ModulesModelModules extends JModelList
 				$query->where('a.id = ' . (int) substr($search, 3));
 			}
 			else
-			{
-				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
-				$search = $db->quote($escapedSearchString);
-				$query->where('(' . 'a.title ' . $query->regexp($search) . ' OR a.note ' . $query->regexp($search) . ')');
+			{				
+				$search = $db->quote('%'.strtolower($search).'%');
+				$query->where('(' . 'LOWER(a.title) LIKE ' . $search . ' OR LOWER(a.note) LIKE ' . $search . ')');
 			}
 		}
 

@@ -151,10 +151,9 @@ class TemplatesModelStyles extends JModelList
 				$query->where('a.id = ' . (int) substr($search, 3));
 			}
 			else
-			{
-				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
-				$search = $db->quote($escapedSearchString);
-				$query->where('(' . 'a.template ' . $query->regexp($search) . ' OR a.title ' . $query->regexp($search) . ')');
+			{				
+				$search = $db->quote('%'.strtolower($search).'%');
+				$query->where('(' . 'LOWER(a.template) LIKE ' . $search . ' OR LOWER(a.title) LIKE ' . $search . ')');
 			}
 		}
 
