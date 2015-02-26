@@ -19,27 +19,35 @@ defined('_JEXEC') or die;
 	<?php else : ?>
 		<div id="j-main-container">
 	<?php endif;?>
-	<?php
+	
+	<?php if (!count($this->messages)): ?>
 
-		if (!count($this->messages))
-		{
-			echo '<div class="alert alert-info"><a class="close" data-dismiss="alert" href="#">&times;</a>' . JText::_('COM_INSTALLER_MSG_WARNINGS_NONE') . '</div>';
-		}
-		else
-		{
-			echo JHtml::_('sliders.start', 'warning-sliders', array('useCookie' => 1));
-
-			foreach($this->messages as $message)
-			{
-				echo JHtml::_('sliders.panel', $message['message'], str_replace(' ', '', $message['message']));
-				echo '<div style="padding: 5px;" >' . $message['description'] . '</div>';
-			}
-			echo JHtml::_('sliders.panel', JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'), 'furtherinfo-pane');
-			echo '<div style="padding: 5px;" >' . JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC') . '</div>';
-			echo JHtml::_('sliders.end');
-		}
-		?>
-			<div class="clr"> </div>
+		<div class="alert alert-info"><a class="close" data-dismiss="alert" href="#">&times;</a><?php echo JText::_('COM_INSTALLER_MSG_WARNINGS_NONE'); ?></div>
+	
+	<?php else: ?>
+	
+		<?php echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'warning')); ?>
+			
+			<?php foreach($this->messages as $message): ?>
+					
+				<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', $message['message'], 'warning' . ($i++)); ?>
+			
+					<?php echo $message['description']; ?>
+					
+				<?php echo JHtml::_('bootstrap.endSlide'); ?>
+		
+			<?php endforeach; ?>
+			
+				<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'), 'furtherinfo'); ?>
+					
+					<?php echo JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC') ?>
+					
+				<?php echo JHtml::_('bootstrap.endSlide'); ?>
+				
+		<?php echo JHtml::_('bootstrap.endAccordion'); ?>	
+	
+	<?php endif; ?>
+	
 			<div>
 				<input type="hidden" name="boxchecked" value="0" />
 				<?php echo JHtml::_('form.token'); ?>
