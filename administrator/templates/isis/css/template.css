@@ -8007,7 +8007,7 @@ a.grid_true {
 	display: block;
 	left: -16.5%;
 	width: 16.5%;
-	margin: -5px 0 0 -1px;
+	margin: 2px 0 0 -1px;
 	padding-top: 10px;
 	background: #fff;
 	background: -moz-linear-gradient(top,#ffffff 0%,#ededed 100%);
@@ -8042,7 +8042,7 @@ a.grid_true {
 .j-toggle-button-wrapper {
 	position: absolute;
 	display: block;
-	margin-top: 11px;
+	margin-top: 6px;
 	padding: 0;
 }
 .j-toggle-button-wrapper.j-toggle-hidden {
