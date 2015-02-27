@@ -626,7 +626,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * Ensure that the regexp operator is Postgresql compatible.
 	 *
 	 * Usage:
-	 * $query->where('field ' . $db->regexp($search));
+	 * $query->where('field ' . $query->regexp($search));
 	 *
 	 * @param   string  $value  The regex pattern.
 	 *
