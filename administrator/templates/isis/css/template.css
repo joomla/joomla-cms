@@ -7568,7 +7568,7 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 		padding: 0;
 	}
 	.nav-collapse.collapse.in {
-		height: auto !important;
+		height: auto;
 	}
 	.navbar .brand {
 		margin-top: 2px;
