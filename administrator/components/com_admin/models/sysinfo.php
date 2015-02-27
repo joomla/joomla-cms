@@ -177,7 +177,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 */
 	public function &getPHPInfo()
 	{
-		if (is_null($this->php_info) and $this->phpinfo_enabled())
+		if (is_null($this->php_info) && $this->phpinfo_enabled())
 		{
 			ob_start();
 			date_default_timezone_set('UTC');
