@@ -6284,6 +6284,10 @@ dl.article-info dd.hits span[class*=" icon-"] {
 }
 .icon-arrow-right-2:before {
 	content: "\e00a";
+	background-color: #eeeeee;
+	padding-bottom: 5px;
+	padding-right: 5px;
+    	padding-top: 5px;
 }
 .icon-arrow-down-2:before {
 	content: "\e00b";
@@ -8003,7 +8007,7 @@ a.grid_true {
 	display: block;
 	left: -16.5%;
 	width: 16.5%;
-	margin: -10px 0 0 -1px;
+	margin: -5px 0 0 -1px;
 	padding-top: 10px;
 	background: #fff;
 	background: -moz-linear-gradient(top,#ffffff 0%,#ededed 100%);
