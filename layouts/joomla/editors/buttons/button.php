@@ -19,9 +19,9 @@ if ($button->get('name'))
 	$onclick  = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : null;
 	$title    = ($button->get('title')) ? $button->get('title') : $button->get('text');
 
-	if ($button->get('js'))
+	if (isset($button->plugin) && $button->get('js'))
 	{
-		JFactory::getApplication()->getDocument()->addScriptDeclaration($button->get('js'));
+		JFactory::getDocument()->addScriptDeclaration($button->get('js'));
 	}
 
 	if ($button->get('modal'))

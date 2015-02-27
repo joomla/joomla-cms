@@ -19,8 +19,7 @@ $buttons = $displayData;
 				// Some checks for new layouts
 				$isNewLayout = 0;
 				if (isset($button->plugin)){
-					$named = strtolower(str_replace(' ', '', $button->plugin));
-					$mpath = '/layouts/joomla/editors-xtd/' . $named . '/' . $named . '.php';
+					$mpath = '/layouts/joomla/editors-xtd/' . $button->plugin . '/' . $button->plugin . '.php';
 
 					if (is_file(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html' . $mpath)
 						|| is_file(JPATH_ROOT . $mpath))
@@ -30,7 +29,7 @@ $buttons = $displayData;
 				}
 				?>
 				<?php if ($isNewLayout) : ?>
-				<?php echo JLayoutHelper::render('joomla.editors-xtd.' . $named . '.' . $named, $button); ?>
+				<?php echo JLayoutHelper::render('joomla.editors-xtd.' . $button->plugin . '.' . $button->plugin, $button); ?>
 				<?php endif; ?>
 				<?php if (!$isNewLayout) : ?>
 				<?php echo JLayoutHelper::render('joomla.editors.buttons.button', $button); ?>

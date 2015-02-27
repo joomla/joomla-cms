@@ -16,8 +16,7 @@ $button = $displayData;
 
 JFactory::getDocument()->addScriptDeclaration(
 	"
-		function insertReadmore(editor)
-	{
+	function insertReadmore(editor) {
 		var content = $button->content;
 		if (content.match(/<hr\s+id=(\"|')system-readmore(\"|')\s*\/*>/i))
 		{

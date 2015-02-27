@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('bootstrap.modal');
 
 $button = $displayData;
-//'&amp;fieldid=imageModal_' . $button->editor .
+
 $link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name=' . $button->editor . '&amp;asset=' . $button->asset . '&amp;author=' . $button->author;
 
 // Render the modal
