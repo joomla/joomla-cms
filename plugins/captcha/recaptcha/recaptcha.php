@@ -76,7 +76,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 				);
 				break;
 		}
-		$document->addScript($file);
+		JHtml::_('script', $file);
 
 		return true;
 	}
