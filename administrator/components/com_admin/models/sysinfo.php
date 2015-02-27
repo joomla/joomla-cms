@@ -161,7 +161,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 *
 	 * @since  3.4.1
 	 */
-	public function phpinfo_enabled()
+	public function phpinfoEnabled()
 	{
 		$disabled = explode(',', ini_get('disable_functions'));
 
@@ -177,7 +177,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 */
 	public function &getPHPInfo()
 	{
-		if (is_null($this->php_info) && $this->phpinfo_enabled())
+		if (is_null($this->php_info) && $this->phpinfoEnabled())
 		{
 			ob_start();
 			date_default_timezone_set('UTC');
