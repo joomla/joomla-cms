@@ -420,7 +420,20 @@ class JComponentHelper
 
 		try
 		{
-			static::$components = $cache->get(array($db, 'loadObjectList'), array('option'), $option, false);
+			$components = $cache->get(array($db, 'loadObjectList'), array('option'), $option, false);
+
+			/**
+			 * Verify $components is an array, some cache handlers return an object even though
+			 * the original was a single object array.
+			 */
+			if (!is_array($components))
+			{
+				static::$components[$option] = $components;
+			}
+			else
+			{
+				static::$components = $components;
+			}
 		}
 		catch (RuntimeException $e)
 		{

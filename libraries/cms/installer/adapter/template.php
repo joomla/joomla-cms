@@ -70,7 +70,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	protected function copyBaseFiles()
 	{
 		// Copy all the necessary files
-		if ($this->parent->parseFiles($this->manifest->files, -1) === false)
+		if ($this->parent->parseFiles($this->getManifest()->files, -1) === false)
 		{
 			throw new RuntimeException(
 				JText::sprintf(
@@ -80,7 +80,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			);
 		}
 
-		if ($this->parent->parseFiles($this->manifest->images, -1) === false)
+		if ($this->parent->parseFiles($this->getManifest()->images, -1) === false)
 		{
 			throw new RuntimeException(
 				JText::sprintf(
@@ -90,7 +90,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			);
 		}
 
-		if ($this->parent->parseFiles($this->manifest->css, -1) === false)
+		if ($this->parent->parseFiles($this->getManifest()->css, -1) === false)
 		{
 			throw new RuntimeException(
 				JText::sprintf(
@@ -178,9 +178,9 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			$this->parent->setPath('source', $basePath . '/templates/' . $this->parent->extension->element);
 		}
 
-		$this->manifest = $this->parent->getManifest();
+		$this->setManifest($this->parent->getManifest());
 
-		$client = (string) $this->manifest->attributes()->client;
+		$client = (string) $this->getManifest()->attributes()->client;
 
 		// Load administrator language if not set.
 		if (!$client)
@@ -203,8 +203,8 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	 */
 	protected function parseOptionalTags()
 	{
-		$this->parent->parseMedia($this->manifest->media);
-		$this->parent->parseLanguages($this->manifest->languages, $this->clientId);
+		$this->parent->parseMedia($this->getManifest()->media);
+		$this->parent->parseLanguages($this->getManifest()->languages, $this->clientId);
 	}
 
 	/**
@@ -255,12 +255,13 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	 *
 	 * @since   3.4
 	 */
-	protected function prepareDiscoverInstall()
+	public function prepareDiscoverInstall()
 	{
 		$client = JApplicationHelper::getClientInfo($this->extension->client_id);
 		$manifestPath = $client->path . '/templates/' . $this->extension->element . '/templateDetails.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
+		$this->setManifest($this->parent->getManifest());
 	}
 
 	/**

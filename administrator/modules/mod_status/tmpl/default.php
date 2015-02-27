@@ -18,7 +18,7 @@ if ($params->get('show_viewsite', 1))
 {
 	$output[] = '<div class="btn-group viewsite">'
 		. '<a href="' . JUri::root() . '" target="_blank">'
-		. '<i class="icon-share-alt"></i> ' . JText::_('JGLOBAL_VIEW_SITE')
+		. '<i class="icon-out-2"></i> ' . JText::_('JGLOBAL_VIEW_SITE')
 		. '</a>'
 		. '</div>'
 		. '<div class="btn-group divider"></div>';

@@ -23,9 +23,13 @@
 phpdoc-*
 
 # Patch Tester #
-administrator/components/com_patchtester/
-administrator/templates/hathor/html/com_patchtester
-components/com_patchtester/
+/administrator/components/com_patchtester
+/administrator/templates/hathor/html/com_patchtester
+/components/com_patchtester
+/media/com_patchtester
+
+# Install from Web plugin #
+/plugins/installer/webinstaller
 
 # OSX #
 ._*

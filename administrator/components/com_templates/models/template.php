@@ -653,11 +653,11 @@ class TemplatesModelTemplate extends JModelForm
 
 			if (stristr($name, 'mod_') != false)
 			{
-				$return = $this->createTemplateOverride($override . '/tmpl', $htmlPath);
+				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
 			}
 			elseif (stristr($override, 'com_') != false)
 			{
-				$return = $this->createTemplateOverride($override . '/tmpl', $htmlPath);
+				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
 			}
 			else
 			{
