@@ -1476,7 +1476,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function testExtendWhere()
 	{
@@ -1526,7 +1526,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function testOrWhere()
 	{
@@ -1576,7 +1576,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function testAndWhere()
 	{
