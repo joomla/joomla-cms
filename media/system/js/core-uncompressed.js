@@ -3,8 +3,11 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+(function(window){
+	'use strict';
+
 // Only define the Joomla namespace if not defined.
-Joomla = window.Joomla || {};
+window.Joomla = window.Joomla || {};
 
 Joomla.editors = {};
 // An object to hold each editor instance on page
@@ -97,7 +100,7 @@ Joomla.checkAll = function(checkbox, stub) {
         stub = 'cb';
     }
     if (checkbox.form) {
-        var c = 0, i, e;
+        var c = 0, i, e, n;
         for (i = 0, n = checkbox.form.elements.length; i < n; i++) {
             e = checkbox.form.elements[i];
             if (e.type == checkbox.type) {
@@ -204,7 +207,7 @@ Joomla.isChecked = function(isitchecked, form) {
     }
 
     // Toggle main toggle checkbox depending on checkbox selection
-    var c = true, i, e;
+    var c = true, i, e, n;
     for (i = 0, n = form.elements.length; i < n; i++) {
         e = form.elements[i];
         if (e.type == 'checkbox') {
@@ -262,10 +265,10 @@ Joomla.tableOrdering = function(order, dir, task, form) {
  * @param string
  *          The original item value that was selected
  */
-function writeDynaList(selectParams, source, key, orig_key, orig_val) {
+window.writeDynaList = function (selectParams, source, key, orig_key, orig_val) {
     var html = '\n  <select ' + selectParams + '>', i, selected;
     i = 0;
-    for (x in source) {
+    for (var x in source) {
         if (source[x][0] == key) {
             selected = '';
             if ((orig_key == key && orig_val == source[x][1])
@@ -298,15 +301,15 @@ function writeDynaList(selectParams, source, key, orig_key, orig_val) {
  * @param string
  *          The original item value that was selected
  */
-function changeDynaList(listname, source, key, orig_key, orig_val) {
+window.changeDynaList = function (listname, source, key, orig_key, orig_val) {
     var list = document.adminForm[listname];
 
     // empty the list
-    for (i in list.options.length) {
+    for (var i in list.options.length) {
         list.options[i] = null;
     }
     i = 0;
-    for (x in source) {
+    for (var x in source) {
         if (source[x][0] == key) {
             opt = new Option();
             opt.value = source[x][1];
@@ -330,7 +333,7 @@ function changeDynaList(listname, source, key, orig_key, orig_val) {
 // return the value of the radio button that is checked
 // return an empty string if none are checked, or
 // there are no radio buttons
-function radioGetCheckedValue(radioObj) {
+window.radioGetCheckedValue = function (radioObj) {
     if (!radioObj) {
         return '';
     }
@@ -342,7 +345,7 @@ function radioGetCheckedValue(radioObj) {
             return '';
         }
     }
-    for (i = 0; i < n; i++) {
+    for (var i = 0; i < n; i++) {
         if (radioObj[i].checked) {
             return radioObj[i].value;
         }
@@ -367,11 +370,11 @@ function radioGetCheckedValue(radioObj) {
  * @param srcListName
  * @return
  */
-function getSelectedValue(frmName, srcListName) {
+window.getSelectedValue = function (frmName, srcListName) {
     var form = document[frmName],
     srcList = form[srcListName];
 
-    i = srcList.selectedIndex;
+    var i = srcList.selectedIndex;
     if (i != null && i > -1) {
         return srcList.options[i].value;
     } else {
@@ -386,7 +389,7 @@ function getSelectedValue(frmName, srcListName) {
  * @param task
  * @return
  */
-function listItemTask(id, task) {
+window.listItemTask = function (id, task) {
     var f = document.adminForm, i, cbx,
     cb = f[id];
     if (cb) {
@@ -408,7 +411,7 @@ function listItemTask(id, task) {
  *
  * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
  */
-function submitbutton(pressbutton) {
+window.submitbutton = function (pressbutton) {
     submitform(pressbutton);
 }
 
@@ -417,7 +420,7 @@ function submitbutton(pressbutton) {
  *
  * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitform() instead.
  */
-function submitform(pressbutton) {
+window.submitform = function (pressbutton) {
     if (pressbutton) {
         document.adminForm.task.value = pressbutton;
     }
@@ -434,11 +437,11 @@ function submitform(pressbutton) {
 /**
  * USED IN: libraries/joomla/html/html/grid.php
  */
-function saveorder(n, task) {
+window.saveorder = function (n, task) {
     checkAll_button(n, task);
 }
 
-function checkAll_button(n, task) {
+window.checkAll_button = function (n, task) {
     if (!task) {
         task = 'saveorder';
     }
@@ -456,3 +459,6 @@ function checkAll_button(n, task) {
     }
     submitform(task);
 }
+
+})(this);
+
