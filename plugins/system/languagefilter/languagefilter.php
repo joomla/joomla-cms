@@ -243,7 +243,14 @@ class PlgSystemLanguageFilter extends JPlugin
 			if ($this->params->get('remove_default_prefix', 0) && !isset($this->sefs[$sef]))
 			{
 				$found = true;
-				$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+				if (strlen($sef))
+				{
+					$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+				}
+				else
+				{
+					$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'), JComponentHelper::getParams('com_languages')->get('site', 'en-GB'));
+				}
 			}
 			else
 			{
