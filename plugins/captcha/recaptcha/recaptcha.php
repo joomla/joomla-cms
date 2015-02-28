@@ -88,7 +88,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Gets the challenge HTML
 	 *
-	 * @param   string  $name   The name of the field.
+	 * @param   string  $name   The name of the field. Not Used.
 	 * @param   string  $id     The id of the field.
 	 * @param   string  $class  The class of the field. This should be passed as
 	 *                          e.g. 'class="required"'.
@@ -97,7 +97,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @since  2.5
 	 */
-	public function onDisplay($name, $id = 'dynamic_recaptcha_1', $class = '')
+	public function onDisplay($name = null, $id = 'dynamic_recaptcha_1', $class = '')
 	{
 		return '<div id="' . $id . '" ' . $class . '></div>';
 	}
