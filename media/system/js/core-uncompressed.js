@@ -551,3 +551,52 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 
 })(this);
 
+/**
+ * Joomla Behavior system
+ */
+(function(window){
+	'use strict';
+
+	window.JoomlaBehavior = window.JoomlaBehavior || function() {};
+
+	/**
+	 * Add new behavior
+	 * @param string nameSpace Behavior name
+	 * @param string event Event subscribed to
+	 * @param method callback Callback to be executed
+	 */
+	JoomlaBehavior.prototype.add = function (nameSpace, event, callback) {
+
+	};
+
+	/**
+	 * Remove new behavior
+	 */
+	JoomlaBehavior.prototype.remove = function () {
+
+	};
+
+	/**
+	 * Call behaviors
+	 * @param string event Event to be called
+	 */
+	JoomlaBehavior.prototype.fire = function (event) {
+		console.log(event);
+	};
+
+	/**
+	 * Init Behavior, and wait on DOM ready, and all loaded
+	 */
+	Joomla.behavior = Joomla.behavior || new JoomlaBehavior;
+
+	Joomla.domReady(function(){
+		Joomla.behavior.fire('ready');
+	});
+	var onLoadCallback = function(){
+		Joomla.behavior.fire('load');
+		Joomla.removeListener('load', onLoadCallback);
+	};
+	Joomla.addListener('load', onLoadCallback);
+
+})(this);
+
