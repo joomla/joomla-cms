@@ -206,7 +206,7 @@ abstract class JHtmlIcon
 				$icon = 'eye-close';
 			}
 
-			$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="' . JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0)
+			$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="' . JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0)
 				. '"></span>'
 				. JText::_('JGLOBAL_EDIT');
 		}
