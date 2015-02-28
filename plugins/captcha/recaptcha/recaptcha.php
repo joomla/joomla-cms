@@ -126,6 +126,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 				$spam      = ($challenge == null || strlen($challenge) == 0 || $response == null || strlen($response) == 0);
 				break;
 			case '2.0':
+				$challenge = NULL; // Not needed in 2.0 but needed for getResponse call
 				$response = $input->get('g-recaptcha-response', '', 'string');
 				$spam     = ($response == null || strlen($response) == 0);
 				break;
@@ -164,7 +165,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 * @param   string  $privatekey  The private key for authentication.
 	 * @param   string  $remoteip    The remote IP of the visitor.
 	 * @param   string  $response    The response received from Google.
-	 * @param   string  $challenge   The challenge field from the reCaptcha.
+	 * @param   string  $challenge   The challenge field from the reCaptcha. Only for 1.0.
 	 *
 	 * @return bool True if response is good | False if response is bad.
 	 *
