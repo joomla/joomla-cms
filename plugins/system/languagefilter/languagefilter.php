@@ -249,8 +249,10 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 				else
 				{
-					$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'),
-						JComponentHelper::getParams('com_languages')->get('site', 'en-GB'));
+					$lang_code = $this->app->input->cookie->getString(
+						JApplicationHelper::getHash('language'),
+						JComponentHelper::getParams('com_languages')->get('site', 'en-GB')
+					);
 
 					if ($lang_code == JComponentHelper::getParams('com_languages')->get('site', 'en-GB'))
 					{
