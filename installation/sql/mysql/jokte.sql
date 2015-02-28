@@ -6,15 +6,13 @@
 --
 
 CREATE TABLE IF NOT EXISTS `#__adjuntos` (
-    `id` int(255) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Clave primaria',
-    `propietario_id` int(255) NOT NULL DEFAULT '0' COMMENT 'FK para la tabla #__content',
-    `nombre_archivo` varchar(1024) NOT NULL,
-    `ruta` varchar(1024) NOT NULL,
-    `hash` varchar(1024) NOT NULL,
-    PRIMARY KEY (`id`),
-    KEY `idx_propietario_id` (`propietario_id`)
-) DEFAULT CHARSET=utf8;
-
+  `id` int(255) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Clave primaria',
+  `propietario_id` int(255) NOT NULL COMMENT 'FK para la tabla #__content',
+  `nombre_archivo` varchar(1024) NOT NULL,
+  `ruta` varchar(1024) NOT NULL,
+  `hash` varchar(1024) NOT NULL,
+  `mime_type` varchar(80) NOT NULL
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Estructura de tabla para la tabla `#__assets`
