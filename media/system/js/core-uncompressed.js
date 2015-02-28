@@ -3,7 +3,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-(function(window){
+!(function(window){
 	'use strict';
 
 // Only define the Joomla namespace if not defined.
@@ -459,6 +459,95 @@ window.checkAll_button = function (n, task) {
     }
     submitform(task);
 }
+
+/**
+ * Extend Objects function
+ */
+Joomla.extend = function(destination, source) {
+	for(var p in source) {
+		destination[p] = source[p];
+	}
+	return destination;
+};
+
+/**
+ * Joomla options storage
+ */
+Joomla.optionsStorage = {};
+
+/**
+ * Domready listener
+ * Based on https://github.com/dperini/ContentLoaded by Diego Perini
+ */
+Joomla.domReady = Joomla.domReady || function (callback) {
+	var done = false, top = true,
+		root = document.documentElement,
+		modern = document.addEventListener;
+
+	var init = function(e) {
+		if (e.type === 'readystatechange' && document.readyState !== 'complete') {
+			return;
+		}
+		Joomla.removeListener(e.type, init, e.type === 'load' ? window : document);
+		if (!done) {
+			callback.call(window, e.type || e);
+			done = true
+		}
+	};
+
+	var poll = function() {
+		try { root.doScroll('left'); } catch(e) { setTimeout(poll, 50); return; }
+		init('poll');
+	};
+
+	if (document.readyState === 'complete') {
+		// DOM are ready since a years! call the callback
+		callback.call(window, 'lazyload');
+	}
+	else {
+		// IE trick
+		if (!modern && root.doScroll) {
+			try { top = !window.frameElement; } catch(e) { }
+			if (top) poll();
+		}
+		// Listen when DOM will become ready
+		Joomla.addListener('DOMContentLoaded', init, document);
+		Joomla.addListener('readystatechange', init, document);
+		Joomla.addListener('load', init, window);
+	}
+};
+
+/**
+ * Register the event listener
+ * @param event - string, event name
+ * @param method - callback function
+ * @param element - add listener to element, default is window
+ */
+Joomla.addListener = Joomla.addListener || function(event, callback, element) {
+	var element = element || window,
+		modern = document.addEventListener,
+		method = modern ? 'addEventListener' : 'attachEvent',
+		event  = modern ? event : 'on' + event;
+
+	// Add event listener,
+	element[method](event, callback);
+};
+
+/**
+ * Unregister the event listener
+ * @param event - string, event name
+ * @param callback - callback function
+ * @param element - remove DOM object, default is window,
+ */
+Joomla.removeListener = Joomla.removeListener || function(event, callback, element){
+	var element = element || window,
+    	modern = document.removeEventListener,
+    	method = modern ? 'removeEventListener' : 'detachEvent',
+    	event  = modern ? event : 'on' + event;
+
+	// Remove event listener,
+	element[method](event, callback);
+};
 
 })(this);
 
