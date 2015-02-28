@@ -552,24 +552,45 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 })(this);
 
 /**
- * Joomla Behavior system
+ * Joomla Behavior
  */
 (function(window){
 	'use strict';
 
+	/**
+	 * Private behaviors storage
+	 */
+	var behaviorsStorage = {};
+
 	var JoomlaBehavior = window.JoomlaBehavior || function() {
-		// Registered behaviors
-		this.behaviors = {};
+		// Key for behaviors storage
+		this.key = Math.random().toString(36).substr(8);
+
+		// Init empty storage
+		behaviorsStorage[this.key] = [];
+	};
+
+	var JoomlaBehaviorItem = window.JoomlaBehaviorItem || function(name, events, handler) {
+		this.name    = name;
+		this.events  = events;
+		this.handler = handler;
+
+		// Speed up test for event
+		this.hasEvent = {};
+		for (var i = 0, l = events.length; i < l; i++ ) {
+			this.hasEvent[events[i]] = true;
+		}
 	};
 
 	var JoomlaEvent = window.JoomlaEvent || function(type, target){
-		this.type = type;
+		this.type   = type;
 		this.target = target || document;
 	};
 
 	// Make it global
-	window.JoomlaBehavior = JoomlaBehavior;
-	window.JoomlaEvent = JoomlaEvent;
+	window.JoomlaBehavior     = JoomlaBehavior;
+	window.JoomlaBehaviorItem = JoomlaBehaviorItem;
+	window.JoomlaEvent        = JoomlaEvent;
 
 	/**
 	 * Add new behavior
@@ -578,15 +599,11 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	 * @param method callback Callback to be executed
 	 */
 	JoomlaBehavior.prototype.add = function (name, event, callback) {
-		var events = event.toString === '[object Array]' ? event : event.split(' ');
+		var events  = event.toString === '[object Array]' ? event : event.split(' '),
+			storage = behaviorsStorage[this.key],
+			behavior = new JoomlaBehaviorItem(name, events, callback);
 
-		for (var i = 0, l = events.length; i < l; i++ ) {
-			var e = events[i];
-
-			this.behaviors[e] = this.behaviors[e] || [];
-			this.behaviors[e].push(callback);
-
-		}
+		storage.push(behavior);
 	};
 
 	/**
@@ -595,24 +612,46 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	 * @param string event Event subscribed to
 	 */
 	JoomlaBehavior.prototype.remove = function (name, event) {
-		var removeAll = event && !name;
-		console.log('remove', name, event, removeAll)
+		var removeAllByEvent = !!(event && !name),
+			removeAllByName  = !!(!event && name),
+			storage = behaviorsStorage[this.key];
+
+		if (removeAllByEvent) {
+
+		}
+		else if (removeAllByName){
+
+		}
+		else {
+
+		}
+		//console.log('remove', name, event, removeAllByEvent, removeAllByName)
 	};
 
 	/**
 	 * Call behaviors
 	 * @param string event Event to be called
+	 * @param element element - target DOM object
 	 */
-	JoomlaBehavior.prototype.call = function (event, target) {
-		var jevent = new JoomlaEvent(event, target),
-			callbacks = this.behaviors[event] || [];
+	JoomlaBehavior.prototype.call = function (event, element) {
+		var parts = event.split('.'),
+			eventName = parts[0] || event,
+			name  = parts[1] || false,
+			jevent = new JoomlaEvent(event, element),
+			behaviors = behaviorsStorage[this.key];
 
-		console.log(event, jevent, this.behaviors);
+		console.log(event, eventName, name, jevent);
 
-		for (var i = 0, l = callbacks.length; i < l; i++ ) {
+		for (var i = 0, l = behaviors.length; i < l; i++ ) {
+			var behavior = behaviors[i];
+			if(!behavior.hasEvent[event]){
+				continue;
+			}
 			// Do not crash the site if some behavior is buggy
 			try {
-				callbacks[i].apply(this, [jevent]);
+				if (behavior.handler.apply(this, [jevent]) === false) {
+					break;
+				}
 			} catch (e) {
 				if(window.console){ console.log(e);}
 			}
