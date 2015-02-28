@@ -16,7 +16,7 @@ class JControllerEdit extends JControllerAdministrate
 		/** @var JModelAdministrator $model */
 		$model = $this->getModel($this->config['resource']);
 
-		$ids = $this->getIds();
+		$ids    = $this->getIds();
 		$editId = $ids[0];
 
 		if (!$model->allowAction('core.edit') && $editId != 0)
@@ -26,22 +26,23 @@ class JControllerEdit extends JControllerAdministrate
 		}
 
 		$config = $this->config;
-		$url = 'index.php?option='.$config['option'].'&view='.$config['view'].'&layout=form';
+		$url    = 'index.php?option=' . $config['option'] . '&view=' . $config['view'] . '&layout=form';
 
 		$context = $model->getContext();
 		$this->setUserState($context . '.edit.id', $editId);
 
-		if($editId != 0)
+		if ($editId != 0)
 		{
 			$model->checkout($editId);
-			$item    = $model->getItem($editId);
+			$item = $model->getItem($editId);
 
 			$context = $model->getContext();
 			$this->setUserState($context . '.jform.data', $item->getProperties());
-			$url .= '&id='.$editId;
+			$url .= '&id=' . $editId;
 		}
 
 		$this->setReturn($url);
-		return true;
+
+		return $this->executeController();
 	}
 }

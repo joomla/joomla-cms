@@ -26,9 +26,9 @@ class JControllerDelete extends JControllerAdministrate
 		}
 
 		$context = $model->getContext();
-		$editId = $this->getUserState($context . '.edit.id', 0);
+		$editId  = $this->getUserState($context . '.edit.id', 0);
 
-		if($editId != 0)
+		if ($editId != 0)
 		{
 			$model->checkin($editId);
 		}
@@ -47,9 +47,8 @@ class JControllerDelete extends JControllerAdministrate
 		$model->delete($cid);
 
 		//I couldn't find the language string for this.
-		$this->message    = JText::_('Item(s) deleted successfully');
-		$this->messageType = 'message';
+		$this->addMessage(JText::_('Item(s) deleted successfully'));
 
-		return true;
+		return $this->executeController();
 	}
 }

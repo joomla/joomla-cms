@@ -9,29 +9,27 @@
 
 defined('JPATH_PLATFORM') or die;
 
-class JControllerAdd extends JControllerAdministrate
+class JControllerCancel extends JControllerAdministrate
 {
 	public function execute()
 	{
 		/** @var JModelAdministrator $model */
-		$model = $this->getModel($this->config['resource']);
-
+		$model   = $this->getModel($this->config['resource']);
 		$context = $model->getContext();
 		$editId  = $this->getUserState($context . '.edit.id', 0);
 
-		//check in previously checked out record
 		if ($editId != 0)
 		{
 			$model->checkin($editId);
 		}
 
-		//clear the session variables
-		$this->setUserState($context . '.edit.id', 0);
+		$context = $model->getContext();
+		//clear the form state
 		$this->setUserState($context . '.jform.data', null);
+		$this->setUserState($context . '.edit.id', null);
 
 		$config = $this->config;
-		$url    = 'index.php?option=' . $config['option'] . '&view=' . $config['view'] . '&layout=form';
-		$this->setReturn($url);
+		$this->setReturn('index.php?option=' . $config['option'] . '&view=' . $config['view'] . '&layout=default');
 
 		return $this->executeController();
 	}

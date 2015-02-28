@@ -40,7 +40,6 @@ class JControllerDisplay extends JControllerCms
 		}
 
 		parent::__construct($input, $app, $config);
-
 	}
 
 	/**
@@ -92,7 +91,7 @@ class JControllerDisplay extends JControllerCms
 			echo $this->output;
 		}
 
-		return true;
+		return $this->executeController();
 	}
 
 	/**

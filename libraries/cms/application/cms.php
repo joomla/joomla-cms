@@ -86,6 +86,13 @@ class JApplicationCms extends JApplicationWeb
 	protected $template = null;
 
 	/**
+	 * Deferred redirect URL to return the client to.
+	 *
+	 * @var    string
+	 */
+	protected $defRedirect = null;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   mixed  $input   An optional argument to provide dependency injection for the application's
@@ -932,6 +939,43 @@ class JApplicationCms extends JApplicationWeb
 		$this->triggerEvent('onUserLogoutFailure', array($parameters));
 
 		return false;
+	}
+
+	/**
+	 * Method to set a deferred redirect URL
+	 * This allows MVSC controllers to handle their own redirect logic
+	 *
+	 * @param $url string
+	 *
+	 * @return string
+	 */
+	public function setDefRedirect($url)
+	{
+		$this->defRedirect = $url;
+	}
+
+	/**
+	 * Method to check if the application has a deferred redirect
+	 * @return bool
+	 */
+	public function hasDefRedirect()
+	{
+		if (!empty($this->defRedirect))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Method to get the deferred redirect
+	 *
+	 * @return string
+	 */
+	public function getDefRedirect()
+	{
+		return $this->defRedirect;
 	}
 
 	/**

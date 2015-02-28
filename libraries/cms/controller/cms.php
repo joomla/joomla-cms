@@ -29,11 +29,17 @@ abstract class JControllerCms extends JControllerBase
 	protected $models = array();
 
 	/**
+	 * The Task Controller
+	 * @var JControllerCms
+	 */
+	protected $controller;
+
+	/**
 	 * URL to return the client to.
 	 *
-	 * @var    string
+	 * @var    boolean
 	 */
-	protected $return;
+	protected $return = null;
 
 
 	/**
@@ -195,93 +201,30 @@ abstract class JControllerCms extends JControllerBase
 		return $config;
 	}
 
-	/**
-	 * Method to get a controller
-	 *
-	 * @param string           $name   of the controller to return
-	 * @param string           $prefix using the format $prefix.'Controller'.$name
-	 * @param JInput           $input  to use in the constructor method
-	 * @param JApplicationBase $app    to use in the constructor method
-	 * @param array            $config to use in the constructor method, this is normalized using the calling classes config array.
-	 *
-	 * @return mixed
-	 */
-	protected function getController($name, $prefix = null, JInput $input = null, JApplicationBase $app = null, $config = array())
+	public function setController(JController $controller = null)
 	{
-		$config = $this->normalizeConfig($config);
-
-		// Allows for secondary task chaining.
-		//@todo experiment with multiple task chaining
-		if (strpos($name, '.'))
-		{
-			list($name, $task) = explode('.', $name);
-			$config['task'] = $task;
-		}
-
-		if (is_null($prefix))
-		{
-			$prefix = $config['prefix'];
-		}
-
-		$class = ucfirst($prefix) . 'Controller' . ucfirst($name);
-
-		if (!class_exists($class))
-		{
-			$class = $this->getFallbackController($name, $input, $app, $config);
-		}
-
-		return new $class($input, $app, $config);
+		$this->controller = $controller;
 	}
 
-	/**
-	 * Method to get a the default task controller.
-	 *
-	 * Override this to use your own Fallback controller family.
-	 *
-	 * @param   string           $name   postfix name of the controller
-	 * @param   JInput           $input  The input object.
-	 * @param   JApplicationBase $app    The application object.
-	 * @param   array            $config Configuration
-	 *
-	 * @throws InvalidArgumentException
-	 * @return string
-	 */
-	protected function getFallbackController($name, JInput $input = null, JApplicationBase $app = null, $config = array())
+	protected function executeController()
 	{
-		$config = $this->normalizeConfig($config);
-
-		$fallbackClass = 'JController' . ucfirst($name);
-
-		if (!class_exists($fallbackClass))
+		if (!($this->controller instanceof JController))
 		{
-			$format = $input->getWord('format', 'html');
-			throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $fallbackClass, $format));
+			return true;
 		}
 
-		return $fallbackClass;
+		return $this->controller->execute();
 	}
-
-	/**
-	 * Method to get the redirect url
-	 * @return string
-	 */
-	public function getReturn()
-	{
-		return $this->return;
-	}
-
 
 	/**
 	 * Set a URL for browser redirection.
 	 *
 	 * @param   string $url       URL to redirect to.
-	 * @param   string $msg       Message to display on redirect. Optional.
-	 * @param   string $msgType   Message type. Optional, defaults to 'message'.
 	 * @param   bool   $useJRoute should we phrase the url with JRoute?
 	 *
 	 * @return  $this  Object to support chaining.
 	 */
-	public function setReturn($url, $msg = null, $msgType = 'message', $useJRoute = true)
+	public function setReturn($url, $useJRoute = true)
 	{
 		$config = $this->config;
 
@@ -306,37 +249,23 @@ abstract class JControllerCms extends JControllerBase
 
 		if ($useJRoute)
 		{
-			$this->return = JRoute::_($url, false);
-		}
-		else
-		{
-			$this->return = $url;
+			$url = JRoute::_($url, false);
 		}
 
-		if (!empty($msg))
-		{
-			$this->message     = $msg;
-			$this->messageType = $msgType;
-		}
+		// Always a deferred redirect in MVSC
+		/** @var JApplicationCms $app */
+		$app = $this->getApplication();
+		$app->setDefRedirect($url);
 
 		return $this;
 	}
 
 
-	/**
-	 * Method to check if the controller has a redirect
-	 *
-	 * @return boolean
-	 *
-	 */
-	public function hasReturn()
+	public function addMessage($msg, $msgType = 'message')
 	{
-		if (!empty($this->return))
-		{
-			return true;
-		}
-
-		return false;
+		/** @var JApplicationCms $app */
+		$app = $this->app;
+		$app->enqueueMessage($msg, $msgType);
 	}
 
 	/**

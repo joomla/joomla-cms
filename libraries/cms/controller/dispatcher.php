@@ -12,12 +12,6 @@ defined('JPATH_PLATFORM') or die;
 class JControllerDispatcher extends JControllerCms
 {
 	/**
-	 * The Task Controller
-	 * @var JControllerCms
-	 */
-	protected $controller;
-
-	/**
 	 * Uses the input to select the task controller and set the subject to the configuration
 	 *
 	 * @param   JInput           $input  The input object.
@@ -44,6 +38,85 @@ class JControllerDispatcher extends JControllerCms
 	}
 
 	/**
+	 * Method to get a controller
+	 *
+	 * @param string           $name   of the controller to return
+	 * @param string           $prefix using the format $prefix.'Controller'.$name
+	 * @param JInput           $input  to use in the constructor method
+	 * @param JApplicationBase $app    to use in the constructor method
+	 * @param array            $config to use in the constructor method, this is normalized using the calling classes config array.
+	 *
+	 * @return mixed
+	 */
+	protected function getController($name, $prefix = null, JInput $input = null, JApplicationBase $app = null, $config = array())
+	{
+		$config = $this->normalizeConfig($config);
+
+		if (strpos($name, '.'))
+		{
+			$name = explode('.', $name);
+		}
+
+		//make sure we have an array
+		settype($name, 'array');
+
+		$tasks = array_reverse($name);
+
+		$controller    = null;
+		$subController = null;
+		foreach ($tasks AS $task)
+		{
+			$config['task'] = $task;
+
+			if (is_null($prefix))
+			{
+				$prefix = $config['prefix'];
+			}
+
+			$class = ucfirst($prefix) . 'Controller' . ucfirst($task);
+
+			if (!class_exists($class))
+			{
+				$class = $this->getFallbackController($task, $input, $app, $config);
+			}
+
+			$controller = new $class($input, $app, $config);
+			$controller->setController($subController);
+			$subController = $controller;
+		}
+
+		return $controller;
+	}
+
+	/**
+	 * Method to get a the default task controller.
+	 *
+	 * Override this to use your own Fallback controller family.
+	 *
+	 * @param   string           $name   postfix name of the controller
+	 * @param   JInput           $input  The input object.
+	 * @param   JApplicationBase $app    The application object.
+	 * @param   array            $config Configuration
+	 *
+	 * @throws InvalidArgumentException
+	 * @return string
+	 */
+	protected function getFallbackController($name, JInput $input = null, JApplicationBase $app = null, $config = array())
+	{
+		$config = $this->normalizeConfig($config);
+
+		$fallbackClass = 'JController' . ucfirst($name);
+
+		if (!class_exists($fallbackClass))
+		{
+			$format = $input->getWord('format', 'html');
+			throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $fallbackClass, $format));
+		}
+
+		return $fallbackClass;
+	}
+
+	/**
 	 * Proxy for $this->controller->execute()
 	 *
 	 * @return bool True if the controller executed successfully
@@ -58,12 +131,11 @@ class JControllerDispatcher extends JControllerCms
 		try
 		{
 			$this->controller->execute();
-			$this->message     = $controller->message;
-			$this->messageType = $controller->messageType;
 		}
 		catch (Exception $e)
 		{
-			$this->setReturn(JRoute::_('index.php?Itemid=0'), $e->getMessage(), 'error');
+			$this->addMessage($e->getMessage(), 'error');
+			$this->setReturn(JRoute::_('index.php?Itemid=0'));
 
 			return false;
 		}
@@ -77,32 +149,22 @@ class JControllerDispatcher extends JControllerCms
 	 *
 	 * @return  boolean  False if no redirect exists.
 	 *
-	 * @todo refactor MVSC controllers to set the application redirect themselves.
+	 *
 	 */
 	public function redirect()
 	{
-		if ($this->config['task'] != 'display')
+		/** @var JApplicationCms $app */
+		$app = $this->app;
+
+		$tasks = explode('.', $this->config['task']);
+		if (!in_array('display', (array) $tasks) && !$app->hasDefRedirect())
 		{
 			$config = $this->config;
 			$this->setReturn('index.php?option=' . $config['option'] . '&view=' . $config['view'] . '&layout=' . $config['layout']);
-
-			$controller = $this->controller;
-			if ($controller->hasReturn())
-			{
-				$this->setReturn($controller->getReturn());
-			}
 		}
 
-		if ($this->hasReturn())
-		{
-			$app = $this->app;
-
-			// Enqueue the redirect message
-			$app->enqueueMessage($this->message, $this->messageType);
-
-			// Execute the redirect
-			$app->redirect($this->return);
-		}
+		// Execute the redirect
+		$app->redirect($app->getDefRedirect());
 
 		return false;
 	}
