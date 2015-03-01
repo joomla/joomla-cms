@@ -161,10 +161,10 @@ abstract class JHtmlIcon
 			$tooltip      = JText::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
 				. ' <br /> ' . $date;
 
-			if($legacy)
+			if ($legacy)
 			{
 				$button = JHtml::_('image', 'system/checked_out.png', null, null, true);
-				$text = '<span class="hasTooltip" title="' . JHtml::tooltipText($tooltip . '', 0) . '">' . $button . '</span> ' . JText::_('JLIB_HTML_CHECKED_OUT');
+				$text   = '<span class="hasTooltip" title="' . JHtml::tooltipText($tooltip . '', 0) . '">' . $button . '</span> ' . JText::_('JLIB_HTML_CHECKED_OUT');
 			}
 			else
 			{
