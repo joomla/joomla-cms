@@ -86,6 +86,6 @@ Do you want to improve Joomla?
 Copyright
 ---------------------
 * Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
-* [Credits](https://docs.joomla.org/Joomla!_Credits_and_Thanks)
+* [Special Thanks](https://docs.joomla.org/Joomla!_Credits_and_Thanks)
 * Distributed under the GNU General Public License version 2 or later
 * See [License details](https://docs.joomla.org/Joomla_Licenses)
