@@ -588,10 +588,15 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	 * Event object
 	 */
 	var JoomlaEvent = window.JoomlaEvent || function(type, target){
-		// check for namespaced event eg. event.behaviorname
-		var parts = type.split('.'),
-			event = parts[0] || '',
-			name  = parts[1] || '';
+		var event = type,
+			name = '',
+			i = type.indexOf('.');
+
+		// Check for namespaced event eg. event.behaviorname
+		if (i !== -1) {
+			event = type.substring(0, i);
+			name  = type.substring(i + 1);
+		}
 
 		this.name      = event;
 		this.nameFull  = type;
