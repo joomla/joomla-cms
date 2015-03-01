@@ -673,9 +673,9 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	/**
 	 * Sets the SQL statement string for later execution.
 	 *
-	 * @param   mixed    $query          The SQL statement to set either as a JDatabaseQuery object or a string.
-	 * @param   integer  $offset         The affected row offset to set.
-	 * @param   integer  $limit          The maximum affected rows to set.
+	 * @param   mixed    $query  The SQL statement to set either as a JDatabaseQuery object or a string.
+	 * @param   integer  $offset  The affected row offset to set.
+	 * @param   integer  $limit  The maximum affected rows to set.
 	 *
 	 * @return  JDatabaseDriver  This object to support method chaining.
 	 *
