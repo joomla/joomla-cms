@@ -25,6 +25,27 @@ abstract class JHtmlFormbehavior
 	protected static $loaded = array();
 
 	/**
+	 * Load Main Behavior script
+	 */
+	public static function load()
+	{
+		if (isset(static::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		// Include Core
+		JHtml::_('behavior.core');
+
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
+		JHtml::_('script', 'jui/behaviorform.min.js', false, true, false, false, JDEBUG);
+
+		static::$loaded[__METHOD__] = true;
+	}
+
+	/**
 	 * Method to load the Chosen JavaScript framework and supporting CSS into the document head
 	 *
 	 * If debugging mode is on an uncompressed version of Chosen is included for easier debugging.
@@ -44,53 +65,21 @@ abstract class JHtmlFormbehavior
 			return;
 		}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
+		$debug = is_null($debug) ? JDEBUG : $debug;
 
-		// If no debugging value is set, use the configuration setting
-		if ($debug === null)
-		{
-			$config = JFactory::getConfig();
-			$debug  = (boolean) $config->get('debug');
-		}
+		// Load main script
+		self::load();
 
-		// Default settings
-		if (!isset($options['disable_search_threshold']))
-		{
-			$options['disable_search_threshold'] = 10;
-		}
-
-		if (!isset($options['allow_single_deselect']))
-		{
-			$options['allow_single_deselect'] = true;
-		}
-
-		if (!isset($options['placeholder_text_multiple']))
-		{
-			$options['placeholder_text_multiple'] = JText::_('JGLOBAL_SELECT_SOME_OPTIONS');
-		}
-
-		if (!isset($options['placeholder_text_single']))
-		{
-			$options['placeholder_text_single'] = JText::_('JGLOBAL_SELECT_AN_OPTION');
-		}
-
-		if (!isset($options['no_results_text']))
-		{
-			$options['no_results_text'] = JText::_('JGLOBAL_SELECT_NO_RESULTS_MATCH');
-		}
-
-		// Options array to json options string
-		$options_str = json_encode($options, ($debug && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));
-
-		JHtml::_('script', 'jui/chosen.jquery.min.js', false, true, false, false, $debug);
+		// Load Chosen asset
 		JHtml::_('stylesheet', 'jui/chosen.css', false, true);
-		JFactory::getDocument()->addScriptDeclaration("
-				jQuery(document).ready(function (){
-					jQuery('" . $selector . "').chosen(" . $options_str . ");
-				});
-			"
-		);
+		JHtml::_('script', 'jui/chosen.jquery.min.js', false, true, false, false, $debug);
+
+		// Default translation
+		JText::script('JGLOBAL_SELECT_SOME_OPTIONS');
+		JText::script('JGLOBAL_SELECT_AN_OPTION');
+		JText::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
+
+		JFactory::getDocument()->addScriptOptions(__FUNCTION__, array($selector => $options));
 
 		static::$loaded[__METHOD__][$selector] = true;
 
@@ -111,59 +100,29 @@ abstract class JHtmlFormbehavior
 	 */
 	public static function ajaxchosen(Registry $options, $debug = null)
 	{
-		// Retrieve options/defaults
-		$selector       = $options->get('selector', '.tagfield');
-		$type           = $options->get('type', 'GET');
-		$url            = $options->get('url', null);
-		$dataType       = $options->get('dataType', 'json');
-		$jsonTermKey    = $options->get('jsonTermKey', 'term');
-		$afterTypeDelay = $options->get('afterTypeDelay', '500');
-		$minTermLength  = $options->get('minTermLength', '3');
+		$selector = $options->get('selector', '.tagfield');
+
+		if (isset(static::$loaded[__METHOD__][$selector]))
+		{
+			return;
+		}
+
+		$debug = is_null($debug) ? JDEBUG : $debug;
+
+		// Load main script
+		self::load();
+
+		// Requires chosen to work
+		static::chosen($selector, $debug);
+
+		JHtml::_('script', 'jui/ajax-chosen.min.js', false, true, false, false, $debug);
 
 		JText::script('JGLOBAL_KEEP_TYPING');
 		JText::script('JGLOBAL_LOOKING_FOR');
 
-		// Ajax URL is mandatory
-		if (!empty($url))
-		{
-			if (isset(static::$loaded[__METHOD__][$selector]))
-			{
-				return;
-			}
+		JFactory::getDocument()->addScriptOptions(__FUNCTION__, array($selector => $options->toArray()));
 
-			// Include jQuery
-			JHtml::_('jquery.framework');
-
-			// Requires chosen to work
-			static::chosen($selector, $debug);
-
-			JHtml::_('script', 'jui/ajax-chosen.min.js', false, true, false, false, $debug);
-			JFactory::getDocument()->addScriptDeclaration("
-				(function($){
-					$(document).ready(function () {
-						$('" . $selector . "').ajaxChosen({
-							type: '" . $type . "',
-							url: '" . $url . "',
-							dataType: '" . $dataType . "',
-							jsonTermKey: '" . $jsonTermKey . "',
-							afterTypeDelay: '" . $afterTypeDelay . "',
-							minTermLength: '" . $minTermLength . "'
-						}, function (data) {
-							var results = [];
-
-							$.each(data, function (i, val) {
-								results.push({ value: val.value, text: val.text });
-							});
-
-							return results;
-						});
-					});
-				})(jQuery);
-				"
-			);
-
-			static::$loaded[__METHOD__][$selector] = true;
-		}
+		static::$loaded[__METHOD__][$selector] = true;
 
 		return;
 	}

@@ -733,8 +733,8 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	 * 	Notify only myBehavior about DOM changes:
 	 * 		Joomla.Behavior.call('update.myBehavior', changedElement);
 	 *
-	 *  Notify all behaviors about element will be removed from DOM:
-	 * 		Joomla.Behavior.call('remove', changedElement);
+	 *  Notify all behaviors that you will remove something from container:
+	 * 		Joomla.Behavior.call('remove', container);
 	 *
 	 */
 	JoomlaBehavior.prototype.call = function (event, element, options) {
