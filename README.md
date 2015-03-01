@@ -65,7 +65,7 @@ Where can you get support and help?
 * Find the [information you need](https://docs.joomla.org/Start_here);
 * Find [help and other users](http://www.joomla.org/about-joomla/create-and-share.html);
 * Post questions at [our forums](http://forum.joomla.org);
-* [Joomla Resources Directory](http://resources.joomla.org/tos.html) (JRD).
+* [Joomla Resources Directory](http://resources.joomla.org/) (JRD).
 
 Do you already have a Joomla site that isn't built with Joomla 3.x?
 ---------------------
