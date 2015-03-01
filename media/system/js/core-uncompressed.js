@@ -461,7 +461,7 @@ window.checkAll_button = function (n, task) {
 }
 
 /**
- * Extend Objects function
+ * Extend Objects
  */
 Joomla.extend = function(destination, source) {
 	for(var p in source) {
@@ -474,6 +474,13 @@ Joomla.extend = function(destination, source) {
  * Joomla options storage
  */
 Joomla.optionsStorage = {};
+
+/**
+ * Return options for given key
+ */
+Joomla.getOptions = function(key) {
+	return Joomla.optionsStorage[key] || null;
+};
 
 /**
  * Domready listener
@@ -605,9 +612,10 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 
 	/**
 	 * Add new behavior
-	 * @param string name Behavior name
-	 * @param string|array event(s) Event subscribed to
-	 * @param method callback Callback to be executed
+	 *
+	 * @param string       name     Behavior name
+	 * @param string|array event    Event(s) subscribed to
+	 * @param method       callback Callback to be executed
 	 *
 	 * @example:
 	 * 	Watch on document ready and update part of document:
@@ -651,7 +659,8 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 
 	/**
 	 * Remove new behavior
-	 * @param string event Event subscribed to, can be in format event.behaviorname
+	 *
+	 * @param string event Event to be removed, can be in format event.behaviorname
 	 *
 	 * @example:
 	 * 	Unbind specific event from all behaviors:
@@ -706,8 +715,10 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 
 	/**
 	 * Call behaviors
-	 * @param string event Event to be called, can be in format event.behaviorname
-	 * @param element element - target DOM object
+	 *
+	 * @param string  event   Event to be called, can be in format event.behaviorname
+	 * @param element element Target DOM element
+	 * @param object  options Custom options for Behavior, used only when call specific behavior, eg event.behaviorname
 	 *
 	 * @example:
 	 * 	Notify all behaviors about DOM changes:
@@ -717,15 +728,30 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	 * 		Joomla.Behavior.call('update.myBehavior', changedElement);
 	 *
 	 */
-	JoomlaBehavior.prototype.call = function (event, element) {
+	JoomlaBehavior.prototype.call = function (event, element, options) {
 		var jevent = new JoomlaEvent(event, element),
 			storage = _getBehaviorsStorage(this.key),
 			behavior;
 
 		for (var i = 0, l = storage.length; i < l; i++ ) {
 			behavior = storage[i];
+			jevent.options = null;
 
-			if(!behavior || !behavior.events[jevent.name] || (jevent.nameSpace && behavior.name !== jevent.nameSpace)){
+			// Check whether we have valid behavior
+			if (!behavior || !behavior.events[jevent.name] || (jevent.nameSpace && behavior.name !== jevent.nameSpace)){
+				continue;
+			}
+
+			// Check Options
+			if (options && jevent.nameSpace && behavior.name === jevent.nameSpace) {
+				jevent.options = options;
+			}
+			else {
+				jevent.options = Joomla.getOptions(behavior.name);
+			}
+
+			// Do not call Behavior without options
+			if (!jevent.options) {
 				continue;
 			}
 
