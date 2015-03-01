@@ -131,7 +131,7 @@ abstract class JHtmlIcon
 	 *
 	 * @since   1.6
 	 */
-	public static function edit($article, $params, $attribs = array(), $legacy = true)
+	public static function edit($article, $params, $attribs = array(), $legacy = false)
 	{
 		$user = JFactory::getUser();
 		$uri  = JUri::getInstance();
