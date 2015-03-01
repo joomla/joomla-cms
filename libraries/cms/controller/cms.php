@@ -35,29 +35,6 @@ abstract class JControllerCms extends JControllerBase
 	protected $controller;
 
 	/**
-	 * URL to return the client to.
-	 *
-	 * @var    boolean
-	 */
-	protected $return = null;
-
-
-	/**
-	 * Redirect message.
-	 *
-	 * @var    string
-	 */
-	public $message;
-
-	/**
-	 * Redirect message type.
-	 *
-	 * @var    string
-	 */
-	public $messageType = 'message';
-
-
-	/**
 	 * Instantiate the controller.
 	 *
 	 * @param   JInput           $input  The input object.
@@ -68,49 +45,28 @@ abstract class JControllerCms extends JControllerBase
 	{
 		parent::__construct($input, $app);
 
-		if (!isset($config['option']))
-		{
-			$config['option'] = $this->input->get('option');
-		}
+		$config['option'] = $this->getDefaultConfig('option', $config, $this->input->get('option'));
+		$config['prefix'] = $this->getDefaultConfig('prefix', $config, $this->getPrefix($config['option']));
 
-		if (!isset($config['prefix']))
-		{
-			$config['prefix'] = $this->getPrefix($config['option']);
-		}
+		$config['default_view'] = $this->getDefaultConfig('default_view', $config, 'default');
+		$config['view'] = $this->getDefaultConfig('view', $config, $this->input->get('view', $config['default_view']));
+		$config['resource'] = $this->getDefaultConfig('resource', $config, $this->input->get('resource', $config['view'], 'CMD'));
 
-		if (!isset($config['default_view']))
-		{
-			$config['default_view'] = 'default';
-		}
-
-		// get url variables every time
-		if (!isset($config['view']))
-		{
-			$config['view'] = $this->input->get('view', $config['default_view']);
-		}
-
-		if (!isset($config['layout']))
-		{
-			$config['layout'] = $this->input->get('layout', 'default');
-		}
-
-		if (!isset($config['tmpl']))
-		{
-			$config['tmpl'] = $this->input->get('tmpl', null);
-		}
-
-		if (!isset($config['resource']))
-		{
-			$config['resource'] = $this->input->get('resource', $config['view'], 'CMD');
-		}
-
-		if (!isset($config['modal']))
-		{
-			$config['modal'] = $this->input->get('modal', false, 'BOOLEAN');
-		}
+		$config['layout'] = $this->getDefaultConfig('layout', $config, $this->input->get('layout', 'default'));
+		$config['tmpl'] = $this->getDefaultConfig('tmpl', $config, $this->input->get('tmpl', null));
+		$config['modal'] = $this->getDefaultConfig('modal', $config, $this->input->get('modal', false, 'BOOLEAN'));
 
 		$this->config = $config;
 
+	}
+
+	protected function getDefaultConfig($name, $config = array(), $default = null)
+	{
+		if(isset($config[$name]))
+		{
+			return $config[$name];
+		}
+		return $default;
 	}
 
 	/**
@@ -153,11 +109,11 @@ abstract class JControllerCms extends JControllerBase
 	 * @return JModelCms
 	 *
 	 * @throws ErrorException
-	 * @see JControllerCms::NormalizeConfig
+	 * @see JControllerCms::normaliseConfig
 	 */
 	public function getModel($name, $prefix = null, $config = array())
 	{
-		$config = $this->normalizeConfig($config);
+		$config = $this->normaliseConfig($config);
 
 		if (is_null($prefix))
 		{
@@ -193,7 +149,7 @@ abstract class JControllerCms extends JControllerBase
 	 *
 	 * @return array normalized config array
 	 */
-	protected function normalizeConfig($config)
+	protected function normaliseConfig($config)
 	{
 		//Safe merge. will not overwrite existing keys
 		$config += $this->config;
@@ -339,5 +295,36 @@ abstract class JControllerCms extends JControllerBase
 		}
 
 		return null;
+	}
+
+	/**
+	 * Method to get the id(s) from the input and insure they are integers
+	 *
+	 * @return array
+	 */
+	protected function getIds()
+	{
+		$input = $this->input;
+		$cid   = $this->cleanCid($input->post->get('cid', array($input->getInt('id', 0)), 'array'));
+
+		return $cid;
+	}
+
+	/**
+	 * Method to cast all values in a cid array to integer values
+	 *
+	 * @param array $cid
+	 *
+	 * @return array of clean integer ids
+	 */
+	protected function cleanCid($cid)
+	{
+		$cleanCid = array();
+		foreach ((array) $cid AS $pk)
+		{
+			$cleanCid[] = (int) $pk;
+		}
+
+		return $cleanCid;
 	}
 }

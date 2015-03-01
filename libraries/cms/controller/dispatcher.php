@@ -50,7 +50,7 @@ class JControllerDispatcher extends JControllerCms
 	 */
 	protected function getController($name, $prefix = null, JInput $input = null, JApplicationBase $app = null, $config = array())
 	{
-		$config = $this->normalizeConfig($config);
+		$config = $this->normaliseConfig($config);
 
 		if (strpos($name, '.'))
 		{
@@ -103,7 +103,7 @@ class JControllerDispatcher extends JControllerCms
 	 */
 	protected function getFallbackController($name, JInput $input = null, JApplicationBase $app = null, $config = array())
 	{
-		$config = $this->normalizeConfig($config);
+		$config = $this->normaliseConfig($config);
 
 		$fallbackClass = 'JController' . ucfirst($name);
 

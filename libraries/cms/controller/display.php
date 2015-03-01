@@ -111,7 +111,7 @@ class JControllerDisplay extends JControllerCms
 	 */
 	protected function getView($name, $prefix = null, $type = null, $config = array())
 	{
-		$config = $this->normalizeConfig($config);
+		$config = $this->normaliseConfig($config);
 
 		if (is_null($prefix))
 		{

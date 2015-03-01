@@ -27,35 +27,4 @@ abstract class JControllerAdministrate extends JControllerCms
 
 		parent::__construct($input, $app, $config);
 	}
-
-	/**
-	 * Method to get the id(s) from the input and insure they are integers
-	 *
-	 * @return array
-	 */
-	protected function getIds()
-	{
-		$input = $this->input;
-		$cid   = $this->cleanCid($input->post->get('cid', array($input->getInt('id', 0)), 'array'));
-
-		return $cid;
-	}
-
-	/**
-	 * Method to cast all values in a cid array to integer values
-	 *
-	 * @param array $cid
-	 *
-	 * @return array of clean integer ids
-	 */
-	protected function cleanCid($cid)
-	{
-		$cleanCid = array();
-		foreach ((array) $cid AS $pk)
-		{
-			$cleanCid[] = (int) $pk;
-		}
-
-		return $cleanCid;
-	}
 }
