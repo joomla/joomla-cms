@@ -6,7 +6,7 @@
 // Only define the Joomla namespace if not defined.
 var Joomla = window.Joomla || {};
 
-!(function(window){
+!(function(){
 	'use strict';
 
     Joomla.editors = {};
@@ -549,134 +549,223 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	element[method](event, callback);
 };
 
-})(this);
+})();
 
 /**
  * Joomla Behavior
  */
-(function(window){
+(function(){
 	'use strict';
 
 	/**
 	 * Private behaviors storage
 	 */
-	var behaviorsStorage = {};
+	var _behaviorsStorage = {};
 
+	var _getBehaviorsStorage = function (key) {
+		if(!_behaviorsStorage[key]) {
+			_behaviorsStorage[key] = [];
+		}
+		return _behaviorsStorage[key];
+	};
+
+	/**
+	 * Behavior item object
+	 */
+	var JoomlaBehaviorItem = window.JoomlaBehaviorItem || function(name) {
+		this.name   = name;
+		this.events = {}; // event => callback
+	};
+
+	/**
+	 * Event object
+	 */
+	var JoomlaEvent = window.JoomlaEvent || function(type, target){
+		// check for namespaced event eg. event.behaviorname
+		var parts = type.split('.'),
+			event = parts[0] || '',
+			name  = parts[1] || '';
+
+		this.name      = event;
+		this.nameFull  = type;
+		this.nameSpace = name;
+		this.target = target || document;
+	};
+
+	/**
+	 * Behaviors object
+	 */
 	var JoomlaBehavior = window.JoomlaBehavior || function() {
 		// Key for behaviors storage
 		this.key = Math.random().toString(36).substr(8);
 
 		// Init empty storage
-		behaviorsStorage[this.key] = [];
+		_getBehaviorsStorage(this.key);
 	};
-
-	var JoomlaBehaviorItem = window.JoomlaBehaviorItem || function(name, events, handler) {
-		this.name    = name;
-		this.events  = events;
-		this.handler = handler;
-
-		// Speed up test for event
-		this.hasEvent = {};
-		for (var i = 0, l = events.length; i < l; i++ ) {
-			this.hasEvent[events[i]] = true;
-		}
-	};
-
-	var JoomlaEvent = window.JoomlaEvent || function(type, target){
-		this.type   = type;
-		this.target = target || document;
-	};
-
-	// Make it global
-	window.JoomlaBehavior     = JoomlaBehavior;
-	window.JoomlaBehaviorItem = JoomlaBehaviorItem;
-	window.JoomlaEvent        = JoomlaEvent;
 
 	/**
 	 * Add new behavior
 	 * @param string name Behavior name
 	 * @param string|array event(s) Event subscribed to
 	 * @param method callback Callback to be executed
+	 *
+	 * @example:
+	 * 	Watch on document ready and update part of document:
+	 *
+	 * 		Joomla.Behavior.add('myBehavior', 'ready update', function(event){
+	 * 			console.log(event.name, event.target);
+	 * 		});
+	 *
+	 *  Or:
+	 *  	Joomla.Behavior.add('myBehavior', ['ready', 'update'], function(event){
+	 * 			console.log(event.name, event.target);
+	 * 		});
+	 *
 	 */
 	JoomlaBehavior.prototype.add = function (name, event, callback) {
 		var events  = event.toString === '[object Array]' ? event : event.split(' '),
-			storage = behaviorsStorage[this.key],
-			behavior = new JoomlaBehaviorItem(name, events, callback);
+			storage = _getBehaviorsStorage(this.key),
+			behavior;
 
-		storage.push(behavior);
+		// Check whether already exist
+		for (var i = 0, l = storage.length; i < l; i++ ) {
+			if(storage[i] && storage[i].name === name) {
+				behavior = storage[i];
+				break;
+			}
+		}
+
+		// Create new if not
+		if(!behavior) {
+			behavior = new JoomlaBehaviorItem(name);
+			storage.push(behavior);
+		}
+
+		// Add event => callback
+		for (var i = 0, l = events.length; i < l; i++ ) {
+			if (events[i]) {
+				behavior.events[events[i]] = callback;
+			}
+		}
 	};
 
 	/**
 	 * Remove new behavior
-	 * @param string name Behavior name
-	 * @param string event Event subscribed to
+	 * @param string event Event subscribed to, can be in format event.behaviorname
+	 *
+	 * @example:
+	 * 	Unbind specific event from all behaviors:
+	 * 		Joomla.Behavior.remove('update');
+	 *
+	 *  Unbind specific event from myBehavior:
+	 * 		Joomla.Behavior.remove('update.myBehavior');
+	 *
+	 *  Remove myBehavior:
+	 * 		Joomla.Behavior.remove('.myBehavior');
 	 */
-	JoomlaBehavior.prototype.remove = function (name, event) {
-		var removeAllByEvent = !!(event && !name),
-			removeAllByName  = !!(!event && name),
-			storage = behaviorsStorage[this.key];
+	JoomlaBehavior.prototype.remove = function (event) {
+		var jevent = new JoomlaEvent(event),
+			removeEvents = !!(jevent.name && !jevent.nameSpace),
+			removeByName = !!(!jevent.name && jevent.nameSpace),
+			storage = _getBehaviorsStorage(this.key),
+			behavior;
 
-		if (removeAllByEvent) {
-
+		// Unbind specific event from all behaviors
+		if (removeEvents) {
+			for (var i = 0, l = storage.length; i < l; i++ ) {
+				behavior = storage[i];
+				if (behavior && behavior.events[jevent.name]) {
+					delete behavior.events[jevent.name];
+				}
+			}
 		}
-		else if (removeAllByName){
 
+		// Remove behavior with all events
+		else if (removeByName){
+			for (var i = 0, l = storage.length; i < l; i++ ) {
+				behavior = storage[i];
+				if(behavior && behavior.name === jevent.nameSpace) {
+					//storage.splice(i, 1);
+					storage[i] = null; // We cannot totally remove it as it will change storage length
+					break;
+				}
+			}
 		}
+
+		// Unbind specific event from behavior
 		else {
-
+			for (var i = 0, l = storage.length; i < l; i++ ) {
+				behavior = storage[i];
+				if(behavior && behavior.name === jevent.nameSpace) {
+					delete behavior.events[jevent.name];
+					break;
+				}
+			}
 		}
-		//console.log('remove', name, event, removeAllByEvent, removeAllByName)
 	};
 
 	/**
 	 * Call behaviors
-	 * @param string event Event to be called
+	 * @param string event Event to be called, can be in format event.behaviorname
 	 * @param element element - target DOM object
+	 *
+	 * @example:
+	 * 	Notify all behaviors about DOM changes:
+	 * 		Joomla.Behavior.call('update', changedElement);
+	 *
+	 * 	Notify only myBehavior about DOM changes:
+	 * 		Joomla.Behavior.call('update.myBehavior', changedElement);
+	 *
 	 */
 	JoomlaBehavior.prototype.call = function (event, element) {
-		var parts = event.split('.'),
-			eventName = parts[0] || event,
-			name  = parts[1] || false,
-			jevent = new JoomlaEvent(event, element),
-			behaviors = behaviorsStorage[this.key];
+		var jevent = new JoomlaEvent(event, element),
+			storage = _getBehaviorsStorage(this.key),
+			behavior;
 
-		console.log(event, eventName, name, jevent);
+		for (var i = 0, l = storage.length; i < l; i++ ) {
+			behavior = storage[i];
 
-		for (var i = 0, l = behaviors.length; i < l; i++ ) {
-			var behavior = behaviors[i];
-			if(!behavior.hasEvent[event]){
+			if(!behavior || !behavior.events[jevent.name] || (jevent.nameSpace && behavior.name !== jevent.nameSpace)){
 				continue;
 			}
-			// Do not crash the site if some behavior is buggy
+
+			// Call behavior, and try do not crash the site if some behavior is buggy
 			try {
-				if (behavior.handler.apply(this, [jevent]) === false) {
+				if (behavior.events[jevent.name].apply(this, [jevent]) === false) {
 					break;
 				}
 			} catch (e) {
 				if(window.console){ console.log(e);}
 			}
 		}
-
 	};
 
 	/**
-	 * Init Behavior, and wait on DOM ready, and all loaded
+	 * Init Behavior, and wait on DOM ready, and watch on loaded/unload
 	 */
-	Joomla.behavior = Joomla.behavior || new JoomlaBehavior;
+	Joomla.Behavior = Joomla.Behavior || new JoomlaBehavior;
 
 	Joomla.domReady(function(){
-		Joomla.behavior.call('ready');
-		Joomla.behavior.remove(null, 'ready');
+		Joomla.Behavior.call('ready');
+		Joomla.Behavior.remove('ready');
 	});
 
-	var onLoadCallback = function(){
-		Joomla.removeListener('load', onLoadCallback);
-		Joomla.behavior.call('load');
-		Joomla.behavior.remove(null, 'load');
+	var _loadCallback = function(){
+		Joomla.removeListener('load', _loadCallback);
+		Joomla.Behavior.call('load');
+		Joomla.Behavior.remove('load');
 	};
 
-	Joomla.addListener('load', onLoadCallback);
+	Joomla.addListener('load', _loadCallback);
 
+	Joomla.addListener('unload', function(){
+		Joomla.Behavior.call('unload');
+	});
 
-})(this);
+	// Make thing global
+	window.JoomlaBehavior     = JoomlaBehavior;
+	window.JoomlaBehaviorItem = JoomlaBehaviorItem;
+	window.JoomlaEvent        = JoomlaEvent;
+
+})();
 
