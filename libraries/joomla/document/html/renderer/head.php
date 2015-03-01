@@ -194,6 +194,33 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$buffer .= '></script>' . $lnEnd;
 		}
 
+		// Generate script options
+		$scriptOptions = $document->getScriptOptions();
+		if (!empty($scriptOptions))
+		{
+			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;
+
+			// This is for full XHTML support.
+			if ($document->_mime != 'text/html')
+			{
+				$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
+			}
+
+			$pretyPrint  = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
+			$jsonOptions = json_encode($scriptOptions, $pretyPrint);
+			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
+
+			$buffer .= $tab . 'Joomla.extend(Joomla.optionsStorage, ' . $jsonOptions . ');' . $lnEnd;
+
+			// See above note
+			if ($document->_mime != 'text/html')
+			{
+				$buffer .= $tab . $tab . '//]]>' . $lnEnd;
+			}
+
+			$buffer .= $tab . '</script>' . $lnEnd;
+		}
+
 		// Generate script declarations
 		foreach ($document->_script as $type => $content)
 		{
