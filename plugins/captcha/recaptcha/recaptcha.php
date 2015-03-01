@@ -126,7 +126,8 @@ class PlgCaptchaRecaptcha extends JPlugin
 				$spam      = ($challenge == null || strlen($challenge) == 0 || $response == null || strlen($response) == 0);
 				break;
 			case '2.0':
-				$challenge = NULL; // Not needed in 2.0 but needed for getResponse call
+				// Challenge Not needed in 2.0 but needed for getResponse call
+				$challenge = null;
 				$response = $input->get('g-recaptcha-response', '', 'string');
 				$spam     = ($response == null || strlen($response) == 0);
 				break;
