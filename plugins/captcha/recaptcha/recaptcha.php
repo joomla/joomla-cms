@@ -105,13 +105,13 @@ class PlgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Calls an HTTP POST function to verify if the user's guess was correct
 	 *
-	 * @param   string  $code  Answer provided by user.
+	 * @param   string  $code  Answer provided by user. @Deprecated and not needed for the current implementation
 	 *
 	 * @return  True if the answer is correct, false otherwise
 	 *
 	 * @since  2.5
 	 */
-	public function onCheckAnswer($code)
+	public function onCheckAnswer($code = null)
 	{
 		$input      = JFactory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
