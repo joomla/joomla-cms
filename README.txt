@@ -48,7 +48,7 @@
 	* Find the information you need: https://docs.joomla.org/Start_here
 	* Find help and other users: http://www.joomla.org/about-joomla/create-and-share.html
 	* Post questions at our forums: http://forum.joomla.org
-	* Joomla Resources Directory (JRD): http://resources.joomla.org/tos.html
+	* Joomla Resources Directory (JRD): http://resources.joomla.org/
 
 11- Do you already have a Joomla site that's not built with Joomla 3.x ?
 	* What's new in Joomla 3.x: http://www.joomla.org/3
