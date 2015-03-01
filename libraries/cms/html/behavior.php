@@ -404,20 +404,15 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include core
-		static::core();
+		// Load main script
+		self::behavior();
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/multiselect.js', false, true);
 
-		// Attach multiselect to document
-		JFactory::getDocument()->addScriptDeclaration(
-			"jQuery(document).ready(function() {
-				Joomla.JMultiSelect('" . $id . "');
-			});"
-		);
+		JFactory::getDocument()->addScriptOptions(__FUNCTION__, array($id));
 
 		// Set static array
 		static::$loaded[__METHOD__][$id] = true;

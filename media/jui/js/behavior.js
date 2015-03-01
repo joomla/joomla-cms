@@ -44,8 +44,7 @@
 	 * Modal
 	 */
 	Joomla.Behavior.add('modal', 'ready update', function(event){
-		var $target = jQuery(event.target), selector,
-			options;
+		var $target = jQuery(event.target), selector, options;
 
 		if (!window.jModalClose) {
     		SqueezeBox.initialize({});
@@ -55,7 +54,7 @@
     		}
 		}
 
-		for (var selector in event.options) {
+		for (selector in event.options) {
 			// Prepare options
 			options = event.options[selector] || {};
 			options.parse = options.parse ? options.parse : 'rel';
@@ -70,5 +69,24 @@
 			SqueezeBox.assign($target.find(selector).get(), options);
 		}
 	});
+
+	/**
+	 * Behavior to allow shift select in grids
+	 */
+	Joomla.Behavior.add('multiselect', 'ready', function(event){
+		var selector;
+
+		for (var i = 0, l = event.options.length; i < l; i++ ) {
+			selector = event.options[i];
+			Joomla.JMultiSelect(selector);
+		}
+	});
+
+	/**
+	 * Support for a collapsible tree
+	 *
+	 * @TODO: is it still used somwhere ?
+	 */
+	//Joomla.Behavior.add('tree', 'ready update', function(event){});
 
 })();
