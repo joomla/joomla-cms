@@ -131,7 +131,7 @@ abstract class JHtmlIcon
 	 *
 	 * @since   1.6
 	 */
-	public static function edit($article, $params, $attribs = array(), $legacy = false)
+	public static function edit($article, $params, $attribs = array(), $legacy = true)
 	{
 		$user = JFactory::getUser();
 		$uri  = JUri::getInstance();
@@ -157,12 +157,23 @@ abstract class JHtmlIcon
 			&& $article->checked_out != $user->get('id'))
 		{
 			$checkoutUser = JFactory::getUser($article->checked_out);
-			$button       = JHtml::_('image', 'system/checked_out.png', null, null, true);
 			$date         = JHtml::_('date', $article->checked_out_time);
 			$tooltip      = JText::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
 				. ' <br /> ' . $date;
 
-			return '<span class="hasTooltip" title="' . JHtml::tooltipText($tooltip . '', 0) . '">' . $button . '</span>';
+			if($legacy)
+			{
+				$button = JHtml::_('image', 'system/checked_out.png', null, null, true);
+				$text = '<span class="hasTooltip" title="' . JHtml::tooltipText($tooltip . '', 0) . '">' . $button . '</span> ' . JText::_('JGLOBAL_EDIT');
+			}
+			else
+			{
+				$text = '<span class="hasTooltip icon-lock" title="' . JHtml::tooltipText($tooltip . '', 0) . '"></span> ' . JText::_('JGLOBAL_EDIT');
+			}
+
+			$output = JHtml::_('link', '#', $text, $attribs);
+
+			return $output;
 		}
 
 		$url = 'index.php?option=com_content&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
