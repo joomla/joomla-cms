@@ -92,6 +92,24 @@ abstract class JHtmlBehavior
 	}
 
 	/**
+	 * Load Main Behavior script
+	 */
+	public static function behavior()
+	{
+		if (isset(static::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		// Include Core
+		JHtml::_('behavior.core');
+
+		JHtml::_('script', 'jui/behavior.min.js', false, true);
+
+		static::$loaded[__METHOD__] = true;
+	}
+
+	/**
 	 * Add unobtrusive JavaScript support for image captions.
 	 *
 	 * @param   string  $selector  The selector for which a caption behaviour is to be applied.
@@ -108,17 +126,15 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		// Load main script
+		self::behavior();
+
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/caption.js', false, true);
 
-		// Attach caption to document
-		JFactory::getDocument()->addScriptDeclaration(
-			"jQuery(window).on('load',  function() {
-				new JCaption('" . $selector . "');
-			});"
-		);
+		JFactory::getDocument()->addScriptOptions(__FUNCTION__, array($selector));
 
 		// Set static array
 		static::$loaded[__METHOD__][$selector] = true;
@@ -204,22 +220,16 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		// Load main script
+		self::behavior();
+
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/switcher.js', true, true);
 
-		$script = "
-			document.switcher = null;
-			jQuery(function($){
-				var toggler = document.getElementById('submenu');
-				var element = document.getElementById('config-document');
-				if (element) {
-					document.switcher = new JSwitcher(toggler, element);
-				}
-			});";
+		JFactory::getDocument()->addScriptOptions(__FUNCTION__, true);
 
-		JFactory::getDocument()->addScriptDeclaration($script);
 		static::$loaded[__METHOD__] = true;
 	}
 
@@ -346,13 +356,17 @@ abstract class JHtmlBehavior
 	 */
 	public static function modal($selector = 'a.modal', $params = array())
 	{
-		$document = JFactory::getDocument();
-
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset(static::$loaded[__METHOD__]))
 		{
 			// Include MooTools framework
 			static::framework(true);
+
+			// Load main script
+			self::behavior();
+
+			// Include jQuery
+			JHtml::_('jquery.framework');
 
 			// Load the JavaScript and css
 			JHtml::_('script', 'system/modal.js', true, true);
@@ -366,51 +380,8 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Setup options object
-		$opt['ajaxOptions']   = (isset($params['ajaxOptions']) && (is_array($params['ajaxOptions']))) ? $params['ajaxOptions'] : null;
-		$opt['handler']       = (isset($params['handler'])) ? $params['handler'] : null;
-		$opt['parseSecure']   = (isset($params['parseSecure'])) ? (bool) $params['parseSecure'] : null;
-		$opt['closable']      = (isset($params['closable'])) ? (bool) $params['closable'] : null;
-		$opt['closeBtn']      = (isset($params['closeBtn'])) ? (bool) $params['closeBtn'] : null;
-		$opt['iframePreload'] = (isset($params['iframePreload'])) ? (bool) $params['iframePreload'] : null;
-		$opt['iframeOptions'] = (isset($params['iframeOptions']) && (is_array($params['iframeOptions']))) ? $params['iframeOptions'] : null;
-		$opt['size']          = (isset($params['size']) && (is_array($params['size']))) ? $params['size'] : null;
-		$opt['shadow']        = (isset($params['shadow'])) ? $params['shadow'] : null;
-		$opt['overlay']       = (isset($params['overlay'])) ? $params['overlay'] : null;
-		$opt['onOpen']        = (isset($params['onOpen'])) ? $params['onOpen'] : null;
-		$opt['onClose']       = (isset($params['onClose'])) ? $params['onClose'] : null;
-		$opt['onUpdate']      = (isset($params['onUpdate'])) ? $params['onUpdate'] : null;
-		$opt['onResize']      = (isset($params['onResize'])) ? $params['onResize'] : null;
-		$opt['onMove']        = (isset($params['onMove'])) ? $params['onMove'] : null;
-		$opt['onShow']        = (isset($params['onShow'])) ? $params['onShow'] : null;
-		$opt['onHide']        = (isset($params['onHide'])) ? $params['onHide'] : null;
+		JFactory::getDocument()->addScriptOptions(__FUNCTION__, array($selector => $params));
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
-		if (isset($params['fullScreen']) && (bool) $params['fullScreen'])
-		{
-			$opt['size']      = array('x' => '\\jQuery(window).width() - 80', 'y' => '\\jQuery(window).height() - 80');
-		}
-
-		$options = JHtml::getJSObject($opt);
-
-		// Attach modal behavior to document
-		$document
-			->addScriptDeclaration(
-			"
-		jQuery(function($) {
-			SqueezeBox.initialize(" . $options . ");
-			SqueezeBox.assign($('" . $selector . "').get(), {
-				parse: 'rel'
-			});
-		});
-		function jModalClose() {
-			SqueezeBox.close();
-		}"
-		);
-
-		// Set static array
 		static::$loaded[__METHOD__][$sig] = true;
 
 		return;

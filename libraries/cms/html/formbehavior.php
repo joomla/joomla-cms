@@ -27,7 +27,7 @@ abstract class JHtmlFormbehavior
 	/**
 	 * Load Main Behavior script
 	 */
-	public static function load()
+	public static function formbehavior()
 	{
 		if (isset(static::$loaded[__METHOD__]))
 		{
@@ -40,7 +40,7 @@ abstract class JHtmlFormbehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'jui/behaviorform.min.js', false, true, false, false, JDEBUG);
+		JHtml::_('script', 'jui/behaviorform.min.js', false, true);
 
 		static::$loaded[__METHOD__] = true;
 	}
@@ -68,7 +68,7 @@ abstract class JHtmlFormbehavior
 		$debug = is_null($debug) ? JDEBUG : $debug;
 
 		// Load main script
-		self::load();
+		self::formbehavior();
 
 		// Load Chosen asset
 		JHtml::_('stylesheet', 'jui/chosen.css', false, true);
@@ -110,7 +110,7 @@ abstract class JHtmlFormbehavior
 		$debug = is_null($debug) ? JDEBUG : $debug;
 
 		// Load main script
-		self::load();
+		self::formbehavior();
 
 		// Requires chosen to work
 		static::chosen($selector, $debug);
