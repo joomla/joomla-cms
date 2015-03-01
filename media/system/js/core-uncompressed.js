@@ -629,6 +629,12 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	 * 			console.log(event.name, event.target);
 	 * 		});
 	 *
+	 *  Watch when part of document removed:
+	 *
+	 *  	Joomla.Behavior.add('myBehavior', 'remove', function(event){
+	 * 			console.log(event.name, event.target);
+	 * 		});
+	 *
 	 */
 	JoomlaBehavior.prototype.add = function (name, event, callback) {
 		var events  = event.toString === '[object Array]' ? event : event.split(' '),
@@ -726,6 +732,9 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	 *
 	 * 	Notify only myBehavior about DOM changes:
 	 * 		Joomla.Behavior.call('update.myBehavior', changedElement);
+	 *
+	 *  Notify all behaviors about element will be removed from DOM:
+	 * 		Joomla.Behavior.call('remove', changedElement);
 	 *
 	 */
 	JoomlaBehavior.prototype.call = function (event, element, options) {
