@@ -843,7 +843,7 @@ class JModelList extends JModelLegacy
 			$query->select('uc.name AS editor')
 				->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 		}
-		
+
 		if (in_array('access', $this->fields))
 		{
 			$query->select('ag.title AS access_level')
