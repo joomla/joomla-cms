@@ -96,13 +96,15 @@ $loggeduser = JFactory::getUser();
 							<?php endif; ?>
 						</td>
 						<td>
+							<div class="name">
 							<?php if ($canEdit) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::sprintf('COM_USERS_EDIT_USER', $this->escape($item->name)); ?>">
 									<?php echo $this->escape($item->name); ?></a>
 							<?php else : ?>
 								<?php echo $this->escape($item->name); ?>
 							<?php endif; ?>
-							<div>
+							</div>
+							<div class="btn-group">
 								<?php echo JHtml::_('users.filterNotes', $item->note_count, $item->id); ?>
 								<?php echo JHtml::_('users.notes', $item->note_count, $item->id); ?>
 								<?php echo JHtml::_('users.addNote', $item->id); ?>
