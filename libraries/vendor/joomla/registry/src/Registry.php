@@ -202,16 +202,20 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		// Traverse the registry to find the correct node for the result.
 		foreach ($nodes as $n)
 		{
-			if (isset($node->$n))
+			if (is_array($node) && isset($node[$n]))
 			{
-				$node = $node->$n;
+				$node = $node[$n];
 				$found = true;
+				continue;
 			}
-			else
+
+			if (!isset($node->$n))
 			{
-				$found = false;
-				break;
+				return $default;
 			}
+
+			$node = $node->$n;
+			$found = true;
 		}
 
 		if ($found && $node !== null && $node !== '')
