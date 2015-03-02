@@ -143,34 +143,39 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 */
 	public function exists($path)
 	{
+		// Return default value if path is empty
+		if (empty($path))
+		{
+			return false;
+		}
+
 		// Explode the registry path into an array
 		$nodes = explode('.', $path);
 
-		if ($nodes)
+		// Initialize the current node to be the registry root.
+		$node = $this->data;
+		$found = false;
+
+		// Traverse the registry to find the correct node for the result.
+		foreach ($nodes as $n)
 		{
-			// Initialize the current node to be the registry root.
-			$node = $this->data;
-
-			// Traverse the registry to find the correct node for the result.
-			for ($i = 0, $n = count($nodes); $i < $n; $i++)
+			if (is_array($node) && isset($node[$n]))
 			{
-				if (isset($node->$nodes[$i]))
-				{
-					$node = $node->$nodes[$i];
-				}
-				else
-				{
-					break;
-				}
-
-				if ($i + 1 == $n)
-				{
-					return true;
-				}
+				$node = $node[$n];
+				$found = true;
+				continue;
 			}
+
+			if (!isset($node->$n))
+			{
+				return false;
+			}
+
+			$node = $node->$n;
+			$found = true;
 		}
 
-		return false;
+		return $found;
 	}
 
 	/**
