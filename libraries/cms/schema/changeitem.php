@@ -205,7 +205,7 @@ abstract class JSchemaChangeitem
 			{
 				$rows = false;
 				// Still render the error message from the Exception object
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');				
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 
 			if ($rows !== false)
