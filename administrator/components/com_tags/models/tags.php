@@ -45,6 +45,7 @@ class TagsModelTags extends JModelList
 				'path', 'a.path',
 			);
 		}
+		$config['table_name'] = '#__tags';
 
 		parent::__construct($config);
 	}
@@ -112,46 +113,38 @@ class TagsModelTags extends JModelList
 	}
 
 	/**
-	 * Method to create a query for a list of items.
+	 * Builds SELECT columns list for the query
 	 *
-	 * @return  string
+	 * @param   JDatabaseQuery  $query  The query object
 	 *
-	 * @since  3.1
+	 * @return $this
+	 *
+	 * @since 3.4.1
 	 */
-	protected function getListQuery()
+	protected function _buildQueryColumns(JDatabaseQuery $query)
 	{
-		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
-
-		// Select the required fields from the table.
 		$query->select(
-			$this->getState(
-				'list.select',
-				'a.id, a.title, a.alias, a.note, a.published, a.access' .
-					', a.checked_out, a.checked_out_time, a.created_user_id' .
-					', a.path, a.parent_id, a.level, a.lft, a.rgt' .
-					', a.language'
-			)
+			'a.id, a.title, a.alias, a.note, a.published, a.access' .
+			', a.checked_out, a.checked_out_time, a.created_user_id' .
+			', a.path, a.parent_id, a.level, a.lft, a.rgt' .
+			', a.language'
 		);
-		$query->from('#__tags AS a')
-			->where('a.alias <> ' . $db->quote('root'));
 
-		// Join over the language
-		$query->select('l.title AS language_title')
-			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+		return $this;
+	}
 
-		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor')
-			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
-
-		// Join over the users for the author.
-		$query->select('ua.name AS author_name')
-			->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id')
-
-			->select('ug.title AS access_title')
-			->join('LEFT', '#__viewlevels AS ug on ug.id = a.access');
+	/**
+	 * Builds WHERE clauses for the query
+	 *
+	 * @param   JDatabaseQuery  $query  The query object
+	 *
+	 * @return $this
+	 *
+	 * @since 3.4.1
+	 */
+	protected function _buildQueryWhere(JDatabaseQuery $query)
+	{
+		$query->where('a.alias <> ' . $this->getDbo()->quote('root'));
 
 		// Filter on the level.
 		if ($level = $this->getState('filter.level'))
@@ -159,59 +152,40 @@ class TagsModelTags extends JModelList
 			$query->where('a.level <= ' . (int) $level);
 		}
 
-		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
-		{
-			$query->where('a.access = ' . (int) $access);
-		}
+		return parent::_buildQueryWhere($query);
+	}
 
-		// Implement View Level Access
-		if (!$user->authorise('core.admin'))
-		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
-		}
+	/**
+	 * Builds JOIN clauses for the query
+	 *
+	 * @param   JDatabaseQuery  $query  The query object
+	 *
+	 * @return $this
+	 *
+	 * @since 3.4.1
+	 */
+	protected function _buildQueryJoins(JDatabaseQuery $query)
+	{
+		// Join over the users for the author.
+		$query->select('ua.name AS author_name')
+			->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
 
-		// Filter by published state
-		$published = $this->getState('filter.published');
+		return parent::_buildQueryJoins($query);
+	}
 
-		if (is_numeric($published))
-		{
-			$query->where('a.published = ' . (int) $published);
-		}
-		elseif ($published === '')
-		{
-			$query->where('(a.published IN (0, 1))');
-		}
-
-		// Filter by search in title
-		$search = $this->getState('filter.search');
-
-		if (!empty($search))
-		{
-			if (stripos($search, 'id:') === 0)
-			{
-				$query->where('a.id = ' . (int) substr($search, 3));
-			}
-			elseif (stripos($search, 'author:') === 0)
-			{
-				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
-				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
-			}
-			else
-			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
-			}
-		}
-
-		// Filter on the language.
-		if ($language = $this->getState('filter.language'))
-		{
-			$query->where('a.language = ' . $db->quote($language));
-		}
-
-		// Add the list ordering clause
+	/**
+	 * Builds a generic ORDER BY clause
+	 *
+	 * @param   JDatabaseQuery  $query  The query object
+	 *
+	 * @return $this
+	 *
+	 * @since 3.4.1
+	 */
+	protected function _buildQueryOrder(JDatabaseQuery $query)
+	{
+		// Add the list ordering clause.
+		$db = $this->getDbo();
 		$listOrdering = $this->getState('list.ordering', 'a.lft');
 		$listDirn = $db->escape($this->getState('list.direction', 'ASC'));
 
@@ -224,7 +198,7 @@ class TagsModelTags extends JModelList
 			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 		}
 
-		return $query;
+		return $this;
 	}
 
 	/**
