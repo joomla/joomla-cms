@@ -7199,6 +7199,7 @@ body .navbar-fixed-top {
 	font-weight: normal;
 	line-height: 26px;
 	margin-top: 0;
+	padding-bottom: 10px;
 }
 .subhead {
 	background: #ffffff;
@@ -8007,7 +8008,7 @@ a.grid_true {
 	display: block;
 	left: -16.5%;
 	width: 16.5%;
-	margin: 2px 0 0 -1px;
+	margin: -10px 0 0 -1px;
 	padding-top: 10px;
 	background: #fff;
 	background: -moz-linear-gradient(top,#ffffff 0%,#ededed 100%);
