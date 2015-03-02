@@ -103,7 +103,7 @@ class JHtmlUsers
 		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId . '" data-toggle="modal" class="hasTooltip btn btn-mini" title="' . $title . '">'
 			. '<i class="icon-drawer-2"></i><span class="hidden-phone">' . $title . '</span></a>';
 	}
-	
+
 	/**
 	 * Renders the modal html.
 	 *
@@ -123,7 +123,7 @@ class JHtmlUsers
 
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
 
-        echo JHtmlBootstrap::renderModal(
+		echo JHtmlBootstrap::renderModal(
 			'userModal_' . (int) $userId, array(
 				'url' => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId),
 				'title' => $title,
@@ -133,7 +133,7 @@ class JHtmlUsers
 
 		return null;
 	}
-	
+
 	/**
 	 * Build an array of block/unblock user states to be used by jgrid.state,
 	 * State options will be different for any user
