@@ -40,7 +40,7 @@ abstract class JHtmlFormbehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'jui/behaviorform.min.js', false, true);
+		JHtml::_('script', 'jui/behavior-form.min.js', false, true);
 
 		static::$loaded[__METHOD__] = true;
 	}
