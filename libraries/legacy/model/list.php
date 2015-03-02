@@ -119,20 +119,7 @@ class JModelList extends JModelLegacy
 		if (isset($config['table_name']))
 		{
 			$this->tableName = $config['table_name'];
-		}
-		else
-		{
-			$component       = substr($this->option, 4);
-			$this->tableName = '#__' . strtolower($component) . '_' . FOFInflector::pluralize($this->getName());
-		}
-
-		try
-		{
 			$this->fields = array_keys($this->getDbo()->getTableColumns($this->tableName));
-		}
-		catch (Exception $e)
-		{
-			$this->fields = array();
 		}
 
 		if (in_array('published', $this->fields))
