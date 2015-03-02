@@ -1783,7 +1783,7 @@ class PlgSystemDebug extends JPlugin
 	{
 		$app    = JFactory::getApplication();
 		$conf   = JFactory::getConfig();
-		$domain = $conf->get('sitename', 'site');
+		$domain = str_replace(' ', '_', $conf->get('sitename', 'site'));
 
 		if ($app->isSite())
 		{
