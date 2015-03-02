@@ -269,13 +269,16 @@ class JModelList extends JModelLegacy
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$this->_buildQueryColumns($query)
-			->_buildQueryFrom($query)
-			->_buildQueryJoins($query)
-			->_buildQueryWhere($query)
-			->_buildQueryGroup($query)
-			->_buildQueryHaving($query)
-			->_buildQueryOrder($query);
+		if (count($this->fields))
+		{
+			$this->_buildQueryColumns($query)
+				->_buildQueryFrom($query)
+				->_buildQueryJoins($query)
+				->_buildQueryWhere($query)
+				->_buildQueryGroup($query)
+				->_buildQueryHaving($query)
+				->_buildQueryOrder($query);
+		}
 
 		return $query;
 	}
