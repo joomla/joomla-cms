@@ -526,9 +526,9 @@ Joomla.domReady = Joomla.domReady || function (callback) {
 
 /**
  * Register the event listener
- * @param event - string, event name
- * @param method - callback function
- * @param element - add listener to element, default is window
+ * @param string  event    Event name
+ * @param method  callback Callback function
+ * @param element element  Add listener to element, default is window
  */
 Joomla.addListener = Joomla.addListener || function(event, callback, element) {
 	var element = element || window,
@@ -542,9 +542,9 @@ Joomla.addListener = Joomla.addListener || function(event, callback, element) {
 
 /**
  * Unregister the event listener
- * @param event - string, event name
- * @param callback - callback function
- * @param element - remove DOM object, default is window,
+ * @param string  event    Event name
+ * @param method  callback Callback function
+ * @param element element  DOM object, default is window,
  */
 Joomla.removeListener = Joomla.removeListener || function(event, callback, element){
 	var element = element || window,
@@ -598,10 +598,10 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 			name  = type.substring(i + 1);
 		}
 
-		this.name      = event;
-		this.nameFull  = type;
-		this.nameSpace = name;
-		this.target = target || document;
+		this.name         = event;
+		this.nameFull     = type;
+		this.behaviorName = name;
+		this.target       = target || document;
 	};
 
 	/**
@@ -634,7 +634,7 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	 * 			console.log(event.name, event.target);
 	 * 		});
 	 *
-	 *  Watch when part of document removed:
+	 *  Watch when someone request to clean up inside Target container:
 	 *
 	 *  	Joomla.Behavior.add('myBehavior', 'remove', function(event){
 	 * 			console.log(event.name, event.target);
@@ -685,8 +685,8 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	 */
 	JoomlaBehavior.prototype.remove = function (event) {
 		var jevent = new JoomlaEvent(event),
-			removeEvents = !!(jevent.name && !jevent.nameSpace),
-			removeByName = !!(!jevent.name && jevent.nameSpace),
+			removeEvents = !!(jevent.name && !jevent.behaviorName),
+			removeByName = !!(!jevent.name && jevent.behaviorName),
 			storage = _getBehaviorsStorage(this.key),
 			behavior;
 
@@ -704,7 +704,7 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 		else if (removeByName){
 			for (var i = 0, l = storage.length; i < l; i++ ) {
 				behavior = storage[i];
-				if(behavior && behavior.name === jevent.nameSpace) {
+				if(behavior && behavior.name === jevent.behaviorName) {
 					//storage.splice(i, 1);
 					storage[i] = null; // We cannot totally remove it as it will change storage length
 					break;
@@ -716,7 +716,7 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 		else {
 			for (var i = 0, l = storage.length; i < l; i++ ) {
 				behavior = storage[i];
-				if(behavior && behavior.name === jevent.nameSpace) {
+				if(behavior && behavior.name === jevent.behaviorName) {
 					delete behavior.events[jevent.name];
 					break;
 				}
@@ -738,8 +738,12 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	 * 	Notify only myBehavior about DOM changes:
 	 * 		Joomla.Behavior.call('update.myBehavior', changedElement);
 	 *
-	 *  Notify all behaviors that you will remove something from container:
+	 *  Notify only myBehavior about DOM changes, with custom options:
+	 * 		Joomla.Behavior.call('update.myBehavior', changedElement, options);
+	 *
+	 *  Request to clean up inside Target container:
 	 * 		Joomla.Behavior.call('remove', container);
+	 *
 	 *
 	 */
 	JoomlaBehavior.prototype.call = function (event, element, options) {
@@ -752,12 +756,12 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 			jevent.options = null;
 
 			// Check whether we have valid behavior
-			if (!behavior || !behavior.events[jevent.name] || (jevent.nameSpace && behavior.name !== jevent.nameSpace)){
+			if (!behavior || !behavior.events[jevent.name] || (jevent.behaviorName && behavior.name !== jevent.behaviorName)){
 				continue;
 			}
 
 			// Check Options
-			if (options && jevent.nameSpace && behavior.name === jevent.nameSpace) {
+			if (options && jevent.behaviorName && behavior.name === jevent.behaviorName) {
 				jevent.options = options;
 			}
 			else {

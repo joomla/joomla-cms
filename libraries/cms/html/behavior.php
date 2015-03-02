@@ -94,7 +94,7 @@ abstract class JHtmlBehavior
 	/**
 	 * Load Main Behavior script
 	 */
-	public static function behavior()
+	protected static function behavior()
 	{
 		if (isset(static::$loaded[__METHOD__]))
 		{
@@ -522,67 +522,64 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive JavaScript support for a color picker.
 	 *
+	 * @param   string  $selector
+	 * @param   array   $options Options for minicolors.js
+	 *
 	 * @return  void
 	 *
 	 * @since   1.7
 	 */
-	public static function colorpicker()
+	public static function colorpicker($selector = '.minicolors', $options = array())
 	{
 		// Only load once
-		if (isset(static::$loaded[__METHOD__]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
+
+		// Load main script
+		self::behavior();
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'jui/jquery.minicolors.min.js', false, true);
 		JHtml::_('stylesheet', 'jui/jquery.minicolors.css', false, true);
-		JFactory::getDocument()->addScriptDeclaration("
-				jQuery(document).ready(function (){
-					jQuery('.minicolors').each(function() {
-						jQuery(this).minicolors({
-							control: jQuery(this).attr('data-control') || 'hue',
-							position: jQuery(this).attr('data-position') || 'right',
-							theme: 'bootstrap'
-						});
-					});
-				});
-			"
-		);
 
-		static::$loaded[__METHOD__] = true;
+		JFactory::getDocument()->addScriptOptions(__FUNCTION__, array($selector => $options));
+
+		static::$loaded[__METHOD__][$selector] = true;
 	}
 
 	/**
 	 * Add unobtrusive JavaScript support for a simple color picker.
 	 *
+	 * @param   string  $selector
+	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	public static function simplecolorpicker()
+	public static function simplecolorpicker($selector = 'select.simplecolors')
 	{
 		// Only load once
-		if (isset(static::$loaded[__METHOD__]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
+
+		// Load main script
+		self::behavior();
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'jui/jquery.simplecolors.min.js', false, true);
 		JHtml::_('stylesheet', 'jui/jquery.simplecolors.css', false, true);
-		JFactory::getDocument()->addScriptDeclaration("
-				jQuery(document).ready(function (){
-					jQuery('select.simplecolors').simplecolors();
-				});
-			"
-		);
 
-		static::$loaded[__METHOD__] = true;
+		JFactory::getDocument()->addScriptOptions(__FUNCTION__, array($selector));
+
+		static::$loaded[__METHOD__][$selector] = true;
 	}
 
 	/**
@@ -618,10 +615,10 @@ abstract class JHtmlBehavior
 		$script .= 'try{';
 		$script .= 'r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")';
 		$script .= '}catch(e){}';
-		$script .= 'if(r){r.open("GET","./",true);r.send(null)}';
+		$script .= 'if(r){r.open("GET","' . JUri::base(true) . '/index.php",true);r.send(null)}';
 		$script .= '},' . $refreshTime . ');';
 
-		$document->addScriptDeclaration($script);
+		$document->addScriptDeclaration("\n" . $script);
 		static::$loaded[__METHOD__] = true;
 
 		return;
@@ -651,35 +648,23 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include core
-		static::core();
+		// Load main script
+		self::behavior();
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/highlighter.js', false, true);
 
-		$terms = str_replace('"', '\"', $terms);
+		$options = array(
+			'terms' => $terms,
+			'start' => $start,
+			'end'   => $end,
+			'tag'   => $tag,
+			'className' => $className,
+		);
 
-		$document = JFactory::getDocument();
-		$document->addScriptDeclaration("
-			jQuery(function ($) {
-				var start = document.getElementById('" . $start . "');
-				var end = document.getElementById('" . $end . "');
-				if (!start || !end || !Joomla.Highlighter) {
-					return true;
-				}
-				highlighter = new Joomla.Highlighter({
-					startElement: start,
-					endElement: end,
-					className: '" . $className . "',
-					onlyWords: false,
-					tag: '" . $tag . "'
-				}).highlight([\"" . implode('","', $terms) . "\"]);
-				$(start).remove();
-				$(end).remove();
-			});
-		");
+		JFactory::getDocument()->addScriptOptions(__FUNCTION__, array($options));
 
 		static::$loaded[__METHOD__][$sig] = true;
 

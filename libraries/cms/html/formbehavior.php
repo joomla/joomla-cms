@@ -27,7 +27,7 @@ abstract class JHtmlFormbehavior
 	/**
 	 * Load Main Behavior script
 	 */
-	public static function formbehavior()
+	protected static function formbehavior()
 	{
 		if (isset(static::$loaded[__METHOD__]))
 		{

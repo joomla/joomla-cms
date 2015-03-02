@@ -11,10 +11,15 @@
 
 	/**
 	 * Chosen Behavior
+	 *
+	 * @param JoomlaEvent event Event object where:
+	 *
+	 * 		event.name    Name of active event
+	 * 		event.target  Affected DOM container
+	 * 		event.options Possible options, in format {selector1 : options1, selector2 : options2}
 	 */
 	Joomla.Behavior.add('chosen', 'ready update', function(event){
-		var $target = $(event.target),
-			options,
+		var $target = $(event.target), options, selector,
 			defaultOptions = {
 				disable_search_threshold: 10,
 				allow_single_deselect: true,
@@ -23,7 +28,7 @@
 				no_results_text: Joomla.JText._('JGLOBAL_SELECT_NO_RESULTS_MATCH')
 			};
 
-		for (var selector in event.options) {
+		for (selector in event.options) {
 			// Prepare options
 			options = event.options[selector] || {};
 			options = Joomla.extend(defaultOptions, options);
@@ -38,10 +43,15 @@
 
 	/**
 	 * AJAX Chosen Behavior
+	 *
+	 * @param JoomlaEvent event Event object where:
+	 *
+	 * 		event.name    Name of active event
+	 * 		event.target  Affected DOM container
+	 * 		event.options Possible options, in format {selector1 : options1, selector2 : options2}
 	 */
 	Joomla.Behavior.add('ajaxchosen', 'ready update', function(event){
-		var $target = $(event.target),
-			options,
+		var $target = $(event.target), options, selector,
 			defaultOptions = {
 				type: 'GET',
 				url: null,
@@ -51,7 +61,7 @@
 				minTermLength: 3
 			};
 
-		for (var selector in event.options) {
+		for (selector in event.options) {
 			// Prepare options
 			options = event.options[selector] || {};
 			options = Joomla.extend(defaultOptions, options);
