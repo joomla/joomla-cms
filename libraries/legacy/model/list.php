@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -65,6 +65,34 @@ class JModelList extends JModelLegacy
 	protected $htmlFormName = 'adminForm';
 
 	/**
+	 * Name of database table
+	 *
+	 * @var  string
+	 */
+	protected $tableName = null;
+
+	/**
+	 * Fields of the main database table
+	 *
+	 * @var  string
+	 */
+	protected $fields = array();
+
+	/**
+	 * Name of state field name, usually be tbl.state or tbl.published
+	 *
+	 * @var string
+	 */
+	protected $stateField;
+
+	/**
+	 * Fields used for searching data from the table
+	 *
+	 * @var  string
+	 */
+	protected $searchFields = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
@@ -86,6 +114,55 @@ class JModelList extends JModelLegacy
 		if (empty($this->context))
 		{
 			$this->context = strtolower($this->option . '.' . $this->getName());
+		}
+
+		if (isset($config['table_name']))
+		{
+			$this->tableName = $config['table_name'];
+		}
+		else
+		{
+			$component       = substr($this->option, 4);
+			$this->tableName = '#__' . strtolower($component) . '_' . FOFInflector::pluralize($this->getName());
+		}
+
+		try
+		{
+			$this->fields = array_keys($this->getDbo()->getTableColumns($this->tableName));
+		}
+		catch (Exception $e)
+		{
+			$this->fields = array();
+		}
+
+		if (in_array('published', $this->fields))
+		{
+			$this->stateField = 'a.published';
+		}
+		else
+		{
+			$this->stateField = 'a.state';
+		}
+
+		if (isset($config['search_fields']))
+		{
+			$this->searchFields = (array) $config['search_fields'];
+		}
+		else
+		{
+			// Guess the fields can be used for searching
+			if (in_array('name', $this->fields))
+			{
+				$this->searchFields[] = 'a.name';
+			}
+			if (in_array('title', $this->fields))
+			{
+				$this->searchFields[] = 'a.title';
+			}
+			if (in_array('alias', $this->fields))
+			{
+				$this->searchFields[] = 'a.alias';
+			}
 		}
 	}
 
@@ -192,6 +269,16 @@ class JModelList extends JModelLegacy
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
+		if (count($this->fields))
+		{
+			$this->_buildQueryColumns($query)
+				->_buildQueryFrom($query)
+				->_buildQueryJoins($query)
+				->_buildQueryWhere($query)
+				->_buildQueryGroup($query)
+				->_buildQueryHaving($query)
+				->_buildQueryOrder($query);
+		}
 
 		return $query;
 	}
@@ -701,5 +788,229 @@ class JModelList extends JModelLegacy
 		}
 
 		return implode('|', $searchArr);
+	}
+
+	/**
+	 * Builds SELECT columns list for the query
+	 *
+	 * @param   JDatabaseQuery  $query  The query object
+	 *
+	 * @return $this
+	 *
+	 * @since 3.4.1
+	 */
+	protected function _buildQueryColumns(JDatabaseQuery $query)
+	{
+		$query->select(array('a.*'));
+
+		return $this;
+	}
+
+	/**
+	 * Builds FROM tables list for the query
+	 *
+	 * @param   JDatabaseQuery  $query  The query object
+	 *
+	 * @return $this
+	 *
+	 * @since 3.4.1
+	 */
+	protected function _buildQueryFrom(JDatabaseQuery $query)
+	{
+		$query->from($this->getDbo()->quoteName($this->tableName) . ' AS a');
+
+		return $this;
+	}
+
+	/**
+	 * Builds JOIN clauses for the query
+	 *
+	 * @param   JDatabaseQuery  $query  The query object
+	 *
+	 * @return $this
+	 *
+	 * @since 3.4.1
+	 */
+	protected function _buildQueryJoins(JDatabaseQuery $query)
+	{
+		$db = $this->getDbo();
+		if (in_array('language', $this->fields))
+		{
+			$query->select('l.title AS language_title')
+				->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+
+		}
+
+		if (in_array('checked_out', $this->fields))
+		{
+			$query->select('uc.name AS editor')
+				->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		}
+
+		if (in_array('access', $this->fields))
+		{
+			$query->select('ag.title AS access_level')
+				->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		}
+
+		if (in_array('catid', $this->fields))
+		{
+			$query->select('c.title AS category_title')
+				->join('LEFT', '#__categories AS c ON c.id = a.catid');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Builds WHERE clauses for the query
+	 *
+	 * @param   JDatabaseQuery  $query  The query object
+	 *
+	 * @return $this
+	 *
+	 * @since 3.4.1
+	 */
+	protected function _buildQueryWhere(JDatabaseQuery $query)
+	{
+		$user = JFactory::getUser();
+		$db   = $this->getDbo();
+
+		// Filter by access level.
+		if ($access = $this->getState('filter.access'))
+		{
+			$query->where('a.access = ' . (int) $access);
+		}
+
+		// Implement View Level Access
+		if (!$user->authorise('core.admin') && in_array('access', $this->fields))
+		{
+			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$query->where('a.access IN (' . $groups . ')');
+		}
+
+		// Filter by published state
+		$published = $this->getState('filter.state');
+		if (is_numeric($published))
+		{
+			$query->where($this->stateField . ' = ' . (int) $published);
+		}
+		elseif ($published === '')
+		{
+			$query->where('(' . $this->stateField . ' IN (0, 1))');
+		}
+
+		if (in_array('catid', $this->fields))
+		{
+			$categoryId = $this->getState('filter.category_id');
+			if (is_numeric($categoryId))
+			{
+				$query->where('a.catid = ' . (int) $categoryId);
+			}
+			elseif (is_array($categoryId))
+			{
+				JArrayHelper::toInteger($categoryId);
+				$categoryId = implode(',', $categoryId);
+				$query->where('a.catid IN (' . $categoryId . ')');
+			}
+		}
+
+		// Filter by search in title
+		$search = $this->getState('filter.search');
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where('a.id = ' . (int) substr($search, 3));
+			}
+			elseif (stripos($search, 'author:') === 0)
+			{
+				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
+				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
+			}
+			else
+			{
+				if (count($this->searchFields))
+				{
+					$search  = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+					$whereOr = array();
+					foreach ($this->searchFields as $searchField)
+					{
+						$whereOr[] = " $searchField LIKE " . $search;
+					}
+					$query->where('(' . implode(' OR ', $whereOr) . ') ');
+				}
+			}
+		}
+
+		// Filter on the language.
+		if ($language = $this->getState('filter.language'))
+		{
+			$query->where('a.language = ' . $db->quote($language));
+		}
+		$tagId = $this->getState('filter.tag');
+
+		// Filter by a single tag.
+		if (is_numeric($tagId))
+		{
+			$typeAlias = $this->option . '.' . FOFInflector::singularize($this->getName());
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
+				->join(
+					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote($typeAlias)
+				);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Builds GROUP BY clause for the query
+	 *
+	 * @param   JDatabaseQuery  $query  The query object
+	 *
+	 * @return $this
+	 *
+	 * @since 3.4.1
+	 */
+	protected function _buildQueryGroup(JDatabaseQuery $query)
+	{
+		return $this;
+	}
+
+	/**
+	 * Builds HAVING clause for the query
+	 *
+	 * @param   JDatabaseQuery  $query  The query object
+	 *
+	 * @return $this
+	 *
+	 * @since 3.4.1
+	 */
+	protected function _buildQueryHaving(JDatabaseQuery $query)
+	{
+		return $this;
+	}
+
+	/**
+	 * Builds a generic ORDER BY clause based on the model's state
+	 *
+	 * @param   JDatabaseQuery  $query  The query object
+	 *
+	 * @return $this
+	 *
+	 * @since 3.4.1
+	 */
+	protected function _buildQueryOrder(JDatabaseQuery $query)
+	{
+		$sort      = $this->state->get('list.ordering', '');
+		$direction = $this->state->get('list.direction', 'asc');
+		if ($sort)
+		{
+			$query->order($sort . ' ' . $direction);
+		}
+
+		return $this;
 	}
 }
