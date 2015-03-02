@@ -133,7 +133,7 @@ var JFormValidator = function() {
 				if ( (countErrors < 6) && (label !== 'undefined') ) {
 					error.error[i] = message + label.replace("*", "");
 				} else {
-					error.error[i] = ( i === 1 ) ? Joomla.JText._('JLIB_FORM_FIELDS_REQUIRED') : '';
+					error.error[i] = ( i === 0 ) ? Joomla.JText._('JLIB_FORM_FIELDS_REQUIRED') : '';
 				}
 			}
 			error.error.reverse();
