@@ -1,14 +1,22 @@
 #Model-View-Single-Task-Controller (MVSC)
+
 This document is incomplete.
+
 ###What is MVSC?
+
 MVSC is a new designed pattern that I am proposing to replace the Joomla! Legacy Model-View-Controller (MVC) architecture.
 ###MVSC is not MVC
-Although MVSC creates clean separation of logic, data and presentation layers, it is not just another flavor of MVC. Below is a list of the characteristics that distinguish MVSC from MVC
+
+Although MVSC creates clean separation of logic, data and presentation layers, it is not just another flavor of MVC. 
+
+Below is a list of the characteristics that distinguish MVSC from MVC.
 
 #### No M-V-C Triads
 The concept of Model-View-Controller Triads does not apply to MVSC. Although all of these elements still exist, they are not bound to a 1-to-1 relationship.
 
-The controllers in MVSC are designed to use a 1-to-N relationship. This a controller can execute it's logic on any class that supports the required interface. 
+The controllers in MVSC are designed to use a 1-to-N relationship. 
+
+This means a controller can execute it's logic on any class that supports the required interface. 
 
 #### Single Task Controller (STC)
 As the name of this pattern suggests, each controller is given complete authority over a single task.
@@ -17,19 +25,21 @@ In MVSC the term "Task" represents a single unit of logic that when given equiva
 
 The term "Task" should not be confused with single responsibility as defined by the single responsibility principal. 
 
-Tasks are similar to verbs in human language. By that I mean that although the verb "to drink" has a very clear meaning, the actual process of drinking consists of several smaller actions 
+##### Tasks are verbs
 
-```PHP
-    $toDrink = array('To grip the glass', 'To raise the glass to your mouth', 'To pour the liquid in your mouth', 'To swallow the liquid');
-```
+Tasks are the application verbs. In human language a verb has a very clear meaning, but the actual process of doing said verb may consist of several smaller actions. 
 
-In the same way, a "Task" has a clear meaning, but the processes involved may consist of several smaller actions.
+In the same way, a "Task" has a clear meaning within the application, but the processes involved may consist of several smaller actions.
+
+In this implementation I have used that similarity in the naming of the controller classes. 
+
+With the exception of abstract base classes and the ajax controller, STCs use verbs as names.
 
 ##### Autonomy and Authority
 
 STCs are autonomous and have full authority over their task. Changing the behavior of one STC will not change the behavior of other STCs. 
 
-This means that they are free to evolve and change to accomplish their task without the fear of side effects.
+This means that they are free to evolve to accomplish their task without the fear of side effects.
 
 Because a STC has full authority over its task, changing the behavior of the STC will change that behavior throughout the system. 
 
