@@ -23,6 +23,26 @@ abstract class JHtmlBootstrap
 	protected static $loaded = array();
 
 	/**
+	 * Load Main Behavior script
+	 */
+	protected static function behaviorBootstrap()
+	{
+		if (isset(static::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		// Include Core
+		JHtml::_('behavior.core');
+
+		JHtml::_('bootstrap.framework');
+
+		JHtml::_('script', 'jui/behavior-bootstrap.min.js', false, true);
+
+		static::$loaded[__METHOD__] = true;
+	}
+
+	/**
 	 * Add javascript support for the Bootstrap affix plugin
 	 *
 	 * @param   string  $selector  Unique selector for the element to be affixed.
@@ -41,28 +61,18 @@ abstract class JHtmlBootstrap
 	 */
 	public static function affix($selector = 'affix', $params = array())
 	{
-		$sig = md5(serialize(array($selector, $params)));
-
-		if (!isset(static::$loaded[__METHOD__][$sig]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
-			// Include Bootstrap framework
-			static::framework();
-
-			// Setup options object
-			$opt['offset'] = isset($params['offset']) ? $params['offset'] : 10;
-
-			$options = JHtml::getJSObject($opt);
-
-			// Attach affix to document
-			JFactory::getDocument()->addScriptDeclaration(
-				"(function($){
-					$('#$selector').affix($options);
-					})(jQuery);"
-			);
-
-			// Set static array
-			static::$loaded[__METHOD__][$sig] = true;
+			return;
 		}
+
+		// Include main script
+		static::behaviorBootstrap();
+
+		JFactory::getDocument()->addScriptOptions('bootstrap.affix', array('#' . $selector => $params));
+
+		// Set static array
+		static::$loaded[__METHOD__][$selector] = true;
 
 		return;
 	}
@@ -84,15 +94,10 @@ abstract class JHtmlBootstrap
 			return;
 		}
 
-		// Include Bootstrap framework
-		static::framework();
+		// Include main script
+		static::behaviorBootstrap();
 
-		// Attach the alerts to the document
-		JFactory::getDocument()->addScriptDeclaration(
-			"(function($){
-				$('.$selector').alert();
-				})(jQuery);"
-		);
+		JFactory::getDocument()->addScriptOptions('bootstrap.alert', array('.' . $selector));
 
 		static::$loaded[__METHOD__][$selector] = true;
 
