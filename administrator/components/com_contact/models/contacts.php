@@ -48,7 +48,6 @@ class ContactModelContacts extends JModelList
 				'ul.name', 'linked_user',
 			);
 
-			$app = JFactory::getApplication();
 			$assoc = JLanguageAssociations::isEnabled();
 
 			if ($assoc)
@@ -56,6 +55,7 @@ class ContactModelContacts extends JModelList
 				$config['filter_fields'][] = 'association';
 			}
 		}
+		$config['table_name'] = '#__contact_details';
 
 		parent::__construct($config);
 	}
@@ -139,143 +139,70 @@ class ContactModelContacts extends JModelList
 	}
 
 	/**
-	 * Build an SQL query to load the list data.
+	 * Builds SELECT columns list for the query
 	 *
-	 * @return  JDatabaseQuery
+	 * @param   JDatabaseQuery  $query  The query object
 	 *
-	 * @since   1.6
+	 * @return $this
+	 *
+	 * @since 3.4.1
 	 */
-	protected function getListQuery()
+	protected function _buildQueryColumns(JDatabaseQuery $query)
 	{
-		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
-		$app = JFactory::getApplication();
-
-		// Select the required fields from the table.
 		$query->select(
-			$this->getState(
-				'list.select',
-				'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid, a.user_id' .
-					', a.published, a.access, a.created, a.created_by, a.ordering, a.featured, a.language' .
-					', a.publish_up, a.publish_down'
-			)
+			'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid, a.user_id' .
+			', a.published, a.access, a.created, a.created_by, a.ordering, a.featured, a.language' .
+			', a.publish_up, a.publish_down'
 		);
-		$query->from('#__contact_details AS a');
+
+		return $this;
+	}
+
+	/**
+	 * Builds JOIN clauses for the query
+	 *
+	 * @param   JDatabaseQuery  $query  The query object
+	 *
+	 * @return $this
+	 *
+	 * @since 3.4.1
+	 */
+	protected function _buildQueryJoins(JDatabaseQuery $query)
+	{
+		parent::_buildQueryJoins($query);
 
 		// Join over the users for the linked user.
 		$query->select('ul.name AS linked_user')
 			->join('LEFT', '#__users AS ul ON ul.id=a.user_id');
-
-		// Join over the language
-		$query->select('l.title AS language_title')
-			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
-
-		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor')
-			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
-
-		// Join over the asset groups.
-		$query->select('ag.title AS access_level')
-			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
-
-		// Join over the categories.
-		$query->select('c.title AS category_title')
-			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the associations.
 		$assoc = JLanguageAssociations::isEnabled();
 
 		if ($assoc)
 		{
+			$db = $this->getDbo();
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_contact.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
 				->group('a.id, ul.name, l.title, uc.name, ag.title, c.title');
 		}
 
-		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
-		{
-			$query->where('a.access = ' . (int) $access);
-		}
+		return $this;
+	}
 
-		// Implement View Level Access
-		if (!$user->authorise('core.admin'))
-		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
-		}
-
-		// Filter by published state
-		$published = $this->getState('filter.published');
-
-		if (is_numeric($published))
-		{
-			$query->where('a.published = ' . (int) $published);
-		}
-		elseif ($published === '')
-		{
-			$query->where('(a.published = 0 OR a.published = 1)');
-		}
-
-		// Filter by a single or group of categories.
-		$categoryId = $this->getState('filter.category_id');
-
-		if (is_numeric($categoryId))
-		{
-			$query->where('a.catid = ' . (int) $categoryId);
-		}
-		elseif (is_array($categoryId))
-		{
-			JArrayHelper::toInteger($categoryId);
-			$categoryId = implode(',', $categoryId);
-			$query->where('a.catid IN (' . $categoryId . ')');
-		}
-
-		// Filter by search in name.
-		$search = $this->getState('filter.search');
-
-		if (!empty($search))
-		{
-			if (stripos($search, 'id:') === 0)
-			{
-				$query->where('a.id = ' . (int) substr($search, 3));
-			}
-			elseif (stripos($search, 'author:') === 0)
-			{
-				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
-				$query->where('(uc.name LIKE ' . $search . ' OR uc.username LIKE ' . $search . ')');
-			}
-			else
-			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.name LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
-			}
-		}
-
-		// Filter on the language.
-		if ($language = $this->getState('filter.language'))
-		{
-			$query->where('a.language = ' . $db->quote($language));
-		}
-
-		// Filter by a single tag.
-		$tagId = $this->getState('filter.tag');
-
-		if (is_numeric($tagId))
-		{
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
-				->join(
-					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
-					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_contact.contact')
-				);
-		}
-
+	/**
+	 * Builds a generic ORDER BY clause
+	 *
+	 * @param   JDatabaseQuery  $query  The query object
+	 *
+	 * @return $this
+	 *
+	 * @since 3.4.1
+	 */
+	protected function _buildQueryOrder(JDatabaseQuery $query)
+	{
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'a.name');
+		$orderCol  = $this->state->get('list.ordering', 'a.name');
 		$orderDirn = $this->state->get('list.direction', 'asc');
 
 		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
@@ -283,8 +210,6 @@ class ContactModelContacts extends JModelList
 			$orderCol = 'c.title ' . $orderDirn . ', a.ordering';
 		}
 
-		$query->order($db->escape($orderCol . ' ' . $orderDirn));
-
-		return $query;
+		$query->order($this->getDbo()->escape($orderCol . ' ' . $orderDirn));
 	}
 }
