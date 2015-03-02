@@ -29,6 +29,15 @@
 					default="10"
 					label="MOD_ARTICLES_ARCHIVE_FIELD_COUNT_LABEL"
 					description="MOD_ARTICLES_ARCHIVE_FIELD_COUNT_DESC" />
+				<field name="list_show_date"
+					type="list"
+					default="publish_up"
+					label="MOD_ARTICLES_ARCHIVE_FIELD_SHOW_DATE_LABEL"
+					description="MOD_ARTICLES_ARCHIVE_FIELD_SHOW_DATE_DESC">
+						<option value="created">JGLOBAL_CREATED</option>
+						<option value="modified">JGLOBAL_MODIFIED</option>
+						<option value="publish_up">JPUBLISHED</option>
+				</field>
 			</fieldset>
 
 			<fieldset name="advanced">

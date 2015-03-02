@@ -195,28 +195,19 @@ class ContentRouter extends JComponentRouterBase
 
 		if ($view == 'archive')
 		{
-			if (!$menuItemGiven)
-			{
-				$segments[] = $view;
-				unset($query['view']);
-			}
+			$segments[] = $view;
+			unset($query['view']);
 
 			if (isset($query['year']))
 			{
-				if ($menuItemGiven)
-				{
-					$segments[] = $query['year'];
-					unset($query['year']);
-				}
+				$segments[] = $query['year'];
+				unset($query['year']);
 			}
 
-			if (isset($query['year']) && isset($query['month']))
+			if (isset($query['month']))
 			{
-				if ($menuItemGiven)
-				{
-					$segments[] = $query['month'];
-					unset($query['month']);
-				}
+				$segments[] = $query['month'];
+				unset($query['month']);
 			}
 		}
 
@@ -292,14 +283,24 @@ class ContentRouter extends JComponentRouterBase
 
 		/*
 		 * Standard routing for articles.  If we don't pick up an Itemid then we get the view from the segments
-		 * the first segment is the view and the last segment is the id of the article or category.
 		 */
 		if (!isset($item))
 		{
 			$vars['view'] = $segments[0];
-			$vars['id'] = $segments[$count - 1];
 
-			return $vars;
+			switch ($vars['view'])
+			{
+				case 'archive':
+					// Parse the archived articles view
+					return $this->parseArchiveArticlesRoute($segments);
+					break;
+
+				default;
+					// The first segment is the view and the last segment is the id of the article or category in the default behavior
+					$vars['id'] = $segments[$count - 1];
+
+					return $vars;
+			}
 		}
 
 		/*
@@ -357,26 +358,37 @@ class ContentRouter extends JComponentRouterBase
 		 * If there was more than one segment, then we can determine where the URL points to
 		 * because the first segment will have the target category id prepended to it.  If the
 		 * last segment has a number prepended, it is an article, otherwise, it is a category.
+		 * Special behavior is considered if the first segment points to the archived articles view
 		 */
 		if (!$advanced)
 		{
-			$cat_id = (int) $segments[0];
+			$view = $segments[0];
 
-			$article_id = (int) $segments[$count - 1];
-
-			if ($article_id > 0)
+			switch ($view)
 			{
-				$vars['view'] = 'article';
-				$vars['catid'] = $cat_id;
-				$vars['id'] = $article_id;
-			}
-			else
-			{
-				$vars['view'] = 'category';
-				$vars['id'] = $cat_id;
-			}
+				case 'archive':
+					return $this->parseArchiveArticlesRoute($segments);
+					break;
 
-			return $vars;
+				default:
+					$cat_id = (int) $segments[0];
+
+					$article_id = (int) $segments[$count - 1];
+
+					if ($article_id > 0)
+					{
+						$vars['view'] = 'article';
+						$vars['catid'] = $cat_id;
+						$vars['id'] = $article_id;
+					}
+					else
+					{
+						$vars['view'] = 'category';
+						$vars['id'] = $cat_id;
+					}
+
+					return $vars;
+			}
 		}
 
 		// We get the category id from the menu item and search from there
@@ -429,22 +441,36 @@ class ContentRouter extends JComponentRouterBase
 				{
 					$cid = $segment;
 				}
-
-				$vars['id'] = $cid;
-
-				if ($item->query['view'] == 'archive' && $count != 1)
-				{
-					$vars['year'] = $count >= 2 ? $segments[$count - 2] : null;
-					$vars['month'] = $segments[$count - 1];
-					$vars['view'] = 'archive';
-				}
-				else
-				{
-					$vars['view'] = 'article';
-				}
 			}
 
 			$found = 0;
+		}
+
+		return $vars;
+	}
+
+	/**
+	 * Build the route for the archived articles view
+	 *
+	 * @param   array  &$segments  The segments of the URL to parse ($segment[0] is the view)
+	 *
+	 * @return  array  The URL attributes to be used by the application.
+	 *
+	 * @since   3.3
+	 */
+	public function parseArchiveArticlesRoute(&$segments)
+	{
+		$vars = array();
+		$vars['view'] = $segments[0];
+
+		if (isset($segments[1]))
+		{
+			$vars['year'] = $segments[1];
+		}
+
+		if (isset($segments[2]))
+		{
+			$vars['month'] = $segments[2];
 		}
 
 		return $vars;
