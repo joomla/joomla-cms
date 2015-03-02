@@ -578,7 +578,7 @@ class JRouterSite extends JRouter
 	 */
 	protected function processBuildRules(&$uri, $stage = self::PROCESS_DURING)
 	{
-		if ($stage == self::PROCESS_DURING)
+		if ($stage == self::PROCESS_BEFORE)
 		{
 			// Make sure any menu vars are used if no others are specified
 			if (($this->_mode != JROUTER_MODE_SEF) && $uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)
