@@ -6989,11 +6989,11 @@ dl.article-info dd.hits span[class*=" icon-"] {
 	color: #f89406;
 }
 .icon-asterisk {
-	width: 0;
+	width: 1em;
 	font-size: .8em;
 	line-height: .8em;
 	vertical-align: super;
-	margin-right: 1em;
+	margin-right: 0;
 }
 html {
 	height: 100%;
