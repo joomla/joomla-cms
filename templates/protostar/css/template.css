@@ -6964,11 +6964,11 @@ dl.article-info dd.hits span[class*=" icon-"] {
 	content: "\4b";
 }
 .icon-asterisk {
-	width: 0;
+	width: 1em;
 	font-size: .8em;
 	line-height: .8em;
 	vertical-align: super;
-	margin-right: 1em;
+	margin-right: 0;
 }
 body {
 	-webkit-font-smoothing: antialiased;
