@@ -583,9 +583,11 @@ abstract class JHtmlBootstrap
 	 *                             - active  string    Sets the active slide during load
 	 * 
 	 *                             - onShow    function  This event fires immediately when the show instance method is called.
-	 *                             - onShown   function  This event is fired when a collapse element has been made visible to the user (will wait for css transitions to complete).
+	 *                             - onShown   function  This event is fired when a collapse element has been made visible to the user 
+	 *                                                   (will wait for css transitions to complete).
 	 *                             - onHide    function  This event is fired immediately when the hide method has been called.
-	 *                             - onHidden  function  This event is fired when a collapse element has been hidden from the user (will wait for css transitions to complete).
+	 *                             - onHidden  function  This event is fired when a collapse element has been hidden from the user 
+	 *                                                   (will wait for css transitions to complete).
 	 *
 	 * @return  string  HTML for the accordian
 	 *
@@ -674,7 +676,8 @@ abstract class JHtmlBootstrap
 	public static function addSlide($selector, $text, $id, $class = '')
 	{
 		$in = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? ' in' : '';
-		$parent = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ? ' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
+		$parent = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ? 
+			' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
 		$class = (!empty($class)) ? ' ' . $class : '';
 
 		$html = '<div class="accordion-group' . $class . '">'
