@@ -164,7 +164,8 @@ abstract class JHtmlIcon
 			if ($legacy)
 			{
 				$button = JHtml::_('image', 'system/checked_out.png', null, null, true);
-				$text   = '<span class="hasTooltip" title="' . JHtml::tooltipText($tooltip . '', 0) . '">' . $button . '</span> ' . JText::_('JLIB_HTML_CHECKED_OUT');
+				$text   = '<span class="hasTooltip" title="' . JHtml::tooltipText($tooltip . '', 0) . '">'
+					. $button . '</span> ' . JText::_('JLIB_HTML_CHECKED_OUT');
 			}
 			else
 			{
