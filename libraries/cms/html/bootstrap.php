@@ -599,15 +599,16 @@ abstract class JHtmlBootstrap
 			static::framework();
 
 			// Setup options object
-			$opt['parent'] = isset($params['parent']) ? (boolean) $params['parent'] : false;
-			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : true;
-			$active = isset($params['active']) ? (string) $params['active'] : '';
+			$opt['parent'] = isset($params['parent']) ? ($params['parent'] == true ? '#' . $selector : $params['parent']) : false;
+			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : ($opt['parent'] === false || isset($params['active']) ? false : true);
 			$onShow = isset($params['onShow']) ? (string) $params['onShow'] : null;
 			$onShown = isset($params['onShown']) ? (string) $params['onShown'] : null;
 			$onHide = isset($params['onHide']) ? (string) $params['onHide'] : null;
 			$onHidden = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
 			$options = JHtml::getJSObject($opt);
+
+			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
 
 			// Build the script.
 			$script = array();
@@ -626,7 +627,7 @@ abstract class JHtmlBootstrap
 
 			if ($onHide)
 			{
-				$script[] = "\t.on('hide', " . $onHide . ")";
+				$script[] = "\t.on('hideme', " . $onHide . ")";
 			}
 
 			if ($onHidden)
@@ -640,7 +641,7 @@ abstract class JHtmlBootstrap
 			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 			// Set static array
-			static::$loaded[__METHOD__][$selector] = $active;
+			static::$loaded[__METHOD__][$selector] = $opt;
 
 			return '<div id="' . $selector . '" class="accordion">';
 		}
@@ -672,12 +673,13 @@ abstract class JHtmlBootstrap
 	 */
 	public static function addSlide($selector, $text, $id, $class = '')
 	{
-		$in = (static::$loaded[__CLASS__ . '::startAccordion'][$selector] == $id) ? ' in' : '';
+		$in = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? ' in' : '';
+		$parent = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ? ' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
 		$class = (!empty($class)) ? ' ' . $class : '';
 
 		$html = '<div class="accordion-group' . $class . '">'
 			. '<div class="accordion-heading">'
-			. '<strong><a href="#' . $id . '" data-toggle="collapse" class="accordion-toggle">'
+			. '<strong><a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="accordion-toggle">'
 			. $text
 			. '</a></strong>'
 			. '</div>'
