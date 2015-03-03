@@ -300,12 +300,10 @@ class JoomlaInstallerScript
 
 		foreach ($extensions as $extension)
 		{
-			if ($installer->refreshManifestCache($extension->extension_id))
+			if (!$installer->refreshManifestCache($extension->extension_id))
 			{
-				continue;
+				echo JText::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id) . '<br />';
 			}
-
-			echo JText::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id) . '<br />';
 		}
 	}
 
@@ -1253,24 +1251,20 @@ class JoomlaInstallerScript
 
 		foreach ($files as $file)
 		{
-			if (!JFile::exists(JPATH_ROOT . $file) || JFile::delete(JPATH_ROOT . $file))
+			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
 			{
-				continue;
+				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br />';
 			}
-
-			echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br />';
 		}
 
 		jimport('joomla.filesystem.folder');
 
 		foreach ($folders as $folder)
 		{
-			if (!JFolder::exists(JPATH_ROOT . $folder) || JFolder::delete(JPATH_ROOT . $folder))
+			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
 			{
-				continue;
+				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
 			}
-
-			echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
 		}
 
 		/*
