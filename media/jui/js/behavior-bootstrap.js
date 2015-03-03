@@ -166,14 +166,32 @@
 	 * 		event.name    Name of active event
 	 * 		event.target  Affected DOM container
 	 * 		event.options Possible options, in format {selector1 : options1, selector2 : options2}
-	 * /
+	 */
 	Joomla.Behavior.add('bootstrap.tooltip', 'ready update', function(event){
-		var $target = $(event.target), options;
+		var $target = $(event.target), options, $items;
 
 		for (var selector in event.options) {
 			options = event.options[selector] || {};
+			options.container = options.container || 'body';
 
-			$target.find(selector).scrollspy(options);
+			$items = $target.find(selector);
+			$items.tooltip(options);
+
+			// To be b/c @see JHtmlBootstrap::tooltip()
+			if(Joomla.CallbacksBsTooltip){
+				if(options.onShow && Joomla.CallbacksBsTooltip[options.onShow]){
+					$items.on('show.bs.tooltip', Joomla.CallbacksBsTooltip[options.onShow]);
+				}
+				if(options.onShown && Joomla.CallbacksBsTooltip[options.onShown]){
+					$items.on('shown.bs.tooltip', Joomla.CallbacksBsTooltip[options.onShown]);
+				}
+				if(options.onHide && Joomla.CallbacksBsTooltip[options.onHide]){
+					$items.on('hide.bs.tooltip', Joomla.CallbacksBsTooltip[options.onHide]);
+				}
+				if(options.onHiden && Joomla.CallbacksBsTooltip[options.onHiden]){
+					$items.on('hidden.bs.tooltip', Joomla.CallbacksBsTooltip[options.onHiden]);
+				}
+			}
 		}
 	});
 

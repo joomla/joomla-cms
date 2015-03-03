@@ -395,61 +395,54 @@ abstract class JHtmlBootstrap
 	 */
 	public static function tooltip($selector = '.hasTooltip', $params = array())
 	{
-		if (!isset(static::$loaded[__METHOD__][$selector]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
-			// Include Bootstrap framework
-			static::framework();
-
-			// Setup options object
-			$opt['animation'] = isset($params['animation']) ? (boolean) $params['animation'] : null;
-			$opt['html']      = isset($params['html']) ? (boolean) $params['html'] : true;
-			$opt['placement'] = isset($params['placement']) ? (string) $params['placement'] : null;
-			$opt['selector']  = isset($params['selector']) ? (string) $params['selector'] : null;
-			$opt['title']     = isset($params['title']) ? (string) $params['title'] : null;
-			$opt['trigger']   = isset($params['trigger']) ? (string) $params['trigger'] : null;
-			$opt['delay']     = isset($params['delay']) ? (int) $params['delay'] : null;
-			$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
-			$opt['template']  = isset($params['template']) ? (string) $params['template'] : null;
-			$onShow = isset($params['onShow']) ? (string) $params['onShow'] : null;
-			$onShown = isset($params['onShown']) ? (string) $params['onShown'] : null;
-			$onHide = isset($params['onHide']) ? (string) $params['onHide'] : null;
-			$onHidden = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
-
-			$options = JHtml::getJSObject($opt);
-
-			// Build the script.
-			$script = array();
-			$script[] = "jQuery(document).ready(function(){";
-			$script[] = "\tjQuery('" . $selector . "').tooltip(" . $options . ");";
-
-			if ($onShow)
-			{
-				$script[] = "\tjQuery('" . $selector . "').on('show.bs.tooltip', " . $onShow . ");";
-			}
-
-			if ($onShown)
-			{
-				$script[] = "\tjQuery('" . $selector . "').on('shown.bs.tooltip', " . $onShown . ");";
-			}
-
-			if ($onHide)
-			{
-				$script[] = "\tjQuery('" . $selector . "').on('hide.bs.tooltip', " . $onHide . ");";
-			}
-
-			if ($onHidden)
-			{
-				$script[] = "\tjQuery('" . $selector . "').on('hidden.bs.tooltip', " . $onHidden . ");";
-			}
-
-			$script[] = "});";
-
-			// Attach tooltips to document
-			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
-
-			// Set static array
-			static::$loaded[__METHOD__][$selector] = true;
+			return;
 		}
+
+		// Include main script
+		static::behaviorBootstrap();
+
+		// Prepare callbacks, to be b/c.
+		$script = array();
+		$prefix = 'Joomla.CallbacksBsTooltip.';
+		$method = str_replace(array('.', '#', '-'), '', $selector);
+
+		if (!empty($params['onShow']))
+		{
+			$script[] = $prefix . $method . 'OnShow = ' . $params['onShow'] . ';';
+			$params['onShow'] = $method . 'OnShow';
+		}
+
+		if (!empty($params['onShown']))
+		{
+			$script[] = $prefix . $method . 'OnShown = ' . $params['onShown'] . ';';
+			$params['onShown'] = $method . 'OnShown';
+		}
+
+		if (!empty($params['onHide']))
+		{
+			$script[] = $prefix . $method . 'OnHide = ' . $params['onHide'] . ';';
+			$params['onHide'] = $method . 'OnHide';
+		}
+
+		if (!empty($params['onHiden']))
+		{
+			$script[] = $prefix . $method . 'OnHiden = ' . $params['onHiden'] . ';';
+			$params['onHiden'] = $method . 'OnHiden';
+		}
+
+		if (!empty($script))
+		{
+			$js  = 'Joomla.CallbacksBsTooltip = Joomla.CallbacksBsTooltip || {};' . "\n";
+			$js .= implode("\n", $script);
+			JFactory::getDocument()->addScriptDeclaration($js);
+		}
+
+		JFactory::getDocument()->addScriptOptions('bootstrap.tooltip', array($selector => $params));
+
+		// Set static array
+		static::$loaded[__METHOD__][$selector] = true;
 
 		return;
 	}
@@ -532,7 +525,7 @@ abstract class JHtmlBootstrap
 			// Attach accordion to document
 			JFactory::getDocument()->addScriptDeclaration(
 				"(function($){
-					$('#$selector').collapse($options);
+					console.log($('#$selector').collapse($options));
 				})(jQuery);"
 			);
 
