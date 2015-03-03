@@ -1330,15 +1330,13 @@ class JoomlaInstallerScript
 			$asset->title = $component;
 			$asset->setLocation(1, 'last-child');
 
-			if ($asset->store())
+			if (!$asset->store())
 			{
-				continue;
+				// Install failed, roll back changes
+				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->stderr(true)));
+
+				return false;
 			}
-
-			// Install failed, roll back changes
-			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->stderr(true)));
-
-			return false;
 		}
 
 		return true;
