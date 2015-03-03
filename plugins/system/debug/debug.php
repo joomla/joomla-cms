@@ -313,7 +313,7 @@ class PlgSystemDebug extends JPlugin
 
 		if (!empty($filterGroups))
 		{
-			$userGroups = JFactory::getUser()->get('groups');
+			$userGroups = JFactory::getUser()->get('groups', array());
 
 			if (!array_intersect($filterGroups, $userGroups))
 			{
