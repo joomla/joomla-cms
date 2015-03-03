@@ -39,9 +39,7 @@ function admin_postinstall_languageaccess340_condition()
 		// one row with access set to 0
 		return true;
 	}
-	else
-	{
-		// All good the query return nothing.
-		return false;
-	}
+
+	// All good the query return nothing.
+	return false;
 }
