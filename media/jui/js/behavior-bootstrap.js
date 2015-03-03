@@ -113,6 +113,7 @@
 
 		for (var selector in event.options) {
 			options = event.options[selector] || {};
+			//options.show = options.show === undefined ? false : options.show;
 
 			$target.find(selector).modal(options);
 		}
