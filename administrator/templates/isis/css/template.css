@@ -6988,6 +6988,13 @@ dl.article-info dd.hits span[class*=" icon-"] {
 .icon-pending:before {
 	color: #f89406;
 }
+.icon-asterisk {
+	width: 0;
+	font-size: .8em;
+	line-height: .8em;
+	vertical-align: super;
+	margin-right: 1em;
+}
 html {
 	height: 100%;
 }
