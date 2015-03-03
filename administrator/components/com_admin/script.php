@@ -1296,7 +1296,7 @@ class JoomlaInstallerScript
 		 * If com_weblinks doesn't exist then assume we can delete the weblinks package manifest (included in the update packages)
 		 */
 		if (!JFile::exists(JPATH_ADMINISTRATOR . '/components/com_weblinks/weblinks.php')
-			&& !JFile::exists(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml'))
+			&& JFile::exists(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml'))
 		{
 			JFile::delete(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml');
 		}
