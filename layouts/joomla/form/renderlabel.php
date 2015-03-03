@@ -44,14 +44,14 @@ if ($req)
 	$classes[] = 'required';
 }
 
-// If required, adds icon asterisk (if not set in template, will replace with *).
+// If required, adds icon asterisk (if class not set in template, will replace with *).
 $asterisk = '<span class="icon-asterisk"></span>';
 
 JFactory::getDocument()->addScriptDeclaration('
 	jQuery(document).ready(function($)
 	{
 		var jasterisk =  $(".icon-asterisk").width();
-    	if ( jasterisk !== 0 )
+    	if ( jasterisk === 0 )
     	{
     		$(".icon-asterisk").text("*").css("width", "0");
     		$(".icon-asterisk").removeClass("icon-asterisk");
