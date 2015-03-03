@@ -773,13 +773,9 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 				continue;
 			}
 
-			// Call behavior, and try do not crash the site if some behavior is buggy
-			try {
-				if (behavior.events[jevent.name].apply(this, [jevent]) === false) {
-					break;
-				}
-			} catch (e) {
-				if(window.console){ console.log(e);}
+			// Call behavior
+			if (behavior.events[jevent.name].apply(this, [jevent]) === false) {
+				break;
 			}
 		}
 	};
