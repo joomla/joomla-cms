@@ -201,9 +201,10 @@ abstract class JSchemaChangeitem
 			{
 				$rows = $this->db->loadObject();
 			}
-			catch( RuntimeException $e)
+			catch(RuntimeException $e)
 			{
 				$rows = false;
+				
 				// Still render the error message from the Exception object
 				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
