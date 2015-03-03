@@ -61,7 +61,7 @@
 	 * 		event.options Possible options, in format {selector1 : options1, selector2 : options2}
 	 */
 	Joomla.Behavior.add('modal', 'ready update', function(event){
-		var $target = jQuery(event.target), selector, options;
+		var $target = jQuery(event.target), options;
 
 		if (!window.jModalClose) {
     		SqueezeBox.initialize({});
@@ -71,7 +71,7 @@
     		}
 		}
 
-		for (selector in event.options) {
+		for (var selector in event.options) {
 			// Prepare options
 			options = event.options[selector] || {};
 			options.parse = options.parse ? options.parse : 'rel';
@@ -122,9 +122,9 @@
 	 * 		event.options Possible options, in format {selector1 : options1, selector2 : options2}
 	 */
 	Joomla.Behavior.add('colorpicker', 'ready update', function(event){
-		var $target = jQuery(event.target), selector, options;
+		var $target = jQuery(event.target), options;
 
-		for (selector in event.options) {
+		for (var selector in event.options) {
 			options = event.options[selector] || {};
 			options.theme = options.theme || 'bootstrap';
 

@@ -121,15 +121,10 @@ abstract class JHtmlBootstrap
 			return;
 		}
 
-		// Include Bootstrap framework
-		static::framework();
+		// Include main script
+		static::behaviorBootstrap();
 
-		// Attach the button to the document
-		JFactory::getDocument()->addScriptDeclaration(
-			"(function($){
-				$('.$selector').button();
-				})(jQuery);"
-		);
+		JFactory::getDocument()->addScriptOptions('bootstrap.button', array('.' . $selector));
 
 		static::$loaded[__METHOD__][$selector] = true;
 
@@ -153,29 +148,18 @@ abstract class JHtmlBootstrap
 	 */
 	public static function carousel($selector = 'carousel', $params = array())
 	{
-		$sig = md5(serialize(array($selector, $params)));
-
-		if (!isset(static::$loaded[__METHOD__][$sig]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
-			// Include Bootstrap framework
-			static::framework();
-
-			// Setup options object
-			$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
-			$opt['pause']    = isset($params['pause']) ? $params['pause'] : 'hover';
-
-			$options = JHtml::getJSObject($opt);
-
-			// Attach the carousel to document
-			JFactory::getDocument()->addScriptDeclaration(
-				"(function($){
-					$('.$selector').carousel($options);
-					})(jQuery);"
-			);
-
-			// Set static array
-			static::$loaded[__METHOD__][$sig] = true;
+			return;
 		}
+
+		// Include main script
+		static::behaviorBootstrap();
+
+		JFactory::getDocument()->addScriptOptions('bootstrap.carousel', array('.' . $selector => $params));
+
+		// Set static array
+		static::$loaded[__METHOD__][$selector] = true;
 
 		return;
 	}
@@ -197,15 +181,10 @@ abstract class JHtmlBootstrap
 			return;
 		}
 
-		// Include Bootstrap framework
-		static::framework();
+		// Include main script
+		static::behaviorBootstrap();
 
-		// Attach the dropdown to the document
-		JFactory::getDocument()->addScriptDeclaration(
-			"(function($){
-				$('.$selector').dropdown();
-				})(jQuery);"
-		);
+		JFactory::getDocument()->addScriptOptions('bootstrap.dropdown', array('.' . $selector));
 
 		static::$loaded[__METHOD__][$selector] = true;
 
@@ -261,35 +240,21 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.0
-	 * @deprecated  4.0  Unused, JS Not working
 	 */
 	public static function modal($selector = 'modal', $params = array())
 	{
-		$sig = md5(serialize(array($selector, $params)));
-
-		if (!isset(static::$loaded[__METHOD__][$sig]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
-			// Include Bootstrap framework
-			static::framework();
-
-			// Setup options object
-			$opt['backdrop'] = isset($params['backdrop']) ? (boolean) $params['backdrop'] : true;
-			$opt['keyboard'] = isset($params['keyboard']) ? (boolean) $params['keyboard'] : true;
-			$opt['show']     = isset($params['show']) ? (boolean) $params['show'] : true;
-			$opt['remote']   = isset($params['remote']) ?  $params['remote'] : '';
-
-			$options = JHtml::getJSObject($opt);
-
-			// Attach the modal to document
-			JFactory::getDocument()->addScriptDeclaration(
-				"(function($){
-					$('#$selector').modal($options);
-					})(jQuery);"
-			);
-
-			// Set static array
-			static::$loaded[__METHOD__][$sig] = true;
+			return;
 		}
+
+		// Include main script
+		static::behaviorBootstrap();
+
+		JFactory::getDocument()->addScriptOptions('bootstrap.modal', array('#' . $selector => $params));
+
+		// Set static array
+		static::$loaded[__METHOD__][$selector] = true;
 
 		return;
 	}
@@ -363,28 +328,10 @@ abstract class JHtmlBootstrap
 			return;
 		}
 
-		// Include Bootstrap framework
-		static::framework();
+		// Include main script
+		static::behaviorBootstrap();
 
-		$opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
-		$opt['html']      = isset($params['html']) ? $params['html'] : true;
-		$opt['placement'] = isset($params['placement']) ? $params['placement'] : null;
-		$opt['selector']  = isset($params['selector']) ? $params['selector'] : null;
-		$opt['title']     = isset($params['title']) ? $params['title'] : null;
-		$opt['trigger']   = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
-		$opt['content']   = isset($params['content']) ? $params['content'] : null;
-		$opt['delay']     = isset($params['delay']) ? $params['delay'] : null;
-		$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
-
-		$options = JHtml::getJSObject($opt);
-
-		// Attach the popover to the document
-		JFactory::getDocument()->addScriptDeclaration(
-			"jQuery(document).ready(function()
-			{
-				jQuery('" . $selector . "').popover(" . $options . ");
-			});"
-		);
+		JFactory::getDocument()->addScriptOptions('bootstrap.popover', array($selector => $params));
 
 		static::$loaded[__METHOD__][$selector] = true;
 
@@ -405,28 +352,18 @@ abstract class JHtmlBootstrap
 	 */
 	public static function scrollspy($selector = 'navbar', $params = array())
 	{
-		$sig = md5(serialize(array($selector, $params)));
-
-		if (!isset(static::$loaded[__METHOD__][$sig]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
-			// Include Bootstrap framework
-			static::framework();
-
-			// Setup options object
-			$opt['offset'] = isset($params['offset']) ? (int) $params['offset'] : 10;
-
-			$options = JHtml::getJSObject($opt);
-
-			// Attach ScrollSpy to document
-			JFactory::getDocument()->addScriptDeclaration(
-				"(function($){
-					$('#$selector').scrollspy($options);
-					})(jQuery);"
-			);
-
-			// Set static array
-			static::$loaded[__METHOD__][$sig] = true;
+			return;
 		}
+
+		// Include main script
+		static::behaviorBootstrap();
+
+		JFactory::getDocument()->addScriptOptions('bootstrap.scrollspy', array('#' . $selector => $params));
+
+		// Set static array
+		static::$loaded[__METHOD__][$selector] = true;
 
 		return;
 	}
@@ -545,33 +482,18 @@ abstract class JHtmlBootstrap
 	 */
 	public static function typeahead($selector = '.typeahead', $params = array())
 	{
-		if (!isset(static::$loaded[__METHOD__][$selector]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
-			// Include Bootstrap framework
-			static::framework();
-
-			// Setup options object
-			$opt['source']      = isset($params['source']) ? $params['source'] : '[]';
-			$opt['items']       = isset($params['items']) ? (int) $params['items'] : 8;
-			$opt['minLength']   = isset($params['minLength']) ? (int) $params['minLength'] : 1;
-			$opt['matcher']     = isset($params['matcher']) ? (string) $params['matcher'] : null;
-			$opt['sorter']      = isset($params['sorter']) ? (string) $params['sorter'] : null;
-			$opt['updater']     = isset($params['updater']) ? (string) $params['updater'] : null;
-			$opt['highlighter'] = isset($params['highlighter']) ? (int) $params['highlighter'] : null;
-
-			$options = JHtml::getJSObject($opt);
-
-			// Attach typehead to document
-			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function()
-				{
-					jQuery('" . $selector . "').typeahead(" . $options . ");
-				});"
-			);
-
-			// Set static array
-			static::$loaded[__METHOD__][$selector] = true;
+			return;
 		}
+
+		// Include main script
+		static::behaviorBootstrap();
+
+		JFactory::getDocument()->addScriptOptions('bootstrap.typeahead', array($selector => $params));
+
+		// Set static array
+		static::$loaded[__METHOD__][$selector] = true;
 
 		return;
 	}
