@@ -62,8 +62,5 @@ JFactory::getDocument()->addScriptDeclaration('
 ');
 ?>
 <label id="<?php echo $id; ?>" for="<?php echo $for; ?>" class="<?php echo implode(' ', $classes); ?>"<?php echo $title; ?><?php echo $position; ?>>
-	<?php echo $text; ?>
-	<?php if ($req) : ?>
-		&#160;<abbr class="abbrTooltip" title="<?php echo JText::_('JLIB_FORM_FIELD_REQUIRED'); ?>"><?php echo $asterisk; ?></abbr>
-	<?php endif; ?>
+	<?php echo $text; ?><?php if ($req) : ?>&#160;<abbr class="abbrTooltip" title="<?php echo JText::_('JLIB_FORM_FIELD_REQUIRED'); ?>"><?php echo $asterisk; ?></abbr><?php endif; ?>
 </label>
