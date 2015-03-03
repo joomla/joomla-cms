@@ -44,7 +44,24 @@ if ($req)
 	$classes[] = 'required';
 }
 
+// If required, adds icon asterisk (if not set in template, will replace with *).
+$asterisk = '<span class="icon-asterisk"></span>';
+
+JFactory::getDocument()->addScriptDeclaration('
+	jQuery(document).ready(function($)
+	{
+		var jasterisk =  $(".icon-asterisk").width();
+    	if ( jasterisk !== 0 )
+    	{
+    		$(".icon-asterisk").text("*").css("width", "0");
+    		$(".icon-asterisk").removeClass("icon-asterisk");
+    	}
+    });
+');
 ?>
 <label id="<?php echo $id; ?>" for="<?php echo $for; ?>" class="<?php echo implode(' ', $classes); ?>"<?php echo $title; ?><?php echo $position; ?>>
-	<?php echo $text; ?><?php if ($req) : ?><span class="star">&#160;*</span><?php endif; ?>
+	<?php echo $text; ?>
 </label>
+<?php if ($req) : ?>
+	&#160;<abbr class="hasTooltip" title="<?php echo JText::_('JLIB_FORM_FIELD_REQUIRED'); ?>"><?php echo $asterisk; ?></abbr>
+<?php endif; ?>
