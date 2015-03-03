@@ -101,30 +101,30 @@ var JFormValidator = function() {
  	},
 
  	isValid = function(form) {
- 	 	var valid = true, i, message, errors, error, label;
+ 		var valid = true, i, message, errors, error, label, fields;
  	 	// Validate form fields
- 	 	jQuery.each(jQuery(form).find('input, textarea, select, fieldset, button'), function(index, el) {
- 	 	 	if (validate(el) === false) {
+ 	 	fields = jQuery(form).find('input, textarea, select, fieldset, button');
+ 	 	fields.each(function () {
+ 	 	 	if (validate(this) === false) {
  	 	 	 	valid = false;
  	 	 	}
  	 	});
  	 	// Run custom form validators if present
- 	 	jQuery.each(custom, function(key, validator) {
+ 	 	jQuery.each(custom, function (key, validator) {
  	 	 	if (validator.exec() !== true) {
  	 	 	 	valid = false;
  	 	 	}
  	 	});
  	 	if (!valid) {
  	 	 	message = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
- 	 	 	errors = jQuery("input.invalid, textarea.invalid, select.invalid, fieldset.invalid, button.invalid");
  	 	 	error = {};
  	 	 	error.error = [];
- 	 	 	for ( i = 0; i < errors.length; i++) {
- 	 	 	 	label = jQuery('label[for=' + errors[i].id + ']').text();
- 	 	 	 	if (label !== 'undefined') {
- 	 	 	 	 	error.error[i] = message + label.replace("*", "");
- 	 	 	 	}
- 	 	 	}
+ 	 	 	fields.filter(".invalid").each(function () {
+ 	 	 		label = jQuery(this).data("label");
+ 	 			if (label) {
+ 	 	 			error.error.push(message + label.text().replace("*", ""));
+                		}
+ 	 	 	});
  	 	 	Joomla.renderMessages(error);
  	 	}
  	 	return valid;
