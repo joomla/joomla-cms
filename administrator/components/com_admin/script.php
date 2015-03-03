@@ -48,11 +48,46 @@ class JoomlaInstallerScript
 
 		if (substr($db->name, 0, 5) == 'mysql')
 		{
-			$db->setQuery('SHOW ENGINES');
+			$this->updateDatabaseMySQL();
+		}
+
+		$this->uninstallEosPlugin();
+	}
+
+	/**
+	 * Method to update MySQL Database
+	 *
+	 * @return void
+	 */
+	protected function updateDatabaseMySQL()
+	{
+		$db = JFactory::getDbo();
+
+		$db->setQuery('SHOW ENGINES');
+
+		try
+		{
+			$results = $db->loadObjectList();
+		}
+		catch (Exception $e)
+		{
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+
+			return;
+		}
+
+		foreach ($results as $result)
+		{
+			if ($result->Support != 'DEFAULT')
+			{
+				continue;
+			}
+
+			$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
 
 			try
 			{
-				$results = $db->loadObjectList();
+				$db->execute();
 			}
 			catch (Exception $e)
 			{
@@ -61,29 +96,18 @@ class JoomlaInstallerScript
 				return;
 			}
 
-			foreach ($results as $result)
-			{
-				if ($result->Support != 'DEFAULT')
-				{
-					continue;
-				}
-
-				$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
-
-				try
-				{
-					$db->execute();
-				}
-				catch (Exception $e)
-				{
-					echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
-
-					return;
-				}
-
-				break;
-			}
+			break;
 		}
+	}
+
+	/**
+	 * Uninstall the 2.5 EOS plugin
+	 *
+	 * @return void
+	 */
+	protected function uninstallEosPlugin()
+	{
+		$db = JFactory::getDbo();
 
 		// Check if the 2.5 EOS plugin is present and uninstall it if so
 		$id = $db->setQuery(
