@@ -41,20 +41,20 @@ var JFormValidator = function() {
  	handleResponse = function(state, $el) {
  		// Get a label
  	 	var $label = $el.data('label');
- 	 	if($label === undefined){
- 	 		$label = findLabel($el.attr('id'), $el.data('form'));
+ 	 	if ($label === undefined) {
+ 	 		$label = findLabel($el.attr('id'), $el.get(0).form);
  	 		$el.data('label', $label);
  	 	}
 
  	 	// Set the element and its label (if exists) invalid state
  	 	if (state === false) {
  	 	 	$el.addClass('invalid').attr('aria-invalid', 'true');
- 	 	 	if($label){
+ 	 	 	if ($label) {
  	 	 	 	$label.addClass('invalid').attr('aria-invalid', 'true');
  	 	 	}
  	 	} else {
  	 	 	$el.removeClass('invalid').attr('aria-invalid', 'false');
- 	 	 	if($label){
+ 	 	 	if ($label) {
  	 	 	 	$label.removeClass('invalid').attr('aria-invalid', 'false');
  	 	 	}
  	 	}
@@ -158,7 +158,6 @@ var JFormValidator = function() {
  	 	 	 	 	 	$el.get(0).type = 'email';
  	 	 	 	 	}
  	 	 	 	}
- 	 	 	 	$el.data('form', $form);
  	 	 	 	inputFields.push($el);
  	 	 	}
  	 	}
