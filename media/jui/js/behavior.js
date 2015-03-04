@@ -25,7 +25,7 @@
 			selector = event.options[i];
 			new JCaption(selector);
 		}
-	});
+	}, true);
 
 	/**
 	 * Submenu switcher
@@ -42,7 +42,7 @@
 		if (element) {
 			document.switcher = new JSwitcher(toggler, element);
 		}
-	});
+	}, true);
 
 	/**
 	 * Support for a hover tooltips.
@@ -85,7 +85,7 @@
 
 			SqueezeBox.assign($target.find(selector).get(), options);
 		}
-	});
+	}, true);
 
 	/**
 	 * Behavior to allow shift select in grids
@@ -103,7 +103,7 @@
 			selector = event.options[i];
 			Joomla.JMultiSelect(selector);
 		}
-	});
+	}, true);
 
 	/**
 	 * Support for a collapsible tree
@@ -135,7 +135,7 @@
     			jQuery(this).minicolors(options);
     		});
 		}
-	});
+	}, true);
 
 	Joomla.Behavior.add('colorpicker', 'remove', function(event){
 		jQuery(event.target).find('.minicolors-input').minicolors('destroy');
@@ -155,7 +155,7 @@
 			selector = event.options.join(', ');
 
 		$target.find(selector).simplecolors();
-	});
+	}, true);
 
 	/**
 	 * Highlight some words via Javascript
@@ -195,6 +195,6 @@
 			$(start).remove();
 			$(end).remove();
 		}
-	});
+	}, true);
 
 })();

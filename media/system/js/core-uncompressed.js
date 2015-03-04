@@ -580,8 +580,10 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	 * Behavior item object
 	 */
 	var JoomlaBehaviorItem = window.JoomlaBehaviorItem || function(name) {
-		this.name   = name;
-		this.events = {}; // event => callback
+		this.name    = name;
+		this.events  = {}; // event => callback
+		this.options = null;
+		this.optionsRequired = false; // If true then Behavior will be executed only when options available
 	};
 
 	/**
@@ -621,6 +623,8 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	 * @param string       name     Behavior name
 	 * @param string|array event    Event(s) subscribed to
 	 * @param method       callback Callback to be executed
+	 * @param bool  optionsRequired If true, then Behavior will be executed only when
+	 * 								options for this name available in Joomla.optionsStorage
 	 *
 	 * @example:
 	 * 	Watch on document ready and update part of document:
@@ -641,7 +645,7 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	 * 		});
 	 *
 	 */
-	JoomlaBehavior.prototype.add = function (name, event, callback) {
+	JoomlaBehavior.prototype.add = function (name, event, callback, optionsRequired) {
 		var events  = event.toString === '[object Array]' ? event : event.split(' '),
 			storage = _getBehaviorsStorage(this.key),
 			behavior;
@@ -657,6 +661,7 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 		// Create new if not
 		if(!behavior) {
 			behavior = new JoomlaBehaviorItem(name);
+			behavior.optionsRequired = !!optionsRequired;
 			storage.push(behavior);
 		}
 
@@ -768,13 +773,13 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 				jevent.options = Joomla.getOptions(behavior.name);
 			}
 
-			// Do not call Behavior without options
-			if (!jevent.options) {
+			// Do not call Behavior without options, if behavior do not want it
+			if (behavior.optionsRequired && !jevent.options) {
 				continue;
 			}
 
 			// Call behavior
-			if (behavior.events[jevent.name].apply(this, [jevent]) === false) {
+			if (behavior.events[jevent.name].call(this, jevent) === false) {
 				break;
 			}
 		}

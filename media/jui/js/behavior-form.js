@@ -35,7 +35,7 @@
 
 			$target.find(selector).chosen(options);
 		}
-	});
+	}, true);
 
 	Joomla.Behavior.add('chosen', 'remove', function(event){
 		$(event.target).find('.chzn-done').chosen('destroy');
@@ -80,6 +80,6 @@
 				return results;
 			});
 		}
-	});
+	}, true);
 
 })(jQuery);

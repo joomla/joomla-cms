@@ -28,7 +28,7 @@
 
 			$target.find(selector).affix(options);
 		}
-	});
+	}, true);
 
 	/**
 	 * Bootstrap alert
@@ -44,7 +44,7 @@
 			selector = event.options.join(', ');
 
 		$target.find(selector).alert();
-	});
+	}, true);
 
 	/**
 	 * Bootstrap button
@@ -60,7 +60,7 @@
 			selector = event.options.join(', ');
 
 		$target.find(selector).button();
-	});
+	}, true);
 
 	/**
 	 * Bootstrap carousel
@@ -81,7 +81,7 @@
 
 			$target.find(selector).carousel(options);
 		}
-	});
+	}, true);
 
 	/**
 	 * Bootstrap dropdown
@@ -97,7 +97,7 @@
 			selector = event.options.join(', ');
 
 		$target.find(selector).dropdown();
-	});
+	}, true);
 
 	/**
 	 * Bootstrap modal
@@ -117,7 +117,7 @@
 
 			$target.find(selector).modal(options);
 		}
-	});
+	}, true);
 
 	/**
 	 * Bootstrap popover
@@ -138,7 +138,7 @@
 
 			$target.find(selector).popover(options);
 		}
-	});
+	}, true);
 
 	/**
 	 * Bootstrap scrollspy
@@ -157,7 +157,7 @@
 
 			$target.find(selector).scrollspy(options);
 		}
-	});
+	}, true);
 
 	/**
 	 * Bootstrap tooltip
@@ -194,7 +194,7 @@
 				}
 			}
 		}
-	});
+	}, true);
 
 	/**
 	 * Bootstrap typeahead
@@ -213,6 +213,6 @@
 
 			$target.find(selector).typeahead(options);
 		}
-	});
+	}, true);
 
 })(jQuery);
