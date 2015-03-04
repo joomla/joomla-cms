@@ -181,7 +181,7 @@ class AdminModelHelp extends JModelLegacy
 			$file = preg_replace('#\.xml$|\.html$#', '', $file);
 
 			if ($help_search
-				&& JString::strpos(JString::strtolower(strip_tags($buffer)), JString::strtolower($help_search)) == false)
+				&& JString::strpos(JString::strtolower(strip_tags($buffer)), JString::strtolower($help_search)) === false)
 			{
 				continue;
 			}
