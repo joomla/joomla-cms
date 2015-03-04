@@ -45,28 +45,29 @@ class CategoriesHelper
 		$eName = str_replace('com_', '', $component);
 		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
 
-		if (file_exists($file))
+		if (!file_exists($file))
 		{
-			require_once $file;
-
-			$prefix = ucfirst(str_replace('com_', '', $component));
-			$cName = $prefix . 'Helper';
-
-			if (class_exists($cName))
-			{
-				if (is_callable(array($cName, 'addSubmenu')))
-				{
-					$lang = JFactory::getLanguage();
-
-					// Loading language file from the administrator/language directory then
-					// loading language file from the administrator/components/*extension*/language directory
-					$lang->load($component, JPATH_BASE, null, false, true)
-					|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
-
-					call_user_func(array($cName, 'addSubmenu'), 'categories' . (isset($section) ? '.' . $section : ''));
-				}
-			}
+			return;
 		}
+
+		require_once $file;
+
+		$prefix = ucfirst(str_replace('com_', '', $component));
+		$cName = $prefix . 'Helper';
+
+		if (!class_exists($cName) || !is_callable(array($cName, 'addSubmenu')))
+		{
+			return;
+		}
+
+		$lang = JFactory::getLanguage();
+
+		// Loading language file from the administrator/language directory then
+		// loading language file from the administrator/components/*extension*/language directory
+		$lang->load($component, JPATH_BASE, null, false, true)
+		|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+
+		call_user_func(array($cName, 'addSubmenu'), 'categories' . (isset($section) ? '.' . $section : ''));
 	}
 
 	/**
@@ -86,9 +87,7 @@ class CategoriesHelper
 		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
 		// Get list of actions
-		$result = JHelperContent::getActions($extension, 'category', $categoryId);
-
-		return $result;
+		return JHelperContent::getActions($extension, 'category', $categoryId);
 	}
 
 	/**
@@ -97,7 +96,7 @@ class CategoriesHelper
 	 * @param   integer  $pk         Content item key.
 	 * @param   string   $extension  Optional extension name.
 	 *
-	 * @return  array of associations. 
+	 * @return  array of associations.
 	 */
 	public static function getAssociations($pk, $extension = 'com_content')
 	{
