@@ -101,16 +101,16 @@ var JFormValidator = function() {
  	},
 
  	isValid = function(form) {
- 		var valid = true, i, message, errors, error, label, fields;
+ 		var valid = true, i, message, errors, error, label, invalid = [];
  	 	// Validate form fields
- 	 	fields = jQuery(form).find('input, textarea, select, fieldset, button');
- 	 	fields.each(function () {
+ 	 	jQuery(form).find('input, textarea, select, fieldset, button').each(function() {
  	 	 	if (validate(this) === false) {
  	 	 	 	valid = false;
+ 	 	 	 	invalid.push(this);
  	 	 	}
  	 	});
  	 	// Run custom form validators if present
- 	 	jQuery.each(custom, function (key, validator) {
+ 	 	jQuery.each(custom, function(key, validator) {
  	 	 	if (validator.exec() !== true) {
  	 	 	 	valid = false;
  	 	 	}
@@ -119,8 +119,8 @@ var JFormValidator = function() {
  	 	 	message = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
  	 	 	error = {};
  	 	 	error.error = [];
- 	 	 	fields.filter(".invalid").each(function () {
- 	 	 		label = jQuery(this).data("label");
+ 	 	 	jQuery.each(invalid, function(key, field) {
+ 	 	 		label = jQuery(field).data("label");
  	 			if (label) {
  	 	 			error.error.push(message + label.text().replace("*", ""));
                 		}
