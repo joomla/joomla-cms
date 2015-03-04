@@ -622,9 +622,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function getListQuery($query = null)
 	{
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof JDatabaseQuery ? $query : $this->db->getQuery(true);
-
-		return $query;
+		return $query instanceof JDatabaseQuery ? $query : $this->db->getQuery(true);
 	}
 
 	/**
@@ -644,9 +642,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 			->from($this->db->quoteName('#__extensions'))
 			->where($this->db->quoteName('extension_id') . ' = ' . (int) $id);
 		$this->db->setQuery($query);
-		$type = $this->db->loadResult();
 
-		return $type;
+		return $this->db->loadResult();
 	}
 
 	/**
@@ -687,10 +684,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function getUpdateQueryByTime($time)
 	{
 		// Build an SQL query based on the modified time.
-		$query = $this->db->getQuery(true)
+		return $this->db->getQuery(true)
 			->where('a.modified >= ' . $this->db->quote($time));
-
-		return $query;
 	}
 
 	/**
@@ -705,10 +700,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function getUpdateQueryByIds($ids)
 	{
 		// Build an SQL query based on the item ids.
-		$query = $this->db->getQuery(true)
+		return $this->db->getQuery(true)
 			->where('a.id IN(' . implode(',', $ids) . ')');
-
-		return $query;
 	}
 
 	/**
@@ -727,9 +720,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 			->from($this->db->quoteName('#__finder_types'))
 			->where($this->db->quoteName('title') . ' = ' . $this->db->quote($this->type_title));
 		$this->db->setQuery($query);
-		$result = (int) $this->db->loadResult();
 
-		return $result;
+		return (int) $this->db->loadResult();
 	}
 
 	/**
@@ -875,18 +867,20 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// that we're handling the appropriate one for the context
 		foreach ($pks as $pk)
 		{
-			if ($this->getPluginType($pk) == strtolower($this->context))
+			if ($this->getPluginType($pk) != strtolower($this->context))
 			{
-				// Get all of the items to unindex them
-				$query = clone $this->getStateQuery();
-				$this->db->setQuery($query);
-				$items = $this->db->loadColumn();
+				continue;
+			}
 
-				// Remove each item
-				foreach ($items as $item)
-				{
-					$this->remove($item);
-				}
+			// Get all of the items to unindex them
+			$query = clone $this->getStateQuery();
+			$this->db->setQuery($query);
+			$items = $this->db->loadColumn();
+
+			// Remove each item
+			foreach ($items as $item)
+			{
+				$this->remove($item);
 			}
 		}
 	}
@@ -905,12 +899,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function translateState($item, $category = null)
 	{
 		// If category is present, factor in its states as well
-		if ($category !== null)
+		if ($category !== null && $category == 0)
 		{
-			if ($category == 0)
-			{
-				$item = 0;
-			}
+			$item = 0;
 		}
 
 		// Translate the state

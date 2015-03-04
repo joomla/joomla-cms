@@ -117,24 +117,24 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				->insert($db->quoteName('#__finder_links'))
 				->columns($columnsArray)
 				->values(
-				$db->quote($item->url) . ', '
-				. $db->quote($item->route) . ', '
-				. $db->quote($item->title) . ', '
-				. $db->quote($item->description) . ', '
-				. $query->currentTimestamp() . ', '
-				. '1, '
-				. (int) $item->state . ', '
-				. (int) $item->access . ', '
-				. $db->quote($item->language) . ', '
-				. (int) $item->type_id . ', '
-				. $db->quote(serialize($item)) . ', '
-				. $db->quote($item->publish_start_date) . ', '
-				. $db->quote($item->publish_end_date) . ', '
-				. $db->quote($item->start_date) . ', '
-				. $db->quote($item->end_date) . ', '
-				. (double) ($item->list_price ? $item->list_price : 0) . ', '
-				. (double) ($item->sale_price ? $item->sale_price : 0)
-			);
+					$db->quote($item->url) . ', '
+					. $db->quote($item->route) . ', '
+					. $db->quote($item->title) . ', '
+					. $db->quote($item->description) . ', '
+					. $query->currentTimestamp() . ', '
+					. '1, '
+					. (int) $item->state . ', '
+					. (int) $item->access . ', '
+					. $db->quote($item->language) . ', '
+					. (int) $item->type_id . ', '
+					. $db->quote(serialize($item)) . ', '
+					. $db->quote($item->publish_start_date) . ', '
+					. $db->quote($item->publish_end_date) . ', '
+					. $db->quote($item->start_date) . ', '
+					. $db->quote($item->end_date) . ', '
+					. (double) ($item->list_price ? $item->list_price : 0) . ', '
+					. (double) ($item->sale_price ? $item->sale_price : 0)
+				);
 			$db->setQuery($query);
 			$db->execute();
 
@@ -221,29 +221,29 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 							$this->toggleTables(false);
 						}
 					}
+
+					continue;
 				}
-				else
+
+				/*
+				 * If the group is path, we need to a few extra processing
+				 * steps to strip the extension and convert slashes and dashes
+				 * to spaces.
+				 */
+				if ($group === static::PATH_CONTEXT)
 				{
-					/*
-					 * If the group is path, we need to a few extra processing
-					 * steps to strip the extension and convert slashes and dashes
-					 * to spaces.
-					 */
-					if ($group === static::PATH_CONTEXT)
-					{
-						$item->$property = JFile::stripExt($item->$property);
-						$item->$property = str_replace('/', ' ', $item->$property);
-						$item->$property = str_replace('-', ' ', $item->$property);
-					}
+					$item->$property = JFile::stripExt($item->$property);
+					$item->$property = str_replace('/', ' ', $item->$property);
+					$item->$property = str_replace('-', ' ', $item->$property);
+				}
 
-					// Tokenize a string of content and add it to the database.
-					$count += $this->tokenizeToDB($item->$property, $group, $item->language, $format);
+				// Tokenize a string of content and add it to the database.
+				$count += $this->tokenizeToDB($item->$property, $group, $item->language, $format);
 
-					// Check if we're approaching the memory limit of the token table.
-					if ($count > static::$state->options->get('memory_table_limit', 30000))
-					{
-						$this->toggleTables(false);
-					}
+				// Check if we're approaching the memory limit of the token table.
+				if ($count > static::$state->options->get('memory_table_limit', 30000))
+				{
+					$this->toggleTables(false);
 				}
 			}
 		}
@@ -278,29 +278,29 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * aggregated data will be inserted into #__finder_tokens_aggregate
 		 * table.
 		 */
-		$query	= 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
-				' (' . $db->quoteName('term_id') .
-				', ' . $db->quoteName('term') .
-				', ' . $db->quoteName('stem') .
-				', ' . $db->quoteName('common') .
-				', ' . $db->quoteName('phrase') .
-				', ' . $db->quoteName('term_weight') .
-				', ' . $db->quoteName('context') .
-				', ' . $db->quoteName('context_weight') .
-				', ' . $db->quoteName('language') . ')' .
-				' SELECT' .
-				' t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context,' .
-				' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, t1.language' .
-				' FROM (' .
-				'   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
-				'   FROM ' . $db->quoteName('#__finder_tokens') . ' AS t1' .
-				'   WHERE t1.context = %d' .
-				' ) AS t1' .
-				' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
-				' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term' .
-				' WHERE t2.context = %d' .
-				' GROUP BY t1.term, t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
-				' ORDER BY t1.term DESC';
+		$query = 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate')
+			. ' (' . $db->quoteName('term_id')
+			. ', ' . $db->quoteName('term')
+			. ', ' . $db->quoteName('stem')
+			. ', ' . $db->quoteName('common')
+			. ', ' . $db->quoteName('phrase')
+			. ', ' . $db->quoteName('term_weight')
+			. ', ' . $db->quoteName('context')
+			. ', ' . $db->quoteName('context_weight')
+			. ', ' . $db->quoteName('language') . ')'
+			. ' SELECT'
+			. ' t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context,'
+			. ' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, t1.language'
+			. ' FROM ('
+			. '   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language'
+			. '   FROM ' . $db->quoteName('#__finder_tokens') . ' AS t1'
+			. '   WHERE t1.context = %d'
+			. ' ) AS t1'
+			. ' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term'
+			. ' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term'
+			. ' WHERE t2.context = %d'
+			. ' GROUP BY t1.term, t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language'
+			. ' ORDER BY t1.term DESC';
 
 		// Iterate through the contexts and aggregate the tokens per context.
 		foreach ($state->weights as $context => $multiplier)
@@ -322,26 +322,26 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 */
 		/* Emulation of IGNORE INTO behaviour */
 		$db->setQuery(
-			' SELECT ta.term' .
-			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
-			' WHERE ta.term_id = 0'
+			' SELECT ta.term'
+			. ' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta'
+			. ' WHERE ta.term_id = 0'
 		);
 
 		if ($db->loadRow() == null)
 		{
 			$db->setQuery(
-				'INSERT INTO ' . $db->quoteName('#__finder_terms') .
-				' (' . $db->quoteName('term') .
-				', ' . $db->quoteName('stem') .
-				', ' . $db->quoteName('common') .
-				', ' . $db->quoteName('phrase') .
-				', ' . $db->quoteName('weight') .
-				', ' . $db->quoteName('soundex') .
-				', ' . $db->quoteName('language') . ')' .
-				' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language' .
-				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
-				' WHERE ta.term_id = 0' .
-				' GROUP BY ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language'
+				'INSERT INTO ' . $db->quoteName('#__finder_terms')
+				. ' (' . $db->quoteName('term')
+				. ', ' . $db->quoteName('stem')
+				. ', ' . $db->quoteName('common')
+				. ', ' . $db->quoteName('phrase')
+				. ', ' . $db->quoteName('weight')
+				. ', ' . $db->quoteName('soundex')
+				. ', ' . $db->quoteName('language') . ')'
+				. ' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language'
+				. ' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta'
+				. ' WHERE ta.term_id = 0'
+				. ' GROUP BY ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language'
 			);
 			$db->execute();
 		}
@@ -408,16 +408,16 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			 * mapping table.
 			 */
 			$db->setQuery(
-				'INSERT INTO ' . $db->quoteName('#__finder_links_terms' . $suffix) .
-				' (' . $db->quoteName('link_id') .
-				', ' . $db->quoteName('term_id') .
-				', ' . $db->quoteName('weight') . ')' .
-				' SELECT ' . (int) $linkId . ', ' . $db->quoteName('term_id') . ',' .
-				' ROUND(SUM(' . $db->quoteName('context_weight') . '), 8)' .
-				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') .
-				' WHERE ' . $db->quoteName('map_suffix') . ' = ' . $db->quote($suffix) .
-				' GROUP BY ' . $db->quoteName('term') .
-				' ORDER BY ' . $db->quoteName('term') . ' DESC'
+				'INSERT INTO ' . $db->quoteName('#__finder_links_terms' . $suffix)
+				. ' (' . $db->quoteName('link_id')
+				. ', ' . $db->quoteName('term_id')
+				. ', ' . $db->quoteName('weight') . ')'
+				. ' SELECT ' . (int) $linkId . ', ' . $db->quoteName('term_id') . ','
+				. ' ROUND(SUM(' . $db->quoteName('context_weight') . '), 8)'
+				. ' FROM ' . $db->quoteName('#__finder_tokens_aggregate')
+				. ' WHERE ' . $db->quoteName('map_suffix') . ' = ' . $db->quote($suffix)
+				. ' GROUP BY ' . $db->quoteName('term')
+				. ' ORDER BY ' . $db->quoteName('term') . ' DESC'
 			);
 			$db->execute();
 		}

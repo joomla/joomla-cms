@@ -61,21 +61,22 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 			return $token;
 		}
 
-		// Stem the token if it is not in the cache.
-		if (!isset($this->cache[$lang][$token]))
+		if (isset($this->cache[$lang][$token]))
 		{
-			// Stem the token.
-			$result = $token;
-			$result = self::_step1ab($result);
-			$result = self::_step1c($result);
-			$result = self::_step2($result);
-			$result = self::_step3($result);
-			$result = self::_step4($result);
-			$result = self::_step5($result);
-
-			// Add the token to the cache.
-			$this->cache[$lang][$token] = $result;
+			return $this->cache[$lang][$token];
 		}
+
+		// Stem the token if it is not in the cache.
+		$result = $token;
+		$result = self::_step1ab($result);
+		$result = self::_step1c($result);
+		$result = self::_step2($result);
+		$result = self::_step3($result);
+		$result = self::_step4($result);
+		$result = self::_step5($result);
+
+		// Add the token to the cache.
+		$this->cache[$lang][$token] = $result;
 
 		return $this->cache[$lang][$token];
 	}
@@ -100,29 +101,31 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 			or self::_replace($word, 's', '');
 		}
 
-		// Part b
-		if (substr($word, -2, 1) != 'e' or !self::_replace($word, 'eed', 'ee', 0))
+		if (substr($word, -2, 1) == 'e' && self::_replace($word, 'eed', 'ee', 0))
 		{
-			// First rule
-			$v = self::$_regex_vowel;
+			return $word;
+		}
 
-			// Words ending with ing and ed
-			// Note use of && and OR, for precedence reasons
-			if (preg_match("#$v+#", substr($word, 0, -3)) && self::_replace($word, 'ing', '')
-				or preg_match("#$v+#", substr($word, 0, -2)) && self::_replace($word, 'ed', ''))
+		// Part b
+		// First rule
+		$v = self::$_regex_vowel;
+
+		// Words ending with ing and ed
+		// Note use of && and OR, for precedence reasons
+		if (preg_match("#$v+#", substr($word, 0, -3)) && self::_replace($word, 'ing', '')
+			or preg_match("#$v+#", substr($word, 0, -2)) && self::_replace($word, 'ed', ''))
+		{
+			// If one of above two test successful
+			if (!self::_replace($word, 'at', 'ate') and !self::_replace($word, 'bl', 'ble') and !self::_replace($word, 'iz', 'ize'))
 			{
-				// If one of above two test successful
-				if (!self::_replace($word, 'at', 'ate') and !self::_replace($word, 'bl', 'ble') and !self::_replace($word, 'iz', 'ize'))
+				// Double consonant ending
+				if (self::_doubleConsonant($word) and substr($word, -2) != 'll' and substr($word, -2) != 'ss' and substr($word, -2) != 'zz')
 				{
-					// Double consonant ending
-					if (self::_doubleConsonant($word) and substr($word, -2) != 'll' and substr($word, -2) != 'ss' and substr($word, -2) != 'zz')
-					{
-						$word = substr($word, 0, -1);
-					}
-					elseif (self::_m($word) == 1 and self::_cvc($word))
-					{
-						$word .= 'e';
-					}
+					$word = substr($word, 0, -1);
+				}
+				elseif (self::_m($word) == 1 and self::_cvc($word))
+				{
+					$word .= 'e';
 				}
 			}
 		}

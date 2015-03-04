@@ -29,9 +29,7 @@ class FinderControllerIndex extends JControllerAdmin
 	 */
 	public function getModel($name = 'Index', $prefix = 'FinderModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
@@ -51,21 +49,17 @@ class FinderControllerIndex extends JControllerAdmin
 		$model = $this->getModel('Index', 'FinderModel');
 
 		// Attempt to purge the index.
-		$return = $model->purge();
-
-		if (!$return)
+		if (!$model->purge())
 		{
 			$message = JText::_('COM_FINDER_INDEX_PURGE_FAILED', $model->getError());
 			$this->setRedirect('index.php?option=com_finder&view=index', $message);
 
 			return false;
 		}
-		else
-		{
-			$message = JText::_('COM_FINDER_INDEX_PURGE_SUCCESS');
-			$this->setRedirect('index.php?option=com_finder&view=index', $message);
 
-			return true;
-		}
+		$message = JText::_('COM_FINDER_INDEX_PURGE_SUCCESS');
+		$this->setRedirect('index.php?option=com_finder&view=index', $message);
+
+		return true;
 	}
 }

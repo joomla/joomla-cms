@@ -442,20 +442,22 @@ class FinderIndexerQuery
 		for ($i = 0, $c = count($this->included); $i < $c; $i++)
 		{
 			// Check if the token is required.
-			if ($this->included[$i]->required)
+			if (!$this->included[$i]->required)
 			{
-				// Get the term.
-				$term = $this->included[$i]->term;
-
-				// Prepare the container for the term if necessary.
-				if (!array_key_exists($term, $results))
-				{
-					$results[$term] = array();
-				}
-
-				// Add the matches to the stack.
-				$results[$term] = array_merge($results[$term], $this->included[$i]->matches);
+				continue;
 			}
+
+			// Get the term.
+			$term = $this->included[$i]->term;
+
+			// Prepare the container for the term if necessary.
+			if (!array_key_exists($term, $results))
+			{
+				$results[$term] = array();
+			}
+
+			// Add the matches to the stack.
+			$results[$term] = array_merge($results[$term], $this->included[$i]->matches);
 		}
 
 		// Sanitize the terms.
@@ -787,77 +789,77 @@ class FinderIndexerQuery
 			}
 
 			// Check if the filter pattern is in the input string.
-			if (preg_match('#' . $pattern . '\s*:\s*' . $suffix . '#mi', $input, $matches))
+			if (!preg_match('#' . $pattern . '\s*:\s*' . $suffix . '#mi', $input, $matches))
 			{
-				// Get the value given to the modifier.
-				$value = isset($matches[3]) ? $matches[3] : $matches[1];
+				continue;
+			}
 
-				// Now we have to handle the filter string.
-				switch ($modifier)
+			// Get the value given to the modifier.
+			$value = isset($matches[3]) ? $matches[3] : $matches[1];
+
+			// Now we have to handle the filter string.
+			switch ($modifier)
+			{
+				// Handle a before and after date filters.
+				case 'before':
+				case 'after':
 				{
-					// Handle a before and after date filters.
-					case 'before':
-					case 'after':
+					// Get the time offset.
+					$offset = JFactory::getApplication()->get('offset');
+
+					// Array of allowed when values.
+					$whens = array('before', 'after', 'exact');
+
+					// The value of 'today' is a special case that we need to handle.
+					if ($value === JString::strtolower(JText::_('COM_FINDER_QUERY_FILTER_TODAY')))
 					{
-						// Get the time offset.
-						$offset = JFactory::getApplication()->get('offset');
-
-						// Array of allowed when values.
-						$whens = array('before', 'after', 'exact');
-
-						// The value of 'today' is a special case that we need to handle.
-						if ($value === JString::strtolower(JText::_('COM_FINDER_QUERY_FILTER_TODAY')))
-						{
-							$today = JFactory::getDate('now', $offset);
-							$value = $today->format('%Y-%m-%d');
-						}
-
-						// Try to parse the date string.
-						$date = JFactory::getDate($value, $offset);
-
-						// Check if the date was parsed successfully.
-						if ($date->toUnix() !== null)
-						{
-							// Set the date filter.
-							$this->date1 = $date->toSQL();
-							$this->when1 = in_array($modifier, $whens) ? $modifier : 'before';
-						}
-
-						break;
+						$today = JFactory::getDate('now', $offset);
+						$value = $today->format('%Y-%m-%d');
 					}
 
-					// Handle a taxonomy branch filter.
-					default:
-						{
-						// Try to find the node id.
-						$return = FinderIndexerTaxonomy::getNodeByTitle($modifier, $value);
+					// Try to parse the date string.
+					$date = JFactory::getDate($value, $offset);
 
-						// Check if the node id was found.
-						if ($return)
-						{
-							// Check if the branch has been cleared.
-							if (!in_array($modifier, $cleared))
-							{
-								// Clear the branch.
-								$this->filters[$modifier] = array();
+					// Check if the date was parsed successfully.
+					if ($date->toUnix() !== null)
+					{
+						// Set the date filter.
+						$this->date1 = $date->toSQL();
+						$this->when1 = in_array($modifier, $whens) ? $modifier : 'before';
+					}
 
-								// Add the branch to the cleared list.
-								$cleared[] = $modifier;
-							}
-
-							// Add the filter to the list.
-							$this->filters[$modifier][$return->title] = (int) $return->id;
-						}
-
-						break;
-						}
+					break;
 				}
 
-				// Clean up the input string again.
-				$input = str_replace($matches[0], '', $input);
-				$input = preg_replace('#\s+#mi', ' ', $input);
-				$input = JString::trim($input);
+				// Handle a taxonomy branch filter.
+				default:
+					// Try to find the node id.
+					$return = FinderIndexerTaxonomy::getNodeByTitle($modifier, $value);
+
+					// Check if the node id was found.
+					if ($return)
+					{
+						// Check if the branch has been cleared.
+						if (!in_array($modifier, $cleared))
+						{
+							// Clear the branch.
+							$this->filters[$modifier] = array();
+
+							// Add the branch to the cleared list.
+							$cleared[] = $modifier;
+						}
+
+						// Add the filter to the list.
+						$this->filters[$modifier][$return->title] = (int) $return->id;
+					}
+
+					break;
 			}
+
+			// Clean up the input string again.
+			$input = str_replace($matches[0], '', $input);
+			$input = preg_replace('#\s+#mi', ' ', $input);
+			$input = JString::trim($input);
 		}
 
 		/*
@@ -1232,14 +1234,14 @@ class FinderIndexerQuery
 				$token->required = $mode === 'AND' ? ($token->phrase ? false : true) : false;
 
 				// Add the token to the appropriate stack.
-				if (count($token->matches) || $token->required)
+				if (!count($token->matches) && !$token->required)
 				{
-					$this->included[] = $token;
-					$this->highlight = array_merge($this->highlight, array_keys($token->matches));
+					$this->ignored[] = $token;
 				}
 				else
 				{
-					$this->ignored[] = $token;
+					$this->included[] = $token;
+					$this->highlight = array_merge($this->highlight, array_keys($token->matches));
 				}
 			}
 		}
@@ -1319,53 +1321,55 @@ class FinderIndexerQuery
 		}
 
 		// If no matches were found, try to find a similar but better token.
-		if (empty($token->matches))
+		if (!empty($token->matches))
 		{
-			// Create a database query to get the similar terms.
-			// TODO: PostgreSQL doesn't support SOUNDEX out of the box
-			$query->clear()
-				->select('DISTINCT t.term_id AS id, t.term AS term')
-				->from('#__finder_terms AS t')
-				// ->where('t.soundex = ' . soundex($db->quote($token->term)))
-				->where('t.soundex = SOUNDEX(' . $db->quote($token->term) . ')')
-				->where('t.phrase = ' . (int) $token->phrase);
-
-			// Get the terms.
-			$db->setQuery($query);
-			$results = $db->loadObjectList();
-
-			// Check if any similar terms were found.
-			if (empty($results))
-			{
-				return $token;
-			}
-
-			// Stack for sorting the similar terms.
-			$suggestions = array();
-
-			// Get the levnshtein distance for all suggested terms.
-			foreach ($results as $sk => $st)
-			{
-				// Get the levenshtein distance between terms.
-				$distance = levenshtein($st->term, $token->term);
-
-				// Make sure the levenshtein distance isn't over 50.
-				if ($distance < 50)
-				{
-					$suggestions[$sk] = $distance;
-				}
-			}
-
-			// Sort the suggestions.
-			asort($suggestions, SORT_NUMERIC);
-
-			// Get the closest match.
-			$keys = array_keys($suggestions);
-			$key = $keys[0];
-
-			// Add the suggested term.
-			$token->suggestion = $results[$key]->term;
+			return $token;
 		}
+
+		// Create a database query to get the similar terms.
+		// TODO: PostgreSQL doesn't support SOUNDEX out of the box
+		$query->clear()
+			->select('DISTINCT t.term_id AS id, t.term AS term')
+			->from('#__finder_terms AS t')
+			// ->where('t.soundex = ' . soundex($db->quote($token->term)))
+			->where('t.soundex = SOUNDEX(' . $db->quote($token->term) . ')')
+			->where('t.phrase = ' . (int) $token->phrase);
+
+		// Get the terms.
+		$db->setQuery($query);
+		$results = $db->loadObjectList();
+
+		// Check if any similar terms were found.
+		if (empty($results))
+		{
+			return $token;
+		}
+
+		// Stack for sorting the similar terms.
+		$suggestions = array();
+
+		// Get the levnshtein distance for all suggested terms.
+		foreach ($results as $sk => $st)
+		{
+			// Get the levenshtein distance between terms.
+			$distance = levenshtein($st->term, $token->term);
+
+			// Make sure the levenshtein distance isn't over 50.
+			if ($distance < 50)
+			{
+				$suggestions[$sk] = $distance;
+			}
+		}
+
+		// Sort the suggestions.
+		asort($suggestions, SORT_NUMERIC);
+
+		// Get the closest match.
+		$keys = array_keys($suggestions);
+		$key = $keys[0];
+
+		// Add the suggested term.
+		$token->suggestion = $results[$key]->term;
 
 		return $token;
 	}

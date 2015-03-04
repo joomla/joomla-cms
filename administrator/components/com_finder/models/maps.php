@@ -48,9 +48,7 @@ class FinderModelMaps extends JModelList
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.delete', $this->option);
+		return JFactory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -64,9 +62,7 @@ class FinderModelMaps extends JModelList
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.edit.state', $this->option);
+		return JFactory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -90,54 +86,45 @@ class FinderModelMaps extends JModelList
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
 		{
-			if ($table->load($pk))
-			{
-				if ($this->canDelete($table))
-				{
-					$context = $this->option . '.' . $this->name;
-
-					// Trigger the onContentBeforeDelete event.
-					$result = $dispatcher->trigger('onContentBeforeDelete', array($context, $table));
-
-					if (in_array(false, $result, true))
-					{
-						$this->setError($table->getError());
-
-						return false;
-					}
-
-					if (!$table->delete($pk))
-					{
-						$this->setError($table->getError());
-
-						return false;
-					}
-
-					// Trigger the onContentAfterDelete event.
-					$dispatcher->trigger('onContentAfterDelete', array($context, $table));
-				}
-				else
-				{
-					// Prune items that you can't change.
-					unset($pks[$i]);
-					$error = $this->getError();
-
-					if ($error)
-					{
-						$this->setError($error);
-					}
-					else
-					{
-						$this->setError(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
-					}
-				}
-			}
-			else
+			if (!$table->load($pk))
 			{
 				$this->setError($table->getError());
 
 				return false;
 			}
+
+			if (!$this->canDelete($table))
+			{
+				// Prune items that you can't change.
+				unset($pks[$i]);
+				$error = $this->getError();
+
+				$this->setError($error ?: JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+
+				continue;
+			}
+
+			$context = $this->option . '.' . $this->name;
+
+			// Trigger the onContentBeforeDelete event.
+			$result = $dispatcher->trigger('onContentBeforeDelete', array($context, $table));
+
+			if (in_array(false, $result, true))
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+
+			if (!$table->delete($pk))
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+
+			// Trigger the onContentAfterDelete event.
+			$dispatcher->trigger('onContentAfterDelete', array($context, $table));
 		}
 
 		// Clear the component's cache
@@ -299,16 +286,18 @@ class FinderModelMaps extends JModelList
 		{
 			$table->reset();
 
-			if ($table->load($pk))
+			if (!$table->load($pk))
 			{
-				if (!$this->canEditState($table))
-				{
-					// Prune items that you can't change.
-					unset($pks[$i]);
-					$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				continue;
+			}
 
-					return false;
-				}
+			if (!$this->canEditState($table))
+			{
+				// Prune items that you can't change.
+				unset($pks[$i]);
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+
+				return false;
 			}
 		}
 
