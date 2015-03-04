@@ -103,7 +103,7 @@ var JFormValidator = function() {
  	isValid = function(form) {
  		var fields, valid = true, message, error, label, invalid = [], i, l;
  	 	// Validate form fields
- 	 	fields = jQuery(form).find('input, textarea, select, fieldset') || [];
+ 	 	fields = jQuery(form).find('input, textarea, select, fieldset');
  	 	for (i = 0, l = fields.length; i < l; i++) {
  	 	 	if (validate(fields[i]) === false) {
  	 	 	 	valid = false;
@@ -134,7 +134,7 @@ var JFormValidator = function() {
  	 	var inputFields = [], elements,
  	 		$form = jQuery(form);
  	 	// Iterate through the form object and attach the validate method to all input fields.
- 	 	elements = $form.find('input, textarea, select, fieldset, button') || [];
+ 	 	elements = $form.find('input, textarea, select, fieldset, button');
  	 	for (var i = 0, l = elements.length; i < l; i++) {
  	 	 	var $el = jQuery(elements[i]), tagName = $el.prop("tagName").toLowerCase();
  	 	 	// Attach isValid method to submit button
@@ -193,7 +193,7 @@ var JFormValidator = function() {
  	 	 	return regex.test(value);
  	 	});
  	 	// Attach to forms with class 'form-validate'
- 	 	var forms = jQuery('form.form-validate') || [];
+ 	 	var forms = jQuery('form.form-validate');
  	 	for (var i = 0, l = forms.length; i < l; i++) {
  	 	 	attachToForm(forms[i]);
  	 	}
