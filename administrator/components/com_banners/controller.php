@@ -45,7 +45,8 @@ class BannersController extends JControllerLegacy
 
 			return false;
 		}
-		elseif ($view == 'client' && $layout == 'edit' && !$this->checkEditId('com_banners.edit.client', $id))
+
+		if ($view == 'client' && $layout == 'edit' && !$this->checkEditId('com_banners.edit.client', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));

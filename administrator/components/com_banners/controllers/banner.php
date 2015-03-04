@@ -49,10 +49,8 @@ class BannersControllerBanner extends JControllerForm
 			// In the absence of better information, revert to the component permissions.
 			return parent::allowAdd($data);
 		}
-		else
-		{
-			return $allow;
-		}
+
+		return $allow;
 	}
 
 	/**
@@ -81,11 +79,9 @@ class BannersControllerBanner extends JControllerForm
 			// The category has been set. Check the category permissions.
 			return $user->authorise('core.edit', $this->option . '.category.' . $categoryId);
 		}
-		else
-		{
-			// Since there is no asset tracking, revert to the component permissions.
-			return parent::allowEdit($data, $key);
-		}
+
+		// Since there is no asset tracking, revert to the component permissions.
+		return parent::allowEdit($data, $key);
 	}
 
 	/**

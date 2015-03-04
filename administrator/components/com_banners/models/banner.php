@@ -31,7 +31,7 @@ class BannersModelBanner extends JModelAdmin
 	public $typeAlias = 'com_banners.banner';
 
 	/**
-	 * Batch copy/move command. If set to false, 
+	 * Batch copy/move command. If set to false,
 	 * the batch copy/move command is not supported
 	 *
 	 * @var string
@@ -67,22 +67,20 @@ class BannersModelBanner extends JModelAdmin
 
 		foreach ($pks as $pk)
 		{
-			if ($user->authorise('core.edit', $contexts[$pk]))
-			{
-				$table->reset();
-				$table->load($pk);
-				$table->cid = (int) $value;
-
-				if (!$table->store())
-				{
-					$this->setError($table->getError());
-
-					return false;
-				}
-			}
-			else
+			if (!$user->authorise('core.edit', $contexts[$pk]))
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+				return false;
+			}
+
+			$table->reset();
+			$table->load($pk);
+			$table->cid = (int) $value;
+
+			if (!$table->store())
+			{
+				$this->setError($table->getError());
 
 				return false;
 			}
@@ -235,24 +233,24 @@ class BannersModelBanner extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id))
 		{
-			if ($record->state != -2)
-			{
-				return;
-			}
-
-			$user = JFactory::getUser();
-
-			if (!empty($record->catid))
-			{
-				return $user->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
-			}
-			else
-			{
-				return parent::canDelete($record);
-			}
+			return;
 		}
+
+		if ($record->state != -2)
+		{
+			return;
+		}
+
+		$user = JFactory::getUser();
+
+		if (!empty($record->catid))
+		{
+			return $user->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
+		}
+
+		return parent::canDelete($record);
 	}
 
 	/**
@@ -266,18 +264,14 @@ class BannersModelBanner extends JModelAdmin
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
 		// Check against the category.
 		if (!empty($record->catid))
 		{
-			return $user->authorise('core.edit.state', 'com_banners.category.' . (int) $record->catid);
+			return JFactory::getUser()->authorise('core.edit.state', 'com_banners.category.' . (int) $record->catid);
 		}
+
 		// Default to component settings if category not known.
-		else
-		{
-			return parent::canEditState($record);
-		}
+		return parent::canEditState($record);
 	}
 
 	/**
@@ -329,23 +323,25 @@ class BannersModelBanner extends JModelAdmin
 		}
 
 		// Modify the form based on access controls.
-		if (!$this->canEditState((object) $data))
+		if ($this->canEditState((object) $data))
 		{
-			// Disable fields for display.
-			$form->setFieldAttribute('ordering', 'disabled', 'true');
-			$form->setFieldAttribute('publish_up', 'disabled', 'true');
-			$form->setFieldAttribute('publish_down', 'disabled', 'true');
-			$form->setFieldAttribute('state', 'disabled', 'true');
-			$form->setFieldAttribute('sticky', 'disabled', 'true');
-
-			// Disable fields while saving.
-			// The controller has already verified this is a record you can edit.
-			$form->setFieldAttribute('ordering', 'filter', 'unset');
-			$form->setFieldAttribute('publish_up', 'filter', 'unset');
-			$form->setFieldAttribute('publish_down', 'filter', 'unset');
-			$form->setFieldAttribute('state', 'filter', 'unset');
-			$form->setFieldAttribute('sticky', 'filter', 'unset');
+			return $form;
 		}
+
+		// Disable fields for display.
+		$form->setFieldAttribute('ordering', 'disabled', 'true');
+		$form->setFieldAttribute('publish_up', 'disabled', 'true');
+		$form->setFieldAttribute('publish_down', 'disabled', 'true');
+		$form->setFieldAttribute('state', 'disabled', 'true');
+		$form->setFieldAttribute('sticky', 'disabled', 'true');
+
+		// Disable fields while saving.
+		// The controller has already verified this is a record you can edit.
+		$form->setFieldAttribute('ordering', 'filter', 'unset');
+		$form->setFieldAttribute('publish_up', 'filter', 'unset');
+		$form->setFieldAttribute('publish_down', 'filter', 'unset');
+		$form->setFieldAttribute('state', 'filter', 'unset');
+		$form->setFieldAttribute('sticky', 'filter', 'unset');
 
 		return $form;
 	}
@@ -401,14 +397,16 @@ class BannersModelBanner extends JModelAdmin
 		// Access checks.
 		foreach ($pks as $i => $pk)
 		{
-			if ($table->load($pk))
+			if (!$table->load($pk))
 			{
-				if (!$this->canEditState($table))
-				{
-					// Prune items that you can't change.
-					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
-				}
+				continue;
+			}
+
+			if (!$this->canEditState($table))
+			{
+				// Prune items that you can't change.
+				unset($pks[$i]);
+				JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 			}
 		}
 
@@ -434,11 +432,10 @@ class BannersModelBanner extends JModelAdmin
 	 */
 	protected function getReorderConditions($table)
 	{
-		$condition = array();
-		$condition[] = 'catid = ' . (int) $table->catid;
-		$condition[] = 'state >= 0';
-
-		return $condition;
+		return array(
+			'catid = ' . (int) $table->catid,
+			'state >= 0'
+		);
 	}
 
 	/**
@@ -455,33 +452,36 @@ class BannersModelBanner extends JModelAdmin
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
-		if (empty($table->id))
-		{
-			// Set the values
-			$table->created = $date->toSql();
-
-			// Set ordering to the last item if not set
-			if (empty($table->ordering))
-			{
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true)
-					->select('MAX(ordering)')
-					->from('#__banners');
-
-				$db->setQuery($query);
-				$max = $db->loadResult();
-
-				$table->ordering = $max + 1;
-			}
-		}
-		else
-		{
-			// Set the values
-			$table->modified	= $date->toSql();
-			$table->modified_by	= $user->get('id');
-		}
 		// Increment the content version number.
 		$table->version++;
+
+		if (!empty($table->id))
+		{
+			// Set the values
+			$table->modified = $date->toSql();
+			$table->modified_by = $user->get('id');
+
+			return;
+		}
+
+		// Set the values
+		$table->created = $date->toSql();
+
+		// Set ordering to the last item if not set
+		if (!empty($table->ordering))
+		{
+			return;
+		}
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('MAX(ordering)')
+			->from('#__banners');
+
+		$db->setQuery($query);
+		$max = $db->loadResult();
+
+		$table->ordering = $max + 1;
 	}
 
 	/**
@@ -498,33 +498,28 @@ class BannersModelBanner extends JModelAdmin
 	{
 		$input = JFactory::getApplication()->input;
 
+		if ($input->get('task') != 'save2copy')
+		{
+			return parent::save($data);
+		}
+
 		// Alter the name for save as copy
-		if ($input->get('task') == 'save2copy')
-		{
-			$origTable = clone $this->getTable();
-			$origTable->load($input->getInt('id'));
+		$origTable = clone $this->getTable();
+		$origTable->load($input->getInt('id'));
 
-			if ($data['name'] == $origTable->name)
-			{
-				list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-				$data['name'] = $name;
-				$data['alias'] = $alias;
-			}
-			else
-			{
-				if ($data['alias'] == $origTable->alias)
-				{
-					$data['alias'] = '';
-				}
-			}
-			$data['state'] = 0;
+		if ($data['name'] == $origTable->name)
+		{
+			list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+			$data['name'] = $name;
+			$data['alias'] = $alias;
+		}
+		else if ($data['alias'] == $origTable->alias)
+		{
+			$data['alias'] = '';
 		}
 
-		if (parent::save($data))
-		{
-			return true;
-		}
+		$data['state'] = 0;
 
-		return false;
+		return parent::save($data);
 	}
 }

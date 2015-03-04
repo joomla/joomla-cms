@@ -51,9 +51,7 @@ class BannersControllerBanners extends JControllerAdmin
 	 */
 	public function getModel($name = 'Banner', $prefix = 'BannersModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
@@ -69,39 +67,36 @@ class BannersControllerBanners extends JControllerAdmin
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$ids    = $this->input->get('cid', array(), 'array');
-		$values = array('sticky_publish' => 1, 'sticky_unpublish' => 0);
-		$task   = $this->getTask();
-		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
+		$redirect = 'index.php?option=com_banners&view=banners';
 
 		if (empty($ids))
 		{
 			JError::raiseWarning(500, JText::_('COM_BANNERS_NO_BANNERS_SELECTED'));
+
+			$this->setRedirect($redirect);
 		}
-		else
+
+		$values = array('sticky_publish' => 1, 'sticky_unpublish' => 0);
+		$task = $this->getTask();
+		$value = JArrayHelper::getValue($values, $task, 0, 'int');
+
+		// Get the model.
+		$model = $this->getModel();
+
+		// Change the state of the records.
+		if (!$model->stick($ids, $value))
 		{
-			// Get the model.
-			$model = $this->getModel();
+			JError::raiseWarning(500, $model->getError());
 
-			// Change the state of the records.
-			if (!$model->stick($ids, $value))
-			{
-				JError::raiseWarning(500, $model->getError());
-			}
-			else
-			{
-				if ($value == 1)
-				{
-					$ntext = 'COM_BANNERS_N_BANNERS_STUCK';
-				}
-				else
-				{
-					$ntext = 'COM_BANNERS_N_BANNERS_UNSTUCK';
-				}
-
-				$this->setMessage(JText::plural($ntext, count($ids)));
-			}
+			$this->setRedirect($redirect);
 		}
 
-		$this->setRedirect('index.php?option=com_banners&view=banners');
+		$ntext = ($value == 1)
+			? 'COM_BANNERS_N_BANNERS_STUCK'
+			: 'COM_BANNERS_N_BANNERS_UNSTUCK';
+
+		$this->setMessage(JText::plural($ntext, count($ids)));
+
+		$this->setRedirect($redirect);
 	}
 }
