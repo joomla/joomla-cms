@@ -19,12 +19,13 @@
 		<field
 			name="category_id"
 			type="category"
+			multiple="true"
+			class="multipleCategories"
 			label="JOPTION_FILTER_CATEGORY"
 			extension="com_content"
 			description="JOPTION_FILTER_CATEGORY_DESC"
 			onchange="this.form.submit();"
 			>
-			<option value="">JOPTION_SELECT_CATEGORY</option>
 		</field>
 		<field
 			name="level"
@@ -42,20 +43,22 @@
 		<field
 			name="access"
 			type="accesslevel"
+			multiple="true"
+			class="multipleAccessLevels"
 			label="JOPTION_FILTER_ACCESS"
 			description="JOPTION_FILTER_ACCESS_DESC"
 			onchange="this.form.submit();"
 			>
-			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
 		<field
 			name="author_id"
 			type="author"
+			multiple="true"
+			class="multipleAuthors"
 			label="COM_CONTENT_FILTER_AUTHOR"
 			description="COM_CONTENT_FILTER_AUTHOR_DESC"
 			onchange="this.form.submit();"
 			>
-			<option value="">JOPTION_SELECT_AUTHOR</option>
 		</field>
 		<field
 			name="language"

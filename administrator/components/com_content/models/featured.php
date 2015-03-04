@@ -110,9 +110,16 @@ class ContentModelFeatured extends ContentModelArticles
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
+		$access = $this->getState('filter.access');
+		if (is_numeric($access))
 		{
 			$query->where('a.access = ' . (int) $access);
+		}
+		else if(is_array($access))
+		{
+			JArrayHelper::toInteger($access);
+			$access = implode(',', $access);
+			$query->where('a.access IN (' . $access . ')');
 		}
 
 		// Filter by published state
@@ -160,6 +167,13 @@ class ContentModelFeatured extends ContentModelArticles
 		{
 			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
 			$query->where('a.created_by ' . $type . (int) $authorId);
+		}
+
+		elseif (is_array($authorId))
+		{
+			JArrayHelper::toInteger($categoryId);
+			$authorId = implode(',', $authorId);
+			$query->where('a.created_by IN (' . $authorId . ')');
 		}
 
 		// Filter by search in title.
