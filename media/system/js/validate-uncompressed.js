@@ -193,9 +193,10 @@ var JFormValidator = function() {
  	 	 	return regex.test(value);
  	 	});
  	 	// Attach to forms with class 'form-validate'
- 	 	jQuery('form.form-validate').each(function() {
- 	 	 	attachToForm(this);
- 	 	});
+ 	 	var forms = jQuery('form.form-validate') || [];
+ 	 	for (var i = 0, l = forms.length; i < l; i++) {
+ 	 	 	attachToForm(forms[i]);
+ 	 	}
  	};
 
  	// Initialize handlers and attach validation to form
