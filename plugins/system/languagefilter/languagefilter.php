@@ -55,7 +55,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		if ($this->app->isSite())
 		{
 			// Setup language data.
-			$this->mode_sef 	= $this->app->get('sef', JROUTER_MODE_SEF);
+			$this->mode_sef 	= $this->app->get('sef', 0);
 			$this->sefs 		= JLanguageHelper::getLanguages('sef');
 			$this->lang_codes 	= JLanguageHelper::getLanguages('lang_code');
 
