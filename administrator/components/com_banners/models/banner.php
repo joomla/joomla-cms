@@ -513,7 +513,7 @@ class BannersModelBanner extends JModelAdmin
 			$data['name'] = $name;
 			$data['alias'] = $alias;
 		}
-		else if ($data['alias'] == $origTable->alias)
+		elseif ($data['alias'] == $origTable->alias)
 		{
 			$data['alias'] = '';
 		}
