@@ -101,25 +101,25 @@ var JFormValidator = function() {
  	},
 
  	isValid = function(form) {
- 		var valid = true, message, error, label, invalid = [];
+ 		var fields, valid = true, message, error, label, invalid = [], i, l;
  	 	// Validate form fields
- 	 	jQuery(form).find('input, textarea, select, fieldset, button').each(function() {
- 	 	 	if (validate(this) === false) {
+ 	 	fields = jQuery(form).find('input, textarea, select, fieldset') || [];
+ 	 	for (i = 0, l = fields.length; i < l; i++) {
+ 	 	 	if (validate(fields[i]) === false) {
  	 	 	 	valid = false;
- 	 	 	 	invalid.push(this);
+ 	 	 	 	invalid.push(fields[i]);
  	 	 	}
- 	 	});
+ 	 	}
  	 	// Run custom form validators if present
  	 	jQuery.each(custom, function(key, validator) {
  	 	 	if (validator.exec() !== true) {
  	 	 	 	valid = false;
  	 	 	}
  	 	});
- 	 	if (!valid) {
+ 	 	if (!valid && invalid.length > 0) {
  	 	 	message = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
- 	 	 	error = {};
- 	 	 	error.error = [];
- 	 	 	for (var i, l = invalid.length; i < l; i++) {
+ 	 	 	error = {"error": []};
+ 	 	 	for (i = 0, l = invalid.length; i < l; i++) {
  	 	 		label = jQuery(invalid[i]).data("label");
  	 			if (label) {
  	 	 			error.error.push(message + label.text().replace("*", ""));
@@ -131,24 +131,28 @@ var JFormValidator = function() {
  	},
 
  	attachToForm = function(form) {
- 	 	var inputFields = [],
+ 	 	var inputFields = [], elements,
  	 		$form = jQuery(form);
  	 	// Iterate through the form object and attach the validate method to all input fields.
- 	 	$form.find('input, textarea, select, fieldset, button').each(function() {
- 	 	 	var $el = jQuery(this), tagName = $el.prop("tagName").toLowerCase();
- 	 	 	if ($el.hasClass('required')) {
- 	 	 	 	$el.attr('aria-required', 'true').attr('required', 'required');
- 	 	 	}
- 	 	 	if ((tagName === 'input' || tagName === 'button') && $el.attr('type') === 'submit') {
+ 	 	elements = $form.find('input, textarea, select, fieldset, button') || [];
+ 	 	for (var i = 0, l = elements.length; i < l; i++) {
+ 	 	 	var $el = jQuery(elements[i]), tagName = $el.prop("tagName").toLowerCase();
+ 	 	 	// Attach isValid method to submit button
+ 	 	 	if ((tagName === 'input' || tagName === 'button') && ($el.attr('type') === 'submit' || $el.attr('type') === 'image')) {
  	 	 	 	if ($el.hasClass('validate')) {
  	 	 	 	 	$el.on('click', function() {
  	 	 	 	 	 	return isValid(form);
  	 	 	 	 	});
  	 	 	 	}
- 	 	 	} else {
+ 	 	 	}
+ 	 	 	// Attach validate method only to fields
+ 	 	 	else if (tagName !== 'button' && !(tagName === 'input' && $el.attr('type') === 'button')) {
+ 	 	 	 	if ($el.hasClass('required')) {
+ 	 	 	 	 	$el.attr('aria-required', 'true').attr('required', 'required');
+ 	 	 	 	}
  	 	 	 	if (tagName !== 'fieldset') {
  	 	 	 	 	$el.on('blur', function() {
- 	 	 	 	 	 	return validate(this);
+ 	 	 	 	 	 	return validate(elements[i]);
  	 	 	 	 	});
  	 	 	 	 	if ($el.hasClass('validate-email') && inputEmail) {
  	 	 	 	 	 	$el.get(0).type = 'email';
@@ -157,7 +161,7 @@ var JFormValidator = function() {
  	 	 	 	$el.data('form', $form);
  	 	 	 	inputFields.push($el);
  	 	 	}
- 	 	});
+ 	 	}
  	 	$form.data('inputfields', inputFields);
  	},
 
