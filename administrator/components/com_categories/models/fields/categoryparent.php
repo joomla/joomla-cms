@@ -67,7 +67,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 
 		// Prevent parenting to children of this item.
 		if ($this->element['parent']
-		&& $id = $this->form->getValue('id'))
+			&& $id = $this->form->getValue('id'))
 		{
 			$query->join('LEFT', $db->quoteName('#__categories') . ' AS p ON p.id = ' . (int) $id)
 				->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
@@ -149,8 +149,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 				// If you can edit.state you can also move this to another category for which you have
 				// create permission and you should also still be able to save in the current category.
 				if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
-					&& $option->value != $oldCat
-				)
+					&& $option->value != $oldCat)
 				{
 					echo 'x';
 					unset($options[$i]);
