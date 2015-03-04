@@ -806,11 +806,12 @@ SELECT setval('#__newsfeeds_id_seq', max(id)) FROM #__newsfeeds;
 -- Dumping data for table #__tags
 --
 INSERT INTO "#__tags" VALUES
-(1,0,0,1,0,'','ROOT','root','','',1,0,'1970-01-01 00:00:00',1,'{}','','','',0,'2011-01-01 00:00:01','',0,'1970-01-01 00:00:00','','',0,'*',1,'1970-01-01 00:00:00','1970-01-01 00:00:00'),
 (2,1,1,2,1,'red','Red','red','','',1,0,'1970-01-01 00:00:00',1,'{"tag_layout":"","tag_link_class":"label label-info","image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}','','','{"author":"","robots":""}',716,'2013-10-15 14:52:40','',0,'1970-01-01 00:00:00','','',2,'*',1,'1970-01-01 00:00:00','1970-01-01 00:00:00'),
 (3,1,3,4,1,'yellow','Yellow','yellow','','',1,0,'1970-01-01 00:00:00',1,'{"tag_layout":"","tag_link_class":"label label-info","image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}','','','{"author":"","robots":""}',716,'2013-10-15 14:52:53','',0,'1970-01-01 00:00:00','','',2,'*',1,'1970-01-01 00:00:00','1970-01-01 00:00:00'),
 (4,1,5,8,1,'green','Green','green','','',1,0,'1970-01-01 00:00:00',1,'{"tag_layout":"","tag_link_class":"label label-info","image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}','','','{"author":"","robots":""}',716,'2013-10-15 14:53:14','',0,'1970-01-01 00:00:00','','',0,'*',1,'1970-01-01 00:00:00','1970-01-01 00:00:00'),
 (5,4,6,7,2,'green/lime','Lime','lime','','',1,0,'1970-01-01 00:00:00',1,'{"tag_layout":"","tag_link_class":"label label-info","image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}','','','{"author":"","robots":""}',716,'2013-10-15 14:53:36','',0,'1970-01-01 00:00:00','','',0,'*',1,'1970-01-01 00:00:00','1970-01-01 00:00:00');
+
+UPDATE "#__tags" SET "rgt" = 9 WHERE "id" = 1;
 
 SELECT setval('#__tags_id_seq', max(id)) FROM #__tags;
 
