@@ -39,29 +39,31 @@ class CacheController extends JControllerLegacy
 		$lName   = $this->input->get('layout', 'default', 'string');
 
 		// Get and render the view.
-		if ($view = $this->getView($vName, $vFormat))
+		if (!$view = $this->getView($vName, $vFormat))
 		{
-			switch ($vName)
-			{
-				case 'purge':
-					break;
-				case 'cache':
-				default:
-					$model = $this->getModel($vName);
-					$view->setModel($model, true);
-					break;
-			}
-
-			$view->setLayout($lName);
-
-			// Push document object into the view.
-			$view->document = $document;
-
-			// Load the submenu.
-			CacheHelper::addSubmenu($this->input->get('view', 'cache'));
-
-			$view->display();
+			return;
 		}
+
+		switch ($vName)
+		{
+			case 'purge':
+				break;
+			case 'cache':
+			default:
+				$model = $this->getModel($vName);
+				$view->setModel($model, true);
+				break;
+		}
+
+		$view->setLayout($lName);
+
+		// Push document object into the view.
+		$view->document = $document;
+
+		// Load the submenu.
+		CacheHelper::addSubmenu($this->input->get('view', 'cache'));
+
+		$view->display();
 	}
 
 	/**

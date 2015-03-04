@@ -23,12 +23,11 @@ class CacheHelper
 	 */
 	public static function getClientOptions()
 	{
-		// Build the filter options.
-		$options   = array();
-		$options[] = JHtml::_('select.option', '0', JText::_('JSITE'));
-		$options[] = JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
-
-		return $options;
+		// Return the filter options.
+		return array(
+			JHtml::_('select.option', '0', JText::_('JSITE')),
+			JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'))
+		);
 	}
 
 	/**
