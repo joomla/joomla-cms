@@ -71,7 +71,22 @@ class PlgSystemLanguageFilter extends JPlugin
 					unset($this->sefs[$language->sef]);
 				}
 			}
+		}
+	}
 
+	/**
+	 * Before initialise.
+	 *
+	 * @param   array  $options  The array of options to be passed into the application initialisation
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	public function onBeforeInitialise($options)
+	{
+		if ($this->app->isSite())
+		{
 			$this->app->setLanguageFilter(true);
 
 			// Detect browser feature.

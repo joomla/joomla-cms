@@ -205,8 +205,14 @@ final class JApplicationSite extends JApplicationCms
 	 */
 	protected function doExecute()
 	{
+		// Assemble options for the initialisation
+		$options = array();
+
+		JPluginHelper::importPlugin('system');
+		$this->triggerEvent('onBeforeInitialise', array(&$options));
+
 		// Initialise the application
-		$this->initialiseApp();
+		$this->initialiseApp($options);
 
 		// Mark afterInitialise in the profiler.
 		JDEBUG ? $this->profiler->mark('afterInitialise') : null;
@@ -568,9 +574,6 @@ final class JApplicationSite extends JApplicationCms
 			$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 			$user->groups = array($guestUsergroup);
 		}
-
-		// If a language was specified it has priority, otherwise use user or default language settings
-		JPluginHelper::importPlugin('system', 'languagefilter');
 
 		if (empty($options['language']))
 		{
