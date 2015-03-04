@@ -570,8 +570,6 @@ final class JApplicationSite extends JApplicationCms
 		}
 
 		// If a language was specified it has priority, otherwise use user or default language settings
-		JPluginHelper::importPlugin('system', 'languagefilter');
-
 		if (empty($options['language']))
 		{
 			// Detect the specified language
@@ -582,29 +580,27 @@ final class JApplicationSite extends JApplicationCms
 			{
 				$options['language'] = $lang;
 			}
-		}
-
-		if ($this->_language_filter && empty($options['language']))
-		{
-			// Detect cookie language
-			$lang = $this->input->cookie->get(md5($this->get('secret') . 'language'), null, 'string');
-
-			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
+			else
 			{
-				$options['language'] = $lang;
-			}
-		}
+				// Detect cookie language
+				$lang = $this->input->cookie->get(JApplication::getHash(JApplicationHelper::getHash('language')), null, 'string');
 
-		if (empty($options['language']))
-		{
-			// Detect user language
-			$lang = $user->getParam('language');
+				// Make sure that the user's language exists
+				if ($lang && JLanguage::exists($lang))
+				{
+					$options['language'] = $lang;
+				}
+				else
+				{
+					// Detect user language
+					$lang = $user->getParam('language');
 
-			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
-			{
-				$options['language'] = $lang;
+					// Make sure that the user's language exists
+					if ($lang && JLanguage::exists($lang))
+					{
+						$options['language'] = $lang;
+					}
+				}
 			}
 		}
 
