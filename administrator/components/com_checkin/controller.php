@@ -45,21 +45,22 @@ class CheckinController extends JControllerLegacy
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$ids = $this->input->get('cid', array(), 'array');
+		$redirect = 'index.php?option=com_checkin';
 
 		if (empty($ids))
 		{
 			JError::raiseWarning(500, JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
-		}
-		else
-		{
-			// Get the model.
-			$model = $this->getModel();
 
-			// Checked in the items.
-			$this->setMessage(JText::plural('COM_CHECKIN_N_ITEMS_CHECKED_IN', $model->checkin($ids)));
+			$this->setRedirect($redirect);
 		}
 
-		$this->setRedirect('index.php?option=com_checkin');
+		// Get the model.
+		$model = $this->getModel();
+
+		// Checked in the items.
+		$this->setMessage(JText::plural('COM_CHECKIN_N_ITEMS_CHECKED_IN', $model->checkin($ids)));
+
+		$this->setRedirect($redirect);
 	}
 
 	/**
@@ -84,6 +85,7 @@ class CheckinController extends JControllerLegacy
 			'index.php?option=com_cache',
 			$vName == 'cache'
 		);
+
 		JHtmlSidebar::addEntry(
 			JText::_('JGLOBAL_SUBMENU_PURGE_EXPIRED_CACHE'),
 			'index.php?option=com_cache&view=purge',
