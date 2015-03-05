@@ -205,7 +205,7 @@ class ContentModelArticles extends JModelList
 
 		// Filter by access level.
 		$access = $this->getState('filter.access');
-		
+
 		if (is_numeric($access))
 		{
 			$query->where('a.access = ' . (int) $access);
