@@ -47,7 +47,7 @@ if ($req)
 // If required, adds icon asterisk (if class not set in template, will replace with *).
 $asterisk = '<span class="icon-asterisk"></span>';
 
-JHtmlBootstrap::tooltip('.abbrTooltip', array("html" => false, "placement" => "right"));
+JHtmlBootstrap::tooltip('.abbrTooltip', array("html" => false, "placement" => "bottom"));
 
 JFactory::getDocument()->addScriptDeclaration('
 	jQuery(document).ready(function($)
