@@ -144,8 +144,7 @@ class TagsTableTag extends JTableNested
 			$bad_characters = array("\"", "<", ">");
 			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
 		}
-		
-		// NOT NULL sanity check
+		// Not Null sanity check
 		$date	= JFactory::getDate();
 		if (empty($this->params))
 		{
