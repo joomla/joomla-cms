@@ -319,7 +319,7 @@ abstract class JFormField
 	/**
 	 * Method to instantiate the form field object.
 	 *
-	 * @param   JForm $form The form to attach to the form field object.
+	 * @param   JForm  $form  The form to attach to the form field object.
 	 *
 	 * @since   11.1
 	 */
@@ -351,7 +351,7 @@ abstract class JFormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string $name The property name for which to the the value.
+	 * @param   string  $name  The property name for which to the the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -414,8 +414,8 @@ abstract class JFormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string $name  The property name for which to the the value.
-	 * @param   mixed  $value The value of the property.
+	 * @param   string  $name   The property name for which to the the value.
+	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
 	 *
@@ -512,7 +512,7 @@ abstract class JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   JForm $form The JForm object to attach to the form field.
+	 * @param   JForm  $form  The JForm object to attach to the form field.
 	 *
 	 * @return  JFormField  The form field object so that the method can be used in a chain.
 	 *
@@ -529,9 +529,9 @@ abstract class JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement $element   The SimpleXMLElement object representing the <field /> tag for the form field object.
-	 * @param   mixed            $value     The form field value to validate.
-	 * @param   string           $group     The field name group control value. This acts as as an array container for the field.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -593,7 +593,7 @@ abstract class JFormField
 	/**
 	 * Simple method to set the value
 	 *
-	 * @param   mixed $value Value to set
+	 * @param   mixed  $value  Value to set
 	 *
 	 * @return  void
 	 *
@@ -607,8 +607,8 @@ abstract class JFormField
 	/**
 	 * Method to get the id used for the field input tag.
 	 *
-	 * @param   string $fieldId   The field element id.
-	 * @param   string $fieldName The field element name.
+	 * @param   string  $fieldId    The field element id.
+	 * @param   string  $fieldName  The field element name.
 	 *
 	 * @return  string  The id to be used for the field input tag.
 	 *
@@ -736,7 +736,7 @@ abstract class JFormField
 	/**
 	 * Method to get the name used for the field input tag.
 	 *
-	 * @param   string $fieldName The field element name.
+	 * @param   string  $fieldName  The field element name.
 	 *
 	 * @return  string  The name to be used for the field input tag.
 	 *
@@ -814,7 +814,7 @@ abstract class JFormField
 	/**
 	 * Method to get the field name used.
 	 *
-	 * @param   string $fieldName The field element name.
+	 * @param   string  $fieldName  The field element name.
 	 *
 	 * @return  string  The field name
 	 *
@@ -835,8 +835,8 @@ abstract class JFormField
 	/**
 	 * Method to get an attribute of the field
 	 *
-	 * @param   string $name    Name of the attribute to get
-	 * @param   mixed  $default Optional value to return if attribute not found
+	 * @param   string  $name    Name of the attribute to get
+	 * @param   mixed   $default  Optional value to return if attribute not found
 	 *
 	 * @return  mixed             Value of the attribute / default
 	 *
@@ -880,7 +880,7 @@ abstract class JFormField
 	/**
 	 * Method to get a control group with label and input.
 	 *
-	 * @param   array $options Options to be passed into the rendering of the field
+	 * @param   array  $options  Options to be passed into the rendering of the field
 	 *
 	 * @return  string  A string containing the html for the control group
 	 *
