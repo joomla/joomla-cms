@@ -152,7 +152,7 @@ var JFormValidator = function() {
  	 	 	 	}
  	 	 	 	if (tagName !== 'fieldset') {
  	 	 	 	 	$el.on('blur', function() {
- 	 	 	 	 	 	return validate(elements[i]);
+ 	 	 	 	 	 	return validate(this);
  	 	 	 	 	});
  	 	 	 	 	if ($el.hasClass('validate-email') && inputEmail) {
  	 	 	 	 	 	$el.get(0).type = 'email';
