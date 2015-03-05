@@ -123,7 +123,7 @@ class JTableAsset extends JTableNested
 
 		return true;
 	}
-	
+
 	/**
 	 * Method to recursively rebuild the whole nested set tree.
 	 *
