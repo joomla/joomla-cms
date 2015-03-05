@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Installer HTML class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       2.5
+ * @since  3.4.1
  */
 abstract class InstallerHtmlUpdatesites
 {
@@ -26,41 +24,41 @@ abstract class InstallerHtmlUpdatesites
 	 * @param   boolean  $enabled   An optional setting for access control on the action.
 	 * @param   string   $checkbox  An optional prefix for checkboxes.
 	 *
-	 * @return  string        The Html code
+	 * @return  string   The Html code
 	 *
 	 * @see JHtmlJGrid::state
 	 *
-	 * @since   2.5
+	 * @since   3.4.1
 	 */
 	public static function state($value, $i, $enabled = true, $checkbox = 'cb')
 	{
 		$states	= array(
-			2	=> array(
-					'',
-					'COM_INSTALLER_UPDATESITE_PROTECTED',
-					'',
-					'COM_INSTALLER_UPDATESITE_PROTECTED',
-					true,
-					'protected',
-					'protected'
+			2 => array(
+				'',
+				'COM_INSTALLER_UPDATESITE_PROTECTED',
+				'',
+				'COM_INSTALLER_UPDATESITE_PROTECTED',
+				true,
+				'protected',
+				'protected',
 			),
-			1	=> array(
+			1 => array(
 				'unpublish',
 				'COM_INSTALLER_UPDATESITE_ENABLED',
 				'COM_INSTALLER_UPDATESITE_DISABLE',
 				'COM_INSTALLER_UPDATESITE_ENABLED',
 				true,
 				'publish',
-				'publish'
+				'publish',
 			),
-			0	=> array(
+			0 => array(
 				'publish',
 				'COM_INSTALLER_UPDATESITE_DISABLED',
 				'COM_INSTALLER_UPDATESITE_ENABLE',
 				'COM_INSTALLER_UPDATESITE_DISABLED',
 				true,
 				'unpublish',
-				'unpublish'
+				'unpublish',
 			),
 		);
 
