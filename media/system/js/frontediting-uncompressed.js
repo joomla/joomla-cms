@@ -191,7 +191,7 @@
 						}
 					}
 				})
-				.find('a.jfedit-menu').tooltip({"container": false, placement: 'bottom'});
+				.find('a.jfedit-menu').tooltip({"container": false, html: true, placement: 'bottom'});
 			},
 			mouseleave: function() {
 				$(this).delay(1500).queue(function(next) { $(this).popover('hide'); next() });
