@@ -110,7 +110,7 @@ class JHtmlUsers
 	 * @param   integer  $count   The number of notes for the user
 	 * @param   integer  $userId  The user ID
 	 *
-	 * @return  null
+	 * @return	string   The html for the rendered modal
 	 *
 	 * @since   3.4.1
 	*/
@@ -123,7 +123,7 @@ class JHtmlUsers
 
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
 
-		echo JHtmlBootstrap::renderModal(
+		return JHtmlBootstrap::renderModal(
 			'userModal_' . (int) $userId, array(
 				'url' => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId),
 				'title' => $title,
@@ -131,7 +131,6 @@ class JHtmlUsers
 				'height' => '500px')
 		);
 
-		return null;
 	}
 
 	/**
