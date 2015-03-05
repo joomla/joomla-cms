@@ -231,8 +231,7 @@ abstract class JModuleHelper
 			$attribs['style'] .= ' outline';
 		}
 
-		// onRenderModule is allowed to alter the $module and $attribs
-		// If the module is nulled it will return an empty content, otherwise it will render the module normally.
+		// If the $module is nulled it will return an empty content, otherwise it will render the module normally.
 		$app->triggerEvent('onRenderModule', array(&$module, &$attribs));
 
 		if (is_null($module) || !isset($module->content))
@@ -420,6 +419,8 @@ abstract class JModuleHelper
 
 	/**
 	 * Clean the module list
+	 *
+	 * @param   array  $modules  Array with module objects
 	 *
 	 * @return  array
 	 */
