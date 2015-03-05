@@ -119,7 +119,7 @@ var JFormValidator = function() {
  	 	if (!valid && invalid.length > 0) {
  	 	 	message = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
  	 	 	error = {"error": []};
- 	 	 	for (i = 0, l = invalid.length; i < l; i++) {
+ 	 	 	for (i = invalid.length - 1; i >= 0; i--) {
  	 	 		label = jQuery(invalid[i]).data("label");
  	 			if (label) {
  	 	 			error.error.push(message + label.text().replace("*", ""));
