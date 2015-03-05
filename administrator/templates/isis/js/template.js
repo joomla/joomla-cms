@@ -8,13 +8,16 @@
 
 (function($)
 {
-	$(document).ready(function()
+	Joomla.Behavior.add('template.isis', 'ready update', function(event)
 	{
-		$('*[rel=tooltip]').tooltip();
+		var $target = $(event.target);
+
+		$target.find('*[rel=tooltip]').tooltip();
 
 		// Turn radios into btn-group
-		$('.radio.btn-group label').addClass('btn');
-		$('.btn-group label:not(.active)').click(function()
+		$target.find('.radio.btn-group label').addClass('btn');
+		$target.find('.btn-group label').not('.template-isis-radio')
+			.addClass('template-isis-radio').on('click.templateIsisRadio', function()
 		{
 			var label = $(this);
 			var input = $('#' + label.attr('for'));
@@ -32,7 +35,8 @@
 				input.trigger('change');
 			}
 		});
-		$('.btn-group input[checked=checked]').each(function()
+
+		$target.find('.btn-group input:checked').each(function()
 		{
 			if ($(this).val() == '') {
 				$('label[for=' + $(this).attr('id') + ']').addClass('active btn-primary');
@@ -42,8 +46,9 @@
 				$('label[for=' + $(this).attr('id') + ']').addClass('active btn-success');
 			}
 		});
+
 		// add color classes to chosen field based on value
-		$('select[class^="chzn-color"], select[class*=" chzn-color"]').on('liszt:ready', function(){
+		$target.find('select[class^="chzn-color"], select[class*=" chzn-color"]').on('liszt:ready', function(){
 			var select = $(this);
 			var cls = this.className.replace(/^.(chzn-color[a-z0-9-_]*)$.*/, '\1');
 			var container = select.next('.chzn-container').find('.chzn-single');
@@ -54,6 +59,13 @@
 			});
 
 		});
+	});
+
+	Joomla.Behavior.add('template.isis', 'remove', function(event)
+	{
+		var $target = $(event.target);
+		$target.find('label.template-isis-radio').removeClass('template-isis-radio').off('click.templateIsisRadio');
+	});
 
 		/**
 		 * USED IN: All list views to hide/show the sidebar
@@ -161,5 +173,5 @@
 				}
 			}
 		}
-	});
+
 })(jQuery);
