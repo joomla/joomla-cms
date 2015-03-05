@@ -185,7 +185,7 @@ class JForm
 
 		if (is_callable(array($data, 'getProperties')))
 		{
-			return $data->getProperties();
+			return $this->toArray($data->getProperties());
 		}
 		return (array) $data;
 	}
