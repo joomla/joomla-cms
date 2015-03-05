@@ -144,6 +144,53 @@ class TagsTableTag extends JTableNested
 			$bad_characters = array("\"", "<", ">");
 			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
 		}
+		
+		// NOT NULL sanity check
+		$date	= JFactory::getDate();
+		if (empty($this->params))
+		{
+			$this->params = '{}';
+		}
+		if (empty($this->metadesc))
+		{
+			$this->metadesc = ' ';
+		}
+		if (empty($this->metakey))
+		{
+			$this->metakey = ' ';
+		}
+		if (empty($this->metadata))
+		{
+			$this->metadata = '{}';
+		}
+		if (empty($this->urls))
+		{
+			$this->urls = '{}';
+		}
+		if (empty($this->images))
+		{
+			$this->images = '{}';
+		}
+		if (!(int) $this->checked_out_time)
+		{
+			$this->checked_out_time = $date->toSql();
+		}
+		if (!(int) $this->modified_time)
+		{
+			$this->modified_time = $date->toSql();
+		}
+		if (!(int) $this->modified_time)
+		{
+			$this->modified_time = $date->toSql();
+		}			
+		if (!(int) $this->publish_up)
+		{
+			$this->publish_up = $date->toSql();
+		}
+		if (!(int) $this->publish_down)
+		{
+			$this->publish_down = $date->toSql();
+		}
 
 		return true;
 	}
