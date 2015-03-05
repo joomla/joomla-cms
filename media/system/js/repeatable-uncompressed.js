@@ -346,7 +346,7 @@
         	// try find out with related scripts,
         	// tricky thing, so be careful
         	try {
-        		self.fixScripts($row);
+        		self.applyScripts($row);
 			} catch (e) {
 				if(window.console){
 					console.log(e);
@@ -434,44 +434,16 @@
             self.$input.trigger('value-update', self.values);
         };
 
-        // remove scripts attached to fields
+        // Remove scripts attached to fields
         self.clearScripts = function($row){
-        	// destroy chosen if any
-        	if($.fn.chosen){
-        		$row.find('select.chzn-done').chosen('destroy');
-        	}
-        	// colorpicker
-        	if($.fn.minicolors){
-        		$row.find('.minicolors input').each(function(){
-        			$(this).removeData('minicolors-initialized')
-        			.removeData('minicolors-settings')
-        			.removeProp('size')
-        			.removeProp('maxlength')
-        			.removeClass('minicolors-input')
-        			// move out from <span>
-        			.parents('span.minicolors').parent().append(this);
-        		});
-        		$row.find('span.minicolors').remove();
-        	}
+        	Joomla.Behavior.call('remove', $row.get(0));
         };
 
-        // method for hack the scripts that can be related
+        // Method for initialise the scripts that can be related
         // to the one of field that in given $row
-        self.fixScripts = function($row){
-        	// chosen hack
-        	if($.fn.chosen){
-        		$row.find('select').chosen()
-        	}
+        self.applyScripts = function($row){
 
-        	//color picker
-        	$row.find('.minicolors').each(function() {
-        		var $el = $(this);
-        		$el.minicolors({
-					control: $el.attr('data-control') || 'hue',
-					position: $el.attr('data-position') || 'right',
-					theme: 'bootstrap'
-				});
-			});
+        	Joomla.Behavior.call('update', $row.get(0));
 
         	// fix media field
         	$row.find('a[onclick*="jInsertFieldValue"]').each(function(){
@@ -484,11 +456,6 @@
         		// update select button
         		$select.attr('href', oldHref.replace(/&fieldid=(.+)&/, '&fieldid=' + inputId + '&'));
         	});
-
-        	// another modals
-        	if(window.SqueezeBox){
-        		SqueezeBox.assign($row.find('a.modal').get(), {parse: 'rel'});
-        	}
         };
 
         // Run initializer
@@ -522,11 +489,10 @@
         });
     };
 
-    // initialise all available
-    // wait when all will be loaded, important for scripts fix
-	$(window).on('load', function(){
-		$('input.form-field-repeatable').JRepeatable();
-	})
+    // Initialise all available
+    Joomla.Behavior.add('field.repeatable', 'load update', function(event){
+		$(event.target).find('input.form-field-repeatable').JRepeatable(event.options || {});
+	});
 
 })(jQuery);
 
