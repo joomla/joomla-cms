@@ -1106,14 +1106,6 @@ a img.calendar {
 	background-image: url(../images/menu/icon-16-search.png);
 }
 
-.icon-16-weblinks {
-	background-image: url(../images/menu/icon-16-links.png);
-}
-
-.icon-16-weblinks-cat {
-	background-image: url(../images/menu/icon-16-links-cat.png);
-}
-
 /**
  * Toolbar icons
  * These icons are used for the toolbar buttons
@@ -1557,22 +1549,6 @@ a img.calendar {
 }
 
 .icon-48-newsfeeds-category-add {
-	background-image: url(../images/header/icon-48-category-add.png);
-}
-
-.icon-48-weblinks {
-	background-image: url(../images/header/icon-48-links.png);
-}
-
-.icon-48-weblinks-categories {
-	background-image: url(../images/header/icon-48-links-cat.png);
-}
-
-.icon-48-weblinks-category-edit {
-	background-image: url(../images/header/icon-48-links-cat.png);
-}
-
-.icon-48-weblinks-category-add {
 	background-image: url(../images/header/icon-48-category-add.png);
 }
 

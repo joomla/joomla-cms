@@ -236,10 +236,6 @@ button.button
 	margin-left:10px;
 }
 
-table.weblinks th, table.category th {
-	text-align: right;
-}
-
 table th, table td {
 	text-align: right;
 }
