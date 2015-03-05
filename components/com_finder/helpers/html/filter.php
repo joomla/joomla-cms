@@ -162,22 +162,23 @@ abstract class JHtmlFilter
 					JText::_(FinderHelperLanguage::branchSingular($bv->title))),
 				'accordion-' . $bk);
 
+			// Populate the toggle button.
+			$html .= "<button class=\"btn\" type=\"button\" class=\"jform-rightbtn\" onclick=\"jQuery('#tax-"
+				. $bk . "').attr('checked', !jQuery('#tax-"
+				. $bk . "').attr('checked'));\">
+					<i class=\"icon-checkbox-partial\"></i> "
+				. JText::_('JGLOBAL_SELECTION_INVERT') . "</button>";
+
 			// Populate the group with nodes.
 			foreach ($nodes as $nk => $nv)
 			{
-				$html .= "<button class=\"btn\" type=\"button\" class=\"jform-rightbtn\" onclick=\"jQuery('#tax-"
-					. $nk . "').attr('checked', !jQuery('#tax-"
-					. $nk . "').attr('checked'));\">
-						<i class=\"icon-checkbox-partial\"></i> "
-					. JText::_('JGLOBAL_SELECTION_INVERT') . "</button>";
-
 				// Determine if the node should be checked.
 				$checked = in_array($nk, $activeNodes) ? ' checked="checked"' : '';
 
 				// Build a node.
 				$html .= '<label for="tax-' . $nk . '" class="checkbox">';
 				$html .= '<input class="selector filter-node' . $classSuffix . '" type="checkbox" value="' . $nk . '" name="t[]" id="tax-'
-					. $nk . '"' . $checked . ' />';
+					. $bk . '"' . $checked . ' />';
 				$html .= $nv->title;
 				$html .= '</label>';
 			}
