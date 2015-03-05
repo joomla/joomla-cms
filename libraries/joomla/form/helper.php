@@ -217,7 +217,7 @@ class JFormHelper
 
 			if (class_exists($class))
 			{
-					break;
+				break;
 			}
 		}
 
