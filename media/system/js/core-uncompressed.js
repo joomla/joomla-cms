@@ -6,7 +6,7 @@
 // Only define the Joomla namespace if not defined.
 var Joomla = window.Joomla || {};
 
-!(function(){
+!(function(window, Joomla){
 	'use strict';
 
     Joomla.editors = {};
@@ -556,12 +556,12 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	element[method](event, callback);
 };
 
-})();
+})(window, Joomla);
 
 /**
  * Joomla Behavior
  */
-(function(){
+!(function(window, Joomla){
 	'use strict';
 
 	/**
@@ -812,5 +812,5 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	window.JoomlaBehaviorItem = JoomlaBehaviorItem;
 	window.JoomlaEvent        = JoomlaEvent;
 
-})();
+})(window, Joomla);
 

@@ -6,7 +6,7 @@
 /**
  * Form related behaviors
  */
-!(function($){
+!(function($, Joomla){
 	'use strict';
 
 	/**
@@ -82,4 +82,4 @@
 		}
 	}, true);
 
-})(jQuery);
+})(jQuery, Joomla);

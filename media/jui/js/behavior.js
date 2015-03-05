@@ -6,7 +6,7 @@
 /**
  * Common behaviors
  */
-!(function(){
+!(function(Joomla){
 	'use strict';
 
 	/**
@@ -185,7 +185,8 @@
 			if (!start || !end || !options.terms) {
 				continue;
 			}
-			highlighter = new Joomla.Highlighter({
+
+			new Joomla.Highlighter({
 				startElement: start,
 				endElement: end,
 				className: options.className,
@@ -197,4 +198,4 @@
 		}
 	}, true);
 
-})();
+})(Joomla);

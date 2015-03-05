@@ -8,7 +8,7 @@
  *
  * @link http://getbootstrap.com/2.3.2/javascript.html
  */
-!(function($){
+!(function($, Joomla){
 	'use strict';
 
 	/**
@@ -215,4 +215,4 @@
 		}
 	}, true);
 
-})(jQuery);
+})(jQuery, Joomla);
