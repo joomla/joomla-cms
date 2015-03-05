@@ -111,11 +111,12 @@ class ContentModelFeatured extends ContentModelArticles
 
 		// Filter by access level.
 		$access = $this->getState('filter.access');
+		
 		if (is_numeric($access))
 		{
 			$query->where('a.access = ' . (int) $access);
 		}
-		else if(is_array($access))
+		elseif(is_array($access))
 		{
 			JArrayHelper::toInteger($access);
 			$access = implode(',', $access);
