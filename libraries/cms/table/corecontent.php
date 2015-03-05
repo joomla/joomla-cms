@@ -110,8 +110,8 @@ class JTableCorecontent extends JTable
 		{
 			$this->core_alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
-
-       		// Not Null sanity check
+		
+		// Not Null sanity check
 		if (empty($this->core_images))
 		{
 			$this->core_images = '{}';
