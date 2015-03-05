@@ -319,7 +319,7 @@ abstract class JFormField
 	/**
 	 * Method to instantiate the form field object.
 	 *
-	 * @param   JForm  $form  The form to attach to the form field object.
+	 * @param   JForm $form The form to attach to the form field object.
 	 *
 	 * @since   11.1
 	 */
@@ -328,7 +328,7 @@ abstract class JFormField
 		// If there is a form passed into the constructor set the form and form control properties.
 		if ($form instanceof JForm)
 		{
-			$this->form = $form;
+			$this->form        = $form;
 			$this->formControl = $form->getFormControl();
 		}
 
@@ -351,7 +351,7 @@ abstract class JFormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string $name The property name for which to the the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -414,8 +414,8 @@ abstract class JFormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
-	 * @param   mixed   $value  The value of the property.
+	 * @param   string $name  The property name for which to the the value.
+	 * @param   mixed  $value The value of the property.
 	 *
 	 * @return  void
 	 *
@@ -452,7 +452,7 @@ abstract class JFormField
 
 			case 'name':
 				$this->fieldname = $this->getFieldName((string) $value);
-				$this->name = $this->getName($this->fieldname);
+				$this->name      = $this->getName($this->fieldname);
 				break;
 
 			case 'multiple':
@@ -465,13 +465,13 @@ abstract class JFormField
 			case 'readonly':
 			case 'autofocus':
 			case 'hidden':
-				$value = (string) $value;
+				$value       = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
 				break;
 
 			case 'autocomplete':
-				$value = (string) $value;
-				$value = ($value == 'on' || $value == '') ? 'on' : $value;
+				$value       = (string) $value;
+				$value       = ($value == 'on' || $value == '') ? 'on' : $value;
 				$this->$name = ($value === 'false' || $value === 'off' || $value === '0') ? false : $value;
 				break;
 
@@ -479,17 +479,17 @@ abstract class JFormField
 			case 'translateLabel':
 			case 'translateDescription':
 			case 'translateHint':
-				$value = (string) $value;
+				$value       = (string) $value;
 				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
 			case 'translate_label':
-				$value = (string) $value;
+				$value                = (string) $value;
 				$this->translateLabel = $this->translateLabel && !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
 			case 'translate_description':
-				$value = (string) $value;
+				$value                      = (string) $value;
 				$this->translateDescription = $this->translateDescription && !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
@@ -512,7 +512,7 @@ abstract class JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   JForm  $form  The JForm object to attach to the form field.
+	 * @param   JForm $form The JForm object to attach to the form field.
 	 *
 	 * @return  JFormField  The form field object so that the method can be used in a chain.
 	 *
@@ -520,7 +520,7 @@ abstract class JFormField
 	 */
 	public function setForm(JForm $form)
 	{
-		$this->form = $form;
+		$this->form        = $form;
 		$this->formControl = $form->getFormControl();
 
 		return $this;
@@ -529,9 +529,9 @@ abstract class JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   SimpleXMLElement $element   The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed            $value     The form field value to validate.
+	 * @param   string           $group     The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -558,11 +558,11 @@ abstract class JFormField
 		$this->group = $group;
 
 		$attributes = array(
-			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange',
-			'onclick', 'validate', 'pattern', 'default', 'required',
-			'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck',
-			'translateHint', 'translateLabel','translate_label', 'translateDescription',
-			'translate_description' ,'size');
+				'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange',
+				'onclick', 'validate', 'pattern', 'default', 'required',
+				'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck',
+				'translateHint', 'translateLabel', 'translate_label', 'translateDescription',
+				'translate_description', 'size');
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -575,7 +575,7 @@ abstract class JFormField
 		}
 
 		// Allow for repeatable elements
-		$repeat = (string) $element['repeat'];
+		$repeat       = (string) $element['repeat'];
 		$this->repeat = ($repeat == 'true' || $repeat == 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
 
 		// Set the visibility.
@@ -593,7 +593,7 @@ abstract class JFormField
 	/**
 	 * Simple method to set the value
 	 *
-	 * @param   mixed  $value  Value to set
+	 * @param   mixed $value Value to set
 	 *
 	 * @return  void
 	 *
@@ -607,8 +607,8 @@ abstract class JFormField
 	/**
 	 * Method to get the id used for the field input tag.
 	 *
-	 * @param   string  $fieldId    The field element id.
-	 * @param   string  $fieldName  The field element name.
+	 * @param   string $fieldId   The field element id.
+	 * @param   string $fieldName The field element name.
 	 *
 	 * @return  string  The id to be used for the field input tag.
 	 *
@@ -728,7 +728,7 @@ abstract class JFormField
 				'required'    => (bool) $this->required,
 				'classes'     => explode(' ', $this->labelclass),
 				'position'    => $position
-			);
+		);
 
 		return JLayoutHelper::render($this->renderLabelLayout, $displayData);
 	}
@@ -736,7 +736,7 @@ abstract class JFormField
 	/**
 	 * Method to get the name used for the field input tag.
 	 *
-	 * @param   string  $fieldName  The field element name.
+	 * @param   string $fieldName The field element name.
 	 *
 	 * @return  string  The name to be used for the field input tag.
 	 *
@@ -814,7 +814,7 @@ abstract class JFormField
 	/**
 	 * Method to get the field name used.
 	 *
-	 * @param   string  $fieldName  The field element name.
+	 * @param   string $fieldName The field element name.
 	 *
 	 * @return  string  The field name
 	 *
@@ -822,23 +822,21 @@ abstract class JFormField
 	 */
 	protected function getFieldName($fieldName)
 	{
-		if ($fieldName)
-		{
-			return $fieldName;
-		}
-		else
+		if (empty($fieldName))
 		{
 			self::$count = self::$count + 1;
 
 			return self::$generated_fieldname . self::$count;
 		}
+
+		return $fieldName;
 	}
 
 	/**
 	 * Method to get an attribute of the field
 	 *
-	 * @param   string  $name     Name of the attribute to get
-	 * @param   mixed   $default  Optional value to return if attribute not found
+	 * @param   string $name    Name of the attribute to get
+	 * @param   mixed  $default Optional value to return if attribute not found
 	 *
 	 * @return  mixed             Value of the attribute / default
 	 *
@@ -848,21 +846,20 @@ abstract class JFormField
 	{
 		if ($this->element instanceof SimpleXMLElement)
 		{
-			$attributes = $this->element->attributes();
-
-			// Ensure that the attribute exists
-			if (property_exists($attributes, $name))
-			{
-				$value = $attributes->$name;
-
-				if ($value !== null)
-				{
-					return (string) $value;
-				}
-			}
+			return $default;
 		}
 
-		return $default;
+		$attributes = $this->element->attributes();
+
+		// Ensure that the attribute exists
+		if (!property_exists($attributes, $name) || $attributes->$name == null)
+		{
+			return $default;
+		}
+
+		$value = $attributes->$name;
+
+		return (string) $value;
 	}
 
 	/**
@@ -883,7 +880,7 @@ abstract class JFormField
 	/**
 	 * Method to get a control group with label and input.
 	 *
-	 * @param   array  $options  Options to be passed into the rendering of the field
+	 * @param   array $options Options to be passed into the rendering of the field
 	 *
 	 * @return  string  A string containing the html for the control group
 	 *
@@ -910,10 +907,10 @@ abstract class JFormField
 
 		if ($showon = $this->getAttribute('showon'))
 		{
-			$showon   = explode(':', $showon, 2);
-			$options['class'] .= ' showon_' . implode(' showon_', explode(',', $showon[1]));
-			$id = $this->getName($showon[0]);
-			$options['rel'] = ' rel="showon_' . $id . '"';
+			$showon = explode(':', $showon, 2);
+			$options['class']        .= ' showon_' . implode(' showon_', explode(',', $showon[1]));
+			$id                       = $this->getName($showon[0]);
+			$options['rel']           = ' rel="showon_' . $id . '"';
 			$options['showonEnabled'] = true;
 		}
 
