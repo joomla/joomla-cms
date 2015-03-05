@@ -460,6 +460,8 @@ abstract class JModuleHelper
 			// Only accept modules without explicit exclusions.
 			if ($negHit)
 			{
+				unset($modules[$i]);
+
 				continue;
 			}
 
