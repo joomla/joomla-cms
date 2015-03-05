@@ -109,8 +109,8 @@ abstract class JHtmlFilter
 			return null;
 		}
 
-		$html .= JHtml::_('bootstrap.startAccordion', 'accordion', array('parent' => true, 'active' => 'accordion-' . array_keys($branches)[0]
-		));
+		$html .= JHtml::_('bootstrap.startAccordion', 'accordion', array('parent' => true, 'active' => 'accordion-' . array_keys($branches)[0])
+		);
 
 		// Load plug-in language files.
 		FinderHelperLanguage::loadPluginLanguage();
@@ -156,17 +156,19 @@ abstract class JHtmlFilter
 				}
 			}
 
+			// Adding slides
 			$html .= JHtml::_('bootstrap.addSlide',
 				'accordion',
 				JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL',
-					JText::_(FinderHelperLanguage::branchSingular($bv->title))),
-				'accordion-' . $bk);
+					JText::_(FinderHelperLanguage::branchSingular($bv->title))
+				),
+				'accordion-' . $bk
+			);
 
 			// Populate the toggle button.
 			$html .= "<button class=\"btn\" type=\"button\" class=\"jform-rightbtn\" onclick=\"jQuery('#tax-"
 				. $bk . "').attr('checked', !jQuery('#tax-"
-				. $bk . "').attr('checked'));\">
-					<i class=\"icon-checkbox-partial\"></i> "
+				. $bk . "').attr('checked'));\"><i class=\"icon-checkbox-partial\"></i> "
 				. JText::_('JGLOBAL_SELECTION_INVERT') . "</button>";
 
 			// Populate the group with nodes.
@@ -184,7 +186,6 @@ abstract class JHtmlFilter
 			}
 			$html .= JHtml::_('bootstrap.endSlide');
 		}
-
 		$html .= JHtml::_('bootstrap.endAccordion');
 
 		return $html;
