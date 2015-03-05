@@ -349,12 +349,12 @@ abstract class JModuleHelper
 		// If the onPrepareModuleList event returns an array of modules, then ignore the default module list creation
 		if (!is_array($modules))
 		{
-			$modules = self::getModuleList();
+			$modules = static::getModuleList();
 		}
 
 		$app->triggerEvent('onAfterModuleList', array(&$modules));
 
-		$modules = self::cleanModuleList($modules);
+		$modules = static::cleanModuleList($modules);
 
 		$app->triggerEvent('onAfterCleanModuleList', array(&$modules));
 
@@ -428,9 +428,10 @@ abstract class JModuleHelper
 		// Apply negative selections and eliminate duplicates
 		$Itemid = JFactory::getApplication()->input->getInt('Itemid');
 		$negId = $Itemid ? -(int) $Itemid : false;
+		$clean = array();
 		$dupes = array();
 
-		foreach ($modules as $i => &$module)
+		foreach ($modules as $i => $module)
 		{
 			// The module is excluded if there is an explicit prohibition
 			$negHit = ($negId === (int) $module->menuid);
@@ -441,7 +442,7 @@ abstract class JModuleHelper
 				// but remove any item from the modules array.
 				if ($negHit)
 				{
-					unset($modules[$i]);
+					unset($clean[$module->id]);
 				}
 
 				continue;
@@ -452,20 +453,20 @@ abstract class JModuleHelper
 			// Only accept modules without explicit exclusions.
 			if ($negHit)
 			{
-				unset($modules[$i]);
-
 				continue;
 			}
 
 			$module->name = substr($module->module, 4);
 			$module->style = null;
 			$module->position = strtolower($module->position);
+
+			$clean[$module->id] = $module;
 		}
 
 		unset($dupes);
 
 		// Return to simple indexing that matches the query order.
-		return array_values($modules);
+		return array_values($clean);
 	}
 
 	/**
