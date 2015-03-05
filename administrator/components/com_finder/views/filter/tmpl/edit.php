@@ -34,14 +34,18 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_FINDER_EDIT_FILTER', true)); ?>
 		<div class="row-fluid">
 			<div class="span9">
-				<div class="form-vertical">
-					<?php echo $this->form->getControlGroup('map_count'); ?>
-
-					<div id="finder-filter-window">
-
-						<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
+					<div class="well">
+						<?php echo $this->form->getControlGroup('map_count'); ?>
 					</div>
-				</div>
+
+					<button class="btn btn-default" type="button" class="jform-rightbtn" onclick="jQuery('.filter-node').attr('checked', !jQuery('.filter-node').attr('checked'));">
+						<i class="icon-checkbox-partial"></i> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?>
+					</button>
+				<button class="btn btn-default" type="button" class="jform-rightbtn" onclick="jQuery('.accordion-body').collapse('show');">
+					<i class="icon-checkbox-partial"></i> <?php echo JText::_('JSHOW'); ?> <?php echo JText::_('JALL'); ?>
+				</button>
+					<hr />
+						<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
 			</div>
 			<div class="span3">
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
