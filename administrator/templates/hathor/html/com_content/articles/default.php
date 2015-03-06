@@ -13,6 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.multiselect');
 JHtml::_('behavior.modal');
+JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
 
 $app		= JFactory::getApplication();
 $user		= JFactory::getUser();
@@ -22,6 +23,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $saveOrder	= $listOrder == 'a.ordering';
 $assoc		= JLanguageAssociations::isEnabled();
 $n			= count($this->items);
+$params		= JComponentHelper::getParams('com_content');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
@@ -137,6 +139,9 @@ $n			= count($this->items);
 				<th class="nowrap id-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
+				<th width="1%" class="nowrap hidden-phone">
+					<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_NOTE', 'a.version', $listDirn, $listOrder); ?>
+				</th>
 			</tr>
 		</thead>
 
@@ -226,6 +231,15 @@ $n			= count($this->items);
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>
+				</td>
+				<td class="center nowrap hidden-phone">
+					<?php if($params->get('save_history', null) && $item->version_note): ?>
+						<a class="modal_jform_contenthistory" rel="{handler: 'iframe', size: {x: 800, y: 500}}" href="<?php echo 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $item->version_id . '&type_id=' . $item->version_type . '&type_alias=com_content.article&' . JSession::getFormToken() . '=1' ?>">
+								<span class="hasTooltip" title="<strong><?php echo JText::_('JGRID_HEADING_NOTE_VERSION'); ?></strong><br/><?php echo $item->version_note . ' - ' . $item->version_date ?>">
+									<i class="icon-file-2"></i>
+								</span>
+						</a>
+					<?php endif; ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

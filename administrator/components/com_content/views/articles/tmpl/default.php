@@ -14,6 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
 
 $app		= JFactory::getApplication();
 $user		= JFactory::getUser();
@@ -23,6 +24,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $archived	= $this->state->get('filter.published') == 2 ? true : false;
 $trashed	= $this->state->get('filter.published') == -2 ? true : false;
 $saveOrder	= $listOrder == 'a.ordering';
+$params		= JComponentHelper::getParams('com_content');
 
 if ($saveOrder)
 {
@@ -88,6 +90,9 @@ $assoc		= JLanguageAssociations::isEnabled();
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+						</th>
+						<th width="1%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_NOTE', 'a.version', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
@@ -200,6 +205,15 @@ $assoc		= JLanguageAssociations::isEnabled();
 						</td>
 						<td class="center hidden-phone">
 							<?php echo (int) $item->id; ?>
+						</td>
+						<td class="center hidden-phone">
+							<?php if($params->get('save_history', null) && $item->version_note): ?>
+							<a class="modal_jform_contenthistory" rel="{handler: 'iframe', size: {x: 800, y: 500}}" href="<?php echo 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $item->version_id . '&type_id=' . $item->version_type . '&type_alias=com_content.article&' . JSession::getFormToken() . '=1' ?>">
+								<span class="hasTooltip" title="<strong><?php echo JText::_('JGRID_HEADING_NOTE_VERSION'); ?></strong><br/><?php echo $item->version_note . ' - ' . $item->version_date ?>">
+									<i class="icon-file-2"></i>
+								</span>
+							</a>
+							<?php endif; ?>
 						</td>
 					</tr>
 					<?php endforeach; ?>
