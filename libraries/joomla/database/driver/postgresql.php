@@ -393,13 +393,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				if (stristr(strtolower($field->type) , "character varying"))
+				if (stristr(strtolower($field->type), "character varying"))
 				{
-						$field->Default = " ";		
+					$field->Default = " ";
 				}
-        			if (stristr(strtolower($field->type) , "text"))
+        			if (stristr(strtolower($field->type), "text"))
 				{
-						$field->Default = " ";				
+					$field->Default = " ";
 				}
 				// Do some dirty translation to MySQL output.
 				// TODO: Come up with and implement a standard across databases.
