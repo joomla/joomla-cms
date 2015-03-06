@@ -74,28 +74,28 @@ class JFilterInput
 	 * @since  11.1
 	 */
 	public $tagBlacklist = array(
-			'applet',
-			'body',
-			'bgsound',
-			'base',
-			'basefont',
-			'embed',
-			'frame',
-			'frameset',
-			'head',
-			'html',
-			'id',
-			'iframe',
-			'ilayer',
-			'layer',
-			'link',
-			'meta',
-			'name',
-			'object',
-			'script',
-			'style',
-			'title',
-			'xml'
+		'applet',
+		'body',
+		'bgsound',
+		'base',
+		'basefont',
+		'embed',
+		'frame',
+		'frameset',
+		'head',
+		'html',
+		'id',
+		'iframe',
+		'ilayer',
+		'layer',
+		'link',
+		'meta',
+		'name',
+		'object',
+		'script',
+		'style',
+		'title',
+		'xml'
 	);
 
 	/**
@@ -105,11 +105,11 @@ class JFilterInput
 	 * @since   11.1
 	 */
 	public $attrBlacklist = array(
-			'action',
-			'background',
-			'codebase',
-			'dynsrc',
-			'lowsrc'
+		'action',
+		'background',
+		'codebase',
+		'dynsrc',
+		'lowsrc'
 	);
 
 	/**
@@ -315,8 +315,8 @@ class JFilterInput
 		$attrSubSet[1] = strtolower($attrSubSet[1]);
 
 		return (((strpos($attrSubSet[1], 'expression') !== false) && ($attrSubSet[0]) == 'style') || (strpos($attrSubSet[1], 'javascript:') !== false) ||
-				(strpos($attrSubSet[1], 'behaviour:') !== false) || (strpos($attrSubSet[1], 'vbscript:') !== false) ||
-				(strpos($attrSubSet[1], 'mocha:') !== false) || (strpos($attrSubSet[1], 'livescript:') !== false));
+			(strpos($attrSubSet[1], 'behaviour:') !== false) || (strpos($attrSubSet[1], 'vbscript:') !== false) ||
+			(strpos($attrSubSet[1], 'mocha:') !== false) || (strpos($attrSubSet[1], 'livescript:') !== false));
 	}
 
 	/**
@@ -598,9 +598,9 @@ class JFilterInput
 			// AND blacklisted attributes
 
 			if ((!preg_match('/[a-z]*$/i', $attrSubSet[0]))
-					|| (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist))
-									|| (substr($attrSubSet[0], 0, 2) == 'on')))
-					|| !isset($attrSubSet[1]))
+				|| (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist))
+				|| (substr($attrSubSet[0], 0, 2) == 'on')))
+			    || !isset($attrSubSet[1]))
 			{
 				continue;
 			}
@@ -625,7 +625,6 @@ class JFilterInput
 			}
 			// Strip slashes
 			$attrSubSet[1] = stripslashes($attrSubSet[1]);
-
 
 			// Autostrip script tags
 			if (self::checkAttribute($attrSubSet))
