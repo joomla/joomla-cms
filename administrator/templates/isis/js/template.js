@@ -66,12 +66,12 @@
 
 			var $sidebar = $('#j-sidebar-container');
 
-			var open_icon = 'icon-cancel';
+			var open_icon = 'icon-arrow-left-2';
 			var closed_icon = 'icon-arrow-right-2';
 
 			if (jQuery(document.querySelector("html")).attr('dir') == 'rtl')
 			{
-				open_icon = 'icon-cancel';
+				open_icon = 'icon-arrow-right-2';
 				closed_icon = 'icon-arrow-left-2';
 			}
 
