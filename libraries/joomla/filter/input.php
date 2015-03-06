@@ -742,6 +742,7 @@ class JFilterInput
 				$nextAfter = $nextBefore + $matches[0][1];
 			}
 
+
 			// Get the actual attribute value
 			$attributeValue = substr($remainder, $nextBefore, $nextAfter - $nextBefore);
 
