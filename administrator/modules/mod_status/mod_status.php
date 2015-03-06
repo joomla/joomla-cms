@@ -23,10 +23,10 @@ if (JComponentHelper::isInstalled('com_messages'))
 		->select('COUNT(*)')
 		->from('#__messages')
 		->where('state = 0 AND user_id_to = ' . (int) $user->get('id'));
-	
+
 	$db->setQuery($query);
 	$unread = (int) $db->loadResult();
-	
+
 	// Set the inbox link.
 	if ($input->getBool('hidemainmenu'))
 	{
@@ -36,7 +36,7 @@ if (JComponentHelper::isInstalled('com_messages'))
 	{
 		$inboxLink = JRoute::_('index.php?option=com_messages');
 	}
-	
+
 	// Set the inbox class.
 	if ($unread)
 	{
