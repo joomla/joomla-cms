@@ -8042,13 +8042,13 @@ a.grid_true {
 	padding: 0;
 }
 .j-toggle-button-wrapper.j-toggle-hidden {
-	right: -20px;
+	right: -25px;
 }
 .j-toggle-button-wrapper.j-toggle-visible {
 	right: 10px;
 }
 .j-toggle-sidebar-button {
-	font-size: 14px;
+	font-size: 16px;
 	color: #08c;
 	text-decoration: none;
 	cursor: pointer;
@@ -8076,7 +8076,7 @@ a.grid_true {
 }
 @media (max-width: 979px) {
 	.j-toggle-button-wrapper.j-toggle-hidden {
-		right: -16px;
+		right: -20px;
 	}
 }
 @media (max-width: 767px) {
