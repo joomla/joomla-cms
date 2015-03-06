@@ -74,28 +74,28 @@ class JFilterInput
 	 * @since  11.1
 	 */
 	public $tagBlacklist = array(
-		'applet',
-		'body',
-		'bgsound',
-		'base',
-		'basefont',
-		'embed',
-		'frame',
-		'frameset',
-		'head',
-		'html',
-		'id',
-		'iframe',
-		'ilayer',
-		'layer',
-		'link',
-		'meta',
-		'name',
-		'object',
-		'script',
-		'style',
-		'title',
-		'xml'
+			'applet',
+			'body',
+			'bgsound',
+			'base',
+			'basefont',
+			'embed',
+			'frame',
+			'frameset',
+			'head',
+			'html',
+			'id',
+			'iframe',
+			'ilayer',
+			'layer',
+			'link',
+			'meta',
+			'name',
+			'object',
+			'script',
+			'style',
+			'title',
+			'xml'
 	);
 
 	/**
@@ -105,11 +105,11 @@ class JFilterInput
 	 * @since   11.1
 	 */
 	public $attrBlacklist = array(
-		'action',
-		'background',
-		'codebase',
-		'dynsrc',
-		'lowsrc'
+			'action',
+			'background',
+			'codebase',
+			'dynsrc',
+			'lowsrc'
 	);
 
 	/**
@@ -283,21 +283,17 @@ class JFilterInput
 					}
 
 					$result = $source;
+					break;
 				}
-				else
+
+				$result = $source;
+				// Or a string?
+				if (is_string($source) && !empty($source))
 				{
-					// Or a string?
-					if (is_string($source) && !empty($source))
-					{
-						// Filter source for XSS and other 'bad' code etc.
-						$result = $this->_remove($this->_decode($source));
-					}
-					else
-					{
-						// Not an array or string.. return the passed parameter
-						$result = $source;
-					}
+					// Filter source for XSS and other 'bad' code etc.
+					$result = $this->_remove($this->_decode($source));
 				}
+
 				break;
 		}
 
@@ -319,8 +315,8 @@ class JFilterInput
 		$attrSubSet[1] = strtolower($attrSubSet[1]);
 
 		return (((strpos($attrSubSet[1], 'expression') !== false) && ($attrSubSet[0]) == 'style') || (strpos($attrSubSet[1], 'javascript:') !== false) ||
-			(strpos($attrSubSet[1], 'behaviour:') !== false) || (strpos($attrSubSet[1], 'vbscript:') !== false) ||
-			(strpos($attrSubSet[1], 'mocha:') !== false) || (strpos($attrSubSet[1], 'livescript:') !== false));
+				(strpos($attrSubSet[1], 'behaviour:') !== false) || (strpos($attrSubSet[1], 'vbscript:') !== false) ||
+				(strpos($attrSubSet[1], 'mocha:') !== false) || (strpos($attrSubSet[1], 'livescript:') !== false));
 	}
 
 	/**
@@ -417,19 +413,16 @@ class JFilterInput
 			$attrSet = array();
 			$currentSpace = strpos($tagLeft, ' ');
 
-			// Are we an open tag or a close tag?
+			// Assume it is an opening tag
+			$isCloseTag = false;
+			list ($tagName) = explode(' ', $currentTag);
+
+			// Then check if it is a closing tag
 			if (substr($currentTag, 0, 1) == '/')
 			{
 				// Close Tag
 				$isCloseTag = true;
-				list ($tagName) = explode(' ', $currentTag);
 				$tagName = substr($tagName, 1);
-			}
-			else
-			{
-				// Open Tag
-				$isCloseTag = false;
-				list ($tagName) = explode(' ', $currentTag);
 			}
 
 			/*
@@ -476,14 +469,12 @@ class JFilterInput
 				// Do we have an attribute to process? [check for equal sign]
 				if ($fromSpace != '/' && (($nextEqual && $nextSpace && $nextSpace < $nextEqual) || !$nextEqual))
 				{
+					$attribEnd = $nextSpace - 1;
 					if (!$nextEqual)
 					{
 						$attribEnd = strpos($fromSpace, '/') - 1;
 					}
-					else
-					{
-						$attribEnd = $nextSpace - 1;
-					}
+
 					// If there is an ending, use this, if not, do not worry.
 					if ($attribEnd > 0)
 					{
@@ -493,15 +484,13 @@ class JFilterInput
 
 				if (strpos($fromSpace, '=') !== false)
 				{
-					// If the attribute value is wrapped in quotes we need to grab the substring from
-					// the closing quote, otherwise grab until the next space.
+					// Assume the attribute is not wrapped in quotes
+					$attr = substr($fromSpace, 0, $nextSpace);
+
+					// Then if it is wrapped in quotes, grab the substring from the closing quote
 					if (($openQuotes !== false) && (strpos(substr($fromSpace, ($openQuotes + 1)), '"') !== false))
 					{
 						$attr = substr($fromSpace, 0, ($closeQuotes + 1));
-					}
-					else
-					{
-						$attr = substr($fromSpace, 0, $nextSpace);
 					}
 				}
 				// No more equal signs so add any extra text in the tag into the attribute array [eg. checked]
@@ -545,14 +534,12 @@ class JFilterInput
 						$preTag .= ' ' . $attrSet[$i];
 					}
 
+					$preTag .= '>';
+
 					// Reformat single tags to XHTML
-					if (strpos($fromTagOpen, '</' . $tagName))
+					if (!strpos($fromTagOpen, '</' . $tagName))
 					{
-						$preTag .= '>';
-					}
-					else
-					{
-						$preTag .= ' />';
+						$preTag = ' /'.$preTag;
 					}
 				}
 				// Closing tag
@@ -611,39 +598,34 @@ class JFilterInput
 			// AND blacklisted attributes
 
 			if ((!preg_match('/[a-z]*$/i', $attrSubSet[0]))
-				|| (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist))
-				|| (substr($attrSubSet[0], 0, 2) == 'on'))))
+					|| (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist))
+									|| (substr($attrSubSet[0], 0, 2) == 'on')))
+					|| !isset($attrSubSet[1]))
 			{
 				continue;
 			}
 
 			// XSS attribute value filtering
-			if (isset($attrSubSet[1]))
+			// Trim leading and trailing spaces
+			$attrSubSet[1] = trim($attrSubSet[1]);
+
+			// Strips unicode, hex, etc
+			$attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
+
+			// Strip normal newline within attr value
+			$attrSubSet[1] = preg_replace('/[\n\r]/', '', $attrSubSet[1]);
+
+			// Strip double quotes
+			$attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
+
+			// Convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr values)
+			if ((substr($attrSubSet[1], 0, 1) == "'") && (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'"))
 			{
-				// Trim leading and trailing spaces
-				$attrSubSet[1] = trim($attrSubSet[1]);
-
-				// Strips unicode, hex, etc
-				$attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
-
-				// Strip normal newline within attr value
-				$attrSubSet[1] = preg_replace('/[\n\r]/', '', $attrSubSet[1]);
-
-				// Strip double quotes
-				$attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
-
-				// Convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr values)
-				if ((substr($attrSubSet[1], 0, 1) == "'") && (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'"))
-				{
-					$attrSubSet[1] = substr($attrSubSet[1], 1, (strlen($attrSubSet[1]) - 2));
-				}
-				// Strip slashes
-				$attrSubSet[1] = stripslashes($attrSubSet[1]);
+				$attrSubSet[1] = substr($attrSubSet[1], 1, (strlen($attrSubSet[1]) - 2));
 			}
-			else
-			{
-				continue;
-			}
+			// Strip slashes
+			$attrSubSet[1] = stripslashes($attrSubSet[1]);
+
 
 			// Autostrip script tags
 			if (self::checkAttribute($attrSubSet))
@@ -751,16 +733,14 @@ class JFilterInput
 			$quote = substr($matches[0][0], -1);
 			$pregMatch = ($quote == '"') ? '#(\"\s*/\s*>|\"\s*>|\"\s+|\"$)#' : "#(\'\s*/\s*>|\'\s*>|\'\s+|\'$)#";
 
-			// Get the portion after attribute value
+			// Assume no closing quote
+			$nextAfter = strlen($remainder);
+
+			// Then get the portion after attribute value
 			if (preg_match($pregMatch, substr($remainder, $nextBefore), $matches, PREG_OFFSET_CAPTURE))
 			{
-				// We have a closing quote
+				// Adjust if we have a closing quote
 				$nextAfter = $nextBefore + $matches[0][1];
-			}
-			else
-			{
-				// No closing quote
-				$nextAfter = strlen($remainder);
 			}
 
 			// Get the actual attribute value
@@ -792,12 +772,7 @@ class JFilterInput
 		$test = preg_replace('#\/\*.*\*\/#U', '', $source);
 
 		// Test for :expression
-		if (!stripos($test, ':expression'))
-		{
-			// Not found, so we are done
-			$return = $source;
-		}
-		else
+		if (stripos($test, ':expression'))
 		{
 			// At this point, we have stripped out the comments and have found :expression
 			// Test stripped string for :expression followed by a '('
@@ -805,10 +780,10 @@ class JFilterInput
 			{
 				// If found, remove :expression
 				$test = str_ireplace(':expression', '', $test);
-				$return = $test;
+				return $test;
 			}
 		}
 
-		return $return;
+		return $source;
 	}
 }
