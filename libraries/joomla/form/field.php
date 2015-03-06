@@ -835,7 +835,7 @@ abstract class JFormField
 	/**
 	 * Method to get an attribute of the field
 	 *
-	 * @param   string  $name    Name of the attribute to get
+	 * @param   string  $name     Name of the attribute to get
 	 * @param   mixed   $default  Optional value to return if attribute not found
 	 *
 	 * @return  mixed             Value of the attribute / default
