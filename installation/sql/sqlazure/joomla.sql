@@ -66,8 +66,6 @@ SELECT 15, 1, 33, 34, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.
 UNION ALL
 SELECT 16, 1, 35, 36, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 17, 1, 37, 38, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'
-UNION ALL
 SELECT 18, 1, 39, 70, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
 SELECT 19, 1, 71, 74, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
@@ -786,8 +784,6 @@ UNION ALL
 SELECT 13, 'com_media', 'component', 'com_media', '', 1, 1, 0, 1, '', '{"upload_extensions":"bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS","upload_maxsize":"10","file_path":"images","image_path":"images","restrict_uploads":"1","allowed_media_usergroup":"3","check_mime":"1","image_extensions":"bmp,gif,jpg,png","ignore_extensions":"","upload_mime":"image\/jpeg,image\/gif,image\/png,image\/bmp,application\/x-shockwave-flash,application\/msword,application\/excel,application\/pdf,application\/powerpoint,text\/plain,application\/x-zip","upload_mime_illegal":"text\/html"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 14, 'com_menus', 'component', 'com_menus', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
-UNION ALL
-SELECT 15, 'com_messages', 'component', 'com_messages', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 16, 'com_modules', 'component', 'com_modules', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
@@ -2003,12 +1999,6 @@ SELECT 8, 'menu', 'com_contact', 'Contacts', '', 'Contacts/Contacts', 'index.php
 UNION ALL
 SELECT 9, 'menu', 'com_contact_categories', 'Categories', '', 'Contacts/Categories', 'index.php?option=com_categories&extension=com_contact', 'component', 0, 7, 2, 6, 0, '1900-01-01 00:00:00', 0, 0, 'class:contact-cat', 0, '', 14, 15, 0, '*', 1
 UNION ALL
-SELECT 10, 'menu', 'com_messages', 'Messaging', '', 'Messaging', 'index.php?option=com_messages', 'component', 0, 1, 1, 15, 0, '1900-01-01 00:00:00', 0, 0, 'class:messages', 0, '', 17, 22, 0, '*', 1
-UNION ALL
-SELECT 11, 'menu', 'com_messages_add', 'New Private Message', '', 'Messaging/New Private Message', 'index.php?option=com_messages&task=message.add', 'component', 0, 10, 2, 15, 0, '1900-01-01 00:00:00', 0, 0, 'class:messages-add', 0, '', 18, 19, 0, '*', 1
-UNION ALL
-SELECT 12, 'menu', 'com_messages_read', 'Read Private Message', '', 'Messaging/Read Private Message', 'index.php?option=com_messages', 'component', 0, 10, 2, 15, 0, '1900-01-01 00:00:00', 0, 0, 'class:messages-read', 0, '', 20, 21, 0, '*', 1
-UNION ALL
 SELECT 13, 'menu', 'com_newsfeeds', 'News Feeds', '', 'News Feeds', 'index.php?option=com_newsfeeds', 'component', 0, 1, 1, 17, 0, '1900-01-01 00:00:00', 0, 0, 'class:newsfeeds', 0, '', 23, 28, 0, '*', 1
 UNION ALL
 SELECT 14, 'menu', 'com_newsfeeds_feeds', 'Feeds', '', 'News Feeds/Feeds', 'index.php?option=com_newsfeeds', 'component', 0, 13, 2, 17, 0, '1900-01-01 00:00:00', 0, 0, 'class:newsfeeds', 0, '', 24, 25, 0, '*', 1
@@ -2055,45 +2045,6 @@ INSERT INTO [#__menu_types] ([id], [menutype], [title], [description])
 SELECT 1, 'mainmenu', 'Main Menu', 'The main menu for the site';
 
 SET IDENTITY_INSERT [#__menu_types]  OFF;
-
-/****** Object:  Table [#__messages] ******/
-SET QUOTED_IDENTIFIER ON;
-
-CREATE TABLE [#__messages](
-	[message_id] [bigint] IDENTITY(1,1) NOT NULL,
-	[user_id_from] [bigint] NOT NULL DEFAULT 0,
-	[user_id_to] [bigint] NOT NULL DEFAULT 0,
-	[folder_id] [tinyint] NOT NULL DEFAULT 0,
-	[date_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[state] [smallint] NOT NULL DEFAULT 0,
-	[priority] [tinyint] NOT NULL,
-	[subject] [nvarchar](255) NOT NULL DEFAULT '',
-	[message] [nvarchar](max) NOT NULL,
- CONSTRAINT [PK_#__messages_message_id] PRIMARY KEY CLUSTERED
-(
-	[message_id] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY];
-
-CREATE NONCLUSTERED INDEX [useridto_state] ON [#__messages]
-(
-	[user_id_to] ASC,
-	[state] ASC
-)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
-
-/****** Object:  Table [#__messages_cfg] ******/
-SET QUOTED_IDENTIFIER ON;
-
-CREATE TABLE [#__messages_cfg](
-	[user_id] [bigint] NOT NULL DEFAULT 0,
-	[cfg_name] [nvarchar](100) NOT NULL DEFAULT '',
-	[cfg_value] [nvarchar](255) NOT NULL DEFAULT '',
- CONSTRAINT [#__messages_cfg$idx_user_var_name] UNIQUE CLUSTERED
-(
-	[user_id] ASC,
-	[cfg_name] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY];
 
 /****** Object:  Table [#__modules] ******/
 SET QUOTED_IDENTIFIER ON;
