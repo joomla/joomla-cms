@@ -147,19 +147,19 @@ class JBuffer
 	 */
 	public function stream_seek($offset, $whence)
 	{
-		if($whence == SEEK_SET && ($offset < strlen($this->buffers[$this->name]) && $offset >= 0))
+		if ($whence == SEEK_SET && ($offset < strlen($this->buffers[$this->name]) && $offset >= 0))
 		{
 			$this->position = $offset;
 			return true;
 		}
 
-		if($whence == SEEK_CUR && $offset >= 0)
+		if ($whence == SEEK_CUR && $offset >= 0)
 		{
 			$this->position += $offset;
 			return true;
 		}
 
-		if($whence == SEEK_END && strlen($this->buffers[$this->name]) + $offset >= 0)
+		if ($whence == SEEK_END && strlen($this->buffers[$this->name]) + $offset >= 0)
 		{
 			$this->position = strlen($this->buffers[$this->name]) + $offset;
 			return true;
