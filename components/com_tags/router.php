@@ -64,7 +64,7 @@ class TagsRouter extends JComponentRouterBase
 		}
 
 		// Are we dealing with a tag that is attached to a menu item?
-		if ($mView == $view && isset($query['id']) && $mId == $query['id'])
+		if ($mView == $view && isset($query['id']) && is_array($mId) && count($mId) == 1 && $mId[0] == $query['id'])
 		{
 			unset($query['id']);
 			return $segments;
