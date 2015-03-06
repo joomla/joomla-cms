@@ -362,6 +362,10 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
+				if (stristr(strtolower($field->type) , "nvarchar"))
+				{
+						$field->Default = " ";			
+				}
 				$result[$field->Field] = $field;
 			}
 		}
