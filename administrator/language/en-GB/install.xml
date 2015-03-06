@@ -68,8 +68,6 @@
 		<filename>en-GB.com_templates.sys.ini</filename>
 		<filename>en-GB.com_users.ini</filename>
 		<filename>en-GB.com_users.sys.ini</filename>
-		<filename>en-GB.com_weblinks.ini</filename>
-		<filename>en-GB.com_weblinks.sys.ini</filename>
 		<filename>en-GB.com_wrapper.ini</filename>
 		<filename>en-GB.com_wrapper.sys.ini</filename>
 		<filename>en-GB.ini</filename>
@@ -157,8 +155,6 @@
 		<filename>en-GB.plg_finder_newsfeeds.sys.ini</filename>
 		<filename>en-GB.plg_finder_tags.ini</filename>
 		<filename>en-GB.plg_finder_tags.sys.ini</filename>
-		<filename>en-GB.plg_finder_weblinks.ini</filename>
-		<filename>en-GB.plg_finder_weblinks.sys.ini</filename>
 		<filename>en-GB.plg_installer_webinstaller.ini</filename>
 		<filename>en-GB.plg_installer_webinstaller.sys.ini</filename>
 		<filename>en-GB.plg_quickicon_extensionupdate.ini</filename>
@@ -175,8 +171,6 @@
 		<filename>en-GB.plg_search_newsfeeds.sys.ini</filename>
 		<filename>en-GB.plg_search_tags.ini</filename>
 		<filename>en-GB.plg_search_tags.sys.ini</filename>
-		<filename>en-GB.plg_search_weblinks.ini</filename>
-		<filename>en-GB.plg_search_weblinks.sys.ini</filename>
 		<filename>en-GB.plg_system_cache.ini</filename>
 		<filename>en-GB.plg_system_cache.sys.ini</filename>
 		<filename>en-GB.plg_system_debug.ini</filename>
@@ -213,8 +207,8 @@
 		<filename>en-GB.tpl_hathor.sys.ini</filename>
 		<filename>en-GB.tpl_isis.ini</filename>
 		<filename>en-GB.tpl_isis.sys.ini</filename>
-		<filename>index.html</filename> 
-		<filename file="meta">en-GB.xml</filename>	
+		<filename>index.html</filename>
+		<filename file="meta">en-GB.xml</filename>
 		<filename file="meta">install.xml</filename>
 	</files>
 	<params />

@@ -3771,24 +3771,4 @@ separator=
 			<value>[&quot;-99&quot;]</value>
 		</row>
 	</table>
-	<table name="jos_weblinks">
-		<column>id</column>
-		<column>catid</column>
-		<column>sid</column>
-		<column>title</column>
-		<column>alias</column>
-		<column>url</column>
-		<column>description</column>
-		<column>date</column>
-		<column>hits</column>
-		<column>state</column>
-		<column>checked_out</column>
-		<column>checked_out_time</column>
-		<column>ordering</column>
-		<column>archived</column>
-		<column>approved</column>
-		<column>access</column>
-		<column>params</column>
-		<column>language</column>
-	</table>
 </dataset>
