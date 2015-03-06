@@ -493,7 +493,7 @@ class JRouterSite extends JRouter
 
 			if (is_object($item) && $query['option'] == $item->component)
 			{
-				if (!$item->home || $item->language != '*')
+				if (!$item->home)
 				{
 					$tmp = !empty($tmp) ? $item->route . '/' . $tmp : $item->route;
 				}

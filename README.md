@@ -10,7 +10,7 @@ What is this?
 ---------------------
 * This is a Joomla! 3.x installation/upgrade package.
 * Joomla's [Official website](http://www.joomla.org).
-* Joomla! 3.3 [version history](https://docs.joomla.org/Joomla_3.3_version_history).
+* Joomla! 3.4 [version history](https://docs.joomla.org/Joomla_3.4_version_history).
 * Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/master).
 
 What is Joomla?
@@ -28,7 +28,6 @@ Is Joomla! for you?
 How to find a Joomla! translation?
 ---------------------
 * Repository of [accredited language packs](http://community.joomla.org/translations.html).
-* Directory of [non-accredited language packs](http://extensions.joomla.org/extensions/languages/translations-for-joomla).
 * You can also add languages directly to your website via your Joomla! administration panel.
 
 Learn Joomla!
@@ -66,7 +65,7 @@ Where can you get support and help?
 * Find the [information you need](https://docs.joomla.org/Start_here);
 * Find [help and other users](http://www.joomla.org/about-joomla/create-and-share.html);
 * Post questions at [our forums](http://forum.joomla.org);
-* [Joomla Resources Directory](http://resources.joomla.org/tos.html) (JRD).
+* [Joomla Resources Directory](http://resources.joomla.org/) (JRD).
 
 Do you already have a Joomla site that isn't built with Joomla 3.x?
 ---------------------
@@ -80,13 +79,13 @@ Do you want to improve Joomla?
 --------------------
 * How do you [request a feature](https://docs.joomla.org/How_do_you_request_a_feature%3F)?
 * How do you [report a bug](https://docs.joomla.org/Filing_bugs_and_issues)?
-* Get Involved: Joomla! is community developed software. [Join the community](http://www.joomla.org).
+* Get Involved: Joomla! is community developed software. [Join the community](http://volunteers.joomla.org/).
 * Documentation for [Developers](https://docs.joomla.org/Developers).
 * Documentation for [Web designers](https://docs.joomla.org/Web_designers).
 
 Copyright
 ---------------------
 * Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
-* [Credits](https://docs.joomla.org/Joomla!_Credits_and_Thanks)
+* [Special Thanks](https://docs.joomla.org/Joomla!_Credits_and_Thanks)
 * Distributed under the GNU General Public License version 2 or later
 * See [License details](https://docs.joomla.org/Joomla_Licenses)

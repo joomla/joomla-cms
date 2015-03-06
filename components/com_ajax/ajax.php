@@ -29,7 +29,7 @@ $format = strtolower($input->getWord('format'));
 
 // Initialize default response and module name
 $results = null;
-$parts = null;
+$parts   = null;
 
 // Check for valid format
 if (!$format)
@@ -69,10 +69,12 @@ elseif ($input->get('module'))
 		if ($parts)
 		{
 			$class = 'mod';
+
 			foreach ($parts as $part)
 			{
 				$class .= ucfirst($part);
 			}
+
 			$class .= 'Helper';
 		}
 		else
@@ -88,6 +90,12 @@ elseif ($input->get('module'))
 
 			if (method_exists($class, $method . 'Ajax'))
 			{
+				// Load language file for module
+				$basePath = JPATH_BASE;
+				$lang     = JFactory::getLanguage();
+				$lang->load('mod_' . $module, $basePath, null, false, true)
+				||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module, null, false, true);
+
 				try
 				{
 					$results = call_user_func($class . '::' . $method . 'Ajax');
@@ -145,18 +153,20 @@ elseif ($input->get('plugin'))
 switch ($format)
 {
 	// JSONinzed
-	case 'json':
+	case 'json' :
 		echo new JResponseJson($results, null, false, $input->get('ignoreMessages', true, 'bool'));
+
 		break;
 
 	// Human-readable format
-	case 'debug':
+	case 'debug' :
 		echo '<pre>' . print_r($results, true) . '</pre>';
 		$app->close();
+
 		break;
 
 	// Handle as raw format
-	default:
+	default :
 		// Output exception
 		if ($results instanceof Exception)
 		{

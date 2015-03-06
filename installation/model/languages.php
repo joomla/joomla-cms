@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.updater.update');
-jimport('legacy.component.helper');
 
 /**
  * Language Installer model for the Joomla Core Installer.

@@ -24,7 +24,7 @@ class JLanguage
 	/**
 	 * Array of JLanguage objects
 	 *
-	 * @var    array
+	 * @var    JLanguage[]
 	 * @since  11.1
 	 */
 	protected static $languages = array();
@@ -190,7 +190,8 @@ class JLanguage
 			$lang = $this->default;
 		}
 
-		$this->setLanguage($lang);
+		$this->lang = $lang;
+		$this->metadata = $this->getMetadata($this->lang);
 		$this->setDebug($debug);
 
 		$filename = JPATH_BASE . "/language/overrides/$lang.override.ini";
@@ -1259,9 +1260,12 @@ class JLanguage
 	 * @return  string  Previous value.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0 (CMS) - Instantiate a new JLanguage object instead
 	 */
 	public function setLanguage($lang)
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Instantiate a new JLanguage object instead.', JLog::WARNING, 'deprecated');
+
 		$previous = $this->lang;
 		$this->lang = $lang;
 		$this->metadata = $this->getMetadata($this->lang);

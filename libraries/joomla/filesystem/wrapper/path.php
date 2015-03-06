@@ -9,8 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.filesystem.path');
+
 /**
- * Wrapper class for JFilesystemPath
+ * Wrapper class for JPath
  *
  * @package     Joomla.Platform
  * @subpackage  Filesystem
@@ -93,7 +95,7 @@ class JFilesystemWrapperPath
 	 * @since   3.4
 	 * @throws  UnexpectedValueException
 	 */
-	public function clean($path, $ds = '\\')
+	public function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{
 		return JPath::clean($path, $ds);
 	}

@@ -152,7 +152,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 		if (!$element)
 		{
 			// Ensure the element is a string
-			$element = (string) $this->manifest->name;
+			$element = (string) $this->getManifest()->name;
 
 			// Filter the name for illegal characters
 			$element = str_replace('files_', '', JFilterInput::getInstance()->clean($element, 'cmd'));
@@ -186,7 +186,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 	protected function parseOptionalTags()
 	{
 		// Parse optional tags
-		$this->parent->parseLanguages($this->manifest->languages);
+		$this->parent->parseLanguages($this->getManifest()->languages);
 	}
 
 	/**
@@ -332,11 +332,11 @@ class JInstallerAdapterFile extends JInstallerAdapter
 				return false;
 			}
 
-			$this->manifest = $xml;
+			$this->setManifest($xml);
 
 			// If there is an manifest class file, let's load it
-			$this->scriptElement = $this->manifest->scriptfile;
-			$manifestScript = (string) $this->manifest->scriptfile;
+			$this->scriptElement = $this->getManifest()->scriptfile;
+			$manifestScript = (string) $this->getManifest()->scriptfile;
 
 			if ($manifestScript)
 			{
@@ -381,7 +381,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 			$db = JFactory::getDbo();
 
 			// Let's run the uninstall queries for the extension
-			$result = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
+			$result = $this->parent->parseSQLFiles($this->getManifest()->uninstall->sql);
 
 			if ($result === false)
 			{
@@ -531,7 +531,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 		$jRootPath = JPath::clean(JPATH_ROOT);
 
 		// Loop through all elements and get list of files and folders
-		foreach ($this->manifest->fileset->files as $eFiles)
+		foreach ($this->getManifest()->fileset->files as $eFiles)
 		{
 			// Check if the element is files element
 			$folder = (string) $eFiles->attributes()->folder;

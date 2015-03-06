@@ -143,7 +143,7 @@ abstract class JModuleHelper
 		// Check that $module is a valid module object
 		if (!is_object($module) || !isset($module->module) || !isset($module->params))
 		{
-			if (defined('JDEBUG') && JDEBUG)
+			if (JDEBUG)
 			{
 				JLog::addLogger(array('text_file' => 'jmodulehelper.log.php'), JLog::ALL, array('modulehelper'));
 				JLog::add('JModuleHelper::renderModule($module) expects a module object', JLog::DEBUG, 'modulehelper');
@@ -152,7 +152,7 @@ abstract class JModuleHelper
 			return;
 		}
 
-		if (defined('JDEBUG'))
+		if (JDEBUG)
 		{
 			JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
@@ -250,7 +250,7 @@ abstract class JModuleHelper
 		// Revert the scope
 		$app->scope = $scope;
 
-		if (defined('JDEBUG'))
+		if (JDEBUG)
 		{
 			JProfiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
@@ -496,13 +496,13 @@ abstract class JModuleHelper
 					$input   = JFactory::getApplication()->input;
 					$uri     = $input->getArray();
 					$safeuri = new stdClass;
+					$noHtmlFilter = JFilterInput::getInstance();
 
 					foreach ($cacheparams->modeparams as $key => $value)
 					{
 						// Use int filter for id/catid to clean out spamy slugs
 						if (isset($uri[$key]))
 						{
-							$noHtmlFilter = JFilterInput::getInstance();
 							$safeuri->$key = $noHtmlFilter->clean($uri[$key], $value);
 						}
 					}

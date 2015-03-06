@@ -87,7 +87,7 @@ SELECT setval('#__assets_id_seq', 54, false);
 -- Table: #__associations
 --
 CREATE TABLE "#__associations" (
-  "id" bigint NOT NULL,
+  "id" int NOT NULL,
   "context" varchar(50) NOT NULL,
   "key" char(32) NOT NULL,
   CONSTRAINT "#__associations_idx_context_id" PRIMARY KEY ("context", "id")
@@ -422,6 +422,7 @@ CREATE TABLE "#__contentitem_tag_map" (
  CONSTRAINT "#__uc_ItemnameTagid" UNIQUE ("type_alias", "content_item_id", "tag_id")
 );
 CREATE INDEX "#__contentitem_tag_map_idx_tag_type" ON "#__contentitem_tag_map" ("tag_id", "type_id");
+CREATE INDEX "#__contentitem_tag_map_idx_tag_name" ON "#__contentitem_tag_map" ("tag_id", "type_alias");
 CREATE INDEX "#__contentitem_tag_map_idx_date_id" ON "#__contentitem_tag_map" ("tag_date", "tag_id");
 CREATE INDEX "#__contentitem_tag_map_idx_tag" ON "#__contentitem_tag_map" ("tag_id");
 CREATE INDEX "#__contentitem_tag_map_idx_type" ON "#__contentitem_tag_map" ("type_id");
@@ -609,8 +610,7 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (448, 'plg_twofactorauth_totp', 'plugin', 'totp', 'twofactorauth', 0, 0, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (449, 'plg_authentication_cookie', 'plugin', 'cookie', 'authentication', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (450, 'plg_twofactorauth_yubikey', 'plugin', 'yubikey', 'twofactorauth', 0, 0, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(451, 'plg_search_tags', 'plugin', 'tags', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","show_tagged_items":"1"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(452, 'plg_captcha_nocaptcha', 'plugin', 'nocaptcha', 'captcha', 0, 0, 1, 0, '', '{"public_key":"","private_key":"","theme":"light"}', '', '', 0, '1970-01-01 00:00:00', 0, 0);
+(451, 'plg_search_tags', 'plugin', 'tags', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","show_tagged_items":"1"}', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 -- Templates
 INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
