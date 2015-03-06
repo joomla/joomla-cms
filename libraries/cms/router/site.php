@@ -584,7 +584,6 @@ class JRouterSite extends JRouter
 			$query = $uri->getQuery(true);
 			if ($this->_mode != 1
 				&& isset($query['Itemid'])
-				&& isset($query['option'])
 				&& (count($query) == 2 || (count($query) == 3 && isset($query['lang']))))
 			{
 				// Get the active menu item
