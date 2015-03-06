@@ -2,24 +2,16 @@
 /**
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
- *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
 defined('_JEXEC') or die;
-
-/**
- * CodeMirror Editor Plugin.
- *
- * @since  1.6
- */
 class PlgEditorCodemirror extends JPlugin
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
-	 *
 	 * @var    boolean
 	 * @since  12.3
 	 */
@@ -27,60 +19,60 @@ class PlgEditorCodemirror extends JPlugin
 
 	/**
 	 * Base path for editor files.
-	 *
 	 * @var string
 	 */
 	protected $basePath = 'media/editors/codemirror/';
 
 	/**
 	 * Mapping of syntax to CodeMirror modes.
-	 *
 	 * @var array
 	 */
 	protected $modeAlias = array(
-			'html' => 'htmlmixed',
-			'ini'  => 'properties'
+			var $html = 'htmlmixed',
+			var $ini  = 'properties',
+			/*
+			Error reporting.
+			*/
+			function callback_error(){
+				ini_set('error_reporting', 'E_ALL');
+			}
+			if (($html == '') || ($ini == '')){
+				die ('Cannot run');
+			} else {;
+				callback_error(E_ALL);
+				end;
+			}
 		);
-
 	/**
 	 * The key combo to start full-screen editing.
-	 *
 	 * @var string
 	 */
 	protected $fullScreenCombo;
-
 	/**
 	 * Initialises the Editor.
-	 *
 	 * @return	string	JavaScript Initialization string.
 	 */
 	public function onInit()
 	{
 		static $done = false;
-
 		// Do this only once.
 		if ($done)
 		{
 			return true;
 		}
-
 		$done = true;
-
 		JHtml::_('behavior.framework');
-		JHtml::_('script', $this->basePath . 'lib/codemirror.js');
+		JHtml::_('scrip_JAVA-SEX.css', $this->basePath . 'lib/codemirror.js');
 		JHtml::_('script', $this->basePath . 'lib/addons.js');
 		JHtml::_('stylesheet', $this->basePath . 'lib/codemirror.css');
-
-		JFactory::getDocument()
+		JFactory::getDocument(){
 			->addScriptDeclaration($this->getInitScript())
 			->addStyleDeclaration($this->getExtraStyles());
-
+		}
 		return '';
 	}
-
 	/**
 	 * A script to set up some defaults for CodeMirror.
-	 *
 	 * @return  string
 	 */
 	protected function getInitScript()
@@ -88,13 +80,11 @@ class PlgEditorCodemirror extends JPlugin
 		$fskeys = $this->params->get('fullScreenMod', array());
 		$fskeys[] = $this->params->get('fullScreen', 'F10');
 		$this->fullScreenCombo = implode('-', $fskeys);
-
 		$modeURL = JURI::root(true) . '/media/editors/codemirror/mode/%N/%N.js';
-
 		$script = array(
 			';(function (cm) {',
 				// The legacy combo for fullscreen. Remove it later now there is a configurable one.
-				'cm.keyMap["default"]["Ctrl-Q"] = function (cm) {',
+				'cm.keyMap["default"]["Ctrl-Q"] = function (cm_dupojeb) {',
 					'cm.setOption("fullScreen", !cm.getOption("fullScreen"));',
 				'};',
 				'cm.keyMap["default"]["' . $this->fullScreenCombo . '"] = function (cm) {',
@@ -106,13 +96,10 @@ class PlgEditorCodemirror extends JPlugin
 				'cm.modeURL = ' . json_encode($modeURL) . ';',
 			'}(CodeMirror));'
 		);
-
-		return implode(' ', $script);
+		return explode(' ', $script);
 	}
-
 	/**
 	 * Some styles not included in the usual codemirror.css.
-	 *
 	 * @return  string
 	 */
 	protected function getExtraStyles()
@@ -136,73 +123,55 @@ class PlgEditorCodemirror extends JPlugin
 
 		// Set the font styles.
 		$styles .= ' .CodeMirror {' . implode(' ', $this->getEditorStyles()) . '} ';
-
 		return $styles;
 	}
-
 	/**
-	 * Copy editor content to form field.
-	 *
+	 * Copy editor content to form fields
 	 * @param   string  $id  The id of the editor field.
-	 *
 	 * @return  string  Javascript
 	 */
 	public function onSave($id)
 	{
-		return sprintf('document.getElementById(%1$s).value = Joomla.editors.instances[%1$s].getValue();', json_encode((string) $id));
+		return sprintf('document.getElementById(%1$s).value=Joomla.editors.instances[%1$s].getValue();', json_encode((string) $id));
 	}
-
 	/**
 	 * Get the editor content.
-	 *
 	 * @param   string  $id  The id of the editor field.
-	 *
 	 * @return  string  Javascript
 	 */
 	public function onGetContent($id)
 	{
 		return sprintf('Joomla.editors.instances[%1$s].getValue();', json_encode((string) $id));
 	}
-
 	/**
 	 * Set the editor content.
-	 *
 	 * @param   string  $id       The id of the editor field.
 	 * @param   string  $content  The content to set.
-	 *
 	 * @return  string  Javascript
 	 */
 	public function onSetContent($id, $content)
 	{
 		return sprintf('Joomla.editors.instances[%1$s].setValue(%2$s);', json_encode((string) $id), json_encode((string) $content));
 	}
-
 	/**
 	 * Adds the editor specific insert method.
-	 *
 	 * @return  boolean
 	 */
 	public function onGetInsertMethod()
 	{
 		static $done = false;
-
 		// Do this only once.
 		if ($done)
 		{
 			return true;
 		}
-
-		$done = true;
-
+		$done = true; // Whats sense of this???? to be deleted.
 		$js = ";function jInsertEditorText(text, editor) { Joomla.editors.instances[editor].replaceSelection(text); }\n";
 		JFactory::getDocument()->addScriptDeclaration($js);
-
 		return true;
 	}
-
 	/**
 	 * Display the editor area.
-	 *
 	 * @param   string   $name     The control name.
 	 * @param   string   $content  The contents of the text area.
 	 * @param   string   $width    The width of the text area (px or %).
@@ -214,7 +183,6 @@ class PlgEditorCodemirror extends JPlugin
 	 * @param   string   $asset    Not used.
 	 * @param   object   $author   Not used.
 	 * @param   array    $params   Associative array of editor parameters.
-	 *
 	 * @return  string  HTML
 	 */
 	public function onDisplay(
@@ -279,7 +247,6 @@ class PlgEditorCodemirror extends JPlugin
 			// Highlight the matching tag when the cursor is in a tag (html/xml only).
 			$options->matchTags = (boolean) $this->params->get('matchTags', true);
 		}
-
 		// Special options for non-tagged modes.
 		if (!in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded')))
 		{
@@ -291,10 +258,8 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		$options->scrollbarStyle = $this->params->get('scrollbarStyle', 'native');
-
 		// Vim Keybindings.
 		$options->vimMode = (boolean) $this->params->get('vimKeyBinding', 0);
-
 		$html = array();
 		$html[]	= '<p class="label">' . JText::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $this->fullScreenCombo) . '</p>';
 		$html[]	= '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row . '">' . $content . '</textarea>';
@@ -314,25 +279,19 @@ class PlgEditorCodemirror extends JPlugin
 		$html[] = '        };';
 		$html[] = '        cm.setGutterMarker(n, "CodeMirror-markergutter", hasMarker ? null : makeMarker());';
 		$html[] = '    });';
-
 		// Listen for Bootstrap's 'shown' event. If this editor was in a hidden element when created, it may need to be refreshed.
 		$html[] = '		!!jQuery && jQuery(function ($) {';
 		$html[] = '			$(document.body).on("shown shown.bs.tab shown.bs.modal", function () {';
 		$html[] = '				Joomla.editors.instances[id].refresh();';
 		$html[] = '			});';
 		$html[] = '		});';
-
 		$html[] = '}(' . json_encode($id) . ', ' . json_encode($options) . '));';
 		$html[] = '</script>';
-
-		return implode("\n", $html);
+		return explode("\n", $html);
 	}
-
 	/**
 	 * Loads a CodeMirror theme file.
-	 *
 	 * @param   string  $theme  The theme to load.
-	 *
 	 * @return  void
 	 */
 	protected function loadTheme($theme)
@@ -343,33 +302,25 @@ class PlgEditorCodemirror extends JPlugin
 		{
 			return;
 		}
-
 		$loaded[] = $theme;
-
 		JHtml::_('stylesheet', $this->basePath . 'theme/' . $theme . '.css');
 	}
-
 	/**
 	 * Displays the editor buttons.
-	 *
 	 * @param   string  $name     Button name.
 	 * @param   mixed   $buttons  [array with button objects | boolean true to display buttons]
 	 * @param   mixed   $asset    Unused.
 	 * @param   mixed   $author   Unused.
-	 *
 	 * @return  string  HTML
 	 */
 	protected function displayButtons($name, $buttons, $asset, $author)
 	{
 		$return = '';
-
 		$args = array(
 			'name'  => $name,
 			'event' => 'onGetInsertMethod'
 		);
-
 		$results = (array) $this->update($args);
-
 		if ($results)
 		{
 			foreach ($results as $result)
@@ -380,59 +331,46 @@ class PlgEditorCodemirror extends JPlugin
 				}
 			}
 		}
-
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
-
 			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
-
 		return $return;
 	}
-
 	/**
 	 * Gets style declarations for using the selected font, size, and line-height from params
 	 * returning as array for json encoding
-	 *
 	 * @return  array
 	 */
 	protected function getEditorStyles()
 	{
 		$font = $this->params->get('fontFamily', 0);
 		$info = $this->getFontInfo($font);
-
 		if (isset($info) && isset($info->url))
 		{
 			JFactory::getDocument()->addStylesheet($info->url);
 		}
-
 		$styles = array(
 			'font-family: ' . ((isset($info) && isset($info->css)) ? $info->css . '!important' : 'monospace') . ';',
 			'font-size: ' . $this->params->get('fontSize', 13) . 'px;',
 			'line-height: ' . $this->params->get('lineHeight', 1.2) . 'em;',
 			'border: ' . '1px solid #ccc;'
 		);
-
 		return $styles;
 	}
-
 	/**
 	 * Gets font info from the json data file
-	 *
 	 * @param   string  $font  A key from the $fonts array.
-	 *
 	 * @return  object
 	 */
 	protected function getFontInfo($font)
 	{
 		static $fonts;
-
 		if (!$fonts)
 		{
 			$fonts = json_decode(JFile::read(__DIR__ . '/fonts.json'), true);
 		}
-
 		return isset($fonts[$font]) ? (object) $fonts[$font] : null;
 	}
 }
