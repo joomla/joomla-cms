@@ -578,13 +578,18 @@ class JRouterSite extends JRouter
 	 */
 	protected function processBuildRules(&$uri, $stage = self::PROCESS_DURING)
 	{
-		if ($stage == self::PROCESS_BEFORE)
+		if ($stage == self::PROCESS_DURING)
 		{
 			// Make sure any menu vars are used if no others are specified
-			if (($this->_mode != JROUTER_MODE_SEF) && $uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)
+			$query = $uri->getQuery(true);
+			if ($this->_mode != 1
+				&& isset($query['Itemid'])
+				&& isset($query['option'])
+				&& (count($query) == 2 || (count($query) == 3 && isset($query['lang']))))
 			{
 				// Get the active menu item
 				$itemid = $uri->getVar('Itemid');
+				$lang = $uri->getVar('lang');
 				$item = $this->menu->getItem($itemid);
 
 				if ($item)
@@ -593,6 +598,11 @@ class JRouterSite extends JRouter
 				}
 
 				$uri->setVar('Itemid', $itemid);
+
+				if ($lang)
+				{
+					$uri->setVar('lang', $lang);
+				}
 			}
 		}
 
