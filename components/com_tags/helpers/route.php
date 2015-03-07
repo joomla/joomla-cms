@@ -147,7 +147,10 @@ class TagsHelperRoute extends JHelperRoute
 						{
 							foreach ($item->query['id'] as $position => $tagId)
 							{
-								self::$lookup[$lang][$view][$item->query['id'][$position]] = $item->id;
+								if (!isset(self::$lookup[$lang][$view][$item->query['id'][$position]]) || count($item->query['id']) == 1)
+								{
+									self::$lookup[$lang][$view][$item->query['id'][$position]] = $item->id;
+								}
 							}
 						}
 					}

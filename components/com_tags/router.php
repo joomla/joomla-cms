@@ -72,7 +72,7 @@ class TagsRouter extends JComponentRouterBase
 			return $segments;
 		}
 
-		if (isset($view) && $view == 'tag')
+		if ($view == 'tag')
 		{
 			$notActiveTag = is_array($mId) ? (count($mId) > 1 || $mId[0] != (int) $query['id']) : ($mId != (int) $query['id']);
 
