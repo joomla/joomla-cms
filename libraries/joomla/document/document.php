@@ -484,11 +484,12 @@ class JDocument
 	/**
 	 * Add option for script
 	 *
-	 * @param string $key     Name in Storage
-	 * @param mixed  $options Scrip options as array or string
-	 * @param bool   $merge   Whether merge with existing (true) or replace (false)
+	 * @param   string  $key      Name in Storage
+	 * @param   mixed   $options  Scrip options as array or string
+	 * @param   bool    $merge    Whether merge with existing (true) or replace (false)
 	 *
 	 * @return  JDocument instance of $this to allow chaining
+	 *
 	 *
 	 */
 	public function addScriptOptions($key, $options, $merge = true)
@@ -498,7 +499,7 @@ class JDocument
 			$this->scriptOptions[$key] = array();
 		}
 
-		if($merge && is_array($options))
+		if ($merge && is_array($options))
 		{
 			$this->scriptOptions[$key] = array_merge($this->scriptOptions[$key], $options);
 		}
@@ -516,9 +517,10 @@ class JDocument
 	/**
 	 * Get script(s) options
 	 *
-	 * @param string $key Name in Storage
+	 * @param   string  $key  Name in Storage
 	 *
-	 * @return mixed Options for given $key, or all script options
+	 * @return   mixed  Options for given $key, or all script options
+	 *
 	 *
 	 */
 	public function getScriptOptions($key = null)
@@ -527,7 +529,8 @@ class JDocument
 		{
 			return (empty($this->scriptOptions[$key])) ? array() : $this->scriptOptions[$key];
 		}
-		else {
+		else
+		{
 			return $this->scriptOptions;
 		}
 	}

@@ -26,6 +26,8 @@ abstract class JHtmlFormbehavior
 
 	/**
 	 * Load Main Behavior script
+	 *
+	 * @return  void
 	 */
 	protected static function formbehavior()
 	{

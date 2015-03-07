@@ -93,6 +93,8 @@ abstract class JHtmlBehavior
 
 	/**
 	 * Load Main Behavior script
+	 *
+	 * @return  void
 	 */
 	protected static function behavior()
 	{
@@ -522,8 +524,8 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive JavaScript support for a color picker.
 	 *
-	 * @param   string  $selector
-	 * @param   array   $options Options for minicolors.js
+	 * @param   string  $selector  The selector for colorpicker input
+	 * @param   array   $options   Options for minicolors.js
 	 *
 	 * @return  void
 	 *
@@ -554,7 +556,7 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive JavaScript support for a simple color picker.
 	 *
-	 * @param   string  $selector
+	 * @param   string  $selector  The selector for simplecolor element
 	 *
 	 * @return  void
 	 *

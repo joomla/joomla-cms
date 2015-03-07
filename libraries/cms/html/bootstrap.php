@@ -24,6 +24,8 @@ abstract class JHtmlBootstrap
 
 	/**
 	 * Load Main Behavior script
+	 *
+	 * @return  void
 	 */
 	protected static function behaviorBootstrap()
 	{
