@@ -79,8 +79,6 @@ class JComponentHelper
 	 */
 	public static function isEnabled($option)
 	{
-		$option = strtolower($option);
-
 		$result = static::getComponent($option, true);
 
 		return $result->enabled;
@@ -122,8 +120,6 @@ class JComponentHelper
 	 */
 	public static function getParams($option, $strict = false)
 	{
-		$option = strtolower($option);
-
 		$component = static::getComponent($option, $strict);
 
 		return $component->params;
@@ -405,8 +401,6 @@ class JComponentHelper
 	 */
 	protected static function _load($option)
 	{
-		$option = strtolower($option);
-
 		return static::load($option);
 	}
 
