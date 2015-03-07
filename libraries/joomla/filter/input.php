@@ -534,13 +534,15 @@ class JFilterInput
 						$preTag .= ' ' . $attrSet[$i];
 					}
 
-					$preTag .= '>';
+					$closeWith = '>';
 
 					// Reformat single tags to XHTML
 					if (!strpos($fromTagOpen, '</' . $tagName))
 					{
-						$preTag = ' /'.$preTag;
+						$closeWith = ' /'.$closeWith;
 					}
+
+					$preTag .= $closeWith;
 				}
 				// Closing tag
 				else
