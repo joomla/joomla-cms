@@ -57,20 +57,37 @@ foreach ($this->submenumodules as $submenumodule)
 	}
 }
 
-// Logo file
-if ($this->params->get('logoFile'))
-{
-	$logo = JUri::root() . $this->params->get('logoFile');
-}
-else
-{
-	$logo = $this->baseurl . '/templates/' . $this->template . '/images/logo.png';
-}
-
 // Template Parameters
 $displayHeader = $this->params->get('displayHeader', '1');
 $statusFixed   = $this->params->get('statusFixed', '1');
 $stickyToolbar = $this->params->get('stickyToolbar', '1');
+
+// Header classes
+$template_is_light = ($this->params->get('templateColor') && colorIsLight($this->params->get('templateColor')));
+$header_is_light = ($displayHeader && $this->params->get('headerColor') && colorIsLight($this->params->get('headerColor')));
+
+if ($displayHeader)
+{
+	// Logo file
+	if ($this->params->get('logoFile'))
+	{
+		$logo = JUri::root() . $this->params->get('logoFile');
+	}
+	else
+	{
+		$logo = $this->baseurl . '/templates/' . $this->template . '/images/logo' . ($header_is_light ? '-inverse' : '') . '.png';
+	}
+}
+
+function colorIsLight($color)
+{
+	$r = hexdec(substr($color, 1, 2));
+	$g = hexdec(substr($color, 3, 2));
+	$b = hexdec(substr($color, 5, 2));
+	$yiq = (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
+
+	return $yiq >= 200;
+}
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -85,15 +102,10 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 			.navbar-inner, .navbar-inverse .navbar-inner, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle, #status.status-top {
 				background: <?php echo $this->params->get('templateColor'); ?>;
 			}
-			.navbar-inner, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle {
-				-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-				-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-				box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-			}
 		</style>
 	<?php endif; ?>
 	<!-- Template header color -->
-	<?php if ($this->params->get('headerColor')) : ?>
+	<?php if ($displayHeader && $this->params->get('headerColor')) : ?>
 		<style type="text/css">
 			.header {
 				background: <?php echo $this->params->get('headerColor'); ?>;
@@ -127,7 +139,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
 <!-- Top Navigation -->
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar<?php echo $template_is_light ? '' : ' navbar-inverse'; ?> navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container-fluid">
 			<?php if ($this->params->get('admin_menus') != '0') : ?>
@@ -178,7 +190,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 </nav>
 <!-- Header -->
 <?php if ($displayHeader) : ?>
-	<header class="header">
+	<header class="header<?php echo $header_is_light ? ' header-inverse' : ''; ?>">
 		<div class="container-logo">
 			<img src="<?php echo $logo; ?>" class="logo" alt="<?php echo $sitename;?>" />
 		</div>
@@ -288,7 +300,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 			{
 				if ($('.subhead').length) {
 					navTop = $('.subhead').length && $('.subhead').offset().top - <?php echo ($displayHeader || !$statusFixed) ? 30 : 20;?>;
-	
+
 					// Only apply the scrollspy when the toolbar is not collapsed
 					if (document.body.clientWidth > 480)
 					{
