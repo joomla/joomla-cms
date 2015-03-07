@@ -397,7 +397,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				{
 					$field->Default = " ";
 				}
-        			if (stristr(strtolower($field->type), "text"))
+				if (stristr(strtolower($field->type), "text"))
 				{
 					$field->Default = " ";
 				}
