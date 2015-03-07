@@ -738,13 +738,13 @@ var Joomla = window.Joomla || {};
 	 *
 	 * @example:
 	 * 	Notify all behaviors about DOM changes:
-	 * 		Joomla.Behavior.call('update', changedElement);
+	 * 		Joomla.Behavior.call('update', changedContainer);
 	 *
 	 * 	Notify only myBehavior about DOM changes:
-	 * 		Joomla.Behavior.call('update.myBehavior', changedElement);
+	 * 		Joomla.Behavior.call('update.myBehavior', changedContainer);
 	 *
 	 *  Notify only myBehavior about DOM changes, with custom options:
-	 * 		Joomla.Behavior.call('update.myBehavior', changedElement, options);
+	 * 		Joomla.Behavior.call('update.myBehavior', changedContainer, options);
 	 *
 	 *  Request to clean up inside Target container:
 	 * 		Joomla.Behavior.call('remove', container);
