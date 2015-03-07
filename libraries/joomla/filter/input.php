@@ -287,6 +287,7 @@ class JFilterInput
 				}
 
 				$result = $source;
+
 				// Or a string?
 				if (is_string($source) && !empty($source))
 				{
@@ -539,7 +540,7 @@ class JFilterInput
 					// Reformat single tags to XHTML
 					if (!strpos($fromTagOpen, '</' . $tagName))
 					{
-						$closeWith = ' /'.$closeWith;
+						$closeWith = ' /' . $closeWith;
 					}
 
 					$preTag .= $closeWith;
@@ -602,7 +603,7 @@ class JFilterInput
 			if ((!preg_match('/[a-z]*$/i', $attrSubSet[0]))
 				|| (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist))
 				|| (substr($attrSubSet[0], 0, 2) == 'on')))
-			    || !isset($attrSubSet[1]))
+				|| !isset($attrSubSet[1]))
 			{
 				continue;
 			}
