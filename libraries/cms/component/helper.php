@@ -345,7 +345,7 @@ class JComponentHelper
 		$path = JPATH_COMPONENT . '/' . $file . '.php';
 
 		// If component is disabled throw error
-		if (!static::isEnabled($option) || !file_exists($path))
+		if (!static::isEnabled($option))
 		{
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
@@ -356,8 +356,34 @@ class JComponentHelper
 		// Handle template preview outlining.
 		$contents = null;
 
-		// Execute the component.
-		$contents = static::executeComponent($path);
+		// Determine if the component uses the component DispatcherInterface or uses the legacy structure
+		$legacyComponent = file_exists($path);
+
+		if ($legacyComponent)
+		{
+			// Legacy execute component
+			$contents = static::executeComponent($path);
+		}
+		else
+		{
+			// This may be a new component, check for the dispatcher
+			$className = ucfirst($file) . 'Dispatcher';
+
+			$path = JPATH_COMPONENT . '/' . $className . '.php';
+
+			if (!file_exists($path))
+			{
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+			}
+
+			require_once $path;
+
+			// Boot the dispatcher
+			$dispatcher = new $className(JFactory::getApplication());
+
+			// And execute it
+			$contents = $dispatcher->execute();
+		}
 
 		// Revert the scope
 		$app->scope = $scope;
