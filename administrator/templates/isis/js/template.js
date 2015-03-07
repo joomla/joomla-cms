@@ -6,7 +6,7 @@
  * @since       3.0
  */
 
-(function($)
+(function($, Joomla)
 {
 	Joomla.Behavior.add('template.isis', 'ready update', function(event)
 	{
@@ -174,4 +174,4 @@
 			}
 		}
 
-})(jQuery);
+})(jQuery, Joomla);
