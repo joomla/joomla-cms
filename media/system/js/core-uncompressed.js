@@ -6,7 +6,7 @@
 // Only define the Joomla namespace if not defined.
 var Joomla = window.Joomla || {};
 
-!(function(window, Joomla){
+!(function(window, document, Joomla){
 	'use strict';
 
     Joomla.editors = {};
@@ -556,12 +556,12 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	element[method](event, callback);
 };
 
-})(window, Joomla);
+})(window, document, Joomla);
 
 /**
  * Joomla Behavior
  */
-!(function(window, Joomla){
+!(function(window, document, Joomla){
 	'use strict';
 
 	/**
@@ -752,8 +752,9 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	 *
 	 */
 	JoomlaBehavior.prototype.call = function (event, element, options) {
-		var jevent = new JoomlaEvent(event, element),
+		var jevent  = new JoomlaEvent(event, element),
 			storage = _getBehaviorsStorage(this.key),
+			target  = jevent.target,
 			behavior;
 
 		for (var i = 0, l = storage.length; i < l; i++ ) {
@@ -779,7 +780,7 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 			}
 
 			// Call behavior
-			if (behavior.events[jevent.name].call(this, jevent) === false) {
+			if (behavior.events[jevent.name].call(target, jevent) === false) {
 				break;
 			}
 		}
@@ -812,5 +813,5 @@ Joomla.removeListener = Joomla.removeListener || function(event, callback, eleme
 	window.JoomlaBehaviorItem = JoomlaBehaviorItem;
 	window.JoomlaEvent        = JoomlaEvent;
 
-})(window, Joomla);
+})(window, document, Joomla);
 
