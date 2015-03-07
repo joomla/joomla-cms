@@ -79,7 +79,7 @@ class TagsHelperRoute extends JHelperRoute
 	public static function getTagRoute($id)
 	{
 		$needles = array(
-			'tag'  => array((int) $id)
+			'tag'  => (array) $id
 		);
 
 		if ($id < 1)
@@ -88,15 +88,16 @@ class TagsHelperRoute extends JHelperRoute
 		}
 		else
 		{
-			$link = 'index.php?option=com_tags&view=tag&id=' . $id;
+			$link = new JUri('index.php?option=com_tags&view=tag');
+			$link->setVar('id', $id);
 
 			if ($item = self::_findItem($needles))
 			{
-				$link .= '&Itemid=' . $item;
+				$link->setVar('Itemid', $item);
 			}
 		}
 
-		return $link;
+		return $link->toString(array('path', 'query'));
 	}
 
 	/**
@@ -122,37 +123,32 @@ class TagsHelperRoute extends JHelperRoute
 			$component	= JComponentHelper::getComponent('com_tags');
 			$items		= $menus->getItems('component_id', $component->id);
 
-			if ($items)
+			foreach ($items as $item)
 			{
-				foreach ($items as $item)
+				if (isset($item->query) && isset($item->query['view']))
 				{
-					if (isset($item->query) && isset($item->query['view']))
+					$lang = $item->language;
+
+					if (!isset(self::$lookup[$lang]))
 					{
-						$lang = ($item->language != '' ? $item->language : '*');
+						self::$lookup[$lang] = array();
+					}
 
-						if (!isset(self::$lookup[$lang]))
-						{
-							self::$lookup[$lang] = array();
-						}
+					$view = $item->query['view'];
 
-						$view = $item->query['view'];
+					if (!isset(self::$lookup[$lang][$view]))
+					{
+						self::$lookup[$lang][$view] = array();
+					}
 
-						if (!isset(self::$lookup[$lang][$view]))
-						{
-							self::$lookup[$lang][$view] = array();
-						}
-
-						// Only match menu items that list one tag
-						if (isset($item->query['id']) && is_array($item->query['id']))
-						{
-							foreach ($item->query['id'] as $position => $tagId)
-							{
-								if (!isset(self::$lookup[$lang][$view][$item->query['id'][$position]]) || count($item->query['id']) == 1)
-								{
-									self::$lookup[$lang][$view][$item->query['id'][$position]] = $item->id;
-								}
-							}
-						}
+					// Only match menu items that list one tag
+					if (isset($item->query['id']) && is_array($item->query['id']))
+					{
+						self::$lookup[$lang][$view][implode('|', array_map('intval', $item->query['id']))] = $item->id;
+					}
+					else
+					{
+						self::$lookup[$lang][$view][0] = $item->id;
 					}
 				}
 			}
@@ -162,15 +158,10 @@ class TagsHelperRoute extends JHelperRoute
 		{
 			foreach ($needles as $view => $ids)
 			{
-				if (isset(self::$lookup[$language][$view]))
+				$key = implode('|', array_map('intval', $ids))
+				if (isset(self::$lookup[$language][$view][$key]))
 				{
-					foreach ($ids as $id)
-					{
-						if (isset(self::$lookup[$language][$view][(int) $id]))
-						{
-							return self::$lookup[$language][$view][(int) $id];
-						}
-					}
+					return self::$lookup[$language][$view][$key];
 				}
 			}
 		}
