@@ -1011,9 +1011,7 @@ SELECT 449, 'plg_authentication_cookie', 'plugin', 'cookie', 'authentication', 0
 UNION ALL
 SELECT 450, 'plg_twofactorauth_yubikey', 'plugin', 'yubikey', 'twofactorauth', 0, 0, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 451, 'plg_search_tags', 'plugin', 'tags', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","show_tagged_items":"1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
-UNION ALL
-SELECT 452, 'plg_captcha_nocaptcha', 'plugin', 'nocaptcha', 'captcha', 0, 0, 1, 0, '', '{"public_key":"","private_key":"","theme":"light"}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+SELECT 451, 'plg_search_tags', 'plugin', 'tags', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","show_tagged_items":"1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 
 INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
@@ -3010,12 +3008,12 @@ SET IDENTITY_INSERT [#__viewlevels]  ON;
 INSERT INTO [#__viewlevels] ([id], [title], [ordering], [rules])
 SELECT 1, 'Public', 0, '[1]'
 UNION ALL
-SELECT 2, 'Registered', 1, '[6,2,8]'
+SELECT 2, 'Registered', 2, '[6,2,8]'
 UNION ALL
-SELECT 3, 'Special', 2, '[6,3,8]'
+SELECT 3, 'Special', 3, '[6,3,8]'
 UNION ALL
-SELECT 5, 'Guest', 0, '[9]'
+SELECT 5, 'Guest', 1, '[9]'
 UNION ALL
-SELECT 6, 'Super Users', 0, '[8]';
+SELECT 6, 'Super Users', 4, '[8]';
 
 SET IDENTITY_INSERT [#__viewlevels]  OFF;

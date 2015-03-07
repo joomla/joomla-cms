@@ -31,26 +31,7 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'itemList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
 
-$sortFields = $this->getSortFields();
 $assoc		= JLanguageAssociations::isEnabled();
-
-JFactory::getDocument()->addScriptDeclaration('
-		Joomla.orderTable = function()
-		{
-			table = document.getElementById("sortTable");
-			direction = document.getElementById("directionTable");
-			order = table.options[table.selectedIndex].value;
-			if (order != "' . $listOrder . '")
-			{
-				dirn = "asc";
-			}
-			else
-			{
-				dirn = direction.options[direction.selectedIndex].value;
-			}
-			Joomla.tableOrdering(order, dirn, "");
-		};
-');
 ?>
 <?php // Set up the filter bar. ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm" id="adminForm">

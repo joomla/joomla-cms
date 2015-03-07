@@ -100,9 +100,15 @@ class JHtmlUsers
 
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
 
-		return '<a class="modal"'
-			. ' href="' . JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId) . '"'
-			. ' rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
+		echo JHtmlBootstrap::renderModal(
+			'userModal_' . (int) $userId, array(
+				'url' => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId),
+				'title' => $title,
+				'width' => '800px',
+				'height' => '500px')
+		);
+
+		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId . '" data-toggle="modal">'
 			. '<span class="label label-info"><i class="icon-drawer-2"></i>' . $title . '</span></a>';
 	}
 

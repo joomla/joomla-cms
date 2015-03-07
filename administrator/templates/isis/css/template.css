@@ -6106,6 +6106,11 @@ fieldset.radio.btn-group {
 input.invalid {
 	border: 1px solid #9d261d;
 }
+select.chzn-done.invalid + .chzn-container.chzn-container-single > a.chzn-single,
+select.chzn-done.invalid + .chzn-container.chzn-container-multi > ul.chzn-choices {
+	border-color: #9d261d;
+	color: #9d261d;
+}
 .tooltip {
 	max-width: 400px;
 }
@@ -7450,6 +7455,9 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	.row-fluid .modal-batch [class*="span"] {
 		margin-left: 0;
 	}
+	.nav-collapse.collapse.in {
+		height: auto !important;
+	}
 }
 @media (max-width: 767px) {
 	.navbar-search.pull-right {
@@ -7576,9 +7584,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	}
 	.nav-collapse .nav .nav-header {
 		color: #fff;
-	}
-	.nav-collapse.collapse.in {
-		height: auto !important;
 	}
 	.nav-collapse .nav,
 	.navbar .nav-collapse .nav.pull-right {

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset name="default"
-		label="COM_USERS_REGISTRATION_DEFAULT_LABEL"
-	>
+	<fieldset name="default" label="COM_USERS_REGISTRATION_DEFAULT_LABEL">
+		<field
+			name="spacer"
+			type="spacer"
+			class="text"
+			label="COM_USERS_REGISTER_REQUIRED"
+		/>
 
-		<field name="spacer" type="spacer" class="text"
-				label="COM_USERS_REGISTER_REQUIRED"
-			/>
-
-		<field name="name" type="text"
+		<field
+			name="name"
+			type="text"
 			description="COM_USERS_REGISTER_NAME_DESC"
 			filter="string"
 			label="COM_USERS_REGISTER_NAME_LABEL"
@@ -16,7 +18,9 @@
 			size="30"
 		/>
 
-		<field name="username" type="text"
+		<field
+			name="username"
+			type="text"
 			class="validate-username"
 			description="COM_USERS_DESIRED_USERNAME"
 			filter="username"
@@ -27,7 +31,9 @@
 			validate="username"
 		/>
 
-		<field name="password1" type="password"
+		<field
+			name="password1" 
+			type="password"
 			autocomplete="off"
 			class="validate-password"
 			description="COM_USERS_DESIRED_PASSWORD"
@@ -39,7 +45,9 @@
 			required="true"
 		/>
 
-		<field name="password2" type="password"
+		<field
+			name="password2"
+			type="password"
 			autocomplete="off"
 			class="validate-password"
 			description="COM_USERS_PROFILE_PASSWORD2_DESC"
@@ -52,7 +60,9 @@
 			required="true"
 		/>
 
-		<field name="email1" type="email"
+		<field
+			name="email1"
+			type="email"
 			description="COM_USERS_REGISTER_EMAIL1_DESC"
 			field="id"
 			filter="string"
@@ -64,7 +74,9 @@
 			validate="email"
 		/>
 
-		<field name="email2" type="email"
+		<field
+			name="email2"
+			type="email"
 			description="COM_USERS_REGISTER_EMAIL2_DESC"
 			field="email1"
 			filter="string"

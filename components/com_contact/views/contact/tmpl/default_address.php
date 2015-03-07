@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 		<?php if ($this->contact->address && $this->params->get('show_street_address')) : ?>
 			<dd>
 				<span class="contact-street" itemprop="streetAddress">
-					<?php echo $this->contact->address . '<br />'; ?>
+					<?php echo nl2br($this->contact->address) . '<br />'; ?>
 				</span>
 			</dd>
 		<?php endif; ?>

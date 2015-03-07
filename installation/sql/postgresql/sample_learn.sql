@@ -190,8 +190,8 @@ SELECT setval('#__banners_id_seq', max(id)) FROM #__banners;
 --
 INSERT INTO "#__banner_clients" VALUES
 (1,'Joomla!','Administrator','banner@example.com','',1,0,'1970-01-01 00:00:00','',0,'',-1,-1,-1),
-(2,'Shop','Example','banner@example.com'','',1,0,'1970-01-01 00:00:00','',0,'',-1,0,0),
-(3,'Bookstore','Bookstore Example','banner@example.com'','',1,0,'1970-01-01 00:00:00','',0,'',-1,0,0);
+(2,'Shop','Example','banner@example.com','',1,0,'1970-01-01 00:00:00','',0,'',-1,0,0),
+(3,'Bookstore','Bookstore Example','banner@example.com','',1,0,'1970-01-01 00:00:00','',0,'',-1,0,0);
 
 SELECT setval('#__banner_clients_id_seq', max(id)) FROM #__banner_clients;
 
@@ -822,10 +822,10 @@ SELECT setval('#__usergroups_id_seq', max(id)) FROM #__usergroups;
 --
 INSERT INTO "#__viewlevels" VALUES
 (1,'Public',0,'[1]'),
-(2,'Registered',1,'[6,2,8]'),
-(3,'Special',2,'[6,3,8]'),
+(2,'Registered',2,'[6,2,8]'),
+(3,'Special',4,'[6,3,8]'),
 (4,'Customer Access Level (Example)',3,'[6,3,12]'),
-(5,'Guest',0,'[13]'),
-(6,'Super Users',0,'[8]');
+(5,'Guest',1,'[13]'),
+(6,'Super Users',5,'[8]');
 
 SELECT setval('#__viewlevels_id_seq', max(id)) FROM #__viewlevels;
