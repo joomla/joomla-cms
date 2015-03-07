@@ -24,11 +24,10 @@ abstract class JHtmlIcon
 	 * @param   object    $category  The category information
 	 * @param   Registry  $params    The item parameters
 	 * @param   array     $attribs   Optional attributes for the link
-	 * @param   boolean   $legacy    True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the create item link
 	 */
-	public static function create($category, $params, $attribs = array(), $legacy = false)
+	public static function create($category, $params, $attribs = array())
 	{
 		JHtml::_('bootstrap.tooltip');
 
@@ -38,14 +37,7 @@ abstract class JHtmlIcon
 
 		if ($params->get('show_icons'))
 		{
-			if ($legacy)
-			{
-				$text = JHtml::_('image', 'system/new.png', JText::_('JNEW'), null, true);
-			}
-			else
-			{
-				$text = '<span class="icon-plus"></span>' . JText::_('JNEW');
-			}
+			$text = '<span class="icon-plus"></span>' . JText::_('JNEW');
 		}
 		else
 		{
@@ -75,11 +67,10 @@ abstract class JHtmlIcon
 	 * @param   object    $article  The article information
 	 * @param   Registry  $params   The item parameters
 	 * @param   array     $attribs  Optional attributes for the link
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the email item link
 	 */
-	public static function email($article, $params, $attribs = array(), $legacy = false)
+	public static function email($article, $params, $attribs = array())
 	{
 		require_once JPATH_SITE . '/components/com_mailto/helpers/mailto.php';
 
@@ -93,14 +84,7 @@ abstract class JHtmlIcon
 
 		if ($params->get('show_icons'))
 		{
-			if ($legacy)
-			{
-				$text = JHtml::_('image', 'system/emailButton.png', JText::_('JGLOBAL_EMAIL'), null, true);
-			}
-			else
-			{
-				$text = '<span class="icon-envelope"></span>' . JText::_('JGLOBAL_EMAIL');
-			}
+			$text = '<span class="icon-envelope"></span>' . JText::_('JGLOBAL_EMAIL');
 		}
 		else
 		{
@@ -125,13 +109,12 @@ abstract class JHtmlIcon
 	 * @param   object    $article  The article information
 	 * @param   Registry  $params   The item parameters
 	 * @param   array     $attribs  Optional attributes for the link
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string	The HTML for the article edit icon.
 	 *
 	 * @since   1.6
 	 */
-	public static function edit($article, $params, $attribs = array(), $legacy = false)
+	public static function edit($article, $params, $attribs = array())
 	{
 		$user = JFactory::getUser();
 		$uri  = JUri::getInstance();
@@ -159,20 +142,9 @@ abstract class JHtmlIcon
 			$checkoutUser = JFactory::getUser($article->checked_out);
 			$date         = JHtml::_('date', $article->checked_out_time);
 			$tooltip      = JText::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
-				. ' <br /> ' . $date;
-
-			if ($legacy)
-			{
-				$button = JHtml::_('image', 'system/checked_out.png', null, null, true);
-				$text   = '<span class="hasTooltip" title="' . JHtml::tooltipText($tooltip . '', 0) . '">'
-					. $button . '</span> ' . JText::_('JLIB_HTML_CHECKED_OUT');
-			}
-			else
-			{
-				$text = '<span class="hasTooltip icon-lock" title="' . JHtml::tooltipText($tooltip . '', 0) . '"></span> ' . JText::_('JLIB_HTML_CHECKED_OUT');
-			}
-
-			$output = JHtml::_('link', '#', $text, $attribs);
+							. ' <br /> ' . $date;
+			$text 		  = '<span class="hasTooltip icon-lock" title="' . JHtml::tooltipText($tooltip . '', 0) . '"></span> ' . JText::_('JLIB_HTML_CHECKED_OUT');
+			$output 	  = JHtml::_('link', '#', $text, $attribs);
 
 			return $output;
 		}
@@ -196,32 +168,16 @@ abstract class JHtmlIcon
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= JText::sprintf('COM_CONTENT_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
 
-		if ($legacy)
+		$icon = $article->state ? 'edit' : 'eye-close';
+
+		if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
+			|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
 		{
-			$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
-
-			if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
-				|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
-			{
-				$icon = 'edit_unpublished.png';
-			}
-
-			$text = JHtml::_('image', 'system/' . $icon, JText::_('JGLOBAL_EDIT'), null, true);
+			$icon = 'eye-close';
 		}
-		else
-		{
-			$icon = $article->state ? 'edit' : 'eye-close';
-
-			if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
-				|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
-			{
-				$icon = 'eye-close';
-			}
-
-			$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="' . JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0)
+		$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="' . JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0)
 				. '"></span>'
 				. JText::_('JGLOBAL_EDIT');
-		}
 
 		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
 
@@ -234,11 +190,10 @@ abstract class JHtmlIcon
 	 * @param   object    $article  The article information
 	 * @param   Registry  $params   The item parameters
 	 * @param   array     $attribs  Optional attributes for the link
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 */
-	public static function print_popup($article, $params, $attribs = array(), $legacy = false)
+	public static function print_popup($article, $params, $attribs = array())
 	{
 		$app = JFactory::getApplication();
 		$input = $app->input;
@@ -252,14 +207,7 @@ abstract class JHtmlIcon
 		// Checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons'))
 		{
-			if ($legacy)
-			{
-				$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true);
-			}
-			else
-			{
-				$text = '<span class="icon-print"></span>' . JText::_('JGLOBAL_PRINT');
-			}
+			$text = '<span class="icon-print"></span>' . JText::_('JGLOBAL_PRINT');
 		}
 		else
 		{
@@ -279,23 +227,15 @@ abstract class JHtmlIcon
 	 * @param   object    $article  Not used, @deprecated for 4.0
 	 * @param   Registry  $params   The item parameters
 	 * @param   array     $attribs  Not used, @deprecated for 4.0
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 */
-	public static function print_screen($article, $params, $attribs = array(), $legacy = false)
+	public static function print_screen($article, $params, $attribs = array())
 	{
 		// Checks template image directory for image, if none found default are loaded
 		if ($params->get('show_icons'))
 		{
-			if ($legacy)
-			{
-				$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true);
-			}
-			else
-			{
-				$text = '<span class="icon-print"></span>' . JText::_('JGLOBAL_PRINT');
-			}
+			$text = '<span class="icon-print"></span>' . JText::_('JGLOBAL_PRINT');
 		}
 		else
 		{
