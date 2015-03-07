@@ -78,7 +78,8 @@ class JHtmlBootstrapTest extends TestCase
 	public function testAlert()
 	{
 		// Initialise the alert script
-		JHtmlBootstrap::alert();
+		JHtmlBootstrap::alert('selector1');
+		JHtmlBootstrap::alert('selector2');
 
 		// Get the document instance
 		$document = JFactory::getDocument();
@@ -90,9 +91,12 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertEquals(
-			$document->_script['text/javascript'],
-			"(function($){\n\t\t\t\t$('.alert').alert();\n\t\t\t\t})(jQuery);",
-			'Verify that the alert script is initialised'
+			$document->getScriptOptions('bootstrap.alert'),
+			array(
+				'.selector1',
+				'.selector2',
+			),
+			'Verify that the alert script has valid options'
 		);
 	}
 
@@ -106,7 +110,8 @@ class JHtmlBootstrapTest extends TestCase
 	public function testButton()
 	{
 		// Initialise the alert script
-		JHtmlBootstrap::button();
+		JHtmlBootstrap::button('selector1');
+		JHtmlBootstrap::button('selector2');
 
 		// Get the document instance
 		$document = JFactory::getDocument();
@@ -118,9 +123,12 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertEquals(
-			$document->_script['text/javascript'],
-			"(function($){\n\t\t\t\t$('.button').button();\n\t\t\t\t})(jQuery);",
-			'Verify that the button script is initialised'
+			$document->getScriptOptions('bootstrap.button'),
+			array(
+				'.selector1',
+				'.selector2',
+			),
+			'Verify that the button script has valid options'
 		);
 	}
 
@@ -134,7 +142,8 @@ class JHtmlBootstrapTest extends TestCase
 	public function testDropdown()
 	{
 		// Initialise the dropdown script
-		JHtmlBootstrap::dropdown();
+		JHtmlBootstrap::dropdown('selector1');
+		JHtmlBootstrap::dropdown('selector2');
 
 		// Get the document instance
 		$document = JFactory::getDocument();
@@ -146,9 +155,12 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertEquals(
-			$document->_script['text/javascript'],
-			"(function($){\n\t\t\t\t$('.dropdown-toggle').dropdown();\n\t\t\t\t})(jQuery);",
-			'Verify that the dropdown script is initialised'
+			$document->getScriptOptions('bootstrap.dropdown'),
+			array(
+				'.selector1',
+				'.selector2',
+			),
+			'Verify that the dropdown script has valid options'
 		);
 	}
 
