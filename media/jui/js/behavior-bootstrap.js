@@ -140,6 +140,15 @@
 		}
 	}, true);
 
+	Joomla.Behavior.add('bootstrap.popover', 'remove', function(event){
+		var selectors = [];
+		for (var selector in event.options) {
+			selectors.push(selector);
+		}
+
+		$(event.target).find(selectors.join(', ')).popover('destroy');
+	});
+
 	/**
 	 * Bootstrap scrollspy
 	 *
@@ -178,7 +187,7 @@
 			$items = $target.find(selector);
 			$items.tooltip(options);
 
-			// To be b/c @see JHtmlBootstrap::tooltip()
+			// To be b/c @see PHP JHtmlBootstrap::tooltip()
 			if(Joomla.CallbacksBsTooltip){
 				if(options.onShow && Joomla.CallbacksBsTooltip[options.onShow]){
 					$items.on('show.bs.tooltip', Joomla.CallbacksBsTooltip[options.onShow]);
@@ -195,6 +204,15 @@
 			}
 		}
 	}, true);
+
+	Joomla.Behavior.add('bootstrap.tooltip', 'remove', function(event){
+		var selectors = [];
+		for (var selector in event.options) {
+			selectors.push(selector);
+		}
+
+		$(event.target).find(selectors.join(', ')).tooltip('destroy');
+	});
 
 	/**
 	 * Bootstrap typeahead
