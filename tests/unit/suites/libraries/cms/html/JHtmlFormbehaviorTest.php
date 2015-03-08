@@ -75,7 +75,8 @@ class JHtmlFormbehaviorTest extends TestCase
 	public function testChosen()
 	{
 		// Initialise the chosen script
-		JHtmlFormbehavior::chosen('testSelect');
+		JHtmlFormbehavior::chosen('.testSelect1');
+		JHtmlFormbehavior::chosen('.testSelect2', null, array('key1' => 'val1', 'key2' => 'val2'));
 
 		// Get the document instance
 		$document = JFactory::getDocument();
@@ -98,10 +99,14 @@ class JHtmlFormbehaviorTest extends TestCase
 			'Verify that the Chosen CSS is loaded'
 		);
 
-		$this->assertContains(
-			"jQuery('testSelect').chosen",
-			$document->_script['text/javascript'],
-			'Verify that the Chosen JS is initialised with the supplied selector'
+		$this->assertEquals(
+			$document->getScriptOptions('chosen'),
+			array(
+				'.testSelect1' => array(),
+				'.testSelect2' => array('key1' => 'val1', 'key2' => 'val2'),
+			),
+			'Verify that the Chosen JS is initialised with the supplied selectors'
 		);
+
 	}
 }
