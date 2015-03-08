@@ -110,7 +110,7 @@ class JHtmlUsers
 	 * @param   integer  $count   The number of notes for the user
 	 * @param   integer  $userId  The user ID
 	 *
-	 * @return	string   The html for the rendered modal
+	 * @return  string   The html for the rendered modal
 	 *
 	 * @since   3.4.1
 	*/
