@@ -33,15 +33,6 @@ abstract class InstallerHtmlUpdatesites
 	public static function state($value, $i, $enabled = true, $checkbox = 'cb')
 	{
 		$states	= array(
-			2 => array(
-				'',
-				'COM_INSTALLER_UPDATESITE_PROTECTED',
-				'',
-				'COM_INSTALLER_UPDATESITE_PROTECTED',
-				true,
-				'protected',
-				'protected',
-			),
 			1 => array(
 				'unpublish',
 				'COM_INSTALLER_UPDATESITE_ENABLED',

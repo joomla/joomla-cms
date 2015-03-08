@@ -99,7 +99,7 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 			'filter_enabled',
 			JHtml::_(
 				'select.options',
-				array('0' => 'JDISABLED', '1' => 'JENABLED', '2' => 'JPROTECTED', '3' => 'JUNPROTECTED'),
+				array('0' => 'JDISABLED', '1' => 'JENABLED'),
 				'value',
 				'text',
 				$this->state->get('filter.enabled'),
