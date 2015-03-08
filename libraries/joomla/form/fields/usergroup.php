@@ -14,7 +14,8 @@ defined('JPATH_PLATFORM') or die;
  * Supports a nested check box field listing user groups.
  * Multiselect is available by default.
  *
- * @since  11.1
+ * @since       11.1
+ * @deprecated  3.5
  */
 class JFormFieldUsergroup extends JFormField
 {
@@ -35,6 +36,8 @@ class JFormFieldUsergroup extends JFormField
 	 */
 	protected function getInput()
 	{
+		JLog::add('JFormFieldUsergroup is deprecated. Use JFormFieldUserGroupList instead.', JLog::WARNING, 'deprecated');
+
 		$options = array();
 		$attr = '';
 
