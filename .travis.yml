@@ -16,11 +16,11 @@ services:
   - redis-server
 
 before_script:
-  # - composer self-update
   # - composer update
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ]; then pyrus install -f pear/PHP_CodeSniffer-1.5.5; fi"
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ]; then pyrus install -f pear/Cache_Lite; fi"
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ]; then phpenv rehash; fi"
+  # Install PHPCS to validate code standards
+  - composer require squizlabs/php_codesniffer 1.5.6
+  # Install Cache_Lite for testing
+  - composer require pear/cache_lite 1.7.16
   # Set up databases for testing
   - mysql -e 'create database joomla_ut;'
   - mysql joomla_ut < tests/unit/schema/mysql.sql
@@ -35,7 +35,7 @@ before_script:
 
 script:
   - phpunit --configuration travisci-phpunit.xml
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ]; then phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi"
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi"
 
 branches:
   except:
