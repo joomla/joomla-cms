@@ -90,10 +90,10 @@ class JTableMenu extends JTableNested
 	 */
 	public function check()
 	{
-		// Make sure there is a valid title, a space doesn't count
+		// Check for a title.
 		if (trim($this->title) == '')
 		{
-			$this->setError(JText::_('COM_MENUS_WARNING_PROVIDE_VALID_TITLE'));
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
 
 			return false;
 		}
