@@ -310,8 +310,11 @@ class PlgSystemLanguageFilter extends JPlugin
 			// Lets find the default language for this user
 			if (!isset($lang_code) || !isset($this->lang_codes[$lang_code]))
 			{
-				$lang_code = false;
-				if ($this->params->get('detect_browser', 1))
+				// Either we detected the language via the browser or we got it from the cookie. In worst case
+				// we fall back to the application setting
+				$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'), false);
+	
+				if (!$lang_code && $this->params->get('detect_browser', 1))
 				{
 					$lang_code = JLanguageHelper::detectLanguage();
 					if (!isset($this->lang_codes[$lang_code]))
@@ -323,9 +326,6 @@ class PlgSystemLanguageFilter extends JPlugin
 				{
 					$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 				}
-				// Either we detected the language via the browser or we got it from the cookie. In worst case
-				// we fall back to the application setting
-				$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'), $lang_code);
 			}
 
 			if ($this->mode_sef)
