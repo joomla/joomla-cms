@@ -148,7 +148,7 @@ Joomla.renderMessages = function(messages) {
 				titleWrapper.className = 'alert-heading';
 				titleWrapper.innerHTML = Joomla.JText._(type);
 
-				messagesBox.appendChild(titleWrapper)
+				messagesBox.appendChild(titleWrapper);
 			}
 
 			// Add messages to the message box
