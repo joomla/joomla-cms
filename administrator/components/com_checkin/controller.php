@@ -52,6 +52,8 @@ class CheckinController extends JControllerLegacy
 			JError::raiseWarning(500, JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
 
 			$this->setRedirect($redirect);
+
+			return;
 		}
 
 		// Get the model.
