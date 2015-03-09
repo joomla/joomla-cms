@@ -90,6 +90,12 @@ class JHtmlBootstrapTest extends TestCase
 			'Verify that the alert method initialises Bootstrap as well'
 		);
 
+		$this->assertArrayHasKey(
+			'/media/jui/js/behavior-bootstrap.min.js',
+			$document->_scripts,
+			'Verify that the Behavior Bootstrap initialised as well'
+		);
+
 		$this->assertEquals(
 			$document->getScriptOptions('bootstrap.alert'),
 			array(
@@ -122,6 +128,12 @@ class JHtmlBootstrapTest extends TestCase
 			'Verify that the button method initialises Bootstrap as well'
 		);
 
+		$this->assertArrayHasKey(
+			'/media/jui/js/behavior-bootstrap.min.js',
+			$document->_scripts,
+			'Verify that the Behavior Bootstrap initialised as well'
+		);
+
 		$this->assertEquals(
 			$document->getScriptOptions('bootstrap.button'),
 			array(
@@ -152,6 +164,12 @@ class JHtmlBootstrapTest extends TestCase
 			'/media/jui/js/bootstrap.min.js',
 			$document->_scripts,
 			'Verify that the dropdown method initialises Bootstrap as well'
+		);
+
+		$this->assertArrayHasKey(
+			'/media/jui/js/behavior-bootstrap.min.js',
+			$document->_scripts,
+			'Verify that the Behavior Bootstrap initialised as well'
 		);
 
 		$this->assertEquals(

@@ -94,6 +94,18 @@ class JHtmlFormbehaviorTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
+			'/media/system/js/core.js',
+			$document->_scripts,
+			'Verify that the Core initialised as well'
+		);
+
+		$this->assertArrayHasKey(
+			'/media/jui/js/behavior-form.min.js',
+			$document->_scripts,
+			'Verify that the Behavior Form initialised as well'
+		);
+
+		$this->assertArrayHasKey(
 			'/media/jui/css/chosen.css',
 			$document->_styleSheets,
 			'Verify that the Chosen CSS is loaded'
