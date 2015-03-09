@@ -136,8 +136,16 @@ class JHtmlBehaviorTest extends TestCase
 	public function getCaptionData()
 	{
 		$data = array(
-			array(array('JHtmlBehavior::caption' => array('img.caption' => true))),
-			array(array('JHtmlBehavior::caption' => array('img.caption2' => true)), 'img.caption2'),
+			array(array(
+				'JHtmlBehavior::core' => true,
+				'JHtmlBehavior::behavior' => true,
+				'JHtmlBehavior::caption' => array('img.caption' => true),
+			)),
+			array(array(
+				'JHtmlBehavior::core' => true,
+				'JHtmlBehavior::behavior' => true,
+				'JHtmlBehavior::caption' => array('img.caption2' => true),
+			), 'img.caption2'),
 		);
 
 		return $data;
@@ -172,6 +180,7 @@ class JHtmlBehaviorTest extends TestCase
 		JFactory::$application = $mock;
 
 		JHtmlBehaviorInspector::caption($selector);
+
 		$this->assertEquals(
 			$expected,
 			JHtmlBehaviorInspector::getLoaded()
@@ -235,7 +244,12 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::switcher();
 		$this->assertEquals(
-			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::switcher' => true),
+			array(
+				'JHtmlBehavior::core' => true,
+				'JHtmlBehavior::behavior' => true,
+				'JHtmlBehavior::framework' => array('core' => true),
+				'JHtmlBehavior::switcher' => true
+			),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}
@@ -365,6 +379,7 @@ class JHtmlBehaviorTest extends TestCase
 			array(
 				array(
 					'JHtmlBehavior::core' => true,
+					'JHtmlBehavior::behavior' => true,
 					'JHtmlBehavior::framework' => array('core' => true, 'more' => true),
 					'JHtmlBehavior::modal' => array(
 						md5(serialize(array('a.modal', array()))) => true
@@ -374,6 +389,7 @@ class JHtmlBehaviorTest extends TestCase
 			array(
 				array(
 					'JHtmlBehavior::core' => true,
+					'JHtmlBehavior::behavior' => true,
 					'JHtmlBehavior::framework' => array('core' => true, 'more' => true),
 					'JHtmlBehavior::modal' => array(
 						md5(serialize(array('a.modal2', array()))) => true
@@ -384,6 +400,7 @@ class JHtmlBehaviorTest extends TestCase
 			array(
 				array(
 					'JHtmlBehavior::core' => true,
+					'JHtmlBehavior::behavior' => true,
 					'JHtmlBehavior::framework' => array('core' => true, 'more' => true),
 					'JHtmlBehavior::modal' => array(
 						md5(serialize(array('a.modal2', array('size' => 1000)))) => true
@@ -446,12 +463,14 @@ class JHtmlBehaviorTest extends TestCase
 			array(
 				array(
 					'JHtmlBehavior::core' => true,
+					'JHtmlBehavior::behavior' => true,
 					'JHtmlBehavior::multiselect' => array('adminForm' => true),
 				)
 			),
 			array(
 				array(
 					'JHtmlBehavior::core' => true,
+					'JHtmlBehavior::behavior' => true,
 					'JHtmlBehavior::multiselect' => array('adminForm2' => true),
 				),
 				'adminForm2'
@@ -613,7 +632,11 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::colorpicker();
 		$this->assertEquals(
-			array('JHtmlBehavior::colorpicker' => true),
+			array(
+				'JHtmlBehavior::core' => true,
+				'JHtmlBehavior::behavior' => true,
+				'JHtmlBehavior::colorpicker' => array('.minicolors' => true),
+			),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}
