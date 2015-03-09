@@ -313,7 +313,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				// Either we detected the language via the browser or we got it from the cookie. In worst case
 				// we fall back to the application setting
 				$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'), false);
-	
+
 				if (!$lang_code && $this->params->get('detect_browser', 1))
 				{
 					$lang_code = JLanguageHelper::detectLanguage();
