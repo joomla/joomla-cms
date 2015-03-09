@@ -124,12 +124,10 @@ class BannersModelBanner extends JModelAdmin
 
 					return false;
 				}
-				else
-				{
-					$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 
-					return false;
-				}
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+
+				return false;
 			}
 		}
 
@@ -168,12 +166,9 @@ class BannersModelBanner extends JModelAdmin
 
 					return false;
 				}
-				else
-				{
-					// Not fatal error
-					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-					continue;
-				}
+
+				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+				continue;
 			}
 
 			// Alter the title & alias
@@ -194,15 +189,8 @@ class BannersModelBanner extends JModelAdmin
 			// $table->ordering	= 1;
 
 			// Check the row.
-			if (!$table->check())
-			{
-				$this->setError($table->getError());
-
-				return false;
-			}
-
 			// Store the row.
-			if (!$table->store())
+			if (!$table->check() || !$table->store())
 			{
 				$this->setError($table->getError());
 
@@ -233,12 +221,7 @@ class BannersModelBanner extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id))
-		{
-			return;
-		}
-
-		if ($record->state != -2)
+		if (empty($record->id) || $record->state != -2)
 		{
 			return;
 		}
