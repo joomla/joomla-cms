@@ -334,26 +334,10 @@ class BannersModelTracks extends JModelList
 		}
 
 		$begin = $this->getState('filter.begin');
-
-		if (!empty($begin))
-		{
-			$basename = str_replace('__BEGIN__', $begin, $basename);
-		}
-		else
-		{
-			$basename = str_replace('__BEGIN__', '', $basename);
-		}
+		$basename = str_replace('__BEGIN__', $begin, $basename);
 
 		$end = $this->getState('filter.end');
-
-		if (!empty($end))
-		{
-			$basename = str_replace('__END__', $end, $basename);
-		}
-		else
-		{
-			$basename = str_replace('__END__', '', $basename);
-		}
+		$basename = str_replace('__END__', $end, $basename);
 
 		$this->basename = $basename;
 
