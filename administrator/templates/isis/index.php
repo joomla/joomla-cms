@@ -23,6 +23,10 @@ $doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/t
 
 // Add Stylesheets
 $doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
+if (!$app->get('debug_lang', '0') == '1' || !$app->get('debug', '0') == '1')
+{
+	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.min' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
+}
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';

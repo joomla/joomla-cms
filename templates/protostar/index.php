@@ -40,7 +40,11 @@ JHtml::_('bootstrap.framework');
 $doc->addScript($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+if (!$app->get('debug_lang', '0') == '1' || !$app->get('debug', '0') == '1')
+{
+	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.min.css');
+}
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
