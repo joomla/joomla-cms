@@ -106,7 +106,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_login', '', 1);
 		$extensions[] = array('component', 'com_media', '', 1);
 		$extensions[] = array('component', 'com_menus', '', 1);
-		$extensions[] = array('component', 'com_messages', '', 1);
 		$extensions[] = array('component', 'com_modules', '', 1);
 		$extensions[] = array('component', 'com_newsfeeds', '', 1);
 		$extensions[] = array('component', 'com_plugins', '', 1);
