@@ -573,7 +573,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 		{
 			$setup .= "var marker;";
 
-			foreach ($this->listMarkers() as $marker)
+			foreach ($markers as $marker)
 			{
 				$loc = $marker['loc'];
 				$title = $marker['title'];
