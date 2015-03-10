@@ -145,8 +145,6 @@ CREATE NONCLUSTERED INDEX [idx_type] ON [#__contentitem_tag_map]
   [type_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-ALTER TABLE [#__newsfeeds] ALTER COLUMN [alias] [nvarchar](255) NOT NULL;
-
 ALTER TABLE [#__overrider] ALTER COLUMN [constant] [nvarchar](255) NOT NULL;
 ALTER TABLE [#__overrider] ALTER COLUMN [string] [nvarchar](max) NOT NULL;
 ALTER TABLE [#__overrider] ALTER COLUMN [file] [nvarchar](255) NOT NULL;

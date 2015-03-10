@@ -52,8 +52,6 @@
 		<filename>en-GB.com_messages.sys.ini</filename>
 		<filename>en-GB.com_modules.ini</filename>
 		<filename>en-GB.com_modules.sys.ini</filename>
-		<filename>en-GB.com_newsfeeds.ini</filename>
-		<filename>en-GB.com_newsfeeds.sys.ini</filename>
 		<filename>en-GB.com_plugins.ini</filename>
 		<filename>en-GB.com_plugins.sys.ini</filename>
 		<filename>en-GB.com_postinstall.ini</filename>
@@ -151,8 +149,6 @@
 		<filename>en-GB.plg_finder_contacts.sys.ini</filename>
 		<filename>en-GB.plg_finder_content.ini</filename>
 		<filename>en-GB.plg_finder_content.sys.ini</filename>
-		<filename>en-GB.plg_finder_newsfeeds.ini</filename>
-		<filename>en-GB.plg_finder_newsfeeds.sys.ini</filename>
 		<filename>en-GB.plg_finder_tags.ini</filename>
 		<filename>en-GB.plg_finder_tags.sys.ini</filename>
 		<filename>en-GB.plg_installer_webinstaller.ini</filename>
@@ -167,8 +163,6 @@
 		<filename>en-GB.plg_search_contacts.sys.ini</filename>
 		<filename>en-GB.plg_search_content.ini</filename>
 		<filename>en-GB.plg_search_content.sys.ini</filename>
-		<filename>en-GB.plg_search_newsfeeds.ini</filename>
-		<filename>en-GB.plg_search_newsfeeds.sys.ini</filename>
 		<filename>en-GB.plg_search_tags.ini</filename>
 		<filename>en-GB.plg_search_tags.sys.ini</filename>
 		<filename>en-GB.plg_system_cache.ini</filename>
