@@ -3,7 +3,6 @@ ALTER TABLE `#__session` DROP KEY `whosonline`;
 
 DROP TABLE IF EXISTS `#__update_categories`;
 
-ALTER TABLE `#__contact_details` DROP `imagepos`;
 ALTER TABLE `#__content` DROP COLUMN `title_alias`;
 ALTER TABLE `#__content` DROP COLUMN `sectionid`;
 ALTER TABLE `#__content` DROP COLUMN `mask`;
@@ -44,7 +43,6 @@ ALTER TABLE `#__banners` ENGINE=InnoDB;
 ALTER TABLE `#__banner_clients` ENGINE=InnoDB;
 ALTER TABLE `#__banner_tracks` ENGINE=InnoDB;
 ALTER TABLE `#__categories` ENGINE=InnoDB;
-ALTER TABLE `#__contact_details` ENGINE=InnoDB;
 ALTER TABLE `#__content` ENGINE=InnoDB;
 ALTER TABLE `#__content_frontpage` ENGINE=InnoDB;
 ALTER TABLE `#__content_rating` ENGINE=InnoDB;
@@ -103,8 +101,6 @@ ALTER TABLE `#__newsfeeds` ADD COLUMN `description` text NOT NULL;
 ALTER TABLE `#__newsfeeds` ADD COLUMN `version` int(10) unsigned NOT NULL DEFAULT '1';
 ALTER TABLE `#__newsfeeds` ADD COLUMN `hits` int(10) unsigned NOT NULL DEFAULT '0';
 ALTER TABLE `#__newsfeeds` ADD COLUMN `images` text NOT NULL;
-ALTER TABLE `#__contact_details` ADD COLUMN `version` int(10) unsigned NOT NULL DEFAULT '1';
-ALTER TABLE `#__contact_details` ADD COLUMN `hits` int(10) unsigned NOT NULL DEFAULT '0';
 ALTER TABLE `#__banners` ADD COLUMN `created_by` int(10) unsigned NOT NULL DEFAULT '0';
 ALTER TABLE `#__banners` ADD COLUMN `created_by_alias` varchar(255) NOT NULL DEFAULT '';
 ALTER TABLE `#__banners` ADD COLUMN `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00';
