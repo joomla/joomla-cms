@@ -519,7 +519,7 @@ class JDocument
 	 *
 	 * @param   string  $key  Name in Storage
 	 *
-	 * @return  JDocument instance of $this to allow chaining
+	 * @return  array  Options for given $key, or all script options
 	 *
 	 * @since   5.0
 	 */
