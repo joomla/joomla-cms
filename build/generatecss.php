@@ -60,12 +60,12 @@ class GenerateCss extends JApplicationCli
 
 		foreach ($templates as $source => $destination)
 		{
-			$this->wrtieLessToCss($source, $destination);
-			$this->wrtieLessToCss($source, $destination, true);
+			$this->writeLessToCss($source, $destination);
+			$this->writeLessToCss($source, $destination, true);
 		}
 	}
 
-	public function wrtieLessToCss($source, $destination, $compress = false)
+	public function writeLessToCss($source, $destination, $compress = false)
 	{
 		JLoader::import('joomla.filesystem.file');
 		$less = new Less_Parser(array('compress' => $compress));
