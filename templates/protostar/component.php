@@ -18,12 +18,14 @@ $this->direction = $doc->direction;
 JHtml::_('bootstrap.framework');
 
 // Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 if (!$app->get('debug_lang', '0') == '1' || !$app->get('debug', '0') == '1')
 {
 	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.min.css');
 }
+else
+	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');{
 
+}
 // Load optional rtl Bootstrap css and Bootstrap bugfixes
 JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
 

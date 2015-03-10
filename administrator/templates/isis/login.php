@@ -22,12 +22,14 @@ JHtml::_('bootstrap.framework');
 JHtml::_('bootstrap.tooltip');
 
 // Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
 if (!$app->get('debug_lang', '0') == '1' || !$app->get('debug', '0') == '1')
 {
 	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.min' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
 }
-
+else
+{
+	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
+}
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
