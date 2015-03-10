@@ -86,7 +86,7 @@ class JDocumentError extends JDocument
 
 		// Set the status header
 		$status = $this->_error->getCode();
-		if ($status < 400 || $status > 599) 
+		if ($status < 400 || $status > 599)
 		{
 			$status = 500;
 		}
