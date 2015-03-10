@@ -99,7 +99,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_cache', '', 1);
 		$extensions[] = array('component', 'com_categories', '', 1);
 		$extensions[] = array('component', 'com_checkin', '', 1);
-		$extensions[] = array('component', 'com_contact', '', 1);
 		$extensions[] = array('component', 'com_cpanel', '', 1);
 		$extensions[] = array('component', 'com_installer', '', 1);
 		$extensions[] = array('component', 'com_languages', '', 1);
@@ -355,8 +354,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/views/sysinfo/tmpl/default_navigation.php',
 			'/administrator/components/com_categories/config.xml',
 			'/administrator/components/com_categories/helpers/categoriesadministrator.php',
-			'/administrator/components/com_contact/elements/contact.php',
-			'/administrator/components/com_contact/elements/index.html',
 			'/administrator/components/com_content/elements/article.php',
 			'/administrator/components/com_content/elements/author.php',
 			'/administrator/components/com_content/elements/index.html',
@@ -650,7 +647,6 @@ class JoomlaInstallerScript
 			'/media/system/swf/index.html',
 			'/media/system/swf/uploader.swf',
 			// Joomla! 3.2
-			'/administrator/components/com_contact/models/fields/modal/contacts.php',
 			'/administrator/components/com_newsfeeds/models/fields/modal/newsfeeds.php',
 			'/libraries/idna_convert/example.php',
 			'/media/editors/tinymce/jscripts/tiny_mce/index.html',
@@ -963,7 +959,6 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/mctabs.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/validate.js',
 			'/administrator/components/com_banners/models/fields/ordering.php',
-			'/administrator/components/com_contact/models/fields/ordering.php',
 			'/administrator/components/com_newsfeeds/models/fields/ordering.php',
 			'/administrator/components/com_plugins/models/fields/ordering.php',
 			'/administrator/includes/application.php',
@@ -1030,7 +1025,6 @@ class JoomlaInstallerScript
 			'/media/com_finder/images',
 			'/components/com_media/helpers',
 			// Joomla 3.0
-			'/administrator/components/com_contact/elements',
 			'/administrator/components/com_content/elements',
 			'/administrator/components/com_installer/models/fields',
 			'/administrator/components/com_installer/models/forms',
