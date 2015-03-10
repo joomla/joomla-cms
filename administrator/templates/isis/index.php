@@ -22,7 +22,7 @@ JHtml::_('bootstrap.framework');
 $doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
-if (!$app->get('debug_lang', '0') == '1' || !$app->get('debug', '0') == '1')
+if (!JDEBUG)
 {
 	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.min' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
 }

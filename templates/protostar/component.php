@@ -18,7 +18,7 @@ $this->direction = $doc->direction;
 JHtml::_('bootstrap.framework');
 
 // Add Stylesheets
-if (!$app->get('debug_lang', '0') == '1' || !$app->get('debug', '0') == '1')
+if (!JDEBUG)
 {
 	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.min.css');
 }
