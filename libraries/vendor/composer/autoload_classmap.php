@@ -10,6 +10,7 @@ return array(
     'PHPMailer' => $vendorDir . '/phpmailer/phpmailer/class.phpmailer.php',
     'POP3' => $vendorDir . '/phpmailer/phpmailer/class.pop3.php',
     'SMTP' => $vendorDir . '/phpmailer/phpmailer/class.smtp.php',
+    'Less_Parser' => $vendorDir . '/oyejorge/Less.php',
     'lessc' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
     'lessc_formatter_classic' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
     'lessc_formatter_compressed' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
