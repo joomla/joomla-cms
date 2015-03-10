@@ -490,7 +490,7 @@ class JDocument
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
-	 *
+	 * @since   5.0
 	 */
 	public function addScriptOptions($key, $options, $merge = true)
 	{
@@ -519,9 +519,9 @@ class JDocument
 	 *
 	 * @param   string  $key  Name in Storage
 	 *
-	 * @return   mixed  Options for given $key, or all script options
+	 * @return  JDocument instance of $this to allow chaining
 	 *
-	 *
+	 * @since   5.0
 	 */
 	public function getScriptOptions($key = null)
 	{
