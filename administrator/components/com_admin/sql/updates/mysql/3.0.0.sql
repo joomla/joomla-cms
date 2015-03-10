@@ -32,7 +32,6 @@ UPDATE `#__extensions` SET protected = 0 WHERE
 `name` = 'plg_content_vote' OR
 `name` = 'plg_editors_tinymce' OR
 `name` = 'plg_system_p3p' OR
-`name` = 'plg_user_contactcreator' OR
 `name` = 'plg_user_profile';
 
 DELETE FROM `#__extensions` WHERE `extension_id` = 800;
