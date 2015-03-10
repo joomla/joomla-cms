@@ -22,14 +22,17 @@ JHtml::_('bootstrap.framework');
 JHtml::_('bootstrap.tooltip');
 
 // Add Stylesheets
-if (!JDEBUG)
+$css_path = $this->baseurl . '/templates/' . $this->template . '/css/template' .
+	($this->direction == 'rtl' ? '-rtl' : '') . '.min.css';
+
+if (JDEBUG)
 {
-	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.min.css');
+	$css_path = $this->baseurl . '/templates/' . $this->template .
+		'/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css';
 }
-else
-{
-	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
-}
+
+$doc->addStyleSheetVersion($css_path);
+
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 

@@ -69,9 +69,10 @@ class GenerateCss extends JApplicationCli
 		$less = new JLess;
 
 		// Create the uncompressed styleshets
+		$less->setFormatter(new JLessFormatterJoomla);
+
 		foreach ($uncompressed as $source => $output)
 		{
-			$less->setFormatter(new JLessFormatterJoomla);
 			try
 			{
 				$less->compileFile($source, $output);
@@ -83,12 +84,13 @@ class GenerateCss extends JApplicationCli
 		}
 
 		// Create the compressed styleshets
+		$less->setFormatter(new JLessFormatterCompressed);
+		$less->setPreserveComments(false);
+
 		foreach ($compressed as $source => $output)
 		{
-			$less->setFormatter(new JLessFormatterCompressed);
 			try
 			{
-				$less->setPreserveComments(false);
 				$less->compileFile($source, $output);
 			}
 			catch (Exception $e)

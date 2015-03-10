@@ -51,6 +51,15 @@ else
 {
 	$logo = '<span class="site-title" title="' . $sitename . '">' . $sitename . '</span>';
 }
+
+// Add Stylesheets
+$css_path = $this->baseurl . '/templates/' . $this->template . '/css/template.min.css';
+
+if (JDEBUG)
+{
+	$css_path = $this->baseurl . '/templates/' . $this->template . '/css/template.css';
+}
+
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -67,7 +76,7 @@ else
 			}
 		</style>
 	<?php endif; ?>
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $css_path; ?>" type="text/css" />
 	<?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>
 		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/cms/css/debug.css" type="text/css" />
 	<?php endif; ?>
