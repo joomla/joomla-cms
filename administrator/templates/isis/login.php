@@ -24,7 +24,7 @@ JHtml::_('bootstrap.tooltip');
 // Add Stylesheets
 if (!JDEBUG)
 {
-	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.min' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
+	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.min.css');
 }
 else
 {
