@@ -281,7 +281,17 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 * @param   mixed  $location       A latitude/longitude array or an address string
 	 * @param   mixed  $title          Title of marker or false for no marker
 	 * @param   array  $markeroptions  Options for marker
-	 * @param   array  $markerevents   Events for marker - pass in as array('eventtype' => 'function(e){ ... })
+	 * @param   array  $markerevents   Events for marker
+	 *
+	 * @example with events call:
+	 *		$map->setCenter(
+	 *			array(0, 0),
+	 *			'Map Center',
+	 *			array(),
+	 *			array(
+	 *				'click' => 'function() { // code goes here }
+	 *			)
+	 *		)
 	 *
 	 * @return  JGoogleEmbedMaps  The latitude/longitude of the center or false on failure
 	 *
@@ -324,7 +334,17 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 * @param   mixed  $location  A latitude longitude array or an address string
 	 * @param   mixed  $title     The hover-text for the marker
 	 * @param   array  $options   Options for marker
-	 * @param   array  $events    Events for marker - pass in as array('eventtype' => 'function(e){ ... })
+	 * @param   array  $events    Events for marker
+	 *
+	 * @example with events call:
+	 *		$map->setCenter(
+	 *			array(0, 0),
+	 *			'My Marker',
+	 *			array(),
+	 *			array(
+	 *				'click' => 'function() { // code goes here }
+	 *			)
+	 *		)
 	 *
 	 * @return  mixed  The marker or false on failure
 	 *
