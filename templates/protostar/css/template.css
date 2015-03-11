@@ -6968,6 +6968,13 @@ dl.article-info dd.hits span[class*=" icon-"] {
 .icon-expired:before {
 	content: "\4b";
 }
+.icon-asterisk {
+	width: 1em;
+	font-size: .8em;
+	line-height: .8em;
+	vertical-align: super;
+	margin-right: 0;
+}
 body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
