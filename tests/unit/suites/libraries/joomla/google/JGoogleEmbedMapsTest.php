@@ -308,12 +308,12 @@ class JGoogleEmbedMapsTest extends TestCase
 	{
 		$this->http->expects($this->exactly(5))->method('get')->will($this->returnCallback('mapsGeocodeCallback'));
 
-		$reference[] = array('loc' => array(37, -122), 'title' => '37, -122', 'options' => array());
+		$reference[] = array('loc' => array(37, -122), 'title' => '37, -122', 'options' => array(), 'events' => array());
 		$this->object->setCenter(array(37, -122));
 		$center = $this->object->getOption('mapcenter');
 		$this->assertEquals($center, array(37, -122));
 
-		$reference[] = array('loc' => array(37.44188340, -122.14301950), 'title' => 'Palo Alto', 'options' => array());
+		$reference[] = array('loc' => array(37.44188340, -122.14301950), 'title' => 'Palo Alto', 'options' => array(), 'events' => array());
 		$this->object->setCenter('Palo Alto');
 		$center = $this->object->getOption('mapcenter');
 		$this->assertEquals($center, array(37.44188340, -122.14301950));
@@ -322,7 +322,7 @@ class JGoogleEmbedMapsTest extends TestCase
 		$center = $this->object->getOption('mapcenter');
 		$this->assertEquals($center, array(37.77492950, -122.41941550));
 
-		$reference[] = array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value'));
+		$reference[] = array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value'), 'events' => array());
 		$this->object->setCenter('Palo Alto', 'somewhere', array('key' => 'value'));
 		$center = $this->object->getOption('mapcenter');
 		$this->assertEquals($center, array(37.44188340, -122.14301950));
@@ -359,6 +359,12 @@ class JGoogleEmbedMapsTest extends TestCase
 
 		$marker = $this->object->addMarker('Palo Alto', 'somewhere', array('key' => 'value'));
 		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value')));
+
+		$marker = $this->object->addMarker('Palo Alto', 'somewhere', array('key' => 'value'));
+		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value'), 'events' => array()));
+
+		$marker = $this->object->addMarker('Palo Alto', 'somewhere', array('key' => 'value'));
+		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value'), 'events' => array('click' => 'function(e) {}')));
 
 		$marker = $this->object->addMarker('Nowhere');
 		$this->assertFalse($marker);
