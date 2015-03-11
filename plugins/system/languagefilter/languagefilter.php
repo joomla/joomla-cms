@@ -271,17 +271,14 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 			}
 		}
-		else
-		{
-			// We are not in SEF mode
-			$lang = $uri->getVar('lang');
+		// We are not in SEF mode
+		$lang = $uri->getVar('lang', $lang_code);
 
-			if (isset($this->sefs[$lang]))
-			{
-				// We found our language
-				$found = true;
-				$lang_code = $this->sefs[$lang]->lang_code;
-			}
+		if (isset($this->sefs[$lang]))
+		{
+			// We found our language
+			$found = true;
+			$lang_code = $this->sefs[$lang]->lang_code;
 		}
 
 		// We are called via POST. We don't care about the language
