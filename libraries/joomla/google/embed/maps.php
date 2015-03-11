@@ -354,7 +354,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 		}
 
 		$location = array_values($location);
-		$marker = array('loc' => $location, 'title' => $title, 'options' => $options, 'events' => (array) $events);
+		$marker = array('loc' => $location, 'title' => $title, 'options' => $options, 'events' => $events);
 
 		$markers = $this->listMarkers();
 		$markers[] = $marker;
