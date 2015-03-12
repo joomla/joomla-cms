@@ -59,7 +59,8 @@ class FinderModelSuggestions extends JModelList
 	{
 		// Create a new query object.
 		$db = $this->getDbo();
-		if (in_array($db->name, array('mysqli', 'mysql'))){
+		if (in_array($db->name, array('mysqli', 'mysql')))
+		{
 			//attempt to change mysql for error in large select
 			$db->setQuery('SET SQL_BIG_SELECTS=1');
 			$db->query();
@@ -88,12 +89,14 @@ class FinderModelSuggestions extends JModelList
 		for ($i = 0; $i < 16; $i++)
 		{
 			// We use the offset because each join needs a unique alias.
-			$query->join('LEFT', $db->quoteName('#__finder_links_terms'.dechex($i)) . ' AS lterms'. $i .' ON lterms'. $i .'.term_id = t.term_id');
-			$linkjoin .= 'lterms'.$i.'.link_id=l.link_id';
+			$query->join('LEFT', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS lterms' . $i . ' ON lterms' . $i . '.term_id = t.term_id');
+			$linkjoin .= 'lterms' . $i . '.link_id=l.link_id';
 			if($i < 15)
+			{
 				$linkjoin .= ' or ';
+			}
 		}
-		$query->join('INNER', $db->quoteName('#__finder_links') . ' AS l ON ('.$linkjoin.')')
+		$query->join('INNER', $db->quoteName('#__finder_links') . ' AS l ON (' . $linkjoin . ')')
 			->where($db->quoteName('l.access') . ' IN (' . $groups . ')')
 			->where($db->quoteName('l.state') . ' = 1');
 
@@ -102,14 +105,16 @@ class FinderModelSuggestions extends JModelList
 		$nowDate = $db->quote(substr_replace(JFactory::getDate()->toSQL(), '00', -2));
 
 		// Add the publish up and publish down filters.
-		$query->where('(' . $db->quoteName('l.publish_start_date') . ' = ' . $nullDate . ' OR ' . $db->quoteName('l.publish_start_date') . ' <= ' . $nowDate . ')')
-			->where('(' . $db->quoteName('l.publish_end_date') . ' = ' . $nullDate . ' OR ' . $db->quoteName('l.publish_end_date') . ' >= ' . $nowDate . ')');
+		$query->where('(' . $db->quoteName('l.publish_start_date') . ' = ' . $nullDate .
+					  ' OR ' . $db->quoteName('l.publish_start_date') . ' <= ' . $nowDate . ')')
+			  ->where('(' . $db->quoteName('l.publish_end_date') . ' = ' . $nullDate .
+			  		  ' OR ' . $db->quoteName('l.publish_end_date') . ' >= ' . $nowDate . ')');
 
 		if (!is_null($request->get('f')))
 		{
 			$query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS tm ON (tm.link_id=l.link_id)')
 				->join('INNER', $db->quoteName('#__finder_filters') . ' AS ff ON (ff.data=tm.node_id)')
-				->where($db->quoteName('ff.filter_id') . ' = '.$request->get('f', '', 'int'));
+				->where($db->quoteName('ff.filter_id') . ' = ' . $request->get('f', '', 'int'));
 
 		}
 /*
