@@ -400,14 +400,14 @@ class UsersModelProfile extends JModelForm
 		if (!$user->save())
 		{
 			$user->groups = $groups;
-			unset ($groups); 
+			unset ($groups);
 			$this->setError($user->getError());
 
 			return false;
 		}
-		
+
 		$user->groups = $groups;
-		unset ($groups); 
+		unset ($groups);
 
 		$user->tags = new JHelperTags;
 		$user->tags->getTagIds($user->id, 'com_users.user');
