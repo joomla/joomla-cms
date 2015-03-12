@@ -14,9 +14,16 @@ namespace Joomla\String;
 if (extension_loaded('mbstring'))
 {
 	// Make sure to suppress the output in case ini_set is disabled
-	@ini_set('mbstring.internal_encoding', 'UTF-8');
-	@ini_set('mbstring.http_input', 'UTF-8');
-	@ini_set('mbstring.http_output', 'UTF-8');
+	if (version_compare(PHP_VERSION, '5.6', '<'))
+	{
+		@ini_set('mbstring.internal_encoding', 'UTF-8');
+		@ini_set('mbstring.http_input', 'UTF-8');
+		@ini_set('mbstring.http_output', 'UTF-8');
+	}
+	else
+	{
+		@ini_set('default_charset', 'UTF-8');
+	}
 }
 
 // Same for iconv
