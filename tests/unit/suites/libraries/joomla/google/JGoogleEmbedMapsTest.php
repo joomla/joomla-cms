@@ -352,10 +352,10 @@ class JGoogleEmbedMapsTest extends TestCase
 		$this->http->expects($this->exactly(3))->method('get')->will($this->returnCallback('mapsGeocodeCallback'));
 
 		$marker = $this->object->addMarker(array(37, -122));
-		$this->assertEquals($marker, array('loc' => array(37, -122), 'title' => '37, -122', 'options' => array()));
+		$this->assertEquals($marker, array('loc' => array(37, -122), 'title' => '37, -122', 'options' => array(), 'events' => array()));
 
 		$marker = $this->object->addMarker('Palo Alto');
-		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'Palo Alto', 'options' => array()));
+		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'Palo Alto', 'options' => array(), 'events' => array()));
 
 		$marker = $this->object->addMarker('Palo Alto', 'somewhere', array('key' => 'value'), array());
 		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value'), 'events' => array()));
