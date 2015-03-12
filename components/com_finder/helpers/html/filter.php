@@ -166,9 +166,8 @@ abstract class JHtmlFilter
 			);
 
 			// Populate the toggle button.
-			$html .= "<button class=\"btn\" type=\"button\" class=\"jform-rightbtn\" onclick=\"jQuery('#tax-"
-				. $bk . "').attr('checked', !jQuery('#tax-"
-				. $bk . "').attr('checked'));\"><i class=\"icon-checkbox-partial\"></i> "
+			$html .= "<button class=\"btn\" type=\"button\" class=\"jform-rightbtn\" onclick=\"jQuery('[id=tax-"
+				. $bk . "]').each(function(){this.checked = !this.checked;});\"><i class=\"icon-checkbox-partial\"></i> "
 				. JText::_('JGLOBAL_SELECTION_INVERT') . "</button>";
 
 			// Populate the group with nodes.
