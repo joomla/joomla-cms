@@ -360,6 +360,9 @@ class JGoogleEmbedMapsTest extends TestCase
 		$marker = $this->object->addMarker('Palo Alto', 'somewhere', array('key' => 'value'), array());
 		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value'), 'events' => array()));
 
+		$marker = $this->object->addMarker('Palo Alto', 'somewhere', array('key' => 'value'), array('click' => 'function(e) { map.setCenter(this.getPosition()); }'));
+		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value'), 'events' => array('click' => 'function(e) { map.setCenter(this.getPosition()); }')));
+
 		$marker = $this->object->addMarker('Nowhere');
 		$this->assertFalse($marker);
 	}
