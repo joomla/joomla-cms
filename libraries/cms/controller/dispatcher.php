@@ -163,8 +163,10 @@ class JControllerDispatcher extends JControllerCms
 			$this->setReturn('index.php?option=' . $config['option'] . '&view=' . $config['view'] . '&layout=' . $config['layout']);
 		}
 
-		// Execute the redirect
-		$app->redirect($app->getDefRedirect());
+		if($app->hasDefRedirect())
+		{   // Execute the redirect
+			$app->redirect($app->getDefRedirect());
+		}
 
 		return false;
 	}
