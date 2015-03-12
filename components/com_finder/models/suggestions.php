@@ -91,7 +91,7 @@ class FinderModelSuggestions extends JModelList
 			// We use the offset because each join needs a unique alias.
 			$query->join('LEFT', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS lterms' . $i . ' ON lterms' . $i . '.term_id = t.term_id');
 			$linkjoin .= 'lterms' . $i . '.link_id=l.link_id';
-			if($i < 15)
+			if ($i < 15)
 			{
 				$linkjoin .= ' or ';
 			}
@@ -106,9 +106,9 @@ class FinderModelSuggestions extends JModelList
 
 		// Add the publish up and publish down filters.
 		$query->where('(' . $db->quoteName('l.publish_start_date') . ' = ' . $nullDate .
-					  ' OR ' . $db->quoteName('l.publish_start_date') . ' <= ' . $nowDate . ')')
-			  ->where('(' . $db->quoteName('l.publish_end_date') . ' = ' . $nullDate .
-			  		  ' OR ' . $db->quoteName('l.publish_end_date') . ' >= ' . $nowDate . ')');
+					' OR ' . $db->quoteName('l.publish_start_date') . ' <= ' . $nowDate . ')')
+			->where('(' . $db->quoteName('l.publish_end_date') . ' = ' . $nullDate .
+					' OR ' . $db->quoteName('l.publish_end_date') . ' >= ' . $nowDate . ')');
 
 		if (!is_null($request->get('f')))
 		{
