@@ -349,7 +349,7 @@ class JGoogleEmbedMapsTest extends TestCase
 	 */
 	public function testAddMarker()
 	{
-		$this->http->expects($this->exactly(3))->method('get')->will($this->returnCallback('mapsGeocodeCallback'));
+		$this->http->expects($this->exactly(4))->method('get')->will($this->returnCallback('mapsGeocodeCallback'));
 
 		$marker = $this->object->addMarker(array(37, -122));
 		$this->assertEquals($marker, array('loc' => array(37, -122), 'title' => '37, -122', 'options' => array(), 'events' => array()));
