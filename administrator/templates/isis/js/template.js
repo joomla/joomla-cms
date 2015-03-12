@@ -82,6 +82,8 @@
 				closed_icon = 'icon-arrow-left-2';
 			}
 
+			var isComponent = $('body').hasClass('component');
+
 			$sidebar.removeClass('span2').addClass('j-sidebar-container');
 			$message.addClass('j-toggle-main');
 			$main.addClass('j-toggle-main');
@@ -95,7 +97,6 @@
 			var body_width = $('body').outerWidth();
 			var sidebar_width = $sidebar.outerWidth();
 			var content_width = $('#content').outerWidth();
-			var isComponent = $('body').hasClass('component');
 			var this_content = content_width / body_width * 100;
 			var this_main = (content_width - sidebar_width) / body_width * 100;
 
