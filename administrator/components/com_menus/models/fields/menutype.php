@@ -72,7 +72,6 @@ class JFormFieldMenutype extends JFormFieldList
 		}
 		// Include jQuery
 		JHtml::_('jquery.framework');
-		JHtml::_('bootstrap.modal');
 
 		// Add the script to the document head.
 		JFactory::getDocument()->addScriptDeclaration('
