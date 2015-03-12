@@ -9,68 +9,22 @@
 
 defined('_JEXEC') or die;
 
-/**
- * View for the component configuration
- *
- * @package     Joomla.Administrator
- * @subpackage  com_config
- * @since       3.2
- */
-class ConfigViewComponentHtml extends ConfigViewCmsHtml
+class ConfigViewComponentHtml extends JViewItem
 {
-	public $state;
-
-	public $form;
-
-	public $component;
-
-	/**
-	 * Display the view
-	 *
-	 * @return  string  The rendered view.
-	 *
-	 * @since   3.2
-	 *
-	 */
-	public function render()
+	public function render($tpl = null)
 	{
-		$form = null;
-		$component = null;
+		$model = $this->getModel();
+		$this->components = $model->getList();
+		// Apparently I need to load the main language file too.
+		// Would be nice if configuration language strings were in the .sys.ini
+		ConfigHelperConfig::loadLanguageForComponents($this->components, $this->config['component']);
 
-		try
-		{
-			$form = $this->model->getForm();
-			$component = $this->model->getComponent();
-			$user = JFactory::getUser();
-		}
-		catch (Exception $e)
-		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-			return false;
-		}
-
-		// Bind the form to the data.
-		if ($form && $component->params)
-		{
-			$form->bind($component->params);
-		}
-
-		$this->form = &$form;
-		$this->component = &$component;
-
-		$this->components = ConfigHelperConfig::getComponentsWithConfig();
-		ConfigHelperConfig::loadLanguageForComponents($this->components);
-
+		$user = JFactory::getUser();
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
-		$this->currentComponent = JFactory::getApplication()->input->get('component');
-		$this->return = JFactory::getApplication()->input->get('return', '', 'base64');
-
 		$this->addToolbar();
-		JFactory::getApplication()->input->set('hidemainmenu', true);
-
-		return parent::render();
+		return parent::render($tpl);
 	}
+
 
 	/**
 	 * Add the page title and toolbar.
@@ -81,12 +35,37 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_($this->component->option . '_configuration'), 'equalizer config');
-		JToolbarHelper::apply('config.save.component.apply');
-		JToolbarHelper::save('config.save.component.save');
+		JToolbarHelper::title(JText::_($this->config['component'] . '_configuration'), 'equalizer config');
+		JToolbarHelper::apply('store');
+		JToolbarHelper::save('store.close');
 		JToolbarHelper::divider();
-		JToolbarHelper::cancel('config.cancel.component');
+		JToolbarHelper::cancel('close');
 		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_COMPONENTS_' . $this->currentComponent . '_OPTIONS');
+		JToolbarHelper::help('JHELP_COMPONENTS_' . $this->config['component'] . '_OPTIONS');
+	}
+
+	/**
+	 * This is a special case, because we are not using only using the item params, so overriding here allows us
+	 * to skip the user session security check.
+	 * @param $model
+	 */
+	protected function prepareForm($model)
+	{
+		if(isset($this->item->params))
+		{
+			$this->form->bind($this->item->params);
+		}
+
+		$this->fieldsets = $this->form->getFieldsets();
+
+		if(!$model->allowAction('core.admin') && isset($this->fieldsets['permissions']))
+		{
+			unset($this->fieldsets['permissions']);
+		}
+	}
+
+	public function canView()
+	{
+		return true;
 	}
 }

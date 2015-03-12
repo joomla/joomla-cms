@@ -9,52 +9,10 @@
 
 defined('_JEXEC') or die;
 
-/**
- * View for the global configuration
- *
- * @package     Joomla.Administrator
- * @subpackage  com_config
- * @since       3.2
- */
-class ConfigViewApplicationHtml extends ConfigViewCmsHtml
-{
-	public $state;
-
-	public $form;
-
-	public $data;
-
-	/**
-	 * Method to display the view.
-	 *
-	 * @return  string  The rendered view.
-	 *
-	 * @since   3.2
-	 */
-	public function render()
+class ConfigViewApplicationHtml extends JViewItem
+{	
+	public function render($tpl = null)
 	{
-		$form = null;
-		$data = null;
-
-		try
-		{
-			// Load Form and Data
-			$form = $this->model->getForm();
-			$data = $this->model->getData();
-			$user = JFactory::getUser();
-		}
-		catch (Exception $e)
-		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-			return false;
-		}
-
-		// Bind data
-		if ($form && $data)
-		{
-			$form->bind($data);
-		}
 		// Get the params for com_users.
 		$usersParams = JComponentHelper::getParams('com_users');
 
@@ -64,37 +22,74 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 		// Load settings for the FTP layer.
 		$ftp = JClientHelper::setCredentialsFromRequest('ftp');
 
-		$this->form = &$form;
-		$this->data = &$data;
 		$this->ftp = &$ftp;
 		$this->usersParams = &$usersParams;
 		$this->mediaParams = &$mediaParams;
 
-		$this->components = ConfigHelperConfig::getComponentsWithConfig();
+		/** @var ConfigModelApplication $model */
+		$model = $this->getModel();
+		$this->components = $model->getList();
 		ConfigHelperConfig::loadLanguageForComponents($this->components);
 
+		$user = JFactory::getUser();
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
 		$this->addToolbar();
 
-		return parent::render();
+		return parent::render($tpl);
+	}
+
+	/**
+	 * Work around for the layouts
+	 * @param string $name
+	 * @param string $fieldName
+	 * @param string $description
+	 *
+	 * @return stdClass
+	 */
+	protected function getDisplayData($name, $fieldName, $description = null)
+	{
+		$displayData = new stdClass();
+		$displayData->form = $this->form;
+		$displayData->name = JText::_($name);
+		$displayData->fieldsname = $fieldName;
+
+		if(!empty($description))
+		{
+			$displayData->description = JText::_($description);
+		}
+
+		return $displayData;
 	}
 
 	/**
 	 * Add the page title and toolbar.
 	 *
 	 * @return  void
-	 *
-	 * @since	3.2
 	 */
 	protected function addToolbar()
 	{
 		JToolbarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'equalizer config');
-		JToolbarHelper::apply('config.save.application.apply');
-		JToolbarHelper::save('config.save.application.save');
+		JToolbarHelper::apply('store');
+		JToolbarHelper::save('store.close');
 		JToolbarHelper::divider();
-		JToolbarHelper::cancel('config.cancel.application');
+		JToolbarHelper::cancel('cancel');
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
+	}
+
+	/**
+	 * This is a special case, because we are not using the DB, so overriding here allows us
+	 * to skip the user session security check.
+	 * @param $model
+	 */
+	protected function prepareForm($model)
+	{
+		$this->form->bind($this->item);
+	}
+
+	public function canView()
+	{
+		return true;
 	}
 }
