@@ -66,20 +66,20 @@
 				$main = $('#j-main-container'),
 				$message = $('#system-message-container'),
 				$debug = $('#system-debug'),
-				$toggle_sidebar_icon = $('#j-toggle-sidebar-icon'),
-				$toggle_button_wrapper = $('#j-toggle-button-wrapper'),
-				$toggle_button = $('#j-toggle-sidebar-button'),
-				$sidebar_toggle = $('#j-toggle-sidebar');
+				$toggleSidebarIcon = $('#j-toggle-sidebar-icon'),
+				$toggleButtonWrapper = $('#j-toggle-button-wrapper'),
+				$toggleButton = $('#j-toggle-sidebar-button'),
+				$sidebarToggle = $('#j-toggle-sidebar');
 
-			var open_icon = 'icon-arrow-left-2',
-				closed_icon = 'icon-arrow-right-2';
+			var openIcon = 'icon-arrow-left-2',
+				closedIcon = 'icon-arrow-right-2';
 
-			var $visible = $sidebar_toggle.is(":visible");
+			var $visible = $sidebarToggle.is(":visible");
 
 			if (jQuery(document.querySelector("html")).attr('dir') == 'rtl')
 			{
-				open_icon = 'icon-arrow-right-2';
-				closed_icon = 'icon-arrow-left-2';
+				openIcon = 'icon-arrow-right-2';
+				closedIcon = 'icon-arrow-left-2';
 			}
 
 			var isComponent = $('body').hasClass('component');
@@ -91,13 +91,13 @@
 				$debug.addClass('j-toggle-main');
 			}
 
-			var main_height = $main.outerHeight()+30,
-				sidebar_height = $sidebar.outerHeight(),
-				body_width = $('body').outerWidth(),
-				sidebar_width = $sidebar.outerWidth(),
-				content_width = $('#content').outerWidth(),
-				this_content = content_width / body_width * 100,
-				this_main = (content_width - sidebar_width) / body_width * 100;
+			var mainHeight = $main.outerHeight()+30,
+				sidebarHeight = $sidebar.outerHeight(),
+				bodyWidth = $('body').outerWidth(),
+				sidebarWidth = $sidebar.outerWidth(),
+				contentWidth = $('#content').outerWidth(),
+				contentWidthRelative = contentWidth / bodyWidth * 100,
+				mainWidthRelative = (contentWidth - sidebarWidth) / bodyWidth * 100;
 
 			if (force)
 			{
@@ -114,7 +114,7 @@
 			{
 				$message.addClass('j-toggle-transition');
 				$sidebar.addClass('j-toggle-transition');
-				$toggle_button_wrapper.addClass('j-toggle-transition');
+				$toggleButtonWrapper.addClass('j-toggle-transition');
 				$main.addClass('j-toggle-transition');
 				if (!isComponent) {
 					$debug.addClass('j-toggle-transition');
@@ -123,16 +123,16 @@
 
 			if ($visible)
 			{
-				$sidebar_toggle.hide();
+				$sidebarToggle.hide();
 				$sidebar.removeClass('j-sidebar-visible').addClass('j-sidebar-hidden');
-				$toggle_button_wrapper.removeClass('j-toggle-visible').addClass('j-toggle-hidden');
-				$toggle_sidebar_icon.removeClass('j-toggle-visible').addClass('j-toggle-hidden');
+				$toggleButtonWrapper.removeClass('j-toggle-visible').addClass('j-toggle-hidden');
+				$toggleSidebarIcon.removeClass('j-toggle-visible').addClass('j-toggle-hidden');
 				$message.removeClass('span10').addClass('span12');
 				$main.removeClass('span10').addClass('span12 expanded');
-				$toggle_sidebar_icon.removeClass(open_icon).addClass(closed_icon);
-				$toggle_button.attr('data-original-title', Joomla.JText._('JTOGGLE_SHOW_SIDEBAR'));
+				$toggleSidebarIcon.removeClass(openIcon).addClass(closedIcon);
+				$toggleButton.attr( 'data-original-title', Joomla.JText._('JTOGGLE_SHOW_SIDEBAR') );
 				if (!isComponent) {
-					$debug.css('width', this_content + '%');
+					$debug.css( 'width', contentWidthRelative + '%' );
 				}
 
 				if (typeof(Storage) !== "undefined")
@@ -143,28 +143,28 @@
 			}
 			else
 			{
-				$sidebar_toggle.show();
+				$sidebarToggle.show();
 				$sidebar.removeClass('j-sidebar-hidden').addClass('j-sidebar-visible');
-				$toggle_button_wrapper.removeClass('j-toggle-hidden').addClass('j-toggle-visible');
-				$toggle_sidebar_icon.removeClass('j-toggle-hidden').addClass('j-toggle-visible');
+				$toggleButtonWrapper.removeClass('j-toggle-hidden').addClass('j-toggle-visible');
+				$toggleSidebarIcon.removeClass('j-toggle-hidden').addClass('j-toggle-visible');
 				$message.removeClass('span12').addClass('span10');
 				$main.removeClass('span12 expanded').addClass('span10');
-				$toggle_sidebar_icon.removeClass(closed_icon).addClass(open_icon);
-				$toggle_button.attr('data-original-title', Joomla.JText._('JTOGGLE_HIDE_SIDEBAR'));
+				$toggleSidebarIcon.removeClass(closedIcon).addClass(openIcon);
+				$toggleButton.attr( 'data-original-title', Joomla.JText._('JTOGGLE_HIDE_SIDEBAR') );
 
-				if (!isComponent && body_width > 768 && main_height < sidebar_height)
+				if (!isComponent && bodyWidth > 768 && mainHeight < sidebarHeight)
 				{
-					$debug.css('width', this_main+'%');
+					$debug.css( 'width', mainWidthRelative + '%' );
 				}
 				else if (!isComponent)
 				{
-					$debug.css('width', this_content+'%');
+					$debug.css( 'width', contentWidthRelative + '%' );
 				}
 
 				if (typeof(Storage) !== "undefined")
 				{
 					// Set the last selection in localStorage
-					localStorage.setItem(context, false);
+					localStorage.setItem( context, false );
 				}
 			}
 		}
