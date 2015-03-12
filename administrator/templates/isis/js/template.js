@@ -62,17 +62,17 @@
 		{
 			var context = 'jsidebar';
 
-			var $sidebar = $('#j-sidebar-container');
-			var $main = $('#j-main-container');
-			var $message = $('#system-message-container');
-			var $debug = $('#system-debug');
-			var $toggle_sidebar_icon = $('#j-toggle-sidebar-icon');
-			var $toggle_button_wrapper = $('#j-toggle-button-wrapper');
-			var $toggle_button = $('#j-toggle-sidebar-button');
-			var $sidebar_toggle = $('#j-toggle-sidebar');
+			var $sidebar = $('#j-sidebar-container'),
+				$main = $('#j-main-container'),
+				$message = $('#system-message-container'),
+				$debug = $('#system-debug'),
+				$toggle_sidebar_icon = $('#j-toggle-sidebar-icon'),
+				$toggle_button_wrapper = $('#j-toggle-button-wrapper'),
+				$toggle_button = $('#j-toggle-sidebar-button'),
+				$sidebar_toggle = $('#j-toggle-sidebar');
 
-			var open_icon = 'icon-arrow-left-2';
-			var closed_icon = 'icon-arrow-right-2';
+			var open_icon = 'icon-arrow-left-2',
+				closed_icon = 'icon-arrow-right-2';
 
 			var $visible = $sidebar_toggle.is(":visible");
 
@@ -91,14 +91,13 @@
 				$debug.addClass('j-toggle-main');
 			}
 
-			var main_height = $main.outerHeight()+30;
-			var sidebar_height = $sidebar.outerHeight();
-
-			var body_width = $('body').outerWidth();
-			var sidebar_width = $sidebar.outerWidth();
-			var content_width = $('#content').outerWidth();
-			var this_content = content_width / body_width * 100;
-			var this_main = (content_width - sidebar_width) / body_width * 100;
+			var main_height = $main.outerHeight()+30,
+				sidebar_height = $sidebar.outerHeight(),
+				body_width = $('body').outerWidth(),
+				sidebar_width = $sidebar.outerWidth(),
+				content_width = $('#content').outerWidth(),
+				this_content = content_width / body_width * 100,
+				this_main = (content_width - sidebar_width) / body_width * 100;
 
 			if (force)
 			{
