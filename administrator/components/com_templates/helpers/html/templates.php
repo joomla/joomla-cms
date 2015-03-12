@@ -38,7 +38,6 @@ class JHtmlTemplates
 		if (file_exists($thumb))
 		{
 			JHtml::_('bootstrap.tooltip');
-			JHtml::_('bootstrap.modal');
 
 			$clientPath = ($clientId == 0) ? '' : 'administrator/';
 			$thumb = $clientPath . 'templates/' . $template . '/template_thumbnail.png';

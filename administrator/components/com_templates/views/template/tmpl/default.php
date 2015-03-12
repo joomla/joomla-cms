@@ -140,8 +140,8 @@ JFactory::getDocument()->addStyleDeclaration("
 
 if($this->type == 'font')
 {
-	JFactory::getDocument()->addStyleDeclaration("
-		/* Styles for font preview */
+	JFactory::getDocument()->addStyleDeclaration(
+		"/* Styles for font preview */
 		@font-face
 		{
 			font-family: previewFont;
@@ -150,8 +150,8 @@ if($this->type == 'font')
 
 		.font-preview{
 			font-family: previewFont !important;
-		}
-	");
+		}"
+	);
 }
 ?>
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
