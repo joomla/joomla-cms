@@ -54,7 +54,7 @@ class JHtmlTemplates
 						'height' => '500px',
 						'width' => '800px'
 						),
-					$body = '<div><img src="' . $preview . '" style="width:100%"></div>'
+					$body = '<div><img src="' . $preview . '" style="max-width:100%"></div>'
 					);
 			}
 		}
