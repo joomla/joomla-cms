@@ -216,4 +216,66 @@ class JAccessRules
 
 		return json_encode($temp);
 	}
+
+	/**
+	 * Method to store the rules to the asset table
+	 *
+	 * @param string $assetName the asset name
+	 * @param array $rules to be stored
+	 *
+	 * @return bool
+	 */
+	public function storeRules($assetName, $rules = null)
+	{
+		if(is_null($rules))
+		{
+			$rules = $this->data;
+		}
+
+		$rules = new JAccessRules($this->cleanRules($rules));
+		$asset = JTable::getInstance('asset');
+
+		if(!$asset->loadByName($assetName))
+		{
+			$root = JTable::getInstance('asset');
+			$root->loadByName('root.1');
+			$asset->name = $assetName;
+			$asset->title = $assetName;
+			$asset->setLocation($root->id, 'last-child');
+		}
+
+		$asset->rules = (string) $rules;
+
+		if (!$asset->check() || !$asset->store())
+		{
+			throw new RuntimeException($asset->getError());
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to remove non-numeric values from the rules array
+	 * This should really be moved over to the JAccess class
+	 *
+	 * @param $rules
+	 *
+	 * @return array clean rules array
+	 */
+	protected function cleanRules($rules)
+	{
+		$cleanRules = array();
+		foreach($rules AS $action => $rule)
+		{
+			$cleanRules[$action] = array();
+			foreach($rule AS $group => $setting)
+			{
+				if(is_numeric($setting))
+				{
+					$cleanRules[$action][$group] = $setting;
+				}
+			}
+		}
+		return $cleanRules;
+	}
 }
