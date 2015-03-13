@@ -105,7 +105,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Calls an HTTP POST function to verify if the user's guess was correct
 	 *
-	 * @param   string  $code  Answer provided by user. @Deprecated and not needed for the current implementation
+	 * @param   string  $code  Answer provided by user. Not needed for the Recaptcha implementation
 	 *
 	 * @return  True if the answer is correct, false otherwise
 	 *
