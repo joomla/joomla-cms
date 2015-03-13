@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_admin&view=sysinfo'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row-fluid">
 		<!-- Begin Content -->
 		<div class="span12">
