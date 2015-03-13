@@ -223,7 +223,7 @@ class JAccessRules
 	 * @param   string  $assetName  the asset name
 	 * @param   array   $rules      to be stored
 	 *
-	 * @return bool
+	 * @return int  $asset->id
 	 */
 	public function storeRules($assetName, $rules = null)
 	{
@@ -251,7 +251,7 @@ class JAccessRules
 			throw new RuntimeException($asset->getError());
 		}
 
-		return true;
+		return $asset->id;
 	}
 
 	/**
