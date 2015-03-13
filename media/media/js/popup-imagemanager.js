@@ -71,7 +71,7 @@
 
 		getImageFolder: function()
 		{
-			return this.getUriObject(this.frame.location.search.substring(1)).folder;
+			return this.getQueryObject(this.frame.location.search.substring(1)).folder;
 		},
 
 		/* Called from outside. */
@@ -207,10 +207,7 @@
 			$.each((q || '').split(/[&;]/), function (key, val) {
 				var keys = val.split('=');
 
-				if (keys.length == 2)
-				{
-					rs[encodeURIComponent(keys[0])] = encodeURIComponent(keys[1]);
-				}
+				rs[keys[0]] = keys.length == 2 ? keys[1] : null;
 			});
 
 			return rs;
