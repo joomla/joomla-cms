@@ -7526,9 +7526,7 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	}
 	.btn-toolbar .btn-wrapper {
 		display: block;
-		margin-left: 10px;
-		margin-right: 10px;
-		margin-bottom: 5px;
+		margin: 0px 10px 5px 10px;
 	}
 	.btn-toolbar .btn-wrapper .btn {
 		width: 100% !important;
@@ -8879,7 +8877,6 @@ a.grid_true {
 		margin-right: 0px;
 	}
 	.btn-toolbar .btn-wrapper {
-		margin-right: 10px;
-		margin-left: 10px;
+		margin: 0 10px 5px 10px;
 	}
 }
