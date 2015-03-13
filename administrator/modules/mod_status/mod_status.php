@@ -14,7 +14,7 @@ $user   = JFactory::getUser();
 $db     = JFactory::getDbo();
 $lang   = JFactory::getLanguage();
 $input  = JFactory::getApplication()->input;
-$query	= $db->getQuery(true);
+$query  = $db->getQuery(true);
 
 if (JComponentHelper::isInstalled('com_messages'))
 {
