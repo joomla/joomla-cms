@@ -3,13 +3,13 @@
     <name>FOF</name>
 	<libraryname>fof</libraryname>
 	<description>LIB_FOF_XML_DESCRIPTION</description>
-	<creationDate>2014-11-28 11:21:40</creationDate>
+	<creationDate>2015-03-11 11:59:00</creationDate>
 	<author>Nicholas K. Dionysopoulos / Akeeba Ltd</author>
 	<authorEmail>nicholas@akeebabackup.com</authorEmail>
 	<authorUrl>https://www.akeebabackup.com</authorUrl>
-	<copyright>(C)2011-2014 Nicholas K. Dionysopoulos</copyright>
+	<copyright>(C)2011-2015 Nicholas K. Dionysopoulos</copyright>
 	<license>GNU GPLv2 or later</license>
-	<version>2.4.1</version>
+	<version>2.4.2</version>
 	<packager>Akeeba Ltd</packager>
 	<packagerurl>https://www.AkeebaBackup.com/download.html</packagerurl>
 
