@@ -40,10 +40,10 @@ JFactory::getDocument()->addScriptDeclaration('
 					<button class="btn btn-default" type="button" class="jform-rightbtn" onclick="jQuery('.filter-node').each(function () { this.checked = !this.checked; });">
 						<i class="icon-checkbox"></i> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?>
 					</button>
-					<button class="btn btn-default" type="button" class="jform-rightbtn" onclick="jQuery('[class^=\'accordion-body\']').removeClass('in'); jQuery('[class^=\'accordion-body\']').collapse('show');">
+					<button class="btn btn-default" type="button" class="jform-rightbtn" onclick="jQuery('[class^=\'accordion-body\']').removeClass('in'); jQuery('.collapse').collapse('show');">
 						<i class="icon-folder"></i> <?php echo JText::_('JSHOW'); ?> <?php echo JText::_('JALL'); ?>
 					</button>
-					<hr />
+					<hr>
 						<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
 			</div>
 			<div class="span3">
