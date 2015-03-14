@@ -6289,6 +6289,10 @@ dl.article-info dd.hits span[class*=" icon-"] {
 }
 .icon-arrow-right-2:before {
 	content: "\e00a";
+	background-color: #eeeeee;
+	padding-bottom: 5px;
+	padding-right: 5px;
+    	padding-top: 5px;
 }
 .icon-arrow-down-2:before {
 	content: "\e00b";
@@ -7200,6 +7204,7 @@ body .navbar-fixed-top {
 	font-weight: normal;
 	line-height: 26px;
 	margin-top: 0;
+	padding-bottom: 10px;
 }
 .subhead {
 	background: #ffffff;
@@ -8043,7 +8048,7 @@ a.grid_true {
 .j-toggle-button-wrapper {
 	position: absolute;
 	display: block;
-	margin-top: 11px;
+	margin-top: 6px;
 	padding: 0;
 }
 .j-toggle-button-wrapper.j-toggle-hidden {
