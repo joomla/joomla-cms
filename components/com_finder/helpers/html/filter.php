@@ -160,7 +160,7 @@ abstract class JHtmlFilter
 			$html .= JHtml::_('bootstrap.addSlide',
 				'accordion',
 				JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL',
-					JText::_(FinderHelperLanguage::branchSingular($bv->title))
+					JText::_(FinderHelperLanguage::branchSingular($bv->title)) . ' - ' . count($nodes)
 				),
 				'accordion-' . $bk
 			);
