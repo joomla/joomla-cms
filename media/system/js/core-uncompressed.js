@@ -228,8 +228,8 @@ Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
     var winl = (screen.width - w) / 2, wint, winprops, win;
     wint = (screen.height - h) / 2;
     winprops = 'height=' + h + ',width=' + w + ',top=' + wint + ',left=' + winl
-            + ',scrollbars=' + scroll + ',resizable'
-    win = window.open(mypage, myname, winprops)
+            + ',scrollbars=' + scroll + ',resizable';
+    win = window.open(mypage, myname, winprops);
     win.window.focus();
 };
 
