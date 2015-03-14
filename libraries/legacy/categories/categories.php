@@ -344,7 +344,7 @@ class JCategories
 						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
 					}
 
-					if (!isset($this->_nodes[$result->parent_id]))
+					if (!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0))
 					{
 						unset($this->_nodes[$result->id]);
 						continue;
