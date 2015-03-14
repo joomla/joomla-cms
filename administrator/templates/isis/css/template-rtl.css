@@ -7046,15 +7046,15 @@ a:focus {
 	position: absolute;
 }
 .view-login .input-medium {
-	width: 184px;
+	width: 176px;
 }
 .login .chzn-single {
-	width: 230px !important;
+	width: 222px !important;
 }
 .login .chzn-container,
 .login .chzn-drop {
-	width: 238px !important;
-	max-width: 238px !important;
+	width: 230px !important;
+	max-width: 230px !important;
 }
 .login .btn-large {
 	margin-top: 10px;
@@ -8047,13 +8047,13 @@ a.grid_true {
 	padding: 0;
 }
 .j-toggle-button-wrapper.j-toggle-hidden {
-	right: -20px;
+	right: -24px;
 }
 .j-toggle-button-wrapper.j-toggle-visible {
 	right: 10px;
 }
 .j-toggle-sidebar-button {
-	font-size: 14px;
+	font-size: 16px;
 	color: #08c;
 	text-decoration: none;
 	cursor: pointer;
@@ -8081,7 +8081,7 @@ a.grid_true {
 }
 @media (max-width: 979px) {
 	.j-toggle-button-wrapper.j-toggle-hidden {
-		right: -16px;
+		right: -20px;
 	}
 }
 @media (max-width: 767px) {
@@ -8104,10 +8104,19 @@ a.grid_true {
 	.j-toggle-button-wrapper {
 		display: none;
 	}
+	.view-login select {
+		width: 232px;
+	}
 }
 @media (max-width: 420px) {
 	.j-sidebar-container {
 		margin: 0;
+	}
+	.view-login .input-medium {
+		width: 180px;
+	}
+	.view-login select {
+		width: 232px;
 	}
 }
 .break-word {
@@ -8800,6 +8809,23 @@ a.grid_true {
 	background: url('../images/login-joomla.png') no-repeat;
 	margin-right: -12px;
 }
+.view-login .input-medium {
+	width: 169px;
+}
+.login .chzn-single {
+	width: 219px !important;
+}
+.login .chzn-container,
+.login .chzn-drop {
+	width: 227px !important;
+	max-width: 227px !important;
+}
+.login .input-prepend .chzn-container-single .chzn-single {
+	-webkit-border-radius: 3px 0 0 3px;
+	-moz-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
+	border-right: 0px;
+}
 .j-sidebar-container {
 	left: auto;
 	right: -16.5%;
@@ -8857,6 +8883,9 @@ a.grid_true {
 		margin-left: auto;
 		margin-right: 0;
 	}
+	.view-login select {
+		width: 229px;
+	}
 }
 #j-main-container.expanded {
 	margin-right: 0;
@@ -8872,4 +8901,15 @@ a.grid_true {
 }
 .row-fluid .modal-batch [class*="span"] {
 	margin-right: 0;
+}
+@media (max-width: 420px) {
+	.j-sidebar-container {
+		margin: 0;
+	}
+	.view-login .input-medium {
+		width: 173px;
+	}
+	.view-login select {
+		width: 229px;
+	}
 }
