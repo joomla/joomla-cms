@@ -67,7 +67,7 @@ class GenerateCss extends JApplicationCli
 
 	public function writeLessToCss($source, $destination, $compress = false)
 	{
-		JLoader::import('joomla.filesystem.file');
+		require_once __DIR__ . '/libraries/less/Less.php';
 		$less = new Less_Parser(array('compress' => $compress));
 
 		try

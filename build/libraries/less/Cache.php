@@ -1,6 +1,6 @@
 <?php
 
-require_once( dirname(__FILE__).'/Version.php');
+require_once(dirname(__FILE__) . '/Version.php');
 
 /**
  * Utility for handling the generation and caching of css files
