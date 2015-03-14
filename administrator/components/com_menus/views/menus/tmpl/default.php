@@ -45,12 +45,14 @@ foreach ($this->items as $item) :
 		$script[] = '	};';
 	endif;
 endforeach;
-foreach ($this->modules[$item->menutype] as &$module) :
-	$script[] = '	jQuery("#module' . $module->id . 'Modal").on("hidden", function () {';
-	$script[] = '		setTimeout(function(){';
-	$script[] = '			window.parent.location.reload();';
-	$script[] = '		},1000);';
-	$script[] = '	});';
+foreach ($this->modules as $module => $type) :
+	foreach ($type as $mod => $tp) :
+		$script[] = '	jQuery("#module' . $tp->id . 'Modal").on("hidden", function () {';
+		$script[] = '		setTimeout(function(){';
+		$script[] = '			window.parent.location.reload();';
+		$script[] = '		},1000);';
+		$script[] = '	});';
+	endforeach;
 endforeach;
 $script[] = "});";
 
