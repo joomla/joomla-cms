@@ -22,6 +22,9 @@ class ConfigViewComponentHtml extends JViewItem
 		$user = JFactory::getUser();
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 		$this->addToolbar();
+
+		//Last thing I want to do is insure we have a proper formURL
+		$this->formUrl .='&component='.$this->config['component'];
 		return parent::render($tpl);
 	}
 
@@ -35,11 +38,17 @@ class ConfigViewComponentHtml extends JViewItem
 	 */
 	protected function addToolbar()
 	{
+		// No toolbars in the front-end =^(
+		if (JFactory::getApplication()->isSite())
+		{
+			return;
+		}
+
 		JToolbarHelper::title(JText::_($this->config['component'] . '_configuration'), 'equalizer config');
 		JToolbarHelper::apply('store');
-		JToolbarHelper::save('store.close');
+		JToolbarHelper::save('store.cancel');
 		JToolbarHelper::divider();
-		JToolbarHelper::cancel('close');
+		JToolbarHelper::cancel('cancel');
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_' . $this->config['component'] . '_OPTIONS');
 	}
@@ -66,6 +75,11 @@ class ConfigViewComponentHtml extends JViewItem
 
 	public function canView()
 	{
-		return true;
+		$model = $this->getModel();
+		if($model->allowAction('core.admin'))
+		{
+			return true;
+		}
+		throw new ErrorException(JText::_('JERROR_ALERTNOAUTHOR'), 404);
 	}
 }

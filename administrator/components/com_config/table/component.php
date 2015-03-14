@@ -21,12 +21,6 @@ class ConfigTableComponent extends JTableCms
 
 	public function check()
 	{
-		// Check for valid name
-		if (trim($this->name) == '' || trim($this->element) == '')
-		{
-			throw new InvalidArgumentException(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
-		}
-
 		return true;
 	}
 
@@ -39,6 +33,15 @@ class ConfigTableComponent extends JTableCms
 			$registry->loadArray($array['control']);
 			$array['control'] = (string) $registry;
 		}
+
+		// Ignore as much as possible
+		// Yes, I know its ugly =^P
+		// Ignore that fact too please.
+		$ignore = array('type','folder','client_id',
+						'enabled','access','protected','manifest_cache',
+						'custom_data','system_data','checked_out', 'checked_out_time',
+						'ordering','state'
+					);
 
 		return parent::bind($array, $ignore);
 	}

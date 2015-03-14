@@ -24,7 +24,14 @@ class ConfigController extends JControllerDispatcher
 			$config['component'] = strtolower($component);
 		}
 
-		$config['return'] = $input->get('return','', 'base64');
+		$config['return'] = $this->getDefaultConfig('return',$config, $input->get('return',base64_encode('index.php?Itemid=0'), 'base64'));
+
+		// only allowing the fix method to executed via get
+		$task = $input->get('task', 'display', 'CMD');
+		if ($task === 'fix')
+		{
+			$config['task'] = $task;
+		}
 
 		parent::__construct($input,$app,$config);
 	}

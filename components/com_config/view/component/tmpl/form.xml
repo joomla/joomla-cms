@@ -8,4 +8,14 @@
 			<![CDATA[COM_CONFIG_COMPONENT_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
+
+    <fields name="request">
+        <fieldset name="request" addfieldpath="/administrator/components/com_config/model/fields">
+            <field name="component"
+                   type="extension"
+                   required="true"
+                   label="COM_CONFIG_FIELD_SELECT_COMPONENT_LABEL"
+                   description="COM_CONFIG_FIELD_SELECT_COMPONENT_DESC" />
+        </fieldset>
+    </fields>
 </metadata>

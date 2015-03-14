@@ -37,9 +37,10 @@ class ConfigControllerStore extends JControllerAdministrate
 		$config = $this->config;
 		$url    = 'index.php?option=' . $config['option'] . '&view=' . $config['view'] . '&layout=form';
 
-		if($this->config['resource'] == 'component' && isset($data[$keyName]))
+		if($this->config['resource'] == 'component')
 		{
-			$url .= '&id=' . $data[$keyName];
+			$id = $model->getState($model->getContext() . '.id');
+			$url .= '&component=' . $config['component'] . '&id=' . $id;
 		}
 
 		$this->addMessage(JText::_('BABELU_LIB_CONTROLLER_MESSAGE_SAVE_COMPLETED'));

@@ -45,13 +45,11 @@ abstract class ConfigModelConfig extends JModelRecord
 	}
 
 	/**
-	 * Returns true if the component has configuration options.
+	 * Returns a list of components that have configuration options.
 	 *
-	 * @param   string  $component  Component name
+	 * @param  array  $list  Component name
 	 *
-	 * @return  boolean
-	 *
-	 * @since   3.0
+	 * @return  array
 	 */
 	protected function getConfigurableComponent($list = array())
 	{
@@ -65,5 +63,30 @@ abstract class ConfigModelConfig extends JModelRecord
 			}
 		}
 		return $configurable;
+	}
+
+	/**
+	 * Method to remove non-numeric values from the rules array
+	 * This should really be moved over to the JAccess class
+	 *
+	 * @param $rules
+	 *
+	 * @return array clean rules array
+	 */
+	protected function cleanRules($rules)
+	{
+		$cleanRules = array();
+		foreach($rules AS $action => $rule)
+		{
+			$cleanRules[$action] = array();
+			foreach($rule AS $group => $setting)
+			{
+				if(is_numeric($setting))
+				{
+					$cleanRules[$action][$group] = $setting;
+				}
+			}
+		}
+		return $cleanRules;
 	}
 }

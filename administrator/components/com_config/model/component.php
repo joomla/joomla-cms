@@ -14,6 +14,11 @@ class ConfigModelComponent extends ConfigModelConfig
 
 	public function getItem($pk = null, $class = 'JRegistry')
 	{
+		if(is_null($pk) && is_null($this->getState($this->getContext().'.id')))
+		{
+			$pk = (int)$this->getComponentId();
+		}
+
 		$item = parent::getItem($pk, $class);
 
 		if(isset($item->params))
@@ -24,6 +29,20 @@ class ConfigModelComponent extends ConfigModelConfig
 
 		return $item;
 	}
+
+	private function getComponentId()
+	{
+		$dbo = $this->getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select('extension_id');
+		$query->from($this->getTableName());
+		$query->where('element = '.$dbo->quote($this->config['component']));
+		$query->where('type = '.$dbo->quote('component'));
+
+		$dbo->setQuery($query);
+		return $dbo->loadResult();
+	}
+
 	/**
 	 * Override this method so that we can get the component specific config form
 	 *
@@ -50,7 +69,7 @@ class ConfigModelComponent extends ConfigModelConfig
 		$this->observers->update('onBeforeGetForm', array($this, $name, $source, $config));
 
 		/** @var JForm $form */
-		$form   = $this->loadForm($name, $source, $config, false, '/config');
+		$form = $this->loadForm($name, $source, $config, false, '/config');
 
 		$this->observers->update('onAfterGetForm', array($this, $form));
 
@@ -98,5 +117,55 @@ class ConfigModelComponent extends ConfigModelConfig
 		}
 
 		return parent::allowAction($action, $assetName, $activeRecord);
+	}
+
+	public function update($data)
+	{
+		if(isset($data['rules']))
+		{
+			$this->updatePermissions($data['rules']);
+			unset($data['rules']);
+		}
+
+		$table = $this->getTable();
+		$extension_id = (int) $this->getComponentId();
+
+		$table->update(array('extension_id' => $extension_id, 'params' =>$data));
+
+		$this->setState($this->getContext() . '.id', $data['extension_id']);
+
+		return true;
+	}
+
+	/**
+	 * Method to update the component ACL permissions
+	 *
+	 * @param array $rules
+	 *
+	 * @return true
+	 * @throws ErrorException
+	 */
+	protected function updatePermissions($rules)
+	{
+		$rules = new JAccessRules($this->cleanRules($rules));
+		$asset = JTable::getInstance('asset');
+
+		if(!$asset->loadByName($this->config['component']))
+		{
+			$root = JTable::getInstance('asset');
+			$root->loadByName('root.1');
+			$asset->name = $this->config['component'];
+			$asset->title = $this->config['component'];
+			$asset->setLocation($root->id, 'last-child');
+		}
+
+		$asset->rules = (string) $rules;
+
+		if (!$asset->check() || !$asset->store())
+		{
+			throw new RuntimeException($asset->getError());
+		}
+
+		return true;
 	}
 }

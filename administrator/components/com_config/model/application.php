@@ -14,7 +14,7 @@ class ConfigModelApplication extends ConfigModelConfig
 	public function getItem($pk = null, $class = 'JRegistry')
 	{
 		// Get the config data.
-		$config	= new JConfig;
+		$config	= new JConfig();
 		$data	= JArrayHelper::fromObject($config);
 
 		// Prime the asset_id for the rules.
@@ -23,15 +23,6 @@ class ConfigModelApplication extends ConfigModelConfig
 		// Get the text filter data
 		$params = JComponentHelper::getParams('com_config');
 		$data['filters'] = JArrayHelper::fromObject($params->get('filters'));
-
-		// Check for data in the session.
-		$temp = JFactory::getApplication()->getUserState('com_config.config.global.data');
-
-		// Merge in the session data.
-		if (!empty($temp))
-		{
-			$data = array_merge($data, $temp);
-		}
 
 		$item = new $class($data);
 
@@ -45,12 +36,13 @@ class ConfigModelApplication extends ConfigModelConfig
 
 	/**
 	 * Method to update the application configuration
-	 * @param array $data        from the form
+	 *
+	 * @param array   $data
 	 *
 	 * @return boolean
 	 * @throws ErrorException
 	 */
-	public function update($data)
+	public function update($data, $removeRoot = false)
 	{
 		if(isset($data['rules']))
 		{
@@ -84,6 +76,11 @@ class ConfigModelApplication extends ConfigModelConfig
 
 		$data['caching'] = $this->getCaching($oldConfig['caching'], $data['caching'],$data['cache_handler']);
 
+		if($removeRoot && isset($data['root_user']))
+		{
+			unset($data['root_user']);
+		}
+
 		// Create the new configuration object.
 		$config = new JRegistry('config');
 		$config->loadArray($data);
@@ -111,16 +108,18 @@ class ConfigModelApplication extends ConfigModelConfig
 	 *
 	 * @param array $rules
 	 *
+	 * @return true
 	 * @throws ErrorException
 	 */
 	protected function updatePermissions($rules)
 	{
-		$rules = new JAccessRules($rules);
+		$rules = new JAccessRules($this->cleanRules($rules));
 
 		// Check that we aren't removing Super User permission
 		// Need to get groups from database, since they might have changed
 		$myGroups = JAccess::getGroupsByUser(JFactory::getUser()->id);
 		$myRules = $rules->getData();
+
 		$isSuperAdmin = $myRules['core.admin']->allow($myGroups);
 
 		if(!$isSuperAdmin)
@@ -143,6 +142,7 @@ class ConfigModelApplication extends ConfigModelConfig
 		{
 			throw new ErrorException(JText::_('ERROR_STORING_PERMISSIONS'));
 		}
+		return true;
 	}
 
 	/**

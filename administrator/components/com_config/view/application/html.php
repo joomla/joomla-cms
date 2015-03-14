@@ -29,7 +29,7 @@ class ConfigViewApplicationHtml extends JViewItem
 		/** @var ConfigModelApplication $model */
 		$model = $this->getModel();
 		$this->components = $model->getList();
-		ConfigHelperConfig::loadLanguageForComponents($this->components);
+		ConfigHelperConfig::loadLanguageForComponents($this->components, 'com_config');
 
 		$user = JFactory::getUser();
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
@@ -69,9 +69,15 @@ class ConfigViewApplicationHtml extends JViewItem
 	 */
 	protected function addToolbar()
 	{
+		// No toolbars in the front-end =^(
+		if (JFactory::getApplication()->isSite())
+		{
+			return;
+		}
+
 		JToolbarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'equalizer config');
 		JToolbarHelper::apply('store');
-		JToolbarHelper::save('store.close');
+		JToolbarHelper::save('store.cancel');
 		JToolbarHelper::divider();
 		JToolbarHelper::cancel('cancel');
 		JToolbarHelper::divider();
@@ -90,6 +96,11 @@ class ConfigViewApplicationHtml extends JViewItem
 
 	public function canView()
 	{
-		return true;
+		$model = $this->getModel();
+		if($model->allowAction('core.admin'))
+		{
+			return true;
+		}
+		throw new ErrorException(JText::_('JERROR_ALERTNOAUTHOR'), 404);
 	}
 }

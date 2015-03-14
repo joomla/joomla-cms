@@ -32,7 +32,7 @@ class ConfigHelperConfig extends JHelperContent
 		// Load the current component, if it is not null
 		if(!empty($currentComponent))
 		{
-			$lang->load($currentComponent, JPATH_BASE , null, false, true) ||
+			$lang->load($currentComponent, JPATH_ADMINISTRATOR , null, false, true) ||
 			$lang->load($currentComponent, JPATH_ADMINISTRATOR . '/components/' . $currentComponent, null, false, true);
 		}
 

@@ -43,19 +43,22 @@ JFactory::getDocument()->addScriptDeclaration('
 					</button>
 				</div>
 			</div>
-
 			<hr class="hr-condensed" />
+			<h1><?php echo JText::_($this->config['component'] . '_configuration');?></h1>
 			<div class="row-fluid">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<?php if($name === 'permissions'):?>
 						<?php continue;?>
 					<?php endif;?>
 
-					<?php if (isset($fieldSet->description) && !empty($fieldSet->description)):?>
-						<p class="tab-description"><?php echo JText::_($fieldSet->description); ?></p>
-					<?php endif;?>
+					<fieldset>
+						<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
+						<legend><?php echo JText::_($label);?></legend>
+						<?php if (isset($fieldSet->description) && !empty($fieldSet->description)):?>
+							<p class="tab-description"><?php echo JText::_($fieldSet->description); ?></p>
+						<?php endif;?>
 
-					<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 							<?php
 							$class = '';
 							$rel = '';
@@ -79,8 +82,24 @@ JFactory::getDocument()->addScriptDeclaration('
 									<?php echo $field->input; ?>
 								</div>
 							</div>
-					<?php endforeach; ?>
+						<?php endforeach; ?>
+					</fieldset>
 				<?php endforeach; ?>
+			</div>
+
+			<hr class="hr-condensed" />
+
+			<div class="btn-toolbar">
+				<div class="btn-group">
+					<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('store')">
+						<i class="icon-ok"></i> <?php echo JText::_('JSAVE') ?>
+					</button>
+				</div>
+				<div class="btn-group">
+					<button type="button" class="btn" onclick="Joomla.submitbutton('cancel')">
+						<i class="icon-cancel"></i> <?php echo JText::_('JCANCEL') ?>
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
