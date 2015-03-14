@@ -172,7 +172,7 @@ class PlgAuthenticationLdap extends JPlugin
 
 			$db->setQuery($query);
 			$result = $db->loadObject();
-			
+
 			require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
 
 			$methods = UsersHelper::getTwoFactorMethods();
