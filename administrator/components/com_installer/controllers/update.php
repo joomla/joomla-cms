@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,12 +28,20 @@ class InstallerControllerUpdate extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
+		/** @var InstallerModelUpdate $model */
 		$model = $this->getModel('update');
 		$uid   = $this->input->get('cid', array(), 'array');
 
 		JArrayHelper::toInteger($uid, array());
 
-		if ($model->update($uid))
+		// Get the minimum stability.
+		$component     = JComponentHelper::getComponent('com_installer');
+		$params        = $component->params;
+		$minimum_stability = $params->get('minimum_stability', JUpdater::STABILITY_STABLE, 'int');
+
+		$model->update($uid, $minimum_stability);
+
+		if ($model->getState('result', false))
 		{
 			$cache = JFactory::getCache('mod_menu');
 			$cache->clean();
@@ -75,9 +83,22 @@ class InstallerControllerUpdate extends JControllerLegacy
 		$cache_timeout = $params->get('cachetimeout', 6, 'int');
 		$cache_timeout = 3600 * $cache_timeout;
 
+		// Get the minimum stability.
+		$minimum_stability = $params->get('minimum_stability', JUpdater::STABILITY_STABLE, 'int');
+
 		// Find updates.
+		/** @var InstallerModelUpdate $model */
 		$model = $this->getModel('update');
-		$model->findUpdates(0, $cache_timeout);
+
+		$disabledUpdateSites = $model->getDisabledUpdateSites();
+
+		if ($disabledUpdateSites)
+		{
+			$updateSitesUrl = JRoute::_('index.php?option=com_installer&view=updatesites');
+			$this->setMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATE_SITES_COUNT_CHECK', $updateSitesUrl), 'warning');
+		}
+
+		$model->findUpdates(0, $cache_timeout, $minimum_stability);
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=update', false));
 	}
 
@@ -96,9 +117,11 @@ class InstallerControllerUpdate extends JControllerLegacy
 		$model = $this->getModel('update');
 		$model->purge();
 
-		// We no longer need to enable update sites in Joomla! 3.4 as we now allow the users to manage update sites
-		// themselves.
-		// $model->enableSites();
+		/**
+		 * We no longer need to enable update sites in Joomla! 3.4 as we now allow the users to manage update sites
+		 * themselves.
+		 * $model->enableSites();
+		 */
 
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=update', false), $model->_message);
 	}
@@ -117,20 +140,28 @@ class InstallerControllerUpdate extends JControllerLegacy
 		 * asynchronously. This means that between requests the token might
 		 * change, making it impossible for AJAX to work.
 		 */
-		$eid           = $this->input->getInt('eid', 0);
-		$skip          = $this->input->get('skip', array(), 'array');
-		$cache_timeout = $this->input->getInt('cache_timeout', 0);
+		$eid               = $this->input->getInt('eid', 0);
+		$skip              = $this->input->get('skip', array(), 'array');
+		$cache_timeout     = $this->input->getInt('cache_timeout', 0);
+		$minimum_stability = $this->input->getInt('minimum_stability', -1);
+
+		$component     = JComponentHelper::getComponent('com_installer');
+		$params        = $component->params;
 
 		if ($cache_timeout == 0)
 		{
-			$component     = JComponentHelper::getComponent('com_installer');
-			$params        = $component->params;
 			$cache_timeout = $params->get('cachetimeout', 6, 'int');
 			$cache_timeout = 3600 * $cache_timeout;
 		}
 
+		if ($minimum_stability < 0)
+		{
+			$minimum_stability = $params->get('minimum_stability', JUpdater::STABILITY_STABLE, 'int');
+		}
+
+		/** @var InstallerModelUpdate $model */
 		$model = $this->getModel('update');
-		$model->findUpdates($eid, $cache_timeout);
+		$model->findUpdates($eid, $cache_timeout, $minimum_stability);
 
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);

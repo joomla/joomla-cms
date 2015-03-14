@@ -2,12 +2,12 @@
 <extension version="3.4" client="administrator" type="language" method="upgrade">
 	<name>English (United Kingdom)</name>
 	<tag>en-GB</tag>
-	<version>3.4.0</version>
+	<version>3.4.1</version>
 	<creationDate>2013-03-07</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>en-GB administrator language</description>
 	<files>
@@ -199,8 +199,6 @@
 		<filename>en-GB.plg_system_remember.sys.ini</filename>
 		<filename>en-GB.plg_system_sef.ini</filename>
 		<filename>en-GB.plg_system_sef.sys.ini</filename>
-		<filename>en-GB.plg_system_session.ini</filename>
-		<filename>en-GB.plg_system_session.sys.ini</filename>
 		<filename>en-GB.plg_twofactorauth_totp.ini</filename>
 		<filename>en-GB.plg_twofactorauth_totp.sys.ini</filename>
 		<filename>en-GB.plg_twofactorauth_yubikey.ini</filename>
@@ -211,8 +209,6 @@
 		<filename>en-GB.plg_user_joomla.sys.ini</filename>
 		<filename>en-GB.plg_user_profile.ini</filename>
 		<filename>en-GB.plg_user_profile.sys.ini</filename>
-		<filename>en-GB.plg_user_session.ini</filename>
-		<filename>en-GB.plg_user_session.sys.ini</filename>
 		<filename>en-GB.tpl_hathor.ini</filename>
 		<filename>en-GB.tpl_hathor.sys.ini</filename>
 		<filename>en-GB.tpl_isis.ini</filename>

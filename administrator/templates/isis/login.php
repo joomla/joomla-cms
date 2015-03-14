@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ JHtml::_('bootstrap.framework');
 JHtml::_('bootstrap.tooltip');
 
 // Add Stylesheets
-$doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
+$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
@@ -88,7 +88,7 @@ $sitename = $app->get('sitename');
 		<?php endif; ?>
 	</style>
 	<!--[if lt IE 9]>
-		<script src="../media/jui/js/html5.js"></script>
+		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
 </head>
 
@@ -118,7 +118,7 @@ $sitename = $app->get('sitename');
 			&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
 		</p>
 		<a class="login-joomla hasTooltip" href="http://www.joomla.org" target="_blank" title="<?php echo JHtml::tooltipText('TPL_ISIS_ISFREESOFTWARE'); ?>">Joomla!&#174;</a>
-		<a href="<?php echo JUri::root(); ?>" target="_blank" class="pull-left"><i class="icon-share icon-white"></i> <?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
+		<a href="<?php echo JUri::root(); ?>" target="_blank" class="pull-left"><i class="icon-out-2"></i> <?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
 </body>

@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  render
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('FOF_INCLUDED') or die;
@@ -53,6 +53,16 @@ class FOFRenderJoomla extends FOFRenderAbstract
 		if ($platform->isCli())
 		{
 			return;
+		}
+
+		if (version_compare(JVERSION, '3.0.0', 'lt'))
+		{
+			JHtml::_('behavior.framework');
+		}
+		else
+		{
+			JHtml::_('behavior.core');
+			JHtml::_('jquery.framework');
 		}
 
 		// Wrap output in various classes
@@ -170,6 +180,7 @@ class FOFRenderJoomla extends FOFRenderAbstract
 		$html .= "\t" . '<input type="hidden" name="option" value="' . $input->getCmd('option') . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="view" value="' . FOFInflector::pluralize($input->getCmd('view')) . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="task" value="" />' . PHP_EOL;
+		$html .= "\t" . '<input type="hidden" name="layout" value="' . $input->getCmd('layout', '') . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="boxchecked" value="" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="hidemainmenu" value="" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="filter_order" value="' . $filter_order . '" />' . PHP_EOL;
@@ -389,8 +400,7 @@ class FOFRenderJoomla extends FOFRenderAbstract
 
 		if (in_array($validate, array('true', 'yes', '1', 'on')))
 		{
-			JHTML::_('behavior.framework', true);
-			JHTML::_('behavior.formvalidation');
+			JHtml::_('behavior.formvalidation');
 			$class = 'form-validate ';
 			$this->loadValidationScript($form);
 		}
@@ -423,6 +433,15 @@ class FOFRenderJoomla extends FOFRenderAbstract
 			$formid = 'adminForm';
 		}
 
+		// Check if we have a custom task
+		$customTask = $form->getAttribute('customTask');
+
+		if (empty($customTask))
+		{
+			$customTask = '';
+		}
+
+		// Get the form action URL
         $actionUrl = FOFPlatform::getInstance()->isBackend() ? 'index.php' : JUri::root().'index.php';
 
 		if (FOFPlatform::getInstance()->isFrontend() && ($input->getCmd('Itemid', 0) != 0))
@@ -443,7 +462,7 @@ class FOFRenderJoomla extends FOFRenderAbstract
 			'">' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="option" value="' . $input->getCmd('option') . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="view" value="' . $input->getCmd('view', 'edit') . '" />' . PHP_EOL;
-		$html .= "\t" . '<input type="hidden" name="task" value="" />' . PHP_EOL;
+		$html .= "\t" . '<input type="hidden" name="task" value="' . $customTask . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="' . $key . '" value="' . $keyValue . '" />' . PHP_EOL;
 
 		$html .= "\t" . '<input type="hidden" name="' . JFactory::getSession()->getFormToken() . '" value="1" />' . PHP_EOL;

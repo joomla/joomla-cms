@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,15 +110,6 @@ class TagsViewTags extends JViewLegacy
 			JToolbarHelper::checkin('tags.checkin');
 		}
 
-		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			JToolbarHelper::deleteList('', 'tags.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			JToolbarHelper::trash('tags.trash');
-		}
-
 		// Add a batch button
 		if ($user->authorise('core.create', 'com_tags') && $user->authorise('core.edit', 'com_tags') && $user->authorise('core.edit.state', 'com_tags'))
 		{
@@ -130,6 +121,15 @@ class TagsViewTags extends JViewLegacy
 
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
+		}
+
+		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		{
+			JToolbarHelper::deleteList('', 'tags.delete', 'JTOOLBAR_EMPTY_TRASH');
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::trash('tags.trash');
 		}
 
 		if ($canDo->get('core.admin'))

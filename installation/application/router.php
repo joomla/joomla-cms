@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,13 +18,13 @@ class JRouterInstallation extends JRouter
 	/**
 	 * Function to convert a route to an internal URI
 	 *
-	 * @param   JUri  $url  The uri.
+	 * @param   JUri  &$url  The uri.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   1.5
 	 */
-	public function parse($url)
+	public function parse(&$url)
 	{
 		return true;
 	}

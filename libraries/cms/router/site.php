@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -176,6 +176,7 @@ class JRouterSite extends JRouter
 	 * @return  array
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  Attach your logic as rule to the main parse stage
 	 */
 	protected function parseRawRoute(&$uri)
 	{
@@ -235,6 +236,7 @@ class JRouterSite extends JRouter
 	 * @return  string  Internal URI
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  Attach your logic as rule to the main parse stage
 	 */
 	protected function parseSefRoute(&$uri)
 	{
@@ -415,6 +417,7 @@ class JRouterSite extends JRouter
 	 * @return  string  Raw Route
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  Attach your logic as rule to the main build stage
 	 */
 	protected function buildRawRoute(&$uri)
 	{
@@ -441,7 +444,7 @@ class JRouterSite extends JRouter
 	 * @return  void
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use buildSefRoute() instead
+	 * @deprecated  4.0  Attach your logic as rule to the main build stage
 	 * @codeCoverageIgnore
 	 */
 	protected function _buildSefRoute(&$uri)
@@ -457,6 +460,7 @@ class JRouterSite extends JRouter
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  Attach your logic as rule to the main build stage
 	 */
 	protected function buildSefRoute(&$uri)
 	{
@@ -476,7 +480,6 @@ class JRouterSite extends JRouter
 		$tmp       = '';
 		$itemID    = !empty($query['Itemid']) ? $query['Itemid'] : null;
 		$crouter   = $this->getComponentRouter($component);
-		$query     = $crouter->preprocess($query);
 		$parts     = $crouter->build($query);
 		$result    = implode('/', $parts);
 		$tmp       = ($result != "") ? $result : '';
@@ -490,7 +493,7 @@ class JRouterSite extends JRouter
 
 			if (is_object($item) && $query['option'] == $item->component)
 			{
-				if (!$item->home || $item->language != '*')
+				if (!$item->home)
 				{
 					$tmp = !empty($tmp) ? $item->route . '/' . $tmp : $item->route;
 				}
@@ -530,24 +533,30 @@ class JRouterSite extends JRouter
 	/**
 	 * Process the parsed router variables based on custom defined rules
 	 *
-	 * @param   JUri  &$uri  The URI to parse
+	 * @param   JUri    &$uri   The URI to parse
+	 * @param   string  $stage  The stage that should be processed.
+	 *                          Possible values: 'preprocess', 'postprocess'
+	 *                          and '' for the main parse stage
 	 *
 	 * @return  array  The array of processed URI variables
 	 *
 	 * @since   3.2
 	 */
-	protected function processParseRules(&$uri)
+	protected function processParseRules(&$uri, $stage = self::PROCESS_DURING)
 	{
 		// Process the attached parse rules
-		$vars = parent::processParseRules($uri);
+		$vars = parent::processParseRules($uri, $stage);
 
-		// Process the pagination support
-		if ($this->_mode == JROUTER_MODE_SEF)
+		if ($stage == self::PROCESS_DURING)
 		{
-			if ($start = $uri->getVar('start'))
+			// Process the pagination support
+			if ($this->_mode == JROUTER_MODE_SEF)
 			{
-				$uri->delVar('start');
-				$vars['limitstart'] = $start;
+				if ($start = $uri->getVar('start'))
+				{
+					$uri->delVar('start');
+					$vars['limitstart'] = $start;
+				}
 			}
 		}
 
@@ -557,45 +566,81 @@ class JRouterSite extends JRouter
 	/**
 	 * Process the build uri query data based on custom defined rules
 	 *
-	 * @param   JUri  &$uri  The URI
+	 * @param   JUri    &$uri   The URI
+	 * @param   string  $stage  The stage that should be processed.
+	 *                          Possible values: 'preprocess', 'postprocess'
+	 *                          and '' for the main build stage
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  The special logic should be implemented as rule
 	 */
-	protected function processBuildRules(&$uri)
+	protected function processBuildRules(&$uri, $stage = self::PROCESS_DURING)
 	{
-		// Make sure any menu vars are used if no others are specified
-		if (($this->_mode != JROUTER_MODE_SEF) && $uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)
+		if ($stage == self::PROCESS_DURING)
 		{
-			// Get the active menu item
-			$itemid = $uri->getVar('Itemid');
-			$item = $this->menu->getItem($itemid);
-
-			if ($item)
+			// Make sure any menu vars are used if no others are specified
+			$query = $uri->getQuery(true);
+			if ($this->_mode != 1
+				&& isset($query['Itemid'])
+				&& (count($query) == 2 || (count($query) == 3 && isset($query['lang']))))
 			{
-				$uri->setQuery($item->query);
-			}
+				// Get the active menu item
+				$itemid = $uri->getVar('Itemid');
+				$lang = $uri->getVar('lang');
+				$item = $this->menu->getItem($itemid);
 
-			$uri->setVar('Itemid', $itemid);
+				if ($item)
+				{
+					$uri->setQuery($item->query);
+				}
+
+				$uri->setVar('Itemid', $itemid);
+
+				if ($lang)
+				{
+					$uri->setVar('lang', $lang);
+				}
+			}
 		}
 
 		// Process the attached build rules
-		parent::processBuildRules($uri);
+		parent::processBuildRules($uri, $stage);
 
-		// Get the path data
-		$route = $uri->getPath();
-
-		if ($this->_mode == JROUTER_MODE_SEF && $route)
+		if ($stage == self::PROCESS_BEFORE)
 		{
-			if ($limitstart = $uri->getVar('limitstart'))
+			// Get the query data
+			$query = $uri->getQuery(true);
+
+			if (!isset($query['option']))
 			{
-				$uri->setVar('start', (int) $limitstart);
-				$uri->delVar('limitstart');
+				return;
 			}
+
+			// Build the component route
+			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
+			$router   = $this->getComponentRouter($component);
+			$query     = $router->preprocess($query);
+			$uri->setQuery($query);
 		}
 
-		$uri->setPath($route);
+		if ($stage == self::PROCESS_DURING)
+		{
+			// Get the path data
+			$route = $uri->getPath();
+
+			if ($this->_mode == JROUTER_MODE_SEF && $route)
+			{
+				if ($limitstart = $uri->getVar('limitstart'))
+				{
+					$uri->setVar('start', (int) $limitstart);
+					$uri->delVar('limitstart');
+				}
+			}
+
+			$uri->setPath($route);
+		}
 	}
 
 	/**
@@ -687,7 +732,7 @@ class JRouterSite extends JRouter
 
 				if (in_array('JComponentRouterInterface', $reflection->getInterfaceNames()))
 				{
-					$this->componentRouters[$component] = new $class;
+					$this->componentRouters[$component] = new $class($this->app, $this->menu);
 				}
 			}
 

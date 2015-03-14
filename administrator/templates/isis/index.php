@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.0
  */
@@ -19,10 +19,10 @@ $user            = JFactory::getUser();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-$doc->addScriptVersion('templates/' . $this->template . '/js/template.js');
+$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
-$doc->addStyleSheetVersion('templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
+$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
@@ -113,7 +113,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<!-- Link color -->
 	<?php if ($this->params->get('linkColor')) : ?>
 		<style type="text/css">
-			a
+			a, .j-toggle-sidebar-button
 			{
 				color: <?php echo $this->params->get('linkColor'); ?>;
 			}
@@ -121,17 +121,17 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<?php endif; ?>
 
 	<!--[if lt IE 9]>
-	<script src="../media/jui/js/html5.js"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>" <?php if ($stickyToolbar) : ?>data-spy="scroll" data-target=".subhead" data-offset="87"<?php endif; ?>>
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
 <!-- Top Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container-fluid">
 			<?php if ($this->params->get('admin_menus') != '0') : ?>
-				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<a class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -143,7 +143,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 			<a class="brand hidden-desktop hidden-tablet" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
 				<span class="icon-out-2 small"></span></a>
 
-			<div<?php echo ($this->params->get('admin_menus') != '0') ? ' class="nav-collapse"' : ''; ?>>
+			<div<?php echo ($this->params->get('admin_menus') != '0') ? ' class="nav-collapse collapse"' : ''; ?>>
 				<jdoc:include type="modules" name="menu" style="none" />
 				<ul class="nav nav-user<?php echo ($this->direction == 'rtl') ? ' pull-left' : ' pull-right'; ?>">
 					<li class="dropdown">
@@ -272,41 +272,46 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 <jdoc:include type="modules" name="debug" style="none" />
 <?php if ($stickyToolbar) : ?>
 	<script>
-		(function($)
+		jQuery(function($)
 		{
-			// fix sub nav on scroll
-			var $win = $(window)
-				, $nav    = $('.subhead')
-				, navTop  = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed) : ?>40<?php else:?>20<?php endif;?>
-				, isFixed = 0
 
-			processScroll()
+			var navTop;
+			var isFixed = false;
 
-			// hack sad times - holdover until rewrite for 2.1
-			$nav.on('click', function()
+			processScrollInit();
+			processScroll();
+
+			$(window).on('resize', processScrollInit);
+			$(window).on('scroll', processScroll);
+
+			function processScrollInit()
 			{
-				if (!isFixed) {
-					setTimeout(function()
+				if ($('.subhead').length) {
+					navTop = $('.subhead').length && $('.subhead').offset().top - <?php echo ($displayHeader || !$statusFixed) ? 30 : 20;?>;
+	
+					// Only apply the scrollspy when the toolbar is not collapsed
+					if (document.body.clientWidth > 480)
 					{
-						$win.scrollTop($win.scrollTop() - 47)
-					}, 10)
+						$('.subhead-collapse').height($('.subhead').height());
+						$('.subhead').scrollspy({offset: {top: $('.subhead').offset().top - $('nav.navbar').height()}});
+					}
 				}
-			})
-
-			$win.on('scroll', processScroll)
+			}
 
 			function processScroll()
 			{
-				var i, scrollTop = $win.scrollTop()
-				if (scrollTop >= navTop && !isFixed) {
-					isFixed = 1
-					$nav.addClass('subhead-fixed')
-				} else if (scrollTop <= navTop && isFixed) {
-					isFixed = 0
-					$nav.removeClass('subhead-fixed')
+				if ($('.subhead').length) {
+					var scrollTop = $(window).scrollTop();
+					if (scrollTop >= navTop && !isFixed) {
+						isFixed = true;
+						$('.subhead').addClass('subhead-fixed');
+					} else if (scrollTop <= navTop && isFixed) {
+						isFixed = false;
+						$('.subhead').removeClass('subhead-fixed');
+					}
 				}
 			}
-		})(jQuery);
+		});
 	</script>
 <?php endif; ?>
 </body>

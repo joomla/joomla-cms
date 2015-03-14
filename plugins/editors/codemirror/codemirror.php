@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,48 +117,27 @@ class PlgEditorCodemirror extends JPlugin
 	 */
 	protected function getExtraStyles()
 	{
-		$styles = array(
-			'.CodeMirror-fullscreen {',
-				'position: fixed;',
-				'top: 0; left: 0; right: 0; bottom: 0;',
-				'height: auto; z-index: 1040;',
-			'}',
-			'.CodeMirror-foldmarker {',
-				'background: rgba(255, 128, 0, .5);',
-				'box-shadow: inset 0 0 5px rgba(255, 255, 255, .5);',
-				'font-family: serif;',
-				'font-size: 50%;',
-				'cursor: pointer;',
-				'border-radius: 1em;',
-				'padding: 0 1em;',
-			'}',
-			'.CodeMirror-foldgutter, .CodeMirror-markergutter { width: 1.2em; text-align: center; }',
-			'.CodeMirror-markergutter { cursor: pointer; }',
-			'.CodeMirror-markergutter-mark { cursor: pointer; text-align: center; }',
-			'.CodeMirror-markergutter-mark:after { content: "\25CF"; }',
-			'.CodeMirror-foldgutter-open, .CodeMirror-foldgutter-folded { opacity: .75; cursor: pointer; text-align: center; }',
-			'.CodeMirror-foldgutter-open:after { content: "\25BE"; }',
-			'.CodeMirror-foldgutter-folded:after { content: "\25B8"; }'
-		);
+		// Get our custom styles from a css file
+		$styles = JFile::read(__DIR__ . (JDEBUG ? '/styles.css' : '/styles.min.css'));
 
 		// Set the active line color.
 		$color = $this->params->get('activeLineColor', '#a4c2eb');
 		$r = hexdec($color{1} . $color{2});
 		$g = hexdec($color{3} . $color{4});
 		$b = hexdec($color{5} . $color{6});
-		$styles[] = '.CodeMirror-activeline-background {background:rgba(' . $r . ', ' . $g . ', ' . $b . ', .5);}';
+		$styles .= ' .CodeMirror-activeline-background {background:rgba(' . $r . ', ' . $g . ', ' . $b . ', .5);}';
 
 		// Set the color for matched tags.
 		$color = $this->params->get('highlightMatchColor', '#fa542f');
 		$r = hexdec($color{1} . $color{2});
 		$g = hexdec($color{3} . $color{4});
 		$b = hexdec($color{5} . $color{6});
-		$styles[] = '.CodeMirror-matchingtag {background:rgba(' . $r . ', ' . $g . ', ' . $b . ', .5);}';
+		$styles .= ' .CodeMirror-matchingtag {background:rgba(' . $r . ', ' . $g . ', ' . $b . ', .5);}';
 
 		// Set the font styles.
-		$styles[] = '.CodeMirror {' . implode(' ', $this->getEditorStyles()) . '} ';
+		$styles .= ' .CodeMirror {' . implode(' ', $this->getEditorStyles()) . '} ';
 
-		return implode(' ', $styles);
+		return $styles;
 	}
 
 	/**
@@ -311,14 +290,16 @@ class PlgEditorCodemirror extends JPlugin
 			$options->matchBrackets = (boolean) $this->params->get('matchBrackets', true);
 		}
 
+		$options->scrollbarStyle = $this->params->get('scrollbarStyle', 'native');
+
 		// Vim Keybindings.
 		$options->vimMode = (boolean) $this->params->get('vimKeyBinding', 0);
 
 		$html = array();
 		$html[]	= '<p class="label">' . JText::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $this->fullScreenCombo) . '</p>';
-		$html[]	= "<textarea name=\"$name\" id=\"$id\" cols=\"$col\" rows=\"$row\">$content</textarea>";
+		$html[]	= '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row . '">' . $content . '</textarea>';
 		$html[] = $buttons;
-		$html[] = '<script type="text/javascript">';
+		$html[] = '<script type="text' . '/javascript">';
 		$html[] = '(function (id, options) {';
 		$html[] = '    Joomla.editors.instances[id] = CodeMirror.fromTextArea(document.getElementById(id), options);';
 		$html[] = '    CodeMirror.autoLoadMode(Joomla.editors.instances[id], options.mode);';
@@ -333,6 +314,14 @@ class PlgEditorCodemirror extends JPlugin
 		$html[] = '        };';
 		$html[] = '        cm.setGutterMarker(n, "CodeMirror-markergutter", hasMarker ? null : makeMarker());';
 		$html[] = '    });';
+
+		// Listen for Bootstrap's 'shown' event. If this editor was in a hidden element when created, it may need to be refreshed.
+		$html[] = '		!!jQuery && jQuery(function ($) {';
+		$html[] = '			$(document.body).on("shown shown.bs.tab shown.bs.modal", function () {';
+		$html[] = '				Joomla.editors.instances[id].refresh();';
+		$html[] = '			});';
+		$html[] = '		});';
+
 		$html[] = '}(' . json_encode($id) . ', ' . json_encode($options) . '));';
 		$html[] = '</script>';
 

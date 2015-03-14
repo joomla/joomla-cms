@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Extensionupdate
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,7 +61,7 @@ class PlgQuickiconExtensionupdate extends JPlugin
 
 		return array(
 			array(
-				'link' => 'index.php?option=com_installer&view=update',
+				'link' => 'index.php?option=com_installer&amp;view=update',
 				'image' => 'asterisk',
 				'icon' => 'header/icon-48-extension.png',
 				'text' => JText::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),

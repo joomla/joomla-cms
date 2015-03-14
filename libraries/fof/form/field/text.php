@@ -2,7 +2,7 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -225,7 +225,7 @@ class FOFFormFieldText extends JFormFieldText implements FOFFormField
 		$ret = str_replace('[ITEMID]', JFactory::getApplication()->input->getInt('Itemid', 0), $ret);
 
 		// Replace other field variables in the URL
-		$fields = $this->item->getFields();
+		$fields = $this->item->getTableFields();
 
 		foreach ($fields as $fielddata)
 		{

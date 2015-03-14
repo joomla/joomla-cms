@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  dispatcher
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -247,6 +247,11 @@ class FOFDispatcher extends FOFUtilsObject
 		$this->input->set('option', $this->component);
 		$this->input->set('view', $this->view);
 		$this->input->set('layout', $this->layout);
+
+		if (array_key_exists('authTimeStep', $config))
+		{
+			$this->fofAuth_timeStep = empty($config['authTimeStep']) ? 6 : $config['authTimeStep'];
+		}
 	}
 
     /**

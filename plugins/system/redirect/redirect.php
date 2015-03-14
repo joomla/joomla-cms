@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.redirect
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,7 +98,9 @@ class PlgSystemRedirect extends JPlugin
 				// If we have a redirect in the 300 range use JApplicationWeb::redirect().
 				if ($link->header < 400 && $link->header >= 300)
 				{
-					$app->redirect($link->new_url, intval($link->header));
+					$new_link = JUri::isInternal($link->new_url) ? JRoute::_($link->new_url) : $link->new_url;
+
+					$app->redirect($new_link, intval($link->header));
 				}
 				else
 				{

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -277,26 +277,27 @@ class JDocument
 		{
 			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 			$path = __DIR__ . '/' . $type . '/' . $type . '.php';
+			$rawpath = __DIR__ . '/raw/raw.php';
 			$ntype = null;
-
-			// Check if the document type exists
-			if (!file_exists($path))
-			{
-				// Default to the raw format
-				$ntype = $type;
-				$type = 'raw';
-			}
 
 			// Determine the path and class
 			$class = 'JDocument' . $type;
 
 			if (!class_exists($class))
 			{
-				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
-
 				if (file_exists($path))
 				{
 					require_once $path;
+				}
+				// Default to the raw format
+				elseif (file_exists($rawpath))
+				{
+					$ntype = $type;
+					$type = 'raw';
+
+					$class = 'JDocument' . $type;
+
+					require_once $rawpath;
 				}
 				else
 				{

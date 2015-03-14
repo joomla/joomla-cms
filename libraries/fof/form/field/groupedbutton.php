@@ -2,7 +2,7 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -113,13 +113,13 @@ class FOFFormFieldGroupedbutton extends JFormFieldText implements FOFFormField
 			{
 				if (!is_null($value))
 				{
-					$renderedAttributes[] = $name . '="' . $value . '"';
+					$renderedAttributes[] = $name . '="' . htmlentities($value) . '"';
 				}
 			}
 
 			$buttonXML   = new SimpleXMLElement('<field ' . implode(' ', $renderedAttributes) . ' />');
 			$buttonField = new FOFFormFieldButton($this->form);
-		
+
 			// Pass required objects to the field
 			$buttonField->item = $this->item;
 			$buttonField->rowid = $this->rowid;

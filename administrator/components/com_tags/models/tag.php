@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -266,9 +266,10 @@ class TagsModelTag extends JModelAdmin
 		$input      = JFactory::getApplication()->input;
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
 		$isNew      = true;
+		$context    = $this->option . '.' . $this->name;
 
-		// Include the content plugins for the on save events.
-		JPluginHelper::importPlugin('content');
+		// Include the plugins for the save events.
+		JPluginHelper::importPlugin($this->events_map['save']);
 
 		// Load the row if saving an existing tag.
 		if ($pk > 0)
@@ -328,8 +329,8 @@ class TagsModelTag extends JModelAdmin
 			return false;
 		}
 
-		// Trigger the onContentBeforeSave event.
-		$result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, &$table, $isNew));
+		// Trigger the before save event.
+		$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, $isNew));
 
 		if (in_array(false, $result, true))
 		{
@@ -346,8 +347,8 @@ class TagsModelTag extends JModelAdmin
 			return false;
 		}
 
-		// Trigger the onContentAfterSave event.
-		$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, &$table, $isNew));
+		// Trigger the after save event.
+		$dispatcher->trigger($this->event_after_save, array($context, &$table, $isNew));
 
 		// Rebuild the path for the tag:
 		if (!$table->rebuildPath($table->id))

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,9 +62,9 @@ class JFormFieldCategoryEdit extends JFormFieldList
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT a.id AS value, a.title AS text, a.level, a.published');
+			->select('DISTINCT a.id AS value, a.title AS text, a.level, a.published, a.lft');
 		$subQuery = $db->getQuery(true)
-			->select('DISTINCT id,title,level,published,parent_id,extension,lft,rgt')
+			->select('id,title,level,published,parent_id,extension,lft,rgt')
 			->from('#__categories');
 
 		// Filter by the extension type
@@ -94,10 +94,9 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			$subQuery->where('published IN (' . implode(',', $published) . ')');
 		}
 
-		$subQuery->order('lft ASC');
 		$query->from('(' . $subQuery->__toString() . ') AS a')
 			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
-
+		$query->order('a.lft ASC');
 		// If parent isn't explicitly stated but we are in com_categories assume we want parents
 		if ($oldCat != 0 && ($this->element['parent'] == true || $jinput->get('option') == 'com_categories'))
 		{

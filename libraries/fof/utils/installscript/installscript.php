@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  utils
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -281,14 +281,14 @@ abstract class FOFUtilsInstallscript
 			return false;
 		}
 
-		// Workarounds for notorious JInstaller bugs we submitted patches for but were rejected – yet the bugs were never
-		// fixed. Way to go, Joomla!...
-		if (in_array($type, array('install')))
+		// Workarounds for notorious JInstaller bugs we submitted patches for but were rejected – yet the bugs were
+		// never fixed. Way to go, Joomla!...
+		if (in_array($type, array('install', 'discover_install')))
 		{
 			// Bugfix for "Database function returned no error"
 			$this->bugfixDBFunctionReturnedNoError();
 		}
-		elseif ($type != 'discover_install')
+		else
 		{
 			// Bugfix for "Can not build admin menus"
 			$this->bugfixCantBuildAdminMenus();
@@ -766,73 +766,6 @@ abstract class FOFUtilsInstallscript
 			{
 				$query = $db->getQuery(true);
 				$query->delete('#__assets')
-					->where($db->qn('id') . ' = ' . $db->q($id));
-				$db->setQuery($query);
-
-				try
-				{
-					$db->execute();
-				}
-				catch (Exception $exc)
-				{
-					// Nothing
-				}
-			}
-		}
-
-		// Remove #__menu records for good measure!
-		$query = $db->getQuery(true);
-		$query->select('id')
-			->from('#__menu')
-			->where($db->qn('type') . ' = ' . $db->q('component'))
-			->where($db->qn('menutype') . ' = ' . $db->q('main'))
-			->where($db->qn('link') . ' LIKE ' . $db->q('index.php?option=' . $this->componentName));
-		$db->setQuery($query);
-
-		try
-		{
-			$ids1 = $db->loadColumn();
-		}
-		catch (Exception $exc)
-		{
-			$ids1 = array();
-		}
-
-		if (empty($ids1))
-		{
-			$ids1 = array();
-		}
-
-		$query = $db->getQuery(true);
-		$query->select('id')
-			->from('#__menu')
-			->where($db->qn('type') . ' = ' . $db->q('component'))
-			->where($db->qn('menutype') . ' = ' . $db->q('main'))
-			->where($db->qn('link') . ' LIKE ' . $db->q('index.php?option=' . $this->componentName . '&%'));
-		$db->setQuery($query);
-
-		try
-		{
-			$ids2 = $db->loadColumn();
-		}
-		catch (Exception $exc)
-		{
-			$ids2 = array();
-		}
-
-		if (empty($ids2))
-		{
-			$ids2 = array();
-		}
-
-		$ids = array_merge($ids1, $ids2);
-
-		if (!empty($ids))
-		{
-			foreach ($ids as $id)
-			{
-				$query = $db->getQuery(true);
-				$query->delete('#__menu')
 					->where($db->qn('id') . ' = ' . $db->q($id));
 				$db->setQuery($query);
 
@@ -1750,9 +1683,9 @@ abstract class FOFUtilsInstallscript
 				->where('home = 0');
 
 			$db->setQuery($query);
-			$menu_id = $db->loadResult();
+			$menu_ids_level1 = $db->loadColumn();
 
-			if (!$menu_id)
+			if (empty($menu_ids_level1))
 			{
 				// Oops! Could not get the menu ID. Go back and rollback changes.
 				JError::raiseWarning(1, $table->getError());
@@ -1761,10 +1694,27 @@ abstract class FOFUtilsInstallscript
 			}
 			else
 			{
+				$ids = implode(',', $menu_ids_level1);
+
+				$query->clear()
+					->select('id')
+					->from('#__menu')
+					->where('menutype = ' . $db->quote('main'))
+					->where('client_id = 1')
+					->where('type = ' . $db->quote('component'))
+					->where('parent_id in (' . $ids . ')')
+					->where('level = 2')
+					->where('home = 0');
+
+				$db->setQuery($query);
+				$menu_ids_level2 = $db->loadColumn();
+
+				$ids = implode(',', array_merge($menu_ids_level1, $menu_ids_level2));
+
 				// Remove the old menu item
 				$query->clear()
 					->delete('#__menu')
-					->where('id = ' . (int)$menu_id);
+					->where('id in (' . $ids . ')');
 
 				$db->setQuery($query);
 				$db->query();

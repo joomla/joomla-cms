@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,8 +54,8 @@ class JHtmlUsers
 	{
 		$title = JText::_('COM_USERS_ADD_NOTE');
 
-		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '">'
-			. '<span class="label label-info"><i class="icon-vcard"></i>' . $title . '</span></a>';
+		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '" class="hasTooltip btn btn-mini" title="' . $title . '">'
+			. '<i class="icon-vcard"></i><span class="hidden-phone">' . $title . '</span></a>';
 	}
 
 	/**
@@ -77,8 +77,8 @@ class JHtmlUsers
 
 		$title = JText::_('COM_USERS_FILTER_NOTES');
 
-		return '<a href="' . JRoute::_('index.php?option=com_users&view=notes&filter_search=uid:' . (int) $userId) . '">'
-			. JHtml::_('image', 'admin/filter_16.png', 'COM_USERS_NOTES', array('title' => $title), true) . '</a>';
+		return '<a href="' . JRoute::_('index.php?option=com_users&view=notes&filter_search=uid:' . (int) $userId) . '" class="hasTooltip btn btn-mini" title="' . $title . '">'
+			. '<i class="icon-filter"></i></a>';
 	}
 
 	/**
@@ -100,10 +100,37 @@ class JHtmlUsers
 
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
 
-		return '<a class="modal"'
-			. ' href="' . JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId) . '"'
-			. ' rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
-			. '<span class="label label-info"><i class="icon-drawer-2"></i>' . $title . '</span></a>';
+		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId . '" data-toggle="modal" class="hasTooltip btn btn-mini" title="' . $title . '">'
+			. '<i class="icon-drawer-2"></i><span class="hidden-phone">' . $title . '</span></a>';
+	}
+
+	/**
+	 * Renders the modal html.
+	 *
+	 * @param   integer  $count   The number of notes for the user
+	 * @param   integer  $userId  The user ID
+	 *
+	 * @return  string   The html for the rendered modal
+	 *
+	 * @since   3.4.1
+	*/
+	public static function notesModal($count, $userId)
+	{
+		if (empty($count))
+		{
+			return '';
+		}
+
+		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
+
+		return JHtmlBootstrap::renderModal(
+			'userModal_' . (int) $userId, array(
+				'url' => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId),
+				'title' => $title,
+				'width' => '800px',
+				'height' => '500px')
+		);
+
 	}
 
 	/**

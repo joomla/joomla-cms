@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,8 +85,7 @@ class BannersModelBanners extends JModelList
 
 		if ($cid)
 		{
-			$query->join('LEFT', '#__categories as cat ON a.catid = cat.id')
-				->where('a.cid = ' . (int) $cid)
+			$query->where('a.cid = ' . (int) $cid)
 				->where('cl.state = 1');
 		}
 
@@ -142,6 +141,11 @@ class BannersModelBanners extends JModelList
 				$temp = array();
 				$config = JComponentHelper::getParams('com_banners');
 				$prefix = $config->get('metakey_prefix');
+
+				if ($categoryId)
+				{
+					$query->join('LEFT', '#__categories as cat ON a.catid = cat.id');
+				}
 
 				foreach ($keywords as $keyword)
 				{

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -251,6 +251,21 @@ class JFormFieldMedia extends JFormField
 			$script[] = '		$tip.show();';
 			$script[] = '	}';
 
+			// JQuery for tooltip for INPUT showing whole image path
+			$script[] = '	function jMediaRefreshImgpathTip(tip)';
+			$script[] = '	{';
+			$script[] = '		var $ = jQuery.noConflict();';
+			$script[] = '		var $tip = $(tip);';
+			$script[] = '		$tip.css("max-width", "none");';
+			$script[] = '		var $imgpath = $("#" + "' . $this->id . '").val();';
+			$script[] = '		$("#TipImgpath").html($imgpath);';
+			$script[] = '		if ($imgpath.length) {';
+			$script[] = '		 $tip.show();';
+			$script[] = '		} else {';
+			$script[] = '		 $tip.hide();';
+			$script[] = '		}';
+			$script[] = '	}';
+
 			// Add the script to the document head.
 			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
@@ -259,6 +274,23 @@ class JFormFieldMedia extends JFormField
 
 		$html = array();
 		$attr = '';
+
+		// Tooltip for INPUT showing whole image path
+		$options = array(
+			'onShow' => 'jMediaRefreshImgpathTip',
+		);
+		JHtml::_('behavior.tooltip', '.hasTipImgpath', $options);
+
+		if (!empty($this->class))
+		{
+			$this->class .= ' hasTipImgpath';
+		}
+		else
+		{
+			$this->class = 'hasTipImgpath';
+		}
+
+		$attr .= ' title="' . htmlspecialchars('<span id="TipImgpath"></span>', ENT_COMPAT, 'UTF-8') . '"';
 
 		// Initialize some field attributes.
 		$attr .= !empty($this->class) ? ' class="input-small ' . $this->class . '"' : ' class="input-small"';

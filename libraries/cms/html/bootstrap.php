@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -256,6 +256,7 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @deprecated  4.0  Unused, JS Not working
 	 */
 	public static function modal($selector = 'modal', $params = array())
 	{
@@ -293,34 +294,35 @@ abstract class JHtmlBootstrap
 	 *
 	 * @param   string  $selector  The ID selector for the modal.
 	 * @param   array   $params    An array of options for the modal.
-	 * @param   string  $footer    Optional markup for the modal footer
+	 *                             Options for the modal can be:
+	 *                             - title     string   The modal title
+	 *                             - backdrop  mixed    A boolean select if a modal-backdrop element should be included (default = true)
+	 *                                                  The string 'static' includes a backdrop which doesn't close the modal on click.
+	 *                             - keyboard  boolean  Closes the modal when escape key is pressed (default = true)
+	 *                             - closeButton  boolean  Display modal close button (default = true)
+	 *                             - animation boolean  Fade in from the top of the page (default = true)
+	 *                             - footer    string   Optional markup for the modal footer
+	 *                             - url       string   URL of a resource to be inserted as an <iframe> inside the modal body
+	 *                             - height    string   height of the <iframe> containing the remote resource
+	 *                             - width     string   width of the <iframe> containing the remote resource
+	 * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the url option is set
 	 *
 	 * @return  string  HTML markup for a modal
 	 *
 	 * @since   3.0
 	 */
-	public static function renderModal($selector = 'modal', $params = array(), $footer = '')
+	public static function renderModal($selector = 'modal', $params = array(), $body = '')
 	{
-		// Ensure the behavior is loaded
-		static::modal($selector, $params);
+		// Include Bootstrap framework
+		static::framework();
 
-		$html = "<div class=\"modal hide fade\" id=\"" . $selector . "\">\n";
-		$html .= "<div class=\"modal-header\">\n";
-		$html .= "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">×</button>\n";
-		$html .= "<h3>" . $params['title'] . "</h3>\n";
-		$html .= "</div>\n";
-		$html .= "<div id=\"" . $selector . "-container\">\n";
-		$html .= "</div>\n";
-		$html .= "</div>\n";
+		$layoutData = array(
+			'selector' => $selector,
+			'params'   => $params,
+			'body'     => $body
+		);
 
-		$html .= "<script>";
-		$html .= "jQuery('#" . $selector . "').on('show', function () {\n";
-		$html .= "document.getElementById('" . $selector . "-container').innerHTML = '<div class=\"modal-body\"><iframe class=\"iframe\" src=\""
-			. $params['url'] . "\" height=\"" . $params['height'] . "\" width=\"" . $params['width'] . "\"></iframe></div>" . $footer . "';\n";
-		$html .= "});\n";
-		$html .= "</script>";
-
-		return $html;
+		return JLayoutHelper::render('joomla.modal.main', $layoutData);
 	}
 
 	/**

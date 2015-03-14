@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,18 +30,16 @@ class ContactRouter extends JComponentRouterBase
 		$segments = array();
 
 		// Get a menu item based on Itemid or currently active
-		$app = JFactory::getApplication();
-		$menu = $app->getMenu();
 		$params = JComponentHelper::getParams('com_contact');
 		$advanced = $params->get('sef_advanced_link', 0);
 
 		if (empty($query['Itemid']))
 		{
-			$menuItem = $menu->getActive();
+			$menuItem = $this->menu->getActive();
 		}
 		else
 		{
-			$menuItem = $menu->getItem($query['Itemid']);
+			$menuItem = $this->menu->getItem($query['Itemid']);
 		}
 
 		$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
@@ -178,9 +176,7 @@ class ContactRouter extends JComponentRouterBase
 		}
 
 		// Get the active menu item.
-		$app = JFactory::getApplication();
-		$menu = $app->getMenu();
-		$item = $menu->getActive();
+		$item = $this->menu->getActive();
 		$params = JComponentHelper::getParams('com_contact');
 		$advanced = $params->get('sef_advanced_link', 0);
 

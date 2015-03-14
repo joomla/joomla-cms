@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,8 +60,7 @@ class ModLoginHelper
 		if (!$url)
 		{
 			// Stay on the same page
-			$uri = clone JUri::getInstance();
-			$vars = $router->parse($uri);
+			$vars = $router->getVars();
 			unset($vars['lang']);
 
 			if ($router->getMode() == JROUTER_MODE_SEF)

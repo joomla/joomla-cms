@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -120,6 +120,14 @@ class JRouterSiteTest extends TestCase
 			'REQUEST_URI' => '/joomla/index.php?var=value 10'
 		);
 
+		$server3 = array(
+			'HTTP_HOST'   => '',
+			'SCRIPT_NAME' => '',
+			'SCRIPT_FILENAME' => JPATH_SITE . '/cli/deletefiles.php',
+			'PHP_SELF'    => '',
+			'REQUEST_URI' => ''
+		);
+
 		$cases   = array();
 		$cases[] = array('', JROUTER_MODE_RAW, array(), $server1, array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), '');
 
@@ -134,13 +142,15 @@ class JRouterSiteTest extends TestCase
 		$cases[] = array('/joomla/blog/te%20st', JROUTER_MODE_RAW, array(), $server2, array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'blog/te st');
 		$cases[] = array('/otherfolder/blog/test', JROUTER_MODE_RAW, array(), $server2, array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), 'older/blog/test');
 
+		$cases[] = array('/cli/deletefiles.php?var1=value1', JROUTER_MODE_RAW, array(), $server3, array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'), '?var1=value1');
+
 		return $cases;
 	}
 
 	/**
 	 * Tests the parse method
 	 *
-	 * @param   string   $uri        An associative array with variables
+	 * @param   string   $url        An associative array with variables
 	 * @param   integer  $mode       JROUTER_MODE_RAW or JROUTER_MODE_SEF
 	 * @param   array    $map        An associative array with app config vars
 	 * @param   array    $server     An associative array with $_SERVER vars
@@ -461,6 +471,8 @@ class JRouterSiteTest extends TestCase
 		$cases[] = array('test2/sub-menu/something', true, array('languagefilter' => true), array('testvar' => 'testvalue'), array('testvar' => 'testvalue', 'option' => 'com_test2', 'Itemid' => 44));
 		$cases[] = array('test2/sub-menu/something', false, array('languagefilter' => true), array('testvar' => 'testvalue'), array('option' => 'com_test2', 'Itemid' => 44, 'testvar' => 'testvalue'));
 
+		$cases[] = array('english-test', false, array('languagefilter' => true), array('option' => 'com_test', 'view' => 'test2'), array('option' => 'com_test', 'Itemid' => '47'), 47);
+
 		return $cases;
 	}
 
@@ -472,13 +484,14 @@ class JRouterSiteTest extends TestCase
 	 * @param   array    $appConfig        An associative array with app config vars
 	 * @param   array    $expected         An associative array with $_SERVER vars
 	 * @param   array    $expectedGlobals  An associative array with $_SERVER vars
+	 * @param   boolean  $activeMenu       Flag if the item is the active menu
 	 *
 	 * @return  void
 	 *
 	 * @dataProvider  casesParseSefRoute
 	 * @since         3.4
 	 */
-	public function testParseSefRoute($url, $menubool, $appConfig, $expected, $expectedGlobals)
+	public function testParseSefRoute($url, $menubool, $appConfig, $expected, $expectedGlobals, $activeMenu = false)
 	{
 		$uri = new JUri($url);
 		$app = $this->object->getApp();
@@ -498,8 +511,13 @@ class JRouterSiteTest extends TestCase
 
 		if ($menubool)
 		{
-			$menu = TestMockMenu::create($this, false);
+			$menu = TestMockMenu::create($this, false, $activeMenu);
 			$menu->expects($this->any())->method('getDefault')->will($this->returnValue(null));
+			$this->object->setMenu($menu);
+		}
+		else
+		{
+			$menu = TestMockMenu::create($this, true, $activeMenu);
 			$this->object->setMenu($menu);
 		}
 
@@ -560,26 +578,14 @@ class JRouterSiteTest extends TestCase
 		// Check if URLs without an option are returned identically
 		$cases[] = array('index.php?var1=value1', 'index.php?var1=value1');
 
-		// Check if URLs with an option are processed by the pre-process method
-		$cases[] = array('index.php?option=com_test&var1=value1', 'index.php/component/test/?var1=value1&testvar=testvalue');
-
-		// Check if URLs with a mangled option are processed by the pre-process method
-		$cases[] = array('index.php?option=com_ Tes§t&var1=value1', 'index.php/component/ Tes§t/?var1=value1&testvar=testvalue');
-
-		// Check if URLs with an option and some path are processed by the pre-process method and returned with the original path
-		$cases[] = array('test-folder?option=com_test&var1=value1', 'test-folder/component/test/?var1=value1&testvar=testvalue');
-
 		// Check if the menu item is properly prepended
-		$cases[] = array('index.php?option=com_test&var1=value1&Itemid=42', 'index.php/test?var1=value1&testvar=testvalue');
+		$cases[] = array('index.php?option=com_test&var1=value1&Itemid=42', 'index.php/test?var1=value1');
 
 		// Check if a non existing menu item is correctly ignored
-		$cases[] = array('index.php?option=com_test&var1=value1&Itemid=41', 'index.php/component/test/?var1=value1&Itemid=41&testvar=testvalue');
+		$cases[] = array('index.php?option=com_test&var1=value1&Itemid=41', 'index.php/component/test/?var1=value1&Itemid=41');
 
 		// Check if a menu item with a parent is properly prepended
-		$cases[] = array('index.php?option=com_test&var1=value1&Itemid=46', 'index.php/test/sub-menu?var1=value1&testvar=testvalue');
-
-		// Component router build: Check if URLs with an option and some path are processed by the pre-process method and returned with the original path
-		$cases[] = array('test-folder?option=com_test2&var1=value1', 'test-folder/component/test2/router-test/another-segment?var1=value1');
+		$cases[] = array('index.php?option=com_test&var1=value1&Itemid=46', 'index.php/test/sub-menu?var1=value1');
 
 		// Component router build: Check if the menu item is properly prepended
 		$cases[] = array('index.php?option=com_test2&var1=value1&Itemid=43', 'index.php/test2/router-test/another-segment?var1=value1');

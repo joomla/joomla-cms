@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  Installer
  * @since       3.1
  */
-class JInstallerTest extends TestCase
+class JInstallerTest extends TestCaseDatabase
 {
 	/**
 	 * @var  JInstaller
@@ -32,8 +32,6 @@ class JInstallerTest extends TestCase
 		parent::setUp();
 
 		$this->saveFactoryState();
-		$newDbo = $this->getMockDatabase();
-		JFactory::$database = &$newDbo;
 
 		$this->object = JInstaller::getInstance();
 	}
@@ -47,7 +45,22 @@ class JInstallerTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+
 		parent::tearDown();
+	}
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 */
+	protected function getDataSet()
+	{
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+
+		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
+
+		return $dataSet;
 	}
 
 	/**
@@ -228,32 +241,6 @@ class JInstallerTest extends TestCase
 		$this->assertThat(
 			$this->object->abort(null, false),
 			$this->isFalse()
-		);
-	}
-
-	/**
-	 * This test is weak and may need removal at some point
-	 *
-	 * @covers  JInstaller::abort
-	 *
-	 * @expectedException  RuntimeException
-	 *
-	 * @return void
-	 */
-	public function testAbortDebug()
-	{
-		$configMock = $this->getMock('test', array('get'));
-
-		$configMock->expects($this->atLeastOnce())
-			->method('get')
-			->with($this->equalTo('debug'))
-			->will($this->returnValue(true));
-
-		JFactory::$config = $configMock;
-
-		$this->assertThat(
-			$this->object->abort(),
-			$this->isTrue()
 		);
 	}
 

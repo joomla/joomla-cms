@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -194,7 +194,18 @@ class ModMenuHelper
 	public static function getActive(&$params)
 	{
 		$menu = JFactory::getApplication()->getMenu();
+		$lang = JFactory::getLanguage();
 
-		return $menu->getActive() ? $menu->getActive() : $menu->getDefault();
+		// Look for the home menu
+		if (JLanguageMultilang::isEnabled())
+		{
+			$home = $menu->getDefault($lang->getTag());
+		}
+		else
+		{
+			$home  = $menu->getDefault();
+		}
+
+		return $menu->getActive() ? $menu->getActive() : $home;
 	}
 }

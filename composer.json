@@ -13,11 +13,11 @@
         "joomla/application": "~1.2",
         "joomla/di": "~1.2",
         "joomla/registry": "~1.2",
-	    "joomla/string": "~1.2",
+        "joomla/string": "~1.2",
         "joomla/uri": "~1.1",
         "ircmaxell/password-compat": "1.*",
         "leafo/lessphp": "0.3.9",
-        "phpmailer/phpmailer": "5.2.8",
+        "phpmailer/phpmailer": "5.2.9",
         "symfony/yaml": "2.*"
     },
     "require-dev": {

@@ -1,9 +1,9 @@
-<?php 
+<?php
 /**
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -86,7 +86,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 			$user = JFactory::getUser();
 
 			if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $serviceData['id'])
-				|| !$user->authorise('module.edit.frontend', 'com_modules'))
+				&& !$user->authorise('module.edit.frontend', 'com_modules'))
 			{
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 				$app->redirect($redirect);

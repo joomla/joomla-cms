@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ class JFormFieldClicks extends JFormField
 	 */
 	protected function getInput()
 	{
-		$onclick = ' onclick="document.id(\'' . $this->id . '\').value=\'0\';"';
+		$onclick = ' onclick="document.getElementById(\'' . $this->id . '\').value=\'0\';"';
 
 		return
 			'<input class="input-small" type="text" name="' . $this->name . '" id="' . $this->id . '" value="'

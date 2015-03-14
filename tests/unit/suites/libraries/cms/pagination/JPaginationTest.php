@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Pagination
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -377,6 +377,25 @@ class JPaginationTest extends TestCase
 		$this->assertEquals($object->pages[$active]->active, $expected["5"]["active"], 'This is not the expected active active value');
 
 		unset($pagination);
+	}
+
+	/**
+	 * Tests the getData method with multiple JPagination instances
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @link    https://github.com/joomla/joomla-cms/pull/4521
+	 */
+	public function testGetDataWithMultipleInstances()
+	{
+		$p1 = new JPagination(10, 0, 5, 'pref1');
+		$data1 = $p1->getData();
+		$p2 = new JPagination(20, 0, 10, 'pref2');
+		$data2 = $p2->getData();
+
+		$this->assertEquals(5, $data1->next->base, 'Assert the base value for the next page for object 1 is correct.');
+		$this->assertEquals(10, $data2->next->base, 'Assert the base value for the next page for object 2 is correct.');
 	}
 
 	/**

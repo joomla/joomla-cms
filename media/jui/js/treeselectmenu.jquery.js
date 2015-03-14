@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 jQuery(function($)
@@ -51,15 +51,23 @@ jQuery(function($)
 	$('#treeselectfilter').keyup(function()
 	{
 		var text = $(this).val().toLowerCase();
-		$('.treeselect li').each(function()
+		var hidden = 0;
+		$("#noresultsfound").hide();
+		var $list_elements = $('.treeselect li');
+		$list_elements.each(function()
 		{
 			if ($(this).text().toLowerCase().indexOf(text) == -1) {
 				$(this).hide();
+				hidden++;
 			}
 			else {
 				$(this).show();
 			}
 		});
+		if(hidden == $list_elements.length)
+		{
+			$("#noresultsfound").show();
+		}
 	});
 
 	// Checks all checkboxes the tree

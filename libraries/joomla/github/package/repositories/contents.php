@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -125,13 +125,11 @@ class JGithubPackageRepositoriesContents extends JGithubPackage
 	public function get($owner, $repo, $path, $ref = '')
 	{
 		// Build the request path.
-		$rPath = '/repos/' . $owner . '/' . $repo . '/contents';
-
-		$rPath .= '?path=' . $path;
+		$rPath = '/repos/' . $owner . '/' . $repo . '/contents/' . $path;
 
 		if ($ref)
 		{
-			$rPath .= '&ref=' . $ref;
+			$rPath .= '?ref=' . $ref;
 		}
 
 		// Send the request.

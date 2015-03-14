@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -129,11 +129,11 @@ class PluginsModelPlugins extends JModelList
 
 			if (!empty($search))
 			{
-				$search = str_replace(' ', '.*', preg_quote(trim($search), '/'));
+				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
 
 				foreach ($result as $i => $item)
 				{
-					if (!preg_match("/$search/i", $item->name))
+					if (!preg_match("/$escapedSearchString/i", $item->name))
 					{
 						unset($result[$i]);
 					}

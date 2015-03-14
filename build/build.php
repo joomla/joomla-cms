@@ -16,17 +16,16 @@
  * 3. Run from CLI as: 'php build.php" from build directory.
  * 4. Check the archives in the tmp directory.
  *
- * @package		Joomla.Build
- *
- * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Build
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /usr/bin/git)
 ob_start();
 passthru('which git', $systemGit);
 $systemGit = ob_get_clean();
-$gitPath = '/usr/bin/git';
+$gitPath   = '/usr/bin/git';
 
 // Sanity check - Make sure $gitPath is the same path the system recognizes
 if (substr($systemGit, 0, -1) != $gitPath)
@@ -133,7 +132,7 @@ $doNotPackage = array(
  */
 $doNotPatch = array(
 	'installation',
-    'images'
+	'images',
 );
 
 // For the packages, replace spaces in stability (RC) with underscores
@@ -158,28 +157,28 @@ for ($num = $release - 1; $num >= 0; $num--)
 	foreach ($files as $file)
 	{
 		$fileName   = substr($file, 2);
-		$folderPath = explode('/', $file);
-		$folderName = $folderPath[0];
+		$folderPath = explode('/', $fileName);
+		$baseFolderName = $folderPath[0];
 
-		// TODO - Old check, commented for reference, remove when complete
-		/*if (substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file, 2, 5) != 'build' && substr($file, 2, 4) != '.git'
-			&& substr($file, 2, 7) != '.travis' && substr($file, 2, 6) != 'travis' && substr($file, 2, 7) != 'phpunit' && substr($file, -3) != '.md'
-			&& substr($file, 2, 6) != 'images')
-		{*/
+		$doNotPackageFile = in_array(trim($fileName), $doNotPackage);
+		$doNotPatchFile = in_array(trim($fileName), $doNotPatch);
+		$doNotPackageBaseFolder = in_array($baseFolderName, $doNotPackage);
+		$doNotPatchBaseFolder = in_array($baseFolderName, $doNotPatch);
 
-		if (!in_array($fileName, $doNotPackage) && !in_array($fileName, $doNotPatch)
-			&& !in_array($folderName, $doNotPackage) && !in_array($folderName, $doNotPatch))
+		if ($doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)
 		{
-			// Don't add deleted files to the list
-			if (substr($file, 0, 1) != 'D')
-			{
-				$filesArray[$fileName] = true;
-			}
-			else
-			{
-				// Add deleted files to the deleted files list
-				$deletedFiles[] = $fileName;
-			}
+			continue;
+		}
+
+		// Don't add deleted files to the list
+		if (substr($file, 0, 1) != 'D')
+		{
+			$filesArray[$fileName] = true;
+		}
+		else
+		{
+			// Add deleted files to the deleted files list
+			$deletedFiles[] = $fileName;
 		}
 	}
 

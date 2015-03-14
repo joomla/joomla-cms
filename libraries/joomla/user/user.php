@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -448,11 +448,10 @@ class JUser extends JObject
 			$this->_authLevels = array();
 		}
 
-		/*
-		 * Force loading the latest state.
-		 * Otherwise updating the user session fails because it sticks with the 'old' values.
-		 */
-		$this->_authLevels = JAccess::getAuthorisedViewLevels($this->id);
+		if (empty($this->_authLevels))
+		{
+			$this->_authLevels = JAccess::getAuthorisedViewLevels($this->id);
+		}
 
 		return $this->_authLevels;
 	}
@@ -471,13 +470,27 @@ class JUser extends JObject
 			$this->_authGroups = array();
 		}
 
-		/*
-		 * Force loading the latest state.
-		 * Otherwise updating the user session fails because it sticks with the 'old' values.
-		 */
-		$this->_authGroups = JAccess::getGroupsByUser($this->id);
+		if (empty($this->_authGroups))
+		{
+			$this->_authGroups = JAccess::getGroupsByUser($this->id);
+		}
 
 		return $this->_authGroups;
+	}
+
+	/**
+	 * Clears the access rights cache of this user
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4.0
+	 */
+	public function clearAccessRights()
+	{
+		$this->_authLevels = null;
+		$this->_authGroups = null;
+		$this->isRoot = null;
+		JAccess::clearStatics();
 	}
 
 	/**
