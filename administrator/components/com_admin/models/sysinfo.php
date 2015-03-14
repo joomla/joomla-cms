@@ -43,6 +43,44 @@ class AdminModelSysInfo extends JModelLegacy
 	protected $php_info = null;
 
 	/**
+	 * Array containing the phpinfo() data.
+	 *
+	 * @var    array
+	 *
+	 * @since  3.5
+	 */
+	protected $phpInfoArray;
+
+	/**
+	 * Private/critical data that we don't want to share
+	 *
+	 * @var    array
+	 *
+	 * @since  3.5
+	 */
+	protected $privateSettings = array(
+		'phpInfoArray' => array(
+			'HTTP_HOST','Server Administrator', 'Server Root', 'HTTP_ORIGIN', 'HTTP_REFERER', 'HTTP_COOKIE',
+			'SERVER_NAME', 'SERVER_ADDR', 'REMOTE_ADDR', 'DOCUMENT_ROOT', 'CONTEXT_DOCUMENT_ROOT', 'SERVER_ADMIN',
+			'SCRIPT_FILENAME', 'HTTP Request', 'Host', 'Referer'
+		),
+		'other' => array(
+			'open_basedir', 'session.save_path', 'mailfrom', 'fromname', 'smtphost', 'log_path', 'tmp_path',
+			'proxy_host', 'proxy_user', 'proxy_pass', 'memcache_server_host', 'memcached_server_host',
+			'session_memcache_server_host', 'session_memcached_server_host'
+		)
+	);
+
+	/**
+	 * System values that can be "safely" shared
+	 *
+	 * @var    array
+	 *
+	 * @since  3.5
+	 */
+	protected $safeData;
+
+	/**
 	 * Information about writable state of directories
 	 *
 	 * @var array
@@ -57,6 +95,38 @@ class AdminModelSysInfo extends JModelLegacy
 	 * @since  1.6
 	 */
 	protected $editor = null;
+
+	/**
+	 * Remove sections of data marked as private in the privateSettings
+	 *
+	 * @param   array   $dataArray  Array with data tha may contain private informati
+	 * @param   string  $dataType   Type of data to search for an specific section in the privateSettings array
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	protected function cleanPrivateData($dataArray, $dataType = 'other')
+	{
+		$dataType = isset($this->privateSettings[$dataType]) ? $dataType : 'other';
+
+		$privateSettings = $this->privateSettings[$dataType];
+
+		if (!$privateSettings)
+		{
+			return $dataArray;
+		}
+
+		foreach ($dataArray as $section => $values)
+		{
+			if (in_array($section, $privateSettings))
+			{
+				unset($dataArray[$section]);
+			}
+		}
+
+		return $dataArray;
+	}
 
 	/**
 	 * Method to get the ChangeLog
@@ -155,6 +225,36 @@ class AdminModelSysInfo extends JModelLegacy
 	}
 
 	/**
+	 * Method to get filter data from the model
+	 *
+	 * @param   string  $dataType  Type of data to get safely
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function getSafeData($dataType)
+	{
+		if (isset($this->safeData[$dataType]))
+		{
+			return $this->safeData[$dataType];
+		}
+
+		$methodName = 'get' . ucfirst($dataType);
+
+		if (!method_exists($this, $methodName))
+		{
+			return array();
+		}
+
+		$data = $this->$methodName();
+
+		$this->safeData[$dataType] = $this->cleanPrivateData($data, $dataType);
+
+		return $this->safeData[$dataType];
+	}
+
+	/**
 	 * Method to get if phpinfo method is enabled from php.ini
 	 *
 	 * @return  boolean True if enabled
@@ -175,31 +275,62 @@ class AdminModelSysInfo extends JModelLegacy
 	 *
 	 * @since  1.6
 	 */
-	public function &getPHPInfo()
+	public function &getPhpInfo()
 	{
-		if (is_null($this->php_info) && $this->phpinfoEnabled())
+		if (!$this->phpinfoEnabled())
 		{
-			ob_start();
-			date_default_timezone_set('UTC');
-			phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES);
-			$phpInfo = ob_get_contents();
-			ob_end_clean();
-			preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpInfo, $output);
-			$output = preg_replace('#<table[^>]*>#', '<table class="table table-striped adminlist">', $output[1][0]);
-			$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
-			$output = preg_replace('#<hr />#', '', $output);
-			$output = str_replace('<div class="center">', '', $output);
-			$output = preg_replace('#<tr class="h">(.*)<\/tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
-			$output = str_replace('</table>', '</tbody></table>', $output);
-			$output = str_replace('</div>', '', $output);
-			$this->php_info = $output;
-		}
-		else
-		{
-			$this->php_info = JText::_('COM_ADMIN_PHPINFO_DISABLED');
+			return JText::_('COM_ADMIN_PHPINFO_DISABLED');
 		}
 
+		if (null !== $this->php_info)
+		{
+			return $this->php_info;
+		}
+
+		ob_start();
+		date_default_timezone_set('UTC');
+		phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES);
+		$phpInfo = ob_get_contents();
+		ob_end_clean();
+		preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpInfo, $output);
+		$output = preg_replace('#<table[^>]*>#', '<table class="table table-striped adminlist">', $output[1][0]);
+		$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
+		$output = preg_replace('#<hr />#', '', $output);
+		$output = str_replace('<div class="center">', '', $output);
+		$output = preg_replace('#<tr class="h">(.*)<\/tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
+		$output = str_replace('</table>', '</tbody></table>', $output);
+		$output = str_replace('</div>', '', $output);
+
+		$this->php_info = $output;
+
 		return $this->php_info;
+	}
+
+	/**
+	 * Get phpinfo() output as array
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function getPhpInfoArray()
+	{
+		// Already cached
+		if (null !== $this->phpInfoArray)
+		{
+			return $this->phpInfoArray;
+		}
+
+		if (!$this->phpinfoEnabled())
+		{
+			return array(JText::_('COM_ADMIN_PHPINFO_DISABLED'));
+		}
+
+		$phpInfo = $this->getPhpInfo();
+
+		$this->phpInfoArray = $this->parsePhpInfo($phpInfo);
+
+		return $this->phpInfoArray;
 	}
 
 	/**
@@ -349,5 +480,53 @@ class AdminModelSysInfo extends JModelLegacy
 		}
 
 		return $this->editor;
+	}
+
+	/**
+	 * Parse phpinfo output into an array
+	 * Source https://gist.github.com/sbmzhcn/6255314
+	 *
+	 * @param   string  $html  Output of phpinfo()
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	protected function parsePhpInfo($html)
+	{
+		$html = strip_tags($html, '<h2><th><td>');
+		$html = preg_replace('/<th[^>]*>([^<]+)<\/th>/', '<info>\1</info>', $html);
+		$html = preg_replace('/<td[^>]*>([^<]+)<\/td>/', '<info>\1</info>', $html);
+		$t = preg_split('/(<h2[^>]*>[^<]+<\/h2>)/', $html, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$r = array();
+		$count = count($t);
+		$p1 = '<info>([^<]+)<\/info>';
+		$p2 = '/' . $p1 . '\s*' . $p1 . '\s*' . $p1 . '/';
+		$p3 = '/' . $p1 . '\s*' . $p1 . '/';
+
+		for ($i = 1; $i < $count; $i++)
+		{
+			if (preg_match('/<h2[^>]*>([^<]+)<\/h2>/', $t[$i], $matchs))
+			{
+				$name = trim($matchs[1]);
+				$vals = explode("\n", $t[$i + 1]);
+
+				foreach ($vals AS $val)
+				{
+					// 3cols
+					if (preg_match($p2, $val, $matchs))
+					{
+						$r[$name][trim($matchs[1])] = array(trim($matchs[2]), trim($matchs[3]));
+					}
+					// 2cols
+					elseif (preg_match($p3, $val, $matchs))
+					{
+						$r[$name][trim($matchs[1])] = trim($matchs[2]);
+					}
+				}
+			}
+		}
+
+		return $r;
 	}
 }

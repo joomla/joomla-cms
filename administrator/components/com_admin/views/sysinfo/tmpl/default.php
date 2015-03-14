@@ -41,6 +41,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 		</div>
+		<input type="hidden" name="task" value="" />
+		<?php echo JHtml::_('form.token'); ?>
 		<!-- End Content -->
 	</div>
 </form>
