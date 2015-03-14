@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * XCache cache storage handler
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @link        http://xcache.lighttpd.net/
- * @since       11.1
+ * @link   http://xcache.lighttpd.net/
+ * @since  11.1
  */
 class JCacheStorageXcache extends JCacheStorage
 {
@@ -32,6 +30,12 @@ class JCacheStorageXcache extends JCacheStorage
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
+		// Make sure XCache is configured properly
+		if (self::isSupported() == false)
+		{
+			return false;
+		}
+
 		$cache_id = $this->_getCacheId($id, $group);
 		$cache_content = xcache_get($cache_id);
 
@@ -56,6 +60,12 @@ class JCacheStorageXcache extends JCacheStorage
 	{
 		parent::getAll();
 
+		// Make sure XCache is configured properly
+		if (self::isSupported() == false)
+		{
+			return array();
+		}
+
 		$allinfo = xcache_list(XC_TYPE_VAR, 0);
 		$keys = $allinfo['cache_list'];
 		$secret = $this->_hash;
@@ -64,7 +74,6 @@ class JCacheStorageXcache extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-
 			$namearr = explode('-', $key['name']);
 
 			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
@@ -102,8 +111,15 @@ class JCacheStorageXcache extends JCacheStorage
 	 */
 	public function store($id, $group, $data)
 	{
+		// Make sure XCache is configured properly
+		if (self::isSupported() == false)
+		{
+			return false;
+		}
+
 		$cache_id = $this->_getCacheId($id, $group);
 		$store = xcache_set($cache_id, $data, $this->_lifetime);
+
 		return $store;
 	}
 
@@ -119,6 +135,12 @@ class JCacheStorageXcache extends JCacheStorage
 	 */
 	public function remove($id, $group)
 	{
+		// Make sure XCache is configured properly
+		if (self::isSupported() == false)
+		{
+			return false;
+		}
+
 		$cache_id = $this->_getCacheId($id, $group);
 
 		if (!xcache_isset($cache_id))
@@ -145,10 +167,16 @@ class JCacheStorageXcache extends JCacheStorage
 	 */
 	public function clean($group, $mode = null)
 	{
+		// Make sure XCache is configured properly
+		if (self::isSupported() == false)
+		{
+			return true;
+		}
+
 		$allinfo = xcache_list(XC_TYPE_VAR, 0);
 		$keys = $allinfo['cache_list'];
-
 		$secret = $this->_hash;
+
 		foreach ($keys as $key)
 		{
 			if (strpos($key['name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
@@ -156,6 +184,7 @@ class JCacheStorageXcache extends JCacheStorage
 				xcache_unset($key['name']);
 			}
 		}
+
 		return true;
 	}
 
@@ -198,12 +227,37 @@ class JCacheStorageXcache extends JCacheStorage
 	/**
 	 * Test to see if the cache storage is available.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return boolean True on success, false otherwise.
 	 *
 	 * @since   12.1
 	 */
 	public static function isSupported()
 	{
-		return (extension_loaded('xcache'));
+		if (extension_loaded('xcache'))
+		{
+			// XCache Admin must be disabled for Joomla to use XCache
+			$xcache_admin_enable_auth = ini_get('xcache.admin.enable_auth');
+
+			// Some extensions ini variables are reported as strings
+			if ($xcache_admin_enable_auth == 'Off')
+			{
+				return true;
+			}
+
+			// We require a string with contents 0, not a null value because it is not set since that then defaults to On/True
+			if ($xcache_admin_enable_auth === '0')
+			{
+				return true;
+			}
+
+			// In some enviorments empty is equivalent to Off; See JC: #34044 && Github: #4083
+			if ($xcache_admin_enable_auth === '')
+			{
+				return true;
+			}
+		}
+
+		// If the settings are not correct, give up
+		return false;
 	}
 }

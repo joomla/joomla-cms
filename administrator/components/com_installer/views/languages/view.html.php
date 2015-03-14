@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +13,7 @@ include_once __DIR__ . '/../default/view.php';
 /**
  * Language installer view
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       2.5.7
+ * @since  2.5.7
  */
 class InstallerViewLanguages extends InstallerViewDefault
 {
@@ -35,7 +33,7 @@ class InstallerViewLanguages extends InstallerViewDefault
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Display the view.
 	 *
 	 * @param   null  $tpl  template to display
 	 *
@@ -43,7 +41,7 @@ class InstallerViewLanguages extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
-		// Get data from the model
+		// Get data from the model.
 		$this->state      = $this->get('State');
 		$this->items      = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
@@ -52,6 +50,7 @@ class InstallerViewLanguages extends InstallerViewDefault
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -75,7 +74,7 @@ class InstallerViewLanguages extends InstallerViewDefault
 			JToolBarHelper::divider();
 			parent::addToolbar();
 
-			// TODO: this help screen will need to be created
+			// TODO: this help screen will need to be created.
 			JToolBarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_LANGUAGES');
 		}
 	}

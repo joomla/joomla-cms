@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,11 +14,9 @@ defined('JPATH_PLATFORM') or die;
  * Single check box field.
  * This is a boolean field with null for false and the specified option for true
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @link        http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox
- * @see         JFormFieldCheckboxes
- * @since       11.1
+ * @link   http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox
+ * @see    JFormFieldCheckboxes
+ * @since  11.1
  */
 class JFormFieldCheckbox extends JFormField
 {

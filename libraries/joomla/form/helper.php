@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,9 +16,7 @@ jimport('joomla.filesystem.path');
  * Provides a storage for filesystem's paths where JForm's entities reside and methods for creating those entities.
  * Also stores objects with entities' prototypes for further reusing.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @since  11.1
  */
 class JFormHelper
 {
@@ -112,16 +110,16 @@ class JFormHelper
 		}
 
 		$class = self::loadClass($entity, $type);
-		if ($class !== false)
-		{
-			// Instantiate a new type object.
-			$types[$key] = new $class;
-			return $types[$key];
-		}
-		else
+
+		if ($class === false)
 		{
 			return false;
 		}
+
+		// Instantiate a new type object.
+		$types[$key] = new $class;
+
+		return $types[$key];
 	}
 
 	/**
@@ -168,13 +166,11 @@ class JFormHelper
 	 */
 	protected static function loadClass($entity, $type)
 	{
+		$prefix = 'J';
+
 		if (strpos($type, '.'))
 		{
 			list($prefix, $type) = explode('.', $type);
-		}
-		else
-		{
-			$prefix = 'J';
 		}
 
 		$class = JString::ucfirst($prefix, '_') . 'Form' . JString::ucfirst($entity, '_') . JString::ucfirst($type, '_');
@@ -190,7 +186,6 @@ class JFormHelper
 		// If the type is complex, add the base type to the paths.
 		if ($pos = strpos($type, '_'))
 		{
-
 			// Add the complex type prefix to the paths.
 			for ($i = 0, $n = count($paths); $i < $n; $i++)
 			{
@@ -209,15 +204,20 @@ class JFormHelper
 
 		// Try to find the class file.
 		$type = strtolower($type) . '.php';
+
 		foreach ($paths as $path)
 		{
-			if ($file = JPath::find($path, $type))
+			$file = JPath::find($path, $type);
+			if (!$file)
 			{
-				require_once $file;
-				if (class_exists($class))
-				{
-					break;
-				}
+				continue;
+			}
+
+			require_once $file;
+
+			if (class_exists($class))
+			{
+				break;
 			}
 		}
 

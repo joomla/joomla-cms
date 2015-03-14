@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,13 +24,13 @@ use SeleniumClient\WebElement;
  */
 class TemplateManagerPage extends AdminManagerPage
 {
-  /**
+	/**
 	 * XPath string used to uniquely identify this page
 	 *
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_templates']";
+	protected $waitForXpath = "//ul/li/a[@href='index.php?option=com_templates']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -76,24 +76,40 @@ class TemplateManagerPage extends AdminManagerPage
 	public function copyStyle($name)
 	{
 		$this->searchFor($name);
-		$row_number = $this->getRowNumber($name) -1;
-		$el = $this->driver->findElement(By::xPath(".//input[@id='cb".$row_number."']"));
+		$row_number = $this->getRowNumber($name) - 1;
+		$el = $this->driver->findElement(By::xPath(".//input[@id='cb" . $row_number . "']"));
 		$el->click();
 		$this->clickButton('toolbar-copy');
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 	}
 
+	/**
+	 * function to delete style
+	 *
+	 * @param   string   $name  stores name of the style
+	 *
+	 * @return void
+	 */
 	public function deleteStyle($name)
 	{
 		$this->searchFor($name);
-		$row_number = $this->getRowNumber($name) -1;
-		$el = $this->driver->findElement(By::xPath(".//input[@id='cb".$row_number."']"));
+		$row_number = $this->getRowNumber($name) - 1;
+		$el = $this->driver->findElement(By::xPath(".//input[@id='cb" . $row_number . "']"));
 		$el->click();
 		$this->clickButton('toolbar-delete');
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 	}
 
-	public function editStyle($name,$fields)
+	/**
+	 * function to edit style
+	 *
+	 * @param   string    $name     stores name of the style
+	 * @param   array     $fields   stores the value of the input fields
+	 *
+	 * @return void
+	 *
+	 */
+	public function editStyle($name, $fields)
 	{
 		$this->searchFor($name);
 		$this->clickItem($name);
@@ -102,5 +118,4 @@ class TemplateManagerPage extends AdminManagerPage
 		$templateEditPage->clickButton('toolbar-save');
 		$this->test->getPageObject('TemplateManagerPage');
 	}
-
 }

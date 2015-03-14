@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_archive
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,21 +21,24 @@ class ModArchiveHelper
 	/**
 	 * Retrieve list of archived articles
 	 *
-	 * @param   JRegistry  &$params  module parameters
+	 * @param   \Joomla\Registry\Registry  &$params  module parameters
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   1.5
 	 */
 	public static function getList(&$params)
 	{
 		// Get database
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
 			->select('created, id, title')
 			->select($query->year($db->quoteName('created')) . ' AS created_year')
 			->from('#__content')
 			->where('state = 2 AND checked_out = 0')
-			->group('created_year DESC, created_month DESC');
+			->group('created_year, created_month, created, id, title')
+			->order('created_year DESC, created_month DESC');
 
 		// Filter by language
 		if (JFactory::getApplication()->getLanguageFilter())
@@ -46,12 +49,12 @@ class ModArchiveHelper
 		$db->setQuery($query, 0, (int) $params->get('count'));
 		$rows = (array) $db->loadObjectList();
 
-		$app = JFactory::getApplication();
-		$menu = $app->getMenu();
-		$item = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
+		$app    = JFactory::getApplication();
+		$menu   = $app->getMenu();
+		$item   = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
 		$itemid = (isset($item) && !empty($item->id)) ? '&Itemid=' . $item->id : '';
 
-		$i = 0;
+		$i     = 0;
 		$lists = array();
 
 		foreach ($rows as $row)
@@ -59,10 +62,10 @@ class ModArchiveHelper
 			$date = JFactory::getDate($row->created);
 
 			$created_month = $date->format('n');
-			$created_year = $date->format('Y');
+			$created_year  = $date->format('Y');
 
 			$created_year_cal = JHTML::_('date', $row->created, 'Y');
-			$month_name_cal = JHTML::_('date', $row->created, 'F');
+			$month_name_cal   = JHTML::_('date', $row->created, 'F');
 
 			$lists[$i] = new stdClass;
 

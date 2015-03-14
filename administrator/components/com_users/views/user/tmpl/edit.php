@@ -3,30 +3,26 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
-// Get the form fieldsets.
-$fieldsets = $this->form->getFieldsets();
-?>
-
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'user.cancel' || document.formvalidator.isValid(document.id('user-form')))
+		if (task == 'user.cancel' || document.formvalidator.isValid(document.getElementById('user-form')))
 		{
 			Joomla.submitform(task, document.getElementById('user-form'));
 		}
-	}
+	};
 
 	Joomla.twoFactorMethodChange = function(e)
 	{
@@ -42,10 +38,14 @@ $fieldsets = $this->form->getFieldsets();
 				jQuery('#' + el.id).show(0);
 			}
 		});
-	}
-</script>
+	};
+");
 
-<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" class="form-validate form-horizontal" enctype="multipart/form-data">
+// Get the form fieldsets.
+$fieldsets = $this->form->getFieldsets();
+?>
+
+<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" class="form-validate form-horizontal" enctype="multipart/form-data">
 
 	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
 
@@ -104,7 +104,7 @@ $fieldsets = $this->form->getFieldsets();
 		<div class="control-group">
 			<div class="control-label">
 				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
-					   title="<strong><?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') ?></strong><br/><?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_DESC') ?>">
+					   title="<strong><?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') ?></strong><br /><?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_DESC') ?>">
 					<?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL'); ?>
 				</label>
 			</div>

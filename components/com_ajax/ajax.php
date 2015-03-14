@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /*
  * References
  *  Support plugins in your component
- * - http://docs.joomla.org/Supporting_plugins_in_your_component
+ * - https://docs.joomla.org/Supporting_plugins_in_your_component
  *
  * Best way for JSON output
  * - https://groups.google.com/d/msg/joomla-dev-cms/WsC0nA9Fixo/Ur-gPqpqh-EJ
@@ -29,12 +29,12 @@ $format = strtolower($input->getWord('format'));
 
 // Initialize default response and module name
 $results = null;
-$parts = null;
+$parts   = null;
 
 // Check for valid format
 if (!$format)
 {
-	$results = new InvalidArgumentException('Please specify response format other that HTML (json, raw, etc.)', 404);
+	$results = new InvalidArgumentException(JText::_('COM_AJAX_SPECIFY_FORMAT'), 404);
 }
 /*
  * Module support.
@@ -69,10 +69,12 @@ elseif ($input->get('module'))
 		if ($parts)
 		{
 			$class = 'mod';
+
 			foreach ($parts as $part)
 			{
 				$class .= ucfirst($part);
 			}
+
 			$class .= 'Helper';
 		}
 		else
@@ -88,6 +90,12 @@ elseif ($input->get('module'))
 
 			if (method_exists($class, $method . 'Ajax'))
 			{
+				// Load language file for module
+				$basePath = JPATH_BASE;
+				$lang     = JFactory::getLanguage();
+				$lang->load('mod_' . $module, $basePath, null, false, true)
+				||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module, null, false, true);
+
 				try
 				{
 					$results = call_user_func($class . '::' . $method . 'Ajax');
@@ -100,23 +108,24 @@ elseif ($input->get('module'))
 			// Method does not exist
 			else
 			{
-				$results = new LogicException(sprintf('Method %s does not exist', $method . 'Ajax'), 404);
+				$results = new LogicException(JText::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
 			}
 		}
 		// The helper file does not exist
 		else
 		{
-			$results = new RuntimeException(sprintf('The file at %s does not exist', 'mod_' . $module . '/helper.php'), 404);
+			$results = new RuntimeException(JText::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'mod_' . $module . '/helper.php'), 404);
 		}
 	}
 	// Module is not published, you do not have access to it, or it is not assigned to the current menu item
 	else
 	{
-		$results = new LogicException(sprintf('Module %s is not published, you do not have access to it, or it\'s not assigned to the current menu item', 'mod_' . $module), 404);
+		$results = new LogicException(JText::sprintf('COM_AJAX_MODULE_NOT_ACCESSIBLE', 'mod_' . $module), 404);
 	}
 }
 /*
- * Plugin support is based on the "Ajax" plugin group.
+ * Plugin support by default is based on the "Ajax" plugin group.
+ * An optional 'group' variable can be passed via the URL.
  *
  * The plugin event triggered is onAjaxFoo, where 'foo' is
  * the value of the 'plugin' variable passed via the URL
@@ -125,7 +134,8 @@ elseif ($input->get('module'))
  */
 elseif ($input->get('plugin'))
 {
-	JPluginHelper::importPlugin('ajax');
+	$group      = $input->get('group', 'ajax');
+	JPluginHelper::importPlugin($group);
 	$plugin     = ucfirst($input->get('plugin'));
 	$dispatcher = JEventDispatcher::getInstance();
 
@@ -143,18 +153,20 @@ elseif ($input->get('plugin'))
 switch ($format)
 {
 	// JSONinzed
-	case 'json':
+	case 'json' :
 		echo new JResponseJson($results, null, false, $input->get('ignoreMessages', true, 'bool'));
+
 		break;
 
 	// Human-readable format
-	case 'debug':
+	case 'debug' :
 		echo '<pre>' . print_r($results, true) . '</pre>';
 		$app->close();
+
 		break;
 
 	// Handle as raw format
-	default:
+	default :
 		// Output exception
 		if ($results instanceof Exception)
 		{

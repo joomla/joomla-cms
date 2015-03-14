@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.contactcreator
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ defined('_JEXEC') or die;
  *
  * A tool to automatically create and synchronise contacts with a user
  *
- * @package     Joomla.Plugin
- * @subpackage  User.contactcreator
- * @since       1.6
+ * @since  1.6
  */
 class PlgUserContactCreator extends JPlugin
 {
@@ -85,11 +83,12 @@ class PlgUserContactCreator extends JPlugin
 				$contact->published = $this->params->get('autopublish', 0);
 			}
 
-			$contact->name     = $user['name'];
-			$contact->user_id  = $user_id;
-			$contact->email_to = $user['email'];
-			$contact->catid    = $categoryId;
-			$contact->language = '*';
+			$contact->name		= $user['name'];
+			$contact->user_id	= $user_id;
+			$contact->email_to	= $user['email'];
+			$contact->catid		= $categoryId;
+			$contact->access	= (int) JFactory::getConfig()->get('access');
+			$contact->language	= '*';
 			$contact->generateAlias();
 
 			// Check if the contact already exists to generate new name & alias if required

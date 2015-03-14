@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -21,14 +21,12 @@ $input = $app->input;
 
 $assoc = JLanguageAssociations::isEnabled();
 
-?>
-
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		if (task == 'category.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
 		{
-			<?php echo $this->form->getField('description')->save(); ?>
+			" . $this->form->getField('description')->save() . "
 
 			if (window.opener && (task == 'category.save' || task == 'category.cancel'))
 			{
@@ -38,8 +36,9 @@ $assoc = JLanguageAssociations::isEnabled();
 
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
-	}
-</script>
+	};
+");
+?>
 <div class="container-popup">
 
 	<div class="pull-right">

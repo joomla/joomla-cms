@@ -3,18 +3,16 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Media helper class
  *
- * @package     Joomla.Libraries
- * @subpackage  Helper
- * @since       3.2
+ * @since  3.2
  */
 class JHelperMedia
 {
@@ -79,7 +77,17 @@ class JHelperMedia
 			return false;
 		}
 
-		$format = strtolower(JFile::getExt($file['name']));
+		$filetypes = explode('.', $file['name']);
+
+		if (count($filetypes) < 2)
+		{
+			// There seems to be no extension
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
+
+			return false;
+		}
+
+		array_shift($filetypes);
 
 		// Media file names should never have executable extensions buried in them.
 		$executable = array(
@@ -87,25 +95,20 @@ class JHelperMedia
 			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh'
 		);
 
-		$explodedFileName = explode('.', $file['name']);
+		$check = array_intersect($filetypes, $executable);
 
-		if (count($explodedFileName > 2))
+		if (!empty($check))
 		{
-			foreach ($executable as $extensionName)
-			{
-				if (in_array($extensionName, $explodedFileName))
-				{
-					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
 
-					return false;
-				}
-			}
+			return false;
 		}
 
-		$allowable = explode(',', $params->get('upload_extensions'));
-		$ignored   = explode(',', $params->get('ignore_extensions'));
+		$filetype = array_pop($filetypes);
+		$allowable = array_map('trim', explode(',', $params->get('upload_extensions')));
+		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
 
-		if ($format == '' || $format == false || (!in_array($format, $allowable) && !in_array($format, $ignored)))
+		if ($filetype == '' || $filetype == false || (!in_array($filetype, $allowable) && !in_array($filetype, $ignored)))
 		{
 			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
 
@@ -123,9 +126,9 @@ class JHelperMedia
 
 		if ($params->get('restrict_uploads', 1))
 		{
-			$images = explode(',', $params->get('image_extensions'));
+			$images = array_map('trim', explode(',', $params->get('image_extensions')));
 
-			if (in_array($format, $images))
+			if (in_array($filetype, $images))
 			{
 				// If it is an image run it through getimagesize
 				// If tmp_name is empty, then the file was bigger than the PHP limit
@@ -145,11 +148,11 @@ class JHelperMedia
 					return false;
 				}
 			}
-			elseif (!in_array($format, $ignored))
+			elseif (!in_array($filetype, $ignored))
 			{
 				// If it's not an image, and we're not ignoring it
-				$allowed_mime = explode(',', $params->get('upload_mime'));
-				$illegal_mime = explode(',', $params->get('upload_mime_illegal'));
+				$allowed_mime = array_map('trim', explode(',', $params->get('upload_mime')));
+				$illegal_mime = array_map('trim', explode(',', $params->get('upload_mime_illegal')));
 
 				if (function_exists('finfo_open') && $params->get('check_mime', 1))
 				{
@@ -284,5 +287,33 @@ class JHelperMedia
 		}
 
 		return array($total_file, $total_dir);
+	}
+
+	/**
+	 * Small helper function that properly converts any
+	 * configuration options to their byte representation.
+	 *
+	 * @param   string|integer  $val  The value to be converted to bytes.
+	 *
+	 * @return integer The calculated bytes value from the input.
+	 *
+	 * @since 3.3
+	 */
+	public function toBytes($val)
+	{
+		switch ($val[strlen($val) - 1])
+		{
+			case 'M':
+			case 'm':
+				return (int) $val * 1048576;
+			case 'K':
+			case 'k':
+				return (int) $val * 1024;
+			case 'G':
+			case 'g':
+				return (int) $val * 1073741824;
+			default:
+				return $val;
+		}
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -235,11 +235,13 @@ class JCacheStorageTest extends TestCase
 			'Unexpected value for _locking.'
 		);
 
+		$config = JFactory::getConfig();
+		$lifetime = !is_null($options['lifetime']) ? $options['lifetime'] * 60 : $config->get('cachetime', 1) * 60;
 		$this->assertThat(
 			$this->object->_lifetime,
 
 			// @todo remove: $this->equalTo(empty($options['lifetime']) ? $config->get('cachetime')*60 : $options['lifetime']*60),
-			$this->equalTo(60),
+			$this->equalTo($lifetime),
 			'Unexpected value for _lifetime.'
 		);
 

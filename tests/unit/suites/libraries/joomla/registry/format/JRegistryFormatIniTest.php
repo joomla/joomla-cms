@@ -3,11 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Registry
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/registry/format.php';
 
 /**
  * Test class for JRegistryFormatINI.
@@ -27,7 +25,6 @@ class JRegistryFormatINITest extends PHPUnit_Framework_TestCase
 	public function testObjectToString()
 	{
 		$class = JRegistryFormat::getInstance('INI');
-		$options = null;
 		$object = new stdClass;
 		$object->foo = 'bar';
 		$object->booleantrue = true;
@@ -38,7 +35,7 @@ class JRegistryFormatINITest extends PHPUnit_Framework_TestCase
 		$object->section->key = 'value';
 
 		// Test basic object to string.
-		$string = $class->objectToString($object, $options);
+		$string = $class->objectToString($object);
 		$this->assertThat(
 			trim($string),
 			$this->equalTo("foo=\"bar\"\nbooleantrue=true\nbooleanfalse=false\nnumericint=42\nnumericfloat=3.1415\n\n[section]\nkey=\"value\"")

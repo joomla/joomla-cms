@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,10 +13,11 @@ $app = JFactory::getApplication();
 $form = $displayData->getForm();
 
 $fieldSets = $form->getFieldsets('params');
-if (empty($fieldSets))
-{
-	$fieldSets = $form->getFieldsets('attribs');
-}
+
+// For BC with versions < 3.2 we need to render the attribs too
+$attribsFieldSet = $form->getFieldsets('attribs');
+
+$fieldSets = array_merge($fieldSets, $attribsFieldSet);
 
 if (empty($fieldSets))
 {
@@ -66,6 +67,11 @@ if ($displayData->get('show_options', 1))
 		}
 
 		echo JHtml::_('bootstrap.addTab', 'myTab', 'attrib-' . $name, $label);
+
+		if (isset($fieldSet->description) && trim($fieldSet->description))
+		{
+			echo '<p class="alert alert-info">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
+		}
 
 		$displayData->fieldset = $name;
 		echo JLayoutHelper::render('joomla.edit.fieldset', $displayData);

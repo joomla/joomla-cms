@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Microdata
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -240,6 +240,12 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 			->display('meta', true);
 
 		$this->assertEquals($responce, '');
+
+		// Test if the params are reseted after display(), if the library is disabled
+		$this->assertNull($this->handler->getFallbackProperty());
+		$this->assertNull($this->handler->getFallbackType());
+		$this->assertNull($this->handler->getProperty());
+		$this->assertNull($this->handler->getContent());
 	}
 
 	/**

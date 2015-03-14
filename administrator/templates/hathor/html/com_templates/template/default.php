@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -291,7 +291,7 @@ if($this->type == 'image')
 				<h1><p><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></p></h1>
 				<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 				<p>
-					<a href="http://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank">
+					<a href="https://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank">
 						<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
 					</a>
 				</p>
@@ -443,7 +443,7 @@ if($this->type == 'image')
 				  method="post" name="adminForm" id="adminForm">
 				<fieldset class="panelform">
 					<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
-					<input class="inputbox" type="text" id="new_name" name="new_name"  />
+					<input type="text" id="new_name" name="new_name"  />
 					<button type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
 				</fieldset>
 				<?php echo JHtml::_('form.token'); ?>
@@ -454,7 +454,7 @@ if($this->type == 'image')
 					  method="post" name="adminForm" id="adminForm">
 					<fieldset class="panelform">
 						<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>"><?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME')?></label>
-						<input class="inputbox" type="text" name="new_name"  />
+						<input type="text" name="new_name"  />
 						<button type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RENAME'); ?></button>
 					</fieldset>
 					<?php echo JHtml::_('form.token'); ?>

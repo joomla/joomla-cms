@@ -3,19 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.framework');
+JHtml::_('behavior.core');
 
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 <?php if (empty($this->items)) : ?>
-	<p> <?php echo JText::_('COM_CONTACT_NO_ARTICLES'); ?>	 </p>
+	<p> <?php echo JText::_('COM_CONTACT_NO_CONTACTS'); ?>	 </p>
 <?php else : ?>
 
 	<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
@@ -23,7 +23,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<fieldset class="filters btn-toolbar">
 		<?php if ($this->params->get('filter_field') != 'hide') :?>
 			<div class="btn-group">
-				<label class="filter-search-lbl element-invisible" for="filter-search"><span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span><?php echo JText::_('COM_CONTACT_FILTER_LABEL').'&#160;'; ?></label>
+				<label class="filter-search-lbl element-invisible" for="filter-search"><span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span><?php echo JText::_('COM_CONTACT_FILTER_LABEL') . '&#160;'; ?></label>
 				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>" />
 			</div>
 		<?php endif; ?>
@@ -51,15 +51,15 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 						<span class="pull-right">
 							<?php if ($this->params->get('show_telephone_headings') AND !empty($item->telephone)) : ?>
-								<?php echo JTEXT::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br/>
+								<?php echo JTEXT::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br />
 							<?php endif; ?>
 
 							<?php if ($this->params->get('show_mobile_headings') AND !empty ($item->mobile)) : ?>
-									<?php echo JTEXT::sprintf('COM_CONTACT_MOBILE_NUMBER', $item->mobile); ?><br/>
+									<?php echo JTEXT::sprintf('COM_CONTACT_MOBILE_NUMBER', $item->mobile); ?><br />
 							<?php endif; ?>
 
 							<?php if ($this->params->get('show_fax_headings') AND !empty($item->fax) ) : ?>
-								<?php echo JTEXT::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br/>
+								<?php echo JTEXT::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br />
 							<?php endif; ?>
 					</span>
 
@@ -72,7 +72,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php endif; ?>
 						</div>
 						<?php if ($this->params->get('show_position_headings')) : ?>
-								<?php echo $item->con_position; ?><br/>
+								<?php echo $item->con_position; ?><br />
 						<?php endif; ?>
 						<?php if ($this->params->get('show_email_headings')) : ?>
 								<?php echo $item->email_to; ?>
@@ -86,7 +86,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php endif; ?>
 
 						<?php if ($this->params->get('show_country_headings') AND !empty($item->country)) : ?>
-							<?php echo $item->country; ?><br/>
+							<?php echo $item->country; ?><br />
 						<?php endif; ?>
 					</p>
 					</li>
@@ -94,7 +94,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<?php endforeach; ?>
 		</ul>
 
-		<?php if ($this->params->get('show_pagination')) : ?>
+		<?php if ($this->params->get('show_pagination', 2)) : ?>
 		<div class="pagination">
 			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 			<p class="counter">

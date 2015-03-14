@@ -3,21 +3,29 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Module model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_modules
- * @since       1.6
+ * @since  1.6
  */
 class ModulesModelModule extends JModelAdmin
 {
+	/**
+	 * The type alias for this content type.
+	 *
+	 * @var      string
+	 * @since    3.4
+	 */
+	public $typeAlias = 'com_modules.module';
+
 	/**
 	 * @var    string  The prefix to use with controller messages.
 	 * @since  1.6
@@ -35,6 +43,47 @@ class ModulesModelModule extends JModelAdmin
 	 * @since  1.6
 	 */
 	protected $helpURL;
+
+	/**
+	 * Batch copy/move command. If set to false,
+	 * the batch copy/move command is not supported
+	 *
+	 * @var string
+	 */
+	protected $batch_copymove = 'position_id';
+
+	/**
+	 * Allowed batch commands
+	 *
+	 * @var array
+	 */
+	protected $batch_commands = array(
+		'assetgroup_id' => 'batchAccess',
+		'language_id' => 'batchLanguage',
+	);
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 */
+	public function __construct($config = array())
+	{
+		$config = array_merge(
+			array(
+				'event_after_delete'  => 'onExtensionAfterDelete',
+				'event_after_save'    => 'onExtensionAfterSave',
+				'event_before_delete' => 'onExtensionBeforeDelete',
+				'event_before_save'   => 'onExtensionBeforeSave',
+				'events_map'          => array(
+					'save'   => 'extension',
+					'delete' => 'extension'
+				)
+			), $config
+		);
+
+		parent::__construct($config);
+	}
 
 	/**
 	 * Method to auto-populate the model state.
@@ -68,95 +117,6 @@ class ModulesModelModule extends JModelAdmin
 	}
 
 	/**
-	 * Method to perform batch operations on a set of modules.
-	 *
-	 * @param   array  $commands  An array of commands to perform.
-	 * @param   array  $pks       An array of item ids.
-	 * @param   array  $contexts  An array of item contexts.
-	 *
-	 * @return  boolean  Returns true on success, false on failure.
-	 *
-	 * @since   1.7
-	 */
-	public function batch($commands, $pks, $contexts)
-	{
-		// Sanitize user ids.
-		$pks = array_unique($pks);
-		JArrayHelper::toInteger($pks);
-
-		// Remove any values of zero.
-		if (array_search(0, $pks, true))
-		{
-			unset($pks[array_search(0, $pks, true)]);
-		}
-
-		if (empty($pks))
-		{
-			$this->setError(JText::_('JGLOBAL_NO_ITEM_SELECTED'));
-			return false;
-		}
-
-		$done = false;
-
-		if (!empty($commands['position_id']))
-		{
-			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
-
-			if (!empty($commands['position_id']))
-			{
-				if ($cmd == 'c')
-				{
-					$result = $this->batchCopy($commands['position_id'], $pks, $contexts);
-					if (is_array($result))
-					{
-						$pks = $result;
-					}
-					else
-					{
-						return false;
-					}
-				}
-				elseif ($cmd == 'm' && !$this->batchMove($commands['position_id'], $pks, $contexts))
-				{
-					return false;
-				}
-				$done = true;
-			}
-		}
-
-		if (!empty($commands['assetgroup_id']))
-		{
-			if (!$this->batchAccess($commands['assetgroup_id'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (!empty($commands['language_id']))
-		{
-			if (!$this->batchLanguage($commands['language_id'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (!$done)
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
-			return false;
-		}
-
-		// Clear the cache
-		$this->cleanCache();
-
-		return true;
-	}
-
-	/**
 	 * Batch copy modules to a new position or current.
 	 *
 	 * @param   integer  $value     The new value matching a module position.
@@ -173,7 +133,6 @@ class ModulesModelModule extends JModelAdmin
 		$user = JFactory::getUser();
 		$table = $this->getTable();
 		$newIds = array();
-		$i = 0;
 
 		foreach ($pks as $pk)
 		{
@@ -195,6 +154,7 @@ class ModulesModelModule extends JModelAdmin
 				{
 					$position = $value;
 				}
+
 				$table->position = $position;
 
 				// Alter the title if necessary
@@ -210,6 +170,7 @@ class ModulesModelModule extends JModelAdmin
 				if (!$table->store())
 				{
 					$this->setError($table->getError());
+
 					return false;
 				}
 
@@ -217,8 +178,7 @@ class ModulesModelModule extends JModelAdmin
 				$newId = $table->get('id');
 
 				// Add the new ID to the array
-				$newIds[$i]	= $newId;
-				$i++;
+				$newIds[$pk]	= $newId;
 
 				// Now we need to handle the module assignments
 				$db = $this->getDbo();
@@ -243,6 +203,7 @@ class ModulesModelModule extends JModelAdmin
 			else
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+
 				return false;
 			}
 		}
@@ -290,6 +251,7 @@ class ModulesModelModule extends JModelAdmin
 				{
 					$position = $value;
 				}
+
 				$table->position = $position;
 
 				// Alter the title if necessary
@@ -302,12 +264,14 @@ class ModulesModelModule extends JModelAdmin
 				if (!$table->store())
 				{
 					$this->setError($table->getError());
+
 					return false;
 				}
 			}
 			else
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
 				return false;
 			}
 		}
@@ -321,9 +285,10 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Method to test whether a record can have its state edited.
 	 *
-	 * @param   object    $record    A record object.
+	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 *
 	 * @since   3.2
 	 */
 	protected function canEditState($record)
@@ -354,9 +319,14 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function delete(&$pks)
 	{
-		$pks	= (array) $pks;
-		$user	= JFactory::getUser();
-		$table	= $this->getTable();
+		$dispatcher = JEventDispatcher::getInstance();
+		$pks        = (array) $pks;
+		$user       = JFactory::getUser();
+		$table      = $this->getTable();
+		$context    = $this->option . '.' . $this->name;
+
+		// Include the plugins for the on delete events.
+		JPluginHelper::importPlugin($this->events_map['delete']);
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $pk)
@@ -364,13 +334,17 @@ class ModulesModelModule extends JModelAdmin
 			if ($table->load($pk))
 			{
 				// Access checks.
-				if (!$user->authorise('core.delete', 'com_modules.module.'.(int) $pk) || $table->published != -2)
+				if (!$user->authorise('core.delete', 'com_modules.module.' . (int) $pk) || $table->published != -2)
 				{
 					JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
+
 					return;
 				}
 
-				if (!$table->delete($pk))
+				// Trigger the before delete event.
+				$result = $dispatcher->trigger($this->event_before_delete, array($context, $table));
+
+				if (in_array(false, $result, true) || !$table->delete($pk))
 				{
 					throw new Exception($table->getError());
 				}
@@ -383,6 +357,9 @@ class ModulesModelModule extends JModelAdmin
 						->where('moduleid=' . (int) $pk);
 					$db->setQuery($query);
 					$db->execute();
+
+					// Trigger the after delete event.
+					$dispatcher->trigger($this->event_after_delete, array($context, $table));
 				}
 
 				// Clear module cache
@@ -432,14 +409,15 @@ class ModulesModelModule extends JModelAdmin
 
 				// Alter the title.
 				$m = null;
+
 				if (preg_match('#\((\d+)\)$#', $table->title, $m))
 				{
 					$table->title = preg_replace('#\(\d+\)$#', '(' . ($m[1] + 1) . ')', $table->title);
 				}
-				else
-				{
-					$table->title .= ' (2)';
-				}
+
+				$data = $this->generateNewTitle(0, $table->title, $table->position);
+				$table->title = $data[0];
+
 				// Unpublish duplicate module
 				$table->published = 0;
 
@@ -508,6 +486,7 @@ class ModulesModelModule extends JModelAdmin
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
+
 		while ($table->load(array('position' => $position, 'title' => $title)))
 		{
 			$title = JString::increment($title);
@@ -561,6 +540,7 @@ class ModulesModelModule extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm('com_modules.module', 'module', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -570,11 +550,12 @@ class ModulesModelModule extends JModelAdmin
 
 		$user = JFactory::getUser();
 
-		// Check for existing module
-		// Modify the form based on Edit State access controls.
-		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_modules.module.'.(int) $id))
-			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_modules'))
-		)
+		/**
+		 * Check for existing module
+		 * Modify the form based on Edit State access controls.
+		 */
+		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_modules.module.' . (int) $id))
+			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_modules'))		)
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -613,6 +594,7 @@ class ModulesModelModule extends JModelAdmin
 
 			// This allows us to inject parameter settings into a new module.
 			$params = $app->getUserState('com_modules.add.module.params');
+
 			if (is_array($params))
 			{
 				$data->set('params', $params);
@@ -674,7 +656,7 @@ class ModulesModelModule extends JModelAdmin
 					}
 					catch (RuntimeException $e)
 					{
-						$this->setError($e->getMessage);
+						$this->setError($e->getMessage());
 
 						return false;
 					}
@@ -704,7 +686,7 @@ class ModulesModelModule extends JModelAdmin
 			$this->_cache[$pk] = JArrayHelper::toObject($properties, 'JObject');
 
 			// Convert the params field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($table->params);
 			$this->_cache[$pk]->params = $registry->toArray();
 
@@ -830,7 +812,7 @@ class ModulesModelModule extends JModelAdmin
 
 		// Load the core and/or local language file(s).
 		$lang->load($module, $client->path, null, false, true)
-			||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
+		||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
 
 		if (file_exists($formFile))
 		{
@@ -848,6 +830,7 @@ class ModulesModelModule extends JModelAdmin
 
 			// Get the help data from the XML file if present.
 			$help = $xml->xpath('/extension/help');
+
 			if (!empty($help))
 			{
 				$helpKey = trim((string) $help[0]['key']);
@@ -856,7 +839,6 @@ class ModulesModelModule extends JModelAdmin
 				$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
 				$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
 			}
-
 		}
 
 		// Load the default advanced params
@@ -901,9 +883,10 @@ class ModulesModelModule extends JModelAdmin
 		$table      = $this->getTable();
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('module.id');
 		$isNew      = true;
+		$context    = $this->option . '.' . $this->name;
 
-		// Include the content modules for the onSave events.
-		JPluginHelper::importPlugin('extension');
+		// Include the plugins for the save event.
+		JPluginHelper::importPlugin($this->events_map['save']);
 
 		// Load the row if saving an existing record.
 		if ($pk > 0)
@@ -915,14 +898,13 @@ class ModulesModelModule extends JModelAdmin
 		// Alter the title and published state for Save as Copy
 		if ($input->get('task') == 'save2copy')
 		{
-			$orig_data  = $input->post->get('jform', array(), 'array');
-			$orig_table = clone($this->getTable());
-			$orig_table->load((int) $orig_data['id']);
+			$orig_table = clone $this->getTable();
+			$orig_table->load((int) $input->getInt('id'));
+			$data['published'] = 0;
 
 			if ($data['title'] == $orig_table->title)
 			{
 				$data['title'] .= ' ' . JText::_('JGLOBAL_COPY');
-				$data['published'] = 0;
 			}
 		}
 
@@ -945,8 +927,8 @@ class ModulesModelModule extends JModelAdmin
 			return false;
 		}
 
-		// Trigger the onExtensionBeforeSave event.
-		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_modules.module', &$table, $isNew));
+		// Trigger the before save event.
+		$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, $isNew));
 
 		if (in_array(false, $result, true))
 		{
@@ -1049,8 +1031,8 @@ class ModulesModelModule extends JModelAdmin
 			}
 		}
 
-		// Trigger the onExtensionAfterSave event.
-		$dispatcher->trigger('onExtensionAfterSave', array('com_modules.module', &$table, $isNew));
+		// Trigger the after save event.
+		$dispatcher->trigger($this->event_after_save, array($context, &$table, $isNew));
 
 		// Compute the extension id of this module in case the controller wants it.
 		$query	= $db->getQuery(true)

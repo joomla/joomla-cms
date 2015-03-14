@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Impressions Field class for the Joomla Framework.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldImpTotal extends JFormField
 {
@@ -36,8 +34,8 @@ class JFormFieldImpTotal extends JFormField
 	protected function getInput()
 	{
 		$class		= ' class="validate-numeric text_area"';
-		$onchange	= ' onchange="document.id(\'' . $this->id . '_unlimited\').checked=document.id(\'' . $this->id . '\').value==\'\';"';
-		$onclick	= ' onclick="if (document.id(\'' . $this->id . '_unlimited\').checked) document.id(\'' . $this->id . '\').value=\'\';"';
+		$onchange	= ' onchange="document.getElementById(\'' . $this->id . '_unlimited\').checked=document.getElementById(\'' . $this->id . '\').value==\'\';"';
+		$onclick	= ' onclick="if (document.getElementById(\'' . $this->id . '_unlimited\').checked) document.getElementById(\'' . $this->id . '\').value=\'\';"';
 		$value		= empty($this->value) ? '' : $this->value;
 		$checked	= empty($this->value) ? ' checked="checked"' : '';
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for creating HTML select lists
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.5
+ * @since  1.5
  */
 abstract class JHtmlSelect
 {
@@ -37,7 +35,7 @@ abstract class JHtmlSelect
 	 * @param   string  $selected  The key that is selected
 	 * @param   string  $yes       Language key for Yes
 	 * @param   string  $no        Language key for no
-	 * @param   string  $id        The id for the field
+	 * @param   mixed   $id        The id for the field or false for no id
 	 *
 	 * @return  string  HTML for the radio list
 	 *
@@ -141,10 +139,24 @@ abstract class JHtmlSelect
 	 *
 	 * @return  string  HTML for the select list
 	 *
-	 * @since   3.2
+	 * @since       3.2
+	 * @deprecated  4.0  Just create the <datalist> directly instead
 	 */
-	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag, $translate = false)
+	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag = null, $translate = false)
 	{
+		// Log deprecated message
+		JLog::add(
+			'JHtmlSelect::suggestionlist() is deprecated. Create the <datalist> tag directly instead.',
+			JLog::WARNING,
+			'deprecated'
+		);
+
+		// Note: $idtag is requried but has to be an optional argument in the funtion call due to argument order
+		if (!$idtag)
+		{
+			throw new InvalidArgumentException('$idtag is a required argument in deprecated JHtmlSelect::suggestionlist');
+		}
+
 		// Set default options
 		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
 
@@ -651,10 +663,10 @@ abstract class JHtmlSelect
 			else
 			{
 				// If no string after hyphen - take hyphen out
-				$splitText = preg_split('/ -[\s]*/', $text, 2, PREG_SPLIT_NO_EMPTY);
-				$text = isset($splitText[0]) ? $splitText[0] : '';
+				$splitText = explode(' - ', $text, 2);
+				$text = $splitText[0];
 
-				if (!empty($splitText[1]))
+				if (isset($splitText[1]) && $splitText[1] != "" && !preg_match('/^[\s]+$/', $splitText[1]))
 				{
 					$text .= ' - ' . $splitText[1];
 				}

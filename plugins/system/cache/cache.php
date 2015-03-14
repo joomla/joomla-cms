@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Page Cache Plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.cache
- * @since       1.5
+ * @since  1.5
  */
 class PlgSystemCache extends JPlugin
 {
@@ -30,7 +28,7 @@ class PlgSystemCache extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	function __construct(& $subject, $config)
+	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
 
@@ -52,7 +50,7 @@ class PlgSystemCache extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	function onAfterInitialise()
+	public function onAfterInitialise()
 	{
 		global $_PROFILER;
 
@@ -81,7 +79,7 @@ class PlgSystemCache extends JPlugin
 			// Set cached body.
 			$app->setBody($data);
 
-			echo $app->toString($app->getCfg('gzip'));
+			echo $app->toString($app->get('gzip'));
 
 			if (JDEBUG)
 			{
@@ -99,7 +97,7 @@ class PlgSystemCache extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	function onAfterRender()
+	public function onAfterRender()
 	{
 		$app = JFactory::getApplication();
 

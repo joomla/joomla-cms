@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ require_once JPATH_PLATFORM . '/joomla/factory.php';
  * @subpackage  Utilities
  * @since       11.3
  */
-class JFactoryTest extends TestCase
+class JFactoryTest extends TestCaseDatabase
 {
 	/**
 	 * Sets up the fixture.
@@ -50,22 +50,6 @@ class JFactoryTest extends TestCase
 	}
 
 	/**
-	 * Tests the JFactory::getApplication method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @todo    Implement testGetApplication().
-	 */
-	public function testGetApplication()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * Tests the JFactory::getConfig method.
 	 *
 	 * @return  void
@@ -79,7 +63,7 @@ class JFactoryTest extends TestCase
 		JFactory::$config = null;
 
 		$this->assertInstanceOf(
-			'JRegistry',
+			'\\Joomla\\Registry\\Registry',
 			JFactory::getConfig(JPATH_TESTS . '/config.php'),
 			'Line: ' . __LINE__
 		);
@@ -230,6 +214,8 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getDate method.
 	 *
+	 * @medium
+	 *
 	 * @return  void
 	 *
 	 * @since   12.3
@@ -300,6 +286,8 @@ class JFactoryTest extends TestCase
 	 */
 	public function testGetUserInstance()
 	{
+		JFactory::$session = $this->getMockSession();
+
 		$this->assertInstanceOf(
 			'JUser',
 			JFactory::getUser(),

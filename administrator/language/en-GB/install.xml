@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.2" client="administrator" type="language" method="upgrade">
+<extension version="3.4" client="administrator" type="language" method="upgrade">
 	<name>English (United Kingdom)</name>
 	<tag>en-GB</tag>
-	<version>3.2.3</version>
+	<version>3.4.1</version>
 	<creationDate>2013-03-07</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>en-GB administrator language</description>
 	<files>
@@ -173,6 +173,8 @@
 		<filename>en-GB.plg_search_content.sys.ini</filename>
 		<filename>en-GB.plg_search_newsfeeds.ini</filename>
 		<filename>en-GB.plg_search_newsfeeds.sys.ini</filename>
+		<filename>en-GB.plg_search_tags.ini</filename>
+		<filename>en-GB.plg_search_tags.sys.ini</filename>
 		<filename>en-GB.plg_search_weblinks.ini</filename>
 		<filename>en-GB.plg_search_weblinks.sys.ini</filename>
 		<filename>en-GB.plg_system_cache.ini</filename>

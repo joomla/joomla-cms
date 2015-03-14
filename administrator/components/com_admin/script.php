@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Script file of Joomla CMS
  *
- * @package     Joomla.Administrator
- * @subpackage  com_admin
- * @since       1.6.4
+ * @since  1.6.4
  */
 class JoomlaInstallerScript
 {
@@ -27,8 +25,9 @@ class JoomlaInstallerScript
 	 */
 	public function update($installer)
 	{
-		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+		$options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
+
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
 		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
 
@@ -40,7 +39,7 @@ class JoomlaInstallerScript
 	}
 
 	/**
-	 * Medtho to update Database
+	 * Method to update Database
 	 *
 	 * @return void
 	 */
@@ -51,11 +50,14 @@ class JoomlaInstallerScript
 		if (substr($db->name, 0, 5) == 'mysql')
 		{
 			$db->setQuery('SHOW ENGINES');
-			$results = $db->loadObjectList();
 
-			if ($db->getErrorNum())
+			try
 			{
-				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+				$results = $db->loadObjectList();
+			}
+			catch (Exception $e)
+			{
+				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
 
 				return;
 			}
@@ -65,11 +67,14 @@ class JoomlaInstallerScript
 				if ($result->Support == 'DEFAULT')
 				{
 					$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
-					$db->execute();
 
-					if ($db->getErrorNum())
+					try
 					{
-						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+						$db->execute();
+					}
+					catch (Exception $e)
+					{
+						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
 
 						return;
 					}
@@ -77,6 +82,28 @@ class JoomlaInstallerScript
 					break;
 				}
 			}
+		}
+
+		// Check if the 2.5 EOS plugin is present and uninstall it if so
+		$id = $db->setQuery(
+			$db->getQuery(true)
+				->select('extension_id')
+				->from('#__extensions')
+				->where('name = ' . $db->quote('PLG_EOSNOTIFY'))
+		)->loadResult();
+
+		if ($id)
+		{
+			// We need to unprotect the plugin so we can uninstall it
+			$db->setQuery(
+				$db->getQuery(true)
+					->update('#__extensions')
+					->set('protected = 0')
+					->where($db->quoteName('extension_id') . ' = ' . $id)
+			)->execute();
+
+			$installer = new JInstaller;
+			$installer->uninstall('plugin', $id);
 		}
 	}
 
@@ -112,7 +139,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_plugins', '', 1);
 		$extensions[] = array('component', 'com_search', '', 1);
 		$extensions[] = array('component', 'com_templates', '', 1);
-		$extensions[] = array('component', 'com_weblinks', '', 1);
 		$extensions[] = array('component', 'com_content', '', 1);
 		$extensions[] = array('component', 'com_config', '', 1);
 		$extensions[] = array('component', 'com_redirect', '', 1);
@@ -149,7 +175,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('module', 'mod_stats', '', 0);
 		$extensions[] = array('module', 'mod_syndicate', '', 0);
 		$extensions[] = array('module', 'mod_users_latest', '', 0);
-		$extensions[] = array('module', 'mod_weblinks', '', 0);
 		$extensions[] = array('module', 'mod_whosonline', '', 0);
 		$extensions[] = array('module', 'mod_wrapper', '', 0);
 		$extensions[] = array('module', 'mod_articles_category', '', 0);
@@ -195,7 +220,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'contacts', 'search', 0);
 		$extensions[] = array('plugin', 'content', 'search', 0);
 		$extensions[] = array('plugin', 'newsfeeds', 'search', 0);
-		$extensions[] = array('plugin', 'weblinks', 'search', 0);
+		$extensions[] = array('plugin', 'tags', 'search', 0);
 		$extensions[] = array('plugin', 'languagefilter', 'system', 0);
 		$extensions[] = array('plugin', 'p3p', 'system', 0);
 		$extensions[] = array('plugin', 'cache', 'system', 0);
@@ -218,9 +243,10 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'contacts', 'finder', 0);
 		$extensions[] = array('plugin', 'content', 'finder', 0);
 		$extensions[] = array('plugin', 'newsfeeds', 'finder', 0);
-		$extensions[] = array('plugin', 'weblinks', 'finder', 0);
 		$extensions[] = array('plugin', 'tags', 'finder', 0);
 		$extensions[] = array('plugin', 'totp', 'twofactorauth', 0);
+		$extensions[] = array('plugin', 'yubikey', 'twofactorauth', 0);
+		$extensions[] = array('plugin', 'nocaptcha', 'captcha', 0);
 
 		// Templates
 		$extensions[] = array('template', 'beez3', '', 0);
@@ -255,16 +281,19 @@ class JoomlaInstallerScript
 		}
 
 		$db->setQuery($query);
-		$extensions = $db->loadObjectList();
-		$installer = new JInstaller;
 
-		// Check for a database error.
-		if ($db->getErrorNum())
+		try
 		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+			$extensions = $db->loadObjectList();
+		}
+		catch (Exception $e)
+		{
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
 
 			return;
 		}
+
+		$installer = new JInstaller;
 
 		foreach ($extensions as $extension)
 		{
@@ -1016,6 +1045,224 @@ class JoomlaInstallerScript
 			'/administrator/components/com_weblinks/models/fields/index.html',
 			'/plugins/user/joomla/postinstall/actions.php',
 			'/plugins/user/joomla/postinstall/index.html',
+			'/media/com_finder/js/finder.js',
+			'/media/com_finder/js/highlighter.js',
+			'/libraries/joomla/registry/format.php',
+			'/libraries/joomla/registry/index.html',
+			'/libraries/joomla/registry/registry.php',
+			'/libraries/joomla/registry/format/index.html',
+			'/libraries/joomla/registry/format/ini.php',
+			'/libraries/joomla/registry/format/json.php',
+			'/libraries/joomla/registry/format/php.php',
+			'/libraries/joomla/registry/format/xml.php',
+			// Joomla! 3.4
+			'/administrator/components/com_tags/helpers/html/index.html',
+			'/administrator/components/com_tags/models/fields/index.html',
+			'/administrator/manifests/libraries/phpmailer.xml',
+			'/administrator/templates/hathor/html/com_finder/filter/index.html',
+			'/administrator/templates/hathor/html/com_finder/statistics/index.html',
+			'/components/com_contact/helpers/icon.php',
+			'/language/en-GB/en-GB.lib_phpmailer.sys.ini',
+			'/libraries/compat/jsonserializable.php',
+			'/libraries/compat/password/lib/index.html',
+			'/libraries/compat/password/lib/password.php',
+			'/libraries/compat/password/lib/version_test.php',
+			'/libraries/compat/password/index.html',
+			'/libraries/compat/password/LICENSE.md',
+			'/libraries/compat/index.html',
+			'/libraries/fof/controller.php',
+			'/libraries/fof/dispatcher.php',
+			'/libraries/fof/inflector.php',
+			'/libraries/fof/input.php',
+			'/libraries/fof/model.php',
+			'/libraries/fof/query.abstract.php',
+			'/libraries/fof/query.element.php',
+			'/libraries/fof/query.mysql.php',
+			'/libraries/fof/query.mysqli.php',
+			'/libraries/fof/query.sqlazure.php',
+			'/libraries/fof/query.sqlsrv.php',
+			'/libraries/fof/render.abstract.php',
+			'/libraries/fof/render.joomla.php',
+			'/libraries/fof/render.joomla3.php',
+			'/libraries/fof/render.strapper.php',
+			'/libraries/fof/string.utils.php',
+			'/libraries/fof/table.php',
+			'/libraries/fof/template.utils.php',
+			'/libraries/fof/toolbar.php',
+			'/libraries/fof/view.csv.php',
+			'/libraries/fof/view.html.php',
+			'/libraries/fof/view.json.php',
+			'/libraries/fof/view.php',
+			'/libraries/framework/Joomla/Application/Cli/Output/Processor/ColorProcessor.php',
+			'/libraries/framework/Joomla/Application/Cli/Output/Processor/ProcessorInterface.php',
+			'/libraries/framework/Joomla/Application/Cli/Output/Stdout.php',
+			'/libraries/framework/Joomla/Application/Cli/Output/Xml.php',
+			'/libraries/framework/Joomla/Application/Cli/CliOutput.php',
+			'/libraries/framework/Joomla/Application/Cli/ColorProcessor.php',
+			'/libraries/framework/Joomla/Application/Cli/ColorStyle.php',
+			'/libraries/framework/index.html',
+			'/libraries/framework/Joomla/DI/Exception/DependencyResolutionException.php',
+			'/libraries/framework/Joomla/DI/Exception/index.html',
+			'/libraries/framework/Joomla/DI/Container.php',
+			'/libraries/framework/Joomla/DI/ContainerAwareInterface.php',
+			'/libraries/framework/Joomla/DI/index.html',
+			'/libraries/framework/Joomla/DI/ServiceProviderInterface.php',
+			'/libraries/framework/Joomla/Registry/Format/index.html',
+			'/libraries/framework/Joomla/Registry/Format/Ini.php',
+			'/libraries/framework/Joomla/Registry/Format/Json.php',
+			'/libraries/framework/Joomla/Registry/Format/Php.php',
+			'/libraries/framework/Joomla/Registry/Format/Xml.php',
+			'/libraries/framework/Joomla/Registry/Format/Yaml.php',
+			'/libraries/framework/Joomla/Registry/AbstractRegistryFormat.php',
+			'/libraries/framework/Joomla/Registry/index.html',
+			'/libraries/framework/Joomla/Registry/Registry.php',
+			'/libraries/framework/Symfony/Component/Yaml/Exception/DumpException.php',
+			'/libraries/framework/Symfony/Component/Yaml/Exception/ExceptionInterface.php',
+			'/libraries/framework/Symfony/Component/Yaml/Exception/index.html',
+			'/libraries/framework/Symfony/Component/Yaml/Exception/ParseException.php',
+			'/libraries/framework/Symfony/Component/Yaml/Exception/RuntimeException.php',
+			'/libraries/framework/Symfony/Component/Yaml/Dumper.php',
+			'/libraries/framework/Symfony/Component/Yaml/Escaper.php',
+			'/libraries/framework/Symfony/Component/Yaml/index.html',
+			'/libraries/framework/Symfony/Component/Yaml/Inline.php',
+			'/libraries/framework/Symfony/Component/Yaml/LICENSE',
+			'/libraries/framework/Symfony/Component/Yaml/Parser.php',
+			'/libraries/framework/Symfony/Component/Yaml/Unescaper.php',
+			'/libraries/framework/Symfony/Component/Yaml/Yaml.php',
+			'/libraries/joomla/string/inflector.php',
+			'/libraries/joomla/string/normalise.php',
+			'/libraries/phpmailer/language/index.html',
+			'/libraries/phpmailer/language/phpmailer.lang-joomla.php',
+			'/libraries/phpmailer/index.html',
+			'/libraries/phpmailer/LICENSE',
+			'/libraries/phpmailer/phpmailer.php',
+			'/libraries/phpmailer/pop.php',
+			'/libraries/phpmailer/smtp.php',
+			'/media/editors/codemirror/css/ambiance.css',
+			'/media/editors/codemirror/css/codemirror.css',
+			'/media/editors/codemirror/css/configuration.css',
+			'/media/editors/codemirror/css/index.html',
+			'/media/editors/codemirror/js/brace-fold.js',
+			'/media/editors/codemirror/js/clike.js',
+			'/media/editors/codemirror/js/closebrackets.js',
+			'/media/editors/codemirror/js/closetag.js',
+			'/media/editors/codemirror/js/codemirror.js',
+			'/media/editors/codemirror/js/css.js',
+			'/media/editors/codemirror/js/foldcode.js',
+			'/media/editors/codemirror/js/foldgutter.js',
+			'/media/editors/codemirror/js/fullscreen.js',
+			'/media/editors/codemirror/js/htmlmixed.js',
+			'/media/editors/codemirror/js/indent-fold.js',
+			'/media/editors/codemirror/js/index.html',
+			'/media/editors/codemirror/js/javascript.js',
+			'/media/editors/codemirror/js/less.js',
+			'/media/editors/codemirror/js/matchbrackets.js',
+			'/media/editors/codemirror/js/matchtags.js',
+			'/media/editors/codemirror/js/php.js',
+			'/media/editors/codemirror/js/xml-fold.js',
+			'/media/editors/codemirror/js/xml.js',
+			// Joomla! 3.4.1
+			'/libraries/joomla/environment/request.php',
+			'/media/editors/tinymce/templates/template_list.js',
+			'/administrator/help/en-GB/Components_Banners_Banners.html',
+			'/administrator/help/en-GB/Components_Banners_Banners_Edit.html',
+			'/administrator/help/en-GB/Components_Banners_Categories.html',
+			'/administrator/help/en-GB/Components_Banners_Category_Edit.html',
+			'/administrator/help/en-GB/Components_Banners_Clients.html',
+			'/administrator/help/en-GB/Components_Banners_Clients_Edit.html',
+			'/administrator/help/en-GB/Components_Banners_Tracks.html',
+			'/administrator/help/en-GB/Components_Contact_Categories.html',
+			'/administrator/help/en-GB/Components_Contact_Category_Edit.html',
+			'/administrator/help/en-GB/Components_Contacts_Contacts.html',
+			'/administrator/help/en-GB/Components_Contacts_Contacts_Edit.html',
+			'/administrator/help/en-GB/Components_Content_Categories.html',
+			'/administrator/help/en-GB/Components_Content_Category_Edit.html',
+			'/administrator/help/en-GB/Components_Messaging_Inbox.html',
+			'/administrator/help/en-GB/Components_Messaging_Read.html',
+			'/administrator/help/en-GB/Components_Messaging_Write.html',
+			'/administrator/help/en-GB/Components_Newsfeeds_Categories.html',
+			'/administrator/help/en-GB/Components_Newsfeeds_Category_Edit.html',
+			'/administrator/help/en-GB/Components_Newsfeeds_Feeds.html',
+			'/administrator/help/en-GB/Components_Newsfeeds_Feeds_Edit.html',
+			'/administrator/help/en-GB/Components_Redirect_Manager.html',
+			'/administrator/help/en-GB/Components_Redirect_Manager_Edit.html',
+			'/administrator/help/en-GB/Components_Search.html',
+			'/administrator/help/en-GB/Components_Weblinks_Categories.html',
+			'/administrator/help/en-GB/Components_Weblinks_Category_Edit.html',
+			'/administrator/help/en-GB/Components_Weblinks_Links.html',
+			'/administrator/help/en-GB/Components_Weblinks_Links_Edit.html',
+			'/administrator/help/en-GB/Content_Article_Manager.html',
+			'/administrator/help/en-GB/Content_Article_Manager_Edit.html',
+			'/administrator/help/en-GB/Content_Featured_Articles.html',
+			'/administrator/help/en-GB/Content_Media_Manager.html',
+			'/administrator/help/en-GB/Extensions_Extension_Manager_Discover.html',
+			'/administrator/help/en-GB/Extensions_Extension_Manager_Install.html',
+			'/administrator/help/en-GB/Extensions_Extension_Manager_Manage.html',
+			'/administrator/help/en-GB/Extensions_Extension_Manager_Update.html',
+			'/administrator/help/en-GB/Extensions_Extension_Manager_Warnings.html',
+			'/administrator/help/en-GB/Extensions_Language_Manager_Content.html',
+			'/administrator/help/en-GB/Extensions_Language_Manager_Edit.html',
+			'/administrator/help/en-GB/Extensions_Language_Manager_Installed.html',
+			'/administrator/help/en-GB/Extensions_Module_Manager.html',
+			'/administrator/help/en-GB/Extensions_Module_Manager_Edit.html',
+			'/administrator/help/en-GB/Extensions_Plugin_Manager.html',
+			'/administrator/help/en-GB/Extensions_Plugin_Manager_Edit.html',
+			'/administrator/help/en-GB/Extensions_Template_Manager_Styles.html',
+			'/administrator/help/en-GB/Extensions_Template_Manager_Styles_Edit.html',
+			'/administrator/help/en-GB/Extensions_Template_Manager_Templates.html',
+			'/administrator/help/en-GB/Extensions_Template_Manager_Templates_Edit.html',
+			'/administrator/help/en-GB/Extensions_Template_Manager_Templates_Edit_Source.html',
+			'/administrator/help/en-GB/Glossary.html',
+			'/administrator/help/en-GB/Menus_Menu_Item_Manager.html',
+			'/administrator/help/en-GB/Menus_Menu_Item_Manager_Edit.html',
+			'/administrator/help/en-GB/Menus_Menu_Manager.html',
+			'/administrator/help/en-GB/Menus_Menu_Manager_Edit.html',
+			'/administrator/help/en-GB/Site_Global_Configuration.html',
+			'/administrator/help/en-GB/Site_Maintenance_Clear_Cache.html',
+			'/administrator/help/en-GB/Site_Maintenance_Global_Check-in.html',
+			'/administrator/help/en-GB/Site_Maintenance_Purge_Expired_Cache.html',
+			'/administrator/help/en-GB/Site_System_Information.html',
+			'/administrator/help/en-GB/Start_Here.html',
+			'/administrator/help/en-GB/Users_Access_Levels.html',
+			'/administrator/help/en-GB/Users_Access_Levels_Edit.html',
+			'/administrator/help/en-GB/Users_Debug_Users.html',
+			'/administrator/help/en-GB/Users_Groups.html',
+			'/administrator/help/en-GB/Users_Groups_Edit.html',
+			'/administrator/help/en-GB/Users_Mass_Mail_Users.html',
+			'/administrator/help/en-GB/Users_User_Manager.html',
+			'/administrator/help/en-GB/Users_User_Manager_Edit.html',
+			'/administrator/components/com_config/views/index.html',
+			'/administrator/components/com_config/views/application/index.html',
+			'/administrator/components/com_config/views/application/view.html.php',
+			'/administrator/components/com_config/views/application/tmpl/default.php',
+			'/administrator/components/com_config/views/application/tmpl/default_cache.php',
+			'/administrator/components/com_config/views/application/tmpl/default_cookie.php',
+			'/administrator/components/com_config/views/application/tmpl/default_database.php',
+			'/administrator/components/com_config/views/application/tmpl/default_debug.php',
+			'/administrator/components/com_config/views/application/tmpl/default_filters.php',
+			'/administrator/components/com_config/views/application/tmpl/default_ftp.php',
+			'/administrator/components/com_config/views/application/tmpl/default_ftplogin.php',
+			'/administrator/components/com_config/views/application/tmpl/default_locale.php',
+			'/administrator/components/com_config/views/application/tmpl/default_mail.php',
+			'/administrator/components/com_config/views/application/tmpl/default_metadata.php',
+			'/administrator/components/com_config/views/application/tmpl/default_navigation.php',
+			'/administrator/components/com_config/views/application/tmpl/default_permissions.php',
+			'/administrator/components/com_config/views/application/tmpl/default_seo.php',
+			'/administrator/components/com_config/views/application/tmpl/default_server.php',
+			'/administrator/components/com_config/views/application/tmpl/default_session.php',
+			'/administrator/components/com_config/views/application/tmpl/default_site.php',
+			'/administrator/components/com_config/views/application/tmpl/default_system.php',
+			'/administrator/components/com_config/views/application/tmpl/index.html',
+			'/administrator/components/com_config/views/close/index.html',
+			'/administrator/components/com_config/views/close/view.html.php',
+			'/administrator/components/com_config/views/component/index.html',
+			'/administrator/components/com_config/views/component/view.html.php',
+			'/administrator/components/com_config/views/component/tmpl/default.php',
+			'/administrator/components/com_config/views/component/tmpl/index.html',
+			'/administrator/components/com_config/models/fields/filters.php',
+			'/administrator/components/com_config/models/fields/index.html',
+			'/administrator/components/com_config/models/forms/application.xml',
+			'/administrator/components/com_config/models/forms/index.html',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1071,6 +1318,36 @@ class JoomlaInstallerScript
 			'/libraries/legacy/module',
 			'/administrator/components/com_weblinks/models/fields',
 			'/plugins/user/joomla/postinstall',
+			'/libraries/joomla/registry/format',
+			'/libraries/joomla/registry',
+			// Joomla! 3.4
+			'/administrator/components/com_tags/helpers/html',
+			'/administrator/components/com_tags/models/fields',
+			'/administrator/templates/hathor/html/com_finder/filter',
+			'/administrator/templates/hathor/html/com_finder/statistics',
+			'/libraries/compat/password/lib',
+			'/libraries/compat/password',
+			'/libraries/compat',
+			'/libraries/framework/Joomla/Application/Cli/Output/Processor',
+			'/libraries/framework/Joomla/Application/Cli/Output',
+			'/libraries/framework/Joomla/Application/Cli',
+			'/libraries/framework/Joomla/Application',
+			'/libraries/framework/Joomla/DI/Exception',
+			'/libraries/framework/Joomla/DI',
+			'/libraries/framework/Joomla/Registry/Format',
+			'/libraries/framework/Joomla/Registry',
+			'/libraries/framework/Joomla',
+			'/libraries/framework/Symfony/Component/Yaml/Exception',
+			'/libraries/framework/Symfony/Component/Yaml',
+			'/libraries/framework',
+			'/libraries/phpmailer/language',
+			'/libraries/phpmailer',
+			'/media/editors/codemirror/css',
+			'/media/editors/codemirror/js',
+			// Joomla! 3.4.1
+			'/administrator/components/com_config/views',
+			'/administrator/components/com_config/models/fields',
+			'/administrator/components/com_config/models/forms',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -1090,6 +1367,18 @@ class JoomlaInstallerScript
 			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
 			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
+			}
+		}
+
+		/*
+		 * Needed for updates post-3.4
+		 * If com_weblinks doesn't exist then assume we can delete the weblinks package manifest (included in the update packages)
+		 */
+		if (!JFile::exists(JPATH_ADMINISTRATOR . '/components/com_weblinks/weblinks.php'))
+		{
+			if (JFile::exists(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml'))
+			{
+				JFile::delete(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml');
 			}
 		}
 	}
@@ -1115,7 +1404,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to create assets for newly installed components
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @since   3.2
 	 */

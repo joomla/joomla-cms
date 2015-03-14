@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for cloaking email addresses
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.5
+ * @since  1.5
  */
 abstract class JHtmlEmail
 {
@@ -34,7 +32,7 @@ abstract class JHtmlEmail
 	 */
 	public static function cloak($mail, $mailto = true, $text = '', $email = true)
 	{
-		// Convert text
+		// Convert mail
 		$mail = static::convertEncoding($mail);
 
 		// Split email by @ symbol
@@ -44,8 +42,9 @@ abstract class JHtmlEmail
 		// Random number
 		$rand = rand(1, 100000);
 
-		$replacement = "<script type='text/javascript'>";
-		$replacement .= "\n <!--";
+		$replacement = '<span id="cloak' . $rand . '">' . JText::_('JLIB_HTML_CLOAKING') . '</span>' . "<script type='text/javascript'>";
+		$replacement .= "\n //<!--";
+		$replacement .= "\n document.getElementById('cloak$rand').innerHTML = '';";
 		$replacement .= "\n var prefix = '&#109;a' + 'i&#108;' + '&#116;o';";
 		$replacement .= "\n var path = 'hr' + 'ef' + '=';";
 		$replacement .= "\n var addy" . $rand . " = '" . @$mail[0] . "' + '&#64;';";
@@ -61,7 +60,6 @@ abstract class JHtmlEmail
 
 				if ($email)
 				{
-
 					// Split email by @ symbol
 					$text = explode('@', $text);
 					$text_parts = explode('.', $text[1]);
@@ -73,36 +71,20 @@ abstract class JHtmlEmail
 					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
 				}
 
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
-				$replacement .= "\n document.write(addy_text" . $rand . ");";
-				$replacement .= "\n document.write('<\/a>');";
+				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
+					. $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>';";
 			}
 			else
 			{
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
-				$replacement .= "\n document.write(addy" . $rand . ");";
-				$replacement .= "\n document.write('<\/a>');";
+				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
+					. $rand . " + '\'>' +addy" . $rand . "+'<\/a>';";
 			}
 		}
 		else
 		{
-			$replacement .= "\n document.write(addy" . $rand . ");";
+			$replacement .= "\n document.getElementById('cloak$rand').innerHTML += addy" . $rand . ";";
 		}
 
-		$replacement .= "\n //-->";
-		$replacement .= '\n </script>';
-
-		// XHTML compliance no Javascript text handling
-		$replacement .= "<script type='text/javascript'>";
-		$replacement .= "\n <!--";
-		$replacement .= "\n document.write('<span style=\'display: none;\'>');";
-		$replacement .= "\n //-->";
-		$replacement .= "\n </script>";
-		$replacement .= JText::_('JLIB_HTML_CLOAKING');
-		$replacement .= "\n <script type='text/javascript'>";
-		$replacement .= "\n <!--";
-		$replacement .= "\n document.write('</');";
-		$replacement .= "\n document.write('span>');";
 		$replacement .= "\n //-->";
 		$replacement .= "\n </script>";
 
@@ -120,12 +102,15 @@ abstract class JHtmlEmail
 	 */
 	protected static function convertEncoding($text)
 	{
+		$text = html_entity_decode($text);
+
 		// Replace vowels with character encoding
 		$text = str_replace('a', '&#97;', $text);
 		$text = str_replace('e', '&#101;', $text);
 		$text = str_replace('i', '&#105;', $text);
 		$text = str_replace('o', '&#111;', $text);
 		$text = str_replace('u', '&#117;', $text);
+		$text = htmlentities($text, ENT_QUOTES, 'UTF-8', false);
 
 		return $text;
 	}

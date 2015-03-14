@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,22 +12,42 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of users.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersViewDebuguser extends JViewLegacy
 {
 	protected $actions;
 
+	/**
+	 * The item data.
+	 *
+	 * @var   object
+	 * @since 1.6
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object.
+	 *
+	 * @var   JPagination
+	 * @since 1.6
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state.
+	 *
+	 * @var   JObject
+	 * @since 1.6
+	 */
 	protected $state;
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -37,18 +57,19 @@ class UsersViewDebuguser extends JViewLegacy
 			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
-		$this->actions		= $this->get('DebugActions');
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-		$this->user			= $this->get('User');
-		$this->levels		= UsersHelperDebug::getLevelsOptions();
-		$this->components	= UsersHelperDebug::getComponents();
+		$this->actions    = $this->get('DebugActions');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
+		$this->user       = $this->get('User');
+		$this->levels     = UsersHelperDebug::getLevelsOptions();
+		$this->components = UsersHelperDebug::getComponents();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -59,6 +80,8 @@ class UsersViewDebuguser extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -71,6 +94,7 @@ class UsersViewDebuguser extends JViewLegacy
 		JHtmlSidebar::setAction('index.php?option=com_users&view=debuguser&user_id=' . (int) $this->state->get('filter.user_id'));
 
 		$option = '';
+
 		if (!empty($this->components))
 		{
 			$option = JHtml::_('select.options', $this->components, 'value', 'text', $this->state->get('filter.component'));

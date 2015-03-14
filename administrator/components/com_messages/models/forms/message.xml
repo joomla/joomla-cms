@@ -19,7 +19,6 @@
 		<field
 			name="message"
 			type="editor"
-			class="inputbox"
 			label="COM_MESSAGES_FIELD_MESSAGE_LABEL"
 			description="COM_MESSAGES_FIELD_MESSAGE_DESC"
 			required="true"

@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -142,7 +142,8 @@ class RedirectManagerPage extends AdminManagerPage
 	public function changeRedirectState($src, $state = 'published')
 	{
 		$this->searchFor($src);
-		$this->checkAll();
+		$rowNumber = $this->getRowNumber($src) - 1;
+		$this->driver->findElement(By::xPath("//input[@id='cb" . $rowNumber ."']"))->click();
 		if (strtolower($state) == 'published')
 		{
 			$this->clickButton('toolbar-publish');
@@ -151,6 +152,11 @@ class RedirectManagerPage extends AdminManagerPage
 		elseif (strtolower($state) == 'unpublished')
 		{
 			$this->clickButton('toolbar-unpublish');
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
+		elseif (strtolower($state) == 'archived')
+		{
+			$this->clickButton('toolbar-archive');
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		}
 		$this->searchFor();

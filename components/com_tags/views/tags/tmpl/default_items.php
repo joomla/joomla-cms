@@ -3,15 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
-JHtml::_('behavior.framework');
+JHtml::_('behavior.core');
 JHtml::_('formbehavior.chosen', 'select');
 
 // Get the user object.
@@ -23,12 +23,15 @@ $canCreate = $user->authorise('core.create', 'com_tags');
 $canEditState = $user->authorise('core.edit.state', 'com_tags');
 
 $columns = $this->params->get('tag_columns', 1);
+
 // Avoid division by 0 and negative columns.
 if ($columns < 1)
 {
 	$columns = 1;
 }
+
 $bsspans = floor(12 / $columns);
+
 if ($bsspans < 1)
 {
 	$bsspans = 1;

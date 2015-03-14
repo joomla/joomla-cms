@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper class for admin stats module
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_stats_admin
- * @since       3.0
+ * @since  3.0
  */
 class ModStatsHelper
 {
@@ -70,13 +68,13 @@ class ModStatsHelper
 			$rows[$i]        = new stdClass;
 			$rows[$i]->title = JText::_('MOD_STATS_CACHING');
 			$rows[$i]->icon  = 'dashboard';
-			$rows[$i]->data  = $app->getCfg('caching') ? JText::_('JENABLED') : JText::_('JDISABLED');
+			$rows[$i]->data  = $app->get('caching') ? JText::_('JENABLED') : JText::_('JDISABLED');
 			$i++;
 
 			$rows[$i]        = new stdClass;
 			$rows[$i]->title = JText::_('MOD_STATS_GZIP');
 			$rows[$i]->icon  = 'lightning';
-			$rows[$i]->data  = $app->getCfg('gzip') ? JText::_('JENABLED') : JText::_('JDISABLED');
+			$rows[$i]->data  = $app->get('gzip') ? JText::_('JENABLED') : JText::_('JDISABLED');
 			$i++;
 		}
 
@@ -93,13 +91,6 @@ class ModStatsHelper
 				->where('state = 1');
 			$db->setQuery($query);
 			$items = $db->loadResult();
-
-			$query->clear()
-				->select('COUNT(id) AS count_links ')
-				->from('#__weblinks')
-				->where('state = 1');
-			$db->setQuery($query);
-			$links = $db->loadResult();
 
 			if ($users)
 			{
@@ -119,13 +110,23 @@ class ModStatsHelper
 				$i++;
 			}
 
-			if ($links)
+			if (JComponentHelper::isInstalled('com_weblinks'))
 			{
-				$rows[$i]        = new stdClass;
-				$rows[$i]->title = JText::_('MOD_STATS_WEBLINKS');
-				$rows[$i]->icon  = 'out-2';
-				$rows[$i]->data  = $links;
-				$i++;
+				$query->clear()
+					->select('COUNT(id) AS count_links')
+					->from('#__weblinks')
+					->where('state = 1');
+				$db->setQuery($query);
+				$links = $db->loadResult();
+
+				if ($links)
+				{
+					$rows[$i]        = new stdClass;
+					$rows[$i]->title = JText::_('MOD_STATS_WEBLINKS');
+					$rows[$i]->icon  = 'out-2';
+					$rows[$i]->data  = $links;
+					$i++;
+				}
 			}
 		}
 

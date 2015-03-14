@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1302,22 +1302,26 @@ class JDatabaseQueryTest extends TestCase
 			'Tests chaining.'
 		);
 
-		$this->assertThat(
+		$this->assertEquals(
+			'SET foo = 1',
 			trim(TestReflection::getValue($this->_instance, 'set')),
-			$this->identicalTo('SET foo = 1'),
 			'Tests set with a string.'
 		);
 
 		$this->_instance->set('bar = 2');
-		$this->assertEquals("SET foo = 1" . PHP_EOL . "\t, bar = 2", trim(TestReflection::getValue($this->_instance, 'set')), 'Tests appending with set().');
+		$this->assertEquals(
+			"SET foo = 1\n\t, bar = 2",
+			trim(TestReflection::getValue($this->_instance, 'set')),
+			'Tests appending with set().'
+		);
 
 		// Clear the set.
 		TestReflection::setValue($this->_instance, 'set', null);
 		$this->_instance->set(array('foo = 1', 'bar = 2'));
 
-		$this->assertThat(
+		$this->assertEquals(
+			"SET foo = 1\n\t, bar = 2",
 			trim(TestReflection::getValue($this->_instance, 'set')),
-			$this->identicalTo("SET foo = 1" . PHP_EOL . "\t, bar = 2"),
 			'Tests set with an array.'
 		);
 
@@ -1325,9 +1329,9 @@ class JDatabaseQueryTest extends TestCase
 		TestReflection::setValue($this->_instance, 'set', null);
 		$this->_instance->set(array('foo = 1', 'bar = 2'), ';');
 
-		$this->assertThat(
+		$this->assertEquals(
+			"SET foo = 1\n\t; bar = 2",
 			trim(TestReflection::getValue($this->_instance, 'set')),
-			$this->identicalTo("SET foo = 1" . PHP_EOL . "\t; bar = 2"),
 			'Tests set with an array and glue.'
 		);
 	}
@@ -1689,7 +1693,7 @@ class JDatabaseQueryTest extends TestCase
 			(string) $this->_instance,
 			$this->equalTo(
 				PHP_EOL . "SELECT name" . PHP_EOL .
-				"FROM foo" . PHP_EOL . 
+				"FROM foo" . PHP_EOL .
 				"WHERE a=1" . PHP_EOL .
 				"UNION (" . PHP_EOL .
 				"SELECT name" . PHP_EOL .
