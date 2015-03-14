@@ -297,7 +297,7 @@ class JHelperExtensionscript
 		{
 			foreach ($this->deleteFiles as $file)
 			{
-				if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
+				if (file_exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
 				{
 					echo JText::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br />';
 				}
@@ -331,7 +331,7 @@ class JHelperExtensionscript
 			{
 				$name = basename($file);
 
-				if (JFile::exists(JPATH_ROOT . $file) && !JFile::move(JPATH_ROOT . $file, JPATH_ROOT . '/cli/' . $name))
+				if (file_exists(JPATH_ROOT . $file) && !JFile::move(JPATH_ROOT . $file, JPATH_ROOT . '/cli/' . $name))
 				{
 					echo JText::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);
 				}
