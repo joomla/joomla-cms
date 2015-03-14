@@ -14,7 +14,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
 
 $uri = JUri::getInstance();
@@ -37,23 +36,21 @@ JFactory::getDocument()->addScriptDeclaration("
 
 $script = array();
 $script[] = "jQuery(document).ready(function() {";
+
 foreach ($this->items as $item) :
 	if ($user->authorise('core.edit', 'com_menus')) :
 		$script[] = '	function jSelectPosition_' . $item->id . '(name) {';
 		$script[] = '		document.getElementById("' . $item->id . '").value = name;';
-		$script[] = '		jQuery("#menusModuleModal").modal("hide");';
+		$script[] = '		jQuery(".modal").modal("hide");';
 		$script[] = '	};';
 	endif;
 endforeach;
-foreach ($this->modules as $module => $type) :
-	foreach ($type as $mod => $tp) :
-		$script[] = '	jQuery("#module' . $tp->id . 'Modal").on("hidden", function () {';
-		$script[] = '		setTimeout(function(){';
-		$script[] = '			window.parent.location.reload();';
-		$script[] = '		},1000);';
-		$script[] = '	});';
-	endforeach;
-endforeach;
+
+$script[] = '	jQuery(".modal").on("hidden", function () {';
+$script[] = '		setTimeout(function(){';
+$script[] = '			window.parent.location.reload();';
+$script[] = '		},1000);';
+$script[] = '	});';
 $script[] = "});";
 
 JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));

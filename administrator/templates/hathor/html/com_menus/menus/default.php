@@ -24,24 +24,24 @@ $modMenuId = (int) $this->get('ModMenuId');
 
 $script = array();
 $script[] = "jQuery(document).ready(function() {";
+
 foreach ($this->items as $item) :
-		if ($user->authorise('core.edit', 'com_menus')) :
-			$script[] = '	function jSelectPosition_' . $item->id . '(name) {';
-			$script[] = '		document.getElementById("' . $item->id . '").value = name;';
-			$script[] = '		jQuery("#menusModuleModal").modal("hide");';
-			$script[] = '	};';
-		endif;
+	if ($user->authorise('core.edit', 'com_menus')) :
+		$script[] = '	function jSelectPosition_' . $item->id . '(name) {';
+		$script[] = '		document.getElementById("' . $item->id . '").value = name;';
+		$script[] = '		jQuery(".modal").modal("hide");';
+		$script[] = '	};';
+	endif;
 endforeach;
-foreach ($this->modules[$item->menutype] as &$module) :
-		$script[] = '	jQuery("#module' . $module->id . 'Modal").on("hidden", function () {';
-		$script[] = '		setTimeout(function(){';
-		$script[] = '			window.parent.location.reload();';
-		$script[] = '		},1000);';
-		$script[] = '	});';
-	endforeach;
+
+$script[] = '	jQuery(".modal").on("hidden", function () {';
+$script[] = '		setTimeout(function(){';
+$script[] = '			window.parent.location.reload();';
+$script[] = '		},1000);';
+$script[] = '	});';
 $script[] = "});";
 
-JFactory::getDocument()->addScriptDeclaration(implode($script));
+JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
