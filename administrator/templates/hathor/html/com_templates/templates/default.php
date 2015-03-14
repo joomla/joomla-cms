@@ -120,6 +120,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php echo $this->escape($url); ?></a></p>
 					<?php endif; ?>
 				</td>
+				<?php echo JHtml::_('templates.thumbModal', $item->element, $item->client_id); ?>
 			</tr>
 			<?php endforeach; ?>
 		</tbody>
