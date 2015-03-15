@@ -829,6 +829,10 @@ class lessc {
 			if (!empty($this->formatter->compressColors)) {
 				return $this->compileValue($this->coerceColor($value));
 			}
+			/* Joomla change
+			 * ORIGINAL:
+			 * return $value[1];
+			 */
 			return $this->expandColor($value);
 		case 'keyword':
 			// [1] - the keyword
@@ -891,6 +895,9 @@ class lessc {
 		}
 	}
 
+	/* Joomla change
+	 * Added function expandColor()
+	 */
 	public function expandColor($value) {
 		if(strlen($value[1]) != 4  || $value[1][0] != '#') {
 			return $value[1];
