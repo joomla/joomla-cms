@@ -21,6 +21,23 @@ JFactory::getDocument()->addScriptDeclaration('
 			Joomla.submitform(task, document.getElementById("adminForm"));
 		}
 	};
+	
+	jQuery(document).ready(function($) {
+		$("#rightbtn").on("click", function() {
+			if($(this).text() == "' . JText::_('COM_FINDER_FILTER_SHOW_ALL') . '") {
+				$(".collapse:not(.in)").each(function (index) {
+					$(this).collapse("toggle");
+				});
+				$(this).text("' . JText::_('COM_FINDER_FILTER_HIDE_ALL') . '");
+			} else {
+				$(this).text("' . JText::_('COM_FINDER_FILTER_SHOW_ALL') . '");
+				$(".collapse.in").each(function (index) {
+				$(this).collapse("toggle");
+			});
+		}
+		return false;
+		});
+	});
 ');
 ?>
 
@@ -37,12 +54,12 @@ JFactory::getDocument()->addScriptDeclaration('
 					<div class="well">
 						<?php echo $this->form->getControlGroup('map_count'); ?>
 					</div>
+					<button class="btn btn-default" type="button" class="jform-rightbtn" onclick="jQuery('.filter-node').each(function () { this.checked = true; });">
+					<i class="icon-checkbox"></i> <?php echo JText::_('JGLOBAL_SELECTION_ALL'); ?></button>
 					<button class="btn btn-default" type="button" class="jform-rightbtn" onclick="jQuery('.filter-node').each(function () { this.checked = !this.checked; });">
-						<i class="icon-checkbox"></i> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?>
-					</button>
-					<button class="btn btn-default" type="button" class="jform-rightbtn" onclick="jQuery('[class^=\'accordion-body\']').removeClass('in'); jQuery('.collapse').collapse('show');">
-						<i class="icon-folder"></i> <?php echo JText::_('JSHOW'); ?> <?php echo JText::_('JALL'); ?>
-					</button>
+						<i class="icon-checkbox-partial"></i> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?></button>
+
+					<button class="btn btn-default pull-right" type="button" id="rightbtn" ><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
 					<hr>
 						<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
 			</div>
