@@ -703,17 +703,17 @@
     },
     {
         "name": "joomla/registry",
-        "version": "1.4.2",
-        "version_normalized": "1.4.2.0",
+        "version": "1.4.3",
+        "version_normalized": "1.4.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/registry.git",
-            "reference": "5c2e607ff61f8df07c3c0630ed62a8c3d892469e"
+            "reference": "d99923ca3120fd8d2f677f9c07626a098449607e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/registry/zipball/5c2e607ff61f8df07c3c0630ed62a8c3d892469e",
-            "reference": "5c2e607ff61f8df07c3c0630ed62a8c3d892469e",
+            "url": "https://api.github.com/repos/joomla-framework/registry/zipball/d99923ca3120fd8d2f677f9c07626a098449607e",
+            "reference": "d99923ca3120fd8d2f677f9c07626a098449607e",
             "shasum": ""
         },
         "require": {
@@ -731,7 +731,7 @@
         "suggest": {
             "symfony/yaml": "Install 2.* if you require YAML support."
         },
-        "time": "2015-03-07 18:48:26",
+        "time": "2015-03-13 21:47:01",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
