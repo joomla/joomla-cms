@@ -110,3 +110,8 @@ defined('_JEXEC') or die;
 	<input type="hidden" name="task" value="preinstall" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
+<div class="btn-toolbar text-right">
+	<div class="btn-group">
+		<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCHECK_AGAIN'); ?>"><i class="icon-refresh icon-white"></i> <?php echo JText::_('JCHECK_AGAIN'); ?></a>
+	</div>
+</div>

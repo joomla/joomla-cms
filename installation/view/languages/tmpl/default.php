@@ -107,4 +107,27 @@ $version = new JVersion;
 		<input type="hidden" name="task" value="InstallLanguages" />
 		<?php echo JHtml::_('form.token'); ?>
 	<?php endif; ?>
+	
+	<div class="btn-toolbar text-right">
+		<div class="btn-group">
+			<a
+				class="btn"
+				href="#"
+				onclick="return Install.goToPage('remove');"
+				rel="prev"
+				title="<?php echo JText::_('JPREVIOUS'); ?>">
+				<i class="icon-arrow-left"></i>
+				<?php echo JText::_('JPREVIOUS'); ?>
+			</a>
+			<a
+				class="btn btn-primary"
+				href="#"
+				onclick="installLanguages()"
+				rel="next"
+				title="<?php echo JText::_('JNEXT'); ?>">
+				<i class="icon-arrow-right icon-white"></i>
+				<?php echo JText::_('JNEXT'); ?>
+			</a>
+		</div>
+	</div>
 </form>
