@@ -173,7 +173,11 @@ class PlgSystemLanguageFilter extends JPlugin
 		}
 
 		if ($this->mode_sef
-			&& (!$this->params->get('remove_default_prefix', 0) || $lang != JComponentHelper::getParams('com_languages')->get('site', 'en-GB')))
+			&& (!$this->params->get('remove_default_prefix', 0)
+				|| $lang != JComponentHelper::getParams('com_languages')->get('site', 'en-GB')
+				|| $lang != $this->default_lang
+			)
+		)
 		{
 			$uri->setPath($uri->getPath() . '/' . $sef . '/');
 		}
@@ -241,8 +245,23 @@ class PlgSystemLanguageFilter extends JPlugin
 			// that we have in our system, its the default language and we "found" the right language
 			if ($this->params->get('remove_default_prefix', 0) && !isset($this->sefs[$sef]))
 			{
-				$found = true;
-				$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+				if (strlen($sef))
+				{
+					$found = true;
+					$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+				}
+				else
+				{
+					$lang_code = $this->app->input->cookie->getString(
+						JApplicationHelper::getHash('language'),
+						JComponentHelper::getParams('com_languages')->get('site', 'en-GB')
+					);
+
+					if ($lang_code == JComponentHelper::getParams('com_languages')->get('site', 'en-GB'))
+					{
+						$found = true;
+					}
+				}
 			}
 			else
 			{
@@ -254,10 +273,19 @@ class PlgSystemLanguageFilter extends JPlugin
 					$lang_code = $this->sefs[$sef]->lang_code;
 				}
 
-				// If we found our language, but its the default language and we don't want a prefix for that, we are on a wrong URL
+				// If we found our language, but its the default language and we don't want a prefix for that, we are on a wrong URL.
+				// Or we try to change the language back to the default language. We need a redirect to the proper URL for the default language.
 				if ($this->params->get('remove_default_prefix', 0)
 					&& $lang_code == JComponentHelper::getParams('com_languages')->get('site', 'en-GB'))
 				{
+					// Create a cookie.
+					if ($this->app->input->cookie->getString(JApplicationHelper::getHash('language')) != $lang_code)
+					{
+						$cookie_domain = $this->app->get('cookie_domain');
+						$cookie_path   = $this->app->get('cookie_path', '/');
+						$this->app->input->cookie->set(JApplicationHelper::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
+					}
+
 					$found = false;
 					array_shift($parts);
 					$path = implode('/', $parts);
@@ -376,8 +404,8 @@ class PlgSystemLanguageFilter extends JPlugin
 		// Create a cookie.
 		if ($this->app->input->cookie->getString(JApplicationHelper::getHash('language')) != $lang_code)
 		{
-			$cookie_domain 	= $this->app->get('cookie_domain');
-			$cookie_path 	= $this->app->get('cookie_path', $uri->base(true));
+			$cookie_domain = $this->app->get('cookie_domain');
+			$cookie_path   = $this->app->get('cookie_path', '/');
 			$this->app->input->cookie->set(JApplicationHelper::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
 		}
 
