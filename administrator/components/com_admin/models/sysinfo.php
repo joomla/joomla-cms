@@ -366,6 +366,54 @@ class AdminModelSysInfo extends JModelLegacy
 	}
 
 	/**
+	 * Method to get a list of installed extensions
+	 *
+	 * @return array installed extensions
+	 *
+	 * @since  3.5
+	 */
+	public function getExtensions()
+	{
+		$installed = array();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from('#__extensions');
+		$db->setQuery($query);
+		try
+		{
+			$extensions = $db->loadObjectList();
+		}
+		catch (Exception $e)
+		{
+			JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), JLog::WARNING, 'jerror');
+			return $installed;
+		}
+		if (count($extensions))
+		{
+			foreach ($extensions as $extension)
+			{
+				// initialise with an empty array
+				$installed[$extension->name] = array();
+				if (strlen($extension->name))
+				{
+					$manifest = json_decode($extension->manifest_cache);
+					$installed[$extension->name] = array(
+						'name' => $manifest->name,
+						'type' => $manifest->type,
+						'author' => $manifest->author,
+						'version' => $manifest->version,
+						'creationDate' => $manifest->creationDate,
+						'authorUrl' => $manifest->authorUrl
+					);
+				}
+			}
+		}
+
+		return $installed;
+	}
+
+	/**
 	 * Method to get the directory states
 	 *
 	 * @return array States of directories
