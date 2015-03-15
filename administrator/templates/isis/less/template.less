@@ -1200,16 +1200,19 @@ a.grid_true {
 	float: right;
 }
 
-[id*="jform"] {
+#config-document [id*="jform"],
+#component-form [id*="jform"] {
 	width: 220px !important;
 }
 
-input[id*="jform"] {
+#config-document input[id*="jform"],
+#component-form input[id*="jform"] {
 	max-width: 205px;
 }
 
-textarea[id*="jform"] {
-	width:335px !important;
+#config-document textarea[id*="jform"],
+#component-form textarea[id*="jform"] {
+	width: 335px !important;
 	height: 110px;
 }
 
@@ -1219,7 +1222,7 @@ textarea[id*="jform"] {
 	margin-left: 220px !important;
 }
 
-#application-form > .row-fluid > #sidebar ,
+#application-form > .row-fluid > #sidebar,
 #component-form > .row-fluid > #sidebar {
 	margin-top: -10px;
 	margin-left: -20px;
