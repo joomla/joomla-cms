@@ -40,7 +40,8 @@ JHtml::_('bootstrap.framework');
 $doc->addScript($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template'
+$doc->addStyleSheetVersion(
+	$this->baseurl . '/templates/' . $this->template . '/css/template'
 	. (JDEBUG ? '' : '.min')
 	. '.css');
 

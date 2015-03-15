@@ -22,7 +22,8 @@ JHtml::_('bootstrap.loadCss', false, $this->direction);
 $doc->addStyleSheetVersion($this->baseurl . '/templates/system/css/system.css');
 
 // Loadtemplate CSS
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template'
+$doc->addStyleSheetVersion(
+	$this->baseurl . '/templates/' . $this->template . '/css/template'
 	. (JDEBUG ? '' : '.min')
 	. '.css');
 
@@ -36,7 +37,8 @@ else
 	$colour = htmlspecialchars($this->params->get('colourChoice'));
 }
 
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour
+$doc->addStyleSheetVersion(
+	$this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour
 	. (JDEBUG ? '' : '.min')
 	. '.css');
 

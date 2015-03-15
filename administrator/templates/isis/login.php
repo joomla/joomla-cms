@@ -24,7 +24,8 @@ JHtml::_('bootstrap.framework');
 JHtml::_('bootstrap.tooltip');
 
 // Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template'
+$doc->addStyleSheetVersion(
+	$this->baseurl . '/templates/' . $this->template . '/css/template'
 	. ($this->direction == 'rtl' ? '-rtl' : '')
 	. (JDEBUG ? '' : '.min')
 	. '.css');

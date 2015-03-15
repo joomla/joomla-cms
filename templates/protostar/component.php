@@ -18,7 +18,8 @@ $this->direction = $doc->direction;
 JHtml::_('bootstrap.framework');
 
 // Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template'
+$doc->addStyleSheetVersion(
+	$this->baseurl . '/templates/' . $this->template . '/css/template'
 	. (JDEBUG ? '' : '.min')
 	. '.css');
 
