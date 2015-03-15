@@ -231,11 +231,23 @@ class PlgSystemLanguageFilter extends JPlugin
 		// Check if we need to remove the lang prefix
 		if ( ! empty($lang_code))
 		{
-			if ($this->removePrefix($uri, $lang_code))
-			{
-				$this->app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')));
+			$parts	 	= explode('/', $uri->getPath());
+			$sef   		= $parts[0];
 
-				return array('lang' => $lang_code);
+			// Check if a redirect is needed when we haven't a lang prefix but we got lang code from a cookie
+			if ($sef == "" && $lang_code != JComponentHelper::getParams('com_languages')->get('site', 'en-GB') )
+			{
+				$path = $this->app->get('sef_rewrite') ? $this->lang_codes[$lang_code]->sef : 'index.php/' . $this->lang_codes[$lang_code]->sef;
+				$uri->setPath($path);
+				$this->app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')));
+			}
+
+			$removePrefix = $this->removePrefix($uri, $lang_code);
+
+			if ($removePrefix)
+			{
+				$this->createCookie($uri, $lang_code);
+				$this->app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')));
 			}
 		}
 
@@ -334,7 +346,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		// We are called via POST. We don't care about the language
 		// and simply set the default language as our current language.
 		$post  = $this->app->input->post->getArray();
-		$files = $this->app->input->post->getArray();
+		$files = $this->app->input->files->getArray();
 
 		if ($this->app->input->getMethod() == "POST" || count($post) > 0 || count($files) > 0)
 		{
@@ -444,7 +456,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		// that we have in our system, its the default language and we "found" the right language
 		if ($this->params->get('remove_default_prefix', 0) && !isset($this->sefs[$sef]))
 		{
-			return JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+			return $lang_code = $this->getValidLangCode();
 		}
 
 		// If the language prefix should always be present or it is indeed , we can now look it up in our array
