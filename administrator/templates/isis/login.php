@@ -17,8 +17,6 @@ $lang = JFactory::getLanguage();
 $headerColor   = $this->params->get('headerColor', '#184A7D');
 $templateColor = $this->params->get('templateColor', '#13294A');
 
-$template_is_light = ($this->params->get('templateColor') && colorIsLight($this->params->get('templateColor')));
-
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 JHtml::_('bootstrap.tooltip');
@@ -45,15 +43,6 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
-function colorIsLight($color)
-{
-	$r = hexdec(substr($color, 1, 2));
-	$g = hexdec(substr($color, 3, 2));
-	$b = hexdec(substr($color, 5, 2));
-	$yiq = (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
-
-	return $yiq >= 200;
-}
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
@@ -69,6 +58,11 @@ function colorIsLight($color)
 	<style type="text/css">
 		.view-login {
 			background-color: <?php echo $templateColor; ?>;
+			background-image: -webkit-gradient(radial,center center,0,center center,460,from(<?php echo $headerColor; ?>),to(<?php echo $templateColor; ?>));
+			background-image: -webkit-radial-gradient(circle,<?php echo $headerColor; ?>,<?php echo $templateColor; ?>);
+			background-image: -moz-radial-gradient(circle,<?php echo $headerColor; ?>,<?php echo $templateColor; ?>);
+			background-image: -o-radial-gradient(circle,<?php echo $headerColor; ?>,<?php echo $templateColor; ?>);
+			background-repeat: no-repeat;
 		}
 		/* Responsive Styles */
 		@media (max-width: 480px) {
@@ -119,7 +113,7 @@ function colorIsLight($color)
 			<!-- End Content -->
 		</div>
 	</div>
-	<div class="navbar<?php echo $template_is_light ? ' navbar-inverse' : ''; ?> navbar-fixed-bottom hidden-phone">
+	<div class="navbar navbar-fixed-bottom hidden-phone">
 		<p class="pull-right">
 			&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
 		</p>
