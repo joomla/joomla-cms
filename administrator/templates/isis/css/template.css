@@ -7038,9 +7038,8 @@ a:focus {
 	left: 50%;
 	height: 24px;
 	width: 24px;
-	text-indent: -9999px;
-	background: url('../images/login-joomla.png') no-repeat;
 	margin-left: -12px;
+	font-size: 23px;
 }
 .view-login .navbar-fixed-bottom {
 	position: absolute;
