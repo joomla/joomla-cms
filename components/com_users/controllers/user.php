@@ -70,7 +70,7 @@ class UsersControllerUser extends UsersController
 		}
 		catch (Exception $e)
 		{
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
+			$app->enqueueMessage(JText::_('Unexpected login method exception:'));
 		}
 		if ($rc)
 		{
