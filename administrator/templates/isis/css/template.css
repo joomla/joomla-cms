@@ -7046,15 +7046,15 @@ a:focus {
 	position: absolute;
 }
 .view-login .input-medium {
-	width: 184px;
+	width: 176px;
 }
 .login .chzn-single {
-	width: 230px !important;
+	width: 222px !important;
 }
 .login .chzn-container,
 .login .chzn-drop {
-	width: 238px !important;
-	max-width: 238px !important;
+	width: 230px !important;
+	max-width: 230px !important;
 }
 .login .btn-large {
 	margin-top: 10px;
@@ -8104,10 +8104,19 @@ a.grid_true {
 	.j-toggle-button-wrapper {
 		display: none;
 	}
+	.view-login select {
+		width: 232px;
+	}
 }
 @media (max-width: 420px) {
 	.j-sidebar-container {
 		margin: 0;
+	}
+	.view-login .input-medium {
+		width: 180px;
+	}
+	.view-login select {
+		width: 232px;
 	}
 }
 .break-word {
