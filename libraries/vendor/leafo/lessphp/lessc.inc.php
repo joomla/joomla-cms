@@ -829,7 +829,7 @@ class lessc {
 			if (!empty($this->formatter->compressColors)) {
 				return $this->compileValue($this->coerceColor($value));
 			}
-			return $value[1];
+			return $this->expandColor($value);
 		case 'keyword':
 			// [1] - the keyword
 			return $value[1];
@@ -861,7 +861,15 @@ class lessc {
 			$b = round($b);
 
 			if (count($value) == 5 && $value[4] != 1) { // rgba
-				return 'rgba('.$r.','.$g.','.$b.','.$value[4].')';
+				/* Joomla change
+				 * ORIGINAL:
+				 * return 'rgba('.$r.','.$g.','.$b.','.$value[4].')';
+				 */
+				return 'rgba('
+				.$r.$this->formatter->selectorSeparator
+				.$g.$this->formatter->selectorSeparator
+				.$b.$this->formatter->selectorSeparator
+				.$value[4].')';
 			}
 
 			$h = sprintf("#%02x%02x%02x", $r, $g, $b);
@@ -881,6 +889,23 @@ class lessc {
 		default: // assumed to be unit
 			$this->throwError("unknown value type: $value[0]");
 		}
+	}
+
+	public function expandColor($value) {
+		if(strlen($value[1]) != 4  || $value[1][0] != '#') {
+			return $value[1];
+		}
+
+		// [1] - red component (either number or a %)
+		// [2] - green component
+		// [3] - blue component
+		// [4] - optional alpha component
+		list(, $r, $g, $b) = $this->coerceColor($value);
+		$r = round($r);
+		$g = round($g);
+		$b = round($b);
+
+		return sprintf("#%02x%02x%02x", $r, $g, $b);
 	}
 
 	protected function lib_pow($args) {
@@ -3297,7 +3322,11 @@ class lessc_parser {
 
 				if (!$this->literal(',')) break;
 			}
-			$args = array('list', ',', $args);
+			/* Joomla change
+			 * ORIGINAL:
+			 * $args = array('list', ',', $args);
+			 */
+			$args = array('list', ', ', $args);
 
 			if ($this->literal(')')) {
 				$func = array('function', $fname, $args);
@@ -3702,7 +3731,11 @@ class lessc_formatter_classic {
 			$this->indentLevel++;
 
 			if ($this->breakSelectors) {
-				$selectorSeparator = $this->selectorSeparator . $this->break . $pre;
+				/* Joomla change
+				 * ORIGINAL:
+				 * $selectorSeparator = $selectorSeparator = $this->selectorSeparator . $this->break . $pre;
+				 */
+				$selectorSeparator = rtrim($this->selectorSeparator) . $this->break . $pre;
 			} else {
 				$selectorSeparator = $this->selectorSeparator;
 			}
