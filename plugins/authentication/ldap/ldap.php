@@ -166,7 +166,7 @@ class PlgAuthenticationLdap extends JPlugin
 			// Get a database object
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('id, password')
+				->select('id')
 				->from('#__users')
 				->where('username=' . $db->quote($credentials['username']));
 
