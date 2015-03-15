@@ -231,17 +231,8 @@ class PlgSystemLanguageFilter extends JPlugin
 		// Check if we need to remove the lang prefix
 		if ( ! empty($lang_code))
 		{
-			$parts	 	= explode('/', $uri->getPath());
-			$sef   		= $parts[0];
-
-			// Use the current language sef or the default one.
-			if (1 == $this->params->get('remove_default_prefix', 0)
-				&& $lang_code == JComponentHelper::getParams('com_languages')->get('site', 'en-GB')
-				&& $sef == $this->lang_codes[$lang_code]->sef)
+			if ($this->removePrefix($uri, $lang_code))
 			{
-				array_shift($parts);
-				$path = implode('/', $parts);
-				$uri->setPath($path);
 				$this->app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')));
 
 				return array('lang' => $lang_code);
@@ -301,12 +292,34 @@ class PlgSystemLanguageFilter extends JPlugin
 		// Create the cookie if needed
 		$this->createCookie($uri, $lang_code);
 
-		$parts = explode('/', $uri->getPath());
-		array_shift($parts);
-		$path = implode('/', $parts);
-		$uri->setPath($path);
+		$this->removePrefix($uri, $lang_code);
 
 		return array('lang' => $lang_code);
+	}
+
+	/**
+	 * remove the prefix from the url
+	 *
+	 * @param   JUri    &$uri       JUri object.
+	 * @param   string  $lang_code  the lang-code
+	 *
+	 * @return bool
+	 */
+	private function removePrefix(&$uri, $lang_code)
+	{
+		$parts	 	= explode('/', $uri->getPath());
+		$sef   		= $parts[0];
+
+		if (array_key_exists($sef, $this->sefs))
+		{
+			array_shift($parts);
+			$path = implode('/', $parts);
+			$uri->setPath($path);
+		}
+
+		return 1 == $this->params->get('remove_default_prefix', 0)
+				&& $lang_code == JComponentHelper::getParams('com_languages')->get('site', 'en-GB')
+				&& $sef == $this->lang_codes[$lang_code]->sef;
 	}
 
 	/**
@@ -316,7 +329,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 *
 	 * @return array|mixed|string
 	 */
-	protected function getLangCode(&$uri)
+	private function getLangCode(&$uri)
 	{
 		// We are called via POST. We don't care about the language
 		// and simply set the default language as our current language.
@@ -344,7 +357,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 *
 	 * @return mixed|string
 	 */
-	protected function getValidLangCode()
+	private function getValidLangCode()
 	{
 		$lang_code = '';
 
@@ -374,7 +387,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 *
 	 * @return void
 	 */
-	protected function createCookie($uri, $lang_code)
+	private function createCookie($uri, $lang_code)
 	{
 		// Create a cookie.
 		$cookie_lang = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
@@ -395,7 +408,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 *
 	 * @return void
 	 */
-	protected function loadExtensionsLanguages($lang_code)
+	private function loadExtensionsLanguages($lang_code)
 	{
 		$language = JFactory::getLanguage();
 
