@@ -2338,13 +2338,7 @@ CREATE TABLE [#__postinstall_messages] (
 INSERT INTO [#__postinstall_messages] ([extension_id], [title_key], [description_key], [action_key], [language_extension], [language_client_id], [type], [action_file], [action], [condition_file], [condition_method], [version_introduced], [enabled])
 SELECT 700, 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_TITLE', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_BODY', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_ACTION', 'plg_twofactorauth_totp', 1, 'action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_condition', '3.2.0', 1
 UNION ALL
-SELECT 700, 'COM_CPANEL_MSG_EACCELERATOR_TITLE', 'COM_CPANEL_MSG_EACCELERATOR_BODY', 'COM_CPANEL_MSG_EACCELERATOR_BUTTON', 'com_cpanel', 1, 'action', 'admin://components/com_admin/postinstall/eaccelerator.php', 'admin_postinstall_eaccelerator_action', 'admin://components/com_admin/postinstall/eaccelerator.php', 'admin_postinstall_eaccelerator_condition', '3.2.0', 1
-UNION ALL
-SELECT 700, 'COM_CPANEL_WELCOME_BEGINNERS_TITLE', 'COM_CPANEL_WELCOME_BEGINNERS_MESSAGE', '', 'com_cpanel', 1, 'message', '', '', '', '', '3.2.0', 1
-UNION ALL
-SELECT 700, 'COM_CPANEL_MSG_PHPVERSION_TITLE', 'COM_CPANEL_MSG_PHPVERSION_BODY', '', 'com_cpanel', 1, 'message', '', '', 'admin://components/com_admin/postinstall/phpversion.php', 'admin_postinstall_phpversion_condition', '3.2.2', 1
-UNION ALL 
-SELECT 700, 'COM_CPANEL_MSG_ROBOTS_TITLE', 'COM_CPANEL_MSG_ROBOTS_BODY', '', 'com_cpanel', 1, 'message', '', '', '', '', '3.3.0', 1;
+SELECT 700, 'COM_CPANEL_WELCOME_BEGINNERS_TITLE', 'COM_CPANEL_WELCOME_BEGINNERS_MESSAGE', '', 'com_cpanel', 1, 'message', '', '', '', '', '3.2.0', 1;
 
 /****** Object:  Table [#__redirect_links] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -3008,12 +3002,12 @@ SET IDENTITY_INSERT [#__viewlevels]  ON;
 INSERT INTO [#__viewlevels] ([id], [title], [ordering], [rules])
 SELECT 1, 'Public', 0, '[1]'
 UNION ALL
-SELECT 2, 'Registered', 1, '[6,2,8]'
+SELECT 2, 'Registered', 2, '[6,2,8]'
 UNION ALL
-SELECT 3, 'Special', 2, '[6,3,8]'
+SELECT 3, 'Special', 3, '[6,3,8]'
 UNION ALL
-SELECT 5, 'Guest', 0, '[9]'
+SELECT 5, 'Guest', 1, '[9]'
 UNION ALL
-SELECT 6, 'Super Users', 0, '[8]';
+SELECT 6, 'Super Users', 4, '[8]';
 
 SET IDENTITY_INSERT [#__viewlevels]  OFF;

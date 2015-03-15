@@ -89,16 +89,28 @@ class ModMenuHelper
 							continue;
 
 						case 'url':
+
 							if ((strpos($item->link, 'index.php?') === 0) && (strpos($item->link, 'Itemid=') === false))
 							{
 								// If this is an internal Joomla link, ensure the Itemid is set.
 								$item->flink = $item->link . '&Itemid=' . $item->id;
 							}
+
 							break;
 
 						case 'alias':
-							// If this is an alias use the item id stored in the parameters to make the link.
-							$item->flink = 'index.php?Itemid=' . $item->params->get('aliasoptions');
+							$aliasItem = $menu->getItem($item->params->get('aliasoptions'));
+
+							if ($aliasItem->type == 'url')
+							{
+								$item->flink = $aliasItem->link;
+							}
+							else
+							{
+								// If this is an alias use the item id stored in the parameters to make the link.
+								$item->flink = 'index.php?Itemid=' . $item->params->get('aliasoptions');
+							}
+
 							break;
 
 						default:
@@ -117,6 +129,7 @@ class ModMenuHelper
 							{
 								$item->flink .= '&Itemid=' . $item->id;
 							}
+
 							break;
 					}
 

@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d7c4500075f1aa3c6af8474e08846ebd",
+    "hash": "40043a92ceb234194609bf58ad8caacb",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -139,22 +139,31 @@
         },
         {
             "name": "joomla/di",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/di.git",
-                "reference": "4866c58e92ce4e851cd87d5d9d31b069b7284267"
+                "reference": "439db4e9dac8d7fa868b0839af20dd57570accfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/di/zipball/4866c58e92ce4e851cd87d5d9d31b069b7284267",
-                "reference": "4866c58e92ce4e851cd87d5d9d31b069b7284267",
+                "url": "https://api.github.com/repos/joomla-framework/di/zipball/439db4e9dac8d7fa868b0839af20dd57570accfb",
+                "reference": "439db4e9dac8d7fa868b0839af20dd57570accfb",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.10"
             },
+            "require-dev": {
+                "phpunit/phpunit": "4.*",
+                "squizlabs/php_codesniffer": "1.*"
+            },
             "type": "joomla-package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Joomla\\DI\\": "src/",
@@ -175,7 +184,7 @@
                 "ioc",
                 "joomla"
             ],
-            "time": "2014-03-21 13:20:34"
+            "time": "2015-01-13 15:26:48"
         },
         {
             "name": "joomla/event",
@@ -316,16 +325,16 @@
         },
         {
             "name": "joomla/registry",
-            "version": "1.3.0",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "7330ea6481d0fe062f46d2b6cb848c212789915e"
+                "reference": "5c2e607ff61f8df07c3c0630ed62a8c3d892469e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/7330ea6481d0fe062f46d2b6cb848c212789915e",
-                "reference": "7330ea6481d0fe062f46d2b6cb848c212789915e",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/5c2e607ff61f8df07c3c0630ed62a8c3d892469e",
+                "reference": "5c2e607ff61f8df07c3c0630ed62a8c3d892469e",
                 "shasum": ""
             },
             "require": {
@@ -366,7 +375,7 @@
                 "joomla",
                 "registry"
             ],
-            "time": "2014-10-08 16:14:29"
+            "time": "2015-03-07 18:48:26"
         },
         {
             "name": "joomla/session",
@@ -729,6 +738,7 @@
     "minimum-stability": "stable",
     "stability-flags": [],
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
         "php": ">=5.3.10"
     },

@@ -261,7 +261,8 @@ abstract class JArrayHelper
 	 */
 	public static function getValue(&$array, $name, $default = null, $type = '')
 	{
-		return ArrayHelper::getValue($array, $name, $default, $type);
+		// Previously we didn't typehint an array. So force any object to be an array
+		return ArrayHelper::getValue((array) $array, $name, $default, $type);
 	}
 
 	/**

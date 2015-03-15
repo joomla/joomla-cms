@@ -70,7 +70,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	protected function copyBaseFiles()
 	{
 		// Copy all the necessary files
-		if ($this->parent->parseFiles($this->manifest->files, -1) === false)
+		if ($this->parent->parseFiles($this->getManifest()->files, -1) === false)
 		{
 			throw new RuntimeException(
 				JText::sprintf(
@@ -80,7 +80,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			);
 		}
 
-		if ($this->parent->parseFiles($this->manifest->images, -1) === false)
+		if ($this->parent->parseFiles($this->getManifest()->images, -1) === false)
 		{
 			throw new RuntimeException(
 				JText::sprintf(
@@ -90,7 +90,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			);
 		}
 
-		if ($this->parent->parseFiles($this->manifest->css, -1) === false)
+		if ($this->parent->parseFiles($this->getManifest()->css, -1) === false)
 		{
 			throw new RuntimeException(
 				JText::sprintf(
@@ -178,9 +178,9 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			$this->parent->setPath('source', $basePath . '/templates/' . $this->parent->extension->element);
 		}
 
-		$this->manifest = $this->parent->getManifest();
+		$this->setManifest($this->parent->getManifest());
 
-		$client = (string) $this->manifest->attributes()->client;
+		$client = (string) $this->getManifest()->attributes()->client;
 
 		// Load administrator language if not set.
 		if (!$client)
@@ -203,8 +203,8 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	 */
 	protected function parseOptionalTags()
 	{
-		$this->parent->parseMedia($this->manifest->media);
-		$this->parent->parseLanguages($this->manifest->languages, $this->clientId);
+		$this->parent->parseMedia($this->getManifest()->media);
+		$this->parent->parseLanguages($this->getManifest()->languages, $this->clientId);
 	}
 
 	/**
@@ -255,12 +255,13 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	 *
 	 * @since   3.4
 	 */
-	protected function prepareDiscoverInstall()
+	public function prepareDiscoverInstall()
 	{
 		$client = JApplicationHelper::getClientInfo($this->extension->client_id);
 		$manifestPath = $client->path . '/templates/' . $this->extension->element . '/templateDetails.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
+		$this->setManifest($this->parent->getManifest());
 	}
 
 	/**
@@ -525,44 +526,50 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 
 		foreach ($site_list as $template)
 		{
-			if ($template == 'system')
+			if (file_exists(JPATH_SITE . "/templates/$template/templateDetails.xml"))
 			{
-				// Ignore special system template
-				continue;
-			}
+				if ($template == 'system')
+				{
+					// Ignore special system template
+					continue;
+				}
 
-			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
-			$extension = JTable::getInstance('extension');
-			$extension->set('type', 'template');
-			$extension->set('client_id', $site_info->id);
-			$extension->set('element', $template);
-			$extension->set('folder', '');
-			$extension->set('name', $template);
-			$extension->set('state', -1);
-			$extension->set('manifest_cache', json_encode($manifest_details));
-			$extension->set('params', '{}');
-			$results[] = $extension;
+				$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
+				$extension = JTable::getInstance('extension');
+				$extension->set('type', 'template');
+				$extension->set('client_id', $site_info->id);
+				$extension->set('element', $template);
+				$extension->set('folder', '');
+				$extension->set('name', $template);
+				$extension->set('state', -1);
+				$extension->set('manifest_cache', json_encode($manifest_details));
+				$extension->set('params', '{}');
+				$results[] = $extension;
+			}
 		}
 
 		foreach ($admin_list as $template)
 		{
-			if ($template == 'system')
+			if (file_exists(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml"))
 			{
-				// Ignore special system template
-				continue;
-			}
+				if ($template == 'system')
+				{
+					// Ignore special system template
+					continue;
+				}
 
-			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
-			$extension = JTable::getInstance('extension');
-			$extension->set('type', 'template');
-			$extension->set('client_id', $admin_info->id);
-			$extension->set('element', $template);
-			$extension->set('folder', '');
-			$extension->set('name', $template);
-			$extension->set('state', -1);
-			$extension->set('manifest_cache', json_encode($manifest_details));
-			$extension->set('params', '{}');
-			$results[] = $extension;
+				$manifest_details = JInstaller::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
+				$extension = JTable::getInstance('extension');
+				$extension->set('type', 'template');
+				$extension->set('client_id', $admin_info->id);
+				$extension->set('element', $template);
+				$extension->set('folder', '');
+				$extension->set('name', $template);
+				$extension->set('state', -1);
+				$extension->set('manifest_cache', json_encode($manifest_details));
+				$extension->set('params', '{}');
+				$results[] = $extension;
+			}
 		}
 
 		return $results;

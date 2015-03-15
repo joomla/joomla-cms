@@ -9,13 +9,15 @@
 			filter="email"
 			label="COM_USERS_FIELD_PASSWORD_RESET_LABEL"
 			required="true"
-			size="30"/>
+			size="30"
+		/>
 
 		<field
 			name="captcha"
 			type="captcha"
 			label="COM_USERS_CAPTCHA_LABEL"
 			description="COM_USERS_CAPTCHA_DESC"
-			validate="captcha"/>
+			validate="captcha"
+		/>
 	</fieldset>
 </form>

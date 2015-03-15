@@ -76,7 +76,7 @@ jQuery(document).ready(function($){
 if($this->type == 'image')
 {
 	JFactory::getDocument()->addScriptDeclaration("
-		jQuery(document).ready(function() {
+		jQuery(document).ready(function($) {
 			var jcrop_api;
 
 			// Configuration for image cropping
@@ -84,7 +84,7 @@ if($this->type == 'image')
 				onChange:   showCoords,
 				onSelect:   showCoords,
 				onRelease:  clearCoords,
-				trueSize:   " . $this->image['width'] . "," . $this->image['height'] . "]
+				trueSize:   [" . $this->image['width'] . "," . $this->image['height'] . "]
 			},function(){
 				jcrop_api = this;
 			});
