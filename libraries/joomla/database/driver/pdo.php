@@ -673,15 +673,16 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	/**
 	 * Sets the SQL statement string for later execution.
 	 *
-	 * @param   mixed    $query   The SQL statement to set either as a JDatabaseQuery object or a string.
-	 * @param   integer  $offset  The affected row offset to set.
-	 * @param   integer  $limit   The maximum affected rows to set.
+	 * @param   mixed    $query          The SQL statement to set either as a JDatabaseQuery object or a string.
+	 * @param   integer  $offset         The affected row offset to set.
+	 * @param   integer  $limit          The maximum affected rows to set.
+	 * @param   array    $driverOptions  The optional PDO driver options.
 	 *
 	 * @return  JDatabaseDriver  This object to support method chaining.
 	 *
 	 * @since   12.1
 	 */
-	public function setQuery($query, $offset = null, $limit = null)
+	public function setQuery($query, $offset = null, $limit = null, $driverOptions = array())
 	{
 		$this->connect();
 
@@ -700,7 +701,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		$query = $this->replacePrefix((string) $query);
 
-		$this->prepared = $this->connection->prepare($query, $this->options);
+		$this->prepared = $this->connection->prepare($query, $driverOptions);
 
 		// Store reference to the JDatabaseQuery instance:
 		parent::setQuery($query, $offset, $limit);
