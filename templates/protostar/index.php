@@ -40,7 +40,14 @@ JHtml::_('bootstrap.framework');
 $doc->addScript($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+$css_path = $this->baseurl . '/templates/' . $this->template . '/css/template.min.css';
+
+if (JDEBUG)
+{
+	$css_path = $this->baseurl . '/templates/' . $this->template . '/css/template.css';
+}
+
+$doc->addStyleSheetVersion($css_path);
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);

@@ -18,7 +18,14 @@ $this->direction = $doc->direction;
 JHtml::_('bootstrap.framework');
 
 // Add Stylesheets
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+$css_path = $this->baseurl . '/templates/' . $this->template . '/css/template.min.css';
+
+if (JDEBUG)
+{
+	$css_path = $this->baseurl . '/templates/' . $this->template . '/css/template.css';
+}
+
+$doc->addStyleSheetVersion($css_path);
 
 // Load optional rtl Bootstrap css and Bootstrap bugfixes
 JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);

@@ -44,7 +44,8 @@ class GenerateCss extends JApplicationCli
 	 */
 	public function doExecute()
 	{
-		$templates = array(
+		// This array contains the uncompressed stylesheets
+		$uncompressed = array(
 			JPATH_ADMINISTRATOR . '/templates/isis/less/template.less' => JPATH_ADMINISTRATOR . '/templates/isis/css/template.css',
 			JPATH_ADMINISTRATOR . '/templates/isis/less/template-rtl.less' => JPATH_ADMINISTRATOR . '/templates/isis/css/template-rtl.css',
 			JPATH_ADMINISTRATOR . '/templates/hathor/less/template.less' => JPATH_ADMINISTRATOR . '/templates/hathor/css/template.css',
@@ -58,10 +59,35 @@ class GenerateCss extends JApplicationCli
 			__DIR__ . '/less/bootstrap-rtl.less' => JPATH_SITE . '/media/jui/css/bootstrap-rtl.css'
 		);
 
+		// This array contains the compressed stylesheets
+		$compressed = array(
+			JPATH_ADMINISTRATOR . '/templates/isis/less/template.less' => JPATH_ADMINISTRATOR . '/templates/isis/css/template.min.css',
+			JPATH_ADMINISTRATOR . '/templates/isis/less/template-rtl.less' => JPATH_ADMINISTRATOR . '/templates/isis/css/template-rtl.min.css',
+			JPATH_SITE . '/templates/protostar/less/template.less' => JPATH_SITE . '/templates/protostar/css/template.min.css'
+		);
+
 		$less = new JLess;
+
+		// Create the uncompressed styleshets
 		$less->setFormatter(new JLessFormatterJoomla);
 
-		foreach ($templates as $source => $output)
+		foreach ($uncompressed as $source => $output)
+		{
+			try
+			{
+				$less->compileFile($source, $output);
+			}
+			catch (Exception $e)
+			{
+				echo $e->getMessage();
+			}
+		}
+
+		// Create the compressed styleshets
+		$less->setFormatter(new JLessFormatterCompressed);
+		$less->setPreserveComments(false);
+
+		foreach ($compressed as $source => $output)
 		{
 			try
 			{

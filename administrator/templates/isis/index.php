@@ -22,7 +22,15 @@ JHtml::_('bootstrap.framework');
 $doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
+$css_path = $this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.min.css';
+
+if (JDEBUG)
+{
+	$css_path = $this->baseurl . '/templates/' . $this->template .
+		'/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css';
+}
+
+	$doc->addStyleSheetVersion($css_path);
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
