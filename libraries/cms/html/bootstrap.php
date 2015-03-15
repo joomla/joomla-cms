@@ -867,13 +867,13 @@ abstract class JHtmlBootstrap
 		{
 			JHtml::_('stylesheet', 'jui/bootstrap.min.css', $attribs, true);
 			JHtml::_('stylesheet', 'jui/bootstrap-responsive.min.css', $attribs, true);
-			JHtml::_('stylesheet', 'jui/bootstrap-extended.css', $attribs, true);
+			JHtml::_('stylesheet', 'jui/bootstrap-extended.min.css', $attribs, true);
 		}
 
 		// Load Bootstrap RTL CSS
 		if ($direction === 'rtl')
 		{
-			JHtml::_('stylesheet', 'jui/bootstrap-rtl.css', $attribs, true);
+			JHtml::_('stylesheet', 'jui/bootstrap-rtl.min.css', $attribs, true);
 		}
 	}
 }

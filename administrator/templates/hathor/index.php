@@ -22,7 +22,9 @@ JHtml::_('bootstrap.loadCss', false, $this->direction);
 $doc->addStyleSheetVersion($this->baseurl . '/templates/system/css/system.css');
 
 // Loadtemplate CSS
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template'
+	. (JDEBUG ? '' : '.min')
+	. '.css');
 
 // Load additional CSS styles for colors
 if (!$this->params->get('colourChoice'))
@@ -34,7 +36,9 @@ else
 	$colour = htmlspecialchars($this->params->get('colourChoice'));
 }
 
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '.css');
+$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour
+	. (JDEBUG ? '' : '.min')
+	. '.css');
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';

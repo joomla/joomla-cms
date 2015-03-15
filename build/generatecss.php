@@ -45,32 +45,46 @@ class GenerateCss extends JApplicationCli
 	public function doExecute()
 	{
 		$templates = array(
-			JPATH_ADMINISTRATOR . '/templates/isis/less/template.less' => JPATH_ADMINISTRATOR . '/templates/isis/css/template.css',
-			JPATH_ADMINISTRATOR . '/templates/isis/less/template-rtl.less' => JPATH_ADMINISTRATOR . '/templates/isis/css/template-rtl.css',
-			JPATH_ADMINISTRATOR . '/templates/hathor/less/template.less' => JPATH_ADMINISTRATOR . '/templates/hathor/css/template.css',
-			JPATH_ADMINISTRATOR . '/templates/hathor/less/colour_blue.less' => JPATH_ADMINISTRATOR . '/templates/hathor/css/colour_blue.css',
-			JPATH_ADMINISTRATOR . '/templates/hathor/less/colour_brown.less' => JPATH_ADMINISTRATOR . '/templates/hathor/css/colour_brown.css',
-			JPATH_ADMINISTRATOR . '/templates/hathor/less/colour_standard.less' => JPATH_ADMINISTRATOR . '/templates/hathor/css/colour_standard.css',
-			JPATH_SITE . '/templates/protostar/less/template.less' => JPATH_SITE . '/templates/protostar/css/template.css',
-			JPATH_SITE . '/templates/beez3/css/turq.less' => JPATH_SITE . '/templates/beez3/css/turq.css',
+			JPATH_ADMINISTRATOR . '/templates/isis/less/template.less'          => JPATH_ADMINISTRATOR . '/templates/isis/css',
+			JPATH_ADMINISTRATOR . '/templates/isis/less/template-rtl.less'      => JPATH_ADMINISTRATOR . '/templates/isis/css',
+			JPATH_ADMINISTRATOR . '/templates/hathor/less/template.less'        => JPATH_ADMINISTRATOR . '/templates/hathor/css',
+			JPATH_ADMINISTRATOR . '/templates/hathor/less/colour_blue.less'     => JPATH_ADMINISTRATOR . '/templates/hathor/css',
+			JPATH_ADMINISTRATOR . '/templates/hathor/less/colour_brown.less'    => JPATH_ADMINISTRATOR . '/templates/hathor/css',
+			JPATH_ADMINISTRATOR . '/templates/hathor/less/colour_standard.less' => JPATH_ADMINISTRATOR . '/templates/hathor/css',
+			JPATH_SITE . '/templates/protostar/less/template.less'              => JPATH_SITE . '/templates/protostar/css',
 			// Below files are to recompile the default Bootstrap CSS files
-			__DIR__ . '/less/bootstrap-extended.less' => JPATH_SITE . '/media/jui/css/bootstrap-extended.css',
-			__DIR__ . '/less/bootstrap-rtl.less' => JPATH_SITE . '/media/jui/css/bootstrap-rtl.css'
+			__DIR__ . '/less/bootstrap-extended.less'                           => JPATH_SITE . '/media/jui/css',
+			__DIR__ . '/less/bootstrap-rtl.less'                                => JPATH_SITE . '/media/jui/css'
 		);
 
-		$less = new JLess;
-		$less->setFormatter(new JLessFormatterJoomla);
-
-		foreach ($templates as $source => $output)
+		foreach ($templates as $source => $destination)
 		{
-			try
-			{
-				$less->compileFile($source, $output);
-			}
-			catch (Exception $e)
-			{
-				echo $e->getMessage();
-			}
+			$this->writeLessToCss($source, $destination);
+			//$this->writeLessToCss($source, $destination, true);
+		}
+	}
+
+	public function writeLessToCss($source, $destination, $compress = false)
+	{
+		$less = new JLess;
+
+		$less->setFormatter(
+			$compress
+			? new JLessFormatterJoomlaCompressed
+			: new JLessFormatterJoomla
+		);
+
+		try
+		{
+			$extension = $compress ? '.min.css' : '.css';
+			$filename = str_replace('.less', $extension, basename($source));
+			$destination = $destination . '/' . $filename;
+
+			$less->compileFile($source, $destination);
+		}
+		catch (Exception $e)
+		{
+			echo $e->getMessage();
 		}
 	}
 }

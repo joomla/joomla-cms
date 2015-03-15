@@ -66,6 +66,7 @@
 @import "../../../../media/jui/less/responsive-767px-max.joomla.less";
 // Icon Font
 @import "icomoon.less";
+
 /* Body */
 html {
 	height: 100%;
@@ -355,6 +356,7 @@ body .navbar-fixed-top {
 	top: 30px;
 	z-index: 100;
 }
+
 @media (max-width: 767px) {
 	.subhead {
 		margin-left: -20px;
@@ -396,6 +398,7 @@ html[dir=rtl] #toolbar #toolbar-help {
 .well .row-odd p {
 	margin-bottom: 0;
 }
+
 /* Headings */
 
 h1, h2, h3, h4, h5, h6 {
@@ -441,6 +444,7 @@ h6 {
 	color: #fff;
 	margin-right: -16px;
 }
+
 /* Quick-icons */
 .quick-icons .nav li + .nav-header {
 	margin-top: 12px;
@@ -487,6 +491,7 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	margin-left: 9px;
 	margin-right: 0px;
 }
+
 /* Links */
 .j-links-separator {
 	margin: 20px 0px;
@@ -494,11 +499,13 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	height: 0px;
 	border-top: 2px solid #DDDDDD;
 }
+
 /* Main Container & System Debug Padding */
 .container-main,
 #system-debug {
 	padding-bottom: 50px;
 }
+
 /* Status Module */
 #status {
 	background: #EDEDED;
@@ -517,6 +524,7 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 		color: #999999;
 	}
 }
+
 /* Status Module in top position */
 #status.status-top {
 	background: @headerBackground;
@@ -529,6 +537,7 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 		color: @navbarInverseLinkColor;
 	}
 }
+
 /* Pagination in toolbar */
 .pagination-toolbar {
 	margin: 0;
@@ -537,11 +546,13 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 .pagination-toolbar a {
 	line-height: 26px;
 }
+
 /* Toolbar dropdown */
 .pull-right > .dropdown-menu {
 	left: auto;
 	right: 0;
 }
+
 /* Disabled (generic) */
 .disabled {
 	cursor: default;
@@ -554,10 +565,12 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 .nav-filters hr {
 	margin: 5px 0;
 }
+
 /* Module Assignment Tab */
 #assignment.tab-pane {
 	min-height: 500px;
 }
+
 // Button color
 .btn-primary.active,
 .btn-warning.active,
@@ -567,11 +580,13 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 .btn-inverse.active {
 	color: rgba(255, 255, 255, .95);
 }
+
 /* Chosen Max Width */
 .chzn-container,
 .chzn-drop {
 	max-width: 100% !important;
 }
+
 @media (max-width: 979px) {
 	.navbar {
 		.nav {
@@ -649,12 +664,14 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 .btn-subhead {
 	display: none;
 }
+
 @media (min-width: 481px) {
 	#filter-bar {
 		// Fix for Firefox
 		height: 29px;
 	}
 }
+
 /* Extended Responsive Styles */
 @media (max-width: 480px) {
 	.table th:nth-of-type(n+5),
@@ -733,6 +750,7 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	  width: 100% !important;
 	}
 }
+
 // Navbar
 .nav-collapse .nav li a,
 .dropdown-menu a {
@@ -823,11 +841,13 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 		margin-bottom: 0;
 	}
 }
+
 /* Sortable list*/
 .sortable-handler.inactive {
 	opacity: 0.3;
 	filter: alpha(opacity=30);
 }
+
 /* Joomla and Extension update message */
 .alert-joomlaupdate {
 	text-align: center;
@@ -835,6 +855,7 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 		vertical-align: baseline;
 	}
 }
+
 // Normalize LTR Label (JBS request)
 // --------------------------
 
@@ -868,6 +889,7 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 		margin-left: 0;
 	}
 }
+
 @media (max-width: 979px) {
 	.form-horizontal-desktop {
 		.control-label {
@@ -922,6 +944,7 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 		padding-right: 20px;
 	}
 }
+
 /* Display checkboxes without bullets in list */
 fieldset.checkboxes input {
 	float: left;
@@ -930,6 +953,7 @@ fieldset.checkboxes input {
 fieldset.checkboxes li {
 	list-style: none;
 }
+
 /* Media Manager folder icon override */
 ul.manager .height-50 .icon-folder-2 {
 	height: 35px;
@@ -947,6 +971,7 @@ ul.manager .height-50 .icon-folder-2 {
 .upload-queue .file-remove {
 	float: right;
 }
+
 /* z-index issues */
 .moor-box {
 	z-index: 3;
@@ -955,6 +980,7 @@ ul.manager .height-50 .icon-folder-2 {
 .admin .chzn-container .chzn-drop {
 	z-index: 1040;
 }
+
 /* Tree Select */
 ul.treeselect,
 ul.treeselect li {
@@ -1000,6 +1026,7 @@ ul.treeselect ul.dropdown-menu li {
 	padding: 0 5px;
 	border: none;
 }
+
 /* Tables */
 td.has-context {
 	// Fixes difference in height between normal and hover on cell with context
@@ -1009,6 +1036,7 @@ td.has-context {
 td.nowrap.has-context {
 	width: 45%;
 }
+
 /* Item associations */
 .item-associations {
 	margin: 0;
@@ -1023,11 +1051,13 @@ td.nowrap.has-context {
 .item-associations li a {
 	color: #ffffff;
 }
+
 /* Content Languages flag */
 #flag img {
 	padding-top: 6px;
 	vertical-align: top;
 }
+
 /* Tweaking of tooltips */
 .tooltip {
 	max-width: 400px;
@@ -1046,14 +1076,17 @@ th .tooltip-inner {
 .tooltip.hasimage {
 	opacity: 1;
 }
+
 /* Permissions dropdown display */
 #permissions-sliders .chzn-container {
 	position: absolute;
 }
+
 /* Component pop-up */
 .container-popup {
 	padding: 15px;
 }
+
 /* Min-width on buttons */
 .controls .btn-group > .btn {
 	min-width: 50px;
@@ -1063,16 +1096,20 @@ th .tooltip-inner {
 	min-width: 84px;
 	padding: 2px 12px;
 }
+
 .img-preview > img {
 	max-height: 100%;
 }
+
 /* Help site refresh button*/
 #helpsite-refresh {
 	vertical-align: top;
 }
+
 .alert-no-items {
 	margin-top: 20px;
 }
+
 @media (max-width: 767px) {
 	html[dir=rtl] #toolbar #toolbar-options,
 	html[dir=rtl] #toolbar #toolbar-help,
@@ -1081,17 +1118,20 @@ th .tooltip-inner {
 		float: none;
 	}
 }
+
 /* Title field */
 input.input-large-text {
 	font-size: 18px;
 	line-height: 22px;
 	height: auto;
 }
+
 /* Extension type labels */
 .info-labels {
 	margin-top: -5px;
 	margin-bottom: 10px;
 }
+
 /* Chosen color styles */
 [class^="chzn-color"].chzn-single,
 [class*=" chzn-color"].chzn-single,
@@ -1113,10 +1153,12 @@ input.input-large-text {
 .chzn-color-state.chzn-single[rel="value_-2"] {
 	.buttonBackground(@btnDangerBackground, @btnDangerBackgroundHighlight);
 }
+
 /* Widen the drop downs for the Permissions Field */
 #permissions-sliders .input-small {
 	width: 120px;
 }
+
 .editor {
 	overflow: hidden;
 	position: relative
@@ -1125,6 +1167,7 @@ input.input-large-text {
 .editor textarea.mce_editable {
 	box-sizing: border-box;
 }
+
 /* For grid.boolean */
 a.grid_false {
 	display: inline-block;
@@ -1139,6 +1182,7 @@ a.grid_true {
 	width: 16px;
 	background-image: url('../images/admin/icon-16-allow.png');
 }
+
 /* For collapsible sidebar */
 .j-sidebar-container {
 	position: absolute;
