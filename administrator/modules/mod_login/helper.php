@@ -39,7 +39,7 @@ abstract class ModLoginHelper
 		);
 
 		// Fix wrongly set parentheses in RTL languages
-		if(JFactory::getLanguage()->isRTL())
+		if (JFactory::getLanguage()->isRTL())
 		{
 			foreach ($languages as &$language)
 			{
