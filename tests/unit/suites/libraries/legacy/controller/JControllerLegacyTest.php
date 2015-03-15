@@ -136,6 +136,26 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
+	 * @testdox  Ensure the constructor correctly initialises the class variables
+	 *
+	 * @covers   JControllerLegacy::__construct
+	 */
+	public function test__constructWithInjectedName()
+	{
+		$name = 'foobar';
+		$config = array(
+			'name' => $name
+		);
+
+		$controller = new TestTestController($config);
+
+		$this->assertEquals(
+			TestReflection::getValue($controller, 'name'),
+			$name
+		);
+	}
+
+	/**
 	 * @testdox  Ensure the addPath() correctly adds a path
 	 *
 	 * @covers   JControllerLegacy::addPath
@@ -194,8 +214,6 @@ class JControllerLegacyTest extends TestCase
 
 		$this->assertThat($this->class->getName(), $this->equalTo('inspector'));
 	}
-
-	
 
 	/**
 	 * @testdox  Ensure the getTask() correctly returns the name of the task variable
