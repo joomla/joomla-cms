@@ -125,7 +125,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::__construct
 	 */
-	public function test__construct()
+	public function testConstructer()
 	{
 		$controller = new TestTestController;
 		$this->assertThat(
@@ -140,7 +140,7 @@ class JControllerLegacyTest extends TestCase
 	 *
 	 * @covers   JControllerLegacy::__construct
 	 */
-	public function test__constructWithInjectedName()
+	public function testConstructerWithInjectedName()
 	{
 		$name = 'foobar';
 		$config = array(
