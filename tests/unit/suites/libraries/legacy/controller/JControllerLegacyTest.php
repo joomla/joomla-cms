@@ -136,7 +136,7 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * @testdox  Ensure the constructor correctly initialises the class variables
+	 * @testdox  Ensure the constructor correctly sets the name of the controller when injected via the config
 	 *
 	 * @covers   JControllerLegacy::__construct
 	 */
