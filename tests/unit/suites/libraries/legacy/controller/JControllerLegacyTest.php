@@ -65,11 +65,9 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JController::addModelPath
+	 * @testdox  Ensure addModelPath() adds a model path to the internal array
 	 *
-	 * @since 11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::addModelPath
 	 */
 	public function testAddModelPath()
 	{
@@ -87,11 +85,9 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JController::createFileName().
+	 * @testdox  Ensure createFileName() correctly returns the file name for a controller
 	 *
-	 * @since   11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::createFileName
 	 */
 	public function testCreateFileName()
 	{
@@ -125,11 +121,9 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JControllerLegacy::__construct
+	 * @testdox  Ensure the constructor correctly initialises the class variables
 	 *
-	 * @since 11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::__construct
 	 */
 	public function test__construct()
 	{
@@ -144,12 +138,23 @@ class JControllerLegacyTest extends TestCase
 	/**
 	 * Test JControllerLegacy::addPath().
 	 *
-	 * Note that addPath call JPath::check which will exit if the path is out of bounds.
-	 * If execution halts for some reason, a bad path could be the culprit.
+	 * 
 	 *
 	 * @since 11.3
 	 *
 	 * @return  void
+	 */
+	public function testAddPath()
+	{
+	}
+
+
+	/**
+	 * @testdox  Ensure the addPath() correctly adds a path
+	 *
+	 * @covers   JControllerLegacy::addPath
+	 * @note     addPath call JPath::check which will exit if the path is out of bounds.
+	 *           If execution halts for some reason, a bad path could be the culprit.
 	 */
 	public function testAddPath()
 	{
@@ -169,11 +174,11 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JControllerLegacy::addViewPath
+	 * @testdox  Ensure the addViewPath() correctly adds a path when initialising views
 	 *
-	 * @since   11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::addViewPath
+	 * @note     addPath call JPath::check which will exit if the path is out of bounds.
+	 *           If execution halts for some reason, a bad path could be the culprit.
 	 */
 	public function testAddViewPath()
 	{
@@ -191,11 +196,9 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JControllerLegacy::getName
+	 * @testdox  Ensure the getName() correctly returns the name of the controller
 	 *
-	 * @since   11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::getName
 	 */
 	public function testGetName()
 	{
@@ -207,11 +210,9 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JControllerLegacy::getTask().
+	 * @testdox  Ensure the getTask() correctly returns the name of the task variable
 	 *
-	 * @since   11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::getTask
 	 */
 	public function testGetTask()
 	{
@@ -221,26 +222,21 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JControllerLegacy::getTasks
+	 * @testdox  The available tasks should be the public tasks in the derived controller plus "display".
 	 *
-	 * @since   11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::getTasks
 	 */
 	public function testGetTasks()
 	{
 		$class = new TestController;
 
-		// The available tasks should be the public tasks in the derived controller plus "display".
 		$this->assertEquals(array('task1', 'task2', 'display'), $class->getTasks());
 	}
 
 	/**
-	 * Test JControllerLegacy::setMessage
+	 * @testdox  Tests setting an error message in the controller
 	 *
-	 * @since   11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::setMessage
 	 */
 	public function testSetMessage()
 	{
@@ -256,11 +252,9 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JControllerLegacy::setRedirect
+	 * @testdox  Tests setting a redirect in the controller
 	 *
-	 * @since   11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::setRedirect
 	 */
 	public function testSetRedirect()
 	{
