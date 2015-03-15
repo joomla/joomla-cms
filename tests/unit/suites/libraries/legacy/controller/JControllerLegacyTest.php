@@ -77,9 +77,8 @@ class JControllerLegacyTest extends TestCase
 		// The default path is the class file folder/forms
 		$valid = JPATH_PLATFORM . '/joomla/form/fields';
 
-		$this->assertThat(
+		$this->assertTrue(
 			in_array($path, JModelLegacy::addIncludePath()),
-			$this->isTrue(),
 			'Line:' . __LINE__ . ' The path should be added to the JModel paths.'
 		);
 	}
@@ -128,9 +127,9 @@ class JControllerLegacyTest extends TestCase
 	public function testConstructer()
 	{
 		$controller = new TestTestController;
-		$this->assertThat(
+		$this->assertEquals(
 			$controller->getTasks(),
-			$this->equalTo(array('task5', 'task1', 'task2', 'display')),
+			array('task5', 'task1', 'task2', 'display'),
 			'The available tasks should be the public tasks in _all_ the derived classes after controller plus "display".'
 		);
 	}
@@ -172,9 +171,9 @@ class JControllerLegacyTest extends TestCase
 
 		$this->assertTrue(is_array($paths['test']), 'The path type should be an array.');
 
-		$this->assertThat(
+		$this->assertEquals(
 			str_replace(DIRECTORY_SEPARATOR, '/', $paths['test'][0]),
-			$this->equalTo(str_replace(DIRECTORY_SEPARATOR, '/', JPATH_ROOT . '/foobar/')),
+			str_replace(DIRECTORY_SEPARATOR, '/', JPATH_ROOT . '/foobar/'),
 			'Line:' . __LINE__ . ' The path type should be present, clean and with a trailing slash.'
 		);
 	}
@@ -194,9 +193,9 @@ class JControllerLegacyTest extends TestCase
 
 		$this->assertTrue(is_array($paths['view']), 'The path type should be an array.');
 
-		$this->assertThat(
+		$this->assertEquals(
 			str_replace(DIRECTORY_SEPARATOR, '/', $paths['view'][0]),
-			$this->equalTo(str_replace(DIRECTORY_SEPARATOR, '/', JPATH_ROOT . '/views/')),
+			str_replace(DIRECTORY_SEPARATOR, '/', JPATH_ROOT . '/views/'),
 			'Line:' . __LINE__ . ' The path type should be present, clean and with a trailing slash.'
 		);
 	}
@@ -208,11 +207,11 @@ class JControllerLegacyTest extends TestCase
 	 */
 	public function testGetName()
 	{
-		$this->assertThat($this->class->getName(), $this->equalTo('j'));
+		$this->assertEquals($this->class->getName(), 'j');
 
 		TestReflection::setValue($this->class, 'name', 'inspector');
 
-		$this->assertThat($this->class->getName(), $this->equalTo('inspector'));
+		$this->assertEquals($this->class->getName(), 'inspector');
 	}
 
 	/**
