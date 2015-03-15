@@ -136,20 +136,6 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JControllerLegacy::addPath().
-	 *
-	 * 
-	 *
-	 * @since 11.3
-	 *
-	 * @return  void
-	 */
-	public function testAddPath()
-	{
-	}
-
-
-	/**
 	 * @testdox  Ensure the addPath() correctly adds a path
 	 *
 	 * @covers   JControllerLegacy::addPath
@@ -208,6 +194,8 @@ class JControllerLegacyTest extends TestCase
 
 		$this->assertThat($this->class->getName(), $this->equalTo('inspector'));
 	}
+
+	
 
 	/**
 	 * @testdox  Ensure the getTask() correctly returns the name of the task variable
