@@ -211,7 +211,7 @@ class JBuffer
 	 */
 	protected function seek_end($offset)
 	{
-		$offset = strlen($this->buffers[$this->name]) + $offset;
+		$offset += strlen($this->buffers[$this->name]);
 		if ($offset < 0)
 		{
 			return false;
