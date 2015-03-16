@@ -311,7 +311,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 			$found = true;
 
-			if (!$lang_code)
+			if (!isset($lang_code))
 			{
 				$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
 			}
