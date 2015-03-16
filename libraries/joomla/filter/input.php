@@ -375,13 +375,15 @@ class JFilterInput
 
 		if (isset($file['name']) && isset($file['tmp_name']))
 		{
-			$descriptors = self::decodeFileData(array(
-				$file['name'],
-				$file['type'],
-				$file['tmp_name'],
-				$file['error'],
-				$file['size']
-			));
+			$descriptors = self::decodeFileData(
+				array(
+					$file['name'],
+					$file['type'],
+					$file['tmp_name'],
+					$file['error'],
+					$file['size']
+				)
+			);
 		}
 
 		// Scan all descriptors detected
