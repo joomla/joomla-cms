@@ -57,9 +57,9 @@
 	-moz-border-radius: 4px;
 	border-radius: 4px;
 	*margin-left: .3em;
-	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
-	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
-	box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+	-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+	-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
 }
 #form-login .btn:hover,
 #form-login .btn:focus,
@@ -100,9 +100,9 @@
 	background-color: #d9d9d9 \9;
 	background-image: none;
 	outline: 0;
-	-webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
-	-moz-box-shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
-	box-shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
+	-webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, .15), 0 1px 2px rgba(0, 0, 0, .05);
+	-moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, .15), 0 1px 2px rgba(0, 0, 0, .05);
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, .15), 0 1px 2px rgba(0, 0, 0, .05);
 }
 #form-login .btn.disabled,
 #form-login .btn[disabled] {
@@ -522,33 +522,33 @@ div.toolbar-list li {
 	color: #2c2c2c;
 }
 div.toolbar-list li.divider {
-	border-right: 1px dotted #e1d3c8;
+	border-right: 1px dotted #e5d9c3;
 }
 div.toolbar-list a {
-	border-left: 1px solid #e1d3c8;
-	border-top: 1px solid #e1d3c8;
+	border-left: 1px solid #e5d9c3;
+	border-top: 1px solid #e5d9c3;
 	border-right: 1px solid #000000;
 	border-bottom: 1px solid #000000;
 	background: #d5c1b2;
 }
 div.toolbar-list a:hover {
-	border-left: 1px solid #000000;
-	border-top: 1px solid #000000;
-	border-right: 1px solid #000000;
-	border-bottom: 1px solid #000000;
-	background: #e1d3c8;
-	color: #000000;
+	border-left: 1px solid #868778;
+	border-top: 1px solid #868778;
+	border-right: 1px solid #f6f7db;
+	border-bottom: 1px solid #f6f7db;
+	background: #e5d9c3;
+	color: #054993;
 }
 div.btn-toolbar {
 	margin-left: 5px;
 	padding-top: 3px;
 }
 div.btn-toolbar li.divider {
-	border-right: 1px dotted #e1d3c8;
+	border-right: 1px dotted #e5d9c3;
 }
 div.btn-toolbar div.btn-group button {
-	border-left: 1px solid #e1d3c8;
-	border-top: 1px solid #e1d3c8;
+	border-left: 1px solid #e5d9c3;
+	border-top: 1px solid #e5d9c3;
 	border-right: 1px solid #000000;
 	border-bottom: 1px solid #000000;
 	background-color: #d5c1b2;
@@ -562,17 +562,17 @@ div.btn-toolbar div.btn-group button {
 	padding: 5px 4px 5px 4px;
 }
 div.btn-toolbar div.btn-group button:hover {
-	border-left: 1px solid #000000;
-	border-top: 1px solid #000000;
-	border-right: 1px solid #000000;
-	border-bottom: 1px solid #000000;
-	background: #e1d3c8;
-	color: #000000;
+	border-left: 1px solid #868778;
+	border-top: 1px solid #868778;
+	border-right: 1px solid #f6f7db;
+	border-bottom: 1px solid #f6f7db;
+	background: #e5d9c3;
+	color: #054993;
 	cursor: pointer;
 }
 div.btn-toolbar a {
-	border-left: 1px solid #e1d3c8;
-	border-top: 1px solid #e1d3c8;
+	border-left: 1px solid #e5d9c3;
+	border-top: 1px solid #e5d9c3;
 	border-right: 1px solid #000000;
 	border-bottom: 1px solid #000000;
 	background-color: #d5c1b2;
@@ -590,12 +590,12 @@ div.btn-toolbar a {
 	text-decoration: none;
 }
 div.btn-toolbar a:hover {
-	border-left: 1px solid #000000;
-	border-top: 1px solid #000000;
-	border-right: 1px solid #000000;
-	border-bottom: 1px solid #000000;
-	background: #e1d3c8;
-	color: #000000;
+	border-left: 1px solid #868778;
+	border-top: 1px solid #868778;
+	border-right: 1px solid #f6f7db;
+	border-bottom: 1px solid #f6f7db;
+	background: #e5d9c3;
+	color: #054993;
 	cursor: pointer;
 }
 div.btn-toolbar div.btn-group button.inactive {
@@ -619,7 +619,7 @@ div.btn-toolbar div.btn-group button.inactive {
 	color: #054993;
 }
 .pane-sliders .panel h3:hover {
-	background: #e1d3c8;
+	background: #e5d9c3;
 }
 .pane-sliders .panel h3:hover a {
 	text-decoration: none;
@@ -652,7 +652,7 @@ dl.tabs dt {
 	color: #054993;
 }
 dl.tabs dt:hover {
-	background: #e1d3c8;
+	background: #e5d9c3;
 }
 dl.tabs dt.open {
 	background: #ffffff;
@@ -710,8 +710,8 @@ div.current fieldset.adminform {
 #cpanel div.icon a,
 .cpanel div.icon a {
 	color: #054993;
-	border-left: 1px solid #e1d3c8;
-	border-top: 1px solid #e1d3c8;
+	border-left: 1px solid #e5d9c3;
+	border-top: 1px solid #e5d9c3;
 	border-right: 1px solid #000000;
 	border-bottom: 1px solid #000000;
 	background-color: #d5c1b2;
@@ -727,12 +727,12 @@ div.current fieldset.adminform {
 #cpanel div.icon a:focus,
 .cpanel div.icon a:hover,
 .cpanel div.icon a:focus {
-	border-left: 1px solid #000000;
-	border-top: 1px solid #000000;
-	border-right: 1px solid #000000;
-	border-bottom: 1px solid #000000;
+	border-left: 1px solid #868778;
+	border-top: 1px solid #868778;
+	border-right: 1px solid #f6f7db;
+	border-bottom: 1px solid #f6f7db;
 	color: #054993;
-	background: #e1d3c8;
+	background: #e5d9c3;
 }
 fieldset {
 	border: 1px #000000 solid;
@@ -798,7 +798,7 @@ input[type="submit"]:hover,
 input[type="submit"]:focus,
 input[type="reset"]:hover,
 input[type="reset"]:focus {
-	background: #e1d3c8;
+	background: #e5d9c3;
 }
 textarea {
 	background-color: #ffffff;
@@ -812,7 +812,7 @@ input:hover,
 select:hover,
 textarea:hover,
 option:hover {
-	background-color: #e1d3c8;
+	background-color: #e5d9c3;
 	color: #054993;
 }
 .paramrules {
@@ -844,7 +844,7 @@ table.adminform tr.row0 {
 	background-color: #ffffff;
 }
 table.adminform tr.row1 {
-	background-color: #e1d3c8;
+	background-color: #e5d9c3;
 }
 table.adminform th {
 	color: #2c2c2c;
@@ -889,7 +889,7 @@ table.adminlist tbody tr.row0:focus td,
 table.adminlist tbody tr.row1:focus td,
 table.adminlist tbody tr.row0:focus th,
 table.adminlist tbody tr.row1:focus th {
-	background-color: #e1d3c8;
+	background-color: #e5d9c3;
 }
 table.adminlist tbody tr td,
 table.adminlist tbody tr th {
@@ -951,7 +951,7 @@ fieldset.batch {
 	background: #ffffff;
 }
 button {
-	color: #000000;
+	color: #054993;
 	border: 1px solid #000000;
 	background-color: #d5c1b2;
 	background-image: -moz-linear-gradient(top, #d5c1b2, #d5c1b2);
@@ -964,7 +964,7 @@ button {
 }
 button:hover,
 button:focus {
-	background: #e1d3c8;
+	background: #e5d9c3;
 }
 .invalid {
 	color: #ff0000;
@@ -986,7 +986,7 @@ button:focus {
 }
 .button1 a:hover,
 .button1 a:focus {
-	background: #e1d3c8;
+	background: #e5d9c3;
 }
 .button2-left,
 .button2-right {
@@ -1018,7 +1018,7 @@ button:focus {
 .button2-right a:hover,
 .button2-left a:focus,
 .button2-right a:focus {
-	background: #e1d3c8;
+	background: #e5d9c3;
 }
 .pagination .page span {
 	color: #999999;
@@ -1541,7 +1541,7 @@ li.acl-editgroups:hover,
 li.acl-resetbtn:hover,
 li.acl-editgroups:focus,
 li.acl-resetbtn:focus {
-	background-color: #e1d3c8;
+	background-color: #e5d9c3;
 }
 table#acl-config {
 	border: 1px solid #000000;
@@ -1589,7 +1589,7 @@ ul#rules li .pane-sliders .panel h3.title {
 	border-bottom: solid 1px #000000;
 }
 #permissions-sliders ul#rules table.group-rules th {
-	background: #e1d3c8;
+	background: #e5d9c3;
 	border-right: solid 1px #000000;
 	border-bottom: solid 1px #000000;
 	color: #2c2c2c;
@@ -1656,7 +1656,7 @@ table.adminlist tbody td.check-d {
 	border-bottom: 1px dotted #000000;
 }
 #menu a {
-	color: #000000;
+	color: #054993;
 	background-repeat: no-repeat;
 	background-position: left 50%;
 }
@@ -1666,7 +1666,7 @@ table.adminlist tbody td.check-d {
 }
 #menu li a:hover,
 #menu li a:focus {
-	background-color: #e1d3c8;
+	background-color: #e5d9c3;
 }
 #menu li.disabled a:hover,
 #menu li.disabled a:focus,
@@ -1688,28 +1688,28 @@ table.adminlist tbody td.check-d {
 	background-color: transparent;
 }
 #menu li.sfhover a {
-	background-color: #e1d3c8;
+	background-color: #e5d9c3;
 }
 #menu li.sfhover li a {
 	background-color: transparent;
 }
 #menu li.sfhover li.sfhover a,
 #menu li li a:focus {
-	background-color: #e1d3c8;
+	background-color: #e5d9c3;
 }
 #menu li.sfhover li.sfhover li a {
 	background-color: transparent;
 }
 #menu li.sfhover li.sfhover li.sfhover a,
 #menu li li li a:focus {
-	background-color: #e1d3c8;
+	background-color: #e5d9c3;
 }
 #menu li li a:focus,
 #menu li li li a:focus {
-	background-color: #e1d3c8;
+	background-color: #e5d9c3;
 }
 #menu li li li a:focus {
-	background-color: #e1d3c8;
+	background-color: #e5d9c3;
 }
 #submenu {
 	border-bottom: 1px solid #000000;
@@ -1729,7 +1729,7 @@ table.adminlist tbody td.check-d {
 }
 #submenu li:hover,
 #submenu li:focus {
-	background: #e1d3c8;
+	background: #e5d9c3;
 }
 #submenu li.active,
 #submenu span.nolink.active {
