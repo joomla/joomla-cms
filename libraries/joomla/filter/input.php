@@ -327,7 +327,6 @@ class JFilterInput
 	 * Checks an uploaded for suspicious naming and potential PHP contents which could indicate a hacking attempt.
 	 *
 	 * The options you can define are:
-	 *
 	 * null_byte                   Prevent files with a null byte in their name (buffer overflow attack)
 	 * forbidden_extensions        Do not allow these strings anywhere in the file's extension
 	 * php_tag_in_content          Do not allow <?php tag in content
@@ -372,207 +371,225 @@ class JFilterInput
 		$options = array_merge($defaultOptions, $options);
 
 		// Make sure we can scan nested file descriptors
-		if (is_array($file) && !array_key_exists('tmp_name', $file))
+		$descriptors = $file;
+
+		if (isset($file['name']) && isset($file['tmp_name']))
 		{
-			$descriptors = $file;
-		}
-		else
-		{
-			$descriptors = array($file);
+			$descriptors = self::decodeFileData(
+				array(
+					$file['name'],
+					$file['type'],
+					$file['tmp_name'],
+					$file['error'],
+					$file['size']
+				)
+			);
 		}
 
 		// Scan all descriptors detected
-		foreach ($descriptors as $descriptor)
+		foreach ($descriptors as $fileDescriptor)
 		{
-			// Get the files of the current descriptor
-			$files = array();
-
-			if (is_array($descriptor['tmp_name']))
+			if (!isset($fileDescriptor['name']))
 			{
-				foreach ($descriptor['tmp_name'] as $key => $value)
+				// This is a nested descriptor. We have to recurse.
+				if (!self::isSafeFile($fileDescriptor, $options))
 				{
-					$files[] = array(
-						'name'     => $descriptor['name'][$key],
-						'type'     => $descriptor['type'][$key],
-						'tmp_name' => $descriptor['tmp_name'][$key],
-						'error'    => $descriptor['error'][$key],
-						'size'     => $descriptor['size'][$key],
-					);
+					return false;
 				}
-			}
-			else
-			{
-				$files[] = $descriptor;
+
+				continue;
 			}
 
-			// Scan each file in the descriptor
-			foreach ($files as $fileDescriptor)
+			$tempNames     = $fileDescriptor['tmp_name'];
+			$intendedNames = $fileDescriptor['name'];
+
+			if (!is_array($tempNames))
 			{
-				$tempNames     = $fileDescriptor['tmp_name'];
-				$intendedNames = $fileDescriptor['name'];
+				$tempNames = array($tempNames);
+			}
 
-				if (!is_array($tempNames))
+			if (!is_array($intendedNames))
+			{
+				$intendedNames = array($intendedNames);
+			}
+
+			$len = count($tempNames);
+
+			for ($i = 0; $i < $len; $i++)
+			{
+				$tempName     = array_shift($tempNames);
+				$intendedName = array_shift($intendedNames);
+
+				// 1. Null byte check
+				if ($options['null_byte'])
 				{
-					$tempNames = array($tempNames);
-				}
-
-				if (!is_array($intendedNames))
-				{
-					$intendedNames = array($intendedNames);
-				}
-
-				$len = count($tempNames);
-
-				for ($i = 0; $i < $len; $i++)
-				{
-					$tempName     = array_shift($tempNames);
-					$intendedName = array_shift($intendedNames);
-
-					// 1. Null byte check
-					if ($options['null_byte'])
+					if (strstr($intendedName, "\x00"))
 					{
-						if (strstr($intendedName, "\x00"))
+						return false;
+					}
+				}
+
+				// 2. PHP-in-extension check (.php, .php.xxx[.yyy[.zzz[...]]], .xxx[.yyy[.zzz[...]]].php)
+				if (!empty($options['forbidden_extensions']))
+				{
+					$explodedName = explode('.', $intendedName);
+					array_reverse($explodedName);
+					array_pop($explodedName);
+					array_map('strtolower', $explodedName);
+
+					/*
+					 * DO NOT USE array_intersect HERE! array_intersect expects the two arrays to
+					 * be set, i.e. they should have unique values.
+					 */
+					foreach ($options['forbidden_extensions'] as $ext)
+					{
+						if (in_array($ext, $explodedName))
 						{
 							return false;
 						}
 					}
+				}
 
-					// 2. PHP-in-extension check (.php, .php.xxx[.yyy[.zzz[...]]], .xxx[.yyy[.zzz[...]]].php)
-					if (!empty($options['forbidden_extensions']))
+				// 3. File contents scanner (PHP tag in file contents)
+				if ($options['php_tag_in_content'] || $options['shorttag_in_content']
+					|| ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions'])))
+				{
+					$fp = @fopen($tempName, 'r');
+
+					if ($fp !== false)
 					{
-						$explodedName = explode('.', $intendedName);
-						array_reverse($explodedName);
-						array_pop($explodedName);
-						array_map('strtolower', $explodedName);
+						$data = '';
 
-						/*
-						 * DO NOT USE array_intersect HERE! array_intersect expects the two arrays to
-						 * be set, i.e. they should have unique values.
-						 */
-						foreach ($options['forbidden_extensions'] as $ext)
+						while (!feof($fp))
 						{
-							if (in_array($ext, $explodedName))
+							$buffer = @fread($fp, 131072);
+							$data .= $buffer;
+
+							if ($options['php_tag_in_content'] && strstr($buffer, '<?php'))
 							{
 								return false;
 							}
-						}
-					}
 
-					// 3. File contents scanner (PHP tag in file contents)
-					if ($options['php_tag_in_content'] || $options['shorttag_in_content']
-						|| ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions'])))
-					{
-						$fp = @fopen($tempName, 'r');
-
-						if ($fp !== false)
-						{
-							$data = '';
-
-							while (!feof($fp))
+							if ($options['shorttag_in_content'])
 							{
-								$buffer = @fread($fp, 131072);
-								$data .= $buffer;
+								$suspiciousExtensions = $options['shorttag_extensions'];
 
-								if ($options['php_tag_in_content'] && strstr($buffer, '<?php'))
+								if (empty($suspiciousExtensions))
 								{
-									return false;
+									$suspiciousExtensions = array(
+										'inc', 'phps', 'class', 'php3', 'php4', 'txt', 'dat', 'tpl', 'tmpl'
+									);
 								}
 
-								if ($options['shorttag_in_content'])
+								/*
+								 * DO NOT USE array_intersect HERE! array_intersect expects the two arrays to
+								 * be set, i.e. they should have unique values.
+								 */
+								$collide = false;
+
+								foreach ($suspiciousExtensions as $ext)
 								{
-									$suspiciousExtensions = $options['shorttag_extensions'];
-
-									if (empty($suspiciousExtensions))
+									if (in_array($ext, $explodedName))
 									{
-										$suspiciousExtensions = array(
-											'inc', 'phps', 'class', 'php3', 'php4', 'txt', 'dat', 'tpl', 'tmpl'
-										);
-									}
+										$collide = true;
 
+										break;
+									}
+								}
+
+								if ($collide)
+								{
+									// These are suspicious text files which may have the short tag (<?) in them
+									if (strstr($buffer, '<?'))
+									{
+										return false;
+									}
+								}
+							}
+
+							if ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions']))
+							{
+								$suspiciousExtensions = $options['php_ext_content_extensions'];
+
+								if (empty($suspiciousExtensions))
+								{
+									$suspiciousExtensions = array(
+										'zip', 'rar', 'tar', 'gz', 'tgz', 'bz2', 'tbz', 'jpa'
+									);
+								}
+
+								/*
+								 * DO NOT USE array_intersect HERE! array_intersect expects the two arrays to
+								 * be set, i.e. they should have unique values.
+								 */
+								$collide = false;
+
+								foreach ($suspiciousExtensions as $ext)
+								{
+									if (in_array($ext, $explodedName))
+									{
+										$collide = true;
+
+										break;
+									}
+								}
+
+								if ($collide)
+								{
 									/*
-									 * DO NOT USE array_intersect HERE! array_intersect expects the two arrays to
-									 * be set, i.e. they should have unique values.
+									 * These are suspicious text files which may have an executable
+									 * file extension in them
 									 */
-									$collide = false;
-
-									foreach ($suspiciousExtensions as $ext)
+									foreach ($options['forbidden_extensions'] as $ext)
 									{
-										if (in_array($ext, $explodedName))
-										{
-											$collide = true;
-
-											break;
-										}
-									}
-
-									if ($collide)
-									{
-										// These are suspicious text files which may have the short tag (<?) in them
-										if (strstr($buffer, '<?'))
+										if (strstr($buffer, '.' . $ext))
 										{
 											return false;
 										}
 									}
 								}
-
-								if ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions']))
-								{
-									$suspiciousExtensions = $options['php_ext_content_extensions'];
-
-									if (empty($suspiciousExtensions))
-									{
-										$suspiciousExtensions = array(
-											'zip', 'rar', 'tar', 'gz', 'tgz', 'bz2', 'tbz', 'jpa'
-										);
-									}
-
-									/*
-									 * DO NOT USE array_intersect HERE! array_intersect expects the two arrays to
-									 * be set, i.e. they should have unique values.
-									 */
-									$collide = false;
-
-									foreach ($suspiciousExtensions as $ext)
-									{
-										if (in_array($ext, $explodedName))
-										{
-											$collide = true;
-
-											break;
-										}
-									}
-
-									if ($collide)
-									{
-										/*
-										 * These are suspicious text files which may have an executable
-										 * file extension in them
-										 */
-										foreach ($options['forbidden_extensions'] as $ext)
-										{
-											if (strstr($buffer, '.' . $ext))
-											{
-												return false;
-											}
-										}
-									}
-								}
-
-								/*
-								 * This makes sure that we don't accidentally skip a <?php tag if it's across
-								 * a read boundary, even on multibyte strings
-								 */
-								$data = substr($data, -8);
 							}
 
-							fclose($fp);
+							/*
+							 * This makes sure that we don't accidentally skip a <?php tag if it's across
+							 * a read boundary, even on multibyte strings
+							 */
+							$data = substr($data, -8);
 						}
+
+						fclose($fp);
 					}
 				}
 			}
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to decode a file data array.
+	 *
+	 * @param   array  $data  The data array to decode.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.4
+	 */
+	protected static function decodeFileData(array $data)
+	{
+		$result = array();
+
+		if (is_array($data[0]))
+		{
+			foreach ($data[0] as $k => $v)
+			{
+				$result[$k] = self::decodeFileData(array($data[0][$k], $data[1][$k], $data[2][$k], $data[3][$k], $data[4][$k]));
+			}
+
+			return $result;
+		}
+
+		return array('name' => $data[0], 'type' => $data[1], 'tmp_name' => $data[2], 'error' => $data[3], 'size' => $data[4]);
 	}
 
 	/**
