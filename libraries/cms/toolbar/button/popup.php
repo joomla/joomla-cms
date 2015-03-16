@@ -36,7 +36,7 @@ class JToolbarButtonPopup extends JToolbarButton
 	 * @param   integer  $left     Left attribute. [@deprecated  Unused, will be removed in 4.0]
 	 * @param   string   $onClose  JavaScript for the onClose event.
 	 * @param   string   $title    The title text
-	 * @param   string   $footer    The footer html
+	 * @param   string   $footer   The footer html
 	 *
 	 * @return  string  HTML string for the button
 	 *
