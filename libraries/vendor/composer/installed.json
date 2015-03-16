@@ -295,55 +295,6 @@
         ]
     },
     {
-        "name": "joomla/string",
-        "version": "1.2.1",
-        "version_normalized": "1.2.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/joomla-framework/string.git",
-            "reference": "edc67e83f8e603ac7b55bf32b87d5b53fe1acd8a"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/string/zipball/edc67e83f8e603ac7b55bf32b87d5b53fe1acd8a",
-            "reference": "edc67e83f8e603ac7b55bf32b87d5b53fe1acd8a",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.10"
-        },
-        "require-dev": {
-            "joomla/test": "~1.0",
-            "phpunit/phpunit": "4.*",
-            "squizlabs/php_codesniffer": "1.*"
-        },
-        "time": "2014-09-18 12:21:47",
-        "type": "joomla-package",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Joomla\\String\\": "src/",
-                "Joomla\\String\\Tests\\": "Tests/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0+"
-        ],
-        "description": "Joomla String Package",
-        "homepage": "https://github.com/joomla-framework/string",
-        "keywords": [
-            "framework",
-            "joomla",
-            "string"
-        ]
-    },
-    {
         "name": "joomla/input",
         "version": "1.2.0",
         "version_normalized": "1.2.0.0",
@@ -755,6 +706,55 @@
             "framework",
             "joomla",
             "registry"
+        ]
+    },
+    {
+        "name": "joomla/string",
+        "version": "1.2.2",
+        "version_normalized": "1.2.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/string.git",
+            "reference": "9f7b27d6b2d48d65b2fe81b5c6d72225629ad692"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/string/zipball/9f7b27d6b2d48d65b2fe81b5c6d72225629ad692",
+            "reference": "9f7b27d6b2d48d65b2fe81b5c6d72225629ad692",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.10"
+        },
+        "require-dev": {
+            "joomla/test": "~1.0",
+            "phpunit/phpunit": "4.*",
+            "squizlabs/php_codesniffer": "1.*"
+        },
+        "time": "2015-03-13 12:29:00",
+        "type": "joomla-package",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\String\\": "src/",
+                "Joomla\\String\\Tests\\": "Tests/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla String Package",
+        "homepage": "https://github.com/joomla-framework/string",
+        "keywords": [
+            "framework",
+            "joomla",
+            "string"
         ]
     }
 ]

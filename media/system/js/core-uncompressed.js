@@ -29,6 +29,9 @@ Joomla.submitform = function(task, form) {
     if (typeof form.fireEvent == "function") {
         form.fireEvent('onsubmit');
     }
+    if (typeof jQuery == "function") {
+        jQuery(form).submit;
+    }
     form.submit();
 };
 
