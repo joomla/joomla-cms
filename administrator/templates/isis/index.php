@@ -28,6 +28,14 @@ $doc->addStyleSheetVersion(
 	. (JDEBUG ? '' : '.min')
 	. '.css');
 
+// Load custom.css
+$file = 'templates/' . $this->template . '/css/custom.css';
+
+if (is_file($file))
+{
+	$doc->addStyleSheetVersion($file);
+}
+
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 
