@@ -43,6 +43,14 @@ class JFormFieldTextarea extends JFormField
 	protected $columns;
 
 	/**
+	 * The maximum number of characters in textarea.
+	 *
+	 * @var    mixed
+	 * @since  3.4
+	 */
+	protected $maxlength;
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to the the value.
