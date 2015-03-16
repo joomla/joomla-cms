@@ -65,6 +65,6 @@ class JLanguageMultilang
 			$tested = true;
 		}
 
-		return $enabled;
+		return (bool) $enabled;
 	}
 }
