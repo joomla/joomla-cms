@@ -24,12 +24,6 @@ class JRegistryFormatXMLTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testObjectToString()
 	{
-		// Skip on PHP 7
-		if (PHP_MAJOR_VERSION == 7)
-		{
-			$this->markTestSkipped('Test skipped for PHP 7 as SimpleXMLElement seems to behave differently with empty nodes');
-		}
-
 		$class = JRegistryFormat::getInstance('XML');
 		$options = null;
 		$object = new stdClass;
@@ -74,12 +68,6 @@ class JRegistryFormatXMLTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStringToObject()
 	{
-		// Skip on PHP 7
-		if (PHP_MAJOR_VERSION == 7)
-		{
-			$this->markTestSkipped('Test skipped for PHP 7 as SimpleXMLElement seems to behave differently with empty nodes');
-		}
-
 		$class = JRegistryFormat::getInstance('XML');
 		$object = new stdClass;
 		$object->foo = 'bar';
