@@ -18,6 +18,12 @@
 /phpunit.xml
 /tests/system/webdriver/tests/logs/
 /tests/system/servers/configdef.php
+/tests/codeception/acceptance.suite.yml
+codecept.phar
+tests/codeception/_output/*
+tests/codeception/vendor/*
+tests/codeception/testingsite/*
+
 
 # phpDocumentor Logs #
 phpdoc-*
