@@ -147,25 +147,79 @@ class JBuffer
 	 */
 	public function stream_seek($offset, $whence)
 	{
-		if ($whence == SEEK_SET && ($offset < strlen($this->buffers[$this->name]) && $offset >= 0))
+		switch($whence)
 		{
-			$this->position = $offset;
-			return true;
-		}
+			case 'SEEK_SET':
+				return $this->seek_set($offset);
 
-		if ($whence == SEEK_CUR && $offset >= 0)
-		{
-			$this->position += $offset;
-			return true;
-		}
+			case 'SEEK_CUR':
 
-		if ($whence == SEEK_END && strlen($this->buffers[$this->name]) + $offset >= 0)
-		{
-			$this->position = strlen($this->buffers[$this->name]) + $offset;
-			return true;
+				return $this->seek_cur($offset);
+
+			case 'SEEK_END':
+
+				return $this->seek_end($offset);
 		}
 
 		return false;
+	}
+
+	/**
+	 * Set the position to the offset
+	 *
+	 * @param   integer  $offset  The offset in bytes
+	 *
+	 * @return bool
+	 */
+	protected function seek_set($offset)
+	{
+		if($offset < 0 || $offset >= strlen($this->buffers[$this->name]))
+		{
+			return false;
+		}
+
+		$this->position = $offset;
+
+		return true;
+	}
+
+	/**
+	 * Adds the offset to current position
+	 *
+	 * @param   integer  $offset  The offset in bytes
+	 *
+	 * @return bool
+	 */
+	protected function seek_cur($offset)
+	{
+		if ($offset < 0)
+		{
+			return false;
+		}
+
+		$this->position += $offset;
+
+		return true;
+	}
+
+	/**
+	 * Sets the position to the end of the current buffer + offset
+	 *
+	 * @param   integer  $offset  The offset in bytes
+	 *
+	 * @return bool
+	 */
+	protected function seek_end($offset)
+	{
+		$offset = strlen($this->buffers[$this->name]) + $offset;
+		if ($offset < 0)
+		{
+			return false;
+		}
+
+		$this->position = $offset;
+
+		return true;
 	}
 }
 // Register the stream
