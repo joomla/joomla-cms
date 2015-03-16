@@ -325,16 +325,16 @@
         },
         {
             "name": "joomla/registry",
-            "version": "1.4.2",
+            "version": "1.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "5c2e607ff61f8df07c3c0630ed62a8c3d892469e"
+                "reference": "730467978ad52677903e973bb33be2306eb161eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/5c2e607ff61f8df07c3c0630ed62a8c3d892469e",
-                "reference": "5c2e607ff61f8df07c3c0630ed62a8c3d892469e",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/730467978ad52677903e973bb33be2306eb161eb",
+                "reference": "730467978ad52677903e973bb33be2306eb161eb",
                 "shasum": ""
             },
             "require": {
@@ -375,7 +375,7 @@
                 "joomla",
                 "registry"
             ],
-            "time": "2015-03-07 18:48:26"
+            "time": "2015-03-16 18:49:29"
         },
         {
             "name": "joomla/session",
@@ -508,16 +508,16 @@
         },
         {
             "name": "joomla/utilities",
-            "version": "1.2.0",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/utilities.git",
-                "reference": "f749a9bd6f2fc5ad376687651478273dac105051"
+                "reference": "2e7f37a69162fea02059c764a318a920121f8b4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/f749a9bd6f2fc5ad376687651478273dac105051",
-                "reference": "f749a9bd6f2fc5ad376687651478273dac105051",
+                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/2e7f37a69162fea02059c764a318a920121f8b4a",
+                "reference": "2e7f37a69162fea02059c764a318a920121f8b4a",
                 "shasum": ""
             },
             "require": {
@@ -551,7 +551,7 @@
                 "joomla",
                 "utilities"
             ],
-            "time": "2014-09-03 21:44:44"
+            "time": "2015-03-16 18:50:58"
         },
         {
             "name": "leafo/lessphp",
