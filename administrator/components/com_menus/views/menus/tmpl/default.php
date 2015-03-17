@@ -136,7 +136,7 @@ JFactory::getDocument()->addScriptDeclaration("
 								<div class="btn-group">
 									<a href="#" class="btn btn-small dropdown-toggle" data-toggle="dropdown">
 										<?php echo JText::_('COM_MENUS_MODULES') ?>
-										<b class="caret"></b>
+										<strong class="caret"></strong>
 									</a>
 									<ul class="dropdown-menu">
 										<?php foreach ($this->modules[$item->menutype] as &$module) : ?>

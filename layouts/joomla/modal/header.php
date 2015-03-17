@@ -35,6 +35,6 @@ extract($displayData);
 		<button type="button" class="close" data-dismiss="modal">×</button>
 	<?php endif; ?>
 	<?php if (isset($params['title'])) : ?>
-		<h3><?php echo $params['title']; ?></h3>
+	<p class="lead"><strong><?php echo $params['title']; ?></strong></p>
 	<?php endif; ?>
 </div>

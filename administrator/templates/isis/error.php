@@ -154,7 +154,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 					<ul class="nav nav-user<?php echo ($this->direction == 'rtl') ? ' pull-left' : ' pull-right'; ?>">
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="icon-cog"></span>
-								<b class="caret"></b></a>
+								<strong class="caret"></strong></a>
 							<ul class="dropdown-menu">
 								<li>
 									<span>
