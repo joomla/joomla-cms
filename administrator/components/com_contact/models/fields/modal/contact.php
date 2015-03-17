@@ -143,7 +143,7 @@ class JFormFieldModal_Contact extends JFormField
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title . '" disabled="disabled" size="35" />';
 		$html[] = '<a href="#modalContact' . $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal"'
 			. ' title="' . JHtml::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '">'
-			. '<i class="icon-file"></i> ' . JText::_('JSELECT')
+			. '<span class="icon-file"></span> ' . JText::_('JSELECT')
 			. '</a>';
 
 		$html[] = JHtmlBootstrap::renderModal(

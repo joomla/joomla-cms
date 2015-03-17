@@ -144,7 +144,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 
 		$html[] = '<a href="#modalNewsfeed' . $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal"'
 			. ' title="' . JHtml::tooltipText('COM_NEWSFEEDS_CHANGE_FEED_BUTTON') . '">'
-			. '<i class="icon-file"></i> ' . JText::_('JSELECT')
+			. '<span class="icon-file"></span> ' . JText::_('JSELECT')
 			. '</a>';
 
 		$html[] = JHtmlBootstrap::renderModal(

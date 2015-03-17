@@ -20,8 +20,8 @@ $prev = $useftp ? 'ftp' : 'database';
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<div class="btn-toolbar">
 		<div class="btn-group pull-right">
-			<a class="btn" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><i class="icon-arrow-left"></i> <?php echo JText::_('JPrevious'); ?></a>
-			<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
+			<a class="btn" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><span class="icon-arrow-left"></span> <?php echo JText::_('JPrevious'); ?></a>
+			<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
 		</div>
 	</div>
 
@@ -296,7 +296,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<span class="label label-<?php echo ($option->state) ? 'success' : 'important'; ?>">
 								<?php echo JText::_(($option->state) ? 'JYES' : 'JNO'); ?>
 								<?php if ($option->notice):?>
-								<i class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></i>
+								<span class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
 								<?php endif;?>
 							</span>
 						</td>

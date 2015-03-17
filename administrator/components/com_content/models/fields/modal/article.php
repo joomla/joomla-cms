@@ -138,8 +138,8 @@ class JFormFieldModal_Article extends JFormField
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title . '" disabled="disabled" size="35" />';
 		$html[] = '<a href="#modalArticle' . $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal" title="'
-			. JHtml::tooltipText('COM_CONTENT_CHANGE_ARTICLE') . '">
-		 <i class="icon-file"></i> '
+			. JHtml::tooltipText('COM_CONTENT_CHANGE_ARTICLE') . '">'
+			. '<span class="icon-file"></span> '
 			. JText::_('JSELECT') . '</a>';
 
 		// Edit article button
