@@ -740,10 +740,8 @@ class JPaginationTest extends TestCase
 	public function dataTestItemInactive()
 	{
 		return array(
-			array(
-				'3', 100, 40, 20, false, '<span class="pagenav">3</span>',
-				'3', 100, 40, 20, true, '<span>3</span>',
-			),
+			array('3', 100, 40, 20, false, '<span class="pagenav">3</span>'),
+			array('3', 100, 40, 20, true, '<span>3</span>'),
 		);
 	}
 
