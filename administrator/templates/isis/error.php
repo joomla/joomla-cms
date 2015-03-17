@@ -154,7 +154,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 					<ul class="nav nav-user<?php echo ($this->direction == 'rtl') ? ' pull-left' : ' pull-right'; ?>">
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="icon-cog"></span>
-								<b class="caret"></b></a>
+								<span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li>
 									<span>
@@ -225,7 +225,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 						<blockquote>
 							<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
 						</blockquote>
-						<p><a href="<?php echo $this->baseurl; ?>" class="btn"><i class="icon-dashboard"></i> <?php echo JText::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a></p>
+						<p><a href="<?php echo $this->baseurl; ?>" class="btn"><span class="icon-dashboard"></span> <?php echo JText::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a></p>
 						<!-- End Content -->
 					</div>
 			</div>

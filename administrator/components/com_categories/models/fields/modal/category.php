@@ -148,7 +148,7 @@ class JFormFieldModal_Category extends JFormField
 			. ' title="' . JHtml::tooltipText('COM_CATEGORIES_CHANGE_CATEGORY') . '"'
 			. ' href="' . $link . '&amp;' . JSession::getFormToken() . '=1"'
 			. ' rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
-			. '<i class="icon-file"></i> ' . JText::_('JSELECT')
+			. '<span class="icon-file"></span> ' . JText::_('JSELECT')
 			. '</a>';
 
 		// Edit category button

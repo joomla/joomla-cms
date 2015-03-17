@@ -14,7 +14,7 @@ $path = 'file_path';
 <form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 	<div class="muted">
 		<p>
-			<i class="icon-folder"> </i>
+			<span class="icon-folder"></span>
 			<?php if ($this->state->folder != '') : ?>
 				<?php echo JText::_('JGLOBAL_ROOT') . ': ' . $params->get($path, 'images') . '/' . $this->state->folder; ?>
 			<?php else : ?>

@@ -138,7 +138,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 			'" disabled="disabled" size="35" />';
 		$html[] = '<a class="modal btn hasTooltip" title="' . JHtml::tooltipText('COM_NEWSFEEDS_CHANGE_FEED_BUTTON') .
 			'"  href="' . $link . '&amp;' . JSession::getFormToken() .
-			'=1" rel="{handler: \'iframe\', size: {x: 800, y: 450}}"><i class="icon-file"></i> ' .
+			'=1" rel="{handler: \'iframe\', size: {x: 800, y: 450}}"><span class="icon-file"></span> ' .
 			JText::_('JSELECT') . '</a>';
 
 		// Edit newsfeed button

@@ -79,7 +79,7 @@ class JFormFieldMenutype extends JFormFieldList
 			. '<input type="text" ' . $required . ' readonly="readonly" id="' . $this->id . '" value="' . $value . '"' . $size . $class . ' />'
 			. '<a class="btn btn-primary" '
 				. 'onclick="SqueezeBox.fromElement(this, {handler:\'iframe\', size: {x: 600, y: 450}, url:\'' . JRoute::_($getMenuTypesUrl) . '\'})">'
-				. '<i class="icon-list icon-white"></i> ' . JText::_('JSELECT')
+				. '<span class="icon-list icon-white"></span> ' . JText::_('JSELECT')
 			. '</a></span>';
 		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" '
 			. 'value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" />';
