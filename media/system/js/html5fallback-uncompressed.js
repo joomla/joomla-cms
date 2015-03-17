@@ -12,42 +12,37 @@
  * @subpackage	Forms
  */
 
-(function ($, document, undefined)
-{
+( function( $, document, undefined ) {
 	"use strict";
 
 	// Utility function
-	if (typeof Object.create !== 'function')
-	{
-		Object.create = function (obj)
-		{
+	if ( typeof Object.create !== 'function' ) {
+		Object.create = function( obj ) {
 			function F() {}
 			F.prototype = obj;
 			return new F();
 		};
 	}
 
-	var features = (function (el, item) {
-		var attributes = ['required', 'pattern', 'placeholder', 'autofocus', 'formnovalidate'],
-			types = ['email', 'url', 'number', 'range'],
+	var features = ( function( el, item ) {
+		var attributes = [ 'required', 'pattern', 'placeholder', 'autofocus', 'formnovalidate' ],
+			types = [ 'email', 'url', 'number', 'range' ],
 			result = {
 				attributes: {},
 				types: {}
 			};
 
-		while (item = attributes.pop())
-		{
-			result.attributes[item] = !!(item in el);
+		while ( item = attributes.pop() ) {
+			result.attributes[ item ] = !!( item in el );
 		}
 
-		while (item = types.pop())
-		{
-			el.setAttribute('type', item);
-			result.types[item] = (el.type == item);
+		while ( item = types.pop() ) {
+			el.setAttribute( 'type', item );
+			result.types[ item ] = ( el.type == item );
 		}
 
 		return result;
-	}(document.createElement("input")));
+	}( document.createElement( "input" ) ) );
 
 	var H5Form = {
 		/**
@@ -58,19 +53,17 @@
 		 *
 		 * @return  void
 		 */
-		init: function (options, elem)
-		{
+		init: function( options, elem ) {
 			var self = this;
 
 			self.elem = elem;
-			self.$elem = $(elem);
+			self.$elem = $( elem );
 			elem.H5Form = self;
-			self.options = $.extend({}, $.fn.h5f.options, options);
+			self.options = $.extend( {}, $.fn.h5f.options, options );
 
 			// Check whether the element is form or not
-			if (elem.nodeName.toLowerCase() === "form")
-			{
-				self.bindWithForm(self.elem, self.$elem);
+			if ( elem.nodeName.toLowerCase() === "form" ) {
+				self.bindWithForm( self.elem, self.$elem );
 			}
 		},
 
@@ -82,61 +75,52 @@
 		 *
 		 * @return  void
 		 */
-		bindWithForm: function (form, $form)
-		{
+		bindWithForm: function( form, $form ) {
 			var self = this,
-				novalidate = !!$form.attr('novalidate'),
+				novalidate = !!$form.attr( 'novalidate' ),
 				f = form.elements,
 				flen = f.length,
 				formnovalidate;
 
-			if (self.options.formValidationEvent === "onSubmit")
-			{
-				$form.on('submit', function (e)
-				{
+			if ( self.options.formValidationEvent === "onSubmit" ) {
+				$form.on( 'submit', function( e ) {
 					formnovalidate = this.H5Form.donotValidate !== undefined ? this.H5Form.donotValidate : false;
 
-					if (!formnovalidate && !novalidate && !self.validateForm(self))
-					{
+					if ( !formnovalidate && !novalidate && !self.validateForm( self ) ) {
 						// Prevent form from submit
 						e.preventDefault();
 						this.donotValidate = false;
-					}
-					else
-					{
-						$form.find(':input').each(function ()
-						{
-							self.placeholder(self, this, 'submit');
-						});
+					} else {
+						$form.find( ':input' )
+							.each( function() {
+								self.placeholder( self, this, 'submit' );
+							} );
 					}
 				});
 			}
 
-			$form.on('focusout focusin', function (event)
-			{
-				self.placeholder(self, event.target, event.type);
+			$form.on( 'focusout focusin', function( event ) {
+				self.placeholder( self, event.target, event.type );
 			});
 
-			$form.on('focusout change', self.validateField);
+			$form.on( 'focusout change', self.validateField );
 
-			$form.find('fieldset').on('change', function ()
-			{
-				self.validateField(this);
-			});
-
-			if (!features.attributes.formnovalidate)
-			{
-				$form.find(':submit[formnovalidate]').on('click', function ()
-				{
-					self.donotValidate = true;
+			$form.find( 'fieldset' )
+				.on( 'change', function() {
+					self.validateField( this );
 				});
+
+			if ( !features.attributes.formnovalidate ) {
+				$form.find( ':submit[formnovalidate]' )
+					.on( 'click', function() {
+						self.donotValidate = true;
+					});
 			}
 
-			while (flen--)
-			{
+			while ( flen-- ) {
 				// Assign graphical polyfills
-				self.polyfill(f[flen]);
-				self.autofocus(self, f[flen]);
+				self.polyfill( f[ flen ] );
+				self.autofocus( self, f[ flen ] );
 			}
 		},
 
@@ -147,14 +131,13 @@
 		 *
 		 * @return  void
 		 */
-		polyfill: function (elem)
-		{
-			if (elem.nodeName.toLowerCase() === 'form') return true;
+		polyfill: function( elem ) {
+			if ( elem.nodeName.toLowerCase() === 'form' ) return true;
 
 			var self = elem.form.H5Form;
 
-			self.placeholder(self, elem);
-			self.numberType(self, elem);
+			self.placeholder( self, elem );
+			self.numberType( self, elem );
 		},
 
 		/**
@@ -162,8 +145,7 @@
 		 *
 		 * @return  boolean  True if the form is valid, False if not
 		 */
-		validateForm: function ()
-		{
+		validateForm: function() {
 			var self = this,
 				form = self.elem,
 				f = form.elements,
@@ -173,30 +155,26 @@
 
 			form.isValid = true;
 
-			for (i = 0; i < flen; i++)
-			{
-				elem = f[i];
+			for ( i = 0; i < flen; i++ ) {
+				elem = f[ i ];
 				elem.isRequired = !!elem.required;
 				elem.isDisabled = !!elem.disabled;
 
 				//Do Validation
-				if (!elem.isDisabled)
-				{
-					isFieldValid = self.validateField(elem);
+				if ( !elem.isDisabled ) {
+					isFieldValid = self.validateField( elem );
 
 					// Set focus to first invalid field
-					if (form.isValid && !isFieldValid)
-					{
-						self.setFocusOn(elem);
+					if ( form.isValid && !isFieldValid ) {
+						self.setFocusOn( elem );
 					}
 
 					form.isValid = isFieldValid && form.isValid;
 				}
 			}
 
-			if (self.options.doRenderMessage)
-			{
-				self.renderErrorMessages(self, form);
+			if ( self.options.doRenderMessage ) {
+				self.renderErrorMessages( self, form );
 			}
 
 			return form.isValid;
@@ -209,8 +187,7 @@
 		 *
 		 * @return  mixed  True if the field is valid, False if not, null if the field has no form.
 		 */
-		validateField: function (e)
-		{
+		validateField: function( e ) {
 			var elem = e.target || e,
 				isMissing = false,
 				isRequired = false,
@@ -218,64 +195,52 @@
 				isPatternMismatched = false,
 				self, $elem, $labelref;
 
-			if (elem.form === undefined)
-			{
+			if ( elem.form === undefined ) {
 				return null;
 			}
 
 			self = elem.form.H5Form;
-			$elem = $(elem);
-			isRequired = !!$elem.attr("required");
-			isDisabled = !!$elem.attr("disabled");
+			$elem = $( elem );
+			isRequired = !!$elem.attr( "required" );
+			isDisabled = !!$elem.attr( "disabled" );
 
-			if (!elem.isDisabled)
-			{
-				isMissing = !features.attributes.required && isRequired && self.isValueMissing(self, elem);
-				isPatternMismatched = !features.attributes.pattern && self.matchPattern(self, elem);
+			if ( !elem.isDisabled ) {
+				isMissing = !features.attributes.required && isRequired && self.isValueMissing( self, elem );
+				isPatternMismatched = !features.attributes.pattern && self.matchPattern( self, elem );
 			}
 
 			elem.validityState = {
 				valueMissing: isMissing,
 				patternMismatch: isPatternMismatched,
-				valid: (elem.isDisabled || !(isMissing || isPatternMismatched))
+				valid: ( elem.isDisabled || !( isMissing || isPatternMismatched ) )
 			};
 
-			if (!features.attributes.required)
-			{
-				if (elem.validityState.valueMissing)
-				{
-					$elem.addClass(self.options.requiredClass);
-				}
-				else
-				{
-					$elem.removeClass(self.options.requiredClass);
+			if ( !features.attributes.required ) {
+				if ( elem.validityState.valueMissing ) {
+					$elem.addClass( self.options.requiredClass );
+				} else {
+					$elem.removeClass( self.options.requiredClass );
 				}
 			}
 
-			if (!features.attributespattern)
-			{
-				if (elem.validityState.patternMismatch)
-				{
-					$elem.addClass(self.options.patternClass);
-				}
-				else
-				{
-					$elem.removeClass(self.options.patternClass);
+			if ( !features.attributespattern ) {
+				if ( elem.validityState.patternMismatch ) {
+					$elem.addClass( self.options.patternClass );
+				} else {
+					$elem.removeClass( self.options.patternClass );
 				}
 			}
 
-			if (!elem.validityState.valid)
-			{
-				$elem.addClass(self.options.invalidClass);
-				$labelref = self.findLabel($elem);
-				$labelref.addClass(self.options.invalidClass);
-			}
-			else
-			{
-				$elem.removeClass(self.options.invalidClass);
-				$labelref = self.findLabel($elem);
-				$labelref.removeClass(self.options.invalidClass);
-				$labelref.attr('aria-invalid', 'false');
+			if ( !elem.validityState.valid ) {
+				$elem.addClass( self.options.invalidClass );
+				$labelref = self.findLabel( $elem );
+				$labelref.addClass( self.options.invalidClass );
+				$labelref.attr( 'aria-invalid', 'true' );
+			} else {
+				$elem.removeClass( self.options.invalidClass );
+				$labelref = self.findLabel( $elem );
+				$labelref.removeClass( self.options.invalidClass );
+				$labelref.attr( 'aria-invalid', 'false' );
 			}
 
 			return elem.validityState.valid;
@@ -289,40 +254,29 @@
 		 *
 		 * @return  Boolean
 		 */
-		isValueMissing: function (self, elem)
-		{
-			var $elem = $(elem),
+		isValueMissing: function( self, elem ) {
+			var $elem = $( elem ),
 				type = elem.type !== undefined ? elem.type : elem.tagName.toLowerCase(),
-				isSpecialType = /^(checkbox|radio|fieldset)$/i.test(type),
-				isIgnoredType = /^submit$/i.test(type),
+				isSpecialType = /^(checkbox|radio|fieldset)$/i.test( type ),
+				isIgnoredType = /^submit$/i.test( type ),
 				elements, i, l;
 
-			if (isIgnoredType)
-			{
+			if ( isIgnoredType ) {
 				return false;
 			}
 
-			if (!isSpecialType)
-			{
-				if ($elem.val() === "" || (!features.attributes.placeholder && $elem.hasClass(self.options.placeholderClass)))
-				{
+			if ( !isSpecialType ) {
+				if ( $elem.val() === "" || ( !features.attributes.placeholder && $elem.hasClass( self.options.placeholderClass ) ) ) {
 					return true;
 				}
-			}
-			else
-			{
-				if (type === "checkbox")
-				{
-					return !$elem.is(':checked');
-				}
-				else
-				{
-					elements = (type === "fieldset") ? $elem.find('input') : document.getElementsByName(elem.name);
+			} else {
+				if ( type === "checkbox" ) {
+					return !$elem.is( ':checked' );
+				} else {
+					elements = ( type === "fieldset" ) ? $elem.find( 'input' ) : document.getElementsByName( elem.name );
 
-					for (i = 0, l = elements.length; i < l; i++)
-					{
-						if ($(elements[i]).is(':checked'))
-						{
+					for ( i = 0, l = elements.length; i < l; i++ ) {
+						if ( $( elements[ i ] ).is( ':checked' ) ) {
 							return false;
 						}
 					}
@@ -343,52 +297,39 @@
 		 *
 		 * @return  boolean   True if the pattern does not match.
 		 */
-		matchPattern: function (self, elem)
-		{
-			var $elem = $(elem),
-				val = $elem.attr('value'),
-				pattern = $elem.attr('pattern'),
-				type = $elem.attr('type'),
+		matchPattern: function( self, elem ) {
+			var $elem = $( elem ),
+				val = $elem.attr( 'value' ),
+				pattern = $elem.attr( 'pattern' ),
+				type = $elem.attr( 'type' ),
 				emailMatched = true,
 				i, l;
 
-			if (features.attributes.placeholder || !$elem.attr('placeholder') || !$elem.hasClass(self.options.placeholderClass))
-			{
-				val = $elem.attr('value');
+			if ( features.attributes.placeholder || !$elem.attr( 'placeholder' ) || !$elem.hasClass( self.options.placeholderClass ) ) {
+				val = $elem.attr( 'value' );
 			}
 
-			if (val === "")
-			{
+			if ( val === "" ) {
 				return false;
 			}
 
-			if (type === "email")
-			{
-				if ($elem.attr('multiple') !== undefined)
-				{
-					val = val.split(self.options.mutipleDelimiter);
+			if ( type === "email" ) {
+				if ( $elem.attr( 'multiple' ) !== undefined ) {
+					val = val.split( self.options.mutipleDelimiter );
 
-					for (i = 0, l = val.length; i < l; i++)
-					{
-						if (!self.options.emailPatt.test(val[i].replace(/[ ]*/g, ''))) return true;
+					for ( i = 0, l = val.length; i < l; i++ ) {
+						if ( !self.options.emailPatt.test( val[ i ].replace( /[ ]*/g, '' ) ) ) return true;
 					}
+				} else {
+					return !self.options.emailPatt.test( val );
 				}
-				else
-				{
-					return !self.options.emailPatt.test(val);
-				}
-			}
-			else if (type === "url")
-			{
-				return !self.options.urlPatt.test(val);
-			}
-			else if (type === 'text')
-			{
-				if (pattern !== undefined)
-				{
-					usrPatt = new RegExp('^(?:' + pattern + ')$');
+			} else if ( type === "url" ) {
+				return !self.options.urlPatt.test( val );
+			} else if ( type === 'text' ) {
+				if ( pattern !== undefined ) {
+					usrPatt = new RegExp( '^(?:' + pattern + ')$' );
 
-					return !usrPatt.test(val);
+					return !usrPatt.test( val );
 				}
 			}
 
@@ -404,29 +345,24 @@
 		 *
 		 * @return  void
 		 */
-		placeholder: function (self, elem, event)
-		{
-			var $elem = $(elem),
-				placeholder = $elem.attr("placeholder"),
-				expectEmpty = /^(focusin|submit)$/i.test(event),
-				isInput = /^(input|textarea)$/i.test(elem.nodeName),
-				isIgnored = /^password$/i.test(elem.type),
+		placeholder: function( self, elem, event ) {
+			var $elem = $( elem ),
+				placeholder = $elem.attr( "placeholder" ),
+				expectEmpty = /^(focusin|submit)$/i.test( event ),
+				isInput = /^(input|textarea)$/i.test( elem.nodeName ),
+				isIgnored = /^password$/i.test( elem.type ),
 				isNative = features.attributes.placeholder;
 
-			if (isNative || !isInput || isIgnored || placeholder === undefined)
-			{
+			if ( isNative || !isInput || isIgnored || placeholder === undefined ) {
 				return;
 			}
 
-			if (elem.value === "" && !expectEmpty)
-			{
+			if ( elem.value === "" && !expectEmpty ) {
 				elem.value = placeholder;
-				$elem.addClass(self.options.placeholderClass);
-			}
-			else if (elem.value === placeholder && expectEmpty)
-			{
+				$elem.addClass( self.options.placeholderClass );
+			} else if ( elem.value === placeholder && expectEmpty ) {
 				elem.value = "";
-				$elem.removeClass(self.options.placeholderClass);
+				$elem.removeClass( self.options.placeholderClass );
 			}
 		},
 
@@ -438,46 +374,41 @@
 		 *
 		 * @return  void
 		 */
-		numberType: function (self, elem)
-		{
-			var $elem = $(elem),
-				type = $elem.attr('type'),
-				isInput = /^input$/i.test(elem.nodeName),
-				isType = /^(number|range)$/i.test(type),
+		numberType: function( self, elem ) {
+			var $elem = $( elem ),
+				type = $elem.attr( 'type' ),
+				isInput = /^input$/i.test( elem.nodeName ),
+				isType = /^(number|range)$/i.test( type ),
 				min, max, step, value, attributes, $select, $option, i;
 
-			if (!isInput || !isType || (type == "number" && features.fields.number) || (type == "range" && features.fields.range))
-			{
+			if ( !isInput || !isType || ( type == "number" && features.fields.number ) || ( type == "range" && features.fields.range ) ) {
 				return;
 			}
 
-			min = parseInt($elem.attr('min'));
-			max = parseInt($elem.attr('max'));
-			step = parseInt($elem.attr('step'));
-			value = parseInt($elem.attr('value'));
-			attributes = $elem.prop("attributes");
-			$select = $('<select>');
+			min = parseInt( $elem.attr( 'min' ) );
+			max = parseInt( $elem.attr( 'max' ) );
+			step = parseInt( $elem.attr( 'step' ) );
+			value = parseInt( $elem.attr( 'value' ) );
+			attributes = $elem.prop( "attributes" );
+			$select = $( '<select>' );
 
-			min = isNaN(min) ? -100 : min;
+			min = isNaN( min ) ? -100 : min;
 
-			for (i = min; i <= max; i += step)
-			{
-				$option = $('<option value="' + i + '">' + i + '</option>');
+			for ( i = min; i <= max; i += step ) {
+				$option = $( '<option value="' + i + '">' + i + '</option>' );
 
-				if (value == i || (value > i && value < i + step))
-				{
-					$option.attr('selected', '');
+				if ( value == i || ( value > i && value < i + step ) ) {
+					$option.attr( 'selected', '' );
 				}
 
-				$select.append($option);
+				$select.append( $option );
 			}
 
-			$.each(attributes, function ()
-			{
-				$select.attr(this.name, this.value);
+			$.each( attributes, function() {
+				$select.attr( this.name, this.value );
 			});
 
-			$elem.replaceWith($select);
+			$elem.replaceWith( $select );
 		},
 
 		/**
@@ -488,19 +419,16 @@
 		 *
 		 * @return  void
 		 */
-		autofocus: function (self, elem)
-		{
-			var $elem = $(elem),
-				doAutofocus = !!$elem.attr("autofocus"),
-				canFocus = /^(input|textarea|select|fieldset)$/i.test(elem.nodeName),
-				isIgnored = /^submit$/i.test(elem.type),
+		autofocus: function( self, elem ) {
+			var $elem = $( elem ),
+				doAutofocus = !!$elem.attr( "autofocus" ),
+				canFocus = /^(input|textarea|select|fieldset)$/i.test( elem.nodeName ),
+				isIgnored = /^submit$/i.test( elem.type ),
 				isNative = features.attributes.autofocus;
 
-			if (!isNative && canFocus && !isIgnored && doAutofocus)
-			{
-				$(function ()
-				{
-					self.setFocusOn(elem);
+			if ( !isNative && canFocus && !isIgnored && doAutofocus ) {
+				$(function() {
+					self.setFocusOn( elem );
 				});
 			}
 		},
@@ -512,17 +440,15 @@
 		 *
 		 * @return  Element  A label element
 		 */
-		findLabel: function ($elem)
-		{
-			var $label = $('label[for="' + $elem.attr('id') + '"]'),
+		findLabel: function( $elem ) {
+			var $label = $( 'label[for="' + $elem.attr( 'id' ) + '"]' ),
 				$parentElem;
 
-			if ($label.length <= 0)
-			{
+			if ( $label.length <= 0 ) {
 				$parentElem = $elem.parent();
 
-				if ($parentElem.get(0).tagName.toLowerCase() == "label")
-				{
+				if ( $parentElem.get( 0 )
+					.tagName.toLowerCase() == "label" ) {
 					$label = $parentElem;
 				}
 			}
@@ -535,15 +461,14 @@
 		 *
 		 * @param  Element  elem  The element to focus on.
 		 */
-		setFocusOn: function (elem)
-		{
-			if (elem.tagName.toLowerCase() === "fieldset")
-			{
-				$(elem).find(":first").focus();
-			}
-			else
-			{
-				$(elem).focus();
+		setFocusOn: function( elem ) {
+			if ( elem.tagName.toLowerCase() === "fieldset" ) {
+				$( elem )
+					.find( ":first" )
+					.focus();
+			} else {
+				$( elem )
+					.focus();
 			}
 		},
 
@@ -555,8 +480,7 @@
 		 *
 		 * @return  void
 		 */
-		renderErrorMessages: function (self, form)
-		{
+		renderErrorMessages: function( self, form ) {
 			var f = form.elements,
 				flen = f.length,
 				error = {
@@ -564,34 +488,31 @@
 				},
 				$elem, $label;
 
-			while (flen--)
-			{
-				$elem = $(f[flen]);
-				$label = self.findLabel($elem);
+			while ( flen-- ) {
+				$elem = $( f[ flen ] );
+				$label = self.findLabel( $elem );
 
-				if ($elem.hasClass(self.options.requiredClass))
-				{
-					error.errors[flen] = $label.text().replace("*", "") + self.options.requiredMessage;
+				if ( $elem.hasClass( self.options.requiredClass ) ) {
+					error.errors[ flen ] = $label.text()
+						.replace( "*", "" ) + self.options.requiredMessage;
 				}
 
-				if ($elem.hasClass(self.options.patternClass))
-				{
-					error.errors[flen] = $label.text().replace("*", "") + self.options.patternMessage;
+				if ( $elem.hasClass( self.options.patternClass ) ) {
+					error.errors[ flen ] = $label.text()
+						.replace( "*", "" ) + self.options.patternMessage;
 				}
 			}
 
-			if (error.errors.length > 0)
-			{
-				Joomla.renderMessages(error);
+			if ( error.errors.length > 0 ) {
+				Joomla.renderMessages( error );
 			}
 		}
 	};
 
-	$.fn.h5f = function (options)
-	{
-		return this.each(function ()
-		{
-			Object.create(H5Form).init(options, this);
+	$.fn.h5f = function( options ) {
+		return this.each(function() {
+			Object.create( H5Form )
+				.init( options, this );
 		});
 	};
 
@@ -608,13 +529,12 @@
 		urlPatt: /[a-z][\-\.+a-z]*:\/\//i
 	};
 
-	$(function ()
-	{
-		$('form').h5f(
-		{
-			doRenderMessage: true,
-			requiredClass: "musthavevalue"
-		});
+	$( function() {
+		$( 'form' )
+			.h5f({
+				doRenderMessage: true,
+				requiredClass: "musthavevalue"
+			});
 	});
 
-})(jQuery, document);
+})( jQuery, document );
