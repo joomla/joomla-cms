@@ -308,6 +308,9 @@ class AdmintoolsHelperDownload
 			return $result;
 		}
 
+		// If we can't find out the default timeout from php.ini, use 30 seconds.
+		$timeout = function_exists('ini_get') ? ini_get('max_execution_time') : 30;
+
 		// Try to download
 		$bytes = 0;
 		$result = true;
@@ -315,6 +318,12 @@ class AdmintoolsHelperDownload
 
 		while (!feof($ih) && $result)
 		{
+			// Try to reset the time limit on each iteration so that we don't time out if the download takes too long.
+			if (function_exists('set_time_limit'))
+			{
+				set_time_limit($timeout);
+			}
+
 			$contents = fread($ih, 4096);
 
 			if ($contents === false)
