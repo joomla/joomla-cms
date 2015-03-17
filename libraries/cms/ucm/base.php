@@ -106,9 +106,12 @@ class JUcmBase implements JUcm
 	 */
 	public function getType()
 	{
-		$type = new JUcmType($this->alias);
+		if (!$this->type)
+		{
+			$this->type = new JUcmType($this->alias);
+		}
 
-		return $type;
+		return $this->type;
 	}
 
 	/**
