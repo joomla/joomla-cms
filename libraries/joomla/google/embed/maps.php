@@ -318,6 +318,71 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	}
 
 	/**
+	 * Method to add and event handler to the map.
+	 * Event handlers must be passed in without being wrapped by a `function(){}` declaration.
+	 *
+	 * @param   string  $type      The event name
+	 * @param   string  $function  The event handling function body
+	 *
+	 * @example to add an event call:
+	 *		$map->addEventHandler('click', 'function(){ alert("map click event"); }');
+	 *
+	 * @return  JGoogleEmbedMaps   The object for method chaining
+	 *
+	 * @since   12.3
+	 */
+	public function addEventHandler($type, $function)
+	{
+		$events = $this->listEventHandlers();
+
+		$events[$type] = $function;
+
+		$this->setOption('events', $events);
+
+		return $this;
+	}
+
+	/**
+	 * Method to remove and event handler from the map
+	 *
+	 * @param   string  $type  The event name
+	 *
+	 * @example to delete an event call:
+	 *		$map->deleteEventHandler('click');
+	 *
+	 * @return  string  The event handler content
+	 *
+	 * @since   12.3
+	 */
+	public function deleteEventHandler($type = null)
+	{
+		$events = $this->listEventHandlers();
+
+		if ($type === null || !isset($events[$type]))
+		{
+			return;
+		}
+
+		$event = $events[$type];
+		unset($events[$type]);
+		$this->setOption('events', $events);
+
+		return $event;
+	}
+
+	/**
+	 * List the events added to the map
+	 *
+	 * @return  array  A list of events
+	 *
+	 * @since   12.3
+	 */
+	public function listEventHandlers()
+	{
+		return $this->getOption('events') ? $this->getOption('events') : array();
+	}
+
+	/**
 	 * Add a marker to the map
 	 *
 	 * @param   mixed  $location  A latitude longitude array or an address string
@@ -564,6 +629,16 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 		$setup .= substr(json_encode($this->getAdditionalMapOptions()), 1, -1);
 		$setup .= '};';
 		$setup .= "var map = new google.maps.Map(document.getElementById('{$id}'), mapOptions);";
+
+		$events = $this->listEventHandlers();
+
+		if (isset($events) && count($events))
+		{
+			foreach ($events as $type => $handler)
+			{
+				$setup .= "google.maps.event.addListener(map, '{$type}', {$handler});";
+			}
+		}
 
 		foreach ($this->listMarkers() as $marker)
 		{
