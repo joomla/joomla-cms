@@ -77,7 +77,6 @@ $clientId	= $this->state->get('filter.client_id', 0);
 					</td>
 					<td width="25%">
 						<label for="cb<?php echo $i; ?>">
-							<?php $row->name = html_entity_decode($row->name . '&#x200E;', ENT_QUOTES, 'UTF-8'); ?>
 							<?php echo $this->escape($row->name); ?>
 						</label>
 					</td>
