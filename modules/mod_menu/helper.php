@@ -97,6 +97,7 @@ class ModMenuHelper
 							break;
 
 						case 'alias':
+							$item->flink = 'index.php?Itemid=' . $item->params->get('aliasoptions');
 							break;
 
 						default:
