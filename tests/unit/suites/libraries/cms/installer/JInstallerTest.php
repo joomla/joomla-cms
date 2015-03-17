@@ -245,32 +245,6 @@ class JInstallerTest extends TestCaseDatabase
 	}
 
 	/**
-	 * This test is weak and may need removal at some point
-	 *
-	 * @covers  JInstaller::abort
-	 *
-	 * @expectedException  RuntimeException
-	 *
-	 * @return void
-	 */
-	public function testAbortDebug()
-	{
-		$configMock = $this->getMock('test', array('get'));
-
-		$configMock->expects($this->atLeastOnce())
-			->method('get')
-			->with($this->equalTo('debug'))
-			->will($this->returnValue(true));
-
-		JFactory::$config = $configMock;
-
-		$this->assertThat(
-			$this->object->abort(),
-			$this->isTrue()
-		);
-	}
-
-	/**
 	 * Tests the parseXMLInstallFile method
 	 *
 	 * @since   3.1

@@ -123,7 +123,7 @@ class PostinstallModelMessages extends FOFModel
 	 */
 	protected function onProcessList(&$resultArray)
 	{
-		$unset_keys = array();
+		$unset_keys          = array();
 		$language_extensions = array();
 
 		foreach ($resultArray as $key => $item)
@@ -306,8 +306,8 @@ class PostinstallModelMessages extends FOFModel
 
 		// Array normalisation. Removes array keys not belonging to a definition.
 		$defaultKeys = array_keys($defaultOptions);
-		$allKeys = array_keys($options);
-		$extraKeys = array_diff($allKeys, $defaultKeys);
+		$allKeys     = array_keys($options);
+		$extraKeys   = array_diff($allKeys, $defaultKeys);
 
 		if (!empty($extraKeys))
 		{
@@ -318,9 +318,9 @@ class PostinstallModelMessages extends FOFModel
 		}
 
 		// Normalisation of integer values
-		$options['extension_id'] = (int) $options['extension_id'];
+		$options['extension_id']       = (int) $options['extension_id'];
 		$options['language_client_id'] = (int) $options['language_client_id'];
-		$options['enabled'] = (int) $options['enabled'];
+		$options['enabled']            = (int) $options['enabled'];
 
 		// Normalisation of 0/1 values
 		foreach (array('language_client_id', 'enabled') as $key)
@@ -415,16 +415,17 @@ class PostinstallModelMessages extends FOFModel
 		}
 
 		//Check if the definition exists
-		$table = $this->getTable();
+		$table     = $this->getTable();
 		$tableName = $table->getTableName();
 
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn($tableName))
 			->where($db->qn('extension_id') . ' = ' . $db->q($options['extension_id']))
 			->where($db->qn('type') . ' = ' . $db->q($options['type']))
 			->where($db->qn('title_key') . ' = ' . $db->q($options['title_key']));
+
 		$existingRow = $db->setQuery($query)->loadAssoc();
 
 		// Is the existing definition the same as the one we're trying to save?
@@ -453,6 +454,7 @@ class PostinstallModelMessages extends FOFModel
 				->where($db->q('extension_id') . ' = ' . $db->q($options['extension_id']))
 				->where($db->q('type') . ' = ' . $db->q($options['type']))
 				->where($db->q('title_key') . ' = ' . $db->q($options['title_key']));
+
 			$db->setQuery($query)->execute();
 		}
 

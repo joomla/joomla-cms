@@ -730,7 +730,15 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		 */
 
 		$this->setupScriptfile();
-		$this->triggerManifestScript('uninstall');
+
+		try
+		{
+			$this->triggerManifestScript('uninstall');
+		}
+		catch (RuntimeException $e)
+		{
+			// Ignore errors for now
+		}
 
 		/**
 		 * ---------------------------------------------------------------------------------------------

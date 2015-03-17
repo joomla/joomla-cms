@@ -71,6 +71,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<th width="20" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
+						<th>
+							<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
+						</th>
 						<th class="title">
 							<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_OLD_URL', 'a.old_url', $listDirn, $listOrder); ?>
 						</th>
@@ -93,7 +96,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="7">
+						<td colspan="8">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -108,8 +111,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
-						<td class="break-word">
+						<td>
 							<?php echo JHtml::_('redirect.published', $item->published, $i); ?>
+						</td>
+						<td class="break-word">
 							<?php if ($canEdit) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id);?>" title="<?php echo $this->escape($item->old_url); ?>">
 									<?php echo $this->escape(str_replace(JUri::root(), '', rawurldecode($item->old_url))); ?></a>

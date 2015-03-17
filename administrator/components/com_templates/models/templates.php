@@ -110,9 +110,8 @@ class TemplatesModelTemplates extends JModelList
 			}
 			else
 			{
-				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
-				$search = $db->quote($escapedSearchString);
-				$query->where('(' . 'a.element REGEXP ' . $search . ' OR a.name REGEXP ' . $search . ')');
+				$search = $db->quote('%' . strtolower($search) . '%');
+				$query->where('(' . ' LOWER(a.element) LIKE ' . $search . ' OR LOWER(a.name) LIKE ' . $search . ')');
 			}
 		}
 
