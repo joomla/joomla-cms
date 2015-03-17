@@ -345,8 +345,6 @@ class ContactModelContact extends JModelForm
 				if (!empty($result->user_id))
 				{
 
-					$groups	= implode(',', $user->getAuthorisedViewLevels());
-
 					$query	= $db->getQuery(true)
 						->select('a.id')
 						->select('a.title')
