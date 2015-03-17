@@ -43,7 +43,7 @@ class JToolbarButtonPopup extends JToolbarButton
 	 * @since   3.0
 	 */
 	public function fetchButton($type = 'Modal', $name = '', $text = '', $url = '', $width = 640, $height = 480, $top = 0, $left = 0,
-		$onClose = '', $title = '', $footer = '')
+		$onClose = '', $title = '', $footer = null)
 	{
 		// If no $title is set, use the $text element
 		if (strlen($title) == 0)
@@ -74,7 +74,7 @@ class JToolbarButtonPopup extends JToolbarButton
 		$params['url']    = $options['doTask'];
 		$params['height'] = $height;
 		$params['width']  = $width;
-		$params['footer']  = $footer;
+		if (isset($footer)) $params['footer'] = $footer;
 		$html[] = JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
 
 		// If an $onClose event is passed, add it to the modal JS object
