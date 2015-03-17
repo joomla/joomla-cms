@@ -60,7 +60,7 @@ class GenerateCss extends JApplicationCli
 		foreach ($templates as $source => $destination)
 		{
 			$this->writeLessToCss($source, $destination);
-			//$this->writeLessToCss($source, $destination, true);
+			$this->writeLessToCss($source, $destination, true);
 		}
 	}
 
