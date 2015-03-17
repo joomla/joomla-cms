@@ -131,10 +131,10 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	 */
 	public function testIsEnabledWithSiteApp()
 	{
-		$app = new JApplicationSite($this->getMockInput(), $this->config);
+		JFactory::$application = new JApplicationSite($this->getMockInput(), $this->config);
 
 		$this->assertFalse(
-			JLanguageMultilang::isEnabled($app)
+			JLanguageMultilang::isEnabled()
 		);
 	}
 
@@ -146,10 +146,10 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	 */
 	public function testIsEnabledWithAdminApp()
 	{
-		$app = new JApplicationAdministrator($this->getMockInput(), $this->config);
+		JFactory::$application = new JApplicationAdministrator($this->getMockInput(), $this->config);
 
 		$this->assertFalse(
-			JLanguageMultilang::isEnabled($app)
+			JLanguageMultilang::isEnabled()
 		);
 	}
 }

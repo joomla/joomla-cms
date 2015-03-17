@@ -20,13 +20,11 @@ class JLanguageMultilang
 	 * Method to determine if the language filter plugin is enabled.
 	 * This works for both site and administrator.
 	 *
-	 * @param   JApplicationCms  $app  The application object
-	 *
 	 * @return  boolean  True if site is supporting multiple languages; false otherwise.
 	 *
 	 * @since   2.5.4
 	 */
-	public static function isEnabled(JApplicationCms $app = null)
+	public static function isEnabled()
 	{
 		// Flag to avoid doing multiple database queries.
 		static $tested = false;
@@ -34,11 +32,8 @@ class JLanguageMultilang
 		// Status of language filter plugin.
 		static $enabled = false;
 
-		// Get application object if not injected.
-		if (!$app)
-		{
-			$app = JFactory::getApplication();
-		}
+		// Get application object.
+		$app = JFactory::getApplication();
 
 		// If being called from the front-end, we can avoid the database query.
 		if ($app->isSite())
