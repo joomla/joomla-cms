@@ -335,46 +335,22 @@ class JPaginationTest extends TestCase
 		$object = $pagination->getData();
 
 		// Test the view all Object
-		$this->assertEquals($object->all->text, $expected["0"]["text"], 'This is not the expected view all text');
-		$this->assertEquals($object->all->base, $expected["0"]["base"], 'This is not the expected view all base value');
-		$this->assertEquals($object->all->link, $expected["0"]["link"], 'This is not the expected view all link value');
-		$this->assertEquals($object->all->prefix, $expected["0"]["prefix"], 'This is not the expected view all prefix value');
-		$this->assertEquals($object->all->active, $expected["0"]["active"], 'This is not the expected view all active value');
+		$this->assertEquals((array) $object->all, $expected["0"], 'This is not the expected view all');
 
 		// Test the start Object
-		$this->assertEquals($object->start->text, $expected["1"]["text"], 'This is not the expected start text');
-		$this->assertEquals($object->start->base, $expected["1"]["base"], 'This is not the expected start base value');
-		$this->assertEquals($object->start->link, $expected["1"]["link"], 'This is not the expected start link value');
-		$this->assertEquals($object->start->prefix, $expected["1"]["prefix"], 'This is not the expected start prefix value');
-		$this->assertEquals($object->start->active, $expected["1"]["active"], 'This is not the expected start active value');
+		$this->assertEquals((array) $object->start, $expected["1"], 'This is not the expected start');
 
 		// Test the previous Object
-		$this->assertEquals($object->previous->text, $expected["2"]["text"], 'This is not the expected previous text');
-		$this->assertEquals($object->previous->base, $expected["2"]["base"], 'This is not the expected previous base value');
-		$this->assertEquals($object->previous->link, $expected["2"]["link"], 'This is not the expected previous link value');
-		$this->assertEquals($object->previous->prefix, $expected["2"]["prefix"], 'This is not the expected previous prefix value');
-		$this->assertEquals($object->previous->active, $expected["2"]["active"], 'This is not the expected previous active value');
+		$this->assertEquals((array) $object->previous, $expected["2"], 'This is not the expected previous');
 
 		// Test the next Object
-		$this->assertEquals($object->next->text, $expected["3"]["text"], 'This is not the expected next text');
-		$this->assertEquals($object->next->base, $expected["3"]["base"], 'This is not the expected next base value');
-		$this->assertEquals($object->next->link, $expected["3"]["link"], 'This is not the expected next link value');
-		$this->assertEquals($object->next->prefix, $expected["3"]["prefix"], 'This is not the expected next prefix value');
-		$this->assertEquals($object->next->active, $expected["3"]["active"], 'This is not the expected next active value');
+		$this->assertEquals((array) $object->next, $expected["3"], 'This is not the expected next');
 
 		// Test the end Object
-		$this->assertEquals($object->end->text, $expected["4"]["text"], 'This is not the expected end text');
-		$this->assertEquals($object->end->base, $expected["4"]["base"], 'This is not the expected end base value');
-		$this->assertEquals($object->end->link, $expected["4"]["link"], 'This is not the expected end link value');
-		$this->assertEquals($object->end->prefix, $expected["4"]["prefix"], 'This is not the expected end prefix value');
-		$this->assertEquals($object->end->active, $expected["4"]["active"], 'This is not the expected end active value');
+		$this->assertEquals((array) $object->end, $expected["4"], 'This is not the expected end');
 
 		// Test the active object
-		$this->assertEquals($object->pages[$active]->text, $expected["5"]["text"], 'This is not the expected active text');
-		$this->assertEquals($object->pages[$active]->base, $expected["5"]["base"], 'This is not the expected active base value');
-		$this->assertEquals($object->pages[$active]->link, $expected["5"]["link"], 'This is not the expected active link value');
-		$this->assertEquals($object->pages[$active]->prefix, $expected["5"]["prefix"], 'This is not the expected active prefix value');
-		$this->assertEquals($object->pages[$active]->active, $expected["5"]["active"], 'This is not the expected active active value');
+		$this->assertEquals((array) $object->pages[$active], $expected["5"], 'This is not the expected active');
 
 		unset($pagination);
 	}
@@ -799,46 +775,22 @@ class JPaginationTest extends TestCase
 		$object = TestReflection::invoke($pagination, '_buildDataObject');
 
 		// Test the view all Object
-		$this->assertEquals($object->all->text, $expected["0"]["text"], 'This is not the expected view all text');
-		$this->assertEquals($object->all->base, $expected["0"]["base"], 'This is not the expected view all base value');
-		$this->assertEquals($object->all->link, $expected["0"]["link"], 'This is not the expected view all link value');
-		$this->assertEquals($object->all->prefix, $expected["0"]["prefix"], 'This is not the expected view all prefix value');
-		$this->assertEquals($object->all->active, $expected["0"]["active"], 'This is not the expected view all active value');
+		$this->assertEquals((array) $object->all, $expected["0"], 'This is not the expected view all');
 
 		// Test the start Object
-		$this->assertEquals($object->start->text, $expected["1"]["text"], 'This is not the expected start text');
-		$this->assertEquals($object->start->base, $expected["1"]["base"], 'This is not the expected start base value');
-		$this->assertEquals($object->start->link, $expected["1"]["link"], 'This is not the expected start link value');
-		$this->assertEquals($object->start->prefix, $expected["1"]["prefix"], 'This is not the expected start prefix value');
-		$this->assertEquals($object->start->active, $expected["1"]["active"], 'This is not the expected start active value');
+		$this->assertEquals((array) $object->start, $expected["1"], 'This is not the expected start');
 
 		// Test the previous Object
-		$this->assertEquals($object->previous->text, $expected["2"]["text"], 'This is not the expected previous text');
-		$this->assertEquals($object->previous->base, $expected["2"]["base"], 'This is not the expected previous base value');
-		$this->assertEquals($object->previous->link, $expected["2"]["link"], 'This is not the expected previous link value');
-		$this->assertEquals($object->previous->prefix, $expected["2"]["prefix"], 'This is not the expected previous prefix value');
-		$this->assertEquals($object->previous->active, $expected["2"]["active"], 'This is not the expected previous active value');
+		$this->assertEquals((array) $object->previous, $expected["2"], 'This is not the expected previous');
 
 		// Test the next Object
-		$this->assertEquals($object->next->text, $expected["3"]["text"], 'This is not the expected next text');
-		$this->assertEquals($object->next->base, $expected["3"]["base"], 'This is not the expected next base value');
-		$this->assertEquals($object->next->link, $expected["3"]["link"], 'This is not the expected next link value');
-		$this->assertEquals($object->next->prefix, $expected["3"]["prefix"], 'This is not the expected next prefix value');
-		$this->assertEquals($object->next->active, $expected["3"]["active"], 'This is not the expected next active value');
+		$this->assertEquals((array) $object->next, $expected["3"], 'This is not the expected next');
 
 		// Test the end Object
-		$this->assertEquals($object->end->text, $expected["4"]["text"], 'This is not the expected end text');
-		$this->assertEquals($object->end->base, $expected["4"]["base"], 'This is not the expected end base value');
-		$this->assertEquals($object->end->link, $expected["4"]["link"], 'This is not the expected end link value');
-		$this->assertEquals($object->end->prefix, $expected["4"]["prefix"], 'This is not the expected end prefix value');
-		$this->assertEquals($object->end->active, $expected["4"]["active"], 'This is not the expected end active value');
+		$this->assertEquals((array) $object->end, $expected["4"], 'This is not the expected end');
 
 		// Test the active object
-		$this->assertEquals($object->pages[$active]->text, $expected["5"]["text"], 'This is not the expected active text');
-		$this->assertEquals($object->pages[$active]->base, $expected["5"]["base"], 'This is not the expected active base value');
-		$this->assertEquals($object->pages[$active]->link, $expected["5"]["link"], 'This is not the expected active link value');
-		$this->assertEquals($object->pages[$active]->prefix, $expected["5"]["prefix"], 'This is not the expected active prefix value');
-		$this->assertEquals($object->pages[$active]->active, $expected["5"]["active"], 'This is not the expected active active value');
+		$this->assertEquals((array) $object->pages[$active], $expected["5"], 'This is not the expected active');
 
 		unset($pagination);
 	}
