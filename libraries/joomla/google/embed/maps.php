@@ -606,7 +606,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 				$setup .= substr(json_encode($options), 1, -1);
 				$setup .= '});';
 
-				if (isset($marker['events']))
+				if (isset($marker['events']) && is_array($marker['events']))
 				{
 					foreach ($marker['events'] as $type => $handler)
 					{
