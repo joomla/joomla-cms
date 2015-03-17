@@ -690,11 +690,9 @@ class JPaginationTest extends TestCase
 	public function dataTestItemActive()
 	{
 		return array(
-			array(
-				'JLIB_HTML_START', 100, 40, 20, false, '<a title="JLIB_HTML_START" href="" class="hasTooltip pagenav">JLIB_HTML_START</a>',
-				'JLIB_HTML_VIEW_ALL', 100, 40, 20, false, '<a title="JLIB_HTML_VIEW_ALL" href="" class="hasTooltip pagenav">JLIB_HTML_VIEW_ALL</a>',
-				'JLIB_HTML_START', 100, 40, 20, false, '<a title="JLIB_HTML_START" href="#" onclick="document.adminForm.limitstart.value=0; Joomla.submitform();return false;">JLIB_HTML_START</a>',
-			),
+			array('JLIB_HTML_START', 100, 40, 20, false, '<a title="JLIB_HTML_START" href="" class="hasTooltip pagenav">JLIB_HTML_START</a>'),
+			array('JLIB_HTML_VIEW_ALL', 100, 40, 20, false, '<a title="JLIB_HTML_VIEW_ALL" href="" class="hasTooltip pagenav">JLIB_HTML_VIEW_ALL</a>'),
+			array('JLIB_HTML_START', 100, 40, 20, true, '<a title="JLIB_HTML_START" href="#" onclick="document.adminForm.limitstart.value=0; Joomla.submitform();return false;">JLIB_HTML_START</a>')
 		);
 	}
 
