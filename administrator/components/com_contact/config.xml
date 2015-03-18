@@ -255,6 +255,7 @@
 			label="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_LABEL"
 			description="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_DESC"
 		>
+			<option value="use_contact">COM_CONTACT_FIELD_VALUE_USE_CONTACT_SETTINGS</option>
 			<option value="5">J5</option>
 			<option value="10">J10</option>
 			<option value="15">J15</option>
