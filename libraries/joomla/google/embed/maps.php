@@ -687,6 +687,11 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 
 		if ($data['status'] != 'OK')
 		{
+			if (!empty($data['error_message']))
+			{
+				throw new RuntimeException($data['error_message']);
+			}
+
 			return null;
 		}
 
