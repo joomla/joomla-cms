@@ -149,14 +149,14 @@ class JBuffer
 	{
 		switch ($whence)
 		{
-			case 'SEEK_SET':
+			case SEEK_SET :
 				return $this->seek_set($offset);
 
-			case 'SEEK_CUR':
+			case SEEK_CUR :
 
 				return $this->seek_cur($offset);
 
-			case 'SEEK_END':
+			case SEEK_END :
 
 				return $this->seek_end($offset);
 		}
