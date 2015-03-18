@@ -58,7 +58,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 
 		if (!$this->_data)
 		{
-			return $this->raiseWarning(100,'Unable to read archive');
+			return $this->raiseWarning(100, 'Unable to read archive');
 		}
 
 		$buffer = bzdecompress($this->_data);
@@ -66,7 +66,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 
 		if (empty($buffer))
 		{
-			return $this->raiseWarning(100,'Unable to decompress data');
+			return $this->raiseWarning(100, 'Unable to decompress data');
 		}
 
 		if (JFile::write($destination, $buffer) === false)
@@ -96,7 +96,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 
 		if (!$input->open($archive))
 		{
-			return $this->raiseWarning(100,'Unable to read archive (bz2)');
+			return $this->raiseWarning(100, 'Unable to read archive (bz2)');
 
 		}
 
@@ -106,7 +106,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 		{
 			$input->close();
 
-			return $this->raiseWarning(100,'Unable to write archive (bz2)');
+			return $this->raiseWarning(100, 'Unable to write archive (bz2)');
 
 		}
 
@@ -144,7 +144,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 	 */
 	private function raiseWarning($code, $msg)
 	{
-		if(class_exists('JError'))
+		if (class_exists('JError'))
 		{
 			return JError::raiseWarning($code, $msg);
 		}
