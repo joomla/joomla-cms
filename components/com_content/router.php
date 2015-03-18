@@ -66,6 +66,7 @@ class ContentRouter extends JComponentRouterBase
 		if (($menuItem instanceof stdClass)
 			&& $menuItem->query['view'] == $query['view']
 			&& isset($query['id'])
+			&& !empty($menuItem->query['id'])
 			&& $menuItem->query['id'] == (int) $query['id'])
 		{
 			unset($query['view']);
