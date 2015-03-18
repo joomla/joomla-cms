@@ -58,7 +58,7 @@ class JArchiveGzip implements JArchiveExtractable
 
 		if (!extension_loaded('zlib'))
 		{
-			return $this->raiseWarning(100,'The zlib extension is not available.');
+			return $this->raiseWarning(100, 'The zlib extension is not available.');
 		}
 
 		if (isset($options['use_streams']) && $options['use_streams'] != false)
@@ -108,7 +108,7 @@ class JArchiveGzip implements JArchiveExtractable
 
 		if (!$input->open($archive))
 		{
-			return $this->raiseWarning(100,'Unable to read archive (gz)');
+			return $this->raiseWarning(100, 'Unable to read archive (gz)');
 		}
 
 		$output = JFactory::getStream();
@@ -117,7 +117,7 @@ class JArchiveGzip implements JArchiveExtractable
 		{
 			$input->close();
 
-			return $this->raiseWarning(100,'Unable to write archive (gz)');
+			return $this->raiseWarning(100, 'Unable to write archive (gz)');
 		}
 
 		do
@@ -153,7 +153,7 @@ class JArchiveGzip implements JArchiveExtractable
 	 */
 	private function raiseWarning($code, $msg)
 	{
-		if(class_exists('JError'))
+		if (class_exists('JError'))
 		{
 			return JError::raiseWarning($code, $msg);
 		}
