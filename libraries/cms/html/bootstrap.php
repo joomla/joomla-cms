@@ -303,16 +303,16 @@ abstract class JHtmlBootstrap
 	 */
 	public static function renderModal($selector = 'modal', $params = array(), $body = '')
 	{
-		// Ensure the behavior is loaded
-		static::modal($selector, $params);
+		// Include Bootstrap framework
+		static::framework();
 
-		$displayData = array(
-				'selector' => $selector,
-				'params' => $params,
-				'footer' => $footer
-			);
+		$layoutData = array(
+			'selector' => $selector,
+			'params'   => $params,
+			'body'     => $body
+		);
 
-		return JLayoutHelper::render('libraries.cms.html.bootstrap.rendermodal', $displayData);
+		return JLayoutHelper::render('joomla.modal.main', $layoutData);
 	}
 
 	/**
