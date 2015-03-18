@@ -147,7 +147,7 @@ class JBuffer
 	 */
 	public function stream_seek($offset, $whence)
 	{
-		switch($whence)
+		switch ($whence)
 		{
 			case 'SEEK_SET':
 				return $this->seek_set($offset);
@@ -173,7 +173,7 @@ class JBuffer
 	 */
 	protected function seek_set($offset)
 	{
-		if($offset < 0 || $offset >= strlen($this->buffers[$this->name]))
+		if ($offset < 0 || $offset > strlen($this->buffers[$this->name]))
 		{
 			return false;
 		}
