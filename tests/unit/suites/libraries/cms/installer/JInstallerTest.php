@@ -227,6 +227,36 @@ class JInstallerTest extends TestCaseDatabase
 	}
 
 	/**
+	 * @testdox  Ensure parseLanguages() returns 0 when there are no children in the language tag
+	 *
+	 * @covers   JInstaller::parseLanguages
+	 */
+	public function testParseLanguagesWithNoChildren()
+	{
+		$emptyXml = new SimpleXMLElement('<languages></languages>');
+
+		$this->assertEquals(
+			0,
+			$this->object->parseLanguages($emptyXml)
+		);
+	}
+
+	/**
+	 * @testdox  Ensure parseFiles() returns 0 when there are no children in the files tag
+	 *
+	 * @covers   JInstaller::parseFiles
+	 */
+	public function testParseFilesWithNoChildren()
+	{
+		$emptyXml = new SimpleXMLElement('<files></files>');
+
+		$this->assertEquals(
+			0,
+			$this->object->parseFiles($emptyXml)
+		);
+	}
+
+	/**
 	 * Tests the parseXMLInstallFile method
 	 *
 	 * @since   3.1
