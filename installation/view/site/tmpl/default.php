@@ -110,9 +110,13 @@ defined('_JEXEC') or die;
 
 	<input type="hidden" name="task" value="site" />
 	<?php echo JHtml::_('form.token'); ?>
+	
+
 </form>
-<div class="btn-toolbar text-right">
-	<div class="btn-group">
-		<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('JNext'); ?></a>
+<div class="row-fluid">
+	<div class="btn-toolbar">
+		<div class="btn-group pull-right">
+			<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('JNext'); ?></a>
+		</div>
 	</div>
 </div>

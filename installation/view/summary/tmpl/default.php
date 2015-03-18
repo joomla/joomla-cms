@@ -360,11 +360,12 @@ $prev = $useftp ? 'ftp' : 'database';
 
 	<input type="hidden" name="task" value="summary" />
 	<?php echo JHtml::_('form.token'); ?>
-	
-	<div class="btn-toolbar text-right">
-		<div class="btn-group">
-			<a class="btn" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><i class="icon-arrow-left"></i> <?php echo JText::_('JPrevious'); ?></a>
-			<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
+	<div class="row-fluid">
+		<div class="btn-toolbar">
+			<div class="btn-group pull-right">
+				<a class="btn" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><i class="icon-arrow-left"></i> <?php echo JText::_('JPrevious'); ?></a>
+				<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
+			</div>
 		</div>
 	</div>
 </form>
