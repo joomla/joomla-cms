@@ -337,7 +337,7 @@ class ContactModelContact extends JModelForm
 			if ($result)
 			{
 				$user	= JFactory::getUser();
-				
+
 				$contactParams = new Registry;
 				$contactParams->loadString($result->params);
 
