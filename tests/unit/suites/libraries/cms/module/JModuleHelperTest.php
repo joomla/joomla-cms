@@ -83,6 +83,36 @@ class JModuleHelperTest extends TestCaseDatabase
 			'63',
 			'mod_search is module ID 63'
 		);
+
+		$module = JModuleHelper::getModule('false');
+
+		$this->assertEquals(
+			$module,
+			null,
+			'There should be no module named false'
+		);
+
+		$module = JModuleHelper::getModule('mod_false');
+
+		$this->assertTrue(is_object($module), 'No object was returned');
+
+		$this->assertEquals(
+			$module->id,
+			0,
+			'There anonymous module should have no id'
+		);
+
+		$this->assertEquals(
+			$module->title,
+			'',
+			'The anonymous module should not have a title'
+		);
+
+		$this->assertEquals(
+			$module->module,
+			'mod_false',
+			'There anonymous module should have the given name'
+		);
 	}
 
 	/**
