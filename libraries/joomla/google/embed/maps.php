@@ -318,8 +318,8 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	}
 
 	/**
-	 * Method to add and event handler to the map.
-	 * Event handlers must be passed in either as callback name or fully qualified function declaration.
+	 * Method to add an event handler to the map.
+	 * Event handlers must be passed in either as callback name or fully qualified function declaration
 	 *
 	 * @param   string  $type      The event name
 	 * @param   string  $function  The event handling function body
@@ -343,7 +343,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	}
 
 	/**
-	 * Method to remove and event handler from the map
+	 * Method to remove an event handler from the map
 	 *
 	 * @param   string  $type  The event name
 	 *
