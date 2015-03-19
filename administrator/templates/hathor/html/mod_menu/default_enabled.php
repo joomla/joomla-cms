@@ -243,6 +243,8 @@ if ($components)
 			$menu->addChild(new JMenuNode($component->text, $component->link, $component->img));
 		}
 	}
+
+	unset($component);
 	$menu->getParent();
 }
 

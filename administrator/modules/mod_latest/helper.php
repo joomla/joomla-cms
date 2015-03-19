@@ -100,6 +100,8 @@ abstract class ModLatestHelper
 			}
 		}
 
+		unset($item);
+
 		return $items;
 	}
 

@@ -122,6 +122,7 @@ $menuTypes = MenusHelper::getMenuLinks();
 				<div class="clr"></div>
 				<?php endif; ?>
 			<?php endforeach; ?>
+			<?php unset($type); ?>
 
 			<?php echo JHtml::_('tabs.end');?>
 

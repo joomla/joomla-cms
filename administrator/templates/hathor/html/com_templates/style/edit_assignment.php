@@ -43,6 +43,7 @@ $user = JFactory::getUser();
 				<?php endforeach; ?>
 			</ul>
 		<?php endforeach; ?>
+		<?php unset($type); ?>
 
 		</div>
 </fieldset>

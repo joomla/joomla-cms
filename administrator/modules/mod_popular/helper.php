@@ -89,6 +89,8 @@ abstract class ModPopularHelper
 			}
 		}
 
+		unset($item);
+
 		return $items;
 	}
 

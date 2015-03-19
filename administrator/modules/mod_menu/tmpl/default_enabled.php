@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 /* @var $menu JAdminCSSMenu */
 
-$shownew = (boolean) $params->get('shownew', 1);
+$shownew  = (boolean) $params->get('shownew', 1);
 $showhelp = $params->get('showhelp', 1);
-$user = JFactory::getUser();
-$lang = JFactory::getLanguage();
+$user     = JFactory::getUser();
+$lang     = JFactory::getLanguage();
 
 /*
  * Site Submenu
@@ -269,6 +269,8 @@ if ($components)
 			$menu->addChild(new JMenuNode($component->text, $component->link, $component->img));
 		}
 	}
+
+	unset($component);
 
 	$menu->getParent();
 }
