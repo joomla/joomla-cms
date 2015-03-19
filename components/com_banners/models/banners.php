@@ -208,6 +208,8 @@ class BannersModelBanners extends JModelList
 				$parameters->loadString($item->params);
 				$item->params = $parameters;
 			}
+
+			unset($item);
 		}
 
 		return $this->cache['items'];

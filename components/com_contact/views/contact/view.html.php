@@ -226,6 +226,7 @@ class ContactViewContact extends JViewLegacy
 				$contact->link = JRoute::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid));
 			}
 
+			unset($contact);
 			$item->link = JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid));
 		}
 
@@ -246,6 +247,7 @@ class ContactViewContact extends JViewLegacy
 		// Override the layout only if this is not the active menu item
 		// If it is the active menu item, then the view and item id will match
 		$active	= $app->getMenu()->getActive();
+
 		if ((!$active) || ((strpos($active->link, 'view=contact') === false) || (strpos($active->link, '&id=' . (string) $this->item->id) === false)))
 		{
 			if ($layout = $params->get('contact_layout'))
@@ -273,10 +275,10 @@ class ContactViewContact extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
-		$title 		= null;
+		$app     = JFactory::getApplication();
+		$menus   = $app->getMenu();
+		$pathway = $app->getPathway();
+		$title   = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself

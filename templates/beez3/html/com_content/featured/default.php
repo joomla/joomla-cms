@@ -34,6 +34,7 @@ JHtml::_('behavior.caption');
 			$leadingcount++;
 		?>
 	<?php endforeach; ?>
+	<?php unset($item); ?>
 </div>
 <?php endif; ?>
 <?php

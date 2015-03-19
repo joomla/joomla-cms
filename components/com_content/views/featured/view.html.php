@@ -103,6 +103,8 @@ class ContentViewFeatured extends JViewLegacy
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
 
+		unset($item);
+
 		// Preprocess the breakdown of leading, intro and linked articles.
 		// This makes it much easier for the designer to just interogate the arrays.
 		$max = count($items);

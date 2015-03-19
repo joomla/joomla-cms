@@ -284,6 +284,8 @@ abstract class ModArticlesCategoryHelper
 			$item->displayReadmore  = $item->alternative_readmore;
 		}
 
+		unset($item);
+
 		return $items;
 	}
 

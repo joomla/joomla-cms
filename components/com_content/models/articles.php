@@ -663,6 +663,8 @@ class ContentModelArticles extends JModelList
 			$item->tags->getItemTags('com_content.article', $item->id);
 		}
 
+		unset($item);
+
 		return $items;
 	}
 

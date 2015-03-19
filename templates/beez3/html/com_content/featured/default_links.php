@@ -20,5 +20,6 @@ defined('_JEXEC') or die;
 			<?php echo $item->title; ?></a>
 	</li>
 <?php endforeach; ?>
+<?php unset($item); ?>
 </ol>
 

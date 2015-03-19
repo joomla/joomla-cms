@@ -20,7 +20,7 @@ JHtml::_('behavior.caption');
 <?php if ($this->params->get('show_page_heading') != 0) : ?>
 <div class="page-header">
 	<h1>
-	<?php echo $this->escape($this->params->get('page_heading')); ?>
+		<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>
 </div>
 <?php endif; ?>
@@ -36,10 +36,9 @@ JHtml::_('behavior.caption');
 				echo $this->loadTemplate('item');
 			?>
 		</div>
-		<?php
-			$leadingcount++;
-		?>
+		<?php $leadingcount++; ?>
 	<?php endforeach; ?>
+	<?php unset($item); ?>
 </div>
 <?php endif; ?>
 <?php

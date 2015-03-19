@@ -127,6 +127,8 @@ abstract class ModArticlesLatestHelper
 			}
 		}
 
+		unset($item);
+
 		return $items;
 	}
 }

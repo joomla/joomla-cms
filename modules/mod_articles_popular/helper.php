@@ -16,10 +16,7 @@ JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'Con
 /**
  * Helper for mod_articles_popular
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_popular
- *
- * @since       1.6.0
+ * @since  1.6.0
  */
 abstract class ModArticlesPopularHelper
 {
@@ -90,6 +87,8 @@ abstract class ModArticlesPopularHelper
 				$item->link = JRoute::_('index.php?option=com_users&view=login');
 			}
 		}
+
+		unset($item);
 
 		return $items;
 	}
