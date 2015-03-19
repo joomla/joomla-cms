@@ -319,7 +319,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 
 	/**
 	 * Method to add and event handler to the map.
-	 * Event handlers must be passed in without being wrapped by a `function(){}` declaration.
+	 * Event handlers must be passed in either as callback name or fully qualified function declaration.
 	 *
 	 * @param   string  $type      The event name
 	 * @param   string  $function  The event handling function body
