@@ -87,13 +87,13 @@ class JHelpTest extends TestCase
 		$this->assertEquals(
 			'components/com_content/help/en-GB/Content_Article_Manager.html',
 			JHelp::createURL('JHELP_CONTENT_ARTICLE_MANAGER', true, null, 'com_content'),
-			'Creates a local help URL for com_content Article Manager.'
+			'Creates a local help URL for com_content Article Manager in the component.'
 		);
 
 		$this->assertEquals(
 			'http://domain.tld/help',
 			JHelp::createURL('JHELP_CONTENT_ARTICLE_MANAGER', true, 'http://domain.tld/help', 'com_content'),
-			'Creates a local help URL for com_content Article Manager.'
+			'Creates a remote help URL via an override for com_content Article Manager.'
 		);
 		
 		$this->assertEquals(
@@ -104,14 +104,14 @@ class JHelpTest extends TestCase
 	}
 
 	/**
-	 * Tests the createSiteList method with no XML file passed in the params
+	 * Tests the createSiteList method
 	 *
 	 * @return  void
 	 *
 	 * @covers  JHelp::createSiteList
 	 * @since   3.0
 	 */
-	public function testCreateSiteList_noXML()
+	public function testCreateSiteList()
 	{
 		$helpsite = array(
 			'text' => 'English (GB) help.joomla.org',
