@@ -66,7 +66,7 @@ abstract class JHtmlContentAdministrator
 				foreach ($items as &$item)
 				{
 					$text = strtoupper($item->lang_sef);
-					$url = JRoute::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
+					$url  = JRoute::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
 					$tooltipParts = array(
 						JHtml::_('image', 'mod_languages/' . $item->image . '.gif',
 							$item->language_title,
@@ -78,6 +78,8 @@ abstract class JHtmlContentAdministrator
 					);
 					$item->link = JHtml::_('tooltip', implode(' ', $tooltipParts), null, null, $text, $url, null, 'hasTooltip label label-association label-' . $item->lang_sef);
 				}
+
+				unset($item);
 			}
 
 			$html = JLayoutHelper::render('joomla.content.associations', $items);

@@ -121,6 +121,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					</li>
 					<?php endif; ?>
 				<?php endforeach; ?>
+				<?php unset($type); ?>
 			</ul>
 			<div id="noresultsfound" style="display:none;" class="alert alert-no-items">
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>

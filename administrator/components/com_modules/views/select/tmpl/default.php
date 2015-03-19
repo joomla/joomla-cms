@@ -21,10 +21,10 @@ $document = JFactory::getDocument();
 	<?php
 		// Prepare variables for the link.
 
-		$link	= 'index.php?option=com_modules&task=module.add&eid=' . $item->extension_id;
-		$name	= $this->escape($item->name);
-		$desc	= JHTML::_('string.truncate', ($this->escape($item->desc)), 200);
-		$short_desc	= JHTML::_('string.truncate', ($this->escape($item->desc)), 90);
+		$link       = 'index.php?option=com_modules&task=module.add&eid=' . $item->extension_id;
+		$name       = $this->escape($item->name);
+		$desc       = JHTML::_('string.truncate', ($this->escape($item->desc)), 200);
+		$short_desc = JHTML::_('string.truncate', ($this->escape($item->desc)), 90);
 	?>
 	<?php if ($document->direction != "rtl") : ?>
 	<li>
@@ -42,5 +42,6 @@ $document = JFactory::getDocument();
 	</li>
 	<?php endif?>
 <?php endforeach; ?>
+<?php unset($item); ?>
 </ul>
 <div class="clr"></div>

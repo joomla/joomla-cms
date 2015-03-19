@@ -146,6 +146,8 @@ class ModulesModelSelect extends JModelList
 			}
 		}
 
+		unset($item);
+
 		$items = JArrayHelper::sortObjects($items, 'name', 1, true, true);
 
 		// TODO: Use the cached XML from the extensions table?

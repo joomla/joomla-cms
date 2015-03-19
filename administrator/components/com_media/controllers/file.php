@@ -117,10 +117,12 @@ class MediaControllerFile extends JControllerLegacy
 			}
 		}
 
+		unset($file);
+
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
 		JPluginHelper::importPlugin('content');
-		$dispatcher	= JEventDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		foreach ($files as &$file)
 		{
@@ -160,6 +162,8 @@ class MediaControllerFile extends JControllerLegacy
 				$this->setMessage(JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
 			}
 		}
+
+		unset($file);
 
 		return true;
 	}

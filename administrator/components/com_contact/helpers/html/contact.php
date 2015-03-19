@@ -14,9 +14,7 @@ JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contac
 /**
  * Contact HTML helper class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contact
- * @since       1.6
+ * @since  1.6
  */
 abstract class JHtmlContact
 {
@@ -92,6 +90,8 @@ abstract class JHtmlContact
 						'hasTooltip label label-association label-' . $item->lang_sef
 					);
 				}
+
+				unset($item);
 			}
 
 			$html = JLayoutHelper::render('joomla.content.associations', $items);

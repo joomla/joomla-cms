@@ -78,6 +78,8 @@ abstract class MenusHtmlMenus
 					$class = 'hasTooltip label label-association label-' . $item->lang_sef;
 					$item->link = JHtml::_('tooltip', implode(' ', $tooltipParts), null, null, $text, $url, null, $class);
 				}
+
+				unset($item);
 			}
 
 			$html = JLayoutHelper::render('joomla.content.associations', $items);

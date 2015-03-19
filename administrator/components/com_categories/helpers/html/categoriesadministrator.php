@@ -84,6 +84,8 @@ abstract class JHtmlCategoriesAdministrator
 						'hasTooltip label label-association label-' . $item->lang_sef
 					);
 				}
+
+				unset($item);
 			}
 
 			$html = JLayoutHelper::render('joomla.content.associations', $items);

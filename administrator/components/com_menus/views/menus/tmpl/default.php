@@ -17,12 +17,12 @@ JHtml::_('behavior.multiselect');
 JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
 
-$uri = JUri::getInstance();
-$return = base64_encode($uri);
-$user = JFactory::getUser();
-$userId = $user->get('id');
+$uri       = JUri::getInstance();
+$return    = base64_encode($uri);
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn = $this->escape($this->state->get('list.direction'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 $modMenuId = (int) $this->get('ModMenuId');
 
 JFactory::getDocument()->addScriptDeclaration("
@@ -149,6 +149,7 @@ JFactory::getDocument()->addScriptDeclaration("
 												<?php endif; ?>
 											</li>
 										<?php endforeach; ?>
+										<?php unset($module); ?>
 									</ul>
 								 </div>
 							<?php elseif ($modMenuId) : ?>

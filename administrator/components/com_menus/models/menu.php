@@ -115,7 +115,7 @@ class MenusModelMenu extends JModelForm
 	public function &getItem($itemId = null)
 	{
 		$itemId = (!empty($itemId)) ? $itemId : (int) $this->getState('menu.id');
-		$false = false;
+		$false  = false;
 
 		// Get a menu item row instance.
 		$table = $this->getTable();
@@ -132,7 +132,7 @@ class MenusModelMenu extends JModelForm
 		}
 
 		$properties = $table->getProperties(1);
-		$value = JArrayHelper::toObject($properties, 'JObject');
+		$value      = JArrayHelper::toObject($properties, 'JObject');
 
 		return $value;
 	}
@@ -336,6 +336,8 @@ class MenusModelMenu extends JModelForm
 
 			$result[$menuType][] = & $module;
 		}
+
+		unset($module);
 
 		return $result;
 	}
