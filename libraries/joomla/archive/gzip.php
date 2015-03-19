@@ -124,14 +124,11 @@ class JArchiveGzip implements JArchiveExtractable
 		{
 			$this->_data = $input->read($input->get('chunksize', 8196));
 
-			if ($this->_data)
+			if ($this->_data && !$output->write($this->_data))
 			{
-				if (!$output->write($this->_data))
-				{
-					$input->close();
+				$input->close();
 
-					return $this->raiseWarning(100, 'Unable to write file (gz)');
-				}
+				return $this->raiseWarning(100, 'Unable to write file (gz)');
 			}
 		}
 
@@ -139,6 +136,7 @@ class JArchiveGzip implements JArchiveExtractable
 
 		$output->close();
 		$input->close();
+
 		return true;
 	}
 
