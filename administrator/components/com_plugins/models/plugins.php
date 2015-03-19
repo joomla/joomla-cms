@@ -189,12 +189,14 @@ class PluginsModelPlugins extends JModelList
 
 		foreach ($items as &$item)
 		{
-			$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
+			$source    = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
 			$extension = 'plg_' . $item->folder . '_' . $item->element;
 			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
 				|| $lang->load($extension . '.sys', $source, null, false, true);
 			$item->name = JText::_($item->name);
 		}
+
+		unset($item);
 	}
 
 	/**

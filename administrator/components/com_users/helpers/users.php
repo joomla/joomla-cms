@@ -97,7 +97,7 @@ class UsersHelper
 	public static function getStateOptions()
 	{
 		// Build the filter options.
-		$options = array();
+		$options   = array();
 		$options[] = JHtml::_('select.option', '0', JText::_('JENABLED'));
 		$options[] = JHtml::_('select.option', '1', JText::_('JDISABLED'));
 
@@ -114,7 +114,7 @@ class UsersHelper
 	public static function getActiveOptions()
 	{
 		// Build the filter options.
-		$options = array();
+		$options   = array();
 		$options[] = JHtml::_('select.option', '0', JText::_('COM_USERS_ACTIVATED'));
 		$options[] = JHtml::_('select.option', '1', JText::_('COM_USERS_UNACTIVATED'));
 
@@ -130,7 +130,7 @@ class UsersHelper
 	 */
 	public static function getGroups()
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.id AS value')
 			->select('a.title AS text')
@@ -156,6 +156,8 @@ class UsersHelper
 		{
 			$option->text = str_repeat('- ', $option->level) . $option->text;
 		}
+
+		unset($option);
 
 		return $options;
 	}

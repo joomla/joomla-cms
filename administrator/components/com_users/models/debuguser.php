@@ -53,7 +53,7 @@ class UsersModelDebugUser extends JModelList
 
 				foreach ($actions as $action)
 				{
-					$name = $action[0];
+					$name  = $action[0];
 					$level = $action[1];
 
 					// Check that we check this action for the level of the asset.
@@ -69,6 +69,8 @@ class UsersModelDebugUser extends JModelList
 					}
 				}
 			}
+
+			unset($asset);
 		}
 
 		return $assets;
@@ -77,7 +79,7 @@ class UsersModelDebugUser extends JModelList
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * Note. Calling getState in this method will result in recursion.
+	 * @note  Calling getState in this method will result in recursion.
 	 *
 	 * @param   string  $ordering   An optional ordering field.
 	 * @param   string  $direction  An optional direction (asc|desc).

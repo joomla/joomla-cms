@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Initiasile related data.
 require_once JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php';
 $menuTypes = MenusHelper::getMenuLinks();
-$user = JFactory::getUser();
+$user      = JFactory::getUser();
 ?>
 <label id="jform_menuselect-lbl" for="jform_menuselect"><?php echo JText::_('JGLOBAL_MENU_SELECTION'); ?></label>
 <div class="btn-toolbar">
@@ -40,5 +40,6 @@ $user = JFactory::getUser();
 				</div>
 			</li>
 		<?php endforeach; ?>
+		<?php unset($type); ?>
 	</ul>
 </div>

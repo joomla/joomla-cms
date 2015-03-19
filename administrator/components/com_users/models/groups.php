@@ -154,6 +154,8 @@ class UsersModelGroups extends JModelList
 				}
 			}
 
+			unset($item);
+
 			// Add the items to the internal cache.
 			$this->cache[$store] = $items;
 		}

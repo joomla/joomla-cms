@@ -165,6 +165,8 @@ class SearchModelSearches extends JModelList
 					$item->returns += count($result);
 				}
 			}
+
+			unset($item);
 		}
 
 		return $items;
