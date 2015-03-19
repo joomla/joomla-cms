@@ -30,10 +30,10 @@ class PlgAuthenticationLdap extends JPlugin
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{
 		$userdetails = null;
-		$success = 0;
+		$success     = 0;
 		$userdetails = array();
 
-		// For JLog
+		// Set the response type for JLog
 		$response->type = 'LDAP';
 
 		// Strip null bytes from the password
@@ -42,23 +42,23 @@ class PlgAuthenticationLdap extends JPlugin
 		// LDAP does not like Blank passwords (tries to Anon Bind which is bad)
 		if (empty($credentials['password']))
 		{
-			$response->status = JAuthentication::STATUS_FAILURE;
+			$response->status        = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::_('JGLOBAL_AUTH_PASS_BLANK');
 
 			return false;
 		}
 
 		// Load plugin params info
-		$ldap_email		= $this->params->get('ldap_email');
-		$ldap_fullname	= $this->params->get('ldap_fullname');
-		$ldap_uid		= $this->params->get('ldap_uid');
-		$auth_method	= $this->params->get('auth_method');
+		$ldap_email    = $this->params->get('ldap_email');
+		$ldap_fullname = $this->params->get('ldap_fullname');
+		$ldap_uid      = $this->params->get('ldap_uid');
+		$auth_method   = $this->params->get('auth_method');
 
 		$ldap = new JClientLdap($this->params);
 
 		if (!$ldap->connect())
 		{
-			$response->status = JAuthentication::STATUS_FAILURE;
+			$response->status        = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::_('JGLOBAL_AUTH_NO_CONNECT');
 
 			return;
@@ -66,7 +66,7 @@ class PlgAuthenticationLdap extends JPlugin
 
 		switch ($auth_method)
 		{
-			case 'search':
+			case 'search' :
 			{
 				// Bind using Connect Username/password
 				// Force anon bind to mitigate misconfiguration like [#7119]
@@ -94,18 +94,20 @@ class PlgAuthenticationLdap extends JPlugin
 					}
 					else
 					{
-						$response->status = JAuthentication::STATUS_FAILURE;
+						$response->status        = JAuthentication::STATUS_FAILURE;
 						$response->error_message = JText::_('JGLOBAL_AUTH_USER_NOT_FOUND');
 					}
 				}
 				else
 				{
-					$response->status = JAuthentication::STATUS_FAILURE;
+					$response->status        = JAuthentication::STATUS_FAILURE;
 					$response->error_message = JText::_('JGLOBAL_AUTH_NO_BIND');
 				}
-			}	break;
+			}
 
-			case 'bind':
+			break;
+
+			case 'bind' :
 			{
 				// We just accept the result here
 				$success = $ldap->bind($credentials['username'], $credentials['password']);
@@ -116,10 +118,12 @@ class PlgAuthenticationLdap extends JPlugin
 				}
 				else
 				{
-					$response->status = JAuthentication::STATUS_FAILURE;
+					$response->status        = JAuthentication::STATUS_FAILURE;
 					$response->error_message = JText::_('JGLOBAL_AUTH_BIND_FAILED');
 				}
-			}	break;
+			}
+
+			break;
 		}
 
 		if (!$success)
@@ -154,7 +158,7 @@ class PlgAuthenticationLdap extends JPlugin
 			}
 
 			// Were good - So say so.
-			$response->status		= JAuthentication::STATUS_SUCCESS;
+			$response->status        = JAuthentication::STATUS_SUCCESS;
 			$response->error_message = '';
 		}
 
