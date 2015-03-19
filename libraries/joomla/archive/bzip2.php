@@ -114,14 +114,11 @@ class JArchiveBzip2 implements JArchiveExtractable
 		{
 			$this->_data = $input->read($input->get('chunksize', 8196));
 
-			if ($this->_data)
+			if ($this->_data && !$output->write($this->_data))
 			{
-				if (!$output->write($this->_data))
-				{
-					$input->close();
+				$input->close();
 
-					return $this->raiseWarning(100, 'Unable to write archive (bz2)');
-				}
+				return $this->raiseWarning(100, 'Unable to write archive (bz2)');
 			}
 		}
 
@@ -137,8 +134,8 @@ class JArchiveBzip2 implements JArchiveExtractable
 	 * Temporary private method to isolate JError from the extract method
 	 * This code should be removed when JError is removed.
 	 *
-	 * @param  int     $code  The application-internal error code for this error
-	 * @param  string  $msg   The error message, which may also be shown the user if need be.
+	 * @param   int     $code  The application-internal error code for this error
+	 * @param   string  $msg   The error message, which may also be shown the user if need be.
 	 *
 	 * @return mixed JError object or Runtime Exception
 	 */
