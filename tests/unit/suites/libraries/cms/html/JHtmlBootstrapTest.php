@@ -285,19 +285,13 @@ class JHtmlBootstrapTest extends TestCase
 			'Verify that the alert method initialises Bootstrap as well'
 		);
 
-		$this->assertEquals(
-			$document->_script['text/javascript'],
-			'jQuery(function($){ $("#modal").modal({"backdrop": true,"keyboard": true,"show": false,"remote": ""}); });',
-			'Verify that the modal script is initialised'
-		);
-
 		// Check the modal's html structure
 		$matcher = array(
 			'id'         => 'modal',
 			'tag'        => 'div',
 			'attributes' => array('class' => 'modal hide fade'),
 			'child'      => array(
-				'id' => 'modal-container',
+				'attributes' => array('class' => 'modal-header'),
 				'tag' => 'div'
 			),
 			'children'   => array('count' => 2)
@@ -307,15 +301,6 @@ class JHtmlBootstrapTest extends TestCase
 			$matcher,
 			$modal,
 			'Verify that the html structure of the modal is correct'
-		);
-
-		// Check that we also have a script tag here
-		$matcher = array('tag' => 'script');
-
-		$this->assertTag(
-			$matcher,
-			$modal,
-			'Verify that the script tag is present'
 		);
 	}
 
