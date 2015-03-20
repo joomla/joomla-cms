@@ -386,6 +386,12 @@ class JFilterInput
 			);
 		}
 
+		// Handle non-nested descriptors (single files)
+		if (isset($descriptors['name']))
+		{
+			$descriptors = array($descriptors);
+		}
+
 		// Scan all descriptors detected
 		foreach ($descriptors as $fileDescriptor)
 		{
