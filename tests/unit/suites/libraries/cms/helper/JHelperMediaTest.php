@@ -211,4 +211,21 @@ class JHelperMediaTest extends TestCaseDatabase
 		$newSize = $this->object->imageResize($width, $height, $target);
 		$this->assertEquals($newSize, $expected);
 	}
+
+	/**
+	 * Tests the toBytes method
+	 *
+	 * @param   int  $val       The value to convert
+	 * @param   int  $expected  Expected result
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  toBytes method
+	 * @since         3.2
+	 */
+	public function testToBytes($val, $expected)
+	{
+		$val = $this->object->toBytes($val);
+		$this->assertEquals($val, $expected);
+	}
 }
