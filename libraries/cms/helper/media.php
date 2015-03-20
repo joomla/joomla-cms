@@ -299,7 +299,7 @@ class JHelperMedia
 	 *
 	 * @since 3.3
 	 */
-	public function toBytes($val)
+	public static function toBytes($val)
 	{
 		switch ($val[strlen($val) - 1])
 		{
