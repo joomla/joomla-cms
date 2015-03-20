@@ -63,14 +63,11 @@ class MediaControllerFile extends JControllerLegacy
 		// Total length of post back data in bytes.
 		$contentLength = (int) $_SERVER['CONTENT_LENGTH'];
 
-		// Instantiate the media helper
-		$mediaHelper = new JHelperMedia;
-
 		// Maximum allowed size of post back data in MB.
-		$postMaxSize = $mediaHelper->toBytes(ini_get('post_max_size'));
+		$postMaxSize = JHelperMedia::toBytes(ini_get('post_max_size'));
 
 		// Maximum allowed size of script execution in MB.
-		$memoryLimit = $mediaHelper->toBytes(ini_get('memory_limit'));
+		$memoryLimit = JHelperMedia::toBytes(ini_get('memory_limit'));
 
 		// Check for the total size of post back data.
 		if (($postMaxSize > 0 && $contentLength > $postMaxSize)
@@ -82,7 +79,7 @@ class MediaControllerFile extends JControllerLegacy
 		}
 
 		$uploadMaxSize = $params->get('upload_maxsize', 0) * 1024 * 1024;
-		$uploadMaxFileSize = $mediaHelper->toBytes(ini_get('upload_max_filesize'));
+		$uploadMaxFileSize = JHelperMedia::toBytes(ini_get('upload_max_filesize'));
 
 		// Perform basic checks on file info before attempting anything
 		foreach ($files as &$file)
