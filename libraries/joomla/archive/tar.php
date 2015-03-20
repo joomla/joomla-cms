@@ -80,14 +80,7 @@ class JArchiveTar implements JArchiveExtractable
 
 		if (!$this->_data)
 		{
-			if (class_exists('JError'))
-			{
-				return JError::raiseWarning(100, 'Unable to read archive');
-			}
-			else
-			{
-				throw new RuntimeException('Unable to read archive');
-			}
+			return $this->raiseWarning(100, 'Unable to read archive');
 		}
 
 		$this->_getTarInfo($this->_data);
@@ -104,31 +97,36 @@ class JArchiveTar implements JArchiveExtractable
 				// Make sure the destination folder exists
 				if (!JFolder::create(dirname($path)))
 				{
-					if (class_exists('JError'))
-					{
-						return JError::raiseWarning(100, 'Unable to create destination');
-					}
-					else
-					{
-						throw new RuntimeException('Unable to create destination');
-					}
+					return $this->raiseWarning(100, 'Unable to create destination');
 				}
 
 				if (JFile::write($path, $buffer) === false)
 				{
-					if (class_exists('JError'))
-					{
-						return JError::raiseWarning(100, 'Unable to write entry');
-					}
-					else
-					{
-						throw new RuntimeException('Unable to write entry');
-					}
+					return $this->raiseWarning(100, 'Unable to write entry');
 				}
 			}
 		}
 
 		return true;
+	}
+
+	/**
+	 * Temporary private method to isolate JError from the extract method
+	 * This code should be removed when JError is removed.
+	 *
+	 * @param   int     $code  The application-internal error code for this error
+	 * @param   string  $msg   The error message, which may also be shown the user if need be.
+	 *
+	 * @return mixed JError object or Runtime Exception
+	 */
+	private function raiseWarning($code, $msg)
+	{
+		if (class_exists('JError'))
+		{
+			return JError::raiseWarning($code, $msg);
+		}
+
+		throw new RuntimeException($msg);
 	}
 
 	/**
@@ -185,14 +183,7 @@ class JArchiveTar implements JArchiveExtractable
 
 			if (!$info)
 			{
-				if (class_exists('JError'))
-				{
-					return JError::raiseWarning(100, 'Unable to decompress data');
-				}
-				else
-				{
-					throw new RuntimeException('Unable to decompress data');
-				}
+				return $this->raiseWarning(100, 'Unable to decompress data');
 			}
 
 			$position += 512;
@@ -218,10 +209,6 @@ class JArchiveTar implements JArchiveExtractable
 					$file['attr'] = (($info['typeflag'] == 0x35) ? 'd' : '-') . (($mode & 0x400) ? 'r' : '-') . (($mode & 0x200) ? 'w' : '-') .
 						(($mode & 0x100) ? 'x' : '-') . (($mode & 0x040) ? 'r' : '-') . (($mode & 0x020) ? 'w' : '-') . (($mode & 0x010) ? 'x' : '-') .
 						(($mode & 0x004) ? 'r' : '-') . (($mode & 0x002) ? 'w' : '-') . (($mode & 0x001) ? 'x' : '-');
-				}
-				else
-				{
-					/* Some other type. */
 				}
 
 				$return_array[] = $file;
