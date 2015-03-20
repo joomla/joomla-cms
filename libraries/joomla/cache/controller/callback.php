@@ -56,34 +56,7 @@ class JCacheControllerCallback extends JCacheController
 	 */
 	public function get($callback, $args = array(), $id = false, $wrkarounds = false, $woptions = array())
 	{
-		// Normalize callback
-		if (is_array($callback))
-		{
-			// We have a standard php callback array -- do nothing
-		}
-		elseif (strstr($callback, '::'))
-		{
-			// This is shorthand for a static method callback classname::methodname
-			list ($class, $method) = explode('::', $callback);
-			$callback = array(trim($class), trim($method));
-		}
-		elseif (strstr($callback, '->'))
-		{
-			/*
-			 * This is a really not so smart way of doing this... we provide this for backward compatability but this
-			 * WILL! disappear in a future version.  If you are using this syntax change your code to use the standard
-			 * PHP callback array syntax: <http://php.net/callback>
-			 *
-			 * We have to use some silly global notation to pull it off and this is very unreliable
-			 */
-			list ($object_123456789, $method) = explode('->', $callback);
-			global $$object_123456789;
-			$callback = array($$object_123456789, $method);
-		}
-		else
-		{
-			// We have just a standard function -- do nothing
-		}
+		$callback = $this->normaliseLegacyCallback($this->normaliseStaticCallback($callback));
 
 		if (!$id)
 		{
@@ -120,63 +93,112 @@ class JCacheControllerCallback extends JCacheController
 			{
 				$this->cache->unlock($id);
 			}
+
+			echo $output;
+
+			return $result;
+
+		}
+
+		if (!is_array($args))
+		{
+			$Args = !empty($args) ? array(&$args) : array();
 		}
 		else
 		{
-			if (!is_array($args))
-			{
-				$Args = !empty($args) ? array(&$args) : array();
-			}
-			else
-			{
-				$Args = &$args;
-			}
+			$Args = &$args;
+		}
 
-			if ($locktest->locked == false)
-			{
-				$locktest = $this->cache->lock($id);
-			}
+		if ($locktest->locked == false)
+		{
+			$locktest = $this->cache->lock($id);
+		}
 
-			if (isset($woptions['modulemode']) && $woptions['modulemode'] == 1)
-			{
-				$document = JFactory::getDocument();
-				$coptions['modulemode'] = 1;
-				$coptions['headerbefore'] = $document->getHeadData();
-			}
-			else
-			{
-				$coptions['modulemode'] = 0;
-			}
+		$coptions['modulemode'] = 0;
 
-			ob_start();
-			ob_implicit_flush(false);
+		if (isset($woptions['modulemode']) && $woptions['modulemode'] == 1)
+		{
+			$document = JFactory::getDocument();
+			$coptions['modulemode'] = 1;
+			$coptions['headerbefore'] = $document->getHeadData();
+		}
 
-			$result = call_user_func_array($callback, $Args);
-			$output = ob_get_contents();
+		ob_start();
+		ob_implicit_flush(false);
 
-			ob_end_clean();
+		$result = call_user_func_array($callback, $Args);
+		$output = ob_get_contents();
 
-			$cached = array();
+		ob_end_clean();
 
-			$coptions['nopathway'] = isset($woptions['nopathway']) ? $woptions['nopathway'] : 1;
-			$coptions['nohead'] = isset($woptions['nohead']) ? $woptions['nohead'] : 1;
-			$coptions['nomodules'] = isset($woptions['nomodules']) ? $woptions['nomodules'] : 1;
+		$cached = array();
 
-			$cached['output'] = ($wrkarounds == false) ? $output : JCache::setWorkarounds($output, $coptions);
-			$cached['result'] = $result;
+		$coptions['nopathway'] = isset($woptions['nopathway']) ? $woptions['nopathway'] : 1;
+		$coptions['nohead'] = isset($woptions['nohead']) ? $woptions['nohead'] : 1;
+		$coptions['nomodules'] = isset($woptions['nomodules']) ? $woptions['nomodules'] : 1;
 
-			// Store the cache data
-			$this->cache->store(serialize($cached), $id);
+		$cached['output'] = ($wrkarounds == false) ? $output : JCache::setWorkarounds($output, $coptions);
+		$cached['result'] = $result;
 
-			if ($locktest->locked == true)
-			{
-				$this->cache->unlock($id);
-			}
+		// Store the cache data
+		$this->cache->store(serialize($cached), $id);
+
+		if ($locktest->locked == true)
+		{
+			$this->cache->unlock($id);
 		}
 
 		echo $output;
 
 		return $result;
+	}
+
+	/**
+	 * Method to normalise static method callback format I.E. className::methodName
+	 *
+	 * @param   mixed    $callback    Callback or string shorthand for a callback
+	 *
+	 * @return array standard php callback
+	 *
+	 * @link <http://php.net/callback>
+	 */
+	private function normaliseStaticCallback($callback)
+	{
+		if(is_array($callback) || !strstr($callback, '::'))
+		{
+			return $callback;
+		}
+
+		list ($class, $method) = explode('::', $callback);
+
+		return array(trim($class), trim($method));
+	}
+
+	/**
+	 * Temporary method to handle the legacy callback format I.E. objectName->method
+	 *
+	 * This legacy format is a really bad way of doing this a callback.
+	 * we provide this for backward compatibility but this method will be removed.
+	 *
+	 * So please change your code to use the standard PHP callback array
+	 *
+	 * @param   mixed    $callback    Callback or string shorthand for a callback
+	 *
+	 * @return array standard php callback
+	 *
+	 * @link <http://php.net/callback>
+	 */
+	private function normaliseLegacyCallback($callback)
+	{
+		if(is_array($callback) || !strstr($callback, '->'))
+		{
+			return $callback;
+		}
+
+		list ($object_123456789, $method) = explode('->', $callback);
+		global $$object_123456789;
+
+		return array($$object_123456789, $method);
 	}
 
 	/**
