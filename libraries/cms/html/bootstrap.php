@@ -477,27 +477,27 @@ abstract class JHtmlBootstrap
 
 			// Build the script.
 			$script = array();
-			$script[] = "jQuery(document).ready(function(){";
-			$script[] = "\tjQuery('" . $selector . "').tooltip(" . $options . ");";
+			$script[] = "jQuery(document).ready(function($){";
+			$script[] = "\t$('" . $selector . "').tooltip(" . $options . ");";
 
 			if ($onShow)
 			{
-				$script[] = "\tjQuery('" . $selector . "').on('show.bs.tooltip', " . $onShow . ");";
+				$script[] = "\t$('" . $selector . "').on('show.bs.tooltip', " . $onShow . ");";
 			}
 
 			if ($onShown)
 			{
-				$script[] = "\tjQuery('" . $selector . "').on('shown.bs.tooltip', " . $onShown . ");";
+				$script[] = "\t$('" . $selector . "').on('shown.bs.tooltip', " . $onShown . ");";
 			}
 
 			if ($onHide)
 			{
-				$script[] = "\tjQuery('" . $selector . "').on('hide.bs.tooltip', " . $onHide . ");";
+				$script[] = "\t$('" . $selector . "').on('hide.bs.tooltip', " . $onHide . ");";
 			}
 
 			if ($onHidden)
 			{
-				$script[] = "\tjQuery('" . $selector . "').on('hidden.bs.tooltip', " . $onHidden . ");";
+				$script[] = "\t$('" . $selector . "').on('hidden.bs.tooltip', " . $onHidden . ");";
 			}
 
 			$script[] = "});";
