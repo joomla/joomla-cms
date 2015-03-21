@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
 class JCacheControllerCallback extends JCacheController
 {
 	/**
-	 * Executes a cacheable callback if not found in cache else returns cached output and result
+	 * Executes a cache-able callback if not found in cache else returns cached output and result
 	 *
 	 * Since arguments to this function are read with func_get_args you can pass any number of
 	 * arguments to this method
