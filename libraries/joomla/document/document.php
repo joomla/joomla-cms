@@ -150,7 +150,7 @@ class JDocument
 	 *
 	 *  @var    array
 	 */
-	public $_script_options = array();
+	protected $scriptOptions = array();
 
 	/**
 	 * Array of linked style sheets
@@ -536,34 +536,50 @@ class JDocument
 	/**
 	 * Add option for script
 	 *
-	 * @param string $name a full extension name e.g. plg_name, com_name
-	 * @param array $options - scrip options as array
+	 * @param   string  $key      Name in Storage
+	 * @param   mixed   $options  Scrip options as array or string
+	 * @param   bool    $merge    Whether merge with existing (true) or replace (false)
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
+	 * @since   5.0
 	 */
-	public function setScriptOptions($options, $name)
+	public function addScriptOptions($key, $options, $merge = true)
 	{
-		$this->_script_options[$name] = $options;
+		if (empty($this->scriptOptions[$key]))
+		{
+			$this->scriptOptions[$key] = array();
+		}
+		if ($merge && is_array($options))
+		{
+			$this->scriptOptions[$key] = array_merge($this->scriptOptions[$key], $options);
+		}
+		else
+		{
+			$this->scriptOptions[$key] = $options;
+		}
+
 		return $this;
 	}
 
 	/**
 	 * Get script(s) options
 	 *
-	 * @param string $name a full extension name e.g. plg_name, com_name
+	 * @param   string  $key  Name in Storage
 	 *
-	 * @return array that contain optios for script/extension by name or all options
+	 * @return  array  Options for given $key, or all script options
 	 *
+	 * @since   5.0
 	 */
-	public function getScriptOptions($name = null)
+	public function getScriptOptions($key = null)
 	{
-		if ($name)
+		if ($key)
 		{
-			return (empty($this->_script_options[$name])) ? array() : $this->_script_options[$name];
+			return (empty($this->scriptOptions[$key])) ? array() : $this->scriptOptions[$key];
 		}
-		else {
-			return $this->_script_options;
+		else
+		{
+			return $this->scriptOptions;
 		}
 	}
 

@@ -63,9 +63,6 @@ class JDocumentRendererHead extends JDocumentRenderer
 		$app = JFactory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
 
-		// Whether debug enabled
-		$debug = JFactory::getConfig()->get('debug');
-
 		// Get line endings
 		$lnEnd = $document->_getLineEnd();
 		$tab = $document->_getTab();
@@ -199,18 +196,31 @@ class JDocumentRendererHead extends JDocumentRenderer
 		}
 
 		// Generate scripts options
-		if (!empty($document->_script_options))
+		$scriptOptions = $document->getScriptOptions();
+		if (!empty($scriptOptions))
 		{
 			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;
-			//TODO: use .extend(Joomla.optionsStorage, options)
-			//when it will be safe
+
+			// This is for full XHTML support.
+			if ($document->_mime != 'text/html')
+			{
+				$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
+			}
+
+			$pretyPrint  = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
+			$jsonOptions = json_encode($scriptOptions, $pretyPrint);
+			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
+
+			//TODO: use .extend(Joomla.optionsStorage, options) when it will be safe
 			$buffer .= $tab . 'var Joomla = Joomla || {};' . $lnEnd;
-			$buffer .= $tab . 'Joomla.optionsStorage = '
-					. json_encode(
-						$document->_script_options,
-						($debug && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false)
-					)
-					. ';' . $lnEnd;
+			$buffer .= $tab . 'Joomla.optionsStorage = ' . $jsonOptions . ';' . $lnEnd;
+
+			// See above note
+			if ($document->_mime != 'text/html')
+			{
+				$buffer .= $tab . $tab . '//]]>' . $lnEnd;
+			}
+
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}
 
