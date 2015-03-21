@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Newsfeeds search plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  Search.newsfeeds
- * @since       1.6
+ * @since  1.6
  */
 class PlgSearchNewsfeeds extends JPlugin
 {
@@ -38,6 +36,7 @@ class PlgSearchNewsfeeds extends JPlugin
 		static $areas = array(
 			'newsfeeds' => 'PLG_SEARCH_NEWSFEEDS_NEWSFEEDS'
 		);
+
 		return $areas;
 	}
 
@@ -75,10 +74,12 @@ class PlgSearchNewsfeeds extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit = $this->params->def('search_limit', 50);
 		$state = array();
+
 		if ($sContent)
 		{
 			$state[] = 1;
 		}
+
 		if ($sArchived)
 		{
 			$state[] = 2;
@@ -90,6 +91,7 @@ class PlgSearchNewsfeeds extends JPlugin
 		}
 
 		$text = trim($text);
+
 		if ($text == '')
 		{
 			return array();
@@ -110,6 +112,7 @@ class PlgSearchNewsfeeds extends JPlugin
 			default:
 				$words = explode(' ', $text);
 				$wheres = array();
+
 				foreach ($words as $word)
 				{
 					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
@@ -118,6 +121,7 @@ class PlgSearchNewsfeeds extends JPlugin
 					$wheres2[] = 'a.link LIKE ' . $word;
 					$wheres[] = implode(' OR ', $wheres2);
 				}
+
 				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
@@ -186,6 +190,7 @@ class PlgSearchNewsfeeds extends JPlugin
 				$rows[$key]->href = 'index.php?option=com_newsfeeds&view=newsfeed&catid=' . $row->catslug . '&id=' . $row->slug;
 			}
 		}
+
 		return $rows;
 	}
 }

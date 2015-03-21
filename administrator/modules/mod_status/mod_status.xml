@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	type="module"
-	version="3.1"
-	client="administrator">
+<extension type="module" version="3.1" client="administrator" method="upgrade">
 	<name>mod_status</name>
 	<author>Joomla! Project</author>
 	<creationDate>Feb 2006</creationDate>
-	<copyright>(C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -14,7 +11,6 @@
 	<description>MOD_STATUS_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_status">mod_status.php</filename>
-		<filename>index.html</filename>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

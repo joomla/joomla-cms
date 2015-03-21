@@ -3,12 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Registry
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/registry/registry.php';
-require_once JPATH_PLATFORM . '/joomla/registry/format.php';
 
 /**
  * Test class for JRegistry.
@@ -440,7 +437,11 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$object2 = new JObject;
 		$object2->set('test', 'testcase');
 		$object->set('test', $object2);
-		$this->assertTrue($registry->loadObject($object), 'Line: ' . __LINE__ . '. Should load object successfully');
+		$this->assertInstanceOf(
+			'JRegistry',
+			$registry->loadObject($object),
+			'Line: ' . __LINE__ . '. Should load object successfully'
+		);
 	}
 
 	/**

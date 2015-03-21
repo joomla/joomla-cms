@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_status
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ if ($params->get('show_viewsite', 1))
 {
 	$output[] = '<div class="btn-group viewsite">'
 		. '<a href="' . JUri::root() . '" target="_blank">'
-		. '<i class="icon-share-alt"></i> ' . JText::_('JGLOBAL_VIEW_SITE')
+		. '<i class="icon-out-2"></i> ' . JText::_('JGLOBAL_VIEW_SITE')
 		. '</a>'
 		. '</div>'
 		. '<div class="btn-group divider"></div>';
@@ -47,8 +47,7 @@ if ($params->get('show_messages', 1))
 {
 	$active = $unread ? ' badge-warning' : '';
 	$output[] = '<div class="btn-group hasTooltip ' . $inboxClass . '"'
-		. ' title="' . JText::plural('MOD_STATUS_MESSAGES', $unread) . '"'
-		. ' alt="' . JText::plural('MOD_STATUS_MESSAGES', $unread) . '">'
+		. ' title="' . JText::plural('MOD_STATUS_MESSAGES', $unread) . '">'
 		. ($hideLinks ? '' : '<a href="' . $inboxLink . '">')
 		. '<i class="icon-envelope"></i> '
 		. '<span class="badge' . $active . '">' . $unread . '</span>'

@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	type="module"
-	version="3.1"
-	client="site"
-	method="upgrade">
+<extension type="module" version="3.1" client="site" method="upgrade">
 	<name>mod_tags_similar</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2013</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -17,7 +13,6 @@
 		<filename module="mod_tags_similar">mod_tags_similar.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>index.html</filename>
 		<filename>mod_tags_similar.xml</filename>
 	</files>
 	<languages>
@@ -51,6 +46,19 @@
 					<option
 						value="half">MOD_TAGS_SIMILAR_FIELD_HALF</option>
 				</field>
+				<field
+					name="ordering"
+					type="list"
+					default="count"
+					label="MOD_TAGS_SIMILAR_FIELD_ORDERING_LABEL"
+					description="MOD_TAGS_SIMILAR_FIELD_ORDERING_DESC">
+					<option
+						value="count">MOD_TAGS_SIMILAR_FIELD_ORDERING_COUNT</option>
+					<option
+						value="random">MOD_TAGS_SIMILAR_FIELD_ORDERING_RANDOM</option>
+					<option
+						value="countrandom">MOD_TAGS_SIMILAR_FIELD_ORDERING_COUNT_AND_RANDOM</option>
+				</field>
 			</fieldset>
 			<fieldset
 				name="advanced">
@@ -75,6 +83,12 @@
 					<option
 						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
+				<field
+					name="cache_time"
+					type="text"
+					default="900"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />				
 			</fieldset>
 		</fields>
 	</config>

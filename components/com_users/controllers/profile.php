@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,31 +14,32 @@ require_once JPATH_COMPONENT . '/controller.php';
 /**
  * Profile controller class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersControllerProfile extends UsersController
 {
 	/**
 	 * Method to check out a user for editing and redirect to the edit form.
 	 *
+	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	public function edit()
 	{
-		$app			= JFactory::getApplication();
-		$user			= JFactory::getUser();
+		$app		= JFactory::getApplication();
+		$user		= JFactory::getUser();
 		$loginUserId	= (int) $user->get('id');
 
 		// Get the previous user id (if any) and the current user id.
 		$previousId = (int) $app->getUserState('com_users.edit.profile.id');
-		$userId = $this->input->getInt('user_id', null, 'array');
+		$userId     = $this->input->getInt('user_id', null, 'array');
 
 		// Check if the user is trying to edit another users profile.
 		if ($userId != $loginUserId)
 		{
 			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+
 			return false;
 		}
 
@@ -74,12 +75,15 @@ class UsersControllerProfile extends UsersController
 
 		// Redirect to the edit screen.
 		$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=edit', false));
+
+		return true;
 	}
 
 	/**
 	 * Method to save a user's profile data.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function save()
@@ -100,9 +104,11 @@ class UsersControllerProfile extends UsersController
 
 		// Validate the posted data.
 		$form = $model->getForm();
+
 		if (!$form)
 		{
 			JError::raiseError(500, $model->getError());
+
 			return false;
 		}
 
@@ -121,7 +127,9 @@ class UsersControllerProfile extends UsersController
 				if ($errors[$i] instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				} else {
+				}
+				else
+				{
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
@@ -131,7 +139,8 @@ class UsersControllerProfile extends UsersController
 
 			// Redirect back to the edit screen.
 			$userId = (int) $app->getUserState('com_users.edit.profile.id');
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=edit&user_id='.$userId, false));
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
+
 			return false;
 		}
 
@@ -147,7 +156,8 @@ class UsersControllerProfile extends UsersController
 			// Redirect back to the edit screen.
 			$userId = (int) $app->getUserState('com_users.edit.profile.id');
 			$this->setMessage(JText::sprintf('COM_USERS_PROFILE_SAVE_FAILED', $model->getError()), 'warning');
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=edit&user_id='.$userId, false));
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
+
 			return false;
 		}
 
@@ -161,12 +171,21 @@ class UsersControllerProfile extends UsersController
 
 				// Redirect back to the edit screen.
 				$this->setMessage(JText::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
-				$this->setRedirect(JRoute::_(($redirect = $app->getUserState('com_users.edit.profile.redirect')) ? $redirect : 'index.php?option=com_users&view=profile&layout=edit&hidemainmenu=1', false));
+
+				$redirect = $app->getUserState('com_users.edit.profile.redirect');
+
+				if (!$redirect)
+				{
+					$redirect = 'index.php?option=com_users&view=profile&layout=edit&hidemainmenu=1';
+				}
+
+				$this->setRedirect(JRoute::_($redirect, false));
 				break;
 
 			default:
 				// Check in the profile.
 				$userId = (int) $app->getUserState('com_users.edit.profile.id');
+
 				if ($userId)
 				{
 					$model->checkin($userId);
@@ -177,7 +196,12 @@ class UsersControllerProfile extends UsersController
 
 				// Redirect to the list screen.
 				$this->setMessage(JText::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
-				$this->setRedirect(JRoute::_(($redirect = $app->getUserState('com_users.edit.profile.redirect')) ? $redirect : 'index.php?option=com_users&view=profile&user_id='.$return, false));
+				$this->setRedirect(
+					JRoute::_(
+						($redirect = $app->getUserState('com_users.edit.profile.redirect')) ? $redirect : 'index.php?option=com_users&view=profile&user_id=' . $return,
+						false
+					)
+				);
 				break;
 		}
 
@@ -192,6 +216,7 @@ class UsersControllerProfile extends UsersController
 	 * @param   array         $validData  The validated data.
 	 *
 	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
@@ -206,5 +231,4 @@ class UsersControllerProfile extends UsersController
 			$item->metadata['tags'] = $item->tags;
 		}
 	}
-
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,19 +12,18 @@ defined('_JEXEC') or die;
 /**
  * The Menu List Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
- * @since       1.6
+ * @since  1.6
  */
 class MenusControllerMenus extends JControllerLegacy
 {
 	/**
 	 * Display the view
 	 *
-	 * @param   boolean            If true, the view output will be cached
-	 * @param   array              An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached.
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController        This object to support chaining.
+	 *
 	 * @since   1.6
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -45,11 +44,16 @@ class MenusControllerMenus extends JControllerLegacy
 	public function getModel($name = 'Menu', $prefix = 'MenusModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 
 	/**
-	 * Removes an item
+	 * Remove a item.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function delete()
 	{
@@ -90,6 +94,8 @@ class MenusControllerMenus extends JControllerLegacy
 	 * Rebuild the menu tree.
 	 *
 	 * @return  bool    False on failure or error, true on success.
+	 *
+	 * @since   1.6
 	 */
 	public function rebuild()
 	{
@@ -103,18 +109,24 @@ class MenusControllerMenus extends JControllerLegacy
 		{
 			// Reorder succeeded.
 			$this->setMessage(JText::_('JTOOLBAR_REBUILD_SUCCESS'));
+
 			return true;
 		}
 		else
 		{
 			// Rebuild failed.
 			$this->setMessage(JText::sprintf('JTOOLBAR_REBUILD_FAILED', $model->getMessage()));
+
 			return false;
 		}
 	}
 
 	/**
 	 * Temporary method. This should go into the 1.5 to 1.6 upgrade routines.
+	 *
+	 * @return   void
+	 *
+	 * @since  1.6
 	 */
 	public function resync()
 	{
@@ -179,7 +191,7 @@ class MenusControllerMenus extends JControllerLegacy
 				{
 					// Update the menu table.
 					$log = "Link $item->id refers to $item->component_id, converting to $componentId ($item->link)";
-					echo "<br/>$log";
+					echo "<br />$log";
 
 					$query->clear();
 					$query->update('#__menu')
@@ -194,7 +206,6 @@ class MenusControllerMenus extends JControllerLegacy
 					{
 						return JError::raiseWarning(500, $e->getMessage());
 					}
-					//echo "<br>".$db->getQuery();
 				}
 			}
 		}

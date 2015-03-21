@@ -2,11 +2,11 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework model behavior class
@@ -111,6 +111,34 @@ class FOFModelFieldText extends FOFModelField
 	 * @return  string  Empty string
 	 */
 	public function interval($value, $interval, $include = true)
+	{
+		return '';
+	}
+
+	/**
+	 * Dummy method; this search makes no sense for text fields
+	 *
+	 * @param   mixed    $from     Ignored
+	 * @param   mixed    $to       Ignored
+	 * @param   boolean  $include  Ignored
+	 *
+	 * @return  string  Empty string
+	 */
+	public function range($from, $to, $include = false)
+	{
+		return '';
+	}
+
+	/**
+	 * Dummy method; this search makes no sense for text fields
+	 *
+	 * @param   mixed    $from     Ignored
+	 * @param   mixed    $to       Ignored
+	 * @param   boolean  $include  Ignored
+	 *
+	 * @return  string  Empty string
+	 */
+	public function modulo($from, $to, $include = false)
 	{
 		return '';
 	}

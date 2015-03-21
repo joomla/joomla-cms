@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,12 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Prototype form model.
  *
- * @package     Joomla.Legacy
- * @subpackage  Model
- * @see         JForm
- * @see         JFormField
- * @see         JFormRule
- * @since       12.2
+ * @see    JForm
+ * @see    JFormField
+ * @see    JFormRule
+ * @since  12.2
  */
 abstract class JModelForm extends JModelLegacy
 {
@@ -51,13 +49,21 @@ abstract class JModelForm extends JModelLegacy
 			if (!$table->load($pk))
 			{
 				$this->setError($table->getError());
+
 				return false;
+			}
+
+			// If there is no checked_out or checked_out_time field, just return true.
+			if (!property_exists($table, 'checked_out') || !property_exists($table, 'checked_out_time'))
+			{
+				return true;
 			}
 
 			// Check if this is the user having previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
+
 				return false;
 			}
 
@@ -65,6 +71,7 @@ abstract class JModelForm extends JModelLegacy
 			if (!$table->checkin($pk))
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
@@ -92,6 +99,7 @@ abstract class JModelForm extends JModelLegacy
 			if (!$table->load($pk))
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -107,6 +115,7 @@ abstract class JModelForm extends JModelLegacy
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
+
 				return false;
 			}
 
@@ -114,6 +123,7 @@ abstract class JModelForm extends JModelLegacy
 			if (!$table->checkout($user->get('id'), $pk))
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
@@ -187,11 +197,11 @@ abstract class JModelForm extends JModelLegacy
 
 			// Load the data into the form after the plugins have operated.
 			$form->bind($data);
-
 		}
 		catch (Exception $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -299,6 +309,7 @@ abstract class JModelForm extends JModelLegacy
 		if ($return instanceof Exception)
 		{
 			$this->setError($return->getMessage());
+
 			return false;
 		}
 

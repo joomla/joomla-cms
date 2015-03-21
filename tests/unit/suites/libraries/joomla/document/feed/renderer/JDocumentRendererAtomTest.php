@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -66,7 +66,8 @@ class JDocumentRendererAtomTest extends TestCase
 		);
 
 		$_SERVER['REQUEST_METHOD'] = 'get';
-		JRequest::setVar('type', 'atom');
+		$input = JFactory::getApplication()->input;
+		$input->set('type', 'atom');
 		$this->object = new JDocumentFeed;
 		$_SERVER['HTTP_HOST'] = 'localhost';
 		$_SERVER['REQUEST_URI'] = '/index.php?format=feed&amp;type=atom';

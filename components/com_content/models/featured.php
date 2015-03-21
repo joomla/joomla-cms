@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ require_once __DIR__ . '/articles.php';
 /**
  * Frontpage Component Model
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.5
+ * @since  1.5
  */
 class ContentModelFeatured extends ContentModelArticles
 {
@@ -31,6 +29,11 @@ class ContentModelFeatured extends ContentModelArticles
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   The field to order on.
+	 * @param   string  $direction  The direction to order on.
+	 *
+	 * @return  void.
 	 *
 	 * @since   1.6
 	 */
@@ -52,8 +55,9 @@ class ContentModelFeatured extends ContentModelArticles
 
 		$this->setState('filter.frontpage', true);
 
-		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content'))){
-			// filter on published for those who do not have edit or edit.state rights.
+		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content')))
+		{
+			// Filter on published for those who do not have edit or edit.state rights.
 			$this->setState('filter.published', 1);
 		}
 		else
@@ -61,7 +65,7 @@ class ContentModelFeatured extends ContentModelArticles
 			$this->setState('filter.published', array(0, 1, 2));
 		}
 
-		// check for category selection
+		// Check for category selection
 		if ($params->get('featured_categories') && implode(',', $params->get('featured_categories')) == true)
 		{
 			$featuredCategories = $params->get('featured_categories');
@@ -78,13 +82,15 @@ class ContentModelFeatured extends ContentModelArticles
 	{
 		$params = clone $this->getState('params');
 		$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
+
 		if ($limit > 0)
 		{
 			$this->setState('list.limit', $limit);
+
 			return parent::getItems();
 		}
-		return array();
 
+		return array();
 	}
 
 	/**
@@ -94,7 +100,7 @@ class ContentModelFeatured extends ContentModelArticles
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id	A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 */
@@ -107,6 +113,8 @@ class ContentModelFeatured extends ContentModelArticles
 	}
 
 	/**
+	 * Get the list of items.
+	 *
 	 * @return  JDatabaseQuery
 	 */
 	protected function getListQuery()

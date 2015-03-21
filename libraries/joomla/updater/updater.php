@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,12 +18,50 @@ jimport('joomla.utilities.arrayhelper');
 /**
  * Updater Class
  *
- * @package     Joomla.Platform
- * @subpackage  Updater
- * @since       11.1
+ * @since  11.1
  */
 class JUpdater extends JAdapter
 {
+	/**
+	 * Development snapshots, nightly builds, pre-release versions and so on
+	 *
+	 * @const  integer
+	 * @since  3.4
+	 */
+	const STABILITY_DEV = 0;
+
+	/**
+	 * Alpha versions (work in progress, things are likely to be broken)
+	 *
+	 * @const  integer
+	 * @since  3.4
+	 */
+	const STABILITY_ALPHA = 1;
+
+	/**
+	 * Beta versions (major functionality in place, show-stopper bugs are likely to be present)
+	 *
+	 * @const  integer
+	 * @since  3.4
+	 */
+	const STABILITY_BETA = 2;
+
+	/**
+	 * Release Candidate versions (almost stable, minor bugs might be present)
+	 *
+	 * @const  integer
+	 * @since  3.4
+	 */
+	const STABILITY_RC = 3;
+
+	/**
+	 * Stable versions (production quality code)
+	 *
+	 * @const  integer
+	 * @since  3.4
+	 */
+	const STABILITY_STABLE = 4;
+
 	/**
 	 * @var    JUpdater  JUpdater instance container.
 	 * @since  11.3
@@ -45,7 +83,7 @@ class JUpdater extends JAdapter
 	 * Returns a reference to the global Installer object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return  object  An installer object
+	 * @return  JUpdater  An installer object
 	 *
 	 * @since   11.1
 	 */
@@ -55,48 +93,62 @@ class JUpdater extends JAdapter
 		{
 			self::$instance = new JUpdater;
 		}
+
 		return self::$instance;
 	}
 
 	/**
 	 * Finds an update for an extension
 	 *
-	 * @param   integer  $eid           Extension Identifier; if zero use all sites
-	 * @param   integer  $cacheTimeout  How many seconds to cache update information; if zero, force reload the update information
+	 * @param   integer  $eid                Extension Identifier; if zero use all sites
+	 * @param   integer  $cacheTimeout       How many seconds to cache update information; if zero, force reload the update information
+	 * @param   integer  $minimum_stability  Minimum stability for the updates; 0=dev, 1=alpha, 2=beta, 3=rc, 4=stable
 	 *
 	 * @return  boolean True if there are updates
 	 *
 	 * @since   11.1
 	 */
-	public function findUpdates($eid = 0, $cacheTimeout = 0)
+	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimum_stability = self::STABILITY_STABLE)
 	{
-		$db = $this->getDBO();
+		$db     = $this->getDBO();
+		$query  = $db->getQuery(true);
+
 		$retval = false;
 
-		// Push it into an array
-		if (!is_array($eid))
+		$query->select('DISTINCT a.update_site_id, a.type, a.location, a.last_check_timestamp, a.extra_query')
+			->from('#__update_sites AS a')
+			->where('a.enabled = 1');
+
+		if ($eid)
 		{
-			$query = 'SELECT DISTINCT update_site_id, type, location, last_check_timestamp, extra_query FROM #__update_sites WHERE enabled = 1';
+			$query->join('INNER', '#__update_sites_extensions AS b ON a.update_site_id = b.update_site_id');
+
+			if (is_array($eid))
+			{
+				$query->where('b.extension_id IN (' . implode(',', $eid) . ')');
+			}
+			elseif ((int) $eid)
+			{
+				$query->where('b.extension_id = ' . $eid);
+			}
 		}
-		else
-		{
-			$query = 'SELECT DISTINCT update_site_id, type, location, last_check_timestamp, extra_query FROM #__update_sites' .
-				' WHERE update_site_id IN' .
-				'  (SELECT update_site_id FROM #__update_sites_extensions WHERE extension_id IN (' . implode(',', $eid) . '))';
-		}
+
 		$db->setQuery($query);
 		$results = $db->loadAssocList();
 		$result_count = count($results);
 		$now = time();
+
 		for ($i = 0; $i < $result_count; $i++)
 		{
 			$result = &$results[$i];
 			$this->setAdapter($result['type']);
+
 			if (!isset($this->_adapters[$result['type']]))
 			{
 				// Ignore update sites requiring adapters we don't have installed
 				continue;
 			}
+
 			if ($cacheTimeout > 0)
 			{
 				if (isset($result['last_check_timestamp']) && ($now - $result['last_check_timestamp'] <= $cacheTimeout))
@@ -107,7 +159,13 @@ class JUpdater extends JAdapter
 					continue;
 				}
 			}
-			$update_result = $this->_adapters[$result['type']]->findUpdate($result);
+
+			$result['minimum_stability'] = $minimum_stability;
+
+			/** @var JUpdateAdapter $adapter */
+			$adapter       = $this->_adapters[$result['type']];
+			$update_result = $adapter->findUpdate($result);
+
 			if (is_array($update_result))
 			{
 				if (array_key_exists('update_sites', $update_result) && count($update_result['update_sites']))
@@ -150,6 +208,7 @@ class JUpdater extends JAdapter
 								// We have an installed extension, check the update is actually newer
 								$extension->load($eid);
 								$data = json_decode($extension->manifest_cache, true);
+
 								if (version_compare($current_update->version, $data['version'], '>') == 1)
 								{
 									$current_update->extension_id = $eid;
@@ -184,6 +243,7 @@ class JUpdater extends JAdapter
 			$db->setQuery($query);
 			$db->execute();
 		}
+
 		return $retval;
 	}
 
@@ -201,11 +261,12 @@ class JUpdater extends JAdapter
 		$updaterow = JTable::getInstance('update');
 		$updaterow->load($id);
 		$update = new JUpdate;
+
 		if ($update->loadFromXML($updaterow->detailsurl))
 		{
 			return $update->install();
 		}
+
 		return false;
 	}
-
 }

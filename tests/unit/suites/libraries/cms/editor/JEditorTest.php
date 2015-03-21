@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Editor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -68,77 +68,5 @@ class JEditorTest extends PHPUnit_Framework_TestCase
 			$this->object->getState(),
 			$this->equalTo('JEditor::getState()')
 		);
-	}
-
-	/**
-	 * @todo   Implement testAttach().
-	 */
-	public function testAttach()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo   Implement testDetach().
-	 */
-	public function testDetach()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo   Implement testInitialise().
-	 */
-	public function testInitialise()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo   Implement testDisplay().
-	 */
-	public function testDisplay()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo   Implement testSave().
-	 */
-	public function testSave()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo   Implement testGetContent().
-	 */
-	public function testGetContent()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo   Implement testSetContent().
-	 */
-	public function testSetContent()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo   Implement testGetButtons().
-	 */
-	public function testGetButtons()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

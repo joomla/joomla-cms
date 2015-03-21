@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  String
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -81,6 +81,12 @@ class JStringPunycodeTest extends PHPUnit_Framework_TestCase
 			'http://xn--au-gr-de-nos-plumes-fzb.fr',
 			'Tests punycode encoding a UTF8 url in French'
 		);
+
+		$this->assertEquals(
+			JStringPunycode::urlToPunycode('http://www.джумла-тест.рф#test'),
+			'http://www.xn----7sblgc4ag8bhcd.xn--p1ai#test',
+			'Tests punycode encoding a UTF8 url in Cyrillic with an anchor (See GitHub #4362)'
+		);
 	}
 
 	/**
@@ -102,6 +108,12 @@ class JStringPunycodeTest extends PHPUnit_Framework_TestCase
 			JStringPunycode::urlToUTF8('http://xn--au-gr-de-nos-plumes-fzb.fr'),
 			'http://au-gré-de-nos-plumes.fr',
 			'Tests punycode decoding a UTF8 url in French'
+		);
+
+		$this->assertEquals(
+			JStringPunycode::urlToUTF8('http://www.xn----7sblgc4ag8bhcd.xn--p1ai#test'),
+			'http://www.джумла-тест.рф#test',
+			'Tests punycode decoding a UTF8 url in Cyrillic with an anchor (See GitHub #4362)'
 		);
 	}
 

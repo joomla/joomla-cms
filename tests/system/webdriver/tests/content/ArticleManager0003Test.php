@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 require_once 'JoomlaWebdriverTestCase.php';
@@ -17,13 +17,12 @@ use SeleniumClient\DesiredCapabilities;
 /**
  * This class tests the Article: Front End and Add/Edit Screens.
  *
- * @package    Joomla.Test
- * @subpackage Webdriver
- * @since      3.2
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
+ * @since       3.2
  */
 class ArticleManager0003Test extends JoomlaWebdriverTestCase
 {
-
 	/**
 	 * The page class being tested.
 	 *
@@ -36,18 +35,21 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	 * Login to back end and navigate to menu Tags.
 	 *
 	 * @since 3.2
+	 *
+	 * @return void
 	 */
 	public function setUp()
 	{
-		$cfg = new SeleniumConfig();
+		$cfg = new SeleniumConfig;
 		parent::setUp();
-		$this->driver->get($cfg->host . $cfg->path);
 	}
 
 	/**
 	 * Logout and close test.
 	 *
 	 * @since 3.0
+	 *
+	 * @return void
 	 */
 	public function tearDown()
 	{
@@ -56,13 +58,17 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * change state of an article to archive
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function SiteArchivedArticle_ChangeToArchived_ArticleArchived()
 	{
 		$salt = rand();
 		$newArticle = 'Test Article ' . $salt;
-		$cfg = new SeleniumConfig();
+		$cfg = new SeleniumConfig;
 		$archivedArticlePath = 'index.php/using-joomla/extensions/components/content-component/archived-articles';
 		$url = $cfg->host . $cfg->path . $archivedArticlePath;
 		$articleManager = 'administrator/index.php?option=com_content';
@@ -91,13 +97,17 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * change the state of an article from the front end
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function frontEndSingleArticleState_ChangeArticleState_ArticleStateChanged()
 	{
 		$salt = rand();
 		$articleName = 'Test Article ' . $salt;
-		$cfg = new SeleniumConfig();
+		$cfg = new SeleniumConfig;
 		$urlHome = $this->cfg->host . $this->cfg->path . 'index.php';
 		$homePage = $this->getPageObject('SiteContentFeaturedPage', true, $urlHome);
 		$articleUrl = $this->cfg->host . $this->cfg->path . 'index.php/test-article-' . $salt;
@@ -156,6 +166,10 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * change the batch access level to public
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function batchAccessLevel_ChangeBatchAccessLevel_AccessLevelChanged()
@@ -177,6 +191,10 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check the usage of batch copy
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function batchCopy_BatchCopyArticle_ArticleCopied()
@@ -211,6 +229,10 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check the usage of batch move
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function batchMove_BatchMoveArticle_ArticleMoved()
@@ -236,11 +258,15 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * front end article text editing
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function frontEndEditArticle_ChangeArticleText_ArticleTextChanged()
 	{
-		$cfg = new SeleniumConfig();
+		$cfg = new SeleniumConfig;
 		$checkingText = '<p>Testing Edit</p>';
 		$validationText = 'Testing Edit';
 		$salt = rand();
@@ -269,5 +295,72 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		$this->articleManagerPage->trashAndDelete($articleName);
 		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName), 'Test Article should not be present');
 	}
-}
 
+	/**
+	 * add featured article and check its existence
+	 *
+	 * @return void
+	 *
+	 * @test
+	 */
+	public function addArticle_FeaturedArticle_ArticleAdded()
+	{
+		/*adding test category.*/
+		$cfg = new SeleniumConfig;
+		$this->doAdminLogin();
+		$categoryManager = 'administrator/index.php?option=com_categories&extension=com_content';
+		$this->driver->get($cfg->host . $cfg->path . $categoryManager);
+
+		$salt = rand();
+		$categoryName = 'category_ABC' . $salt;
+		$this->categoryManagerPage = $this->getPageObject('CategoryManagerPage');
+		$this->assertFalse($this->categoryManagerPage->getRowNumber($categoryName), 'Test Category should not be present');
+		$this->categoryManagerPage->addCategory($categoryName);
+		$message = $this->categoryManagerPage->getAlertMessage();
+		$this->assertTrue(strpos($message, 'Category successfully saved') >= 0, 'Category save should return success');
+
+		/*adding article of the test category*/
+		$articleManager = 'administrator/index.php?option=com_content';
+		$this->driver->get($cfg->host . $cfg->path . $articleManager);
+
+		$articleName = 'article_ABC' . $salt;
+		$category = $categoryName;
+		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
+		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName), 'Test Article should not be present');
+		$this->articleManagerPage->addArticle($articleName, $category, array('Featured' => 'Yes'));
+		$message = $this->articleManagerPage->getAlertMessage();
+		$this->assertTrue(strpos($message, 'Article successfully saved') >= 0, 'Article save should return success');
+
+		/*confirming if the article is present in front end*/
+		$cfg = new SeleniumConfig;
+		$i = 0;
+		$homePageUrl = 'index.php?limitstart=';
+		$this->driver->get($cfg->host . $cfg->path . $homePageUrl . $i);
+		$this->siteHomePage = $this->getPageObject('SiteContentFeaturedPage');
+		$arrayTitles = $this->siteHomePage->getArticleTitles();
+		$d = $this->driver;
+
+		for ($i = 0;$i <= 4;)
+		{
+			if (in_array($articleName, $arrayTitles))
+				break;
+			else
+			{
+				++$i;
+				$this->driver->get($cfg->host . $cfg->path . $homePageUrl . $i);
+				$this->siteHomePage = $this->getPageObject('SiteContentFeaturedPage');
+				$arrayTitles = $this->siteHomePage->getArticleTitles();
+			}
+		}
+
+		/*delete test articles and category*/
+		$cpPage = $this->doAdminLogin();
+		$this->driver->get($cfg->host . $cfg->path . $articleManager);
+		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
+		$this->articleManagerPage->trashAndDelete($articleName);
+		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName), 'Test article should not be present');
+		$this->driver->get($cfg->host . $cfg->path . $categoryManager);
+		$this->categoryManagerPage->trashAndDelete($categoryName);
+		$this->assertFalse($this->categoryManagerPage->getRowNumber($categoryName), 'Test Category should not be present');
+	}
+}

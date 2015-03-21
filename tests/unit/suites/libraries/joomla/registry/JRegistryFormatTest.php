@@ -3,11 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Registry
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/registry/format.php';
 
 /**
  * Test class for JRegistryFormat.
@@ -28,30 +26,30 @@ class JRegistryFormatTest extends PHPUnit_Framework_TestCase
 	{
 		// Test INI format.
 		$object = JRegistryFormat::getInstance('INI');
-		$this->assertThat(
-			$object instanceof JRegistryFormatIni,
-			$this->isTrue()
+		$this->assertInstanceOf(
+			'JRegistryFormatINI',
+			$object
 		);
 
 		// Test JSON format.
 		$object = JRegistryFormat::getInstance('JSON');
-		$this->assertThat(
-			$object instanceof JRegistryFormatJson,
-			$this->isTrue()
+		$this->assertInstanceOf(
+			'JRegistryFormatJSON',
+			$object
 		);
 
 		// Test PHP format.
 		$object = JRegistryFormat::getInstance('PHP');
-		$this->assertThat(
-			$object instanceof JRegistryFormatPHP,
-			$this->isTrue()
+		$this->assertInstanceOf(
+			'JRegistryFormatPHP',
+			$object
 		);
 
 		// Test XML format.
 		$object = JRegistryFormat::getInstance('XML');
-		$this->assertThat(
-			$object instanceof JRegistryFormatXml,
-			$this->isTrue()
+		$this->assertInstanceOf(
+			'JRegistryFormatXML',
+			$object
 		);
 
 		// Test non-existing format.

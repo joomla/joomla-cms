@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.sef
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -11,9 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! SEF Plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.sef
- * @since       1.5
+ * @since  1.5
  */
 class PlgSystemSef extends JPlugin
 {
@@ -31,12 +29,12 @@ class PlgSystemSef extends JPlugin
 
 		if ($app->getName() != 'site' || $doc->getType() !== 'html')
 		{
-			return true;
+			return;
 		}
 
-		$router = $app->getRouter();
+		$router = $app::getRouter();
 
-		$uri     = clone JUri::getInstance();
+		$uri     = JUri::getInstance();
 		$domain  = $this->params->get('domain');
 
 		if ($domain === null || $domain === '')
@@ -44,11 +42,9 @@ class PlgSystemSef extends JPlugin
 			$domain = $uri->toString(array('scheme', 'host', 'port'));
 		}
 
-		$parsed = $router->parse($uri);
-		$fakelink = 'index.php?' . http_build_query($parsed);
-		$link = $domain . JRoute::_($fakelink, false);
+		$link = $domain . JRoute::_('index.php?' . http_build_query($router->getVars()), false);
 
-		if ($uri !== $link)
+		if ($uri->toString() !== $link)
 		{
 			$doc->addHeadLink(htmlspecialchars($link), 'canonical');
 		}
@@ -63,13 +59,13 @@ class PlgSystemSef extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->getName() != 'site' || $app->getCfg('sef') == '0')
+		if ($app->getName() != 'site' || $app->get('sef') == '0')
 		{
 			return true;
 		}
 
 		// Replace src links.
-		$base   = JUri::base(true).'/';
+		$base   = JUri::base(true) . '/';
 		$buffer = $app->getBody();
 
 		$regex  = '#href="index.php\?([^"]*)#m';
@@ -77,9 +73,9 @@ class PlgSystemSef extends JPlugin
 		$this->checkBuffer($buffer);
 
 		// Check for all unknown protocals (a protocol must contain at least one alpahnumeric character followed by a ":").
-		$protocols = '[a-zA-Z0-9]+:';
-		$regex     = '#(src|href|poster)="(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
-		$buffer    = preg_replace($regex, "$1=\"$base\$2\"", $buffer);
+		$protocols = '[a-zA-Z0-9\-]+:';
+		$regex     = '#\s+(src|href|poster)="(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
+		$buffer    = preg_replace($regex, " $1=\"$base\$2\"", $buffer);
 		$this->checkBuffer($buffer);
 
 		$regex  = '#(onclick="window.open\(\')(?!/|' . $protocols . '|\#)([^/]+[^\']*?\')#m';
@@ -88,12 +84,12 @@ class PlgSystemSef extends JPlugin
 
 		// ONMOUSEOVER / ONMOUSEOUT
 		$regex  = '#(onmouseover|onmouseout)="this.src=([\']+)(?!/|' . $protocols . '|\#|\')([^"]+)"#m';
-		$buffer = preg_replace($regex, '$1="this.src=$2' . $base .'$3$4"', $buffer);
+		$buffer = preg_replace($regex, '$1="this.src=$2' . $base . '$3$4"', $buffer);
 		$this->checkBuffer($buffer);
 
 		// Background image.
 		$regex  = '#style\s*=\s*[\'\"](.*):\s*url\s*\([\'\"]?(?!/|' . $protocols . '|\#)([^\)\'\"]+)[\'\"]?\)#m';
-		$buffer = preg_replace($regex, 'style="$1: url(\'' . $base .'$2$3\')', $buffer);
+		$buffer = preg_replace($regex, 'style="$1: url(\'' . $base . '$2$3\')', $buffer);
 		$this->checkBuffer($buffer);
 
 		// OBJECT <param name="xx", value="yy"> -- fix it only inside the <param> tag.
@@ -103,7 +99,7 @@ class PlgSystemSef extends JPlugin
 
 		// OBJECT <param value="xx", name="yy"> -- fix it only inside the <param> tag.
 		$regex  = '#(<param\s+[^>]*)value\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"\s*name\s*=\s*"(movie|src|url)"#m';
-		$buffer = preg_replace($regex, '<param value="' . $base .'$2" name="$3"', $buffer);
+		$buffer = preg_replace($regex, '<param value="' . $base . '$2" name="$3"', $buffer);
 		$this->checkBuffer($buffer);
 
 		// OBJECT data="xx" attribute -- fix it only in the object tag.
@@ -112,6 +108,7 @@ class PlgSystemSef extends JPlugin
 		$this->checkBuffer($buffer);
 
 		$app->setBody($buffer);
+
 		return true;
 	}
 
@@ -140,6 +137,7 @@ class PlgSystemSef extends JPlugin
 				default:
 					$message = "Unknown PCRE error calling PCRE function";
 			}
+
 			throw new RuntimeException($message);
 		}
 	}
@@ -155,7 +153,7 @@ class PlgSystemSef extends JPlugin
 	{
 		$url   = $matches[1];
 		$url   = str_replace('&amp;', '&', $url);
-		$route = JRoute::_('index.php?'.$url);
+		$route = JRoute::_('index.php?' . $url);
 
 		return 'href="' . $route;
 	}

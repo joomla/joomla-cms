@@ -25,7 +25,6 @@
 			name="published"
 			type="status"
 			label="COM_CATEGORIES_FILTER_PUBLISHED"
-			statuses="*,0,1,2,-2"
 			description="COM_CATEGORIES_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"
 			>
@@ -88,7 +87,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="inputbox input-mini"
+			class="input-mini"
 			default="25"
 			label="COM_CATEGORIES_LIST_LIMIT"
 			description="COM_CATEGORIES_LIST_LIMIT_DESC"

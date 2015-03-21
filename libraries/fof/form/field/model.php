@@ -2,16 +2,13 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
-if (!class_exists('JFormFieldSql'))
-{
-	require_once JPATH_LIBRARIES . '/joomla/form/fields/sql.php';
-}
+JFormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for FOF
@@ -54,7 +51,7 @@ class FOFFormFieldModel extends FOFFormFieldList implements FOFFormField
 					$this->repeatable = $this->getRepeatable();
 				}
 
-				return $this->static;
+				return $this->repeatable;
 				break;
 
 			default:
@@ -122,31 +119,7 @@ class FOFFormFieldModel extends FOFFormFieldList implements FOFFormField
 
 		if ($show_link && ($this->item instanceof FOFTable))
 		{
-			// Replace [ITEM:ID] in the URL with the item's key value (usually:
-			// the auto-incrementing numeric ID)
-			$keyfield = $this->item->getKeyName();
-			$replace  = $this->item->$keyfield;
-			$link_url = str_replace('[ITEM:ID]', $replace, $link_url);
-
-			// Replace the [ITEMID] in the URL with the current Itemid parameter
-			$link_url = str_replace('[ITEMID]', JFactory::getApplication()->input->getInt('Itemid', 0), $link_url);
-
-			// Replace other field variables in the URL
-			$fields = $this->item->getFields();
-
-			foreach ($fields as $fielddata)
-			{
-				$fieldname = $fielddata->Field;
-
-				if (empty($fieldname))
-				{
-					$fieldname = $fielddata->column_name;
-				}
-
-				$search    = '[ITEM:' . strtoupper($fieldname) . ']';
-				$replace   = $this->item->$fieldname;
-				$link_url  = str_replace($search, $replace, $link_url);
-			}
+			$link_url = $this->parseFieldTags($link_url);
 		}
 		else
 		{
@@ -273,5 +246,45 @@ class FOFFormFieldModel extends FOFFormFieldList implements FOFFormField
 		$options = array_merge(parent::getOptions(), $options);
 
 		return $options;
+	}
+
+	/**
+	 * Replace string with tags that reference fields
+	 *
+	 * @param   string  $text  Text to process
+	 *
+	 * @return  string         Text with tags replace
+	 */
+	protected function parseFieldTags($text)
+	{
+		$ret = $text;
+
+		// Replace [ITEM:ID] in the URL with the item's key value (usually:
+		// the auto-incrementing numeric ID)
+		$keyfield = $this->item->getKeyName();
+		$replace  = $this->item->$keyfield;
+		$ret = str_replace('[ITEM:ID]', $replace, $ret);
+
+		// Replace the [ITEMID] in the URL with the current Itemid parameter
+		$ret = str_replace('[ITEMID]', JFactory::getApplication()->input->getInt('Itemid', 0), $ret);
+
+		// Replace other field variables in the URL
+		$fields = $this->item->getTableFields();
+
+		foreach ($fields as $fielddata)
+		{
+			$fieldname = $fielddata->Field;
+
+			if (empty($fieldname))
+			{
+				$fieldname = $fielddata->column_name;
+			}
+
+			$search    = '[ITEM:' . strtoupper($fieldname) . ']';
+			$replace   = $this->item->$fieldname;
+			$ret  = str_replace($search, $replace, $ret);
+		}
+
+		return $ret;
 	}
 }

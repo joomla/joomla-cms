@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.framework');
+JHtml::_('behavior.core');
 JHtml::_('formbehavior.chosen', 'select');
 
 $n			= count($this->items);
@@ -24,7 +24,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<?php if ($this->params->get('filter_field')) :?>
 			<div class="btn-group">
 				<label class="filter-search-lbl element-invisible" for="filter-search">
-					<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL').'&#160;'; ?>
+					<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL') . '&#160;'; ?>
 				</label>
 				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>" />
 			</div>
@@ -47,7 +47,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php endif; ?>
 
 	<?php if ($this->items == false || $n == 0) : ?>
-		<p> <?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p></div>
+		<p> <?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
 	<?php else : ?>
 		<table class="category table table-striped table-bordered table-hover">
 			<?php if ($this->params->get('show_headings')) : ?>
@@ -59,11 +59,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php if ($date = $this->params->get('tag_list_show_date')) : ?>
 						<th id="categorylist_header_date">
 							<?php if ($date == "created") : ?>
-								<?php echo JHtml::_('grid.sort', 'COM_TAGS_'.$date.'_DATE', 'c.core_created_time', $listDirn, $listOrder); ?>
+								<?php echo JHtml::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_created_time', $listDirn, $listOrder); ?>
 							<?php elseif ($date == "modified") : ?>
-								<?php echo JHtml::_('grid.sort', 'COM_TAGS_'.$date.'_DATE', 'c.core_modified_time', $listDirn, $listOrder); ?>
+								<?php echo JHtml::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_modified_time', $listDirn, $listOrder); ?>
 							<?php elseif ($date == "published") : ?>
-								<?php echo JHtml::_('grid.sort', 'COM_TAGS_'.$date.'_DATE', 'c.core_publish_up', $listDirn, $listOrder); ?>
+								<?php echo JHtml::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_publish_up', $listDirn, $listOrder); ?>
 							<?php endif; ?>
 						</th>
 					<?php endif; ?>
@@ -101,7 +101,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
-		</table></div>
+		</table>
 	<?php endif; ?>
 
 <?php // Add pagination links ?>

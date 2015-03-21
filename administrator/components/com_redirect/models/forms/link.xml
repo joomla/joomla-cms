@@ -14,7 +14,6 @@
 		<field
 			name="old_url"
 			type="text"
-			class="inputbox"
 			label="COM_REDIRECT_FIELD_OLD_URL_LABEL"
 			description="COM_REDIRECT_FIELD_OLD_URL_DESC"
 			size="50"
@@ -23,7 +22,6 @@
 		<field
 			name="new_url"
 			type="text"
-			class="inputbox"
 			label="COM_REDIRECT_FIELD_NEW_URL_LABEL"
 			description="COM_REDIRECT_FIELD_NEW_URL_DESC"
 			size="50"
@@ -32,7 +30,6 @@
 		<field
 			name="comment"
 			type="text"
-			class="inputbox"
 			label="COM_REDIRECT_FIELD_COMMENT_LABEL"
 			description="COM_REDIRECT_FIELD_COMMENT_DESC"
 			size="40" />
@@ -42,7 +39,6 @@
 			type="list"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
-			class="inputbox"
 			size="1"
 			required="true"
 			default="1">
@@ -64,7 +60,6 @@
 			name="referer"
 			type="text"
 			id="referer"
-			class="inputbox"
 			label="COM_REDIRECT_FIELD_REFERRER_LABEL"
 			size="50"
 			readonly="true" />
@@ -96,5 +91,15 @@
 			size="20"
 			readonly="true"
 			filter="unset" />
+	</fieldset>
+	<fieldset name="advanced">
+		<field
+			name="header"
+			type="redirect"
+			default="301"
+			class="input-xlarge"
+			label="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_LABEL"
+			description="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_DESC"
+		/>
 	</fieldset>
 </form>

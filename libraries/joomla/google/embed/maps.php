@@ -3,22 +3,21 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Google Maps embed class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @since  12.3
  */
 class JGoogleEmbedMaps extends JGoogleEmbed
 {
-
 	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
 	 * @since  12.3
@@ -28,15 +27,15 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  Google options object
-	 * @param   JUri       $uri      URL of the page being rendered
-	 * @param   JHttp      $http     Http client for geocoding requests
+	 * @param   Registry  $options  Google options object
+	 * @param   JUri      $uri      URL of the page being rendered
+	 * @param   JHttp     $http     Http client for geocoding requests
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry $options = null, JUri $uri = null, JHttp $http = null)
+	public function __construct(Registry $options = null, JUri $uri = null, JHttp $http = null)
 	{
-		parent::__construct($options = null, $uri = null);
+		parent::__construct($options, $uri);
 		$this->http = $http ? $http : new JHttp($this->options);
 	}
 
@@ -297,6 +296,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			{
 				return false;
 			}
+
 			$location = $marker['loc'];
 		}
 		elseif (is_string($location))
@@ -549,11 +549,6 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 */
 	public function getHeader()
 	{
-		if (!$this->getOption('key'))
-		{
-			throw new UnexpectedValueException('A Google Maps API key is required.');
-		}
-
 		$zoom = $this->getZoom();
 		$center = $this->getCenter();
 		$maptype = $this->getMapType();
@@ -598,13 +593,14 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			$onload = "function() {";
 			$onload .= 'var script = document.createElement("script");';
 			$onload .= 'script.type = "text/javascript";';
-			$onload .= "script.src = '{$scheme}://maps.googleapis.com/maps/api/js?key={$key}&sensor={$sensor}&callback={$asynccallback}';";
+			$onload .= "script.src = '{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : "")
+				. "sensor={$sensor}&callback={$asynccallback}';";
 			$onload .= 'document.body.appendChild(script);';
 			$onload .= '}';
 		}
 		else
 		{
-			$output = "<script type='text/javascript' src='{$scheme}://maps.googleapis.com/maps/api/js?key={$key}&sensor={$sensor}'>";
+			$output = "<script type='text/javascript' src='{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : "") . "sensor={$sensor}'>";
 			$output .= '</script>';
 			$output .= '<script type="text/javascript">';
 
@@ -620,7 +616,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			break;
 
 			case 'jquery':
-			$output .= "$(document).ready({$onload});";
+			$output .= "jQuery(document).ready({$onload});";
 			break;
 
 			case 'mootools':
@@ -688,6 +684,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 		{
 			throw new RuntimeException('Invalid json received geocoding address: ' . $response->body . '.');
 		}
+
 		if ($data['status'] != 'OK')
 		{
 			return null;

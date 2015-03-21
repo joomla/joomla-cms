@@ -3,20 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_content/router.php';
-
 /**
  * Content search plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  Search.content
- * @since       1.6
+ * @since  1.6
  */
 class PlgSearchContent extends JPlugin
 {
@@ -32,6 +28,7 @@ class PlgSearchContent extends JPlugin
 		static $areas = array(
 			'content' => 'JGLOBAL_ARTICLES'
 		);
+
 		return $areas;
 	}
 
@@ -61,6 +58,7 @@ class PlgSearchContent extends JPlugin
 		require_once JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php';
 
 		$searchText = $text;
+
 		if (is_array($areas))
 		{
 			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
@@ -78,6 +76,7 @@ class PlgSearchContent extends JPlugin
 		$now = $date->toSql();
 
 		$text = trim($text);
+
 		if ($text == '')
 		{
 			return array();
@@ -101,17 +100,19 @@ class PlgSearchContent extends JPlugin
 			default:
 				$words = explode(' ', $text);
 				$wheres = array();
+
 				foreach ($words as $word)
 				{
 					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
 					$wheres2 = array();
-					$wheres2[] = 'a.title LIKE ' . $word;
-					$wheres2[] = 'a.introtext LIKE ' . $word;
-					$wheres2[] = 'a.fulltext LIKE ' . $word;
-					$wheres2[] = 'a.metakey LIKE ' . $word;
-					$wheres2[] = 'a.metadesc LIKE ' . $word;
+					$wheres2[] = 'LOWER(a.title) LIKE LOWER(' . $word . ')';
+					$wheres2[] = 'LOWER(a.introtext) LIKE LOWER(' . $word . ')';
+					$wheres2[] = 'LOWER(a.fulltext) LIKE LOWER(' . $word . ')';
+					$wheres2[] = 'LOWER(a.metakey) LIKE LOWER(' . $word . ')';
+					$wheres2[] = 'LOWER(a.metadesc) LIKE LOWER(' . $word . ')';
 					$wheres[] = implode(' OR ', $wheres2);
 				}
+
 				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
@@ -165,7 +166,7 @@ class PlgSearchContent extends JPlugin
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
 
-			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created')
+			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
 				->select('c.title AS section, ' . $case_when . ',' . $case_when1 . ', ' . '\'2\' AS browsernav')
 
@@ -195,9 +196,10 @@ class PlgSearchContent extends JPlugin
 			{
 				foreach ($list as $key => $item)
 				{
-					$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
+					$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language);
 				}
 			}
+
 			$rows[] = $list;
 		}
 
@@ -272,11 +274,13 @@ class PlgSearchContent extends JPlugin
 		}
 
 		$results = array();
+
 		if (count($rows))
 		{
 			foreach ($rows as $row)
 			{
 				$new_row = array();
+
 				foreach ($row as $article)
 				{
 					if (SearchHelper::checkNoHTML($article, $searchText, array('text', 'title', 'metadesc', 'metakey')))
@@ -284,6 +288,7 @@ class PlgSearchContent extends JPlugin
 						$new_row[] = $article;
 					}
 				}
+
 				$results = array_merge($results, (array) $new_row);
 			}
 		}

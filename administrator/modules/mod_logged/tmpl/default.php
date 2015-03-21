@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ JHtml::_('bootstrap.tooltip');
 				<strong class="row-title">
 					<?php if (isset($user->editLink)) : ?>
 						<a href="<?php echo $user->editLink; ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('JGRID_HEADING_ID'); ?> : <?php echo $user->id; ?>">
-							<?php echo $user->name;?>
+							<?php echo $user->name; ?>
 						</a>
 					<?php else : ?>
 						<?php echo $user->name; ?>
@@ -36,12 +36,12 @@ JHtml::_('bootstrap.tooltip');
 						<?php echo JText::_('JADMINISTRATION'); ?>
 					<?php else : ?>
 						<?php echo JText::_('JSITE'); ?>
-					<?php endif;?>
+					<?php endif; ?>
 				</small>
 			</div>
 			<div class="span3">
 				<span class="small hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LOGGED_LAST_ACTIVITY'); ?>">
-					<i class="icon-calendar"></i> <?php echo JHtml::_('date', $user->time, 'Y-m-d'); ?>
+					<i class="icon-calendar"></i> <?php echo JHtml::_('date', $user->time, JText::_('DATE_FORMAT_LC4')); ?>
 				</span>
 			</div>
 		</div>

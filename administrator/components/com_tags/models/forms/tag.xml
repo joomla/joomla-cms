@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fields name="urls">
-		<field
-			name="urla"
-			type="hidden"
-		/>
+		<!-- This fieldset is needed to stop the URLs column being null which throws errors in postgres -->
+		<fieldset name="urls">
+			<field
+				name="urla"
+				type="hidden"
+			/>
+		</fieldset>
 	</fields>
 
 	<field
@@ -71,7 +74,7 @@
 	<field
 		name="title"
 		type="text"
-		class="inputbox input-xxlarge input-large-text"
+		class="input-xxlarge input-large-text"
 		label="JGLOBAL_TITLE"
 		description="JFIELD_TITLE_DESC"
 		size="40"
@@ -81,7 +84,7 @@
 	<field
 		name="note"
 		type="text"
-		class="inputbox span12"
+		class="span12"
 		label="JFIELD_NOTE_LABEL"
 		description="JFIELD_NOTE_DESC"
 		size="40"
@@ -90,7 +93,6 @@
 	<field
 		name="description"
 		type="editor"
-		class="inputbox"
 		label="JGLOBAL_DESCRIPTION"
 		description="COM_TAGS_DESCRIPTION_DESC"
 		filter="JComponentHelper::filterText"
@@ -153,7 +155,6 @@
 	<field
 		name="alias"
 		type="text"
-		class="inputbox"
 		label="JFIELD_ALIAS_LABEL"
 		description="JFIELD_ALIAS_DESC"
 		hint="JFIELD_ALIAS_PLACEHOLDER"
@@ -170,7 +171,6 @@
 	<field
 		name="created_by_alias"
 		type="text"
-		class="inputbox"
 		labelclass="control-label"
 		label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL"
 		description="JGLOBAL_FIELD_CREATED_BY_ALIAS_DESC"
@@ -212,12 +212,12 @@
 	>
 		<option value="*">JALL</option>
 	</field>
-	
-	<field name="version_note" 
-		type="text" 
+
+	<field name="version_note"
+		type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-		description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
-		class="inputbox span12" size="45" 
+		description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+		class="span12" size="45"
 		labelclass="control-label"
 	/>
 
@@ -241,7 +241,6 @@
 			<field
 				name="tag_link_class"
 				type="text"
-				class="inputbox"
 				labelclass="control-label"
 				label="COM_TAGS_FIELD_TAG_LINK_CLASS"
 				description="COM_TAGS_FIELD_TAG_LINK_CLASS_DESC"
@@ -250,7 +249,9 @@
 			/>
 
 		</fieldset>
+	</fields>
 
+	<fields name="images">
 		<fieldset name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
 			<field
 				name="image_intro"
@@ -276,7 +277,6 @@
 			<field
 				name="image_intro_alt"
 				type="text"
-				class="inputbox"
 				labelclass="control-label"
 				label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
 				description="COM_TAGS_FIELD_IMAGE_ALT_DESC"
@@ -286,7 +286,6 @@
 			<field
 				name="image_intro_caption"
 				type="text"
-				class="inputbox"
 				labelclass="control-label"
 				label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
 				description="COM_TAGS_FIELD_IMAGE_CAPTION_DESC"
@@ -323,7 +322,6 @@
 			<field
 				name="image_fulltext_alt"
 				type="text"
-				class="inputbox"
 				labelclass="control-label"
 				label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
 				description="COM_TAGS_FIELD_IMAGE_ALT_DESC"
@@ -333,7 +331,6 @@
 			<field
 				name="image_fulltext_caption"
 				type="text"
-				class="inputbox"
 				labelclass="control-label"
 				label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
 				description="COM_TAGS_FIELD_IMAGE_CAPTION_DESC"

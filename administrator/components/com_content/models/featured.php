@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,10 +14,7 @@ require_once __DIR__ . '/articles.php';
 /**
  * About Page Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
- *
- * @since       1.6
+ * @since  1.6
  */
 class ContentModelFeatured extends ContentModelArticles
 {
@@ -176,7 +173,7 @@ class ContentModelFeatured extends ContentModelArticles
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where('a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search);
 			}
 		}

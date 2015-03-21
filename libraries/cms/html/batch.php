@@ -3,18 +3,16 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Extended Utility class for batch processing widgets.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.7
+ * @since  1.7
  */
 abstract class JHtmlBatch
 {
@@ -27,11 +25,11 @@ abstract class JHtmlBatch
 	 */
 	public static function access()
 	{
-		JHtml::_('bootstrap.tooltip');
+		JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '.modal-body'));
 
 		// Create the batch selector to change an access level on a selection list.
 		return
-			'<label id="batch-access-lbl" for="batch-access" class="hasToolip"'
+			'<label id="batch-access-lbl" for="batch-access" class="modalTooltip" '
 			. 'title="' . JHtml::tooltipText('JLIB_HTML_BATCH_ACCESS_LABEL', 'JLIB_HTML_BATCH_ACCESS_LABEL_DESC') . '">'
 			. JText::_('JLIB_HTML_BATCH_ACCESS_LABEL')
 			. '</label>'
@@ -44,8 +42,6 @@ abstract class JHtmlBatch
 					'id' => 'batch-access'
 				)
 			);
-
-		return implode("\n", $lines);
 	}
 
 	/**
@@ -88,11 +84,11 @@ abstract class JHtmlBatch
 	 */
 	public static function language()
 	{
-		JHtml::_('bootstrap.tooltip');
+		JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '.modal-body'));
 
 		// Create the batch selector to change the language on a selection list.
 		return
-			'<label id="batch-language-lbl" for="batch-language-id" class="hasToolip"'
+			'<label id="batch-language-lbl" for="batch-language-id" class="modalTooltip"'
 			. ' title="' . JHtml::tooltipText('JLIB_HTML_BATCH_LANGUAGE_LABEL', 'JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC') . '">'
 			. JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL')
 			. '</label>'
@@ -113,7 +109,7 @@ abstract class JHtmlBatch
 	 */
 	public static function user($noUser = true)
 	{
-		JHtml::_('bootstrap.tooltip');
+		JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '.modal-body'));
 
 		$optionNo = '';
 
@@ -124,7 +120,7 @@ abstract class JHtmlBatch
 
 		// Create the batch selector to select a user on a selection list.
 		return
-			'<label id="batch-user-lbl" for="batch-user" class="hasTooltip"'
+			'<label id="batch-user-lbl" for="batch-user" class="modalTooltip"'
 			. ' title="' . JHtml::tooltipText('JLIB_HTML_BATCH_USER_LABEL', 'JLIB_HTML_BATCH_USER_LABEL_DESC') . '">'
 			. JText::_('JLIB_HTML_BATCH_USER_LABEL')
 			. '</label>'
@@ -144,11 +140,11 @@ abstract class JHtmlBatch
 	 */
 	public static function tag()
 	{
-		JHtml::_('bootstrap.tooltip');
+		JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '.modal-body'));
 
 		// Create the batch selector to tag items on a selection list.
 		return
-			'<label id="batch-tag-lbl" for="batch-tag-id" class="hasTooltip"'
+			'<label id="batch-tag-lbl" for="batch-tag-id" class="modalTooltip"'
 			. ' title="' . JHtml::tooltipText('JLIB_HTML_BATCH_TAG_LABEL', 'JLIB_HTML_BATCH_TAG_LABEL_DESC') . '">'
 			. JText::_('JLIB_HTML_BATCH_TAG_LABEL')
 			. '</label>'

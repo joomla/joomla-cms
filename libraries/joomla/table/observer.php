@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
- * @package     Joomla.Platform
- * @subpackage  Table
- * @link        http://docs.joomla.org/JTableObserver
- * @since       3.1.2
+ * @link   https://docs.joomla.org/JTableObserver
+ * @since  3.1.2
  */
 abstract class JTableObserver implements JObserverInterface
 {
@@ -30,11 +28,11 @@ abstract class JTableObserver implements JObserverInterface
 	/**
 	 * Constructor: Associates to $table $this observer
 	 *
-	 * @param   JTable  $table  Table to be observed
+	 * @param   JTableInterface  $table  Table to be observed
 	 *
 	 * @since   3.1.2
 	 */
-	public function __construct(JTable $table)
+	public function __construct(JTableInterface $table)
 	{
 		$table->attachObserver($this);
 		$this->table = $table;

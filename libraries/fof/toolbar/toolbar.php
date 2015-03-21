@@ -2,11 +2,11 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  toolbar
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * The Toolbar class renders the back-end component title area and the back-
@@ -99,8 +99,9 @@ class FOFToolbar
 					array_unshift($searchPaths, $config['searchpath']);
 				}
 
-				JLoader::import('joomla.filesystem.path');
-				$path = JPath::find(
+                $filesystem = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
+
+				$path = $filesystem->pathFind(
 						$searchPaths, 'toolbar.php'
 				);
 
@@ -189,8 +190,12 @@ class FOFToolbar
 		// If not in the administrative area, load the JToolbarHelper
 		if (!FOFPlatform::getInstance()->isBackend())
 		{
-			// Pretty ugly require...
-			require_once JPATH_ROOT . '/administrator/includes/toolbar.php';
+            // Needed for tests, so we can inject our "special" helper class
+            if(!class_exists('JToolbarHelper'))
+            {
+                $platformDirs = FOFPlatform::getInstance()->getPlatformBaseDirs();
+                require_once $platformDirs['root'] . '/administrator/includes/toolbar.php';
+            }
 
 			// Things to do if we have to render a front-end toolbar
 			if ($this->renderFrontendButtons)
@@ -198,8 +203,20 @@ class FOFToolbar
 				// Load back-end toolbar language files in front-end
 				FOFPlatform::getInstance()->loadTranslations('');
 
-				// Load the core Javascript
-				JHtml::_('behavior.framework', true);
+                // Needed for tests (we can fake we're not in the backend, but we are still in CLI!)
+                if(!FOFPlatform::getInstance()->isCli())
+                {
+                    // Load the core Javascript
+	                if (version_compare(JVERSION, '3.0', 'ge'))
+	                {
+		                JHtml::_('jquery.framework');
+		                JHtml::_('behavior.core');
+	                }
+	                else
+	                {
+		                JHtml::_('behavior.framework');
+	                }
+                }
 			}
 		}
 
@@ -258,11 +275,11 @@ class FOFToolbar
 		$this->view = $view;
 		$this->task = $task;
 		$view = FOFInflector::pluralize($view);
-		$component = $input->get('option', 'com_foobar', 'cmd');
+		$component = $this->input->get('option', 'com_foobar', 'cmd');
 
 		$configProvider = new FOFConfigProvider;
 		$toolbar = $configProvider->get(
-			$component . '.views.' . '.toolbar'
+			$component . '.views.' . $view . '.toolbar.' . $task
 		);
 
 		// If we have a toolbar config specified
@@ -332,7 +349,6 @@ class FOFToolbar
 	public function onBrowse()
 	{
 		// On frontend, buttons must be added specifically
-
 		if (FOFPlatform::getInstance()->isBackend() || $this->renderFrontendSubmenu)
 		{
 			$this->renderSubmenu();
@@ -349,7 +365,6 @@ class FOFToolbar
 		JToolBarHelper::title(JText::_(strtoupper($option)) . ': ' . JText::_($subtitle_key), str_replace('com_', '', $option));
 
 		// Add toolbar buttons
-
 		if ($this->perms->create)
 		{
 			if (version_compare(JVERSION, '3.0', 'ge'))
@@ -389,7 +404,7 @@ class FOFToolbar
 		if ($this->perms->delete)
 		{
 			$msg = JText::_($this->input->getCmd('option', 'com_foobar') . '_CONFIRM_DELETE');
-			JToolBarHelper::deleteList($msg);
+			JToolBarHelper::deleteList(strtoupper($msg));
 		}
 	}
 
@@ -401,7 +416,6 @@ class FOFToolbar
 	public function onRead()
 	{
 		// On frontend, buttons must be added specifically
-
 		if (FOFPlatform::getInstance()->isBackend() || $this->renderFrontendSubmenu)
 		{
 			$this->renderSubmenu();
@@ -417,7 +431,7 @@ class FOFToolbar
 
 		// Set toolbar title
 		$subtitle_key = strtoupper($option . '_TITLE_' . $this->input->getCmd('view', 'cpanel') . '_READ');
-		JToolBarHelper::title(JText::_(strtoupper($option)) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>', $componentName);
+		JToolBarHelper::title(JText::_(strtoupper($option)) . ': ' . JText::_($subtitle_key), $componentName);
 
 		// Set toolbar icons
 		JToolBarHelper::back();
@@ -441,7 +455,7 @@ class FOFToolbar
 
 		// Set toolbar title
 		$subtitle_key = strtoupper($option . '_TITLE_' . FOFInflector::pluralize($this->input->getCmd('view', 'cpanel'))) . '_EDIT';
-		JToolBarHelper::title(JText::_(strtoupper($option)) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>', $componentName);
+		JToolBarHelper::title(JText::_(strtoupper($option)) . ': ' . JText::_($subtitle_key), $componentName);
 
 		// Set toolbar icons
         if ($this->perms->edit || $this->perms->editown)
@@ -452,7 +466,12 @@ class FOFToolbar
         }
 
 		JToolBarHelper::save();
-		JToolBarHelper::custom('savenew', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+
+		if ($this->perms->create)
+		{
+			JToolBarHelper::custom('savenew', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+		}
+
 		JToolBarHelper::cancel();
 	}
 
@@ -514,13 +533,27 @@ class FOFToolbar
 
 		if (empty($parent))
 		{
-			$this->linkbar[$name] = $linkDefinition;
+            if(array_key_exists($name, $this->linkbar))
+            {
+                $this->linkbar[$name] = array_merge($this->linkbar[$name], $linkDefinition);
+
+                // If there already are some children, I have to put this view link in the "items" array in the first place
+                if(array_key_exists('items', $this->linkbar[$name]))
+                {
+                    array_unshift($this->linkbar[$name]['items'], $linkDefinition);
+                }
+            }
+            else
+            {
+                $this->linkbar[$name] = $linkDefinition;
+            }
 		}
 		else
 		{
 			if (!array_key_exists($parent, $this->linkbar))
 			{
 				$parentElement = $linkDefinition;
+                $parentElement['name'] = $parent;
 				$parentElement['link'] = null;
 				$this->linkbar[$parent] = $parentElement;
 				$parentElement['items'] = array();
@@ -538,6 +571,11 @@ class FOFToolbar
 
 			$parentElement['items'][] = $linkDefinition;
 			$parentElement['dropdown'] = true;
+
+			if($active)
+			{
+				$parentElement['active'] = true;
+			}
 
 			$this->linkbar[$parent] = $parentElement;
 		}
@@ -585,13 +623,16 @@ class FOFToolbar
 			// Get the view name
 			$key = strtoupper($this->component) . '_TITLE_' . strtoupper($view);
 
+            //Do we have a translation for this key?
 			if (strtoupper(JText::_($key)) == $key)
 			{
 				$altview = FOFInflector::isPlural($view) ? FOFInflector::singularize($view) : FOFInflector::pluralize($view);
 				$key2 = strtoupper($this->component) . '_TITLE_' . strtoupper($altview);
 
+                // Maybe we have for the alternative view?
 				if (strtoupper(JText::_($key2)) == $key2)
 				{
+                    // Nope, let's use the raw name
 					$name = ucfirst($view);
 				}
 				else
@@ -619,17 +660,15 @@ class FOFToolbar
 	 */
 	protected function getMyViews()
 	{
-		$views = array();
-		$t_views = array();
+		$views      = array();
+		$t_views    = array();
 		$using_meta = false;
 
 		$componentPaths = FOFPlatform::getInstance()->getComponentBaseDirs($this->component);
-		$searchPath = $componentPaths['main'] . '/views';
+		$searchPath     = $componentPaths['main'] . '/views';
+        $filesystem     = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
 
-		JLoader::import('joomla.filesystem.folder');
-		JLoader::import('joomla.utilities.arrayhelper');
-
-		$allFolders = JFolder::folders($searchPath);
+		$allFolders = $filesystem->folderFolders($searchPath);
 
 		if (!empty($allFolders))
 		{
@@ -644,7 +683,7 @@ class FOFToolbar
 				}
 
 				// Do we have a 'skip.xml' file in there?
-				$files = JFolder::files($searchPath . '/' . $view, '^skip\.xml$');
+				$files = $filesystem->folderFiles($searchPath . '/' . $view, '^skip\.xml$');
 
 				if (!empty($files))
 				{
@@ -652,7 +691,7 @@ class FOFToolbar
 				}
 
 				// Do we have extra information about this view? (ie. ordering)
-				$meta = JFolder::files($searchPath . '/' . $view, '^metadata\.xml$');
+				$meta = $filesystem->folderFiles($searchPath . '/' . $view, '^metadata\.xml$');
 
 				// Not found, do we have it inside the plural one?
 				if (!$meta)
@@ -662,7 +701,7 @@ class FOFToolbar
 					if (in_array($plural, $allFolders))
 					{
 						$view = $plural;
-						$meta = JFolder::files($searchPath . '/' . $view, '^metadata\.xml$');
+						$meta = $filesystem->folderFiles($searchPath . '/' . $view, '^metadata\.xml$');
 					}
 				}
 
@@ -695,8 +734,8 @@ class FOFToolbar
 			}
 		}
 
-		JArrayHelper::sortObjects($to_order, 'ordering');
-		$views = JArrayHelper::getColumn($to_order, 'view');
+        FOFUtilsArray::sortObjects($to_order, 'ordering');
+		$views = FOFUtilsArray::getColumn($to_order, 'view');
 
 		// If not using the metadata file, let's put the cpanel view on top
 		if (!$using_meta)
@@ -771,6 +810,7 @@ class FOFToolbar
 	 *
 	 * @return  void
 	 *
+     * @codeCoverageIgnore
 	 * @throws  InvalidArgumentException
 	 */
 	private function renderToolbarElement($type, $value = null, array $attributes = array())
@@ -779,7 +819,6 @@ class FOFToolbar
 		{
 			case 'title':
 				$icon = isset($attributes['icon']) ? $attributes['icon'] : 'generic.png';
-
 				JToolbarHelper::title($value, $icon);
 				break;
 

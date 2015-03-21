@@ -3,18 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * This models supports retrieving a list of tags.
  *
- * @package     Joomla.Site
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsModelTags extends JModelList
 {
@@ -29,12 +29,12 @@ class TagsModelTags extends JModelList
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
 	 * @param   string  $ordering   An optional ordering field.
 	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
 	 * @return  void
+	 *
+	 * @note Calling getState in this method will result in recursion.
 	 *
 	 * @since   3.1
 	 */
@@ -62,6 +62,7 @@ class TagsModelTags extends JModelList
 		$this->setState('filter.access', true);
 
 		$user = JFactory::getUser();
+
 		if ((!$user->authorise('core.edit.state', 'com_tags')) &&  (!$user->authorise('core.edit', 'com_tags')))
 		{
 			$this->setState('filter.published', 1);
@@ -90,7 +91,8 @@ class TagsModelTags extends JModelList
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry;
+			$params = new Registry;
+
 			if ($active)
 			{
 				$params->loadString($active->params);
@@ -99,6 +101,7 @@ class TagsModelTags extends JModelList
 
 		return $items;
 	}
+
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
@@ -140,32 +143,36 @@ class TagsModelTags extends JModelList
 		{
 			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 		}
+
 		if ($language != 'all')
 		{
 			if ($language == 'current_language')
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
+
 			$query->where($db->quoteName('language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
 		// List state information
 		$format = $app->input->getWord('format');
+
 		if ($format == 'feed')
 		{
-			$limit = $app->getCfg('feed_limit');
+			$limit = $app->get('feed_limit');
 		}
 		else
 		{
 			if ($this->state->params->get('show_pagination_limit'))
 			{
-				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
+				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
 			}
 			else
 			{
 				$limit = $this->state->params->get('maximum', 20);
 			}
 		}
+
 		$this->setState('list.limit', $limit);
 
 		$offset = $app->input->get('limitstart', 0, 'uint');
@@ -177,7 +184,7 @@ class TagsModelTags extends JModelList
 			$query->where($db->quoteName('a.title') . ' LIKE ' . $db->quote('%' . $this->state->get('list.filter') . '%'));
 		}
 
-		$query->where($db->quoteName('a.published'). ' = ' . $published);
+		$query->where($db->quoteName('a.published') . ' = ' . $published);
 
 		$query->order($db->quoteName($orderby) . ' ' . $orderDirection . ', a.title ASC');
 
