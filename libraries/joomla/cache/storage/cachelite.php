@@ -183,10 +183,8 @@ class JCacheStorageCachelite extends JCacheStorage
 		{
 			return $success;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
@@ -209,10 +207,8 @@ class JCacheStorageCachelite extends JCacheStorage
 		{
 			return $success;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
@@ -231,51 +227,35 @@ class JCacheStorageCachelite extends JCacheStorage
 	{
 		jimport('joomla.filesystem.folder');
 
-		switch ($mode)
+		if ($mode == 'notgroup')
 		{
-			case 'notgroup':
-				$clmode = 'notingroup';
-				$success = self::$CacheLiteInstance->clean($group, $clmode);
-				break;
-
-			case 'group':
-				if (is_dir($this->_root . '/' . $group))
-				{
-					$clmode = $group;
-					self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
-					$success = self::$CacheLiteInstance->clean($group, $clmode);
-					JFolder::delete($this->_root . '/' . $group);
-				}
-				else
-				{
-					$success = true;
-				}
-
-				break;
-
-			default:
-				if (is_dir($this->_root . '/' . $group))
-				{
-					$clmode = $group;
-					self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
-					$success = self::$CacheLiteInstance->clean($group, $clmode);
-				}
-				else
-				{
-					$success = true;
-				}
-
-				break;
+			return self::$CacheLiteInstance->clean($group, 'notingroup');
 		}
 
-		if ($success == true)
+		$groupDir = $this->_root . '/' . $group;
+		if (!is_dir($groupDir))
 		{
-			return $success;
+			return true;
 		}
-		else
+
+		self::$CacheLiteInstance->setOption('cacheDir', $groupDir . '/');
+		$result = self::$CacheLiteInstance->clean($group, $group);
+
+		if ($mode == 'group')
 		{
-			return false;
+			JFolder::delete($groupDir);
 		}
+
+		// I don't know why it was don't like this
+		// I would like to just return the result, but if it isn't a boolean value it could cause some bugs
+		// So I'm leaving it like this for the moment
+
+		if ($result == true)
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -330,9 +310,7 @@ class JCacheStorageCachelite extends JCacheStorage
 		{
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 }
