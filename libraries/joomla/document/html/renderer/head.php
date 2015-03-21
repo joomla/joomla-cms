@@ -210,7 +210,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$jsonOptions = json_encode($scriptOptions, $pretyPrint);
 			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
 
-			//TODO: use .extend(Joomla.optionsStorage, options) when it will be safe
+			// TODO: use .extend(Joomla.optionsStorage, options) when it will be safe
 			$buffer .= $tab . 'var Joomla = Joomla || {};' . $lnEnd;
 			$buffer .= $tab . 'Joomla.optionsStorage = ' . $jsonOptions . ';' . $lnEnd;
 
