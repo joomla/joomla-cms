@@ -120,6 +120,7 @@ class JCacheControllerCallback extends JCacheController
 		{
 			$document = JFactory::getDocument();
 			$coptions['modulemode'] = 1;
+
 			if (method_exists($document, 'getHeadData'))
 			{
 				$coptions['headerbefore'] = $document->getHeadData();
