@@ -127,9 +127,9 @@ class AdminModelSysInfo extends JModelLegacy
 		if (is_null($this->info))
 		{
 			$this->info = array();
-			$version = new JVersion;
-			$platform = new JPlatform;
-			$db = JFactory::getDbo();
+			$version    = new JVersion;
+			$platform   = new JPlatform;
+			$db         = JFactory::getDbo();
 
 			if (isset($_SERVER['SERVER_SOFTWARE']))
 			{
@@ -155,6 +155,20 @@ class AdminModelSysInfo extends JModelLegacy
 	}
 
 	/**
+	 * Method to get if phpinfo method is enabled from php.ini
+	 *
+	 * @return  boolean True if enabled
+	 *
+	 * @since  3.4.1
+	 */
+	public function phpinfoEnabled()
+	{
+		$disabled = explode(',', ini_get('disable_functions'));
+
+		return !in_array('phpinfo', $disabled);
+	}
+
+	/**
 	 * Method to get the PHP info
 	 *
 	 * @return  string PHP info
@@ -163,7 +177,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 */
 	public function &getPHPInfo()
 	{
-		if (is_null($this->php_info))
+		if (is_null($this->php_info) && $this->phpinfoEnabled())
 		{
 			ob_start();
 			date_default_timezone_set('UTC');
@@ -179,6 +193,10 @@ class AdminModelSysInfo extends JModelLegacy
 			$output = str_replace('</table>', '</tbody></table>', $output);
 			$output = str_replace('</div>', '', $output);
 			$this->php_info = $output;
+		}
+		else
+		{
+			$this->php_info = JText::_('COM_ADMIN_PHPINFO_DISABLED');
 		}
 
 		return $this->php_info;
@@ -327,8 +345,7 @@ class AdminModelSysInfo extends JModelLegacy
 	{
 		if (is_null($this->editor))
 		{
-			$config = JFactory::getConfig();
-			$this->editor = $config->get('editor');
+			$this->editor = JFactory::getConfig()->get('editor');
 		}
 
 		return $this->editor;

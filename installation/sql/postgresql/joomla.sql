@@ -87,7 +87,7 @@ SELECT setval('#__assets_id_seq', 54, false);
 -- Table: #__associations
 --
 CREATE TABLE "#__associations" (
-  "id" bigint NOT NULL,
+  "id" int NOT NULL,
   "context" varchar(50) NOT NULL,
   "key" char(32) NOT NULL,
   CONSTRAINT "#__associations_idx_context_id" PRIMARY KEY ("context", "id")
@@ -322,16 +322,16 @@ CREATE TABLE "#__content" (
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "images" text DEFAULT '{}' NOT NULL,
-  "urls" text DEFAULT '{}' NOT NULL,
-  "attribs" varchar(5120) DEFAULT '{}' NOT NULL,
+  "images" text NOT NULL,
+  "urls" text NOT NULL,
+  "attribs" varchar(5120) NOT NULL,
   "version" bigint DEFAULT 1 NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
   "metakey" text NOT NULL,
   "metadesc" text NOT NULL,
   "access" bigint DEFAULT 0 NOT NULL,
   "hits" bigint DEFAULT 0 NOT NULL,
-  "metadata" text DEFAULT '{}' NOT NULL,
+  "metadata" text NOT NULL,
   "featured" smallint DEFAULT 0 NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "xreference" varchar(50) DEFAULT '' NOT NULL,
@@ -422,6 +422,7 @@ CREATE TABLE "#__contentitem_tag_map" (
  CONSTRAINT "#__uc_ItemnameTagid" UNIQUE ("type_alias", "content_item_id", "tag_id")
 );
 CREATE INDEX "#__contentitem_tag_map_idx_tag_type" ON "#__contentitem_tag_map" ("tag_id", "type_id");
+CREATE INDEX "#__contentitem_tag_map_idx_tag_name" ON "#__contentitem_tag_map" ("tag_id", "type_alias");
 CREATE INDEX "#__contentitem_tag_map_idx_date_id" ON "#__contentitem_tag_map" ("tag_date", "tag_id");
 CREATE INDEX "#__contentitem_tag_map_idx_tag" ON "#__contentitem_tag_map" ("tag_id");
 CREATE INDEX "#__contentitem_tag_map_idx_type" ON "#__contentitem_tag_map" ("type_id");
@@ -573,7 +574,7 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (410, 'plg_editors_codemirror', 'plugin', 'codemirror', 'editors', 0, 1, 1, 1, '', '{"lineNumbers":"1","lineWrapping":"1","matchTags":"1","matchBrackets":"1","marker-gutter":"1","autoCloseTags":"1","autoCloseBrackets":"1","autoFocus":"1","theme":"default","tabmode":"indent"}', '', '', 0, '1970-01-01 00:00:00', 1, 0),
 (411, 'plg_editors_none', 'plugin', 'none', 'editors', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 2, 0),
 (412, 'plg_editors_tinymce', 'plugin', 'tinymce', 'editors', 0, 1, 1, 0, '', '{"mode":"1","skin":"0","mobile":"0","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","invalid_elements":"script,applet,iframe","extended_elements":"","html_height":"550","html_width":"750","resizing":"1","element_path":"1","fonts":"1","paste":"1","searchreplace":"1","insertdate":"1","colors":"1","table":"1","smilies":"1","hr":"1","link":"1","media":"1","print":"1","directionality":"1","fullscreen":"1","alignment":"1","visualchars":"1","visualblocks":"1","nonbreaking":"1","template":"1","blockquote":"1","wordcount":"1","advlist":"1","autosave":"1","contextmenu":"1","inlinepopups":"1","custom_plugin":"","custom_button":""}', '', '', 0, '1970-01-01 00:00:00', 3, 0),
-(413, 'plg_editors-xtd_article', 'plugin', 'article', 'editors-xtd', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 1, 0),
+(413, 'plg_editors-xtd_article', 'plugin', 'article', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 1, 0),
 (414, 'plg_editors-xtd_image', 'plugin', 'image', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 2, 0),
 (415, 'plg_editors-xtd_pagebreak', 'plugin', 'pagebreak', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 3, 0),
 (416, 'plg_editors-xtd_readmore', 'plugin', 'readmore', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 4, 0),
@@ -591,7 +592,7 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (429, 'plg_system_sef', 'plugin', 'sef', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 8, 0),
 (430, 'plg_system_logout', 'plugin', 'logout', 'system', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 3, 0),
 (431, 'plg_user_contactcreator', 'plugin', 'contactcreator', 'user', 0, 0, 1, 0, '', '{"autowebpage":"","category":"34","autopublish":"0"}', '', '', 0, '1970-01-01 00:00:00', 1, 0),
-(432, 'plg_user_joomla', 'plugin', 'joomla', 'user', 0, 1, 1, 0, '', '{"strong_passwords":"1","autoregister":"1"}', '', '', 0, '1970-01-01 00:00:00', 2, 0),
+(432, 'plg_user_joomla', 'plugin', 'joomla', 'user', 0, 1, 1, 0, '', '{"autoregister":"1","mail_to_user":"1","forceLogout":"1"}', '', '', 0, '1970-01-01 00:00:00', 2, 0),
 (433, 'plg_user_profile', 'plugin', 'profile', 'user', 0, 0, 1, 0, '', '{"register-require_address1":"1","register-require_address2":"1","register-require_city":"1","register-require_region":"1","register-require_country":"1","register-require_postal_code":"1","register-require_phone":"1","register-require_website":"1","register-require_favoritebook":"1","register-require_aboutme":"1","register-require_tos":"1","register-require_dob":"1","profile-require_address1":"1","profile-require_address2":"1","profile-require_city":"1","profile-require_region":"1","profile-require_country":"1","profile-require_postal_code":"1","profile-require_phone":"1","profile-require_website":"1","profile-require_favoritebook":"1","profile-require_aboutme":"1","profile-require_tos":"1","profile-require_dob":"1"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (434, 'plg_extension_joomla', 'plugin', 'joomla', 'extension', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 1, 0),
 (435, 'plg_content_joomla', 'plugin', 'joomla', 'content', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -609,8 +610,7 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (448, 'plg_twofactorauth_totp', 'plugin', 'totp', 'twofactorauth', 0, 0, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (449, 'plg_authentication_cookie', 'plugin', 'cookie', 'authentication', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (450, 'plg_twofactorauth_yubikey', 'plugin', 'yubikey', 'twofactorauth', 0, 0, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(451, 'plg_search_tags', 'plugin', 'tags', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","show_tagged_items":"1"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(452, 'plg_captcha_nocaptcha', 'plugin', 'nocaptcha', 'captcha', 0, 0, 1, 0, '', '{"public_key":"","private_key":"","theme":"light"}', '', '', 0, '1970-01-01 00:00:00', 0, 0);
+(451, 'plg_search_tags', 'plugin', 'tags', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","show_tagged_items":"1"}', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 -- Templates
 INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
@@ -1449,9 +1449,7 @@ COMMENT ON COLUMN "#__postinstall_messages"."version_introduced" IS 'Version whe
 
 INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description_key", "action_key", "language_extension", "language_client_id", "type", "action_file", "action", "condition_file", "condition_method", "version_introduced", "enabled") VALUES
 (700, 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_TITLE', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_BODY', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_ACTION', 'plg_twofactorauth_totp', 1, 'action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_condition', '3.2.0', 1),
-(700, 'COM_CPANEL_MSG_EACCELERATOR_TITLE', 'COM_CPANEL_MSG_EACCELERATOR_BODY', 'COM_CPANEL_MSG_EACCELERATOR_BUTTON', 'com_cpanel', 1, 'action', 'admin://components/com_admin/postinstall/eaccelerator.php', 'admin_postinstall_eaccelerator_action', 'admin://components/com_admin/postinstall/eaccelerator.php', 'admin_postinstall_eaccelerator_condition', '3.2.0', 1),
-(700, 'COM_CPANEL_WELCOME_BEGINNERS_TITLE', 'COM_CPANEL_WELCOME_BEGINNERS_MESSAGE', '', 'com_cpanel', 1, 'message', '', '', '', '', '3.2.0', 1),
-(700, 'COM_CPANEL_MSG_PHPVERSION_TITLE', 'COM_CPANEL_MSG_PHPVERSION_BODY', '', 'com_cpanel', 1, 'message', '', '', 'admin://components/com_admin/postinstall/phpversion.php', 'admin_postinstall_phpversion_condition', '3.2.2', 1);
+(700, 'COM_CPANEL_WELCOME_BEGINNERS_TITLE', 'COM_CPANEL_WELCOME_BEGINNERS_MESSAGE', '', 'com_cpanel', 1, 'message', '', '', '', '', '3.2.0', 1);
 
 --
 -- Table: #__redirect_links
@@ -1892,10 +1890,10 @@ COMMENT ON COLUMN "#__viewlevels"."rules" IS 'JSON encoded access control.';
 --
 INSERT INTO "#__viewlevels" ("id", "title", "ordering", "rules") VALUES
 (1, 'Public', 0, '[1]'),
-(2, 'Registered', 1, '[6,2,8]'),
-(3, 'Special', 2, '[6,3,8]'),
-(5, 'Guest', 0, '[9]'),
-(6, 'Super Users', 0, '[8]');
+(2, 'Registered', 2, '[6,2,8]'),
+(3, 'Special', 3, '[6,3,8]'),
+(5, 'Guest', 1, '[9]'),
+(6, 'Super Users', 4, '[8]');
 
 SELECT setval('#__viewlevels_id_seq', 7, false);
 

@@ -88,7 +88,7 @@ class UsersHelperDebug
 		// Use default actions from configuration if no component selected or component doesn't have actions
 		if (empty($actions))
 		{
-			$filename = JPATH_ADMINISTRATOR . '/components/com_config/models/forms/application.xml';
+			$filename = JPATH_ADMINISTRATOR . '/components/com_config/model/form/application.xml';
 
 			if (is_file($filename))
 			{

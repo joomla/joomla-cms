@@ -158,10 +158,6 @@ class InstallerModel extends JModelList
 						$lang->load("$extension.sys", $path, null, false, true)
 					||	$lang->load("$extension.sys", $source, null, false, true);
 				break;
-				case 'package':
-					$extension = $item->element;
-						$lang->load("$extension.sys", JPATH_SITE, null, false, true);
-				break;
 				case 'plugin':
 					$extension = 'plg_' . $item->folder . '_' . $item->element;
 					$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
@@ -173,6 +169,11 @@ class InstallerModel extends JModelList
 					$source = $path . '/templates/' . $item->element;
 						$lang->load("$extension.sys", $path, null, false, true)
 					||	$lang->load("$extension.sys", $source, null, false, true);
+				break;
+				case 'package':
+				default:
+					$extension = $item->element;
+						$lang->load("$extension.sys", JPATH_SITE, null, false, true);
 				break;
 			}
 

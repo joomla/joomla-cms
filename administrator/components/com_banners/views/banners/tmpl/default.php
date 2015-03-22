@@ -22,7 +22,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $canOrder	= $user->authorise('core.edit.state', 'com_banners.category');
 $archived	= $this->state->get('filter.state') == 2 ? true : false;
 $trashed	= $this->state->get('filter.state') == -2 ? true : false;
-$params		= (isset($this->state->params)) ? $this->state->params : new JObject;
 $saveOrder	= $listOrder == 'a.ordering';
 
 if ($saveOrder)
@@ -30,25 +29,6 @@ if ($saveOrder)
 	$saveOrderingUrl = 'index.php?option=com_banners&task=banners.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
-
-$sortFields = $this->getSortFields();
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.orderTable = function()
-	{
-		table = document.getElementById("sortTable");
-		direction = document.getElementById("directionTable");
-		order = table.options[table.selectedIndex].value;
-		if (order != "' . $listOrder . '")
-		{
-			dirn = "asc";
-		}
-		else
-		{
-			dirn = direction.options[direction.selectedIndex].value;
-		}
-		Joomla.tableOrdering(order, dirn, "");
-	};
-');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=banners'); ?>" method="post" name="adminForm" id="adminForm">

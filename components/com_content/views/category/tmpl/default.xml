@@ -129,7 +129,6 @@
 </fieldset>
 
 <fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
-
 			<field name="show_pagination_limit" type="list"
 				description="JGLOBAL_DISPLAY_SELECT_DESC"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
@@ -271,6 +270,15 @@
 				<option value="0">JALL</option>
 		</field>
 
+		<field name="show_featured" type="list" default=""
+			   label="JGLOBAL_SHOW_FEATURED_ARTICLES_LABEL"
+			   description="JGLOBAL_SHOW_FEATURED_ARTICLES_DESC"
+				>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="show">JSHOW</option>
+			<option value="hide">JHIDE</option>
+			<option value="only">JONLY</option>
+		</field>
 </fieldset>
 
 <fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">

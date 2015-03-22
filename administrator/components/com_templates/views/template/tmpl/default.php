@@ -76,7 +76,7 @@ jQuery(document).ready(function($){
 if($this->type == 'image')
 {
 	JFactory::getDocument()->addScriptDeclaration("
-		jQuery(document).ready(function() {
+		jQuery(document).ready(function($) {
 			var jcrop_api;
 
 			// Configuration for image cropping
@@ -84,7 +84,7 @@ if($this->type == 'image')
 				onChange:   showCoords,
 				onSelect:   showCoords,
 				onRelease:  clearCoords,
-				trueSize:   " . $this->image['width'] . "," . $this->image['height'] . "]
+				trueSize:   [" . $this->image['width'] . "," . $this->image['height'] . "]
 			},function(){
 				jcrop_api = this;
 			});
@@ -182,7 +182,7 @@ if($this->type == 'font')
 							<h2><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
 							<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 							<p>
-								<a href="http://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">
+								<a href="https://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">
 									<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
 								</a>
 							</p>

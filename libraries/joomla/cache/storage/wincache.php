@@ -30,7 +30,7 @@ class JCacheStorageWincache extends JCacheStorage
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
-		$cache_id = $this->_getCacheId($id, $group);
+		$cache_id      = $this->_getCacheId($id, $group);
 		$cache_content = wincache_ucache_get($cache_id);
 
 		return $cache_content;
@@ -137,8 +137,8 @@ class JCacheStorageWincache extends JCacheStorage
 	public function clean($group, $mode = null)
 	{
 		$allinfo = wincache_ucache_info();
-		$keys = $allinfo['cache_entries'];
-		$secret = $this->_hash;
+		$keys    = $allinfo['ucache_entries'];
+		$secret  = $this->_hash;
 
 		foreach ($keys as $key)
 		{
@@ -161,8 +161,8 @@ class JCacheStorageWincache extends JCacheStorage
 	public function gc()
 	{
 		$allinfo = wincache_ucache_info();
-		$keys = $allinfo['cache_entries'];
-		$secret = $this->_hash;
+		$keys    = $allinfo['ucache_entries'];
+		$secret  = $this->_hash;
 
 		foreach ($keys as $key)
 		{
