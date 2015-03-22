@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
+
 /**
  * HTML View class for the Editor component
  *
@@ -80,6 +83,14 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 		if (in_array($ext, $imageExts))
 		{
 			$this->image = $this->model->getImage();
+
+			// Handle hidden file
+			$duplicateFilename = $this->model->resolveDuplicateFilename(JPath::clean(COM_MEDIA_BASE . '/' . $this->folder . '/' . $this->file));
+
+			if (JFile::exists($duplicateFilename))
+			{
+				$this->image['address'] = JUri::root() . '/tmp/com_media/' . pathinfo($duplicateFilename, PATHINFO_BASENAME);
+			}
 		}
 		else
 		{

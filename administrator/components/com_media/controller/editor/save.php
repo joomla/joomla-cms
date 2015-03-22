@@ -8,6 +8,9 @@
  */
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
+
 /**
  * Save Controller for media editing
  *
@@ -45,7 +48,7 @@ class MediaControllerEditorSave extends JControllerBase
 		$form = $model->getForm();
 
 		$file   = $this->app->input->get('file');
-		$folder = $this->app->input->get('folder', '', 'path');
+		$folder = $this->app->input->get('folder', '', 'raw');
 		$id   = $this->input->get('id');
 
 		$data['core_content_id'] = $id;
@@ -73,6 +76,15 @@ class MediaControllerEditorSave extends JControllerBase
 		if ($return === false)
 		{
 			$this->app->redirect(JRoute::_('index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id, false));
+		}
+
+		// Handle hidden file
+		$originalFile = JPath::clean(COM_MEDIA_BASE . '/' . $folder . '/' . pathinfo($file, PATHINFO_FILENAME) . '.' . pathinfo($file, PATHINFO_EXTENSION));
+		$duplicateFile = $model->resolveDuplicateFilename(COM_MEDIA_BASE . '/' . $folder . '/' . $file);
+
+		if (JFile::exists($duplicateFile) && JFile::copy($duplicateFile, $originalFile))
+		{
+			JFile::delete($duplicateFile);
 		}
 
 		// Set the redirect based on the task.

@@ -97,8 +97,9 @@ class MediaControllerMediaUpload extends JControllerBase
 			$file['name']     = JFile::makeSafe($file['name']);
 			$file['filepath'] = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $file['name'])));
 
-			if (($file['error'] == 1)
-				|| ($uploadMaxSize > 0 && $file['size'] > $uploadMaxSize))
+			if (($file['error'] == UPLOAD_ERR_INI_SIZE)
+				|| ($uploadMaxSize > 0 && $file['size'] > $uploadMaxSize)
+				|| ($uploadMaxFileSize > 0 && $file['size'] > $uploadMaxFileSize))
 			{
 				// File size exceed either 'upload_max_filesize' or 'upload_maxsize'.
 				$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'warning');
@@ -148,8 +149,8 @@ class MediaControllerMediaUpload extends JControllerBase
 			// Transform filename to punycode
 			$fileparts['filename'] = JStringPunycode::toPunycode($fileparts['filename']);
 
-			// Transform filename to punycode, then neglect otherthan non-alphanumeric characters & underscores
-			$safeFileName = preg_replace(array("/[\\s]/", "/[^a-zA-Z0-9_]/"), array("_", ""), $fileparts['filename']) . '.' . $fileparts['extension'];
+			// Transform filename to punycode, then neglect otherthan non-alphanumeric characters & underscores. Also transform extension to lowercase
+			$safeFileName = preg_replace(array("/[\\s]/", "/[^a-zA-Z0-9_]/"), array("_", ""), $fileparts['filename']) . '.' . strtolower($fileparts['extension']);
 
 			// Create filepath with safe-filename
 			$file['filepath'] = $fileparts['dirname'] . DIRECTORY_SEPARATOR . $safeFileName;

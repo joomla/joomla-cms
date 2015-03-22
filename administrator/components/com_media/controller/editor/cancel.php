@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
+
 /**
  * Base Cancel Controller for Media Manager Editor
  *
@@ -33,10 +36,21 @@ class MediaControllerEditorCancel extends ConfigControllerCanceladmin
 	 */
 	public function execute()
 	{
-		$folder = $this->app->input->get('folder', '', 'path');
+		$folder = $this->app->input->get('folder', '', 'raw');
 
 		$checkinController = new MediaControllerEditorCheckin;
 		$checkinController->execute();
+
+		// Delete if there is a hidden file
+		$file = $this->app->input->get('file');
+		$model = new MediaModelEditor;
+
+		$duplicateFile = $model->resolveDuplicateFilename(JPath::clean(COM_MEDIA_BASE . '/' . $folder . '/' . $file));
+
+		if (JFile::exists($duplicateFile))
+		{
+			JFile::delete($duplicateFile);
+		}
 
 		$this->redirect = 'index.php?option=com_media&controller=media.display.media&folder=' . $folder;
 

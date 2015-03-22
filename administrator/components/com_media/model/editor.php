@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
+
 /**
  * Media Component Manager Editor Model
  *
@@ -400,7 +403,7 @@ class MediaModelEditor extends MediaModelCmsitem
 		$app      = JFactory::getApplication();
 		$table   = $this->getTable();
 		$table->load($id);
-		$file	= JPATH_ROOT . $table->core_urls;
+		$file	= $this->resolveDuplicateFilename(JPATH_ROOT . $table->core_urls);
 
 		$JImage   = new JImage($file);
 
@@ -435,7 +438,7 @@ class MediaModelEditor extends MediaModelCmsitem
 		$app     = JFactory::getApplication();
 		$table   = $this->getTable();
 		$table->load($id);
-		$file	= JPATH_ROOT . $table->core_urls;
+		$file	= $this->resolveDuplicateFilename(JPATH_ROOT . $table->core_urls);
 
 		$JImage = new JImage($file);
 
@@ -469,7 +472,7 @@ class MediaModelEditor extends MediaModelCmsitem
 		$app     = JFactory::getApplication();
 		$table   = $this->getTable();
 		$table->load($id);
-		$file	= JPATH_ROOT . $table->core_urls;
+		$file	= $this->resolveDuplicateFilename(JPATH_ROOT . $table->core_urls);
 
 		$JImage = new JImage($file);
 
@@ -505,7 +508,7 @@ class MediaModelEditor extends MediaModelCmsitem
 		$app     = JFactory::getApplication();
 		$table   = $this->getTable();
 		$table->load($id);
-		$file	= JPATH_ROOT . $table->core_urls;
+		$file	= $this->resolveDuplicateFilename(JPATH_ROOT . $table->core_urls);
 
 		$JImage = new JImage($file);
 
@@ -537,7 +540,7 @@ class MediaModelEditor extends MediaModelCmsitem
 		$app     = JFactory::getApplication();
 		$table   = $this->getTable();
 		$table->load($id);
-		$file	= JPATH_ROOT . $table->core_urls;
+		$file	= $this->resolveDuplicateFilename(JPATH_ROOT . $table->core_urls);
 
 		$options = array_fill(0, 11, 0);
 
@@ -616,5 +619,46 @@ class MediaModelEditor extends MediaModelCmsitem
 		$this->tags = implode(',', $tagsList);
 
 		return $this->tags;
+	}
+
+	/**
+	 * This method is to compose the duplicate file name for a given filename
+	 * 
+	 * @param   string  $file  Exising origin filename. eg : COM_MEDIA_BASE/foo/bar/test.jpg
+	 *
+	 * @return   string  Generated duplicate filename
+	 *
+	 * @since  3.5
+	 */
+	public function resolveDuplicateFilename($file)
+	{
+		$file		= JPath::clean($file);
+		$controller = JFactory::getApplication()->input->get('controller');
+		$mediaTmp	= JPATH_ROOT . '/tmp/com_media';
+
+		// Create com_media tmp folder
+		if (!JFolder::exists($mediaTmp))
+		{
+			JFolder::create($mediaTmp);
+		}
+
+		// Create a new file eg: TMP_crc32hash_test.jpg
+		$duplicateFile = JPath::clean(
+									$mediaTmp . '/' . 'TMP_' . crc32($file) . '_' .
+									pathinfo($file, PATHINFO_FILENAME) . '.' . pathinfo($file, PATHINFO_EXTENSION)
+									);
+
+		if ($controller == 'media.display.editor' || JFile::exists($duplicateFile))
+		{
+			return $duplicateFile;
+		}
+		elseif (JFile::copy($file, $duplicateFile))
+		{
+			return $duplicateFile;
+		}
+		else
+		{
+			return $file;
+		}
 	}
 }
