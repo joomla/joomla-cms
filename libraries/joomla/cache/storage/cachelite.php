@@ -312,5 +312,6 @@ class JCacheStorageCachelite extends JCacheStorage
 		}
 
 		return false;
+
 	}
 }
