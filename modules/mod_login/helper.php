@@ -34,7 +34,8 @@ class ModLoginHelper
 
 		if ($item)
 		{
-			$vars = $item->query;
+			$vars           = $item->query;
+			$vars['Itemid'] = $item->id;
 		}
 		else
 		{
