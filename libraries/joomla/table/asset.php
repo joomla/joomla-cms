@@ -121,7 +121,7 @@ class JTableAsset extends JTableNested
 			}
 			if (empty($this->rules))
 			{
-				$this->rules='{}',
+				$this->rules = '{}';
 			}
 		}
 
