@@ -7037,9 +7037,8 @@ a:focus {
 	left: 50%;
 	height: 24px;
 	width: 24px;
-	text-indent: -9999px;
-	background: url('../images/login-joomla.png') no-repeat;
 	margin-left: -12px;
+	font-size: 22px;
 }
 .navbar-inverse .view-login .login-joomla {
 	background: url('../images/login-joomla-inverse.png') no-repeat;
@@ -7048,18 +7047,21 @@ a:focus {
 	position: absolute;
 }
 .view-login .input-medium {
-	width: 184px;
+	width: 176px;
 }
 .login .chzn-single {
-	width: 230px !important;
+	width: 222px !important;
 }
 .login .chzn-container,
 .login .chzn-drop {
-	width: 238px !important;
-	max-width: 238px !important;
+	width: 230px !important;
+	max-width: 230px !important;
 }
 .login .btn-large {
-	margin-top: 10px;
+	margin-top: 15px;
+}
+.login .form-inline .btn-group {
+	display: block;
 }
 .small {
 	font-size: 11px;
@@ -8079,10 +8081,19 @@ a.grid_true {
 	.j-toggle-button-wrapper {
 		display: none;
 	}
+	.view-login select {
+		width: 232px;
+	}
 }
 @media (max-width: 420px) {
 	.j-sidebar-container {
 		margin: 0;
+	}
+	.view-login .input-medium {
+		width: 180px;
+	}
+	.view-login select {
+		width: 232px;
 	}
 }
 .break-word {
