@@ -34,37 +34,43 @@ class JFormRuleNotequalsTest extends TestCase
 		$this->assertTrue($rule->test($xml->field, 'test', null, $input));
 
 		$this->assertFalse($rule->test($xml->field, 'testvalue', null, $input));
-		
-		$result = true;
+	}
 
-		try
-		{
-			$rule->test($xml, 'test', null, $input);
-		}
-		catch (UnexpectedValueException $e)
-		{
-			$result = false;
-		}
+	/**
+	 * Test the JFormRuleNotequals::test method with UnexpectedValueException
+	 *
+	 * @return void
+	 *
+	 * @covers  JFormRuleNotequals::test
+	 * @expectedException  UnexpectedValueException
+	 * @since   3.4
+	 */
+	public function testNotequalsUnexpectedValueException()
+	{
+		$rule = new JFormRuleNotequals;
+		$xml = simplexml_load_string('<form><field name="foo" field="notequalsfield" /></form>');
+		$input = new Joomla\Registry\Registry;
+		$input->set('notequalsfield', 'testvalue');
 
-		if ($result)
-		{
-			$this->fail('An expected exception has not been raised.');
-		}
+		$rule->test($xml, 'test', null, $input);
+	}
 
-		$result = true;
+	/**
+	 * Test the JFormRuleNotequals::test method with InvalidArgumentException
+	 *
+	 * @return void
+	 *
+	 * @covers  JFormRuleNotequals::test
+	 * @expectedException  InvalidArgumentException
+	 * @since   3.4
+	 */
+	public function testNotequalsInvalidArgumentException()
+	{
+		$rule = new JFormRuleNotequals;
+		$xml = simplexml_load_string('<form><field name="foo" field="notequalsfield" /></form>');
+		$input = new Joomla\Registry\Registry;
+		$input->set('notequalsfield', 'testvalue');
 
-		try
-		{
-			$rule->test($xml->field, 'test');
-		}
-		catch (InvalidArgumentException $e)
-		{
-			$result = false;
-		}
-
-		if ($result)
-		{
-			$this->fail('An expected exception has not been raised.');
-		}
+		$rule->test($xml->field, 'test');
 	}
 }
