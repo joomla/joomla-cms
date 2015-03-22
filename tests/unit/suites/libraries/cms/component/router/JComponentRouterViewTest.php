@@ -66,6 +66,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterView::registerView
 	 */
 	public function testRegisterView()
 	{
@@ -85,6 +86,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterView::getViews
 	 */
 	public function testGetViews()
 	{
@@ -104,6 +106,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterView::getPath
 	 */
 	public function testGetPath()
 	{
@@ -158,6 +161,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterView::getRules
 	 */
 	public function testGetRules()
 	{
@@ -172,6 +176,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterView::attachRules
 	 */
 	public function testAttachRules()
 	{
@@ -187,6 +192,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterView::attachRule
 	 */
 	public function testAttachRule()
 	{
@@ -204,6 +210,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterView::detachRule
 	 */
 	public function testDetachRule()
 	{
@@ -221,6 +228,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterView::preprocess
 	 */
 	public function testPreprocess()
 	{
@@ -235,6 +243,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterView::build
 	 */
 	public function testBuild()
 	{
@@ -251,6 +260,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterView::parse
 	 */
 	public function testParse()
 	{
@@ -267,6 +277,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterView::getName
 	 */
 	public function testGetName()
 	{
@@ -283,6 +294,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 *
 	 * @since   3.4
 	 * @expectedException Exception
+	 * @covers  JComponentRouterView::getName
 	 */
 	public function testGetNameException()
 	{
