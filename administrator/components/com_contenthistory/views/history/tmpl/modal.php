@@ -148,7 +148,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<td align="left">
 					<a class="save-date" onclick="window.open(this.href,'win2','width=800,height=600,resizable=yes,scrollbars=yes'); return false;"
 						href="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1&version_id=' . $item->version_id);?>">
-						<?php echo $item->save_date; ?>
+						<?php echo JHtml::_('date', $item->save_date, 'Y-m-d H:i:s'); ?>
 					</a>
 					<?php if ($item->sha1_hash == $hash) :?>
 						<i class="icon-featured"></i>&nbsp;
@@ -163,11 +163,13 @@ JFactory::getDocument()->addScriptDeclaration("
 							onclick="return listItemTask('cb<?php echo $i; ?>','history.keep')"
 							data-original-title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_OFF'); ?>">
 							<?php echo JText::_('JYES'); ?>&nbsp;<i class="icon-lock"></i>
+						</a>
 					<?php else : ?>
 						<a class="btn btn-micro active" rel="tooltip" href="javascript:void(0);"
 							onclick="return listItemTask('cb<?php echo $i; ?>','history.keep')"
 							data-original-title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_ON'); ?>">
 							<?php echo JText::_('JNO'); ?>
+						</a>
 					<?php endif; ?>
 				</td>
 				<td align="left">
@@ -188,5 +190,3 @@ JFactory::getDocument()->addScriptDeclaration("
 	</div>
 	</div>
 </form>
-
-

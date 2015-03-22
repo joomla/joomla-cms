@@ -19,7 +19,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="filter_groups" type="usergroup"
+				<field name="filter_groups" type="usergrouplist"
 					description="PLG_DEBUG_FIELD_ALLOWED_GROUPS_DESC"
 					label="PLG_DEBUG_FIELD_ALLOWED_GROUPS_LABEL"
 					multiple="true"
@@ -96,7 +96,7 @@
 					description="PLG_DEBUG_FIELD_LOG_CATEGORIES_DESC"
 				/>
 
-				<field name="log_category_mode" type="hidden" default="0"
+				<field name="log_category_mode" type="radio" default="0" class="btn-group btn-group-yesno"
 					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_DESC"
 				>

@@ -70,7 +70,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	protected function copyBaseFiles()
 	{
 		// Copy all the necessary files
-		if ($this->parent->parseFiles($this->manifest->files, -1) === false)
+		if ($this->parent->parseFiles($this->getManifest()->files, -1) === false)
 		{
 			throw new RuntimeException(
 				JText::sprintf(
@@ -80,7 +80,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			);
 		}
 
-		if ($this->parent->parseFiles($this->manifest->images, -1) === false)
+		if ($this->parent->parseFiles($this->getManifest()->images, -1) === false)
 		{
 			throw new RuntimeException(
 				JText::sprintf(
@@ -90,7 +90,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			);
 		}
 
-		if ($this->parent->parseFiles($this->manifest->css, -1) === false)
+		if ($this->parent->parseFiles($this->getManifest()->css, -1) === false)
 		{
 			throw new RuntimeException(
 				JText::sprintf(
@@ -149,10 +149,13 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		if (!$this->parent->copyManifest(-1))
+		if ($this->route != 'discover_install')
 		{
-			// Install failed, rollback changes
-			throw new RuntimeException(JText::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_SETUP'));
+			if (!$this->parent->copyManifest(-1))
+			{
+				// Install failed, rollback changes
+				throw new RuntimeException(JText::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_COPY_SETUP'));
+			}
 		}
 	}
 
@@ -175,9 +178,9 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			$this->parent->setPath('source', $basePath . '/templates/' . $this->parent->extension->element);
 		}
 
-		$this->manifest = $this->parent->getManifest();
+		$this->setManifest($this->parent->getManifest());
 
-		$client = (string) $this->manifest->attributes()->client;
+		$client = (string) $this->getManifest()->attributes()->client;
 
 		// Load administrator language if not set.
 		if (!$client)
@@ -186,7 +189,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		}
 
 		$extension = 'tpl_' . $this->getName();
-		$source    = $path ? $path : ($client) . '/templates/' . $this->getName;
+		$source    = $path ? $path : ($client) . '/templates/' . $this->getName();
 
 		$this->doLoadLanguage($extension, $source, constant('JPATH_' . strtoupper($client)));
 	}
@@ -200,8 +203,8 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	 */
 	protected function parseOptionalTags()
 	{
-		$this->parent->parseMedia($this->manifest->media);
-		$this->parent->parseLanguages($this->manifest->languages, $this->clientId);
+		$this->parent->parseMedia($this->getManifest()->media);
+		$this->parent->parseLanguages($this->getManifest()->languages, $this->clientId);
 	}
 
 	/**
@@ -214,9 +217,9 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	 */
 	protected function parseQueries()
 	{
-		if ($this->route == 'install')
+		if (in_array($this->route, array('install', 'discover_install')))
 		{
-			$db    = $this->parent->getDBO();
+			$db    = $this->db;
 			$lang  = JFactory::getLanguage();
 			$debug = $lang->setDebug(false);
 
@@ -228,8 +231,8 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			);
 
 			$values = array(
-				$db->quote($this->extension->element), $this->clientId, $db->quote(0),
-				$db->quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->name))),
+				$db->quote($this->extension->element), $this->extension->client_id, $db->quote(0),
+				$db->quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->extension->name))),
 				$db->quote($this->extension->params));
 
 			$lang->setDebug($debug);
@@ -243,6 +246,22 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			// There is a chance this could fail but we don't care...
 			$db->setQuery($query)->execute();
 		}
+	}
+
+	/**
+	 * Prepares the adapter for a discover_install task
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	public function prepareDiscoverInstall()
+	{
+		$client = JApplicationHelper::getClientInfo($this->extension->client_id);
+		$manifestPath = $client->path . '/templates/' . $this->extension->element . '/templateDetails.xml';
+		$this->parent->manifest = $this->parent->isManifest($manifestPath);
+		$this->parent->setPath('manifest', $manifestPath);
+		$this->setManifest($this->parent->getManifest());
 	}
 
 	/**
@@ -302,6 +321,26 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 	 */
 	protected function storeExtension()
 	{
+		// Discover installs are stored a little differently
+		if ($this->route == 'discover_install')
+		{
+			$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+
+			$this->extension->manifest_cache = json_encode($manifest_details);
+			$this->extension->state = 0;
+			$this->extension->name = $manifest_details['name'];
+			$this->extension->enabled = 1;
+			$this->extension->params = $this->parent->getParams();
+
+			if (!$this->extension->store())
+			{
+				// Install failed, roll back changes
+				throw new RuntimeException(JText::_('JLIB_INSTALLER_ERROR_TPL_DISCOVER_STORE_DETAILS'));
+			}
+
+			return;
+		}
+
 		// Was there a template already installed with the same name?
 		if ($this->currentExtensionId)
 		{
@@ -348,20 +387,6 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 				)
 			);
 		}
-	}
-
-	/**
-	 * Custom update method for components
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.1
-	 */
-	public function update()
-	{
-		$this->route = 'update';
-
-		return $this->install();
 	}
 
 	/**
@@ -501,126 +526,53 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 
 		foreach ($site_list as $template)
 		{
-			if ($template == 'system')
+			if (file_exists(JPATH_SITE . "/templates/$template/templateDetails.xml"))
 			{
-				// Ignore special system template
-				continue;
-			}
+				if ($template == 'system')
+				{
+					// Ignore special system template
+					continue;
+				}
 
-			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
-			$extension = JTable::getInstance('extension');
-			$extension->set('type', 'template');
-			$extension->set('client_id', $site_info->id);
-			$extension->set('element', $template);
-			$extension->set('folder', '');
-			$extension->set('name', $template);
-			$extension->set('state', -1);
-			$extension->set('manifest_cache', json_encode($manifest_details));
-			$extension->set('params', '{}');
-			$results[] = $extension;
+				$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
+				$extension = JTable::getInstance('extension');
+				$extension->set('type', 'template');
+				$extension->set('client_id', $site_info->id);
+				$extension->set('element', $template);
+				$extension->set('folder', '');
+				$extension->set('name', $template);
+				$extension->set('state', -1);
+				$extension->set('manifest_cache', json_encode($manifest_details));
+				$extension->set('params', '{}');
+				$results[] = $extension;
+			}
 		}
 
 		foreach ($admin_list as $template)
 		{
-			if ($template == 'system')
+			if (file_exists(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml"))
 			{
-				// Ignore special system template
-				continue;
-			}
+				if ($template == 'system')
+				{
+					// Ignore special system template
+					continue;
+				}
 
-			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
-			$extension = JTable::getInstance('extension');
-			$extension->set('type', 'template');
-			$extension->set('client_id', $admin_info->id);
-			$extension->set('element', $template);
-			$extension->set('folder', '');
-			$extension->set('name', $template);
-			$extension->set('state', -1);
-			$extension->set('manifest_cache', json_encode($manifest_details));
-			$extension->set('params', '{}');
-			$results[] = $extension;
+				$manifest_details = JInstaller::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
+				$extension = JTable::getInstance('extension');
+				$extension->set('type', 'template');
+				$extension->set('client_id', $admin_info->id);
+				$extension->set('element', $template);
+				$extension->set('folder', '');
+				$extension->set('name', $template);
+				$extension->set('state', -1);
+				$extension->set('manifest_cache', json_encode($manifest_details));
+				$extension->set('params', '{}');
+				$results[] = $extension;
+			}
 		}
 
 		return $results;
-	}
-
-	/**
-	 * Discover_install
-	 * Perform an install for a discovered extension
-	 *
-	 * @return boolean
-	 *
-	 * @since 3.1
-	 */
-	public function discover_install()
-	{
-		// Templates are one of the easiest
-		// If its not in the extensions table we just add it
-		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . '/templates/' . $this->parent->extension->element . '/templateDetails.xml';
-		$this->parent->manifest = $this->parent->isManifest($manifestPath);
-		$description = (string) $this->parent->manifest->description;
-
-		if ($description)
-		{
-			$this->parent->set('message', JText::_($description));
-		}
-		else
-		{
-			$this->parent->set('message', '');
-		}
-
-		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
-		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->state = 0;
-		$this->parent->extension->name = $manifest_details['name'];
-		$this->parent->extension->enabled = 1;
-
-		$data = new JObject;
-
-		foreach ($manifest_details as $key => $value)
-		{
-			$data->set($key, $value);
-		}
-
-		$this->parent->extension->params = $this->parent->getParams();
-
-		if ($this->parent->extension->store())
-		{
-			$db = $this->parent->getDbo();
-
-			// Insert record in #__template_styles
-			$lang = JFactory::getLanguage();
-			$debug = $lang->setDebug(false);
-			$columns = array($db->quoteName('template'),
-				$db->quoteName('client_id'),
-				$db->quoteName('home'),
-				$db->quoteName('title'),
-				$db->quoteName('params')
-			);
-			$query = $db->getQuery(true)
-				->insert($db->quoteName('#__template_styles'))
-				->columns($columns)
-				->values(
-					$db->quote($this->parent->extension->element)
-						. ',' . $db->quote($this->parent->extension->client_id)
-						. ',' . $db->quote(0)
-						. ',' . $db->quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->parent->extension->name))
-						. ',' . $db->quote($this->parent->extension->params)
-				);
-			$lang->setDebug($debug);
-			$db->setQuery($query);
-			$db->execute();
-
-			return $this->parent->extension->get('extension_id');
-		}
-		else
-		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_DISCOVER_STORE_DETAILS'), JLog::WARNING, 'jerror');
-
-			return false;
-		}
 	}
 
 	/**

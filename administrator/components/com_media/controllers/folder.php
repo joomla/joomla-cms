@@ -50,6 +50,8 @@ class MediaControllerFolder extends JControllerLegacy
 		// Just return if there's nothing to do
 		if (empty($paths))
 		{
+			$this->setMessage(JText::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+
 			return true;
 		}
 

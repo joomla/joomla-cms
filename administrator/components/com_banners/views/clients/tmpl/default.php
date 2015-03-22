@@ -22,25 +22,6 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 $params     = (isset($this->state->params)) ? $this->state->params : new JObject;
 $archived   = $this->state->get('filter.state') == 2 ? true : false;
 $trashed    = $this->state->get('filter.state') == -2 ? true : false;
-$sortFields = $this->getSortFields();
-
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.orderTable = function()
-	{
-		table = document.getElementById("sortTable");
-		direction = document.getElementById("directionTable");
-		order = table.options[table.selectedIndex].value;
-		if (order != "' . $listOrder . '")
-		{
-			dirn = "asc";
-		}
-		else
-		{
-			dirn = direction.options[direction.selectedIndex].value;
-		}
-		Joomla.tableOrdering(order, dirn, "");
-	};
-');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=clients'); ?>" method="post" name="adminForm" id="adminForm">
@@ -92,7 +73,6 @@ JFactory::getDocument()->addScriptDeclaration('
 				</tfoot>
 				<tbody>
 					<?php foreach ($this->items as $i => $item) :
-						$ordering   = ($listOrder == 'ordering');
 						$canCreate  = $user->authorise('core.create',     'com_banners');
 						$canEdit    = $user->authorise('core.edit',       'com_banners');
 						$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;

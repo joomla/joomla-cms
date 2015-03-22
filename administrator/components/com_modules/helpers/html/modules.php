@@ -165,6 +165,8 @@ abstract class JHtmlModules
 						$isTemplatePosition = true;
 					}
 				}
+
+				$options = JArrayHelper::sortObjects($options, 'text');
 			}
 
 			$templateGroups[$template] = ModulesHelper::createOptionGroup(ucfirst($template), $options);

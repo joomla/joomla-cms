@@ -215,6 +215,9 @@ class ContentModelCategory extends JModelList
 		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
 		$this->setState('layout', $app->input->getString('layout'));
+
+		// Set the featured articles state
+		$this->setState('filter.featured', $params->get('show_featured'));
 	}
 
 	/**
@@ -236,6 +239,7 @@ class ContentModelCategory extends JModelList
 			$model->setState('filter.published', $this->getState('filter.published'));
 			$model->setState('filter.access', $this->getState('filter.access'));
 			$model->setState('filter.language', $this->getState('filter.language'));
+			$model->setState('filter.featured', $this->getState('filter.featured'));
 			$model->setState('list.ordering', $this->_buildContentOrderBy());
 			$model->setState('list.start', $this->getState('list.start'));
 			$model->setState('list.limit', $limit);

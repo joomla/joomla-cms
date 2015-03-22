@@ -21,12 +21,6 @@ $input = JFactory::getApplication()->input;
 			</div>
 		</div>
 	</div>
-	<style>
-		.overall-progress,
-		.current-progress {
-			width: 150px;
-		}
-	</style>
 	<!-- End Sidebar -->
 	<!-- Begin Content -->
 	<div class="span10">

@@ -32,7 +32,7 @@ abstract class ModTagsPopularHelper
 		$groups 		= implode(',', $user->getAuthorisedViewLevels());
 		$timeframe		= $params->get('timeframe', 'alltime');
 		$maximum		= $params->get('maximum', 5);
-		$order_value	= $params->get('order_value', 'count');
+		$order_value	= $params->get('order_value', 'title');
 		$nowDate		= JFactory::getDate()->toSql();
 		$nullDate		= $db->quote($db->getNullDate());
 

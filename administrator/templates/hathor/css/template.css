@@ -79,7 +79,7 @@
 	width: 98%;
 	position: relative;
 	overflow-y: auto;
-	max-height: none;
+	max-height: 400px;
 	padding: 1%;
 }
 .modal-body iframe {
@@ -369,7 +369,6 @@ dl.article-info dd.hits span[class*=" icon-"] {
 .icon-plus-2:before {
 	content: "\5d";
 }
-.icon-ban-circle:before,
 .icon-minus-sign:before,
 .icon-minus-2:before {
 	content: "\5e";
@@ -396,6 +395,7 @@ dl.article-info dd.hits span[class*=" icon-"] {
 .icon-not-ok:before {
 	content: "\4b";
 }
+.icon-ban-circle:before,
 .icon-minus-circle:before {
 	content: "\e216";
 }
@@ -524,7 +524,6 @@ dl.article-info dd.hits span[class*=" icon-"] {
 .icon-file-plus:before {
 	content: "\29";
 }
-.icon-file-remove:before,
 .icon-file-minus:before {
 	content: "\e017";
 }
@@ -1001,6 +1000,8 @@ body {
 	font-size: 62.5%;
 	line-height: 1.5em;
 	height: 100%;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 body,
 td,
@@ -1339,6 +1340,15 @@ input#mm_subject {
 }
 textarea#mm_message {
 	width: 100%;
+}
+textarea {
+	resize: both;
+}
+textarea.vert {
+	resize: vertical;
+}
+textarea.noResize {
+	resize: none;
 }
 .pane-sliders {
 	margin: 0;
@@ -3776,4 +3786,11 @@ div.toggle-editor {
 }
 .module-edit {
 	display: inline-block;
+}
+.break-word {
+	word-break: break-all;
+	word-wrap: break-word;
+}
+.muted {
+	color: #999;
 }

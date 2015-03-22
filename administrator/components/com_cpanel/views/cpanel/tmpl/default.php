@@ -43,7 +43,7 @@ $user = JFactory::getUser();
 						<?php echo JText::_('COM_CPANEL_MESSAGES_BODYMORE_NOCLOSE'); ?>
 					</p>
 					<p>
-						<a href="index.php?option=com_postinstall&eid=700" class="btn btn-primary">
+						<a href="index.php?option=com_postinstall&amp;eid=700" class="btn btn-primary">
 						<?php echo JText::_('COM_CPANEL_MESSAGES_REVIEW'); ?>
 						</a>
 					</p>
