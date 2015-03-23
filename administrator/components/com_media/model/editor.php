@@ -492,6 +492,40 @@ class MediaModelEditor extends MediaModelCmsitem
 	}
 
 	/**
+	 * Flip an image.
+	 *
+	 * @param   int     $id    The id of the entry
+	 * @param   string  $mode  The flipping mode of the image.
+	 *
+	 * @return   boolean  true if image flip successful, false otherwise.
+	 *
+	 * @since   3.5
+	 */
+	public function flipImage($id, $mode)
+	{
+		$app     = JFactory::getApplication();
+		$table   = $this->getTable();
+		$table->load($id);
+		$file	= $this->resolveDuplicateFilename(JPATH_ROOT . $table->core_urls);
+
+		$JImage = new JImage($file);
+
+		try
+		{
+			$image = $JImage->flip($mode, true);
+			$image->toFile($file);
+
+			$this->updateData();
+
+			return true;
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'error');
+		}
+	}
+
+	/**
 	 * Generating thumbs an image.
 	 *
 	 * @param   int     $id              The id of the entry
@@ -499,7 +533,7 @@ class MediaModelEditor extends MediaModelCmsitem
 	 * @param   int     $creationMethod  The thumbnail creation method
 	 * @param   string  $thumbsFolder    The folder to save thumbnails
 	 *
-	 * @return   boolean  true if image rotate successful, false otherwise.
+	 * @return   boolean  true if image generating thumbs successful, false otherwise.
 	 *
 	 * @since   3.5
 	 */

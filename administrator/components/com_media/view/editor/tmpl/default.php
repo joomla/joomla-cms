@@ -251,6 +251,43 @@ JFormHelper::addFieldPath(JPATH_COMPONENT . '/model/field');
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 
+<!-- Flip Modal -->
+<form
+	action="<?php echo JRoute::_('index.php?option=com_media&controller=media.flip.editor&folder=' . $this->folder . '&file=' . $this->file . '&id=' . $this->id); ?>"
+	method="post">
+	<div id="flipModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true">&times;</button>
+			<h3>
+				<?php echo JText::_('COM_MEDIA_EDITOR_FLIP_IMAGE'); ?>
+			</h3>
+		</div>
+		<div class="modal-body">
+			<div id="" class="form-horizontal" >
+				<div class="control-group">
+					<?php 
+						$mediaflip = JFormHelper::loadFieldType('Mediaflip', false);
+					?>
+						<?php echo $mediaflip->getLabel();?>
+					<div class="controls">
+						<?php echo $mediaflip->getInput(); ?>
+					</div>
+				</div>
+			</div>
+			<div name="spacer" id="spacer" style="height: 60px;"></div>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CLOSE'); ?>
+			</a>
+			<button class="btn btn-primary" type="submit">
+				<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_FLIP'); ?>
+			</button>
+		</div>
+	</div>
+	<?php echo JHtml::_('form.token'); ?>
+</form>
+
 <!-- Filter Modal -->
 <form
 	action="<?php echo JRoute::_('index.php?option=com_media&controller=media.filter.editor&folder=' . $this->folder . '&file=' . $this->file . '&id=' . $this->id); ?>"

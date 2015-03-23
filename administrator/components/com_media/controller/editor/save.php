@@ -58,7 +58,13 @@ class MediaControllerEditorSave extends JControllerBase
 
 		if ($return === false)
 		{
-			$this->app->redirect(JRoute::_('index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id, false));
+			$this->app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_FILE_SAVE_ERROR'), 'error');
+			$this->app->redirect(
+									JRoute::_(
+									'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id,
+									false
+									)
+								);
 		}
 
 		// Attempt to save the configuration
@@ -75,7 +81,13 @@ class MediaControllerEditorSave extends JControllerBase
 		// Check the return value
 		if ($return === false)
 		{
-			$this->app->redirect(JRoute::_('index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id, false));
+			$this->app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_FILE_SAVE_ERROR'), 'error');
+			$this->app->redirect(
+								JRoute::_(
+										'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id,
+										false
+										)
+								);
 		}
 
 		// Handle hidden file
@@ -87,13 +99,20 @@ class MediaControllerEditorSave extends JControllerBase
 			JFile::delete($duplicateFile);
 		}
 
+		$this->app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_FILE_SAVE_SUCCESS'));
+
 		// Set the redirect based on the task.
 		switch ($this->options[3])
 		{
 			case 'apply':
 			{
 
-				$this->app->redirect(JRoute::_('index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id, false));
+				$this->app->redirect(
+									JRoute::_(
+											'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file . '&id=' . $id,
+											false
+											)
+									);
 				break;
 			}
 
