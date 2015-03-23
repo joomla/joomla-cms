@@ -105,8 +105,8 @@ class JHelperMedia
 		}
 
 		$filetype = array_pop($filetypes);
-		$allowable = explode(',', $params->get('upload_extensions'));
-		$ignored   = explode(',', $params->get('ignore_extensions'));
+		$allowable = array_map('trim', explode(',', $params->get('upload_extensions')));
+		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
 
 		if ($filetype == '' || $filetype == false || (!in_array($filetype, $allowable) && !in_array($filetype, $ignored)))
 		{
@@ -126,7 +126,7 @@ class JHelperMedia
 
 		if ($params->get('restrict_uploads', 1))
 		{
-			$images = explode(',', $params->get('image_extensions'));
+			$images = array_map('trim', explode(',', $params->get('image_extensions')));
 
 			if (in_array($filetype, $images))
 			{
@@ -151,8 +151,8 @@ class JHelperMedia
 			elseif (!in_array($filetype, $ignored))
 			{
 				// If it's not an image, and we're not ignoring it
-				$allowed_mime = explode(',', $params->get('upload_mime'));
-				$illegal_mime = explode(',', $params->get('upload_mime_illegal'));
+				$allowed_mime = array_map('trim', explode(',', $params->get('upload_mime')));
+				$illegal_mime = array_map('trim', explode(',', $params->get('upload_mime_illegal')));
 
 				if (function_exists('finfo_open') && $params->get('check_mime', 1))
 				{

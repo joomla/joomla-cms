@@ -29,6 +29,9 @@ Joomla.submitform = function(task, form) {
     if (typeof form.fireEvent == "function") {
         form.fireEvent('onsubmit');
     }
+    if (typeof jQuery == "function") {
+        jQuery(form).submit();
+    }
     form.submit();
 };
 
@@ -425,7 +428,7 @@ function submitform(pressbutton) {
         document.adminForm.onsubmit();
     }
     if (typeof document.adminForm.fireEvent == "function") {
-        document.adminForm.fireEvent('submit');
+        document.adminForm.fireEvent('onsubmit');
     }
     document.adminForm.submit();
 }

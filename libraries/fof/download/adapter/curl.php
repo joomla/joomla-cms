@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  dispatcher
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -141,7 +141,7 @@ class FOFDownloadAdapterCurl extends FOFDownloadAdapterAbstract implements FOFDo
 		curl_setopt($ch, CURLOPT_HEADER, true );
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true );
 		@curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true );
-		@curl_setopt($ch, CURLOPT_CAINFO, JPATH_LIBRARIES . '/joomla/http/transport/cacert.pem');
+		@curl_setopt($ch, CURLOPT_CAINFO, __DIR__ . '/cacert.pem');
 
 		$data = curl_exec($ch);
 		curl_close($ch);

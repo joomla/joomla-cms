@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  form
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -112,10 +112,10 @@ class FOFFormFieldCalendar extends JFormFieldCalendar implements FOFFormField
 		// PHP date doesn't use percentages (%) for the format, but the calendar Javascript
 		// DOES use it (@see: calendar-uncompressed.js). Therefore we have to convert it.
 		$formatJS  = $format;
-		$formatPHP = str_replace(array('%', 'H:M:S'), array('', 'H:i:s'), $formatJS);
+		$formatPHP = str_replace(array('%', 'H:M:S', 'B'), array('', 'H:i:s', 'F'), $formatJS);
 
 		// Check for empty date values
-		if (empty($this->value) || $this->value == '0000-00-00 00:00:00' || $this->value == '0000-00-00')
+		if (empty($this->value) || $this->value == FOFPlatform::getInstance()->getDbo()->getNullDate() || $this->value == '0000-00-00')
 		{
 			$this->value = $default;
 		}

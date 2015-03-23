@@ -36,6 +36,13 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 				// We can upgrade, so uninstall the old one
 				$installer = new JInstaller; // we don't want to compromise this instance!
 				$installer->uninstall('library', $this->currentExtensionId);
+
+				// Clear the cached data
+				$this->currentExtensionId = null;
+				$this->extension = JTable::getInstance('Extension', 'JTable', array('dbo' => $this->db));
+
+				// From this point we'll consider this an update
+				$this->setRoute('update');
 			}
 			else
 			{
@@ -292,6 +299,13 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		// Get the extension manifest object
 		$this->setManifest($this->parent->getManifest());
 
+		// Set the overwrite setting
+		$this->parent->setOverwrite(true);
+		$this->parent->setUpgrade(true);
+
+		// And make sure the route is set correctly
+		$this->setRoute('update');
+
 		/*
 		 * ---------------------------------------------------------------------------------------------
 		 * Manifest Document Setup Section
@@ -320,7 +334,12 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		{
 			// Already installed, which would make sense
 			$installer->uninstall('library', $result);
+
+			// Clear the cached data
+			$this->currentExtensionId = null;
+			$this->extension = JTable::getInstance('Extension', 'JTable', array('dbo' => $this->db));
 		}
+
 		// Now create the new files
 		return $this->install();
 	}
