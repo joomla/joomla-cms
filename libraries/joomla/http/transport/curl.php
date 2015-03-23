@@ -68,16 +68,16 @@ class JHttpTransportCurl implements JHttpTransport
 		{
 			case 'GET':
 				$options[CURLOPT_HTTPGET] = true;
-			break;
+				break;
 
 			case 'POST':
 				$options[CURLOPT_POST] = true;
-			break;
+				break;
 
 			case 'PUT':
 			default:
 				$options[CURLOPT_CUSTOMREQUEST] = strtoupper($method);
-			break;
+				break;
 		}
 
 		// Don't wait for body when $method is HEAD
