@@ -48,7 +48,7 @@ class JPluginHelperTest extends TestCaseDatabase
 
 		parent::tearDown();
 	}
-7
+
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
