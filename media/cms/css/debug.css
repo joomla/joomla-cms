@@ -183,3 +183,24 @@ div#system-debug {
 {
     margin-left: 50px;
 }
+
+#system-debug .dbg-log-entry {
+	margin-top: 10px;
+	margin-bottom: 25px;
+}
+
+#system-debug .dbg-log-entry h5 {
+	margin-bottom: 8px;
+}
+
+#system-debug .dbg-filter-container {
+	background-color: #f7f7f7;
+	padding: 5px 10px 15px 10px;
+	margin-bottom: 25px;
+}
+
+#system-debug .dbg-filter {
+	display: inline-block;
+	width: auto;
+	margin-right: 35px;
+}

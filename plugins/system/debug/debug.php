@@ -1757,13 +1757,169 @@ class PlgSystemDebug extends JPlugin
 			JLog::DEBUG => 'DEBUG'
 		);
 
-		$out = array();
+		$prioritiesLabels = array(
+			JLog::EMERGENCY => 'important',
+			JLog::ALERT => 'warning',
+			JLog::CRITICAL => 'inverse',
+			JLog::ERROR => 'important',
+			JLog::WARNING => 'warning',
+			JLog::NOTICE => 'info',
+			JLog::INFO => 'info',
+			JLog::DEBUG => 'default'
+		);
 
+		$out = array();
+		$logPriorities = array();
+		$logCategories = array();
+		$filterOut = array();
+
+		// Log entries
 		foreach ($this->logEntries as $entry)
 		{
-			$out[] = '<h5>' . $priorities[$entry->priority] . ' - ' . $entry->category . ' </h5><code>' . $entry->message . '</code>';
+			// Store priority and category to build the filters
+			if (!in_array($entry->priority, $logPriorities))
+			{
+				$logPriorities[] = $entry->priority;
+			}
+
+			if (!in_array($entry->category, $logCategories))
+			{
+				$logCategories[] = $entry->category;
+			}
+
+			// Build the log output
+			$html = '<li class="dbg-log-entry" data-priority="' . $entry->priority . '" data-category="' . $entry->category . '">';
+			$html .= '<h5>';
+			$html .= '<span class="label label-' . $prioritiesLabels[$entry->priority] . '">' . $priorities[$entry->priority] . '</span>';
+			$html .= '&nbsp;-&nbsp;' . $entry->category;
+			$html .= '</h5>';
+			$html .= '<code>' . $entry->message . '</code>';
+			$html .= '<hr />';
+			$html .= '</li>';
+
+			$out[] = $html;
 		}
 
-		return implode('<br /><br />', $out);
+		// Filters. The buttons start as active
+		if (!empty($this->logEntries))
+		{
+			JHtml::_('behavior.framework', true);
+
+			$filterOut[] = '
+				<script>
+					(function($) {
+						function init()
+						{
+							function getStorageKey(filter, value)
+							{
+								return "dbg_" + filter + "_" + value;
+							}
+
+							function toggleLogEntries()
+							{
+								$(".dbg-log-entry").each(function() {
+									var entry = $(this),
+										priorityState = parseInt(localStorage.getItem(getStorageKey("priority", entry.data("priority")))),
+										categoryState = parseInt(localStorage.getItem(getStorageKey("category", entry.data("category"))));
+
+									if (priorityState && categoryState)
+									{
+										entry.show();
+									}
+									else
+									{
+										entry.hide();
+									}
+								});
+							}
+
+							function bindButtonEvent(dataAttribute)
+							{
+								var buttonList = $("button[data-" + dataAttribute + "]");
+
+								buttonList.each(function(i, e) {
+									var button, entries, state, storageKey;
+
+									button = $(this);
+									storageKey = getStorageKey(dataAttribute, button.data(dataAttribute));
+
+									// Configure the filter state
+									state = localStorage.getItem(storageKey);
+
+									if (state === null)
+									{
+										state = button.hasClass("active") ? 1 : 0;
+										localStorage.setItem(storageKey, state);
+									}
+
+									// Set the button state
+									if (parseInt(state))
+									{
+										button.addClass("active");
+									}
+									else
+									{
+										button.removeClass("active");
+									}
+
+									button.on("click", function(event) {
+										var data, state;
+
+										event.stopImmediatePropagation();
+										$(this).button("toggle");
+
+										// Store the current state
+										data = $(this).data(dataAttribute);
+										state = $(this).hasClass("active") ? 1 : 0;
+										localStorage.setItem(getStorageKey(dataAttribute, data), state);
+
+										toggleLogEntries();
+									});
+								});
+							}
+
+							bindButtonEvent("priority");
+							bindButtonEvent("category");
+
+							toggleLogEntries();
+						}
+
+						$(document).on("ready", init);
+					})(jQuery);
+				</script>';
+
+			$filterOut[] = '<div class="dbg-filter-container">';
+
+			// Priorities
+			$filterOut[] = '<div class="dbg-filter">';
+			$filterOut[] = '<h4>Priorities</h4>';
+			$filterOut[] = '<div class="btn-group" data-toggle="buttons-checkbox">';
+
+			foreach ($logPriorities as $priority)
+			{
+				$filterOut[] = '<button type="button" class="btn active" data-priority="' . $priority . '">' . $priorities[$priority] . '</button>';
+			}
+
+			$filterOut[] = '</div></div>';
+
+			// Categories
+			$filterOut[] = '<div class="dbg-filter">';
+			$filterOut[] = '<h4>Categories</h4>';
+			$filterOut[] = '<div class="btn-group" data-toggle="buttons-checkbox">';
+
+			foreach ($logCategories as $category)
+			{
+				$filterOut[] = '<button type="button" class="btn active" data-category="' . $category . '">' . $category . '</button>';
+			}
+
+			$filterOut[] = '</div></div>';
+
+			$filterOut[] = '</div>';
+		}
+
+		$html = implode("\n", $filterOut);
+		$html .= '<ol>' . implode("\n", $out) . '</ol>';
+
+		return $html;
 	}
 }
