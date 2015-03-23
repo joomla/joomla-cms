@@ -101,7 +101,7 @@ abstract class JPlugin extends JEvent
 
 			if ($appProperty->isPrivate() === false && is_null($this->app))
 			{
-				$this->app = JFactory::getApplication();
+				$this->app = (php_sapi_name() === 'cli') ? JFactory::getApplication('administrator') : JFactory::getApplication();
 			}
 		}
 
