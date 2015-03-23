@@ -182,9 +182,12 @@ class JArchiveTar implements JArchiveExtractable
 					substr($data, $position)
 				);
 			}
-			
-			/* This variable has been set in the previous loop, meaning that the filename was present in the previous block to allow more than 100 characters - see below */
-			if (isset($longlinkfilename)) {
+
+			/* This variable has been set in the previous loop,
+			meaning that the filename was present in the previous block
+			to allow more than 100 characters - see below */
+			if (isset($longlinkfilename))
+			{
 				$info['filename'] = $longlinkfilename;
 				unset($longlinkfilename);
 			}
@@ -229,7 +232,7 @@ class JArchiveTar implements JArchiveExtractable
 				{
 					/* GNU tar ././@LongLink support - the filename is actually in the contents, setting a variable here so we can test in the next loop */
 					$longlinkfilename = $contents;
-					
+
 					/* And the file contents are in the next block so we'll need to skip this */
 					continue;
 				}
