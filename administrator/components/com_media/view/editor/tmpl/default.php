@@ -226,7 +226,19 @@ JFormHelper::addFieldPath(JPATH_COMPONENT . '/model/field');
 							placeholder="0" required />
 					</div>
 				</div>
+				<div class="control-group">
+					<label for="direction" class="control-label hasTooltip"
+						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_ANGLE_DIRECTION'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_ANGLE_DIRECTION')?>
+					</label>
+					<div class="controls">
+						<select name="direction" class="input-large" required>
+							<option value="+" ><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_ROTATE_ANTICLOCKWISE')?></option>
+							<option value="-" ><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_ROTATE_CLOCKWISE')?></option>
+						</select>
+					</div>
+				</div>
 			</div>
+			<div name="spacer" id="spacer" style="height: 20px;"></div>
 		</div>
 		<div class="modal-footer">
 			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CLOSE'); ?>

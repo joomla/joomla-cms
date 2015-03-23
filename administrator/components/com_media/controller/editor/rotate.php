@@ -34,6 +34,7 @@ class MediaControllerEditorRotate extends JControllerBase
 	public function execute()
 	{
 		$angle = $this->app->input->get('angle');
+		$direction = $this->app->input->get('direction', '+', 'raw');
 
 		$file   = $this->app->input->get('file');
 		$folder = $this->app->input->get('folder', '', 'path');
@@ -43,6 +44,11 @@ class MediaControllerEditorRotate extends JControllerBase
 		$modelClass = $this->prefix . 'Model' . ucfirst($viewName);
 
 		$model = new $modelClass;
+
+		if ($direction == '-')
+		{
+			$angle = $angle * (-1);
+		}
 
 		if ($model->rotateImage($id, $angle))
 		{
