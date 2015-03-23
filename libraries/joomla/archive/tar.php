@@ -182,6 +182,12 @@ class JArchiveTar implements JArchiveExtractable
 					substr($data, $position)
 				);
 			}
+			
+			/* This variable has been set in the previous loop, meaning that the filename was present in the previous block to allow more than 100 characters - see below */
+			if (isset($longlinkfilename)) {
+				$info['filename'] = $longlinkfilename;
+				unset($longlinkfilename);
+			}
 
 			if (!$info)
 			{
@@ -218,6 +224,14 @@ class JArchiveTar implements JArchiveExtractable
 					$file['attr'] = (($info['typeflag'] == 0x35) ? 'd' : '-') . (($mode & 0x400) ? 'r' : '-') . (($mode & 0x200) ? 'w' : '-') .
 						(($mode & 0x100) ? 'x' : '-') . (($mode & 0x040) ? 'r' : '-') . (($mode & 0x020) ? 'w' : '-') . (($mode & 0x010) ? 'x' : '-') .
 						(($mode & 0x004) ? 'r' : '-') . (($mode & 0x002) ? 'w' : '-') . (($mode & 0x001) ? 'x' : '-');
+				}
+				elseif (chr($info['typeflag']) == 'L' && $info['filename'] == '././@LongLink')
+				{
+					/* GNU tar ././@LongLink support - the filename is actually in the contents, setting a variable here so we can test in the next loop */
+					$longlinkfilename = $contents;
+					
+					/* And the file contents are in the next block so we'll need to skip this */
+					continue;
 				}
 				else
 				{
