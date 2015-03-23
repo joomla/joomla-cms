@@ -58,7 +58,7 @@ class PlgSystemRedirect extends JPlugin
 		$app = JFactory::getApplication();
 
 		// Make sure the error is a 404 and we are not in the administrator.
-		if ($app->isAdmin() && $error->getCode() != 404)
+		if ($app->isAdmin() || $error->getCode() != 404)
 		{
 			// Render the error page.
 			JError::customErrorPage($error);
