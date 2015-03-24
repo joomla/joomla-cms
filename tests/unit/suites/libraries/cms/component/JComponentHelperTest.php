@@ -49,16 +49,38 @@ class JComponentHelperTest extends TestCaseDatabase
 		$this->assertEquals('1', $component->params->get('show_title'), 'The show_title parameter of com_content should be set to 1');
 		$this->assertObjectHasAttribute('enabled', $component, 'The component data needs to have an enabled field');
 		$this->assertSame($component, JComponentHelper::getComponent('com_content'), 'The object returned must always be the same');
+	}
 
-		$falsecomponent = JComponentHelper::getComponent('com_false');
-		$this->assertObjectNotHasAttribute('id', $falsecomponent, 'Anonymous component does not have an ID');
-		$this->assertInstanceOf('JRegistry', $falsecomponent->params, 'Parameters need to be of type JRegistry');
-		$this->assertEquals(0, $falsecomponent->params->count(), 'Anonymous component does not have any set parameters');
-		$this->assertObjectHasAttribute('enabled', $falsecomponent, 'The component data needs to have an enabled field');
-		$this->assertTrue($falsecomponent->enabled, 'The anonymous component has to be enabled by default if not strict');
-		
-		$falsecomponent2 = JComponentHelper::getComponent('com_false', true);
-		$this->assertFalse($falsecomponent2->enabled, 'The anonymous component has to be disabled by default if strict');
+	/**
+	 * Test JComponentHelper::getComponent
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @covers  JComponentHelper::getComponent
+	 */
+	public function testGetComponent_falseComponent()
+	{
+		$component = JComponentHelper::getComponent('com_false');
+		$this->assertObjectNotHasAttribute('id', $component, 'Anonymous component does not have an ID');
+		$this->assertInstanceOf('JRegistry', $component->params, 'Parameters need to be of type JRegistry');
+		$this->assertEquals(0, $component->params->count(), 'Anonymous component does not have any set parameters');
+		$this->assertObjectHasAttribute('enabled', $component, 'The component data needs to have an enabled field');
+		$this->assertTrue($component->enabled, 'The anonymous component has to be enabled by default if not strict');
+	}
+
+	/**
+	 * Test JComponentHelper::getComponent
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 * @covers  JComponentHelper::getComponent
+	 */
+	public function testGetComponent_falseComponent_strict()
+	{		
+		$component = JComponentHelper::getComponent('com_false', true);
+		$this->assertFalse($component->enabled, 'The anonymous component has to be disabled by default if strict');
 	}
 
 	/**
