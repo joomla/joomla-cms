@@ -644,7 +644,8 @@ class PlgSystemLanguageFilter extends JPlugin
 						if ($lang->sef == $this->lang_codes[JComponentHelper::getParams('com_languages')->get('site', 'en-GB')]->sef
 							&& $this->params->get('remove_default_prefix', 0))
 						{
-
+							$link = preg_replace('|/' . $lang->sef . '/|', '/', $link, 1);
+						}
 						$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language));
 					}
 					elseif (isset($associations[$language]))
