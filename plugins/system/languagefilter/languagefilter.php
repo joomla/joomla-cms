@@ -616,7 +616,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					}
 					else
 					{
-						$lang_code = $this->default_lang;
+						$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 					}
 				}
 
