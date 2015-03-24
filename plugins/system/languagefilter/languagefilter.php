@@ -642,8 +642,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 						// Check if language is the default site language and remove url language code is on
 						if ($lang->sef == $this->lang_codes[JComponentHelper::getParams('com_languages')->get('site', 'en-GB')]->sef
-							&& $this->params->get('remove_default_prefix', 0)
-							)
+							&& $this->params->get('remove_default_prefix', 0))
 						{
 							$link = preg_replace('|/' . $lang->sef . '/|', '/', $link, 1);
 						}
@@ -683,8 +682,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 								// Check if language is the default site language and remove url language code is on
 								if ($language->sef == $this->lang_codes[JComponentHelper::getParams('com_languages')->get('site', 'en-GB')]->sef
-									&& $this->params->get('remove_default_prefix', 0)
-									)
+									&& $this->params->get('remove_default_prefix', 0))
 								{
 									$link = preg_replace('|/' . $language->sef . '/|', '/', $link, 1);
 								}
