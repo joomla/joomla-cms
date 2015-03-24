@@ -696,7 +696,6 @@ class PlgSystemLanguageFilter extends JPlugin
 					}
 				}
 			}
-
 		}
 	}
 
