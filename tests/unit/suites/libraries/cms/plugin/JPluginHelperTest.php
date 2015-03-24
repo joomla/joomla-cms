@@ -87,6 +87,7 @@ class JPluginHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JPluginHelper::getPlugin
 	 */
 	public function testGetPlugin()
 	{
@@ -97,7 +98,18 @@ class JPluginHelperTest extends TestCaseDatabase
 			'loadmodule',
 			'plg_content_loadmodule should return loadmodule as the name'
 		);
-		
+	}
+	
+	/**
+	 * Test JPluginHelper::getPlugin with a whole plugin group
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 * @covers  JPluginHelper::getPlugin
+	 */
+	public function testGetPluginGroup()
+	{
 		$plugins = JPluginHelper::getPlugin('content');
 		$this->assertInternalType('array', $plugins, 'Method should return all plugins in a group');
 		$this->assertEquals(7, count($plugins), 'Method should return all plugins in a group');
