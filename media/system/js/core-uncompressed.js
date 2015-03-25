@@ -10,6 +10,10 @@ Joomla.editors = {};
 // An object to hold each editor instance on page
 Joomla.editors.instances = {};
 
+
+(function (Joomla){
+	'use strict';
+
 /**
  * Generic submit form
  */
@@ -265,7 +269,7 @@ Joomla.tableOrdering = function(order, dir, task, form) {
  * @param string
  *          The original item value that was selected
  */
-function writeDynaList(selectParams, source, key, orig_key, orig_val) {
+window.writeDynaList = function (selectParams, source, key, orig_key, orig_val) {
     var html = '\n  <select ' + selectParams + '>', i, selected;
     i = 0;
     for (x in source) {
@@ -283,7 +287,7 @@ function writeDynaList(selectParams, source, key, orig_key, orig_val) {
     html += '\n </select>';
 
     document.writeln(html);
-}
+};
 
 /**
  * USED IN: administrator/components/com_content/views/article/view.html.php
@@ -301,7 +305,7 @@ function writeDynaList(selectParams, source, key, orig_key, orig_val) {
  * @param string
  *          The original item value that was selected
  */
-function changeDynaList(listname, source, key, orig_key, orig_val) {
+window.changeDynaList = function (listname, source, key, orig_key, orig_val) {
     var list = document.adminForm[listname];
 
     // empty the list
@@ -322,7 +326,7 @@ function changeDynaList(listname, source, key, orig_key, orig_val) {
         }
     }
     list.length = i;
-}
+};
 
 /**
  * USED IN: administrator/components/com_menus/views/menus/tmpl/default.php
@@ -333,7 +337,7 @@ function changeDynaList(listname, source, key, orig_key, orig_val) {
 // return the value of the radio button that is checked
 // return an empty string if none are checked, or
 // there are no radio buttons
-function radioGetCheckedValue(radioObj) {
+window.radioGetCheckedValue = function (radioObj) {
     if (!radioObj) {
         return '';
     }
@@ -351,7 +355,7 @@ function radioGetCheckedValue(radioObj) {
         }
     }
     return '';
-}
+};
 
 /**
  * USED IN: administrator/components/com_banners/views/banner/tmpl/default/php
@@ -370,7 +374,7 @@ function radioGetCheckedValue(radioObj) {
  * @param srcListName
  * @return
  */
-function getSelectedValue(frmName, srcListName) {
+window.getSelectedValue = function (frmName, srcListName) {
     var form = document[frmName],
     srcList = form[srcListName];
 
@@ -380,7 +384,7 @@ function getSelectedValue(frmName, srcListName) {
     } else {
         return null;
     }
-}
+};
 
 /**
  * USED IN: all over :)
@@ -389,7 +393,7 @@ function getSelectedValue(frmName, srcListName) {
  * @param task
  * @return
  */
-function listItemTask(id, task) {
+window.listItemTask = function (id, task) {
     var f = document.adminForm, i, cbx,
     cb = f[id];
     if (cb) {
@@ -404,23 +408,23 @@ function listItemTask(id, task) {
         submitbutton(task);
     }
     return false;
-}
+};
 
 /**
  * Default function. Usually would be overriden by the component
  *
  * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
  */
-function submitbutton(pressbutton) {
+window.submitbutton = function (pressbutton) {
     submitform(pressbutton);
-}
+};
 
 /**
  * Submit the admin form
  *
  * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitform() instead.
  */
-function submitform(pressbutton) {
+window.submitform = function (pressbutton) {
     if (pressbutton) {
         document.adminForm.task.value = pressbutton;
     }
@@ -431,17 +435,17 @@ function submitform(pressbutton) {
         document.adminForm.fireEvent('onsubmit');
     }
     document.adminForm.submit();
-}
+};
 
 // needed for Table Column ordering
 /**
  * USED IN: libraries/joomla/html/html/grid.php
  */
-function saveorder(n, task) {
+window.saveorder = function (n, task) {
     checkAll_button(n, task);
-}
+};
 
-function checkAll_button(n, task) {
+window.checkAll_button = function (n, task) {
     if (!task) {
         task = 'saveorder';
     }
@@ -458,4 +462,6 @@ function checkAll_button(n, task) {
         }
     }
     submitform(task);
-}
+};
+
+}(Joomla));
