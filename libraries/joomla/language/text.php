@@ -76,7 +76,7 @@ class JText
 	}
 
 	/**
-	 * Checks the string if it should be interpreted as sprintft and runs sprintf over it.
+	 * Checks the string if it should be interpreted as sprintf and runs sprintf over it.
 	 *
 	 * @param   string   $string                The string to translate.
 	 * @param   mixed    $jsSafe                Boolean: Make the result javascript safe.
