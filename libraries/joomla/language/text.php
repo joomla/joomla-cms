@@ -87,15 +87,7 @@ class JText
 	 */
 	private static function passSprintf(&$string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
-		if (!strpos($string, ','))
-		{
-			return false;
-		}
-
-		$first_part = substr($string, strpos($string, ','));
-
-		// Return false if string isn't uppercase
-		if (strtoupper($first_part) !== $first_part)
+		if (strpos($string, ',') === false)
 		{
 			return false;
 		}
