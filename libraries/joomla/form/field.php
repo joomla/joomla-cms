@@ -328,7 +328,7 @@ abstract class JFormField
 		// If there is a form passed into the constructor set the form and form control properties.
 		if ($form instanceof JForm)
 		{
-			$this->form = $form;
+			$this->form        = $form;
 			$this->formControl = $form->getFormControl();
 		}
 
@@ -452,7 +452,7 @@ abstract class JFormField
 
 			case 'name':
 				$this->fieldname = $this->getFieldName((string) $value);
-				$this->name = $this->getName($this->fieldname);
+				$this->name      = $this->getName($this->fieldname);
 				break;
 
 			case 'multiple':
@@ -465,13 +465,13 @@ abstract class JFormField
 			case 'readonly':
 			case 'autofocus':
 			case 'hidden':
-				$value = (string) $value;
+				$value       = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
 				break;
 
 			case 'autocomplete':
-				$value = (string) $value;
-				$value = ($value == 'on' || $value == '') ? 'on' : $value;
+				$value       = (string) $value;
+				$value       = ($value == 'on' || $value == '') ? 'on' : $value;
 				$this->$name = ($value === 'false' || $value === 'off' || $value === '0') ? false : $value;
 				break;
 
@@ -479,17 +479,17 @@ abstract class JFormField
 			case 'translateLabel':
 			case 'translateDescription':
 			case 'translateHint':
-				$value = (string) $value;
+				$value       = (string) $value;
 				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
 			case 'translate_label':
-				$value = (string) $value;
+				$value                = (string) $value;
 				$this->translateLabel = $this->translateLabel && !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
 			case 'translate_description':
-				$value = (string) $value;
+				$value                      = (string) $value;
 				$this->translateDescription = $this->translateDescription && !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
@@ -520,7 +520,7 @@ abstract class JFormField
 	 */
 	public function setForm(JForm $form)
 	{
-		$this->form = $form;
+		$this->form        = $form;
 		$this->formControl = $form->getFormControl();
 
 		return $this;
@@ -558,11 +558,11 @@ abstract class JFormField
 		$this->group = $group;
 
 		$attributes = array(
-			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange',
-			'onclick', 'validate', 'pattern', 'default', 'required',
-			'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck',
-			'translateHint', 'translateLabel','translate_label', 'translateDescription',
-			'translate_description' ,'size');
+				'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange',
+				'onclick', 'validate', 'pattern', 'default', 'required',
+				'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck',
+				'translateHint', 'translateLabel', 'translate_label', 'translateDescription',
+				'translate_description', 'size');
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -575,7 +575,7 @@ abstract class JFormField
 		}
 
 		// Allow for repeatable elements
-		$repeat = (string) $element['repeat'];
+		$repeat       = (string) $element['repeat'];
 		$this->repeat = ($repeat == 'true' || $repeat == 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
 
 		// Set the visibility.
@@ -728,7 +728,7 @@ abstract class JFormField
 				'required'    => (bool) $this->required,
 				'classes'     => explode(' ', $this->labelclass),
 				'position'    => $position
-			);
+		);
 
 		return JLayoutHelper::render($this->renderLabelLayout, $displayData);
 	}
@@ -822,16 +822,14 @@ abstract class JFormField
 	 */
 	protected function getFieldName($fieldName)
 	{
-		if ($fieldName)
-		{
-			return $fieldName;
-		}
-		else
+		if (empty($fieldName))
 		{
 			self::$count = self::$count + 1;
 
 			return self::$generated_fieldname . self::$count;
 		}
+
+		return $fieldName;
 	}
 
 	/**
@@ -848,21 +846,20 @@ abstract class JFormField
 	{
 		if ($this->element instanceof SimpleXMLElement)
 		{
-			$attributes = $this->element->attributes();
-
-			// Ensure that the attribute exists
-			if (property_exists($attributes, $name))
-			{
-				$value = $attributes->$name;
-
-				if ($value !== null)
-				{
-					return (string) $value;
-				}
-			}
+			return $default;
 		}
 
-		return $default;
+		$attributes = $this->element->attributes();
+
+		// Ensure that the attribute exists
+		if (!property_exists($attributes, $name) || $attributes->$name == null)
+		{
+			return $default;
+		}
+
+		$value = $attributes->$name;
+
+		return (string) $value;
 	}
 
 	/**
@@ -910,10 +907,10 @@ abstract class JFormField
 
 		if ($showon = $this->getAttribute('showon'))
 		{
-			$showon   = explode(':', $showon, 2);
-			$options['class'] .= ' showon_' . implode(' showon_', explode(',', $showon[1]));
-			$id = $this->getName($showon[0]);
-			$options['rel'] = ' rel="showon_' . $id . '"';
+			$showon = explode(':', $showon, 2);
+			$options['class']        .= ' showon_' . implode(' showon_', explode(',', $showon[1]));
+			$id                       = $this->getName($showon[0]);
+			$options['rel']           = ' rel="showon_' . $id . '"';
 			$options['showonEnabled'] = true;
 		}
 
