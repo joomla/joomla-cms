@@ -43,8 +43,6 @@ class JText
 	 */
 	public static function _($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
-		$lang = JFactory::getLanguage();
-
 		if (is_array($jsSafe))
 		{
 			if (array_key_exists('interpretBackSlashes', $jsSafe))
@@ -57,36 +55,15 @@ class JText
 				$script = (boolean) $jsSafe['script'];
 			}
 
-			if (array_key_exists('jsSafe', $jsSafe))
-			{
-				$jsSafe = (boolean) $jsSafe['jsSafe'];
-			}
-			else
-			{
-				$jsSafe = false;
-			}
+			$jsSafe = array_key_exists('jsSafe', $jsSafe) ? (boolean) $jsSafe['jsSafe'] : false;
 		}
 
-		if (strpos($string, ',') && preg_match('#^[A-Z0-9_]*[A-Z][A-Z0-9_]*\s*,#', $string))
+		if (self::passSprintf($string, $jsSafe, $interpretBackSlashes, $script))
 		{
-			$strs = explode(',', $string);
-
-			foreach ($strs as $i => $str)
-			{
-				$strs[$i] = $lang->_($str, $jsSafe, $interpretBackSlashes);
-
-				if ($script)
-				{
-					self::$strings[$str] = $strs[$i];
-				}
-			}
-
-			$str = array_shift($strs);
-			$str = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $str);
-			$str = vsprintf($str, $strs);
-
-			return $str;
+			return $string;
 		}
+
+		$lang = JFactory::getLanguage();
 
 		if ($script)
 		{
@@ -96,6 +73,62 @@ class JText
 		}
 
 		return $lang->_($string, $jsSafe, $interpretBackSlashes);
+	}
+
+	/**
+	 * Checks the string if it should be interpreted as sprintft and runs sprintf over it.
+	 *
+	 * @param   string   $string                The string to translate.
+	 * @param   mixed    $jsSafe                Boolean: Make the result javascript safe.
+	 * @param   boolean  $interpretBackSlashes  To interpret backslashes (\\=\, \n=carriage return, \t=tabulation)
+	 * @param   boolean  $script                To indicate that the string will be push in the javascript language store
+	 *
+	 * @return  boolean  Whether the string be interpreted as sprintf
+	 */
+	private static function passSprintf(&$string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
+	{
+		if (!strpos($string, ','))
+		{
+			return false;
+		}
+
+		$first_part = substr($string, strpos($string, ','));
+
+		// Return false if string isn't uppercase
+		if (strtoupper($first_part) !== $first_part)
+		{
+			return false;
+		}
+
+		$lang = JFactory::getLanguage();
+		$string_parts = explode(',', $string);
+
+		foreach ($string_parts as $i => $str)
+		{
+			$string_parts[$i] = $lang->_($str, $jsSafe, $interpretBackSlashes);
+		}
+
+		$final_string = $first_part = array_shift($string_parts);
+		$final_string = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $final_string);
+		$final_string = vsprintf($final_string, $string_parts);
+
+		// Return false if string hasn't changed
+		if ($first_part === $final_string)
+		{
+			return false;
+		}
+
+		$string = $final_string;
+
+		if ($script)
+		{
+			foreach ($string_parts as $i => $str)
+			{
+				self::$strings[$str] = $string_parts[$i];
+			}
+		}
+
+		return true;
 	}
 
 	/**
