@@ -96,7 +96,6 @@ class JText
 		}
 
 		return $lang->_($string, $jsSafe, $interpretBackSlashes);
-		
 	}
 
 	/**
