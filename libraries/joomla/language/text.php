@@ -67,30 +67,25 @@ class JText
 			}
 		}
 
-		if (strpos($string, ','))
+		if (strpos($string, ',') && preg_match('#^[A-Z0-9_]*[A-Z][A-Z0-9_]*\s*,#', $string))
 		{
-			$test = substr($string, strpos($string, ','));
+			$strs = explode(',', $string);
 
-			if (strtoupper($test) === $test)
+			foreach ($strs as $i => $str)
 			{
-				$strs = explode(',', $string);
+				$strs[$i] = $lang->_($str, $jsSafe, $interpretBackSlashes);
 
-				foreach ($strs as $i => $str)
+				if ($script)
 				{
-					$strs[$i] = $lang->_($str, $jsSafe, $interpretBackSlashes);
-
-					if ($script)
-					{
-						self::$strings[$str] = $strs[$i];
-					}
+					self::$strings[$str] = $strs[$i];
 				}
-
-				$str = array_shift($strs);
-				$str = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $str);
-				$str = vsprintf($str, $strs);
-
-				return $str;
 			}
+
+			$str = array_shift($strs);
+			$str = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $str);
+			$str = vsprintf($str, $strs);
+
+			return $str;
 		}
 
 		if ($script)
@@ -99,10 +94,9 @@ class JText
 
 			return $string;
 		}
-		else
-		{
-			return $lang->_($string, $jsSafe, $interpretBackSlashes);
-		}
+
+		return $lang->_($string, $jsSafe, $interpretBackSlashes);
+		
 	}
 
 	/**
