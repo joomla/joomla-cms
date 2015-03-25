@@ -48,7 +48,7 @@ abstract class JComponentRouterBase implements JComponentRouterInterface
 		}
 		else
 		{
-			$this->app = JFactory::getApplication();
+			$this->app = JFactory::getApplication('site');
 		}
 
 		if ($menu)
