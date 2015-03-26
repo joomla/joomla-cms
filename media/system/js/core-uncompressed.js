@@ -30,7 +30,7 @@ Joomla.submitform = function(task, form) {
         form.fireEvent('onsubmit');
     }
     if (typeof jQuery == "function") {
-        jQuery(form).submit();
+        jQuery(form).trigger("submit");
     }
     form.submit();
 };
