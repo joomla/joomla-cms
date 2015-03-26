@@ -14,25 +14,25 @@ Joomla.editors.instances = {};
  * Generic submit form
  */
 Joomla.submitform = function(task, form) {
-    if (typeof(form) === 'undefined') {
+    if (!form) {
         form = document.getElementById('adminForm');
     }
 
-    if (typeof(task) !== 'undefined' && task !== "") {
+    if (!task) {
         form.task.value = task;
     }
 
     // Submit the form.
-    if (typeof form.onsubmit == 'function') {
-        form.onsubmit();
-    }
-    if (typeof form.fireEvent == "function") {
-        form.fireEvent('onsubmit');
-    }
-    if (typeof jQuery == "function") {
-        jQuery(form).submit();
-    }
-    form.submit();
+	// Create the input type="submit" (this way will work across windows in IE8)
+    var button = form.ownerDocument.createElement('input');
+    button.style.display = 'none';
+    button.type = 'submit';
+
+    // Append it and click it
+    form.appendChild(button).click();
+
+    // If "submit" was prevented, make sure we don't get a build up of buttons
+    form.removeChild(button);
 };
 
 /**
