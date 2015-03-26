@@ -886,16 +886,14 @@ class JImage
 
 			// @codeCoverageIgnoreEnd
 		}
+
+		// Free the memory from the current handle
+		$this->destroy();
+
 		// Swap out the current handle for the new image handle.
-		else
-		{
-			// Free the memory from the current handle
-			$this->destroy();
+		$this->handle = $handle;
 
-			$this->handle = $handle;
-
-			return $this;
-		}
+		return $this;
 	}
 
 	/**
