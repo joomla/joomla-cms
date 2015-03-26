@@ -78,7 +78,7 @@ class JText
 	/**
 	 * Checks the string if it should be interpreted as sprintf and runs sprintf over it.
 	 *
-	 * @param   string   $string                The string to translate.
+	 * @param   string   &$string               The string to translate.
 	 * @param   mixed    $jsSafe                Boolean: Make the result javascript safe.
 	 * @param   boolean  $interpretBackSlashes  To interpret backslashes (\\=\, \n=carriage return, \t=tabulation)
 	 * @param   boolean  $script                To indicate that the string will be push in the javascript language store
