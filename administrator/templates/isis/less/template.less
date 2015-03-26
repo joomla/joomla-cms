@@ -1200,64 +1200,63 @@ a.grid_true {
 	float: right;
 }
 
-#config-document [id*="jform"],
-#component-form [id*="jform"] {
-	width: 220px !important;
-}
-
-#config-document input[id*="jform"],
-#component-form input[id*="jform"] {
-	max-width: 205px;
-}
-
-#config-document textarea[id*="jform"],
-#component-form textarea[id*="jform"] {
-	width: 335px !important;
-	height: 110px;
-}
-
-#categories .controls,
-#editinglayout .controls,
-#index .controls {
-	margin-left: 220px !important;
-}
-
-#application-form > .row-fluid > #sidebar,
-#component-form > .row-fluid > #sidebar {
-	margin-top: -10px;
-	margin-left: -20px;
-	padding-left: 30px;
-	background-color: #f5f5f5;
-	border-right: 1px solid #e5e5e5;
-	border-bottom: 1px solid #e5e5e5;
-	height: 100%;
-}
-
-#application-form > .row-fluid > #sidebar > .sidebar-nav > ul > li.nav-header,
-#component-form > .row-fluid > #sidebar > .sidebar-nav > ul > li.nav-header {
-	padding-top: 15px;
-	margin-left: -25px;
-}
-
-#application-form .nav-list a,
-#application-form .nav-list a:hover,
-#application-form .nav-list a:focus,
-#component-form .nav-list a,
-#component-form .nav-list a:hover,
-#component-form .nav-list a:focus{
-	margin-left: -60px;
-	padding-left: 60px;
-}
-
-#application-form .nav-list,
-#component-form .nav-list {
-	margin-bottom: 40px;
-	padding-bottom: 0 !important;
-}
-
-#component-form > .row-fluid > .span10 > .tab-content,
-#config-document {
-	padding-left: 5px;
+@media (min-width: 980px) {
+	#config-document [id*="jform"],
+	#component-form [id*="jform"] {
+		width: 220px !important;
+	}
+	#config-document input[id*="jform"],
+	#component-form input[id*="jform"] {
+		max-width: 205px;
+	}
+	#config-document textarea[id*="jform"],
+	#component-form textarea[id*="jform"] {
+		width: 335px !important;
+		height: 110px;
+	}
+	#categories .controls,
+	#editinglayout .controls,
+	#index .controls {
+		margin-left: 220px !important;
+	}
+	#application-form > .row-fluid > #sidebar,
+	#component-form > .row-fluid > #sidebar {
+		margin-top: -10px;
+		margin-left: -20px;
+		padding-left: 30px;
+		background-color: #f5f5f5;
+		border-right: 1px solid #e5e5e5;
+		border-bottom: 1px solid #e5e5e5;
+		height: 100%;
+	}
+	#application-form > .row-fluid > #sidebar > .sidebar-nav > ul > li.nav-header,
+	#component-form > .row-fluid > #sidebar > .sidebar-nav > ul > li.nav-header {
+		padding-top: 15px;
+		margin-left: -25px;
+	}
+	#application-form .nav-list a,
+	#application-form .nav-list a:hover,
+	#application-form .nav-list a:focus,
+	#component-form .nav-list a,
+	#component-form .nav-list a:hover,
+	#component-form .nav-list a:focus{
+		margin-left: -60px;
+		padding-left: 60px;
+	}
+	#application-form .nav-list,
+	#component-form .nav-list {
+		margin-bottom: 40px;
+		padding-bottom: 0 !important;
+	}
+	#component-form > .row-fluid > .span10 > .tab-content,
+	#config-document {
+		padding-left: 5px;
+	}
+	input,
+	textarea,
+	.uneditable-input {
+		width: 220px;
+	}
 }
 
 @media (min-width: 768px) {
