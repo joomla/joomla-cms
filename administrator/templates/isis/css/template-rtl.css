@@ -8816,7 +8816,7 @@ a.grid_true {
 #system-debug.j-toggle-main {
 	float: left;
 }
-@media (min-width: 980px) {
+@media (min-width: 1400px) {
 	#config-document [id*="jform"],
 	#component-form [id*="jform"] {
 		width: 220px !important;
