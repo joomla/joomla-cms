@@ -32,7 +32,7 @@ class ModLoginHelper
 		$app  = JFactory::getApplication();
 		$item = $app->getMenu()->getItem($params->get($type));
 
-		if ($item)
+		if ($item && $item->type != 'alias')
 		{
 			$url = 'index.php?Itemid=' . $item->id;
 		}
