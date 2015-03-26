@@ -178,9 +178,8 @@ abstract class JHtmlString
 		if ($maxLength == 1 && substr($html, 0, 1) == '<')
 		{
 			$endTagPos = strlen(strstr($html, '>', true));
-			$tag = substr($html, 1, $endTagPos);
-
-			$l = $endTagPos + 1;
+			$tag       = substr($html, 1, $endTagPos);
+			$l         = $endTagPos + 1;
 
 			if ($noSplit)
 			{
@@ -199,14 +198,14 @@ abstract class JHtmlString
 		// It's all HTML, just return it.
 		if (strlen($ptString) == 0)
 		{
-				return $html;
+			return $html;
 		}
 
 		// If the plain text is shorter than the max length the variable will not end in ...
 		// In that case we use the whole string.
 		if (substr($ptString, -3) != '...')
 		{
-				return $html;
+			return $html;
 		}
 
 		// Regular truncate gives us the ellipsis but we want to go back for text and tags.
@@ -239,7 +238,12 @@ abstract class JHtmlString
 			// If the new plain text string matches the original plain text string we are done.
 			if ($ptString == $htmlStringToPtString)
 			{
-				return $htmlString . '...';
+				$endTagPos = strlen(strstr($htmlString, '>', true));
+				$tag       = substr($htmlString, 1, $endTagPos);
+				$tag       = '</' . $tag;
+				$newTag    = '...' . $tag;
+
+				return preg_replace('~' . $tag . '(?!.*' . $tag . ')~', $newTag, $htmlString);
 			}
 
 			// Get the number of HTML tag characters in the first $maxLength characters
@@ -247,7 +251,12 @@ abstract class JHtmlString
 
 			if ($diffLength <= 0)
 			{
-				return $htmlString . '...';
+				$endTagPos = strlen(strstr($htmlString, '>', true));
+				$tag       = substr($htmlString, 1, $endTagPos);
+				$tag       = '</' . $tag;
+				$newTag    = '...' . $tag;
+
+				return preg_replace('~' . $tag . '(?!.*' . $tag . ')~', $newTag, $htmlString);
 			}
 
 			// Set new $maxlength that adjusts for the HTML tags
