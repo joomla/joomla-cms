@@ -290,6 +290,20 @@ abstract class JModuleHelper
 			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
 		}
 
+		// allow use custom layout path 
+		$app	= JFactory::getApplication();
+		$result = $app->triggerEvent( 'onGetLayoutPath', array( $module, $layout ) );
+		if (is_array($result))
+		{
+			foreach ($result as $path)
+			{
+				if ($path !== false && is_file ($path))
+				{
+					return $path;
+				}
+			}
+		}
+
 		// Build the template and base path for the layout
 		$tPath = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
 		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
