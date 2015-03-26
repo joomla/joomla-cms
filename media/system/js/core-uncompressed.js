@@ -18,7 +18,7 @@ Joomla.submitform = function(task, form) {
         form = document.getElementById('adminForm');
     }
 
-    if (!task) {
+    if (task) {
         form.task.value = task;
     }
 
@@ -412,7 +412,7 @@ function listItemTask(id, task) {
  * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
  */
 function submitbutton(pressbutton) {
-    submitform(pressbutton);
+	Joomla.submitform(pressbutton);
 }
 
 /**
@@ -421,16 +421,7 @@ function submitbutton(pressbutton) {
  * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitform() instead.
  */
 function submitform(pressbutton) {
-    if (pressbutton) {
-        document.adminForm.task.value = pressbutton;
-    }
-    if (typeof document.adminForm.onsubmit == "function") {
-        document.adminForm.onsubmit();
-    }
-    if (typeof document.adminForm.fireEvent == "function") {
-        document.adminForm.fireEvent('onsubmit');
-    }
-    document.adminForm.submit();
+	Joomla.submitform(pressbutton);
 }
 
 // needed for Table Column ordering
