@@ -23,8 +23,8 @@ Joomla.submitform = function(task, form) {
     }
 
     // Submit the form.
-	// Create the input type="submit" (this way will work across windows in IE8)
-    var button = form.ownerDocument.createElement('input');
+	// Create the input type="submit"
+    var button = document.createElement('input');
     button.style.display = 'none';
     button.type = 'submit';
 
