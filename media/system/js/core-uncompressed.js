@@ -13,13 +13,18 @@ Joomla.editors.instances = {};
 /**
  * Generic submit form
  */
-Joomla.submitform = function(task, form) {
+Joomla.submitform = function(task, form, validate) {
     if (!form) {
         form = document.getElementById('adminForm');
     }
 
     if (task) {
         form.task.value = task;
+    }
+
+    if (!validate) {
+    	// Disable HTML5 validation
+     	form.noValidate = true;
     }
 
     // Submit the form.
