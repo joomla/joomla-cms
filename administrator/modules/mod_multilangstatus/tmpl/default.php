@@ -26,4 +26,15 @@ defined('_JEXEC') or die;
 	</a>
 </div>
 
-<?php echo JHtmlBootstrap::renderModal('multiLangModal', array( 'url' => $link, 'title' => JText::_('MOD_MULTILANGSTATUS'),'height' => '300px', 'width' => '500px', 'footer' => $footer));
+<?php echo JHtmlBootstrap::renderModal(
+	'multiLangModal', array(
+		'title' => JText::_('MOD_MULTILANGSTATUS'),
+		'backdrop' => 'static',
+		'keyboard' => true,
+		'closeButton' => true,
+		'footer' => $footer,
+		'url' => $link,
+		'height' => '300px',
+		'width' => '500px'
+		)
+	);

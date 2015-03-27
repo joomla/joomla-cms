@@ -127,11 +127,15 @@ class JHtmlUsers
 
 		return JHtmlBootstrap::renderModal(
 			'userModal_' . (int) $userId, array(
-				'url' => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId),
 				'title' => $title,
-				'width' => '800px',
-				'height' => '500px',
-				'footer' => $footer)
+				'backdrop' => 'static',
+				'keyboard' => true,
+				'closeButton' => true,
+				'footer' => $footer,
+				'url' => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId),
+				'height' => '300px',
+				'width' => '800px'
+				)
 		);
 
 	}
