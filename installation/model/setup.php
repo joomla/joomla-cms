@@ -233,8 +233,8 @@ class InstallationModelSetup extends JModelBase
 
 		// Check the PHP Version.
 		$option = new stdClass;
-		$option->label  = JText::sprintf('INSTL_PHP_VERSION_NEWER', '5.3.10');
-		$option->state  = version_compare(PHP_VERSION, '5.3.10', '>=');
+		$option->label  = JText::sprintf('INSTL_PHP_VERSION_NEWER', JOOMLA_MINIMUM_PHP);
+		$option->state  = version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '>=');
 		$option->notice = null;
 		$options[] = $option;
 
