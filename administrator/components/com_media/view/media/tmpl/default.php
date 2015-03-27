@@ -18,7 +18,7 @@ $input = JFactory::getApplication()->input;
 		<?php echo $this->sidebar; ?>
 		<hr/>
 		<div class="j-toggle-sidebar-header">
-			<?php echo JText::_('COM_MEDIA_FOLDERS');?>
+		<h3 style="padding-left: 10px;"><?php echo JText::_('COM_MEDIA_FOLDERS');?> </h3>
 		</div>
 		<div id="treeview" class="sidebar">
 			<div id="media-tree_tree" class="sidebar-nav">
