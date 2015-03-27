@@ -616,7 +616,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					}
 					else
 					{
-						$lang_code = $this->default_lang;
+						$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 					}
 				}
 
@@ -624,8 +624,42 @@ class PlgSystemLanguageFilter extends JPlugin
 				$assocs = array_merge(array_keys($cassociations), $assocs);
 			}
 
+			// Create alternate for home pages
+			if ($active && $active->home && $home)
+			{
+				foreach (JLanguageHelper::getLanguages() as $language)
+				{
+					if (!JLanguage::exists($language->lang_code))
+					{
+						continue;
+					}
+
+					$item = $menu->getDefault($language->lang_code);
+
+					if ($item && $item->language != $active->language && $item->language != '*')
+					{
+						if ($this->mode_sef)
+						{
+							$link = JRoute::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
+
+							// Check if language is the default site language and remove url language code is on
+							if ($language->sef == $this->lang_codes[JComponentHelper::getParams('com_languages')->get('site', 'en-GB')]->sef
+								&& $this->params->get('remove_default_prefix', 0))
+							{
+								$link = preg_replace('|/' . $language->sef . '/|', '/', $link, 1);
+							}
+						}
+						else
+						{
+							$link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
+						}
+
+						$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
+					}
+				}
+			}
 			// Handle the default associations.
-			if ($this->params->get('item_associations') || ($active && $active->home && $home))
+			elseif ($this->params->get('item_associations'))
 			{
 				$languages = JLanguageHelper::getLanguages('lang_code');
 				foreach ($assocs as $language)
@@ -641,7 +675,8 @@ class PlgSystemLanguageFilter extends JPlugin
 						$link = JRoute::_($cassociations[$language] . '&lang=' . $lang->sef);
 
 						// Check if language is the default site language and remove url language code is on
-						if ($lang->sef == $this->lang_codes[$this->default_lang]->sef && $this->params->get('remove_default_prefix') == '1')
+						if ($lang->sef == $this->lang_codes[JComponentHelper::getParams('com_languages')->get('site', 'en-GB')]->sef
+							&& $this->params->get('remove_default_prefix', 0))
 						{
 							$link = preg_replace('|/' . $lang->sef . '/|', '/', $link, 1);
 						}

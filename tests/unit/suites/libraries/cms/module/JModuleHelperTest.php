@@ -99,7 +99,7 @@ class JModuleHelperTest extends TestCaseDatabase
 		$this->assertEquals(
 			$module->id,
 			0,
-			'There anonymous module should have no id'
+			'The anonymous module should have no id'
 		);
 
 		$this->assertEquals(
@@ -111,7 +111,7 @@ class JModuleHelperTest extends TestCaseDatabase
 		$this->assertEquals(
 			$module->module,
 			'mod_false',
-			'There anonymous module should have the given name'
+			'The anonymous module should have the given name'
 		);
 	}
 
