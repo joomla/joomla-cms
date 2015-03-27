@@ -60,19 +60,8 @@ echo $params->get('image_path', 'images'); ?>/';
 			</form>
 
 			<div class="pull-right">
-				<ul class="nav nav-pills">
-					<li class="active">
-						<a href="#" onclick="<?php if ($this->state->get('field.id')):?>window.parent.jInsertFieldValue(document.id('f_url').value,'
-												<?php echo $this->state->get('field.id');?>');
-											<?php else:?>ImageManager.onok();
-												<?php endif;?>window.parent.SqueezeBox.close();">
-							<?php echo JText::_('COM_MEDIA_INSERT') ?>
-						</a>
-					</li>
-					<li>
-						<a href="#" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('JCANCEL') ?></a>
-					</li>
-				</ul>
+				<button class="btn btn-primary" type="button" onclick="<?php if ($this->state->get('field.id')):?>window.parent.jInsertFieldValue(document.getElementById('f_url').value,'<?php echo $this->state->get('field.id');?>');<?php else:?>ImageManager.onok();<?php endif;?>window.parent.jModalClose();"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
+				<button class="btn" type="button" onclick="window.parent.jModalClose();"><?php echo JText::_('JCANCEL') ?></button>
 			</div>
 		</div>
 	</div>
