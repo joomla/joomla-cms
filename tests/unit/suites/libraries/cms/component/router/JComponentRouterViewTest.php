@@ -310,6 +310,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	protected function getComContentViews()
 	{
 		$categories = new JComponentRouterViewconfiguration('categories');
+		$categories->setKey('id');
 		$category = new JComponentRouterViewconfiguration('category');
 		$category->setKey('id')->setParent($categories)->setNestable()->addLayout('blog');
 		$article = new JComponentRouterViewconfiguration('article');
