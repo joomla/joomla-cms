@@ -739,22 +739,7 @@ class JApplicationCms extends JApplicationWeb
 		$session->start();
 
 		// TODO: At some point we need to get away from having session data always in the db.
-		$db = JFactory::getDbo();
-
-		// Remove expired sessions from the database.
 		$time = time();
-
-		if ($time % 2)
-		{
-			// The modulus introduces a little entropy, making the flushing less accurate
-			// but fires the query less than half the time.
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
-
-			$db->setQuery($query);
-			$db->execute();
-		}
 
 		// Get the session handler from the configuration.
 		$handler = $this->get('session_handler', 'none');
