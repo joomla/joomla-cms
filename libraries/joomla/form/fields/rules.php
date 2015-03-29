@@ -266,10 +266,10 @@ class JFormFieldRules extends JFormField
 
 				$html[] = '<td headers="settings-th' . $group->value . '">';
 
-				$html[] = '<select class="input-small" name="' . $this->name . '[' . $action->name . '][' . $group->value . ']" id="' . $this->id
-					. '_' . $action->name
-					. '_' . $group->value . '" title="'
-					. JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)) . '">';
+				$html[] = '<select data-chosen="true" class="input-small"'
+					. ' name="' . $this->name . '[' . $action->name . '][' . $group->value . ']"'
+					. ' id="' . $this->id . '_' . $action->name	. '_' . $group->value . '"'
+					. ' title="' . JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)) . '">';
 
 				$inheritedRule = JAccess::checkGroup($group->value, $action->name, $assetId);
 

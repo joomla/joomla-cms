@@ -19,7 +19,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="filter_groups" type="usergroup"
+				<field name="filter_groups" type="usergrouplist"
 					description="PLG_DEBUG_FIELD_ALLOWED_GROUPS_DESC"
 					label="PLG_DEBUG_FIELD_ALLOWED_GROUPS_LABEL"
 					multiple="true"
