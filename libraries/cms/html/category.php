@@ -82,7 +82,7 @@ abstract class JHtmlCategory
 					$query->where('a.language IN (' . implode(',', $config['filter.language']) . ')');
 				}
 			}
-			
+
 			// Filter on the access
 			if (isset($config['filter.access']))
 			{
