@@ -82,6 +82,24 @@ abstract class JHtmlCategory
 					$query->where('a.language IN (' . implode(',', $config['filter.language']) . ')');
 				}
 			}
+			
+			// Filter on the access
+			if (isset($config['filter.access']))
+			{
+				if (is_string($config['filter.access']))
+				{
+					$query->where('a.access = ' . $db->quote($config['filter.access']));
+				}
+				elseif (is_array($config['filter.access']))
+				{
+					foreach ($config['filter.access'] as &$access)
+					{
+						$access = $db->quote($access);
+					}
+
+					$query->where('a.access IN (' . implode(',', $config['filter.access']) . ')');
+				}
+			}
 
 			$query->order('a.lft');
 
