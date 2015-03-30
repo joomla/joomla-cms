@@ -50,12 +50,12 @@ var JFormValidator = function() {
  	 	if (state === false) {
  	 	 	$el.addClass('invalid').attr('aria-invalid', 'true');
  	 	 	if ($label) {
- 	 	 	 	$label.addClass('invalid').attr('aria-invalid', 'true');
+ 	 	 	 	$label.addClass('invalid');
  	 	 	}
  	 	} else {
  	 	 	$el.removeClass('invalid').attr('aria-invalid', 'false');
  	 	 	if ($label) {
- 	 	 	 	$label.removeClass('invalid').attr('aria-invalid', 'false');
+ 	 	 	 	$label.removeClass('invalid');
  	 	 	}
  	 	}
  	},
