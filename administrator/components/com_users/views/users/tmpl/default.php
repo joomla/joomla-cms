@@ -96,20 +96,23 @@ $loggeduser = JFactory::getUser();
 							<?php endif; ?>
 						</td>
 						<td>
+							<div class="name">
 							<?php if ($canEdit) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::sprintf('COM_USERS_EDIT_USER', $this->escape($item->name)); ?>">
 									<?php echo $this->escape($item->name); ?></a>
 							<?php else : ?>
 								<?php echo $this->escape($item->name); ?>
 							<?php endif; ?>
-							<div>
+							</div>
+							<div class="btn-group">
 								<?php echo JHtml::_('users.filterNotes', $item->note_count, $item->id); ?>
 								<?php echo JHtml::_('users.notes', $item->note_count, $item->id); ?>
 								<?php echo JHtml::_('users.addNote', $item->id); ?>
-								<?php if ($item->requireReset == '1') : ?>
-								<span class="label label-warning"><?php echo JText::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
-								<?php endif; ?>
 							</div>
+							<?php echo JHtml::_('users.notesModal', $item->note_count, $item->id); ?>
+							<?php if ($item->requireReset == '1') : ?>
+								<span class="label label-warning"><?php echo JText::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
+							<?php endif; ?>
 							<?php if (JDEBUG) : ?>
 								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id);?>">
 								<?php echo JText::_('COM_USERS_DEBUG_USER');?></a></div>
