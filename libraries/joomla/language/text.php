@@ -100,8 +100,14 @@ class JText
 			$string_parts[$i] = $lang->_($str, $jsSafe, $interpretBackSlashes);
 		}
 
-		$final_string = $first_part = array_shift($string_parts);
-		$final_string = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $final_string);
+		$first_part = array_shift($string_parts);
+
+		if (!preg_match('/%([0-9]+$)?s/', $first_part))
+		{
+			return false;
+		}
+
+		$final_string = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $first_part);
 		$final_string = vsprintf($final_string, $string_parts);
 
 		// Return false if string hasn't changed
