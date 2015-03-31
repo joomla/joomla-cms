@@ -81,23 +81,21 @@ class JCacheControllerOutput extends JCacheController
 
 			return true;
 		}
-		else
+
+		// Nothing in cache... let's start the output buffer and start collecting data for next time.
+		if ($this->_locktest->locked == false)
 		{
-			// Nothing in cache... let's start the output buffer and start collecting data for next time.
-			if ($this->_locktest->locked == false)
-			{
-				$this->_locktest = $this->cache->lock($id, $group);
-			}
-
-			ob_start();
-			ob_implicit_flush(false);
-
-			// Set id and group placeholders
-			$this->_id = $id;
-			$this->_group = $group;
-
-			return false;
+			$this->_locktest = $this->cache->lock($id, $group);
 		}
+
+		ob_start();
+		ob_implicit_flush(false);
+
+		// Set id and group placeholders
+		$this->_id = $id;
+		$this->_group = $group;
+
+		return false;
 	}
 
 	/**

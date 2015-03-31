@@ -279,11 +279,9 @@
         		self.removeRow($oldRows);
         	}
 
-        	// first field name
-            var first = self.inputs[0];
-            // go through values and add a new copy
-            // but make sure that at least one will be added
-            var count = self.values[first.name].length || 1,
+	        // go through values and add a new copy
+	        // but make sure that at least one will be added
+	        var count = self.values[Object.keys(self.values)[0]].length || 1,
             	row = null;
             for(var i = 0; i < count; i++){
             	row = self.addRow(row, i);

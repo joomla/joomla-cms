@@ -126,8 +126,18 @@ else
 	<!-- Footer -->
 	<div id="footer">
 		<p class="copyright">
-			<?php $joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!&#174;</a>';
-			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla); ?>
+			<?php
+			// Fix wrong display of Joomla!® in RTL language
+			if (JFactory::getLanguage()->isRTL())
+			{
+				$joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>';
+			}
+			else
+			{
+				$joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>';
+			}
+			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla);
+			?>
 		</p>
 	</div>
 </body>
