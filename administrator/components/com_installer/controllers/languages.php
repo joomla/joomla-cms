@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License, see LICENSE.php
  */
 
@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 /**
  * Languages Installer Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
  * @since       2.5.7
  */
 class InstallerControllerLanguages extends JControllerLegacy
@@ -41,7 +39,12 @@ class InstallerControllerLanguages extends JControllerLegacy
 
 		// Find updates
 		$model	= $this->getModel('languages');
-		$model->findLanguages($cache_timeout);
+
+		if (!$model->findLanguages($cache_timeout))
+		{
+			$this->setError($model->getError());
+			$this->setMessage($this->getError(), 'error');
+		}
 
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=languages', false));
 	}

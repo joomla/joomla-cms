@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,88 +12,76 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.framework');
-JHtml::_('behavior.formvalidation');
-JHtml::_('behavior.modal');
+JHtml::_('behavior.core');
+JHtml::_('behavior.tabstate');
+JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
 JText::script('ERROR');
 JText::script('JGLOBAL_VALIDATION_FORM_FAILED');
 
-$app = JFactory::getApplication();
 $assoc = JLanguageAssociations::isEnabled();
 
-//Ajax for parent items
-$script = "jQuery(document).ready(function ($){
-				$('#jform_menutype').change(function(){
-					var menutype = $(this).val();
-					$.ajax({
-						url: 'index.php?option=com_menus&task=item.getParentItem&menutype=' + menutype,
-						dataType: 'json'
-					}).done(function(data) {
-						$('#jform_parent_id option').each(function() {
-							if ($(this).val() != '1') {
-								$(this).remove();
-							}
-						});
+// Ajax for parent items
+$script = "
+jQuery(document).ready(function ($){
+	$('#jform_menutype').change(function(){
+		var menutype = $(this).val();
+		$.ajax({
+			url: 'index.php?option=com_menus&task=item.getParentItem&menutype=' + menutype,
+			dataType: 'json'
+		}).done(function(data) {
+			$('#jform_parent_id option').each(function() {
+				if ($(this).val() != '1') {
+					$(this).remove();
+				}
+			});
 
-						$.each(data, function (i, val) {
-							var option = $('<option>');
-							option.text(val.title).val(val.id);
-							$('#jform_parent_id').append(option);
-						});
-						$('#jform_parent_id').trigger('liszt:updated');
-					});
-				});
-			});";
+			$.each(data, function (i, val) {
+				var option = $('<option>');
+				option.text(val.title).val(val.id);
+				$('#jform_parent_id').append(option);
+			});
+			$('#jform_parent_id').trigger('liszt:updated');
+		});
+	});
+});
+Joomla.submitbutton = function(task, type){
+	if (task == 'item.setType' || task == 'item.setMenuType')
+	{
+		if (task == 'item.setType')
+		{
+			jQuery('#item-form input[name=\"jform[type]\"]').val(type);
+			jQuery('#fieldtype').val('type');
+		} else {
+			jQuery('#item-form input[name=\"jform[menutype]\"]').val(type);
+		}
+		Joomla.submitform('item.setType', document.getElementById('item-form'));
+	} else if (task == 'item.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
+	{
+		Joomla.submitform(task, document.getElementById('item-form'));
+	}
+	else
+	{
+		// special case for modal popups validation response
+		jQuery('#item-form .modal-value.invalid').each(function(){
+			var field = jQuery(this),
+				idReversed = field.attr('id').split('').reverse().join(''),
+				separatorLocation = idReversed.indexOf('_'),
+				nameId = '#' + idReversed.substr(separatorLocation).split('').reverse().join('') + 'name';
+			jQuery(nameId).addClass('invalid');
+		});
+	}
+};
+";
 
 // Add the script to the document head.
 JFactory::getDocument()->addScriptDeclaration($script);
 
 ?>
 
-<script type="text/javascript">
-	Joomla.submitbutton = function(task, type)
-	{
-		if (task == 'item.setType' || task == 'item.setMenuType')
-		{
-			if (task == 'item.setType')
-			{
-				document.id('item-form').elements['jform[type]'].value = type;
-				document.id('fieldtype').value = 'type';
-			} else {
-				document.id('item-form').elements['jform[menutype]'].value = type;
-			}
-			Joomla.submitform('item.setType', document.id('item-form'));
-		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form')))
-		{
-			Joomla.submitform(task, document.id('item-form'));
-		}
-		else
-		{
-			// special case for modal popups validation response
-			$$('#item-form .modal-value.invalid').each(function(field)
-			{
-				var idReversed = field.id.split("").reverse().join("");
-				var separatorLocation = idReversed.indexOf('_');
-				var name = idReversed.substr(separatorLocation).split("").reverse().join("") + 'name';
-				document.id(name).addClass('invalid');
-			});
-
-			$('system-message').getElement('h4').innerHTML  = Joomla.JText._('ERROR');
-			$('system-message').getElement('div').innerHTML = Joomla.JText._('JGLOBAL_VALIDATION_FORM_FAILED');
-		}
-	}
-</script>
-
 <form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
-	<?php
-	if ($this->item->type == 'url')
-	{
-		$this->form->setFieldAttribute('alias', 'type', 'hidden');
-	}
-	?>
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div class="form-horizontal">
@@ -122,6 +110,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				{
 					$this->form->setFieldAttribute('link', 'readonly', 'false');
 				}
+
 				echo $this->form->getControlGroup('link');
 
 				echo $this->form->getControlGroup('browserNav');
@@ -142,6 +131,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					'note'
 
 				);
+
 				if ($this->item->type != 'component')
 				{
 					$this->fields = array_diff($this->fields, array('home'));

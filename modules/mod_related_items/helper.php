@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_related_items
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ abstract class ModRelatedItemsHelper
 	/**
 	 * Get a list of related articles
 	 *
-	 * @param   JRegistry  &$params  module parameters
+	 * @param   \Joomla\Registry\Registry  &$params  module parameters
 	 *
 	 * @return array
 	 */
@@ -79,8 +79,9 @@ abstract class ModRelatedItemsHelper
 					$query->clear()
 						->select('a.id')
 						->select('a.title')
-						->select('DATE_FORMAT(a.created, "%Y-%m-%d") as created')
+						->select('DATE(a.created) as created')
 						->select('a.catid')
+						->select('a.language')
 						->select('cc.access AS cat_access')
 						->select('cc.published AS cat_state');
 
@@ -108,10 +109,15 @@ abstract class ModRelatedItemsHelper
 						->where('a.id != ' . (int) $id)
 						->where('a.state = 1')
 						->where('a.access IN (' . $groups . ')');
-					$concat_string = $query->concatenate(array('","', ' REPLACE(a.metakey, ", ", ",")', ' ","'));
 
-					// Remove single space after commas in keywords)
-					$query->where('(' . $concat_string . ' LIKE "%' . implode('%" OR ' . $concat_string . ' LIKE "%', $likes) . '%")')
+					$wheres = array();
+
+					foreach ($likes as $keyword)
+					{
+						$wheres[] = 'a.metakey LIKE ' . $db->quote('%' . $keyword . '%');
+					}
+
+					$query->where('(' . implode(' OR ', $wheres) . ')')
 						->where('(a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ')')
 						->where('(a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')');
 
@@ -130,7 +136,7 @@ abstract class ModRelatedItemsHelper
 						{
 							if ($row->cat_state == 1)
 							{
-								$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catslug));
+								$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
 								$related[] = $row;
 							}
 						}

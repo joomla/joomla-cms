@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Page
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use SeleniumClient\By;
@@ -16,10 +16,12 @@ use SeleniumClient\WebElement;
 /**
  * Class for the back-end control panel screen.
  *
+ * @since  joomla 3.0
  */
 class MenuItemEditPage extends AdminEditPage
 {
 	protected $waitForXpath = "//form[@id='item-form']";
+
 	protected $url = 'administrator/index.php?option=com_menus&view=item&layout=edit';
 
 	/**
@@ -28,7 +30,7 @@ class MenuItemEditPage extends AdminEditPage
 	 * @var    array
 	 * @since  3.2
 	 */
-	public $tabs = array('details', 'attrib-menu-options', 'attrib-page-options', 'attrib-metadata', 'modules');
+	public $tabs = array('details', 'attrib-menu-options', 'attrib-page-options', 'attrib-metadata', 'modules','attrib-basic');
 
 	/**
 	 * Array of tab labels for this page
@@ -81,6 +83,28 @@ class MenuItemEditPage extends AdminEditPage
 			array('label' => 'Robots', 'id' => 'jform_params_robots', 'type' => 'select', 'tab' => 'attrib-metadata'),
 			array('label' => 'Secure', 'id' => 'jform_params_secure', 'type' => 'select', 'tab' => 'attrib-metadata'),
 			array('label' => 'Hide Unassigned Modules', 'id' => 'showmods', 'type' => 'input', 'tab' => 'modules'),
+			array('label' => 'Show Title', 'id ' => 'jform_params_show_title', 'type' => 'fieldset', 'tab' => 'attrib-basic' ),
+			array('label' => 'Linked Titles','id' => 'jform_params_link_titles','type' => 'fieldset','tab' => 'attrib-basic' ),
+			array('label' => 'Show Intro Text','id' => 'jform_params_show_intro','type' => 'fieldset','tab' => 'attrib-basic' ),
+			array('label' => 'Position of Article Info', 'id' => 'jform_params_info_block_position', 'type' => 'fieldset', 'tab' => 'attrib-basic'),
+			array('label' => 'Show Category', 'id' => 'jform_params_show_category', 'type' => 'fieldset', 'tab' => 'attrib-basic'),
+			array('label' => 'Link Category', 'id' => 'jform_params_link_category', 'type' => 'fieldset', 'tab' => 'attrib-basic'),
+			array('label' => 'Show Parent', 'id' => 'jform_params_show_parent', 'type' => 'fieldset', 'tab' => 'attrib-basic'),
+			array('label' => 'Link Parent', 'id' => 'jform_params_link_parent_category', 'type' => 'fieldset', 'tab' => 'attrib-basic'),
+			array('label' => 'Show Author', 'id' => 'jform_params_show_author', 'type' => 'fieldset', 'tab' => 'attrib-basic'),
+			array('label' => 'Link Author', 'id' => 'jform_params_link_author', 'type' => 'fieldset', 'tab' => 'attrib-basic'),
+			array('label' => 'Show Create Date', 'id' => 'jform_params_show_create', 'type' => 'fieldset', 'tab' => 'attrib-basic'),
+			array('label' => 'Show Modify Date', 'id' => 'jform_params_show_modify_date', 'type' => 'fieldset', 'tab' => 'attrib-basic'),
+			array('label' => 'Show Publish Date', 'id' => 'jform_params_show_publish_date', 'type' => 'fieldset', 'tab' => 'attrib-basic'),
+			array('label' => 'Show Navigation', 'id' => 'jform_params_show_item_navigation', 'type' => 'fieldset', 'tab' => 'attrib-basic'),
+			array('label' => 'Show Voting', 'id' => 'jform_params_show_vote', 'type' => 'fieldset', 'tab' => 'attrib-basic'),
+			array('label' => 'Show Tags', 'id' => 'jform_params_show_tags', 'type' => 'fieldset', 'tab' => 'attrib-basic'),
+			array('label' => 'Show Icons', 'id' => 'jform_params_show_icons', 'type' => 'fieldset', 'tab' => 'attrib-basic'),
+			array('label' => 'Show Print Icon', 'id' => 'jform_params_show_print_icon', 'type' => 'fieldset','tab' => 'attrib-basic'),
+			array('label' => 'Show Email Icon', 'id' => 'jform_params_show_email_icon','type' => 'fieldset','tab' => 'attrib-basic'),
+			array('label' => 'Show Hits', 'id' => 'jform_params_show_hits', 'type' => 'fieldset', 'tab' => 'attrib-basic'),
+			array('label' => 'Show Unauthorised Links', 'id' => 'jform_params_show_noauth', 'type' => 'fieldset', 'tab' => 'attrib-basic'),
+			array('label' => 'Positioning of the Links', 'id' => 'jform_params_urls_position', 'type' => 'fieldset', 'tab' => 'attrib-basic'),
 			);
 
 			public $menuItemTypes = array(
@@ -97,9 +121,9 @@ class MenuItemEditPage extends AdminEditPage
 					array('group' => 'Contacts', 'type' => 'List All Contact Categories ' ),
 					array('group' => 'Contacts', 'type' => 'List Contacts in a Category ' ),
 					array('group' => 'Contacts', 'type' => 'Single Contact ' ),
-					array('group' => 'Newsfeeds', 'type' => 'List All News Feed Categories ' ),
-					array('group' => 'Newsfeeds', 'type' => 'List News Feeds in a Category ' ),
-					array('group' => 'Newsfeeds', 'type' => 'Single News Feed ' ),
+					array('group' => 'News Feeds', 'type' => 'List All News Feed Categories ' ),
+					array('group' => 'News Feeds', 'type' => 'List News Feeds in a Category ' ),
+					array('group' => 'News Feeds', 'type' => 'Single News Feed ' ),
 					array('group' => 'Search', 'type' => 'Search Form or Search Results ' ),
 					array('group' => 'Smart Search', 'type' => 'Search ' ),
 					array('group' => 'System Links', 'type' => 'External URL ' ),
@@ -115,16 +139,20 @@ class MenuItemEditPage extends AdminEditPage
 					array('group' => 'Users Manager', 'type' => 'Registration Form ' ),
 					array('group' => 'Users Manager', 'type' => 'User Profile ' ),
 					array('group' => 'Users Manager', 'type' => 'Username Reminder Request ' ),
-					array('group' => 'Weblinks', 'type' => 'List All Web Link Categories ' ),
-					array('group' => 'Weblinks', 'type' => 'List Web Links in a Category ' ),
-					array('group' => 'Weblinks', 'type' => 'Submit a Web Link ' ),
 					array('group' => 'Wrapper', 'type' => 'Iframe Wrapper ' ),
 			);
 
-
+	/**
+	 * function to get field value
+	 *
+	 * @param   string  $label   stores label
+	 *
+	 * @return bool|String
+	 */
 	public function getFieldValue($label)
 	{
 		$result = false;
+
 		if (strtolower($label) === 'menu item type')
 		{
 			$result = $this->getMenuItemType($label);
@@ -141,9 +169,17 @@ class MenuItemEditPage extends AdminEditPage
 		{
 			$result = parent::getFieldValue($label);
 		}
+
 		return $result;
 	}
 
+	/**
+	 * function to get the group name
+	 *
+	 * @param   string  $value   stores value
+	 *
+	 * @return bool
+	 */
 	protected function getGroupName($value)
 	{
 		foreach ($this->menuItemTypes as $array)
@@ -151,14 +187,25 @@ class MenuItemEditPage extends AdminEditPage
 			if (strpos($array['type'], $value) !== false)
 				return $array['group'];
 		}
+
 		return false;
 	}
 
+	/**
+	 * function to get menu type
+	 *
+	 * @return String
+	 */
 	public function getMenuItemType()
 	{
 		return $this->driver->findElement(By::xPath("//label[@id='jform_type-lbl']/../..//input"))->getAttribute('value');
 	}
 
+	/**
+	 * function to get all menu types
+	 *
+	 * @return array
+	 */
 	public function getMenuItemTypes()
 	{
 		$result = array();
@@ -167,6 +214,7 @@ class MenuItemEditPage extends AdminEditPage
 		$el = $d->waitForElementUntilIsPresent(By::xPath("//iframe[contains(@src, 'option=com_menus&view=menutypes')]"));
 		$el = $d->switchTo()->getFrameByWebElement($el);
 		$groups = $d->findElements(By::className('accordion-group'));
+
 		foreach ($groups as $group)
 		{
 			$toggle = $group->findElement(By::className('accordion-toggle'));
@@ -174,6 +222,7 @@ class MenuItemEditPage extends AdminEditPage
 			$toggle->click();
 			$d->waitForElementUntilIsPresent(By::xPath("//div[contains(@class, 'accordion-body in')]/div/ul/li/a"));
 			$menuTypes = $el->findElements(By::xPath("//div[contains(@class, 'accordion-body in')]/div/ul/li/a"));
+
 			foreach ($menuTypes as $menuType)
 			{
 				$allText = $menuType->getText();
@@ -181,16 +230,29 @@ class MenuItemEditPage extends AdminEditPage
 				$menuTypeText = substr($allText, 0, (strlen($allText) - $subTextLength));
 				$result[] = array ('group' => $toggleName, 'type' => $menuTypeText);
 			}
-
 		}
+
 		return $result;
 	}
 
+	/**
+	 * function to get request variable
+	 *
+	 * @return String
+	 */
 	public function getRequestVariable()
 	{
 		return $this->driver->findElement(By::id('jform_request_id_name'))->getAttribute('value');
 	}
 
+	/**
+	 * function to set value
+	 *
+	 * @param   string  $label   stores value of label
+	 * @param   string  $value   stores value
+	 *
+	 * @return $this|void
+	 */
 	public function setFieldValue($label, $value)
 	{
 		if (strtolower($label) === 'menu item type')
@@ -209,9 +271,17 @@ class MenuItemEditPage extends AdminEditPage
 		{
 			parent::setFieldValue($label, $value);
 		}
+
 		return $this;
 	}
 
+	/**
+	 * function to set menu type
+	 *
+	 * @param   string   $value  stores value
+	 *
+	 * @return $this
+	 */
 	public function setMenuItemType($value)
 	{
 		$group = $this->getGroupName($value);
@@ -220,15 +290,24 @@ class MenuItemEditPage extends AdminEditPage
 		$d->findElement(By::xPath("//a[contains(@onclick, 'option=com_menus&view=menutypes')]"))->click();
 		$el = $d->waitForElementUntilIsPresent(By::xPath("//iframe[contains(@src, 'option=com_menus&view=menutypes')]"));
 		$el = $d->switchTo()->getFrameByWebElement($el);
+		$d->waitForElementUntilIsPresent(By::xPath("//a[contains(@class, 'accordion-toggle')][contains(., '" . $group . "')]"), 10);
 		$el->findElement(By::xPath("//a[contains(@class, 'accordion-toggle')][contains(., '" . $group . "')]"))->click();
 		$d->waitForElementUntilIsPresent(By::xPath("//div[contains(@class, 'accordion-body in')]/div/ul/li/a"));
 		$el->findElement(By::xPath("//div[contains(@class, 'accordion-body in')]//a[contains(text(), '" . $value . "')]"))->click();
 		$d->waitForElementUntilIsNotPresent(By::xPath("//iframe[contains(@src, 'option=com_menus&view=menutypes')]"));
 		$d->waitForElementUntilIsPresent(By::id('jform_title'));
 		$d->switchTo()->getDefaultFrame();
+
 		return $this;
 	}
 
+	/**
+	 * function to set request variable
+	 *
+	 * @param   string   $value stores  value
+	 *
+	 * @return void
+	 */
 	public function setRequestVariable($value)
 	{
 		$this->selectTab('Details');
@@ -245,5 +324,4 @@ class MenuItemEditPage extends AdminEditPage
 		$d->waitForElementUntilIsNotPresent(By::xPath("//iframe[contains(@src, 'layout=modal')]"));
 		$d->switchTo()->getDefaultFrame();
 	}
-
 }

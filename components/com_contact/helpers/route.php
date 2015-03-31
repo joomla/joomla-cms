@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,10 +21,16 @@ abstract class ContactHelperRoute
 {
 	protected static $lookup;
 
-	protected static $lang_lookup = array();
-
 	/**
-	 * @param   integer  The route of the contact
+	 * Get the URL route for a contact from a contact ID, contact category ID and language
+	 *
+	 * @param   integer  $id        The id of the contact
+	 * @param   integer  $catid     The id of the contact's category
+	 * @param   mixed    $language  The id of the language being used.
+	 *
+	 * @return  string  The link to the contact
+	 *
+	 * @since   1.5
 	 */
 	public static function getContactRoute($id, $catid, $language = 0)
 	{
@@ -49,13 +55,8 @@ abstract class ContactHelperRoute
 
 		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 		{
-			self::buildLanguageLookup();
-
-			if (isset(self::$lang_lookup[$language]))
-			{
-				$link .= '&lang=' . self::$lang_lookup[$language];
-				$needles['language'] = $language;
-			}
+			$link .= '&lang=' . $language;
+			$needles['language'] = $language;
 		}
 
 		if ($item = self::_findItem($needles))
@@ -66,6 +67,16 @@ abstract class ContactHelperRoute
 		return $link;
 	}
 
+	/**
+	 * Get the URL route for a contact category from a contact category ID and language
+	 *
+	 * @param   mixed    $catid     The id of the contact's category either an integer id or a instance of JCategoryNode
+	 * @param   mixed    $language  The id of the language being used.
+	 *
+	 * @return  string  The link to the contact
+	 *
+	 * @since   1.5
+	 */
 	public static function getCategoryRoute($catid, $language = 0)
 	{
 		if ($catid instanceof JCategoryNode)
@@ -96,13 +107,8 @@ abstract class ContactHelperRoute
 
 			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 			{
-				self::buildLanguageLookup();
-
-				if (isset(self::$lang_lookup[$language]))
-				{
-					$link .= '&lang=' . self::$lang_lookup[$language];
-					$needles['language'] = $language;
-				}
+				$link .= '&lang=' . $language;
+				$needles['language'] = $language;
 			}
 
 			if ($item = self::_findItem($needles))
@@ -112,26 +118,6 @@ abstract class ContactHelperRoute
 		}
 
 		return $link;
-	}
-
-	protected static function buildLanguageLookup()
-	{
-		if (count(self::$lang_lookup) == 0)
-		{
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('a.sef AS sef')
-				->select('a.lang_code AS lang_code')
-				->from('#__languages AS a');
-
-			$db->setQuery($query);
-			$langs = $db->loadObjectList();
-
-			foreach ($langs as $lang)
-			{
-				self::$lang_lookup[$lang->lang_code] = $lang->sef;
-			}
-		}
 	}
 
 	protected static function _findItem($needles = null)

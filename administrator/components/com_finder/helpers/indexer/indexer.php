@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,9 +28,7 @@ jimport('joomla.filesystem.file');
  * Note: All exceptions thrown from within this class should be caught
  * by the controller.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 abstract class FinderIndexer
 {
@@ -103,7 +101,7 @@ abstract class FinderIndexer
 		// Setup the adapter for the indexer.
 		$format = JFactory::getDbo()->name;
 
-		if ($format == 'mysqli')
+		if ($format == 'mysqli' || $format == 'pdomysql')
 		{
 			$format = 'mysql';
 		}
@@ -111,6 +109,7 @@ abstract class FinderIndexer
 		{
 			$format = 'sqlsrv';
 		}
+
 		$path = __DIR__ . '/driver/' . $format . '.php';
 		$class = 'FinderIndexerDriver' . ucfirst($format);
 
@@ -119,6 +118,7 @@ abstract class FinderIndexer
 		{
 			// Instantiate the parser.
 			include_once $path;
+
 			return new $class;
 		}
 		else

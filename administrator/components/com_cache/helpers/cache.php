@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Cache component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_cache
- * @since       1.6
+ * @since  1.6
  */
 class CacheHelper
 {
@@ -29,15 +27,17 @@ class CacheHelper
 		$options   = array();
 		$options[] = JHtml::_('select.option', '0', JText::_('JSITE'));
 		$options[] = JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
+
 		return $options;
 	}
 
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string  The name of the active view.
+	 * @param   string  $vName  The name of the active view.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)

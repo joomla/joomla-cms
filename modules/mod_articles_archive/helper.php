@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_archive
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class ModArchiveHelper
 	/**
 	 * Retrieve list of archived articles
 	 *
-	 * @param   JRegistry  &$params  module parameters
+	 * @param   \Joomla\Registry\Registry  &$params  module parameters
 	 *
 	 * @return  array
 	 *
@@ -37,7 +37,7 @@ class ModArchiveHelper
 			->select($query->year($db->quoteName('created')) . ' AS created_year')
 			->from('#__content')
 			->where('state = 2 AND checked_out = 0')
-			->group('created_year DESC, created_month DESC');
+			->group($query->year($db->quoteName('created')) . ', ' . $query->month($db->quoteName('created')) . ', created, id, title');
 
 		// Filter by language
 		if (JFactory::getApplication()->getLanguageFilter())

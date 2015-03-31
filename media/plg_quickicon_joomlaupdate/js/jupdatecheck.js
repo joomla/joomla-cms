@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,14 +26,27 @@ jQuery(document).ready(function()
 						var updateString = plg_quickicon_joomlaupdate_text.UPDATEFOUND.replace("%s", updateInfo.version + "");
 						jQuery('#plg_quickicon_joomlaupdate').find('span').html(updateString);
 						var updateString = plg_quickicon_joomlaupdate_text.UPDATEFOUND_MESSAGE.replace("%s", updateInfo.version + "");
-						jQuery('#system-message-container').prepend(
-							'<div class="alert alert-error alert-joomlaupdate">'
-								+ updateString
-								+ ' <button class="btn btn-primary" onclick="document.location=\'' + plg_quickicon_joomlaupdate_url + '\'">'
-								+ plg_quickicon_joomlaupdate_text.UPDATEFOUND_BUTTON + '</button>'
-								+ '</div>'
-						);
-					} else {
+						if (jQuery('.alert-joomlaupdate').length == 0)
+						{
+							jQuery('#system-message-container').prepend(
+								'<div class="alert alert-error alert-joomlaupdate">'
+									+ updateString
+									+ ' <button class="btn btn-primary" onclick="document.location=\'' + plg_quickicon_joomlaupdate_url + '\'">'
+									+ plg_quickicon_joomlaupdate_text.UPDATEFOUND_BUTTON + '</button>'
+									+ '</div>'
+							);
+						}
+						else
+						{
+							jQuery('#system-message-container').prepend(
+								'<div class="alert alert-error alert-joomlaupdate span6">'
+									+ updateString
+									+ ' <button class="btn btn-primary" onclick="document.location=\'' + plg_quickicon_joomlaupdate_url + '\'">'
+									+ plg_quickicon_joomlaupdate_text.UPDATEFOUND_BUTTON + '</button>'
+									+ '</div>'
+							);
+						}
+						} else {
 						jQuery('#plg_quickicon_joomlaupdate').find('span').html(plg_quickicon_joomlaupdate_text.UPTODATE);
 					}
 				}

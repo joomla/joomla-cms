@@ -3,14 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
@@ -36,9 +36,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</div>
 			<div class="btn-group pull-left">
 				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
-			<div class="btn-group pull-left">
+			<div class="btn-group pull-left hidden-phone">
 				<select name="filter_state" onchange="this.form.submit()">
 					<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 					<?php echo JHtml::_('select.options', MessagesHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'));?>
@@ -54,7 +54,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="20">
+						<th width="20" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th class="title">
@@ -66,7 +66,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<th width="15%">
 							<?php echo JHtml::_('grid.sort', 'COM_MESSAGES_HEADING_FROM', 'a.user_id_from', $listDirn, $listOrder); ?>
 						</th>
-						<th width="20%" class="nowrap">
+						<th width="20%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JDATE', 'a.date_time', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -87,16 +87,16 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php echo JHtml::_('grid.id', $i, $item->message_id); ?>
 						</td>
 						<td>
-							<a href="<?php echo JRoute::_('index.php?option=com_messages&view=message&message_id='.(int) $item->message_id); ?>">
+							<a href="<?php echo JRoute::_('index.php?option=com_messages&view=message&message_id=' . (int) $item->message_id); ?>">
 								<?php echo $this->escape($item->subject); ?></a>
 						</td>
 						<td class="center">
-							<?php echo JHtml::_('messages.state', $item->state, $i, $canChange); ?>
+							<?php echo JHtml::_('messages.status', $i, $item->state, $canChange); ?>
 						</td>
 						<td>
 							<?php echo $item->user_from; ?>
 						</td>
-						<td>
+						<td class="hidden-phone">
 							<?php echo JHtml::_('date', $item->date_time, JText::_('DATE_FORMAT_LC2')); ?>
 						</td>
 					</tr>

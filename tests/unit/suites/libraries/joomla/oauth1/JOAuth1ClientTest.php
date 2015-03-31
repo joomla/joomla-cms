@@ -3,9 +3,11 @@
  * @package     Joomla.UnitTest
  * @subpackage  OAuth
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\Registry\Registry;
 
 include_once __DIR__ . '/stubs/JOAuth1ClientInspector.php';
 include_once __DIR__ . '/../application/stubs/JApplicationWebInspector.php';
@@ -26,7 +28,7 @@ class JOAuth1ClientTest extends TestCase
 	protected $input;
 
 	/**
-	 * @var    JRegistry  Options for the OAuth object.
+	 * @var    Registry  Options for the OAuth object.
 	 * @since  13.1
 	 */
 	protected $options;
@@ -71,6 +73,10 @@ class JOAuth1ClientTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		$this->saveFactoryState();
+
+		JFactory::$session = $this->getMockSession();
+
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
@@ -80,7 +86,7 @@ class JOAuth1ClientTest extends TestCase
 		$secret = "TEST_SECRET";
 		$my_url = "TEST_URL";
 
-		$this->options = new JRegistry;
+		$this->options = new Registry;
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
 		$this->input = new JInput(array());
 		$this->application = new JApplicationWebInspector;
@@ -98,7 +104,7 @@ class JOAuth1ClientTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		JFactory::$session = null;
+		$this->restoreFactoryState();
 	}
 
 	/**

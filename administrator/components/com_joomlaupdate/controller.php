@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,19 +12,18 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Update Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_joomlaupdate
- * @since       2.5.4
+ * @since  2.5.4
  */
 class JoomlaupdateController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean			If true, the view output will be cached
-	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached.
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController		This object to support chaining.
+	 *
 	 * @since	2.5.4
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -46,7 +45,7 @@ class JoomlaupdateController extends JControllerLegacy
 			// Get the model for the view.
 			$model = $this->getModel($vName);
 
-			// Perform update source preference check and refresh update information
+			// Perform update source preference check and refresh update information.
 			$model->applyUpdateSite();
 			$model->refreshUpdates();
 

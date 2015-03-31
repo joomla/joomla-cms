@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Input
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,30 +22,6 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	 * @var  JInput
 	 */
 	protected $class;
-
-	/**
-	 * Test the JInput::__construct method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	public function test__construct()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Test the JInput::__get method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	public function test__call()
-	{
-		$this->markTestIncomplete();
-	}
 
 	/**
 	 * Test the JInput::__get method.
@@ -72,8 +48,6 @@ class JInputTest extends PHPUnit_Framework_TestCase
 			$this->equalTo('bar'),
 			'Line: ' . __LINE__ . '.'
 		);
-
-		$this->markTestIncomplete();
 	}
 
 	/**
@@ -333,18 +307,6 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the JInput::getMethod method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	public function testGetMethod()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
 	 * Test the JInput::serialize method.
 	 *
 	 * @return  void
@@ -367,33 +329,9 @@ class JInputTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * Test the JInput::unserialize method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	public function testUnserialize()
-	{
-		$this->markTestIncomplete();
-	}
-
 	/*
 	 * Protected methods.
 	 */
-
-	/**
-	 * Test the JInput::loadAllInputs method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	public function testLoadAllInputs()
-	{
-		$this->markTestIncomplete();
-	}
 
 	/**
 	 * Setup for testing.

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Download model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.5
+ * @since  1.5
  */
 class BannersModelDownload extends JModelForm
 {
@@ -33,10 +31,10 @@ class BannersModelDownload extends JModelForm
 	{
 		$input = JFactory::getApplication()->input;
 
-		$basename = $input->cookie->getString(JApplication::getHash($this->_context . '.basename'), '__SITE__');
+		$basename = $input->cookie->getString(JApplicationHelper::getHash($this->_context . '.basename'), '__SITE__');
 		$this->setState('basename', $basename);
 
-		$compressed = $input->cookie->getInt(JApplication::getHash($this->_context . '.compressed'), 1);
+		$compressed = $input->cookie->getInt(JApplicationHelper::getHash($this->_context . '.compressed'), 1);
 		$this->setState('compressed', $compressed);
 	}
 

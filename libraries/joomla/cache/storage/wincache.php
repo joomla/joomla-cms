@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,25 +12,11 @@ defined('JPATH_PLATFORM') or die;
 /**
  * WINCACHE cache storage handler
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @see         http://php.net/manual/en/book.wincache.php
- * @since       11.1
+ * @see    http://php.net/manual/en/book.wincache.php
+ * @since  11.1
  */
 class JCacheStorageWincache extends JCacheStorage
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   array  $options  Optional parameters.
-	 *
-	 * @since   11.1
-	 */
-	public function __construct($options = array())
-	{
-		parent::__construct($options);
-	}
-
 	/**
 	 * Get cached data from WINCACHE by id and group
 	 *
@@ -44,8 +30,9 @@ class JCacheStorageWincache extends JCacheStorage
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
-		$cache_id = $this->_getCacheId($id, $group);
+		$cache_id      = $this->_getCacheId($id, $group);
 		$cache_content = wincache_ucache_get($cache_id);
+
 		return $cache_content;
 	}
 
@@ -69,9 +56,11 @@ class JCacheStorageWincache extends JCacheStorage
 		{
 			$name    = $key['key_name'];
 			$namearr = explode('-', $name);
+
 			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
 			{
 				$group = $namearr[2];
+
 				if (!isset($data[$group]))
 				{
 					$item = new JCacheStorageHelper($group);
@@ -80,6 +69,7 @@ class JCacheStorageWincache extends JCacheStorage
 				{
 					$item = $data[$group];
 				}
+
 				if (isset($key['value_size']))
 				{
 					$item->updateSize($key['value_size'] / 1024);
@@ -89,6 +79,7 @@ class JCacheStorageWincache extends JCacheStorage
 					// Dummy, WINCACHE version is too low.
 					$item->updateSize(1);
 				}
+
 				$data[$group] = $item;
 			}
 		}
@@ -110,6 +101,7 @@ class JCacheStorageWincache extends JCacheStorage
 	public function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+
 		return wincache_ucache_set($cache_id, $data, $this->_lifetime);
 	}
 
@@ -126,6 +118,7 @@ class JCacheStorageWincache extends JCacheStorage
 	public function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
+
 		return wincache_ucache_delete($cache_id);
 	}
 
@@ -144,8 +137,8 @@ class JCacheStorageWincache extends JCacheStorage
 	public function clean($group, $mode = null)
 	{
 		$allinfo = wincache_ucache_info();
-		$keys = $allinfo['cache_entries'];
-		$secret = $this->_hash;
+		$keys    = $allinfo['ucache_entries'];
+		$secret  = $this->_hash;
 
 		foreach ($keys as $key)
 		{
@@ -154,6 +147,7 @@ class JCacheStorageWincache extends JCacheStorage
 				wincache_ucache_delete($key['key_name']);
 			}
 		}
+
 		return true;
 	}
 
@@ -167,8 +161,8 @@ class JCacheStorageWincache extends JCacheStorage
 	public function gc()
 	{
 		$allinfo = wincache_ucache_info();
-		$keys = $allinfo['cache_entries'];
-		$secret = $this->_hash;
+		$keys    = $allinfo['ucache_entries'];
+		$secret  = $this->_hash;
 
 		foreach ($keys as $key)
 		{
@@ -189,6 +183,7 @@ class JCacheStorageWincache extends JCacheStorage
 	public static function isSupported()
 	{
 		$test = extension_loaded('wincache') && function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), '1');
+
 		return $test;
 	}
 }

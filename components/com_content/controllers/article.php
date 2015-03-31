@@ -3,15 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Site
- * @subpackage  com_content
+ * Content article class.
  */
 class ContentControllerArticle extends JControllerForm
 {
@@ -73,7 +72,7 @@ class ContentControllerArticle extends JControllerForm
 		if ($categoryId)
 		{
 			// If the category has been passed in the data or URL check it.
-			$allow	= $user->authorise('core.create', 'com_content.category.'.$categoryId);
+			$allow	= $user->authorise('core.create', 'com_content.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -116,6 +115,7 @@ class ContentControllerArticle extends JControllerForm
 		{
 			// Now test the owner is the user.
 			$ownerId = (int) isset($data['created_by']) ? $data['created_by'] : 0;
+
 			if (empty($ownerId) && $recordId)
 			{
 				// Need to do a lookup from the model.
@@ -212,25 +212,28 @@ class ContentControllerArticle extends JControllerForm
 	{
 		// Need to override the parent method completely.
 		$tmpl   = $this->input->get('tmpl');
-//		$layout = $this->input->get('layout', 'edit');
+
 		$append = '';
 
 		// Setup redirect info.
 		if ($tmpl)
 		{
-			$append .= '&tmpl='.$tmpl;
+			$append .= '&tmpl=' . $tmpl;
 		}
 
 		// TODO This is a bandaid, not a long term solution.
-//		if ($layout)
-//		{
-//			$append .= '&layout=' . $layout;
-//		}
+		/**
+		 * if ($layout)
+		 * {
+		 *	$append .= '&layout=' . $layout;
+		 * }
+		 */
+
 		$append .= '&layout=edit';
 
 		if ($recordId)
 		{
-			$append .= '&'.$urlVar.'='.$recordId;
+			$append .= '&' . $urlVar . '=' . $recordId;
 		}
 
 		$itemId	= $this->input->getInt('Itemid');
@@ -239,17 +242,17 @@ class ContentControllerArticle extends JControllerForm
 
 		if ($itemId)
 		{
-			$append .= '&Itemid='.$itemId;
+			$append .= '&Itemid=' . $itemId;
 		}
 
 		if ($catId)
 		{
-			$append .= '&catid='.$catId;
+			$append .= '&catid=' . $catId;
 		}
 
 		if ($return)
 		{
-			$append .= '&return='.base64_encode($return);
+			$append .= '&return=' . base64_encode($return);
 		}
 
 		return $append;
@@ -281,8 +284,8 @@ class ContentControllerArticle extends JControllerForm
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   JModelLegacy  $model  The data model object.
-	 * @param   array         $validData   The validated data.
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
 	 *
 	 * @return  void
 	 *

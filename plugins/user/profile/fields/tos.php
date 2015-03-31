@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ JFormHelper::loadFieldClass('radio');
 /**
  * Provides input for TOS
  *
- * @package     Joomla.Plugin
- * @subpackage  User.profile
- * @since       2.5.5
+ * @since  2.5.5
  */
 class JFormFieldTos extends JFormFieldRadio
 {
@@ -90,6 +88,7 @@ class JFormFieldTos extends JFormFieldRadio
 			$attribs['class'] = 'modal';
 			$attribs['rel'] = '{handler: \'iframe\', size: {x:800, y:500}}';
 
+			// TODO: This is broken!! We need the category ID, too, and the language
 			$url = ContentHelperRoute::getArticleRoute($tosarticle);
 
 			$link = JHtml::_('link', JRoute::_($url . '&tmpl=component'), $text, $attribs);

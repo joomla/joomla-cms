@@ -25,10 +25,19 @@
 	display: inline-block;
 	width: 14px;
 	height: 14px;
-	.ie7-restore-right-whitespace();
+	margin-right: .25em;
 	line-height: 14px;
 }
 
+dd > span[class^="icon-"] + time,
+dd > span[class*=" icon-"] + time{
+	margin-left: -.25em;
+}
+dl.article-info dd.hits span[class^="icon-"],
+dl.article-info dd.hits span[class*=" icon-"]{
+	margin-right: 0;
+ }
+ 
 /* Use the following CSS code if you want to have a class per icon */
 [class^="icon-"]:before, [class*=" icon-"]:before {
 	font-family: 'IcoMoon';
@@ -213,7 +222,6 @@
 .icon-plus-2:before  {
 	content: "\5d";
 }
-.icon-ban-circle:before,
 .icon-minus-sign:before,
 .icon-minus-2:before {
 	content: "\5e";
@@ -240,6 +248,7 @@
 .icon-not-ok:before {
 	content: "\4b";
 }
+.icon-ban-circle:before,
 .icon-minus-circle:before {
 	content: "\e216";
 }
@@ -368,7 +377,6 @@
 .icon-file-plus:before {
 	content: "\29";
 }
-.icon-file-remove:before,
 .icon-file-minus:before {
 	content: "\e017";
 }

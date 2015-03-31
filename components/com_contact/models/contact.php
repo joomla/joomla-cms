@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * @package     Joomla.Site
@@ -17,10 +19,17 @@ defined('_JEXEC') or die;
 class ContactModelContact extends JModelForm
 {
 	/**
+	 * The name of the view for a single item
+	 *
 	 * @since   1.6
 	 */
 	protected $view_item = 'contact';
 
+	/**
+	 * A loaded item
+	 *
+	 * @since   1.6
+	 */
 	protected $_item = null;
 
 	/**
@@ -34,6 +43,8 @@ class ContactModelContact extends JModelForm
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -64,8 +75,9 @@ class ContactModelContact extends JModelForm
 	 *
 	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 * 
+	 *
 	 * @return  JForm  A JForm object on success, false on failure
+	 *
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
@@ -83,13 +95,21 @@ class ContactModelContact extends JModelForm
 		$contact = $this->_item[$id];
 		$params->merge($contact->params);
 
-		if (!$params->get('show_email_copy', 0)){
+		if (!$params->get('show_email_copy', 0))
+		{
 			$form->removeField('contact_email_copy');
 		}
 
 		return $form;
 	}
 
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  array    The default data is an empty array.
+	 *
+	 * @since   1.6.2
+	 */
 	protected function loadFormData()
 	{
 		$data = (array) JFactory::getApplication()->getUserState('com_contact.contact.data', array());
@@ -104,7 +124,9 @@ class ContactModelContact extends JModelForm
 	 *
 	 * @param   integer  $pk  Id for the contact
 	 *
-	 * @return mixed Object or null
+	 * @return  mixed Object or null
+	 *
+	 * @since   1.6.0
 	 */
 	public function &getItem($pk = null)
 	{
@@ -122,7 +144,7 @@ class ContactModelContact extends JModelForm
 				$db = $this->getDbo();
 				$query = $db->getQuery(true);
 
-				// Sqlsrv changes
+				// Changes for sqlsrv
 				$case_when = ' CASE WHEN ';
 				$case_when .= $query->charLength('a.alias', '!=', '0');
 				$case_when .= ' THEN ';
@@ -167,7 +189,6 @@ class ContactModelContact extends JModelForm
 				}
 
 				$db->setQuery($query);
-
 				$data = $db->loadObject();
 
 				if (empty($data))
@@ -182,12 +203,12 @@ class ContactModelContact extends JModelForm
 				}
 
 				// Convert parameter fields to objects.
-				$registry = new JRegistry;
+				$registry = new Registry;
 				$registry->loadString($data->params);
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
-				$registry = new JRegistry;
+				$registry = new Registry;
 				$registry->loadString($data->metadata);
 				$data->metadata = $registry;
 
@@ -195,7 +216,8 @@ class ContactModelContact extends JModelForm
 				$data->tags->getItemTags('com_contact.contact', $data->id);
 
 				// Compute access permissions.
-				if ($access = $this->getState('filter.access')) {
+				if ($access = $this->getState('filter.access'))
+				{
 
 					// If the access filter has been set, we already know this user can view.
 					$data->params->set('access-view', true);
@@ -237,6 +259,15 @@ class ContactModelContact extends JModelForm
 		return $this->_item[$pk];
 	}
 
+	/**
+	 * Gets the query to load a contact item
+	 *
+	 * @param   integer  $pk  The item to be loaded
+	 *
+	 * @return  mixed    The contact object on success, false on failure
+	 *
+	 * @throws  Exception  On database failure
+	 */
 	protected function getContactQuery($pk = null)
 	{
 		// @todo Cache on the fingerprint of the arguments
@@ -300,7 +331,7 @@ class ContactModelContact extends JModelForm
 				// So merge the contact parameters with the merged parameters
 				if ($this->getState('params')->get('show_contact_list'))
 				{
-					$registry = new JRegistry;
+					$registry = new Registry;
 					$registry->loadString($result->params);
 					$this->getState('params')->merge($registry);
 				}
@@ -308,6 +339,7 @@ class ContactModelContact extends JModelForm
 			catch (Exception $e)
 			{
 				$this->setError($e);
+
 				return false;
 			}
 
@@ -316,13 +348,15 @@ class ContactModelContact extends JModelForm
 				$user	= JFactory::getUser();
 				$groups	= implode(',', $user->getAuthorisedViewLevels());
 
-				//get the content by the linked user
+				// Get the content by the linked user
 				$query	= $db->getQuery(true)
 					->select('a.id')
 					->select('a.title')
 					->select('a.state')
 					->select('a.access')
-					->select('a.created');
+					->select('a.catid')
+					->select('a.created')
+					->select('a.language');
 
 				// SQL Server changes
 				$case_when = ' CASE WHEN ';
@@ -338,29 +372,35 @@ class ContactModelContact extends JModelForm
 				$c_id = $query->castAsChar('c.id');
 				$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 				$case_when1 .= ' ELSE ';
-				$case_when1 .= $c_id.' END as catslug';
+				$case_when1 .= $c_id . ' END as catslug';
 				$query->select($case_when1 . ',' . $case_when)
 					->from('#__content as a')
 					->join('LEFT', '#__categories as c on a.catid=c.id')
 					->where('a.created_by = ' . (int) $result->user_id)
 					->where('a.access IN (' . $groups . ')')
 					->order('a.state DESC, a.created DESC');
-				// filter per language if plugin published
+
+				// Filter per language if plugin published
 				if (JLanguageMultilang::isEnabled())
 				{
-					$query->where(('a.created_by = ' . (int) $result->user_id) . ' AND ' . ('a.language=' . $db->quote(JFactory::getLanguage()->getTag()) . ' OR a.language=' . $db->quote('*')));
+					$query->where(
+						('a.created_by = ' . (int) $result->user_id) . ' AND ' .
+						('a.language=' . $db->quote(JFactory::getLanguage()->getTag()) . ' OR a.language=' . $db->quote('*'))
+					);
 				}
+
 				if (is_numeric($published))
 				{
 					$query->where('a.state IN (1,2)')
 						->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
 						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 				}
+
 				$db->setQuery($query, 0, 10);
 				$articles = $db->loadObjectList();
 				$result->articles = $articles;
 
-				//get the profile information for the linked user
+				// Get the profile information for the linked user
 				require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
 				$userModel = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
 				$data = $userModel->getItem((int) $result->user_id);
@@ -385,6 +425,8 @@ class ContactModelContact extends JModelForm
 				return $result;
 			}
 		}
+
+		return false;
 	}
 
 	/**

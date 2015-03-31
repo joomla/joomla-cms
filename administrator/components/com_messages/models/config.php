@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,20 @@ defined('_JEXEC') or die;
 /**
  * Message configuration model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_messages
- * @since       1.6
+ * @since  1.6
  */
 class MessagesModelConfig extends JModelForm
 {
 	/**
 	 * Method to auto-populate the model state.
 	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -39,9 +43,9 @@ class MessagesModelConfig extends JModelForm
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param   integer	The id of the primary key.
-	 *
 	 * @return  mixed  Object on success, false on failure.
+	 *
+	 * @since   1.6
 	 */
 	public function &getItem()
 	{
@@ -51,7 +55,7 @@ class MessagesModelConfig extends JModelForm
 		$query = $db->getQuery(true)
 			->select('cfg_name, cfg_value')
 			->from('#__messages_cfg')
-			->where($db->quoteName('user_id') . ' = '. (int) $this->getState('user.id'));
+			->where($db->quoteName('user_id') . ' = ' . (int) $this->getState('user.id'));
 
 		$db->setQuery($query);
 
@@ -62,6 +66,7 @@ class MessagesModelConfig extends JModelForm
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -78,15 +83,18 @@ class MessagesModelConfig extends JModelForm
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return  JForm	A JForm object on success, false on failure
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  JForm	 A JForm object on success, false on failure
+	 *
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_messages.config', 'config', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -98,8 +106,11 @@ class MessagesModelConfig extends JModelForm
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array  The form data.
+	 * @param   array  $data  The form data.
+	 *
 	 * @return  boolean  True on success.
+	 *
+	 * @since   1.6
 	 */
 	public function save($data)
 	{
@@ -119,6 +130,7 @@ class MessagesModelConfig extends JModelForm
 			catch (RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
+
 				return false;
 			}
 
@@ -142,14 +154,17 @@ class MessagesModelConfig extends JModelForm
 				catch (RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
+
 					return false;
 				}
 			}
+
 			return true;
 		}
 		else
 		{
 			$this->setError('COM_MESSAGES_ERR_INVALID_USER');
+
 			return false;
 		}
 	}

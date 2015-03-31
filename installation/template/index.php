@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ JHtml::_('bootstrap.framework');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.framework', true);
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('script', 'installation/template/js/installation.js');
 
 // Load the JavaScript translated messages
@@ -50,7 +50,15 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			<hr />
 			<h5>
 				<?php
-				$joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>';
+				// Fix wrong display of Joomla!® in RTL language
+				if (JFactory::getLanguage()->isRTL())
+				{
+					$joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>';
+				}
+				else
+				{
+					$joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>';
+				}
 				$license = '<a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank">' . JText::_('INSTL_GNU_GPL_LICENSE') . '</a>';
 				echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla, $license);
 				?>

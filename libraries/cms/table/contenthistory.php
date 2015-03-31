@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Content History table.
  *
- * @package     Joomla.Libraries
- * @subpackage  Table
- * @since       3.2
+ * @since  3.2
  */
 class JTableContenthistory extends JTable
 {
@@ -47,7 +45,16 @@ class JTableContenthistory extends JTable
 	public function __construct($db)
 	{
 		parent::__construct('#__ucm_history', 'version_id', $db);
-		$this->ignoreChanges = array('modified_by', 'modified_user_id', 'modified', 'modified_time', 'checked_out', 'checked_out_time', 'version', 'hits', 'path');
+		$this->ignoreChanges = array(
+			'modified_by',
+			'modified_user_id',
+			'modified',
+			'modified_time',
+			'checked_out',
+			'checked_out_time',
+			'version',
+			'hits',
+			'path');
 		$this->convertToInt = array('publish_up', 'publish_down', 'ordering', 'featured');
 	}
 

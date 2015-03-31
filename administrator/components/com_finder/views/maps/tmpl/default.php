@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,25 +17,26 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 $lang = JFactory::getLanguage();
 JText::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
+
+JFactory::getDocument()->addScriptDeclaration('
+	Joomla.submitbutton = function(pressbutton)
+	{
+		if (pressbutton == "map.delete")
+		{
+			if (confirm(Joomla.JText._("COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT")))
+			{
+				Joomla.submitform(pressbutton);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		Joomla.submitform(pressbutton);
+	};
+');
 ?>
 
-<script type="text/javascript">
-Joomla.submitbutton = function(pressbutton)
-{
-	if (pressbutton == 'map.delete')
-	{
-		if (confirm(Joomla.JText._('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT')))
-		{
-			Joomla.submitform(pressbutton);
-		}
-		else
-		{
-			return false;
-		}
-	}
-	Joomla.submitform(pressbutton);
-}
-</script>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=maps');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
@@ -51,7 +52,7 @@ Joomla.submitbutton = function(pressbutton)
 			</div>
 			<div class="btn-group pull-left">
 				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
 		</div>
 		<div class="clearfix"> </div>
@@ -80,7 +81,7 @@ Joomla.submitbutton = function(pressbutton)
 				<?php if ($this->state->get('filter.branch') != 1) : ?>
 				<tr class="row1">
 					<td colspan="5" class="center">
-						<a href="#" onclick="document.id('filter_branch').value='1';document.adminForm.submit();">
+						<a href="#" onclick="document.getElementById('filter_branch').value='1';document.adminForm.submit();">
 							<?php echo JText::_('COM_FINDER_MAPS_RETURN_TO_BRANCHES'); ?></a>
 					</td>
 				</tr>
@@ -99,7 +100,7 @@ Joomla.submitbutton = function(pressbutton)
 							$title = $lang->hasKey($key) ? JText::_($key) : $item->title;
 						?>
 						<?php if ($this->state->get('filter.branch') == 1 && $item->num_children) : ?>
-							<a href="#" onclick="document.id('filter_branch').value='<?php echo (int) $item->id;?>';document.adminForm.submit();" title="<?php echo JText::_('COM_FINDER_MAPS_BRANCH_LINK'); ?>">
+							<a href="#" onclick="document.getElementById('filter_branch').value='<?php echo (int) $item->id;?>';document.adminForm.submit();" title="<?php echo JText::_('COM_FINDER_MAPS_BRANCH_LINK'); ?>">
 								<?php echo $this->escape($title); ?></a>
 						<?php else: ?>
 							<?php echo $this->escape(($title == '*') ? JText::_('JALL_LANGUAGE') : $title); ?>

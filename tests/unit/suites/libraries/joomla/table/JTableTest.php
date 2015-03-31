@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -287,32 +287,6 @@ class JTableTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test for setRules method.
-	 *
-	 * @return  void
-	 *
-	 * @todo   Implement testSetRules().
-	 */
-	public function testSetRules()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test for getRules method.
-	 *
-	 * @return void
-	 *
-	 * @todo   Implement testGetRules().
-	 */
-	public function testGetRules()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Test for reset method.
 	 *
 	 * @return  void
@@ -354,7 +328,7 @@ class JTableTest extends TestCaseDatabase
 	 */
 	public function testBind()
 	{
-		TestReflection::setValue($this->object, 'jsonEncode', array('params'));
+		TestReflection::setValue($this->object, '_jsonEncode', array('params'));
 		$this->object->bind(array('id1' => 25, 'id2' => 50, 'title' => 'My Title', 'params' => array('param1' => 'value1', 'param2' => 25)));
 
 		$this->assertEquals(

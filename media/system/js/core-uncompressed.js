@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,10 @@ Joomla.submitform = function(task, form) {
         form.onsubmit();
     }
     if (typeof form.fireEvent == "function") {
-        form.fireEvent('submit');
+        form.fireEvent('onsubmit');
+    }
+    if (typeof jQuery == "function") {
+        jQuery(form).submit();
     }
     form.submit();
 };
@@ -37,7 +40,7 @@ Joomla.submitform = function(task, form) {
  */
 Joomla.submitbutton = function(pressbutton) {
     Joomla.submitform(pressbutton);
-}
+};
 
 /**
  * Custom behavior for JavaScript I18N in Joomla! 1.6
@@ -113,41 +116,54 @@ Joomla.checkAll = function(checkbox, stub) {
         return true;
     }
     return false;
-}
+};
 
 /**
  * Render messages send via JSON
  *
- * @param   object  messages    JavaScript object containing the messages to render
+ * @param   object  messages    JavaScript object containing the messages to render. Example:
+ *                              var messages = {
+ *                              	"message": ["Message one", "Message two"],
+ *                              	"error": ["Error one", "Error two"]
+ *                              };
  * @return  void
  */
 Joomla.renderMessages = function(messages) {
-    var $ = jQuery.noConflict(), $container, $div, $h4, $divList, $p;
-    Joomla.removeMessages();
-    $container = $('#system-message-container');
+	Joomla.removeMessages();
 
-    $.each(messages, function(type, item) {
-        $div = $('<div/>', {
-            'id' : 'system-message',
-            'class' : 'alert alert-' + type
-        });
-        $container.append($div)
+	var messageContainer = document.getElementById('system-message-container');
 
-        $h4 = $('<h4/>', {
-            'class' : 'alert-heading',
-            'text' : Joomla.JText._(type)
-        });
-        $div.append($h4);
+	for (var type in messages) {
+		if (messages.hasOwnProperty(type)) {
+			// Array of messages of this type
+			var typeMessages = messages[type];
 
-        $divList = $('<div/>');
-        $.each(item, function(index, item) {
-            $p = $('<p/>', {
-                html : item
-            });
-            $divList.append($p);
-        });
-        $div.append($divList);
-    });
+			// Create the alert box
+			var messagesBox = document.createElement('div');
+			messagesBox.className = 'alert alert-' + type;
+
+			// Title
+			var title = Joomla.JText._(type);
+
+			// Skip titles with untranslated strings
+			if (typeof title != 'undefined') {
+				var titleWrapper = document.createElement('h4');
+				titleWrapper.className = 'alert-heading';
+				titleWrapper.innerHTML = Joomla.JText._(type);
+
+				messagesBox.appendChild(titleWrapper);
+			}
+
+			// Add messages to the message box
+			for (var i = typeMessages.length - 1; i >= 0; i--) {
+				var messageWrapper = document.createElement('p');
+				messageWrapper.innerHTML = typeMessages[i];
+				messagesBox.appendChild(messageWrapper);
+			}
+
+			messageContainer.appendChild(messagesBox);
+		}
+	}
 };
 
 
@@ -157,8 +173,16 @@ Joomla.renderMessages = function(messages) {
  * @return  void
  */
 Joomla.removeMessages = function() {
-    jQuery('#system-message-container').empty();
-}
+	var messageContainer = document.getElementById('system-message-container');
+
+	// Empty container with a while for Chrome performance issues
+	while (messageContainer.firstChild) messageContainer.removeChild(messageContainer.firstChild);
+
+	// Fix Chrome bug not updating element height
+	messageContainer.style.display='none';
+	messageContainer.offsetHeight;
+	messageContainer.style.display='';
+};
 
 /**
  * USED IN: administrator/components/com_cache/views/cache/tmpl/default.php
@@ -196,7 +220,7 @@ Joomla.isChecked = function(isitchecked, form) {
     if (form.elements['checkall-toggle']) {
         form.elements['checkall-toggle'].checked = c;
     }
-}
+};
 
 /**
  * USED IN: libraries/joomla/html/toolbar/button/help.php
@@ -207,10 +231,10 @@ Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
     var winl = (screen.width - w) / 2, wint, winprops, win;
     wint = (screen.height - h) / 2;
     winprops = 'height=' + h + ',width=' + w + ',top=' + wint + ',left=' + winl
-            + ',scrollbars=' + scroll + ',resizable'
-    win = window.open(mypage, myname, winprops)
+            + ',scrollbars=' + scroll + ',resizable';
+    win = window.open(mypage, myname, winprops);
     win.window.focus();
-}
+};
 
 /**
  * USED IN: libraries/joomla/html/html/grid.php
@@ -223,7 +247,7 @@ Joomla.tableOrdering = function(order, dir, task, form) {
     form.filter_order.value = order;
     form.filter_order_Dir.value = dir;
     Joomla.submitform(task, form);
-}
+};
 
 /**
  * USED IN: administrator/components/com_modules/views/module/tmpl/default.php
@@ -404,7 +428,7 @@ function submitform(pressbutton) {
         document.adminForm.onsubmit();
     }
     if (typeof document.adminForm.fireEvent == "function") {
-        document.adminForm.fireEvent('submit');
+        document.adminForm.fireEvent('onsubmit');
     }
     document.adminForm.submit();
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of banners.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersViewBanners extends JViewLegacy
 {
@@ -119,17 +117,10 @@ class BannersViewBanners extends JViewLegacy
 			JToolbarHelper::checkin('banners.checkin');
 		}
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
-		{
-			JToolbarHelper::deleteList('', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			JToolbarHelper::trash('banners.trash');
-		}
-
 		// Add a batch button
-		if ($user->authorise('core.create', 'com_banners') && $user->authorise('core.edit', 'com_banners') && $user->authorise('core.edit.state', 'com_banners'))
+		if ($user->authorise('core.create', 'com_banners')
+			&& $user->authorise('core.edit', 'com_banners')
+			&& $user->authorise('core.edit.state', 'com_banners'))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
@@ -139,6 +130,15 @@ class BannersViewBanners extends JViewLegacy
 
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
+		}
+
+		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
+			JToolbarHelper::deleteList('', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::trash('banners.trash');
 		}
 
 		if ($user->authorise('core.admin', 'com_banners'))

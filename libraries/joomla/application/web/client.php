@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,9 +25,7 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  array    $detection       An array of flags determining whether or not a detection routine has been run.
  * @property-read  boolean  $robot           True if the web client is a robot
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       12.1
+ * @since  12.1
  */
 class JApplicationWebClient
 {

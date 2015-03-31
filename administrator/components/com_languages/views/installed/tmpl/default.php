@@ -3,20 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 // Add specific helper files for html generation
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 $client		= $this->state->get('filter.client_id', 0) ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
 $clientId	= $this->state->get('filter.client_id', 0);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed&client='.$clientId); ?>" method="post" id="adminForm" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed&client=' . $clientId); ?>" method="post" id="adminForm" name="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="span2">
 			<?php echo $this->sidebar; ?>
@@ -76,7 +76,9 @@ $clientId	= $this->state->get('filter.client_id', 0);
 						<?php echo JHtml::_('languages.id', $i, $row->language);?>
 					</td>
 					<td width="25%">
-						<?php echo $this->escape($row->name); ?>
+						<label for="cb<?php echo $i; ?>">
+							<?php echo $this->escape($row->name); ?>
+						</label>
 					</td>
 					<td align="center">
 						<?php echo $this->escape($row->language); ?>

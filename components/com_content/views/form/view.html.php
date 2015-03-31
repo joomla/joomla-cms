@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML Article View class for the Content component
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.5
+ * @since  1.5
  */
 class ContentViewForm extends JViewLegacy
 {
@@ -55,6 +53,7 @@ class ContentViewForm extends JViewLegacy
 		if ($authorised !== true)
 		{
 			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+
 			return false;
 		}
 
@@ -80,13 +79,14 @@ class ContentViewForm extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseWarning(500, implode("\n", $errors));
+
 			return false;
 		}
 
 		// Create a shortcut to the parameters.
 		$params	= &$this->state->params;
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->params = $params;
@@ -107,6 +107,8 @@ class ContentViewForm extends JViewLegacy
 
 	/**
 	 * Prepares the document
+	 *
+	 * @return  void.
 	 */
 	protected function _prepareDocument()
 	{

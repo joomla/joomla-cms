@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,6 +36,8 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	 * Login to back end and navigate to menu Tags.
 	 *
 	 * @since   3.0
+	 *
+	 * @return void
 	 */
 	public function setUp()
 	{
@@ -48,6 +50,8 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	 * Logout and close test.
 	 *
 	 * @since   3.0
+	 *
+	 * @return void
 	 */
 	public function tearDown()
 	{
@@ -56,6 +60,10 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check all the input fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
@@ -64,24 +72,29 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 		$this->articleManagerPage->clickButton('toolbar-new');
 		$articleEditPage = $this->getPageObject('ArticleEditPage');
 
-		// Option to print actual element array
+		/* Option to print actual element array */
 		/* @var $articleEditPage ArticleEditPage */
 // 	 	$articleEditPage->printFieldArray($articleEditPage->getAllInputFields($articleEditPage->tabs));
 
 		$testElements = $articleEditPage->getAllInputFields($articleEditPage->tabs);
 		$actualFields = array();
+
 		foreach ($testElements as $el)
 		{
 			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
 			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
 		}
-		$this->assertEquals($articleEditPage->inputFields, $actualFields);
+
+		$this->assertLessThanOrEqual($articleEditPage->inputFields, $actualFields);
 		$articleEditPage->clickButton('toolbar-cancel');
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 	}
 
-
 	/**
+	 * check the open edit screen
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function constructor_OpenEditScreen_ArticleEditOpened()
@@ -94,6 +107,10 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add article with default fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addArticle_WithFieldDefaults_ArticleAdded()
@@ -109,8 +126,11 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName), 'Test Article should not be present');
 	}
 
-
 	/**
+	 * add article with given fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addArticle_WithGivenFields_ArticleAdded()
@@ -131,6 +151,10 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * edit article and change the values of the fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function editArticle_ChangeFields_FieldsChanged()
@@ -150,6 +174,10 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * change article state from published to unpublished
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function changeArticleState_ChangePublishedUsingToolbar_PublishedChanged()
@@ -165,11 +193,15 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * change article state and verify from front end
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function changeArticleStatus_TestAtFrontEnd()
 	{
-		$cfg = new SeleniumConfig();
+		$cfg = new SeleniumConfig;
 		$this->driver->get($cfg->host . $cfg->path);
 		$this->assertTrue($this->driver->findElement(By::xPath("//h2//a[contains(text(), 'Professionals')]"))->isDisplayed(), 'Professionals Must be Present');
 		$article_manager = 'administrator/index.php?option=com_content';
@@ -187,11 +219,15 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * test if article can be edited from front end
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function articleEditPermission_TestAtFrontEnd()
 	{
-		$cfg = new SeleniumConfig();
+		$cfg = new SeleniumConfig;
 		$this->driver->get($cfg->host . $cfg->path);
 		$this->doSiteLogin();
 		$this->driver->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Home')]"), 10);

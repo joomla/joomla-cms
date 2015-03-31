@@ -3,13 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
+
+JHtml::_('jquery.framework');
 
 JHtml::_('bootstrap.tooltip');
 
@@ -71,68 +73,75 @@ if ($params->get('show_button'))
 }
 
 JHtml::stylesheet('com_finder/finder.css', false, true, false);
-?>
 
-<script type="text/javascript">
-//<![CDATA[
-	jQuery(function($)
-	{
-		var value, $searchword = $('#mod-finder-searchword');
+$script = "
+jQuery(document).ready(function() {
+	var value, searchword = jQuery('#mod-finder-searchword');
 
 		// Set the input value if not already set.
-		if (!$searchword.val())
+		if (!searchword.val())
 		{
-			$searchword.val('<?php echo JText::_('MOD_FINDER_SEARCH_VALUE', true); ?>');
+			searchword.val('" . JText::_('MOD_FINDER_SEARCH_VALUE', true) . "');
 		}
 
 		// Get the current value.
-		value = $searchword.val();
+		value = searchword.val();
 
 		// If the current value equals the default value, clear it.
-		$searchword.on('focus', function()
-		{	var $el = $(this);
-			if ($el.val() === '<?php echo JText::_('MOD_FINDER_SEARCH_VALUE', true); ?>')
+		searchword.on('focus', function()
+		{	var el = jQuery(this);
+			if (el.val() === '" . JText::_('MOD_FINDER_SEARCH_VALUE', true) . "')
 			{
-				$el.val('');
+				el.val('');
 			}
 		});
 
 		// If the current value is empty, set the previous value.
-		$searchword.on('blur', function()
-		{	var $el = $(this);
-			if (!$el.val())
+		searchword.on('blur', function()
+		{	var el = jQuery(this);
+			if (!el.val())
 			{
-				$el.val(value);
+				el.val(value);
 			}
 		});
 
-		$('#mod-finder-searchform').on('submit', function(e){
+		jQuery('#mod-finder-searchform').on('submit', function(e){
 			e.stopPropagation();
-			var $advanced = $('#mod-finder-advanced');
+			var advanced = jQuery('#mod-finder-advanced');
 			// Disable select boxes with no value selected.
-			if ( $advanced.length)
+			if ( advanced.length)
 			{
-				 $advanced.find('select').each(function(index, el) {
-					var $el = $(el);
-					if(!$el.val()){
-						$el.attr('disabled', 'disabled');
+				advanced.find('select').each(function(index, el) {
+					var el = jQuery(el);
+					if(!el.val()){
+						el.attr('disabled', 'disabled');
 					}
 				});
 			}
-		});
+		});";
+/*
+ * This segment of code sets up the autocompleter.
+ */
+if ($params->get('show_autosuggest', 1))
+{
+	JHtml::_('script', 'media/jui/js/jquery.autocomplete.min.js', false, false, false, false, true);
 
-		/*
-		 * This segment of code sets up the autocompleter.
-		 */
-		<?php if ($params->get('show_autosuggest', 1)) : ?>
-			<?php JHtml::_('behavior.framework'); ?>
-			<?php JHtml::_('script', 'com_finder/autocompleter.js', false, true); ?>
-			var url = '<?php echo JRoute::_('index.php?option=com_finder&task=suggestions.display&format=json&tmpl=component', false); ?>';
-			var ModCompleter = new Autocompleter.Request.JSON(document.getElementById('mod-finder-searchword'), url, {'postVar': 'q'});
-		<?php endif; ?>
-	});
-//]]>
-</script>
+	$script .= "
+	var suggest = jQuery('#mod-finder-searchword').autocomplete({
+		serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false) . "',
+		paramName: 'q',
+		minChars: 1,
+		maxHeight: 400,
+		width: 300,
+		zIndex: 9999,
+		deferRequestBy: 500
+	});";
+}
+
+$script .= "});";
+
+JFactory::getDocument()->addScriptDeclaration($script);
+?>
 
 <form id="mod-finder-searchform" action="<?php echo JRoute::_($route); ?>" method="get" class="form-search">
 	<div class="finder<?php echo $suffix; ?>">

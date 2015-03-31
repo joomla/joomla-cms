@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for creating HTML select lists
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.5
+ * @since  1.5
  */
 abstract class JHtmlSelect
 {
@@ -37,7 +35,7 @@ abstract class JHtmlSelect
 	 * @param   string  $selected  The key that is selected
 	 * @param   string  $yes       Language key for Yes
 	 * @param   string  $no        Language key for no
-	 * @param   string  $id        The id for the field
+	 * @param   mixed   $id        The id for the field or false for no id
 	 *
 	 * @return  string  HTML for the radio list
 	 *
@@ -466,8 +464,8 @@ abstract class JHtmlSelect
 		}
 
 		$obj = new stdClass;
-		$obj->$options['option.key'] = $value;
-		$obj->$options['option.text'] = trim($text) ? $text : $value;
+		$obj->{$options['option.key']}  = $value;
+		$obj->{$options['option.text']} = trim($text) ? $text : $value;
 
 		/*
 		 * If a label is provided, save it. If no label is provided and there is
@@ -482,19 +480,19 @@ abstract class JHtmlSelect
 		}
 		elseif ($hasProperty)
 		{
-			$obj->$options['option.label'] = '';
+			$obj->{$options['option.label']} = '';
 		}
 
 		// Set attributes only if there is a property and a value
 		if ($options['attr'] !== null)
 		{
-			$obj->$options['option.attr'] = $options['attr'];
+			$obj->{$options['option.attr']} = $options['attr'];
 		}
 
 		// Set disable only if it has a property and a value
 		if ($options['disable'] !== null)
 		{
-			$obj->$options['option.disable'] = $options['disable'];
+			$obj->{$options['option.disable']} = $options['disable'];
 		}
 
 		return $obj;
@@ -602,37 +600,37 @@ abstract class JHtmlSelect
 			}
 			elseif (is_object($element))
 			{
-				$key = $options['option.key'] === null ? $elementKey : $element->$options['option.key'];
-				$text = $element->$options['option.text'];
+				$key = $options['option.key'] === null ? $elementKey : $element->{$options['option.key']};
+				$text = $element->{$options['option.text']};
 
-				if (isset($element->$options['option.attr']))
+				if (isset($element->{$options['option.attr']}))
 				{
-					$attr = $element->$options['option.attr'];
+					$attr = $element->{$options['option.attr']};
 				}
 
-				if (isset($element->$options['option.id']))
+				if (isset($element->{$options['option.id']}))
 				{
-					$id = $element->$options['option.id'];
+					$id = $element->{$options['option.id']};
 				}
 
-				if (isset($element->$options['option.label']))
+				if (isset($element->{$options['option.label']}))
 				{
-					$label = $element->$options['option.label'];
+					$label = $element->{$options['option.label']};
 				}
 
-				if (isset($element->$options['option.disable']) && $element->$options['option.disable'])
+				if (isset($element->{$options['option.disable']}) && $element->{$options['option.disable']})
 				{
 					$extra .= ' disabled="disabled"';
 				}
 
-				if (isset($element->$options['option.class']) && $element->$options['option.class'])
+				if (isset($element->{$options['option.class']}) && $element->{$options['option.class']})
 				{
-					$extra .= ' class="' . $element->$options['option.class'] . '"';
+					$extra .= ' class="' . $element->{$options['option.class']} . '"';
 				}
 
-				if (isset($element->$options['option.onclick']) && $element->$options['option.onclick'])
+				if (isset($element->{$options['option.onclick']}) && $element->{$options['option.onclick']})
 				{
-					$extra .= ' onclick="' . $element->$options['option.onclick'] . '"';
+					$extra .= ' onclick="' . $element->{$options['option.onclick']} . '"';
 				}
 			}
 			else
@@ -747,7 +745,6 @@ abstract class JHtmlSelect
 	public static function radiolist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
 		$translate = false)
 	{
-		reset($data);
 
 		if (is_array($attribs))
 		{

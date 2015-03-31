@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -348,6 +348,11 @@ class JFormFieldTest extends TestCaseDatabase
 	 */
 	public function testSetupInvalidElement()
 	{
+		if (PHP_MAJOR_VERSION >= 7)
+		{
+			$this->markTestSkipped('A fatal error is thrown on PHP 7 due to the typehinting of the method.');
+		}
+
 		$form = new JFormInspector('form1');
 		$field = new JFormFieldInspector($form);
 
