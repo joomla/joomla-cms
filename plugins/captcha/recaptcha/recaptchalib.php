@@ -92,8 +92,9 @@ class JReCaptcha
 	 */
 	private function _submitHTTPGet($path, $data)
 	{
+		$req = $this->_encodeQS($data);
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($path, $data)->body;
+		$response = $http->get($path.'?'.$req)->body;
 
 		return $response;
 	}
