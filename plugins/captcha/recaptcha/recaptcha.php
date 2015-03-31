@@ -75,9 +75,9 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 				JHtml::_('script', $file, true, true);
 
-				$document->addScriptDeclaration('jQuery(document).ready(function() {'
+				$document->addScriptDeclaration('jQuery(document).ready(function($) {$(window).load(function() {'
 					. 'grecaptcha.render("' . $id . '", {sitekey: "' . $pubkey . '", theme: "' . $theme . '"});'
-					. '});'
+					. '});});'
 				);
 				break;
 		}
