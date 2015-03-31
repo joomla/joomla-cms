@@ -148,7 +148,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_postinstall', '', 1);
 
 		// Libraries
-		$extensions[] = array('library', 'phpmailer', '', 0);
 		$extensions[] = array('library', 'simplepie', '', 0);
 		$extensions[] = array('library', 'phputf8', '', 0);
 		$extensions[] = array('library', 'joomla', '', 0);
