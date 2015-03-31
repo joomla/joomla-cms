@@ -22,6 +22,7 @@ defined('_JEXEC') or die;
 		<label for="jform_language" class="control-label"><?php echo JText::_('INSTL_SELECT_LANGUAGE_TITLE'); ?></label>
 		<div class="controls">
 			<?php echo $this->form->getInput('language'); ?>
+                        <p class="help-block"><?php echo JText::_('INSTL_LANGUAGE_DESC'); ?></p>
 		</div>
 	</div>
 	<input type="hidden" name="task" value="setlanguage" />
