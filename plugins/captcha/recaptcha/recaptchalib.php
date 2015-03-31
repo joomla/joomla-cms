@@ -83,7 +83,7 @@ class JReCaptcha
 	}
 
 	/**
-	 * Submits an HTTP GET to a reCAPTCHA server.
+	 * Submits an HTTP POST to a reCAPTCHA server.
 	 *
 	 * @param string $path url path to recaptcha server.
 	 * @param array  $data array of parameters to be sent.
@@ -92,8 +92,8 @@ class JReCaptcha
 	 */
 	private function _submitHTTPGet($path, $data)
 	{
-		$req = $this->_encodeQS($data);
-		$response = file_get_contents($path . $req);
+		$http = JHttpFactory::getHttp();
+		$response = $http->post($path, $data)->body;
 
 		return $response;
 	}
