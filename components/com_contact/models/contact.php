@@ -336,13 +336,19 @@ class ContactModelContact extends JModelForm
 
 			if ($result)
 			{
-				$user	= JFactory::getUser();
 
 				$contactParams = new Registry;
 				$contactParams->loadString($result->params);
 
+				// If we are showing a contact list, then the contact parameters take priority
+				// So merge the contact parameters with the merged parameters
+				if ($this->getState('params')->get('show_contact_list'))
+				{
+					$this->getState('params')->merge($contactParams);
+				}
+				
 				// Get the com_content articles by the linked user
-				if (!empty($result->user_id))
+				if ((int) $result->user_id && $this->getState('params')->get('show_articles'))
 				{
 
 					$query	= $db->getQuery(true)
@@ -414,13 +420,6 @@ class ContactModelContact extends JModelForm
 				else
 				{
 					$result->articles = null;
-				}
-
-				// If we are showing a contact list, then the contact parameters take priority
-				// So merge the contact parameters with the merged parameters
-				if ($this->getState('params')->get('show_contact_list'))
-				{
-					$this->getState('params')->merge($contactParams);
 				}
 
 				// Get the profile information for the linked user
