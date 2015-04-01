@@ -47,7 +47,16 @@ class ModArchiveHelper
 		}
 
 		$db->setQuery($query, 0, (int) $params->get('count'));
-		$rows = (array) $db->loadObjectList();
+		try
+		{
+			$rows = (array) $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
+			return;
+		}
 
 		$app    = JFactory::getApplication();
 		$menu   = $app->getMenu();

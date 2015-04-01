@@ -53,8 +53,16 @@ class ModUsersLatestHelper
 		}
 
 		$db->setQuery($query, 0, $params->get('shownumber'));
-		$result = $db->loadObjectList();
 
-		return (array) $result;
+		try
+		{
+			return (array) $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_GENERIC_SQL_ERROR'), 'error');
+			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
+			return array();
+		}
 	}
 }
