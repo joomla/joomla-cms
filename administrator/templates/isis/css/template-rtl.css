@@ -4212,6 +4212,35 @@ a.thumbnail:focus {
 	padding: 9px;
 	color: #555;
 }
+.media,
+.media-body {
+	overflow: hidden;
+	*overflow: visible;
+	zoom: 1;
+}
+.media,
+.media .media {
+	margin-top: 15px;
+}
+.media:first-child {
+	margin-top: 0;
+}
+.media-object {
+	display: block;
+}
+.media-heading {
+	margin: 0 0 5px;
+}
+.media > .pull-left {
+	margin-right: 10px;
+}
+.media > .pull-right {
+	margin-left: 10px;
+}
+.media-list {
+	margin-left: 0;
+	list-style: none;
+}
 .label,
 .badge {
 	display: inline-block;
@@ -6428,7 +6457,6 @@ dl.article-info dd.hits span[class*=" icon-"] {
 .icon-plus-2:before {
 	content: "\5d";
 }
-.icon-ban-circle:before,
 .icon-minus-sign:before,
 .icon-minus-2:before {
 	content: "\5e";
@@ -6455,6 +6483,7 @@ dl.article-info dd.hits span[class*=" icon-"] {
 .icon-not-ok:before {
 	content: "\4b";
 }
+.icon-ban-circle:before,
 .icon-minus-circle:before {
 	content: "\e216";
 }
@@ -6583,7 +6612,6 @@ dl.article-info dd.hits span[class*=" icon-"] {
 .icon-file-plus:before {
 	content: "\29";
 }
-.icon-file-remove:before,
 .icon-file-minus:before {
 	content: "\e017";
 }
@@ -7038,9 +7066,8 @@ a:focus {
 	left: 50%;
 	height: 24px;
 	width: 24px;
-	text-indent: -9999px;
-	background: url('../images/login-joomla.png') no-repeat;
 	margin-left: -12px;
+	font-size: 22px;
 }
 .navbar-inverse .view-login .login-joomla {
 	background: url('../images/login-joomla-inverse.png') no-repeat;
@@ -7049,18 +7076,21 @@ a:focus {
 	position: absolute;
 }
 .view-login .input-medium {
-	width: 184px;
+	width: 176px;
 }
 .login .chzn-single {
-	width: 230px !important;
+	width: 222px !important;
 }
 .login .chzn-container,
 .login .chzn-drop {
-	width: 238px !important;
-	max-width: 238px !important;
+	width: 230px !important;
+	max-width: 230px !important;
 }
 .login .btn-large {
-	margin-top: 10px;
+	margin-top: 15px;
+}
+.login .form-inline .btn-group {
+	display: block;
 }
 .small {
 	font-size: 11px;
@@ -8080,10 +8110,19 @@ a.grid_true {
 	.j-toggle-button-wrapper {
 		display: none;
 	}
+	.view-login select {
+		width: 232px;
+	}
 }
 @media (max-width: 420px) {
 	.j-sidebar-container {
 		margin: 0;
+	}
+	.view-login .input-medium {
+		width: 180px;
+	}
+	.view-login select {
+		width: 232px;
 	}
 }
 .break-word {
@@ -8772,9 +8811,25 @@ a.grid_true {
 	right: 50%;
 	height: 24px;
 	width: 24px;
-	text-indent: -9999px;
-	background: url('../images/login-joomla.png') no-repeat;
 	margin-right: -12px;
+	font-size: 22px;
+}
+.view-login .input-medium {
+	width: 169px;
+}
+.login .chzn-single {
+	width: 219px !important;
+}
+.login .chzn-container,
+.login .chzn-drop {
+	width: 227px !important;
+	max-width: 227px !important;
+}
+.login .input-prepend .chzn-container-single .chzn-single {
+	-webkit-border-radius: 3px 0 0 3px;
+	-moz-border-radius: 3px 0 0 3px;
+	border-radius: 3px 0 0 3px;
+	border-right: 0px;
 }
 .j-sidebar-container {
 	left: auto;
@@ -8833,6 +8888,9 @@ a.grid_true {
 		margin-left: auto;
 		margin-right: 0;
 	}
+	.view-login select {
+		width: 229px;
+	}
 }
 #j-main-container.expanded {
 	margin-right: 0;
@@ -8856,5 +8914,16 @@ a.grid_true {
 	}
 	.btn-toolbar .btn-wrapper {
 		margin: 0 10px 5px 10px;
+	}
+}
+@media (max-width: 420px) {
+	.j-sidebar-container {
+		margin: 0;
+	}
+	.view-login .input-medium {
+		width: 173px;
+	}
+	.view-login select {
+		width: 229px;
 	}
 }
