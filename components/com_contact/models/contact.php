@@ -346,7 +346,7 @@ class ContactModelContact extends JModelForm
 				{
 					$this->getState('params')->merge($contactParams);
 				}
-				
+
 				// Get the com_content articles by the linked user
 				if ((int) $result->user_id && $this->getState('params')->get('show_articles'))
 				{
