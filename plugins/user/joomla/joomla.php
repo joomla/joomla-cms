@@ -224,7 +224,7 @@ class PlgUserJoomla extends JPlugin
 			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($session->getId()));
 		try
 		{
-			$this->db->setQuery($query)->execute();	
+			$this->db->setQuery($query)->execute();
 		}
 		catch (RuntimeException $e)
 		{
@@ -279,16 +279,13 @@ class PlgUserJoomla extends JPlugin
 				->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
 			try
 			{
-				$this->db->setQuery($query)->execute();	
+				$this->db->setQuery($query)->execute();
 			}
 			catch (RuntimeException $e)
 			{
 				return false;
 			}
-			
-			
 		}
-
 		return true;
 	}
 
