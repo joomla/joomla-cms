@@ -63,7 +63,7 @@ class PlgAuthenticationGMail extends JPlugin
 		$http = new JHttp($options, $curlDriver);
 
 		// Check if we have a username and password
-		if (strlen($credentials['username']) && strlen($credentials['password']))
+		if (strlen($credentials['username']) == 0 || strlen($credentials['password']) == 0)
 		{
 			$response->status        = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_USER_BLACKLISTED'));
@@ -74,7 +74,7 @@ class PlgAuthenticationGMail extends JPlugin
 		$blacklist = explode(',', $this->params->get('user_blacklist', ''));
 
 		// Check if the username isn't blacklisted
-		if (!in_array($credentials['username'], $blacklist))
+		if (in_array($credentials['username'], $blacklist))
 		{
 			$response->status        = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_USER_BLACKLISTED'));
@@ -111,7 +111,17 @@ class PlgAuthenticationGMail extends JPlugin
 			'Authorization' => 'Basic ' . base64_encode($credentials['username'] . ':' . $credentials['password'])
 		);
 
-		$result = $http->get('https://mail.google.com/mail/feed/atom', $headers);
+		try
+		{
+			$result = $http->get('https://mail.google.com/mail/feed/atom', $headers);
+		}
+		catch (Exception $e)
+		{
+			// If there was an error in the request then create a 'false' dummy response.
+			$result = new JHttpResponse;
+			$result->code = false;
+		}
+
 		$code = $result->code;
 
 		switch ($code)
