@@ -140,7 +140,7 @@ class JFile
 			{
 				if (!@ copy($src, $dest))
 				{
-					JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_COPY_FAILED' . ' : %s => %s', $src, $dest), JLog::WARNING, 'jerror');
+					JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_COPY_FAILED', $src, $dest), JLog::WARNING, 'jerror');
 
 					return false;
 				}
