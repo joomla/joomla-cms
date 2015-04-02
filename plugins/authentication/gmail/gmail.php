@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\Registry\Registry;
+
 defined('_JEXEC') or die;
 
 /**
@@ -38,82 +40,94 @@ class PlgAuthenticationGMail extends JPlugin
 			return;
 		}
 
-		$success = 0;
+		$success = false;
 
-		// Check if we have curl or not
-		if (function_exists('curl_init'))
+		$curlParams = array(
+			'follow_location' => true,
+			'transport.curl'   => array(CURLOPT_SSL_VERIFYPEER => false),
+		);
+		$transportParams = new Registry($curlParams);
+
+		try
 		{
-			// Check if we have a username and password
-			if (strlen($credentials['username']) && strlen($credentials['password']))
+			$curlDriver = new JHttpTransportCurl($transportParams);
+		}
+		catch (RuntimeException $e)
+		{
+			$response->status        = JAuthentication::STATUS_FAILURE;
+			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_CURL_NOT_INSTALLED'));
+
+			return;
+		}
+
+		$http = new JHttp($options, $curlDriver);
+
+		// Check if we have a username and password
+		if (strlen($credentials['username']) && strlen($credentials['password']))
+		{
+			$response->status        = JAuthentication::STATUS_FAILURE;
+			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_USER_BLACKLISTED'));
+
+			return;
+		}
+
+		$blacklist = explode(',', $this->params->get('user_blacklist', ''));
+
+		// Check if the username isn't blacklisted
+		if (!in_array($credentials['username'], $blacklist))
+		{
+			$response->status        = JAuthentication::STATUS_FAILURE;
+			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_USER_BLACKLISTED'));
+
+			return;
+		}
+
+		$suffix      = $this->params->get('suffix', '');
+		$applysuffix = $this->params->get('applysuffix', 0);
+		$offset      = strpos($credentials['username'], '@');
+
+		// Check if we want to do suffix stuff, typically for Google Apps for Your Domain
+		if ($suffix && $applysuffix)
+		{
+			if ($applysuffix == 1 && $offset === false)
 			{
-				$blacklist = explode(',', $this->params->get('user_blacklist', ''));
-
-				// Check if the username isn't blacklisted
-				if (!in_array($credentials['username'], $blacklist))
-				{
-					$suffix      = $this->params->get('suffix', '');
-					$applysuffix = $this->params->get('applysuffix', 0);
-					$offset      = strpos($credentials['username'], '@');
-
-					// Check if we want to do suffix stuff, typically for Google Apps for Your Domain
-					if ($suffix && $applysuffix)
-					{
-						if ($applysuffix == 1 && $offset === false)
-						{
-							// Apply suffix if missing
-							$credentials['username'] .= '@' . $suffix;
-						}
-						elseif ($applysuffix == 2)
-						{
-							// Always use suffix
-							if ($offset)
-							{
-								// If we already have an @, get rid of it and replace it
-								$credentials['username'] = substr($credentials['username'], 0, $offset);
-							}
-
-							$credentials['username'] .= '@' . $suffix;
-						}
-					}
-
-					$curl = curl_init('https://mail.google.com/mail/feed/atom');
-					curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-					curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->params->get('verifypeer', 1));
-					curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
-					curl_setopt($curl, CURLOPT_USERPWD, $credentials['username'] . ':' . $credentials['password']);
-					curl_exec($curl);
-					$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-					switch ($code)
-					{
-						case 200 :
-							$message = JText::_('JGLOBAL_AUTH_ACCESS_GRANTED');
-							$success = 1;
-							break;
-
-						case 401 :
-							$message = JText::_('JGLOBAL_AUTH_ACCESS_DENIED');
-							break;
-
-						default :
-							$message = JText::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
-							break;
-					}
-				}
-				else
-				{
-					// The username is black listed
-					$message = JText::_('JGLOBAL_AUTH_USER_BLACKLISTED');
-				}
+				// Apply suffix if missing
+				$credentials['username'] .= '@' . $suffix;
 			}
-			else
+			elseif ($applysuffix == 2)
 			{
-				$message = JText::_('JGLOBAL_AUTH_USER_BLACKLISTED');
+				// Always use suffix
+				if ($offset)
+				{
+					// If we already have an @, get rid of it and replace it
+					$credentials['username'] = substr($credentials['username'], 0, $offset);
+				}
+
+				$credentials['username'] .= '@' . $suffix;
 			}
 		}
-		else
+
+		$headers = array(
+			'Authorization' => 'Basic ' . base64_encode($credentials['username'] . ':' . $credentials['password'])
+		);
+
+		$result = $http->get('https://mail.google.com/mail/feed/atom', $headers);
+		$code = $result->code;
+
+		switch ($code)
 		{
-			$message = JText::_('JGLOBAL_AUTH_CURL_NOT_INSTALLED');
+			case 200 :
+				$message = JText::_('JGLOBAL_AUTH_ACCESS_GRANTED');
+				$success = true;
+				break;
+
+			case 401 :
+				$message = JText::_('JGLOBAL_AUTH_ACCESS_DENIED');
+				break;
+
+			default :
+				$message = JText::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
+				break;
 		}
 
 		$response->type = 'GMail';
