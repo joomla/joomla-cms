@@ -16,7 +16,7 @@ $pages = $list['pages'];
 
 $options = new Registry($displayData['options']);
 
-$showLimitBox   = $options->get('showLimitBox', true);
+$showLimitBox   = $options->get('showLimitBox', false);
 $showPagesLinks = $options->get('showPagesLinks', true);
 $showLimitStart = $options->get('showLimitStart', true);
 
@@ -49,7 +49,7 @@ if ($currentPage >= $step)
 }
 ?>
 
-<div class="pagination pagination-toolbar clearfix" style="text-align: center;">
+<div class="pagination pagination-toolbar clearfix">
 
 	<?php if ($showLimitBox) : ?>
 		<div class="limit pull-right">
