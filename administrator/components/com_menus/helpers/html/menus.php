@@ -108,7 +108,7 @@ abstract class MenusHtmlMenus
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_HEADING',
 				'',
-				false,
+				true,
 				'publish',
 				'publish'
 			),
@@ -117,7 +117,7 @@ abstract class MenusHtmlMenus
 				'',
 				'COM_MENUS_HTML_PUBLISH_HEADING',
 				'',
-				false,
+				true,
 				'unpublish',
 				'unpublish'
 			),
@@ -126,7 +126,7 @@ abstract class MenusHtmlMenus
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_SEPARATOR',
 				'',
-				false,
+				true,
 				'publish',
 				'publish'
 			),
@@ -135,7 +135,7 @@ abstract class MenusHtmlMenus
 				'',
 				'COM_MENUS_HTML_PUBLISH_SEPARATOR',
 				'',
-				false,
+				true,
 				'unpublish',
 				'unpublish'
 			),
@@ -144,7 +144,7 @@ abstract class MenusHtmlMenus
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_ALIAS',
 				'',
-				false,
+				true,
 				'publish',
 				'publish'
 			),
@@ -153,7 +153,7 @@ abstract class MenusHtmlMenus
 				'',
 				'COM_MENUS_HTML_PUBLISH_ALIAS',
 				'',
-				false,
+				true,
 				'unpublish',
 				'unpublish'
 			),
@@ -162,7 +162,7 @@ abstract class MenusHtmlMenus
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_URL',
 				'',
-				false,
+				true,
 				'publish',
 				'publish'
 			),
@@ -171,7 +171,7 @@ abstract class MenusHtmlMenus
 				'',
 				'COM_MENUS_HTML_PUBLISH_URL',
 				'',
-				false,
+				true,
 				'unpublish',
 				'unpublish'
 			),
