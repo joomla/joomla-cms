@@ -271,6 +271,7 @@
 					<option value="modified">MOD_ARTICLES_CATEGORY_OPTION_MODIFIED_VALUE</option>
 					<option value="publish_up">MOD_ARTICLES_CATEGORY_OPTION_STARTPUBLISHING_VALUE</option>
 					<option value="a.publish_down">MOD_ARTICLES_CATEGORY_OPTION_FINISHPUBLISHING_VALUE</option>
+					<option value="rand()">MOD_ARTICLES_CATEGORY_OPTION_ORDERINGRANDOM_VALUE</option>
 				</field>
 
 				<field
