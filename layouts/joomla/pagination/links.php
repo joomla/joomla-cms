@@ -16,7 +16,7 @@ $pages = $list['pages'];
 
 $options = new Registry($displayData['options']);
 
-$showLimitBox   = $options->get('showLimitBox', false);
+$showLimitBox   = $options->get('showLimitBox', true);
 $showPagesLinks = $options->get('showPagesLinks', true);
 $showLimitStart = $options->get('showLimitStart', true);
 
