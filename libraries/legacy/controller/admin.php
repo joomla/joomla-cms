@@ -113,15 +113,15 @@ class JControllerAdmin extends JControllerLegacy
 		// Get items to remove from the request.
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 
+		// Get the model.
+		$model = $this->getModel();
+
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JLog::add(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
 		}
 		else
 		{
-			// Get the model.
-			$model = $this->getModel();
-
 			// Make sure the item ids are integers
 			jimport('joomla.utilities.arrayhelper');
 			JArrayHelper::toInteger($cid);
