@@ -47,11 +47,6 @@ class JFormRuleNotequals extends JFormRule
 			throw new UnexpectedValueException(sprintf('$field empty in %s::test', get_class($this)));
 		}
 
-		if (is_null($form))
-		{
-			throw new InvalidArgumentException(sprintf('The value for $form must not be null in %s', get_class($this)));
-		}
-
 		if (is_null($input))
 		{
 			throw new InvalidArgumentException(sprintf('The value for $input must not be null in %s', get_class($this)));
