@@ -86,6 +86,7 @@ a:focus {
 
 /* Login */
 .view-login {
+	background-color: @loginBackground;
 	padding-top: 0;
 
 	.container {
@@ -104,9 +105,10 @@ a:focus {
 	.navbar-fixed-bottom,
 	.navbar-fixed-bottom a {
 		color: #FCFCFC;
-		&.navbar-inverse {
-			color: @gray;
-		}
+	}
+	.navbar-inverse.navbar-fixed-bottom,
+	.navbar-inverse.navbar-fixed-bottom a {
+		color: @gray;
 	}
 	.well {
 		padding-bottom: 0;
@@ -118,9 +120,6 @@ a:focus {
 		width: 24px;
 		margin-left: -12px;
 		font-size: 22px;
-		.navbar-inverse & {
-			background: url('../images/login-joomla-inverse.png') no-repeat;
-		}
 	}
 	.navbar-fixed-bottom {
 		position: absolute;
@@ -128,6 +127,10 @@ a:focus {
 	.input-medium {
 		width: 176px;
 	}
+}
+
+.navbar-inverse & {
+	color: @textColor;
 }
 
 .login {
@@ -193,9 +196,15 @@ body .navbar-fixed-top {
 		float: left;
 		padding: 7px 12px 0px 15px;
 		font-size: 16px;
-		color: #d9d9d9;
+		color: @gray;
 		&:hover {
-			color: #ffffff;
+			color: @grayDark;
+		}
+		.navbar-inverse& {
+			color: #d9d9d9;
+			&:hover {
+				color: #ffffff;
+			}
 		}
 	}
 	.brand {
@@ -504,11 +513,11 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 }
 /* Status Module */
 #status {
-	background: #EDEDED;
-	border-top: 1px solid #DDDDDD;
+	background: #ebebeb;
+	border-top: 1px solid #d4d4d4;
 	padding: 2px 10px 4px 10px;
 	.box-shadow(~"0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6)");
-	color: #999999;
+	color: #626262;
 
 	.btn-toolbar, p {
 		margin: 0px;
@@ -517,7 +526,7 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 		font-size: 12px;
 	}
 	a {
-		color: #999999;
+		color: #626262;
 	}
 }
 /* Status Module in top position */

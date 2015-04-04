@@ -7035,6 +7035,7 @@ a:focus {
 	outline: none;
 }
 .view-login {
+	background-color: #10223e;
 	padding-top: 0;
 }
 .view-login .container {
@@ -7054,8 +7055,8 @@ a:focus {
 .view-login .navbar-fixed-bottom a {
 	color: #FCFCFC;
 }
-.view-login .navbar-fixed-bottom.navbar-inverse,
-.view-login .navbar-fixed-bottom a.navbar-inverse {
+.view-login .navbar-inverse.navbar-fixed-bottom,
+.view-login .navbar-inverse.navbar-fixed-bottom a {
 	color: #555;
 }
 .view-login .well {
@@ -7069,14 +7070,14 @@ a:focus {
 	margin-left: -12px;
 	font-size: 22px;
 }
-.navbar-inverse .view-login .login-joomla {
-	background: url('../images/login-joomla-inverse.png') no-repeat;
-}
 .view-login .navbar-fixed-bottom {
 	position: absolute;
 }
 .view-login .input-medium {
 	width: 176px;
+}
+.navbar-inverse  {
+	color: #333;
 }
 .login .chzn-single {
 	width: 222px !important;
@@ -7128,9 +7129,15 @@ body .navbar-fixed-top {
 	float: left;
 	padding: 7px 12px 0px 15px;
 	font-size: 16px;
-	color: #d9d9d9;
+	color: #555;
 }
 .navbar .admin-logo:hover {
+	color: #333;
+}
+.navbar-inverse.navbar .admin-logo {
+	color: #d9d9d9;
+}
+.navbar-inverse.navbar .admin-logo:hover {
 	color: #ffffff;
 }
 .navbar .brand {
@@ -7392,9 +7399,7 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	padding-bottom: 50px;
 }
 #status {
-	background: #EDEDED;
 	background: #ebebeb;
-	border-top: 1px solid #DDDDDD;
 	border-top: 1px solid #d4d4d4;
 	padding: 2px 10px 4px 10px;
 	-webkit-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
@@ -8139,11 +8144,4 @@ textarea.vert {
 }
 textarea.noResize {
 	resize: none;
-}
-.nav-header {
-	color: #666666;
-}
-.label,
-.badge {
-	background-color: #737373;
 }
