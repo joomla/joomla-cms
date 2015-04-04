@@ -208,8 +208,8 @@ abstract class MenusHtmlMenus
 				'COM_MENUS_HTML_PUBLISH_DISABLED',
 				'COM_MENUS_EXTENSION_UNPUBLISHED_DISABLED',
 				true,
-				'unpublish',
-				'unpublish'
+				'trash',
+				'trash'
 			),
 		);
 
