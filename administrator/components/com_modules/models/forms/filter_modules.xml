@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-  <fields name="filter" addfieldpath="/administrator/components/com_modules/models/fields">
+	<fields name="filter" addfieldpath="/administrator/components/com_modules/models/fields">
 
-    <field
-      name="search"
-      type="text"
-      label="JSEARCH_FILTER_LABEL"
-      description="COM_MODULES_MODULES_FILTER_SEARCH_DESC"
-      hint="JSEARCH_FILTER"
-    />
+		<field
+			name="search"
+			type="text"
+			label="JSEARCH_FILTER_LABEL"
+			description="COM_MODULES_MODULES_FILTER_SEARCH_DESC"
+			hint="JSEARCH_FILTER"
+		/>
 
 		<field
 			name="client_id"
@@ -62,16 +62,15 @@
 		</field>
 
 		<field
-      name="language"
-      type="contentlanguage"
-      label="JOPTION_FILTER_LANGUAGE"
+			name="language"
+			type="contentlanguage"
+			label="JOPTION_FILTER_LANGUAGE"
 			description="JOPTION_FILTER_LANGUAGE_DESC"
 			onchange="this.form.submit();"
-    >
+		>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
 		</field>
 
 	</fields>
 </form>
-
