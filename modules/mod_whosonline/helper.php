@@ -45,6 +45,7 @@ class ModWhosonlineHelper
 		catch (RuntimeException $e)
 		{
 			// Don't worry be happy
+			$sessions = array();
 		}
 
 		if (count($sessions))
