@@ -23,7 +23,7 @@ Joomla.submitform = function(task, form, validate) {
     }
 
     // Toggle HTML5 validation
-    form.noValidate = !!validate;
+    form.noValidate = !validate;
 
     // Submit the form.
 	// Create the input type="submit"
