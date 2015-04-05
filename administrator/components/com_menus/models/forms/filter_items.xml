@@ -17,7 +17,8 @@
 		/>
 		<field
 			name="published"
-			type="menustatus"
+			type="status"
+			filter="*,0,1,-2"
 			label="COM_MENUS_FILTER_PUBLISHED"
 			description="COM_MENUS_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"
