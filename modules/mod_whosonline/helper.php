@@ -40,14 +40,13 @@ class ModWhosonlineHelper
 
 		try
 		{
-			$sessions = (array) $db->loadObjectList();	
+			$sessions = (array) $db->loadObjectList();
 		}
 		catch (RuntimeException $e)
 		{
-			//don't worry be happy
+			// don't worry be happy
 		}
 		
-
 		if (count($sessions))
 		{
 			foreach ($sessions as $session)
