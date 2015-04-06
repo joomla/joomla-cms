@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+
+	<field
+		name="client_id"
+		type="list"
+		label=""
+		onchange="jQuery.fn.clearPositionType();this.form.submit();"
+	>
+		<option value="0">JSITE</option>
+		<option value="1">JADMINISTRATOR</option>
+	</field>
+
 	<fields name="filter" addfieldpath="/administrator/components/com_modules/models/fields">
 
 		<field
@@ -11,26 +22,13 @@
 		/>
 
 		<field
-			name="client_id"
-			type="list"
-			label=""
-			onchange="this.form.submit();"
-		>
-			<option value="0">JSITE</option>
-			<option value="1">JADMINISTRATOR</option>
-		</field>
-
-		<field
 			name="state"
-			type="list"
+			type="status"
+			filter="*,-2,0,1"
 			label="JSTATUS"
 			onchange="this.form.submit();"
 		>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
-			<option value="1">JPUBLISHED</option>
-			<option value="0">JUNPUBLISHED</option>
-			<option value="-2">JTRASHED</option>
-			<option value="*">JALL</option>
 		</field>
 
 		<field
@@ -73,4 +71,49 @@
 		</field>
 
 	</fields>
+
+	<fields name="list">
+
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			statuses="*,0,1,-2"
+			description="JGLOBAL_SORT_BY"
+			onchange="this.form.submit();"
+			default="ordering ASC"
+		>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="a.published ASC">JSTATUS_ASC</option>
+			<option value="a.published DESC">JSTATUS_DESC</option>
+			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="position ASC">COM_MODULES_HEADING_POSITION_ASC</option>
+			<option value="position DESC">COM_MODULES_HEADING_POSITION_DESC</option>
+			<option value="name ASC">COM_MODULES_HEADING_MODULE_ASC</option>
+			<option value="name DESC">COM_MODULES_HEADING_MODULE_DESC</option>
+			<option value="pages ASC">COM_MODULES_HEADING_PAGES_ASC</option>
+			<option value="pages DESC">COM_MODULES_HEADING_PAGES_DESC</option>
+			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
+			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
+			<option value="language_title ASC">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="language_title DESC">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+
+		<field
+			name="limit"
+			type="limitbox"
+			class="input-mini"
+			default="25"
+			label="COM_MODULES_LIST_LIMIT"
+			description="JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC"
+			onchange="this.form.submit();"
+		/>
+
+	</fields>
+
 </form>
