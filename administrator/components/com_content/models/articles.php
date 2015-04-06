@@ -84,6 +84,9 @@ class ContentModelArticles extends JModelList
 			$this->context .= '.' . $layout;
 		}
 
+		// Load detected state
+		parent::populateState('a.id', 'desc');
+
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
@@ -107,9 +110,6 @@ class ContentModelArticles extends JModelList
 
 		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
 		$this->setState('filter.tag', $tag);
-
-		// List state information.
-		parent::populateState('a.id', 'desc');
 
 		// Force a language
 		$forcedLanguage = $app->input->get('forcedLanguage');
