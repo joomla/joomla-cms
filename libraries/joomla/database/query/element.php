@@ -53,10 +53,7 @@ class JDatabaseQueryElement
 		$this->name = $name;
 		$this->glue = $glue;
 
-		if(!is_null($elements))
-		{
-			$this->append($elements);
-		}
+		$this->append($elements);
 	}
 
 	/**
