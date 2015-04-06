@@ -225,3 +225,9 @@ $saveOrder	= $listOrder == 'ordering';
 	<?php echo JHtml::_('form.token'); ?>
 </div>
 </form>
+<script type="text/javascript">
+jQuery("#filter_client_id").on("change", function()
+{
+ jQuery("#filter_position, #filter_module").val("");
+});
+</script>
