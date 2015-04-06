@@ -221,9 +221,6 @@ class JAccess
 			->select($recursive ? 'b.rules' : 'a.rules')
 			->from('#__assets AS a');
 
-		// SQLsrv change
-		$query->group($recursive ? 'b.id, b.rules, b.lft' : 'a.id, a.rules, a.lft');
-
 		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
 		if (is_numeric($asset))
 		{
