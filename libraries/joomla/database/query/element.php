@@ -71,6 +71,9 @@ class JDatabaseQueryElement
 		}
 
 		echo '<pre>';
+		print_r($this->name);
+		echo '</pre>';
+		echo '<pre>';
 		print_r($this->glue);
 		echo '</pre>';
 		echo '<pre>';
