@@ -47,7 +47,7 @@ class JDatabaseQueryElement
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($name, $elements = null, $glue = ',')
+	public function __construct($name, $elements, $glue = ',')
 	{
 		$this->elements = array();
 		$this->name = $name;
@@ -72,10 +72,8 @@ class JDatabaseQueryElement
 		{
 			return PHP_EOL . substr($this->name, 0, -2) . '(' . implode($this->glue, $this->elements) . ')';
 		}
-		else
-		{
-			return PHP_EOL . $this->name . ' ' . implode($this->glue, $this->elements);
-		}
+
+		return PHP_EOL . $this->name . ' ' . implode($this->glue, $this->elements);
 	}
 
 	/**

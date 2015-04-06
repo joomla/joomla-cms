@@ -392,7 +392,7 @@ abstract class JDatabaseQuery
 
 		if (is_null($this->call))
 		{
-			$this->call = new JDatabaseQueryElement('CALL');
+			$this->call = new JDatabaseQueryElement('CALL', null);
 		}
 
 		$this->call->append($columns);
@@ -580,7 +580,7 @@ abstract class JDatabaseQuery
 	{
 		if (is_null($this->columns))
 		{
-			$this->columns = new JDatabaseQueryElement('()');
+			$this->columns = new JDatabaseQueryElement('()', null);
 		}
 
 		$this->columns->append($columns);
@@ -736,7 +736,7 @@ abstract class JDatabaseQuery
 
 		if (is_null($this->exec))
 		{
-			$this->exec = new JDatabaseQueryElement('EXEC');
+			$this->exec = new JDatabaseQueryElement('EXEC', null);
 		}
 
 		$this->exec->append($columns);
@@ -767,7 +767,7 @@ abstract class JDatabaseQuery
 	{
 		if (is_null($this->from))
 		{
-			$this->from = new JDatabaseQueryElement('FROM');
+			$this->from = new JDatabaseQueryElement('FROM', null);
 		}
 
 		if ($tables instanceof $this)
@@ -903,7 +903,7 @@ abstract class JDatabaseQuery
 	{
 		if (is_null($this->group))
 		{
-			$this->group = new JDatabaseQueryElement('GROUP BY');
+			$this->group = new JDatabaseQueryElement('GROUP BY', null);
 		}
 
 		$this->group->append($columns);
@@ -1094,7 +1094,7 @@ abstract class JDatabaseQuery
 	{
 		if (is_null($this->order))
 		{
-			$this->order = new JDatabaseQueryElement('ORDER BY');
+			$this->order = new JDatabaseQueryElement('ORDER BY', null);
 		}
 
 		$this->order->append($columns);
@@ -1226,7 +1226,7 @@ abstract class JDatabaseQuery
 
 		if (is_null($this->select))
 		{
-			$this->select = new JDatabaseQueryElement('SELECT');
+			$this->select = new JDatabaseQueryElement('SELECT', null);
 		}
 
 		$this->select->append($columns);
