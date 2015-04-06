@@ -38,7 +38,7 @@ class JFormFieldModulesModule extends JFormFieldList
 	public function getOptions()
 	{
 		$clientId = JFactory::getApplication()->input->get('client_id', 0, 'int');
-		$options = ModulesHelper::getModules($client_id);
+		$options = ModulesHelper::getModules($clientId);
 		return array_merge(parent::getOptions(), $options);
 	}
 }
