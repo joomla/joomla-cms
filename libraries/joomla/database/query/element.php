@@ -72,8 +72,10 @@ class JDatabaseQueryElement
 		{
 			return PHP_EOL . substr($this->name, 0, -2) . '(' . implode($this->glue, $this->elements) . ')';
 		}
-
-		return PHP_EOL . $this->name . ' ' . implode($this->glue, $this->elements);
+		else
+		{
+			return PHP_EOL . $this->name . ' ' . implode($this->glue, $this->elements);
+		}
 	}
 
 	/**
@@ -89,7 +91,7 @@ class JDatabaseQueryElement
 	{
 		if (!is_array($elements))
 		{
-			$elements =array($elements);
+			$elements = array($elements);
 		}
 
 		$this->elements = array_merge($this->elements, array($elements));
