@@ -37,8 +37,8 @@ class JFormFieldModulesPosition extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$client_id = $this->form->getValue('client_id', 'filter');
-		$options = ModulesHelper::getPositions($client_id);
+		$clientId = JFactory::getApplication()->input->get('client_id', 0, 'int');
+		$options = ModulesHelper::getPositions($clientId);
 		return array_merge(parent::getOptions(), $options);
 	}
 }
