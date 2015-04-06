@@ -47,13 +47,13 @@ class JDatabaseQueryElement
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($name, $elements, $glue = ',')
+	public function __construct($name, $elements = null, $glue = ',')
 	{
 		$this->elements = array();
 		$this->name = $name;
 		$this->glue = $glue;
 
-		if(!is_null($elements))
+		if (!is_null($elements))
 		{
 			$this->append($elements);
 		}
@@ -89,7 +89,7 @@ class JDatabaseQueryElement
 	{
 		if (!is_array($elements))
 		{
-			$elements = array($elements);
+			$this->elements = array_merge($this->elements, $elements);
 		}
 
 		$this->elements = array_merge($this->elements, $elements);
