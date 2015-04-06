@@ -24,4 +24,3 @@ jQuery.fn.clearPositionType = function(){
 <?php
 // Display the main joomla layout
 echo JLayoutHelper::render('joomla.searchtools.default.bar', $data, null, array('component' => 'none'));
-
