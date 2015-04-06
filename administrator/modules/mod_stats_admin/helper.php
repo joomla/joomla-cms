@@ -85,7 +85,7 @@ class ModStatsHelper
 			$db->setQuery($query);
 			try
 			{
-				$users = $db->loadResult();	
+				$users = $db->loadResult();
 			}
 			catch (RuntimeException $e)
 			{
@@ -99,7 +99,7 @@ class ModStatsHelper
 			$db->setQuery($query);
 			try
 			{
-				$items = $db->loadResult();	
+				$items = $db->loadResult();
 			}
 			catch (RuntimeException $e)
 			{
@@ -133,7 +133,7 @@ class ModStatsHelper
 				$db->setQuery($query);
 				try
 				{
-					$links = $db->loadResult();	
+					$links = $db->loadResult();
 				}
 				catch (RuntimeException $e)
 				{
