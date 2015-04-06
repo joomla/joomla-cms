@@ -215,35 +215,58 @@ class JAccess
 	{
 		// Get the database connection object.
 		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-		// Build the database query to get the rules for the asset.
-		$query = $db->getQuery(true)
-			->select($recursive ? 'b.rules' : 'a.rules')
-			->from('#__assets AS a');
-
-		// SQLsrv change
-		$query->group($recursive ? 'b.id, b.rules, b.lft' : 'a.id, a.rules, a.lft');
-
-		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
-		if (is_numeric($asset))
-		{
-			$query->where('(a.id = ' . (int) $asset . ')');
-		}
-		else
-		{
-			$query->where('(a.name = ' . $db->quote($asset) . ')');
-		}
-
-		// If we want the rules cascading up to the global asset node we need a self-join.
 		if ($recursive)
 		{
-			$query->join('LEFT', '#__assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt')
-				->order('b.lft');
-		}
+			$query_lft_rgt = $db->getQuery(true)
+				->select('lft,rgt')
+				->from('#__assets');
 
-		// Execute the query and load the rules from the result.
-		$db->setQuery($query);
-		$result = $db->loadColumn();
+			if (is_numeric($asset))
+			{
+				$query_lft_rgt->where('(id = ' . (int) $asset . ')');
+			}
+			else
+			{
+				$query_lft_rgt->where('(name = ' . $db->quote($asset) . ')');
+			}
+
+			$db->setQuery($query_lft_rgt);
+			$lft_rgt_result = $db->loadRow();
+
+			if (empty($lft_rgt_result))
+			{
+				$result = null;
+			}
+			else
+			{
+				$query ->select('rules,lft')
+					->from('#__assets')
+					->where('lft<=' . $lft_rgt_result[0])
+					->where('rgt>=' . $lft_rgt_result[1])
+					->order('lft');
+				$db->setQuery($query);
+				$result = $db->loadColumn();
+			}
+		}
+		elseif (!$recursive)
+		{
+			$query ->select('rules')
+				->from('#__assets');
+
+			if (is_numeric($asset))
+			{
+				$query->where('(id = ' . (int) $asset . ')');
+			}
+			else
+			{
+				$query->where('(name = ' . $db->quote($asset) . ')');
+			}
+
+			$db->setQuery($query);
+			$result = $db->loadColumn();
+		}
 
 		// Get the root even if the asset is not found and in recursive mode
 		if (empty($result))
