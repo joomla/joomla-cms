@@ -10,125 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Query Element Class.
- *
- * @property-read    string  $name      The name of the element.
- * @property-read    array   $elements  An array of elements.
- * @property-read    string  $glue      Glue piece.
- *
- * @since  11.1
- */
-class JDatabaseQueryElement
-{
-	/**
-	 * @var    string  The name of the element.
-	 * @since  11.1
-	 */
-	protected $name = null;
-
-	/**
-	 * @var    array  An array of elements.
-	 * @since  11.1
-	 */
-	protected $elements = null;
-
-	/**
-	 * @var    string  Glue piece.
-	 * @since  11.1
-	 */
-	protected $glue = null;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param   string  $name      The name of the element.
-	 * @param   mixed   $elements  String or array.
-	 * @param   string  $glue      The glue for elements.
-	 *
-	 * @since   11.1
-	 */
-	public function __construct($name, $elements, $glue = ',')
-	{
-		$this->elements = array();
-		$this->name = $name;
-		$this->glue = $glue;
-
-		$this->append($elements);
-	}
-
-	/**
-	 * Magic function to convert the query element to a string.
-	 *
-	 * @return  string
-	 *
-	 * @since   11.1
-	 */
-	public function __toString()
-	{
-		if (substr($this->name, -2) == '()')
-		{
-			return PHP_EOL . substr($this->name, 0, -2) . '(' . implode($this->glue, $this->elements) . ')';
-		}
-		else
-		{
-			return PHP_EOL . $this->name . ' ' . implode($this->glue, $this->elements);
-		}
-	}
-
-	/**
-	 * Appends element parts to the internal list.
-	 *
-	 * @param   mixed  $elements  String or array.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public function append($elements)
-	{
-		if (is_array($elements))
-		{
-			$this->elements = array_merge($this->elements, $elements);
-		}
-		else
-		{
-			$this->elements = array_merge($this->elements, array($elements));
-		}
-	}
-
-	/**
-	 * Gets the elements of this element.
-	 *
-	 * @return  array
-	 *
-	 * @since   11.1
-	 */
-	public function getElements()
-	{
-		return $this->elements;
-	}
-
-	/**
-	 * Method to provide deep copy support to nested objects and arrays
-	 * when cloning.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function __clone()
-	{
-		foreach ($this as $k => $v)
-		{
-			if (is_object($v) || is_array($v))
-			{
-				$this->{$k} = unserialize(serialize($v));
-			}
-		}
-	}
-}
-
-/**
  * Query Building Class.
  *
  * @since  11.1
@@ -289,22 +170,19 @@ abstract class JDatabaseQuery
 	{
 		if (empty($args))
 		{
-			return;
+			return null;
 		}
 
 		switch ($method)
 		{
 			case 'q':
 				return $this->quote($args[0], isset($args[1]) ? $args[1] : true);
-				break;
 
 			case 'qn':
 				return $this->quoteName($args[0], isset($args[1]) ? $args[1] : null);
-				break;
 
 			case 'e':
 				return $this->escape($args[0], isset($args[1]) ? $args[1] : false);
-				break;
 		}
 	}
 
@@ -514,12 +392,10 @@ abstract class JDatabaseQuery
 
 		if (is_null($this->call))
 		{
-			$this->call = new JDatabaseQueryElement('CALL', $columns);
+			$this->call = new JDatabaseQueryElement('CALL');
 		}
-		else
-		{
-			$this->call->append($columns);
-		}
+
+		$this->call->append($columns);
 
 		return $this;
 	}
@@ -704,12 +580,10 @@ abstract class JDatabaseQuery
 	{
 		if (is_null($this->columns))
 		{
-			$this->columns = new JDatabaseQueryElement('()', $columns);
+			$this->columns = new JDatabaseQueryElement('()');
 		}
-		else
-		{
-			$this->columns->append($columns);
-		}
+
+		$this->columns->append($columns);
 
 		return $this;
 	}
@@ -729,14 +603,12 @@ abstract class JDatabaseQuery
 	 */
 	public function concatenate($values, $separator = null)
 	{
-		if ($separator)
-		{
-			return 'CONCATENATE(' . implode(' || ' . $this->quote($separator) . ' || ', $values) . ')';
-		}
-		else
+		if (is_null($separator))
 		{
 			return 'CONCATENATE(' . implode(' || ', $values) . ')';
 		}
+
+		return 'CONCATENATE(' . implode(' || ' . $this->quote($separator) . ' || ', $values) . ')';
 	}
 
 	/**
@@ -864,12 +736,10 @@ abstract class JDatabaseQuery
 
 		if (is_null($this->exec))
 		{
-			$this->exec = new JDatabaseQueryElement('EXEC', $columns);
+			$this->exec = new JDatabaseQueryElement('EXEC');
 		}
-		else
-		{
-			$this->exec->append($columns);
-		}
+
+		$this->exec->append($columns);
 
 		return $this;
 	}
@@ -884,7 +754,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @param   mixed   $tables         A string or array of table names.
 	 *                                  This can be a JDatabaseQuery object (or a child of it) when used
-	 *                                  as a subquery in FROM clause along with a value for $subQueryAlias.
+	 *                                  as a sub-query in FROM clause along with a value for $subQueryAlias.
 	 * @param   string  $subQueryAlias  Alias used when $tables is a JDatabaseQuery.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
@@ -897,22 +767,20 @@ abstract class JDatabaseQuery
 	{
 		if (is_null($this->from))
 		{
-			if ($tables instanceof $this)
-			{
-				if (is_null($subQueryAlias))
-				{
-					throw new RuntimeException('JLIB_DATABASE_ERROR_NULL_SUBQUERY_ALIAS');
-				}
+			$this->from = new JDatabaseQueryElement('FROM');
+		}
 
-				$tables = '( ' . (string) $tables . ' ) AS ' . $this->quoteName($subQueryAlias);
+		if ($tables instanceof $this)
+		{
+			if (is_null($subQueryAlias))
+			{
+				throw new RuntimeException('JLIB_DATABASE_ERROR_NULL_SUBQUERY_ALIAS');
 			}
 
-			$this->from = new JDatabaseQueryElement('FROM', $tables);
+			$tables = '( ' . (string) $tables . ' ) AS ' . $this->quoteName($subQueryAlias);
 		}
-		else
-		{
-			$this->from->append($tables);
-		}
+
+		$this->from->append($tables);
 
 		return $this;
 	}
@@ -1035,12 +903,10 @@ abstract class JDatabaseQuery
 	{
 		if (is_null($this->group))
 		{
-			$this->group = new JDatabaseQueryElement('GROUP BY', $columns);
+			$this->group = new JDatabaseQueryElement('GROUP BY');
 		}
-		else
-		{
-			$this->group->append($columns);
-		}
+
+		$this->group->append($columns);
 
 		return $this;
 	}
@@ -1063,12 +929,10 @@ abstract class JDatabaseQuery
 		if (is_null($this->having))
 		{
 			$glue = strtoupper($glue);
-			$this->having = new JDatabaseQueryElement('HAVING', $conditions, " $glue ");
+			$this->having = new JDatabaseQueryElement('HAVING', null, " $glue ");
 		}
-		else
-		{
-			$this->having->append($conditions);
-		}
+
+		$this->having->append($conditions);
 
 		return $this;
 	}
@@ -1230,12 +1094,10 @@ abstract class JDatabaseQuery
 	{
 		if (is_null($this->order))
 		{
-			$this->order = new JDatabaseQueryElement('ORDER BY', $columns);
+			$this->order = new JDatabaseQueryElement('ORDER BY');
 		}
-		else
-		{
-			$this->order->append($columns);
-		}
+
+		$this->order->append($columns);
 
 		return $this;
 	}
@@ -1364,12 +1226,10 @@ abstract class JDatabaseQuery
 
 		if (is_null($this->select))
 		{
-			$this->select = new JDatabaseQueryElement('SELECT', $columns);
+			$this->select = new JDatabaseQueryElement('SELECT');
 		}
-		else
-		{
-			$this->select->append($columns);
-		}
+
+		$this->select->append($columns);
 
 		return $this;
 	}
@@ -1394,12 +1254,10 @@ abstract class JDatabaseQuery
 		if (is_null($this->set))
 		{
 			$glue = strtoupper($glue);
-			$this->set = new JDatabaseQueryElement('SET', $conditions, "\n\t$glue ");
+			$this->set = new JDatabaseQueryElement('SET', null, "\n\t$glue ");
 		}
-		else
-		{
-			$this->set->append($conditions);
-		}
+
+		$this->set->append($conditions);
 
 		return $this;
 	}
@@ -1464,12 +1322,10 @@ abstract class JDatabaseQuery
 	{
 		if (is_null($this->values))
 		{
-			$this->values = new JDatabaseQueryElement('()', $values, '),(');
+			$this->values = new JDatabaseQueryElement('()', null, '),(');
 		}
-		else
-		{
-			$this->values->append($values);
-		}
+
+		$this->values->append($values);
 
 		return $this;
 	}
@@ -1494,12 +1350,10 @@ abstract class JDatabaseQuery
 		if (is_null($this->where))
 		{
 			$glue = strtoupper($glue);
-			$this->where = new JDatabaseQueryElement('WHERE', $conditions, " $glue ");
+			$this->where = new JDatabaseQueryElement('WHERE', null, " $glue ");
 		}
-		else
-		{
-			$this->where->append($conditions);
-		}
+
+		$this->where->append($conditions);
 
 		return $this;
 	}
@@ -1514,16 +1368,16 @@ abstract class JDatabaseQuery
 	 */
 	public function __clone()
 	{
-		foreach ($this as $k => $v)
+		foreach ($this as $property => $value)
 		{
-			if ($k === 'db')
+			if ($property === 'db')
 			{
 				continue;
 			}
 
-			if (is_object($v) || is_array($v))
+			if (is_object($value) || is_array($value))
 			{
-				$this->{$k} = unserialize(serialize($v));
+				$this->{$property} = unserialize(serialize($value));
 			}
 		}
 	}
@@ -1551,28 +1405,23 @@ abstract class JDatabaseQuery
 	 */
 	public function union($query, $distinct = false, $glue = '')
 	{
+		$glue = ')' . PHP_EOL . 'UNION (';
+		$name = 'UNION ()';
+
 		// Set up the DISTINCT flag, the name with parentheses, and the glue.
 		if ($distinct)
 		{
 			$name = 'UNION DISTINCT ()';
 			$glue = ')' . PHP_EOL . 'UNION DISTINCT (';
 		}
-		else
-		{
-			$glue = ')' . PHP_EOL . 'UNION (';
-			$name = 'UNION ()';
-		}
 
 		// Get the JDatabaseQueryElement if it does not exist
 		if (is_null($this->union))
 		{
-			$this->union = new JDatabaseQueryElement($name, $query, "$glue");
+			$this->union = new JDatabaseQueryElement($name, null, "$glue");
 		}
-		// Otherwise append the second UNION.
-		else
-		{
-			$this->union->append($query);
-		}
+
+		$this->union->append($query);
 
 		return $this;
 	}
@@ -1834,14 +1683,10 @@ abstract class JDatabaseQuery
 		// Get the JDatabaseQueryElement if it does not exist
 		if (is_null($this->unionAll))
 		{
-			$this->unionAll = new JDatabaseQueryElement($name, $query, "$glue");
+			$this->unionAll = new JDatabaseQueryElement($name, null, "$glue");
 		}
 
-		// Otherwise append the second UNION.
-		else
-		{
-			$this->unionAll->append($query);
-		}
+		$this->unionAll->append($query);
 
 		return $this;
 	}
