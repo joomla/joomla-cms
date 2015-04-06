@@ -73,15 +73,6 @@ class JDatabaseQueryElement
 			return PHP_EOL . substr($this->name, 0, -2) . '(' . implode($this->glue, $this->elements) . ')';
 		}
 
-		echo '<pre>';
-		print_r($this->name);
-		echo '</pre>';
-		echo '<pre>';
-		print_r($this->glue);
-		echo '</pre>';
-		echo '<pre>';
-		print_r($this->elements);
-		echo '</pre>';
 		return PHP_EOL . $this->name . ' ' . implode($this->glue, $this->elements);
 	}
 
@@ -101,7 +92,7 @@ class JDatabaseQueryElement
 			$elements = array($elements);
 		}
 
-		$this->elements = array_merge($this->elements, array($elements));
+		$this->elements = array_merge($this->elements, $elements);
 	}
 
 	/**
