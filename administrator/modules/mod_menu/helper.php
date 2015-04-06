@@ -42,7 +42,15 @@ abstract class ModMenuHelper
 
 		$db->setQuery($query);
 
-		$result = $db->loadObjectList();
+		try
+		{
+			$result = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$result = array();
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
 
 		return $result;
 	}
@@ -80,7 +88,15 @@ abstract class ModMenuHelper
 		$db->setQuery($query);
 
 		// Component list
-		$components = $db->loadObjectList();
+		try
+		{
+			$components = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$components = array();
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
 
 		// Parse the list of extensions.
 		foreach ($components as &$component)
