@@ -77,14 +77,28 @@ class ModStatsHelper
 			$query->select('COUNT(id) AS count_users')
 				->from('#__users');
 			$db->setQuery($query);
-			$users = $db->loadResult();
+			try
+			{
+				$users = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$users = false;
+			}
 
 			$query->clear()
 				->select('COUNT(id) AS count_items')
 				->from('#__content')
 				->where('state = 1');
 			$db->setQuery($query);
-			$items = $db->loadResult();
+			try
+			{
+				$items = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$items = false;
+			}
 
 			if ($users)
 			{
@@ -109,7 +123,14 @@ class ModStatsHelper
 					->from('#__weblinks')
 					->where('state = 1');
 				$db->setQuery($query);
-				$links = $db->loadResult();
+				try
+				{
+					$links = $db->loadResult();
+				}
+				catch (RuntimeException $e)
+				{
+					$links = false;
+				}
 
 				if ($links)
 				{
@@ -129,7 +150,14 @@ class ModStatsHelper
 				->from('#__content')
 				->where('state = 1');
 			$db->setQuery($query);
-			$hits = $db->loadResult();
+			try
+			{
+				$hits = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$hits = false;
+			}
 
 			if ($hits)
 			{
