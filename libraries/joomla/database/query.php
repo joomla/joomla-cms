@@ -379,7 +379,6 @@ abstract class JDatabaseQuery
 				{
 					$query .= (string) $this->union;
 				}
-				
 				if ($this->unionAll)
 				{
 					$query .= (string) $this->unionAll;
