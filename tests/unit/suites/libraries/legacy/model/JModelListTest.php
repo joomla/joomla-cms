@@ -1177,4 +1177,202 @@ class JModelListTest extends TestCaseDatabase
 			array(88, 30, 87, '9ea5981186b1bb5899d8bf4fc4d5e444', 60)
 		);
 	}
+
+	/**
+	 * Test that the getFilterStateFromRequest inherits any data set previously
+	 *
+	 * @return  void
+	 */
+	public function testGetFilterStateFromRequestInheritsState()
+	{
+		$key     = 'com_j.items.filter';
+		$requestVar = 'filter';
+
+		$data = array(
+			$requestVar => array(
+				'search'      => 'testSearch',
+				'published'   => 1,
+				'category_id' => 2,
+				'level'       => 2,
+				'access'      => 1,
+				'author_id'   => 2,
+				'language'    => 'en-GB',
+				'tag'         => 2
+			)
+		);
+
+		$correctlyProcessed = (object) $data[$requestVar];
+
+		// Set up a Mock for JApplicationCms
+		$applicationMock = $this->getMockCmsApp();
+		$applicationMock->method('getUserState')
+			->with(
+				$this->equalTo($key)
+			)
+			->will(
+				$this->returnValue($correctlyProcessed)
+			);
+
+		$request = array('limitstart' => 25);
+
+		$applicationMock->input = new JInput($request);
+
+		JFactory::$application = $applicationMock;
+
+		$filters = $this->object->getFilterStateFromRequest($key, $requestVar);
+
+		$this->assertEquals($correctlyProcessed, $filters);
+
+		// Old limit is kept
+		$this->assertNotEquals(0, JFactory::getApplication()->input->get('limitstart'));
+	}
+
+	/**
+	 * Test that the getFilterStateFromRequest method receives filters
+	 *
+	 * @return  void
+	 */
+	public function testGetFilterStateFromRequestReceivesFilters()
+	{
+		$key     = 'com_j.items.filter';
+		$requestVar = 'filter';
+
+		$inheritedData = (object) array('search' => 'inheritedSearch');
+
+		// Set up a Mock for JApplicationCms
+		$applicationMock = $this->getMockCmsApp();
+		$applicationMock->method('getUserState')
+			->with(
+				$this->equalTo($key)
+			)
+			->will(
+				$this->returnValue($inheritedData)
+			);
+
+		$data = array(
+			$requestVar => array(
+				'search'      => 'testSearch',
+				'published'   => 1,
+				'category_id' => 2,
+				'level'       => 2,
+				'access'      => 1,
+				'author_id'   => 2,
+				'language'    => 'en-GB',
+				'tag'         => 2
+			)
+		);
+
+		$correctlyProcessed = (object) $data[$requestVar];
+
+		$applicationMock->input = new JInput($data);
+
+		JFactory::$application = $applicationMock;
+
+		$filters = $this->object->getFilterStateFromRequest($key, $requestVar);
+
+		$this->assertEquals($correctlyProcessed, $filters);
+
+		// Limit is reseted
+		$this->assertEquals(0, JFactory::getApplication()->input->get('limitstart'));
+	}
+
+	/**
+	 * Test that the getFilterStateFromRequest method loads default data
+	 *
+	 * @return  void
+	 */
+	public function testGetFilterStateFromRequestLoadsDefaults()
+	{
+		$key     = 'com_j.items.filter';
+		$requestVar = 'filter';
+
+		// Set up a Mock for JApplicationCms
+		$applicationMock = $this->getMockCmsApp();
+		$applicationMock->method('getUserState')
+			->with(
+				$this->equalTo($key)
+			)
+			->will(
+				$this->returnValue(null)
+			);
+
+		$defaults = array(
+			'search'      => 'testSearch',
+			'published'   => 1,
+			'category_id' => 2,
+			'level'       => 2,
+			'access'      => 1,
+			'author_id'   => 2,
+			'language'    => 'en-GB',
+			'tag'         => 2
+		);
+
+		$correctlyProcessed = (object) $defaults;
+
+		$request = array('limitstart' => 25);
+
+		$applicationMock->input = new JInput($request);
+
+		JFactory::$application = $applicationMock;
+
+		$filters = $this->object->getFilterStateFromRequest($key, $requestVar, $defaults);
+
+		$this->assertEquals($correctlyProcessed, $filters);
+
+		// Limit is not reseted
+		$this->assertEquals($request['limitstart'], JFactory::getApplication()->input->get('limitstart'));
+	}
+
+	/**
+	 * Test that the getFilterStateFromRequest method resets limitstart when asked
+	 *
+	 * @return  void
+	 */
+	public function testGetFilterStateFromRequestReset()
+	{
+		$key     = 'com_j.items.filter';
+		$requestVar = 'filter';
+
+		$inheritedData = (object) array('search' => 'inheritedSearch');
+
+		// Set up a Mock for JApplicationCms
+		$applicationMock = $this->getMockCmsApp();
+		$applicationMock->method('getUserState')
+			->with(
+				$this->equalTo($key)
+			)
+			->will(
+				$this->returnValue($inheritedData)
+			);
+
+		$data = array(
+			'limitstart' => 25,
+			$requestVar => array(
+				'search'      => 'testSearch',
+				'published'   => 1,
+				'category_id' => 2,
+				'level'       => 2,
+				'access'      => 1,
+				'author_id'   => 2,
+				'language'    => 'en-GB',
+				'tag'         => 2
+			)
+		);
+
+		$correctlyProcessed = (object) $data[$requestVar];
+
+		$applicationMock->input = new JInput($data);
+
+		JFactory::$application = $applicationMock;
+
+		// Force to not reset
+		$filters = $this->object->getFilterStateFromRequest($key, $requestVar, array(), false);
+
+		$this->assertEquals($data['limitstart'], JFactory::getApplication()->input->get('limitstart'));
+
+		// Force reset
+		$filters = $this->object->getFilterStateFromRequest($key, $requestVar, array(), true);
+
+		$this->assertEquals(0, JFactory::getApplication()->input->get('limitstart'));
+	}
 }
