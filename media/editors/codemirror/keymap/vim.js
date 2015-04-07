@@ -336,7 +336,11 @@
     }
 
     var numberRegex = /[\d]/;
-    var wordRegexp = [(/\w/), (/[^\w\s]/)], bigWordRegexp = [(/\S/)];
+    var wordCharTest = [CodeMirror.isWordChar, function(ch) {
+      return ch && !CodeMirror.isWordChar(ch) && !/\s/.test(ch);
+    }], bigWordCharTest = [function(ch) {
+      return /\S/.test(ch);
+    }];
     function makeKeyRange(start, size) {
       var keys = [];
       for (var i = start; i < start + size; i++) {
@@ -1035,12 +1039,10 @@
             break;
           case 'search':
             this.processSearch(cm, vim, command);
-            clearInputState(cm);
             break;
           case 'ex':
           case 'keyToEx':
             this.processEx(cm, vim, command);
-            clearInputState(cm);
             break;
           default:
             break;
@@ -1133,6 +1135,7 @@
             updateSearchQuery(cm, query, ignoreCase, smartCase);
           } catch (e) {
             showConfirm(cm, 'Invalid regex: ' + query);
+            clearInputState(cm);
             return;
           }
           commandDispatcher.processMotion(cm, vim, {
@@ -1182,6 +1185,7 @@
             clearSearchHighlight(cm);
             cm.scrollTo(originalScrollPos.left, originalScrollPos.top);
             CodeMirror.e_stop(e);
+            clearInputState(cm);
             close();
             cm.focus();
           }
@@ -1248,6 +1252,7 @@
             vimGlobalState.exCommandHistoryController.pushInput(input);
             vimGlobalState.exCommandHistoryController.reset();
             CodeMirror.e_stop(e);
+            clearInputState(cm);
             close();
             cm.focus();
           }
@@ -2628,9 +2633,6 @@
     function lineLength(cm, lineNum) {
       return cm.getLine(lineNum).length;
     }
-    function reverse(s){
-      return s.split('').reverse().join('');
-    }
     function trim(s) {
       if (s.trim) {
         return s.trim();
@@ -2944,59 +2946,38 @@
 
       // Seek to first word or non-whitespace character, depending on if
       // noSymbol is true.
-      var textAfterIdx = line.substring(idx);
-      var firstMatchedChar;
-      if (noSymbol) {
-        firstMatchedChar = textAfterIdx.search(/\w/);
-      } else {
-        firstMatchedChar = textAfterIdx.search(/\S/);
+      var test = noSymbol ? wordCharTest[0] : bigWordCharTest [0];
+      while (!test(line.charAt(idx))) {
+        idx++;
+        if (idx >= line.length) { return null; }
       }
-      if (firstMatchedChar == -1) {
-        return null;
-      }
-      idx += firstMatchedChar;
-      textAfterIdx = line.substring(idx);
-      var textBeforeIdx = line.substring(0, idx);
 
-      var matchRegex;
-      // Greedy matchers for the "word" we are trying to expand.
       if (bigWord) {
-        matchRegex = /^\S+/;
+        test = bigWordCharTest[0];
       } else {
-        if ((/\w/).test(line.charAt(idx))) {
-          matchRegex = /^\w+/;
-        } else {
-          matchRegex = /^[^\w\s]+/;
+        test = wordCharTest[0];
+        if (!test(line.charAt(idx))) {
+          test = wordCharTest[1];
         }
       }
 
-      var wordAfterRegex = matchRegex.exec(textAfterIdx);
-      var wordStart = idx;
-      var wordEnd = idx + wordAfterRegex[0].length;
-      // TODO: Find a better way to do this. It will be slow on very long lines.
-      var revTextBeforeIdx = reverse(textBeforeIdx);
-      var wordBeforeRegex = matchRegex.exec(revTextBeforeIdx);
-      if (wordBeforeRegex) {
-        wordStart -= wordBeforeRegex[0].length;
-      }
+      var end = idx, start = idx;
+      while (test(line.charAt(end)) && end < line.length) { end++; }
+      while (test(line.charAt(start)) && start >= 0) { start--; }
+      start++;
 
       if (inclusive) {
-        // If present, trim all whitespace after word.
-        // Otherwise, trim all whitespace before word.
-        var textAfterWordEnd = line.substring(wordEnd);
-        var whitespacesAfterWord = textAfterWordEnd.match(/^\s*/)[0].length;
-        if (whitespacesAfterWord > 0) {
-          wordEnd += whitespacesAfterWord;
-        } else {
-          var revTrim = revTextBeforeIdx.length - wordStart;
-          var textBeforeWordStart = revTextBeforeIdx.substring(revTrim);
-          var whitespacesBeforeWord = textBeforeWordStart.match(/^\s*/)[0].length;
-          wordStart -= whitespacesBeforeWord;
+        // If present, include all whitespace after word.
+        // Otherwise, include all whitespace before word, except indentation.
+        var wordEnd = end;
+        while (/\s/.test(line.charAt(end)) && end < line.length) { end++; }
+        if (wordEnd == end) {
+          var wordStart = start;
+          while (/\s/.test(line.charAt(start - 1)) && start > 0) { start--; }
+          if (!start) { start = wordStart; }
         }
       }
-
-      return { start: Pos(cur.line, wordStart),
-               end: Pos(cur.line, wordEnd) };
+      return { start: Pos(cur.line, start), end: Pos(cur.line, end) };
     }
 
     function recordJumpPosition(cm, oldCur, newCur) {
@@ -3154,7 +3135,7 @@
       var pos = cur.ch;
       var line = cm.getLine(lineNum);
       var dir = forward ? 1 : -1;
-      var regexps = bigWord ? bigWordRegexp : wordRegexp;
+      var charTests = bigWord ? bigWordCharTest: wordCharTest;
 
       if (emptyLineIsWord && line == '') {
         lineNum += dir;
@@ -3174,11 +3155,11 @@
         // Find bounds of next word.
         while (pos != stop) {
           var foundWord = false;
-          for (var i = 0; i < regexps.length && !foundWord; ++i) {
-            if (regexps[i].test(line.charAt(pos))) {
+          for (var i = 0; i < charTests.length && !foundWord; ++i) {
+            if (charTests[i](line.charAt(pos))) {
               wordStart = pos;
               // Advance to end of word.
-              while (pos != stop && regexps[i].test(line.charAt(pos))) {
+              while (pos != stop && charTests[i](line.charAt(pos))) {
                 pos += dir;
               }
               wordEnd = pos;
@@ -3510,7 +3491,8 @@
     function dialog(cm, template, shortText, onClose, options) {
       if (cm.openDialog) {
         cm.openDialog(template, onClose, { bottom: true, value: options.value,
-            onKeyDown: options.onKeyDown, onKeyUp: options.onKeyUp });
+            onKeyDown: options.onKeyDown, onKeyUp: options.onKeyUp,
+            selectValueOnOpen: false});
       }
       else {
         onClose(prompt(shortText, ''));
@@ -3888,6 +3870,13 @@
     };
     ExCommandDispatcher.prototype = {
       processCommand: function(cm, input, opt_params) {
+        var that = this;
+        cm.operation(function () {
+          cm.curOp.isVimOp = true;
+          that._processCommand(cm, input, opt_params);
+        });
+      },
+      _processCommand: function(cm, input, opt_params) {
         var vim = cm.state.vim;
         var commandHistoryRegister = vimGlobalState.registerController.getRegister(':');
         var previousCommand = commandHistoryRegister.toString();
@@ -4806,7 +4795,7 @@
       var anchor = cm.getCursor('anchor');
       var head = cm.getCursor('head');
       // Enter or exit visual mode to match mouse selection.
-      if (vim.visualMode && cursorEqual(head, anchor) && lineLength(cm, head.line) > head.ch) {
+      if (vim.visualMode && !cm.somethingSelected()) {
         exitVisualMode(cm, false);
       } else if (!vim.visualMode && !vim.insertMode && cm.somethingSelected()) {
         vim.visualMode = true;

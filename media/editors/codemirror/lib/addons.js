@@ -161,28 +161,156 @@
   else // Plain browser env
     mod(CodeMirror);
 })(function(CodeMirror) {
-  var DEFAULT_BRACKETS = "()[]{}''\"\"";
-  var DEFAULT_TRIPLES = "'\"";
-  var DEFAULT_EXPLODE_ON_ENTER = "[]{}";
-  var SPACE_CHAR_REGEX = /\s/;
+  var defaults = {
+    pairs: "()[]{}''\"\"",
+    triples: "",
+    explode: "[]{}"
+  };
 
   var Pos = CodeMirror.Pos;
 
   CodeMirror.defineOption("autoCloseBrackets", false, function(cm, val, old) {
-    if (old != CodeMirror.Init && old)
-      cm.removeKeyMap("autoCloseBrackets");
-    if (!val) return;
-    var pairs = DEFAULT_BRACKETS, triples = DEFAULT_TRIPLES, explode = DEFAULT_EXPLODE_ON_ENTER;
-    if (typeof val == "string") pairs = val;
-    else if (typeof val == "object") {
-      if (val.pairs != null) pairs = val.pairs;
-      if (val.triples != null) triples = val.triples;
-      if (val.explode != null) explode = val.explode;
+    if (old && old != CodeMirror.Init) {
+      cm.removeKeyMap(keyMap);
+      cm.state.closeBrackets = null;
     }
-    var map = buildKeymap(pairs, triples);
-    if (explode) map.Enter = buildExplodeHandler(explode);
-    cm.addKeyMap(map);
+    if (val) {
+      cm.state.closeBrackets = val;
+      cm.addKeyMap(keyMap);
+    }
   });
+
+  function getOption(conf, name) {
+    if (name == "pairs" && typeof conf == "string") return conf;
+    if (typeof conf == "object" && conf[name] != null) return conf[name];
+    return defaults[name];
+  }
+
+  var bind = defaults.pairs + "`";
+  var keyMap = {Backspace: handleBackspace, Enter: handleEnter};
+  for (var i = 0; i < bind.length; i++)
+    keyMap["'" + bind.charAt(i) + "'"] = handler(bind.charAt(i));
+
+  function handler(ch) {
+    return function(cm) { return handleChar(cm, ch); };
+  }
+
+  function getConfig(cm) {
+    var deflt = cm.state.closeBrackets;
+    if (!deflt) return null;
+    var mode = cm.getModeAt(cm.getCursor());
+    return mode.closeBrackets || deflt;
+  }
+
+  function handleBackspace(cm) {
+    var conf = getConfig(cm);
+    if (!conf || cm.getOption("disableInput")) return CodeMirror.Pass;
+
+    var pairs = getOption(conf, "pairs");
+    var ranges = cm.listSelections();
+    for (var i = 0; i < ranges.length; i++) {
+      if (!ranges[i].empty()) return CodeMirror.Pass;
+      var around = charsAround(cm, ranges[i].head);
+      if (!around || pairs.indexOf(around) % 2 != 0) return CodeMirror.Pass;
+    }
+    for (var i = ranges.length - 1; i >= 0; i--) {
+      var cur = ranges[i].head;
+      cm.replaceRange("", Pos(cur.line, cur.ch - 1), Pos(cur.line, cur.ch + 1));
+    }
+  }
+
+  function handleEnter(cm) {
+    var conf = getConfig(cm);
+    var explode = conf && getOption(conf, "explode");
+    if (!explode || cm.getOption("disableInput")) return CodeMirror.Pass;
+
+    var ranges = cm.listSelections();
+    for (var i = 0; i < ranges.length; i++) {
+      if (!ranges[i].empty()) return CodeMirror.Pass;
+      var around = charsAround(cm, ranges[i].head);
+      if (!around || explode.indexOf(around) % 2 != 0) return CodeMirror.Pass;
+    }
+    cm.operation(function() {
+      cm.replaceSelection("\n\n", null);
+      cm.execCommand("goCharLeft");
+      ranges = cm.listSelections();
+      for (var i = 0; i < ranges.length; i++) {
+        var line = ranges[i].head.line;
+        cm.indentLine(line, null, true);
+        cm.indentLine(line + 1, null, true);
+      }
+    });
+  }
+
+  function handleChar(cm, ch) {
+    var conf = getConfig(cm);
+    if (!conf || cm.getOption("disableInput")) return CodeMirror.Pass;
+
+    var pairs = getOption(conf, "pairs");
+    var pos = pairs.indexOf(ch);
+    if (pos == -1) return CodeMirror.Pass;
+    var triples = getOption(conf, "triples");
+
+    var identical = pairs.charAt(pos + 1) == ch;
+    var ranges = cm.listSelections();
+    var opening = pos % 2 == 0;
+
+    var type, next;
+    for (var i = 0; i < ranges.length; i++) {
+      var range = ranges[i], cur = range.head, curType;
+      var next = cm.getRange(cur, Pos(cur.line, cur.ch + 1));
+      if (opening && !range.empty()) {
+        curType = "surround";
+      } else if ((identical || !opening) && next == ch) {
+        if (triples.indexOf(ch) >= 0 && cm.getRange(cur, Pos(cur.line, cur.ch + 3)) == ch + ch + ch)
+          curType = "skipThree";
+        else
+          curType = "skip";
+      } else if (identical && cur.ch > 1 && triples.indexOf(ch) >= 0 &&
+                 cm.getRange(Pos(cur.line, cur.ch - 2), cur) == ch + ch &&
+                 (cur.ch <= 2 || cm.getRange(Pos(cur.line, cur.ch - 3), Pos(cur.line, cur.ch - 2)) != ch)) {
+        curType = "addFour";
+      } else if (identical) {
+        if (!CodeMirror.isWordChar(next) && enteringString(cm, cur, ch)) curType = "both";
+        else return CodeMirror.Pass;
+      } else if (opening && (cm.getLine(cur.line).length == cur.ch ||
+                             isClosingBracket(next, pairs) ||
+                             /\s/.test(next))) {
+        curType = "both";
+      } else {
+        return CodeMirror.Pass;
+      }
+      if (!type) type = curType;
+      else if (type != curType) return CodeMirror.Pass;
+    }
+
+    var left = pos % 2 ? pairs.charAt(pos - 1) : ch;
+    var right = pos % 2 ? ch : pairs.charAt(pos + 1);
+    cm.operation(function() {
+      if (type == "skip") {
+        cm.execCommand("goCharRight");
+      } else if (type == "skipThree") {
+        for (var i = 0; i < 3; i++)
+          cm.execCommand("goCharRight");
+      } else if (type == "surround") {
+        var sels = cm.getSelections();
+        for (var i = 0; i < sels.length; i++)
+          sels[i] = left + sels[i] + right;
+        cm.replaceSelections(sels, "around");
+      } else if (type == "both") {
+        cm.replaceSelection(left + right, null);
+        cm.execCommand("goCharLeft");
+      } else if (type == "addFour") {
+        cm.replaceSelection(left + left + left + left, "before");
+        cm.execCommand("goCharRight");
+      }
+    });
+  }
+
+  function isClosingBracket(ch, pairs) {
+    var pos = pairs.lastIndexOf(ch);
+    return pos > -1 && pos % 2 == 1;
+  }
 
   function charsAround(cm, pos) {
     var str = cm.getRange(Pos(pos.line, pos.ch - 1),
@@ -204,111 +332,6 @@
       if (stream.pos >= pos.ch + 1) return /\bstring2?\b/.test(type1);
       stream.start = stream.pos;
     }
-  }
-
-  function buildKeymap(pairs, triples) {
-    var map = {
-      name : "autoCloseBrackets",
-      Backspace: function(cm) {
-        if (cm.getOption("disableInput")) return CodeMirror.Pass;
-        var ranges = cm.listSelections();
-        for (var i = 0; i < ranges.length; i++) {
-          if (!ranges[i].empty()) return CodeMirror.Pass;
-          var around = charsAround(cm, ranges[i].head);
-          if (!around || pairs.indexOf(around) % 2 != 0) return CodeMirror.Pass;
-        }
-        for (var i = ranges.length - 1; i >= 0; i--) {
-          var cur = ranges[i].head;
-          cm.replaceRange("", Pos(cur.line, cur.ch - 1), Pos(cur.line, cur.ch + 1));
-        }
-      }
-    };
-    var closingBrackets = "";
-    for (var i = 0; i < pairs.length; i += 2) (function(left, right) {
-      closingBrackets += right;
-      map["'" + left + "'"] = function(cm) {
-        if (cm.getOption("disableInput")) return CodeMirror.Pass;
-        var ranges = cm.listSelections(), type, next;
-        for (var i = 0; i < ranges.length; i++) {
-          var range = ranges[i], cur = range.head, curType;
-          var next = cm.getRange(cur, Pos(cur.line, cur.ch + 1));
-          if (!range.empty()) {
-            curType = "surround";
-          } else if (left == right && next == right) {
-            if (cm.getRange(cur, Pos(cur.line, cur.ch + 3)) == left + left + left)
-              curType = "skipThree";
-            else
-              curType = "skip";
-          } else if (left == right && cur.ch > 1 && triples.indexOf(left) >= 0 &&
-                     cm.getRange(Pos(cur.line, cur.ch - 2), cur) == left + left &&
-                     (cur.ch <= 2 || cm.getRange(Pos(cur.line, cur.ch - 3), Pos(cur.line, cur.ch - 2)) != left)) {
-            curType = "addFour";
-          } else if (left == '"' || left == "'") {
-            if (!CodeMirror.isWordChar(next) && enteringString(cm, cur, left)) curType = "both";
-            else return CodeMirror.Pass;
-          } else if (cm.getLine(cur.line).length == cur.ch || closingBrackets.indexOf(next) >= 0 || SPACE_CHAR_REGEX.test(next)) {
-            curType = "both";
-          } else {
-            return CodeMirror.Pass;
-          }
-          if (!type) type = curType;
-          else if (type != curType) return CodeMirror.Pass;
-        }
-
-        cm.operation(function() {
-          if (type == "skip") {
-            cm.execCommand("goCharRight");
-          } else if (type == "skipThree") {
-            for (var i = 0; i < 3; i++)
-              cm.execCommand("goCharRight");
-          } else if (type == "surround") {
-            var sels = cm.getSelections();
-            for (var i = 0; i < sels.length; i++)
-              sels[i] = left + sels[i] + right;
-            cm.replaceSelections(sels, "around");
-          } else if (type == "both") {
-            cm.replaceSelection(left + right, null);
-            cm.execCommand("goCharLeft");
-          } else if (type == "addFour") {
-            cm.replaceSelection(left + left + left + left, "before");
-            cm.execCommand("goCharRight");
-          }
-        });
-      };
-      if (left != right) map["'" + right + "'"] = function(cm) {
-        var ranges = cm.listSelections();
-        for (var i = 0; i < ranges.length; i++) {
-          var range = ranges[i];
-          if (!range.empty() ||
-              cm.getRange(range.head, Pos(range.head.line, range.head.ch + 1)) != right)
-            return CodeMirror.Pass;
-        }
-        cm.execCommand("goCharRight");
-      };
-    })(pairs.charAt(i), pairs.charAt(i + 1));
-    return map;
-  }
-
-  function buildExplodeHandler(pairs) {
-    return function(cm) {
-      if (cm.getOption("disableInput")) return CodeMirror.Pass;
-      var ranges = cm.listSelections();
-      for (var i = 0; i < ranges.length; i++) {
-        if (!ranges[i].empty()) return CodeMirror.Pass;
-        var around = charsAround(cm, ranges[i].head);
-        if (!around || pairs.indexOf(around) % 2 != 0) return CodeMirror.Pass;
-      }
-      cm.operation(function() {
-        cm.replaceSelection("\n\n", null);
-        cm.execCommand("goCharLeft");
-        ranges = cm.listSelections();
-        for (var i = 0; i < ranges.length; i++) {
-          var line = ranges[i].head.line;
-          cm.indentLine(line, null, true);
-          cm.indentLine(line + 1, null, true);
-        }
-      });
-    };
   }
 });
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -971,7 +994,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
   function isFolded(cm, line) {
     var marks = cm.findMarksAt(Pos(line));
     for (var i = 0; i < marks.length; ++i)
-      if (marks[i].__isFold && marks[i].find().from.line == line) return true;
+      if (marks[i].__isFold && marks[i].find().from.line == line) return marks[i];
   }
 
   function marker(spec) {
@@ -1017,7 +1040,9 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
     if (!state) return;
     var opts = state.options;
     if (gutter != opts.gutter) return;
-    cm.foldCode(Pos(line, 0), opts.rangeFinder);
+    var folded = isFolded(cm, line);
+    if (folded) folded.clear();
+    else cm.foldCode(Pos(line, 0), opts.rangeFinder);
   }
 
   function onChange(cm) {
@@ -1496,14 +1521,20 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     if (update !== false) this.scroll(pos, this.orientation);
   };
 
+  var minButtonSize = 10;
+
   Bar.prototype.update = function(scrollSize, clientSize, barSize) {
     this.screen = clientSize;
     this.total = scrollSize;
     this.size = barSize;
 
-    // FIXME clip to min size?
+    var buttonSize = this.screen * (this.size / this.total);
+    if (buttonSize < minButtonSize) {
+      this.size -= minButtonSize - buttonSize;
+      buttonSize = minButtonSize;
+    }
     this.inner.style[this.orientation == "horizontal" ? "width" : "height"] =
-      this.screen * (this.size / this.total) + "px";
+      buttonSize + "px";
     this.inner.style[this.orientation == "horizontal" ? "left" : "top"] =
       this.pos * (this.size / this.total) + "px";
   };
@@ -1975,7 +2006,11 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     }
 
     var numberRegex = /[\d]/;
-    var wordRegexp = [(/\w/), (/[^\w\s]/)], bigWordRegexp = [(/\S/)];
+    var wordCharTest = [CodeMirror.isWordChar, function(ch) {
+      return ch && !CodeMirror.isWordChar(ch) && !/\s/.test(ch);
+    }], bigWordCharTest = [function(ch) {
+      return /\S/.test(ch);
+    }];
     function makeKeyRange(start, size) {
       var keys = [];
       for (var i = start; i < start + size; i++) {
@@ -2674,12 +2709,10 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
             break;
           case 'search':
             this.processSearch(cm, vim, command);
-            clearInputState(cm);
             break;
           case 'ex':
           case 'keyToEx':
             this.processEx(cm, vim, command);
-            clearInputState(cm);
             break;
           default:
             break;
@@ -2772,6 +2805,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
             updateSearchQuery(cm, query, ignoreCase, smartCase);
           } catch (e) {
             showConfirm(cm, 'Invalid regex: ' + query);
+            clearInputState(cm);
             return;
           }
           commandDispatcher.processMotion(cm, vim, {
@@ -2821,6 +2855,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
             clearSearchHighlight(cm);
             cm.scrollTo(originalScrollPos.left, originalScrollPos.top);
             CodeMirror.e_stop(e);
+            clearInputState(cm);
             close();
             cm.focus();
           }
@@ -2887,6 +2922,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
             vimGlobalState.exCommandHistoryController.pushInput(input);
             vimGlobalState.exCommandHistoryController.reset();
             CodeMirror.e_stop(e);
+            clearInputState(cm);
             close();
             cm.focus();
           }
@@ -4267,9 +4303,6 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     function lineLength(cm, lineNum) {
       return cm.getLine(lineNum).length;
     }
-    function reverse(s){
-      return s.split('').reverse().join('');
-    }
     function trim(s) {
       if (s.trim) {
         return s.trim();
@@ -4583,59 +4616,38 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 
       // Seek to first word or non-whitespace character, depending on if
       // noSymbol is true.
-      var textAfterIdx = line.substring(idx);
-      var firstMatchedChar;
-      if (noSymbol) {
-        firstMatchedChar = textAfterIdx.search(/\w/);
-      } else {
-        firstMatchedChar = textAfterIdx.search(/\S/);
+      var test = noSymbol ? wordCharTest[0] : bigWordCharTest [0];
+      while (!test(line.charAt(idx))) {
+        idx++;
+        if (idx >= line.length) { return null; }
       }
-      if (firstMatchedChar == -1) {
-        return null;
-      }
-      idx += firstMatchedChar;
-      textAfterIdx = line.substring(idx);
-      var textBeforeIdx = line.substring(0, idx);
 
-      var matchRegex;
-      // Greedy matchers for the "word" we are trying to expand.
       if (bigWord) {
-        matchRegex = /^\S+/;
+        test = bigWordCharTest[0];
       } else {
-        if ((/\w/).test(line.charAt(idx))) {
-          matchRegex = /^\w+/;
-        } else {
-          matchRegex = /^[^\w\s]+/;
+        test = wordCharTest[0];
+        if (!test(line.charAt(idx))) {
+          test = wordCharTest[1];
         }
       }
 
-      var wordAfterRegex = matchRegex.exec(textAfterIdx);
-      var wordStart = idx;
-      var wordEnd = idx + wordAfterRegex[0].length;
-      // TODO: Find a better way to do this. It will be slow on very long lines.
-      var revTextBeforeIdx = reverse(textBeforeIdx);
-      var wordBeforeRegex = matchRegex.exec(revTextBeforeIdx);
-      if (wordBeforeRegex) {
-        wordStart -= wordBeforeRegex[0].length;
-      }
+      var end = idx, start = idx;
+      while (test(line.charAt(end)) && end < line.length) { end++; }
+      while (test(line.charAt(start)) && start >= 0) { start--; }
+      start++;
 
       if (inclusive) {
-        // If present, trim all whitespace after word.
-        // Otherwise, trim all whitespace before word.
-        var textAfterWordEnd = line.substring(wordEnd);
-        var whitespacesAfterWord = textAfterWordEnd.match(/^\s*/)[0].length;
-        if (whitespacesAfterWord > 0) {
-          wordEnd += whitespacesAfterWord;
-        } else {
-          var revTrim = revTextBeforeIdx.length - wordStart;
-          var textBeforeWordStart = revTextBeforeIdx.substring(revTrim);
-          var whitespacesBeforeWord = textBeforeWordStart.match(/^\s*/)[0].length;
-          wordStart -= whitespacesBeforeWord;
+        // If present, include all whitespace after word.
+        // Otherwise, include all whitespace before word, except indentation.
+        var wordEnd = end;
+        while (/\s/.test(line.charAt(end)) && end < line.length) { end++; }
+        if (wordEnd == end) {
+          var wordStart = start;
+          while (/\s/.test(line.charAt(start - 1)) && start > 0) { start--; }
+          if (!start) { start = wordStart; }
         }
       }
-
-      return { start: Pos(cur.line, wordStart),
-               end: Pos(cur.line, wordEnd) };
+      return { start: Pos(cur.line, start), end: Pos(cur.line, end) };
     }
 
     function recordJumpPosition(cm, oldCur, newCur) {
@@ -4793,7 +4805,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       var pos = cur.ch;
       var line = cm.getLine(lineNum);
       var dir = forward ? 1 : -1;
-      var regexps = bigWord ? bigWordRegexp : wordRegexp;
+      var charTests = bigWord ? bigWordCharTest: wordCharTest;
 
       if (emptyLineIsWord && line == '') {
         lineNum += dir;
@@ -4813,11 +4825,11 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         // Find bounds of next word.
         while (pos != stop) {
           var foundWord = false;
-          for (var i = 0; i < regexps.length && !foundWord; ++i) {
-            if (regexps[i].test(line.charAt(pos))) {
+          for (var i = 0; i < charTests.length && !foundWord; ++i) {
+            if (charTests[i](line.charAt(pos))) {
               wordStart = pos;
               // Advance to end of word.
-              while (pos != stop && regexps[i].test(line.charAt(pos))) {
+              while (pos != stop && charTests[i](line.charAt(pos))) {
                 pos += dir;
               }
               wordEnd = pos;
@@ -5149,7 +5161,8 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     function dialog(cm, template, shortText, onClose, options) {
       if (cm.openDialog) {
         cm.openDialog(template, onClose, { bottom: true, value: options.value,
-            onKeyDown: options.onKeyDown, onKeyUp: options.onKeyUp });
+            onKeyDown: options.onKeyDown, onKeyUp: options.onKeyUp,
+            selectValueOnOpen: false});
       }
       else {
         onClose(prompt(shortText, ''));
@@ -5527,6 +5540,13 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     };
     ExCommandDispatcher.prototype = {
       processCommand: function(cm, input, opt_params) {
+        var that = this;
+        cm.operation(function () {
+          cm.curOp.isVimOp = true;
+          that._processCommand(cm, input, opt_params);
+        });
+      },
+      _processCommand: function(cm, input, opt_params) {
         var vim = cm.state.vim;
         var commandHistoryRegister = vimGlobalState.registerController.getRegister(':');
         var previousCommand = commandHistoryRegister.toString();
@@ -6445,7 +6465,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       var anchor = cm.getCursor('anchor');
       var head = cm.getCursor('head');
       // Enter or exit visual mode to match mouse selection.
-      if (vim.visualMode && cursorEqual(head, anchor) && lineLength(cm, head.line) > head.ch) {
+      if (vim.visualMode && !cm.somethingSelected()) {
         exitVisualMode(cm, false);
       } else if (!vim.visualMode && !vim.insertMode && cm.somethingSelected()) {
         vim.visualMode = true;
