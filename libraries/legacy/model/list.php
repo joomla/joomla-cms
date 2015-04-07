@@ -734,7 +734,7 @@ class JModelList extends JModelLegacy
 		}
 
 		// Autodetect reset pagination
-		if ($resetPage == 'auto')
+		if ($resetPage === 'auto')
 		{
 			$resetPage = empty($currentState) ? false : true;
 		}
