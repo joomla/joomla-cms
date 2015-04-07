@@ -73,6 +73,9 @@ class MenusModelItems extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
+		// List state information.
+		parent::populateState('a.lft', 'asc');
+
 		$app = JFactory::getApplication('administrator');
 
 		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
@@ -121,9 +124,6 @@ class MenusModelItems extends JModelList
 		// Component parameters.
 		$params = JComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
-
-		// List state information.
-		parent::populateState('a.lft', 'asc');
 	}
 
 	/**
