@@ -90,11 +90,9 @@ class ModulesModelModules extends JModelList
 		// Client Site(0) or Administrator(1) selected?
 		if (in_array($clientId, array('0', '1')))
 		{
-
 			// Not the same client like saved previous one?
 			if ($clientId != $app->getUserState($this->context . '.client_id'))
 			{
-
 				// Save current selection as new previous value in session.
 				$app->setUserState($this->context . '.client_id', $clientId);
 
@@ -107,7 +105,6 @@ class ModulesModelModules extends JModelList
 		// No client selected?
 		else
 		{
-
 			// Try to get previous one from session.
 			$clientId = (string) $app->getUserState($this->context . '.client_id');
 

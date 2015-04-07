@@ -23,8 +23,8 @@ class JFormFieldModulesModule extends JFormFieldList
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var    string
+	 * @since  3.4.2
 	 */
 	protected $type = 'ModulesModule';
 
@@ -33,12 +33,13 @@ class JFormFieldModulesModule extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   1.6
+	 * @since   3.4.2
 	 */
 	public function getOptions()
 	{
 		$clientId = JFactory::getApplication()->input->get('client_id', 0, 'int');
-		$options = ModulesHelper::getModules($clientId);
+		$options  = ModulesHelper::getModules($clientId);
+
 		return array_merge(parent::getOptions(), $options);
 	}
 }
