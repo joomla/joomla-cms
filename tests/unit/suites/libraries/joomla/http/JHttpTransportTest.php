@@ -225,4 +225,36 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 			$this->equalTo('value')
 		);
 	}
+
+	/**
+	 * Tests the request method with a get request without SSL vertification.
+	 *
+	 * @param   string  $transportClass  The transport class to test
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  transportProvider
+	 * @since         3.4
+	 */
+	public function testRequestGetNoVerify($transportClass)
+	{
+        $this->options->set('curl.ssl.verifypeer', false);
+        $this->options->set('curl.ssl.verifyhost', false);
+
+		$transport = new $transportClass($this->options);
+
+		$response = $transport->request('get', new JUri($this->stubUrl));
+
+		$body = json_decode($response->body);
+
+		$this->assertThat(
+			$response->code,
+			$this->equalTo(200)
+		);
+
+		$this->assertThat(
+			$body->method,
+			$this->equalTo('GET')
+		);
+	}
 }
