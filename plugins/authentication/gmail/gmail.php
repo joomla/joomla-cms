@@ -50,7 +50,7 @@ class PlgAuthenticationGMail extends JPlugin
 
 		try
 		{
-			$curlDriver = new JHttpTransportCurl($transportParams);
+			$http = JHttpFactory::getHttp($transportParams, 'curl');
 		}
 		catch (RuntimeException $e)
 		{
@@ -59,8 +59,6 @@ class PlgAuthenticationGMail extends JPlugin
 
 			return;
 		}
-
-		$http = new JHttp($options, $curlDriver);
 
 		// Check if we have a username and password
 		if (strlen($credentials['username']) == 0 || strlen($credentials['password']) == 0)
