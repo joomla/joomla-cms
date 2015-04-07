@@ -43,9 +43,12 @@ class PlgAuthenticationGMail extends JPlugin
 		$success = false;
 
 		$curlParams = array(
-			'follow_location'  => true,
-			'transport.curl'   => array(CURLOPT_SSL_VERIFYPEER => $this->params->get('verifypeer', 1)),
+			'follow_location' => true,
+			'transport.curl'  => array(
+				CURLOPT_SSL_VERIFYPEER => $this->params->get('verifypeer', 1)
+			),
 		);
+
 		$transportParams = new Registry($curlParams);
 
 		try
@@ -216,8 +219,8 @@ class PlgAuthenticationGMail extends JPlugin
 			}
 		}
 		elseif (JFactory::getApplication()->isAdmin())
-		// We wont' allow backend access without local account
 		{
+			// We wont' allow backend access without local account
 			$response->status        = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::_('JERROR_LOGIN_DENIED');
 
