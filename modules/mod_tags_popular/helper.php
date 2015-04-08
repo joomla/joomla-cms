@@ -94,14 +94,14 @@ abstract class ModTagsPopularHelper
 				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $db->quote($nowDate) . ')');
 		$db->setQuery($query, 0, $maximum);
 		try
- 		{
-   			$results = $db->loadObjectList();
- 		}
- 		catch (RuntimeException $e)
- 		{
- 		  	$results = array();
- 			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
- 		}
+		{
+			$results = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$results = array();
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
 
 		return $results;
 	}
