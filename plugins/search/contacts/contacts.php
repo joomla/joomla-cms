@@ -169,7 +169,7 @@ class PlgSearchContacts extends JPlugin
 		$db->setQuery($query, 0, $limit);
 		try
 		{
-			$rows = $db->loadObjectList();	
+			$rows = $db->loadObjectList();
 		}
 		catch (RuntimeException $e)
 		{
