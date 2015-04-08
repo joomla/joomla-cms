@@ -169,7 +169,15 @@ class PlgSearchCategories extends JPlugin
 		}
 
 		$db->setQuery($query, 0, $limit);
-		$rows = $db->loadObjectList();
+		try
+		{
+			$rows = $db->loadObjectList();	
+		}
+		catch (RuntimeException $e)
+		{
+			$rows = array();
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
 
 		$return = array();
 
