@@ -15,53 +15,53 @@ JHtml::_('bootstrap.tooltip');
 
 JFactory::getDocument()->addScriptDeclaration(
 	'
-		Joomla.submitbutton = function() {
-			var form = document.getElementById("adminForm");
+	Joomla.submitbutton = function() {
+		var form = document.getElementById("adminForm");
 
-			// do field validation
-			if (form.install_package.value == ""){
-				alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true) . '");
-			}
-			else
-			{
-				jQuery("#loading").css("display", "block");
+		// do field validation
+		if (form.install_package.value == ""){
+			alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true) . '");
+		}
+		else
+		{
+			jQuery("#loading").css("display", "block");
 
-				form.installtype.value = "upload";
-				form.submit();
-			}
-		};
+			form.installtype.value = "upload";
+			form.submit();
+		}
+	};
 
-		Joomla.submitbutton3 = function() {
-			var form = document.getElementById("adminForm");
+	Joomla.submitbutton3 = function() {
+		var form = document.getElementById("adminForm");
 
-			// do field validation
-			if (form.install_directory.value == ""){
-				alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_DIRECTORY', true) . '");
-			}
-			else
-			{
-				jQuery("#loading").css("display", "block");
+		// do field validation
+		if (form.install_directory.value == ""){
+			alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_DIRECTORY', true) . '");
+		}
+		else
+		{
+			jQuery("#loading").css("display", "block");
 
-				form.installtype.value = "folder";
-				form.submit();
-			}
-		};
+			form.installtype.value = "folder";
+			form.submit();
+		}
+	};
 
-		Joomla.submitbutton4 = function() {
-			var form = document.getElementById("adminForm");
+	Joomla.submitbutton4 = function() {
+		var form = document.getElementById("adminForm");
 
-			// do field validation
-			if (form.install_url.value == "" || form.install_url.value == "http://"){
-				alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true) . '");
-			}
-			else
-			{
-				jQuery("#loading").css("display", "block");
+		// do field validation
+		if (form.install_url.value == "" || form.install_url.value == "http://"){
+			alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true) . '");
+		}
+		else
+		{
+			jQuery("#loading").css("display", "block");
 
-				form.installtype.value = "url";
-				form.submit();
-			}
-		};
+			form.installtype.value = "url";
+			form.submit();
+		}
+	};
 
 	Joomla.submitbuttonInstallWebInstaller = function() {
 		var form = document.getElementById("adminForm");
