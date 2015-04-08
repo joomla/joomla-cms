@@ -67,6 +67,11 @@
 				label="TPL_ISIS_COLOR_LINK_LABEL"
 				description="TPL_ISIS_COLOR_LINK_DESC" />
 
+				<field name="loginBackgroundColor" class="" type="color" default="#224C8F"
+				validate="color"
+				label="TPL_ISIS_COLOR_LOGIN_BACKGROUND_LABEL"
+				description="TPL_ISIS_COLOR_LOGIN_BACKGROUND_DESC" />
+
 				<field name="logoFile" class="" type="media" default=""
 				label="TPL_ISIS_LOGO_LABEL"
 				description="TPL_ISIS_LOGO_DESC" />
