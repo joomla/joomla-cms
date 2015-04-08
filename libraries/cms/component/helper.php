@@ -99,7 +99,8 @@ class JComponentHelper
 			$db->getQuery(true)
 				->select('COUNT(extension_id)')
 				->from('#__extensions')
-				->where('element = ' . $db->quote($option))
+				->where($db->quoteName('element') . ' = ' . $db->quote($option))
+				->where($db->quoteName('type') . ' = ' . $db->quote('component'))
 		)->loadResult();
 	}
 
