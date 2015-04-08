@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die;
 
-$config		= JFactory::getConfig();
-$user		= JFactory::getUser();
-$db			= JFactory::getDbo();
-$lang		= JFactory::getLanguage();
-$input		= JFactory::getApplication()->input;
-$hideLinks	= $input->getBool('hidemainmenu');
-$task		= $input->getCmd('task');
+$config	= JFactory::getConfig();
+$user   = JFactory::getUser();
+$db     = JFactory::getDbo();
+$lang   = JFactory::getLanguage();
+$input  = JFactory::getApplication()->input;
+$hideLinks = $input->getBool('hidemainmenu');
+$task      = $input->getCmd('task');
 
 // Get the number of unread messages in your inbox.
 $query	= $db->getQuery(true)
