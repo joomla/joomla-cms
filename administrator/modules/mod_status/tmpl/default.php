@@ -26,9 +26,7 @@ defined('_JEXEC') or die;
 <?php endif; ?>
 
 <?php if ($params->get('show_messages', 1)) : ?>
-
 <?php $active = $unread ? ' badge-warning' : ''; ?>
-
 <li class="messages <?php echo $inboxClass; ?>">
 	<?php if ($hideLinks) : ?>
 		<span class="badge <?php echo $active; ?>"><?php echo $unread; ?></span>
@@ -55,7 +53,9 @@ defined('_JEXEC') or die;
 		<?php if($hideLinks) : ?>
 			<i class="icon-exit"></i><?php echo JText::_('JLOGOUT'); ?>
 		<?php else : ?>
-			<a href="<?php echo $logoutLink; ?>"> <i class="icon-exit"></i><?php echo JText::_('JLOGOUT'); ?></a>
+			<a href="<?php echo $logoutLink; ?>">
+				<i class="icon-exit"></i><?php echo JText::_('JLOGOUT'); ?>
+			</a>
 		<?php endif; ?>
 	</li>
 <?php endif; ?>
