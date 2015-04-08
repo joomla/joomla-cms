@@ -26,16 +26,16 @@ defined('_JEXEC') or die;
 <?php endif; ?>
 
 <?php if ($params->get('show_messages', 1)) : ?>
-<?php $active = $unread ? ' badge-warning' : ''; ?>
-<li class="messages <?php echo $inboxClass; ?>">
-	<?php if ($hideLinks) : ?>
-		<span class="badge <?php echo $active; ?>"><?php echo $unread; ?></span>
-		<?php echo JText::_('MOD_STATUS_MESSAGES'); ?>
-	<?php else : ?>
-		<span class="badge <?php echo $active; ?>"><?php echo $unread; ?></span>
-		<a href="<?php echo $inboxLink; ?>"><?php echo JText::_('MOD_STATUS_MESSAGES'); ?></a>
-	<?php endif; ?>
-</li>
+	<?php $active = $unread ? ' badge-warning' : ''; ?>
+	<li class="messages <?php echo $inboxClass; ?>">
+		<?php if ($hideLinks) : ?>
+			<span class="badge <?php echo $active; ?>"><?php echo $unread; ?></span>
+			<?php echo JText::_('MOD_STATUS_MESSAGES'); ?>
+		<?php else : ?>
+			<span class="badge <?php echo $active; ?>"><?php echo $unread; ?></span>
+			<a href="<?php echo $inboxLink; ?>"><?php echo JText::_('MOD_STATUS_MESSAGES'); ?></a>
+		<?php endif; ?>
+	</li>
 <?php endif; ?>
 
 <li class="divider"></li>
