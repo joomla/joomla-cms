@@ -141,7 +141,7 @@ abstract class ModTagssimilarHelper
 		$db->setQuery($query, 0, $maximum);
 		try
 		{
-		$results = $db->loadObjectList();
+			$results = $db->loadObjectList();
 		}
 		catch (RuntimeException $e)
 		{
