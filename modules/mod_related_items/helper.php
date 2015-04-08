@@ -58,14 +58,14 @@ abstract class ModRelatedItemsHelper
 
 			try
 			{
-				$metakey = trim($db->loadResult());	
+				$metakey = trim($db->loadResult());
 			}
 			catch (RuntimeException $e)
 			{
 				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				return;
 			}
-			
+
 			// Explode the meta keys on a comma
 			$keys = explode(',', $metakey);
 			$likes = array();
@@ -138,7 +138,7 @@ abstract class ModRelatedItemsHelper
 				$db->setQuery($query, 0, $maximum);
 				try
 				{
-					$temp = $db->loadObjectList();	
+					$temp = $db->loadObjectList();
 				}
 				catch (RuntimeException $e)
 				{
