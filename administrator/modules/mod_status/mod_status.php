@@ -14,8 +14,6 @@ $user   = JFactory::getUser();
 $db     = JFactory::getDbo();
 $lang   = JFactory::getLanguage();
 $input  = JFactory::getApplication()->input;
-$hideLinks = $input->getBool('hidemainmenu');
-$task      = $input->getCmd('task');
 
 // Get the number of unread messages in your inbox.
 $query	= $db->getQuery(true)
@@ -53,16 +51,6 @@ if ($unread)
 else
 {
 	$inboxClass = 'no-unread-messages';
-}
-
-// Set logout link.
-if ($task == 'edit' || $task == 'editA' || $input->getInt('hidemainmenu'))
-{
-	$logoutLink = '';
-}
-else
-{
-	$logoutLink = JRoute::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1');
 }
 
 // Get the number of frontend logged in users.
