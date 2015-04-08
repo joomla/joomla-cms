@@ -9,74 +9,54 @@
 
 defined('_JEXEC') or die;
 
-$hideLinks = $input->getBool('hidemainmenu');
-$task      = $input->getCmd('task');
-$output    = array();
+?>
+<ul class="inline">
+<?php if ($params->get('show_loggedin_users_admin', 1)) : ?>
+	<li class="backloggedin-users">
+		<span class="badge"><?php echo $count; ?></span> 
+		<?php echo JText::plural('MOD_STATUS_BACKEND_USERS', $count); ?>
+	</li>
+<?php endif; ?>
 
-// Print the Preview link to Main site.
-if ($params->get('show_viewsite', 1))
-{
-	$output[] = '<div class="btn-group viewsite">'
-		. '<a href="' . JUri::root() . '" target="_blank">'
-		. '<i class="icon-out-2"></i> ' . JText::_('JGLOBAL_VIEW_SITE')
-		. '</a>'
-		. '</div>'
-		. '<div class="btn-group divider"></div>';
-}
+<?php if ($params->get('show_loggedin_users', 1)) : ?>
+	<li class="loggedin-users">
+		<span class="badge"><?php echo $online_num; ?></span>
+		<?php echo JText::plural('MOD_STATUS_USERS', $online_num); ?>
+	</li>
+<?php endif; ?>
 
-// Print the frontend logged in  users.
-if ($params->get('show_loggedin_users', 1))
-{
-	$output[] = '<div class="btn-group loggedin-users">'
-		. '<span class="badge">' . $online_num . '</span> '
-		. JText::plural('MOD_STATUS_USERS', $online_num)
-		. '</div>';
-}
+<?php if ($params->get('show_messages', 1)) : ?>
 
-// Print the back-end logged in users.
-if ($params->get('show_loggedin_users_admin', 1))
-{
-	$output[] = '<div class="btn-group backloggedin-users">'
-		. '<span class="badge">' . $count . '</span> '
-		. JText::plural('MOD_STATUS_BACKEND_USERS', $count)
-		. '</div>';
-}
+<?php $active = $unread ? ' badge-warning' : ''; ?>
 
-//  Print the inbox message.
-if ($params->get('show_messages', 1))
-{
-	$active = $unread ? ' badge-warning' : '';
-	$output[] = '<div class="btn-group hasTooltip ' . $inboxClass . '"'
-		. ' title="' . JText::plural('MOD_STATUS_MESSAGES', $unread) . '">'
-		. ($hideLinks ? '' : '<a href="' . $inboxLink . '">')
-		. '<i class="icon-envelope"></i> '
-		. '<span class="badge' . $active . '">' . $unread . '</span>'
-		. ($hideLinks ? '' : '</a>')
-		. '<div class="btn-group divider"></div>'
-		. '</div>';
-}
+<li class="messages <?php echo $inboxClass; ?>">
+	<?php if ($hideLinks) : ?>
+		<span class="badge <?php echo $active; ?>"><?php echo $unread; ?></span>
+		<?php echo JText::_('MOD_STATUS_MESSAGES'); ?>
+	<?php else : ?>
+		<span class="badge <?php echo $active; ?>"><?php echo $unread; ?></span>
+		<a href="<?php echo $inboxLink; ?>"><?php echo JText::_('MOD_STATUS_MESSAGES'); ?></a>
+	<?php endif; ?>
+</li>
+<?php endif; ?>
 
-// Print the logout link.
-if ($task == 'edit' || $task == 'editA' || $input->getInt('hidemainmenu'))
-{
-	$logoutLink = '';
-}
-else
-{
-	$logoutLink = JRoute::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1');
-}
+<li class="divider"></li>
 
-if ($params->get('show_logout', 1))
-{
-	$output[] = '<div class="btn-group logout">'
-		. ($hideLinks ? '' : '<a href="' . $logoutLink . '">')
-		. '<i class="icon-minus-2"></i> ' . JText::_('JLOGOUT')
-		. ($hideLinks ? '' : '</a>')
-		. '</div>';
-}
+<?php if ($params->get('show_viewsite', 1)) : ?>
+	<li class="viewsite">
+		<a href="<?php echo JUri::root(); ?>" target="_blank">
+			<i class="icon-out-2"></i><?php echo JText::_('JGLOBAL_VIEW_SITE'); ?>
+		</a>
+	</li>
+<?php endif; ?>
 
-// Output the items.
-foreach ($output as $item)
-{
-	echo $item;
-}
+<?php if ($params->get('show_logout', 1)) : ?>
+	<li class="logout">
+		<?php if($hideLinks) : ?>
+			<i class="icon-exit"></i><?php echo JText::_('JLOGOUT'); ?>
+		<?php else : ?>
+			<a href="<?php echo $logoutLink; ?>"> <i class="icon-exit"></i><?php echo JText::_('JLOGOUT'); ?></a>
+		<?php endif; ?>
+	</li>
+<?php endif; ?>
+</ul>
