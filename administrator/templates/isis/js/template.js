@@ -61,7 +61,7 @@
 		var navTop;
 		var isFixed = false;
 
-		if (stickyToolbar) {
+		if (stickyToolbar == 1) {
 			processScrollInit();
 			processScroll();
 

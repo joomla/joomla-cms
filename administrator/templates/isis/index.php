@@ -99,17 +99,23 @@ function colorIsLight($color)
 
 // Pass some values to javascript
 $offset = 20;
+
 if ($displayHeader || !$statusFixed)
 {
 	$offset = 30;
 }
 
+$stickyBar = 0;
+
 if ($stickyToolbar)
 {
-	$doc->addScriptDeclaration("
-	var stickyToolbar = true,
-	offsetTop = $offset;");
+	$stickyBar = 1;
 }
+
+$doc->addScriptDeclaration("
+	var stickyToolbar = $stickyBar,
+	offsetTop = $offset;
+	");
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
