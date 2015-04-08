@@ -139,7 +139,15 @@ abstract class ModTagssimilarHelper
 		}
 
 		$db->setQuery($query, 0, $maximum);
-		$results = $db->loadObjectList();
+		try
+ 		{
+   			$results = $db->loadObjectList();
+ 		}
+ 		catch (RuntimeException $e)
+ 		{
+ 		  	$results = array();
+ 			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+ 		}
 
 		foreach ($results as $result)
 		{
