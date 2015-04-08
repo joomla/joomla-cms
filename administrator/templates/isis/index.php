@@ -96,6 +96,20 @@ function colorIsLight($color)
 
 	return $yiq >= 200;
 }
+
+// Pass some values to javascript
+$offset = 20;
+if ($displayHeader || !$statusFixed)
+{
+	$offset = 30;
+}
+
+if ($stickyToolbar)
+{
+	$doc->addScriptDeclaration("
+	var stickyToolbar = true,
+	offsetTop = $offset;");
+}
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -290,49 +304,5 @@ function colorIsLight($color)
 	<!-- End Status Module -->
 <?php endif; ?>
 <jdoc:include type="modules" name="debug" style="none" />
-<?php if ($stickyToolbar) : ?>
-	<script>
-		jQuery(function($)
-		{
-
-			var navTop;
-			var isFixed = false;
-
-			processScrollInit();
-			processScroll();
-
-			$(window).on('resize', processScrollInit);
-			$(window).on('scroll', processScroll);
-
-			function processScrollInit()
-			{
-				if ($('.subhead').length) {
-					navTop = $('.subhead').length && $('.subhead').offset().top - <?php echo ($displayHeader || !$statusFixed) ? 30 : 20;?>;
-
-					// Only apply the scrollspy when the toolbar is not collapsed
-					if (document.body.clientWidth > 480)
-					{
-						$('.subhead-collapse').height($('.subhead').height());
-						$('.subhead').scrollspy({offset: {top: $('.subhead').offset().top - $('nav.navbar').height()}});
-					}
-				}
-			}
-
-			function processScroll()
-			{
-				if ($('.subhead').length) {
-					var scrollTop = $(window).scrollTop();
-					if (scrollTop >= navTop && !isFixed) {
-						isFixed = true;
-						$('.subhead').addClass('subhead-fixed');
-					} else if (scrollTop <= navTop && isFixed) {
-						isFixed = false;
-						$('.subhead').removeClass('subhead-fixed');
-					}
-				}
-			}
-		});
-	</script>
-<?php endif; ?>
 </body>
 </html>

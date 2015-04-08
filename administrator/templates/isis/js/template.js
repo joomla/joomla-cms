@@ -56,6 +56,44 @@
 		});
 
 		/**
+		 * USED IN: All views with toolbar and sticky bar enabled
+		 */
+		var navTop;
+		var isFixed = false;
+
+		if (stickyToolbar) {
+			processScrollInit();
+			processScroll();
+
+			$(window).on('resize', processScrollInit);
+			$(window).on('scroll', processScroll);
+		}
+
+		function processScrollInit() {
+			if ($('.subhead').length) {
+				navTop = $('.subhead').length && $('.subhead').offset().top - offsetTop;
+				// Only apply the scrollspy when the toolbar is not collapsed
+				if (document.body.clientWidth > 480) {
+					$('.subhead-collapse').height($('.subhead').height());
+					$('.subhead').scrollspy({offset: {top: $('.subhead').offset().top - $('nav.navbar').height()}});
+				}
+			}
+		}
+
+		function processScroll() {
+			if ($('.subhead').length) {
+				var scrollTop = $(window).scrollTop();
+				if (scrollTop >= navTop && !isFixed) {
+					isFixed = true;
+					$('.subhead').addClass('subhead-fixed');
+				} else if (scrollTop <= navTop && isFixed) {
+					isFixed = false;
+					$('.subhead').removeClass('subhead-fixed');
+				}
+			}
+		}
+
+		/**
 		 * USED IN: All list views to hide/show the sidebar
 		 */
 		window.toggleSidebar = function(force)
