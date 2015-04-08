@@ -283,7 +283,7 @@ function colorIsLight($color)
 					&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
 				</p>
 
-			</div>	
+			</div>
 			<jdoc:include type="modules" name="status" style="no" />
 		</div>
 	</div>
