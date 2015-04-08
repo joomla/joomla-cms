@@ -14,7 +14,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
-JFactory::getDocument()->addScriptDeclaration('
+JFactory::getDocument()->addScriptDeclaration(
+	'
 	Joomla.submitbutton = function(task)
 	{
 		if (task == "language.cancel" || document.formvalidator.isValid(document.getElementById("language-form")))
@@ -22,7 +23,21 @@ JFactory::getDocument()->addScriptDeclaration('
 			Joomla.submitform(task, document.getElementById("language-form"));
 		}
 	};
-');
+
+	jQuery(document).ready(function() {
+		jQuery("#jform_image").on("change", function() {
+			var flag = this.value;
+			if (!jQuery("#flag img").attr("src")) {
+				jQuery("#flag img").attr("src", "' . JUri::root(true) . '" + "/media/mod_languages/images/" + flag + ".gif");
+			} else {
+				jQuery("#flag img").attr("src", function(index, attr) {
+					return attr.replace(jQuery("#flag img").attr("title") + ".gif", flag + ".gif")
+				})
+			}
+			jQuery("#flag img").attr("title", flag).attr("alt", flag);
+	});
+});'
+);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate form-horizontal">
@@ -70,19 +85,3 @@ JFactory::getDocument()->addScriptDeclaration('
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
-<script type="text/javascript">
-	jQuery('#jform_image').on('change', function() {
-		var flag = this.value;
-		if (!jQuery('#flag img').attr('src'))
-		{
-			jQuery('#flag img').attr('src', '<?php echo JUri::root(true);?>' + '/media/mod_languages/images/' + flag + '.gif');
-		}
-		else
-		{
-			jQuery('#flag img').attr('src', function(index, attr) {
-				return attr.replace(jQuery('#flag img').attr('title') + '.gif', flag + '.gif')
-			})
-		}
-		jQuery('#flag img').attr('title', flag).attr('alt', flag);
-	});
-</script>
