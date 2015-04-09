@@ -2,36 +2,33 @@
 /**
  * Part of the Joomla Framework String Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\String;
 
 // PHP mbstring and iconv local configuration
-
-// Check if mbstring extension is loaded and attempt to load it if not present except for windows
-if (extension_loaded('mbstring'))
+if (version_compare(PHP_VERSION, '5.6', '>='))
 {
-	// Make sure to suppress the output in case ini_set is disabled
-	@ini_set('mbstring.internal_encoding', 'UTF-8');
-	@ini_set('mbstring.http_input', 'UTF-8');
-	@ini_set('mbstring.http_output', 'UTF-8');
+	@ini_set('default_charset', 'UTF-8');
 }
-
-// Same for iconv
-if (function_exists('iconv'))
+else
 {
-	// These are settings that can be set inside code
-	if (version_compare(PHP_VERSION, '5.6', '>='))
+	// Check if mbstring extension is loaded and attempt to load it if not present except for windows
+	if (extension_loaded('mbstring'))
 	{
-		@ini_set('default_charset', 'UTF-8');
+		@ini_set('mbstring.internal_encoding', 'UTF-8');
+		@ini_set('mbstring.http_input', 'UTF-8');
+		@ini_set('mbstring.http_output', 'UTF-8');
 	}
-	else
+
+	// Same for iconv
+	if (function_exists('iconv'))
 	{
-		iconv_set_encoding("internal_encoding", "UTF-8");
-		iconv_set_encoding("input_encoding", "UTF-8");
-		iconv_set_encoding("output_encoding", "UTF-8");
+		iconv_set_encoding('internal_encoding', 'UTF-8');
+		iconv_set_encoding('input_encoding', 'UTF-8');
+		iconv_set_encoding('output_encoding', 'UTF-8');
 	}
 }
 
@@ -157,8 +154,9 @@ abstract class String
 	 */
 	public static function is_ascii($str)
 	{
-		// Search for any bytes which are outside the ASCII range...
-		return (preg_match('/(?:[^\x00-\x7F])/', $str) !== 1);
+		require_once __DIR__ . '/phputf8/utils/ascii.php';
+
+		return utf8_is_ascii($str);
 	}
 
 	/**
@@ -181,10 +179,8 @@ abstract class String
 		{
 			return utf8_strpos($str, $search);
 		}
-		else
-		{
-			return utf8_strpos($str, $search, $offset);
-		}
+
+		return utf8_strpos($str, $search, $offset);
 	}
 
 	/**
@@ -224,10 +220,8 @@ abstract class String
 		{
 			return utf8_substr($str, $offset);
 		}
-		else
-		{
-			return utf8_substr($str, $offset, $length);
-		}
+
+		return utf8_substr($str, $offset, $length);
 	}
 
 	/**
@@ -310,10 +304,8 @@ abstract class String
 		{
 			return utf8_ireplace($search, $replace, $str);
 		}
-		else
-		{
-			return utf8_ireplace($search, $replace, $str, $count);
-		}
+
+		return utf8_ireplace($search, $replace, $str, $count);
 	}
 
 	/**
@@ -381,18 +373,14 @@ abstract class String
 			{
 				return strcoll(utf8_strtolower($str1), utf8_strtolower($str2));
 			}
-			else
-			{
-				return strcoll(
-					self::transcode(utf8_strtolower($str1), 'UTF-8', $encoding),
-					self::transcode(utf8_strtolower($str2), 'UTF-8', $encoding)
-				);
-			}
+
+			return strcoll(
+				self::transcode(utf8_strtolower($str1), 'UTF-8', $encoding),
+				self::transcode(utf8_strtolower($str2), 'UTF-8', $encoding)
+			);
 		}
-		else
-		{
-			return utf8_strcasecmp($str1, $str2);
-		}
+
+		return utf8_strcasecmp($str1, $str2);
 	}
 
 	/**
@@ -441,15 +429,11 @@ abstract class String
 			{
 				return strcoll($str1, $str2);
 			}
-			else
-			{
-				return strcoll(self::transcode($str1, 'UTF-8', $encoding), self::transcode($str2, 'UTF-8', $encoding));
-			}
+
+			return strcoll(self::transcode($str1, 'UTF-8', $encoding), self::transcode($str2, 'UTF-8', $encoding));
 		}
-		else
-		{
-			return strcmp($str1, $str2);
-		}
+
+		return strcmp($str1, $str2);
 	}
 
 	/**
@@ -474,14 +458,13 @@ abstract class String
 		{
 			return utf8_strcspn($str, $mask);
 		}
-		elseif ($length === false)
+
+		if ($length === false)
 		{
 			return utf8_strcspn($str, $mask, $start);
 		}
-		else
-		{
-			return utf8_strcspn($str, $mask, $start, $length);
-		}
+
+		return utf8_strcspn($str, $mask, $start, $length);
 	}
 
 	/**
@@ -545,14 +528,13 @@ abstract class String
 		{
 			return utf8_strspn($str, $mask);
 		}
-		elseif ($length === null)
+
+		if ($length === null)
 		{
 			return utf8_strspn($str, $mask, $start);
 		}
-		else
-		{
-			return utf8_strspn($str, $mask, $start, $length);
-		}
+
+		return utf8_strspn($str, $mask, $start, $length);
 	}
 
 	/**
@@ -576,10 +558,8 @@ abstract class String
 		{
 			return utf8_substr_replace($str, $repl, $start);
 		}
-		else
-		{
-			return utf8_substr_replace($str, $repl, $start, $length);
-		}
+
+		return utf8_substr_replace($str, $repl, $start, $length);
 	}
 
 	/**
@@ -611,10 +591,8 @@ abstract class String
 		{
 			return utf8_ltrim($str);
 		}
-		else
-		{
-			return utf8_ltrim($str, $charlist);
-		}
+
+		return utf8_ltrim($str, $charlist);
 	}
 
 	/**
@@ -645,10 +623,8 @@ abstract class String
 		{
 			return utf8_rtrim($str);
 		}
-		else
-		{
-			return utf8_rtrim($str, $charlist);
-		}
+
+		return utf8_rtrim($str, $charlist);
 	}
 
 	/**
@@ -679,10 +655,8 @@ abstract class String
 		{
 			return utf8_trim($str);
 		}
-		else
-		{
-			return utf8_trim($str, $charlist);
-		}
+
+		return utf8_trim($str, $charlist);
 	}
 
 	/**
@@ -708,15 +682,13 @@ abstract class String
 		{
 			return utf8_ucfirst($str);
 		}
-		else
-		{
-			if ($newDelimiter === null)
-			{
-				$newDelimiter = $delimiter;
-			}
 
-			return implode($newDelimiter, array_map('utf8_ucfirst', explode($delimiter, $str)));
+		if ($newDelimiter === null)
+		{
+			$newDelimiter = $delimiter;
 		}
+
+		return implode($newDelimiter, array_map('utf8_ucfirst', explode($delimiter, $str)));
 	}
 
 	/**
@@ -784,135 +756,9 @@ abstract class String
 	 */
 	public static function valid($str)
 	{
-		// Cached expected number of octets after the current octet
-		// until the beginning of the next UTF8 character sequence
-		$mState = 0;
+		require_once __DIR__ . '/phputf8/utils/validation.php';
 
-		// Cached Unicode character
-		$mUcs4 = 0;
-
-		// Cached expected number of octets in the current sequence
-		$mBytes = 1;
-
-		$len = strlen($str);
-
-		for ($i = 0; $i < $len; $i++)
-		{
-			$in = ord($str{$i});
-
-			if ($mState == 0)
-			{
-				// When mState is zero we expect either a US-ASCII character or a
-				// multi-octet sequence.
-				if (0 == (0x80 & ($in)))
-				{
-					// US-ASCII, pass straight through.
-					$mBytes = 1;
-				}
-				elseif (0xC0 == (0xE0 & ($in)))
-				{
-					// First octet of 2 octet sequence
-					$mUcs4 = ($in);
-					$mUcs4 = ($mUcs4 & 0x1F) << 6;
-					$mState = 1;
-					$mBytes = 2;
-				}
-				elseif (0xE0 == (0xF0 & ($in)))
-				{
-					// First octet of 3 octet sequence
-					$mUcs4 = ($in);
-					$mUcs4 = ($mUcs4 & 0x0F) << 12;
-					$mState = 2;
-					$mBytes = 3;
-				}
-				elseif (0xF0 == (0xF8 & ($in)))
-				{
-					// First octet of 4 octet sequence
-					$mUcs4 = ($in);
-					$mUcs4 = ($mUcs4 & 0x07) << 18;
-					$mState = 3;
-					$mBytes = 4;
-				}
-				elseif (0xF8 == (0xFC & ($in)))
-				{
-					/* First octet of 5 octet sequence.
-					 *
-					 * This is illegal because the encoded codepoint must be either
-					 * (a) not the shortest form or
-					 * (b) outside the Unicode range of 0-0x10FFFF.
-					 * Rather than trying to resynchronize, we will carry on until the end
-					 * of the sequence and let the later error handling code catch it.
-					 */
-					$mUcs4 = ($in);
-					$mUcs4 = ($mUcs4 & 0x03) << 24;
-					$mState = 4;
-					$mBytes = 5;
-				}
-				elseif (0xFC == (0xFE & ($in)))
-				{
-					// First octet of 6 octet sequence, see comments for 5 octet sequence.
-					$mUcs4 = ($in);
-					$mUcs4 = ($mUcs4 & 1) << 30;
-					$mState = 5;
-					$mBytes = 6;
-				}
-				else
-				{
-					/*
-					 * Current octet is neither in the US-ASCII range nor a legal first
-					 * octet of a multi-octet sequence.
-					 */
-					return false;
-				}
-			}
-			else
-			{
-				// When mState is non-zero, we expect a continuation of the multi-octet
-				// sequence
-				if (0x80 == (0xC0 & ($in)))
-				{
-					// Legal continuation.
-					$shift = ($mState - 1) * 6;
-					$tmp = $in;
-					$tmp = ($tmp & 0x0000003F) << $shift;
-					$mUcs4 |= $tmp;
-
-					/**
-					 * End of the multi-octet sequence. mUcs4 now contains the final
-					 * Unicode codepoint to be output
-					 */
-					if (0 == --$mState)
-					{
-						/*
-						 * Check for illegal sequences and codepoints.
-						 */
-						// From Unicode 3.1, non-shortest form is illegal
-						if (((2 == $mBytes) && ($mUcs4 < 0x0080)) || ((3 == $mBytes) && ($mUcs4 < 0x0800)) || ((4 == $mBytes) && ($mUcs4 < 0x10000))
-							|| (4 < $mBytes)
-							|| (($mUcs4 & 0xFFFFF800) == 0xD800) // From Unicode 3.2, surrogate characters are illegal
-							|| ($mUcs4 > 0x10FFFF)) // Codepoints outside the Unicode range are illegal
-						{
-							return false;
-						}
-
-						// Initialize UTF8 cache.
-						$mState = 0;
-						$mUcs4 = 0;
-						$mBytes = 1;
-					}
-				}
-				else
-				{
-					/**
-					 *((0xC0 & (*in) != 0x80) && (mState != 0))
-					 * Incomplete multi-octet sequence.
-					 */
-					return false;
-				}
-			}
-		}
-
-		return true;
+		return utf8_is_valid($str);
 	}
 
 	/**
@@ -936,18 +782,9 @@ abstract class String
 	 */
 	public static function compliant($str)
 	{
-		if (strlen($str) == 0)
-		{
-			return true;
-		}
+		require_once __DIR__ . '/phputf8/utils/validation.php';
 
-		/*
-		 * If even just the first character can be matched, when the /u
-		 * modifier is used, then it's valid UTF-8. If the UTF-8 is somehow
-		 * invalid, nothing at all will match, even if the string contains
-		 * some valid sequences
-		 */
-		return (preg_match('/^.{1}/us', $str, $ar) == 1);
+		return utf8_compliant($str);
 	}
 
 	/**
@@ -972,10 +809,8 @@ abstract class String
 				$str
 			);
 		}
-		else
-		{
-			return $str;
-		}
+
+		return $str;
 	}
 
 	/**
@@ -1000,9 +835,7 @@ abstract class String
 				$str
 			);
 		}
-		else
-		{
-			return $str;
-		}
+
+		return $str;
 	}
 }

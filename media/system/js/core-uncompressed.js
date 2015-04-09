@@ -13,26 +13,29 @@ Joomla.editors.instances = {};
 /**
  * Generic submit form
  */
-Joomla.submitform = function(task, form) {
-    if (typeof(form) === 'undefined') {
+Joomla.submitform = function(task, form, validate) {
+    if (!form) {
         form = document.getElementById('adminForm');
     }
 
-    if (typeof(task) !== 'undefined' && task !== "") {
+    if (task) {
         form.task.value = task;
     }
 
+    // Toggle HTML5 validation
+    form.noValidate = !validate;
+
     // Submit the form.
-    if (typeof form.onsubmit == 'function') {
-        form.onsubmit();
-    }
-    if (typeof form.fireEvent == "function") {
-        form.fireEvent('onsubmit');
-    }
-    if (typeof jQuery == "function") {
-        jQuery(form).submit;
-    }
-    form.submit();
+	// Create the input type="submit"
+    var button = document.createElement('input');
+    button.style.display = 'none';
+    button.type = 'submit';
+
+    // Append it and click it
+    form.appendChild(button).click();
+
+    // If "submit" was prevented, make sure we don't get a build up of buttons
+    form.removeChild(button);
 };
 
 /**
@@ -40,7 +43,7 @@ Joomla.submitform = function(task, form) {
  */
 Joomla.submitbutton = function(pressbutton) {
     Joomla.submitform(pressbutton);
-}
+};
 
 /**
  * Custom behavior for JavaScript I18N in Joomla! 1.6
@@ -116,7 +119,7 @@ Joomla.checkAll = function(checkbox, stub) {
         return true;
     }
     return false;
-}
+};
 
 /**
  * Render messages send via JSON
@@ -151,7 +154,7 @@ Joomla.renderMessages = function(messages) {
 				titleWrapper.className = 'alert-heading';
 				titleWrapper.innerHTML = Joomla.JText._(type);
 
-				messagesBox.appendChild(titleWrapper)
+				messagesBox.appendChild(titleWrapper);
 			}
 
 			// Add messages to the message box
@@ -159,7 +162,7 @@ Joomla.renderMessages = function(messages) {
 				var messageWrapper = document.createElement('p');
 				messageWrapper.innerHTML = typeMessages[i];
 				messagesBox.appendChild(messageWrapper);
-			};
+			}
 
 			messageContainer.appendChild(messagesBox);
 		}
@@ -182,7 +185,7 @@ Joomla.removeMessages = function() {
 	messageContainer.style.display='none';
 	messageContainer.offsetHeight;
 	messageContainer.style.display='';
-}
+};
 
 /**
  * USED IN: administrator/components/com_cache/views/cache/tmpl/default.php
@@ -220,7 +223,7 @@ Joomla.isChecked = function(isitchecked, form) {
     if (form.elements['checkall-toggle']) {
         form.elements['checkall-toggle'].checked = c;
     }
-}
+};
 
 /**
  * USED IN: libraries/joomla/html/toolbar/button/help.php
@@ -231,10 +234,10 @@ Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
     var winl = (screen.width - w) / 2, wint, winprops, win;
     wint = (screen.height - h) / 2;
     winprops = 'height=' + h + ',width=' + w + ',top=' + wint + ',left=' + winl
-            + ',scrollbars=' + scroll + ',resizable'
-    win = window.open(mypage, myname, winprops)
+            + ',scrollbars=' + scroll + ',resizable';
+    win = window.open(mypage, myname, winprops);
     win.window.focus();
-}
+};
 
 /**
  * USED IN: libraries/joomla/html/html/grid.php
@@ -247,7 +250,7 @@ Joomla.tableOrdering = function(order, dir, task, form) {
     form.filter_order.value = order;
     form.filter_order_Dir.value = dir;
     Joomla.submitform(task, form);
-}
+};
 
 /**
  * USED IN: administrator/components/com_modules/views/module/tmpl/default.php
@@ -412,7 +415,7 @@ function listItemTask(id, task) {
  * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
  */
 function submitbutton(pressbutton) {
-    submitform(pressbutton);
+	Joomla.submitform(pressbutton);
 }
 
 /**
@@ -421,16 +424,7 @@ function submitbutton(pressbutton) {
  * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitform() instead.
  */
 function submitform(pressbutton) {
-    if (pressbutton) {
-        document.adminForm.task.value = pressbutton;
-    }
-    if (typeof document.adminForm.onsubmit == "function") {
-        document.adminForm.onsubmit();
-    }
-    if (typeof document.adminForm.fireEvent == "function") {
-        document.adminForm.fireEvent('onsubmit');
-    }
-    document.adminForm.submit();
+	Joomla.submitform(pressbutton);
 }
 
 // needed for Table Column ordering
