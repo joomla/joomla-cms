@@ -18,7 +18,7 @@ JFormHelper::loadFieldClass('list');
  * @see    JFormFieldLanguage for a select list of application languages.
  * @since  1.6
  */
-class JFormFieldFrontendlanguage extends JFormFieldList
+class JFormFieldFrontend_Language extends JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -26,7 +26,7 @@ class JFormFieldFrontendlanguage extends JFormFieldList
 	 * @var    string
 	 * @since  1.6
 	 */
-	public $type = 'FrontendLanguage';
+	public $type = 'Frontend_Language';
 
 	/**
 	 * Method to get the field options for frontend published content languages with homes.
@@ -41,7 +41,7 @@ class JFormFieldFrontendlanguage extends JFormFieldList
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('a.lang_code AS value, a.title AS text, a.title_native', 'l.home')
+		$query->select('a.lang_code AS value, a.title AS text')
 				->from($db->quoteName('#__languages') . ' AS a')
 				->where('a.published = 1')
 				->order('a.title');
@@ -56,7 +56,19 @@ class JFormFieldFrontendlanguage extends JFormFieldList
 
 		$db->setQuery($query);
 
-		$languages = $db->loadObjectList();
+		try
+		{
+			$languages = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$languages = array();
+
+			if (JFactory::getUser()->authorise('core.admin'))
+			{
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			}
+		}
 
 		// Merge any additional options in the XML definition.
 		$options = array_merge(
