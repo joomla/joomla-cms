@@ -191,7 +191,7 @@ class PlgSearchContent extends JPlugin
 			$db->setQuery($query, 0, $limit);
 			try
 			{
-				$list = $db->loadObjectList();	
+				$list = $db->loadObjectList();
 			}
 			catch (RuntimeException $e)
 			{
@@ -261,7 +261,7 @@ class PlgSearchContent extends JPlugin
 			$db->setQuery($query, 0, $limit);
 			try
 			{
-				$list3 = $db->loadObjectList();	
+				$list3 = $db->loadObjectList();
 			}
 			catch (RuntimeException $e)
 			{
