@@ -122,7 +122,7 @@ class PlgEditorTinymce extends JPlugin
 		$db->setQuery($query);
 		try
 		{
-			$template = $db->loadResult();	
+			$template = $db->loadResult();
 		}
 		catch (RuntimeException $e)
 		{
