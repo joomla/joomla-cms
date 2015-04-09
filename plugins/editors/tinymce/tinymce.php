@@ -120,7 +120,15 @@ class PlgEditorTinymce extends JPlugin
 			->where('client_id=0 AND home=' . $db->quote('1'));
 
 		$db->setQuery($query);
-		$template = $db->loadResult();
+		try
+		{
+			$template = $db->loadResult();	
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			return;
+		}
 
 		$content_css    = '';
 		$templates_path = JPATH_SITE . '/templates';
