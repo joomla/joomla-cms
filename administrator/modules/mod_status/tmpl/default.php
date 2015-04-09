@@ -30,10 +30,12 @@ defined('_JEXEC') or die;
 	<li class="messages <?php echo $inboxClass; ?>">
 		<?php if ($hideLinks) : ?>
 			<span class="badge <?php echo $active; ?>"><?php echo $unread; ?></span>
-			<?php echo JText::_('MOD_STATUS_MESSAGES'); ?>
+			<?php echo JText::plural('MOD_STATUS_MESSAGES', $unread); ?>
 		<?php else : ?>
 			<span class="badge <?php echo $active; ?>"><?php echo $unread; ?></span>
-			<a href="<?php echo $inboxLink; ?>"><?php echo JText::_('MOD_STATUS_MESSAGES'); ?></a>
+			<a href="<?php echo $inboxLink; ?>">
+				<?php echo JText::plural('MOD_STATUS_MESSAGES', $unread); ?>
+			</a>
 		<?php endif; ?>
 	</li>
 <?php endif; ?>
