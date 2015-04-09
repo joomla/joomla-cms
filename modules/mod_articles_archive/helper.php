@@ -48,13 +48,13 @@ class ModArchiveHelper
 		$db->setQuery($query, 0, (int) $params->get('count'));
 		try
 		{
-			$rows = (array) $db->loadObjectList();	
+			$rows = (array) $db->loadObjectList();
 		}
 		catch (RuntimeException $e)
- 		{
- 			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
- 			return;
- 		}
+		{
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			return;
+		}
 
 		$app    = JFactory::getApplication();
 		$menu   = $app->getMenu();
