@@ -35,6 +35,13 @@ class JLessFormatterJoomla extends lessc_formatter_classic
 	public $compressColors = false;
 }
 
+/**
+ * Formatter ruleset for Joomla formatted CSS (minified) generated via LESS
+ *
+ * @package     Joomla.Libraries
+ * @subpackage  Less
+ * @since       3.4.2
+ */
 class JLessFormatterJoomlaCompressed extends lessc_formatter_classic
 {
 	public $indentChar = "";
