@@ -50,7 +50,7 @@ class RedirectTableLink extends JTable
 		// Check for NOT NULL.
 		if (empty($this->referer))
 		{
-			$this->referer = ' ';
+			$this->referer = '';
 		}
 
 		// Check for valid name if not in advanced mode.
