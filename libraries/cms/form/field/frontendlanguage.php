@@ -48,7 +48,7 @@ class JFormFieldFrontendlanguage extends JFormFieldList
 
 		// Select the language home pages.
 		$query->select('l.home, l.language')
-			->join('INNER', $db->quoteName('#__menu') . ' AS l ON l.language = a.lang_code AND l.home = 1 AND l.published = 1 AND l.language <> ' . $db->quote('*'))
+			->join('INNER', $db->quoteName('#__menu') . ' AS l ON l.language=a.lang_code AND l.home=1 AND l.published=1 AND l.language <> ' . $db->quote('*'))
 			->join('LEFT', $db->quoteName('#__extensions') . ' AS e ON e.element = a.lang_code')
 			->where('e.client_id = 0')
 			->where('e.enabled = 1')
