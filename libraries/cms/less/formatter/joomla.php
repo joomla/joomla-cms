@@ -21,15 +21,21 @@ class JLessFormatterJoomla extends lessc_formatter_classic
 	public $indentChar = "\t";
 
 	public $break = "\n";
+
 	public $open = " {";
+
 	public $close = "}";
+
 	public $selectorSeparator = ", ";
+
 	public $assignSeparator = ": ";
 
 	public $openSingle = " { ";
+
 	public $closeSingle = " }";
 
 	public $disableSingle = true;
+
 	public $breakSelectors = true;
 
 	public $compressColors = false;
@@ -47,15 +53,21 @@ class JLessFormatterJoomlaCompressed extends lessc_formatter_classic
 	public $indentChar = "";
 
 	public $break = "";
+
 	public $open = "{";
+
 	public $close = "}";
+
 	public $selectorSeparator = ",";
+
 	public $assignSeparator = ":";
 
 	public $openSingle = "{";
+
 	public $closeSingle = "}";
 
 	public $disableSingle = false;
+
 	public $breakSelectors = false;
 
 	public $compressColors = true;
