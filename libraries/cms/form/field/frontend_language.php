@@ -16,7 +16,7 @@ JFormHelper::loadFieldClass('list');
  * Provides a list of published content languages with home pages
  *
  * @see    JFormFieldLanguage for a select list of application languages.
- * @since  1.6
+ * @since  3.4.2
  */
 class JFormFieldFrontend_Language extends JFormFieldList
 {
@@ -24,7 +24,7 @@ class JFormFieldFrontend_Language extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  1.6
+	 * @since  3.4.2
 	 */
 	public $type = 'Frontend_Language';
 
@@ -48,8 +48,8 @@ class JFormFieldFrontend_Language extends JFormFieldList
 
 		// Select the language home pages.
 		$query->select('l.home, l.language')
-			->join('INNER', $db->quoteName('#__menu') . ' AS l ON l.language=a.lang_code AND l.home=1 AND l.published=1 AND l.language <> ' . $db->quote('*'))
-			->join('LEFT', $db->quoteName('#__extensions') . ' AS e ON e.element = a.lang_code')
+			->innerJoin($db->quoteName('#__menu') . ' AS l ON l.language=a.lang_code AND l.home=1 AND l.published=1 AND l.language <> ' . $db->quote('*'))
+			->innerJoin($db->quoteName('#__extensions') . ' AS e ON e.element = a.lang_code')
 			->where('e.client_id = 0')
 			->where('e.enabled = 1')
 			->where('e.state = 0');
