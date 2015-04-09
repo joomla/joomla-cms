@@ -74,8 +74,11 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 */
 	public function find()
 	{
-		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		/*
+		 * Note: We don't do a token check so we are able force 
+		 * to find updates by the URL. This means that between requests
+		 * the token might change, making it impossible to work.
+		 */
 
 		// Get the caching duration.
 		$component     = JComponentHelper::getComponent('com_installer');
