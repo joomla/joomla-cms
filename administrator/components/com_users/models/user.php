@@ -137,7 +137,7 @@ class UsersModelUser extends JModelAdmin
 		// When multilanguage is set, a user's default site language should also be a Content Language
 		if (JLanguageMultilang::isEnabled())
 		{
-			$form->setFieldAttribute('language', 'type', 'frontendlanguage', 'params');
+			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
 		}
 
 		// The user should not be able to set the requireReset value on their own account
