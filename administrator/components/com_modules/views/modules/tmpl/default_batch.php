@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 $clientId  = $this->state->get('filter.client_id');
-$published = $this->state->get('filter.published');
+$published = 1; // show only Module Positions of published Templates
 $positions = JHtml::_('modules.positions', $clientId, $published);
 $positions['']['items'][] = ModulesHelper::createOption('nochange', JText::_('COM_MODULES_BATCH_POSITION_NOCHANGE'));
 $positions['']['items'][] = ModulesHelper::createOption('noposition', JText::_('COM_MODULES_BATCH_POSITION_NOPOSITION'));
