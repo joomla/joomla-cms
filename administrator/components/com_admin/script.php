@@ -19,7 +19,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstallerFile $installer The class calling this method
+	 * @param   JInstallerFile  $installer  The class calling this method
 	 *
 	 * @return void
 	 */
@@ -49,46 +49,11 @@ class JoomlaInstallerScript
 
 		if (substr($db->name, 0, 5) == 'mysql')
 		{
-			$this->updateDatabaseMySQL();
-		}
-
-		$this->uninstallEosPlugin();
-	}
-
-	/**
-	 * Method to update MySQL Database
-	 *
-	 * @return void
-	 */
-	protected function updateDatabaseMySQL()
-	{
-		$db = JFactory::getDbo();
-
-		$db->setQuery('SHOW ENGINES');
-
-		try
-		{
-			$results = $db->loadObjectList();
-		}
-		catch (Exception $e)
-		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
-
-			return;
-		}
-
-		foreach ($results as $result)
-		{
-			if ($result->Support != 'DEFAULT')
-			{
-				continue;
-			}
-
-			$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
+			$db->setQuery('SHOW ENGINES');
 
 			try
 			{
-				$db->execute();
+				$results = $db->loadObjectList();
 			}
 			catch (Exception $e)
 			{
@@ -97,18 +62,27 @@ class JoomlaInstallerScript
 				return;
 			}
 
-			break;
-		}
-	}
+			foreach ($results as $result)
+			{
+				if ($result->Support == 'DEFAULT')
+				{
+					$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
 
-	/**
-	 * Uninstall the 2.5 EOS plugin
-	 *
-	 * @return void
-	 */
-	protected function uninstallEosPlugin()
-	{
-		$db = JFactory::getDbo();
+					try
+					{
+						$db->execute();
+					}
+					catch (Exception $e)
+					{
+						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+
+						return;
+					}
+
+					break;
+				}
+			}
+		}
 
 		// Check if the 2.5 EOS plugin is present and uninstall it if so
 		$id = $db->setQuery(
@@ -118,21 +92,19 @@ class JoomlaInstallerScript
 				->where('name = ' . $db->quote('PLG_EOSNOTIFY'))
 		)->loadResult();
 
-		if (!$id)
+		if ($id)
 		{
-			return;
+			// We need to unprotect the plugin so we can uninstall it
+			$db->setQuery(
+				$db->getQuery(true)
+					->update('#__extensions')
+					->set('protected = 0')
+					->where($db->quoteName('extension_id') . ' = ' . $id)
+			)->execute();
+
+			$installer = new JInstaller;
+			$installer->uninstall('plugin', $id);
 		}
-
-		// We need to unprotect the plugin so we can uninstall it
-		$db->setQuery(
-			$db->getQuery(true)
-				->update('#__extensions')
-				->set('protected = 0')
-				->where($db->quoteName('extension_id') . ' = ' . $id)
-		)->execute();
-
-		$installer = new JInstaller;
-		$installer->uninstall('plugin', $id);
 	}
 
 	/**
@@ -142,155 +114,153 @@ class JoomlaInstallerScript
 	 */
 	protected function updateManifestCaches()
 	{
-		$extensions = array(
-			// Components
-			// `type`, `element`, `folder`, `client_id`
-			array('component', 'com_mailto', '', 0),
-			array('component', 'com_wrapper', '', 0),
-			array('component', 'com_admin', '', 1),
-			array('component', 'com_ajax', '', 1),
-			array('component', 'com_banners', '', 1),
-			array('component', 'com_cache', '', 1),
-			array('component', 'com_categories', '', 1),
-			array('component', 'com_checkin', '', 1),
-			array('component', 'com_contact', '', 1),
-			array('component', 'com_cpanel', '', 1),
-			array('component', 'com_installer', '', 1),
-			array('component', 'com_languages', '', 1),
-			array('component', 'com_login', '', 1),
-			array('component', 'com_media', '', 1),
-			array('component', 'com_menus', '', 1),
-			array('component', 'com_messages', '', 1),
-			array('component', 'com_modules', '', 1),
-			array('component', 'com_newsfeeds', '', 1),
-			array('component', 'com_plugins', '', 1),
-			array('component', 'com_search', '', 1),
-			array('component', 'com_templates', '', 1),
-			array('component', 'com_content', '', 1),
-			array('component', 'com_config', '', 1),
-			array('component', 'com_redirect', '', 1),
-			array('component', 'com_users', '', 1),
-			array('component', 'com_tags', '', 1),
-			array('component', 'com_contenthistory', '', 1),
-			array('component', 'com_postinstall', '', 1),
+		$extensions = array();
 
-			// Libraries
-			array('library', 'phpmailer', '', 0),
-			array('library', 'simplepie', '', 0),
-			array('library', 'phputf8', '', 0),
-			array('library', 'joomla', '', 0),
-			array('library', 'idna_convert', '', 0),
-			array('library', 'fof', '', 0),
-			array('library', 'phpass', '', 0),
+		// Components
+		// `type`, `element`, `folder`, `client_id`
+		$extensions[] = array('component', 'com_mailto', '', 0);
+		$extensions[] = array('component', 'com_wrapper', '', 0);
+		$extensions[] = array('component', 'com_admin', '', 1);
+		$extensions[] = array('component', 'com_ajax', '', 1);
+		$extensions[] = array('component', 'com_banners', '', 1);
+		$extensions[] = array('component', 'com_cache', '', 1);
+		$extensions[] = array('component', 'com_categories', '', 1);
+		$extensions[] = array('component', 'com_checkin', '', 1);
+		$extensions[] = array('component', 'com_contact', '', 1);
+		$extensions[] = array('component', 'com_cpanel', '', 1);
+		$extensions[] = array('component', 'com_installer', '', 1);
+		$extensions[] = array('component', 'com_languages', '', 1);
+		$extensions[] = array('component', 'com_login', '', 1);
+		$extensions[] = array('component', 'com_media', '', 1);
+		$extensions[] = array('component', 'com_menus', '', 1);
+		$extensions[] = array('component', 'com_messages', '', 1);
+		$extensions[] = array('component', 'com_modules', '', 1);
+		$extensions[] = array('component', 'com_newsfeeds', '', 1);
+		$extensions[] = array('component', 'com_plugins', '', 1);
+		$extensions[] = array('component', 'com_search', '', 1);
+		$extensions[] = array('component', 'com_templates', '', 1);
+		$extensions[] = array('component', 'com_content', '', 1);
+		$extensions[] = array('component', 'com_config', '', 1);
+		$extensions[] = array('component', 'com_redirect', '', 1);
+		$extensions[] = array('component', 'com_users', '', 1);
+		$extensions[] = array('component', 'com_tags', '', 1);
+		$extensions[] = array('component', 'com_contenthistory', '', 1);
+		$extensions[] = array('component', 'com_postinstall', '', 1);
 
-			// Modules site
-			// Site
-			array('module', 'mod_articles_archive', '', 0),
-			array('module', 'mod_articles_latest', '', 0),
-			array('module', 'mod_articles_popular', '', 0),
-			array('module', 'mod_banners', '', 0),
-			array('module', 'mod_breadcrumbs', '', 0),
-			array('module', 'mod_custom', '', 0),
-			array('module', 'mod_feed', '', 0),
-			array('module', 'mod_footer', '', 0),
-			array('module', 'mod_login', '', 0),
-			array('module', 'mod_menu', '', 0),
-			array('module', 'mod_articles_news', '', 0),
-			array('module', 'mod_random_image', '', 0),
-			array('module', 'mod_related_items', '', 0),
-			array('module', 'mod_search', '', 0),
-			array('module', 'mod_stats', '', 0),
-			array('module', 'mod_syndicate', '', 0),
-			array('module', 'mod_users_latest', '', 0),
-			array('module', 'mod_whosonline', '', 0),
-			array('module', 'mod_wrapper', '', 0),
-			array('module', 'mod_articles_category', '', 0),
-			array('module', 'mod_articles_categories', '', 0),
-			array('module', 'mod_languages', '', 0),
-			array('module', 'mod_tags_popular', '', 0),
-			array('module', 'mod_tags_similar', '', 0),
+		// Libraries
+		$extensions[] = array('library', 'simplepie', '', 0);
+		$extensions[] = array('library', 'phputf8', '', 0);
+		$extensions[] = array('library', 'joomla', '', 0);
+		$extensions[] = array('library', 'idna_convert', '', 0);
+		$extensions[] = array('library', 'fof', '', 0);
+		$extensions[] = array('library', 'phpass', '', 0);
 
-			// Administrator
-			array('module', 'mod_custom', '', 1),
-			array('module', 'mod_feed', '', 1),
-			array('module', 'mod_latest', '', 1),
-			array('module', 'mod_logged', '', 1),
-			array('module', 'mod_login', '', 1),
-			array('module', 'mod_menu', '', 1),
-			array('module', 'mod_popular', '', 1),
-			array('module', 'mod_quickicon', '', 1),
-			array('module', 'mod_stats_admin', '', 1),
-			array('module', 'mod_status', '', 1),
-			array('module', 'mod_submenu', '', 1),
-			array('module', 'mod_title', '', 1),
-			array('module', 'mod_toolbar', '', 1),
-			array('module', 'mod_multilangstatus', '', 1),
+		// Modules site
+		// Site
+		$extensions[] = array('module', 'mod_articles_archive', '', 0);
+		$extensions[] = array('module', 'mod_articles_latest', '', 0);
+		$extensions[] = array('module', 'mod_articles_popular', '', 0);
+		$extensions[] = array('module', 'mod_banners', '', 0);
+		$extensions[] = array('module', 'mod_breadcrumbs', '', 0);
+		$extensions[] = array('module', 'mod_custom', '', 0);
+		$extensions[] = array('module', 'mod_feed', '', 0);
+		$extensions[] = array('module', 'mod_footer', '', 0);
+		$extensions[] = array('module', 'mod_login', '', 0);
+		$extensions[] = array('module', 'mod_menu', '', 0);
+		$extensions[] = array('module', 'mod_articles_news', '', 0);
+		$extensions[] = array('module', 'mod_random_image', '', 0);
+		$extensions[] = array('module', 'mod_related_items', '', 0);
+		$extensions[] = array('module', 'mod_search', '', 0);
+		$extensions[] = array('module', 'mod_stats', '', 0);
+		$extensions[] = array('module', 'mod_syndicate', '', 0);
+		$extensions[] = array('module', 'mod_users_latest', '', 0);
+		$extensions[] = array('module', 'mod_whosonline', '', 0);
+		$extensions[] = array('module', 'mod_wrapper', '', 0);
+		$extensions[] = array('module', 'mod_articles_category', '', 0);
+		$extensions[] = array('module', 'mod_articles_categories', '', 0);
+		$extensions[] = array('module', 'mod_languages', '', 0);
+		$extensions[] = array('module', 'mod_tags_popular', '', 0);
+		$extensions[] = array('module', 'mod_tags_similar', '', 0);
 
-			// Plug-ins
-			array('plugin', 'gmail', 'authentication', 0),
-			array('plugin', 'joomla', 'authentication', 0),
-			array('plugin', 'ldap', 'authentication', 0),
-			array('plugin', 'contact', 'content', 0),
-			array('plugin', 'emailcloak', 'content', 0),
-			array('plugin', 'loadmodule', 'content', 0),
-			array('plugin', 'pagebreak', 'content', 0),
-			array('plugin', 'pagenavigation', 'content', 0),
-			array('plugin', 'vote', 'content', 0),
-			array('plugin', 'codemirror', 'editors', 0),
-			array('plugin', 'none', 'editors', 0),
-			array('plugin', 'tinymce', 'editors', 0),
-			array('plugin', 'article', 'editors-xtd', 0),
-			array('plugin', 'image', 'editors-xtd', 0),
-			array('plugin', 'pagebreak', 'editors-xtd', 0),
-			array('plugin', 'readmore', 'editors-xtd', 0),
-			array('plugin', 'categories', 'search', 0),
-			array('plugin', 'contacts', 'search', 0),
-			array('plugin', 'content', 'search', 0),
-			array('plugin', 'newsfeeds', 'search', 0),
-			array('plugin', 'tags', 'search', 0),
-			array('plugin', 'languagefilter', 'system', 0),
-			array('plugin', 'p3p', 'system', 0),
-			array('plugin', 'cache', 'system', 0),
-			array('plugin', 'debug', 'system', 0),
-			array('plugin', 'log', 'system', 0),
-			array('plugin', 'redirect', 'system', 0),
-			array('plugin', 'remember', 'system', 0),
-			array('plugin', 'sef', 'system', 0),
-			array('plugin', 'logout', 'system', 0),
-			array('plugin', 'contactcreator', 'user', 0),
-			array('plugin', 'joomla', 'user', 0),
-			array('plugin', 'profile', 'user', 0),
-			array('plugin', 'joomla', 'extension', 0),
-			array('plugin', 'joomla', 'content', 0),
-			array('plugin', 'languagecode', 'system', 0),
-			array('plugin', 'joomlaupdate', 'quickicon', 0),
-			array('plugin', 'extensionupdate', 'quickicon', 0),
-			array('plugin', 'recaptcha', 'captcha', 0),
-			array('plugin', 'categories', 'finder', 0),
-			array('plugin', 'contacts', 'finder', 0),
-			array('plugin', 'content', 'finder', 0),
-			array('plugin', 'newsfeeds', 'finder', 0),
-			array('plugin', 'tags', 'finder', 0),
-			array('plugin', 'totp', 'twofactorauth', 0),
-			array('plugin', 'yubikey', 'twofactorauth', 0),
-			array('plugin', 'nocaptcha', 'captcha', 0),
+		// Administrator
+		$extensions[] = array('module', 'mod_custom', '', 1);
+		$extensions[] = array('module', 'mod_feed', '', 1);
+		$extensions[] = array('module', 'mod_latest', '', 1);
+		$extensions[] = array('module', 'mod_logged', '', 1);
+		$extensions[] = array('module', 'mod_login', '', 1);
+		$extensions[] = array('module', 'mod_menu', '', 1);
+		$extensions[] = array('module', 'mod_popular', '', 1);
+		$extensions[] = array('module', 'mod_quickicon', '', 1);
+		$extensions[] = array('module', 'mod_stats_admin', '', 1);
+		$extensions[] = array('module', 'mod_status', '', 1);
+		$extensions[] = array('module', 'mod_submenu', '', 1);
+		$extensions[] = array('module', 'mod_title', '', 1);
+		$extensions[] = array('module', 'mod_toolbar', '', 1);
+		$extensions[] = array('module', 'mod_multilangstatus', '', 1);
 
-			// Templates
-			array('template', 'beez3', '', 0),
-			array('template', 'hathor', '', 1),
-			array('template', 'protostar', '', 0),
-			array('template', 'isis', '', 1),
+		// Plug-ins
+		$extensions[] = array('plugin', 'gmail', 'authentication', 0);
+		$extensions[] = array('plugin', 'joomla', 'authentication', 0);
+		$extensions[] = array('plugin', 'ldap', 'authentication', 0);
+		$extensions[] = array('plugin', 'contact', 'content', 0);
+		$extensions[] = array('plugin', 'emailcloak', 'content', 0);
+		$extensions[] = array('plugin', 'loadmodule', 'content', 0);
+		$extensions[] = array('plugin', 'pagebreak', 'content', 0);
+		$extensions[] = array('plugin', 'pagenavigation', 'content', 0);
+		$extensions[] = array('plugin', 'vote', 'content', 0);
+		$extensions[] = array('plugin', 'codemirror', 'editors', 0);
+		$extensions[] = array('plugin', 'none', 'editors', 0);
+		$extensions[] = array('plugin', 'tinymce', 'editors', 0);
+		$extensions[] = array('plugin', 'article', 'editors-xtd', 0);
+		$extensions[] = array('plugin', 'image', 'editors-xtd', 0);
+		$extensions[] = array('plugin', 'pagebreak', 'editors-xtd', 0);
+		$extensions[] = array('plugin', 'readmore', 'editors-xtd', 0);
+		$extensions[] = array('plugin', 'categories', 'search', 0);
+		$extensions[] = array('plugin', 'contacts', 'search', 0);
+		$extensions[] = array('plugin', 'content', 'search', 0);
+		$extensions[] = array('plugin', 'newsfeeds', 'search', 0);
+		$extensions[] = array('plugin', 'tags', 'search', 0);
+		$extensions[] = array('plugin', 'languagefilter', 'system', 0);
+		$extensions[] = array('plugin', 'p3p', 'system', 0);
+		$extensions[] = array('plugin', 'cache', 'system', 0);
+		$extensions[] = array('plugin', 'debug', 'system', 0);
+		$extensions[] = array('plugin', 'log', 'system', 0);
+		$extensions[] = array('plugin', 'redirect', 'system', 0);
+		$extensions[] = array('plugin', 'remember', 'system', 0);
+		$extensions[] = array('plugin', 'sef', 'system', 0);
+		$extensions[] = array('plugin', 'logout', 'system', 0);
+		$extensions[] = array('plugin', 'contactcreator', 'user', 0);
+		$extensions[] = array('plugin', 'joomla', 'user', 0);
+		$extensions[] = array('plugin', 'profile', 'user', 0);
+		$extensions[] = array('plugin', 'joomla', 'extension', 0);
+		$extensions[] = array('plugin', 'joomla', 'content', 0);
+		$extensions[] = array('plugin', 'languagecode', 'system', 0);
+		$extensions[] = array('plugin', 'joomlaupdate', 'quickicon', 0);
+		$extensions[] = array('plugin', 'extensionupdate', 'quickicon', 0);
+		$extensions[] = array('plugin', 'recaptcha', 'captcha', 0);
+		$extensions[] = array('plugin', 'categories', 'finder', 0);
+		$extensions[] = array('plugin', 'contacts', 'finder', 0);
+		$extensions[] = array('plugin', 'content', 'finder', 0);
+		$extensions[] = array('plugin', 'newsfeeds', 'finder', 0);
+		$extensions[] = array('plugin', 'tags', 'finder', 0);
+		$extensions[] = array('plugin', 'totp', 'twofactorauth', 0);
+		$extensions[] = array('plugin', 'yubikey', 'twofactorauth', 0);
 
-			// Languages
-			array('language', 'en-GB', '', 0),
-			array('language', 'en-GB', '', 1),
+		// Templates
+		$extensions[] = array('template', 'beez3', '', 0);
+		$extensions[] = array('template', 'hathor', '', 1);
+		$extensions[] = array('template', 'protostar', '', 0);
+		$extensions[] = array('template', 'isis', '', 1);
 
-			// Files
-			array('file', 'joomla', '', 0),
+		// Languages
+		$extensions[] = array('language', 'en-GB', '', 0);
+		$extensions[] = array('language', 'en-GB', '', 1);
 
-			// Packages
-			// None in core at this time
-		);
+		// Files
+		$extensions[] = array('file', 'joomla', '', 0);
+
+		// Packages
+		// None in core at this time
 
 		// Attempt to refresh manifest caches
 		$db = JFactory::getDbo();
@@ -1402,10 +1372,12 @@ class JoomlaInstallerScript
 		 * Needed for updates post-3.4
 		 * If com_weblinks doesn't exist then assume we can delete the weblinks package manifest (included in the update packages)
 		 */
-		if (!JFile::exists(JPATH_ADMINISTRATOR . '/components/com_weblinks/weblinks.php')
-			&& JFile::exists(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml'))
+		if (!JFile::exists(JPATH_ADMINISTRATOR . '/components/com_weblinks/weblinks.php'))
 		{
-			JFile::delete(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml');
+			if (JFile::exists(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml'))
+			{
+				JFile::delete(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml');
+			}
 		}
 	}
 
@@ -1450,23 +1422,21 @@ class JoomlaInstallerScript
 		{
 			$asset = JTable::getInstance('Asset');
 
-			if ($asset->loadByName($component))
+			if (!$asset->loadByName($component))
 			{
-				continue;
-			}
+				$asset->name = $component;
+				$asset->parent_id = 1;
+				$asset->rules = '{}';
+				$asset->title = $component;
+				$asset->setLocation(1, 'last-child');
 
-			$asset->name = $component;
-			$asset->parent_id = 1;
-			$asset->rules = '{}';
-			$asset->title = $component;
-			$asset->setLocation(1, 'last-child');
+				if (!$asset->store())
+				{
+					// Install failed, roll back changes
+					$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
 
-			if (!$asset->store())
-			{
-				// Install failed, roll back changes
-				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->stderr(true)));
-
-				return false;
+					return false;
+				}
 			}
 		}
 
