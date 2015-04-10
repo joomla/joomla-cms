@@ -332,9 +332,6 @@ class PlgUserProfile extends JPlugin
 		{
 			try
 			{
-				// Convert website url to punycode
-				$data['profile']['website'] = JStringPunycode::urlToPunycode($data['profile']['website']);
-
 				$date = new JDate($data['profile']['dob']);
 				$this->date = $date->format('Y-m-d H:i:s');
 			}
