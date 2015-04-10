@@ -20,10 +20,11 @@ class LoginSteps extends \AcceptanceTester
 	public function doAdministratorLogin($user, $password)
 	{
 		$I = $this;
+		$I->am('Administrator');
 		$I->amOnPage(\AdministratorLoginPage::$URL);
 		$I->fillField(\AdministratorLoginPage::$elements['username'], $user);
 		$I->fillField(\AdministratorLoginPage::$elements['password'], $password);
 		$I->click('Log in');
-		$I->see('Category Manager');
+		$I->waitForText('Control Panel',10,'H1');
 	}
 }
