@@ -209,7 +209,7 @@ class JInput implements Serializable, Countable
 	 *
 	 * @return  mixed  The filtered input data.
 	 *
-	 * @since   ???
+	 * @since   3.4.2
 	 */
 	protected function getArrayRecursive(array $vars = array(), $datasource = null, $defaultFilter = 'unknown', $recursion = false)
 	{
