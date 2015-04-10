@@ -9,24 +9,22 @@
 
 // Loads the step object, check /_steps/ folder and see: http://codeception.com/docs/07-AdvancedUsage#StepObjects
 $I = new AcceptanceTester\LoginSteps($scenario);
-$I->wantTo('Execute Log in at Joomla Administrator');
+
 
 // I get the configuration from acceptance.suite.yml (see: tests/_support/acceptancehelper.php)
-$cfg = $I->getConfig();
+$I->wantTo('set Joomla Error Reporting to Development');
 
-// The following command is using a method defined in the Step Object
-$I->doAdministratorLogin($cfg['username'], $cfg['password']);
+// The following command is using a method defined in the Step Object (see _steps/loginsteps.php)
+$I->doAdministratorLogin($I->getConfiguration('Username'), $I->getConfiguration('Password'));
 
-//$I = new AcceptanceTester\GlobalConfigurationSteps($scenario);
-$I->wantTo('Set Error Reporting Level');
-$I->amOnPage(\GlobalconfigurationPage::$URL);
+$I->amOnPage('/administrator/index.php?option=com_config');
 
 $globalConfiguration =  \GlobalconfigurationPage::$elements;
-$I->waitForText('Global Configuration', 10, '.page-title');
-$I->click($globalConfiguration['Server Tab']);
-$I->waitForElement($globalConfiguration['Error Reporting Dropdown']);
+$I->waitForText('Global Configuration',10,'.page-title');
+$I->click('Server');
+$I->waitForElementVisible($globalConfiguration['Error Reporting Dropdown']);
 $I->click($globalConfiguration['Error Reporting Dropdown']);
 $I->click($globalConfiguration['option: Development']);
-$I->click($globalConfiguration['Save']);
-$I->waitForText('Global Configuration', 10, '.page-title');
-$I->see('Configuration successfully saved.', $globalConfiguration['Success Message Locator'] );
+$I->click('Save');
+$I->waitForText('Global Configuration',10,'.page-title');
+$I->see('Configuration successfully saved.','#system-message-container');
