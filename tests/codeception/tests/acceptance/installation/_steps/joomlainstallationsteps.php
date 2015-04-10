@@ -26,22 +26,14 @@ class JoomlaInstallationSteps extends \AcceptanceTester
 	 *
 	 * @return void
 	 */
-	public function removeConfigFile()
+	public function checkNoConfigurationFile()
 	{
 		$I = $this;
-		$I->wantTo('prepare joomla installation');
+		$I->expect('no configuration.php is in the Joomla CMS folder');
 
-		// Remove Joomla 3 CMS old configuration.php file before do a clean joomla installation
-		$cfg = $I->getConfig();
+		$joomlaConfigurationFile = realpath($I->getConfiguration('Joomla folder') . 'configuration.php');
 
-		$joomla3ConfigurationFile = realpath($cfg['joomla folder'] . 'configuration.php');
-
-		if (file_exists($joomla3ConfigurationFile))
-		{
-			$I->comment('removing Joomla 3 CMS old configuration.php file to do a clean joomla installation');
-			chmod($joomla3ConfigurationFile, 0777);
-			unlink($joomla3ConfigurationFile);
-		}
+		$I->assertFalse(file_exists($joomlaConfigurationFile), "a Configuration.php file was found in Joomla CMS folder. Can't Install Joomla since is already installed");
 
 		$I->comment('Joomla is ready to install');
 	}

@@ -23,8 +23,8 @@ class JoomlaInstallationDatabasePage
 	 * @var array
 	 */
 	public static $elements = array(
-		"Database Type"             	=> "#jform_db_type",
-		"Remove Old Database button"	=> "//label[@for='jform_db_old1']"
+		'Database Type'            	    => "#jform_db_type",
+		'Remove Old Database button'	=> "//label[@for='jform_db_old1']"
 	);
 }
 

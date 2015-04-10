@@ -18,17 +18,13 @@
 class JoomlaInstallationConfigurationPage
 {
 	/**
-	 * @var string Url of the page
-	 */
-	public static $URL = '/installation/index.php';
-
-	/**
 	 * Array of Page elements indexed by descriptive name or label
 	 *
 	 * @var array
 	 */
 	public static $elements = array(
 		'Language Selector'         => "//div[@id='jform_language_chzn']/a",
-		'English (United Kingdom)'  => "//li[text()='English (United Kingdom)']"
+		'English (United Kingdom)'  => "//li[text()='English (United Kingdom)']",
+		'No Site Offline'  => "//fieldset[@id='jform_site_offline']/label[2]"
 	);
 }

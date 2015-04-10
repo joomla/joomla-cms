@@ -23,7 +23,8 @@ class JoomlaInstallationOverviewPage
 	 * @var array
 	 */
 	public static $elements = array(
-		"Sample Data"       => "#jform_sample_file",
-		"No sample Data"    => "#jform_sample_file0"
+		'Sample Data'                       => '#jform_sample_file',
+		'No sample Data'                    => '#jform_sample_file0',
+		'Default English (GB) Sample Data'  => '#jform_sample_file3'
 	);
 }

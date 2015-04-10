@@ -13,7 +13,7 @@ $I = new AcceptanceTester\JoomlaInstallationSteps($scenario);
 $I->wantTo('Install Joomla CMS');
 
 // This _step object method ensures that joomla is not already installed by removing configuration.php
-$I->removeConfigFile();
+$I->checkNoConfigurationFile();
 
 $I->amOnPage('/installation/index.php');
 
