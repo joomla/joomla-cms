@@ -87,7 +87,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php if (!$item->element) : ?>
 								<strong>X</strong>
 							<?php else : ?>
-								<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'updatesites.'); ?>
+								<?php echo JHtml::_('InstallerHtml.Updatesites.state', $item->enabled, $i, $item->enabled < 2, 'cb'); ?>
 							<?php endif; ?>
 						</td>
 						<td>
