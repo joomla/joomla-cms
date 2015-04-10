@@ -599,30 +599,18 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		$config = JFactory::getConfig();
-		$lifetime = ($config->get('lifetime') * 60000);
-		$refreshTime = ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
+		$url = JUri::base(true) . 'index.php?option=com_ajax&format=json';
 
-		// Refresh time is 1 minute less than the lifetime assigned in the configuration.php file.
-
-		// The longest refresh period is one hour to prevent integer overflow.
-		if ($refreshTime > 3600000 || $refreshTime <= 0)
-		{
-			$refreshTime = 3600000;
-		}
-
-		$url = JRoute::_("index.php?option=com_ajax&format=json", false);
-
-		$document = JFactory::getDocument();
 		$script = 'window.setInterval(function(){';
 		$script .= 'var r;';
 		$script .= 'try{';
 		$script .= 'r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")';
 		$script .= '}catch(e){}';
 		$script .= 'if(r){r.open("GET","' . $url . '",true);r.send(null)}';
-		$script .= '},' . $refreshTime . ');';
+		$script .= '},60000);';
 
-		$document->addScriptDeclaration($script);
+		JFactory::getDocument()->addScriptDeclaration($script);
+
 		static::$loaded[__METHOD__] = true;
 
 		return;
