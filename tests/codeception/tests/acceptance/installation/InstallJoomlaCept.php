@@ -7,13 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Loads the step object, check /_steps/ folder and see: http://codeception.com/docs/07-AdvancedUsage#StepObjects
-$I = new AcceptanceTester\JoomlaInstallationSteps($scenario);
+$I = new \AcceptanceTester($scenario);
 
 $I->wantTo('Install Joomla CMS');
-
-// This _step object method ensures that joomla is not already installed by removing configuration.php
-$I->checkNoConfigurationFile();
+$I->expect('no configuration.php is in the Joomla CMS folder');
+$I->dontSeeFileFound('configuration.php', $I->getConfiguration('Joomla folder'));
 
 $I->amOnPage('/installation/index.php');
 

@@ -17,7 +17,7 @@ modules:
     enabled:
         - WebDriver
         - AcceptanceHelper
-        - Asserts
+        - Filesystem
     config:
         WebDriver:
             url: 'http://localhost/joomla-cms/tests/codeception/testingsite/'     # the url that points to the joomla installation at /tests/system/joomla-cms
