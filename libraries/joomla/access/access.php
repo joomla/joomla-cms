@@ -258,7 +258,7 @@ class JAccess
 	 *
 	 * @param   string      $assetType  e.g. 'com_content.article'
 	 * @param   string|int  $assetId    numeric Asset ID
-	 * @param   array       $ancestors  Array to hold the list of ancestors
+	 * @param   array       &$ancestors  Array to hold the list of ancestors
 	 *
 	 * @return   array  List of Ancestor IDs (includes original $assetId)
 	 *
@@ -589,10 +589,10 @@ class JAccess
 
 			if (!isset(self::$assetRulesIdentities[$hash]))
 			{
-			   $rules    = new JAccessRules;
-			   $rules->mergeCollection($collected);
+				$rules    = new JAccessRules;
+				$rules->mergeCollection($collected);
 
-			   self::$assetRulesIdentities[$hash] = $rules;
+				self::$assetRulesIdentities[$hash] = $rules;
 			}
 
 			// Mark in the profiler.
