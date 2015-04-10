@@ -16,10 +16,11 @@ JHtml::_('bootstrap.tooltip', '.noHtmlTip', array('html' => false));
 
 $user  = JFactory::getUser();
 $input = JFactory::getApplication()->input;
+$params = JComponentHelper::getParams('com_media');
 
 JFactory::getDocument()->addScriptDeclaration(
 	"
-	var image_base_path = '" . $params = JComponentHelper::getParams('com_media') . $params->get('image_path', 'images') . "';
+	var image_base_path = '" . $params->get('image_path', 'images') . "/';
 	"
 );
 ?>
