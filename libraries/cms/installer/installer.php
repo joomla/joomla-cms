@@ -1865,6 +1865,12 @@ class JInstaller extends JAdapter
 	 */
 	public function findManifest()
 	{
+		// Do nothing if folder does not exist for some reason
+		if (!JFolder::exists($this->getPath('source')))
+		{
+			return false;
+		}
+
 		// Main folder manifests (higher priority)
 		$parentXmlfiles = JFolder::files($this->getPath('source'), '.xml$', false, true);
 

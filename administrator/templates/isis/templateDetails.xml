@@ -47,7 +47,7 @@
 		<fields name="params">
 			<fieldset name="advanced">
 
-				<field name="templateColor" class="" type="color" default="#13294A"
+				<field name="templateColor" class="" type="color" default="#10223E"
 				validate="color"
 				label="TPL_ISIS_COLOR_LABEL"
 				description="TPL_ISIS_COLOR_DESC" />
