@@ -1057,10 +1057,14 @@ abstract class JHtml
 	 *
 	 * @return  string  JavaScript object notation representation of the array
 	 *
+	 * @deprecated 4.0 use json_encode or JRegistry::toString('json')
+	 *
 	 * @since   3.0
 	 */
 	public static function getJSObject(array $array = array())
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Use json_encode instead.', JLog::WARNING, 'deprecated');
+
 		$elements = array();
 
 		foreach ($array as $k => $v)

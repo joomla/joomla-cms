@@ -147,7 +147,7 @@ class LanguagesModelStrings extends JModelLegacy
 			$results['results'] = $this->_db->loadObjectList();
 
 			// Check whether there are more results than already loaded.
-			$query->clear('select')
+			$query->clear('select')->clear('limit')
 						->select('COUNT(id)');
 			$this->_db->setQuery($query);
 

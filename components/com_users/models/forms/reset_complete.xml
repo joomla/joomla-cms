@@ -25,6 +25,7 @@
 			label="COM_USERS_FIELD_RESET_PASSWORD2_LABEL"
 			required="true"
 			size="30"
+			validate="password"
 		/>
 	</fieldset>
 </form>

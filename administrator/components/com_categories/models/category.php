@@ -58,17 +58,17 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id))
 		{
-			if ($record->published != -2)
-			{
-				return;
-			}
-
-			$user = JFactory::getUser();
-
-			return $user->authorise('core.delete', $record->extension . '.category.' . (int) $record->id);
+			return;
 		}
+
+		if ($record->published != -2)
+		{
+			return;
+		}
+
+		return JFactory::getUser()->authorise('core.delete', $record->extension . '.category.' . (int) $record->id);
 	}
 
 	/**
@@ -89,16 +89,15 @@ class CategoriesModelCategory extends JModelAdmin
 		{
 			return $user->authorise('core.edit.state', $record->extension . '.category.' . (int) $record->id);
 		}
+
 		// New category, so check against the parent.
-		elseif (!empty($record->parent_id))
+		if (!empty($record->parent_id))
 		{
 			return $user->authorise('core.edit.state', $record->extension . '.category.' . (int) $record->parent_id);
 		}
+
 		// Default to component settings if neither category nor parent known.
-		else
-		{
-			return $user->authorise('core.edit.state', $record->extension);
-		}
+		return $user->authorise('core.edit.state', $record->extension);
 	}
 
 	/**
@@ -209,20 +208,20 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 		}
 
-		$assoc = $this->getAssoc();
-
-		if ($assoc)
+		if (!$this->getAssoc())
 		{
-			if ($result->id != null)
-			{
-				$result->associations = CategoriesHelper::getAssociations($result->id, $result->extension);
-				JArrayHelper::toInteger($result->associations);
-			}
-			else
-			{
-				$result->associations = array();
-			}
+			return $result;
 		}
+
+		if ($result->id == null)
+		{
+			$result->associations = array();
+
+			return $result;
+		}
+
+		$result->associations = CategoriesHelper::getAssociations($result->id, $result->extension);
+		JArrayHelper::toInteger($result->associations);
 
 		return $result;
 	}
@@ -269,17 +268,19 @@ class CategoriesModelCategory extends JModelAdmin
 
 		$user = JFactory::getUser();
 
-		if (!$user->authorise('core.edit.state', $extension . '.category.' . $jinput->get('id')))
+		if ($user->authorise('core.edit.state', $extension . '.category.' . $jinput->get('id')))
 		{
-			// Disable fields for display.
-			$form->setFieldAttribute('ordering', 'disabled', 'true');
-			$form->setFieldAttribute('published', 'disabled', 'true');
-
-			// Disable fields while saving.
-			// The controller has already verified this is a record you can edit.
-			$form->setFieldAttribute('ordering', 'filter', 'unset');
-			$form->setFieldAttribute('published', 'filter', 'unset');
+			return $form;
 		}
+
+		// Disable fields for display.
+		$form->setFieldAttribute('ordering', 'disabled', 'true');
+		$form->setFieldAttribute('published', 'disabled', 'true');
+
+		// Disable fields while saving.
+		// The controller has already verified this is a record you can edit.
+		$form->setFieldAttribute('ordering', 'filter', 'unset');
+		$form->setFieldAttribute('published', 'filter', 'unset');
 
 		return $form;
 	}
@@ -398,40 +399,43 @@ class CategoriesModelCategory extends JModelAdmin
 		$form->setFieldAttribute('rules', 'section', $name);
 
 		// Association category items
-		$assoc = $this->getAssoc();
-
-		if ($assoc)
+		if (!$this->getAssoc())
 		{
-			$languages = JLanguageHelper::getLanguages('lang_code');
-			$addform = new SimpleXMLElement('<form />');
-			$fields = $addform->addChild('fields');
-			$fields->addAttribute('name', 'associations');
-			$fieldset = $fields->addChild('fieldset');
-			$fieldset->addAttribute('name', 'item_associations');
-			$fieldset->addAttribute('description', 'COM_CATEGORIES_ITEM_ASSOCIATIONS_FIELDSET_DESC');
-			$add = false;
+			// Trigger the default form events.
+			parent::preprocessForm($form, $data, $group);
+		}
 
-			foreach ($languages as $tag => $language)
+		$languages = JLanguageHelper::getLanguages('lang_code');
+		$addform = new SimpleXMLElement('<form />');
+		$fields = $addform->addChild('fields');
+		$fields->addAttribute('name', 'associations');
+		$fieldset = $fields->addChild('fieldset');
+		$fieldset->addAttribute('name', 'item_associations');
+		$fieldset->addAttribute('description', 'COM_CATEGORIES_ITEM_ASSOCIATIONS_FIELDSET_DESC');
+		$add = false;
+
+		foreach ($languages as $tag => $language)
+		{
+			if (!empty($data->language) && $tag == $data->language)
 			{
-				if (empty($data->language) || $tag != $data->language)
-				{
-					$add = true;
-					$field = $fieldset->addChild('field');
-					$field->addAttribute('name', $tag);
-					$field->addAttribute('type', 'modal_category');
-					$field->addAttribute('language', $tag);
-					$field->addAttribute('label', $language->title);
-					$field->addAttribute('translate_label', 'false');
-					$field->addAttribute('extension', $extension);
-					$field->addAttribute('edit', 'true');
-					$field->addAttribute('clear', 'true');
-				}
+				continue;
 			}
 
-			if ($add)
-			{
-				$form->load($addform, false);
-			}
+			$add = true;
+			$field = $fieldset->addChild('field');
+			$field->addAttribute('name', $tag);
+			$field->addAttribute('type', 'modal_category');
+			$field->addAttribute('language', $tag);
+			$field->addAttribute('label', $language->title);
+			$field->addAttribute('translate_label', 'false');
+			$field->addAttribute('extension', $extension);
+			$field->addAttribute('edit', 'true');
+			$field->addAttribute('clear', 'true');
+		}
+
+		if ($add)
+		{
+			$form->load($addform, false);
 		}
 
 		// Trigger the default form events.
@@ -540,9 +544,7 @@ class CategoriesModelCategory extends JModelAdmin
 			return false;
 		}
 
-		$assoc = $this->getAssoc();
-
-		if ($assoc)
+		if ($this->getAssoc())
 		{
 			// Adding self to the association
 			$associations = $data['associations'];
@@ -644,19 +646,21 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		if (parent::publish($pks, $value))
+		if (!parent::publish($pks, $value))
 		{
-			$dispatcher = JEventDispatcher::getInstance();
-			$extension = JFactory::getApplication()->input->get('extension');
-
-			// Include the content plugins for the change of category state event.
-			JPluginHelper::importPlugin('content');
-
-			// Trigger the onCategoryChangeState event.
-			$dispatcher->trigger('onCategoryChangeState', array($extension, $pks, $value));
-
-			return true;
+			return false;
 		}
+
+		$dispatcher = JEventDispatcher::getInstance();
+		$extension = JFactory::getApplication()->input->get('extension');
+
+		// Include the content plugins for the change of category state event.
+		JPluginHelper::importPlugin('content');
+
+		// Trigger the onCategoryChangeState event.
+		$dispatcher->trigger('onCategoryChangeState', array($extension, $pks, $value));
+
+		return true;
 	}
 
 	/**
@@ -731,28 +735,23 @@ class CategoriesModelCategory extends JModelAdmin
 
 		foreach ($pks as $pk)
 		{
-			if ($user->authorise('core.edit', $contexts[$pk]))
-			{
-				$table->reset();
-				$table->load($pk);
-				$tags = array($value);
-
-				/**
-				 * @var  JTableObserverTags  $tagsObserver
-				 */
-				$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
-				$result = $tagsObserver->setNewTags($tags, false);
-
-				if (!$result)
-				{
-					$this->setError($table->getError());
-
-					return false;
-				}
-			}
-			else
+			if (!$user->authorise('core.edit', $contexts[$pk]))
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+				return false;
+			}
+
+			$table->reset();
+			$table->load($pk);
+			$tags = array($value);
+
+			$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
+			$result = $tagsObserver->setNewTags($tags, false);
+
+			if (!$result)
+			{
+				$this->setError($table->getError());
 
 				return false;
 			}
@@ -800,12 +799,10 @@ class CategoriesModelCategory extends JModelAdmin
 
 					return false;
 				}
-				else
-				{
-					// Non-fatal error
-					$this->setError(JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
-					$parentId = 0;
-				}
+
+				// Non-fatal error
+				$this->setError(JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+				$parentId = 0;
 			}
 
 			// Check that user has create permission for parent category
@@ -836,8 +833,9 @@ class CategoriesModelCategory extends JModelAdmin
 
 				return false;
 			}
+
 			// Make sure we can create in root
-			elseif (!$this->user->authorise('core.create', $extension))
+			if (!$this->user->authorise('core.create', $extension))
 			{
 				$this->setError(JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 
@@ -883,12 +881,10 @@ class CategoriesModelCategory extends JModelAdmin
 
 					return false;
 				}
-				else
-				{
-					// Not fatal error
-					$this->setError(JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-					continue;
-				}
+
+				// Not fatal error
+				$this->setError(JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+				continue;
 			}
 
 			// Copy is a bit tricky, because we also need to copy the children
@@ -1011,12 +1007,10 @@ class CategoriesModelCategory extends JModelAdmin
 
 					return false;
 				}
-				else
-				{
-					// Non-fatal error.
-					$this->setError(JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
-					$parentId = 0;
-				}
+
+				// Non-fatal error.
+				$this->setError(JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+				$parentId = 0;
 			}
 
 			// Check that user has create permission for parent category.
@@ -1067,12 +1061,10 @@ class CategoriesModelCategory extends JModelAdmin
 
 					return false;
 				}
-				else
-				{
-					// Not fatal error
-					$this->setError(JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-					continue;
-				}
+
+				// Not fatal error
+				$this->setError(JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+				continue;
 			}
 
 			// Set the new location in the tree for the node.
@@ -1200,7 +1192,6 @@ class CategoriesModelCategory extends JModelAdmin
 			return $assoc;
 		}
 
-		$app = JFactory::getApplication();
 		$extension = $this->getState('category.extension');
 
 		$assoc = JLanguageAssociations::isEnabled();
@@ -1211,14 +1202,14 @@ class CategoriesModelCategory extends JModelAdmin
 		if (!$assoc || !$component || !$cname)
 		{
 			$assoc = false;
-		}
-		else
-		{
-			$hname = $cname . 'HelperAssociation';
-			JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
 
-			$assoc = class_exists($hname) && !empty($hname::$category_association);
+			return $assoc;
 		}
+
+		$hname = $cname . 'HelperAssociation';
+		JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
+
+		$assoc = class_exists($hname) && !empty($hname::$category_association);
 
 		return $assoc;
 	}
