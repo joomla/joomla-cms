@@ -113,15 +113,15 @@ class JControllerAdmin extends JControllerLegacy
 		// Get items to remove from the request.
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 
-		// Get the model.
-		$model = $this->getModel();
-
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JLog::add(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
 		}
 		else
 		{
+			// Get the model.
+			$model = $this->getModel();
+
 			// Make sure the item ids are integers
 			jimport('joomla.utilities.arrayhelper');
 			JArrayHelper::toInteger($cid);
@@ -130,14 +130,15 @@ class JControllerAdmin extends JControllerLegacy
 			if ($model->delete($cid))
 			{
 				$this->setMessage(JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
+
+				// Invoke the postDelete method to allow for the child class to access the model.
+				$this->postDeleteHook($model, $cid);
 			}
 			else
 			{
 				$this->setMessage($model->getError(), 'error');
 			}
 		}
-		// Invoke the postDelete method to allow for the child class to access the model.
-		$this->postDeleteHook($model, $cid);
 
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
