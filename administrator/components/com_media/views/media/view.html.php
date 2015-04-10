@@ -46,7 +46,7 @@ class MediaViewMedia extends JViewLegacy
 
 		JHtml::_('behavior.framework', true);
 
-		JHtml::_('script', 'media/mediamanager.js', true, true);
+		JHtml::_('script', 'media/mediamanager.min.js', true, true);
 
 		JHtml::_('behavior.modal');
 		$document->addScriptDeclaration("

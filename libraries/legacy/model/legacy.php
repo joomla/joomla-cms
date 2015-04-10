@@ -30,7 +30,7 @@ abstract class JModelLegacy extends JObject
 	/**
 	 * Database Connector
 	 *
-	 * @var    object
+	 * @var    JDatabaseDriver
 	 * @since  12.2
 	 */
 	protected $_db;
@@ -54,7 +54,7 @@ abstract class JModelLegacy extends JObject
 	/**
 	 * A state object
 	 *
-	 * @var    string
+	 * @var    JObject
 	 * @since  12.2
 	 */
 	protected $state;

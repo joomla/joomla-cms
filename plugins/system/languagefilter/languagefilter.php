@@ -230,6 +230,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		// Did we find the current and existing language yet?
 		$found = false;
+		$lang_code = false;
 
 		// Are we in SEF mode or not?
 		if ($this->mode_sef)
@@ -334,6 +335,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			if (!isset($lang_code) || !isset($this->lang_codes[$lang_code]))
 			{
 				$lang_code = false;
+
 				if ($this->params->get('detect_browser', 1))
 				{
 					$lang_code = JLanguageHelper::detectLanguage();
@@ -342,6 +344,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						$lang_code = false;
 					}
 				}
+
 				if (!$lang_code)
 				{
 					$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
@@ -519,7 +522,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			if (empty($lang_code))
 			{
-				$lang_code = $this->default_lang;
+				$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 			}
 
 			if ($lang_code != $this->default_lang)
@@ -615,7 +618,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					}
 					else
 					{
-						$lang_code = $this->default_lang;
+						$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 					}
 				}
 
@@ -623,8 +626,42 @@ class PlgSystemLanguageFilter extends JPlugin
 				$assocs = array_merge(array_keys($cassociations), $assocs);
 			}
 
+			// Create alternate for home pages
+			if ($active && $active->home && $home)
+			{
+				foreach (JLanguageHelper::getLanguages() as $language)
+				{
+					if (!JLanguage::exists($language->lang_code))
+					{
+						continue;
+					}
+
+					$item = $menu->getDefault($language->lang_code);
+
+					if ($item && $item->language != $active->language && $item->language != '*')
+					{
+						if ($this->mode_sef)
+						{
+							$link = JRoute::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
+
+							// Check if language is the default site language and remove url language code is on
+							if ($language->sef == $this->lang_codes[JComponentHelper::getParams('com_languages')->get('site', 'en-GB')]->sef
+								&& $this->params->get('remove_default_prefix', 0))
+							{
+								$link = preg_replace('|/' . $language->sef . '/|', '/', $link, 1);
+							}
+						}
+						else
+						{
+							$link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
+						}
+
+						$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
+					}
+				}
+			}
 			// Handle the default associations.
-			if ($this->params->get('item_associations') || ($active && $active->home && $home))
+			elseif ($this->params->get('item_associations'))
 			{
 				$languages = JLanguageHelper::getLanguages('lang_code');
 				foreach ($assocs as $language)
@@ -640,7 +677,8 @@ class PlgSystemLanguageFilter extends JPlugin
 						$link = JRoute::_($cassociations[$language] . '&lang=' . $lang->sef);
 
 						// Check if language is the default site language and remove url language code is on
-						if ($lang->sef == $this->lang_codes[$this->default_lang]->sef && $this->params->get('remove_default_prefix') == '1')
+						if ($lang->sef == $this->lang_codes[JComponentHelper::getParams('com_languages')->get('site', 'en-GB')]->sef
+							&& $this->params->get('remove_default_prefix', 0))
 						{
 							$link = preg_replace('|/' . $lang->sef . '/|', '/', $link, 1);
 						}
