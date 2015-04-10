@@ -19,10 +19,10 @@
 /tests/system/webdriver/tests/logs/
 /tests/system/servers/configdef.php
 codecept.phar
-/tests/codeception/_output/*
-/tests/codeception/vendor/*
-/tests/codeception/testingsite/*
-/tests/codeception/tests/acceptance.suite.yml
+tests/codeception/_output/*
+tests/codeception/vendor/*
+tests/codeception/testingsite*
+tests/codeception/tests/acceptance.suite.yml
 
 # phpDocumentor Logs #
 phpdoc-*
