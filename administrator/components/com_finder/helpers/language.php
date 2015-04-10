@@ -33,10 +33,8 @@ class FinderHelperLanguage
 		{
 			return 'PLG_FINDER_QUERY_FILTER_BRANCH_P_' . $return;
 		}
-		else
-		{
-			return $branchName;
-		}
+
+		return $branchName;
 	}
 
 	/**
@@ -50,9 +48,9 @@ class FinderHelperLanguage
 	 */
 	public static function branchSingular($branchName)
 	{
-		$return = preg_replace('/[^a-zA-Z0-9]+/', '_', strtoupper($branchName));
-
-		return 'PLG_FINDER_QUERY_FILTER_BRANCH_S_' . $return;
+		return
+			'PLG_FINDER_QUERY_FILTER_BRANCH_S_'
+			. preg_replace('/[^a-zA-Z0-9]+/', '_', strtoupper($branchName));
 	}
 
 	/**
@@ -64,8 +62,7 @@ class FinderHelperLanguage
 	 */
 	public static function loadComponentLanguage()
 	{
-		$lang = JFactory::getLanguage();
-		$lang->load('com_finder', JPATH_SITE);
+		JFactory::getLanguage()->load('com_finder', JPATH_SITE);
 	}
 
 	/**

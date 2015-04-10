@@ -32,14 +32,12 @@ class FinderControllerIndexer extends JControllerLegacy
 
 		$params = JComponentHelper::getParams('com_finder');
 
-		if ($params->get('enable_logging', '0'))
+		if ($params->get('enable_logging', '0')
+			&& $log == null)
 		{
-			if ($log == null)
-			{
-				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-				$options['text_file'] = 'indexer.php';
-				$log = JLog::addLogger($options);
-			}
+			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+			$options['text_file'] = 'indexer.php';
+			$log = JLog::addLogger($options);
 		}
 
 		// Log the start
@@ -99,14 +97,12 @@ class FinderControllerIndexer extends JControllerLegacy
 
 		$params = JComponentHelper::getParams('com_finder');
 
-		if ($params->get('enable_logging', '0'))
+		if ($params->get('enable_logging', '0')
+			&& $log == null)
 		{
-			if ($log == null)
-			{
-				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-				$options['text_file'] = 'indexer.php';
-				$log = JLog::addLogger($options);
-			}
+			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+			$options['text_file'] = 'indexer.php';
+			$log = JLog::addLogger($options);
 		}
 
 		// Log the start
@@ -266,14 +262,12 @@ class FinderControllerIndexer extends JControllerLegacy
 
 		$params = JComponentHelper::getParams('com_finder');
 
-		if ($params->get('enable_logging', '0'))
+		if ($params->get('enable_logging', '0')
+			&& $log == null)
 		{
-			if ($log == null)
-			{
-				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-				$options['text_file'] = 'indexer.php';
-				$log = JLog::addLogger($options);
-			}
+			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+			$options['text_file'] = 'indexer.php';
+			$log = JLog::addLogger($options);
 		}
 
 		// Send the assigned error code if we are catching an exception.
@@ -319,14 +313,12 @@ class FinderIndexerResponse
 
 		$params = JComponentHelper::getParams('com_finder');
 
-		if ($params->get('enable_logging', '0'))
+		if ($params->get('enable_logging', '0')
+			&&$log == null)
 		{
-			if ($log == null)
-			{
-				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-				$options['text_file'] = 'indexer.php';
-				$log = JLog::addLogger($options);
-			}
+			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+			$options['text_file'] = 'indexer.php';
+			$log = JLog::addLogger($options);
 		}
 
 		// The old token is invalid so send a new one.
@@ -342,36 +334,36 @@ class FinderIndexerResponse
 			$this->error = true;
 			$this->header = JText::_('COM_FINDER_INDEXER_HEADER_ERROR');
 			$this->message = $state->getMessage();
+
+			return;
+		}
+
+			// Prepare the response data.
+		$this->batchSize = (int) $state->batchSize;
+		$this->batchOffset = (int) $state->batchOffset;
+		$this->totalItems = (int) $state->totalItems;
+
+		$this->startTime = $state->startTime;
+		$this->endTime = JFactory::getDate()->toSQL();
+
+		$this->start = !empty($state->start) ? (int) $state->start : 0;
+		$this->complete = !empty($state->complete) ? (int) $state->complete : 0;
+
+		// Set the appropriate messages.
+		if ($this->totalItems <= 0 && $this->complete)
+		{
+			$this->header = JText::_('COM_FINDER_INDEXER_HEADER_COMPLETE');
+			$this->message = JText::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE');
+		}
+		elseif ($this->totalItems <= 0)
+		{
+			$this->header = JText::_('COM_FINDER_INDEXER_HEADER_OPTIMIZE');
+			$this->message = JText::_('COM_FINDER_INDEXER_MESSAGE_OPTIMIZE');
 		}
 		else
 		{
-			// Prepare the response data.
-			$this->batchSize = (int) $state->batchSize;
-			$this->batchOffset = (int) $state->batchOffset;
-			$this->totalItems = (int) $state->totalItems;
-
-			$this->startTime = $state->startTime;
-			$this->endTime = JFactory::getDate()->toSQL();
-
-			$this->start = !empty($state->start) ? (int) $state->start : 0;
-			$this->complete = !empty($state->complete) ? (int) $state->complete : 0;
-
-			// Set the appropriate messages.
-			if ($this->totalItems <= 0 && $this->complete)
-			{
-				$this->header = JText::_('COM_FINDER_INDEXER_HEADER_COMPLETE');
-				$this->message = JText::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE');
-			}
-			elseif ($this->totalItems <= 0)
-			{
-				$this->header = JText::_('COM_FINDER_INDEXER_HEADER_OPTIMIZE');
-				$this->message = JText::_('COM_FINDER_INDEXER_MESSAGE_OPTIMIZE');
-			}
-			else
-			{
-				$this->header = JText::_('COM_FINDER_INDEXER_HEADER_RUNNING');
-				$this->message = JText::_('COM_FINDER_INDEXER_MESSAGE_RUNNING');
-			}
+			$this->header = JText::_('COM_FINDER_INDEXER_HEADER_RUNNING');
+			$this->message = JText::_('COM_FINDER_INDEXER_MESSAGE_RUNNING');
 		}
 	}
 }

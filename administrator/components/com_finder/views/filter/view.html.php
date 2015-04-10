@@ -86,19 +86,16 @@ class FinderViewFilter extends JViewLegacy
 		else
 		{
 			// Can't save the record if it's checked out.
-			if (!$checkedOut)
+			// If it's an existing record, check the edit permission.
+			if (!$checkedOut && $canDo->get('core.edit'))
 			{
-				// Since it's an existing record, check the edit permission.
-				if ($canDo->get('core.edit'))
-				{
-					JToolbarHelper::apply('filter.apply');
-					JToolbarHelper::save('filter.save');
+				JToolbarHelper::apply('filter.apply');
+				JToolbarHelper::save('filter.save');
 
-					// We can save this record, but check the create permission to see if we can return to make a new one.
-					if ($canDo->get('core.create'))
-					{
-						JToolbarHelper::save2new('filter.save2new');
-					}
+				// We can save this record, but check the create permission to see if we can return to make a new one.
+				if ($canDo->get('core.create'))
+				{
+					JToolbarHelper::save2new('filter.save2new');
 				}
 			}
 

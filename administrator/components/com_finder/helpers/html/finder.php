@@ -27,8 +27,6 @@ abstract class JHtmlFinder
 	 */
 	public static function typeslist()
 	{
-		$lang = JFactory::getLanguage();
-
 		// Load the finder types.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -52,7 +50,7 @@ abstract class JHtmlFinder
 
 		foreach ($rows as $row)
 		{
-			$key = $lang->hasKey(FinderHelperLanguage::branchPlural($row->text))
+			$key = JFactory::getLanguage()->hasKey(FinderHelperLanguage::branchPlural($row->text))
 					? FinderHelperLanguage::branchPlural($row->text) : $row->text;
 			$string = JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_($key));
 			$options[] = JHtml::_('select.option', $row->value, $string);
@@ -70,8 +68,6 @@ abstract class JHtmlFinder
 	 */
 	public static function mapslist()
 	{
-		$lang = JFactory::getLanguage();
-
 		// Load the finder types.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -96,7 +92,7 @@ abstract class JHtmlFinder
 
 		foreach ($rows as $row)
 		{
-			$key = $lang->hasKey(FinderHelperLanguage::branchPlural($row->text))
+			$key = JFactory::getLanguage()->hasKey(FinderHelperLanguage::branchPlural($row->text))
 					? FinderHelperLanguage::branchPlural($row->text) : $row->text;
 			$string = JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_($key));
 			$options[] = JHtml::_('select.option', $row->value, $string);
@@ -114,10 +110,9 @@ abstract class JHtmlFinder
 	 */
 	public static function statelist()
 	{
-		$options = array();
-		$options[] = JHtml::_('select.option', '1', JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_('JPUBLISHED')));
-		$options[] = JHtml::_('select.option', '0', JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_('JUNPUBLISHED')));
-
-		return $options;
+		return array(
+			JHtml::_('select.option', '1', JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_('JPUBLISHED'))),
+			JHtml::_('select.option', '0', JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_('JUNPUBLISHED')))
+		);
 	}
 }

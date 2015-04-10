@@ -453,9 +453,9 @@ class JPagination
 	}
 
 	/**
-	 * Create and return the pagination page list string, ie. Previous, Next, 1 2 3 ... x.
+	 * Create and return the pagination pages list, ie. Previous, Next, 1 2 3 ... x.
 	 *
-	 * @return  string  Pagination page list string.
+	 * @return  array  Pagination pages list.
 	 *
 	 * @since   3.3
 	 */

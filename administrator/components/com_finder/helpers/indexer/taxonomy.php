@@ -255,9 +255,8 @@ class FinderIndexerTaxonomy
 
 		// Get the branch titles.
 		$db->setQuery($query);
-		$results = $db->loadColumn();
 
-		return $results;
+		return $db->loadColumn();
 	}
 
 	/**
@@ -293,9 +292,8 @@ class FinderIndexerTaxonomy
 
 		// Get the node.
 		$db->setQuery($query, 0, 1);
-		$result = $db->loadObject();
 
-		return $result;
+		return $db->loadObject();
 	}
 
 	/**
@@ -356,19 +354,17 @@ class FinderIndexerTaxonomy
 	 */
 	protected static function storeNode($item)
 	{
-		$db = JFactory::getDbo();
-
 		// Check if we are updating or inserting the item.
 		if (empty($item->id))
 		{
 			// Insert the item.
-			$db->insertObject('#__finder_taxonomy', $item, 'id');
+			JFactory::getDbo()->insertObject('#__finder_taxonomy', $item, 'id');
+
+			return true;
 		}
-		else
-		{
-			// Update the item.
-			$db->updateObject('#__finder_taxonomy', $item, 'id');
-		}
+
+		// Update the item.
+		JFactory::getDbo()->updateObject('#__finder_taxonomy', $item, 'id');
 
 		return true;
 	}

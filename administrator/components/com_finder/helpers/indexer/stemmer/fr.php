@@ -190,17 +190,15 @@ class FinderIndexerStemmerFr extends FinderIndexerStemmer
 			// If the form starts with a vowel then at least two letters must remain after stemming (e.g.: "etaient" --> "et")
 			return (strlen($reversed_stem) > 2);
 		}
-		else
-		{
-			// If the reversed stem starts with a consonant then at least two letters must remain after stemming
-			if (strlen($reversed_stem) <= 2)
-			{
-				return false;
-			}
 
-			// And at least one of these must be a vowel or "y"
-			return (preg_match('/[' . $vars['vowels'] . ']/', utf8_encode($reversed_stem)));
+		// If the reversed stem starts with a consonant then at least two letters must remain after stemming
+		if (strlen($reversed_stem) <= 2)
+		{
+			return false;
 		}
+
+		// And at least one of these must be a vowel or "y"
+		return (preg_match('/[' . $vars['vowels'] . ']/', utf8_encode($reversed_stem)));
 	}
 
 	/**
@@ -234,29 +232,29 @@ class FinderIndexerStemmerFr extends FinderIndexerStemmer
 			$rule = $vars['rules'][$rule_number];
 			preg_match($vars['rule_pattern'], $rule, $matches);
 
-			if (($matches[2] != '*') || ($intact))
-			{
-				$reversed_stem = utf8_decode($matches[4]) . substr($reversed_input, $matches[3], strlen($reversed_input) - $matches[3]);
-
-				if (self::_check($reversed_stem))
-				{
-					$reversed_input = $reversed_stem;
-
-					if ($matches[5] == '.')
-					{
-						break;
-					}
-				}
-				else
-				{
-					// Go to another rule
-					$rule_number++;
-				}
-			}
-			else
+			if ($matches[2] == '*' && !$intact)
 			{
 				// Go to another rule
 				$rule_number++;
+
+				continue;
+			}
+
+			$reversed_stem = utf8_decode($matches[4]) . substr($reversed_input, $matches[3], strlen($reversed_input) - $matches[3]);
+
+			if (!self::_check($reversed_stem))
+			{
+				// Go to another rule
+				$rule_number++;
+
+				continue;
+			}
+
+			$reversed_input = $reversed_stem;
+
+			if ($matches[5] == '.')
+			{
+				break;
 			}
 		}
 

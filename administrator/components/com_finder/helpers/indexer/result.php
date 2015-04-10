@@ -222,15 +222,13 @@ class FinderIndexerResult
 	 */
 	public function __get($name)
 	{
-		// Get the element value if set.
-		if (array_key_exists($name, $this->elements))
-		{
-			return $this->elements[$name];
-		}
-		else
+		if (!array_key_exists($name, $this->elements))
 		{
 			return null;
 		}
+
+		// Get the element value if set.
+		return $this->elements[$name];
 	}
 
 	/**
@@ -274,15 +272,13 @@ class FinderIndexerResult
 	 */
 	public function getElement($name)
 	{
-		// Get the element value if set.
-		if (array_key_exists($name, $this->elements))
-		{
-			return $this->elements[$name];
-		}
-		else
+		if (!array_key_exists($name, $this->elements))
 		{
 			return null;
 		}
+
+		// Get the element value if set.
+		return $this->elements[$name];
 	}
 
 	/**
@@ -325,15 +321,19 @@ class FinderIndexerResult
 	public function addInstruction($group, $property)
 	{
 		// Check if the group exists. We can't add instructions for unknown groups.
-		if (array_key_exists($group, $this->instructions))
+		if (!array_key_exists($group, $this->instructions))
 		{
-			// Check if the property exists in the group.
-			if (!in_array($property, $this->instructions[$group]))
-			{
-				// Add the property to the group.
-				$this->instructions[$group][] = $property;
-			}
+			return;
 		}
+
+		// Check if the property exists in the group.
+		if (in_array($property, $this->instructions[$group]))
+		{
+			return;
+		}
+
+		// Add the property to the group.
+		$this->instructions[$group][] = $property;
 	}
 
 	/**
@@ -349,17 +349,21 @@ class FinderIndexerResult
 	public function removeInstruction($group, $property)
 	{
 		// Check if the group exists. We can't remove instructions for unknown groups.
-		if (array_key_exists($group, $this->instructions))
+		if (!array_key_exists($group, $this->instructions))
 		{
-			// Search for the property in the group.
-			$key = array_search($property, $this->instructions[$group]);
-
-			// If the property was found, remove it.
-			if ($key !== false)
-			{
-				unset($this->instructions[$group][$key]);
-			}
+			return;
 		}
+
+		// Search for the property in the group.
+		$key = array_search($property, $this->instructions[$group]);
+
+		if ($key === false)
+		{
+			return;
+		}
+
+		// If the property was found, remove it.
+		unset($this->instructions[$group][$key]);
 	}
 
 	/**
