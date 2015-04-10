@@ -46,7 +46,7 @@ class PlgQuickiconExtensionupdate extends JPlugin
 
 		$token    = JSession::getFormToken() . '=' . 1;
 		$url      = JUri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token;
-		$ajax_url = JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax';
+		$ajax_url = JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token;
 		$script   = array();
 		$script[] = 'var plg_quickicon_extensionupdate_url = \'' . $url . '\';';
 		$script[] = 'var plg_quickicon_extensionupdate_ajax_url = \'' . $ajax_url . '\';';
