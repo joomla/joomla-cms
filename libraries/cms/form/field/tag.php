@@ -118,15 +118,6 @@ class JFormFieldTag extends JFormFieldList
 			->from('#__tags AS a')
 			->join('LEFT', $db->qn('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
-		// Ajax tag only loads assigned values
-		if (!$this->isNested() && !empty($this->value))
-		{
-			// Only item assigned values
-			$values = (array) $this->value;
-			JArrayHelper::toInteger($values);
-			$query->where('a.id IN (' . implode(',', $values) . ')');
-		}
-
 		// Filter language
 		if (!empty($this->element['language']))
 		{

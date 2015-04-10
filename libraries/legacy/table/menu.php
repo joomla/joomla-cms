@@ -90,6 +90,13 @@ class JTableMenu extends JTableNested
 	 */
 	public function check()
 	{
+		// Check for a title.
+		if (trim($this->title) == '')
+		{
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
+
+			return false;
+		}
 		// Set correct component id to ensure proper 404 messages with separator items
 		if ($this->type == "separator")
 		{
