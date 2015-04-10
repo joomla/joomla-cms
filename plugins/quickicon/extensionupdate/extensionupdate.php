@@ -44,9 +44,10 @@ class PlgQuickiconExtensionupdate extends JPlugin
 
 		JHtml::_('jquery.framework');
 
-		$url = JUri::base() . 'index.php?option=com_installer&view=update';
-		$ajax_url = JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax';
-		$script = array();
+		$token    = JSession::getFormToken() . '=' . 1;
+		$url      = JUri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token;
+		$ajax_url = JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token;
+		$script   = array();
 		$script[] = 'var plg_quickicon_extensionupdate_url = \'' . $url . '\';';
 		$script[] = 'var plg_quickicon_extensionupdate_ajax_url = \'' . $ajax_url . '\';';
 		$script[] = 'var plg_quickicon_extensionupdate_text = {'
@@ -61,11 +62,11 @@ class PlgQuickiconExtensionupdate extends JPlugin
 
 		return array(
 			array(
-				'link' => 'index.php?option=com_installer&amp;view=update',
+				'link'  => 'index.php?option=com_installer&view=update&task=update.find&' . $token,
 				'image' => 'asterisk',
-				'icon' => 'header/icon-48-extension.png',
-				'text' => JText::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
-				'id' => 'plg_quickicon_extensionupdate',
+				'icon'  => 'header/icon-48-extension.png',
+				'text'  => JText::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
+				'id'    => 'plg_quickicon_extensionupdate',
 				'group' => 'MOD_QUICKICON_MAINTENANCE'
 			)
 		);
