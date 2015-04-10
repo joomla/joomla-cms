@@ -23,6 +23,9 @@ tests/codeception/_output/*
 tests/codeception/vendor/*
 tests/codeception/testingsite*
 tests/codeception/tests/acceptance.suite.yml
+tests/codeception/tests/acceptance/*Tester.php
+tests/codeception/tests/functional/*Tester.php
+tests/codeception/tests/unit/*Tester.php
 
 # phpDocumentor Logs #
 phpdoc-*
