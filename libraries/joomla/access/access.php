@@ -258,26 +258,34 @@ class JAccess
 	 *
 	 * @param   string      $assetType  e.g. 'com_content.article'
 	 * @param   string|int  $assetId    numeric Asset ID
-	 * @param   array       &$ancestors  Array to hold the list of ancestors
 	 *
 	 * @return   array  List of Ancestor IDs (includes original $assetId)
 	 *
 	 * @since    1.6
 	 */
-	protected static function getAssetAncestors($assetType, $assetId, &$ancestors = array())
+	protected static function getAssetAncestors($assetType, $assetId)
 	{
 		// Get the extension name from the $assetType provided
 		$extensionName = self::getExtensionNameFromAsset($assetType);
 
-		if (isset(self::$assetPermissionsParentIdMapping[$extensionName][$assetId]))
+		// Holds the list of ancestors for the Asset ID:
+		$ancestors = array();
+
+		// Add in our starting Asset ID:
+		$ancestors[] = (int) $assetId;
+
+		// Initialize the variable we'll use in the loop:
+		$id = (int) $assetId;
+		while ($id !== 0)
 		{
-			$ancestors[] = (int) $assetId;
-
-			$id = (int) self::$assetPermissionsParentIdMapping[$extensionName][$assetId]->parent_id;
-
-			if ($id !== 0)
+			if (isset(self::$assetPermissionsParentIdMapping[$extensionName][$id]))
 			{
-				self::getAssetAncestors($assetType, $id, $ancestors);
+				$id = (int) self::$assetPermissionsParentIdMapping[$extensionName][$id]->parent_id;
+
+				if ($id !== 0)
+				{
+					$ancestors[] = $id;
+				}
 			}
 		}
 
