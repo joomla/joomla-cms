@@ -51,6 +51,7 @@ class GenerateCss extends JApplicationCli
 			JPATH_ADMINISTRATOR . '/templates/hathor/less/colour_blue.less'     => JPATH_ADMINISTRATOR . '/templates/hathor/css',
 			JPATH_ADMINISTRATOR . '/templates/hathor/less/colour_brown.less'    => JPATH_ADMINISTRATOR . '/templates/hathor/css',
 			JPATH_ADMINISTRATOR . '/templates/hathor/less/colour_standard.less' => JPATH_ADMINISTRATOR . '/templates/hathor/css',
+			JPATH_SITE . '/templates/beez3/css/turq.less'                       => JPATH_SITE . '/templates/protostar/css',
 			JPATH_SITE . '/templates/protostar/less/template.less'              => JPATH_SITE . '/templates/protostar/css',
 			// Below files are to recompile the default Bootstrap CSS files
 			__DIR__ . '/less/bootstrap-extended.less'                           => JPATH_SITE . '/media/jui/css',
