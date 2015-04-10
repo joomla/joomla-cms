@@ -16,6 +16,8 @@ defined('_JEXEC') or die;
 	JFactory::getDocument()->addStyleDeclaration('.navbar-fixed-bottom {z-index:1050;}');
 
 	$link = JRoute::_('index.php?option=com_languages&view=multilangstatus&tmpl=component');
+	$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+		. JText::_('JTOOLBAR_CLOSE') . '</a>';
 ?>
 <div class="btn-group multilanguage">
 	<a href="#multiLangModal" role="button" class="btn btn-link" data-toggle="modal" title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>">
@@ -24,4 +26,15 @@ defined('_JEXEC') or die;
 	</a>
 </div>
 
-<?php echo JHtmlBootstrap::renderModal('multiLangModal', array( 'url' => $link, 'title' => JText::_('MOD_MULTILANGSTATUS'),'height' => '300px', 'width' => '500px'));
+<?php echo JHtmlBootstrap::renderModal(
+	'multiLangModal', array(
+		'title' => JText::_('MOD_MULTILANGSTATUS'),
+		'backdrop' => 'static',
+		'keyboard' => true,
+		'closeButton' => true,
+		'footer' => $footer,
+		'url' => $link,
+		'height' => '300px',
+		'width' => '500px'
+		)
+	);
