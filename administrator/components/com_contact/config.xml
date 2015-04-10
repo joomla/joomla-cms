@@ -47,6 +47,7 @@
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			default="5"
+			showon="save_history:1"
 		/>
 
 		<field name="show_contact_list"
@@ -225,6 +226,7 @@
 			type="media"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
+			showon="show_image:1"
 		>
 		</field>
 		<field name="allow_vcard"
@@ -276,6 +278,7 @@
 				label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				size="30"
+				showon="show_links:1"
 			/>
 
 			<field name="linkb_name"
@@ -283,17 +286,21 @@
 				label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				size="30"
+				showon="show_links:1"
 			/>
 
 			<field name="linkc_name" type="text"
 				label="COM_CONTACT_FIELD_LINKC_NAME_LABEL" description="COM_CONTACT_FIELD_LINK_NAME_DESC"
-				size="30" />
+				size="30" 
+				showon="show_links:1"
+			/>
 
 			<field name="linkd_name"
 				type="text"
 				label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				size="30"
+				showon="show_links:1"
 			/>
 
 			<field name="linke_name"
@@ -301,6 +308,7 @@
 				label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				size="30"
+				showon="show_links:1"
 			/>
 
 		<field
@@ -338,34 +346,45 @@
 		<field name="icon_address"
 			type="media"
 			hide_none="1" label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_ADDRESS_DESC" />
+			description="COM_CONTACT_FIELD_ICONS_ADDRESS_DESC" 
+			showon="contact_icons:0"
+			/>
 
 		<field name="icon_email"
 			type="media"
 			hide_none="1" label="COM_CONTACT_FIELD_ICONS_EMAIL_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_EMAIL_DESC" />
+			description="COM_CONTACT_FIELD_ICONS_EMAIL_DESC" 
+			showon="contact_icons:0"
+			/>
 
 		<field name="icon_telephone"
 			type="media"
-			 hide_none="1"
+			hide_none="1"
 			label="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_TELEPHONE_DESC" />
+			description="COM_CONTACT_FIELD_ICONS_TELEPHONE_DESC" 
+			showon="contact_icons:0"/>
 
 		<field name="icon_mobile"
 			type="media"
 			 hide_none="1"
-			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL" description="COM_CONTACT_FIELD_ICONS_MOBILE_DESC" />
+			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL" description="COM_CONTACT_FIELD_ICONS_MOBILE_DESC" 
+			showon="contact_icons:0"
+			/>
 
 		<field name="icon_fax"
 			type="media"
 			hide_none="1" label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_FAX_DESC" />
+			description="COM_CONTACT_FIELD_ICONS_FAX_DESC" 
+			showon="contact_icons:0"
+			/>
 
 		<field name="icon_misc"
 			type="media"
 			hide_none="1"
 			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_MISC_DESC" />
+			description="COM_CONTACT_FIELD_ICONS_MISC_DESC" 
+			showon="contact_icons:0"
+			/>
 	</fieldset>
 
 	<fieldset name="Category"

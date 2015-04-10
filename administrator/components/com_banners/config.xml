@@ -79,6 +79,7 @@
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			default="5"
+			showon="save_history:1"
 		/>
 	</fieldset>
 
