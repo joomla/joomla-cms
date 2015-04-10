@@ -23,23 +23,8 @@ class AcceptanceHelper extends \Codeception\Module
 	 *
 	 * @return array
 	 */
-	public function getConfig()
+	public function getConfiguration($element = null)
 	{
-		$configuration = array(
-			"username" => $this->config['username'],
-			"password" => $this->config['password'],
-			"extension folder" => $this->config['extension_folder'],
-			"joomla folder" => $this->config['joomla_folder'],
-			"Database Host" => $this->config['db_host'],
-			"Database User" => $this->config['db_user'],
-			"Database Password" => $this->config['db_pass'],
-			"Database Name" => $this->config['db_name'],
-			"Database Type" => $this->config['db_type'],
-			"Database Prefix" => $this->config['db_prefix'],
-			"Admin email" => $this->config['admin_email'],
-			"host" => $this->config['host'],
-		);
-
-		return $configuration;
+		return $this->config[$element];
 	}
 }

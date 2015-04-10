@@ -25,19 +25,17 @@ modules:
             capabilities:
               unexpectedAlertBehaviour: 'accept'
         AcceptanceHelper:                          # see: tests/_support/acceptancehelper.php
-            username: 'admin'                      # UserName for the Administrator
-            password: 'admin'                      # Password for the Administrator
-            db_host: 'localhost'                   # place where the Application is Hosted #server Address
-            db_user: 'root'                        # MySQL Server user ID, usually root
-            db_pass: ''                            # MySQL Server password, usually empty
-            db_name: 'testjoomla'                  # DB Name, at the Server
-            db_type: 'MySQLi'                      # DB Type, Mostly MySQLi
-            db_prefix: 'jos_'                      # DB Prefix for tables
-            sample_data: 'yes'                     # Do you want to Download the Sample Data Along with Joomla Installation, then keep it Yes
-            sample_data_file: 'Default English'    # Default Sample Data
-            admin_email: 'admin@mydomain.com'      # email Id of the Admin
-            language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
-            extension_folder: '/home/travis/build/joomla-extensions/joomla-cms/' # Path to the Extension to be installed via Install from folder
-            joomla_folder: '/home/travis/build/joomla-extensions/joomla-cms/tests/codeception/testingsite/' # Path to Joomla installation where we execute the tests
-            host: 'http://localhost/joomla'        # Host Path for Joomla-CMS
+            Username: 'admin'                      # UserName for the Administrator
+            Password: 'admin'                      # Password for the Administrator
+            Database Host: 'localhost'             # place where the Application is Hosted #server Address
+            Database User: 'root'                  # MySQL Server user ID, usually root
+            Database Password: ''                  # MySQL Server password, usually empty or root
+            Database Name: 'testjoomla'            # DB Name, at the Server
+            Database Type: 'mysqli'                # type in lowercase one of the options: MySQL\MySQLi\PDO
+            Database Prefix: 'jos_'                # DB Prefix for tables
+            Install Sample Data: 'no'              # Do you want to Download the Sample Data Along with Joomla Installation, then keep it Yes
+            Sample Data: 'Default English (GB) Sample Data'    # Default Sample Data
+            Admin email: 'admin@mydomain.com'      # email Id of the Admin
+            Language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
+            Joomla folder: '/home/travis/build/joomla-extensions/joomla-cms/tests/codeception/testingsite/' # Path to Joomla installation where we execute the tests
 
