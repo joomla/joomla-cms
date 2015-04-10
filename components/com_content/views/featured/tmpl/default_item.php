@@ -72,6 +72,9 @@ $info    = $this->item->params->get('info_block_position', 0);
 
 <?php if ($useDefList && ($info == 1 || $info == 2)) : ?>
 	<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
+	<?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
+		<?php echo JLayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
+	<?php endif; ?>
 <?php endif; ?>
 
 <?php if ($params->get('show_readmore') && $this->item->readmore) :

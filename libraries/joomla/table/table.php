@@ -260,7 +260,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 * @param   string  $prefix  An optional prefix for the table class name.
 	 * @param   array   $config  An optional array of configuration values for the JTable object.
 	 *
-	 * @return  mixed    A JTable object if found or boolean false if one could not be found.
+	 * @return  JTable|boolean   A JTable object if found or boolean false on failure.
 	 *
 	 * @link    https://docs.joomla.org/JTable/getInstance
 	 * @since   11.1
