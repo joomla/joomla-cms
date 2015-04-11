@@ -287,6 +287,12 @@ class JAccess
 					$ancestors[] = $id;
 				}
 			}
+			else
+			{
+				// Add additional case to break out of the while loop automatically in
+				// the case that the ID is non-existent in our mapping variable above.
+				break;
+			}
 		}
 
 		return $ancestors;
