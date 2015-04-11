@@ -42,6 +42,10 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/js/template
 // Add Stylesheets
 $doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
+if ($this->direction == 'rtl') {
+	$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
+}
+
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 

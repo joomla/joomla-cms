@@ -1,0 +1,13 @@
+/** RTL for protostart template **/
+.navigation .nav-child {
+	left: initial;
+	right:0;
+}
+.navigation .nav > li > .nav-child:before {
+	left: initial;
+	right:12px;
+}
+.navigation .nav > li > .nav-child:after {
+	left: initial;
+	right:13px;
+}
