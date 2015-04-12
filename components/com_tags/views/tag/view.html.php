@@ -264,7 +264,19 @@ class TagsViewTag extends JViewLegacy
 
 			if ($app->get('MetaAuthor') == '1')
 			{
-				$this->document->setMetaData('author', $itemElement->created_user_id);
+				$author = $itemElement->created_by_alias ? $itemElement->created_by_alias : $itemElement->author;
+				$this->document->setMetaData('author', $author);
+			}
+	
+			$mdata = $itemElement->metadata->toArray();
+	
+			foreach ($mdata as $k => $v)
+			{
+				if ($v)
+				{
+					$this->document->setMetadata($k, $v);
+				}
+
 			}
 		}
 
