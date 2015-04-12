@@ -13,26 +13,29 @@ Joomla.editors.instances = {};
 /**
  * Generic submit form
  */
-Joomla.submitform = function(task, form) {
-    if (typeof(form) === 'undefined') {
+Joomla.submitform = function(task, form, validate) {
+    if (!form) {
         form = document.getElementById('adminForm');
     }
 
-    if (typeof(task) !== 'undefined' && task !== "") {
+    if (task) {
         form.task.value = task;
     }
 
+    // Toggle HTML5 validation
+    form.noValidate = !validate;
+
     // Submit the form.
-    if (typeof form.onsubmit == 'function') {
-        form.onsubmit();
-    }
-    if (typeof form.fireEvent == "function") {
-        form.fireEvent('onsubmit');
-    }
-    if (typeof jQuery == "function") {
-        jQuery(form).submit();
-    }
-    form.submit();
+	// Create the input type="submit"
+    var button = document.createElement('input');
+    button.style.display = 'none';
+    button.type = 'submit';
+
+    // Append it and click it
+    form.appendChild(button).click();
+
+    // If "submit" was prevented, make sure we don't get a build up of buttons
+    form.removeChild(button);
 };
 
 /**
@@ -412,7 +415,7 @@ function listItemTask(id, task) {
  * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
  */
 function submitbutton(pressbutton) {
-    submitform(pressbutton);
+	Joomla.submitform(pressbutton);
 }
 
 /**
@@ -421,16 +424,7 @@ function submitbutton(pressbutton) {
  * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitform() instead.
  */
 function submitform(pressbutton) {
-    if (pressbutton) {
-        document.adminForm.task.value = pressbutton;
-    }
-    if (typeof document.adminForm.onsubmit == "function") {
-        document.adminForm.onsubmit();
-    }
-    if (typeof document.adminForm.fireEvent == "function") {
-        document.adminForm.fireEvent('onsubmit');
-    }
-    document.adminForm.submit();
+	Joomla.submitform(pressbutton);
 }
 
 // needed for Table Column ordering

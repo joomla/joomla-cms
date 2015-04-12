@@ -14,9 +14,6 @@ $doc  = JFactory::getDocument();
 $lang = JFactory::getLanguage();
 
 // Color Params
-$headerColor   = $this->params->get('headerColor', '#184A7D');
-$templateColor = $this->params->get('templateColor', '#13294A');
-
 $template_is_light = ($this->params->get('templateColor') && colorIsLight($this->params->get('templateColor')));
 
 // Add JavaScript Frameworks
@@ -24,7 +21,7 @@ JHtml::_('bootstrap.framework');
 JHtml::_('bootstrap.tooltip');
 
 // Add Stylesheets
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
@@ -62,14 +59,17 @@ function colorIsLight($color)
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<jdoc:include type="head" />
 	<script type="text/javascript">
-       	    jQuery(function($) {
-            	$( "#form-login input[name='username']" ).focus();
-            });
+        jQuery(function($) {
+            $( "#form-login input[name='username']" ).focus();
+        });
 	</script>
 	<style type="text/css">
+		/* Template color */
+		<?php if ($this->params->get('templateColor')) : ?>
 		.view-login {
-			background-color: <?php echo $templateColor; ?>;
+			background: <?php echo $this->params->get('templateColor'); ?>;
 		}
+		<?php endif; ?>
 		/* Responsive Styles */
 		@media (max-width: 480px) {
 			.view-login .container {
@@ -82,15 +82,15 @@ function colorIsLight($color)
 		}
 		<?php // Check if debug is on ?>
 		<?php if ($app->get('debug_lang', 1) || $app->get('debug', 1)) : ?>
-			.view-login .container {
-				position: static;
-				margin-top: 20px;
-				margin-left: auto;
-				margin-right: auto;
-			}
-			.view-login .navbar-fixed-bottom {
-				display: none;
-			}
+		.view-login .container {
+			position: static;
+			margin-top: 20px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		.view-login .navbar-fixed-bottom {
+			display: none;
+		}
 		<?php endif; ?>
 	</style>
 	<!--[if lt IE 9]>
@@ -123,7 +123,7 @@ function colorIsLight($color)
 		<p class="pull-right">
 			&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
 		</p>
-		<a class="login-joomla hasTooltip" href="http://www.joomla.org" target="_blank" title="<?php echo JHtml::tooltipText('TPL_ISIS_ISFREESOFTWARE'); ?>">Joomla!&#174;</a>
+		<a class="login-joomla hasTooltip" href="http://www.joomla.org" target="_blank" title="<?php echo JHtml::tooltipText('TPL_ISIS_ISFREESOFTWARE'); ?>"><i class="icon-joomla"></i></a>
 		<a href="<?php echo JUri::root(); ?>" target="_blank" class="pull-left"><i class="icon-out-2"></i> <?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
