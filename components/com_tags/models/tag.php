@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Tags Component Tag Model
  *
@@ -305,6 +307,8 @@ class TagsModelTag extends JModelList
 					return false;
 				}
 			}
+
+			$this->getAdditionals();
 		}
 
 		return $this->item;
@@ -333,5 +337,63 @@ class TagsModelTag extends JModelList
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get authors, metadata of tags
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4.2
+	 */
+	public function getAdditionals()
+	{
+		if (is_array($this->item) && count($this->item))
+		{
+			// Get author names via user ids.
+
+			// Array of user ids.
+			$authors = array_unique(JArrayHelper::getColumn($this->item, 'created_user_id'));
+
+			if (count($authors))
+			{
+				// Get user names (authors).
+				$db = $this->getDbo();
+				$query = $db->getQuery(true);
+				$query->select('id, name')
+					->from('#__users')
+					->where('id IN(' . implode(',', $authors) . ')');
+				$db->setQuery($query);
+
+				try
+				{
+					$authors = $db->loadObjectList('id');
+				}
+				catch (RuntimeException $e)
+				{
+					$this->setError($e->getMessage());
+				}
+			}
+
+			foreach ($this->item as $item)
+			{
+				if (isset($authors[$item->created_user_id]->name))
+				{
+					$item->author = $authors[$item->created_user_id]->name;
+				}
+				else
+				{
+					$item->author = null;
+				}
+
+				// Convert metadata field to object.
+				if (isset($item->metadata))
+				{
+					$registry = new Registry;
+					$registry->loadString($item->metadata);
+					$item->metadata = $registry;
+				}
+			}
+		}
 	}
 }
