@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/multilangstatus.php');
 
 /**
  * Joomla! Language Filter Plugin.
@@ -60,7 +61,6 @@ class PlgSystemLanguageFilter extends JPlugin
 			$this->lang_codes 	= JLanguageHelper::getLanguages('lang_code');
 
 			$levels = JFactory::getUser()->getAuthorisedViewLevels();
-			JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/multilangstatus.php');
 
 			foreach ($this->sefs as $sef => $language)
 			{
@@ -530,8 +530,6 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			// The user language has been deleted/disabled or the related content language does not exist/has been unpublished
 			// or the related home page does not exist/has been unpublished
-			JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/multilangstatus.php');
-
 			if (!array_key_exists($lang_code, MultilangstatusHelper::getSitelangs())
 				|| !array_key_exists($lang_code, MultilangstatusHelper::getContentlangs())
 				|| !array_key_exists($lang_code, MultilangstatusHelper::getHomepages()))

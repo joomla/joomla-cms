@@ -78,6 +78,7 @@ abstract class ModLanguagesHelper
 		foreach ($languages as $i => &$language)
 		{
 			JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/multilangstatus.php');
+
 			// Do not display language without frontend UI
 			if (!array_key_exists($language->lang_code, MultilangstatusHelper::getSitelangs()))
 			{
