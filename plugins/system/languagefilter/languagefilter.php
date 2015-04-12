@@ -60,11 +60,14 @@ class PlgSystemLanguageFilter extends JPlugin
 			$this->lang_codes 	= JLanguageHelper::getLanguages('lang_code');
 
 			$levels = JFactory::getUser()->getAuthorisedViewLevels();
+			JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/multilangstatus.php');
 
 			foreach ($this->sefs as $sef => $language)
 			{
 				// @todo: In Joomla 2.5.4 and earlier access wasn't set. Non modified Content Languages got 0 as access value
-				if ($language->access && !in_array($language->access, $levels))
+				// we also check if frontend language exists and is enabled
+				if (($language->access && !in_array($language->access, $levels))
+					|| (!array_key_exists($language->lang_code, MultilangstatusHelper::getSitelangs())))
 				{
 					unset($this->lang_codes[$language->lang_code]);
 					unset($this->sefs[$language->sef]);
@@ -525,14 +528,25 @@ class PlgSystemLanguageFilter extends JPlugin
 				$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 			}
 
+			// The user language has been deleted/disabled or the related content language does not exist/has been unpublished
+			// or the related home page does not exist/has been unpublished
+			JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/multilangstatus.php');
+
+			if (!array_key_exists($lang_code, MultilangstatusHelper::getSitelangs())
+				|| !array_key_exists($lang_code, MultilangstatusHelper::getContentlangs())
+				|| !array_key_exists($lang_code, MultilangstatusHelper::getHomepages()))
+			{
+				$lang_code = $this->default_lang;
+			}
+
 			if ($lang_code != $this->default_lang)
 			{
 				// Change language.
 				$this->default_lang = $lang_code;
 
 				// Create a cookie.
-				$cookie_domain 	= $this->app->get('cookie_domain', '');
-				$cookie_path 	= $this->app->get('cookie_path', '/');
+				$cookie_domain	= $this->app->get('cookie_domain', '');
+				$cookie_path	= $this->app->get('cookie_path', '/');
 				setcookie(JApplicationHelper::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
 
 				// Change the language code.
@@ -546,8 +560,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 				else
 				{
-					JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/multilangstatus.php');
-					$homes	= MultilangstatusHelper::getHomepages();
+					$homes  = MultilangstatusHelper::getHomepages();
 					$itemid = isset($homes[$lang_code]) ? $homes[$lang_code]->id : $homes['*']->id;
 					$this->app->setUserState('users.login.form.return', 'index.php?&Itemid=' . $itemid);
 				}
