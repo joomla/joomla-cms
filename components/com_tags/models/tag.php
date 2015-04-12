@@ -351,10 +351,10 @@ class TagsModelTag extends JModelList
 		if (is_array($this->item) && count($this->item))
 		{
 			// Get author names via user ids.
-	
+
 			// Array of user ids.
 			$authors = array_unique(JArrayHelper::getColumn($this->item, 'created_user_id'));
-	
+
 			if (count($authors))
 			{
 				// Get user names (authors).
