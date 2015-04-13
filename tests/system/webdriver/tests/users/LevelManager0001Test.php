@@ -16,25 +16,24 @@ use SeleniumClient\WebDriverWait;
 use SeleniumClient\DesiredCapabilities;
 
 /**
- * This class tests the  Control panel.
+ * This class tests the  Tags: Add / Edit  Screen.
  *
- * @package     Joomla.Tests
- * @subpackage  Test
- *
- * @copyright   Copyright (c) 2005 - 2015 Open Source Matters, Inc.   All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       Joomla 3.3
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
+ * @since       3.0
  */
-class LevelManager0001Test extends JoomlaWebdriverTestCase
+class TagManager0001Test extends JoomlaWebdriverTestCase
 {
 	/**
+	 * The page class being tested.
 	 *
-	 * @var LevelManagerPage
+	 * @var     TagManagerPage
+	 * @since   3.0
 	 */
-	protected $levelManagerPage = null; /* Global configuration page*/
+	protected $tagManagerPage = null;
 
 	/**
-	 * Login to back end and navigate to menu Language Manager.
+	 * Login to back end and navigate to menu Tags.
 	 *
 	 * @return void
 	 *
@@ -44,7 +43,7 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	{
 		parent::setUp();
 		$cpPage = $this->doAdminLogin();
-		$this->levelManagerPage = $cpPage->clickMenu('Access Levels', 'LevelManagerPage');
+		$this->tagManagerPage = $cpPage->clickMenu('Tags', 'TagManagerPage');
 	}
 
 	/**
@@ -61,22 +60,7 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * open edit screen
-	 *
-	 * @return void
-	 *
-	 * @test
-	 */
-	public function constructor_OpenEditScreen_LevelEditOpened()
-	{
-		$this->levelManagerPage->clickButton('toolbar-new');
-		$levelEditPage = $this->getPageObject('LevelEditPage');
-		$levelEditPage->clickButton('toolbar-cancel');
-		$this->levelManagerPage = $this->getPageObject('LevelManagerPage');
-	}
-
-	/**
-	 * Gets the actual input fields and checks them against the $inputFields property.
+	 * check all input fields
 	 *
 	 * @return void
 	 *
@@ -84,114 +68,143 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
 	{
-		$this->levelManagerPage->clickButton('toolbar-new');
-		$levelEditPage = $this->getPageObject('LevelEditPage');
+		$this->tagManagerPage->clickButton('toolbar-new');
+		$tagEditPage = $this->getPageObject('TagEditPage');
 
-		$testElements = $levelEditPage->getAllInputFields();
+		// Option to print actual element array
+
+		/* @var $tagEditPage TagEditPage */
+// 	 	$tagEditPage->printFieldArray($tagEditPage->getAllInputFields($tagEditPage->tabs));
+
+		$testElements = $tagEditPage->getAllInputFields($tagEditPage->tabs);
 		$actualFields = $this->getActualFieldsFromElements($testElements);
-		$this->assertEquals($levelEditPage->inputFields, $actualFields);
-		$levelEditPage->clickButton('toolbar-cancel');
-		$this->levelManagerPage = $this->getPageObject('LevelManagerPage');
+		$this->assertEquals($tagEditPage->inputFields, $actualFields);
+		$tagEditPage->clickButton('toolbar-cancel');
+		$this->tagManagerPage = $this->getPageObject('TagManagerPage');
 	}
 
 	/**
-	 * add a level with default fields
+	 * check tag edit page
 	 *
 	 * @return void
 	 *
 	 * @test
 	 */
-	public function add_WithFieldDefaults_Added()
+	public function constructor_OpenEditScreen_TagEditOpened()
 	{
-		$this->assertFalse($this->levelManagerPage->getRowNumber('Test Level'), 'Test level should not be present');
-		$this->levelManagerPage->addLevel();
-		$message = $this->levelManagerPage->getAlertMessage();
-		$this->assertTrue(strpos($message, 'Level successfully saved') >= 0, 'Level save should return success');
-		$this->assertEquals(7, $this->levelManagerPage->getRowNumber('Test Level'), 'Test level should be in row 6');
-		$this->levelManagerPage->delete('Test Level');
-		$this->assertFalse($this->levelManagerPage->getRowNumber('Test Level'), 'Test level should not be present');
+		$this->tagManagerPage->clickButton('new');
+		$tagEditPage = $this->getPageObject('TagEditPage');
+		$tagEditPage->clickButton('cancel');
+		$this->tagManagerPage = $this->getPageObject('TagManagerPage');
 	}
 
 	/**
-	 * add a level with given fields
+	 * check tab Ids
 	 *
 	 * @return void
 	 *
 	 * @test
 	 */
-	public function addLevel_WithGivenFields_LevelAdded()
+	public function getTabIds_ScreenDisplayed_EqualExpected()
 	{
-		$salt = rand();
-		$levelName = 'Level' . $salt;
-		$groups = array('Registered', 'Manager');
-		$this->assertFalse($this->levelManagerPage->getRowNumber($levelName), 'Test level should not be present');
-		$this->levelManagerPage->addLevel($levelName, $groups);
-		$message = $this->levelManagerPage->getAlertMessage();
-		$this->assertTrue(strpos($message, 'Level successfully saved') >= 0, 'Level save should return success');
-		$this->assertTrue($this->levelManagerPage->getRowNumber($levelName) > 0, 'Test level should be on the page');
-		$actualGroups = $this->levelManagerPage->getGroups($levelName);
-		sort($groups);
-		sort($actualGroups);
-		$this->assertEquals($groups, $actualGroups, 'Assigned groups should be as expected');
-		$this->levelManagerPage->delete($levelName);
-		$this->assertFalse($this->levelManagerPage->getRowNumber($levelName), 'Test level should not be present');
+		$this->tagManagerPage->clickButton('toolbar-new');
+		$tagEditPage = $this->getPageObject('TagEditPage');
+		$textArray = $tagEditPage->getTabIds();
+
+		// Keep the following line commented to make it easy to generate values for arrays as fields change.
+
+// 		$tagEditPage->printFieldArray($tagEditPage->getAllInputFields($tagEditPage->tabs));
+
+		$this->assertEquals($tagEditPage->tabs, $textArray, 'Tab labels should match expected values.');
+		$tagEditPage->clickButton('toolbar-cancel');
+		$this->tagManagerPage = $this->getPageObject('TagManagerPage');
 	}
 
 	/**
-	 * edit the input fields of a level
+	 * add tag with default fields
 	 *
 	 * @return void
 	 *
 	 * @test
 	 */
-	public function editLevel_ChangeFields_FieldsChanged()
+	public function addTag_WithFieldDefaults_TagAdded()
 	{
 		$salt = rand();
-		$levelName = 'Level' . $salt;
-		$groups = array('Customer', 'Administrator', 'Author');
-		$this->assertFalse($this->levelManagerPage->getRowNumber($levelName), 'Test level should not be present');
-		$this->levelManagerPage->addLevel($levelName, $groups);
-		$newGroups = array('Manager', 'Publisher');
-		$this->levelManagerPage->editLevel($levelName, $newGroups);
-		$actualGroups = $this->levelManagerPage->getGroups($levelName);
-		sort($actualGroups);
-		sort($newGroups);
-		$this->assertEquals($newGroups, $actualGroups, 'New groups should be assigned to level');
-		$this->levelManagerPage->delete($levelName);
+		$tagName = 'Tag' . $salt;
+		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test Tag should not be present');
+		$this->tagManagerPage->addTag($tagName);
+		$message = $this->tagManagerPage->getAlertMessage();
+		$this->assertTrue(strpos($message, 'Tag successfully saved') >= 0, 'Tag save should return success');
+		$this->assertGreaterThanOrEqual(1, $this->tagManagerPage->getRowNumber($tagName), 'Test test tag should be present');
+		$this->tagManagerPage->trashAndDelete($tagName);
+		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test Tag should not be present');
 	}
 
 	/**
-	 * set filter to order the levels
+	 * add tag with given fields
 	 *
 	 * @return void
 	 *
 	 * @test
 	 */
-	public function setFilter_TestOrdering_ShouldOrderLevels()
+	public function addTag_WithGivenFields_TagAdded()
 	{
-		$orderings = array('Level Name', 'ID');
-		$rows = array('Customer Access', 'Guest', 'Public', 'Registered', 'Special', 'Super Users');
-		$actualRowNumbers = $this->levelManagerPage->orderAndGetRowNumbers($orderings, $rows);
+		// Other than the Default Value
 
-		$expectedRowNumbers = array(
-				'Level Name' => array('ascending' => array(1, 2, 3, 4, 5, 6), 'descending' => array(6, 5, 4, 3, 2, 1)),
-				'ID' => array('ascending' => array(4, 5, 1, 2, 3, 6), 'descending' => array(3, 2, 6, 5, 4, 1))
-		);
+		$salt = rand();
+		$tagName = 'Tag' . $salt;
+		$caption = 'Sample' . $salt;
+		$alt = 'alt' . $salt;
+		$float = 'Right';
 
-		foreach ($actualRowNumbers as $ordering => $orderingRowNumbers)
-		{
-			foreach ($orderingRowNumbers as $order => $rowNumbers)
-			{
-				foreach ($rowNumbers as $key => $rowNumber)
-				{
-					$this->assertEquals(
-							$expectedRowNumbers[$ordering][$order][$key],
-							$rowNumber,
-							'When the table is sorted by ' . strtolower($ordering) . ' in the ' . $order . ' order '
-							. $rows[$key] . ' should be in row ' . $expectedRowNumbers[$ordering][$order][$key]
-					);
-				}
-			}
-		}
+		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test tag should not be present');
+		$this->tagManagerPage->addTag($tagName, $caption, $alt, $float);
+		$message = $this->tagManagerPage->getAlertMessage();
+		$this->assertTrue(strpos($message, 'Tags successfully saved') >= 0, 'Tag save should return success');
+		$this->assertGreaterThanOrEqual(1, $this->tagManagerPage->getRowNumber($tagName), 'Test test tag should be present');
+		$values = $this->tagManagerPage->getFieldValues('TagEditPage', $tagName, array('Title', 'Caption'));
+		$this->assertEquals(array($tagName, $caption), $values, 'Actual name, caption should match expected');
+		$this->tagManagerPage->trashAndDelete($tagName);
+		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test tag should not be present');
+	}
+
+	/**
+	 * edit tag and change the value of the fields
+	 *
+	 * @return void
+	 *
+	 * @test
+	 */
+	public function editTag_ChangeFields_FieldsChanged()
+	{
+		$salt = rand();
+		$tagName = 'Tag' . $salt;
+		$Caption = 'Caption' . $salt;
+		$alt = 'alt' . $salt;
+		$float = 'Right';
+		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test tag should not be present');
+		$this->tagManagerPage->addTag($tagName, $Caption, $alt, $float);
+		$this->tagManagerPage->editTag($tagName, array('Caption' => 'new_sample_Caption', 'Alt' => 'Sample_Alt'));
+		$values = $this->tagManagerPage->getFieldValues('tagEditPage', $tagName, array('Caption', 'Alt'));
+		$this->assertEquals(array('new_sample_Caption', 'Sample_Alt'), $values, 'Actual values should match expected');
+		$this->tagManagerPage->trashAndDelete($tagName);
+	}
+
+	/**
+	 * change the state of the tag
+	 *
+	 * @return void
+	 *
+	 * @test
+	 */
+	public function changeTagState_ChangeEnabledUsingToolbar_EnabledChanged()
+	{
+		$this->tagManagerPage->addTag('Test Tag');
+		$state = $this->tagManagerPage->getState('Test Tag');
+		$this->assertEquals('published', $state, 'Initial state should be published');
+		$this->tagManagerPage->changeTagState('Test Tag', 'unpublished');
+		$state = $this->tagManagerPage->getState('Test Tag');
+		$this->assertEquals('unpublished', $state, 'State should be unpublished');
+		$this->tagManagerPage->trashAndDelete('Test Tag');
 	}
 }
