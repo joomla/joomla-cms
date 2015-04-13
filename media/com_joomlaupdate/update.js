@@ -4,7 +4,6 @@ var joomlaupdate_stat_outbytes = 0;
 var joomlaupdate_stat_files = 0;
 var joomlaupdate_stat_percent = 0;
 var joomlaupdate_factory = null;
-var joomlaupdate_progress_bar = null;
 
 /**
  * An extremely simple error handler, dumping error messages to screen
@@ -166,20 +165,22 @@ function processUpdateStep(data)
 			joomlaupdate_stat_inbytes += data.bytesIn;
 			joomlaupdate_stat_percent = (joomlaupdate_stat_inbytes * 100) / joomlaupdate_totalsize;
 
-			// Create progress bar once
-			if (joomlaupdate_progress_bar == null)
-			{
-				joomlaupdate_progress_bar = new Fx.ProgressBar(document.getElementById('progress'));
+			// Update progress bar
+			if (joomlaupdate_stat_percent < 100) {
+				jQuery('#progress-bar').css('width', joomlaupdate_stat_percent + '%').attr('aria-valuenow', joomlaupdate_stat_percent);
 			}
-			joomlaupdate_progress_bar.set(joomlaupdate_stat_percent);
+			else {
+				jQuery('#progress-bar').removeClass('bar-success');
+			}
+
 			joomlaupdate_stat_outbytes += data.bytesOut;
 			joomlaupdate_stat_files += data.files;
 
 			// Display data
-			document.getElementById('extpercent').innerHTML = new Number(joomlaupdate_stat_percent).formatPercentage(1);
-			document.getElementById('extbytesin').innerHTML = new Number(joomlaupdate_stat_inbytes).format();
-			document.getElementById('extbytesout').innerHTML = new Number(joomlaupdate_stat_outbytes).format();
-			document.getElementById('extfiles').innerHTML = new Number(joomlaupdate_stat_files).format();
+			document.getElementById('extpercent').innerHTML = joomlaupdate_stat_percent + '%';
+			document.getElementById('extbytesin').innerHTML = joomlaupdate_stat_inbytes + '';
+			document.getElementById('extbytesout').innerHTML = joomlaupdate_stat_outbytes + '';
+			document.getElementById('extfiles').innerHTML = joomlaupdate_stat_files + '';
 
 			// Do AJAX post
 			post = {
