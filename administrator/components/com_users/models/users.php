@@ -446,12 +446,20 @@ class UsersModelUsers extends JModelList
 	protected function _getUserDisplayedGroups($user_id)
 	{
 		$db    = JFactory::getDbo();
-		$query = "SELECT title FROM " . $db->quoteName('#__usergroups') . " ug left join " .
-			$db->quoteName('#__user_usergroup_map') . " map on (ug.id = map.group_id)" .
-			" WHERE map.user_id=" . (int) $user_id;
-
-		$db->setQuery($query);
-		$result = $db->loadColumn();
+		$query = $db->getQuery(true)
+			->select($db->qn('title'))
+			->from($db->qn('#__usergroups', 'ug'))
+			->join('LEFT',$db->qn('#__user_usergroup_map', 'map') . ' ON (ug.id = map.group_id)')
+			->where($db->qn('map.user_id') . ' = ' . (int) $user_id);
+	
+		try
+		{
+			$result = $db->setQuery($query)->loadColumn();
+		}
+		catch (RunTimeException $e)
+		{
+			$result=array();
+		}
 
 		return implode("\n", $result);
 	}
