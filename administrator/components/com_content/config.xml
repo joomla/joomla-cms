@@ -32,7 +32,7 @@
 			default="1"
 			label="JGLOBAL_LINKED_TITLES_LABEL"
 			description="JGLOBAL_LINKED_TITLES_DESC"
-			showon="show_title:1">
+			showon="show_title:1" >
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>

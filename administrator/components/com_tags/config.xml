@@ -34,6 +34,7 @@
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			default="5"
+			showon="save_history:1"
 		/>
 
 		<field 
@@ -77,6 +78,7 @@
 			type="media"
 			description="COM_TAGS_TAG_LIST_MEDIA_DESC"
 			label="COM_TAGS_TAG_LIST_MEDIA_LABEL"
+			showon="tag_list_show_tag_image:1"
 		/>
 		
 		<field 
@@ -168,7 +170,9 @@
 			type="text"
 			filter="integer"
 			label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
-			description="COM_TAGS_LIST_MAX_CHARACTERS_DESC">
+			description="COM_TAGS_LIST_MAX_CHARACTERS_DESC"
+			showon="tag_list_show_item_description:1"
+			>
 		</field>
 
 	</fieldset>

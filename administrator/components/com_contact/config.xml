@@ -362,7 +362,8 @@
 			hide_none="1"
 			label="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_TELEPHONE_DESC" 
-			showon="contact_icons:0"/>
+			showon="contact_icons:0"
+			/>
 
 		<field name="icon_mobile"
 			type="media"

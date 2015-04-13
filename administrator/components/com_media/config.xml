@@ -65,14 +65,18 @@
 			size="50"
 			default="bmp,gif,jpg,png"
 			label="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_LABEL"
-			description="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_DESC" />
+			description="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_DESC" 
+			showon="restrict_uploads:1"
+			/>
 
 		<field
 			name="ignore_extensions"
 			type="text"
 			size="50"
 			label="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_LABEL"
-			description="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_DESC" />
+			description="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_DESC" 
+			showon="restrict_uploads:1"
+			/>
 
 		<field
 			name="upload_mime"
@@ -80,7 +84,8 @@
 			size="50"
 			default="image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave-flash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
 			label="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_LABEL"
-			description="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_DESC" />
+			description="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_DESC" 
+			showon="check_mime:1"/>
 
 		<field
 			name="upload_mime_illegal"
@@ -88,7 +93,9 @@
 			size="50"
 			default="text/html"
 			label="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_LABEL"
-			description="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_DESC" />
+			description="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_DESC" 
+			showon="check_mime:1"
+			/>
 	</fieldset>
 
 	<fieldset

@@ -17,7 +17,9 @@
 			type="usergrouplist"
 			default="2"
 			label="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_LABEL"
-			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC">
+			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC"
+			showon="allowUserRegistration:1"
+			>
 		</field>
 
 		<field
@@ -25,7 +27,9 @@
 			type="usergrouplist"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_LABEL"
-			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC">
+			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC"
+			showon="allowUserRegistration:1"
+			>
 		</field>
 
 		<field
@@ -34,7 +38,9 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_SENDPASSWORD_LABEL"
-			description="COM_USERS_CONFIG_FIELD_SENDPASSWORD_DESC">
+			description="COM_USERS_CONFIG_FIELD_SENDPASSWORD_DESC"
+			showon="allowUserRegistration:1"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -44,7 +50,9 @@
 			type="list"
 			default="2"
 			label="COM_USERS_CONFIG_FIELD_USERACTIVATION_LABEL"
-			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC">
+			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC"
+			showon="allowUserRegistration:1"
+			>
 			<option
 				value="0">JNONE</option>
 			<option
@@ -59,7 +67,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_MAILTOADMIN_LABEL"
-			description="COM_USERS_CONFIG_FIELD_MAILTOADMIN_DESC">
+			description="COM_USERS_CONFIG_FIELD_MAILTOADMIN_DESC"
+			showon="allowUserRegistration:1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -71,7 +80,9 @@
 			default=""
 			label="COM_USERS_CONFIG_FIELD_CAPTCHA_LABEL"
 			description="COM_USERS_CONFIG_FIELD_CAPTCHA_DESC"
-			filter="cmd" >
+			filter="cmd"
+			showon="allowUserRegistration:1"
+			>
 			<option
 				value="">JOPTION_USE_DEFAULT</option>
 			<option
@@ -84,7 +95,9 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_LABEL"
-			description="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_DESC">
+			description="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_DESC"
+			showon="allowUserRegistration:1"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
@@ -94,7 +107,8 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_LABEL"
-			description="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_DESC">
+			description="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_DESC"
+			showon="allowUserRegistration:1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
@@ -104,7 +118,9 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_LABEL"
-			description="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_DESC">
+			description="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_DESC"
+			showon="allowUserRegistration:1"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -116,7 +132,9 @@
 			first="0"
 			last="20"
 			step="1"
-			default="10">
+			default="10"
+			showon="allowUserRegistration:1"
+			>
 			</field>
 		<field
 			name="reset_time"
@@ -126,7 +144,9 @@
 			first="1"
 			last="24"
 			step="1"
-			default="1">
+			default="1"
+			showon="allowUserRegistration:1"
+			>
 			</field>
 
 		<field
@@ -137,7 +157,9 @@
 			first="4"
 			last="99"
 			step="1"
-			default="4">
+			default="4"
+			showon="allowUserRegistration:1"
+			>
 			</field>
 
 		<field
@@ -148,7 +170,9 @@
 			first="0"
 			last="98"
 			step="1"
-			default="0">
+			default="0"
+			showon="allowUserRegistration:1"
+			>
 			</field>
 
 		<field
@@ -159,7 +183,9 @@
 			first="0"
 			last="98"
 			step="1"
-			default="0">
+			default="0"
+			showon="allowUserRegistration:1"
+			>
 			</field>
 		<field
 			name="minimum_uppercase"
@@ -169,7 +195,9 @@
 			first="0"
 			last="98"
 			step="1"
-			default="0">
+			default="0"
+			showon="allowUserRegistration:1"
+			>
 			</field>
 	</fieldset>
 
@@ -196,6 +224,7 @@
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			default="5"
+			showon="save_history:1"
 		/>
 	</fieldset>
 

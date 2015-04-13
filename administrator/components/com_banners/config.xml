@@ -96,6 +96,7 @@
 			filter="rules"
 			validate="rules"
 			component="com_banners"
-			section="component" />
+			section="component" 
+			/>
 	</fieldset>
 </config>
