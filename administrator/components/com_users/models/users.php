@@ -449,16 +449,16 @@ class UsersModelUsers extends JModelList
 		$query = $db->getQuery(true)
 			->select($db->qn('title'))
 			->from($db->qn('#__usergroups', 'ug'))
-			->join('LEFT',$db->qn('#__user_usergroup_map', 'map') . ' ON (ug.id = map.group_id)')
+			->join('LEFT', $db->qn('#__user_usergroup_map', 'map') . ' ON (ug.id = map.group_id)')
 			->where($db->qn('map.user_id') . ' = ' . (int) $user_id);
-	
+
 		try
 		{
 			$result = $db->setQuery($query)->loadColumn();
 		}
 		catch (RunTimeException $e)
 		{
-			$result=array();
+			$result = array();
 		}
 
 		return implode("\n", $result);
