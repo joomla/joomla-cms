@@ -96,7 +96,6 @@
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_LABEL"
 			description="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_DESC"
-			showon="allowUserRegistration:1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -108,7 +107,7 @@
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_LABEL"
 			description="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_DESC"
-			showon="allowUserRegistration:1">
+			showon="frontend_userparams:1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
@@ -119,7 +118,7 @@
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_LABEL"
 			description="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_DESC"
-			showon="allowUserRegistration:1"
+			showon="frontend_userparams:1"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -133,7 +132,7 @@
 			last="20"
 			step="1"
 			default="10"
-			showon="allowUserRegistration:1"
+			showon="frontend_userparams:1"
 			>
 			</field>
 		<field
