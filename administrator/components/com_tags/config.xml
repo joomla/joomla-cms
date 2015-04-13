@@ -264,6 +264,19 @@
 				<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>
 		</field>
 
+                <!--Does not work: "all_tags_float" needs to be added in joomla.sql-->
+                <field 
+			name="all_tags_float"
+			type="list"
+			default="none"
+			label="COM_TAGS_FLOAT_LABEL"
+			description="COM_TAGS_FLOAT_DESC"
+		>
+				<option value="none">COM_TAGS_NONE</option>
+				<option value="right">COM_TAGS_RIGHT</option>
+				<option value="left">COM_TAGS_LEFT</option>
+		</field>
+                
 		<field 
 			name="all_tags_orderby_direction" 
 			type="radio" 
