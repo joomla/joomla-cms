@@ -34,7 +34,7 @@ function doAjax(data, successCallback, errorCallback)
 
 	var structure =
 	{
-		onSuccess: function(msg, responseXML)
+		success: function(msg, responseXML)
 		{
 			// Initialize
 			var junk = null;
@@ -88,7 +88,7 @@ function doAjax(data, successCallback, errorCallback)
 			// Call the callback function
 			successCallback(data);
 		},
-		onFailure: function(req) {
+		error: function(req) {
 			var message = 'AJAX Loading Error: '+req.statusText;
 			if (joomlaupdate_error_callback != null)
 			{
@@ -97,10 +97,9 @@ function doAjax(data, successCallback, errorCallback)
 		}
 	};
 
-	var ajax_object = null;
 	structure.url = joomlaupdate_ajax_url;
-	ajax_object = new Request(structure);
-	ajax_object.send(post_data);
+	structure.method = "GET";
+	jQuery.ajax(structure);
 }
 
 /**
@@ -196,7 +195,7 @@ function processUpdateStep(data)
 
 jQuery(function($) {
 	pingUpdate();
-	var $el = $('div.joomlaupdate_spinner');
-	$el.attr('spinner', {class: 'joomlaupdate_spinner'});
-	$el.get(0).spin();
+	//var $el = $('div.joomlaupdate_spinner');
+	//$el.attr('spinner', {class: 'joomlaupdate_spinner'});
+	//$el.get(0).spin();
 });
