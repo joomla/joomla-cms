@@ -9,6 +9,30 @@
 
 defined('_JEXEC') or die;
 
+// Load the stylesheet
+JHtml::stylesheet('media/mediamanager.css', false, true, false);
+
+// Include jQuery.
+JHtml::_('jquery.framework');
+
+// Load the scripts
+JHtml::script('com_joomlaupdate/json2.js', false, true, false);
+JHtml::script('com_joomlaupdate/encryption.js', false, true, false);
+JHtml::script('com_joomlaupdate/update.js', false, true, false);
+
+$password = JFactory::getApplication()->getUserState('com_joomlaupdate.password', null);
+$filesize = JFactory::getApplication()->getUserState('com_joomlaupdate.filesize', null);
+$ajaxUrl = JUri::base() . 'components/com_joomlaupdate/restore.php';
+$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise';
+
+JFactory::getDocument()->addScriptDeclaration(
+	"
+	var joomlaupdate_password = '$password';
+	var joomlaupdate_totalsize = '$filesize';
+	var joomlaupdate_ajax_url = '$ajaxUrl';
+	var joomlaupdate_return_url = '$returnUrl';
+	"
+);
 ?>
 
 <p class="nowarning"><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_INPROGRESS') ?></p>
