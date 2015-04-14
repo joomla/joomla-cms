@@ -46,7 +46,6 @@ switch ($params->get('updatesource', 'default'))
 JHtml::_('jquery.framework');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::script('com_joomlaupdate/default.js', false, true, false);
-JHtml::stylesheet('media/mediamanager.css', false, true, false);
 ?>
 
 <form action="index.php" method="post" id="adminForm">

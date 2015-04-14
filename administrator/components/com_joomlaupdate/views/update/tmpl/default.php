@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// Load the stylesheet
-JHtml::stylesheet('media/mediamanager.css', false, true, false);
-
 // Include jQuery.
 JHtml::_('jquery.framework');
 
@@ -31,12 +28,15 @@ JFactory::getDocument()->addScriptDeclaration(
 	var joomlaupdate_totalsize = '$filesize';
 	var joomlaupdate_ajax_url = '$ajaxUrl';
 	var joomlaupdate_return_url = '$returnUrl';
+
+	jQuery(document).ready(function(){
+		window.pingExtract();
+		});
 	"
 );
 ?>
 
 <p class="nowarning"><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_INPROGRESS') ?></p>
-<div class="joomlaupdate_spinner" ></div>
 
 <div id="update-progress">
 	<div id="extprogress">

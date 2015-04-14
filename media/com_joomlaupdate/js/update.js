@@ -269,15 +269,12 @@ stepExtract = function(data)
 		{
 			joomlaupdate_stat_percent = 100;
 		}
+
+		jQuery('#progress-bar').css('width', joomlaupdate_stat_percent + '%').attr('aria-valuenow', joomlaupdate_stat_percent);
 	}
 
-	if(data.done) joomlaupdate_stat_percent = 100;
-
-	// Update progress bar
-	if (joomlaupdate_stat_percent < 100)
-	{
-		jQuery('#progress-bar').css('width', joomlaupdate_stat_percent + '%').attr('aria-valuenow', joomlaupdate_stat_percent);
-	} else {
+	if(data.done) {
+		joomlaupdate_stat_percent = 100;
 		jQuery('#progress-bar').removeClass('bar-success');
 	}
 
@@ -311,9 +308,9 @@ stepExtract = function(data)
 finalizeUpdate = function ()
 {
 	// Do AJAX post
-	var post = { task : 'finalizeRestore', factory: data.factory };
+	var post = { task : 'finalizeRestore', factory: window.factory };
 	doEncryptedAjax(post, function(data){
-		window.location = 'index.php?option=com_window&view=update&task=finalise';
+		window.location = 'index.php?option=com_joomlaupdate&view=update&task=finalise';
 	});
 };
 
