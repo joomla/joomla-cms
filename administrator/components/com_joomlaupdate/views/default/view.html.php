@@ -54,17 +54,6 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
-		// Load mooTools.
-		JHtml::_('behavior.framework', true);
-
-		// Include jQuery.
-		JHtml::_('jquery.framework');
-
-		// Load our Javascript.
-		$document = JFactory::getDocument();
-		$document->addScript('../media/com_joomlaupdate/default.js');
-		JHtml::_('stylesheet', 'media/mediamanager.css', array(), true);
-
 		if (!is_null($this->updateInfo['object']))
 		{
 			// Show the message if a update is found.
