@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,8 +47,7 @@ class RedirectController extends JControllerLegacy
 		if ($view == 'link' && $layout == 'edit' && !$this->checkEditId('com_redirect.edit.link', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
 			$this->setRedirect(JRoute::_('index.php?option=com_redirect&view=links', false));
 
 			return false;
