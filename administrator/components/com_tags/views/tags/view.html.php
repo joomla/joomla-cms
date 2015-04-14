@@ -31,10 +31,10 @@ class TagsViewTags extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->state		= $this->get('State');
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		
+		$this->state      = $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -42,6 +42,7 @@ class TagsViewTags extends JViewLegacy
 
 			return false;
 		}
+
 		// Preprocess the list of items to find ordering divisions.
 		foreach ($this->items as &$item)
 		{
