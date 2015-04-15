@@ -11,6 +11,11 @@ defined('_JEXEC') or die('caught by _JEXEC');
 
 jimport('joomla.filesystem.file');
 
+/**
+ * Custom field for compiling LESS to css
+ *
+ * @since  3.4.
+ */
 class JFormFieldCompile extends JFormField
 {
 	protected function getInput()
@@ -20,8 +25,8 @@ class JFormFieldCompile extends JFormField
 		$jinput = $app->input;
 		$compile = 0;
 		$compile = $jinput->get('compileless');
-		$currentpath = realpath(__DIR__ ) ;
-		$pageurl = str_replace('&amp;compileless=1', '', JURI::getInstance ());
+		$currentpath = realpath(__DIR__ );
+		$pageurl = str_replace('&amp;compileless=1', '', JURI::getInstance());
 
 		if ($compile) {
 
