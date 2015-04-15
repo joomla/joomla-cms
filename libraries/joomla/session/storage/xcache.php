@@ -101,7 +101,7 @@ class JSessionStorageXcache extends JSessionStorage
 	 *
 	 * @since   12.1
 	 */
-	static public function isSupported()
+	public static function isSupported()
 	{
 		return (extension_loaded('xcache'));
 	}
