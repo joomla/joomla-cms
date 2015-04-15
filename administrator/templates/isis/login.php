@@ -65,7 +65,7 @@ function colorIsLight($color)
 	</script>
 	<style type="text/css">
 		/* Template color */
-		<?php if ($this->params->get('templateColor')) : ?>
+		<?php if ($this->params->get('templateColor') && $this->params->get('useInlineCustomization') == 1) : ?>
 		.view-login {
 			background: <?php echo $this->params->get('templateColor'); ?>;
 		}
