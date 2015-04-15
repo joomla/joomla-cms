@@ -1090,7 +1090,18 @@ class MenusModelItem extends JModelAdmin
 		$query = $db->getQuery(true);
 		$table = $this->getTable();
 
-		if (!$table->rebuild())
+		try
+		{
+			$rebuildResult = $table->rebuild();
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		if (!$rebuildResult)
 		{
 			$this->setError($table->getError());
 
