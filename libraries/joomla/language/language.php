@@ -368,8 +368,11 @@ class JLanguage
 		}
 		elseif ($interpretBackSlashes)
 		{
-			// Interpret \n and \t characters
-			$string = str_replace(array('\\\\', '\t', '\n'), array("\\", "\t", "\n"), $string);
+			if (strpos($string, '\\') !== false)
+			{
+				// Interpret \n and \t characters
+				$string = str_replace(array('\\\\', '\t', '\n'), array("\\", "\t", "\n"), $string);
+			}
 		}
 
 		return $string;
@@ -799,15 +802,30 @@ class JLanguage
 		{
 			if (is_array($strings))
 			{
-				// Sort the underlying heap by key values to optimize merging
-				ksort($strings, SORT_STRING);
-				$this->strings = array_merge($this->strings, $strings);
+				if (!empty($this->strings))
+				{
+					foreach($strings as $key => $string)
+					{
+						$this->strings[$key] = $string;
+					}
+				}
+				else
+				{
+					// This should assign the larger, initial application language file directly:
+					$this->strings = $strings;
+				}
 			}
 
 			if (is_array($strings) && count($strings))
 			{
-				// Do not bother with ksort here.  Since the originals were sorted, PHP will already have chosen the best heap.
-				$this->strings = array_merge($this->strings, $this->override);
+				if (!empty($this->override))
+				{
+					foreach($this->override as $overrideKey => $overrideString)
+					{
+						$this->strings[$overrideKey] = $overrideString;
+					}
+				}
+
 				$result = true;
 			}
 		}
