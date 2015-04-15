@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('caught by _JEXEC');
+defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
@@ -20,12 +20,8 @@ class JFormFieldCompile extends JFormField
 {
 	protected function getInput()
 	{
-
-		$app = JFactory::getApplication();
-		$jinput = $app->input;
 		$compile = 0;
-		$compile = $jinput->get('compileless');
-		$currentpath = realpath(__DIR__ );
+		$compile = JFactory::getApplication()->input->get('compileless');
 		$pageurl = str_replace('&amp;compileless=1', '', JURI::getInstance());
 
 		if ($compile) {
