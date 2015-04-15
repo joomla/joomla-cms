@@ -66,7 +66,7 @@ class Memcached extends Storage
 	 *
 	 * @since   1.0
 	 */
-	static public function isSupported()
+	public static function isSupported()
 	{
 		// GAE and HHVM have both had instances where Memcached the class was defined but no extension was loaded.  If the class is there, we can assume it works.
 		return (class_exists('Memcached'));

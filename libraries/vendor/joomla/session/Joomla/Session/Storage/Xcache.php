@@ -103,7 +103,7 @@ class Xcache extends Storage
 	 *
 	 * @since   1.0
 	 */
-	static public function isSupported()
+	public static function isSupported()
 	{
 		return (extension_loaded('xcache'));
 	}
