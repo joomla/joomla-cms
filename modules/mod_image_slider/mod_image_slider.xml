@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension
+        type="module"
+        version="3.1"
+        client="site"
+        method="upgrade">
+    <name>mod_image_slider</name>
+    <author>Joomla! Project</author>
+    <creationDate>July 2006</creationDate>
+    <copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <version>3.0.0</version>
+    <description>MOD_IMAGE_SLIDER_XML_DESCRIPTION</description>
+    <files>
+        <filename module="mod_image_slider">mod_image_slider.php</filename>
+        <folder>tmpl</folder>
+        <filename>helper.php</filename>
+        <filename>index.html</filename>
+        <filename>mod_image_slider.xml</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">en-GB.mod_image_slider.ini</language>
+        <language tag="en-GB">en-GB.mod_image_slider.sys.ini</language>
+    </languages>
+    <help key="JHELP_EXTENSIONS_MODULE_MANAGER_IMAGE_SLIDER"/>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="autostart"
+                        type="radio"
+                        class="btn-group"
+                        default="1"
+                        label="MOD_IMAGE_SLIDER_FIELD_AUTOSTART_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_AUTOSTART_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                        name="interval"
+                        type="text"
+                        default="5000"
+                        label="MOD_IMAGE_SLIDER_FIELD_INTERVAL_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_INTERVAL_DESC"/>
+
+                <field
+                        name="navigation"
+                        type="radio"
+                        class="btn-group"
+                        default="1"
+                        label="MOD_IMAGE_SLIDER_FIELD_NAVIGATION_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_NAVIGATION_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                        name="controls"
+                        type="radio"
+                        class="btn-group"
+                        default="1"
+                        label="MOD_IMAGE_SLIDER_FIELD_CONTROLS_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_CONTROLS_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+
+                <field
+                        type="spacer"
+                        name="spacer1"
+                        label="MOD_IMAGE_SLIDER_FIELD_SPACER1_LABEL"/>
+
+                <field name="image1"
+                       type="media"
+                       label="MOD_IMAGE_SLIDER_FIELD_IMAGE_LABEL"
+                       description="MOD_IMAGE_SLIDER_FIELD_IMAGE_DESC"/>
+                <field
+                        name="link1"
+                        type="text"
+                        label="MOD_IMAGE_SLIDER_FIELD_LINK_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_LINK_DESC"/>
+                <field
+                        name="heading1"
+                        type="text"
+                        label="MOD_IMAGE_SLIDER_FIELD_HEADING_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_HEADING_DESC"/>
+                <field
+                        name="description1"
+                        type="text"
+                        label="MOD_IMAGE_SLIDER_FIELD_DESCRIPTION_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_DESCRIPTION_DESC"/>
+
+                <field
+                        type="spacer"
+                        name="spacer2"
+                        label="MOD_IMAGE_SLIDER_FIELD_SPACER2_LABEL"/>
+
+                <field name="image2"
+                       type="media"
+                       label="MOD_IMAGE_SLIDER_FIELD_IMAGE_LABEL"
+                       description="MOD_IMAGE_SLIDER_FIELD_IMAGE_DESC"/>
+                <field
+                        name="link2"
+                        type="text"
+                        label="MOD_IMAGE_SLIDER_FIELD_LINK_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_LINK_DESC"/>
+                <field
+                        name="heading2"
+                        type="text"
+                        label="MOD_IMAGE_SLIDER_FIELD_HEADING_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_HEADING_DESC"/>
+                <field
+                        name="description2"
+                        type="text"
+                        label="MOD_IMAGE_SLIDER_FIELD_DESCRIPTION_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_DESCRIPTION_DESC"/>
+
+                <field
+                        type="spacer"
+                        name="spacer3"
+                        label="MOD_IMAGE_SLIDER_FIELD_SPACER3_LABEL"/>
+
+                <field name="image3"
+                       type="media"
+                       label="MOD_IMAGE_SLIDER_FIELD_IMAGE_LABEL"
+                       description="MOD_IMAGE_SLIDER_FIELD_IMAGE_DESC"/>
+                <field
+                        name="link3"
+                        type="text"
+                        label="MOD_IMAGE_SLIDER_FIELD_LINK_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_LINK_DESC"/>
+                <field
+                        name="heading3"
+                        type="text"
+                        label="MOD_IMAGE_SLIDER_FIELD_HEADING_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_HEADING_DESC"/>
+                <field
+                        name="description3"
+                        type="text"
+                        label="MOD_IMAGE_SLIDER_FIELD_DESCRIPTION_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_DESCRIPTION_DESC"/>
+
+                <field
+                        type="spacer"
+                        name="spacer4"
+                        label="MOD_IMAGE_SLIDER_FIELD_SPACER4_LABEL"/>
+
+                <field name="image4"
+                       type="media"
+                       label="MOD_IMAGE_SLIDER_FIELD_IMAGE_LABEL"
+                       description="MOD_IMAGE_SLIDER_FIELD_IMAGE_DESC"/>
+                <field
+                        name="link4"
+                        type="text"
+                        label="MOD_IMAGE_SLIDER_FIELD_LINK_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_LINK_DESC"/>
+                <field
+                        name="heading4"
+                        type="text"
+                        label="MOD_IMAGE_SLIDER_FIELD_HEADING_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_HEADING_DESC"/>
+                <field
+                        name="description4"
+                        type="text"
+                        label="MOD_IMAGE_SLIDER_FIELD_DESCRIPTION_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_DESCRIPTION_DESC"/>
+
+                <field
+                        type="spacer"
+                        name="spacer5"
+                        label="MOD_IMAGE_SLIDER_FIELD_SPACER5_LABEL"/>
+
+                <field name="image5"
+                       type="media"
+                       label="MOD_IMAGE_SLIDER_FIELD_IMAGE_LABEL"
+                       description="MOD_IMAGE_SLIDER_FIELD_IMAGE_DESC"/>
+                <field
+                        name="link5"
+                        type="text"
+                        label="MOD_IMAGE_SLIDER_FIELD_LINK_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_LINK_DESC"/>
+                <field
+                        name="heading5"
+                        type="text"
+                        label="MOD_IMAGE_SLIDER_FIELD_HEADING_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_HEADING_DESC"/>
+                <field
+                        name="description5"
+                        type="text"
+                        label="MOD_IMAGE_SLIDER_FIELD_DESCRIPTION_LABEL"
+                        description="MOD_IMAGE_SLIDER_FIELD_DESCRIPTION_DESC"/>
+
+            </fieldset>
+            <fieldset
+                    name="advanced">
+                <field
+                        name="layout"
+                        type="modulelayout"
+                        label="JFIELD_ALT_LAYOUT_LABEL"
+                        description="JFIELD_ALT_MODULE_LAYOUT_DESC"/>
+                <field
+                        name="moduleclass_sfx"
+                        type="textarea" rows="3"
+                        label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                        description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"/>
+                <field
+                        name="cache"
+                        type="list"
+                        default="0"
+                        label="COM_MODULES_FIELD_CACHING_LABEL"
+                        description="COM_MODULES_FIELD_CACHING_DESC">
+                    <option
+                            value="0">COM_MODULES_FIELD_VALUE_NOCACHING
+                    </option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>
