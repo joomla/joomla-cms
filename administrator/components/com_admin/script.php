@@ -36,6 +36,7 @@ class JoomlaInstallerScript
 		$this->updateDatabase();
 		$this->clearRadCache();
 		$this->updateAssets();
+		$this->generateCss();
 	}
 
 	/**
@@ -1441,5 +1442,42 @@ class JoomlaInstallerScript
 		}
 
 		return true;
+	}
+
+	/**
+	 * Generates user custom stylesheets
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4.
+	 */
+	public function generateCss()
+	{
+		jimport('joomla.filesystem.file');
+
+		$less = new JLess;
+		$less->setPreserveComments(false);
+		$less->setFormatter(new JLessFormatterJoomla);
+
+		if (empty(file_get_contents(JPATH_ADMINISTRATOR . '/templates/isis/less/variables-user.less')))
+		{
+			return;
+		}
+		$uncompressed = array(
+			JPATH_ADMINISTRATOR . '/templates/isis/less/template.less' => JPATH_ADMINISTRATOR . '/templates/isis/css/template.css',
+			JPATH_ADMINISTRATOR . '/templates/isis/less/template-rtl.less' => JPATH_ADMINISTRATOR . '/templates/isis/css/template-rtl.css'
+		);
+
+		foreach ($uncompressed as $source => $output)
+		{
+			try
+			{
+				$less->compileFile($source, $output);
+			}
+			catch (Exception $e)
+			{
+				echo $e->getMessage();
+			}
+		}
 	}
 }
