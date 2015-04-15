@@ -115,7 +115,7 @@ class MenusControllerMenus extends JControllerLegacy
 		else
 		{
 			// Rebuild failed.
-			$this->setMessage(JText::sprintf('JTOOLBAR_REBUILD_FAILED', $model->getMessage()));
+			$this->setMessage(JText::sprintf('JTOOLBAR_REBUILD_FAILED', $model->getError()), 'error');
 
 			return false;
 		}
