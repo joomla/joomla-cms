@@ -55,7 +55,7 @@ class Wincache extends Storage
 	 *
 	 * @since   1.0
 	 */
-	public static function isSupported()
+	static public function isSupported()
 	{
 		return (extension_loaded('wincache') && function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), "1"));
 	}
