@@ -804,7 +804,7 @@ class JLanguage
 			{
 				if (!empty($this->strings))
 				{
-					foreach($strings as $key => $string)
+					foreach ($strings as $key => $string)
 					{
 						$this->strings[$key] = $string;
 					}
@@ -820,7 +820,7 @@ class JLanguage
 			{
 				if (!empty($this->override))
 				{
-					foreach($this->override as $overrideKey => $overrideString)
+					foreach ($this->override as $overrideKey => $overrideString)
 					{
 						$this->strings[$overrideKey] = $overrideString;
 					}
