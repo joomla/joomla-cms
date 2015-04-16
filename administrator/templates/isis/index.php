@@ -105,7 +105,7 @@ function colorIsLight($color)
 	<jdoc:include type="head" />
 
 	<!-- Template color -->
-	<?php if ($this->params->get('templateColor')) : ?>
+	<?php if ($this->params->get('templateColor') && $this->params->get('useInlineCustomization') == 1) : ?>
 		<style type="text/css">
 			.navbar-inner, .navbar-inverse .navbar-inner, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle, #status.status-top {
 				background: <?php echo $this->params->get('templateColor'); ?>;
@@ -113,7 +113,7 @@ function colorIsLight($color)
 		</style>
 	<?php endif; ?>
 	<!-- Template header color -->
-	<?php if ($displayHeader && $this->params->get('headerColor')) : ?>
+	<?php if ($displayHeader && $this->params->get('headerColor') && $this->params->get('useInlineCustomization') == 1) : ?>
 		<style type="text/css">
 			.header {
 				background: <?php echo $this->params->get('headerColor'); ?>;
@@ -122,7 +122,7 @@ function colorIsLight($color)
 	<?php endif; ?>
 
 	<!-- Sidebar background color -->
-	<?php if ($this->params->get('sidebarColor')) : ?>
+	<?php if ($this->params->get('sidebarColor') && $this->params->get('useInlineCustomization') == 1) : ?>
 		<style type="text/css">
 			.nav-list > .active > a, .nav-list > .active > a:hover {
 				background: <?php echo $this->params->get('sidebarColor'); ?>;
@@ -131,7 +131,7 @@ function colorIsLight($color)
 	<?php endif; ?>
 
 	<!-- Link color -->
-	<?php if ($this->params->get('linkColor')) : ?>
+	<?php if ($this->params->get('linkColor') && $this->params->get('useInlineCustomization') == 1) : ?>
 		<style type="text/css">
 			a, .j-toggle-sidebar-button
 			{

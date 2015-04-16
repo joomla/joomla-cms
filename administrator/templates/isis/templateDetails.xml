@@ -45,81 +45,124 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="advanced">
+			<fieldset name="advanced" addfieldpath="/administrator/templates/isis/fields">
 
-				<field name="templateColor" class="" type="color" default="#10223E"
-				validate="color"
-				label="TPL_ISIS_COLOR_LABEL"
-				description="TPL_ISIS_COLOR_DESC" />
-
-				<field name="headerColor" class="" type="color" default="#1A3867"
-				validate="color"
-				label="TPL_ISIS_COLOR_HEADER_LABEL"
-				description="TPL_ISIS_COLOR_HEADER_DESC" />
-
-				<field name="sidebarColor" class="" type="color" default="#0088CC"
-				validate="color"
-				label="TPL_ISIS_COLOR_SIDEBAR_LABEL"
-				description="TPL_ISIS_COLOR_SIDEBAR_DESC" />
-
-				<field name="linkColor" class="" type="color" default="#0088CC"
-				validate="color"
-				label="TPL_ISIS_COLOR_LINK_LABEL"
-				description="TPL_ISIS_COLOR_LINK_DESC" />
-
-				<field name="logoFile" class="" type="media" default=""
-				label="TPL_ISIS_LOGO_LABEL"
-				description="TPL_ISIS_LOGO_DESC" />
-
-				<field name="loginLogoFile" class="" type="media" default=""
-				label="TPL_ISIS_LOGIN_LOGO_LABEL"
-				description="TPL_ISIS_LOGIN_LOGO_DESC" />
-
-				<field name="admin_menus" type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				label="TPL_ISIS_FIELD_ADMIN_MENUS_LABEL"
-				description="TPL_ISIS_FIELD_ADMIN_MENUS_DESC"
-				filter="integer">
-				<option
-					value="1">JYES</option>
-				<option
-					value="0">JNO</option>
+				<field name="useInlineCustomization"
+					type="list"
+					default="1"
+					label="TPL_ISIS_INLINE_CUSTOMIZATION_LABEL"
+					description="TPL_ISIS_INLINE_CUSTOMIZATION_DESC"
+					filter="integer">
+					<option
+							value="1">JYES</option>
+					<option
+							value="0">JNO</option>
 				</field>
 
-				<field name="displayHeader" type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				label="TPL_ISIS_HEADER_LABEL"
-				description="TPL_ISIS_HEADER_DESC"
-				filter="integer">
-				<option
-					value="1">JYES</option>
-				<option
-					value="0">JNO</option>
+				<field name="templateColor"
+					class="" type="color"
+					default="#10223E"
+					validate="color"
+					showon="useInlineCustomization:1"
+					label="TPL_ISIS_COLOR_LABEL"
+					description="TPL_ISIS_COLOR_DESC" />
+
+				<field name="headerColor"
+					class=""
+					type="color"
+					default="#1A3867"
+					validate="color"
+					showon="useInlineCustomization:1"
+					label="TPL_ISIS_COLOR_HEADER_LABEL"
+					description="TPL_ISIS_COLOR_HEADER_DESC" />
+
+				<field name="sidebarColor"
+					class=""
+					type="color"
+					default="#0088CC"
+					validate="color"
+					showon="useInlineCustomization:1"
+					label="TPL_ISIS_COLOR_SIDEBAR_LABEL"
+					description="TPL_ISIS_COLOR_SIDEBAR_DESC" />
+
+				<field name="linkColor"
+					class=""
+					type="color"
+					default="#0088CC"
+					validate="color"
+					showon="useInlineCustomization:1"
+					label="TPL_ISIS_COLOR_LINK_LABEL"
+					description="TPL_ISIS_COLOR_LINK_DESC" />
+
+				<field name="compileLess"
+					type="compile"
+					showon="useInlineCustomization:0"
+					label="TPL_ISIS_COMPILE_LESS_LABEL"
+					description="TPL_ISIS_COMPILE_LESS_DESC" />
+
+				<field name="logoFile"
+					class=""
+					type="media"
+					default=""
+					label="TPL_ISIS_LOGO_LABEL"
+					description="TPL_ISIS_LOGO_DESC" />
+
+				<field name="loginLogoFile"
+					class=""
+					type="media"
+					default=""
+					label="TPL_ISIS_LOGIN_LOGO_LABEL"
+					description="TPL_ISIS_LOGIN_LOGO_DESC" />
+
+				<field name="admin_menus"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="TPL_ISIS_FIELD_ADMIN_MENUS_LABEL"
+					description="TPL_ISIS_FIELD_ADMIN_MENUS_DESC"
+					filter="integer">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
 				</field>
 
-				<field name="statusFixed" type="list"
-				default="1"
-				label="TPL_ISIS_STATUS_LABEL"
-				description="TPL_ISIS_STATUS_DESC"
-				filter="integer">
-				<option
-					value="1">TPL_ISIS_STATUS_BOTTOM</option>
-				<option
-					value="0">TPL_ISIS_STATUS_TOP</option>
+				<field name="displayHeader"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="TPL_ISIS_HEADER_LABEL"
+					description="TPL_ISIS_HEADER_DESC"
+					filter="integer">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
 				</field>
 
-				<field name="stickyToolbar" type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				label="TPL_ISIS_STICKY_LABEL"
-				description="TPL_ISIS_STICKY_DESC"
-				filter="integer">
-				<option
-					value="1">JYES</option>
-				<option
-					value="0">JNO</option>
+				<field name="statusFixed"
+					type="list"
+					default="1"
+					label="TPL_ISIS_STATUS_LABEL"
+					description="TPL_ISIS_STATUS_DESC"
+					filter="integer">
+					<option
+						value="1">TPL_ISIS_STATUS_BOTTOM</option>
+					<option
+						value="0">TPL_ISIS_STATUS_TOP</option>
+				</field>
+
+				<field name="stickyToolbar"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="TPL_ISIS_STICKY_LABEL"
+					description="TPL_ISIS_STICKY_DESC"
+					filter="integer">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
 				</field>
 
 			</fieldset>
