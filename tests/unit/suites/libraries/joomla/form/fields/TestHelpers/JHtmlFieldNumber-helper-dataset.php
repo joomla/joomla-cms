@@ -16,7 +16,7 @@
  */
 class JHtmlFieldNumberTest_DataSet
 {
-	static public $getInputTest = array(
+	public static $getInputTest = array(
 		'NoValue' => array(
 			array(
 				'id' => 'myTestId',
