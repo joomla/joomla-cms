@@ -544,6 +544,7 @@ class JHelperTags extends JHelper
 				. ', ' . 'count(m.tag_id) AS match_count'
 				. ', ' . 'MAX(m.tag_date) as tag_date'
 				. ', ' . 'MAX(c.core_title) AS core_title'
+				. ', ' . 'c.core_params'
 			)
 			->select('MAX(c.core_alias) AS core_alias, MAX(c.core_body) AS core_body, MAX(c.core_state) AS core_state, MAX(c.core_access) AS core_access')
 			->select(
