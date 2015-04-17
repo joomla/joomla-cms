@@ -267,14 +267,21 @@ abstract class JFeedParser
 		$name  = $this->stream->name;
 		$depth = $this->stream->depth;
 
-		// Only keep looking until the end of the stream.
-		while ($this->stream->read())
+		try
 		{
-			// If we have an END_ELEMENT node with the same name and depth as the node we started with we have a bingo. :-)
-			if (($this->stream->name == $name) && ($this->stream->depth == $depth) && ($this->stream->nodeType == XMLReader::END_ELEMENT))
+			// Only keep looking until the end of the stream.
+			while ($this->stream->read())
 			{
-				return;
+				// If we have an END_ELEMENT node with the same name and depth as the node we started with we have a bingo. :-)
+				if (($this->stream->name == $name) && ($this->stream->depth == $depth) && ($this->stream->nodeType == XMLReader::END_ELEMENT))
+				{
+					return;
+				}
 			}
+		}
+		catch (Exception $e)
+		{
+			throw new RuntimeException('Error reading feed.');
 		}
 
 		throw new RuntimeException('Unable to find the closing XML node.');
