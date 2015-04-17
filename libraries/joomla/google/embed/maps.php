@@ -331,13 +331,13 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	/**
 	 * Add a marker to the map
 	 *
-	 * @param   mixed  $location  A latitude longitude array or an address string
+	 * @param   mixed  $location  A latitude/longitude array or an address string
 	 * @param   mixed  $title     The hover-text for the marker
 	 * @param   array  $options   Options for marker
 	 * @param   array  $events    Events for marker
 	 *
 	 * @example with events call:
-	 *		$map->setCenter(
+	 *		$map->addMarker(
 	 *			array(0, 0),
 	 *			'My Marker',
 	 *			array(),
