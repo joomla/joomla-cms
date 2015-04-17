@@ -98,7 +98,7 @@ class JFormFieldCheckbox extends JFormField
 	{
 		// Handle the default attribute
 		$default = (string) $element['default'];
-		if($default)
+		if ($default)
 		{
 			$test = $this->form->getValue((string) $element['name'], $group);
 
