@@ -232,8 +232,6 @@ class JCache
 
 		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
-			$handler->_lifetime = $this->_options['lifetime'];
-
 			return $handler->store($id, $group, $data);
 		}
 
