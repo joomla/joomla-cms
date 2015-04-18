@@ -79,7 +79,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<?php if (is_file($file)) : ?>
 		<link rel="stylesheet" href="<?php echo $file; ?>" type="text/css" />
 	<?php endif; ?>
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template<?php echo ($this->direction == 'rtl' ? '-rtl' : '') . (JDEBUG ? '' : '.min'); ?>.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/default<?php echo $this->direction == 'rtl' ? '-rtl' : ''; ?><?php echo JDEBUG ? '' : '.min'; ?>.css" type="text/css" />
 	<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 	<?php // Template color ?>
 	<?php if ($params->get('templateColor')) : ?>
