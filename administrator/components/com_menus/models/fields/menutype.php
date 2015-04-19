@@ -82,9 +82,16 @@ class JFormFieldMenutype extends JFormFieldList
 		');
 
 		$link = JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&recordId=' . $recordId);
-		$html[] = '<span class="input-append"><input type="text" ' . $required . ' disabled="disabled" readonly="readonly" id="' . $this->id . '" value="' . $value . '"' . $size . $class . ' />';
+		$html[] = '<span class="input-append"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id . '" value="' . $value . '"' . $size . $class . ' />';
 		$html[] = '<a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JSELECT') . '"><i class="icon-list icon-white"></i> ' . JText::_('JSELECT') . '</a></span>';
-		$html[] = JHtmlBootstrap::renderModal('menuTypeModal', array( 'url' => $link, 'title' => JText::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),'height' => '600px', 'width' => '800px'), '');
+		$html[] = JHtmlBootstrap::renderModal(
+						'menuTypeModal', array(
+							'url' => $link,
+							'title' => JText::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),
+							'width' => '800px',
+							'height' => '300px'
+						), ''
+					);
 		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" />';
 
 		return implode("\n", $html);
