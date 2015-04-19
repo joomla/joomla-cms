@@ -43,7 +43,7 @@ class JoomlaupdateController extends JControllerLegacy
 			$view->ftp = &$ftp;
 
 			// Get the model for the view.
-			$model = $this->getModel($vName);
+			$model = $this->getModel('default');
 
 			// Perform update source preference check and refresh update information.
 			$model->applyUpdateSite();
