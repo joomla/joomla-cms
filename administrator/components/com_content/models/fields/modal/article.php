@@ -166,7 +166,7 @@ class JFormFieldModal_Article extends JFormField
 		$html[] = JHtmlBootstrap::renderModal(
 			'modalArticle', array(
 				'url' => $url,
-				'title' => JText::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),
+				'title' => JText::_('COM_CONTENT_CHANGE_ARTICLE'),
 				'width' => '800px',
 				'height' => '300px',
 			), ''
