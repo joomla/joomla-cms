@@ -284,7 +284,7 @@ finalizeUpdate = function ()
 	// Do AJAX post
 	var post = { task : 'finalizeRestore', factory: window.factory };
 	doEncryptedAjax(post, function(data){
-		window.location = 'index.php?option=com_joomlaupdate&view=update&task=finalise';
+		window.location = joomlaupdate_return_url;
 	});
 };
 
