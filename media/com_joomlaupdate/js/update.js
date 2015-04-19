@@ -1,5 +1,5 @@
 /**
- *  @package    Akeebawindow
+ *  @package    AkeebaCMSUpdate
  *  @copyright  Copyright (c)2010-2014 Nicholas K. Dionysopoulos
  *  @license    GNU General Public License version 3, or later
  *
@@ -187,11 +187,6 @@ pingExtract = function()
 	this.doEncryptedAjax(post,
 		function(data) {
 			startExtract(data);
-		}, function (msg) {
-			(function($){
-				//$('#extractProgress').hide();
-				//$('#extractPingError').show();
-			})(jQuery);
 		});
 };
 
@@ -208,7 +203,7 @@ startExtract = function()
 	this.doEncryptedAjax(post, function(data){
 		stepExtract(data);
 	});
-}
+};
 
 stepExtract = function(data)
 {
@@ -234,55 +229,6 @@ stepExtract = function(data)
 		 /**/
 	}
 
-	// Parse total size, if exists
-	if(data.totalsize != undefined)
-	{
-		if(is_array(data.filelist))
-		{
-			stat_total = 0;
-			jQuery.each(data.filelist,function(i, item)
-			{
-				stat_total += item[1];
-			});
-		}
-		stat_outbytes = 0;
-		stat_inbytes = 0;
-		stat_files = 0;
-	}
-
-	// Update GUI
-	stat_inbytes += data.bytesIn;
-	stat_outbytes += data.bytesOut;
-	stat_files += data.files;
-
-	var joomlaupdate_stat_percent = 0;
-
-	if (stat_total > 0)
-	{
-		joomlaupdate_stat_percent = 100 * stat_inbytes / stat_total;
-
-		if(joomlaupdate_stat_percent < 0)
-		{
-			joomlaupdate_stat_percent = 0;
-		}
-		else if (joomlaupdate_stat_percent > 100)
-		{
-			joomlaupdate_stat_percent = 100;
-		}
-
-		jQuery('#progress-bar').css('width', joomlaupdate_stat_percent + '%').attr('aria-valuenow', joomlaupdate_stat_percent);
-	}
-
-	if(data.done) {
-		joomlaupdate_stat_percent = 100;
-		jQuery('#progress-bar').removeClass('bar-success');
-	}
-
-	jQuery('#extpercent').text(joomlaupdate_stat_percent.toFixed(1));
-	jQuery('#extbytesin').text(stat_inbytes + ' / ' + stat_total);
-	jQuery('#extbytesout').text(stat_outbytes);
-	jQuery('#extfiles').text(data.lastfile);
-
 	if (!empty(data.factory))
 	{
 		extract_factory = data.factory;
@@ -294,6 +240,34 @@ stepExtract = function(data)
 	}
 	else
 	{
+		// Add data to variables
+		stat_inbytes += data.bytesIn;
+		stat_percent = (stat_inbytes * 100) / joomlaupdate_totalsize;
+
+		// Update GUI
+		stat_inbytes += data.bytesIn;
+		stat_outbytes += data.bytesOut;
+		stat_files += data.files;
+
+		if (stat_percent < 100)
+		{
+			jQuery('#progress-bar').css('width', stat_percent + '%').attr('aria-valuenow', stat_percent);
+		}
+		else if (stat_percent > 100)
+		{
+			stat_percent = 100;
+			jQuery('#progress-bar').css('width', stat_percent + '%').attr('aria-valuenow', stat_percent);
+		}
+		else
+		{
+			jQuery('#progress-bar').removeClass('bar-success');
+		}
+
+		jQuery('#extpercent').text(stat_percent.toFixed(1));
+		jQuery('#extbytesin').text(stat_inbytes);
+		jQuery('#extbytesout').text(stat_outbytes);
+		jQuery('#extfiles').text(data.lastfile);
+
 		// Do AJAX post
 		post = {
 			task: 'stepRestore',
@@ -308,7 +282,7 @@ stepExtract = function(data)
 finalizeUpdate = function ()
 {
 	// Do AJAX post
-	var post = { task : 'finalizeRestore', factory: window.factory };
+	var post = { task : 'finalizeRestore', factory: data.factory };
 	doEncryptedAjax(post, function(data){
 		window.location = 'index.php?option=com_joomlaupdate&view=update&task=finalise';
 	});
