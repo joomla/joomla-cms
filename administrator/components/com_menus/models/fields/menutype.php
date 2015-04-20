@@ -90,7 +90,7 @@ class JFormFieldMenutype extends JFormFieldList
 							'title' => JText::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),
 							'width' => '800px',
 							'height' => '300px'
-						), ''
+						)
 					);
 		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" />';
 

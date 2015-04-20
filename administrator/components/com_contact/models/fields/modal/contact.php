@@ -145,7 +145,7 @@ class JFormFieldModal_Contact extends JFormField
 							'title' => JText::_('COM_CONTACT_CHANGE_CONTACT'),
 							'width' => '800px',
 							'height' => '300px',
-						), ''
+						)
 					);
 
 		// Edit contact button.

@@ -39,9 +39,6 @@ class JFormFieldModal_Article extends JFormField
 		// Load language
 		JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
-		// Load the modal behavior script.
-		JHtml::_('behavior.modal', 'a.modal');
-
 		// Build the script.
 		$script = array();
 

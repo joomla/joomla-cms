@@ -105,7 +105,7 @@ echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 								'url' => $link,
 								'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
 								'height' => '300px',
-								'width' => '800px'), ''
+								'width' => '800px')
 						); ?>
 			</tr>
 		<?php endforeach; ?>

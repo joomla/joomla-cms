@@ -141,13 +141,13 @@ class JFormFieldModal_Newsfeed extends JFormField
 			. '</a>';
 
 		$html[] = JHtmlBootstrap::renderModal(
-			'modalNewsfeed', array(
-				'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
-				'title' => JText::_('COM_NEWSFEEDS_CHANGE_FEED_BUTTON'),
-				'width' => '800px',
-				'height' => '300px',
-			), ''
-		);
+						'modalNewsfeed', array(
+							'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
+							'title' => JText::_('COM_NEWSFEEDS_CHANGE_FEED_BUTTON'),
+							'width' => '800px',
+							'height' => '300px',
+						)
+					);
 
 		// Edit newsfeed button
 		if ($allowEdit)
