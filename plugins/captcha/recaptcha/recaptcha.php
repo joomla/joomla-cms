@@ -71,13 +71,13 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 				$file = $app->isSSLConnection() ? 'https' : 'http';
 				$file .= '://www.google.com/recaptcha/api.js?hl=' . JFactory::getLanguage()
-						->getTag() . '&onload=onloadCallback&render=explicit';
+						->getTag() . '&render=explicit';
 
 				JHtml::_('script', $file, true, true);
 
-				$document->addScriptDeclaration('var onloadCallback = function() {'
+				$document->addScriptDeclaration('jQuery(document).ready(function($) {$(window).load(function() {'
 					. 'grecaptcha.render("' . $id . '", {sitekey: "' . $pubkey . '", theme: "' . $theme . '"});'
-					. '}'
+					. '});});'
 				);
 				break;
 		}
