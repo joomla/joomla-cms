@@ -99,7 +99,14 @@ echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 						</span>
 					<?php endif; ?>
 				</td>
-			<?php echo JHtmlBootstrap::renderModal('module' . $module->id . 'Modal', array( 'url' => $link, 'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),'height' => '500px', 'width' => '800px'), ''); ?>
+			<?php echo JHtmlBootstrap::renderModal(
+							'module' . $module->id . 'Modal',
+							array(
+								'url' => $link,
+								'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+								'height' => '300px',
+								'width' => '800px'), ''
+						); ?>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
