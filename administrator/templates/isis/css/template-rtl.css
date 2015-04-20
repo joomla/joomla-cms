@@ -7401,14 +7401,15 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 #status {
 	background: #ebebeb;
 	border-top: 1px solid #d4d4d4;
-	padding: 2px 10px 4px 10px;
+	padding: 8px 10px 8px 10px;
 	-webkit-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
 	-moz-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
 	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
 	color: #626262;
 }
 #status .btn-toolbar,
-#status p {
+#status p,
+#status ul {
 	margin: 0px;
 }
 #status .btn-toolbar,

@@ -277,7 +277,7 @@ function colorIsLight($color)
 	<!-- Begin Status Module -->
 	<div id="status" class="navbar navbar-fixed-bottom hidden-phone">
 		<div class="btn-toolbar">
-			<div class="btn-group pull-right">
+			<div class="copyright pull-right">
 				<p>
 					<jdoc:include type="modules" name="footer" style="no" />
 					&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
