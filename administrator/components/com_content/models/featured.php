@@ -24,7 +24,7 @@ class ContentModelFeatured extends ContentModelArticles
 	* @var	integer
 	* @since 3.4
 	*/
-	protected $type_id = 3;
+	protected $type_id = 1;
 
 	/**
 	 * Constructor.

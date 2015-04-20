@@ -17,6 +17,14 @@ defined('_JEXEC') or die;
 class ContentModelArticles extends JModelList
 {
 	/**
+	 * The content type _id
+	 *
+	 * @var	integer
+	 * @since 3.4
+	 */
+	protected $type_id = 1;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
@@ -299,7 +307,7 @@ class ContentModelArticles extends JModelList
 				->join(
 					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
 					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+					. ' AND ' . $db->quoteName('tagmap.type_id') . ' = ' . $this->type_id
 				);
 		}
 
