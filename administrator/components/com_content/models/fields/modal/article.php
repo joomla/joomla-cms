@@ -44,7 +44,7 @@ class JFormFieldModal_Article extends JFormField
 
 		// Select button script
 		$script[] = '	function jSelectArticle_' . $this->id . '(id, title, catid, object) {';
-		$script[] = '		document.getElementById("' . $this->id . '_id").value = id;';
+		$script[] = '		document.getElementById("' . $this->id . '").value = id;';
 		$script[] = '		document.getElementById("' . $this->id . '_name").value = title;';
 
 		if ($allowEdit)
@@ -58,6 +58,13 @@ class JFormFieldModal_Article extends JFormField
 		}
 
 		$script[] = '		jQuery("#modalArticle").modal("hide");';
+
+		if ($this->required)
+		{
+			$script[] = ' 	document.formvalidator.validate(document.getElementById("' . $this->id . '"));';
+			$script[] = ' 	document.formvalidator.validate(document.getElementById("' . $this->id . '_name"));';
+		}
+
 		$script[] = '	}';
 
 		// Clear button script
@@ -68,7 +75,7 @@ class JFormFieldModal_Article extends JFormField
 			$scriptClear = true;
 
 			$script[] = '	function jClearArticle(id) {';
-			$script[] = '		document.getElementById(id + "_id").value = "";';
+			$script[] = '		document.getElementById(id).value = "";';
 			$script[] = '		document.getElementById(id + "_name").value = "' .
 				htmlspecialchars(JText::_('COM_CONTENT_SELECT_AN_ARTICLE', true), ENT_COMPAT, 'UTF-8') . '";';
 			$script[] = '		jQuery("#"+id + "_clear").addClass("hidden");';
@@ -158,7 +165,7 @@ class JFormFieldModal_Article extends JFormField
 			$class = ' class="required modal-value"';
 		}
 
-		$html[] = '<input type="hidden" id="' . $this->id . '_id"' . $class . ' name="' . $this->name . '" value="' . $value . '" />';
+		$html[] = '<input type="hidden" id="' . $this->id . '"' . $class . ' name="' . $this->name . '" value="' . $value . '" />';
 
 		$html[] = JHtmlBootstrap::renderModal(
 			'modalArticle', array(
