@@ -1149,19 +1149,23 @@ p.warning {
 #module-status {
 	float: right;
 	position: relative;
-	top: -48px;
+	top: -51px;
+	right: 15px;
 }
-#module-status div.btn-group {
-	display: block;
+#module-status .multilanguage {
 	float: left;
-	padding: 4px 10px 0 10px;
-	font-size: 1.2em;
 }
-#module-status div.divider {
-	display: none;
+#module-status .status {
+	float: right;
 }
-#module-status .unread-messages a {
-	font-weight: bold;
+#module-status ul li {
+	list-style: none;
+	float: left;
+	margin: 0px 5px 0px 0px;
+	padding: 5px 0 5px 0;
+}
+#module-status ul li i {
+	padding: 2px 0 0 0;
 }
 .title-ua {
 	position: relative;

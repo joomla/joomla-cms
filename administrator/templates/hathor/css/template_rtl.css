@@ -63,9 +63,10 @@ table, caption, tbody, tfoot, thead, tr, th, td {
  * Status layout
  */
 #module-status {
-	left: 0;
-	right: none;
+	left: 15px;
+	right: 0px;
 	float: left;
+	margin: 0px 0px 0px 15px
 }
 
 #module-status > span {

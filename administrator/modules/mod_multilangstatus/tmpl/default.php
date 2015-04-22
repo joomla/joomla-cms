@@ -17,11 +17,14 @@ defined('_JEXEC') or die;
 
 	$link = JRoute::_('index.php?option=com_languages&view=multilangstatus&tmpl=component');
 ?>
-<div class="btn-group multilanguage">
-	<a href="#multiLangModal" role="button" class="btn btn-link" data-toggle="modal" title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>">
-		<i class="icon-comment"></i>
-		<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>
-	</a>
+<div class="multilanguage">
+	<ul class="inline">
+		<li>
+			<a href="#multiLangModal" data-toggle="modal" title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>">
+				<i class="icon-comment"></i><?php echo JText::_('MOD_MULTILANGSTATUS'); ?>
+			</a>
+		</li>
+		<li class="divider"></li>
+	</ul>
 </div>
-
 <?php echo JHtmlBootstrap::renderModal('multiLangModal', array( 'url' => $link, 'title' => JText::_('MOD_MULTILANGSTATUS'),'height' => '300px', 'width' => '500px'));

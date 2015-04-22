@@ -7419,6 +7419,9 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 #status a {
 	color: #626262;
 }
+#status .multilanguage {
+	float: left;
+}
 #status.status-top {
 	background: #1a3867;
 	-webkit-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2) inset, 0px -1px 0px rgba(0, 0, 0, 0.3) inset, 0px -1px 0px rgba(0, 0, 0, 0.3);
@@ -7426,7 +7429,7 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2) inset, 0px -1px 0px rgba(0, 0, 0, 0.3) inset, 0px -1px 0px rgba(0, 0, 0, 0.3);
 	border-top: 0;
 	color: #d9d9d9;
-	padding: 2px 20px 6px 20px;
+	padding: 8px 20px 8px 20px;
 }
 #status.status-top a {
 	color: #d9d9d9;
