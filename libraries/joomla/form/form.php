@@ -125,42 +125,7 @@ class JForm
 		{
 			return false;
 		}
-
-		// Convert the input to an array.
-		if (is_object($data))
-		{
-			if ($data instanceof Registry)
-			{
-				// Handle a Registry.
-				$data = $data->toArray();
-			}
-			elseif ($data instanceof JObject)
-			{
-				// Handle a JObject.
-				$data = $data->getProperties();
-			}
-			else
-			{
-				// Handle other types of objects.
-				$data = (array) $data;
-			}
-		}
-
-		// Process the input data.
-		foreach ($data as $k => $v)
-		{
-			if ($this->findField($k))
-			{
-				// If the field exists set the value.
-				$this->data->set($k, $v);
-			}
-			elseif (is_object($v) || JArrayHelper::isAssociative($v))
-			{
-				// If the value is an object or an associative array hand it off to the recursive bind level method.
-				$this->bindLevel($k, $v);
-			}
-		}
-
+		$this->bindLevel(null, $data);
 		return true;
 	}
 
@@ -176,23 +141,70 @@ class JForm
 	 */
 	protected function bindLevel($group, $data)
 	{
-		// Ensure the input data is an array.
-		settype($data, 'array');
+		$data = $this->toArray($data);
 
 		// Process the input data.
-		foreach ($data as $k => $v)
+		foreach ($data as $name => $value)
 		{
-			if ($this->findField($k, $group))
+			if ($this->findField($name, $group))
 			{
+				$name = $this->getGroupName($name, $group);
+
 				// If the field exists set the value.
-				$this->data->set($group . '.' . $k, $v);
+				$this->data->set($name, $value);
 			}
-			elseif (is_object($v) || JArrayHelper::isAssociative($v))
+			elseif (is_object($value) || JArrayHelper::isAssociative($value))
 			{
-				// If the value is an object or an associative array, hand it off to the recursive bind level method
-				$this->bindLevel($group . '.' . $k, $v);
+				$name = $this->getGroupName($name, $group);
+
+				// If the value is an object or an associative array hand it off to the recursive bind level method.
+				$this->bindLevel($name, $value);
 			}
 		}
+	}
+
+	/**
+	 * Method to convert the data into an array
+	 *
+	 * @param   mixed  $data  object or array to normalize
+	 *
+	 * @return array
+	 */
+	protected function toArray($data)
+	{
+		if (is_array($data))
+		{
+			// Nothing to do
+			return $data;
+		}
+
+		if (is_callable(array($data, 'toArray')))
+		{
+			return $data->toArray();
+		}
+
+		if (is_callable(array($data, 'getProperties')))
+		{
+			return $this->toArray($data->getProperties());
+		}
+		return (array) $data;
+	}
+
+	/**
+	 * Method to get a dot delimited group name
+	 *
+	 * @param   string  $name   of the field within the group
+	 * @param   string  $group  The dot-separated form group path
+	 *
+	 * @return string
+	 */
+	protected function getGroupName($name, $group = null)
+	{
+		if (!empty($group))
+		{
+			$name = $group . '.' . $name;
+		}
+		return $name;
 	}
 
 	/**
@@ -236,21 +248,12 @@ class JForm
 			$group = implode('.', $groups);
 
 			// Get the field value from the data input.
-			if ($group)
+			$name = $this->getGroupName($name, $group);
+
+			// Filter the value if it exists.
+			if ($input->exists($name))
 			{
-				// Filter the value if it exists.
-				if ($input->exists($group . '.' . $name))
-				{
-					$output->set($group . '.' . $name, $this->filterField($field, $input->get($group . '.' . $name, (string) $field['default'])));
-				}
-			}
-			else
-			{
-				// Filter the value if it exists.
-				if ($input->exists($name))
-				{
-					$output->set($name, $this->filterField($field, $input->get($name, (string) $field['default'])));
-				}
+				$output->set($name, $this->filterField($field, $input->get($name, (string) $field['default'])));
 			}
 		}
 
@@ -617,17 +620,7 @@ class JForm
 	 */
 	public function getValue($name, $group = null, $default = null)
 	{
-		// If a group is set use it.
-		if ($group)
-		{
-			$return = $this->data->get($group . '.' . $name, $default);
-		}
-		else
-		{
-			$return = $this->data->get($name, $default);
-		}
-
-		return $return;
+		return $this->data->get($this->getGroupName($name, $group), $default);
 	}
 
 	/**
