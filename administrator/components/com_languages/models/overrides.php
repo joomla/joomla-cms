@@ -286,4 +286,30 @@ class LanguagesModelOverrides extends JModelList
 
 		return count($cids);
 	}
+
+	/**
+	 * Removes all of the cached strings from the table.
+	 *
+	 * @return  boolean result of operation
+	 *
+	 * @since   3.4.2
+	 */
+	public function purge()
+	{
+		$db = JFactory::getDbo();
+
+		// Note: TRUNCATE is a DDL operation
+		// This may or may not mean depending on your database
+		try
+		{
+			$db->setQuery('TRUNCATE TABLE #__overrider');
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			return $e;
+		}
+
+		JFactory::getApplication()->enqueueMessage(JText::_('COM_LANGUAGES_VIEW_OVERRIDES_PURGE_SUCCESS'));
+	}
 }
