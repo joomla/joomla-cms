@@ -808,11 +808,11 @@ class JApplicationCms extends JApplicationWeb
 			 * This permits authentication plugins blocking the user.
 			 */
 			$authorisations = $authenticate->authorise($response, $options);
-
+			$previousauth = NULL;
 			foreach ($authorisations as $authorisation)
 			{
 				$denied_states = array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
-
+				
 				if (in_array($authorisation->status, $denied_states))
 				{
 					// Trigger onUserAuthorisationFailure Event.
@@ -824,23 +824,28 @@ class JApplicationCms extends JApplicationWeb
 						return false;
 					}
 
-					// Return the error.
-					switch ($authorisation->status)
-					{
-						case JAuthentication::STATUS_EXPIRED:
-							return JError::raiseWarning('102002', JText::_('JLIB_LOGIN_EXPIRED'));
+					//if the user has duplicated request for login ignore the duplicate attempt's message.
+					if($previousauth != $authorisation)
+					{	
+						// Return the error.
+						switch ($authorisation->status)
+						{
+							case JAuthentication::STATUS_EXPIRED:
+								return JError::raiseWarning('102002', JText::_('JLIB_LOGIN_EXPIRED'));
 
-							break;
+								break;
 
-						case JAuthentication::STATUS_DENIED:
-							return JError::raiseWarning('102003', JText::_('JLIB_LOGIN_DENIED'));
+							case JAuthentication::STATUS_DENIED:
+								return JError::raiseWarning('102003', JText::_('JLIB_LOGIN_DENIED'));
 
-							break;
+								break;
 
-						default:
-							return JError::raiseWarning('102004', JText::_('JLIB_LOGIN_AUTHORISATION'));
+							default:
+								return JError::raiseWarning('102004', JText::_('JLIB_LOGIN_AUTHORISATION'));
 
-							break;
+								break;
+						}	
+						$previousauth = $authorisation;
 					}
 				}
 			}
