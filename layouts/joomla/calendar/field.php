@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$title = ($displayData['inputvalue'] ? static::_('date', $value, null, null) : '');
+$title = ($displayData['inputvalue'] ? JHtml::_('date', $displayData['value'], null, null) : '');
 $value = htmlspecialchars($displayData['inputvalue'], ENT_COMPAT, 'UTF-8');
 
 ?>
