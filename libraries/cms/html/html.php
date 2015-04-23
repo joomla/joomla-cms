@@ -1012,15 +1012,22 @@ abstract class JHtml
 			$done[] = $id;
 		}
 
-		// Hide button using inline styles for readonly/disabled fields
-		$btn_style	= ($readonly || $disabled) ? ' style="display:none;"' : '';
-		$div_class	= (!$readonly && !$disabled) ? ' class="input-append"' : '';
+		$data = array();
 
-		return '<div' . $div_class . '>'
-				. '<input type="text" title="' . ($inputvalue ? static::_('date', $value, null, null) : '')
-				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><i class="icon-calendar"></i></button>'
-			. '</div>';
+		// Hide button using inline styles for readonly/disabled fields
+		$data['btn_style'] = ($readonly || $disabled) ? ' style="display:none;"' : '';
+		$data['div_class'] = (!$readonly && !$disabled) ? ' class="input-append"' : '';
+
+		$data['id'] 			= $id;
+		$data['name'] 			= $name;
+		$data['value'] 			= $value;
+		$data['inputvalue'] 	= $inputvalue;
+		$data['attribs'] 		= $attribs;
+
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('joomla.calendar.field');
+
+		return $layout->render($data);
 	}
 
 	/**
