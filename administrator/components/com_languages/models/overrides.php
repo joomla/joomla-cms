@@ -302,8 +302,7 @@ class LanguagesModelOverrides extends JModelList
 		// This may or may not mean depending on your database
 		try
 		{
-			$db->setQuery('TRUNCATE TABLE #__overrider');
-			$db->execute();
+			$db->truncateTable('#__overrider');
 		}
 		catch (RuntimeException $e)
 		{
