@@ -808,11 +808,10 @@ class JApplicationCms extends JApplicationWeb
 			 * This permits authentication plugins blocking the user.
 			 */
 			$authorisations = $authenticate->authorise($response, $options);
-			$previousauth = NULL;
+			$previousauth = null;
 			foreach ($authorisations as $authorisation)
 			{
 				$denied_states = array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
-				
 				if (in_array($authorisation->status, $denied_states))
 				{
 					// Trigger onUserAuthorisationFailure Event.
@@ -823,8 +822,7 @@ class JApplicationCms extends JApplicationWeb
 					{
 						return false;
 					}
-
-					//if the user has duplicated request for login ignore the duplicate attempt's message.
+					// If the user has duplicated request for login ignore the duplicate attempt's message.
 					if($previousauth != $authorisation)
 					{	
 						// Return the error.
