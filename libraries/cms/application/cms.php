@@ -864,7 +864,7 @@ class JApplicationCms extends JApplicationWeb
 			{
 				$user->set('cookieLogin', true);
 			}
-			
+
 			if (in_array(false, $results, true) == false)
 			{
 				$options['user'] = $user;
