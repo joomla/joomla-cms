@@ -55,6 +55,7 @@ abstract class JModuleHelper
 			$result            = new stdClass;
 			$result->id        = 0;
 			$result->title     = '';
+			$result->note      = '';
 			$result->module    = $name;
 			$result->position  = '';
 			$result->content   = '';
@@ -376,7 +377,7 @@ abstract class JModuleHelper
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid')
+			->select('m.id, m.title, m.note, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid')
 			->from('#__modules AS m')
 			->join('LEFT', '#__modules_menu AS mm ON mm.moduleid = m.id')
 			->where('m.published = 1')
