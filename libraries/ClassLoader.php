@@ -5,7 +5,7 @@
  * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
-
+ 
 defined('_JEXEC') or die;
 
 /**
@@ -19,25 +19,25 @@ defined('_JEXEC') or die;
  */
 class JClassLoader
 {
-    /**
-     * The composer class loader
-     *
-     * @var \Composer\Autoload\ClassLoader
-     */
-    private $loader;
+	/**
+	 * The composer class loader
+	 *
+	 * @var \Composer\Autoload\ClassLoader
+	 */
+	 private $loader;
 
-    public function __construct(\Composer\Autoload\ClassLoader $loader)
-    {
-        $this->loader = $loader;
-    }
-
-    public function loadClass($class)
-    {
-        if($result = $this->loader->loadClass($class)) {
-            \JLoader::applyAliasFor($class);
-        }
-
-
-        return $result;
+	public function __construct(\Composer\Autoload\ClassLoader $loader)
+	{
+		$this->loader = $loader;
+	}
+	
+	public function loadClass($class)
+	{
+		if($result = $this->loader->loadClass($class)) {
+			\JLoader::applyAliasFor($class);
+			
+		}
+		
+		return $result;
     }
 }
