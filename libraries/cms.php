@@ -11,19 +11,19 @@ defined('_JEXEC') or die;
 // Set the platform root path as a constant if necessary.
 if (!defined('JPATH_PLATFORM'))
 {
-    define('JPATH_PLATFORM', __DIR__);
+	define('JPATH_PLATFORM', __DIR__);
 }
 
 // Import the library loader if necessary.
 if (!class_exists('JLoader'))
 {
-    require_once JPATH_PLATFORM . '/loader.php';
+	require_once JPATH_PLATFORM . '/loader.php';
 }
 
 // Make sure that the Joomla Platform has been successfully loaded.
 if (!class_exists('JLoader'))
 {
-    throw new RuntimeException('Joomla Platform not loaded.');
+	throw new RuntimeException('Joomla Platform not loaded.');
 }
 
 // Register the library base path for CMS libraries.
@@ -43,7 +43,7 @@ require_once JPATH_PLATFORM . '/classmap.php';
 // Ensure FOF autoloader included - needed for things like content versioning where we need to get an FOFTable Instance
 if (!class_exists('FOFAutoloaderFof'))
 {
-    include_once JPATH_PLATFORM . '/fof/include.php';
+	include_once JPATH_PLATFORM . '/fof/include.php';
 }
 
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
@@ -52,14 +52,14 @@ set_exception_handler(array('JErrorPage', 'render'));
 // Define the Joomla version if not already defined.
 if (!defined('JVERSION'))
 {
-    $jversion = new JVersion;
-    define('JVERSION', $jversion->getShortVersion());
+	$jversion = new JVersion;
+	define('JVERSION', $jversion->getShortVersion());
 }
 
 // Set up the message queue logger for web requests
 if (array_key_exists('REQUEST_METHOD', $_SERVER))
 {
-    JLog::addLogger(array('logger' => 'messagequeue'), JLog::ALL, array('jerror'));
+	JLog::addLogger(array('logger' => 'messagequeue'), JLog::ALL, array('jerror'));
 }
 
 // Register JArrayHelper due to JRegistry moved to composer's vendor folder
