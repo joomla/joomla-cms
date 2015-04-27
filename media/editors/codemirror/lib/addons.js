@@ -1,20 +1,3 @@
-/**
- *  addon/display/fullscreen.js
- *  addon/display/panel.js
- *  addon/edit/closebrackets.js
- *  addon/edit/closetag.js
- *  addon/edit/matchbrackets.js
- *  addon/edit/matchtags.js
- *  addon/fold/brace-fold.js
- *  addon/fold/foldcode.js
- *  addon/fold/foldgutter.js
- *  addon/fold/xml-fold.js
- *  addon/mode/loadmode.js
- *  addon/mode/multiplex.js
- *  addon/scroll/simplescrollbars.js
- *  addon/selection/active-line.js
- *  keymap/vim.js
-**/
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -56,6 +39,7 @@
     cm.refresh();
   }
 });
+
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -68,13 +52,31 @@
     mod(CodeMirror);
 })(function(CodeMirror) {
   CodeMirror.defineExtension("addPanel", function(node, options) {
+    options = options || {};
+
     if (!this.state.panels) initPanels(this);
 
     var info = this.state.panels;
-    if (options && options.position == "bottom")
-      info.wrapper.appendChild(node);
-    else
-      info.wrapper.insertBefore(node, info.wrapper.firstChild);
+    var wrapper = info.wrapper;
+    var cmWrapper = this.getWrapperElement();
+
+    if (options.after instanceof Panel && !options.after.cleared) {
+      wrapper.insertBefore(node, options.before.node.nextSibling);
+    } else if (options.before instanceof Panel && !options.before.cleared) {
+      wrapper.insertBefore(node, options.before.node);
+    } else if (options.replace instanceof Panel && !options.replace.cleared) {
+      wrapper.insertBefore(node, options.replace.node);
+      options.replace.clear();
+    } else if (options.position == "bottom") {
+      wrapper.appendChild(node);
+    } else if (options.position == "before-bottom") {
+      wrapper.insertBefore(node, cmWrapper.nextSibling);
+    } else if (options.position == "after-top") {
+      wrapper.insertBefore(node, cmWrapper);
+    } else {
+      wrapper.insertBefore(node, wrapper.firstChild);
+    }
+
     var height = (options && options.height) || node.offsetHeight;
     this._setSize(null, info.heightLeft -= height);
     info.panels++;
@@ -150,6 +152,7 @@
     cm.setSize();
   }
 });
+
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -334,6 +337,7 @@
     }
   }
 });
+
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -500,6 +504,7 @@
     return true;
   }
 });
+
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -620,6 +625,7 @@
     return scanForBracket(this, pos, dir, style, config);
   });
 });
+
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -686,6 +692,7 @@
     }
   };
 });
+
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -791,6 +798,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
 });
 
 });
+
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -940,6 +948,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
     return getOption(this, options, name);
   });
 });
+
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -1086,6 +1095,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       updateFoldInfo(cm, line, line + 1);
   }
 });
+
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -1268,6 +1278,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
     return findMatchingClose(iter, name);
   };
 });
+
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -1332,6 +1343,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       });
   };
 });
+
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -1348,12 +1360,14 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
 CodeMirror.multiplexingMode = function(outer /*, others */) {
   // Others should be {open, close, mode [, delimStyle] [, innerStyle]} objects
   var others = Array.prototype.slice.call(arguments, 1);
-  var n_others = others.length;
 
-  function indexOf(string, pattern, from) {
-    if (typeof pattern == "string") return string.indexOf(pattern, from);
+  function indexOf(string, pattern, from, returnEnd) {
+    if (typeof pattern == "string") {
+      var found = string.indexOf(pattern, from);
+      return returnEnd && found > -1 ? found + pattern.length : found;
+    }
     var m = pattern.exec(from ? string.slice(from) : string);
-    return m ? m.index + from : -1;
+    return m ? m.index + from + (returnEnd ? m[0].length : 0) : -1;
   }
 
   return {
@@ -1376,11 +1390,11 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     token: function(stream, state) {
       if (!state.innerActive) {
         var cutOff = Infinity, oldContent = stream.string;
-        for (var i = 0; i < n_others; ++i) {
+        for (var i = 0; i < others.length; ++i) {
           var other = others[i];
           var found = indexOf(oldContent, other.open, stream.pos);
           if (found == stream.pos) {
-            stream.match(other.open);
+            if (!other.parseDelimiters) stream.match(other.open);
             state.innerActive = other;
             state.inner = CodeMirror.startState(other.mode, outer.indent ? outer.indent(state.outer, "") : 0);
             return other.delimStyle;
@@ -1398,8 +1412,8 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           state.innerActive = state.inner = null;
           return this.token(stream, state);
         }
-        var found = curInner.close ? indexOf(oldContent, curInner.close, stream.pos) : -1;
-        if (found == stream.pos) {
+        var found = curInner.close ? indexOf(oldContent, curInner.close, stream.pos, curInner.parseDelimiters) : -1;
+        if (found == stream.pos && !curInner.parseDelimiters) {
           stream.match(curInner.close);
           state.innerActive = state.inner = null;
           return curInner.delimStyle;
@@ -1407,6 +1421,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         if (found > -1) stream.string = oldContent.slice(0, found);
         var innerToken = curInner.mode.token(stream, state.inner);
         if (found > -1) stream.string = oldContent;
+
+        if (found == stream.pos && curInner.parseDelimiters)
+          state.innerActive = state.inner = null;
 
         if (curInner.innerStyle) {
           if (innerToken) innerToken = innerToken + ' ' + curInner.innerStyle;
@@ -1429,7 +1446,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         mode.blankLine(state.innerActive ? state.inner : state.outer);
       }
       if (!state.innerActive) {
-        for (var i = 0; i < n_others; ++i) {
+        for (var i = 0; i < others.length; ++i) {
           var other = others[i];
           if (other.open === "\n") {
             state.innerActive = other;
@@ -1450,6 +1467,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 };
 
 });
+
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -1597,6 +1615,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     return new SimpleScrollbars("CodeMirror-overlayscroll", place, scroll);
   };
 });
+
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -1668,6 +1687,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     updateActiveLines(cm, sel.ranges);
   }
 });
+
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -2052,18 +2072,30 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     }
 
     var options = {};
-    function defineOption(name, defaultValue, type) {
-      if (defaultValue === undefined) { throw Error('defaultValue is required'); }
+    function defineOption(name, defaultValue, type, aliases, callback) {
+      if (defaultValue === undefined && !callback) {
+        throw Error('defaultValue is required unless callback is provided');
+      }
       if (!type) { type = 'string'; }
       options[name] = {
         type: type,
-        defaultValue: defaultValue
+        defaultValue: defaultValue,
+        callback: callback
       };
-      setOption(name, defaultValue);
+      if (aliases) {
+        for (var i = 0; i < aliases.length; i++) {
+          options[aliases[i]] = options[name];
+        }
+      }
+      if (defaultValue) {
+        setOption(name, defaultValue);
+      }
     }
 
-    function setOption(name, value) {
+    function setOption(name, value, cm, cfg) {
       var option = options[name];
+      cfg = cfg || {};
+      var scope = cfg.scope;
       if (!option) {
         throw Error('Unknown option: ' + name);
       }
@@ -2075,16 +2107,59 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           value = true;
         }
       }
-      option.value = option.type == 'boolean' ? !!value : value;
+      if (option.callback) {
+        if (scope !== 'local') {
+          option.callback(value, undefined);
+        }
+        if (scope !== 'global' && cm) {
+          option.callback(value, cm);
+        }
+      } else {
+        if (scope !== 'local') {
+          option.value = option.type == 'boolean' ? !!value : value;
+        }
+        if (scope !== 'global' && cm) {
+          cm.state.vim.options[name] = {value: value};
+        }
+      }
     }
 
-    function getOption(name) {
+    function getOption(name, cm, cfg) {
       var option = options[name];
+      cfg = cfg || {};
+      var scope = cfg.scope;
       if (!option) {
         throw Error('Unknown option: ' + name);
       }
-      return option.value;
+      if (option.callback) {
+        var local = cm && option.callback(undefined, cm);
+        if (scope !== 'global' && local !== undefined) {
+          return local;
+        }
+        if (scope !== 'local') {
+          return option.callback();
+        }
+        return;
+      } else {
+        var local = (scope !== 'global') && (cm && cm.state.vim.options[name]);
+        return (local || (scope !== 'local') && option || {}).value;
+      }
     }
+
+    defineOption('filetype', undefined, 'string', ['ft'], function(name, cm) {
+      // Option is local. Do nothing for global.
+      if (cm === undefined) {
+        return;
+      }
+      // The 'filetype' option proxies to the CodeMirror 'mode' option.
+      if (name === undefined) {
+        var mode = cm.getMode().name;
+        return mode == 'null' ? '' : mode;
+      } else {
+        var mode = name == '' ? 'null' : name;
+        cm.setOption('mode', mode);
+      }
+    });
 
     var createCircularJumpList = function() {
       var size = 100;
@@ -2238,8 +2313,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           visualBlock: false,
           lastSelection: null,
           lastPastedText: null,
-          sel: {
-          }
+          sel: {},
+          // Buffer-local/window-local values of vim options.
+          options: {}
         };
       }
       return cm.state.vim;
@@ -2297,6 +2373,8 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         // Add user defined key bindings.
         exCommandDispatcher.map(lhs, rhs, ctx);
       },
+      // TODO: Expose setOption and getOption as instance methods. Need to decide how to namespace
+      // them, or somehow make them work with the existing CodeMirror setOption/getOption API.
       setOption: setOption,
       getOption: getOption,
       defineOption: defineOption,
@@ -2848,7 +2926,8 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         }
         function onPromptKeyDown(e, query, close) {
           var keyName = CodeMirror.keyName(e);
-          if (keyName == 'Esc' || keyName == 'Ctrl-C' || keyName == 'Ctrl-[') {
+          if (keyName == 'Esc' || keyName == 'Ctrl-C' || keyName == 'Ctrl-[' ||
+              (keyName == 'Backspace' && query == '')) {
             vimGlobalState.searchHistoryController.pushInput(query);
             vimGlobalState.searchHistoryController.reset();
             updateSearchQuery(cm, originalQuery);
@@ -2858,6 +2937,10 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
             clearInputState(cm);
             close();
             cm.focus();
+          } else if (keyName == 'Ctrl-U') {
+            // Ctrl-U clears input.
+            CodeMirror.e_stop(e);
+            close('');
           }
         }
         switch (command.searchArgs.querySrc) {
@@ -2918,7 +3001,8 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         }
         function onPromptKeyDown(e, input, close) {
           var keyName = CodeMirror.keyName(e), up;
-          if (keyName == 'Esc' || keyName == 'Ctrl-C' || keyName == 'Ctrl-[') {
+          if (keyName == 'Esc' || keyName == 'Ctrl-C' || keyName == 'Ctrl-[' ||
+              (keyName == 'Backspace' && input == '')) {
             vimGlobalState.exCommandHistoryController.pushInput(input);
             vimGlobalState.exCommandHistoryController.reset();
             CodeMirror.e_stop(e);
@@ -2930,6 +3014,10 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
             up = keyName == 'Up' ? true : false;
             input = vimGlobalState.exCommandHistoryController.nextMatch(input, up) || '';
             close(input);
+          } else if (keyName == 'Ctrl-U') {
+            // Ctrl-U clears input.
+            CodeMirror.e_stop(e);
+            close('');
           } else {
             if ( keyName != 'Left' && keyName != 'Right' && keyName != 'Ctrl' && keyName != 'Alt' && keyName != 'Shift')
               vimGlobalState.exCommandHistoryController.reset();
@@ -2959,8 +3047,8 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         var registerName = inputState.registerName;
         var sel = vim.sel;
         // TODO: Make sure cm and vim selections are identical outside visual mode.
-        var origHead = copyCursor(vim.visualMode ? sel.head: cm.getCursor('head'));
-        var origAnchor = copyCursor(vim.visualMode ? sel.anchor : cm.getCursor('anchor'));
+        var origHead = copyCursor(vim.visualMode ? clipCursorToContent(cm, sel.head): cm.getCursor('head'));
+        var origAnchor = copyCursor(vim.visualMode ? clipCursorToContent(cm, sel.anchor) : cm.getCursor('anchor'));
         var oldHead = copyCursor(origHead);
         var oldAnchor = copyCursor(origAnchor);
         var newHead, newAnchor;
@@ -3526,10 +3614,11 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           var anchor = ranges[0].anchor,
               head = ranges[0].head;
           text = cm.getRange(anchor, head);
-          if (!isWhiteSpaceString(text)) {
+          var lastState = vim.lastEditInputState || {};
+          if (lastState.motion == "moveByWords" && !isWhiteSpaceString(text)) {
             // Exclude trailing whitespace if the range is not all whitespace.
             var match = (/\s+$/).exec(text);
-            if (match) {
+            if (match && lastState.motionArgs && lastState.motionArgs.forward) {
               head = offsetCursor(head, 0, - match[0].length);
               text = text.slice(0, - match[0].length);
             }
@@ -5519,6 +5608,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     // pair of commands that have a shared prefix, at least one of their
     // shortNames must not match the prefix of the other command.
     var defaultExCommandMap = [
+      { name: 'colorscheme', shortName: 'colo' },
       { name: 'map' },
       { name: 'imap', shortName: 'im' },
       { name: 'nmap', shortName: 'nm' },
@@ -5527,7 +5617,10 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       { name: 'write', shortName: 'w' },
       { name: 'undo', shortName: 'u' },
       { name: 'redo', shortName: 'red' },
-      { name: 'set', shortName: 'set' },
+      { name: 'set', shortName: 'se' },
+      { name: 'set', shortName: 'se' },
+      { name: 'setlocal', shortName: 'setl' },
+      { name: 'setglobal', shortName: 'setg' },
       { name: 'sort', shortName: 'sor' },
       { name: 'substitute', shortName: 's', possiblyAsync: true },
       { name: 'nohlsearch', shortName: 'noh' },
@@ -5759,6 +5852,13 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     };
 
     var exCommands = {
+      colorscheme: function(cm, params) {
+        if (!params.args || params.args.length < 1) {
+          showConfirm(cm, cm.getOption('theme'));
+          return;
+        }
+        cm.setOption('theme', params.args[0]);
+      },
       map: function(cm, params, ctx) {
         var mapArgs = params.args;
         if (!mapArgs || mapArgs.length < 2) {
@@ -5792,6 +5892,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       },
       set: function(cm, params) {
         var setArgs = params.args;
+        // Options passed through to the setOption/getOption calls. May be passed in by the
+        // local/global versions of the set command
+        var setCfg = params.setCfg || {};
         if (!setArgs || setArgs.length < 1) {
           if (cm) {
             showConfirm(cm, 'Invalid mapping: ' + params.input);
@@ -5815,24 +5918,35 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           optionName = optionName.substring(2);
           value = false;
         }
+
         var optionIsBoolean = options[optionName] && options[optionName].type == 'boolean';
         if (optionIsBoolean && value == undefined) {
           // Calling set with a boolean option sets it to true.
           value = true;
         }
-        if (!optionIsBoolean && !value || forceGet) {
-          var oldValue = getOption(optionName);
-          // If no value is provided, then we assume this is a get.
+        // If no value is provided, then we assume this is a get.
+        if (!optionIsBoolean && value === undefined || forceGet) {
+          var oldValue = getOption(optionName, cm, setCfg);
           if (oldValue === true || oldValue === false) {
             showConfirm(cm, ' ' + (oldValue ? '' : 'no') + optionName);
           } else {
             showConfirm(cm, '  ' + optionName + '=' + oldValue);
           }
         } else {
-          setOption(optionName, value);
+          setOption(optionName, value, cm, setCfg);
         }
       },
-      registers: function(cm,params) {
+      setlocal: function (cm, params) {
+        // setCfg is passed through to setOption
+        params.setCfg = {scope: 'local'};
+        this.set(cm, params);
+      },
+      setglobal: function (cm, params) {
+        // setCfg is passed through to setOption
+        params.setCfg = {scope: 'global'};
+        this.set(cm, params);
+      },
+      registers: function(cm, params) {
         var regArgs = params.args;
         var registers = vimGlobalState.registerController.registers;
         var regInfo = '----------Registers----------<br><br>';
@@ -6454,7 +6568,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     }
     function updateFakeCursor(cm) {
       var vim = cm.state.vim;
-      var from = copyCursor(vim.sel.head);
+      var from = clipCursorToContent(cm, copyCursor(vim.sel.head));
       var to = offsetCursor(from, 0, 1);
       if (vim.fakeCursor) {
         vim.fakeCursor.clear();

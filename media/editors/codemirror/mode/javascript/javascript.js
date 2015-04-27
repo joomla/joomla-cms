@@ -585,7 +585,11 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
   function importSpec(type, value) {
     if (type == "{") return contCommasep(importSpec, "}");
     if (type == "variable") register(value);
-    return cont();
+    if (value == "*") cx.marked = "keyword";
+    return cont(maybeAs);
+  }
+  function maybeAs(_type, value) {
+    if (value == "as") { cx.marked = "keyword"; return cont(importSpec); }
   }
   function maybeFrom(_type, value) {
     if (value == "from") { cx.marked = "keyword"; return cont(expression); }

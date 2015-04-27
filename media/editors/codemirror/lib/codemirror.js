@@ -1079,7 +1079,7 @@
   // was made out of.
   var lastCopied = null;
 
-  function applyTextInput(cm, inserted, deleted, sel) {
+  function applyTextInput(cm, inserted, deleted, sel, origin) {
     var doc = cm.doc;
     cm.display.shift = false;
     if (!sel) sel = doc.sel;
@@ -1105,7 +1105,7 @@
       }
       var updateInput = cm.curOp.updateInput;
       var changeEvent = {from: from, to: to, text: multiPaste ? multiPaste[i % multiPaste.length] : textLines,
-                         origin: cm.state.pasteIncoming ? "paste" : cm.state.cutIncoming ? "cut" : "+input"};
+                         origin: origin || (cm.state.pasteIncoming ? "paste" : cm.state.cutIncoming ? "cut" : "+input")};
       makeChange(cm.doc, changeEvent);
       signalLater(cm, "inputRead", cm, changeEvent);
       // When an 'electric' character is inserted, immediately trigger a reindent
@@ -1114,16 +1114,18 @@
           (!i || sel.ranges[i - 1].head.line != range.head.line)) {
         var mode = cm.getModeAt(range.head);
         var end = changeEnd(changeEvent);
+        var indented = false;
         if (mode.electricChars) {
           for (var j = 0; j < mode.electricChars.length; j++)
             if (inserted.indexOf(mode.electricChars.charAt(j)) > -1) {
-              indentLine(cm, end.line, "smart");
+              indented = indentLine(cm, end.line, "smart");
               break;
             }
         } else if (mode.electricInput) {
           if (mode.electricInput.test(getLine(doc, end.line).text.slice(0, end.ch)))
-            indentLine(cm, end.line, "smart");
+            indented = indentLine(cm, end.line, "smart");
         }
+        if (indented) signalLater(cm, "electricInput", cm, end.line);
       }
     }
     ensureCursorVisible(cm);
@@ -1167,6 +1169,7 @@
     this.inaccurateSelection = false;
     // Used to work around IE issue with selection being forgotten when focus moves away from textarea
     this.hasSelection = false;
+    this.composing = null;
   };
 
   function hiddenTextarea() {
@@ -1231,6 +1234,8 @@
             te.value = lastCopied.join("\n");
             selectInput(te);
           }
+        } else if (!cm.options.lineWiseCopyCut) {
+          return;
         } else {
           var ranges = copyableRanges(cm);
           lastCopied = ranges.text;
@@ -1256,6 +1261,21 @@
       // Prevent normal selection in the editor (we handle our own)
       on(display.lineSpace, "selectstart", function(e) {
         if (!eventInWidget(display, e)) e_preventDefault(e);
+      });
+
+      on(te, "compositionstart", function() {
+        var start = cm.getCursor("from");
+        input.composing = {
+          start: start,
+          range: cm.markText(start, cm.getCursor("to"), {className: "CodeMirror-composing"})
+        };
+      });
+      on(te, "compositionend", function() {
+        if (input.composing) {
+          input.poll();
+          input.composing.range.clear();
+          input.composing = null;
+        }
       });
     },
 
@@ -1385,12 +1405,9 @@
       }
 
       if (cm.doc.sel == cm.display.selForContextMenu) {
-        if (text.charCodeAt(0) == 0x200b) {
-          if (!prevInput) prevInput = "\u200b";
-        } else if (prevInput == "\u200b") {
-          text = text.slice(1);
-          prevInput = "";
-        }
+        var first = text.charCodeAt(0);
+        if (first == 0x200b && !prevInput) prevInput = "\u200b";
+        if (first == 0x21da) { this.reset(); return this.cm.execCommand("undo"); }
       }
       // Find the part of the input that is actually new
       var same = 0, l = Math.min(prevInput.length, text.length);
@@ -1398,11 +1415,18 @@
 
       var self = this;
       runInOp(cm, function() {
-        applyTextInput(cm, text.slice(same), prevInput.length - same);
+        applyTextInput(cm, text.slice(same), prevInput.length - same,
+                       null, self.composing ? "*compose" : null);
 
         // Don't leave long text in the textarea, since it makes further polling slow
         if (text.length > 1000 || text.indexOf("\n") > -1) input.value = self.prevInput = "";
         else self.prevInput = text;
+
+        if (self.composing) {
+          self.composing.range.clear();
+          self.composing.range = cm.markText(self.composing.start, cm.getCursor("to"),
+                                             {className: "CodeMirror-composing"});
+        }
       });
       return true;
     },
@@ -1449,7 +1473,9 @@
       function prepareSelectAllHack() {
         if (te.selectionStart != null) {
           var selected = cm.somethingSelected();
-          var extval = te.value = "\u200b" + (selected ? te.value : "");
+          var extval = "\u200b" + (selected ? te.value : "");
+          te.value = "\u21da"; // Used to catch context-menu undo
+          te.value = extval;
           input.prevInput = selected ? "" : "\u200b";
           te.selectionStart = 1; te.selectionEnd = extval.length;
           // Re-set this, in case some other handler touched the
@@ -1467,7 +1493,8 @@
         if (te.selectionStart != null) {
           if (!ie || (ie && ie_version < 9)) prepareSelectAllHack();
           var i = 0, poll = function() {
-            if (display.selForContextMenu == cm.doc.sel && te.selectionStart == 0 && input.prevInput == "\u200b")
+            if (display.selForContextMenu == cm.doc.sel && te.selectionStart == 0 &&
+                te.selectionEnd > 0 && input.prevInput == "\u200b")
               operation(cm, commands.selectAll)(cm);
             else if (i++ < 10) display.detectingSelectAll = setTimeout(poll, 500);
             else display.input.reset();
@@ -1562,6 +1589,8 @@
         if (cm.somethingSelected()) {
           lastCopied = cm.getSelections();
           if (e.type == "cut") cm.replaceSelection("", null, "cut");
+        } else if (!cm.options.lineWiseCopyCut) {
+          return;
         } else {
           var ranges = copyableRanges(cm);
           lastCopied = ranges.text;
@@ -2919,6 +2948,7 @@
       updateMaxLine: false,    // Set when the widest line needs to be determined anew
       scrollLeft: null, scrollTop: null, // Intermediate scroll position, not pushed to DOM yet
       scrollToPos: null,       // Used to scroll to a specific position
+      focus: false,
       id: ++nextOpId           // Unique ID
     };
     if (operationGroup) {
@@ -3036,6 +3066,7 @@
 
     if (cm.state.focused && op.updateInput)
       cm.display.input.reset(op.typing);
+    if (op.focus && op.focus == activeElt()) ensureFocus(op.cm);
   }
 
   function endOperation_finish(op) {
@@ -3400,15 +3431,11 @@
     // Prevent wrapper from ever scrolling
     on(d.wrapper, "scroll", function() { d.wrapper.scrollTop = d.wrapper.scrollLeft = 0; });
 
-    function drag_(e) {
-      if (!signalDOMEvent(cm, e)) e_stop(e);
-    }
-    if (cm.options.dragDrop) {
-      on(d.scroller, "dragstart", function(e){onDragStart(cm, e);});
-      on(d.scroller, "dragenter", drag_);
-      on(d.scroller, "dragover", drag_);
-      on(d.scroller, "drop", operation(cm, onDrop));
-    }
+    d.dragFunctions = {
+      simple: function(e) {if (!signalDOMEvent(cm, e)) e_stop(e);},
+      start: function(e){onDragStart(cm, e);},
+      drop: operation(cm, onDrop)
+    };
 
     var inp = d.input.getField();
     on(inp, "keyup", function(e) { onKeyUp.call(cm, e); });
@@ -3416,6 +3443,18 @@
     on(inp, "keypress", operation(cm, onKeyPress));
     on(inp, "focus", bind(onFocus, cm));
     on(inp, "blur", bind(onBlur, cm));
+  }
+
+  function dragDropChanged(cm, value, old) {
+    var wasOn = old && old != CodeMirror.Init;
+    if (!value != !wasOn) {
+      var funcs = cm.display.dragFunctions;
+      var toggle = value ? on : off;
+      toggle(cm.display.scroller, "dragstart", funcs.start);
+      toggle(cm.display.scroller, "dragenter", funcs.simple);
+      toggle(cm.display.scroller, "dragover", funcs.simple);
+      toggle(cm.display.scroller, "drop", funcs.drop);
+    }
   }
 
   // Called when the window resizes
@@ -3507,7 +3546,7 @@
   var lastClick, lastDoubleClick;
   function leftButtonDown(cm, e, start) {
     if (ie) setTimeout(bind(ensureFocus, cm), 0);
-    else ensureFocus(cm);
+    else cm.curOp.focus = activeElt();
 
     var now = +new Date, type;
     if (lastDoubleClick && lastDoubleClick.time > now - 400 && cmp(lastDoubleClick.pos, start) == 0) {
@@ -3532,7 +3571,7 @@
   // Start a text drag. When it ends, see if any dragging actually
   // happen, and treat as a click if it didn't.
   function leftButtonStartDrag(cm, e, start, modifier) {
-    var display = cm.display;
+    var display = cm.display, startTime = +new Date;
     var dragEnd = operation(cm, function(e2) {
       if (webkit) display.scroller.draggable = false;
       cm.state.draggingText = false;
@@ -3540,7 +3579,7 @@
       off(display.scroller, "drop", dragEnd);
       if (Math.abs(e.clientX - e2.clientX) + Math.abs(e.clientY - e2.clientY) < 10) {
         e_preventDefault(e2);
-        if (!modifier)
+        if (!modifier && +new Date - 200 < startTime)
           extendSelection(cm.doc, start);
         // Work around unexplainable focus problem in IE9 (#2127) and Chrome (#3081)
         if (webkit || ie && ie_version == 9)
@@ -3667,7 +3706,7 @@
       var cur = posFromMouse(cm, e, true, type == "rect");
       if (!cur) return;
       if (cmp(cur, lastPos) != 0) {
-        ensureFocus(cm);
+        cm.curOp.focus = activeElt();
         extendTo(cur);
         var visible = visibleLines(display, doc);
         if (cur.line >= visible.to || cur.line < visible.from)
@@ -3770,7 +3809,7 @@
       try {
         var text = e.dataTransfer.getData("Text");
         if (text) {
-          if (cm.state.draggingText && !(mac ? e.metaKey : e.ctrlKey))
+          if (cm.state.draggingText && !(mac ? e.altKey : e.ctrlKey))
             var selected = cm.listSelections();
           setSelectionNoUndo(cm.doc, simpleSelection(pos, pos));
           if (selected) for (var i = 0; i < selected.length; ++i)
@@ -4025,7 +4064,7 @@
   var lastStoppedKey = null;
   function onKeyDown(e) {
     var cm = this;
-    ensureFocus(cm);
+    cm.curOp.focus = activeElt();
     if (signalDOMEvent(cm, e)) return;
     // IE does strange things with escape.
     if (ie && ie_version < 11 && e.keyCode == 27) e.returnValue = false;
@@ -4613,6 +4652,8 @@
 
     if (indentString != curSpaceString) {
       replaceRange(doc, indentString, Pos(n, 0), Pos(n, curSpaceString.length), "+input");
+      line.stateAfter = null;
+      return true;
     } else {
       // Ensure that, if the cursor was in the whitespace at the start
       // of the line, it is moved to the end of that space.
@@ -4625,7 +4666,6 @@
         }
       }
     }
-    line.stateAfter = null;
   }
 
   // Utility for applying a change to a line by handle or number,
@@ -4915,10 +4955,15 @@
       return lineAtHeight(this.doc, height + this.display.viewOffset);
     },
     heightAtLine: function(line, mode) {
-      var end = false, last = this.doc.first + this.doc.size - 1;
-      if (line < this.doc.first) line = this.doc.first;
-      else if (line > last) { line = last; end = true; }
-      var lineObj = getLine(this.doc, line);
+      var end = false, lineObj;
+      if (typeof line == "number") {
+        var last = this.doc.first + this.doc.size - 1;
+        if (line < this.doc.first) line = this.doc.first;
+        else if (line > last) { line = last; end = true; }
+        lineObj = getLine(this.doc, line);
+      } else {
+        lineObj = line;
+      }
       return intoCoordSystem(this, lineObj, {top: 0, left: 0}, mode || "page").top +
         (end ? this.doc.height - heightAtLine(lineObj) : 0);
     },
@@ -5270,6 +5315,7 @@
   option("showCursorWhenSelecting", false, updateSelection, true);
 
   option("resetSelectionOnContextMenu", true);
+  option("lineWiseCopyCut", true);
 
   option("readOnly", false, function(cm, val) {
     if (val == "nocursor") {
@@ -5282,7 +5328,7 @@
     }
   });
   option("disableInput", false, function(cm, val) {if (!val) cm.display.input.reset();}, true);
-  option("dragDrop", true);
+  option("dragDrop", true, dragDropChanged);
 
   option("cursorBlinkRate", 530);
   option("cursorScrollMargin", 0);
@@ -6922,8 +6968,13 @@
         var foundBookmarks = [];
         for (var j = 0; j < spans.length; ++j) {
           var sp = spans[j], m = sp.marker;
-          if (sp.from <= pos && (sp.to == null || sp.to > pos)) {
-            if (sp.to != null && nextChange > sp.to) { nextChange = sp.to; spanEndStyle = ""; }
+          if (m.type == "bookmark" && sp.from == pos && m.widgetNode) {
+            foundBookmarks.push(m);
+          } else if (sp.from <= pos && (sp.to == null || sp.to > pos || m.collapsed && sp.to == pos && sp.from == pos)) {
+            if (sp.to != null && sp.to != pos && nextChange > sp.to) {
+              nextChange = sp.to;
+              spanEndStyle = "";
+            }
             if (m.className) spanStyle += " " + m.className;
             if (m.css) css = m.css;
             if (m.startStyle && sp.from == pos) spanStartStyle += " " + m.startStyle;
@@ -6934,12 +6985,12 @@
           } else if (sp.from > pos && nextChange > sp.from) {
             nextChange = sp.from;
           }
-          if (m.type == "bookmark" && sp.from == pos && m.widgetNode) foundBookmarks.push(m);
         }
         if (collapsed && (collapsed.from || 0) == pos) {
           buildCollapsedSpan(builder, (collapsed.to == null ? len + 1 : collapsed.to) - pos,
                              collapsed.marker, collapsed.from == null);
           if (collapsed.to == null) return;
+          if (collapsed.to == pos) collapsed = false;
         }
         if (!collapsed && foundBookmarks.length) for (var j = 0; j < foundBookmarks.length; ++j)
           buildCollapsedSpan(builder, 0, foundBookmarks[j]);
@@ -8148,7 +8199,7 @@
     return function(){return f.apply(null, args);};
   }
 
-  var nonASCIISingleCaseWordChar = /[\u00df\u0590-\u05f4\u0600-\u06ff\u3040-\u309f\u30a0-\u30ff\u3400-\u4db5\u4e00-\u9fcc\uac00-\ud7af]/;
+  var nonASCIISingleCaseWordChar = /[\u00df\u0587\u0590-\u05f4\u0600-\u06ff\u3040-\u309f\u30a0-\u30ff\u3400-\u4db5\u4e00-\u9fcc\uac00-\ud7af]/;
   var isWordCharBasic = CodeMirror.isWordChar = function(ch) {
     return /\w/.test(ch) || ch > "\x80" &&
       (ch.toUpperCase() != ch.toLowerCase() || nonASCIISingleCaseWordChar.test(ch));
@@ -8670,6 +8721,8 @@
         lst(order).to -= m[0].length;
         order.push(new BidiSpan(0, len - m[0].length, len));
       }
+      if (order[0].level == 2)
+        order.unshift(new BidiSpan(1, order[0].to, order[0].to));
       if (order[0].level != lst(order).level)
         order.push(new BidiSpan(order[0].level, len, len));
 
@@ -8679,7 +8732,7 @@
 
   // THE END
 
-  CodeMirror.version = "5.1.0";
+  CodeMirror.version = "5.2.0";
 
   return CodeMirror;
 });

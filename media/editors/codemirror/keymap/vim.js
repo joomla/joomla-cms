@@ -382,18 +382,30 @@
     }
 
     var options = {};
-    function defineOption(name, defaultValue, type) {
-      if (defaultValue === undefined) { throw Error('defaultValue is required'); }
+    function defineOption(name, defaultValue, type, aliases, callback) {
+      if (defaultValue === undefined && !callback) {
+        throw Error('defaultValue is required unless callback is provided');
+      }
       if (!type) { type = 'string'; }
       options[name] = {
         type: type,
-        defaultValue: defaultValue
+        defaultValue: defaultValue,
+        callback: callback
       };
-      setOption(name, defaultValue);
+      if (aliases) {
+        for (var i = 0; i < aliases.length; i++) {
+          options[aliases[i]] = options[name];
+        }
+      }
+      if (defaultValue) {
+        setOption(name, defaultValue);
+      }
     }
 
-    function setOption(name, value) {
+    function setOption(name, value, cm, cfg) {
       var option = options[name];
+      cfg = cfg || {};
+      var scope = cfg.scope;
       if (!option) {
         throw Error('Unknown option: ' + name);
       }
@@ -405,16 +417,59 @@
           value = true;
         }
       }
-      option.value = option.type == 'boolean' ? !!value : value;
+      if (option.callback) {
+        if (scope !== 'local') {
+          option.callback(value, undefined);
+        }
+        if (scope !== 'global' && cm) {
+          option.callback(value, cm);
+        }
+      } else {
+        if (scope !== 'local') {
+          option.value = option.type == 'boolean' ? !!value : value;
+        }
+        if (scope !== 'global' && cm) {
+          cm.state.vim.options[name] = {value: value};
+        }
+      }
     }
 
-    function getOption(name) {
+    function getOption(name, cm, cfg) {
       var option = options[name];
+      cfg = cfg || {};
+      var scope = cfg.scope;
       if (!option) {
         throw Error('Unknown option: ' + name);
       }
-      return option.value;
+      if (option.callback) {
+        var local = cm && option.callback(undefined, cm);
+        if (scope !== 'global' && local !== undefined) {
+          return local;
+        }
+        if (scope !== 'local') {
+          return option.callback();
+        }
+        return;
+      } else {
+        var local = (scope !== 'global') && (cm && cm.state.vim.options[name]);
+        return (local || (scope !== 'local') && option || {}).value;
+      }
     }
+
+    defineOption('filetype', undefined, 'string', ['ft'], function(name, cm) {
+      // Option is local. Do nothing for global.
+      if (cm === undefined) {
+        return;
+      }
+      // The 'filetype' option proxies to the CodeMirror 'mode' option.
+      if (name === undefined) {
+        var mode = cm.getMode().name;
+        return mode == 'null' ? '' : mode;
+      } else {
+        var mode = name == '' ? 'null' : name;
+        cm.setOption('mode', mode);
+      }
+    });
 
     var createCircularJumpList = function() {
       var size = 100;
@@ -568,8 +623,9 @@
           visualBlock: false,
           lastSelection: null,
           lastPastedText: null,
-          sel: {
-          }
+          sel: {},
+          // Buffer-local/window-local values of vim options.
+          options: {}
         };
       }
       return cm.state.vim;
@@ -627,6 +683,8 @@
         // Add user defined key bindings.
         exCommandDispatcher.map(lhs, rhs, ctx);
       },
+      // TODO: Expose setOption and getOption as instance methods. Need to decide how to namespace
+      // them, or somehow make them work with the existing CodeMirror setOption/getOption API.
       setOption: setOption,
       getOption: getOption,
       defineOption: defineOption,
@@ -1178,7 +1236,8 @@
         }
         function onPromptKeyDown(e, query, close) {
           var keyName = CodeMirror.keyName(e);
-          if (keyName == 'Esc' || keyName == 'Ctrl-C' || keyName == 'Ctrl-[') {
+          if (keyName == 'Esc' || keyName == 'Ctrl-C' || keyName == 'Ctrl-[' ||
+              (keyName == 'Backspace' && query == '')) {
             vimGlobalState.searchHistoryController.pushInput(query);
             vimGlobalState.searchHistoryController.reset();
             updateSearchQuery(cm, originalQuery);
@@ -1188,6 +1247,10 @@
             clearInputState(cm);
             close();
             cm.focus();
+          } else if (keyName == 'Ctrl-U') {
+            // Ctrl-U clears input.
+            CodeMirror.e_stop(e);
+            close('');
           }
         }
         switch (command.searchArgs.querySrc) {
@@ -1248,7 +1311,8 @@
         }
         function onPromptKeyDown(e, input, close) {
           var keyName = CodeMirror.keyName(e), up;
-          if (keyName == 'Esc' || keyName == 'Ctrl-C' || keyName == 'Ctrl-[') {
+          if (keyName == 'Esc' || keyName == 'Ctrl-C' || keyName == 'Ctrl-[' ||
+              (keyName == 'Backspace' && input == '')) {
             vimGlobalState.exCommandHistoryController.pushInput(input);
             vimGlobalState.exCommandHistoryController.reset();
             CodeMirror.e_stop(e);
@@ -1260,6 +1324,10 @@
             up = keyName == 'Up' ? true : false;
             input = vimGlobalState.exCommandHistoryController.nextMatch(input, up) || '';
             close(input);
+          } else if (keyName == 'Ctrl-U') {
+            // Ctrl-U clears input.
+            CodeMirror.e_stop(e);
+            close('');
           } else {
             if ( keyName != 'Left' && keyName != 'Right' && keyName != 'Ctrl' && keyName != 'Alt' && keyName != 'Shift')
               vimGlobalState.exCommandHistoryController.reset();
@@ -1289,8 +1357,8 @@
         var registerName = inputState.registerName;
         var sel = vim.sel;
         // TODO: Make sure cm and vim selections are identical outside visual mode.
-        var origHead = copyCursor(vim.visualMode ? sel.head: cm.getCursor('head'));
-        var origAnchor = copyCursor(vim.visualMode ? sel.anchor : cm.getCursor('anchor'));
+        var origHead = copyCursor(vim.visualMode ? clipCursorToContent(cm, sel.head): cm.getCursor('head'));
+        var origAnchor = copyCursor(vim.visualMode ? clipCursorToContent(cm, sel.anchor) : cm.getCursor('anchor'));
         var oldHead = copyCursor(origHead);
         var oldAnchor = copyCursor(origAnchor);
         var newHead, newAnchor;
@@ -1856,10 +1924,11 @@
           var anchor = ranges[0].anchor,
               head = ranges[0].head;
           text = cm.getRange(anchor, head);
-          if (!isWhiteSpaceString(text)) {
+          var lastState = vim.lastEditInputState || {};
+          if (lastState.motion == "moveByWords" && !isWhiteSpaceString(text)) {
             // Exclude trailing whitespace if the range is not all whitespace.
             var match = (/\s+$/).exec(text);
-            if (match) {
+            if (match && lastState.motionArgs && lastState.motionArgs.forward) {
               head = offsetCursor(head, 0, - match[0].length);
               text = text.slice(0, - match[0].length);
             }
@@ -3849,6 +3918,7 @@
     // pair of commands that have a shared prefix, at least one of their
     // shortNames must not match the prefix of the other command.
     var defaultExCommandMap = [
+      { name: 'colorscheme', shortName: 'colo' },
       { name: 'map' },
       { name: 'imap', shortName: 'im' },
       { name: 'nmap', shortName: 'nm' },
@@ -3857,7 +3927,10 @@
       { name: 'write', shortName: 'w' },
       { name: 'undo', shortName: 'u' },
       { name: 'redo', shortName: 'red' },
-      { name: 'set', shortName: 'set' },
+      { name: 'set', shortName: 'se' },
+      { name: 'set', shortName: 'se' },
+      { name: 'setlocal', shortName: 'setl' },
+      { name: 'setglobal', shortName: 'setg' },
       { name: 'sort', shortName: 'sor' },
       { name: 'substitute', shortName: 's', possiblyAsync: true },
       { name: 'nohlsearch', shortName: 'noh' },
@@ -4089,6 +4162,13 @@
     };
 
     var exCommands = {
+      colorscheme: function(cm, params) {
+        if (!params.args || params.args.length < 1) {
+          showConfirm(cm, cm.getOption('theme'));
+          return;
+        }
+        cm.setOption('theme', params.args[0]);
+      },
       map: function(cm, params, ctx) {
         var mapArgs = params.args;
         if (!mapArgs || mapArgs.length < 2) {
@@ -4122,6 +4202,9 @@
       },
       set: function(cm, params) {
         var setArgs = params.args;
+        // Options passed through to the setOption/getOption calls. May be passed in by the
+        // local/global versions of the set command
+        var setCfg = params.setCfg || {};
         if (!setArgs || setArgs.length < 1) {
           if (cm) {
             showConfirm(cm, 'Invalid mapping: ' + params.input);
@@ -4145,24 +4228,35 @@
           optionName = optionName.substring(2);
           value = false;
         }
+
         var optionIsBoolean = options[optionName] && options[optionName].type == 'boolean';
         if (optionIsBoolean && value == undefined) {
           // Calling set with a boolean option sets it to true.
           value = true;
         }
-        if (!optionIsBoolean && !value || forceGet) {
-          var oldValue = getOption(optionName);
-          // If no value is provided, then we assume this is a get.
+        // If no value is provided, then we assume this is a get.
+        if (!optionIsBoolean && value === undefined || forceGet) {
+          var oldValue = getOption(optionName, cm, setCfg);
           if (oldValue === true || oldValue === false) {
             showConfirm(cm, ' ' + (oldValue ? '' : 'no') + optionName);
           } else {
             showConfirm(cm, '  ' + optionName + '=' + oldValue);
           }
         } else {
-          setOption(optionName, value);
+          setOption(optionName, value, cm, setCfg);
         }
       },
-      registers: function(cm,params) {
+      setlocal: function (cm, params) {
+        // setCfg is passed through to setOption
+        params.setCfg = {scope: 'local'};
+        this.set(cm, params);
+      },
+      setglobal: function (cm, params) {
+        // setCfg is passed through to setOption
+        params.setCfg = {scope: 'global'};
+        this.set(cm, params);
+      },
+      registers: function(cm, params) {
         var regArgs = params.args;
         var registers = vimGlobalState.registerController.registers;
         var regInfo = '----------Registers----------<br><br>';
@@ -4784,7 +4878,7 @@
     }
     function updateFakeCursor(cm) {
       var vim = cm.state.vim;
-      var from = copyCursor(vim.sel.head);
+      var from = clipCursorToContent(cm, copyCursor(vim.sel.head));
       var to = offsetCursor(from, 0, 1);
       if (vim.fakeCursor) {
         vim.fakeCursor.clear();
