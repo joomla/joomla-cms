@@ -19,7 +19,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php echo JText::_('JSAVE');?></button>
 	</div>
 	<div class="btn-group">
-		<button type="button" class="btn" onclick="Joomla.submitbutton('module.cancel'); window.parent.jQuery('.modal').modal('hide');">
+		<button type="button" class="btn" onclick="Joomla.submitbutton('module.cancel'); window.parent.jQuery('#module<?php echo $this->item->id; ?>Modal').modal('hide');">
 		<?php echo JText::_('JCANCEL');?></button>
 	</div>
 	<div class="clearfix"></div>
