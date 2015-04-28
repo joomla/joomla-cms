@@ -12,18 +12,18 @@ defined('_JEXEC') or die;
 // Load the calendar behavior
 JHtml::_('behavior.calendar');
 
-if ($done)
+if ($displayData['done'])
 {
 	$document 	= JFactory::getDocument();
 	$js 		= array();
 
 	$js[] = 'jQuery(document).ready(function($) {Calendar.setup({';
 	// Id of the input field
-	$js[] = 'inputField: "' . $id . '",';
+	$js[] = 'inputField: "' . $displayData['id'] . '",';
 	// Format of the input field
-	$js[] = 'ifFormat: "' . $format . '",';
+	$js[] = 'ifFormat: "' . $displayData['format'] . '",';
 	// Trigger for the calendar (button ID)
-	$js[] = 'button: "' . $id . '_img",';
+	$js[] = 'button: "' . $displayData['id'] . '_img",';
 	// Alignment (defaults to "Bl")
 	$js[] = 'align: "Tl",';
 	$js[] = 'singleClick: true,';

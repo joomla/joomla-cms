@@ -1005,6 +1005,7 @@ abstract class JHtml
 		$data['id'] 			= $id;
 		$data['name'] 			= $name;
 		$data['value'] 			= $value;
+		$data['format'] 		= $format;
 		$data['inputvalue'] 	= $inputvalue;
 		$data['attribs'] 		= $attribs;
 
