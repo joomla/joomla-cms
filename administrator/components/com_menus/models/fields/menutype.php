@@ -89,7 +89,9 @@ class JFormFieldMenutype extends JFormFieldList
 							'url' => $link,
 							'title' => JText::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),
 							'width' => '800px',
-							'height' => '300px'
+							'height' => '300px',
+							'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+								. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 						)
 					);
 		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" />';
