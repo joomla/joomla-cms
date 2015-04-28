@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Load the calendar behavior
 JHtml::_('behavior.calendar');
 
-if ($displayData['done'])
+if (!$displayData['done'])
 {
 	$document 	= JFactory::getDocument();
 	$js 		= array();
