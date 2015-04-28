@@ -29,7 +29,7 @@ if (!$displayData['done'])
 	$js[] = 'singleClick: true,';
 	$js[] = 'firstDay: ' . JFactory::getLanguage()->getFirstDay();
 	$js[] = '});});';
-	$document->addScriptDeclaration( implode($js) );
+	$document->addScriptDeclaration(implode($js));
 }
 
 $title = ($displayData['inputvalue'] ? JHtml::_('date', $displayData['value'], null, null) : '');
