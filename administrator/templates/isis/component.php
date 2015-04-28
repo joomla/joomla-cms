@@ -21,7 +21,11 @@ JHtml::_('bootstrap.framework');
 $doc->addScript($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+$doc->addStyleSheetVersion(
+	$this->baseurl . '/templates/' . $this->template . '/css/template'
+	. ($this->direction == 'rtl' ? '-rtl' : '')
+	. (JDEBUG ? '' : '.min')
+	. '.css');
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
