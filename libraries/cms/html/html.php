@@ -987,32 +987,16 @@ abstract class JHtml
 			$inputvalue = '';
 		}
 
-		// Load the calendar behavior
-		static::_('behavior.calendar');
+		$data = array(
+			'done' => false
+		);
 
 		// Only display the triggers once for each control.
 		if (!in_array($id, $done))
 		{
-			$document = JFactory::getDocument();
-			$document
-				->addScriptDeclaration(
-				'jQuery(document).ready(function($) {Calendar.setup({
-			// Id of the input field
-			inputField: "' . $id . '",
-			// Format of the input field
-			ifFormat: "' . $format . '",
-			// Trigger for the calendar (button ID)
-			button: "' . $id . '_img",
-			// Alignment (defaults to "Bl")
-			align: "Tl",
-			singleClick: true,
-			firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
-			});});'
-			);
 			$done[] = $id;
+			$data['done'] = true;
 		}
-
-		$data = array();
 
 		// Hide button using inline styles for readonly/disabled fields
 		$data['btn_style'] = ($readonly || $disabled) ? ' style="display:none;"' : '';
