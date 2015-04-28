@@ -10,21 +10,10 @@
 defined('_JEXEC') or die;
 
 JFactory::getDocument()->addScriptDeclaration('
-	window.parent.jQuery(".modal").on("hidden", function () { Joomla.submitbutton("module.cancel"); });
+	jQuery(".modal").on("hidden", function () { Joomla.submitbutton("module.cancel"); });
 ');
 ?>
-<div class="btn-toolbar">
-	<div class="btn-group">
-		<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('module.save');">
-		<?php echo JText::_('JSAVE');?></button>
-	</div>
-	<div class="btn-group">
-		<button type="button" class="btn" onclick="Joomla.submitbutton('module.cancel'); window.parent.jQuery('#module<?php echo $this->item->id; ?>Modal').modal('hide');">
-		<?php echo JText::_('JCANCEL');?></button>
-	</div>
-	<div class="clearfix"></div>
-</div>
-
+<button id="saveBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.save');"></button>
 <?php
 $this->setLayout('edit');
 echo $this->loadTemplate();
