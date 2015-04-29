@@ -11,7 +11,9 @@ defined('_JEXEC') or die;
 
 // This code is needed for proper check out in case of modal close
 JFactory::getDocument()->addScriptDeclaration('
-	window.parent.jQuery("#module' . $this->item->id . 'Modal iframe").contents().find("#closeBtn").click();
+	window.parent.jQuery(".modal").on("hidden", function () {
+		window.parent.jQuery("#module' . $this->item->id . 'Modal iframe").contents().find("#closeBtn").click();
+	});
 ');
 ?>
 <button id="saveBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.save');"></button>

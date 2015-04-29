@@ -77,7 +77,6 @@ class JFormFieldMenutype extends JFormFieldList
 		JFactory::getDocument()->addScriptDeclaration('
 			function jSelectPosition_' . $this->id . '(name) {
 				document.getElementById("' . $this->id . '").value = name;
-				jQuery("#menuTypeModal").modal("hide");
 			}
 		');
 
