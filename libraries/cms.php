@@ -33,7 +33,7 @@ JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 $loader = require_once JPATH_PLATFORM . '/vendor/autoload.php';
 $loader->unregister();
 
-/// Decorate Composer autoloader
+// Decorate Composer autoloader
 require_once JPATH_PLATFORM . '/classloader.php';
 spl_autoload_register(array(new JClassLoader($loader), 'loadClass'), true, true);
 
