@@ -80,7 +80,7 @@ class ConfigControllerModulesSave extends JControllerBase
 		if ($return === false)
 		{
 			// Save the data in the session.
-			$data  = $this->input->post->get('jform', array(), 'array');
+			$data = $this->input->post->get('jform', array(), 'array');
 			$this->app->setUserState('com_config.modules.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
