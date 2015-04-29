@@ -28,17 +28,6 @@ JFactory::getDocument()->addScriptDeclaration('
 		});
 	});
 ');
-
-foreach ($this->modules as $i => &$module)
-{
-	JFactory::getDocument()->addScriptDeclaration('
-	jQuery(document).ready(function() {
-		jQuery("#btn_' . $module->id . '").on("click", function() {
-			jQuery("#module' . $module->id . 'Modal iframe").contents().find("#saveBtn").click();
-		})
-	});
-');
-}
 ?>
 <?php
 // Set main fields.
@@ -119,7 +108,7 @@ echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 								'width' => '800px',
 								'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
 									. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-									. '<button id="btn_' . $module->id . '" class="btn btn-success" data-dismiss="modal" aria-hidden="true">'
+									. '<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#module' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
 									. JText::_("JSAVE") . '</button>'
 							)
 						); ?>

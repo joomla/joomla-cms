@@ -43,13 +43,6 @@ foreach ($this->items as $item) :
 		$script[] = '		document.getElementById("' . $item->id . '").value = name;';
 		$script[] = '		jQuery(".modal").modal("hide");';
 		$script[] = '	};';
-
-		foreach ($this->modules[$item->menutype] as &$module)
-		{
-			$script[] = '	jQuery("#btn_' . $module->id . '").on("click", function() {';
-			$script[] = '		jQuery("#module' . $module->id . 'Modal iframe").contents().find("#saveBtn").click();';
-			$script[] = '	})';
-		}
 	endif;
 endforeach;
 
@@ -192,7 +185,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 									'width' => '800px',
 									'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
 										. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-										. '<button id="btn_' . $module->id . '" class="btn btn-success" data-dismiss="modal" aria-hidden="true">'
+										. '<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#module' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
 										. JText::_("JSAVE") . '</button>'
 								)
 							);
