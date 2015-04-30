@@ -12,9 +12,8 @@ defined('_JEXEC') or die;
 // This code is needed for proper check out in case of modal close
 JFactory::getDocument()->addScriptDeclaration('
 	window.parent.jQuery(".modal").on("hidden", function () {
-		var buttonClose = window.parent.jQuery("#module' . $this->item->id . 'Modal iframe").contents().find("#closeBtn");
-		if (buttonClose) {
-			buttonClose.click();
+	if (typeof window.parent.jQuery("#module' . $this->item->id . 'Modal iframe").contents().find("#closeBtn") !== "undefined") {
+		window.parent.jQuery("#module' . $this->item->id . 'Modal iframe").contents().find("#closeBtn").click();
 		}
 	});
 ');
