@@ -84,7 +84,7 @@ class BannersControllerTracks extends JControllerLegacy
 		{
 			JError::raiseWarning(500, $model->getError());
 		}
-		elseif(count > 0)
+		elseif (count > 0)
 		{
 			$this->setMessage(JText::plural('COM_BANNERS_TRACKS_N_ITEMS_DELETED', $count));
 		}
