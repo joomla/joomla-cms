@@ -66,19 +66,10 @@ Joomla.submitbutton = function(task, type){
 		// special case for modal popups validation response
 		jQuery('#item-form .modal-value.invalid').each(function(){
 			var field = jQuery(this),
-			nameId = '#' + field.attr('id') + '_name';
-			if (jQuery(nameId).length)
-			{
-				jQuery(nameId).addClass('invalid');
-				return;
-			}
-			var idReversed = field.attr('id').split('').reverse().join('');
-			var separatorLocation = idReversed.indexOf('_');
-			nameId = '#' + idReversed.substr(separatorLocation).split('').reverse().join('') + 'name';
-			if (jQuery(nameId).length)
-			{
-				jQuery(nameId).addClass('invalid');
-			}
+				idReversed = field.attr('id').split('').reverse().join(''),
+				separatorLocation = idReversed.indexOf('_'),
+				nameId = '#' + idReversed.substr(separatorLocation).split('').reverse().join('') + 'name';
+			jQuery(nameId).addClass('invalid');
 		});
 	}
 };
