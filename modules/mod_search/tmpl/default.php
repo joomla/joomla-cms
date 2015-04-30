@@ -18,13 +18,18 @@ if ($width)
 	$moduleclass_sfx .= ' '.'mod_search'.$module->id;
 	$css = 'div.mod_search'.$module->id.' input[type="search"]{ width:auto; }';
 	$doc->addStyleDeclaration($css);
+	$width = ' size="'.$width.'"';
+}
+else
+{
+	$width = '';
 }
 ?>
 <div class="search<?php echo $moduleclass_sfx ?>">
 	<form action="<?php echo JRoute::_('index.php');?>" method="post" class="form-inline">
 		<?php
 			$output = '<label for="mod-search-searchword" class="element-invisible">' . $label . '</label> ';
-			$output .= '<input name="searchword" id="mod-search-searchword" maxlength="' . $maxlength . '"  class="inputbox search-query" type="search" size="' . $width . '"';
+			$output .= '<input name="searchword" id="mod-search-searchword" maxlength="' . $maxlength . '"  class="inputbox search-query" type="search"' . $width;
 			$output .= ' placeholder="' . $text . '" />';
 
 			if ($button) :
