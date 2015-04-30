@@ -16,8 +16,8 @@ JHtml::_('script', 'system/html5fallback.js', false, true);
 if ($width)
 {
 	$moduleclass_sfx .= ' '.'mod_search'.$module->id;
-	$js = 'div.mod_search'.$module->id.' input[type="search"]{ width:auto; }';
-	$doc->addStyleDeclaration($js);
+	$css = 'div.mod_search'.$module->id.' input[type="search"]{ width:auto; }';
+	$doc->addStyleDeclaration($css);
 }
 ?>
 <div class="search<?php echo $moduleclass_sfx ?>">
