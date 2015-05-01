@@ -98,6 +98,7 @@ abstract class ModArticlesNewsHelper
 				$item->link     = JRoute::_('index.php?option=com_users&view=login');
 				$item->link     = new JUri($item->link);
 				$returnURL      = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$returnURL 	= str_replace('&amp;', '&', $returnURL);
 				$item->link->setVar('return', base64_encode($returnURL));
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}
