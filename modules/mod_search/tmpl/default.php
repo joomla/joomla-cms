@@ -17,7 +17,7 @@ if ($width)
 {
 	$moduleclass_sfx .= ' ' . 'mod_search' . $module->id;
 	$css = 'div.mod_search' . $module->id . ' input[type="search"]{ width:auto; }';
-	$doc->addStyleDeclaration($css);
+	JFactory::getDocument()->addStyleDeclaration($css);
 	$width = ' size="' . $width . '"';
 }
 else
