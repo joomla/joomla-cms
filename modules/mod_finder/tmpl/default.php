@@ -23,10 +23,10 @@ $suffix = $params->get('moduleclass_sfx');
 
 if ($width)
 {
-	$moduleclass = ' mod_finder'.$module->id;
-	$css = 'div.mod_finder'.$module->id.' input[name="q"]{ width:auto; }';
+	$moduleclass = ' mod_finder' . $module->id;
+	$css = 'div.mod_finder' . $module->id . ' input[name="q"]{ width:auto; }';
 	JFactory::getDocument()->addStyleDeclaration($css);
-	$width = ' size="'.$width.'"';
+	$width = ' size="' . $width . '"';
 }
 else
 {
