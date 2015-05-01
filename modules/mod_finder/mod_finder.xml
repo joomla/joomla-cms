@@ -57,8 +57,6 @@
 				<field
 					name="field_size"
 					type="text"
-					default="25"
-					filter="integer"
 					label="MOD_FINDER_FIELDSET_ADVANCED_FIELD_SIZE_LABEL"
 					description="MOD_FINDER_FIELDSET_ADVANCED_FIELD_SIZE_DESCRIPTION" />
 				<field
