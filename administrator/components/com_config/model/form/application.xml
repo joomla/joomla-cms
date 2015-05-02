@@ -452,6 +452,16 @@
 		</field>
 
 		<field
+			name="sendmail"
+			type="text"
+			default="/usr/sbin/sendmail"
+			showon="mailer:sendmail"
+			label="COM_CONFIG_FIELD_MAIL_SENDMAIL_PATH_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_SENDMAIL_PATH_DESC"
+			filter="string"
+			size="30" />
+
+		<field
 			name="smtpauth"
 			type="radio"
 			class="btn-group btn-group-yesno"
