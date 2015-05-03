@@ -186,66 +186,8 @@ class plgSystemAtoolsjupdatecheck extends JPlugin
 
 		// Set up the email subject and body
 
-		$email_subject = <<<ENDSUBJECT
-Joomla! Update available for "[SITENAME]" – [URL]
-ENDSUBJECT;
-
-
-		$email_body = <<<ENDBODY
-This email IS NOT sent by Joomla.org It is sent automatically by your own site,
-[SITENAME]
-
-================================================================================
-UPDATE INFORMATION
-================================================================================
-
-Your site has determined that there is an updated version of Joomla! available
-for download.
-
-Joomla! version currently installed:        [CURVERSION]
-Joomla! version available for installation: [NEWVERSION]
-
-This email is sent to you by your site to remind you of this fact. The Joomla!
-project will never contact you directly about available updates of Joomla! on
-your site.
-
-================================================================================
-UPDATE INSTRUCTIONS
-================================================================================
-
-To install the update on [SITENAME] please click the following link. (If the URL
-is not a link, simply copy & paste it to your browser).
-
-Update link: [LINK]
-
-================================================================================
-WHY AM I RECEIVING THIS EMAIL?
-================================================================================
-
-This email has been automatically sent by a plugin provided by Joomla!, the
-software which powers your site. This plugin looks for updated versions of
-Joomla! and sends an email notification to its administrators. You will receive
-several similar emails from your site until you either update the software or
-disable these emails.
-
-To disable these emails, please unpublish the 'System - Joomla! Update
-Notification' plugin in the Plugin Manager on your site.
-
-If you do not understand what is Joomla! and what you need to do please do not
-contact the Joomla! project. They are NOT sending you this email and they cannot
-help you. Instead, please contact the person who built or manages your site.
-
-If you are the person who built or manages your website, please note that this
-plugin may have been activated automatically when you installed or updated Joomla!
-on your site.
-
-================================================================================
-WHO SENT ME THIS EMAIL?
-================================================================================
-
-This email is sent to you by your own site, [SITENAME]
-
-ENDBODY;
+		$email_subject = JText::_('PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_SUBJECT');
+		$email_body = JText::_('PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_BODY');
 
 		// Replace merge codes with their values
 		$newVersion = $update->version;
