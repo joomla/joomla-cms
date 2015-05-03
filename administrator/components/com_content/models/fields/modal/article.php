@@ -59,6 +59,12 @@ class JFormFieldModal_Article extends JFormField
 
 		$script[] = '		jQuery("#modalArticle").modal("hide");';
 
+		if ($this->required)
+		{
+			$script[] = '		document.formvalidator.validate(document.getElementById("' . $this->id . '_id"));';
+			$script[] = '		document.formvalidator.validate(document.getElementById("' . $this->id . '_name"));';
+		}
+
 		$script[] = '	}';
 
 		// Clear button script
@@ -172,5 +178,17 @@ class JFormFieldModal_Article extends JFormField
 			)
 		);
 		return implode("\n", $html);
+	}
+
+	/**
+	 * Method to get the field label markup.
+	 *
+	 * @return  string  The field label markup.
+	 *
+	 * @since   3.4
+	 */
+	protected function getLabel()
+	{
+		return str_replace($this->id, $this->id . '_id', parent::getLabel());
 	}
 }
