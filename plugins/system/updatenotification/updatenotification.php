@@ -142,12 +142,26 @@ class PlgSystemUpdatenotification extends JPlugin
 		}
 
 		// If we're here, we have updates. First, get a link to the Joomla! Update component.
-		$uri = JURI::base();
-		$uri = rtrim($uri, '/');
-		$uri .= (substr($uri, -13) != 'administrator') ? '/administrator/' : '/';
-		$link = 'index.php?option=com_joomlaupdate';
+		$baseURI = JUri::base();
+		$uri = new JUri($baseURI);
+		$uri->setPath('/administrator/index.php');
+		$uri->setQuery('option=com_joomlaupdate');
+		$uri->setFragment('');
 
-		// TODO Add optional query parameters
+		/**
+		 * Some third party security solutions require a secret query parameter to allow log in to the administrator
+		 * back-end of the site. The link generated above will be invalid and could probably block the user out of their
+		 * site, confusing them (they can't understand the third party security solution is not part of Joomla! proper).
+		 * So, we're calling the onBuildAdministratorLoginURL system plugin event to let these third party solutions
+		 * add any necessary secret query parameters to the URL. The plugins are supposed to have a method with the
+		 * signature:
+		 *
+		 * public function onBuildAdministratorLoginURL(JUri &$uri);
+		 *
+		 * The plugins should modify the $uri object directly and return null.
+		 */
+
+		JEventDispatcher::getInstance()->trigger('onBuildAdministratorLoginURL', array(&$uri));
 
 		// Let's find out the email addresses to notify
 		$superUsers    = array();
@@ -206,7 +220,7 @@ class PlgSystemUpdatenotification extends JPlugin
 			'[CURVERSION]' => $currentVersion,
 			'[SITENAME]'   => $sitename,
 			'[URL]'        => JUri::base(),
-			'[LINK]'       => $uri . $link,
+			'[LINK]'       => $uri->toString(),
 			'\\n'          => "\n",
 		);
 
