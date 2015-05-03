@@ -39,9 +39,6 @@ class JFormFieldModal_Article extends JFormField
 		// Load language
 		JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
-		// Load the modal behavior script.
-		JHtml::_('behavior.modal', 'a.modal');
-
 		// Build the script.
 		$script = array();
 
@@ -60,7 +57,8 @@ class JFormFieldModal_Article extends JFormField
 			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
 		}
 
-		$script[] = '		jModalClose();';
+		$script[] = '		jQuery("#modalArticle").modal("hide");';
+
 		$script[] = '	}';
 
 		// Clear button script
@@ -129,11 +127,14 @@ class JFormFieldModal_Article extends JFormField
 			$value = (int) $this->value;
 		}
 
+		$url = $link . '&amp;' . JSession::getFormToken() . '=1';
 		// The current article display field.
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title . '" disabled="disabled" size="35" />';
-		$html[] = '<a class="modal btn hasTooltip" title="' . JHtml::tooltipText('COM_CONTENT_CHANGE_ARTICLE') . '"  href="' . $link . '&amp;' . JSession::getFormToken() .
-			'=1" rel="{handler: \'iframe\', size: {x: 800, y: 450}}"><i class="icon-file"></i> ' . JText::_('JSELECT') . '</a>';
+		$html[] = '<a href="#modalArticle" class="btn hasTooltip" role="button"  data-toggle="modal" title="'
+			. JHtml::tooltipText('COM_CONTENT_CHANGE_ARTICLE') . '">
+		 <i class="icon-file"></i> '
+			. JText::_('JSELECT') . '</a>';
 
 		// Edit article button
 		if ($allowEdit)
@@ -160,6 +161,16 @@ class JFormFieldModal_Article extends JFormField
 
 		$html[] = '<input type="hidden" id="' . $this->id . '_id"' . $class . ' name="' . $this->name . '" value="' . $value . '" />';
 
+		$html[] = JHtmlBootstrap::renderModal(
+			'modalArticle', array(
+				'url' => $url,
+				'title' => JText::_('COM_CONTENT_CHANGE_ARTICLE'),
+				'width' => '800px',
+				'height' => '300px',
+				'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+			)
+		);
 		return implode("\n", $html);
 	}
 }

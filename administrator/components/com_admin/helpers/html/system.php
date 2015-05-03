@@ -25,13 +25,6 @@ abstract class JHtmlSystem
 	 */
 	public static function server($val)
 	{
-		if (empty($val))
-		{
-			return JText::_('COM_ADMIN_NA');
-		}
-		else
-		{
-			return $val;
-		}
+		return !empty($val) ? $val : JText::_('COM_ADMIN_NA');
 	}
 }

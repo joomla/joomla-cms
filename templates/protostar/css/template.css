@@ -3912,7 +3912,7 @@ input[type="submit"].btn.btn-mini {
 	width: 98%;
 	position: relative;
 	overflow-y: auto;
-	max-height: none;
+	max-height: 400px;
 	padding: 1%;
 }
 .modal-body iframe {
@@ -6106,6 +6106,11 @@ fieldset.radio.btn-group {
 input.invalid {
 	border: 1px solid #9d261d;
 }
+select.chzn-done.invalid + .chzn-container.chzn-container-single > a.chzn-single,
+select.chzn-done.invalid + .chzn-container.chzn-container-multi > ul.chzn-choices {
+	border-color: #9d261d;
+	color: #9d261d;
+}
 .tooltip {
 	max-width: 400px;
 }
@@ -6423,7 +6428,6 @@ dl.article-info dd.hits span[class*=" icon-"] {
 .icon-plus-2:before {
 	content: "\5d";
 }
-.icon-ban-circle:before,
 .icon-minus-sign:before,
 .icon-minus-2:before {
 	content: "\5e";
@@ -6450,6 +6454,7 @@ dl.article-info dd.hits span[class*=" icon-"] {
 .icon-not-ok:before {
 	content: "\4b";
 }
+.icon-ban-circle:before,
 .icon-minus-circle:before {
 	content: "\e216";
 }
@@ -6578,7 +6583,6 @@ dl.article-info dd.hits span[class*=" icon-"] {
 .icon-file-plus:before {
 	content: "\29";
 }
-.icon-file-remove:before,
 .icon-file-minus:before {
 	content: "\e017";
 }

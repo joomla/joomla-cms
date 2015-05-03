@@ -348,6 +348,11 @@ class JFormFieldTest extends TestCaseDatabase
 	 */
 	public function testSetupInvalidElement()
 	{
+		if (PHP_MAJOR_VERSION >= 7)
+		{
+			$this->markTestSkipped('A fatal error is thrown on PHP 7 due to the typehinting of the method.');
+		}
+
 		$form = new JFormInspector('form1');
 		$field = new JFormFieldInspector($form);
 
