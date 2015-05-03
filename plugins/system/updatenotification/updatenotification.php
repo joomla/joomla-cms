@@ -55,17 +55,18 @@ class plgSystemUpdatenotification extends JPlugin
 		// If I have the time of the last run, I can update, otherwise insert
 		$this->params->set('lastrun', $now);
 
-		$query = $this->db->getQuery(true)
-						  ->update($this->db->qn('#__extensions'))
-						  ->set($this->db->qn('params') . ' = ' . $this->db->q($this->params->toString('JSON')))
-						  ->where($this->db->qn('type') . ' = ' . $this->db->q('plugin'))
-						  ->where($this->db->qn('folder') . ' = ' . $this->db->q('system'))
-						  ->where($this->db->qn('element') . ' = ' . $this->db->q('updatenotification'));
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+						  ->update($db->qn('#__extensions'))
+						  ->set($db->qn('params') . ' = ' . $db->q($this->params->toString('JSON')))
+						  ->where($db->qn('type') . ' = ' . $db->q('plugin'))
+						  ->where($db->qn('folder') . ' = ' . $db->q('system'))
+						  ->where($db->qn('element') . ' = ' . $db->q('updatenotification'));
 
 		try
 		{
 			// Lock the tables to prevent multiple plugin executions causing a race condition
-			$this->db->lockTable('#__extensions');
+			$db->lockTable('#__extensions');
 		}
 		catch (Exception $e)
 		{
@@ -76,21 +77,21 @@ class plgSystemUpdatenotification extends JPlugin
 		try
 		{
 			// Update the plugin parameters
-			$result = $this->db->setQuery($query)->execute();
+			$result = $db->setQuery($query)->execute();
 
 			$this->clearCacheGroups(array('com_plugins'), array(0, 1));
 		}
 		catch (Exception $exc)
 		{
 			// If we failed to execite
-			$this->db->unlockTables();
+			$db->unlockTables();
 			$result = false;
 		}
 
 		try
 		{
 			// Unlock the tables after writing
-			$this->db->unlockTables();
+			$db->unlockTables();
 		}
 		catch (Exception $e)
 		{
