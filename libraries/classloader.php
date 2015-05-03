@@ -24,7 +24,7 @@ class JClassLoader
 	 *
 	 * @var \Composer\Autoload\ClassLoader
 	 */
-	 private $loader;
+	private $loader;
 
 	public function __construct(\Composer\Autoload\ClassLoader $loader)
 	{
