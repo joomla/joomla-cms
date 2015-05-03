@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.4
  */
-class plgSystemUpdatenotification extends JPlugin
+class PlgSystemUpdatenotification extends JPlugin
 {
 	/**
 	 * The update check and notification email code is triggered after the page has fully rendered.
@@ -44,7 +44,7 @@ class plgSystemUpdatenotification extends JPlugin
 		// Do we need to run? Compare the last run timestamp stored in the plugin's options with the current
 		// timestamp. If the difference is greater than the cache timeout we shall not execute again.
 		$now  = time();
-		$last = (int)$this->params->get('lastrun', 0);
+		$last = (int) $this->params->get('lastrun', 0);
 
 		if (!defined('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG') && (abs($now - $last) < $cache_timeout))
 		{
@@ -57,11 +57,11 @@ class plgSystemUpdatenotification extends JPlugin
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-						  ->update($db->qn('#__extensions'))
-						  ->set($db->qn('params') . ' = ' . $db->q($this->params->toString('JSON')))
-						  ->where($db->qn('type') . ' = ' . $db->q('plugin'))
-						  ->where($db->qn('folder') . ' = ' . $db->q('system'))
-						  ->where($db->qn('element') . ' = ' . $db->q('updatenotification'));
+					->update($db->qn('#__extensions'))
+					->set($db->qn('params') . ' = ' . $db->q($this->params->toString('JSON')))
+					->where($db->qn('type') . ' = ' . $db->q('plugin'))
+					->where($db->qn('folder') . ' = ' . $db->q('system'))
+					->where($db->qn('element') . ' = ' . $db->q('updatenotification'));
 
 		try
 		{
@@ -168,11 +168,11 @@ class plgSystemUpdatenotification extends JPlugin
 			return;
 		}
 
-		// Load the appropriate language. We try to load English (UK), the current user's language and the forced
-		// language preference, in this order. This ensures that we'll never end up with untranslated strings in the
-		// update email which would make Joomla! seem bad. So, please, if you don't fully understand what the
-		// following code does DO NOT TOUCH IT. It makes the difference between a hobbyist CMS and a professional
-		// solution!
+		/* Load the appropriate language. We try to load English (UK), the current user's language and the forced
+		 * language preference, in this order. This ensures that we'll never end up with untranslated strings in the
+		 * update email which would make Joomla! seem bad. So, please, if you don't fully understand what the
+		 * following code does DO NOT TOUCH IT. It makes the difference between a hobbyist CMS and a professional
+		 * solution! */
 		$jLanguage = JFactory::getLanguage();
 		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, 'en-GB', true, true);
 		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, null, true, false);
@@ -233,7 +233,7 @@ class plgSystemUpdatenotification extends JPlugin
 	 * we will check that these emails do belong to Super Users and that they have not blocked
 	 * system emails.
 	 *
-	 * @param   null|string $email A list of Super Users to email
+	 * @param   null|string  $email  A list of Super Users to email
 	 *
 	 * @return  array  The list of Super User emails
 	 */
@@ -331,11 +331,13 @@ class plgSystemUpdatenotification extends JPlugin
 		try
 		{
 			$query = $db->getQuery(true)
-						->select(array(
-							$db->qn('id'),
-							$db->qn('username'),
-							$db->qn('email'),
-						))->from($db->qn('#__users'))
+						->select(
+							array(
+								$db->qn('id'),
+								$db->qn('username'),
+								$db->qn('email'),
+							)
+						)->from($db->qn('#__users'))
 						->where($db->qn('id') . ' IN(' . implode(',', $userIDs) . ')')
 						->where($db->qn('sendEmail') . ' = ' . $db->q('1'));
 
