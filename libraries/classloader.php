@@ -33,7 +33,7 @@ class JClassLoader
 	
 	public function loadClass($class)
 	{
-		if($result = $this->loader->loadClass($class)) {
+		if ($result = $this->loader->loadClass($class)) {
 			\JLoader::applyAliasFor($class);
 		}
 		
