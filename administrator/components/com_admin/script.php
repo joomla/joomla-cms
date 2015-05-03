@@ -1290,6 +1290,8 @@ class JoomlaInstallerScript
 			'/administrator/components/com_config/models/fields/index.html',
 			'/administrator/components/com_config/models/forms/application.xml',
 			'/administrator/components/com_config/models/forms/index.html',
+			// Joomla 3.4.2
+			'/libraries/composer_autoload.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
