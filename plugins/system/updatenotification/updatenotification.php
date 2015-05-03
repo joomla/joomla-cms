@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.4
  */
-class plgSystemAtoolsjupdatecheck extends JPlugin
+class plgSystemUpdatenotification extends JPlugin
 {
 	/**
 	 * The update check and notification email code is triggered after the page has fully rendered.
