@@ -1160,6 +1160,7 @@ class JoomlaInstallerScript
 			'/media/editors/codemirror/js/php.js',
 			'/media/editors/codemirror/js/xml-fold.js',
 			'/media/editors/codemirror/js/xml.js',
+			'/libraries/composer_autoload.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
