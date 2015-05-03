@@ -35,7 +35,6 @@ class JClassLoader
 	{
 		if($result = $this->loader->loadClass($class)) {
 			\JLoader::applyAliasFor($class);
-			
 		}
 		
 		return $result;
