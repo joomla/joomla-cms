@@ -62,6 +62,12 @@ class JFormFieldModal_Newsfeed extends JFormField
 
 		$script[] = '		jQuery("#modalNewsfeed").modal("hide");';
 
+		if ($this->required)
+		{
+			$script[] = '		document.formvalidator.validate(document.getElementById("' . $this->id . '_id"));';
+			$script[] = '		document.formvalidator.validate(document.getElementById("' . $this->id . '_name"));';
+		}
+
 		$script[] = '	}';
 
 		// Clear button script
@@ -181,5 +187,17 @@ class JFormFieldModal_Newsfeed extends JFormField
 		$html[] = '<input type="hidden" id="' . $this->id . '_id"' . $class . ' name="' . $this->name . '" value="' . $value . '" />';
 
 		return implode("\n", $html);
+	}
+
+	/**
+	 * Method to get the field label markup.
+	 *
+	 * @return  string  The field label markup.
+	 *
+	 * @since   3.4
+	 */
+	protected function getLabel()
+	{
+		return str_replace($this->id, $this->id . '_id', parent::getLabel());
 	}
 }
