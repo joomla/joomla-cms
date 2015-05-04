@@ -5,7 +5,7 @@ VERSION=`phpenv version-name`
 if [ "${VERSION}" = 'hhvm' ]
 then
     PHPINI=/etc/hhvm/php.ini
-else if [ "${VERSION}" = '7.0' ]
+elif [ "${VERSION}" = '7.0' ]
 then
     PHPINI=~/.phpenv/versions/$VERSION/etc/php.ini
     echo "extension = memcache.so"  >> $PHPINI
