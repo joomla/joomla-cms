@@ -8,6 +8,7 @@ then
 elif [ "${VERSION}" = '7.0' ]
 then
     PHPINI=~/.phpenv/versions/$VERSION/etc/php.ini
+    echo "extension = apc.so"  >> $PHPINI
     echo "extension = memcache.so"  >> $PHPINI
     echo "extension = memcached.so" >> $PHPINI
     echo "extension = redis.so"     >> $PHPINI
