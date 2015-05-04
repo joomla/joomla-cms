@@ -239,14 +239,6 @@ abstract class JFormField
 	protected $value;
 
 	/**
-	 * The default value of the form field.
-	 *
-	 * @var    mixed
-	 * @since  11.1
-	 */
-	protected $default;
-
-	/**
 	 * The size of the form field.
 	 *
 	 * @var    integer
@@ -438,7 +430,6 @@ abstract class JFormField
 			case 'validate':
 			case 'pattern':
 			case 'group':
-			case 'default':
 				$this->$name = (string) $value;
 				break;
 
@@ -559,12 +550,10 @@ abstract class JFormField
 
 		$attributes = array(
 			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange',
-			'onclick', 'validate', 'pattern', 'default', 'required',
+			'onclick', 'validate', 'pattern', 'required',
 			'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck',
 			'translateHint', 'translateLabel','translate_label', 'translateDescription',
 			'translate_description' ,'size');
-
-		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
 		// Set the field default value.
 		$this->value = $value;

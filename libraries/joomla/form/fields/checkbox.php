@@ -37,6 +37,14 @@ class JFormFieldCheckbox extends JFormField
 	protected $checked = false;
 
 	/**
+	 * The value of the field if checked.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	protected $checkedValue = '1';
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to the the value.
@@ -50,6 +58,7 @@ class JFormFieldCheckbox extends JFormField
 		switch ($name)
 		{
 			case 'checked':
+			case 'checkedValue':
 				return $this->$name;
 		}
 
@@ -73,6 +82,11 @@ class JFormFieldCheckbox extends JFormField
 			case 'checked':
 				$value = (string) $value;
 				$this->$name = ($value == 'true' || $value == $name || $value == '1');
+				break;
+
+			case 'checkedValue':
+				$value = (string) $value;
+				$this->$name = $value;
 				break;
 
 			default:
@@ -104,6 +118,9 @@ class JFormFieldCheckbox extends JFormField
 			$this->checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
 
 			empty($this->value) || $this->checked ? null : $this->checked = true;
+
+			$value = (string) $this->element['value'];
+			$this->checkedValue = !empty($value) ? $value : '1';
 		}
 
 		return $return;
@@ -122,7 +139,6 @@ class JFormFieldCheckbox extends JFormField
 		// Initialize some field attributes.
 		$class     = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$disabled  = $this->disabled ? ' disabled' : '';
-		$value     = !empty($this->default) ? $this->default : '1';
 		$required  = $this->required ? ' required aria-required="true"' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 		$checked   = $this->checked || !empty($this->value) ? ' checked' : '';
@@ -136,7 +152,7 @@ class JFormFieldCheckbox extends JFormField
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
 		return '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'
-			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $onchange
+			. htmlspecialchars($this->checkedValue, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $onchange
 			. $required . $autofocus . ' />';
 	}
 }
