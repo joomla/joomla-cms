@@ -93,17 +93,22 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 						<th>
 							<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap center hidden-phone">
-							<?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?>
+						<th width="10%" class="nowrap center">
+							<i class="icon-publish"></i>
+							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
 						</th>
-						<th width="10%" class="nowrap center hidden-phone">
-							<?php echo JText::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?>
+						<th width="10%" class="nowrap center">
+							<i class="icon-unpublish"></i>
+							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 						</th>
-						<th width="10%" class="nowrap center hidden-phone">
-							<?php echo JText::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?>
+						<th width="10%" class="nowrap center">
+							<i class="icon-trash"></i>
+							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 						</th>
-						<th width="20%" class="nowrap hidden-phone">
-							<?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?>
+						<th width="20%" class="nowrap center">
+							<i class="icon-cube"></i>
+							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
+
 						</th>
 						<th width="1%" class="center nowrap">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -151,7 +156,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 							<a class="badge badge-error" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2');?>">
 								<?php echo $item->count_trashed; ?></a>
 						</td>
-						<td class="left">
+						<td class="center">
 							<?php if (isset($this->modules[$item->menutype])) : ?>
 								<div class="btn-group">
 									<a href="#" class="btn btn-small dropdown-toggle" data-toggle="dropdown">
