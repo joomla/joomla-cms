@@ -809,7 +809,7 @@ class JApplication extends JApplicationBase
 	 * @since   11.1
 	 * @deprecated  4.0
 	 */
-	static public function getRouter($name = null, array $options = array())
+	public static function getRouter($name = null, array $options = array())
 	{
 		if (!isset($name))
 		{
@@ -841,7 +841,7 @@ class JApplication extends JApplicationBase
 	 * @since   11.1
 	 * @deprecated  4.0  Use JApplicationHelper::stringURLSafe instead
 	 */
-	static public function stringURLSafe($string)
+	public static function stringURLSafe($string)
 	{
 		return JApplicationHelper::stringURLSafe($string);
 	}

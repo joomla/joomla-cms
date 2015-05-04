@@ -344,7 +344,9 @@ class JCategories
 						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
 					}
 
-					if (!isset($this->_nodes[$result->parent_id]))
+					// If the node's parent id is not in the _nodes list and the node is not root (doesn't have parent_id == 0),
+					// then remove the node from the list
+					if (!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0))
 					{
 						unset($this->_nodes[$result->id]);
 						continue;
