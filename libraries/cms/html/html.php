@@ -994,7 +994,7 @@ abstract class JHtml
 		// Only display the triggers once for each control.
 		if (!in_array($id, $done))
 		{
-			$done[] = $id;
+			$done[]       = $id;
 			$data['done'] = true;
 		}
 
@@ -1002,12 +1002,12 @@ abstract class JHtml
 		$data['btn_style'] = ($readonly || $disabled) ? ' style="display:none;"' : '';
 		$data['div_class'] = (!$readonly && !$disabled) ? ' class="input-append"' : '';
 
-		$data['id'] 			= $id;
-		$data['name'] 			= $name;
-		$data['value'] 			= $value;
-		$data['format'] 		= $format;
-		$data['inputvalue'] 	= $inputvalue;
-		$data['attribs'] 		= $attribs;
+		$data['id']         = $id;
+		$data['name']       = $name;
+		$data['value']      = $value;
+		$data['format']     = $format;
+		$data['inputvalue'] = $inputvalue;
+		$data['attribs']    = $attribs;
 
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new JLayoutFile('joomla.calendar.field');
