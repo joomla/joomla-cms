@@ -19,9 +19,7 @@
         "ircmaxell/password-compat": "1.*",
         "leafo/lessphp": "0.5.*",
         "phpmailer/phpmailer": "5.2.*",
-        "symfony/yaml": "2.*",
-        "squizlabs/php_codesniffer": "1.*",
-        "pear/cache_lite": "1.7.*"
+        "symfony/yaml": "2.*"
     },
     "require-dev": {
         "phpunit/phpunit": "4.6.*",
