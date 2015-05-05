@@ -19,11 +19,6 @@ then
     phpenv config-add build/travis/phpenv/redis.ini
 else
     PHPINI=~/.phpenv/versions/$VERSION/etc/php.ini
-    if [ "${VERSION}" -ge '5.5' ]
-    then
-        pecl channel-update pecl.php.net
-        echo -e "yes\nno\n" | pecl -d preferred_state=beta install apcu
-    fi
     phpenv config-add build/travis/phpenv/memcached.ini
     phpenv config-add build/travis/phpenv/apc-$VERSION.ini
     phpenv config-add build/travis/phpenv/redis.ini
