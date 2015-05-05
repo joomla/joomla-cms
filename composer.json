@@ -27,4 +27,8 @@
         "phpunit/phpunit": "4.6.*",
         "phpunit/dbunit": "~1.3"
     }
+     "suggest": {
+        "phpmd/phpmd": "PHP Mess Detector",
+        "block8/php-docblock-checker": "PHP Docblock Checker"
+     }
 }
