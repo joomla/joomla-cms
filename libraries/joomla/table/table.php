@@ -1521,7 +1521,6 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
 		// Sanitize input
-		$pks = Joomla\Utilities\ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state  = (int) $state;
 
@@ -1561,6 +1560,9 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 
 		foreach ($pks AS $pk)
 		{
+			// Sanitize the input
+			$pk = Joomla\Utilities\ArrayHelper::toInteger($pk);
+
 			// Update the publishing state for rows with the given primary keys.
 			$query = $this->_db->getQuery(true)
 				->update($this->_tbl)
