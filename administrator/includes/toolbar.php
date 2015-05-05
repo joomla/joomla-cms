@@ -627,7 +627,7 @@ abstract class JToolbarHelper
 	 */
 	public static function modal($targetModalId, $icon, $alt)
 	{
-		JHtml::_('bootstrap.modal');
+		JHtml::_('bootstrap.framework');
 
 		$title = JText::_($alt);
 		$dhtml = "<button data-toggle='modal' data-target='#" . $targetModalId . "' class='btn btn-small'>
