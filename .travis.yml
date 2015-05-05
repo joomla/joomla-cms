@@ -34,7 +34,7 @@ before_script:
 
 script:
   - phpunit --configuration travisci-phpunit.xml
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ] || [ '$TRAVIS_PHP_VERSION' != 'hhvm' ]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi"
+  # - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ] || [ '$TRAVIS_PHP_VERSION' != 'hhvm' ]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi"
 
 branches:
   except:
