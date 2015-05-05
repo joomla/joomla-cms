@@ -21,6 +21,8 @@ services:
   - redis-server
 
 before_script:
+  - pecl channel-update pecl.php.net
+  - echo -e "yes\nno\n" | pecl -d preferred_state=beta install apcu
   - composer update
   - composer self-update
     # Install PHPCS to validate code standards
@@ -37,8 +39,6 @@ before_script:
   # Set up Apache
   # - ./build/travis/php-apache.sh
   # Enable additional PHP extensions
-  - chmod ugo+x build/travis/install-apcu.sh
-  - ./build/travis/install-apcu.sh
   - chmod ugo+x build/travis/travis.sh
   - ./build/travis/travis.sh
   
