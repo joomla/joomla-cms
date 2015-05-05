@@ -5,6 +5,8 @@ VERSION=`phpenv version-name`
 if [ "${VERSION}" = 'hhvm' ]
 then
     PHPINI=/etc/hhvm/php.ini
+    echo "extension_dir = /etc/hhvm" >> $PHPINI
+    echo "hhvm.extensions[pgsql] = pgsql.so" >> $PHPINI
 elif [ "${VERSION}" = '7.0' ]
 then
     PHPINI=~/.phpenv/versions/$VERSION/etc/php.ini
