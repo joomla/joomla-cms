@@ -21,6 +21,7 @@ services:
   - redis-server
 
 before_script:
+  - pecl install apcu.so
   - composer self-update
     # Install PHPCS to validate code standards
   - composer require squizlabs/php_codesniffer 1.5.6
