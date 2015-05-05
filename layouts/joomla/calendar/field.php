@@ -14,8 +14,8 @@ JHtml::_('behavior.calendar');
 
 if ($displayData['done'])
 {
-	$document 	= JFactory::getDocument();
-	$js 		= array();
+	$document = JFactory::getDocument();
+	$js       = array();
 
 	$js[] = 'jQuery(document).ready(function($) {Calendar.setup({';
 	// Id of the input field
