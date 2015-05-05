@@ -21,8 +21,8 @@ services:
   - redis-server
 
 before_script:
-  - pecl channel-update pecl.php.net
-  - echo -e "yes\nno\n" | pecl -d preferred_state=beta install apcu
+ # - pecl channel-update pecl.php.net
+ # - echo -e "yes\nno\n" | pecl -d preferred_state=beta install apcu
   - composer update
   - composer self-update
     # Install PHPCS to validate code standards
