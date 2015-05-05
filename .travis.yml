@@ -19,12 +19,7 @@ services:
 
 before_script:
   - composer self-update
-  # Install PHPCS to validate code standards
-  - composer require squizlabs/php_codesniffer 1.5.6
-  
-  # Install Cache_Lite for testing
-  - composer require pear/cache_lite 1.7.16
-  
+ 
   # Set up databases for testing
   - mysql -e 'create database joomla_ut;'
   - mysql joomla_ut < tests/unit/schema/mysql.sql
@@ -32,7 +27,7 @@ before_script:
   - psql -d joomla_ut -a -f tests/unit/schema/postgresql.sql
   
   # Set up Apache
-  - ./build/travis/php-apache.sh
+  # - ./build/travis/php-apache.sh
   # Enable additional PHP extensions
   - chmod ugo+x build/travis/travis.sh
   - ./build/travis/travis.sh
