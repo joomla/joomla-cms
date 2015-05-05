@@ -22,7 +22,7 @@ services:
 
 before_script:
   - pecl channel-update pecl.php.net
-  - pecl install channel://pecl.php.net/APCu-4.0.7
+  - pecl install apcu
   - composer update
   - composer self-update
     # Install PHPCS to validate code standards
