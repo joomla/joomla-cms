@@ -11,9 +11,9 @@ elif [ "${VERSION}" = '7.0' ]
 then
     PHPINI=~/.phpenv/versions/$VERSION/etc/php.ini
     #echo "extension = apcu.so"  >> $PHPINI
-    echo "extension = memcache.so"  >> $PHPINI
-    echo "extension = memcached.so" >> $PHPINI
-    echo "extension = redis.so"     >> $PHPINI
+    #echo "extension = memcache.so"  >> $PHPINI
+    #echo "extension = memcached.so" >> $PHPINI
+    #echo "extension = redis.so"     >> $PHPINI
     phpenv config-add build/travis/phpenv/memcached.ini
     phpenv config-add build/travis/phpenv/apc-$VERSION.ini
     phpenv config-add build/travis/phpenv/redis.ini
