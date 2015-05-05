@@ -131,6 +131,12 @@
 				$main.removeClass('span10').addClass('span12 expanded');
 				$toggleSidebarIcon.removeClass(openIcon).addClass(closedIcon);
 				$toggleButton.attr( 'data-original-title', Joomla.JText._('JTOGGLE_SHOW_SIDEBAR') );
+				// Re initiate tooltip for Safari bad rendering
+				$("#j-toggle-sidebar-button").tooltip('destroy').tooltip({
+					"placement": "top",
+					"title": Joomla.JText._('JTOGGLE_SHOW_SIDEBAR'),
+					"container": "body"
+				});
 				if (!isComponent) {
 					$debug.css( 'width', contentWidthRelative + '%' );
 				}
@@ -151,6 +157,12 @@
 				$main.removeClass('span12 expanded').addClass('span10');
 				$toggleSidebarIcon.removeClass(closedIcon).addClass(openIcon);
 				$toggleButton.attr( 'data-original-title', Joomla.JText._('JTOGGLE_HIDE_SIDEBAR') );
+				// Re initiate tooltip for Safari bad rendering
+				$("#j-toggle-sidebar-button").tooltip('destroy').tooltip({
+					"placement": "top",
+					"title": Joomla.JText._('JTOGGLE_SHOW_SIDEBAR'),
+					"container": "body"
+				});
 
 				if (!isComponent && bodyWidth > 768 && mainHeight < sidebarHeight)
 				{
