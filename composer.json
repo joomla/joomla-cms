@@ -22,7 +22,7 @@
         "symfony/yaml": "2.*"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "1.5.*",
+        "squizlabs/php_codesniffer": "1.*",
         "pear/cache_lite": "1.7.*",
         "phpunit/phpunit": "4.6.*",
         "phpunit/dbunit": "~1.3"
