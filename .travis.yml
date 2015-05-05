@@ -21,7 +21,7 @@ services:
   - redis-server
 
 before_script:
-  - pecl install apcu.so
+  - pecl install channel://pecl.php.net/APCu-4.0.7
   - composer update
   - composer self-update
     # Install PHPCS to validate code standards
