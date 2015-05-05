@@ -20,16 +20,16 @@ services:
   - memcached
   - redis-server
 
-before_script:
+install:
   - sh -c "if [ '$TRAVIS_PHP_VERSION' != 'hhvm' ]; then pecl channel-update pecl.php.net; fi"
   - sh -c "if [ '$TRAVIS_PHP_VERSION' != 'hhvm' ]; then echo -e "yes\nno\n" | pecl -d preferred_state=beta install apcu; fi"
-  #- composer update
-  #- composer self-update
+  - travis_retry composer self-update && composer update
   # Install PHPCS to validate code standards
   - composer require squizlabs/php_codesniffer 1.5.6
   # Install Cache_Lite for testing
   - composer require pear/cache_lite 1.7.16
- 
+
+before_script:
   # Set up databases for testing
   - mysql -e 'create database joomla_ut;'
   - mysql joomla_ut < tests/unit/schema/mysql.sql
