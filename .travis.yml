@@ -37,7 +37,7 @@ before_script:
 
 script:
   - phpunit --configuration travisci-phpunit.xml
-  - sh -c "vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi"
+  - ./vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla
 
 branches:
   except:
