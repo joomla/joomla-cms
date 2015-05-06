@@ -61,7 +61,7 @@
 		var navTop;
 		var isFixed = false;
 
-		if (typeof stickyToolbar != 'undefined' && stickyToolbar == 1) {
+		if (window.isisStickyToolbar == 1) {
 			processScrollInit();
 			processScroll();
 
@@ -71,7 +71,7 @@
 
 		function processScrollInit() {
 			if ($('.subhead').length) {
-				navTop = $('.subhead').length && $('.subhead').offset().top - offsetTop;
+				navTop = $('.subhead').length && $('.subhead').offset().top - window.isisOffsetTop;
 				// Only apply the scrollspy when the toolbar is not collapsed
 				if (document.body.clientWidth > 480) {
 					$('.subhead-collapse').height($('.subhead').height());

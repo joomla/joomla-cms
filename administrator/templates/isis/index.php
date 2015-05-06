@@ -114,8 +114,8 @@ if ($stickyToolbar)
 
 $doc->addScriptDeclaration(
 	"
-	var stickyToolbar = $stickyBar,
-	offsetTop = $offset;
+	window.isisStickyToolbar = $stickyBar;
+	window.isisOffsetTop = $offset;
 	"
 );
 ?>
