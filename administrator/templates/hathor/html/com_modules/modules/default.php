@@ -228,6 +228,6 @@ $saveOrder	= $listOrder == 'ordering';
 <script type="text/javascript">
 jQuery("#filter_client_id").on("change", function()
 {
- jQuery("#filter_position, #filter_module").val("");
+ jQuery("#filter_position, #filter_module, #filter_language").val("");
 });
 </script>
