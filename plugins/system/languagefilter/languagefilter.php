@@ -32,6 +32,14 @@ class PlgSystemLanguageFilter extends JPlugin
 	private $user_lang_code;
 
 	/**
+	 * JDatabaseDriver instance
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  4.2.2
+	 */
+	protected $db = null;
+
+	/**
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
@@ -537,10 +545,18 @@ class PlgSystemLanguageFilter extends JPlugin
 				$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 			}
 
+			// Get a 1-dimensional array of published language codes
+			$query = $this->db->getQuery(true)
+				->select($this->db->quoteName('a.lang_code'))
+				->from($this->db->quoteName('#__languages', 'a'))
+				->where($this->db->quoteName('published') . ' = 1');
+			$this->db->setQuery($query);
+			$lang_codes = $this->db->loadColumn();
+
 			// The user language has been deleted/disabled or the related content language does not exist/has been unpublished
 			// or the related home page does not exist/has been unpublished
 			if (!array_key_exists($lang_code, MultilangstatusHelper::getSitelangs())
-				|| !array_key_exists($lang_code, MultilangstatusHelper::getContentlangs())
+				|| !in_array($lang_code, $lang_codes)
 				|| !array_key_exists($lang_code, MultilangstatusHelper::getHomepages()))
 			{
 				$lang_code = $this->default_lang;
