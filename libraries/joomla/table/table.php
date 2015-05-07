@@ -1549,7 +1549,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			{
 				if ($this->$key)
 				{
-					$pk[$this->$key] = $this->$key;
+					$pk[$key] = $this->$key;
 				}
 				// We don't have a full primary key - return false
 				else
