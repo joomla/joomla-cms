@@ -441,7 +441,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 
 			$pk = (object) $pk;
 
-			foreach ($this->_tbl_keys AS $k)
+			foreach ($this->_tbl_keys as $k)
 			{
 				$query->where($this->_db->quoteName($k) . ' = ' . $this->_db->quote($pk->$k));
 			}
@@ -1563,11 +1563,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			$pks = array($pk);
 		}
 
-		foreach ($pks AS $pk)
+		foreach ($pks as $pk)
 		{
-			// Sanitize the input
-			$pk = Joomla\Utilities\ArrayHelper::toInteger($pk);
-
 			// Update the publishing state for rows with the given primary keys.
 			$query = $this->_db->getQuery(true)
 				->update($this->_tbl)
