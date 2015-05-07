@@ -35,7 +35,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 * JDatabaseDriver instance
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  4.2.2
+	 * @since  3.4.2
 	 */
 	protected $db = null;
 
