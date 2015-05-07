@@ -34,7 +34,7 @@ class ModSingleImageHelper
 		$width	= $params->get('width');
 		$height	= $params->get('height');
 
-		if( !JFile::exists(JPATH_BASE . '/' . $path) )
+		if ( !JFile::exists(JPATH_BASE . '/' . $path) )
 		{
 			return false;
 		}
@@ -43,7 +43,7 @@ class ModSingleImageHelper
 
 		$proportional = $params->get('proportional');
 
-		if( $proportional )
+		if ( $proportional )
 		{
 			if ($width == '')
 			{
