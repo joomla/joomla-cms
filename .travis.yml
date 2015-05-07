@@ -21,8 +21,10 @@ services:
   - redis-server
 
 install:
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' != 'hhvm' && '$TRAVIS_PHP_VERSION' -ge '5.5' ]; then pecl channel-update pecl.php.net; fi"
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' != 'hhvm' && '$TRAVIS_PHP_VERSION' -ge '5.5' ]; then pecl config-set preferred_state beta; printf "yes\n" | pecl install apcu; fi"
+  - if [ '$TRAVIS_PHP_VERSION' -ge '5.5' ];
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' != 'hhvm' ]; then pecl channel-update pecl.php.net; fi"
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' != 'hhvm' ]; then pecl config-set preferred_state beta; printf "yes\n" | pecl install apcu; fi"
+  - fi;
   # - travis_retry composer self-update && composer update
   # Install PHPCS to validate code standards
   - composer require squizlabs/php_codesniffer 1.5.6
