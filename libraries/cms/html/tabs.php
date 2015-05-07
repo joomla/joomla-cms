@@ -82,9 +82,18 @@ abstract class JHtmlTabs
 			$opt['onActive']            = (isset($params['onActive'])) ? '\\' . $params['onActive'] : null;
 			$opt['onBackground']        = (isset($params['onBackground'])) ? '\\' . $params['onBackground'] : null;
 			$opt['display']             = (isset($params['startOffset'])) ? (int) $params['startOffset'] : null;
-			$opt['useStorage']          = (isset($params['useCookie']) && $params['useCookie']) ? true : false;
 			$opt['titleSelector']       = "dt.tabs";
 			$opt['descriptionSelector'] = "dd.tabs";
+
+			// Initialize value
+			$opt['useStorage'] = false;
+
+			// By default useCookie(this.options.display) is true
+			if (!isset($params['useCookie'])
+				|| (isset($params['useCookie']) && $params['useCookie']))
+			{
+				$opt['useStorage'] = true;
+			}
 
 			$options = JHtml::getJSObject($opt);
 
