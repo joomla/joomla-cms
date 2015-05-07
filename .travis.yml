@@ -8,6 +8,11 @@ php:
   - 7.0
   - hhvm
 
+env:
+  - DB=mysql
+  - DB=pgsql
+  - DB=sqlite
+
 matrix:
   exclude:
     - php: hhvm
@@ -31,16 +36,19 @@ install:
 
 before_script:
   # Set up databases for testing
-  - mysql -e 'create database joomla_ut;'
-  - mysql joomla_ut < tests/unit/schema/mysql.sql
-  - psql -c 'create database joomla_ut;' -U postgres
-  - psql -d joomla_ut -a -f tests/unit/schema/postgresql.sql
+  - if [[ "$DB" == "mysql" ]]; then mysql -e 'create database joomla_ut;'; fi
+  - if [[ "$DB" == "mysql" ]]; then mysql joomla_ut < tests/unit/schema/mysql.sql; fi
+  - if [[ "$DB" == "sqlite" ]]; then mysql -e 'create database joomla_ut;'; fi
+  - if [[ "$DB" == "sqlite" ]]; then mysql joomla_ut < tests/unit/schema/mysql.sql; fi
+  - if [[ "$DB" == "pgsql" ]]; then psql -c 'create database joomla_ut;' -U postgres; fi
+  - if [[ "$DB" == "pgsql" ]]; then psql -d joomla_ut -a -f tests/unit/schema/postgresql.sql; fi
   
   # Set up Apache
   # - ./build/travis/php-apache.sh
   # Enable additional PHP extensions
   - chmod ugo+x build/travis/travis.sh
   - ./build/travis/travis.sh
+  - phpenv rehash
   
 script:
   - phpunit --configuration travisci-phpunit.xml
