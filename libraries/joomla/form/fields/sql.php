@@ -73,6 +73,7 @@ class JFormFieldSQL extends JFormFieldList
 	{
 		switch ($name)
 		{
+			case 'header':
 			case 'keyField':
 			case 'valueField':
 			case 'translate':
@@ -97,6 +98,7 @@ class JFormFieldSQL extends JFormFieldList
 	{
 		switch ($name)
 		{
+			case 'header':
 			case 'keyField':
 			case 'valueField':
 			case 'translate':
@@ -144,6 +146,8 @@ class JFormFieldSQL extends JFormFieldList
 
 				$query['join'] = isset($this->element['sql_join']) ? (string) $this->element['sql_join'] : '';
 
+				$query['where'] = isset($this->element['sql_where']) ? (string) $this->element['sql_where'] : '';
+
 				$query['group'] = isset($this->element['sql_group']) ? (string) $this->element['sql_group'] : '';
 
 				$query['order'] = (string) $this->element['sql_order'];
@@ -173,6 +177,7 @@ class JFormFieldSQL extends JFormFieldList
 			$this->keyField   = isset($this->element['key_field']) ? (string) $this->element['key_field'] : 'value';
 			$this->valueField = isset($this->element['value_field']) ? (string) $this->element['value_field'] : (string) $this->element['name'];
 			$this->translate  = isset($this->element['translate']) ? (string) $this->element['translate'] : false;
+			$this->header  = $this->element['header'] ? (string) $this->element['header'] : false;
 		}
 
 		return $return;
@@ -207,6 +212,12 @@ class JFormFieldSQL extends JFormFieldList
 		if (!empty($conditions['join']))
 		{
 			$query->join('LEFT', $conditions['join']);
+		}
+
+		// Where condition
+		if (!empty($conditions['where']))
+		{
+			$query->where($conditions['where']);
 		}
 
 		// Group by
@@ -261,6 +272,7 @@ class JFormFieldSQL extends JFormFieldList
 		// Initialize some field attributes.
 		$key   = $this->keyField;
 		$value = $this->valueField;
+		$header = $this->header;
 
 		// Get the database object.
 		$db = JFactory::getDbo();
@@ -268,6 +280,13 @@ class JFormFieldSQL extends JFormFieldList
 		// Set the query and get the result list.
 		$db->setQuery($this->query);
 		$items = $db->loadObjectlist();
+
+		// Add header.
+		if (!empty($header))
+		{
+			$header_title = JText::_($header);
+			$options[] = JHtml::_('select.option', '', $header_title);
+		}
 
 		// Build the field options.
 		if (!empty($items))
