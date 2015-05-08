@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Contact Table class.
@@ -53,7 +55,7 @@ class ContactTableContact extends JTable
 		// Transform the params field
 		if (is_array($this->params))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($this->params);
 			$this->params = (string) $registry;
 		}
@@ -61,10 +63,11 @@ class ContactTableContact extends JTable
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
 
+		$this->modified		= $date->toSql();
+
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified		= $date->toSql();
 			$this->modified_by	= $user->get('id');
 		}
 		else
@@ -155,6 +158,11 @@ class ContactTableContact extends JTable
 			$this->setError(JText::_('COM_CONTACT_WARNING_CATEGORY'));
 
 			return false;
+		}
+		/** sanity check for user_id */
+		if (!($this->user_id))
+		{
+			$this->user_id = 0;
 		}
 
 		// Check the publish down date is not earlier than publish up.

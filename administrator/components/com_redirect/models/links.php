@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -151,5 +151,64 @@ class RedirectModelLinks extends JModelList
 		$query->order($db->escape($this->getState('list.ordering', 'a.old_url')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
+	}
+
+	/**
+	 * Add the entered URLs into the database
+	 *
+	 * @param array $batch_urls Array of URLs to enter into the database
+	 *
+	 * @return bool
+	 */
+	public function batchProcess($batch_urls)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$columns = array(
+			$db->quoteName('old_url'),
+			$db->quoteName('new_url'),
+			$db->quoteName('referer'),
+			$db->quoteName('comment'),
+			$db->quoteName('hits'),
+			$db->quoteName('published'),
+			$db->quoteName('created_date')
+		);
+
+		$query->columns($columns);
+
+		foreach ($batch_urls as $batch_url)
+		{
+			// Source URLs need to have the correct URL format to work properly
+			if (strpos($batch_url[0], JUri::root()) === false)
+			{
+				$old_url = JUri::root() . $batch_url[0];
+			}
+			else
+			{
+				$old_url = $batch_url[0];
+			}
+
+			// Destination URL can also be an external URL
+			if (!empty($batch_url[1]))
+			{
+				$new_url = $batch_url[1];
+			}
+			else
+			{
+				$new_url = '';
+			}
+
+			$query->insert($db->quoteName('#__redirect_links'), false)
+				->values(
+					$db->quote($old_url) . ', ' . $db->quote($new_url) . ' ,' . $db->quote('') . ', ' . $db->quote('') . ', 0, 0, ' .
+					$db->quote(JFactory::getDate()->toSql())
+				);
+		}
+
+		$db->setQuery($query);
+		$db->execute();
+
+		return true;
 	}
 }

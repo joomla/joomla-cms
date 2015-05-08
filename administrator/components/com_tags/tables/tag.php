@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Tags table
@@ -44,28 +46,28 @@ class TagsTableTag extends JTableNested
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
 
 		if (isset($array['urls']) && $array['urls'])
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['urls']);
 			$array['urls'] = (string) $registry;
 		}
 
 		if (isset($array['images']) && is_array($array['images']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['images']);
 			$array['images'] = (string) $registry;
 		}
@@ -160,10 +162,11 @@ class TagsTableTag extends JTableNested
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
 
+		$this->modified_time		= $date->toSql();
+
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified_time		= $date->toSql();
 			$this->modified_user_id	= $user->get('id');
 		}
 		else
@@ -203,7 +206,7 @@ class TagsTableTag extends JTableNested
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
-	 * @see     http://docs.joomla.org/JTableNested/delete
+	 * @see     https://docs.joomla.org/JTableNested/delete
 	 */
 	public function delete($pk = null, $children = false)
 	{

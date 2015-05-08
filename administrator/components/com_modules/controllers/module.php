@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -181,4 +181,47 @@ class ModulesControllerModule extends JControllerForm
 
 		$app->setUserState('com_modules.add.module.params', null);
 	}
+
+	/**
+	 * Method to save a record.
+	 *
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 */
+	public function save($key = null, $urlVar = null)
+	{
+		if (!JSession::checkToken())
+		{
+			JFactory::getApplication()->redirect('index.php', JText::_('JINVALID_TOKEN'));
+		}
+
+		if (JFactory::getDocument()->getType() == 'json')
+		{
+			$model = $this->getModel();
+			$data  = $this->input->post->get('jform', array(), 'array');
+			$item = $model->getItem($this->input->get('id'));
+			$properties = $item->getProperties();
+
+			// Replace changed properties
+			$data = array_replace_recursive($properties, $data);
+
+			if (!empty($data['assigned']))
+			{
+				$data['assigned'] = array_map('abs', $data['assigned']);
+			}
+
+			// Add new data to input before process by parent save()
+			$this->input->post->set('jform', $data);
+
+			// Add path of forms directory
+			JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
+
+		}
+
+		parent::save($key, $urlVar);
+
+	}
+
 }

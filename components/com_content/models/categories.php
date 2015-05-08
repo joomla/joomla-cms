@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * This models supports retrieving lists of article categories.
@@ -31,8 +33,6 @@ class ContentModelCategories extends JModelList
 	protected $_extension = 'com_content';
 
 	private $_parent = null;
-
-	private $_items = null;
 
 	/**
 	 * Method to auto-populate the model state.
@@ -95,12 +95,14 @@ class ContentModelCategories extends JModelList
 	 */
 	public function getItems($recursive = false)
 	{
-		if (!count($this->_items))
+		$store = $this->getStoreId();
+
+		if (!isset($this->cache[$store]))
 		{
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry;
+			$params = new Registry;
 
 			if ($active)
 			{
@@ -114,15 +116,15 @@ class ContentModelCategories extends JModelList
 
 			if (is_object($this->_parent))
 			{
-				$this->_items = $this->_parent->getChildren($recursive);
+				$this->cache[$store] = $this->_parent->getChildren($recursive);
 			}
 			else
 			{
-				$this->_items = false;
+				$this->cache[$store] = false;
 			}
 		}
 
-		return $this->_items;
+		return $this->cache[$store];
 	}
 
 	/**

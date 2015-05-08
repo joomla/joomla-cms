@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,7 +41,7 @@ interface JController extends Serializable
 	/**
 	 * Get the input object.
 	 *
-	 * @return  JInput  The input object.
+	 * @return  \Joomla\Input\Input  The input object.
 	 *
 	 * @since   12.1
 	 */

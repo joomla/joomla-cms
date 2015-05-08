@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1412,6 +1412,35 @@ class JFormTest extends TestCaseDatabase
 				'Line:' . __LINE__ . ' Replace should leave fields in the original order.'
 			);
 		}
+
+		return $form;
+	}
+
+	/**
+	 * Test the JForm::load method for descendent field elements
+	 *
+	 * This method can load an XML data object, or parse an XML string.
+	 *
+	 * @depends testLoad
+	 *
+	 * @return void
+	 */
+	// @var $form JForm
+	public function testLoad_ReplaceDescendent(JForm $form)
+	{
+		// Check the replacement data loads ok.
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadReplacementDocument),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' XML string should load successfully.'
+		);
+
+		// Check that replaced options are present
+		$this->assertThat(
+			count($form->getXML()->xpath('/form/fields/fields[@name="params"]/field[@name="show_title"]/option')),
+			$this->equalTo(3),
+			'Line:' . __LINE__ . ' The show_title in the params group is supposed to have 3 descendant nodes.'
+		);
 	}
 
 	/**

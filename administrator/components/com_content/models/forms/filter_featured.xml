@@ -12,7 +12,6 @@
 			name="published"
 			type="status"
 			label="COM_CONTENT_FILTER_PUBLISHED"
-			statuses="*,0,1,2,-2"
 			description="COM_CONTENT_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"
 			>

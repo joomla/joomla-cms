@@ -3,12 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+// MooTools is loaded for B/C for extensions generating JavaScript in their install scripts, this call will be removed at 4.0
+JHtml::_('behavior.framework', true);
 JHtml::_('bootstrap.tooltip');
 
 ?>

@@ -3,11 +3,13 @@
  * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Core content table
@@ -44,35 +46,35 @@ class JTableCorecontent extends JTable
 	{
 		if (isset($array['core_params']) && is_array($array['core_params']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['core_params']);
 			$array['core_params'] = (string) $registry;
 		}
 
 		if (isset($array['core_metadata']) && is_array($array['core_metadata']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['core_metadata']);
 			$array['core_metadata'] = (string) $registry;
 		}
 
 		if (isset($array['core_images']) && is_array($array['core_images']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['core_images']);
 			$array['core_images'] = (string) $registry;
 		}
 
 		if (isset($array['core_urls']) && is_array($array['core_urls']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['core_urls']);
 			$array['core_urls'] = (string) $registry;
 		}
 
 		if (isset($array['core_body']) && is_array($array['core_body']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['core_body']);
 			$array['core_body'] = (string) $registry;
 		}

@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Profile model class for Users.
@@ -146,7 +148,7 @@ class UsersModelProfile extends JModelForm
 			unset($this->data->password1);
 			unset($this->data->password2);
 
-			$registry = new JRegistry($this->data->params);
+			$registry = new Registry($this->data->params);
 			$this->data->params = $registry->toArray();
 
 			// Get the dispatcher and load the users plugins.

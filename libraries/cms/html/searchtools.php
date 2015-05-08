@@ -3,11 +3,13 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Searchtools elements.
@@ -74,7 +76,7 @@ abstract class JHtmlSearchtools
 			$options['formSelector'] = $selector;
 
 			// Generate options with default values
-			$options = static::options2Jregistry($options);
+			$options = static::optionsToRegistry($options);
 
 			$doc = JFactory::getDocument();
 			$script = "
@@ -97,21 +99,21 @@ abstract class JHtmlSearchtools
 	/**
 	 * Function to receive & pre-process javascript options
 	 *
-	 * @param   mixed  $options  Associative array/JRegistry object with options
+	 * @param   mixed  $options  Associative array/Registry object with options
 	 *
-	 * @return  JRegistry        Options converted to JRegistry object
+	 * @return  Registry         Options converted to Registry object
 	 */
-	private static function options2Jregistry($options)
+	private static function optionsToRegistry($options)
 	{
 		// Support options array
 		if (is_array($options))
 		{
-			$options = new JRegistry($options);
+			$options = new Registry($options);
 		}
 
-		if (!($options instanceof Jregistry))
+		if (!($options instanceof Registry))
 		{
-			$options = new JRegistry;
+			$options = new Registry;
 		}
 
 		return $options;

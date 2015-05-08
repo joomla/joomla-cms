@@ -3,9 +3,11 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\Registry\Registry;
 
 include_once __DIR__ . '/stubs/JApplicationCliInspector.php';
 
@@ -67,7 +69,7 @@ class JApplicationCliTest extends TestCase
 	public function test__construct()
 	{
 		$this->assertAttributeInstanceOf('JInput', 'input', $this->class);
-		$this->assertAttributeInstanceOf('JRegistry', 'config', $this->class);
+		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
 		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class);
 
 		// TODO Test that configuration data loaded.
@@ -95,8 +97,9 @@ class JApplicationCliTest extends TestCase
 			->method('test')
 			->willReturn('ok');
 
-		$mockConfig = $this->getMock('JRegistry', array('test'), array(null), '', true);
-		$mockConfig->expects($this->any())
+		$mockConfig = $this->getMock('\\Joomla\\Registry\\Registry', array('test'), array(null), '', true);
+		$mockConfig
+			->expects($this->any())
 			->method('test')
 			->willReturn('ok');
 
@@ -231,7 +234,7 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function testGet()
 	{
-		$config = new JRegistry(array('foo' => 'bar'));
+		$config = new Registry(array('foo' => 'bar'));
 
 		TestReflection::getValue($this->class, 'config', $config);
 
@@ -299,7 +302,7 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function testSet()
 	{
-		$config = new JRegistry(array('foo' => 'bar'));
+		$config = new Registry(array('foo' => 'bar'));
 
 		TestReflection::setValue($this->class, 'config', $config);
 

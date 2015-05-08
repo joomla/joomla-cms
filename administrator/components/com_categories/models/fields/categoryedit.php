@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,19 +62,41 @@ class JFormFieldCategoryEdit extends JFormFieldList
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.level, a.published')
-			->from('#__categories AS a')
-			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			->select('DISTINCT a.id AS value, a.title AS text, a.level, a.published, a.lft');
+		$subQuery = $db->getQuery(true)
+			->select('id,title,level,published,parent_id,extension,lft,rgt')
+			->from('#__categories');
 
 		// Filter by the extension type
 		if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
 		{
-			$query->where('(a.extension = ' . $db->quote($extension) . ' OR a.parent_id = 0)');
+			$subQuery->where('(extension = ' . $db->quote($extension) . ' OR parent_id = 0)');
 		}
 		else
 		{
-			$query->where('(a.extension = ' . $db->quote($extension) . ')');
+			$subQuery->where('(extension = ' . $db->quote($extension) . ')');
 		}
+
+		// Filter language
+		if (!empty($this->element['language']))
+		{
+			$subQuery->where('language = ' . $db->quote($this->element['language']));
+		}
+
+		// Filter on the published state
+		if (is_numeric($published))
+		{
+			$subQuery->where('published = ' . (int) $published);
+		}
+		elseif (is_array($published))
+		{
+			JArrayHelper::toInteger($published);
+			$subQuery->where('published IN (' . implode(',', $published) . ')');
+		}
+
+		$query->from('(' . $subQuery->__toString() . ') AS a')
+			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->order('a.lft ASC');
 		// If parent isn't explicitly stated but we are in com_categories assume we want parents
 		if ($oldCat != 0 && ($this->element['parent'] == true || $jinput->get('option') == 'com_categories'))
 		{
@@ -90,27 +112,6 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			$db->setQuery($rowQuery);
 			$row = $db->loadObject();
 		}
-
-		// Filter language
-		if (!empty($this->element['language']))
-		{
-			$query->where('a.language = ' . $db->quote($this->element['language']));
-		}
-
-		// Filter on the published state
-
-		if (is_numeric($published))
-		{
-			$query->where('a.published = ' . (int) $published);
-		}
-		elseif (is_array($published))
-		{
-			JArrayHelper::toInteger($published);
-			$query->where('a.published IN (' . implode(',', $published) . ')');
-		}
-
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.extension, a.parent_id, a.published')
-			->order('a.lft ASC');
 
 		// Get the options.
 		$db->setQuery($query);

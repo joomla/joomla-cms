@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,12 +108,9 @@ class RedirectTableLink extends JTable
 	{
 		$date = JFactory::getDate()->toSql();
 
-		if ($this->id)
-		{
-			// Existing item
-			$this->modified_date = $date;
-		}
-		else
+		$this->modified_date = $date;
+
+		if (!$this->id)
 		{
 			// New record.
 			$this->created_date = $date;

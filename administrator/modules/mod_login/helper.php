@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,6 +37,15 @@ abstract class ModLoginHelper
 				return strcmp($a["value"], $b["value"]);
 			}
 		);
+
+		// Fix wrongly set parentheses in RTL languages
+		if (JFactory::getLanguage()->isRTL())
+		{
+			foreach ($languages as &$language)
+			{
+				$language['text'] = $language['text'] . '&#x200E;';
+			}
+		}
 
 		array_unshift($languages, JHtml::_('select.option', '', JText::_('JDEFAULTLANGUAGE')));
 

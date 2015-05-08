@@ -2,11 +2,13 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Joomla Platform Factory class.
@@ -129,15 +131,15 @@ abstract class JFactory
 	/**
 	 * Get a configuration object
 	 *
-	 * Returns the global {@link JRegistry} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link JConfig} object, only creating it if it doesn't already exist.
 	 *
 	 * @param   string  $file       The path to the configuration file
 	 * @param   string  $type       The type of the configuration file
 	 * @param   string  $namespace  The namespace of the configuration file
 	 *
-	 * @return  JRegistry
+	 * @return  Registry
 	 *
-	 * @see     JRegistry
+	 * @see     Registry
 	 * @since   11.1
 	 */
 	public static function getConfig($file = null, $type = 'PHP', $namespace = '')
@@ -540,9 +542,9 @@ abstract class JFactory
 	 * @param   string  $type       The type of the configuration file.
 	 * @param   string  $namespace  The namespace of the configuration file.
 	 *
-	 * @return  JRegistry
+	 * @return  Registry
 	 *
-	 * @see     JRegistry
+	 * @see     Registry
 	 * @since   11.1
 	 */
 	protected static function createConfig($file, $type = 'PHP', $namespace = '')
@@ -553,7 +555,7 @@ abstract class JFactory
 		}
 
 		// Create the registry with a default namespace of config
-		$registry = new JRegistry;
+		$registry = new Registry;
 
 		// Sanitize the namespace.
 		$namespace = ucfirst((string) preg_replace('/[^A-Z_]/i', '', $namespace));

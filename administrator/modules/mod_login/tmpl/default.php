@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,8 +83,8 @@ JHtml::_('formbehavior.chosen');
 		<?php endif; ?>
 		<div class="control-group">
 			<div class="controls">
-				<div class="btn-group pull-left">
-					<button tabindex="3" class="btn btn-primary btn-large">
+				<div class="btn-group">
+					<button tabindex="3" class="btn btn-primary btn-block btn-large">
 						<i class="icon-lock icon-white"></i> <?php echo JText::_('MOD_LOGIN_LOGIN'); ?>
 					</button>
 				</div>

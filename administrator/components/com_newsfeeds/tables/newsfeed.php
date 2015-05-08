@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -123,10 +123,11 @@ class NewsfeedsTableNewsfeed extends JTable
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
 
+		$this->modified	= $date->toSql();
+
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified		= $date->toSql();
 			$this->modified_by	= $user->get('id');
 		}
 		else

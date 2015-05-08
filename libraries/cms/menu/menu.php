@@ -3,11 +3,13 @@
  * @package     Joomla.Libraries
  * @subpackage  Menu
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * JMenu class
@@ -69,7 +71,7 @@ class JMenu
 			}
 
 			// Decode the item params
-			$result = new JRegistry;
+			$result = new Registry;
 			$result->loadString($item->params);
 			$item->params = $result;
 		}
@@ -155,7 +157,7 @@ class JMenu
 	 *
 	 * @since   1.5
 	 */
-	public function setDefault($id, $language = '')
+	public function setDefault($id, $language = '*')
 	{
 		if (isset($this->_items[$id]))
 		{
@@ -264,7 +266,7 @@ class JMenu
 			{
 				if (is_array($values[$i]))
 				{
-					if (!in_array($item->$attributes[$i], $values[$i]))
+					if (!in_array($item->{$attributes[$i]}, $values[$i]))
 					{
 						$test = false;
 						break;
@@ -272,7 +274,7 @@ class JMenu
 				}
 				else
 				{
-					if ($item->$attributes[$i] != $values[$i])
+					if ($item->{$attributes[$i]} != $values[$i])
 					{
 						$test = false;
 						break;
@@ -299,7 +301,7 @@ class JMenu
 	 *
 	 * @param   integer  $id  The item id
 	 *
-	 * @return  JRegistry  A JRegistry object
+	 * @return  Registry  A Registry object
 	 *
 	 * @since   1.5
 	 */
@@ -311,7 +313,7 @@ class JMenu
 		}
 		else
 		{
-			return new JRegistry;
+			return new Registry;
 		}
 	}
 

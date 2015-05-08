@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Single item model for a contact
@@ -94,7 +96,7 @@ class ContactModelCategory extends JModelList
 			$item = & $items[$i];
 			if (!isset($this->_params))
 			{
-				$params = new JRegistry;
+				$params = new Registry;
 				$params->loadString($item->params);
 				$item->params = $params;
 			}
@@ -238,7 +240,7 @@ class ContactModelCategory extends JModelList
 		$this->setState('list.filter', $app->input->getString('filter-search'));
 
 		// Get list ordering default from the parameters
-		$menuParams = new JRegistry;
+		$menuParams = new Registry;
 
 		if ($menu = $app->getMenu()->getActive())
 		{
@@ -298,7 +300,7 @@ class ContactModelCategory extends JModelList
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry;
+			$params = new Registry;
 
 			if ($active)
 			{

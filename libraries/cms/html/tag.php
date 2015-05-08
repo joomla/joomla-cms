@@ -3,11 +3,13 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Utility class for tags
@@ -166,7 +168,7 @@ abstract class JHtmlTag
 		$minTermLength = (int) $params->get("min_term_length", 3);
 
 		// Tags field ajax
-		$chosenAjaxSettings = new JRegistry(
+		$chosenAjaxSettings = new Registry(
 			array(
 				'selector'      => $selector,
 				'type'          => 'GET',

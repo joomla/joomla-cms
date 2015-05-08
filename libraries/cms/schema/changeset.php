@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -193,7 +193,7 @@ class JSchemaChangeset
 		// Get the folder from the database name
 		$sqlFolder = $this->db->name;
 
-		if ($sqlFolder == 'mysqli')
+		if ($sqlFolder == 'mysqli' || $sqlFolder == 'pdomysql')
 		{
 			$sqlFolder = 'mysql';
 		}

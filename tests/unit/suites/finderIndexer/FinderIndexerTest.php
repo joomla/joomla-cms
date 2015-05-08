@@ -3,11 +3,13 @@
  * @package     Joomla.UnitTest
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php';
+
+use Joomla\Registry\Registry;
 
 /**
  * Test class for FinderIndexer.
@@ -167,13 +169,13 @@ class FinderIndexerTest extends TestCaseDatabase
 	public function testSetStateBadData()
 	{
 		// Set up our test object
-		$test = new JRegistry;
+		$test = new Registry;
 		$test->set('string', 'Testing FinderIndexer::setState()');
 
 		// Attempt to set the state
 		$this->assertFalse(
 			FinderIndexer::setState($test),
-			'setState method is not compatible with JRegistry'
+			'setState method is not compatible with Registry'
 		);
 	}
 

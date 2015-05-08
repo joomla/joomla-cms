@@ -3,11 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.Contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Contact Plugin
@@ -44,7 +46,7 @@ class PlgContentContact extends JPlugin
 		}
 
 		// Return if we don't have valid params or don't link the author
-		if (!($params instanceof JRegistry) || !$params->get('link_author'))
+		if (!($params instanceof Registry) || !$params->get('link_author'))
 		{
 			return true;
 		}

@@ -3,11 +3,13 @@
  * @package     Joomla.Legacy
  * @subpackage  Categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * JCategories Class.
@@ -342,7 +344,9 @@ class JCategories
 						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
 					}
 
-					if (!isset($this->_nodes[$result->parent_id]))
+					// If the node's parent id is not in the _nodes list and the node is not root (doesn't have parent_id == 0),
+					// then remove the node from the list
+					if (!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0))
 					{
 						unset($this->_nodes[$result->id]);
 						continue;
@@ -886,15 +890,15 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the category parameters
 	 *
-	 * @return  JRegistry
+	 * @return  Registry
 	 *
 	 * @since   11.1
 	 */
 	public function getParams()
 	{
-		if (!($this->params instanceof JRegistry))
+		if (!($this->params instanceof Registry))
 		{
-			$temp = new JRegistry;
+			$temp = new Registry;
 			$temp->loadString($this->params);
 			$this->params = $temp;
 		}
@@ -905,15 +909,15 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the category metadata
 	 *
-	 * @return  JRegistry  A JRegistry object containing the metadata
+	 * @return  Registry  A Registry object containing the metadata
 	 *
 	 * @since   11.1
 	 */
 	public function getMetadata()
 	{
-		if (!($this->metadata instanceof JRegistry))
+		if (!($this->metadata instanceof Registry))
 		{
-			$temp = new JRegistry;
+			$temp = new Registry;
 			$temp->loadString($this->metadata);
 			$this->metadata = $temp;
 		}

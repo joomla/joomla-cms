@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Prototype admin model.
@@ -91,7 +93,7 @@ abstract class ConfigModelCms extends JModelDatabase
 		}
 		else
 		{
-			$this->state = new JRegistry;
+			$this->state = new Registry;
 		}
 
 		// Set the model dbo
@@ -119,7 +121,7 @@ abstract class ConfigModelCms extends JModelDatabase
 			$this->event_clean_cache = 'onContentCleanCache';
 		}
 
-		$state = new JRegistry($config);
+		$state = new Registry($config);
 
 		parent::__construct($state);
 	}

@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * HTML View class for the Tags component
@@ -74,7 +76,7 @@ class TagsViewTag extends JViewLegacy
 			// Prepare the data.
 			if (!empty($itemElement))
 			{
-				$temp = new JRegistry;
+				$temp = new Registry;
 				$temp->loadString($itemElement->params);
 				$itemElement->params = clone $params;
 				$itemElement->params->merge($temp);

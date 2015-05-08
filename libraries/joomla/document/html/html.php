@@ -3,11 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Registry\Registry;
 
 jimport('joomla.utilities.utility');
 
@@ -91,7 +93,7 @@ class JDocumentHTML extends JDocument
 	protected $_caching = null;
 
 	/**
-	 * Set to true when the document should be output as HTML%
+	 * Set to true when the document should be output as HTML5
 	 *
 	 * @var    boolean
 	 * @since  12.1
@@ -563,8 +565,6 @@ class JDocumentHTML extends JDocument
 	 */
 	protected function _loadTemplate($directory, $filename)
 	{
-		// @todo remove code: $component	= JApplicationHelper::getComponentName();
-
 		$contents = '';
 
 		// Check to see if we have a valid template file
@@ -581,18 +581,15 @@ class JDocumentHTML extends JDocument
 		}
 
 		// Try to find a favicon by checking the template and root folder
-		$path = $directory . '/';
-		$dirs = array($path, JPATH_BASE . '/');
+		$icon = '/favicon.ico';
 
-		foreach ($dirs as $dir)
+		foreach (array($directory, JPATH_BASE) as $dir)
 		{
-			$icon = $dir . 'favicon.ico';
-
-			if (file_exists($icon))
+			if (file_exists($dir . $icon))
 			{
-				$path = str_replace(JPATH_BASE . '/', '', $dir);
+				$path = str_replace(JPATH_BASE, '', $dir);
 				$path = str_replace('\\', '/', $path);
-				$this->addFavicon(JUri::base(true) . '/' . $path . 'favicon.ico');
+				$this->addFavicon(JUri::base(true) . $path . $icon);
 				break;
 			}
 		}
@@ -632,7 +629,7 @@ class JDocumentHTML extends JDocument
 		// Assign the variables
 		$this->template = $template;
 		$this->baseurl = JUri::base(true);
-		$this->params = isset($params['params']) ? $params['params'] : new JRegistry;
+		$this->params = isset($params['params']) ? $params['params'] : new Registry;
 
 		// Load
 		$this->_template = $this->_loadTemplate($directory . '/' . $template, $file);

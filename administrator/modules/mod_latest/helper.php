@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_latest
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ abstract class ModLatestHelper
 	/**
 	 * Get a list of articles.
 	 *
-	 * @param   JRegistry  &$params  The module parameters.
+	 * @param   \Joomla\Registry\Registry  &$params  The module parameters.
 	 *
 	 * @return  mixed  An array of articles, or false on error.
 	 */
@@ -106,7 +106,7 @@ abstract class ModLatestHelper
 	/**
 	 * Get the alternate title for the module.
 	 *
-	 * @param   JRegistry  $params  The module parameters.
+	 * @param   \Joomla\Registry\Registry  $params  The module parameters.
 	 *
 	 * @return  string  The alternate title for the module.
 	 */

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -187,6 +187,12 @@ class LanguagesModelInstalled extends JModelList
 				foreach ($info as $key => $value)
 				{
 					$row->$key = $value;
+				}
+
+				// Fix wrongly set parentheses in RTL languages
+				if (JFactory::getLanguage()->isRTL())
+				{
+					$row->name = html_entity_decode($row->name . '&#x200E;', ENT_QUOTES, 'UTF-8');
 				}
 
 				// If current than set published.

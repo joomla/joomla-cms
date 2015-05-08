@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
@@ -11,7 +18,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +37,7 @@ class SiteConfigurationConfigPage extends SitePage
 	 * @var    string
 	 * @since  3.2
 	 */
-	protected $waitForXpath =  "//form[@id='application-form']";
+	protected $waitForXpath = "//form[@id='application-form']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -43,13 +50,12 @@ class SiteConfigurationConfigPage extends SitePage
 	/**
 	 * Function which changes the sitename saving the changes
 	 *
-	 * @var string siteName
+	 * @param   string  $siteName  stores the name of the site
 	 *
-	 * @return  null
+	 * @return void
 	 */
 	public function changeSiteName($siteName)
 	{
-
 		$d = $this->driver;
 
 		$d->findElement(By::xPath("//input[@id='jform_sitename']"))->clear();
@@ -60,7 +66,6 @@ class SiteConfigurationConfigPage extends SitePage
 
 	/**
 	 * Function which returns site name
-	 *
 	 *
 	 * @return  string   site name
 	 */
@@ -75,13 +80,12 @@ class SiteConfigurationConfigPage extends SitePage
 	/**
 	 * Function which changes the meta description saving the changes
 	 *
-	 * @var string metaDescription
+	 * @param   string  $metaDescription  store the value of metadescription
 	 *
 	 * @return  null
 	 */
 	public function changeMetaDescription($metaDescription)
 	{
-
 		$d = $this->driver;
 
 		$d->findElement(By::xPath("//textarea[@id='jform_MetaDesc']"))->clear();
@@ -103,5 +107,4 @@ class SiteConfigurationConfigPage extends SitePage
 		return $d->findElement(By::xPath("//textarea[@id='jform_MetaDesc']"))->getText();
 
 	}
-
 }

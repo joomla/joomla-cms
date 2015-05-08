@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,7 +31,9 @@ class TestMockApplication
 			'getCfg',
 			'getIdentity',
 			'getRouter',
-			'getTemplate'
+			'getTemplate',
+			'getMenu',
+			'getLanguage'
 		);
 
 		// Create the mock.
@@ -45,6 +47,16 @@ class TestMockApplication
 			// Call original constructor.
 			false
 		);
+
+		$menu = TestMockMenu::create($test);
+		$mockObject->expects($test->any())
+				->method('getMenu')
+				->will($test->returnValue($menu));
+
+		$language = TestMockLanguage::create($test);
+		$mockObject->expects($test->any())
+				->method('getLanguage')
+				->will($test->returnValue($language));
 
 		$mockObject->input = new JInput;
 

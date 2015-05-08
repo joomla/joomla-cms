@@ -3,11 +3,13 @@
  * @package     Joomla.Legacy
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Registry\Registry;
 
 JLog::add('JApplication is deprecated.', JLog::WARNING, 'deprecated');
 
@@ -617,6 +619,8 @@ class JApplication extends JApplicationBase
 		// Get the global JAuthentication object.
 		jimport('joomla.user.authentication');
 
+		JPluginHelper::importPlugin('user');
+
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
@@ -784,7 +788,7 @@ class JApplication extends JApplicationBase
 		$template = new stdClass;
 
 		$template->template = 'system';
-		$template->params   = new JRegistry;
+		$template->params   = new Registry;
 
 		if ($params)
 		{
@@ -805,7 +809,7 @@ class JApplication extends JApplicationBase
 	 * @since   11.1
 	 * @deprecated  4.0
 	 */
-	static public function getRouter($name = null, array $options = array())
+	public static function getRouter($name = null, array $options = array())
 	{
 		if (!isset($name))
 		{
@@ -837,7 +841,7 @@ class JApplication extends JApplicationBase
 	 * @since   11.1
 	 * @deprecated  4.0  Use JApplicationHelper::stringURLSafe instead
 	 */
-	static public function stringURLSafe($string)
+	public static function stringURLSafe($string)
 	{
 		return JApplicationHelper::stringURLSafe($string);
 	}
@@ -1095,7 +1099,7 @@ class JApplication extends JApplicationBase
 
 		if ($session->isNew())
 		{
-			$session->set('registry', new JRegistry('session'));
+			$session->set('registry', new Registry('session'));
 			$session->set('user', new JUser);
 		}
 	}

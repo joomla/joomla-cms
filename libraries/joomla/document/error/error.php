@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -149,6 +149,12 @@ class JDocumentError extends JDocument
 	 */
 	public function renderBacktrace()
 	{
+		// If no error object is set return null
+		if (!isset($this->_error))
+		{
+			return;
+		}
+
 		$contents = null;
 		$backtrace = $this->_error->getTrace();
 

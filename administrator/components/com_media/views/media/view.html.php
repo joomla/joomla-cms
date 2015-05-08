@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +46,7 @@ class MediaViewMedia extends JViewLegacy
 
 		JHtml::_('behavior.framework', true);
 
-		JHtml::_('script', 'media/mediamanager.js', true, true);
+		JHtml::_('script', 'media/mediamanager.min.js', true, true);
 
 		JHtml::_('behavior.modal');
 		$document->addScriptDeclaration("

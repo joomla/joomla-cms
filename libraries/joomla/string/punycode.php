@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  String
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -70,7 +70,7 @@ abstract class JStringPunycode
 		if (!isset($parsed['host']) || $parsed['host'] == '')
 		{
 			// If there is no host we do not need to convert it.
-			return '';
+			return $uri;
 		}
 
 		$host = $parsed['host'];

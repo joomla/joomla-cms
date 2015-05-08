@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,6 +28,7 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 			'getMenu',
 			'getPathway',
 			'getTemplate',
+			'getLanguageFilter',
 			'initialiseApp',
 			'isAdmin',
 			'isSite',
@@ -41,9 +42,9 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 	/**
 	 * Adds mock objects for some methods.
 	 *
-	 * @param  TestCase                                 $test        A test object.
-	 * @param  PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
-	 * @param  array                                    $options     A set of options to configure the mock.
+	 * @param   TestCase                                 $test        A test object.
+	 * @param   PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
+	 * @param   array                                    $options     A set of options to configure the mock.
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject  The object with the behaviours added
 	 *
@@ -51,6 +52,9 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 	 */
 	public static function addBehaviours($test, $mockObject, $options)
 	{
+		// Mock calls to JApplicationCms::getMenu();
+		$mockObject->expects($test->any())->method('getMenu')->will($test->returnValue(TestMockMenu::create($test)));
+
 		return parent::addBehaviours($test, $mockObject, $options);
 	}
 
