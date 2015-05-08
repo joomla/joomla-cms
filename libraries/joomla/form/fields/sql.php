@@ -73,7 +73,6 @@ class JFormFieldSQL extends JFormFieldList
 	{
 		switch ($name)
 		{
-			case 'header':
 			case 'keyField':
 			case 'valueField':
 			case 'translate':
@@ -98,7 +97,6 @@ class JFormFieldSQL extends JFormFieldList
 	{
 		switch ($name)
 		{
-			case 'header':
 			case 'keyField':
 			case 'valueField':
 			case 'translate':
