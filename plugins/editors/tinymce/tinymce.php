@@ -952,7 +952,7 @@ class PlgEditorTinymce extends JPlugin
 
 			foreach ($buttons as &$button)
 			{
-				if(empty($button->onclick))
+				if (empty($button->onclick))
 				{
 					$button->onclick = 'IeCursorFix(); return false;';
 				}
