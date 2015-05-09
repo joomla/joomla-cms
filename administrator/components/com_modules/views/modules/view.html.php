@@ -34,8 +34,6 @@ class ModulesViewModules extends JViewLegacy
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
-		$this->filterForm       = $this->get('FilterForm');
-		$this->activeFilters    = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -124,6 +122,51 @@ class ModulesViewModules extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
+
+		JHtmlSidebar::setAction('index.php?option=com_modules');
+
+		JHtmlSidebar::addFilter(
+			// @todo we need a label for this
+			'',
+			'filter_client_id',
+			JHtml::_('select.options', ModulesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id')),
+			false
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_state',
+			JHtml::_('select.options', ModulesHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_MODULES_OPTION_SELECT_POSITION'),
+			'filter_position',
+			JHtml::_(
+				'select.options',
+				ModulesHelper::getPositions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.position')
+			)
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_MODULES_OPTION_SELECT_MODULE'),
+			'filter_module',
+			JHtml::_('select.options', ModulesHelper::getModules($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.module'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_ACCESS'),
+			'filter_access',
+			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_LANGUAGE'),
+			'filter_language',
+			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
+		);
+
+		$this->sidebar = JHtmlSidebar::render();
 	}
 
 	/**
