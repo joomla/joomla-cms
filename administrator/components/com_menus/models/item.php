@@ -904,9 +904,6 @@ class MenusModelItem extends JModelAdmin
 				$base = JPATH_SITE . '/components/' . $option;
 			}
 
-			// Confirm a view is defined.
-			$formFile = false;
-
 			if (isset($args['view']))
 			{
 				$view = $args['view'];
@@ -920,8 +917,6 @@ class MenusModelItem extends JModelAdmin
 				{
 					$layout = 'default';
 				}
-
-				$formFile = false;
 
 				// Check for the layout XML file. Use standard xml file if it exists.
 				$tplFolders = array(
@@ -1021,26 +1016,6 @@ class MenusModelItem extends JModelAdmin
 			$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
 			$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
 			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
-		}
-
-		// Now load the component params.
-		// TODO: Work out why 'fixing' this breaks JForm
-		if ($isNew = false)
-		{
-			$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $option . '/config.xml');
-		}
-		else
-		{
-			$path = 'null';
-		}
-
-		if (is_file($path))
-		{
-			// Add the component params last of all to the existing form.
-			if (!$form->load($path, true, '/config'))
-			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-			}
 		}
 
 		// Load the specific type file
