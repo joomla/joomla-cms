@@ -952,7 +952,10 @@ class PlgEditorTinymce extends JPlugin
 
 			foreach ($buttons as &$button)
 			{
-				$button->onclick = 'IeCursorFix(); return false;';
+				if(empty($button->onclick))
+				{
+					$button->onclick = 'IeCursorFix(); return false;';
+				}
 			}
 
 			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
