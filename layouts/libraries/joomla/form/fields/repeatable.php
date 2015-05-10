@@ -59,7 +59,7 @@ $str[] = '<div id="' . $id . '_container">';
 
 // Add the table to modal
 $str[] = '<div id="' . $id . '_modal" class="modal hide">';
-$str[] =  $table;
+$str[] = $table;
 
 // Add Save and Cancel buttons
 $str[] = '<div class="modal-footer">';
@@ -80,7 +80,7 @@ $str[]  = '<button class="open-modal btn" id="' . $id . '_button" >' . $icon . $
 
 // Add scripts
 JHtml::_('bootstrap.framework');
-JHtml::_('script', 'system/repeatable.js', true, true);
+JHtml::_('script', 'system/repeatable.js', false, true);
 
 // Script options
 $data = array();

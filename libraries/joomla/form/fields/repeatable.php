@@ -40,7 +40,7 @@ class JFormFieldRepeatable extends JFormField
 		$subForm->load($xml);
 
 		// Needed for repeating modals in gmaps
-		// @TODO: what and where ???
+		// @TODO: what and where???
 		$subForm->repeatCounter = (int) @$this->form->repeatCounter;
 
 		$children = $this->element->children();
