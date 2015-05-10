@@ -949,6 +949,12 @@ class PlgEditorTinymce extends JPlugin
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
+
+			foreach ($buttons as &$button)
+			{
+				$button->onclick = 'IeCursorFix(); return false;';
+			}
+
 			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
 

@@ -176,20 +176,53 @@ class JInput implements Serializable, Countable
 	/**
 	 * Gets an array of values from the request.
 	 *
-	 * @param   array  $vars        Associative array of keys and filter types to apply.
-	 *                              If empty and datasource is null, all the input data will be returned
-	 *                              but filtered using the default case in JFilterInput::clean.
-	 * @param   mixed  $datasource  Array to retrieve data from, or null
+	 * @param   array   $vars           Associative array of keys and filter types to apply.
+	 *                                  If empty and datasource is null, all the input data will be returned
+	 *                                  but filtered using the filter given by the parameter defaultFilter in
+	 *                                  JFilterInput::clean.
+	 * @param   mixed   $datasource     Array to retrieve data from, or null.
+	 * @param   string  $defaultFilter  Default filter used in JFilterInput::clean if vars is empty and
+	 *                                  datasource is null. If 'unknown', the default case is used in
+	 *                                  JFilterInput::clean.
 	 *
 	 * @return  mixed  The filtered input data.
 	 *
 	 * @since   11.1
 	 */
-	public function getArray(array $vars = array(), $datasource = null)
+	public function getArray(array $vars = array(), $datasource = null, $defaultFilter = 'unknown')
+	{
+		return $this->getArrayRecursive($vars, $datasource, $defaultFilter, false);
+	}
+
+	/**
+	 * Gets an array of values from the request.
+	 *
+	 * @param   array   $vars           Associative array of keys and filter types to apply.
+	 *                                  If empty and datasource is null, all the input data will be returned
+	 *                                  but filtered using the filter given by the parameter defaultFilter in
+	 *                                  JFilterInput::clean.
+	 * @param   mixed   $datasource     Array to retrieve data from, or null.
+	 * @param   string  $defaultFilter  Default filter used in JFilterInput::clean if vars is empty and
+	 *                                  datasource is null. If 'unknown', the default case is used in
+	 *                                  JFilterInput::clean.
+	 * @param   bool    $recursion      Flag to indicate a recursive function call.
+	 *
+	 * @return  mixed  The filtered input data.
+	 *
+	 * @since   3.4.2
+	 */
+	protected function getArrayRecursive(array $vars = array(), $datasource = null, $defaultFilter = 'unknown', $recursion = false)
 	{
 		if (empty($vars) && is_null($datasource))
 		{
 			$vars = $this->data;
+		}
+		else
+		{
+			if (!$recursion)
+			{
+				$defaultFilter = null;
+			}
 		}
 
 		$results = array();
@@ -200,26 +233,28 @@ class JInput implements Serializable, Countable
 			{
 				if (is_null($datasource))
 				{
-					$results[$k] = $this->getArray($v, $this->get($k, null, 'array'));
+					$results[$k] = $this->getArrayRecursive($v, $this->get($k, null, 'array'), $defaultFilter, true);
 				}
 				else
 				{
-					$results[$k] = $this->getArray($v, $datasource[$k]);
+					$results[$k] = $this->getArrayRecursive($v, $datasource[$k], $defaultFilter, true);
 				}
 			}
 			else
 			{
+				$filter = isset($defaultFilter) ? $defaultFilter : $v;
+
 				if (is_null($datasource))
 				{
-					$results[$k] = $this->get($k, null, $v);
+					$results[$k] = $this->get($k, null, $filter);
 				}
 				elseif (isset($datasource[$k]))
 				{
-					$results[$k] = $this->filter->clean($datasource[$k], $v);
+					$results[$k] = $this->filter->clean($datasource[$k], $filter);
 				}
 				else
 				{
-					$results[$k] = $this->filter->clean(null, $v);
+					$results[$k] = $this->filter->clean(null, $filter);
 				}
 			}
 		}
@@ -298,7 +333,9 @@ class JInput implements Serializable, Countable
 	 */
 	public function getMethod()
 	{
-		$method = strtoupper($_SERVER['REQUEST_METHOD']);
+		// Get method if exist
+		$method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : '';
+		$method = strtoupper($method);
 
 		return $method;
 	}
