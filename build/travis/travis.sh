@@ -8,6 +8,7 @@ then
     echo "extension_dir = /etc/hhvm" >> $PHPINI
     echo "memory_limit = -1"  >> $PHPINI
     sudo apt-get update -qq
+    sudo apt-get install -y php-pear
     sudo apt-get install -y php5-apcu
     sudo apt-get install -y php5-memcached
     sudo apt-get install -y php5-redis
