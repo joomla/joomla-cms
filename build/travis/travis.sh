@@ -9,6 +9,7 @@ then
     sudo apt-get update -qq
     sudo apt-get install -y zend-framework
     sudo apt-get install -y php-pear
+    sudo apt-get install -y php5-mysql
     sudo apt-get install -y php5-memcached
     sudo apt-get install -y php5-xdebug
     #sudo apt-get install -y php5-apcu
@@ -23,6 +24,7 @@ elif [ "${VERSION}" = '7.0' ]
 then
     PHPINI=~/.phpenv/versions/$VERSION/etc/php.ini
     sudo apt-get update -qq
+    sudo apt-get install -y php5-mysql
     #sudo apt-get install -y php5-apcu
     #sudo apt-get install -y php5-redis
     echo "apc.enable_cli=true" >> $PHPINI
