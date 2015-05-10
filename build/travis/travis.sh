@@ -9,10 +9,7 @@ then
     echo "memory_limit = -1"  >> $PHPINI
     sudo apt-get update -qq
     sudo apt-get install -y php5-apcu
-    sudo apt-get install -y memcached
-    sudo apt-get install -y libmemcached
     sudo apt-get install -y php5-memcached
-    sudo apt-get install -y redis-server
     sudo apt-get install -y php5-redis
     echo "extension = apcu.so" >> $PHPINI
     echo "apc.enable_cli=true" >> $PHPINI
