@@ -7,8 +7,9 @@ then
     PHPINI=/etc/hhvm/php.ini
     echo "extension_dir = /etc/hhvm" >> $PHPINI
     sudo apt-get update -qq
-    sudo apt-get install -y software-properties-common
-    sudo apt-get update -qq
+    sudo apt-get install -qq software-properties-common # to get next command: add-apt-repository
+    sudo add-apt-repository universe
+    sudo apt-get update -qq # now update again before package installs
     sudo apt-get install -y zend-framework
     sudo apt-get install -y php-pear
     sudo apt-get install -y php5-memcached
@@ -24,8 +25,9 @@ elif [ "${VERSION}" = '7.0' ]
 then
     PHPINI=~/.phpenv/versions/$VERSION/etc/php.ini
     sudo apt-get update -qq
-    sudo apt-get install -y software-properties-common
-    sudo apt-get update -qq
+    sudo apt-get install -qq software-properties-common # to get next command: add-apt-repository
+    sudo add-apt-repository universe
+    sudo apt-get update -qq # now update again before package installs
     sudo apt-get install -y php5-apcu
     sudo apt-get install -y php5-redis
     echo "apc.enable_cli=true" >> $PHPINI
