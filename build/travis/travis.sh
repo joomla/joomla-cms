@@ -9,9 +9,9 @@ then
     sudo apt-get update -qq
     sudo apt-get install -y zend-framework
     sudo apt-get install -y php-pear
-    sudo apt-get install -y php5-apcu
     sudo apt-get install -y php5-memcached
-    sudo apt-get install -y php5-redis
+    #sudo apt-get install -y php5-apcu
+    #sudo apt-get install -y php5-redis
     echo "extension = apcu.so" >> $PHPINI
     echo "apc.enable_cli=true" >> $PHPINI
     echo "extension = memcached.so" >> $PHPINI
@@ -22,8 +22,8 @@ elif [ "${VERSION}" = '7.0' ]
 then
     PHPINI=~/.phpenv/versions/$VERSION/etc/php.ini
     sudo apt-get update -qq
-    sudo apt-get install -y php5-apcu
-    sudo apt-get install -y php5-redis
+    #sudo apt-get install -y php5-apcu
+    #sudo apt-get install -y php5-redis
     echo "apc.enable_cli=true" >> $PHPINI
 else
     PHPINI=~/.phpenv/versions/$VERSION/etc/php.ini
