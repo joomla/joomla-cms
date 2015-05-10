@@ -640,6 +640,11 @@ class PlgSystemDebug extends JPlugin
 						'PLG_DEBUG_QUERIES_TIME',
 						sprintf('<span class="label ' . $labelClass . '">%.1f&nbsp;ms</span>', $totalQueryTime)
 					) . '</div>';
+
+				if ($this->params->get('log-executed-sql', '0'))
+				{
+					$this->writeToFile();
+				}
 			}
 		}
 
@@ -1367,7 +1372,7 @@ class PlgSystemDebug extends JPlugin
 
 		$this->totalQueries = $db->getCount();
 
-		$dbVersion5037 = (strncmp($db->name, 'mysql', 5) == 0) && version_compare($db->getVersion(), '5.0.37', '>=');
+		$dbVersion5037 = (strpos($db->name, 'mysql') !== false) && version_compare($db->getVersion(), '5.0.37', '>=');
 
 		if ($dbVersion5037)
 		{
@@ -1410,7 +1415,7 @@ class PlgSystemDebug extends JPlugin
 
 			foreach ($log as $k => $query)
 			{
-				$dbVersion56 = (strncmp($db->name, 'mysql', 5) == 0) && version_compare($db->getVersion(), '5.6', '>=');
+				$dbVersion56 = (strpos($db->name, 'mysql') !== false) && version_compare($db->getVersion(), '5.6', '>=');
 
 				if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0))))
 				{
@@ -1765,5 +1770,57 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		return implode('<br /><br />', $out);
+	}
+
+	/**
+	 * Write query to the log file
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	protected function writeToFile()
+	{
+		$app    = JFactory::getApplication();
+		$conf   = JFactory::getConfig();
+		$domain = str_replace(' ', '_', $conf->get('sitename', 'site'));
+
+		if ($app->isSite())
+		{
+			$alias = $app->getMenu()->getActive()->alias;
+			$id    = $app->getMenu()->getActive()->id;
+			$file  = $alias . $id . '.sql';
+			$file  = $app->get('log_path') . '/' . $domain . '_' . $file;
+		}
+		else
+		{
+			$input = $app->input;
+			$file  = $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
+			$file  = $app->get('log_path') . '/' . $domain . '_' . $file;
+		}
+
+		$current = '';
+		$db      = JFactory::getDbo();
+		$log     = $db->getLog();
+		$timings = $db->getTimings();
+
+		foreach ($log as $id => $query)
+		{
+			if (isset($timings[$id * 2 + 1]))
+			{
+				$temp     = str_replace('`', '', $log[$id]);
+				$temp     = str_replace("\t", " ", $temp);
+				$temp     = str_replace("\n", " ", $temp);
+				$current .= str_replace("\r\n", " ", $temp) . ";\n";
+			}
+		}
+
+		if (JFile::exists($file))
+		{
+			JFile::delete($file);
+		}
+
+		// Write new file.
+		JFile::write($file, $current);
 	}
 }

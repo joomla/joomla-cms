@@ -188,10 +188,11 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			$client = 'ADMINISTRATOR';
 		}
 
+		$base = constant('JPATH_' . strtoupper($client));
 		$extension = 'tpl_' . $this->getName();
-		$source    = $path ? $path : ($client) . '/templates/' . $this->getName();
+		$source    = $path ? $path : $base . '/templates/' . $this->getName();
 
-		$this->doLoadLanguage($extension, $source, constant('JPATH_' . strtoupper($client)));
+		$this->doLoadLanguage($extension, $source, $base);
 	}
 
 	/**

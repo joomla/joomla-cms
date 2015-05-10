@@ -21,6 +21,6 @@ $message2 = $state->get('extension_message');
 <?php endif; ?> 
 <?php if ($message2) : ?> 
 	<div class="span12"> 
-		<strong><?php echo $message2; ?></strong>
+		<?php echo $message2; ?>
 	</div> 
 <?php endif; ?>
