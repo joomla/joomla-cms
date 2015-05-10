@@ -24,6 +24,7 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $ordering 	= ($listOrder == 'a.lft');
 $saveOrder 	= ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$component  = JUri::getInstance()->getVar('extension');
 
 if ($saveOrder)
 {
@@ -61,6 +62,20 @@ if ($saveOrder)
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
+                        <?php if ($component == 'com_content') : ?>
+                            <th width="10%" class="nowrap center">
+                                <i class="icon-publish"></i>
+                                <span class="hidden-phone"><?php echo JText::_('COM_CATEGORY_HEADING_PUBLISHED_ITEMS'); ?></span>
+                            </th>
+                            <th width="10%" class="nowrap center">
+                                <i class="icon-unpublish"></i>
+                                <span class="hidden-phone"><?php echo JText::_('COM_CATEGORY_HEADING_UNPUBLISHED_ITEMS'); ?></span>
+                            </th>
+                            <th width="10%" class="nowrap center">
+                                <i class="icon-trash"></i>
+                                <span class="hidden-phone"><?php echo JText::_('COM_CATEGORY_HEADING_TRASHED_ITEMS'); ?></span>
+                            </th>
+                        <?php endif;?>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
@@ -164,6 +179,17 @@ if ($saveOrder)
 									<?php endif; ?>
 								</span>
 							</td>
+                            <?php if ($component == 'com_content') : ?>
+                                <td class="small hidden-phone">
+                                    <?php echo (int) $item->count_published; ?>
+                                </td>
+                                <td class="small hidden-phone">
+                                    <?php echo (int) $item->count_unpublished; ?>
+                                </td>
+                                <td class="small hidden-phone">
+                                    <?php echo (int) $item->count_trashed; ?>
+                                </td>
+                            <?php endif; ?>
 							<td class="small hidden-phone">
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
