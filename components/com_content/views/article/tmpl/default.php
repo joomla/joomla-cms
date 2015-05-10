@@ -131,16 +131,14 @@ JHtml::_('behavior.caption');
 	<?php elseif ($params->get('show_noauth') == true && $user->get('guest')) : ?>
 	<?php echo $this->item->introtext; ?>
 	<?php //Optional link to let them register to see the whole article. ?>
-	<?php
-	if ($params->get('show_readmore') && $this->item->fulltext != null) :
-		$menu	= JFactory::getApplication()->getMenu();
-		$active		= $menu->getActive();
-		$itemId		= $active->id;
-		$link = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);
-		$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language));
-		$fullURL = new JUri($link);
-		$fullURL->setVar('return', base64_encode($returnURL));
-	?>
+	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) : ?>
+	<?php $menu = JFactory::getApplication()->getMenu(); ?>
+	<?php $active = $menu->getActive(); ?>
+	<?php $itemId = $active->id; ?>
+	<?php $link = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId); ?>
+	<?php $returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)); ?>
+	<?php $fullURL = new JUri($link); ?>
+	<?php $fullURL->setVar('return', base64_encode($returnURL)); ?>
 	<p class="readmore">
 		<a href="<?php echo $fullURL; ?>" class="register">
 		<?php $attribs = json_decode($this->item->attribs); ?>
