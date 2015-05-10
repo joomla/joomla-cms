@@ -10,6 +10,7 @@ then
     sudo apt-get install -y zend-framework
     sudo apt-get install -y php-pear
     sudo apt-get install -y php5-memcached
+    sudo apt-get install -y php5-xdebug
     #sudo apt-get install -y php5-apcu
     #sudo apt-get install -y php5-redis
     echo "extension = apcu.so" >> $PHPINI
