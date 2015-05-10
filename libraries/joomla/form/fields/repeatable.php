@@ -65,6 +65,6 @@ class JFormFieldRepeatable extends JFormField
 			'class'   => (string) $this->element['class'],
 		);
 
-		return JLayoutHelper::render('joomla.form.field.repeatable', $displayData);
+		return JLayoutHelper::render('libraries.joomla.form.fields.repeatable', $displayData);
 	}
 }
