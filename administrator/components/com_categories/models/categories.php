@@ -276,23 +276,22 @@ class CategoriesModelCategories extends JModelList
 			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 		}
 
-        // If component is com_content then show number of articles (published, unpublished, trashed)
-        if (JUri::getInstance()->getVar('extension') == 'com_content')
-        {
-            $query->select('COUNT(DISTINCT cp.id) AS count_published');
-            $query->join('LEFT', '#__content AS cp ON cp.catid = a.id AND cp.state = 1');
-            $query->where('cp.state = 1');
+		// If component is com_content then show number of articles (published, unpublished, trashed)
+		if (JUri::getInstance()->getVar('extension') == 'com_content')
+		{
+			$query->select('COUNT(DISTINCT cp.id) AS count_published');
+			$query->join('LEFT', '#__content AS cp ON cp.catid = a.id AND cp.state = 1');
 
-            $query->select('COUNT(DISTINCT cu.id) AS count_unpublished');
-            $query->join('LEFT', '#__content AS cu ON cu.catid = a.id AND cu.state = 0');
+			$query->select('COUNT(DISTINCT cu.id) AS count_unpublished');
+			$query->join('LEFT', '#__content AS cu ON cu.catid = a.id AND cu.state = 0');
 
 			$query->select('COUNT(DISTINCT ca.id) AS count_archived');
 			$query->join('LEFT', '#__content AS ca ON ca.catid = a.id AND ca.state = 2');
 
-            $query->select('COUNT(DISTINCT ct.id) AS count_trashed');
-            $query->join('LEFT', '#__content AS ct ON ct.catid = a.id AND ct.state = -2');
+			$query->select('COUNT(DISTINCT ct.id) AS count_trashed');
+			$query->join('LEFT', '#__content AS ct ON ct.catid = a.id AND ct.state = -2');
 
-            $query->group('a.id');
+			$query->group('a.id');
         }
 
 		return $query;
