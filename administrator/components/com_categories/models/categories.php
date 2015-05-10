@@ -286,6 +286,9 @@ class CategoriesModelCategories extends JModelList
             $query->select('COUNT(DISTINCT cu.id) AS count_unpublished');
             $query->join('LEFT', '#__content AS cu ON cu.catid = a.id AND cu.state = 0');
 
+			$query->select('COUNT(DISTINCT ca.id) AS count_archived');
+			$query->join('LEFT', '#__content AS ca ON ca.catid = a.id AND ca.state = 2');
+
             $query->select('COUNT(DISTINCT ct.id) AS count_trashed');
             $query->join('LEFT', '#__content AS ct ON ct.catid = a.id AND ct.state = -2');
 

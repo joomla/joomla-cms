@@ -63,17 +63,18 @@ if ($saveOrder)
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
                         <?php if ($component == 'com_content') : ?>
-                            <th width="10%" class="nowrap center">
+                            <th width="5%" class="nowrap center">
                                 <i class="icon-publish"></i>
-                                <span class="hidden-phone"><?php echo JText::_('COM_CATEGORY_HEADING_PUBLISHED_ITEMS'); ?></span>
                             </th>
-                            <th width="10%" class="nowrap center">
+                            <th width="5%" class="nowrap center">
                                 <i class="icon-unpublish"></i>
-                                <span class="hidden-phone"><?php echo JText::_('COM_CATEGORY_HEADING_UNPUBLISHED_ITEMS'); ?></span>
                             </th>
-                            <th width="10%" class="nowrap center">
+							</th>
+                            <th width="5%" class="nowrap center">
+                                <i class="icon-archive"></i>
+                            </th>
+                            <th width="5%" class="nowrap center">
                                 <i class="icon-trash"></i>
-                                <span class="hidden-phone"><?php echo JText::_('COM_CATEGORY_HEADING_TRASHED_ITEMS'); ?></span>
                             </th>
                         <?php endif;?>
 						<th width="10%" class="nowrap hidden-phone">
@@ -189,6 +190,11 @@ if ($saveOrder)
 									<a class="badge <?php if ($item->count_unpublished > 0) echo "badge-important"; ?>" href="<?php echo JRoute::_('index.php?option=com_content&view=articles&filter[category_id]='
 										. (int) $item->id . '&filter[published]=0' . '&filter[level]=' . (int) $item->level);?>">
 										<?php echo $item->count_unpublished; ?></a>
+								</td>
+								<td class="center btns">
+									<a class="badge <?php if ($item->count_archived > 0) echo "badge-info"; ?>" href="<?php echo JRoute::_('index.php?option=com_content&view=articles&filter[category_id]='
+										. (int) $item->id . '&filter[published]=2' . '&filter[level]=' . (int) $item->level);?>">
+										<?php echo $item->count_archived; ?></a>
 								</td>
 								<td class="center btns">
 									<a class="badge <?php if ($item->count_trashed > 0) echo "badge-inverse"; ?>" href="<?php echo JRoute::_('index.php?option=com_content&view=articles&filter[category_id]='
