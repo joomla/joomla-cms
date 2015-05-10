@@ -19,7 +19,6 @@ then
     PHPINI=~/.phpenv/versions/$VERSION/etc/php.ini
     sudo apt-get install -y php5-apcu
     sudo apt-get install -y php5-memcached
-    sudo apt-get install -y redis-server
     sudo apt-get install -y php5-redis
     phpenv config-add build/travis/phpenv/memcached.ini
     phpenv config-add build/travis/phpenv/apc-$VERSION.ini
