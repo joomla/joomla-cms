@@ -11,7 +11,7 @@ then
     sudo apt-get install -y php5-memcached
     sudo apt-get install -y redis-server
     sudo apt-get install -y php5-redis
-    phpenv config-add build/travis/phpenv/apc-$VERSION.ini
+    # phpenv config-add build/travis/phpenv/apc-$VERSION.ini
     # echo "extension_dir = /etc/hhvm" >> $PHPINI
     # echo "hhvm.extensions[pgsql] = pgsql.so" >> $PHPINI
 elif [ "${VERSION}" = '7.0' ]
