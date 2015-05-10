@@ -11,8 +11,6 @@ then
     sudo apt-get install -y php-pear
     sudo apt-get install -y php5-memcached
     sudo apt-get install -y php5-xdebug
-    sudo pecl channel-update pecl.php.net
-    sudo pecl config-set preferred_state beta; printf "yes\n" | pecl install apcu
     #sudo apt-get install -y php5-apcu
     #sudo apt-get install -y php5-redis
     echo "extension = apcu.so" >> $PHPINI
