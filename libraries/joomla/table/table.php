@@ -1524,14 +1524,14 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		$userId = (int) $userId;
 		$state  = (int) $state;
 
-		if (!is_array($pks))
-		{
-			$pks = array($pks);
-		}
-
 		if (!is_null($pks))
 		{
-			foreach ($pks AS $key => $pk)
+			if (!is_array($pks))
+			{
+				$pks = array($pks);
+			}
+
+			foreach ($pks as $key => $pk)
 			{
 				if (!is_array($pk))
 				{
