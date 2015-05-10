@@ -7,7 +7,6 @@ then
     PHPINI=/etc/hhvm/php.ini
     echo "memory_limit = -1"  >> $PHPINI
     sudo apt-get update -qq
-    sudo apt-get install -y hhvm-dbg
     sudo apt-get install -y php5-apcu
     sudo apt-get install -y php5-memcached
     sudo apt-get install -y php5-redis
