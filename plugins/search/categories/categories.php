@@ -176,7 +176,8 @@ class PlgSearchCategories extends JPlugin
 		catch (RuntimeException $e)
 		{
 			$rows = array();
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'), 'error');
+			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 		}
 
 		$return = array();
