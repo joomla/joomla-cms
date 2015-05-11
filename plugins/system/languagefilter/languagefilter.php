@@ -542,7 +542,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			// When the user logs in from a "Register to Read More" link,
 			// the language should not change
-			if (strpos($url, 'return') !== false && strpos($url, 'view=login') !== false)
+			if (strpos($url, 'return') !== false)
 			{
 				$lang_code = $this->default_lang;
 			}
