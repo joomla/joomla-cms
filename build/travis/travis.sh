@@ -7,7 +7,6 @@ then
     PHPINI=/etc/hhvm/php.ini
     echo "extension_dir = /etc/hhvm" >> $PHPINI
     sudo apt-get update -qq
-    sudo apt-cache pkgnames #get a list of packages we can use
     sudo apt-get install -y zend-framework
     sudo apt-get install -y php-pear
     sudo apt-get install -y php5-mcrypt
@@ -27,7 +26,6 @@ elif [ "${VERSION}" = '7.0' ]
 then
     PHPINI=~/.phpenv/versions/$VERSION/etc/php.ini
     sudo apt-get update -qq
-    sudo apt-cache pkgnames #get a list of packages we can use
     sudo apt-get install -y php5-mysql
     #sudo apt-get install -y php5-apcu
     #sudo apt-get install -y php5-redis
