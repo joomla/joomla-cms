@@ -7,9 +7,18 @@ then
     PHPINI=/etc/hhvm/php.ini
     echo "extension_dir = /etc/hhvm" >> $PHPINI
     sudo apt-get update -qq
+    sudo apt-get install -y apache2-doc
+    sudo apt-get install -y apache2-suexec
+    sudo apt-get install -y apache2-suexec-custom
+    sudo apt-get install -y ufw
+    sudo apt-get install -y libjs-dojo-core
+    sudo apt-get install -y libjs-dojo-dijit
+    sudo apt-get install -y libjs-dojo-dojox
     sudo apt-get install -y zend-framework
     sudo apt-get install -y php-pear
     sudo apt-get install -y php-apc
+    sudo apt-get install -y php5-gd
+    sudo apt-get install -y php5-suhosin
     sudo apt-get install -y php5-cli
     sudo apt-get install -y php5-curl
     sudo apt-get install -y php5-mcrypt
@@ -32,6 +41,9 @@ then
     PHPINI=~/.phpenv/versions/$VERSION/etc/php.ini
     sudo apt-get update -qq
     sudo apt-get install -y php-apc
+    sudo apt-get install -y php-pear
+    sudo apt-get install -y php5-gd
+    sudo apt-get install -y php5-suhosin
     sudo apt-get install -y php5-cli
     sudo apt-get install -y php5-curl
     sudo apt-get install -y php5-pgsql
