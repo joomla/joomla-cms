@@ -28,18 +28,18 @@ install:
   - composer require pear/cache_lite 1.7.16
 
 before_script:
-  # Set up databases for testing
-  - mysql -e 'create database joomla_ut;'
-  - mysql joomla_ut < tests/unit/schema/mysql.sql
-  - psql -c 'create database joomla_ut;' -U postgres
-  - psql -d joomla_ut -a -f tests/unit/schema/postgresql.sql
-  
   # Set up Apache
   # - ./build/travis/php-apache.sh
   # Enable additional PHP extensions
   - chmod ugo+x build/travis/travis.sh
   - ./build/travis/travis.sh
   - phpenv rehash
+  
+  # Set up databases for testing
+  - mysql -e 'create database joomla_ut;'
+  - mysql joomla_ut < tests/unit/schema/mysql.sql
+  - psql -c 'create database joomla_ut;' -U postgres
+  - psql -d joomla_ut -a -f tests/unit/schema/postgresql.sql
   
 script:
   - phpunit --configuration travisci-phpunit.xml
