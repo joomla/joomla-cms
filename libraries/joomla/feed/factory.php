@@ -66,7 +66,10 @@ class JFeedFactory
 			// Skip ahead to the root node.
 			do
 			{
-				$reader->read();
+				if (!$reader->read())
+				{
+					throw new RuntimeException('Error reading feed.');
+				}
 			}
 
 			while ($reader->nodeType !== XMLReader::ELEMENT);

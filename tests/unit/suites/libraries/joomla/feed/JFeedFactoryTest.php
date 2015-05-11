@@ -52,12 +52,23 @@ class JFeedFactoryTest extends TestCase
 	 */
 	public function testGetFeedBad()
 	{
-		$this->markTestSkipped('This test is failing to execute and is locking up the test suite.');
 		$this->_instance->getFeed(JPATH_TEST_STUBS . '/feed/test.bad.feed');
 	}
 
 	/**
 	 * Tests JFeedFactory::getFeed() with a bad feed.
+	 *
+	 * @return  void
+	 *
+	 * @expectedException  RuntimeException
+	 */
+	public function testGetFeedWithASimpleTextFile()
+	{
+		$this->_instance->getFeed(JPATH_TEST_STUBS . '/feed/very.bad.test.feed');
+	}
+
+	/**
+	 * Tests JFeedFactory::getFeed() with no parser.
 	 *
 	 * @return  void
 	 *
