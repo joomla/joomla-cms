@@ -26,7 +26,9 @@ elif [ "${VERSION}" = '7.0' ]
 then
     PHPINI=~/.phpenv/versions/$VERSION/etc/php.ini
     sudo apt-get update -qq
-    sudo apt-get install -y php5-mysql
+    sudo apt-get install -y php-apc
+    sudo apt-get install -y php5-curl
+    sudo apt-get install -y php5-pgsql
     #sudo apt-get install -y php5-apcu
     #sudo apt-get install -y php5-redis
     echo "apc.enable_cli=true" >> $PHPINI
