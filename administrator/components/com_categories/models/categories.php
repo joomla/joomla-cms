@@ -292,7 +292,7 @@ class CategoriesModelCategories extends JModelList
 			$query->join('LEFT', '#__content AS ct ON ct.catid = a.id AND ct.state = -2');
 
 			$query->group('a.id');
-        }
+		}
 
 		return $query;
 	}
