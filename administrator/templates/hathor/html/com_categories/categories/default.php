@@ -24,6 +24,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $ordering 	= ($listOrder == 'a.lft');
 $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 $assoc		= JLanguageAssociations::isEnabled();
+$component  = JUri::getInstance()->getVar('extension');
+
 ?>
 <div class="categories">
 	<form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories'); ?>" method="post" name="adminForm" id="adminForm">
@@ -98,6 +100,21 @@ $assoc		= JLanguageAssociations::isEnabled();
 								<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'categories.saveorder'); ?>
 							<?php endif; ?>
 						</th>
+						<?php if ($component == 'com_content') : ?>
+							<th width="1%" class="nowrap center hidden-phone">
+								<i class="icon-publish"></i>
+							</th>
+							<th width="1%" class="nowrap center hidden-phone">
+								<i class="icon-unpublish"></i>
+							</th>
+							</th>
+							<th width="1%" class="nowrap center hidden-phone">
+								<i class="icon-archive"></i>
+							</th>
+							<th width="1%" class="nowrap center hidden-phone">
+								<i class="icon-trash"></i>
+							</th>
+						<?php endif;?>
 						<th class="access-col">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
@@ -162,6 +179,28 @@ $assoc		= JLanguageAssociations::isEnabled();
 									<?php echo $orderkey + 1; ?>
 								<?php endif; ?>
 							</td>
+							<?php if ($component == 'com_content') : ?>
+								<td class="center">
+									<a title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=com_content&view=articles&filter[category_id]=' . (int) $item->id . '&filter[published]=1' . '&filter[level]=' . (int) $item->level);?>">
+										<?php echo $item->count_published; ?>
+									</a>
+								</td>
+								<td class="center">
+									<a title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=com_content&view=articles&filter[category_id]=' . (int) $item->id . '&filter[published]=0' . '&filter[level]=' . (int) $item->level);?>">
+										<?php echo $item->count_unpublished; ?>
+									</a>
+								</td>
+								<td class="center">
+									<a title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=com_content&view=articles&filter[category_id]=' . (int) $item->id . '&filter[published]=2' . '&filter[level]=' . (int) $item->level);?>">
+										<?php echo $item->count_archived; ?>
+									</a>
+								</td>
+								<td class="center">
+									<a title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=com_content&view=articles&filter[category_id]=' . (int) $item->id . '&filter[published]=-2' . '&filter[level]=' . (int) $item->level);?>">
+										<?php echo $item->count_trashed; ?>
+									</a>
+								</td>
+							<?php endif; ?>
 							<td class="center">
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
