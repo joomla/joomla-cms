@@ -359,7 +359,7 @@ if($this->type == 'image')
 					<p class="lead">H4</p><h4>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h4>
 					<p class="lead">H5</p><h5>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h5>
 					<p class="lead">H6</p> <h6>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h6>
-					<p class="lead">Bold</p><b>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </b>
+					<p class="lead">Bold</p><strong>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </strong>
 					<p class="lead">Italics</p><i>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </i>
 					<p class="lead">Unordered List</p>
 					<ul>
