@@ -101,6 +101,13 @@ class ContentViewForm extends JViewLegacy
 			$this->form->setFieldAttribute('catid', 'readonly', 'true');
 		}
 
+		// Propose current language as default when creating new article
+		if (JLanguageMultilang::isEnabled())
+		{
+			$lang = JFactory::getLanguage()->getTag();
+			$this->form->setFieldAttribute('language', 'default', $lang);
+		}
+
 		$this->_prepareDocument();
 		parent::display($tpl);
 	}
