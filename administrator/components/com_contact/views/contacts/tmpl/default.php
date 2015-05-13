@@ -209,6 +209,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<td align="center" class="small hidden-phone">
 							<?php if (!empty($item->linked_user)) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id);?>"><?php echo $item->linked_user;?></a>
+								<div class="small"><?php echo $item->email; ?></div>
 							<?php endif; ?>
 						</td>
 						<td class="center hidden-phone">
