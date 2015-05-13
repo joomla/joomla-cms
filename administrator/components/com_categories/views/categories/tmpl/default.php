@@ -24,7 +24,8 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $ordering 	= ($listOrder == 'a.lft');
 $saveOrder 	= ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$component  = JUri::getInstance()->getVar('extension');
+$jinput 	= JFactory::getApplication()->input;
+$component	= $jinput->get('extension');
 
 if ($saveOrder)
 {

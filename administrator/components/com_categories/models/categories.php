@@ -277,7 +277,8 @@ class CategoriesModelCategories extends JModelList
 		}
 
 		// If component is com_content then show number of articles (published, unpublished, trashed)
-		if (JUri::getInstance()->getVar('extension') == 'com_content')
+		$jinput	= JFactory::getApplication()->input;
+		if ($jinput->get('extension') == 'com_content')
 		{
 			$query->select('COUNT(DISTINCT cp.id) AS count_published');
 			$query->join('LEFT', '#__content AS cp ON cp.catid = a.id AND cp.state = 1');
