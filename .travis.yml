@@ -43,7 +43,7 @@ before_script:
   
 script:
   # Run PHPunit tests
-  - phpunit --configuration travisci-phpunit.xml
+  - libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml
   # Run PHPCS tests
   - if [[ "$TRAVIS_PHP_VERSION" != '7.0' || "$TRAVIS_PHP_VERSION" != 'hhvm' }]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi
 
