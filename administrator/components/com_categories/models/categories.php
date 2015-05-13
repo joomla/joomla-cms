@@ -147,6 +147,10 @@ class CategoriesModelCategories extends JModelList
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
 
+		// Determine for which component the category manager retrieves its categories (for item count)
+		$jinput	= JFactory::getApplication()->input;
+		$countitemhelper = JPATH_ADMINISTRATOR . "/components/" . $jinput->get('extension') . '/helpers/countitems.php';
+
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
@@ -276,22 +280,14 @@ class CategoriesModelCategories extends JModelList
 			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 		}
 
-		// If component is com_content then show number of articles (published, unpublished, trashed)
-		$jinput	= JFactory::getApplication()->input;
-		if ($jinput->get('extension') == 'com_content')
+		// Load helper file from the component that uses com_categories
+		// to extend the $query object with item count (published, unpublished, trashed)
+		if (JFile::exists($countitemhelper))
 		{
-			$query->select('COUNT(DISTINCT cp.id) AS count_published');
-			$query->join('LEFT', '#__content AS cp ON cp.catid = a.id AND cp.state = 1');
+			include ($countitemhelper);
+			ContentitemsHelper::countItems($query);
 
-			$query->select('COUNT(DISTINCT cu.id) AS count_unpublished');
-			$query->join('LEFT', '#__content AS cu ON cu.catid = a.id AND cu.state = 0');
-
-			$query->select('COUNT(DISTINCT ca.id) AS count_archived');
-			$query->join('LEFT', '#__content AS ca ON ca.catid = a.id AND ca.state = 2');
-
-			$query->select('COUNT(DISTINCT ct.id) AS count_trashed');
-			$query->join('LEFT', '#__content AS ct ON ct.catid = a.id AND ct.state = -2');
-
+			// Group by on Categories because of the extra joins to other tables
 			$query->group('a.id');
 		}
 
