@@ -49,3 +49,4 @@ class ContentitemsHelper extends JHelperContent
 		return $query;
 	}
 }
+
