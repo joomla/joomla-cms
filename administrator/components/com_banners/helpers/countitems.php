@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @subpackage  com_banners
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  */
 class ContentitemsHelper extends JHelperContent
 {
-	public static $extension = 'com_content';
+	public static $extension = 'com_banners';
 
 	/**
 	 * Adds Count Items for Category Manager.
@@ -49,3 +49,4 @@ class ContentitemsHelper extends JHelperContent
 		return $query;
 	}
 }
+
