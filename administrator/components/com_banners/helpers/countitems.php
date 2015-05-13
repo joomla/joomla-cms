@@ -30,23 +30,22 @@ class ContentitemsHelper extends JHelperContent
 	public static function countItems($query)
 	{
 		// Join articles to categories and
-		// Count published articles
+		// Count published items
 		$query->select('COUNT(DISTINCT cp.id) AS count_published');
 		$query->join('LEFT', '#__banners AS cp ON cp.catid = a.id AND cp.state = 1');
 
-		// Count unpublished articles
+		// Count unpublished items
 		$query->select('COUNT(DISTINCT cu.id) AS count_unpublished');
 		$query->join('LEFT', '#__banners AS cu ON cu.catid = a.id AND cu.state = 0');
 
-		// Count archived articles
+		// Count archived items
 		$query->select('COUNT(DISTINCT ca.id) AS count_archived');
 		$query->join('LEFT', '#__banners AS ca ON ca.catid = a.id AND ca.state = 2');
 
-		// Count trashed articles
+		// Count trashed items
 		$query->select('COUNT(DISTINCT ct.id) AS count_trashed');
 		$query->join('LEFT', '#__banners AS ct ON ct.catid = a.id AND ct.state = -2');
 
 		return $query;
 	}
 }
-
