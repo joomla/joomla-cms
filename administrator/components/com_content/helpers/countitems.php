@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.6
  */
-class ContentitemsHelper extends JHelperContent
+class ContentitemsHelper
 {
 	public static $extension = 'com_content';
 
@@ -29,19 +29,19 @@ class ContentitemsHelper extends JHelperContent
 	 */
 	public static function countItems(&$query)
 	{
-		// Join articles to categories and count published articles
+		// Join articles to categories and count published items
 		$query->select('COUNT(DISTINCT cp.id) AS count_published');
 		$query->join('LEFT', '#__content AS cp ON cp.catid = a.id AND cp.state = 1');
 
-		// Count unpublished articles
+		// Count unpublished items
 		$query->select('COUNT(DISTINCT cu.id) AS count_unpublished');
 		$query->join('LEFT', '#__content AS cu ON cu.catid = a.id AND cu.state = 0');
 
-		// Count archived articles
+		// Count archived items
 		$query->select('COUNT(DISTINCT ca.id) AS count_archived');
 		$query->join('LEFT', '#__content AS ca ON ca.catid = a.id AND ca.state = 2');
 
-		// Count trashed articles
+		// Count trashed items
 		$query->select('COUNT(DISTINCT ct.id) AS count_trashed');
 		$query->join('LEFT', '#__content AS ct ON ct.catid = a.id AND ct.state = -2');
 
