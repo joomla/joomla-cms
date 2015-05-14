@@ -35,10 +35,8 @@ class JErrorPage
 			if (!$document)
 			{
 				// We're probably in an CLI environment
-				exit($error->getMessage());
+				jexit($error->getMessage());
 			}
-
-			$config = JFactory::getConfig();
 
 			// Get the current template from the application
 			$template = $app->getTemplate();
@@ -52,26 +50,28 @@ class JErrorPage
 			}
 
 			$document->setTitle(JText::_('Error') . ': ' . $error->getCode());
+
 			$data = $document->render(
 				false,
-				array('template' => $template,
-				'directory' => JPATH_THEMES,
-				'debug' => $config->get('debug'))
+				array(
+					'template'  => $template,
+					'directory' => JPATH_THEMES,
+					'debug'     => JDEBUG
+				)
 			);
 
-			// Failsafe to get the error displayed.
+			// Do not allow cache
+			$app->allowCache(false);
+
+			// If nothing was rendered, just use the message from the Exception
 			if (empty($data))
 			{
-				exit($error->getMessage());
+				$data = $error->getMessage();
 			}
-			else
-			{
-				// Do not allow cache
-				$app->allowCache(false);
 
-				$app->setBody($data);
-				echo $app->toString();
-			}
+			$app->setBody($data);
+
+			echo $app->toString();
 		}
 		catch (Exception $e)
 		{
@@ -81,7 +81,7 @@ class JErrorPage
 				header('HTTP/1.1 500 Internal Server Error');
 			}
 
-			exit('Error displaying the error page: ' . $e->getMessage() . ': ' . $error->getMessage());
+			jexit('Error displaying the error page: ' . $e->getMessage() . ': ' . $error->getMessage());
 		}
 	}
 }

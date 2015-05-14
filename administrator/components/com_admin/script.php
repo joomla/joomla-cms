@@ -47,7 +47,7 @@ class JoomlaInstallerScript
 	{
 		$db = JFactory::getDbo();
 
-		if (substr($db->name, 0, 5) == 'mysql')
+		if (strpos($db->name, 'mysql') !== false)
 		{
 			$this->updateDatabaseMySQL();
 		}
