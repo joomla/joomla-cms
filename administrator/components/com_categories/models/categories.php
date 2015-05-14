@@ -280,15 +280,15 @@ class CategoriesModelCategories extends JModelList
 			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 		}
 
-		// Load helper file from the component that uses com_categories
-		// to extend the $query object with item count (published, unpublished, trashed)
-		if (JFile::exists($countitemhelper))
-		{
-			include ($countitemhelper);
-			ContentitemsHelper::countItems($query);
+		// Group by on Categories for JOIN with component tables to count items
+		$query->group('a.id');
 
-			// Group by on Categories because of the extra joins to other tables
-			$query->group('a.id');
+		// Load Helper file of the component for which com_categories displays the categories
+		$classname = ucfirst(substr($extension, 4)) . 'Helper';
+		if (class_exists($classname) && method_exists($classname,'countItems'))
+		{
+			// Get the SQL to extend the com_category $query object with item count (published, unpublished, trashed)
+			$classname::countItems($query);
 		}
 
 		return $query;
