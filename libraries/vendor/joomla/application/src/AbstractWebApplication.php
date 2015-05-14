@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Application Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -10,7 +10,6 @@ namespace Joomla\Application;
 
 use Joomla\Uri\Uri;
 use Joomla\Input\Input;
-use Joomla\String\String;
 use Joomla\Session\Session;
 use Joomla\Registry\Registry;
 
@@ -285,7 +284,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 		 */
 		if (!preg_match('#^[a-z]+\://#i', $url))
 		{
-			// Get a JURI instance for the requested URI.
+			// Get a Uri instance for the requested URI.
 			$uri = new Uri($this->get('uri.request'));
 
 			// Get a base URL to prepend from the requested URI.
@@ -314,7 +313,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 		else
 		{
 			// We have to use a JavaScript redirect here because MSIE doesn't play nice with utf-8 URLs.
-			if (($this->client->engine == Web\WebClient::TRIDENT) && !String::is_ascii($url))
+			if (($this->client->engine == Web\WebClient::TRIDENT) && !$this->isAscii($url))
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
@@ -526,6 +525,11 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 */
 	public function getSession()
 	{
+		if ($this->session === null)
+		{
+			throw new \RuntimeException('A \Joomla\Session\Session object has not been set.');
+		}
+
 		return $this->session;
 	}
 
@@ -776,7 +780,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 
 		if (!$this->input->$method->get($token, '', 'alnum'))
 		{
-			if ($this->session->isNew())
+			if ($this->getSession()->isNew())
 			{
 				// Redirect to login screen.
 				$this->redirect('index.php');
@@ -808,6 +812,25 @@ abstract class AbstractWebApplication extends AbstractApplication
 		// @todo we need the user id somehow here
 		$userId  = 0;
 
-		return md5($this->get('secret') . $userId . $this->session->getToken($forceNew));
+		return md5($this->get('secret') . $userId . $this->getSession()->getToken($forceNew));
+	}
+
+	/**
+	 * Tests whether a string contains only 7bit ASCII bytes.
+	 *
+	 * You might use this to conditionally check whether a string
+	 * needs handling as UTF-8 or not, potentially offering performance
+	 * benefits by using the native PHP equivalent if it's just ASCII e.g.;
+	 *
+	 * @param   string  $str  The string to test.
+	 *
+	 * @return  boolean True if the string is all ASCII
+	 *
+	 * @since   1.4.0
+	 */
+	public static function isAscii($str)
+	{
+		// Search for any bytes which are outside the ASCII range...
+		return (preg_match('/(?:[^\x00-\x7F])/', $str) !== 1);
 	}
 }
