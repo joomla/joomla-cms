@@ -91,6 +91,12 @@ $assoc		= JLanguageAssociations::isEnabled();
 						</th>
 					</tr>
 				</thead>
+				<tfoot>
+					<tr>
+						<td colspan="10">
+						</td>
+					</tr>
+				</tfoot>
 				<tbody>
 				<?php foreach ($this->items as $i => $item) :
 					$item->max_ordering = 0;
