@@ -34,7 +34,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			// Search tools bar
 			echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 		?>
-
 		<?php if ($this->enabled) : ?>
 		<div class="alert alert-info">
 			<a class="close" data-dismiss="alert">&#215;</a>
