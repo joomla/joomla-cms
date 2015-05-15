@@ -100,7 +100,7 @@ class ModulesModelModules extends JModelList
 				$app->input->set('limitstart', 0);
 			}
 		}
-		
+
 		// No Client selected?
 		else
 		{
