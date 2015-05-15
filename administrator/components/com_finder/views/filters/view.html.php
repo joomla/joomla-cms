@@ -28,12 +28,12 @@ class FinderViewFilters extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Load the view data.
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->total		= $this->get('Total');
-		$this->state		= $this->get('State');
-		$this->filterForm	= $this->get('FilterForm');
-		$this->activeFilters= $this->get('ActiveFilters');
+		$this->items			= $this->get('Items');
+		$this->pagination		= $this->get('Pagination');
+		$this->total			= $this->get('Total');
+		$this->state			= $this->get('State');
+		$this->filterForm		= $this->get('FilterForm');
+		$this->activeFilters	= $this->get('ActiveFilters');
 
 		FinderHelper::addSubmenu('filters');
 

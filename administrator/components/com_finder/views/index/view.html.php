@@ -32,13 +32,13 @@ class FinderViewIndex extends JViewLegacy
 		// Load plug-in language files.
 		FinderHelperLanguage::loadPluginLanguage();
 
-		$this->items		= $this->get('Items');
-		$this->total		= $this->get('Total');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-		$this->pluginState  = $this->get('pluginState');
-		$this->filterForm	= $this->get('FilterForm');
-		$this->activeFilters= $this->get('ActiveFilters');
+		$this->items			= $this->get('Items');
+		$this->total			= $this->get('Total');
+		$this->pagination		= $this->get('Pagination');
+		$this->state			= $this->get('State');
+		$this->pluginState  	= $this->get('pluginState');
+		$this->filterForm		= $this->get('FilterForm');
+		$this->activeFilters	= $this->get('ActiveFilters');
 
 		FinderHelper::addSubmenu('index');
 
