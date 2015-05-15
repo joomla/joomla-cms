@@ -650,7 +650,8 @@
 		label="CONFIG_SESSION_SETTINGS_LABEL">
 		<field
 			name="lifetime"
-			type="text"
+			type="number"
+			min="1"
 			default="15"
 			label="COM_CONFIG_FIELD_SESSION_TIME_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_TIME_DESC"
