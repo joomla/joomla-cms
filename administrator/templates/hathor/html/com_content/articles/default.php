@@ -51,7 +51,7 @@ $n			= count($this->items);
 			<label class="selectlabel" for="filter_category_id"><?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?></label>
 			<select name="filter_category_id" id="filter_category_id">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_content'), 'value', 'text', $this->state->get('filter.category_id')); ?>
+				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_content', array('filter.published' => array(-2, 0, 1, 2))), 'value', 'text', $this->state->get('filter.category_id')); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_level"><?php echo JText::_('JOPTION_SELECT_MAX_LEVELS'); ?></label>
