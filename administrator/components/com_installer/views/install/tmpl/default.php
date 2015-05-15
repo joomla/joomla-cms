@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 // MooTools is loaded for B/C for extensions generating JavaScript in their install scripts, this call will be removed at 4.0
 JHtml::_('behavior.framework', true);
 JHtml::_('bootstrap.tooltip');
+jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.file');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function()
@@ -127,6 +129,12 @@ JHtml::_('bootstrap.tooltip');
 					<label for="install_package" class="control-label"><?php echo JText::_('COM_INSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
 					<div class="controls">
 						<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
+						<div class="alert alert-info">
+							<?php
+								$uplaodfilesize = JFilesystemHelper::fileUploadMaxSize();
+								echo JText::sprintf('JGLOBAL_FILE_SIZE_INFO', $uplaodfilesize);
+							?>
+						</div>
 					</div>
 				</div>
 				<div class="form-actions">
