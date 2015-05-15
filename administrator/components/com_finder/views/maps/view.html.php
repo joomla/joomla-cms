@@ -37,6 +37,8 @@ class FinderViewMaps extends JViewLegacy
 		$this->total		= $this->get('Total');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
+		$this->filterForm	= $this->get('FilterForm');
+		$this->activeFilters= $this->get('ActiveFilters');
 
 		FinderHelper::addSubmenu('maps');
 
@@ -94,18 +96,5 @@ class FinderViewMaps extends JViewLegacy
 		}
 
 		JHtmlSidebar::setAction('index.php?option=com_finder&view=maps');
-
-		JHtmlSidebar::addFilter(
-			'',
-			'filter_branch',
-			JHtml::_('select.options', JHtml::_('finder.mapslist'), 'value', 'text', $this->state->get('filter.branch')),
-			true
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'),
-			'filter_state',
-			JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'))
-		);
 	}
 }
