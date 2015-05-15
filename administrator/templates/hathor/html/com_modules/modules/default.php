@@ -226,7 +226,7 @@ $saveOrder	= $listOrder == 'ordering';
 </div>
 </form>
 <script type="text/javascript">
-jQuery("#filter_client_id").on("change", function()
+jQuery("#client_id").on("change", function()
 {
 	jQuery("#filter_position, #filter_module, #filter_language").val("");
 });
