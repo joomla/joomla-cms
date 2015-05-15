@@ -44,8 +44,7 @@ class RedirectViewLinks extends JViewLegacy
 		$this->state                = $this->get('State');
 		$this->filterForm    		= $this->get('FilterForm');
 		$this->activeFilters 		= $this->get('ActiveFilters');
-
-
+		
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
