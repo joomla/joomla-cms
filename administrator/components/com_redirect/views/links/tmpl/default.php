@@ -28,23 +28,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	</div>
 	<div id="j-main-container" class="span10">
 <?php else : ?>
-	<div id="j-main-container">
+		<div id="j-main-container">
 <?php endif;?>
-		<div id="filter-bar" class="btn-toolbar">
-			<div class="filter-search btn-group pull-left">
-				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_REDIRECT_SEARCH_LINKS'); ?>" />
-			</div>
-			<div class="btn-group pull-left">
-				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
-			</div>
-			<div class="btn-group pull-right hidden-phone">
-				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
-				<?php echo $this->pagination->getLimitBox(); ?>
-			</div>
-		</div>
-		<div class="clearfix"> </div>
-			<?php if ($this->enabled) : ?>
+		<?php
+			// Search tools bar
+			echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+		?>
+
+		<?php if ($this->enabled) : ?>
 		<div class="alert alert-info">
 			<a class="close" data-dismiss="alert">&#215;</a>
 			<?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?>
@@ -74,7 +65,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<th>
 							<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
-						<th class="title">
+						<th width="30%" class="title">
 							<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_OLD_URL', 'a.old_url', $listDirn, $listOrder); ?>
 						</th>
 						<th width="30%" class="nowrap">
