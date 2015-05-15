@@ -31,9 +31,11 @@ class TagsViewTags extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->state      = $this->get('State');
-		$this->items      = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -64,8 +66,13 @@ class TagsViewTags extends JViewLegacy
 
 		$this->f_levels = $options;
 
-		$this->addToolbar();
-		$this->sidebar = JHtmlSidebar::render();
+		// We don't need toolbar in the modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			$this->addToolbar();
+			$this->sidebar = JHtmlSidebar::render();
+		}
+
 		parent::display($tpl);
 	}
 
@@ -138,7 +145,7 @@ class TagsViewTags extends JViewLegacy
 
 		JToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER');
 
-		JHtmlSidebar::setAction('index.php?option=com_tags&view=tags');
+/*		JHtmlSidebar::setAction('index.php?option=com_tags&view=tags');
 
 		JHtmlSidebar::addFilter(
 			JText::_('JOPTION_SELECT_PUBLISHED'),
@@ -157,6 +164,7 @@ class TagsViewTags extends JViewLegacy
 			'filter_language',
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
 		);
+*/
 	}
 
 	/**
