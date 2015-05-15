@@ -30,10 +30,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <?php else : ?>
 		<div id="j-main-container">
 <?php endif;?>
-		<?php
-			// Search tools bar
-			echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
-		?>
+		<?php // Search tools bar ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if ($this->enabled) : ?>
 		<div class="alert alert-info">
 			<a class="close" data-dismiss="alert">&#215;</a>
