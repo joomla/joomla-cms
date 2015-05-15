@@ -607,7 +607,7 @@ abstract class JHtmlBehavior
 		$script .= 'r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")';
 		$script .= '}catch(e){}';
 		$script .= 'if(r){r.open("GET","' . $url . '",true);r.send(null)}';
-		$script .= '},60000);';
+		$script .= '},45000);';
 
 		JFactory::getDocument()->addScriptDeclaration($script);
 
