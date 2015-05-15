@@ -48,7 +48,6 @@ class ContactModelContacts extends JModelList
 				'ul.name', 'linked_user',
 			);
 
-			$app = JFactory::getApplication();
 			$assoc = JLanguageAssociations::isEnabled();
 
 			if ($assoc)
