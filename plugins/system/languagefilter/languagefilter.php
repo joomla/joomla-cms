@@ -552,7 +552,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			// Try to get association from the current active menu item
 			$active = $menu->getActive();
-			$foundAssociation	= false;
+			$foundAssociation = false;
 
 			if ($active)
 			{
@@ -565,7 +565,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				{
 					$associationItemid = $associations[$lang_code];
 					$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
-					$foundAssociation  = true;
+					$foundAssociation = true;
 				}
 				elseif ($active->home)
 				{
