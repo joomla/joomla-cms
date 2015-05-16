@@ -185,8 +185,8 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		if ($this->mode_sef
 			&& (!$this->params->get('remove_default_prefix', 0)
-				|| $lang != JComponentHelper::getParams('com_languages')->get('site', 'en-GB')
-				|| $lang != $this->default_lang))
+			|| $lang != JComponentHelper::getParams('com_languages')->get('site', 'en-GB')
+			|| $lang != $this->default_lang))
 		{
 			$uri->setPath($uri->getPath() . '/' . $sef . '/');
 		}
