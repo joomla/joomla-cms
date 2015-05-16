@@ -626,7 +626,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				// "alternate" link for active language (see: https://github.com/joomla/joomla-cms/issues/6923)
 				if ($active->language != '*')
 				{
-					$doc->addHeadLink($server . $active_link, 'alternate', 'rel', array('hreflang' => $active->language));
+					$doc->addHeadLink($server . $current_link, 'alternate', 'rel', array('hreflang' => $active->language));
 				}
 
 				// Check the exact menu item's URL.
