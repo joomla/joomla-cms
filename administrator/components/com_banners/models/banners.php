@@ -247,6 +247,9 @@ class BannersModelBanners extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
+		// List state information.
+		parent::populateState('a.name', 'asc');
+
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -266,8 +269,5 @@ class BannersModelBanners extends JModelList
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_banners');
 		$this->setState('params', $params);
-
-		// List state information.
-		parent::populateState('a.name', 'asc');
 	}
 }

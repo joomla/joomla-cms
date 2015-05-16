@@ -468,7 +468,7 @@ class JModelList extends JModelLegacy
 			$app = JFactory::getApplication();
 
 			// Receive & set filters
-			if ($filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array'))
+			if ($filters = $this->getFilterStateFromRequest($this->context . '.filter', 'filter'))
 			{
 				foreach ($filters as $name => $value)
 				{
@@ -479,7 +479,7 @@ class JModelList extends JModelLegacy
 			$limit = 0;
 
 			// Receive & set list options
-			if ($list = $app->getUserStateFromRequest($this->context . '.list', 'list', array(), 'array'))
+			if ($list = $this->getFilterStateFromRequest($this->context . '.list', 'list'))
 			{
 				foreach ($list as $name => $value)
 				{
@@ -551,26 +551,28 @@ class JModelList extends JModelLegacy
 				$this->setState('list.limit', $limit);
 
 				// Check if the ordering field is in the white list, otherwise use the incoming value.
-				$value = $app->getUserStateFromRequest($this->context . '.ordercol', 'filter_order', $ordering);
+				$orderColValue = $app->getUserStateFromRequest($this->context . '.ordercol', 'filter_order', $ordering);
 
-				if (!in_array($value, $this->filter_fields))
+				if (!in_array($orderColValue, $this->filter_fields))
 				{
-					$value = $ordering;
-					$app->setUserState($this->context . '.ordercol', $value);
+					$orderColValue = $ordering;
+					$app->setUserState($this->context . '.ordercol', $orderColValue);
 				}
 
-				$this->setState('list.ordering', $value);
+				$this->setState('list.ordering', $orderColValue);
 
 				// Check if the ordering direction is valid, otherwise use the incoming value.
-				$value = $app->getUserStateFromRequest($this->context . '.orderdirn', 'filter_order_Dir', $direction);
+				$orderDirValue = strtoupper($app->getUserStateFromRequest($this->context . '.orderdirn', 'filter_order_Dir', $direction));
 
-				if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
+				if (!in_array(strtoupper($orderDirValue), array('ASC', 'DESC', '')))
 				{
-					$value = $direction;
-					$app->setUserState($this->context . '.orderdirn', $value);
+					$orderDirValue = $direction;
+					$app->setUserState($this->context . '.orderdirn', $orderDirValue);
 				}
 
-				$this->setState('list.direction', $value);
+				$this->setState('list.direction', $orderDirValue);
+
+				$this->setState('list.fullordering', $orderColValue . ' ' . $orderDirValue);
 			}
 
 			// Support old ordering field
@@ -697,9 +699,61 @@ class JModelList extends JModelLegacy
 				unset($searchArr[$key]);
 				continue;
 			}
+
 			$searchArr[$key] = str_replace(' ', '.*', preg_quote(trim($searchString), $regexDelimiter));
 		}
 
 		return implode('|', $searchArr);
+	}
+
+	/**
+	 * Gets the value of an array from the request
+	 *
+	 * This is the same as the method in JApplication except that this also can optionally
+	 * force you back to the first page when a filter has changed
+	 *
+	 * @param   string  $key        Key of the user state variable.
+	 * @param   string  $request    Name of the variable passed in a request.
+	 * @param   array   $default    Default value for the state
+	 * @param   mixed   $resetPage  boolean || 'auto' for autodetect.
+	 *
+	 * @return  The request user state.
+	 *
+	 * @since   3.4
+	 */
+	public function getFilterStateFromRequest($key, $request, $default = array(), $resetPage = 'auto')
+	{
+		$app = JFactory::getApplication();
+
+		$currentState = $app->getUserState($key, null);
+		$requestState = $app->input->get($request, $default, 'array');
+
+		if (empty($requestState))
+		{
+			return $currentState;
+		}
+
+		// Autodetect reset pagination
+		if ($resetPage === 'auto')
+		{
+			$resetPage = empty($currentState) ? false : true;
+		}
+
+		// On session we will always store objects
+		$newState = new stdClass;
+
+		foreach ($requestState as $fieldName => $fieldValue)
+		{
+			$newState->{$fieldName} = (string) $fieldValue;
+		}
+
+		if (($currentState != $newState) && $resetPage)
+		{
+			$app->input->set('limitstart', 0);
+		}
+
+		$app->setUserState($key, $newState);
+
+		return $newState;
 	}
 }

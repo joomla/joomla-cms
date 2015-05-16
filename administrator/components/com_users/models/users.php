@@ -70,6 +70,9 @@ class UsersModelUsers extends JModelList
 			$this->context .= '.' . $layout;
 		}
 
+		// List state information.
+		parent::populateState('a.name', 'asc');
+
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -107,9 +110,6 @@ class UsersModelUsers extends JModelList
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
-
-		// List state information.
-		parent::populateState('a.name', 'asc');
 	}
 
 	/**
