@@ -8,7 +8,7 @@
 			hint="JSEARCH_FILTER"
 		/>
 		<field
-			name="published"
+			name="state"
 			type="status"
 			label="COM_REDIRECT_FILTER_PUBLISHED"
 			description="COM_REDIRECT_FILTER_PUBLISHED_DESC"

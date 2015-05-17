@@ -31,7 +31,13 @@ class RedirectHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		// No submenu for this component.
+		// Left menu for this component.
+		JHtmlSidebar::addEntry(
+			JText::_('COM_REDIRECT_SUBMENU_LINKS'),
+			'index.php?option=com_redirect&view=links',
+			$vName == 'links'
+		);
+
 	}
 
 	/**
