@@ -8148,3 +8148,7 @@ textarea.vert {
 textarea.noResize {
 	resize: none;
 }
+body.modal-open {
+	overflow: hidden;
+	-ms-overflow-style: none;
+}

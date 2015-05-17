@@ -154,6 +154,10 @@ div.modal.fade.in {
 .modal-footer .btn-group .btn + .btn {
 	margin-left: -1px;
 }
+body.modal-open {
+	overflow: hidden;
+	-ms-overflow-style: none;
+}
 @font-face {
 	font-family: 'IcoMoon';
 	src: url('../../../../media/jui/fonts/IcoMoon.eot');
