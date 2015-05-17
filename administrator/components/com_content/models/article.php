@@ -426,6 +426,14 @@ class ContentModelArticle extends JModelAdmin
 				$filterCatId = isset($filters['category_id']) ? $filters['category_id'] : null;
 
 				$data->set('catid', $app->input->getInt('catid', $filterCatId));
+
+				// Pre-select language if set in Article Manager: Articles > Search Tools > Set Language
+				$filterLanguage = isset($filters['language']) ? $filters['language'] : null;
+				$data->set('language', $app->input->getVar('language', $filterLanguage));
+
+				// Pre-select Access Level if set in Article Manager: Articles > Search Tools > Set Access
+				$filterLanguage = isset($filters['access']) ? $filters['access'] : null;
+				$data->set('access', $app->input->getInt('access', $filterLanguage));
 			}
 		}
 
