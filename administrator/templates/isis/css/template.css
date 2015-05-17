@@ -8148,3 +8148,6 @@ textarea.vert {
 textarea.noResize {
 	resize: none;
 }
+body.modal-open {
+	overflow: hidden;
+}

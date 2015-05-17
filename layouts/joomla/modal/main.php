@@ -56,17 +56,25 @@ if (isset($params['url']))
 {
 	$iframeHtml = JLayoutHelper::render('joomla.modal.iframe', $displayData);
 
+	/*
+	 * These three lines below are for disabling scrolling of parent window.
+	 * $('body').addClass('modal-open');
+	 * }).on('hidden', function () {
+	 * $('body').removeClass('modal-open')
+	 *
+	 * Specific hack for Bootstrap 2.3.x
+	 * Remove them for Bootstrap 3.x
+	 */
+	// Script for destroying and reloading the iframe
 	JFactory::getDocument()->addScriptDeclaration("
 		jQuery(document).ready(function($) {
 			$('#" . $selector . "').on('show', function() {
+				$('body').addClass('modal-open');
 				var modalBody = $(this).find('.modal-body');
-
-				// Destroy previous iframe if loaded
 				modalBody.find('iframe').remove();
-
-				// Load iframe
 				modalBody.prepend('" . trim($iframeHtml) . "');
-
+			}).on('hidden', function () {
+				$('body').removeClass('modal-open')
 			});
 		});
 	");
