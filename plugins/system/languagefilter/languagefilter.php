@@ -623,17 +623,10 @@ class PlgSystemLanguageFilter extends JPlugin
 				// Get current link.
 				$current_link = JUri::getInstance()->toString(array('path', 'query'));
 
-				// "alternate" link for active language (see: https://github.com/joomla/joomla-cms/issues/6923)
-				if ($active->language != '*')
-				{
-					$doc->addHeadLink($server . $current_link, 'alternate', 'rel', array('hreflang' => $active->language));
-				}
-
 				// Check the exact menu item's URL.
 				if ($active_link == $current_link)
 				{
 					$associations = MenusHelper::getAssociations($active->id);
-					unset($associations[$active->language]);
 					$assocs = array_keys($associations);
 
 					// If the menu item is a home menu item and the URLs are identical, we are on the homepage
@@ -680,7 +673,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 					$item = $menu->getDefault($language->lang_code);
 
-					if ($item && $item->language != $active->language && $item->language != '*')
+					if ($item && $item->language != '*')
 					{
 						if ($this->mode_sef)
 						{
