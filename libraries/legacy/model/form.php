@@ -240,7 +240,7 @@ abstract class JModelForm extends JModelLegacy
 		JPluginHelper::importPlugin('content');
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onContentPrepareData', array($context, $data));
+		$results = $dispatcher->trigger('onContentPrepareData', array($context, &$data));
 
 		// Check for errors encountered while preparing the data.
 		if (count($results) > 0 && in_array(false, $results, true))
