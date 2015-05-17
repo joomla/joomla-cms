@@ -8150,4 +8150,5 @@ textarea.noResize {
 }
 body.modal-open {
 	overflow: hidden;
+	-ms-overflow-style: none;
 }

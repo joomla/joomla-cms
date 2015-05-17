@@ -156,6 +156,7 @@ div.modal.fade.in {
 }
 body.modal-open {
 	overflow: hidden;
+	-ms-overflow-style: none;
 }
 @font-face {
 	font-family: 'IcoMoon';

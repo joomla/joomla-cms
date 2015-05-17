@@ -8150,6 +8150,7 @@ textarea.noResize {
 }
 body.modal-open {
 	overflow: hidden;
+	-ms-overflow-style: none;
 }
 .pull-right {
 	float: left;
