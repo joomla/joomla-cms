@@ -13,19 +13,22 @@
 
 			<field name="db_host" type="text" id="db_host" class="inputbox"
 				label="INSTL_DATABASE_HOST_LABEL"
-				default="localhost"
+				default="PLACEHOLDER_DB_HOST"
 				required="true"
 			/>
 			<field name="db_user" type="text" id="db_user" class="inputbox"
 				label="INSTL_DATABASE_USER_LABEL"
+        default="PLACEHOLDER_DB_USER"
 				required="true"
 			/>
 			<field name="db_pass" type="password" id="db_pass" class="inputbox"
 				label="INSTL_DATABASE_PASSWORD_LABEL"
+        default="PLACEHOLDER_DB_PASS"
 				filter="raw"
 			/>
 			<field name="db_name" type="text" id="db_name" class="inputbox"
 				label="INSTL_DATABASE_NAME_LABEL"
+        default="PLACEHOLDER_DB_NAME"
 				required="true"
 			/>
 		</fieldset>
@@ -42,6 +45,7 @@
 			</field>
 			<field name="db_prefix" type="installation.prefix" id="db_prefix" class="inputbox"
 				label="INSTL_DATABASE_PREFIX_LABEL"
+        default="PLACEHOLDER_DB_PREFIX"
 				required="true"
 				validate="installation.prefix"
 				message="INSTL_DATABASE_PREFIX_MSG"
