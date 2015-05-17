@@ -627,7 +627,10 @@ class PlgSystemLanguageFilter extends JPlugin
 				if ($active_link == $current_link)
 				{
 					$associations = MenusHelper::getAssociations($active->id);
-					$associations[$active->language] = $active->id;
+					if (!empty($associations))
+					{
+						$associations[$active->language] = $active->id;
+					}
 					$assocs = array_keys($associations);
 
 					// If the menu item is a home menu item and the URLs are identical, we are on the homepage
