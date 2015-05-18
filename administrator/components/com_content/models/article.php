@@ -419,21 +419,13 @@ class ContentModelArticle extends JModelAdmin
 		{
 			$data = $this->getItem();
 
-			// Prime some default values.
+			// Pre-select some filters (Category, Language, Access) in edit form if those have been selected in Article Manager: Articles
 			if ($this->getState('article.id') == 0)
 			{
 				$filters = (array) $app->getUserState('com_content.articles.filter');
-				$filterCatId = isset($filters['category_id']) ? $filters['category_id'] : null;
-
-				$data->set('catid', $app->input->getInt('catid', $filterCatId));
-
-				// Pre-select language if set in Article Manager: Articles > Search Tools > Set Language
-				$filterLanguage = isset($filters['language']) ? $filters['language'] : null;
-				$data->set('language', $app->input->getVar('language', $filterLanguage));
-
-				// Pre-select Access Level if set in Article Manager: Articles > Search Tools > Set Access
-				$filterAccess = isset($filters['access']) ? $filters['access'] : null;
-				$data->set('access', $app->input->getInt('access', $filterAccess));
+				$data->set('catid', $app->input->getInt('catid', (isset($filters['category_id']) ? $filters['category_id'] : null)));
+				$data->set('language', $app->input->getVar('language', (isset($filters['language']) ? $filters['language'] : null)));
+				$data->set('access', $app->input->getInt('access', (isset($filters['access']) ? $filters['access'] : null)));
 			}
 		}
 
