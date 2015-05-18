@@ -85,15 +85,15 @@ div.modal {
 	width: 80%;
 	margin: -250px 0 0 -40%;
 	background-color: #ffffff;
-	border: 1px solid #999;
-	border: 1px solid rgba(0,0,0,0.3);
-	*border: 1px solid #999;
+	border: 1px solid #999999;
+	border: 1px solid rgba(0, 0, 0, 0.3);
+	*border: 1px solid #999999;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
-	-webkit-box-shadow: 0 3px 7px rgba(0,0,0,0.3);
-	-moz-box-shadow: 0 3px 7px rgba(0,0,0,0.3);
-	box-shadow: 0 3px 7px rgba(0,0,0,0.3);
+	-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
 	-webkit-background-clip: padding-box;
 	-moz-background-clip: padding-box;
 	background-clip: padding-box;
@@ -110,7 +110,7 @@ div.modal.fade.in {
 }
 .modal-header {
 	padding: 9px 15px;
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #eeeeee;
 }
 .modal-header .close {
 	float: right;
@@ -129,7 +129,7 @@ div.modal.fade.in {
 	margin-bottom: 0;
 	text-align: right;
 	background-color: #f5f5f5;
-	border-top: 1px solid #ddd;
+	border-top: 1px solid #dddddd;
 	-webkit-border-radius: 0 0 6px 6px;
 	-moz-border-radius: 0 0 6px 6px;
 	border-radius: 0 0 6px 6px;
@@ -1212,7 +1212,7 @@ div.pagetitle {
 .tabs-left > .nav-tabs {
 	float: left;
 	margin-right: 19px;
-	border-right: 1px solid #DDD;
+	border-right: 1px solid #dddddd;
 }
 tabs-below > .nav-tabs,
 .tabs-right > .nav-tabs,
@@ -3378,7 +3378,7 @@ ul.helpmenu li {
 	border-top-left-radius: 3px;
 }
 #submenu span.nolink {
-	color: #999;
+	color: #999999;
 }
 #submenu li.active,
 #submenu span.nolink.active {
@@ -3392,14 +3392,14 @@ ul.helpmenu li {
 }
 .red {
 	font-weight: bold;
-	color: #c00;
+	color: #cc0000;
 }
 .pre_message {
 	font-size: 1.3em;
 }
 span.update-badge {
-	background-image: -moz-linear-gradient(center bottom,#FF0000 41%,#FC7E7E 79%);
-	background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0.41,#ff0000),color-stop(0.79,#fc7e7e));
+	background-image: -moz-linear-gradient(center bottom, #FF0000 41%, #FC7E7E 79%);
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.41, #ff0000), color-stop(0.79, #fc7e7e));
 	border: 2px solid white;
 	border-radius: 1.5em 1.5em 1.5em 1.5em;
 	color: white;
@@ -3488,18 +3488,18 @@ fieldset.uploadform {
 	padding: 19px;
 	margin-bottom: 20px;
 	background-color: #f5f5f5;
-	border: 1px solid #eee;
-	border: 1px solid rgba(0,0,0,0.05);
+	border: 1px solid #eeeeee;
+	border: 1px solid rgba(0, 0, 0, 0.05);
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
-	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
-	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
-	box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 .well blockquote {
-	border-color: #ddd;
-	border-color: rgba(0,0,0,0.15);
+	border-color: #dddddd;
+	border-color: rgba(0, 0, 0, 0.15);
 }
 .well-large {
 	padding: 24px;
@@ -3552,7 +3552,7 @@ fieldset.uploadform {
 .alert {
 	padding: 8px 35px 8px 14px;
 	margin-bottom: 18px;
-	text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 	background-color: #fcf8e3;
 	border: 1px solid #fbeed5;
 	-webkit-border-radius: 4px;
@@ -3633,7 +3633,7 @@ table {
 	display: block;
 }
 .tabs-below > .nav-tabs {
-	border-top: 1px solid #ddd;
+	border-top: 1px solid #dddddd;
 }
 #status .btn-toolbar,
 #status p {
@@ -3788,5 +3788,5 @@ div.toggle-editor {
 	word-wrap: break-word;
 }
 .muted {
-	color: #999;
+	color: #999999;
 }
