@@ -432,8 +432,8 @@ class ContentModelArticle extends JModelAdmin
 				$data->set('language', $app->input->getVar('language', $filterLanguage));
 
 				// Pre-select Access Level if set in Article Manager: Articles > Search Tools > Set Access
-				$filterLanguage = isset($filters['access']) ? $filters['access'] : null;
-				$data->set('access', $app->input->getInt('access', $filterLanguage));
+				$filterAccess = isset($filters['access']) ? $filters['access'] : null;
+				$data->set('access', $app->input->getInt('access', $filterAccess));
 			}
 		}
 
