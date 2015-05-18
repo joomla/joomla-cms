@@ -664,7 +664,6 @@ class PlgSystemLanguageFilter extends JPlugin
 				elseif (isset($cassociations[$language->lang_code]))
 				{
 					$language->link = JRoute::_($cassociations[$language->lang_code] . '&lang=' . $language->sef);
-					$alternate_rels++;
 				}
 				// Menu items association
 				elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
