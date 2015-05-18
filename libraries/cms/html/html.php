@@ -987,40 +987,32 @@ abstract class JHtml
 			$inputvalue = '';
 		}
 
-		// Load the calendar behavior
-		static::_('behavior.calendar');
+		$data = array(
+			'done' => false
+		);
 
 		// Only display the triggers once for each control.
 		if (!in_array($id, $done))
 		{
-			$document = JFactory::getDocument();
-			$document
-				->addScriptDeclaration(
-				'jQuery(document).ready(function($) {Calendar.setup({
-			// Id of the input field
-			inputField: "' . $id . '",
-			// Format of the input field
-			ifFormat: "' . $format . '",
-			// Trigger for the calendar (button ID)
-			button: "' . $id . '_img",
-			// Alignment (defaults to "Bl")
-			align: "Tl",
-			singleClick: true,
-			firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
-			});});'
-			);
-			$done[] = $id;
+			$done[]       = $id;
+			$data['done'] = true;
 		}
 
 		// Hide button using inline styles for readonly/disabled fields
-		$btn_style	= ($readonly || $disabled) ? ' style="display:none;"' : '';
-		$div_class	= (!$readonly && !$disabled) ? ' class="input-append"' : '';
+		$data['btn_style'] = ($readonly || $disabled) ? ' style="display:none;"' : '';
+		$data['div_class'] = (!$readonly && !$disabled) ? ' class="input-append"' : '';
 
-		return '<div' . $div_class . '>'
-				. '<input type="text" title="' . ($inputvalue ? static::_('date', $value, null, null) : '')
-				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><i class="icon-calendar"></i></button>'
-			. '</div>';
+		$data['id']         = $id;
+		$data['name']       = $name;
+		$data['value']      = $value;
+		$data['format']     = $format;
+		$data['inputvalue'] = $inputvalue;
+		$data['attribs']    = $attribs;
+
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('joomla.calendar.field');
+
+		return $layout->render($data);
 	}
 
 	/**
