@@ -57,7 +57,7 @@ class JFormFieldModal_Article extends JFormField
 			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
 		}
 
-		$script[] = '		jQuery("#modalArticle").modal("hide");';
+		$script[] = '		jQuery("#modalArticle' . $this->id . '").modal("hide");';
 
 		if ($this->required)
 		{
@@ -137,7 +137,7 @@ class JFormFieldModal_Article extends JFormField
 		// The current article display field.
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title . '" disabled="disabled" size="35" />';
-		$html[] = '<a href="#modalArticle" class="btn hasTooltip" role="button"  data-toggle="modal" title="'
+		$html[] = '<a href="#modalArticle' . $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal" title="'
 			. JHtml::tooltipText('COM_CONTENT_CHANGE_ARTICLE') . '">
 		 <i class="icon-file"></i> '
 			. JText::_('JSELECT') . '</a>';
@@ -168,7 +168,7 @@ class JFormFieldModal_Article extends JFormField
 		$html[] = '<input type="hidden" id="' . $this->id . '_id"' . $class . ' name="' . $this->name . '" value="' . $value . '" />';
 
 		$html[] = JHtmlBootstrap::renderModal(
-			'modalArticle', array(
+			'modalArticle' . $this->id, array(
 				'url' => $url,
 				'title' => JText::_('COM_CONTENT_CHANGE_ARTICLE'),
 				'width' => '800px',
