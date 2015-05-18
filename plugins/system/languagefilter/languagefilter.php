@@ -614,13 +614,13 @@ class PlgSystemLanguageFilter extends JPlugin
 			$default_language_sef = $this->lang_codes[JComponentHelper::getParams('com_languages')->get('site', 'en-GB')]->sef;
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
 
-
 			// Load menu associations
 			$home = false;
 			if ($active)
 			{
 				$active_link = JRoute::_($active->link . '&Itemid=' . $active->id, false);
 				$current_link = JUri::getInstance()->toString(array('path', 'query'));
+
 				// If the menu item is a home menu item and the URLs are identical, we are on the homepage
 				if ($active_link == $current_link  || $active_link == $current_link . 'index.php')
 				{
@@ -667,25 +667,25 @@ class PlgSystemLanguageFilter extends JPlugin
 				elseif (isset($cassociations[$language->lang_code]))
 				{
 					$language->link = JRoute::_($cassociations[$language->lang_code] . '&lang=' . $language->sef);
-					$alternate_rels += 1;
+					$alternate_rels++;
 				}
 				// Menu items association
 				elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
 				{
 					$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $associations[$language->lang_code]);
-					$alternate_rels += 1;
+					$alternate_rels++;
 				}
 				// I think we'll never fall here if we have associations for at least 2 languages, but...
 				elseif ($language->active)
 				{
 					$language->link = JUri::getInstance()->toString(array('', '', 'port', 'path', 'query'));
-					$alternate_rels += 1;
+					$alternate_rels++;
 				}
 				// Home page
 				elseif ($home)
 				{
 					$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$language->lang_code]->id);
-					$alternate_rels += 1;
+					$alternate_rels++;
 				}
 				// Too bad...
 				else
