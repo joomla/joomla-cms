@@ -117,7 +117,7 @@ class ContactViewContacts extends JViewLegacy
 			JToolbarHelper::trash('contacts.trash');
 		}
 
-		if ($user->authorise('core.admin', 'com_contact'))
+		if ($user->authorise('core.admin', 'com_contact') || $user->authorise('core.options', 'com_contact'))
 		{
 			JToolbarHelper::preferences('com_contact');
 		}

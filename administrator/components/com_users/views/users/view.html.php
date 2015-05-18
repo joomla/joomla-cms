@@ -130,7 +130,7 @@ class UsersViewUsers extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_users');
 			JToolbarHelper::divider();

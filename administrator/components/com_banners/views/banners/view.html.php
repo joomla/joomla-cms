@@ -141,7 +141,7 @@ class BannersViewBanners extends JViewLegacy
 			JToolbarHelper::trash('banners.trash');
 		}
 
-		if ($user->authorise('core.admin', 'com_banners'))
+		if ($user->authorise('core.admin', 'com_banners') || $user->authorise('core.options', 'com_banners'))
 		{
 			JToolbarHelper::preferences('com_banners');
 		}

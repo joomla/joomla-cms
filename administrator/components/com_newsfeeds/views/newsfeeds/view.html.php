@@ -132,7 +132,7 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			JToolbarHelper::trash('newsfeeds.trash');
 		}
 
-		if ($user->authorise('core.admin', 'com_newsfeeds'))
+		if ($user->authorise('core.admin', 'com_newsfeeds') || $user->authorise('core.options', 'com_newsfeeds'))
 		{
 			JToolbarHelper::preferences('com_newsfeeds');
 		}
