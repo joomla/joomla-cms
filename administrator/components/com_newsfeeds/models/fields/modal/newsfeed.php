@@ -60,7 +60,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
 		}
 
-		$script[] = '		jQuery("#modalNewsfeed").modal("hide");';
+		$script[] = '		jQuery("#modalNewsfeed' . $this->id . '").modal("hide");';
 
 		if ($this->required)
 		{
@@ -142,13 +142,13 @@ class JFormFieldModal_Newsfeed extends JFormField
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title .
 			'" disabled="disabled" size="35" />';
 
-		$html[] = '<a href="#modalNewsfeed"  class="btn hasTooltip" role="button"  data-toggle="modal"'
+		$html[] = '<a href="#modalNewsfeed' . $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal"'
 			. ' title="' . JHtml::tooltipText('COM_NEWSFEEDS_CHANGE_FEED_BUTTON') . '">'
 			. '<i class="icon-file"></i> ' . JText::_('JSELECT')
 			. '</a>';
 
 		$html[] = JHtmlBootstrap::renderModal(
-						'modalNewsfeed', array(
+						'modalNewsfeed' . $this->id, array(
 							'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
 							'title' => JText::_('COM_NEWSFEEDS_CHANGE_FEED_BUTTON'),
 							'width' => '800px',
