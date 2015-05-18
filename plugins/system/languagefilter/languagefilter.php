@@ -690,8 +690,6 @@ class PlgSystemLanguageFilter extends JPlugin
 				// Too bad...
 				else
 				{
-					echo '<br /> Too bad for: ';
-					print_r($languages[$i]);
 					unset($languages[$i]);
 				}
 			}
