@@ -159,7 +159,7 @@ class JFormFieldModal_Category extends JFormField
 
 			$html[] = JHtml::_('bootstrap.renderModal', 'modalCategory-' . $this->id, array(
 								'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
-								'title' => JText::_('COM_CATEGORIES_CHANGE_CATEGORY'),
+								'title' => JText::_('COM_CATEGORIES_SELECT_A_CATEGORY'),
 								'width' => '800px',
 								'height' => '300px',
 								'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
