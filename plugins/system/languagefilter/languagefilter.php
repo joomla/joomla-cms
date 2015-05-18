@@ -643,7 +643,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			// For each language...
 			foreach ($languages as $i => &$language)
 			{
-				$language->active = ($language->lang_code) == $current_language;
+				$language->active = ($language->lang_code == $current_language);
 
 				// Do not display language without frontend UI
 				if (!array_key_exists($language->lang_code, MultilangstatusHelper::getSitelangs()))
@@ -663,31 +663,26 @@ class PlgSystemLanguageFilter extends JPlugin
 				// Component association
 				elseif (isset($cassociations[$language->lang_code]))
 				{
-//D					echo 'For language ' . $language->lang_code .' Component association<br />';
 					$language->link = JRoute::_($cassociations[$language->lang_code] . '&lang=' . $language->sef);
 				}
 				// Menu items association
 				elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
 				{
-//D					echo 'For language ' . $language->lang_code .' Menu items association<br />';
 					$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $associations[$language->lang_code]);
 				}
 				// Current language link
 				elseif ($language->active)
 				{
-//D					echo 'For language ' . $language->lang_code .' Current language link<br />';
 					$language->link = JUri::getInstance()->toString(array('', '', 'port', 'path', 'query'));
 				}
 				// Home page
 				elseif ($home)
 				{
-//D					echo 'For language ' . $language->lang_code .' Home page association<br />';
 					$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$language->lang_code]->id);
 				}
 				// Too bad...
 				else
 				{
-//D					echo 'For language ' . $language->lang_code .' NO association<br />';
 					unset($languages[$i]);
 				}
 			}
