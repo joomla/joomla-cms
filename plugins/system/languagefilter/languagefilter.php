@@ -613,6 +613,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			$homes = MultilangstatusHelper::getHomepages();
 			$default_language_sef = $this->lang_codes[JComponentHelper::getParams('com_languages')->get('site', 'en-GB')]->sef;
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
+			$server = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
 
 			// Load menu associations
 			$home = false;
@@ -643,8 +644,6 @@ class PlgSystemLanguageFilter extends JPlugin
 			// For each language...
 			foreach ($languages as $i => &$language)
 			{
-				$language->active = ($language->lang_code == $current_language);
-
 				// Do not display language without frontend UI
 				if (!array_key_exists($language->lang_code, MultilangstatusHelper::getSitelangs()))
 				{
@@ -671,9 +670,9 @@ class PlgSystemLanguageFilter extends JPlugin
 					$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $associations[$language->lang_code]);
 				}
 				// Current language link
-				elseif ($language->active)
+				elseif ($language->lang_code == $current_language)
 				{
-					$language->link = JUri::getInstance()->toString(array('', '', 'port', 'path', 'query'));
+					$language->link = JUri::getInstance()->toString(array('path', 'query'));
 				}
 				// Home page
 				elseif ($home)
@@ -697,7 +696,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					{
 						$language->link = preg_replace('|/' . $language->sef . '/|', '/', $language->link, 1);
 					}
-					$doc->addHeadLink($language->link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
+					$doc->addHeadLink($server . $language->link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
 				}
 			}
 		}
