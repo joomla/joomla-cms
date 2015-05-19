@@ -19,72 +19,72 @@ class JComponentRouterViewconfiguration
 	/**
 	 * Name of the view
 	 *
-	 * @var   string
-	 * @since 3.5
+	 * @var    string
+	 * @since  3.5
 	 */
 	public $name;
 
 	/**
 	 * Key of the view
 	 *
-	 * @var   string
-	 * @since 3.5
+	 * @var    string
+	 * @since  3.5
 	 */
 	public $key = false;
 
 	/**
 	 * Parentview of this one
 	 *
-	 * @var   JComponentRouterViewconfiguration
-	 * @since 3.5
+	 * @var    JComponentRouterViewconfiguration
+	 * @since  3.5
 	 */
 	public $parent = false;
 
 	/**
 	 * Key of the parentview
 	 *
-	 * @var   string
-	 * @since 3.5
+	 * @var    string
+	 * @since  3.5
 	 */
 	public $parent_key = false;
 
 	/**
 	 * Is this view nestable?
 	 *
-	 * @var   bool
-	 * @since 3.5
+	 * @var    bool
+	 * @since  3.5
 	 */
 	public $nestable = false;
 
 	/**
 	 * Layouts that are supported by this view
 	 *
-	 * @var   array
-	 * @since 3.5
+	 * @var    array
+	 * @since  3.5
 	 */
 	public $layouts = array('default');
 
 	/**
 	 * Child-views of this view
 	 *
-	 * @var   JComponentRouterViewconfiguration[]
-	 * @since 3.5
+	 * @var    JComponentRouterViewconfiguration[]
+	 * @since  3.5
 	 */
 	public $children = array();
 
 	/**
 	 * Keys used for this parent view by the child views
 	 *
-	 * @var   array
-	 * @since 3.5
+	 * @var    array
+	 * @since  3.5
 	 */
 	public $child_keys = array();
 
 	/**
 	 * Path of views from this one to the root view
 	 *
-	 * @var   array
-	 * @since 3.5
+	 * @var    array
+	 * @since  3.5
 	 */
 	public $path = array();
 

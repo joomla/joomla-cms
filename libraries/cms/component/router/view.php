@@ -19,24 +19,24 @@ abstract class JComponentRouterView extends JComponentRouterBase
 	/**
 	 * Name of the router of the component
 	 *
-	 * @var   string
-	 * @since 3.5
+	 * @var    string
+	 * @since  3.5
 	 */
 	protected $name;
 
 	/**
 	 * Array of rules
 	 *
-	 * @var   JComponentRouterRulesInterface[]
-	 * @since 3.5
+	 * @var    JComponentRouterRulesInterface[]
+	 * @since  3.5
 	 */
 	protected $rules = array();
 
 	/**
 	 * Views of the component
 	 *
-	 * @var   JComponentRouterViewconfiguration[]
-	 * @since 3.5
+	 * @var    JComponentRouterViewconfiguration[]
+	 * @since  3.5
 	 */
 	protected $views = array();
 
@@ -45,9 +45,9 @@ abstract class JComponentRouterView extends JComponentRouterBase
 	 *
 	 * @param   JComponentRouterViewconfiguration  $view  View configuration object
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 3.5
+	 * @since   3.5
 	 */
 	public function registerView(JComponentRouterViewconfiguration $view)
 	{
@@ -57,9 +57,9 @@ abstract class JComponentRouterView extends JComponentRouterBase
 	/**
 	 * Return an array of registered view objects
 	 *
-	 * @return JComponentRouterViewconfiguration[] Array of registered view objects
+	 * @return  JComponentRouterViewconfiguration[] Array of registered view objects
 	 *
-	 * @since 3.5
+	 * @since   3.5
 	 */
 	public function getViews()
 	{
@@ -78,9 +78,9 @@ abstract class JComponentRouterView extends JComponentRouterBase
 	 */
 	public function getPath($query)
 	{
-		$views = $this->getViews();
+		$views  = $this->getViews();
 		$result = array();
-		$key = false;
+		$key    = false;
 
 		// Get the right view object
 		if (isset($query['view']) && $views[$query['view']])
@@ -128,9 +128,9 @@ abstract class JComponentRouterView extends JComponentRouterBase
 	/**
 	 * Get all currently attached rules
 	 *
-	 * @return JComponentRouterRulesInterface[]  All currently attached rules in an array
+	 * @return  JComponentRouterRulesInterface[]  All currently attached rules in an array
 	 *
-	 * @since 3.5
+	 * @since   3.5
 	 */
 	public function getRules()
 	{
@@ -142,9 +142,9 @@ abstract class JComponentRouterView extends JComponentRouterBase
 	 *
 	 * @param   JComponentRouterRulesInterface[]  $rules  Array of JComponentRouterRulesInterface objects
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 3.5
+	 * @since   3.5
 	 */
 	public function attachRules($rules)
 	{
@@ -159,7 +159,9 @@ abstract class JComponentRouterView extends JComponentRouterBase
 	 *
 	 * @param   JComponentRouterRulesInterface  $rule  The function to be called.
 	 *
-	 * @return   void
+	 * @return  void
+	 *
+	 * @since   3.5
 	 */
 	public function attachRule(JComponentRouterRulesInterface $rule)
 	{
@@ -172,6 +174,8 @@ abstract class JComponentRouterView extends JComponentRouterBase
 	 * @param   JComponentRouterRulesInterface  $rule  The rule to be removed.
 	 *
 	 * @return   boolean  Was a rule removed?
+	 *
+	 * @since   3.5
 	 */
 	public function detachRule(JComponentRouterRulesInterface $rule)
 	{
