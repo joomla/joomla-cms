@@ -273,7 +273,7 @@ class JoomlaInstallerScript
 			array('plugin', 'tags', 'finder', 0),
 			array('plugin', 'totp', 'twofactorauth', 0),
 			array('plugin', 'yubikey', 'twofactorauth', 0),
-			array('plugin', 'updatenotification', 'systen', 0),
+			array('plugin', 'updatenotification', 'system', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
