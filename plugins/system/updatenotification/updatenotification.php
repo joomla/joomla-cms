@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Uncomment the following line to enable debug mode (update notification email sent every single time)
-// define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG',1);
+// define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);
 
 /**
  * Joomla! Update Notification plugin
@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
  * consented to relicensing their plugin's code under GPLv2 or later (the original version was licensed under
  * GPLv3 or later) to allow its inclusion in the Joomla! CMS.
  *
- * @since  3.4
+ * @since  3.5
  */
 class PlgSystemUpdatenotification extends JPlugin
 {
@@ -29,6 +29,8 @@ class PlgSystemUpdatenotification extends JPlugin
 	 * The update check and notification email code is triggered after the page has fully rendered.
 	 *
 	 * @return  void
+	 *
+	 * @since   3.5
 	 */
 	public function onAfterRender()
 	{
@@ -142,11 +144,11 @@ class PlgSystemUpdatenotification extends JPlugin
 		}
 
 		// If we're here, we have updates. First, get a link to the Joomla! Update component.
-		$baseURL = JURI::base();
-		$baseURL = rtrim($baseURL, '/');
+		$baseURL  = JURI::base();
+		$baseURL  = rtrim($baseURL, '/');
 		$baseURL .= (substr($baseURL, -13) != 'administrator') ? '/administrator/' : '/';
 		$baseURL .= 'index.php?option=com_joomlaupdate';
-		$uri = new JUri($baseURL);
+		$uri      = new JUri($baseURL);
 
 		/**
 		 * Some third party security solutions require a secret query parameter to allow log in to the administrator
@@ -202,7 +204,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		// Set up the email subject and body
 
 		$email_subject = JText::_('PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_SUBJECT');
-		$email_body = JText::_('PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_BODY');
+		$email_body    = JText::_('PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_BODY');
 
 		// Replace merge codes with their values
 		$newVersion = $update->version;
@@ -250,6 +252,8 @@ class PlgSystemUpdatenotification extends JPlugin
 	 * @param   null|string  $email  A list of Super Users to email
 	 *
 	 * @return  array  The list of Super User emails
+	 *
+	 * @since   3.5
 	 */
 	private function getSuperUsers($email = null)
 	{
@@ -378,6 +382,8 @@ class PlgSystemUpdatenotification extends JPlugin
 	 * @param   array  $cacheClients  The cache clients (site, admin) to clean
 	 *
 	 * @return  void
+	 *
+	 * @since   3.5
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
 	{
