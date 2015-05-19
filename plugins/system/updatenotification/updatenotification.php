@@ -144,7 +144,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		}
 
 		// If we're here, we have updates. First, get a link to the Joomla! Update component.
-		$baseURL  = JURI::base();
+		$baseURL  = JUri::base();
 		$baseURL  = rtrim($baseURL, '/');
 		$baseURL .= (substr($baseURL, -13) != 'administrator') ? '/administrator/' : '/';
 		$baseURL .= 'index.php?option=com_joomlaupdate';
