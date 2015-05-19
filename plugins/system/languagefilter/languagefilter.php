@@ -622,7 +622,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				// Check if we are on the homepage
 				$active_link = JRoute::_($active->link . '&Itemid=' . $active->id, false);
 				$current_link = JUri::getInstance()->toString(array('path', 'query'));
-				if ($active->id == $homes[$current_language]->id
+				if ($active->home
 					&& ($active_link == $current_link  || $active_link == $current_link . 'index.php'  || $active_link . '/' == $current_link))
 				{
 					$home = true;
@@ -665,9 +665,10 @@ class PlgSystemLanguageFilter extends JPlugin
 					$language->link = JRoute::_($cassociations[$language->lang_code] . '&lang=' . $language->sef);
 				}
 				// Menu items association
-				elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
+				// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
+				elseif (isset($associations[$language->lang_code]) && ($item = $menu->getItem($associations[$language->lang_code])))
 				{
-					$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $associations[$language->lang_code]);
+					$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
 				}
 				// Current language link
 				elseif ($language->lang_code == $current_language)
