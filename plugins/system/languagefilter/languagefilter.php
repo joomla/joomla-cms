@@ -602,7 +602,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		$doc = JFactory::getDocument();
 
-		if ($this->app->isSite() && JLanguageMultilang::isEnabled() && $this->params->get('alternate_meta') && $doc->getType() == 'html')
+		if ($this->app->isSite() && $this->params->get('alternate_meta') && $doc->getType() == 'html')
 		{
 
 			$languages = JLanguageHelper::getLanguages();
@@ -614,12 +614,14 @@ class PlgSystemLanguageFilter extends JPlugin
 			$default_language_sef = $this->lang_codes[JComponentHelper::getParams('com_languages')->get('site', 'en-GB')]->sef;
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
 			$server = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
+			$home = false;
 
 			// Load menu associations
-			$home = false;
 			if ($active)
 			{
-				// Check if we are on the homepage
+				$associations = MenusHelper::getAssociations($active->id);
+
+				// And check if we are on the homepage
 				$active_link = JRoute::_($active->link . '&Itemid=' . $active->id, false);
 				$current_link = JUri::getInstance()->toString(array('path', 'query'));
 				if ($active->home
@@ -627,8 +629,6 @@ class PlgSystemLanguageFilter extends JPlugin
 				{
 					$home = true;
 				}
-
-				$associations = MenusHelper::getAssociations($active->id);
 			}
 
 			// Load component associations.
@@ -636,6 +636,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			$eName = JString::ucfirst(JString::str_ireplace('com_', '', $option));
 			$cName = JString::ucfirst($eName . 'HelperAssociation');
 			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
+
 			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
 			{
 				$cassociations = call_user_func(array($cName, 'getAssociations'));
