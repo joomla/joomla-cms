@@ -49,6 +49,7 @@ class ContentModelArticles extends JModelList
 				'publish_down', 'a.publish_down',
 				'images', 'a.images',
 				'urls', 'a.urls',
+				'tag'
 			);
 		}
 
@@ -157,6 +158,7 @@ class ContentModelArticles extends JModelList
 		$id .= ':' . $this->getState('filter.start_date_range');
 		$id .= ':' . $this->getState('filter.end_date_range');
 		$id .= ':' . $this->getState('filter.relative_date');
+		$id .= ':' . serialize($this->getState('filter.tag'));
 
 		return parent::getStoreId($id);
 	}
@@ -181,7 +183,7 @@ class ContentModelArticles extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
+				'DISTINCT a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
 					'a.checked_out, a.checked_out_time, ' .
 					'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 					// Use created if modified is 0
@@ -515,6 +517,36 @@ class ContentModelArticles extends JModelList
 		if ($this->getState('filter.language'))
 		{
 			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+		}
+
+		// Filter by a single or group of tags.
+		$hasTag = false;
+		$tagId = $this->getState('filter.tag');
+
+		if (is_numeric($tagId))
+		{
+			$hasTag = true;
+
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
+		}
+		elseif (is_array($tagId))
+		{
+			JArrayHelper::toInteger($tagId);
+			$tagId = implode(',', $tagId);
+			if (!empty($tagId))
+			{
+				$hasTag = true;
+
+				$query->where($db->quoteName('tagmap.tag_id') . ' IN (' . $tagId . ')');
+			}
+		}
+
+		if ($hasTag)
+		{
+			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+						. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+						. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+					);
 		}
 
 		// Add the list ordering clause.

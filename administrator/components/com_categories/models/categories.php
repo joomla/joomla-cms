@@ -129,6 +129,7 @@ class CategoriesModelCategories extends JModelList
 		$id .= ':' . $this->getState('filter.extension');
 		$id .= ':' . $this->getState('filter.published');
 		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . serialize($this->getState('filter.tag'));
 
 		return parent::getStoreId($id);
 	}
@@ -151,7 +152,7 @@ class CategoriesModelCategories extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.note, a.published, a.access' .
+				'DISTINCT a.id, a.title, a.alias, a.note, a.published, a.access' .
 				', a.checked_out, a.checked_out_time, a.created_user_id' .
 				', a.path, a.parent_id, a.level, a.lft, a.rgt' .
 				', a.language'
@@ -250,17 +251,34 @@ class CategoriesModelCategories extends JModelList
 			$query->where('a.language = ' . $db->quote($language));
 		}
 
-		// Filter by a single tag.
+		// Filter by a single or group of tags.
+		$hasTag = false;
 		$tagId = $this->getState('filter.tag');
 
 		if (is_numeric($tagId))
 		{
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
-				->join(
-					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
-					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote($extension . '.category')
-				);
+			$hasTag = true;
+
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
+		}
+		elseif (is_array($tagId))
+		{
+			JArrayHelper::toInteger($tagId);
+			$tagId = implode(',', $tagId);
+			if (!empty($tagId))
+			{
+				$hasTag = true;
+
+				$query->where($db->quoteName('tagmap.tag_id') . ' IN (' . $tagId . ')');
+			}
+		}
+
+		if ($hasTag)
+		{
+			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+						. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+						. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote($extension . '.category')
+					);
 		}
 
 		// Add the list ordering clause

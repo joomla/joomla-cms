@@ -49,10 +49,6 @@ abstract class ModArticlesNewsHelper
 
 		$model->setState('filter.published', 1);
 
-		$model->setState('list.select', 'a.fulltext, a.id, a.title, a.alias, a.introtext, a.state, a.catid, a.created, a.created_by, a.created_by_alias,' .
-			' a.modified, a.modified_by, a.publish_up, a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access,' .
-			' a.hits, a.featured, a.language');
-
 		// Access filter
 		$access     = !JComponentHelper::getParams('com_content')->get('show_noauth');
 		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
@@ -63,6 +59,9 @@ abstract class ModArticlesNewsHelper
 
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
+
+		// Filter by tag
+		$model->setState('filter.tag', $params->get('tag'), array());
 
 		// Set ordering
 		$ordering = $params->get('ordering', 'a.publish_up');
