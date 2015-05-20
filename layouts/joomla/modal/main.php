@@ -56,7 +56,7 @@ if (isset($params['url']))
 {
 	$iframeHtml = JLayoutHelper::render('joomla.modal.iframe', $displayData);
 
-	/*
+	/**
 	 * These three lines below are for disabling scrolling of parent window.
 	 * $('body').addClass('modal-open');
 	 * }).on('hidden', function () {
@@ -73,6 +73,19 @@ if (isset($params['url']))
 				var modalBody = $(this).find('.modal-body');
 				modalBody.find('iframe').remove();
 				modalBody.prepend('" . trim($iframeHtml) . "');
+			}).on('hidden', function () {
+				$('body').removeClass('modal-open')
+			});
+		});
+	");
+}
+if (!isset($params['url']))
+{
+	// Same hack as above but for modals without iframe
+	JFactory::getDocument()->addScriptDeclaration("
+		jQuery(document).ready(function($) {
+			$('#" . $selector . "').on('show', function() {
+				$('body').addClass('modal-open');
 			}).on('hidden', function () {
 				$('body').removeClass('modal-open')
 			});
