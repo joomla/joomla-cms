@@ -614,27 +614,27 @@ class PlgSystemLanguageFilter extends JPlugin
 			$default_language_sef = $this->lang_codes[JComponentHelper::getParams('com_languages')->get('site', 'en-GB')]->sef;
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
 			$server = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
-			$home = false;
+			$is_home = false;
 
-			// Load menu associations
 			if ($active)
 			{
-				$associations = MenusHelper::getAssociations($active->id);
-
-				// And check if we are on the homepage
 				$active_link = JRoute::_($active->link . '&Itemid=' . $active->id, false);
 				$current_link = JUri::getInstance()->toString(array('path', 'query'));
-				if ($active->home
-					&& ($active_link == $current_link  || $active_link == $current_link . 'index.php'  || $active_link . '/' == $current_link))
+
+				// Load menu associations
+				if ($active_link == $current_link)
 				{
-					$home = true;
+					$associations = MenusHelper::getAssociations($active->id);
 				}
+
+				// Check if we are on the homepage
+				$is_home = ($active->home
+					&& ($active_link == $current_link || $active_link == $current_link . 'index.php' || $active_link . '/' == $current_link));
 			}
 
 			// Load component associations.
 			$option = $this->app->input->get('option');
-			$eName = JString::ucfirst(JString::str_ireplace('com_', '', $option));
-			$cName = JString::ucfirst($eName . 'HelperAssociation');
+			$cName = JString::ucfirst(JString::str_ireplace('com_', '', $option)) . 'HelperAssociation';
 			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
 
 			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
@@ -645,46 +645,40 @@ class PlgSystemLanguageFilter extends JPlugin
 			// For each language...
 			foreach ($languages as $i => &$language)
 			{
-				// Do not display language without frontend UI
-				if (!array_key_exists($language->lang_code, MultilangstatusHelper::getSitelangs()))
+				switch(true)
 				{
-					unset($languages[$i]);
-				}
-				// Do not display language without specific home menu
-				elseif (!isset($homes[$language->lang_code]))
-				{
-					unset($languages[$i]);
-				}
-				// Do not display language without authorized access level
-				elseif (isset($language->access) && $language->access && !in_array($language->access, $levels))
-				{
-					unset($languages[$i]);
-				}
-				// Component association
-				elseif (isset($cassociations[$language->lang_code]))
-				{
-					$language->link = JRoute::_($cassociations[$language->lang_code] . '&lang=' . $language->sef);
-				}
-				// Menu items association
-				// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
-				elseif (isset($associations[$language->lang_code]) && ($item = $menu->getItem($associations[$language->lang_code])))
-				{
-					$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
-				}
-				// Current language link
-				elseif ($language->lang_code == $current_language)
-				{
-					$language->link = JUri::getInstance()->toString(array('path', 'query'));
-				}
-				// Home page
-				elseif ($home)
-				{
-					$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$language->lang_code]->id);
-				}
-				// Too bad...
-				else
-				{
-					unset($languages[$i]);
+					// Language without frontend UI
+					case (!array_key_exists($language->lang_code, MultilangstatusHelper::getSitelangs())):
+					// Language without specific home menu
+					case (!isset($homes[$language->lang_code])):
+					// Language without authorized access level
+					case (isset($language->access) && $language->access && !in_array($language->access, $levels)):
+						unset($languages[$i]);
+						break;
+					// Home page
+					case ($is_home):
+						$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$language->lang_code]->id);
+//						echo $language->lang_code . ' -> Home page<br />';
+						break;
+					// Current language link
+					case ($language->lang_code == $current_language):
+						$language->link = JUri::getInstance()->toString(array('path', 'query'));
+//						echo $language->lang_code . ' -> Current language link<br />';
+						break;
+					// Component association
+					case (isset($cassociations[$language->lang_code])):
+						$language->link = JRoute::_($cassociations[$language->lang_code] . '&lang=' . $language->sef);
+//						echo $language->lang_code . ' -> Component association<br />';
+						break;
+					// Menu items association
+					// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
+					case (isset($associations[$language->lang_code]) && ($item = $menu->getItem($associations[$language->lang_code]))):
+						$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
+//						echo $language->lang_code . ' -> Menu items association<br />';
+						break;
+					// Too bad...
+					default:
+						unset($languages[$i]);
 				}
 			}
 
