@@ -44,6 +44,7 @@ class JCache
 			'lifetime' => (int) $conf->get('cachetime'),
 			'language' => $conf->get('language', 'en-GB'),
 			'storage' => $conf->get('cache_handler', ''),
+			'deviceprefix' => $conf->get('deviceprefix_enable', '0'),
 			'defaultgroup' => 'default',
 			'locking' => true,
 			'locktime' => 15,
@@ -759,10 +760,16 @@ class JCache
 	 *
 	 * @since 3.5
 	 */
-	public function getDevicePrefix()
+	public static function getDevicePrefix()
 	{
 		jimport('joomla.environment.browser');
 		$browser = JBrowser::getInstance();
+		$conf = JFactory::getConfig();
+
+		if (boolval(!$conf->get('deviceprefix_enable', '0')))
+		{
+			return;
+		}
 
 		if ($browser->isMobile())
 		{

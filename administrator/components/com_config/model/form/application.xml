@@ -25,6 +25,19 @@
 		</field>
 
 		<field
+			name="deviceprefix_enable"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_CONFIG_FIELD_CACHE_DEVICEPREFIX_LABEL"
+			description="COM_CONFIG_FIELD_CACHE_DEVICEPREFIX_DESC"
+			filter="integer"
+			showon="caching:1,2">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="cachetime"
 			type="text"
 			default="15"
