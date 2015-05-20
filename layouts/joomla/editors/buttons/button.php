@@ -21,6 +21,6 @@ $button = $displayData;
 		$title    = ($button->get('title')) ? $button->get('title') : $button->get('text');
 	?>
 	<a class="<?php echo $class; ?>" title="<?php echo $title; ?>" <?php echo $href, $onclick; ?> rel="<?php echo $button->get('options'); ?>">
-		<i class="icon-<?php echo $button->get('name'); ?>"></i> <?php echo $button->get('text'); ?>
+		<span class="icon-<?php echo $button->get('name'); ?>"></span> <?php echo $button->get('text'); ?>
 	</a>
 <?php endif;
