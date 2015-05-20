@@ -674,6 +674,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					case (isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
 						$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
 						break;
+
 					// Too bad...
 					default:
 						unset($languages[$i]);
