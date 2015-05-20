@@ -605,13 +605,13 @@ class PlgSystemLanguageFilter extends JPlugin
 		if ($this->app->isSite() && $this->params->get('alternate_meta') && $doc->getType() == 'html')
 		{
 
-			$languages = JLanguageHelper::getLanguages();
+			$languages = $this->lang_codes;
 			$menu = $this->app->getMenu();
 			$active = $menu->getActive();
 			$current_language = JFactory::getLanguage()->getTag();
 			$levels = JFactory::getUser()->getAuthorisedViewLevels();
 			$homes = MultilangstatusHelper::getHomepages();
-			$default_language_sef = $this->lang_codes[JComponentHelper::getParams('com_languages')->get('site', 'en-GB')]->sef;
+			$default_language = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
 			$server = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
 			$is_home = false;
@@ -648,33 +648,29 @@ class PlgSystemLanguageFilter extends JPlugin
 				switch(true)
 				{
 					// Language without frontend UI
-					case (!array_key_exists($language->lang_code, MultilangstatusHelper::getSitelangs())):
+					case (!array_key_exists($i, MultilangstatusHelper::getSitelangs())):
 					// Language without specific home menu
-					case (!isset($homes[$language->lang_code])):
+					case (!isset($homes[$i])):
 					// Language without authorized access level
 					case (isset($language->access) && $language->access && !in_array($language->access, $levels)):
 						unset($languages[$i]);
 						break;
 					// Home page
 					case ($is_home):
-						$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$language->lang_code]->id);
-//						echo $language->lang_code . ' -> Home page<br />';
+						$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$i]->id);
 						break;
 					// Current language link
-					case ($language->lang_code == $current_language):
+					case ($i == $current_language):
 						$language->link = JUri::getInstance()->toString(array('path', 'query'));
-//						echo $language->lang_code . ' -> Current language link<br />';
 						break;
 					// Component association
-					case (isset($cassociations[$language->lang_code])):
-						$language->link = JRoute::_($cassociations[$language->lang_code] . '&lang=' . $language->sef);
-//						echo $language->lang_code . ' -> Component association<br />';
+					case (isset($cassociations[$i])):
+						$language->link = JRoute::_($cassociations[$i] . '&lang=' . $language->sef);
 						break;
 					// Menu items association
 					// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
-					case (isset($associations[$language->lang_code]) && ($item = $menu->getItem($associations[$language->lang_code]))):
+					case (isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
 						$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
-//						echo $language->lang_code . ' -> Menu items association<br />';
 						break;
 					// Too bad...
 					default:
@@ -682,17 +678,19 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 			}
 
+			// Remove the sef if this is the default language and "Remove URL Language Code" is on
+			if (isset($languages[$default_language]) && $remove_default_prefix)
+			{
+				$languages[$default_language]->link =
+					preg_replace('|/' . $languages[$default_language]->sef . '/|', '/', $languages[$default_language]->link, 1);
+			}
+		
 			// If there are at least 2 of them, add the rel="alternate" links to the <head>
 			if (count($languages) > 1)
 			{
 				foreach ($languages as $i => &$language)
 				{
-					// Remove the sef if this is the default language and "Remove URL Language Code" is on
-					if ($language->sef == $default_language_sef && $remove_default_prefix)
-					{
-						$language->link = preg_replace('|/' . $language->sef . '/|', '/', $language->link, 1);
-					}
-					$doc->addHeadLink($server . $language->link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
+					$doc->addHeadLink($server . $language->link, 'alternate', 'rel', array('hreflang' => $i));
 				}
 			}
 		}
