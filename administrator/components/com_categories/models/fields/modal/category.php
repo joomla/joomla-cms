@@ -157,15 +157,18 @@ class JFormFieldModal_Category extends JFormField
 				. '<span class="icon-edit"></span>' . JText::_('JACTION_EDIT')
 				. '</a>';
 
-			$html[] = JHtml::_('bootstrap.renderModal', 'modalCategory-' . $this->id, array(
-								'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
-								'title' => JText::_('COM_CATEGORIES_SELECT_A_CATEGORY'),
-								'width' => '800px',
-								'height' => '300px',
-								'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
-									. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-								)
-							);
+			$html[] = JHtml::_(
+				'bootstrap.renderModal',
+				'modalCategory-' . $this->id,
+				array(
+					'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
+					'title' => JText::_('COM_CATEGORIES_SELECT_A_CATEGORY'),
+					'width' => '800px',
+					'height' => '300px',
+					'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+				)
+			);
 		}
 
 		// Clear category button
