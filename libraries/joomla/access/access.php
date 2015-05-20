@@ -282,7 +282,7 @@ class JAccess
         $query
             ->select('title')
             ->from('#__usergroups')
-            ->where('id = ' . $db->quote($groupid));
+            ->where('id = ' . $db->quote($groupId));
         $db->setQuery($query);
 
         return $db->loadResult();
