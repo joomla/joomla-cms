@@ -647,26 +647,28 @@ class PlgSystemLanguageFilter extends JPlugin
 			{
 				switch(true)
 				{
-					// Language without frontend UI
+					// Language without frontend UI || Language without specific home menu || Language without authorized access level
 					case (!array_key_exists($i, MultilangstatusHelper::getSitelangs())):
-					// Language without specific home menu
 					case (!isset($homes[$i])):
-					// Language without authorized access level
 					case (isset($language->access) && $language->access && !in_array($language->access, $levels)):
 						unset($languages[$i]);
 						break;
+
 					// Home page
 					case ($is_home):
 						$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$i]->id);
 						break;
+
 					// Current language link
 					case ($i == $current_language):
 						$language->link = JUri::getInstance()->toString(array('path', 'query'));
 						break;
+
 					// Component association
 					case (isset($cassociations[$i])):
 						$language->link = JRoute::_($cassociations[$i] . '&lang=' . $language->sef);
 						break;
+
 					// Menu items association
 					// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
 					case (isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
@@ -678,16 +680,16 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 			}
 
-			// Remove the sef if this is the default language and "Remove URL Language Code" is on
-			if (isset($languages[$default_language]) && $remove_default_prefix)
-			{
-				$languages[$default_language]->link =
-					preg_replace('|/' . $languages[$default_language]->sef . '/|', '/', $languages[$default_language]->link, 1);
-			}
-		
 			// If there are at least 2 of them, add the rel="alternate" links to the <head>
 			if (count($languages) > 1)
 			{
+				// Remove the sef from the default language if "Remove URL Language Code" is on
+				if (isset($languages[$default_language]) && $remove_default_prefix)
+				{
+					$languages[$default_language]->link
+						= preg_replace('|/' . $languages[$default_language]->sef . '/|', '/', $languages[$default_language]->link, 1);
+				}
+
 				foreach ($languages as $i => &$language)
 				{
 					$doc->addHeadLink($server . $language->link, 'alternate', 'rel', array('hreflang' => $i));
