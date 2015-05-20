@@ -33,7 +33,7 @@ class ModulesModelModules extends JModelList
 				'title', 'a.title',
 				'checked_out', 'a.checked_out',
 				'checked_out_time', 'a.checked_out_time',
-				'published', 'a.published',
+				'published', 'a.published', 'state',
 				'access', 'a.access', 'access_level',
 				'ordering', 'a.ordering',
 				'module', 'a.module',
@@ -70,8 +70,8 @@ class ModulesModelModules extends JModelList
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$accessId = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', null, 'int');
-		$this->setState('filter.access', $accessId);
+		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
+		$this->setState('filter.access', $access);
 
 		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
@@ -82,15 +82,37 @@ class ModulesModelModules extends JModelList
 		$module = $this->getUserStateFromRequest($this->context . '.filter.module', 'filter_module', '', 'string');
 		$this->setState('filter.module', $module);
 
-		$clientId = $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', 0, 'int', false);
-		$previousId = $app->getUserState($this->context . '.filter.client_id_previous', null);
+		// Special handling for filter client_id.
 
-		if ($previousId != $clientId || $previousId === null)
+		// Try to get current Client selection from $_POST.
+		$clientId = $app->input->getString('client_id', null);
+
+		// Client Site(0) or Administrator(1) selected?
+		if (in_array($clientId, array('0', '1')))
 		{
-			$this->getUserStateFromRequest($this->context . '.filter.client_id_previous', 'filter_client_id_previous', 0, 'int', true);
-			$app->setUserState($this->context . '.filter.client_id_previous', $clientId);
+			// Not the same client like saved previous one?
+			if ($clientId != $app->getUserState($this->context . '.client_id'))
+			{
+				// Save current selection as new previous value in session.
+				$app->setUserState($this->context . '.client_id', $clientId);
+
+				// Reset pagination.
+				$app->input->set('limitstart', 0);
+			}
 		}
 
+		// No Client selected?
+		else
+		{
+			// Try to get previous one from session.
+			$clientId = (string) $app->getUserState($this->context . '.client_id');
+
+			// Client not Site(0) and not Administrator(1)? So, set to Site(0).
+			if (!in_array($clientId, array('0', '1')))
+			{
+				$clientId = '0';
+			}
+		}
 		$this->setState('filter.client_id', $clientId);
 
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
