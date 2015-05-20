@@ -713,6 +713,7 @@ class JCache
 	public static function makeId()
 	{
 		$app = JFactory::getApplication();
+		$prefix = JCache::setDevicePrefix();
 
 		$registeredurlparams = new stdClass;
 
@@ -748,7 +749,26 @@ class JCache
 			$safeuriaddon->$key = $app->input->get($key, null, $value);
 		}
 
-		return md5(serialize($safeuriaddon));
+		return $prefix . md5(serialize($safeuriaddon));
+	}
+
+	/**
+	 * Set prefix cache key if device calls for separate caching
+	 *
+	 * @return  string   Device specific prefix
+	 *
+	 */
+	public function setDevicePrefix()
+	{
+		jimport('joomla.environment.browser');
+		$browser = JBrowser::getInstance();
+
+		if($browser->isMobile())
+		{
+			return 'M-';
+		}
+
+		return ;
 	}
 
 	/**
