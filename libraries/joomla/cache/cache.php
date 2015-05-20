@@ -713,7 +713,7 @@ class JCache
 	public static function makeId()
 	{
 		$app = JFactory::getApplication();
-		$prefix = JCache::setDevicePrefix();
+		$prefix = JCache::getDevicePrefix();
 
 		$registeredurlparams = new stdClass;
 
@@ -757,18 +757,19 @@ class JCache
 	 *
 	 * @return  string   Device specific prefix
 	 *
+	 * @since 3.5
 	 */
-	public function setDevicePrefix()
+	public function getDevicePrefix()
 	{
 		jimport('joomla.environment.browser');
 		$browser = JBrowser::getInstance();
 
-		if($browser->isMobile())
+		if ($browser->isMobile())
 		{
 			return 'M-';
 		}
 
-		return ;
+		return;
 	}
 
 	/**
