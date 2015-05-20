@@ -266,6 +266,29 @@ class JAccess
 		return $rules;
 	}
 
+
+	/**
+	 * Method to return the title of a user group
+	 *
+	 * @param   integer  $groupId     Id of the group for which to get the title of.
+	 *
+	 * @return  string    the title of the group
+	 */
+	public static function getGroupTitle($groupId)
+	{
+		// Fetch the group title from the database
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query
+            ->select('title')
+            ->from('#__usergroups')
+            ->where('id = ' . $db->quote($groupid));
+        $db->setQuery($query);
+
+        return $db->loadResult();
+	}
+
+
 	/**
 	 * Method to return a list of user groups mapped to a user. The returned list can optionally hold
 	 * only the groups explicitly mapped to the user or all groups both explicitly mapped and inherited
