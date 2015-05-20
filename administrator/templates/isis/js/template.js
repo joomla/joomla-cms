@@ -131,6 +131,8 @@
 				$main.removeClass('span10').addClass('span12 expanded');
 				$toggleSidebarIcon.removeClass(openIcon).addClass(closedIcon);
 				$toggleButton.attr( 'data-original-title', Joomla.JText._('JTOGGLE_SHOW_SIDEBAR') );
+				$sidebar.find('#submenu li').each(function(){$(this).attr('aria-hidden', true)});
+				$sidebar.find('#submenu li a').each(function(){$(this).attr('tabindex', '-1')});
 				if (!isComponent) {
 					$debug.css( 'width', contentWidthRelative + '%' );
 				}
@@ -151,7 +153,8 @@
 				$main.removeClass('span12 expanded').addClass('span10');
 				$toggleSidebarIcon.removeClass(closedIcon).addClass(openIcon);
 				$toggleButton.attr( 'data-original-title', Joomla.JText._('JTOGGLE_HIDE_SIDEBAR') );
-
+				$sidebar.find('#submenu li').each(function(){$(this).removeAttr('aria-hidden')});
+				$sidebar.find('#submenu li a').each(function(){$(this).removeAttr('tabindex')});
 				if (!isComponent && bodyWidth > 768 && mainHeight < sidebarHeight)
 				{
 					$debug.css( 'width', mainWidthRelative + '%' );
