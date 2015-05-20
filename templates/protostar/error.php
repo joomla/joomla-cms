@@ -167,6 +167,9 @@ else
 						<blockquote>
 							<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
 						</blockquote>
+						<?php if ($this->debug) : ?>
+							<?php echo $this->renderBacktrace(); ?>
+						<?php endif; ?>
 					</div>
 					<!-- End Content -->
 				</div>
