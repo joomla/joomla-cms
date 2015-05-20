@@ -124,7 +124,7 @@ class BannersModelBanners extends JModelList
 			->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid');
 
 		// Filter by published state
-		$published = $this->getState('filter.state');
+		$published = $this->getState('filter.published');
 
 		if (is_numeric($published))
 		{
@@ -210,7 +210,7 @@ class BannersModelBanners extends JModelList
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.access');
-		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.published');
 		$id .= ':' . $this->getState('filter.category_id');
 		$id .= ':' . $this->getState('filter.language');
 
@@ -251,8 +251,8 @@ class BannersModelBanners extends JModelList
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
-		$this->setState('filter.state', $state);
+		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '', 'string');
+		$this->setState('filter.published', $published);
 
 		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '');
 		$this->setState('filter.category_id', $categoryId);
