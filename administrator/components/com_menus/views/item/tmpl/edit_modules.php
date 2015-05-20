@@ -99,7 +99,10 @@ echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 						</span>
 					<?php endif; ?>
 				</td>
-			<?php echo JHtml::_('bootstrap.renderModal', 'module' . $module->id . 'Modal', array(
+			<?php echo JHtml::_(
+							'bootstrap.renderModal',
+							'module' . $module->id . 'Modal',
+							array(
 								'url' => $link,
 								'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
 								'height' => '300px',
@@ -108,8 +111,8 @@ echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 									. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 									. '<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#module' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
 									. JText::_("JSAVE") . '</button>'
-								)
-							); ?>
+							)
+						); ?>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
