@@ -143,7 +143,7 @@ class JFormFieldModal_Category extends JFormField
 		$html[] = '<a href="#modalCategory-'
 			. $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal"'
 			. ' title="' . JHtml::tooltipText('COM_CATEGORIES_CHANGE_CATEGORY') . '">'
-			. '<i class="icon-file"></i> ' . JText::_('JSELECT')
+			. '<span class="icon-file"></span> ' . JText::_('JSELECT')
 			. '</a>';
 
 		// Edit category button
