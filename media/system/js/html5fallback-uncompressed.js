@@ -389,7 +389,7 @@
 	    patternMessage : " doesn't match pattern.",
 	    doRenderMessage : false,
 	    formValidationEvent : 'onSubmit',
-	    emailPatt : /^[a-zA-Z0-9.!#$%&‚Äô*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+	    emailPatt : /^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-\']+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
 	    urlPatt : /[a-z][\-\.+a-z]*:\/\//i
 	};
 	$(function(){
