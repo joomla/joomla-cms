@@ -95,10 +95,8 @@ abstract class ModArticlesNewsHelper
 			}
 			else
 			{
-				$item->link     = JRoute::_('index.php?option=com_users&view=login');
-				$item->link     = new JUri($item->link);
-				$returnURL      = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language), false);
-				$item->link->setVar('return', base64_encode($returnURL));
+				$item->link = new JUri(JRoute::_('index.php?option=com_users&view=login', false));
+				$item->link->setVar('return', base64_encode(JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language), false)));
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}
 
