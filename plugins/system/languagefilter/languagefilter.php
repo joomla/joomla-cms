@@ -606,12 +606,12 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 
 			$languages = $this->lang_codes;
+			$current_language = JFactory::getLanguage()->getTag();
+			$default_language = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+			$homes = MultilangstatusHelper::getHomepages();
 			$menu = $this->app->getMenu();
 			$active = $menu->getActive();
-			$current_language = JFactory::getLanguage()->getTag();
 			$levels = JFactory::getUser()->getAuthorisedViewLevels();
-			$homes = MultilangstatusHelper::getHomepages();
-			$default_language = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
 			$server = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
 			$is_home = false;
@@ -645,7 +645,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			// For each language...
 			foreach ($languages as $i => &$language)
 			{
-				switch(true)
+				switch (true)
 				{
 					// Language without frontend UI || Language without specific home menu || Language without authorized access level
 					case (!array_key_exists($i, MultilangstatusHelper::getSitelangs())):
@@ -688,7 +688,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				if (isset($languages[$default_language]) && $remove_default_prefix)
 				{
 					$languages[$default_language]->link
-						= preg_replace('|/' . $languages[$default_language]->sef . '/|', '/', $languages[$default_language]->link, 1);
+							= preg_replace('|/' . $languages[$default_language]->sef . '/|', '/', $languages[$default_language]->link, 1);
 				}
 
 				foreach ($languages as $i => &$language)
