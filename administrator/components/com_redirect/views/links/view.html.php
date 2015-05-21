@@ -42,6 +42,8 @@ class RedirectViewLinks extends JViewLegacy
 		$this->items                = $this->get('Items');
 		$this->pagination           = $this->get('Pagination');
 		$this->state                = $this->get('State');
+		$this->filterForm           = $this->get('FilterForm');
+		$this->activeFilters        = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -137,13 +139,5 @@ class RedirectViewLinks extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER');
-
-		JHtmlSidebar::setAction('index.php?option=com_redirect&view=links');
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_state',
-			JHtml::_('select.options', RedirectHelper::publishedOptions(), 'value', 'text', $this->state->get('filter.state'), true)
-		);
 	}
 }
