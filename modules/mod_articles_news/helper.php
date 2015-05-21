@@ -97,11 +97,7 @@ abstract class ModArticlesNewsHelper
 			{
 				$item->link     = JRoute::_('index.php?option=com_users&view=login');
 				$item->link     = new JUri($item->link);
-				$returnURL      = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
-
-				// Needed if SEF disabled, to be redirected to correct menu (Joomla 3.4.1). But why?
-				$returnURL 	= str_replace('&amp;', '&', $returnURL);
-
+				$returnURL      = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language), false);
 				$item->link->setVar('return', base64_encode($returnURL));
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}
