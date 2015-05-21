@@ -190,9 +190,9 @@ if ($saveOrder)
 				</tbody>
 			</table>
 			<?php //Load the batch processing form. ?>
-			<?php if ($user->authorise('core.create', 'com_categories')
-				&& $user->authorise('core.edit', 'com_categories')
-				&& $user->authorise('core.edit.state', 'com_categories')) : ?>
+			<?php if ($user->authorise('core.create', $extension)
+				&& $user->authorise('core.edit', $extension)
+				&& $user->authorise('core.edit.state', $extension)) : ?>
 				<?php echo JHtml::_(
 						'bootstrap.renderModal',
 						'collapseModal',
