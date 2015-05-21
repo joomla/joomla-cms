@@ -150,8 +150,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					'collapseModal',
 					array(
 						'title' => JText::_('COM_REDIRECT_BATCH_OPTIONS'),
-						'width' => '800px',
-						'height' => '300px',
 						'footer' => $this->loadTemplate('batch_footer')
 					),
 					$this->loadTemplate('batch_body')

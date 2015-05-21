@@ -244,8 +244,6 @@ JFactory::getDocument()->addScriptDeclaration('
 					'collapseModal',
 					array(
 						'title' => JText::_('COM_NEWSFEEDS_BATCH_OPTIONS'),
-						'width' => '800px',
-						'height' => '300px',
 						'footer' => $this->loadTemplate('batch_footer')
 					),
 					$this->loadTemplate('batch_body')
