@@ -213,11 +213,23 @@ $assoc		= JLanguageAssociations::isEnabled();
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif; ?>
+			<?php //Load the batch processing form. ?>
+			<?php if ($user->authorise('core.create', 'com_content')
+				&& $user->authorise('core.edit', 'com_content')
+				&& $user->authorise('core.edit.state', 'com_content')) : ?>
+				<?php echo JHtml::_(
+					'bootstrap.renderModal',
+					'collapseModal',
+					array(
+						'title' => JText::_('COM_CONTENT_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer')
+					),
+					$this->loadTemplate('batch_body')
+				); ?>
+			<?php endif; ?>
+		<?php endif;?>
 
 		<?php echo $this->pagination->getListFooter(); ?>
-		<?php // Load the batch processing form. ?>
-		<?php echo $this->loadTemplate('batch'); ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
