@@ -36,11 +36,9 @@ $published = $this->state->get('filter.published');
 			<?php echo JHtml::_('batch.tag'); ?>
 		</div>
 	</div>
-	<div class="row-fluid">
-		<div class="control-group">
-			<div class="controls">
-				<?php echo JHtml::_('batch.user'); ?>
-			</div>
+	<div class="control-group span6">
+		<div class="controls">
+			<?php echo JHtml::_('batch.user'); ?>
 		</div>
 	</div>
 </div>
