@@ -127,7 +127,7 @@ JFactory::getDocument()->addScriptDeclaration("
 						<?php echo $this->form->renderField('version_note'); ?>
 					<?php endif; ?>
 					<?php echo $this->form->renderField('created_by_alias'); ?>
-					<?php if ($this->item->params->get('access-change')) : ?>
+					<?php if (!$this->item->id || $this->item->params->get('access-change')) : ?>
 						<?php echo $this->form->renderField('state'); ?>
 						<?php echo $this->form->renderField('featured'); ?>
 						<?php echo $this->form->renderField('publish_up'); ?>

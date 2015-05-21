@@ -193,10 +193,12 @@ class ContentModelArticle extends JModelAdmin
 		{
 			return $user->authorise('core.edit.state', 'com_content.category.' . (int) $record->catid);
 		}
-		// Default to component settings if neither article nor category known.
 		else
 		{
-			return parent::canEditState('com_content');
+			// If catid is 0 we are displaying the form for a new article.
+			// Changing the state fields shall be possible for that (while saving
+			// the article later on, the correct permissions will be checked again).
+			return true;
 		}
 	}
 
@@ -359,10 +361,8 @@ class ContentModelArticle extends JModelAdmin
 
 		$user = JFactory::getUser();
 
-		// Check for existing article.
 		// Modify the form based on Edit State access controls.
-		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
-			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
+		if (!$this->canEditState((object) $data))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('featured', 'disabled', 'true');
@@ -447,6 +447,11 @@ class ContentModelArticle extends JModelAdmin
 	{
 		$input = JFactory::getApplication()->input;
 		$filter  = JFilterInput::getInstance();
+
+		if(!isset($data['catid']) || !$data['catid'])
+		{
+			throw new RuntimeException('Category ID not found');
+		}
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
