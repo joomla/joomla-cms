@@ -14,7 +14,6 @@ TRUNCATE "#__viewlevels" RESTART IDENTITY;
 INSERT INTO "#__assets" VALUES
 (1,0,1,430,0,'root.1','Root Asset','{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":[],"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2,1,2,3,1,'com_admin','com_admin','{}'),
-(3,1,4,11,1,'com_banners','com_banners','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (4,1,12,13,1,'com_cache','com_cache','{"core.admin":{"7":1},"core.manage":{"7":1}}'),
 (5,1,14,15,1,'com_checkin','com_checkin','{"core.admin":{"7":1},"core.manage":{"7":1}}'),
 (6,1,16,17,1,'com_config','com_config','{}'),
@@ -39,11 +38,9 @@ INSERT INTO "#__assets" VALUES
 (26,1,356,357,1,'com_wrapper','com_wrapper','{}'),
 (33,1,418,419,1,'com_finder','com_finder','{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (34,8,105,108,2,'com_content.category.9','Uncategorised','{"core.create":{"10":0,"12":0},"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(35,3,7,8,2,'com_banners.category.10','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (36,7,23,24,2,'com_contact.category.11','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (37,19,321,322,2,'com_newsfeeds.category.12','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (39,8,109,296,2,'com_content.category.14','Sample Data-Articles','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(40,3,9,10,2,'com_banners.category.15','Sample Data-Banners','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (41,7,25,86,2,'com_contact.category.16','Sample Data-Contact','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (42,19,323,324,2,'com_newsfeeds.category.17','Sample Data-Newsfeeds','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (44,39,110,245,3,'com_content.category.19','Joomla!','{"core.create":{"10":0,"12":0},"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
@@ -176,36 +173,14 @@ INSERT INTO "#__assets" VALUES
 SELECT setval('#__assets_id_seq', max(id)) FROM #__assets;
 
 --
--- Dumping data for table #__banners
---
-INSERT INTO "#__banners" VALUES
-(2,3,0,'Shop 1','shop-1',0,0,0,'http://shop.joomla.org/amazoncom-bookstores.html',1,15,'Get books about Joomla! at the Joomla! Book Shop.','',0,1,'','{"imageurl":"images\\/banners\\/white.png","width":"","height":"","alt":"Joomla! Books"}',0,'',-1,0,0,0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00','2011-01-01 00:00:01','en-GB',42,'Joomla','1970-01-01 00:00:00',0,1),
-(3,2,0,'Shop 2','shop-2',0,0,0,'http://shop.joomla.org',1,15,'T Shirts, caps and more from the Joomla! Shop.','',0,2,'','{"imageurl":"images\\/banners\\/white.png","width":"","height":"","alt":"Joomla! Shop"}',0,'',-1,0,0,0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00','2011-01-01 00:00:01','en-GB',42,'Joomla','1970-01-01 00:00:00',0,1),
-(4,1,0,'Support Joomla!','support-joomla',0,0,0,'http://contribute.joomla.org',1,15,'Your contributions of time, talent and money make Joomla possible.','',0,3,'','{"imageurl":"images\\/banners\\/white.png","width":"","height":"","alt":""}',0,'',-1,0,0,0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00','2011-01-01 00:00:01','en-GB',42,'Joomla','1970-01-01 00:00:00',0,1);
-
-SELECT setval('#__banners_id_seq', max(id)) FROM #__banners;
-
---
--- Dumping data for table #__banner_clients
---
-INSERT INTO "#__banner_clients" VALUES
-(1,'Joomla!','Administrator','banner@example.com','',1,0,'1970-01-01 00:00:00','',0,'',-1,-1,-1),
-(2,'Shop','Example','banner@example.com','',1,0,'1970-01-01 00:00:00','',0,'',-1,0,0),
-(3,'Bookstore','Bookstore Example','banner@example.com','',1,0,'1970-01-01 00:00:00','',0,'',-1,0,0);
-
-SELECT setval('#__banner_clients_id_seq', max(id)) FROM #__banner_clients;
-
---
 -- Dumping data for table #__categories
 --
 INSERT INTO "#__categories" VALUES
 (1,0,0,0,133,0,'','system','ROOT','root','','',1,0,'1970-01-01 00:00:00',1,'{}','','','',910,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1),
 (9,34,1,129,130,1,'uncategorised','com_content','Uncategorised','uncategorised','','',1,0,'1970-01-01 00:00:00',1,'{"target":"","image":""}','','','{"page_title":"","author":"","robots":""}',910,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1),
-(10,35,1,127,128,1,'uncategorised','com_banners','Uncategorised','uncategorised','','',1,0,'1970-01-01 00:00:00',1,'{"target":"","image":"","foobar":""}','','','{"page_title":"","author":"","robots":""}',910,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1),
 (11,36,1,123,124,1,'uncategorised','com_contact','Uncategorised','uncategorised','','',1,0,'1970-01-01 00:00:00',1,'{"target":"","image":""}','','','{"page_title":"","author":"","robots":""}',910,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1),
 (12,37,1,59,60,1,'uncategorised','com_newsfeeds','Uncategorised','uncategorised','','',1,0,'1970-01-01 00:00:00',1,'{"target":"","image":""}','','','{"page_title":"","author":"","robots":""}',910,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1),
 (14,39,1,9,54,1,'sample-data-articles','com_content','Sample Data-Articles','sample-data-articles','','',1,0,'1970-01-01 00:00:00',1,'{"target":"","image":""}','','','{"page_title":"","author":"","robots":""}',910,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1),
-(15,40,1,125,126,1,'sample-data-banners','com_banners','Sample Data-Banners','sample-data-banners','','',1,0,'1970-01-01 00:00:00',1,'{"target":"","image":"","foobar":""}','','','{"page_title":"","author":"","robots":""}',910,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1),
 (16,41,1,61,122,1,'sample-data-contact','com_contact','Sample Data-Contact','sample-data-contact','','',1,0,'1970-01-01 00:00:00',1,'{"target":"","image":""}','','','{"page_title":"","author":"","robots":""}',910,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1),
 (17,42,1,57,58,1,'sample-data-newsfeeds','com_newsfeeds','Sample Data-Newsfeeds','sample-data-newsfeeds','','',1,0,'1970-01-01 00:00:00',1,'{"target":"","image":""}','','','{"page_title":"","author":"","robots":""}',910,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1),
 (19,44,14,10,37,2,'sample-data-articles/joomla','com_content','Joomla!','joomla','','',1,0,'1970-01-01 00:00:00',1,'{"target":"","image":""}','','','{"page_title":"","author":"","robots":""}',910,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1),
@@ -367,11 +342,6 @@ INSERT INTO "#__content_frontpage" VALUES
 --
 INSERT INTO "#__menu" VALUES
 (1,'','Menu_Item_Root','root','','','','',1,0,0,0,0,'1970-01-01 00:00:00',0,0,'',0,'',0,281,0,'*',0),
-(2,'menu','com_banners','Banners','','Banners','index.php?option=com_banners','component',0,1,1,4,0,'1970-01-01 00:00:00',0,0,'class:banners',0,'',13,22,0,'*',1),
-(3,'menu','com_banners','Banners','','Banners/Banners','index.php?option=com_banners','component',0,2,2,4,0,'1970-01-01 00:00:00',0,0,'class:banners',0,'',14,15,0,'*',1),
-(4,'menu','com_banners_categories','Categories','','Banners/Categories','index.php?option=com_categories&extension=com_banners','component',0,2,2,6,0,'1970-01-01 00:00:00',0,0,'class:banners-cat',0,'',16,17,0,'*',1),
-(5,'menu','com_banners_clients','Clients','','Banners/Clients','index.php?option=com_banners&view=clients','component',0,2,2,4,0,'1970-01-01 00:00:00',0,0,'class:banners-clients',0,'',18,19,0,'*',1),
-(6,'menu','com_banners_tracks','Tracks','','Banners/Tracks','index.php?option=com_banners&view=tracks','component',0,2,2,4,0,'1970-01-01 00:00:00',0,0,'class:banners-tracks',0,'',20,21,0,'*',1),
 (7,'menu','com_contact','Contacts','','Contacts','index.php?option=com_contact','component',0,1,1,8,0,'1970-01-01 00:00:00',0,0,'class:contact',0,'',23,28,0,'*',1),
 (8,'menu','com_contact','Contacts','','Contacts/Contacts','index.php?option=com_contact','component',0,7,2,8,0,'1970-01-01 00:00:00',0,0,'class:contact',0,'',24,25,0,'*',1),
 (9,'menu','com_contact_categories','Categories','','Contacts/Categories','index.php?option=com_categories&extension=com_contact','component',0,7,2,6,0,'1970-01-01 00:00:00',0,0,'class:contact-cat',0,'',26,27,0,'*',1),
@@ -530,7 +500,6 @@ INSERT INTO "#__modules" VALUES
 (15,0,'Title','','',1,'title',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_title',3,1,'',1,'*'),
 (16,0,'Login Form','','',7,'position-7',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_login',1,1,'{"greeting":"1","name":"0"}',0,'*'),
 (17,0,'Breadcrumbs','','',1,'position-2',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_breadcrumbs',1,1,'{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"1","cache_time":"900","cachemode":"itemid"}',0,'*'),
-(18,0,'Book Store','','',1,'position-10',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_banners',1,0,'{"target":"1","count":"1","cid":"3","catid":[""],"tag_search":"0","ordering":"0","header_text":"","footer_text":"Books!","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900"}',0,'*'),
 (19,0,'User Menu','','',3,'position-7',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_menu',2,1,'{"menutype":"usermenu","startLevel":"1","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}',0,'*'),
 (20,0,'Top','','',1,'position-1',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_menu',1,1,'{"menutype":"top","startLevel":"1","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":" nav-pills","window_open":"","layout":"_:default","moduleclass_sfx":"","cache":"0","cache_time":"900","cachemode":"itemid","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',0,'*'),
 (22,0,'Australian Parks ','','',2,'position-7',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_menu',1,1,'{"menutype":"parks","active":"","startLevel":"1","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"_:default","moduleclass_sfx":"","cache":"0","cache_time":"900","cachemode":"itemid","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',0,'en-GB'),
@@ -556,7 +525,6 @@ INSERT INTO "#__modules" VALUES
 (47,0,'Latest Park Blogs','','',6,'position-7',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_articles_latest',1,1,'{"catid":["27"],"count":"5","show_featured":"","ordering":"c_dsc","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',0,'en-GB'),
 (48,0,'Custom HTML','','<p>This is a custom html module. That means you can enter whatever content you want.</p>',1,'',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_custom',1,1,'{"prepare_content":"1","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static"}',0,'*'),
 (52,0,'Breadcrumbs','','',1,'',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_breadcrumbs',1,1,'{"showHere":"1","showHome":"1","homeText":"Home","showLast":"1","separator":"","layout":"_:default","moduleclass_sfx":"","cache":"0","cache_time":"900","cachemode":"itemid"}',0,'*'),
-(56,0,'Banners','','',1,'',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_banners',1,1,'{"target":"1","count":"1","cid":"1","catid":["15"],"tag_search":"0","ordering":"random","header_text":"","footer_text":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900"}',0,'*'),
 (57,0,'Fruit Shop','','',3,'position-5',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_menu',1,1,'{"menutype":"fruitshop","startLevel":"1","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"","cache":"0","cache_time":"900","cachemode":"itemid"}',0,'*'),
 (58,0,'Special!','','<h1>This week we have a special, half price on delicious oranges!</h1><div>Only for our special customers!</div><div>Use the code: Joomla! when ordering</div><p><em>This module can only be seen by people in the customers group or higher.</em></p>',1,'position-12',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_custom',4,1,'{"prepare_content":"1","layout":"","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static"}',0,'*'),
 (61,0,'Articles Categories','','',1,'',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_articles_categories',1,1,'{"parent":"29","show_description":"0","show_children":"0","count":"0","maxlevel":"0","layout":"_:default","item_heading":"4","moduleclass_sfx":"","owncache":"1","cache_time":"900"}',0,'*'),
@@ -567,8 +535,6 @@ INSERT INTO "#__modules" VALUES
 (67,0,'Extensions','','',2,'position-7',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',0,'mod_menu',1,1,'{"menutype":"aboutjoomla","startLevel":"1","endLevel":"6","showAllChildren":"0","tag_id":"","class_sfx":"-menu","window_open":"","layout":"","moduleclass_sfx":"","cache":"0","cache_time":"900","cachemode":"itemid"}',0,'*'),
 (68,0,'About Parks','','<p>The Parks sample site is designed as a simple site that can be routinely updated from the front end of Joomla!.</p><p>As a site, it is largely focused on a blog which can be updated using the front end article submission.</p><p>A simple image gallery uses com_content with thumbnails displayed in a blog layout and full size images shown in article layout.</p>',2,'position-2',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_custom',1,1,'{"prepare_content":"1","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"Protostar-well"}',0,'*'),
 (69,0,'Articles Category','','',1,'',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_articles_category',1,1,'{"mode":"normal","show_on_article_page":"1","show_front":"show","count":"0","category_filtering_type":"1","catid":["72"],"show_child_category_articles":"0","levels":"1","author_filtering_type":"1","created_by":[""],"author_alias_filtering_type":"1","created_by_alias":[""],"excluded_articles":"","date_filtering":"off","date_field":"a.created","start_date_range":"","end_date_range":"","relative_date":"30","article_ordering":"a.title","article_ordering_direction":"ASC","article_grouping":"none","article_grouping_direction":"ksort","month_year_format":"F Y","item_heading":"4","link_titles":"1","show_date":"0","show_date_field":"created","show_date_format":"Y-m-d H:i:s","show_category":"0","show_hits":"0","show_author":"0","show_introtext":"0","introtext_limit":"100","show_readmore":"0","show_readmore_title":"1","readmore_limit":"15","layout":"_:default","moduleclass_sfx":"","owncache":"1","cache_time":"900"}',0,'*'),
-(77,0,'Shop','','',1,'position-11',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_banners',1,0,'{"target":"1","count":"1","cid":"2","catid":["15"],"tag_search":"0","ordering":"0","header_text":"","footer_text":"Shop!","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900"}',0,'*'),
-(78,0,'Contribute','','',1,'position-9',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_banners',1,0,'{"target":"1","count":"1","cid":"1","catid":["15"],"tag_search":"0","ordering":"0","header_text":"","footer_text":"Contribute! ","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900"}',0,'*'),
 (79,0,'Multilanguage status','','',1,'status',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',0,'mod_multilangstatus',3,1,'{"layout":"_:default","moduleclass_sfx":"","cache":"0"}',1,'*'),
 (84,0,'Smart Search Module','','',2,'',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_finder',1,1,'{"searchfilter":"","show_autosuggest":"1","show_advanced":"0","layout":"_:default","moduleclass_sfx":"","field_size":20,"alt_label":"","show_label":"0","label_pos":"top","show_button":"0","button_pos":"right","opensearch":"1","opensearch_title":""}',0,'*'),
 (86,0,'Joomla Version','','',1,'footer',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_version',3,1,'{"format":"short","product":"1","layout":"_:default","moduleclass_sfx":"","cache":"0"}',1,'*'),

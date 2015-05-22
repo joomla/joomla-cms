@@ -11,7 +11,6 @@ TRUNCATE "#__modules_menu" RESTART IDENTITY;
 INSERT INTO "#__assets" VALUES
 (1,0,0,93,0,'root.1','Root Asset','{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2,1,1,2,1,'com_admin','com_admin','{}'),
-(3,1,3,6,1,'com_banners','com_banners','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (4,1,7,8,1,'com_cache','com_cache','{"core.admin":{"7":1},"core.manage":{"7":1}}'),
 (5,1,9,10,1,'com_checkin','com_checkin','{"core.admin":{"7":1},"core.manage":{"7":1}}'),
 (6,1,11,12,1,'com_config','com_config','{}'),
@@ -35,7 +34,6 @@ INSERT INTO "#__assets" VALUES
 (24,1,67,70,1,'com_users','com_users','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.own":{"6":1},"core.edit.state":[]}'),
 (26,1,77,78,1,'com_wrapper','com_wrapper','{}'),
 (27,8,18,23,2,'com_content.category.2','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-(28,3,4,5,2,'com_banners.category.3','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (29,7,14,15,2,'com_contact.category.4','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
 (30,19,56,57,2,'com_newsfeeds.category.5','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
 (32,24,68,69,1,'com_users.category.7','Uncategorised','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
@@ -62,7 +60,6 @@ SELECT setval('#__assets_id_seq', max(id)) FROM #__assets;
 INSERT INTO "#__categories" VALUES
 (1,0,0,0,17,0,'','system','ROOT','root','','',1,0,'1970-01-01 00:00:00',1,'{}','','','',363,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1),
 (2,27,1,1,2,1,'uncategorised','com_content','Uncategorised','uncategorised','','',1,0,'1970-01-01 00:00:00',1,'{"target":"","image":""}','','','{"page_title":"","author":"","robots":""}',363,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1),
-(3,28,1,3,4,1,'uncategorised','com_banners','Uncategorised','uncategorised','','',1,0,'1970-01-01 00:00:00',1,'{"target":"","image":"","foobar":""}','','','{"page_title":"","author":"","robots":""}',363,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1),
 (4,29,1,5,6,1,'uncategorised','com_contact','Uncategorised','uncategorised','','',1,0,'1970-01-01 00:00:00',1,'{"target":"","image":""}','','','{"page_title":"","author":"","robots":""}',363,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1),
 (5,30,1,7,8,1,'uncategorised','com_newsfeeds','Uncategorised','uncategorised','','',1,0,'1970-01-01 00:00:00',1,'{"target":"","image":""}','','','{"page_title":"","author":"","robots":""}',363,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1),
 (7,32,1,11,12,1,'uncategorised','com_users','Uncategorised','uncategorised','','',1,0,'1970-01-01 00:00:00',1,'{"target":"","image":""}','','','{"page_title":"","author":"","robots":""}',363,'2011-01-01 00:00:01',0,'1970-01-01 00:00:00',0,'*',1),
@@ -88,11 +85,6 @@ SELECT setval('#__content_id_seq', max(id)) FROM #__content;
 --
 INSERT INTO "#__menu" VALUES
 (1,'','Menu_Item_Root','root','','','','',1,0,0,0,0,'1970-01-01 00:00:00',0,0,'',0,'',0,73,0,'*',0),
-(2,'menu','com_banners','Banners','','Banners','index.php?option=com_banners','component',0,1,1,4,0,'1970-01-01 00:00:00',0,0,'class:banners',0,'',1,10,0,'*',1),
-(3,'menu','com_banners','Banners','','Banners/Banners','index.php?option=com_banners','component',0,2,2,4,0,'1970-01-01 00:00:00',0,0,'class:banners',0,'',2,3,0,'*',1),
-(4,'menu','com_banners_categories','Categories','','Banners/Categories','index.php?option=com_categories&extension=com_banners','component',0,2,2,6,0,'1970-01-01 00:00:00',0,0,'class:banners-cat',0,'',4,5,0,'*',1),
-(5,'menu','com_banners_clients','Clients','','Banners/Clients','index.php?option=com_banners&view=clients','component',0,2,2,4,0,'1970-01-01 00:00:00',0,0,'class:banners-clients',0,'',6,7,0,'*',1),
-(6,'menu','com_banners_tracks','Tracks','','Banners/Tracks','index.php?option=com_banners&view=tracks','component',0,2,2,4,0,'1970-01-01 00:00:00',0,0,'class:banners-tracks',0,'',8,9,0,'*',1),
 (7,'menu','com_contact','Contacts','','Contacts','index.php?option=com_contact','component',0,1,1,8,0,'1970-01-01 00:00:00',0,0,'class:contact',0,'',33,38,0,'*',1),
 (8,'menu','com_contact','Contacts','','Contacts/Contacts','index.php?option=com_contact','component',0,7,2,8,0,'1970-01-01 00:00:00',0,0,'class:contact',0,'',34,35,0,'*',1),
 (9,'menu','com_contact_categories','Categories','','Contacts/Categories','index.php?option=com_categories&extension=com_contact','component',0,7,2,6,0,'1970-01-01 00:00:00',0,0,'class:contact-cat',0,'',36,37,0,'*',1),
