@@ -141,13 +141,25 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+			<?php //Load the batch processing form if user is allowed ?>
+			<?php if ($user->authorise('core.create', 'com_redirect')
+				&& $user->authorise('core.edit', 'com_redirect')
+				&& $user->authorise('core.edit.state', 'com_redirect')) : ?>
+				<?php echo JHtml::_(
+					'bootstrap.renderModal',
+					'collapseModal',
+					array(
+						'title' => JText::_('COM_REDIRECT_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer')
+					),
+					$this->loadTemplate('batch_body')
+				); ?>
+			<?php endif;?>
 		<?php endif; ?>
 
 		<?php if (!empty($this->items)) : ?>
 			<?php echo $this->loadTemplate('addform'); ?>
 		<?php endif; ?>
-
-		<?php echo $this->loadTemplate('batch'); ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

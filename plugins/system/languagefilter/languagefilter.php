@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/multilangstatus.php');
 
 /**
  * Joomla! Language Filter Plugin.
@@ -29,6 +30,14 @@ class PlgSystemLanguageFilter extends JPlugin
 	protected $default_lang;
 
 	private $user_lang_code;
+
+	/**
+	 * JDatabaseDriver instance
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  3.4.2
+	 */
+	protected $db = null;
 
 	/**
 	 * Application object.
@@ -64,7 +73,9 @@ class PlgSystemLanguageFilter extends JPlugin
 			foreach ($this->sefs as $sef => $language)
 			{
 				// @todo: In Joomla 2.5.4 and earlier access wasn't set. Non modified Content Languages got 0 as access value
-				if ($language->access && !in_array($language->access, $levels))
+				// we also check if frontend language exists and is enabled
+				if (($language->access && !in_array($language->access, $levels))
+					|| (!array_key_exists($language->lang_code, MultilangstatusHelper::getSitelangs())))
 				{
 					unset($this->lang_codes[$language->lang_code]);
 					unset($this->sefs[$language->sef]);
@@ -244,7 +255,16 @@ class PlgSystemLanguageFilter extends JPlugin
 			// that we have in our system, its the default language and we "found" the right language
 			if ($this->params->get('remove_default_prefix', 0) && !isset($this->sefs[$sef]))
 			{
-				$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
+				if ($parts[0])
+				{
+					// We load a default site language page
+					$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+				}
+				else
+				{
+					// We check for an existing language cookie
+					$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
+				}
 
 				if (!$lang_code && $this->params->get('detect_browser', 0) == 1)
 				{
@@ -335,6 +355,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			if (!isset($lang_code) || !isset($this->lang_codes[$lang_code]))
 			{
 				$lang_code = false;
+
 				if ($this->params->get('detect_browser', 1))
 				{
 					$lang_code = JLanguageHelper::detectLanguage();
@@ -343,6 +364,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						$lang_code = false;
 					}
 				}
+
 				if (!$lang_code)
 				{
 					$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
@@ -503,52 +525,73 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		if ($this->app->isSite() && $this->params->get('automatic_change', 1))
 		{
-			// Load associations.
 			$assoc = JLanguageAssociations::isEnabled();
-
-			if ($assoc)
-			{
-				$active = $menu->getActive();
-
-				if ($active)
-				{
-					$associations = MenusHelper::getAssociations($active->id);
-				}
-			}
-
 			$lang_code = $user['language'];
 
 			if (empty($lang_code))
 			{
+				$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+			}
+
+			// Get a 1-dimensional array of published language codes
+			$query = $this->db->getQuery(true)
+				->select($this->db->quoteName('a.lang_code'))
+				->from($this->db->quoteName('#__languages', 'a'))
+				->where($this->db->quoteName('published') . ' = 1');
+			$this->db->setQuery($query);
+			$lang_codes = $this->db->loadColumn();
+
+			// The user language has been deleted/disabled or the related content language does not exist/has been unpublished
+			// or the related home page does not exist/has been unpublished
+			if (!array_key_exists($lang_code, MultilangstatusHelper::getSitelangs())
+				|| !in_array($lang_code, $lang_codes)
+				|| !array_key_exists($lang_code, MultilangstatusHelper::getHomepages()))
+			{
 				$lang_code = $this->default_lang;
 			}
 
-			if ($lang_code != $this->default_lang)
+			// Try to get association from the current active menu item
+			$active = $menu->getActive();
+			$foundAssociation = false;
+
+			if ($active)
+			{
+				if ($assoc)
+				{
+					$associations = MenusHelper::getAssociations($active->id);
+				}
+
+				if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
+				{
+					$associationItemid = $associations[$lang_code];
+					$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
+					$foundAssociation = true;
+				}
+				elseif ($active->home)
+				{
+					// We are on a Home page, we redirect to the user site language home page
+					$item = $menu->getDefault($lang_code);
+
+					if ($item && $item->language != $active->language && $item->language != '*')
+					{
+						$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $item->id);
+						$foundAssociation = true;
+					}
+				}
+			}
+
+			if ($foundAssociation && $lang_code != $this->default_lang)
 			{
 				// Change language.
 				$this->default_lang = $lang_code;
 
 				// Create a cookie.
-				$cookie_domain 	= $this->app->get('cookie_domain', '');
-				$cookie_path 	= $this->app->get('cookie_path', '/');
+				$cookie_domain	= $this->app->get('cookie_domain', '');
+				$cookie_path	= $this->app->get('cookie_path', '/');
 				setcookie(JApplicationHelper::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
 
 				// Change the language code.
 				JFactory::getLanguage()->setLanguage($lang_code);
-
-				// Change the redirect (language has changed).
-				if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
-				{
-					$itemid = $associations[$lang_code];
-					$this->app->setUserState('users.login.form.return', 'index.php?&Itemid=' . $itemid);
-				}
-				else
-				{
-					JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/multilangstatus.php');
-					$homes	= MultilangstatusHelper::getHomepages();
-					$itemid = isset($homes[$lang_code]) ? $homes[$lang_code]->id : $homes['*']->id;
-					$this->app->setUserState('users.login.form.return', 'index.php?&Itemid=' . $itemid);
-				}
 			}
 		}
 	}

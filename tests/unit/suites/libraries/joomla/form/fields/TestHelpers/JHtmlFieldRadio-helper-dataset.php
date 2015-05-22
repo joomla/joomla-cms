@@ -16,7 +16,7 @@
  */
 class JHtmlFieldRadioTest_DataSet
 {
-	static public $getInputTest = array(
+	public static $getInputTest = array(
 		'NoOptions' => array(
 			'<field name="myTestId" type="radio" />',
 			array(
