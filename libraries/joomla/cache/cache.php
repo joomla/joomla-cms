@@ -766,7 +766,7 @@ class JCache
 		$browser = JBrowser::getInstance();
 		$conf = JFactory::getConfig();
 
-		if (boolval(!$conf->get('deviceprefix_enable', '0')))
+		if (!$conf->get('deviceprefix_enable', '0'))
 		{
 			return;
 		}
