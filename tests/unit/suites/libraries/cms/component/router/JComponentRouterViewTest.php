@@ -40,7 +40,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
-		$app = TestMockApplication::create($this);
+		$app = $this->getMockCmsApp();
 		$this->object = new JComponentRouterViewInspector($app, $app->getMenu());
 	}
 
@@ -110,6 +110,10 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 */
 	public function testGetPath()
 	{
+		// This test requires an application registered to JFactory
+		$this->saveFactoryState();
+		JFactory::$application = $this->object->app;
+
 		$views = $this->getComContentViews();
 		$this->object->set('name', 'unittest');
 
@@ -151,8 +155,10 @@ class JComponentRouterViewTest extends TestCaseDatabase
 				'14:sample-data-articles'
 			),
 			'categories' => true),
-			$this->object->getPath($query));
+			$this->object->getPath($query)
+		);
 
+		$this->restoreFactoryState();
 	}
 
 	/**
@@ -304,7 +310,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 
 	/**
 	 * As view testdata, use the view configuration of com_content
-	 * 
+	 *
 	 * @return array|JComponentRouterViewconfiguration
 	 */
 	protected function getComContentViews()
