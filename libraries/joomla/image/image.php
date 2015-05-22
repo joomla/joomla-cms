@@ -76,6 +76,7 @@ class JImage
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
 	 *
 	 * @since   11.3
+	 *
 	 * @throws  RuntimeException
 	 */
 	public function __construct($source = null)
@@ -85,7 +86,7 @@ class JImage
 		{
 			// @codeCoverageIgnoreStart
 			JLog::add('The GD extension for PHP is not available.', JLog::ERROR);
-			throw new RuntimeException('The GD extension for PHP is not available.');
+			throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_GDLIB_NOT_AVAILABLE'));
 
 			// @codeCoverageIgnoreEnd
 		}
@@ -121,6 +122,7 @@ class JImage
 	 * @return  stdClass
 	 *
 	 * @since   11.3
+	 *
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
 	 */
@@ -129,7 +131,7 @@ class JImage
 		// Make sure the file exists.
 		if (!file_exists($path))
 		{
-			throw new InvalidArgumentException('The image file does not exist.');
+			throw new InvalidArgumentException(JText::_('JLIB_IMAGE_ERROR_FILE_NOT_FOUND'));
 		}
 
 		// Get the image file information.
@@ -138,20 +140,20 @@ class JImage
 		if (!$info)
 		{
 			// @codeCoverageIgnoreStart
-			throw new RuntimeException('Unable to get properties for the image.');
+			throw new RuntimeException(JText::_('JLIB_IMAGE_ERROR_GET_IMAGE_PROPERTIES'));
 
 			// @codeCoverageIgnoreEnd
 		}
 
 		// Build the response object.
 		$properties = (object) array(
-			'width' => $info[0],
-			'height' => $info[1],
-			'type' => $info[2],
+			'width'      => $info[0],
+			'height'     => $info[1],
+			'type'       => $info[2],
 			'attributes' => $info[3],
-			'bits' => isset($info['bits']) ? $info['bits'] : null,
-			'channels' => isset($info['channels']) ? $info['channels'] : null,
-			'mime' => $info['mime']
+			'bits'       => isset($info['bits']) ? $info['bits'] : null,
+			'channels'   => isset($info['channels']) ? $info['channels'] : null,
+			'mime'       => $info['mime']
 		);
 
 		return $properties;
@@ -167,6 +169,7 @@ class JImage
 	 * @return  array
 	 *
 	 * @since   12.2
+	 *
 	 * @throws  LogicException
 	 * @throws  InvalidArgumentException
 	 */
@@ -175,7 +178,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new LogicException('No valid image was loaded.');
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		// Accept a single thumbsize string as parameter
@@ -196,7 +199,7 @@ class JImage
 
 				if (count($size) != 2)
 				{
-					throw new InvalidArgumentException('Invalid thumb size received: ' . $thumbSize);
+					throw new InvalidArgumentException(JText::sprintf('JLIB_IMAGE_ERROR_INVALID_THUMB_SIZE', $thumbSize));
 				}
 
 				$thumbWidth  = $size[0];
@@ -238,6 +241,7 @@ class JImage
 	 * @return  array
 	 *
 	 * @since   12.2
+	 *
 	 * @throws  LogicException
 	 * @throws  InvalidArgumentException
 	 */
@@ -246,7 +250,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new LogicException('No valid image was loaded.');
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		// No thumbFolder set -> we will create a thumbs folder in the current image folder
@@ -258,7 +262,7 @@ class JImage
 		// Check destination
 		if (!is_dir($thumbsFolder) && (!is_dir(dirname($thumbsFolder)) || !@mkdir($thumbsFolder)))
 		{
-			throw new InvalidArgumentException('Folder does not exist and cannot be created: ' . $thumbsFolder);
+			throw new InvalidArgumentException(JText::sprintf('JLIB_IMAGE_ERROR_NO_OUTPUT_FOLDER', $thumbsFolder));
 		}
 
 		// Process thumbs
@@ -308,6 +312,7 @@ class JImage
 	 * @return  JImage
 	 *
 	 * @since   11.3
+	 *
 	 * @throws  LogicException
 	 */
 	public function crop($width, $height, $left = null, $top = null, $createNew = true)
@@ -315,7 +320,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new LogicException('No valid image was loaded.');
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		// Sanitize width.
@@ -396,7 +401,9 @@ class JImage
 	 * @return  JImage
 	 *
 	 * @since   11.3
+	 *
 	 * @see     JImageFilter
+	 *
 	 * @throws  LogicException
 	 */
 	public function filter($type, array $options = array())
@@ -404,7 +411,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new LogicException('No valid image was loaded.');
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		// Get the image filter instance.
@@ -422,6 +429,7 @@ class JImage
 	 * @return  integer
 	 *
 	 * @since   11.3
+	 *
 	 * @throws  LogicException
 	 */
 	public function getHeight()
@@ -429,7 +437,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new LogicException('No valid image was loaded.');
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		return imagesy($this->handle);
@@ -441,6 +449,7 @@ class JImage
 	 * @return  integer
 	 *
 	 * @since   11.3
+	 *
 	 * @throws  LogicException
 	 */
 	public function getWidth()
@@ -448,7 +457,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new LogicException('No valid image was loaded.');
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		return imagesx($this->handle);
@@ -490,6 +499,7 @@ class JImage
 	 * @return  bool
 	 *
 	 * @since   11.3
+	 *
 	 * @throws  LogicException
 	 */
 	public function isTransparent()
@@ -497,7 +507,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new LogicException('No valid image was loaded.');
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		return (imagecolortransparent($this->handle) >= 0);
@@ -511,6 +521,7 @@ class JImage
 	 * @return  void
 	 *
 	 * @since   11.3
+	 *
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
 	 */
@@ -522,22 +533,25 @@ class JImage
 		// Make sure the file exists.
 		if (!file_exists($path))
 		{
-			throw new InvalidArgumentException('The image file does not exist.');
+			throw new InvalidArgumentException(JText::_('JLIB_IMAGE_ERROR_FILE_NOT_FOUND'));
 		}
 
 		// Get the image properties.
 		$properties = self::getImageFileProperties($path);
+		$mime       = $properties->mime;
+		$type       = $properties->type;
+		$type       = $type ? strtoupper($type) : '';
 
 		// Attempt to load the image based on the MIME-Type
-		switch ($properties->mime)
+		switch ($mime)
 		{
 			case 'image/gif':
 				// Make sure the image type is supported.
 				if (empty(self::$formats[IMAGETYPE_GIF]))
 				{
 					// @codeCoverageIgnoreStart
-					JLog::add('Attempting to load an image of unsupported type GIF.', JLog::ERROR);
-					throw new RuntimeException('Attempting to load an image of unsupported type GIF.');
+					JLog::add('Attempting to load an image of unsupported type ' . $type . '.', JLog::ERROR);
+					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNSUPPORTED_TYPE', $type));
 
 					// @codeCoverageIgnoreEnd
 				}
@@ -548,7 +562,7 @@ class JImage
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
-					throw new RuntimeException('Unable to process GIF image.');
+					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNABLE_TO_PROCESS', $type));
 
 					// @codeCoverageIgnoreEnd
 				}
@@ -561,8 +575,8 @@ class JImage
 				if (empty(self::$formats[IMAGETYPE_JPEG]))
 				{
 					// @codeCoverageIgnoreStart
-					JLog::add('Attempting to load an image of unsupported type JPG.', JLog::ERROR);
-					throw new RuntimeException('Attempting to load an image of unsupported type JPG.');
+					JLog::add('Attempting to load an image of unsupported type ' . $type . '.', JLog::ERROR);
+					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNSUPPORTED_TYPE', $type));
 
 					// @codeCoverageIgnoreEnd
 				}
@@ -573,7 +587,7 @@ class JImage
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
-					throw new RuntimeException('Unable to process JPG image.');
+					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNABLE_TO_PROCESS', $type));
 
 					// @codeCoverageIgnoreEnd
 				}
@@ -586,8 +600,8 @@ class JImage
 				if (empty(self::$formats[IMAGETYPE_PNG]))
 				{
 					// @codeCoverageIgnoreStart
-					JLog::add('Attempting to load an image of unsupported type PNG.', JLog::ERROR);
-					throw new RuntimeException('Attempting to load an image of unsupported type PNG.');
+					JLog::add('Attempting to load an image of unsupported type ' . $type . '.', JLog::ERROR);
+					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNSUPPORTED_TYPE', $type));
 
 					// @codeCoverageIgnoreEnd
 				}
@@ -598,7 +612,7 @@ class JImage
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
-					throw new RuntimeException('Unable to process PNG image.');
+					throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_UNABLE_TO_PROCESS', $type));
 
 					// @codeCoverageIgnoreEnd
 				}
@@ -617,8 +631,8 @@ class JImage
 				break;
 
 			default:
-				JLog::add('Attempting to load an image of unsupported type: ' . $properties->mime, JLog::ERROR);
-				throw new InvalidArgumentException('Attempting to load an image of unsupported type: ' . $properties->mime);
+				JLog::add('Attempting to load an image of unsupported type: ' . $mime, JLog::ERROR);
+				throw new InvalidArgumentException(JText::sprintf('JLIB_IMAGE_ERROR_UNSUPPORTED_TYPE', $mime));
 				break;
 		}
 
@@ -638,6 +652,7 @@ class JImage
 	 * @return  JImage
 	 *
 	 * @since   11.3
+	 *
 	 * @throws  LogicException
 	 */
 	public function resize($width, $height, $createNew = true, $scaleMethod = self::SCALE_INSIDE)
@@ -645,7 +660,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new LogicException('No valid image was loaded.');
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		// Sanitize width.
@@ -790,6 +805,7 @@ class JImage
 	 * @return  JImage
 	 *
 	 * @since   11.3
+	 *
 	 * @throws  LogicException
 	 */
 	public function rotate($angle, $background = -1, $createNew = true)
@@ -797,7 +813,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new LogicException('No valid image was loaded.');
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		// Sanitize input
@@ -854,7 +870,9 @@ class JImage
 	 * @return  boolean
 	 *
 	 * @see     http://www.php.net/manual/image.constants.php
+	 *
 	 * @since   11.3
+	 *
 	 * @throws  LogicException
 	 */
 	public function toFile($path, $type = IMAGETYPE_JPEG, array $options = array())
@@ -862,7 +880,7 @@ class JImage
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
 		{
-			throw new LogicException('No valid image was loaded.');
+			throw new LogicException(JText::_('JLIB_IMAGE_ERROR_NO_VALID_IMAGE'));
 		}
 
 		switch ($type)
@@ -889,20 +907,22 @@ class JImage
 	 * @return  JImageFilter
 	 *
 	 * @since   11.3
+	 *
 	 * @throws  RuntimeException
 	 */
 	protected function getFilterInstance($type)
 	{
 		// Sanitize the filter type.
 		$type = strtolower(preg_replace('#[^A-Z0-9_]#i', '', $type));
+		$type = $type ? ucfirst($type) : '';
 
 		// Verify that the filter type exists.
-		$className = 'JImageFilter' . ucfirst($type);
+		$className = 'JImageFilter' . $type;
 
 		if (!class_exists($className))
 		{
-			JLog::add('The ' . ucfirst($type) . ' image filter is not available.', JLog::ERROR);
-			throw new RuntimeException('The ' . ucfirst($type) . ' image filter is not available.');
+			JLog::add('The ' . $type . ' image filter is not available.', JLog::ERROR);
+			throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_FILTER_NOT_AVAILABLE', $type));
 		}
 
 		// Instantiate the filter object.
@@ -912,8 +932,8 @@ class JImage
 		if (!($instance instanceof JImageFilter))
 		{
 			// @codeCoverageIgnoreStart
-			JLog::add('The ' . ucfirst($type) . ' image filter is not valid.', JLog::ERROR);
-			throw new RuntimeException('The ' . ucfirst($type) . ' image filter is not valid.');
+			JLog::add('The ' . $type . ' image filter is not valid.', JLog::ERROR);
+			throw new RuntimeException(JText::sprintf('JLIB_IMAGE_ERROR_FILTER_INVALID', $type));
 
 			// @codeCoverageIgnoreEnd
 		}
@@ -931,6 +951,7 @@ class JImage
 	 * @return  stdClass
 	 *
 	 * @since   11.3
+	 *
 	 * @throws  InvalidArgumentException  If width, height or both given as zero
 	 */
 	protected function prepareDimensions($width, $height, $scaleMethod)
@@ -965,7 +986,7 @@ class JImage
 				break;
 
 			default:
-				throw new InvalidArgumentException('Invalid scale method.');
+				throw new InvalidArgumentException(JText::_('JLIB_IMAGE_ERROR_INVALID_SCALE_METHOD'));
 				break;
 		}
 
