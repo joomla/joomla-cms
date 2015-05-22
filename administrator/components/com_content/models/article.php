@@ -448,7 +448,7 @@ class ContentModelArticle extends JModelAdmin
 		$input = JFactory::getApplication()->input;
 		$filter  = JFilterInput::getInstance();
 
-		if(!isset($data['catid']) || !$data['catid'])
+		if (!isset($data['catid']) || !$data['catid'])
 		{
 			throw new RuntimeException('Category ID not found');
 		}
