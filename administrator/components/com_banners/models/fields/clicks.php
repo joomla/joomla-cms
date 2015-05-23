@@ -34,7 +34,7 @@ class JFormFieldClicks extends JFormField
 	protected function getInput()
 	{
 		// This will need to change with the new renderer???
-		$layout = new JLayoutFile('components.com_banners.fields.click');
+		$layout = new JLayoutFile('fields.click');
 
 		return $layout->render(
 			array(

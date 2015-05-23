@@ -37,7 +37,7 @@ class JFormFieldImpTotal extends JFormField
 		$checked	= empty($this->value) ? ' checked="checked"' : '';
 
 		// This will need to change with the new renderer???
-		$layout = new JLayoutFile('components.com_banners.fields.imptotal');
+		$layout = new JLayoutFile('fields.imptotal');
 
 		return $layout->render(
 			array(

@@ -27,7 +27,7 @@ abstract class JHtmlBanner
 	{
 		$options = static::clientlist();
 		// This will need to change with the new renderer???
-		$layout = new JLayoutFile('components.com_banners.html');
+		$layout = new JLayoutFile('helpers.clients');
 
 		return $layout->render(array('options' => $options));
 	}
@@ -99,6 +99,18 @@ abstract class JHtmlBanner
 			),
 		);
 
-		return JHtml::_('jgrid.state', $states, $value, $i, 'banners.', $enabled, true, $checkbox);
+		// This will need to change with the new renderer???
+		$layout = new JLayoutFile('fields.click');
+
+		return $layout->render(
+			array(
+				'i' => $i,
+				'states' => $states,
+				'value' => $value,
+				'enabled' => $enabled,
+				'checkbox' => $checkbox
+			)
+		);
+
 	}
 }

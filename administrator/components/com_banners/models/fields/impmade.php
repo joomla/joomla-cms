@@ -34,7 +34,7 @@ class JFormFieldImpMade extends JFormField
 	protected function getInput()
 	{
 		// This will need to change with the new renderer???
-		$layout = new JLayoutFile('components.com_banners.fields.impmade');
+		$layout = new JLayoutFile('fields.impmade');
 
 		return $layout->render(
 			array(
