@@ -157,12 +157,24 @@ abstract class JHtmlIcon
 			&& $article->checked_out != $user->get('id'))
 		{
 			$checkoutUser = JFactory::getUser($article->checked_out);
-			$button       = JHtml::_('image', 'system/checked_out.png', null, null, true);
 			$date         = JHtml::_('date', $article->checked_out_time);
 			$tooltip      = JText::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
 				. ' <br /> ' . $date;
 
-			return '<span class="hasTooltip" title="' . JHtml::tooltipText($tooltip . '', 0) . '">' . $button . '</span>';
+			if ($legacy)
+			{
+				$button = JHtml::_('image', 'system/checked_out.png', null, null, true);
+				$text   = '<span class="hasTooltip" title="' . JHtml::tooltipText($tooltip . '', 0) . '">'
+					. $button . '</span> ' . JText::_('JLIB_HTML_CHECKED_OUT');
+			}
+			else
+			{
+				$text = '<span class="hasTooltip icon-lock" title="' . JHtml::tooltipText($tooltip . '', 0) . '"></span> ' . JText::_('JLIB_HTML_CHECKED_OUT');
+			}
+
+			$output = JHtml::_('link', '#', $text, $attribs);
+
+			return $output;
 		}
 
 		$url = 'index.php?option=com_content&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
@@ -189,7 +201,7 @@ abstract class JHtmlIcon
 			$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
 
 			if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
-				|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != '0000-00-00 00:00:00'))
+				|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
 			{
 				$icon = 'edit_unpublished.png';
 			}
@@ -201,12 +213,12 @@ abstract class JHtmlIcon
 			$icon = $article->state ? 'edit' : 'eye-close';
 
 			if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
-				|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != '0000-00-00 00:00:00'))
+				|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
 			{
 				$icon = 'eye-close';
 			}
 
-			$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="' . JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0)
+			$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="' . JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0)
 				. '"></span>'
 				. JText::_('JGLOBAL_EDIT');
 		}

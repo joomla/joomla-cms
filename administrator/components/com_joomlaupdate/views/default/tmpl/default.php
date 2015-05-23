@@ -11,9 +11,37 @@ defined('_JEXEC') or die;
 
 $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 $params           = JComponentHelper::getParams('com_joomlaupdate');
-$updateOption     = strtoupper($params->get('updatesource', 'lts'));
-$langKey          = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_' . $updateOption;
-$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_' . $updateOption);
+
+switch ($params->get('updatesource', 'default'))
+{
+	// "Minor & Patch Release for Current version AND Next Major Release".
+	case 'sts':
+	case 'next':
+		$langKey          = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_NEXT';
+		$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
+		break;
+
+	// "Testing"
+	case 'testing':
+		$langKey          = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_TESTING';
+		$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_TESTING');
+		break;
+
+	// "Custom"
+	case 'custom':
+		$langKey          = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_CUSTOM';
+		$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM');
+		break;
+
+	// "Minor & Patch Release for Current version (recommended and default)".
+	// The commented "case" below are for documenting where 'default' and legacy options falls
+	// case 'default':
+	// case 'lts':
+	// case 'nochange':
+	default:
+		$langKey          = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_DEFAULT';
+		$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');
+}
 
 JHtml::_('formbehavior.chosen', 'select');
 

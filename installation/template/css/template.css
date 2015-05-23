@@ -127,3 +127,16 @@
 	text-align: center;
 	font-size: 16px;
 }
+textarea {
+	resize: both;
+}
+textarea.vert {
+	resize: vertical;
+}
+textarea.noResize {
+	resize: none;
+}
+/* Tooltip */
+.tooltip {
+	white-space: pre-wrap;
+}

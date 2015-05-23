@@ -2,13 +2,12 @@
 /**
  * Part of the Joomla Framework Application Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Application;
 
-use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 use Joomla\Input\Cli;
 use Psr\Log\LoggerAwareInterface;

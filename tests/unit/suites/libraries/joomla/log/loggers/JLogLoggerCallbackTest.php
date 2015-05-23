@@ -174,6 +174,21 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test the JLogLoggerCallback::__construct method.
+	 *
+	 * @return  null
+	 *
+	 * @since   12.2
+	 * @expectedException  RuntimeException
+	 */
+	public function testConstructorForException()
+	{
+		$options = array();
+
+		new JLogLoggerCallback($options);
+	}
+
+	/**
 	 * Test the JLogLoggerCallback::addEntry method.
 	 *
 	 * @return  null

@@ -112,12 +112,12 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 			}
 		</style>
 	<?php endif; ?>
-	<script src="../media/jui/js/jquery.js" type="text/javascript"></script>
-	<script src="../media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
-	<script src="../media/jui/js/bootstrap.js" type="text/javascript"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/jquery.js" type="text/javascript"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/bootstrap.js" type="text/javascript"></script>
 	<script src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/js/template.js" type="text/javascript"></script>
 	<!--[if lt IE 9]>
-		<script src="../media/jui/js/html5.js"></script>
+		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
 </head>
 
@@ -219,15 +219,18 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 		<section id="content">
 			<!-- Begin Content -->
 			<div class="row-fluid">
-					<div class="span12">
-						<!-- Begin Content -->
-						<h1 class="page-header"><?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
-						<blockquote>
-							<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
-						</blockquote>
-						<p><a href="<?php echo $this->baseurl; ?>" class="btn"><i class="icon-dashboard"></i> <?php echo JText::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a></p>
-						<!-- End Content -->
-					</div>
+				<div class="span12">
+					<!-- Begin Content -->
+					<h1 class="page-header"><?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
+					<blockquote>
+						<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
+					</blockquote>
+					<?php if ($this->debug) : ?>
+						<?php echo $this->renderBacktrace(); ?>
+					<?php endif; ?>
+					<p><a href="<?php echo $this->baseurl; ?>" class="btn"><i class="icon-dashboard"></i> <?php echo JText::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a></p>
+					<!-- End Content -->
+				</div>
 			</div>
 			<!-- End Content -->
 		</section>
