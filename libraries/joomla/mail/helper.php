@@ -120,14 +120,6 @@ abstract class JMailHelper
 		$domain = substr($email, $atIndex + 1);
 		$local = substr($email, 0, $atIndex);
 
-		// Check length of domain part
-		$domainLen = strlen($domain);
-
-		if ($domainLen < 1 || $domainLen > 253)
-		{
-			return false;
-		}
-
 		// Check length of local part
 		$localLen = strlen($local);
 
