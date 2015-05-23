@@ -108,20 +108,27 @@ abstract class JMailHelper
 	 */
 	public static function isEmailAddress($email)
 	{
+
+		// Check email address length
+		if (strlen($email) > 254)
+		{
+			return false;
+		}
+
 		// Split the email into a local and domain
 		$atIndex = strrpos($email, "@");
 		$domain = substr($email, $atIndex + 1);
 		$local = substr($email, 0, $atIndex);
 
-		// Check Length of domain
+		// Check length of domain part
 		$domainLen = strlen($domain);
 
-		if ($domainLen < 1 || $domainLen > 255)
+		if ($domainLen < 1 || $domainLen > 253)
 		{
 			return false;
 		}
 
-		// Check Length of local part
+		// Check length of local part
 		$localLen = strlen($local);
 
 		if ($localLen < 1 || $localLen > 64)
