@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Filters view class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderViewFilters extends JViewLegacy
 {
@@ -41,6 +39,7 @@ class FinderViewFilters extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -72,25 +71,29 @@ class FinderViewFilters extends JViewLegacy
 			JToolbarHelper::editList('filter.edit');
 			JToolbarHelper::divider();
 		}
+
 		if ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::publishList('filters.publish');
 			JToolbarHelper::unpublishList('filters.unpublish');
 			JToolbarHelper::divider();
 		}
+
+		if ($canDo->get('core.admin'))
+		{
+			JToolbarHelper::preferences('com_finder');
+		}
+
+		JToolbarHelper::divider();
+		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS');
+
 		if ($canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'filters.delete');
 			JToolbarHelper::divider();
 		}
-		if ($canDo->get('core.admin'))
-		{
-			JToolbarHelper::preferences('com_finder');
-		}
-		JToolbarHelper::divider();
-		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS');
 
 		JHtmlSidebar::setAction('index.php?option=com_finder&view=filters');
 

@@ -2,9 +2,8 @@
 <extension type="component" version="3.1" method="upgrade">
 	<name>com_checkin</name>
 	<author>Joomla! Project</author>
-	<copyright>(C) 2005 - 2008 Open Source Matters. All rights reserved.
-	</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<copyright>(C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
@@ -14,7 +13,6 @@
 			<filename>checkin.php</filename>
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
-			<filename>index.html</filename>
 			<folder>models</folder>
 			<folder>views</folder>
 		</files>

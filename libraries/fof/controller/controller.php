@@ -2,12 +2,12 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage controller
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework controller class. FOF is based on the thin controller
@@ -17,10 +17,10 @@ defined('_JEXEC') or die;
  * @package  FrameworkOnFramework
  * @since    1.0
  */
-class FOFController extends JObject
+class FOFController extends FOFUtilsObject
 {
 	/**
-	 * @var int Bit mask to enable JRoute'ing on redirects.
+	 * @var int Bit mask to enable Routing on redirects.
 	 * 0 = never
 	 * 1 = frontend only
 	 * 2 = backend  only
@@ -317,10 +317,9 @@ class FOFController extends JObject
 			'default'
 		);
 
-		JLoader::import('joomla.filesystem.path');
-
 		// Get the path names for the component
 		$componentPaths = FOFPlatform::getInstance()->getComponentBaseDirs($config['option']);
+        $filesystem     = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
 
 		// Look for the best classname match
 		foreach ($classSuffixes as $suffix)
@@ -368,14 +367,14 @@ class FOFController extends JObject
 
 			if (!empty($format))
 			{
-				$path = JPath::find(
+				$path = $filesystem->pathFind(
 					$searchPaths, strtolower($suffix) . '.' . strtolower($format) . '.php'
 				);
 			}
 
 			if (!$path)
 			{
-				$path = JPath::find(
+				$path = $filesystem->pathFind(
 						$searchPaths, strtolower($suffix) . '.php'
 				);
 			}
@@ -471,7 +470,7 @@ class FOFController extends JObject
 		$iMethods = array('accesspublic', 'accessregistered', 'accessspecial',
 			'add', 'apply', 'browse', 'cancel', 'copy', 'edit', 'orderdown',
 			'orderup', 'publish', 'read', 'remove', 'save', 'savenew',
-			'saveorder', 'unpublish', 'display', 'archive', 'trash');
+			'saveorder', 'unpublish', 'display', 'archive', 'trash', 'loadhistory');
 
 		// Get the public methods in this class using reflection.
 		$r = new ReflectionClass($this);
@@ -551,7 +550,8 @@ class FOFController extends JObject
 
 		if (!is_null($altBasePath))
 		{
-			$basePath = JPATH_SITE . '/' . $altBasePath;
+            $platformDirs = FOFPlatform::getInstance()->getPlatformBaseDirs();
+			$basePath     = $platformDirs['public'] . '/' . $altBasePath;
 		}
 
 		$this->basePath = $basePath;
@@ -614,7 +614,6 @@ class FOFController extends JObject
 		}
 
 		// Set the default view search path
-
 		if (array_key_exists('view_path', $config))
 		{
 			// User-defined dirs
@@ -656,7 +655,6 @@ class FOFController extends JObject
 		}
 
 		// Set the CSRF protection
-
 		if (array_key_exists('csrf_protection', $config))
 		{
 			$this->csrfProtection = $config['csrf_protection'];
@@ -668,7 +666,6 @@ class FOFController extends JObject
 		);
 
 		// Set any model/view name overrides
-
 		if (array_key_exists('viewName', $config))
 		{
 			$this->setThisViewName($config['viewName']);
@@ -704,7 +701,6 @@ class FOFController extends JObject
 		}
 
 		// Caching
-
 		if (array_key_exists('cacheableTasks', $config))
 		{
 			if (is_array($config['cacheableTasks']))
@@ -790,6 +786,8 @@ class FOFController extends JObject
 		// Just force path to array
 		settype($path, 'array');
 
+        $filesystem = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
+
 		if (!isset($this->paths[$type]))
 		{
 			$this->paths[$type] = array();
@@ -799,7 +797,7 @@ class FOFController extends JObject
 		foreach ($path as $dir)
 		{
 			// No surrounding spaces allowed!
-			$dir = rtrim(JPath::check($dir, '/'), '/') . '/';
+			$dir = rtrim($filesystem->pathCheck($dir, '/'), '/') . '/';
 
 			// Add to the top of the search dirs
 			array_unshift($this->paths[$type], $dir);
@@ -920,7 +918,7 @@ class FOFController extends JObject
 
 		if ($result)
 		{
-			$plugin_event = FOFInflector::camelize('on before ' . $this->bareComponent . ' controller ' . $this->view . ' ' . $task);
+			$plugin_event  = FOFInflector::camelize('on before ' . $this->bareComponent . ' controller ' . $this->view . ' ' . $task);
 			$plugin_result = FOFPlatform::getInstance()->runPlugins($plugin_event, array(&$this, &$this->input));
 
 			if (in_array(false, $plugin_result, true))
@@ -952,7 +950,7 @@ class FOFController extends JObject
 
 		if ($doTask == 'display')
 		{
-			JResponse::setHeader('Status', '400 Bad Request', true);
+            FOFPlatform::getInstance()->setHeader('Status', '400 Bad Request', true);
 
 			throw new Exception('Bad Request', 400);
 		}
@@ -998,12 +996,13 @@ class FOFController extends JObject
 	 * YOU MUST NOT USETHIS TASK DIRECTLY IN A URL. It is supposed to be
 	 * used ONLY inside your code. In the URL, use task=browse instead.
 	 *
-	 * @param   bool  $cachable   Is this view cacheable?
-	 * @param   bool  $urlparams  Add your safe URL parameters (see further down in the code)
+	 * @param   bool    $cachable   Is this view cacheable?
+	 * @param   bool    $urlparams  Add your safe URL parameters (see further down in the code)
+	 * @param   string  $tpl        The name of the template file to parse
 	 *
 	 * @return  bool
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = false, $tpl = null)
 	{
 		$document = FOFPlatform::getInstance()->getDocument();
 
@@ -1030,9 +1029,9 @@ class FOFController extends JObject
 		$view->setLayout(is_null($this->layout) ? 'default' : $this->layout);
 
 		// Display the view
-		$conf = JFactory::getConfig();
+		$conf = FOFPlatform::getInstance()->getConfig();
 
-		if (!FOFPlatform::getInstance()->isCli() && JFactory::getApplication()->isSite() && $cachable && ($viewType != 'feed') && $conf->get('caching') >= 1)
+		if (FOFPlatform::getInstance()->isFrontend() && $cachable && ($viewType != 'feed') && $conf->get('caching') >= 1)
 		{
 			// Get a JCache object
 			$option = $this->input->get('option', 'com_foobar', 'cmd');
@@ -1112,7 +1111,7 @@ class FOFController extends JObject
 		else
 		{
 			// Display without caching
-			$view->display();
+			$view->display($tpl);
 		}
 
 		return true;
@@ -1174,7 +1173,6 @@ class FOFController extends JObject
 		}
 
 		// Set the layout to item, if it's not set in the URL
-
 		if (is_null($this->layout))
 		{
 			$this->layout = 'item';
@@ -1224,7 +1222,7 @@ class FOFController extends JObject
 
 		// Set the layout to form, if it's not set in the URL
 
-		if (is_null($this->layout))
+		if (!$this->layout)
 		{
 			$this->layout = 'form';
 		}
@@ -1330,7 +1328,6 @@ class FOFController extends JObject
 	public function apply()
 	{
 		// CSRF prevention
-
 		if ($this->csrfProtection)
 		{
 			$this->_csrfProtection();
@@ -1340,7 +1337,6 @@ class FOFController extends JObject
 		$result = $this->applySave();
 
 		// Redirect to the edit task
-
 		if ($result)
 		{
 			$id = $this->input->get('id', 0, 'int');
@@ -1366,7 +1362,6 @@ class FOFController extends JObject
 	public function copy()
 	{
 		// CSRF prevention
-
 		if ($this->csrfProtection)
 		{
 			$this->_csrfProtection();
@@ -1382,7 +1377,6 @@ class FOFController extends JObject
 		$status = $model->copy();
 
 		// Redirect
-
 		if ($customURL = $this->input->get('returnurl', '', 'string'))
 		{
 			$customURL = base64_decode($customURL);
@@ -1398,7 +1392,11 @@ class FOFController extends JObject
 		}
 		else
 		{
-			JResponse::setHeader('Status', '201 Created', true);
+			if(!FOFPlatform::getInstance()->isCli())
+			{
+				FOFPlatform::getInstance()->setHeader('Status', '201 Created', true);
+			}
+
 			$this->setRedirect($url);
 
 			return true;
@@ -1421,7 +1419,6 @@ class FOFController extends JObject
 		$result = $this->applySave();
 
 		// Redirect to the display task
-
 		if ($result)
 		{
 			$textkey = strtoupper($this->component) . '_LBL_' . strtoupper($this->view) . '_SAVED';
@@ -1499,6 +1496,71 @@ class FOFController extends JObject
 
 		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
 		$this->setRedirect($url);
+
+		return true;
+	}
+
+	/**
+	 * Method to load a row from version history
+	 *
+	 * @return   boolean  True if the content history is reverted, false otherwise
+	 *
+	 * @since   2.2
+	 */
+	public function loadhistory()
+	{
+		$app = JFactory::getApplication();
+		$lang  = JFactory::getLanguage();
+		$model = $this->getThisModel();
+		$table = $model->getTable();
+		$historyId = $app->input->get('version_id', null, 'integer');
+		$status = $model->checkout();
+		$alias = $this->component . '.' . $this->view;
+
+		if (!$model->loadhistory($historyId, $table, $alias))
+		{
+			$this->setMessage($model->getError(), 'error');
+
+			$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
+			$this->setRedirect($url);
+
+			return false;
+		}
+
+		// Determine the name of the primary key for the data.
+		if (empty($key))
+		{
+			$key = $table->getKeyName();
+		}
+
+		$recordId = $table->$key;
+
+		// To avoid data collisions the urlVar may be different from the primary key.
+		$urlVar = empty($this->urlVar) ? $key : $this->urlVar;
+
+		// Access check.
+		$privilege = $this->configProvider->get(
+			$this->component . '.views.' .
+			FOFInflector::singularize($this->view) . '.acl.edit', 'core.edit'
+		);
+
+		if (!$this->checkACL($privilege))
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+			$this->setMessage($this->getError(), 'error');
+
+			$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
+			$this->setRedirect($url);
+			$table->checkin();
+
+			return false;
+		}
+
+		$table->store();
+		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
+		$this->setRedirect($url);
+
+		$this->setMessage(JText::sprintf('JLIB_APPLICATION_SUCCESS_LOAD_HISTORY', $model->getState('save_date'), $model->getState('version_note')));
 
 		return true;
 	}
@@ -1632,7 +1694,6 @@ class FOFController extends JObject
 	public function saveorder()
 	{
 		// CSRF prevention
-
 		if ($this->csrfProtection)
 		{
 			$this->_csrfProtection();
@@ -1645,8 +1706,9 @@ class FOFController extends JObject
 			$model->setIDsFromRequest();
 		}
 
-		$ids = $model->getIds();
-		$orders = $this->input->get('order', array(), 'array');
+        $ordering = $model->getTable()->getColumnAlias('ordering');
+		$ids      = $model->getIds();
+		$orders   = $this->input->get('order', array(), 'array');
 
 		if ($n = count($ids))
 		{
@@ -1666,7 +1728,7 @@ class FOFController extends JObject
 
 				if ($item->$key == $ids[$i])
 				{
-					$item->ordering = $neworder;
+					$item->$ordering = $neworder;
 					$model->save($item);
 				}
 			}
@@ -1675,7 +1737,6 @@ class FOFController extends JObject
 		$status = $model->reorder();
 
 		// Redirect
-
 		if ($customURL = $this->input->get('returnurl', '', 'string'))
 		{
 			$customURL = base64_decode($customURL);
@@ -1695,7 +1756,6 @@ class FOFController extends JObject
 	public function orderdown()
 	{
 		// CSRF prevention
-
 		if ($this->csrfProtection)
 		{
 			$this->_csrfProtection();
@@ -1711,7 +1771,6 @@ class FOFController extends JObject
 		$status = $model->move(1);
 
 		// Redirect
-
 		if ($customURL = $this->input->get('returnurl', '', 'string'))
 		{
 			$customURL = base64_decode($customURL);
@@ -1739,7 +1798,6 @@ class FOFController extends JObject
 	public function orderup()
 	{
 		// CSRF prevention
-
 		if ($this->csrfProtection)
 		{
 			$this->_csrfProtection();
@@ -1755,7 +1813,6 @@ class FOFController extends JObject
 		$status = $model->move(-1);
 
 		// Redirect
-
 		if ($customURL = $this->input->get('returnurl', '', 'string'))
 		{
 			$customURL = base64_decode($customURL);
@@ -1783,7 +1840,6 @@ class FOFController extends JObject
 	public function remove()
 	{
 		// CSRF prevention
-
 		if ($this->csrfProtection)
 		{
 			$this->_csrfProtection();
@@ -1799,7 +1855,6 @@ class FOFController extends JObject
 		$status = $model->delete();
 
 		// Redirect
-
 		if ($customURL = $this->input->get('returnurl', '', 'string'))
 		{
 			$customURL = base64_decode($customURL);
@@ -1829,7 +1884,8 @@ class FOFController extends JObject
 		if ($this->redirect)
 		{
 			$app = JFactory::getApplication();
-			$app->redirect($this->redirect, $this->message, $this->messageType);
+			$app->enqueueMessage($this->message, $this->messageType);
+			$app->redirect($this->redirect);
 
 			return true;
 		}
@@ -1976,7 +2032,6 @@ class FOFController extends JObject
 				$this->messageType = 'message';
 			}
 		}
-
 		// If the type is explicitly set, set it.
 		else
 		{
@@ -1993,7 +2048,7 @@ class FOFController extends JObject
 	 *
 	 * @return  bool
 	 */
-	final protected function setstate($state = 0)
+	protected function setstate($state = 0)
 	{
 		$model = $this->getThisModel();
 
@@ -2005,7 +2060,6 @@ class FOFController extends JObject
 		$status = $model->publish($state);
 
 		// Redirect
-
 		if ($customURL = $this->input->get('returnurl', '', 'string'))
 		{
 			$customURL = base64_decode($customURL);
@@ -2032,7 +2086,7 @@ class FOFController extends JObject
 	 *
 	 * @return  bool
 	 */
-	final protected function setaccess($level = 0)
+	protected function setaccess($level = 0)
 	{
 		$model = $this->getThisModel();
 
@@ -2041,8 +2095,7 @@ class FOFController extends JObject
 			$model->setIDsFromRequest();
 		}
 
-		$id = $model->getId();
-
+		$id   = $model->getId();
 		$item = $model->getItem();
 
 		if (!($item instanceof FOFTable))
@@ -2050,12 +2103,13 @@ class FOFController extends JObject
 			return false;
 		}
 
-		$key = $item->getKeyName();
-		$loadedid = $item->$key;
+		$accessField = $item->getColumnAlias('access');
+		$key         = $item->getKeyName();
+		$loadedid    = $item->$key;
 
 		if ($id == $loadedid)
 		{
-			$item->access = $level;
+			$item->$accessField = $level;
 			$status = $model->save($item);
 		}
 		else
@@ -2064,7 +2118,6 @@ class FOFController extends JObject
 		}
 
 		// Redirect
-
 		if ($customURL = $this->input->get('returnurl', '', 'string'))
 		{
 			$customURL = base64_decode($customURL);
@@ -2089,7 +2142,7 @@ class FOFController extends JObject
 	 *
 	 * @return  boolean  Returns true on success
 	 */
-	final protected function applySave()
+	final private function applySave()
 	{
 		// Load the model
 		$model = $this->getThisModel();
@@ -2122,15 +2175,15 @@ class FOFController extends JObject
 
 		if ($status && ($id != 0))
 		{
-			JResponse::setHeader('Status', '201 Created', true);
+            FOFPlatform::getInstance()->setHeader('Status', '201 Created', true);
 
 			// Try to check-in the record if it's not a new one
 			$status = $model->checkin();
+		}
 
-			if ($status)
-			{
-				$status = $this->onAfterApplySave();
-			}
+		if ($status)
+		{
+			$status = $this->onAfterApplySave();
 		}
 
 		$this->input->set('id', $model->getId());
@@ -2227,14 +2280,14 @@ class FOFController extends JObject
 	public function getModel($name = '', $prefix = '', $config = array())
 	{
 		// Make sure $config is an array
-
 		if (is_object($config))
 		{
 			$config = (array) $config;
 		}
-		elseif (!is_array($config))
+		elseif (!is_array($config) || empty($config))
 		{
-			$config = array();
+			// array_merge is required to create a copy instead of assigning by reference
+			$config = array_merge($this->config);
 		}
 
 		if (empty($name))
@@ -2290,9 +2343,10 @@ class FOFController extends JObject
 			{
 				$config = (array) $config;
 			}
-			elseif (!is_array($config))
+			elseif (!is_array($config) || empty($config))
 			{
-				$config = array();
+				// array_merge is required to create a copy instead of assigning by reference
+				$config = array_merge($this->config);
 			}
 
 			$prefix = null;
@@ -2607,7 +2661,8 @@ class FOFController extends JObject
 			$altViewName,
 			'default'
 		);
-		JLoader::import('joomla.filesystem.path');
+
+        $filesystem = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
 
 		foreach ($suffixes as $suffix)
 		{
@@ -2622,7 +2677,7 @@ class FOFController extends JObject
 
 			// The class is not loaded. Let's load it!
 			$viewPath = $this->createFileName('view', array('name'	 => $suffix, 'type'	 => $viewType));
-			$path = JPath::find($basePaths, $viewPath);
+			$path = $filesystem->pathFind($basePaths, $viewPath);
 
 			if ($path)
 			{
@@ -2691,14 +2746,53 @@ class FOFController extends JObject
 			$config['helper_path'][] = $componentPaths['main'] . '/' . $extraHelperPath;
 		}
 
-		// Set the use_hypermedia flag in $config if it's not already set
+		// Set up the page title
+		$setFrontendPageTitle = $this->configProvider->get($config['option'] . '.views.' . $config['view'] . '.config.setFrontendPageTitle', null);
 
+		if ($setFrontendPageTitle)
+		{
+			$setFrontendPageTitle = strtolower($setFrontendPageTitle);
+			$config['setFrontendPageTitle'][] = in_array($setFrontendPageTitle, array('1', 'yes', 'true', 'on'));
+		}
+
+		$defaultPageTitle = $this->configProvider->get($config['option'] . '.views.' . $config['view'] . '.config.defaultPageTitle', null);
+
+		if ($defaultPageTitle)
+		{
+			$config['defaultPageTitle'][] = in_array($defaultPageTitle, array('1', 'yes', 'true', 'on'));
+		}
+
+		// Set the use_hypermedia flag in $config if it's not already set
 		if (!isset($config['use_hypermedia']))
 		{
 			$config['use_hypermedia'] = $this->configProvider->get($config['option'] . '.views.' . $config['view'] . '.config.use_hypermedia', false);
 		}
 
-		$result = new $viewClass($config);
+		// Set also the linkbar_style
+		if (!isset($config['linkbar_style']))
+		{
+			$style = $this->configProvider->get($config['option'] . '.views.' . $config['view'] . '.config.linkbar_style', false);
+
+			if ($style) {
+				$config['linkbar_style'] = $style;
+			}
+		}
+
+		/**
+		 * Some administrative templates force format=utf (yeah, I know, what the heck, right?) when a format
+		 * URL parameter does not exist in the URL. Of course there is no such thing as FOFViewUtf (why the heck would
+		 * it be, there is no such thing as a format=utf in Joomla! for crying out loud) which causes a Fatal Error. So
+		 * we have to detect that and force $type='html'...
+		 */
+		if (!class_exists($viewClass) && ($type != 'html'))
+		{
+			$type = 'html';
+			$result = $this->createView($name, $prefix, $type, $config);
+		}
+		else
+		{
+			$result = new $viewClass($config);
+		}
 
 		return $result;
 	}
@@ -2798,6 +2892,7 @@ class FOFController extends JObject
 				}
 
 				$resource = FOFInflector::singularize($this->view);
+				$isEditState = ($area == 'core.edit.state');
 
 				foreach ($ids as $id)
 				{
@@ -2810,9 +2905,9 @@ class FOFController extends JObject
 						return true;
 					}
 
-					// Fallback on edit.own. First test if the permission is available.
+					// Fallback on edit.own, if not edit.state. First test if the permission is available.
 
-					if (FOFPlatform::getInstance()->authorise('core.edit.own', $asset))
+					if ((!$isEditState) && (FOFPlatform::getInstance()->authorise('core.edit.own', $asset)))
 					{
 						$table = $this->getThisModel()->getTable();
                         $table->load($id);
@@ -2842,6 +2937,8 @@ class FOFController extends JObject
 				}
 			}
 		}
+
+		return false;
 	}
 
 	/**
@@ -3200,9 +3297,10 @@ class FOFController extends JObject
 
 	/**
 	 * Applies CSRF protection by means of a standard Joomla! token (nonce) check.
-	 * Raises a 403 Access Forbidden error through JError or an exception
-	 * (depending the Joomla! version) if the check fails.
+	 * Raises a 403 Access Forbidden error through the platform if the check fails.
 	 *
+     * TODO Move this check inside the platform
+     *
 	 * @return  boolean  True if the CSRF check is successful
 	 *
 	 * @throws Exception
@@ -3213,7 +3311,7 @@ class FOFController extends JObject
 
 		if (is_null($isCli))
 		{
-			$isCli = FOFPlatform::getInstance()->isCli();
+			$isCli   = FOFPlatform::getInstance()->isCli();
 			$isAdmin = FOFPlatform::getInstance()->isBackend();
 		}
 
@@ -3250,13 +3348,12 @@ class FOFController extends JObject
 		}
 
 		$hasToken = false;
-		$session = JFactory::getSession();
+		$session  = JFactory::getSession();
 
 		// Joomla! 1.5/1.6/1.7/2.5 (classic Joomla! API) method
-
 		if (method_exists('JUtility', 'getToken'))
 		{
-			$token = JUtility::getToken();
+			$token    = JUtility::getToken();
 			$hasToken = $this->input->get($token, false, 'none') == 1;
 
 			if (!$hasToken)
@@ -3266,12 +3363,11 @@ class FOFController extends JObject
 		}
 
 		// Joomla! 2.5+ (Platform 12.1+) method
-
 		if (!$hasToken)
 		{
 			if (method_exists($session, 'getToken'))
 			{
-				$token = $session->getToken();
+				$token    = $session->getToken();
 				$hasToken = $this->input->get($token, false, 'none') == 1;
 
 				if (!$hasToken)
@@ -3282,12 +3378,11 @@ class FOFController extends JObject
 		}
 
 		// Joomla! 2.5+ formToken method
-
 		if (!$hasToken)
 		{
 			if (method_exists($session, 'getFormToken'))
 			{
-				$token = $session->getFormToken();
+				$token    = $session->getFormToken();
 				$hasToken = $this->input->get($token, false, 'none') == 1;
 
 				if (!$hasToken)
@@ -3299,14 +3394,7 @@ class FOFController extends JObject
 
 		if (!$hasToken)
 		{
-			if (version_compare(JVERSION, '3.0', 'ge'))
-			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
-			}
-			else
-			{
-				JError::raiseError('403', JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
-			}
+            FOFPlatform::getInstance()->raiseError(403, JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 
 			return false;
 		}

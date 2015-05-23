@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,7 +46,7 @@ class TagEditPage extends AdminEditPage
 	 * @var    array
 	 * @since  3.0
 	 */
-	public $tabs = array('details', 'publishing', 'attrib-basic', 'attrib-images');
+	public $tabs = array('details', 'publishing', 'attrib-basic', 'images');
 
 	/**
 	 * Array of all the field Details of the Edit page, along with the ID and tab value they are present on
@@ -65,10 +65,10 @@ class TagEditPage extends AdminEditPage
 			array('label' => 'Note', 'id' => 'jform_note', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Version Note', 'id' => 'jform_version_note', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Created Date', 'id' => 'jform_created_time', 'type' => 'input', 'tab' => 'publishing'),
-			array('label' => 'Created by', 'id' => 'jform_created_user_id', 'type' => 'input', 'tab' => 'publishing'),
+			array('label' => 'Created By', 'id' => 'jform_created_user_id', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Author\'s Alias', 'id' => 'jform_created_by_alias', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Modified Date', 'id' => 'jform_modified_time', 'type' => 'input', 'tab' => 'publishing'),
-			array('label' => 'Modified by', 'id' => 'jform_modified_user_id', 'type' => 'input', 'tab' => 'publishing'),
+			array('label' => 'Modified By', 'id' => 'jform_modified_user_id', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Hits', 'id' => 'jform_hits', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'ID', 'id' => 'jform_id', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Meta Description', 'id' => 'jform_metadesc', 'type' => 'textarea', 'tab' => 'publishing'),
@@ -76,15 +76,15 @@ class TagEditPage extends AdminEditPage
 			array('label' => 'Author', 'id' => 'jform_metadata_author', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Robots', 'id' => 'jform_metadata_robots', 'type' => 'select', 'tab' => 'publishing'),
 			array('label' => 'Alternative Layout', 'id' => 'jform_params_tag_layout', 'type' => 'select', 'tab' => 'attrib-basic'),
-			array('label' => 'CSS Class for tag link', 'id' => 'jform_params_tag_link_class', 'type' => 'input', 'tab' => 'attrib-basic'),
-			array('label' => 'Teaser image', 'id' => 'jform_params_image_intro', 'type' => 'input', 'tab' => 'attrib-images'),
-			array('label' => 'Float', 'id' => 'jform_params_float_intro', 'type' => 'select', 'tab' => 'attrib-images'),
-			array('label' => 'Alt', 'id' => 'jform_params_image_intro_alt', 'type' => 'input', 'tab' => 'attrib-images'),
-			array('label' => 'Caption', 'id' => 'jform_params_image_intro_caption', 'type' => 'input', 'tab' => 'attrib-images'),
-			array('label' => 'Full image', 'id' => 'jform_params_image_fulltext', 'type' => 'input', 'tab' => 'attrib-images'),
-			array('label' => 'Float', 'id' => 'jform_params_float_fulltext', 'type' => 'select', 'tab' => 'attrib-images'),
-			array('label' => 'Alt', 'id' => 'jform_params_image_fulltext_alt', 'type' => 'input', 'tab' => 'attrib-images'),
-			array('label' => 'Caption', 'id' => 'jform_params_image_fulltext_caption', 'type' => 'input', 'tab' => 'attrib-images'),
+			array('label' => 'CSS Class for tag link.', 'id' => 'jform_params_tag_link_class', 'type' => 'input', 'tab' => 'attrib-basic'),
+			array('label' => 'Teaser Image.', 'id' => 'jform_images_image_intro', 'type' => 'input', 'tab' => 'images'),
+			array('label' => 'Float', 'id' => 'jform_images_float_intro', 'type' => 'select', 'tab' => 'images'),
+			array('label' => 'Alt', 'id' => 'jform_images_image_intro_alt', 'type' => 'input', 'tab' => 'images'),
+			array('label' => 'Caption', 'id' => 'jform_images_image_intro_caption', 'type' => 'input', 'tab' => 'images'),
+			array('label' => 'Full Image', 'id' => 'jform_images_image_fulltext', 'type' => 'input', 'tab' => 'images'),
+			array('label' => 'Float', 'id' => 'jform_images_float_fulltext', 'type' => 'select', 'tab' => 'images'),
+			array('label' => 'Alt', 'id' => 'jform_images_image_fulltext_alt', 'type' => 'input', 'tab' => 'images'),
+			array('label' => 'Caption', 'id' => 'jform_images_image_fulltext_caption', 'type' => 'input', 'tab' => 'images'),
 			);
 
 }

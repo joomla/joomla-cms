@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,25 +12,25 @@ defined('_JEXEC') or die;
 /**
  * Media Manager Component Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       1.5
+ * @since  1.5
  */
 class MediaController extends JControllerLegacy
 {
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean			If true, the view output will be cached
-	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController		This object to support chaining.
+	 *
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
 		JPluginHelper::importPlugin('content');
 		$vName = $this->input->get('view', 'media');
+
 		switch ($vName)
 		{
 			case 'images':
@@ -65,7 +65,7 @@ class MediaController extends JControllerLegacy
 
 		// Get/Create the view
 		$view = $this->getView($vName, $vType);
-		$view->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR.'/views/'.strtolower($vName).'/tmpl');
+		$view->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR . '/views/' . strtolower($vName) . '/tmpl');
 
 		// Get/Create the model
 		if ($model = $this->getModel($mName))
@@ -83,6 +83,13 @@ class MediaController extends JControllerLegacy
 		return $this;
 	}
 
+	/**
+	 * Validate FTP credentials
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
+	 */
 	public function ftpValidate()
 	{
 		// Set FTP credentials, if given

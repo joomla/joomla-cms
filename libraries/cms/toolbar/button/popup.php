@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a modal window button
  *
- * @package     Joomla.Libraries
- * @subpackage  Toolbar
- * @since       3.0
+ * @since  3.0
  */
 class JToolbarButtonPopup extends JToolbarButton
 {
@@ -54,7 +52,7 @@ class JToolbarButtonPopup extends JToolbarButton
 
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['name'] = trim(JText::_($name), '*?');
+		$options['name'] = $name;
 		$options['text'] = JText::_($text);
 		$options['title'] = JText::_($title);
 		$options['class'] = $this->fetchIconClass($name);

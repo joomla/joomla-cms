@@ -3,18 +3,16 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base Helper class.
  *
- * @package     Joomla.Libraries
- * @subpackage  Helper
- * @since       3.2
+ * @since  3.2
  */
 class JHelper
 {
@@ -74,13 +72,13 @@ class JHelper
 	/**
 	 * Gets a row of data from a table
 	 *
-	 * @param   JTable  $table  JTable instance for a row.
+	 * @param   JTableInterface  $table  JTable instance for a row.
 	 *
 	 * @return  array  Associative array of all columns and values for a row in a table.
 	 *
 	 * @since   3.2
 	 */
-	public function getRowData(JTable $table)
+	public function getRowData(JTableInterface $table)
 	{
 		$fields = $table->getFields();
 		$data = array();
@@ -98,13 +96,13 @@ class JHelper
 	/**
 	 * Method to get an object containing all of the table columns and values.
 	 *
-	 * @param   JTable  $table  JTable object.
+	 * @param   JTableInterface  $table  JTable object.
 	 *
 	 * @return  object Contains all of the columns and values.
 	 *
 	 * @since   3.2
 	 */
-	public function getDataObject(JTable $table)
+	public function getDataObject(JTableInterface $table)
 	{
 		$fields = $table->getFields();
 		$dataObject = new stdClass;

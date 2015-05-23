@@ -3,18 +3,18 @@
  * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Core content table
  *
- * @package     Joomla.Libraries
- * @subpackage  Table
- * @since       3.1
+ * @since  3.1
  */
 class JTableCorecontent extends JTable
 {
@@ -46,35 +46,35 @@ class JTableCorecontent extends JTable
 	{
 		if (isset($array['core_params']) && is_array($array['core_params']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['core_params']);
 			$array['core_params'] = (string) $registry;
 		}
 
 		if (isset($array['core_metadata']) && is_array($array['core_metadata']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['core_metadata']);
 			$array['core_metadata'] = (string) $registry;
 		}
 
 		if (isset($array['core_images']) && is_array($array['core_images']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['core_images']);
 			$array['core_images'] = (string) $registry;
 		}
 
 		if (isset($array['core_urls']) && is_array($array['core_urls']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['core_urls']);
 			$array['core_urls'] = (string) $registry;
 		}
 
 		if (isset($array['core_body']) && is_array($array['core_body']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['core_body']);
 			$array['core_body'] = (string) $registry;
 		}
@@ -173,24 +173,31 @@ class JTableCorecontent extends JTable
 	 * Method to delete a row from the #__ucm_content table by content_item_id.
 	 *
 	 * @param   integer  $contentItemId  value of the core_content_item_id to delete. Corresponds to the primary key of the content table.
+	 * @param   string   $typeAlias      Alias for the content type
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 * @throws  UnexpectedValueException
 	 */
-	public function deleteByContentId($contentItemId = null)
+	public function deleteByContentId($contentItemId = null, $typeAlias = null)
 	{
 		if ($contentItemId === null || ((int) $contentItemId) === 0)
 		{
 			throw new UnexpectedValueException('Null content item key not allowed.');
 		}
 
+		if ($typeAlias === null)
+		{
+			throw new UnexpectedValueException('Null type alias not allowed.');
+		}
+
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('core_content_id'))
 			->from($db->quoteName('#__ucm_content'))
-			->where($db->quoteName('core_content_item_id') . ' = ' . (int) $contentItemId);
+			->where($db->quoteName('core_content_item_id') . ' = ' . (int) $contentItemId)
+			->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($typeAlias));
 		$db->setQuery($query);
 
 		if ($ucmId = $db->loadResult())
@@ -269,6 +276,12 @@ class JTableCorecontent extends JTable
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$languageId = JHelperContent::getLanguageId($this->core_language);
+
+		// Selecting "all languages" doesn't give a language id - we can't store a blank string in non mysql databases, so save 0 (the default value)
+		if (!$languageId)
+		{
+			$languageId = '0';
+		}
 
 		if ($isNew)
 		{
@@ -349,7 +362,11 @@ class JTableCorecontent extends JTable
 		if (property_exists($this, 'core_checked_out_user_id') && property_exists($this, 'core_checked_out_time'))
 		{
 			$checkin = true;
-			$query->where(' (' . $this->_db->quoteName('core_checked_out_user_id') . ' = 0 OR ' . $this->_db->quoteName('core_checked_out_user_id') . ' = ' . (int) $userId . ')');
+			$query->where(
+				' ('
+				. $this->_db->quoteName('core_checked_out_user_id') . ' = 0 OR ' . $this->_db->quoteName('core_checked_out_user_id') . ' = ' . (int) $userId
+				. ')'
+			);
 		}
 
 		$this->_db->setQuery($query);

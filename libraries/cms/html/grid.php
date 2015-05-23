@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for creating HTML Grids
  *
- * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       1.5
+ * @since  1.5
  */
 abstract class JHtmlGrid
 {
@@ -71,8 +69,9 @@ abstract class JHtmlGrid
 	 *
 	 * @since   1.5
 	 */
-	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc', $tip = '')
+	public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $new_direction = 'asc', $tip = '')
 	{
+		JHtml::_('behavior.core');
 		JHtml::_('bootstrap.tooltip');
 
 		$direction = strtolower($direction);
@@ -102,7 +101,7 @@ abstract class JHtmlGrid
 
 		if ($order == $selected)
 		{
-			$html .= ' <i class="icon-' . $icon[$index] . '"></i>';
+			$html .= ' <span class="icon-' . $icon[$index] . '"></span>';
 		}
 
 		$html .= '</a>';
@@ -125,7 +124,8 @@ abstract class JHtmlGrid
 	{
 		JHtml::_('bootstrap.tooltip');
 
-		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::tooltipText($tip) . '" onclick="' . $action . '" />';
+		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::tooltipText($tip)
+			. '" onclick="' . $action . '" />';
 	}
 
 	/**
@@ -135,14 +135,15 @@ abstract class JHtmlGrid
 	 * @param   integer  $recId       The record id
 	 * @param   boolean  $checkedOut  True if item is checke out
 	 * @param   string   $name        The name of the form element
+	 * @param   string   $stub        The name of stub identifier
 	 *
 	 * @return  mixed    String of html with a checkbox if item is not checked out, null if checked out.
 	 *
 	 * @since   1.5
 	 */
-	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid')
+	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid', $stub = 'cb')
 	{
-		return $checkedOut ? '' : '<input type="checkbox" id="cb' . $rowNum . '" name="' . $name . '[]" value="' . $recId
+		return $checkedOut ? '' : '<input type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
 			. '" onclick="Joomla.isChecked(this.checked);" />';
 	}
 
@@ -270,8 +271,9 @@ abstract class JHtmlGrid
 	 */
 	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
-		return '<a href="javascript:saveorder(' . (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-micro pull-right" title="'
-			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><i class="icon-menu-2"></i></a>';
+		return '<a href="javascript:saveorder('
+			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-micro pull-right" title="'
+			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-menu-2"></span></a>';
 	}
 
 	/**
@@ -315,30 +317,29 @@ abstract class JHtmlGrid
 
 		if (!$loaded)
 		{
+			// Include jQuery
+			JHtml::_('jquery.framework');
+
 			// Build the behavior script.
 			$js = '
-		window.addEvent(\'domready\', function(){
-			actions = $$(\'a.move_up\');
-			actions.combine($$(\'a.move_down\'));
-			actions.combine($$(\'a.grid_true\'));
-			actions.combine($$(\'a.grid_false\'));
-			actions.combine($$(\'a.grid_trash\'));
-			actions.each(function(a){
-				a.addEvent(\'click\', function(){
+		jQuery(function($){
+			$actions = $(\'a.move_up, a.move_down, a.grid_true, a.grid_false, a.grid_trash\');
+			$actions.each(function(){
+				$(this).on(\'click\', function(){
 					args = JSON.decode(this.rel);
 					listItemTask(args.id, args.task);
 				});
 			});
-			$$(\'input.check-all-toggle\').each(function(el){
-				el.addEvent(\'click\', function(){
-					if (el.checked) {
-						document.id(this.form).getElements(\'input[type=checkbox]\').each(function(i){
-							i.checked = true;
+			$(\'input.check-all-toggle\').each(function(){
+				$(this).on(\'click\', function(){
+					if (this.checked) {
+						$(this).closest(\'form\').find(\'input[type=checkbox]\').each(function(){
+							this.checked = true;
 						})
 					}
 					else {
-						document.id(this.form).getElements(\'input[type=checkbox]\').each(function(i){
-							i.checked = false;
+						$(this).closest(\'form\').find(\'input[type=checkbox]\').each(function(){
+							this.checked = false;
 						})
 					}
 				});

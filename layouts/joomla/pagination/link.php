@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,7 @@ switch ((string) $item->text)
 
 if ($icon !== null)
 {
-	$display = '<i class="' . $icon . '"></i>';
+	$display = '<span class="' . $icon . '"></span>';
 }
 
 if ($displayData['active'])

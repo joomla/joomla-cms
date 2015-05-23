@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 /**
  * Categories search plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  Search.categories
- * @since       1.6
+ * @since  1.6
  */
 class PlgSearchCategories extends JPlugin
 {
@@ -40,6 +38,7 @@ class PlgSearchCategories extends JPlugin
 		static $areas = array(
 			'categories' => 'PLG_SEARCH_CATEGORIES_CATEGORIES'
 		);
+
 		return $areas;
 	}
 
@@ -78,10 +77,12 @@ class PlgSearchCategories extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit = $this->params->def('search_limit', 50);
 		$state = array();
+
 		if ($sContent)
 		{
 			$state[] = 1;
 		}
+
 		if ($sArchived)
 		{
 			$state[] = 2;
@@ -93,6 +94,7 @@ class PlgSearchCategories extends JPlugin
 		}
 
 		$text = trim($text);
+
 		if ($text == '')
 		{
 			return array();
@@ -155,11 +157,12 @@ class PlgSearchCategories extends JPlugin
 		$query->select('a.title, a.description AS text, \'\' AS created, \'2\' AS browsernav, a.id AS catid, ' . $case_when)
 			->from('#__categories AS a')
 			->where(
-				'(a.title LIKE ' . $text . ' OR a.description LIKE ' . $text . ') AND a.published IN (' . implode(',', $state) . ') AND a.extension = ' . $db->quote('com_content')
-					. 'AND a.access IN (' . $groups . ')'
+				'(a.title LIKE ' . $text . ' OR a.description LIKE ' . $text . ') AND a.published IN (' . implode(',', $state) . ') AND a.extension = '
+				. $db->quote('com_content') . 'AND a.access IN (' . $groups . ')'
 			)
 			->group('a.id, a.title, a.description, a.alias')
 			->order($order);
+
 		if ($app->isSite() && JLanguageMultilang::isEnabled())
 		{
 			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
@@ -169,9 +172,11 @@ class PlgSearchCategories extends JPlugin
 		$rows = $db->loadObjectList();
 
 		$return = array();
+
 		if ($rows)
 		{
 			$count = count($rows);
+
 			for ($i = 0; $i < $count; $i++)
 			{
 				$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug);

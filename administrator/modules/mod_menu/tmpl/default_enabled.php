@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,6 @@ if ($user->authorise('core.manage', 'com_checkin'))
 
 if ($user->authorise('core.manage', 'com_cache'))
 {
-	$menu->addSeparator();
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_CLEAR_CACHE'), 'index.php?option=com_cache', 'class:clear'));
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_PURGE_EXPIRED_CACHE'), 'index.php?option=com_cache&view=purge', 'class:purge'));
 }
@@ -104,15 +103,18 @@ if ($user->authorise('core.manage', 'com_users'))
 	{
 		$menu->addChild(
 			new JMenuNode(
-				JText::_('MOD_MENU_COM_CONTENT_NEW_CATEGORY'), 'index.php?option=com_categories&task=category.add&extension=com_users.notes',
+				JText::_('MOD_MENU_COM_CONTENT_NEW_CATEGORY'), 'index.php?option=com_categories&task=category.add&extension=com_users',
 				'class:newarticle'
 			)
 		);
 		$menu->getParent();
 	}
 
-	$menu->addSeparator();
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MASS_MAIL_USERS'), 'index.php?option=com_users&view=mail', 'class:massmail'));
+	if (JFactory::getApplication()->get('massmailoff') != 1)
+	{
+		$menu->addSeparator();
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MASS_MAIL_USERS'), 'index.php?option=com_users&view=mail', 'class:massmail'));
+	}
 
 	$menu->getParent();
 }
@@ -136,7 +138,10 @@ if ($user->authorise('core.manage', 'com_menus'))
 	$menu->addSeparator();
 
 	// Menu Types
-	foreach (ModMenuHelper::getMenus() as $menuType)
+	$menuTypes = ModMenuHelper::getMenus();
+	$menuTypes = JArrayHelper::sortObjects($menuTypes, 'title', 1, false);
+
+	foreach ($menuTypes as $menuType)
 	{
 		$alt = '*' . $menuType->sef . '*';
 
@@ -146,7 +151,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 		}
 		elseif ($menuType->home == 1 && $menuType->language == '*')
 		{
-			$titleicon = ' <i class="icon-home"></i>';
+			$titleicon = ' <span class="icon-home"></span>';
 		}
 		elseif ($menuType->home > 1)
 		{
@@ -340,7 +345,7 @@ if ($showhelp == 1)
 	}
 
 	$lang->setDebug($debug);
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_DOCUMENTATION'), 'http://docs.joomla.org', 'class:help-docs', false, '_blank'));
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_DOCUMENTATION'), 'https://docs.joomla.org', 'class:help-docs', false, '_blank'));
 	$menu->addSeparator();
 
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_EXTENSIONS'), 'http://extensions.joomla.org', 'class:help-jed', false, '_blank'));
@@ -350,9 +355,10 @@ if ($showhelp == 1)
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_RESOURCES'), 'http://resources.joomla.org', 'class:help-jrd', false, '_blank'));
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_COMMUNITY'), 'http://community.joomla.org', 'class:help-community', false, '_blank'));
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP_SECURITY'), 'http://developer.joomla.org/security.html', 'class:help-security', false, '_blank')
+		new JMenuNode(JText::_('MOD_MENU_HELP_SECURITY'), 'http://developer.joomla.org/security-centre.html', 'class:help-security', false, '_blank')
 	);
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_DEVELOPER'), 'http://developer.joomla.org', 'class:help-dev', false, '_blank'));
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_XCHANGE'), 'http://joomla.stackexchange.com', 'class:help-dev', false, '_blank'));
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP_SHOP'), 'http://shop.joomla.org', 'class:help-shop', false, '_blank'));
 	$menu->getParent();
 }

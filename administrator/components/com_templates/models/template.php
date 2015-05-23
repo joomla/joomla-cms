@@ -1,25 +1,35 @@
 <?php
 /**
-* @package     Joomla.Administrator
-* @subpackage  com_templates
-*
-* @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
-* @license     GNU General Public License version 2 or later; see LICENSE.txt
-*/
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 defined('_JEXEC') or die;
 
 /**
  * Template model class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       1.6
+ * @since  1.6
  */
 class TemplatesModelTemplate extends JModelForm
 {
+	/**
+	 * The information in a template
+	 *
+	 * @var    stdClass
+	 * @since  1.6
+	 */
 	protected $template = null;
 
+	/**
+	 * The path to the template
+	 *
+	 * @var    stdClass
+	 * @since  3.2
+	 */
 	protected $element = null;
 
 	/**
@@ -177,7 +187,7 @@ class TemplatesModelTemplate extends JModelForm
 
 			// Get the template information.
 			$query = $db->getQuery(true)
-				->select('extension_id, client_id, element, name')
+				->select('extension_id, client_id, element, name, manifest_cache')
 				->from('#__extensions')
 				->where($db->quoteName('extension_id') . ' = ' . (int) $pk)
 				->where($db->quoteName('type') . ' = ' . $db->quote('template'));
@@ -315,10 +325,12 @@ class TemplatesModelTemplate extends JModelForm
 	{
 		// Rename Language files
 		// Get list of language files
-		$result = true;
-		$files = JFolder::files($this->getState('to_path'), '.ini', true, true);
-		$newName = strtolower($this->getState('new_name'));
-		$oldName = $this->getTemplate()->element;
+		$result   = true;
+		$files    = JFolder::files($this->getState('to_path'), '.ini', true, true);
+		$newName  = strtolower($this->getState('new_name'));
+		$template = $this->getTemplate();
+		$oldName  = $template->element;
+		$manifest = json_decode($template->manifest_cache);
 
 		jimport('joomla.filesystem.file');
 
@@ -334,7 +346,7 @@ class TemplatesModelTemplate extends JModelForm
 		if (JFile::exists($xmlFile))
 		{
 			$contents = file_get_contents($xmlFile);
-			$pattern[] = '#<name>\s*' . $oldName . '\s*</name>#i';
+			$pattern[] = '#<name>\s*' . $manifest->name . '\s*</name>#i';
 			$replace[] = '<name>' . $newName . '</name>';
 			$pattern[] = '#<language(.*)' . $oldName . '(.*)</language>#';
 			$replace[] = '<language${1}' . $newName . '${2}</language>';
@@ -492,15 +504,7 @@ class TemplatesModelTemplate extends JModelForm
 		}
 
 		$return = JFile::write($filePath, $data['source']);
-
-		// Try to make the template file unwritable.
-		if (JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0444'))
-		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_UNWRITABLE'), 'error');
-
-			return false;
-		}
-		elseif (!$return)
+		if (!$return)
 		{
 			$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName), 'error');
 
@@ -628,31 +632,28 @@ class TemplatesModelTemplate extends JModelForm
 				$htmlPath   = JPath::clean($client->path . '/templates/' . $template->element . '/html/layouts/joomla/' . $name);
 			}
 
-			if (JFolder::exists($htmlPath))
+			// Check Html folder, create if not exist
+			if (!JFolder::exists($htmlPath))
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_OVERRIDE_EXISTS'), 'error');
+				if (!JFolder::create($htmlPath))
+				{
+					$app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
 
-				return false;
-			}
-
-			if (!JFolder::create($htmlPath))
-			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
-
-				return false;
+					return false;
+				}
 			}
 
 			if (stristr($name, 'mod_') != false)
 			{
-				$return = JFolder::copy($override . '/tmpl', $htmlPath, '', true);
+				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
 			}
 			elseif (stristr($override, 'com_') != false)
 			{
-				$return = JFolder::copy($override . '/tmpl', $htmlPath . '/', '', true);
+				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
 			}
 			else
 			{
-				$return = JFolder::copy($override, $htmlPath, '', true);
+				$return = $this->createTemplateOverride($override, $htmlPath);
 			}
 
 			if ($return)
@@ -668,6 +669,65 @@ class TemplatesModelTemplate extends JModelForm
 				return false;
 			}
 		}
+	}
+
+	/**
+	 * Create override folder & file
+	 *
+	 * @param   string  $overridePath  The override location
+	 * @param   string  $htmlPath      The html location
+	 *
+	 * @return  boolean                True on success. False otherwise.
+	 */
+	public function createTemplateOverride($overridePath, $htmlPath)
+	{
+		$return = false;
+
+		if (empty($htmlPath) || empty($htmlPath))
+		{
+			return $return;
+		}
+
+		// Get list of template folders
+		$folders = JFolder::folders($overridePath, null, true, true);
+
+		if (!empty($folders))
+		{
+			foreach ($folders as $folder)
+			{
+				$htmlFolder = $htmlPath . str_replace($overridePath, '', $folder);
+
+				if (!JFolder::exists($htmlFolder))
+				{
+					JFolder::create($htmlFolder);
+				}
+			}
+		}
+
+		// Get list of template files (Only get *.php file for template file)
+		$files = JFolder::files($overridePath, '.php', true, true);
+
+		if (empty($files))
+		{
+			return true;
+		}
+
+		foreach ($files as $file)
+		{
+			$overrideFilePath = str_replace($overridePath, '', $file);
+			$htmlFilePath = $htmlPath . $overrideFilePath;
+
+			if (JFile::exists($htmlFilePath))
+			{
+				// Generate new unique file name base on current time
+				$today = JFactory::getDate();
+				$htmlFilePath = JFile::stripExt($htmlFilePath) . '-' . $today->format('Ymd-His') . '.' . JFile::getExt($htmlFilePath);
+			}
+
+			$return = JFile::copy($file, $htmlFilePath, '', true);
+		}
+
+		return $return;
 	}
 
 	/**
@@ -691,14 +751,8 @@ class TemplatesModelTemplate extends JModelForm
 			$fileName     = end($explodeArray);
 			$outFile      = reset(explode('.', $fileName));
 
-			// Load the RAD layer to use its LESS compiler
-			if (!defined('FOF_INCLUDED'))
-			{
-				require_once JPATH_LIBRARIES . '/fof/include.php';
-			}
-
-			$less = new FOFLess;
-			$less->setFormatter(new FOFLessFormatterJoomla);
+			$less = new JLess;
+			$less->setFormatter(new JLessFormatterJoomla);
 
 			try
 			{
@@ -1084,7 +1138,7 @@ class TemplatesModelTemplate extends JModelForm
 
 		$query->select('id, client_id');
 		$query->from('#__template_styles');
-		$query->where($db->quoteName('template') . ' = ' . $db->quote($this->template->name));
+		$query->where($db->quoteName('template') . ' = ' . $db->quote($this->template->element));
 
 		$db->setQuery($query);
 
@@ -1157,41 +1211,11 @@ class TemplatesModelTemplate extends JModelForm
 	}
 
 	/**
-	 * Check the admin template.
-	 *
-	 * @return  object  object containing the id of the template.
-	 *
-	 * @since   3.2
-	 */
-	public function getHathor()
-	{
-		$app = JFactory::getApplication();
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('home');
-		$query->from('#__template_styles');
-		$query->where($db->quoteName('template') . ' = ' . $db->quote('hathor'));
-		$db->setQuery($query);
-
-		try
-		{
-			$result = $db->loadObject();
-		}
-		catch (RuntimeException $e)
-		{
-			$app->enqueueMessage($e->getMessage(), 'error');
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Copy a file.
 	 *
-	 * @param   string  $newName    The name of the copied file
-	 * @param   string  $location   The final location where the file is to be copied
-	 * @param   string  $file    	The name and location of the file
+	 * @param   string  $newName   The name of the copied file
+	 * @param   string  $location  The final location where the file is to be copied
+	 * @param   string  $file      The name and location of the file
 	 *
 	 * @return   boolean  true if image resize successful, false otherwise.
 	 *

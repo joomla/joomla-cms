@@ -3,20 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT.'/controller.php';
+require_once JPATH_COMPONENT . '/controller.php';
 
 /**
  * Registration controller class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersControllerRegistration extends UsersController
 {
@@ -24,18 +22,20 @@ class UsersControllerRegistration extends UsersController
 	 * Method to activate a user.
 	 *
 	 * @return  boolean  True on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function activate()
 	{
-		$user  = JFactory::getUser();
-		$input = JFactory::getApplication()->input;
+		$user  	 = JFactory::getUser();
+		$input 	 = JFactory::getApplication()->input;
 		$uParams = JComponentHelper::getParams('com_users');
 
-		// If the user is logged in, return them back to the homepage.
-		if ($user->get('id'))
+		// Check for admin activation. Don't allow non-super-admin to delete a super admin
+		if ($uParams->get('useractivation') != 2 && $user->get('id'))
 		{
 			$this->setRedirect('index.php');
+
 			return true;
 		}
 
@@ -43,6 +43,7 @@ class UsersControllerRegistration extends UsersController
 		if ($uParams->get('useractivation') == 0 || $uParams->get('allowUserRegistration') == 0)
 		{
 			JError::raiseError(403, JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
+
 			return false;
 		}
 
@@ -53,6 +54,7 @@ class UsersControllerRegistration extends UsersController
 		if ($token === null || strlen($token) !== 32)
 		{
 			JError::raiseError(403, JText::_('JINVALID_TOKEN'));
+
 			return false;
 		}
 
@@ -65,6 +67,7 @@ class UsersControllerRegistration extends UsersController
 			// Redirect back to the homepage.
 			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'warning');
 			$this->setRedirect('index.php');
+
 			return false;
 		}
 
@@ -91,6 +94,7 @@ class UsersControllerRegistration extends UsersController
 			$this->setMessage(JText::_('COM_USERS_REGISTRATION_ADMINACTIVATE_SUCCESS'));
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration&layout=complete', false));
 		}
+
 		return true;
 	}
 
@@ -98,6 +102,7 @@ class UsersControllerRegistration extends UsersController
 	 * Method to register a user.
 	 *
 	 * @return  boolean  True on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function register()
@@ -109,6 +114,7 @@ class UsersControllerRegistration extends UsersController
 		if (JComponentHelper::getParams('com_users')->get('allowUserRegistration') == 0)
 		{
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
+
 			return false;
 		}
 
@@ -120,11 +126,14 @@ class UsersControllerRegistration extends UsersController
 
 		// Validate the posted data.
 		$form	= $model->getForm();
+
 		if (!$form)
 		{
 			JError::raiseError(500, $model->getError());
+
 			return false;
 		}
+
 		$data	= $model->validate($form, $requestData);
 
 		// Check for validation errors.
@@ -139,7 +148,9 @@ class UsersControllerRegistration extends UsersController
 				if ($errors[$i] instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				} else {
+				}
+				else
+				{
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
@@ -149,6 +160,7 @@ class UsersControllerRegistration extends UsersController
 
 			// Redirect back to the registration screen.
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration', false));
+
 			return false;
 		}
 
@@ -162,8 +174,9 @@ class UsersControllerRegistration extends UsersController
 			$app->setUserState('com_users.registration.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'warning');
+			$this->setMessage($model->getError(), 'warning');
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration', false));
+
 			return false;
 		}
 
@@ -171,10 +184,12 @@ class UsersControllerRegistration extends UsersController
 		$app->setUserState('com_users.registration.data', null);
 
 		// Redirect to the profile screen.
-		if ($return === 'adminactivate'){
+		if ($return === 'adminactivate')
+		{
 			$this->setMessage(JText::_('COM_USERS_REGISTRATION_COMPLETE_VERIFY'));
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration&layout=complete', false));
-		} elseif ($return === 'useractivate')
+		}
+		elseif ($return === 'useractivate')
 		{
 			$this->setMessage(JText::_('COM_USERS_REGISTRATION_COMPLETE_ACTIVATE'));
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration&layout=complete', false));

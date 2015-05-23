@@ -3,18 +3,16 @@
  * @package     Joomla.Libraries
  * @subpackage  UCM
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base class for implementing UCM
  *
- * @package     Joomla.Libraries
- * @subpackage  UCM
- * @since       3.1
+ * @since  3.1
  */
 class JUcmContent extends JUcmBase
 {
@@ -37,13 +35,13 @@ class JUcmContent extends JUcmBase
 	/**
 	 * Instantiate JUcmContent.
 	 *
-	 * @param   JTable    $table  The table object
-	 * @param   sring     $alias  The type alias
-	 * @param   JUcmType  $type   The type object
+	 * @param   JTableInterface  $table  The table object
+	 * @param   string           $alias  The type alias
+	 * @param   JUcmType         $type   The type object
 	 *
 	 * @since   3.1
 	 */
-	public function __construct(JTable $table = null, $alias = null, JUcmType $type = null)
+	public function __construct(JTableInterface $table = null, $alias = null, JUcmType $type = null)
 	{
 		// Setup dependencies.
 		$input = JFactory::getApplication()->input;
@@ -178,15 +176,15 @@ class JUcmContent extends JUcmBase
 	/**
 	 * Store data to the appropriate table
 	 *
-	 * @param   array    $data        Data to be stored
-	 * @param   JTable   $table       JTable Object
-	 * @param   boolean  $primaryKey  Flag that is true for data that are using #__ucm_content as their primary table
+	 * @param   array            $data        Data to be stored
+	 * @param   JTableInterface  $table       JTable Object
+	 * @param   boolean          $primaryKey  Flag that is true for data that are using #__ucm_content as their primary table
 	 *
 	 * @return  boolean  true on success
 	 *
 	 * @since   3.1
 	 */
-	protected function store($data, JTable $table = null, $primaryKey = null)
+	protected function store($data, JTableInterface $table = null, $primaryKey = null)
 	{
 		$table = $table ? $table : JTable::getInstance('Corecontent');
 

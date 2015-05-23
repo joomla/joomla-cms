@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for Bootstrap elements.
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       3.0
+ * @since  3.0
  */
 abstract class JHtmlBootstrap
 {
@@ -55,7 +53,7 @@ abstract class JHtmlBootstrap
 
 			$options = JHtml::getJSObject($opt);
 
-			// Attach the carousel to document
+			// Attach affix to document
 			JFactory::getDocument()->addScriptDeclaration(
 				"(function($){
 					$('#$selector').affix($options);
@@ -121,7 +119,7 @@ abstract class JHtmlBootstrap
 		// Include Bootstrap framework
 		static::framework();
 
-		// Attach the alerts to the document
+		// Attach the button to the document
 		JFactory::getDocument()->addScriptDeclaration(
 			"(function($){
 				$('.$selector').button();
@@ -137,8 +135,8 @@ abstract class JHtmlBootstrap
 	 * Add javascript support for Bootstrap carousels
 	 *
 	 * @param   string  $selector  Common class for the carousels.
-	 * @param   array   $params    An array of options for the modal.
-	 *                             Options for the modal can be:
+	 * @param   array   $params    An array of options for the carousel.
+	 *                             Options for the carousel can be:
 	 *                             - interval  number  The amount of time to delay between automatically cycling an item.
 	 *                                                 If false, carousel will not automatically cycle.
 	 *                             - pause     string  Pauses the cycling of the carousel on mouseenter and resumes the cycling
@@ -258,6 +256,7 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @deprecated  4.0  Unused, JS Not working
 	 */
 	public static function modal($selector = 'modal', $params = array())
 	{
@@ -295,34 +294,35 @@ abstract class JHtmlBootstrap
 	 *
 	 * @param   string  $selector  The ID selector for the modal.
 	 * @param   array   $params    An array of options for the modal.
-	 * @param   string  $footer    Optional markup for the modal footer
+	 *                             Options for the modal can be:
+	 *                             - title     string   The modal title
+	 *                             - backdrop  mixed    A boolean select if a modal-backdrop element should be included (default = true)
+	 *                                                  The string 'static' includes a backdrop which doesn't close the modal on click.
+	 *                             - keyboard  boolean  Closes the modal when escape key is pressed (default = true)
+	 *                             - closeButton  boolean  Display modal close button (default = true)
+	 *                             - animation boolean  Fade in from the top of the page (default = true)
+	 *                             - footer    string   Optional markup for the modal footer
+	 *                             - url       string   URL of a resource to be inserted as an <iframe> inside the modal body
+	 *                             - height    string   height of the <iframe> containing the remote resource
+	 *                             - width     string   width of the <iframe> containing the remote resource
+	 * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the url option is set
 	 *
 	 * @return  string  HTML markup for a modal
 	 *
 	 * @since   3.0
 	 */
-	public static function renderModal($selector = 'modal', $params = array(), $footer = '')
+	public static function renderModal($selector = 'modal', $params = array(), $body = '')
 	{
-		// Ensure the behavior is loaded
-		static::modal($selector, $params);
+		// Include Bootstrap framework
+		static::framework();
 
-		$html = "<div class=\"modal hide fade\" id=\"" . $selector . "\">\n";
-		$html .= "<div class=\"modal-header\">\n";
-		$html .= "<button type=\"button\" class=\"close\" data-dismiss=\"modal\">×</button>\n";
-		$html .= "<h3>" . $params['title'] . "</h3>\n";
-		$html .= "</div>\n";
-		$html .= "<div id=\"" . $selector . "-container\">\n";
-		$html .= "</div>\n";
-		$html .= "</div>\n";
+		$layoutData = array(
+			'selector' => $selector,
+			'params'   => $params,
+			'body'     => $body
+		);
 
-		$html .= "<script>";
-		$html .= "jQuery('#" . $selector . "').on('show', function () {\n";
-		$html .= "document.getElementById('" . $selector . "-container').innerHTML = '<div class=\"modal-body\"><iframe class=\"iframe\" src=\""
-			. $params['url'] . "\" height=\"" . $params['height'] . "\" width=\"" . $params['width'] . "\"></iframe></div>" . $footer . "';\n";
-		$html .= "});\n";
-		$html .= "</script>";
-
-		return $html;
+		return JLayoutHelper::render('joomla.modal.main', $layoutData);
 	}
 
 	/**
@@ -391,7 +391,7 @@ abstract class JHtmlBootstrap
 	 *
 	 * @param   string  $selector  The ID selector for the ScrollSpy element.
 	 * @param   array   $params    An array of options for the ScrollSpy.
-	 *                             Options for the modal can be:
+	 *                             Options for the ScrollSpy can be:
 	 *                             - offset  number  Pixels to offset from top when calculating position of scroll.
 	 *
 	 * @return  void
@@ -468,16 +468,42 @@ abstract class JHtmlBootstrap
 			$opt['delay']     = isset($params['delay']) ? (int) $params['delay'] : null;
 			$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
 			$opt['template']  = isset($params['template']) ? (string) $params['template'] : null;
+			$onShow = isset($params['onShow']) ? (string) $params['onShow'] : null;
+			$onShown = isset($params['onShown']) ? (string) $params['onShown'] : null;
+			$onHide = isset($params['onHide']) ? (string) $params['onHide'] : null;
+			$onHidden = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
 			$options = JHtml::getJSObject($opt);
 
+			// Build the script.
+			$script = array();
+			$script[] = "jQuery(document).ready(function(){";
+			$script[] = "\tjQuery('" . $selector . "').tooltip(" . $options . ");";
+
+			if ($onShow)
+			{
+				$script[] = "\tjQuery('" . $selector . "').on('show.bs.tooltip', " . $onShow . ");";
+			}
+
+			if ($onShown)
+			{
+				$script[] = "\tjQuery('" . $selector . "').on('shown.bs.tooltip', " . $onShown . ");";
+			}
+
+			if ($onHide)
+			{
+				$script[] = "\tjQuery('" . $selector . "').on('hide.bs.tooltip', " . $onHide . ");";
+			}
+
+			if ($onHidden)
+			{
+				$script[] = "\tjQuery('" . $selector . "').on('hidden.bs.tooltip', " . $onHidden . ");";
+			}
+
+			$script[] = "});";
+
 			// Attach tooltips to document
-			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function()
-				{
-					jQuery('" . $selector . "').tooltip(" . $options . ");
-				});"
-			);
+			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 			// Set static array
 			static::$loaded[__METHOD__][$selector] = true;
@@ -530,7 +556,7 @@ abstract class JHtmlBootstrap
 
 			$options = JHtml::getJSObject($opt);
 
-			// Attach tooltips to document
+			// Attach typehead to document
 			JFactory::getDocument()->addScriptDeclaration(
 				"jQuery(document).ready(function()
 				{
@@ -555,6 +581,13 @@ abstract class JHtmlBootstrap
 	 *                                                 collapsible item is shown. (similar to traditional accordion behavior)
 	 *                             - toggle  boolean   Toggles the collapsible element on invocation
 	 *                             - active  string    Sets the active slide during load
+	 * 
+	 *                             - onShow    function  This event fires immediately when the show instance method is called.
+	 *                             - onShown   function  This event is fired when a collapse element has been made visible to the user 
+	 *                                                   (will wait for css transitions to complete).
+	 *                             - onHide    function  This event is fired immediately when the hide method has been called.
+	 *                             - onHidden  function  This event is fired when a collapse element has been hidden from the user 
+	 *                                                   (will wait for css transitions to complete).
 	 *
 	 * @return  string  HTML for the accordian
 	 *
@@ -562,33 +595,58 @@ abstract class JHtmlBootstrap
 	 */
 	public static function startAccordion($selector = 'myAccordian', $params = array())
 	{
-		$sig = md5(serialize(array($selector, $params)));
-
-		if (!isset(static::$loaded[__METHOD__][$sig]))
+		if (!isset(static::$loaded[__METHOD__][$selector]))
 		{
 			// Include Bootstrap framework
 			static::framework();
 
 			// Setup options object
-			$opt['parent'] = isset($params['parent']) ? (boolean) $params['parent'] : false;
-			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : true;
-			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
+			$opt['parent'] = isset($params['parent']) ? ($params['parent'] == true ? '#' . $selector : $params['parent']) : false;
+			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : ($opt['parent'] === false || isset($params['active']) ? false : true);
+			$onShow = isset($params['onShow']) ? (string) $params['onShow'] : null;
+			$onShown = isset($params['onShown']) ? (string) $params['onShown'] : null;
+			$onHide = isset($params['onHide']) ? (string) $params['onHide'] : null;
+			$onHidden = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
 			$options = JHtml::getJSObject($opt);
 
+			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
+
+			// Build the script.
+			$script = array();
+			$script[] = "jQuery(document).ready(function($){";
+			$script[] = "\t$('#" . $selector . "').collapse(" . $options . ")";
+
+			if ($onShow)
+			{
+				$script[] = "\t.on('show', " . $onShow . ")";
+			}
+
+			if ($onShown)
+			{
+				$script[] = "\t.on('shown', " . $onShown . ")";
+			}
+
+			if ($onHide)
+			{
+				$script[] = "\t.on('hideme', " . $onHide . ")";
+			}
+
+			if ($onHidden)
+			{
+				$script[] = "\t.on('hidden', " . $onHidden . ")";
+			}
+
+			$script[] = "});";
+
 			// Attach accordion to document
-			JFactory::getDocument()->addScriptDeclaration(
-				"(function($){
-					$('#$selector').collapse($options);
-				})(jQuery);"
-			);
+			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 			// Set static array
-			static::$loaded[__METHOD__][$sig] = true;
-			static::$loaded[__METHOD__]['active'] = $opt['active'];
-		}
+			static::$loaded[__METHOD__][$selector] = $opt;
 
-		return '<div id="' . $selector . '" class="accordion">';
+			return '<div id="' . $selector . '" class="accordion">';
+		}
 	}
 
 	/**
@@ -617,12 +675,14 @@ abstract class JHtmlBootstrap
 	 */
 	public static function addSlide($selector, $text, $id, $class = '')
 	{
-		$in = (static::$loaded['JHtmlBootstrap::startAccordion']['active'] == $id) ? ' in' : '';
+		$in = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? ' in' : '';
+		$parent = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
+			' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
 		$class = (!empty($class)) ? ' ' . $class : '';
 
 		$html = '<div class="accordion-group' . $class . '">'
 			. '<div class="accordion-heading">'
-			. '<strong><a href="#' . $id . '" data-parent="#' . $selector . '" data-toggle="collapse" class="accordion-toggle">'
+			. '<strong><a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="accordion-toggle">'
 			. $text
 			. '</a></strong>'
 			. '</div>'
@@ -761,7 +821,7 @@ abstract class JHtmlBootstrap
 			// Setup options object
 			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
 
-			// Attach tooltips to document
+			// Attach tab to document
 			JFactory::getDocument()->addScriptDeclaration(
 				"(function($){
 					$('#$selector a').click(function (e) {

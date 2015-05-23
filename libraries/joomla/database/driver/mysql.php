@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQL database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
  * @see         http://dev.mysql.com/doc/
  * @since       12.1
+ * @deprecated  Will be removed when the minimum supported PHP version no longer includes the deprecated PHP `mysql` extension
  */
 class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 {
@@ -36,6 +35,14 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 */
 	public function __construct($options)
 	{
+		// PHP's `mysql` extension is not present in PHP 7, block instantiation in this environment
+		if (PHP_MAJOR_VERSION >= 7)
+		{
+			throw new RuntimeException(
+				'This driver is unsupported in PHP 7, please use the MySQLi or PDO MySQL driver instead.'
+			);
+		}
+
 		// Get some basic values from the options.
 		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
 		$options['user'] = (isset($options['user'])) ? $options['user'] : 'root';
@@ -73,7 +80,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		}
 
 		// Make sure the MySQL extension for PHP is installed and enabled.
-		if (!function_exists('mysql_connect'))
+		if (!self::isSupported())
 		{
 			throw new RuntimeException('Could not connect to MySQL.');
 		}
@@ -301,6 +308,10 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// If an error occurred handle it.
 		if (!$this->cursor)
 		{
+			// Get the error number and message.
+			$this->errorNum = (int) mysql_errno($this->connection);
+			$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $query;
+
 			// Check if the server was disconnected.
 			if (!$this->connected())
 			{
@@ -313,10 +324,6 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
-					// Get the error number and message.
-					$this->errorNum = (int) mysql_errno($this->connection);
-					$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $query;
-
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
 					throw new RuntimeException($this->errorMsg, $this->errorNum);
@@ -328,10 +335,6 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 			// The server was not disconnected.
 			else
 			{
-				// Get the error number and message.
-				$this->errorNum = (int) mysql_errno($this->connection);
-				$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $query;
-
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
 				throw new RuntimeException($this->errorMsg, $this->errorNum);

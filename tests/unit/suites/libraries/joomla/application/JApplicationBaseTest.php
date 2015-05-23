@@ -3,11 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-include_once __DIR__ . '/stubs/JApplicationBaseInspector.php';
 
 /**
  * Test class for JApplicationBase.
@@ -21,7 +19,7 @@ class JApplicationBaseTest extends TestCase
 	/**
 	 * An instance of the object to test.
 	 *
-	 * @var    JApplicationBaseInspector
+	 * @var    JApplicationBase
 	 * @since  11.3
 	 */
 	protected $class;
@@ -37,8 +35,10 @@ class JApplicationBaseTest extends TestCase
 	{
 		parent::setUp();
 
+		$this->saveFactoryState();
+
 		// Create the class object to be tested.
-		$this->class = new JApplicationBaseInspector;
+		$this->class = $this->getMockForAbstractClass('JApplicationBase');
 	}
 
 	/**
@@ -54,6 +54,8 @@ class JApplicationBaseTest extends TestCase
 		// Reset the dispatcher instance.
 		TestReflection::setValue('JEventDispatcher', 'instance', null);
 
+		$this->restoreFactoryState();
+
 		parent::tearDown();
 	}
 
@@ -68,18 +70,13 @@ class JApplicationBaseTest extends TestCase
 	{
 		$this->class->loadDispatcher($this->getMockDispatcher());
 
-		$this->assertAttributeInstanceOf(
-			'JEventDispatcher',
-			'dispatcher',
-			$this->class,
-			'Tests that the dispatcher object is the correct class.'
-		);
+		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class);
 
 		// Inject a mock value into the JEventDispatcher singleton.
 		TestReflection::setValue('JEventDispatcher', 'instance', 'foo');
 		$this->class->loadDispatcher();
 
-		$this->assertEquals('foo', TestReflection::getValue($this->class, 'dispatcher'), 'Tests that we got the dispatcher from the factory.');
+		$this->assertEquals('foo', TestReflection::getValue($this->class, 'dispatcher'));
 	}
 
 	/**
@@ -94,12 +91,7 @@ class JApplicationBaseTest extends TestCase
 		$mock = $this->getMock('JUser', array(), array(), '', false);
 		$this->class->loadIdentity($mock);
 
-		$this->assertAttributeInstanceOf(
-			'JUser',
-			'identity',
-			$this->class,
-			'Tests that the identity object is the correct class.'
-		);
+		$this->assertAttributeInstanceOf('JUser', 'identity', $this->class);
 	}
 	/**
 	 * Tests the JApplicationBase::loadIdentity and JApplicationBase::getIdentity methods.
@@ -113,10 +105,7 @@ class JApplicationBaseTest extends TestCase
 		$mock = $this->getMock('JUser', array(), array(), '', false);
 		$this->class->loadIdentity($mock);
 
-		$this->assertInstanceOf(
-			'JUser',
-			$this->class->getIdentity()
-		);
+		$this->assertInstanceOf('JUser', $this->class->getIdentity());
 	}
 
 	/**
@@ -133,7 +122,7 @@ class JApplicationBaseTest extends TestCase
 
 		$this->class->loadIdentity();
 
-		$this->assertEquals(99, TestReflection::getValue($this->class, 'identity')->get('id'), 'Tests that we got the identity from the factory.');
+		$this->assertEquals(99, TestReflection::getValue($this->class, 'identity')->get('id'));
 	}
 
 	/**
@@ -147,17 +136,9 @@ class JApplicationBaseTest extends TestCase
 	{
 		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
 
-		$this->assertThat(
-			$this->class->registerEvent('onJApplicationBaseRegisterEvent', 'function'),
-			$this->identicalTo($this->class),
-			'Check chaining.'
-		);
+		$this->assertSame($this->class, $this->class->registerEvent('onJApplicationBaseRegisterEvent', 'function'));
 
-		$this->assertArrayHasKey(
-			'onJApplicationBaseRegisterEvent',
-			TestMockDispatcher::$handlers,
-			'Checks the events were passed to the mock dispatcher.'
-		);
+		$this->assertArrayHasKey('onJApplicationBaseRegisterEvent', TestMockDispatcher::$handlers);
 	}
 
 	/**
@@ -171,15 +152,11 @@ class JApplicationBaseTest extends TestCase
 	{
 		TestReflection::setValue($this->class, 'dispatcher', null);
 
-		$this->assertNull($this->class->triggerEvent('onJApplicationBaseTriggerEvent'), 'Checks that for a non-dispatcher object, null is returned.');
+		$this->assertNull($this->class->triggerEvent('onJApplicationBaseTriggerEvent'));
 
 		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
 		$this->class->registerEvent('onJApplicationBaseTriggerEvent', 'function');
 
-		$this->assertEquals(
-			array('function' => null),
-			$this->class->triggerEvent('onJApplicationBaseTriggerEvent'),
-			'Checks the correct dispatcher method is called.'
-		);
+		$this->assertEquals(array('function' => null), $this->class->triggerEvent('onJApplicationBaseTriggerEvent'));
 	}
 }

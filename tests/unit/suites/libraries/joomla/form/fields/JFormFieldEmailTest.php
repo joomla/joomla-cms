@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldEmail-helper-dataset.php';
  * @subpackage  Form
  * @since       12.1
  */
-class JFormFieldEMailTest extends TestCase
+class JFormFieldEMailTest extends TestCaseDatabase
 {
 	/**
 	 * Sets up dependencies for the test.
@@ -32,7 +32,7 @@ class JFormFieldEMailTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->backupServer = $_SERVER;
 

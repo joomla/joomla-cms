@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -110,6 +110,11 @@ class JFeedParserTest extends TestCase
 	 */
 	public function testRegisterNamespaceWithString()
 	{
+		if (PHP_MAJOR_VERSION >= 7)
+		{
+			$this->markTestSkipped('A fatal error is thrown on PHP 7 due to the typehinting of the method.');
+		}
+
 		$this->_instance->registerNamespace('foo', 'bar');
 	}
 
@@ -124,6 +129,11 @@ class JFeedParserTest extends TestCase
 	 */
 	public function testRegisterNamespaceWithObject()
 	{
+		if (PHP_MAJOR_VERSION >= 7)
+		{
+			$this->markTestSkipped('A fatal error is thrown on PHP 7 due to the typehinting of the method.');
+		}
+
 		$this->_instance->registerNamespace('foo', new stdClass);
 	}
 

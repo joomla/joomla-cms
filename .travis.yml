@@ -3,19 +3,39 @@ language: php
 php:
   - 5.3
   - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+
+matrix:
+  allow_failures:
+    - php: 7.0
+
+services:
+  - memcached
+  - redis-server
 
 before_script:
-  - composer self-update
-  - pyrus channel-discover pear.phpunit.de
-  - pyrus install --force phpunit/DbUnit
-  - phpenv rehash
+  # - composer update
+  # Install PHPCS to validate code standards
+  - composer require squizlabs/php_codesniffer 1.5.6
+  # Install Cache_Lite for testing
+  - composer require pear/cache_lite 1.7.16
+  # Set up databases for testing
   - mysql -e 'create database joomla_ut;'
-  - mysql joomla_ut < tests/unit/suites/database/stubs/mysql.sql
+  - mysql joomla_ut < tests/unit/schema/mysql.sql
   - psql -c 'create database joomla_ut;' -U postgres
-  - psql -d joomla_ut -a -f tests/unit/suites/database/stubs/postgresql.sql
+  - psql -d joomla_ut -a -f tests/unit/schema/postgresql.sql
+  # Set up Apache
+  # - ./build/travis/php-apache.sh
+  # Enable additional PHP extensions
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ]; then phpenv config-add build/travis/phpenv/memcached.ini; fi"
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ]; then phpenv config-add build/travis/phpenv/apc-$TRAVIS_PHP_VERSION.ini; fi"
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ]; then phpenv config-add build/travis/phpenv/redis.ini; fi"
 
 script:
   - phpunit --configuration travisci-phpunit.xml
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi"
 
 branches:
   except:

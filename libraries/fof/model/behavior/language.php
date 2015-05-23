@@ -2,11 +2,11 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework model behavior class to filter front-end access to items
@@ -17,6 +17,23 @@ defined('_JEXEC') or die;
  */
 class FOFModelBehaviorLanguage extends FOFModelBehavior
 {
+	/**
+	 * This event runs before we have built the query used to fetch a record
+	 * list in a model. It is used to blacklist the language filter
+	 *
+	 * @param   FOFModel        &$model  The model which calls this event
+	 * @param   JDatabaseQuery  &$query  The model which calls this event
+	 *
+	 * @return  void
+	 */
+	public function onBeforeBuildQuery(&$model, &$query)
+	{
+		if (FOFPlatform::getInstance()->isFrontend())
+		{
+			$model->blacklistFilters('language');
+		}
+	}
+
 	/**
 	 * This event runs after we have built the query used to fetch a record
 	 * list in a model. It is used to apply automatic query filters.
@@ -66,7 +83,7 @@ class FOFModelBehaviorLanguage extends FOFModelBehavior
 		if ($lang_filter_params->get('remove_default_prefix'))
 		{
 			// Get default site language
-			$lg = JFactory::getLanguage();
+			$lg = FOFPlatform::getInstance()->getLanguage();
 			$languages[] = $lg->getTag();
 		}
 		else
@@ -78,9 +95,14 @@ class FOFModelBehaviorLanguage extends FOFModelBehavior
 		$languages = array_unique($languages);
 
 		// And filter the query output by these languages
-		$db = JFactory::getDbo();
+		$db = FOFPlatform::getInstance()->getDbo();
+
+		// Alias
+		$alias = $model->getTableAlias();
+		$alias = $alias ? $db->qn($alias) . '.' : '';
+
 		$languages = array_map(array($db, 'quote'), $languages);
-		$query->where($db->qn($languageField) . ' IN (' . implode(',', $languages) . ')');
+		$query->where($alias . $db->qn($languageField) . ' IN (' . implode(',', $languages) . ')');
 	}
 
 	/**
@@ -126,7 +148,7 @@ class FOFModelBehaviorLanguage extends FOFModelBehavior
 			if ($lang_filter_params->get('remove_default_prefix'))
 			{
 				// Get default site language
-				$lg = JFactory::getLanguage();
+				$lg = FOFPlatform::getInstance()->getLanguage();
 				$languages[] = $lg->getTag();
 			}
 			else

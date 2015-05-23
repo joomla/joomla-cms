@@ -54,6 +54,13 @@
 		</exec>
 	</target>
 
+	<target name="installdep" description="Install build dependencies using composer">
+		<exec executable="composer">
+			<arg value="update" />
+			<arg value="--no-dev" />
+		</exec>
+	</target>
+
 	<target name="phpmd" description="Generate pmd.xml using PHPMD">
 		<exec executable="phpmd">
 			<arg path="${joomlasource}" />
@@ -67,15 +74,15 @@
 	<target name="phpdoc" description="Generate API documentation using phpDocumentor">
 		<exec executable="phpdoc">
 			<arg value="-d" />
-			<arg path="${basedir}/libraries/cms/,${basedir}/libraries/joomla/,${basedir}/libraries/legacy/" />
+			<arg path="${basedir}/libraries/cms/,${basedir}/libraries/joomla/,${basedir}/libraries/legacy/,${basedir}/libraries/vendor/joomla/" />
 			<arg value="-f" />
-			<arg path="${basedir}/libraries/loader.php,${basedir}/libraries/platform.php" />
+			<arg path="${basedir}/libraries/loader.php,${basedir}/libraries/platform.php,${basedir}/libraries/ClassLoader.php,${basedir}/libraries/composer_autoload.php" />
 			<arg value="-t" />
 			<arg path="${basedir}/build/api/" />
 			<arg value="--template" />
 			<arg value="joomla" />
 			<arg value="--title" />
-			<arg value="Joomla! CMS API" />
+			<arg value="Joomla! CMS 3.4 API" />
 		</exec>
 	</target>
 
@@ -130,6 +137,21 @@
 		</apply>
 	</target>
 
+	<target name="make-updatecomponent" description="Create an installable package from the com_joomlaupdate component" >
+		<delete dir="${basedir}/build/com_joomlaupdate-pkg" includeemptydirs="true" failonerror="false" />
+		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg" />
+		<echo message="Create com_joomlaupdate package" />
+		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/staging" />
+		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/staging/admin" />
+		<copy todir="${basedir}/build/com_joomlaupdate-pkg/staging/admin">
+			<fileset dir="${basedir}/administrator/components/com_joomlaupdate" />
+		</copy>
+		<move file="${basedir}/build/com_joomlaupdate-pkg/staging/admin/joomlaupdate.xml" todir="${basedir}/build/com_joomlaupdate-pkg/staging" />
+
+		<echo message="Archiving package" />
+		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/packages" />
+		<zip destfile="${basedir}/build/com_joomlaupdate-pkg/packages/com_joomlaupdate.zip" basedir="${basedir}/build/com_joomlaupdate-pkg/staging" />
+	</target>
 
 	<target name="build" depends="clean,phpunit,parallelTasks" />
 </project>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Tree based class to render the admin menu
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_menu
- * @since       1.5
+ * @since  1.5
  */
 class JAdminCssMenu extends JObject
 {
@@ -310,10 +308,8 @@ class JAdminCssMenu extends JObject
 /**
  * A Node for JAdminCssMenu
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_menu
- * @see         JAdminCssMenu
- * @since       1.5
+ * @see    JAdminCssMenu
+ * @since  1.5
  */
 class JMenuNode extends JObject
 {
@@ -394,7 +390,7 @@ class JMenuNode extends JObject
 
 		if (!empty($link) && $link !== '#')
 		{
-			$uri   = new JUri($link);
+			$uri    = new JUri($link);
 			$params = $uri->getQuery(true);
 			$parts  = array();
 

@@ -3,18 +3,18 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @since  11.1
  */
 class JFormRuleEmail extends JFormRule
 {
@@ -25,7 +25,7 @@ class JFormRuleEmail extends JFormRule
 	 * @since  11.1
 	 * @see    http://www.w3.org/TR/html-markup/input.email.html
 	 */
-	protected $regex = '^[a-zA-Z0-9.!#$%&‚Äô*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
+	protected $regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
 
 	/**
 	 * Method to test the email address and optionally check for uniqueness.
@@ -35,14 +35,14 @@ class JFormRuleEmail extends JFormRule
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
-	 * @param   JRegistry         $input    An optional JRegistry object with the entire data set to validate against the entire form.
+	 * @param   Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
 	 * @param   JForm             $form     The form object for which the field is being tested.
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
 	 * @since   11.1
 	 */
-	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
+	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
 		// If the field is empty and not required, the field is valid.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
@@ -57,7 +57,7 @@ class JFormRuleEmail extends JFormRule
 
 		if ($tld)
 		{
-			$this->regex = '^[a-zA-Z0-9.!#$%&‚Äô*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]{2,})$';
+			$this->regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
 		}
 
 		// Determine if the multiple attribute is present
@@ -96,7 +96,6 @@ class JFormRuleEmail extends JFormRule
 
 		if ($unique && !$multiple)
 		{
-
 			// Get the database object and a new query object.
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);

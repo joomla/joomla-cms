@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,9 +19,13 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JCacheStorageFile
-	 * @access protected
 	 */
 	protected $object;
+
+	/**
+	 * @var    boolean
+	 */
+	protected $extensionAvailable;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -33,10 +37,16 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
-		include_once JPATH_PLATFORM . '/joomla/cache/storage/file.php';
+		$this->extensionAvailable = is_writable(JPATH_BASE . '/cache');
 
-		$this->object = JCacheStorage::getInstance('file', array('cachebase' => JPATH_BASE . '/cache'));
+		if ($this->extensionAvailable)
+		{
+			$this->object = JCacheStorage::getInstance('file', array('cachebase' => JPATH_BASE . '/cache'));
+		}
+		else
+		{
+			$this->markTestSkipped('This caching method is not supported on this system.');
+		}
 	}
 
 	/**
@@ -52,14 +62,12 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 				'_testing',
 				'And this is the cache that tries men\'s souls',
 				true,
-				false,
 			),
 			'again' => array(
 				43,
 				'_testing',
 				'The summer coder and the sunshine developer.',
 				true,
-				false,
 			),
 		);
 	}
@@ -70,24 +78,22 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	 * @param   string  $id         element ID
 	 * @param   string  $group      group
 	 * @param   string  $data       string to be cached
-	 * @param   string  $checktime  @todo
-	 * @param   string  $expected   @todo
+	 * @param   string  $checktime  True to verify cache time expiration threshold
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @dataProvider casesStore
+	 * @dataProvider  casesStore
 	 */
-	public function testStoreAndGet($id, $group, $data, $checktime, $expected)
+	public function testStoreAndGet($id, $group, $data, $checktime)
 	{
-		$this->assertThat(
+		$this->assertTrue(
 			$this->object->store($id, $group, $data),
-			$this->isTrue(),
 			'Should store the data properly'
 		);
 
-		$this->assertThat(
+		$this->assertEquals(
+			$data,
 			$this->object->get($id, $group, $checktime),
-			$this->equalTo($data),
 			'Should retrieve the data properly'
 		);
 	}
@@ -95,34 +101,40 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @todo Implement testRemove().
-	 *
 	 * @return void
+	 */
+	public function testGetAll()
+	{
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Testing remove()
+	 *
+	 * @return  void
 	 */
 	public function testRemove()
 	{
 		$this->object->store(42, '_testing', 'And this is the cache that tries men\'s souls');
 
-		$this->assertThat(
-			$this->object->get(42, '_testing', true),
-			$this->equalTo('And this is the cache that tries men\'s souls')
+		$this->assertEquals(
+			'And this is the cache that tries men\'s souls',
+			$this->object->get(42, '_testing', true)
 		);
-		$this->assertThat(
-			$this->object->remove(42, '_testing'),
-			$this->isTrue()
+
+		$this->assertTrue(
+			$this->object->remove(42, '_testing')
 		);
-		$this->assertThat(
-			$this->object->get(42, '_testing', true),
-			$this->isFalse()
+
+		$this->assertFalse(
+			$this->object->get(42, '_testing', true)
 		);
 	}
 
 	/**
-	 * Test...
+	 * Test clean()
 	 *
-	 * @todo Implement testClean().
-	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function testClean()
 	{
@@ -131,59 +143,50 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 		$this->object->store(44, '_nottesting', 'Now is the time for all good developers to cry');
 		$this->object->store(45, '_testing', 'Do not go gentle into that good night');
 
-		$this->assertThat(
-			$this->object->get(42, '_testing', true),
-			$this->equalTo('And this is the cache that tries men\'s souls')
+		$this->assertEquals(
+			'And this is the cache that tries men\'s souls',
+			$this->object->get(42, '_testing', true)
 		);
 
-		$this->assertThat(
-			$this->object->clean('_testing', 'group'),
-			$this->isTrue()
+		$this->assertTrue(
+			$this->object->clean('_testing', 'group')
 		);
 
-		$this->assertThat(
-			$this->object->get(42, '_testing', true),
-			$this->isFalse()
+		$this->assertFalse(
+			$this->object->get(42, '_testing', true)
 		);
 
-		$this->assertThat(
-			$this->object->get(43, '_testing', true),
-			$this->isFalse()
+		$this->assertFalse(
+			$this->object->get(43, '_testing', true)
 		);
 
-		$this->assertThat(
-			$this->object->get(44, '_nottesting', true),
-			$this->equalTo('Now is the time for all good developers to cry')
+		$this->assertEquals(
+			'Now is the time for all good developers to cry',
+			$this->object->get(44, '_nottesting', true)
 		);
 
-		$this->assertThat(
-			$this->object->get(45, '_testing', true),
-			$this->isFalse()
+		$this->assertFalse(
+			$this->object->get(45, '_testing', true)
 		);
 
-		$this->assertThat(
-			(bool) $this->object->clean('_testing', 'notgroup'),
-			$this->equalTo(true)
+		$this->assertTrue(
+			(bool) $this->object->clean('_testing', 'notgroup')
 		);
 
-		$this->assertThat(
-			$this->object->get(44, '_nottesting', true),
-			$this->isFalse()
+		$this->assertFalse(
+			$this->object->get(44, '_nottesting', true)
 		);
 	}
 
 	/**
-	 * Test...
+	 * Test gc()
 	 *
-	 * @todo Implement testGc().
-	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function testGc()
 	{
-		$this->assertThat(
-			(bool) $this->object->gc(),
-			$this->isTrue()
+		$this->assertTrue(
+			(bool) $this->object->gc()
 		);
 	}
 
@@ -194,36 +197,10 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsSupported()
 	{
-		$this->assertThat(
+		$this->assertEquals(
+			$this->extensionAvailable,
 			$this->object->isSupported(),
-			$this->equalTo(is_writable(JPATH_BASE . '/cache')),
 			'Claims File is not loaded.'
 		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement test_setExpire().
-	 *
-	 * @return void
-	 */
-	public function test_setExpire()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement test_getFilePath().
-	 *
-	 * @return void
-	 */
-	public function test_getFilePath()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

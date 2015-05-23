@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -40,14 +40,14 @@ class TestMockSession
 	/**
 	 * Creates an instance of the mock JSession object.
 	 *
-	 * @param   object  $test     A test object.
-	 * @param   array   $options  An array of optional configuration values.
-	 *                            getId : the value to be returned by the mock getId method
-	 *                            get.user.id : the value to assign to the user object id returned by get('user')
-	 *                            get.user.name : the value to assign to the user object name returned by get('user')
-	 *                            get.user.username : the value to assign to the user object username returned by get('user')
+	 * @param   PHPUnit_Framework_TestCase  $test     A test object.
+	 * @param   array                       $options  An array of optional configuration values.
+	 *                                                getId : the value to be returned by the mock getId method
+	 *                                                get.user.id : the value to assign to the user object id returned by get('user')
+	 *                                                get.user.name : the value to assign to the user object name returned by get('user')
+	 *                                                get.user.username : the value to assign to the user object username returned by get('user')
 	 *
-	 * @return  object
+	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
 	 * @since   11.3
 	 */

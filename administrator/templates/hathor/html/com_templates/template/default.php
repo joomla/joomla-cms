@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.modal');
 
 $input = JFactory::getApplication()->input;
 if($this->type == 'image')
@@ -291,7 +290,7 @@ if($this->type == 'image')
 				<h1><p><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></p></h1>
 				<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 				<p>
-					<a href="http://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank">
+					<a href="https://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank">
 						<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
 					</a>
 				</p>
@@ -335,10 +334,10 @@ if($this->type == 'image')
 					<?php foreach ($this->archive as $file): ?>
 						<li>
 							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR): ?>
-								<i class="icon-folder"></i>&nbsp;<?php echo $file; ?>
+								<span class="icon-folder"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR): ?>
-								<i class="icon-file"></i>&nbsp;<?php echo $file; ?>
+								<span class="icon-file"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
@@ -443,7 +442,7 @@ if($this->type == 'image')
 				  method="post" name="adminForm" id="adminForm">
 				<fieldset class="panelform">
 					<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
-					<input class="inputbox" type="text" id="new_name" name="new_name"  />
+					<input type="text" id="new_name" name="new_name"  />
 					<button type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
 				</fieldset>
 				<?php echo JHtml::_('form.token'); ?>
@@ -454,7 +453,7 @@ if($this->type == 'image')
 					  method="post" name="adminForm" id="adminForm">
 					<fieldset class="panelform">
 						<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>"><?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME')?></label>
-						<input class="inputbox" type="text" name="new_name"  />
+						<input type="text" name="new_name"  />
 						<button type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RENAME'); ?></button>
 					</fieldset>
 					<?php echo JHtml::_('form.token'); ?>
@@ -466,7 +465,7 @@ if($this->type == 'image')
 				<?php foreach($this->overridesList['modules'] as $module): ?>
 					<li>
 						<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-							<i class="icon-copy"></i>&nbsp;<?php echo $module->name; ?>
+							<span class="icon-copy"></span>&nbsp;<?php echo $module->name; ?>
 						</a>
 					</li>
 				<?php endforeach; ?>
@@ -478,13 +477,13 @@ if($this->type == 'image')
 				<?php foreach ($this->overridesList['components'] as $key => $value): ?>
 					<li class="component-folder">
 						<a href="#" class="component-folder-url">
-							<i class="icon-folder"></i>&nbsp;<?php echo $key; ?>
+							<span class="icon-folder"></span>&nbsp;<?php echo $key; ?>
 						</a>
 						<ul class="adminformList">
 							<?php foreach ($value as $view): ?>
 								<li>
 									<a class="component-file-url" href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $view->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-										<i class="icon-copy"></i>&nbsp;<?php echo $view->name; ?>
+										<span class="icon-copy"></span>&nbsp;<?php echo $view->name; ?>
 									</a>
 								</li>
 							<?php endforeach; ?>
@@ -499,7 +498,7 @@ if($this->type == 'image')
 				<?php foreach($this->overridesList['layouts'] as $layout): ?>
 					<li>
 						<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-							<i class="icon-copy"></i>&nbsp;<?php echo $layout->name; ?>
+							<span class="icon-copy"></span>&nbsp;<?php echo $layout->name; ?>
 						</a>
 					</li>
 				<?php endforeach; ?>

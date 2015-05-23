@@ -3,19 +3,19 @@
  * @package     Joomla.Platform
  * @subpackage  Data
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * JData is a class that is used to store data but allowing you to access the data
  * by mimicking the way PHP handles class properties.
  *
- * @package     Joomla.Platform
- * @subpackage  Data
- * @since       12.3
+ * @since  12.3
  */
 class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Countable
 {
@@ -229,7 +229,7 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	 * Dumps a data property.
 	 *
 	 * If recursion is set, this method will dump any object implementing JDumpable (like JData and JDataSet); it will
-	 * convert a JDate object to a string; and it will convert a JRegistry to an object.
+	 * convert a JDate object to a string; and it will convert a Registry to an object.
 	 *
 	 * @param   string            $property  The name of the data property.
 	 * @param   integer           $depth     The current depth of recursion (a value of 0 will ignore recursion).
@@ -261,7 +261,7 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 				$value = (string) $value;
 			}
 			// Check if the object is a registry.
-			elseif ($value instanceof JRegistry)
+			elseif ($value instanceof Registry)
 			{
 				$value = $value->toObject();
 			}

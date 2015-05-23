@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of tracks.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersViewTracks extends JViewLegacy
 {
@@ -33,9 +31,9 @@ class BannersViewTracks extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -48,8 +46,11 @@ class BannersViewTracks extends JViewLegacy
 		BannersHelper::addSubmenu('tracks');
 
 		$this->addToolbar();
+
 		require_once JPATH_COMPONENT . '/models/fields/bannerclient.php';
+
 		$this->sidebar = JHtmlSidebar::render();
+
 		parent::display($tpl);
 	}
 
@@ -69,7 +70,7 @@ class BannersViewTracks extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_TRACKS'), 'bookmark banners-tracks');
 
 		$bar = JToolBar::getInstance('toolbar');
-		$bar->appendButton('Popup', 'export', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component', 600, 300);
+		$bar->appendButton('Popup', 'download', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component', 600, 300);
 
 		if ($canDo->get('core.delete'))
 		{
@@ -102,7 +103,13 @@ class BannersViewTracks extends JViewLegacy
 		JHtmlSidebar::addFilter(
 			JText::_('COM_BANNERS_SELECT_TYPE'),
 			'filter_type',
-			JHtml::_('select.options', array(JHtml::_('select.option', 1, JText::_('COM_BANNERS_IMPRESSION')), JHtml::_('select.option', 2, JText::_('COM_BANNERS_CLICK'))), 'value', 'text', $this->state->get('filter.type'))
+			JHtml::_(
+				'select.options',
+				array(JHtml::_('select.option', 1, JText::_('COM_BANNERS_IMPRESSION')), JHtml::_('select.option', 2, JText::_('COM_BANNERS_CLICK'))),
+				'value',
+				'text',
+				$this->state->get('filter.type')
+			)
 		);
 	}
 

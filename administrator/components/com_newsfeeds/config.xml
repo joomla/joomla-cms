@@ -76,7 +76,6 @@
 			id="feed_character_count"
 			name="feed_character_count"
 			type="text"
-			class="inputbox"
 			size="6"
 			default="0"
 			label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
@@ -299,7 +298,8 @@
 
 		<field
 			name="filter_field"
-			type="list"
+			type="radio"
+			class="btn-group btn-group-yesno"
 			default="1"
 			description="JGLOBAL_FILTER_FIELD_DESC"
 			label="JGLOBAL_FILTER_FIELD_LABEL"

@@ -1,6 +1,10 @@
 #!/usr/bin/php
 <?php
 
+/**
+ * This file will be removed in Joomla! CMS version 4.0. Developers should supply their own copy of this file if needed.
+ */
+
 if (php_sapi_name() != "cli")
 {
 	echo "Error: phptidy has to be run on command line with CLI SAPI\n";
