@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.3
  */
-class ContentRouter extends JComponentRouterAdvanced
+class ContentRouter extends JComponentRouterView
 {
 	function __construct($app = null, $menu = null)
 	{
@@ -36,6 +36,48 @@ class ContentRouter extends JComponentRouterAdvanced
 		$this->attachRule(new JComponentRouterRulesMenu($this));
 		require_once JPATH_SITE . '/components/com_content/helpers/legacyrouter.php';
 		$this->attachRule(new ContentRouterRulesLegacy($this));
+	}
+
+	/**
+	 * Method to get the segment(s) for a category
+	 * 
+	 * @param   string  $id     ID of the category to retrieve the segments for
+	 * @param   array   $query  The request that is parsed right now
+	 * @return  array|string  The segments of this item
+	 */
+	public function getCategorySegment($id, $query)
+	{
+		$category = JCategories::getInstance($this->getName())->get($id);
+		if ($category)
+		{
+			return array_reverse($category->getPath());
+		}
+
+		return array();
+	}
+
+	/**
+	 * Method to get the segment(s) for a category
+	 * 
+	 * @param   string  $id     ID of the category to retrieve the segments for
+	 * @param   array   $query  The request that is parsed right now
+	 * @return  array|string  The segments of this item
+	 */
+	public function getCategoriesSegment($id, $query)
+	{
+		return $this->getCategorySegment($id, $query);
+	}
+
+	/**
+	 * Method to get the segment(s) for an article
+	 * 
+	 * @param   string  $id     ID of the article to retrieve the segments for
+	 * @param   array   $query  The request that is parsed right now
+	 * @return  array|string  The segments of this item
+	 */
+	public function getArticleSegment($id, $query)
+	{
+		return array($id);
 	}
 }
 

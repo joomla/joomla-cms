@@ -34,19 +34,12 @@ abstract class ContentHelperRoute
 
 		if ((int) $catid > 1)
 		{
-			$categories = JCategories::getInstance('Content');
-			$category   = $categories->get((int) $catid);
-
-			if ($category)
-			{
-				$link .= '&catid=' . $catid;
-			}
+			$link .= '&catid=' . $catid;
 		}
 
 		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 		{
 			$link .= '&lang=' . $language;
-			$needles['language'] = $language;
 		}
 
 		return $link;
@@ -66,27 +59,24 @@ abstract class ContentHelperRoute
 	{
 		if ($catid instanceof JCategoryNode)
 		{
-			$id       = $catid->id;
-			$category = $catid;
+			$id = $catid->id;
 		}
 		else
 		{
-			$id       = (int) $catid;
-			$category = JCategories::getInstance('Content')->get($id);
+			$id = (int) $catid;
 		}
 
-		if ($id < 1 || !($category instanceof JCategoryNode))
+		if ($id < 1)
 		{
 			$link = '';
 		}
 		else
 		{
-			$link                  = 'index.php?option=com_content&view=category&id=' . $id;
+			$link = 'index.php?option=com_content&view=category&id=' . $id;
 
 			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 			{
 				$link .= '&lang=' . $language;
-				$needles['language'] = $language;
 			}
 		}
 
@@ -106,6 +96,4 @@ abstract class ContentHelperRoute
 	{
 		return 'index.php?option=com_content&task=article.edit&a_id=' . (int) $id;
 	}
-
-	/**
-	}}
+}
