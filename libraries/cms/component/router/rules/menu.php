@@ -37,7 +37,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(JComponentRouterAdvanced $router)
+	public function __construct(JComponentRouterView $router)
 	{
 		$this->router = $router;
 

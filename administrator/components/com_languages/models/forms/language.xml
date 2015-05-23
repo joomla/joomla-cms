@@ -36,7 +36,7 @@
 		<field name="sef" type="text"
 			description="COM_LANGUAGES_FIELD_LANG_CODE_DESC"
 			label="COM_LANGUAGES_FIELD_LANG_CODE_LABEL"
-			maxlength="7"
+			maxlength="50"
 			required="true"
 			size="10"
 		/>

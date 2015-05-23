@@ -45,6 +45,7 @@ class JComponentRouterViewconfigurationTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterViewconfiguration::__construct
 	 */
 	public function testConstruct()
 	{
@@ -59,6 +60,7 @@ class JComponentRouterViewconfigurationTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterViewconfiguration::setName
 	 */
 	public function testSetName()
 	{
@@ -80,6 +82,7 @@ class JComponentRouterViewconfigurationTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterViewconfiguration::setKey
 	 */
 	public function testSetKey()
 	{
@@ -94,6 +97,7 @@ class JComponentRouterViewconfigurationTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterViewconfiguration::setParent
 	 */
 	public function testSetParent()
 	{
@@ -147,6 +151,7 @@ class JComponentRouterViewconfigurationTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterViewconfiguration::setNestable
 	 */
 	public function testSetNestable()
 	{
@@ -165,6 +170,7 @@ class JComponentRouterViewconfigurationTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterViewconfiguration::addLayout
 	 */
 	public function testAddLayout()
 	{
@@ -182,6 +188,7 @@ class JComponentRouterViewconfigurationTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterViewconfiguration::removeLayout
 	 */
 	public function testRemoveLayout()
 	{

@@ -23,7 +23,7 @@ class PlgAuthenticationJoomla extends JPlugin
 	 * @param   array   $options      Array of extra options
 	 * @param   object  &$response    Authentication response object
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   1.5
 	 */
@@ -34,10 +34,10 @@ class PlgAuthenticationJoomla extends JPlugin
 		// Joomla does not like blank passwords
 		if (empty($credentials['password']))
 		{
-			$response->status = JAuthentication::STATUS_FAILURE;
+			$response->status        = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 
-			return false;
+			return;
 		}
 
 		// Get a database object
@@ -57,8 +57,8 @@ class PlgAuthenticationJoomla extends JPlugin
 			if ($match === true)
 			{
 				// Bring this in line with the rest of the system
-				$user = JUser::getInstance($result->id);
-				$response->email = $user->email;
+				$user               = JUser::getInstance($result->id);
+				$response->email    = $user->email;
 				$response->fullname = $user->name;
 
 				if (JFactory::getApplication()->isAdmin())
@@ -70,20 +70,20 @@ class PlgAuthenticationJoomla extends JPlugin
 					$response->language = $user->getParam('language');
 				}
 
-				$response->status = JAuthentication::STATUS_SUCCESS;
+				$response->status        = JAuthentication::STATUS_SUCCESS;
 				$response->error_message = '';
 			}
 			else
 			{
 				// Invalid password
-				$response->status = JAuthentication::STATUS_FAILURE;
+				$response->status        = JAuthentication::STATUS_FAILURE;
 				$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_PASS');
 			}
 		}
 		else
 		{
 			// Invalid user
-			$response->status = JAuthentication::STATUS_FAILURE;
+			$response->status        = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::_('JGLOBAL_AUTH_NO_USER');
 		}
 
@@ -107,7 +107,7 @@ class PlgAuthenticationJoomla extends JPlugin
 			// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
 			if (!array_key_exists('otp_config', $options))
 			{
-				$otpConfig = $model->getOtpConfig($result->id);
+				$otpConfig             = $model->getOtpConfig($result->id);
 				$options['otp_config'] = $otpConfig;
 			}
 			else
@@ -178,7 +178,7 @@ class PlgAuthenticationJoomla extends JPlugin
 						// Two factor authentication is not enabled on this account.
 						// Any string is assumed to be a valid OTEP.
 
-						return true;
+						return;
 					}
 					else
 					{
@@ -187,16 +187,15 @@ class PlgAuthenticationJoomla extends JPlugin
 						 * user has used them all up. Therefore anything he enters is
 						 * an invalid OTEP.
 						 */
-						return false;
+						return;
 					}
 				}
 
 				// Clean up the OTEP (remove dashes, spaces and other funny stuff
 				// our beloved users may have unwittingly stuffed in it)
-				$otep = $credentials['secretkey'];
-				$otep = filter_var($otep, FILTER_SANITIZE_NUMBER_INT);
-				$otep = str_replace('-', '', $otep);
-
+				$otep  = $credentials['secretkey'];
+				$otep  = filter_var($otep, FILTER_SANITIZE_NUMBER_INT);
+				$otep  = str_replace('-', '', $otep);
 				$check = false;
 
 				// Did we find a valid OTEP?
@@ -214,7 +213,7 @@ class PlgAuthenticationJoomla extends JPlugin
 
 			if (!$check)
 			{
-				$response->status = JAuthentication::STATUS_FAILURE;
+				$response->status        = JAuthentication::STATUS_FAILURE;
 				$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_SECRETKEY');
 			}
 		}

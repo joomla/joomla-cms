@@ -209,6 +209,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<td align="center" class="small hidden-phone">
 							<?php if (!empty($item->linked_user)) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id);?>"><?php echo $item->linked_user;?></a>
+								<div class="small"><?php echo $item->email; ?></div>
 							<?php endif; ?>
 						</td>
 						<td class="center hidden-phone">
@@ -245,10 +246,21 @@ JFactory::getDocument()->addScriptDeclaration('
 					</tr>
 				</tfoot>
 			</table>
+			<?php //Load the batch processing form. ?>
+			<?php if ($user->authorise('core.create', 'com_contact')
+				&& $user->authorise('core.edit', 'com_contact')
+				&& $user->authorise('core.edit.state', 'com_contact')) : ?>
+				<?php echo JHtml::_(
+					'bootstrap.renderModal',
+					'collapseModal',
+					array(
+						'title' => JText::_('COM_CONTACT_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer')
+					),
+					$this->loadTemplate('batch_body')
+				); ?>
+			<?php endif; ?>
 		<?php endif;?>
-
-		<?php //Load the batch processing form. ?>
-		<?php echo $this->loadTemplate('batch'); ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

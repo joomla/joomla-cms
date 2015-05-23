@@ -9,14 +9,14 @@
 
 require_once __DIR__ . '/stubs/JComponentRouterRulesMenuInspector.php';
 require_once __DIR__ . '/stubs/MockJComponentRouterRulesMenuMenuObject.php';
-require_once __DIR__ . '/../stubs/JComponentRouterAdvancedInspector.php';
+require_once __DIR__ . '/../stubs/JComponentRouterViewInspector.php';
 
 /**
  * Test class for JComponentRouterRulesMenu.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Component
- * @since       3.4
+ * @since       3.5
  */
 class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 
@@ -24,7 +24,7 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 	 * Object under test
 	 *
 	 * @var    JComponentRouterRulesMenu
-	 * @since  3.4
+	 * @since  3.5
 	 */
 	protected $object;
 
@@ -34,14 +34,15 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	protected function setUp()
 	{
 		parent::setUp();
 
-		$app = TestMockApplication::create($this);
-		$router = new JComponentRouterAdvancedInspector($app, $app->getMenu());
+		$app = $this->getMockCmsApp();
+		JFactory::$application = $app;
+		$router = new JComponentRouterViewInspector($app, $app->getMenu());
 		$router->set('name', 'content');
 		$categories = new JComponentRouterViewconfiguration('categories');
 		$categories->setKey('id');
@@ -68,7 +69,7 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	protected function getDataSet()
 	{
@@ -85,12 +86,12 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function testConstruct()
 	{
 		$this->assertInstanceOf('JComponentRouterRulesMenu', $this->object);
-		$this->assertInstanceOf('JComponentRouterAdvanced', $this->object->get('router'));
+		$this->assertInstanceOf('JComponentRouterView', $this->object->get('router'));
 		$this->assertEquals(array(
 			'*' => array(
 				'featured' => '47',
@@ -98,75 +99,111 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 				'category' => array (20 => '49'))
 			), $this->object->get('lookup'));
 	}
-	
+
+	/**
+	 * Cases for testPreprocess
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function casesPreprocess()
+	{
+		$cases   = array();
+		
+		// Check direct link to a simple view
+		$cases[] = array(array('option' => 'com_content', 'view' => 'featured'),
+			array('option' => 'com_content', 'view' => 'featured', 'Itemid' => '47'));
+
+		// Check direct link to a simple view with a language
+		$cases[] = array(array('option' => 'com_content', 'view' => 'featured', 'lang' => 'en-GB'),
+			array('option' => 'com_content', 'view' => 'featured', 'lang' => 'en-GB', 'Itemid' => '51'));
+
+		// Check direct link to a view with a key
+		$cases[] = array(array('option' => 'com_content', 'view' => 'categories', 'id' => '14'),
+			array('option' => 'com_content', 'view' => 'categories', 'id' => '14', 'Itemid' => '48'));
+
+		// Check direct link to a view with a key with a language
+		$cases[] = array(array('option' => 'com_content', 'view' => 'categories', 'id' => '14', 'lang' => 'en-GB'),
+			array('option' => 'com_content', 'view' => 'categories', 'id' => '14', 'lang' => 'en-GB', 'Itemid' => '50'));
+
+		// Check indirect link to a nested view with a key
+		$cases[] = array(array('option' => 'com_content', 'view' => 'category', 'id' => '22'),
+			array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'Itemid' => '49'));
+
+		// Check indirect link to a nested view with a key and a language
+		$cases[] = array(array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'lang' => 'en-GB'),
+			array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'lang' => 'en-GB', 'Itemid' => '49'));
+
+		// Check indirect link to a single view behind a nested view with a key
+		$cases[] = array(array('option' => 'com_content', 'view' => 'article', 'id' => '42', 'catid' => '22'),
+			array('option' => 'com_content', 'view' => 'article', 'id' => '42', 'catid' => '22', 'Itemid' => '49'));
+
+		// Check indirect link to a single view behind a nested view with a key and language
+		$cases[] = array(array('option' => 'com_content', 'view' => 'article', 'id' => '42', 'catid' => '22', 'lang' => 'en-GB'),
+			array('option' => 'com_content', 'view' => 'article', 'id' => '42', 'catid' => '22', 'lang' => 'en-GB', 'Itemid' => '49'));
+
+		// Check non-existing menu link
+		$cases[] = array(array('option' => 'com_content', 'view' => 'categories', 'id' => '42'),
+			array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'Itemid' => '49'));
+
+		// Check indirect link to a single view behind a nested view with a key and language
+		$cases[] = array(array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'lang' => 'en-GB'),
+			array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'lang' => 'en-GB', 'Itemid' => '49'));
+
+		// Check if a query with existing Itemid that is not the current active menu-item is not touched
+		$cases[] = array(array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'Itemid' => '99'),
+			array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'Itemid' => '99'));
+
+		// Check if a query with existing Itemid that is the current active menu-item is correctly searched
+		$cases[] = array(array('option' => 'com_content', 'view' => 'categories', 'id' => '14', 'Itemid' => '49'),
+			array('option' => 'com_content', 'view' => 'categories', 'id' => '14', 'Itemid' => '48'));
+
+		return $cases;
+	}
+
 	/**
 	 * Tests the preprocess() method
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @dataProvider  casesPreprocess
+	 * @since   3.5
 	 */
-	public function testPreprocess()
+	public function testPreprocess($input, $result)
 	{
-		// Check direct link to a simple view
-		$query = array('option' => 'com_content', 'view' => 'featured');
-		$this->object->preprocess($query);
-		$this->assertEquals(array('option' => 'com_content', 'view' => 'featured', 'Itemid' => '47'), $query);
+		$this->saveFactoryState();
 
-		// Check direct link to a simple view with a language
-		$query = array('option' => 'com_content', 'view' => 'featured', 'lang' => 'en-GB');
-		$this->object->preprocess($query);
-		$this->assertEquals(array('option' => 'com_content', 'view' => 'featured', 'lang' => 'en-GB', 'Itemid' => '51'), $query);
+		$this->object->preprocess($input);
+		$this->assertEquals($result, $input);
 
-		// Check direct link to a view with a key
-		$query = array('option' => 'com_content', 'view' => 'categories', 'id' => '14');
-		$this->object->preprocess($query);
-		$this->assertEquals(array('option' => 'com_content', 'view' => 'categories', 'id' => '14', 'Itemid' => '48'), $query);
+		$this->restoreFactoryState();
+	}
 
-		// Check direct link to a view with a key with a language
-		$query = array('option' => 'com_content', 'view' => 'categories', 'id' => '14', 'lang' => 'en-GB');
-		$this->object->preprocess($query);
-		$this->assertEquals(array('option' => 'com_content', 'view' => 'categories', 'id' => '14', 'lang' => 'en-GB', 'Itemid' => '50'), $query);
+	/**
+	 * Tests the preprocess() method
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function testPreprocessLanguage()
+	{
+		$this->saveFactoryState();
 
-		// Check indirect link to a nested view with a key
-		$query = array('option' => 'com_content', 'view' => 'category', 'id' => '22');
+		// Test if the default Itemid is used if everything else fails
+		$router = $this->object->get('router');
+		$router->menu->active = null;
+		$query = array();
 		$this->object->preprocess($query);
-		$this->assertEquals(array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'Itemid' => '49'), $query);
+		$this->assertEquals(array('Itemid' => '47'), $query);
 
-		// Check indirect link to a nested view with a key and a language
-		$query = array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'lang' => 'en-GB');
+		// Test if the correct default item is used based on the language
+		$query = array('lang' => 'en-GB');
 		$this->object->preprocess($query);
-		$this->assertEquals(array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'lang' => 'en-GB', 'Itemid' => '49'), $query);
+		$this->assertEquals(array('lang' => 'en-GB', 'Itemid' => '51'), $query);
 
-		// Check indirect link to a single view behind a nested view with a key
-		$query = array('option' => 'com_content', 'view' => 'article', 'id' => '42', 'catid' => '22');
-		$this->object->preprocess($query);
-		$this->assertEquals(array('option' => 'com_content', 'view' => 'article', 'id' => '42', 'catid' => '22', 'Itemid' => '49'), $query);
-
-		// Check indirect link to a single view behind a nested view with a key and language
-		$query = array('option' => 'com_content', 'view' => 'article', 'id' => '42', 'catid' => '22', 'lang' => 'en-GB');
-		$this->object->preprocess($query);
-		$this->assertEquals(array('option' => 'com_content', 'view' => 'article', 'id' => '42', 'catid' => '22', 'lang' => 'en-GB', 'Itemid' => '49'), $query);
-
-		// Check non-existing menu link
-		$query = array('option' => 'com_content', 'view' => 'categories', 'id' => '42');
-		$this->object->preprocess($query);
-		$this->assertEquals(array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'Itemid' => '49'), $query);
-
-		// Check indirect link to a single view behind a nested view with a key and language
-		$query = array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'lang' => 'en-GB');
-		$this->object->preprocess($query);
-		$this->assertEquals(array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'lang' => 'en-GB', 'Itemid' => '49'), $query);
-
-		// Check if a query with existing Itemid that is not the current active menu-item is not touched
-		$query = array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'Itemid' => '99');
-		$this->object->preprocess($query);
-		$this->assertEquals(array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'Itemid' => '99'), $query);
-	
-		// Check if a query with existing Itemid that is the current active menu-item is correctly searched
-		$query = array('option' => 'com_content', 'view' => 'categories', 'id' => '14', 'Itemid' => '49');
-		$this->object->preprocess($query);
-		$this->assertEquals(array('option' => 'com_content', 'view' => 'categories', 'id' => '14', 'Itemid' => '48'), $query);
+		$this->restoreFactoryState();
 	}
 
 	/**
@@ -174,7 +211,7 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function testBuildLookup()
 	{

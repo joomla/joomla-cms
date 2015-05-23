@@ -86,6 +86,10 @@
 @import "icomoon.less";
 
 /* Site Body Styles */
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
 body.site{
 	border-top:3px solid #0088cc;
 	padding: 20px;
@@ -294,18 +298,18 @@ figcaption {
 		-webkit-background-clip: padding-box;
 		 -moz-background-clip: padding;
 		      background-clip: padding-box;
-		
+
 		// Aligns the dropdown menu to right
 		&.pull-right {
 			right: 0;
 			left: auto;
 		}
-		
+
 		// Dividers (basically an hr) within the dropdown
 		.divider {
 			.nav-divider(@dropdownDividerTop, @dropdownDividerBottom);
 		}
-		
+
 		// Links within the dropdown menu
 		a {
 			display: block;

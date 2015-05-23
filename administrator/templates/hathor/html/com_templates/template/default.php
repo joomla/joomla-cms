@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.modal');
 
 $input = JFactory::getApplication()->input;
 if($this->type == 'image')
@@ -291,7 +290,7 @@ if($this->type == 'image')
 				<h1><p><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></p></h1>
 				<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 				<p>
-					<a href="http://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank">
+					<a href="https://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank">
 						<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
 					</a>
 				</p>

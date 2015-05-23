@@ -31,11 +31,9 @@ class TagsViewTags extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->state		= $this->get('State');
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-
-		TagsHelper::addSubmenu('tags');
+		$this->state      = $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -44,6 +42,7 @@ class TagsViewTags extends JViewLegacy
 
 			return false;
 		}
+
 		// Preprocess the list of items to find ordering divisions.
 		foreach ($this->items as &$item)
 		{
@@ -111,9 +110,10 @@ class TagsViewTags extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', 'com_tags') && $user->authorise('core.edit', 'com_tags') && $user->authorise('core.edit.state', 'com_tags'))
+		if ($user->authorise('core.create', 'com_tags')
+			&& $user->authorise('core.edit', 'com_tags')
+			&& $user->authorise('core.edit.state', 'com_tags'))
 		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button

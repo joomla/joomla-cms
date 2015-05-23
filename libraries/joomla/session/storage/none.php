@@ -26,6 +26,6 @@ class JSessionStorageNone extends JSessionStorage
 	 */
 	public function register()
 	{
-		ini_set('session.save_handler', 'files');
+		// Default session handler is `files`
 	}
 }

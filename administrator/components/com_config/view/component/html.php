@@ -73,7 +73,6 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 		$this->return = JFactory::getApplication()->input->get('return', '', 'base64');
 
 		$this->addToolbar();
-		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		return parent::render();
 	}

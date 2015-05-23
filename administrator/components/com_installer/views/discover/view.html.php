@@ -52,7 +52,6 @@ class InstallerViewDiscover extends InstallerViewDefault
 		JToolbarHelper::custom('discover.install', 'upload', 'upload', 'JTOOLBAR_INSTALL', true, false);
 		JToolbarHelper::custom('discover.refresh', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DISCOVER', false, false);
 		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DISCOVER');
 
 		JHtmlSidebar::setAction('index.php?option=com_installer&view=discover');
 
@@ -96,5 +95,6 @@ class InstallerViewDiscover extends InstallerViewDefault
 		);
 
 		parent::addToolbar();
+		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DISCOVER');
 	}
 }
