@@ -33,11 +33,15 @@ class JFormFieldImpMade extends JFormField
 	 */
 	protected function getInput()
 	{
-		$onclick = ' onclick="document.getElementById(\'' . $this->id . '\').value=\'0\';"';
+		// This will need to change with the new renderer???
+		$layout = new JLayoutFile('components.com_banners.fields.impmade');
 
-		return
-			'<input class="input-small" type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly" /> <a class="btn" ' . $onclick . '><span class="icon-refresh"></span> '
-			. JText::_('COM_BANNERS_RESET_IMPMADE') . '</a>';
+		return $layout->render(
+			array(
+				'id' => $this->id,
+				'name' => $this->name,
+				'value' => $this->value
+			)
+		);
 	}
 }
