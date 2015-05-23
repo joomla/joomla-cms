@@ -25,23 +25,11 @@ abstract class JHtmlBanner
 	 */
 	public static function clients()
 	{
-		JHtml::_('bootstrap.tooltip');
+		$options = static::clientlist();
+		// This will need to change with the new renderer???
+		$layout = new JLayoutFile('helpers.clients');
 
-		// Create the batch selector to change the client on a selection list.
-		$lines = array(
-			'<label id="batch-client-lbl" for="batch-client" class="hasTooltip" title="'
-				. JHtml::tooltipText('COM_BANNERS_BATCH_CLIENT_LABEL', 'COM_BANNERS_BATCH_CLIENT_LABEL_DESC')
-				. '">',
-			JText::_('COM_BANNERS_BATCH_CLIENT_LABEL'),
-			'</label>',
-			'<select name="batch[client_id]" id="batch-client-id">',
-			'<option value="">' . JText::_('COM_BANNERS_BATCH_CLIENT_NOCHANGE') . '</option>',
-			'<option value="0">' . JText::_('COM_BANNERS_NO_CLIENT') . '</option>',
-			JHtml::_('select.options', static::clientlist(), 'value', 'text'),
-			'</select>'
-		);
-
-		return implode("\n", $lines);
+		return $layout->render(array('options' => $options));
 	}
 
 	/**
@@ -111,6 +99,18 @@ abstract class JHtmlBanner
 			),
 		);
 
-		return JHtml::_('jgrid.state', $states, $value, $i, 'banners.', $enabled, true, $checkbox);
+		// This will need to change with the new renderer???
+		$layout = new JLayoutFile('fields.click');
+
+		return $layout->render(
+			array(
+				'i' => $i,
+				'states' => $states,
+				'value' => $value,
+				'enabled' => $enabled,
+				'checkbox' => $checkbox
+			)
+		);
+
 	}
 }
