@@ -25,7 +25,12 @@ class JFormRuleEmail extends JFormRule
 	 * @since  11.1
 	 * @see    http://www.w3.org/TR/html-markup/input.email.html
 	 */
-	protected $regex = '^[a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
+
+	protected $regex_local-part = '^[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+';
+	protected $regex_domain-part = '[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$';
+
+	// for B/C $regex is initialized with both the local-part and the domain, but it should probably be initialized with the local-part only
+	protected $regex = $regex_local-part . '@' . $regex_domain-part;
 
 	/**
 	 * Method to test the email address and optionally check for uniqueness.
@@ -57,7 +62,7 @@ class JFormRuleEmail extends JFormRule
 
 		if ($tld)
 		{
-			$this->regex = '^[a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
+			$this->regex = $this->regex_local-part . '@' . $this->regex_domain-part;
 		}
 
 		// Determine if the multiple attribute is present
