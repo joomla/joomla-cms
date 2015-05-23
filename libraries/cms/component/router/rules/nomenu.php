@@ -17,7 +17,7 @@ class JComponentRouterRulesNomenu implements JComponentRouterRulesInterface
 	/**
 	 * Router this rule belongs to
 	 *
-	 * @var JComponentRouterAdvanced
+	 * @var JComponentRouterView
 	 * @since 3.4
 	 */
 	protected $router;
@@ -25,11 +25,11 @@ class JComponentRouterRulesNomenu implements JComponentRouterRulesInterface
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JComponentRouterAdvanced  $router  Router this rule belongs to
+	 * @param   JComponentRouterView  $router  Router this rule belongs to
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(JComponentRouterAdvanced $router)
+	public function __construct(JComponentRouterView $router)
 	{
 		$this->router = $router;
 	}

@@ -8,7 +8,7 @@
  */
 
 require_once __DIR__ . '/stubs/JComponentRouterRulesNomenuInspector.php';
-require_once __DIR__ . '/../stubs/JComponentRouterAdvancedInspector.php';
+require_once __DIR__ . '/../stubs/JComponentRouterViewInspector.php';
 
 /**
  * Test class for JComponentRouterRulesMenu.
@@ -39,8 +39,8 @@ class JComponentRouterRulesNomenuTest extends TestCase {
 	{
 		parent::setUp();
 
-		$app = TestMockApplication::create($this);
-		$router = new JComponentRouterAdvancedInspector($app, $app->getMenu());
+		$app = $this->getMockCmsApp();
+		$router = new JComponentRouterViewInspector($app, $app->getMenu());
 		$router->set('name', 'content');
 		$categories = new JComponentRouterViewconfiguration('categories');
 		$categories->setKey('id');
@@ -71,7 +71,7 @@ class JComponentRouterRulesNomenuTest extends TestCase {
 	public function testConstruct()
 	{
 		$this->assertInstanceOf('JComponentRouterRulesNomenu', $this->object);
-		$this->assertInstanceOf('JComponentRouterAdvanced', $this->object->get('router'));
+		$this->assertInstanceOf('JComponentRouterView', $this->object->get('router'));
 	}
 
 	/**
