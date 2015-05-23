@@ -377,7 +377,7 @@ abstract class JHtmlBootstrap
 		JFactory::getDocument()->addScriptDeclaration(
 			"jQuery(document).ready(function()
 			{
-				jQuery('" . $selector . "').popover(" . $options . ");
+				if ( jQuery.isFunction(jQuery.fn.popover) ) jQuery('" . $selector . "').popover(" . $options . ");
 			});"
 		);
 
@@ -478,7 +478,7 @@ abstract class JHtmlBootstrap
 			// Build the script.
 			$script = array();
 			$script[] = "jQuery(document).ready(function(){";
-			$script[] = "\tjQuery('" . $selector . "').tooltip(" . $options . ");";
+			$script[] = "\tif ( jQuery.isFunction(jQuery.fn.tooltip) ) jQuery('" . $selector . "').tooltip(" . $options . ");";
 
 			if ($onShow)
 			{
