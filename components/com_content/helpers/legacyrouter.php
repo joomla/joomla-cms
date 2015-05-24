@@ -20,7 +20,7 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 	/**
 	 * Constructor for this legacy router
 	 *
-	 * @param   JComponentRouterAdvanced  $router  The router this rule belongs to
+	 * @param   JComponentRouterView  $router  The router this rule belongs to
 	 *
 	 * @return  void
 	 *

@@ -42,7 +42,8 @@ class ContentRouter extends JComponentRouterView
 	 * Method to get the segment(s) for a category
 	 * 
 	 * @param   string  $id     ID of the category to retrieve the segments for
-	 * @param   array   $query  The request that is parsed right now
+	 * @param   array   $query  The request that is build right now
+	 *
 	 * @return  array|string  The segments of this item
 	 */
 	public function getCategorySegment($id, $query)
@@ -60,7 +61,8 @@ class ContentRouter extends JComponentRouterView
 	 * Method to get the segment(s) for a category
 	 * 
 	 * @param   string  $id     ID of the category to retrieve the segments for
-	 * @param   array   $query  The request that is parsed right now
+	 * @param   array   $query  The request that is build right now
+	 *
 	 * @return  array|string  The segments of this item
 	 */
 	public function getCategoriesSegment($id, $query)
@@ -72,12 +74,65 @@ class ContentRouter extends JComponentRouterView
 	 * Method to get the segment(s) for an article
 	 * 
 	 * @param   string  $id     ID of the article to retrieve the segments for
-	 * @param   array   $query  The request that is parsed right now
+	 * @param   array   $query  The request that is build right now
+	 *
 	 * @return  array|string  The segments of this item
 	 */
 	public function getArticleSegment($id, $query)
 	{
 		return array($id);
+	}
+
+	/**
+	 * Method to get the id for a category
+	 * 
+	 * @param   string  $segment  Segment to retrieve the ID for
+	 * @param   array   $query    The request that is parsed right now
+	 *
+	 * @return  array|int  The id of this item
+	 */
+	public function getCategoryId($segment, $query)
+	{
+		if (isset($query['id']))
+		{
+			$category = JCategories::getInstance($this->getName())->get($query['id']);
+
+			foreach ($category->getChildren() as $child)
+			{
+				if ($child->id == (int) $segment)
+				{
+					return $child->id;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Method to get the segment(s) for a category
+	 * 
+	 * @param   string  $id     ID of the category to retrieve the segments for
+	 * @param   array   $query  The request that is parsed right now
+	 * 
+	 * @return  array|int  The segments of this item
+	 */
+	public function getCategoriesId($segment, $query)
+	{
+		return $this->getCategoryId($segment, $query);
+	}
+
+	/**
+	 * Method to get the segment(s) for an article
+	 * 
+	 * @param   string  $segment  Segment of the article to retrieve the ID for
+	 * @param   array   $query    The request that is parsed right now
+	 * 
+	 * @return  array|int  The segments of this item
+	 */
+	public function getArticleId($segment, $query)
+	{
+		return (int) $segment;
 	}
 }
 
