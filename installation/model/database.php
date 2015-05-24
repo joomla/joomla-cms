@@ -381,10 +381,6 @@ class InstallationModelDatabase extends JModelBase
 		{
 			$schema = 'sql/mysql/joomla.sql';
 		}
-		elseif ($type == 'sqlazure')
-		{
-			$schema = 'sql/sqlazure/joomla.sql';
-		}
 		else
 		{
 			$schema = 'sql/' . $type . '/joomla.sql';
@@ -409,10 +405,6 @@ class InstallationModelDatabase extends JModelBase
 		if ($type == 'mysqli' || $type == 'mysql')
 		{
 			$pathPart .= 'mysql/';
-		}
-		elseif ($type == 'sqlazure')
-		{
-			$pathPart .= 'sqlazure/';
 		}
 		else
 		{
@@ -489,10 +481,6 @@ class InstallationModelDatabase extends JModelBase
 		if ($type == 'mysqli' || $type == 'mysql')
 		{
 			$dblocalise = 'sql/mysql/localise.sql';
-		}
-		elseif ($type == 'sqlazure')
-		{
-			$dblocalise = 'sql/sqlazure/localise.sql';
 		}
 		else
 		{
