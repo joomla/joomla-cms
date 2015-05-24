@@ -197,9 +197,9 @@ var JFormValidator = function() {
 				for (var i = 0; i < domain_labels.length; i++) {
 					domain_labels[i] = punycode.toASCII(domain_labels[i]);
 				}
-				address_parts[1] = 	domain_labels.join(".");
+				address_parts[1] = domain_labels.join(".");
+				value = address_parts.join("@");
 			}
-			value = address_parts.join("@");
  	 	 	return regex.test(value);
  	 	});
  	 	// Attach to forms with class 'form-validate'
