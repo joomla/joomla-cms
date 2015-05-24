@@ -70,19 +70,32 @@ class JFormFieldMenutype extends JFormFieldList
 				$value	= JText::_(JArrayHelper::getValue($rlu, MenusHelper::getLinkKey($link)));
 				break;
 		}
-		// Load the javascript and css
-		JHtml::_('behavior.framework');
-		JHtml::_('behavior.modal');
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
-		$getMenuTypesUrl = 'index.php?option=com_menus&view=menutypes&tmpl=component&recordId=' . $recordId;
-		$html[] = '<span class="input-append">'
-			. '<input type="text" ' . $required . ' readonly="readonly" id="' . $this->id . '" value="' . $value . '"' . $size . $class . ' />'
-			. '<a class="btn btn-primary" '
-				. 'onclick="SqueezeBox.fromElement(this, {handler:\'iframe\', size: {x: 600, y: 450}, url:\'' . JRoute::_($getMenuTypesUrl) . '\'})">'
-				. '<i class="icon-list icon-white"></i> ' . JText::_('JSELECT')
-			. '</a></span>';
-		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" '
-			. 'value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" />';
+		// Add the script to the document head.
+		JFactory::getDocument()->addScriptDeclaration('
+			function jSelectPosition_' . $this->id . '(name) {
+				document.getElementById("' . $this->id . '").value = name;
+			}
+		');
+
+		$link = JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&recordId=' . $recordId);
+		$html[] = '<span class="input-append"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id . '" value="' . $value . '"' . $size . $class . ' />';
+		$html[] = '<a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JSELECT') . '">'
+			. '<span class="icon-list icon-white"></span> '
+			. JText::_('JSELECT') . '</a></span>';
+		$html[] = JHtmlBootstrap::renderModal(
+						'menuTypeModal', array(
+							'url' => $link,
+							'title' => JText::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),
+							'width' => '800px',
+							'height' => '300px',
+							'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+								. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+						)
+					);
+		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" />';
 
 		return implode("\n", $html);
 	}

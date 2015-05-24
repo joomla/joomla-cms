@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $title = JText::_('COM_MEDIA_COPY_MEDIA');
 ?>
 <button data-toggle="modal" data-target="#copyMediaModal" class="btn btn-small">
-	<i class="icon-copy" title="
-	<?php echo $title; ?>"></i> 
+	<span class="icon-copy" title="
+	<?php echo $title; ?>"></span> 
 	<?php echo $title; ?>
 </button>

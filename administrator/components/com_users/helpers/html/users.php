@@ -54,8 +54,8 @@ class JHtmlUsers
 	{
 		$title = JText::_('COM_USERS_ADD_NOTE');
 
-		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '" class="hasTooltip btn btn-mini" title="' . $title . '">'
-			. '<i class="icon-vcard"></i><span class="hidden-phone">' . $title . '</span></a>';
+		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '">'
+			. '<span class="label label-info"><span class="icon-vcard"></span>' . $title . '</span></a>';
 	}
 
 	/**
@@ -77,8 +77,8 @@ class JHtmlUsers
 
 		$title = JText::_('COM_USERS_FILTER_NOTES');
 
-		return '<a href="' . JRoute::_('index.php?option=com_users&view=notes&filter_search=uid:' . (int) $userId) . '" class="hasTooltip btn btn-mini" title="' . $title . '">'
-			. '<i class="icon-filter"></i></a>';
+		return '<a href="' . JRoute::_('index.php?option=com_users&view=notes&filter_search=uid:' . (int) $userId) . '">'
+			. JHtml::_('image', 'admin/filter_16.png', 'COM_USERS_NOTES', array('title' => $title), true) . '</a>';
 	}
 
 	/**
@@ -101,7 +101,7 @@ class JHtmlUsers
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
 
 		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId . '" data-toggle="modal" class="hasTooltip btn btn-mini" title="' . $title . '">'
-			. '<i class="icon-drawer-2"></i><span class="hidden-phone">' . $title . '</span></a>';
+			. '<span class="icon-drawer-2"></span><span class="hidden-phone">' . $title . '</span></a>';
 	}
 
 	/**
@@ -122,13 +122,20 @@ class JHtmlUsers
 		}
 
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
+		$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+			. JText::_('JTOOLBAR_CLOSE') . '</a>';
 
 		return JHtmlBootstrap::renderModal(
 			'userModal_' . (int) $userId, array(
-				'url' => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId),
 				'title' => $title,
-				'width' => '800px',
-				'height' => '500px')
+				'backdrop' => 'static',
+				'keyboard' => true,
+				'closeButton' => true,
+				'footer' => $footer,
+				'url' => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId),
+				'height' => '300px',
+				'width' => '800px'
+				)
 		);
 
 	}

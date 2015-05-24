@@ -15,7 +15,7 @@ $user = JFactory::getUser();
 		<tr>
 			<td class="imgTotal">
 				<a href="index.php?option=com_media&amp;controller=media.display.medialist&amp;view=medialist&amp;tmpl=component&amp;folder=<?php echo $this->state->get('parent'); ?>" target="folderframe">
-					<i class="icon-arrow-up"></i></a>
+					<span class="icon-arrow-up"></span></a>
 			</td>
 			<td class="description">
 				<a href="index.php?option=com_media&amp;controller=media.display.medialist&amp;view=medialist&amp;tmpl=component&amp;folder=<?php echo $this->state->get('parent'); ?>" target="folderframe">..</a>

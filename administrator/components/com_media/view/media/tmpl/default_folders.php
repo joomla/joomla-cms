@@ -20,9 +20,9 @@ $ulTarget = str_replace('/', '-', $this->folders['data']->relative);
 	$target = str_replace('/', '-', $folder['data']->relative); ?>
 	<li id="<?php echo $target; ?>">		
 		<a class='folder-url nowrap' href="index.php?option=com_media&amp;controller=media.display.medialist&amp;view=medialist&amp;tmpl=component&amp;folder=<?php echo $folder['data']->relative; ?>" target="folderframe">
-			<i class="icon-folder-close">
+			<span class="icon-folder-close">
 				<?php echo $folder['data']->name; ?>
-			</i>
+			</span>
 		</a>
 		<?php echo $this->getFolderLevel($folder); ?>
 	</li>

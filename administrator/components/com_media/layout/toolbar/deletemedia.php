@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $title = JText::_('JTOOLBAR_DELETE');
 ?>
 <button data-toggle="modal" data-target="#deleteMediaModal" class="btn btn-small">
-	<i class="icon-remove" title="
-	<?php echo $title; ?>"></i> 
+	<span class="icon-remove" title="
+	<?php echo $title; ?>"></span> 
 	<?php echo $title; ?>
 </button>

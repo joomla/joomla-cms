@@ -20,7 +20,7 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 			<input class="pull-left" type="checkbox" name="rm[]" id="<?php echo $this->_tmp_img->title; ?>" value="<?php echo $this->_tmp_img->name; ?>"/>
 			<?php if ($user->authorise('core.delete', 'com_media')):?>
 				<a class="pull-right close delete-item" target="_top" href="index.php?option=com_media&amp;controller=media.delete.media&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->get('folder'); ?>&amp;rm[]=<?php echo $this->_tmp_img->name; ?>" rel="<?php echo $this->_tmp_img->name; ?>" title="<?php echo JText::_('JACTION_DELETE');?>">
-					<i class="icon-delete" style="font-size: x-small; color: #CB0B0B;"></i>
+					<span class="icon-delete" style="font-size: x-small; color: #CB0B0B;"></span>
 				</a>
 			<?php endif;?>
 		</div>
@@ -33,11 +33,11 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 			<div class="small height-20" style="text-align: centre; font-size: small;">					
 				<?php echo JHtml::_('string.truncate', $this->_tmp_img->title, 12, false); ?>
 				<a class="img-preview pull-right" href="<?php echo COM_MEDIA_BASEURL . '/' . $this->_tmp_img->path_relative; ?>" title="<?php echo $this->_tmp_img->name; ?>" >
-					<i class="icon-zoom-in" style="padding-left: 5px;"></i>
+					<span class="icon-zoom-in" style="padding-left: 5px;"></span>
 				</a>				
 				<?php if ($user->authorise('core.edit', 'com_media')):?>	
 					<a class="pull-right" target="_top" href="index.php?option=com_media&amp;controller=media.display.editor&amp;folder=<?php echo $this->state->get('folder'); ?>&amp;file=<?php echo $this->_tmp_img->name; ?>&amp;id=<?php echo $this->_tmp_img->id; ?>" title="<?php echo $this->_tmp_img->name; ?>" class="preview">
-						<i class="icon-pencil" style="padding-left: 5px;"></i>
+						<span class="icon-pencil" style="padding-left: 5px;"></span>
 					</a>
 				<?php endif;?>
 				<div class="clearfix"></div>

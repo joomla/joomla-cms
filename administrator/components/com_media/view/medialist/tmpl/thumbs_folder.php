@@ -16,7 +16,7 @@ $user = JFactory::getUser();
 					<input class="pull-left" type="checkbox" name="rm[]" value="<?php echo $this->_tmp_folder->name; ?>" id="<?php echo $this->_tmp_folder->name;?>" />
 					<?php if ($user->authorise('core.delete', 'com_media')):?>
 						<a class="close delete-item" target="_top" href="index.php?option=com_media&amp;controller=media.delete.medialist&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->get('folder'); ?>&amp;rm[]=<?php echo $this->_tmp_folder->name; ?>" rel="<?php echo $this->_tmp_folder->name; ?> :: <?php echo $this->_tmp_folder->files + $this->_tmp_folder->folders; ?>" title="<?php echo JText::_('JACTION_DELETE');?>">
-							<i class="icon-delete" style="font-size: x-small; color: #CB0B0B;"></i>
+							<span class="icon-delete" style="font-size: x-small; color: #CB0B0B;"></span>
 						</a>
 					<?php endif;?>
 				</div>

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $title = JText::_('JTOOLBAR_UPLOAD');
 ?>
 <button data-toggle="modal" data-target="#uploadModal" class="btn btn-small btn-success">
-	<i class="icon-upload icon-white" title="
-	<?php echo $title; ?>"></i> 
+	<span class="icon-upload icon-white" title="
+	<?php echo $title; ?>"></span> 
 	<?php echo $title; ?>
 </button>

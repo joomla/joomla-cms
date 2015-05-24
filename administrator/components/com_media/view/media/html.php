@@ -45,7 +45,7 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 
 		JHtml::_('behavior.framework', true);
 
-		JHtml::_('script', 'media/mediamanager.js', true, true);
+		JHtml::_('script', 'media/mediamanager.min.js', true, true);
 		/*
 		 JHtml::_('stylesheet', 'media/mediamanager.css', array(), true);
 		if ($lang->isRTL()) :

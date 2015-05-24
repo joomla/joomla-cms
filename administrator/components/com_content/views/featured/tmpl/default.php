@@ -80,7 +80,7 @@ $saveOrder	= $listOrder == 'fp.ordering';
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="8">
+						<td colspan="9">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>

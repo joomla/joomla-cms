@@ -151,7 +151,7 @@ JFactory::getDocument()->addScriptDeclaration("
 						<?php echo JHtml::_('date', $item->save_date, 'Y-m-d H:i:s'); ?>
 					</a>
 					<?php if ($item->sha1_hash == $hash) :?>
-						<i class="icon-featured"></i>&nbsp;
+						<span class="icon-featured"></span>&nbsp;
 					<?php endif; ?>
 				</td>
 				<td align="left">
@@ -162,7 +162,7 @@ JFactory::getDocument()->addScriptDeclaration("
 						<a class="btn btn-micro active" rel="tooltip" href="javascript:void(0);"
 							onclick="return listItemTask('cb<?php echo $i; ?>','history.keep')"
 							data-original-title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_OFF'); ?>">
-							<?php echo JText::_('JYES'); ?>&nbsp;<i class="icon-lock"></i>
+							<?php echo JText::_('JYES'); ?>&nbsp;<span class="icon-lock"></span>
 						</a>
 					<?php else : ?>
 						<a class="btn btn-micro active" rel="tooltip" href="javascript:void(0);"

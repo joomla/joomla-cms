@@ -131,11 +131,16 @@ JHtml::_('behavior.caption');
 	<?php elseif ($params->get('show_noauth') == true && $user->get('guest')) : ?>
 	<?php echo $this->item->introtext; ?>
 	<?php //Optional link to let them register to see the whole article. ?>
-	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) :
-		$link1 = JRoute::_('index.php?option=com_users&view=login');
-		$link = new JUri($link1);?>
+	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) : ?>
+	<?php $menu = JFactory::getApplication()->getMenu(); ?>
+	<?php $active = $menu->getActive(); ?>
+	<?php $itemId = $active->id; ?>
+	<?php $link = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId); ?>
+	<?php $returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)); ?>
+	<?php $fullURL = new JUri($link); ?>
+	<?php $fullURL->setVar('return', base64_encode($returnURL)); ?>
 	<p class="readmore">
-		<a href="<?php echo $link; ?>">
+		<a href="<?php echo $fullURL; ?>" class="register">
 		<?php $attribs = json_decode($this->item->attribs); ?>
 		<?php
 		if ($attribs->alternative_readmore == null) :
@@ -162,4 +167,3 @@ JHtml::_('behavior.caption');
 	<?php endif; ?>
 	<?php echo $this->item->event->afterDisplayContent; ?>
 </div>
-

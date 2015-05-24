@@ -105,7 +105,7 @@ $input = JFactory::getApplication()->input;
 						<?php JFactory::getSession()->set('com_media.return_url', 'index.php?option=com_media'); ?>
 
 						<button class="btn btn-primary" id="upload-submit">
-							<i class="icon-upload icon-white"></i> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?>
+							<span class="icon-upload icon-white"></span> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?>
 						</button>
 				</div>
 
@@ -145,7 +145,7 @@ $input = JFactory::getApplication()->input;
 			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CLOSE'); ?>
 			</a>
 			<button class="btn btn-primary" type="submit">
-				<i class="icon-folder-open"></i> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?>
+				<span class="icon-folder-open"></span> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?>
 			</button>
 		</div>
 	</div>
@@ -178,7 +178,7 @@ $input = JFactory::getApplication()->input;
 			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CLOSE'); ?>
 			</a>
 			<button class="btn btn-primary" onclick="MediaManager.submitWithTargetPath('media.copy.media')">
-				<i class="icon-copy"></i> <?php echo JText::_('COM_MEDIA_COPY_MEDIA'); ?>
+				<span class="icon-copy"></span> <?php echo JText::_('COM_MEDIA_COPY_MEDIA'); ?>
 			</button>
 		</div>
 	</div>
@@ -209,7 +209,7 @@ $input = JFactory::getApplication()->input;
 			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CLOSE'); ?>
 			</a>
 			<button class="btn btn-primary" onclick="MediaManager.submitWithTargetPath('media.move.media')">
-				<i class="icon-copy"></i> <?php echo JText::_('COM_MEDIA_MOVE_MEDIA'); ?>
+				<span class="icon-copy"></span> <?php echo JText::_('COM_MEDIA_MOVE_MEDIA'); ?>
 			</button>
 		</div>
 	</div>	
@@ -237,7 +237,7 @@ $input = JFactory::getApplication()->input;
 			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CLOSE'); ?>
 			</a>
 			<button class="btn btn-danger" type="submit" onclick="MediaManager.submit('media.delete.media')">
-				<i class="icon-remove"></i> <?php echo JText::_('COM_MEDIA_DELETE_MEDIA'); ?>
+				<span class="icon-remove"></span> <?php echo JText::_('COM_MEDIA_DELETE_MEDIA'); ?>
 			</button>
 		</div>
 	</div>

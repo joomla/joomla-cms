@@ -20,7 +20,7 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 				<input class="pull-left" type="checkbox" name="rm[]" value="<?php echo $this->_tmp_doc->name; ?>" id="<?php echo $this->_tmp_doc->title; ?>" />
 				<?php if ($user->authorise('core.delete', 'com_media')):?>
 					<a class="close delete-item" target="_top" href="index.php?option=com_media&amp;controller=media.delete.media&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->get('folder'); ?>&amp;rm[]=<?php echo $this->_tmp_doc->name; ?>" rel="<?php echo $this->_tmp_doc->name; ?>" title="<?php echo JText::_('JACTION_DELETE');?>">
-						<i class="icon-delete" style="font-size: x-small; color: #CB0B0B;"></i>
+						<span class="icon-delete" style="font-size: x-small; color: #CB0B0B;"></span>
 					</a>
 				<?php endif;?>
 			</div>
