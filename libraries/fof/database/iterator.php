@@ -76,7 +76,7 @@ abstract class FOFDatabaseIterator implements Countable, Iterator
 	/**
 	 * Returns an iterator object for a specific database type
 	 *
-	 * @param   string  $dbName  The database type, e.g. mysql, mysqli, sqlazure etc.
+	 * @param   string  $dbName  The database type, e.g. mysql, mysqlietc.
 	 * @param   mixed   $cursor  The database cursor
 	 * @param   string  $column  An option column to use as the iterator key
 	 * @param   string  $class   The table class of the returned objects
