@@ -191,16 +191,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 				break;
 
-			case 'mssql':
-				$this->options['port'] = (isset($this->options['port'])) ? $this->options['port'] : 1433;
-
-				$format = 'mssql:host=#HOST#;port=#PORT#;dbname=#DBNAME#';
-
-				$replace = array('#HOST#', '#PORT#', '#DBNAME#');
-				$with = array($this->options['host'], $this->options['port'], $this->options['database']);
-
-				break;
-
 			case 'mysql':
 				$this->options['port'] = (isset($this->options['port'])) ? $this->options['port'] : 3306;
 
