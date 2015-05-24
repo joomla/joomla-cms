@@ -575,10 +575,6 @@ class InstallationModelDatabase extends JModelBase
 		{
 			$type = 'mysql';
 		}
-		elseif ($type == 'sqlsrv')
-		{
-			$type = 'sqlazure';
-		}
 
 		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $options->sample_file;
 

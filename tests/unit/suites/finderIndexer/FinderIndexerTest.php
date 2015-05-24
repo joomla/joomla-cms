@@ -133,29 +133,6 @@ class FinderIndexerTest extends TestCaseDatabase
 	 *
 	 * @since   3.0
 	 */
-	public function testGetInstanceSqlazure()
-	{
-		// Override the database in this method
-		$this->saveFactoryDatabase();
-
-		JFactory::$database->name = 'sqlazure';
-
-		$this->assertThat(
-			FinderIndexer::getInstance(),
-			$this->isInstanceOf('FinderIndexerDriverSqlsrv')
-		);
-
-		// Restore the database
-		$this->restoreFactoryDatabase();
-	}
-
-	/**
-	 * Tests the getInstance method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
 	public function testGetInstanceException()
 	{
 		// Override the database in this method
