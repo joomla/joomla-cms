@@ -101,7 +101,7 @@
 				el.value = folder;
 			} );
 
-			this.folderpath.val(basepath + (folder ? '/' + folder : ''));
+			this.folderpath.val(basepath + (folder ? '/' + folder : '/'));
 
 			q.folder = folder;
 
