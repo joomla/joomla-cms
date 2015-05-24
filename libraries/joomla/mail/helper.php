@@ -109,6 +109,9 @@ abstract class JMailHelper
 	public static function isEmailAddress($email)
 	{
 
+		// Convert email address to Punycode in case it uses an IDN (International Domain Name)
+		$email = JStringPunycode::emailToPunycode($email);
+
 		// Check email address length
 		if (strlen($email) > 254)
 		{
@@ -142,7 +145,6 @@ abstract class JMailHelper
 		}
 
 		// Check the domain
-		$domain = JStringPunycode::toPunycode($domain);
 		$regex_domain_part = '[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$';
 
 		if (!preg_match(chr(1) . $regex_domain_part . chr(1), $domain))
