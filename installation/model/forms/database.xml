@@ -5,7 +5,7 @@
 			<field name="db_type" type="databaseconnection"
 				id="db_type" class="inputbox"
 				label="INSTL_DATABASE_TYPE_LABEL"
-				supported="mysql,mysqli,postgresql"
+				supported="mysql,mysqli"
 				required="true"
 				default="mysqli"
 				filter="string"

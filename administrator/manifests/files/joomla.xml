@@ -15,7 +15,6 @@
 	<update> <!-- Runs on update; New in 1.7 -->
 		<schemas>
 			<schemapath type="mysql">administrator/components/com_admin/sql/updates/mysql</schemapath>
-			<schemapath type="postgresql">administrator/components/com_admin/sql/updates/postgresql</schemapath>
 		</schemas>
 	</update>
 
