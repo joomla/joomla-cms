@@ -85,7 +85,6 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->jPrint("Check that reordering still works." . "\n");
 		$this->jPrint("Check that Templates and Modules categories are in original order." . "\n");
 		$this->assertContains("Templates", $this->getTable("//table[@class='table table-striped'].11.3"));
-		$this->assertContains("Beez3", $this->getTable("//table[@class='table table-striped'].12.3"));
 		$this->assertContains("Protostar", $this->getTable("//table[@class='table table-striped'].13.3"));
 		$this->assertContains("Modules", $this->getTable("//table[@class='table table-striped'].5.3"));
 		$this->assertContains("Content Modules", $this->getTable("//table[@class='table table-striped'].6.3"));
@@ -108,7 +107,6 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->jPrint("Check that Templates and Modules categories are in new order." . "\n");
 		$this->assertContains("Templates", $this->getTable("//table[@class='table table-striped'].5.3"));
-		$this->assertContains("Beez3", $this->getTable("//table[@class='table table-striped'].6.3"));
 		$this->assertContains("Protostar", $this->getTable("//table[@class='table table-striped'].7.3"));
 		$this->assertContains("Modules", $this->getTable("//table[@class='table table-striped'].8.3"));
 		$this->assertContains("Content Modules", $this->getTable("//table[@class='table table-striped'].9.3"));
@@ -131,7 +129,6 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->jPrint("Check that Templates and Modules categories are in original order." . "\n");
 		$this->assertContains("Templates", $this->getTable("//table[@class='table table-striped'].11.3"));
-		$this->assertContains("Beez3", $this->getTable("//table[@class='table table-striped'].12.3"));
 		$this->assertContains("Protostar", $this->getTable("//table[@class='table table-striped'].13.3"));
 		$this->assertContains("Modules", $this->getTable("//table[@class='table table-striped'].5.3"));
 		$this->assertContains("Content Modules", $this->getTable("//table[@class='table table-striped'].6.3"));
