@@ -920,25 +920,6 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>40</value>
-			<value>Random Image</value>
-			<value>module</value>
-			<value>mod_random_image</value>
-			<value></value>
-			<value>0</value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
 			<value>41</value>
 			<value>Related Items</value>
 			<value>module</value>
