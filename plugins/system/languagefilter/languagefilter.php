@@ -693,7 +693,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				if (isset($languages[$this->default_lang]) && $remove_default_prefix)
 				{
 					$languages[$this->default_lang]->link
-							= preg_replace('|/' . $languages[$this->default_lang]->sef . '/|', '/', $languages[$this->default_lang]->link, 1);
+						= preg_replace('|/' . $languages[$this->default_lang]->sef . '/|', '/', $languages[$this->default_lang]->link, 1);
 				}
 
 				foreach ($languages as $i => &$language)
