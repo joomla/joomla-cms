@@ -125,7 +125,6 @@ class PlgContentJoomla extends JPlugin
 		$result = true;
 
 		$tableInfo = array(
-			'com_banners' => array('table_name' => '#__banners'),
 			'com_contact' => array('table_name' => '#__contact_details'),
 			'com_content' => array('table_name' => '#__content'),
 			'com_newsfeeds' => array('table_name' => '#__newsfeeds'),

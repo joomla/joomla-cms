@@ -95,7 +95,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_wrapper', '', 0);
 		$extensions[] = array('component', 'com_admin', '', 1);
 		$extensions[] = array('component', 'com_ajax', '', 1);
-		$extensions[] = array('component', 'com_banners', '', 1);
 		$extensions[] = array('component', 'com_cache', '', 1);
 		$extensions[] = array('component', 'com_categories', '', 1);
 		$extensions[] = array('component', 'com_checkin', '', 1);
@@ -133,7 +132,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('module', 'mod_articles_archive', '', 0);
 		$extensions[] = array('module', 'mod_articles_latest', '', 0);
 		$extensions[] = array('module', 'mod_articles_popular', '', 0);
-		$extensions[] = array('module', 'mod_banners', '', 0);
 		$extensions[] = array('module', 'mod_breadcrumbs', '', 0);
 		$extensions[] = array('module', 'mod_custom', '', 0);
 		$extensions[] = array('module', 'mod_feed', '', 0);
@@ -951,7 +949,6 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/form_utils.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/mctabs.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/validate.js',
-			'/administrator/components/com_banners/models/fields/ordering.php',
 			'/administrator/components/com_contact/models/fields/ordering.php',
 			'/administrator/components/com_newsfeeds/models/fields/ordering.php',
 			'/administrator/components/com_plugins/models/fields/ordering.php',
