@@ -71,6 +71,8 @@
 		<filename>en-GB.mod_tags_similar.sys.ini</filename>
 		<filename>en-GB.mod_users_latest.ini</filename>
 		<filename>en-GB.mod_users_latest.sys.ini</filename>
+		<filename>en-GB.mod_whosonline.ini</filename>
+		<filename>en-GB.mod_whosonline.sys.ini</filename>
 		<filename>en-GB.tpl_protostar.ini</filename>
 		<filename>en-GB.tpl_protostar.sys.ini</filename>
 		<filename>index.html</filename>

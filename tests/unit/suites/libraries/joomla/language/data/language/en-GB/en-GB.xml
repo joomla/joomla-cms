@@ -64,6 +64,8 @@
         <filename>en-GB.mod_users_latest.sys.ini</filename>
         <filename>en-GB.mod_weblinks.ini</filename>
         <filename>en-GB.mod_weblinks.sys.ini</filename>
+        <filename>en-GB.mod_whosonline.ini</filename>
+        <filename>en-GB.mod_whosonline.sys.ini</filename>
         <filename>en-GB.pkg_joomla.sys.ini</filename>
         <filename>en-GB.tpl_atomic.ini</filename>
         <filename>en-GB.tpl_atomic.sys.ini</filename>

@@ -125,6 +125,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('module', 'mod_search', '', 0);
 		$extensions[] = array('module', 'mod_stats', '', 0);
 		$extensions[] = array('module', 'mod_users_latest', '', 0);
+		$extensions[] = array('module', 'mod_whosonline', '', 0);
 		$extensions[] = array('module', 'mod_articles_category', '', 0);
 		$extensions[] = array('module', 'mod_articles_categories', '', 0);
 		$extensions[] = array('module', 'mod_languages', '', 0);

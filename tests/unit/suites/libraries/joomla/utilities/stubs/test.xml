@@ -1034,6 +1034,25 @@
 			<value>0</value>
 		</row>
 		<row>
+			<value>47</value>
+			<value>Who's Online</value>
+			<value>module</value>
+			<value>mod_whosonline</value>
+			<value></value>
+			<value>0</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
 			<value>49</value>
 			<value>Custom HTML</value>
 			<value>module</value>
