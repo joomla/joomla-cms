@@ -60,7 +60,7 @@ abstract class AdminPage
 	 *
 	 * @var  array of top menu text that is initially visible in all admin menus
 	 */
-	public $visibleMenuText = array ('System', 'Users', 'Menus', 'Content', 'Components', 'Extensions', 'Help');
+	public $visibleMenuText = array ('System', 'Users', 'Menus', 'Content', 'Components', 'Extensions');
 
 	/**
 	 *
@@ -120,18 +120,6 @@ abstract class AdminPage
 			'Plugin Manager'		=> 'administrator/index.php?option=com_plugins',
 			'Template Manager'		=> 'administrator/index.php?option=com_templates',
 			'Language Manager'		=> 'administrator/index.php?option=com_languages',
-			'Help'					=> 'administrator/index.php#',
-			'Joomla Help'			=> 'administrator/index.php?option=com_admin&view=help',
-		'Official Support Forum'	=> 'http://forum.joomla.org/',
-			'Documentation Wiki'	=> 'http://docs.joomla.org/',
-			'Useful Joomla Links'	=> 'administrator/index.php#',
-			'Joomla Extensions'		=> 'http://extensions.joomla.org/',
-			'Joomla Translations'	=> 'http://community.joomla.org/translations.html',
-			'Joomla Resources'		=> 'http://resources.joomla.org/',
-			'Community Portal'		=> 'http://community.joomla.org/',
-			'Security Center'		=> 'http://developer.joomla.org/security.html',
-			'Developer Resources'	=> 'http://developer.joomla.org/',
-			'Joomla Shop'			=> 'http://shop.joomla.org/',
 			'Tags'			=>	'administrator/index.php?option=com_tags',
 	);
 

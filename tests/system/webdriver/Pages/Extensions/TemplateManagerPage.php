@@ -63,7 +63,6 @@ class TemplateManagerPage extends AdminManagerPage
 			'Duplicate' => 'toolbar-copy',
 			'Delete' => 'toolbar-delete',
 			'Options' => 'toolbar-options',
-			'Help' => 'toolbar-help',
 			'Save as Copy' => 'toolbar-save-copy',
 			);
 

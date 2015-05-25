@@ -31,7 +31,7 @@ class PluginManagerPage extends AdminManagerPage
 	 * @since  3.0
 	 */
 	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_plugins']";
-	
+
 	/**
 	 * URL used to uniquely identify this page
 	 *
@@ -39,7 +39,7 @@ class PluginManagerPage extends AdminManagerPage
 	 * @since  3.0
 	 */
 	protected $url = 'administrator/index.php?option=com_plugins';
-	
+
 	/**
 	 * Array of filter id values for this page
 	 *
@@ -51,28 +51,27 @@ class PluginManagerPage extends AdminManagerPage
 			'Select Type' => 'filter_folder',
 			'Select Access' => 'filter_access',
 			);
-			
+
 	/**
 	 * Array of toolbar id values for this page
 	 *
 	 * @var    array
 	 * @since  3.0
-	 */	
+	 */
 	public $toolbar = array (
 			'Edit' => 'toolbar-edit',
 			'Enable' => 'toolbar-publish',
 			'Disable' => 'toolbar-unpublish',
 			'Check In' => 'toolbar-checkin',
-			'Options' => 'toolbar-options',
-			'Help' => 'toolbar-help',
+			'Options' => 'toolbar-options'
 			);
-			
-	
+
+
 	/**
 	 * Get state  of a Plugin in the Plug-in Manager: Plugin Items screen.
 	 *
 	 * @param string   $name	  Plugin Name
-	 * 
+	 *
 	 * @return  State of the Plugin //Enabled or Disabled which is equvalent to publish and unpublish at backend
 	 */
 	public function getState($name)
@@ -90,7 +89,7 @@ class PluginManagerPage extends AdminManagerPage
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Change state of a Plugin  item in the Plugin Manager: Plugin Manager Items screen.
 	 *
@@ -98,7 +97,7 @@ class PluginManagerPage extends AdminManagerPage
 	 * @param string   $state      State of the Plugin
 	 *
 	 * @return  void
-	 */	
+	 */
 	public function changePluginState($name, $state = 'published')
 	{
 		$this->searchFor($name);
@@ -115,43 +114,43 @@ class PluginManagerPage extends AdminManagerPage
 		}
 		$this->searchFor();
 	}
-	
+
 	/**
 	 * Get Access of a Plugin  item in the Plugin Manager: Plugin Manager Items screen.
 	 *
 	 * @param string   $name	   Name of the Plugin
-	 * 
+	 *
 	 * @return  PluginAccessLevel
-	 */	
+	 */
 	public function getPluginAccess($name)
 	{
 		$row = $this->getRowNumber($name);
 		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[7]"))->gettext();
 		return $text;
 	}
-	
+
 	/**
 	 * Get Type of a Plugin  item in the Plugin Manager: Plugin Manager Items screen.
 	 *
 	 * @param string   $name	   Name of the Plugin
-	 * 
+	 *
 	 * @return  Plugin type
-	 */	
+	 */
 	public function getPluginType($name)
 	{
 		$row = $this->getRowNumber($name);
 		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[5]"))->gettext();
 		return $text;
 	}
-	
+
 	/**
 	 * Edit a Plugin  item in the Plugin Manager: Plugin Manager Edit Screen.
 	 *
 	 * @param string   $name	   Name of the Plugin
-	 * @param string   $fields	   Input Fields that are to be changed in the form of a array 
-	 * 
+	 * @param string   $fields	   Input Fields that are to be changed in the form of a array
+	 *
 	 * @return  void
-	 */	
+	 */
 	public function editPlugin($name,$fields)
 	{
 		$this->clickItem($name);
@@ -161,6 +160,6 @@ class PluginManagerPage extends AdminManagerPage
 		$this->test->getPageObject('pluginManagerPage');
 		$this->searchFor();
 	}
-		
-	
+
+
 }

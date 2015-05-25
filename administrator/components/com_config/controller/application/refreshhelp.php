@@ -35,25 +35,6 @@ class ConfigControllerApplicationRefreshhelp extends JControllerBase
 	 */
 	public function execute()
 	{
-		jimport('joomla.filesystem.file');
 
-		// Set FTP credentials, if given
-		JClientHelper::setCredentialsFromRequest('ftp');
-
-		if (($data = file_get_contents('http://help.joomla.org/helpsites.xml')) === false)
-		{
-			$this->app->enqueueMessage(JText::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 'error');
-			$this->app->redirect(JRoute::_('index.php?option=com_config', false));
-		}
-		elseif (!JFile::write(JPATH_BASE . '/help/helpsites.xml', $data))
-		{
-			$this->app->enqueueMessage(JText::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 'error');
-			$this->app->redirect(JRoute::_('index.php?option=com_config', false));
-		}
-		else
-		{
-			$this->app->enqueueMessage(JText::_('COM_CONFIG_HELPREFRESH_SUCCESS'), 'error');
-			$this->app->redirect(JRoute::_('index.php?option=com_config', false));
-		}
 	}
 }

@@ -77,7 +77,6 @@ class MenuItemsManagerPage extends AdminManagerPage
 			'Home' => 'toolbar-star',
 			'Rebuild' => 'toolbar-refresh',
 			'Batch' => 'toolbar-batch',
-			'Help' => 'toolbar-help',
 	);
 
 	/**

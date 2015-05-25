@@ -52,7 +52,6 @@ class UserEditPage extends AdminEditPage
 			array('label' => 'Backend Language', 'id' => 'jform_params_admin_language', 'type' => 'select', 'tab' => 'settings'),
 			array('label' => 'Frontend Language', 'id' => 'jform_params_language', 'type' => 'select', 'tab' => 'settings'),
 			array('label' => 'Editor', 'id' => 'jform_params_editor', 'type' => 'select', 'tab' => 'settings'),
-			array('label' => 'Help Site', 'id' => 'jform_params_helpsite', 'type' => 'select', 'tab' => 'settings'),
 			array('label' => 'Time Zone', 'id' => 'jform_params_timezone', 'type' => 'select', 'tab' => 'settings'),
 	);
 
