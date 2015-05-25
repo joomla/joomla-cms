@@ -194,7 +194,6 @@ system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-
 // Create full update file without installation folder or sample images.
 echo "Build full update package.\n";
 system('rm -r installation');
-system('rm -r images/banners');
 system('rm -r images/headers');
 system('rm -r images/sampledata');
 system('rm images/joomla_black.gif');

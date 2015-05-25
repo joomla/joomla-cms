@@ -13,8 +13,6 @@
 	<files>
 		<filename>en-GB.com_admin.ini</filename>
 		<filename>en-GB.com_admin.sys.ini</filename>
-		<filename>en-GB.com_banners.ini</filename>
-		<filename>en-GB.com_banners.sys.ini</filename>
 		<filename>en-GB.com_ajax.ini</filename>
 		<filename>en-GB.com_ajax.sys.ini</filename>
 		<filename>en-GB.com_cache.ini</filename>
@@ -25,8 +23,6 @@
 		<filename>en-GB.com_checkin.sys.ini</filename>
 		<filename>en-GB.com_config.ini</filename>
 		<filename>en-GB.com_config.sys.ini</filename>
-		<filename>en-GB.com_contact.ini</filename>
-		<filename>en-GB.com_contact.sys.ini</filename>
 		<filename>en-GB.com_content.ini</filename>
 		<filename>en-GB.com_content.sys.ini</filename>
 		<filename>en-GB.com_contenthistory.ini</filename>
@@ -56,8 +52,6 @@
 		<filename>en-GB.com_plugins.sys.ini</filename>
 		<filename>en-GB.com_postinstall.ini</filename>
 		<filename>en-GB.com_postinstall.sys.ini</filename>
-		<filename>en-GB.com_redirect.ini</filename>
-		<filename>en-GB.com_redirect.sys.ini</filename>
 		<filename>en-GB.com_search.ini</filename>
 		<filename>en-GB.com_search.sys.ini</filename>
 		<filename>en-GB.com_tags.ini</filename>
@@ -112,8 +106,6 @@
 		<filename>en-GB.plg_captcha_recaptcha.ini</filename>
 		<filename>en-GB.plg_captcha_recaptcha.sys.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.ini</filename>
-		<filename>en-GB.plg_content_contact.ini</filename>
-		<filename>en-GB.plg_content_contact.sys.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.sys.ini</filename>
 		<filename>en-GB.plg_content_finder.ini</filename>
 		<filename>en-GB.plg_content_finder.sys.ini</filename>
@@ -145,8 +137,6 @@
 		<filename>en-GB.plg_extension_joomla.sys.ini</filename>
 		<filename>en-GB.plg_finder_categories.ini</filename>
 		<filename>en-GB.plg_finder_categories.sys.ini</filename>
-		<filename>en-GB.plg_finder_contacts.ini</filename>
-		<filename>en-GB.plg_finder_contacts.sys.ini</filename>
 		<filename>en-GB.plg_finder_content.ini</filename>
 		<filename>en-GB.plg_finder_content.sys.ini</filename>
 		<filename>en-GB.plg_finder_tags.ini</filename>
@@ -159,8 +149,6 @@
 		<filename>en-GB.plg_quickicon_joomlaupdate.sys.ini</filename>
 		<filename>en-GB.plg_search_categories.ini</filename>
 		<filename>en-GB.plg_search_categories.sys.ini</filename>
-		<filename>en-GB.plg_search_contacts.ini</filename>
-		<filename>en-GB.plg_search_contacts.sys.ini</filename>
 		<filename>en-GB.plg_search_content.ini</filename>
 		<filename>en-GB.plg_search_content.sys.ini</filename>
 		<filename>en-GB.plg_search_tags.ini</filename>
@@ -181,8 +169,6 @@
 		<filename>en-GB.plg_system_logout.sys.ini</filename>
 		<filename>en-GB.plg_system_p3p.ini</filename>
 		<filename>en-GB.plg_system_p3p.sys.ini</filename>
-		<filename>en-GB.plg_system_redirect.ini</filename>
-		<filename>en-GB.plg_system_redirect.sys.ini</filename>
 		<filename>en-GB.plg_system_remember.ini</filename>
 		<filename>en-GB.plg_system_remember.sys.ini</filename>
 		<filename>en-GB.plg_system_sef.ini</filename>
@@ -191,8 +177,6 @@
 		<filename>en-GB.plg_twofactorauth_totp.sys.ini</filename>
 		<filename>en-GB.plg_twofactorauth_yubikey.ini</filename>
 		<filename>en-GB.plg_twofactorauth_yubikey.sys.ini</filename>
-		<filename>en-GB.plg_user_contactcreator.ini</filename>
-		<filename>en-GB.plg_user_contactcreator.sys.ini</filename>
 		<filename>en-GB.plg_user_joomla.ini</filename>
 		<filename>en-GB.plg_user_joomla.sys.ini</filename>
 		<filename>en-GB.plg_user_profile.ini</filename>

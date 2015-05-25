@@ -861,11 +861,6 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testParse_Url()
 	{
-		$url = 'http://localhost/joomla_development/j16_trunk/administrator/index.php?option=com_contact&view=contact&layout=edit&id=5';
-		$expected = parse_url($url);
-		$actual = JString::parse_url($url);
-		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
-
 		// Test all parts of query
 		$url = 'https://john:doe@www.google.com:80/folder/page.html#id?var=kay&var2=key&true';
 		$expected = parse_url($url);

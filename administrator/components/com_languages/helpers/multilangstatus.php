@@ -119,7 +119,6 @@ abstract class MultilangstatusHelper
 		$query = $db->getQuery(true)
 			->select('u.name, count(cd.language) as counted, MAX(cd.language=' . $db->quote('*') . ') as all_languages')
 			->from('#__users AS u')
-			->join('LEFT', '#__contact_details AS cd ON cd.user_id=u.id')
 			->join('LEFT', '#__languages as l on cd.language=l.lang_code')
 			->where('EXISTS (SELECT * from #__content as c where  c.created_by=u.id)')
 			->where('(l.published=1 or cd.language=' . $db->quote('*') . ')')

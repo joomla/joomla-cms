@@ -477,53 +477,6 @@ input[type="radio"]:checked + label:before {
 	margin: 0;
 }
 
-
-/* +++++++++++++++++++  Contact Form +++++++++++++++++++++++++++++++++ */
-
-
-.panel .contact-form,.panel .contact-miscinfo {
-	padding: 10px
-}
-
-.contact .panel .contact-form form,.contact .panel .contact-address {
-	margin: 20px 0 0 0
-}
-
-textarea,.contact-form input[type="text"],.contact-form input[type="email"],.contact-form textarea
-	{
-	width: 80%;
-	border: solid 1px;
-	-moz-box-sizing: border-box;
-	border: 1px solid #DDDDDD;
-	color: #333333;
-	overflow: auto;
-	padding: 5px;
-	vertical-align: top;
-}
-
-#jform_contact_email_copy-lbl,#jform_contact_email_copy {
-	float: left;
-	margin-right: 10px;
-	border: 0
-}
-
-.contact-form .button {
-	clear: left;
-	float: left;
-	margin: 20px 0
-}
-
-fieldset.filters {
-	background: none;
-	border: none;
-	padding: 0
-}
-
-.contact-form,.contact-links,.contact-misc,.contact-image,.contact-contactinfo,.contact-address
-	{
-	margin: 20px 0
-}
-
 /* ++++++++++++++ loginmodule +++++++++++++++++++++++++++ */
 
 #form-login-remember {

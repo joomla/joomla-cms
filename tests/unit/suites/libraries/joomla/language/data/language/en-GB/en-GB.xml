@@ -10,7 +10,6 @@
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <description>en-GB site language</description>
     <files>
-        <filename>en-GB.com_contact.ini</filename>
         <filename>en-GB.com_content.ini</filename>
         <filename>en-GB.com_finder.ini</filename>
         <filename>en-GB.com_mailto.ini</filename>
@@ -42,8 +41,6 @@
         <filename>en-GB.mod_articles_news.sys.ini</filename>
         <filename>en-GB.mod_articles_popular.ini</filename>
         <filename>en-GB.mod_articles_popular.sys.ini</filename>
-        <filename>en-GB.mod_banners.ini</filename>
-        <filename>en-GB.mod_banners.sys.ini</filename>
         <filename>en-GB.mod_breadcrumbs.ini</filename>
         <filename>en-GB.mod_breadcrumbs.sys.ini</filename>
         <filename>en-GB.mod_custom.ini</filename>
