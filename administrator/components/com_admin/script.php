@@ -187,7 +187,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'totp', 'twofactorauth', 0);
 
 		// Templates
-		$extensions[] = array('template', 'beez3', '', 0);
 		$extensions[] = array('template', 'protostar', '', 0);
 		$extensions[] = array('template', 'isis', '', 1);
 

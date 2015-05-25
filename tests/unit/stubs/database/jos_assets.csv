@@ -40,7 +40,6 @@
 '94','47','145','152','6','com_content.category.65','User Modules','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 '95','47','153','166','6','com_content.category.66','Display Modules','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 '96','47','167','180','6','com_content.category.67','Utility Modules','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
-'98','48','191','192','6','com_content.category.69','Beez3','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
 '100','48','193','194','6','com_content.category.71','Milky Way','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 '101','50','203','204','6','com_content.article.5','Authentication','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 '102','51','275','276','4','com_content.article.6','Australian Parks ','{"core.delete":[],"core.edit":{"2":1},"core.edit.state":[]}'

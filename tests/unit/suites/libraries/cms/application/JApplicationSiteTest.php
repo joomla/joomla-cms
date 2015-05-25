@@ -374,7 +374,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testSetTemplate()
 	{
-		$this->class->setTemplate('beez3');
+		$this->class->setTemplate('protostar');
 
 		$template = $this->class->getTemplate(true);
 
@@ -385,7 +385,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 
 		$this->assertThat(
 			$template->template,
-			$this->equalTo('beez3')
+			$this->equalTo('protostar')
 		);
 	}
 }
