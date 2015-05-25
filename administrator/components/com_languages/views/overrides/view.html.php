@@ -97,6 +97,11 @@ class LanguagesViewOverrides extends JViewLegacy
 			JToolbarHelper::deleteList('', 'overrides.delete');
 		}
 
+		if (JFactory::getUser()->authorise('core.admin'))
+		{
+			JToolbarHelper::custom('overrides.purge', 'refresh.png', 'refresh_f2.png', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', false);
+		}
+
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_languages');
