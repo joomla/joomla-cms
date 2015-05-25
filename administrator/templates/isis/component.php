@@ -33,6 +33,14 @@ if (is_file($file))
 {
 	$doc->addStyleSheet($file);
 }
+
+// Load custom.css
+$file = 'templates/' . $this->template . '/css/custom.css';
+
+if (is_file($file))
+{
+	$doc->addStyleSheetVersion($file);
+}
 ?>
 
 <!DOCTYPE html>
