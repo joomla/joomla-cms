@@ -114,7 +114,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_templates', '', 1);
 		$extensions[] = array('component', 'com_content', '', 1);
 		$extensions[] = array('component', 'com_config', '', 1);
-		$extensions[] = array('component', 'com_redirect', '', 1);
 		$extensions[] = array('component', 'com_users', '', 1);
 		$extensions[] = array('component', 'com_tags', '', 1);
 		$extensions[] = array('component', 'com_contenthistory', '', 1);
@@ -199,7 +198,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'cache', 'system', 0);
 		$extensions[] = array('plugin', 'debug', 'system', 0);
 		$extensions[] = array('plugin', 'log', 'system', 0);
-		$extensions[] = array('plugin', 'redirect', 'system', 0);
 		$extensions[] = array('plugin', 'remember', 'system', 0);
 		$extensions[] = array('plugin', 'sef', 'system', 0);
 		$extensions[] = array('plugin', 'logout', 'system', 0);
