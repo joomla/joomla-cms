@@ -81,7 +81,6 @@ class JoomlaInstallerScript
 
 		// Components
 		// `type`, `element`, `folder`, `client_id`
-		$extensions[] = array('component', 'com_mailto', '', 0);
 		$extensions[] = array('component', 'com_admin', '', 1);
 		$extensions[] = array('component', 'com_ajax', '', 1);
 		$extensions[] = array('component', 'com_cache', '', 1);

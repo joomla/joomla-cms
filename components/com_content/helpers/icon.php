@@ -78,41 +78,11 @@ abstract class JHtmlIcon
 	 * @param   boolean    $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the email item link
+     * @deprecated
 	 */
 	public static function email($article, $params, $attribs = array(), $legacy = false)
 	{
-		require_once JPATH_SITE . '/components/com_mailto/helpers/mailto.php';
-
-		$uri      = JUri::getInstance();
-		$base     = $uri->toString(array('scheme', 'host', 'port'));
-		$template = JFactory::getApplication()->getTemplate();
-		$link     = $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid), false);
-		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailToHelper::addLink($link);
-
-		$status = 'width=400,height=350,menubar=yes,resizable=yes';
-
-		if ($params->get('show_icons'))
-		{
-			if ($legacy)
-			{
-				$text = JHtml::_('image', 'system/emailButton.png', JText::_('JGLOBAL_EMAIL'), null, true);
-			}
-			else
-			{
-				$text = '<span class="icon-envelope"></span> ' . JText::_('JGLOBAL_EMAIL');
-			}
-		}
-		else
-		{
-			$text = JText::_('JGLOBAL_EMAIL');
-		}
-
-		$attribs['title']   = JText::_('JGLOBAL_EMAIL');
-		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
-
-		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
-
-		return $output;
+		return '';
 	}
 
 	/**

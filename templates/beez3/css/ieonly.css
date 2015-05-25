@@ -153,16 +153,6 @@ div.current
 .item-page
 { width:100%}
 
-#mailto-window  .mailto-close a
-{
-
-	width:25px;
-	height:25px;
-
-
-
-}
-
 #users-profile-core legend,
 #users-profile-custom legend,
 .profile-edit legend,
