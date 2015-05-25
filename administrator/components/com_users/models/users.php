@@ -423,7 +423,7 @@ class UsersModelUsers extends JModelList
 	 *
 	 * @return  string   Groups titles imploded :$
 	 */
-	function _getUserDisplayedGroups($user_id)
+	public function _getUserDisplayedGroups($user_id)
 	{
 		$db    = JFactory::getDbo();
 		$query = "SELECT title FROM " . $db->quoteName('#__usergroups') . " ug left join " .
