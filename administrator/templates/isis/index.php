@@ -24,16 +24,16 @@ $doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/t
 // Add Stylesheets
 $doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
 
-// Load custom.css
-$file = 'templates/' . $this->template . '/css/custom.css';
+// Load specific language related CSS
+$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 
 if (is_file($file))
 {
 	$doc->addStyleSheetVersion($file);
 }
 
-// Load specific language related CSS
-$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+// Load custom.css
+$file = 'templates/' . $this->template . '/css/custom.css';
 
 if (is_file($file))
 {
@@ -71,8 +71,10 @@ $statusFixed   = $this->params->get('statusFixed', '1');
 $stickyToolbar = $this->params->get('stickyToolbar', '1');
 
 // Header classes
-$template_is_light = ($this->params->get('templateColor') && colorIsLight($this->params->get('templateColor')));
-$header_is_light = ($displayHeader && $this->params->get('headerColor') && colorIsLight($this->params->get('headerColor')));
+$navbar_color = $this->params->get('templateColor') ? $this->params->get('templateColor') : '';
+$header_color = ($displayHeader && $this->params->get('headerColor')) ? $this->params->get('headerColor') : '';
+$navbar_is_light = ($navbar_color && colorIsLight($navbar_color));
+$header_is_light = ($header_color && colorIsLight($header_color));
 
 if ($displayHeader)
 {
@@ -105,18 +107,18 @@ function colorIsLight($color)
 	<jdoc:include type="head" />
 
 	<!-- Template color -->
-	<?php if ($this->params->get('templateColor')) : ?>
+	<?php if ($navbar_color) : ?>
 		<style type="text/css">
 			.navbar-inner, .navbar-inverse .navbar-inner, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle, #status.status-top {
-				background: <?php echo $this->params->get('templateColor'); ?>;
+				background: <?php echo $navbar_color; ?>;
 			}
 		</style>
 	<?php endif; ?>
 	<!-- Template header color -->
-	<?php if ($displayHeader && $this->params->get('headerColor')) : ?>
+	<?php if ($header_color) : ?>
 		<style type="text/css">
 			.header {
-				background: <?php echo $this->params->get('headerColor'); ?>;
+				background: <?php echo $header_color; ?>;
 			}
 		</style>
 	<?php endif; ?>
@@ -147,7 +149,7 @@ function colorIsLight($color)
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
 <!-- Top Navigation -->
-<nav class="navbar<?php echo $template_is_light ? '' : ' navbar-inverse'; ?> navbar-fixed-top">
+<nav class="navbar<?php echo $navbar_is_light ? '' : ' navbar-inverse'; ?> navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container-fluid">
 			<?php if ($this->params->get('admin_menus') != '0') : ?>
