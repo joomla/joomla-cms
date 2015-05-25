@@ -82,7 +82,6 @@ class JoomlaInstallerScript
 		// Components
 		// `type`, `element`, `folder`, `client_id`
 		$extensions[] = array('component', 'com_mailto', '', 0);
-		$extensions[] = array('component', 'com_wrapper', '', 0);
 		$extensions[] = array('component', 'com_admin', '', 1);
 		$extensions[] = array('component', 'com_ajax', '', 1);
 		$extensions[] = array('component', 'com_cache', '', 1);
@@ -131,7 +130,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('module', 'mod_syndicate', '', 0);
 		$extensions[] = array('module', 'mod_users_latest', '', 0);
 		$extensions[] = array('module', 'mod_whosonline', '', 0);
-		$extensions[] = array('module', 'mod_wrapper', '', 0);
 		$extensions[] = array('module', 'mod_articles_category', '', 0);
 		$extensions[] = array('module', 'mod_articles_categories', '', 0);
 		$extensions[] = array('module', 'mod_languages', '', 0);
