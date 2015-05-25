@@ -13,7 +13,6 @@
 '14','1','308','309','1','com_massmail','com_massmail','{}'
 '15','1','310','311','1','com_media','com_media','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1},"core.edit":[],"core.edit.state":[]}'
 '16','1','312','313','1','com_menus','com_menus','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
-'17','1','37','38','1','com_messages','com_messages','{"core.admin":{"7":1},"core.manage":{"7":1}}'
 '18','1','316','317','1','com_modules','com_modules','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 '20','1','326','327','1','com_plugins','com_plugins','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 '22','1','330','331','1','com_search','com_search','{"core.admin":{"7":1},"core.manage":{"6":1}}'

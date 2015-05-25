@@ -150,16 +150,6 @@
 			<value>{&quot;core.admin&quot;:{&quot;7&quot;:1},&quot;core.manage&quot;:[],&quot;core.create&quot;:[],&quot;core.delete&quot;:[],&quot;core.edit&quot;:[],&quot;core.edit.state&quot;:[]}</value>
 		</row>
 		<row>
-			<value>17</value>
-			<value>1</value>
-			<value>50</value>
-			<value>51</value>
-			<value>1</value>
-			<value>com_messages</value>
-			<value>com_messages</value>
-			<value>{}</value>
-		</row>
-		<row>
 			<value>18</value>
 			<value>1</value>
 			<value>52</value>
@@ -594,25 +584,6 @@
 			<value>Menus Manager</value>
 			<value>component</value>
 			<value>com_menus</value>
-			<value></value>
-			<value>1</value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>15</value>
-			<value>Messaging</value>
-			<value>component</value>
-			<value>com_messages</value>
 			<value></value>
 			<value>1</value>
 			<value>1</value>
@@ -2219,81 +2190,6 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>10</value>
-			<value>main</value>
-			<value>com_messages</value>
-			<value>Messaging</value>
-			<value>Messaging</value>
-			<value>index.php?option=com_messages</value>
-			<value>component</value>
-			<value>0</value>
-			<value>1</value>
-			<value>1</value>
-			<value>15</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-			<value>class:messages</value>
-			<value>0</value>
-			<value></value>
-			<value>17</value>
-			<value>22</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>11</value>
-			<value>main</value>
-			<value>com_messages_add</value>
-			<value>New Private Message</value>
-			<value>Messaging/New Private Message</value>
-			<value>index.php?option=com_messages&amp;task=message.add</value>
-			<value>component</value>
-			<value>0</value>
-			<value>10</value>
-			<value>2</value>
-			<value>15</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-			<value>class:messages-add</value>
-			<value>0</value>
-			<value></value>
-			<value>18</value>
-			<value>19</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>12</value>
-			<value>main</value>
-			<value>com_messages_read</value>
-			<value>Read Private Message</value>
-			<value>Messaging/Read Private Message</value>
-			<value>index.php?option=com_messages</value>
-			<value>component</value>
-			<value>0</value>
-			<value>10</value>
-			<value>2</value>
-			<value>15</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-			<value>class:messages-read</value>
-			<value>0</value>
-			<value></value>
-			<value>20</value>
-			<value>21</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
 			<value>17</value>
 			<value>main</value>
 			<value>com_search</value>
@@ -2430,22 +2326,6 @@
 			<value>Main Menu</value>
 			<value>The main menu for the site</value>
 		</row>
-	</table>
-	<table name="jos_messages">
-		<column>message_id</column>
-		<column>user_id_from</column>
-		<column>user_id_to</column>
-		<column>folder_id</column>
-		<column>date_time</column>
-		<column>state</column>
-		<column>priority</column>
-		<column>subject</column>
-		<column>message</column>
-	</table>
-	<table name="jos_messages_cfg">
-		<column>user_id</column>
-		<column>cfg_name</column>
-		<column>cfg_value</column>
 	</table>
 	<table name="jos_modules">
 		<column>id</column>

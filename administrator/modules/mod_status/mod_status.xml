@@ -45,16 +45,6 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				<field
-					name="show_messages"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
-					label="MOD_STATUS_FIELD_SHOW_MESSAGES_LABEL"
-					description="MOD_STATUS_FIELD_SHOW_MESSAGES_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
 			</fieldset>
 			<fieldset name="advanced">
 				<field

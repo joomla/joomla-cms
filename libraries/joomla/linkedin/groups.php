@@ -257,11 +257,6 @@ class JLinkedinGroups extends JLinkedinObject
 			$xml .= '<email-announcements-from-managers>' . $this->booleanToString($announcements) . '</email-announcements-from-managers>';
 		}
 
-		if (!is_null($allow_messages))
-		{
-			$xml .= '<allow-messages-from-members>' . $this->booleanToString($allow_messages) . '</allow-messages-from-members>';
-		}
-
 		if (!is_null($new_post))
 		{
 			$xml .= '<email-for-every-new-post>' . $this->booleanToString($new_post) . '</email-for-every-new-post>';
@@ -326,11 +321,6 @@ class JLinkedinGroups extends JLinkedinObject
 		if (!is_null($announcements))
 		{
 			$xml .= '<email-announcements-from-managers>' . $this->booleanToString($announcements) . '</email-announcements-from-managers>';
-		}
-
-		if (!is_null($allow_messages))
-		{
-			$xml .= '<allow-messages-from-members>' . $this->booleanToString($allow_messages) . '</allow-messages-from-members>';
 		}
 
 		if (!is_null($new_post))
