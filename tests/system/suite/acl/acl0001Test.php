@@ -79,8 +79,6 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-messages']"), 'Messaging should not be visible');
 		$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-newsfeeds']"), 'Newsfeeds should not be visible');
 		$this->assertFalse($this->isElementPresent("//a[@href='index.php?option=com_search']"), 'Search should not be visible');
-		$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-weblinks']"), 'Weblinks should not be visible');
-		$this->assertFalse($this->isElementPresent("//a[contains(@href, 'option=com_redirect')]"), 'Redirect should not be visible');
 
 		$this->assertFalse($this->isElementPresent("//a[contains(@href, 'option=com_installer')]"), 'Extensions should not be visible');
 		$this->assertFalse($this->isElementPresent("//a[contains(@href, 'option=com_menus')]"), 'Menu Manager should not be visible');
