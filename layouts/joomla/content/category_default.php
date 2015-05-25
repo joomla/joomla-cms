@@ -55,9 +55,9 @@ $tagsData = $displayData->get('category')->tags->itemTags;
 		<?php if ($displayData->get('children') && $displayData->maxLevel != 0) : ?>
 			<div class="cat-children">
 				<?php if ($params->get('show_category_heading_title_text', 1) == 1) : ?>
-				<h3>
-					<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
-				</h3>
+					<h3>
+						<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
+					</h3>
 				<?php endif; ?>
 				<?php echo $displayData->loadTemplate('children'); ?>
 			</div>
