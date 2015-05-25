@@ -16,7 +16,6 @@
  <exclude-pattern type="relative">libraries/framework/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/idna_convert/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/phputf8/*</exclude-pattern>
- <exclude-pattern type="relative">libraries/simplepie/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/phpmailer/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/phpass/*</exclude-pattern>
 
