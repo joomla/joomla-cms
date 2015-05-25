@@ -20,7 +20,6 @@
 		<filename>en-GB.com_search.ini</filename>
 		<filename>en-GB.com_tags.ini</filename>
 		<filename>en-GB.com_users.ini</filename>
-		<filename>en-GB.com_wrapper.ini</filename>
 		<filename>en-GB.files_joomla.sys.ini</filename>
 		<filename>en-GB.finder_cli.ini</filename>
 		<filename>en-GB.ini</filename>
@@ -79,8 +78,6 @@
 		<filename>en-GB.mod_users_latest.sys.ini</filename>
 		<filename>en-GB.mod_whosonline.ini</filename>
 		<filename>en-GB.mod_whosonline.sys.ini</filename>
-		<filename>en-GB.mod_wrapper.ini</filename>
-		<filename>en-GB.mod_wrapper.sys.ini</filename>
 		<filename>en-GB.tpl_beez3.ini</filename>
 		<filename>en-GB.tpl_beez3.sys.ini</filename>
 		<filename>en-GB.tpl_protostar.ini</filename>
