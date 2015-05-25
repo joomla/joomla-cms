@@ -35,6 +35,9 @@ defined('JPATH_PLATFORM') or die;
  * @method      string   getHtml()      getHtml($name, $default = null)
  * @method      string   getPath()      getPath($name, $default = null)
  * @method      string   getUsername()  getUsername($name, $default = null)
+ * @method      string   getVar()       getVar($name, $default = null)       This method will act like getString. If the
+ *                                                                           input is an array it will return an array
+ *                                                                           of fully decoded and sanitised strings.
  */
 class JInput implements Serializable, Countable
 {
