@@ -106,9 +106,6 @@ class SearchViewSearch extends JViewLegacy
 		$searchphrases[]       = JHtml::_('select.option', 'exact', JText::_('COM_SEARCH_EXACT_PHRASE'));
 		$lists['searchphrase'] = JHtml::_('select.radiolist', $searchphrases, 'searchphrase', '', 'value', 'text', $state->get('match'));
 
-		// Log the search
-		JSearchHelper::logSearch($searchword, 'com_search');
-
 		// Limit searchword
 		$lang        = JFactory::getLanguage();
 		$upper_limit = $lang->getUpperLimitSearchWord();

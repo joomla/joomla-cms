@@ -308,10 +308,6 @@
 		<column>rating_count</column>
 		<column>lastip</column>
 	</table>
-	<table name="jos_core_log_searches">
-		<column>search_term</column>
-		<column>hits</column>
-	</table>
 	<table name="jos_extensions">
 		<column>extension_id</column>
 		<column>name</column>
