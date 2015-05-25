@@ -15,8 +15,8 @@ $db     = JFactory::getDbo();
 $lang   = JFactory::getLanguage();
 $input  = JFactory::getApplication()->input;
 // Get the number of back-end logged in users.
-$query->clear()
-	->select('COUNT(session_id)')
+$query	= $db->getQuery(true)
+    ->select('COUNT(session_id)')
 	->from('#__session')
 	->where('guest = 0 AND client_id = 1');
 
