@@ -134,6 +134,12 @@ class UsersModelUser extends JModelAdmin
 			$form->setFieldAttribute('password2', 'required', 'true');
 		}
 
+		// When multilanguage is set, a user's default site language should also be a Content Language
+		if (JLanguageMultilang::isEnabled())
+		{
+			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
+		}
+
 		// The user should not be able to set the requireReset value on their own account
 		if ((int) $userId === (int) JFactory::getUser()->id)
 		{
