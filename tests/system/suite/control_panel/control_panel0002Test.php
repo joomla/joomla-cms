@@ -187,51 +187,6 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 
 		$this->jPrint ("Navigate to Control Panel.\n");
 		$this->gotoAdmin();
-		$this->jPrint ("Navigate to Banner Manager.\n");
-		$this->click("link=Banners");
-		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("Banner Manager: Banners"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-new']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-edit']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-publish']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-unpublish']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-archive']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-options']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
-		$this->jPrint ("Navigate to Banner Clients.\n");
-		$this->click("link=Clients");
-		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("Banner Manager: Clients"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-new']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-edit']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-publish']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-unpublish']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-archive']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-options']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
-
-		$this->jPrint ("Navigate to Banner Tracks.\n");
-		$this->click("link=Tracks");
-		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("Banner Manager: Tracks"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-options']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-COM_BANNERS_DELETE_MSG']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
-
-		$this->jPrint ("Navigate to Banner Categories.\n");
-		$this->click("//a[contains(@href, 'option=com_categories&extension=com_banners')]");
-		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("Category Manager: Banners"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-new']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-edit']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-publish']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-unpublish']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-archive']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-refresh']/button"));
-		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
 
 		$this->jPrint ("Navigate to Contact Manager.\n");
 		$this->click("link=Contacts");

@@ -95,7 +95,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_wrapper', '', 0);
 		$extensions[] = array('component', 'com_admin', '', 1);
 		$extensions[] = array('component', 'com_ajax', '', 1);
-		$extensions[] = array('component', 'com_banners', '', 1);
 		$extensions[] = array('component', 'com_cache', '', 1);
 		$extensions[] = array('component', 'com_categories', '', 1);
 		$extensions[] = array('component', 'com_checkin', '', 1);
@@ -113,7 +112,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_templates', '', 1);
 		$extensions[] = array('component', 'com_content', '', 1);
 		$extensions[] = array('component', 'com_config', '', 1);
-		$extensions[] = array('component', 'com_redirect', '', 1);
 		$extensions[] = array('component', 'com_users', '', 1);
 		$extensions[] = array('component', 'com_tags', '', 1);
 		$extensions[] = array('component', 'com_contenthistory', '', 1);
@@ -133,7 +131,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('module', 'mod_articles_archive', '', 0);
 		$extensions[] = array('module', 'mod_articles_latest', '', 0);
 		$extensions[] = array('module', 'mod_articles_popular', '', 0);
-		$extensions[] = array('module', 'mod_banners', '', 0);
 		$extensions[] = array('module', 'mod_breadcrumbs', '', 0);
 		$extensions[] = array('module', 'mod_custom', '', 0);
 		$extensions[] = array('module', 'mod_feed', '', 0);
@@ -198,7 +195,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'cache', 'system', 0);
 		$extensions[] = array('plugin', 'debug', 'system', 0);
 		$extensions[] = array('plugin', 'log', 'system', 0);
-		$extensions[] = array('plugin', 'redirect', 'system', 0);
 		$extensions[] = array('plugin', 'remember', 'system', 0);
 		$extensions[] = array('plugin', 'sef', 'system', 0);
 		$extensions[] = array('plugin', 'logout', 'system', 0);
@@ -285,9 +281,6 @@ class JoomlaInstallerScript
 			'/libraries/joomla/form/fields/menu.php',
 			'/libraries/joomla/form/fields/helpsite.php',
 			'/administrator/components/com_admin/sql/updates/mysql/1.7.0.sql',
-			'/administrator/components/com_admin/sql/updates/sqlsrv/2.5.2-2012-03-05.sql',
-			'/administrator/components/com_admin/sql/updates/sqlsrv/2.5.3-2012-03-13.sql',
-			'/administrator/components/com_admin/sql/updates/sqlsrv/index.html',
 			'/administrator/components/com_users/controllers/config.php',
 			'/administrator/language/en-GB/en-GB.plg_system_finder.ini',
 			'/administrator/language/en-GB/en-GB.plg_system_finder.sys.ini',
@@ -396,8 +389,6 @@ class JoomlaInstallerScript
 			'/libraries/cms/model/index.html',
 			'/libraries/cms/model/legacy.php',
 			'/libraries/cms/schema/changeitemmysql.php',
-			'/libraries/cms/schema/changeitemsqlazure.php',
-			'/libraries/cms/schema/changeitemsqlsrv.php',
 			'/libraries/cms/view/index.html',
 			'/libraries/cms/view/legacy.php',
 			'/libraries/joomla/application/application.php',
@@ -443,10 +434,6 @@ class JoomlaInstallerScript
 			'/libraries/joomla/database/database/mysqlimporter.php',
 			'/libraries/joomla/database/database/mysqliquery.php',
 			'/libraries/joomla/database/database/mysqlquery.php',
-			'/libraries/joomla/database/database/sqlazure.php',
-			'/libraries/joomla/database/database/sqlazurequery.php',
-			'/libraries/joomla/database/database/sqlsrv.php',
-			'/libraries/joomla/database/database/sqlsrvquery.php',
 			'/libraries/joomla/database/exception.php',
 			'/libraries/joomla/database/table.php',
 			'/libraries/joomla/database/table/asset.php',
@@ -958,7 +945,6 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/form_utils.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/mctabs.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/validate.js',
-			'/administrator/components/com_banners/models/fields/ordering.php',
 			'/administrator/components/com_newsfeeds/models/fields/ordering.php',
 			'/administrator/components/com_plugins/models/fields/ordering.php',
 			'/administrator/includes/application.php',
@@ -1020,7 +1006,6 @@ class JoomlaInstallerScript
 
 		// TODO There is an issue while deleting folders using the ftp mode
 		$folders = array(
-			'/administrator/components/com_admin/sql/updates/sqlsrv',
 			'/media/com_finder/images/mime',
 			'/media/com_finder/images',
 			'/components/com_media/helpers',

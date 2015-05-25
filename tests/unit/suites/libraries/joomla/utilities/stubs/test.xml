@@ -30,16 +30,6 @@
 			<value>{}</value>
 		</row>
 		<row>
-			<value>3</value>
-			<value>1</value>
-			<value>4</value>
-			<value>5</value>
-			<value>1</value>
-			<value>com_banners</value>
-			<value>com_banners</value>
-			<value>{&quot;core.admin&quot;:{&quot;7&quot;:1},&quot;core.manage&quot;:{&quot;6&quot;:1},&quot;core.create&quot;:{&quot;4&quot;:0},&quot;core.delete&quot;:{&quot;4&quot;:0,&quot;5&quot;:1},&quot;core.edit&quot;:[],&quot;core.edit.state&quot;:[]}</value>
-		</row>
-		<row>
 			<value>4</value>
 			<value>1</value>
 			<value>6</value>
@@ -210,16 +200,6 @@
 			<value>{&quot;core.admin&quot;:{&quot;7&quot;:1},&quot;core.manage&quot;:[],&quot;core.create&quot;:[],&quot;core.delete&quot;:[],&quot;core.edit&quot;:[],&quot;core.edit.state&quot;:[]}</value>
 		</row>
 		<row>
-			<value>21</value>
-			<value>1</value>
-			<value>60</value>
-			<value>61</value>
-			<value>1</value>
-			<value>com_redirect</value>
-			<value>com_redirect</value>
-			<value>{&quot;core.admin&quot;:{&quot;7&quot;:1},&quot;core.manage&quot;:[]}</value>
-		</row>
-		<row>
 			<value>22</value>
 			<value>1</value>
 			<value>62</value>
@@ -269,57 +249,6 @@
 			<value>com_wrapper</value>
 			<value>{}</value>
 		</row>
-	</table>
-	<table name="jos_banner_clients">
-		<column>id</column>
-		<column>name</column>
-		<column>contact</column>
-		<column>email</column>
-		<column>extrainfo</column>
-		<column>state</column>
-		<column>checked_out</column>
-		<column>checked_out_time</column>
-		<column>metakey</column>
-		<column>own_prefix</column>
-		<column>metakey_prefix</column>
-		<column>purchase_type</column>
-		<column>track_clicks</column>
-		<column>track_impressions</column>
-	</table>
-	<table name="jos_banner_tracks">
-		<column>track_date</column>
-		<column>track_type</column>
-		<column>banner_id</column>
-		<column>count</column>
-	</table>
-	<table name="jos_banners">
-		<column>id</column>
-		<column>cid</column>
-		<column>type</column>
-		<column>name</column>
-		<column>alias</column>
-		<column>imptotal</column>
-		<column>impmade</column>
-		<column>clicks</column>
-		<column>clickurl</column>
-		<column>state</column>
-		<column>catid</column>
-		<column>description</column>
-		<column>sticky</column>
-		<column>ordering</column>
-		<column>metakey</column>
-		<column>params</column>
-		<column>own_prefix</column>
-		<column>metakey_prefix</column>
-		<column>purchase_type</column>
-		<column>track_clicks</column>
-		<column>track_impressions</column>
-		<column>checked_out</column>
-		<column>checked_out_time</column>
-		<column>publish_up</column>
-		<column>publish_down</column>
-		<column>reset</column>
-		<column>created</column>
 	</table>
 	<table name="jos_categories">
 		<column>id</column>
@@ -552,25 +481,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>4</value>
-			<value>Banners</value>
-			<value>component</value>
-			<value>com_banners</value>
-			<value></value>
-			<value>1</value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value></value>
-			<value>{&quot;purchase_type&quot;:&quot;1&quot;,&quot;track_impressions&quot;:&quot;0&quot;,&quot;track_clicks&quot;:&quot;0&quot;,&quot;metakey_prefix&quot;:&quot;&quot;}</value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1077,25 +987,6 @@
 			<value>Most Read Content</value>
 			<value>module</value>
 			<value>mod_articles_popular</value>
-			<value></value>
-			<value>0</value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>32</value>
-			<value>Banners</value>
-			<value>module</value>
-			<value>mod_banners</value>
 			<value></value>
 			<value>0</value>
 			<value>1</value>
@@ -2384,25 +2275,6 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>100</value>
-			<value>Redirect Manager</value>
-			<value>component</value>
-			<value>com_redirect</value>
-			<value></value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
 			<value>101</value>
 			<value>User Manager</value>
 			<value>component</value>
@@ -2529,131 +2401,6 @@
 			<value>217</value>
 			<value>0</value>
 			<value>0</value>
-		</row>
-		<row>
-			<value>2</value>
-			<value>main</value>
-			<value>com_banners</value>
-			<value>Banners</value>
-			<value>Banners</value>
-			<value>index.php?option=com_banners</value>
-			<value>component</value>
-			<value>0</value>
-			<value>1</value>
-			<value>1</value>
-			<value>4</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-			<value>class:banners</value>
-			<value>0</value>
-			<value></value>
-			<value>1</value>
-			<value>10</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>3</value>
-			<value>main</value>
-			<value>com_banners</value>
-			<value>Banners</value>
-			<value>Banners/Banners</value>
-			<value>index.php?option=com_banners</value>
-			<value>component</value>
-			<value>0</value>
-			<value>2</value>
-			<value>2</value>
-			<value>4</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-			<value>class:banners</value>
-			<value>0</value>
-			<value></value>
-			<value>2</value>
-			<value>3</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>4</value>
-			<value>main</value>
-			<value>com_banners_clients</value>
-			<value>Clients</value>
-			<value>Banners/Clients</value>
-			<value>index.php?option=com_banners&amp;view=clients</value>
-			<value>component</value>
-			<value>0</value>
-			<value>2</value>
-			<value>2</value>
-			<value>4</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-			<value>class:banners-clients</value>
-			<value>0</value>
-			<value></value>
-			<value>4</value>
-			<value>5</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>5</value>
-			<value>main</value>
-			<value>com_banners_tracks</value>
-			<value>Tracks</value>
-			<value>Banners/Tracks</value>
-			<value>index.php?option=com_banners&amp;view=tracks</value>
-			<value>component</value>
-			<value>0</value>
-			<value>2</value>
-			<value>2</value>
-			<value>4</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-			<value>class:banners-tracks</value>
-			<value>0</value>
-			<value></value>
-			<value>6</value>
-			<value>7</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>6</value>
-			<value>main</value>
-			<value>com_banners_categories</value>
-			<value>Categories</value>
-			<value>Banners/Categories</value>
-			<value>index.php?option=com_categories&amp;extension=com_banners</value>
-			<value>component</value>
-			<value>0</value>
-			<value>2</value>
-			<value>2</value>
-			<value>6</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-			<value>class:banners-cat</value>
-			<value>0</value>
-			<value></value>
-			<value>8</value>
-			<value>9</value>
-			<value>0</value>
-			<value>1</value>
 		</row>
 		<row>
 			<value>7</value>
@@ -2877,31 +2624,6 @@
 			<value></value>
 			<value>26</value>
 			<value>27</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>16</value>
-			<value>main</value>
-			<value>com_redirect</value>
-			<value>Redirect</value>
-			<value>Redirect</value>
-			<value>index.php?option=com_redirect</value>
-			<value>component</value>
-			<value>0</value>
-			<value>1</value>
-			<value>1</value>
-			<value>100</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-			<value>class:redirect</value>
-			<value>0</value>
-			<value></value>
-			<value>37</value>
-			<value>38</value>
 			<value>0</value>
 			<value>1</value>
 		</row>
@@ -3377,24 +3099,6 @@ showComponent=1
 separator=
 
 </value>
-			<value>0</value>
-			<value></value>
-		</row>
-		<row>
-			<value>19</value>
-			<value>Banners</value>
-			<value></value>
-			<value>1</value>
-			<value>bottom</value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>mod_banners</value>
-			<value>1</value>
-			<value>1</value>
-			<value>{&quot;target&quot;:&quot;1&quot;,&quot;count&quot;:&quot;1&quot;,&quot;cid&quot;:&quot;1&quot;,&quot;catid&quot;:&quot;27&quot;,&quot;tag_search&quot;:&quot;0&quot;,&quot;ordering&quot;:&quot;0&quot;,&quot;header_text&quot;:&quot;&quot;,&quot;footer_text&quot;:&quot;&quot;,&quot;layout&quot;:&quot;&quot;,&quot;moduleclass_sfx&quot;:&quot;&quot;,&quot;cache&quot;:&quot;1&quot;,&quot;cache_time&quot;:&quot;0&quot;}</value>
 			<value>0</value>
 			<value></value>
 		</row>
