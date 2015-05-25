@@ -19,7 +19,6 @@
 '23','1','332','333','1','com_templates','com_templates','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 '24','1','334','337','1','com_users','com_users','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 '25','1','338','355','1','com_weblinks','com_weblinks','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1,"10":0,"12":0},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'
-'26','1','356','357','1','com_wrapper','com_wrapper','{}'
 '33','1','418','419','1','com_finder','com_finder','{"core.admin":{"7":1},"core.manage":{"6":1}}'
 '34','8','105','108','2','com_content.category.9','Uncategorised','{"core.create":{"10":0,"12":0},"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 '39','8','109','296','2','com_content.category.14','Sample Data-Articles','{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
