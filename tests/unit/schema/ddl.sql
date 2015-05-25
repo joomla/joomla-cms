@@ -553,32 +553,6 @@ CREATE TABLE `jos_updates` (
 	`infourl` TEXT NOT NULL DEFAULT ''
 );
 
--- --------------------------------------------------------
-
---
--- Table structure for table `jos_update_sites`
---
-
-CREATE TABLE `jos_update_sites` (
-  `update_site_id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `name` TEXT DEFAULT '',
-  `type` TEXT DEFAULT '',
-  `location` TEXT NOT NULL DEFAULT '',
-  `enabled` INTEGER DEFAULT '0',
-	`last_check_timestamp` INTEGER DEFAULT '0'
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `jos_update_sites_extensions`
---
-
-CREATE TABLE `jos_update_sites_extensions` (
-  `update_site_id` INTEGER NOT NULL DEFAULT '0',
-  `extension_id` INTEGER NOT NULL DEFAULT '0',
-  CONSTRAINT  `idx_update_sites_extensions` PRIMARY KEY (`update_site_id`,`extension_id`)
-);
 
 -- --------------------------------------------------------
 

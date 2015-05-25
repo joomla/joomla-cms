@@ -64,16 +64,6 @@ class JoomlaInstallerScript
 			{
 				if ($result->Support == 'DEFAULT')
 				{
-					$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
-					$db->execute();
-
-					if ($db->getErrorNum())
-					{
-						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
-
-						return;
-					}
-
 					break;
 				}
 			}
@@ -195,8 +185,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'joomla', 'extension', 0);
 		$extensions[] = array('plugin', 'joomla', 'content', 0);
 		$extensions[] = array('plugin', 'languagecode', 'system', 0);
-		$extensions[] = array('plugin', 'joomlaupdate', 'quickicon', 0);
-		$extensions[] = array('plugin', 'extensionupdate', 'quickicon', 0);
 		$extensions[] = array('plugin', 'recaptcha', 'captcha', 0);
 		$extensions[] = array('plugin', 'categories', 'finder', 0);
 		$extensions[] = array('plugin', 'content', 'finder', 0);
@@ -547,8 +535,6 @@ class JoomlaInstallerScript
 			'/libraries/joomla/utilities/simplexml.php',
 			'/libraries/joomla/utilities/string.php',
 			'/libraries/joomla/utilities/xmlelement.php',
-			'/media/plg_quickicon_extensionupdate/extensionupdatecheck.js',
-			'/media/plg_quickicon_joomlaupdate/jupdatecheck.js',
 			// Joomla! 3.1
 			'/libraries/joomla/application/router.php',
 			'/libraries/joomla/form/rules/boolean.php',
@@ -1086,7 +1072,6 @@ class JoomlaInstallerScript
 		// List all components added since 1.6
 		$newComponents = array(
 			'com_finder',
-			'com_joomlaupdate',
 			'com_tags',
 			'com_contenthistory',
 			'com_ajax',

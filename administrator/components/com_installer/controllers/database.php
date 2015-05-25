@@ -31,11 +31,6 @@ class InstallerControllerDatabase extends JControllerLegacy
 		$model = $this->getModel('database');
 		$model->fix();
 
-		// Purge updates
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_joomlaupdate/models', 'JoomlaupdateModel');
-		$updateModel = JModelLegacy::getInstance('default', 'JoomlaupdateModel');
-		$updateModel->purge();
-
 		// Refresh versionable assets cache
 		JFactory::getApplication()->flushAssets();
 
