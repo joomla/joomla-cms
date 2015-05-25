@@ -87,17 +87,6 @@ class Language0002Test extends SeleniumJoomlaTestCase
 
 		$this->setCache($cfg->cache);
 
-		// Check admin template -- change to hathor if specified in config file
-		if (isset($cfg->adminTemplate) && $cfg->adminTemplate == 'hathor') {
-			$this->click("link=Template Manager");
-			$this->waitForPageToLoad("30000");
-			$this->click("link=Hathor - Default");
-			$this->waitForPageToLoad("30000");
-			$this->click("jform_home1");
-			$this->click("//div[@id='toolbar-save']/button");
-			$this->waitForPageToLoad("30000");
-		}
-
 		$this->doAdminLogout();
 		$this->deleteAllVisibleCookies();
 	}
