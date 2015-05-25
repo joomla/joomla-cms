@@ -109,7 +109,6 @@ abstract class AdminPage
 			'Featured Articles'		=> 'administrator/index.php?option=com_content&view=featured',
 			'Media Manager'			=> 'administrator/index.php?option=com_media',
 			'Components'			=> 'administrator/index.php#',
-			'Search'				=> 'administrator/index.php?option=com_search',
 			'Smart Search'			=> 'administrator/index.php?option=com_finder',
 			'Weblinks'				=> 'administrator/index.php?option=com_weblinks',
 			'Links'					=> 'administrator/index.php?option=com_weblinks',

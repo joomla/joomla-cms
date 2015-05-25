@@ -18,35 +18,6 @@ defined('_JEXEC') or die;
  */
 class SearchHelper
 {
-	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string	The name of the active view.
-	 * @since   1.6
-	 */
-	public static function addSubmenu($vName)
-	{
-		// Not required.
-	}
-
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @return  JObject
-	 *
-	 * @deprecated  3.2  Use JHelperContent::getActions() instead
-	 */
-	public static function getActions()
-	{
-		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
-
-		// Get list of actions
-		$result = JHelperContent::getActions('com_search');
-
-		return $result;
-	}
-
 	public static function santiseSearchWord(&$searchword, $searchphrase)
 	{
 		$ignored = false;
@@ -129,13 +100,12 @@ class SearchHelper
 	 * @return  void
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JSearchHelper::logSearch() instead
+	 * @deprecated
 	 */
 	public static function logSearch($search_term)
 	{
-		JLog::add(__METHOD__ . '() is deprecated, use JSearchHelper::logSearch() instead.', JLog::WARNING, 'deprecated');
+		JLog::add(__METHOD__ . '() is deprecated', JLog::WARNING, 'deprecated');
 
-		JSearchHelper::logSearch($search_term, 'com_search');
 	}
 
 	/**

@@ -85,9 +85,6 @@ class FinderViewSearch extends JViewLegacy
 			}
 		}
 
-		// Log the search
-		JSearchHelper::logSearch($this->query->input, 'com_finder');
-
 		// Push out the query data.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 		$this->suggested = JHtml::_('query.suggested', $query);
