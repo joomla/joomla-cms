@@ -170,16 +170,6 @@
 			<value>{&quot;core.admin&quot;:{&quot;7&quot;:1},&quot;core.manage&quot;:[],&quot;core.create&quot;:[],&quot;core.delete&quot;:[],&quot;core.edit&quot;:[],&quot;core.edit.state&quot;:[]}</value>
 		</row>
 		<row>
-			<value>19</value>
-			<value>1</value>
-			<value>54</value>
-			<value>57</value>
-			<value>1</value>
-			<value>com_newsfeeds</value>
-			<value>com_newsfeeds</value>
-			<value>{&quot;core.admin&quot;:{&quot;7&quot;:1},&quot;core.manage&quot;:{&quot;6&quot;:1},&quot;core.create&quot;:[],&quot;core.delete&quot;:[],&quot;core.edit&quot;:[],&quot;core.edit.state&quot;:[]}</value>
-		</row>
-		<row>
 			<value>20</value>
 			<value>1</value>
 			<value>58</value>
@@ -642,25 +632,6 @@
 			<value>Module Manager</value>
 			<value>component</value>
 			<value>com_modules</value>
-			<value></value>
-			<value>1</value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>17</value>
-			<value>Newsfeeds</value>
-			<value>component</value>
-			<value>com_newsfeeds</value>
 			<value></value>
 			<value>1</value>
 			<value>1</value>
@@ -1873,44 +1844,6 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>84</value>
-			<value>Search - Newsfeeds</value>
-			<value>plugin</value>
-			<value>newsfeeds</value>
-			<value>search</value>
-			<value>0</value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value></value>
-			<value>{&quot;search_limit&quot;:&quot;50&quot;}</value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>85</value>
-			<value>Search - Weblinks</value>
-			<value>plugin</value>
-			<value>weblinks</value>
-			<value>search</value>
-			<value>0</value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value></value>
-			<value>{&quot;search_limit&quot;:&quot;50&quot;}</value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
 			<value>86</value>
 			<value>System - Cache</value>
 			<value>plugin</value>
@@ -2357,81 +2290,6 @@
 			<value></value>
 			<value>20</value>
 			<value>21</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>13</value>
-			<value>main</value>
-			<value>com_newsfeeds</value>
-			<value>News Feeds</value>
-			<value>News Feeds</value>
-			<value>index.php?option=com_newsfeeds</value>
-			<value>component</value>
-			<value>0</value>
-			<value>1</value>
-			<value>1</value>
-			<value>17</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-			<value>class:newsfeeds</value>
-			<value>0</value>
-			<value></value>
-			<value>23</value>
-			<value>28</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>14</value>
-			<value>main</value>
-			<value>com_newsfeeds_feeds</value>
-			<value>Feeds</value>
-			<value>News Feeds/Feeds</value>
-			<value>index.php?option=com_newsfeeds</value>
-			<value>component</value>
-			<value>0</value>
-			<value>13</value>
-			<value>2</value>
-			<value>17</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-			<value>class:newsfeeds</value>
-			<value>0</value>
-			<value></value>
-			<value>24</value>
-			<value>25</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>15</value>
-			<value>main</value>
-			<value>com_newsfeeds_categories</value>
-			<value>Categories</value>
-			<value>News Feeds/Categories</value>
-			<value>index.php?option=com_categories&amp;extension=com_newsfeeds</value>
-			<value>component</value>
-			<value>0</value>
-			<value>13</value>
-			<value>2</value>
-			<value>6</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-			<value>class:newsfeeds-cat</value>
-			<value>0</value>
-			<value></value>
-			<value>26</value>
-			<value>27</value>
 			<value>0</value>
 			<value>1</value>
 		</row>
@@ -2990,34 +2848,6 @@ separator=
 			<value>19</value>
 			<value>0</value>
 		</row>
-	</table>
-	<table name="jos_newsfeeds">
-		<column>catid</column>
-		<column>id</column>
-		<column>name</column>
-		<column>alias</column>
-		<column>link</column>
-		<column>filename</column>
-		<column>published</column>
-		<column>numarticles</column>
-		<column>cache_time</column>
-		<column>checked_out</column>
-		<column>checked_out_time</column>
-		<column>ordering</column>
-		<column>rtl</column>
-		<column>access</column>
-		<column>language</column>
-		<column>params</column>
-	</table>
-	<table name="jos_redirect_links">
-		<column>id</column>
-		<column>old_url</column>
-		<column>new_url</column>
-		<column>referer</column>
-		<column>comment</column>
-		<column>published</column>
-		<column>created_date</column>
-		<column>updated_date</column>
 	</table>
 	<table name="jos_schemas">
 		<column>extension_id</column>

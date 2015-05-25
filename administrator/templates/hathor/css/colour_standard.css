@@ -1363,18 +1363,6 @@ a img.calendar {
 .icon-48-finder {
 	background-image: url(../images/header/icon-48-search.png);
 }
-.icon-48-newsfeeds {
-	background-image: url(../images/header/icon-48-newsfeeds.png);
-}
-.icon-48-newsfeeds-categories {
-	background-image: url(../images/header/icon-48-newsfeeds-cat.png);
-}
-.icon-48-newsfeeds-category-edit {
-	background-image: url(../images/header/icon-48-newsfeeds-cat.png);
-}
-.icon-48-newsfeeds-category-add {
-	background-image: url(../images/header/icon-48-category-add.png);
-}
 .icon-48-tags {
 	background-image: url(../images/header/icon-48-tags.png);
 }
