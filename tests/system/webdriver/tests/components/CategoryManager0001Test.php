@@ -41,7 +41,6 @@ class CategoryManager0001Test extends JoomlaWebdriverTestCase
 	{
 		parent::setUp();
 		$cpPage = $this->doAdminLogin();
-		$this->categoryManagerPage = $cpPage->clickMenuByUrl('com_categories&extension=com_contact', 'CategoryManagerPage');
 	}
 
 	/**

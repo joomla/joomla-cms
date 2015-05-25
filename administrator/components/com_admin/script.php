@@ -172,7 +172,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'gmail', 'authentication', 0);
 		$extensions[] = array('plugin', 'joomla', 'authentication', 0);
 		$extensions[] = array('plugin', 'ldap', 'authentication', 0);
-		$extensions[] = array('plugin', 'contact', 'content', 0);
 		$extensions[] = array('plugin', 'emailcloak', 'content', 0);
 		$extensions[] = array('plugin', 'loadmodule', 'content', 0);
 		$extensions[] = array('plugin', 'pagebreak', 'content', 0);
@@ -186,7 +185,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'pagebreak', 'editors-xtd', 0);
 		$extensions[] = array('plugin', 'readmore', 'editors-xtd', 0);
 		$extensions[] = array('plugin', 'categories', 'search', 0);
-		$extensions[] = array('plugin', 'contacts', 'search', 0);
 		$extensions[] = array('plugin', 'content', 'search', 0);
 		$extensions[] = array('plugin', 'newsfeeds', 'search', 0);
 		$extensions[] = array('plugin', 'tags', 'search', 0);
@@ -198,7 +196,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'remember', 'system', 0);
 		$extensions[] = array('plugin', 'sef', 'system', 0);
 		$extensions[] = array('plugin', 'logout', 'system', 0);
-		$extensions[] = array('plugin', 'contactcreator', 'user', 0);
 		$extensions[] = array('plugin', 'joomla', 'user', 0);
 		$extensions[] = array('plugin', 'profile', 'user', 0);
 		$extensions[] = array('plugin', 'joomla', 'extension', 0);
@@ -208,7 +205,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'extensionupdate', 'quickicon', 0);
 		$extensions[] = array('plugin', 'recaptcha', 'captcha', 0);
 		$extensions[] = array('plugin', 'categories', 'finder', 0);
-		$extensions[] = array('plugin', 'contacts', 'finder', 0);
 		$extensions[] = array('plugin', 'content', 'finder', 0);
 		$extensions[] = array('plugin', 'newsfeeds', 'finder', 0);
 		$extensions[] = array('plugin', 'tags', 'finder', 0);

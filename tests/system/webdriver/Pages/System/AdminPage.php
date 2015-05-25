@@ -109,8 +109,6 @@ abstract class AdminPage
 			'Featured Articles'		=> 'administrator/index.php?option=com_content&view=featured',
 			'Media Manager'			=> 'administrator/index.php?option=com_media',
 			'Components'			=> 'administrator/index.php#',
-			'Contacts'				=> 'administrator/index.php?option=com_contact',
-			'Contacts Categories'	=> 'administrator/index.php?option=com_categories&extension=com_contact',
 			'Joomla! Update'		=> 'administrator/index.php?option=com_joomlaupdate',
 			'Messaging'				=> 'administrator/index.php?option=com_messages',
 			'New Private Message'	=> 'administrator/index.php?option=com_messages&task=message.add',
