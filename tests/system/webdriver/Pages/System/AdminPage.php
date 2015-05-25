@@ -110,7 +110,6 @@ abstract class AdminPage
 			'Media Manager'			=> 'administrator/index.php?option=com_media',
 			'Components'			=> 'administrator/index.php#',
 			'Joomla! Update'		=> 'administrator/index.php?option=com_joomlaupdate',
-	'Post-installation Messages'	=> 'administrator/index.php?option=com_postinstall',
 			'Search'				=> 'administrator/index.php?option=com_search',
 			'Smart Search'			=> 'administrator/index.php?option=com_finder',
 			'Weblinks'				=> 'administrator/index.php?option=com_weblinks',
