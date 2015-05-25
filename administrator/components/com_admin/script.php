@@ -163,7 +163,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'content', 'search', 0);
 		$extensions[] = array('plugin', 'tags', 'search', 0);
 		$extensions[] = array('plugin', 'languagefilter', 'system', 0);
-		$extensions[] = array('plugin', 'p3p', 'system', 0);
 		$extensions[] = array('plugin', 'cache', 'system', 0);
 		$extensions[] = array('plugin', 'debug', 'system', 0);
 		$extensions[] = array('plugin', 'log', 'system', 0);
