@@ -126,7 +126,6 @@ class PlgContentJoomla extends JPlugin
 
 		$tableInfo = array(
 			'com_content' => array('table_name' => '#__content'),
-			'com_newsfeeds' => array('table_name' => '#__newsfeeds'),
 		);
 
 		// Now check to see if this is a known core extension

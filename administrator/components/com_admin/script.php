@@ -106,7 +106,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_menus', '', 1);
 		$extensions[] = array('component', 'com_messages', '', 1);
 		$extensions[] = array('component', 'com_modules', '', 1);
-		$extensions[] = array('component', 'com_newsfeeds', '', 1);
 		$extensions[] = array('component', 'com_plugins', '', 1);
 		$extensions[] = array('component', 'com_search', '', 1);
 		$extensions[] = array('component', 'com_templates', '', 1);
@@ -133,7 +132,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('module', 'mod_articles_popular', '', 0);
 		$extensions[] = array('module', 'mod_breadcrumbs', '', 0);
 		$extensions[] = array('module', 'mod_custom', '', 0);
-		$extensions[] = array('module', 'mod_feed', '', 0);
 		$extensions[] = array('module', 'mod_footer', '', 0);
 		$extensions[] = array('module', 'mod_login', '', 0);
 		$extensions[] = array('module', 'mod_menu', '', 0);
@@ -154,7 +152,6 @@ class JoomlaInstallerScript
 
 		// Administrator
 		$extensions[] = array('module', 'mod_custom', '', 1);
-		$extensions[] = array('module', 'mod_feed', '', 1);
 		$extensions[] = array('module', 'mod_latest', '', 1);
 		$extensions[] = array('module', 'mod_logged', '', 1);
 		$extensions[] = array('module', 'mod_login', '', 1);
@@ -186,7 +183,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'readmore', 'editors-xtd', 0);
 		$extensions[] = array('plugin', 'categories', 'search', 0);
 		$extensions[] = array('plugin', 'content', 'search', 0);
-		$extensions[] = array('plugin', 'newsfeeds', 'search', 0);
 		$extensions[] = array('plugin', 'tags', 'search', 0);
 		$extensions[] = array('plugin', 'languagefilter', 'system', 0);
 		$extensions[] = array('plugin', 'p3p', 'system', 0);
@@ -206,7 +202,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'recaptcha', 'captcha', 0);
 		$extensions[] = array('plugin', 'categories', 'finder', 0);
 		$extensions[] = array('plugin', 'content', 'finder', 0);
-		$extensions[] = array('plugin', 'newsfeeds', 'finder', 0);
 		$extensions[] = array('plugin', 'tags', 'finder', 0);
 		$extensions[] = array('plugin', 'totp', 'twofactorauth', 0);
 
@@ -360,8 +355,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_modules/models/fields/index.html',
 			'/administrator/components/com_modules/models/fields/moduleorder.php',
 			'/administrator/components/com_modules/models/fields/moduleposition.php',
-			'/administrator/components/com_newsfeeds/elements/index.html',
-			'/administrator/components/com_newsfeeds/elements/newsfeed.php',
 			'/administrator/components/com_templates/views/prevuuw/index.html',
 			'/administrator/components/com_templates/views/prevuuw/tmpl/default.php',
 			'/administrator/components/com_templates/views/prevuuw/tmpl/index.html',
@@ -630,7 +623,6 @@ class JoomlaInstallerScript
 			'/media/system/swf/index.html',
 			'/media/system/swf/uploader.swf',
 			// Joomla! 3.2
-			'/administrator/components/com_newsfeeds/models/fields/modal/newsfeeds.php',
 			'/libraries/idna_convert/example.php',
 			'/media/editors/tinymce/jscripts/tiny_mce/index.html',
 			'/media/editors/tinymce/jscripts/tiny_mce/license.txt',
@@ -941,7 +933,6 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/form_utils.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/mctabs.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/validate.js',
-			'/administrator/components/com_newsfeeds/models/fields/ordering.php',
 			'/administrator/components/com_plugins/models/fields/ordering.php',
 			'/administrator/includes/application.php',
 			'/includes/application.php',
@@ -1010,7 +1001,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_installer/models/fields',
 			'/administrator/components/com_installer/models/forms',
 			'/administrator/components/com_modules/models/fields',
-			'/administrator/components/com_newsfeeds/elements',
 			'/administrator/components/com_templates/views/prevuuw/tmpl',
 			'/administrator/components/com_templates/views/prevuuw',
 			'/libraries/cms/controller',
