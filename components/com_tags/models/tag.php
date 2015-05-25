@@ -216,7 +216,7 @@ class TagsModelTag extends JModelList
 				$limit = $params->get('display_num', $app->get('list_limit', 20));
 				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $limit, 'uint');
 			}
-			
+
 			// If limit box is set to Hide use setting Selection Options > Maximum Items.
 			else
 			{
