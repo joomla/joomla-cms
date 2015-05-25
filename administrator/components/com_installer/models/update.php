@@ -165,27 +165,7 @@ class InstallerModelUpdate extends JModelList
 	 */
 	public function purge()
 	{
-		$db = JFactory::getDbo();
-
-		// Note: TRUNCATE is a DDL operation
-		// This may or may not mean depending on your database
-		$db->setQuery('TRUNCATE TABLE #__updates');
-		if ($db->execute())
-		{
-			// Reset the last update check timestamp
-			$query = $db->getQuery(true)
-				->update($db->quoteName('#__update_sites'))
-				->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
-			$db->setQuery($query);
-			$db->execute();
-			$this->_message = JText::_('COM_INSTALLER_PURGED_UPDATES');
-			return true;
-		}
-		else
-		{
-			$this->_message = JText::_('COM_INSTALLER_FAILED_TO_PURGE_UPDATES');
-			return false;
-		}
+		return true;
 	}
 
 	/**
@@ -197,25 +177,7 @@ class InstallerModelUpdate extends JModelList
 	 */
 	public function enableSites()
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->update('#__update_sites')
-			->set('enabled = 1')
-			->where('enabled = 0');
-		$db->setQuery($query);
-		if ($db->execute())
-		{
-			if ($rows = $db->getAffectedRows())
-			{
-				$this->_message .= JText::plural('COM_INSTALLER_ENABLED_UPDATES', $rows);
-			}
-			return true;
-		}
-		else
-		{
-			$this->_message .= JText::_('COM_INSTALLER_FAILED_TO_ENABLE_UPDATES');
-			return false;
-		}
+		return true;
 	}
 
 	/**

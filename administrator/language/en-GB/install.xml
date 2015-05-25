@@ -33,8 +33,6 @@
 		<filename>en-GB.com_finder.sys.ini</filename>
 		<filename>en-GB.com_installer.ini</filename>
 		<filename>en-GB.com_installer.sys.ini</filename>
-		<filename>en-GB.com_joomlaupdate.ini</filename>
-		<filename>en-GB.com_joomlaupdate.sys.ini</filename>
 		<filename>en-GB.com_languages.ini</filename>
 		<filename>en-GB.com_languages.sys.ini</filename>
 		<filename>en-GB.com_login.ini</filename>
@@ -139,10 +137,6 @@
 		<filename>en-GB.plg_finder_tags.sys.ini</filename>
 		<filename>en-GB.plg_installer_webinstaller.ini</filename>
 		<filename>en-GB.plg_installer_webinstaller.sys.ini</filename>
-		<filename>en-GB.plg_quickicon_extensionupdate.ini</filename>
-		<filename>en-GB.plg_quickicon_extensionupdate.sys.ini</filename>
-		<filename>en-GB.plg_quickicon_joomlaupdate.ini</filename>
-		<filename>en-GB.plg_quickicon_joomlaupdate.sys.ini</filename>
 		<filename>en-GB.plg_search_categories.ini</filename>
 		<filename>en-GB.plg_search_categories.sys.ini</filename>
 		<filename>en-GB.plg_search_content.ini</filename>
