@@ -168,7 +168,8 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 			// Build the options array.
 			foreach ($items as $link)
 			{
-				$groups[$menuType][] = JHtml::_('select.option', $link->value, $link->text, 'value', 'text', in_array($link->type, $this->disable));
+				$level = str_repeat('- ', $link->level - 1);
+				$groups[$menuType][] = JHtml::_('select.option', $level . $link->value, $link->text, 'value', 'text', in_array($link->type, $this->disable));
 			}
 		}
 		// Build groups for all menu types.
@@ -183,8 +184,9 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 				// Build the options array.
 				foreach ($menu->links as $link)
 				{
+					$level = str_repeat('- ', $link->level - 1);
 					$groups[$menu->menutype][] = JHtml::_(
-						'select.option', $link->value, $link->text, 'value', 'text',
+						'select.option', $link->value, $level . $link->text, 'value', 'text',
 						in_array($link->type, $this->disable)
 					);
 				}
