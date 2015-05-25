@@ -160,7 +160,7 @@ Mongolian (mn-MN) - Mongolian Translation Team, Altansukh T.
 Norwegian Bokmål (nb-NO) - Joomla! i Norge - Rune Rasmussen, Roar Jystad, Jens-Christian Skibakk
 Norwegian Nynorsk (nn-NO) - Joomla! i Norge - Toyni Tobekk (based on nb-NO translations)
 Persian (fa-IR) - Persian Translation Team - Mohsen Firoozmandan, Joomla Farsi Team
-Polish (pl-PL) - Polskie Centrum Joomla! 
+Polish (pl-PL) - Polskie Centrum Joomla!
 Portuguese (pt-BR) - Joomla! Brasil
 Portuguese (pt-PT) - Comunidade Joomla! Portugal - Paulo Izidoro
 Romanian (ro-RO) - Romanian Joomla! Community - Horia Negura, Lavinia Negura
@@ -434,12 +434,6 @@ PHPXMLRPC
 ---------
 Author:		Edd Dumbill
 Copyright:	Copyright (C) 1999,2000,2002 Edd Dumbill
-License:	BSD License
-
-SimplePie
----------
-Author:		Ryan Parman and Geoffrey Sneddon
-Copyright:	Copyright (C) 2004-2007, Ryan Parman and Geoffrey Sneddon
 License:	BSD License
 
 TCPDF

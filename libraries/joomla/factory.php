@@ -358,22 +358,16 @@ abstract class JFactory
 	 * @param   string   $url         Url for feed source.
 	 * @param   integer  $cache_time  Time to cache feed for (using internal cache mechanism).
 	 *
-	 * @return  mixed  SimplePie parsed object on success, false on failure.
-	 *
 	 * @since   11.1
 	 * @throws  BadMethodCallException
-	 * @deprecated  4.0  Use directly JFeedFactory or supply SimplePie instead. Mehod will be proxied to JFeedFactory beginning in 3.2
+	 * @deprecated  Use directly JFeedFactory.
 	 */
 	public static function getFeedParser($url, $cache_time = 0)
 	{
 		if (!class_exists('JSimplepieFactory'))
 		{
-			throw new BadMethodCallException('JSimplepieFactory not found');
+			throw new BadMethodCallException(__METHOD__ . ' is deprecated.   Use JFeedFactory()');
 		}
-
-		JLog::add(__METHOD__ . ' is deprecated.   Use JFeedFactory() or supply SimplePie instead.', JLog::WARNING, 'deprecated');
-
-		return JSimplepieFactory::getFeedParser($url, $cache_time);
 	}
 
 	/**
