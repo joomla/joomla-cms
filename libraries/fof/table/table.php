@@ -2144,22 +2144,6 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 				self::$tableFieldCache[$tableName] = $fields[$name];
 			}
 
-			// PostgreSQL date type compatibility
-			if (($this->_db->name == 'postgresql') && (self::$tableFieldCache[$tableName] != false))
-			{
-				foreach (self::$tableFieldCache[$tableName] as $field)
-				{
-					if (strtolower($field->type) == 'timestamp without time zone')
-					{
-						if (stristr($field->Default, '\'::timestamp without time zone'))
-						{
-							list ($date, $junk) = explode('::', $field->Default, 2);
-							$field->Default = trim($date, "'");
-						}
-					}
-				}
-			}
-
 			// Save the data for this table into the cache
 			if ($useCache)
 			{

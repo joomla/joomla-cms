@@ -210,16 +210,6 @@
 			<value>{&quot;core.admin&quot;:{&quot;7&quot;:1},&quot;core.manage&quot;:[],&quot;core.create&quot;:[],&quot;core.delete&quot;:[],&quot;core.edit&quot;:[],&quot;core.edit.state&quot;:[]}</value>
 		</row>
 		<row>
-			<value>21</value>
-			<value>1</value>
-			<value>60</value>
-			<value>61</value>
-			<value>1</value>
-			<value>com_redirect</value>
-			<value>com_redirect</value>
-			<value>{&quot;core.admin&quot;:{&quot;7&quot;:1},&quot;core.manage&quot;:[]}</value>
-		</row>
-		<row>
 			<value>22</value>
 			<value>1</value>
 			<value>62</value>
@@ -2384,25 +2374,6 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>100</value>
-			<value>Redirect Manager</value>
-			<value>component</value>
-			<value>com_redirect</value>
-			<value></value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
 			<value>101</value>
 			<value>User Manager</value>
 			<value>component</value>
@@ -2877,31 +2848,6 @@
 			<value></value>
 			<value>26</value>
 			<value>27</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>16</value>
-			<value>main</value>
-			<value>com_redirect</value>
-			<value>Redirect</value>
-			<value>Redirect</value>
-			<value>index.php?option=com_redirect</value>
-			<value>component</value>
-			<value>0</value>
-			<value>1</value>
-			<value>1</value>
-			<value>100</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-			<value>class:redirect</value>
-			<value>0</value>
-			<value></value>
-			<value>37</value>
-			<value>38</value>
 			<value>0</value>
 			<value>1</value>
 		</row>
