@@ -42,19 +42,6 @@ if ($params->get('show_loggedin_users_admin', 1))
 		. '</div>';
 }
 
-//  Print the inbox message.
-if ($params->get('show_messages', 1))
-{
-	$active = $unread ? ' badge-warning' : '';
-	$output[] = '<div class="btn-group hasTooltip ' . $inboxClass . '"'
-		. ' title="' . JText::plural('MOD_STATUS_MESSAGES', $unread) . '">'
-		. ($hideLinks ? '' : '<a href="' . $inboxLink . '">')
-		. '<i class="icon-envelope"></i> '
-		. '<span class="badge' . $active . '">' . $unread . '</span>'
-		. ($hideLinks ? '' : '</a>')
-		. '<div class="btn-group divider"></div>'
-		. '</div>';
-}
 
 // Print the logout link.
 if ($task == 'edit' || $task == 'editA' || $input->getInt('hidemainmenu'))

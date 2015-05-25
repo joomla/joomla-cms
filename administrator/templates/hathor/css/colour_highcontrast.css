@@ -139,10 +139,6 @@ a:hover,a:focus {
 	background: url(../images/menu/icon-16-viewsite.png) 3px 3px no-repeat;
 }
 
-#module-status .unread-messages,#module-status .no-unread-messages {
-	background: url(../images/menu/icon-16-messages.png) 3px 3px no-repeat;
-}
-
 #module-status .loggedin-users {
 	background: url(../images/menu/icon-16-user.png) 3px 3px no-repeat;
 }
@@ -969,18 +965,6 @@ a img.calendar {
 
 .icon-16-menumgr {
 	background-image: url(../images/menu/icon-16-menumgr.png);
-}
-
-.icon-16-messages {
-	background-image: url(../images/menu/icon-16-messaging.png);
-}
-
-.icon-16-messages-add {
-	background-image: url(../images/menu/icon-16-new-privatemessage.png);
-}
-
-.icon-16-messages-read {
-	background-image: url(../images/menu/icon-16-messages.png);
 }
 
 .icon-16-module {

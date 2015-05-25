@@ -1040,9 +1040,6 @@ p.warning {
 #module-status div.divider {
 	display: none;
 }
-#module-status .unread-messages a {
-	font-weight: bold;
-}
 .title-ua {
 	position: relative;
 	width: 60%;
@@ -3085,15 +3082,6 @@ ul.helpmenu li {
 }
 .menu-menumgr {
 	background-image: url(../images/menu/icon-16-menumgr.png);
-}
-.menu-messages {
-	background-image: url(../images/menu/icon-16-messaging.png);
-}
-.menu-messages-add {
-	background-image: url(../images/menu/icon-16-new-privatemessage.png);
-}
-.menu-messages-read {
-	background-image: url(../images/menu/icon-16-messages.png);
 }
 .menu-module {
 	background-image: url(../images/menu/icon-16-module.png);
