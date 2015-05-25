@@ -2993,18 +2993,6 @@ ul.helpmenu li {
 .menu-article {
 	background-image: url(../images/menu/icon-16-article.png);
 }
-.menu-banners {
-	background-image: url(../images/menu/icon-16-banner.png);
-}
-.menu-banners-clients {
-	background-image: url(../images/menu/icon-16-banner-client.png);
-}
-.menu-banners-tracks {
-	background-image: url(../images/menu/icon-16-banner-tracks.png);
-}
-.menu-banners-cat {
-	background-image: url(../images/menu/icon-16-banner-categories.png);
-}
 .menu-category {
 	background-image: url(../images/menu/icon-16-category.png);
 }
