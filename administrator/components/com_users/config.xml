@@ -172,11 +172,11 @@
 			default="0">
 			</field>
 	</fieldset>
-	
+
 	<fieldset
 		name="user_notes_history"
 		label="COM_USERS_CONFIG_FIELD_NOTES_HISTORY" >
-		
+
 			<field
 			name="save_history"
 			type="radio"
@@ -188,7 +188,7 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-		
+
 		<field
 			name="history_limit"
 			type="text"
@@ -197,29 +197,6 @@
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			default="5"
 		/>
-	</fieldset>
-
- 	<fieldset
-		name="massmail"
-		label="COM_USERS_MASS_MAIL"
-		description="COM_USERS_MASS_MAIL_DESC">
-
-		<field
- 			name="mailSubjectPrefix"
- 			type="text"
-			label="COM_USERS_CONFIG_FIELD_SUBJECT_PREFIX_LABEL"
-			description="COM_USERS_CONFIG_FIELD_SUBJECT_PREFIX_DESC"
-		/>
-
- 		<field
- 			name="mailBodySuffix"
-			type="textarea"
- 			rows="5"
- 			cols="30"
-			label="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_LABEL"
-			description="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_DESC"
-		/>
-
 	</fieldset>
 
 	<fieldset
