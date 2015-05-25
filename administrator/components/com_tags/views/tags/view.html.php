@@ -132,7 +132,7 @@ class TagsViewTags extends JViewLegacy
 			JToolbarHelper::trash('tags.trash');
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_tags');
 		}
