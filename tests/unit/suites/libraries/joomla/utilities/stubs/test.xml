@@ -110,16 +110,6 @@
 			<value>{}</value>
 		</row>
 		<row>
-			<value>13</value>
-			<value>1</value>
-			<value>42</value>
-			<value>43</value>
-			<value>1</value>
-			<value>com_mailto</value>
-			<value>com_mailto</value>
-			<value>{}</value>
-		</row>
-		<row>
 			<value>14</value>
 			<value>1</value>
 			<value>44</value>
@@ -350,25 +340,6 @@
 		<column>checked_out_time</column>
 		<column>ordering</column>
 		<column>state</column>
-		<row>
-			<value>1</value>
-			<value>MailTo</value>
-			<value>component</value>
-			<value>com_mailto</value>
-			<value></value>
-			<value>0</value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
 		<row>
 			<value>3</value>
 			<value>Admin</value>

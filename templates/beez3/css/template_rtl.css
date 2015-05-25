@@ -176,17 +176,6 @@ a.readmore a:hover, a.readmore a:active, a.readmore a:focus
 	background: url(../images/nature/arrow2_rtl.gif) no-repeat right 6px #555 !important;
 }
 
-.mailto-close {
-	left: 5px !important;
-	right: auto !important;
-}
-
-* html .mailto-close {
-	left: 0;
-	position: absolute;
-	right: 340px !important
-}
-
 /* personal.css overrides */
 
 .panel h3.pane-toggler a
