@@ -95,11 +95,9 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_wrapper', '', 0);
 		$extensions[] = array('component', 'com_admin', '', 1);
 		$extensions[] = array('component', 'com_ajax', '', 1);
-		$extensions[] = array('component', 'com_banners', '', 1);
 		$extensions[] = array('component', 'com_cache', '', 1);
 		$extensions[] = array('component', 'com_categories', '', 1);
 		$extensions[] = array('component', 'com_checkin', '', 1);
-		$extensions[] = array('component', 'com_contact', '', 1);
 		$extensions[] = array('component', 'com_cpanel', '', 1);
 		$extensions[] = array('component', 'com_installer', '', 1);
 		$extensions[] = array('component', 'com_languages', '', 1);
@@ -107,13 +105,11 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_media', '', 1);
 		$extensions[] = array('component', 'com_menus', '', 1);
 		$extensions[] = array('component', 'com_modules', '', 1);
-		$extensions[] = array('component', 'com_newsfeeds', '', 1);
 		$extensions[] = array('component', 'com_plugins', '', 1);
 		$extensions[] = array('component', 'com_search', '', 1);
 		$extensions[] = array('component', 'com_templates', '', 1);
 		$extensions[] = array('component', 'com_content', '', 1);
 		$extensions[] = array('component', 'com_config', '', 1);
-		$extensions[] = array('component', 'com_redirect', '', 1);
 		$extensions[] = array('component', 'com_users', '', 1);
 		$extensions[] = array('component', 'com_tags', '', 1);
 		$extensions[] = array('component', 'com_contenthistory', '', 1);
@@ -133,10 +129,8 @@ class JoomlaInstallerScript
 		$extensions[] = array('module', 'mod_articles_archive', '', 0);
 		$extensions[] = array('module', 'mod_articles_latest', '', 0);
 		$extensions[] = array('module', 'mod_articles_popular', '', 0);
-		$extensions[] = array('module', 'mod_banners', '', 0);
 		$extensions[] = array('module', 'mod_breadcrumbs', '', 0);
 		$extensions[] = array('module', 'mod_custom', '', 0);
-		$extensions[] = array('module', 'mod_feed', '', 0);
 		$extensions[] = array('module', 'mod_footer', '', 0);
 		$extensions[] = array('module', 'mod_login', '', 0);
 		$extensions[] = array('module', 'mod_menu', '', 0);
@@ -157,7 +151,6 @@ class JoomlaInstallerScript
 
 		// Administrator
 		$extensions[] = array('module', 'mod_custom', '', 1);
-		$extensions[] = array('module', 'mod_feed', '', 1);
 		$extensions[] = array('module', 'mod_latest', '', 1);
 		$extensions[] = array('module', 'mod_logged', '', 1);
 		$extensions[] = array('module', 'mod_login', '', 1);
@@ -175,7 +168,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'gmail', 'authentication', 0);
 		$extensions[] = array('plugin', 'joomla', 'authentication', 0);
 		$extensions[] = array('plugin', 'ldap', 'authentication', 0);
-		$extensions[] = array('plugin', 'contact', 'content', 0);
 		$extensions[] = array('plugin', 'emailcloak', 'content', 0);
 		$extensions[] = array('plugin', 'loadmodule', 'content', 0);
 		$extensions[] = array('plugin', 'pagebreak', 'content', 0);
@@ -189,20 +181,16 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'pagebreak', 'editors-xtd', 0);
 		$extensions[] = array('plugin', 'readmore', 'editors-xtd', 0);
 		$extensions[] = array('plugin', 'categories', 'search', 0);
-		$extensions[] = array('plugin', 'contacts', 'search', 0);
 		$extensions[] = array('plugin', 'content', 'search', 0);
-		$extensions[] = array('plugin', 'newsfeeds', 'search', 0);
 		$extensions[] = array('plugin', 'tags', 'search', 0);
 		$extensions[] = array('plugin', 'languagefilter', 'system', 0);
 		$extensions[] = array('plugin', 'p3p', 'system', 0);
 		$extensions[] = array('plugin', 'cache', 'system', 0);
 		$extensions[] = array('plugin', 'debug', 'system', 0);
 		$extensions[] = array('plugin', 'log', 'system', 0);
-		$extensions[] = array('plugin', 'redirect', 'system', 0);
 		$extensions[] = array('plugin', 'remember', 'system', 0);
 		$extensions[] = array('plugin', 'sef', 'system', 0);
 		$extensions[] = array('plugin', 'logout', 'system', 0);
-		$extensions[] = array('plugin', 'contactcreator', 'user', 0);
 		$extensions[] = array('plugin', 'joomla', 'user', 0);
 		$extensions[] = array('plugin', 'profile', 'user', 0);
 		$extensions[] = array('plugin', 'joomla', 'extension', 0);
@@ -212,9 +200,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'extensionupdate', 'quickicon', 0);
 		$extensions[] = array('plugin', 'recaptcha', 'captcha', 0);
 		$extensions[] = array('plugin', 'categories', 'finder', 0);
-		$extensions[] = array('plugin', 'contacts', 'finder', 0);
 		$extensions[] = array('plugin', 'content', 'finder', 0);
-		$extensions[] = array('plugin', 'newsfeeds', 'finder', 0);
 		$extensions[] = array('plugin', 'tags', 'finder', 0);
 		$extensions[] = array('plugin', 'totp', 'twofactorauth', 0);
 
@@ -285,9 +271,6 @@ class JoomlaInstallerScript
 			'/libraries/joomla/form/fields/menu.php',
 			'/libraries/joomla/form/fields/helpsite.php',
 			'/administrator/components/com_admin/sql/updates/mysql/1.7.0.sql',
-			'/administrator/components/com_admin/sql/updates/sqlsrv/2.5.2-2012-03-05.sql',
-			'/administrator/components/com_admin/sql/updates/sqlsrv/2.5.3-2012-03-13.sql',
-			'/administrator/components/com_admin/sql/updates/sqlsrv/index.html',
 			'/administrator/components/com_users/controllers/config.php',
 			'/administrator/language/en-GB/en-GB.plg_system_finder.ini',
 			'/administrator/language/en-GB/en-GB.plg_system_finder.sys.ini',
@@ -354,8 +337,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/views/sysinfo/tmpl/default_navigation.php',
 			'/administrator/components/com_categories/config.xml',
 			'/administrator/components/com_categories/helpers/categoriesadministrator.php',
-			'/administrator/components/com_contact/elements/contact.php',
-			'/administrator/components/com_contact/elements/index.html',
 			'/administrator/components/com_content/elements/article.php',
 			'/administrator/components/com_content/elements/author.php',
 			'/administrator/components/com_content/elements/index.html',
@@ -373,8 +354,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_modules/models/fields/index.html',
 			'/administrator/components/com_modules/models/fields/moduleorder.php',
 			'/administrator/components/com_modules/models/fields/moduleposition.php',
-			'/administrator/components/com_newsfeeds/elements/index.html',
-			'/administrator/components/com_newsfeeds/elements/newsfeed.php',
 			'/administrator/components/com_templates/views/prevuuw/index.html',
 			'/administrator/components/com_templates/views/prevuuw/tmpl/default.php',
 			'/administrator/components/com_templates/views/prevuuw/tmpl/index.html',
@@ -398,8 +377,6 @@ class JoomlaInstallerScript
 			'/libraries/cms/model/index.html',
 			'/libraries/cms/model/legacy.php',
 			'/libraries/cms/schema/changeitemmysql.php',
-			'/libraries/cms/schema/changeitemsqlazure.php',
-			'/libraries/cms/schema/changeitemsqlsrv.php',
 			'/libraries/cms/view/index.html',
 			'/libraries/cms/view/legacy.php',
 			'/libraries/joomla/application/application.php',
@@ -445,10 +422,6 @@ class JoomlaInstallerScript
 			'/libraries/joomla/database/database/mysqlimporter.php',
 			'/libraries/joomla/database/database/mysqliquery.php',
 			'/libraries/joomla/database/database/mysqlquery.php',
-			'/libraries/joomla/database/database/sqlazure.php',
-			'/libraries/joomla/database/database/sqlazurequery.php',
-			'/libraries/joomla/database/database/sqlsrv.php',
-			'/libraries/joomla/database/database/sqlsrvquery.php',
 			'/libraries/joomla/database/exception.php',
 			'/libraries/joomla/database/table.php',
 			'/libraries/joomla/database/table/asset.php',
@@ -649,8 +622,6 @@ class JoomlaInstallerScript
 			'/media/system/swf/index.html',
 			'/media/system/swf/uploader.swf',
 			// Joomla! 3.2
-			'/administrator/components/com_contact/models/fields/modal/contacts.php',
-			'/administrator/components/com_newsfeeds/models/fields/modal/newsfeeds.php',
 			'/libraries/idna_convert/example.php',
 			'/media/editors/tinymce/jscripts/tiny_mce/index.html',
 			'/media/editors/tinymce/jscripts/tiny_mce/license.txt',
@@ -961,9 +932,6 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/form_utils.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/mctabs.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/validate.js',
-			'/administrator/components/com_banners/models/fields/ordering.php',
-			'/administrator/components/com_contact/models/fields/ordering.php',
-			'/administrator/components/com_newsfeeds/models/fields/ordering.php',
 			'/administrator/components/com_plugins/models/fields/ordering.php',
 			'/administrator/includes/application.php',
 			'/includes/application.php',
@@ -1024,17 +992,14 @@ class JoomlaInstallerScript
 
 		// TODO There is an issue while deleting folders using the ftp mode
 		$folders = array(
-			'/administrator/components/com_admin/sql/updates/sqlsrv',
 			'/media/com_finder/images/mime',
 			'/media/com_finder/images',
 			'/components/com_media/helpers',
 			// Joomla 3.0
-			'/administrator/components/com_contact/elements',
 			'/administrator/components/com_content/elements',
 			'/administrator/components/com_installer/models/fields',
 			'/administrator/components/com_installer/models/forms',
 			'/administrator/components/com_modules/models/fields',
-			'/administrator/components/com_newsfeeds/elements',
 			'/administrator/components/com_templates/views/prevuuw/tmpl',
 			'/administrator/components/com_templates/views/prevuuw',
 			'/libraries/cms/controller',

@@ -129,7 +129,7 @@ class MenuItemEditPage extends AdminEditPage
 		{
 			$result = $this->getMenuItemType($label);
 		}
-		elseif (in_array(strtolower($label), array('article', 'contact', 'newsfeed', 'weblink')))
+		elseif (in_array(strtolower($label), array('article', 'newsfeed')))
 		{
 			$result = $this->getRequestVariable($label);
 		}

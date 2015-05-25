@@ -242,13 +242,6 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// PostgreSQL database older than version 9.0.0 needs to run 'CREATE LANGUAGE' to create function.
-		if (($options->db_type == 'postgresql') && (version_compare($db_version, '9.0.0', '<')))
-		{
-			$db->setQuery("CREATE LANGUAGE plpgsql");
-			$db->execute();
-		}
-
 		// Get database's UTF support
 		$utfSupport = $db->hasUTFSupport();
 
@@ -381,10 +374,6 @@ class InstallationModelDatabase extends JModelBase
 		{
 			$schema = 'sql/mysql/joomla.sql';
 		}
-		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
-		{
-			$schema = 'sql/sqlazure/joomla.sql';
-		}
 		else
 		{
 			$schema = 'sql/' . $type . '/joomla.sql';
@@ -409,10 +398,6 @@ class InstallationModelDatabase extends JModelBase
 		if ($type == 'mysqli' || $type == 'mysql')
 		{
 			$pathPart .= 'mysql/';
-		}
-		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
-		{
-			$pathPart .= 'sqlazure/';
 		}
 		else
 		{
@@ -489,10 +474,6 @@ class InstallationModelDatabase extends JModelBase
 		if ($type == 'mysqli' || $type == 'mysql')
 		{
 			$dblocalise = 'sql/mysql/localise.sql';
-		}
-		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
-		{
-			$dblocalise = 'sql/sqlazure/localise.sql';
 		}
 		else
 		{
@@ -587,10 +568,6 @@ class InstallationModelDatabase extends JModelBase
 		{
 			$type = 'mysql';
 		}
-		elseif ($type == 'sqlsrv')
-		{
-			$type = 'sqlazure';
-		}
 
 		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $options->sample_file;
 
@@ -631,9 +608,7 @@ class InstallationModelDatabase extends JModelBase
 		// categories (created_user_id), contact_details, content, newsfeeds
 		$updates_array = array(
 			'categories' => 'created_user_id',
-			'contact_details' => 'created_by',
 			'content' => 'created_by',
-			'newsfeeds' => 'created_by',
 			'tags' => 'created_user_id',
 			'ucm_content' => 'core_created_user_id',
 			'ucm_history' => 'editor_user_id',

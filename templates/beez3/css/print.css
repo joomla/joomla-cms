@@ -70,11 +70,6 @@ address
 	font-style:normal
 }
 
-.contact-address address span
-{
-	display:block
-}
-
 a
 {
       font-weight: bold;
@@ -370,18 +365,6 @@ ul.tabs li.tab a
 .tabcontent
 {
   padding:10pt
-}
-
-.contact-email div
-{
-	overflow:hidden
-}
-
-.contact-email label
-{
-	border:solid 0px #000;
-	float:left;
-	width:10em
 }
 
 .login div
