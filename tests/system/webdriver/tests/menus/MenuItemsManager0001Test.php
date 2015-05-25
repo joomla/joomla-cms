@@ -127,34 +127,6 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * @test
 	 */
-	public function addMenuItem_SingleContact_MenuAdded()
-	{
-		$salt = rand();
-		$title = 'Menu Item ' . $salt;
-		$menuType = 'Single Contact';
-		$itemName = 'Bananas';
-		$menuLocation = 'About Joomla';
-		$this->menuItemsManagerPage->setFilter('Menu', $menuLocation);
-		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($title), 'Test menu should not be present');
-		$this->menuItemsManagerPage->addMenuItem($title, $menuType, $menuLocation, array('contact' => $itemName));
-		$message = $this->menuItemsManagerPage->getAlertMessage();
-		$this->assertContains('Menu item successfully saved', $message, 'Menu save should return success', true);
-		$this->menuItemsManagerPage->setFilter('Menu', 'About Joomla');
-		$this->menuItemsManagerPage->searchFor($title);
-		$this->assertTrue($this->menuItemsManagerPage->getRowNumber($title) > 0, 'Test menu should be on the page');
-		$this->menuItemsManagerPage->searchFor();
-		$actualValues = $this->menuItemsManagerPage->getFieldValues('MenuItemEditPage', $title, array('Menu Title', 'Menu Item Type', 'contact'));
-		$expectedValues = array ($title, $menuType, $itemName);
-		$this->assertEquals($expectedValues, $actualValues, 'Actual values should match entered values');
-		$this->menuItemsManagerPage->trashAndDelete($title);
-		$this->menuItemsManagerPage->searchFor($title);
-		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($title), 'Test menu should not be present');
-		$this->menuItemsManagerPage->searchFor();
-	}
-
-	/**
-	 * @test
-	 */
 	public function addMenuItem_CategoryBlog_MenuAdded()
 	{
 		$salt = rand();
