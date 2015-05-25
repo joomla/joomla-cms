@@ -123,7 +123,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('module', 'mod_random_image', '', 0);
 		$extensions[] = array('module', 'mod_related_items', '', 0);
 		$extensions[] = array('module', 'mod_search', '', 0);
-		$extensions[] = array('module', 'mod_stats', '', 0);
 		$extensions[] = array('module', 'mod_users_latest', '', 0);
 		$extensions[] = array('module', 'mod_articles_category', '', 0);
 		$extensions[] = array('module', 'mod_articles_categories', '', 0);
@@ -139,7 +138,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('module', 'mod_menu', '', 1);
 		$extensions[] = array('module', 'mod_popular', '', 1);
 		$extensions[] = array('module', 'mod_quickicon', '', 1);
-		$extensions[] = array('module', 'mod_stats_admin', '', 1);
 		$extensions[] = array('module', 'mod_status', '', 1);
 		$extensions[] = array('module', 'mod_submenu', '', 1);
 		$extensions[] = array('module', 'mod_title', '', 1);
