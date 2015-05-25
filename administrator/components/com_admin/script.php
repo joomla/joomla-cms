@@ -82,7 +82,6 @@ class JoomlaInstallerScript
 		// Components
 		// `type`, `element`, `folder`, `client_id`
 		$extensions[] = array('component', 'com_admin', '', 1);
-		$extensions[] = array('component', 'com_ajax', '', 1);
 		$extensions[] = array('component', 'com_cache', '', 1);
 		$extensions[] = array('component', 'com_categories', '', 1);
 		$extensions[] = array('component', 'com_checkin', '', 1);
@@ -1071,7 +1070,6 @@ class JoomlaInstallerScript
 			'com_finder',
 			'com_tags',
 			'com_contenthistory',
-			'com_ajax',
 		);
 
 		foreach ($newComponents as $component)
