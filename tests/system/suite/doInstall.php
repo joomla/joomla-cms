@@ -75,11 +75,6 @@ class DoInstall extends SeleniumJoomlaTestCase
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 
-		$this->jPrint("Clear post-install messages\n");
-		$this->click("link=Post-installation Messages");
-		$this->waitForPageToLoad("30000");
-		$this->click("//a[contains(@href, 'index.php?option=com_postinstall&view=message&task=unpublish')]");
-		$this->waitForPageToLoad("30000");
 		$this->click("link=Control Panel");
 		$this->waitForPageToLoad("30000");
 
