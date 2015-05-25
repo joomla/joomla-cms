@@ -213,15 +213,6 @@ class TemplatesViewTemplate extends JViewLegacy
 			}
 		}
 
-		// Add a copy template button (Hathor override doesn't need the button)
-		if ($app->getTemplate() != 'hathor')
-		{
-			if ($showButton)
-			{
-				JToolbarHelper::modal('collapseModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
-			}
-		}
-
 		// Add a Template preview button
 		if ($this->preview->client_id == 0)
 		{
@@ -238,15 +229,6 @@ class TemplatesViewTemplate extends JViewLegacy
 		if ($showButton)
 		{
 			JToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
-		}
-
-		// Add a Rename file Button (Hathor override doesn't need the button)
-		if ($app->getTemplate() != 'hathor')
-		{
-			if ($showButton && $this->type != 'home')
-			{
-				JToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
-			}
 		}
 
 		// Add a Delete file Button
