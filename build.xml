@@ -130,21 +130,5 @@
 		</apply>
 	</target>
 
-	<target name="make-updatecomponent" description="Create an installable package from the com_joomlaupdate component" >
-		<delete dir="${basedir}/build/com_joomlaupdate-pkg" includeemptydirs="true" failonerror="false" />
-		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg" />
-		<echo message="Create com_joomlaupdate package" />
-		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/staging" />
-		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/staging/admin" />
-		<copy todir="${basedir}/build/com_joomlaupdate-pkg/staging/admin">
-			<fileset dir="${basedir}/administrator/components/com_joomlaupdate" />
-		</copy>
-		<move file="${basedir}/build/com_joomlaupdate-pkg/staging/admin/joomlaupdate.xml" todir="${basedir}/build/com_joomlaupdate-pkg/staging" />
-
-		<echo message="Archiving package" />
-		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/packages" />
-		<zip destfile="${basedir}/build/com_joomlaupdate-pkg/packages/com_joomlaupdate.zip" basedir="${basedir}/build/com_joomlaupdate-pkg/staging" />
-	</target>
-
 	<target name="build" depends="clean,phpunit,parallelTasks" />
 </project>

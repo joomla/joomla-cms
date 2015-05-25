@@ -2724,32 +2724,6 @@ separator=
 		<column>parent</column>
 		<column>updatesite</column>
 	</table>
-	<table name="jos_update_sites">
-		<column>update_site_id</column>
-		<column>name</column>
-		<column>type</column>
-		<column>location</column>
-		<column>enabled</column>
-	</table>
-	<table name="jos_update_sites_extensions">
-		<column>update_site_id</column>
-		<column>extension_id</column>
-	</table>
-	<table name="jos_updates">
-		<column>update_id</column>
-		<column>update_site_id</column>
-		<column>extension_id</column>
-		<column>categoryid</column>
-		<column>name</column>
-		<column>description</column>
-		<column>element</column>
-		<column>type</column>
-		<column>folder</column>
-		<column>client_id</column>
-		<column>version</column>
-		<column>data</column>
-		<column>detailsurl</column>
-	</table>
 	<table name="jos_user_profiles">
 		<column>user_id</column>
 		<column>profile_key</column>

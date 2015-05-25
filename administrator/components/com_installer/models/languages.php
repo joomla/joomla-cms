@@ -127,14 +127,6 @@ class InstallerModelLanguages extends JModelList
 	 */
 	public function findLanguages($cache_timeout = 0)
 	{
-		$updater = JUpdater::getInstance();
-
-		/*
-		 * The following function uses extension_id 600, that is the english language extension id.
-		 * In #__update_sites_extensions you should have 600 linked to the Accredited Translations Repo
-		 */
-		$updater->findUpdates(array(600), $cache_timeout);
-
 		return true;
 	}
 

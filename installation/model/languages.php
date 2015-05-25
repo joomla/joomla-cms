@@ -75,31 +75,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function getItems()
 	{
-		$updater = JUpdater::getInstance();
-
-		/*
-		 * The following function uses extension_id 600, that is the English language extension id.
-		 * In #__update_sites_extensions you should have 600 linked to the Accredited Translations Repo
-		 */
-		$updater->findUpdates(array(600), 0);
-
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Select the required fields from the updates table
-		$query->select('update_id, name, version')
-			->from('#__updates')
-			->order('name');
-
-		$db->setQuery($query);
-		$list = $db->loadObjectList();
-
-		if (!$list || $list instanceof Exception)
-		{
-			$list = array();
-		}
-
-		return $list;
+		return array();
 	}
 
 	/**
