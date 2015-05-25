@@ -10,7 +10,7 @@
 /**
  * Test class for JErrorPage.
  */
-class JErrorPageTest extends TestCase
+class JErrorPageTest extends TestCaseDatabase
 {
 	/**
 	 * Sets up the fixture, for example, opens a network connection.

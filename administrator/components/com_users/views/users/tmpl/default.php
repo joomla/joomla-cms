@@ -164,10 +164,21 @@ $loggeduser = JFactory::getUser();
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+			<?php //Load the batch processing form if user is allowed ?>
+			<?php if ($loggeduser->authorise('core.create', 'com_users')
+				&& $loggeduser->authorise('core.edit', 'com_users')
+				&& $loggeduser->authorise('core.edit.state', 'com_users')) : ?>
+				<?php echo JHtml::_(
+					'bootstrap.renderModal',
+					'collapseModal',
+					array(
+						'title' => JText::_('COM_USERS_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer')
+					),
+					$this->loadTemplate('batch_body')
+				); ?>
+			<?php endif;?>
 		<?php endif; ?>
-
-		<?php //Load the batch processing form. ?>
-		<?php echo $this->loadTemplate('batch'); ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

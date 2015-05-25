@@ -207,10 +207,10 @@ if($this->type == 'font')
 							<?php foreach ($this->archive as $file): ?>
 								<li>
 									<?php if (substr($file, -1) === DIRECTORY_SEPARATOR): ?>
-										<i class="icon-folder"></i>&nbsp;<?php echo $file; ?>
+										<span class="icon-folder"></span>&nbsp;<?php echo $file; ?>
 									<?php endif; ?>
 									<?php if (substr($file, -1) != DIRECTORY_SEPARATOR): ?>
-										<i class="icon-file"></i>&nbsp;<?php echo $file; ?>
+										<span class="icon-file"></span>&nbsp;<?php echo $file; ?>
 									<?php endif; ?>
 								</li>
 							<?php endforeach; ?>
@@ -299,7 +299,7 @@ if($this->type == 'font')
 					<?php foreach($this->overridesList['modules'] as $module): ?>
 						<li>
 							<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-								<i class="icon-copy"></i>&nbsp;<?php echo $module->name; ?>
+								<span class="icon-copy"></span>&nbsp;<?php echo $module->name; ?>
 							</a>
 						</li>
 					<?php endforeach; ?>
@@ -311,13 +311,13 @@ if($this->type == 'font')
 					<?php foreach ($this->overridesList['components'] as $key => $value): ?>
 						<li class="component-folder">
 							<a href="#" class="component-folder-url">
-								<i class="icon-folder"></i>&nbsp;<?php echo $key; ?>
+								<span class="icon-folder"></span>&nbsp;<?php echo $key; ?>
 							</a>
 							<ul class="nav nav-list">
 								<?php foreach ($value as $view): ?>
 									<li>
 										<a class="component-file-url" href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $view->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-											<i class="icon-copy"></i>&nbsp;<?php echo $view->name; ?>
+											<span class="icon-copy"></span>&nbsp;<?php echo $view->name; ?>
 										</a>
 									</li>
 								<?php endforeach; ?>
@@ -332,7 +332,7 @@ if($this->type == 'font')
 					<?php foreach($this->overridesList['layouts'] as $layout): ?>
 						<li>
 							<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-								<i class="icon-copy"></i>&nbsp;<?php echo $layout->name; ?>
+								<span class="icon-copy"></span>&nbsp;<?php echo $layout->name; ?>
 							</a>
 						</li>
 					<?php endforeach; ?>

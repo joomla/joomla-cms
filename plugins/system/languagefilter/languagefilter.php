@@ -525,19 +525,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		if ($this->app->isSite() && $this->params->get('automatic_change', 1))
 		{
-			// Load associations.
 			$assoc = JLanguageAssociations::isEnabled();
-
-			if ($assoc)
-			{
-				$active = $menu->getActive();
-
-				if ($active)
-				{
-					$associations = MenusHelper::getAssociations($active->id);
-				}
-			}
-
 			$lang_code = $user['language'];
 
 			if (empty($lang_code))
@@ -562,7 +550,37 @@ class PlgSystemLanguageFilter extends JPlugin
 				$lang_code = $this->default_lang;
 			}
 
-			if ($lang_code != $this->default_lang)
+			// Try to get association from the current active menu item
+			$active = $menu->getActive();
+			$foundAssociation = false;
+
+			if ($active)
+			{
+				if ($assoc)
+				{
+					$associations = MenusHelper::getAssociations($active->id);
+				}
+
+				if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
+				{
+					$associationItemid = $associations[$lang_code];
+					$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
+					$foundAssociation = true;
+				}
+				elseif ($active->home)
+				{
+					// We are on a Home page, we redirect to the user site language home page
+					$item = $menu->getDefault($lang_code);
+
+					if ($item && $item->language != $active->language && $item->language != '*')
+					{
+						$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $item->id);
+						$foundAssociation = true;
+					}
+				}
+			}
+
+			if ($foundAssociation && $lang_code != $this->default_lang)
 			{
 				// Change language.
 				$this->default_lang = $lang_code;
@@ -574,19 +592,6 @@ class PlgSystemLanguageFilter extends JPlugin
 
 				// Change the language code.
 				JFactory::getLanguage()->setLanguage($lang_code);
-
-				// Change the redirect (language has changed).
-				if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
-				{
-					$itemid = $associations[$lang_code];
-					$this->app->setUserState('users.login.form.return', 'index.php?&Itemid=' . $itemid);
-				}
-				else
-				{
-					$homes  = MultilangstatusHelper::getHomepages();
-					$itemid = isset($homes[$lang_code]) ? $homes[$lang_code]->id : $homes['*']->id;
-					$this->app->setUserState('users.login.form.return', 'index.php?&Itemid=' . $itemid);
-				}
 			}
 		}
 	}

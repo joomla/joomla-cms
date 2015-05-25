@@ -70,8 +70,8 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_MENUS_ITEMS_SEARCH_FILTER'); ?>" />
 			</div>
 			<div class="btn-group pull-left">
-				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search"></span></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
 			</div>
 			<div class="btn-group pull-right hidden-phone">
 				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
@@ -94,19 +94,19 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 							<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap center">
-							<i class="icon-publish"></i>
+							<span class="icon-publish"></span>
 							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
 						</th>
 						<th width="10%" class="nowrap center">
-							<i class="icon-unpublish"></i>
+							<span class="icon-unpublish"></span>
 							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 						</th>
 						<th width="10%" class="nowrap center">
-							<i class="icon-trash"></i>
+							<span class="icon-trash"></span>
 							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 						</th>
 						<th width="20%" class="nowrap center">
-							<i class="icon-cube"></i>
+							<span class="icon-cube"></span>
 							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 
 						</th>
@@ -161,7 +161,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 								<div class="btn-group">
 									<a href="#" class="btn btn-small dropdown-toggle" data-toggle="dropdown">
 										<?php echo JText::_('COM_MENUS_MODULES') ?>
-										<b class="caret"></b>
+										<span class="caret"></span>
 									</a>
 									<ul class="dropdown-menu">
 										<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
