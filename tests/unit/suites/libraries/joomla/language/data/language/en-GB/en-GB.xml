@@ -10,7 +10,6 @@
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <description>en-GB site language</description>
     <files>
-        <filename>en-GB.com_contact.ini</filename>
         <filename>en-GB.com_content.ini</filename>
         <filename>en-GB.com_finder.ini</filename>
         <filename>en-GB.com_mailto.ini</filename>

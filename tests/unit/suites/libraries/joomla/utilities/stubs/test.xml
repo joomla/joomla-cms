@@ -60,16 +60,6 @@
 			<value>{}</value>
 		</row>
 		<row>
-			<value>7</value>
-			<value>1</value>
-			<value>12</value>
-			<value>15</value>
-			<value>1</value>
-			<value>com_contact</value>
-			<value>com_contact</value>
-			<value>{&quot;core.admin&quot;:{&quot;7&quot;:1},&quot;core.manage&quot;:{&quot;6&quot;:1},&quot;core.create&quot;:[],&quot;core.delete&quot;:[],&quot;core.edit&quot;:[],&quot;core.edit.state&quot;:[]}</value>
-		</row>
-		<row>
 			<value>8</value>
 			<value>1</value>
 			<value>16</value>
@@ -331,38 +321,7 @@
 			<value></value>
 		</row>
 	</table>
-	<table name="jos_contact_details">
-		<column>id</column>
-		<column>name</column>
-		<column>alias</column>
-		<column>con_position</column>
-		<column>address</column>
-		<column>suburb</column>
-		<column>state</column>
-		<column>country</column>
-		<column>postcode</column>
-		<column>telephone</column>
-		<column>fax</column>
-		<column>misc</column>
-		<column>image</column>
-		<column>imagepos</column>
-		<column>email_to</column>
-		<column>default_con</column>
-		<column>published</column>
-		<column>checked_out</column>
-		<column>checked_out_time</column>
-		<column>ordering</column>
-		<column>params</column>
-		<column>user_id</column>
-		<column>catid</column>
-		<column>access</column>
-		<column>mobile</column>
-		<column>webpage</column>
-		<column>sortname1</column>
-		<column>sortname2</column>
-		<column>sortname3</column>
-		<column>language</column>
-	</table>
+
 	<table name="jos_content">
 		<column>id</column>
 		<column>asset_id</column>
@@ -538,25 +497,6 @@
 			<value>0</value>
 			<value></value>
 			<value></value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>8</value>
-			<value>Contact</value>
-			<value>component</value>
-			<value>com_contact</value>
-			<value></value>
-			<value>1</value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value></value>
-			<value>{&quot;show_contact_list&quot;:&quot;0&quot;,&quot;show_name&quot;:&quot;1&quot;,&quot;show_position&quot;:&quot;1&quot;,&quot;show_email&quot;:&quot;0&quot;,&quot;show_street_address&quot;:&quot;1&quot;,&quot;show_suburb&quot;:&quot;1&quot;,&quot;show_state&quot;:&quot;1&quot;,&quot;show_postcode&quot;:&quot;1&quot;,&quot;show_country&quot;:&quot;1&quot;,&quot;show_telephone&quot;:&quot;1&quot;,&quot;show_mobile&quot;:&quot;1&quot;,&quot;show_fax&quot;:&quot;1&quot;,&quot;show_webpage&quot;:&quot;1&quot;,&quot;show_misc&quot;:&quot;1&quot;,&quot;show_image&quot;:&quot;1&quot;,&quot;allow_vcard&quot;:&quot;0&quot;,&quot;show_articles&quot;:&quot;1&quot;,&quot;show_profile&quot;:&quot;1&quot;,&quot;show_links&quot;:&quot;1&quot;,&quot;linka_name&quot;:&quot;&quot;,&quot;linkb_name&quot;:&quot;&quot;,&quot;linkc_name&quot;:&quot;&quot;,&quot;linkd_name&quot;:&quot;&quot;,&quot;linke_name&quot;:&quot;&quot;,&quot;contact_icons&quot;:&quot;0&quot;,&quot;icon_address&quot;:&quot;&quot;,&quot;icon_email&quot;:&quot;&quot;,&quot;icon_telephone&quot;:&quot;&quot;,&quot;icon_mobile&quot;:&quot;&quot;,&quot;icon_fax&quot;:&quot;&quot;,&quot;icon_misc&quot;:&quot;&quot;,&quot;show_headings&quot;:&quot;1&quot;,&quot;show_position_headings&quot;:&quot;1&quot;,&quot;show_email_headings&quot;:&quot;0&quot;,&quot;show_telephone_headings&quot;:&quot;1&quot;,&quot;show_mobile_headings&quot;:&quot;1&quot;,&quot;show_fax_headings&quot;:&quot;1&quot;,&quot;allow_vcard_headings&quot;:&quot;0&quot;,&quot;show_email_form&quot;:&quot;1&quot;,&quot;email_description&quot;:&quot;&quot;,&quot;show_email_copy&quot;:&quot;1&quot;,&quot;banned_email&quot;:&quot;&quot;,&quot;banned_subject&quot;:&quot;&quot;,&quot;banned_text&quot;:&quot;&quot;,&quot;validate_session&quot;:&quot;1&quot;,&quot;custom_reply&quot;:&quot;0&quot;,&quot;redirect&quot;:&quot;&quot;,&quot;show_category_crumb&quot;:&quot;0&quot;,&quot;metakey&quot;:&quot;&quot;,&quot;metadesc&quot;:&quot;&quot;,&quot;robots&quot;:&quot;&quot;,&quot;author&quot;:&quot;&quot;,&quot;rights&quot;:&quot;&quot;,&quot;xreference&quot;:&quot;&quot;}</value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -1648,25 +1588,6 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>67</value>
-			<value>Content - Contact</value>
-			<value>plugin</value>
-			<value>contact</value>
-			<value>content</value>
-			<value>0</value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value></value>
-			<value>{&quot;mode&quot;:&quot;1&quot;}</value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
 			<value>68</value>
 			<value>Content - Email Cloaking</value>
 			<value>plugin</value>
@@ -1933,25 +1854,6 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>82</value>
-			<value>Search - Contacts</value>
-			<value>plugin</value>
-			<value>contacts</value>
-			<value>search</value>
-			<value>0</value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value></value>
-			<value>{&quot;search_limit&quot;:&quot;50&quot;}</value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
 			<value>83</value>
 			<value>Search - Content</value>
 			<value>plugin</value>
@@ -2115,25 +2017,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{}</value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>92</value>
-			<value>User - Contact Creator</value>
-			<value>plugin</value>
-			<value>contactcreator</value>
-			<value>user</value>
-			<value>0</value>
-			<value>0</value>
-			<value>1</value>
-			<value>0</value>
-			<value></value>
-			<value>{&quot;autowebpage&quot;:&quot;&quot;,&quot;category&quot;:&quot;26&quot;,&quot;autopublish&quot;:&quot;0&quot;}</value>
 			<value></value>
 			<value></value>
 			<value>0</value>
@@ -2401,81 +2284,6 @@
 			<value>217</value>
 			<value>0</value>
 			<value>0</value>
-		</row>
-		<row>
-			<value>7</value>
-			<value>main</value>
-			<value>com_contact</value>
-			<value>Contacts</value>
-			<value>Contacts</value>
-			<value>index.php?option=com_contact</value>
-			<value>component</value>
-			<value>0</value>
-			<value>1</value>
-			<value>1</value>
-			<value>8</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-			<value>class:contact</value>
-			<value>0</value>
-			<value></value>
-			<value>11</value>
-			<value>16</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>8</value>
-			<value>main</value>
-			<value>com_contact</value>
-			<value>Contacts</value>
-			<value>Contacts/Contacts</value>
-			<value>index.php?option=com_contact</value>
-			<value>component</value>
-			<value>0</value>
-			<value>7</value>
-			<value>2</value>
-			<value>8</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-			<value>class:contact</value>
-			<value>0</value>
-			<value></value>
-			<value>12</value>
-			<value>13</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>9</value>
-			<value>main</value>
-			<value>com_contact_categories</value>
-			<value>Categories</value>
-			<value>Contacts/Categories</value>
-			<value>index.php?option=com_categories&amp;extension=com_contact</value>
-			<value>component</value>
-			<value>0</value>
-			<value>7</value>
-			<value>2</value>
-			<value>6</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-			<value>class:contact-cat</value>
-			<value>0</value>
-			<value></value>
-			<value>14</value>
-			<value>15</value>
-			<value>0</value>
-			<value>1</value>
 		</row>
 		<row>
 			<value>10</value>

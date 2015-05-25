@@ -22,8 +22,6 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 
 		$this->assertTrue($this->isElementPresent("//ul[@id='menu-com-menus-menus']"), 'Menus should be visible');
 
-		$this->assertTrue($this->isElementPresent("//ul[@id='menu-com-contact']"), 'Contacts should be visible');
-
 		$this->assertTrue($this->isElementPresent("//ul[@id='menu-com-messages']"), 'Messaging should be visible');
 
 		$this->assertTrue($this->isElementPresent("//ul[@id='menu-com-newsfeeds']"), 'Newsfeeds should be visible');
@@ -72,7 +70,6 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-users-users']"), 'Users menu should not be visible');
 		$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-users-groups']"), 'Groups should not be visible');
 
-		$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-contact']"), 'Contacts should not be visible');
 		$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-messages']"), 'Messaging should not be visible');
 		$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-newsfeeds']"), 'Newsfeeds should not be visible');
 		$this->assertFalse($this->isElementPresent("//a[@href='index.php?option=com_search']"), 'Search should not be visible');

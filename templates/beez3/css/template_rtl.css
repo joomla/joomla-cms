@@ -224,18 +224,6 @@ button.button
 	margin:10px 0 10px 0px;
 }
 
-.contact-email label
-{
-	width:17em;
-	float:right;
-}
-
-#contact-email-copy
-{
-	float:right;
-	margin-left:10px;
-}
-
 table th, table td {
 	text-align: right;
 }
