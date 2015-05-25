@@ -23,6 +23,7 @@
 			extension="com_content"
 			description="JOPTION_FILTER_CATEGORY_DESC"
 			onchange="this.form.submit();"
+			published="-2,0,1,2"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
 		</field>
