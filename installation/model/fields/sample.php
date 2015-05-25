@@ -44,10 +44,6 @@ class JFormFieldSample extends JFormFieldRadio
 		{
 			$type = 'mysql';
 		}
-		elseif ($type == 'sqlsrv')
-		{
-			$type = 'sqlazure';
-		}
 
 		// Get a list of files in the search path with the given filter.
 		$files = JFolder::files(JPATH_INSTALLATION . '/sql/' . $type, '^sample.*\.sql$');
