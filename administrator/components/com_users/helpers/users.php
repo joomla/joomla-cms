@@ -190,35 +190,10 @@ class UsersHelper
 	 * @return  array
 	 *
 	 * @since   3.2.0
+     * @deprecated
 	 */
 	public static function getTwoFactorMethods()
 	{
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-
-		FOFPlatform::getInstance()->importPlugin('twofactorauth');
-		$identities = FOFPlatform::getInstance()->runPlugins('onUserTwofactorIdentify', array());
-
-		$options = array(
-			JHtml::_('select.option', 'none', JText::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),
-		);
-
-		if (!empty($identities))
-		{
-			foreach ($identities as $identity)
-			{
-				if (!is_object($identity))
-				{
-					continue;
-				}
-
-				$options[] = JHtml::_('select.option', $identity->method, $identity->title, 'value', 'text');
-			}
-		}
-
-		return $options;
+		return array();
 	}
 }
