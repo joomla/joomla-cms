@@ -86,7 +86,7 @@ class JFormFieldMenutype extends JFormFieldList
 			. '<span class="icon-list icon-white"></span> '
 			. JText::_('JSELECT') . '</a></span>';
 		$html[] = JHtml::_(
-			'bootstrap.renderModal'
+			'bootstrap.renderModal',
 			'menuTypeModal',
 			array(
 				'url' => $link,
