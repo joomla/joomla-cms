@@ -119,12 +119,6 @@ class ContentModelArticle extends JModelItem
 				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
 					->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
-				// Join on voting table
-				$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
-					->join('LEFT', '#__content_rating AS v ON a.id = v.content_id')
-
-					->where('a.id = ' . (int) $pk);
-
 				if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content'))) {
 					// Filter by start and end dates.
 					$nullDate = $db->quote($db->getNullDate());
@@ -275,99 +269,10 @@ class ContentModelArticle extends JModelItem
 	 * @param   integer  $rate  Voting rate
 	 *
 	 * @return  boolean          Return true on success
+     * @deprecated
 	 */
 	public function storeVote($pk = 0, $rate = 0)
 	{
-		if ($rate >= 1 && $rate <= 5 && $pk > 0)
-		{
-			$userIP = $_SERVER['REMOTE_ADDR'];
-
-			// Initialize variables.
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true);
-
-			// Create the base select statement.
-			$query->select('*')
-				->from($db->quoteName('#__content_rating'))
-				->where($db->quoteName('content_id') . ' = ' . (int) $pk);
-
-			// Set the query and load the result.
-			$db->setQuery($query);
-
-			// Check for a database error.
-			try
-			{
-				$rating = $db->loadObject();
-			}
-			catch (RuntimeException $e)
-			{
-				JError::raiseWarning(500, $e->getMessage());
-
-				return false;
-			}
-
-			// There are no ratings yet, so lets insert our rating
-			if (!$rating)
-			{
-				$query = $db->getQuery(true);
-
-				// Create the base insert statement.
-				$query->insert($db->quoteName('#__content_rating'))
-					->columns(array($db->quoteName('content_id'), $db->quoteName('lastip'), $db->quoteName('rating_sum'), $db->quoteName('rating_count')))
-					->values((int) $pk . ', ' . $db->quote($userIP) . ',' . (int) $rate . ', 1');
-
-				// Set the query and execute the insert.
-				$db->setQuery($query);
-
-				try
-				{
-					$db->execute();
-				}
-				catch (RuntimeException $e)
-				{
-					JError::raiseWarning(500, $e->getMessage());
-
-					return false;
-				}
-			}
-			else
-			{
-				if ($userIP != ($rating->lastip))
-				{
-					$query = $db->getQuery(true);
-
-					// Create the base update statement.
-					$query->update($db->quoteName('#__content_rating'))
-						->set($db->quoteName('rating_count') . ' = rating_count + 1')
-						->set($db->quoteName('rating_sum') . ' = rating_sum + ' . (int) $rate)
-						->set($db->quoteName('lastip') . ' = ' . $db->quote($userIP))
-						->where($db->quoteName('content_id') . ' = ' . (int) $pk);
-
-					// Set the query and execute the update.
-					$db->setQuery($query);
-
-					try
-					{
-						$db->execute();
-					}
-					catch (RuntimeException $e)
-					{
-						JError::raiseWarning(500, $e->getMessage());
-
-						return false;
-					}
-				}
-				else
-				{
-					return false;
-				}
-			}
-
-			return true;
-		}
-
-		JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
-
 		return false;
 	}
 }

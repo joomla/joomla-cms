@@ -151,7 +151,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'loadmodule', 'content', 0);
 		$extensions[] = array('plugin', 'pagebreak', 'content', 0);
 		$extensions[] = array('plugin', 'pagenavigation', 'content', 0);
-		$extensions[] = array('plugin', 'vote', 'content', 0);
 		$extensions[] = array('plugin', 'codemirror', 'editors', 0);
 		$extensions[] = array('plugin', 'none', 'editors', 0);
 		$extensions[] = array('plugin', 'tinymce', 'editors', 0);

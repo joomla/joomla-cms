@@ -116,7 +116,6 @@ class ArticleEditPage extends AdminEditPage
 			array('label' => 'Show Icons', 'id' => 'jform_attribs_show_icons', 'type' => 'select', 'tab' => 'attrib-basic'),
 			array('label' => 'Show Print Icon', 'id' => 'jform_attribs_show_print_icon', 'type' => 'select', 'tab' => 'attrib-basic'),
 			array('label' => 'Show Email Icon', 'id' => 'jform_attribs_show_email_icon', 'type' => 'select', 'tab' => 'attrib-basic'),
-			array('label' => 'Show Voting', 'id' => 'jform_attribs_show_vote', 'type' => 'select', 'tab' => 'attrib-basic'),
 			array('label' => 'Show Hits', 'id' => 'jform_attribs_show_hits', 'type' => 'select', 'tab' => 'attrib-basic'),
 			array('label' => 'Show Unauthorised Links', 'id' => 'jform_attribs_show_noauth', 'type' => 'select', 'tab' => 'attrib-basic'),
 			array('label' => 'Positioning of the Links', 'id' => 'jform_attribs_urls_position', 'type' => 'select', 'tab' => 'attrib-basic'),

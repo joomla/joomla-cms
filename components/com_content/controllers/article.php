@@ -322,29 +322,10 @@ class ContentControllerArticle extends JControllerForm
 	 * @return  void
 	 *
 	 * @since   1.6
+     * @deprecated
 	 */
 	public function vote()
 	{
-		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$user_rating = $this->input->getInt('user_rating', -1);
-
-		if ($user_rating > -1)
-		{
-			$url = $this->input->getString('url', '');
-			$id = $this->input->getInt('id', 0);
-			$viewName = $this->input->getString('view', $this->default_view);
-			$model = $this->getModel($viewName);
-
-			if ($model->storeVote($id, $user_rating))
-			{
-				$this->setRedirect($url, JText::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'));
-			}
-			else
-			{
-				$this->setRedirect($url, JText::_('COM_CONTENT_ARTICLE_VOTE_FAILURE'));
-			}
-		}
 	}
 }
