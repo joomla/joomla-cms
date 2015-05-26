@@ -82,8 +82,6 @@
 		<filename>en-GB.mod_version.sys.ini</filename>
 		<filename>en-GB.plg_authentication_cookie.ini</filename>
 		<filename>en-GB.plg_authentication_cookie.sys.ini</filename>
-		<filename>en-GB.plg_authentication_gmail.ini</filename>
-		<filename>en-GB.plg_authentication_gmail.sys.ini</filename>
 		<filename>en-GB.plg_authentication_joomla.ini</filename>
 		<filename>en-GB.plg_authentication_joomla.sys.ini</filename>
 		<filename>en-GB.plg_authentication_ldap.ini</filename>
