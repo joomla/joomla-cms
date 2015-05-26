@@ -69,10 +69,6 @@ JFactory::getDocument()->addScriptDeclaration("
 	};
 ");
 ?>
-<script type="text/javascript">
-
-</script>
-
 <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">

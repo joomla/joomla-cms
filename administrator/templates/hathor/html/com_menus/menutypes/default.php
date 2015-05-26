@@ -12,20 +12,22 @@ defined('_JEXEC') or die;
 $input = JFactory::getApplication()->input;
 // Checking if loaded via index.php or component.php
 $tmpl = ($input->getCmd('tmpl') != '') ? '1' : '';
-JFactory::getDocument()->addScriptDeclaration('
+JFactory::getDocument()->addScriptDeclaration(
+		'
 		setmenutype = function(type) {
 			var tmpl = ' . json_encode($tmpl) . ';
 			if (tmpl)
 			{
 				window.parent.Joomla.submitbutton("item.setType", type);
-				window.parent.jModalClose();
+				window.parent.jQuery("#menuTypeModal").modal("hide");
 			}
 			else
 			{
 				window.location="index.php?option=com_menus&view=item&task=item.setType&layout=edit&type=" + type;
 			}
 		};
-');
+	'
+);
 ?>
 
 <h2 class="modal-title"><?php echo JText::_('COM_MENUS_TYPE_CHOOSE'); ?></h2>

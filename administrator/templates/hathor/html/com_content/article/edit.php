@@ -56,11 +56,6 @@ JFactory::getDocument()->addScriptDeclaration("
 	}
 ");
 ?>
-
-<script type="text/javascript">
-
-</script>
-
 <div class="article-edit">
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">

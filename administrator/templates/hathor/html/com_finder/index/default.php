@@ -48,11 +48,6 @@ JFactory::getDocument()->addScriptDeclaration("
 	}
 ");
 ?>
-
-<script type="text/javascript">
-
-</script>
-
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=index');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
