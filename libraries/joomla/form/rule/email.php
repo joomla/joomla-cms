@@ -25,7 +25,8 @@ class JFormRuleEmail extends JFormRule
 	 * @since  11.1
 	 * @see    http://www.w3.org/TR/html-markup/input.email.html
 	 */
-	protected $regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
+
+	protected $regex;
 
 	/**
 	 * Method to test the email address and optionally check for uniqueness.
@@ -52,12 +53,18 @@ class JFormRuleEmail extends JFormRule
 			return true;
 		}
 
+		$regex_local_part = '^[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+';
+		$regex_domain_part = '[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$';
+
+		// For B/C $this->regex is initialized with both the local-part and the domain, but it should probably be initialized with the local-part only
+		$this->regex = $regex_local_part . '@' . $regex_domain_part;
+
 		// If the tld attribute is present, change the regular expression to require at least 2 characters for it.
 		$tld = ((string) $element['tld'] == 'tld' || (string) $element['tld'] == 'required');
 
 		if ($tld)
 		{
-			$this->regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
+			$this->regex = $regex_local_part . '@' . $regex_domain_part;
 		}
 
 		// Determine if the multiple attribute is present
