@@ -56,7 +56,6 @@ abstract class AdminEditPage extends AdminPage
 			'Save & Close' => 'toolbar-save',
 			'Save & New' => 'toolbar-save-new',
 			'Cancel' => 'toolbar-cancel',
-			'Help' => 'toolbar-help',
 	);
 
 	public $inputFields = array();

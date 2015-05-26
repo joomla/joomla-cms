@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-$showhelp = $params->get('showhelp', 1);
-
 /**
  * Site SubMenu
 **/
@@ -65,11 +63,4 @@ $lm = $user->authorise('core.manage', 'com_languages');
 if ($im || $mm || $pm || $tm || $lm)
 {
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), null, 'disabled'));
-}
-
-/**
- * Help Submenu
-**/
-if ($showhelp == 1) {
-$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP'), null, 'disabled'));
 }

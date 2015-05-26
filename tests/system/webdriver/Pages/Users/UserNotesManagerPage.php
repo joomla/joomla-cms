@@ -39,7 +39,6 @@ class UserNotesManagerPage extends AdminManagerPage
 			'Trash' => 'toolbar-trash',
 			'Empty Trash' => 'toolbar-delete',
 			'Options' => 'toolbar-options',
-			'Help' => 'toolbar-help',
 	);
 
 	public $submenu = array (

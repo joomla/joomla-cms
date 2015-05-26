@@ -76,7 +76,6 @@ class ArticleManagerPage extends AdminManagerPage
 			'Empty Trash' => 'toolbar-delete',
 			'Batch' => 'toolbar-batch',
 			'Options' => 'toolbar-options',
-			'Help' => 'toolbar-help',
 			);
 
 	/**

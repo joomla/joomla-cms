@@ -864,13 +864,6 @@
 			required="true"
 			filter="string"
 			size="50" />
-
-		<field
-			name="helpurl"
-			type="helpsite"
-			label="COM_CONFIG_FIELD_HELP_SERVER_LABEL"
-			description="COM_CONFIG_FIELD_HELP_SERVER_DESC"
-			required="true" />
 	</fieldset>
 
 	<fieldset

@@ -66,7 +66,6 @@ class LanguageManagerPage extends AdminManagerPage
 			'Install Language' => 'toolbar-upload',
 			'Empty Trash' => 'toolbar-delete',
 			'Options' => 'toolbar-options',
-			'Help' => 'toolbar-help',
 			);
 
 	/**

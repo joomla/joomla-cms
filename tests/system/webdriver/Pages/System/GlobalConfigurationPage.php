@@ -29,7 +29,6 @@ class GlobalConfigurationPage extends AdminEditPage
 			'Save' => 'toolbar-apply',
 			'Save & Close' => 'toolbar-save',
 			'Cancel' => 'toolbar-cancel',
-			'Help' => 'toolbar-help',
 	);
 
 	/**
@@ -70,7 +69,6 @@ class GlobalConfigurationPage extends AdminEditPage
 			array('label' => 'Cookie Domain', 'id' => 'jform_cookie_domain', 'type' => 'input', 'tab' => 'page-site'),
 			array('label' => 'Cookie Path', 'id' => 'jform_cookie_path', 'type' => 'input', 'tab' => 'page-site'),
 			array('label' => 'Path to Log Folder', 'id' => 'jform_log_path', 'type' => 'input', 'tab' => 'page-system'),
-			array('label' => 'Help Server', 'id' => 'jform_helpurl', 'type' => 'select', 'tab' => 'page-system'),
 			array('label' => 'Debug System', 'id' => 'jform_debug', 'type' => 'fieldset', 'tab' => 'page-system'),
 			array('label' => 'Debug Language', 'id' => 'jform_debug_lang', 'type' => 'fieldset', 'tab' => 'page-system'),
 			array('label' => 'Cache', 'id' => 'jform_caching', 'type' => 'select', 'tab' => 'page-system'),

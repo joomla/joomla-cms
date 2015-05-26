@@ -40,41 +40,6 @@ abstract class JHtmlUsers
 		return '';
 	}
 
-	public static function helpsite($value)
-	{
-		if (empty($value))
-		{
-			return static::value($value);
-		}
-		else
-		{
-			$pathToXml = JPATH_ADMINISTRATOR . '/help/helpsites.xml';
-
-			$text = $value;
-			if (!empty($pathToXml) && $xml = simplexml_load_file($pathToXml))
-			{
-				foreach ($xml->sites->site as $site)
-				{
-					if ((string) $site->attributes()->url == $value)
-					{
-						$text = (string) $site;
-						break;
-					}
-				}
-			}
-
-			$value = htmlspecialchars($value);
-			if (substr($value, 0, 4) == "http")
-			{
-				return '<a href="' . $value . '">' . $text . '</a>';
-			}
-			else
-			{
-				return '<a href="http://' . $value . '">' . $text . '</a>';
-			}
-		}
-	}
-
 	public static function templatestyle($value)
 	{
 		if (empty($value))
