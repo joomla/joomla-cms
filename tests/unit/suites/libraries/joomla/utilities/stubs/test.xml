@@ -302,12 +302,6 @@
 		<column>content_id</column>
 		<column>ordering</column>
 	</table>
-	<table name="jos_content_rating">
-		<column>content_id</column>
-		<column>rating_sum</column>
-		<column>rating_count</column>
-		<column>lastip</column>
-	</table>
 	<table name="jos_extensions">
 		<column>extension_id</column>
 		<column>name</column>
@@ -1421,25 +1415,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;position&quot;:&quot;1&quot;}</value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>73</value>
-			<value>Content - Vote</value>
-			<value>plugin</value>
-			<value>vote</value>
-			<value>content</value>
-			<value>0</value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value></value>
-			<value>{}</value>
 			<value></value>
 			<value></value>
 			<value>0</value>
