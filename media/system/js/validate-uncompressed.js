@@ -188,18 +188,7 @@ var JFormValidator = function() {
 		});
 		setHandler('email', function(value, element) {
 			var regex = /^[a-zA-Z0-9.!#%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*/;
-			var address_parts = value.split("@");
-			if (address_parts.length > 2) {
-				return false;
-			}
-			if (address_parts.length > 1) {
-				var domain_labels = address_parts[1].split(".");
-				for (var i = 0; i < domain_labels.length; i++) {
-					domain_labels[i] = punycode.toASCII(domain_labels[i]);
-				}
-				address_parts[1] = domain_labels.join(".");
-				value = address_parts.join("@");
-			}
+			value = punycode.toASCII(value);
 			return regex.test(value);
 		});
 		// Attach to forms with class 'form-validate'
