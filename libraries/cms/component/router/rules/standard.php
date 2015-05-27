@@ -185,7 +185,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 		$views = $this->router->getViews();
 
 		// Return directly when the URL of the Itemid is identical with the URL to build
-		if (isset($item->query['view']) && isset($query['view']) && $item->query['view'] == $query['view'])
+		if (isset($item->query['view']) && $item->query['view'] == $query['view'])
 		{
 			$view = $views[$query['view']];
 			if (isset($item->query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key])
