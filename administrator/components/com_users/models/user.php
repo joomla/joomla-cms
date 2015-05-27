@@ -19,24 +19,6 @@ defined('_JEXEC') or die;
 class UsersModelUser extends JModelAdmin
 {
 	/**
-	 * Constructor.
-	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
-	 * @since   3.2
-	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-	}
-
-	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
 	 * @param   string  $type    The table type to instantiate
@@ -212,57 +194,6 @@ class UsersModelUser extends JModelAdmin
 
 				return false;
 			}
-		}
-
-		// Handle the two factor authentication setup
-		if (array_key_exists('twofactor', $data))
-		{
-			$twoFactorMethod = $data['twofactor']['method'];
-
-			// Get the current One Time Password (two factor auth) configuration
-			$otpConfig = $this->getOtpConfig($pk);
-
-			if ($twoFactorMethod != 'none')
-			{
-				// Run the plugins
-				FOFPlatform::getInstance()->importPlugin('twofactorauth');
-				$otpConfigReplies = FOFPlatform::getInstance()->runPlugins('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
-
-				// Look for a valid reply
-				foreach ($otpConfigReplies as $reply)
-				{
-					if (!is_object($reply) || empty($reply->method) || ($reply->method != $twoFactorMethod))
-					{
-						continue;
-					}
-
-					$otpConfig->method = $reply->method;
-					$otpConfig->config = $reply->config;
-
-					break;
-				}
-
-				// Save OTP configuration.
-				$this->setOtpConfig($pk, $otpConfig);
-
-				// Generate one time emergency passwords if required (depleted or not set)
-				if (empty($otpConfig->otep))
-				{
-					$oteps = $this->generateOteps($pk);
-				}
-			}
-			else
-			{
-				$otpConfig->method = 'none';
-				$otpConfig->config = array();
-				$this->setOtpConfig($pk, $otpConfig);
-			}
-
-			// Unset the raw data
-			unset($data['twofactor']);
-
-			// Reload the user record with the updated OTP configuration
-			$user->load($pk);
 		}
 
 		// Bind the data.
@@ -892,84 +823,11 @@ class UsersModelUser extends JModelAdmin
 	 * @return  stdClass  An object holding the OTP configuration for this user
 	 *
 	 * @since   3.2
+     * @deprecated
 	 */
 	public function getOtpConfig($user_id = null)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
-
-		// Initialise
-		$otpConfig = (object) array(
-			'method' => 'none',
-			'config' => array(),
-			'otep'   => array()
-		);
-
-		/**
-		 * Get the raw data, without going through JUser (required in order to
-		 * be able to modify the user record before logging in the user).
-		 */
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->qn('#__users'))
-			->where($db->qn('id') . ' = ' . $db->q($user_id));
-		$db->setQuery($query);
-		$item = $db->loadObject();
-
-		// Make sure this user does have OTP enabled
-		if (empty($item->otpKey))
-		{
-			return $otpConfig;
-		}
-
-		// Get the encrypted data
-		list($method, $encryptedConfig) = explode(':', $item->otpKey, 2);
-		$encryptedOtep = $item->otep;
-
-		// Create an encryptor class
-		$key = $this->getOtpConfigEncryptionKey();
-		$aes = new FOFEncryptAes($key, 256);
-
-		// Decrypt the data
-		$decryptedConfig = $aes->decryptString($encryptedConfig);
-		$decryptedOtep = $aes->decryptString($encryptedOtep);
-
-		// Remove the null padding added during encryption
-		$decryptedConfig = rtrim($decryptedConfig, "\0");
-		$decryptedOtep = rtrim($decryptedOtep, "\0");
-
-		// Update the configuration object
-		$otpConfig->method = $method;
-		$otpConfig->config = @json_decode($decryptedConfig);
-		$otpConfig->otep = @json_decode($decryptedOtep);
-
-		/*
-		 * If the decryption failed for any reason we essentially disable the
-		 * two-factor authentication. This prevents impossible to log in sites
-		 * if the site admin changes the site secret for any reason.
-		 */
-		if (is_null($otpConfig->config))
-		{
-			$otpConfig->config = array();
-		}
-
-		if (is_object($otpConfig->config))
-		{
-			$otpConfig->config = (array) $otpConfig->config;
-		}
-
-		if (is_null($otpConfig->otep))
-		{
-			$otpConfig->otep = array();
-		}
-
-		if (is_object($otpConfig->otep))
-		{
-			$otpConfig->otep = (array) $otpConfig->otep;
-		}
-
-		// Return the configuration object
-		return $otpConfig;
+		return null;
 	}
 
 	/**
@@ -983,34 +841,11 @@ class UsersModelUser extends JModelAdmin
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.2
+     * @deprecated
 	 */
 	public function setOtpConfig($user_id, $otpConfig)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
-
-		$updates = (object) array(
-			'id'     => $user_id,
-			'otpKey' => '',
-			'otep'   => ''
-		);
-
-		// Create an encryptor class
-		$key = $this->getOtpConfigEncryptionKey();
-		$aes = new FOFEncryptAes($key, 256);
-
-		// Create the encrypted option strings
-		if (!empty($otpConfig->method) && ($otpConfig->method != 'none'))
-		{
-			$decryptedConfig = json_encode($otpConfig->config);
-			$decryptedOtep = json_encode($otpConfig->otep);
-			$updates->otpKey = $otpConfig->method . ':' . $aes->encryptString($decryptedConfig);
-			$updates->otep = $aes->encryptString($decryptedOtep);
-		}
-
-		$db = $this->getDbo();
-		$result = $db->updateObject('#__users', $updates, 'id');
-
-		return $result;
+		return false;
 	}
 
 	/**
@@ -1020,10 +855,11 @@ class UsersModelUser extends JModelAdmin
 	 * @return  string  The encryption key
 	 *
 	 * @since   3.2
+     * @deprecated
 	 */
 	public function getOtpConfigEncryptionKey()
 	{
-		return JFactory::getConfig()->get('secret');
+		return '';
 	}
 
 	/**
@@ -1035,16 +871,11 @@ class UsersModelUser extends JModelAdmin
 	 * @return  array
 	 *
 	 * @since   3.2
+     * @deprecated
 	 */
 	public function getTwofactorform($user_id = null)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
-
-		$otpConfig = $this->getOtpConfig($user_id);
-
-		FOFPlatform::getInstance()->importPlugin('twofactorauth');
-
-		return FOFPlatform::getInstance()->runPlugins('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
+		return array();
 	}
 
 	/**
@@ -1056,48 +887,11 @@ class UsersModelUser extends JModelAdmin
 	 * @return  array  The generated OTEPs
 	 *
 	 * @since   3.2
+     * @deprecated
 	 */
 	public function generateOteps($user_id, $count = 10)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
-
-		// Initialise
-		$oteps = array();
-
-		// Get the OTP configuration for the user
-		$otpConfig = $this->getOtpConfig($user_id);
-
-		// If two factor authentication is not enabled, abort
-		if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
-		{
-			return $oteps;
-		}
-
-		$salt = "0123456789";
-		$base = strlen($salt);
-		$length = 16;
-
-		for ($i = 0; $i < $count; $i++)
-		{
-			$makepass = '';
-			$random = JCrypt::genRandomBytes($length + 1);
-			$shift = ord($random[0]);
-
-			for ($j = 1; $j <= $length; ++$j)
-			{
-				$makepass .= $salt[($shift + ord($random[$j])) % $base];
-				$shift += ord($random[$j]);
-			}
-
-			$oteps[] = $makepass;
-		}
-
-		$otpConfig->otep = $oteps;
-
-		// Save the now modified OTP configuration
-		$this->setOtpConfig($user_id, $otpConfig);
-
-		return $oteps;
+		return array();
 	}
 
 	/**
@@ -1126,101 +920,11 @@ class UsersModelUser extends JModelAdmin
 	 * @return  boolean  True if it's a valid secret key for this user.
 	 *
 	 * @since   3.2
+     * @deprecated
 	 */
 	public function isValidSecretKey($user_id, $secretkey, $options = array())
 	{
-		// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
-		if (!array_key_exists('otp_config', $options))
-		{
-			$otpConfig = $this->getOtpConfig($user_id);
-			$options['otp_config'] = $otpConfig;
-		}
-		else
-		{
-			$otpConfig = $options['otp_config'];
-		}
-
-		// Check if the user has enabled two factor authentication
-		if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
-		{
-			// Load language
-			$lang = JFactory::getLanguage();
-			$extension = 'com_users';
-			$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
-
-			$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
-				|| $lang->load($extension, $source, null, false, true);
-
-			$warn = true;
-			$warnMessage = JText::_('COM_USERS_ERROR_SECRET_CODE_WITHOUT_TFA');
-
-			if (array_key_exists('warn_if_not_req', $options))
-			{
-				$warn = $options['warn_if_not_req'];
-			}
-
-			if (array_key_exists('warn_irq_msg', $options))
-			{
-				$warnMessage = $options['warn_irq_msg'];
-			}
-
-			// Warn the user if he's using a secret code but he has not
-			// enabled two factor auth in his account.
-			if (!empty($secretkey) && $warn)
-			{
-				try
-				{
-					$app = JFactory::getApplication();
-					$app->enqueueMessage($warnMessage, 'warning');
-				}
-				catch (Exception $exc)
-				{
-					// This happens when we are in CLI mode. In this case
-					// no warning is issued
-					return true;
-				}
-			}
-
-			return true;
-		}
-
-		$credentials = array(
-			'secretkey' => $secretkey,
-		);
-
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-
-		// Try to validate the OTP
-		FOFPlatform::getInstance()->importPlugin('twofactorauth');
-
-		$otpAuthReplies = FOFPlatform::getInstance()->runPlugins('onUserTwofactorAuthenticate', array($credentials, $options));
-
-		$check = false;
-
-		/*
-		 * This looks like noob code but DO NOT TOUCH IT and do not convert
-		 * to in_array(). During testing in_array() inexplicably returned
-		 * null when the OTEP begins with a zero! o_O
-		 */
-		if (!empty($otpAuthReplies))
-		{
-			foreach ($otpAuthReplies as $authReply)
-			{
-				$check = $check || $authReply;
-			}
-		}
-
-		// Fall back to one time emergency passwords
-		if (!$check)
-		{
-			$check = $this->isValidOtep($user_id, $secretkey, $otpConfig);
-		}
-
-		return $check;
+		return false;
 	}
 
 	/**
@@ -1236,53 +940,10 @@ class UsersModelUser extends JModelAdmin
 	 *                   enabled in this user's account.
 	 *
 	 * @since   3.2
+     * @deprecated
 	 */
 	public function isValidOtep($user_id, $otep, $otpConfig = null)
 	{
-		if (is_null($otpConfig))
-		{
-			$otpConfig = $this->getOtpConfig($user_id);
-		}
-
-		// Did the user use an OTEP instead?
-		if (empty($otpConfig->otep))
-		{
-			if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
-			{
-				// Two factor authentication is not enabled on this account.
-				// Any string is assumed to be a valid OTEP.
-				return true;
-			}
-			else
-			{
-				/**
-				 * Two factor authentication enabled and no OTEPs defined. The
-				 * user has used them all up. Therefore anything he enters is
-				 * an invalid OTEP.
-				 */
-				return false;
-			}
-		}
-
-		// Clean up the OTEP (remove dashes, spaces and other funny stuff
-		// our beloved users may have unwittingly stuffed in it)
-		$otep = filter_var($otep, FILTER_SANITIZE_NUMBER_INT);
-		$otep = str_replace('-', '', $otep);
-
-		$check = false;
-
-		// Did we find a valid OTEP?
-		if (in_array($otep, $otpConfig->otep))
-		{
-			// Remove the OTEP from the array
-			$otpConfig->otep = array_diff($otpConfig->otep, array($otep));
-
-			$this->setOtpConfig($user_id, $otpConfig);
-
-			// Return true; the OTEP was a valid one
-			$check = true;
-		}
-
-		return $check;
+		return false;
 	}
 }

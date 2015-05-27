@@ -112,11 +112,10 @@ class ModLoginHelper
 	 * Get list of available two factor methods
 	 *
 	 * @return array
+     * @deprecated
 	 */
 	public static function getTwoFactorMethods()
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
-
-		return UsersHelper::getTwoFactorMethods();
+		return array();
 	}
 }

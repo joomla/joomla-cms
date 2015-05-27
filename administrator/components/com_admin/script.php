@@ -175,7 +175,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'categories', 'finder', 0);
 		$extensions[] = array('plugin', 'content', 'finder', 0);
 		$extensions[] = array('plugin', 'tags', 'finder', 0);
-		$extensions[] = array('plugin', 'totp', 'twofactorauth', 0);
 
 		// Templates
 		$extensions[] = array('template', 'protostar', '', 0);
