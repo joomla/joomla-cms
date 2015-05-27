@@ -35,7 +35,6 @@ class NewsfeedsRouter extends JComponentRouterView
 		$this->attachRule(new NewsfeedsRouterRulesLegacy($this));
 	}
 
-	
 	/**
 	 * Method to get the segment(s) for a category
 	 * 
