@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('JPATH_PLATFORM') or die;
+
 /**
  * Default routing class for missing or legacy component routers
  *

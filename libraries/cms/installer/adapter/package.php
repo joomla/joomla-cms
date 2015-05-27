@@ -25,6 +25,16 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	protected $results = array();
 
 	/**
+	 * Flag if the adapter supports discover installs
+	 *
+	 * Adapters should override this and set to false if discover install is unsupported
+	 *
+	 * @var    boolean
+	 * @since  3.4
+	 */
+	protected $supportsDiscoverInstall = false;
+
+	/**
 	 * Method to check if the extension is present in the filesystem, flags the route as update if so
 	 *
 	 * @return  void
@@ -398,8 +408,12 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 					if ($this->parent->manifestClass->$method($this->route, $this) === false)
 					{
 						// The script failed, rollback changes
-						$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE'));
-						return false;
+						throw new RuntimeException(
+							JText::sprintf(
+								'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
+								JText::_('JLIB_INSTALLER_' . $this->route)
+							)
+						);
 					}
 
 					break;
@@ -419,8 +433,12 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 						if ($method != 'uninstall')
 						{
 							// The script failed, rollback changes
-							$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE'));
-							return false;
+							throw new RuntimeException(
+								JText::sprintf(
+									'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
+									JText::_('JLIB_INSTALLER_' . $this->route)
+								)
+							);
 						}
 					}
 
@@ -438,22 +456,6 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		}
 
 		return true;
-	}
-
-	/**
-	 * Updates a package
-	 *
-	 * The only difference between an update and a full install
-	 * is how we handle the database
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function update()
-	{
-		$this->route = 'update';
-		$this->install();
 	}
 
 	/**

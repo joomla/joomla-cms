@@ -100,6 +100,7 @@ class JComponentHelper
 				->select('COUNT(extension_id)')
 				->from('#__extensions')
 				->where('element = ' . $db->quote($option))
+				->where('type = ' . $db->quote('component'))
 		)->loadResult();
 	}
 
@@ -338,9 +339,20 @@ class JComponentHelper
 		$file = substr($option, 4);
 
 		// Define component path.
-		define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
-		define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
-		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
+		if (!defined('JPATH_COMPONENT'))
+		{
+			define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
+		}
+
+		if (!defined('JPATH_COMPONENT_SITE'))
+		{
+			define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
+		}
+
+		if (!defined('JPATH_COMPONENT_ADMINISTRATOR'))
+		{
+			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
+		}
 
 		$path = JPATH_COMPONENT . '/' . $file . '.php';
 
@@ -420,7 +432,20 @@ class JComponentHelper
 
 		try
 		{
-			static::$components = $cache->get(array($db, 'loadObjectList'), array('option'), $option, false);
+			$components = $cache->get(array($db, 'loadObjectList'), array('option'), $option, false);
+
+			/**
+			 * Verify $components is an array, some cache handlers return an object even though
+			 * the original was a single object array.
+			 */
+			if (!is_array($components))
+			{
+				static::$components[$option] = $components;
+			}
+			else
+			{
+				static::$components = $components;
+			}
 		}
 		catch (RuntimeException $e)
 		{

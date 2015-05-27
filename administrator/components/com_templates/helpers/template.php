@@ -62,7 +62,7 @@ abstract class TemplateHelper
 		);
 		$explodedFileName = explode('.', $file['name']);
 
-		if (count($explodedFileName > 2))
+		if (count($explodedFileName) > 2)
 		{
 			foreach ($executable as $extensionName)
 			{

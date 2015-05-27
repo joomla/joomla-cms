@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @package     Joomla.Site
  * @subpackage  com_config
@@ -86,7 +86,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 			$user = JFactory::getUser();
 
 			if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $serviceData['id'])
-				|| !$user->authorise('module.edit.frontend', 'com_modules'))
+				&& !$user->authorise('module.edit.frontend', 'com_modules'))
 			{
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 				$app->redirect($redirect);

@@ -8,8 +8,21 @@
  */
 
 defined('_JEXEC') or die;
+$params = JComponentHelper::getParams('com_media');
+$path = 'file_path';
 ?>
 <form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
+	<div class="muted">
+		<p>
+			<i class="icon-folder"> </i>
+			<?php if ($this->state->folder != '') : ?>
+				<?php echo JText::_('JGLOBAL_ROOT') . ': ' . $params->get($path, 'images') . '/' . $this->state->folder; ?>
+			<?php else : ?>
+				<?php echo JText::_('JGLOBAL_ROOT') . ': ' . $params->get($path, 'images'); ?>
+			<?php endif; ?>
+		</p>
+	</div>
+
 	<ul class="manager thumbnails">
 		<?php
 		echo $this->loadTemplate('up');

@@ -40,11 +40,10 @@
 
 				<field
 					name="count"
-					type="integer"
-					first="1"
-					last="10"
-					step="1"
+					type="text"
 					default="5"
+					class="validate-numeric"
+					filter="integer"
 					label="MOD_BANNERS_FIELD_COUNT_LABEL"
 					description="MOD_BANNERS_FIELD_COUNT_DESC" />
 				<field

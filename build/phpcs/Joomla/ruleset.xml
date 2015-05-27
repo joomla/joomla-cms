@@ -23,7 +23,7 @@
  <exclude-pattern type="relative">configuration.php</exclude-pattern>
  <exclude-pattern type="relative">libraries/ClassLoader.php</exclude-pattern>
  <exclude-pattern type="relative">libraries/composer_autoload.php</exclude-pattern>
- <exclude-pattern type="relative">plugins/captcha/nocaptcha/recaptchalib.php</exclude-pattern>
+ <exclude-pattern type="relative">plugins/captcha/recaptcha/recaptchalib.php</exclude-pattern>
 
  <!-- Include all sniffs in an external standard directory -->
 

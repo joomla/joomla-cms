@@ -20,5 +20,5 @@ JText::script('JTOGGLE_SHOW_SIDEBAR');
 	type="button"
 	onclick="toggleSidebar(false); return false;"
 	>
-	<span id="j-toggle-sidebar-icon" class="icon-cancel"></span>
+	<span id="j-toggle-sidebar-icon" class="icon-arrow-left-2"></span>
 </div>
