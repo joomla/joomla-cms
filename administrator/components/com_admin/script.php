@@ -170,7 +170,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'joomla', 'extension', 0);
 		$extensions[] = array('plugin', 'joomla', 'content', 0);
 		$extensions[] = array('plugin', 'languagecode', 'system', 0);
-		$extensions[] = array('plugin', 'recaptcha', 'captcha', 0);
 		$extensions[] = array('plugin', 'categories', 'finder', 0);
 		$extensions[] = array('plugin', 'content', 'finder', 0);
 		$extensions[] = array('plugin', 'tags', 'finder', 0);
