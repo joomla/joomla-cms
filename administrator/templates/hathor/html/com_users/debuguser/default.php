@@ -67,7 +67,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 	<div>
 		<?php echo JText::_('COM_USERS_DEBUG_LEGEND'); ?>
-		<span class="swatch"><?php echo JText::sprintf('COM_USERS_DEBUG_NO_CHECK', '-');?></span>
 		<span class="check-0 swatch"><?php echo JText::sprintf('COM_USERS_DEBUG_IMPLICIT_DENY', '-');?></span>
 		<span class="check-a swatch"><?php echo JText::sprintf('COM_USERS_DEBUG_EXPLICIT_ALLOW', '&#10003;');?></span>
 		<span class="check-d swatch"><?php echo JText::sprintf('COM_USERS_DEBUG_EXPLICIT_DENY', '&#10007;');?></span>

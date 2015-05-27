@@ -68,8 +68,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="20">
+						<th width="20" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
+						</th>
+						<th>
+							<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
 							<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_OLD_URL', 'a.old_url', $listDirn, $listOrder); ?>
@@ -77,23 +80,23 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<th width="30%" class="nowrap">
 							<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_NEW_URL', 'a.new_url', $listDirn, $listOrder); ?>
 						</th>
-						<th width="30%" class="nowrap">
+						<th width="30%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_REFERRER', 'a.referer', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap">
+						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_CREATED_DATE', 'a.created_date', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap">
+						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap center hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="7">
+						<td colspan="8">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -110,6 +113,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						</td>
 						<td>
 							<?php echo JHtml::_('redirect.published', $item->published, $i); ?>
+						</td>
+						<td class="break-word">
 							<?php if ($canEdit) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id);?>" title="<?php echo $this->escape($item->old_url); ?>">
 									<?php echo $this->escape(str_replace(JUri::root(), '', rawurldecode($item->old_url))); ?></a>
@@ -117,32 +122,44 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 									<?php echo $this->escape(str_replace(JUri::root(), '', rawurldecode($item->old_url))); ?>
 							<?php endif; ?>
 						</td>
-						<td class="small">
+						<td class="small break-word">
 							<?php echo $this->escape(rawurldecode($item->new_url)); ?>
 						</td>
-						<td class="small">
+						<td class="small break-word hidden-phone">
 							<?php echo $this->escape($item->referer); ?>
 						</td>
-						<td class="small">
+						<td class="small hidden-phone">
 							<?php echo JHtml::_('date', $item->created_date, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
-						<td class="center">
+						<td class="center hidden-phone">
 							<?php echo (int) $item->hits; ?>
 						</td>
-						<td class="center">
+						<td class="center hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+			<?php //Load the batch processing form if user is allowed ?>
+			<?php if ($user->authorise('core.create', 'com_redirect')
+				&& $user->authorise('core.edit', 'com_redirect')
+				&& $user->authorise('core.edit.state', 'com_redirect')) : ?>
+				<?php echo JHtml::_(
+					'bootstrap.renderModal',
+					'collapseModal',
+					array(
+						'title' => JText::_('COM_REDIRECT_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer')
+					),
+					$this->loadTemplate('batch_body')
+				); ?>
+			<?php endif;?>
 		<?php endif; ?>
 
 		<?php if (!empty($this->items)) : ?>
 			<?php echo $this->loadTemplate('addform'); ?>
 		<?php endif; ?>
-
-		<?php echo $this->loadTemplate('batch'); ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

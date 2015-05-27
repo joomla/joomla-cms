@@ -224,12 +224,20 @@ class PlgEditorTinymce extends JPlugin
 			$image_advtab = "false";
 		}
 
-		// The param is true false, so we turn true to both rather than showing vertical resize only
+		// The param is true for vertical resizing only, false or both
 		$resizing = $this->params->get('resizing', '1');
+		$resize_horizontal = $this->params->get('resize_horizontal', '1');
 
 		if ($resizing || $resizing == 'true')
 		{
-			$resizing = 'resize: "both",';
+			if ($resize_horizontal || $resize_horizontal == 'true')
+			{
+				$resizing = 'resize: "both",';
+			}
+			else
+			{
+				$resizing = 'resize: true,';
+			}
 		}
 		else
 		{
@@ -823,32 +831,14 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onGetInsertMethod($name)
 	{
-		$doc = JFactory::getDocument();
-
-		$js = "
-			function isBrowserIE()
-			{
-				return navigator.appName==\"Microsoft Internet Explorer\";
-			}
-
+		JFactory::getDocument()->addScriptDeclaration(
+			"
 			function jInsertEditorText( text, editor )
 			{
 				tinyMCE.execCommand('mceInsertContent', false, text);
 			}
-
-			var global_ie_bookmark = false;
-
-			function IeCursorFix()
-			{
-				if (isBrowserIE())
-				{
-					tinyMCE.execCommand('mceInsertContent', false, '');
-					global_ie_bookmark = tinyMCE.activeEditor.selection.getBookmark(false);
-				}
-				return true;
-			}";
-
-		$doc->addScriptDeclaration($js);
+			"
+		);
 
 		return true;
 	}
@@ -941,6 +931,7 @@ class PlgEditorTinymce extends JPlugin
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
+
 			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
 

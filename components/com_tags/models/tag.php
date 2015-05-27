@@ -136,7 +136,7 @@ class TagsModelTag extends JModelList
 		$language = $this->getState('tag.language');
 		$stateFilter = $this->getState('tag.state');
 
-	// Optionally filter on language
+		// Optionally filter on language
 		if (empty($language))
 		{
 			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
@@ -167,10 +167,11 @@ class TagsModelTag extends JModelList
 	 */
 	protected function populateState($ordering = 'c.core_title', $direction = 'ASC')
 	{
-		$app = JFactory::getApplication('site');
+		$app = JFactory::getApplication();
 
 		// Load the parameters.
-		$params = $app->getParams();
+		$params = $app->isAdmin() ? JComponentHelper::getParams('com_tags') : $app->getParams();
+
 		$this->setState('params', $params);
 
 		// Load state from the request.

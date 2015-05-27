@@ -516,7 +516,7 @@ class UsersModelReset extends JModelForm
 		elseif ($user->resetCount < $maxCount)
 		{
 			// If we are under the max count, just increment the counter
-			$user->resetCount;
+			++$user->resetCount;
 		}
 		else
 		{

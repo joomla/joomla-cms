@@ -104,8 +104,8 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 		// Clear cookies to force logout
 		$this->driver->clearCurrentCookies();
 		$url = $this->cfg->host . $this->cfg->path . 'administrator/index.php';
-		$loginPage = $this->getPageObject('AdminloginPage', true, $url);
-		$this->assertTrue(is_a($loginPage, 'AdminloginPage'));
+		$loginPage = $this->getPageObject('AdminLoginPage', true, $url);
+		$this->assertTrue(is_a($loginPage, 'AdminLoginPage'));
 		return $loginPage;
 	}
 	

@@ -24,6 +24,13 @@ class MockJComponentRouterRulesMenuMenuObject
 	protected $items = array();
 
 	/**
+	 * Active menuitem
+	 * 
+	 * @var integer
+	 */
+	public $active = 49;
+
+	/**
 	 * Constructor for this object
 	 * 
 	 * @since 3.4
@@ -163,7 +170,7 @@ class MockJComponentRouterRulesMenuMenuObject
 	 */
 	public function getActive()
 	{
-		return $this->items[49];
+		return (isset($this->items[$this->active]) ? $this->items[$this->active] : null);
 	}
 
 	/**
@@ -176,12 +183,12 @@ class MockJComponentRouterRulesMenuMenuObject
 	 */
 	public function getDefault($language = '*')
 	{
-		if ($language = '*')
+		if ($language == '*')
 		{
 			return $this->items[47];
 		}
 		
-		if ($language = 'en-GB')
+		if ($language == 'en-GB')
 		{
 			return $this->items[51];
 		}

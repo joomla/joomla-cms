@@ -24,6 +24,7 @@ class JComponentRouterBaseTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterBase::__construct
 	 */
 	public function testConstruct()
 	{
@@ -77,6 +78,7 @@ class JComponentRouterBaseTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterBase::preprocess
 	 */
 	public function testPreprocess()
 	{

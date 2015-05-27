@@ -1,7 +1,7 @@
 1- What is this?
 	* This is a Joomla! installation/upgrade package to version 3.x
 	* Joomla! Official site: http://www.joomla.org
-	* Joomla 3.3 version history - https://docs.joomla.org/Joomla_3.3_version_history
+	* Joomla! 3.4 version history - https://docs.joomla.org/Joomla_3.4_version_history
 	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/master
 
 2- What is Joomla?
@@ -13,11 +13,11 @@
 3- Is Joomla for you?
 	* Joomla is the right solution for any content web project: https://docs.joomla.org/Joomla_Is_it_for_me%3F
 	* See Features - http://www.joomla.org/core-features.html
-	* Try out our online demo: http://demo.joomla.org/
+	* Try out our online demo: https://demo.joomla.org/
 
 4- How to find a Joomla! translation?
 	* Repository of accredited language packs: http://community.joomla.org/translations.html
-	* Directory of non-accredited language packs (see above for accredited): http://extensions.joomla.org/extensions/languages/translations-for-joomla
+	* You can also add languages directly to your website via your Joomla! administration panel.
 
 5- Learn Joomla!
 	* Read Getting Started with Joomla to find out the basics: https://docs.joomla.org/Getting_Started_with_Joomla!
@@ -48,25 +48,24 @@
 	* Find the information you need: https://docs.joomla.org/Start_here
 	* Find help and other users: http://www.joomla.org/about-joomla/create-and-share.html
 	* Post questions at our forums: http://forum.joomla.org
-	* Joomla Resources Directory (JRD): http://resources.joomla.org/tos.html
+	* Joomla Resources Directory (JRD): http://resources.joomla.org/
 
 11- Do you already have a Joomla site that's not built with Joomla 3.x ?
 	* What's new in Joomla 3.x: http://www.joomla.org/3
 	* What are the main differences from 2.5 to 3? Table of contents: https://docs.joomla.org/Differences_from_Joomla_2.5_to_Joomla_3.0
 	* How to migrate from 2.5.x to 3.x? Tutorial: https://docs.joomla.org/Joomla_2.5_to_3.x_Step_by_Step_Migration
-	* What are the main differences from 1.5 to 2.5? Table of contents: https://docs.joomla.org/Differences_from_Joomla_1.5_to_Joomla_2.5
 	* How to migrate from 1.5.x to 3.x? Tutorial: https://docs.joomla.org/Joomla_1.5_to_3.x_Step_by_Step_Migration
 	* Convert an existing Web site to Joomla: https://docs.joomla.org/How_to_Convert_an_existing_Web_site_to_a_Joomla!_Web_site
 
 12- Do you want to improve Joomla?
 	* How do you request a feature? https://docs.joomla.org/How_do_you_request_a_feature%3F
 	* How do you report a bug? https://docs.joomla.org/Filing_bugs_and_issues
-	* Get Involved: Joomla! is a community developed software. Join the community at http://www.joomla.org
+	* Get Involved: Joomla! is a community developed software. Join the community at http://volunteers.joomla.org/
 	* Are you a Developer? https://docs.joomla.org/Developers
 	* Are you a Web designer? https://docs.joomla.org/Web_designers
 
 Copyright:
 	* Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
-	* Credits: https://docs.joomla.org/Joomla!_Credits_and_Thanks
+	* Special Thanks: https://docs.joomla.org/Joomla!_Credits_and_Thanks
 	* Distributed under the GNU General Public License version 2 or later
 	* See Licenses details at https://docs.joomla.org/Joomla_Licenses
