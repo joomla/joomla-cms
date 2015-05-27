@@ -174,32 +174,6 @@
 	</fieldset>
 
 	<fieldset
-		name="user_notes_history"
-		label="COM_USERS_CONFIG_FIELD_NOTES_HISTORY" >
-
-			<field
-			name="save_history"
-			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
-			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
-			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
-			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
-		</field>
-
-		<field
-			name="history_limit"
-			type="text"
-			filter="integer"
-			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
-			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
-			default="5"
-		/>
-	</fieldset>
-
-	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"

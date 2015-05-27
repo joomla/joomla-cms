@@ -43,45 +43,6 @@ class JHtmlUsers
 		return '<img src="' . JUri::root() . $src . '" alt="" />';
 	}
 
-	/**
-	 * Displays an icon to add a note for this user.
-	 *
-	 * @param   integer  $userId  The user ID
-	 *
-	 * @return  string  A link to add a note
-	 *
-	 * @since   2.5
-	 */
-	public static function addNote($userId)
-	{
-		$title = JText::_('COM_USERS_ADD_NOTE');
-
-		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '">'
-			. '<span class="label label-info"><i class="icon-vcard"></i>' . $title . '</span></a>';
-	}
-
-	/**
-	 * Displays an icon to filter the notes list on this user.
-	 *
-	 * @param   integer  $count   The number of notes for the user
-	 * @param   integer  $userId  The user ID
-	 *
-	 * @return  string  A link to apply a filter
-	 *
-	 * @since   2.5
-	 */
-	public static function filterNotes($count, $userId)
-	{
-		if (empty($count))
-		{
-			return '';
-		}
-
-		$title = JText::_('COM_USERS_FILTER_NOTES');
-
-		return '<a href="' . JRoute::_('index.php?option=com_users&view=notes&filter_search=uid:' . (int) $userId) . '">'
-			. JHtml::_('image', 'admin/filter_16.png', 'COM_USERS_NOTES', array('title' => $title), true) . '</a>';
-	}
 
 	/**
 	 * Displays a note icon.
@@ -95,17 +56,7 @@ class JHtmlUsers
 	 */
 	public static function notes($count, $userId)
 	{
-		if (empty($count))
-		{
-			return '';
-		}
 
-		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
-
-		return '<a class="modal"'
-			. ' href="' . JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId) . '"'
-			. ' rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
-			. '<span class="label label-info"><i class="icon-drawer-2"></i>' . $title . '</span></a>';
 	}
 
 	/**
