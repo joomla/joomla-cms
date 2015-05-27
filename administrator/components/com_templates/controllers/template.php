@@ -348,25 +348,11 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 * @return  void
 	 *
 	 * @since   3.2
+     * @deprecated
 	 */
 	public function less()
 	{
-		$app   = JFactory::getApplication();
-		$model = $this->getModel();
-		$id    = $app->input->get('id');
-		$file  = $app->input->get('file');
 
-		if ($model->compileLess($file))
-		{
-			$this->setMessage(JText::_('COM_TEMPLATES_COMPILE_SUCCESS'));
-		}
-		else
-		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_COMPILE_ERROR'), 'error');
-		}
-
-		$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-		$this->setRedirect(JRoute::_($url, false));
 	}
 
 	/**
