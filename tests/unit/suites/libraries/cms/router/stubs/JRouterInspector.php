@@ -84,4 +84,34 @@ class JRouterInspector extends JRouter
 			unset(self::$instances[$key]);
 		}
 	}
+
+	/**
+	 * Runs the protected processParseRules() method
+	 *
+	 * @param   JUri    &$uri   The URI to parse
+	 * @param   string  $stage  The stage that should be processed.
+ 	 *
+	 * @return  mixed  Array of decoded segments
+	 *
+	 * @since   3.4
+	 */
+	public function runProcessParseRules(&$uri, $stage = self::PROCESS_DURING)
+	{
+		return $this->processParseRules($uri, $stage);
+	}
+
+	/**
+	 * Runs the protected processBuildRules() method
+	 *
+	 * @param   JUri    &$uri   The URI to parse
+	 * @param   string  $stage  The stage that should be processed.
+ 	 *
+	 * @return  mixed  Array of decoded segments
+	 *
+	 * @since   3.4
+	 */
+	public function runProcessBuildRules(&$uri, $stage = self::PROCESS_DURING)
+	{
+		return $this->processBuildRules($uri, $stage);
+	}
 }

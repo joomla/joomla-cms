@@ -74,7 +74,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	protected function copyBaseFiles()
 	{
 		// Copy all necessary files
-		if ($this->parent->parseFiles($this->manifest->files, -1, $this->oldFiles) === false)
+		if ($this->parent->parseFiles($this->getManifest()->files, -1, $this->oldFiles) === false)
 		{
 			throw new RuntimeException(
 				JText::sprintf(
@@ -141,7 +141,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1
+	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
 	protected function finaliseInstall()
@@ -163,15 +163,18 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		}
 
 		// Lastly, we will copy the manifest file to its appropriate place.
-		if (!$this->parent->copyManifest(-1))
+		if ($this->route != 'discover_install')
 		{
-			// Install failed, rollback changes
-			throw new RuntimeException(
-				JText::sprintf(
-					'JLIB_INSTALLER_ABORT_PLG_INSTALL_COPY_SETUP',
-					JText::_('JLIB_INSTALLER_' . $this->route)
-				)
-			);
+			if (!$this->parent->copyManifest(-1))
+			{
+				// Install failed, rollback changes
+				throw new RuntimeException(
+					JText::sprintf(
+						'JLIB_INSTALLER_ABORT_PLG_INSTALL_COPY_SETUP',
+						JText::_('JLIB_INSTALLER_' . $this->route)
+					)
+				);
+			}
 		}
 	}
 
@@ -182,7 +185,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	 *
 	 * @return  string  The filtered element
 	 *
-	 * @since   3.1
+	 * @since   3.4
 	 */
 	public function getElement($element = null)
 	{
@@ -190,11 +193,11 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		{
 			// Backward Compatibility
 			// @todo Deprecate in future version
-			if (count($this->manifest->files->children()))
+			if (count($this->getManifest()->files->children()))
 			{
-				$type = (string) $this->manifest->attributes()->type;
+				$type = (string) $this->getManifest()->attributes()->type;
 
-				foreach ($this->manifest->files->children() as $file)
+				foreach ($this->getManifest()->files->children() as $file)
 				{
 					if ((string) $file->attributes()->$type)
 					{
@@ -242,12 +245,11 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 			);
 		}
 
-		$this->manifest = $this->parent->getManifest();
-		$element        = $this->manifest->files;
+		$element = $this->getManifest()->files;
 
 		if ($element)
 		{
-			$group = strtolower((string) $this->manifest->attributes()->group);
+			$group = strtolower((string) $this->getManifest()->attributes()->group);
 			$name = '';
 
 			if (count($element->children()))
@@ -288,8 +290,35 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	protected function parseOptionalTags()
 	{
 		// Parse optional tags -- media and language files for plugins go in admin app
-		$this->parent->parseMedia($this->manifest->media, 1);
-		$this->parent->parseLanguages($this->manifest->languages, 1);
+		$this->parent->parseMedia($this->getManifest()->media, 1);
+		$this->parent->parseLanguages($this->getManifest()->languages, 1);
+	}
+
+	/**
+	 * Prepares the adapter for a discover_install task
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	public function prepareDiscoverInstall()
+	{
+		$client   = JApplicationHelper::getClientInfo($this->extension->client_id);
+		$basePath = $client->path . '/plugins/' . $this->extension->folder;
+
+		if (is_dir($basePath . '/' . $this->extension->element))
+		{
+			$manifestPath = $basePath . '/' . $this->extension->element . '/' . $this->extension->element . '.xml';
+		}
+		else
+		{
+			// @deprecated 4.0 - This path supports Joomla! 1.5 plugin folder layouts
+			$manifestPath = $basePath . '/' . $this->extension->element . '.xml';
+		}
+
+		$this->parent->manifest = $this->parent->isManifest($manifestPath);
+		$this->parent->setPath('manifest', $manifestPath);
+		$this->setManifest($this->parent->getManifest());
 	}
 
 	/**
@@ -297,7 +326,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1
+	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
 	protected function setupInstallPaths()
@@ -322,11 +351,31 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1
+	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
 	protected function storeExtension()
 	{
+		// Discover installs are stored a little differently
+		if ($this->route == 'discover_install')
+		{
+			$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+
+			$this->extension->manifest_cache = json_encode($manifest_details);
+			$this->extension->state = 0;
+			$this->extension->name = $manifest_details['name'];
+			$this->extension->enabled = ('editors' == $this->extension->folder) ? 1 : 0;
+			$this->extension->params = $this->parent->getParams();
+
+			if (!$this->extension->store())
+			{
+				// Install failed, roll back changes
+				throw new RuntimeException(JText::_('JLIB_INSTALLER_ERROR_PLG_DISCOVER_STORE_DETAILS'));
+			}
+
+			return;
+		}
+
 		// Was there a plugin with the same name already installed?
 		if ($this->currentExtensionId)
 		{
@@ -395,26 +444,6 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	}
 
 	/**
-	 * Custom update method
-	 *
-	 * @return   boolean  True on success
-	 *
-	 * @since    3.1
-	 */
-	public function update()
-	{
-		// Set the overwrite setting
-		$this->parent->setOverwrite(true);
-		$this->parent->setUpgrade(true);
-
-		// Set the route for the install
-		$this->route = 'update';
-
-		// Go to install which handles updates properly
-		return $this->install();
-	}
-
-	/**
 	 * Custom uninstall method
 	 *
 	 * @param   integer  $id  The id of the plugin to uninstall
@@ -465,7 +494,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
 		$this->parent->findManifest();
-		$this->manifest = $this->parent->getManifest();
+		$this->setManifest($this->parent->getManifest());
 
 		// Attempt to load the language file; might have uninstall strings
 		$this->parent->setPath('source', JPATH_PLUGINS . '/' . $row->folder . '/' . $row->element);
@@ -478,7 +507,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		 */
 
 		// If there is an manifest class file, let's load it; we'll copy it later (don't have dest yet)
-		$manifestScript = (string) $this->manifest->scriptfile;
+		$manifestScript = (string) $this->getManifest()->scriptfile;
 
 		if ($manifestScript)
 		{
@@ -525,7 +554,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		ob_end_clean();
 
 		// Let's run the queries for the plugin
-		$utfresult = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
+		$utfresult = $this->parent->parseSQLFiles($this->getManifest()->uninstall->sql);
 
 		if ($utfresult === false)
 		{
@@ -549,11 +578,11 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		ob_end_clean();
 
 		// Remove the plugin files
-		$this->parent->removeFiles($this->manifest->files, -1);
+		$this->parent->removeFiles($this->getManifest()->files, -1);
 
 		// Remove all media and languages as well
-		$this->parent->removeFiles($this->manifest->media);
-		$this->parent->removeFiles($this->manifest->languages, 1);
+		$this->parent->removeFiles($this->getManifest()->media);
+		$this->parent->removeFiles($this->getManifest()->languages, 1);
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
@@ -654,64 +683,6 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		}
 
 		return $results;
-	}
-
-	/**
-	 * Custom discover_install method.
-	 *
-	 * @return  mixed
-	 *
-	 * @since   3.1
-	 */
-	public function discover_install()
-	{
-		/*
-		 * Plugins use the extensions table as their primary store
-		 * Similar to modules and templates, rather easy
-		 * If it's not in the extensions table we just add it
-		 */
-		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-
-		if (is_dir($client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element))
-		{
-			$manifestPath = $client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element . '/'
-				. $this->parent->extension->element . '.xml';
-		}
-		else
-		{
-			$manifestPath = $client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element . '.xml';
-		}
-
-		$this->parent->manifest = $this->parent->isManifest($manifestPath);
-		$description = (string) $this->parent->manifest->description;
-
-		if ($description)
-		{
-			$this->parent->set('message', JText::_($description));
-		}
-		else
-		{
-			$this->parent->set('message', '');
-		}
-
-		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JInstaller::parseXMLInstallFile($manifestPath);
-		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->state = 0;
-		$this->parent->extension->name = $manifest_details['name'];
-		$this->parent->extension->enabled = ('editors' == $this->parent->extension->folder) ? 1 : 0;
-		$this->parent->extension->params = $this->parent->getParams();
-
-		if ($this->parent->extension->store())
-		{
-			return $this->parent->extension->get('extension_id');
-		}
-		else
-		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PLG_DISCOVER_STORE_DETAILS'), JLog::WARNING, 'jerror');
-
-			return false;
-		}
 	}
 
 	/**

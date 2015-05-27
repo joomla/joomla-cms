@@ -40,8 +40,6 @@ class JFormFieldModal_Contact extends JFormField
 		JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
 
 		// Load the javascript
-		JHtml::_('behavior.framework');
-		JHtml::_('behavior.modal', 'a.modal');
 		JHtml::_('bootstrap.tooltip');
 
 		// Build the script.
@@ -62,7 +60,14 @@ class JFormFieldModal_Contact extends JFormField
 			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
 		}
 
-		$script[] = '		SqueezeBox.close();';
+		$script[] = '		jQuery("#modalContact' . $this->id . '").modal("hide");';
+
+		if ($this->required)
+		{
+			$script[] = '		document.formvalidator.validate(document.getElementById("' . $this->id . '_id"));';
+			$script[] = '		document.formvalidator.validate(document.getElementById("' . $this->id . '_name"));';
+		}
+
 		$script[] = '	}';
 
 		// Clear button script
@@ -136,13 +141,21 @@ class JFormFieldModal_Contact extends JFormField
 		// The current contact display field.
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title . '" disabled="disabled" size="35" />';
-		$html[] = '<a'
-			. ' class="modal btn hasTooltip"'
-			. ' title="' . JHtml::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '"'
-			. ' href="' . $link . '&amp;' . JSession::getFormToken() . '=1"'
-			. ' rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
+		$html[] = '<a href="#modalContact' . $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal"'
+			. ' title="' . JHtml::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '">'
 			. '<i class="icon-file"></i> ' . JText::_('JSELECT')
 			. '</a>';
+
+		$html[] = JHtmlBootstrap::renderModal(
+							'modalContact' . $this->id, array(
+							'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
+							'title' => JText::_('COM_CONTACT_CHANGE_CONTACT'),
+							'width' => '800px',
+							'height' => '300px',
+							'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+								. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+						)
+					);
 
 		// Edit contact button.
 		if ($allowEdit)
@@ -180,5 +193,17 @@ class JFormFieldModal_Contact extends JFormField
 		$html[] = '<input type="hidden" id="' . $this->id . '_id"' . $class . ' name="' . $this->name . '" value="' . $value . '" />';
 
 		return implode("\n", $html);
+	}
+
+	/**
+	 * Method to get the field label markup.
+	 *
+	 * @return  string  The field label markup.
+	 *
+	 * @since   3.4
+	 */
+	protected function getLabel()
+	{
+		return str_replace($this->id, $this->id . '_id', parent::getLabel());
 	}
 }

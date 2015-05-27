@@ -49,7 +49,7 @@ class PlgButtonArticle extends JPlugin
 			}
 			var tag = '<a' + hreflang + ' href=\"' + link + '\">' + title + '</a>';
 			jInsertEditorText(tag, '" . $name . "');
-			SqueezeBox.close();
+			jModalClose();
 		}";
 
 		$doc = JFactory::getDocument();

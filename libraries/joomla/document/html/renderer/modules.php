@@ -33,16 +33,16 @@ class JDocumentRendererModules extends JDocumentRenderer
 		$buffer = '';
 
 		$app = JFactory::getApplication();
-		$frontediting = $app->get('frontediting', 1);
 		$user = JFactory::getUser();
+		$frontediting = ($app->isSite() && $app->get('frontediting', 1) && !$user->guest);
 
-		$menusEditing = ($frontediting == 2) && $user->authorise('core.edit', 'com_menus');
+		$menusEditing = ($app->get('frontediting', 1) == 2) && $user->authorise('core.edit', 'com_menus');
 
 		foreach (JModuleHelper::getModules($position) as $mod)
 		{
 			$moduleHtml = $renderer->render($mod, $params, $content);
 
-			if ($app->isSite() && $frontediting && trim($moduleHtml) != '' && $user->authorise('module.edit.frontend', 'com_modules.module.' . $mod->id))
+			if ($frontediting && trim($moduleHtml) != '' && $user->authorise('module.edit.frontend', 'com_modules.module.' . $mod->id))
 			{
 				$displayData = array('moduleHtml' => &$moduleHtml, 'module' => $mod, 'position' => $position, 'menusediting' => $menusEditing);
 				JLayoutHelper::render('joomla.edit.frontediting_modules', $displayData);

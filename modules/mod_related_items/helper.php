@@ -81,6 +81,7 @@ abstract class ModRelatedItemsHelper
 						->select('a.title')
 						->select('DATE(a.created) as created')
 						->select('a.catid')
+						->select('a.language')
 						->select('cc.access AS cat_access')
 						->select('cc.published AS cat_state');
 

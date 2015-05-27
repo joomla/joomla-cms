@@ -66,7 +66,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING');  ?></option>
 				</select>
 			</div>
-			<div class="btn-group pull-right">
+			<div class="btn-group pull-right hidden-phone">
 				<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY'); ?></label>
 				<select name="sortTable" id="sortTable" class="input-medium" onchange="Joomla.orderTable()">
 					<option value=""><?php echo JText::_('JGLOBAL_SORT_BY');?></option>
@@ -149,7 +149,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					</td>
 					<td class="center">
 						<?php if (intval($item->review_time)) : ?>
-							<?php echo $this->escape($item->review_time); ?>
+							<?php echo JHtml::_('date', $item->review_time, JText::_('DATE_FORMAT_LC4')); ?>
 						<?php else : ?>
 							<?php echo JText::_('COM_USERS_EMPTY_REVIEW'); ?>
 						<?php endif; ?>
