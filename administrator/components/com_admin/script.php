@@ -106,7 +106,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('library', 'phputf8', '', 0);
 		$extensions[] = array('library', 'joomla', '', 0);
 		$extensions[] = array('library', 'idna_convert', '', 0);
-		$extensions[] = array('library', 'fof', '', 0);
 		$extensions[] = array('library', 'phpass', '', 0);
 
 		// Modules site
@@ -1031,15 +1030,11 @@ class JoomlaInstallerScript
 	 * @return  void
 	 *
 	 * @since   3.2
+     * @deprecated
 	 */
 	protected function clearRadCache()
 	{
-		jimport('joomla.filesystem.file');
 
-		if (JFile::exists(JPATH_CACHE . '/fof/cache.php'))
-		{
-			JFile::delete(JPATH_CACHE . '/fof/cache.php');
-		}
 	}
 
 	/**
