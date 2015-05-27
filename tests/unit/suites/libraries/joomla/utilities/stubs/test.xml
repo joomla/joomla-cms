@@ -834,25 +834,6 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>36</value>
-			<value>Footer</value>
-			<value>module</value>
-			<value>mod_footer</value>
-			<value></value>
-			<value>0</value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
 			<value>37</value>
 			<value>Login</value>
 			<value>module</value>
