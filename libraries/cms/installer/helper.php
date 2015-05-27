@@ -50,7 +50,16 @@ abstract class JInstallerHelper
 		$dispatcher = JEventDispatcher::getInstance();
 		$results = $dispatcher->trigger('onInstallerBeforePackageDownload', array(&$url, &$headers));
 
-		$response = $http->get($url, $headers);
+		try
+		{
+			$response = $http->get($url, $headers);
+		}
+		catch (Exception $exception)
+		{
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), JLog::WARNING, 'jerror');
+
+			return false;
+		}
 
 		if (302 == $response->code && isset($response->headers['Location']))
 		{

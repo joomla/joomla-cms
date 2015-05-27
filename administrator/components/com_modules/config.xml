@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+    <fieldset
+        name="modules"
+        label="COM_MODULES_GENERAL">
+            <field
+                name="redirect_edit"
+                type="list"
+                class="advancedSelect"
+                default="site"
+                label="COM_MODULES_REDIRECT_EDIT_LABEL"
+                description="COM_MODULES_REDIRECT_EDIT_DESC">
+            <option value="admin">JADMINISTRATOR</option>
+            <option value="site">JSITE</option>
+        </field>
+    </fieldset>
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"

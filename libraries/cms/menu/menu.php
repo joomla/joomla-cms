@@ -157,7 +157,7 @@ class JMenu
 	 *
 	 * @since   1.5
 	 */
-	public function setDefault($id, $language = '')
+	public function setDefault($id, $language = '*')
 	{
 		if (isset($this->_items[$id]))
 		{
@@ -266,7 +266,7 @@ class JMenu
 			{
 				if (is_array($values[$i]))
 				{
-					if (!in_array($item->$attributes[$i], $values[$i]))
+					if (!in_array($item->{$attributes[$i]}, $values[$i]))
 					{
 						$test = false;
 						break;
@@ -274,7 +274,7 @@ class JMenu
 				}
 				else
 				{
-					if ($item->$attributes[$i] != $values[$i])
+					if ($item->{$attributes[$i]} != $values[$i])
 					{
 						$test = false;
 						break;

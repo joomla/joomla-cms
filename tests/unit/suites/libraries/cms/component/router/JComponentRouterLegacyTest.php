@@ -47,6 +47,7 @@ class JComponentRouterLegacyTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterLegacy::__construct
 	 */
 	public function testConstruct()
 	{
@@ -60,6 +61,7 @@ class JComponentRouterLegacyTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterLegacy::preprocess
 	 */
 	public function testPreprocess()
 	{
@@ -76,6 +78,7 @@ class JComponentRouterLegacyTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterLegacy::build
 	 */
 	public function testBuild()
 	{
@@ -98,6 +101,7 @@ class JComponentRouterLegacyTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.4
+	 * @covers  JComponentRouterLegacy::parse
 	 */
 	public function testParse()
 	{
