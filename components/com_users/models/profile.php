@@ -24,21 +24,6 @@ class UsersModelProfile extends JModelForm
 	 */
 	protected $data;
 
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-
-		// Load the helper and model used for two factor authentication
-		require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
-		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
-	}
-
 	/**
 	 * Method to check in a user.
 	 *
