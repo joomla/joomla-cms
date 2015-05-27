@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.2
  */
-class UsersRouter extends JComponentRouterAdvanced
+class UsersRouter extends JComponentRouterView
 {
 	function __construct($app = null, $menu = null)
 	{
