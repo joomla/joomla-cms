@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.3
  */
-class NewsfeedsRouter extends JComponentRouterAdvanced
+class NewsfeedsRouter extends JComponentRouterView
 {
 	function __construct($app = null, $menu = null)
 	{
