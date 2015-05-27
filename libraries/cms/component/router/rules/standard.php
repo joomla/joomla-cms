@@ -17,7 +17,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 	/**
 	 * Router this rule belongs to
 	 *
-	 * @var JComponentRouterAdvanced
+	 * @var JComponentRouterView
 	 * @since 3.4
 	 */
 	protected $router;
@@ -25,11 +25,11 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JComponentRouterAdvanced  $router  Router this rule belongs to
+	 * @param   JComponentRouterView  $router  Router this rule belongs to
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(JComponentRouterAdvanced $router)
+	public function __construct(JComponentRouterView $router)
 	{
 		$this->router = $router;
 	}
@@ -79,9 +79,9 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 			// Our current view is nestable. We need to check first if the segment fits to that
 			if ($views[$vars['view']]->nestable)
 			{
-				if (is_callable(array($this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Key')))
+				if (is_callable(array($this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id')))
 				{
-					$key = call_user_func_array(array($this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Key'), array($segment, $vars));
+					$key = call_user_func_array(array($this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'), array($segment, $vars));
 
 					// Did we get a proper key? If not, we need to look in the child-views
 					if ($key)
@@ -123,10 +123,10 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 				}
 				else
 				{
-					if (is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Key')))
+					if (is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Id')))
 					{
 						// Hand the data over to the router specific method and see if there is a content item that fits
-						$key = call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Key'), array($segment, $vars));
+						$key = call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segment, $vars));
 
 						if ($key)
 						{
