@@ -678,39 +678,11 @@ class TemplatesModelTemplate extends JModelForm
 	 * @return  boolean  true if compilation is successful, false otherwise
 	 *
 	 * @since   3.2
+     * @deprecated
 	 */
 	public function compileLess($input)
 	{
-		if ($template = $this->getTemplate())
-		{
-			$app          = JFactory::getApplication();
-			$client       = JApplicationHelper::getClientInfo($template->client_id);
-			$path         = JPath::clean($client->path . '/templates/' . $template->element . '/');
-			$inFile       = urldecode(base64_decode($input));
-			$explodeArray = explode('/', $inFile);
-			$fileName     = end($explodeArray);
-			$outFile      = reset(explode('.', $fileName));
 
-			// Load the RAD layer to use its LESS compiler
-			if (!defined('FOF_INCLUDED'))
-			{
-				require_once JPATH_LIBRARIES . '/fof/include.php';
-			}
-
-			$less = new FOFLess;
-			$less->setFormatter(new FOFLessFormatterJoomla);
-
-			try
-			{
-				$less->compileFile($path . $inFile, $path . 'css/' . $outFile . '.css');
-
-				return true;
-			}
-			catch (Exception $e)
-			{
-				$app->enqueueMessage($e->getMessage(), 'error');
-			}
-		}
 	}
 
 	/**
