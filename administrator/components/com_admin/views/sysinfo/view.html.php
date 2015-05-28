@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Sysinfo View class for the Admin component
  *
- * @package     Joomla.Administrator
- * @subpackage  com_admin
- * @since       1.6
+ * @since  1.6
  */
 class AdminViewSysinfo extends JViewLegacy
 {
@@ -44,7 +42,11 @@ class AdminViewSysinfo extends JViewLegacy
 	protected $directory = null;
 
 	/**
-	 * Display the view
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -88,6 +90,8 @@ class AdminViewSysinfo extends JViewLegacy
 
 	/**
 	 * Setup the Toolbar
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

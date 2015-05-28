@@ -364,6 +364,23 @@ direction:rtl;
 	padding: 8px 10px;
 	color: #FFFFFF;
 }
+.navigation .nav li li .nav-child {
+	left: auto;
+	right: 100%;
+	
+	&:before {
+		left: auto;
+		right: -7px;
+		border-left: 7px solid rgba(0, 0, 0, 0.2);
+		border-right-width: 0;
+	}
+	&:after {
+		left: auto;
+		right: -6px;
+		border-left: 6px solid #ffffff;
+		border-right-width: 0;
+	}
+}
 .container-logo {
 	padding-top: 6px;
 	float: left;
@@ -594,3 +611,30 @@ input[type="url"] {
 	text-align: left;
 	direction: ltr;
 }
+
+/* Menu Module front-end */
+#aside .nav .nav-child {
+	border-left: 0;
+	border-right: 2px solid #ddd;
+	padding-left: 0;
+	padding-right: 5px;
+}
+
+/* Dropdown frontend */
+.dropdown-menu {
+	text-align: right;
+}
+
+/* Icon whitespacing */
+[class^="icon-"],
+[class*=" icon-"] {
+	margin-left: .25em;
+}
+dd > span[class^="icon-"] + time,
+dd > span[class*=" icon-"] + time{
+	margin-left: -.25em;
+}
+dl.article-info dd.hits span[class^="icon-"],
+dl.article-info dd.hits span[class*=" icon-"]{
+	margin-right: 0;
+ }

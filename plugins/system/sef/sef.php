@@ -3,17 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  System.sef
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('_JEXEC') or die;
 
 /**
  * Joomla! SEF Plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.sef
- * @since       1.5
+ * @since  1.5
  */
 class PlgSystemSef extends JPlugin
 {
@@ -36,7 +35,7 @@ class PlgSystemSef extends JPlugin
 
 		$router = $app::getRouter();
 
-		$uri     = clone JUri::getInstance();
+		$uri     = JUri::getInstance();
 		$domain  = $this->params->get('domain');
 
 		if ($domain === null || $domain === '')
@@ -44,11 +43,9 @@ class PlgSystemSef extends JPlugin
 			$domain = $uri->toString(array('scheme', 'host', 'port'));
 		}
 
-		$parsed = $router->parse($uri);
-		$fakelink = 'index.php?' . http_build_query($parsed);
-		$link = $domain . JRoute::_($fakelink, false);
+		$link = $domain . JRoute::_('index.php?' . http_build_query($router->getVars()), false);
 
-		if ($uri !== $link)
+		if ($uri->toString() !== $link)
 		{
 			$doc->addHeadLink(htmlspecialchars($link), 'canonical');
 		}

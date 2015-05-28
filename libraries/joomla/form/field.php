@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Abstract Form Field class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @since  11.1
  */
 abstract class JFormField
 {
@@ -915,6 +913,7 @@ abstract class JFormField
 			$showon   = explode(':', $showon, 2);
 			$options['class'] .= ' showon_' . implode(' showon_', explode(',', $showon[1]));
 			$id = $this->getName($showon[0]);
+			$id = $this->multiple ? str_replace('[]', '', $id) : $id;
 			$options['rel'] = ' rel="showon_' . $id . '"';
 			$options['showonEnabled'] = true;
 		}

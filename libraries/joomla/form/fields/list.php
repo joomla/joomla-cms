@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Supports a generic list of options.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @since  11.1
  */
 class JFormFieldList extends JFormField
 {
@@ -59,11 +57,28 @@ class JFormFieldList extends JFormField
 		// Get the field options.
 		$options = (array) $this->getOptions();
 
-		// Create a read-only list (no name) with a hidden input to store the value.
+		// Create a read-only list (no name) with hidden input(s) to store the value(s).
 		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
 		{
 			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
-			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"/>';
+
+			// E.g. form field type tag sends $this->value as array
+			if ($this->multiple && is_array($this->value))
+			{
+				if (!count($this->value))
+				{
+					$this->value[] = '';
+				}
+
+				foreach ($this->value as $value)
+				{
+					$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"/>';
+				}
+			}
+			else
+			{
+				$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"/>';
+			}
 		}
 		else
 		// Create a regular list.

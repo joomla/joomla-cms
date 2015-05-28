@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Search Component Search Model
  *
- * @package     Joomla.Site
- * @subpackage  com_search
- * @since       1.5
+ * @since  1.5
  */
 class SearchModelSearch extends JModelLegacy
 {
@@ -55,7 +53,7 @@ class SearchModelSearch extends JModelLegacy
 	{
 		parent::__construct();
 
-		//Get configuration
+		// Get configuration
 		$app    = JFactory::getApplication();
 		$config = JFactory::getConfig();
 
@@ -85,7 +83,7 @@ class SearchModelSearch extends JModelLegacy
 		$ordering = $app->input->get('ordering', $params->get('ordering', 'newest'), 'word');
 		$this->setSearch($keyword, $match, $ordering);
 
-		//Set the search areas
+		// Set the search areas
 		$areas = $app->input->get('areas', null, 'array');
 		$this->setAreas($areas);
 	}
@@ -93,10 +91,13 @@ class SearchModelSearch extends JModelLegacy
 	/**
 	 * Method to set the search parameters
 	 *
+	 * @param   string  $keyword   string search string
+	 * @param   string  $match     matching option, exact|any|all
+	 * @param   string  $ordering  option, newest|oldest|popular|alpha|category
+	 *
+	 * @return  void
+	 *
 	 * @access	public
-	 * @param string search string
-	 * @param string mathcing option, exact|any|all
-	 * @param string ordering option, newest|oldest|popular|alpha|category
 	 */
 	public function setSearch($keyword, $match = 'all', $ordering = 'newest')
 	{
@@ -124,19 +125,6 @@ class SearchModelSearch extends JModelLegacy
 	}
 
 	/**
-	 * Method to set the search areas
-	 *
-	 * @access	public
-	 * @param   array  Active areas
-	 * @param   array  Search areas
-	 */
-	public function setAreas($active = array(), $search = array())
-	{
-		$this->_areas['active'] = $active;
-		$this->_areas['search'] = $search;
-	}
-
-	/**
 	 * Method to get weblink item data for the category
 	 *
 	 * @access public
@@ -159,16 +147,20 @@ class SearchModelSearch extends JModelLegacy
 			);
 
 			$rows = array();
+
 			foreach ($results as $result)
 			{
 				$rows = array_merge((array) $rows, (array) $result);
 			}
 
 			$this->_total	= count($rows);
+
 			if ($this->getState('limit') > 0)
 			{
-				$this->_data	= array_splice($rows, $this->getState('limitstart'), $this->getState('limit'));
-			} else {
+				$this->_data = array_splice($rows, $this->getState('limitstart'), $this->getState('limit'));
+			}
+			else
+			{
 				$this->_data = $rows;
 			}
 		}
@@ -185,6 +177,22 @@ class SearchModelSearch extends JModelLegacy
 	public function getTotal()
 	{
 		return $this->_total;
+	}
+
+	/**
+	 * Method to set the search areas
+	 *
+	 * @param   array  $active  areas
+	 * @param   array  $search  areas
+	 *
+	 * @return  void
+	 *
+	 * @access	public
+	 */
+	public function setAreas($active = array(), $search = array())
+	{
+		$this->_areas['active'] = $active;
+		$this->_areas['search'] = $search;
 	}
 
 	/**
@@ -206,6 +214,8 @@ class SearchModelSearch extends JModelLegacy
 
 	/**
 	 * Method to get the search areas
+	 *
+	 * @return int
 	 *
 	 * @since 1.5
 	 */

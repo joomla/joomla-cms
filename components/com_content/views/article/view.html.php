@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML Article View class for the Content component
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.5
+ * @since  1.5
  */
 class ContentViewArticle extends JViewLegacy
 {
@@ -37,30 +35,31 @@ class ContentViewArticle extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app		= JFactory::getApplication();
-		$user		= JFactory::getUser();
-		$dispatcher	= JEventDispatcher::getInstance();
+		$app        = JFactory::getApplication();
+		$user       = JFactory::getUser();
+		$dispatcher = JEventDispatcher::getInstance();
 
-		$this->item		= $this->get('Item');
-		$this->print	= $app->input->getBool('print');
-		$this->state	= $this->get('State');
-		$this->user		= $user;
+		$this->item  = $this->get('Item');
+		$this->print = $app->input->getBool('print');
+		$this->state = $this->get('State');
+		$this->user  = $user;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseWarning(500, implode("\n", $errors));
+
 			return false;
 		}
 
 		// Create a shortcut for $item.
-		$item = $this->item;
+		$item            = $this->item;
 		$item->tagLayout = new JLayoutFile('joomla.content.tags');
 
 		// Add router helpers.
-		$item->slug			= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
-		$item->catslug		= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
-		$item->parent_slug	= $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+		$item->slug        = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+		$item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
+		$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
 		// No link for ROOT category
 		if ($item->parent_alias == 'root')
@@ -69,13 +68,13 @@ class ContentViewArticle extends JViewLegacy
 		}
 
 		// TODO: Change based on shownoauth
-		$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
+		$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 
 		// Merge article params. If this is single-article view, menu params override article params
 		// Otherwise, article params override menu item params
 		$this->params = $this->state->get('params');
-		$active = $app->getMenu()->getActive();
-		$temp = clone ($this->params);
+		$active       = $app->getMenu()->getActive();
+		$temp         = clone $this->params;
 
 		// Check to see which parameters should take priority
 		if ($active)
@@ -83,7 +82,7 @@ class ContentViewArticle extends JViewLegacy
 			$currentLink = $active->link;
 
 			// If the current view is the active item and an article view for this article, then the menu item params take priority
-			if (strpos($currentLink, 'view=article') && (strpos($currentLink, '&id='.(string) $item->id)))
+			if (strpos($currentLink, 'view=article') && (strpos($currentLink, '&id=' . (string) $item->id)))
 			{
 				// Load layout from active query (in case it is an alternative menu item)
 				if (isset($active->query['layout']))
@@ -135,6 +134,7 @@ class ContentViewArticle extends JViewLegacy
 		if ($item->params->get('access-view') == false && ($item->params->get('show_noauth', '0') == '0'))
 		{
 			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
+
 			return;
 		}
 
@@ -157,16 +157,16 @@ class ContentViewArticle extends JViewLegacy
 		// Process the content plugins.
 
 		JPluginHelper::importPlugin('content');
-		$dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params, $offset));
+		$dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$item->params, $offset));
 
 		$item->event = new stdClass;
-		$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$this->params, $offset));
+		$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
 		$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.article', &$item, &$this->params, $offset));
+		$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.article', &$item, &$item->params, $offset));
 		$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.article', &$item, &$this->params, $offset));
+		$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.article', &$item, &$item->params, $offset));
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		// Increment the hit counter of the article.
@@ -176,7 +176,7 @@ class ContentViewArticle extends JViewLegacy
 			$model->hit();
 		}
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx'));
 
 		$this->_prepareDocument();
@@ -185,14 +185,16 @@ class ContentViewArticle extends JViewLegacy
 	}
 
 	/**
-	 * Prepares the document
+	 * Prepares the document.
+	 *
+	 * @return  void.
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
-		$title		= null;
+		$app     = JFactory::getApplication();
+		$menus   = $app->getMenu();
+		$pathway = $app->getPathway();
+		$title   = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
@@ -211,7 +213,7 @@ class ContentViewArticle extends JViewLegacy
 
 		$id = (int) @$menu->query['id'];
 
-		// if the menu item does not concern this article
+		// If the menu item does not concern this article
 		if ($menu && ($menu->query['option'] != 'com_content' || $menu->query['view'] != 'article' || $id != $this->item->id))
 		{
 			// If this is not a single article menu item, set the page title to the article title
@@ -219,14 +221,16 @@ class ContentViewArticle extends JViewLegacy
 			{
 				$title = $this->item->title;
 			}
-			$path = array(array('title' => $this->item->title, 'link' => ''));
+
+			$path     = array(array('title' => $this->item->title, 'link' => ''));
 			$category = JCategories::getInstance('Content')->get($this->item->catid);
 
 			while ($category && ($menu->query['option'] != 'com_content' || $menu->query['view'] == 'article' || $id != $category->id) && $category->id > 1)
 			{
-				$path[] = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
+				$path[]   = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();
 			}
+
 			$path = array_reverse($path);
 
 			foreach ($path as $item)
@@ -253,6 +257,7 @@ class ContentViewArticle extends JViewLegacy
 		{
 			$title = $this->item->title;
 		}
+
 		$this->document->setTitle($title);
 
 		if ($this->item->metadesc)
@@ -280,7 +285,8 @@ class ContentViewArticle extends JViewLegacy
 
 		if ($app->get('MetaAuthor') == '1')
 		{
-			$this->document->setMetaData('author', $this->item->author);
+			$author = $this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author;
+			$this->document->setMetaData('author', $author);
 		}
 
 		$mdata = $this->item->metadata->toArray();
@@ -297,7 +303,9 @@ class ContentViewArticle extends JViewLegacy
 		if (!empty($this->item->page_title))
 		{
 			$this->item->title = $this->item->title . ' - ' . $this->item->page_title;
-			$this->document->setTitle($this->item->page_title . ' - ' . JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1));
+			$this->document->setTitle(
+				$this->item->page_title . ' - ' . JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1)
+			);
 		}
 
 		if ($this->print)

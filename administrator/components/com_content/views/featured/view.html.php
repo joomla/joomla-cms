@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of featured articles.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
- * @since       1.6
+ * @since  1.6
  */
 class ContentViewFeatured extends JViewLegacy
 {
@@ -97,7 +95,7 @@ class ContentViewFeatured extends JViewLegacy
 		{
 			JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::custom('featured.delete', 'remove.png', 'remove_f2.png', 'JTOOLBAR_REMOVE', true);
+			JToolbarHelper::custom('articles.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
 			JToolbarHelper::archiveList('articles.archive');
 			JToolbarHelper::checkin('articles.checkin');
 		}
@@ -111,7 +109,7 @@ class ContentViewFeatured extends JViewLegacy
 			JToolbarHelper::trash('articles.trash');
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_content');
 		}

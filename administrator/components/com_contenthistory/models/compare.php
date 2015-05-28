@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ JLoader::register('ContenthistoryHelper', JPATH_ADMINISTRATOR . '/components/com
 /**
  * Methods supporting a list of contenthistory records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contenthistory
- * @since       3.2
+ * @since  3.2
  */
 class ContenthistoryModelCompare extends JModelItem
 {

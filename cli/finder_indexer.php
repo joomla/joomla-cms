@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Cli
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,9 +68,7 @@ $lang->load('finder_cli', JPATH_SITE, null, false, false)
 /**
  * A command line cron job to run the Smart Search indexer.
  *
- * @package  Joomla.Cli
- *
- * @since    2.5
+ * @since  2.5
  */
 class FinderCli extends JApplicationCli
 {

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.joomla
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Example Content Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.joomla
- * @since       1.6
+ * @since  1.6
  */
 class PlgContentJoomla extends JPlugin
 {

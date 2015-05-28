@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_wrapper
  *
- * @package     Joomla.Site
- * @subpackage  com_wrapper
- * @since       3.3
+ * @since  3.3
  */
 class WrapperRouter extends JComponentRouterBase
 {
@@ -29,21 +27,12 @@ class WrapperRouter extends JComponentRouterBase
 	 */
 	public function build(&$query)
 	{
-		$segments = array();
-
 		if (isset($query['view']))
 		{
 			unset($query['view']);
 		}
 
-		$total = count($segments);
-
-		for ($i = 0; $i < $total; $i++)
-		{
-			$segments[$i] = str_replace(':', '-', $segments[$i]);
-		}
-
-		return $segments;
+		return array();
 	}
 
 	/**
@@ -57,17 +46,7 @@ class WrapperRouter extends JComponentRouterBase
 	 */
 	public function parse(&$segments)
 	{
-		$total = count($segments);
-		$vars = array();
-
-		for ($i = 0; $i < $total; $i++)
-		{
-			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
-		}
-
-		$vars['view'] = 'wrapper';
-
-		return $vars;
+		return array('view' => 'wrapper');
 	}
 }
 
@@ -83,7 +62,7 @@ class WrapperRouter extends JComponentRouterBase
  *
  * @deprecated  4.0  Use Class based routers instead
  */
-function WrapperBuildRoute(&$query)
+function wrapperBuildRoute(&$query)
 {
 	$router = new WrapperRouter;
 
@@ -96,13 +75,13 @@ function WrapperBuildRoute(&$query)
  * These functions are proxys for the new router interface
  * for old SEF extensions.
  *
- * @param   array  &$segments  The segments of the URL to parse.
+ * @param   array  $segments  The segments of the URL to parse.
  *
  * @return  array  The URL attributes to be used by the application.
  *
  * @deprecated  4.0  Use Class based routers instead
  */
-function WrapperParseRoute($segments)
+function wrapperParseRoute($segments)
 {
 	$router = new WrapperRouter;
 

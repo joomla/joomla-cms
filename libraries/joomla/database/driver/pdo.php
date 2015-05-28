@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform PDO Database Driver Class
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @see         http://php.net/pdo
- * @since       12.1
+ * @see    http://php.net/pdo
+ * @since  12.1
  */
 abstract class JDatabaseDriverPdo extends JDatabaseDriver
 {
@@ -201,13 +199,15 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 				break;
 
+			// The pdomysql case is a special case within the CMS environment
+			case 'pdomysql':
 			case 'mysql':
 				$this->options['port'] = (isset($this->options['port'])) ? $this->options['port'] : 3306;
 
-				$format = 'mysql:host=#HOST#;port=#PORT#;dbname=#DBNAME#';
+				$format = 'mysql:host=#HOST#;port=#PORT#;dbname=#DBNAME#;charset=#CHARSET#';
 
-				$replace = array('#HOST#', '#PORT#', '#DBNAME#');
-				$with = array($this->options['host'], $this->options['port'], $this->options['database']);
+				$replace = array('#HOST#', '#PORT#', '#DBNAME#', '#CHARSET#');
+				$with = array($this->options['host'], $this->options['port'], $this->options['database'], $this->options['charset']);
 
 				break;
 
@@ -253,7 +253,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				break;
 
 			case 'sqlite':
-
 				if (isset($this->options['version']) && $this->options['version'] == 2)
 				{
 					$format = 'sqlite2:#DBNAME#';
@@ -396,12 +395,14 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		// Execute the query.
 		$this->executed = false;
+
 		if ($this->prepared instanceof PDOStatement)
 		{
 			// Bind the variables:
 			if ($this->sql instanceof JDatabaseQueryPreparable)
 			{
-				$bounded =& $this->sql->getBounded();
+				$bounded = $this->sql->getBounded();
+
 				foreach ($bounded as $key => $obj)
 				{
 					$this->prepared->bindParam($key, $obj->value, $obj->dataType, $obj->length, $obj->driverOptions);
@@ -414,6 +415,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		if ($this->debug)
 		{
 			$this->timings[] = microtime(true);
+
 			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
 			{
 				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -697,11 +699,14 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			$query->setLimit($limit, $offset);
 		}
 
-		$query = $this->replacePrefix((string) $query);
+		// Create a stringified version of the query (with prefixes replaced):
+		$sql = $this->replacePrefix((string) $query);
 
-		$this->prepared = $this->connection->prepare($query, $driverOptions);
+		// Use the stringified version in the prepare call:
+		$this->prepared = $this->connection->prepare($sql, $driverOptions);
 
-		// Store reference to the JDatabaseQuery instance:
+		// Store reference to the original JDatabaseQuery instance within the class.
+		// This is important since binding variables depends on it within execute():
 		parent::setQuery($query, $offset, $limit);
 
 		return $this;
@@ -800,6 +805,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		{
 			return $cursor->fetch(PDO::FETCH_NUM);
 		}
+
 		if ($this->prepared instanceof PDOStatement)
 		{
 			return $this->prepared->fetch(PDO::FETCH_NUM);
@@ -821,6 +827,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		{
 			return $cursor->fetch(PDO::FETCH_ASSOC);
 		}
+
 		if ($this->prepared instanceof PDOStatement)
 		{
 			return $this->prepared->fetch(PDO::FETCH_ASSOC);
@@ -843,6 +850,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		{
 			return $cursor->fetchObject($class);
 		}
+
 		if ($this->prepared instanceof PDOStatement)
 		{
 			return $this->prepared->fetchObject($class);
@@ -867,6 +875,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			$cursor->closeCursor();
 			$cursor = null;
 		}
+
 		if ($this->prepared instanceof PDOStatement)
 		{
 			$this->prepared->closeCursor();

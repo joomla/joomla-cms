@@ -3,7 +3,7 @@
 * @package     Joomla.Administrator
 * @subpackage  com_templates
 *
-* @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+* @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
 * @license     GNU General Public License version 2 or later; see LICENSE.txt
 */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
 * View to edit a template style.
 *
-* @package     Joomla.Administrator
-* @subpackage  com_templates
-* @since       1.6
+* @since  1.6
 */
 class TemplatesViewTemplate extends JViewLegacy
 {
@@ -225,7 +223,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		// Add a Template preview button
 		if ($this->preview->client_id == 0)
 		{
-			$bar->appendButton('Link', 'picture', 'COM_TEMPLATES_BUTTON_PREVIEW', JUri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id);
+			$bar->appendButton('Popup', 'picture', 'COM_TEMPLATES_BUTTON_PREVIEW', JUri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id, 800, 520);
 		}
 
 		// Add Manage folders button

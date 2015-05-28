@@ -3,23 +3,23 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * GitHub API object class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub
- * @since       11.3
+ * @since  11.3
  */
 abstract class JGithubObject
 {
 	/**
-	 * @var    JRegistry  Options for the GitHub object.
+	 * @var    Registry  Options for the GitHub object.
 	 * @since  11.3
 	 */
 	protected $options;
@@ -33,14 +33,14 @@ abstract class JGithubObject
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    $options  GitHub options object.
+	 * @param   Registry     $options  GitHub options object.
 	 * @param   JGithubHttp  $client   The HTTP client object.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(JRegistry $options = null, JGithubHttp $client = null)
+	public function __construct(Registry $options = null, JGithubHttp $client = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->client  = isset($client) ? $client : new JGithubHttp($this->options);
 	}
 

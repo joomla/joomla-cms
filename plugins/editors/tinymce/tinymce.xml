@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_tinymce</name>
-	<version>4.1.2</version>
+	<version>4.1.7</version>
 	<creationDate>2005-2014</creationDate>
 	<author>Moxiecode Systems AB</author>
 	<authorEmail>N/A</authorEmail>
@@ -11,15 +11,32 @@
 	<description>PLG_TINY_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="tinymce">tinymce.php</filename>
-		<filename>index.html</filename>	</files>
+		<folder>fields</folder>
+	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_editors_tinymce.ini</language>
 		<language tag="en-GB">en-GB.plg_editors_tinymce.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
+			<fieldset name="basic" addfieldpath="/plugins/editors/tinymce/fields">
+				<field name="skins" type="note"
+					label="PLG_TINY_FIELD_SKIN_INFO_LABEL"
+					description="PLG_TINY_FIELD_SKIN_INFO_DESC"
+				/>
 
-			<fieldset name="basic">
+				<field name="skin" type="skins"
+					description="PLG_TINY_FIELD_SKIN_DESC"
+					label="PLG_TINY_FIELD_SKIN_LABEL"
+				>
+				</field>
+
+				<field name="skin_admin" type="skins"
+					description="PLG_TINY_FIELD_SKIN_ADMIN_DESC"
+					label="PLG_TINY_FIELD_SKIN_ADMIN_LABEL"
+				>
+				</field>
+				
 				<field name="mode" type="list"
 					default="2"
 					description="PLG_TINY_FIELD_FUNCTIONALITY_DESC"
@@ -30,14 +47,6 @@
 					<option value="2">PLG_TINY_FIELD_VALUE_EXTENDED</option>
 				</field>
 
-				<field name="skin" type="list"
-					default="0"
-					description="PLG_TINY_FIELD_SKIN_DESC"
-					label="PLG_TINY_FIELD_SKIN_LABEL"
-				>
-					<option value="0">PLG_TINY_FIELD_VALUE_DEFAULT</option>
-				</field>
-				
 				<field name="mobile" type="radio"
 					class="btn-group btn-group-yesno"
 					default="0"
@@ -167,6 +176,16 @@
 					default="1"
 					description="PLG_TINY_FIELD_RESIZING_DESC"
 					label="PLG_TINY_FIELD_RESIZING_LABEL"
+				>
+					<option value="1">JON</option>
+					<option value="0">JOFF</option>
+				</field>
+
+				<field name="resize_horizontal" type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					description="PLG_TINY_FIELD_RESIZE_HORIZONTAL_DESC"
+					label="PLG_TINY_FIELD_RESIZE_HORIZONTAL_LABEL"
 				>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>

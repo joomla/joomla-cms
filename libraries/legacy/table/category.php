@@ -3,18 +3,18 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Category table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
- * @since       11.1
+ * @since  11.1
  */
 class JTableCategory extends JTableNested
 {
@@ -174,14 +174,14 @@ class JTableCategory extends JTableNested
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
@@ -210,10 +210,11 @@ class JTableCategory extends JTableNested
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
+		$this->modified_time = $date->toSql();
+
 		if ($this->id)
 		{
 			// Existing category
-			$this->modified_time = $date->toSql();
 			$this->modified_user_id = $user->get('id');
 		}
 		else

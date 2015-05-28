@@ -3,14 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 $clientId  = $this->state->get('filter.client_id');
-$published = $this->state->get('filter.published');
+// show only Module Positions of published Templates
+$published = 1;
 $positions = JHtml::_('modules.positions', $clientId, $published);
 $positions['']['items'][] = ModulesHelper::createOption('nochange', JText::_('COM_MODULES_BATCH_POSITION_NOCHANGE'));
 $positions['']['items'][] = ModulesHelper::createOption('noposition', JText::_('COM_MODULES_BATCH_POSITION_NOPOSITION'));
@@ -38,12 +39,12 @@ $attr = array(
 		<div class="row-fluid">
 			<div class="control-group span6">
 				<div class="controls">
-					<?php echo JHtml::_('batch.access'); ?>
+					<?php echo JHtml::_('batch.language'); ?>
 				</div>
 			</div>
 			<div class="control-group span6">
 				<div class="controls">
-					<?php echo JHtml::_('batch.language'); ?>
+					<?php echo JHtml::_('batch.access'); ?>
 				</div>
 			</div>
 		</div>
@@ -66,7 +67,7 @@ $attr = array(
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button class="btn" type="button" onclick="document.id('batch-position-id').value='';document.id('batch-access').value='';document.id('batch-language-id').value=''" data-dismiss="modal">
+		<button class="btn" type="button" onclick="document.getElementById('batch-position-id').value='';document.getElementById('batch-access').value='';document.getElementById('batch-language-id').value=''" data-dismiss="modal">
 			<?php echo JText::_('JCANCEL'); ?>
 		</button>
 		<button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('module.batch');">

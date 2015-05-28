@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,9 +19,7 @@ JLoader::register('FinderIndexerStemmer', FINDER_PATH_INDEXER . '/stemmer.php');
 /**
  * Search model class for the Finder package.
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderModelSearch extends JModelList
 {
@@ -233,7 +231,7 @@ class FinderModelSearch extends JModelList
 		$nowDate = $db->quote(substr_replace(JFactory::getDate()->toSQL(), '00', -2));
 
 		// Add the publish up and publish down filters.
-		$query->where('(l.publish_start_date = ' . $nullDate . ' OR l.publish_end_date <= ' . $nowDate . ')')
+		$query->where('(l.publish_start_date = ' . $nullDate . ' OR l.publish_start_date <= ' . $nowDate . ')')
 			->where('(l.publish_end_date = ' . $nullDate . ' OR l.publish_end_date >= ' . $nowDate . ')');
 
 		/*
@@ -1140,7 +1138,7 @@ class FinderModelSearch extends JModelList
 				$this->setState('list.ordering', 'm.weight');
 				break;
 
-			// custom field that is indexed and might be required for ordering
+			// Custom field that is indexed and might be required for ordering
 			case 'title':
 				$this->setState('list.ordering', 'l.title');
 				break;

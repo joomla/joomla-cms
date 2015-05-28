@@ -3,50 +3,47 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 jimport('joomla.updater.update');
-jimport('legacy.component.helper');
 
 /**
  * Language Installer model for the Joomla Core Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Model
- * @since       3.1
+ * @since  3.1
  */
 class InstallationModelLanguages extends JModelBase
 {
 	/**
-	 * @var    object  Client object
+	 * @var    object  Client object.
 	 * @since  3.1
 	 */
 	protected $client = null;
 
 	/**
-	 * @var    array  Languages description
+	 * @var    array  Languages description.
 	 * @since  3.1
 	 */
 	protected $data = null;
 
 	/**
-	 * @var    string  Language path
+	 * @var    string  Language path.
 	 * @since  3.1
 	 */
 	protected $path = null;
 
 	/**
-	 * @var    integer  Total number of languages installed
+	 * @var    integer  Total number of languages installed.
 	 * @since  3.1
 	 */
 	protected $langlist = null;
 
 	/**
-	 * @var    Admin Id, author of all generated content
+	 * @var    Admin Id, author of all generated content.
 	 * @since  3.1
 	 */
 	protected $adminId = null;
@@ -58,7 +55,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function __construct()
 	{
-		// Overrides application config and set the configuration.php file so tokens and database works
+		// Overrides application config and set the configuration.php file so tokens and database works.
 		JFactory::$config = null;
 		JFactory::getConfig(JPATH_SITE . '/configuration.php');
 		JFactory::$session = null;
@@ -67,34 +64,55 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Generate a list of language choices to install in the Joomla CMS
+	 * Generate a list of language choices to install in the Joomla CMS.
 	 *
-	 * @return  boolean  True if successful
+	 * @return  boolean  True if successful.
 	 *
 	 * @since   3.1
 	 */
 	public function getItems()
 	{
-		$updater = JUpdater::getInstance();
+		// Get the extension_id of the en-GB package.
+		$db        = JFactory::getDbo();
+		$extQuery  = $db->getQuery(true);
 
-		/*
-		 * The following function uses extension_id 600, that is the English language extension id.
-		 * In #__update_sites_extensions you should have 600 linked to the Accredited Translations Repo
-		 */
-		$updater->findUpdates(array(600), 0);
+		$extQuery->select($db->qn('extension_id'))
+			->from($db->qn('#__extensions'))
+			->where($db->qn('type') . ' = ' . $db->q('language'))
+			->where($db->qn('element') . ' = ' . $db->q('en-GB'))
+			->where($db->qn('client_id') . ' = 0');
 
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$db->setQuery($extQuery);
 
-		// Select the required fields from the updates table
-		$query->select('update_id, name, version')
-			->from('#__updates')
-			->order('name');
+		$extId = (int) $db->loadResult();
 
-		$db->setQuery($query);
-		$list = $db->loadObjectList();
+		if ($extId)
+		{
+			$updater = JUpdater::getInstance();
 
-		if (!$list || $list instanceof Exception)
+			/*
+			 * The following function call uses the extension_id of the en-GB package.
+			 * In #__update_sites_extensions you should have this extension_id linked
+			 * to the Accredited Translations Repo.
+			 */
+			$updater->findUpdates(array($extId), 0);
+
+			$query = $db->getQuery(true);
+
+			// Select the required fields from the updates table.
+			$query->select($db->qn(array('update_id', 'name', 'version')))
+				->from($db->qn('#__updates'))
+				->order($db->qn('name'));
+
+			$db->setQuery($query);
+			$list = $db->loadObjectList();
+
+			if (!$list || $list instanceof Exception)
+			{
+				$list = array();
+			}
+		}
+		else
 		{
 			$list = array();
 		}
@@ -105,61 +123,62 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Method that installs in Joomla! the selected languages in the Languages View of the installer.
 	 *
-	 * @param   array  $lids  List of the update_id value of the languages to install
+	 * @param   array  $lids  List of the update_id value of the languages to install.
 	 *
 	 * @return  boolean True if successful
 	 */
 	public function install($lids)
 	{
 		/* @var InstallationApplicationWeb $app */
-		$app       = JFactory::getApplication();
-		$installer = JInstaller::getInstance();
+		$app = JFactory::getApplication();
 
-		// Loop through every selected language
+		// Loop through every selected language.
 		foreach ($lids as $id)
 		{
-			// Loads the update database object that represents the language
+			$installer = new JInstaller;
+
+			// Loads the update database object that represents the language.
 			$language = JTable::getInstance('update');
 			$language->load($id);
 
-			// Get the url to the XML manifest file of the selected language
+			// Get the url to the XML manifest file of the selected language.
 			$remote_manifest = $this->getLanguageManifest($id);
 
 			if (!$remote_manifest)
 			{
-				// Could not find the url, the information in the update server may be corrupt
+				// Could not find the url, the information in the update server may be corrupt.
 				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 				$app->enqueueMessage($message);
 				continue;
 			}
 
-			// Based on the language XML manifest get the url of the package to download
+			// Based on the language XML manifest get the url of the package to download.
 			$package_url = $this->getPackageUrl($remote_manifest);
 
 			if (!$package_url)
 			{
-				// Could not find the url , maybe the url is wrong in the update server, or there is not internet access
+				// Could not find the url , maybe the url is wrong in the update server, or there is not internet access.
 				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 				$app->enqueueMessage($message);
 				continue;
 			}
 
-			// Download the package to the tmp folder
+			// Download the package to the tmp folder.
 			$package = $this->downloadPackage($package_url);
 
-			// Install the package
+			// Install the package.
 			if (!$installer->install($package['dir']))
 			{
-				// There was an error installing the package
+				// There was an error installing the package.
 				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 				$app->enqueueMessage($message);
 				continue;
 			}
 
-			// Cleanup the install files in tmp folder
+			// Cleanup the install files in tmp folder.
 			if (!is_file($package['packagefile']))
 			{
 				$config                 = JFactory::getConfig();
@@ -168,7 +187,7 @@ class InstallationModelLanguages extends JModelBase
 
 			JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
-			// Delete the installed language from the list
+			// Delete the installed language from the list.
 			$language->delete($id);
 		}
 
@@ -178,7 +197,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Gets the manifest file of a selected language from a the language list in a update server.
 	 *
-	 * @param   integer  $uid  The id of the language in the #__updates table
+	 * @param   integer  $uid  The id of the language in the #__updates table.
 	 *
 	 * @return  string
 	 *
@@ -196,7 +215,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Finds the url of the package to download.
 	 *
-	 * @param   string  $remote_manifest  Url to the manifest XML file of the remote package
+	 * @param   string  $remote_manifest  Url to the manifest XML file of the remote package.
 	 *
 	 * @return  string|bool
 	 *
@@ -214,15 +233,15 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Download a language package from a URL and unpack it in the tmp folder.
 	 *
-	 * @param   string  $url  Url of the package
+	 * @param   string  $url  Url of the package.
 	 *
-	 * @return  array|bool Package details or false on failure
+	 * @return  array|bool Package details or false on failure.
 	 *
 	 * @since   3.1
 	 */
 	protected function downloadPackage($url)
 	{
-		// Download the package from the given URL
+		// Download the package from the given URL.
 		$p_file = JInstallerHelper::downloadPackage($url);
 
 		// Was the package downloaded?
@@ -236,14 +255,14 @@ class InstallationModelLanguages extends JModelBase
 		$config   = JFactory::getConfig();
 		$tmp_dest = $config->get('tmp_path');
 
-		// Unpack the downloaded package file
+		// Unpack the downloaded package file.
 		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
 		return $package;
 	}
 
 	/**
-	 * Get Languages item data for the Administrator
+	 * Get Languages item data for the Administrator.
 	 *
 	 * @return  array
 	 *
@@ -255,9 +274,9 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Get Languages item data for the Frontend
+	 * Get Languages item data for the Frontend.
 	 *
-	 * @return  array  List of installed languages in the frontend application
+	 * @return  array  List of installed languages in the frontend application.
 	 *
 	 * @since   3.1
 	 */
@@ -267,9 +286,9 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Get Languages item data
+	 * Get Languages item data.
 	 *
-	 * @param   string  $cms_client  Name of the cms client
+	 * @param   string  $cms_client  Name of the cms client.
 	 *
 	 * @return  array
 	 *
@@ -277,12 +296,12 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	protected function getInstalledlangs($cms_client = 'administrator')
 	{
-		// Get information
+		// Get information.
 		$path     = $this->getPath();
 		$client   = $this->getClient($cms_client);
 		$langlist = $this->getLanguageList($client->id);
 
-		// Compute all the languages
+		// Compute all the languages.
 		$data = array();
 
 		foreach ($langlist as $lang)
@@ -302,7 +321,7 @@ class InstallationModelLanguages extends JModelBase
 				$row->$key = $value;
 			}
 
-			// If current then set published
+			// If current then set published.
 			$params = JComponentHelper::getParams('com_languages');
 
 			if ($params->get($client->name, 'en-GB') == $row->language)
@@ -326,9 +345,9 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Get installed languages data.
 	 *
-	 * @param   integer  $client_id  The client ID to retrieve data for
+	 * @param   integer  $client_id  The client ID to retrieve data for.
 	 *
-	 * @return  object  The language data
+	 * @return  object  The language data.
 	 *
 	 * @since   3.1
 	 */
@@ -339,12 +358,12 @@ class InstallationModelLanguages extends JModelBase
 		$query = $db->getQuery(true);
 
 		// Select field element from the extensions table.
-		$query->select('a.element, a.name')
-			->from('#__extensions AS a')
-			->where('a.type = ' . $db->quote('language'))
-			->where('state = 0')
-			->where('enabled = 1')
-			->where('client_id=' . (int) $client_id);
+		$query->select($db->qn(array('element', 'name')))
+			->from($db->qn('#__extensions'))
+			->where($db->qn('type') . ' = ' . $db->q('language'))
+			->where($db->qn('state') . ' = 0')
+			->where($db->qn('enabled') . ' = 1')
+			->where($db->qn('client_id') . ' = ' . (int) $client_id);
 
 		$db->setQuery($query);
 
@@ -356,8 +375,8 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Compare two languages in order to sort them.
 	 *
-	 * @param   object  $lang1  The first language
-	 * @param   object  $lang2  The second language
+	 * @param   object  $lang1  The first language.
+	 * @param   object  $lang2  The second language.
 	 *
 	 * @return  integer
 	 *
@@ -371,7 +390,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Get the languages folder path.
 	 *
-	 * @return  string  The path to the languages folders
+	 * @return  string  The path to the languages folders.
 	 *
 	 * @since   3.1
 	 */
@@ -389,7 +408,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Get the client object of Administrator or Frontend.
 	 *
-	 * @param   string  $client  Name of the client object
+	 * @param   string  $client  Name of the client object.
 	 *
 	 * @return  object
 	 *
@@ -405,8 +424,8 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Set the default language.
 	 *
-	 * @param   string  $language    The language to be set as default
-	 * @param   string  $cms_client  The name of the CMS client
+	 * @param   string  $language    The language to be set as default.
+	 * @param   string  $cms_client  The name of the CMS client.
 	 *
 	 * @return  boolean
 	 *
@@ -414,7 +433,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function setDefault($language, $cms_client = 'administrator')
 	{
-		// Get the application
+		// Get the application.
 		/* @var InstallationApplicationWeb $app */
 		$app = JFactory::getApplication();
 
@@ -436,7 +455,7 @@ class InstallationModelLanguages extends JModelBase
 
 		$table->params = (string) $params;
 
-		// Pre-save checks
+		// Pre-save checks.
 		if (!$table->check())
 		{
 			$app->enqueueMessage($table->getError(), 'warning');
@@ -444,7 +463,7 @@ class InstallationModelLanguages extends JModelBase
 			return false;
 		}
 
-		// Save the changes
+		// Save the changes.
 		if (!$table->store())
 		{
 			$app->enqueueMessage($table->getError(), 'warning');
@@ -473,7 +492,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Get the model form.
 	 *
-	 * @param   string  $view  The view being processed
+	 * @param   string  $view  The view being processed.
 	 *
 	 * @return  mixed  JForm object on success, false on failure.
 	 *
@@ -518,9 +537,9 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Enable a Joomla plugin
+	 * Enable a Joomla plugin.
 	 *
-	 * @param   string  $pluginName  The name of plugin
+	 * @param   string  $pluginName  The name of plugin.
 	 *
 	 * @return  boolean
 	 *
@@ -534,10 +553,10 @@ class InstallationModelLanguages extends JModelBase
 
 		$query
 			->clear()
-			->update('#__extensions')
-			->set('enabled = 1')
-			->where('name = ' . $db->quote($pluginName))
-			->where('type = ' . $db->quote('plugin'));
+			->update($db->qn('#__extensions'))
+			->set($db->qn('enabled') . ' = 1')
+			->where($db->qn('name') . ' = ' . $db->q($pluginName))
+			->where($db->qn('type') . ' = ' . $db->q('plugin'));
 
 		$db->setQuery($query);
 
@@ -546,7 +565,7 @@ class InstallationModelLanguages extends JModelBase
 			return false;
 		}
 
-		// Store language filter plugin parameters
+		// Store language filter plugin parameters.
 		if ($pluginName == 'plg_system_languagefilter')
 		{
 			$params = '{'
@@ -559,10 +578,10 @@ class InstallationModelLanguages extends JModelBase
 				. '}';
 			$query
 				->clear()
-				->update('#__extensions')
-				->set('params = ' . $db->quote($params))
-				->where('name = ' . $db->quote('plg_system_languagefilter'))
-				->where('type = ' . $db->quote('plugin'));
+				->update($db->qn('#__extensions'))
+				->set($db->qn('params') . ' = ' . $db->q($params))
+				->where($db->qn('name') . ' = ' . $db->q('plg_system_languagefilter'))
+				->where($db->qn('type') . ' = ' . $db->q('plugin'));
 
 			$db->setQuery($query);
 
@@ -601,7 +620,8 @@ class InstallationModelLanguages extends JModelBase
 				. '"module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',
 			'client_id' => 0,
 			'language'  => '*',
-			'published' => 1
+			'published' => 1,
+			'rules'     => array()
 		);
 
 		// Bind the data.
@@ -626,9 +646,9 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Add a Module in Module menus
+	 * Add a Module in Module menus.
 	 *
-	 * @param   integer  $moduleId  The Id of module
+	 * @param   integer  $moduleId  The Id of module.
 	 *
 	 * @return  boolean
 	 *
@@ -640,10 +660,10 @@ class InstallationModelLanguages extends JModelBase
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		// Add Module in Module menus
+		// Add Module in Module menus.
 		$query->clear()
-			->insert('#__modules_menu')
-			->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
+			->insert($db->qn('#__modules_menu'))
+			->columns(array($db->qn('moduleid'), $db->qn('menuid')))
 			->values($moduleId . ', 0');
 		$db->setQuery($query);
 
@@ -660,15 +680,15 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Gets a unique language SEF string
+	 * Gets a unique language SEF string.
 	 *
 	 * This function checks other existing language with the same code, if they exist provides a unique SEF name.
 	 * For instance: en-GB, en-US and en-AU will share the same SEF code by default: www.mywebsite.com/en/
 	 * To avoid this conflict, this function creates an specific SEF in case of existing conflict:
 	 * For example: www.mywebsite.com/en-au/
 	 *
-	 * @param   stdClass    $itemLanguage   Language Object
-	 * @param   stdClass[]  $siteLanguages  All Language Objects
+	 * @param   stdClass    $itemLanguage   Language Object.
+	 * @param   stdClass[]  $siteLanguages  All Language Objects.
 	 *
 	 * @return  string
 	 *
@@ -680,6 +700,7 @@ class InstallationModelLanguages extends JModelBase
 		$prefixToFind = $langs[0];
 
 		$numberPrefixesFound = 0;
+
 		foreach ($siteLanguages as $siteLang)
 		{
 			$langs = explode('-', $siteLang->language);
@@ -695,14 +716,15 @@ class InstallationModelLanguages extends JModelBase
 		{
 			return $prefixToFind;
 		}
+
 		return strtolower($itemLanguage->language);
 	}
 
 	/**
-	 * Add a Content Language
+	 * Add a Content Language.
 	 *
-	 * @param   stdClass  $itemLanguage   Language Object
-	 * @param   string    $sefLangString  String to use for SEF so it doesn't conflict
+	 * @param   stdClass  $itemLanguage   Language Object.
+	 * @param   string    $sefLangString  String to use for SEF so it doesn't conflict.
 	 *
 	 * @return  boolean
 	 *
@@ -714,11 +736,11 @@ class InstallationModelLanguages extends JModelBase
 
 		$flag = strtolower(str_replace('-', '_',  $itemLanguage->language));
 
-		// Load the native language name
+		// Load the native language name.
 		$installationLocalisedIni = new JLanguage($itemLanguage->language, false);
 		$nativeLanguageName       = $installationLocalisedIni->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
 
-		// If the local name do not exist in the translation file we use the international standard name
+		// If the local name do not exist in the translation file we use the international standard name.
 		if ($nativeLanguageName == 'INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME')
 		{
 			$nativeLanguageName = $itemLanguage->name;
@@ -732,7 +754,10 @@ class InstallationModelLanguages extends JModelBase
 			'sef'          => $sefLangString,
 			'image'        => $flag,
 			'published'    => 1,
-			'ordering'     => 0
+			'ordering'     => 0,
+			'description'  => '',
+			'metakey'      => '',
+			'metadesc'     => ''
 		);
 
 		// Bind the data.
@@ -763,9 +788,9 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Add Menu Group
+	 * Add Menu Group.
 	 *
-	 * @param   stdClass  $itemLanguage  Language Object
+	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
 	 * @return  boolean
 	 *
@@ -773,11 +798,11 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function addMenuGroup($itemLanguage)
 	{
-		// Add menus
+		// Add menus.
 		JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
 
-		// Add Menu Group
+		// Add Menu Group.
 		$tableMenu = JTable::getInstance('Type', 'JTableMenu');
 
 		$menuData = array(
@@ -811,7 +836,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add Menu Item.
 	 *
-	 * @param   stdClass  $itemLanguage  Language Object
+	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
 	 * @return  boolean
 	 *
@@ -819,7 +844,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function addMenuItem($itemLanguage)
 	{
-		// Add Menu Item
+		// Add Menu Item.
 		$tableItem = JTable::getInstance('Menu', 'MenusTable');
 
 		$newlanguage = new JLanguage($itemLanguage->language, false);
@@ -882,9 +907,9 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Add Module Menu
+	 * Add Module Menu.
 	 *
-	 * @param   stdClass  $itemLanguage  Language Object
+	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
 	 * @return  boolean
 	 *
@@ -909,7 +934,8 @@ class InstallationModelLanguages extends JModelBase
 				. '"layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}',
 			'client_id' => 0,
 			'language'  => $itemLanguage->language,
-			'published' => 1
+			'published' => 1,
+			'rules' => array()
 		);
 
 		// Bind the data.
@@ -934,7 +960,7 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Disable Default Main Menu Module
+	 * Disable Default Main Menu Module.
 	 *
 	 * @return  boolean
 	 *
@@ -946,15 +972,15 @@ class InstallationModelLanguages extends JModelBase
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		// Add Module in Module menus
+		// Add Module in Module menus.
 		$query
 			->clear()
-			->update($db->quoteName('#__modules'))
-			->set($db->quoteName('published') . ' = 0')
-			->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
-			->where($db->quoteName('language') . ' = ' . $db->quote('*'))
-			->where($db->quoteName('client_id') . ' = ' . $db->quote('0'))
-			->where($db->quoteName('position') . ' = ' . $db->quote('position-7'));
+			->update($db->qn('#__modules'))
+			->set($db->qn('published') . ' = 0')
+			->where($db->qn('module') . ' = ' . $db->q('mod_menu'))
+			->where($db->qn('language') . ' = ' . $db->q('*'))
+			->where($db->qn('client_id') . ' = ' . $db->q('0'))
+			->where($db->qn('position') . ' = ' . $db->q('position-7'));
 		$db->setQuery($query);
 
 		if (!$db->execute())
@@ -966,9 +992,9 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Enable a module
+	 * Enable a module.
 	 *
-	 * @param   string  $moduleName  The Name of the module to activate
+	 * @param   string  $moduleName  The Name of the module to activate.
 	 *
 	 * @return  boolean
 	 *
@@ -982,9 +1008,9 @@ class InstallationModelLanguages extends JModelBase
 
 		$query
 			->clear()
-			->update($db->quoteName('#__modules'))
-			->set($db->quoteName('published') . ' = 1')
-			->where($db->quoteName('module') . ' = ' . $db->quote($moduleName));
+			->update($db->qn('#__modules'))
+			->set($db->qn('published') . ' = 1')
+			->where($db->qn('module') . ' = ' . $db->q($moduleName));
 		$db->setQuery($query);
 
 		if (!$db->execute())
@@ -996,11 +1022,11 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Method create a category for a specific language
+	 * Method create a category for a specific language.
 	 *
-	 * @param   stdClass  $itemLanguage  Language Object
+	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable Category Object
+	 * @return  JTable Category Object.
 	 *
 	 * @since   3.2
 	 */
@@ -1010,44 +1036,57 @@ class InstallationModelLanguages extends JModelBase
 		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
 		$title = $newlanguage->_('JCATEGORY');
 
-		// Initialize a new category
+		// Initialize a new category.
 		$category                  = JTable::getInstance('Category');
-		$category->extension       = 'com_content';
-		$category->title           = $title . ' (' . strtolower($itemLanguage->language) . ')';
-		$category->description     = '';
-		$category->published       = 1;
-		$category->access          = 1;
-		$category->params          = '{"target":"","image":""}';
-		$category->metadata        = '{"page_title":"","author":"","robots":""}';
-		$category->created_time    = JFactory::getDate()->toSql();
-		$category->language        = $itemLanguage->language;
 
-		// Set the location in the tree
+		$data = array(
+			'extension'    => 'com_content',
+			'title'        => $title . ' (' . strtolower($itemLanguage->language) . ')',
+			'description'  => '',
+			'published'    => 1,
+			'access'       => 1,
+			'params'       => '{"target":"","image":""}',
+			'metadesc'     => '',
+			'metakey'      => '',
+			'metadata'     => '{"page_title":"","author":"","robots":""}',
+			'created_time' => JFactory::getDate()->toSql(),
+			'language'     => $itemLanguage->language,
+			'rules'        => array(),
+			'parent_id'    => 1
+		);
+
+		// Set the location in the tree.
 		$category->setLocation(1, 'last-child');
 
-		// Check to make sure our data is valid
+		// Bind the data to the table
+		if (!$category->bind($data))
+		{
+			return false;
+		}
+
+		// Check to make sure our data is valid.
 		if (!$category->check())
 		{
 			return false;
 		}
 
-		// Store the category
+		// Store the category.
 		if (!$category->store(true))
 		{
 			return false;
 		}
 
-		// Build the path for our category
+		// Build the path for our category.
 		$category->rebuildPath($category->id);
 
 		return $category;
 	}
 
 	/**
-	 * Create an article in a specific language
+	 * Create an article in a specific language.
 	 *
-	 * @param   stdClass  $itemLanguage  Language Object
-	 * @param   int       $categoryId    The id of the category where we want to add the article
+	 * @param   stdClass  $itemLanguage  Language Object.
+	 * @param   int       $categoryId    The id of the category where we want to add the article.
 	 *
 	 * @return  JTable Category Object
 	 *
@@ -1062,44 +1101,59 @@ class InstallationModelLanguages extends JModelBase
 		$title = $newlanguage->_('PLG_ARTICLE_BUTTON_ARTICLE');
 
 		$article                   = JTable::getInstance('Content');
-		$article->title            = $title . ' (' . strtolower($itemLanguage->language) . ')';
-		$article->introtext        = '<p>Lorem ipsum ad his scripta blandit partiendo, eum fastidii accumsan euripidis'
+
+		$data = array(
+			'title'            => $title . ' (' . strtolower($itemLanguage->language) . ')',
+			'introtext'        => '<p>Lorem ipsum ad his scripta blandit partiendo, eum fastidii accumsan euripidis'
 										. ' in, eum liber hendrerit an. Qui ut wisi vocibus suscipiantur, quo dicit'
 										. ' ridens inciderint id. Quo mundi lobortis reformidans eu, legimus senserit'
 										. 'definiebas an eos. Eu sit tincidunt incorrupte definitionem, vis mutat'
 										. ' affert percipit cu, eirmod consectetuer signiferumque eu per. In usu latine'
 										. 'equidem dolores. Quo no falli viris intellegam, ut fugit veritus placerat'
 										. 'per. Ius id vidit volumus mandamus, vide veritus democritum te nec, ei eos'
-										. 'debet libris consulatu.</p>';
-		$article->state            = 1;
-		$article->created          = JFactory::getDate()->toSql();
-		$article->created_by       = $this->getAdminId();
-		$article->created_by_alias = 'Joomla';
-		$article->publish_up       = JFactory::getDate()->toSql();
-		$article->publish_down     = $db->getNullDate();
-		$article->version          = 1;
-		$article->catid            = $categoryId;
-		$article->metadata         = '{"robots":"","author":"","rights":"","xreference":"","tags":null}';
-		$article->language         = $itemLanguage->language;
-		$article->featured         = 1;
+										. 'debet libris consulatu.</p>',
+			'images'           => json_encode(array()),
+			'urls'             => json_encode(array()),
+			'state'            => 1,
+			'created'          => JFactory::getDate()->toSql(),
+			'created_by'       => $this->getAdminId(),
+			'created_by_alias' => 'Joomla',
+			'publish_up'       => JFactory::getDate()->toSql(),
+			'publish_down'     => $db->getNullDate(),
+			'version'          => 1,
+			'catid'            => $categoryId,
+			'metadata'         => '{"robots":"","author":"","rights":"","xreference":"","tags":null}',
+			'metakey'          => '',
+			'metadesc'         => '{"robots":"","author":"","rights":"","xreference":""}',
+			'language'         => $itemLanguage->language,
+			'featured'         => 1,
+			'attribs'          => array(),
+			'rules'            => array()
+		);
 
-		// Check to make sure our data is valid
+		// Bind the data to the table
+		if (!$article->bind($data))
+		{
+			return false;
+		}
+
+		// Check to make sure our data is valid.
 		if (!$article->check())
 		{
 			return false;
 		}
 
-		// Now store the category
+		// Now store the category.
 		if (!$article->store(true))
 		{
 			return false;
 		}
 
-		// Get the new item ID
+		// Get the new item ID.
 		$newId = $article->get('id');
 
 		$query = $db->getQuery(true)
-			->insert($db->quoteName('#__content_frontpage'))
+			->insert($db->qn('#__content_frontpage'))
 			->values($newId . ', 0');
 
 		$db->setQuery($query);
@@ -1115,7 +1169,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Retrieve the admin user id.
 	 *
-	 * @return  int|bool One Administrator ID
+	 * @return  int|bool One Administrator ID.
 	 *
 	 * @since   3.2
 	 */
@@ -1123,21 +1177,34 @@ class InstallationModelLanguages extends JModelBase
 	{
 		if ($this->adminId)
 		{
-			// Return local cached admin ID
+			// Return local cached admin ID.
 			return $this->adminId;
 		}
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		// Select the required fields from the updates table
+		// Select the admin user ID
 		$query
 			->clear()
-			->select('u.id')
-			->from('#__users as u')
-			->join('LEFT', '#__user_usergroup_map AS map ON map.user_id = u.id')
-			->join('LEFT', '#__usergroups AS g ON map.group_id = g.id')
-			->where('g.title = ' . $db->q('Super Users'));
+			->select($db->qn('u') . '.' . $db->qn('id'))
+			->from($db->qn('#__users', 'u'))
+			->join(
+				'LEFT',
+				$db->qn('#__user_usergroup_map', 'map')
+				. ' ON ' . $db->qn('map') . '.' . $db->qn('user_id')
+				. ' = ' . $db->qn('u') . '.' . $db->qn('id')
+			)
+			->join(
+				'LEFT',
+				$db->qn('#__usergroups', 'g')
+				. ' ON ' . $db->qn('map') . '.' . $db->qn('group_id')
+				. ' = ' . $db->qn('g') . '.' . $db->qn('id')
+			)
+			->where(
+				$db->qn('g') . '.' . $db->qn('title')
+				. ' = ' . $db->q('Super Users')
+			);
 
 		$db->setQuery($query);
 		$id = $db->loadResult();

@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,6 +35,8 @@ class LanguageManager0002Test extends JoomlaWebdriverTestCase
 	/**
 	 * Login to back end and navigate to menu Language Manager.
 	 *
+	 * @return void
+	 *
 	 * @since   3.0
 	 */
 	public function setUp()
@@ -48,6 +50,8 @@ class LanguageManager0002Test extends JoomlaWebdriverTestCase
 	/**
 	 * Logout and close test.
 	 *
+	 * @return void
+	 *
 	 * @since   3.0
 	 */
 	public function tearDown()
@@ -57,6 +61,10 @@ class LanguageManager0002Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * get list of filters and match it with expected IDs
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getFilters_GetListOfFilters_ShouldMatchExpected()
@@ -68,12 +76,16 @@ class LanguageManager0002Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * checking the working of published and unpublished filters
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function setFilter_SetFilterValues_ShouldExecuteFilter()
 	{
 		$salt = rand();
-		$langName = 'Test Filter' . $salt;
+		$langName = 'Test Lang' . $salt;
 		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');
 		$this->languageManagerPage->addLanguage($langName);
 		$message = $this->languageManagerPage->getAlertMessage();
@@ -81,22 +93,27 @@ class LanguageManager0002Test extends JoomlaWebdriverTestCase
 		$test = $this->languageManagerPage->setFilter('filter_published', 'Unpublished');
 		$this->assertFalse($this->languageManagerPage->getRowNumber($langName), 'Lang should not show');
 		$test = $this->languageManagerPage->setFilter('filter_published', 'Published');
-		$this->assertEquals(2, $this->languageManagerPage->getRowNumber($langName), 'Lang should be in row 2');
+		$this->assertGreaterThanOrEqual(1, $this->languageManagerPage->getRowNumber($langName), 'Lang should be present');
 		$this->languageManagerPage->trashAndDelete($langName);
 		$this->assertFalse($this->languageManagerPage->getRowNumber($langName), 'Lang should not be present');
 	}
 
 	/**
+	 * creating two language one published and one unpublished and the verifying its existence
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function setFilter_TestFilters_ShouldFilterTags()
 	{
-		$langName_1 = 'Test Filter 1';
-		$langName_2 = 'Test Filter 2';
 		$salt = rand();
+		/*Other than the Default Value */
+		$langName_1 = 'Test Lang 1';
+		$langName_2 = 'Test Lang 2';
 		$lang_title_native = 'Sample2' . $salt;
 		$url_code = 'Sample2' . $salt;
-		$image_prefix = 'af'; //Other than the Default Value
+		$image_prefix = 'af';
 		$language_tag = 'Sample2';
 
 		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');
@@ -116,15 +133,14 @@ class LanguageManager0002Test extends JoomlaWebdriverTestCase
 
 		$test = $this->languageManagerPage->setFilter('filter_published', 'Unpublished');
 		$this->assertFalse($this->languageManagerPage->getRowNumber($langName_1), 'Lang should not show');
-		$this->assertEquals(1, $this->languageManagerPage->getRowNumber($langName_2), 'Lang should be in row 1');
+		$this->assertGreaterThanOrEqual(1, $this->languageManagerPage->getRowNumber($langName_2), 'Lang should be in row 1');
 
 		$test = $this->languageManagerPage->setFilter('filter_published', 'Published');
 		$this->assertFalse($this->languageManagerPage->getRowNumber($langName_2), 'Lang should not show');
-		$this->assertEquals(2, $this->languageManagerPage->getRowNumber($langName_1), 'Lang should be in row 2');
+		$this->assertGreaterThanOrEqual(1, $this->languageManagerPage->getRowNumber($langName_1), 'Lang should be in row 2');
 
 		$this->languageManagerPage->setFilter('Select Status', 'Select Status');
 		$this->languageManagerPage->trashAndDelete($langName_1);
 		$this->languageManagerPage->trashAndDelete($langName_2);
 	}
-
 }

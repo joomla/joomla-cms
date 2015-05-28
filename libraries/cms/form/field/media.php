@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla CMS.
  * Provides a modal media selector including upload mechanism
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldMedia extends JFormField
 {
@@ -234,7 +232,7 @@ class JFormFieldMedia extends JFormField
 			$script[] = '				$("#" + id + "_preview_empty").hide();';
 			$script[] = '				$("#" + id + "_preview_img").show()';
 			$script[] = '			} else { ';
-			$script[] = '				$img.attr("src", "")';
+			$script[] = '				$img.attr("src", "");';
 			$script[] = '				$("#" + id + "_preview_empty").show();';
 			$script[] = '				$("#" + id + "_preview_img").hide();';
 			$script[] = '			} ';
@@ -253,6 +251,21 @@ class JFormFieldMedia extends JFormField
 			$script[] = '		$tip.show();';
 			$script[] = '	}';
 
+			// JQuery for tooltip for INPUT showing whole image path
+			$script[] = '	function jMediaRefreshImgpathTip(tip)';
+			$script[] = '	{';
+			$script[] = '		var $ = jQuery.noConflict();';
+			$script[] = '		var $tip = $(tip);';
+			$script[] = '		$tip.css("max-width", "none");';
+			$script[] = '		var $imgpath = $("#" + "' . $this->id . '").val();';
+			$script[] = '		$("#TipImgpath").html($imgpath);';
+			$script[] = '		if ($imgpath.length) {';
+			$script[] = '		 $tip.show();';
+			$script[] = '		} else {';
+			$script[] = '		 $tip.hide();';
+			$script[] = '		}';
+			$script[] = '	}';
+
 			// Add the script to the document head.
 			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
@@ -261,6 +274,23 @@ class JFormFieldMedia extends JFormField
 
 		$html = array();
 		$attr = '';
+
+		// Tooltip for INPUT showing whole image path
+		$options = array(
+			'onShow' => 'jMediaRefreshImgpathTip',
+		);
+		JHtml::_('behavior.tooltip', '.hasTipImgpath', $options);
+
+		if (!empty($this->class))
+		{
+			$this->class .= ' hasTipImgpath';
+		}
+		else
+		{
+			$this->class = 'hasTipImgpath';
+		}
+
+		$attr .= ' title="' . htmlspecialchars('<span id="TipImgpath"></span>', ENT_COMPAT, 'UTF-8') . '"';
 
 		// Initialize some field attributes.
 		$attr .= !empty($this->class) ? ' class="input-small ' . $this->class . '"' : ' class="input-small"';
@@ -333,7 +363,7 @@ class JFormFieldMedia extends JFormField
 				$tooltip = $previewImgEmpty . $previewImg;
 				$options = array(
 					'title' => JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'),
-					'text' => '<i class="icon-eye"></i>',
+					'text' => '<span class="icon-eye"></span>',
 					'class' => 'hasTipPreview'
 				);
 
@@ -379,11 +409,12 @@ class JFormFieldMedia extends JFormField
 					: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
 					. $this->form->getValue($this->authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
 				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a><a class="btn hasTooltip" title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '" href="#" onclick="';
+			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a><a class="btn hasTooltip" title="'
+				. JText::_('JLIB_FORM_BUTTON_CLEAR') . '" href="#" onclick="';
 			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
 			$html[] = 'return false;';
 			$html[] = '">';
-			$html[] = '<i class="icon-remove"></i></a>';
+			$html[] = '<span class="icon-remove"></span></a>';
 		}
 
 		$html[] = '</div>';

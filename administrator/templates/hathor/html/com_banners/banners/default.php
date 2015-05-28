@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.multiselect');
-JHtml::_('behavior.modal');
 
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
@@ -36,7 +35,7 @@ $saveOrder = $listOrder == 'ordering';
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('Banners_Search_in_title'); ?>" />
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+			<button type="button" onclick="document.getElementById('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 
 		<div class="filter-select">
@@ -217,7 +216,21 @@ $saveOrder = $listOrder == 'ordering';
 	<div class="clr"> </div>
 
 	<?php //Load the batch processing form. ?>
-	<?php echo $this->loadTemplate('batch'); ?>
+	<?php if ($user->authorise('core.create', 'com_banners')
+		&& $user->authorise('core.edit', 'com_banners')
+		&& $user->authorise('core.edit.state', 'com_banners')) : ?>
+		<?php echo JHtml::_(
+			'bootstrap.renderModal',
+			'collapseModal',
+			array(
+				'title' => JText::_('COM_BANNERS_BATCH_OPTIONS'),
+				'width' => '800px',
+				'height' => '300px',
+				'footer' => $this->loadTemplate('batch_footer')
+			),
+			$this->loadTemplate('batch_body')
+		); ?>
+	<?php endif; ?>
 
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />

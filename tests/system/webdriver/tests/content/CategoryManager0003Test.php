@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,6 +36,8 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 	 * Login to back end and navigate to menu Tags.
 	 *
 	 * @since   3.0
+	 *
+	 * @return void
 	 */
 	public function setUp()
 	{
@@ -48,6 +50,8 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 	 * Logout and close test.
 	 *
 	 * @since   3.0
+	 *
+	 * @return void
 	 */
 	public function tearDown()
 	{
@@ -56,6 +60,10 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check all the input fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
@@ -63,7 +71,7 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 		$this->categoryManagerPage->clickButton('toolbar-new');
 		$categoryEditPage = $this->getPageObject('CategoryEditPage');
 
-		// Option to print actual element array
+		/* Option to print actual element array*/
 		/* @var $categoryEditPage CategoryEditPage */
 // 	 	$categoryEditPage->printFieldArray($categoryEditPage->getAllInputFields($categoryEditPage->tabs));
 
@@ -75,6 +83,10 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * open edit screen
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function constructor_OpenEditScreen_CategoryEditOpened()
@@ -87,6 +99,10 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add category with default input fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addCategory_WithFieldDefaults_CategoryAdded()
@@ -103,6 +119,10 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add category with given fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addCategory_WithGivenFields_CategoryAdded()
@@ -123,6 +143,10 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * edit the value of the fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function editCategory_ChangeFields_FieldsChanged()
@@ -143,6 +167,10 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * change the tate of the category
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function changeCategoryState_ChangeEnabledUsingToolbar_EnabledChanged()

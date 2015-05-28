@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Public cache handler
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @since       11.1
+ * @since  11.1
  */
 class JCacheController
 {
@@ -69,6 +67,7 @@ class JCacheController
 	public function __call($name, $arguments)
 	{
 		$nazaj = call_user_func_array(array($this->cache, $name), $arguments);
+
 		return $nazaj;
 	}
 
@@ -155,11 +154,13 @@ class JCacheController
 		{
 			$paths = array();
 		}
+
 		if (!empty($path) && !in_array($path, $paths))
 		{
 			jimport('joomla.filesystem.path');
 			array_unshift($paths, JPath::clean($path));
 		}
+
 		return $paths;
 	}
 
@@ -183,10 +184,12 @@ class JCacheController
 			$locktest->locked = null;
 			$locktest->locklooped = null;
 			$locktest = $this->cache->lock($id, $group);
+
 			if ($locktest->locked == true && $locktest->locklooped == true)
 			{
 				$data = $this->cache->get($id, $group);
 			}
+
 			if ($locktest->locked == true)
 			{
 				$this->cache->unlock($id, $group);
@@ -199,6 +202,7 @@ class JCacheController
 			// Trim to fix unserialize errors
 			$data = unserialize(trim($data));
 		}
+
 		return $data;
 	}
 
