@@ -119,7 +119,6 @@ class JResponseJson
 		{
 			return json_encode($this, JSON_UNESCAPED_UNICODE);
 		}
-		
 		return json_encode($this);
 	}
 }
