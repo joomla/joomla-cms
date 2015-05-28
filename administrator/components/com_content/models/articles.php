@@ -84,7 +84,7 @@ class ContentModelArticles extends JModelList
 			$this->context .= '.' . $layout;
 		}
 
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
 		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
