@@ -7021,6 +7021,9 @@ dl.article-info dd.hits span[class*=" icon-"] {
 .icon-pending:before {
 	color: #c67605;
 }
+.icon-back:before {
+	content: "\e008";
+}
 html {
 	height: 100%;
 }
@@ -8144,6 +8147,10 @@ textarea.vert {
 }
 textarea.noResize {
 	resize: none;
+}
+body.modal-open {
+	overflow: hidden;
+	-ms-overflow-style: none;
 }
 .pull-right {
 	float: left;
