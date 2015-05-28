@@ -115,9 +115,11 @@ class JResponseJson
 	 */
 	public function __toString()
 	{
-		if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
+		if (version_compare(PHP_VERSION, '5.4.0', '>=')) 
+		{
 			return json_encode($this, JSON_UNESCAPED_UNICODE);
 		}
+		
 		return json_encode($this);
 	}
 }
