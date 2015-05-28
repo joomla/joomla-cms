@@ -699,13 +699,13 @@ class PlgSystemLanguageFilter extends JPlugin
 	/**
 	 * Set the language cookie
 	 *
-	 * @param   string   $lang_code   The language code for which we want to set the cookie
+	 * @param   string  $lang_code  The language code for which we want to set the cookie
 	 *
 	 * @return  void
 	 *
 	 * @since   3.4.2
 	 */
-	public function setLanguageCookie($lang_code)
+	private function setLanguageCookie($lang_code)
 	{
 
 		// Get the cookie lifetime we want.
@@ -713,12 +713,6 @@ class PlgSystemLanguageFilter extends JPlugin
 		if ($this->params->get('lang_cookie', 1) == 1)
 		{
 			$cookie_time = time() + 365 * 86400;
-		}
-
-		// Let's be sure we set a valid language cookie. Falls back setting the cookie for the default language.
-		if (!array_key_exists($lang_code, $this->lang_codes))
-		{
-			$lang_code = $this->default_lang;
 		}
 
 		// Create a cookie.
@@ -734,7 +728,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 *
 	 * @since   3.4.2
 	 */
-	public function getLanguageCookie()
+	private function getLanguageCookie()
 	{
 		$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
 
