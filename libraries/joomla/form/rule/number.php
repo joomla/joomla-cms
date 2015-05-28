@@ -11,6 +11,10 @@ defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Rule class for the Joomla Platform.
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @since       xx.x
  */
 class JFormRuleNumber extends JFormRule
 {
@@ -26,14 +30,16 @@ class JFormRuleNumber extends JFormRule
 	 * @param   JForm             $form     The form object for which the field is being tested.
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
+	 *
+	 * @since   xx.x
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
-		$float_value = (float)$value;
+		$float_value = (float) $value;
 
 		if (isset($element['min']))
 		{
-			$min = (float)$element['min'];
+			$min = (float) $element['min'];
 
 			if ($min > $float_value)
 			{
@@ -43,7 +49,7 @@ class JFormRuleNumber extends JFormRule
 
 		if (isset($element['max']))
 		{
-			$max = (float)$element['max'];
+			$max = (float) $element['max'];
 
 			if ($max < $float_value)
 			{
