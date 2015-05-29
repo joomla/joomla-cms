@@ -205,7 +205,7 @@ class JImage
 	 *
 	 * @since   3.4.2
 	 */
-	private function getOrientationString($width, $height)
+	static private function getOrientationString($width, $height)
 	{
 		switch (true)
 		{
