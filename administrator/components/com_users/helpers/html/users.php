@@ -54,8 +54,8 @@ class JHtmlUsers
 	{
 		$title = JText::_('COM_USERS_ADD_NOTE');
 
-		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '">'
-			. '<span class="label label-info"><span class="icon-vcard"></span>' . $title . '</span></a>';
+		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '" class="hasTooltip btn btn-mini" title="' . $title . '">'
+			. '<span class="icon-vcard"></span><span class="hidden-phone">' . $title . '</span></a>';
 	}
 
 	/**
