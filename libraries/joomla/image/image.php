@@ -181,9 +181,6 @@ class JImage
 	 * Method to detect whether an image's orientation is landscape, portrait or square.
 	 * The orientation will be returned as a string.
 	 *
-	 * @param   integer  $width   The width value to use for calculation
-	 * @param   integer  $height  The height value to use for calculation
-	 *
 	 * @return  mixed   Orientation string or null.
 	 *
 	 * @since   3.4.2
