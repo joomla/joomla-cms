@@ -593,7 +593,7 @@ class ModulesModelModule extends JModelAdmin
 			$data = $this->getItem();
 
 			// Pre-select some filters (Status, Module Position, Language, Access Level) in edit form if those have been selected in Module Manager
-			if ($data->id == null)
+			if (!$data->id)
 			{
 				$filters = (array) $app->getUserState('com_modules.modules.filter');
 				$data->set('published', $app->input->getInt('published', (isset($filters['state']) ? $filters['state'] : null)));
