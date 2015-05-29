@@ -125,8 +125,10 @@ class JHtmlUsers
 		$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">'
 			. JText::_('JTOOLBAR_CLOSE') . '</a>';
 
-		return JHtmlBootstrap::renderModal(
-			'userModal_' . (int) $userId, array(
+		return JHtml::_(
+			'bootstrap.renderModal',
+			'userModal_' . (int) $userId,
+			array(
 				'title' => $title,
 				'backdrop' => 'static',
 				'keyboard' => true,
@@ -135,7 +137,7 @@ class JHtmlUsers
 				'url' => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId),
 				'height' => '300px',
 				'width' => '800px'
-				)
+			)
 		);
 
 	}
