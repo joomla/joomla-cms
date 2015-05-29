@@ -25,6 +25,16 @@
 		<!-- Basic options. -->
 		<fieldset name="basic" label="COM_MENUS_BASIC_FIELDSET_LABEL">
 
+			<field name="search_phrases" type="list"
+
+				description="COM_SEARCH_FIELD_SEARCH_PHRASES_DESC"
+				label="COM_SEARCH_FIELD_SEARCH_PHRASES_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
 			<field name="search_areas" type="list"
 
 				description="COM_SEARCH_FIELD_SEARCH_AREAS_DESC"
