@@ -33,8 +33,7 @@
   min-width: 20px;
   text-align: right;
   color: #999;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
+  white-space: nowrap;
 }
 
 .CodeMirror-guttermarker { color: black; }
@@ -127,6 +126,8 @@ div.CodeMirror-overwrite div.CodeMirror-cursor {}
 .cm-s-default .cm-error {color: #f00;}
 .cm-invalidchar {color: #f00;}
 
+.CodeMirror-composing { border-bottom: 2px solid; }
+
 /* Default styles for common addons */
 
 div.CodeMirror span.CodeMirror-matchingbracket {color: #0f0;}
@@ -154,14 +155,10 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   height: 100%;
   outline: none; /* Prevent dragging from highlighting the element */
   position: relative;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
 }
 .CodeMirror-sizer {
   position: relative;
   border-right: 30px solid transparent;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
 }
 
 /* The fake, visible scrollbars. Used to force redraw during scrolling
@@ -196,8 +193,6 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
 .CodeMirror-gutter {
   white-space: normal;
   height: 100%;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
   display: inline-block;
   margin-bottom: -30px;
   /* Hack to make IE7 behave */
@@ -265,6 +260,16 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   outline: none;
 }
 
+/* Force content-box sizing for the elements where we expect it */
+.CodeMirror-scroll,
+.CodeMirror-sizer,
+.CodeMirror-gutter,
+.CodeMirror-gutters,
+.CodeMirror-linenumber {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
 .CodeMirror-measure {
   position: absolute;
   width: 100%;
@@ -318,100 +323,3 @@ div.CodeMirror-cursors {
 
 /* Help users use markselection to safely style text background */
 span.CodeMirror-selectedtext { background: none; }
-/**
- *  addon/display/fullscreen.css
- *  addon/fold/foldgutter.css
- *  addon/scroll/simplescrollbars.css
-**/
-.CodeMirror-fullscreen {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  height: auto;
-  z-index: 9;
-}
-.CodeMirror-foldmarker {
-  color: blue;
-  text-shadow: #b9f 1px 1px 2px, #b9f -1px -1px 2px, #b9f 1px -1px 2px, #b9f -1px 1px 2px;
-  font-family: arial;
-  line-height: .3;
-  cursor: pointer;
-}
-.CodeMirror-foldgutter {
-  width: .7em;
-}
-.CodeMirror-foldgutter-open,
-.CodeMirror-foldgutter-folded {
-  cursor: pointer;
-}
-.CodeMirror-foldgutter-open:after {
-  content: "\25BE";
-}
-.CodeMirror-foldgutter-folded:after {
-  content: "\25B8";
-}
-.CodeMirror-simplescroll-horizontal div, .CodeMirror-simplescroll-vertical div {
-  position: absolute;
-  background: #ccc;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 1px solid #bbb;
-  border-radius: 2px;
-}
-
-.CodeMirror-simplescroll-horizontal, .CodeMirror-simplescroll-vertical {
-  position: absolute;
-  z-index: 6;
-  background: #eee;
-}
-
-.CodeMirror-simplescroll-horizontal {
-  bottom: 0; left: 0;
-  height: 8px;
-}
-.CodeMirror-simplescroll-horizontal div {
-  bottom: 0;
-  height: 100%;
-}
-
-.CodeMirror-simplescroll-vertical {
-  right: 0; top: 0;
-  width: 8px;
-}
-.CodeMirror-simplescroll-vertical div {
-  right: 0;
-  width: 100%;
-}
-
-
-.CodeMirror-overlayscroll .CodeMirror-scrollbar-filler, .CodeMirror-overlayscroll .CodeMirror-gutter-filler {
-  display: none;
-}
-
-.CodeMirror-overlayscroll-horizontal div, .CodeMirror-overlayscroll-vertical div {
-  position: absolute;
-  background: #bcd;
-  border-radius: 3px;
-}
-
-.CodeMirror-overlayscroll-horizontal, .CodeMirror-overlayscroll-vertical {
-  position: absolute;
-  z-index: 6;
-}
-
-.CodeMirror-overlayscroll-horizontal {
-  bottom: 0; left: 0;
-  height: 6px;
-}
-.CodeMirror-overlayscroll-horizontal div {
-  bottom: 0;
-  height: 100%;
-}
-
-.CodeMirror-overlayscroll-vertical {
-  right: 0; top: 0;
-  width: 6px;
-}
-.CodeMirror-overlayscroll-vertical div {
-  right: 0;
-  width: 100%;
-}
