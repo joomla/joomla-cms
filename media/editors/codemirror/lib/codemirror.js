@@ -728,12 +728,9 @@
   }
 
   function postUpdateDisplay(cm, update) {
-    var force = update.force, viewport = update.viewport;
+    var viewport = update.viewport;
     for (var first = true;; first = false) {
-      if (first && cm.options.lineWrapping && update.oldDisplayWidth != displayWidth(cm)) {
-        force = true;
-      } else {
-        force = false;
+      if (!first || !cm.options.lineWrapping || update.oldDisplayWidth == displayWidth(cm)) {
         // Clip forced viewport to actual scrollable area.
         if (viewport && viewport.top != null)
           viewport = {top: Math.min(cm.doc.height + paddingVert(cm.display) - displayHeight(cm), viewport.top)};
@@ -1108,30 +1105,38 @@
                          origin: origin || (cm.state.pasteIncoming ? "paste" : cm.state.cutIncoming ? "cut" : "+input")};
       makeChange(cm.doc, changeEvent);
       signalLater(cm, "inputRead", cm, changeEvent);
-      // When an 'electric' character is inserted, immediately trigger a reindent
-      if (inserted && !cm.state.pasteIncoming && cm.options.electricChars &&
-          cm.options.smartIndent && range.head.ch < 100 &&
-          (!i || sel.ranges[i - 1].head.line != range.head.line)) {
-        var mode = cm.getModeAt(range.head);
-        var end = changeEnd(changeEvent);
-        var indented = false;
-        if (mode.electricChars) {
-          for (var j = 0; j < mode.electricChars.length; j++)
-            if (inserted.indexOf(mode.electricChars.charAt(j)) > -1) {
-              indented = indentLine(cm, end.line, "smart");
-              break;
-            }
-        } else if (mode.electricInput) {
-          if (mode.electricInput.test(getLine(doc, end.line).text.slice(0, end.ch)))
-            indented = indentLine(cm, end.line, "smart");
-        }
-        if (indented) signalLater(cm, "electricInput", cm, end.line);
-      }
     }
+    if (inserted && !cm.state.pasteIncoming)
+      triggerElectric(cm, inserted);
+
     ensureCursorVisible(cm);
     cm.curOp.updateInput = updateInput;
     cm.curOp.typing = true;
     cm.state.pasteIncoming = cm.state.cutIncoming = false;
+  }
+
+  function triggerElectric(cm, inserted) {
+    // When an 'electric' character is inserted, immediately trigger a reindent
+    if (!cm.options.electricChars || !cm.options.smartIndent) return;
+    var sel = cm.doc.sel;
+
+    for (var i = sel.ranges.length - 1; i >= 0; i--) {
+      var range = sel.ranges[i];
+      if (range.head.ch > 100 || (i && sel.ranges[i - 1].head.line == range.head.line)) continue;
+      var mode = cm.getModeAt(range.head);
+      var indented = false;
+      if (mode.electricChars) {
+        for (var j = 0; j < mode.electricChars.length; j++)
+          if (inserted.indexOf(mode.electricChars.charAt(j)) > -1) {
+            indented = indentLine(cm, range.head.line, "smart");
+            break;
+          }
+      } else if (mode.electricInput) {
+        if (mode.electricInput.test(getLine(cm.doc, range.head.line).text.slice(0, range.head.ch)))
+          indented = indentLine(cm, range.head.line, "smart");
+      }
+      if (indented) signalLater(cm, "electricInput", cm, range.head.line);
+    }
   }
 
   function copyableRanges(cm) {
@@ -1836,7 +1841,7 @@
       var partPos = getBidiPartAt(order, pos.ch);
       side = partPos % 2 ? "right" : "left";
     }
-    var result = nodeAndOffsetInLineMap(info.map, pos.ch, "left");
+    var result = nodeAndOffsetInLineMap(info.map, pos.ch, side);
     result.offset = result.collapse == "right" ? result.end : result.start;
     return result;
   }
@@ -5053,6 +5058,8 @@
         return commands[cmd](this);
     },
 
+    triggerElectric: methodOp(function(text) { triggerElectric(this, text); }),
+
     findPosH: function(from, amount, unit, visually) {
       var dir = 1;
       if (amount < 0) { dir = -1; amount = -amount; }
@@ -5720,7 +5727,7 @@
       for (var i = 0; i < keys.length; i++) {
         var val, name;
         if (i == keys.length - 1) {
-          name = keyname;
+          name = keys.join(" ");
           val = value;
         } else {
           name = keys.slice(0, i + 1).join(" ");
@@ -8732,7 +8739,7 @@
 
   // THE END
 
-  CodeMirror.version = "5.2.0";
+  CodeMirror.version = "5.3.0";
 
   return CodeMirror;
 });
