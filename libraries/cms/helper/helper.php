@@ -28,7 +28,7 @@ class JHelper
 	 *
 	 * @deprecated  4.0  Use JFactory::getLanguage()->getTag() instead
 	 */
-	public function getCurrentLanguage($detectBrowser = true)
+	public function getCurrentLanguage($detectBrowser)
 	{
 		return JFactory::getLanguage()->getTag();
 	}
