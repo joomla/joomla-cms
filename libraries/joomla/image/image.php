@@ -204,7 +204,7 @@ class JImage
 	 * @param   integer  $width   The width value to use for calculation
 	 * @param   integer  $height  The height value to use for calculation
 	 *
-	 * @return  mixed    Orientation string or null.
+	 * @return  string   Orientation string
 	 *
 	 * @since   3.4.2
 	 */
@@ -218,11 +218,9 @@ class JImage
 		case ($width < $height) :
 			return self::ORIENTATION_PORTRAIT;
 
-		case ($width == $height) :
+		default:
 			return self::ORIENTATION_SQUARE;
 		}
-
-		return null;
 	}
 
 	/**
