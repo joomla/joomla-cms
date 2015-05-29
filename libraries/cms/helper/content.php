@@ -133,7 +133,8 @@ class JHelperContent
 	 * @return  string  The language string
 	 *
 	 * @since   3.1
-	 * @note    JHelper::getCurrentLanguage is the preferred method
+	 *
+	 * @deprecated  4.0  Use JFactory::getLanguage()->getTag() instead
 	 */
 	public static function getCurrentLanguage($detectBrowser = true)
 	{

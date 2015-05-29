@@ -148,7 +148,7 @@ class TagsModelTags extends JModelList
 		{
 			if ($language == 'current_language')
 			{
-				$language = JHelperContent::getCurrentLanguage();
+				$language = JFactory::getLanguage()->getTag();
 			}
 
 			$query->where($db->quoteName('language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
