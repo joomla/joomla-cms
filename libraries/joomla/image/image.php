@@ -189,7 +189,7 @@ class JImage
 	{
 		if ($this->isLoaded())
 		{
-			return self:getOrientationString($this->getWidth(), $this->getHeight());
+			return self::getOrientationString($this->getWidth(), $this->getHeight());
 		}
 
 		return null;
