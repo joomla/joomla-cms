@@ -459,7 +459,7 @@ class BannersModelBanner extends JModelAdmin
 		{
 			// Set the values
 			$table->created = $date->toSql();
-			$table->created_by = $user->get('id');
+			$table->created_by = $user->id;
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering))
