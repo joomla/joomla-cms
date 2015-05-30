@@ -142,6 +142,7 @@ Joomla.renderMessages = function(messages) {
         $divList = $('<div/>');
         $.each(item, function(index, item) {
             $p = $('<p/>', {
+            	class: 'alert-message',
                 html : item
             });
             $divList.append($p);
