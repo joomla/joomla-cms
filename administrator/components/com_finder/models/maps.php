@@ -30,7 +30,8 @@ class FinderModelMaps extends JModelList
 		{
 			$config['filter_fields'] = array(
 				'state', 'a.state',
-				'title', 'a.title'
+				'title', 'a.title',
+				'branch'
 			);
 		}
 
