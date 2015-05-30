@@ -2079,10 +2079,16 @@ class JFormTest extends TestCaseDatabase
 			$this->fail('Error in text XML data');
 		}
 
-		// Test without replace.
+		$addFields = array();
 
+		foreach ($xml1->field as $element)
+		{
+			$addFields[] = $element;
+		}
+
+		// Test without replace.
 		$this->assertTrue(
-			$form->setFields($xml1->field, null, false),
+			$form->setFields($addFields, null, false),
 			'Line:' . __LINE__ . ' The setFields method should return true for an existing field.'
 		);
 
