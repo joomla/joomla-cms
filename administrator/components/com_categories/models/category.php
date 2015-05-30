@@ -324,7 +324,7 @@ class CategoriesModelCategory extends JModelAdmin
 				$filters = (array) $app->getUserState('com_categories.categories.' . $extension . '.filter');
 
 				$data->set('published', $app->input->getInt('published', (isset($filters['published']) ? $filters['published'] : null)));
-				$data->set('language', $app->input->getVar('language', (isset($filters['language']) ? $filters['language'] : null)));
+				$data->set('language', $app->input->getString('language', (isset($filters['language']) ? $filters['language'] : null)));
 				$data->set('access', $app->input->getInt('access', (isset($filters['access']) ? $filters['access'] : null)));
 			}
 
