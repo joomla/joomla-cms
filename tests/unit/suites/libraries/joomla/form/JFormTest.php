@@ -2092,9 +2092,9 @@ class JFormTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' The getFieldAttribute method should return the default value if the attribute is not set.'
 		);
 
-		$this->assertFalse(
+		$this->assertNotFalse(
 			$form->getField('ordering'),
-			'Line:' . __LINE__ . ' The getField method returns false when the method does not exist.'
+			'Line:' . __LINE__ . ' The getField method does not return false when the field exists.'
 		);
 	}
 
