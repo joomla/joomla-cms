@@ -146,7 +146,8 @@ abstract class ModTagssimilarHelper
 		catch (RuntimeException $e)
 		{
 			$results = array();
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_GENERIC_SQL_ERROR'), 'error');
+			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 		}
 
 		foreach ($results as $result)
