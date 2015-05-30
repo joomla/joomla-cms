@@ -2067,9 +2067,8 @@ class JFormTest extends TestCaseDatabase
 	{
 		$form = new JFormInspector('form1');
 
-		$this->assertThat(
+		$this->assertTrue(
 			$form->load(JFormDataHelper::$loadDocument),
-			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
@@ -2082,22 +2081,20 @@ class JFormTest extends TestCaseDatabase
 
 		// Test without replace.
 
-		$this->assertThat(
+		$this->assertTrue(
 			$form->setFields($xml1->field, null, false),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The setFields method should return true.'
+			'Line:' . __LINE__ . ' The setFields method should return true for an existing field.'
 		);
 
-		$this->assertThat(
+		$this->assertEquals(
 			$form->getFieldAttribute('title', 'required', 'default'),
-			$this->equalTo('default'),
-			'Line:' . __LINE__ . ' The label should contain just the field name.'
+			'default',
+			'Line:' . __LINE__ . ' The getFieldAttribute method should return the default value if the attribute is not set.'
 		);
 
-		$this->assertThat(
+		$this->assertFalse(
 			$form->getField('ordering'),
-			$this->logicalNot($this->isFalse()),
-			'Line:' . __LINE__ . ' The label should contain just the field name.'
+			'Line:' . __LINE__ . ' The getField method returns false when themethod doesn't exist.'
 		);
 	}
 
