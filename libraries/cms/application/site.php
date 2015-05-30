@@ -583,7 +583,7 @@ final class JApplicationSite extends JApplicationCms
 			else
 			{
 				// Detect cookie language
-				$lang = $this->input->cookie->get(JApplication::getHash(JApplicationHelper::getHash('language')), null, 'string');
+				$lang = $this->input->cookie->get(JApplicationHelper::getHash('language'), null, 'string');
 
 				// Make sure that the user's language exists
 				if ($lang && JLanguage::exists($lang))
