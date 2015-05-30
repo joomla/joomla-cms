@@ -2094,7 +2094,7 @@ class JFormTest extends TestCaseDatabase
 
 		$this->assertFalse(
 			$form->getField('ordering'),
-			'Line:' . __LINE__ . ' The getField method returns false when themethod doesn't exist.'
+			'Line:' . __LINE__ . ' The getField method returns false when the method does not exist.'
 		);
 	}
 
