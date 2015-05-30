@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,14 +67,7 @@ class LanguagesViewLanguage extends JViewLegacy
 			JText::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'), 'comments-2 langmanager'
 		);
 
-		// If a new item, can save.
-		if ($isNew && $canDo->get('core.create'))
-		{
-			JToolbarHelper::save('language.save');
-		}
-
-		// If an existing item, allow to Apply and Save.
-		if (!$isNew && $canDo->get('core.edit'))
+		if (($isNew && $canDo->get('core.create')) || (!$isNew && $canDo->get('core.edit')))
 		{
 			JToolbarHelper::apply('language.apply');
 			JToolbarHelper::save('language.save');

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -308,8 +308,9 @@ abstract class JHtmlBehavior
 				var title = $(this).attr('title');
 				if (title) {
 					var parts = title.split('::', 2);
-					$(this).data('tip:title', parts[0]);
-					$(this).data('tip:text', parts[1]);
+					var mtelement = document.id(this);
+					mtelement.store('tip:title', parts[0]);
+					mtelement.store('tip:text', parts[1]);
 				}
 			});
 			var JTooltips = new Tips($('$selector').get(), $options);
@@ -403,7 +404,10 @@ abstract class JHtmlBehavior
 			SqueezeBox.assign($('" . $selector . "').get(), {
 				parse: 'rel'
 			});
-		});"
+		});
+		function jModalClose() {
+			SqueezeBox.close();
+		}"
 		);
 
 		// Set static array

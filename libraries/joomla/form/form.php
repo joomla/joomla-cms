@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -235,22 +235,22 @@ class JForm
 			$groups = array_map('strval', $attrs ? $attrs : array());
 			$group = implode('.', $groups);
 
-			// Get the field value from the data input.
-			if ($group)
+			$key = $group ? $group . '.' . $name : $name;
+
+			// Filter the value if it exists.
+			if ($input->exists($key))
 			{
-				// Filter the value if it exists.
-				if ($input->exists($group . '.' . $name))
-				{
-					$output->set($group . '.' . $name, $this->filterField($field, $input->get($group . '.' . $name, (string) $field['default'])));
-				}
+				$output->set($key, $this->filterField($field, $input->get($key, (string) $field['default'])));
 			}
-			else
+
+			// Get the JFormField object for this field, only it knows if it is supposed to be multiple.
+			$jfield = $this->getField($name, $group);
+
+			// Fields supporting multiple values must be stored as empty arrays when no values are selected.
+			// If not, they will appear to be unset and then revert to their default value.
+			if ($jfield && $jfield->multiple && !$output->exists($key))
 			{
-				// Filter the value if it exists.
-				if ($input->exists($name))
-				{
-					$output->set($name, $this->filterField($field, $input->get($name, (string) $field['default'])));
-				}
+				$output->set($key, array());
 			}
 		}
 
@@ -817,7 +817,7 @@ class JForm
 					{
 						$olddom = dom_import_simplexml($current);
 						$loadeddom = dom_import_simplexml($field);
-						$addeddom = $olddom->ownerDocument->importNode($loadeddom);
+						$addeddom = $olddom->ownerDocument->importNode($loadeddom, true);
 						$olddom->parentNode->replaceChild($addeddom, $olddom);
 						$loadeddom->parentNode->removeChild($loadeddom);
 					}
@@ -1287,7 +1287,7 @@ class JForm
 
 			// Filter safe HTML.
 			case 'SAFEHTML':
-				$return = JFilterInput::getInstance(null, null, 1, 1)->clean($value, 'string');
+				$return = JFilterInput::getInstance(null, null, 1, 1)->clean($value, 'html');
 				break;
 
 			// Convert a date to UTC based on the server timezone offset.
@@ -2065,12 +2065,12 @@ class JForm
 	/**
 	 * Method to get an instance of a form.
 	 *
-	 * @param   string  $name     The name of the form.
-	 * @param   string  $data     The name of an XML file or string to load as the form definition.
-	 * @param   array   $options  An array of form options.
-	 * @param   string  $replace  Flag to toggle whether form fields should be replaced if a field
-	 *                            already exists with the same group/name.
-	 * @param   string  $xpath    An optional xpath to search for the fields.
+	 * @param   string          $name     The name of the form.
+	 * @param   string          $data     The name of an XML file or string to load as the form definition.
+	 * @param   array           $options  An array of form options.
+	 * @param   boolean         $replace  Flag to toggle whether form fields should be replaced if a field
+	 *                                    already exists with the same group/name.
+	 * @param   string|boolean  $xpath    An optional xpath to search for the fields.
 	 *
 	 * @return  object  JForm instance.
 	 *

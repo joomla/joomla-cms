@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -504,15 +504,7 @@ class TemplatesModelTemplate extends JModelForm
 		}
 
 		$return = JFile::write($filePath, $data['source']);
-
-		// Try to make the template file unwritable.
-		if (JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0444'))
-		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_UNWRITABLE'), 'error');
-
-			return false;
-		}
-		elseif (!$return)
+		if (!$return)
 		{
 			$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName), 'error');
 
@@ -653,11 +645,11 @@ class TemplatesModelTemplate extends JModelForm
 
 			if (stristr($name, 'mod_') != false)
 			{
-				$return = $this->createTemplateOverride($override . '/tmpl', $htmlPath);
+				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
 			}
 			elseif (stristr($override, 'com_') != false)
 			{
-				$return = $this->createTemplateOverride($override . '/tmpl', $htmlPath);
+				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
 			}
 			else
 			{
@@ -1146,7 +1138,7 @@ class TemplatesModelTemplate extends JModelForm
 
 		$query->select('id, client_id');
 		$query->from('#__template_styles');
-		$query->where($db->quoteName('template') . ' = ' . $db->quote($this->template->name));
+		$query->where($db->quoteName('template') . ' = ' . $db->quote($this->template->element));
 
 		$db->setQuery($query);
 

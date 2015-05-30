@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -261,7 +261,8 @@ abstract class JArrayHelper
 	 */
 	public static function getValue(&$array, $name, $default = null, $type = '')
 	{
-		return ArrayHelper::getValue($array, $name, $default, $type);
+		// Previously we didn't typehint an array. So force any object to be an array
+		return ArrayHelper::getValue((array) $array, $name, $default, $type);
 	}
 
 	/**
@@ -456,8 +457,8 @@ abstract class JArrayHelper
 				$locale = self::$sortLocale[$i];
 			}
 
-			$va = $a->$key[$i];
-			$vb = $b->$key[$i];
+			$va = $a->{$key[$i]};
+			$vb = $b->{$key[$i]};
 
 			if ((is_bool($va) || is_numeric($va)) && (is_bool($vb) || is_numeric($vb)))
 			{

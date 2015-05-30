@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,15 +107,18 @@ class ContentViewArticles extends JViewLegacy
 		{
 			JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURED', true);
+			JToolbarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
+			JToolbarHelper::custom('articles.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
 			JToolbarHelper::archiveList('articles.archive');
 			JToolbarHelper::checkin('articles.checkin');
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', 'com_content') && $user->authorise('core.edit', 'com_content') && $user->authorise('core.edit.state', 'com_content'))
+		if ($user->authorise('core.create', 'com_content')
+			&& $user->authorise('core.edit', 'com_content')
+			&& $user->authorise('core.edit.state', 'com_content'))
 		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
+
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button

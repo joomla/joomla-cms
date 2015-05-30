@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
-
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
@@ -76,7 +74,7 @@ jQuery(document).ready(function($){
 if($this->type == 'image')
 {
 	JFactory::getDocument()->addScriptDeclaration("
-		jQuery(document).ready(function() {
+		jQuery(document).ready(function($) {
 			var jcrop_api;
 
 			// Configuration for image cropping
@@ -84,7 +82,7 @@ if($this->type == 'image')
 				onChange:   showCoords,
 				onSelect:   showCoords,
 				onRelease:  clearCoords,
-				trueSize:   " . $this->image['width'] . "," . $this->image['height'] . "]
+				trueSize:   [" . $this->image['width'] . "," . $this->image['height'] . "]
 			},function(){
 				jcrop_api = this;
 			});
@@ -182,7 +180,7 @@ if($this->type == 'font')
 							<h2><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
 							<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 							<p>
-								<a href="http://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">
+								<a href="https://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">
 									<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
 								</a>
 							</p>
@@ -209,10 +207,10 @@ if($this->type == 'font')
 							<?php foreach ($this->archive as $file): ?>
 								<li>
 									<?php if (substr($file, -1) === DIRECTORY_SEPARATOR): ?>
-										<i class="icon-folder"></i>&nbsp;<?php echo $file; ?>
+										<span class="icon-folder"></span>&nbsp;<?php echo $file; ?>
 									<?php endif; ?>
 									<?php if (substr($file, -1) != DIRECTORY_SEPARATOR): ?>
-										<i class="icon-file"></i>&nbsp;<?php echo $file; ?>
+										<span class="icon-file"></span>&nbsp;<?php echo $file; ?>
 									<?php endif; ?>
 								</li>
 							<?php endforeach; ?>
@@ -301,7 +299,7 @@ if($this->type == 'font')
 					<?php foreach($this->overridesList['modules'] as $module): ?>
 						<li>
 							<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-								<i class="icon-copy"></i>&nbsp;<?php echo $module->name; ?>
+								<span class="icon-copy"></span>&nbsp;<?php echo $module->name; ?>
 							</a>
 						</li>
 					<?php endforeach; ?>
@@ -313,13 +311,13 @@ if($this->type == 'font')
 					<?php foreach ($this->overridesList['components'] as $key => $value): ?>
 						<li class="component-folder">
 							<a href="#" class="component-folder-url">
-								<i class="icon-folder"></i>&nbsp;<?php echo $key; ?>
+								<span class="icon-folder"></span>&nbsp;<?php echo $key; ?>
 							</a>
 							<ul class="nav nav-list">
 								<?php foreach ($value as $view): ?>
 									<li>
 										<a class="component-file-url" href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $view->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-											<i class="icon-copy"></i>&nbsp;<?php echo $view->name; ?>
+											<span class="icon-copy"></span>&nbsp;<?php echo $view->name; ?>
 										</a>
 									</li>
 								<?php endforeach; ?>
@@ -334,7 +332,7 @@ if($this->type == 'font')
 					<?php foreach($this->overridesList['layouts'] as $layout): ?>
 						<li>
 							<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-								<i class="icon-copy"></i>&nbsp;<?php echo $layout->name; ?>
+								<span class="icon-copy"></span>&nbsp;<?php echo $layout->name; ?>
 							</a>
 						</li>
 					<?php endforeach; ?>

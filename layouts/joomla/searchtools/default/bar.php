@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,13 +36,13 @@ $filters = $data['view']->filterForm->getGroup('filter');
 		<div class="btn-wrapper input-append">
 			<?php echo $filters['filter_search']->input; ?>
 			<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
-				<i class="icon-search"></i>
+				<span class="icon-search"></span>
 			</button>
 		</div>
 		<?php if ($filterButton) : ?>
 			<div class="btn-wrapper hidden-phone">
 				<button type="button" class="btn hasTooltip js-stools-btn-filter" title="<?php echo JHtml::tooltipText('JSEARCH_TOOLS_DESC'); ?>">
-					<?php echo JText::_('JSEARCH_TOOLS');?> <i class="caret"></i>
+					<?php echo JText::_('JSEARCH_TOOLS');?> <span class="caret"></span>
 				</button>
 			</div>
 		<?php endif; ?>

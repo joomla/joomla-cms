@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,6 +50,8 @@ class MediaControllerFolder extends JControllerLegacy
 		// Just return if there's nothing to do
 		if (empty($paths))
 		{
+			$this->setMessage(JText::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+
 			return true;
 		}
 

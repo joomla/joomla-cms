@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -809,6 +809,10 @@ final class JApplicationSite extends JApplicationCms
 			{
 				$this->template->params = new Registry($styleParams);
 			}
+
+			// Store the template and its params to the config
+			$this->set('theme', $this->template->template);
+			$this->set('themeParams', $this->template->params);
 		}
 	}
 }

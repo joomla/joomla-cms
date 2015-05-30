@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,9 +65,9 @@ JFactory::getDocument()->addScriptDeclaration('
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_NEWSFEEDS_FILTER_SEARCH_DESC');?></label>
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_NEWSFEEDS_SEARCH_IN_TITLE'); ?>" />
 			</div>
-			<div class="btn-group pull-left hidden-phone">
-				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+			<div class="btn-group pull-left">
+				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search"></span></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
 			</div>
 			<div class="btn-group pull-right hidden-phone">
 				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
@@ -81,7 +81,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING');?></option>
 				</select>
 			</div>
-			<div class="btn-group pull-right">
+			<div class="btn-group pull-right hidden-phone">
 				<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY');?></label>
 				<select name="sortTable" id="sortTable" class="input-medium" onchange="Joomla.orderTable()">
 					<option value=""><?php echo JText::_('JGLOBAL_SORT_BY');?></option>
@@ -98,8 +98,8 @@ JFactory::getDocument()->addScriptDeclaration('
 			<table class="table table-striped" id="newsfeedList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center hidden-phone">
-							<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
+						<th width="1%" class="nowrap center">
+							<?php echo JHtml::_('grid.sort', '<span class="icon-menu-2"></span>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
 						</th>
 						<th width="1%" class="hidden-phone">
 							<?php echo JHtml::_('grid.checkall'); ?>
@@ -161,13 +161,13 @@ JFactory::getDocument()->addScriptDeclaration('
 							}
 							?>
 							<span class="sortable-handler<?php echo $iconClass ?>">
-								<i class="icon-menu"></i>
+								<span class="icon-menu"></span>
 							</span>
 							<?php if ($canChange && $saveOrder) : ?>
 								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering;?>" class="width-20 text-area-order" />
 							<?php endif; ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<td class="center">
@@ -235,10 +235,21 @@ JFactory::getDocument()->addScriptDeclaration('
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
-
-		<?php // Load the batch processing form. ?>
-		<?php echo $this->loadTemplate('batch'); ?>
+			<?php //Load the batch processing form if user is allowed ?>
+			<?php if ($user->authorise('core.create', 'com_newsfeeds')
+				&& $user->authorise('core.edit', 'com_newsfeeds')
+				&& $user->authorise('core.edit.state', 'com_newsfeeds')) : ?>
+				<?php echo JHtml::_(
+					'bootstrap.renderModal',
+					'collapseModal',
+					array(
+						'title' => JText::_('COM_NEWSFEEDS_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer')
+					),
+					$this->loadTemplate('batch_body')
+				); ?>
+			<?php endif;?>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

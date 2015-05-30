@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ JHtml::_('formbehavior.chosen', 'select');
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
 	{
-		if (task == "application.cancel" || document.formvalidator.isValid(document.getElementById("application-form")))
+		if (task === "config.cancel.application" || document.formvalidator.isValid(document.getElementById("application-form")))
 		{
 			Joomla.submitform(task, document.getElementById("application-form"));
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,7 @@ $n			= count($this->items);
 			<label class="selectlabel" for="filter_category_id"><?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?></label>
 			<select name="filter_category_id" id="filter_category_id">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_content'), 'value', 'text', $this->state->get('filter.category_id')); ?>
+				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_content', array('filter.published' => array(-2, 0, 1, 2))), 'value', 'text', $this->state->get('filter.category_id')); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_level"><?php echo JText::_('JOPTION_SELECT_MAX_LEVELS'); ?></label>
@@ -154,7 +154,7 @@ $n			= count($this->items);
 				<th class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</th>
-				<td>
+				<td class="break-word">
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 					<?php endif; ?>

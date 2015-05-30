@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -591,6 +591,16 @@ class ModulesModelModule extends JModelAdmin
 		if (empty($data))
 		{
 			$data = $this->getItem();
+
+			// Pre-select some filters (Status, Module Position, Language, Access Level) in edit form if those have been selected in Module Manager
+			if (!$data->id)
+			{
+				$filters = (array) $app->getUserState('com_modules.modules.filter');
+				$data->set('published', $app->input->getInt('published', (isset($filters['state']) ? $filters['state'] : null)));
+				$data->set('position', $app->input->getInt('position', (isset($filters['position']) ? $filters['position'] : null)));
+				$data->set('language', $app->input->getString('language', (isset($filters['language']) ? $filters['language'] : null)));
+				$data->set('access', $app->input->getInt('access', (isset($filters['access']) ? $filters['access'] : null)));
+			}
 
 			// This allows us to inject parameter settings into a new module.
 			$params = $app->getUserState('com_modules.add.module.params');

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $canOrder	= $user->authorise('core.edit.state', 'com_banners.category');
 $archived	= $this->state->get('filter.state') == 2 ? true : false;
 $trashed	= $this->state->get('filter.state') == -2 ? true : false;
-$params		= (isset($this->state->params)) ? $this->state->params : new JObject;
 $saveOrder	= $listOrder == 'a.ordering';
 
 if ($saveOrder)
@@ -30,27 +29,6 @@ if ($saveOrder)
 	$saveOrderingUrl = 'index.php?option=com_banners&task=banners.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
-
-$sortFields = $this->getSortFields();
-JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
-	Joomla.orderTable = function()
-	{
-		table = document.getElementById("sortTable");
-		direction = document.getElementById("directionTable");
-		order = table.options[table.selectedIndex].value;
-		if (order != "' . $listOrder . '")
-		{
-			dirn = "asc";
-		}
-		else
-		{
-			dirn = direction.options[direction.selectedIndex].value;
-		}
-		Joomla.tableOrdering(order, dirn, "");
-	}
-});
-');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=banners'); ?>" method="post" name="adminForm" id="adminForm">
@@ -73,7 +51,7 @@ jQuery(document).ready(function() {
 						<th width="1%" class="nowrap center hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%" class="hidden-phone">
+						<th width="1%" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="1%" class="nowrap center">
@@ -132,14 +110,14 @@ jQuery(document).ready(function() {
 								}
 								?>
 								<span class="sortable-handler <?php echo $iconClass ?>">
-									<i class="icon-menu"></i>
+									<span class="icon-menu"></span>
 								</span>
 								<?php if ($canChange && $saveOrder) : ?>
 									<input type="text" style="display:none" name="order[]" size="5"
 										value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
 								<?php endif; ?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="center">
@@ -205,9 +183,21 @@ jQuery(document).ready(function() {
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+			<?php //Load the batch processing form. ?>
+			<?php if ($user->authorise('core.create', 'com_banners')
+				&& $user->authorise('core.edit', 'com_banners')
+				&& $user->authorise('core.edit.state', 'com_banners')) : ?>
+				<?php echo JHtml::_(
+					'bootstrap.renderModal',
+					'collapseModal',
+					array(
+						'title' => JText::_('COM_BANNERS_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer')
+					),
+					$this->loadTemplate('batch_body')
+				); ?>
+			<?php endif; ?>
 		<?php endif; ?>
-		<?php //Load the batch processing form. ?>
-		<?php echo $this->loadTemplate('batch'); ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -699,11 +699,14 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			$query->setLimit($limit, $offset);
 		}
 
-		$query = $this->replacePrefix((string) $query);
+		// Create a stringified version of the query (with prefixes replaced):
+		$sql = $this->replacePrefix((string) $query);
 
-		$this->prepared = $this->connection->prepare($query, $driverOptions);
+		// Use the stringified version in the prepare call:
+		$this->prepared = $this->connection->prepare($sql, $driverOptions);
 
-		// Store reference to the JDatabaseQuery instance:
+		// Store reference to the original JDatabaseQuery instance within the class.
+		// This is important since binding variables depends on it within execute():
 		parent::setQuery($query, $offset, $limit);
 
 		return $this;

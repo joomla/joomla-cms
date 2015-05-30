@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,6 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 $sortFields = $this->getSortFields();
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -36,13 +35,13 @@ jQuery(document).ready(function() {
 		dirn = direction.options[direction.selectedIndex].value;
 		}
 		Joomla.tableOrdering(order, dirn, "");
-	}
+	};
 
-Joomla.closeModalDialog = function()
-{
-	window.jQuery("#modal-download").modal("hide");
-}
-});');
+	Joomla.closeModalDialog = function()
+	{
+		window.jQuery("#modal-download").modal("hide");
+	};
+');
 ?>
 <script type="text/javascript">
 
@@ -73,7 +72,7 @@ Joomla.closeModalDialog = function()
 					<option value="desc" <?php echo $listDirn == 'desc' ? 'selected="selected"' : ''; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING'); ?></option>
 				</select>
 			</div>
-			<div class="btn-group pull-right">
+			<div class="btn-group pull-right hidden-phone">
 				<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY'); ?></label>
 				<select name="sortTable" id="sortTable" class="input-medium" onchange="Joomla.orderTable()">
 					<option value=""><?php echo JText::_('JGLOBAL_SORT_BY'); ?></option>

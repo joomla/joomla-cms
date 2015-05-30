@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,15 +110,16 @@
 				// Get module editing URL and tooltip for module edit:
 				var moduleEditUrl = $(this).data('jmodediturl');
 				var moduleTip = $(this).data('jmodtip');
+                var moduleTarget = $(this).data('target');
 
 				// Stop timeout on previous tooltip and remove it:
 				$('body>.btn.jmodedit').clearQueue().tooltip('destroy').remove();
 
 				// Add editing button with tooltip:
 				$(this).addClass('jmodinside')
-					.prepend('<a class="btn jmodedit" href="#" ><span class="icon-edit"></span></a>')
+					.prepend('<a class="btn jmodedit" href="#" target="' + moduleTarget + '"><span class="icon-edit"></span></a>')
 					.children(":first").attr('href', moduleEditUrl).attr('title', moduleTip)
-					.tooltip({"container": false, placement: tooltipPlacer})
+					.tooltip({"container": false, html: true, placement: tooltipPlacer})
 					.jEditMakeAbsolute(true);
 				// This class was needed for positioning the icon before making it absolute at bottom of body: We can now remove it:
 				$(this).removeClass('jmodinside');
@@ -191,7 +192,7 @@
 						}
 					}
 				})
-				.find('a.jfedit-menu').tooltip({"container": false, placement: 'bottom'});
+				.find('a.jfedit-menu').tooltip({"container": false, html: true, placement: 'bottom'});
 			},
 			mouseleave: function() {
 				$(this).delay(1500).queue(function(next) { $(this).popover('hide'); next() });

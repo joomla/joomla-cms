@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -112,49 +112,47 @@ class JImage
 	}
 
 	/**
-	 * Method to return a properties object for an image given a filesystem path.  The
-	 * result object has values for image width, height, type, attributes, mime type, bits,
-	 * and channels.
+	 * Method to return a properties object for an image given a filesystem path.
+	 * The result object has values for image width, height, type, attributes,
+	 * mime type, bits and channels.
 	 *
 	 * @param   string  $path  The filesystem path to the image for which to get properties.
 	 *
 	 * @return  stdClass
 	 *
 	 * @since   11.3
+	 *
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
+	 *
+	 * @deprecated  4.0  Use JImageHelper::getImageFileProperties instead.
 	 */
 	public static function getImageFileProperties($path)
 	{
-		// Make sure the file exists.
-		if (!file_exists($path))
+		return JImageHelper::getImageFileProperties($path);
+	}
+
+	/**
+	 * Method to detect whether an image's orientation is landscape, portrait or square.
+	 * The orientation will be returned as string.
+	 *
+	 * @access  public
+	 *
+	 * @return  mixed   Orientation string or null.
+	 *
+	 * @since   3.4
+	 */
+	public function getOrientation()
+	{
+		if ($this->isLoaded())
 		{
-			throw new InvalidArgumentException('The image file does not exist.');
+			$width  = $this->getWidth();
+			$height = $this->getHeight();
+
+			return JImageHelper::getOrientation($width, $height);
 		}
 
-		// Get the image file information.
-		$info = getimagesize($path);
-
-		if (!$info)
-		{
-			// @codeCoverageIgnoreStart
-			throw new RuntimeException('Unable to get properties for the image.');
-
-			// @codeCoverageIgnoreEnd
-		}
-
-		// Build the response object.
-		$properties = (object) array(
-			'width' => $info[0],
-			'height' => $info[1],
-			'type' => $info[2],
-			'attributes' => $info[3],
-			'bits' => isset($info['bits']) ? $info['bits'] : null,
-			'channels' => isset($info['channels']) ? $info['channels'] : null,
-			'mime' => $info['mime']
-		);
-
-		return $properties;
+		return null;
 	}
 
 	/**
@@ -352,7 +350,7 @@ class JImage
 		{
 			// Get the transparent color values for the current image.
 			$rgba = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
-			$color = imageColorAllocate($this->handle, $rgba['red'], $rgba['green'], $rgba['blue']);
+			$color = imageColorAllocateAlpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
@@ -690,7 +688,7 @@ class JImage
 		{
 			// Get the transparent color values for the current image.
 			$rgba = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
-			$color = imageColorAllocateAlpha($this->handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
+			$color = imageColorAllocateAlpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -159,6 +159,7 @@ class JApplicationCms extends JApplicationWeb
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @throws  RuntimeException
 	 */
 	public function checkSession()
 	{
@@ -208,7 +209,7 @@ class JApplicationCms extends JApplicationWeb
 			}
 			catch (RuntimeException $e)
 			{
-				jexit($e->getMessage());
+				throw new RuntimeException(JText::_('JERROR_SESSION_STARTUP'));
 			}
 		}
 	}

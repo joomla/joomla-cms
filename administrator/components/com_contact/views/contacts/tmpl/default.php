@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,6 @@ $sortFields = $this->getSortFields();
 $assoc		= JLanguageAssociations::isEnabled();
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -50,8 +49,8 @@ jQuery(document).ready(function() {
 			dirn = direction.options[direction.selectedIndex].value;
 		}
 		Joomla.tableOrdering(order, dirn, "");
-	}
-});');
+	};
+');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="adminForm">
@@ -69,8 +68,8 @@ jQuery(document).ready(function() {
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_CONTACT_SEARCH_IN_NAME'); ?>" />
 			</div>
 			<div class="btn-group pull-left">
-				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search"></span></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
 			</div>
 			<div class="btn-group pull-right hidden-phone">
 				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
@@ -102,9 +101,9 @@ jQuery(document).ready(function() {
 				<thead>
 					<tr>
 						<th width="1%" class="nowrap center hidden-phone">
-							<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
+							<?php echo JHtml::_('grid.sort', '<span class="icon-menu-2"></span>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
 						</th>
-						<th width="1%" class="hidden-phone">
+						<th width="1%" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="1%" style="min-width:55px" class="nowrap center">
@@ -162,14 +161,14 @@ jQuery(document).ready(function() {
 							}
 							?>
 							<span class="sortable-handler<?php echo $iconClass ?>">
-								<i class="icon-menu"></i>
+								<span class="icon-menu"></span>
 							</span>
 							<?php if ($canChange && $saveOrder) : ?>
 								<input type="text" style="display:none" name="order[]" size="5"
 									value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
 							<?php endif; ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<td class="center">
@@ -210,6 +209,7 @@ jQuery(document).ready(function() {
 						<td align="center" class="small hidden-phone">
 							<?php if (!empty($item->linked_user)) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id);?>"><?php echo $item->linked_user;?></a>
+								<div class="small"><?php echo $item->email; ?></div>
 							<?php endif; ?>
 						</td>
 						<td class="center hidden-phone">
@@ -246,10 +246,21 @@ jQuery(document).ready(function() {
 					</tr>
 				</tfoot>
 			</table>
+			<?php //Load the batch processing form. ?>
+			<?php if ($user->authorise('core.create', 'com_contact')
+				&& $user->authorise('core.edit', 'com_contact')
+				&& $user->authorise('core.edit.state', 'com_contact')) : ?>
+				<?php echo JHtml::_(
+					'bootstrap.renderModal',
+					'collapseModal',
+					array(
+						'title' => JText::_('COM_CONTACT_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer')
+					),
+					$this->loadTemplate('batch_body')
+				); ?>
+			<?php endif; ?>
 		<?php endif;?>
-
-		<?php //Load the batch processing form. ?>
-		<?php echo $this->loadTemplate('batch'); ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

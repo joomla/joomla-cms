@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,15 +117,6 @@ class JFormFieldTag extends JFormFieldList
 			->select('DISTINCT a.id AS value, a.path, a.title AS text, a.level, a.published, a.lft')
 			->from('#__tags AS a')
 			->join('LEFT', $db->qn('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
-
-		// Ajax tag only loads assigned values
-		if (!$this->isNested() && !empty($this->value))
-		{
-			// Only item assigned values
-			$values = (array) $this->value;
-			JArrayHelper::toInteger($values);
-			$query->where('a.id IN (' . implode(',', $values) . ')');
-		}
 
 		// Filter language
 		if (!empty($this->element['language']))

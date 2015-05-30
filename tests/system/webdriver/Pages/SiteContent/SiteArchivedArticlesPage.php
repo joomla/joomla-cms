@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
@@ -11,7 +18,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +37,7 @@ class SiteArchivedArticlesPage extends SitePage
 	 * @var    string
 	 * @since  3.2
 	 */
-	protected $waitForXpath =  "//button[contains(text(),'Filter')]";
+	protected $waitForXpath = "//button[contains(text(),'Filter')]";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -43,18 +50,18 @@ class SiteArchivedArticlesPage extends SitePage
 	/**
 	 * Function which returns Title array of Articles on the Home page of Front End
 	 *
-	 *
 	 * @return  Array of Article Titles Visible
 	 */
 	public function getArticleTitles()
 	{
-		$arrayElement=$this->driver->findElements(By::xPath("//h2//a[contains(text(), '')]"));
+		$arrayElement = $this->driver->findElements(By::xPath("//h2//a[contains(text(), '')]"));
 		$arrayTitles = array();
-		for($i=0; $i<count($arrayElement); $i++)
+
+		for ($i = 0; $i < count($arrayElement); $i++)
 		{
 			$arrayTitles[$i] = $arrayElement[$i]->getText();
 		}
+
 		return $arrayTitles;
 	}
-
 }

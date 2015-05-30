@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,7 +59,7 @@ class JFormFieldUser extends JFormField
 			. $this->id . '").className = document.getElementById("' . $this->id . '").className.replace(" invalid" , "");';
 		$script[] = '			' . $this->onchange;
 		$script[] = '		}';
-		$script[] = '		SqueezeBox.close();';
+		$script[] = '		jModalClose();';
 		$script[] = '	}';
 
 		// Add the script to the document head.
@@ -94,7 +94,7 @@ class JFormFieldUser extends JFormField
 		{
 			$html[] = '		<a class="btn btn-primary modal_' . $this->id . '" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '" href="' . $link . '"'
 				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-			$html[] = '<i class="icon-user"></i></a>';
+			$html[] = '<span class="icon-user"></span></a>';
 		}
 
 		$html[] = '</div>';

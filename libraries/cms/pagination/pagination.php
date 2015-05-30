@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Pagination
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -453,9 +453,9 @@ class JPagination
 	}
 
 	/**
-	 * Create and return the pagination page list string, ie. Previous, Next, 1 2 3 ... x.
+	 * Create and return the pagination pages list, ie. Previous, Next, 1 2 3 ... x.
 	 *
-	 * @return  string  Pagination page list string.
+	 * @return  array  Pagination pages list.
 	 *
 	 * @since   3.3
 	 */

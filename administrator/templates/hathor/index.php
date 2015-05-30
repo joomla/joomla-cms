@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,10 +19,10 @@ $user  = JFactory::getUser();
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load system style CSS
-$doc->addStyleSheetVersion('templates/system/css/system.css');
+$doc->addStyleSheetVersion($this->baseurl . '/templates/system/css/system.css');
 
 // Loadtemplate CSS
-$doc->addStyleSheetVersion('templates/' . $this->template . '/css/template.css');
+$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
 // Load additional CSS styles for colors
 if (!$this->params->get('colourChoice'))
@@ -34,7 +34,15 @@ else
 	$colour = htmlspecialchars($this->params->get('colourChoice'));
 }
 
-$doc->addStyleSheetVersion('templates/' . $this->template . '/css/colour_' . $colour . '.css');
+$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '.css');
+
+// Load custom.css
+$file = 'templates/' . $this->template . '/css/custom.css';
+
+if (is_file($file))
+{
+	$doc->addStyleSheetVersion($file);
+}
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
@@ -47,8 +55,8 @@ if (is_file($file))
 // Load additional CSS styles for rtl sites
 if ($this->direction == 'rtl')
 {
-	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/template_rtl.css');
-	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
+	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
+	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
 }
 
 // Load specific language related CSS
@@ -62,11 +70,11 @@ if (is_file($file))
 // Load additional CSS styles for bold Text
 if ($this->params->get('boldText'))
 {
-	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/boldtext.css');
+	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/boldtext.css');
 }
 
 // Load template javascript
-$doc->addScriptVersion('templates/' . $this->template . '/js/template.js');
+$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Logo file
 if ($this->params->get('logoFile'))
@@ -86,13 +94,13 @@ else
 	<jdoc:include type="head" />
 	<!-- Load additional CSS styles for Internet Explorer -->
 	<!--[if IE 8]>
-		<link href="templates/<?php echo  $this->template; ?>/css/ie8.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/ie8.css" rel="stylesheet" type="text/css" />
 	<![endif]-->
 	<!--[if IE 7]>
-		<link href="templates/<?php echo  $this->template; ?>/css/ie7.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/ie7.css" rel="stylesheet" type="text/css" />
 	<![endif]-->
 	<!--[if lt IE 9]>
-		<script src="../media/jui/js/html5.js"></script>
+		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
 	</head>
 <body id="minwidth-body">
@@ -147,7 +155,7 @@ else
 			<div class="clr"></div>
 		</div><!-- end of element-box -->
 		<noscript>
-			<?php echo  JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
+			<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 		</noscript>
 		<div class="clr"></div>
 	</div><!-- end of content -->
@@ -155,10 +163,20 @@ else
 </div><!-- end of containerwrap -->
 <!-- Footer -->
 <div id="footer">
-	<jdoc:include type="modules" name="footer" style="none"  />
+	<jdoc:include type="modules" name="footer" style="none" />
 	<p class="copyright">
-		<?php $joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!&#174;</a>';
-			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla); ?>
+		<?php
+		// Fix wrong display of Joomla!® in RTL language
+		if (JFactory::getLanguage()->isRTL())
+		{
+			$joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>';
+		}
+		else
+		{
+			$joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>';
+		}
+		echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla);
+		?>
 	</p>
 </div>
 <script type="text/javascript">

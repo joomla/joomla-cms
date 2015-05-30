@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.2"
+	version="3.4"
 	client="installation">
 	<name>Tamil (INDIA)</name>
-	<version>3.2.0</version>
+	<version>3.4.0</version>
 	<creationDate>2012-09-15</creationDate>
 	<author>Ilagnayeru 'MIG' Manickam, Elango Samy Manim</author>
-	<authorUrl></authorUrl>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>Tamil (India) language installation pack for Joomla</description>
 	<files>

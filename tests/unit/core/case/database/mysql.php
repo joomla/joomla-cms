@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -43,6 +43,11 @@ abstract class TestCaseDatabaseMysql extends TestCaseDatabase
 	 */
 	public static function setUpBeforeClass()
 	{
+		if (PHP_MAJOR_VERSION >= 7)
+		{
+			self::markTestSkipped('ext/mysql is unsupported on PHP 7.');
+		}
+
 		// First let's look to see if we have a DSN defined or in the environment variables.
 		if (defined('JTEST_DATABASE_MYSQL_DSN') || getenv('JTEST_DATABASE_MYSQL_DSN'))
 		{

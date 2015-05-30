@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -419,13 +419,14 @@ class ContentModelArticle extends JModelAdmin
 		{
 			$data = $this->getItem();
 
-			// Prime some default values.
+			// Pre-select some filters (Status, Category, Language, Access) in edit form if those have been selected in Article Manager: Articles
 			if ($this->getState('article.id') == 0)
 			{
 				$filters = (array) $app->getUserState('com_content.articles.filter');
-				$filterCatId = isset($filters['category_id']) ? $filters['category_id'] : null;
-
-				$data->set('catid', $app->input->getInt('catid', $filterCatId));
+				$data->set('state', $app->input->getInt('state', (isset($filters['published']) ? $filters['published'] : null)));
+				$data->set('catid', $app->input->getInt('catid', (isset($filters['category_id']) ? $filters['category_id'] : null)));
+				$data->set('language', $app->input->getString('language', (isset($filters['language']) ? $filters['language'] : null)));
+				$data->set('access', $app->input->getInt('access', (isset($filters['access']) ? $filters['access'] : null)));
 			}
 		}
 
@@ -504,7 +505,7 @@ class ContentModelArticle extends JModelAdmin
 		}
 
 		// Automatic handling of alias for empty fields
-		if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (int) $input->get('id') == 0)
+		if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (!isset($data['id']) || (int) $data['id'] == 0))
 		{
 			if ($data['alias'] == null)
 			{

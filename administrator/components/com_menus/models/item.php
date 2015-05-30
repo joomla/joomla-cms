@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -532,6 +532,16 @@ class MenusModelItem extends JModelAdmin
 		// Check the session for previously entered form data.
 		$data = array_merge((array) $this->getItem(), (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
 
+		// For a new menu item, pre-select some filters (Status, Language, Access) in edit form if those have been selected in Menu Manager
+		if ($this->getItem()->id == 0)
+		{
+			// Get selected fields
+			$filters = JFactory::getApplication()->getUserState('com_menus.items.filter');
+			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
+			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
+			$data['access'] = (isset($filters['access']) ? $filters['access'] : null);
+		}
+
 		$this->preprocessData('com_menus.item', $data);
 
 		return $data;
@@ -904,9 +914,6 @@ class MenusModelItem extends JModelAdmin
 				$base = JPATH_SITE . '/components/' . $option;
 			}
 
-			// Confirm a view is defined.
-			$formFile = false;
-
 			if (isset($args['view']))
 			{
 				$view = $args['view'];
@@ -920,8 +927,6 @@ class MenusModelItem extends JModelAdmin
 				{
 					$layout = 'default';
 				}
-
-				$formFile = false;
 
 				// Check for the layout XML file. Use standard xml file if it exists.
 				$tplFolders = array(
@@ -1021,26 +1026,6 @@ class MenusModelItem extends JModelAdmin
 			$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
 			$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
 			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
-		}
-
-		// Now load the component params.
-		// TODO: Work out why 'fixing' this breaks JForm
-		if ($isNew = false)
-		{
-			$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $option . '/config.xml');
-		}
-		else
-		{
-			$path = 'null';
-		}
-
-		if (is_file($path))
-		{
-			// Add the component params last of all to the existing form.
-			if (!$form->load($path, true, '/config'))
-			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-			}
 		}
 
 		// Load the specific type file

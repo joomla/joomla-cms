@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,7 +117,7 @@ else
 	</style>
 	<?php endif; ?>
 	<!--[if lt IE 9]>
-		<script src="<?php echo $this->baseurl; ?>/media/jui/js/html5.js"></script>
+		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
 </head>
 
@@ -148,7 +148,16 @@ else
 			</header>
 			<?php if ($this->countModules('position-1')) : ?>
 				<nav class="navigation" role="navigation">
-					<jdoc:include type="modules" name="position-1" style="none" />
+					<div class="navbar pull-left">
+						<a class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</a>
+					</div>
+					<div class="nav-collapse">
+						<jdoc:include type="modules" name="position-1" style="none" />
+					</div>
 				</nav>
 			<?php endif; ?>
 			<jdoc:include type="modules" name="banner" style="xhtml" />

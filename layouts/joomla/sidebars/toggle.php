@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,5 +20,5 @@ JText::script('JTOGGLE_SHOW_SIDEBAR');
 	type="button"
 	onclick="toggleSidebar(false); return false;"
 	>
-	<span id="j-toggle-sidebar-icon" class="icon-cancel"></span>
+	<span id="j-toggle-sidebar-icon" class="icon-arrow-left-2"></span>
 </div>

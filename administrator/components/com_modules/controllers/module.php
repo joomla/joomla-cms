@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -183,9 +183,12 @@ class ModulesControllerModule extends JControllerForm
 	}
 
 	/**
-	 * Save fuction for com_modules
+	 * Method to save a record.
 	 *
-	 * @see JControllerForm::save()
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key
+	 *
+	 * @return  boolean  True if successful, false otherwise.
 	 */
 	public function save($key = null, $urlVar = null)
 	{
@@ -203,6 +206,11 @@ class ModulesControllerModule extends JControllerForm
 
 			// Replace changed properties
 			$data = array_replace_recursive($properties, $data);
+
+			if (!empty($data['assigned']))
+			{
+				$data['assigned'] = array_map('abs', $data['assigned']);
+			}
 
 			// Add new data to input before process by parent save()
 			$this->input->post->set('jform', $data);

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -790,7 +790,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$params = json_decode($params);
 
 		// Get the page title if it is set.
-		if ($params->page_title)
+		if (isset($params->page_title) && $params->page_title)
 		{
 			$return = $params->page_title;
 		}

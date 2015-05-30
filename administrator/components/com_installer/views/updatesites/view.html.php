@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,8 +86,6 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 			JToolbarHelper::divider();
 		}
 
-		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATESITES');
-
 		JHtmlSidebar::setAction('index.php?option=com_installer&view=updatesites');
 
 		JHtmlSidebar::addFilter(
@@ -115,5 +113,6 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 		);
 
 		parent::addToolbar();
+		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATESITES');
 	}
 }

@@ -3,7 +3,7 @@
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
-    mod(require("../../lib/codemirror", require("../xml/xml"), require("../meta")));
+    mod(require("../../lib/codemirror"), require("../xml/xml"), require("../meta"));
   else if (typeof define == "function" && define.amd) // AMD
     define(["../../lib/codemirror", "../xml/xml", "../meta"], mod);
   else // Plain browser env
@@ -72,7 +72,7 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
   ,   ulRE = /^[*\-+]\s+/
   ,   olRE = /^[0-9]+\.\s+/
   ,   taskListRE = /^\[(x| )\](?=\s)/ // Must follow ulRE or olRE
-  ,   atxHeaderRE = /^#+/
+  ,   atxHeaderRE = /^#+ ?/
   ,   setextHeaderRE = /^(?:\={1,}|-{1,})$/
   ,   textRE = /^[^#!\[\]*_\\<>` "'(~]+/;
 
@@ -116,18 +116,20 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
 
     var sol = stream.sol();
 
-    var prevLineIsList = (state.list !== false);
-    if (state.list !== false && state.indentationDiff >= 0) { // Continued list
-      if (state.indentationDiff < 4) { // Only adjust indentation if *not* a code block
-        state.indentation -= state.indentationDiff;
+    var prevLineIsList = state.list !== false;
+    if (prevLineIsList) {
+      if (state.indentationDiff >= 0) { // Continued list
+        if (state.indentationDiff < 4) { // Only adjust indentation if *not* a code block
+          state.indentation -= state.indentationDiff;
+        }
+        state.list = null;
+      } else if (state.indentation > 0) {
+        state.list = null;
+        state.listDepth = Math.floor(state.indentation / 4);
+      } else { // No longer a list
+        state.list = false;
+        state.listDepth = 0;
       }
-      state.list = null;
-    } else if (state.list !== false && state.indentation > 0) {
-      state.list = null;
-      state.listDepth = Math.floor(state.indentation / 4);
-    } else if (state.list !== false) { // No longer a list
-      state.list = false;
-      state.listDepth = 0;
     }
 
     var match = null;
@@ -138,7 +140,7 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
     } else if (stream.eatSpace()) {
       return null;
     } else if (match = stream.match(atxHeaderRE)) {
-      state.header = match[0].length <= 6 ? match[0].length : 6;
+      state.header = Math.min(6, match[0].indexOf(" ") !== -1 ? match[0].length - 1 : match[0].length);
       if (modeCfg.highlightFormatting) state.formatting = "header";
       state.f = state.inline;
       return getType(state);
@@ -396,13 +398,13 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
       return image;
     }
 
-    if (ch === '[' && stream.match(/.*\](\(| ?\[)/, false)) {
+    if (ch === '[' && stream.match(/.*\](\(.*\)| ?\[.*\])/, false)) {
       state.linkText = true;
       if (modeCfg.highlightFormatting) state.formatting = "link";
       return getType(state);
     }
 
-    if (ch === ']' && state.linkText) {
+    if (ch === ']' && state.linkText && stream.match(/\(.*\)| ?\[.*\]/, false)) {
       if (modeCfg.highlightFormatting) state.formatting = "link";
       var type = getType(state);
       state.linkText = false;
