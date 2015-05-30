@@ -31,7 +31,6 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'contactList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 
-//$sortFields = $this->getSortFields();
 $assoc		= JLanguageAssociations::isEnabled();
 
 JFactory::getDocument()->addScriptDeclaration('
