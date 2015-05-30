@@ -43,7 +43,8 @@ class NewsfeedsModelNewsfeeds extends JModelList
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
 				'cache_time', 'a.cache_time',
-				'numarticles',
+				'numarticles', 'category_id',
+				'tag'
 			);
 
 			$app = JFactory::getApplication();
