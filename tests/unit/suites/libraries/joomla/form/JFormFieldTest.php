@@ -229,8 +229,8 @@ class JFormFieldTest extends TestCaseDatabase
 		);
 
 		// Not required
-
-		$colours = array_pop($xml->xpath('fields/fields[@name="params"]/field[@name="colours"]'));
+		$data = $xml->xpath('fields/fields[@name="params"]/field[@name="colours"]');
+		$colours = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($colours, 'id'),
@@ -255,8 +255,8 @@ class JFormFieldTest extends TestCaseDatabase
 		);
 
 		// Hidden field
-
-		$id = array_pop($xml->xpath('fields/field[@name="id"]'));
+		$data = $xml->xpath('fields/field[@name="id"]');
+		$id = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($id, 'id'),
@@ -306,8 +306,8 @@ class JFormFieldTest extends TestCaseDatabase
 		);
 
 		// Hidden field
-
-		$id = array_pop($xml->xpath('fields/field[@name="id"]'));
+		$data = $xml->xpath('fields/field[@name="id"]');
+		$id = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($id, 'id'),

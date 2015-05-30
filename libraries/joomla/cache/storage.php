@@ -247,7 +247,7 @@ class JCacheStorage
 	 *
 	 * @return   boolean  True on success, false otherwise
 	 *
-	 * @since    12.1.
+	 * @since    12.1
 	 */
 	public static function isSupported()
 	{
