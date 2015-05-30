@@ -46,6 +46,7 @@ class ContactModelContacts extends JModelList
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
 				'ul.name', 'linked_user',
+				'tag',
 			);
 
 			$app = JFactory::getApplication();
