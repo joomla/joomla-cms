@@ -32,17 +32,17 @@ class JCacheStorageMock extends JCacheStorage
 	}
 
 	/**
-	 * Get cached data from y id and group
+	 * Get cached data by id and group
 	 *
 	 * @param   string   $id         The cache data id
 	 * @param   string   $group      The cache data group
 	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
 	 *
-	 * @return  mixed    Boolean false on failure or a cached data string
+	 * @return  mixed  Boolean  false on failure or a cached data object
 	 *
 	 * @since   11.1
 	 */
-	public function get($id, $group, $checkTime)
+	public function get($id, $group, $checkTime = true)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
