@@ -1019,7 +1019,7 @@ abstract class JHtml
 		return '<div' . $div_class . '>'
 				. '<input type="text" title="' . ($inputvalue ? static::_('date', $value, null, null) : '')
 				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><i class="icon-calendar"></i></button>'
+				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><span class="icon-calendar"></span></button>'
 			. '</div>';
 	}
 

@@ -27,6 +27,8 @@ class PlgSystemLanguageFilter extends JPlugin
 
 	protected $lang_codes;
 
+	protected $current_lang;
+
 	protected $default_lang;
 
 	private $user_lang_code;
@@ -64,9 +66,10 @@ class PlgSystemLanguageFilter extends JPlugin
 		if ($this->app->isSite())
 		{
 			// Setup language data.
-			$this->mode_sef 	= $this->app->get('sef', 0);
-			$this->sefs 		= JLanguageHelper::getLanguages('sef');
-			$this->lang_codes 	= JLanguageHelper::getLanguages('lang_code');
+			$this->mode_sef		= $this->app->get('sef', 0);
+			$this->sefs			= JLanguageHelper::getLanguages('sef');
+			$this->lang_codes	= JLanguageHelper::getLanguages('lang_code');
+			$this->default_lang	= JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 
 			$levels = JFactory::getUser()->getAuthorisedViewLevels();
 
@@ -132,9 +135,9 @@ class PlgSystemLanguageFilter extends JPlugin
 	public function onAfterRoute()
 	{
 		// Add custom site name.
-		if (isset($this->lang_codes[$this->default_lang]) && $this->lang_codes[$this->default_lang]->sitename)
+		if (isset($this->lang_codes[$this->current_lang]) && $this->lang_codes[$this->current_lang]->sitename)
 		{
-			$this->app->set('sitename', $this->lang_codes[$this->default_lang]->sitename);
+			$this->app->set('sitename', $this->lang_codes[$this->current_lang]->sitename);
 		}
 	}
 
@@ -150,7 +153,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	public function preprocessBuildRule(&$router, &$uri)
 	{
-		$lang = $uri->getVar('lang', $this->default_lang);
+		$lang = $uri->getVar('lang', $this->current_lang);
 		$uri->setVar('lang', $lang);
 
 		if (isset($this->sefs[$lang]))
@@ -180,13 +183,13 @@ class PlgSystemLanguageFilter extends JPlugin
 		}
 		else
 		{
-			$sef = $this->lang_codes[$this->default_lang]->sef;
+			$sef = $this->lang_codes[$this->current_lang]->sef;
 		}
 
 		if ($this->mode_sef
 			&& (!$this->params->get('remove_default_prefix', 0)
-			|| $lang != JComponentHelper::getParams('com_languages')->get('site', 'en-GB')
-			|| $lang != $this->default_lang))
+			|| $lang != $this->default_lang
+			|| $lang != $this->current_lang))
 		{
 			$uri->setPath($uri->getPath() . '/' . $sef . '/');
 		}
@@ -258,12 +261,12 @@ class PlgSystemLanguageFilter extends JPlugin
 				if ($parts[0])
 				{
 					// We load a default site language page
-					$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+					$lang_code = $this->default_lang;
 				}
 				else
 				{
 					// We check for an existing language cookie
-					$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
+					$lang_code = $this->getLanguageCookie();
 				}
 
 				if (!$lang_code && $this->params->get('detect_browser', 0) == 1)
@@ -273,10 +276,10 @@ class PlgSystemLanguageFilter extends JPlugin
 
 				if (!$lang_code)
 				{
-					$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+					$lang_code = $this->default_lang;
 				}
 
-				if ($lang_code == JComponentHelper::getParams('com_languages')->get('site', 'en-GB'))
+				if ($lang_code == $this->default_lang)
 				{
 					$found = true;
 				}
@@ -294,12 +297,10 @@ class PlgSystemLanguageFilter extends JPlugin
 				// If we found our language, but its the default language and we don't want a prefix for that, we are on a wrong URL.
 				// Or we try to change the language back to the default language. We need a redirect to the proper URL for the default language.
 				if ($this->params->get('remove_default_prefix', 0)
-					&& $lang_code == JComponentHelper::getParams('com_languages')->get('site', 'en-GB'))
+					&& $lang_code == $this->default_lang)
 				{
 					// Create a cookie.
-					$cookie_domain = $this->app->get('cookie_domain');
-					$cookie_path   = $this->app->get('cookie_path', '/');
-					$this->app->input->cookie->set(JApplicationHelper::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
+					$this->setLanguageCookie($lang_code);
 
 					$found = false;
 					array_shift($parts);
@@ -334,7 +335,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			if (!isset($lang_code))
 			{
-				$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
+				$lang_code = $this->getLanguageCookie();
 			}
 
 			if ($this->params->get('detect_browser', 1) && !$lang_code)
@@ -344,7 +345,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			if (!isset($this->lang_codes[$lang_code]))
 			{
-				$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+				$lang_code = $this->default_lang;
 			}
 		}
 
@@ -367,18 +368,18 @@ class PlgSystemLanguageFilter extends JPlugin
 
 				if (!$lang_code)
 				{
-					$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+					$lang_code = $this->default_lang;
 				}
 				// Either we detected the language via the browser or we got it from the cookie. In worst case
 				// we fall back to the application setting
-				$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'), $lang_code);
+				$lang_code = $this->getLanguageCookie();
 			}
 
 			if ($this->mode_sef)
 			{
 				// Use the current language sef or the default one.
 				if (!$this->params->get('remove_default_prefix', 0)
-					|| $lang_code != JComponentHelper::getParams('com_languages')->get('site', 'en-GB'))
+					|| $lang_code != $this->default_lang)
 				{
 					$path = $this->lang_codes[$lang_code]->sef . '/' . $path;
 				}
@@ -399,7 +400,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		// We have found our language and now need to set the cookie and the language value in our system
 		$array = array('lang' => $lang_code);
-		$this->default_lang = $lang_code;
+		$this->current_lang = $lang_code;
 
 		// Set the request var.
 		$this->app->input->set('language', $lang_code);
@@ -420,11 +421,9 @@ class PlgSystemLanguageFilter extends JPlugin
 		}
 
 		// Create a cookie.
-		if ($this->app->input->cookie->getString(JApplicationHelper::getHash('language')) != $lang_code)
+		if ($this->getLanguageCookie() != $lang_code)
 		{
-			$cookie_domain = $this->app->get('cookie_domain');
-			$cookie_path   = $this->app->get('cookie_path', '/');
-			$this->app->input->cookie->set(JApplicationHelper::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
+			$this->setLanguageCookie($lang_code);
 		}
 
 		return $array;
@@ -453,7 +452,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			if (empty($this->user_lang_code))
 			{
-				$this->user_lang_code = $this->default_lang;
+				$this->user_lang_code = $this->current_lang;
 			}
 		}
 	}
@@ -482,7 +481,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			if (empty($lang_code))
 			{
-				$lang_code = $this->default_lang;
+				$lang_code = $this->current_lang;
 			}
 
 			if ($lang_code == $this->user_lang_code || !isset($this->lang_codes[$lang_code]))
@@ -501,9 +500,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					);
 
 					// Create a cookie.
-					$cookie_domain 	= $this->app->get('cookie_domain', '');
-					$cookie_path 	= $this->app->get('cookie_path', '/');
-					setcookie(JApplicationHelper::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
+					$this->setLanguageCookie($lang_code);
 				}
 			}
 		}
@@ -530,7 +527,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			if (empty($lang_code))
 			{
-				$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+				$lang_code = $this->default_lang;
 			}
 
 			// Get a 1-dimensional array of published language codes
@@ -547,7 +544,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				|| !in_array($lang_code, $lang_codes)
 				|| !array_key_exists($lang_code, MultilangstatusHelper::getHomepages()))
 			{
-				$lang_code = $this->default_lang;
+				$lang_code = $this->current_lang;
 			}
 
 			// Try to get association from the current active menu item
@@ -580,15 +577,13 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 			}
 
-			if ($foundAssociation && $lang_code != $this->default_lang)
+			if ($foundAssociation && $lang_code != $this->current_lang)
 			{
 				// Change language.
-				$this->default_lang = $lang_code;
+				$this->current_lang = $lang_code;
 
 				// Create a cookie.
-				$cookie_domain	= $this->app->get('cookie_domain', '');
-				$cookie_path	= $this->app->get('cookie_path', '/');
-				setcookie(JApplicationHelper::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
+				$this->setLanguageCookie($lang_code);
 
 				// Change the language code.
 				JFactory::getLanguage()->setLanguage($lang_code);
@@ -606,160 +601,143 @@ class PlgSystemLanguageFilter extends JPlugin
 	public function onAfterDispatch()
 	{
 		$doc = JFactory::getDocument();
-		$menu = $this->app->getMenu();
-		$server = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
-		$option = $this->app->input->get('option');
-		$eName = JString::ucfirst(JString::str_ireplace('com_', '', $option));
 
 		if ($this->app->isSite() && $this->params->get('alternate_meta') && $doc->getType() == 'html')
 		{
-			// Get active menu item.
+			$languages = $this->lang_codes;
+			$homes = MultilangstatusHelper::getHomepages();
+			$menu = $this->app->getMenu();
 			$active = $menu->getActive();
+			$levels = JFactory::getUser()->getAuthorisedViewLevels();
+			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
+			$server = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
+			$is_home = false;
 
-			$assocs = array();
-
-			$home = false;
-
-			// Load menu associations.
 			if ($active)
 			{
 				$active_link = JRoute::_($active->link . '&Itemid=' . $active->id, false);
-
-				// Get current link.
 				$current_link = JUri::getInstance()->toString(array('path', 'query'));
 
-				// Check the exact menu item's URL.
+				// Load menu associations
 				if ($active_link == $current_link)
 				{
 					$associations = MenusHelper::getAssociations($active->id);
-					unset($associations[$active->language]);
-					$assocs = array_keys($associations);
-
-					// If the menu item is a home menu item and the URLs are identical, we are on the homepage
-					$home = true;
 				}
+
+				// Check if we are on the homepage
+				$is_home = ($active->home
+					&& ($active_link == $current_link || $active_link == $current_link . 'index.php' || $active_link . '/' == $current_link));
 			}
 
 			// Load component associations.
-			$cName = JString::ucfirst($eName . 'HelperAssociation');
+			$option = $this->app->input->get('option');
+			$cName = JString::ucfirst(JString::str_ireplace('com_', '', $option)) . 'HelperAssociation';
 			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
 
 			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
 			{
 				$cassociations = call_user_func(array($cName, 'getAssociations'));
-
-				$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
-
-				// No cookie - let's try to detect browser language or use site default.
-				if (!$lang_code)
-				{
-					if ($this->params->get('detect_browser', 1))
-					{
-						$lang_code = JLanguageHelper::detectLanguage();
-					}
-					else
-					{
-						$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
-					}
-				}
-
-				unset($cassociations[$lang_code]);
-				$assocs = array_merge(array_keys($cassociations), $assocs);
 			}
 
-			// Create alternate for home pages
-			if ($active && $active->home && $home)
+			// For each language...
+			foreach ($languages as $i => &$language)
 			{
-				foreach (JLanguageHelper::getLanguages() as $language)
+				switch (true)
 				{
-					if (!JLanguage::exists($language->lang_code))
-					{
-						continue;
-					}
+					// Language without frontend UI || Language without specific home menu || Language without authorized access level
+					case (!array_key_exists($i, MultilangstatusHelper::getSitelangs())):
+					case (!isset($homes[$i])):
+					case (isset($language->access) && $language->access && !in_array($language->access, $levels)):
+						unset($languages[$i]);
+						break;
 
-					$item = $menu->getDefault($language->lang_code);
+					// Home page
+					case ($is_home):
+						$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$i]->id);
+						break;
 
-					if ($item && $item->language != $active->language && $item->language != '*')
-					{
-						if ($this->mode_sef)
-						{
-							$link = JRoute::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
+					// Current language link
+					case ($i == $this->current_lang):
+						$language->link = JUri::getInstance()->toString(array('path', 'query'));
+						break;
 
-							// Check if language is the default site language and remove url language code is on
-							if ($language->sef == $this->lang_codes[JComponentHelper::getParams('com_languages')->get('site', 'en-GB')]->sef
-								&& $this->params->get('remove_default_prefix', 0))
-							{
-								$link = preg_replace('|/' . $language->sef . '/|', '/', $link, 1);
-							}
-						}
-						else
-						{
-							$link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
-						}
+					// Component association
+					case (isset($cassociations[$i])):
+						$language->link = JRoute::_($cassociations[$i] . '&lang=' . $language->sef);
+						break;
 
-						$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
-					}
+					// Menu items association
+					// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
+					case (isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
+						$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
+						break;
+
+					// Too bad...
+					default:
+						unset($languages[$i]);
 				}
 			}
-			// Handle the default associations.
-			elseif ($this->params->get('item_associations'))
+
+			// If there are at least 2 of them, add the rel="alternate" links to the <head>
+			if (count($languages) > 1)
 			{
-				$languages = JLanguageHelper::getLanguages('lang_code');
-				foreach ($assocs as $language)
+				// Remove the sef from the default language if "Remove URL Language Code" is on
+				if (isset($languages[$this->default_lang]) && $remove_default_prefix)
 				{
-					if (!JLanguage::exists($language))
-					{
-						continue;
-					}
-					$lang = $languages[$language];
+					$languages[$this->default_lang]->link
+									= preg_replace('|/' . $languages[$this->default_lang]->sef . '/|', '/', $languages[$this->default_lang]->link, 1);
+				}
 
-					if (isset($cassociations[$language]))
-					{
-						$link = JRoute::_($cassociations[$language] . '&lang=' . $lang->sef);
-
-						// Check if language is the default site language and remove url language code is on
-						if ($lang->sef == $this->lang_codes[JComponentHelper::getParams('com_languages')->get('site', 'en-GB')]->sef
-							&& $this->params->get('remove_default_prefix', 0))
-						{
-							$link = preg_replace('|/' . $lang->sef . '/|', '/', $link, 1);
-						}
-
-						$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language));
-					}
-					elseif (isset($associations[$language]))
-					{
-						$item = $menu->getItem($associations[$language]);
-
-						if ($item)
-						{
-							$link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $lang->sef);
-
-							$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language));
-						}
-					}
+				foreach ($languages as $i => &$language)
+				{
+					$doc->addHeadLink($server . $language->link, 'alternate', 'rel', array('hreflang' => $i));
 				}
 			}
 		}
 	}
 
 	/**
-	 * Get the language cookie settings.
+	 * Set the language cookie
 	 *
-	 * @return  string  The cookie time.
+	 * @param   string  $lang_code  The language code for which we want to set the cookie
 	 *
-	 * @since   3.0.4
+	 * @return  void
+	 *
+	 * @since   3.4.2
 	 */
-	private function getLangCookieTime()
+	private function setLanguageCookie($lang_code)
 	{
+
+		// Get the cookie lifetime we want.
+		$cookie_time = 0;
 		if ($this->params->get('lang_cookie', 1) == 1)
 		{
-			$lang_cookie = time() + 365 * 86400;
-		}
-		else
-		{
-			$lang_cookie = 0;
+			$cookie_time = time() + 365 * 86400;
 		}
 
-		return $lang_cookie;
+		// Create a cookie.
+		$cookie_domain = $this->app->get('cookie_domain');
+		$cookie_path   = $this->app->get('cookie_path', '/');
+		$this->app->input->cookie->set(JApplicationHelper::getHash('language'), $lang_code, $cookie_time, $cookie_path, $cookie_domain);
 	}
+
+	/**
+	 * Get the language cookie
+	 *
+	 * @return  string
+	 *
+	 * @since   3.4.2
+	 */
+	private function getLanguageCookie()
+	{
+		$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
+
+		// Let's be sure we got a valid language code. Falls back returning the default language.
+		if (!array_key_exists($lang_code, $this->lang_codes))
+		{
+			$lang_code = $this->default_lang;
+		}
+		return $lang_code;
+	}
+
 }
