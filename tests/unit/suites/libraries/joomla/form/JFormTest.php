@@ -1412,6 +1412,35 @@ class JFormTest extends TestCaseDatabase
 				'Line:' . __LINE__ . ' Replace should leave fields in the original order.'
 			);
 		}
+
+		return $form;
+	}
+
+	/**
+	 * Test the JForm::load method for descendent field elements
+	 *
+	 * This method can load an XML data object, or parse an XML string.
+	 *
+	 * @depends testLoad
+	 *
+	 * @return void
+	 */
+	// @var $form JForm
+	public function testLoad_ReplaceDescendent(JForm $form)
+	{
+		// Check the replacement data loads ok.
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadReplacementDocument),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' XML string should load successfully.'
+		);
+
+		// Check that replaced options are present
+		$this->assertThat(
+			count($form->getXML()->xpath('/form/fields/fields[@name="params"]/field[@name="show_title"]/option')),
+			$this->equalTo(3),
+			'Line:' . __LINE__ . ' The show_title in the params group is supposed to have 3 descendant nodes.'
+		);
 	}
 
 	/**
@@ -2038,9 +2067,8 @@ class JFormTest extends TestCaseDatabase
 	{
 		$form = new JFormInspector('form1');
 
-		$this->assertThat(
+		$this->assertTrue(
 			$form->load(JFormDataHelper::$loadDocument),
-			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
@@ -2053,22 +2081,20 @@ class JFormTest extends TestCaseDatabase
 
 		// Test without replace.
 
-		$this->assertThat(
+		$this->assertTrue(
 			$form->setFields($xml1->field, null, false),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The setFields method should return true.'
+			'Line:' . __LINE__ . ' The setFields method should return true for an existing field.'
 		);
 
-		$this->assertThat(
+		$this->assertEquals(
 			$form->getFieldAttribute('title', 'required', 'default'),
-			$this->equalTo('default'),
-			'Line:' . __LINE__ . ' The label should contain just the field name.'
+			'default',
+			'Line:' . __LINE__ . ' The getFieldAttribute method should return the default value if the attribute is not set.'
 		);
 
-		$this->assertThat(
+		$this->assertNotFalse(
 			$form->getField('ordering'),
-			$this->logicalNot($this->isFalse()),
-			'Line:' . __LINE__ . ' The label should contain just the field name.'
+			'Line:' . __LINE__ . ' The getField method does not return false when the field exists.'
 		);
 	}
 

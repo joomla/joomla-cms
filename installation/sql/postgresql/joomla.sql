@@ -1417,10 +1417,7 @@ COMMENT ON COLUMN "#__postinstall_messages"."version_introduced" IS 'Version whe
 
 INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description_key", "action_key", "language_extension", "language_client_id", "type", "action_file", "action", "condition_file", "condition_method", "version_introduced", "enabled") VALUES
 (700, 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_TITLE', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_BODY', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_ACTION', 'plg_twofactorauth_totp', 1, 'action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_condition', '3.2.0', 1),
-(700, 'COM_CPANEL_MSG_EACCELERATOR_TITLE', 'COM_CPANEL_MSG_EACCELERATOR_BODY', 'COM_CPANEL_MSG_EACCELERATOR_BUTTON', 'com_cpanel', 1, 'action', 'admin://components/com_admin/postinstall/eaccelerator.php', 'admin_postinstall_eaccelerator_action', 'admin://components/com_admin/postinstall/eaccelerator.php', 'admin_postinstall_eaccelerator_condition', '3.2.0', 1),
-(700, 'COM_CPANEL_WELCOME_BEGINNERS_TITLE', 'COM_CPANEL_WELCOME_BEGINNERS_MESSAGE', '', 'com_cpanel', 1, 'message', '', '', '', '', '3.2.0', 1),
-(700, 'COM_CPANEL_MSG_PHPVERSION_TITLE', 'COM_CPANEL_MSG_PHPVERSION_BODY', '', 'com_cpanel', 1, 'message', '', '', 'admin://components/com_admin/postinstall/phpversion.php', 'admin_postinstall_phpversion_condition', '3.2.2', 1),
-(700, 'COM_CPANEL_MSG_ROBOTS_TITLE', 'COM_CPANEL_MSG_ROBOTS_BODY', '', 'com_cpanel', 1, 'message', '', '', '', '', '3.3.0', 1);
+(700, 'COM_CPANEL_WELCOME_BEGINNERS_TITLE', 'COM_CPANEL_WELCOME_BEGINNERS_MESSAGE', '', 'com_cpanel', 1, 'message', '', '', '', '', '3.2.0', 1);
 
 --
 -- Table: #__redirect_links
@@ -1538,7 +1535,7 @@ CREATE INDEX "#__template_styles_idx_home" ON "#__template_styles" ("home");
 --
 
 INSERT INTO "#__template_styles" ("id", "template", "client_id", "home", "title", "params") VALUES
-(4, 'beez3', 0, '0', 'Beez3 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}'),
+(4, 'beez3', 0, '0', 'Beez3 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.png","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}'),
 (5, 'hathor', 1, '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
 (7, 'protostar', 0, '1', 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
 (8, 'isis', 1, '1', 'isis - Default', '{"templateColor":"","logoFile":""}');
@@ -1861,10 +1858,10 @@ COMMENT ON COLUMN "#__viewlevels"."rules" IS 'JSON encoded access control.';
 --
 INSERT INTO "#__viewlevels" ("id", "title", "ordering", "rules") VALUES
 (1, 'Public', 0, '[1]'),
-(2, 'Registered', 1, '[6,2,8]'),
-(3, 'Special', 2, '[6,3,8]'),
-(5, 'Guest', 0, '[9]'),
-(6, 'Super Users', 0, '[8]');
+(2, 'Registered', 2, '[6,2,8]'),
+(3, 'Special', 3, '[6,3,8]'),
+(5, 'Guest', 1, '[9]'),
+(6, 'Super Users', 4, '[8]');
 
 SELECT setval('#__viewlevels_id_seq', 7, false);
 

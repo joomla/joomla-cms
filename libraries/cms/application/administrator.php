@@ -456,7 +456,7 @@ class JApplicationAdministrator extends JApplicationCms
 		{
 			// Forward to https
 			$uri->setScheme('https');
-			$this->redirect((string) $uri);
+			$this->redirect((string) $uri, 301);
 		}
 
 		// Trigger the onAfterRoute event.
