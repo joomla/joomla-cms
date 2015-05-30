@@ -167,7 +167,17 @@ class PlgSearchContacts extends JPlugin
 		}
 
 		$db->setQuery($query, 0, $limit);
-		$rows = $db->loadObjectList();
+
+		try
+		{
+			$rows = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$rows = array();
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
+		}
 
 		if ($rows)
 		{
