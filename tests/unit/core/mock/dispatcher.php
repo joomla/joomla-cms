@@ -99,7 +99,7 @@ class TestMockDispatcher
 	 *
 	 * @since   11.3
 	 */
-	public function mockRegister($event, $handler, $return = null)
+	public static function mockRegister($event, $handler, $return = null)
 	{
 		if (empty(self::$handlers[$event]))
 		{
@@ -119,7 +119,7 @@ class TestMockDispatcher
 	 *
 	 * @since  11.3
 	 */
-	public function mockTrigger($event, $args = array())
+	public static function mockTrigger($event, $args = array())
 	{
 		if (isset(self::$handlers[$event]))
 		{
