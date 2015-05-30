@@ -178,8 +178,7 @@ class PlgSearchCategories extends JPlugin
 			$rows = array();
 			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_GENERIC_SQL_ERROR'), 'error');
 			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
-		}
-		$rows = $db->loadObjectList();
+		}		
 
 		$return = array();
 
