@@ -169,6 +169,16 @@ class PlgSearchCategories extends JPlugin
 		}
 
 		$db->setQuery($query, 0, $limit);
+		try
+		{
+			$rows = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$rows = array();
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_GENERIC_SQL_ERROR'), 'error');
+			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
+		}
 		$rows = $db->loadObjectList();
 
 		$return = array();
