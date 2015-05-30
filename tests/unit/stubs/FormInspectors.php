@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry;
+
 /**
  * Inspector classes for the forms library.
  */
@@ -188,7 +190,7 @@ class JFormInspector extends JForm
 	 *
 	 * @return  mixed  Boolean true if field value is valid, Exception on failure.
 	 */
-	public function validateField($element, $group = null, $value = null, $input = null)
+	public function validateField(SimpleXMLElement $element, $group = null, $value = null, Registry $input = null)
 	{
 		return parent::validateField($element, $group, $value, $input);
 	}
