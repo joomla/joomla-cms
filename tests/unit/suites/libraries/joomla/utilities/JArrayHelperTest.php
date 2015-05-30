@@ -745,7 +745,8 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 					),
 				),
 				'Should be sorted by the string field in ascending order full argument list',
-				false
+				false,
+				array(1, 2)
 			),
 			'by string descending' => array(
 				$input1,
@@ -780,7 +781,8 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 					),
 				),
 				'Should be sorted by the string field in descending order',
-				false
+				false,
+				array(5, 6)
 			),
 			'by casesensitive string ascending' => array(
 				$input2,
@@ -815,7 +817,8 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 					),
 				),
 				'Should be sorted by the string field in ascending order with casesensitive comparisons',
-				false
+				false,
+				array(1, 2)
 			),
 			'by casesensitive string descending' => array(
 				$input2,
@@ -850,7 +853,8 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 					),
 				),
 				'Should be sorted by the string field in descending order with casesensitive comparisons',
-				false
+				false,
+				array(5, 6)
 			),
 			'by casesensitive string,integer ascending' => array(
 				$input2,
@@ -1558,6 +1562,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @param   array    $expect         The expected results
 	 * @param   string   $message        The failure message
 	 * @param   boolean  $defaults       Use the defaults (true) or full argument list
+	 * @param   array    $swappableKeys  Array of keys to swap the order of
 	 *
 	 * @return  void
 	 *
@@ -1566,7 +1571,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @covers  JArrayHelper::_sortObjects
 	 * @since   11.1
 	 */
-	public function testSortObjects($input, $key, $direction, $casesensitive, $locale, $expect, $message, $defaults)
+	public function testSortObjects($input, $key, $direction, $casesensitive, $locale, $expect, $message, $defaults, $swappableKeys = array())
 	{
 		// Convert the $locale param to a string if it is an array
 		if (is_array($locale))
@@ -1595,6 +1600,16 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 		else
 		{
 			$output = JArrayHelper::sortObjects($input, $key, $direction, $casesensitive, $locale);
+		}
+
+		// The ordering of elements that compare equal according to $key is undefined (implementation dependent).
+		if ($expect != $output && $swappableKeys)
+		{
+			list($k1, $k2) = $swappableKeys;
+			$e1 = $output[$k1];
+			$e2 = $output[$k2];
+			$output[$k1] = $e2;
+			$output[$k2] = $e1;
 		}
 
 		$this->assertEquals($expect, $output, $message);
