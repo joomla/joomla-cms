@@ -22,6 +22,16 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $modMenuId = (int) $this->get('ModMenuId');
 
+JFactory::getDocument()->addScriptDeclaration("
+		Joomla.submitbutton = function(task)
+		{
+			if (task != 'menus.delete' || confirm('" . JText::_('COM_MENUS_MENU_CONFIRM_DELETE', true) . "'))
+			{
+				Joomla.submitform(task);
+			}
+		};
+");
+
 $script = array();
 $script[] = "jQuery(document).ready(function() {";
 
@@ -43,15 +53,6 @@ $script[] = "});";
 
 JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 ?>
-<script type="text/javascript">
-	Joomla.submitbutton = function(task)
-	{
-		if (task != 'menus.delete' || confirm('<?php echo JText::_('COM_MENUS_MENU_CONFIRM_DELETE', true);?>'))
-		{
-			Joomla.submitform(task);
-		}
-	}
-</script>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=menus');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">

@@ -123,6 +123,21 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</tbody>
 	</table>
 
+	<?php //Load the batch processing form if user is allowed ?>
+	<?php if ($user->authorise('core.create', 'com_redirect')
+		&& $user->authorise('core.edit', 'com_redirect')
+		&& $user->authorise('core.edit.state', 'com_redirect')) : ?>
+		<?php echo JHtml::_(
+			'bootstrap.renderModal',
+			'collapseModal',
+			array(
+				'title' => JText::_('COM_REDIRECT_BATCH_OPTIONS'),
+				'footer' => $this->loadTemplate('batch_footer')
+			),
+			$this->loadTemplate('batch_body')
+		); ?>
+	<?php endif;?>
+
 	<?php echo $this->pagination->getListFooter(); ?>
 	<p class="footer-tip">
 		<?php if ($this->enabled) : ?>
