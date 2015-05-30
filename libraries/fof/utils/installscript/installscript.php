@@ -779,6 +779,76 @@ abstract class FOFUtilsInstallscript
 				}
 			}
 		}
+
+		// Remove #__menu records for good measure! –– I think this is not necessary and causes the menu item to
+		// disappear on extension update.
+		/**
+		$query = $db->getQuery(true);
+		$query->select('id')
+			->from('#__menu')
+			->where($db->qn('type') . ' = ' . $db->q('component'))
+			->where($db->qn('menutype') . ' = ' . $db->q('main'))
+			->where($db->qn('link') . ' LIKE ' . $db->q('index.php?option=' . $this->componentName));
+		$db->setQuery($query);
+
+		try
+		{
+			$ids1 = $db->loadColumn();
+		}
+		catch (Exception $exc)
+		{
+			$ids1 = array();
+		}
+
+		if (empty($ids1))
+		{
+			$ids1 = array();
+		}
+
+		$query = $db->getQuery(true);
+		$query->select('id')
+			->from('#__menu')
+			->where($db->qn('type') . ' = ' . $db->q('component'))
+			->where($db->qn('menutype') . ' = ' . $db->q('main'))
+			->where($db->qn('link') . ' LIKE ' . $db->q('index.php?option=' . $this->componentName . '&%'));
+		$db->setQuery($query);
+
+		try
+		{
+			$ids2 = $db->loadColumn();
+		}
+		catch (Exception $exc)
+		{
+			$ids2 = array();
+		}
+
+		if (empty($ids2))
+		{
+			$ids2 = array();
+		}
+
+		$ids = array_merge($ids1, $ids2);
+
+		if (!empty($ids))
+		{
+			foreach ($ids as $id)
+			{
+				$query = $db->getQuery(true);
+				$query->delete('#__menu')
+					->where($db->qn('id') . ' = ' . $db->q($id));
+				$db->setQuery($query);
+
+				try
+				{
+					$db->execute();
+				}
+				catch (Exception $exc)
+				{
+					// Nothing
+				}
+			}
+		}
+		/**/
 	}
 
 	/**

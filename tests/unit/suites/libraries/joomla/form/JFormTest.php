@@ -2081,6 +2081,10 @@ class JFormTest extends TestCaseDatabase
 
 		$addFields = array();
 
+<<<<<<< HEAD
+		$this->assertTrue(
+			$form->setFields($xml1->field, null, false),
+=======
 		foreach ($xml1->field as $element)
 		{
 			$addFields[] = $element;
@@ -2089,6 +2093,7 @@ class JFormTest extends TestCaseDatabase
 		// Test without replace.
 		$this->assertTrue(
 			$form->setFields($addFields, null, false),
+>>>>>>> cdf0bec9012bef8236de7c4d27a2aa78bdb65d36
 			'Line:' . __LINE__ . ' The setFields method should return true for an existing field.'
 		);
 

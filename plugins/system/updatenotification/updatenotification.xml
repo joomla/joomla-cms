@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
+<extension version="3.4" type="plugin" group="system" method="upgrade">
+    <name>plg_system_updatenotification</name>
+=======
 <extension version="3.5" type="plugin" group="system" method="upgrade">
 	<name>PLG_SYSTEM_UPDATENOTIFICATION</name>
+>>>>>>> cdf0bec9012bef8236de7c4d27a2aa78bdb65d36
 	<author>Joomla! Project</author>
 	<creationDate>May 2015</creationDate>
 	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
