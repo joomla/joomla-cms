@@ -771,37 +771,6 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since  3.4
 	 */
-	public function testSetDboWithBadInput()
-	{
-		if (PHP_MAJOR_VERSION >= 7)
-		{
-			$this->markTestSkipped('A fatal error is thrown on PHP 7 due to the typehinting of the method.');
-		}
-
-		$instance = new JDatabaseImporterPdomysql;
-
-		try
-		{
-			$instance->setDbo(new stdClass);
-		}
-		catch (PHPUnit_Framework_Error $e)
-		{
-			// Expecting the error, so just ignore it.
-			return;
-		}
-
-		$this->fail(
-			'setDbo requires a JDatabaseDriverPdomysql object and should throw an exception.'
-		);
-	}
-
-	/**
-	 * Tests the setDbo method with the wrong type of class.
-	 *
-	 * @return void
-	 *
-	 * @since  3.4
-	 */
 	public function testSetDboWithGoodInput()
 	{
 		$instance = new JDatabaseImporterPdomysql;

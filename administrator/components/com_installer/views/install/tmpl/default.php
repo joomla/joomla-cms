@@ -12,88 +12,85 @@ defined('_JEXEC') or die;
 // MooTools is loaded for B/C for extensions generating JavaScript in their install scripts, this call will be removed at 4.0
 JHtml::_('behavior.framework', true);
 JHtml::_('bootstrap.tooltip');
-?>
-<script type="text/javascript">
-	Joomla.submitbutton = function()
-	{
-		var form = document.getElementById('adminForm');
+
+JFactory::getDocument()->addScriptDeclaration(
+	'
+	Joomla.submitbutton = function() {
+		var form = document.getElementById("adminForm");
 
 		// do field validation
 		if (form.install_package.value == ""){
-			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true); ?>");
+			alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true) . '");
 		}
 		else
 		{
-			jQuery('#loading').css('display', 'block');
+			jQuery("#loading").css("display", "block");
 
-			form.installtype.value = 'upload';
+			form.installtype.value = "upload";
 			form.submit();
 		}
 	};
 
-	Joomla.submitbutton3 = function()
-	{
-		var form = document.getElementById('adminForm');
+	Joomla.submitbutton3 = function() {
+		var form = document.getElementById("adminForm");
 
 		// do field validation
 		if (form.install_directory.value == ""){
-			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_DIRECTORY', true); ?>");
+			alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_DIRECTORY', true) . '");
 		}
 		else
 		{
-			jQuery('#loading').css('display', 'block');
+			jQuery("#loading").css("display", "block");
 
-			form.installtype.value = 'folder';
+			form.installtype.value = "folder";
 			form.submit();
 		}
 	};
 
-	Joomla.submitbutton4 = function()
-	{
-		var form = document.getElementById('adminForm');
+	Joomla.submitbutton4 = function() {
+		var form = document.getElementById("adminForm");
 
 		// do field validation
 		if (form.install_url.value == "" || form.install_url.value == "http://"){
-			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true); ?>");
+			alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true) . '");
 		}
 		else
 		{
-			jQuery('#loading').css('display', 'block');
+			jQuery("#loading").css("display", "block");
 
-			form.installtype.value = 'url';
+			form.installtype.value = "url";
 			form.submit();
 		}
 	};
 
-	Joomla.submitbuttonInstallWebInstaller = function()
-	{
-		var form = document.getElementById('adminForm');
+	Joomla.submitbuttonInstallWebInstaller = function() {
+		var form = document.getElementById("adminForm");
 
-		form.install_url.value = 'http://appscdn.joomla.org/webapps/jedapps/webinstaller.xml';
+		form.install_url.value = "http://appscdn.joomla.org/webapps/jedapps/webinstaller.xml";
 
 		Joomla.submitbutton4();
 	};
 
 	// Add spindle-wheel for installations:
 	jQuery(document).ready(function($) {
-		var outerDiv = $('#installer-install');
+		var outerDiv = $("#installer-install");
 
-		$('<div id="loading"></div>')
-			.css("background", "rgba(255, 255, 255, .8) url('../media/jui/img/ajax-loader.gif') 50% 15% no-repeat")
-			.css("top", outerDiv.position().top - $(window).scrollTop())
-			.css("left", outerDiv.position().left - $(window).scrollLeft())
-			.css("width", outerDiv.width())
-			.css("height", outerDiv.height())
-			.css("position", "fixed")
-			.css("opacity", "0.80")
-			.css("-ms-filter", "progid:DXImageTransform.Microsoft.Alpha(Opacity = 80)")
-			.css("filter", "alpha(opacity = 80)")
-			.css("display", "none")
-			.appendTo(outerDiv);
+		$(\'<div id="loading"></div>\')
+		.css("background", \'rgba(255, 255, 255, .8) url("../media/jui/img/ajax-loader.gif") 50% 15% no-repeat\')
+		.css("top", outerDiv.position().top - $(window).scrollTop())
+		.css("left", outerDiv.position().left - $(window).scrollLeft())
+		.css("width", outerDiv.width())
+		.css("height", outerDiv.height())
+		.css("position", "fixed")
+		.css("opacity", "0.80")
+		.css("-ms-filter", "progid:DXImageTransform.Microsoft.Alpha(Opacity = 80)")
+		.css("filter", "alpha(opacity = 80)")
+		.css("display", "none")
+		.appendTo(outerDiv);
 	});
-
-</script>
-
+	'
+);
+?>
 <div id="installer-install" class="clearfix">
 <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 	<?php if (!empty( $this->sidebar)) : ?>

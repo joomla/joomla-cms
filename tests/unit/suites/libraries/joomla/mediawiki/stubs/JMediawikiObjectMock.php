@@ -42,7 +42,7 @@ class JMediawikiObjectMock extends JMediawikiObject
 	 *
 	 * @since   12.3
 	 */
-	public function buildParameter($params)
+	public function buildParameter(array $params)
 	{
 		return parent::buildParameter($params);
 	}

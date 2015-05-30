@@ -139,7 +139,7 @@ class TestMockDatabaseDriver
 	 *
 	 * @since   11.3
 	 */
-	public function mockEscape($text)
+	public static function mockEscape($text)
 	{
 		return "_{$text}_";
 	}

@@ -606,21 +606,25 @@ abstract class JLoader
 	}
 }
 
-/**
- * Global application exit.
- *
- * This function provides a single exit point for the platform.
- *
- * @param   mixed  $message  Exit code or string. Defaults to zero.
- *
- * @return  void
- *
- * @codeCoverageIgnore
- * @since   11.1
- */
-function jexit($message = 0)
+// Check if jexit is defined first (our unit tests mock this)
+if (!function_exists('jexit'))
 {
-	exit($message);
+	/**
+	 * Global application exit.
+	 *
+	 * This function provides a single exit point for the platform.
+	 *
+	 * @param   mixed  $message  Exit code or string. Defaults to zero.
+	 *
+	 * @return  void
+	 *
+	 * @codeCoverageIgnore
+	 * @since   11.1
+	 */
+	function jexit($message = 0)
+	{
+		exit($message);
+	}
 }
 
 /**

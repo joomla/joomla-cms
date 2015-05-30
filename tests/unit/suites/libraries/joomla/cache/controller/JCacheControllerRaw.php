@@ -17,20 +17,4 @@
  */
 class JCacheControllerRaw extends JCache
 {
-	/**
-	 * Setup.
-	 *
-	 * @return void
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		include_once JPATH_PLATFORM . '/joomla/cache/cache.php';
-		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
-		include_once JPATH_PLATFORM . '/joomla/cache/controller.php';
-
-		// @todo remove: $this->object = JCache::getInstance('', array());
-	}
-
 }

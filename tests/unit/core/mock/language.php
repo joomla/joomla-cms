@@ -76,7 +76,7 @@ class TestMockLanguage
 	 *
 	 * @since  11.3
 	 */
-	public function mock_($string, $jsSafe = false, $interpretBackSlashes = true)
+	public static function mock_($string, $jsSafe = false, $interpretBackSlashes = true)
 	{
 		return $string;
 	}

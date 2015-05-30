@@ -19,7 +19,7 @@ class TestMockMenu
 	/**
 	 * Creates an instance of the mock JMenu object.
 	 *
-	 * @param   object  $test  A test object.
+	 * @param   PHPUnit_Framework_TestCase  $test  A test object.
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *

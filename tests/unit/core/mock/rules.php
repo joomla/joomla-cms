@@ -62,7 +62,7 @@ class TestMockRules
 	 *
 	 * @since   11.3
 	 */
-	public function mockAllow($action, $identity)
+	public static function mockAllow($action, $identity)
 	{
 		switch ($action)
 		{
@@ -76,7 +76,6 @@ class TestMockRules
 					// Odds return true, evens false.
 					return (boolean) ($identity % 2);
 				}
-				return false;
 
 			case 'walk':
 				if ($identity == 0)
