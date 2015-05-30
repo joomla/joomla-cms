@@ -343,31 +343,6 @@ class JFormFieldTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test an invalid argument for the JFormField::setup method
-	 *
-	 * @expectedException PHPUnit_Framework_Error
-	 *
-	 * @return void
-	 */
-	public function testSetupInvalidElement()
-	{
-		if (PHP_MAJOR_VERSION >= 7)
-		{
-			$this->markTestSkipped('A fatal error is thrown on PHP 7 due to the typehinting of the method.');
-		}
-
-		$form = new JFormInspector('form1');
-		$field = new JFormFieldInspector($form);
-
-		$wrong = 'wrong';
-		$this->assertThat(
-			$field->setup($wrong, 0),
-			$this->isFalse(),
-			'Line:' . __LINE__ . ' If not a form object, setup should return false.'
-		);
-	}
-
-	/**
 	 * Tests the name, value, id, title, lalbel property setup by JFormField::setup method
 	 *
 	 * @param   array   $expected  @todo
