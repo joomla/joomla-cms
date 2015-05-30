@@ -831,32 +831,14 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onGetInsertMethod($name)
 	{
-		$doc = JFactory::getDocument();
-
-		$js = "
-			function isBrowserIE()
-			{
-				return navigator.appName==\"Microsoft Internet Explorer\";
-			}
-
+		JFactory::getDocument()->addScriptDeclaration(
+			"
 			function jInsertEditorText( text, editor )
 			{
 				tinyMCE.execCommand('mceInsertContent', false, text);
 			}
-
-			var global_ie_bookmark = false;
-
-			function IeCursorFix()
-			{
-				if (isBrowserIE())
-				{
-					tinyMCE.execCommand('mceInsertContent', false, '');
-					global_ie_bookmark = tinyMCE.activeEditor.selection.getBookmark(false);
-				}
-				return true;
-			}";
-
-		$doc->addScriptDeclaration($js);
+			"
+		);
 
 		return true;
 	}
@@ -949,11 +931,6 @@ class PlgEditorTinymce extends JPlugin
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
-
-			foreach ($buttons as &$button)
-			{
-				$button->onclick = 'IeCursorFix(); return false;';
-			}
 
 			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}

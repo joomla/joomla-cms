@@ -135,12 +135,10 @@ JHtml::_('behavior.caption');
 	<?php $menu = JFactory::getApplication()->getMenu(); ?>
 	<?php $active = $menu->getActive(); ?>
 	<?php $itemId = $active->id; ?>
-	<?php $link = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId); ?>
-	<?php $returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)); ?>
-	<?php $fullURL = new JUri($link); ?>
-	<?php $fullURL->setVar('return', base64_encode($returnURL)); ?>
+	<?php $link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false)); ?>
+	<?php $link->setVar('return', base64_encode(JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language), false))); ?>
 	<p class="readmore">
-		<a href="<?php echo $fullURL; ?>" class="register">
+		<a href="<?php echo $link; ?>" class="register">
 		<?php $attribs = json_decode($this->item->attribs); ?>
 		<?php
 		if ($attribs->alternative_readmore == null) :

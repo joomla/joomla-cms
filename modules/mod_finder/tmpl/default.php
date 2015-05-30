@@ -49,7 +49,7 @@ if ($params->get('show_label', 1))
 
 if ($params->get('show_button'))
 {
-	$button = '<button class="btn btn-primary hasTooltip ' . $suffix . ' finder' . $suffix . '" type="submit" title="' . JText::_('MOD_FINDER_SEARCH_BUTTON') . '"><i class="icon-search icon-white"></i></button>';
+	$button = '<button class="btn btn-primary hasTooltip ' . $suffix . ' finder' . $suffix . '" type="submit" title="' . JText::_('MOD_FINDER_SEARCH_BUTTON') . '"><span class="icon-search icon-white"></span></button>';
 
 	switch ($params->get('button_pos', 'left'))
 	{

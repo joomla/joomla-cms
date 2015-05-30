@@ -60,7 +60,7 @@ class JFormFieldModal_Contact extends JFormField
 			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
 		}
 
-		$script[] = '		jQuery("#modalContact").modal("hide");';
+		$script[] = '		jQuery("#modalContact' . $this->id . '").modal("hide");';
 
 		if ($this->required)
 		{
@@ -141,21 +141,23 @@ class JFormFieldModal_Contact extends JFormField
 		// The current contact display field.
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title . '" disabled="disabled" size="35" />';
-		$html[] = '<a href="#modalContact"  class="btn hasTooltip" role="button"  data-toggle="modal"'
+		$html[] = '<a href="#modalContact' . $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal"'
 			. ' title="' . JHtml::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '">'
-			. '<i class="icon-file"></i> ' . JText::_('JSELECT')
+			. '<span class="icon-file"></span> ' . JText::_('JSELECT')
 			. '</a>';
 
-		$html[] = JHtmlBootstrap::renderModal(
-							'modalContact', array(
-							'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
-							'title' => JText::_('COM_CONTACT_CHANGE_CONTACT'),
-							'width' => '800px',
-							'height' => '300px',
-							'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
-								. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-						)
-					);
+		$html[] = JHtml::_(
+			'bootstrap.renderModal',
+			'modalContact' . $this->id,
+			array(
+				'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
+				'title' => JText::_('COM_CONTACT_CHANGE_CONTACT'),
+				'width' => '800px',
+				'height' => '300px',
+				'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+			)
+		);
 
 		// Edit contact button.
 		if ($allowEdit)
