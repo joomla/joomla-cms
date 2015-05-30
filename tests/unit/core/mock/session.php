@@ -119,14 +119,11 @@ class TestMockSession
 	 *
 	 * @since   11.3
 	 */
-	public function mockGet($key)
+	public static function mockGet($key)
 	{
 		switch ($key)
 		{
 			case 'user':
-				// Attempt to load JUser.
-				class_exists('JUser');
-
 				$user = new JUser;
 
 				$user->id = (int) self::getOption('get.user.id', 0);
