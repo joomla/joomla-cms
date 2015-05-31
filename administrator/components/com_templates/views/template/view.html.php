@@ -3,7 +3,7 @@
 * @package     Joomla.Administrator
 * @subpackage  com_templates
 *
-* @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+* @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
 * @license     GNU General Public License version 2 or later; see LICENSE.txt
 */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
 * View to edit a template style.
 *
-* @package     Joomla.Administrator
-* @subpackage  com_templates
-* @since       1.6
+* @since  1.6
 */
 class TemplatesViewTemplate extends JViewLegacy
 {
@@ -79,11 +77,6 @@ class TemplatesViewTemplate extends JViewLegacy
 	protected $font;
 
 	/**
-	 * For checking if the template is hathor
-	 */
-	protected $hathor;
-
-	/**
 	 * A nested array containing lst of files and folders
 	 */
 	protected $files;
@@ -111,7 +104,6 @@ class TemplatesViewTemplate extends JViewLegacy
 		$this->state    = $this->get('State');
 		$this->template = $this->get('Template');
 		$this->preview  = $this->get('Preview');
-		$this->hathor   = $this->get('Hathor');
 
 		$params       = JComponentHelper::getParams('com_templates');
 		$imageTypes   = explode(',', $params->get('image_formats'));
@@ -171,7 +163,8 @@ class TemplatesViewTemplate extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
+		$app   = JFactory::getApplication();
+		$app->input->set('hidemainmenu', true);
 		$canDo = JHelperContent::getActions('com_templates');
 
 		if ($canDo->get('core.edit') && $canDo->get('core.create') && $canDo->get('core.admin'))
@@ -218,8 +211,8 @@ class TemplatesViewTemplate extends JViewLegacy
 			}
 		}
 
-		// Add a copy template button (Hathor may not be available)
-		if ($this->hathor && $this->hathor->home == 0)
+		// Add a copy template button (Hathor override doesn't need the button)
+		if ($app->getTemplate() != 'hathor')
 		{
 			if ($showButton)
 			{
@@ -230,7 +223,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		// Add a Template preview button
 		if ($this->preview->client_id == 0)
 		{
-			$bar->appendButton('Link', 'picture', 'COM_TEMPLATES_BUTTON_PREVIEW', JUri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id);
+			$bar->appendButton('Popup', 'picture', 'COM_TEMPLATES_BUTTON_PREVIEW', JUri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id, 800, 520);
 		}
 
 		// Add Manage folders button
@@ -245,8 +238,8 @@ class TemplatesViewTemplate extends JViewLegacy
 			JToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
 		}
 
-		// Add a Rename file Button
-		if ($this->hathor && $this->hathor->home == 0)
+		// Add a Rename file Button (Hathor override doesn't need the button)
+		if ($app->getTemplate() != 'hathor')
 		{
 			if ($showButton && $this->type != 'home')
 			{

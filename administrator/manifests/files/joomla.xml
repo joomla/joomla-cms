@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension version="3.2" type="file" method="upgrade">
+<extension version="3.4" type="file" method="upgrade">
 	<name>files_joomla</name>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>(C) 2005 - 2014 Open Source Matters. All rights reserved</copyright>
+	<copyright>(C) 2005 - 2015 Open Source Matters. All rights reserved</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>3.2.4-dev</version>
-	<creationDate>March 2014</creationDate>
+	<version>3.4.2-dev</version>
+	<creationDate>March 2015</creationDate>
 	<description>FILES_JOOMLA_XML_DESCRIPTION</description>
 
 	<scriptfile>administrator/components/com_admin/script.php</scriptfile>
 
-	<update> <!-- Runs on update; New in 1.7 -->
+	<update>
 		<schemas>
 			<schemapath type="mysql">administrator/components/com_admin/sql/updates/mysql</schemapath>
 			<schemapath type="sqlsrv">administrator/components/com_admin/sql/updates/sqlsrv</schemapath>

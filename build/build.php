@@ -16,17 +16,16 @@
  * 3. Run from CLI as: 'php build.php" from build directory.
  * 4. Check the archives in the tmp directory.
  *
- * @package		Joomla.Build
- *
- * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Build
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /usr/bin/git)
 ob_start();
 passthru('which git', $systemGit);
 $systemGit = ob_get_clean();
-$gitPath = '/usr/bin/git';
+$gitPath   = '/usr/bin/git';
 
 // Sanity check - Make sure $gitPath is the same path the system recognizes
 if (substr($systemGit, 0, -1) != $gitPath)
@@ -39,7 +38,7 @@ if (substr($systemGit, 0, -1) != $gitPath)
 umask(022);
 
 // Import JVersion to set the version information
-define('_JEXEC', 1);
+define('JPATH_PLATFORM', 1);
 require_once dirname(__DIR__) . '/libraries/cms/version/version.php';
 $jversion = new JVersion;
 
@@ -109,6 +108,33 @@ $filesArray = array(
 	"joomla.xml\n" => true
 );
 
+/*
+ * Here we set the files/folders which should not be packaged at any time
+ * These paths are from the repository root without the leading slash
+ */
+$doNotPackage = array(
+	'.gitignore',
+	'.travis.yml',
+	'CONTRIBUTING.md',
+	'README.md',
+	'build',
+	'build.xml',
+	'composer.json',
+	'composer.lock',
+	'phpunit.xml.dist',
+	'tests',
+	'travisci-phpunit.xml',
+);
+
+/*
+ * Here we set the files/folders which should not be packaged with patch packages only
+ * These paths are from the repository root without the leading slash
+ */
+$doNotPatch = array(
+	'installation',
+	'images',
+);
+
 // For the packages, replace spaces in stability (RC) with underscores
 $packageStability = str_replace(' ', '_', $stability);
 
@@ -130,20 +156,29 @@ for ($num = $release - 1; $num >= 0; $num--)
 	// Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, or images
 	foreach ($files as $file)
 	{
-		if (substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file, 2, 5) != 'build' && substr($file, 2, 4) != '.git'
-			&& substr($file, 2, 7) != '.travis' && substr($file, 2, 6) != 'travis' && substr($file, 2, 7) != 'phpunit' && substr($file, -3) != '.md'
-			&& substr($file, 2, 6) != 'images')
+		$fileName   = substr($file, 2);
+		$folderPath = explode('/', $fileName);
+		$baseFolderName = $folderPath[0];
+
+		$doNotPackageFile = in_array(trim($fileName), $doNotPackage);
+		$doNotPatchFile = in_array(trim($fileName), $doNotPatch);
+		$doNotPackageBaseFolder = in_array($baseFolderName, $doNotPackage);
+		$doNotPatchBaseFolder = in_array($baseFolderName, $doNotPatch);
+
+		if ($doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)
 		{
-			// Don't add deleted files to the list
-			if (substr($file, 0, 1) != 'D')
-			{
-				$filesArray[substr($file, 2)] = true;
-			}
-			else
-			{
-				// Add deleted files to the deleted files list
-				$deletedFiles[] = substr($file, 2);
-			}
+			continue;
+		}
+
+		// Don't add deleted files to the list
+		if (substr($file, 0, 1) != 'D')
+		{
+			$filesArray[$fileName] = true;
+		}
+		else
+		{
+			// Add deleted files to the deleted files list
+			$deletedFiles[] = $fileName;
 		}
 	}
 
@@ -173,7 +208,7 @@ for ($num = $release - 1; $num >= 0; $num--)
 
 // Delete the files and folders we exclude from the packages (tests, docs, build, etc.).
 echo "Delete folders not included in packages.\n";
-$doNotPackage = array('tests', '.gitignore', '.travis.yml', 'build', 'build.xml', 'phpunit.xml.dist', 'travisci-phpunit.xml', 'README.md', 'CONTRIBUTING.md');
+
 foreach ($doNotPackage as $removeFile)
 {
 	system('rm -rf ' . $fullVersion . '/' . $removeFile);
@@ -183,6 +218,9 @@ foreach ($doNotPackage as $removeFile)
 system('mkdir packages_full' . $fullVersion);
 echo "Build full package files.\n";
 chdir($fullVersion);
+
+// The weblinks package manifest should not be present for new installs, temporarily move it
+system('mv administrator/manifests/packages/pkg_weblinks.xml ../pkg_weblinks.xml');
 
 // Create full archive packages.
 system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.bz2 * > /dev/null');
@@ -197,10 +235,11 @@ system('rm -r installation');
 system('rm -r images/banners');
 system('rm -r images/headers');
 system('rm -r images/sampledata');
-system('rm images/joomla_black.gif');
-system('rm images/joomla_green.gif');
-system('rm images/joomla_logo_black.jpg');
+system('rm images/joomla_black.png');
 system('rm images/powered_by.png');
+
+// Move the weblinks manifest back
+system('mv ../pkg_weblinks.xml administrator/manifests/packages/pkg_weblinks.xml');
 
 system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2 * > /dev/null');
 

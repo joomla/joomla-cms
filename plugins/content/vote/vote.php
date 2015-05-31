@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.vote
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Vote plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.vote
- * @since       1.5
+ * @since  1.5
  */
 class PlgContentVote extends JPlugin
 {
@@ -70,8 +68,12 @@ class PlgContentVote extends JPlugin
 				$img .= $starImageOff;
 			}
 
-			$html .= '<div class="content_rating">';
-			$html .= '<p class="unseen element-invisible">' . JText::sprintf('PLG_VOTE_USER_RATING', $rating, '5') . '</p>';
+			$html .= '<div class="content_rating" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">';
+			$html .= '<p class="unseen element-invisible">'
+					. JText::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>')
+					. '<meta itemprop="ratingCount" content="' . (int) $row->rating_count . '" />'
+					. '<meta itemprop="worstRating" content="0" />'
+					. '</p>';
 			$html .= $img;
 			$html .= '</div>';
 

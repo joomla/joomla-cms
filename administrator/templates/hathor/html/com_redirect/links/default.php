@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,14 +34,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_REDIRECT_SEARCH_LINKS'); ?>" />
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+			<button type="button" onclick="document.getElementById('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 
 		<div class="filter-select">
 			<label class="selectlabel" for="filter_published">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
-			<select name="filter_state" class="inputbox" id="filter_published">
+			<select name="filter_state" id="filter_published">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', RedirectHelper::publishedOptions(), 'value', 'text', $this->state->get('filter.state'), true);?>
 			</select>
@@ -123,10 +123,30 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</tbody>
 	</table>
 
+	<?php //Load the batch processing form if user is allowed ?>
+	<?php if ($user->authorise('core.create', 'com_redirect')
+		&& $user->authorise('core.edit', 'com_redirect')
+		&& $user->authorise('core.edit.state', 'com_redirect')) : ?>
+		<?php echo JHtml::_(
+			'bootstrap.renderModal',
+			'collapseModal',
+			array(
+				'title' => JText::_('COM_REDIRECT_BATCH_OPTIONS'),
+				'footer' => $this->loadTemplate('batch_footer')
+			),
+			$this->loadTemplate('batch_body')
+		); ?>
+	<?php endif;?>
+
 	<?php echo $this->pagination->getListFooter(); ?>
 	<p class="footer-tip">
 		<?php if ($this->enabled) : ?>
 			<span class="enabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?></span>
+			<?php if ($this->collect_urls_enabled) : ?>
+				<span class="enabled"><?php echo JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'); ?></span>
+			<?php else : ?>
+				<span class="enabled"><?php echo JText::_('COM_REDIRECT_COLLECT_URLS_DISABLED'); ?></span>
+			<?php endif; ?>
 		<?php else : ?>
 			<span class="disabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_DISABLED'); ?></span>
 		<?php endif; ?>

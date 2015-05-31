@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Modules component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_modules
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModulesHelper
 {
@@ -22,6 +20,8 @@ abstract class ModulesHelper
 	 * Configure the Linkbar.
 	 *
 	 * @param   string  $vName  The name of the active view.
+	 *
+	 * @return  void
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -31,7 +31,7 @@ abstract class ModulesHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param   integer  The module ID.
+	 * @param   integer  $moduleId  The module ID.
 	 *
 	 * @return  JObject
 	 *
@@ -67,6 +67,8 @@ abstract class ModulesHelper
 		$options[]	= JHtml::_('select.option',	'1',	JText::_('JPUBLISHED'));
 		$options[]	= JHtml::_('select.option',	'0',	JText::_('JUNPUBLISHED'));
 		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JTRASHED'));
+		$options[]	= JHtml::_('select.option',	'*',	JText::_('JALL'));
+
 		return $options;
 	}
 
@@ -81,13 +83,15 @@ abstract class ModulesHelper
 		$options	= array();
 		$options[]	= JHtml::_('select.option', '0', JText::_('JSITE'));
 		$options[]	= JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
+
 		return $options;
 	}
 
 	/**
 	 * Get a list of modules positions
 	 *
-	 * @param   integer  $clientId  Client ID
+	 * @param   integer  $clientId       Client ID
+	 * @param   boolean  $editPositions  Allow to edit the positions
 	 *
 	 * @return  array  A list of positions
 	 */
@@ -110,23 +114,25 @@ abstract class ModulesHelper
 		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(500, $e->getMessage());
+
 			return;
 		}
 
 		// Build the list
 		$options = array();
+
 		foreach ($positions as $position)
 		{
 			if (!$position && !$editPositions)
 			{
 				$options[]	= JHtml::_('select.option', 'none', ':: ' . JText::_('JNONE') . ' ::');
-
 			}
 			else
 			{
 				$options[]	= JHtml::_('select.option', $position, $position);
 			}
 		}
+
 		return $options;
 	}
 
@@ -151,6 +157,7 @@ abstract class ModulesHelper
 			->from('#__extensions')
 			->where('client_id = ' . (int) $clientId)
 			->where('type = ' . $db->quote('template'));
+
 		if ($state != '')
 		{
 			$query->where('enabled = ' . $db->quote($state));
@@ -164,6 +171,7 @@ abstract class ModulesHelper
 		// Set the query and load the templates.
 		$db->setQuery($query);
 		$templates = $db->loadObjectList('element');
+
 		return $templates;
 	}
 
@@ -199,7 +207,9 @@ abstract class ModulesHelper
 			||	$lang->load("$extension.sys", $source, null, false, true);
 			$modules[$i]->text = JText::_($module->text);
 		}
+
 		JArrayHelper::sortObjects($modules, 'text', 1, true, true);
+
 		return $modules;
 	}
 
@@ -228,8 +238,9 @@ abstract class ModulesHelper
 	/**
 	 * Return a translated module position name
 	 *
-	 * @param   string  $template  Template name
-	 * @param   string  $position  Position name
+	 * @param   integer  $clientId  Application client id 0: site | 1: admin
+	 * @param   string   $template  Template name
+	 * @param   string   $position  Position name
 	 *
 	 * @return  string  Return a translated position name
 	 *
@@ -241,10 +252,10 @@ abstract class ModulesHelper
 		$lang = JFactory::getLanguage();
 		$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
-		$lang->load('tpl_'.$template.'.sys', $path, null, false, false)
-		||	$lang->load('tpl_'.$template.'.sys', $path.'/templates/'.$template, null, false, false)
-		||	$lang->load('tpl_'.$template.'.sys', $path, $lang->getDefault(), false, false)
-		||	$lang->load('tpl_'.$template.'.sys', $path.'/templates/'.$template, $lang->getDefault(), false, false);
+		$lang->load('tpl_' . $template . '.sys', $path, null, false, false)
+		||	$lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
+		||	$lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false)
+		||	$lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
 
 		$langKey = strtoupper('TPL_' . $template . '_POSITION_' . $position);
 		$text = JText::_($langKey);

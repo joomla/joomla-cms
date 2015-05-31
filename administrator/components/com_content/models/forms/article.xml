@@ -9,21 +9,21 @@
 
 		<field name="title" type="text" label="JGLOBAL_TITLE"
 			description="JFIELD_TITLE_DESC"
-			class="inputbox input-xxlarge input-large-text"
+			class="input-xxlarge input-large-text"
 			size="40"
 			required="true" />
 
 		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
-			class="inputbox" size="40" />
+			size="40" />
 
 		<field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
-			class="inputbox span12"
+			class="span12"
 			size="45" />
 
-		<field name="articletext" type="editor" class="inputbox"
+		<field name="articletext" type="editor"
 			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL" description="COM_CONTENT_FIELD_ARTICLETEXT_DESC"
 			filter="JComponentHelper::filterText" buttons="true" />
 
@@ -43,7 +43,7 @@
 
 		<field name="catid" type="categoryedit"
 			label="JCATEGORY" description="JFIELD_CATEGORY_DESC"
-			class="inputbox" required="true"
+			required="true"
 		>
 		</field>
 
@@ -51,7 +51,7 @@
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="inputbox span12"
+			class="span12"
 			multiple="true"
 		>
 		</field>
@@ -62,7 +62,7 @@
 			type="spacer" />
 
 		<field name="created" type="calendar" label="COM_CONTENT_FIELD_CREATED_LABEL"
-			description="COM_CONTENT_FIELD_CREATED_DESC" class="inputbox" size="22"
+			description="COM_CONTENT_FIELD_CREATED_DESC" size="22"
 			format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
 
 		<field name="created_by" type="user"
@@ -70,7 +70,7 @@
 
 		<field name="created_by_alias" type="text"
 			label="COM_CONTENT_FIELD_CREATED_BY_ALIAS_LABEL" description="COM_CONTENT_FIELD_CREATED_BY_ALIAS_DESC"
-			class="inputbox" size="20" />
+			size="20" />
 
 		<field name="modified" type="calendar" class="readonly"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL" description="COM_CONTENT_FIELD_MODIFIED_DESC"
@@ -89,12 +89,12 @@
 
 		<field name="publish_up" type="calendar"
 			label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL" description="COM_CONTENT_FIELD_PUBLISH_UP_DESC"
-			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
+			format="%Y-%m-%d %H:%M:%S" size="22"
 			filter="user_utc" />
 
 		<field name="publish_down" type="calendar"
 			label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL" description="COM_CONTENT_FIELD_PUBLISH_DOWN_DESC"
-			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
+			format="%Y-%m-%d %H:%M:%S" size="22"
 			filter="user_utc" />
 
 		<field name="version" type="text" class="readonly"
@@ -102,16 +102,16 @@
 			readonly="true" filter="unset" />
 
 		<field name="ordering" type="text" label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC" class="inputbox" size="6"
+			description="JFIELD_ORDERING_DESC" size="6"
 			default="0" />
 
 		<field name="metakey" type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC"
-			class="inputbox" rows="3" cols="30" />
+			rows="3" cols="30" />
 
 		<field name="metadesc" type="textarea"
 			label="JFIELD_META_DESCRIPTION_LABEL" description="JFIELD_META_DESCRIPTION_DESC"
-			class="inputbox" rows="3" cols="30" />
+			rows="3" cols="30" />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC" size="1" />
@@ -137,7 +137,7 @@
 		</field>
 
 		<field name="rules" type="rules" label="JFIELD_RULES_LABEL"
-			translate_label="false" class="inputbox" filter="rules"
+			translate_label="false" filter="rules"
 			component="com_content" section="article" validate="rules"
 		/>
 
@@ -394,10 +394,10 @@
 				hr="true"
 			/>
 
-			<field name="alternative_readmore" type="inputbox"
+			<field name="alternative_readmore" type="text"
 				label="JFIELD_READMORE_LABEL"
 				description="JFIELD_READMORE_DESC"
-				class="inputbox" size="25" />
+				size="25" />
 
 			<field name="article_layout" type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
@@ -598,7 +598,7 @@
 			<field name="alternative_readmore" type="hidden"
 				label="JFIELD_READMORE_LABEL"
 				description="JFIELD_READMORE_DESC"
-				class="inputbox" size="25" />
+				size="25" />
 
 			<field name="article_layout" type="hidden"
 				label="JFIELD_ALT_LAYOUT_LABEL"
@@ -612,7 +612,7 @@
 	<field name="xreference" type="text"
 		label="JFIELD_KEY_REFERENCE_LABEL"
 		description="JFIELD_KEY_REFERENCE_DESC"
-		class="inputbox" size="20" />
+		size="20" />
 
 	<fields name="images" label="COM_CONTENT_FIELD_IMAGE_OPTIONS">
 		<field
@@ -634,13 +634,11 @@
 			type="text"
 			label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
 			description="COM_CONTENT_FIELD_IMAGE_ALT_DESC"
-			class="inputbox"
 			size="20"/>
 		<field name="image_intro_caption"
 			type="text"
 			label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
 			description="COM_CONTENT_FIELD_IMAGE_CAPTION_DESC"
-			class="inputbox"
 			size="20"/>
 		<field
 			name="spacer1"
@@ -666,13 +664,11 @@
 			type="text"
 			label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
 			description="COM_CONTENT_FIELD_IMAGE_ALT_DESC"
-			class="inputbox"
 			size="20"/>
 		<field name="image_fulltext_caption"
 			type="text"
 			label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
 			description="COM_CONTENT_FIELD_IMAGE_CAPTION_DESC"
-			class="inputbox"
 			size="20"/>
 	</fields>
 	<fields name="urls" label="COM_CONTENT_FIELD_URLS_OPTIONS">
@@ -681,13 +677,13 @@
 			type="url"
 			validate="url"
 			filter="url"
+			relative="true"
 			label="COM_CONTENT_FIELD_URLA_LABEL"
 			description="COM_CONTENT_FIELD_URL_DESC" />
 		<field name="urlatext"
 			type="text"
 			label="COM_CONTENT_FIELD_URLA_LINK_TEXT_LABEL"
 			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-			class="inputbox"
 			size="20"/>
 		<field
 			name="targeta"
@@ -696,7 +692,7 @@
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default=""
 			filter="options"
-			class="inputbox">
+			>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JBROWSERTARGET_PARENT</option>
 			<option value="1">JBROWSERTARGET_NEW</option>
@@ -713,13 +709,13 @@
 			type="url"
 			validate="url"
 			filter="url"
+			relative="true"
 			label="COM_CONTENT_FIELD_URLB_LABEL"
 			description="COM_CONTENT_FIELD_URL_DESC"/>
 		<field name="urlbtext"
 			type="text"
 			label="COM_CONTENT_FIELD_URLB_LINK_TEXT_LABEL"
 			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-			class="inputbox"
 			size="20"/>
 		<field
 			name="targetb"
@@ -728,7 +724,7 @@
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default=""
 			filter="options"
-			class="inputbox">
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
@@ -745,6 +741,7 @@
 			type="url"
 			validate="url"
 			filter="url"
+			relative="true"
 			label="COM_CONTENT_FIELD_URLC_LABEL"
 			description="COM_CONTENT_FIELD_URL_DESC"/>
 		<field
@@ -752,7 +749,6 @@
 			type="text"
 			label="COM_CONTENT_FIELD_URLC_LINK_TEXT_LABEL"
 			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-			class="inputbox"
 			size="20"/>
 		<field
 			name="targetc"
@@ -761,7 +757,7 @@
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default=""
 			filter="options"
-			class="inputbox">
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
@@ -797,7 +793,7 @@
 			<field name="xreference" type="text"
 				label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
 				description="COM_CONTENT_FIELD_XREFERENCE_DESC"
-				class="inputbox" size="20" />
+				size="20" />
 
 		</fieldset>
 	</fields>

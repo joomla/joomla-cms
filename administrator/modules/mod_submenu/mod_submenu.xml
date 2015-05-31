@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	type="module"
-	version="3.1"
-	client="administrator">
+<extension type="module" version="3.1" client="administrator" method="upgrade">
 	<name>mod_submenu</name>
 	<author>Joomla! Project</author>
 	<creationDate>Feb 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -15,7 +12,6 @@
 	<files>
 		<filename module="mod_submenu">mod_submenu.php</filename>
 		<filename>helper.php</filename>
-		<filename>index.html</filename>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

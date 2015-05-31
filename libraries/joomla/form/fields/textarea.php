@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,10 +13,8 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Supports a multi line area for entry of plain text
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @link        http://www.w3.org/TR/html-markup/textarea.html#textarea
- * @since       11.1
+ * @link   http://www.w3.org/TR/html-markup/textarea.html#textarea
+ * @since  11.1
  */
 class JFormFieldTextarea extends JFormField
 {
@@ -45,6 +43,14 @@ class JFormFieldTextarea extends JFormField
 	protected $columns;
 
 	/**
+	 * The maximum number of characters in textarea.
+	 *
+	 * @var    mixed
+	 * @since  3.4
+	 */
+	protected $maxlength;
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to the the value.
@@ -59,6 +65,7 @@ class JFormFieldTextarea extends JFormField
 		{
 			case 'rows':
 			case 'columns':
+			case 'maxlength':
 				return $this->$name;
 		}
 
@@ -81,6 +88,7 @@ class JFormFieldTextarea extends JFormField
 		{
 			case 'rows':
 			case 'columns':
+			case 'maxlength':
 				$this->$name = (int) $value;
 				break;
 
@@ -109,8 +117,9 @@ class JFormFieldTextarea extends JFormField
 
 		if ($return)
 		{
-			$this->rows    = isset($this->element['rows']) ? (int) $this->element['rows'] : false;
-			$this->columns = isset($this->element['cols']) ? (int) $this->element['cols'] : false;
+			$this->rows      = isset($this->element['rows']) ? (int) $this->element['rows'] : false;
+			$this->columns   = isset($this->element['cols']) ? (int) $this->element['cols'] : false;
+			$this->maxlength = isset($this->element['maxlength']) ? (int) $this->element['maxlength'] : false;
 		}
 
 		return $return;
@@ -141,6 +150,7 @@ class JFormFieldTextarea extends JFormField
 		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 		$autofocus    = $this->autofocus ? ' autofocus' : '';
 		$spellcheck   = $this->spellcheck ? '' : ' spellcheck="false"';
+		$maxlength    = $this->maxlength ? ' maxlength="' . $this->maxlength . '"' : '';
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
@@ -151,7 +161,7 @@ class JFormFieldTextarea extends JFormField
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
 		return '<textarea name="' . $this->name . '" id="' . $this->id . '"' . $columns . $rows . $class
-			. $hint . $disabled . $readonly . $onchange . $onclick . $required . $autocomplete . $autofocus . $spellcheck . ' >'
+			. $hint . $disabled . $readonly . $onchange . $onclick . $required . $autocomplete . $autofocus . $spellcheck . $maxlength . ' >'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '</textarea>';
 	}
 }

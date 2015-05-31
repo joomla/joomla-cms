@@ -3,8 +3,8 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Debug plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.Debug
- * @since       1.5
+ * @since  1.5
  */
 class PlgSystemDebug extends JPlugin
 {
@@ -75,6 +73,14 @@ class PlgSystemDebug extends JPlugin
 	private $totalQueries = 0;
 
 	/**
+	 * Application object.
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.3
+	 */
+	protected $app;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -92,15 +98,25 @@ class PlgSystemDebug extends JPlugin
 			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
 		}
 
-		// Skip the plugin if debug is off
-		$app = JFactory::getApplication();
+		// Log everything (except deprecated APIs, these are logged separately with the option above).
+		if ($this->params->get('log-everything'))
+		{
+			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
+		}
 
-		if ($app->getCfg('debug_lang') == '0' && $app->getCfg('debug') == '0')
+		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
+		if (!$this->app)
+		{
+			$this->app = JFactory::getApplication();
+		}
+
+		$this->debugLang = $this->app->get('debug_lang');
+
+		// Skip the plugin if debug is off
+		if ($this->debugLang == '0' && $this->app->get('debug') == '0')
 		{
 			return;
 		}
-
-		$this->debugLang = JFactory::getApplication()->getCfg('debug_lang');
 
 		// Only if debugging or language debug is enabled.
 		if (JDEBUG || $this->debugLang)
@@ -198,7 +214,7 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// No debug for Safari and Chrome redirection.
-		if (strstr(strtolower($_SERVER['HTTP_USER_AGENT']), 'webkit') !== false
+		if (strstr(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ""), 'webkit') !== false
 			&& substr($contents, 0, 50) == '<html><head><meta http-equiv="refresh" content="0;')
 		{
 			echo $contents;
@@ -624,6 +640,11 @@ class PlgSystemDebug extends JPlugin
 						'PLG_DEBUG_QUERIES_TIME',
 						sprintf('<span class="label ' . $labelClass . '">%.1f&nbsp;ms</span>', $totalQueryTime)
 					) . '</div>';
+
+				if ($this->params->get('log-executed-sql', '0'))
+				{
+					$this->writeToFile();
+				}
 			}
 		}
 
@@ -642,7 +663,11 @@ class PlgSystemDebug extends JPlugin
 		$bytes = memory_get_usage();
 
 		return '<span class="label">' . JHtml::_('number.bytes', $bytes) . '</span>'
-			. ' (<span class="label">' . number_format($bytes) . ' ' . JText::_('PLG_DEBUG_BYTES') . '</span>)';
+			. ' (<span class="label">'
+			. number_format($bytes, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'))
+			. ' '
+			. JText::_('PLG_DEBUG_BYTES')
+			. '</span>)';
 	}
 
 	/**
@@ -737,7 +762,7 @@ class PlgSystemDebug extends JPlugin
 				// Run a SHOW PROFILE query.
 				$profile = '';
 
-				if (in_array($db->name, array('mysqli', 'mysql')))
+				if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql')))
 				{
 					if (isset($this->sqlShowProfileEach[$id]))
 					{
@@ -887,8 +912,17 @@ class PlgSystemDebug extends JPlugin
 				// Compute the query time.
 				$queryTime = ($timings[$id * 2 + 1] - $timings[$id * 2]) * 1000;
 
-				// Timing.  Formats the output for the query time with EXPLAIN query results as tooltip.
-				$htmlTiming = '<div style="margin: 0px 0 5px;"><span class="dbg-query-time">' . JText::sprintf('PLG_DEBUG_QUERY_TIME', sprintf('<span class="label ' . $info[$id]->class . '">%.2f&nbsp;ms</span>', $timing[$id]['0']));
+				// Timing
+				// Formats the output for the query time with EXPLAIN query results as tooltip:
+				$htmlTiming = '<div style="margin: 0px 0 5px;"><span class="dbg-query-time">';
+				$htmlTiming .= JText::sprintf(
+						'PLG_DEBUG_QUERY_TIME',
+						sprintf(
+							'<span class="label %s">%.2f&nbsp;ms</span>',
+							$info[$id]->class,
+							$timing[$id]['0']
+						)
+					);
 
 				if ($timing[$id]['1'])
 				{
@@ -945,7 +979,7 @@ class PlgSystemDebug extends JPlugin
 						}
 
 						$htmlResultsReturned = '<span class="label ' . $labelClass . '">' . (int) $resultsReturned . '</span>';
-						$htmlTiming .= ' ' . '<span class="dbg-query-rowsnumber">' . JText::sprintf('PLG_DEBUG_ROWS_RETURNED_BY_QUERY', $htmlResultsReturned) . '</span>';
+						$htmlTiming .= ' <span class="dbg-query-rowsnumber">' . JText::sprintf('PLG_DEBUG_ROWS_RETURNED_BY_QUERY', $htmlResultsReturned) . '</span>';
 					}
 				}
 
@@ -985,7 +1019,8 @@ class PlgSystemDebug extends JPlugin
 
 					if (!$this->linkFormat)
 					{
-						$htmlCallStack .= '<div>[<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">' . JText::_('PLG_DEBUG_LINK_FORMAT') . '</a>]</div>';
+						$htmlCallStack .= '<div>[<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">';
+						$htmlCallStack .= JText::_('PLG_DEBUG_LINK_FORMAT') . '</a>]</div>';
 					}
 				}
 
@@ -1064,6 +1099,11 @@ class PlgSystemDebug extends JPlugin
 		else
 		{
 			$labelClass = 'label-warning';
+		}
+
+		if ($this->totalQueries == 0)
+		{
+			$this->totalQueries = $db->getCount();
 		}
 
 		$html = array();
@@ -1145,11 +1185,11 @@ class PlgSystemDebug extends JPlugin
 	}
 
 	/**
-	 * Render bars.
+	 * Render the bars.
 	 *
-	 * @param   array    &$bars  Array of bar data.
-	 * @param   string   $class  Optional class for items.
-	 * @param   integer  $id     Id of the bar to highlight.
+	 * @param   array    &$bars  Array of bar data
+	 * @param   string   $class  Optional class for items
+	 * @param   integer  $id     Id if the bar to highlight
 	 *
 	 * @return  string
 	 *
@@ -1181,17 +1221,18 @@ class PlgSystemDebug extends JPlugin
 				$tip = JHtml::tooltipText($bar->tip, '', 0);
 			}
 
-			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: ' . $bar->width . '%;" href="#dbg-' . $class . '-' . ($i + 1) . '"></a>';
+			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: ' .
+						$bar->width . '%;" href="#dbg-' . $class . '-' . ($i + 1) . '"></a>';
 		}
 
 		return '<div class="progress dbg-bars dbg-bars-' . $class . '">' . implode('', $html) . '</div>';
 	}
 
 	/**
-	 * Render array as HTML table.
+	 * Render an HTML table based on a multi-dimensional array.
 	 *
-	 * @param   array    $table         Array to be rendered.
-	 * @param   boolean  &$hasWarnings  Changes value to true if warnings are displayed, otherwise untouched.
+	 * @param   array    $table         An array of tabular data.
+	 * @param   boolean  &$hasWarnings  Changes value to true if warnings are displayed, otherwise untouched
 	 *
 	 * @return  string
 	 *
@@ -1266,8 +1307,10 @@ class PlgSystemDebug extends JPlugin
 				{
 					if ($td === 'NULL')
 					{
-						// Displays query parts which don't use a key with warning.
-						$html[] = '<td><strong>' . '<span class="dbg-warning hasTooltip" title="' . JHtml::tooltipText('PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">' . JText::_('PLG_DEBUG_WARNING_NO_INDEX') . '</span>' . '</strong>';
+						// Displays query parts which don't use a key with warning:
+						$html[] = '<td><strong>' . '<span class="dbg-warning hasTooltip" title="' .
+									JHtml::tooltipText('PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">' .
+									JText::_('PLG_DEBUG_WARNING_NO_INDEX') . '</span>' . '</strong>';
 						$hasWarnings = true;
 					}
 					else
@@ -1282,8 +1325,14 @@ class PlgSystemDebug extends JPlugin
 					// Replace spaces with &nbsp; (non-breaking spaces) for less tall tables displayed.
 					$htmlTd = preg_replace('/([^;]) /', '\1&nbsp;', $htmlTd);
 
-					// Displays warnings for "Using filesort".
-					$htmlTdWithWarnings = str_replace('Using&nbsp;filesort', '<span class="dbg-warning hasTooltip" title="' . JHtml::tooltipText('PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">' . JText::_('PLG_DEBUG_WARNING_USING_FILESORT') . '</span>', $htmlTd);
+					// Displays warnings for "Using filesort":
+					$htmlTdWithWarnings = str_replace(
+											'Using&nbsp;filesort',
+											'<span class="dbg-warning hasTooltip" title="' .
+												JHtml::tooltipText('PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">' .
+												JText::_('PLG_DEBUG_WARNING_USING_FILESORT') . '</span>',
+											$htmlTd
+										);
 
 					if ($htmlTdWithWarnings !== $htmlTd)
 					{
@@ -1323,7 +1372,7 @@ class PlgSystemDebug extends JPlugin
 
 		$this->totalQueries = $db->getCount();
 
-		$dbVersion5037 = (strncmp($db->name, 'mysql', 5) == 0) && version_compare($db->getVersion(), '5.0.37', '>=');
+		$dbVersion5037 = (strpos($db->name, 'mysql') !== false) && version_compare($db->getVersion(), '5.0.37', '>=');
 
 		if ($dbVersion5037)
 		{
@@ -1360,13 +1409,13 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
-		if (in_array($db->name, array('mysqli', 'mysql', 'postgresql')))
+		if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql', 'postgresql')))
 		{
 			$log = $db->getLog();
 
 			foreach ($log as $k => $query)
 			{
-				$dbVersion56 = (strncmp($db->name, 'mysql', 5) == 0) && version_compare($db->getVersion(), '5.6', '>=');
+				$dbVersion56 = (strpos($db->name, 'mysql') !== false) && version_compare($db->getVersion(), '5.6', '>=');
 
 				if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0))))
 				{
@@ -1721,5 +1770,57 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		return implode('<br /><br />', $out);
+	}
+
+	/**
+	 * Write query to the log file
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	protected function writeToFile()
+	{
+		$app    = JFactory::getApplication();
+		$conf   = JFactory::getConfig();
+		$domain = str_replace(' ', '_', $conf->get('sitename', 'site'));
+
+		if ($app->isSite())
+		{
+			$alias = $app->getMenu()->getActive()->alias;
+			$id    = $app->getMenu()->getActive()->id;
+			$file  = $alias . $id . '.sql';
+			$file  = $app->get('log_path') . '/' . $domain . '_' . $file;
+		}
+		else
+		{
+			$input = $app->input;
+			$file  = $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
+			$file  = $app->get('log_path') . '/' . $domain . '_' . $file;
+		}
+
+		$current = '';
+		$db      = JFactory::getDbo();
+		$log     = $db->getLog();
+		$timings = $db->getTimings();
+
+		foreach ($log as $id => $query)
+		{
+			if (isset($timings[$id * 2 + 1]))
+			{
+				$temp     = str_replace('`', '', $log[$id]);
+				$temp     = str_replace("\t", " ", $temp);
+				$temp     = str_replace("\n", " ", $temp);
+				$current .= str_replace("\r\n", " ", $temp) . ";\n";
+			}
+		}
+
+		if (JFile::exists($file))
+		{
+			JFile::delete($file);
+		}
+
+		// Write new file.
+		JFile::write($file, $current);
 	}
 }

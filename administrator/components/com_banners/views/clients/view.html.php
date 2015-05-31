@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of clients.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersViewClients extends JViewLegacy
 {
@@ -67,7 +65,7 @@ class BannersViewClients extends JViewLegacy
 
 		$canDo = JHelperContent::getActions('com_banners');
 
-		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'banners-clients.png');
+		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'bookmark banners-clients');
 
 		if ($canDo->get('core.create'))
 		{
@@ -96,7 +94,7 @@ class BannersViewClients extends JViewLegacy
 			JToolbarHelper::trash('clients.trash');
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_banners');
 		}

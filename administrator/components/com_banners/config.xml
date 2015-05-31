@@ -10,7 +10,7 @@
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
 			description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			default="0"
-			class="inputbox">
+			>
 			<option
 				value="1">COM_BANNERS_FIELD_VALUE_1</option>
 			<option
@@ -92,7 +92,6 @@
 			name="rules"
 			type="rules"
 			label="JCONFIG_PERMISSIONS_LABEL"
-			class="inputbox"
 			filter="rules"
 			validate="rules"
 			component="com_banners"

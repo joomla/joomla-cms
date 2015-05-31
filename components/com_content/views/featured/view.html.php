@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Frontpage View class
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.5
+ * @since  1.5
  */
 class ContentViewFeatured extends JViewLegacy
 {
@@ -35,9 +33,11 @@ class ContentViewFeatured extends JViewLegacy
 	protected $columns = 1;
 
 	/**
-	 * Display the view
+	 * Execute and display a template script.
 	 *
-	 * @return  mixed  False on error, null otherwise.
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -51,6 +51,7 @@ class ContentViewFeatured extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseWarning(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -85,6 +86,7 @@ class ContentViewFeatured extends JViewLegacy
 			{
 				$item->text = $item->introtext;
 			}
+
 			JPluginHelper::importPlugin('content');
 			$dispatcher->trigger('onContentPrepare', array ('com_content.featured', &$item, &$item->params, 0));
 
@@ -107,6 +109,7 @@ class ContentViewFeatured extends JViewLegacy
 
 		// The first group is the leading articles.
 		$limit = $numLeading;
+
 		for ($i = 0; $i < $limit && $i < $max; $i++)
 		{
 			$this->lead_items[$i] = &$items[$i];
@@ -114,6 +117,7 @@ class ContentViewFeatured extends JViewLegacy
 
 		// The second group is the intro articles.
 		$limit = $numLeading + $numIntro;
+
 		// Order articles across, then down (or single column mode)
 		for ($i = $numLeading; $i < $limit && $i < $max; $i++)
 		{
@@ -125,7 +129,7 @@ class ContentViewFeatured extends JViewLegacy
 
 		if ($order == 0 && $this->columns > 1)
 		{
-			// call order down helper
+			// Call order down helper
 			$this->intro_items = ContentHelperQuery::orderDownColumns($this->intro_items, $this->columns);
 		}
 
@@ -135,7 +139,7 @@ class ContentViewFeatured extends JViewLegacy
 			$this->link_items[$i] = &$items[$i];
 		}
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->params     = &$params;
@@ -149,17 +153,20 @@ class ContentViewFeatured extends JViewLegacy
 	}
 
 	/**
-	 * Prepares the document
+	 * Prepares the document.
+	 *
+	 * @return  void.
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$title 		= null;
+		$app   = JFactory::getApplication();
+		$menus = $app->getMenu();
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
+
 		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
@@ -170,18 +177,20 @@ class ContentViewFeatured extends JViewLegacy
 		}
 
 		$title = $this->params->get('page_title', '');
+
 		if (empty($title))
 		{
-			$title = $app->getCfg('sitename');
+			$title = $app->get('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
+
 		$this->document->setTitle($title);
 
 		if ($this->params->get('menu-meta_description'))
@@ -202,7 +211,7 @@ class ContentViewFeatured extends JViewLegacy
 		// Add feed links
 		if ($this->params->get('show_feed_link', 1))
 		{
-			$link = '&format=feed&limitstart=';
+			$link    = '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 			$this->document->addHeadLink(JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');

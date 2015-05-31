@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * OpenSearch class, provides an easy interface to display an OpenSearch document
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @see         http://www.opensearch.org/
- * @since       11.1
+ * @see    http://www.opensearch.org/
+ * @since  11.1
  */
 class JDocumentOpensearch extends JDocument
 {
@@ -80,12 +78,24 @@ class JDocumentOpensearch extends JDocument
 		{
 			if (file_exists($dir . '/favicon.ico'))
 			{
-
-				$path = str_replace(JPATH_BASE . '/', '', $dir);
+				$path = str_replace(JPATH_BASE, '', $dir);
 				$path = str_replace('\\', '/', $path);
-
 				$favicon = new JOpenSearchImage;
-				$favicon->data = JUri::base() . $path . '/favicon.ico';
+
+				if ($path == "")
+				{
+					$favicon->data = JURI::base() . 'favicon.ico';
+				}
+				else
+				{
+					if ($path[0] == "/")
+					{
+						$path = substr($path, 1);
+					}
+
+					$favicon->data = JURI::base() . $path . '/favicon.ico';
+				}
+
 				$favicon->height = '16';
 				$favicon->width = '16';
 				$favicon->type = 'image/vnd.microsoft.icon';
@@ -110,6 +120,7 @@ class JDocumentOpensearch extends JDocument
 	public function render($cache = false, $params = array())
 	{
 		$xml = new DOMDocument('1.0', 'utf-8');
+
 		if (defined('JDEBUG') && JDEBUG)
 		{
 			$xml->formatOutput = true;
@@ -154,12 +165,14 @@ class JDocumentOpensearch extends JDocument
 			{
 				$elUrl->setAttribute('rel', $url->rel);
 			}
+
 			$elUrl->setAttribute('template', $url->template);
 			$elOs->appendChild($elUrl);
 		}
 
 		$xml->appendChild($elOs);
 		parent::render();
+
 		return $xml->saveXML();
 	}
 
@@ -215,9 +228,7 @@ class JDocumentOpensearch extends JDocument
 /**
  * JOpenSearchUrl is an internal class that stores the search URLs for the OpenSearch description
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JOpenSearchUrl
 {
@@ -255,9 +266,7 @@ class JOpenSearchUrl
 /**
  * JOpenSearchImage is an internal class that stores Images for the OpenSearch Description
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JOpenSearchImage
 {

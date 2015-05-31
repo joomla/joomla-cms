@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 /**
  * Categories search plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  Search.categories
- * @since       1.6
+ * @since  1.6
  */
 class PlgSearchCategories extends JPlugin
 {
@@ -159,8 +157,8 @@ class PlgSearchCategories extends JPlugin
 		$query->select('a.title, a.description AS text, \'\' AS created, \'2\' AS browsernav, a.id AS catid, ' . $case_when)
 			->from('#__categories AS a')
 			->where(
-				'(a.title LIKE ' . $text . ' OR a.description LIKE ' . $text . ') AND a.published IN (' . implode(',', $state) . ') AND a.extension = ' . $db->quote('com_content')
-					. 'AND a.access IN (' . $groups . ')'
+				'(a.title LIKE ' . $text . ' OR a.description LIKE ' . $text . ') AND a.published IN (' . implode(',', $state) . ') AND a.extension = '
+				. $db->quote('com_content') . 'AND a.access IN (' . $groups . ')'
 			)
 			->group('a.id, a.title, a.description, a.alias')
 			->order($order);

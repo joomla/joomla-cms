@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class ModMenuHelper
 	/**
 	 * Get a list of the menu items.
 	 *
-	 * @param   JRegistry  &$params  The module options.
+	 * @param   \Joomla\Registry\Registry  &$params  The module options.
 	 *
 	 * @return  array
 	 *
@@ -97,26 +97,11 @@ class ModMenuHelper
 							break;
 
 						case 'alias':
-							// If this is an alias use the item id stored in the parameters to make the link.
 							$item->flink = 'index.php?Itemid=' . $item->params->get('aliasoptions');
 							break;
 
 						default:
-							$router = $app::getRouter();
-
-							if ($router->getMode() == JROUTER_MODE_SEF)
-							{
-								$item->flink = 'index.php?Itemid=' . $item->id;
-
-								if (isset($item->query['format']) && $app->getCfg('sef_suffix'))
-								{
-									$item->flink .= '&format=' . $item->query['format'];
-								}
-							}
-							else
-							{
-								$item->flink .= '&Itemid=' . $item->id;
-							}
+							$item->flink = 'index.php?Itemid=' . $item->id;
 							break;
 					}
 
@@ -155,9 +140,9 @@ class ModMenuHelper
 	/**
 	 * Get base menu item.
 	 *
-	 * @param   JRegistry  &$params  The module options.
+	 * @param   \Joomla\Registry\Registry  &$params  The module options.
 	 *
-	 * @return   object
+	 * @return  object
 	 *
 	 * @since	3.0.2
 	 */
@@ -185,7 +170,7 @@ class ModMenuHelper
 	/**
 	 * Get active menu item.
 	 *
-	 * @param   JRegistry  &$params  The module options.
+	 * @param   \Joomla\Registry\Registry  &$params  The module options.
 	 *
 	 * @return  object
 	 *
@@ -194,7 +179,18 @@ class ModMenuHelper
 	public static function getActive(&$params)
 	{
 		$menu = JFactory::getApplication()->getMenu();
+		$lang = JFactory::getLanguage();
 
-		return $menu->getActive() ? $menu->getActive() : $menu->getDefault();
+		// Look for the home menu
+		if (JLanguageMultilang::isEnabled())
+		{
+			$home = $menu->getDefault($lang->getTag());
+		}
+		else
+		{
+			$home  = $menu->getDefault();
+		}
+
+		return $menu->getActive() ? $menu->getActive() : $home;
 	}
 }

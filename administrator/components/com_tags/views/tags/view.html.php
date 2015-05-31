@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Tags view class for the Tags package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsViewTags extends JViewLegacy
 {
@@ -25,21 +23,26 @@ class TagsViewTags extends JViewLegacy
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed   A string if successful, otherwise a Error object.
 	 */
 	public function display($tpl = null)
 	{
-		$this->state		= $this->get('State');
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-
-		TagsHelper::addSubmenu('tags');
+		$this->state      = $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
+
 		// Preprocess the list of items to find ordering divisions.
 		foreach ($this->items as &$item)
 		{
@@ -68,6 +71,8 @@ class TagsViewTags extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return void
 	 *
 	 * @since   3.1
 	 */
@@ -98,22 +103,17 @@ class TagsViewTags extends JViewLegacy
 			JToolbarHelper::unpublish('tags.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			JToolbarHelper::archiveList('tags.archive');
 		}
+
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::checkin('tags.checkin');
 		}
-		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			JToolbarHelper::deleteList('', 'tags.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			JToolbarHelper::trash('tags.trash');
-		}
+
 		// Add a batch button
-		if ($user->authorise('core.create', 'com_tags') && $user->authorise('core.edit', 'com_tags') && $user->authorise('core.edit.state', 'com_tags'))
+		if ($user->authorise('core.create', 'com_tags')
+			&& $user->authorise('core.edit', 'com_tags')
+			&& $user->authorise('core.edit.state', 'com_tags'))
 		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
@@ -122,10 +122,21 @@ class TagsViewTags extends JViewLegacy
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
-		if ($canDo->get('core.admin'))
+
+		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		{
+			JToolbarHelper::deleteList('', 'tags.delete', 'JTOOLBAR_EMPTY_TRASH');
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::trash('tags.trash');
+		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_tags');
 		}
+
 		JToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER');
 
 		JHtmlSidebar::setAction('index.php?option=com_tags&view=tags');

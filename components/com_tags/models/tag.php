@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Tags Component Tag Model
  *
- * @package     Joomla.Site
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsModelTag extends JModelList
 {
@@ -37,7 +35,8 @@ class TagsModelTag extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   3.1
 	 */
@@ -89,7 +88,8 @@ class TagsModelTag extends JModelList
 			foreach ($items as $item)
 			{
 				$explodedTypeAlias = explode('.', $item->type_alias);
-				$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $item->content_item_id . ':' . $item->core_alias;
+				$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id='
+					. $item->content_item_id . ':' . $item->core_alias;
 
 				// Get display date
 				switch ($this->state->params->get('tag_list_show_date'))
@@ -126,7 +126,6 @@ class TagsModelTag extends JModelList
 	 */
 	protected function getListQuery()
 	{
-
 		$tagId  = $this->getState('tag.id') ? : '';
 
 		$typesr = $this->getState('tag.typesr');
@@ -137,7 +136,7 @@ class TagsModelTag extends JModelList
 		$language = $this->getState('tag.language');
 		$stateFilter = $this->getState('tag.state');
 
-	// Optionally filter on language
+		// Optionally filter on language
 		if (empty($language))
 		{
 			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
@@ -168,10 +167,11 @@ class TagsModelTag extends JModelList
 	 */
 	protected function populateState($ordering = 'c.core_title', $direction = 'ASC')
 	{
-		$app = JFactory::getApplication('site');
+		$app = JFactory::getApplication();
 
 		// Load the parameters.
-		$params = $app->getParams();
+		$params = $app->isAdmin() ? JComponentHelper::getParams('com_tags') : $app->getParams();
+
 		$this->setState('params', $params);
 
 		// Load state from the request.
@@ -206,13 +206,13 @@ class TagsModelTag extends JModelList
 
 		if ($format == 'feed')
 		{
-			$limit = $app->getCfg('feed_limit');
+			$limit = $app->get('feed_limit');
 		}
 		else
 		{
 			if ($this->state->params->get('show_pagination_limit'))
 			{
-				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
+				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
 			}
 			else
 			{
@@ -256,9 +256,10 @@ class TagsModelTag extends JModelList
 	/**
 	 * Method to get tag data for the current tag or tags
 	 *
-	 * @param   integer  An optional ID
+	 * @param   integer  $pk  An optional ID
 	 *
 	 * @return  object
+	 *
 	 * @since   3.1
 	 */
 	public function getItem($pk = null)
@@ -276,6 +277,7 @@ class TagsModelTag extends JModelList
 			$table = JTable::getInstance('Tag', 'TagsTable');
 
 			$idsArray = explode(',', $id);
+
 			// Attempt to load the rows into an array.
 			foreach ($idsArray as $id)
 			{
@@ -299,6 +301,7 @@ class TagsModelTag extends JModelList
 				catch (RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
+
 					return false;
 				}
 			}
@@ -310,7 +313,7 @@ class TagsModelTag extends JModelList
 	/**
 	 * Increment the hit counter.
 	 *
-	 * @param   integer  Optional primary key of the article to increment.
+	 * @param   integer  $pk  Optional primary key of the article to increment.
 	 *
 	 * @return  boolean  True if successful; false otherwise and internal error set.
 	 *
@@ -318,13 +321,12 @@ class TagsModelTag extends JModelList
 	 */
 	public function hit($pk = 0)
 	{
-		$input = JFactory::getApplication()->input;
+		$input    = JFactory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)
 		{
-			$pk = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
-
+			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
 			$table = JTable::getInstance('Tag', 'TagsTable');
 			$table->load($pk);
 			$table->hit($pk);

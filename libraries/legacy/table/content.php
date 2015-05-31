@@ -3,17 +3,17 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Content table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
  * @since       11.1
  * @deprecated  Class will be removed upon completion of transition to UCM
  */
@@ -30,16 +30,11 @@ class JTableContent extends JTable
 	{
 		parent::__construct('#__content', 'id', $db);
 
-		/*
-		 * This is left here for reference:
-		 *
-		 * This would set up the tags observer in $this from here (so not entirely decoupled):
-		 * JTableObserverTags::createObserver($this, array('typeAlias' => 'com_content.article'));
-		 *
-		 * But this makes the relation between content and tags completely external to Content as JTable is observable:
-		 * So we are doing this only once in libraries/cms.php:
-		 * JObserverFactory::addObserverClassToClass('JTableObserverTags', 'JTableContent', array('typeAlias' => 'com_content.article'));
-		 */
+		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_content.article'));
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_content.article'));
+
+		// Set the alias since the column is called state
+		$this->setColumnAlias('published', 'state');
 	}
 
 	/**
@@ -146,14 +141,14 @@ class JTableContent extends JTable
 
 		if (isset($array['attribs']) && is_array($array['attribs']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['attribs']);
 			$array['attribs'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
@@ -190,7 +185,7 @@ class JTableContent extends JTable
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
@@ -200,6 +195,44 @@ class JTableContent extends JTable
 		if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '')
 		{
 			$this->fulltext = '';
+		}
+
+		/**
+		 * Ensure any new items have compulsory fields set. This is needed for things like
+		 * frontend editing where we don't show all the fields or using some kind of API
+		 */
+		if (!$this->id)
+		{
+			// Images can be an empty json string
+			if (!isset($this->images))
+			{
+				$this->images = '{}';
+			}
+
+			// URLs can be an empty json string
+			if (!isset($this->urls))
+			{
+				$this->urls = '{}';
+			}
+
+			// Attributes (article params) can be an empty json string
+			if (!isset($this->attribs))
+			{
+				$this->attribs = '{}';
+			}
+
+			// Metadata can be an empty json string
+			if (!isset($this->metadata))
+			{
+				$this->metadata = '{}';
+			}
+
+			// If we don't have any access rules set at this point just use an empty JAccessRules class
+			if (!isset($this->rules))
+			{
+				$rules = $this->getDefaultAssetValues('com_content');
+				$this->setRules($rules);
+			}
 		}
 
 		// Check the publish down date is not earlier than publish up.
@@ -244,6 +277,27 @@ class JTableContent extends JTable
 	}
 
 	/**
+	 * Gets the default asset values for a component.
+	 *
+	 * @param   $string  $component  The component asset name to search for
+	 *
+	 * @return  JAccessRules  The JAccessRules object for the asset
+	 */
+	protected function getDefaultAssetValues($component)
+	{
+		// Need to find the asset id by the name of the component.
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__assets'))
+			->where($db->quoteName('name') . ' = ' . $db->quote($component));
+		$db->setQuery($query);
+		$assetId = (int) $db->loadResult();
+
+		return JAccess::getAssetRules($assetId);
+	}
+
+	/**
 	 * Overrides JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
@@ -257,10 +311,11 @@ class JTableContent extends JTable
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
+		$this->modified = $date->toSql();
+
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified = $date->toSql();
 			$this->modified_by = $user->get('id');
 		}
 		else
@@ -279,7 +334,7 @@ class JTableContent extends JTable
 		}
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Content', 'JTable');
+		$table = JTable::getInstance('Content', 'JTable', array('dbo', $this->getDbo()));
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
@@ -289,95 +344,5 @@ class JTableContent extends JTable
 		}
 
 		return parent::store($updateNulls);
-	}
-
-	/**
-	 * Method to set the publishing state for a row or list of rows in the database
-	 * table. The method respects checked out rows by other users and will attempt
-	 * to checkin rows that it can after adjustments are made.
-	 *
-	 * @param   mixed    $pks     An optional array of primary key values to update.  If not set the instance property value is used.
-	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param   integer  $userId  The user id of the user performing the operation.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   11.1
-	 */
-	public function publish($pks = null, $state = 1, $userId = 0)
-	{
-		$k = $this->_tbl_key;
-
-		// Sanitize input.
-		JArrayHelper::toInteger($pks);
-		$userId = (int) $userId;
-		$state = (int) $state;
-
-		// If there are no primary keys set check to see if the instance key is set.
-		if (empty($pks))
-		{
-			if ($this->$k)
-			{
-				$pks = array($this->$k);
-			}
-			// Nothing to set publishing state on, return false.
-			else
-			{
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
-
-				return false;
-			}
-		}
-
-		// Build the WHERE clause for the primary keys.
-		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
-
-		// Determine if there is checkin support for the table.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
-		{
-			$checkin = '';
-		}
-		else
-		{
-			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
-		}
-
-		// Update the publishing state for rows with the given primary keys.
-		$query = $this->_db->getQuery(true)
-			->update($this->_db->quoteName($this->_tbl))
-			->set($this->_db->quoteName('state') . ' = ' . (int) $state)
-			->where('(' . $where . ')' . $checkin);
-		$this->_db->setQuery($query);
-
-		try
-		{
-			$this->_db->execute();
-		}
-		catch (RuntimeException $e)
-		{
-			$this->setError($e->getMessage());
-
-			return false;
-		}
-
-		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
-		{
-			// Checkin the rows.
-			foreach ($pks as $pk)
-			{
-				$this->checkin($pk);
-			}
-		}
-
-		// If the JTable instance value is in the list of primary keys that were set, set the instance.
-		if (in_array($this->$k, $pks))
-		{
-			$this->state = $state;
-		}
-
-		$this->setError('');
-
-		return true;
 	}
 }

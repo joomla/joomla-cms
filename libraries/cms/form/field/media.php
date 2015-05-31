@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla CMS.
  * Provides a modal media selector including upload mechanism
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldMedia extends JFormField
 {
@@ -176,7 +174,7 @@ class JFormFieldMedia extends JFormField
 			$this->link          = (string) $this->element['link'];
 			$this->preview       = (string) $this->element['preview'];
 			$this->directory     = (string) $this->element['directory'];
-			$this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 300;
+			$this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
 			$this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
 		}
 
@@ -205,45 +203,67 @@ class JFormFieldMedia extends JFormField
 			// Load the modal behavior script.
 			JHtml::_('behavior.modal');
 
+			// Include jQuery
+			JHtml::_('jquery.framework');
+
 			// Build the script.
 			$script = array();
 			$script[] = '	function jInsertFieldValue(value, id) {';
-			$script[] = '		var old_value = document.id(id).value;';
+			$script[] = '		var $ = jQuery.noConflict();';
+			$script[] = '		var old_value = $("#" + id).val();';
 			$script[] = '		if (old_value != value) {';
-			$script[] = '			var elem = document.id(id);';
-			$script[] = '			elem.value = value;';
-			$script[] = '			elem.fireEvent("change");';
-			$script[] = '			if (typeof(elem.onchange) === "function") {';
-			$script[] = '				elem.onchange();';
+			$script[] = '			var $elem = $("#" + id);';
+			$script[] = '			$elem.val(value);';
+			$script[] = '			$elem.trigger("change");';
+			$script[] = '			if (typeof($elem.get(0).onchange) === "function") {';
+			$script[] = '				$elem.get(0).onchange();';
 			$script[] = '			}';
 			$script[] = '			jMediaRefreshPreview(id);';
 			$script[] = '		}';
 			$script[] = '	}';
 
 			$script[] = '	function jMediaRefreshPreview(id) {';
-			$script[] = '		var value = document.id(id).value;';
-			$script[] = '		var img = document.id(id + "_preview");';
-			$script[] = '		if (img) {';
+			$script[] = '		var $ = jQuery.noConflict();';
+			$script[] = '		var value = $("#" + id).val();';
+			$script[] = '		var $img = $("#" + id + "_preview");';
+			$script[] = '		if ($img.length) {';
 			$script[] = '			if (value) {';
-			$script[] = '				img.src = "' . JUri::root() . '" + value;';
-			$script[] = '				document.id(id + "_preview_empty").setStyle("display", "none");';
-			$script[] = '				document.id(id + "_preview_img").setStyle("display", "");';
+			$script[] = '				$img.attr("src", "' . JUri::root() . '" + value);';
+			$script[] = '				$("#" + id + "_preview_empty").hide();';
+			$script[] = '				$("#" + id + "_preview_img").show()';
 			$script[] = '			} else { ';
-			$script[] = '				img.src = ""';
-			$script[] = '				document.id(id + "_preview_empty").setStyle("display", "");';
-			$script[] = '				document.id(id + "_preview_img").setStyle("display", "none");';
+			$script[] = '				$img.attr("src", "");';
+			$script[] = '				$("#" + id + "_preview_empty").show();';
+			$script[] = '				$("#" + id + "_preview_img").hide();';
 			$script[] = '			} ';
 			$script[] = '		} ';
 			$script[] = '	}';
 
 			$script[] = '	function jMediaRefreshPreviewTip(tip)';
 			$script[] = '	{';
-			$script[] = '		var img = tip.getElement("img.media-preview");';
-			$script[] = '		tip.getElement("div.tip").setStyle("max-width", "none");';
-			$script[] = '		var id = img.getProperty("id");';
+			$script[] = '		var $ = jQuery.noConflict();';
+			$script[] = '		var $tip = $(tip);';
+			$script[] = '		var $img = $tip.find("img.media-preview");';
+			$script[] = '		$tip.find("div.tip").css("max-width", "none");';
+			$script[] = '		var id = $img.attr("id");';
 			$script[] = '		id = id.substring(0, id.length - "_preview".length);';
 			$script[] = '		jMediaRefreshPreview(id);';
-			$script[] = '		tip.setStyle("display", "block");';
+			$script[] = '		$tip.show();';
+			$script[] = '	}';
+
+			// JQuery for tooltip for INPUT showing whole image path
+			$script[] = '	function jMediaRefreshImgpathTip(tip)';
+			$script[] = '	{';
+			$script[] = '		var $ = jQuery.noConflict();';
+			$script[] = '		var $tip = $(tip);';
+			$script[] = '		$tip.css("max-width", "none");';
+			$script[] = '		var $imgpath = $("#" + "' . $this->id . '").val();';
+			$script[] = '		$("#TipImgpath").html($imgpath);';
+			$script[] = '		if ($imgpath.length) {';
+			$script[] = '		 $tip.show();';
+			$script[] = '		} else {';
+			$script[] = '		 $tip.hide();';
+			$script[] = '		}';
 			$script[] = '	}';
 
 			// Add the script to the document head.
@@ -254,6 +274,23 @@ class JFormFieldMedia extends JFormField
 
 		$html = array();
 		$attr = '';
+
+		// Tooltip for INPUT showing whole image path
+		$options = array(
+			'onShow' => 'jMediaRefreshImgpathTip',
+		);
+		JHtml::_('behavior.tooltip', '.hasTipImgpath', $options);
+
+		if (!empty($this->class))
+		{
+			$this->class .= ' hasTipImgpath';
+		}
+		else
+		{
+			$this->class = 'hasTipImgpath';
+		}
+
+		$attr .= ' title="' . htmlspecialchars('<span id="TipImgpath"></span>', ENT_COMPAT, 'UTF-8') . '"';
 
 		// Initialize some field attributes.
 		$attr .= !empty($this->class) ? ' class="input-small ' . $this->class . '"' : ' class="input-small"';
@@ -326,7 +363,7 @@ class JFormFieldMedia extends JFormField
 				$tooltip = $previewImgEmpty . $previewImg;
 				$options = array(
 					'title' => JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'),
-					'text' => '<i class="icon-eye"></i>',
+					'text' => '<span class="icon-eye"></span>',
 					'class' => 'hasTipPreview'
 				);
 
@@ -372,11 +409,12 @@ class JFormFieldMedia extends JFormField
 					: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
 					. $this->form->getValue($this->authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
 				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a><a class="btn hasTooltip" title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '" href="#" onclick="';
+			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a><a class="btn hasTooltip" title="'
+				. JText::_('JLIB_FORM_BUTTON_CLEAR') . '" href="#" onclick="';
 			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
 			$html[] = 'return false;';
 			$html[] = '">';
-			$html[] = '<i class="icon-remove"></i></a>';
+			$html[] = '<span class="icon-remove"></span></a>';
 		}
 
 		$html[] = '</div>';

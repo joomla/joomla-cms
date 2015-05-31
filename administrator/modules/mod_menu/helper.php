@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_menu
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_menu
- * @since       1.5
+ * @since  1.5
  */
 abstract class ModMenuHelper
 {
@@ -27,7 +25,7 @@ abstract class ModMenuHelper
 	 */
 	public static function getMenus()
 	{
-		$db		= JFactory::getDbo();
+		$db     = JFactory::getDbo();
 		$query	= $db->getQuery(true)
 			->select('a.*, SUM(b.home) AS home')
 			->from('#__menu_types AS a')
@@ -60,11 +58,11 @@ abstract class ModMenuHelper
 	 */
 	public static function getComponents($authCheck = true)
 	{
-		$lang	= JFactory::getLanguage();
-		$user	= JFactory::getUser();
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-		$result	= array();
+		$lang   = JFactory::getLanguage();
+		$user   = JFactory::getUser();
+		$db     = JFactory::getDbo();
+		$query  = $db->getQuery(true);
+		$result = array();
 
 		// Prepare the query.
 		$query->select('m.id, m.title, m.alias, m.link, m.parent_id, m.img, e.element')
@@ -82,7 +80,7 @@ abstract class ModMenuHelper
 		$db->setQuery($query);
 
 		// Component list
-		$components	= $db->loadObjectList();
+		$components = $db->loadObjectList();
 
 		// Parse the list of extensions.
 		foreach ($components as &$component)
@@ -128,14 +126,14 @@ abstract class ModMenuHelper
 					// Add the submenu link if it is defined.
 					if (isset($result[$component->parent_id]->submenu) && !empty($component->link))
 					{
-						$component->text = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
+						$component->text                          = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
 						$result[$component->parent_id]->submenu[] = &$component;
 					}
 				}
 			}
 		}
 
-		$result = JArrayHelper::sortObjects($result, 'text', 1, true, true);
+		$result = JArrayHelper::sortObjects($result, 'text', 1, false, true);
 
 		return $result;
 	}

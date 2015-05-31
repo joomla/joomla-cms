@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ require_once JPATH_COMPONENT . '/helpers/debug.php';
 /**
  * Methods supporting a list of user records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelDebuggroup extends JModelList
 {
@@ -24,6 +22,7 @@ class UsersModelDebuggroup extends JModelList
 	 * Get a list of the actions.
 	 *
 	 * @return  array
+	 *
 	 * @since   1.6
 	 */
 	public function getDebugActions()
@@ -37,6 +36,7 @@ class UsersModelDebuggroup extends JModelList
 	 * Override getItems method.
 	 *
 	 * @return  array
+	 *
 	 * @since   1.6
 	 */
 	public function getItems()
@@ -45,7 +45,6 @@ class UsersModelDebuggroup extends JModelList
 
 		if (($assets = parent::getItems()) && $groupId)
 		{
-
 			$actions = $this->getDebugActions();
 
 			foreach ($assets as &$asset)
@@ -80,7 +79,11 @@ class UsersModelDebuggroup extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -89,6 +92,7 @@ class UsersModelDebuggroup extends JModelList
 
 		// Adjust the context to support modal layouts.
 		$layout = $app->input->get('layout', 'default');
+
 		if ($layout)
 		{
 			$this->context .= '.' . $layout;
@@ -105,10 +109,12 @@ class UsersModelDebuggroup extends JModelList
 		$this->setState('filter.level_start', $levelStart);
 
 		$value = $this->getUserStateFromRequest($this->context . '.filter.level_end', 'filter_level_end', 0, 'int');
+
 		if ($value > 0 && $value < $levelStart)
 		{
 			$value = $levelStart;
 		}
+
 		$this->setState('filter.level_end', $value);
 
 		$component = $this->getUserStateFromRequest($this->context . '.filter.component', 'filter_component');
@@ -129,10 +135,9 @@ class UsersModelDebuggroup extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
-	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -149,6 +154,7 @@ class UsersModelDebuggroup extends JModelList
 	 * Get the group being debugged.
 	 *
 	 * @return  JObject
+	 *
 	 * @since   1.6
 	 */
 	public function getGroup()
@@ -170,6 +176,7 @@ class UsersModelDebuggroup extends JModelList
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -180,6 +187,7 @@ class UsersModelDebuggroup extends JModelList
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery
+	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -201,12 +209,12 @@ class UsersModelDebuggroup extends JModelList
 		if ($this->getState('filter.search'))
 		{
 			// Escape the search token.
-			$token = $db->quote('%' . $db->escape($this->getState('filter.search')) . '%');
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
 
 			// Compile the different search clauses.
 			$searches = array();
-			$searches[] = 'a.name LIKE ' . $token;
-			$searches[] = 'a.title LIKE ' . $token;
+			$searches[] = 'a.name LIKE ' . $search;
+			$searches[] = 'a.title LIKE ' . $search;
 
 			// Add the clauses to the query.
 			$query->where('(' . implode(' OR ', $searches) . ')');
@@ -215,14 +223,17 @@ class UsersModelDebuggroup extends JModelList
 		// Filter on the start and end levels.
 		$levelStart = (int) $this->getState('filter.level_start');
 		$levelEnd = (int) $this->getState('filter.level_end');
+
 		if ($levelEnd > 0 && $levelEnd < $levelStart)
 		{
 			$levelEnd = $levelStart;
 		}
+
 		if ($levelStart > 0)
 		{
 			$query->where('a.level >= ' . $levelStart);
 		}
+
 		if ($levelEnd > 0)
 		{
 			$query->where('a.level <= ' . $levelEnd);

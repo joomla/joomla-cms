@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Database Interface
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       11.2
- */
+ * @since  11.2
+*/
 interface JDatabaseInterface
 {
 	/**
@@ -31,9 +29,7 @@ interface JDatabaseInterface
 /**
  * Joomla Platform Database Driver Class
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       12.1
+ * @since  12.1
  *
  * @method      string  q()   q($text, $escape = true)  Alias for quote method
  * @method      string  qn()  qn($name, $as = null)     Alias for quoteName method
@@ -204,13 +200,13 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Get an iterator and loop trough the driver classes.
 		$iterator = new DirectoryIterator(__DIR__ . '/driver');
 
+		/* @type  $file  DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-			if (!$file->isFile() || substr($fileName, strrpos($fileName, '.') + 1) != 'php')
+			if (!$file->isFile() || $file->getExtension() != 'php')
 			{
 				continue;
 			}
@@ -259,13 +255,51 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		$options['database'] = (isset($options['database'])) ? $options['database'] : null;
 		$options['select']   = (isset($options['select'])) ? $options['select'] : true;
 
+		// If the selected driver is `mysql` and we are on PHP 7 or greater, switch to the `mysqli` driver.
+		if ($options['driver'] == 'mysql' && PHP_MAJOR_VERSION >= 7)
+		{
+			// Check if we have support for the other MySQL drivers
+			$mysqliSupported   = JDatabaseDriverMysqli::isSupported();
+			$pdoMysqlSupported = JDatabaseDriverPdomysql::isSupported();
+
+			// If neither is supported, then the user cannot use MySQL; throw an exception
+			if (!$mysqliSupported && !$pdoMysqlSupported)
+			{
+				throw new RuntimeException(
+					'The PHP `ext/mysql` extension is removed in PHP 7, cannot use the `mysql` driver.'
+					. ' Also, this system does not support MySQLi or PDO MySQL.  Cannot instantiate database driver.'
+				);
+			}
+
+			// Prefer MySQLi as it is a closer replacement for the removed MySQL driver, otherwise use the PDO driver
+			if ($mysqliSupported)
+			{
+				JLog::add(
+					'The PHP `ext/mysql` extension is removed in PHP 7, cannot use the `mysql` driver.  Trying `mysqli` instead.',
+					JLog::WARNING,
+					'deprecated'
+				);
+
+				$options['driver'] = 'mysqli';
+			}
+			else
+			{
+				JLog::add(
+					'The PHP `ext/mysql` extension is removed in PHP 7, cannot use the `mysql` driver.  Trying `pdomysql` instead.',
+					JLog::WARNING,
+					'deprecated'
+				);
+
+				$options['driver'] = 'pdomysql';
+			}
+		}
+
 		// Get the options signature for the database connector.
 		$signature = md5(serialize($options));
 
 		// If we already have a database connector instance for these options then just use that.
 		if (empty(self::$instances[$signature]))
 		{
-
 			// Derive the class name from the driver.
 			$class = 'JDatabaseDriver' . ucfirst(strtolower($options['driver']));
 
@@ -607,6 +641,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		{
 			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `utf8`';
 		}
+
 		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
 	}
 
@@ -920,6 +955,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public function getUTFSupport()
 	{
 		JLog::add('JDatabaseDriver::getUTFSupport() is deprecated. Use JDatabaseDriver::hasUTFSupport() instead.', JLog::WARNING, 'deprecated');
+
 		return $this->hasUTFSupport();
 	}
 
@@ -1606,6 +1642,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 				{
 					break;
 				}
+
 				$l = $k - 1;
 
 				while ($l >= 0 && $sql{$l} == '\\')
@@ -1702,6 +1739,16 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 		if ($query instanceof JDatabaseQueryLimitable)
 		{
+			if (!$limit && $query->limit)
+			{
+				$limit = $query->limit;
+			}
+
+			if (!$offset && $query->offset)
+			{
+				$offset = $query->offset;
+			}
+
 			$query->setLimit($limit, $offset);
 		}
 		else

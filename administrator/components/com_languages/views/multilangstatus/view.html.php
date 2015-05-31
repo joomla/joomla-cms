@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,14 +12,16 @@ defined('_JEXEC') or die;
 /**
  * Displays the multilang status.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
- * @since       1.7.1
+ * @since  1.7.1
  */
 class LanguagesViewMultilangstatus extends JViewLegacy
 {
 	/**
-	 * Display the view
+	 * Display the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{

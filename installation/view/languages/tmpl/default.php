@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ $version = new JVersion;
 				onclick="return Install.goToPage('remove');"
 				rel="prev"
 				title="<?php echo JText::_('JPREVIOUS'); ?>">
-				<i class="icon-arrow-left"></i>
+				<span class="icon-arrow-left"></span>
 				<?php echo JText::_('JPREVIOUS'); ?>
 			</a>
 			<a
@@ -42,7 +42,7 @@ $version = new JVersion;
 				onclick="installLanguages()"
 				rel="next"
 				title="<?php echo JText::_('JNEXT'); ?>">
-				<i class="icon-arrow-right icon-white"></i>
+				<span class="icon-arrow-right icon-white"></span>
 				<?php echo JText::_('JNEXT'); ?>
 			</a>
 		</div>
@@ -55,7 +55,7 @@ $version = new JVersion;
 			<a href="#"
 			class="btn btn-primary"
 			onclick="return Install.goToPage('remove');">
-			<i class="icon-arrow-left icon-white"></i>
+			<span class="icon-arrow-left icon-white"></span>
 			<?php echo JText::_('INSTL_LANGUAGES_WARNING_BACK_BUTTON'); ?>
 			</a>
 		</p>

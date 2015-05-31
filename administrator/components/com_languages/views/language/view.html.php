@@ -3,18 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * HTML View class for the Languages component
+ * HTML View class for the Languages component.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
- * @since       1.5
+ * @since  1.5
  */
 class LanguagesViewLanguage extends JViewLegacy
 {
@@ -25,7 +23,11 @@ class LanguagesViewLanguage extends JViewLegacy
 	public $state;
 
 	/**
-	 * Display the view
+	 * Display the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -38,6 +40,7 @@ class LanguagesViewLanguage extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -48,7 +51,9 @@ class LanguagesViewLanguage extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since  1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -58,16 +63,11 @@ class LanguagesViewLanguage extends JViewLegacy
 		$isNew = empty($this->item->lang_id);
 		$canDo = $this->canDo;
 
-		JToolbarHelper::title(JText::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'), 'comments-2 langmanager');
+		JToolbarHelper::title(
+			JText::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'), 'comments-2 langmanager'
+		);
 
-		// If a new item, can save.
-		if ($isNew && $canDo->get('core.create'))
-		{
-			JToolbarHelper::save('language.save');
-		}
-
-		//If an existing item, allow to Apply and Save.
-		if (!$isNew && $canDo->get('core.edit'))
+		if (($isNew && $canDo->get('core.create')) || (!$isNew && $canDo->get('core.edit')))
 		{
 			JToolbarHelper::apply('language.apply');
 			JToolbarHelper::save('language.save');

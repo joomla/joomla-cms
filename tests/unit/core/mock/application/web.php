@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -39,6 +39,97 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 	public static $cachable = false;
 
 	/**
+	 * Gets the methods of the JApplicationWeb object.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.4
+	 */
+	public static function getMethods()
+	{
+		// Collect all the relevant methods in JApplicationWeb (work in progress).
+		$methods = array(
+			'allowCache',
+			'appendBody',
+			'clearHeaders',
+			'execute',
+			'get',
+			'getBody',
+			'getDocument',
+			'getHeaders',
+			'getLanguage',
+			'getSession',
+			'loadConfiguration',
+			'loadDocument',
+			'loadLanguage',
+			'loadSession',
+			'prependBody',
+			'redirect',
+			'sendHeaders',
+			'set',
+			'setBody',
+			'setHeader',
+		);
+
+		return array_merge($methods, parent::getMethods());
+	}
+
+	/**
+	 * Adds mock objects for some methods.
+	 *
+	 * @param  TestCase                                 $test        A test object.
+	 * @param  PHPUnit_Framework_MockObject_MockObject  $mockObject  The mock object.
+	 * @param  array                                    $options     A set of options to configure the mock.
+	 *
+	 * @return  PHPUnit_Framework_MockObject_MockObject  The object with the behaviours added
+	 *
+	 * @since   3.4
+	 */
+	public static function addBehaviours($test, $mockObject, $options)
+	{
+		// Mock calls to JApplicationWeb::getDocument().
+		$mockObject->expects($test->any())->method('getDocument')->willReturn(TestMockDocument::create($test));
+
+		// Mock calls to JApplicationWeb::getLanguage().
+		$mockObject->expects($test->any())->method('getLanguage')->willReturn(TestMockLanguage::create($test));
+
+		// Mock a call to JApplicationWeb::getSession().
+		if (isset($options['session']))
+		{
+			$mockObject->expects($test->any())->method('getSession')->willReturn($options['session']);
+		}
+		else
+		{
+			$mockObject->expects($test->any())->method('getSession')->willReturn(TestMockSession::create($test));
+		}
+
+		$test->assignMockCallbacks(
+			$mockObject,
+			array(
+				'appendBody' => array((is_callable(array($test, 'mockAppendBody')) ? $test : get_called_class()), 'mockAppendBody'),
+				'getBody' => array((is_callable(array($test, 'mockGetBody')) ? $test : get_called_class()), 'mockGetBody'),
+				'prependBody' => array((is_callable(array($test, 'mockPrependBody')) ? $test : get_called_class()), 'mockPrependBody'),
+				'setBody' => array((is_callable(array($test, 'mockSetBody')) ? $test : get_called_class()), 'mockSetBody'),
+				'getHeaders' => array((is_callable(array($test, 'mockGetHeaders')) ? $test : get_called_class()), 'mockGetHeaders'),
+				'setHeader' => array((is_callable(array($test, 'mockSetHeader')) ? $test : get_called_class()), 'mockSetHeader'),
+				'clearHeaders' => array((is_callable(array($test, 'mockClearHeaders')) ? $test : get_called_class()), 'mockClearHeaders'),
+				'allowCache' => array((is_callable(array($test, 'mockAllowCache')) ? $test : get_called_class()), 'mockAllowCache'),
+			)
+		);
+
+		// Reset the body storage.
+		static::$body = array();
+
+		// Reset the headers storage.
+		static::$headers = array();
+
+		// Reset the cache storage.
+		static::$cachable = false;
+
+		return parent::addBehaviours($test, $mockObject, $options);
+	}
+
+	/**
 	 * Creates and instance of the mock JApplicationWeb object.
 	 *
 	 * The test can implement the following overrides:
@@ -68,34 +159,7 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 		}
 
 		// Collect all the relevant methods in JApplicationWeb (work in progress).
-		$methods = array(
-			'allowCache',
-			'appendBody',
-			'clearHeaders',
-			'close',
-			'execute',
-			'get',
-			'getBody',
-			'getDocument',
-			'getHeaders',
-			'getIdentity',
-			'getLanguage',
-			'getSession',
-			'loadConfiguration',
-			'loadDispatcher',
-			'loadDocument',
-			'loadIdentity',
-			'loadLanguage',
-			'loadSession',
-			'prependBody',
-			'redirect',
-			'registerEvent',
-			'sendHeaders',
-			'set',
-			'setBody',
-			'setHeader',
-			'triggerEvent',
-		);
+		$methods = self::getMethods();
 
 		// Create the mock.
 		$mockObject = $test->getMock(
@@ -109,44 +173,7 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 			true
 		);
 
-		// Mock calls to JApplicationWeb::getDocument().
-		$mockObject->expects($test->any())->method('getDocument')->will($test->returnValue(TestMockDocument::create($test)));
-
-		// Mock calls to JApplicationWeb::getLanguage().
-		$mockObject->expects($test->any())->method('getLanguage')->will($test->returnValue(TestMockLanguage::create($test)));
-
-		// Mock a call to JApplicationWeb::getSession().
-		if (isset($options['session']))
-		{
-			$mockObject->expects($test->any())->method('getSession')->will($test->returnValue($options['session']));
-		}
-		else
-		{
-			$mockObject->expects($test->any())->method('getSession')->will($test->returnValue(TestMockSession::create($test)));
-		}
-
-		$test->assignMockCallbacks(
-			$mockObject,
-			array(
-				'appendBody' => array((is_callable(array($test, 'mockAppendBody')) ? $test : get_called_class()), 'mockAppendBody'),
-				'getBody' => array((is_callable(array($test, 'mockGetBody')) ? $test : get_called_class()), 'mockGetBody'),
-				'prependBody' => array((is_callable(array($test, 'mockPrependBody')) ? $test : get_called_class()), 'mockPrependBody'),
-				'setBody' => array((is_callable(array($test, 'mockSetBody')) ? $test : get_called_class()), 'mockSetBody'),
-				'getHeaders' => array((is_callable(array($test, 'mockGetHeaders')) ? $test : get_called_class()), 'mockGetHeaders'),
-				'setHeader' => array((is_callable(array($test, 'mockSetHeader')) ? $test : get_called_class()), 'mockSetHeader'),
-				'clearHeaders' => array((is_callable(array($test, 'mockClearHeaders')) ? $test : get_called_class()), 'mockClearHeaders'),
-				'allowCache' => array((is_callable(array($test, 'mockAllowCache')) ? $test : get_called_class()), 'mockAllowCache'),
-			)
-		);
-
-		// Reset the body storage.
-		static::$body = array();
-
-		// Reset the headers storage.
-		static::$headers = array();
-
-		// Reset the cache storage.
-		static::$cachable = false;
+		$mockObject = self::addBehaviours($test, $mockObject, $options);
 
 		return $mockObject;
 	}

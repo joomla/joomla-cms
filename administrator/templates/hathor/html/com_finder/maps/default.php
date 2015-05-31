@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,25 +16,26 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 $lang = JFactory::getLanguage();
 JText::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
+
+JFactory::getDocument()->addScriptDeclaration("
+	Joomla.submitbutton = function(pressbutton)
+	{
+		if (pressbutton == 'map.delete')
+		{
+			if (confirm(Joomla.JText._('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT')))
+			{
+				Joomla.submitform(pressbutton);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		Joomla.submitform(pressbutton);
+	}
+");
 ?>
 
-<script type="text/javascript">
-Joomla.submitbutton = function(pressbutton)
-{
-	if (pressbutton == 'map.delete')
-	{
-		if (confirm(Joomla.JText._('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT')))
-		{
-			Joomla.submitform(pressbutton);
-		}
-		else
-		{
-			return false;
-		}
-	}
-	Joomla.submitform(pressbutton);
-}
-</script>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=maps');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
@@ -50,17 +51,17 @@ Joomla.submitbutton = function(pressbutton)
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::sprintf('COM_FINDER_SEARCH_LABEL', JText::_('COM_FINDER_MAPS')); ?></label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" />
 			<button type="submit" class="btn"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+			<button type="button" onclick="document.getElementById('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 
 		<div class="filter-select">
 			<label class="selectlabel" for="filter_branch"><?php echo JText::sprintf('COM_FINDER_FILTER_BY', JText::_('COM_FINDER_MAPS')); ?></label>
-			<select name="filter_branch" class="inputbox" id="filter_branch">
+			<select name="filter_branch" id="filter_branch">
 				<?php echo JHtml::_('select.options', JHtml::_('finder.mapslist'), 'value', 'text', $this->state->get('filter.branch'));?>
 			</select>
 
 			<label class="selectlabel" for="filter_state"><?php echo JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'); ?></label>
-			<select name="filter_state" class="inputbox" id="filter_state">
+			<select name="filter_state" id="filter_state">
 				<option value=""><?php echo JText::_('COM_FINDER_INDEX_FILTER_BY_STATE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'));?>
 			</select>
@@ -98,7 +99,7 @@ Joomla.submitbutton = function(pressbutton)
 		<?php if ($this->state->get('filter.branch') != 1) : ?>
 			<tr class="row1">
 				<td colspan="5" class="center">
-					<a href="#" onclick="document.id('filter_branch').value='1';document.adminForm.submit();">
+					<a href="#" onclick="document.getElementById('filter_branch').value='1';document.adminForm.submit();">
 						<?php echo JText::_('COM_FINDER_MAPS_RETURN_TO_BRANCHES'); ?></a>
 				</td>
 			</tr>
@@ -116,7 +117,7 @@ Joomla.submitbutton = function(pressbutton)
 					$title = $lang->hasKey($key) ? JText::_($key) : $item->title;
 					?>
 					<?php if ($this->state->get('filter.branch') == 1 && $item->num_children) : ?>
-						<a href="#" onclick="document.id('filter_branch').value='<?php echo (int) $item->id;?>';document.adminForm.submit();" title="<?php echo JText::_('COM_FINDER_MAPS_BRANCH_LINK'); ?>">
+						<a href="#" onclick="document.getElementById('filter_branch').value='<?php echo (int) $item->id;?>';document.adminForm.submit();" title="<?php echo JText::_('COM_FINDER_MAPS_BRANCH_LINK'); ?>">
 							<?php echo $this->escape($title); ?></a>
 					<?php else: ?>
 						<?php echo $this->escape($title); ?>

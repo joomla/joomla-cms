@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,12 +12,18 @@ defined('_JEXEC') or die;
 /**
  * Checkin Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_checkin
- * @since       1.6
+ * @since  1.6
  */
 class CheckinController extends JControllerLegacy
 {
+	/**
+	 * Method to display a view.
+	 *
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
+	 */
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Load the submenu.
@@ -28,6 +34,11 @@ class CheckinController extends JControllerLegacy
 		return $this;
 	}
 
+	/**
+	 * Check in a list of items.
+	 *
+	 * @return  void
+	 */
 	public function checkin()
 	{
 		// Check for request forgeries

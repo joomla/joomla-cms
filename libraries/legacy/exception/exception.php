@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Exception
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Exception object.
  *
- * @package     Joomla.Legacy
- * @subpackage  Exception
  * @since       11.1
  * @deprecated  12.1 (Platform) & 4.0 (CMS)
  */
@@ -132,32 +130,39 @@ class JException extends Exception
 			for ($i = count($this->backtrace) - 1; $i >= 0; --$i)
 			{
 				++$i;
+
 				if (isset($this->backtrace[$i]['file']))
 				{
 					$this->file = $this->backtrace[$i]['file'];
 				}
+
 				if (isset($this->backtrace[$i]['line']))
 				{
 					$this->line = $this->backtrace[$i]['line'];
 				}
+
 				if (isset($this->backtrace[$i]['class']))
 				{
 					$this->class = $this->backtrace[$i]['class'];
 				}
+
 				if (isset($this->backtrace[$i]['function']))
 				{
 					$this->function = $this->backtrace[$i]['function'];
 				}
+
 				if (isset($this->backtrace[$i]['type']))
 				{
 					$this->type = $this->backtrace[$i]['type'];
 				}
 
 				$this->args = false;
+
 				if (isset($this->backtrace[$i]['args']))
 				{
 					$this->args = $this->backtrace[$i]['args'];
 				}
+
 				break;
 			}
 		}
@@ -219,6 +224,7 @@ class JException extends Exception
 		{
 			return $this->$property;
 		}
+
 		return $default;
 	}
 
@@ -238,6 +244,7 @@ class JException extends Exception
 		JLog::add('JException::getProperties is deprecated.', JLog::WARNING, 'deprecated');
 
 		$vars = get_object_vars($this);
+
 		if ($public)
 		{
 			foreach ($vars as $key => $value)
@@ -248,6 +255,7 @@ class JException extends Exception
 				}
 			}
 		}
+
 		return $vars;
 	}
 
@@ -326,6 +334,7 @@ class JException extends Exception
 
 		$previous = isset($this->$property) ? $this->$property : null;
 		$this->$property = $value;
+
 		return $previous;
 	}
 

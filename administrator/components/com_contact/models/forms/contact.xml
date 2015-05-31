@@ -15,7 +15,7 @@
 			type="text"
 			label="COM_CONTACT_FIELD_NAME_LABEL"
 			description="COM_CONTACT_FIELD_NAME_DESC"
-			class="inputbox input-xxlarge input-large-text"
+			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
 		 />
@@ -25,7 +25,6 @@
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
-			class="inputbox"
 			size="45"
 		/>
 
@@ -33,7 +32,7 @@
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
-			class="inputbox span12" size="45"
+			class="span12" size="45"
 			labelclass="control-label"
 		/>
 
@@ -68,7 +67,6 @@
 			extension="com_contact"
 			label="JCATEGORY"
 			description="JFIELD_CATEGORY_DESC"
-			class="inputbox"
 			required="true"
 		/>
 
@@ -76,14 +74,12 @@
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
-			class="inputbox"
 			size="1"
 		/>
 
 		<field name="misc" type="editor"
 			label="COM_CONTACT_FIELD_INFORMATION_MISC_LABEL"
 			description="COM_CONTACT_FIELD_INFORMATION_MISC_DESC"
-			class="inputbox"
 			filter="JComponentHelper::filterText"
 			buttons="true"
 			hide="readmore,pagebreak"
@@ -94,10 +90,10 @@
 
 		<field name="created_by_alias" type="text"
 			label="COM_CONTACT_FIELD_CREATED_BY_ALIAS_LABEL" description="COM_CONTACT_FIELD_CREATED_BY_ALIAS_DESC"
-			class="inputbox" size="20" />
+			size="20" />
 
 		<field name="created" type="calendar" label="COM_CONTACT_FIELD_CREATED_LABEL"
-			description="COM_CONTACT_FIELD_CREATED_DESC" class="inputbox" size="22"
+			description="COM_CONTACT_FIELD_CREATED_DESC" size="22"
 			format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
 
 		<field name="modified" type="calendar" class="readonly"
@@ -122,7 +118,6 @@
 
 		<field name="ordering"
 			type="ordering"
-			class="inputbox"
 			label="JFIELD_ORDERING_LABEL"
 			description="JFIELD_ORDERING_DESC"
             content_type="com_contact.contact"
@@ -130,13 +125,13 @@
 
 		<field name="publish_up" type="calendar"
 			label="COM_CONTACT_FIELD_PUBLISH_UP_LABEL" description="COM_CONTACT_FIELD_PUBLISH_UP_DESC"
-			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
+			format="%Y-%m-%d %H:%M:%S" size="22"
 			filter="user_utc"
 		/>
 
 		<field name="publish_down" type="calendar"
 			label="COM_CONTACT_FIELD_PUBLISH_DOWN_LABEL" description="COM_CONTACT_FIELD_PUBLISH_DOWN_DESC"
-			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
+			format="%Y-%m-%d %H:%M:%S" size="22"
 			filter="user_utc"
 		/>
 
@@ -144,7 +139,6 @@
 			type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL"
 			description="JFIELD_META_KEYWORDS_DESC"
-			class="inputbox"
 			rows="3"
 			cols="30"
 		 />
@@ -153,13 +147,12 @@
 			type="textarea"
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			description="JFIELD_META_DESCRIPTION_DESC"
-			class="inputbox"
 			rows="3"
 			cols="30"
 		/>
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_CONTACT_FIELD_LANGUAGE_DESC" class="inputbox"
+			description="COM_CONTACT_FIELD_LANGUAGE_DESC"
 		>
 			<option value="*">JALL</option>
 		</field>
@@ -179,7 +172,7 @@
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="inputbox span12"
+			class="span12"
 			multiple="true"
 		>
 		</field>
@@ -252,21 +245,18 @@
 		<field name="con_position" type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_POSITION_LABEL"
 			description="COM_CONTACT_FIELD_INFORMATION_POSITION_DESC"
-			class="inputbox"
 			size="30"
 		/>
 
 		<field name="email_to" type="email"
 			label="JGLOBAL_EMAIL"
 			description="COM_CONTACT_FIELD_INFORMATION_EMAIL_DESC"
-			class="inputbox"
 			size="30"
 		/>
 
 		<field name="address" type="textarea"
 			label="COM_CONTACT_FIELD_INFORMATION_ADDRESS_LABEL"
 			description="COM_CONTACT_FIELD_INFORMATION_ADDRESS_DESC"
-			class="inputbox"
 			rows="3"
 			cols="30"
 		/>
@@ -274,28 +264,24 @@
 		<field name="suburb" type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_SUBURB_LABEL"
 			description="COM_CONTACT_FIELD_INFORMATION_SUBURB_DESC"
-			class="inputbox"
 			size="30"
 		/>
 
 		<field name="state" type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_STATE_LABEL"
 			description="COM_CONTACT_FIELD_INFORMATION_STATE_DESC"
-			class="inputbox"
 			size="30"
 		/>
 
 		<field name="postcode" type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_POSTCODE_LABEL"
 			description="COM_CONTACT_FIELD_INFORMATION_POSTCODE_DESC"
-			class="inputbox"
 			size="30"
 		/>
 
 		<field name="country" type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_COUNTRY_LABEL"
 			description="COM_CONTACT_FIELD_INFORMATION_COUNTRY_DESC"
-			class="inputbox"
 			size="30"
 		/>
 
@@ -303,21 +289,18 @@
 			label="COM_CONTACT_FIELD_INFORMATION_TELEPHONE_LABEL"
 			description="COM_CONTACT_FIELD_INFORMATION_TELEPHONE_DESC"
 
-			class="inputbox"
 			size="30"
 		/>
 
 		<field name="mobile" type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_MOBILE_LABEL"
 			description="COM_CONTACT_FIELD_INFORMATION_MOBILE_DESC"
-			class="inputbox"
 			size="30"
 		/>
 
 		<field name="fax" type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_FAX_LABEL"
 			description="COM_CONTACT_FIELD_INFORMATION_FAX_DESC"
-			class="inputbox"
 			size="30"
 		/>
 
@@ -326,26 +309,23 @@
 			filter="url"
 			label="COM_CONTACT_FIELD_INFORMATION_WEBPAGE_LABEL"
 			description="COM_CONTACT_FIELD_INFORMATION_WEBPAGE_DESC"
-			class="inputbox"
 			size="30"
 		/>
 
 		<field name="sortname1" type="text"
 			label="COM_CONTACT_FIELD_SORTNAME1_LABEL"
 			description="COM_CONTACT_FIELD_SORTNAME1_DESC"
-			class="inputbox"
 			size="30"
 		/>
 
 		<field name="sortname2" type="text"
 			label="COM_CONTACT_FIELD_SORTNAME2_LABEL"
 			description="COM_CONTACT_FIELD_SORTNAME2_DESC"
-			class="inputbox" size="30" />
+			size="30" />
 
 		<field name="sortname3" type="text"
 			label="COM_CONTACT_FIELD_SORTNAME3_LABEL"
 			description="COM_CONTACT_FIELD_SORTNAME3_DESC"
-			class="inputbox"
 			size="30"
 		/>
 	</fieldset>
@@ -559,6 +539,28 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
+
+			<field name="articles_display_num" type="list" default=""
+				label="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_LABEL"
+				description="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="5">J5</option>
+				<option value="10">J10</option>
+				<option value="15">J15</option>
+				<option value="20">J20</option>
+				<option value="25">J25</option>
+				<option value="30">J30</option>
+				<option value="50">J50</option>
+				<option value="75">J75</option>
+				<option value="100">J100</option>
+				<option value="150">J150</option>
+				<option value="200">J200</option>
+				<option value="250">J250</option>
+				<option value="300">J300</option>
+				<option value="0">JALL</option>
+			</field>
+
 			<field name="show_profile" type="list"
 				class="chzn-color"
 
@@ -584,28 +586,24 @@
 			<field name="linka_name" type="text"
 				label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
-				class="inputbox"
 				size="30"
 			/>
 
 			<field name="linka" type="url" filter="url"
 				label="COM_CONTACT_FIELD_LINKA_LABEL"
 				description="COM_CONTACT_FIELD_LINKA_DESC"
-				class="inputbox"
 				size="30"
 			/>
 
 			<field name="linkb_name" type="text"
 				label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
-				class="inputbox"
 				size="30"
 			/>
 
 			<field name="linkb" type="url" filter="url"
 				label="COM_CONTACT_FIELD_LINKB_LABEL"
 				description="COM_CONTACT_FIELD_LINKB_DESC"
-				class="inputbox"
 				size="30"
 			/>
 
@@ -613,7 +611,6 @@
 				type="text"
 				label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
-				class="inputbox"
 				size="30"
 			/>
 
@@ -621,7 +618,6 @@
 				type="url" filter="url"
 				label="COM_CONTACT_FIELD_LINKC_LABEL"
 				description="COM_CONTACT_FIELD_LINKC_DESC"
-				class="inputbox"
 				size="30"
 			/>
 
@@ -629,7 +625,6 @@
 				type="text"
 				label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
-				class="inputbox"
 				size="30"
 				/>
 
@@ -637,7 +632,6 @@
 				type="url" filter="url"
 				label="COM_CONTACT_FIELD_LINKD_LABEL"
 				description="COM_CONTACT_FIELD_LINKD_DESC"
-				class="inputbox"
 				size="30"
 			/>
 
@@ -645,15 +639,13 @@
 				type="text"
 				label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
-				class="inputbox"
 				size="30"
 			/>
 
 			<field name="linke"
-				type="text"
+				type="url" filter="url"
 				label="COM_CONTACT_FIELD_LINKE_LABEL"
 				description="COM_CONTACT_FIELD_LINKE_DESC"
-				class="inputbox"
 				size="30"
 			/>
 			<field
