@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_submenu
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,23 +15,20 @@ defined('_JEXEC') or die;
 		<?php if ($displayMenu) : ?>
 		<ul id="submenu" class="nav nav-list">
 			<?php foreach ($list as $item) : ?>
-			<?php if (isset ($item[2]) && $item[2] == 1) :
-				?><li class="active"><?php
-			else :
-				?><li><?php
-			endif;
-			?>
-			<?php
-			if ($hide) :
-					?><a class="nolink"><?php echo $item[0]; ?></a><?php
-			else :
-				if (strlen($item[1])) :
-					?><a href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a><?php
-				else :
-					?><?php echo $item[0]; ?><?php
-				endif;
-			endif;
-			?>
+			<?php if (isset ($item[2]) && $item[2] == 1) : ?>
+				<li class="active">
+			<?php else : ?>
+				<li>
+			<?php endif; ?>
+			<?php if ($hide) : ?>
+				<a class="nolink"><?php echo $item[0]; ?></a>
+			<?php else : ?>
+				<?php if (strlen($item[1])) : ?>
+					<a href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a>
+				<?php else : ?>
+					<?php echo $item[0]; ?>
+				<?php endif; ?>
+			<?php endif; ?>
 			</li>
 			<?php endforeach; ?>
 		</ul>
@@ -41,8 +38,8 @@ defined('_JEXEC') or die;
 		<?php endif; ?>
 		<?php if ($displayFilters) : ?>
 		<div class="filter-select hidden-phone">
-			<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
-			<form action="<?php echo JRoute::_($action);?>" method="post">
+			<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></h4>
+			<form action="<?php echo JRoute::_($action); ?>" method="post">
 				<?php foreach ($filters as $filter) : ?>
 					<label for="<?php echo $filter['name']; ?>" class="element-invisible"><?php echo $filter['label']; ?></label>
 					<select name="<?php echo $filter['name']; ?>" id="<?php echo $filter['name']; ?>" class="span12 small" onchange="this.form.submit()">

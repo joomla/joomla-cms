@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -64,7 +64,7 @@ class ContactEditPage extends AdminEditPage
 			array('label' => 'Address', 'id' => 'jform_address', 'type' => 'textarea', 'tab' => 'details'),
 			array('label' => 'City or Suburb', 'id' => 'jform_suburb', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'State or Province', 'id' => 'jform_state', 'type' => 'input', 'tab' => 'details'),
-			array('label' => 'Postal / ZIP Code', 'id' => 'jform_postcode', 'type' => 'input', 'tab' => 'details'),
+			array('label' => 'Postal/ZIP Code', 'id' => 'jform_postcode', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Country', 'id' => 'jform_country', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Telephone', 'id' => 'jform_telephone', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Mobile', 'id' => 'jform_mobile', 'type' => 'input', 'tab' => 'details'),
@@ -83,11 +83,11 @@ class ContactEditPage extends AdminEditPage
 			array('label' => 'Miscellaneous Information', 'id' => 'jform_misc', 'type' => 'textarea', 'tab' => 'misc'),
 			array('label' => 'Start Publishing', 'id' => 'jform_publish_up', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Finish Publishing', 'id' => 'jform_publish_down', 'type' => 'input', 'tab' => 'publishing'),
-			array('label' => 'Created date', 'id' => 'jform_created', 'type' => 'input', 'tab' => 'publishing'),
-			array('label' => 'Created by', 'id' => 'jform_created_by', 'type' => 'input', 'tab' => 'publishing'),
+			array('label' => 'Created Date', 'id' => 'jform_created', 'type' => 'input', 'tab' => 'publishing'),
+			array('label' => 'Created By', 'id' => 'jform_created_by', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Created By Alias', 'id' => 'jform_created_by_alias', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Modified Date', 'id' => 'jform_modified', 'type' => 'input', 'tab' => 'publishing'),
-			array('label' => 'Modified by', 'id' => 'jform_modified_by', 'type' => 'input', 'tab' => 'publishing'),
+			array('label' => 'Modified By', 'id' => 'jform_modified_by', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Revision', 'id' => 'jform_version', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Hits', 'id' => 'jform_hits', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'ID', 'id' => 'jform_id', 'type' => 'input', 'tab' => 'publishing'),
@@ -97,7 +97,7 @@ class ContactEditPage extends AdminEditPage
 			array('label' => 'Rights', 'id' => 'jform_metadata_rights', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Show Category', 'id' => 'jform_params_show_contact_category', 'type' => 'select', 'tab' => 'attrib-display'),
 			array('label' => 'Show Contact List', 'id' => 'jform_params_show_contact_list', 'type' => 'select', 'tab' => 'attrib-display'),
-			array('label' => 'Display format', 'id' => 'jform_params_presentation_style', 'type' => 'select', 'tab' => 'attrib-display'),
+			array('label' => 'Display Format', 'id' => 'jform_params_presentation_style', 'type' => 'select', 'tab' => 'attrib-display'),
 			array('label' => 'Show Tags', 'id' => 'jform_params_show_tags', 'type' => 'select', 'tab' => 'attrib-display'),
 			array('label' => 'Name', 'id' => 'jform_params_show_name', 'type' => 'select', 'tab' => 'attrib-display'),
 			array('label' => 'Contact\'s Position', 'id' => 'jform_params_show_position', 'type' => 'select', 'tab' => 'attrib-display'),
@@ -108,7 +108,7 @@ class ContactEditPage extends AdminEditPage
 			array('label' => 'Postal Code', 'id' => 'jform_params_show_postcode', 'type' => 'select', 'tab' => 'attrib-display'),
 			array('label' => 'Country', 'id' => 'jform_params_show_country', 'type' => 'select', 'tab' => 'attrib-display'),
 			array('label' => 'Telephone', 'id' => 'jform_params_show_telephone', 'type' => 'select', 'tab' => 'attrib-display'),
-			array('label' => 'Mobile phone', 'id' => 'jform_params_show_mobile', 'type' => 'select', 'tab' => 'attrib-display'),
+			array('label' => 'Mobile Phone', 'id' => 'jform_params_show_mobile', 'type' => 'select', 'tab' => 'attrib-display'),
 			array('label' => 'Fax', 'id' => 'jform_params_show_fax', 'type' => 'select', 'tab' => 'attrib-display'),
 			array('label' => 'Webpage', 'id' => 'jform_params_show_webpage', 'type' => 'select', 'tab' => 'attrib-display'),
 			array('label' => 'Misc. Information', 'id' => 'jform_params_show_misc', 'type' => 'select', 'tab' => 'attrib-display'),

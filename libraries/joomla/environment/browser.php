@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Environment
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,9 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * This class has many influences from the lib/Browser.php code in
  * version 3 of Horde by Chuck Hagenbuch and Jon Parise.
  *
- * @package     Joomla.Platform
- * @subpackage  Environment
- * @since       11.1
+ * @since  11.1
  */
 class JBrowser
 {
@@ -461,7 +459,6 @@ class JBrowser
 		// Can't identify browser version
 		$this->majorVersion = 0;
 		$this->minorVersion = 0;
-		JLog::add("Can't identify browser version. Agent: " . $this->agent, JLog::NOTICE);
 	}
 
 	/**
@@ -607,7 +604,7 @@ class JBrowser
 			}
 		}
 
-		if (!$this->hasFeature('images') || ($type != 'image'))
+		if ($type != 'image')
 		{
 			return false;
 		}

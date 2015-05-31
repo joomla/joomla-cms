@@ -60,7 +60,6 @@ class JGithubPackageRepositoriesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositories::getListOwn
-	 * @todo   Implement testGetListOwn().
 	 */
 	public function testGetListOwn()
 	{
@@ -80,7 +79,6 @@ class JGithubPackageRepositoriesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositories::getListOwn
-	 * @todo   Implement testGetListOwn().
 	 *
 	 * @expectedException RuntimeException
 	 */
@@ -91,7 +89,6 @@ class JGithubPackageRepositoriesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositories::getListOwn
-	 * @todo   Implement testGetListOwn().
 	 *
 	 * @expectedException RuntimeException
 	 */
@@ -102,7 +99,6 @@ class JGithubPackageRepositoriesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositories::getListOwn
-	 * @todo   Implement testGetListOwn().
 	 *
 	 * @expectedException RuntimeException
 	 */
@@ -113,7 +109,6 @@ class JGithubPackageRepositoriesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositories::getListUser
-	 * @todo   Implement testGetListUser().
 	 */
 	public function testGetListUser()
 	{
@@ -157,7 +152,6 @@ class JGithubPackageRepositoriesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositories::getListOrg
-	 * @todo   Implement testGetListOrg().
 	 */
 	public function testGetListOrg()
 	{
@@ -185,7 +179,6 @@ class JGithubPackageRepositoriesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositories::getList
-	 * @todo   Implement testGetList().
 	 */
 	public function testGetList()
 	{
@@ -205,7 +198,6 @@ class JGithubPackageRepositoriesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositories::create
-	 * @todo   Implement testCreate().
 	 */
 	public function testCreate()
 	{
@@ -228,7 +220,6 @@ class JGithubPackageRepositoriesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositories::get
-	 * @todo   Implement testGet().
 	 */
 	public function testGet()
 	{
@@ -248,7 +239,6 @@ class JGithubPackageRepositoriesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositories::edit
-	 * @todo   Implement testEdit().
 	 */
 	public function testEdit()
 	{
@@ -270,7 +260,6 @@ class JGithubPackageRepositoriesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositories::getListContributors
-	 * @todo   Implement testGetListContributors().
 	 */
 	public function testGetListContributors()
 	{
@@ -290,7 +279,6 @@ class JGithubPackageRepositoriesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositories::getListLanguages
-	 * @todo   Implement testGetListLanguages().
 	 */
 	public function testGetListLanguages()
 	{
@@ -310,7 +298,6 @@ class JGithubPackageRepositoriesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositories::getListTeams
-	 * @todo   Implement testGetListTeams().
 	 */
 	public function testGetListTeams()
 	{
@@ -330,7 +317,6 @@ class JGithubPackageRepositoriesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositories::getListTags
-	 * @todo   Implement testGetListTags().
 	 */
 	public function testGetListTags()
 	{
@@ -350,7 +336,6 @@ class JGithubPackageRepositoriesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositories::getListBranches
-	 * @todo   Implement testGetListBranches().
 	 */
 	public function testGetListBranches()
 	{
@@ -370,7 +355,6 @@ class JGithubPackageRepositoriesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositories::getBranch
-	 * @todo   Implement testGetBranch().
 	 */
 	public function testGetBranch()
 	{
@@ -390,7 +374,6 @@ class JGithubPackageRepositoriesTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageRepositories::delete
-	 * @todo   Implement testDelete().
 	 */
 	public function testDelete()
 	{

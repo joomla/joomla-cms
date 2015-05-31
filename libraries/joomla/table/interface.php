@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * table class interface.
  *
- * @package     Joomla.Libraries
- * @subpackage  Table
- * @since       3.2
+ * @since  3.2
  */
 interface JTableInterface
 {
@@ -28,7 +26,7 @@ interface JTableInterface
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/bind
+	 * @link    https://docs.joomla.org/JTable/bind
 	 * @since   3.2
 	 * @throws  UnexpectedValueException
 	 */
@@ -42,7 +40,7 @@ interface JTableInterface
 	 *
 	 * @return boolean True if the instance is sane and able to be stored in the database.
 	 *
-	 * @link http://docs.joomla.org/JTable/check
+	 * @link https://docs.joomla.org/JTable/check
 	 * @since 3.2
 	 */
 	public function check();
@@ -54,7 +52,7 @@ interface JTableInterface
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/delete
+	 * @link    https://docs.joomla.org/JTable/delete
 	 * @since   3.2
 	 * @throws  UnexpectedValueException
 	 */
@@ -65,7 +63,7 @@ interface JTableInterface
 	 *
 	 * @return  JDatabaseDriver  The internal database driver object.
 	 *
-	 * @link    http://docs.joomla.org/JTable/getDBO
+	 * @link    https://docs.joomla.org/JTable/getDBO
 	 * @since   3.2
 	 */
 	public function getDbo();
@@ -75,7 +73,7 @@ interface JTableInterface
 	 *
 	 * @return  string  The name of the primary key for the table.
 	 *
-	 * @link    http://docs.joomla.org/JTable/getKeyName
+	 * @link    https://docs.joomla.org/JTable/getKeyName
 	 * @since   3.2
 	 */
 	public function getKeyName();
@@ -90,7 +88,7 @@ interface JTableInterface
 	 *
 	 * @return  boolean  True if successful. False if row not found.
 	 *
-	 * @link    http://docs.joomla.org/JTable/load
+	 * @link    https://docs.joomla.org/JTable/load
 	 * @since   3.2
 	 * @throws  RuntimeException
 	 * @throws  UnexpectedValueException
@@ -105,7 +103,7 @@ interface JTableInterface
 	 *
 	 * @return  void
 	 *
-	 * @link    http://docs.joomla.org/JTable/reset
+	 * @link    https://docs.joomla.org/JTable/reset
 	 * @since   3.2
 	 */
 	public function reset();
@@ -121,7 +119,7 @@ interface JTableInterface
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/store
+	 * @link    https://docs.joomla.org/JTable/store
 	 * @since   3.2
 	 */
 	public function store($updateNulls = false);

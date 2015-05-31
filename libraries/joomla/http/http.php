@@ -3,23 +3,23 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTTP client class.
  *
- * @package     Joomla.Platform
- * @subpackage  HTTP
- * @since       11.3
+ * @since  11.3
  */
 class JHttp
 {
 	/**
-	 * @var    JRegistry  Options for the HTTP client.
+	 * @var    Registry  Options for the HTTP client.
 	 * @since  11.3
 	 */
 	protected $options;
@@ -33,15 +33,15 @@ class JHttp
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry       $options    Client options object. If the registry contains any headers.* elements,
+	 * @param   Registry        $options    Client options object. If the registry contains any headers.* elements,
 	 *                                      these will be added to the request headers.
 	 * @param   JHttpTransport  $transport  The HTTP transport object.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(JRegistry $options = null, JHttpTransport $transport = null)
+	public function __construct(Registry $options = null, JHttpTransport $transport = null)
 	{
-		$this->options   = isset($options) ? $options : new JRegistry;
+		$this->options   = isset($options) ? $options : new Registry;
 		$this->transport = isset($transport) ? $transport : JHttpFactory::getAvailableDriver($this->options);
 	}
 

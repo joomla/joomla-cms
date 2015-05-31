@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * DocumentError class, provides an easy interface to parse and display an error page
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JDocumentError extends JDocument
 {
@@ -58,6 +56,7 @@ class JDocumentError extends JDocument
 		if ($error instanceof Exception)
 		{
 			$this->_error = & $error;
+
 			return true;
 		}
 		else
@@ -107,6 +106,7 @@ class JDocumentError extends JDocument
 		$data = $this->_loadTemplate($directory . '/' . $template, $file);
 
 		parent::render();
+
 		return $data;
 	}
 
@@ -149,8 +149,15 @@ class JDocumentError extends JDocument
 	 */
 	public function renderBacktrace()
 	{
+		// If no error object is set return null
+		if (!isset($this->_error))
+		{
+			return;
+		}
+
 		$contents = null;
 		$backtrace = $this->_error->getTrace();
+
 		if (is_array($backtrace))
 		{
 			ob_start();
@@ -164,10 +171,12 @@ class JDocumentError extends JDocument
 			echo '		<td class="TD"><strong>Function</strong></td>';
 			echo '		<td class="TD"><strong>Location</strong></td>';
 			echo '	</tr>';
+
 			for ($i = count($backtrace) - 1; $i >= 0; $i--)
 			{
 				echo '	<tr>';
 				echo '		<td class="TD">' . $j . '</td>';
+
 				if (isset($backtrace[$i]['class']))
 				{
 					echo '	<td class="TD">' . $backtrace[$i]['class'] . $backtrace[$i]['type'] . $backtrace[$i]['function'] . '()</td>';
@@ -176,6 +185,7 @@ class JDocumentError extends JDocument
 				{
 					echo '	<td class="TD">' . $backtrace[$i]['function'] . '()</td>';
 				}
+
 				if (isset($backtrace[$i]['file']))
 				{
 					echo '		<td class="TD">' . $backtrace[$i]['file'] . ':' . $backtrace[$i]['line'] . '</td>';
@@ -184,13 +194,16 @@ class JDocumentError extends JDocument
 				{
 					echo '		<td class="TD">&#160;</td>';
 				}
+
 				echo '	</tr>';
 				$j++;
 			}
+
 			echo '</table>';
 			$contents = ob_get_contents();
 			ob_end_clean();
 		}
+
 		return $contents;
 	}
 }

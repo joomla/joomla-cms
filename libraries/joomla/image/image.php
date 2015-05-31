@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to manipulate an image.
  *
- * @package     Joomla.Platform
- * @subpackage  Image
- * @since       11.3
+ * @since  11.3
  */
 class JImage
 {
@@ -114,49 +112,47 @@ class JImage
 	}
 
 	/**
-	 * Method to return a properties object for an image given a filesystem path.  The
-	 * result object has values for image width, height, type, attributes, mime type, bits,
-	 * and channels.
+	 * Method to return a properties object for an image given a filesystem path.
+	 * The result object has values for image width, height, type, attributes,
+	 * mime type, bits and channels.
 	 *
 	 * @param   string  $path  The filesystem path to the image for which to get properties.
 	 *
 	 * @return  stdClass
 	 *
 	 * @since   11.3
+	 *
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
+	 *
+	 * @deprecated  4.0  Use JImageHelper::getImageFileProperties instead.
 	 */
 	public static function getImageFileProperties($path)
 	{
-		// Make sure the file exists.
-		if (!file_exists($path))
+		return JImageHelper::getImageFileProperties($path);
+	}
+
+	/**
+	 * Method to detect whether an image's orientation is landscape, portrait or square.
+	 * The orientation will be returned as string.
+	 *
+	 * @access  public
+	 *
+	 * @return  mixed   Orientation string or null.
+	 *
+	 * @since   3.4
+	 */
+	public function getOrientation()
+	{
+		if ($this->isLoaded())
 		{
-			throw new InvalidArgumentException('The image file does not exist.');
+			$width  = $this->getWidth();
+			$height = $this->getHeight();
+
+			return JImageHelper::getOrientation($width, $height);
 		}
 
-		// Get the image file information.
-		$info = getimagesize($path);
-
-		if (!$info)
-		{
-			// @codeCoverageIgnoreStart
-			throw new RuntimeException('Unable to get properties for the image.');
-
-			// @codeCoverageIgnoreEnd
-		}
-
-		// Build the response object.
-		$properties = (object) array(
-			'width' => $info[0],
-			'height' => $info[1],
-			'type' => $info[2],
-			'attributes' => $info[3],
-			'bits' => isset($info['bits']) ? $info['bits'] : null,
-			'channels' => isset($info['channels']) ? $info['channels'] : null,
-			'mime' => $info['mime']
-		);
-
-		return $properties;
+		return null;
 	}
 
 	/**
@@ -354,7 +350,7 @@ class JImage
 		{
 			// Get the transparent color values for the current image.
 			$rgba = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
-			$color = imageColorAllocate($this->handle, $rgba['red'], $rgba['green'], $rgba['blue']);
+			$color = imageColorAllocateAlpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
@@ -692,17 +688,39 @@ class JImage
 		{
 			// Get the transparent color values for the current image.
 			$rgba = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
-			$color = imageColorAllocateAlpha($this->handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
+			$color = imageColorAllocateAlpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
 
-			imagecopyresized($handle, $this->handle, $offset->x, $offset->y, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
+			imagecopyresized(
+				$handle,
+				$this->handle,
+				$offset->x,
+				$offset->y,
+				0,
+				0,
+				$dimensions->width,
+				$dimensions->height,
+				$this->getWidth(),
+				$this->getHeight()
+			);
 		}
 		else
 		{
-			imagecopyresampled($handle, $this->handle, $offset->x, $offset->y, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
+			imagecopyresampled(
+				$handle,
+				$this->handle,
+				$offset->x,
+				$offset->y,
+				0,
+				0,
+				$dimensions->width,
+				$dimensions->height,
+				$this->getWidth(),
+				$this->getHeight()
+			);
 		}
 
 		// If we are resizing to a new image, create a new JImage object.
@@ -733,7 +751,7 @@ class JImage
 	 *
 	 * @param   integer  $width      The desired width of the image in pixels or a percentage.
 	 * @param   integer  $height     The desired height of the image in pixels or a percentage.
-	 * @param   integer  $createNew  If true the current image will be cloned, resized, cropped and returned.
+	 * @param   boolean  $createNew  If true the current image will be cloned, resized, cropped and returned.
 	 *
 	 * @return  object  JImage Object for chaining.
 	 *
@@ -744,16 +762,19 @@ class JImage
 		$width   = $this->sanitizeWidth($width, $height);
 		$height  = $this->sanitizeHeight($height, $width);
 
+		$resizewidth = $width;
+		$resizeheight = $height;
+
 		if (($this->getWidth() / $width) < ($this->getHeight() / $height))
 		{
-			$this->resize($width, 0, false);
+			$resizeheight = 0;
 		}
 		else
 		{
-			$this->resize(0, $height, false);
+			$resizewidth = 0;
 		}
 
-		return $this->crop($width, $height, null, null, $createNew);
+		return $this->resize($resizewidth, $resizeheight, $createNew)->crop($width, $height, null, null, false);
 	}
 
 	/**
@@ -783,9 +804,15 @@ class JImage
 		// Create the new truecolor image handle.
 		$handle = imagecreatetruecolor($this->getWidth(), $this->getHeight());
 
-		// Allow transparency for the new image handle.
-		imagealphablending($handle, false);
-		imagesavealpha($handle, true);
+		// Make background transparent if no external background color is provided.
+		if ($background == -1)
+		{
+			// Allow transparency for the new image handle.
+			imagealphablending($handle, false);
+			imagesavealpha($handle, true);
+
+			$background = imagecolorallocatealpha($handle, 0, 0, 0, 127);
+		}
 
 		// Copy the image
 		imagecopy($handle, $this->handle, 0, 0, 0, 0, $this->getWidth(), $this->getHeight());

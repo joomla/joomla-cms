@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,10 +16,8 @@ defined('JPATH_PLATFORM') or die;
  * The classes extending this class should not be instanciated directly, as they
  * are automatically instanciated by the JObserverMapper
  *
- * @package     Joomla.Libraries
- * @subpackage  Table
- * @link        http://docs.joomla.org/JTableObserver
- * @since       3.1.2
+ * @link   https://docs.joomla.org/JTableObserver
+ * @since  3.1.2
  */
 class JTableObserverTags extends JTableObserver
 {
@@ -103,6 +101,7 @@ class JTableObserverTags extends JTableObserver
 	public function onBeforeStore($updateNulls, $tableKey)
 	{
 		$this->parseTypeAlias();
+
 		if (empty($this->table->tagsHelper->tags))
 		{
 			$this->tagsHelper->preStoreProcess($this->table);

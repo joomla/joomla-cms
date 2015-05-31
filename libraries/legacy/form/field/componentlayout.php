@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,9 +15,7 @@ jimport('joomla.filesystem.folder');
  * Form Field to display a list of the layouts for a component view from
  * the extension or template overrides.
  *
- * @package     Joomla.Legacy
- * @subpackage  Form
- * @since       11.1
+ * @since  11.1
  */
 class JFormFieldComponentlayout extends JFormField
 {
@@ -45,44 +43,41 @@ class JFormFieldComponentlayout extends JFormField
 		{
 			$clientId = $this->form->getValue('client_id');
 		}
+
 		$clientId = (int) $clientId;
 
 		$client = JApplicationHelper::getClientInfo($clientId);
 
 		// Get the extension.
-		$extn = (string) $this->element['extension'];
+		$extension = (string) $this->element['extension'];
 
-		if (empty($extn) && ($this->form instanceof JForm))
+		if (empty($extension) && ($this->form instanceof JForm))
 		{
-			$extn = $this->form->getValue('extension');
+			$extension = $this->form->getValue('extension');
 		}
 
-		$extn = preg_replace('#\W#', '', $extn);
+		$extension = preg_replace('#\W#', '', $extension);
 
-		// Get the template.
 		$template = (string) $this->element['template'];
 		$template = preg_replace('#\W#', '', $template);
 
-		// Get the style.
+		$template_style_id = '';
 		if ($this->form instanceof JForm)
 		{
 			$template_style_id = $this->form->getValue('template_style_id');
+			$template_style_id = preg_replace('#\W#', '', $template_style_id);
 		}
 
-		$template_style_id = preg_replace('#\W#', '', $template_style_id);
-
-		// Get the view.
 		$view = (string) $this->element['view'];
 		$view = preg_replace('#\W#', '', $view);
 
 		// If a template, extension and view are present build the options.
-		if ($extn && $view && $client)
+		if ($extension && $view && $client)
 		{
-
 			// Load language file
 			$lang = JFactory::getLanguage();
-			$lang->load($extn . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-				|| $lang->load($extn . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extn, null, false, true);
+			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
 
 			// Get the database object and a new query object.
 			$db = JFactory::getDbo();
@@ -111,7 +106,7 @@ class JFormFieldComponentlayout extends JFormField
 			$templates = $db->loadObjectList('element');
 
 			// Build the search paths for component layouts.
-			$component_path = JPath::clean($client->path . '/components/' . $extn . '/views/' . $view . '/tmpl');
+			$component_path = JPath::clean($client->path . '/components/' . $extension . '/views/' . $view . '/tmpl');
 
 			// Prepare array of component layouts
 			$component_layouts = array();
@@ -171,7 +166,15 @@ class JFormFieldComponentlayout extends JFormField
 					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, true)
 						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, true);
 
-					$template_path = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $extn . '/' . $view);
+					$template_path = JPath::clean(
+						$client->path
+						. '/templates/'
+						. $template->element
+						. '/html/'
+						. $extension
+						. '/'
+						. $view
+					);
 
 					// Add the layout options from the template path.
 					if (is_dir($template_path) && ($files = JFolder::files($template_path, '^[^_]*\.php$', false, true)))
@@ -179,10 +182,12 @@ class JFormFieldComponentlayout extends JFormField
 						// Files with corresponding XML files are alternate menu items, not alternate layout files
 						// so we need to exclude these files from the list.
 						$xml_files = JFolder::files($template_path, '^[^_]*\.xml$', false, true);
+
 						for ($j = 0, $count = count($xml_files); $j < $count; $j++)
 						{
 							$xml_files[$j] = basename($xml_files[$j], '.xml');
 						}
+
 						foreach ($files as $i => $file)
 						{
 							// Remove layout files that exist in the component folder or that have XML files
@@ -192,6 +197,7 @@ class JFormFieldComponentlayout extends JFormField
 								unset($files[$i]);
 							}
 						}
+
 						if (count($files))
 						{
 							// Create the group for the template
@@ -205,7 +211,18 @@ class JFormFieldComponentlayout extends JFormField
 								// Add an option to the template group
 								$value = basename($file, '.php');
 								$text = $lang
-									->hasKey($key = strtoupper('TPL_' . $template->name . '_' . $extn . '_' . $view . '_LAYOUT_' . $value))
+									->hasKey(
+										$key = strtoupper(
+											'TPL_'
+											. $template->name
+											. '_'
+											. $extension
+											. '_'
+											. $view
+											. '_LAYOUT_'
+											. $value
+										)
+									)
 									? JText::_($key) : $value;
 								$groups[$template->name]['items'][] = JHtml::_('select.option', $template->element . ':' . $value, $text);
 							}
@@ -216,6 +233,7 @@ class JFormFieldComponentlayout extends JFormField
 
 			// Compute attributes for the grouped list
 			$attr = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
+			$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 
 			// Prepare HTML code
 			$html = array();

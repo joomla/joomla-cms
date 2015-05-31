@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 				onclick="return Install.goToPage('languages');"
 				rel="prev"
 				title="<?php echo JText::_('JPREVIOUS'); ?>">
-				<i class="icon-arrow-left"></i>
+				<span class="icon-arrow-left"></span>
 				<?php echo JText::_('JPREVIOUS'); ?>
 			</a>
 			<?php // Check if there are languages in the list, if not you cannot move forward ?>
@@ -30,7 +30,7 @@ defined('_JEXEC') or die;
 					onclick="Install.submitform();"
 					rel="next"
 					title="<?php echo JText::_('JNEXT'); ?>">
-					<i class="icon-arrow-right icon-white"></i>
+					<span class="icon-arrow-right icon-white"></span>
 					<?php echo JText::_('JNEXT'); ?>
 				</a>
 			<?php endif; ?>
@@ -95,10 +95,11 @@ defined('_JEXEC') or die;
 		</tr>
 		</thead>
 		<tbody>
-		<?php foreach ($this->items->administrator as $lang) : ?>
+		<?php foreach ($this->items->administrator as $i => $lang) : ?>
 			<tr>
 				<td>
 					<input
+						id="admin-language-cb<?php echo $i; ?>"
 						type="radio"
 						name="administratorlang"
 						value="<?php echo $lang->language; ?>"
@@ -106,7 +107,9 @@ defined('_JEXEC') or die;
 						/>
 				</td>
 				<td align="center">
-					<?php echo $lang->name; ?>
+					<label for="admin-language-cb<?php echo $i; ?>">
+						<?php echo $lang->name; ?>
+					</label>
 				</td>
 				<td align="center">
 					<?php echo $lang->language; ?>
@@ -133,10 +136,11 @@ defined('_JEXEC') or die;
 		</tr>
 		</thead>
 		<tbody>
-		<?php foreach ($this->items->frontend as $lang) : ?>
+		<?php foreach ($this->items->frontend as $i => $lang) : ?>
 			<tr>
 				<td>
 					<input
+						id="site-language-cb<?php echo $i; ?>"
 						type="radio"
 						name="frontendlang"
 						value="<?php echo $lang->language; ?>"
@@ -144,7 +148,9 @@ defined('_JEXEC') or die;
 						/>
 				</td>
 				<td align="center">
-					<?php echo $lang->name; ?>
+					<label for="site-language-cb<?php echo $i; ?>">
+						<?php echo $lang->name; ?>
+					</label>
 				</td>
 				<td align="center">
 					<?php echo $lang->language; ?>

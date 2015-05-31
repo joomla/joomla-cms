@@ -2,15 +2,27 @@
 /**
  * @package    Joomla.Cli
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
- * Finder CLI Bootstrap
+ * Smart Search CLI.
  *
- * Run the framework bootstrap with a couple of mods based on the script's needs
+ * This is a command-line script to help with management of Smart Search.
+ *
+ * Called with no arguments: php finder_indexer.php
+ *                           Performs an incremental update of the index.
+ *
+ * Called with --purge:      php finder_indexer.php --purge
+ *                           Purges and rebuilds the index (search filters are preserved).
  */
+
+// Make sure we're being called from the command line, not a web interface
+if (PHP_SAPI !== 'cli')
+{
+	die('This is a command line only application.');
+}
 
 // We are a valid entry point.
 const _JEXEC = 1;
@@ -26,6 +38,8 @@ if (!defined('_JDEFINES'))
 	define('JPATH_BASE', dirname(__DIR__));
 	require_once JPATH_BASE . '/includes/defines.php';
 }
+
+define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/com_finder');
 
 // Get the framework.
 require_once JPATH_LIBRARIES . '/import.legacy.php';
@@ -52,11 +66,9 @@ $lang->load('finder_cli', JPATH_SITE, null, false, false)
 || $lang->load('finder_cli', JPATH_SITE, null, true);
 
 /**
- * A command line cron job to run the Finder indexer.
+ * A command line cron job to run the Smart Search indexer.
  *
- * @package  Joomla.Cli
- *
- * @since    2.5
+ * @since  2.5
  */
 class FinderCli extends JApplicationCli
 {
@@ -66,7 +78,7 @@ class FinderCli extends JApplicationCli
 	 * @var    string
 	 * @since  2.5
 	 */
-	private $_time = null;
+	private $time = null;
 
 	/**
 	 * Start time for each batch
@@ -74,10 +86,18 @@ class FinderCli extends JApplicationCli
 	 * @var    string
 	 * @since  2.5
 	 */
-	private $_qtime = null;
+	private $qtime = null;
 
 	/**
-	 * Entry point for Finder CLI script
+	 * Static filters information.
+	 *
+	 * @var    array
+	 * @since  3.3
+	 */
+	private $filters = array();
+
+	/**
+	 * Entry point for Smart Search CLI script
 	 *
 	 * @return  void
 	 *
@@ -88,31 +108,55 @@ class FinderCli extends JApplicationCli
 		// Print a blank line.
 		$this->out(JText::_('FINDER_CLI'));
 		$this->out('============================');
-		$this->out();
 
-		$this->_index();
+		// Initialize the time value.
+		$this->time = microtime(true);
+
+		// Remove the script time limit.
+		@set_time_limit(0);
+
+		// Fool the system into thinking we are running as JSite with Smart Search as the active component.
+		$_SERVER['HTTP_HOST'] = 'domain.com';
+		JFactory::getApplication('site');
+
+		// Purge before indexing if --purge on the command line.
+		if ($this->input->getString('purge', false))
+		{
+			// Taxonomy ids will change following a purge/index, so save filter information first.
+			$this->getFilters();
+
+			// Purge the index.
+			$this->purge();
+
+			// Run the indexer.
+			$this->index();
+
+			// Restore the filters again.
+			$this->putFilters();
+		}
+		else
+		{
+			// Run the indexer.
+			$this->index();
+		}
+
+		// Total reporting.
+		$this->out(JText::sprintf('FINDER_CLI_PROCESS_COMPLETE', round(microtime(true) - $this->time, 3)), true);
 
 		// Print a blank line at the end.
 		$this->out();
 	}
 
 	/**
-	 * Run the indexer
+	 * Run the indexer.
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 */
-	private function _index()
+	private function index()
 	{
-		$this->_time = microtime(true);
-
 		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php';
-
-		// Fool the system into thinking we are running as JSite with Finder as the active component
-		JFactory::getApplication('site');
-		$_SERVER['HTTP_HOST'] = 'domain.com';
-		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/com_finder');
 
 		// Disable caching.
 		$config = JFactory::getConfig();
@@ -144,7 +188,7 @@ class FinderCli extends JApplicationCli
 		JEventDispatcher::getInstance()->trigger('onBeforeIndex');
 
 		// Startup reporting.
-		$this->out(JText::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->_time, 3)), true);
+		$this->out(JText::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->time, 3)), true);
 
 		// Get the number of batches.
 		$t = (int) $state->totalItems;
@@ -157,7 +201,7 @@ class FinderCli extends JApplicationCli
 			for ($i = 0; $i < $c; $i++)
 			{
 				// Set the batch start time.
-				$this->_qtime = microtime(true);
+				$this->qtime = microtime(true);
 
 				// Reset the batch offset.
 				$state->batchOffset = 0;
@@ -166,7 +210,7 @@ class FinderCli extends JApplicationCli
 				JEventDispatcher::getInstance()->trigger('onBuildIndex');
 
 				// Batch reporting.
-				$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', ($i + 1), round(microtime(true) - $this->_qtime, 3)), true);
+				$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', ($i + 1), round(microtime(true) - $this->qtime, 3)), true);
 			}
 		}
 		catch (Exception $e)
@@ -181,11 +225,152 @@ class FinderCli extends JApplicationCli
 			$this->close($e->getCode());
 		}
 
-		// Total reporting.
-		$this->out(JText::sprintf('FINDER_CLI_PROCESS_COMPLETE', round(microtime(true) - $this->_time, 3)), true);
-
 		// Reset the indexer state.
 		FinderIndexer::resetState();
+	}
+
+	/**
+	 * Purge the index.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.3
+	 */
+	private function purge()
+	{
+		$this->out(JText::_('FINDER_CLI_INDEX_PURGE'));
+
+		// Load the model.
+		JModelLegacy::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/models', 'FinderModel');
+		$model = JModelLegacy::getInstance('Index', 'FinderModel');
+
+		// Attempt to purge the index.
+		$return = $model->purge();
+
+		// If unsuccessful then abort.
+		if (!$return)
+		{
+			$message = JText::_('FINDER_CLI_INDEX_PURGE_FAILED', $model->getError());
+			$this->out($message);
+			exit();
+		}
+
+		$this->out(JText::_('FINDER_CLI_INDEX_PURGE_SUCCESS'));
+	}
+
+	/**
+	 * Restore static filters.
+	 *
+	 * Using the saved filter information, update the filter records
+	 * with the new taxonomy ids.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.3
+	 */
+	private function putFilters()
+	{
+		$this->out(JText::_('FINDER_CLI_RESTORE_FILTERS'));
+
+		$db = JFactory::getDbo();
+
+		// Use the temporary filter information to update the filter taxonomy ids.
+		foreach ($this->filters as $filter_id => $filter)
+		{
+			$tids = array();
+
+			foreach ($filter as $element)
+			{
+				// Look for the old taxonomy in the new taxonomy table.
+				$query = $db->getQuery(true);
+				$query
+					->select('t.id')
+					->from($db->qn('#__finder_taxonomy') . ' AS t')
+					->leftjoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
+					->where($db->qn('t.title') . ' = ' . $db->q($element['title']))
+					->where($db->qn('p.title') . ' = ' . $db->q($element['parent']));
+				$taxonomy = $db->setQuery($query)->loadResult();
+
+				// If we found it then add it to the list.
+				if ($taxonomy)
+				{
+					$tids[] = $taxonomy;
+				}
+				else
+				{
+					$this->out(JText::sprintf('FINDER_CLI_FILTER_RESTORE_WARNING', $element['parent'], $element['title'], $element['filter']));
+				}
+			}
+
+			// Construct a comma-separated string from the taxonomy ids.
+			$taxonomyIds = empty($tids) ? '' : implode(',', $tids);
+
+			// Update the filter with the new taxonomy ids.
+			$query = $db->getQuery(true);
+			$query
+				->update($db->qn('#__finder_filters'))
+				->set($db->qn('data') . ' = ' . $db->q($taxonomyIds))
+				->where($db->qn('filter_id') . ' = ' . (int) $filter_id);
+			$db->setQuery($query)->execute();
+		}
+
+		$this->out(JText::sprintf('FINDER_CLI_RESTORE_FILTER_COMPLETED', count($this->filters)));
+	}
+
+	/**
+	 * Save static filters.
+	 *
+	 * Since a purge/index cycle will cause all the taxonomy ids to change,
+	 * the static filters need to be updated with the new taxonomy ids.
+	 * The static filter information is saved prior to the purge/index
+	 * so that it can later be used to update the filters with new ids.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.3
+	 */
+	private function getFilters()
+	{
+		$this->out(JText::_('FINDER_CLI_SAVE_FILTERS'));
+
+		// Get the taxonomy ids used by the filters.
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query
+			->select('filter_id, title, data')
+			->from($db->qn('#__finder_filters'));
+		$filters = $db->setQuery($query)->loadObjectList();
+
+		// Get the name of each taxonomy and the name of its parent.
+		foreach ($filters as $filter)
+		{
+			// Skip empty filters.
+			if ($filter->data == '')
+			{
+				continue;
+			}
+
+			// Get taxonomy records.
+			$query = $db->getQuery(true);
+			$query
+				->select('t.title, p.title AS parent')
+				->from($db->qn('#__finder_taxonomy') . ' AS t')
+				->leftjoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
+				->where($db->qn('t.id') . ' IN (' . $filter->data . ')');
+			$taxonomies = $db->setQuery($query)->loadObjectList();
+
+			// Construct a temporary data structure to hold the filter information.
+			foreach ($taxonomies as $taxonomy)
+			{
+				$this->filters[$filter->filter_id][] = array(
+					'filter'	=> $filter->title,
+					'title'		=> $taxonomy->title,
+					'parent'	=> $taxonomy->parent,
+				);
+			}
+		}
+
+		$this->out(JText::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', count($filters)));
 	}
 }
 

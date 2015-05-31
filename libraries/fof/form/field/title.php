@@ -2,7 +2,7 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -30,7 +30,6 @@ class FOFFormFieldTitle extends FOFFormFieldText implements FOFFormField
 	public function getRepeatable()
 	{
 		// Initialise
-		$slug_field		= 'slug';
 		$slug_format	= '(%s)';
 		$slug_class		= 'small';
 
@@ -38,6 +37,10 @@ class FOFFormFieldTitle extends FOFFormFieldText implements FOFFormField
 		if ($this->element['slug_field'])
 		{
 			$slug_field = (string) $this->element['slug_field'];
+		}
+		else
+		{
+			$slug_field = $this->item->getColumnAlias('slug');
 		}
 
 		if ($this->element['slug_format'])

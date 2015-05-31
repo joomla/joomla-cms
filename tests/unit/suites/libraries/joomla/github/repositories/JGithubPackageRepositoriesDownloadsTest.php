@@ -60,7 +60,6 @@ class JGithubPackageRepositoriesDownloadsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageRepositoriesDownloads::getList
-     * @todo   Implement testGetList().
      */
     public function testGetList()
     {
@@ -80,7 +79,6 @@ class JGithubPackageRepositoriesDownloadsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageRepositoriesDownloads::get
-     * @todo   Implement testGet().
      */
     public function testGet()
     {
@@ -100,7 +98,6 @@ class JGithubPackageRepositoriesDownloadsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageRepositoriesDownloads::create
-     * @todo   Implement testCreate().
      */
     public function testCreate()
     {
@@ -120,7 +117,6 @@ class JGithubPackageRepositoriesDownloadsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageRepositoriesDownloads::upload
-     * @todo   Implement testUpload().
      */
     public function testUpload()
     {
@@ -140,7 +136,6 @@ class JGithubPackageRepositoriesDownloadsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageRepositoriesDownloads::delete
-     * @todo   Implement testDelete().
      */
     public function testDelete()
     {

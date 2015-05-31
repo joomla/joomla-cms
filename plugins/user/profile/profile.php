@@ -3,18 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 /**
  * An example custom profile plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  User.profile
- * @since       1.6
+ * @since  1.6
  */
 class PlgUserProfile extends JPlugin
 {
@@ -51,8 +49,8 @@ class PlgUserProfile extends JPlugin
 	/**
 	 * Runs on content preparation
 	 *
-	 * @param   string   $context  The context for the data
-	 * @param   integer  $data     The user id
+	 * @param   string  $context  The context for the data
+	 * @param   object  $data     An object containing the data for the form.
 	 *
 	 * @return  boolean
 	 *
@@ -196,7 +194,7 @@ class PlgUserProfile extends JPlugin
 	 * adds additional fields to the user editing form
 	 *
 	 * @param   JForm  $form  The form to be altered.
-	 * @param   array  $data  The associated data for the form.
+	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
@@ -283,11 +281,6 @@ class PlgUserProfile extends JPlugin
 				{
 					$form->removeField($field, 'profile');
 				}
-
-				if ($this->params->get('profile-require_dob', 1) > 0)
-				{
-					$form->setFieldAttribute('spacer', 'type', 'spacer', 'profile');
-				}
 			}
 			// Case registration
 			elseif ($name == 'com_users.registration')
@@ -301,11 +294,6 @@ class PlgUserProfile extends JPlugin
 				{
 					$form->removeField($field, 'profile');
 				}
-
-				if ($this->params->get('register-require_dob', 1) > 0)
-				{
-					$form->setFieldAttribute('spacer', 'type', 'spacer', 'profile');
-				}
 			}
 			// Case profile in site or admin
 			elseif ($name == 'com_users.profile' || $name == 'com_admin.profile')
@@ -318,11 +306,6 @@ class PlgUserProfile extends JPlugin
 				else
 				{
 					$form->removeField($field, 'profile');
-				}
-
-				if ($this->params->get('profile-require_dob', 1) > 0)
-				{
-					$form->setFieldAttribute('spacer', 'type', 'spacer', 'profile');
 				}
 			}
 		}
@@ -349,11 +332,8 @@ class PlgUserProfile extends JPlugin
 		{
 			try
 			{
-				// Convert website url to punycode
-				$data['profile']['website'] = JStringPunycode::urlToPunycode($data['profile']['website']);
-
 				$date = new JDate($data['profile']['dob']);
-				$this->date = $date->format('Y-m-d');
+				$this->date = $date->format('Y-m-d H:i:s');
 			}
 			catch (Exception $e)
 			{

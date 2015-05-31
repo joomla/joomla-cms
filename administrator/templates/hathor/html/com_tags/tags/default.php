@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.multiselect');
-JHtml::_('behavior.modal');
 
 $app		= JFactory::getApplication();
 $user		= JFactory::getUser();
@@ -37,7 +36,7 @@ $n			= count($this->items);
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" />
 			<button type="submit" class="btn"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+			<button type="button" onclick="document.getElementById('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 
 		<div class="filter-select">
@@ -143,8 +142,20 @@ $n			= count($this->items);
 		</tbody>
 	</table>
 
-	<?php //Load the batch processing form. ?>
-	<?php echo $this->loadTemplate('batch'); ?>
+	<?php //Load the batch processing form if user is allowed ?>
+	<?php if ($user->authorise('core.create', 'com_tags')
+		&& $user->authorise('core.edit', 'com_tags')
+		&& $user->authorise('core.edit.state', 'com_tags')) : ?>
+		<?php echo JHtml::_(
+			'bootstrap.renderModal',
+			'collapseModal',
+			array(
+				'title' => JText::_('COM_TAGS_BATCH_OPTIONS'),
+				'footer' => $this->loadTemplate('batch_footer')
+			),
+			$this->loadTemplate('batch_body')
+		); ?>
+	<?php endif;?>
 
 	<?php echo $this->pagination->getListFooter(); ?>
 

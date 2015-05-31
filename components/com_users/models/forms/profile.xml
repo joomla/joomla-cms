@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset name="core"
-		label="COM_USERS_PROFILE_DEFAULT_LABEL">
-
-		<field name="id" type="hidden"
+	<fieldset name="core" label="COM_USERS_PROFILE_DEFAULT_LABEL">
+		<field
+			name="id"
+			type="hidden"
 			filter="integer"
 		/>
 
-		<field name="name" type="text"
+		<field
+			name="name"
+			type="text"
 			description="COM_USERS_PROFILE_NAME_DESC"
 			filter="string"
 			label="COM_USERS_PROFILE_NAME_LABEL"
@@ -15,7 +17,9 @@
 			size="30"
 		/>
 
-		<field name="username" type="text"
+		<field
+			name="username"
+			type="text"
 			class="validate-username"
 			description="COM_USERS_DESIRED_USERNAME"
 			filter="username"
@@ -26,7 +30,9 @@
 			validate="username"
 		/>
 
-		<field name="password1" type="password"
+		<field
+			name="password1"
+			type="password"
 			autocomplete="off"
 			class="validate-password"
 			description="COM_USERS_DESIRED_PASSWORD"
@@ -36,7 +42,9 @@
 			validate="password"
 		/>
 
-		<field name="password2" type="password"
+		<field
+			name="password2"
+			type="password"
 			autocomplete="off"
 			class="validate-password"
 			description="COM_USERS_PROFILE_PASSWORD2_DESC"
@@ -48,7 +56,9 @@
 			validate="equals"
 		/>
 
-		<field name="email1" type="email"
+		<field
+			name="email1"
+			type="email"
 			description="COM_USERS_PROFILE_EMAIL1_DESC"
 			filter="string"
 			label="COM_USERS_PROFILE_EMAIL1_LABEL"
@@ -59,7 +69,9 @@
 			validate="email"
 		/>
 
-		<field name="email2" type="email"
+		<field
+			name="email2"
+			type="email"
 			description="COM_USERS_PROFILE_EMAIL2_DESC"
 			field="email1"
 			filter="string"
@@ -72,5 +84,8 @@
 	</fieldset>
 	
 	<!-- Used to get the two factor authentication configuration -->
-	<field name="twofactor" type="hidden" />
+	<field
+		name="twofactor"
+		type="hidden"
+	/>
 </form>

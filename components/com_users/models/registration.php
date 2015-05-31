@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Registration model class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersModelRegistration extends JModelForm
 {
@@ -55,6 +53,7 @@ class UsersModelRegistration extends JModelForm
 		catch (RuntimeException $e)
 		{
 			$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+
 			return false;
 		}
 
@@ -62,6 +61,7 @@ class UsersModelRegistration extends JModelForm
 		if (!$userId)
 		{
 			$this->setError(JText::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'));
+
 			return false;
 		}
 
@@ -78,7 +78,7 @@ class UsersModelRegistration extends JModelForm
 
 			// Compile the admin notification mail values.
 			$data = $user->getProperties();
-			$data['activation'] = JApplication::getHash(JUserHelper::genRandomPassword());
+			$data['activation'] = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
 			$user->set('activation', $data['activation']);
 			$data['siteurl'] = JUri::base();
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
@@ -102,7 +102,7 @@ class UsersModelRegistration extends JModelForm
 				$data['activate']
 			);
 
-			// get all admin users
+			// Get all admin users
 			$query->clear()
 				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
@@ -117,6 +117,7 @@ class UsersModelRegistration extends JModelForm
 			catch (RuntimeException $e)
 			{
 				$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+
 				return false;
 			}
 
@@ -133,6 +134,7 @@ class UsersModelRegistration extends JModelForm
 					if ($return !== true)
 					{
 						$this->setError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+
 						return false;
 					}
 				}
@@ -170,6 +172,7 @@ class UsersModelRegistration extends JModelForm
 			if ($return !== true)
 			{
 				$this->setError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+
 				return false;
 			}
 		}
@@ -183,6 +186,7 @@ class UsersModelRegistration extends JModelForm
 		if (!$user->save())
 		{
 			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_ACTIVATION_SAVE_FAILED', $user->getError()));
+
 			return false;
 		}
 
@@ -209,6 +213,7 @@ class UsersModelRegistration extends JModelForm
 
 			// Override the base user data with any data in the session.
 			$temp = (array) $app->getUserState('com_users.registration.data', array());
+
 			foreach ($temp as $k => $v)
 			{
 				$this->data->$k = $v;
@@ -261,6 +266,7 @@ class UsersModelRegistration extends JModelForm
 	{
 		// Get the form.
 		$form = $this->loadForm('com_users.registration', 'registration', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -301,7 +307,7 @@ class UsersModelRegistration extends JModelForm
 	{
 		$userParams = JComponentHelper::getParams('com_users');
 
-		//Add the choice for site language at registration time
+		// Add the choice for site language at registration time
 		if ($userParams->get('site_language') == 1 && $userParams->get('frontend_userparams') == 1)
 		{
 			$form->loadFile('sitelang', false);
@@ -314,6 +320,8 @@ class UsersModelRegistration extends JModelForm
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -359,7 +367,7 @@ class UsersModelRegistration extends JModelForm
 		// Check if the user needs to activate their account.
 		if (($useractivation == 1) || ($useractivation == 2))
 		{
-			$data['activation'] = JApplication::getHash(JUserHelper::genRandomPassword());
+			$data['activation'] = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
 			$data['block'] = 1;
 		}
 
@@ -367,6 +375,7 @@ class UsersModelRegistration extends JModelForm
 		if (!$user->bind($data))
 		{
 			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_BIND_FAILED', $user->getError()));
+
 			return false;
 		}
 
@@ -376,7 +385,8 @@ class UsersModelRegistration extends JModelForm
 		// Store the data.
 		if (!$user->save())
 		{
-			$this->setError($user->getError());
+			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $user->getError()));
+
 			return false;
 		}
 
@@ -468,7 +478,6 @@ class UsersModelRegistration extends JModelForm
 		}
 		else
 		{
-
 			$emailSubject = JText::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
 				$data['name'],
@@ -531,6 +540,7 @@ class UsersModelRegistration extends JModelForm
 			catch (RuntimeException $e)
 			{
 				$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+
 				return false;
 			}
 
@@ -543,6 +553,7 @@ class UsersModelRegistration extends JModelForm
 				if ($return !== true)
 				{
 					$this->setError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+
 					return false;
 				}
 			}
@@ -569,6 +580,7 @@ class UsersModelRegistration extends JModelForm
 			catch (RuntimeException $e)
 			{
 				$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+
 				return false;
 			}
 
@@ -579,7 +591,13 @@ class UsersModelRegistration extends JModelForm
 				// Build the query to add the messages
 				foreach ($sendEmail as $userid)
 				{
-					$values = array($db->quote($userid), $db->quote($userid), $db->quote($jdate->toSql()), $db->quote(JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')), $db->quote(JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])));
+					$values = array(
+						$db->quote($userid),
+						$db->quote($userid),
+						$db->quote($jdate->toSql()),
+						$db->quote(JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')),
+						$db->quote(JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username']))
+					);
 					$query->clear()
 						->insert($db->quoteName('#__messages'))
 						->columns($db->quoteName(array('user_id_from', 'user_id_to', 'date_time', 'subject', 'message')))
@@ -593,10 +611,12 @@ class UsersModelRegistration extends JModelForm
 					catch (RuntimeException $e)
 					{
 						$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+
 						return false;
 					}
 				}
 			}
+
 			return false;
 		}
 

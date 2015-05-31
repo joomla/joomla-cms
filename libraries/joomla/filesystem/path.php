@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,15 +12,14 @@ defined('JPATH_PLATFORM') or die;
 if (!defined('JPATH_ROOT'))
 {
 	// Define a string constant for the root directory of the file system in native format
-	define('JPATH_ROOT', JPath::clean(JPATH_SITE));
+	$pathHelper = new JFilesystemWrapperPath;
+	define('JPATH_ROOT', $pathHelper->clean(JPATH_SITE));
 }
 
 /**
  * A Path handling class
  *
- * @package     Joomla.Platform
- * @subpackage  FileSystem
- * @since       11.1
+ * @since  11.1
  */
 class JPath
 {
@@ -243,17 +242,18 @@ class JPath
 
 		if ($dir)
 		{
-			$test = $dir . '/' . $tmp;
+			$fileObject = new JFilesystemWrapperFile;
+			$test       = $dir . '/' . $tmp;
 
 			// Create the test file
 			$blank = '';
-			JFile::write($test, $blank, false);
+			$fileObject->write($test, $blank, false);
 
 			// Test ownership
 			$return = (fileowner($test) == fileowner($path));
 
 			// Delete the test file
-			JFile::delete($test);
+			$fileObject->delete($test);
 
 			return $return;
 		}

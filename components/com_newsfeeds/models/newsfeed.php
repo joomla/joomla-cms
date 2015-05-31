@@ -3,18 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Newsfeeds Component Newsfeed Model
  *
- * @package     Joomla.Site
- * @subpackage  com_newsfeeds
- * @since       1.5
+ * @since  1.5
  */
 class NewsfeedsModelNewsfeed extends JModelItem
 {
@@ -32,6 +32,7 @@ class NewsfeedsModelNewsfeed extends JModelItem
 	 * Note. Calling getState in this method will result in recursion.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState()
@@ -50,7 +51,9 @@ class NewsfeedsModelNewsfeed extends JModelItem
 		$this->setState('params', $params);
 
 		$user = JFactory::getUser();
-		if ((!$user->authorise('core.edit.state', 'com_newsfeeds')) &&  (!$user->authorise('core.edit', 'com_newsfeeds'))){
+
+		if ((!$user->authorise('core.edit.state', 'com_newsfeeds')) && (!$user->authorise('core.edit', 'com_newsfeeds')))
+		{
 			$this->setState('filter.published', 1);
 			$this->setState('filter.archived', 2);
 		}
@@ -59,9 +62,10 @@ class NewsfeedsModelNewsfeed extends JModelItem
 	/**
 	 * Method to get newsfeed data.
 	 *
-	 * @param   integer	The id of the newsfeed.
+	 * @param   integer  $pk  The id of the newsfeed.
 	 *
 	 * @return  mixed  Menu item data object on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function &getItem($pk = null)
@@ -103,6 +107,7 @@ class NewsfeedsModelNewsfeed extends JModelItem
 				// Filter by published state.
 				$published = $this->getState('filter.published');
 				$archived = $this->getState('filter.archived');
+
 				if (is_numeric($published))
 				{
 					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')')
@@ -121,30 +126,33 @@ class NewsfeedsModelNewsfeed extends JModelItem
 				}
 
 				// Check for published state if filter set.
+
 				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->published != $published) && ($data->published != $archived)))
 				{
 					JError::raiseError(404, JText::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'));
 				}
 
 				// Convert parameter fields to objects.
-				$registry = new JRegistry;
+				$registry = new Registry;
 				$registry->loadString($data->params);
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
-				$registry = new JRegistry;
+				$registry = new Registry;
 				$registry->loadString($data->metadata);
 				$data->metadata = $registry;
 
 				// Compute access permissions.
+
 				if ($access = $this->getState('filter.access'))
 				{
 					// If the access filter has been set, we already know this user can view.
 					$data->params->set('access-view', true);
 				}
-				else {
+				else
+				{
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
-					$user = JFactory::getUser();
+					$user   = JFactory::getUser();
 					$groups = $user->getAuthorisedViewLevels();
 					$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
 				}

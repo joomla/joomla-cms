@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,31 +12,46 @@ defined('_JEXEC') or die;
 /**
  * View to edit a user group.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersViewGroup extends JViewLegacy
 {
 	protected $form;
 
+	/**
+	 * The item data.
+	 *
+	 * @var   object
+	 * @since 1.6
+	 */
 	protected $item;
 
+	/**
+	 * The model state.
+	 *
+	 * @var   JObject
+	 * @since 1.6
+	 */
 	protected $state;
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
-		$this->state	= $this->get('State');
-		$this->item		= $this->get('Item');
-		$this->form		= $this->get('Form');
+		$this->state = $this->get('State');
+		$this->item  = $this->get('Item');
+		$this->form  = $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -46,6 +61,8 @@ class UsersViewGroup extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -63,10 +80,12 @@ class UsersViewGroup extends JViewLegacy
 			JToolbarHelper::apply('group.apply');
 			JToolbarHelper::save('group.save');
 		}
+
 		if ($canDo->get('core.create'))
 		{
 			JToolbarHelper::save2new('group.save2new');
 		}
+
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{

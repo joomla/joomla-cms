@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,7 @@ if (!defined('FINDER_PATH_INDEXER'))
 {
 	define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
 }
+
 JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
 
 // Check for OpenSearch
@@ -35,7 +36,6 @@ This code intentionally commented
 						'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
 					);
 */
-
 }
 
 // Initialize module parameters.

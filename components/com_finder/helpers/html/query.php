@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Query HTML behavior class for Finder.
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 abstract class JHtmlQuery
 {
@@ -62,14 +60,16 @@ abstract class JHtmlQuery
 		if ($query->date1)
 		{
 			$date = JFactory::getDate($query->date1)->format(JText::_('DATE_FORMAT_LC'));
-			$parts[] = '<span class="query-start-date">' . JText::sprintf('COM_FINDER_QUERY_START_DATE', $query->when1, $date) . '</span>';
+			$datecondition = JText::_('COM_FINDER_QUERY_DATE_CONDITION_' . strtoupper($query->when1));
+			$parts[] = '<span class="query-start-date">' . JText::sprintf('COM_FINDER_QUERY_START_DATE', $datecondition, $date) . '</span>';
 		}
 
 		// Process the end date.
 		if ($query->date2)
 		{
 			$date = JFactory::getDate($query->date2)->format(JText::_('DATE_FORMAT_LC'));
-			$parts[] = '<span class="query-end-date">' . JText::sprintf('COM_FINDER_QUERY_END_DATE', $query->when2, $date) . '</span>';
+			$datecondition = JText::_('COM_FINDER_QUERY_DATE_CONDITION_' . strtoupper($query->when2));
+			$parts[] = '<span class="query-end-date">' . JText::sprintf('COM_FINDER_QUERY_END_DATE', $datecondition, $date) . '</span>';
 		}
 
 		// Process the taxonomy filters.

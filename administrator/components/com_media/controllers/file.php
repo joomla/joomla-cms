@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,9 +15,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Media File Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       1.5
+ * @since  1.5
  */
 class MediaControllerFile extends JControllerLegacy
 {
@@ -65,15 +63,18 @@ class MediaControllerFile extends JControllerLegacy
 		// Total length of post back data in bytes.
 		$contentLength = (int) $_SERVER['CONTENT_LENGTH'];
 
+		// Instantiate the media helper
+		$mediaHelper = new JHelperMedia;
+
 		// Maximum allowed size of post back data in MB.
-		$postMaxSize = (int) ini_get('post_max_size');
+		$postMaxSize = $mediaHelper->toBytes(ini_get('post_max_size'));
 
 		// Maximum allowed size of script execution in MB.
-		$memoryLimit = (int) ini_get('memory_limit');
+		$memoryLimit = $mediaHelper->toBytes(ini_get('memory_limit'));
 
 		// Check for the total size of post back data.
-		if (($postMaxSize > 0 && $contentLength > $postMaxSize * 1024 * 1024)
-			|| ($memoryLimit != -1 && $contentLength > $memoryLimit * 1024 * 1024))
+		if (($postMaxSize > 0 && $contentLength > $postMaxSize)
+			|| ($memoryLimit != -1 && $contentLength > $memoryLimit))
 		{
 			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNUPLOADTOOLARGE'));
 
@@ -81,7 +82,7 @@ class MediaControllerFile extends JControllerLegacy
 		}
 
 		$uploadMaxSize = $params->get('upload_maxsize', 0) * 1024 * 1024;
-		$uploadMaxFileSize = (int) ini_get('upload_max_filesize') * 1024 * 1024;
+		$uploadMaxFileSize = $mediaHelper->toBytes(ini_get('upload_max_filesize'));
 
 		// Perform basic checks on file info before attempting anything
 		foreach ($files as &$file)
@@ -90,7 +91,8 @@ class MediaControllerFile extends JControllerLegacy
 			$file['filepath'] = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $file['name'])));
 
 			if (($file['error'] == 1)
-				|| ($uploadMaxSize > 0 && $file['size'] > $uploadMaxSize))
+				|| ($uploadMaxSize > 0 && $file['size'] > $uploadMaxSize)
+				|| ($uploadMaxFileSize > 0 && $file['size'] > $uploadMaxFileSize))
 			{
 				// File size exceed either 'upload_max_filesize' or 'upload_maxsize'.
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
@@ -251,7 +253,8 @@ class MediaControllerFile extends JControllerLegacy
 				if (in_array(false, $result, true))
 				{
 					// There are some errors in the plugins
-					JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors = $object_file->getErrors()), implode('<br />', $errors)));
+					$errors = $object_file->getErrors();
+					JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
 					continue;
 				}
 
@@ -273,7 +276,8 @@ class MediaControllerFile extends JControllerLegacy
 					if (in_array(false, $result, true))
 					{
 						// There are some errors in the plugins
-						JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors = $object_file->getErrors()), implode('<br />', $errors)));
+						$errors = $object_file->getErrors();
+						JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
 						continue;
 					}
 
@@ -286,7 +290,8 @@ class MediaControllerFile extends JControllerLegacy
 				else
 				{
 					// This makes no sense...
-					JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_NOT_EMPTY', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
+					$folderPath = substr($object_file->filepath, strlen(COM_MEDIA_BASE));
+					JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_NOT_EMPTY', $folderPath));
 				}
 			}
 		}
