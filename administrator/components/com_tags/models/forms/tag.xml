@@ -85,8 +85,8 @@
 		name="note"
 		type="text"
 		class="span12"
-		label="JFIELD_NOTE_LABEL"
-		description="JFIELD_NOTE_DESC"
+		label="COM_TAGS_FIELD_NOTE_LABEL"
+		description="COM_TAGS_FIELD_NOTE_DESC"
 		size="40"
 	/>
 
