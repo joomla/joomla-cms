@@ -23,8 +23,8 @@ $document = JFactory::getDocument();
 
 		$link	= 'index.php?option=com_modules&task=module.add&eid=' . $item->extension_id;
 		$name	= $this->escape($item->name);
-		$desc	= JHTML::_('string.truncate', ($this->escape($item->desc)), 200);
-		$short_desc	= JHTML::_('string.truncate', ($this->escape($item->desc)), 90);
+		$desc	= JHTML::_('string.truncate', (strip_tags($item->desc)), 200);
+		$short_desc	= JHTML::_('string.truncate', (strip_tags($item->desc)), 90);
 	?>
 	<?php if ($document->direction != "rtl") : ?>
 	<li>
