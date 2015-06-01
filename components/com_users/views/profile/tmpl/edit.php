@@ -69,7 +69,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 							<?php endif; ?>
 						</div>
 						<div class="controls">
-							<?php if ($field->name = 'password1') : ?>
+							<?php if ($field->getAttribute('name') == 'password1') : ?>
 								<!-- disables autocomplete --><input type="text" style="display:none">
 							<?php endif; ?>
 							<?php echo $field->input; ?>

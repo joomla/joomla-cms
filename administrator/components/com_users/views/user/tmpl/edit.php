@@ -59,7 +59,7 @@ $fieldsets = $this->form->getFieldsets();
 							<?php echo $field->label; ?>
 						</div>
 						<div class="controls">
-							<?php if ($field->name = 'password') : ?>
+							<?php if ($field->getAttribute('name') == 'password') : ?>
 								<!-- disables autocomplete --><input type="text" style="display:none">
 							<?php endif; ?>
 							<?php echo $field->input; ?>
