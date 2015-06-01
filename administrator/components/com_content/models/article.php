@@ -390,7 +390,7 @@ class ContentModelArticle extends JModelAdmin
 			$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
 
 			// Make fields read only
-			if ($associations)
+			if (!empty($associations))
 			{
 				$form->setFieldAttribute('language', 'readonly', 'true');
 				$form->setFieldAttribute('catid', 'readonly', 'true');
