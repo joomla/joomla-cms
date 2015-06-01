@@ -310,7 +310,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		{
 			// Get the error number and message.
 			$this->errorNum = (int) mysql_errno($this->connection);
-			$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $query;
+			$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . (string) $this->sql;
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
