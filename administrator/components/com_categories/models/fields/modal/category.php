@@ -48,9 +48,6 @@ class JFormFieldModal_Category extends JFormField
 		// Load language
 		JFactory::getLanguage()->load('com_categories', JPATH_ADMINISTRATOR);
 
-		// Load the modal behavior script.
-		JHtml::_('behavior.modal', 'a.modal');
-
 		// Build the script.
 		$script = array();
 
@@ -69,7 +66,7 @@ class JFormFieldModal_Category extends JFormField
 			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
 		}
 
-		$script[] = '		jModalClose();';
+		$script[] = '		jQuery("#modalCategory-' . $this->id . '").modal("hide");';
 		$script[] = '	}';
 
 		// Clear button script
@@ -143,12 +140,10 @@ class JFormFieldModal_Category extends JFormField
 		// The current category display field.
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title . '" disabled="disabled" size="35" />';
-		$html[] = '<a'
-			. ' class="modal btn hasTooltip"'
-			. ' title="' . JHtml::tooltipText('COM_CATEGORIES_CHANGE_CATEGORY') . '"'
-			. ' href="' . $link . '&amp;' . JSession::getFormToken() . '=1"'
-			. ' rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
-			. '<i class="icon-file"></i> ' . JText::_('JSELECT')
+		$html[] = '<a href="#modalCategory-'
+			. $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal"'
+			. ' title="' . JHtml::tooltipText('COM_CATEGORIES_CHANGE_CATEGORY') . '">'
+			. '<span class="icon-file"></span> ' . JText::_('JSELECT')
 			. '</a>';
 
 		// Edit category button
@@ -161,6 +156,19 @@ class JFormFieldModal_Category extends JFormField
 				. ' title="' . JHtml::tooltipText('COM_CATEGORIES_EDIT_CATEGORY') . '" >'
 				. '<span class="icon-edit"></span>' . JText::_('JACTION_EDIT')
 				. '</a>';
+
+			$html[] = JHtml::_(
+				'bootstrap.renderModal',
+				'modalCategory-' . $this->id,
+				array(
+					'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
+					'title' => JText::_('COM_CATEGORIES_SELECT_A_CATEGORY'),
+					'width' => '800px',
+					'height' => '300px',
+					'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+				)
+			);
 		}
 
 		// Clear category button

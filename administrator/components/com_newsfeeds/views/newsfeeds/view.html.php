@@ -113,7 +113,6 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			&& $user->authorise('core.edit', 'com_newsfeeds')
 			&& $user->authorise('core.edit.state', 'com_newsfeeds'))
 		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
@@ -132,7 +131,7 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			JToolbarHelper::trash('newsfeeds.trash');
 		}
 
-		if ($user->authorise('core.admin', 'com_newsfeeds'))
+		if ($user->authorise('core.admin', 'com_newsfeeds') || $user->authorise('core.options', 'com_newsfeeds'))
 		{
 			JToolbarHelper::preferences('com_newsfeeds');
 		}

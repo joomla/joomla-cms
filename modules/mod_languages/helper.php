@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/multilangstatus.php');
 
 /**
  * Helper for mod_languages
@@ -78,7 +79,7 @@ abstract class ModLanguagesHelper
 		foreach ($languages as $i => &$language)
 		{
 			// Do not display language without frontend UI
-			if (!JLanguage::exists($language->lang_code))
+			if (!array_key_exists($language->lang_code, MultilangstatusHelper::getSitelangs()))
 			{
 				unset($languages[$i]);
 			}
