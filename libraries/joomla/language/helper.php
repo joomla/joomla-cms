@@ -98,7 +98,7 @@ class JLanguageHelper
 			$available_languages[$i] = strtolower($lang['value']);
 			$available_prefixes[$i] = substr($lang['value'], 0, 2);
 		}
-		
+
 		// Read the HTTP-Header
 		$http_accept_language = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
 
