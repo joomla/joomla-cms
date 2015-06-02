@@ -90,24 +90,15 @@ class JLanguageHelper
 			return $bestlang;
 		}
 
-		// Get published Site Languages.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('a.element AS element')
-			->from('#__extensions AS a')
-			->where('a.type = ' . $db->quote('language'))
-			->where('a.client_id = 0')
-			->where('a.enabled = 1');
-		$db->setQuery($query);
-		$available_languages = array_keys((array) $db->loadObjectList('element'));
+		$available_languages = self::createLanguageList(null, JPATH_BASE, true, true);
 
 		// Lowercase $available_languages and populate $available_prefixes
 		foreach ($available_languages as $i => $lang)
 		{
-			$available_languages[$i] = strtolower($lang);
-			$available_prefixes[$i] = substr($lang, 0, 2);
+			$available_languages[$i] = strtolower($lang['value']);
+			$available_prefixes[$i] = substr($lang['value'], 0, 2);
 		}
-
+		
 		// Read the HTTP-Header
 		$http_accept_language = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
 
