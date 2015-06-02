@@ -84,12 +84,12 @@ class JLanguageHelper
 	{
 		static $bestlang;
 		static $checked = false;
-		
+
 		if ($checked)
 		{
 			return $bestlang;
 		}
-		
+
 		if (empty($available_languages))
 		{
 			// Get published Site Languages.
@@ -102,7 +102,7 @@ class JLanguageHelper
 				->where('a.enabled = 1');
 			$db->setQuery($query);
 			$available_languages = array_keys((array) $db->loadObjectList('element'));
-		
+
 			// Lowercase $available_languages and populate $available_prefixes
 			foreach ($available_languages as $i => $lang)
 			{
@@ -110,13 +110,14 @@ class JLanguageHelper
 				$available_prefixes[$i] = substr($lang, 0, 2);
 			}
 		}
-		
+
 		// Read the HTTP-Header
 		$http_accept_language = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
 
 		preg_match_all("/([[:alpha:]]{1,8})(-([[:alpha:]|-]{1,8}))?" .
 					"(\s*;\s*q\s*=\s*(1\.0{0,3}|0\.\d{0,3}))?\s*(,|$)/i",
-					$http_accept_language, $hits, PREG_SET_ORDER);
+					$http_accept_language, $hits, PREG_SET_ORDER
+					);
 
 		// Default language (in case of no hits) is null
 		$bestlang = null;
@@ -125,7 +126,7 @@ class JLanguageHelper
 		// Search the best match
 		foreach ($hits as $arr)
 		{
-			// read data from the array of this hit
+			// Read data from the array of this hit
 			$language = strtolower($arr[1]);
 			if (!empty($arr[3]))
 			{
@@ -151,7 +152,7 @@ class JLanguageHelper
 			elseif (in_array($language, $available_prefixes) && (($qvalue*0.9) > $bestqval))
 			{
 				// The gotcha here is that in case of possible multiple matches (e.g.: en form en-AU against availables en-US and en-GB)
-				// we return the first match (en-US in the example above). No way we can do better, I guess...
+				// We return the first match (en-US in the example above). No way we can do better, I guess...
 				$index = array_search($language, $available_prefixes);
 				$bestlang = $available_languages[$index];
 				$bestlang = substr($bestlang, 0, 3) . strtoupper(substr($bestlang, 3, 2));

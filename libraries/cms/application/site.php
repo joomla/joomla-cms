@@ -577,6 +577,7 @@ final class JApplicationSite extends JApplicationCms
 		if (empty($options['language']))
 		{
 			$this->_detect_browser = JLanguageMultilang::isSetDetectBrowser();
+
 			// Detect browser language
 			if ($this->_detect_browser)
 			{
@@ -619,10 +620,10 @@ final class JApplicationSite extends JApplicationCms
 	/**
 	 * Language check
 	 *
-	 * @param  string  Language to check.
+	 * @param   string  $lang  Language to check.
 	 *
-	 * @return  mixed  string  The passed language if it is an available language.
-	 *                 null    If the language is not an available language.
+	 * @return   mixed  string  The passed language if it is an available language.
+	 *                  null    If the language is not an available language.
 	 *
 	 * @since   3.4.2
 	 */

@@ -81,7 +81,7 @@ class JLanguageMultilang
 				->where($db->quoteName('element') . ' = ' . $db->quote('languagefilter'));
 			$db->setQuery($query);
 
-			$detect_browser = !!strpos($db->loadResult(),'"detect_browser":"1"');
+			$detect_browser = !!strpos($db->loadResult(), '"detect_browser":"1"');
 			$tested = true;
 		}
 
