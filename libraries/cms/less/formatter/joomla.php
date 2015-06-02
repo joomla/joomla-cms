@@ -9,66 +9,16 @@
 
 defined('JPATH_PLATFORM') or die;
 
+require_once __DIR__ . '/default.php';
+
 /**
  * Formatter ruleset for Joomla formatted CSS generated via LESS
  *
  * @package     Joomla.Libraries
  * @subpackage  Less
  * @since       3.4
+ * @deprecated  3.4.2  Use JLessFormatterDefault
  */
-class JLessFormatterJoomla extends lessc_formatter_classic
+class JLessFormatterJoomla extends JLessFormatterDefault
 {
-	public $indentChar = "\t";
-
-	public $break = "\n";
-
-	public $open = " {";
-
-	public $close = "}";
-
-	public $selectorSeparator = ", ";
-
-	public $assignSeparator = ": ";
-
-	public $openSingle = " { ";
-
-	public $closeSingle = " }";
-
-	public $disableSingle = true;
-
-	public $breakSelectors = true;
-
-	public $compressColors = false;
-}
-
-/**
- * Formatter ruleset for Joomla formatted CSS (minified) generated via LESS
- *
- * @package     Joomla.Libraries
- * @subpackage  Less
- * @since       3.4.2
- */
-class JLessFormatterJoomlaCompressed extends lessc_formatter_classic
-{
-	public $indentChar = "";
-
-	public $break = "";
-
-	public $open = "{";
-
-	public $close = "}";
-
-	public $selectorSeparator = ",";
-
-	public $assignSeparator = ":";
-
-	public $openSingle = "{";
-
-	public $closeSingle = "}";
-
-	public $disableSingle = false;
-
-	public $breakSelectors = false;
-
-	public $compressColors = true;
 }

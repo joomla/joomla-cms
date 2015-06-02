@@ -75,8 +75,8 @@ class GenerateCss extends JApplicationCli
 
 		$less->setFormatter(
 			$compress
-				? new JLessFormatterJoomlaCompressed
-				: new JLessFormatterJoomla
+				? new JLessFormatterCompressed
+				: new JLessFormatterDefault
 		);
 
 		try
