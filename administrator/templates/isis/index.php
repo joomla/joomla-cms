@@ -168,7 +168,7 @@ function colorIsLight($color)
 				<ul class="nav nav-user<?php echo ($this->direction == 'rtl') ? ' pull-left' : ' pull-right'; ?>">
 					<li class="dropdown">
 						<a class="<?php echo ($hidden ? ' disabled' : 'dropdown-toggle'); ?>" data-toggle="<?php echo ($hidden ? '' : 'dropdown'); ?>" <?php echo ($hidden ? '' : 'href="#"'); ?>><span class="icon-cog"></span>
-							<b class="caret"></b></a>
+							<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<?php if (!$hidden) : ?>
 								<li>
@@ -220,7 +220,7 @@ function colorIsLight($color)
 <?php if (!$cpanel) : ?>
 	<!-- Subheader -->
 	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ISIS_TOOLBAR'); ?>
-		<i class="icon-wrench"></i></a>
+		<span class="icon-wrench"></span></a>
 	<div class="subhead-collapse collapse">
 		<div class="subhead">
 			<div class="container-fluid">

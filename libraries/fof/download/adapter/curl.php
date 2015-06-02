@@ -13,6 +13,8 @@ defined('FOF_INCLUDED') or die;
  */
 class FOFDownloadAdapterCurl extends FOFDownloadAdapterAbstract implements FOFDownloadInterface
 {
+	protected $headers = array();
+
 	public function __construct()
 	{
 		$this->priority = 110;
@@ -75,7 +77,8 @@ class FOFDownloadAdapterCurl extends FOFDownloadAdapterAbstract implements FOFDo
 			CURLOPT_BINARYTRANSFER  => 1,
 			CURLOPT_RETURNTRANSFER  => 1,
 			CURLOPT_FOLLOWLOCATION  => 1,
-			CURLOPT_CAINFO          => __DIR__ . '/cacert.pem'
+			CURLOPT_CAINFO          => JPATH_LIBRARIES . 'joomla/http/transport/cacert.pem',
+			CURLOPT_HEADERFUNCTION  => array($this, 'reponseHeaderCallback')
 		);
 
 		if (!(empty($from) && empty($to)))
@@ -89,6 +92,8 @@ class FOFDownloadAdapterCurl extends FOFDownloadAdapterAbstract implements FOFDo
 
 		@curl_setopt_array($ch, $options);
 
+		$this->headers = array();
+
 		$result = curl_exec($ch);
 
 		$errno       = curl_errno($ch);
@@ -99,7 +104,11 @@ class FOFDownloadAdapterCurl extends FOFDownloadAdapterAbstract implements FOFDo
 		{
 			$error = JText::sprintf('LIB_FOF_DOWNLOAD_ERR_CURL_ERROR', $errno, $errmsg);
 		}
-		elseif ($http_status > 299)
+		elseif (($http_status >= 300) && ($http_status <= 399) && isset($this->headers['Location']) && !empty($this->headers['Location']))
+		{
+			return $this->downloadAndReturn($this->headers['Location'], $from, $to, $params);
+		}
+		elseif ($http_status > 399)
 		{
 			$result = false;
 			$errno = $http_status;
@@ -141,7 +150,7 @@ class FOFDownloadAdapterCurl extends FOFDownloadAdapterAbstract implements FOFDo
 		curl_setopt($ch, CURLOPT_HEADER, true );
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true );
 		@curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true );
-		@curl_setopt($ch, CURLOPT_CAINFO, __DIR__ . '/cacert.pem');
+		@curl_setopt($ch, CURLOPT_CAINFO, JPATH_LIBRARIES . 'joomla/http/transport/cacert.pem');
 
 		$data = curl_exec($ch);
 		curl_close($ch);
@@ -150,6 +159,7 @@ class FOFDownloadAdapterCurl extends FOFDownloadAdapterAbstract implements FOFDo
 		{
 			$content_length = "unknown";
 			$status = "unknown";
+			$redirection = null;
 
 			if (preg_match( "/^HTTP\/1\.[01] (\d\d\d)/", $data, $matches))
 			{
@@ -161,12 +171,56 @@ class FOFDownloadAdapterCurl extends FOFDownloadAdapterAbstract implements FOFDo
 				$content_length = (int)$matches[1];
 			}
 
-			if( $status == 200 || ($status > 300 && $status <= 308) )
+			if (preg_match( "/Location: (.*)/", $data, $matches))
+			{
+				$redirection = (int)$matches[1];
+			}
+
+			if ($status == 200)
 			{
 				$result = $content_length;
+			}
+
+			if (($status > 300) && ($status <= 308))
+			{
+				if (!empty($redirection))
+				{
+					return $this->getFileSize($redirection);
+				}
+
+				return -1;
 			}
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Handles the HTTP headers returned by cURL
+	 *
+	 * @param   resource  $ch    cURL resource handle (unused)
+	 * @param   string    $data  Each header line, as returned by the server
+	 *
+	 * @return  int  The length of the $data string
+	 */
+	protected function reponseHeaderCallback(&$ch, &$data)
+	{
+		$strlen = strlen($data);
+
+		if (($strlen) <= 2)
+		{
+			return $strlen;
+		}
+
+		if (substr($data, 0, 4) == 'HTTP')
+		{
+			return $strlen;
+		}
+
+		list($header, $value) = explode(': ', trim($data), 2);
+
+		$this->headers[$header] = $value;
+
+		return $strlen;
 	}
 }
