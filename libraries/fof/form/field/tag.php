@@ -241,7 +241,7 @@ class FOFFormFieldTag extends JFormFieldTag implements FOFFormField
 			$html .= '</span>';
 		}
 
-		return '<span class="' $this->id . ' ' . $class . '">' .
+		return '<span class="' . $this->id . ' ' . $class . '">' .
 			$html .
 			'</span>';
 	}
