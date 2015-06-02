@@ -149,14 +149,14 @@ class JLanguageHelper
 				$bestqval = $qvalue;
 			}
 			// If no direct hit, try the prefix only but decrease q-value by 10% (as http_negotiate_language() does)
-			elseif (in_array($language, $available_prefixes) && (($qvalue*0.9) > $bestqval))
+			elseif (in_array($language, $available_prefixes) && (($qvalue * 0.9) > $bestqval))
 			{
 				// The gotcha here is that in case of possible multiple matches (e.g.: en form en-AU against availables en-US and en-GB)
 				// We return the first match (en-US in the example above). No way we can do better, I guess...
 				$index = array_search($language, $available_prefixes);
 				$bestlang = $available_languages[$index];
 				$bestlang = substr($bestlang, 0, 3) . strtoupper(substr($bestlang, 3, 2));
-				$bestqval = $qvalue*0.9;
+				$bestqval = $qvalue * 0.9;
 			}
 		}
 
