@@ -13,6 +13,9 @@ $app  = JFactory::getApplication();
 $lang = JFactory::getLanguage();
 $doc  = JFactory::getDocument();
 
+// jQuery needed by template.js
+JHtml::_('jquery.framework');
+
 JHtml::_('behavior.noframes');
 
 // Load optional RTL Bootstrap CSS

@@ -7474,3 +7474,7 @@ code {
 	font-weight: bold;
 	padding: 1px 4px;
 }
+body.modal-open {
+	overflow: hidden;
+	-ms-overflow-style: none;
+}

@@ -235,9 +235,7 @@ system('rm -r installation');
 system('rm -r images/banners');
 system('rm -r images/headers');
 system('rm -r images/sampledata');
-system('rm images/joomla_black.gif');
-system('rm images/joomla_green.gif');
-system('rm images/joomla_logo_black.jpg');
+system('rm images/joomla_black.png');
 system('rm images/powered_by.png');
 
 // Move the weblinks manifest back

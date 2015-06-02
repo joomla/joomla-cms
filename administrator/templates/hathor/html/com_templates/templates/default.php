@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.modal');
 JHtml::_('behavior.multiselect');
 
 $user		= JFactory::getUser();
@@ -121,6 +120,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php echo $this->escape($url); ?></a></p>
 					<?php endif; ?>
 				</td>
+				<?php echo JHtml::_('templates.thumbModal', $item->element, $item->client_id); ?>
 			</tr>
 			<?php endforeach; ?>
 		</tbody>
