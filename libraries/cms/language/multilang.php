@@ -32,17 +32,6 @@ class JLanguageMultilang
 		// Status of language filter plugin.
 		static $enabled = false;
 
-		// Get application object.
-		$app = JFactory::getApplication();
-
-		// If being called from the front-end, we can avoid the database query.
-		if ($app->isSite())
-		{
-			$enabled = $app->getLanguageFilter();
-
-			return $enabled;
-		}
-
 		// If already tested, don't test again.
 		if (!$tested)
 		{
@@ -61,5 +50,41 @@ class JLanguageMultilang
 		}
 
 		return $enabled;
+	}
+
+	/**
+	 * Method to get the language filter plugin parameters.
+	 * This works for both site and administrator.
+	 *
+	 * @return  array  True if site is supporting multiple languages; false otherwise.
+	 *
+	 * @since   3.4.2
+	 */
+	public static function isSetDetectBrowser()
+	{
+		// Flag to avoid doing multiple database queries.
+		static $tested = false;
+
+		// Status of language filter plugin.
+		static $detect_browser = false;
+
+		// If already tested, don't test again.
+		if (!$tested)
+		{
+			// Determine status of language filter plug-in.
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('params')
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+				->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+				->where($db->quoteName('element') . ' = ' . $db->quote('languagefilter'));
+			$db->setQuery($query);
+
+			$detect_browser = !!strpos($db->loadResult(),'"detect_browser":"1"');
+			$tested = true;
+		}
+
+		return $detect_browser;
 	}
 }

@@ -71,51 +71,96 @@ class JLanguageHelper
 	}
 
 	/**
-	 * Tries to detect the language.
+	 * Tries to detect the browser language.
 	 *
-	 * @return  string  locale or null if not found
+	 * @return  mixed  string  Best match for locale amongst those available
+	 *                 null    No match
+	 *
+	 * Standard for HTTP_ACCEPT_LANGUAGE is defined at http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4
 	 *
 	 * @since   11.1
 	 */
 	public static function detectLanguage()
 	{
-		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+		static $bestlang;
+		static $checked = false;
+		
+		if ($checked)
 		{
-			$browserLangs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-			$systemLangs = self::getLanguages();
-
-			foreach ($browserLangs as $browserLang)
+			return $bestlang;
+		}
+		
+		if (empty($available_languages))
+		{
+			// Get published Site Languages.
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('a.element AS element')
+				->from('#__extensions AS a')
+				->where('a.type = ' . $db->quote('language'))
+				->where('a.client_id = 0')
+				->where('a.enabled = 1');
+			$db->setQuery($query);
+			$available_languages = array_keys((array) $db->loadObjectList('element'));
+		
+			// Lowercase $available_languages and populate $available_prefixes
+			foreach ($available_languages as $i => $lang)
 			{
-				// Slice out the part before ; on first step, the part before - on second, place into array
-				$browserLang = substr($browserLang, 0, strcspn($browserLang, ';'));
-				$primary_browserLang = substr($browserLang, 0, 2);
+				$available_languages[$i] = strtolower($lang);
+				$available_prefixes[$i] = substr($lang, 0, 2);
+			}
+		}
+		
+		// Read the HTTP-Header
+		$http_accept_language = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
 
-				foreach ($systemLangs as $systemLang)
-				{
-					// Take off 3 letters iso code languages as they can't match browsers' languages and default them to en
-					$Jinstall_lang = $systemLang->lang_code;
+		preg_match_all("/([[:alpha:]]{1,8})(-([[:alpha:]|-]{1,8}))?" .
+					"(\s*;\s*q\s*=\s*(1\.0{0,3}|0\.\d{0,3}))?\s*(,|$)/i",
+					$http_accept_language, $hits, PREG_SET_ORDER);
 
-					if (strlen($Jinstall_lang) < 6)
-					{
-						if (strtolower($browserLang) == strtolower(substr($systemLang->lang_code, 0, strlen($browserLang))))
-						{
-							return $systemLang->lang_code;
-						}
-						elseif ($primary_browserLang == substr($systemLang->lang_code, 0, 2))
-						{
-							$primaryDetectedLang = $systemLang->lang_code;
-						}
-					}
-				}
+		// Default language (in case of no hits) is null
+		$bestlang = null;
+		$bestqval = 0;
 
-				if (isset($primaryDetectedLang))
-				{
-					return $primaryDetectedLang;
-				}
+		// Search the best match
+		foreach ($hits as $arr)
+		{
+			// read data from the array of this hit
+			$language = strtolower($arr[1]);
+			if (!empty($arr[3]))
+			{
+				$country_code = strtolower($arr[3]);
+				$langprefix = $language;
+				$language = $language . "-" . $country_code;
+			}
+
+			$qvalue = 1;
+
+			if (!empty($arr[5]))
+			{
+				$qvalue = floatval($arr[5]);
+			}
+
+			// Find q-maximal language
+			if (in_array($language, $available_languages, true) && ($qvalue > $bestqval))
+			{
+				$bestlang = $langprefix . '-' . strtoupper($country_code);
+				$bestqval = $qvalue;
+			}
+			// If no direct hit, try the prefix only but decrease q-value by 10% (as http_negotiate_language() does)
+			elseif (in_array($language, $available_prefixes) && (($qvalue*0.9) > $bestqval))
+			{
+				// The gotcha here is that in case of possible multiple matches (e.g.: en form en-AU against availables en-US and en-GB)
+				// we return the first match (en-US in the example above). No way we can do better, I guess...
+				$index = array_search($language, $available_prefixes);
+				$bestlang = $available_languages[$index];
+				$bestlang = substr($bestlang, 0, 3) . strtoupper(substr($bestlang, 3, 2));
+				$bestqval = $qvalue*0.9;
 			}
 		}
 
-		return null;
+		$checked = true;
+		return $bestlang;
 	}
 
 	/**

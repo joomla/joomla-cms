@@ -560,66 +560,31 @@ final class JApplicationSite extends JApplicationCms
 	 */
 	protected function initialiseApp($options = array())
 	{
-		$user = JFactory::getUser();
+		// Determine the language settings
 
-		// If the user is a guest we populate it with the guest user group.
-		if ($user->guest)
-		{
-			$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
-			$user->groups = array($guestUsergroup);
-		}
+		// See if a language was specified: this has top priority.
+		// This for when an URL with a parameter like "?language=it-IT" was specified
+		$options['language'] = self::checkLang($this->input->getString('language', null));
 
-		// If a language was specified it has priority, otherwise use user or default language settings
-		JPluginHelper::importPlugin('system', 'languagefilter');
-
+		// Try to get user's preferred language
 		if (empty($options['language']))
 		{
-			// Detect the specified language
-			$lang = $this->input->getString('language', null);
-
-			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
-			{
-				$options['language'] = $lang;
-			}
+			$user = JFactory::getUser();
+			$options['language'] = self::checkLang($user->getParam('language'));
 		}
 
-		if ($this->_language_filter && empty($options['language']))
-		{
-			// Detect cookie language
-			$lang = $this->input->cookie->get(md5($this->get('secret') . 'language'), null, 'string');
-
-			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
-			{
-				$options['language'] = $lang;
-			}
-		}
-
+		// If still no luck, we try to get the browser language(if option is on)
 		if (empty($options['language']))
 		{
-			// Detect user language
-			$lang = $user->getParam('language');
-
-			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
-			{
-				$options['language'] = $lang;
-			}
-		}
-
-		if ($this->_detect_browser && empty($options['language']))
-		{
+			$this->_detect_browser = JLanguageMultilang::isSetDetectBrowser();
 			// Detect browser language
-			$lang = JLanguageHelper::detectLanguage();
-
-			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang))
+			if ($this->_detect_browser)
 			{
-				$options['language'] = $lang;
+				$options['language'] = self::checkLang(JLanguageHelper::detectLanguage());
 			}
 		}
 
+		// If we still don't have a language defined we get it from configuration
 		if (empty($options['language']))
 		{
 			// Detect default language
@@ -630,15 +595,12 @@ final class JApplicationSite extends JApplicationCms
 		// One last check to make sure we have something
 		if (!JLanguage::exists($options['language']))
 		{
-			$lang = $this->config->get('language', 'en-GB');
+			// But does this *really* exist? My bet is that we are always getting the 'en-GB' fallback...
+			$options['language'] = self::checkLang($this->config->get('language', 'en-GB'));
 
-			if (JLanguage::exists($lang))
+			// As a last ditch fail to english
+			if (empty($options['language']))
 			{
-				$options['language'] = $lang;
-			}
-			else
-			{
-				// As a last ditch fail to english
 				$options['language'] = 'en-GB';
 			}
 		}
@@ -652,6 +614,25 @@ final class JApplicationSite extends JApplicationCms
 		 */
 		$this->getLanguage()->load('lib_joomla', JPATH_SITE, null, false, true)
 			|| $this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR, null, false, true);
+	}
+
+	/**
+	 * Language check
+	 *
+	 * @param  string  Language to check.
+	 *
+	 * @return  mixed  string  The passed language if it is an available language.
+	 *                 null    If the language is not an available language.
+	 *
+	 * @since   3.4.2
+	 */
+	private function checkLang($lang)
+	{
+		if ($lang && JLanguage::exists($lang))
+		{
+			return $lang;
+		}
+		return null;
 	}
 
 	/**
