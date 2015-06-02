@@ -98,7 +98,7 @@ class UsersViewGroups extends JViewLegacy
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_users');
 			JToolbarHelper::divider();
