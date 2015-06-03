@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Include the HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 
 $app = JFactory::getApplication();
@@ -22,16 +22,16 @@ $saveHistory = $this->state->get('params')->get('save_history', 0);
 
 $assoc = JLanguageAssociations::isEnabled();
 
-?>
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.id('newsfeed-form')))
+		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.getElementById('newsfeed-form')))
 		{
 			Joomla.submitform(task, document.getElementById('newsfeed-form'));
 		}
 	}
-</script>
+");
+?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_newsfeeds&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="newsfeed-form" class="form-validate">
 	<div class="col main-section">

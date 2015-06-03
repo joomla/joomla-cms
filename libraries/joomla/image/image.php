@@ -53,6 +53,24 @@ class JImage
 	const SCALE_FIT = 6;
 
 	/**
+	 * @const  string
+	 * @since  3.4.2
+	 */
+	const ORIENTATION_LANDSCAPE = 'landscape';
+
+	/**
+	 * @const  string
+	 * @since  3.4.2
+	 */
+	const ORIENTATION_PORTRAIT = 'portrait';
+
+	/**
+	 * @const  string
+	 * @since  3.4.2
+	 */
+	const ORIENTATION_SQUARE = 'square';
+
+	/**
 	 * @var    resource  The image resource handle.
 	 * @since  11.3
 	 */
@@ -113,8 +131,7 @@ class JImage
 
 	/**
 	 * Method to return a properties object for an image given a filesystem path.
-	 * The result object has values for image width, height, type, attributes,
-	 * mime type, bits and channels.
+	 * The result object has values for image width, height, type, attributes, bits, channels, mime type, file size and orientation.
 	 *
 	 * @param   string  $path  The filesystem path to the image for which to get properties.
 	 *
@@ -124,35 +141,83 @@ class JImage
 	 *
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
-	 *
-	 * @deprecated  4.0  Use JImageHelper::getImageFileProperties instead.
 	 */
 	public static function getImageFileProperties($path)
 	{
-		return JImageHelper::getImageFileProperties($path);
+		// Make sure the file exists.
+		if (!file_exists($path))
+		{
+			throw new InvalidArgumentException('The image file does not exist.');
+		}
+
+		// Get the image file information.
+		$info = getimagesize($path);
+
+		if (!$info)
+		{
+			// @codeCoverageIgnoreStart
+			throw new RuntimeException('Unable to get properties for the image.');
+
+			// @codeCoverageIgnoreEnd
+		}
+
+		// Build the response object.
+		$properties = (object) array(
+			'width' => $info[0],
+			'height' => $info[1],
+			'type' => $info[2],
+			'attributes' => $info[3],
+			'bits' => isset($info['bits']) ? $info['bits'] : null,
+			'channels' => isset($info['channels']) ? $info['channels'] : null,
+			'mime' => $info['mime'],
+			'filesize' => filesize($path),
+			'orientation' => self::getOrientationString((int) $info[0], (int) $info[1])
+		);
+
+		return $properties;
 	}
 
 	/**
 	 * Method to detect whether an image's orientation is landscape, portrait or square.
-	 * The orientation will be returned as string.
-	 *
-	 * @access  public
+	 * The orientation will be returned as a string.
 	 *
 	 * @return  mixed   Orientation string or null.
 	 *
-	 * @since   3.4
+	 * @since   3.4.2
 	 */
 	public function getOrientation()
 	{
 		if ($this->isLoaded())
 		{
-			$width  = $this->getWidth();
-			$height = $this->getHeight();
-
-			return JImageHelper::getOrientation($width, $height);
+			return self::getOrientationString($this->getWidth(), $this->getHeight());
 		}
 
 		return null;
+	}
+
+	/**
+	 * Compare width and height integers to determine image orientation.
+	 *
+	 * @param   integer  $width   The width value to use for calculation
+	 * @param   integer  $height  The height value to use for calculation
+	 *
+	 * @return  string   Orientation string
+	 *
+	 * @since   3.4.2
+	 */
+	static private function getOrientationString($width, $height)
+	{
+		switch (true)
+		{
+		case ($width > $height) :
+			return self::ORIENTATION_LANDSCAPE;
+
+		case ($width < $height) :
+			return self::ORIENTATION_PORTRAIT;
+
+		default:
+			return self::ORIENTATION_SQUARE;
+		}
 	}
 
 	/**
