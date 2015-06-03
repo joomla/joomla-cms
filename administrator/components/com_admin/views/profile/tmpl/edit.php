@@ -38,8 +38,8 @@ $fieldsets = $this->form->getFieldsets();
 		<div class="control-group">
 			<div class="control-label"><?php echo $field->label; ?></div>
 			<div class="controls">
-				<?php if ($field->getAttribute('name') == 'password2') : ?>
-					<!-- disables autocomplete --><input type="text" style="display:none">
+				<?php if ($field->fieldname == 'password2') : ?>
+					<?php // Disables autocomplete ?> <input type="text" style="display:none">
 				<?php endif; ?>
 				<?php echo $field->input; ?>
 			</div>
