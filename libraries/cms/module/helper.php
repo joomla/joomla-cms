@@ -278,42 +278,43 @@ abstract class JModuleHelper
 	 */
 	public static function getLayoutPath($module, $layout = 'default')
 	{
-		$template = JFactory::getApplication()->getTemplate();
+		$app           = JFactory::getApplication();
+		$template      = $app->getTemplate();
 		$defaultLayout = $layout;
 
 		if (strpos($layout, ':') !== false)
 		{
 			// Get the template and file name from the string
-			$temp = explode(':', $layout);
-			$template = ($temp[0] == '_') ? $template : $temp[0];
-			$layout = $temp[1];
+			$temp          = explode(':', $layout);
+			$template      = ($temp[0] == '_') ? $template : $temp[0];
+			$layout        = $temp[1];
 			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
 		}
 
 		// Build the template and base path for the layout
-		$pPath = $app->triggerEvent('onGetModuleLayoutPath', array($module, $layout));
 		$tPath = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
+		$pPath = $app->triggerEvent('onGetModuleLayoutPath', array($module, $layout));
 		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
 		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
 
 		// If a plugin has a layout override use it
 		// ElseIf the template has a layout override use it
-		if(file_exists($pPath))
-		{
-			return $pPath;
-		}
-		elseif(file_exists($tPath))
+		if (file_exists($tPath))
 		{
 			return $tPath;
 		}
-		elseif (file_exists($bPath))
+		
+		if (file_exists($pPath))
+		{
+			return $pPath;
+		}
+		
+		if (file_exists($bPath))
 		{
 			return $bPath;
 		}
-		else
-		{
-			return $dPath;
-		}
+		
+		return $dPath;
 	}
 
 	/**
