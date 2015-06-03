@@ -113,8 +113,8 @@ class JImage
 		{
 			$info = gd_info();
 			self::$formats[IMAGETYPE_JPEG] = ($info['JPEG Support']) ? true : false;
-			self::$formats[IMAGETYPE_PNG] = ($info['PNG Support']) ? true : false;
-			self::$formats[IMAGETYPE_GIF] = ($info['GIF Read Support']) ? true : false;
+			self::$formats[IMAGETYPE_PNG]  = ($info['PNG Support']) ? true : false;
+			self::$formats[IMAGETYPE_GIF]  = ($info['GIF Read Support']) ? true : false;
 		}
 
 		// If the source input is a resource, set it as the image handle.
@@ -163,14 +163,14 @@ class JImage
 
 		// Build the response object.
 		$properties = (object) array(
-			'width' => $info[0],
-			'height' => $info[1],
-			'type' => $info[2],
-			'attributes' => $info[3],
-			'bits' => isset($info['bits']) ? $info['bits'] : null,
-			'channels' => isset($info['channels']) ? $info['channels'] : null,
-			'mime' => $info['mime'],
-			'filesize' => filesize($path),
+			'width'       => $info[0],
+			'height'      => $info[1],
+			'type'        => $info[2],
+			'attributes'  => $info[3],
+			'bits'        => isset($info['bits']) ? $info['bits'] : null,
+			'channels'    => isset($info['channels']) ? $info['channels'] : null,
+			'mime'        => $info['mime'],
+			'filesize'    => filesize($path),
 			'orientation' => self::getOrientationString((int) $info[0], (int) $info[1])
 		);
 
@@ -207,17 +207,17 @@ class JImage
 	 */
 	static private function getOrientationString($width, $height)
 	{
-		switch (true)
+		if ($width > $height)
 		{
-		case ($width > $height) :
 			return self::ORIENTATION_LANDSCAPE;
-
-		case ($width < $height) :
-			return self::ORIENTATION_PORTRAIT;
-
-		default:
-			return self::ORIENTATION_SQUARE;
 		}
+
+		if ($width < $height)
+		{
+			return self::ORIENTATION_PORTRAIT;
+		}
+
+		return self::ORIENTATION_SQUARE;
 	}
 
 	/**
@@ -335,13 +335,13 @@ class JImage
 			foreach ($thumbs as $thumb)
 			{
 				// Get thumb properties
-				$thumbWidth     = $thumb->getWidth();
-				$thumbHeight    = $thumb->getHeight();
+				$thumbWidth  = $thumb->getWidth();
+				$thumbHeight = $thumb->getHeight();
 
 				// Generate thumb name
-				$filename       = pathinfo($this->getPath(), PATHINFO_FILENAME);
-				$fileExtension  = pathinfo($this->getPath(), PATHINFO_EXTENSION);
-				$thumbFileName  = $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
+				$filename      = pathinfo($this->getPath(), PATHINFO_FILENAME);
+				$fileExtension = pathinfo($this->getPath(), PATHINFO_EXTENSION);
+				$thumbFileName = $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
 
 				// Save thumb file to disk
 				$thumbFileName = $thumbsFolder . '/' . $thumbFileName;
@@ -349,7 +349,7 @@ class JImage
 				if ($thumb->toFile($thumbFileName, $imgProperties->type))
 				{
 					// Return JImage object with thumb path to ease further manipulation
-					$thumb->path = $thumbFileName;
+					$thumb->path     = $thumbFileName;
 					$thumbsCreated[] = $thumb;
 				}
 			}
@@ -414,7 +414,7 @@ class JImage
 		if ($this->isTransparent())
 		{
 			// Get the transparent color values for the current image.
-			$rgba = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
+			$rgba  = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
 			$color = imageColorAllocateAlpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
@@ -721,15 +721,15 @@ class JImage
 		$dimensions = $this->prepareDimensions($width, $height, $scaleMethod);
 
 		// Instantiate offset.
-		$offset = new stdClass;
+		$offset    = new stdClass;
 		$offset->x = $offset->y = 0;
 
 		// Center image if needed and create the new truecolor image handle.
 		if ($scaleMethod == self::SCALE_FIT)
 		{
 			// Get the offsets
-			$offset->x	= round(($width - $dimensions->width) / 2);
-			$offset->y	= round(($height - $dimensions->height) / 2);
+			$offset->x = round(($width - $dimensions->width) / 2);
+			$offset->y = round(($height - $dimensions->height) / 2);
 
 			$handle = imagecreatetruecolor($width, $height);
 
@@ -752,7 +752,7 @@ class JImage
 		if ($this->isTransparent())
 		{
 			// Get the transparent color values for the current image.
-			$rgba = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
+			$rgba  = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
 			$color = imageColorAllocateAlpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
@@ -824,10 +824,10 @@ class JImage
 	 */
 	public function cropResize($width, $height, $createNew = true)
 	{
-		$width   = $this->sanitizeWidth($width, $height);
-		$height  = $this->sanitizeHeight($height, $width);
+		$width  = $this->sanitizeWidth($width, $height);
+		$height = $this->sanitizeHeight($height, $width);
 
-		$resizewidth = $width;
+		$resizewidth  = $width;
 		$resizeheight = $height;
 
 		if (($this->getWidth() / $width) < ($this->getHeight() / $height))
@@ -1023,7 +1023,7 @@ class JImage
 					$ratio = min($rx, $ry);
 				}
 
-				$dimensions->width = (int) round($this->getWidth() / $ratio);
+				$dimensions->width  = (int) round($this->getWidth() / $ratio);
 				$dimensions->height = (int) round($this->getHeight() / $ratio);
 				break;
 
