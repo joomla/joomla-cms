@@ -96,7 +96,7 @@ class JAuthenticationTest extends TestCase
 	 *
 	 * @since  11.3
 	 */
-	public function mockTrigger($event, $args = array())
+	public static function mockTrigger($event, $args = array())
 	{
 		switch ($event)
 		{

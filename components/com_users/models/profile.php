@@ -215,6 +215,12 @@ class UsersModelProfile extends JModelForm
 			$form->setFieldAttribute('username', 'required', 'false');
 		}
 
+		// When multilanguage is set, a user's default site language should also be a Content Language
+		if (JLanguageMultilang::isEnabled())
+		{
+			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
+		}
+
 		// If the user needs to change their password, mark the password fields as required
 		if (JFactory::getUser()->requireReset)
 		{

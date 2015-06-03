@@ -12,6 +12,18 @@
  * @link        http://www.phpunit.de/manual/current/en/installation.html
  */
 
+/**
+ * Mock for the global application exit.
+ *
+ * @param   mixed  $message  Exit code or string. Defaults to zero.
+ *
+ * @return  void
+ */
+function jexit($message = 0)
+{
+	return;
+}
+
 define('_JEXEC', 1);
 
 // Fix magic quotes.
@@ -99,12 +111,6 @@ require_once JPATH_PLATFORM . '/import.legacy.php';
 
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
-
-// For PHP 7, unset the exception handler
-if (PHP_MAJOR_VERSION >= 7)
-{
-	restore_exception_handler();
-}
 
 // Register the core Joomla test classes.
 JLoader::registerPrefix('Test', __DIR__ . '/core');
