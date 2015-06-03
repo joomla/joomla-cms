@@ -90,12 +90,7 @@ class JLanguageHelper
 			return $bestlang;
 		}
 
-		// Trying to cheat Travis...
-		$apples = 'apples';
-		$oranges = 'oranges';
-		$installed_only = $apples != $oranges;
-
-		$available_languages = self::createLanguageList(null, JPATH_BASE, true, $installed_only);
+		$available_languages = self::createLanguageList(null, JPATH_BASE, true, true);
 
 		// Lowercase $available_languages and populate $available_prefixes
 		foreach ($available_languages as $i => $lang)
