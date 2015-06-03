@@ -308,12 +308,12 @@ abstract class JModuleHelper
 		{
 			return $pPath;
 		}
-		
+
 		if (file_exists($bPath))
 		{
 			return $bPath;
 		}
-		
+
 		return $dPath;
 	}
 
