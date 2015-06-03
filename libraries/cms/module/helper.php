@@ -297,13 +297,13 @@ abstract class JModuleHelper
 		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
 		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
 
-		// If a plugin has a layout override use it
-		// ElseIf the template has a layout override use it
+		// If a template has a layout override use it
 		if (file_exists($tPath))
 		{
 			return $tPath;
 		}
-		
+
+		// If the plugin has a layout override use it
 		if (file_exists($pPath))
 		{
 			return $pPath;
