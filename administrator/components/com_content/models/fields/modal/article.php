@@ -167,8 +167,10 @@ class JFormFieldModal_Article extends JFormField
 
 		$html[] = '<input type="hidden" id="' . $this->id . '_id"' . $class . ' name="' . $this->name . '" value="' . $value . '" />';
 
-		$html[] = JHtmlBootstrap::renderModal(
-			'modalArticle' . $this->id, array(
+		$html[] = JHtml::_(
+			'bootstrap.renderModal',
+			'modalArticle' . $this->id,
+			array(
 				'url' => $url,
 				'title' => JText::_('COM_CONTENT_CHANGE_ARTICLE'),
 				'width' => '800px',

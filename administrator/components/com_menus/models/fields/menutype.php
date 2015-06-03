@@ -85,16 +85,18 @@ class JFormFieldMenutype extends JFormFieldList
 		$html[] = '<a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JSELECT') . '">'
 			. '<span class="icon-list icon-white"></span> '
 			. JText::_('JSELECT') . '</a></span>';
-		$html[] = JHtmlBootstrap::renderModal(
-						'menuTypeModal', array(
-							'url' => $link,
-							'title' => JText::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),
-							'width' => '800px',
-							'height' => '300px',
-							'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
-								. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-						)
-					);
+		$html[] = JHtml::_(
+			'bootstrap.renderModal',
+			'menuTypeModal',
+			array(
+				'url' => $link,
+				'title' => JText::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),
+				'width' => '800px',
+				'height' => '300px',
+				'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+			)
+		);
 		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" />';
 
 		return implode("\n", $html);

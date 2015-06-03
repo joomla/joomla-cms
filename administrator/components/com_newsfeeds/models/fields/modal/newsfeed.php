@@ -147,16 +147,18 @@ class JFormFieldModal_Newsfeed extends JFormField
 			. '<span class="icon-file"></span> ' . JText::_('JSELECT')
 			. '</a>';
 
-		$html[] = JHtmlBootstrap::renderModal(
-						'modalNewsfeed' . $this->id, array(
-							'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
-							'title' => JText::_('COM_NEWSFEEDS_CHANGE_FEED_BUTTON'),
-							'width' => '800px',
-							'height' => '300px',
-							'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
-								. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-						)
-					);
+		$html[] = JHtml::_(
+			'bootstrap.renderModal',
+			'modalNewsfeed' . $this->id,
+			array(
+				'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
+				'title' => JText::_('COM_NEWSFEEDS_CHANGE_FEED_BUTTON'),
+				'width' => '800px',
+				'height' => '300px',
+				'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+			)
+		);
 
 		// Edit newsfeed button
 		if ($allowEdit)

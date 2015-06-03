@@ -54,8 +54,8 @@ class JHtmlUsers
 	{
 		$title = JText::_('COM_USERS_ADD_NOTE');
 
-		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '">'
-			. '<span class="label label-info"><span class="icon-vcard"></span>' . $title . '</span></a>';
+		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '" class="hasTooltip btn btn-mini" title="' . $title . '">'
+			. '<span class="icon-vcard"></span><span class="hidden-phone">' . $title . '</span></a>';
 	}
 
 	/**
@@ -77,8 +77,8 @@ class JHtmlUsers
 
 		$title = JText::_('COM_USERS_FILTER_NOTES');
 
-		return '<a href="' . JRoute::_('index.php?option=com_users&view=notes&filter_search=uid:' . (int) $userId) . '">'
-			. JHtml::_('image', 'admin/filter_16.png', 'COM_USERS_NOTES', array('title' => $title), true) . '</a>';
+		return '<a href="' . JRoute::_('index.php?option=com_users&view=notes&filter_search=uid:' . (int) $userId) . '" class="hasTooltip btn btn-mini" title="' . $title . '">'
+			. '<span class="icon-filter"></span></a>';
 	}
 
 	/**
@@ -125,8 +125,10 @@ class JHtmlUsers
 		$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">'
 			. JText::_('JTOOLBAR_CLOSE') . '</a>';
 
-		return JHtmlBootstrap::renderModal(
-			'userModal_' . (int) $userId, array(
+		return JHtml::_(
+			'bootstrap.renderModal',
+			'userModal_' . (int) $userId,
+			array(
 				'title' => $title,
 				'backdrop' => 'static',
 				'keyboard' => true,
@@ -135,7 +137,7 @@ class JHtmlUsers
 				'url' => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId),
 				'height' => '300px',
 				'width' => '800px'
-				)
+			)
 		);
 
 	}

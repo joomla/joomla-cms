@@ -53,6 +53,24 @@ class JImage
 	const SCALE_FIT = 6;
 
 	/**
+	 * @const  string
+	 * @since  3.4.2
+	 */
+	const ORIENTATION_LANDSCAPE = 'landscape';
+
+	/**
+	 * @const  string
+	 * @since  3.4.2
+	 */
+	const ORIENTATION_PORTRAIT = 'portrait';
+
+	/**
+	 * @const  string
+	 * @since  3.4.2
+	 */
+	const ORIENTATION_SQUARE = 'square';
+
+	/**
 	 * @var    resource  The image resource handle.
 	 * @since  11.3
 	 */
@@ -112,15 +130,15 @@ class JImage
 	}
 
 	/**
-	 * Method to return a properties object for an image given a filesystem path.  The
-	 * result object has values for image width, height, type, attributes, mime type, bits,
-	 * and channels.
+	 * Method to return a properties object for an image given a filesystem path.
+	 * The result object has values for image width, height, type, attributes, bits, channels, mime type, file size and orientation.
 	 *
 	 * @param   string  $path  The filesystem path to the image for which to get properties.
 	 *
 	 * @return  stdClass
 	 *
 	 * @since   11.3
+	 *
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
 	 */
@@ -151,10 +169,55 @@ class JImage
 			'attributes' => $info[3],
 			'bits' => isset($info['bits']) ? $info['bits'] : null,
 			'channels' => isset($info['channels']) ? $info['channels'] : null,
-			'mime' => $info['mime']
+			'mime' => $info['mime'],
+			'filesize' => filesize($path),
+			'orientation' => self::getOrientationString((int) $info[0], (int) $info[1])
 		);
 
 		return $properties;
+	}
+
+	/**
+	 * Method to detect whether an image's orientation is landscape, portrait or square.
+	 * The orientation will be returned as a string.
+	 *
+	 * @return  mixed   Orientation string or null.
+	 *
+	 * @since   3.4.2
+	 */
+	public function getOrientation()
+	{
+		if ($this->isLoaded())
+		{
+			return self::getOrientationString($this->getWidth(), $this->getHeight());
+		}
+
+		return null;
+	}
+
+	/**
+	 * Compare width and height integers to determine image orientation.
+	 *
+	 * @param   integer  $width   The width value to use for calculation
+	 * @param   integer  $height  The height value to use for calculation
+	 *
+	 * @return  string   Orientation string
+	 *
+	 * @since   3.4.2
+	 */
+	static private function getOrientationString($width, $height)
+	{
+		switch (true)
+		{
+		case ($width > $height) :
+			return self::ORIENTATION_LANDSCAPE;
+
+		case ($width < $height) :
+			return self::ORIENTATION_PORTRAIT;
+
+		default:
+			return self::ORIENTATION_SQUARE;
+		}
 	}
 
 	/**
