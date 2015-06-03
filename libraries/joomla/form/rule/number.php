@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       xx.x
+ * @since       3.5.0
  */
 class JFormRuleNumber extends JFormRule
 {
@@ -31,7 +31,7 @@ class JFormRuleNumber extends JFormRule
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
-	 * @since   xx.x
+	 * @since   3.5.0
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
