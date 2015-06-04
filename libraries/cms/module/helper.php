@@ -284,8 +284,7 @@ abstract class JModuleHelper
 	 */
 	public static function getLayoutPath($module, $layout = 'default')
 	{
-		$app           = JFactory::getApplication();
-		$template      = $app->getTemplate();
+		$template      = JFactory::getApplication()->getTemplate();
 		$defaultLayout = $layout;
 		$layoutPaths   = array();
 
