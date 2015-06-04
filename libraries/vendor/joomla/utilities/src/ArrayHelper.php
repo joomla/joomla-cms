@@ -237,7 +237,7 @@ final class ArrayHelper
 	 *
 	 * @return  mixed  The value from the source array
 	 *
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 *
 	 * @since   1.0
 	 */
