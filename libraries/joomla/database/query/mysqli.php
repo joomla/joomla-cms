@@ -45,7 +45,14 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	{
 		if ($limit > 0 || $offset > 0)
 		{
-			$query .= ' LIMIT ' . $offset . ', ' . $limit;
+			if ($offset > 0)
+			{
+				$query .= ' LIMIT ' . $offset . ', ' . $limit;
+			}
+			else
+			{
+				$query .= ' LIMIT ' . $limit;
+			}
 		}
 
 		return $query;
