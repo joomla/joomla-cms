@@ -733,11 +733,12 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
 
-		// Let's be sure we got a valid language code. Falls back returning the default language.
+		// Let's be sure we got a valid language code. Fallback to null.
 		if (!array_key_exists($lang_code, $this->lang_codes))
 		{
-			$lang_code = $this->default_lang;
+			$lang_code = null;
 		}
+
 		return $lang_code;
 	}
 
