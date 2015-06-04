@@ -198,17 +198,23 @@ abstract class JModuleHelper
 			$chrome = array();
 		}
 
-		include_once JPATH_THEMES . '/system/html/modules.php';
-		$chromePath = JPATH_THEMES . '/' . $template . '/html/modules.php';
+		// Load system chromes and active template chromes
+		$chromePaths = array(JPATH_THEMES . '/system/html/modules.php', JPATH_THEMES . '/' . $template . '/html/modules.php');
 
-		if (!isset($chrome[$chromePath]))
+		// Load chromes from plugins
+		$chromePaths = array_merge($chromePaths, $app->triggerEvent('onGetModuleChromes'));
+
+		foreach ($chromePaths as $chromePath)
 		{
-			if (file_exists($chromePath))
+			if (!isset($chrome[$chromePath]))
 			{
-				include_once $chromePath;
-			}
+				if (file_exists($chromePath))
+				{
+					include_once $chromePath;
+				}
 
-			$chrome[$chromePath] = true;
+				$chrome[$chromePath] = true;
+			}
 		}
 
 		// Check if the current module has a style param to override template module style
@@ -281,6 +287,7 @@ abstract class JModuleHelper
 		$app           = JFactory::getApplication();
 		$template      = $app->getTemplate();
 		$defaultLayout = $layout;
+		$layoutPaths   = array();
 
 		if (strpos($layout, ':') !== false)
 		{
@@ -291,30 +298,23 @@ abstract class JModuleHelper
 			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
 		}
 
-		// Build the template and base path for the layout
-		$tPath = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
-		$pPath = $app->triggerEvent('onGetModuleLayoutPath', array($module, $layout));
-		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
-		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
+		// Add template layout - highest priority
+		$layoutPaths[] = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
 
-		// If a template has a layout override use it
-		if (file_exists($tPath))
+		// Add plugin layout
+		$layoutPaths[] = $app->triggerEvent('onGetModuleLayoutPath', array($module, $layout));
+
+		// Add standard layouts
+		$layoutPaths[] = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
+		$layoutPaths[] = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
+
+		foreach ($layoutPaths as $layoutPath)
 		{
-			return $tPath;
+			if (file_exists($layoutPath))
+			{
+				return $layoutPath;
+			}
 		}
-
-		// If the plugin has a layout override use it
-		if (file_exists($pPath))
-		{
-			return $pPath;
-		}
-
-		if (file_exists($bPath))
-		{
-			return $bPath;
-		}
-
-		return $dPath;
 	}
 
 	/**

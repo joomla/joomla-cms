@@ -71,15 +71,39 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 	 */
 	protected function getTemplateModuleStyles()
 	{
+		$app = JFactory::getApplication();
 		$moduleStyles = array();
+		$moduleFilePaths = array();
 
 		$templates = array($this->getSystemTemplate());
 		$templates = array_merge($templates, $this->getTemplates());
+		$plugins = $app->triggerEvent('onGetModuleStyles');
 
-		foreach ($templates as $template)
+		foreach($templates as $template)
 		{
-			$modulesFilePath = JPATH_SITE . '/templates/' . $template->element . '/html/modules.php';
+			$moduleFilePaths[$template->element] = JPATH_SITE . '/templates/' . $template->element . '/html/modules.php';
+		}
 
+		if (!empty($plugins))
+		{
+			foreach ($plugins as $plugin)
+			{
+				if (is_object($plugin))
+				{
+					$moduleFilePaths[$plugin->element] = $plugin->path;
+				}
+				elseif (is_array($plugin))
+				{
+					foreach($plugin as $p)
+					{
+						$moduleFilePaths[$p->element] = $p->path;
+					}
+				}
+			}
+		}
+
+		foreach ($moduleFilePaths as $key => $moduleFilePath)
+		{
 			// Is there modules.php for that template?
 			if (file_exists($modulesFilePath))
 			{
@@ -87,12 +111,12 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 
 				preg_match_all('/function[\s\t]*modChrome\_([a-z0-9\-\_]*)[\s\t]*\(/i', $modulesFileData, $styles);
 
-				if (!array_key_exists($template->element, $moduleStyles))
+				if (!array_key_exists($key, $moduleStyles))
 				{
-					$moduleStyles[$template->element] = array();
+					$moduleStyles[$key] = array();
 				}
 
-				$moduleStyles[$template->element] = $styles[1];
+				$moduleStyles[$key] = $styles[1];
 			}
 		}
 
