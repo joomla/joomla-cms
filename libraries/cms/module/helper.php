@@ -202,7 +202,7 @@ abstract class JModuleHelper
 		$chromePaths = array(JPATH_THEMES . '/system/html/modules.php', JPATH_THEMES . '/' . $template . '/html/modules.php');
 
 		// Load chromes from plugins
-		$chromePaths = array_merge($chromePaths, $app->triggerEvent('onGetModuleChromes'));
+		$chromePaths = array_merge($chromePaths, $app->triggerEvent('onGetModuleChromePaths'));
 
 		foreach ($chromePaths as $chromePath)
 		{
@@ -302,7 +302,7 @@ abstract class JModuleHelper
 		$layoutPaths[] = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
 
 		// Add plugin layout
-		$layoutPaths[] = $app->triggerEvent('onGetModuleLayoutPath', array($module, $layout));
+		$layoutPaths[] = $app->triggerEvent('onGetModuleLayoutPaths', array($module, $layout));
 
 		// Add standard layouts
 		$layoutPaths[] = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
