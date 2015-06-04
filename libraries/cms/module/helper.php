@@ -298,13 +298,8 @@ abstract class JModuleHelper
 			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
 		}
 
-		// Add template layout - highest priority
+		// Add layout paths in priority order
 		$layoutPaths[] = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
-
-		// Add plugin layout
-		$layoutPaths[] = $app->triggerEvent('onGetModuleLayoutPaths', array($module, $layout));
-
-		// Add standard layouts
 		$layoutPaths[] = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
 		$layoutPaths[] = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
 

@@ -79,7 +79,7 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 		$templates = array_merge($templates, $this->getTemplates());
 		$plugins = $app->triggerEvent('onGetModuleStyles');
 
-		foreach($templates as $template)
+		foreach ($templates as $template)
 		{
 			$moduleFilePaths[$template->element] = JPATH_SITE . '/templates/' . $template->element . '/html/modules.php';
 		}
@@ -94,7 +94,7 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 				}
 				elseif (is_array($plugin))
 				{
-					foreach($plugin as $p)
+					foreach ($plugin as $p)
 					{
 						$moduleFilePaths[$p->element] = $p->path;
 					}
