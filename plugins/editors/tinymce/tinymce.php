@@ -835,7 +835,14 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onGetInsertMethod($name)
 	{
-		JHtml::script('media/editors/tinymce/on-get-insert-method.min.js', false, false, false, false, true);
+		JFactory::getDocument()->addScriptDeclaration(
+			"
+			function jInsertEditorText(text, editor)
+			{
+				tinyMCE.execCommand('mceInsertContent', false, text);
+			}
+			"
+		);
 
 		return true;
 	}
