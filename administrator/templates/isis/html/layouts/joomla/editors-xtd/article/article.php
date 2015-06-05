@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.modal');
-
 $button = $displayData;
 
-$onclick  = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : ' onclick="IeCursorFix(); return false;"';
+$onclick  = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : 'null;"';
 /*
  * Javascript to insert the link
  * View element calls jSelectArticle when an article is clicked
@@ -35,8 +33,19 @@ JFactory::getDocument()->addScriptDeclaration("
 ");
 
 $tmptitle = str_replace(' ', '', strtolower(htmlspecialchars($button->plugin)));
+$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+		. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>';
 
-echo JHtmlBootstrap::renderModal($tmptitle . 'Modal', array('url' => $button->link, 'title' => $button->text, 'height' => '500px', 'width' => '800px'));
+echo JHtml::_('bootstrap.renderModal',
+	$tmptitle . 'Modal',
+	array(
+		'url' => $button->link,
+		'title' => $button->text,
+		'height' => '300px',
+		'width' => '800px',
+		'footer' => $footer
+	)
+);
 
 ?>
 <a href="#<?php echo $tmptitle; ?>Modal" class="<?php echo $button->class; ?>" role="button" title="<?php echo $button->text; ?>" data-toggle="modal"><i class="icon-<?php echo $button->name; ?>"></i> <?php echo $button->text; ?></a>

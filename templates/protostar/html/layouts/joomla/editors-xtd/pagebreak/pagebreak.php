@@ -9,17 +9,22 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.modal');
-
 $button = $displayData;
 
+$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+	. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>';
+
 // Render the modal
-echo JHtmlBootstrap::renderModal(
-	'modal_'. $button->named, array(
-		'url' => $button->link ,
+echo JHtml::_(
+	'bootstrap.renderModal',
+	'modal_'. $button->named,
+	array(
+		'url' => $button->link,
 		'title' => JText::_('JLIB_FORM_CHANGE_IMAGE'),
+		'height' => '300px',
 		'width' => '800px',
-		'height' => '565px')
+		'footer' => $footer
+	)
 );
 ?>
 
