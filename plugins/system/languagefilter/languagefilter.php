@@ -709,16 +709,17 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 
 		// Get the cookie lifetime we want.
-		$cookie_time = 0;
+		$cookie_expire = 0;
 		if ($this->params->get('lang_cookie', 1) == 1)
 		{
-			$cookie_time = time() + 365 * 86400;
+			$cookie_expire = time() + 365 * 86400;
 		}
 
 		// Create a cookie.
 		$cookie_domain = $this->app->get('cookie_domain');
 		$cookie_path   = $this->app->get('cookie_path', '/');
-		$this->app->input->cookie->set(JApplicationHelper::getHash('language'), $lang_code, $cookie_time, $cookie_path, $cookie_domain);
+		$cookie_secure = $this->app->isSSLConnection();
+		$this->app->input->cookie->set(JApplicationHelper::getHash('language'), $lang_code, $cookie_expire, $cookie_path, $cookie_domain, $cookie_secure);
 	}
 
 	/**
@@ -732,11 +733,12 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
 
-		// Let's be sure we got a valid language code. Falls back returning the default language.
+		// Let's be sure we got a valid language code. Fallback to null.
 		if (!array_key_exists($lang_code, $this->lang_codes))
 		{
-			$lang_code = $this->default_lang;
+			$lang_code = null;
 		}
+
 		return $lang_code;
 	}
 
