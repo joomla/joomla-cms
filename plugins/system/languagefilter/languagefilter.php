@@ -519,7 +519,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			if (!$lang_code
 				|| !array_key_exists($lang_code, $this->lang_codes)
-				|| !array_key_exists($lang_code, MultilangstatusHelper::getHomepages())
+				|| !array_key_exists($lang_code, MultilangstatusHelper::getHomepages()))
 			{
 				$lang_code = $this->current_lang;
 			}
