@@ -422,26 +422,45 @@ class AdminModelSysInfo extends JModelLegacy
 			return $installed;
 		}
 
-		if (count($extensions))
+		if (empty($extensions))
 		{
-			foreach ($extensions as $extension)
-			{
-				// Initialise with an empty array
-				$installed[$extension->name] = array();
+			return $installed;
+		}
 
-				if (strlen($extension->name))
-				{
-					$manifest = json_decode($extension->manifest_cache);
-					$installed[$extension->name] = array(
-						'name'         => $manifest->name,
-						'type'         => $manifest->type,
-						'author'       => $manifest->author,
-						'version'      => $manifest->version,
-						'creationDate' => $manifest->creationDate,
-						'authorUrl'    => $manifest->authorUrl
-					);
-				}
+		foreach ($extensions as $extension)
+		{
+			// Initialise with an empty array
+			$installed[$extension->name] = array();
+
+			if (strlen($extension->name) == 0)
+			{
+				continue;
 			}
+
+			$installed[$extension->name] = array(
+				'name'         => $extension->name,
+				'type'         => $extension->type,
+				'author'       => 'unknown',
+				'version'      => 'unknown',
+				'creationDate' => 'unknown',
+				'authorUrl'    => 'unknown'
+			);
+
+			$manifest = json_decode($extension->manifest_cache);
+
+			if (!$manifest instanceof stdClass)
+			{
+				continue;
+			}
+
+			$extraData = array(
+				'author'       => $manifest->author,
+				'version'      => $manifest->version,
+				'creationDate' => $manifest->creationDate,
+				'authorUrl'    => $manifest->authorUrl
+			);
+
+			$installed[$extension->name] = array_merge($installed[$extension->name], $extraData);
 		}
 
 		return $installed;
