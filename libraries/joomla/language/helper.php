@@ -71,51 +71,85 @@ class JLanguageHelper
 	}
 
 	/**
-	 * Tries to detect the language.
+	 * Tries to detect the browser language.
 	 *
-	 * @return  string  locale or null if not found
+	 * @return  mixed  string  Best match for locale amongst those available
+	 *                 null    No match
+	 *
+	 * Standard for HTTP_ACCEPT_LANGUAGE is defined at http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4
 	 *
 	 * @since   11.1
 	 */
 	public static function detectLanguage()
 	{
-		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+		static $bestlang;
+		static $checked = false;
+
+		if ($checked)
 		{
-			$browserLangs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-			$systemLangs = self::getLanguages();
+			return $bestlang;
+		}
 
-			foreach ($browserLangs as $browserLang)
+		$available_languages = self::createLanguageList(null, JPATH_BASE, true, true);
+
+		// Lowercase $available_languages and populate $available_prefixes
+		foreach ($available_languages as $i => $lang)
+		{
+			$available_languages[$i] = strtolower($lang['value']);
+			$available_prefixes[$i] = substr($lang['value'], 0, 2);
+		}
+
+		// Read the HTTP-Header
+		$http_accept_language = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
+
+		preg_match_all("/([[:alpha:]]{1,8})(-([[:alpha:]|-]{1,8}))?" .
+					"(\s*;\s*q\s*=\s*(1\.0{0,3}|0\.\d{0,3}))?\s*(,|$)/i",
+					$http_accept_language, $hits, PREG_SET_ORDER
+					);
+
+		// Default language (in case of no hits) is null
+		$bestlang = null;
+		$bestqval = 0;
+
+		// Search the best match
+		foreach ($hits as $arr)
+		{
+			// Read data from the array of this hit
+			$language = strtolower($arr[1]);
+			if (!empty($arr[3]))
 			{
-				// Slice out the part before ; on first step, the part before - on second, place into array
-				$browserLang = substr($browserLang, 0, strcspn($browserLang, ';'));
-				$primary_browserLang = substr($browserLang, 0, 2);
+				$country_code = strtolower($arr[3]);
+				$langprefix = $language;
+				$language = $language . "-" . $country_code;
+			}
 
-				foreach ($systemLangs as $systemLang)
-				{
-					// Take off 3 letters iso code languages as they can't match browsers' languages and default them to en
-					$Jinstall_lang = $systemLang->lang_code;
+			$qvalue = 1;
 
-					if (strlen($Jinstall_lang) < 6)
-					{
-						if (strtolower($browserLang) == strtolower(substr($systemLang->lang_code, 0, strlen($browserLang))))
-						{
-							return $systemLang->lang_code;
-						}
-						elseif ($primary_browserLang == substr($systemLang->lang_code, 0, 2))
-						{
-							$primaryDetectedLang = $systemLang->lang_code;
-						}
-					}
-				}
+			if (!empty($arr[5]))
+			{
+				$qvalue = floatval($arr[5]);
+			}
 
-				if (isset($primaryDetectedLang))
-				{
-					return $primaryDetectedLang;
-				}
+			// Find q-maximal language
+			if (in_array($language, $available_languages, true) && ($qvalue > $bestqval))
+			{
+				$bestlang = $langprefix . '-' . strtoupper($country_code);
+				$bestqval = $qvalue;
+			}
+			// If no direct hit, try the prefix only but decrease q-value by 10% (as http_negotiate_language() does)
+			elseif (in_array($language, $available_prefixes) && (($qvalue * 0.9) > $bestqval))
+			{
+				// The gotcha here is that in case of possible multiple matches (e.g.: en form en-AU against availables en-US and en-GB)
+				// We return the first match (en-US in the example above). No way we can do better, I guess...
+				$index = array_search($language, $available_prefixes);
+				$bestlang = $available_languages[$index];
+				$bestlang = substr($bestlang, 0, 3) . strtoupper(substr($bestlang, 3, 2));
+				$bestqval = $qvalue * 0.9;
 			}
 		}
 
-		return null;
+		$checked = true;
+		return $bestlang;
 	}
 
 	/**
