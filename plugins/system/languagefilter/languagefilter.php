@@ -517,7 +517,9 @@ class PlgSystemLanguageFilter extends JPlugin
 			$assoc = JLanguageAssociations::isEnabled();
 			$lang_code = $user['language'];
 
-			if (!$lang_code || !array_key_exists($lang_code, $this->lang_codes))
+			if (!$lang_code
+				|| !array_key_exists($lang_code, $this->lang_codes)
+				|| !array_key_exists($lang_code, MultilangstatusHelper::getHomepages())
 			{
 				$lang_code = $this->current_lang;
 			}
