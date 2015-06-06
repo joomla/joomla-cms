@@ -429,9 +429,6 @@ class AdminModelSysInfo extends JModelLegacy
 
 		foreach ($extensions as $extension)
 		{
-			// Initialise with an empty array
-			$installed[$extension->name] = array();
-
 			if (strlen($extension->name) == 0)
 			{
 				continue;
