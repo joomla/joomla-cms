@@ -60,6 +60,8 @@ class ModUsersLatestHelper
 		}
 		catch (RuntimeException $e)
 		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_GENERIC_SQL_ERROR'), 'error');
+			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 			return array();
 		}
 	}
