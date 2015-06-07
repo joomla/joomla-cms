@@ -130,7 +130,7 @@ abstract class MultilangstatusHelper
 			}
 		}
 
-		return homepages;
+		return $homepages;
 	}
 
 	/**
