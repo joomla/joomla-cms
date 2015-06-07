@@ -49,7 +49,8 @@ abstract class ModMenuHelper
 		catch (RuntimeException $e)
 		{
 			$result = array();
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_GENERIC_SQL_ERROR'), 'error');
+			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 		}
 
 		return $result;
@@ -95,7 +96,8 @@ abstract class ModMenuHelper
 		catch (RuntimeException $e)
 		{
 			$components = array();
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_GENERIC_SQL_ERROR'), 'error');
+			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 		}
 
 		// Parse the list of extensions.
