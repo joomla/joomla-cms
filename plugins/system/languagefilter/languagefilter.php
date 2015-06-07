@@ -517,8 +517,14 @@ class PlgSystemLanguageFilter extends JPlugin
 			$assoc = JLanguageAssociations::isEnabled();
 			$lang_code = $user['language'];
 
-			if (!$lang_code
-				|| !array_key_exists($lang_code, $this->lang_codes)
+			// If no language is specified for this user, we set it to the site default language
+			// This is deliberate: see PR #7130
+			if (empty($lang_code))
+			{
+				$lang_code = $this->default_lang;
+			}
+
+			if (!array_key_exists($lang_code, $this->lang_codes)
 				|| !array_key_exists($lang_code, MultilangstatusHelper::getHomepages())
 				|| !JFolder::exists(JPATH_SITE . '/language/' . $lang_code))
 			{
