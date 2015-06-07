@@ -267,33 +267,40 @@ class MenusHelper
 	 */
 	public static function getAssociations($pk)
 	{
-		$associations = array();
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->from('#__menu as m')
-			->join('INNER', '#__associations as a ON a.id=m.id AND a.context=' . $db->quote('com_menus.item'))
-			->join('INNER', '#__associations as a2 ON a.key=a2.key')
-			->join('INNER', '#__menu as m2 ON a2.id=m2.id')
-			->where('m.id=' . (int) $pk)
-			->select('m2.language, m2.id');
-		$db->setQuery($query);
+		static $associations = array();
+		static $unchecked = true;
 
-		try
+		if ($unchecked)
 		{
-			$menuitems = $db->loadObjectList('language');
-		}
-		catch (RuntimeException $e)
-		{
-			throw new Exception($e->getMessage(), 500);
-		}
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->from('#__menu as m')
+				->join('INNER', '#__associations as a ON a.id=m.id AND a.context=' . $db->quote('com_menus.item'))
+				->join('INNER', '#__associations as a2 ON a.key=a2.key')
+				->join('INNER', '#__menu as m2 ON a2.id=m2.id')
+				->where('m.id=' . (int) $pk)
+				->select('m2.language, m2.id');
+			$db->setQuery($query);
 
-		foreach ($menuitems as $tag => $item)
-		{
-			// Do not return itself as result
-			if ((int) $item->id != $pk)
+			try
 			{
-				$associations[$tag] = $item->id;
+				$menuitems = $db->loadObjectList('language');
 			}
+			catch (RuntimeException $e)
+			{
+				throw new Exception($e->getMessage(), 500);
+			}
+
+			foreach ($menuitems as $tag => $item)
+			{
+				// Do not return itself as result
+				if ((int) $item->id != $pk)
+				{
+					$associations[$tag] = $item->id;
+				}
+			}
+
+			$unchecked = false;
 		}
 
 		return $associations;
