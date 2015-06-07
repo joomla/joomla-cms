@@ -81,6 +81,13 @@ abstract class MultilangstatusHelper
 	 */
 	public static function getSitelangs()
 	{
+		static $sitelangs = null;
+
+		if (!empty($sitelangs))
+		{
+			return $sitelangs;
+		}
+		
 		// Check for published Site Languages.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -91,7 +98,8 @@ abstract class MultilangstatusHelper
 			->where('a.enabled = 1');
 		$db->setQuery($query);
 
-		return $db->loadObjectList('element');
+		$sitelangs = $db->loadObjectList('element');
+		return $sitelangs;
 	}
 
 	/**
