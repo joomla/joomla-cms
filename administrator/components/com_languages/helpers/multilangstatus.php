@@ -87,7 +87,7 @@ abstract class MultilangstatusHelper
 		{
 			return $sitelangs;
 		}
-		
+
 		// Check for published Site Languages.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
