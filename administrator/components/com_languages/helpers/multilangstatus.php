@@ -95,7 +95,14 @@ abstract class MultilangstatusHelper
 				->where('a.enabled = 1');
 			$db->setQuery($query);
 
-			$sitelangs = $db->loadObjectList('element');
+			try
+			{
+				$sitelangs = $db->loadObjectList('element');
+			}
+			catch (RuntimeException $e)
+			{
+				throw new Exception($e->getMessage(), 500);
+			}
 		}
 
 		return $sitelangs;
