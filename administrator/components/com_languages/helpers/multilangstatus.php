@@ -23,17 +23,7 @@ abstract class MultilangstatusHelper
 	 */
 	public static function getHomes()
 	{
-		// Check for multiple Home pages.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('COUNT(*)')
-			->from($db->quoteName('#__menu'))
-			->where('home = 1')
-			->where('published = 1')
-			->where('client_id = 0');
-		$db->setQuery($query);
-
-		return $db->loadResult();
+		return count(self::getHomepages());
 	}
 
 	/**
@@ -115,18 +105,32 @@ abstract class MultilangstatusHelper
 	 */
 	public static function getHomepages()
 	{
-		// Check for Home pages languages.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('language')
-			->select('id')
-			->from($db->quoteName('#__menu'))
-			->where('home = 1')
-			->where('published = 1')
-			->where('client_id = 0');
-		$db->setQuery($query);
+		static $homepages = null;
 
-		return $db->loadObjectList('language');
+		if (empty($homepages))
+		{
+			// Check for Home pages languages.
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('language')
+				->select('id')
+				->from($db->quoteName('#__menu'))
+				->where('home = 1')
+				->where('published = 1')
+				->where('client_id = 0');
+			$db->setQuery($query);
+
+			try
+			{
+				$homepages = $db->loadObjectList('language');
+			}
+			catch (RuntimeException $e)
+			{
+				throw new Exception($e->getMessage(), 500);
+			}
+		}
+
+		return homepages;
 	}
 
 	/**
