@@ -83,22 +83,21 @@ abstract class MultilangstatusHelper
 	{
 		static $sitelangs = null;
 
-		if (!empty($sitelangs))
+		if (empty($sitelangs))
 		{
-			return $sitelangs;
+			// Check for published Site Languages.
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('a.element AS element')
+				->from('#__extensions AS a')
+				->where('a.type = ' . $db->quote('language'))
+				->where('a.client_id = 0')
+				->where('a.enabled = 1');
+			$db->setQuery($query);
+
+			$sitelangs = $db->loadObjectList('element');
 		}
 
-		// Check for published Site Languages.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('a.element AS element')
-			->from('#__extensions AS a')
-			->where('a.type = ' . $db->quote('language'))
-			->where('a.client_id = 0')
-			->where('a.enabled = 1');
-		$db->setQuery($query);
-
-		$sitelangs = $db->loadObjectList('element');
 		return $sitelangs;
 	}
 
