@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -441,6 +441,51 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class->getMessageQueue()
 		);
 
+		$this->assertEquals(
+			array(
+				array('HTTP/1.1 303 See other', true, null),
+				array('Location: ' . $base . $url, true, null),
+				array('Content-Type: text/html; charset=utf-8', true, null),
+			),
+			$this->class->headers
+		);
+	}
+
+	/**
+	 * Tests the JApplicationCms::redirect method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function testRedirectLegacyWithEmptyMessageAndEmptyStatus()
+	{
+		$base = 'http://mydomain.com/';
+		$url = 'index.php';
+
+		// Inject the client information.
+		TestReflection::setValue(
+			$this->class,
+			'client',
+			(object) array(
+				'engine' => JApplicationWebClient::GECKO,
+			)
+		);
+
+		// Inject the internal configuration.
+		$config = new Registry;
+		$config->set('uri.base.full', $base);
+
+		TestReflection::setValue($this->class, 'config', $config);
+
+		$this->class->redirect($url, '', 'message');
+
+		// The message isn't enqueued as it's an empty string
+		$this->assertEmpty(
+			$this->class->getMessageQueue()
+		);
+
+		// The redirect gives a 303 error code
 		$this->assertEquals(
 			array(
 				array('HTTP/1.1 303 See other', true, null),

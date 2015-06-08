@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -309,11 +309,25 @@ class CategoriesModelCategory extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_categories.edit.' . $this->getName() . '.data', array());
+		$app = JFactory::getApplication();
+		$data = $app->getUserState('com_categories.edit.' . $this->getName() . '.data', array());
 
 		if (empty($data))
 		{
 			$data = $this->getItem();
+
+			// Pre-select some filters (Status, Language, Access) in edit form if those have been selected in Category Manager
+			if ($this->getState('category.id') == 0)
+			{
+				// Check for which extension the Category Manager is used and get selected fields
+				$extension = substr($app->getUserState('com_categories.categories.filter.extension'), 4);
+				$filters = (array) $app->getUserState('com_categories.categories.' . $extension . '.filter');
+
+				$data->set('published', $app->input->getInt('published', (isset($filters['published']) ? $filters['published'] : null)));
+				$data->set('language', $app->input->getString('language', (isset($filters['language']) ? $filters['language'] : null)));
+				$data->set('access', $app->input->getInt('access', (isset($filters['access']) ? $filters['access'] : null)));
+			}
+
 		}
 
 		$this->preprocessData('com_categories.category', $data);
@@ -786,7 +800,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 		$db = $this->getDbo();
 		$extension = JFactory::getApplication()->input->get('extension', '', 'word');
-		$i = 0;
+		$newIds = array();
 
 		// Check that the parent exists
 		if ($parentId)
@@ -952,8 +966,7 @@ class CategoriesModelCategory extends JModelAdmin
 			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i] = $newId;
-			$i++;
+			$newIds[$pk] = $newId;
 
 			// Now we log the old 'parent' to the new 'parent'
 			$parents[$oldId] = $this->table->id;

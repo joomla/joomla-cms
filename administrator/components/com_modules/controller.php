@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,8 +28,6 @@ class ModulesController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		$view   = $this->input->get('view', 'modules');
-		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
 
 		$document = JFactory::getDocument();
@@ -44,7 +42,7 @@ class ModulesController extends JControllerLegacy
 			if ($model = new ModulesModelModule)
 			{
 				// Checkin table entry
-				if(!$model->checkout($id))
+				if (!$model->checkout($id))
 				{
 					JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), 'error');
 					return false;

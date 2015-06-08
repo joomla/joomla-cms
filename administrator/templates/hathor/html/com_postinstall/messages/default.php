@@ -3,11 +3,24 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+$renderer       = JFactory::getDocument()->loadRenderer('module');
+$options        = array('style' => 'raw');
+$mod            = JModuleHelper::getModule('mod_feed');
+$param          = array("rssurl" => "https://www.joomla.org/announcements/release-news.feed?type=rss",
+						"rsstitle" => 0,
+						"rssdesc" => 0,
+						"rssimage" => 1,
+						"rssitems" => 5,
+						"rssitemdesc" => 1,
+						"word_count" => 200,
+						"cache" => 0);
+$params         = array('params' => json_encode($param));
 ?>
 
 <?php if (empty($this->items)): ?>
@@ -43,7 +56,7 @@ defined('_JEXEC') or die;
 			<?php if (JFactory::getUser()->authorise('core.edit.state', 'com_postinstall')) : ?>
 			<button onclick="window.location='index.php?option=com_postinstall&view=message&task=unpublish&id=<?php echo $item->postinstall_message_id ?>&<?php echo $this->token ?>=1'; return false;" class="btn btn-inverse btn-small">
 				<?php echo JText::_('COM_POSTINSTALL_BTN_HIDE') ?>
-			</a>
+			</button>
 			<?php endif; ?>
 		</div>
 	</fieldset>
@@ -52,8 +65,7 @@ defined('_JEXEC') or die;
 	if ($this->eid == 700):
 		echo JHtml::_('sliders.panel', JText::_('COM_POSTINSTALL_LBL_RELEASENEWS'), 'postinstall-panel-releasenotes');
 ?>
-		<iframe width="100%" height="1000" src="http://www.joomla.org/announcements/release-news">
-		</iframe>
+		<?php echo $renderer->render($mod, $params, $options); ?>
 <?php
 	echo JHtml::_('sliders.end');
 	endif;

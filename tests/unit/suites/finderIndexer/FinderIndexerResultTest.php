@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -217,12 +217,31 @@ class FinderIndexerResultTest extends TestCaseDatabase
 	 */
 	public function testSetLanguage()
 	{
-		// Set the language value
+		// Test for an empty language
+		$this->object->language = '';
 		$this->object->setLanguage();
 
 		$this->assertEquals(
 			$this->object->language,
 			$this->object->defaultLanguage
+		);
+
+		// Test for "all" language
+		$this->object->language = '*';
+		$this->object->setLanguage();
+
+		$this->assertEquals(
+			$this->object->language,
+			'*'
+		);
+
+		// Test for "it-IT" language
+		$this->object->language = 'it-IT';
+		$this->object->setLanguage();
+
+		$this->assertEquals(
+			$this->object->language,
+			'it-IT'
 		);
 	}
 }

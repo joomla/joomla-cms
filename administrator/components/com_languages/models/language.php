@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -190,7 +190,17 @@ class LanguagesModelLanguage extends JModelAdmin
 		$spaces = array('/\xE3\x80\x80/', ' ');
 
 		$data['lang_code'] = str_replace($spaces, '', $data['lang_code']);
+
+		// Prevent saving an incorrect language tag
+		if (!preg_match('#\b([a-z]{2,3})[-]([A-Z]{2})\b#', $data['lang_code']))
+		{
+			$this->setError(JText::_('COM_LANGUAGES_ERROR_LANG_TAG'));
+
+			return false;
+		}
+
 		$data['sef'] = str_replace($spaces, '', $data['sef']);
+		$data['sef'] = JApplicationHelper::stringURLSafe($data['sef']);
 
 		// Bind the data.
 		if (!$table->bind($data))

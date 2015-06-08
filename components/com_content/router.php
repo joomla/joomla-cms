@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,20 +30,18 @@ class ContentRouter extends JComponentRouterBase
 		$segments = array();
 
 		// Get a menu item based on Itemid or currently active
-		$app = JFactory::getApplication();
-		$menu = $app->getMenu();
 		$params = JComponentHelper::getParams('com_content');
 		$advanced = $params->get('sef_advanced_link', 0);
 
 		// We need a menu item.  Either the one specified in the query, or the current active one if none specified
 		if (empty($query['Itemid']))
 		{
-			$menuItem = $menu->getActive();
+			$menuItem = $this->menu->getActive();
 			$menuItemGiven = false;
 		}
 		else
 		{
-			$menuItem = $menu->getItem($query['Itemid']);
+			$menuItem = $this->menu->getItem($query['Itemid']);
 			$menuItemGiven = true;
 		}
 
@@ -284,9 +282,7 @@ class ContentRouter extends JComponentRouterBase
 		}
 
 		// Get the active menu item.
-		$app = JFactory::getApplication();
-		$menu = $app->getMenu();
-		$item = $menu->getActive();
+		$item = $this->menu->getActive();
 		$params = JComponentHelper::getParams('com_content');
 		$advanced = $params->get('sef_advanced_link', 0);
 		$db = JFactory::getDbo();

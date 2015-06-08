@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,14 @@ require_once JPATH_COMPONENT . '/helpers/menus.php';
  */
 class MenusModelItem extends JModelAdmin
 {
+	/**
+	 * The type alias for this content type.
+	 *
+	 * @var      string
+	 * @since    3.4
+	 */
+	public $typeAlias = 'com_menus.item';
+
 	/**
 	 * @var        string    The prefix to use with controller messages.
 	 * @since   1.6
@@ -46,6 +54,24 @@ class MenusModelItem extends JModelAdmin
 	protected $helpLocal = false;
 
 	/**
+	 * Batch copy/move command. If set to false,
+	 * the batch copy/move command is not supported
+	 *
+	 * @var string
+	 */
+	protected $batch_copymove = 'menu_id';
+
+	/**
+	 * Allowed batch commands
+	 *
+	 * @var array
+	 */
+	protected $batch_commands = array(
+		'assetgroup_id' => 'batchAccess',
+		'language_id' => 'batchLanguage'
+	);
+
+	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object  $record  A record object.
@@ -65,93 +91,6 @@ class MenusModelItem extends JModelAdmin
 
 			return parent::canDelete($record);
 		}
-	}
-
-	/**
-	 * Method to perform batch operations on an item or a set of items.
-	 *
-	 * @param   array  $commands  An array of commands to perform.
-	 * @param   array  $pks       An array of item ids.
-	 * @param   array  $contexts  An array of item contexts.
-	 *
-	 * @return  boolean  Returns true on success, false on failure.
-	 *
-	 * @since   1.6
-	 */
-	public function batch($commands, $pks, $contexts)
-	{
-		// Sanitize user ids.
-		$pks = array_unique($pks);
-		JArrayHelper::toInteger($pks);
-
-		// Remove any values of zero.
-		if (array_search(0, $pks, true))
-		{
-			unset($pks[array_search(0, $pks, true)]);
-		}
-
-		if (empty($pks))
-		{
-			$this->setError(JText::_('COM_MENUS_NO_ITEM_SELECTED'));
-
-			return false;
-		}
-
-		$done = false;
-
-		if (!empty($commands['menu_id']))
-		{
-			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
-
-			if ($cmd == 'c')
-			{
-				$result = $this->batchCopy($commands['menu_id'], $pks, $contexts);
-
-				if (is_array($result))
-				{
-					$pks = $result;
-				}
-				else
-				{
-					return false;
-				}
-			}
-			elseif ($cmd == 'm' && !$this->batchMove($commands['menu_id'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (!empty($commands['assetgroup_id']))
-		{
-			if (!$this->batchAccess($commands['assetgroup_id'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (!empty($commands['language_id']))
-		{
-			if (!$this->batchLanguage($commands['language_id'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (!$done)
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
-
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
@@ -175,7 +114,7 @@ class MenusModelItem extends JModelAdmin
 		$table = $this->getTable();
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$i = 0;
+		$newIds = array();
 
 		// Check that the parent exists
 		if ($parentId)
@@ -328,8 +267,7 @@ class MenusModelItem extends JModelAdmin
 			$newId = $table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i] = $newId;
-			$i++;
+			$newIds[$pk] = $newId;
 
 			// Now we log the old 'parent' to the new 'parent'
 			$parents[$oldId] = $table->id;
@@ -594,6 +532,16 @@ class MenusModelItem extends JModelAdmin
 		// Check the session for previously entered form data.
 		$data = array_merge((array) $this->getItem(), (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
 
+		// For a new menu item, pre-select some filters (Status, Language, Access) in edit form if those have been selected in Menu Manager
+		if ($this->getItem()->id == 0)
+		{
+			// Get selected fields
+			$filters = JFactory::getApplication()->getUserState('com_menus.items.filter');
+			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
+			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
+			$data['access'] = (isset($filters['access']) ? $filters['access'] : null);
+		}
+
 		$this->preprocessData('com_menus.item', $data);
 
 		return $data;
@@ -809,6 +757,40 @@ class MenusModelItem extends JModelAdmin
 	}
 
 	/**
+	 * Get the list of all view levels
+	 *
+	 * @return  array  An array of all view levels (id, title).
+	 *
+	 * @since   3.4
+	 */
+	public function getViewLevels()
+	{
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		// Get all the available view levels
+		$query->select($db->quoteName('id'))
+			->select($db->quoteName('title'))
+			->from($db->quoteName('#__viewlevels'))
+			->order($db->quoteName('id'));
+
+		$db->setQuery($query);
+
+		try
+		{
+			$result = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		return $result;
+	}
+
+	/**
 	 * A protected method to get the where clause for the reorder.
 	 * This ensures that the row will be moved relative to a row with the same menutype.
 	 *
@@ -932,9 +914,6 @@ class MenusModelItem extends JModelAdmin
 				$base = JPATH_SITE . '/components/' . $option;
 			}
 
-			// Confirm a view is defined.
-			$formFile = false;
-
 			if (isset($args['view']))
 			{
 				$view = $args['view'];
@@ -948,8 +927,6 @@ class MenusModelItem extends JModelAdmin
 				{
 					$layout = 'default';
 				}
-
-				$formFile = false;
 
 				// Check for the layout XML file. Use standard xml file if it exists.
 				$tplFolders = array(
@@ -1049,26 +1026,6 @@ class MenusModelItem extends JModelAdmin
 			$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
 			$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
 			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
-		}
-
-		// Now load the component params.
-		// TODO: Work out why 'fixing' this breaks JForm
-		if ($isNew = false)
-		{
-			$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $option . '/config.xml');
-		}
-		else
-		{
-			$path = 'null';
-		}
-
-		if (is_file($path))
-		{
-			// Add the component params last of all to the existing form.
-			if (!$form->load($path, true, '/config'))
-			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-			}
 		}
 
 		// Load the specific type file

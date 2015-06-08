@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,7 +108,7 @@ abstract class MenusHtmlMenus
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_HEADING',
 				'',
-				false,
+				true,
 				'publish',
 				'publish'
 			),
@@ -117,7 +117,7 @@ abstract class MenusHtmlMenus
 				'',
 				'COM_MENUS_HTML_PUBLISH_HEADING',
 				'',
-				false,
+				true,
 				'unpublish',
 				'unpublish'
 			),
@@ -126,7 +126,7 @@ abstract class MenusHtmlMenus
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_SEPARATOR',
 				'',
-				false,
+				true,
 				'publish',
 				'publish'
 			),
@@ -135,7 +135,7 @@ abstract class MenusHtmlMenus
 				'',
 				'COM_MENUS_HTML_PUBLISH_SEPARATOR',
 				'',
-				false,
+				true,
 				'unpublish',
 				'unpublish'
 			),
@@ -144,7 +144,7 @@ abstract class MenusHtmlMenus
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_ALIAS',
 				'',
-				false,
+				true,
 				'publish',
 				'publish'
 			),
@@ -153,7 +153,7 @@ abstract class MenusHtmlMenus
 				'',
 				'COM_MENUS_HTML_PUBLISH_ALIAS',
 				'',
-				false,
+				true,
 				'unpublish',
 				'unpublish'
 			),
@@ -162,7 +162,7 @@ abstract class MenusHtmlMenus
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_URL',
 				'',
-				false,
+				true,
 				'publish',
 				'publish'
 			),
@@ -171,7 +171,7 @@ abstract class MenusHtmlMenus
 				'',
 				'COM_MENUS_HTML_PUBLISH_URL',
 				'',
-				false,
+				true,
 				'unpublish',
 				'unpublish'
 			),
@@ -208,8 +208,17 @@ abstract class MenusHtmlMenus
 				'COM_MENUS_HTML_PUBLISH_DISABLED',
 				'COM_MENUS_EXTENSION_UNPUBLISHED_DISABLED',
 				true,
-				'unpublish',
-				'unpublish'
+				'trash',
+				'trash'
+			),
+			-3	=> array(
+				'publish',
+				'',
+				'COM_MENUS_HTML_PUBLISH',
+				'',
+				true,
+				'trash',
+				'trash'
 			),
 		);
 

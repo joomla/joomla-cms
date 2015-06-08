@@ -1,0 +1,14 @@
+{
+    "name"       : "joomla-cms",
+    "description": "The Joomla Content Management System",
+    "license"    : "GPL-2.0+",
+    "require"    : {
+        "php": ">=5.3.10"
+    },
+    "require-dev": {
+        "codeception/codeception": "2.0.*@dev",
+        "joomla/application": "~1.0",
+        "joomla/filesystem": "~1.0",
+        "joomla/di" : "~1.0"
+    }
+}

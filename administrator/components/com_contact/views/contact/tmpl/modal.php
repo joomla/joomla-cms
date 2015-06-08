@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,31 +12,32 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
 $app = JFactory::getApplication();
 
 $input = $app->input;
 $assoc = JLanguageAssociations::isEnabled();
-?>
-<script type="text/javascript">
+
+JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'contact.cancel' || document.formvalidator.isValid(document.id('contact-form')))
+		if (task == "contact.cancel" || document.formvalidator.isValid(document.getElementById("contact-form")))
 		{
-			<?php echo $this->form->getField('misc')->save(); ?>
+			' . $this->form->getField('misc')->save() . '
 
-			if (window.opener && (task == 'contact.save' || task == 'contact.cancel'))
+			if (window.opener && (task == "contact.save" || task == "contact.cancel"))
 			{
 				window.opener.document.closeEditWindow = self;
-				window.opener.setTimeout('window.document.closeEditWindow.close()', 1000);
+				window.opener.setTimeout("window.document.closeEditWindow.close()", 1000);
 			}
 
-			Joomla.submitform(task, document.getElementById('contact-form'));
+			Joomla.submitform(task, document.getElementById("contact-form"));
 		}
-	}
-</script>
+	};
+');
+?>
 <div class="container-popup">
 
 <div class="pull-right">

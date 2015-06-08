@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,28 +108,15 @@ class MediaModelList extends JModelLegacy
 		}
 
 		// Get current path from request
-		$current = $this->getState('folder');
+		$current = (string) $this->getState('folder');
 
-		// If undefined, set to empty
-		if ($current == 'undefined')
-		{
-			$current = '';
-		}
-
-		if (strlen($current) > 0)
-		{
-			$basePath = COM_MEDIA_BASE . '/' . $current;
-		}
-		else
-		{
-			$basePath = COM_MEDIA_BASE;
-		}
+		$basePath = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
 
 		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
 
-		$images		= array ();
-		$folders	= array ();
-		$docs		= array ();
+		$images  = array ();
+		$folders = array ();
+		$docs    = array ();
 
 		$fileList = false;
 		$folderList = false;

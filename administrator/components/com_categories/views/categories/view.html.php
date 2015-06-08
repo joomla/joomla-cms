@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -152,9 +152,10 @@ class CategoriesViewCategories extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', $extension) & $user->authorise('core.edit', $extension) && $user->authorise('core.edit.state', $extension))
+		if ($user->authorise('core.create', $extension)
+			&& $user->authorise('core.edit', $extension)
+			&& $user->authorise('core.edit.state', $extension))
 		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
@@ -167,6 +168,10 @@ class CategoriesViewCategories extends JViewLegacy
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
 			JToolbarHelper::preferences($component);
 		}
 

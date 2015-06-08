@@ -1,8 +1,8 @@
 <?php
 /**
- * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package	Joomla.Installation
+ * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license	GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -13,14 +13,11 @@ REQUIREMENTS
 ------------
 
 First you must have the base environment for Joomla.
-We have thoroughly tested Joomla! on: Linux, Free BSD, Mac OS X and Windows NT/2000.
+We have thoroughly tested Joomla! on: Linux, Free BSD, Mac OS X and Windows.
 Linux or one of the BSD's are recommended, but anything else that can run the
-3 pieces of software listed below should do it.
-
-Apache	-> http://www.apache.org
-MySQL	-> http://www.mysql.com
-PHP	-> http://www.php.net
-
+a supported PHP version, a supported database and a supported webserver listed
+in the Technical Requirements at http://www.joomla.org/technical-requirements.html
+should do it.
 
 SERVER CONFIGURATION
 --------------------
@@ -45,7 +42,7 @@ INSTALLATION
 1. DOWNLOAD Joomla
 
 	You can obtain the latest Joomla! release from:
-		http://www.joomla.org
+		http://www.joomla.org/download.html
 
 	Copy the tar.gz file into a working directory e.g.
 
@@ -73,17 +70,24 @@ INSTALLATION
 
 2. CREATE THE Joomla! DATABASE
 
-	Joomla! will currently only work with MySQL.  In the following examples,
-	"db_user" is an example MySQL user which has the CREATE and GRANT
-	privileges.  You will need to use the appropriate user name for your
-	system.
+	Joomla! will currently work with MySQL, MSSQL and PostgreSQL but 
+	the following instructions are for MySQL. Refer to relevant
+	documentation if you are using another database.
+
+	You can use your web control panel or phpMyAdmin to
+	create a database for Joomla.
+
+	Alternatively you can create a database with the CLI.
+	In the following examples, "db_user" is an example MySQL user
+	which has the CREATE and GRANT privileges. You will need to use
+	the appropriate user name for your system.
 
 	First, you must create a new database for your Joomla! site e.g.
 
 	$ mysqladmin -u db_user -p create Joomla
 
 	MySQL will prompt for the 'db_user' database password and then create
-	the initial database files.  Next you must login and set the access
+	the initial database files. Next you must login and set the access
 	database rights e.g.
 
 	$ mysql -u db_user -p
@@ -108,24 +112,19 @@ INSTALLATION
 
 	flush privileges;
 
-	and then enter '\q' to exit MySQL.
-
-	Alternatively you can use your web control panel or phpMyAdmin to
-	create a database for Joomla.
-
+	and then enter 'exit' or 'quit' to exit MySQL.
 
 3. WEB INSTALLER
 
-Finally point your web browser to http://www.mysite.com where the Joomla! web
+Finally point your web browser to http://www.example.org where the Joomla! web
 based installer will guide you through the rest of the installation.
-
 
 4. CONFIGURE Joomla
 
 You can now launch your browser and point it to your Joomla! site e.g.
 
-	http://www.mysite.com -> Main Site
-	http://www.mysite.com/administrator -> Admin
+	http://www.example.org -> Main Site
+	http://www.example.org/administrator -> Admin
 
 You can log into Admin using the username 'admin' along with the
 password that was generated or you chose during the web based install.
@@ -134,12 +133,14 @@ password that was generated or you chose during the web based install.
 Joomla! ADMINISTRATION
 ----------------------
 
-Upon a new installation, your JoomlaS website defaults to a very basic
-configuration with only a few active components, modules and templates
-(CMTs).
+Upon a new installation, your Joomla website defaults to a very basic
+configuration with only a few active components, modules and templates.
 
-Use Admin to install and configure additional CMTs, add users, select
+Use Admin to install and configure additional extensions, add users, select
 default language and much more.
 
-Note that additional community-contributed CMTs and languages are
-available via http://www.joomla.org
+Note that additional community-contributed extensions and languages are
+available at the Joomla! Extensions Directory: http://extensions.joomla.org/
+You can also install and use the `Install from Web Tab` to access the JED
+directly out of the backend here:
+http://www.example.org/administrator/index.php?option=com_installer&view=install

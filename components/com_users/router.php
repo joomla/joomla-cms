@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,9 +43,7 @@ class UsersRouter extends JComponentRouterBase
 		if (empty($items))
 		{
 			// Get all relevant menu items.
-			$app = JFactory::getApplication();
-			$menu = $app->getMenu();
-			$items = $menu->getItems('component', 'com_users');
+			$items = $this->menu->getItems('component', 'com_users');
 
 			// Build an array of serialized query strings to menu item id mappings.
 			for ($i = 0, $n = count($items); $i < $n; $i++)

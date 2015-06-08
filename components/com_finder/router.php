@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,15 +27,7 @@ class FinderRouter extends JComponentRouterBase
 	 */
 	public function build(&$query)
 	{
-		static $menu;
-
 		$segments = array();
-
-		// Load the menu if necessary.
-		if (!$menu)
-		{
-			$menu = JFactory::getApplication('site')->getMenu();
-		}
 
 		/*
 		 * First, handle menu item routes first. When the menu system builds a
@@ -57,7 +49,7 @@ class FinderRouter extends JComponentRouterBase
 		if (!empty($query['Itemid']))
 		{
 			// Get the menu item.
-			$item = $menu->getItem($query['Itemid']);
+			$item = $this->menu->getItem($query['Itemid']);
 
 			// Check if the view matches.
 			if ($item && @$item->query['view'] === @$query['view'])

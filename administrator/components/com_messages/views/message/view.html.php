@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,6 +22,15 @@ class MessagesViewMessage extends JViewLegacy
 
 	protected $state;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   1.6
+	 */
 	public function display($tpl = null)
 	{
 		$this->form		= $this->get('Form');
@@ -32,6 +41,7 @@ class MessagesViewMessage extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -41,6 +51,8 @@ class MessagesViewMessage extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -58,10 +70,12 @@ class MessagesViewMessage extends JViewLegacy
 		{
 			JToolbarHelper::title(JText::_('COM_MESSAGES_VIEW_PRIVATE_MESSAGE'), 'envelope inbox');
 			$sender = JUser::getInstance($this->item->user_id_from);
+
 			if ($sender->authorise('core.admin') || $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
 			{
 				JToolbarHelper::custom('message.reply', 'redo', null, 'COM_MESSAGES_TOOLBAR_REPLY', false);
 			}
+
 			JToolbarHelper::cancel('message.cancel');
 			JToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_READ');
 		}

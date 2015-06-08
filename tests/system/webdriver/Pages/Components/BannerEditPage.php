@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Page
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use SeleniumClient\By;
@@ -64,7 +64,7 @@ class BannerEditPage extends AdminEditPage
 			array('label' => 'Description', 'id' => 'jform_description', 'type' => 'textarea', 'tab' => 'details'),
 			array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'Status', 'id' => 'jform_state', 'type' => 'select', 'tab' => 'details'),
-			array('label' => 'Sticky', 'id' => 'jform_sticky', 'type' => 'fieldset', 'tab' => 'details'),
+			array('label' => 'Pinned', 'id' => 'jform_sticky', 'type' => 'fieldset', 'tab' => 'details'),
 			array('label' => 'Language', 'id' => 'jform_language', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'Version Note', 'id' => 'jform_version_note', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Max. Impressions', 'id' => 'jform_imptotal', 'type' => 'input', 'tab' => 'otherparams'),
@@ -77,10 +77,10 @@ class BannerEditPage extends AdminEditPage
 			array('label' => 'Start Publishing', 'id' => 'jform_publish_up', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Finish Publishing', 'id' => 'jform_publish_down', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Created Date', 'id' => 'jform_created', 'type' => 'input', 'tab' => 'publishing'),
-			array('label' => 'Created by', 'id' => 'jform_created_by', 'type' => 'input', 'tab' => 'publishing'),
-			array('label' => 'Created by alias', 'id' => 'jform_created_by_alias', 'type' => 'input', 'tab' => 'publishing'),
+			array('label' => 'Created By', 'id' => 'jform_created_by', 'type' => 'input', 'tab' => 'publishing'),
+			array('label' => 'Created by Alias', 'id' => 'jform_created_by_alias', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Modified Date', 'id' => 'jform_modified', 'type' => 'input', 'tab' => 'publishing'),
-			array('label' => 'Modified by', 'id' => 'jform_modified_by', 'type' => 'input', 'tab' => 'publishing'),
+			array('label' => 'Modified By', 'id' => 'jform_modified_by', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Revision', 'id' => 'jform_version', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'ID', 'id' => 'jform_id', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Meta Keywords', 'id' => 'jform_metakey', 'type' => 'textarea', 'tab' => 'publishing'),

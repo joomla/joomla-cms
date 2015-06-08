@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,13 +51,11 @@ class TemplatesModelStyle extends JModelAdmin
 	{
 		$config = array_merge(
 			array(
-				array(
-					'event_before_delete' => 'onExtensionBeforeDelete',
-					'event_after_delete'  => 'onExtensionAfterDelete',
-					'event_before_save'   => 'onExtensionBeforeSave',
-					'event_after_save'    => 'onExtensionAfterSave',
-					'events_map'          => array('delete' => 'extension', 'save' => 'extension')
-				)
+				'event_before_delete' => 'onExtensionBeforeDelete',
+				'event_after_delete'  => 'onExtensionAfterDelete',
+				'event_before_save'   => 'onExtensionBeforeSave',
+				'event_after_save'    => 'onExtensionAfterSave',
+				'events_map'          => array('delete' => 'extension', 'save' => 'extension')
 			), $config
 		);
 

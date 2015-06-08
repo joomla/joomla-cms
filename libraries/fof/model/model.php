@@ -2,14 +2,14 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
 /**
- * FrameworkOnFramework Model class. The Model is the worhorse. It performs all
+ * FrameworkOnFramework Model class. The Model is the workhorse. It performs all
  * of the business logic based on its state and then returns the raw (processed)
  * data to the caller, or modifies its own state. It's important to note that
  * the model doesn't get data directly from the request (this is the
@@ -195,6 +195,13 @@ class FOFModel extends FOFUtilsObject
 	 * @var  	array
 	 */
 	protected $default_behaviors = array('filters');
+
+	/**
+	 * Behavior parameters
+	 *
+	 * @var    array
+	 */
+	protected $_behaviorParams = array();
 
 	/**
 	 * Returns a new model object. Unless overriden by the $config array, it will
@@ -2092,8 +2099,14 @@ class FOFModel extends FOFUtilsObject
 				$order = $db->qn($this->getTableAlias()) . '.' . $order;
 			}
 
-			$dir = $this->getState('filter_order_Dir', 'ASC', 'cmd');
-			$query->order($order . ' ' . $dir);
+			$dir = strtoupper($this->getState('filter_order_Dir', 'ASC', 'cmd'));
+			$dir = in_array($dir, array('DESC', 'ASC')) ? $dir : 'ASC';
+
+			// If the table cache is broken you may end up with an empty order by.
+			if (!empty($order) && ($order != $db->qn('')))
+			{
+				$query->order($order . ' ' . $dir);
+			}
 		}
 
 		// Call the behaviors
@@ -3183,5 +3196,61 @@ class FOFModel extends FOFUtilsObject
 
 		// Trigger the onContentCleanCache event.
 		FOFPlatform::getInstance()->runPlugins($this->event_clean_cache, $options);
+	}
+
+	/**
+	 * Set a behavior param
+	 *
+	 * @param   string  $name     The name of the param
+	 * @param   mixed   $value    The param value to set
+	 *
+	 * @return  FOFModel
+	 */
+	public function setBehaviorParam($name, $value)
+	{
+		$this->_behaviorParams[$name] = $value;
+
+		return $this;
+	}
+
+	/**
+	 * Get a behavior param
+	 *
+	 * @param   string  $name     The name of the param
+	 * @param   mixed   $default  The default value returned if not set
+	 *
+	 * @return  mixed
+	 */
+	public function getBehaviorParam($name, $default = null)
+	{
+		return isset($this->_behaviorParams[$name]) ? $this->_behaviorParams[$name] : $default;
+	}
+
+	/**
+	 * Set or get the backlisted filters
+	 *
+	 * @param   mixed    $list    A filter or list of filters to backlist. If null return the list of backlisted filter
+	 * @param   boolean  $reset   Reset the blacklist if true
+	 *
+	 * @return  void|array  Return an array of value if $list is null
+	 */
+	public function blacklistFilters($list = null, $reset = false)
+	{
+		if (!isset($list))
+		{
+			return $this->getBehaviorParam('blacklistFilters', array());
+		}
+
+		if (is_string($list))
+		{
+			$list = (array) $list;
+		}
+
+		if (!$reset)
+		{
+			$list = array_unique(array_merge($this->getBehaviorParam('blacklistFilters', array()), $list));
+		}
+
+		$this->setBehaviorParam('blacklistFilters', $list);
 	}
 }

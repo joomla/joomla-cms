@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -72,6 +72,25 @@ abstract class JModelAdmin extends JModelForm
 	 * @var array
 	 */
 	protected $events_map = null;
+
+	/**
+	 * Batch copy/move command. If set to false, 
+	 * the batch copy/move command is not supported
+	 *
+	 * @var string
+	 */
+	protected $batch_copymove = 'category_id';
+
+	/**
+	 * Allowed batch commands
+	 *
+	 * @var array
+	 */
+	protected $batch_commands = array(
+		'assetgroup_id' => 'batchAccess',
+		'language_id' => 'batchLanguage',
+		'tag' => 'batchTag'
+	);
 
 	/**
 	 * Constructor.
@@ -197,37 +216,30 @@ abstract class JModelAdmin extends JModelForm
 			$this->type = $type->getTypeByAlias($this->typeAlias);
 		}
 
-		if ($this->type === false)
-		{
-			$type = new JUcmType;
-			$this->type = $type->getTypeByAlias($this->typeAlias);
-			$typeAlias = $this->type->type_alias;
-		}
-		else
-		{
-			$typeAlias = $this->type->type_alias;
-		}
-
 		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
 
-		if (!empty($commands['category_id']))
+		if ($this->batch_copymove && !empty($commands[$this->batch_copymove]))
 		{
 			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
 
 			if ($cmd == 'c')
 			{
-				$result = $this->batchCopy($commands['category_id'], $pks, $contexts);
+				$result = $this->batchCopy($commands[$this->batch_copymove], $pks, $contexts);
 
 				if (is_array($result))
 				{
-					$pks = $result;
+					foreach ($result as $old => $new)
+					{
+						$contexts[$new] = $contexts[$old];
+					}
+					$pks = array_values($result);
 				}
 				else
 				{
 					return false;
 				}
 			}
-			elseif ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks, $contexts))
+			elseif ($cmd == 'm' && !$this->batchMove($commands[$this->batch_copymove], $pks, $contexts))
 			{
 				return false;
 			}
@@ -235,34 +247,17 @@ abstract class JModelAdmin extends JModelForm
 			$done = true;
 		}
 
-		if (!empty($commands['assetgroup_id']))
+		foreach ($this->batch_commands as $identifier => $command)
 		{
-			if (!$this->batchAccess($commands['assetgroup_id'], $pks, $contexts))
+			if (strlen($commands[$identifier]) > 0)
 			{
-				return false;
+				if (!$this->$command($commands[$identifier], $pks, $contexts))
+				{
+					return false;
+				}
+
+				$done = true;
 			}
-
-			$done = true;
-		}
-
-		if (!empty($commands['language_id']))
-		{
-			if (!$this->batchLanguage($commands['language_id'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (!empty($commands['tag']))
-		{
-			if (!$this->batchTag($commands['tag'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
 		}
 
 		if (!$done)
@@ -358,14 +353,14 @@ abstract class JModelAdmin extends JModelForm
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		}
 
-		$i = 0;
-
 		$categoryId = $value;
 
 		if (!static::checkCategoryId($categoryId))
 		{
 			return false;
 		}
+
+		$newIds = array();
 
 		// Parent exists so let's proceed
 		while (!empty($pks))
@@ -439,8 +434,7 @@ abstract class JModelAdmin extends JModelForm
 			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i]	= $newId;
-			$i++;
+			$newIds[$pk]	= $newId;
 		}
 
 		// Clean the cache
@@ -1086,7 +1080,7 @@ abstract class JModelAdmin extends JModelForm
 	{
 		$dispatcher = JEventDispatcher::getInstance();
 		$table      = $this->getTable();
-		$context    = $this->option . '_' . $this->name;
+		$context    = $this->option . '.' . $this->name;
 
 		if ((!empty($data['tags']) && $data['tags'][0] != ''))
 		{

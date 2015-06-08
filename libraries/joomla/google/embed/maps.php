@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -687,6 +687,11 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 
 		if ($data['status'] != 'OK')
 		{
+			if (!empty($data['error_message']))
+			{
+				throw new RuntimeException($data['error_message']);
+			}
+
 			return null;
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,7 +98,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
 
 					<td class="list-title">
-						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
+						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 							<?php echo $this->escape($article->title); ?></a>
 					</td>
 
@@ -140,12 +140,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						$menu		= JFactory::getApplication()->getMenu();
 						$active		= $menu->getActive();
 						$itemId		= $active->id;
-						$link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId);
-						$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug));
-						$fullURL = new JUri($link);
-						$fullURL->setVar('return', base64_encode($returnURL));
+						$link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
+						$link->setVar('return', base64_encode(JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false)));
 					?>
-					<a href="<?php echo $fullURL; ?>" class="register">
+					<a href="<?php echo $link; ?>" class="register">
 					<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?></a>
 				</td>
 				<?php endif; ?>
