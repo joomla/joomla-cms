@@ -16,13 +16,13 @@ $buttons = $displayData;
 	<?php if ($buttons) : ?>
 		<?php foreach ($buttons as $button) : ?>
 				<?php
-				// Some checks for new layouts
+				// New recommendation require a new layout per button name
+				// The following code will provide B/C for the old buttons
 				$isNewLayout = 0;
 				if (isset($button->plugin)){
 					$mpath = '/layouts/joomla/editors-xtd/' . $button->plugin . '/' . $button->plugin . '.php';
 
-					if (is_file(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html' . $mpath)
-						|| is_file(JPATH_ROOT . $mpath))
+					if (is_file(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html' . $mpath))
 					{
 						$isNewLayout = 1;
 					}
