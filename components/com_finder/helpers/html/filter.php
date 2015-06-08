@@ -383,6 +383,8 @@ abstract class JHtmlFilter
 			$html .= '</div>';
 		}
 
+		$html .= '</div>';
+
 		return $html;
 	}
 
