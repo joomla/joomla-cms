@@ -267,11 +267,11 @@ class MenusHelper
 	 */
 	public static function getAssociations($pk)
 	{
-		static $associations = array();
-		static $unchecked = true;
+		static $cache = array();
 
-		if ($unchecked)
+		if (!isset($cache[$pk]))
 		{
+			$associations = array();
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->from('#__menu as m')
@@ -282,14 +282,7 @@ class MenusHelper
 				->select('m2.language, m2.id');
 			$db->setQuery($query);
 
-			try
-			{
-				$menuitems = $db->loadObjectList('language');
-			}
-			catch (RuntimeException $e)
-			{
-				throw new Exception($e->getMessage(), 500);
-			}
+			$menuitems = $db->loadObjectList('language');
 
 			foreach ($menuitems as $tag => $item)
 			{
@@ -300,9 +293,9 @@ class MenusHelper
 				}
 			}
 
-			$unchecked = false;
+			$cache[$pk] = $associations;
 		}
 
-		return $associations;
+		return $cache[$pk];
 	}
 }
