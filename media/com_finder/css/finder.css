@@ -127,3 +127,16 @@ ul.autocompleter-choices li.autocompleter-selected span.autocompleter-queried {
 ul#finder-filter-select-list {
 	top: 4em !important;
 }
+
+#mod-finder-advanced select, #mod-finder-advanced .form-horizontal .control-label  {
+    max-width:100%;
+}
+
+#mod-finder-advanced .form-horizontal .control-label
+{
+    text-align: left;
+}
+
+#mod-finder-advanced .form-horizontal .controls {
+    margin-left: 0;
+}
