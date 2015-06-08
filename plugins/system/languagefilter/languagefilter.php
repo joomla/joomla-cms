@@ -524,6 +524,8 @@ class PlgSystemLanguageFilter extends JPlugin
 				$lang_code = $this->default_lang;
 			}
 
+			// The language has been deleted/disabled or the related content language does not exist/has been unpublished
+			// or the related home page does not exist/has been unpublished
 			if (!array_key_exists($lang_code, $this->lang_codes)
 				|| !array_key_exists($lang_code, MultilangstatusHelper::getHomepages())
 				|| !JFolder::exists(JPATH_SITE . '/language/' . $lang_code))
