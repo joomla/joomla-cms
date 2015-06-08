@@ -85,14 +85,7 @@ abstract class MultilangstatusHelper
 				->where('a.enabled = 1');
 			$db->setQuery($query);
 
-			try
-			{
-				$sitelangs = $db->loadObjectList('element');
-			}
-			catch (RuntimeException $e)
-			{
-				throw new Exception($e->getMessage(), 500);
-			}
+			$sitelangs = $db->loadObjectList('element');
 		}
 
 		return $sitelangs;
@@ -120,14 +113,7 @@ abstract class MultilangstatusHelper
 				->where('client_id = 0');
 			$db->setQuery($query);
 
-			try
-			{
-				$homepages = $db->loadObjectList('language');
-			}
-			catch (RuntimeException $e)
-			{
-				throw new Exception($e->getMessage(), 500);
-			}
+			$homepages = $db->loadObjectList('language');
 		}
 
 		return $homepages;
