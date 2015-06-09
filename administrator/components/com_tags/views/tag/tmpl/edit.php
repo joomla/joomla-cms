@@ -31,7 +31,7 @@ JFactory::getDocument()->addScriptDeclaration("
 ");
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
-$this->ignore_fieldsets = array('jmetadata');
+$this->ignore_fieldsets = array('jmetadata', 'urls');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_tags&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
