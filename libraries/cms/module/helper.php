@@ -200,9 +200,26 @@ abstract class JModuleHelper
 
 		// Load system chromes and active template chromes
 		$chromePaths = array(JPATH_THEMES . '/system/html/modules.php', JPATH_THEMES . '/' . $template . '/html/modules.php');
+		$elements = array('system', $template);
 
 		// Load chromes from plugins
-		$chromePaths = array_merge($chromePaths, $app->triggerEvent('onGetModuleChromePaths'));
+		$events = $app->triggerEvent('onGetModuleChromes');
+
+		if (!empty($events))
+		{
+			foreach ($events as $event)
+			{
+				// Returned a keyed array with "element" and "path"
+				if (is_array($event) && array_key_exists('element', $event) && array_key_exists('path', $event))
+				{
+					if (is_string($event['path']))
+					{
+							$chromePaths[] = $event['path'];
+							$elements[] = $event['element'];
+					}
+				}
+			}
+		}
 
 		foreach ($chromePaths as $chromePath)
 		{
@@ -222,7 +239,8 @@ abstract class JModuleHelper
 
 		if ($paramsChromeStyle)
 		{
-			$attribs['style'] = preg_replace('/^(system|' . $template . ')\-/i', '', $paramsChromeStyle);
+			$elements = implode('|', $elements);
+			$attribs['style'] = preg_replace('/^(' . $elements . ')\-/i', '', $paramsChromeStyle);
 		}
 
 		// Make sure a style is set

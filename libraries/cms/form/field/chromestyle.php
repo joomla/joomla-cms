@@ -77,26 +77,23 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 
 		$templates = array($this->getSystemTemplate());
 		$templates = array_merge($templates, $this->getTemplates());
-		$plugins = $app->triggerEvent('onGetModuleStyles');
+		$events = $app->triggerEvent('onGetModuleChromes');
 
 		foreach ($templates as $template)
 		{
 			$moduleFilePaths[$template->element] = JPATH_SITE . '/templates/' . $template->element . '/html/modules.php';
 		}
 
-		if (!empty($plugins))
+		if (!empty($events))
 		{
-			foreach ($plugins as $plugin)
+			foreach ($events as $event)
 			{
-				if (is_object($plugin))
+				// Returned a keyed array with "element" and "path"
+				if (is_array($event) && array_key_exists('element', $event) && array_key_exists('path', $event))
 				{
-					$moduleFilePaths[$plugin->element] = $plugin->path;
-				}
-				elseif (is_array($plugin))
-				{
-					foreach ($plugin as $p)
+					if (is_string($event['path']))
 					{
-						$moduleFilePaths[$p->element] = $p->path;
+						$moduleFilePaths[$event['element']] = $event['path'];
 					}
 				}
 			}
@@ -104,12 +101,11 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 
 		foreach ($moduleFilePaths as $key => $moduleFilePath)
 		{
-			// Is there modules.php for that template?
-			if (file_exists($modulesFilePath))
+			if (file_exists($moduleFilePath))
 			{
-				$modulesFileData = file_get_contents($modulesFilePath);
+				$moduleFileData = file_get_contents($moduleFilePath);
 
-				preg_match_all('/function[\s\t]*modChrome\_([a-z0-9\-\_]*)[\s\t]*\(/i', $modulesFileData, $styles);
+				preg_match_all('/function[\s\t]*modChrome\_([a-z0-9\-\_]*)[\s\t]*\(/i', $moduleFileData, $styles);
 
 				if (!array_key_exists($key, $moduleStyles))
 				{
