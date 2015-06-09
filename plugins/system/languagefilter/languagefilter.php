@@ -518,7 +518,6 @@ class PlgSystemLanguageFilter extends JPlugin
 			$lang_code = $user['language'];
 
 			// If no language is specified for this user, we set it to the site default language
-			// This is deliberate: see PR #7130
 			if (empty($lang_code))
 			{
 				$lang_code = $this->default_lang;
