@@ -371,7 +371,7 @@ abstract class JHtmlFilter
 
 			// Build a node.
 
-			$html .= '<div class="controls" style="float: left;">';
+			$html .= '<div class="controls finder-selects">';
 			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" class="control-label">';
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
