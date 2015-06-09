@@ -167,7 +167,7 @@ abstract class JHtmlFilter
 
 			// Populate the toggle button.
 			$html .= "<button class=\"btn\" type=\"button\" class=\"jform-rightbtn\" onclick=\"jQuery('[id=tax-"
-				. $bk . "]').each(function(){this.checked = !this.checked;});\"><span class=\"icon-checkbox-partial\"></span> "
+				. $bk . "]').each(function(){this.click();});\"><span class=\"icon-checkbox-partial\"></span> "
 				. JText::_('JGLOBAL_SELECTION_INVERT') . "</button><hr/>";
 
 			// Populate the group with nodes.
