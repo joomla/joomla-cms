@@ -37,6 +37,12 @@ JFactory::getDocument()->addScriptDeclaration('
 		}
 		return false;
 		});
+
+		$(".filter-node").on("click", function() {
+			$(\'input[id="jform_map_count"]\').val(document.querySelectorAll(\'input[type="checkbox"]:checked\').length);
+		});
+
+
 	});
 ');
 
