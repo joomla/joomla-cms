@@ -56,14 +56,14 @@ $path = 'file_path';
 		endfor; ?>
 
         <?php for ($i = 0, $n = count($this->videos); $i < $n; $i++) :
-            $this->setVideo($i);
-            echo $this->loadTemplate('video');
-        endfor; ?>
+			$this->setVideo($i);
+			echo $this->loadTemplate('video');
+		endfor; ?>
 
         <?php for ($i = 0, $n = count($this->audios); $i < $n; $i++) :
-            $this->setAudio($i);
-            echo $this->loadTemplate('audio');
-        endfor; ?>
+			$this->setAudio($i);
+			echo $this->loadTemplate('audio');
+		endfor; ?>
 
 	</tbody>
 	</table>

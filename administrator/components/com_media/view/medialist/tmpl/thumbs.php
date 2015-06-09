@@ -49,9 +49,9 @@ $path = 'file_path';
 		endfor; ?>
 
         <?php for ($i = 0, $n = count($this->audios); $i < $n; $i++) :
-            $this->setAudio($i);
-            echo $this->loadTemplate('audio');
-        endfor; ?>
+			$this->setAudio($i);
+			echo $this->loadTemplate('audio');
+		endfor; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="username" value="" />
