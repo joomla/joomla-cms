@@ -55,6 +55,16 @@ $path = 'file_path';
 			echo $this->loadTemplate('img');
 		endfor; ?>
 
+        <?php for ($i = 0, $n = count($this->videos); $i < $n; $i++) :
+            $this->setVideo($i);
+            echo $this->loadTemplate('video');
+        endfor; ?>
+
+        <?php for ($i = 0, $n = count($this->audios); $i < $n; $i++) :
+            $this->setAudio($i);
+            echo $this->loadTemplate('audio');
+        endfor; ?>
+
 	</tbody>
 	</table>
 	<input type="hidden" name="task" value="list" />

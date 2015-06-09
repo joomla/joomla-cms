@@ -130,7 +130,7 @@
 			viewstyle = type;
 			var folder = this.getFolder();
 
-			this.setFrameUrl( 'index.php?option=com_media&view=mediaList&tmpl=component&folder=' + folder + '&layout=' + type );
+			this.setFrameUrl( 'index.php?option=com_media&controller=media.display.medialist&view=medialist&tmpl=component&folder=' + folder + '&layout=' + type );
 		},
 
 		refreshFrame: function() {

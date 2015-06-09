@@ -52,6 +52,8 @@ class MediaViewMedialistHtml extends ConfigViewCmsHtml
 			});
 		});");
 
+		$videos = $this->model->getVideos();
+        $audios = $this->model->getAudios();
 		$images = $this->model->getImages();
 		$documents = $this->model->getDocuments();
 		$folders = $this->model->getFolders();
@@ -72,6 +74,8 @@ class MediaViewMedialistHtml extends ConfigViewCmsHtml
 		}
 
 		$this->baseURL = JUri::root();
+        $this->videos = &$videos;
+        $this->audios = &$audios;
 		$this->images = &$images;
 		$this->documents = &$documents;
 		$this->folders = &$folders;
@@ -101,7 +105,49 @@ class MediaViewMedialistHtml extends ConfigViewCmsHtml
 		}
 	}
 
-	/**
+    /**
+     * Set the video
+     *
+     * @param   int  $index  Index of the video
+     *
+     * @return  void
+     *
+     * @since   3.5
+     */
+    public function setVideo($index = 0)
+    {
+        if (isset($this->videos[$index]))
+        {
+            $this->_tmp_video = &$this->videos[$index];
+        }
+        else
+        {
+            $this->_tmp_video = new JObject;
+        }
+    }
+
+    /**
+     * Set the audio
+     *
+     * @param   int  $index  Index of the audio
+     *
+     * @return  void
+     *
+     * @since   3.5
+     */
+    public function setAudio($index = 0)
+    {
+        if (isset($this->audios[$index]))
+        {
+            $this->_tmp_audio = &$this->audios[$index];
+        }
+        else
+        {
+            $this->_tmp_audio = new JObject;
+        }
+    }
+
+    /**
 	 * Set the image
 	 *
 	 * @param   int  $index  Index of the image

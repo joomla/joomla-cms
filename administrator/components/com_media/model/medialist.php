@@ -55,6 +55,34 @@ class MediaModelMedialist extends ConfigModelForm
 		}
 	}
 
+    /**
+     * Get Videos from the list
+     *
+     * @return   array  Array containing list of videos
+     *
+     * @since  3.5
+     */
+    public function getVideos()
+    {
+        $list = $this->getList();
+
+        return $list['videos'];
+    }
+
+    /**
+     * Get Audios from the list
+     *
+     * @return   array  Array containing list of audios
+     *
+     * @since  3.5
+     */
+    public function getAudios()
+    {
+        $list = $this->getList();
+
+        return $list['audios'];
+    }
+
 	/**
 	 * Get Images from the list
 	 *
@@ -123,6 +151,8 @@ class MediaModelMedialist extends ConfigModelForm
 
 		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
 
+        $videos     = array ();
+        $audios     = array ();
 		$images		= array ();
 		$folders	= array ();
 		$docs		= array ();
@@ -208,8 +238,24 @@ class MediaModelMedialist extends ConfigModelForm
 
 							$images[] = $tmp;
 							break;
+                                // Video files
+                        case 'mp4':
+                        case 'ogg':
+                            $tmp->icon_32 = "media/mime-icon-32/" . $ext . ".png";
+                            $tmp->icon_16 = "media/mime-icon-16/" . $ext . ".png";
+                            $tmp->media_type = "video/" . $ext;
+                            $videos[] = $tmp;
+                            break;
+                                // Audio files
+                        case 'mp3':
+                        case 'wav':
+                            $tmp->icon_32 = "media/mime-icon-32/" . $ext . ".png";
+                            $tmp->icon_16 = "media/mime-icon-16/" . $ext . ".png";
+                            $tmp->media_type = "audio/" . $ext;
+                            $audios[] = $tmp;
+                            break;
 
-							// Non-image document
+								// Non-image document
 						default:
 							$tmp->icon_32 = "media/mime-icon-32/" . $ext . ".png";
 							$tmp->icon_16 = "media/mime-icon-16/" . $ext . ".png";
@@ -290,7 +336,7 @@ class MediaModelMedialist extends ConfigModelForm
 			}
 		}
 
-		$list = array('folders' => $folders, 'docs' => $docs, 'images' => $images);
+		$list = array('folders' => $folders, 'docs' => $docs, 'images' => $images, 'videos' => $videos, 'audios' => $audios);
 
 		return $list;
 	}

@@ -43,6 +43,16 @@ $path = 'file_path';
 			echo $this->loadTemplate('img');
 		endfor; ?>
 
+        <?php for ($i = 0, $n = count($this->videos); $i < $n; $i++) :
+			$this->setVideo($i);
+			echo $this->loadTemplate('video');
+		endfor; ?>
+
+        <?php for ($i = 0, $n = count($this->audios); $i < $n; $i++) :
+            $this->setAudio($i);
+            echo $this->loadTemplate('audio');
+        endfor; ?>
+
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="username" value="" />
 		<input type="hidden" name="password" value="" />
