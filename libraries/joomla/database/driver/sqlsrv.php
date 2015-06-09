@@ -491,15 +491,15 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			foreach ($object->getFields() AS $key_field => $value_field)
 			{
-			// if is not primary key set defaul value if not exist this value
-			// for evade error "Cannot insert the value NULL into column 'XXX', 
+			// If is not primary key set defaul value if not exist this value
+			// for evade error "Cannot insert the value NULL into column 'XXX',
 			// table 'XXX'; column does not allow nulls.
 				if (!in_array($this->quoteName($key_field), $fields) && $value_field->Null == "NO" && ((is_array($key) && !in_array($key_field, $key)) || (!is_array($key) && $key_field != $key)))
 				{
 					$fixed = null;
 					if (gettype($value_field->Default) !== null)
 					{
-						$fixed = preg_replace( "/(\A[\(][\'])|(\A[\(][\(])|([\)][\)]$)|([\'][\)]$)/i", "", $value_field->Default );
+						$fixed = preg_replace("/(\A[\(][\'])|(\A[\(][\(])|([\)][\)]$)|([\'][\)]$)/i", "", $value_field->Default);
 					}
 					else
 					{
@@ -515,7 +515,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 							case "int":      case "tinyint": case "money":
 							case "int":      case "float":   case "real":
 								$fixed = 0;
-								break;  
+								break;
 
 							default:
 								$fixed = '';
