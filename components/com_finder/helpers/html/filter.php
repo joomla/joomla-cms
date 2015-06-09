@@ -177,11 +177,16 @@ abstract class JHtmlFilter
 				$checked = in_array($nk, $activeNodes) ? ' checked="checked"' : '';
 
 				// Build a node.
-				$html .= '<label for="tax-' . $nk . '" class="checkbox">';
-				$html .= '<input class="selector filter-node' . $classSuffix . '" type="checkbox" value="' . $nk . '" name="t[]" id="tax-'
+				$html .= '<div class="control-group">';
+				$html .= '<div class="controls">';
+				$html .= '<label class="checkbox" tax-'
+					. $bk . '>';
+				$html .= '<input type="checkbox" class="selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
 					. $bk . '"' . $checked . ' />';
 				$html .= $nv->title;
 				$html .= '</label>';
+				$html .= '</div>';
+				$html .= '</div>';
 			}
 			$html .= JHtml::_('bootstrap.endSlide');
 		}
