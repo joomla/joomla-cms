@@ -51,6 +51,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_FINDER_EDIT_FILTER', true)); ?>
 		<div class="row-fluid">
 			<div class="span9">
+				<?php if ($this->total > 0) : ?>
 					<div class="well">
 						<?php echo $this->form->getControlGroup('map_count'); ?>
 					</div>
@@ -61,7 +62,9 @@ JFactory::getDocument()->addScriptDeclaration('
 
 					<button class="btn btn-default pull-right" type="button" id="rightbtn" ><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
 					<hr>
-						<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
+				<?php endif; ?>
+
+				<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
 			</div>
 			<div class="span3">
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
