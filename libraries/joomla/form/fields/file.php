@@ -132,7 +132,7 @@ class JFormFieldFile extends JFormField
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		return '<input type="file" name="' . $this->name . '" id="' . $this->id . '" value=""' . $accept
+		return '<input type="file" name="' . $this->name . '" id="' . $this->id . '"' . $accept
 			. $disabled . $class . $size . $onchange . $required . $autofocus . $multiple . ' />';
 	}
 }

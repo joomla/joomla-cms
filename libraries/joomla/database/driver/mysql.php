@@ -35,6 +35,14 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 */
 	public function __construct($options)
 	{
+		// PHP's `mysql` extension is not present in PHP 7, block instantiation in this environment
+		if (PHP_MAJOR_VERSION >= 7)
+		{
+			throw new RuntimeException(
+				'This driver is unsupported in PHP 7, please use the MySQLi or PDO MySQL driver instead.'
+			);
+		}
+
 		// Get some basic values from the options.
 		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
 		$options['user'] = (isset($options['user'])) ? $options['user'] : 'root';
@@ -72,7 +80,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		}
 
 		// Make sure the MySQL extension for PHP is installed and enabled.
-		if (!function_exists('mysql_connect'))
+		if (!self::isSupported())
 		{
 			throw new RuntimeException('Could not connect to MySQL.');
 		}

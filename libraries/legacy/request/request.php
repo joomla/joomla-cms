@@ -379,10 +379,10 @@ class JRequest
 				$_FILES[$name] = $value;
 				break;
 			case 'ENV':
-				$_ENV['name'] = $value;
+				$_ENV[$name] = $value;
 				break;
 			case 'SERVER':
-				$_SERVER['name'] = $value;
+				$_SERVER[$name] = $value;
 				break;
 		}
 

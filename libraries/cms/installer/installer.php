@@ -332,7 +332,6 @@ class JInstaller extends JAdapter
 	 * @return  boolean  True if successful
 	 *
 	 * @since   3.1
-	 * @throws  RuntimeException
 	 */
 	public function abort($msg = null, $type = null)
 	{
@@ -406,14 +405,6 @@ class JInstaller extends JAdapter
 
 			// Get the next step and continue
 			$step = array_pop($this->stepStack);
-		}
-
-		$conf = JFactory::getConfig();
-		$debug = $conf->get('debug');
-
-		if ($debug)
-		{
-			throw new RuntimeException('Installation unexpectedly terminated: ' . $msg, 500);
 		}
 
 		return $retval;
@@ -923,7 +914,7 @@ class JInstaller extends JAdapter
 				// Check that sql files exists before reading. Otherwise raise error for rollback
 				if (!file_exists($sqlfile))
 				{
-					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
+					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_FILENOTFOUND', $sqlfile), JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1874,6 +1865,12 @@ class JInstaller extends JAdapter
 	 */
 	public function findManifest()
 	{
+		// Do nothing if folder does not exist for some reason
+		if (!JFolder::exists($this->getPath('source')))
+		{
+			return false;
+		}
+
 		// Main folder manifests (higher priority)
 		$parentXmlfiles = JFolder::files($this->getPath('source'), '.xml$', false, true);
 

@@ -42,7 +42,7 @@ class JLanguageAssociations
 		$query = $db->getQuery(true)
 			->select($db->quoteName('c2.language'))
 			->from($db->quoteName($tablename, 'c'))
-			->join('INNER', $db->quoteName('#__associations', 'a') . ' ON a.id = c.id AND a.context=' . $db->quote($context))
+			->join('INNER', $db->quoteName('#__associations', 'a') . ' ON a.id = c.' . $db->quoteName($pk) . ' AND a.context=' . $db->quote($context))
 			->join('INNER', $db->quoteName('#__associations', 'a2') . ' ON a.key = a2.key')
 			->join('INNER', $db->quoteName($tablename, 'c2') . ' ON a2.id = c2.' . $db->quoteName($pk));
 

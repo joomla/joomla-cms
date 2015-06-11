@@ -12,33 +12,34 @@ defined('_JEXEC') or die;
 // Initiasile related data.
 require_once JPATH_ADMINISTRATOR.'/components/com_menus/helpers/menus.php';
 $menuTypes = MenusHelper::getMenuLinks();
-?>
-		<script type="text/javascript">
-			window.addEvent('domready', function(){
-				validate();
-				document.getElements('select').addEvent('change', function(e){validate();});
-			});
-			function validate(){
-				var value	= document.id('jform_assignment').value;
-				var list	= document.id('menu-assignment');
-				if (value == '-' || value == '0'){
-					$$('.jform-assignments-button').each(function(el) {el.setProperty('disabled', true); });
-					list.getElements('input').each(function(el){
-						el.setProperty('disabled', true);
-						if (value == '-'){
-							el.setProperty('checked', false);
-						} else {
-							el.setProperty('checked', true);
-						}
-					});
+
+JFactory::getDocument()->addScriptDeclaration("
+	window.addEvent('domready', function(){
+		validate();
+		document.getElements('select').addEvent('change', function(e){validate();});
+	});
+	function validate(){
+		var value	= document.id('jform_assignment').value;
+		var list	= document.id('menu-assignment');
+		if (value == '-' || value == '0'){
+			$$('.jform-assignments-button').each(function(el) {el.setProperty('disabled', true); });
+			list.getElements('input').each(function(el){
+				el.setProperty('disabled', true);
+				if (value == '-'){
+					el.setProperty('checked', false);
 				} else {
-					$$('.jform-assignments-button').each(function(el) {el.setProperty('disabled', false); });
-					list.getElements('input').each(function(el){
-						el.setProperty('disabled', false);
-					});
+					el.setProperty('checked', true);
 				}
-			}
-		</script>
+			});
+		} else {
+			$$('.jform-assignments-button').each(function(el) {el.setProperty('disabled', false); });
+			list.getElements('input').each(function(el){
+				el.setProperty('disabled', false);
+			});
+		}
+	}
+");
+?>
 
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_MODULES_MENU_ASSIGNMENT'); ?></legend>

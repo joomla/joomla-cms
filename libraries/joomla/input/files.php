@@ -77,6 +77,17 @@ class JInputFiles extends JInput
 				)
 			);
 
+			// Prevent returning an unsafe file unless speciffically requested
+			if ($filter != 'raw')
+			{
+				$isSafe = JFilterInput::isSafeFile($results);
+
+				if (!$isSafe)
+				{
+					return $default;
+				}
+			}
+
 			return $results;
 		}
 

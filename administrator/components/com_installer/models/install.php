@@ -201,7 +201,8 @@ class InstallerModelInstall extends JModelLegacy
 	{
 		// Get the uploaded file information.
 		$input    = JFactory::getApplication()->input;
-		$userfile = $input->files->get('install_package', null, 'array');
+		// Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See JInputFiles::get.
+		$userfile = $input->files->get('install_package', null, 'raw');
 
 		// Make sure that file uploads are enabled in php.
 		if (!(bool) ini_get('file_uploads'))
@@ -258,7 +259,7 @@ class InstallerModelInstall extends JModelLegacy
 
 		// Move uploaded file.
 		jimport('joomla.filesystem.file');
-		JFile::upload($tmp_src, $tmp_dest);
+		JFile::upload($tmp_src, $tmp_dest, false, true);
 
 		// Unpack the downloaded package file.
 		$package = JInstallerHelper::unpack($tmp_dest, true);

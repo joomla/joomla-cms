@@ -468,6 +468,11 @@ fieldset.radio.btn-group {
 input.invalid {
 	border: 1px solid @red;
 }
+select.chzn-done.invalid + .chzn-container.chzn-container-single > a.chzn-single,
+select.chzn-done.invalid + .chzn-container.chzn-container-multi > ul.chzn-choices {
+	border-color: @red;
+	color: @red;
+}
 
 /* Tweaking of tooltips */
 .tooltip {

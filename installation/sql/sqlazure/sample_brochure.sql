@@ -178,7 +178,7 @@ TRUNCATE TABLE [#__template_styles];
 SET IDENTITY_INSERT [#__template_styles] ON
 INSERT INTO [#__template_styles] ([id], [template], [client_id], [home], [title], [params]) VALUES (2, N'bluestork', 1, N'1      ', N'Bluestork - Default', N'{"useRoundedCorners":"1","showSiteName":"0"}');
 INSERT INTO [#__template_styles] ([id], [template], [client_id], [home], [title], [params]) VALUES (3, N'atomic', 0, N'0      ', N'Atomic - Default', N'{}');
-INSERT INTO [#__template_styles] ([id], [template], [client_id], [home], [title], [params]) VALUES (4, N'beez3', 0, N'0      ', N'Beez3 - Default', N'{"wrapperSmall":"53","wrapperLarge":"72","lo":"images/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}');
+INSERT INTO [#__template_styles] ([id], [template], [client_id], [home], [title], [params]) VALUES (4, N'beez3', 0, N'0      ', N'Beez3 - Default', N'{"wrapperSmall":"53","wrapperLarge":"72","lo":"images/joomla_black.png","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}');
 INSERT INTO [#__template_styles] ([id], [template], [client_id], [home], [title], [params]) VALUES (5, N'hathor', 1, N'0      ', N'Hathor - Default', N'{"showSiteName":"0","colourChoice":"","boldText":"0"}');
 INSERT INTO [#__template_styles] ([id], [template], [client_id], [home], [title], [params]) VALUES (6, N'beez5', 0, N'1      ', N'Your Basic Template', N'{"wrapperSmall":53,"wrapperLarge":72,"lo":"","sitetitle":"Your site name or image","sitedescription":"Your tag line for the top of every page","navposition":"left","html5":1}');
 

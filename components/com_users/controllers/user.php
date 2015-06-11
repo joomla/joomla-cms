@@ -95,7 +95,7 @@ class UsersControllerUser extends UsersController
 
 		$app = JFactory::getApplication();
 
-		// Perform the log in.
+		// Perform the log out.
 		$error  = $app->logout();
 		$input  = $app->input;
 		$method = $input->getMethod();

@@ -62,70 +62,81 @@
 		{
 			var context = 'jsidebar';
 
-			var $visible = $('#j-toggle-sidebar').is(":visible");
+			var $sidebar = $('#j-sidebar-container'),
+				$main = $('#j-main-container'),
+				$message = $('#system-message-container'),
+				$debug = $('#system-debug'),
+				$toggleSidebarIcon = $('#j-toggle-sidebar-icon'),
+				$toggleButtonWrapper = $('#j-toggle-button-wrapper'),
+				$toggleButton = $('#j-toggle-sidebar-button'),
+				$sidebarToggle = $('#j-toggle-sidebar');
 
-			var $sidebar = $('#j-sidebar-container');
+			var openIcon = 'icon-arrow-left-2',
+				closedIcon = 'icon-arrow-right-2';
 
-			var open_icon = 'icon-cancel';
-			var closed_icon = 'icon-arrow-right-2';
+			var $visible = $sidebarToggle.is(":visible");
 
 			if (jQuery(document.querySelector("html")).attr('dir') == 'rtl')
 			{
-				open_icon = 'icon-cancel';
-				closed_icon = 'icon-arrow-left-2';
+				openIcon = 'icon-arrow-right-2';
+				closedIcon = 'icon-arrow-left-2';
 			}
 
-			var main_height = $('#j-main-container').outerHeight()+30;
-			var sidebar_height = $('#j-sidebar-container').outerHeight();
-
-			var body_width = $('body').outerWidth();
-			var sidebar_width = $sidebar.outerWidth();
-			var content_width = $('#content').outerWidth();
 			var isComponent = $('body').hasClass('component');
-			var this_content = content_width / body_width * 100;
-			var this_main = (content_width - sidebar_width) / body_width * 100;
 
-			$('#j-sidebar-container').removeClass('span2').addClass('j-sidebar-container');
-			$('#system-message-container').addClass('j-toggle-main');
-			$('#j-main-container').addClass('j-toggle-main');
+			$sidebar.removeClass('span2').addClass('j-sidebar-container');
+			$message.addClass('j-toggle-main');
+			$main.addClass('j-toggle-main');
 			if (!isComponent) {
-				$('#system-debug').addClass('j-toggle-main');
+				$debug.addClass('j-toggle-main');
 			}
+
+			var mainHeight = $main.outerHeight()+30,
+				sidebarHeight = $sidebar.outerHeight(),
+				bodyWidth = $('body').outerWidth(),
+				sidebarWidth = $sidebar.outerWidth(),
+				contentWidth = $('#content').outerWidth(),
+				contentWidthRelative = contentWidth / bodyWidth * 100,
+				mainWidthRelative = (contentWidth - sidebarWidth) / bodyWidth * 100;
 
 			if (force)
 			{
 				// Load the value from localStorage
 				if (typeof(Storage) !== "undefined")
 				{
-					var $visible = localStorage.getItem(context);
+					$visible = localStorage.getItem(context);
 				}
 
 				// Need to convert the value to a boolean
-				$visible = ($visible == 'true') ? true : false;
+				$visible = ($visible == 'true');
 			}
 			else
 			{
-				$('#system-message-container').addClass('j-toggle-transition');
-				$('#j-sidebar-container').addClass('j-toggle-transition');
-				$('#j-toggle-button-wrapper').addClass('j-toggle-transition');
-				$('#j-main-container').addClass('j-toggle-transition');
+				$message.addClass('j-toggle-transition');
+				$sidebar.addClass('j-toggle-transition');
+				$toggleButtonWrapper.addClass('j-toggle-transition');
+				$main.addClass('j-toggle-transition');
 				if (!isComponent) {
-					$('#system-debug').addClass('j-toggle-transition');
+					$debug.addClass('j-toggle-transition');
 				}
 			}
 
 			if ($visible)
 			{
-				$('#j-toggle-sidebar').hide();
-				$('#j-sidebar-container').removeClass('j-sidebar-visible').addClass('j-sidebar-hidden');
-				$('#j-toggle-button-wrapper').removeClass('j-toggle-visible').addClass('j-toggle-hidden');
-				$('#j-toggle-sidebar-icon').removeClass('j-toggle-visible').addClass('j-toggle-hidden');
-				$('#system-message-container').removeClass('span10').addClass('span12');
-				$('#j-main-container').removeClass('span10').addClass('span12 expanded');
-				$('#j-toggle-sidebar-icon').removeClass(open_icon).addClass(closed_icon);
-				$('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JTOGGLE_SHOW_SIDEBAR'));
+				$sidebarToggle.hide();
+				$sidebar.removeClass('j-sidebar-visible').addClass('j-sidebar-hidden');
+				$toggleButtonWrapper.removeClass('j-toggle-visible').addClass('j-toggle-hidden');
+				$toggleSidebarIcon.removeClass('j-toggle-visible').addClass('j-toggle-hidden');
+				$message.removeClass('span10').addClass('span12');
+				$main.removeClass('span10').addClass('span12 expanded');
+				$toggleSidebarIcon.removeClass(openIcon).addClass(closedIcon);
+				$toggleButton.attr( 'data-original-title', Joomla.JText._('JTOGGLE_SHOW_SIDEBAR') );
+				$sidebar.attr('aria-hidden', true);
+				$sidebar.find('a').attr('tabindex', '-1');
+				$sidebar.find(':input').attr('tabindex', '-1');
+
 				if (!isComponent) {
-					$('#system-debug').css('width', this_content + '%');
+					$debug.css( 'width', contentWidthRelative + '%' );
 				}
 
 				if (typeof(Storage) !== "undefined")
@@ -136,28 +147,31 @@
 			}
 			else
 			{
-				$('#j-toggle-sidebar').show();
-				$('#j-sidebar-container').removeClass('j-sidebar-hidden').addClass('j-sidebar-visible');
-				$('#j-toggle-button-wrapper').removeClass('j-toggle-hidden').addClass('j-toggle-visible');
-				$('#j-toggle-sidebar-icon').removeClass('j-toggle-hidden').addClass('j-toggle-visible');
-				$('#system-message-container').removeClass('span12').addClass('span10');
-				$('#j-main-container').removeClass('span12 expanded').addClass('span10');
-				$('#j-toggle-sidebar-icon').removeClass(closed_icon).addClass(open_icon);
-				$('#j-toggle-sidebar-button').attr('data-original-title', Joomla.JText._('JTOGGLE_HIDE_SIDEBAR'));
+				$sidebarToggle.show();
+				$sidebar.removeClass('j-sidebar-hidden').addClass('j-sidebar-visible');
+				$toggleButtonWrapper.removeClass('j-toggle-hidden').addClass('j-toggle-visible');
+				$toggleSidebarIcon.removeClass('j-toggle-hidden').addClass('j-toggle-visible');
+				$message.removeClass('span12').addClass('span10');
+				$main.removeClass('span12 expanded').addClass('span10');
+				$toggleSidebarIcon.removeClass(closedIcon).addClass(openIcon);
+				$toggleButton.attr( 'data-original-title', Joomla.JText._('JTOGGLE_HIDE_SIDEBAR') );
+				$sidebar.removeAttr('aria-hidden');
+				$sidebar.find('a').removeAttr('tabindex');
+				$sidebar.find(':input').removeAttr('tabindex');
 
-				if (!isComponent && body_width > 768 && main_height < sidebar_height)
+				if (!isComponent && bodyWidth > 768 && mainHeight < sidebarHeight)
 				{
-					$('#system-debug').css('width', this_main+'%');
+					$debug.css( 'width', mainWidthRelative + '%' );
 				}
 				else if (!isComponent)
 				{
-					$('#system-debug').css('width', this_content+'%');
+					$debug.css( 'width', contentWidthRelative + '%' );
 				}
 
 				if (typeof(Storage) !== "undefined")
 				{
 					// Set the last selection in localStorage
-					localStorage.setItem(context, false);
+					localStorage.setItem( context, false );
 				}
 			}
 		}

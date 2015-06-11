@@ -209,6 +209,7 @@ class JPathway
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0  Use makeItem() instead
+	 * @codeCoverageIgnore
 	 */
 	protected function _makeItem($name, $link)
 	{

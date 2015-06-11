@@ -99,7 +99,7 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	 */
 	public static function isSupported()
 	{
-		return in_array('mysql', PDO::getAvailableDrivers());
+		return class_exists('PDO') && in_array('mysql', PDO::getAvailableDrivers());
 	}
 
 	/**

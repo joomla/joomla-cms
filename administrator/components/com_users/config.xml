@@ -14,7 +14,7 @@
 
 		<field
 			name="new_usertype"
-			type="usergroup"
+			type="usergrouplist"
 			default="2"
 			label="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_LABEL"
 			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC">
@@ -22,7 +22,7 @@
 
 		<field
 			name="guest_usergroup"
-			type="usergroup"
+			type="usergrouplist"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_LABEL"
 			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC">
@@ -172,11 +172,11 @@
 			default="0">
 			</field>
 	</fieldset>
-	
+
 	<fieldset
 		name="user_notes_history"
 		label="COM_USERS_CONFIG_FIELD_NOTES_HISTORY" >
-		
+
 			<field
 			name="save_history"
 			type="radio"
@@ -188,7 +188,7 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-		
+
 		<field
 			name="history_limit"
 			type="text"

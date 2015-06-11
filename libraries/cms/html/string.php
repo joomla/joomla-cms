@@ -97,7 +97,7 @@ abstract class JHtmlString
 				$openedTags = array_values($openedTags);
 
 				// Put all closed tags into an array
-				preg_match_all("#</([a-z]+)>#iU", $tmp, $result);
+				preg_match_all("#</([a-z][a-z0-9]*)\b(?:[^>]*?)>#iU", $tmp, $result);
 				$closedTags = $result[1];
 
 				$numOpened = count($openedTags);

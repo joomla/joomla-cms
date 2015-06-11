@@ -54,8 +54,8 @@ class JHtmlUsers
 	{
 		$title = JText::_('COM_USERS_ADD_NOTE');
 
-		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '">'
-			. '<span class="label label-info"><i class="icon-vcard"></i>' . $title . '</span></a>';
+		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId) . '" class="hasTooltip btn btn-mini" title="' . $title . '">'
+			. '<span class="icon-vcard"></span><span class="hidden-phone">' . $title . '</span></a>';
 	}
 
 	/**
@@ -77,8 +77,8 @@ class JHtmlUsers
 
 		$title = JText::_('COM_USERS_FILTER_NOTES');
 
-		return '<a href="' . JRoute::_('index.php?option=com_users&view=notes&filter_search=uid:' . (int) $userId) . '">'
-			. JHtml::_('image', 'admin/filter_16.png', 'COM_USERS_NOTES', array('title' => $title), true) . '</a>';
+		return '<a href="' . JRoute::_('index.php?option=com_users&view=notes&filter_search=uid:' . (int) $userId) . '" class="hasTooltip btn btn-mini" title="' . $title . '">'
+			. '<span class="icon-filter"></span></a>';
 	}
 
 	/**
@@ -100,16 +100,46 @@ class JHtmlUsers
 
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
 
-		echo JHtmlBootstrap::renderModal(
-			'userModal_' . (int) $userId, array(
-				'url' => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId),
+		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId . '" data-toggle="modal" class="hasTooltip btn btn-mini" title="' . $title . '">'
+			. '<span class="icon-drawer-2"></span><span class="hidden-phone">' . $title . '</span></a>';
+	}
+
+	/**
+	 * Renders the modal html.
+	 *
+	 * @param   integer  $count   The number of notes for the user
+	 * @param   integer  $userId  The user ID
+	 *
+	 * @return  string   The html for the rendered modal
+	 *
+	 * @since   3.4.1
+	*/
+	public static function notesModal($count, $userId)
+	{
+		if (empty($count))
+		{
+			return '';
+		}
+
+		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
+		$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+			. JText::_('JTOOLBAR_CLOSE') . '</a>';
+
+		return JHtml::_(
+			'bootstrap.renderModal',
+			'userModal_' . (int) $userId,
+			array(
 				'title' => $title,
-				'width' => '800px',
-				'height' => '500px')
+				'backdrop' => 'static',
+				'keyboard' => true,
+				'closeButton' => true,
+				'footer' => $footer,
+				'url' => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId),
+				'height' => '300px',
+				'width' => '800px'
+			)
 		);
 
-		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId . '" data-toggle="modal">'
-			. '<span class="label label-info"><i class="icon-drawer-2"></i>' . $title . '</span></a>';
 	}
 
 	/**

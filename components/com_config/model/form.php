@@ -302,7 +302,7 @@ abstract class ConfigModelForm extends ConfigModelCms
 			return false;
 		}
 
-		// Check the validation results.+
+		// Check the validation results.
 		if ($return === false)
 		{
 			// Get the validation messages from the form.

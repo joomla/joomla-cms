@@ -18,14 +18,26 @@
 /phpunit.xml
 /tests/system/webdriver/tests/logs/
 /tests/system/servers/configdef.php
+codecept.phar
+tests/codeception/_output/*
+tests/codeception/vendor/*
+tests/codeception/testingsite*
+tests/codeception/tests/acceptance.suite.yml
+tests/codeception/tests/acceptance/*Tester.php
+tests/codeception/tests/functional/*Tester.php
+tests/codeception/tests/unit/*Tester.php
 
 # phpDocumentor Logs #
 phpdoc-*
 
 # Patch Tester #
-administrator/components/com_patchtester/
-administrator/templates/hathor/html/com_patchtester
-components/com_patchtester/
+/administrator/components/com_patchtester
+/administrator/templates/hathor/html/com_patchtester
+/components/com_patchtester
+/media/com_patchtester
+
+# Install from Web plugin #
+/plugins/installer/webinstaller
 
 # OSX #
 ._*
