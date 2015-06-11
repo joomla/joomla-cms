@@ -160,7 +160,7 @@ class JTwitterUsers extends JTwitterObject
 	public function getUser($user, $entities = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit('users', 'show');
+		$this->checkRateLimit('users', 'show/:id');
 
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))

@@ -496,6 +496,11 @@ class JDatabaseExporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithBadInput()
 	{
+		if (PHP_MAJOR_VERSION >= 7)
+		{
+			$this->markTestSkipped('A fatal error is thrown on PHP 7 due to the typehinting of the method.');
+		}
+
 		$instance = new JDatabaseExporterPdomysql;
 
 		try

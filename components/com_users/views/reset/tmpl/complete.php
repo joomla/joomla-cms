@@ -24,8 +24,8 @@ JHtml::_('behavior.formvalidator');
 	<form action="<?php echo JRoute::_('index.php?option=com_users&task=reset.complete'); ?>" method="post" class="form-validate form-horizontal well">
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<fieldset>
+				<p><?php echo JText::_($fieldset->label); ?></p>
 				<?php foreach ($this->form->getFieldset($fieldset->name) as $name => $field) : ?>
-					<p><?php echo JText::_($fieldset->label); ?></p>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $field->label; ?>

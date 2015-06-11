@@ -29,20 +29,20 @@ class ModLoginHelper
 	 */
 	public static function getReturnURL($params, $type)
 	{
-		$app	= JFactory::getApplication();
-		$item   = $app->getMenu()->getItem($params->get($type));
+		$app  = JFactory::getApplication();
+		$item = $app->getMenu()->getItem($params->get($type));
 
 		if ($item)
 		{
-			$vars = $item->query;
+			$url = 'index.php?Itemid=' . $item->id;
 		}
 		else
 		{
 			// Stay on the same page
-			$vars = $app::getRouter()->getVars();
+			$url = JUri::getInstance()->toString();
 		}
 
-		return base64_encode('index.php?' . JUri::buildQuery($vars));
+		return base64_encode($url);
 	}
 
 	/**

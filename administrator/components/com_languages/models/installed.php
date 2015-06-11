@@ -189,6 +189,12 @@ class LanguagesModelInstalled extends JModelList
 					$row->$key = $value;
 				}
 
+				// Fix wrongly set parentheses in RTL languages
+				if (JFactory::getLanguage()->isRTL())
+				{
+					$row->name = html_entity_decode($row->name . '&#x200E;', ENT_QUOTES, 'UTF-8');
+				}
+
 				// If current than set published.
 				$params = JComponentHelper::getParams('com_languages');
 

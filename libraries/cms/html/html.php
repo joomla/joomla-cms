@@ -1019,7 +1019,7 @@ abstract class JHtml
 		return '<div' . $div_class . '>'
 				. '<input type="text" title="' . ($inputvalue ? static::_('date', $value, null, null) : '')
 				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><i class="icon-calendar"></i></button>'
+				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><span class="icon-calendar"></span></button>'
 			. '</div>';
 	}
 
@@ -1057,10 +1057,14 @@ abstract class JHtml
 	 *
 	 * @return  string  JavaScript object notation representation of the array
 	 *
+	 * @deprecated 4.0 use json_encode or JRegistry::toString('json')
+	 *
 	 * @since   3.0
 	 */
 	public static function getJSObject(array $array = array())
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Use json_encode instead.', JLog::WARNING, 'deprecated');
+
 		$elements = array();
 
 		foreach ($array as $k => $v)

@@ -33,11 +33,12 @@ class ModArchiveHelper
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
-			->select('created, id, title')
+			->select('MIN(' . $db->quoteName('created') . ') AS created')
 			->select($query->year($db->quoteName('created')) . ' AS created_year')
 			->from('#__content')
 			->where('state = 2 AND checked_out = 0')
-			->group($query->year($db->quoteName('created')) . ', ' . $query->month($db->quoteName('created')) . ', created, id, title');
+			->group($query->year($db->quoteName('created')) . ', ' . $query->month($db->quoteName('created')))
+			->order($query->year($db->quoteName('created')) . ' DESC, ' . $query->month($db->quoteName('created')) . ' DESC');
 
 		// Filter by language
 		if (JFactory::getApplication()->getLanguageFilter())
