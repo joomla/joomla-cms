@@ -604,6 +604,9 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		$toolbar5_add[] = 'joomlabreak';
+		$toolbar5_add[] = 'joomlaimage';
+		$toolbar5_add[] = 'joomlapager';
+		$toolbar5_add[] = 'joomlaarticle';
 
 		// Prepare config variables
 		$plugins  = implode(',', $plugins);
@@ -622,6 +625,19 @@ class PlgEditorTinymce extends JPlugin
 		$load = "\t<script type=\"text/javascript\" src=\"" .
 			JUri::root() . $this->_basePath .
 			"/tinymce.min.js\"></script>\n";
+
+		// User check for images ACL
+		$asset = $this->app->scope;
+		$user = JFactory::getUser();
+
+		if (	$user->authorise('core.edit', $this->app->scope)
+			||	$user->authorise('core.create', $this->app->scope)
+			||	(count($user->getAuthorisedCategories($this->app->scope, 'core.create')) > 0)
+			||	(count($user->getAuthorisedCategories($this->app->scope, 'core.edit')) > 0))
+		{
+			$author = $user->id;
+			$link = JUri::root(true). 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='.$author . '&amp;e_name=';
+		}
 
 		/**
 		 * Shrink the buttons if not on a mobile or if mobile view is off.
@@ -659,6 +675,7 @@ class PlgEditorTinymce extends JPlugin
 						menubar: false,
 						toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist\",
 						toolbar5: \"$toolbar5\",
+						plugins : \"joomlabreak, joomlaimage, joomlaarticle, joomlapager\",
 						// Cleanup/Output
 						inline_styles : true,
 						gecko_spellcheck : true,
@@ -703,7 +720,7 @@ class PlgEditorTinymce extends JPlugin
 					$smallButtons
 					invalid_elements : \"$invalid_elements\",
 					// Plugins
-					plugins : \"table link image code hr charmap autolink lists importcss\",
+					plugins : \"table link image code hr charmap autolink lists importcss, joomlabreak, joomlaimage\",
 					// Toolbar
 					toolbar1: \"$toolbar1\",
 					toolbar2: \"$toolbar2\",
@@ -750,7 +767,7 @@ class PlgEditorTinymce extends JPlugin
 					$smallButtons
 					invalid_elements : \"$invalid_elements\",
 					// Plugins
-					plugins : \"$plugins\",
+					plugins : \"$plugins, joomlabreak, joomlaimage, joomlapager, joomlaarticle\",
 					// Toolbar
 					toolbar1: \"$toolbar1\",
 					toolbar2: \"$toolbar2\",
@@ -790,7 +807,9 @@ class PlgEditorTinymce extends JPlugin
 
 				});
 				var hrExists = \"" .
-					JText::_('PLG_TINY_READMORE_ALREADY_EXISTS') . "\";
+					JText::_('PLG_TINY_READMORE_ALREADY_EXISTS') . "\",
+					imgLink = \"$link\",
+					toc = \"" . JSession::getFormToken() . "\";
 				</script>";
 				break;
 		}
