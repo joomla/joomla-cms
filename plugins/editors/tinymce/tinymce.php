@@ -248,6 +248,7 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar2_add   = array();
 		$toolbar3_add   = array();
 		$toolbar4_add   = array();
+		$toolbar5_add   = array();
 		$elements       = array();
 		$plugins        = array(
 			'autolink',
@@ -602,6 +603,8 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar4_add[] = $custom_button;
 		}
 
+		$toolbar5_add[] = 'joomlabreak';
+
 		// Prepare config variables
 		$plugins  = implode(',', $plugins);
 		$elements = implode(',', $elements);
@@ -611,6 +614,7 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar2 = implode(' ', $toolbar2_add);
 		$toolbar3 = implode(' ', $toolbar3_add);
 		$toolbar4 = implode(' ', $toolbar4_add);
+		$toolbar5 = implode(' ', $toolbar5_add);
 
 		// See if mobileVersion is activated
 		$mobileVersion = $this->params->get('mobile', 0);
@@ -654,6 +658,7 @@ class PlgEditorTinymce extends JPlugin
 						schema: \"html5\",
 						menubar: false,
 						toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist\",
+						toolbar5: \"$toolbar5\",
 						// Cleanup/Output
 						inline_styles : true,
 						gecko_spellcheck : true,
@@ -667,6 +672,8 @@ class PlgEditorTinymce extends JPlugin
 						$content_css
 						document_base_url : \"" . JUri::root() . "\"
 					});
+					var hrExists = \"" .
+					JText::_('PLG_TINY_READMORE_ALREADY_EXISTS') . "\";
 				</script>";
 				break;
 
@@ -700,6 +707,7 @@ class PlgEditorTinymce extends JPlugin
 					// Toolbar
 					toolbar1: \"$toolbar1\",
 					toolbar2: \"$toolbar2\",
+					toolbar5: \"$toolbar5\",
 					removed_menuitems: \"newdocument\",
 					// URL
 					relative_urls : $relative_urls,
@@ -714,6 +722,8 @@ class PlgEditorTinymce extends JPlugin
 					width : \"$html_width\",
 
 				});
+				var hrExists = \"" .
+					JText::_('PLG_TINY_READMORE_ALREADY_EXISTS') . "\";
 				</script>";
 				break;
 
@@ -746,6 +756,7 @@ class PlgEditorTinymce extends JPlugin
 					toolbar2: \"$toolbar2\",
 					toolbar3: \"$toolbar3\",
 					toolbar4: \"$toolbar4\",
+					toolbar5: \"$toolbar5\",
 					removed_menuitems: \"newdocument\",
 					// URL
 					relative_urls : $relative_urls,
@@ -778,6 +789,8 @@ class PlgEditorTinymce extends JPlugin
 					width : \"$html_width\",
 
 				});
+				var hrExists = \"" .
+					JText::_('PLG_TINY_READMORE_ALREADY_EXISTS') . "\";
 				</script>";
 				break;
 		}
