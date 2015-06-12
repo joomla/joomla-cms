@@ -213,7 +213,6 @@
 		<filename>en-GB.tpl_hathor.sys.ini</filename>
 		<filename>en-GB.tpl_isis.ini</filename>
 		<filename>en-GB.tpl_isis.sys.ini</filename>
-		<filename>index.html</filename> 
 		<filename file="meta">en-GB.xml</filename>	
 		<filename file="meta">install.xml</filename>
 	</files>
