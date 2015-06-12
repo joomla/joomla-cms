@@ -16,7 +16,7 @@ $path = JPATH_CONFIGURATION . '/configuration.php';
 $useftp = (file_exists($path)) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
 $prev = $useftp ? 'ftp' : 'database';
 ?>
-<?php echo JHtml::_('installation.stepbar'); ?>
+<?php echo JHtml::_('InstallationHtml.helper.stepbar'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<div class="btn-toolbar">
 		<div class="btn-group pull-right">
