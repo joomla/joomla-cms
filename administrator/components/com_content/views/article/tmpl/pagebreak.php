@@ -24,8 +24,8 @@ $script .= 'if (alt != \'\') {' . "\n\t\t";
 $script .= 'alt = "alt=\""+alt+"\" ";' . "\n\t";
 $script .= '}' . "\n\t";
 $script .= 'var tag = "<hr class=\"system-pagebreak\" "+title+" "+alt+"/>";' . "\n\t";
-$script .= 'tinymce.activeEditor.insertContent(tag);' . "\n\t";
-$script .= 'tinymce.activeEditor.windowManager.close();' . "\n\t";
+$script .= 'window.parent.jInsertEditorText(tag, ' . json_encode($this->eName) . ');' . "\n\t";
+$script .= 'window.parent.jModalClose();' . "\n\t";
 $script .= 'return false;' . "\n";
 $script .= '}' . "\n";
 

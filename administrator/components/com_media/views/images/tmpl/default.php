@@ -36,10 +36,12 @@ echo $params->get('image_path', 'images'); ?>/';
 					<button class="btn" type="button" id="upbutton" title="<?php echo JText::_('COM_MEDIA_DIRECTORY_UP') ?>"><?php echo JText::_('COM_MEDIA_UP') ?></button>
 				</div>
 			</div>
+			<?php if ($input->getCmd('tiny') != 1):?>
 			<div class="pull-right">
 				<button class="btn btn-primary" type="button" onclick="<?php if ($this->state->get('field.id')):?>window.parent.jInsertFieldValue(document.getElementById('f_url').value,'<?php echo $this->state->get('field.id');?>');<?php else:?>ImageManager.onok();<?php endif;?>window.parent.jModalClose();"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
 				<button class="btn" type="button" onclick="window.parent.jModalClose();"><?php echo JText::_('JCANCEL') ?></button>
 			</div>
+			<?php endif;?>
 		</div>
 	</div>
 

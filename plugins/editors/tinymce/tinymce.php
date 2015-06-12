@@ -603,7 +603,7 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar4_add[] = $custom_button;
 		}
 
-		$toolbar5_add[] = 'joomlabreak';
+		$toolbar5_add[] = 'joomlamore';
 		$toolbar5_add[] = 'joomlaimage';
 		$toolbar5_add[] = 'joomlapager';
 		$toolbar5_add[] = 'joomlaarticle';
@@ -636,7 +636,7 @@ class PlgEditorTinymce extends JPlugin
 			||	(count($user->getAuthorisedCategories($this->app->scope, 'core.edit')) > 0))
 		{
 			$author = $user->id;
-			$link = JUri::root(true). 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author=' . $author . '&amp;e_name=';
+			$link = JUri::root(true). 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author=' . $author . '&amp;tiny=1&amp;e_name=';
 		}
 
 		/**
@@ -674,7 +674,7 @@ class PlgEditorTinymce extends JPlugin
 						schema: \"html5\",
 						menubar: false,
 						toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | $toolbar5 | code \",
-						plugins : \"code, joomlabreak, joomlaimage, joomlaarticle, joomlapager\",
+						plugins : \"code, joomlamore, joomlaimage, joomlaarticle, joomlapager\",
 						// Cleanup/Output
 						inline_styles : true,
 						gecko_spellcheck : true,
@@ -721,7 +721,7 @@ class PlgEditorTinymce extends JPlugin
 					$smallButtons
 					invalid_elements : \"$invalid_elements\",
 					// Plugins
-					plugins : \"table link image code hr charmap autolink lists importcss, joomlabreak, joomlaimage\",
+					plugins : \"table link image code hr charmap autolink lists importcss, joomlamore, joomlaimage\",
 					// Toolbar
 					toolbar1: \"$toolbar1\",
 					toolbar2: \"$toolbar2\",
@@ -770,7 +770,7 @@ class PlgEditorTinymce extends JPlugin
 					$smallButtons
 					invalid_elements : \"$invalid_elements\",
 					// Plugins
-					plugins : \"$plugins, joomlabreak, joomlaimage, joomlapager, joomlaarticle\",
+					plugins : \"$plugins, joomlamore, joomlaimage, joomlapager, joomlaarticle\",
 					// Toolbar
 					toolbar1: \"$toolbar1\",
 					toolbar2: \"$toolbar2\",
@@ -924,7 +924,7 @@ class PlgEditorTinymce extends JPlugin
 
 		$editor = '<div class="editor">';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
-//		$editor .= $this->_displayButtons($id, $buttons, $asset, $author);
+		$editor .= $this->_displayButtons($id, $buttons, $asset, $author);
 //		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
 
@@ -982,12 +982,51 @@ class PlgEditorTinymce extends JPlugin
 		{
 			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
 
-			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
+			foreach ($buttons as $button)
+			{
+				$but[] = get_object_vars($button);
+			}
+
+			foreach ($but as $butt)
+			{
+				if (in_array($butt['text'], array('Article', 'Page Break', 'Read More', 'Image', 'Toggle')))
+				{
+					$but = $this->removeElementWithValue($but, "text", $butt['text']);
+				}
+				else
+				{
+					$nbutt[] = json_decode(json_encode($butt), FALSE);
+				}
+			}
+
+
+			if ((isset($nbutt) && is_array($nbutt)) ||
+				(isset($nbutt) && (is_bool($nbutt) && $nbutt)))
+			{
+				$return .= JLayoutHelper::render('joomla.editors.buttons', $nbutt);
+			}
 		}
 
 		return $return;
 	}
 
+	/**
+	 * Array helper funtion to remove specific arrays by key-value
+	 *
+	 * @param $array array  the parent array
+	 * @param $key   string the key
+	 * @param $value string the value
+	 *
+	 * @return mixed
+	 */
+	private function removeElementWithValue($array, $key, $value){
+		foreach($array as $subKey => $subArray){
+			if($subArray[$key] == $value){
+				unset($array[$subKey]);
+			}
+		}
+		return $array;
+	}
 	/**
 	 * Get the toggle editor button
 	 *
