@@ -305,8 +305,18 @@ class AdminModelSysInfo extends JModelLegacy
 
 		$this->_addDirectory('templates', JPATH_SITE . '/templates');
 		$this->_addDirectory('configuration.php', JPATH_CONFIGURATION . '/configuration.php');
-		$this->_addDirectory('cache', JPATH_SITE . '/cache', 'COM_ADMIN_CACHE_DIRECTORY');
-		$this->_addDirectory('administrator/cache', JPATH_CACHE, 'COM_ADMIN_CACHE_DIRECTORY');
+
+		// Is there a cache path in configuration.php?
+		if ($cache_path = trim($registry->get('cache_path', '')))
+		{
+			// Frontend and backend use same directory for caching.
+			$this->_addDirectory($cache_path, $cache_path, 'COM_ADMIN_CACHE_DIRECTORY');
+		}
+		else
+		{
+			$this->_addDirectory('cache', JPATH_SITE . '/cache', 'COM_ADMIN_CACHE_DIRECTORY');
+			$this->_addDirectory('administrator/cache', JPATH_CACHE, 'COM_ADMIN_CACHE_DIRECTORY');
+		}
 
 		$this->_addDirectory($registry->get('log_path', JPATH_ROOT . '/log'), $registry->get('log_path', JPATH_ROOT . '/log'), 'COM_ADMIN_LOG_DIRECTORY');
 		$this->_addDirectory($registry->get('tmp_path', JPATH_ROOT . '/tmp'), $registry->get('tmp_path', JPATH_ROOT . '/tmp'), 'COM_ADMIN_TEMP_DIRECTORY');
