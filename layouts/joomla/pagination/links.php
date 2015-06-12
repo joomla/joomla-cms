@@ -49,7 +49,7 @@ if ($currentPage >= $step)
 }
 ?>
 
-<div class="pagination pagination-toolbar clearfix" style="text-align: center;">
+<div class="pagination pagination-toolbar clearfix">
 
 	<?php if ($showLimitBox) : ?>
 		<div class="limit pull-right">
