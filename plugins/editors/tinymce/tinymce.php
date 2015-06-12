@@ -636,7 +636,7 @@ class PlgEditorTinymce extends JPlugin
 			||	(count($user->getAuthorisedCategories($this->app->scope, 'core.edit')) > 0))
 		{
 			$author = $user->id;
-			$link = JUri::root(true). 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='.$author . '&amp;e_name=';
+			$link = JUri::root(true). 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author=' . $author . '&amp;e_name=';
 		}
 
 		/**
@@ -673,9 +673,8 @@ class PlgEditorTinymce extends JPlugin
 						theme : \"$theme\",
 						schema: \"html5\",
 						menubar: false,
-						toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist\",
-						toolbar5: \"$toolbar5\",
-						plugins : \"joomlabreak, joomlaimage, joomlaarticle, joomlapager\",
+						toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | $toolbar5 | code \",
+						plugins : \"code, joomlabreak, joomlaimage, joomlaarticle, joomlapager\",
 						// Cleanup/Output
 						inline_styles : true,
 						gecko_spellcheck : true,
@@ -689,8 +688,10 @@ class PlgEditorTinymce extends JPlugin
 						$content_css
 						document_base_url : \"" . JUri::root() . "\"
 					});
-					var hrExists = \"" .
-					JText::_('PLG_TINY_READMORE_ALREADY_EXISTS') . "\";
+				var hrExists = \"" .
+					JText::_('PLG_TINY_READMORE_ALREADY_EXISTS') . "\",
+					imgLink = \"$link\",
+					toc = \"" . JSession::getFormToken() . "\";
 				</script>";
 				break;
 
@@ -740,7 +741,9 @@ class PlgEditorTinymce extends JPlugin
 
 				});
 				var hrExists = \"" .
-					JText::_('PLG_TINY_READMORE_ALREADY_EXISTS') . "\";
+					JText::_('PLG_TINY_READMORE_ALREADY_EXISTS') . "\",
+					imgLink = \"$link\",
+					toc = \"" . JSession::getFormToken() . "\";
 				</script>";
 				break;
 
@@ -891,7 +894,7 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return  string
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
+	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = false, $id = null, $asset = null, $author = null)
 	{
 		if (empty($id))
 		{
