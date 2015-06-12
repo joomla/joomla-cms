@@ -565,6 +565,13 @@ class JControllerLegacy extends JObject
 		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
+		$className = ucfirst($classPrefix) . ucfirst(strtolower($modelName));
+
+		if (class_exists($className))
+		{
+			return new $className($config);
+		}
+
 		$result = JModelLegacy::getInstance($modelName, $classPrefix, $config);
 
 		return $result;
@@ -597,7 +604,12 @@ class JControllerLegacy extends JObject
 		$viewType = preg_replace('/[^A-Z0-9_]/i', '', $type);
 
 		// Build the view class name
-		$viewClass = $classPrefix . $viewName;
+		$viewClass = $classPrefix . ucfirst($viewName) . ucfirst($type);
+
+		if (!class_exists($viewClass))
+		{
+			$viewClass = $classPrefix . $viewName;
+		}
 
 		if (!class_exists($viewClass))
 		{
@@ -855,7 +867,7 @@ class JControllerLegacy extends JObject
 
 		if (empty($prefix))
 		{
-			$prefix = $this->getName() . 'View';
+			$prefix = ucfirst($this->getName()) . 'View';
 		}
 
 		if (empty(self::$views[$name][$type][$prefix]))
