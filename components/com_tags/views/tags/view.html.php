@@ -226,7 +226,7 @@ class TagsViewTags extends JViewLegacy
 				{
 					$this->document->setDescription($this->item->metadesc);
 				}
-				elseif (!$itemElement->metadesc && $this->params->get('menu-meta_description'))
+				elseif ($this->params->get('menu-meta_description'))
 				{
 					$this->document->setDescription($this->params->get('menu-meta_description'));
 				}
@@ -235,7 +235,7 @@ class TagsViewTags extends JViewLegacy
 				{
 					$this->document->setMetadata('keywords', $this->tag->metakey);
 				}
-				elseif (!$itemElement->metakey && $this->params->get('menu-meta_keywords'))
+				elseif ($this->params->get('menu-meta_keywords'))
 				{
 					$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
 				}
