@@ -28,7 +28,7 @@ abstract class InstallerHtmlUpdatesites
 	 *
 	 * @see JHtmlJGrid::state
 	 *
-	 * @since   3.4.1
+	 * @since   3.5.0
 	 */
 	public static function state($value, $i, $enabled = true, $checkbox = 'cb')
 	{
