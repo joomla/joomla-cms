@@ -317,7 +317,7 @@ class CategoriesModelCategory extends JModelAdmin
 			$data = $this->getItem();
 
 			// Pre-select some filters (Status, Language, Access) in edit form if those have been selected in Category Manager
-			if ($this->getState('category.id') == 0)
+			if (!$data->id)
 			{
 				// Check for which extension the Category Manager is used and get selected fields
 				$extension = substr($app->getUserState('com_categories.categories.filter.extension'), 4);
