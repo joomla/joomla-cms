@@ -52,7 +52,7 @@ class PlgButtonImage extends JPlugin
 			||	(count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author == $user->id))
 		{
 			$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name=' . $name . '&amp;asset=' . $asset . '&amp;author=' . $author;
-			JHtml::_('behavior.modal');
+
 			$button = new JObject;
 			$button->modal = true;
 			$button->class = 'btn';
@@ -60,6 +60,10 @@ class PlgButtonImage extends JPlugin
 			$button->text = JText::_('PLG_IMAGE_BUTTON_IMAGE');
 			$button->name = 'picture';
 			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+			$button->plugin = $this->_name;
+			$button->editor = $name;
+			$button->asset = $asset;
+			$button->author = $author;
 
 			return $button;
 		}

@@ -11,13 +11,30 @@ defined('_JEXEC') or die;
 
 $buttons = $displayData;
 
-// Load modal popup behavior
-JHtml::_('behavior.modal', 'a.modal-button');
 ?>
 <div id="editor-xtd-buttons" class="btn-toolbar pull-left">
 	<?php if ($buttons) : ?>
 		<?php foreach ($buttons as $button) : ?>
-			<?php echo JLayoutHelper::render('joomla.editors.buttons.button', $button); ?>
+				<?php
+				// New recommendation require a new layout per button name
+				// The following code will provide B/C for the old buttons
+				$isNewLayout = 0;
+				if (isset($button->plugin)){
+					$mpath = '/layouts/joomla/editors-xtd/' . $button->plugin . '/' . $button->plugin . '.php';
+
+					if (is_file(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html' . $mpath))
+					{
+						$isNewLayout = 1;
+					}
+				}
+				?>
+				<?php if ($isNewLayout) : ?>
+				<?php echo JLayoutHelper::render('joomla.editors-xtd.' . $button->plugin . '.' . $button->plugin, $button); ?>
+				<?php endif; ?>
+				<?php if (!$isNewLayout) : ?>
+				<?php echo JLayoutHelper::render('joomla.editors.buttons.button', $button); ?>
+				<?php endif; ?>
+
 		<?php endforeach; ?>
 	<?php endif; ?>
 </div>

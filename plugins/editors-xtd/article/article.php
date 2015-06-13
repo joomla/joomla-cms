@@ -40,22 +40,17 @@ class PlgButtonArticle extends JPlugin
 		 * and closes the select frame.
 		 */
 		$js = "
-		function jSelectArticle(id, title, catid, object, link, lang)
-		{
-			var hreflang = '';
-			if (lang !== '')
+			function jSelectArticle(id, title, catid, object, link, lang)
 			{
-				var hreflang = ' hreflang = \"' + lang + '\"';
-			}
-			var tag = '<a' + hreflang + ' href=\"' + link + '\">' + title + '</a>';
-			jInsertEditorText(tag, '" . $name . "');
-			jModalClose();
-		}";
-
-		$doc = JFactory::getDocument();
-		$doc->addScriptDeclaration($js);
-
-		JHtml::_('behavior.modal');
+				var hreflang = '';
+				if (lang !== '')
+				{
+					var hreflang = ' hreflang = \"' + lang + '\"';
+				}
+				var tag = '<a' + hreflang + ' href=\"' + link + '\">' + title + '</a>';
+				jInsertEditorText(tag, '" . $name . "');
+				jQuery('#articleModal').modal('hide');
+			}";
 
 		/*
 		 * Use the built-in element view to select the article.
@@ -70,6 +65,9 @@ class PlgButtonArticle extends JPlugin
 		$button->text = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
 		$button->name = 'file-add';
 		$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+		$button->plugin = $this->_name;
+		$button->js = $js;
+		$button->editor = $name;
 
 		return $button;
 	}

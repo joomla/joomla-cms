@@ -33,8 +33,6 @@ class PlgButtonReadmore extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-		$doc = JFactory::getDocument();
-
 		// Button is not active in specific content components
 
 		$getContent = $this->_subject->getContent("'+editor+'");
@@ -42,7 +40,7 @@ class PlgButtonReadmore extends JPlugin
 		$js = "
 			function insertReadmore(editor)
 			{
-				var content = $getContent
+				var content = $getContent;
 				if (content.match(/<hr\s+id=(\"|')system-readmore(\"|')\s*\/*>/i))
 				{
 					alert('$present');
@@ -52,8 +50,6 @@ class PlgButtonReadmore extends JPlugin
 				}
 			}
 			";
-
-		$doc->addScriptDeclaration($js);
 
 		$button = new JObject;
 		$button->modal = false;
@@ -65,6 +61,11 @@ class PlgButtonReadmore extends JPlugin
 		// @TODO: The button writer needs to take into account the javascript directive
 		// $button->link', 'javascript:void(0)');
 		$button->link = '#';
+		$button->content = $getContent;
+		$button->present = $present;
+		$button->js = $js;
+		$button->named = $name;
+		$button->plugin = $this->_name;
 
 		return $button;
 	}

@@ -1,0 +1,37 @@
+<?php
+/**
+ * @package     Joomla.Site
+ * @subpackage  Layout
+ *
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+defined('_JEXEC') or die;
+
+$button = $displayData;
+
+$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name=' . $button->editor . '&amp;asset=' . $button->asset . '&amp;author=' . $button->author;
+$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+	. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+	.'<button id="btn_' . $button->editor
+	. '" class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#imageModal_'
+	. $button->editor . ' iframe\').contents().find(\'#imgBtn\').click();">'
+	. JText::_("JLIB_FORM_CHANGE_IMAGE") . '</button>';
+
+
+// Render the modal
+echo JHtml::_(
+	'bootstrap.renderModal',
+	'imageModal_'. $button->editor,
+	array(
+		'url' => $link,
+		'title' => JText::_('JLIB_FORM_CHANGE_IMAGE'),
+		'width' => '800px',
+		'height' => '300px',
+		'footer' => $footer
+	)
+);
+?>
+
+<a href="#imageModal_<?php echo $button->editor; ?>" class="<?php echo $button->class; ?>" role="button" title="<?php echo $button->text; ?>" data-toggle="modal" onclick="<?php echo $button->text; ?>" ><i class="icon-<?php echo $button->name; ?>"></i> <?php echo $button->text; ?></a>
