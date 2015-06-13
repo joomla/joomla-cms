@@ -1,25 +1,23 @@
 -- WARNING: Do not rename this file with a different date. It MUST run before any other table updates when upgrading to Joomla! 3.5.0
 
 -- Index and field changes to cater for UTF-8 Multibyte (utf8mb4)
-ALTER TABLE `#__menu` DROP KEY `idx_client_id_parent_id_alias_language`;
-ALTER TABLE `#__menu` ADD UNIQUE KEY `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`(191),`language`);
+ALTER TABLE `#__menu` DROP KEY `idx_client_id_parent_id_alias_language`, ADD UNIQUE KEY `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`(191),`language`);
 
-ALTER TABLE `#__redirect_links` DROP KEY `idx_link_old`;
-ALTER TABLE `#__redirect_links` ADD UNIQUE KEY `idx_link_old` (`old_url`(191));
+ALTER TABLE `#__redirect_links` DROP KEY `idx_link_old`, ADD UNIQUE KEY `idx_link_old` (`old_url`(191));
 
 ALTER TABLE `#__session` MODIFY COLUMN `session_id` varchar(191) NOT NULL DEFAULT '';
 
 ALTER TABLE `#__user_keys` MODIFY COLUMN `series` varchar(191) NOT NULL;
 
 -- Convert utf8_bin collated columns to utf8mb4_bin collation
-ALTER TABLE `#__banners` MODIFY COLUMN `alias` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
-ALTER TABLE `#__categories` MODIFY COLUMN `alias` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
-ALTER TABLE `#__contact_details` MODIFY COLUMN `alias` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
-ALTER TABLE `#__content` MODIFY COLUMN `alias` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
-ALTER TABLE `#__menu` MODIFY COLUMN `alias` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'The SEF alias of the menu item.';
-ALTER TABLE `#__newsfeeds` MODIFY COLUMN `alias` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
-ALTER TABLE `#__tags` MODIFY COLUMN `alias` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
-ALTER TABLE `#__ucm_content` MODIFY COLUMN `core_alias` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+ALTER TABLE `#__banners` MODIFY COLUMN `alias` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+ALTER TABLE `#__categories` MODIFY COLUMN `alias` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+ALTER TABLE `#__contact_details` MODIFY COLUMN `alias` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+ALTER TABLE `#__content` MODIFY COLUMN `alias` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+ALTER TABLE `#__menu` MODIFY COLUMN `alias` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'The SEF alias of the menu item.';
+ALTER TABLE `#__newsfeeds` MODIFY COLUMN `alias` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+ALTER TABLE `#__tags` MODIFY COLUMN `alias` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+ALTER TABLE `#__ucm_content` MODIFY COLUMN `core_alias` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
 
 -- Convert all tables to UTF-8 Multibyte (utf8mb4)
 ALTER TABLE `#__assets` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
