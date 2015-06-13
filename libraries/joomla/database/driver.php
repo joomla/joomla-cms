@@ -626,7 +626,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	protected function getAlterDbCharacterSet($dbName)
 	{
-		return 'ALTER DATABASE ' . $this->quoteName($dbName) . ' CHARACTER SET `utf8`';
+		$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
+
+		return 'ALTER DATABASE ' . $this->quoteName($dbName) . ' CHARACTER SET `' . $charset .'`';
 	}
 
 	/**
@@ -645,7 +647,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		if ($utf)
 		{
-			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `utf8`';
+			$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
+
+			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `' . $charset . '`';
 		}
 
 		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
