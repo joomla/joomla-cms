@@ -896,6 +896,14 @@ class InstallationModelDatabase extends JModelBase
 			// If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
 			if (!empty($query) && ($query{0} != '#') && ($query{0} != '-'))
 			{
+				/**
+				 * If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
+				 *
+				 * Note: the JDatabaseDriver::convertUtf8mb4QueryToUtf8 performs the conversion ONLY when
+				 * necessary, so there's no need to check the conditions in JInstaller.
+				 */
+				$query = $db->convertUtf8mb4QueryToUtf8($query);
+
 				// Execute the query.
 				$db->setQuery($query);
 
