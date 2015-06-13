@@ -665,6 +665,14 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	abstract public function getCollation();
 
 	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	abstract public function getConnectionCollation();
+
+	/**
 	 * Method that provides access to the underlying database connection. Useful for when you need to call a
 	 * proprietary method such as postgresql's lo_* methods.
 	 *

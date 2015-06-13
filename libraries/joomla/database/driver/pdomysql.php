@@ -215,6 +215,30 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	public function getConnectionCollation()
+	{
+		$this->connect();
+
+		// Attempt to get the database collation by accessing the server system variable.
+		$this->setQuery('SHOW VARIABLES LIKE "collation_connection"');
+		$result = $this->loadObject();
+
+		if (property_exists($result, 'Value'))
+		{
+			return $result->Value;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
 	 * Shows the table CREATE statement that creates the given tables.
 	 *
 	 * @param   mixed  $tables  A table name or a list of table names.

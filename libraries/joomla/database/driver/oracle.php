@@ -162,6 +162,17 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	public function getConnectionCollation()
+	{
+		return $this->charset;
+	}
+
+	/**
 	 * Get a query to run and verify the database is operational.
 	 *
 	 * @return  string  The query to check the health of the DB.

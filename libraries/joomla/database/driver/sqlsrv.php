@@ -310,6 +310,18 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	}
 
 	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	public function getConnectionCollation()
+	{
+		// TODO: Not fake this
+		return 'MSSQL UTF-8 (UCS2)';
+	}
+
+	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
 	 *
 	 * @param   resource  $cursor  An optional database cursor resource to extract the row count from.
