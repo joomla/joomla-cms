@@ -928,21 +928,6 @@ class PlgEditorTinymce extends JPlugin
 //		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
 
-		// Article
-		JFactory::getDocument()->addScriptDeclaration("
-		function jSelectArticle(id, title, catid, object, link, lang)
-		{
-			var hreflang = '';
-			if (lang !== '')
-			{
-				var hreflang = ' hreflang = \"' + lang + '\"';
-			}
-			var tag = '<a' + hreflang + ' href=\"' + link + '\">' + title + '</a>';
-			tinymce.activeEditor.insertContent(tag);
-			tinymce.activeEditor.windowManager.close();
-		}
-	");
-
 		return $editor;
 	}
 
