@@ -248,6 +248,7 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar2_add   = array();
 		$toolbar3_add   = array();
 		$toolbar4_add   = array();
+		$toolbar5_add   = array();
 		$elements       = array();
 		$plugins        = array(
 			'autolink',
@@ -602,8 +603,14 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar4_add[] = $custom_button;
 		}
 
+		$toolbar5_add[] = 'joomlamore';
+		$toolbar5_add[] = 'joomlaimage';
+		$toolbar5_add[] = 'joomlapager';
+		$toolbar5_add[] = 'joomlaarticle';
+		$toolbar5_add[] = '| code';
+
 		// Prepare config variables
-		$plugins  = implode(',', $plugins);
+		$plugins  = implode(' ', $plugins);
 		$elements = implode(',', $elements);
 
 		// Prepare config variables
@@ -611,6 +618,7 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar2 = implode(' ', $toolbar2_add);
 		$toolbar3 = implode(' ', $toolbar3_add);
 		$toolbar4 = implode(' ', $toolbar4_add);
+		$toolbar5 = implode(' ', $toolbar5_add);
 
 		// See if mobileVersion is activated
 		$mobileVersion = $this->params->get('mobile', 0);
@@ -618,6 +626,21 @@ class PlgEditorTinymce extends JPlugin
 		$load = "\t<script type=\"text/javascript\" src=\"" .
 			JUri::root() . $this->_basePath .
 			"/tinymce.min.js\"></script>\n";
+
+		// User check for images ACL
+		$asset = $this->app->scope;
+		$user = JFactory::getUser();
+
+		if (	$user->authorise('core.edit', $this->app->scope)
+			||	$user->authorise('core.create', $this->app->scope)
+			||	(count($user->getAuthorisedCategories($this->app->scope, 'core.create')) > 0)
+			||	(count($user->getAuthorisedCategories($this->app->scope, 'core.edit')) > 0))
+		{
+			$author = $user->id;
+			$link = JUri::root(true) .
+				'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' .
+				$asset . '&amp;author=' . $author . '&amp;tiny=1&amp;e_name=';
+		}
 
 		/**
 		 * Shrink the buttons if not on a mobile or if mobile view is off.
@@ -637,6 +660,11 @@ class PlgEditorTinymce extends JPlugin
 			$mode         = 0;
 		}
 
+		// We need a string for the alert of read more
+		$lang = JFactory::getLanguage();
+		$lang->load('plg_editors-xtd_readmore', JPATH_ADMINISTRATOR, $lang->getTag(), true);
+		$alertText = JText::_('PLG_READMORE_ALREADY_EXISTS');
+
 		switch ($mode)
 		{
 			case 0: /* Simple mode*/
@@ -653,7 +681,8 @@ class PlgEditorTinymce extends JPlugin
 						theme : \"$theme\",
 						schema: \"html5\",
 						menubar: false,
-						toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist\",
+						toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | $toolbar5\",
+						plugins : \"code, joomlamore, joomlaimage, joomlaarticle, joomlapager\",
 						// Cleanup/Output
 						inline_styles : true,
 						gecko_spellcheck : true,
@@ -667,6 +696,9 @@ class PlgEditorTinymce extends JPlugin
 						$content_css
 						document_base_url : \"" . JUri::root() . "\"
 					});
+				var hrExists = \"" . $alertText . "\",
+					imgLink = \"$link\",
+					toc = \"" . JSession::getFormToken() . "\";
 				</script>";
 				break;
 
@@ -696,10 +728,11 @@ class PlgEditorTinymce extends JPlugin
 					$smallButtons
 					invalid_elements : \"$invalid_elements\",
 					// Plugins
-					plugins : \"table link image code hr charmap autolink lists importcss\",
+					plugins : \"table link image code hr charmap autolink lists importcss code joomlamore joomlaimage joomlaarticle joomlapager\",
 					// Toolbar
 					toolbar1: \"$toolbar1\",
 					toolbar2: \"$toolbar2\",
+					toolbar3: \"$toolbar5\",
 					removed_menuitems: \"newdocument\",
 					// URL
 					relative_urls : $relative_urls,
@@ -714,6 +747,9 @@ class PlgEditorTinymce extends JPlugin
 					width : \"$html_width\",
 
 				});
+				var hrExists = \"" . $alertText . "\",
+					imgLink = \"$link\",
+					toc = \"" . JSession::getFormToken() . "\";
 				</script>";
 				break;
 
@@ -740,12 +776,12 @@ class PlgEditorTinymce extends JPlugin
 					$smallButtons
 					invalid_elements : \"$invalid_elements\",
 					// Plugins
-					plugins : \"$plugins\",
+					plugins : \"$plugins, code joomlamore joomlaimage joomlaarticle joomlapager\",
 					// Toolbar
 					toolbar1: \"$toolbar1\",
 					toolbar2: \"$toolbar2\",
 					toolbar3: \"$toolbar3\",
-					toolbar4: \"$toolbar4\",
+					toolbar4: \"$toolbar4 | $toolbar5\",
 					removed_menuitems: \"newdocument\",
 					// URL
 					relative_urls : $relative_urls,
@@ -778,6 +814,9 @@ class PlgEditorTinymce extends JPlugin
 					width : \"$html_width\",
 
 				});
+				var hrExists = \"" . $alertText . "\",
+					imgLink = \"$link\",
+					toc = \"" . JSession::getFormToken() . "\";
 				</script>";
 				break;
 		}
@@ -859,7 +898,7 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return  string
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
+	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = false, $id = null, $asset = null, $author = null)
 	{
 		if (empty($id))
 		{
@@ -890,7 +929,6 @@ class PlgEditorTinymce extends JPlugin
 		$editor = '<div class="editor">';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
 		$editor .= $this->_displayButtons($id, $buttons, $asset, $author);
-		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
 
 		return $editor;
@@ -932,10 +970,72 @@ class PlgEditorTinymce extends JPlugin
 		{
 			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
 
-			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
+			foreach ($buttons as $button)
+			{
+				$but[] = get_object_vars($button);
+			}
+
+			// Load the lang strings for the buttons
+			$lang = JFactory::getLanguage();
+			$lang->load('plg_editors-xtd_article', JPATH_ADMINISTRATOR, $lang->getTag(), true);
+			$lang->load('plg_editors-xtd_image', JPATH_ADMINISTRATOR, $lang->getTag(), true);
+			$lang->load('plg_editors-xtd_pagebreak', JPATH_ADMINISTRATOR, $lang->getTag(), true);
+			$lang->load('plg_editors-xtd_readmore', JPATH_ADMINISTRATOR, $lang->getTag(), true);
+			$trArticle = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
+			$trBreak = JText::_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK');
+			$trImage = JText::_('PLG_IMAGE_BUTTON_IMAGE');
+			$trMore = JText::_('PLG_READMORE_BUTTON_READMORE');
+
+			foreach ($but as $butt)
+			{
+				if (in_array($butt['text'], array($trArticle, $trBreak, $trImage, $trMore)))
+				{
+					$but = $this->removeElementWithValue($but, "text", $butt['text']);
+				}
+				else
+				{
+					$butt2 = new JObject;
+					$butt2->modal = $butt['modal'];
+					$butt2->class = $butt['class'];
+					$butt2->link  = $butt['link'];
+					$butt2->text  = $butt['text'];
+					$butt2->name  = $butt['name'];
+					if (isset($butt['options']))
+					{
+						$butt2->options = $butt['options'];
+					}
+					$nbutt[] = $butt2;
+				}
+			}
+
+			if ((isset($nbutt) && is_array($nbutt)) || (isset($nbutt) && (is_bool($nbutt) && $nbutt)))
+			{
+				$return .= JLayoutHelper::render('joomla.editors.buttons', $nbutt);
+			}
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Array helper funtion to remove specific arrays by key-value
+	 *
+	 * @param   array   $array  the parent array
+	 * @param   string  $key    the key
+	 * @param   string  $value  the value
+	 *
+	 * @return  array
+	 */
+	private function removeElementWithValue($array, $key, $value)
+	{
+		foreach ($array as $subKey => $subArray)
+		{
+			if ($subArray[$key] == $value)
+			{
+				unset($array[$subKey]);
+			}
+		}
+		return $array;
 	}
 
 	/**
