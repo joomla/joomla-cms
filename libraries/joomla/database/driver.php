@@ -820,6 +820,34 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Automatically downgrade a CREATE TABLE or ALTER TABLE query from utf8mb4 (UTF-8 Multibyte) to plain utf8. Used
+	 * when the server doesn't support UTF-8 Multibyte.
+	 *
+	 * @param   string  $query  The query to convert
+	 *
+	 * @return  string  The converted query
+	 */
+	public function convertUtf8mb4QueryToUtf8($query)
+	{
+		if ($this->hasUTF8mb4Support())
+		{
+			return $query;
+		}
+
+		// If it's not an ALTER TABLE or CREATE TABLE command there's nothing to convert
+		$beginningOfQuery = substr($query, 0, 12);
+		$beginningOfQuery = strtoupper($beginningOfQuery);
+
+		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE')))
+		{
+			return $query;
+		}
+
+		// Replace utf8mb4 with utf8
+		return str_replace('utf8mb4', 'utf8', $query);
+	}
+
+	/**
 	 * Return the query string to create new Database.
 	 * Each database driver, other than MySQL, need to override this member to return correct string.
 	 *
