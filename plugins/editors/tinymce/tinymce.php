@@ -637,7 +637,9 @@ class PlgEditorTinymce extends JPlugin
 			||	(count($user->getAuthorisedCategories($this->app->scope, 'core.edit')) > 0))
 		{
 			$author = $user->id;
-			$link = JUri::root(true). 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author=' . $author . '&amp;tiny=1&amp;e_name=';
+			$link = JUri::root(true) .
+				'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' .
+				$asset . '&amp;author=' . $author . '&amp;tiny=1&amp;e_name=';
 		}
 
 		/**
@@ -925,7 +927,6 @@ class PlgEditorTinymce extends JPlugin
 		$editor = '<div class="editor">';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
 		$editor .= $this->_displayButtons($id, $buttons, $asset, $author);
-//		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
 
 		return $editor;
@@ -980,7 +981,6 @@ class PlgEditorTinymce extends JPlugin
 				}
 				else
 				{
-
 					$butt2 = new JObject;
 					$butt2->modal = $butt['modal'];
 					$butt2->class = $butt['class'];
@@ -993,9 +993,7 @@ class PlgEditorTinymce extends JPlugin
 				}
 			}
 
-
-			if ((isset($nbutt) && is_array($nbutt)) ||
-				(isset($nbutt) && (is_bool($nbutt) && $nbutt)))
+			if ((isset($nbutt) && is_array($nbutt)) || (isset($nbutt) && (is_bool($nbutt) && $nbutt)))
 			{
 				$return .= JLayoutHelper::render('joomla.editors.buttons', $nbutt);
 			}
@@ -1007,20 +1005,24 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * Array helper funtion to remove specific arrays by key-value
 	 *
-	 * @param $array array  the parent array
-	 * @param $key   string the key
-	 * @param $value string the value
+	 * @param   array   $array  the parent array
+	 * @param   string  $key    the key
+	 * @param   string  $value  the value
 	 *
-	 * @return mixed
+	 * @return  array
 	 */
-	private function removeElementWithValue($array, $key, $value){
-		foreach($array as $subKey => $subArray){
-			if($subArray[$key] == $value){
+	private function removeElementWithValue($array, $key, $value)
+	{
+		foreach ($array as $subKey => $subArray)
+		{
+			if ($subArray[$key] == $value)
+			{
 				unset($array[$subKey]);
 			}
 		}
 		return $array;
 	}
+
 	/**
 	 * Get the toggle editor button
 	 *
