@@ -13,7 +13,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  */
-class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
+class JDatabaseImporterMysqlTest extends TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
@@ -40,11 +40,25 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	);
 
 	/**
-	 * Sets up the testing conditions
+	 * This method is called before the first test of this test class is run.
 	 *
 	 * @return  void
 	 */
-	public function setup()
+	public static function setUpBeforeClass()
+	{
+		if (PHP_MAJOR_VERSION >= 7)
+		{
+			self::markTestSkipped('ext/mysql is unsupported on PHP 7.');
+		}
+	}
+
+	/**
+	 * Sets up the fixture, for example, open a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 */
+	protected function setUp()
 	{
 		$this->dbo = $this->getMock(
 			'JDatabaseDriverMysql',
