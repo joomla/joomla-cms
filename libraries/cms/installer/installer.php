@@ -953,6 +953,15 @@ class JInstaller extends JAdapter
 						 */
 						$query = $db->convertUtf8mb4QueryToUtf8($query);
 
+						/**
+						 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
+						 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.
+						 */
+						if (!$db->hasUTF8mb4Support() && stristr($query, 'CONVERT TO CHARACTER SET utf8 '))
+						{
+							continue;
+						}
+
 						$db->setQuery($query);
 
 						if (!$db->execute())
