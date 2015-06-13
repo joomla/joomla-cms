@@ -26,6 +26,14 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	public $name = 'mysqli';
 
 	/**
+	 * The type of the database server family supported by this driver.
+	 *
+	 * @var    string
+	 * @since  CMS 3.5.0
+	 */
+	public $serverType = 'mysql';
+
+	/**
 	 * @var    mysqli  The database connection resource.
 	 * @since  11.1
 	 */

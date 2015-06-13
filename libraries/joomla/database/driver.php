@@ -53,6 +53,15 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public $name;
 
 	/**
+	 * The type of the database server family supported by this driver. Examples: mysql, oracle, postgresql, mssql,
+	 * sqlite.
+	 *
+	 * @var    string
+	 * @since  CMS 3.5.0
+	 */
+	public $serverType;
+
+	/**
 	 * @var    resource  The database connection resource.
 	 * @since  11.1
 	 */
@@ -1033,6 +1042,72 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		$o->setDbo($this);
 
 		return $o;
+	}
+
+	/**
+	 * Get the name of the database driver. If $this->name is not set it will try guessing the driver name from the
+	 * class name.
+	 *
+	 * @return  string
+	 * @since   CMS 3.5.0
+	 */
+	public function getName()
+	{
+		if (empty($this->name))
+		{
+			$className = get_class($this);
+			$className = str_replace('JDatabaseDriver', '', $className);
+			$this->name = strtolower($className);
+		}
+
+		return $this->name;
+	}
+
+	/**
+	 * Get the server family type, e.g. mysql, postgresql, oracle, sqlite, mssql. If $this->serverType is not set it
+	 * will attempt guessing the server family type from the driver name. If this is not possible the driver name will
+	 * be returned instead.
+	 *
+	 * @return  string
+	 * @since   CMS 3.5.0
+	 */
+	public function getServerType()
+	{
+		if (empty($this->serverType))
+		{
+			$name = $this->getName();
+
+			if (stristr($name, 'mysql') !== false)
+			{
+				$this->serverType = 'mysql';
+			}
+			elseif (stristr($name, 'postgre') !== false)
+			{
+				$this->serverType = 'postgresql';
+			}
+			elseif (stristr($name, 'oracle') !== false)
+			{
+				$this->serverType = 'oracle';
+			}
+			elseif (stristr($name, 'sqlite') !== false)
+			{
+				$this->serverType = 'sqlite';
+			}
+			elseif (stristr($name, 'sqlsrv') !== false)
+			{
+				$this->serverType = 'mssql';
+			}
+			elseif (stristr($name, 'mssql') !== false)
+			{
+				$this->serverType = 'mssql';
+			}
+			else
+			{
+				$this->serverType = $name;
+			}
+		}
+
+		return $this->serverType;
 	}
 
 	/**

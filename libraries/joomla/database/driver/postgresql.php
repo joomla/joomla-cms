@@ -25,6 +25,14 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public $name = 'postgresql';
 
 	/**
+	 * The type of the database server family supported by this driver.
+	 *
+	 * @var    string
+	 * @since  CMS 3.5.0
+	 */
+	public $serverType = 'postgresql';
+
+	/**
 	 * Quote for named objects
 	 *
 	 * @var    string

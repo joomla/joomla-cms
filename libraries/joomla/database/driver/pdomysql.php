@@ -28,6 +28,14 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	public $name = 'pdomysql';
 
 	/**
+	 * The type of the database server family supported by this driver.
+	 *
+	 * @var    string
+	 * @since  CMS 3.5.0
+	 */
+	public $serverType = 'mysql';
+
+	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
 	 * etc. The child classes should define this as necessary.  If a single character string the
 	 * same character is used for both sides of the quoted name, else the first character will be
