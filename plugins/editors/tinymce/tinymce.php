@@ -973,9 +973,20 @@ class PlgEditorTinymce extends JPlugin
 				$but[] = get_object_vars($button);
 			}
 
+			// Load the lang strings for the buttons
+			$lang = JFactory::getLanguage();
+			$lang->load('plg_editors-xtd_article', JPATH_ADMINISTRATOR, $lang->getTag(), true);
+			$lang->load('plg_editors-xtd_image', JPATH_ADMINISTRATOR, $lang->getTag(), true);
+			$lang->load('plg_editors-xtd_pagebreak', JPATH_ADMINISTRATOR, $lang->getTag(), true);
+			$lang->load('plg_editors-xtd_readmore', JPATH_ADMINISTRATOR, $lang->getTag(), true);
+			$trArticle = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
+			$trBreak = JText::_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK');
+			$trImage = JText::_('PLG_IMAGE_BUTTON_IMAGE');
+			$trMore = JText::_('PLG_READMORE_BUTTON_READMORE');
+
 			foreach ($but as $butt)
 			{
-				if (in_array($butt['text'], array('Article', 'Page Break', 'Read More', 'Image', 'Toggle')))
+				if (in_array($butt['text'], array($trArticle, $trBreak, $trImage, $trMore)))
 				{
 					$but = $this->removeElementWithValue($but, "text", $butt['text']);
 				}
@@ -987,8 +998,10 @@ class PlgEditorTinymce extends JPlugin
 					$butt2->link  = $butt['link'];
 					$butt2->text  = $butt['text'];
 					$butt2->name  = $butt['name'];
-					$butt2->options = $butt['options'];
-
+					if (isset($butt['options']))
+					{
+						$butt2->options = $butt['options'];
+					}
 					$nbutt[] = $butt2;
 				}
 			}
