@@ -607,9 +607,10 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar5_add[] = 'joomlaimage';
 		$toolbar5_add[] = 'joomlapager';
 		$toolbar5_add[] = 'joomlaarticle';
+		$toolbar5_add[] = '| code';
 
 		// Prepare config variables
-		$plugins  = implode(',', $plugins);
+		$plugins  = implode(' ', $plugins);
 		$elements = implode(',', $elements);
 
 		// Prepare config variables
@@ -673,7 +674,7 @@ class PlgEditorTinymce extends JPlugin
 						theme : \"$theme\",
 						schema: \"html5\",
 						menubar: false,
-						toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | $toolbar5 | code \",
+						toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | $toolbar5\",
 						plugins : \"code, joomlamore, joomlaimage, joomlaarticle, joomlapager\",
 						// Cleanup/Output
 						inline_styles : true,
@@ -721,11 +722,11 @@ class PlgEditorTinymce extends JPlugin
 					$smallButtons
 					invalid_elements : \"$invalid_elements\",
 					// Plugins
-					plugins : \"table link image code hr charmap autolink lists importcss, joomlamore, joomlaimage\",
+					plugins : \"table link image code hr charmap autolink lists importcss code joomlamore joomlaimage joomlaarticle joomlapager\",
 					// Toolbar
 					toolbar1: \"$toolbar1\",
 					toolbar2: \"$toolbar2\",
-					toolbar5: \"$toolbar5\",
+					toolbar3: \"$toolbar5\",
 					removed_menuitems: \"newdocument\",
 					// URL
 					relative_urls : $relative_urls,
@@ -770,13 +771,12 @@ class PlgEditorTinymce extends JPlugin
 					$smallButtons
 					invalid_elements : \"$invalid_elements\",
 					// Plugins
-					plugins : \"$plugins, joomlamore, joomlaimage, joomlapager, joomlaarticle\",
+					plugins : \"$plugins, code joomlamore joomlaimage joomlaarticle joomlapager\",
 					// Toolbar
 					toolbar1: \"$toolbar1\",
 					toolbar2: \"$toolbar2\",
 					toolbar3: \"$toolbar3\",
-					toolbar4: \"$toolbar4\",
-					toolbar5: \"$toolbar5\",
+					toolbar4: \"$toolbar4 | $toolbar5\",
 					removed_menuitems: \"newdocument\",
 					// URL
 					relative_urls : $relative_urls,
