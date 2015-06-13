@@ -147,6 +147,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	protected $utf = true;
 
 	/**
+	 * @var    boolean  True if the database engine supports UTF-8 Multibyte (utf8mb4) character encoding.
+	 * @since  CMS 3.5.0
+	 */
+	protected $utf8mb4 = false;
+
+	/**
 	 * @var         integer  The database error number
 	 * @since       11.1
 	 * @deprecated  12.1
@@ -969,6 +975,19 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public function hasUTFSupport()
 	{
 		return $this->utf;
+	}
+
+	/**
+	 * Determine whether the database engine support the UTF-8 Multibyte (utf8mb4) character encoding. This applies to
+	 * MySQL databases.
+	 *
+	 * @return  boolean  True if the database engine supports UTF-8 Multibyte.
+	 *
+	 * @since   CMS 3.5.0
+	 */
+	public function hasUTF8mb4Support()
+	{
+		return $this->utf8mb4;
 	}
 
 	/**
