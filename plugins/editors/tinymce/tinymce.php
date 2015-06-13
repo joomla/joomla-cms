@@ -980,7 +980,16 @@ class PlgEditorTinymce extends JPlugin
 				}
 				else
 				{
-					$nbutt[] = json_decode(json_encode($butt), FALSE);
+
+					$butt2 = new JObject;
+					$butt2->modal = $butt['modal'];
+					$butt2->class = $butt['class'];
+					$butt2->link  = $butt['link'];
+					$butt2->text  = $butt['text'];
+					$butt2->name  = $butt['name'];
+					$butt2->options = $butt['options'];
+
+					$nbutt[] = $butt2;
 				}
 			}
 
