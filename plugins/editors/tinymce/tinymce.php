@@ -660,6 +660,11 @@ class PlgEditorTinymce extends JPlugin
 			$mode         = 0;
 		}
 
+		// We need a string for the alert of read more
+		$lang = JFactory::getLanguage();
+		$lang->load('plg_editors-xtd_readmore', JPATH_ADMINISTRATOR, $lang->getTag(), true);
+		$alertText = JText::_('PLG_READMORE_ALREADY_EXISTS');
+
 		switch ($mode)
 		{
 			case 0: /* Simple mode*/
@@ -691,8 +696,7 @@ class PlgEditorTinymce extends JPlugin
 						$content_css
 						document_base_url : \"" . JUri::root() . "\"
 					});
-				var hrExists = \"" .
-					JText::_('PLG_TINY_READMORE_ALREADY_EXISTS') . "\",
+				var hrExists = \"" . $alertText . "\",
 					imgLink = \"$link\",
 					toc = \"" . JSession::getFormToken() . "\";
 				</script>";
@@ -743,8 +747,7 @@ class PlgEditorTinymce extends JPlugin
 					width : \"$html_width\",
 
 				});
-				var hrExists = \"" .
-					JText::_('PLG_TINY_READMORE_ALREADY_EXISTS') . "\",
+				var hrExists = \"" . $alertText . "\",
 					imgLink = \"$link\",
 					toc = \"" . JSession::getFormToken() . "\";
 				</script>";
@@ -811,8 +814,7 @@ class PlgEditorTinymce extends JPlugin
 					width : \"$html_width\",
 
 				});
-				var hrExists = \"" .
-					JText::_('PLG_TINY_READMORE_ALREADY_EXISTS') . "\",
+				var hrExists = \"" . $alertText . "\",
 					imgLink = \"$link\",
 					toc = \"" . JSession::getFormToken() . "\";
 				</script>";
