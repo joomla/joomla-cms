@@ -133,7 +133,7 @@ class TestMockInput
 	 *
 	 * @since   3.4
 	 */
-	public function mockInputGet($name, $default = null, $filter = 'cmd')
+	public static function mockInputGet($name, $default = null, $filter = 'cmd')
 	{
 		return isset(self::$inputs[$name]) ? self::$inputs[$name] : $default;
 	}
