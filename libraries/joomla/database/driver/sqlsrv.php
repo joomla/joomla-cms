@@ -496,7 +496,8 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			* for evade error "Cannot insert the value NULL into column 'XXX',
 			* table 'XXX'; column does not allow nulls.
 			*/
-				if (!in_array($this->quoteName($key_field), $fields) && $value_field->Null == "NO" && ((is_array($key) && !in_array($key_field, $key)) || (!is_array($key) && $key_field != $key)))
+				if (!in_array($this->quoteName($key_field), $fields) && $value_field->Null == "NO" 
+				&& ((is_array($key) && !in_array($key_field, $key)) || (!is_array($key) && $key_field != $key)))
 				{
 					$fixed = null;
 					if (gettype($value_field->Default) !== null)
