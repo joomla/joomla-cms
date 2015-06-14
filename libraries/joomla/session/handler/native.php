@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Interface for managing HTTP sessions
  *
- * @since  3.4
+ * @since  3.5
  */
 class JSessionHandlerNative implements JSessionHandlerInterface
 {
@@ -20,7 +20,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 * Has the session been started
 	 *
 	 * @var    boolean
-	 * @since  3.4
+	 * @since  3.5
 	 */
 	private $started;
 
@@ -28,22 +28,21 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 * Has the session been closed
 	 *
 	 * @var    boolean
-	 * @since  3.4
+	 * @since  3.5
 	 */
 	private $closed;
 
 	/**
-	 * Starts the session.
+	 * Starts the session
 	 *
-	 * @return  bool  True if started.
+	 * @return  boolean  True if started
 	 *
-	 * @since   3.4
-	 *
-	 * @throws RuntimeException If something goes wrong starting the session.
+	 * @since   3.5
+	 * @throws  RuntimeException If something goes wrong starting the session.
 	 */
 	public function start()
 	{
-		if ($this->started)
+		if ($this->isStarted())
 		{
 			return true;
 		}
@@ -99,9 +98,9 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	/**
 	 * Checks if the session is started.
 	 *
-	 * @return  bool  True if started, false otherwise.
+	 * @return  boolean  True if started, false otherwise.
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function isStarted()
 	{
@@ -111,9 +110,9 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	/**
 	 * Returns the session ID
 	 *
-	 * @return  string  The session ID or empty.
+	 * @return  string  The session ID
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function getId()
 	{
@@ -123,23 +122,29 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	/**
 	 * Sets the session ID
 	 *
-	 * @param   string  $id  Set the session id
+	 * @param   string  $id  The session ID
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
+	 * @throws  LogicException
 	 */
 	public function setId($id)
 	{
+		if ($this->isStarted())
+		{
+			throw new LogicException('Cannot change the ID of an active session');
+		}
+
 		session_id($id);
 	}
 
 	/**
 	 * Returns the session name
 	 *
-	 * @return  mixed   The session name.
+	 * @return  mixed  The session name
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function getName()
 	{
@@ -149,12 +154,11 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	/**
 	 * Sets the session name
 	 *
-	 * @param   string  $name  Set the name of the session
+	 * @param   string  $name  The name of the session
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
-	 *
+	 * @since   3.5
 	 * @throws  LogicException
 	 */
 	public function setName($name)
@@ -168,20 +172,17 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	}
 
 	/**
-	 * Regenerates id that represents this storage.
+	 * Regenerates ID that represents this storage.
 	 *
-	 * Note regenerate+destroy should not clear the session data in memory
-	 * only delete the session data from persistent storage.
+	 * Note regenerate+destroy should not clear the session data in memory only delete the session data from persistent storage.
 	 *
-	 * @param   bool  $destroy   Destroy session when regenerating?
-	 * @param   int   $lifetime  Sets the cookie lifetime for the session cookie. A null value
-	 *                           will leave the system settings unchanged, 0 sets the cookie
-	 *                           to expire with browser session. Time is in seconds, and is
-	 *                           not a Unix timestamp.
+	 * @param   boolean   $destroy   Destroy session when regenerating?
+	 * @param   integer   $lifetime  Sets the cookie lifetime for the session cookie. A null value will leave the system settings unchanged,
+	 *                               0 sets the cookie to expire with browser session. Time is in seconds, and is not a Unix timestamp.
 	 *
-	 * @return  bool  True if session regenerated, false if error
+	 * @return  boolean  True if session regenerated, false if error
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function regenerate($destroy = false, $lifetime = null)
 	{
@@ -219,15 +220,17 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
-	 *
-	 * @throws  RuntimeException If the session is saved without being started, or if the session
-	 *                           is already closed.
-	 *
 	 * @see     session_write_close()
+	 * @since   3.5
+	 * @throws  RuntimeException  If the session is saved without being started, or if the session is already closed.
 	 */
 	public function save()
 	{
+		if (!$this->isStarted())
+		{
+			throw new RuntimeException('The session is not started.');
+		}
+
 		session_write_close();
 
 		$this->closed  = true;
@@ -239,12 +242,12 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function clear()
 	{
 		// Need to destroy any existing sessions started with session.auto_start
-		if (session_id())
+		if ($this->getId())
 		{
 			session_unset();
 			session_destroy();
