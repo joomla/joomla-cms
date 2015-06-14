@@ -211,6 +211,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 				continue;
 			}
 
+			// Block the ext/mysql driver for PHP 7
+			if ($fileName === 'mysql.php' && PHP_MAJOR_VERSION >= 7)
+			{
+				continue;
+			}
+
 			// Derive the class name from the type.
 			$class = str_ireplace('.php', '', 'JDatabaseDriver' . ucfirst(trim($fileName)));
 
@@ -256,7 +262,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		$options['select']   = (isset($options['select'])) ? $options['select'] : true;
 
 		// If the selected driver is `mysql` and we are on PHP 7 or greater, switch to the `mysqli` driver.
-		if ($options['driver'] == 'mysql' && PHP_MAJOR_VERSION >= 7)
+		if ($options['driver'] === 'mysql' && PHP_MAJOR_VERSION >= 7)
 		{
 			// Check if we have support for the other MySQL drivers
 			$mysqliSupported   = JDatabaseDriverMysqli::isSupported();
