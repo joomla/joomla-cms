@@ -152,12 +152,20 @@ class JFilterInput
 		 */
 		if ($this->stripUSC == -1)
 		{
-			// Get the database driver
-			$db = JFactory::getDbo();
-			// This trick is required to let the driver determine the utf-8 multibyte support
-			$db->connect();
-			// And now we can decide if we should strip USCs
-			$this->stripUSC = $db->hasUTF8mb4Support() ? 0 : 1;
+			try
+			{
+				// Get the database driver
+				$db = JFactory::getDbo();
+				// This trick is required to let the driver determine the utf-8 multibyte support
+				$db->connect();
+				// And now we can decide if we should strip USCs
+				$this->stripUSC = $db->hasUTF8mb4Support() ? 0 : 1;
+			}
+			catch (Exception $e)
+			{
+				// Could not connect to MySQL. Strip USC to be on the safe side.
+				$this->stripUSC = 1;
+			}
 		}
 	}
 
