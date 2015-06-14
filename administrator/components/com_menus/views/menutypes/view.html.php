@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -104,7 +104,7 @@ class MenusViewMenutypes extends JViewLegacy
 		// Cancel
 		$title = JText::_('JTOOLBAR_CANCEL');
 		$dhtml = "<button onClick=\"location.href='index.php?option=com_menus&view=items'\" class=\"btn\">
-					<i class=\"icon-remove\" title=\"$title\"></i>
+					<span class=\"icon-remove\" title=\"$title\"></span>
 					$title</button>";
 		$bar->appendButton('Custom', $dhtml, 'new');
 	}

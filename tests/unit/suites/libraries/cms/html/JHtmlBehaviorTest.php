@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -204,7 +204,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::formvalidation();
 		$this->assertEquals(
-			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::formvalidation' => true),
+			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::formvalidator' => true),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}
@@ -266,7 +266,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::combobox();
 		$this->assertEquals(
-			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::combobox' => true),
+			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::combobox' => true),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}
@@ -446,14 +446,12 @@ class JHtmlBehaviorTest extends TestCase
 			array(
 				array(
 					'JHtmlBehavior::core' => true,
-					'JHtmlBehavior::framework' => array('core' => true),
 					'JHtmlBehavior::multiselect' => array('adminForm' => true),
 				)
 			),
 			array(
 				array(
 					'JHtmlBehavior::core' => true,
-					'JHtmlBehavior::framework' => array('core' => true),
 					'JHtmlBehavior::multiselect' => array('adminForm2' => true),
 				),
 				'adminForm2'
@@ -677,7 +675,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::noframes();
 		$this->assertEquals(
-			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::noframes' => true, 'JHtmlBehavior::framework' => array('core' => true)),
+			array('JHtmlBehavior::core' => true, 'JHtmlBehavior::noframes' => true),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}

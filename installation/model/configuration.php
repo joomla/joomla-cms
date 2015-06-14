@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -95,7 +95,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
 		$registry->set('ftp_pass', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_pass)) ? $options->ftp_pass : '');
 		$registry->set('ftp_root', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_root)) ? $options->ftp_root : '');
-		$registry->set('ftp_enable', isset($options->ftp_host) ? $options->ftp_enable : '');
+		$registry->set('ftp_enable', isset($options->ftp_host) ? $options->ftp_enable : 0);
 
 		// Locale settings.
 		$registry->set('offset', 'UTC');

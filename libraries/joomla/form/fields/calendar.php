@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -177,7 +177,7 @@ class JFormFieldCalendar extends JFormField
 		{
 			case 'SERVER_UTC':
 				// Convert a date to UTC based on the server timezone.
-				if ((int) $this->value)
+				if ((int) $this->value && $this->value != JFactory::getDbo()->getNullDate())
 				{
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
@@ -191,7 +191,7 @@ class JFormFieldCalendar extends JFormField
 
 			case 'USER_UTC':
 				// Convert a date to UTC based on the user timezone.
-				if ((int) $this->value)
+				if ((int) $this->value && $this->value != JFactory::getDbo()->getNullDate())
 				{
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');

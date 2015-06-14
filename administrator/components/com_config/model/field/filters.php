@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,6 +99,7 @@ class JFormFieldFilters extends JFormField
 			$html[] = '		<td>';
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_tags]"'
+				. ' type="text"'
 				. ' id="' . $this->id . $group->value . '_filter_tags"'
 				. ' title="' . JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '"'
 				. ' value="' . $group_filter['filter_tags'] . '"'
@@ -107,6 +108,7 @@ class JFormFieldFilters extends JFormField
 			$html[] = '		<td>';
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_attributes]"'
+				. ' type="text"'
 				. ' id="' . $this->id . $group->value . '_filter_attributes"'
 				. ' title="' . JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '"'
 				. ' value="' . $group_filter['filter_attributes'] . '"'

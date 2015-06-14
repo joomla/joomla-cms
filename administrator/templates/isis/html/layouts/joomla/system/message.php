@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.Isis
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ $alert = array('error' => 'alert-error', 'warning' => '', 'notice' => 'alert-inf
 				<h4 class="alert-heading"><?php echo JText::_($type); ?></h4>
 				<?php if ($msgs) : ?>
 					<?php foreach ($msgs as $msg) : ?>
-						<p><?php echo $msg; ?></p>
+						<p class="alert-message"><?php echo $msg; ?></p>
 					<?php endforeach; ?>
 				<?php endif; ?>
 			</div>

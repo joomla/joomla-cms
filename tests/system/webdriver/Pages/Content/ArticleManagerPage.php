@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,13 +24,13 @@ use SeleniumClient\WebElement;
  */
 class ArticleManagerPage extends AdminManagerPage
 {
-  /**
+	/**
 	 * XPath string used to uniquely identify this page
 	 *
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_content']";
+	protected $waitForXpath = "//ul/li/a[@href='index.php?option=com_content']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -97,10 +97,12 @@ class ArticleManagerPage extends AdminManagerPage
 			'Title' => $name,
 			'Category' => $category
 		));
+
 		if (count($otherFields > 0))
 		{
 			$articleEditPage->setFieldValues($otherFields);
 		}
+
 		$articleEditPage->clickButton('toolbar-save');
 		$this->test->getPageObject('ArticleManagerPage');
 	}
@@ -136,6 +138,7 @@ class ArticleManagerPage extends AdminManagerPage
 		$this->searchFor($name);
 		$row = $this->getRowNumber($name);
 		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]/div/a/i[1]"))->getAttribute('class');
+
 		switch ($text)
 		{
 			case 'icon-publish':
@@ -155,6 +158,7 @@ class ArticleManagerPage extends AdminManagerPage
 		}
 
 		$this->searchFor();
+
 		return $result;
 	}
 
@@ -171,6 +175,7 @@ class ArticleManagerPage extends AdminManagerPage
 		$this->setFilter('Status', 'All');
 		$this->searchFor($name);
 		$this->checkAll();
+
 		if (strtolower($state) == 'published')
 		{
 			$this->clickButton('toolbar-publish');
@@ -194,6 +199,7 @@ class ArticleManagerPage extends AdminManagerPage
 			$this->clickButton('toolbar-trash');
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		}
+
 		$this->searchFor();
 	}
 
@@ -205,9 +211,9 @@ class ArticleManagerPage extends AdminManagerPage
 	 *
 	 * @return void
 	 */
-	public function changeFilter($label,$value)
+	public function changeFilter($label, $value)
 	{
-		$this->setFilter($label,$value);
+		$this->setFilter($label, $value);
 	}
 
 	/**
@@ -223,6 +229,7 @@ class ArticleManagerPage extends AdminManagerPage
 		$row = $this->getRowNumber($name);
 		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[5]"))->getText();
 		$this->searchFor();
+
 		return $text;
 	}
 
@@ -258,7 +265,8 @@ class ArticleManagerPage extends AdminManagerPage
 	{
 		$this->searchFor($name);
 		$row = $this->getRowNumber($name);
-		$categoryName=$this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[4]/div/div[@class='small']"))->getText();
+		$categoryName = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[4]/div/div[@class = 'small']"))->getText();
+
 		return $categoryName;
 	}
 
@@ -275,14 +283,15 @@ class ArticleManagerPage extends AdminManagerPage
 	public function doBatchAction($articleName, $searchString, $newCategory, $action)
 	{
 		$this->searchFor($articleName);
-		$row=$this->getRowNumber($articleName);
-		$this->driver->findElement(By::xPath("//input[@id='cb" . ($row-1) . "']"))->click();
+		$row = $this->getRowNumber($articleName);
+		$this->driver->findElement(By::xPath("//input[@id='cb" . ($row - 1) . "']"))->click();
 		$this->clickButton('toolbar-batch');
 		$this->driver->waitForElementUntilIsPresent(By::xPath("//div[@class='modal hide fade in']"));
 		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']/a"))->click();
 		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']/div/div/input"))->sendKeys($searchString);
-		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $newCategory . "')]"))->click();
-		if(strtolower($action) == 'copy')
+		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']//ul[@class = 'chzn-results']/li[contains(.,'" . $newCategory . "')]"))->click();
+
+		if (strtolower($action) == 'copy')
 		{
 			$this->driver->findElement(By::xPath("//input[@id='batch[move_copy]c']"))->click();
 		}
@@ -290,6 +299,7 @@ class ArticleManagerPage extends AdminManagerPage
 		{
 			$this->driver->findElement(By::XPath("//input[@id='batch[move_copy]m']"))->click();
 		}
+
 		$this->driver->findElement(By::xPath("//button[contains(text(),'Process')]"))->click();
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 	}
@@ -298,22 +308,24 @@ class ArticleManagerPage extends AdminManagerPage
 	 * change the Category Filter from Article Manager Page
 	 *
 	 * @param string $category Name of the Category to which the filter is to be set to
-	 * @param string $searchString to be entered in the filter to select the desired category
 	 *
 	 * @return void
 	 */
 	public function changeCategoryFilter($category = 'Select Category')
 	{
 		$filterElement = $this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']/a"));
+
 		if (! $filterElement->isDisplayed())
 		{
 			$elements = $this->driver->findElements(By::xPath("//button[contains(., 'Search tools')]"));
+
 			if (isset($elements[0]))
 			{
 				$elements[0]->click();
 				sleep(3);
 			}
 		}
+
 		$filterElement->click();
 		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']/div/div/input"))->sendKeys(substr($category, 0, 2));
 		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $category . "')]"))->click();

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Data
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -69,6 +69,11 @@ class JDataSetTest extends TestCase
 	 */
 	public function test__construct_scalar()
 	{
+		if (PHP_MAJOR_VERSION >= 7)
+		{
+			$this->markTestSkipped('A fatal error is thrown on PHP 7 due to the typehinting of the constructor.');
+		}
+
 		new JDataSet('foo');
 	}
 

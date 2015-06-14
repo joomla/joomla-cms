@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -649,6 +649,10 @@ abstract class JDatabaseQuery
 			case 'limit':
 				$this->offset = 0;
 				$this->limit = 0;
+				break;
+
+			case 'offset':
+				$this->offset = 0;
 				break;
 
 			case 'union':

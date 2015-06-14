@@ -6,7 +6,7 @@
 	<author>Andrea Tarr</author>
 	<authorEmail>hathor@tarrconsulting.com</authorEmail>
 	<authorUrl>http://www.tarrconsulting.com</authorUrl>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>3.0.0</version>
 	<description>TPL_HATHOR_XML_DESCRIPTION</description>
@@ -15,7 +15,6 @@
 		<filename>cpanel.php</filename>
 		<filename>error.php</filename>
 		<filename>favicon.ico</filename>
-		<filename>index.html</filename>
 		<filename>index.php</filename>
 		<filename>login.php</filename>
 		<filename>LICENSE.txt</filename>

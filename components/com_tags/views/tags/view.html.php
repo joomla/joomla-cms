@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -226,7 +226,7 @@ class TagsViewTags extends JViewLegacy
 				{
 					$this->document->setDescription($this->item->metadesc);
 				}
-				elseif (!$itemElement->metadesc && $this->params->get('menu-meta_description'))
+				elseif ($this->params->get('menu-meta_description'))
 				{
 					$this->document->setDescription($this->params->get('menu-meta_description'));
 				}
@@ -235,7 +235,7 @@ class TagsViewTags extends JViewLegacy
 				{
 					$this->document->setMetadata('keywords', $this->tag->metakey);
 				}
-				elseif (!$itemElement->metakey && $this->params->get('menu-meta_keywords'))
+				elseif ($this->params->get('menu-meta_keywords'))
 				{
 					$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
 				}

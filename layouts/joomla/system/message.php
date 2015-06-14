@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ $msgList = $displayData['msgList'];
 						<h4 class="alert-heading"><?php echo JText::_($type); ?></h4>
 						<div>
 							<?php foreach ($msgs as $msg) : ?>
-								<p><?php echo $msg; ?></p>
+								<p class="alert-message"><?php echo $msg; ?></p>
 							<?php endforeach; ?>
 						</div>
 					<?php endif; ?>

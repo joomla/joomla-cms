@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -167,7 +167,7 @@ class JUpdaterCollection extends JUpdateAdapter
 				{
 					$values['targetplatformversion'] = $ver->RELEASE;
 				}
-				// Set this to ourself as a default
+				// Set this to ourselves as a default
 				// validate that we can install the extension
 				if ($product == $values['targetplatform'] && preg_match('/' . $values['targetplatformversion'] . '/', $ver->RELEASE))
 				{
@@ -218,64 +218,10 @@ class JUpdaterCollection extends JUpdateAdapter
 	 */
 	public function findUpdate($options)
 	{
-		$url = trim($options['location']);
-		$this->updateSiteId = $options['update_site_id'];
+		$response = $this->getUpdateSiteResponse($options);
 
-		$appendExtension = false;
-
-		if (array_key_exists('append_extension', $options))
+		if ($response === false)
 		{
-			$appendExtension = $options['append_extension'];
-		}
-
-		if ($appendExtension && (substr($url, -4) != '.xml'))
-		{
-			if (substr($url, -1) != '/')
-			{
-				$url .= '/';
-			}
-
-			$url .= 'update.xml';
-		}
-
-		$this->base = new stdClass;
-		$this->update_sites = array();
-		$this->updates = array();
-		$db = $this->parent->getDBO();
-
-		$http = JHttpFactory::getHttp();
-
-		// JHttp transport throws an exception when there's no response.
-		try
-		{
-			$response = $http->get($url);
-		}
-		catch (RuntimeException $e)
-		{
-			$response = null;
-		}
-
-		if ($response === null || $response->code !== 200)
-		{
-			// If the URL is missing the .xml extension, try appending it and retry loading the update
-			if (!$appendExtension && (substr($url, -4) != '.xml'))
-			{
-				$options['append_extension'] = true;
-
-				return $this->findUpdate($options);
-			}
-
-			$query = $db->getQuery(true)
-				->update('#__update_sites')
-				->set('enabled = 0')
-				->where('update_site_id = ' . $this->updateSiteId);
-			$db->setQuery($query);
-			$db->execute();
-
-			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
-			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_OPEN_URL', $url), 'warning');
-
 			return false;
 		}
 
@@ -286,17 +232,17 @@ class JUpdaterCollection extends JUpdateAdapter
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
-			if (!$appendExtension && (substr($url, -4) != '.xml'))
+			if (!$this->appendExtension && (substr($this->_url, -4) != '.xml'))
 			{
 				$options['append_extension'] = true;
 
 				return $this->findUpdate($options);
 			}
 
-			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
+			JLog::add("Error parsing url: " . $this->_url, JLog::WARNING, 'updater');
 
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $url), 'warning');
+			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $this->_url), 'warning');
 
 			return false;
 		}

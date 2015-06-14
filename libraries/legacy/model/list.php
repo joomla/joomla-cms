@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -676,5 +676,30 @@ class JModelList extends JModelLegacy
 		}
 
 		return $new_state;
+	}
+
+	/**
+	 * Parse and transform the search string into a string fit for regex-ing arbitrary strings against
+	 *
+	 * @param   string  $search          The search string
+	 * @param   string  $regexDelimiter  The regex delimiter to use for the quoting
+	 *
+	 * @return string Search string escaped for regex
+	 */
+	protected function refineSearchStringToRegex($search, $regexDelimiter = '/')
+	{
+		$searchArr = explode('|', trim($search, ' |'));
+
+		foreach ($searchArr as $key => $searchString)
+		{
+			if (strlen(trim($searchString)) == 0)
+			{
+				unset($searchArr[$key]);
+				continue;
+			}
+			$searchArr[$key] = str_replace(' ', '.*', preg_quote(trim($searchString), $regexDelimiter));
+		}
+
+		return implode('|', $searchArr);
 	}
 }

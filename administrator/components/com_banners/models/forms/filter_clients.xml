@@ -12,7 +12,6 @@
 			name="state"
 			type="status"
 			label="JOPTION_SELECT_PUBLISHED"
-			statuses="*,0,1,2,-2"
 			description="JOPTION_SELECT_PUBLISHED_DESC"
 			onchange="this.form.submit();"
 			>

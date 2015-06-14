@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +30,7 @@ if (!class_exists('JLoader'))
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
 // Add the Composer autoloader
-require_once JPATH_LIBRARIES . '/vendor/autoload.php';
+require_once JPATH_LIBRARIES . '/composer_autoload.php';
 
 // Register the class aliases for Framework classes that have replaced their Platform equivilents
 require_once __DIR__ . '/classmap.php';
@@ -56,6 +56,9 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER))
 {
 	JLog::addLogger(array('logger' => 'messagequeue'), JLog::ALL, array('jerror'));
 }
+
+// Register JArrayHelper due to JRegistry moved to composer's vendor folder
+JLoader::register('JArrayHelper', JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php');
 
 // Register classes where the names have been changed to fit the autoloader rules
 // @deprecated  4.0

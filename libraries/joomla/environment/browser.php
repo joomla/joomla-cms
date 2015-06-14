@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Environment
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -604,7 +604,7 @@ class JBrowser
 			}
 		}
 
-		if (!$this->hasFeature('images') || ($type != 'image'))
+		if ($type != 'image')
 		{
 			return false;
 		}

@@ -14,7 +14,7 @@ ALTER TABLE [#__updates] ADD DEFAULT (N'') FOR [data];
 /****** Object:  Table [#__content_types] ******/
 SET QUOTED_IDENTIFIER ON;
 
-CREATE TABLE [#__content_types](
+CREATE TABLE [#__content_types] (
 	[type_id] [bigint] IDENTITY(1,1) NOT NULL,
 	[type_title] [nvarchar](255) NOT NULL DEFAULT '',
 	[type_alias] [nvarchar](255) NOT NULL DEFAULT '',
@@ -58,7 +58,7 @@ SET IDENTITY_INSERT #__content_types  OFF;
 /****** Object:  Table [#__contentitem_tag_map] ******/
 SET QUOTED_IDENTIFIER ON;
 
-CREATE TABLE [#__contentitem_tag_map](
+CREATE TABLE [#__contentitem_tag_map] (
 	[type_alias] [nvarchar](255) NOT NULL DEFAULT '',
 	[core_content_id] [bigint] NOT NULL,
 	[content_item_id] [int] NOT NULL,
@@ -98,7 +98,7 @@ CREATE NONCLUSTERED INDEX [idx_core_content_id] ON [#__contentitem_tag_map]
 /****** Object:  Table [#__tags] ******/
 SET QUOTED_IDENTIFIER ON;
 
-CREATE TABLE [#__tags](
+CREATE TABLE [#__tags] (
   [id] [int] IDENTITY(1,1) NOT NULL ,
   [parent_id] [bigint] NOT NULL DEFAULT '0',
   [lft] [int] NOT NULL DEFAULT '0',
@@ -182,7 +182,7 @@ SET IDENTITY_INSERT #__tags  OFF;
 /****** Object:  Table [#__ucm_base] ******/
 SET QUOTED_IDENTIFIER ON;
 
-CREATE TABLE [#__ucm_base](
+CREATE TABLE [#__ucm_base] (
   [ucm_id] [bigint] IDENTITY(1,1) NOT NULL,
   [ucm_item_id] [bigint] NOT NULL,
   [ucm_type_id] [bigint] NOT NULL,
@@ -211,7 +211,7 @@ CREATE NONCLUSTERED INDEX [ucm_language_id] ON [#__ucm_base]
 /****** Object:  Table [#__ucm_content] ******/
 SET QUOTED_IDENTIFIER ON;
 
-CREATE TABLE [#__ucm_content](
+CREATE TABLE [#__ucm_content] (
   [core_content_id] [bigint] IDENTITY(1,1) NOT NULL,
   [core_type_alias] [nvarchar](255) NOT NULL,
   [core_title] [nvarchar](255) NOT NULL DEFAULT '',
@@ -320,7 +320,7 @@ CREATE NONCLUSTERED INDEX [idx_core_type_id] ON [#__ucm_content]
 SET IDENTITY_INSERT #__extensions  ON;
 
 INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state)
-  SELECT 29, 'com_tags', 'component', 'com_tags', '', 1, 1, 1, 1, '{"name":"com_joomlaupdate","type":"component","creationDate":"March 2013","author":"Joomla! Project","copyright":"(C) 2005 - 2014 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"3.1.0","description":"COM_TAGS_XML_DESCRIPTION","group":""}', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+  SELECT 29, 'com_tags', 'component', 'com_tags', '', 1, 1, 1, 1, '{"name":"com_joomlaupdate","type":"component","creationDate":"March 2013","author":"Joomla! Project","copyright":"(C) 2005 - 2015 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"3.1.0","description":"COM_TAGS_XML_DESCRIPTION","group":""}', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 SET IDENTITY_INSERT #__extensions  OFF;
 
