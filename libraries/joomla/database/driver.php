@@ -729,7 +729,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
 
-		return 'ALTER DATABASE ' . $this->quoteName($dbName) . ' CHARACTER SET `' . $charset .'`';
+		return 'ALTER DATABASE ' . $this->quoteName($dbName) . ' CHARACTER SET `' . $charset . '`';
 	}
 
 	/**
@@ -765,7 +765,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			foreach ($columns as $column)
 			{
 				// Make sure we are redefining only columns which do support a collation
-				$col = (object)$column;
+				$col = (object) $column;
 
 				if (empty($col->Collation))
 				{
@@ -1077,6 +1077,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * class name.
 	 *
 	 * @return  string
+	 *
 	 * @since   CMS 3.5.0
 	 */
 	public function getName()
@@ -1097,6 +1098,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * be returned instead.
 	 *
 	 * @return  string
+	 *
 	 * @since   CMS 3.5.0
 	 */
 	public function getServerType()

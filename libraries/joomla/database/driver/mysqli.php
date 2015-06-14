@@ -939,6 +939,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 * libmysql supports utf8mb4 since 5.5.3 (same version as the MySQL server). mysqlnd supports utf8mb4 since 5.0.9.
 	 *
 	 * @return  boolean
+	 *
 	 * @since   CMS 3.5.0
 	 */
 	private function serverClaimsUtf8mb4Support()
