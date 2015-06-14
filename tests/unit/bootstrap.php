@@ -31,7 +31,7 @@ ini_set('magic_quotes_runtime', 0);
 
 // Maximise error reporting.
 ini_set('zend.ze1_compatibility_mode', '0');
-error_reporting(E_ALL & ~(E_STRICT|E_USER_DEPRECATED));
+error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Set fixed precision value to avoid round related issues
@@ -114,3 +114,6 @@ require_once JPATH_LIBRARIES . '/cms.php';
 
 // Register the core Joomla test classes.
 JLoader::registerPrefix('Test', __DIR__ . '/core');
+
+// Register the deprecation handler
+TestHelper::registerDeprecationHandler();
