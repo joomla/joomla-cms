@@ -43,16 +43,49 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 */
 	public function start()
 	{
+		if ($this->started)
+		{
+			return true;
+		}
+
 		/**
 		 * Write and Close handlers are called after destructing objects since PHP 5.0.5.
 		 * Thus destructors can use sessions but session handler can't use objects.
 		 * So we are moving session closure before destructing objects.
-		 *
-		 * Replace with session_register_shutdown() when dropping compatibility with PHP 5.3
 		 */
-		register_shutdown_function('session_write_close');
+		if (version_compare(PHP_VERSION, '5.4', 'ge'))
+		{
+			session_register_shutdown();
+		}
+		else
+		{
+			register_shutdown_function('session_write_close');
+		}
 
+		// Disable the cache limiter
 		session_cache_limiter('none');
+
+		/*
+		 * Extended checks to determine if the session has already been started
+		 */
+
+		// If running PHP 5.4, try to use the native API
+		if (version_compare(PHP_VERSION, '5.4', 'ge') && PHP_SESSION_ACTIVE === session_status())
+		{
+			throw new RuntimeException('Failed to start the session: already started by PHP.');
+		}
+
+		// Fallback check for PHP 5.3
+		if (version_compare(PHP_VERSION, '5.4', 'lt') && !$this->closed && isset($_SESSION) && $this->getId())
+		{
+			throw new RuntimeException('Failed to start the session: already started by PHP ($_SESSION is set).');
+		}
+
+		// If we are using cookies (default true) and headers have already been started (early output),
+		if (ini_get('session.use_cookies') && headers_sent($file, $line))
+		{
+			throw new RuntimeException(sprintf('Failed to start the session because headers have already been sent by "%s" at line %d.', $file, $line));
+		}
 
 		// Ok to try and start the session
 		if (!session_start())
