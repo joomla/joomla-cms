@@ -156,8 +156,10 @@ class JFilterInput
 			{
 				// Get the database driver
 				$db = JFactory::getDbo();
+
 				// This trick is required to let the driver determine the utf-8 multibyte support
 				$db->connect();
+
 				// And now we can decide if we should strip USCs
 				$this->stripUSC = $db->hasUTF8mb4Support() ? 0 : 1;
 			}
@@ -228,8 +230,8 @@ class JFilterInput
 		// Strip Unicode Supplementary Characters when requested to do so
 		if ($this->stripUSC)
 		{
-			$source = preg_replace('/[\xF0-\xF7].../s', "\xE2\xAF\x91", $source);
 			// Alternatively: preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xE2\xAF\x91", $source) but it'd be slower.
+			$source = preg_replace('/[\xF0-\xF7].../s', "\xE2\xAF\x91", $source);
 		}
 
 		// Handle the type constraint
