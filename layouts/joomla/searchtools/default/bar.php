@@ -35,6 +35,9 @@ $filters = $data['view']->filterForm->getGroup('filter');
 		</label>
 		<div class="btn-wrapper input-append">
 			<?php echo $filters['filter_search']->input; ?>
+			<?php if ($filters['filter_search']->description) : ?>
+				<?php JHtmlBootstrap::tooltip('#filter_search', array('title' => JText::_($filters['filter_search']->description))); ?>
+			<?php endif; ?>
 			<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
 				<span class="icon-search"></span>
 			</button>
