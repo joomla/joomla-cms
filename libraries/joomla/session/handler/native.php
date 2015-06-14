@@ -176,9 +176,9 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 *
 	 * Note regenerate+destroy should not clear the session data in memory only delete the session data from persistent storage.
 	 *
-	 * @param   boolean   $destroy   Destroy session when regenerating?
-	 * @param   integer   $lifetime  Sets the cookie lifetime for the session cookie. A null value will leave the system settings unchanged,
-	 *                               0 sets the cookie to expire with browser session. Time is in seconds, and is not a Unix timestamp.
+	 * @param   boolean  $destroy   Destroy session when regenerating?
+	 * @param   integer  $lifetime  Sets the cookie lifetime for the session cookie. A null value will leave the system settings unchanged,
+	 *                              0 sets the cookie to expire with browser session. Time is in seconds, and is not a Unix timestamp.
 	 *
 	 * @return  boolean  True if session regenerated, false if error
 	 *
