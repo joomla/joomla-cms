@@ -639,29 +639,6 @@ class PlgEditorTinymce extends JPlugin
 					$href = null;
 				}
 
-				// Get some icons
-				switch ($icon)
-				{
-					case 'copy':
-						// Page break
-						break;
-					case 'file-add':
-						// Articles
-						$icon = 'newdocument';
-						break;
-					case 'picture':
-						// Images
-						$icon = 'image';
-						break;
-					case 'arrow-down':
-						// Read more
-						$icon = 'pagebreak';
-						break;
-					default:
-						// All others
-						$icon = 'browse';
-				}
-
 				// Get the modal width/height
 				if ($options)
 				{
@@ -805,7 +782,7 @@ class PlgEditorTinymce extends JPlugin
 			case 1:
 			default: /* Advanced mode*/
 				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist";
-				$toolbar2 = "outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap";
+				$toolbar2 = "outdent indent | undo redo | link unlink anchor image | hr table | subscript superscript | charmap";
 				$return = $load .
 					"\t<script type=\"text/javascript\">
 				tinyMCE.init({
@@ -1029,6 +1006,9 @@ class PlgEditorTinymce extends JPlugin
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
 		$editor .= $this->_displayButtons($id, $buttons, $asset, $author);
 		$editor .= '</div>';
+
+		// Add custom buttons font images
+		JFactory::getDocument()->addStyleSheet("/media/jui/css/tinybtns.css");
 
 		return $editor;
 	}
