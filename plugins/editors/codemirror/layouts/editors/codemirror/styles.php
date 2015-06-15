@@ -15,7 +15,6 @@ $fontFamily = isset($displayData->fontFamily) ? $displayData->fontFamily : 'mono
 $fontSize   = $params->get('fontSize', 13) . 'px;';
 $lineHeight = $params->get('lineHeight', 1.2) . 'em;';
 
-
 // Set the active line color.
 $color = $params->get('activeLineColor', '#a4c2eb');
 $r = hexdec($color{1} . $color{2});
@@ -68,27 +67,6 @@ $highlightMatchColor = 'rgba(' . $r . ', ' . $g . ', ' . $b . ', .5)';
 
 .CodeMirror-activeline-background { background: <?php echo $activeLineColor; ?>; }
 .CodeMirror-matchingtag { background: <?php echo $highlightMatchColor; ?>; }
-
-.CodeMirror-toolbar
-{
-	padding: .2em;
-	background: #eee;
-	border: 1px solid #e6e6e6;
-	border-bottom: 0;
-}
-
-.CodeMirror-toolbar .cm-tb-btn
-{
-	line-height: 1em;
-	text-align: center;
-	padding: 1px .5em 0 .5em;
-	font-size: 8px;
-}
-
-.CodeMirror-toolbar .cm-tb-btn-close
-{
-	float: right;
-}
 
 <?php // And now switch it off ?>
 <?php if (false) : ?></style><?php endif; ?>

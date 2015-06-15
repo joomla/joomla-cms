@@ -26,13 +26,6 @@ class PlgEditorCodemirror extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Base path for editor files.
-	 *
-	 * @var string
-	 */
-	protected $basePath = 'media/editors/codemirror/';
-
-	/**
 	 * Mapping of syntax to CodeMirror modes.
 	 *
 	 * @var array
@@ -59,20 +52,17 @@ class PlgEditorCodemirror extends JPlugin
 
 		$done = true;
 
-		JHtml::_('behavior.framework');
-		JHtml::_('script', $this->basePath . 'lib/codemirror.min.js');
-		JHtml::_('script', $this->basePath . 'lib/addons.min.js');
-		JHtml::_('stylesheet', $this->basePath . 'lib/codemirror.min.css');
-		JHtml::_('stylesheet', $this->basePath . 'lib/addons.min.css');
-
+		// Most likely need this later
 		$doc = JFactory::getDocument();
 
-		$ext = JFactory::getConfig()->get('debug') ? '.js' : '.min.js';
+		// Codemirror shall have its own group of plugins to modify and extend its behavior
+		JPluginHelper::importPlugin('editors-codemirror');
+		$dispatcher	= JEventDispatcher::getInstance();
 
-		$displayData = (object) array(
-				'params'  => $this->params,
-				'modeURL' => JURI::root(true) . '/media/editors/codemirror/mode/%N/%N' . $ext
-			);
+		// At this point, params can be modified by a plugin before going to the layout renderer.
+		$dispatcher->trigger('onCodeMirrorBeforeInit', array(&$this->params));
+
+		$displayData = (object) array('params'  => $this->params);
 
 		$initScript = JLayoutHelper::render('editors.codemirror.init', $displayData, __DIR__ . '/layouts');
 
@@ -103,6 +93,8 @@ class PlgEditorCodemirror extends JPlugin
 		{
 			$doc->addStyleDeclaration($styles);
 		}
+
+		$dispatcher->trigger('onCodeMirrorAfterInit', array(&$this->params));
 
 		return '';
 	}
@@ -234,7 +226,7 @@ class PlgEditorCodemirror extends JPlugin
 		if ($theme = $this->params->get('theme'))
 		{
 			$options->theme = $theme;
-			$this->loadTheme($options->theme);
+			JHtml::_('stylesheet', $this->params->get('basePath', 'media/editors/codemirror/') . 'theme/' . $theme . '.css');
 		}
 
 		// Special options for tagged modes (xml/html).
@@ -273,28 +265,10 @@ class PlgEditorCodemirror extends JPlugin
 				'buttons' => $buttons
 			);
 
+		// At this point, displayData can be modified by a plugin before going to the layout renderer.
+		JEventDispatcher::getInstance()->trigger('onCodeMirrorBeforeDisplay', array(&$displayData));
+
 		return JLayoutHelper::render('editors.codemirror.element', $displayData, __DIR__ . '/layouts', array('debug' => JDEBUG));
-	}
-
-	/**
-	 * Loads a CodeMirror theme file.
-	 *
-	 * @param   string  $theme  The theme to load.
-	 *
-	 * @return  void
-	 */
-	protected function loadTheme($theme)
-	{
-		static $loaded = array();
-
-		if (in_array($theme, $loaded))
-		{
-			return;
-		}
-
-		$loaded[] = $theme;
-
-		JHtml::_('stylesheet', $this->basePath . 'theme/' . $theme . '.css');
 	}
 
 	/**

@@ -19,15 +19,6 @@ $rows    = $displayData->rows;
 $content = $displayData->content;
 $buttons = $displayData->buttons;
 
-$showToolbar = $params->get('toolbar.useToolbar', true);
-
-$layoutPath = JPATH_PLUGINS . '/editors/codemirror/layouts';
-
-if ($showToolbar)
-{
-	$options->toolbarId = $id . 'Toolbar';
-}
-
 JFactory::getDocument()->addScriptDeclaration('
 	jQuery(function () {
 		var id = ' . json_encode($id) . ', options = ' . json_encode($options) . ';
@@ -39,7 +30,3 @@ JFactory::getDocument()->addScriptDeclaration('
 <?php echo '<textarea name="', $name, '" id="', $id, '" cols="', $cols, '" rows="', $rows, '">', $content, '</textarea>'; ?>
 
 <?php echo $displayData->buttons; ?>
-
-<?php if ($showToolbar) : ?>
-	<?php echo JLayoutHelper::render('editors.codemirror.toolbar', $displayData, $layoutPath, array('debug' => JDEBUG)); ?>
-<?php endif; ?>
