@@ -29,7 +29,7 @@ if ($params->get('show_viewadmin', 1))
 {
 	$output[] = '<div class="btn-group viewsite">'
 		. '<a href="' . JURI::base() . '" target="_blank">'
-		. '<span class="icon-out-2"></span> ' . JText::_('MOD_STATUS_FIELD_LINK_VIEWSITE_LABEL')
+		. '<span class="icon-out-2"></span> ' . JText::_('MOD_STATUS_FIELD_LINK_VIEWADMIN_LABEL')
 		. '</a>'
 		. '</div>'
 		. '<div class="btn-group divider"></div>';
