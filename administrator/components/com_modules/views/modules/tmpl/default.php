@@ -161,20 +161,34 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php endif; ?>
 						</td>
 						<td class="center">
-							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+							<?php
+                            if ($item->enabled>0)
+                            {
+                                echo JHtml::_('grid.id', $i, $item->id);
+                            } ?>
 						</td>
 						<td class="center">
 							<div class="btn-group">
-								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								<?php
-									// Create dropdown items
-									JHtml::_('actionsdropdown.duplicate', 'cb' . $i, 'modules');
+                                //Check if extension is enabled
+                                if ($item->enabled>0)
+                                {
+                                    echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down);
+                                }else{
+                                    //Extension is not enabled, show a message that indicates this.
+                                }
+                                ?>
+								<?php
+                                if ($item->enabled>0) {
+                                    // Create dropdown items
+                                    JHtml::_('actionsdropdown.duplicate', 'cb' . $i, 'modules');
 
-									$action = $trashed ? 'untrash' : 'trash';
-									JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'modules');
+                                    $action = $trashed ? 'untrash' : 'trash';
+                                    JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'modules');
 
-								// Render dropdown list
-								echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+                                    // Render dropdown list
+                                    echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+                                }
 								?>
 							</div>
 						</td>
