@@ -693,7 +693,11 @@ class PlgEditorTinymce extends JPlugin
 						title  : \"" . $title . "\",
 						url : '" . $href . "',
 						width  : $modalWidth,
-						height : $modalHeight
+						height : $modalHeight,
+						buttons: [{
+							text   : \"Close\",
+							onclick: \"close\"
+						}]
 			});
 		";
 					if ($onclick && ($button->get('modal') || $href))
