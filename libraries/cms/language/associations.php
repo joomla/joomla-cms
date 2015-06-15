@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,6 +32,8 @@ class JLanguageAssociations
 	 * @return  array                The associated items
 	 *
 	 * @since   3.1
+	 *
+	 * @throws  Exception
 	 */
 	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid')
 	{
@@ -40,7 +42,7 @@ class JLanguageAssociations
 		$query = $db->getQuery(true)
 			->select($db->quoteName('c2.language'))
 			->from($db->quoteName($tablename, 'c'))
-			->join('INNER', $db->quoteName('#__associations', 'a') . ' ON a.id = c.id AND a.context=' . $db->quote($context))
+			->join('INNER', $db->quoteName('#__associations', 'a') . ' ON a.id = c.' . $db->quoteName($pk) . ' AND a.context=' . $db->quote($context))
 			->join('INNER', $db->quoteName('#__associations', 'a2') . ' ON a.key = a2.key')
 			->join('INNER', $db->quoteName($tablename, 'c2') . ' ON a2.id = c2.' . $db->quoteName($pk));
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,6 +99,13 @@ class ContentViewForm extends JViewLegacy
 		{
 			$this->form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
 			$this->form->setFieldAttribute('catid', 'readonly', 'true');
+		}
+
+		// Propose current language as default when creating new article
+		if (JLanguageMultilang::isEnabled() && empty($this->item->id))
+		{
+			$lang = JFactory::getLanguage()->getTag();
+			$this->form->setFieldAttribute('language', 'default', $lang);
 		}
 
 		$this->_prepareDocument();

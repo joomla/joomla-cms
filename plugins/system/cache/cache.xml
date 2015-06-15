@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="system">
+<extension version="3.1" type="plugin" group="system" method="upgrade">
 	<name>plg_system_cache</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2007</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,7 +11,6 @@
 	<description>PLG_CACHE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="cache">cache.php</filename>
-		<filename>index.html</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_system_cache.ini</language>
@@ -19,19 +18,17 @@
 	</languages>
 	<config>
 	<fields name="params">
-
-			<fieldset name="basic">
-		<field	name="browsercache" type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
-			description="PLG_CACHE_FIELD_BROWSERCACHE_DESC"
-			label="PLG_CACHE_FIELD_BROWSERCACHE_LABEL"
-		>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
-		</field>
+		<fieldset name="basic">
+			<field	name="browsercache" type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				description="PLG_CACHE_FIELD_BROWSERCACHE_DESC"
+				label="PLG_CACHE_FIELD_BROWSERCACHE_LABEL"
+			>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
 		</fieldset>
-
 	</fields>
 	</config>
 </extension>

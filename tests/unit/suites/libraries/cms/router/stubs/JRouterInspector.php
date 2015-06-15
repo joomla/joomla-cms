@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -83,5 +83,35 @@ class JRouterInspector extends JRouter
 		{
 			unset(self::$instances[$key]);
 		}
+	}
+
+	/**
+	 * Runs the protected processParseRules() method
+	 *
+	 * @param   JUri    &$uri   The URI to parse
+	 * @param   string  $stage  The stage that should be processed.
+ 	 *
+	 * @return  mixed  Array of decoded segments
+	 *
+	 * @since   3.4
+	 */
+	public function runProcessParseRules(&$uri, $stage = self::PROCESS_DURING)
+	{
+		return $this->processParseRules($uri, $stage);
+	}
+
+	/**
+	 * Runs the protected processBuildRules() method
+	 *
+	 * @param   JUri    &$uri   The URI to parse
+	 * @param   string  $stage  The stage that should be processed.
+ 	 *
+	 * @return  mixed  Array of decoded segments
+	 *
+	 * @since   3.4
+	 */
+	public function runProcessBuildRules(&$uri, $stage = self::PROCESS_DURING)
+	{
+		return $this->processBuildRules($uri, $stage);
 	}
 }

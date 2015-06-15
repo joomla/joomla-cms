@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -95,7 +95,7 @@ class JFormFieldPassword extends JFormField
 				break;
 
 			case 'meter':
-				$this->$meter = ($value === 'true' || $value === $name || $value === '1');
+				$this->meter = ($value === 'true' || $value === $name || $value === '1');
 				break;
 
 			default:

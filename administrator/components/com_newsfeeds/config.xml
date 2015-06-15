@@ -298,7 +298,8 @@
 
 		<field
 			name="filter_field"
-			type="list"
+			type="radio"
+			class="btn-group btn-group-yesno"
 			default="1"
 			description="JGLOBAL_FILTER_FIELD_DESC"
 			label="JGLOBAL_FILTER_FIELD_LABEL"

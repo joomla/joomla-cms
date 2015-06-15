@@ -39,7 +39,7 @@
   }
 
   function SearchState() {
-    this.posFrom = this.posTo = this.query = null;
+    this.posFrom = this.posTo = this.lastQuery = this.query = null;
     this.overlay = null;
   }
   function getSearchState(cm) {
@@ -53,7 +53,7 @@
     return cm.getSearchCursor(query, pos, queryCaseInsensitive(query));
   }
   function dialog(cm, text, shortText, deflt, f) {
-    if (cm.openDialog) cm.openDialog(text, f, {value: deflt});
+    if (cm.openDialog) cm.openDialog(text, f, {value: deflt, selectValueOnOpen: true});
     else f(prompt(shortText, deflt));
   }
   function confirmDialog(cm, text, shortText, fs) {
@@ -63,11 +63,11 @@
   function parseQuery(query) {
     var isRE = query.match(/^\/(.*)\/([a-z]*)$/);
     if (isRE) {
-      query = new RegExp(isRE[1], isRE[2].indexOf("i") == -1 ? "" : "i");
-      if (query.test("")) query = /x^/;
-    } else if (query == "") {
-      query = /x^/;
+      try { query = new RegExp(isRE[1], isRE[2].indexOf("i") == -1 ? "" : "i"); }
+      catch(e) {} // Not a regular expression after all, do a string search
     }
+    if (typeof query == "string" ? query == "" : query.test(""))
+      query = /x^/;
     return query;
   }
   var queryDialog =
@@ -75,13 +75,18 @@
   function doSearch(cm, rev) {
     var state = getSearchState(cm);
     if (state.query) return findNext(cm, rev);
-    dialog(cm, queryDialog, "Search for:", cm.getSelection(), function(query) {
+    var q = cm.getSelection() || state.lastQuery;
+    dialog(cm, queryDialog, "Search for:", q, function(query) {
       cm.operation(function() {
         if (!query || state.query) return;
         state.query = parseQuery(query);
         cm.removeOverlay(state.overlay, queryCaseInsensitive(state.query));
         state.overlay = searchOverlay(state.query, queryCaseInsensitive(state.query));
         cm.addOverlay(state.overlay);
+        if (cm.showMatchesOnScrollbar) {
+          if (state.annotate) { state.annotate.clear(); state.annotate = null; }
+          state.annotate = cm.showMatchesOnScrollbar(state.query, queryCaseInsensitive(state.query));
+        }
         state.posFrom = state.posTo = cm.getCursor();
         findNext(cm, rev);
       });
@@ -100,9 +105,11 @@
   });}
   function clearSearch(cm) {cm.operation(function() {
     var state = getSearchState(cm);
+    state.lastQuery = state.query;
     if (!state.query) return;
     state.query = null;
     cm.removeOverlay(state.overlay);
+    if (state.annotate) { state.annotate.clear(); state.annotate = null; }
   });}
 
   var replaceQueryDialog =
@@ -111,7 +118,8 @@
   var doReplaceConfirm = "Replace? <button>Yes</button> <button>No</button> <button>Stop</button>";
   function replace(cm, all) {
     if (cm.getOption("readOnly")) return;
-    dialog(cm, replaceQueryDialog, "Replace:", cm.getSelection(), function(query) {
+    var query = cm.getSelection() || getSearchState(cm).lastQuery;
+    dialog(cm, replaceQueryDialog, "Replace:", query, function(query) {
       if (!query) return;
       query = parseQuery(query);
       dialog(cm, replacementQueryDialog, "Replace with:", "", function(text) {

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 				onclick="return Install.goToPage('languages');"
 				rel="prev"
 				title="<?php echo JText::_('JPREVIOUS'); ?>">
-				<i class="icon-arrow-left"></i>
+				<span class="icon-arrow-left"></span>
 				<?php echo JText::_('JPREVIOUS'); ?>
 			</a>
 			<?php // Check if there are languages in the list, if not you cannot move forward ?>
@@ -30,7 +30,7 @@ defined('_JEXEC') or die;
 					onclick="Install.submitform();"
 					rel="next"
 					title="<?php echo JText::_('JNEXT'); ?>">
-					<i class="icon-arrow-right icon-white"></i>
+					<span class="icon-arrow-right icon-white"></span>
 					<?php echo JText::_('JNEXT'); ?>
 				</a>
 			<?php endif; ?>

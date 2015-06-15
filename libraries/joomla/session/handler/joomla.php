@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Interface for managing HTTP sessions
  *
- * @since  3.4
+ * @since  3.5
  */
 class JSessionHandlerJoomla extends JSessionHandlerNative
 {
@@ -20,25 +20,24 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 * The input object
 	 *
 	 * @var    JInput
-	 * @since  3.4
+	 * @since  3.5
 	 */
 	public $input = null;
 
 	/**
 	 * Force cookies to be SSL only
-	 * Default  false
 	 *
 	 * @var    boolean
-	 * @since  3.4
+	 * @since  3.5
 	 */
-	protected $_force_ssl = false;
+	protected $force_ssl = false;
 
 	/**
 	 * Public constructor
 	 *
 	 * @param   array  $options  An array of configuration options
 	 *
-	 * @since  3.4
+	 * @since   3.5
 	 */
 	public function __construct($options = array())
 	{
@@ -49,19 +48,17 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 		ini_set('session.use_only_cookies', '1');
 
 		// Set options
-		$this->_setOptions($options);
-
-		$this->_setCookieParams();
+		$this->setOptions($options);
+		$this->setCookieParams();
 	}
 
 	/**
-	 * Starts the session.
+	 * Starts the session
 	 *
-	 * @return  bool  True if started.
+	 * @return  boolean  True if started
 	 *
-	 * @since   3.4
-	 *
-	 * @throws RuntimeException If something goes wrong starting the session.
+	 * @since   3.5
+	 * @throws  RuntimeException If something goes wrong starting the session.
 	 */
 	public function start()
 	{
@@ -89,7 +86,7 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function clear()
 	{
@@ -116,13 +113,13 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
-	protected function _setCookieParams()
+	protected function setCookieParams()
 	{
 		$cookie = session_get_cookie_params();
 
-		if ($this->_force_ssl)
+		if ($this->force_ssl)
 		{
 			$cookie['secure'] = true;
 		}
@@ -149,13 +146,13 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
-	protected function _setOptions(array $options)
+	protected function setOptions(array $options)
 	{
 		if (isset($options['force_ssl']))
 		{
-			$this->_force_ssl = (bool) $options['force_ssl'];
+			$this->force_ssl = (bool) $options['force_ssl'];
 		}
 
 		return true;

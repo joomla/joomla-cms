@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,6 +43,26 @@ class TemplatesModelStyle extends JModelAdmin
 	private $_cache = array();
 
 	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 */
+	public function __construct($config = array())
+	{
+		$config = array_merge(
+			array(
+				'event_before_delete' => 'onExtensionBeforeDelete',
+				'event_after_delete'  => 'onExtensionAfterDelete',
+				'event_before_save'   => 'onExtensionBeforeSave',
+				'event_after_save'    => 'onExtensionAfterSave',
+				'events_map'          => array('delete' => 'extension', 'save' => 'extension')
+			), $config
+		);
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * @note    Calling getState in this method will result in recursion.
@@ -76,9 +96,13 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	public function delete(&$pks)
 	{
-		$pks	= (array) $pks;
-		$user	= JFactory::getUser();
-		$table	= $this->getTable();
+		$pks        = (array) $pks;
+		$user       = JFactory::getUser();
+		$table      = $this->getTable();
+		$dispatcher = JEventDispatcher::getInstance();
+		$context    = $this->option . '.' . $this->name;
+
+		JPluginHelper::importPlugin($this->events_map['delete']);
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $pk)
@@ -99,12 +123,18 @@ class TemplatesModelStyle extends JModelAdmin
 					return false;
 				}
 
-				if (!$table->delete($pk))
+				// Trigger the before delete event.
+				$result = $dispatcher->trigger($this->event_before_delete, array($context, $table));
+
+				if (in_array(false, $result, true) || !$table->delete($pk))
 				{
 					$this->setError($table->getError());
 
 					return false;
 				}
+
+				// Trigger the after delete event.
+				$dispatcher->trigger($this->event_after_delete, array($context, $table));
 			}
 			else
 			{
@@ -139,6 +169,12 @@ class TemplatesModelStyle extends JModelAdmin
 			throw new Exception(JText::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
 		}
 
+		$dispatcher = JEventDispatcher::getInstance();
+		$context    = $this->option . '.' . $this->name;
+
+		// Include the plugins for the save events.
+		JPluginHelper::importPlugin($this->events_map['save']);
+
 		$table = $this->getTable();
 
 		foreach ($pks as $pk)
@@ -155,10 +191,21 @@ class TemplatesModelStyle extends JModelAdmin
 				$m = null;
 				$table->title = $this->generateNewTitle(null, null, $table->title);
 
-				if (!$table->check() || !$table->store())
+				if (!$table->check())
 				{
 					throw new Exception($table->getError());
 				}
+
+				// Trigger the before save event.
+				$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, true));
+
+				if (in_array(false, $result, true) || !$table->store())
+				{
+					throw new Exception($table->getError());
+				}
+
+				// Trigger the after save event.
+				$dispatcher->trigger($this->event_after_save, array($context, &$table, true));
 			}
 			else
 			{
@@ -435,7 +482,7 @@ class TemplatesModelStyle extends JModelAdmin
 		$isNew      = true;
 
 		// Include the extension plugins for the save events.
-		JPluginHelper::importPlugin('extension');
+		JPluginHelper::importPlugin($this->events_map['save']);
 
 		// Load the row if saving an existing record.
 		if ($pk > 0)
@@ -470,18 +517,11 @@ class TemplatesModelStyle extends JModelAdmin
 			return false;
 		}
 
-		// Trigger the onExtensionBeforeSave event.
-		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_templates.style', &$table, $isNew));
-
-		if (in_array(false, $result, true))
-		{
-			$this->setError($table->getError());
-
-			return false;
-		}
+		// Trigger the before save event.
+		$result = $dispatcher->trigger($this->event_before_save, array('com_templates.style', &$table, $isNew));
 
 		// Store the data.
-		if (!$table->store())
+		if (in_array(false, $result, true) || !$table->store())
 		{
 			$this->setError($table->getError());
 
@@ -539,8 +579,8 @@ class TemplatesModelStyle extends JModelAdmin
 		// Clean the cache.
 		$this->cleanCache();
 
-		// Trigger the onExtensionAfterSave event.
-		$dispatcher->trigger('onExtensionAfterSave', array('com_templates.style', &$table, $isNew));
+		// Trigger the after save event.
+		$dispatcher->trigger($this->event_after_save, array('com_templates.style', &$table, $isNew));
 
 		$this->setState('style.id', $table->id);
 

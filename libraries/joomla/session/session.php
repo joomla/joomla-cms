@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -96,7 +96,7 @@ class JSession implements IteratorAggregate
 	 * Holds the event dispatcher object
 	 *
 	 * @var    JSessionHandlerInterface
-	 * @since  3.4
+	 * @since  3.5
 	 */
 	protected $_handler = null;
 
@@ -155,8 +155,7 @@ class JSession implements IteratorAggregate
 	}
 
 	/**
-	 * Returns the global Session object, only creating it
-	 * if it doesn't already exist.
+	 * Returns the global Session object, only creating it if it doesn't already exist.
 	 *
 	 * @param   string                    $store             The type of storage for the session.
 	 * @param   array                     $options           An array of configuration options.

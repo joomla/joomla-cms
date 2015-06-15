@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Pagination
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -84,6 +84,14 @@ class JPagination
 	 * @since  3.4
 	 */
 	protected $app = null;
+
+	/**
+	 * Pagination data object
+	 *
+	 * @var    object
+	 * @since  3.4
+	 */
+	protected $data;
 
 	/**
 	 * Constructor.
@@ -235,14 +243,12 @@ class JPagination
 	 */
 	public function getData()
 	{
-		static $data;
-
-		if (!is_object($data))
+		if (!$this->data)
 		{
-			$data = $this->_buildDataObject();
+			$this->data = $this->_buildDataObject();
 		}
 
-		return $data;
+		return $this->data;
 	}
 
 	/**
@@ -447,9 +453,9 @@ class JPagination
 	}
 
 	/**
-	 * Create and return the pagination page list string, ie. Previous, Next, 1 2 3 ... x.
+	 * Create and return the pagination pages list, ie. Previous, Next, 1 2 3 ... x.
 	 *
-	 * @return  string  Pagination page list string.
+	 * @return  array  Pagination pages list.
 	 *
 	 * @since   3.3
 	 */

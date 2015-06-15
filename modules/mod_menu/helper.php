@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -97,26 +97,11 @@ class ModMenuHelper
 							break;
 
 						case 'alias':
-							// If this is an alias use the item id stored in the parameters to make the link.
 							$item->flink = 'index.php?Itemid=' . $item->params->get('aliasoptions');
 							break;
 
 						default:
-							$router = $app::getRouter();
-
-							if ($router->getMode() == JROUTER_MODE_SEF)
-							{
-								$item->flink = 'index.php?Itemid=' . $item->id;
-
-								if (isset($item->query['format']) && $app->get('sef_suffix'))
-								{
-									$item->flink .= '&format=' . $item->query['format'];
-								}
-							}
-							else
-							{
-								$item->flink .= '&Itemid=' . $item->id;
-							}
+							$item->flink = 'index.php?Itemid=' . $item->id;
 							break;
 					}
 

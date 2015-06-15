@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
+ *
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
 require_once 'JoomlaWebdriverTestCase.php';
 
@@ -9,9 +16,14 @@ use SeleniumClient\WebDriverWait;
 use SeleniumClient\DesiredCapabilities;
 
 /**
- * This class tests the  Manager: Add / Edit  Screen
- * @author Mark
+ * This class tests the  Control panel.
  *
+ * @package     Joomla.Tests
+ * @subpackage  Test
+ *
+ * @copyright   Copyright (c) 2005 - 2015 Open Source Matters, Inc.   All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @since       Joomla 3.3
  */
 class LevelManager0001Test extends JoomlaWebdriverTestCase
 {
@@ -19,8 +31,15 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	 *
 	 * @var LevelManagerPage
 	 */
-	protected $levelManagerPage = null; // Global configuration page
+	protected $levelManagerPage = null; /* Global configuration page*/
 
+	/**
+	 * Login to back end and navigate to menu Language Manager.
+	 *
+	 * @return void
+	 *
+	 * @since   3.0
+	 */
 	public function setUp()
 	{
 		parent::setUp();
@@ -28,6 +47,13 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 		$this->levelManagerPage = $cpPage->clickMenu('Access Levels', 'LevelManagerPage');
 	}
 
+	/**
+	 * Logout and close test.
+	 *
+	 * @return void
+	 *
+	 * @since   3.0
+	 */
 	public function tearDown()
 	{
 		$this->doAdminLogout();
@@ -35,6 +61,10 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * open edit screen
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function constructor_OpenEditScreen_LevelEditOpened()
@@ -46,6 +76,10 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * Gets the actual input fields and checks them against the $inputFields property.
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
@@ -61,6 +95,10 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add a level with default fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function add_WithFieldDefaults_Added()
@@ -75,6 +113,10 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add a level with given fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addLevel_WithGivenFields_LevelAdded()
@@ -96,6 +138,10 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * edit the input fields of a level
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function editLevel_ChangeFields_FieldsChanged()
@@ -115,6 +161,10 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * set filter to order the levels
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function setFilter_TestOrdering_ShouldOrderLevels()

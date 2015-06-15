@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -136,6 +136,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			$this->select($this->options['database']);
 		}
+
+		// Set charactersets.
+		$this->utf = $this->setUTF();
 	}
 
 	/**
@@ -806,7 +809,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function setUTF()
 	{
-		// TODO: Remove this?
+		return false;
 	}
 
 	/**
@@ -1021,7 +1024,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$rowNumberText = ', ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
 
 		$query = preg_replace('/\sFROM\s/i', $rowNumberText, $query, 1);
-		$query = 'SELECT * FROM (' . $query . ') _myResults WHERE RowNumber BETWEEN ' . $start . ' AND ' . $end;
 
 		return $query;
 	}

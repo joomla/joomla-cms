@@ -403,7 +403,7 @@
 				<option value="1">JBROWSERTARGET_NEW</option>
 				<option value="2">JBROWSERTARGET_POPUP</option>
 				<option value="3">JBROWSERTARGET_MODAL</option>
-		</field>	
+		</field>
 		<field
 			name="spacer4"
 			type="spacer"
@@ -444,7 +444,7 @@
 			extension="com_content"
 			view="category"
 		/>
-		<field 
+		<field
 			name="show_category_heading_title_text"
 			type="radio"
 			class="btn-group btn-group-yesno"
@@ -832,6 +832,15 @@
 			description="JGLOBAL_PAGINATION_RESULTS_DESC">
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
+		</field>
+
+		<field name="show_featured" type="list" default="show"
+			   label="JGLOBAL_SHOW_FEATURED_ARTICLES_LABEL"
+			   description="JGLOBAL_SHOW_FEATURED_ARTICLES_DESC"
+				>
+			<option value="show">JSHOW</option>
+			<option value="hide">JHIDE</option>
+			<option value="only">JONLY</option>
 		</field>
 
 	</fieldset>

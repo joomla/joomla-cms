@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,21 +108,11 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			JToolbarHelper::checkin('newsfeeds.checkin');
 		}
 
-		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			JToolbarHelper::deleteList('', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			JToolbarHelper::trash('newsfeeds.trash');
-		}
-
 		// Add a batch button
-		if ($user->authorise('core.create', 'com_newsfeeds') &&
-			$user->authorise('core.edit', 'com_newsfeeds') &&
-			$user->authorise('core.edit.state', 'com_newsfeeds'))
+		if ($user->authorise('core.create', 'com_newsfeeds')
+			&& $user->authorise('core.edit', 'com_newsfeeds')
+			&& $user->authorise('core.edit.state', 'com_newsfeeds'))
 		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
@@ -132,7 +122,16 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($user->authorise('core.admin', 'com_newsfeeds'))
+		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		{
+			JToolbarHelper::deleteList('', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::trash('newsfeeds.trash');
+		}
+
+		if ($user->authorise('core.admin', 'com_newsfeeds') || $user->authorise('core.options', 'com_newsfeeds'))
 		{
 			JToolbarHelper::preferences('com_newsfeeds');
 		}

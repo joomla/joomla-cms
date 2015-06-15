@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.readmore
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ class PlgButtonReadmore extends JPlugin
 
 		// Button is not active in specific content components
 
-		$getContent = $this->_subject->getContent($name);
+		$getContent = $this->_subject->getContent("'+editor+'");
 		$present = JText::_('PLG_READMORE_ALREADY_EXISTS', true);
 		$js = "
 			function insertReadmore(editor)

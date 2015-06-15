@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filter Package
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ use Joomla\Language\Language;
 use Joomla\String\String;
 
 /**
- * JFilterOutput
+ * OutputFilter
  *
  * @since  1.0
  */
@@ -26,8 +26,7 @@ class OutputFilter
 	 *
 	 * @param   object   &$mixed        An object to be parsed
 	 * @param   integer  $quote_style   The optional quote style for the htmlspecialchars function
-	 * @param   mixed    $exclude_keys  An optional string single field name or array of field names not
-	 *                                  to be parsed (eg, for a textarea)
+	 * @param   mixed    $exclude_keys  An optional string single field name or array of field names not to be parsed (eg, for a textarea)
 	 *
 	 * @return  void
 	 *

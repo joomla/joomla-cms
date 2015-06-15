@@ -3,14 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.tooltip');
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.framework', true);
 JHtml::_('behavior.combobox');
@@ -23,17 +23,17 @@ if (JLanguageMultilang::isEnabled())
 {
 	$this->form->setFieldAttribute('language', 'readonly', 'true');
 }
-?>
 
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'config.cancel.modules' || document.formvalidator.isValid(document.id('modules-form')))
+		if (task == 'config.cancel.modules' || document.formvalidator.isValid(document.getElementById('modules-form')))
 		{
 			Joomla.submitform(task, document.getElementById('modules-form'));
 		}
 	}
-</script>
+");
+?>
 
 <form
 	action="<?php echo JRoute::_('index.php?option=com_config'); ?>"
@@ -49,21 +49,21 @@ if (JLanguageMultilang::isEnabled())
 				<div class="btn-group">
 					<button type="button" class="btn btn-default btn-primary"
 						onclick="Joomla.submitbutton('config.save.modules.apply')">
-						<i class="icon-apply"></i>
+						<span class="icon-apply"></span>
 						<?php echo JText::_('JAPPLY') ?>
 					</button>
 				</div>
 				<div class="btn-group">
 					<button type="button" class="btn btn-default"
 						onclick="Joomla.submitbutton('config.save.modules.save')">
-						<i class="icon-save"></i>
+						<span class="icon-save"></span>
 						<?php echo JText::_('JSAVE') ?>
 					</button>
 				</div>
 				<div class="btn-group">
 					<button type="button" class="btn btn-default"
 						onclick="Joomla.submitbutton('config.cancel.modules')">
-						<i class="icon-cancel"></i>
+						<span class="icon-cancel"></span>
 						<?php echo JText::_('JCANCEL') ?>
 					</button>
 				</div>
@@ -157,7 +157,7 @@ if (JLanguageMultilang::isEnabled())
 								<?php echo $this->form->getInput('ordering'); ?>
 							</div>
 						</div>
-	
+
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('language'); ?>

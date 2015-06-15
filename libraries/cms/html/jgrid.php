@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -68,8 +68,7 @@ abstract class JHtmlJGrid
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
-			$html[] = '<i class="icon-' . $active_class . '">';
-			$html[] = '</i>';
+			$html[] = '<span class="icon-' . $active_class . '"></span>';
 			$html[] = '</a>';
 		}
 		else
@@ -80,11 +79,11 @@ abstract class JHtmlJGrid
 
 			if ($active_class == "protected")
 			{
-				$html[] = '<i class="icon-lock"></i>';
+				$html[] = '<span class="icon-lock"></span>';
 			}
 			else
 			{
-				$html[] = '<i class="icon-' . $inactive_class . '"></i>';
+				$html[] = '<span class="icon-' . $inactive_class . '"></span>';
 			}
 
 			$html[] = '</a>';
@@ -193,7 +192,7 @@ abstract class JHtmlJGrid
 				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', $publish_down->format(JDate::$format, true));
 			}
 
-			$tip = empty($tips) ? false : implode('<br/>', $tips);
+			$tip = empty($tips) ? false : implode('<br />', $tips);
 
 			// Add tips and special titles
 			foreach ($states as $key => $state)
