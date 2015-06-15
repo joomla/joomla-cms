@@ -886,7 +886,10 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string
 	 */
-	abstract public function getConnectionCollation();
+	public function getConnectionCollation()
+	{
+		return '';
+	}
 
 	/**
 	 * Method that provides access to the underlying database connection. Useful for when you need to call a
