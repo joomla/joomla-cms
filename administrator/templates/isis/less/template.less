@@ -1291,3 +1291,20 @@ body.modal-open {
   overflow: hidden;
   -ms-overflow-style: none;
 }
+
+/* Use bootstrap affix for the second navigation trick to stick on top */
+#second-nav.affix {
+  position: fixed;
+  top: 30px;
+  width:100%;
+  z-index : 1028;
+}
+
+@media (max-width: 440px) {
+  #second-nav.affix {
+	position: static;
+	width: auto;
+	top: 0;
+	z-index : -100;
+  }
+}

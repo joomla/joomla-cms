@@ -8152,6 +8152,20 @@ body.modal-open {
 	overflow: hidden;
 	-ms-overflow-style: none;
 }
+#second-nav.affix {
+	position: fixed;
+	top: 30px;
+	width: 100%;
+	z-index: 1028;
+}
+@media (max-width: 440px) {
+	#second-nav.affix {
+		position: static;
+		width: auto;
+		top: 0;
+		z-index: -100;
+	}
+}
 .pull-right {
 	float: left;
 }

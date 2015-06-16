@@ -222,7 +222,7 @@ function colorIsLight($color)
 	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ISIS_TOOLBAR'); ?>
 		<span class="icon-wrench"></span></a>
 	<div class="subhead-collapse collapse">
-		<div class="subhead">
+		<div class="subhead" id="second-nav" data-spy="affix-top">
 			<div class="container-fluid">
 				<div id="container-collapse" class="container-collapse"></div>
 				<div class="row-fluid">
@@ -290,47 +290,10 @@ function colorIsLight($color)
 	<!-- End Status Module -->
 <?php endif; ?>
 <jdoc:include type="modules" name="debug" style="none" />
-<?php if ($stickyToolbar) : ?>
-	<script>
-		jQuery(function($)
-		{
-
-			var navTop;
-			var isFixed = false;
-
-			processScrollInit();
-			processScroll();
-
-			$(window).on('resize', processScrollInit);
-			$(window).on('scroll', processScroll);
-
-			function processScrollInit()
-			{
-				if ($('.subhead').length) {
-					navTop = $('.subhead').length && $('.subhead').offset().top - <?php echo ($displayHeader || !$statusFixed) ? 30 : 20;?>;
-
-					// Only apply the scrollspy when the toolbar is not collapsed
-					if (document.body.clientWidth > 480)
-					{
-						$('.subhead-collapse').height($('.subhead').height());
-						$('.subhead').scrollspy({offset: {top: $('.subhead').offset().top - $('nav.navbar').height()}});
-					}
-				}
-			}
-
-			function processScroll()
-			{
-				if ($('.subhead').length) {
-					var scrollTop = $(window).scrollTop();
-					if (scrollTop >= navTop && !isFixed) {
-						isFixed = true;
-						$('.subhead').addClass('subhead-fixed');
-					} else if (scrollTop <= navTop && isFixed) {
-						isFixed = false;
-						$('.subhead').removeClass('subhead-fixed');
-					}
-				}
-			}
+<?php if ($displayHeader && $stickyToolbar) : ?>
+	<script type="text/javascript">
+		jQuery(document).ready(function($){
+				$("#second-nav").affix();
 		});
 	</script>
 <?php endif; ?>
