@@ -8158,15 +8158,19 @@ body.modal-open {
 	width: 100%;
 	z-index: 1028;
 }
-@media (max-width: 440px) {
+#j-sidebar-container.affix {
+	position: fixed;
+	top: 85px;
+}
+@media (max-width: 748px) {
 	#second-nav.affix {
 		position: static;
 		width: auto;
 		top: 0;
 		z-index: -100;
 	}
-}
-#j-sidebar-container.affix {
-	position: fixed;
-	top: 85px;
+	#j-sidebar-container.affix {
+		position: static;
+		top: 0;
+	}
 }

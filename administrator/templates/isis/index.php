@@ -293,8 +293,8 @@ function colorIsLight($color)
 <?php if ($displayHeader && $stickyToolbar) : ?>
 	<script type="text/javascript">
 		jQuery(document).ready(function($){
-				$("#second-nav").affix();
-				$("#j-sidebar-container").affix();
+			$("#second-nav").affix();
+			$("#j-sidebar-container").affix();
 		});
 	</script>
 <?php endif; ?>
