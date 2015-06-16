@@ -243,7 +243,7 @@ function colorIsLight($color)
 		<jdoc:include type="modules" name="top" style="xhtml" />
 		<div class="row-fluid">
 			<?php if ($showSubmenu) : ?>
-			<div class="span2">
+			<div class="span2" id="sidebar-affix" data-spy="affix-top">
 				<jdoc:include type="modules" name="submenu" style="none" />
 			</div>
 			<div class="span10">
@@ -294,6 +294,7 @@ function colorIsLight($color)
 	<script type="text/javascript">
 		jQuery(document).ready(function($){
 				$("#second-nav").affix();
+				$("#j-sidebar-container").affix();
 		});
 	</script>
 <?php endif; ?>

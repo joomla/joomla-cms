@@ -8166,6 +8166,10 @@ body.modal-open {
 		z-index: -100;
 	}
 }
+#j-sidebar-container.affix {
+	position: fixed;
+	top: 85px;
+}
 .pull-right {
 	float: left;
 }
