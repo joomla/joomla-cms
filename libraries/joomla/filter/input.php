@@ -1130,7 +1130,6 @@ class JFilterInput
 	}
 
 	/**
-	 *
 	 * Recursively strip Unicode Supplementary Characters from the source. Not: objects cannot be filtered.
 	 *
 	 * @param   mixed  $source  The data to filter
