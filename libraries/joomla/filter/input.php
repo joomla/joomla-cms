@@ -231,7 +231,7 @@ class JFilterInput
 		if ($this->stripUSC)
 		{
 			// Alternatively: preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xE2\xAF\x91", $source) but it'd be slower.
-			$source = preg_replace('/[\xF0-\xF7].../s', "\xE2\xAF\x91", $source);
+			$source = $this->stripUSC($source);
 		}
 
 		// Handle the type constraint
@@ -1127,5 +1127,35 @@ class JFilterInput
 		}
 
 		return $return;
+	}
+
+	/**
+	 *
+	 * Recursively strip Unicode Supplementary Characters from the source. Not: objects cannot be filtered.
+	 *
+	 * @param   mixed  $source  The data to filter
+	 *
+	 * @return  mixed  The filtered result
+	 */
+	protected function stripUSC($source)
+	{
+		if (is_object($source))
+		{
+			return $source;
+		}
+
+		if (is_array($source))
+		{
+			$filteredArray = array();
+
+			foreach ($source as $k => $v)
+			{
+				$filteredArray[$k] = $this->stripUSC($v);
+			}
+
+			return $filteredArray;
+		}
+
+		return preg_replace('/[\xF0-\xF7].../s', "\xE2\xAF\x91", $source);
 	}
 }
