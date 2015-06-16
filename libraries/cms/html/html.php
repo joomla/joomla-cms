@@ -296,7 +296,7 @@ abstract class JHtml
 	protected static function includeRelativeFiles($folder, $file, $relative, $detect_browser, $detect_debug)
 	{
 		// If http is present in filename
-		if (strpos($file, 'http') === 0)
+		if (strpos($file, 'http') === 0 || strpos($file, '//') === 0)
 		{
 			$includes = array($file);
 		}
