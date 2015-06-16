@@ -6100,6 +6100,12 @@ fieldset.radio.btn-group {
 	-moz-border-radius: 0;
 	border-radius: 0;
 }
+
+.control-group:last-of-type .chzn-container-active .chzn-drop  {
+    position:static!important;
+
+}
+
 .element-invisible {
 	position: absolute;
 	padding: 0;
