@@ -136,7 +136,16 @@ class PlgSearchTags extends JPlugin
 		$query->order($order);
 
 		$db->setQuery($query, 0, $limit);
-		$rows = $db->loadObjectList();
+		try
+		{
+			$rows = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$rows = array();
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_GENERIC_SQL_ERROR'), 'error');
+			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
+		}
 
 		if ($rows)
 		{
