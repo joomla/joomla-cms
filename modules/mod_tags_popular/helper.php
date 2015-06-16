@@ -100,7 +100,8 @@ abstract class ModTagsPopularHelper
 		catch (RuntimeException $e)
 		{
 			$results = array();
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 		}
 
 		return $results;

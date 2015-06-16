@@ -83,6 +83,7 @@ class ModStatsHelper
 			}
 			catch (RuntimeException $e)
 			{
+				JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 				$users = false;
 			}
 
@@ -97,6 +98,7 @@ class ModStatsHelper
 			}
 			catch (RuntimeException $e)
 			{
+				JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 				$items = false;
 			}
 
@@ -129,6 +131,7 @@ class ModStatsHelper
 				}
 				catch (RuntimeException $e)
 				{
+					JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 					$links = false;
 				}
 
@@ -156,6 +159,7 @@ class ModStatsHelper
 			}
 			catch (RuntimeException $e)
 			{
+				JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 				$hits = false;
 			}
 
