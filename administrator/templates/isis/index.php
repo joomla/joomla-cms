@@ -70,6 +70,18 @@ $displayHeader = $this->params->get('displayHeader', '1');
 $statusFixed   = $this->params->get('statusFixed', '1');
 $stickyToolbar = $this->params->get('stickyToolbar', '1');
 
+if ($displayHeader && $stickyToolbar)
+{
+	$doc->addScriptDeclaration(
+		'
+		jQuery(document).ready(function($){
+			$("#second-nav").affix();
+			$("#j-sidebar-container").affix();
+		});
+		'
+	);
+}
+
 // Header classes
 $template_is_light = ($this->params->get('templateColor') && colorIsLight($this->params->get('templateColor')));
 $header_is_light = ($displayHeader && $this->params->get('headerColor') && colorIsLight($this->params->get('headerColor')));
@@ -290,13 +302,5 @@ function colorIsLight($color)
 	<!-- End Status Module -->
 <?php endif; ?>
 <jdoc:include type="modules" name="debug" style="none" />
-<?php if ($displayHeader && $stickyToolbar) : ?>
-	<script type="text/javascript">
-		jQuery(document).ready(function($){
-			$("#second-nav").affix();
-			$("#j-sidebar-container").affix();
-		});
-	</script>
-<?php endif; ?>
 </body>
 </html>
