@@ -33,7 +33,7 @@ class JArchiveTar implements JArchiveExtractable
 	 * @since  11.1
 	 */
 	private $_types = array(
-		0x0 => 'Unix file',
+		0x0  => 'Unix file',
 		0x30 => 'File',
 		0x31 => 'Link',
 		0x32 => 'Symbolic link',
@@ -183,9 +183,11 @@ class JArchiveTar implements JArchiveExtractable
 				);
 			}
 
-			/* This variable has been set in the previous loop,
-			meaning that the filename was present in the previous block
-			to allow more than 100 characters - see below */
+			/**
+			 * This variable has been set in the previous loop,
+			 * meaning that the filename was present in the previous block
+			 * to allow more than 100 characters - see below
+			 */
 			if (isset($longlinkfilename))
 			{
 				$info['filename'] = $longlinkfilename;
@@ -220,7 +222,7 @@ class JArchiveTar implements JArchiveExtractable
 
 				if (($info['typeflag'] == 0) || ($info['typeflag'] == 0x30) || ($info['typeflag'] == 0x35))
 				{
-					/* File or folder. */
+					// File or folder.
 					$file['data'] = $contents;
 
 					$mode = hexdec(substr($info['mode'], 4, 3));
@@ -230,15 +232,16 @@ class JArchiveTar implements JArchiveExtractable
 				}
 				elseif (chr($info['typeflag']) == 'L' && $info['filename'] == '././@LongLink')
 				{
-					/* GNU tar ././@LongLink support - the filename is actually in the contents, setting a variable here so we can test in the next loop */
+					// GNU tar ././@LongLink support - the filename is actually in the contents,
+					// setting a variable here so we can test in the next loop
 					$longlinkfilename = $contents;
 
-					/* And the file contents are in the next block so we'll need to skip this */
+					// And the file contents are in the next block so we'll need to skip this
 					continue;
 				}
 				else
 				{
-					/* Some other type. */
+					// Some other type.
 				}
 
 				$return_array[] = $file;
