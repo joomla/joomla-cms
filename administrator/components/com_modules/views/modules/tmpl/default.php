@@ -20,6 +20,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $trashed	= $this->state->get('filter.state') == -2 ? true : false;
 $canOrder	= $user->authorise('core.edit.state', 'com_modules');
 $saveOrder	= $listOrder == 'ordering';
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_modules&task=modules.saveOrderAjax&tmpl=component';
@@ -54,7 +55,6 @@ JFactory::getDocument()->addScriptDeclaration('
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif;?>
-
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></label>
@@ -161,35 +161,25 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php endif; ?>
 						</td>
 						<td class="center">
-							<?php
-                            if ($item->enabled>0)
-                            {
-                                echo JHtml::_('grid.id', $i, $item->id);
-                            } ?>
+						<?php if ($item->enabled > 0) : ?>
+							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+						<?php endif; ?>
 						</td>
 						<td class="center">
 							<div class="btn-group">
-								<?php
-                                //Check if extension is enabled
-                                if ($item->enabled>0)
-                                {
-                                    echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down);
-                                }else{
-                                    //Extension is not enabled, show a message that indicates this.
-                                }
-                                ?>
-								<?php
-                                if ($item->enabled>0) {
-                                    // Create dropdown items
-                                    JHtml::_('actionsdropdown.duplicate', 'cb' . $i, 'modules');
-
-                                    $action = $trashed ? 'untrash' : 'trash';
-                                    JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'modules');
-
-                                    // Render dropdown list
-                                    echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
-                                }
-								?>
+							<?php // Check if extension is enabled ?>
+							<?php if ($item->enabled > 0) : ?>
+								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+								<?php// Create dropdown items ?>
+								<?php JHtml::_('actionsdropdown.duplicate', 'cb' . $i, 'modules'); ?>
+								<?php $action = $trashed ? 'untrash' : 'trash'; ?>
+								<?php JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'modules'); ?>
+								<?php // Render dropdown list ?>
+								<?php echo JHtml::_('actionsdropdown.render', $this->escape($item->title)); ?>
+							<?php else : ?>
+								<?php // Extension is not enabled, show a message that indicates this. ?>
+							<?php endif; ?>
+								
 							</div>
 						</td>
 						<td class="has-context">
