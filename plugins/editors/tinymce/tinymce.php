@@ -643,6 +643,30 @@ class PlgEditorTinymce extends JPlugin
 					$href = null;
 				}
 
+				// Get some icons
+				switch ($icon)
+				{
+					case 'copy':
+						// Page break
+						$icon = 'copy';
+						break;
+					case 'file-add':
+						// Articles
+						$icon = 'newdocument';
+						break;
+					case 'picture':
+						// Images
+						$icon = 'image';
+						break;
+					case 'arrow-down':
+						// Read more
+						$icon = 'pagebreak';
+						break;
+					default:
+						// All others
+						$icon = 'browse';
+				}
+
 				// Get the modal width/height
 				if ($options)
 				{
@@ -658,48 +682,47 @@ class PlgEditorTinymce extends JPlugin
 
 				// Now we can built the script
 				$tempConstructor = "
-	editor.addButton(\"" . $name . "\", {
-		text: \"" . $name . "\",
-		title: \"" . $name . "\",
-		icon: \"" . $icon . "\",
-		onclick: function () {
-				jModalClose = (function(){
-					return function() {
-						tinyMCE.activeEditor.windowManager.close();
-						SqueezeBox.close();
+				editor.addButton(\"" . $name . "\", {
+					text: \"" . $title . "\",
+					title: \"" . $title . "\",
+					icon: \"" . $icon . "\",
+					onclick: function () {";
+							if ($button->get('modal') || $href)
+							{
+								$tempConstructor .= "
+							jModalClose = (function(){
+								return function() {
+									tinyMCE.activeEditor.windowManager.close();
+									SqueezeBox.close();
+								}
+							})();
+							editor.windowManager.open({
+								title  : \"" . $title . "\",
+								url : '" . $href . "',
+								width  : $modalWidth,
+								height : $modalHeight,
+								buttons: [{
+									text   : \"Close\",
+									onclick: \"close\"
+								}]
+							});";
+								if ($onclick && ($button->get('modal') || $href))
+								{
+									$tempConstructor .= ",
+						\"" . $onclick . "\"
+							";
+								}
+							}
+							else
+							{
+								$tempConstructor .= "
+						" . $onclick . "
+							";
+							}
+							$tempConstructor .= "
 					}
-				})();";
-				if ($button->get('modal') || $href)
-				{
-					$tempConstructor .= "
-			editor.windowManager.open({
-						title  : \"" . $title . "\",
-						url : '" . $href . "',
-						width  : $modalWidth,
-						height : $modalHeight,
-						buttons: [{
-							text   : \"Close\",
-							onclick: \"close\"
-						}]
-			});
-		";
-					if ($onclick && ($button->get('modal') || $href))
-					{
-						$tempConstructor .= ",
-		\"" . $onclick . "\"
-				";
-					}
+				})";
 				}
-				else
-				{
-					$tempConstructor .= "
-					" . $onclick . "
-				";
-				}
-				$tempConstructor .= "
-		}
-	})";
-			}
 
 			// Reset inline css/scripts.
 			// We will load them properly on the onDisplay event
@@ -758,38 +781,38 @@ class PlgEditorTinymce extends JPlugin
 		{
 			case 0: /* Simple mode*/
 				$return = $load .
-					"\t<script type=\"text/javascript\">
-					tinymce.init({
-						// General
-						directionality: \"$text_direction\",
-						selector: \"textarea.mce_editable\",
-						language : \"$langPrefix\",
-						mode : \"specific_textareas\",
-						autosave_restore_when_empty: false,
-						$skin
-						theme : \"$theme\",
-						schema: \"html5\",
-						menubar: false,
-						toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist\",
-						toolbar2: \"$toolbar5 | code\",
-						plugins: \"code\",
-						// Cleanup/Output
-						inline_styles : true,
-						gecko_spellcheck : true,
-						entity_encoding : \"$entity_encoding\",
-						$forcenewline
-						$smallButtons
-						// URL
-						relative_urls : $relative_urls,
-						remove_script_host : false,
-						// Layout
-						$content_css
-						document_base_url : \"" . JUri::root() . "\",
-						setup: function (editor) {
-							$tinyBtns
-						}
-					});
-				</script>";
+"	<script type=\"text/javascript\">
+		tinymce.init({
+			// General
+			directionality: \"$text_direction\",
+			selector: \"textarea.mce_editable\",
+			language : \"$langPrefix\",
+			mode : \"specific_textareas\",
+			autosave_restore_when_empty: false,
+			$skin
+			theme : \"$theme\",
+			schema: \"html5\",
+			menubar: false,
+			toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist\",
+			toolbar2: \"$toolbar5 | code\",
+			plugins: \"code\",
+			// Cleanup/Output
+			inline_styles : true,
+			gecko_spellcheck : true,
+			entity_encoding : \"$entity_encoding\",
+			$forcenewline
+			$smallButtons
+			// URL
+			relative_urls : $relative_urls,
+			remove_script_host : false,
+			// Layout
+			$content_css
+			document_base_url : \"" . JUri::root() . "\",
+			setup: function (editor) {
+				$tinyBtns
+			}
+		});
+	</script>";
 				break;
 
 			case 1:
@@ -797,116 +820,116 @@ class PlgEditorTinymce extends JPlugin
 				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist";
 				$toolbar2 = "outdent indent | undo redo | link unlink anchor image | hr table | subscript superscript | charmap";
 				$return = $load .
-					"\t<script type=\"text/javascript\">
-				tinyMCE.init({
-					// General
-					directionality: \"$text_direction\",
-					language : \"$langPrefix\",
-					mode : \"specific_textareas\",
-					autosave_restore_when_empty: false,
-					$skin
-					theme : \"$theme\",
-					schema: \"html5\",
-					selector: \"textarea.mce_editable\",
-					// Cleanup/Output
-					inline_styles : true,
-					gecko_spellcheck : true,
-					entity_encoding : \"$entity_encoding\",
-					valid_elements : \"$valid_elements\",
-					extended_valid_elements : \"$elements\",
-					$forcenewline
-					$smallButtons
-					invalid_elements : \"$invalid_elements\",
-					// Plugins
-					plugins : \"table link image code hr charmap autolink lists importcss\",
-					// Toolbar
-					toolbar1: \"$toolbar1\",
-					toolbar2: \"$toolbar2\",
-					toolbar3: \"$toolbar5 | code\",
-					removed_menuitems: \"newdocument\",
-					// URL
-					relative_urls : $relative_urls,
-					remove_script_host : false,
-					document_base_url : \"" . JUri::root() . "\",
-					// Layout
-					$content_css
-					importcss_append: true,
-					// Advanced Options
-					$resizing
-					height : \"$html_height\",
-					width : \"$html_width\",
-					setup: function (editor) {
-						$tinyBtns
-					}
-				});
-				</script>";
+"	<script type=\"text/javascript\">
+		tinyMCE.init({
+			// General
+			directionality: \"$text_direction\",
+			language : \"$langPrefix\",
+			mode : \"specific_textareas\",
+			autosave_restore_when_empty: false,
+			$skin
+			theme : \"$theme\",
+			schema: \"html5\",
+			selector: \"textarea.mce_editable\",
+			// Cleanup/Output
+			inline_styles : true,
+			gecko_spellcheck : true,
+			entity_encoding : \"$entity_encoding\",
+			valid_elements : \"$valid_elements\",
+			extended_valid_elements : \"$elements\",
+			$forcenewline
+			$smallButtons
+			invalid_elements : \"$invalid_elements\",
+			// Plugins
+			plugins : \"table link image code hr charmap autolink lists importcss\",
+			// Toolbar
+			toolbar1: \"$toolbar1\",
+			toolbar2: \"$toolbar2\",
+			toolbar3: \"$toolbar5 | code\",
+			removed_menuitems: \"newdocument\",
+			// URL
+			relative_urls : $relative_urls,
+			remove_script_host : false,
+			document_base_url : \"" . JUri::root() . "\",
+			// Layout
+			$content_css
+			importcss_append: true,
+			// Advanced Options
+			$resizing
+			height : \"$html_height\",
+			width : \"$html_width\",
+			setup: function (editor) {
+				$tinyBtns
+			}
+		});
+	</script>";
 				break;
 
 			case 2: /* Extended mode*/
 				$return = $load .
-					"\t<script type=\"text/javascript\">
-				tinyMCE.init({
-					// General
-					directionality: \"$text_direction\",
-					language : \"$langPrefix\",
-					mode : \"specific_textareas\",
-					autosave_restore_when_empty: false,
-					$skin
-					theme : \"$theme\",
-					schema: \"html5\",
-					selector: \"textarea.mce_editable\",
-					// Cleanup/Output
-					inline_styles : true,
-					gecko_spellcheck : true,
-					entity_encoding : \"$entity_encoding\",
-					valid_elements : \"$valid_elements\",
-					extended_valid_elements : \"$elements\",
-					$forcenewline
-					$smallButtons
-					invalid_elements : \"$invalid_elements\",
-					// Plugins
-					plugins : \"$plugins\",
-					// Toolbar
-					toolbar1: \"$toolbar1\",
-					toolbar2: \"$toolbar2\",
-					toolbar3: \"$toolbar3\",
-					toolbar4: \"$toolbar4\",
-					toolbar5: \"$toolbar5 | code\",
-					removed_menuitems: \"newdocument\",
-					// URL
-					relative_urls : $relative_urls,
-					remove_script_host : false,
-					document_base_url : \"" . JUri::root() . "\",
-					rel_list : [
-						{title: 'Alternate', value: 'alternate'},
-						{title: 'Author', value: 'author'},
-						{title: 'Bookmark', value: 'bookmark'},
-						{title: 'Help', value: 'help'},
-						{title: 'License', value: 'license'},
-						{title: 'Lightbox', value: 'lightbox'},
-						{title: 'Next', value: 'next'},
-						{title: 'No Follow', value: 'nofollow'},
-						{title: 'No Referrer', value: 'noreferrer'},
-						{title: 'Prefetch', value: 'prefetch'},
-						{title: 'Prev', value: 'prev'},
-						{title: 'Search', value: 'search'},
-						{title: 'Tag', value: 'tag'}
-					],
-					//Templates
-					" . $templates . "
-					// Layout
-					$content_css
-					importcss_append: true,
-					// Advanced Options
-					$resizing
-					image_advtab: $image_advtab,
-					height : \"$html_height\",
-					width : \"$html_width\",
-					setup: function (editor) {
-						$tinyBtns
-					}
-				});
-				</script>";
+"	<script type=\"text/javascript\">
+		tinyMCE.init({
+			// General
+			directionality: \"$text_direction\",
+			language : \"$langPrefix\",
+			mode : \"specific_textareas\",
+			autosave_restore_when_empty: false,
+			$skin
+			theme : \"$theme\",
+			schema: \"html5\",
+			selector: \"textarea.mce_editable\",
+			// Cleanup/Output
+			inline_styles : true,
+			gecko_spellcheck : true,
+			entity_encoding : \"$entity_encoding\",
+			valid_elements : \"$valid_elements\",
+			extended_valid_elements : \"$elements\",
+			$forcenewline
+			$smallButtons
+			invalid_elements : \"$invalid_elements\",
+			// Plugins
+			plugins : \"$plugins\",
+			// Toolbar
+			toolbar1: \"$toolbar1\",
+			toolbar2: \"$toolbar2\",
+			toolbar3: \"$toolbar3\",
+			toolbar4: \"$toolbar4\",
+			toolbar5: \"$toolbar5 | code\",
+			removed_menuitems: \"newdocument\",
+			// URL
+			relative_urls : $relative_urls,
+			remove_script_host : false,
+			document_base_url : \"" . JUri::root() . "\",
+			rel_list : [
+				{title: 'Alternate', value: 'alternate'},
+				{title: 'Author', value: 'author'},
+				{title: 'Bookmark', value: 'bookmark'},
+				{title: 'Help', value: 'help'},
+				{title: 'License', value: 'license'},
+				{title: 'Lightbox', value: 'lightbox'},
+				{title: 'Next', value: 'next'},
+				{title: 'No Follow', value: 'nofollow'},
+				{title: 'No Referrer', value: 'noreferrer'},
+				{title: 'Prefetch', value: 'prefetch'},
+				{title: 'Prev', value: 'prev'},
+				{title: 'Search', value: 'search'},
+				{title: 'Tag', value: 'tag'}
+			],
+			//Templates
+			" . $templates . "
+			// Layout
+			$content_css
+			importcss_append: true,
+			// Advanced Options
+			$resizing
+			image_advtab: $image_advtab,
+			height : \"$html_height\",
+			width : \"$html_width\",
+			setup: function (editor) {
+				$tinyBtns
+			}
+		});
+	</script>";
 				break;
 		}
 
@@ -1019,9 +1042,6 @@ class PlgEditorTinymce extends JPlugin
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
 		$editor .= $this->_displayButtons($id, $buttons, $asset, $author);
 		$editor .= '</div>';
-
-		// Add custom buttons font images
-		JFactory::getDocument()->addStyleSheet("/media/jui/css/tinybtns.css");
 
 		return $editor;
 	}
