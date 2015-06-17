@@ -61,7 +61,7 @@ class ModUsersLatestHelper
 		catch (RuntimeException $e)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
+
 			return array();
 		}
 	}

@@ -50,7 +50,6 @@ abstract class ModMenuHelper
 		{
 			$result = array();
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 		}
 
 		return $result;
@@ -97,7 +96,6 @@ abstract class ModMenuHelper
 		{
 			$components = array();
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 		}
 
 		// Parse the list of extensions.
