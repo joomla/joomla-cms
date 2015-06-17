@@ -70,7 +70,7 @@ $displayHeader = $this->params->get('displayHeader', '1');
 $statusFixed   = $this->params->get('statusFixed', '1');
 $stickyToolbar = $this->params->get('stickyToolbar', '1');
 
-if ($displayHeader && $stickyToolbar)
+if ($stickyToolbar)
 {
 	$doc->addScriptDeclaration(
 		'
