@@ -28,7 +28,7 @@ class ModWhosonlineHelper
 		$db = JFactory::getDbo();
 
 		// Calculate number of guests and users
-		$result	     = array();
+		$result      = array();
 		$user_array  = 0;
 		$guest_array = 0;
 
@@ -44,7 +44,7 @@ class ModWhosonlineHelper
 		}
 		catch (RuntimeException $e)
 		{
-			// Don't worry be happy
+			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 			$sessions = array();
 		}
 
@@ -116,6 +116,7 @@ class ModWhosonlineHelper
 		}
 		catch (RuntimeException $e)
 		{
+			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 			return array();
 		}
 	}

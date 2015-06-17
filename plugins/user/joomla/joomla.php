@@ -64,6 +64,7 @@ class PlgUserJoomla extends JPlugin
 		}
 		catch (RuntimeException $e)
 		{
+			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 			return false;
 		}
 
@@ -228,6 +229,7 @@ class PlgUserJoomla extends JPlugin
 		}
 		catch (RuntimeException $e)
 		{
+			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 			return false;
 		}
 
@@ -283,6 +285,7 @@ class PlgUserJoomla extends JPlugin
 			}
 			catch (RuntimeException $e)
 			{
+				JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 				return false;
 			}
 		}
