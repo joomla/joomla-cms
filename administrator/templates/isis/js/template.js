@@ -91,9 +91,7 @@
 				$debug.addClass('j-toggle-main');
 			}
 
-			var mainHeight = $main.outerHeight()+30,
-				sidebarHeight = $sidebar.outerHeight(),
-				bodyWidth = $('body').outerWidth(),
+			var bodyWidth = $('body').outerWidth(),
 				sidebarWidth = $sidebar.outerWidth(),
 				contentWidth = $('#content').outerWidth(),
 				contentWidthRelative = contentWidth / bodyWidth * 100,
@@ -159,7 +157,7 @@
 				$sidebar.find('a').removeAttr('tabindex');
 				$sidebar.find(':input').removeAttr('tabindex');
 
-				if (!isComponent && bodyWidth > 768 && mainHeight < sidebarHeight)
+				if (!isComponent && bodyWidth > 768)
 				{
 					$debug.css( 'width', mainWidthRelative + '%' );
 				}
