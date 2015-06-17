@@ -5,8 +5,10 @@
  * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
- 
+
 defined('_JEXEC') or die;
+
+use Composer\Autoload\ClassLoader;
 
 /**
  * Decorate Composer ClassLoader for Joomla!
@@ -22,21 +24,39 @@ class JClassLoader
 	/**
 	 * The composer class loader
 	 *
-	 * @var \Composer\Autoload\ClassLoader
+	 * @var    ClassLoader
+	 * @since  3.4
 	 */
 	private $loader;
 
-	public function __construct(\Composer\Autoload\ClassLoader $loader)
+	/**
+	 * Constructor
+	 *
+	 * @param   ClassLoader  $loader  Composer autoloader
+	 *
+	 * @since   3.4
+	 */
+	public function __construct(ClassLoader $loader)
 	{
 		$this->loader = $loader;
 	}
-	
+
+	/**
+	 * Loads the given class or interface.
+	 *
+	 * @param   string  $class  The name of the class
+	 *
+	 * @return  boolean|null  True if loaded, null otherwise
+	 *
+	 * @since   3.4
+	 */
 	public function loadClass($class)
 	{
-		if ($result = $this->loader->loadClass($class)) {
-			\JLoader::applyAliasFor($class);
+		if ($result = $this->loader->loadClass($class))
+		{
+			JLoader::applyAliasFor($class);
 		}
-		
+
 		return $result;
-    }
+	}
 }
