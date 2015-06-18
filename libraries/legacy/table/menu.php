@@ -110,6 +110,17 @@ class JTableMenu extends JTableNested
 		{
 			$this->alias = $this->title;
 		}
+		
+		// Check for a path.
+		if (trim($this->path) == '')
+		{
+			$this->path = $this->alias;
+		}
+		// Check for params.
+		if (trim($this->params) == '')
+		{
+			$this->params = '{}';
+		}
 
 		// Make the alias URL safe.
 		$this->alias = JApplication::stringURLSafe($this->alias);
