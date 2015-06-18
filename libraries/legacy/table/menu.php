@@ -121,6 +121,11 @@ class JTableMenu extends JTableNested
 		{
 			$this->params = '{}';
 		}
+		// Check for img.
+		if (trim($this->img) == '')
+		{
+			$this->img = ' ';
+		}
 
 		// Make the alias URL safe.
 		$this->alias = JApplication::stringURLSafe($this->alias);
