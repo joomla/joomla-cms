@@ -46,7 +46,12 @@ class UsersTableNote extends JTable
 
 		$this->modified_time = $date;
 		$this->modified_user_id = $userId;
-		$this->review_time = $date;
+		
+		if (!((int) $this->review_time))
+		{
+			// Null date.
+			$this->review_time = JFactory::getDbo()->getNullDate();
+		}
 
 		if (empty($this->id))
 		{
