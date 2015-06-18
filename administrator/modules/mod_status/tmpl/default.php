@@ -25,7 +25,7 @@ if ($params->get('show_viewsite', 1))
 }
 
 // Print the link to open a new Administrator window.
-if ($params->get('show_viewadmin', 1))
+if ($params->get('show_viewadmin', 0))
 {
 	$output[] = '<div class="btn-group viewsite">'
 		. '<a href="' . JURI::base() . '" target="_blank">'
@@ -56,7 +56,7 @@ if ($params->get('show_loggedin_users_admin', 1))
 //  Print the inbox message.
 if ($params->get('show_messages', 1))
 {
-	$active = $unread ? ' badge-warning' : '';
+	$active   = $unread ? ' badge-warning' : '';
 	$output[] = '<div class="btn-group hasTooltip ' . $inboxClass . '"'
 		. ' title="' . JText::plural('MOD_STATUS_MESSAGES', $unread) . '">'
 		. ($hideLinks ? '' : '<a href="' . $inboxLink . '">')

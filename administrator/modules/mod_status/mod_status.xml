@@ -35,7 +35,7 @@
 					name="show_viewadmin"
 					type="radio"
 					class="btn-group btn-group-yesno"
-					default="1"
+					default="0"
 					label="MOD_STATUS_FIELD_SHOW_VIEWADMIN_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_VIEWADMIN_DESC">
 					<option value="1">JYES</option>
