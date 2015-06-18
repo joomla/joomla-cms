@@ -648,7 +648,7 @@ class JDocumentHTML extends JDocument
 	{
 		$matches = array();
 
-		if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)(?:\/|>.*<\/jdoc:include.*)>#iU', $this->_template, $matches))
+		if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)(?:\/|>(?:.|\n|\r)*<\/jdoc:include.*)>#iU', $this->_template, $matches))
 		{
 			$template_tags_first = array();
 			$template_tags_last = array();
