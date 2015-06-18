@@ -46,7 +46,7 @@ class UsersTableNote extends JTable
 
 		$this->modified_time = $date;
 		$this->modified_user_id = $userId;
-		
+
 		if (!((int) $this->review_time))
 		{
 			// Null date.
