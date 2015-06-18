@@ -110,7 +110,7 @@ class JTableMenu extends JTableNested
 		{
 			$this->alias = $this->title;
 		}
-		
+
 		// Check for a path.
 		if (trim($this->path) == '')
 		{
