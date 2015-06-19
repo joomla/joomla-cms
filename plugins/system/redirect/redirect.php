@@ -67,6 +67,7 @@ class PlgSystemRedirect extends JPlugin
 		// Get the full current URI.
 		$uri     = JUri::getInstance();
 		$current = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
+		$current_uri = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
 
 		// Attempt to ignore idiots.
 		if ((strpos($current, 'mosConfig_') !== false) || (strpos($current, '=http://') !== false))
@@ -81,7 +82,7 @@ class PlgSystemRedirect extends JPlugin
 			->select($db->quoteName(array('new_url', 'header')))
 			->select($db->quoteName('published'))
 			->from($db->quoteName('#__redirect_links'))
-			->where($db->quoteName('old_url') . ' = ' . $db->quote($current));
+			->where( '( ' . $db->quoteName('old_url') . ' = ' . $db->quote($current) . ' OR ' . $db->quoteName('old_url') . ' = ' . $db->quote($current_uri) . ' )' );
 		$db->setQuery($query, 0, 1);
 		$link = $db->loadObject();
 
