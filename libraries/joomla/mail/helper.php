@@ -131,12 +131,6 @@ abstract class JMailHelper
 			return false;
 		}
 
-		// Check if local part has Unicode characters
-		if  ($localLen != strlen(utf8_decode($local)))
-		{
-			return false;
-		}
-
 		/*
 		 * Check the local address
 		 * We're a bit more conservative about what constitutes a "legal" address, that is, a-zA-Z0-9.!#$%&'*+/=?^_{|}~-
@@ -145,7 +139,7 @@ abstract class JMailHelper
 		 */
 		$regex_local_part = '^[a-zA-Z0-9.!#$%&\'*+\/=?^_{|}~-]+';
 
-		if (!preg_match(chr(1) . $regex_local_part . chr(1), $local) || substr($local, -1) == '.' || $local[0] == '.' || preg_match('/\.\./', $local))
+		if (!preg_match(chr(1) . $regex_local_part . chr(1) . 'u', $local) || substr($local, -1) == '.' || $local[0] == '.' || preg_match('/\.\./', $local))
 		{
 			return false;
 		}
