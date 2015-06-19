@@ -32,7 +32,8 @@ extract($displayData);
 
 $iframeAttributes = array(
 	'class' => 'iframe',
-	'src'   => $params['url']
+	'src'   => $params['url'],
+	'name'  => $params['title']
 );
 
 if (isset($params['height']))
@@ -45,4 +46,4 @@ if (isset($params['width']))
 	$iframeAttributes['width'] = $params['width'];
 }
 ?>
-<iframe <?php echo JArrayHelper::toString($iframeAttributes); ?> name="<?php echo $params['title']; ?>"></iframe>
+<iframe <?php echo JArrayHelper::toString($iframeAttributes); ?>></iframe>
