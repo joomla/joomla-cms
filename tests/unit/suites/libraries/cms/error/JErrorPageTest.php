@@ -64,8 +64,8 @@ class JErrorPageTest extends TestCaseDatabase
 			$this->markTestSkipped('Test only applies to PHP 7+');
 		}
 
-		// Create an Exception to inject into the method
-		$exception = new EngineException('Testing JErrorPage::render()', 500);
+		// Create an Error to inject into the method
+		$exception = new Error('Testing JErrorPage::render()', 500);
 
 		// The render method echoes the output, so catch it in a buffer
 		ob_start();
