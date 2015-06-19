@@ -132,7 +132,7 @@ abstract class JMailHelper
 		}
 
 		// Check if local part has Unicode characters
-		if  ($localLen != strlen(utf8_decode($localLen)))
+		if  ($localLen != strlen(utf8_decode($local)))
 		{
 			return false;
 		}
