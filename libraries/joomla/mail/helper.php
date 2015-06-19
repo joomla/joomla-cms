@@ -133,11 +133,11 @@ abstract class JMailHelper
 
 		/*
 		 * Check the local address
-		 * We're a bit more conservative about what constitutes a "legal" address, that is, a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-
+		 * We're a bit more conservative about what constitutes a "legal" address, that is, a-zA-Z0-9.!#$%&'*+/=?^_{|}~-
 		 * The first and last character in local cannot be a period ('.')
 		 * Also, period should not appear 2 or more times consecutively
 		 */
-		$regex_local_part = '^[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+';
+		$regex_local_part = '^[a-zA-Z0-9.!#$%&\'*+\/=?^_{|}~-]+';
 
 		if (!preg_match(chr(1) . $regex_local_part . chr(1), $local) || substr($local, -1) == '.' || $local[0] == '.' || preg_match('/\.\./', $local))
 		{

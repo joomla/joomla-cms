@@ -53,7 +53,7 @@ class JFormRuleEmail extends JFormRule
 			return true;
 		}
 
-		$regex_local_part = '^[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+';
+		$regex_local_part = '^[a-zA-Z0-9.!#$%&\'*+\/=?^_{|}~-]+';
 		$regex_domain_part = '[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$';
 
 		// For B/C $this->regex is initialized with both the local-part and the domain, but it should probably be initialized with the local-part only

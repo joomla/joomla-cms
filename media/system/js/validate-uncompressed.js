@@ -187,7 +187,7 @@ var JFormValidator = function() {
 			return regex.test(value);
 		});
 		setHandler('email', function(value, element) {
-			var regex = /^[a-zA-Z0-9.!#%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*/;
+			var regex = /^[a-zA-Z0-9.!#%&'*+\/=?^_{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*/;
 			value = punycode.toASCII(value);
 			return regex.test(value);
 		});
