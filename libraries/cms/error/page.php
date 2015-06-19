@@ -19,7 +19,7 @@ class JErrorPage
 	/**
 	 * Render the error page based on an exception.
 	 *
-	 * @param   object  $error  An Exception or BaseException (PHP 7+) object for which to render the error page.
+	 * @param   object  $error  An Exception or Throwable (PHP 7+) object for which to render the error page.
 	 *
 	 * @return  void
 	 *
@@ -27,10 +27,10 @@ class JErrorPage
 	 */
 	public static function render($error)
 	{
-		$expectedClass = PHP_MAJOR_VERSION >= 7 ? 'BaseException' : 'Exception';
+		$expectedClass = PHP_MAJOR_VERSION >= 7 ? 'Throwable' : 'Exception';
 		$isException   = $error instanceof $expectedClass;
 
-		// In PHP 5, the $error object should be an instance of Exception; PHP 7 should be a BaseException
+		// In PHP 5, the $error object should be an instance of Exception; PHP 7 should be a Throwable implementation
 		if ($isException)
 		{
 			try
