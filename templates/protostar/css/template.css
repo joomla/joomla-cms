@@ -160,6 +160,18 @@ textarea {
 		page-break-after: avoid;
 	}
 }
+.rtl .navigation .nav-child {
+	left: auto;
+	right: 0;
+}
+.rtl .navigation .nav > li > .nav-child:before {
+	left: auto;
+	right: 12px;
+}
+.rtl .navigation .nav > li > .nav-child:after {
+	left: auto;
+	right: 13px;
+}
 .clearfix {
 	*zoom: 1;
 }
