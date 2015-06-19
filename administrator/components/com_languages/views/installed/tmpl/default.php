@@ -20,14 +20,14 @@ $client		= $this->state->get('filter.client_id', 0) ? JText::_('JADMINISTRATOR')
 $clientId	= $this->state->get('filter.client_id', 0);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed&client=' . $clientId); ?>" method="post" id="adminForm" name="adminForm">
-<?php if (!empty( $this->sidebar)) : ?>
+<?php if (!empty($this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="btn-group pull-right hidden-phone">
 				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
