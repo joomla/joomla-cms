@@ -40,20 +40,20 @@ JHtml::_('behavior.caption');
     <?php if ($params->get('show_title') || $params->get('show_author')) : ?>
         <div class="page-header">
             <<?php echo ($this->params->get('show_page_heading')) ? 'h2' : 'h1'; ?> itemprop="name">
-            <?php if ($params->get('show_title')) : ?>
-                <?php echo $this->escape($this->item->title); ?>
+                <?php if ($params->get('show_title')) : ?>
+                    <?php echo $this->escape($this->item->title); ?>
+                <?php endif; ?>
+            </<?php echo ($this->params->get('show_page_heading')) ? 'h2' : 'h1'; ?>>
+            <?php if ($this->item->state == 0) : ?>
+                <span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
             <?php endif; ?>
-        </<?php echo ($this->params->get('show_page_heading')) ? 'h2' : 'h1'; ?>>
-        <?php if ($this->item->state == 0) : ?>
-            <span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
-        <?php endif; ?>
-        <?php if (strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
-            <span class="label label-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
-        <?php endif; ?>
-        <?php if ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != JFactory::getDbo()->getNullDate()) : ?>
-            <span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
-        <?php endif; ?>
-    </div>
+            <?php if (strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
+                <span class="label label-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
+            <?php endif; ?>
+            <?php if ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != JFactory::getDbo()->getNullDate()) : ?>
+                <span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
+            <?php endif; ?>
+        </div>
     <?php endif; ?>
     <?php if (!$this->print) : ?>
         <?php if ($canEdit || $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
