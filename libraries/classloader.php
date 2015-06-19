@@ -16,7 +16,6 @@ use Composer\Autoload\ClassLoader;
  * For backward compatibility due to class aliasing in the CMS, the loadClass() method was modified to call
  * the JLoader::applyAliasFor() method.
  *
- * @author  Johan Janssens
  * @since   3.4
  */
 class JClassLoader
