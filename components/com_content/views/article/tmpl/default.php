@@ -83,7 +83,7 @@ JHtml::_('behavior.caption');
             <?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
             <div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"><img
                     <?php if ($images->image_fulltext_caption) : ?>
-                        <?php echo 'class="caption"'.' title="'.htmlspecialchars($images->image_fulltext_caption).'"'; ?>
+                        <?php echo 'class="caption" title="' . htmlspecialchars($images->image_fulltext_caption) . '"'; ?>
                     <?php endif; ?>
                     src="<?php echo htmlspecialchars($images->image_fulltext); ?>"
                     alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>" itemprop="image"/>
@@ -119,7 +119,7 @@ JHtml::_('behavior.caption');
             <?php $menu = JFactory::getApplication()->getMenu(); ?>
             <?php $active = $menu->getActive(); ?>
             <?php $itemId = $active->id; ?>
-            <?php $link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId, false)); ?>
+            <?php $link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false)); ?>
             <?php $link->setVar('return', base64_encode(JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language), false))); ?>
             <p class="readmore">
                 <a href="<?php echo $link; ?>" class="register">
