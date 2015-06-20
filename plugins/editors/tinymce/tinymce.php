@@ -658,8 +658,12 @@ class PlgEditorTinymce extends JPlugin
 						$icon = 'pagebreak';
 						break;
 					default:
-						// All others
-						$icon = 'browse';
+						/**
+						 * All other 3PD buttons will return the class name
+						 * 3PD NEED to add one more class to their css inline style or no icon will appear
+						 * E.g.: For a button named mybutton change class from .btn-toolbar .icon-mybutton
+						 * To .btn-toolbar .icon-mybutton, i.mce-ico.mce-i-mybutton
+						 */
 				}
 
 				// Get the modal width/height
@@ -720,8 +724,7 @@ class PlgEditorTinymce extends JPlugin
 			}
 
 			// The array with the toolbar buttons
-			$toolbar5[] = $name;
-			$btnsExist  = $name;
+			$btnsNames[] = $name;
 
 			// The array with code for each button
 			$tinyBtns[] = $tempConstructor;
@@ -736,7 +739,7 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar2 = implode(' ', $toolbar2_add);
 		$toolbar3 = implode(' ', $toolbar3_add);
 		$toolbar4 = implode(' ', $toolbar4_add);
-		$toolbar5 = implode(" | ", $toolbar5);
+		$toolbar5 = implode(" | ", $btnsNames);
 
 		// The buttons script
 		$tinyBtns = implode("; ", $tinyBtns);
@@ -923,7 +926,7 @@ class PlgEditorTinymce extends JPlugin
 				break;
 		}
 
-		if (!empty($btnsExist))
+		if (!empty($btnsNames))
 		{
 			JFactory::getDocument()->addScriptDeclaration(
 				"
@@ -945,7 +948,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onGetContent()
 	{
-		return	'tinyMCE.activeEditor.getContent();';
+		return 'tinyMCE.activeEditor.getContent();';
 	}
 
 	/**
