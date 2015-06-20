@@ -744,7 +744,7 @@ class PlgEditorTinymce extends JPlugin
 		// See if mobileVersion is activated
 		$mobileVersion = $this->params->get('mobile', 0);
 
-		JFactory::getDocument()->addScript('/' . $this->_basePath . '/tinymce.min.js');
+		JHtml::script($this->_basePath . '/tinymce.min.js', false, false, false, false, false);
 
 		/**
 		 * Shrink the buttons if not on a mobile or if mobile view is off.
