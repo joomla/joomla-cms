@@ -532,7 +532,7 @@ class PlgEditorTinymce extends JPlugin
 						}
 
 						$templates .= '{title: \'' . $title . '\', description: \'' . $description . '\', url:\''
-									. JUri::root() . 'media/editors/tinymce/templates/' . $filename . '.html\'},';
+							. JUri::root() . 'media/editors/tinymce/templates/' . $filename . '.html\'},';
 					}
 				}
 
@@ -611,15 +611,10 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar4_add[] = $custom_button;
 		}
 
-		// We don't want to add css/scripts right now
-		$scriptOnHead      = JFactory::getDocument()->_script;
-		$styleOnHead       = JFactory::getDocument()->_style;
-
 		// Get the available buttons
 		$buttons = $this->_subject->getButtons($this->_name, true);
 
-		// Init some vars
-		$tempConstructorPlug = "";
+		// Init the array for the buttons
 		$tinyBtns = array();
 
 		// Build the script
@@ -687,9 +682,9 @@ class PlgEditorTinymce extends JPlugin
 					title: \"" . $title . "\",
 					icon: \"" . $icon . "\",
 					onclick: function () {";
-							if ($button->get('modal') || $href)
-							{
-								$tempConstructor .= "
+				if ($button->get('modal') || $href)
+				{
+					$tempConstructor .= "
 							jModalClose = (function(){
 								return function() {
 									tinyMCE.activeEditor.windowManager.close();
@@ -706,37 +701,31 @@ class PlgEditorTinymce extends JPlugin
 									onclick: \"close\"
 								}]
 							});";
-								if ($onclick && ($button->get('modal') || $href))
-								{
-									$tempConstructor .= ",
+					if ($onclick && ($button->get('modal') || $href))
+					{
+						$tempConstructor .= ",
 						\"" . $onclick . "\"
 							";
-								}
-							}
-							else
-							{
-								$tempConstructor .= "
+					}
+				}
+				else
+				{
+					$tempConstructor .= "
 						" . $onclick . "
 							";
-							}
-							$tempConstructor .= "
+				}
+				$tempConstructor .= "
 					}
 				})";
 			}
 
 			// The array with the toolbar buttons
 			$toolbar5[] = $name;
+			$btnsExist  = $name;
 
 			// The array with code for each button
 			$tinyBtns[] = $tempConstructor;
 		}
-
-		// Reset inline css/scripts.
-		// We will load them properly on the onDisplay event
-		unset(JFactory::getDocument()->_script);
-		unset(JFactory::getDocument()->_style);
-		JFactory::getDocument()->_script = $scriptOnHead;
-		JFactory::getDocument()->_style = $styleOnHead;
 
 		// Prepare config variables
 		$plugins  = implode(',', $plugins);
@@ -755,9 +744,9 @@ class PlgEditorTinymce extends JPlugin
 		// See if mobileVersion is activated
 		$mobileVersion = $this->params->get('mobile', 0);
 
-		$load = "\t<script type=\"text/javascript\" src=\"" .
-			JUri::root() . $this->_basePath .
-			"/tinymce.min.js\"></script>\n";
+		JFactory::getDocument()->addScript(
+			'/'.$this->_basePath .
+			"/tinymce.min.js");
 
 		/**
 		 * Shrink the buttons if not on a mobile or if mobile view is off.
@@ -780,8 +769,8 @@ class PlgEditorTinymce extends JPlugin
 		switch ($mode)
 		{
 			case 0: /* Simple mode*/
-				$return = $load .
-"	<script type=\"text/javascript\">
+				JFactory::getDocument()->addScriptDeclaration(
+					"
 		tinymce.init({
 			// General
 			directionality: \"$text_direction\",
@@ -812,15 +801,15 @@ class PlgEditorTinymce extends JPlugin
 				$tinyBtns
 			}
 		});
-	</script>";
+");
 				break;
 
 			case 1:
 			default: /* Advanced mode*/
 				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist";
 				$toolbar2 = "outdent indent | undo redo | link unlink anchor image | hr table | subscript superscript | charmap";
-				$return = $load .
-"	<script type=\"text/javascript\">
+				JFactory::getDocument()->addScriptDeclaration(
+					"
 		tinyMCE.init({
 			// General
 			directionality: \"$text_direction\",
@@ -862,12 +851,12 @@ class PlgEditorTinymce extends JPlugin
 				$tinyBtns
 			}
 		});
-	</script>";
+");
 				break;
 
 			case 2: /* Extended mode*/
-				$return = $load .
-"	<script type=\"text/javascript\">
+				JFactory::getDocument()->addScriptDeclaration(
+					"
 		tinyMCE.init({
 			// General
 			directionality: \"$text_direction\",
@@ -929,11 +918,23 @@ class PlgEditorTinymce extends JPlugin
 				$tinyBtns
 			}
 		});
-	</script>";
+");
 				break;
 		}
 
-		return $return;
+		if (!empty($btnsExist))
+		{
+			JFactory::getDocument()->addScriptDeclaration(
+				"
+		function jInsertEditorText( text, editor )
+		{
+			tinyMCE.activeEditor.execCommand('mceInsertContent', false, text);
+		}
+			"
+			);
+		}
+
+		return;
 	}
 
 	/**
@@ -943,9 +944,9 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return  string
 	 */
-	public function onGetContent($editor)
+	public function onGetContent()
 	{
-		return 'tinyMCE.activeEditor.getContent();';
+		return	'tinyMCE.activeEditor.getContent();';
 	}
 
 	/**
@@ -956,9 +957,9 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return  string
 	 */
-	public function onSetContent($editor, $html)
+	public function onSetContent($html)
 	{
-		return 'tinyMCE.activeEditor.setContent(' . $html . ');';
+			return 'tinyMCE.activeEditor.setContent(' . $html . ');';
 	}
 
 	/**
@@ -978,20 +979,12 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @param   string  $name  The name of the editor
 	 *
-	 * @return  boolean
+	 * @return  void
+	 * @deprecated 3.5
 	 */
 	public function onGetInsertMethod($name)
 	{
-		JFactory::getDocument()->addScriptDeclaration(
-			"
-			function jInsertEditorText( text, editor )
-			{
-				tinyMCE.execCommand('mceInsertContent', false, text);
-			}
-			"
-		);
-
-		return true;
+		return;
 	}
 
 	/**
@@ -1040,7 +1033,6 @@ class PlgEditorTinymce extends JPlugin
 
 		$editor = '<div class="editor">';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
-		$editor .= $this->_displayButtons($id, $buttons, $asset, $author);
 		$editor .= '</div>';
 
 		return $editor;
@@ -1055,6 +1047,8 @@ class PlgEditorTinymce extends JPlugin
 	 * @param   object  $author   The author.
 	 *
 	 * @return  void
+	 *
+	 * @deprecated 3.5
 	 */
 	private function _displayButtons($name, $buttons, $asset, $author)
 	{
