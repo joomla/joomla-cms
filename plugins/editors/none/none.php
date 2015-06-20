@@ -26,30 +26,9 @@ class PlgEditorNone extends JPlugin
 	 */
 	public function onInit()
 	{
-		$txt =	"<script type=\"text/javascript\">
-					function insertAtCursor(myField, myValue)
-					{
-						if (document.selection)
-						{
-							// IE support
-							myField.focus();
-							sel = document.selection.createRange();
-							sel.text = myValue;
-						} else if (myField.selectionStart || myField.selectionStart == '0')
-						{
-							// MOZILLA/NETSCAPE support
-							var startPos = myField.selectionStart;
-							var endPos = myField.selectionEnd;
-							myField.value = myField.value.substring(0, startPos)
-								+ myValue
-								+ myField.value.substring(endPos, myField.value.length);
-						} else {
-							myField.value += myValue;
-						}
-					}
-				</script>";
+		JHtml::script('editors/none/none-functions.min.js', false, true, false, false, true);
 
-		return $txt;
+		return;
 	}
 
 	/**
@@ -98,20 +77,7 @@ class PlgEditorNone extends JPlugin
 	 */
 	public function onGetInsertMethod($id)
 	{
-		static $done = false;
-
-		// Do this only once.
-		if (!$done)
-		{
-			$doc = JFactory::getDocument();
-			$js = "\tfunction jInsertEditorText(text, editor)
-			{
-				insertAtCursor(document.getElementById(editor), text);
-			}";
-			$doc->addScriptDeclaration($js);
-		}
-
-		return true;
+		return;
 	}
 
 	/**
