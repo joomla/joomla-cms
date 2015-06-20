@@ -125,7 +125,6 @@ abstract class JMailHelper
 
 		// Check length of local part
 		$localLen = strlen($local);
-
 		if ($localLen < 1 || $localLen > 64)
 		{
 			return false;
