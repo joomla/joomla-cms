@@ -144,7 +144,7 @@ abstract class JMailHelper
 		}
 
 		// Check the domain
-		$regex_domain_part = '[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$';
+		$regex_domain_part = '^[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\Z';
 
 		if (!preg_match(chr(1) . $regex_domain_part . chr(1), $domain))
 		{
