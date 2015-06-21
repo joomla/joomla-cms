@@ -511,7 +511,7 @@ final class JApplicationSite extends JApplicationCms
 		// Allows for overriding the active template from the request
 		$template_override = $this->input->getCmd('template', '');
 
-		// If the template is still empty, then set our default value again
+		// Only set template override if it is a valid template
 		if (!empty($template_override))
 		{
 			if (file_exists(JPATH_THEMES . '/' . $template_override . '/index.php'))
