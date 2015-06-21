@@ -664,7 +664,7 @@ class PlgEditorTinymce extends JPlugin
 						$style = preg_replace('|.btn-toolbar .icon-|', '', $style);
 						$style = preg_replace('|' . $icon . '|', 'i.mce-ico.mce-i-' . $icon, $style);
 						JFactory::getDocument()->_style = array('text/css' => $style);
-						JFactory::getDocument()->addStyleSheet("/media/jui/css/tinybtns.css");
+						JHtml::stylesheet("media/jui/css/tinybuttons.min.css", array(), false, false, false, true);
 				}
 
 				// Get the modal width/height
