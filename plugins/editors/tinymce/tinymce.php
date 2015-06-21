@@ -658,12 +658,12 @@ class PlgEditorTinymce extends JPlugin
 						$icon = 'pagebreak';
 						break;
 					default:
-						/**
-						 * All other 3PD buttons will return the class name
-						 * 3PD NEED to add one more class to their css inline style or no icon will appear
-						 * E.g.: For a button named mybutton change class from .btn-toolbar .icon-mybutton
-						 * To .btn-toolbar .icon-mybutton, i.mce-ico.mce-i-mybutton
-						 */
+						// We do some magic to set the correct icon for 3PD buttons
+						$style = JFactory::getDocument()->_style;
+						$style = $style['text/css'];
+						$style = preg_replace('|.btn-toolbar|', '', $style);
+						$style = preg_replace('|.icon-' . $icon . '|', 'i.mce-ico.mce-i-' . $icon, $style);
+						JFactory::getDocument()->_style = array('text/css' => $style);
 				}
 
 				// Get the modal width/height
