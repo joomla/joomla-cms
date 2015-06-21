@@ -518,8 +518,7 @@
 	content: "\e252";
 	font-family: IcoMoon;
 }
-.mce-i-picture:before,
-.mce-i-image:before {
+.mce-i-picture:before {
 	content: "\2f";
 	font-family: IcoMoon;
 }

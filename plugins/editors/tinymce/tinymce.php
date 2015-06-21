@@ -651,7 +651,7 @@ class PlgEditorTinymce extends JPlugin
 						break;
 					case 'picture':
 						// Images
-						$icon = 'picture';
+						$icon = 'image';
 						break;
 					case 'arrow-down':
 						// Read more
@@ -660,10 +660,14 @@ class PlgEditorTinymce extends JPlugin
 					default:
 						// We do some magic to set the correct icon for 3PD buttons
 						$style = JFactory::getDocument()->_style;
-						$style = $style['text/css'];
-						$style = preg_replace('|.btn-toolbar .icon-|', '', $style);
-						$style = preg_replace('|' . $icon . '|', 'i.mce-ico.mce-i-' . $icon, $style);
-						JFactory::getDocument()->_style = array('text/css' => $style);
+						if (!empty($style))
+						{
+							$style = $style['text/css'];
+							$style = preg_replace('|.btn-toolbar .icon-|', '', $style);
+							$style = preg_replace('|' . $icon . '|', 'i.mce-ico.mce-i-' . $icon, $style);
+							JFactory::getDocument()->_style = array('text/css' => $style);
+						}
+
 						JHtml::stylesheet("media/jui/css/tinybuttons.min.css", array(), false, false, false, true);
 				}
 
