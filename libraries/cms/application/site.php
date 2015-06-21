@@ -508,8 +508,16 @@ final class JApplicationSite extends JApplicationCms
 			$template = $templates[0];
 		}
 
+		$oldTemplate = $template->template;
+
 		// Allows for overriding the active template from the request
-		$template->template = $this->input->getCmd('template', $template->template);
+		$template->template = $this->input->getCmd('template', $oldTemplate);
+
+		// If the template is still empty, then set our default value again
+		if (!$template->template)
+		{
+			$template->template = $oldTemplate;
+		}
 
 		// Need to filter the default value as well
 		$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd');
