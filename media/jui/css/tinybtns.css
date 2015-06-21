@@ -1,0 +1,919 @@
+@font-face {
+	font-family: 'IcoMoon';
+	src: url('../fonts/IcoMoon.eot');
+	src: url('../fonts/IcoMoon.eot?#iefix') format('embedded-opentype'), url('../fonts/IcoMoon.ttf') format('truetype'), url('../fonts/IcoMoon.svg#IcoMoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+/* Joomla standard icons for tinymce */
+.mce-i-joomla:before {
+	content: "\e200";
+	font-family: IcoMoon;
+}
+.mce-i-chevron-up:before,
+.mce-i-uparrow:before,
+.mce-i-arrow-up:before {
+	content: "\e005";
+	font-family: IcoMoon;
+}
+.mce-i-chevron-right:before,
+.mce-i-rightarrow:before,
+.mce-i-arrow-right:before {
+	content: "\e006";
+	font-family: IcoMoon;
+}
+.mce-i-chevron-down:before,
+.mce-i-downarrow:before,
+.mce-i-arrow-down:before {
+	content: "\e007";
+	font-family: IcoMoon;
+}
+.mce-i-chevron-left:before,
+.mce-i-leftarrow:before,
+.mce-i-arrow-left:before {
+	content: "\e008";
+	font-family: IcoMoon;
+}
+.mce-i-arrow-first:before {
+	content: "\e003";
+	font-family: IcoMoon;
+}
+.mce-i-arrow-last:before {
+	content: "\e004";
+	font-family: IcoMoon;
+}
+.mce-i-arrow-up-2:before {
+	content: "\e009";
+	font-family: IcoMoon;
+}
+.mce-i-arrow-right-2:before {
+	content: "\e00a";
+	font-family: IcoMoon;
+}
+.mce-i-arrow-down-2:before {
+	content: "\e00b";
+	font-family: IcoMoon;
+}
+.mce-i-arrow-left-2:before {
+	content: "\e00c";
+	font-family: IcoMoon;
+}
+.mce-i-arrow-up-3:before {
+	content: "\e00f";
+	font-family: IcoMoon;
+}
+.mce-i-arrow-right-3:before {
+	content: "\e010";
+	font-family: IcoMoon;
+}
+.mce-i-arrow-down-3:before {
+	content: "\e011";
+	font-family: IcoMoon;
+}
+.mce-i-arrow-left-3:before {
+	content: "\e012";
+	font-family: IcoMoon;
+}
+.mce-i-menu-2:before {
+	content: "\e00e";
+	font-family: IcoMoon;
+}
+.mce-i-arrow-up-4:before {
+	content: "\e201";
+	font-family: IcoMoon;
+}
+.mce-i-arrow-right-4:before {
+	content: "\e202";
+	font-family: IcoMoon;
+}
+.mce-i-arrow-down-4:before {
+	content: "\e203";
+	font-family: IcoMoon;
+}
+.mce-i-arrow-left-4:before {
+	content: "\e204";
+	font-family: IcoMoon;
+}
+.mce-i-share:before {
+	content: "\27";
+	font-family: IcoMoon;
+}
+.mce-i-forward-2:before {
+	content: "\e205";
+	font-family: IcoMoon;
+}
+.mce-i-backward-2:before,
+.mce-i-reply:before {
+	content: "\e206";
+	font-family: IcoMoon;
+}
+.mce-i-unblock:before,
+.mce-i-refresh:before,
+.mce-i-redo-2:before {
+	content: "\6c";
+	font-family: IcoMoon;
+}
+.mce-i-undo-2:before {
+	content: "\e207";
+	font-family: IcoMoon;
+}
+.mce-i-move:before {
+	content: "\7a";
+	font-family: IcoMoon;
+}
+.mce-i-expand:before {
+	content: "\66";
+	font-family: IcoMoon;
+}
+.mce-i-contract:before {
+	content: "\67";
+	font-family: IcoMoon;
+}
+.mce-i-expand-2:before {
+	content: "\68";
+	font-family: IcoMoon;
+}
+.mce-i-contract-2:before {
+	content: "\69";
+	font-family: IcoMoon;
+}
+.mce-i-play:before {
+	content: "\e208";
+	font-family: IcoMoon;
+}
+.mce-i-pause:before {
+	content: "\e209";
+	font-family: IcoMoon;
+}
+.mce-i-stop:before {
+	content: "\e210";
+	font-family: IcoMoon;
+}
+.mce-i-previous:before,
+.mce-i-backward:before {
+	content: "\7c";
+	font-family: IcoMoon;
+}
+.mce-i-next:before,
+.mce-i-forward:before {
+	content: "\7b";
+	font-family: IcoMoon;
+}
+.mce-i-first:before {
+	content: "\7d";
+	font-family: IcoMoon;
+}
+.mce-i-last:before {
+	content: "\e000";
+	font-family: IcoMoon;
+}
+.mce-i-play-circle:before {
+	content: "\e00d";
+	font-family: IcoMoon;
+}
+.mce-i-pause-circle:before {
+	content: "\e211";
+	font-family: IcoMoon;
+}
+.mce-i-stop-circle:before {
+	content: "\e212";
+	font-family: IcoMoon;
+}
+.mce-i-backward-circle:before {
+	content: "\e213";
+	font-family: IcoMoon;
+}
+.mce-i-forward-circle:before {
+	content: "\e214";
+	font-family: IcoMoon;
+}
+.mce-i-loop:before {
+	content: "\e001";
+	font-family: IcoMoon;
+}
+.mce-i-shuffle:before {
+	content: "\e002";
+	font-family: IcoMoon;
+}
+.mce-i-search:before {
+	content: "\53";
+	font-family: IcoMoon;
+}
+.mce-i-zoom-in:before {
+	content: "\64";
+	font-family: IcoMoon;
+}
+.mce-i-zoom-out:before {
+	content: "\65";
+	font-family: IcoMoon;
+}
+.mce-i-apply:before,
+.mce-i-edit:before,
+.mce-i-pencil:before {
+	content: "\2b";
+	font-family: IcoMoon;
+}
+.mce-i-pencil-2:before {
+	content: "\2c";
+	font-family: IcoMoon;
+}
+.mce-i-brush:before {
+	content: "\3b";
+	font-family: IcoMoon;
+}
+.mce-i-save-new:before,
+.mce-i-plus-2:before {
+	content: "\5d";
+	font-family: IcoMoon;
+}
+.mce-i-minus-sign:before,
+.mce-i-minus-2:before {
+	content: "\5e";
+	font-family: IcoMoon;
+}
+.mce-i-delete:before,
+.mce-i-remove:before,
+.mce-i-cancel-2:before {
+	content: "\49";
+	font-family: IcoMoon;
+}
+.mce-i-publish:before,
+.mce-i-save:before,
+.mce-i-ok:before,
+.mce-i-checkmark:before {
+	content: "\47";
+	font-family: IcoMoon;
+}
+.mce-i-new:before,
+.mce-i-plus:before {
+	content: "\2a";
+	font-family: IcoMoon;
+}
+.mce-i-plus-circle:before {
+	content: "\e215";
+	font-family: IcoMoon;
+}
+.mce-i-minus:before,
+.mce-i-not-ok:before {
+	content: "\4b";
+	font-family: IcoMoon;
+}
+.mce-i-ban-circle:before,
+.mce-i-minus-circle:before {
+	content: "\e216";
+	font-family: IcoMoon;
+}
+.mce-i-unpublish:before,
+.mce-i-cancel:before {
+	content: "\4a";
+	font-family: IcoMoon;
+}
+.mce-i-cancel-circle:before {
+	content: "\e217";
+	font-family: IcoMoon;
+}
+.mce-i-checkmark-2:before {
+	content: "\e218";
+	font-family: IcoMoon;
+}
+.mce-i-checkmark-circle:before {
+	content: "\e219";
+	font-family: IcoMoon;
+}
+.mce-i-info:before {
+	content: "\e220";
+	font-family: IcoMoon;
+}
+.mce-i-info-2:before,
+.mce-i-info-circle:before {
+	content: "\e221";
+	font-family: IcoMoon;
+}
+.mce-i-question:before,
+.mce-i-question-sign:before,
+.mce-i-help:before {
+	content: "\45";
+	font-family: IcoMoon;
+}
+.mce-i-question-2:before,
+.mce-i-question-circle:before {
+	content: "\e222";
+	font-family: IcoMoon;
+}
+.mce-i-notification:before {
+	content: "\e223";
+	font-family: IcoMoon;
+}
+.mce-i-notification-2:before,
+.mce-i-notification-circle:before {
+	content: "\e224";
+	font-family: IcoMoon;
+}
+.mce-i-pending:before,
+.mce-i-warning:before {
+	content: "\48";
+	font-family: IcoMoon;
+}
+.mce-i-warning-2:before,
+.mce-i-warning-circle:before {
+	content: "\e225";
+	font-family: IcoMoon;
+}
+.mce-i-checkbox-unchecked:before {
+	content: "\3d";
+	font-family: IcoMoon;
+}
+.mce-i-checkin:before,
+.mce-i-checkbox:before,
+.mce-i-checkbox-checked:before {
+	content: "\3e";
+	font-family: IcoMoon;
+}
+.mce-i-checkbox-partial:before {
+	content: "\3f";
+	font-family: IcoMoon;
+}
+.mce-i-square:before {
+	content: "\e226";
+	font-family: IcoMoon;
+}
+.mce-i-radio-unchecked:before {
+	content: "\e227";
+	font-family: IcoMoon;
+}
+.mce-i-radio-checked:before,
+.mce-i-generic:before {
+	content: "\e228";
+	font-family: IcoMoon;
+}
+.mce-i-circle:before {
+	content: "\e229";
+	font-family: IcoMoon;
+}
+.mce-i-signup:before {
+	content: "\e230";
+	font-family: IcoMoon;
+}
+.mce-i-grid:before,
+.mce-i-grid-view:before {
+	content: "\58";
+	font-family: IcoMoon;
+}
+.mce-i-grid-2:before,
+.mce-i-grid-view-2:before {
+	content: "\59";
+	font-family: IcoMoon;
+}
+.mce-i-menu:before {
+	content: "\5a";
+	font-family: IcoMoon;
+}
+.mce-i-list:before,
+.mce-i-list-view:before {
+	content: "\31";
+	font-family: IcoMoon;
+}
+.mce-i-list-2:before {
+	content: "\e231";
+	font-family: IcoMoon;
+}
+.mce-i-menu-3:before {
+	content: "\e232";
+	font-family: IcoMoon;
+}
+.mce-i-folder-open:before,
+.mce-i-folder:before {
+	content: "\2d";
+	font-family: IcoMoon;
+}
+.mce-i-folder-close:before,
+.mce-i-folder-2:before {
+	content: "\2e";
+	font-family: IcoMoon;
+}
+.mce-i-folder-plus:before {
+	content: "\e234";
+	font-family: IcoMoon;
+}
+.mce-i-folder-minus:before {
+	content: "\e235";
+	font-family: IcoMoon;
+}
+.mce-i-folder-3:before {
+	content: "\e236";
+	font-family: IcoMoon;
+}
+.mce-i-folder-plus-2:before {
+	content: "\e237";
+	font-family: IcoMoon;
+}
+.mce-i-folder-remove:before {
+	content: "\e238";
+	font-family: IcoMoon;
+}
+.mce-i-file:before {
+	content: "\e016";
+	font-family: IcoMoon;
+}
+.mce-i-file-2:before {
+	content: "\e239";
+	font-family: IcoMoon;
+}
+.mce-i-file-add:before,
+.mce-i-file-plus:before {
+	content: "\29";
+	font-family: IcoMoon;
+}
+.mce-i-file-minus:before {
+	content: "\e017";
+	font-family: IcoMoon;
+}
+.mce-i-file-check:before {
+	content: "\e240";
+	font-family: IcoMoon;
+}
+.mce-i-file-remove:before {
+	content: "\e241";
+	font-family: IcoMoon;
+}
+.mce-i-save-copy:before {
+	content: "\e018";
+	font-family: IcoMoon;
+}
+.mce-i-stack:before {
+	content: "\e242";
+	font-family: IcoMoon;
+}
+.mce-i-tree:before {
+	content: "\e243";
+	font-family: IcoMoon;
+}
+.mce-i-tree-2:before {
+	content: "\e244";
+	font-family: IcoMoon;
+}
+.mce-i-paragraph-left:before {
+	content: "\e246";
+	font-family: IcoMoon;
+}
+.mce-i-paragraph-center:before {
+	content: "\e247";
+	font-family: IcoMoon;
+}
+.mce-i-paragraph-right:before {
+	content: "\e248";
+	font-family: IcoMoon;
+}
+.mce-i-paragraph-justify:before {
+	content: "\e249";
+	font-family: IcoMoon;
+}
+.mce-i-screen:before {
+	content: "\e01c";
+	font-family: IcoMoon;
+}
+.mce-i-tablet:before {
+	content: "\e01d";
+	font-family: IcoMoon;
+}
+.mce-i-mobile:before {
+	content: "\e01e";
+	font-family: IcoMoon;
+}
+.mce-i-box-add:before {
+	content: "\51";
+	font-family: IcoMoon;
+}
+.mce-i-box-remove:before {
+	content: "\52";
+	font-family: IcoMoon;
+}
+.mce-i-download:before {
+	content: "\e021";
+	font-family: IcoMoon;
+}
+.mce-i-upload:before {
+	content: "\e022";
+	font-family: IcoMoon;
+}
+.mce-i-home:before {
+	content: "\21";
+	font-family: IcoMoon;
+}
+.mce-i-home-2:before {
+	content: "\e250";
+	font-family: IcoMoon;
+}
+.mce-i-out-2:before,
+.mce-i-new-tab:before {
+	content: "\e024";
+	font-family: IcoMoon;
+}
+.mce-i-out-3:before,
+.mce-i-new-tab-2:before {
+	content: "\e251";
+	font-family: IcoMoon;
+}
+.mce-i-link:before {
+	content: "\e252";
+	font-family: IcoMoon;
+}
+.mce-i-picture:before,
+.mce-i-image:before {
+	content: "\2f";
+	font-family: IcoMoon;
+}
+.mce-i-palette:before,
+.mce-i-color-palette:before {
+	content: "\e014";
+	font-family: IcoMoon;
+}
+.mce-i-camera:before {
+	content: "\55";
+	font-family: IcoMoon;
+}
+.mce-i-camera-2:before,
+.mce-i-video:before {
+	content: "\e015";
+	font-family: IcoMoon;
+}
+.mce-i-play-2:before,
+.mce-i-video-2:before,
+.mce-i-youtube:before {
+	content: "\56";
+	font-family: IcoMoon;
+}
+.mce-i-music:before {
+	content: "\57";
+	font-family: IcoMoon;
+}
+.mce-i-user:before {
+	content: "\22";
+	font-family: IcoMoon;
+}
+.mce-i-users:before {
+	content: "\e01f";
+	font-family: IcoMoon;
+}
+.mce-i-vcard:before {
+	content: "\6d";
+	font-family: IcoMoon;
+}
+.mce-i-address:before {
+	content: "\70";
+	font-family: IcoMoon;
+}
+.mce-i-share-alt:before,
+.mce-i-out:before {
+	content: "\26";
+	font-family: IcoMoon;
+}
+.mce-i-enter:before {
+	content: "\e257";
+	font-family: IcoMoon;
+}
+.mce-i-exit:before {
+	content: "\e258";
+	font-family: IcoMoon;
+}
+.mce-i-comment:before,
+.mce-i-comments:before {
+	content: "\24";
+	font-family: IcoMoon;
+}
+.mce-i-comments-2:before {
+	content: "\25";
+	font-family: IcoMoon;
+}
+.mce-i-quote:before,
+.mce-i-quotes-left:before {
+	content: "\60";
+	font-family: IcoMoon;
+}
+.mce-i-quote-2:before,
+.mce-i-quotes-right:before {
+	content: "\61";
+	font-family: IcoMoon;
+}
+.mce-i-quote-3:before,
+.mce-i-bubble-quote:before {
+	content: "\e259";
+	font-family: IcoMoon;
+}
+.mce-i-phone:before {
+	content: "\e260";
+	font-family: IcoMoon;
+}
+.mce-i-phone-2:before {
+	content: "\e261";
+	font-family: IcoMoon;
+}
+.mce-i-envelope:before,
+.mce-i-mail:before {
+	content: "\4d";
+	font-family: IcoMoon;
+}
+.mce-i-envelope-opened:before,
+.mce-i-mail-2:before {
+	content: "\4e";
+	font-family: IcoMoon;
+}
+.mce-i-unarchive:before,
+.mce-i-drawer:before {
+	content: "\4f";
+	font-family: IcoMoon;
+}
+.mce-i-archive:before,
+.mce-i-drawer-2:before {
+	content: "\50";
+	font-family: IcoMoon;
+}
+.mce-i-briefcase:before {
+	content: "\e020";
+	font-family: IcoMoon;
+}
+.mce-i-tag:before {
+	content: "\e262";
+	font-family: IcoMoon;
+}
+.mce-i-tag-2:before {
+	content: "\e263";
+	font-family: IcoMoon;
+}
+.mce-i-tags:before {
+	content: "\e264";
+	font-family: IcoMoon;
+}
+.mce-i-tags-2:before {
+	content: "\e265";
+	font-family: IcoMoon;
+}
+.mce-i-options:before,
+.mce-i-cog:before {
+	content: "\38";
+	font-family: IcoMoon;
+}
+.mce-i-cogs:before {
+	content: "\37";
+	font-family: IcoMoon;
+}
+.mce-i-screwdriver:before,
+.mce-i-tools:before {
+	content: "\36";
+	font-family: IcoMoon;
+}
+.mce-i-wrench:before {
+	content: "\3a";
+	font-family: IcoMoon;
+}
+.mce-i-equalizer:before {
+	content: "\39";
+	font-family: IcoMoon;
+}
+.mce-i-dashboard:before {
+	content: "\78";
+	font-family: IcoMoon;
+}
+.mce-i-switch:before {
+	content: "\e266";
+	font-family: IcoMoon;
+}
+.mce-i-filter:before {
+	content: "\54";
+	font-family: IcoMoon;
+}
+.mce-i-purge:before,
+.mce-i-trash:before {
+	content: "\4c";
+	font-family: IcoMoon;
+}
+.mce-i-checkedout:before,
+.mce-i-lock:before,
+.mce-i-locked:before {
+	content: "\23";
+	font-family: IcoMoon;
+}
+.mce-i-unlock:before {
+	content: "\e267";
+	font-family: IcoMoon;
+}
+.mce-i-key:before {
+	content: "\5f";
+	font-family: IcoMoon;
+}
+.mce-i-support:before {
+	content: "\46";
+	font-family: IcoMoon;
+}
+.mce-i-database:before {
+	content: "\62";
+	font-family: IcoMoon;
+}
+.mce-i-scissors:before {
+	content: "\e268";
+	font-family: IcoMoon;
+}
+.mce-i-health:before {
+	content: "\6a";
+	font-family: IcoMoon;
+}
+.mce-i-wand:before {
+	content: "\6b";
+	font-family: IcoMoon;
+}
+.mce-i-eye-open:before,
+.mce-i-eye:before {
+	content: "\3c";
+	font-family: IcoMoon;
+}
+.mce-i-eye-close:before,
+.mce-i-eye-blocked:before,
+.mce-i-eye-2:before {
+	content: "\e269";
+	font-family: IcoMoon;
+}
+.mce-i-clock:before {
+	content: "\6e";
+	font-family: IcoMoon;
+}
+.mce-i-compass:before {
+	content: "\6f";
+	font-family: IcoMoon;
+}
+.mce-i-broadcast:before,
+.mce-i-connection:before,
+.mce-i-wifi:before {
+	content: "\e01b";
+	font-family: IcoMoon;
+}
+.mce-i-book:before {
+	content: "\e271";
+	font-family: IcoMoon;
+}
+.mce-i-lightning:before,
+.mce-i-flash:before {
+	content: "\79";
+	font-family: IcoMoon;
+}
+.mce-i-print:before,
+.mce-i-printer:before {
+	content: "\e013";
+	font-family: IcoMoon;
+}
+.mce-i-feed:before {
+	content: "\71";
+	font-family: IcoMoon;
+}
+.mce-i-calendar:before {
+	content: "\43";
+	font-family: IcoMoon;
+}
+.mce-i-calendar-2:before {
+	content: "\44";
+	font-family: IcoMoon;
+}
+.mce-i-calendar-3:before {
+	content: "\e273";
+	font-family: IcoMoon;
+}
+.mce-i-pie:before {
+	content: "\77";
+	font-family: IcoMoon;
+}
+.mce-i-bars:before {
+	content: "\76";
+	font-family: IcoMoon;
+}
+.mce-i-chart:before {
+	content: "\75";
+	font-family: IcoMoon;
+}
+.mce-i-power-cord:before {
+	content: "\32";
+	font-family: IcoMoon;
+}
+.mce-i-cube:before {
+	content: "\33";
+	font-family: IcoMoon;
+}
+.mce-i-puzzle:before {
+	content: "\34";
+	font-family: IcoMoon;
+}
+.mce-i-attachment:before,
+.mce-i-paperclip:before,
+.mce-i-flag-2:before {
+	content: "\72";
+	font-family: IcoMoon;
+}
+.mce-i-lamp:before {
+	content: "\74";
+	font-family: IcoMoon;
+}
+.mce-i-pin:before,
+.mce-i-pushpin:before {
+	content: "\73";
+	font-family: IcoMoon;
+}
+.mce-i-location:before {
+	content: "\63";
+	font-family: IcoMoon;
+}
+.mce-i-shield:before {
+	content: "\e274";
+	font-family: IcoMoon;
+}
+.mce-i-flag:before {
+	content: "\35";
+	font-family: IcoMoon;
+}
+.mce-i-flag-3:before {
+	content: "\e275";
+	font-family: IcoMoon;
+}
+.mce-i-bookmark:before {
+	content: "\e023";
+	font-family: IcoMoon;
+}
+.mce-i-bookmark-2:before {
+	content: "\e276";
+	font-family: IcoMoon;
+}
+.mce-i-heart:before {
+	content: "\e277";
+	font-family: IcoMoon;
+}
+.mce-i-heart-2:before {
+	content: "\e278";
+	font-family: IcoMoon;
+}
+.mce-i-thumbs-up:before {
+	content: "\5b";
+	font-family: IcoMoon;
+}
+.mce-i-thumbs-down:before {
+	content: "\5c";
+	font-family: IcoMoon;
+}
+.mce-i-unfeatured:before,
+.mce-i-asterisk:before,
+.mce-i-star-empty:before {
+	content: "\40";
+	font-family: IcoMoon;
+}
+.mce-i-star-2:before {
+	content: "\41";
+	font-family: IcoMoon;
+}
+.mce-i-featured:before,
+.mce-i-default:before,
+.mce-i-star:before {
+	content: "\42";
+	font-family: IcoMoon;
+}
+.mce-i-smiley:before,
+.mce-i-smiley-happy:before {
+	content: "\e279";
+	font-family: IcoMoon;
+}
+.mce-i-smiley-2:before,
+.mce-i-smiley-happy-2:before {
+	content: "\e280";
+	font-family: IcoMoon;
+}
+.mce-i-smiley-sad:before {
+	content: "\e281";
+	font-family: IcoMoon;
+}
+.mce-i-smiley-sad-2:before {
+	content: "\e282";
+	font-family: IcoMoon;
+}
+.mce-i-smiley-neutral:before {
+	content: "\e283";
+	font-family: IcoMoon;
+}
+.mce-i-smiley-neutral-2:before {
+	content: "\e284";
+	font-family: IcoMoon;
+}
+.mce-i-cart:before {
+	content: "\e019";
+	font-family: IcoMoon;
+}
+.mce-i-basket:before {
+	content: "\e01a";
+	font-family: IcoMoon;
+}
+.mce-i-credit:before {
+	content: "\e286";
+	font-family: IcoMoon;
+}
+.mce-i-credit-2:before {
+	content: "\e287";
+	font-family: IcoMoon;
+}
+.mce-i-expired:before {
+	content     : "\4b";
+	font-family : IcoMoon;
+}
