@@ -147,7 +147,7 @@ class JHelperContenthistory extends JHelper
 
 		$context = (isset($aliasParts[1])) ? $aliasParts[1] : '';
 
-		$maxVersionsContext = JComponentHelper::getParams($aliasParts[0])->get('history_limit' . '_' . $context, null);
+		$maxVersionsContext = JComponentHelper::getParams($aliasParts[0])->get('history_limit' . '_' . $context, 0);
 
 		if ($maxVersionsContext)
 		{
