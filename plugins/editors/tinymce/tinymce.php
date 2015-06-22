@@ -611,103 +611,12 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar4_add[] = $custom_button;
 		}
 
-		// Get the available buttons
-		$buttons = $this->_subject->getButtons($this->_name, true);
+		// We shall put the XTD button inside tinymce
+		$buttons = $this->tinyButtons();
+		$btnsNames = $buttons['names'];
+		$tinyBtns  = $buttons['script'];
 
-		// Init the array for the buttons
-		$tinyBtns = array();
-
-		// Build the script
-		foreach ($buttons as $button)
-		{
-			if ($button->get('name'))
-			{
-				// Set some vars
-				$name     = str_replace(" ", "", $button->get('text'));
-				$title    = $button->get('text');
-				$onclick  = ($button->get('onclick')) ? $button->get('onclick') : null;
-				$options  = $button->get('options');
-				$icon     = $button->get('name');
-
-				if ($button->get('link') != "#")
-				{
-					$href = JUri::base() . $button->get('link');
-				}
-				else
-				{
-					$href = null;
-				}
-
-				// We do some hack here to set the correct icon for 3PD buttons
-				$icon = 'none icon-' . $icon;
-
-				JHtml::stylesheet("media/jui/css/tinybuttons.min.css", array(), false, false, false, true);
-
-				// Get the modal width/height
-				if ($options)
-				{
-					preg_match('/x:\s*+\d{2,4}/', $options, $modalWidth);
-					$modalWidth = implode("", $modalWidth);
-					$modalWidth = str_replace(' ', '', $modalWidth);
-					$modalWidth = str_replace("x:", "", $modalWidth);
-					preg_match('/y:\s*+\d{2,4}/', $options, $modalHeight);
-					$modalHeight = implode("", $modalHeight);
-					$modalHeight = str_replace(' ', '', $modalHeight);
-					$modalHeight = str_replace("y:", "", $modalHeight);
-				}
-
-				// Now we can built the script
-				$tempConstructor = "
-				editor.addButton(\"" . $name . "\", {
-					text: \"" . $title . "\",
-					title: \"" . $title . "\",
-					icon: \"" . $icon . "\",
-					onclick: function () {";
-				if ($button->get('modal') || $href)
-				{
-					$tempConstructor .= "
-							SqueezeBox.close = (function(){
-								return function() {
-									tinyMCE.activeEditor.windowManager.close();
-									SqueezeBox.close();
-								}
-							})();
-							editor.windowManager.open({
-								title  : \"" . $title . "\",
-								url : '" . $href . "',
-								width  : $modalWidth,
-								height : $modalHeight,
-								buttons: [{
-									text   : \"Close\",
-									onclick: \"close\"
-								}]
-							});";
-					if ($onclick && ($button->get('modal') || $href))
-					{
-						$tempConstructor .= ",
-						\"" . $onclick . "\"
-							";
-					}
-				}
-				else
-				{
-					$tempConstructor .= "
-						" . $onclick . "
-							";
-				}
-				$tempConstructor .= "
-					}
-				})";
-			}
-
-			// The array with the toolbar buttons
-			$btnsNames[] = $name;
-
-			// The array with code for each button
-			$tinyBtns[] = $tempConstructor;
-		}
-
-		// Prepare config variables
+			// Prepare config variables
 		$plugins  = implode(',', $plugins);
 		$elements = implode(',', $elements);
 
@@ -1070,5 +979,117 @@ class PlgEditorTinymce extends JPlugin
 	private function _toogleButton($name)
 	{
 		return JLayoutHelper::render('joomla.tinymce.togglebutton', $name);
+	}
+
+	/**
+	 * Get the XTD buttons and render them inside tinyMCE
+	 *
+	 * @return array
+	 */
+	private function tinyButtons()
+	{
+		// Get the available buttons
+		$buttons = $this->_subject->getButtons($this->_name, true);
+
+		// Init the array for the buttons
+		$tinyBtns = array();
+
+		// Build the script
+		foreach ($buttons as $button)
+		{
+			if ($button->get('name'))
+			{
+				// Set some vars
+				$name     = str_replace(" ", "", $button->get('text'));
+				$title    = $button->get('text');
+				$onclick  = ($button->get('onclick')) ? $button->get('onclick') : null;
+				$options  = $button->get('options');
+				$icon     = $button->get('name');
+
+				if ($button->get('link') != "#")
+				{
+					$href = JUri::base() . $button->get('link');
+				}
+				else
+				{
+					$href = null;
+				}
+
+				// We do some hack here to set the correct icon for 3PD buttons
+				$icon = 'none icon-' . $icon;
+
+				// Get the modal width/height
+				if ($options)
+				{
+					preg_match('/x:\s*+\d{2,4}/', $options, $modalWidth);
+					$modalWidth = implode("", $modalWidth);
+					$modalWidth = str_replace(' ', '', $modalWidth);
+					$modalWidth = str_replace("x:", "", $modalWidth);
+					preg_match('/y:\s*+\d{2,4}/', $options, $modalHeight);
+					$modalHeight = implode("", $modalHeight);
+					$modalHeight = str_replace(' ', '', $modalHeight);
+					$modalHeight = str_replace("y:", "", $modalHeight);
+				}
+
+				// Now we can built the script
+				$tempConstructor = "
+				editor.addButton(\"" . $name . "\", {
+					text: \"" . $title . "\",
+					title: \"" . $title . "\",
+					icon: \"" . $icon . "\",
+					onclick: function () {";
+				if ($button->get('modal') || $href)
+				{
+					$tempConstructor .= "
+							SqueezeBox.close = (function(){
+								return function() {
+									tinyMCE.activeEditor.windowManager.close();
+									SqueezeBox.close();
+								}
+							})();
+							editor.windowManager.open({
+								title  : \"" . $title . "\",
+								url : '" . $href . "',";
+					if ($options)
+					{
+						$tempConstructor .= "
+								width  : $modalWidth,
+								height : $modalHeight,";
+					}
+					$tempConstructor .= "
+								buttons: [{
+									text   : \"Close\",
+									onclick: \"close\"
+								}]
+							});";
+					if ($onclick && ($button->get('modal') || $href))
+					{
+						$tempConstructor .= ",
+						\"" . $onclick . "\"
+							";
+					}
+				}
+				else
+				{
+					$tempConstructor .= "
+						" . $onclick . "
+							";
+				}
+				$tempConstructor .= "
+					}
+				})";
+			}
+
+			// The array with the toolbar buttons
+			$btnsNames[] = $name;
+
+			// The array with code for each button
+			$tinyBtns[] = $tempConstructor;
+		}
+
+		return array(
+			'names' => $btnsNames,
+			'script' => $tinyBtns
+		);
 	}
 }
