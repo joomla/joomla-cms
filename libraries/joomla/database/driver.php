@@ -1407,10 +1407,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * Method to get an array of the result set rows from the database query where each row is an array.  The array
 	 * of objects can optionally be keyed by a field offset, but defaults to a sequential numeric array.
 	 *
-	 * NOTE: Choosing to key the result array by a non-unique field can result in unwanted
-	 * behavior and should be avoided.
-	 *
-	 * @param   string  $key  The name of a field on which to key the result array.
+	 * @param   integer  $key  The index of a field on which to key the result array.
 	 *
 	 * @return  mixed   The return value or null if the query failed.
 	 *
