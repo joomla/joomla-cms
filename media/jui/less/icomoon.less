@@ -30,16 +30,17 @@
 }
 
 dd > span[class^="icon-"] + time,
-dd > span[class*=" icon-"] + time{
-	margin-left: -.25em;
+dd > span[class*=" icon-"] + time {
+	margin-left: -0.25em;
 }
 dl.article-info dd.hits span[class^="icon-"],
-dl.article-info dd.hits span[class*=" icon-"]{
+dl.article-info dd.hits span[class*=" icon-"] {
 	margin-right: 0;
- }
- 
+}
+
 /* Use the following CSS code if you want to have a class per icon */
-[class^="icon-"]:before, [class*=" icon-"]:before {
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
 	font-family: 'IcoMoon';
 	font-style: normal;
 	speak: none;
@@ -59,7 +60,7 @@ dl.article-info dd.hits span[class*=" icon-"]{
 }
 .icon-chevron-right:before,
 .icon-rightarrow:before,
-.icon-arrow-right:before{
+.icon-arrow-right:before {
 	content: "\e006";
 }
 .icon-chevron-down:before,
@@ -219,7 +220,7 @@ dl.article-info dd.hits span[class*=" icon-"]{
 	content: "\3b";
 }
 .icon-save-new:before,
-.icon-plus-2:before  {
+.icon-plus-2:before {
 	content: "\5d";
 }
 .icon-minus-sign:before,
@@ -710,7 +711,7 @@ dl.article-info dd.hits span[class*=" icon-"]{
 .icon-thumbs-up:before {
 	content: "\5b";
 }
-.icon-thumbs-down:before{
+.icon-thumbs-down:before {
 	content: "\5c";
 }
 .icon-unfeatured:before,
@@ -723,7 +724,7 @@ dl.article-info dd.hits span[class*=" icon-"]{
 }
 .icon-featured:before,
 .icon-default:before,
-.icon-star:before{
+.icon-star:before {
 	content: "\42";
 }
 .icon-smiley:before,
@@ -759,5 +760,5 @@ dl.article-info dd.hits span[class*=" icon-"]{
 	content: "\e287";
 }
 .icon-expired:before {
-content: "\4b";
+	content: "\4b";
 }
