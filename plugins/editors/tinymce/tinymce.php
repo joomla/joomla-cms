@@ -1051,7 +1051,7 @@ class PlgEditorTinymce extends JPlugin
 							editor.windowManager.open({
 								title  : \"" . $title . "\",
 								url : '" . $href . "',";
-					if (isset($modalHeight) && isset($modalWidth))
+					if (!empty($modalHeight) && !empty($modalWidth))
 					{
 						$tempConstructor .= "
 								width  : $modalWidth,
