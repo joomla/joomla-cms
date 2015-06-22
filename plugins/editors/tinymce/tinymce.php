@@ -1022,6 +1022,7 @@ class PlgEditorTinymce extends JPlugin
 				if ($options)
 				{
 					preg_match('/x:\s*+\d{2,4}/', $options, $modalWidth);
+					preg_match('/x:\s*+\d{2,4}/', $options, $modalWidth);
 					$modalWidth = implode("", $modalWidth);
 					$modalWidth = str_replace(' ', '', $modalWidth);
 					$modalWidth = str_replace("x:", "", $modalWidth);
@@ -1050,7 +1051,7 @@ class PlgEditorTinymce extends JPlugin
 							editor.windowManager.open({
 								title  : \"" . $title . "\",
 								url : '" . $href . "',";
-					if ($options)
+					if (isset($modalHeight) && isset($modalWidth))
 					{
 						$tempConstructor .= "
 								width  : $modalWidth,
