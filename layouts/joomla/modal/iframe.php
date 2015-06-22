@@ -32,9 +32,13 @@ extract($displayData);
 
 $iframeAttributes = array(
 	'class' => 'iframe',
-	'src'   => $params['url'],
-	'name'  => $params['title']
+	'src'   => $params['url']
 );
+
+if (isset($params['title']))
+{
+	$iframeAttributes['name'] = $params['title'];
+}
 
 if (isset($params['height']))
 {
