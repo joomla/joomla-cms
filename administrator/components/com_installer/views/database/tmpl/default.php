@@ -37,7 +37,7 @@ defined('_JEXEC') or die;
 				<fieldset class="panelform">
 						<ul>
 						<?php if (!$this->filterParams) : ?>
-							<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?>
+							<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?></li>
 						<?php endif; ?>
 
 						<?php if ($this->schemaVersion != $this->changeSet->getSchema()) : ?>
@@ -76,6 +76,7 @@ defined('_JEXEC') or die;
 					</fieldset>
 				</div>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />
