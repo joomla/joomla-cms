@@ -57,7 +57,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 			case '1.0':
 				$theme = $this->params->get('theme', 'clean');
 				$file  = 'https://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
-				
+
 				JHtml::_('script', $file);
 
 				$document->addScriptDeclaration('jQuery( document ).ready(function()
