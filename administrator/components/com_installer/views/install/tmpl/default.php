@@ -180,5 +180,6 @@ JHtml::_('bootstrap.tooltip');
 	<?php echo JHtml::_('form.token'); ?>
 
 	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+	</div>
 </form>
 </div>
