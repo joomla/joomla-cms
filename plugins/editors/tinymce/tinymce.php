@@ -638,38 +638,10 @@ class PlgEditorTinymce extends JPlugin
 					$href = null;
 				}
 
-				// Get some icons
-				switch ($icon)
-				{
-					case 'copy':
-						// Page break
-						$icon = 'copy';
-						break;
-					case 'file-add':
-						// Articles
-						$icon = 'newdocument';
-						break;
-					case 'picture':
-						// Images
-						$icon = 'image';
-						break;
-					case 'arrow-down':
-						// Read more
-						$icon = 'pagebreak';
-						break;
-					default:
-						// We do some magic to set the correct icon for 3PD buttons
-						$style = JFactory::getDocument()->_style;
-						if (!empty($style))
-						{
-							$style = $style['text/css'];
-							$style = preg_replace('|.btn-toolbar .icon-|', '', $style);
-							$style = preg_replace('|' . $icon . '|', 'i.mce-ico.mce-i-' . $icon, $style);
-							JFactory::getDocument()->_style = array('text/css' => $style);
-						}
+				// We do some hack here to set the correct icon for 3PD buttons
+				$icon = 'none icon-' . $icon;
 
-						JHtml::stylesheet("media/jui/css/tinybuttons.min.css", array(), false, false, false, true);
-				}
+				JHtml::stylesheet("media/jui/css/tinybuttons.min.css", array(), false, false, false, true);
 
 				// Get the modal width/height
 				if ($options)
@@ -694,7 +666,7 @@ class PlgEditorTinymce extends JPlugin
 				if ($button->get('modal') || $href)
 				{
 					$tempConstructor .= "
-							jModalClose = (function(){
+							SqueezeBox.close = (function(){
 								return function() {
 									tinyMCE.activeEditor.windowManager.close();
 									SqueezeBox.close();
@@ -973,13 +945,11 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @param   string  $editor  The name of the editor
 	 *
-	 * @return  void
-	 *
-	 * @deprecated 3.5 tinyMCE (API v4) will trigger save automatically on form submit
+	 * @return  string
 	 */
 	public function onSave($editor)
 	{
-		return;
+		return 'if (tinyMCE.get("' . $editor . '").isHidden()) {tinyMCE.get("' . $editor . '").show()};';
 	}
 
 	/**
@@ -1042,6 +1012,7 @@ class PlgEditorTinymce extends JPlugin
 
 		$editor = '<div class="editor">';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
+		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
 
 		return $editor;
@@ -1094,12 +1065,10 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @param   string  $name  Editor name
 	 *
-	 * @return  void
-	 *
-	 * @deprecated 3.5 replaced by the native tinymce code plugin
+	 * @return  string
 	 */
 	private function _toogleButton($name)
 	{
-		return;
+		return JLayoutHelper::render('joomla.tinymce.togglebutton', $name);
 	}
 }
