@@ -44,7 +44,7 @@ class JCache
 			'lifetime' => (int) $conf->get('cachetime'),
 			'language' => $conf->get('language', 'en-GB'),
 			'storage' => $conf->get('cache_handler', ''),
-			'deviceprefix' => $conf->get('deviceprefix_enable', '0'),
+			'deviceprefix' => $conf->get('cache_platformprefix', '0'),
 			'defaultgroup' => 'default',
 			'locking' => true,
 			'locktime' => 15,
@@ -714,7 +714,7 @@ class JCache
 	public static function makeId()
 	{
 		$app = JFactory::getApplication();
-		$prefix = JCache::getDevicePrefix();
+		$prefix = static::getPlatformPrefix();
 
 		$registeredurlparams = new stdClass;
 
@@ -756,22 +756,23 @@ class JCache
 	/**
 	 * Set prefix cache key if device calls for separate caching
 	 *
-	 * @return  string   Device specific prefix
+	 * @return  string   Platform specific prefix
 	 *
 	 * @since 3.5
 	 */
-	public static function getDevicePrefix()
+	public static function getPlatformPrefix()
 	{
 		jimport('joomla.environment.browser');
-		$browser = JBrowser::getInstance();
+		$client = JFactory::getApplication()->client;
 		$conf = JFactory::getConfig();
 
-		if (!$conf->get('deviceprefix_enable', '0'))
+		// No prefix when Global Config is set to no platfom specific prefix
+		if (!$conf->get('cache_platformprefix', '0'))
 		{
 			return;
 		}
 
-		if ($browser->isMobile())
+		if ($client->mobile)
 		{
 			return 'M-';
 		}
