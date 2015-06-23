@@ -76,7 +76,6 @@ if ($stickyToolbar)
 		'
 		jQuery(document).ready(function($){
 			$("#second-nav").affix();
-			$("#j-sidebar-container").affix();
 		});
 		'
 	);
