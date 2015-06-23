@@ -60,7 +60,7 @@ if (isset($params['keyboard']))
  * Specific hack for Bootstrap 2.3.x
  */
 $script[] = "jQuery(document).ready(function($) {";
-$script[] = "   $('#" . $selector . "').on('show', function() {";
+$script[] = "   $('#" . $selector . "').on('shown', function() {";
 $script[] = "       $('body').addClass('modal-open');";
 
 if (isset($params['url']))
@@ -73,7 +73,7 @@ if (isset($params['url']))
 	$script[] = "       modalBody.prepend('" . trim($iframeHtml) . "');";
 }
 
-$script[] = "   }).on('hidden', function () {";
+$script[] = "   }).on('hide', function () {";
 $script[] = "       $('body').removeClass('modal-open');";
 $script[] = "   });";
 $script[] = "});";
