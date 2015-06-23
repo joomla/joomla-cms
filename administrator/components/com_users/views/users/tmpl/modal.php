@@ -39,13 +39,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			</div>
 		</div>
 	</fieldset>
-		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
-				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-			</div>
-		<?php else : ?>
-	<table class="table table-striped table-condensed">
-		<thead>
+	<?php if (empty($this->items)) : ?>
+		<div class="alert alert-no-items">
+			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+		</div>
+	<?php else : ?>
+		<table class="table table-striped table-condensed">
+			<thead>
 			<tr>
 				<th class="left">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
@@ -58,14 +58,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</th>
 			</tr>
 		</thead>
-		<tfoot>
+			<tfoot>
 			<tr>
 				<td colspan="15">
 					<?php echo $this->pagination->getListFooter(); ?>
 				</td>
 			</tr>
 		</tfoot>
-		<tbody>
+			<tbody>
 		<?php
 			$i = 0;
 
@@ -84,7 +84,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
-	</table>
+		</table>
 	<?php endif; ?>
 
 	<div>
