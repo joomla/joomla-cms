@@ -254,7 +254,7 @@ function colorIsLight($color)
 		<jdoc:include type="modules" name="top" style="xhtml" />
 		<div class="row-fluid">
 			<?php if ($showSubmenu) : ?>
-			<div class="span2" id="sidebar-affix" data-spy="affix-top">
+			<div class="span2">
 				<jdoc:include type="modules" name="submenu" style="none" />
 			</div>
 			<div class="span10">
