@@ -39,11 +39,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			</div>
 		</div>
 	</fieldset>
-	<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
-			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-		</div>
-	<?php else : ?>
+		<?php if (empty($this->items)) : ?>
+			<div class="alert alert-no-items">
+				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
+		<?php else : ?>
 	<table class="table table-striped table-condensed">
 		<thead>
 			<tr>
