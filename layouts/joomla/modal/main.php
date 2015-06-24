@@ -60,7 +60,7 @@ if (isset($params['keyboard']))
  * Specific hack for Bootstrap 2.3.x
  */
 $script[] = "jQuery(document).ready(function($) {";
-$script[] = "   $('#" . $selector . "').on('shown', function() {";
+$script[] = "   $('#" . $selector . "').on('show', function() {";
 $script[] = "       $('body').addClass('modal-open');";
 
 if (isset($params['url']))
