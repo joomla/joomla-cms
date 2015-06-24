@@ -143,7 +143,7 @@ JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 						</div>
 					</div>
 					<div class="form-actions">
-						<input class="btn btn-primary" type="button" value="<?php echo JText::_('COM_INSTALLER_UPLOAD_AND_INSTALL'); ?>" onclick="Joomla.submitbutton()" />
+						<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton()"><?php echo JText::_('COM_INSTALLER_UPLOAD_AND_INSTALL'); ?></button>
 					</div>
 				</fieldset>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
@@ -158,7 +158,7 @@ JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 						</div>
 					</div>
 					<div class="form-actions">
-						<input type="button" class="btn btn-primary" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton3()" />
+						<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton3()"><?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?></button>
 					</div>
 				</fieldset>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
@@ -173,7 +173,7 @@ JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 						</div>
 					</div>
 					<div class="form-actions">
-						<input type="button" class="btn btn-primary" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton4()" />
+						<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton4()"><?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?></button>
 					</div>
 				</fieldset>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
