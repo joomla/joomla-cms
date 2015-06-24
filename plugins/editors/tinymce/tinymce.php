@@ -991,8 +991,9 @@ class PlgEditorTinymce extends JPlugin
 		// Get the available buttons
 		$buttons = $this->_subject->getButtons($this->_name, true);
 
-		// Init the array for the buttons
-		$tinyBtns = array();
+		// Init the arrays for the buttons
+		$tinyBtns  = array();
+		$btnsNames = array();
 
 		// Build the script
 		foreach ($buttons as $button)
@@ -1022,14 +1023,9 @@ class PlgEditorTinymce extends JPlugin
 				if ($options)
 				{
 					preg_match('/x:\s*+\d{2,4}/', $options, $modalWidth);
-					preg_match('/x:\s*+\d{2,4}/', $options, $modalWidth);
-					$modalWidth = implode("", $modalWidth);
-					$modalWidth = str_replace(' ', '', $modalWidth);
-					$modalWidth = str_replace("x:", "", $modalWidth);
 					preg_match('/y:\s*+\d{2,4}/', $options, $modalHeight);
-					$modalHeight = implode("", $modalHeight);
-					$modalHeight = str_replace(' ', '', $modalHeight);
-					$modalHeight = str_replace("y:", "", $modalHeight);
+					$modalWidth  = filter_var(implode("", $modalWidth), FILTER_SANITIZE_NUMBER_INT);
+					$modalHeight = filter_var(implode("", $modalHeight), FILTER_SANITIZE_NUMBER_INT);
 				}
 
 				// Now we can built the script
@@ -1066,7 +1062,7 @@ class PlgEditorTinymce extends JPlugin
 					if ($onclick && ($button->get('modal') || $href))
 					{
 						$tempConstructor .= ",
-						\"" . $onclick . "\"
+						" . $onclick . "
 							";
 					}
 				}
@@ -1079,13 +1075,13 @@ class PlgEditorTinymce extends JPlugin
 				$tempConstructor .= "
 					}
 				})";
+
+				// The array with the toolbar buttons
+				$btnsNames[] = $name;
+
+				// The array with code for each button
+				$tinyBtns[] = $tempConstructor;
 			}
-
-			// The array with the toolbar buttons
-			$btnsNames[] = $name;
-
-			// The array with code for each button
-			$tinyBtns[] = $tempConstructor;
 		}
 
 		return array(
