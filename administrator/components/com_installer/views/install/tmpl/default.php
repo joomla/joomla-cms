@@ -122,7 +122,7 @@ JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 			<?php echo $this->loadTemplate('message'); ?>
 		<?php elseif ($this->showJedAndWebInstaller) : ?>
 			<div class="alert alert-info j-jed-message">
-				<a href="<?php echo JRoute::_('index.php?option=com_config&view=component&component=com_installer&path=&return='.urlencode(base64_encode(JUri::getInstance()))); ?>" class="close hasTooltip" data-dismiss="alert" title="<?php echo $this->escape('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP'); ?>">&times;</a>
+				<a href="<?php echo JRoute::_('index.php?option=com_config&view=component&component=com_installer&path=&return='.urlencode(base64_encode(JUri::getInstance()))); ?>" class="close hasTooltip" data-dismiss="alert" title="<?php echo $this->escape(JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')); ?>">&times;</a>
 				<p><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFO'); ?>&nbsp;&nbsp;<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_TOS'); ?></p>
 				<button class="btn" type="button" onclick="Joomla.submitbuttonInstallWebInstaller()"><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_ADD_TAB'); ?></button>
 			</div>
