@@ -129,11 +129,11 @@ JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 		<?php endif; ?>
 
 		<form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
-			<?php echo JHtml::_('bootstrap.startTabSet', 'installer', array('active' => 'upload')); ?>
+			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'upload')); ?>
 
 				<?php JEventDispatcher::getInstance()->trigger('onInstallerViewBeforeFirstTab', array()); ?>
 
-				<?php echo JHtml::_('bootstrap.addTab', 'installer', 'upload', JText::_('COM_INSTALLER_UPLOAD_PACKAGE_FILE', true)); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'upload', JText::_('COM_INSTALLER_UPLOAD_PACKAGE_FILE', true)); ?>
 				<fieldset class="uploadform">
 					<legend><?php echo JText::_('COM_INSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
 					<div class="control-group">
@@ -148,7 +148,7 @@ JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 				</fieldset>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-				<?php echo JHtml::_('bootstrap.addTab', 'installer', 'directory', JText::_('COM_INSTALLER_INSTALL_FROM_DIRECTORY', true)); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'directory', JText::_('COM_INSTALLER_INSTALL_FROM_DIRECTORY', true)); ?>
 				<fieldset class="uploadform">
 					<legend><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_DIRECTORY'); ?></legend>
 					<div class="control-group">
@@ -163,7 +163,7 @@ JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 				</fieldset>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-				<?php echo JHtml::_('bootstrap.addTab', 'installer', 'url', JText::_('COM_INSTALLER_INSTALL_FROM_URL', true)); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'url', JText::_('COM_INSTALLER_INSTALL_FROM_URL', true)); ?>
 				<fieldset class="uploadform">
 					<legend><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_URL'); ?></legend>
 					<div class="control-group">
@@ -181,7 +181,7 @@ JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 				<?php JEventDispatcher::getInstance()->trigger('onInstallerViewAfterLastTab', array()); ?>
 
 				<?php if ($this->ftp) : ?>
-					<?php echo JHtml::_('bootstrap.addTab', 'installer', 'ftp', JText::_('COM_INSTALLER_MSG_DESCFTPTITLE', true)); ?>
+					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'ftp', JText::_('COM_INSTALLER_MSG_DESCFTPTITLE', true)); ?>
 						<?php echo $this->loadTemplate('ftp'); ?>
 					<?php echo JHtml::_('bootstrap.endTab'); ?>
 				<?php endif; ?>
