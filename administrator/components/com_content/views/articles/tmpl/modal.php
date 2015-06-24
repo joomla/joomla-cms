@@ -160,7 +160,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo (int) $item->id; ?>
 					</td>
 				</tr>
-				<?php endforeach; ?>
+			<?php endforeach; ?>
 			</tbody>
 		</table>
 	<?php endif; ?>
