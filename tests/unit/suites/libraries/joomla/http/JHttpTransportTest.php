@@ -7,24 +7,28 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry;
+
 /**
  * Test class for JHttpTransport classes.
- *
- * @package     Joomla.UnitTest
- * @subpackage  Http
- * @since       3.4
  */
 class JHttpTransportTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    \Joomla\Registry\Registry  Options for the JHttpTransport object.
-	 * @since  3.4
+	 * Options for the JHttpTransport object.
+	 *
+	 * @var  array
 	 */
-	protected $options;
+	protected $options = array(
+		'transport.curl'   => array(CURLOPT_SSL_VERIFYPEER => false),
+		'transport.socket' => array('X-Joomla-Test: true'),
+		'transport.stream' => array('ignore_errors' => true)
+	);
 
 	/**
-	 * @var    string  The URL string for the HTTP stub.
-	 * @since  3.4
+	 * The URL string for the HTTP stub.
+	 *
+	 * @var  string
 	 */
 	protected $stubUrl;
 
@@ -33,8 +37,6 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @return  void
-	 *
-	 * @since   3.4
 	 */
 	protected function setUp()
 	{
@@ -44,19 +46,15 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 		{
 			$this->markTestSkipped('The JHttpTransport test stub has not been configured');
 		}
-		else
-		{
-			$this->options = $this->getMock('\\Joomla\\Registry\\Registry', array('get', 'set'));
-			$this->stubUrl = defined('JTEST_HTTP_STUB') ? JTEST_HTTP_STUB : getenv('JTEST_HTTP_STUB');
-		}
+
+		$this->options = $this->getMock('\\Joomla\\Registry\\Registry', array('get', 'set'));
+		$this->stubUrl = defined('JTEST_HTTP_STUB') ? JTEST_HTTP_STUB : getenv('JTEST_HTTP_STUB');
 	}
 
 	/**
 	 * Data provider for the request test methods.
 	 *
 	 * @return  array
-	 *
-	 * @since   3.4
 	 */
 	public function transportProvider()
 	{
@@ -75,24 +73,23 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  transportProvider
-	 * @since         3.4
 	 */
 	public function testRequestGet($transportClass)
 	{
-		$transport = new $transportClass($this->options);
+		$transport = new $transportClass(new Registry($this->options));
 
 		$response = $transport->request('get', new JUri($this->stubUrl));
 
 		$body = json_decode($response->body);
 
-		$this->assertThat(
-			$response->code,
-			$this->equalTo(200)
+		$this->assertEquals(
+			200,
+			$response->code
 		);
 
-		$this->assertThat(
-			$body->method,
-			$this->equalTo('GET')
+		$this->assertEquals(
+			'GET',
+			$body->method
 		);
 	}
 
@@ -105,11 +102,10 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider       transportProvider
 	 * @expectedException  RuntimeException
-	 * @since              3.4
 	 */
 	public function testBadDomainRequestGet($transportClass)
 	{
-		$transport = new $transportClass($this->options);
+		$transport = new $transportClass(new Registry($this->options));
 		$transport->request('get', new JUri('http://xommunity.joomla.org'));
 	}
 
@@ -121,12 +117,17 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  transportProvider
-	 * @since         3.4
 	 */
 	public function testRequestGet404($transportClass)
 	{
-		$transport = new $transportClass($this->options);
+		$transport = new $transportClass(new Registry($this->options));
+
 		$response = $transport->request('get', new JUri($this->stubUrl . ':80'));
+
+		$this->assertEquals(
+			404,
+			$response->code
+		);
 	}
 
 	/**
@@ -137,24 +138,23 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  transportProvider
-	 * @since         3.4
 	 */
 	public function testRequestPut($transportClass)
 	{
-		$transport = new $transportClass($this->options);
+		$transport = new $transportClass(new Registry($this->options));
 
 		$response = $transport->request('put', new JUri($this->stubUrl));
 
 		$body = json_decode($response->body);
 
-		$this->assertThat(
-			$response->code,
-			$this->equalTo(200)
+		$this->assertEquals(
+			200,
+			$response->code
 		);
 
-		$this->assertThat(
-			$body->method,
-			$this->equalTo('PUT')
+		$this->assertEquals(
+			'PUT',
+			$body->method
 		);
 	}
 
@@ -166,29 +166,28 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  transportProvider
-	 * @since         3.4
 	 */
 	public function testRequestPost($transportClass)
 	{
-		$transport = new $transportClass($this->options);
+		$transport = new $transportClass(new Registry($this->options));
 
 		$response = $transport->request('post', new JUri($this->stubUrl . '?test=okay'), array('key' => 'value'));
 
 		$body = json_decode($response->body);
 
-		$this->assertThat(
-			$response->code,
-			$this->equalTo(200)
+		$this->assertEquals(
+			200,
+			$response->code
 		);
 
-		$this->assertThat(
-			$body->method,
-			$this->equalTo('POST')
+		$this->assertEquals(
+			'POST',
+			$body->method
 		);
 
-		$this->assertThat(
-			$body->post->key,
-			$this->equalTo('value')
+		$this->assertEquals(
+			'value',
+			$body->post->key
 		);
 	}
 
@@ -200,29 +199,28 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  transportProvider
-	 * @since         3.4
 	 */
 	public function testRequestPostScalar($transportClass)
 	{
-		$transport = new $transportClass($this->options);
+		$transport = new $transportClass(new Registry($this->options));
 
 		$response = $transport->request('post', new JUri($this->stubUrl . '?test=okay'), 'key=value');
 
 		$body = json_decode($response->body);
 
-		$this->assertThat(
-			$response->code,
-			$this->equalTo(200)
+		$this->assertEquals(
+			200,
+			$response->code
 		);
 
-		$this->assertThat(
-			$body->method,
-			$this->equalTo('POST')
+		$this->assertEquals(
+			'POST',
+			$body->method
 		);
 
-		$this->assertThat(
-			$body->post->key,
-			$this->equalTo('value')
+		$this->assertEquals(
+			'value',
+			$body->post->key
 		);
 	}
 }
