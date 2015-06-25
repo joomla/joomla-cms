@@ -830,9 +830,11 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * TinyMCE WYSIWYG Editor - get the editor content
 	 *
+	 * @param   string  $editor  The name of the editor
+	 *
 	 * @return  string
 	 */
-	public function onGetContent()
+	public function onGetContent($editor)
 	{
 		return 'tinyMCE.activeEditor.getContent();';
 	}
@@ -840,13 +842,14 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * TinyMCE WYSIWYG Editor - set the editor content
 	 *
-	 * @param   string  $html  The html to place in the editor
+	 * @param   string  $editor  The name of the editor
+	 * @param   string  $html    The html to place in the editor
 	 *
 	 * @return  string
 	 */
-	public function onSetContent($html)
+	public function onSetContent($editor, $html)
 	{
-			return 'tinyMCE.activeEditor.setContent(' . $html . ');';
+		return 'tinyMCE.activeEditor.setContent(' . $html . ');';
 	}
 
 	/**
@@ -925,48 +928,6 @@ class PlgEditorTinymce extends JPlugin
 		$editor .= '</div>';
 
 		return $editor;
-	}
-
-	/**
-	 * Displays the editor buttons.
-	 *
-	 * @param   string  $name     The editor name
-	 * @param   mixed   $buttons  [array with button objects | boolean true to display buttons]
-	 * @param   string  $asset    The object asset
-	 * @param   object  $author   The author.
-	 *
-	 * @return  void
-	 *
-	 * @deprecated 3.5 buttons render as native tinymce buttons
-	 */
-	private function _displayButtons($name, $buttons, $asset, $author)
-	{
-		$return = '';
-
-		$args = array(
-			'name'  => $name,
-			'event' => 'onGetInsertMethod'
-		);
-
-		$results = (array) $this->update($args);
-
-		if ($results)
-		{
-			foreach ($results as $result)
-			{
-				if (is_string($result) && trim($result))
-				{
-					$return .= $result;
-				}
-			}
-		}
-
-		if (is_array($buttons) || (is_bool($buttons) && $buttons))
-		{
-			$this->_subject->getButtons($name, $buttons, $asset, $author);
-		}
-
-		return;
 	}
 
 	/**
