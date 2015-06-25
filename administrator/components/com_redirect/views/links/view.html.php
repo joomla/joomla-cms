@@ -20,6 +20,8 @@ class RedirectViewLinks extends JViewLegacy
 
 	protected $collect_urls_enabled;
 
+	protected $redirectpluginid;
+
 	protected $items;
 
 	protected $pagination;
@@ -39,6 +41,7 @@ class RedirectViewLinks extends JViewLegacy
 	{
 		$this->enabled              = RedirectHelper::isEnabled();
 		$this->collect_urls_enabled = RedirectHelper::collectUrlsEnabled();
+		$this->redirectpluginid     = RedirectHelper::getRedirectPluginId();
 		$this->items                = $this->get('Items');
 		$this->pagination           = $this->get('Pagination');
 		$this->state                = $this->get('State');
@@ -109,6 +112,7 @@ class RedirectViewLinks extends JViewLegacy
 			// Get the toolbar object instance
 			$bar = JToolBar::getInstance('toolbar');
 
+			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
@@ -129,7 +133,7 @@ class RedirectViewLinks extends JViewLegacy
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_redirect');
 			JToolbarHelper::divider();
