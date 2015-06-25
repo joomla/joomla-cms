@@ -23,6 +23,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			
 			if (self != top){
 				window.top.setTimeout('window.parent.jModalClose()', 1000);
+				window.parent.jQuery('#plugin" . $this->item->extension_id . "Modal').modal('hide');
 			}
 		}
 	};
