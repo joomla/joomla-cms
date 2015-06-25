@@ -801,7 +801,7 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return  string
 	 */
-	public function onGetContent()
+	public function onGetContent($editor)
 	{
 		return 'tinyMCE.activeEditor.getContent();';
 	}
@@ -814,7 +814,7 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return  string
 	 */
-	public function onSetContent($html)
+	public function onSetContent($editor, $html)
 	{
 		return 'tinyMCE.activeEditor.setContent(' . $html . ');';
 	}
