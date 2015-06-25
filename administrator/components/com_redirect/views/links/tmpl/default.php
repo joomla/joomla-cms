@@ -15,6 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
+JHTML::_('behavior.modal');
 
 $user		= JFactory::getUser();
 $listOrder	= $this->escape($this->state->get('list.ordering'));
@@ -35,8 +36,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_REDIRECT_SEARCH_LINKS'); ?>" />
 			</div>
 			<div class="btn-group pull-left">
-				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search"></span></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
+				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
 			<div class="btn-group pull-right hidden-phone">
 				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
@@ -44,22 +45,31 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</div>
 		</div>
 		<div class="clearfix"> </div>
-			<?php if ($this->enabled) : ?>
-		<div class="alert alert-info">
-			<a class="close" data-dismiss="alert">&#215;</a>
-			<?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?>
-			<?php if ($this->collect_urls_enabled) : ?>
-				<?php echo JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'); ?>
-			<?php else : ?>
-				<?php echo JText::_('COM_REDIRECT_COLLECT_URLS_DISABLED'); ?>
-			<?php endif; ?>
-		</div>
-			<?php else : ?>
-		<div class="alert alert-error">
-			<a class="close" data-dismiss="alert">&#215;</a>
-			<?php echo JText::_('COM_REDIRECT_PLUGIN_DISABLED'); ?>
-		</div>
+
+		<?php if ($this->enabled) : ?>
+			<div class="alert alert-info">
+				<a class="close" data-dismiss="alert">&#215;</a>
+
+				<?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?>
+				<?php if ($this->collect_urls_enabled) : ?>
+					<?php echo JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'); ?>
+				<?php else : ?>
+					<?php echo JText::_('COM_REDIRECT_COLLECT_URLS_DISABLED'); ?>
+				<?php endif; ?>
+
+		<?php else : ?>
+			<div class="alert alert-error">
+				<a class="close" data-dismiss="alert">&#215;</a>
+				<?php echo JText::_('COM_REDIRECT_PLUGIN_DISABLED'); ?>
 		<?php endif; ?>
+
+			<a class="modal" rel="{handler: 'iframe', size: {x: 900, y: 550}}" 
+				title="<?php echo JText::_("COM_REDIRECT_EDIT_PLUGIN"); ?>" 
+				href="<?php echo JRoute::_("index.php?option=com_plugins&amp;client_id=0&amp;task=plugin.edit&amp;extension_id=" . $this->redirectpluginid . "&amp;tmpl=component&amp;layout=modal");?>">
+				<?php echo JText::_("COM_REDIRECT_EDIT_PLUGIN"); ?>
+			</a>
+		</div>
+
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
@@ -141,25 +151,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-			<?php //Load the batch processing form if user is allowed ?>
-			<?php if ($user->authorise('core.create', 'com_redirect')
-				&& $user->authorise('core.edit', 'com_redirect')
-				&& $user->authorise('core.edit.state', 'com_redirect')) : ?>
-				<?php echo JHtml::_(
-					'bootstrap.renderModal',
-					'collapseModal',
-					array(
-						'title' => JText::_('COM_REDIRECT_BATCH_OPTIONS'),
-						'footer' => $this->loadTemplate('batch_footer')
-					),
-					$this->loadTemplate('batch_body')
-				); ?>
-			<?php endif;?>
 		<?php endif; ?>
 
 		<?php if (!empty($this->items)) : ?>
 			<?php echo $this->loadTemplate('addform'); ?>
 		<?php endif; ?>
+
+		<?php echo $this->loadTemplate('batch'); ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
