@@ -100,6 +100,35 @@ class RedirectHelper
 
 		return $result;
 	}
+	
+	/**
+	 * get the redirect system plugin id to use for direct access
+	 *
+	 * @return  int
+	 *
+	 * @since   3.4
+	 */
+	public static function getRedirectPluginId()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from('#__extensions')
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('redirect'));
+		$db->setQuery($query);
+
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		return $result;
+	}
 
 	/**
 	 * Checks whether the option "Collect URLs" is enabled for the output message
