@@ -801,9 +801,9 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return  string
 	 */
-	public function onGetContent($editor)
+	public function onGetContent()
 	{
-		return 'tinyMCE.get(\'' . $editor . '\').getContent();';
+		return 'tinyMCE.activeEditor.getContent();';
 	}
 
 	/**
@@ -814,9 +814,9 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return  string
 	 */
-	public function onSetContent($editor, $html)
+	public function onSetContent($html)
 	{
-		return 'tinyMCE.get(\'' . $editor . '\').setContent(' . $html . ');';
+		return 'tinyMCE.activeEditor.setContent(' . $html . ');';
 	}
 
 	/**
@@ -828,7 +828,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onSave($editor)
 	{
-		return 'if (tinyMCE.get("' . $editor . '").isHidden()) {tinyMCE.get("' . $editor . '").show()}; tinyMCE.get("' . $editor . '").save();';
+		return 'if (tinyMCE.get("' . $editor . '").isHidden()) {tinyMCE.get("' . $editor . '").show()};';
 	}
 
 	/**
