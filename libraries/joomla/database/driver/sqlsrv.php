@@ -486,6 +486,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			$fields[] = $this->quoteName($k);
 			$values[] = $this->Quote($v);
 		}
+
 		// Set the query and execute the insert.
 		$this->setQuery(sprintf($statement, implode(',', $fields), implode(',', $values)));
 
@@ -664,7 +665,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new RuntimeException($this->errorMsg, $this->errorNum);
+				throw new Exception($this->errorMsg, $this->errorNum);
 			}
 		}
 
