@@ -304,8 +304,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			}
 		}
 
-		// We are called via POST. We don't care about the language
-		// and simply set the default language as our current language.
+		// We are called via POST. We don't care about the language and simply set the default language as our current language.
 		// [Errr... this is not exactly what happens here below!!! TBD verify...]
 		if ($this->app->input->getMethod() == "POST"
 			|| count($this->app->input->post) > 0
@@ -478,9 +477,8 @@ class PlgSystemLanguageFilter extends JPlugin
 				$lang_code = $this->default_lang;
 			}
 
-			// The language has been deleted/disabled/unpublished
-			// or the related home page does not exist
-			// or the related content language does not exist
+			// The language has been deleted/disabled/unpublished, or the related home page does not exist,
+			// or the related content language folder does not exist
 			if (!array_key_exists($lang_code, $this->lang_codes)
 				|| !array_key_exists($lang_code, $this->home_pages)
 				|| !is_dir(JPATH_SITE . '/language/' . $lang_code))
