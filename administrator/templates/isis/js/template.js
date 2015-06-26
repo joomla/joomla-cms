@@ -21,25 +21,36 @@
 
 			if (!input.prop('checked')) {
 				label.closest('.btn-group').find('label').removeClass('active btn-success btn-danger btn-primary');
-				if (input.val() == '') {
+				if (label.closest('.btn-group').find('label').length > 2) {
 					label.addClass('active btn-primary');
-				} else if (input.val() == 0) {
-					label.addClass('active btn-danger');
 				} else {
-					label.addClass('active btn-success');
+					if (input.val() == '') {
+						label.addClass('active btn-primary');
+					} else if (input.val() == 0) {
+						label.addClass('active btn-danger');
+					} else {
+						label.addClass('active btn-success');
+					}
 				}
+
 				input.prop('checked', true);
 				input.trigger('change');
 			}
 		});
 		$('.btn-group input[checked=checked]').each(function()
 		{
-			if ($(this).val() == '') {
-				$('label[for=' + $(this).attr('id') + ']').addClass('active btn-primary');
-			} else if ($(this).val() == 0) {
-				$('label[for=' + $(this).attr('id') + ']').addClass('active btn-danger');
+			var label = $('label[for=' + $(this).attr('id') + ']');
+
+			if (label.closest('.btn-group').find('label').length > 2) {
+				label.addClass('active btn-primary');
 			} else {
-				$('label[for=' + $(this).attr('id') + ']').addClass('active btn-success');
+				if ($(this).val() == '') {
+					label.addClass('active btn-primary');
+				} else if ($(this).val() == 0) {
+					label.addClass('active btn-danger');
+				} else {
+					label.addClass('active btn-success');
+				}
 			}
 		});
 		// add color classes to chosen field based on value
