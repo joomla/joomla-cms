@@ -15,75 +15,93 @@ jimport('joomla.filesystem.folder');
 /**
  * Base install script for use by extensions providing helper methods for common behaviours.
  *
- * @since  3.4
+ * @since  3.5
  */
 class JInstallerScript
 {
 	/**
-	 * @var    string  The version number of the extension.
-	 * @since  3.4
+	 * The version number of the extension.
+	 *
+	 * @var    string
+	 * @since  3.5
 	 */
 	protected $release;
 
 	/**
-	 * @var    string  The table the parameters are stored in.
-	 * @since  3.4
+	 * The table the parameters are stored in.
+	 *
+	 * @var    string
+	 * @since  3.5
 	 */
 	protected $paramTable;
 
 	/**
-	 * @var    string  The extension name. This should be set in the installer script.
-	 * @since  3.4
+	 * The extension name. This should be set in the installer script.
+	 *
+	 * @var    string
+	 * @since  3.5
 	 */
 	protected $extension;
 
 	/**
-	 * @var    array  A list of files to be deleted.
-	 * @since  3.4
+	 * A list of files to be deleted
+	 *
+	 * @var    array
+	 * @since  3.5
 	 */
 	protected $deleteFiles = array();
 
 	/**
-	 * @var    array  A list of folders to be deleted.
-	 * @since  3.4
+	 * A list of folders to be deleted
+	 *
+	 * @var    array
+	 * @since  3.5
 	 */
 	protected $deleteFolders = array();
 
 	/**
-	 * @var    array  A list of cli script files to be copied to the cli directory
-	 * @since  3.4
+	 * A list of CLI script files to be copied to the cli directory
+	 *
+	 * @var    array
+	 * @since  3.5
 	 */
 	protected $cliScriptFiles = array();
 
 	/**
-	 * @var    string  Minimum PHP version required to install the extension
-	 * @since  3.4
+	 * Minimum PHP version required to install the extension
+	 *
+	 * @var    string
+	 * @since  3.5
 	 */
 	protected $minimumPhp;
 
 	/**
-	 * @var    string  Minimum Joomla version required to install the extension
-	 * @since  3.4
+	 * Minimum Joomla! version required to install the extension
+	 *
+	 * @var    string
+	 * @since  3.5
 	 */
 	protected $minimumJoomla;
 
 	/**
-	 * @var   boolean  Allow downgrades of your extension. Use at your own risk
-	 *                 as if there is a change in functionality people may wish
-	 *                 to downgrade
+	 * Allow downgrades of your extension
+	 *
+	 * Use at your own risk as if there is a change in functionality people may wish to downgrade.
+	 *
+	 * @var    boolean
+	 * @since  3.5
 	 */
 	protected $allowDowngrades = false;
 
 	/**
 	 * Function called before extension installation/update/removal procedure commences
 	 *
-	 * @param   string            $type    The type of change (install, update or discover_install,
-	 *                                     not uninstall)
-	 * @param   JAdapterInstance  $parent  The class calling this method
+	 * @param   string             $type    The type of change (install, update or discover_install, not uninstall)
+	 * @param   JInstallerAdapter  $parent  The class calling this method
 	 *
-	 * @return  boolean  true on success and false on failure
+	 * @return  boolean  True on success
 	 *
-	 * @since  3.4
+	 * @since   3.5
 	 */
 	public function preflight($type, $parent)
 	{
@@ -137,7 +155,7 @@ class JInstallerScript
 	 *
 	 * @return  array  An array of ID's of the extension
 	 *
-	 * @since  3.4
+	 * @since   3.5
 	 */
 	public function getInstances($isModule)
 	{
@@ -150,19 +168,16 @@ class JInstallerScript
 		if ($isModule)
 		{
 			$query->from($db->quoteName('#__modules'))
-				->where($db->quoteName('module') . ' = ' . $db->Quote($this->extension));
+				->where($db->quoteName('module') . ' = ' . $db->quote($this->extension));
 		}
 		else
 		{
 			$query->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('element') . ' = ' . $db->Quote($this->extension));
+				->where($db->quoteName('element') . ' = ' . $db->quote($this->extension));
 		}
 
 		// Set the query and obtain an array of id's
-		$db->setQuery($query);
-		$items = $db->loadColumn();
-
-		return $items;
+		return $db->setQuery($query)->loadColumn();
 	}
 
 	/**
@@ -173,7 +188,7 @@ class JInstallerScript
 	 *
 	 * @return  string  The parameter desired
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function getParam($name, $id = 0)
 	{
@@ -197,9 +212,9 @@ class JInstallerScript
 	 * @param   string   $type         The type of change to be made to the param (edit/remove)
 	 * @param   integer  $id           The id of the item in the relevant table
 	 *
-	 * @return  mixed  false on failure, void otherwise
+	 * @return  boolean  True on success
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function setParams($param_array = null, $type = 'edit', $id = 0)
 	{
@@ -240,14 +255,13 @@ class JInstallerScript
 		$paramsString = json_encode($params);
 
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->update($db->quoteName($this->paramTable))
+		$query = $db->getQuery(true)
+			->update($db->quoteName($this->paramTable))
 			->set('params = ' . $db->quote($paramsString))
 			->where('id = ' . $id);
 
 		// Update table
-		$db->setQuery($query);
-		$db->execute();
+		$db->setQuery($query)->execute();
 
 		return true;
 	}
@@ -262,34 +276,32 @@ class JInstallerScript
 	 * @param   string  $column      The column of the database to search from
 	 * @param   mixed   $identifier  The integer id or the already quoted string
 	 *
-	 * @return  array  associated array containing data from the cell
+	 * @return  array  Associated array containing data from the cell
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function getItemArray($element, $table, $column, $identifier)
 	{
 		// Get the DB and query objects
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
 
 		// Build the query
-		$query->select($db->quoteName($element))
+		$query = $db->getQuery(true)
+			->select($db->quoteName($element))
 			->from($db->quoteName($table))
 			->where($db->quoteName($column) . ' = ' . $identifier);
 		$db->setQuery($query);
 
 		// Load the single cell and json_decode data
-		$array = json_decode($db->loadResult(), true);
-
-		return $array;
+		return json_decode($db->loadResult(), true);
 	}
 
 	/**
 	 * Remove the files and folders in the given array from
 	 *
-	 * @return  null
+	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function removeFiles()
 	{
@@ -319,9 +331,9 @@ class JInstallerScript
 	/**
 	 * Moves the CLI scripts into the CLI folder in the CMS
 	 *
-	 * @return  null
+	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public function moveCliFiles()
 	{
