@@ -58,7 +58,7 @@ class Redis extends Storage
 	 */
 	public function register()
 	{
-		if ($serverConf['port']==-1 || $serverConf['port']==0) 
+		if ($this->_servers[0]['port']==-1 || $this->_servers[0]['port']==0) 
 		{
 			$savepath='unix://'.$this->_servers[0]['host'];
 		}
