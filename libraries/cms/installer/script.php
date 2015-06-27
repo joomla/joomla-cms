@@ -13,11 +13,11 @@ jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
 /**
- * Helper class to aid with extension installs.
+ * Base install script for use by extensions providing helper methods for common behaviours.
  *
  * @since  3.4
  */
-class JHelperExtensionscript
+class JInstallerScript
 {
 	/**
 	 * @var    string  The version number of the extension.
