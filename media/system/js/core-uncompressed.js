@@ -135,6 +135,8 @@ Joomla.renderMessages = function(messages) {
 	Joomla.removeMessages();
 
 	var messageContainer = document.getElementById('system-message-container');
+	var messageInner = document.createElement('div');
+	messageInner.id = 'system-message';
 
 	for (var type in messages) {
 		if (messages.hasOwnProperty(type)) {
@@ -164,9 +166,11 @@ Joomla.renderMessages = function(messages) {
 				messagesBox.appendChild(messageWrapper);
 			}
 
-			messageContainer.appendChild(messagesBox);
+			messageInner.appendChild(messagesBox);
 		}
 	}
+
+	messageContainer.appendChild(messageInner);
 };
 
 
