@@ -363,6 +363,7 @@ class PluginsModelPlugin extends JModelAdmin
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		parent::cleanCache('com_plugins');
+		parent::cleanCache('com_plugins', 0);
+		parent::cleanCache('com_plugins', 1);
 	}
 }

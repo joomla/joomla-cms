@@ -209,13 +209,17 @@ class MenusModelItems extends JModelList
 			)
 		);
 		$query->select(
-			'CASE a.type' .
-				' WHEN ' . $db->quote('component') . ' THEN a.published+2*(e.enabled-1) ' .
-				' WHEN ' . $db->quote('url') . ' THEN a.published+2 ' .
-				' WHEN ' . $db->quote('alias') . ' THEN a.published+4 ' .
-				' WHEN ' . $db->quote('separator') . ' THEN a.published+6 ' .
-				' WHEN ' . $db->quote('heading') . ' THEN a.published+8 ' .
-				' END AS published'
+			'CASE ' .
+				' WHEN a.type = ' . $db->quote('component') . ' THEN a.published+2*(e.enabled-1) ' .
+				' WHEN a.type = ' . $db->quote('url') . 'AND a.published != -2 THEN a.published+2 ' .
+				' WHEN a.type = ' . $db->quote('url') . 'AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('alias') . 'AND a.published != -2 THEN a.published+4 ' .
+				' WHEN a.type = ' . $db->quote('alias') . 'AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('separator') . 'AND a.published != -2 THEN a.published+6 ' .
+				' WHEN a.type = ' . $db->quote('separator') . 'AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('heading') . 'AND a.published != -2 THEN a.published+8 ' .
+				' WHEN a.type = ' . $db->quote('heading') . 'AND a.published = -2 THEN a.published-1 ' .
+			' END AS published '
 		);
 		$query->from($db->quoteName('#__menu') . ' AS a');
 

@@ -73,10 +73,12 @@
 
 	<target name="phpdoc" description="Generate API documentation using phpDocumentor">
 		<exec executable="phpdoc">
+			<arg value="-i" />
+			<arg path="${basedir}/libraries/vendor/joomla/*/Tests/,${basedir}/libraries/vendor/joomla/string/src/phputf8/,${basedir}/libraries/vendor/composer/,${basedir}/libraries/vendor/joomla/event/vendor/,${basedir}/libraries/vendor/joomla/session/Joomla/Session/_Tests/,${basedir}/libraries/vendor/joomla/session/Joomla/Session/Tests/,${basedir}/libraries/idna_convert/" />
 			<arg value="-d" />
 			<arg path="${basedir}/libraries/cms/,${basedir}/libraries/joomla/,${basedir}/libraries/legacy/,${basedir}/libraries/vendor/joomla/" />
 			<arg value="-f" />
-			<arg path="${basedir}/libraries/loader.php,${basedir}/libraries/platform.php,${basedir}/libraries/ClassLoader.php,${basedir}/libraries/composer_autoload.php" />
+			<arg path="${basedir}/libraries/loader.php,${basedir}/libraries/platform.php,${basedir}/libraries/classloader.php" />
 			<arg value="-t" />
 			<arg path="${basedir}/build/api/" />
 			<arg value="--template" />

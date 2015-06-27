@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 	<div class="imgTotal">
 		<div class="imgBorder">
 			<a class="btn" href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->parent; ?>" target="folderframe">
-				<i class="icon-arrow-up"></i></a>
+				<span class="icon-arrow-up"></span></a>
 		</div>
 	</div>
 	<div class="controls">

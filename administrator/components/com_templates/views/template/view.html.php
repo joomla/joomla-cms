@@ -223,7 +223,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		// Add a Template preview button
 		if ($this->preview->client_id == 0)
 		{
-			$bar->appendButton('Link', 'picture', 'COM_TEMPLATES_BUTTON_PREVIEW', JUri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id);
+			$bar->appendButton('Popup', 'picture', 'COM_TEMPLATES_BUTTON_PREVIEW', JUri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id, 800, 520);
 		}
 
 		// Add Manage folders button

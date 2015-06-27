@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
@@ -101,7 +101,7 @@ abstract class JHtmlGrid
 
 		if ($order == $selected)
 		{
-			$html .= ' <i class="icon-' . $icon[$index] . '"></i>';
+			$html .= ' <span class="icon-' . $icon[$index] . '"></span>';
 		}
 
 		$html .= '</a>';
@@ -273,7 +273,7 @@ abstract class JHtmlGrid
 	{
 		return '<a href="javascript:saveorder('
 			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-micro pull-right" title="'
-			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><i class="icon-menu-2"></i></a>';
+			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-menu-2"></span></a>';
 	}
 
 	/**

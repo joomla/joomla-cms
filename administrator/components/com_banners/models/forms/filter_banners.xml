@@ -5,6 +5,7 @@
 			name="search"
 			type="text"
 			label="COM_BANNERS_SEARCH_IN_TITLE"
+			description="COM_BANNERS_SEARCH_IN_TITLE"
 			hint="JSEARCH_FILTER"
 			class="js-stools-search-string"
 		/>
@@ -16,16 +17,6 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
-		</field>
-		<field
-			name="client_id"
-			type="bannerclient"
-			label="COM_BANNERS_FILTER_CLIENT"
-			extension="com_content"
-			description="COM_BANNERS_FILTER_CLIENT_DESC"
-			onchange="this.form.submit();"
-			>
-			<option value="">COM_BANNERS_SELECT_CLIENT</option>
 		</field>
 		<field
 			name="category_id"
@@ -47,6 +38,16 @@
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
 		</field>
+        <field
+                name="client_id"
+                type="bannerclient"
+                label="COM_BANNERS_FILTER_CLIENT"
+                extension="com_content"
+                description="COM_BANNERS_FILTER_CLIENT_DESC"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_BANNERS_SELECT_CLIENT</option>
+        </field>
 	</fields>
 	<fields name="list">
 		<field
