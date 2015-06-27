@@ -764,6 +764,25 @@
 			size="25" />
 
 		<field
+			name="session_memcached_server_host"
+			type="text"
+			default="localhost"
+			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
+			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
+			filter="string"
+			showon="session_handler:memcached"
+			size="25" />
+
+		<field
+			name="session_memcached_server_port"
+			type="text"
+			default="11211"
+			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
+			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
+			filter="integer"
+			showon="session_handler:memcached"
+			size="5" />
+		<field
 			name="session_redis_persist"
 			type="radio"
 			class="btn-group btn-group-yesno"
