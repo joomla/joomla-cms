@@ -66,7 +66,7 @@ class Redis extends Storage
 		{
 			$savepath = 'tcp://'.$this->_servers[0]['host'] . ':' . $this->_servers[0]['port'];
 		}
-		ini_set('session.save_path', $savepath . '?persistent=' . $serverConf['persist'] . '&weight=' . $serverConf['weight'] . '&database=' . $serverConf['db']);
+		ini_set('session.save_path', $savepath . '?persistent=' . $this->_servers[0]['persist'] . '&weight=' . $this->_servers[0]['weight'] . '&database=' . $this->_servers[0]['db']);
 		ini_set('session.save_handler', 'redis');	
 	}
 
