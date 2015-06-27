@@ -232,7 +232,7 @@ class JFormFieldMedia extends JFormField
 			$script[] = '				$("#" + id + "_preview_empty").hide();';
 			$script[] = '				$("#" + id + "_preview_img").show()';
 			$script[] = '			} else { ';
-			$script[] = '				$img.attr("src", "")';
+			$script[] = '				$img.attr("src", "");';
 			$script[] = '				$("#" + id + "_preview_empty").show();';
 			$script[] = '				$("#" + id + "_preview_img").hide();';
 			$script[] = '			} ';
@@ -363,7 +363,7 @@ class JFormFieldMedia extends JFormField
 				$tooltip = $previewImgEmpty . $previewImg;
 				$options = array(
 					'title' => JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'),
-					'text' => '<i class="icon-eye"></i>',
+					'text' => '<span class="icon-eye"></span>',
 					'class' => 'hasTipPreview'
 				);
 
@@ -414,7 +414,7 @@ class JFormFieldMedia extends JFormField
 			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
 			$html[] = 'return false;';
 			$html[] = '">';
-			$html[] = '<i class="icon-remove"></i></a>';
+			$html[] = '<span class="icon-remove"></span></a>';
 		}
 
 		$html[] = '</div>';

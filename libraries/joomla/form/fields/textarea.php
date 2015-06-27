@@ -43,6 +43,14 @@ class JFormFieldTextarea extends JFormField
 	protected $columns;
 
 	/**
+	 * The maximum number of characters in textarea.
+	 *
+	 * @var    mixed
+	 * @since  3.4
+	 */
+	protected $maxlength;
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to the the value.
@@ -57,6 +65,7 @@ class JFormFieldTextarea extends JFormField
 		{
 			case 'rows':
 			case 'columns':
+			case 'maxlength':
 				return $this->$name;
 		}
 
@@ -79,6 +88,7 @@ class JFormFieldTextarea extends JFormField
 		{
 			case 'rows':
 			case 'columns':
+			case 'maxlength':
 				$this->$name = (int) $value;
 				break;
 
@@ -107,8 +117,9 @@ class JFormFieldTextarea extends JFormField
 
 		if ($return)
 		{
-			$this->rows    = isset($this->element['rows']) ? (int) $this->element['rows'] : false;
-			$this->columns = isset($this->element['cols']) ? (int) $this->element['cols'] : false;
+			$this->rows      = isset($this->element['rows']) ? (int) $this->element['rows'] : false;
+			$this->columns   = isset($this->element['cols']) ? (int) $this->element['cols'] : false;
+			$this->maxlength = isset($this->element['maxlength']) ? (int) $this->element['maxlength'] : false;
 		}
 
 		return $return;
@@ -139,6 +150,7 @@ class JFormFieldTextarea extends JFormField
 		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 		$autofocus    = $this->autofocus ? ' autofocus' : '';
 		$spellcheck   = $this->spellcheck ? '' : ' spellcheck="false"';
+		$maxlength    = $this->maxlength ? ' maxlength="' . $this->maxlength . '"' : '';
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
@@ -149,7 +161,7 @@ class JFormFieldTextarea extends JFormField
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
 		return '<textarea name="' . $this->name . '" id="' . $this->id . '"' . $columns . $rows . $class
-			. $hint . $disabled . $readonly . $onchange . $onclick . $required . $autocomplete . $autofocus . $spellcheck . ' >'
+			. $hint . $disabled . $readonly . $onchange . $onclick . $required . $autocomplete . $autofocus . $spellcheck . $maxlength . ' >'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '</textarea>';
 	}
 }

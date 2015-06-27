@@ -32,9 +32,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			</div>
 			<div class="btn-group pull-left">
 				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>" data-placement="bottom">
-					<i class="icon-search"></i></button>
+					<span class="icon-search"></span></button>
 				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" data-placement="bottom" onclick="document.getElementById('filter_search').value='';this.form.submit();">
-					<i class="icon-remove"></i></button>
+					<span class="icon-remove"></span></button>
 			</div>
 			<div class="clearfix"></div>
 		</div>

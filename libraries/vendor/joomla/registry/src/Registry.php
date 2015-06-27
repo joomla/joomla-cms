@@ -500,13 +500,13 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		{
 			if (is_object($node))
 			{
-				if (!isset($node->$nodes[$i]) && ($i != $n))
+				if (!isset($node->{$nodes[$i]}) && ($i != $n))
 				{
-					$node->$nodes[$i] = new \stdClass;
+					$node->{$nodes[$i]} = new \stdClass;
 				}
 
 				// Pass the child as pointer in case it is an object
-				$node = &$node->$nodes[$i];
+				$node = &$node->{$nodes[$i]};
 
 				continue;
 			}
@@ -527,7 +527,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		switch (true)
 		{
 			case (is_object($node)):
-				$result = $node->$nodes[$i] = $value;
+				$result = $node->{$nodes[$i]} = $value;
 				break;
 
 			case (is_array($node)):
@@ -574,13 +574,13 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 			{
 				if (is_object($node))
 				{
-					if (!isset($node->$nodes[$i]) && ($i != $n))
+					if (!isset($node->{$nodes[$i]}) && ($i != $n))
 					{
-						$node->$nodes[$i] = new \stdClass;
+						$node->{$nodes[$i]} = new \stdClass;
 					}
 
 					// Pass the child as pointer in case it is an array
-					$node = &$node->$nodes[$i];
+					$node = &$node->{$nodes[$i]};
 				}
 				elseif (is_array($node))
 				{

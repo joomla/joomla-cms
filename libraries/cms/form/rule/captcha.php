@@ -45,7 +45,7 @@ class JFormRuleCaptcha extends JFormRule
 		}
 		else
 		{
-			$captcha = JCaptcha::getInstance($plugin, array('namespace' => (string) $namespace));
+			$captcha = JCaptcha::getInstance((string) $plugin, array('namespace' => (string) $namespace));
 		}
 
 		// Test the value.
