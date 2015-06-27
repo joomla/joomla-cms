@@ -39,9 +39,9 @@ class Redis extends Storage
 			array(
 				'host' => isset($options['session_redis_server_host']) ? $options['session_redis_server_host'] : 'localhost',
 				'port' => isset($options['session_redis_server_port']) ? $options['session_redis_server_port'] : 6379,
-				'persist' => isset($options['session_redis_persist']) ? $options['session_redis_persist'] : 1,
-				'weight' => isset($options['session_redis_weight']) ? $options['session_redis_weight'] : 1,
-				'db' => isset($options['session_redis_db']) ? $options['session_redis_db'] : 0		
+				'persist' => isset($options['session_redis_server_persist']) ? $options['session_redis_server_persist'] : 1,
+				'auth' => isset($options['session_redis_server_auth']) ? $options['session_redis_server_auth'] : '',
+				'db' => isset($options['session_redis_server_db']) ? $options['session_redis_server_db'] : 0		
 			)
 		);
 
@@ -66,7 +66,7 @@ class Redis extends Storage
 		{
 			$savepath_connection = 'tcp://' . $this->_servers[0]['host'] . ':' . $this->_servers[0]['port'];
 		}
-		$savepath_options = '?persistent=' . $this->_servers[0]['persist'] . '&weight=' . $this->_servers[0]['weight'] . '&database=' . $this->_servers[0]['db'];
+		$savepath_options = '?persistent=' . $this->_servers[0]['persist'] . '&auth=' . $this->_servers[0]['auth'] . '&database=' . $this->_servers[0]['db'];
 		ini_set('session.save_path', $savepath_connection . $savepath_options);
 		ini_set('session.save_handler', 'redis');	
 	}
