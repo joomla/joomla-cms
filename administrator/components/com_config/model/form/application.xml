@@ -816,7 +816,7 @@
 			size="5" />	
 			
 		<field
-			name="session_redis_server_db"
+			name="session_redis_db"
 			type="text"
 			default="0"
 			label="COM_CONFIG_FIELD_REDIS_DB_LABEL"

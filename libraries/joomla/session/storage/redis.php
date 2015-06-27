@@ -46,7 +46,7 @@ class JSessionStorageRedis extends JSessionStorage
 				'port' => $config->get('session_redis_server_port', 6379),
 				'persist' => $config->get('session_redis_persist', 1),
 				'weight' => $config->get('session_redis_weight', 1),
-				'db' => $config->get('session_redis_database', 0)
+				'db' => $config->get('session_redis_db', 0)
 			)
 		);
 
