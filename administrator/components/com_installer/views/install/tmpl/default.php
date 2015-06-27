@@ -174,6 +174,8 @@ JHtml::_('bootstrap.tooltip');
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
+		</div>
+
 	<input type="hidden" name="type" value="" />
 	<input type="hidden" name="installtype" value="upload" />
 	<input type="hidden" name="task" value="install.install" />
