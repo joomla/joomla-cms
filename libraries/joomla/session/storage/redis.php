@@ -65,15 +65,15 @@ class JSessionStorageRedis extends JSessionStorage
 		if (!empty($this->_servers) && isset($this->_servers[0]))
 		{
 			$serverConf = current($this->_servers);
-			if ($serverConf['port']==-1 || $serverConf['port']==0) 
+			if ($serverConf['port'] == -1 || $serverConf['port'] == 0)
 			{
-				$savepath='unix://'.$serverConf['host'];
+				$savepath = 'unix://' . $serverConf['host'];
 			}
 			else
 			{
-				$savepath='tcp://'.$serverConf['host'].':'.$serverConf['port'];
+				$savepath = 'tcp://' . $serverConf['host'] . ':' . $serverConf['port'];
 			}
-			ini_set('session.save_path', $savepath.'?persistent='.$serverConf['persist'].'&weight='.$serverConf['weight'].'&database='.$serverConf['db']);
+			ini_set('session.save_path', $savepath . '?persistent=' . $serverConf['persist'] . '&weight=' . $serverConf['weight'] . '&database=' . $serverConf['db']);
 			ini_set('session.save_handler', 'redis');
 		}
 	}

@@ -58,15 +58,15 @@ class Redis extends Storage
 	 */
 	public function register()
 	{
-		if ($this->_servers[0]['port']==-1 || $this->_servers[0]['port']==0) 
+		if ($this->_servers[0]['port'] == -1 || $this->_servers[0]['port'] == 0) 
 		{
-			$savepath='unix://'.$this->_servers[0]['host'];
+			$savepath = 'unix://' . $this->_servers[0]['host'];
 		}
 		else
 		{
-			$savepath='tcp://'.$this->_servers[0]['host'].':'.$this->_servers[0]['port'];
+			$savepath = 'tcp://'.$this->_servers[0]['host'] . ':' . $this->_servers[0]['port'];
 		}
-		$savepath.='?persistent='.$this->_servers[0]['persist'].'&weight='.$this->_servers[0]['weight'].'&database='.$this->_servers[0]['db'];
+		ini_set('session.save_path', $savepath . '?persistent=' . $serverConf['persist'] . '&weight=' . $serverConf['weight'] . '&database=' . $serverConf['db']);
 		ini_set('session.save_handler', 'redis');	
 	}
 
