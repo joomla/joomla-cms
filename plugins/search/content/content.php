@@ -197,7 +197,6 @@ class PlgSearchContent extends JPlugin
 			{
 				$list = array();
 				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-				JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 			}
 			$limit -= count($list);
 
@@ -268,7 +267,6 @@ class PlgSearchContent extends JPlugin
 			{
 				$list3 = array();
 				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-				JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 			}
 
 			// Find an itemid for archived to use if there isn't another one.
