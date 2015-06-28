@@ -12,22 +12,32 @@ defined('_JEXEC') or die;
 /**
  * Media Component Manager Model
  *
- * @since  1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ * @since       1.5
+ * @deprecated  4.0
  */
 class MediaModelManager extends JModelLegacy
 {
 	/**
 	 * Method to get model state variables
 	 *
-	 * @param   string  $property  Optional parameter name
-	 * @param   mixed   $default   Optional default value
+	 * @param   string  $property  Property to retrieve
+	 * @param   string  $default   Default value
 	 *
 	 * @return  object  The property where specified, the state object where omitted
 	 *
 	 * @since   1.5
+	 * @deprecated  4.0
 	 */
 	public function getState($property = null, $default = null)
 	{
+		JLog::add(
+		'MediaModelManager is deprecated. Use MediaModelMedia.getState() instead.',
+		JLog::WARNING,
+		'deprecated'
+		);
+
 		static $set;
 
 		if (!$set)
@@ -54,12 +64,19 @@ class MediaModelManager extends JModelLegacy
 	 *
 	 * @param   string  $base  The image directory to display
 	 *
-	 * @return  html
+	 * @return  JHtml  Object that contains folder list to display
 	 *
 	 * @since 1.5
+	 * @deprecated  4.0
 	 */
 	public function getFolderList($base = null)
 	{
+		JLog::add(
+		'MediaModelManager is deprecated. Use MediaModelMedia.getFolderList() instead.',
+		JLog::WARNING,
+		'deprecated'
+		);
+
 		// Get some paths from the request
 		if (empty($base))
 		{
@@ -114,16 +131,23 @@ class MediaModelManager extends JModelLegacy
 	}
 
 	/**
-	 * Get the folder tree
+	 * Construct the folder tree for Media Manager
 	 *
-	 * @param   mixed  $base  Base folder | null for using base media folder
+	 * @param   string  $base  Base for folder tree
 	 *
-	 * @return  array
+	 * @return multitype:StdClass
 	 *
-	 * @since   1.5
+	 * @since 1.5
+	 * @deprecated  4.0
 	 */
 	public function getFolderTree($base = null)
 	{
+		JLog::add(
+		'MediaModelManager is deprecated. Use MediaModelMedia.getFolderTree() instead.',
+		JLog::WARNING,
+		'deprecated'
+		);
+
 		// Get some paths from the request
 		if (empty($base))
 		{

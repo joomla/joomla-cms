@@ -1,0 +1,16 @@
+
+#dragandrophandler
+{
+border:2px dashed #0B85A1;
+height:50px;
+color:#92AAB0;
+text-align:middle;vertical-align:middle;
+padding:10px 10px 10 10px;
+margin-bottom:10px;
+font-size:200%;
+}
+
+td.label label-important
+{
+	cursor:pointer;
+}

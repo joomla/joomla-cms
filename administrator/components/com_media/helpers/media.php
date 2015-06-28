@@ -10,8 +10,10 @@
 defined('_JEXEC') or die;
 
 /**
- * Media helper class.
- * 
+ * Helper class for Media Manager
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
  * @since       1.6
  * @deprecated  4.0  Use JHelperMedia instead
  */
@@ -125,5 +127,21 @@ abstract class MediaHelper
 		$mediaHelper = new JHelperMedia;
 
 		return $mediaHelper->countFiles($dir);
+	}
+
+	/**
+	 * Adding submenu to Media Manager
+	 *
+	 * @param   string  $vName  View name
+	 *
+	 * @return null
+	 *
+	 * @deprecated  4.0  Use JHelperMedia::addSubmenu instead
+	 */
+	public static function addSubmenu($vName)
+	{
+		JLoader::register('MediaHelperMedia', JPATH_ADMINISTRATOR . '/components/com_media/helper/media.php');
+
+		MediaHelperMedia::addSubmenu($vName);
 	}
 }

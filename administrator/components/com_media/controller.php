@@ -12,7 +12,8 @@ defined('_JEXEC') or die;
 /**
  * Media Manager Component Controller
  *
- * @since  1.5
+ * @since       1.5
+ * @deprecated  4.0
  */
 class MediaController extends JControllerLegacy
 {
@@ -25,8 +26,9 @@ class MediaController extends JControllerLegacy
 	 * @return  JController		This object to support chaining.
 	 *
 	 * @since   1.5
+	 * @deprecated  4.0
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
 		JPluginHelper::importPlugin('content');
 		$vName = $this->input->get('view', 'media');
@@ -84,11 +86,11 @@ class MediaController extends JControllerLegacy
 	}
 
 	/**
-	 * Validate FTP credentials
+	 * Validating FTP connection
 	 *
-	 * @return  void
+	 * @return null
 	 *
-	 * @since   1.5
+	 * @deprecated  4.0
 	 */
 	public function ftpValidate()
 	{

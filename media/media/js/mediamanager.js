@@ -27,6 +27,8 @@
 
 			this.frame = window.frames.folderframe;
 			this.frameurl = this.frame.location.href;
+
+			this.setTreeviewState();
 		},
 
 		/**
@@ -37,14 +39,46 @@
 		 * @return  void
 		 */
 		submit: function( task ) {
-			form = this.frame.document.getElementById( 'mediamanager-form' );
+			var form = this.frame.document.getElementById( 'mediamanager-form' );
 			form.task.value = task;
+			form.action += ('&controller=' + task);
 
 			if ( $( '#username' ).length ) {
 				form.username.value = $( '#username' ).val();
 				form.password.value = $( '#password' ).val();
 			}
 
+			form.submit();
+		},
+
+		/**
+		 * Called when copy and move execution
+		 *
+		 * @param   string  task  [description]
+		 *
+		 * @return  void
+		 */
+		submitWithTargetPath: function(task)
+		{
+			var form = window.frames['folderframe'].document.getElementById('mediamanager-form');
+			form.task.value = task;
+			form.action += ('&controller=' + task);
+			if ($('#username').length) {
+				form.username.value = $('#username').val();
+				form.password.value = $('#password').val();
+			}
+			var inp = document.createElement("input");
+		    inp.type = "hidden";
+		    inp.name = "targetPath";
+
+		    var method = task.split('.')[1];
+		    if (method == "copy") {
+		    	inp.value = $('#copyTarget #folderlist').find(":selected").text();
+		    } else if (method == "move") {
+		    	inp.value = $('#moveTarget #folderlist').find(":selected").text();
+		    }
+
+		    form.appendChild(inp);
 			form.submit();
 		},
 
@@ -67,7 +101,7 @@
 				el.value = folder;
 			} );
 
-			this.folderpath.value = basepath + (folder ? '/' + folder : '');
+			this.folderpath.val(basepath + (folder ? '/' + folder : '/'));
 
 			q.folder = folder;
 
@@ -81,7 +115,7 @@
 			a.query = query.join( '&' );
 			a.fragment = null;
 
-			$( '#uploadForm' ).attr( 'action', buildUri(a) );
+//			$( '#uploadForm' ).attr( 'action', buildUri(a) );
 			$( '#' + viewstyle ).addClass( 'active' );
 		},
 
@@ -96,7 +130,7 @@
 			viewstyle = type;
 			var folder = this.getFolder();
 
-			this.setFrameUrl( 'index.php?option=com_media&view=mediaList&tmpl=component&folder=' + folder + '&layout=' + type );
+			this.setFrameUrl( 'index.php?option=com_media&controller=media.display.medialist&view=medialist&tmpl=component&folder=' + folder + '&layout=' + type );
 		},
 
 		refreshFrame: function() {
@@ -117,6 +151,28 @@
 			}
 
 			this.frame.location.href = this.frameurl;
+		},
+
+		setTreeviewState: function(){
+			// Load the value from localStorage
+			if (typeof(Storage) !== "undefined")
+			{
+				var $visible = localStorage.getItem('jsidebar');
+			}
+
+			// Need to convert the value to a boolean
+			$visible = ($visible == 'true') ? true : false;
+
+			// Toggle according to j-sidebar class status or storage saved status
+			var classStatus = jQuery('#j-sidebar-container').attr('class');
+			if(classStatus.contains('j-toggle-hidden') || $visible)
+			{
+				jQuery('#treeview').attr('hidden', true);
+			}
+			else
+			{
+				jQuery('#treeview').attr('hidden', false);
+			}
 		},
 	};
 
@@ -188,4 +244,3 @@
 	});
 
 }( jQuery, window ));
-

@@ -22,11 +22,21 @@
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
 			<filename>media.php</filename>
+			
+			<!-- For legacy compatability -->
 			<folder>controllers</folder>
 			<folder>helpers</folder>
 			<folder>layouts</folder>
 			<folder>models</folder>
 			<folder>views</folder>
+			
+			<!-- new MVC classes -->
+			<folder>controller</folder>
+			<folder>helper</folder>
+			<folder>layout</folder>
+			<folder>table</folder>
+			<folder>model</folder>
+			<folder>view</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_media.ini</language>

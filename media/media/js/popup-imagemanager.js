@@ -43,6 +43,7 @@ var ImageManager = this.ImageManager = {
 		this.upbutton = document.getElementById('upbutton');
 		$(this.upbutton).off('click');
 		$(this.upbutton).on('click', function(){ ImageManager.upFolder(); });
+		
 	},
 
 	onloadimageview: function()
@@ -149,7 +150,7 @@ var ImageManager = this.ImageManager = {
 				break;
 			}
 		}
-		this.frame.location.href='index.php?option=com_media&view=imagesList&tmpl=component&folder=' + folder + '&asset=' + asset + '&author=' + author;
+		this.frame.location.href='index.php?option=com_media&view=imageslist&controller=media.display.imageslist&tmpl=component&folder=' + folder + '&asset=' + asset + '&author=' + author;
 	},
 
 	getFolder: function() {
@@ -265,3 +266,4 @@ var ImageManager = this.ImageManager = {
 jQuery(function(){
 	ImageManager.initialize();
 });
+

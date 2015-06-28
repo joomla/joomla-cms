@@ -15,22 +15,32 @@ jimport('joomla.filesystem.file');
 /**
  * Media Component List Model
  *
- * @since  1.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ * @since       1.5
+ * @deprecated  4.0
  */
 class MediaModelList extends JModelLegacy
 {
 	/**
 	 * Method to get model state variables
 	 *
-	 * @param   string  $property  Optional parameter name
-	 * @param   mixed   $default   Optional default value
+	 * @param   string  $property  Property to retrieve
+	 * @param   string  $default   Default value
 	 *
 	 * @return  object  The property where specified, the state object where omitted
 	 *
 	 * @since   1.5
+	 * @deprecated  4.0
 	 */
 	public function getState($property = null, $default = null)
 	{
+		JLog::add(
+		'MediaModelList is deprecated. Use MediaModelMedialist.getState() instead.',
+		JLog::WARNING,
+		'deprecated'
+		);
+
 		static $set;
 
 		if (!$set)
@@ -49,56 +59,84 @@ class MediaModelList extends JModelLegacy
 	}
 
 	/**
-	 * Get the images on the current folder
+	 * Get Images from the list
 	 *
-	 * @return  array
+	 * @return   array  Array containing list of images
 	 *
-	 * @since   1.5
+	 * @since  1.5
+	 * @deprecated  4.0
 	 */
 	public function getImages()
 	{
+		JLog::add(
+		'MediaModelList is deprecated. Use MediaModelMedialist.getImages() instead.',
+		JLog::WARNING,
+		'deprecated'
+		);
+
 		$list = $this->getList();
 
 		return $list['images'];
 	}
 
 	/**
-	 * Get the folders on the current folder
+	 * Get Folders from the list
 	 *
-	 * @return  array
+	 * @return   array  Array containing list of folders
 	 *
-	 * @since   1.5
+	 * @since  1.5
+	 * @deprecated  4.0
 	 */
 	public function getFolders()
 	{
+		JLog::add(
+		'MediaModelList is deprecated. Use MediaModelMedialist.getFolders() instead.',
+		JLog::WARNING,
+		'deprecated'
+		);
+
 		$list = $this->getList();
 
 		return $list['folders'];
 	}
 
 	/**
-	 * Get the documents on the current folder
+	 * Get Documents from the list
 	 *
-	 * @return  array
+	 * @return   array  Array containing list of documents
 	 *
-	 * @since   1.5
+	 * @since  1.5
+	 * @deprecated  4.0
 	 */
 	public function getDocuments()
 	{
+		JLog::add(
+		'MediaModelList is deprecated. Use MediaModelMedialist.getDocuments() instead.',
+		JLog::WARNING,
+		'deprecated'
+		);
+
 		$list = $this->getList();
 
 		return $list['docs'];
 	}
 
 	/**
-	 * Build imagelist
+	 * Build media list
 	 *
-	 * @return  array
+	 * @return array List of items in the folder
 	 *
 	 * @since 1.5
+	 * @deprecated  4.0
 	 */
 	public function getList()
 	{
+		JLog::add(
+		'MediaModelList is deprecated. Use MediaModelMedialist.getList() instead.',
+		JLog::WARNING,
+		'deprecated'
+		);
+
 		static $list;
 
 		// Only process the list once per request
