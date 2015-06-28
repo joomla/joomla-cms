@@ -72,7 +72,8 @@ class PlgSystemLanguageFilter extends JPlugin
 				// @todo: In Joomla 2.5.4 and earlier access wasn't set. Non modified Content Languages got 0 as access value
 				// we also check if frontend language exists and is enabled
 				if (($language->access && !in_array($language->access, $levels))
-					|| (!array_key_exists($language->lang_code, $site_langs)))
+					|| (!array_key_exists($language->lang_code, $site_langs))
+					|| !is_dir(JPATH_SITE . '/language/' . $language->lang_code))
 				{
 					unset($this->lang_codes[$language->lang_code]);
 					unset($this->sefs[$language->sef]);
@@ -260,7 +261,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				{
 					// $parts[0] empty, then we are on the naked domain
 					// and we must see what the user preference (cookie/browser) is
-					$lang_code = $this->getLanguageCookie();
+					$lang_code = $this->getClientLanguage();
 				}
 
 				// In any case, if the language is the default language there is need to redirect)
@@ -312,7 +313,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 			if (!isset($lang_code))
 			{
-				$lang_code = $this->getLanguageCookie();
+				$lang_code = $this->getClientLanguage();
 			}
 			$found = true;
 		}
@@ -323,7 +324,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			// Do we need this?
 			if (!isset($lang_code) || !isset($this->lang_codes[$lang_code]))
 			{
-				$lang_code = $this->getLanguageCookie();
+				$lang_code = $this->getClientLanguage();
 			}
 
 			// Time to redirect...
@@ -373,7 +374,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		}
 
 		// Create a cookie.
-		if ($this->getLanguageCookie() != $lang_code)
+		if ($this->getClientLanguage() != $lang_code)
 		{
 			$this->setLanguageCookie($lang_code);
 		}
@@ -477,13 +478,10 @@ class PlgSystemLanguageFilter extends JPlugin
 				$lang_code = $this->default_lang;
 			}
 
-			// The language has been deleted/disabled/unpublished, or the related home page does not exist,
-			// or the related content language folder does not exist
-			if (!array_key_exists($lang_code, $this->lang_codes)
-				|| !array_key_exists($lang_code, $this->home_pages)
-				|| !is_dir(JPATH_SITE . '/language/' . $lang_code))
+			// We must be sure to have a valid language code
+			if (!$this->checkLanguage($lang_code))
 			{
-				$lang_code = $this->getLanguageCookie();
+				$lang_code = $this->getClientLanguage();
 			}
 
 			// Try to get association from the current active menu item
@@ -659,19 +657,19 @@ class PlgSystemLanguageFilter extends JPlugin
 	}
 
 	/**
-	 * Get the language cookie
+	 * Get the client language from the cookie or the browser
 	 *
 	 * @return  string
 	 *
-	 * @since   3.4.2
+	 * @since   3.5
 	 */
-	private function getLanguageCookie()
+	private function getClientLanguage()
 	{
 		$cookie = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
 		$lang_code = $cookie;
 
 		// Let's be sure we got a valid language code. Fallback to null (so that in case we try the browser)
-		if (!array_key_exists($lang_code, $this->lang_codes))
+		if (!$this->checkLanguage($lang_code))
 		{
 			$lang_code = null;
 		}
@@ -683,7 +681,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		}
 
 		// Nor the cookie, nor the browser language are valid: fallback to default
-		if (!$lang_code || !array_key_exists($lang_code, $this->lang_codes))
+		if (!$this->checkLanguage($lang_code))
 		{
 			$lang_code = $this->default_lang;
 		}
@@ -695,6 +693,20 @@ class PlgSystemLanguageFilter extends JPlugin
 		}
 
 		return $lang_code;
+	}
+
+	/**
+	 * Check if the specified language code is valid (corresponding language is installed and has home page)
+	 *
+	 * @param   string  $lang_code  The language code to check
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.5
+	 */
+	private function checkLanguage($lang_code)
+	{
+		return (isset($lang_code) && array_key_exists($lang_code, $this->lang_codes) && array_key_exists($lang_code, $this->home_pages));
 	}
 
 }
