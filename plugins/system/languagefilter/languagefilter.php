@@ -561,7 +561,10 @@ class PlgSystemLanguageFilter extends JPlugin
 
 				// Check if we are on the homepage
 				$is_home = ($active->home
-					&& ($active_link == $current_link || $active_link == $current_link . 'index.php' || $active_link . '/' == $current_link));
+					&& ($current_link == $active_link
+						|| $current_link == '/index.php?lang=' . $languages[$this->current_lang]->sef
+						|| $current_link . 'index.php' == $active_link
+						|| $current_link == $active_link . '/'));
 			}
 
 			// Load component associations.
@@ -584,9 +587,14 @@ class PlgSystemLanguageFilter extends JPlugin
 						unset($languages[$i]);
 						break;
 
-					// Home page
-					case ($is_home):
+					// Home page SEF
+					case ($is_home && $this->mode_sef):
 						$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $this->home_pages[$i]->id);
+						break;
+
+					// Home page non SEF
+					case ($is_home && !$this->mode_sef):
+						$language->link = '/index.php?lang=' . $language->sef;
 						break;
 
 					// Current language link
