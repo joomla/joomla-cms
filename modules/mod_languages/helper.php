@@ -55,22 +55,6 @@ abstract class ModLanguagesHelper
 			}
 		}
 
-		// Initialize all links to the home page
-		if ($mode_sef)
-		{
-			foreach ($languages as $i => &$language)
-			{
-				$language->link = '/' . $language->sef . '/';
-			}
-		}
-		else
-		{
-			foreach ($languages as $i => &$language)
-			{
-				$language->link = '/index.php?lang=' . $language->sef;
-			}
-		}
-
 		// Setup menu items associations and check if we are on an home page
 		$is_home = false;
 		$menu = $app->getMenu();
@@ -94,12 +78,6 @@ abstract class ModLanguagesHelper
 					|| $current_link == $active_link . '/'));
 		}
 
-		// If we are on an home page we have nothing more to do!
-		if ($is_home)
-		{
-			return $languages;
-		}
-
 		// Load component associations.
 		$option = $app->input->get('option');
 		$cName = JString::ucfirst(JString::str_ireplace('com_', '', $option)) . 'HelperAssociation';
@@ -115,6 +93,16 @@ abstract class ModLanguagesHelper
 		{
 			switch (true)
 			{
+				// Home page, SEF
+				case ($is_home && $mode_sef):
+					$language->link = '/' . $language->sef . '/';
+					break;
+					
+				// Home page, non-SEF URLs
+				case ($is_home && !$mode_sef):
+					$language->link = '/index.php?lang=' . $language->sef;
+					break;
+
 				// Current language link
 				case ($i == $current_lang):
 					$language->link = JUri::getInstance()->toString(array('path', 'query'));
@@ -130,6 +118,15 @@ abstract class ModLanguagesHelper
 				case (isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
 					$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
 					break;
+					
+				// No association found, SEF mode
+				case ($mode_sef):
+					$language->link = '/' . $language->sef . '/';
+					break;
+					
+				// No association found, non-SEF mode
+				default:
+					$language->link = '/index.php?lang=' . $language->sef;
 			}
 		}
 
