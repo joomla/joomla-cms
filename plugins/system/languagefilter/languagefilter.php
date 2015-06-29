@@ -69,10 +69,10 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			foreach ($this->sefs as $sef => $language)
 			{
+				// Check access and if frontend language exists and is enabled
 				// @todo: In Joomla 2.5.4 and earlier access wasn't set. Non modified Content Languages got 0 as access value
-				// we also check if frontend language exists and is enabled
 				if (($language->access && !in_array($language->access, $levels))
-					|| (!array_key_exists($language->lang_code, $site_langs))
+					|| !array_key_exists($language->lang_code, $site_langs)
 					|| !is_dir(JPATH_SITE . '/language/' . $language->lang_code))
 				{
 					unset($this->lang_codes[$language->lang_code]);
@@ -544,7 +544,6 @@ class PlgSystemLanguageFilter extends JPlugin
 			$languages = $this->lang_codes;
 			$menu = $this->app->getMenu();
 			$active = $menu->getActive();
-			$levels = JFactory::getUser()->getAuthorisedViewLevels();
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
 			$server = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
 			$is_home = false;
@@ -580,9 +579,8 @@ class PlgSystemLanguageFilter extends JPlugin
 			{
 				switch (true)
 				{
-					// Language without specific home menu || Language without authorized access level
+					// Language without specific home menu
 					case (!isset($this->home_pages[$i])):
-					case (isset($language->access) && $language->access && !in_array($language->access, $levels)):
 						unset($languages[$i]);
 						break;
 
@@ -668,19 +666,19 @@ class PlgSystemLanguageFilter extends JPlugin
 		$cookie = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
 		$lang_code = $cookie;
 
-		// Let's be sure we got a valid language code. Fallback to null (so that in case we try the browser)
+		// If the cookie is not for a valid language code, fallback to null (so that in case we try the browser)
 		if (!$this->checkLanguage($lang_code))
 		{
 			$lang_code = null;
 		}
 
-		// No valid cookie, try browser
+		// If we have an invalid cookie and the "Detect browser language" param is set, we try the browser language
 		if (!$lang_code && $this->params->get('detect_browser', 0))
 		{
 			$lang_code = JLanguageHelper::detectLanguage();
 		}
 
-		// Nor the cookie, nor the browser language are valid: fallback to default
+		// If we still have an invalid language we fallback to default
 		if (!$this->checkLanguage($lang_code))
 		{
 			$lang_code = $this->default_lang;
