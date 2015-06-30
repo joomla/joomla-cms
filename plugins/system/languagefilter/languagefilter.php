@@ -74,7 +74,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				if (($language->access && !in_array($language->access, $levels))
 					|| !array_key_exists($language->lang_code, $site_langs)
 					|| !is_dir(JPATH_SITE . '/language/' . $language->lang_code)
-					|| !isset($this->home_pages[$i]))
+					|| !isset($this->home_pages[$language->lang_code]))
 				{
 					unset($this->lang_codes[$language->lang_code]);
 					unset($this->sefs[$language->sef]);
