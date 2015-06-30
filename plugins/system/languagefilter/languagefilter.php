@@ -69,11 +69,12 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			foreach ($this->sefs as $sef => $language)
 			{
-				// Check access and if frontend language exists and is enabled
+				// Check language access, language is enabled, language folder exists, and language has an Home Page
 				// @todo: In Joomla 2.5.4 and earlier access wasn't set. Non modified Content Languages got 0 as access value
 				if (($language->access && !in_array($language->access, $levels))
 					|| !array_key_exists($language->lang_code, $site_langs)
-					|| !is_dir(JPATH_SITE . '/language/' . $language->lang_code))
+					|| !is_dir(JPATH_SITE . '/language/' . $language->lang_code)
+					|| !isset($this->home_pages[$i]))
 				{
 					unset($this->lang_codes[$language->lang_code]);
 					unset($this->sefs[$language->sef]);
@@ -582,22 +583,17 @@ class PlgSystemLanguageFilter extends JPlugin
 			{
 				switch (true)
 				{
-					// Language without specific home menu
-					case (!isset($this->home_pages[$i])):
-						unset($languages[$i]);
-						break;
-
-					// Home page SEF
+					// Home page, SEF mode
 					case ($is_home && $this->mode_sef):
 						$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $this->home_pages[$i]->id);
 						break;
 
-					// Home page non SEF
+					// Home page, non-SEF mode
 					case ($is_home && !$this->mode_sef):
 						$language->link = '/index.php?lang=' . $language->sef;
 						break;
 
-					// Current language link
+					// Current language
 					case ($i == $this->current_lang):
 						$language->link = JUri::getInstance()->toString(array('path', 'query'));
 						break;
@@ -613,7 +609,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
 						break;
 
-					// Too bad...
+					// No association found
 					default:
 						unset($languages[$i]);
 				}
@@ -712,7 +708,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	private function checkLanguage($lang_code)
 	{
-		return (isset($lang_code) && array_key_exists($lang_code, $this->lang_codes) && array_key_exists($lang_code, $this->home_pages));
+		return (isset($lang_code) && array_key_exists($lang_code, $this->lang_codes));
 	}
 
 }
