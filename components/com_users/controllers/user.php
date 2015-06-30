@@ -41,6 +41,12 @@ class UsersControllerUser extends UsersController
 		$data['password']  = $input->$method->get('password', '', 'RAW');
 		$data['secretkey'] = $input->$method->get('secretkey', '', 'RAW');
 
+		// Don't redirect to an external URL.
+		if (!JUri::isInternal($data['return']))
+		{
+			$data['return'] = '';
+		}
+
 		// Set the return URL if empty.
 		if (empty($data['return']))
 		{
