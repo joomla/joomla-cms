@@ -97,7 +97,7 @@ abstract class ModLanguagesHelper
 				case ($is_home && $mode_sef):
 					$language->link = '/' . $language->sef . '/';
 					break;
-					
+
 				// Home page, non-SEF URLs
 				case ($is_home && !$mode_sef):
 					$language->link = '/index.php?lang=' . $language->sef;
@@ -118,12 +118,12 @@ abstract class ModLanguagesHelper
 				case (isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
 					$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
 					break;
-					
+
 				// No association found, SEF mode
 				case ($mode_sef):
 					$language->link = '/' . $language->sef . '/';
 					break;
-					
+
 				// No association found, non-SEF mode
 				default:
 					$language->link = '/index.php?lang=' . $language->sef;
