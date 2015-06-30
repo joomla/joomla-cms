@@ -67,16 +67,16 @@ class PlgSystemLanguageFilter extends JPlugin
 			$levels = JFactory::getUser()->getAuthorisedViewLevels();
 			$site_langs = MultilangstatusHelper::getSitelangs();
 
-			foreach ($this->sefs as $sef => $language)
+			foreach ($this->lang_codes as $lang_code => $language)
 			{
 				// Check language access, language is enabled, language folder exists, and language has an Home Page
 				// @todo: In Joomla 2.5.4 and earlier access wasn't set. Non modified Content Languages got 0 as access value
 				if (($language->access && !in_array($language->access, $levels))
-					|| !array_key_exists($language->lang_code, $site_langs)
-					|| !is_dir(JPATH_SITE . '/language/' . $language->lang_code)
-					|| !isset($this->home_pages[$language->lang_code]))
+					|| !array_key_exists($lang_code, $site_langs)
+					|| !is_dir(JPATH_SITE . '/language/' . $lang_code)
+					|| !isset($this->home_pages[$lang_code]))
 				{
-					unset($this->lang_codes[$language->lang_code]);
+					unset($this->lang_codes[$lang_code]);
 					unset($this->sefs[$language->sef]);
 				}
 			}
