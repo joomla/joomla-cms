@@ -100,9 +100,9 @@ class JUpdater extends JAdapter
 	/**
 	 * Finds an update for an extension
 	 *
-	 * @param   integer  $eid                Extension Identifier; if zero use all sites
-	 * @param   integer  $cacheTimeout       How many seconds to cache update information; if zero, force reload the update information
-	 * @param   integer  $minimum_stability  Minimum stability for the updates; 0=dev, 1=alpha, 2=beta, 3=rc, 4=stable
+	 * @param   int|array  $eid                Extension Identifier or list of Extension Identifiers; if zero use all sites
+	 * @param   integer    $cacheTimeout       How many seconds to cache update information; if zero, force reload the update information
+	 * @param   integer    $minimum_stability  Minimum stability for the updates; 0=dev, 1=alpha, 2=beta, 3=rc, 4=stable
 	 *
 	 * @return  boolean True if there are updates
 	 *
