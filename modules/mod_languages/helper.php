@@ -42,6 +42,7 @@ abstract class ModLanguagesHelper
 		$levels = JFactory::getUser()->getAuthorisedViewLevels();
 		$site_langs = MultilangstatusHelper::getSitelangs();
 		$current_lang = JFactory::getLanguage()->getTag();
+		$assocs = JLanguageAssociations::isEnabled();
 
 		// Check language access, language is enabled, language folder exists, and language has an Home Page
 		foreach ($sefs as $sef => $language)
@@ -58,7 +59,6 @@ abstract class ModLanguagesHelper
 		// Setup menu items associations and check if we are on an home page
 		$menu = $app->getMenu();
 		$active = $menu->getActive();
-		$assocs = JLanguageAssociations::isEnabled();
 		$is_home = false;
 
 		if ($active)
@@ -81,13 +81,16 @@ abstract class ModLanguagesHelper
 		}
 
 		// Load component associations.
-		$option = $app->input->get('option');
-		$cName = JString::ucfirst(JString::str_ireplace('com_', '', $option)) . 'HelperAssociation';
-		JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
-
-		if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
+		if ($assocs)
 		{
-			$cassociations = call_user_func(array($cName, 'getAssociations'));
+			$option = $app->input->get('option');
+			$cName = JString::ucfirst(JString::str_ireplace('com_', '', $option)) . 'HelperAssociation';
+			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
+
+			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
+			{
+				$cassociations = call_user_func(array($cName, 'getAssociations'));
+			}
 		}
 
 		// For each language...
