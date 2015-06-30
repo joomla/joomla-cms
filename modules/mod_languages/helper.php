@@ -56,16 +56,18 @@ abstract class ModLanguagesHelper
 		}
 
 		// Setup menu items associations and check if we are on an home page
-		$is_home = false;
 		$menu = $app->getMenu();
 		$active = $menu->getActive();
+		$assocs = JLanguageAssociations::isEnabled();
+		$is_home = false;
+
 		if ($active)
 		{
 			$active_link = JRoute::_($active->link . '&Itemid=' . $active->id, false);
 			$current_link = JUri::getInstance()->toString(array('path', 'query'));
 
 			// Load menu associations
-			if ($active_link == $current_link)
+			if ($assocs && $active_link == $current_link)
 			{
 				$associations = MenusHelper::getAssociations($active->id);
 			}
@@ -109,13 +111,13 @@ abstract class ModLanguagesHelper
 					break;
 
 				// Component association
-				case (isset($cassociations[$i])):
+				case ($assocs && isset($cassociations[$i])):
 					$language->link = JRoute::_($cassociations[$i] . '&lang=' . $language->sef);
 					break;
 
 				// Menu items association
 				// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
-				case (isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
+				case ($assocs && isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
 					$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
 					break;
 
