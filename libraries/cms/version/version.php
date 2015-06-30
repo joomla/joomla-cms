@@ -50,6 +50,16 @@ final class JVersion
 	public $URL = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
+	 * Check if we are in development mode
+	 *
+	 * @return bool
+	 */
+	public function isInDevelopmentState()
+	{
+		return strtolower($this->DEV_STATUS) != 'stable';
+	}
+
+	/**
 	 * Compares two a "PHP standardized" version number against the current Joomla version.
 	 *
 	 * @param   string  $minimum  The minimum version of the Joomla which is compatible.
