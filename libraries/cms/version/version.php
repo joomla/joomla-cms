@@ -23,10 +23,10 @@ final class JVersion
 	public $RELEASE = '3.4';
 
 	/** @var  string  Maintenance version. */
-	public $DEV_LEVEL = '2';
+	public $DEV_LEVEL = '3-dev';
 
 	/** @var  string  Development STATUS. */
-	public $DEV_STATUS = 'Stable';
+	public $DEV_STATUS = 'development';
 
 	/** @var  string  Build number. */
 	public $BUILD = '';
