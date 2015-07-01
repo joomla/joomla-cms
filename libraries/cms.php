@@ -34,7 +34,6 @@ $loader = require_once JPATH_LIBRARIES . '/vendor/autoload.php';
 $loader->unregister();
 
 // Decorate Composer autoloader
-require_once JPATH_LIBRARIES . '/classloader.php';
 spl_autoload_register(array(new JClassLoader($loader), 'loadClass'), true, true);
 
 // Register the class aliases for Framework classes that have replaced their Platform equivilents
