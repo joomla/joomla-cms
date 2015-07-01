@@ -52,7 +52,9 @@ final class JVersion
 	/**
 	 * Check if we are in development mode
 	 *
-	 * @return bool
+	 * @return  boolean
+	 *
+	 * @since   3.4.3
 	 */
 	public function isInDevelopmentState()
 	{
@@ -64,7 +66,7 @@ final class JVersion
 	 *
 	 * @param   string  $minimum  The minimum version of the Joomla which is compatible.
 	 *
-	 * @return  bool    True if the version is compatible.
+	 * @return  boolean True if the version is compatible.
 	 *
 	 * @see     http://www.php.net/version_compare
 	 * @since   1.0

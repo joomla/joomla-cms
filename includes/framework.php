@@ -27,7 +27,7 @@ $version = new JVersion;
 // Installation check, and check on removal of the install directory.
 if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
 	|| (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10)
-	|| (file_exists(JPATH_INSTALLATION . '/index.php') && ! $version->isInDevelopmentState()))
+	|| (file_exists(JPATH_INSTALLATION . '/index.php') && (false === $version->isInDevelopmentState())))
 {
 	if (file_exists(JPATH_INSTALLATION . '/index.php'))
 	{
