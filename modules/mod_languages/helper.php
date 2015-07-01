@@ -96,6 +96,7 @@ abstract class ModLanguagesHelper
 		// For each language...
 		foreach ($languages as $i => &$language)
 		{
+			$language->active = false;
 			switch (true)
 			{
 				// Home page, SEF
@@ -111,6 +112,7 @@ abstract class ModLanguagesHelper
 				// Current language link
 				case ($i == $current_lang):
 					$language->link = str_replace('&', '&amp;', JUri::getInstance()->toString(array('path', 'query')));
+					$language->active = true;
 					break;
 
 				// Component association
