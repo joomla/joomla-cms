@@ -136,7 +136,7 @@ var JFormValidator = function() {
  	 	// Iterate through the form object and attach the validate method to all input fields.
  	 	elements = $form.find('input, textarea, select, fieldset, button');
  	 	for (var i = 0, l = elements.length; i < l; i++) {
- 	 	 	var $el = jQuery(elements[i]), tagName = $el.prop("tagName").toLowerCase();
+ 	 	 	var $el = jQuery(elements[i]), id = $el.attr('id'), tagName = $el.prop("tagName").toLowerCase();
  	 	 	// Attach isValid method to submit button
  	 	 	if ((tagName === 'input' || tagName === 'button') && ($el.attr('type') === 'submit' || $el.attr('type') === 'image')) {
  	 	 	 	if ($el.hasClass('validate')) {
