@@ -595,7 +595,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 					// Current language
 					case ($i == $this->current_lang):
-						$language->link = JUri::getInstance()->toString(array('path', 'query'));
+						$language->link = str_replace('&', '&amp;', JUri::getInstance()->toString(array('path', 'query')));
 						break;
 
 					// Component association
