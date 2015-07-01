@@ -151,7 +151,7 @@ function colorIsLight($color)
 	<div class="navbar-inner">
 		<div class="container-fluid">
 			<?php if ($this->params->get('admin_menus') != '0') : ?>
-				<a class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+				<a href="#" class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
