@@ -64,8 +64,6 @@ class FinderHelper
 		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
 		// Get list of actions
-		$result = JHelperContent::getActions('com_finder');
-
-		return $result;
+		return JHelperContent::getActions('com_finder');
 	}
 }

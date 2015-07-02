@@ -117,29 +117,29 @@ class FinderIndexerToken
 			 */
 			$this->weight = (($this->length >= 30 ? 30 : $this->length) / 30) + 1;
 			$this->weight = round($this->weight, 4);
-		}
-		else
-		{
-			// Populate the token instance.
-			$this->term = $term;
-			$this->stem = FinderIndexerHelper::stem($this->term, $lang);
-			$this->numeric = (is_numeric($this->term) || (bool) preg_match('#^[0-9,.\-\+]+$#', $this->term));
-			$this->common = $this->numeric ? false : FinderIndexerHelper::isCommon($this->term, $lang);
-			$this->phrase = false;
-			$this->length = JString::strlen($this->term);
 
-			/*
-			 * Calculate the weight of the token.
-			 *
-			 * 1. Length of the token up to 15 and divide by 15.
-			 * 2. If common term, divide weight by 8.
-			 * 3. If numeric, multiply weight by 1.5.
-			 * 4. Round weight to 4 decimal points.
-			 */
-			$this->weight = (($this->length >= 15 ? 15 : $this->length) / 15);
-			$this->weight = ($this->common == true ? $this->weight / 8 : $this->weight);
-			$this->weight = ($this->numeric == true ? $this->weight * 1.5 : $this->weight);
-			$this->weight = round($this->weight, 4);
+			return;
 		}
+
+		// Populate the token instance.
+		$this->term = $term;
+		$this->stem = FinderIndexerHelper::stem($this->term, $lang);
+		$this->numeric = (is_numeric($this->term) || (bool) preg_match('#^[0-9,.\-\+]+$#', $this->term));
+		$this->common = $this->numeric ? false : FinderIndexerHelper::isCommon($this->term, $lang);
+		$this->phrase = false;
+		$this->length = JString::strlen($this->term);
+
+		/*
+		 * Calculate the weight of the token.
+		 *
+		 * 1. Length of the token up to 15 and divide by 15.
+		 * 2. If common term, divide weight by 8.
+		 * 3. If numeric, multiply weight by 1.5.
+		 * 4. Round weight to 4 decimal points.
+		 */
+		$this->weight = (($this->length >= 15 ? 15 : $this->length) / 15);
+		$this->weight = ($this->common == true ? $this->weight / 8 : $this->weight);
+		$this->weight = ($this->numeric == true ? $this->weight * 1.5 : $this->weight);
+		$this->weight = round($this->weight, 4);
 	}
 }

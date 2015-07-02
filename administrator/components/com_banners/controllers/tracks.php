@@ -36,9 +36,7 @@ class BannersControllerTracks extends JControllerLegacy
 	 */
 	public function getModel($name = 'Tracks', $prefix = 'BannersModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**

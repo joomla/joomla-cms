@@ -64,17 +64,19 @@ class BannersModelBanners extends JModelList
 	 */
 	public function &getCategoryOrders()
 	{
-		if (!isset($this->cache['categoryorders']))
+		if (isset($this->cache['categoryorders']))
 		{
-			$db = $this->getDbo();
-			$query = $db->getQuery(true)
-				->select('MAX(ordering) as ' . $db->quoteName('max') . ', catid')
-				->select('catid')
-				->from('#__banners')
-				->group('catid');
-			$db->setQuery($query);
-			$this->cache['categoryorders'] = $db->loadAssocList('catid', 0);
+			return $this->cache['categoryorders'];
 		}
+
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('MAX(ordering) as ' . $db->quoteName('max') . ', catid')
+			->select('catid')
+			->from('#__banners')
+			->group('catid');
+		$db->setQuery($query);
+		$this->cache['categoryorders'] = $db->loadAssocList('catid', 0);
 
 		return $this->cache['categoryorders'];
 	}

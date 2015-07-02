@@ -35,24 +35,22 @@ class BannersModelClient extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id))
 		{
-			if ($record->state != -2)
-			{
-				return;
-			}
-
-			$user = JFactory::getUser();
-
-			if (!empty($record->catid))
-			{
-				return $user->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
-			}
-			else
-			{
-				return $user->authorise('core.delete', 'com_banners');
-			}
+			return;
 		}
+
+		if ($record->state != -2)
+		{
+			return;
+		}
+
+		if (!empty($record->catid))
+		{
+			return JFactory::getUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
+		}
+
+		return JFactory::getUser()->authorise('core.delete', 'com_banners');
 	}
 
 	/**
@@ -67,16 +65,12 @@ class BannersModelClient extends JModelAdmin
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
 		if (!empty($record->catid))
 		{
-			return $user->authorise('core.edit.state', 'com_banners.category.' . (int) $record->catid);
+			return JFactory::getUser()->authorise('core.edit.state', 'com_banners.category.' . (int) $record->catid);
 		}
-		else
-		{
-			return $user->authorise('core.edit.state', 'com_banners');
-		}
+
+		return JFactory::getUser()->authorise('core.edit.state', 'com_banners');
 	}
 
 	/**

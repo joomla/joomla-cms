@@ -195,36 +195,36 @@ class BannersTableBanner extends JTable
 			}
 			// Store the row
 			parent::store($updateNulls);
+
+			return count($this->getErrors()) == 0;
 		}
-		else
+
+		// Get the old row
+		$oldrow = JTable::getInstance('Banner', 'BannersTable');
+
+		if (!$oldrow->load($this->id) && $oldrow->getError())
 		{
-			// Get the old row
-			$oldrow = JTable::getInstance('Banner', 'BannersTable');
+			$this->setError($oldrow->getError());
+		}
 
-			if (!$oldrow->load($this->id) && $oldrow->getError())
-			{
-				$this->setError($oldrow->getError());
-			}
+		// Verify that the alias is unique
+		$table = JTable::getInstance('Banner', 'BannersTable');
 
-			// Verify that the alias is unique
-			$table = JTable::getInstance('Banner', 'BannersTable');
+		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
+		{
+			$this->setError(JText::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
 
-			if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
-			{
-				$this->setError(JText::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
+			return false;
+		}
 
-				return false;
-			}
+		// Store the new row
+		parent::store($updateNulls);
 
-			// Store the new row
-			parent::store($updateNulls);
-
-			// Need to reorder ?
-			if ($oldrow->state >= 0 && ($this->state < 0 || $oldrow->catid != $this->catid))
-			{
-				// Reorder the oldrow
-				$this->reorder($this->_db->quoteName('catid') . '=' . $this->_db->quote($oldrow->catid) . ' AND state>=0');
-			}
+		// Need to reorder ?
+		if ($oldrow->state >= 0 && ($this->state < 0 || $oldrow->catid != $this->catid))
+		{
+			// Reorder the oldrow
+			$this->reorder($this->_db->quoteName('catid') . '=' . $this->_db->quote($oldrow->catid) . ' AND state>=0');
 		}
 
 		return count($this->getErrors()) == 0;
@@ -281,21 +281,23 @@ class BannersTableBanner extends JTable
 			}
 
 			// Verify checkout
-			if ($table->checked_out == 0 || $table->checked_out == $userId)
+			if ($table->checked_out != 0 && $table->checked_out != $userId)
 			{
-				// Change the state
-				$table->sticky = $state;
-				$table->checked_out = 0;
-				$table->checked_out_time = $this->_db->getNullDate();
+				continue;
+			}
 
-				// Check the row
-				$table->check();
+			// Change the state
+			$table->sticky = $state;
+			$table->checked_out = 0;
+			$table->checked_out_time = $this->_db->getNullDate();
 
-				// Store the row
-				if (!$table->store())
-				{
-					$this->setError($table->getError());
-				}
+			// Check the row
+			$table->check();
+
+			// Store the row
+			if (!$table->store())
+			{
+				$this->setError($table->getError());
 			}
 		}
 

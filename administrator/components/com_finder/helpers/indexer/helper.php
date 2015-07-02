@@ -188,16 +188,14 @@ class FinderIndexerHelper
 			}
 		}
 
-		if ($store)
-		{
-			$cache[$store] = count($tokens) > 1 ? $tokens : array_shift($tokens);
-
-			return $cache[$store];
-		}
-		else
+		if (!$store)
 		{
 			return count($tokens) > 1 ? $tokens : array_shift($tokens);
 		}
+
+		$cache[$store] = count($tokens) > 1 ? $tokens : array_shift($tokens);
+
+		return $cache[$store];
 	}
 
 	/**
@@ -228,10 +226,8 @@ class FinderIndexerHelper
 		{
 			return self::$stemmer->stem($token, $lang);
 		}
-		else
-		{
-			return $token;
-		}
+
+		return $token;
 	}
 
 	/**
@@ -303,14 +299,7 @@ class FinderIndexerHelper
 		}
 
 		// Check if the token is in the common array.
-		if (in_array($token, $data[$lang]))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return in_array($token, $data[$lang]);
 	}
 
 	/**
@@ -335,9 +324,8 @@ class FinderIndexerHelper
 
 		// Load all of the common terms for the language.
 		$db->setQuery($query);
-		$results = $db->loadColumn();
 
-		return $results;
+		return $db->loadColumn();
 	}
 
 	/**
