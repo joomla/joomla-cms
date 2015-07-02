@@ -80,7 +80,7 @@ abstract class ModLanguagesHelper
 					|| $current_link == $active_link . '/'));
 		}
 
-		// Load component associations.
+		// Load component associations
 		if ($assocs)
 		{
 			$option = $app->input->get('option');
