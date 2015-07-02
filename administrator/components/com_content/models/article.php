@@ -426,7 +426,7 @@ class ContentModelArticle extends JModelAdmin
 				$data->set('state', $app->input->getInt('state', (isset($filters['published']) ? $filters['published'] : null)));
 				$data->set('catid', $app->input->getInt('catid', (isset($filters['category_id']) ? $filters['category_id'] : null)));
 				$data->set('language', $app->input->getString('language', (isset($filters['language']) ? $filters['language'] : null)));
-				$data->set('access', $app->input->getInt('access', (isset($filters['access']) ? $filters['access'] : null)));
+				$data->set('access', $app->input->getInt('access', (isset($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'))));
 			}
 		}
 
