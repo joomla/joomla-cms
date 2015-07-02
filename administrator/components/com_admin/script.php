@@ -1292,6 +1292,9 @@ class JoomlaInstallerScript
 			'/administrator/components/com_config/models/forms/index.html',
 			// Joomla 3.4.2
 			'/libraries/composer_autoload.php',
+			// Joomla 3.4.3
+			'/libraries/classloader.php',
+			'/libraries/ClassLoader.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1377,9 +1380,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_config/views',
 			'/administrator/components/com_config/models/fields',
 			'/administrator/components/com_config/models/forms',
-			// Joomla 3.4.3
-			'/libraries/classloader.php',
-			'/libraries/ClassLoader.php',
 		);
 
 		jimport('joomla.filesystem.file');
