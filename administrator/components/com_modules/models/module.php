@@ -596,10 +596,10 @@ class ModulesModelModule extends JModelAdmin
 			if (!$data->id)
 			{
 				$filters = (array) $app->getUserState('com_modules.modules.filter');
-				$data->set('published', $app->input->getInt('published', (isset($filters['state']) ? $filters['state'] : null)));
-				$data->set('position', $app->input->getInt('position', (isset($filters['position']) ? $filters['position'] : null)));
-				$data->set('language', $app->input->getString('language', (isset($filters['language']) ? $filters['language'] : null)));
-				$data->set('access', $app->input->getInt('access', (isset($filters['access']) ? $filters['access'] : null)));
+				$data->set('published', $app->input->getInt('published', (!empty($filters['state']) ? $filters['state'] : null)));
+				$data->set('position', $app->input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
+				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'))));
 			}
 
 			// This allows us to inject parameter settings into a new module.
