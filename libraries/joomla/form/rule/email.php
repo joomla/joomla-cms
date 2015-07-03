@@ -18,15 +18,6 @@ use Joomla\Registry\Registry;
  */
 class JFormRuleEmail extends JFormRule
 {
-	/**
-	 * The regular expression to use in testing a form field value.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 * @see    http://www.w3.org/TR/html-markup/input.email.html
-	 */
-
-	protected $regex;
 
 	/**
 	 * Method to test the email address and optionally check for uniqueness.
