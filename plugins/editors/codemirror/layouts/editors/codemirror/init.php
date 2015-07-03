@@ -21,6 +21,7 @@ $extCSS = JFactory::getConfig()->get('debug') ? '.css' : '.min.css';
 JHtml::_('script', $basePath . 'lib/codemirror' . $extJS);
 JHtml::_('script', $basePath . 'lib/addons' . $extJS);
 JHtml::_('stylesheet', $basePath . 'lib/codemirror' . $extCSS);
+JHtml::_('stylesheet', $basePath . 'lib/addons' . $extCSS);
 
 $fskeys = $params->get('fullScreenMod', array());
 $fskeys[] = $params->get('fullScreen', 'F10');
