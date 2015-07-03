@@ -127,7 +127,7 @@ class PlgEditorTinymce extends JPlugin
 		catch (RuntimeException $e)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
+
 			return;
 		}
 
@@ -803,7 +803,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onGetContent($editor)
 	{
-		return 'tinyMCE.get(\'' . $editor . '\').getContent();';
+		return 'tinyMCE.activeEditor.getContent();';
 	}
 
 	/**
@@ -816,7 +816,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onSetContent($editor, $html)
 	{
-		return 'tinyMCE.get(\'' . $editor . '\').setContent(' . $html . ');';
+		return 'tinyMCE.activeEditor.setContent(' . $html . ');';
 	}
 
 	/**
@@ -828,7 +828,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onSave($editor)
 	{
-		return 'if (tinyMCE.get("' . $editor . '").isHidden()) {tinyMCE.get("' . $editor . '").show()}; tinyMCE.get("' . $editor . '").save();';
+		return 'if (tinyMCE.get("' . $editor . '").isHidden()) {tinyMCE.get("' . $editor . '").show()};';
 	}
 
 	/**

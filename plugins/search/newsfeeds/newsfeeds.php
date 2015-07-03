@@ -189,7 +189,6 @@ class PlgSearchNewsfeeds extends JPlugin
 		{
 			$rows = array();
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-			JLog::add($e->getMessage(), JLog::ERROR, 'controller');
 		}
 
 		if ($rows)

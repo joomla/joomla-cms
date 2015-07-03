@@ -1,9 +1,10 @@
 <?php
 /**
- * @package    Joomla.Libraries
+ * @package     Joomla.Libraries
+ * @subpackage  Class
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
@@ -16,8 +17,7 @@ use Composer\Autoload\ClassLoader;
  * For backward compatibility due to class aliasing in the CMS, the loadClass() method was modified to call
  * the JLoader::applyAliasFor() method.
  *
- * @author  Johan Janssens
- * @since   3.4
+ * @since  3.4
  */
 class JClassLoader
 {
