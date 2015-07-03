@@ -128,7 +128,7 @@ if ($params->get('show_autosuggest', 1))
 
 	$script .= "
 	var suggest = jQuery('#mod-finder-searchword').autocomplete({
-		serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false) . "',
+		serviceUrl: '" . htmlspecialchars(JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false)) . "',
 		paramName: 'q',
 		minChars: 1,
 		maxHeight: 400,
