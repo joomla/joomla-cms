@@ -30,7 +30,7 @@ if (!class_exists('JLoader'))
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
 // Create the Composer autoloader
-$loader = require_once JPATH_LIBRARIES . '/vendor/autoload.php';
+$loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
 $loader->unregister();
 
 // Decorate Composer autoloader
