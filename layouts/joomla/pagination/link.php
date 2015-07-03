@@ -74,7 +74,7 @@ if ($displayData['active'])
 	// Still using javascript approach in backend
 	if (JFactory::getApplication()->isAdmin())
 	{
-		$onClick = 'document.adminForm.' . $item->prefix . 'limitstart.value=' . ($item->base > 0 ? $item->base : '0') . '; Joomla.submitform();return false;';
+		$onClick = 'onclick="document.adminForm.' . $item->prefix . 'limitstart.value=' . ($item->base > 0 ? $item->base : '0') . '; Joomla.submitform();return false;"';
 		$href    = '#';
 	}
 }
@@ -86,9 +86,10 @@ else
 <?php if ($displayData['active']) : ?>
 	<li>
 		<a
-			class="<?php echo implode(' ', $cssClasses); ?>" <?php echo $title; ?>
+			<?php echo !empty($cssClasses) ? 'class="' . implode(' ', $cssClasses) . '"' : ''; ?>
+			<?php echo $title; ?>
+			<?php echo $onClick; ?>
 			href="<?php echo $href; ?>"
-			onclick="<?php echo $onClick; ?>"
 		>
 			<?php echo $display; ?>
 		</a>
