@@ -1,13 +1,13 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Banners
  * @subpackage  com_banners
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 /**
  * Impressions Field class for the Joomla Framework.
@@ -19,15 +19,15 @@ class JFormFieldImpTotal extends JFormField
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $type = 'ImpTotal';
 
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string	The field input markup.
+	 * @return  string  The field input markup.
 	 *
 	 * @since   1.6
 	 */

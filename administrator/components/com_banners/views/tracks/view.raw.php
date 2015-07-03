@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Banners
  * @subpackage  com_banners
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
@@ -25,10 +25,10 @@ class BannersViewTracks extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$basename		= $this->get('BaseName');
-		$filetype		= $this->get('FileType');
-		$mimetype		= $this->get('MimeType');
-		$content		= $this->get('Content');
+		$basename = $this->get('BaseName');
+		$filetype = $this->get('FileType');
+		$mimetype = $this->get('MimeType');
+		$content  = $this->get('Content');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

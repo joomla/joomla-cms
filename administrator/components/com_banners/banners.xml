@@ -9,17 +9,29 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>COM_BANNERS_XML_DESCRIPTION</description>
+	<scriptfile>script.php</scriptfile>
 
-	<install> <!-- Runs on install -->
+	<install>
 		<sql>
-			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+			<file charset="utf8" driver="mysql">sql/install.mysql.sql</file>
+			<file charset="utf8" driver="postgresql">sql/install.postgresql.sql</file>
+			<file charset="utf8" driver="sqlsrv">sql/install.sqlsrv.sql</file>
 		</sql>
 	</install>
-	<uninstall> <!-- Runs on uninstall -->
+	<uninstall>
 		<sql>
-			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+			<file charset="utf8" driver="mysql">sql/uninstall.mysql.sql</file>
+			<file charset="utf8" driver="postgresql">sql/uninstall.postgresql.sql</file>
+			<file charset="utf8" driver="sqlsrv">sql/uninstall.sqlsrv.sql</file>
 		</sql>
 	</uninstall>
+	<update>
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+			<schemapath type="postgresql">sql/updates/postgresql</schemapath>
+			<schemapath type="sqlsrv">sql/updates/sqlsrv</schemapath>
+		</schemas>
+	</update>
 
 	<files folder="site">
 		<filename>banners.php</filename>
@@ -27,6 +39,8 @@
 		<filename>router.php</filename>
 		<folder>helpers</folder>
 		<folder>models</folder>
+		<!--Currently this folder is empty / unused-->
+		<!--<folder>language</folder>-->
 	</files>
 	<administration>
 		<menu img="class:banners">com_banners</menu>
@@ -54,11 +68,9 @@
 			<folder>models</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
+			<folder>language</folder>
+			<folder>sql</folder>
 		</files>
-		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_banners.ini</language>
-			<language tag="en-GB">language/en-GB.com_banners.sys.ini</language>
-		</languages>
 	</administration>
 </extension>
 

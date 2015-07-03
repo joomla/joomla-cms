@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Banners
  * @subpackage  com_banners
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
@@ -25,8 +25,8 @@ class BannersModelBanner extends JModelAdmin
 	/**
 	 * The type alias for this content type.
 	 *
-	 * @var      string
-	 * @since    3.2
+	 * @var    string
+	 * @since  3.2
 	 */
 	public $typeAlias = 'com_banners.banner';
 
@@ -34,14 +34,14 @@ class BannersModelBanner extends JModelAdmin
 	 * Batch copy/move command. If set to false, 
 	 * the batch copy/move command is not supported
 	 *
-	 * @var string
+	 * @var  string
 	 */
 	protected $batch_copymove = 'category_id';
 
 	/**
 	 * Allowed batch commands
 	 *
-	 * @var array
+	 * @var  array
 	 */
 	protected $batch_commands = array(
 		'client_id' => 'batchClient',
@@ -62,7 +62,7 @@ class BannersModelBanner extends JModelAdmin
 	protected function batchClient($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user = JFactory::getUser();
+		$user  = JFactory::getUser();
 		$table = $this->getTable();
 
 		foreach ($pks as $pk)
@@ -103,13 +103,13 @@ class BannersModelBanner extends JModelAdmin
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
 		$categoryId = (int) $value;
 
-		$table = $this->getTable();
+		$table  = $this->getTable();
 		$newIds = array();
 
 		// Check that the category exists
@@ -180,7 +180,7 @@ class BannersModelBanner extends JModelAdmin
 
 			// Alter the title & alias
 			$data = $this->generateNewTitle($categoryId, $table->alias, $table->name);
-			$table->name = $data['0'];
+			$table->name  = $data['0'];
 			$table->alias = $data['1'];
 
 			// Reset the ID because we are making a copy
@@ -193,7 +193,7 @@ class BannersModelBanner extends JModelAdmin
 			$table->state = 0;
 
 			// TODO: Deal with ordering?
-			// $table->ordering	= 1;
+			// $table->ordering = 1;
 
 			// Check the row.
 			if (!$table->check())
@@ -360,7 +360,7 @@ class BannersModelBanner extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
 		$data = $app->getUserState('com_banners.edit.banner.data', array());
 
 		if (empty($data))
@@ -370,7 +370,7 @@ class BannersModelBanner extends JModelAdmin
 			// Prime some default values.
 			if ($this->getState('banner.id') == 0)
 			{
-				$filters = (array) $app->getUserState('com_banners.banners.filter');
+				$filters     = (array) $app->getUserState('com_banners.banners.filter');
 				$filterCatId = isset($filters['category_id']) ? $filters['category_id'] : null;
 
 				$data->set('catid', $app->input->getInt('catid', $filterCatId));
@@ -394,9 +394,9 @@ class BannersModelBanner extends JModelAdmin
 	 */
 	public function stick(&$pks, $value = 1)
 	{
-		$user = JFactory::getUser();
+		$user  = JFactory::getUser();
 		$table = $this->getTable();
-		$pks = (array) $pks;
+		$pks   = (array) $pks;
 
 		// Access checks.
 		foreach ($pks as $i => $pk)
@@ -434,7 +434,7 @@ class BannersModelBanner extends JModelAdmin
 	 */
 	protected function getReorderConditions($table)
 	{
-		$condition = array();
+		$condition   = array();
 		$condition[] = 'catid = ' . (int) $table->catid;
 		$condition[] = 'state >= 0';
 
@@ -458,7 +458,8 @@ class BannersModelBanner extends JModelAdmin
 		if (empty($table->id))
 		{
 			// Set the values
-			$table->created = $date->toSql();
+			$table->created    = $date->toSql();
+			$table->created_by = $user->id;
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering))
@@ -477,8 +478,8 @@ class BannersModelBanner extends JModelAdmin
 		else
 		{
 			// Set the values
-			$table->modified	= $date->toSql();
-			$table->modified_by	= $user->get('id');
+			$table->modified   = $date->toSql();
+			$table->created_by = $user->id;
 		}
 		// Increment the content version number.
 		$table->version++;
@@ -507,7 +508,7 @@ class BannersModelBanner extends JModelAdmin
 			if ($data['name'] == $origTable->name)
 			{
 				list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-				$data['name'] = $name;
+				$data['name']  = $name;
 				$data['alias'] = $alias;
 			}
 			else

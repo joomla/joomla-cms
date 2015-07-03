@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Banners
  * @subpackage  com_banners
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
@@ -31,7 +31,7 @@ class BannersTableBanner extends JTable
 
 		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_banners.banner'));
 
-		$date = JFactory::getDate();
+		$date          = JFactory::getDate();
 		$this->created = $date->toSql();
 		$this->setColumnAlias('published', 'state');
 	}
@@ -127,7 +127,7 @@ class BannersTableBanner extends JTable
 			}
 
 			// Converts the width and height to an absolute numeric value:
-			$width = abs((int) $registry->get('width', 0));
+			$width  = abs((int) $registry->get('width', 0));
 			$height = abs((int) $registry->get('height', 0));
 
 			// Sets the width and height to an empty string if = 0
@@ -284,7 +284,7 @@ class BannersTableBanner extends JTable
 			if ($table->checked_out == 0 || $table->checked_out == $userId)
 			{
 				// Change the state
-				$table->sticky = $state;
+				$table->sticky      = $state;
 				$table->checked_out = 0;
 				$table->checked_out_time = $this->_db->getNullDate();
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Banners
  * @subpackage  com_banners
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
@@ -96,7 +96,7 @@ class BannersModelTracks extends JModelList
 		require_once JPATH_COMPONENT . '/helpers/banners.php';
 
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -174,7 +174,7 @@ class BannersModelTracks extends JModelList
 	 */
 	public function delete()
 	{
-		$user = JFactory::getUser();
+		$user       = JFactory::getUser();
 		$categoryId = $this->getState('category_id');
 
 		// Access checks.
@@ -269,9 +269,9 @@ class BannersModelTracks extends JModelList
 	{
 		if (!isset($this->basename))
 		{
-			$app = JFactory::getApplication();
-			$basename = $this->getState('basename');
-			$basename = str_replace('__SITE__', $app->get('sitename'), $basename);
+			$app        = JFactory::getApplication();
+			$basename   = $this->getState('basename');
+			$basename   = str_replace('__SITE__', $app->get('sitename'), $basename);
 			$categoryId = $this->getState('filter.category_id');
 
 			if (is_numeric($categoryId))
@@ -371,7 +371,7 @@ class BannersModelTracks extends JModelList
 
 		if ($categoryId)
 		{
-			$db = $this->getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
 				->select('title')
 				->from($db->quoteName('#__categories'))
