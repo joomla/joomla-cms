@@ -70,6 +70,7 @@ class PlgEditorCodemirror extends JPlugin
 		JHtml::_('script', $this->basePath . 'lib/codemirror.min.js');
 		JHtml::_('script', $this->basePath . 'lib/addons.min.js');
 		JHtml::_('stylesheet', $this->basePath . 'lib/codemirror.min.css');
+		JHtml::_('stylesheet', $this->basePath . 'lib/addons.min.css');
 
 		JFactory::getDocument()
 			->addScriptDeclaration($this->getInitScript())
