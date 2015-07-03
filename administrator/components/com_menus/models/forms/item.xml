@@ -46,6 +46,7 @@
 			label="COM_MENUS_ITEM_FIELD_LINK_LABEL"
 			description="COM_MENUS_ITEM_FIELD_LINK_DESC"
 			readonly="true"
+			class="input-xxlarge"
 			size="50"/>
 
 		<field

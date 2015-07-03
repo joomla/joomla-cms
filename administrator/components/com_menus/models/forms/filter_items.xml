@@ -12,6 +12,7 @@
 			name="search"
 			type="text"
 			label="COM_MENUS_FILTER_SEARCH_DESC"
+			description="COM_MENUS_ITEMS_SEARCH_FILTER"
 			hint="JSEARCH_FILTER"
 			class="js-stools-search-string"
 		/>

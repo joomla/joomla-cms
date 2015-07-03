@@ -29,11 +29,15 @@ if (!class_exists('JLoader'))
 // Register the library base path for CMS libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
-// Add the Composer autoloader
-require_once JPATH_LIBRARIES . '/composer_autoload.php';
+// Create the Composer autoloader
+$loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
+$loader->unregister();
+
+// Decorate Composer autoloader
+spl_autoload_register(array(new JClassLoader($loader), 'loadClass'), true, true);
 
 // Register the class aliases for Framework classes that have replaced their Platform equivilents
-require_once __DIR__ . '/classmap.php';
+require_once JPATH_LIBRARIES . '/classmap.php';
 
 // Ensure FOF autoloader included - needed for things like content versioning where we need to get an FOFTable Instance
 if (!class_exists('FOFAutoloaderFof'))

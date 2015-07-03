@@ -228,7 +228,7 @@ class JTableContent extends JTable
 			}
 
 			// If we don't have any access rules set at this point just use an empty JAccessRules class
-			if (!isset($this->rules))
+			if (!$this->getRules())
 			{
 				$rules = $this->getDefaultAssetValues('com_content');
 				$this->setRules($rules);

@@ -647,7 +647,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 					$this->errorMsg = $errors[0]['message'] . 'SQL=' . $query;
 
 					// Throw the normal query exception.
-					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 					throw new RuntimeException($this->errorMsg, $this->errorNum);
 				}
 
@@ -663,7 +663,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				$this->errorMsg = $errors[0]['message'] . 'SQL=' . $query;
 
 				// Throw the normal query exception.
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
 		}
