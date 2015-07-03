@@ -38,7 +38,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_LEVEL = '2-dev';
+	const DEV_LEVEL = '4-dev';
 
 	/**
 	 * Development status.
@@ -70,7 +70,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '21-March-2015';
+	const RELDATE = '2-July-2015';
 
 	/**
 	 * Release time.
@@ -78,7 +78,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '20:30';
+	const RELTIME = '16:00';
 
 	/**
 	 * Release timezone.
@@ -135,11 +135,23 @@ final class JVersion
 	}
 
 	/**
+	 * Check if we are in development mode
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.4.3
+	 */
+	public function isInDevelopmentState()
+	{
+		return strtolower(self::DEV_STATUS) != 'stable';
+	}
+
+	/**
 	 * Compares two a "PHP standardized" version number against the current Joomla version.
 	 *
 	 * @param   string  $minimum  The minimum version of the Joomla which is compatible.
 	 *
-	 * @return  bool    True if the version is compatible.
+	 * @return  boolean True if the version is compatible.
 	 *
 	 * @see     http://www.php.net/version_compare
 	 * @since   1.0

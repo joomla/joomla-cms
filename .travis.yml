@@ -16,11 +16,8 @@ services:
   - redis-server
 
 before_script:
-  # - composer update
-  # Install PHPCS to validate code standards
-  - composer require --dev squizlabs/php_codesniffer 1.5.6
-  # Install Cache_Lite for testing
-  - composer require --dev pear/cache_lite 1.7.16
+  # Make sure all dev dependencies are installed
+  - composer install
   # Set up databases for testing
   - mysql -e 'create database joomla_ut;'
   - mysql joomla_ut < tests/unit/schema/mysql.sql

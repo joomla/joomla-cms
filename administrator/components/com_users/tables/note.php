@@ -45,17 +45,19 @@ class UsersTableNote extends JTable
 		$userId = JFactory::getUser()->get('id');
 
 		$this->modified_time = $date;
+		$this->modified_user_id = $userId;
+
+		if (!((int) $this->review_time))
+		{
+			// Null date.
+			$this->review_time = JFactory::getDbo()->getNullDate();
+		}
 
 		if (empty($this->id))
 		{
 			// New record.
 			$this->created_time = $date;
 			$this->created_user_id = $userId;
-		}
-		else
-		{
-			// Existing record.
-			$this->modified_user_id = $userId;
 		}
 
 		// Attempt to store the data.
