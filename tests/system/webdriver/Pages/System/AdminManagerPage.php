@@ -202,6 +202,18 @@ abstract class AdminManagerPage extends AdminPage
 
 	public function setFilter($idOrLabel, $value)
 	{
+		$el = $this->driver->findElements(By::xPath("//button"));
+		foreach($el as $element)
+		{
+			if ($element->getAttribute('data-original-title') == 'Filter the list items.')
+			{
+				$element->click();
+				if($value == 'Select Status')
+				{
+					$element->click();
+				}
+			}
+		}
 		$filters = array_change_key_case($this->filters, CASE_LOWER);
 		$idOrLabel = strtolower($idOrLabel);
 		$filterId = '';
