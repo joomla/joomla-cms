@@ -200,6 +200,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 							<?php elseif ($modMenuId) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype); ?>">
 								<?php echo JText::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
+								<?php $link = JRoute::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype); ?>
 								<?php echo JHtml::_(
 										'bootstrap.renderModal',
 										'moduleModal',
