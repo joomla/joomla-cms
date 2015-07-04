@@ -8157,10 +8157,10 @@ body.modal-open {
 	top: 30px;
 	width: 100%;
 	z-index: 1028;
-	-webkit-transition: top 0.4s ease-out;
-	-moz-transition: top 0.4s ease-out;
-	-o-transition: top 0.4s ease-out;
-	transition: top 0.4s ease-out;
+	-webkit-transition: all 0.4s ease;
+	-moz-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
 }
 @media (max-width: 748px) {
 	#second-nav.affix {

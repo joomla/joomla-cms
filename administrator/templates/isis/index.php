@@ -151,6 +151,15 @@ function colorIsLight($color)
 		</style>
 	<?php endif; ?>
 
+	<?php if ($displayHeader) : ?>
+		<style type="text/css">
+			#second-nav {
+				top: 78px;
+				width: 100%;
+			}
+		</style>
+	<?php endif; ?>
+
 	<!--[if lt IE 9]>
 	<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
