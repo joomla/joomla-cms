@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Banners
+ * @package     Joomla.Site
  * @subpackage  mod_banners
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_banners
  *
- * @package     Banners
- * @subpackage  mod_banners
- * @since       1.5
+ * @since  1.5
  */
 class ModBannersHelper
 {

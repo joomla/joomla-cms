@@ -69,7 +69,8 @@
 			<folder>models</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
-			<folder>language</folder>
+			<!--Currently this folder is unused-->
+			<!--<folder>language</folder>-->
 			<folder>sql</folder>
 		</files>
 	</administration>

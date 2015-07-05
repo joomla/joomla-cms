@@ -12,7 +12,8 @@
 	<files>
 		<filename module="mod_banners">mod_banners.php</filename>
 		<folder>tmpl</folder>
-		<folder>language</folder>
+		<!--Currently this folder is empty / unused-->
+		<!--<folder>language</folder>-->
 		<filename>helper.php</filename>
 		<filename>mod_banners.xml</filename>
 	</files>
