@@ -9,7 +9,8 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>COM_BANNERS_XML_DESCRIPTION</description>
-	<scriptfile>script.php</scriptfile>
+	<!--Currently we don't use a script.php here-->
+	<!--<scriptfile>script.php</scriptfile>-->
 
 	<install>
 		<sql>

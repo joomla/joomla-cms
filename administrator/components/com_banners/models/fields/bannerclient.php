@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Banners
+ * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
