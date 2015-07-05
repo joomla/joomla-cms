@@ -7477,3 +7477,6 @@ body.modal-open {
 	overflow: hidden;
 	-ms-overflow-style: none;
 }
+#users-profile-custom label {
+	display: inline;
+}
