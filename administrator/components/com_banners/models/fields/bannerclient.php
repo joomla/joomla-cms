@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
 
 JFormHelper::loadFieldClass('list');
 
@@ -23,8 +23,8 @@ class JFormFieldBannerClient extends JFormFieldList
 	/**
 	 * The form field type.
 	 *
-	 * @var    string
-	 * @since  1.6
+	 * @var		string
+	 * @since   1.6
 	 */
 	protected $type = 'BannerClient';
 

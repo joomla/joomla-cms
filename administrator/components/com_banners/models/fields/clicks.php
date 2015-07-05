@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
 
 /**
  * Clicks Field class for the Joomla Framework.
@@ -19,15 +19,15 @@ class JFormFieldClicks extends JFormField
 	/**
 	 * The form field type.
 	 *
-	 * @var    string
-	 * @since  1.6
+	 * @var		string
+	 * @since   1.6
 	 */
 	protected $type = 'Clicks';
 
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string  The field input markup.
+	 * @return  string	The field input markup.
 	 *
 	 * @since   1.6
 	 */
@@ -37,7 +37,7 @@ class JFormFieldClicks extends JFormField
 
 		return
 			'<input class="input-small" type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly" /> <a class="btn" ' . $onclick . '><i class="icon-refresh"></i> '
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly" /> <a class="btn" ' . $onclick . '><span class="icon-refresh"></span> '
 			. JText::_('COM_BANNERS_RESET_CLICKS') . '</a>';
 	}
 }

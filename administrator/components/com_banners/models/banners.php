@@ -88,7 +88,7 @@ class BannersModelBanners extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$db    = $this->getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.

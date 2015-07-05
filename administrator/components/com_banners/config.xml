@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset
-		name="component"
+	<fieldset name="component"
 		label="COM_BANNERS_FIELDSET_CONFIG_CLIENT_OPTIONS_LABEL"
-		description="COM_BANNERS_FIELDSET_CONFIG_CLIENT_OPTIONS_DESC"
-		>
-
+		description="COM_BANNERS_FIELDSET_CONFIG_CLIENT_OPTIONS_DESC">
 		<field
 			id="purchase_type"
 			name="purchase_type"
@@ -57,11 +54,9 @@
 			description="COM_BANNERS_FIELD_METAKEYWORDPREFIX_DESC" />
 
 	</fieldset>
-	<fieldset
-		name="banners"
+	<fieldset name="banners"
 		label="COM_BANNERS_FIELDSET_CONFIG_BANNER_OPTIONS_LABEL"
-		description="COM_BANNERS_FIELDSET_CONFIG_BANNER_OPTIONS_DESC"
-		>
+		description="COM_BANNERS_FIELDSET_CONFIG_BANNER_OPTIONS_DESC">
 	
 		<field
 			name="save_history"
