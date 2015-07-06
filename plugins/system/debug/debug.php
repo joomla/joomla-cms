@@ -183,9 +183,11 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Show the debug info.
 	 *
-	 * @since  1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
-	public function __destruct()
+	public function onAfterRespond()
 	{
 		// Do not render if debugging or language debug is not enabled.
 		if (!JDEBUG && !$this->debugLang)
