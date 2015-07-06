@@ -39,7 +39,7 @@ class RedirectViewLinks extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->enabled              = RedirectHelper::isEnabled();
+		$this->enabled              = JPluginHelper::isEnabled('system','redirect');
 		$this->collect_urls_enabled = RedirectHelper::collectUrlsEnabled();
 		$this->redirectpluginid     = RedirectHelper::getRedirectPluginId();
 		$this->items                = $this->get('Items');
