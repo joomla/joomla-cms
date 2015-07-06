@@ -4,7 +4,7 @@
  * @subpackage  System.Debug
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -183,9 +183,11 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Show the debug info.
 	 *
-	 * @since  1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
-	public function __destruct()
+	public function onAfterRespond()
 	{
 		// Do not render if debugging or language debug is not enabled.
 		if (!JDEBUG && !$this->debugLang)
@@ -1372,7 +1374,7 @@ class PlgSystemDebug extends JPlugin
 
 		$this->totalQueries = $db->getCount();
 
-		$dbVersion5037 = (strncmp($db->name, 'mysql', 5) == 0) && version_compare($db->getVersion(), '5.0.37', '>=');
+		$dbVersion5037 = (strpos($db->name, 'mysql') !== false) && version_compare($db->getVersion(), '5.0.37', '>=');
 
 		if ($dbVersion5037)
 		{
@@ -1415,7 +1417,7 @@ class PlgSystemDebug extends JPlugin
 
 			foreach ($log as $k => $query)
 			{
-				$dbVersion56 = (strncmp($db->name, 'mysql', 5) == 0) && version_compare($db->getVersion(), '5.6', '>=');
+				$dbVersion56 = (strpos($db->name, 'mysql') !== false) && version_compare($db->getVersion(), '5.6', '>=');
 
 				if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0))))
 				{

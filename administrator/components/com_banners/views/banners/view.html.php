@@ -122,7 +122,6 @@ class BannersViewBanners extends JViewLegacy
 			&& $user->authorise('core.edit', 'com_banners')
 			&& $user->authorise('core.edit.state', 'com_banners'))
 		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
@@ -141,7 +140,7 @@ class BannersViewBanners extends JViewLegacy
 			JToolbarHelper::trash('banners.trash');
 		}
 
-		if ($user->authorise('core.admin', 'com_banners'))
+		if ($user->authorise('core.admin', 'com_banners') || $user->authorise('core.options', 'com_banners'))
 		{
 			JToolbarHelper::preferences('com_banners');
 		}

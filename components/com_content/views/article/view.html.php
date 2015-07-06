@@ -264,7 +264,7 @@ class ContentViewArticle extends JViewLegacy
 		{
 			$this->document->setDescription($this->item->metadesc);
 		}
-		elseif (!$this->item->metadesc && $this->params->get('menu-meta_description'))
+		elseif ($this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));
 		}
@@ -273,7 +273,7 @@ class ContentViewArticle extends JViewLegacy
 		{
 			$this->document->setMetadata('keywords', $this->item->metakey);
 		}
-		elseif (!$this->item->metakey && $this->params->get('menu-meta_keywords'))
+		elseif ($this->params->get('menu-meta_keywords'))
 		{
 			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
 		}

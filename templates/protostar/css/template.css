@@ -3911,7 +3911,6 @@ input[type="submit"].btn.btn-mini {
 .modal-body {
 	width: 98%;
 	position: relative;
-	overflow-y: auto;
 	max-height: 400px;
 	padding: 1%;
 }
@@ -7473,4 +7472,11 @@ code {
 	background-color: #FFFFCC;
 	font-weight: bold;
 	padding: 1px 4px;
+}
+body.modal-open {
+	overflow: hidden;
+	-ms-overflow-style: none;
+}
+#users-profile-custom label {
+	display: inline;
 }

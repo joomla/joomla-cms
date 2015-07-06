@@ -33,7 +33,7 @@ class ModulesModelModules extends JModelList
 				'title', 'a.title',
 				'checked_out', 'a.checked_out',
 				'checked_out_time', 'a.checked_out_time',
-				'published', 'a.published', 'state',
+				'published', 'a.published',
 				'access', 'a.access', 'access_level',
 				'ordering', 'a.ordering',
 				'module', 'a.module',
@@ -82,40 +82,13 @@ class ModulesModelModules extends JModelList
 		$module = $this->getUserStateFromRequest($this->context . '.filter.module', 'filter_module', '', 'string');
 		$this->setState('filter.module', $module);
 
-		// Special handling for filter client_id.
+		$clientId = $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', 0, 'int', false);
+		$previousId = $app->getUserState($this->context . '.filter.client_id_previous', null);
 
-		// Try to get current Client selection from $_POST.
-		$clientId = $app->input->getString('client_id', null);
-
-		// Client Site(0) or Administrator(1) selected?
-		if (in_array($clientId, array('0', '1')))
+		if ($previousId != $clientId || $previousId === null)
 		{
-			// Not the same client like saved previous one?
-			if ($clientId != $app->getUserState($this->context . '.client_id'))
-			{
-				// Save current selection as new previous value in session.
-				$app->setUserState($this->context . '.client_id', $clientId);
-
-				// Reset pagination.
-				$app->input->set('limitstart', 0);
-
-			}
-		}
-
-		// No client selected?
-		else
-		{
-			// Try to get previous one from session.
-			$clientId = (string) $app->getUserState($this->context . '.client_id');
-
-			// Not Client Site(0) or Administrator(1)? So, set to Site(0).
-			if (!in_array($clientId, array('0', '1')))
-			{
-				$clientId = 0;
-
-				// Save new previous value in session.
-				$app->setUserState($this->context . '.client_id', $clientId);
-			}
+			$this->getUserStateFromRequest($this->context . '.filter.client_id_previous', 'filter_client_id_previous', 0, 'int', true);
+			$app->setUserState($this->context . '.filter.client_id_previous', $clientId);
 		}
 
 		$this->setState('filter.client_id', $clientId);

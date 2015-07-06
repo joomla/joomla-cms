@@ -532,6 +532,16 @@ class MenusModelItem extends JModelAdmin
 		// Check the session for previously entered form data.
 		$data = array_merge((array) $this->getItem(), (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
 
+		// For a new menu item, pre-select some filters (Status, Language, Access) in edit form if those have been selected in Menu Manager
+		if ($this->getItem()->id == 0)
+		{
+			// Get selected fields
+			$filters = JFactory::getApplication()->getUserState('com_menus.items.filter');
+			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
+			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
+			$data['access'] = (isset($filters['access']) ? $filters['access'] : null);
+		}
+
 		$this->preprocessData('com_menus.item', $data);
 
 		return $data;
