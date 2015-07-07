@@ -31,7 +31,6 @@ abstract class ModLanguagesHelper
 	 */
 	public static function getList(&$params)
 	{
-
 		// Setup data.
 		$app = JFactory::getApplication();
 		$mode_sef = $app->get('sef', 0);
@@ -85,12 +84,12 @@ abstract class ModLanguagesHelper
 
 			// Load component associations
 			$option = $app->input->get('option');
-			$cName = JString::ucfirst(JString::str_ireplace('com_', '', $option)) . 'HelperAssociation';
-			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
-
-			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
+			$class = ucfirst(str_ireplace('com_', '', $option)) . 'HelperAssociation';
+			$cassoc_func = array($class, 'getAssociations');
+			JLoader::register($class, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
+			if (class_exists($class) && is_callable($cassoc_func))
 			{
-				$cassociations = call_user_func(array($cName, 'getAssociations'));
+				$cassociations = call_user_func($cassoc_func);
 			}
 		}
 
@@ -137,7 +136,6 @@ abstract class ModLanguagesHelper
 					$language->link = '/index.php?lang=' . $language->sef;
 			}
 		}
-
 		return $languages;
 	}
 }
