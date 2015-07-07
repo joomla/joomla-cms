@@ -56,7 +56,7 @@ abstract class ModLanguagesHelper
 			}
 		}
 
-		// Setup menu items associations and check if we are on an home page
+		// Get active menu item and check if we are on an home page
 		$menu = $app->getMenu();
 		$active = $menu->getActive();
 		$is_home = false;
@@ -66,12 +66,6 @@ abstract class ModLanguagesHelper
 			$active_link = JRoute::_($active->link . '&Itemid=' . $active->id, false);
 			$current_link = JUri::getInstance()->toString(array('path', 'query'));
 
-			// Load menu associations
-			if ($assocs && $active_link == $current_link)
-			{
-				$associations = MenusHelper::getAssociations($active->id);
-			}
-
 			// Check if we are on the homepage
 			$is_home = ($active->home
 				&& ($current_link == $active_link
@@ -80,9 +74,16 @@ abstract class ModLanguagesHelper
 					|| $current_link == $active_link . '/'));
 		}
 
-		// Load component associations
-		if ($assocs)
+		// Load associations
+		if ($assocs && !$is_home)
 		{
+			// Load menu associations
+			if ($active)
+			{
+				$associations = MenusHelper::getAssociations($active->id);
+			}
+
+			// Load component associations
 			$option = $app->input->get('option');
 			$cName = JString::ucfirst(JString::str_ireplace('com_', '', $option)) . 'HelperAssociation';
 			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
