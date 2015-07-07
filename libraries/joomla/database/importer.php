@@ -79,6 +79,16 @@ abstract class JDatabaseImporter
 	}
 
 	/**
+	 * Logs a message from a import query
+	 *
+	 * @param   string  $message  The message to be logged
+	 */
+	private function addLog($message)
+	{
+		JLog::add($message, JLog::DEBUG, 'database');
+	}
+
+	/**
 	 * Set the output option for the exporter to XML format.
 	 *
 	 * @return  JDatabaseImporter  Method supports chaining.
