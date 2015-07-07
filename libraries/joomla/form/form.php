@@ -1958,8 +1958,9 @@ class JForm
 
 		if ($required)
 		{
-			// If the field is required and the value is empty return an error message.
-			if (($value === '') || ($value === null))
+			// If the field is required and the value is empty return an error message. Special handling
+			// For multiple fields, because the filter method sets empty fields to array()
+			if (($value === '') || ($value === null) || (in_array($element['multiple'], array('true', 'multiple')) && !count($value)))
 			{
 				if ($element['label'])
 				{
