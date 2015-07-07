@@ -309,6 +309,9 @@ function colorIsLight($color)
 				if ($('.subhead').length) {
 					navTop = $('.subhead').length && $('.subhead').offset().top - <?php echo ($displayHeader || !$statusFixed) ? 30 : 20;?>;
 
+					// Fix the container top
+					$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
+
 					// Only apply the scrollspy when the toolbar is not collapsed
 					if (document.body.clientWidth > 480)
 					{
@@ -325,6 +328,9 @@ function colorIsLight($color)
 					if (scrollTop >= navTop && !isFixed) {
 						isFixed = true;
 						$('.subhead').addClass('subhead-fixed');
+
+						// Fix the container top
+						$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
 					} else if (scrollTop <= navTop && isFixed) {
 						isFixed = false;
 						$('.subhead').removeClass('subhead-fixed');
