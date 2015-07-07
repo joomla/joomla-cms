@@ -554,12 +554,6 @@ class PlgSystemLanguageFilter extends JPlugin
 				$active_link = JRoute::_($active->link . '&Itemid=' . $active->id, false);
 				$current_link = JUri::getInstance()->toString(array('path', 'query'));
 
-				// Load menu associations
-				if ($active_link == $current_link)
-				{
-					$associations = MenusHelper::getAssociations($active->id);
-				}
-
 				// Check if we are on the homepage
 				$is_home = ($active->home
 					&& ($current_link == $active_link
@@ -568,14 +562,24 @@ class PlgSystemLanguageFilter extends JPlugin
 						|| $current_link == $active_link . '/'));
 			}
 
-			// Load component associations.
-			$option = $this->app->input->get('option');
-			$cName = JString::ucfirst(JString::str_ireplace('com_', '', $option)) . 'HelperAssociation';
-			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
-
-			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
+			// Load associations
+			if (!$is_home)
 			{
-				$cassociations = call_user_func(array($cName, 'getAssociations'));
+				// Load menu associations
+				if ($active && $current_link == $active_link)
+				{
+					$associations = MenusHelper::getAssociations($active->id);
+				}
+
+				// Load component associations
+				$option = $this->$app->input->get('option');
+				$class = ucfirst(str_ireplace('com_', '', $option)) . 'HelperAssociation';
+				$cassoc_func = array($class, 'getAssociations');
+				JLoader::register($class, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
+				if (class_exists($class) && is_callable($cassoc_func))
+				{
+					$cassociations = call_user_func($cassoc_func);
+				}
 			}
 
 			// For each language...
@@ -593,7 +597,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						$language->link = '/index.php?lang=' . $language->sef;
 						break;
 
-					// Current language
+					// Current language link
 					case ($i == $this->current_lang):
 						$language->link = str_replace('&', '&amp;', JUri::getInstance()->toString(array('path', 'query')));
 						break;
