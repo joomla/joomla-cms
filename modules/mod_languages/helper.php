@@ -45,14 +45,14 @@ abstract class ModLanguagesHelper
 		$assocs = JLanguageAssociations::isEnabled();
 
 		// Check language access, language is enabled, language folder exists, and language has an Home Page
-		foreach ($sefs as $sef => $language)
+		foreach ($languages as $lang_code => $language)
 		{
 			if (($language->access && !in_array($language->access, $levels))
-				|| !array_key_exists($language->lang_code, $site_langs)
-				|| !is_dir(JPATH_SITE . '/language/' . $language->lang_code)
-				|| !isset($home_pages[$language->lang_code]))
+				|| !array_key_exists($lang_code, $site_langs)
+				|| !is_dir(JPATH_SITE . '/language/' . $lang_code)
+				|| !isset($home_pages[$lang_code]))
 			{
-				unset($languages[$language->lang_code]);
+				unset($languages[$lang_code]);
 			}
 		}
 
