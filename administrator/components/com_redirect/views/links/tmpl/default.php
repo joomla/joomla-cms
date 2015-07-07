@@ -61,29 +61,29 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<a class="close" data-dismiss="alert">&#215;</a>
 				<?php echo JText::_('COM_REDIRECT_PLUGIN_DISABLED'); ?>
 		<?php endif; ?>
-			
+
 			<?php $link = JRoute::_("index.php?option=com_plugins&amp;client_id=0&amp;task=plugin.edit&amp;extension_id=" . $this->redirectpluginid . "&amp;tmpl=component&amp;layout=modal"); ?>
-			<a href="#plugin<?php echo $this->redirectpluginid; ?>Modal" 
-				role="button" class="btn btn-link" 
-				data-toggle="modal" title="<?php echo JText::_('COM_REDIRECT_EDIT_PLUGIN');?>" 
+			<a href="#plugin<?php echo $this->redirectpluginid; ?>Modal"
+				role="button" class="btn btn-link"
+				data-toggle="modal" title="<?php echo JText::_('COM_REDIRECT_EDIT_PLUGIN');?>"
 				id="title-<?php echo $this->redirectpluginid; ?>">
 					<?php echo JText::_("COM_REDIRECT_EDIT_PLUGIN"); ?>
 			</a>
-			<?php echo JHtml::_(
-					'bootstrap.renderModal',
-					'plugin' . $this->redirectpluginid . 'Modal',
-					array(
-						'url' => $link,
-						'title' => JText::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
-						'height' => '300px',
-						'width' => '800px',
-						'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
-							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-							. '<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#plugin' . $this->redirectpluginid . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
-							. JText::_("JSAVE") . '</button>'
-					)
-				); ?>
 		</div>
+		<?php echo JHtml::_(
+				'bootstrap.renderModal',
+				'plugin' . $this->redirectpluginid . 'Modal',
+				array(
+					'url' => $link,
+					'title' => JText::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
+					'height' => '300px',
+					'width' => '800px',
+					'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+						. '<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#plugin' . $this->redirectpluginid . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+						. JText::_("JSAVE") . '</button>'
+				)
+			); ?>
 
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
