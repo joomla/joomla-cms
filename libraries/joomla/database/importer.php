@@ -82,8 +82,12 @@ abstract class JDatabaseImporter
 	 * Logs a message from a import query
 	 *
 	 * @param   string  $message  The message to be logged
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4.4
 	 */
-	private function addLog($message)
+	protected function addLog($message)
 	{
 		JLog::add($message, JLog::DEBUG, 'database');
 	}
