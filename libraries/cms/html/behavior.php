@@ -634,7 +634,16 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		$url = JUri::base(true) . '/index.php?option=com_ajax&format=json';
+		$life_time    = JFactory::getConfig()->get('lifetime') * 60000;
+		$refresh_time = ($life_time <= 60000) ? 45000 : $life_time - 60000;
+
+		// The longest refresh period is one hour to prevent integer overflow.
+		if ($refresh_time > 3600000 || $refresh_time <= 0)
+		{
+			$refresh_time = 3600000;
+		}
+
+		$url = JUri::root(true) . '/index.php?option=com_ajax&format=json';
 
 		$script = 'window.setInterval(function(){';
 		$script .= 'var r;';
@@ -642,7 +651,7 @@ abstract class JHtmlBehavior
 		$script .= 'r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")';
 		$script .= '}catch(e){}';
 		$script .= 'if(r){r.open("GET","' . $url . '",true);r.send(null)}';
-		$script .= '},45000);';
+		$script .= '},' . $refresh_time . ');';
 
 		JFactory::getDocument()->addScriptDeclaration($script);
 
