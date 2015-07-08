@@ -79,20 +79,6 @@ abstract class JDatabaseImporter
 	}
 
 	/**
-	 * Logs a message from a import query
-	 *
-	 * @param   string  $message  The message to be logged
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4.4
-	 */
-	protected function addLog($message)
-	{
-		JLog::add($message, JLog::DEBUG, 'database');
-	}
-
-	/**
 	 * Set the output option for the exporter to XML format.
 	 *
 	 * @return  JDatabaseImporter  Method supports chaining.
@@ -214,11 +200,8 @@ abstract class JDatabaseImporter
 						}
 						catch (RuntimeException $e)
 						{
-							$this->addLog('Fail: ' . $this->db->getQuery());
 							throw $e;
 						}
-
-						$this->addLog('Pass: ' . $this->db->getQuery());
 					}
 				}
 			}
@@ -235,11 +218,8 @@ abstract class JDatabaseImporter
 				}
 				catch (RuntimeException $e)
 				{
-					$this->addLog('Fail: ' . $this->db->getQuery());
 					throw $e;
 				}
-
-				$this->addLog('Pass: ' . $this->db->getQuery());
 			}
 		}
 	}
