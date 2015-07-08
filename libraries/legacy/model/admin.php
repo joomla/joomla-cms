@@ -11,7 +11,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\String\String;
 
 /**
  * Prototype admin model.
@@ -836,8 +835,8 @@ abstract class JModelAdmin extends JModelForm
 
 		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
 		{
-			$title = String::increment($title);
-			$alias = String::increment($alias, 'dash');
+			$title = JString::increment($title);
+			$alias = JString::increment($alias, 'dash');
 		}
 
 		return array($title, $alias);
