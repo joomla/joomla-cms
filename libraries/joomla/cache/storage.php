@@ -312,7 +312,7 @@ class JCacheStorage
 	 */
 	protected function _getCacheId($id, $group)
 	{
-		$prefix = static::getPlatformPrefix();
+		$prefix = $this->_getPlatformPrefix();
 		$name = md5($this->_application . '-' . $id . '-' . $this->_language);
 		$this->rawname = $this->_hash . '-' . $name;
 
@@ -326,24 +326,9 @@ class JCacheStorage
 	 *
 	 * @since 3.5
 	 */
-	public static function getPlatformPrefix()
+	protected function _getPlatformPrefix()
 	{
-		jimport('joomla.environment.browser');
-		$client = JFactory::getApplication()->client;
-		$conf = JFactory::getConfig();
-
-		// No prefix when Global Config is set to no platfom specific prefix
-		if (!$conf->get('cache_platformprefix', '0'))
-		{
-			return;
-		}
-
-		if ($client->mobile)
-		{
-			return 'M-';
-		}
-
-		return;
+		return JCache::getPlatformPrefix();
 	}
 
 	/**
