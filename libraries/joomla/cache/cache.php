@@ -44,7 +44,6 @@ class JCache
 			'lifetime' => (int) $conf->get('cachetime'),
 			'language' => $conf->get('language', 'en-GB'),
 			'storage' => $conf->get('cache_handler', ''),
-			'deviceprefix' => $conf->get('cache_platformprefix', '0'),
 			'defaultgroup' => 'default',
 			'locking' => true,
 			'locktime' => 15,
