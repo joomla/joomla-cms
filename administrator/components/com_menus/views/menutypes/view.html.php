@@ -104,7 +104,7 @@ class MenusViewMenutypes extends JViewLegacy
 		// Cancel
 		$title = JText::_('JTOOLBAR_CANCEL');
 		$dhtml = "<button onClick=\"location.href='index.php?option=com_menus&view=items'\" class=\"btn\">
-					<i class=\"icon-remove\" title=\"$title\"></i>
+					<span class=\"icon-remove\" title=\"$title\"></span>
 					$title</button>";
 		$bar->appendButton('Custom', $dhtml, 'new');
 	}

@@ -4,7 +4,7 @@
  * @subpackage  System.Debug
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -183,9 +183,11 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Show the debug info.
 	 *
-	 * @since  1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
-	public function __destruct()
+	public function onAfterRespond()
 	{
 		// Do not render if debugging or language debug is not enabled.
 		if (!JDEBUG && !$this->debugLang)

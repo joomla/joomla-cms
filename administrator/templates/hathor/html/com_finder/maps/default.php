@@ -16,25 +16,26 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 $lang = JFactory::getLanguage();
 JText::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
+
+JFactory::getDocument()->addScriptDeclaration("
+	Joomla.submitbutton = function(pressbutton)
+	{
+		if (pressbutton == 'map.delete')
+		{
+			if (confirm(Joomla.JText._('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT')))
+			{
+				Joomla.submitform(pressbutton);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		Joomla.submitform(pressbutton);
+	}
+");
 ?>
 
-<script type="text/javascript">
-Joomla.submitbutton = function(pressbutton)
-{
-	if (pressbutton == 'map.delete')
-	{
-		if (confirm(Joomla.JText._('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT')))
-		{
-			Joomla.submitform(pressbutton);
-		}
-		else
-		{
-			return false;
-		}
-	}
-	Joomla.submitform(pressbutton);
-}
-</script>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=maps');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">

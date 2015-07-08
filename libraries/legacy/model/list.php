@@ -660,6 +660,18 @@ class JModelList extends JModelLegacy
 		$cur_state = (!is_null($old_state)) ? $old_state : $default;
 		$new_state = $input->get($request, null, $type);
 
+		// BC for Search Tools which uses different naming
+		if ($new_state === null && strpos($request, 'filter_') === 0)
+		{
+			$name    = substr($request, 7);
+			$filters = $app->input->get('filter', array(), 'array');
+
+			if (!empty($filters[$name]))
+			{
+				$new_state = $filters[$name];
+			}
+		}
+
 		if (($cur_state != $new_state) && ($resetPage))
 		{
 			$input->set('limitstart', 0);
