@@ -19,7 +19,7 @@ $blockPosition = $displayData['params']->get('info_block_position', 0);
 				) : ?>
 
 			<dt class="article-info-term">
-				<?php if ($displayData['params']->get('info_block_show_title')) : ?>
+				<?php if ($displayData['params']->get('info_block_show_title', 1)) : ?>
 					<?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?>
 				<?php endif; ?>
 			</dt>
