@@ -298,24 +298,24 @@ class JText
 		$args = func_get_args();
 		$count = count($args);
 
-		if ($count > 0)
+		if ($count < 1)
 		{
-			if (is_array($args[$count - 1]))
-			{
-				$args[0] = $lang->_(
-					$string, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
-					array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
-				);
-			}
-			else
-			{
-				$args[0] = $lang->_($string);
-			}
-
-			return call_user_func_array('printf', $args);
+			return '';
+		}
+		
+		if (is_array($args[$count - 1]))
+		{
+			$args[0] = $lang->_(
+				$string, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
+				array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
+			);
+		}
+		else
+		{
+			$args[0] = $lang->_($string);
 		}
 
-		return '';
+		return call_user_func_array('printf', $args);
 	}
 
 	/**
