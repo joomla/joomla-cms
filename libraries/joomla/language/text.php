@@ -252,33 +252,33 @@ class JText
 		$args = func_get_args();
 		$count = count($args);
 
-		if ($count > 0)
+		if ($count < 1)
 		{
-			if (is_array($args[$count - 1]))
+			return '';
+		}
+	
+		if (is_array($args[$count - 1]))
+		{
+			$args[0] = $lang->_(
+				$string, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
+				array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
+			);
+
+			if (array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script'])
 			{
-				$args[0] = $lang->_(
-					$string, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
-					array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
-				);
+				self::$strings[$string] = call_user_func_array('sprintf', $args);
 
-				if (array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script'])
-				{
-					self::$strings[$string] = call_user_func_array('sprintf', $args);
-
-					return $string;
-				}
+				return $string;
 			}
-			else
-			{
-				$args[0] = $lang->_($string);
-			}
-
-			$args[0] = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $args[0]);
-
-			return call_user_func_array('sprintf', $args);
+		}
+		else
+		{
+			$args[0] = $lang->_($string);
 		}
 
-		return '';
+		$args[0] = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $args[0]);
+
+		return call_user_func_array('sprintf', $args);
 	}
 
 	/**
