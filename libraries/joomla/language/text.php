@@ -169,52 +169,12 @@ class JText
 		$args = func_get_args();
 		$count = count($args);
 
-		if ($count > 1)
+		if ($count < 1)
 		{
-			// Try the key from the language plural potential suffixes
-			$found = false;
-			$suffixes = $lang->getPluralSuffixes((int) $n);
-			array_unshift($suffixes, (int) $n);
-
-			foreach ($suffixes as $suffix)
-			{
-				$key = $string . '_' . $suffix;
-
-				if ($lang->hasKey($key))
-				{
-					$found = true;
-					break;
-				}
-			}
-
-			if (!$found)
-			{
-				// Not found so revert to the original.
-				$key = $string;
-			}
-
-			if (is_array($args[$count - 1]))
-			{
-				$args[0] = $lang->_(
-					$key, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
-					array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
-				);
-
-				if (array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script'])
-				{
-					self::$strings[$key] = call_user_func_array('sprintf', $args);
-
-					return $key;
-				}
-			}
-			else
-			{
-				$args[0] = $lang->_($key);
-			}
-
-			return call_user_func_array('sprintf', $args);
+			return '';
 		}
-		elseif ($count > 0)
+
+		if ($count == 1)
 		{
 			// Default to the normal sprintf handling.
 			$args[0] = $lang->_($string);
@@ -222,7 +182,48 @@ class JText
 			return call_user_func_array('sprintf', $args);
 		}
 
-		return '';
+		// Try the key from the language plural potential suffixes
+		$found = false;
+		$suffixes = $lang->getPluralSuffixes((int) $n);
+		array_unshift($suffixes, (int) $n);
+
+		foreach ($suffixes as $suffix)
+		{
+			$key = $string . '_' . $suffix;
+
+			if ($lang->hasKey($key))
+			{
+				$found = true;
+				break;
+			}
+		}
+
+		if (!$found)
+		{
+			// Not found so revert to the original.
+			$key = $string;
+		}
+
+		if (is_array($args[$count - 1]))
+		{
+			$args[0] = $lang->_(
+				$key, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
+				array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
+			);
+
+			if (array_key_exists('script', $args[$count - 1]) && $args[$count - 1]['script'])
+			{
+				self::$strings[$key] = call_user_func_array('sprintf', $args);
+
+				return $key;
+			}
+		}
+		else
+		{
+			$args[0] = $lang->_($key);
+		}
+
+		return call_user_func_array('sprintf', $args);
 	}
 
 	/**
