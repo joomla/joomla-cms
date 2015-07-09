@@ -77,7 +77,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		if (!/^[0-9A-F]{32}$/i.test(newToken)) { return; }
 
 		var els = document.getElementsByTagName( 'input' ),
-			i, el;
+			i, el, n;
 
 		for ( i = 0, n = els.length; i < n; i++ ) {
 			el = els[i];
@@ -337,7 +337,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	window.changeDynaList = function ( listname, source, key, orig_key, orig_val ) {
 		var list = document.adminForm[ listname ],
 			hasSelection = key == orig_key,
-			i, x, item;
+			i, x, item, opt;
 
 		// empty the list
 		while ( list.firstChild ) list.removeChild( list.firstChild );
@@ -439,7 +439,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 		cb.checked = true;
 		f.boxchecked.value = 1;
-		submitform( task );
+		window.submitform( task );
 
 		return false;
 	};
@@ -468,7 +468,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * There's a better way to do this now, can we try to kill it?
 	 */
 	window.saveorder = function ( n, task ) {
-		checkAll_button( n, task );
+		window.checkAll_button( n, task );
 	};
 
 	/**
