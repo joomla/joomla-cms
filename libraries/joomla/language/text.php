@@ -87,6 +87,7 @@ class JText
 	 */
 	private static function passSprintf(&$string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
+		// Check if string contains a comma
 		if (strpos($string, ',') === false)
 		{
 			return false;
@@ -95,14 +96,18 @@ class JText
 		$lang = JFactory::getLanguage();
 		$string_parts = explode(',', $string);
 
+		// Pass all parts through the JText translator
 		foreach ($string_parts as $i => $str)
 		{
 			$string_parts[$i] = $lang->_($str, $jsSafe, $interpretBackSlashes);
 		}
 
 		$first_part = array_shift($string_parts);
+
+		// Replace custom named placeholders with sprinftf style placeholders
 		$first_part = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $first_part);
 
+		// Check if string contains sprintf placeholders
 		if (!preg_match('/%([0-9]+\$)?s/', $first_part))
 		{
 			return false;
@@ -297,6 +302,7 @@ class JText
 				$args[0] = $lang->_($string);
 			}
 
+			// Replace custom named placeholders with sprinftf style placeholders
 			$args[0] = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $args[0]);
 
 			return call_user_func_array('sprintf', $args);
