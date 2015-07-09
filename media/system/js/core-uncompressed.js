@@ -71,7 +71,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 	/**
 	 * Method to replace all request tokens on the page with a new one.
-	 * Probably not used anywhere
+	 * Used in Joomla Installation
 	 */
 	Joomla.replaceTokens = function( newToken ) {
 		if (!/^[0-9A-F]{32}$/i.test(newToken)) { return; }
