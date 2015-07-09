@@ -102,7 +102,7 @@ class JText
 
 		$first_part = array_shift($string_parts);
 
-		if (!preg_match('/%([0-9]+$)?s/', $first_part))
+		if (!preg_match('/%([0-9]+\$)?s/', $first_part))
 		{
 			return false;
 		}
