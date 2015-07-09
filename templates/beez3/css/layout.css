@@ -501,7 +501,7 @@ textarea,.contact-form input[type="text"],.contact-form input[type="email"],.con
 	vertical-align: top;
 }
 
-#jform_contact_email_copy-lbl,#jform_contact_email_copy {
+#jform_contact_email_copy-lbl {
 	float: left;
 	margin-right: 10px;
 	border: 0
