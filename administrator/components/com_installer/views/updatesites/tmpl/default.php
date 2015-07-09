@@ -56,13 +56,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 						</th>
-						<th class="center hidden-phone">
+						<th class="hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?>
 						</th>
-						<th class="center hidden-phone">
+						<th class="hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
 						</th>
-						<th class="center hidden-phone">
+						<th class="hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10" class="hidden-phone">
@@ -100,13 +100,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php echo $item->name; ?>
 							</span>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo $item->client; ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 						</td>
 						<td class="hidden-phone">
