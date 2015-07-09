@@ -59,28 +59,28 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<th width="20">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th class="nowrap">
-							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
-						</th>
-						<th>
-							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?>
-						</th>
 						<th width="10%" class="center">
 							<?php echo JHtml::_('grid.sort', 'JSTATUS', 'status', $listDirn, $listOrder); ?>
 						</th>
-						<th>
+						<th class="nowrap">
+							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
+						</th>
+						<th class="center">
+							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?>
+						</th>
+						<th class="center">
 							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="center hidden-phone">
 							<?php echo JText::_('JVERSION'); ?>
 						</th>
-						<th width="10%" class="hidden-phone">
+						<th width="10%" class="center hidden-phone">
 							<?php echo JText::_('JDATE'); ?>
 						</th>
-						<th width="15%" class="hidden-phone">
+						<th width="15%" class="center hidden-phone">
 							<?php echo JText::_('JAUTHOR'); ?>
 						</th>
-						<th class="hidden-phone">
+						<th class="center hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10" class="hidden-phone">
@@ -101,6 +101,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<td>
 							<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
 						</td>
+						<td class="center">
+							<?php if (!$item->element) : ?>
+							<strong>X</strong>
+							<?php else : ?>
+								<?php echo JHtml::_('InstallerHtml.Manage.state', $item->status, $i, $item->status < 2, 'cb'); ?>
+							<?php endif; ?>
+						</td>
 						<td>
 							<label for="cb<?php echo $i; ?>">
 								<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>">
@@ -110,13 +117,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						</td>
 						<td class="center">
 							<?php echo $item->client; ?>
-						</td>
-						<td class="center">
-							<?php if (!$item->element) : ?>
-							<strong>X</strong>
-							<?php else : ?>
-								<?php echo JHtml::_('InstallerHtml.Manage.state', $item->status, $i, $item->status < 2, 'cb'); ?>
-							<?php endif; ?>
 						</td>
 						<td class="center">
 							<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?>

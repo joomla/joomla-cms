@@ -59,16 +59,16 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<th class="nowrap">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_INSTALLTYPE', 'extension_id', $listDirn, $listOrder); ?>
 					</th>
-					<th>
+					<th class="center">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
 					</th>
 					<th width="10%" class="center">
 						<?php echo JText::_('JVERSION'); ?>
 					</th>
-					<th>
+					<th class="center">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
 					</th>
-					<th>
+					<th class="center">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_CLIENT', 'client_id', $listDirn, $listOrder); ?>
 					</th>
 					<th width="25%">
@@ -102,7 +102,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<td class="center">
 						<?php echo $item->extension_id ? JText::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : JText::_('COM_INSTALLER_NEW_INSTALL') ?>
 					</td>
-					<td>
+					<td class="center">
 						<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type) ?>
 					</td>
 					<td class="center">

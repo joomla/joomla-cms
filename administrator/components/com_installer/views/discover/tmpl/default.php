@@ -71,10 +71,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th width="10%" class="center hidden-phone">
 						<?php echo JText::_('JDATE'); ?>
 					</th>
-					<th class="hidden-phone">
+					<th class="center hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
 					</th>
-					<th class="hidden-phone">
+					<th class="center hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_CLIENT', 'client_id', $listDirn, $listOrder); ?>
 					</th>
 					<th width="15%" class="center hidden-phone">
