@@ -80,27 +80,8 @@ else
 // Get the correct logo link in multilingual
 if (JLanguageMultilang::isEnabled())
 {
-	$this->lang_codes	= JLanguageHelper::getLanguages('lang_code');
-	$this->current_lang = JFactory::getLanguage()->getTag();
-	$this->sef			= $this->lang_codes[$this->current_lang]->sef;
-	$homemenu			= $app->getMenu()->getDefault($this->current_lang);
-	$this->mode_sef		= $app->get('sef', 0);
-
-	if ($this->mode_sef)
-	{
-		if ($app->get('sef_rewrite'))
-		{
-			$logo_link = $this->baseurl . '/' . $this->sef . '/';
-		}
-		else
-		{
-			$logo_link = $this->baseurl . '/index.php/' . $this->sef . '/';
-		}
-	}
-	else
-	{
-		$logo_link = $this->baseurl . '/index.php?lang=' . $this->sef;
-	}
+	$homemenu	= $app->getMenu()->getDefault(JFactory::getLanguage()->getTag());
+	$logo_link	= JRoute::_('index.php?Itemid=' . $homemenu->id);
 }
 else
 {
