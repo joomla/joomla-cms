@@ -212,7 +212,7 @@ class JFilterInput
 				}
 				else
 				{
-					$result = (string) preg_replace('/[^A-Z0-9_\.-]/i', '', $source);
+					$result = (string) preg_replace('/-?[0-9]+/', '', $source);
 					$result = ltrim($result, '.');
 				}
  				break;
