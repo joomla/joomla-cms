@@ -59,10 +59,10 @@ class UsersViewProfile extends JViewLegacy
 		if (!empty($cookieLogin))
 		{
 			// If so, the user must login to edit the password and other data.
-			// What should happen here? Should we force a logout which detroys the cookies?
+			// What should happen here? Should we force a logout which destroys the cookies?
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
-			$app->redirect(JUri::base() . 'index.php?option=com_users&view=login', '', 302);
+			$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
 
 			return false;
 		}

@@ -44,6 +44,12 @@ class MediaControllerFile extends JControllerLegacy
 		$return       = JFactory::getSession()->get('com_media.return_url');
 		$this->folder = $this->input->get('folder', '', 'path');
 
+		// Don't redirect to an external URL.
+		if (!JUri::isInternal($return))
+		{
+			$return = '';
+		}
+
 		// Set the redirect
 		if ($return)
 		{

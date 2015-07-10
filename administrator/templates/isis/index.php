@@ -155,7 +155,7 @@ function colorIsLight($color)
 	<div class="navbar-inner">
 		<div class="container-fluid">
 			<?php if ($this->params->get('admin_menus') != '0') : ?>
-				<a class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+				<a href="#" class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -313,6 +313,9 @@ function colorIsLight($color)
 				if ($('.subhead').length) {
 					navTop = $('.subhead').length && $('.subhead').offset().top - <?php echo ($displayHeader || !$statusFixed) ? 30 : 20;?>;
 
+					// Fix the container top
+					$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
+
 					// Only apply the scrollspy when the toolbar is not collapsed
 					if (document.body.clientWidth > 480)
 					{
@@ -329,6 +332,9 @@ function colorIsLight($color)
 					if (scrollTop >= navTop && !isFixed) {
 						isFixed = true;
 						$('.subhead').addClass('subhead-fixed');
+
+						// Fix the container top
+						$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
 					} else if (scrollTop <= navTop && isFixed) {
 						isFixed = false;
 						$('.subhead').removeClass('subhead-fixed');

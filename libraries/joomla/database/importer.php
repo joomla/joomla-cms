@@ -200,11 +200,8 @@ abstract class JDatabaseImporter
 						}
 						catch (RuntimeException $e)
 						{
-							$this->addLog('Fail: ' . $this->db->getQuery());
 							throw $e;
 						}
-
-						$this->addLog('Pass: ' . $this->db->getQuery());
 					}
 				}
 			}
@@ -221,11 +218,8 @@ abstract class JDatabaseImporter
 				}
 				catch (RuntimeException $e)
 				{
-					$this->addLog('Fail: ' . $this->db->getQuery());
 					throw $e;
 				}
-
-				$this->addLog('Pass: ' . $this->db->getQuery());
 			}
 		}
 	}

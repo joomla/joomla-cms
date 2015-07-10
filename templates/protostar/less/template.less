@@ -3,6 +3,7 @@
 
 // Core variables and mixins
 @import "variables.less"; // Custom for this template
+@import "template_rtl.less"; // Specific for rtl
 @import "../../../media/jui/less/mixins.less";
 
 // Grid system and page structure
@@ -605,4 +606,9 @@ code {
 body.modal-open {
   overflow: hidden;
   -ms-overflow-style: none;
+}
+
+/* Align fields for the profile display */
+#users-profile-custom label {
+	display: inline;
 }

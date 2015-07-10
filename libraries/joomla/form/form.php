@@ -882,7 +882,7 @@ class JForm
 	 * @param   string  $name   The name of the form field for which remove.
 	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
@@ -903,9 +903,11 @@ class JForm
 		{
 			$dom = dom_import_simplexml($element);
 			$dom->parentNode->removeChild($dom);
+
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -913,7 +915,7 @@ class JForm
 	 *
 	 * @param   string  $group  The dot-separated form group path for the group to remove.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
@@ -933,9 +935,11 @@ class JForm
 		{
 			$dom = dom_import_simplexml($element);
 			$dom->parentNode->removeChild($dom);
+
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	/**

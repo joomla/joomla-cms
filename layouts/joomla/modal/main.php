@@ -73,7 +73,7 @@ if (isset($params['url']))
 	$script[] = "       modalBody.prepend('" . trim($iframeHtml) . "');";
 }
 
-$script[] = "   }).on('hidden', function () {";
+$script[] = "   }).on('hide', function () {";
 $script[] = "       $('body').removeClass('modal-open');";
 $script[] = "   });";
 $script[] = "});";

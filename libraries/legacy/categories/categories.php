@@ -261,7 +261,7 @@ class JCategories
 			->where('badcats.id is null');
 
 		// Note: i for item
-		if ($this->_options['currentlang'] !== 0 || $this->_options['countItems'] == 1)
+		if ($this->_options['countItems'] == 1)
 		{
 			$queryjoin = $db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id';
 
