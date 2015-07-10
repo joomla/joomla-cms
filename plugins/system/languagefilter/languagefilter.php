@@ -572,7 +572,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 
 				// Load component associations
-				$option = $this->$app->input->get('option');
+				$option = $this->app->input->get('option');
 				$class = ucfirst(str_ireplace('com_', '', $option)) . 'HelperAssociation';
 				$cassoc_func = array($class, 'getAssociations');
 				JLoader::register($class, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
