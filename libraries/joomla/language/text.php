@@ -99,10 +99,8 @@ class JText
 
 			return $string;
 		}
-		else
-		{
-			return $lang->_($string, $jsSafe, $interpretBackSlashes);
-		}
+
+		return $lang->_($string, $jsSafe, $interpretBackSlashes);
 	}
 
 	/**
