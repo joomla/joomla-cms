@@ -33,15 +33,13 @@ abstract class ModLanguagesHelper
 	{
 		// Setup data.
 		$app = JFactory::getApplication();
-		$mode_sef = $app->get('sef', 0);
-		$sefs = JLanguageHelper::getLanguages('sef');
 		$languages = JLanguageHelper::getLanguages('lang_code');
-		$default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 		$home_pages = MultilangstatusHelper::getHomepages();
 		$levels = JFactory::getUser()->getAuthorisedViewLevels();
 		$site_langs = MultilangstatusHelper::getSitelangs();
 		$current_lang = JFactory::getLanguage()->getTag();
-		$assocs = JLanguageAssociations::isEnabled();
+		$associations  = array();
+		$cassociations  = array();
 
 		// Check language access, language is enabled, language folder exists, and language has an Home Page
 		foreach ($languages as $lang_code => $language)
@@ -58,23 +56,9 @@ abstract class ModLanguagesHelper
 		// Get active menu item and check if we are on an home page
 		$menu = $app->getMenu();
 		$active = $menu->getActive();
-		$is_home = false;
-
-		if ($active)
-		{
-			$active_link = JRoute::_($active->link . '&Itemid=' . $active->id, false);
-			$current_link = JUri::getInstance()->toString(array('path', 'query'));
-
-			// Check if we are on the homepage
-			$is_home = ($active->home
-				&& ($current_link == $active_link
-					|| $current_link == '/index.php?lang=' . $languages[$current_lang]->sef
-					|| $current_link . 'index.php' == $active_link
-					|| $current_link == $active_link . '/'));
-		}
 
 		// Load associations
-		if ($assocs && !$is_home)
+		if (JLanguageAssociations::isEnabled())
 		{
 			// Load menu associations
 			if ($active)
@@ -99,16 +83,6 @@ abstract class ModLanguagesHelper
 			$language->active = false;
 			switch (true)
 			{
-				// Home page, SEF
-				case ($is_home && $mode_sef):
-					$language->link = '/' . $language->sef . '/';
-					break;
-
-				// Home page, non-SEF URLs
-				case ($is_home && !$mode_sef):
-					$language->link = '/index.php?lang=' . $language->sef;
-					break;
-
 				// Current language link
 				case ($i == $current_lang):
 					$language->link = str_replace('&', '&amp;', JUri::getInstance()->toString(array('path', 'query')));
@@ -116,24 +90,19 @@ abstract class ModLanguagesHelper
 					break;
 
 				// Component association
-				case ($assocs && isset($cassociations[$i])):
-					$language->link = JRoute::_($cassociations[$i] . '&lang=' . $language->sef);
+				case (isset($cassociations[$i])):
+					$language->link = JRoute::_($cassociations[$i]);
 					break;
 
 				// Menu items association
 				// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
-				case ($assocs && isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
-					$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
+				case (isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
+					$language->link = JRoute::_($item->link . '&Itemid=' . $item->id);
 					break;
 
-				// No association found, SEF mode
-				case ($mode_sef):
-					$language->link = '/' . $language->sef . '/';
-					break;
-
-				// No association found, non-SEF mode
+				// No association found
 				default:
-					$language->link = '/index.php?lang=' . $language->sef;
+					$language->link = JRoute::_('index.php?lang=' . $language->sef);
 			}
 		}
 		return $languages;
