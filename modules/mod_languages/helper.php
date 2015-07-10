@@ -79,26 +79,26 @@ abstract class ModLanguagesHelper
 		}
 
 		// For each language...
-		foreach ($languages as $i => &$language)
+		foreach ($languages as $lang_code => $language)
 		{
 			$language->active = false;
 			switch (true)
 			{
 				// Current language link
-				case ($i == $current_lang):
+				case ($lang_code == $current_lang):
 					$language->link = str_replace('&', '&amp;', JUri::getInstance()->toString(array('path', 'query')));
 					$language->active = true;
 					break;
 
 				// Component association
-				case (isset($cassociations[$i])):
-					$language->link = JRoute::_($cassociations[$i]);
+				case (isset($cassociations[$lang_code])):
+					$language->link = JRoute::_($cassociations[$lang_code] . '&lang=' . $language->sef);
 					break;
 
 				// Menu items association
 				// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
-				case (isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
-					$language->link = JRoute::_($item->link . '&Itemid=' . $item->id);
+				case (isset($associations[$lang_code]) && ($item = $menu->getItem($associations[$lang_code]))):
+					$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
 					break;
 
 				// No association found, SEF mode
