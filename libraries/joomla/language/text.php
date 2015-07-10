@@ -256,7 +256,7 @@ class JText
 		{
 			return '';
 		}
-	
+
 		if (is_array($args[$count - 1]))
 		{
 			$args[0] = $lang->_(
