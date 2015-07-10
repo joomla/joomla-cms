@@ -51,6 +51,7 @@ class TestMockDatabaseDriver
 			'freeResult',
 			'getAffectedRows',
 			'getCollation',
+			'getConnectionCollation',
 			'getConnectors',
 			'getDateFormat',
 			'getErrorMsg',

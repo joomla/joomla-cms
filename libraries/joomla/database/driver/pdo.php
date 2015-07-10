@@ -26,6 +26,12 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	public $name = 'pdo';
 
 	/**
+	 * @var    PDO  The database connection resource.
+	 * @since  12.1
+	 */
+	protected $connection;
+
+	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
 	 * etc.  The child classes should define this as necessary.  If a single character string the
 	 * same character is used for both sides of the quoted name, else the first character will be
