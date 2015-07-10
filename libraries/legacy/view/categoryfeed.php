@@ -38,16 +38,19 @@ class JViewCategoryfeed extends JViewLegacy
 		$ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
 		$createdField = null;
 		$titleField = null;
+		$publishField = null;
 
 		if (is_object($ucmMapCommon))
 		{
 			$createdField = $ucmMapCommon->core_created_time;
 			$titleField = $ucmMapCommon->core_title;
+			$publishField = $ucmMapCommon->core_publish_up;
 		}
 		elseif (is_array($ucmMapCommon))
 		{
 			$createdField = $ucmMapCommon[0]->core_created_time;
 			$titleField = $ucmMapCommon[0]->core_title;
+			$publishField = $ucmMapCommon[0]->core_publish_up;
 		}
 
 		$document->link = JRoute::_(JHelperRoute::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
@@ -98,6 +101,12 @@ class JViewCategoryfeed extends JViewLegacy
 			{
 				$date = '';
 			}
+			
+			if($publishField) {
+				$pubDate = isset($item->$publishField) ? date('r', strtotime($item->$publishField)) : '';
+			} else {
+				$pubDate = '';
+			}
 
 			// Load individual item creator class.
 			$feeditem              = new JFeedItem;
@@ -105,6 +114,7 @@ class JViewCategoryfeed extends JViewLegacy
 			$feeditem->link        = $link;
 			$feeditem->description = $description;
 			$feeditem->date        = $date;
+			$feeditem->pubDate     = $pubDate;
 			$feeditem->category    = $category->title;
 			$feeditem->author      = $author;
 
