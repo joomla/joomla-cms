@@ -126,12 +126,10 @@ class JText
 
 		if ($lang->hasKey($string . '_' . $alt))
 		{
-			return self::_($string . '_' . $alt, $jsSafe, $interpretBackSlashes, $script);
+			$string .= '_' . $alt;
 		}
-		else
-		{
-			return self::_($string, $jsSafe, $interpretBackSlashes, $script);
-		}
+
+		return self::_($string, $jsSafe, $interpretBackSlashes, $script);
 	}
 
 	/**
