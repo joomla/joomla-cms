@@ -244,7 +244,11 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 			if ($data->items[$i]->date != "")
 			{
-				$itemDate = JFactory::getDate($data->items[$i]->date);
+				if(empty($data->items[$i]->pubDate)) {
+					$itemDate = JFactory::getDate($data->items[$i]->date);
+				} else {
+					$itemDate = JFactory::getDate($data->items[$i]->pubDate);
+				}
 				$itemDate->setTimeZone($tz);
 				$feed .= "			<pubDate>" . htmlspecialchars($itemDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</pubDate>\n";
 			}
