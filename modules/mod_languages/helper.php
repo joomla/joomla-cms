@@ -33,6 +33,7 @@ abstract class ModLanguagesHelper
 	{
 		// Setup data.
 		$app = JFactory::getApplication();
+		$mode_sef = $app->get('sef', 0);
 		$languages = JLanguageHelper::getLanguages('lang_code');
 		$home_pages = MultilangstatusHelper::getHomepages();
 		$levels = JFactory::getUser()->getAuthorisedViewLevels();
@@ -100,9 +101,14 @@ abstract class ModLanguagesHelper
 					$language->link = JRoute::_($item->link . '&Itemid=' . $item->id);
 					break;
 
-				// No association found
+				// No association found, SEF mode
+				case ($mode_sef):
+					$language->link = '/' . $language->sef . '/';
+					break;
+
+				// No association found, non-SEF mode
 				default:
-					$language->link = JRoute::_('index.php?lang=' . $language->sef);
+					$language->link = '/index.php?lang=' . $language->sef;
 			}
 		}
 		return $languages;
