@@ -15,6 +15,7 @@
 	<files>
 		<filename module="mod_custom">mod_custom.php</filename>
 		<folder>tmpl</folder>
+		<filename>mod_custom.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_custom.ini</language>
