@@ -1296,6 +1296,11 @@ class JoomlaInstallerScript
 			// Joomla 3.4.3
 			'/libraries/classloader.php',
 			'/libraries/ClassLoader.php',
+			// Joomla 3.5.0
+			'/media/com_joomlaupdate/default.js',
+			'/media/com_joomlaupdate/encryption.js',
+			'/media/com_joomlaupdate/json2.js',
+			'/media/com_joomlaupdate/update.js',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
