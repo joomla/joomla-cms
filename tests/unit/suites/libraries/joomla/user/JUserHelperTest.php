@@ -36,6 +36,9 @@ class JUserHelperTest extends TestCaseDatabase
 		parent::setUp();
 
 		$this->saveFactoryState();
+
+		// Set the session object for JUserHelper::addUserToGroup()
+		JFactory::$session = $this->getMockSession();
 	}
 
 	/**
