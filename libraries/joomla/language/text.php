@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
 class JText
 {
 	/**
-	 * javascript strings
+	 * JavaScript strings
 	 *
 	 * @var    array
 	 * @since  11.1
@@ -43,8 +43,6 @@ class JText
 	 */
 	public static function _($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
-		$lang = JFactory::getLanguage();
-
 		if (is_array($jsSafe))
 		{
 			if (array_key_exists('interpretBackSlashes', $jsSafe))
@@ -57,41 +55,15 @@ class JText
 				$script = (boolean) $jsSafe['script'];
 			}
 
-			if (array_key_exists('jsSafe', $jsSafe))
-			{
-				$jsSafe = (boolean) $jsSafe['jsSafe'];
-			}
-			else
-			{
-				$jsSafe = false;
-			}
+			$jsSafe = array_key_exists('jsSafe', $jsSafe) ? (boolean) $jsSafe['jsSafe'] : false;
 		}
 
-		if (strpos($string, ','))
+		if (self::passSprintf($string, $jsSafe, $interpretBackSlashes, $script))
 		{
-			$test = substr($string, strpos($string, ','));
-
-			if (strtoupper($test) === $test)
-			{
-				$strs = explode(',', $string);
-
-				foreach ($strs as $i => $str)
-				{
-					$strs[$i] = $lang->_($str, $jsSafe, $interpretBackSlashes);
-
-					if ($script)
-					{
-						self::$strings[$str] = $strs[$i];
-					}
-				}
-
-				$str = array_shift($strs);
-				$str = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $str);
-				$str = vsprintf($str, $strs);
-
-				return $str;
-			}
+			return $string;
 		}
+
+		$lang = JFactory::getLanguage();
 
 		if ($script)
 		{
@@ -101,6 +73,67 @@ class JText
 		}
 
 		return $lang->_($string, $jsSafe, $interpretBackSlashes);
+	}
+
+	/**
+	 * Checks the string if it should be interpreted as sprintf and runs sprintf over it.
+	 *
+	 * @param   string   &$string               The string to translate.
+	 * @param   mixed    $jsSafe                Boolean: Make the result javascript safe.
+	 * @param   boolean  $interpretBackSlashes  To interpret backslashes (\\=\, \n=carriage return, \t=tabulation)
+	 * @param   boolean  $script                To indicate that the string will be push in the javascript language store
+	 *
+	 * @return  boolean  Whether the string be interpreted as sprintf
+	 *
+	 * @since   3.4.4
+	 */
+	private static function passSprintf(&$string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
+	{
+		// Check if string contains a comma
+		if (strpos($string, ',') === false)
+		{
+			return false;
+		}
+
+		$lang = JFactory::getLanguage();
+		$string_parts = explode(',', $string);
+
+		// Pass all parts through the JText translator
+		foreach ($string_parts as $i => $str)
+		{
+			$string_parts[$i] = $lang->_($str, $jsSafe, $interpretBackSlashes);
+		}
+
+		$first_part = array_shift($string_parts);
+
+		// Replace custom named placeholders with sprinftf style placeholders
+		$first_part = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $first_part);
+
+		// Check if string contains sprintf placeholders
+		if (!preg_match('/%([0-9]+\$)?s/', $first_part))
+		{
+			return false;
+		}
+
+		$final_string = vsprintf($first_part, $string_parts);
+
+		// Return false if string hasn't changed
+		if ($first_part === $final_string)
+		{
+			return false;
+		}
+
+		$string = $final_string;
+
+		if ($script)
+		{
+			foreach ($string_parts as $i => $str)
+			{
+				self::$strings[$str] = $string_parts[$i];
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -273,6 +306,7 @@ class JText
 			$args[0] = $lang->_($string);
 		}
 
+		// Replace custom named placeholders with sprintf style placeholders
 		$args[0] = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $args[0]);
 
 		return call_user_func_array('sprintf', $args);
@@ -351,7 +385,7 @@ class JText
 			// Normalize the key and translate the string.
 			self::$strings[strtoupper($string)] = JFactory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
 
-			// Load core.js dependence
+			// Load core.js dependency
 			JHtml::_('behavior.core');
 		}
 
