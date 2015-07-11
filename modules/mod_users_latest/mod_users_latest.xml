@@ -13,6 +13,7 @@
 		<filename module="mod_users_latest">mod_users_latest.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
+		<filename>mod_users_latest.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_users_latest.ini</language>
