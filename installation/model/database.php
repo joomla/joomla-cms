@@ -316,10 +316,38 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// PostgreSQL database older than version 9.0.0 needs to run 'CREATE LANGUAGE' to create function.
-		if (($options->db_type == 'postgresql') && (version_compare($db_version, '9.0.0', '<')))
+		if (($options->db_type == 'postgresql') && (!version_compare($db_version, '9.0.0', '>=')))
 		{
-			$db->setQuery("CREATE LANGUAGE plpgsql");
-			$db->execute();
+			$db->setQuery("select lanpltrusted from pg_language where lanname='plpgsql'");
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_QUERY'), 'notice');
+
+				return false;
+			}
+
+			$column = $db->loadResult();
+
+			if ($column != 't')
+			{
+				$db->setQuery("CREATE LANGUAGE plpgsql");
+
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_QUERY'), 'notice');
+
+					return false;
+				}
+			}
 		}
 
 		// Get database's UTF support.

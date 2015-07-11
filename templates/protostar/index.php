@@ -84,6 +84,17 @@ else
 {
 	$logo = '<span class="site-title" title="' . $sitename . '">' . $sitename . '</span>';
 }
+
+// Get the correct logo link in multilingual
+if (JLanguageMultilang::isEnabled())
+{
+	$homemenu	= $app->getMenu()->getDefault(JFactory::getLanguage()->getTag());
+	$logo_link	= JRoute::_('index.php?Itemid=' . $homemenu->id);
+}
+else
+{
+	$logo_link = $this->baseurl;
+}
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -135,6 +146,7 @@ else
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
 	. ($params->get('fluidContainer') ? ' fluid' : '');
+	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 
 	<!-- Body -->
@@ -143,7 +155,7 @@ else
 			<!-- Header -->
 			<header class="header" role="banner">
 				<div class="header-inner clearfix">
-					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>/">
+					<a class="brand pull-left" href="<?php echo $logo_link; ?>">
 						<?php echo $logo; ?>
 						<?php if ($this->params->get('sitedescription')) : ?>
 							<?php echo '<div class="site-description">' . htmlspecialchars($this->params->get('sitedescription')) . '</div>'; ?>

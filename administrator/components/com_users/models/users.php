@@ -445,7 +445,7 @@ class UsersModelUsers extends JModelList
 	 */
 	protected function _getUserDisplayedGroups($user_id)
 	{
-		$db    = JFactory::getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('title'))
 			->from($db->qn('#__usergroups', 'ug'))

@@ -123,7 +123,7 @@ class TemplatesModelStyles extends JModelList
 
 		// Filter by extension enabled
 		$query->select('extension_id AS e_id')
-			->join('LEFT', '#__extensions AS e ON e.element = a.template')
+			->join('LEFT', '#__extensions AS e ON e.element = a.template AND e.client_id = a.client_id')
 			->where('e.enabled = 1')
 			->where('e.type=' . $db->quote('template'));
 

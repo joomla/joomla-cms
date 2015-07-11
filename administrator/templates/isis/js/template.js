@@ -72,6 +72,10 @@
 		function processScrollInit() {
 			if ($('.subhead').length) {
 				navTop = $('.subhead').length && $('.subhead').offset().top - window.isisOffsetTop;
+
+				// Fix the container top
+				$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
+
 				// Only apply the scrollspy when the toolbar is not collapsed
 				if (document.body.clientWidth > 480) {
 					$('.subhead-collapse').height($('.subhead').height());
@@ -86,6 +90,9 @@
 				if (scrollTop >= navTop && !isFixed) {
 					isFixed = true;
 					$('.subhead').addClass('subhead-fixed');
+
+					// Fix the container top
+					$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
 				} else if (scrollTop <= navTop && isFixed) {
 					isFixed = false;
 					$('.subhead').removeClass('subhead-fixed');
