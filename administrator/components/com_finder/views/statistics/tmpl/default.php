@@ -19,10 +19,10 @@ defined('_JEXEC') or die;
 		<table class="table table-striped table-condensed">
 			<thead>
 				<tr>
-					<th class="center">
+					<th>
 						<?php echo JText::_('COM_FINDER_STATISTICS_LINK_TYPE_HEADING');?>
 					</th>
-					<th class="center">
+					<th>
 						<?php echo JText::_('COM_FINDER_STATISTICS_LINK_TYPE_COUNT');?>
 					</th>
 				</tr>
