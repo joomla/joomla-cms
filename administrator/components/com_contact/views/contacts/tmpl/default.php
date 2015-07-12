@@ -129,7 +129,7 @@ JFactory::getDocument()->addScriptDeclaration(
 						<th width="5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap center hidden-phone">
+						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -206,7 +206,7 @@ JFactory::getDocument()->addScriptDeclaration(
 								</div>
 							</div>
 						</td>
-						<td align="center" class="small hidden-phone">
+						<td class="small hidden-phone">
 							<?php if (!empty($item->linked_user)) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id);?>"><?php echo $item->linked_user;?></a>
 								<div class="small"><?php echo $item->email; ?></div>
@@ -215,7 +215,7 @@ JFactory::getDocument()->addScriptDeclaration(
 						<td class="center hidden-phone">
 							<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>
 						</td>
-						<td align="center" class="small hidden-phone">
+						<td class="small hidden-phone">
 							<?php echo $item->access_level; ?>
 						</td>
 						<?php if ($assoc) : ?>
@@ -232,7 +232,7 @@ JFactory::getDocument()->addScriptDeclaration(
 								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 							<?php endif;?>
 						</td>
-						<td align="center" class="hidden-phone">
+						<td class="hidden-phone">
 							<?php echo $item->id; ?>
 						</td>
 					</tr>
