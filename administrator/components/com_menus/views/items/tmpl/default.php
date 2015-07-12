@@ -74,9 +74,9 @@ $assoc		= JLanguageAssociations::isEnabled();
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($assoc) : ?>
-						<th width="5%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
-						</th>
+							<th width="5%" class="nowrap hidden-phone">
+								<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+							</th>
 						<?php endif;?>
 						<th width="5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -188,38 +188,38 @@ $assoc		= JLanguageAssociations::isEnabled();
 						</td>
 						<td class="center hidden-phone">
 							<?php if ($item->type == 'component') : ?>
-								<?php if ($item->language == '*' || $item->home == '0'):?>
-									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange);?>
-								<?php elseif ($canChange):?>
-									<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1');?>">
-										<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
+								<?php if ($item->language == '*' || $item->home == '0') : ?>
+									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange); ?>
+								<?php elseif ($canChange) : ?>
+									<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1'); ?>">
+										<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
 									</a>
-								<?php else:?>
-									<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true);?>
-								<?php endif;?>
+								<?php else : ?>
+									<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+								<?php endif; ?>
 							<?php endif; ?>
 						</td>
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<?php if ($assoc):?>
+						<?php if ($assoc) : ?>
 							<td class="small hidden-phone">
-								<?php if ($item->association):?>
-									<?php echo JHtml::_('MenusHtml.Menus.association', $item->id);?>
-								<?php endif;?>
+								<?php if ($item->association) : ?>
+									<?php echo JHtml::_('MenusHtml.Menus.association', $item->id); ?>
+								<?php endif; ?>
 							</td>
-						<?php endif;?>
+						<?php endif; ?>
 						<td class="small hidden-phone">
 							<?php if ($item->language == ''):?>
 								<?php echo JText::_('JDEFAULT'); ?>
-							<?php elseif ($item->language == '*'):?>
+							<?php elseif ($item->language == '*') : ?>
 								<?php echo JText::alt('JALL', 'language'); ?>
-							<?php else:?>
+							<?php else : ?>
 								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-							<?php endif;?>
+							<?php endif; ?>
 						</td>
 						<td class="hidden-phone">
-							<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt);?>">
+							<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
 								<?php echo (int) $item->id; ?>
 							</span>
 						</td>
@@ -238,7 +238,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 					),
 					$this->loadTemplate('batch_body')
 				); ?>
-			<?php endif;?>
+			<?php endif; ?>
 		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
