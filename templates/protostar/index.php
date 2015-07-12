@@ -85,7 +85,7 @@ if (JLanguageMultilang::isEnabled())
 }
 else
 {
-	$logo_link = $this->baseurl;
+	$logo_link = $this->baseurl . '/';
 }
 ?>
 <!DOCTYPE html>
