@@ -526,6 +526,10 @@ fieldset.filters {
 
 /* ++++++++++++++ loginmodule +++++++++++++++++++++++++++ */
 
+#modlgn-username,#modlgn-passwd {
+	display: block;
+}
+
 #form-login-remember {
 	overflow: hidden;
 	margin-bottom: 10px
