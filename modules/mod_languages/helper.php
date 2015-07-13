@@ -19,6 +19,8 @@ JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/co
  * @subpackage  mod_languages
  *
  * @since       1.6.0
+ *
+ * Part of this code is Copyright © 2015 Sergio Manzi - smz@smz.it
  */
 abstract class ModLanguagesHelper
 {
@@ -31,103 +33,86 @@ abstract class ModLanguagesHelper
 	 */
 	public static function getList(&$params)
 	{
-		$user		= JFactory::getUser();
-		$lang		= JFactory::getLanguage();
-		$languages	= JLanguageHelper::getLanguages();
-		$app		= JFactory::getApplication();
-		$menu		= $app->getMenu();
+		// Setup data.
+		$app = JFactory::getApplication();
+		$mode_sef = $app->get('sef', 0);
+		$languages = JLanguageHelper::getLanguages('lang_code');
+		$home_pages = MultilangstatusHelper::getHomepages();
+		$levels = JFactory::getUser()->getAuthorisedViewLevels();
+		$site_langs = MultilangstatusHelper::getSitelangs();
+		$current_lang = JFactory::getLanguage()->getTag();
+		$associations  = array();
+		$cassociations  = array();
 
-		// Get menu home items
-		$homes = array();
-		$homes['*'] = $menu->getDefault('*');
-
-		foreach ($languages as $item)
+		// Check language access, language is enabled, language folder exists, and language has an Home Page
+		foreach ($languages as $lang_code => $language)
 		{
-			$default = $menu->getDefault($item->lang_code);
-
-			if ($default && $default->language == $item->lang_code)
+			if (($language->access && !in_array($language->access, $levels))
+				|| !array_key_exists($lang_code, $site_langs)
+				|| !is_dir(JPATH_SITE . '/language/' . $lang_code)
+				|| !isset($home_pages[$lang_code]))
 			{
-				$homes[$item->lang_code] = $default;
+				unset($languages[$lang_code]);
 			}
 		}
 
+		// Get active menu item and check if we are on an home page
+		$menu = $app->getMenu();
+		$active = $menu->getActive();
+
 		// Load associations
-		$assoc = JLanguageAssociations::isEnabled();
-
-		if ($assoc)
+		if (JLanguageAssociations::isEnabled())
 		{
-			$active = $menu->getActive();
-
+			// Load menu associations
 			if ($active)
 			{
 				$associations = MenusHelper::getAssociations($active->id);
 			}
 
 			// Load component associations
-			$class = str_replace('com_', '', $app->input->get('option')) . 'HelperAssociation';
-			JLoader::register($class, JPATH_COMPONENT_SITE . '/helpers/association.php');
-
-			if (class_exists($class) && is_callable(array($class, 'getAssociations')))
+			$option = $app->input->get('option');
+			$class = ucfirst(str_ireplace('com_', '', $option)) . 'HelperAssociation';
+			$cassoc_func = array($class, 'getAssociations');
+			JLoader::register($class, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
+			if (class_exists($class) && is_callable($cassoc_func))
 			{
-				$cassociations = call_user_func(array($class, 'getAssociations'));
+				$cassociations = call_user_func($cassoc_func);
 			}
 		}
 
-		$levels		= $user->getAuthorisedViewLevels();
-
-		// Filter allowed languages
-		foreach ($languages as $i => &$language)
+		// For each language...
+		foreach ($languages as $lang_code => $language)
 		{
-			// Do not display language without frontend UI
-			if (!array_key_exists($language->lang_code, MultilangstatusHelper::getSitelangs()))
+			$language->active = false;
+			switch (true)
 			{
-				unset($languages[$i]);
-			}
-			// Do not display language without specific home menu
-			elseif (!isset($homes[$language->lang_code]))
-			{
-				unset($languages[$i]);
-			}
-			// Do not display language without authorized access level
-			elseif (isset($language->access) && $language->access && !in_array($language->access, $levels))
-			{
-				unset($languages[$i]);
-			}
-			else
-			{
-				$language->active = ($language->lang_code == $lang->getTag());
+				// Current language link
+				case ($lang_code == $current_lang):
+					$language->link = str_replace('&', '&amp;', JUri::getInstance()->toString(array('path', 'query')));
+					$language->active = true;
+					break;
 
-				if (JLanguageMultilang::isEnabled())
-				{
-					if (isset($cassociations[$language->lang_code]))
-					{
-						$language->link = JRoute::_($cassociations[$language->lang_code] . '&lang=' . $language->sef);
-					}
-					elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
-					{
-						$itemid = $associations[$language->lang_code];
-						$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
-					}
-					else
-					{
-						if ($language->active)
-						{
-							$language->link = JUri::getInstance()->toString(array('scheme', 'host', 'port', 'path', 'query'));
-						}
-						else
-						{
-							$itemid = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
-							$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
-						}
-					}
-				}
-				else
-				{
-					$language->link = JRoute::_('&Itemid=' . $homes['*']->id);
-				}
+				// Component association
+				case (isset($cassociations[$lang_code])):
+					$language->link = JRoute::_($cassociations[$lang_code] . '&lang=' . $language->sef);
+					break;
+
+				// Menu items association
+				// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
+				case (isset($associations[$lang_code]) && ($item = $menu->getItem($associations[$lang_code]))):
+					$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
+					break;
+
+				// No association found, SEF mode
+				case ($mode_sef):
+					$language->link = '/' . $language->sef . '/';
+					break;
+
+				// No association found, non-SEF mode
+				default:
+					$language->link = '/index.php?lang=' . $language->sef;
 			}
 		}
-
 		return $languages;
 	}
 }
