@@ -76,7 +76,7 @@ class InstallerModelDatabase extends InstallerModel
 
 		try
 		{
-			$changeSet = JSchemaChangeset::getInstance(JFactory::getDbo(), $folder);
+			$changeSet = JSchemaChangeset::getInstance($this->getDbo(), $folder);
 		}
 		catch (RuntimeException $e)
 		{
@@ -108,7 +108,7 @@ class InstallerModelDatabase extends InstallerModel
 	 */
 	public function getSchemaVersion()
 	{
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('version_id')
 			->from($db->quoteName('#__schemas'))
@@ -130,7 +130,7 @@ class InstallerModelDatabase extends InstallerModel
 	{
 		// Get correct schema version -- last file in array.
 		$schema = $changeSet->getSchema();
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 		$result = false;
 
 		// Check value. If ok, don't do update.

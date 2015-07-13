@@ -590,7 +590,7 @@ class JRouter
 
 		foreach ($this->_rules['parse' . $stage] as $rule)
 		{
-			$vars += call_user_func_array($rule, array(&$this, &$uri));
+			$vars += (array) call_user_func_array($rule, array(&$this, &$uri));
 		}
 
 		return $vars;
