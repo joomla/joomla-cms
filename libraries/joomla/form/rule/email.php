@@ -18,14 +18,6 @@ use Joomla\Registry\Registry;
  */
 class JFormRuleEmail extends JFormRule
 {
-	/**
-	 * The regular expression to use in testing a form field value.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 * @see    http://www.w3.org/TR/html-markup/input.email.html
-	 */
-	protected $regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
 
 	/**
 	 * Method to test the email address and optionally check for uniqueness.
@@ -52,24 +44,13 @@ class JFormRuleEmail extends JFormRule
 			return true;
 		}
 
-		// If the tld attribute is present, change the regular expression to require at least 2 characters for it.
-		$tld = ((string) $element['tld'] == 'tld' || (string) $element['tld'] == 'required');
-
-		if ($tld)
-		{
-			$this->regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
-		}
-
 		// Determine if the multiple attribute is present
 		$multiple = ((string) $element['multiple'] == 'true' || (string) $element['multiple'] == 'multiple');
 
 		if (!$multiple)
 		{
-			// Handle idn e-mail addresses by converting to punycode.
-			$value = JStringPunycode::emailToPunycode($value);
-
-			// Test the value against the regular expression.
-			if (!parent::test($element, $value, $group, $input, $form))
+			// Test if the value against is a valid email address.
+			if (!JMailHelper::isEmailAddress($value))
 			{
 				return false;
 			}
@@ -80,11 +61,8 @@ class JFormRuleEmail extends JFormRule
 
 			foreach ($values as $value)
 			{
-				// Handle idn e-mail addresses by converting to punycode.
-				$value = JStringPunycode::emailToPunycode($value);
-
-				// Test the value against the regular expression.
-				if (!parent::test($element, $value, $group, $input, $form))
+				// Test if the value against is a valid email address.
+				if (!JMailHelper::isEmailAddress($value))
 				{
 					return false;
 				}

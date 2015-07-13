@@ -105,86 +105,52 @@ abstract class JMailHelper
 	 * @return  boolean  True if string has the correct format; false otherwise.
 	 *
 	 * @since   11.1
+	 *
+	 * Part of this code is Copyright © 2015 Sergio Manzi - smz@smz.it
 	 */
 	public static function isEmailAddress($email)
 	{
+
+		// Convert email address to Punycode in case it uses an IDN (International Domain Name)
+		$email = JStringPunycode::emailToPunycode($email);
+
+		// Check email address length
+		if (strlen($email) > 254)
+		{
+			return false;
+		}
+
 		// Split the email into a local and domain
 		$atIndex = strrpos($email, "@");
 		$domain = substr($email, $atIndex + 1);
 		$local = substr($email, 0, $atIndex);
 
-		// Check Length of domain
-		$domainLen = strlen($domain);
-
-		if ($domainLen < 1 || $domainLen > 255)
+		// Check length of local part
+		$localLen = strlen($local);
+		if ($localLen < 1 || $localLen > 64)
 		{
 			return false;
 		}
 
 		/*
 		 * Check the local address
-		 * We're a bit more conservative about what constitutes a "legal" address, that is, a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-
+		 * We're a bit more conservative about what constitutes a "legal" address, that is, a-zA-Z0-9.!#$%&'*+/=?^_{|}~-
 		 * The first and last character in local cannot be a period ('.')
 		 * Also, period should not appear 2 or more times consecutively
 		 */
-		$allowed = 'a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-';
-		$regex = "/^[$allowed][\.$allowed]{0,63}$/";
+		$regex_local_part = '^[a-zA-Z0-9.!#$%&\'*+\/=?^_{|}~-]+\Z';
 
-		if (!preg_match($regex, $local) || substr($local, -1) == '.' || $local[0] == '.' || preg_match('/\.\./', $local))
-		{
-			return false;
-		}
-
-		// No problem if the domain looks like an IP address, ish
-		$regex = '/^[0-9\.]+$/';
-
-		if (preg_match($regex, $domain))
-		{
-			return true;
-		}
-
-		// Check Lengths
-		$localLen = strlen($local);
-
-		if ($localLen < 1 || $localLen > 64)
+		if (!preg_match(chr(1) . $regex_local_part . chr(1) . 'u', $local) || substr($local, -1) == '.' || $local[0] == '.' || preg_match('/\.\./', $local))
 		{
 			return false;
 		}
 
 		// Check the domain
-		$domain_array = explode(".", rtrim($domain, '.'));
-		$regex = '/^[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
+		$regex_domain_part = '^[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\Z';
 
-		foreach ($domain_array as $domain)
+		if (!preg_match(chr(1) . $regex_domain_part . chr(1), $domain))
 		{
-			// Convert domain to punycode
-			$domain = JStringPunycode::toPunycode($domain);
-
-			// Must be something
-			if (!$domain)
-			{
-				return false;
-			}
-
-			// Check for invalid characters
-			if (!preg_match($regex, $domain))
-			{
-				return false;
-			}
-
-			// Check for a dash at the beginning of the domain
-			if (strpos($domain, '-') === 0)
-			{
-				return false;
-			}
-
-			// Check for a dash at the end of the domain
-			$length = strlen($domain) - 1;
-
-			if (strpos($domain, '-', $length) === $length)
-			{
-				return false;
-			}
+			return false;
 		}
 
 		return true;
