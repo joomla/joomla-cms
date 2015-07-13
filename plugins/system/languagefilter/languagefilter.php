@@ -48,6 +48,8 @@ class PlgSystemLanguageFilter extends JPlugin
 	 * @param   array   $config    An optional associative array of configuration settings.
 	 *
 	 * @since   1.6
+	 *
+	 * Part of this code is Copyright © 2015 Sergio Manzi - smz@smz.it
 	 */
 	public function __construct(&$subject, $config)
 	{
@@ -235,6 +237,8 @@ class PlgSystemLanguageFilter extends JPlugin
 	 * @return  array
 	 *
 	 * @since   1.6
+	 *
+	 * Part of this code is Copyright © 2015 Sergio Manzi - smz@smz.it
 	 */
 	public function parseRule(&$router, &$uri)
 	{
@@ -535,6 +539,8 @@ class PlgSystemLanguageFilter extends JPlugin
 	 * @return  void
 	 *
 	 * @since   1.7
+	 *
+	 * Part of this code is Copyright © 2015 Sergio Manzi - smz@smz.it
 	 */
 	public function onAfterDispatch()
 	{
@@ -668,6 +674,8 @@ class PlgSystemLanguageFilter extends JPlugin
 	 * @return  string
 	 *
 	 * @since   3.5
+	 *
+	 * Part of this code is Copyright © 2015 Sergio Manzi - smz@smz.it
 	 */
 	private function getClientLanguage()
 	{
