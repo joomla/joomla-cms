@@ -23,17 +23,7 @@ abstract class MultilangstatusHelper
 	 */
 	public static function getHomes()
 	{
-		// Check for multiple Home pages.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('COUNT(*)')
-			->from($db->quoteName('#__menu'))
-			->where('home = 1')
-			->where('published = 1')
-			->where('client_id = 0');
-		$db->setQuery($query);
-
-		return $db->loadResult();
+		return count(self::getHomepages());
 	}
 
 	/**
@@ -81,17 +71,24 @@ abstract class MultilangstatusHelper
 	 */
 	public static function getSitelangs()
 	{
-		// Check for published Site Languages.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('a.element AS element')
-			->from('#__extensions AS a')
-			->where('a.type = ' . $db->quote('language'))
-			->where('a.client_id = 0')
-			->where('a.enabled = 1');
-		$db->setQuery($query);
+		static $sitelangs = null;
 
-		return $db->loadObjectList('element');
+		if (empty($sitelangs))
+		{
+			// Check for published Site Languages.
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('a.element AS element')
+				->from('#__extensions AS a')
+				->where('a.type = ' . $db->quote('language'))
+				->where('a.client_id = 0')
+				->where('a.enabled = 1');
+			$db->setQuery($query);
+
+			$sitelangs = $db->loadObjectList('element');
+		}
+
+		return $sitelangs;
 	}
 
 	/**
@@ -101,18 +98,25 @@ abstract class MultilangstatusHelper
 	 */
 	public static function getHomepages()
 	{
-		// Check for Home pages languages.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('language')
-			->select('id')
-			->from($db->quoteName('#__menu'))
-			->where('home = 1')
-			->where('published = 1')
-			->where('client_id = 0');
-		$db->setQuery($query);
+		static $homepages = null;
 
-		return $db->loadObjectList('language');
+		if (empty($homepages))
+		{
+			// Check for Home pages languages.
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('language')
+				->select('id')
+				->from($db->quoteName('#__menu'))
+				->where('home = 1')
+				->where('published = 1')
+				->where('client_id = 0');
+			$db->setQuery($query);
+
+			$homepages = $db->loadObjectList('language');
+		}
+
+		return $homepages;
 	}
 
 	/**
