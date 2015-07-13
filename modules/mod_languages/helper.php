@@ -19,6 +19,8 @@ JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/co
  * @subpackage  mod_languages
  *
  * @since       1.6.0
+ *
+ * Part of this code is Copyright © 2015 Sergio Manzi - smz@smz.it
  */
 abstract class ModLanguagesHelper
 {
