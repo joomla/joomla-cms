@@ -308,6 +308,21 @@ class PlgSystemLanguageFilter extends JPlugin
 			}
 		}
 		// We are not in SEF mode
+		else
+		{
+			$lang_code = $this->getLanguageCookie();
+
+			if ($this->params->get('detect_browser', 1) && !$lang_code)
+			{
+				$lang_code = JLanguageHelper::detectLanguage();
+			}
+
+			if (!isset($this->lang_codes[$lang_code]))
+			{
+				$lang_code = $this->default_lang;
+			}
+		}
+
 		$lang = $uri->getVar('lang', $lang_code);
 
 		if (isset($this->sefs[$lang]))
