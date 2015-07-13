@@ -105,6 +105,8 @@ abstract class JMailHelper
 	 * @return  boolean  True if string has the correct format; false otherwise.
 	 *
 	 * @since   11.1
+	 *
+	 * Part of this code is Copyright © 2015 Sergio Manzi - smz@smz.it
 	 */
 	public static function isEmailAddress($email)
 	{
