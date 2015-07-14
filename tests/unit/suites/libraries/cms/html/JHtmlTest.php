@@ -1551,36 +1551,56 @@ class JHtmlTest extends TestCase
 	}
 
 	/**
-	 * Tests JHtml::prepareTooltip().
+	 * Gets the data for testing the JHtml::tooltipText method.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.4.4
+	 */
+	public function dataTestTooltipText()
+	{
+		return array(
+			array(
+				'Title::Content',
+				'',
+				'&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;Content',
+				'A string with "::" should be converted',
+			),
+			array(
+				'Title:Content',
+				'',
+				'Title:Content',
+				'A string without "::" should not be converted',
+			),
+			array(
+				'Title',
+				'Content',
+				'&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;Content',
+				'A title and content should be combined',
+			),
+			array(
+				'',
+				'Content',
+				'Content',
+				'If no title is given, return content string',
+			),
+		);
+	}
+
+	/**
+	 * Tests JHtml::tooltipText().
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @dataProvider dataTestTooltipText
 	 */
-	public function testTooltipText()
+	public function testTooltipText($title, $content, $expected, $failureText)
 	{
 		$this->assertEquals(
-			JHtml::tooltipText('Title::Content'),
-			'&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;Content',
-			'A string with "::" should be converted'
-		);
-
-		$this->assertEquals(
-			JHtml::tooltipText('Title:Content'),
-			'Title:Content',
-			'A string without "::" should not be converted'
-		);
-
-		$this->assertEquals(
-			JHtml::tooltipText('Title', 'Content'),
-			'&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;Content',
-			'A title and content should be combined'
-		);
-
-		$this->assertEquals(
-			JHtml::tooltipText('', 'Content'),
-			'Content',
-			'If no title is given, return content string'
+			JHtml::tooltipText($title, $content),
+			$expected,
+			$failureText
 		);
 	}
 }
