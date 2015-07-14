@@ -17,6 +17,30 @@
 class JHtmlTest extends TestCase
 {
 	/**
+	 * Value for test host.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	const TEST_HTTP_HOST = 'mydomain.com';
+
+	/**
+	 * Value for test user agent.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	const TEST_REQUEST_URI = '/index.php';
+
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var    array
+	 * @since  3.4
+	 */
+	protected $backupServer;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -31,6 +55,13 @@ class JHtmlTest extends TestCase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = self::TEST_HTTP_HOST;
+		$_SERVER['SCRIPT_NAME'] = self::TEST_REQUEST_URI;
+		$_SERVER['REQUEST_URI'] = self::TEST_REQUEST_URI;
+		$_SERVER['HTTP_USER_AGENT'] = 'Test Browser';
 	}
 
 	/**
@@ -43,6 +74,7 @@ class JHtmlTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		$_SERVER = $this->backupServer;
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -272,17 +304,6 @@ class JHtmlTest extends TestCase
 	 */
 	public function testImage()
 	{
-		if (!is_array($_SERVER))
-		{
-			$_SERVER = array();
-		}
-
-		// We save the state of $_SERVER for later and set it to appropriate values.
-		$http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null;
-		$script_name = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : null;
-		$_SERVER['HTTP_HOST'] = 'example.com';
-		$_SERVER['SCRIPT_NAME'] = '/index.php';
-
 		// These are some paths to pass to JHtml for testing purposes.
 		$urlpath = 'test1/';
 		$urlfilename = 'image1.jpg';
@@ -484,9 +505,6 @@ class JHtmlTest extends TestCase
 			'<img src="" alt="My Alt Text" width="150" height="150" />',
 			'JHtml::image with an absolute path, URL does not start with http'
 		);
-
-		$_SERVER['HTTP_HOST'] = $http_host;
-		$_SERVER['SCRIPT_NAME'] = $script_name;
 	}
 
 	/**
@@ -551,17 +569,6 @@ class JHtmlTest extends TestCase
 	 */
 	public function testScript()
 	{
-		if (!is_array($_SERVER))
-		{
-			$_SERVER = array();
-		}
-
-		// We save the state of $_SERVER for later and set it to appropriate values
-		$http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null;
-		$script_name = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : null;
-		$_SERVER['HTTP_HOST'] = 'example.com';
-		$_SERVER['SCRIPT_NAME'] = '/index.php';
-
 		// These are some paths to pass to JHtml for testing purposes.
 		$urlpath = 'test1/';
 		$urlfilename = 'script1.js';
@@ -900,9 +907,6 @@ class JHtmlTest extends TestCase
 		unlink(JPATH_ROOT . '/media/system/js/' . $element . '/' . $urlpath . 'script1-uncompressed.js');
 		rmdir(JPATH_ROOT . '/media/system/js/' . $element . '/' . $urlpath);
 		rmdir(JPATH_ROOT . '/media/system/js/' . $element);
-
-		$_SERVER['HTTP_HOST'] = $http_host;
-		$_SERVER['SCRIPT_NAME'] = $script_name;
 	}
 
 	/**
@@ -914,17 +918,6 @@ class JHtmlTest extends TestCase
 	 */
 	public function testStylesheet()
 	{
-		if (!is_array($_SERVER))
-		{
-			$_SERVER = array();
-		}
-
-		// We save the state of $_SERVER for later and set it to appropriate values.
-		$http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null;
-		$script_name = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : null;
-		$_SERVER['HTTP_HOST'] = 'example.com';
-		$_SERVER['SCRIPT_NAME'] = '/index.php';
-
 		// These are some paths to pass to JHtml for testing purposes.
 		$urlpath = 'test1/';
 		$urlfilename = 'style1.css';
@@ -1284,9 +1277,6 @@ class JHtmlTest extends TestCase
 		unlink(JPATH_ROOT . '/media/system/css/' . $element . '/' . $urlpath . $urlfilename);
 		rmdir(JPATH_ROOT . '/media/system/css/' . $element . '/' . $urlpath);
 		rmdir(JPATH_ROOT . '/media/system/css/' . $element);
-
-		$_SERVER['HTTP_HOST'] = $http_host;
-		$_SERVER['SCRIPT_NAME'] = $script_name;
 	}
 
 	/**
@@ -1298,17 +1288,6 @@ class JHtmlTest extends TestCase
 	 */
 	public function testTooltip()
 	{
-		if (!is_array($_SERVER))
-		{
-			$_SERVER = array();
-		}
-
-		// We save the state of $_SERVER for later and set it to appropriate values
-		$http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null;
-		$script_name = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : null;
-		$_SERVER['HTTP_HOST'] = 'example.com';
-		$_SERVER['SCRIPT_NAME'] = '/index.php';
-
 		// We generate a random template name so that we don't collide or hit anything
 		$template = 'mytemplate' . rand(1, 10000);
 
@@ -1433,7 +1412,6 @@ class JHtmlTest extends TestCase
 
 		$cfg->live_site = 'http://example.com';
 		$cfg->offset = 'Europe/Kiev';
-		$_SERVER['HTTP_USER_AGENT'] = 'Test Browser';
 
 		// Two sets of test data
 		$test_data = array(
