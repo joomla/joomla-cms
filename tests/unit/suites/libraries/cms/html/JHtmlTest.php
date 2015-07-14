@@ -747,9 +747,9 @@ class JHtmlTest extends TestCase
 
 		JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, false, true);
 
-		$this->assertThat(
+		$this->assertArrayNotHasKey(
+			'/media/system/js/' . $urlfilename,
 			JFactory::$document->_scripts,
-			$this->logicalNot($this->arrayHasKey('/media/system/js/' . $urlfilename)),
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
 		);
 
