@@ -1215,8 +1215,8 @@ class JHtmlTest extends TestCase
 		);
 
 		$this->assertArrayNotHasKey(
-			JFactory::$document->_styleSheets,
 			'/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css',
+			JFactory::$document->_styleSheets,
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
 		);
 
@@ -1236,9 +1236,9 @@ class JHtmlTest extends TestCase
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
 		);
 
-		$this->assertThat(
+		$this->assertArrayNotHasKey(
+			'/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css',
 			JFactory::$document->_styleSheets,
-			$this->logicalNot($this->arrayHasKey('/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css')),
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
 		);
 
@@ -1259,8 +1259,8 @@ class JHtmlTest extends TestCase
 		);
 
 		$this->assertArrayNotHasKey(
-			JFactory::$document->_styleSheets,
 			'/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css',
+			JFactory::$document->_styleSheets,
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
 		);
 
