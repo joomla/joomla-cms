@@ -663,8 +663,8 @@ class JHtmlTest extends TestCase
 		JHtml::script($urlpath . $urlfilename, false, true);
 
 		$this->assertArrayNotHasKey(
-			JFactory::$document->_scripts,
 			'/media/system/js/' . $urlfilename,
+			JFactory::$document->_scripts,
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
 		);
 
@@ -819,8 +819,8 @@ class JHtmlTest extends TestCase
 		);
 
 		$this->assertArrayNotHasKey(
-			JFactory::$document->_scripts,
 			'/media/system/js/' . $element . '/' . $urlpath . $urlfilename,
+			JFactory::$document->_scripts,
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
 		);
 
@@ -841,8 +841,8 @@ class JHtmlTest extends TestCase
 		);
 
 		$this->assertArrayNotHasKey(
-			JFactory::$document->_scripts,
 			'/media/system/js/' . $element . '/' . $urlpath . 'script1-uncompressed.js',
+			JFactory::$document->_scripts,
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
 		);
 
@@ -863,8 +863,8 @@ class JHtmlTest extends TestCase
 		);
 
 		$this->assertArrayNotHasKey(
-			JFactory::$document->_scripts,
 			'/media/system/js/' . $element . '/' . $urlpath . 'script1-uncompressed.js',
+			JFactory::$document->_scripts,
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
 		);
 
@@ -888,8 +888,8 @@ class JHtmlTest extends TestCase
 		);
 
 		$this->assertArrayNotHasKey(
-			JFactory::$document->_scripts,
 			'/media/system/js/' . $element . '/' . $urlpath . 'script1-uncompressed.js',
+			JFactory::$document->_scripts,
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
 		);
 
@@ -1030,8 +1030,8 @@ class JHtmlTest extends TestCase
 		JHtml::stylesheet($urlpath . $urlfilename, array(), true);
 
 		$this->assertArrayNotHasKey(
-			JFactory::$document->_styleSheets,
 			'/media/system/css/' . $urlfilename,
+			JFactory::$document->_styleSheets,
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
 		);
 
@@ -1120,8 +1120,8 @@ class JHtmlTest extends TestCase
 		JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array(), true);
 
 		$this->assertArrayNotHasKey(
-			JFactory::$document->_styleSheets,
 			'/media/system/css/' . $urlfilename,
+			JFactory::$document->_styleSheets,
 			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
 		);
 
