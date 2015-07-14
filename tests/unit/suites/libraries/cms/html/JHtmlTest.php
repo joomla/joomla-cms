@@ -29,6 +29,8 @@ class JHtmlTest extends TestCase
 		parent::setUp();
 
 		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**
@@ -290,12 +292,9 @@ class JHtmlTest extends TestCase
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate.
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
-		$mock->expects($this->any())
+		JFactory::$application->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
-
-		JFactory::$application = $mock;
 
 		// We create the file that JHtml::image will look for.
 		if (!is_dir(JPATH_THEMES . '/' . $template . '/images/' . $urlpath))
@@ -572,15 +571,9 @@ class JHtmlTest extends TestCase
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate.
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
-		$mock->expects($this->any())
+		JFactory::$application->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
-
-		// @todo We need to mock this.
-		$mock->input = new JInput;
-
-		JFactory::$application = $mock;
 
 		// We create the file that JHtml::image will look for
 		mkdir(JPATH_THEMES . '/' . $template . '/js/' . $urlpath, 0777, true);
@@ -941,15 +934,9 @@ class JHtmlTest extends TestCase
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate.
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
-		$mock->expects($this->any())
+		JFactory::$application->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
-
-		// @todo We need to mock this.
-		$mock->input = new JInput;
-
-		JFactory::$application = $mock;
 
 		// We create the file that JHtml::image will look for.
 		mkdir(JPATH_THEMES . '/' . $template . '/css/' . $urlpath, 0777, true);
@@ -1327,12 +1314,9 @@ class JHtmlTest extends TestCase
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
-		$mock->expects($this->any())
+		JFactory::$application->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
-
-		JFactory::$application = $mock;
 
 		// Testing classical cases
 		$this->assertEquals(
@@ -1441,7 +1425,6 @@ class JHtmlTest extends TestCase
 
 		$cfg = new JObject;
 		JFactory::$session = $this->getMockSession();
-		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$config = $cfg;
 
 		JFactory::$application->expects($this->any())
