@@ -22,7 +22,7 @@ class JHtmlTest extends TestCase
 	 * @var    string
 	 * @since  3.2
 	 */
-	const TEST_HTTP_HOST = 'mydomain.com';
+	const TEST_HTTP_HOST = 'example.com';
 
 	/**
 	 * Value for test user agent.
