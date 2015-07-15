@@ -68,14 +68,14 @@ class JUri extends Uri
 				 * X-Forwarded-Proto: https
 				 * A de facto standard for identifying the originating protocol of an HTTP request,
 				 * since a reverse proxy (load balancer) may communicate with a web server using HTTP
-				 * even if the request to the reverse proxy is HTTPS.			 
+				 * even if the request to the reverse proxy is HTTPS.
 				 */
-                                if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])
-                                	&& $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
-                                {
-                                        $_SERVER['HTTPS'] = 'on';
-                                }
-                                
+				if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])
+					&& $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
+				{
+					$_SERVER['HTTPS'] = 'on';
+				}
+
 				// Determine if the request was over SSL (HTTPS).
 				if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off'))
 				{
