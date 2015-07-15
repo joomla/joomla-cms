@@ -369,6 +369,11 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		// Update the manifest cache for the entry
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();
 
+		if (empty($this->extension->custom_data))
+		{
+			$this->extension->custom_data = '{}';
+		}
+
 		if (!$this->extension->store())
 		{
 			// Install failed, roll back changes
