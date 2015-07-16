@@ -93,28 +93,14 @@ $info    = $params->get('info_block_position', 0);
 		|| (empty($urls->urls_position) && (!$params->get('urls_position')))) : ?>
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
-	<?php if ($params->get('access-view')):?>
-	<?php if (isset($images->image_fulltext) && !empty($images->image_fulltext)) : ?>
-	<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
-	<figure class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image">
-		<img
-		<?php if ($images->image_fulltext_caption) :  ?>
-		<?php echo 'title="' .htmlspecialchars($images->image_fulltext_caption) . '"'; ?>
-		<?php endif; ?>
-		src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/>
-		<?php if ($images->image_fulltext_caption) : ?>
-			<figcaption><?php echo htmlspecialchars($images->image_fulltext_caption); ?></figcaption>
-		<?php endif; ?>
-	</figure>
+	<?php if ($params->get('access-view')) : ?>
+	<?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
+	<?php if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative) : ?>
+		<?php echo $this->item->pagination; ?>
 	<?php endif; ?>
-	<?php
-	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative):
-		echo $this->item->pagination;
-	endif;
-	?>
-	<?php if (isset ($this->item->toc)) :
-		echo $this->item->toc;
-	endif; ?>
+	<?php if (isset ($this->item->toc)) : ?>
+		<?php echo $this->item->toc; ?>
+	<?php endif; ?>
 	<div itemprop="articleBody">
 		<?php echo $this->item->text; ?>
 	</div>
