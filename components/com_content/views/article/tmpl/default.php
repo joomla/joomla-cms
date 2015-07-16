@@ -95,12 +95,14 @@ $info    = $params->get('info_block_position', 0);
 	<?php endif; ?>
 	<?php if ($params->get('access-view')) : ?>
 	<?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
-	<?php if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative) : ?>
-		<?php echo $this->item->pagination; ?>
-	<?php endif; ?>
-	<?php if (isset ($this->item->toc)) : ?>
-		<?php echo $this->item->toc; ?>
-	<?php endif; ?>
+	<?php
+	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative):
+		echo $this->item->pagination;
+	endif;
+	?>
+	<?php if (isset ($this->item->toc)) :
+		echo $this->item->toc;
+	endif; ?>
 	<div itemprop="articleBody">
 		<?php echo $this->item->text; ?>
 	</div>
