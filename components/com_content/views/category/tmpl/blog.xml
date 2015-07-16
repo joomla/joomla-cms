@@ -263,6 +263,7 @@
 					<option value="hits">JGLOBAL_MOST_HITS</option>
 					<option value="rhits">JGLOBAL_LEAST_HITS</option>
 					<option value="order">JGLOBAL_ORDERING</option>
+					<option value="random">JGLOBAL_RANDOM_ORDER</option>
 				</field>
 
 				<field
