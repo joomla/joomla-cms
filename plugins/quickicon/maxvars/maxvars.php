@@ -1,10 +1,10 @@
 <?php
 /**
- * @package	Joomla.Plugin
- * @subpackage	Quickicon.Joomla
+ * @package	    Joomla.Plugin
+ * @subpackage  Quickicon.Joomla
  *
- * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license	GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -77,9 +77,9 @@ class PlgQuickiconMaxvars extends JPlugin
 			JFactory::getApplication()->enqueueMessage(JText::sprintf('PLG_QUICKICON_MAXVARS_FAIL', $maxinputvars, $varcount), 'error');
 		}
 
-		if (((($varcount- $maxinputvars) / $maxinputvars) * 100) > 80)
+		if (((($varcount - $maxinputvars) / $maxinputvars) * 100) > 80)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::sprintf('PLG_QUICKICON_MAXVARS_WARN', $maxinputvars, $varcount), 'warning');
 		}
-	}	
+	}
 }
