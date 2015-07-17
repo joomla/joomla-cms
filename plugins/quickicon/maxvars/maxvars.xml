@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="23.0" type="plugin" group="quickicon">
-	<name>PLG_MAXVRS</name>
+<extension version="3.5" type="plugin" group="quickicon">
+	<name>PLG_MAXVARS</name>
 	<author>Joomla! Project</author>
-	<creationDate>October 2014</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>July 2015</creationDate>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.0</version>
-	<description>MAx Vars test plugin</description>
+	<version>3.5.0</version>
+	<description>PLG_MAXVARS_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="maxvars">maxvars.php</filename>
 	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_quickicon_maxvars.ini</language>
+		<language tag="en-GB">en-GB.plg_quickicon_maxvars.sys.ini</language>
+	</languages>
 </extension>
