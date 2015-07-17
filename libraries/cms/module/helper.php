@@ -198,17 +198,40 @@ abstract class JModuleHelper
 			$chrome = array();
 		}
 
-		include_once JPATH_THEMES . '/system/html/modules.php';
-		$chromePath = JPATH_THEMES . '/' . $template . '/html/modules.php';
+		// Load system chromes and active template chromes
+		$chromePaths = array(JPATH_THEMES . '/system/html/modules.php', JPATH_THEMES . '/' . $template . '/html/modules.php');
+		$elements = array('system', $template);
 
-		if (!isset($chrome[$chromePath]))
+		// Load chromes from plugins
+		$events = $app->triggerEvent('onGetModuleChromes');
+
+		if (!empty($events))
 		{
-			if (file_exists($chromePath))
+			foreach ($events as $event)
 			{
-				include_once $chromePath;
+				// Returned a keyed array with "element" and "path"
+				if (is_array($event) && array_key_exists('element', $event) && array_key_exists('path', $event))
+				{
+					if (is_string($event['path']))
+					{
+							$chromePaths[] = $event['path'];
+							$elements[] = $event['element'];
+					}
+				}
 			}
+		}
 
-			$chrome[$chromePath] = true;
+		foreach ($chromePaths as $chromePath)
+		{
+			if (!isset($chrome[$chromePath]))
+			{
+				if (file_exists($chromePath))
+				{
+					include_once $chromePath;
+				}
+
+				$chrome[$chromePath] = true;
+			}
 		}
 
 		// Check if the current module has a style param to override template module style
@@ -216,7 +239,8 @@ abstract class JModuleHelper
 
 		if ($paramsChromeStyle)
 		{
-			$attribs['style'] = preg_replace('/^(system|' . $template . ')\-/i', '', $paramsChromeStyle);
+			$elements = implode('|', $elements);
+			$attribs['style'] = preg_replace('/^(' . $elements . ')\-/i', '', $paramsChromeStyle);
 		}
 
 		// Make sure a style is set
@@ -278,35 +302,30 @@ abstract class JModuleHelper
 	 */
 	public static function getLayoutPath($module, $layout = 'default')
 	{
-		$template = JFactory::getApplication()->getTemplate();
+		$template      = JFactory::getApplication()->getTemplate();
 		$defaultLayout = $layout;
+		$layoutPaths   = array();
 
 		if (strpos($layout, ':') !== false)
 		{
 			// Get the template and file name from the string
-			$temp = explode(':', $layout);
-			$template = ($temp[0] == '_') ? $template : $temp[0];
-			$layout = $temp[1];
+			$temp          = explode(':', $layout);
+			$template      = ($temp[0] == '_') ? $template : $temp[0];
+			$layout        = $temp[1];
 			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
 		}
 
-		// Build the template and base path for the layout
-		$tPath = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
-		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
-		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
+		// Add layout paths in priority order
+		$layoutPaths[] = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
+		$layoutPaths[] = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
+		$layoutPaths[] = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
 
-		// If the template has a layout override use it
-		if (file_exists($tPath))
+		foreach ($layoutPaths as $layoutPath)
 		{
-			return $tPath;
-		}
-		elseif (file_exists($bPath))
-		{
-			return $bPath;
-		}
-		else
-		{
-			return $dPath;
+			if (file_exists($layoutPath))
+			{
+				return $layoutPath;
+			}
 		}
 	}
 
