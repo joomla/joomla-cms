@@ -18,6 +18,14 @@
 class JRouterTest extends TestCase
 {
 	/**
+	 * Backup of the $_SERVER variable
+	 *
+	 * @var    array
+	 * @since  4.0
+	 */
+	private $server;
+
+	/**
 	 * Object under test
 	 *
 	 * @var    JRouter
@@ -35,6 +43,8 @@ class JRouterTest extends TestCase
 	{
 		parent::setUp();
 
+		$this->server = $_SERVER;
+
 		/*
 		 * The following is needed to work around a bug in JApplicationWeb::detectRequestUri()
 		 * @see https://github.com/joomla-projects/joomla-pythagoras/issues/2
@@ -45,6 +55,21 @@ class JRouterTest extends TestCase
 		}
 
 		$this->object = new JRouter;
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   4.0
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->server;
+
+		parent::tearDown();
 	}
 
 	/**
@@ -68,7 +93,11 @@ class JRouterTest extends TestCase
 	 */
 	public function testProperTypeAndMode($client)
 	{
-		$this->markTestSkipped('Untestable due to global instance cache not clearable.');
+		$cache = new ReflectionProperty('JRouter', 'instances');
+		$cache->setAccessible(true);
+		$cache->setValue(array());
+
+		#$this->markTestSkipped('Untestable due to global instance cache not clearable.');
 
 		$object = JRouter::getInstance($client, array('mode' => 'test'));
 

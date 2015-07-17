@@ -21,14 +21,6 @@ jimport('cms.router.router');
 class JRouterSiteTest extends TestCase
 {
 	/**
-	 * Input object mock
-	 *
-	 * @var    PHPUnit_Framework_MockObject_MockObject
-	 * @since  4.0
-	 */
-	private $input;
-
-	/**
 	 * Backup of the $_SERVER variable
 	 *
 	 * @var    array
