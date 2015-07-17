@@ -89,6 +89,7 @@ class AdminModelSysInfo extends JModelLegacy
 		$this->php_settings['zip'] = function_exists('zip_open') && function_exists('zip_read');
 		$this->php_settings['mbstring'] = extension_loaded('mbstring');
 		$this->php_settings['iconv'] = function_exists('iconv');
+		$this->php_settings['max_input_vars'] = ini_get('max_input_vars');
 
 		return $this->php_settings;
 	}
