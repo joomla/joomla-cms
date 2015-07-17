@@ -357,4 +357,8 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 		return $this;
 	}
+	public function Rand()
+	{
+		return ' NEWID() ';
+	}
 }
