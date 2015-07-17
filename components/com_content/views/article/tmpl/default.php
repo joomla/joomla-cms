@@ -94,7 +94,16 @@ $info    = $params->get('info_block_position', 0);
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
 	<?php if ($params->get('access-view')) : ?>
-	<?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
+	<figure class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image">
+		<img
+		<?php if ($images->image_fulltext_caption) : ?>
+			echo 'title="' .htmlspecialchars($images->image_fulltext_caption) . '"'; ?>
+		<?php endif; ?>
+		src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/>
+		<?php if ($images->image_fulltext_caption) : ?>
+			<figcaption><?php echo htmlspecialchars($images->image_fulltext_caption); ?></figcaption>
+		<?php endif; ?>
+	</figure>
 	<?php
 	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative):
 		echo $this->item->pagination;
