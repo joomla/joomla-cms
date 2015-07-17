@@ -200,12 +200,12 @@ class AdminModelSysInfo extends JModelLegacy
 	{
 		if (!is_array($sectionValues))
 		{
-			return strlen($sectionValues) ? 'set' : 'not set';
+			return strlen($sectionValues) ? 'xxxxxx' : '';
 		}
 
 		foreach ($sectionValues as $setting => $value)
 		{
-			$sectionValues[$setting] = strlen($value) ? 'set' : 'not set';
+			$sectionValues[$setting] = strlen($value) ? 'xxxxxx' : '';
 		}
 
 		return $sectionValues;
