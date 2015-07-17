@@ -56,12 +56,12 @@ class AdminViewSysinfo extends JViewLegacy
 		$model = $this->getModel();
 
 		return array(
+			'info'        => $model->getSafeData('info'),
 			'phpSettings' => $model->getSafeData('phpSettings'),
 			'config'      => $model->getSafeData('config'),
-			'info'        => $model->getSafeData('info'),
-			'phpInfo'     => $model->getSafeData('phpInfoArray'),
 			'directories' => $model->getSafeData('directory'),
-			'extensions' => $model->getSafeData('extensions')
+			'phpInfo'     => $model->getSafeData('phpInfoArray'),
+			'extensions'  => $model->getSafeData('extensions')
 		);
 	}
 }

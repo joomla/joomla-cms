@@ -41,17 +41,17 @@ class AdminViewSysinfo extends JViewLegacy
 
 		$lines = array();
 
-		foreach ($data as $sectionName => $sectionData)
+		foreach ($data as $sectionName => $section)
 		{
 			$customRenderingMethod = 'render' . ucfirst($sectionName);
 
 			if (method_exists($this, $customRenderingMethod))
 			{
-				$lines[] = $this->$customRenderingMethod($sectionName, $sectionData);
+				$lines[] = $this->$customRenderingMethod($section['title'], $section['data']);
 			}
 			else
 			{
-				$lines[] = $this->renderSection($sectionName, $sectionData);
+				$lines[] = $this->renderSection($section['title'], $section['data']);
 			}
 		}
 
@@ -72,12 +72,30 @@ class AdminViewSysinfo extends JViewLegacy
 		$model = $this->getModel();
 
 		return array(
-			'phpSettings' => $model->getSafeData('phpSettings'),
-			'config'      => $model->getSafeData('config'),
-			'info'        => $model->getSafeData('info'),
-			'phpInfo'     => $model->getSafeData('phpInfoArray'),
-			'directories' => $model->getSafeData('directory'),
-			'extensions'  => $model->getSafeData('extensions')
+			'info' => array(
+				'title' => JText::_('COM_ADMIN_SYSTEM_INFORMATION', true),
+				'data'  => $model->getSafeData('info')
+			),
+			'phpSettings' => array(
+				'title' => JText::_('COM_ADMIN_PHP_SETTINGS', true),
+				'data'  => $model->getSafeData('phpSettings')
+			),
+			'config' => array(
+				'title' => JText::_('COM_ADMIN_CONFIGURATION_FILE', true),
+				'data'  => $model->getSafeData('config')
+			),
+			'directories' => array(
+				'title' => JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS', true),
+				'data'  => $model->getSafeData('directory')
+			),
+			'phpInfo' => array(
+				'title' => JText::_('COM_ADMIN_PHP_INFORMATION', true),
+				'data'  => $model->getSafeData('phpInfoArray')
+			),
+			'extensions' => array(
+				'title' => JText::_('COM_ADMIN_EXTENSIONS', true),
+				'data'  => $model->getSafeData('extensions')
+			)
 		);
 	}
 
