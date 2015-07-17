@@ -48,7 +48,7 @@ class PlgQuickiconMaxvars extends JPlugin
 	public function onGetIcons($context)
 	{
 		$text         = JText::_('PLG_MAX_VARS');
-		$maxinputvars = ini_get('max_input_vars');
+		$maxinputvars = @ini_get('max_input_vars');
 		$varcount     = 0;
 
 		$tables = array(
