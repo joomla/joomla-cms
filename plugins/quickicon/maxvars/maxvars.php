@@ -59,7 +59,7 @@ class PlgQuickiconMaxvars extends JPlugin
 		);
 
 		// Get a db connection.
-		$db     = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		foreach ($tables as $tableToCheck)
