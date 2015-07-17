@@ -106,7 +106,7 @@ class ContentHelperQuery
 				break;
 
 			case 'random' :
-				$orderby = 'RAND()';
+				$orderby = JFactory::getDbo()->getQuery(true)->Rand();
 				break;
 
 			default :
