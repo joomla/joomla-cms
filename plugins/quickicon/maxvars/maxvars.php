@@ -60,25 +60,24 @@ class PlgQuickiconMaxvars extends JPlugin
 
 		// Get a db connection.
 		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		foreach ($tables as $tableToCheck)
 		{
-				// Create a new query object.
-				$query = $db->getQuery(true);
+				$query->clear();
 
-				$query->select($db->quoteName('id'));
+				$query->select('count(*)');
 				$query->from($db->quoteName($tableToCheck));
 
 				$db->setQuery($query);
-				$db->execute();
-				$varcount = $varcount + $db->getNumRows();
+				$varcount = $varcount + (int) $db->loadResult();
 		}
-
+				
 		if ($varcount >= $maxinputvars)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::sprintf('PLG_MAX_VARS_FAIL', $varcount), 'error');
 		}
-		if (((($maxinputvars - $varcount) / $maxinputvars) * 100) > 80)
+		if (((($varcount- $maxinputvars) / $maxinputvars) * 100) > 80)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::sprintf('PLG_MAX_VARS_WARN', $varcount), 'warning');
 		}
