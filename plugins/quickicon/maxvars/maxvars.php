@@ -1,6 +1,6 @@
 <?php
 /**
- * @package	    Joomla.Plugin
+ * @package     Joomla.Plugin
  * @subpackage  Quickicon.Joomla
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
