@@ -38,7 +38,7 @@ class PlgQuickiconMaxvars extends JPlugin
 	 * of icons. You can return an array which defines a single icon and it will
 	 * be rendered right after the stock Quick Icons.
 	 *
-	 * @param   $context  The calling context
+	 * @param   string  $context  The calling context
 	 *
 	 * @return  array  A list of icon definition associative arrays, consisting of the
 	 *				   keys link, image, text and access.
