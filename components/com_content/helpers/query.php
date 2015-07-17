@@ -106,7 +106,7 @@ class ContentHelperQuery
 				break;
 
 			case 'random' :
-				$orderby ='RAND()';
+				$orderby = 'RAND()';
 				break;
 
 			default :
