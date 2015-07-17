@@ -104,7 +104,7 @@ class ContentHelperQuery
 			case 'front' :
 				$orderby = 'a.featured DESC, fp.ordering, ' . $queryDate . ' DESC ';
 				break;
-				
+
 			case 'random' :
 				$orderby ='RAND()';
 				break;
