@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Registry\Registry;
+
 /**
  * Inspector classes for the forms library.
  */
@@ -93,7 +95,7 @@ class JFormInspector extends JForm
 	 *
 	 * @return void
 	 */
-	public function findGroup($group)
+	public function &findGroup($group)
 	{
 		return parent::findGroup($group);
 	}
@@ -106,7 +108,7 @@ class JFormInspector extends JForm
 	 *
 	 * @return void
 	 */
-	public function findFieldsByGroup($group = null, $nested = false)
+	public function &findFieldsByGroup($group = null, $nested = false)
 	{
 		return parent::findFieldsByGroup($group, $nested);
 	}
@@ -118,7 +120,7 @@ class JFormInspector extends JForm
 	 *
 	 * @return void
 	 */
-	public function findFieldsByFieldset($name)
+	public function &findFieldsByFieldset($name)
 	{
 		return parent::findFieldsByFieldset($name);
 	}
@@ -203,7 +205,7 @@ class JFormInspector extends JForm
 	 *
 	 * @return boolean
 	 */
-	public function validateField($element, $group = null, $value = null, $input = null)
+	public function validateField(SimpleXMLElement $element, $group = null, $value = null, Registry $input = null)
 	{
 		return parent::validateField($element, $group, $value, $input);
 	}
