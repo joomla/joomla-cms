@@ -80,7 +80,7 @@ class PlgQuickiconMaxvars extends JPlugin
 		}
 		if (((($maxinputvars - $varcount) / $maxinputvars) * 100) > 80)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('PLG_MAX_VARS_WARN', $text), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('PLG_MAX_VARS_WARN', $text), 'warning');
 		}
 	}	
 }
