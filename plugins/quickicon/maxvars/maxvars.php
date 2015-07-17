@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! php max vars Plugin
  *
- * @since       3.5
+ * @since  3.5
  */
 class PlgQuickiconMaxvars extends JPlugin
 {
@@ -59,7 +59,7 @@ class PlgQuickiconMaxvars extends JPlugin
 		);
 
 		// Get a db connection.
-		$db = JFactory::getDbo();
+		$db     = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		foreach ($tables as $tableToCheck)
@@ -72,11 +72,12 @@ class PlgQuickiconMaxvars extends JPlugin
 				$db->setQuery($query);
 				$varcount = $varcount + (int) $db->loadResult();
 		}
-				
+
 		if ($varcount >= $maxinputvars)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::sprintf('PLG_MAX_VARS_FAIL', $varcount), 'error');
 		}
+
 		if (((($varcount- $maxinputvars) / $maxinputvars) * 100) > 80)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::sprintf('PLG_MAX_VARS_WARN', $varcount), 'warning');
