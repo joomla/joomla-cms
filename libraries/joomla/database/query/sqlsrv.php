@@ -357,7 +357,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 		return $this;
 	}
-	
+
 	/**
 	 * Return correct rand() function for MSSQL.
 	 *

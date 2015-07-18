@@ -638,7 +638,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	{
 		return ' ~* ' . $value;
 	}
-	
+
 	/**
 	 * Return correct rand() function for Postgresql.
 	 *
