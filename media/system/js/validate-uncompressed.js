@@ -108,7 +108,7 @@ var JFormValidator = function() {
  	 	for (i = 0, l = fields.length; i < l; i++) {
  	 		// Ignore Rule/Filters/Assigned field for spead up validation
  	 		// And other fields that has class="novalidate"
- 	 		if((' ' + fields[i].className + ' ').indexOf(' novalidate ') !== -1) {
+ 	 		if(jQuery(fields[i]).hasClass('novalidate')) {
  	 			continue;
  	 		}
  	 	 	if (validate(fields[i]) === false) {
