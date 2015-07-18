@@ -1,5 +1,7 @@
-language: php
+# Forces new Travis-CI Infrastructure
 sudo: false
+
+language: php
 
 php:
   - 5.3
