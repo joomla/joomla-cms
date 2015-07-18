@@ -120,7 +120,7 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	{
 		return ' REGEXP ' . $value;
 	}
-	
+
 	/**
 	 * Return correct rand() function for Mysql.
 	 *
