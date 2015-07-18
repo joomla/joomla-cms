@@ -155,7 +155,7 @@ var JFormValidator = function() {
  	 	 	 	 	 	return validate(this);
  	 	 	 	 	});
  	 	 	 	 	if ($el.hasClass('validate-email') && inputEmail) {
- 	 	 	 	 	 	$el.get(0).type = 'email';
+ 	 	 	 	 		elements[i].setAttribute('type', 'email');
  	 	 	 	 	}
  	 	 	 	}
  	 	 	 	inputFields.push($el);
