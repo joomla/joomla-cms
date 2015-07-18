@@ -455,6 +455,11 @@ class JEditor extends JObject
 			JPluginHelper::importPlugin('editors-xtd', $plugin->name, false);
 			$className = 'plgButton' . $plugin->name;
 
+			if (!class_exists($className))
+			{
+				$className = 'plgEditorsXtd' . $plugin->name;
+			}
+
 			if (class_exists($className))
 			{
 				$plugin = new $className($this, (array) $plugin);
