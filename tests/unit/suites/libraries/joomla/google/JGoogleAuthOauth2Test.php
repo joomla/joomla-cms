@@ -6,8 +6,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_TESTS . '/suites/libraries/joomla/application/stubs/JApplicationWebInspector.php';
-
 /**
  * Test class for JGoogleAuthOauth2Test .
  *
@@ -47,6 +45,14 @@ class JGoogleAuthOauth2Test extends TestCase
 	 */
 	protected $object;
 
+
+	/**
+	 * Code that the app closes with.
+	 *
+	 * @var  int
+	 */
+	private static $closed = null;
+
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
@@ -65,8 +71,14 @@ class JGoogleAuthOauth2Test extends TestCase
 
 		$this->options = new JRegistry;
 		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
-		$this->input = new JInput;
-		$this->application = new JApplicationWebInspector;
+		$this->input = $this->getMockInput();
+
+		$mockApplication = $this->getMockWeb();
+		$mockApplication->expects($this->any())
+			->method('close')
+			->willReturnCallback(array($this, 'mockClose'));
+		$this->application = $mockApplication;
+
 		$this->oauth = new JOAuth2Client($this->options, $this->http, $this->input, $this->application);
 		$this->object = new JGoogleAuthOauth2($this->options, $this->oauth);
 	}
@@ -85,7 +97,7 @@ class JGoogleAuthOauth2Test extends TestCase
 		$this->object->setOption('sendheaders', true);
 
 		$this->object->authenticate();
-		$this->assertEquals(0, $this->application->closed);
+		$this->assertEquals(0, self::$closed);
 
 		$this->object->setOption('clientsecret', 'jeDs8rKw_jDJW8MMf-ff8ejs');
 		$this->input->set('code', '4/wEr_dK8SDkjfpwmc98KejfiwJP-f4wm.kdowmnr82jvmeisjw94mKFIJE48mcEM');
@@ -269,5 +281,13 @@ class JGoogleAuthOauth2Test extends TestCase
 		$response->body = 'Lorem ipsum dolor sit amet.';
 
 		return $response;
+	}
+
+	/**
+	 * @param   integer  $code  The exit code (optional; default is 0).
+	 */
+	public static function mockClose($code = 0)
+	{
+		self::$closed = $code;
 	}
 }
