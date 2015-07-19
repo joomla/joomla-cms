@@ -51,14 +51,6 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	protected $backupServer;
 
 	/**
-	 * Config to be injected into the Application object
-	 *
-	 * @var    Registry
-	 * @since  3.4
-	 */
-	protected $config;
-
-	/**
 	 * Setup for testing.
 	 *
 	 * @return  void
@@ -81,10 +73,6 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 		$_SERVER['HTTP_USER_AGENT'] = self::TEST_USER_AGENT;
 		$_SERVER['REQUEST_URI'] = self::TEST_REQUEST_URI;
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
-
-		// Set the config for the app
-		$this->config = new Registry;
-		$this->config->set('session', false);
 	}
 
 	/**
@@ -131,7 +119,12 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	 */
 	public function testIsEnabledWithSiteApp()
 	{
-		JFactory::$application = new JApplicationSite($this->getMockInput(), $this->config);
+		// Set the config for the app - ensure the session isn't initialised
+		$config = new Registry;
+		$config->set('session', false);
+
+		// We can't mock the site application as it's a final class. So bootup the real thing
+		JFactory::$application = new JApplicationSite($this->getMockInput(), $config);
 
 		$this->assertFalse(
 			JLanguageMultilang::isEnabled()
