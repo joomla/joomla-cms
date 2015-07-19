@@ -243,7 +243,7 @@ abstract class JFactory
 			}
 		}
 		// Check if we have a string as the id or if the numeric id is the current instance
-		elseif (is_string($id) || $instance->id !== $id)
+		elseif (!($instance instanceof JUser) || is_string($id) || $instance->id !== $id)
 		{
 			$instance = JUser::getInstance($id);
 		}
