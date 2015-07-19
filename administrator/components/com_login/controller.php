@@ -66,7 +66,8 @@ class LoginController extends JControllerLegacy
 				if (strpos($return, "tmpl=component") === false)
 				{
 					$app->redirect($return);
-				} else
+				}
+				else
 				{
 					$app->redirect('index.php');
 				}
