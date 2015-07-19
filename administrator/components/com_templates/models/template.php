@@ -372,7 +372,7 @@ class TemplatesModelTemplate extends JModelForm
 		$app = JFactory::getApplication();
 
 		// Codemirror or Editor None should be enabled
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from('#__extensions as a')
@@ -1138,7 +1138,7 @@ class TemplatesModelTemplate extends JModelForm
 
 		$query->select('id, client_id');
 		$query->from('#__template_styles');
-		$query->where($db->quoteName('template') . ' = ' . $db->quote($this->template->name));
+		$query->where($db->quoteName('template') . ' = ' . $db->quote($this->template->element));
 
 		$db->setQuery($query);
 

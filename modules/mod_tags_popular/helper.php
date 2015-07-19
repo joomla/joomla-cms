@@ -32,7 +32,7 @@ abstract class ModTagsPopularHelper
 		$groups 		= implode(',', $user->getAuthorisedViewLevels());
 		$timeframe		= $params->get('timeframe', 'alltime');
 		$maximum		= $params->get('maximum', 5);
-		$order_value	= $params->get('order_value', 'count');
+		$order_value	= $params->get('order_value', 'title');
 		$nowDate		= JFactory::getDate()->toSql();
 		$nullDate		= $db->quote($db->getNullDate());
 
@@ -93,7 +93,15 @@ abstract class ModTagsPopularHelper
 			->where('(' . $db->quoteName('c.core_publish_down') . ' = ' . $nullDate
 				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $db->quote($nowDate) . ')');
 		$db->setQuery($query, 0, $maximum);
-		$results = $db->loadObjectList();
+		try
+		{
+			$results = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$results = array();
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
 
 		return $results;
 	}

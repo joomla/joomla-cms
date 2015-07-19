@@ -312,10 +312,17 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 */
 	public function testReplacePrefix()
 	{
-		$this->assertThat(
+		$this->assertEquals(
+			'SELECT * FROM &dbtest',
 			$this->db->replacePrefix('SELECT * FROM #__dbtest'),
-			$this->equalTo('SELECT * FROM &dbtest'),
 			'replacePrefix method should return the query string with the #__ prefix replaced by the actual table prefix.'
+		);
+
+		// Prefix in quoted values not replaced, see https://github.com/joomla/joomla-cms/issues/7162
+		$this->assertEquals(
+			"SHOW TABLE STATUS LIKE '#__table'",
+			$this->db->replacePrefix("SHOW TABLE STATUS LIKE '#__table'"),
+			'replacePrefix method should not change the #__ prefix in a quoted value.'
 		);
 	}
 
