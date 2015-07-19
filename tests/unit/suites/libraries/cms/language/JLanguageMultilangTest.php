@@ -142,7 +142,6 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	 * @testdox  Ensure isEnabled() database query works correctly
 	 *
 	 * @covers   JLanguageMultiLang::isEnabled
-	 * @uses     JApplicationAdministrator
 	 */
 	public function testIsEnabledWithAdminApp()
 	{
