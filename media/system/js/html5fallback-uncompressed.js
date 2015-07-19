@@ -44,6 +44,7 @@
 				flen = f.length;
 			if(self.options.formValidationEvent === "onSubmit"){
 				$form.on('submit',function(e){
+					novalidate = !!$form.attr('novalidate');
 					var formnovalidate = this.H5Form.donotValidate != undefined ? this.H5Form.donotValidate : false;
 					if(!formnovalidate && !novalidate && !self.validateForm(self)){
 						//prevent form from submit
