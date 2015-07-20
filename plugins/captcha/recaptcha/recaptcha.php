@@ -56,9 +56,8 @@ class PlgCaptchaRecaptcha extends JPlugin
 		{
 			case '1.0':
 				$theme = $this->params->get('theme', 'clean');
+				$file  = 'https://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
 
-				$file = $app->isSSLConnection() ? 'https' : 'http';
-				$file .= '://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
 				JHtml::_('script', $file);
 
 				$document->addScriptDeclaration('jQuery( document ).ready(function()
@@ -68,16 +67,13 @@ class PlgCaptchaRecaptcha extends JPlugin
 				break;
 			case '2.0':
 				$theme = $this->params->get('theme2', 'light');
-
-				$file = $app->isSSLConnection() ? 'https' : 'http';
-				$file .= '://www.google.com/recaptcha/api.js?hl=' . JFactory::getLanguage()
-						->getTag() . '&onload=onloadCallback&render=explicit';
+				$file  = 'https://www.google.com/recaptcha/api.js?hl=' . JFactory::getLanguage()->getTag() . '&amp;render=explicit';
 
 				JHtml::_('script', $file, true, true);
 
-				$document->addScriptDeclaration('var onloadCallback = function() {'
+				$document->addScriptDeclaration('jQuery(document).ready(function($) {$(window).load(function() {'
 					. 'grecaptcha.render("' . $id . '", {sitekey: "' . $pubkey . '", theme: "' . $theme . '"});'
-					. '}'
+					. '});});'
 				);
 				break;
 		}

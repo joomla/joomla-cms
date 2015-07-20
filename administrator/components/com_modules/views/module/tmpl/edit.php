@@ -73,7 +73,7 @@ $script .= "
 						}
 						if (updMenus == '-') {
 							tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
-							if (!tmpRow.hasClass('no')) { tmpRow.addClass('no '); }
+							if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no '); }
 						}
 						if (updMenus > 0) {
 							if (window.parent.inMenus.indexOf(parent.menuId) >= 0)
@@ -81,18 +81,18 @@ $script .= "
 								if (window.parent.numMenus == window.parent.inMenus.length)
 								{
 									tmpMenu.html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
-									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
+									if (tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.removeClass('no'); }
 								}
 								else
 								{
 									tmpMenu.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
-									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
+									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 							}
 							if (window.parent.inMenus.indexOf(parent.menuId) < 0)
 							{
 								tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
-								if (!tmpRow.hasClass('no')) { tmpRow.addClass('no '); }
+								if (!tmpRow.hasClass('no')) { tmpRow.addClass('no'); }
 							}
 						}
 						if (updMenus < 0) {
@@ -101,18 +101,18 @@ $script .= "
 								if (window.parent.numMenus == window.parent.inMenus.length)
 								{
 									tmpMenu.html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
-									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
+									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 								else
 								{
 									tmpMenu.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
-									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
+									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 							}
 							if (window.parent.inMenus.indexOf(parent.menuId) < 0)
 							{
 								tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
-								if (!tmpRow.hasClass('no')) { tmpRow.addClass('no '); }
+								if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no'); }
 							}
 						}
 
@@ -120,7 +120,7 @@ $script .= "
 							jQuery('#position-" . $this->item->id . "', parent.document).text(updPosition);
 							jQuery('#access-" . $this->item->id . "', parent.document).html(parent.viewLevels[updAccess]);
 					}
-					window.top.setTimeout('window.parent.jModalClose()', 1000);
+					window.parent.jQuery('#module" . $this->item->id . "Modal').modal('hide');
 				}
 			}
 	};";

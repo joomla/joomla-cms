@@ -290,7 +290,7 @@ class InstallerModelManage extends InstallerModel
 		$type = $this->getState('filter.type');
 		$client = $this->getState('filter.client_id');
 		$group = $this->getState('filter.group');
-		$query = JFactory::getDbo()->getQuery(true)
+		$query = $this->getDbo()->getQuery(true)
 			->select('*')
 			->select('2*protected+(1-protected)*enabled as status')
 			->from('#__extensions')
@@ -323,7 +323,7 @@ class InstallerModelManage extends InstallerModel
 			$query->where('client_id=' . (int) $client);
 		}
 
-		if ($group != '' && in_array($type, array('plugin', 'library', '')))
+		if ($group != '')
 		{
 			$query->where('folder=' . $this->_db->quote($group == '*' ? '' : $group));
 		}

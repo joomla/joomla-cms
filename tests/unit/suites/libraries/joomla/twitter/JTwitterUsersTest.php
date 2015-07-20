@@ -63,16 +63,16 @@ class JTwitterUsersTest extends TestCase
 	 * @var    string  Sample JSON string.
 	 * @since  12.3
 	 */
-	protected $rateLimit = '{"resources": {"users": {
-			"/users/lookup": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
-			"/users/profile_banner": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
-			"/users/search": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
-			"/users/show": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
-			"/users/contributees": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
-			"/users/contributors": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
-			"/users/suggestions": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
-			"/users/suggestions/:slug": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
-			"/users/suggestions/:slug/members": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"}
+	protected $rateLimit = '{"resources":{"users":{
+			"/users/profile_banner":{"limit":180,"remaining":180,"reset":1403602426},
+			"/users/suggestions/:slug/members":{"limit":15,"remaining":15,"reset":1403602426},
+			"/users/show/:id":{"limit":180,"remaining":180,"reset":1403602426},
+			"/users/suggestions":{"limit":15,"remaining":15,"reset":1403602426},
+			"/users/lookup":{"limit":180,"remaining":180,"reset":1403602426},
+			"/users/search":{"limit":180,"remaining":180,"reset":1403602426},
+			"/users/contributors":{"limit":15,"remaining":15,"reset":1403602426},
+			"/users/contributees":{"limit":15,"remaining":15,"reset":1403602426},
+			"/users/suggestions/:slug":{"limit":15,"remaining":15,"reset":1403602426}
 			}}}';
 
 	/**

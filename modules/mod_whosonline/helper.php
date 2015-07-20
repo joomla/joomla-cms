@@ -38,7 +38,15 @@ class ModWhosonlineHelper
 			->where('client_id = 0');
 		$db->setQuery($query);
 
-		$sessions = (array) $db->loadObjectList();
+		try
+		{
+			$sessions = (array) $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			// Don't worry be happy
+			$sessions = array();
+		}
 
 		if (count($sessions))
 		{
@@ -102,6 +110,13 @@ class ModWhosonlineHelper
 
 		$db->setQuery($query);
 
-		return (array) $db->loadObjectList();
+		try
+		{
+			return (array) $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			return array();
+		}
 	}
 }

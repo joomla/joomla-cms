@@ -16,7 +16,7 @@
  */
 class JHtmlFieldTest_DataSet
 {
-	static public $setupTest = array(
+	public static $setupTest = array(
 		'NameValueIdTitleLabel' => array(
 			array(
 				'name' => 'myName',

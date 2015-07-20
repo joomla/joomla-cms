@@ -161,7 +161,7 @@ abstract class JDatabaseImporter
 	 * @since   13.1
 	 * @throws  RuntimeException on error.
 	 */
-	protected function mergeStructure()
+	public function mergeStructure()
 	{
 		$prefix = $this->db->getPrefix();
 		$tables = $this->db->getTableList();
@@ -200,11 +200,8 @@ abstract class JDatabaseImporter
 						}
 						catch (RuntimeException $e)
 						{
-							$this->addLog('Fail: ' . $this->db->getQuery());
 							throw $e;
 						}
-
-						$this->addLog('Pass: ' . $this->db->getQuery());
 					}
 				}
 			}
@@ -221,11 +218,8 @@ abstract class JDatabaseImporter
 				}
 				catch (RuntimeException $e)
 				{
-					$this->addLog('Fail: ' . $this->db->getQuery());
 					throw $e;
 				}
-
-				$this->addLog('Pass: ' . $this->db->getQuery());
 			}
 		}
 	}

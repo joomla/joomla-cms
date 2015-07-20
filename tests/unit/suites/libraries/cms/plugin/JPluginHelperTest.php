@@ -87,11 +87,10 @@ class JPluginHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JPluginHelper::getPlugin
 	 */
 	public function testGetPlugin()
 	{
-		$this->markTestSkipped('Test fails unless run in isolation');
-
 		$plugin = JPluginHelper::getPlugin('content', 'loadmodule');
 
 		$this->assertEquals(
@@ -99,6 +98,21 @@ class JPluginHelperTest extends TestCaseDatabase
 			'loadmodule',
 			'plg_content_loadmodule should return loadmodule as the name'
 		);
+	}
+	
+	/**
+	 * Test JPluginHelper::getPlugin with a whole plugin group
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 * @covers  JPluginHelper::getPlugin
+	 */
+	public function testGetPluginGroup()
+	{
+		$plugins = JPluginHelper::getPlugin('content');
+		$this->assertInternalType('array', $plugins, 'Method should return all plugins in a group');
+		$this->assertEquals(7, count($plugins), 'Method should return all plugins in a group');
 	}
 
 	/**
@@ -110,8 +124,6 @@ class JPluginHelperTest extends TestCaseDatabase
 	 */
 	public function testIsEnabled()
 	{
-		$this->markTestSkipped('Test fails unless run in isolation');
-
 		$this->assertTrue(
 			(bool) JPluginHelper::isEnabled('content', 'loadmodule'),
 			'plg_content_loadmodule should be enabled'

@@ -74,11 +74,11 @@ class JRouterSite extends JRouter
 		{
 			// Forward to https
 			$uri->setScheme('https');
-			$this->app->redirect((string) $uri);
+			$this->app->redirect((string) $uri, 301);
 		}
 
 		// Get the path
-		// Decode URL to convert punycode to unicode so that strings match when routing.
+		// Decode URL to convert percent-encoding to unicode so that strings match when routing.
 		$path = urldecode($uri->getPath());
 
 		// Remove the base URI path.
