@@ -61,7 +61,7 @@ class JEditorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 * @covers JEditor::getInstance
+	 * @covers JEditor::getState
 	 */
 	public function testGetState()
 	{
@@ -89,19 +89,21 @@ class JEditorTest extends PHPUnit_Framework_TestCase
 		);
 		$this->object->attach($testObserver);
 
-		$this->assertEquals(
+		$this->assertAttributeSame(
 			array($testObserver),
-			TestReflection::getValue($this->object, '_observers'),
+			'_observers',
+			$this->object,
 			'Observer was not attached to the editor'
 		);
 
-		$this->assertEquals(
+		$this->assertAttributeSame(
 			array(
 				'oninit' => array(
 					0 => 0
 				)
 			),
-			TestReflection::getValue($this->object, '_methods'),
+			'_methods',
+			$this->object,
 			'The method for the test observer was not stored correctly'
 		);
 	}
@@ -128,20 +130,22 @@ class JEditorTest extends PHPUnit_Framework_TestCase
 		$this->object->attach($testObserver);
 		$this->object->attach($testObserver2);
 
-		$this->assertEquals(
+		$this->assertAttributeSame(
 			array($testObserver, $testObserver2),
-			TestReflection::getValue($this->object, '_observers'),
+			'_observers',
+			$this->object,
 			'Observers were not attached to the editor'
 		);
 
-		$this->assertEquals(
+		$this->assertAttributeSame(
 			array(
 				'oninit' => array(
 					0 => 0,
 					1 => 1,
 				)
 			),
-			TestReflection::getValue($this->object, '_methods'),
+			'_methods',
+			$this->object,
 			'The methods for the test observers were not stored correctly'
 		);
 	}
@@ -168,13 +172,14 @@ class JEditorTest extends PHPUnit_Framework_TestCase
 		$this->object->attach($testObserver);
 		$this->object->attach($testObserver2);
 
-		$this->assertEquals(
+		$this->assertAttributeSame(
 			array($testObserver, $testObserver2),
-			TestReflection::getValue($this->object, '_observers'),
+			'_observers',
+			$this->object,
 			'Observers were not attached to the editor'
 		);
 
-		$this->assertEquals(
+		$this->assertAttributeSame(
 			array(
 				'oninit' => array(
 					0 => 0,
@@ -183,7 +188,8 @@ class JEditorTest extends PHPUnit_Framework_TestCase
 					0 => 1
 				)
 			),
-			TestReflection::getValue($this->object, '_methods'),
+			'_methods',
+			$this->object,
 			'The methods for the test observers were not stored correctly'
 		);
 	}
@@ -198,10 +204,11 @@ class JEditorTest extends PHPUnit_Framework_TestCase
 		$testObserver = new EditorObserver;
 		$this->object->attach($testObserver);
 
-		$this->assertEquals(
+		$this->assertAttributeSame(
 			array($testObserver),
-			TestReflection::getValue($this->object, '_observers'),
-			'The observer as a class was not attached to the editor'
+			'_observers',
+			$this->object,
+			'Observer was not attached to the editor'
 		);
 	}
 }
