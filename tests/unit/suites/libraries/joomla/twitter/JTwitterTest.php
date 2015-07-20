@@ -182,7 +182,7 @@ class JTwitterTest extends TestCase
 	public function test__GetDirectMessages()
 	{
 		$this->assertThat(
-			$this->object->directMessages,
+			$this->object->directmessages,
 			$this->isInstanceOf('JTwitterDirectmessages')
 		);
 	}
