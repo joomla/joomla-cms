@@ -20,7 +20,7 @@ $params = JComponentHelper::getParams('com_media');
 
 JFactory::getDocument()->addScriptDeclaration(
 	"
-	var image_base_path = '" . $params->get('image_path', 'images') . "/';
+	var image_base_path = '/" . $params->get('image_path', 'images') . "/';
 	"
 );
 ?>
