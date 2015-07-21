@@ -197,20 +197,16 @@ class InstallerModelDatabase extends InstallerModel
 		{
 			return $updateVersion;
 		}
-		else
-		{
-			$cache->set('version', $cmsVersion->getShortVersion());
-			$table->manifest_cache = $cache->toString();
 
-			if ($table->store())
-			{
-				return $cmsVersion->getShortVersion();
-			}
-			else
-			{
-				return false;
-			}
+		$cache->set('version', $cmsVersion->getShortVersion());
+		$table->manifest_cache = $cache->toString();
+
+		if ($table->store())
+		{
+			return $cmsVersion->getShortVersion();
 		}
+
+		return false;
 	}
 
 	/**
