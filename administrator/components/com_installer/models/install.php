@@ -86,7 +86,8 @@ class InstallerModelInstall extends JModelLegacy
 		{
 			return true;
 		}
-		elseif (in_array(false, $results, true))
+
+		if (in_array(false, $results, true))
 		{
 			return false;
 		}
