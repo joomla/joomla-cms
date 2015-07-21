@@ -1964,26 +1964,32 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	 */
 	protected function nextFile()
 	{
-		debugMsg('Current part is '.$this->currentPartNumber.'; opening the next part');
+		debugMsg('Current part is ' . $this->currentPartNumber . '; opening the next part');
 		++$this->currentPartNumber;
 
-		if( $this->currentPartNumber > (count($this->archiveList) - 1) )
+		if($this->currentPartNumber > (count($this->archiveList) - 1))
 		{
 			$this->setState('postrun');
 			return false;
 		}
-		else
+
+		if(is_resource($this->fp))
 		{
-			if( is_resource($this->fp) ) @fclose($this->fp);
-			debugMsg('Opening file '.$this->archiveList[$this->currentPartNumber]);
-			$this->fp = @fopen( $this->archiveList[$this->currentPartNumber], 'rb' );
-			if($this->fp === false) {
-				debugMsg('Could not open file - crash imminent');
-			}
-			fseek($this->fp, 0);
-			$this->currentPartOffset = 0;
-			return true;
+			@fclose($this->fp);
 		}
+
+		debugMsg('Opening file ' . $this->archiveList[$this->currentPartNumber]);
+		$this->fp = @fopen($this->archiveList[$this->currentPartNumber], 'rb');
+
+		if($this->fp === false)
+		{
+			debugMsg('Could not open file - crash imminent');
+		}
+
+		fseek($this->fp, 0);
+		$this->currentPartOffset = 0;
+
+		return true;
 	}
 
 	/**
