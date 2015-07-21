@@ -232,21 +232,19 @@ class InstallerModelUpdate extends JModelList
 			->where('enabled = 0');
 		$db->setQuery($query);
 
-		if ($db->execute())
-		{
-			if ($rows = $db->getAffectedRows())
-			{
-				$this->_message .= JText::plural('COM_INSTALLER_ENABLED_UPDATES', $rows);
-			}
-
-			return true;
-		}
-		else
+		if (!$db->execute())
 		{
 			$this->_message .= JText::_('COM_INSTALLER_FAILED_TO_ENABLE_UPDATES');
 
 			return false;
 		}
+
+		if ($rows = $db->getAffectedRows())
+		{
+			$this->_message .= JText::plural('COM_INSTALLER_ENABLED_UPDATES', $rows);
+		}
+
+		return true;
 	}
 
 	/**
