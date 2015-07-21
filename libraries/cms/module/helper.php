@@ -300,7 +300,7 @@ abstract class JModuleHelper
 		{
 			return $tPath;
 		}
-		
+
 		if (file_exists($bPath))
 		{
 			return $bPath;
