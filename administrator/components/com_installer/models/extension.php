@@ -90,14 +90,12 @@ class InstallerModel extends JModelList
 
 			return array_slice($result, $limitstart, $limit ? $limit : null);
 		}
-		else
-		{
-			$query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
-			$result = parent::_getList($query, $limitstart, $limit);
-			$this->translate($result);
 
-			return $result;
-		}
+		$query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+		$result = parent::_getList($query, $limitstart, $limit);
+		$this->translate($result);
+
+		return $result;
 	}
 
 	/**
