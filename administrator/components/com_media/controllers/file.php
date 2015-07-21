@@ -262,7 +262,7 @@ class MediaControllerFile extends JControllerLegacy
 					// There are some errors in the plugins
 					$errors = $object_file->getErrors();
 					JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
-	
+
 					continue;
 				}
 
@@ -284,10 +284,10 @@ class MediaControllerFile extends JControllerLegacy
 					// This makes no sense...
 					$folderPath = substr($object_file->filepath, strlen(COM_MEDIA_BASE));
 					JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_NOT_EMPTY', $folderPath));
-	
+
 					continue;
 				}
-				
+
 				// Trigger the onContentBeforeDelete event.
 				$result = $dispatcher->trigger('onContentBeforeDelete', array('com_media.folder', &$object_file));
 
