@@ -93,7 +93,7 @@ class InstallerModelManage extends InstallerModel
 		if (!$user->authorise('core.edit.state', 'com_installer'))
 		{
 			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
-			
+
 			return false;
 		}
 
