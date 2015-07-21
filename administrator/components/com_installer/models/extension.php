@@ -113,22 +113,17 @@ class InstallerModel extends JModelList
 
 		foreach ($items as &$item)
 		{
-			if (strlen($item->manifest_cache))
+			if (strlen($item->manifest_cache) && $data = json_decode($item->manifest_cache))
 			{
-				$data = json_decode($item->manifest_cache);
-
-				if ($data)
+				foreach ($data as $key => $value)
 				{
-					foreach ($data as $key => $value)
+					if ($key == 'type')
 					{
-						if ($key == 'type')
-						{
-							// Ignore the type field
-							continue;
-						}
-
-						$item->$key = $value;
+						// Ignore the type field
+						continue;
 					}
+
+					$item->$key = $value;
 				}
 			}
 
