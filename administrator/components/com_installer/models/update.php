@@ -301,31 +301,19 @@ class InstallerModelUpdate extends JModelList
 	{
 		$app = JFactory::getApplication();
 
-		if (isset($update->get('downloadurl')->_data))
-		{
-			$url = $update->downloadurl->_data;
-
-			$extra_query = $update->get('extra_query');
-
-			if ($extra_query)
-			{
-				if (strpos($url, '?') === false)
-				{
-					$url .= '?';
-				}
-				else
-				{
-					$url .= '&amp;';
-				}
-
-				$url .= $extra_query;
-			}
-		}
-		else
+		if (!isset($update->get('downloadurl')->_data))
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_INVALID_EXTENSION_UPDATE'));
 
 			return false;
+		}
+
+		$url = $update->downloadurl->_data;
+
+		if ($extra_query = $update->get('extra_query'))
+		{
+			$url .= (strpos($url, '?') === false) ? '?' : '&amp;';
+			$url .= $extra_query;
 		}
 
 		$p_file = JInstallerHelper::downloadPackage($url);
