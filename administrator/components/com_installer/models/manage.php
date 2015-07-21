@@ -90,61 +90,60 @@ class InstallerModelManage extends InstallerModel
 	{
 		$user = JFactory::getUser();
 
-		if ($user->authorise('core.edit.state', 'com_installer'))
+		if (!$user->authorise('core.edit.state', 'com_installer'))
 		{
-			$result = true;
-
-			/*
-			 * Ensure eid is an array of extension ids
-			 * TODO: If it isn't an array do we want to set an error and fail?
-			 */
-			if (!is_array($eid))
-			{
-				$eid = array($eid);
-			}
-
-			// Get a table object for the extension type
-			$table = JTable::getInstance('Extension');
-			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_templates/tables');
-
-			// Enable the extension in the table and store it in the database
-			foreach ($eid as $i => $id)
-			{
-				$table->load($id);
-
-				if ($table->type == 'template')
-				{
-					$style = JTable::getInstance('Style', 'TemplatesTable');
-
-					if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home' => 1)))
-					{
-						JError::raiseNotice(403, JText::_('COM_INSTALLER_ERROR_DISABLE_DEFAULT_TEMPLATE_NOT_PERMITTED'));
-						unset($eid[$i]);
-						continue;
-					}
-				}
-
-				if ($table->protected == 1)
-				{
-					$result = false;
-					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
-				}
-				else
-				{
-					$table->enabled = $value;
-				}
-
-				if (!$table->store())
-				{
-					$this->setError($table->getError());
-					$result = false;
-				}
-			}
-		}
-		else
-		{
-			$result = false;
 			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+			
+			return false;
+		}
+
+		$result = true;
+
+		/*
+		 * Ensure eid is an array of extension ids
+		 * TODO: If it isn't an array do we want to set an error and fail?
+		 */
+		if (!is_array($eid))
+		{
+			$eid = array($eid);
+		}
+
+		// Get a table object for the extension type
+		$table = JTable::getInstance('Extension');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_templates/tables');
+
+		// Enable the extension in the table and store it in the database
+		foreach ($eid as $i => $id)
+		{
+			$table->load($id);
+
+			if ($table->type == 'template')
+			{
+				$style = JTable::getInstance('Style', 'TemplatesTable');
+
+				if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home' => 1)))
+				{
+					JError::raiseNotice(403, JText::_('COM_INSTALLER_ERROR_DISABLE_DEFAULT_TEMPLATE_NOT_PERMITTED'));
+					unset($eid[$i]);
+					continue;
+				}
+			}
+
+			if ($table->protected == 1)
+			{
+				$result = false;
+				JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+			}
+			else
+			{
+				$table->enabled = $value;
+			}
+
+			if (!$table->store())
+			{
+				$this->setError($table->getError());
+				$result = false;
+			}
 		}
 
 		return $result;
