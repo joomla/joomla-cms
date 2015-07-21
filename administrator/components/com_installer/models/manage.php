@@ -195,7 +195,7 @@ class InstallerModelManage extends InstallerModel
 		if (!$user->authorise('core.delete', 'com_installer'))
 		{
 			JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
-			
+
 			return false;
 		}
 
@@ -241,7 +241,7 @@ class InstallerModelManage extends InstallerModel
 				{
 					// There was an error in uninstalling the package
 					$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
-					
+
 					continue;
 				}
 
