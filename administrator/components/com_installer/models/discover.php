@@ -215,17 +215,15 @@ class InstallerModelDiscover extends InstallerModel
 			->where('state = -1');
 		$db->setQuery($query);
 
-		if ($db->execute())
-		{
-			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
-
-			return true;
-		}
-		else
+		if (!$db->execute())
 		{
 			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_FAILEDTOPURGEEXTENSIONS');
 
 			return false;
 		}
+
+		$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
+
+		return true;
 	}
 }
