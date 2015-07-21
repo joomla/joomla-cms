@@ -2001,11 +2001,12 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 			// feof() doesn't report true. It expects the fp to be positioned *beyond* the EOF to report
 			// true. Incredible! :(
 			$position = @ftell($this->fp);
-			$filesize = @filesize( $this->archiveList[$this->currentPartNumber] );
+			$filesize = @filesize($this->archiveList[$this->currentPartNumber]);
+
 			if($filesize <= 0) {
 				// 2Gb or more files on a 32 bit version of PHP tend to get screwed up. Meh.
 				$eof = false;
-			} elseif( $position >= $filesize  ) {
+			} elseif($position >= $filesize) {
 				$eof = true;
 			}
 		}
@@ -2014,10 +2015,8 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 		{
 			return $eof;
 		}
-		else
-		{
-			return $eof && ($this->currentPartNumber >= (count($this->archiveList)-1) );
-		}
+
+		return $eof && ($this->currentPartNumber >= (count($this->archiveList)-1));
 	}
 
 	/**
