@@ -192,89 +192,87 @@ class InstallerModelManage extends InstallerModel
 	{
 		$user = JFactory::getUser();
 
-		if ($user->authorise('core.delete', 'com_installer'))
-		{
-			$failed = array();
-
-			/*
-			 * Ensure eid is an array of extension ids in the form id => client_id
-			 * TODO: If it isn't an array do we want to set an error and fail?
-			 */
-			if (!is_array($eid))
-			{
-				$eid = array($eid => 0);
-			}
-
-			// Get an installer object for the extension type
-			$installer = JInstaller::getInstance();
-			$row = JTable::getInstance('extension');
-
-			// Uninstall the chosen extensions
-			$msgs = array();
-			$result = false;
-
-			foreach ($eid as $id)
-			{
-				$id = trim($id);
-				$row->load($id);
-
-				$langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
-				$rowtype = JText::_($langstring);
-
-				if (strpos($rowtype, $langstring) !== false)
-				{
-					$rowtype = $row->type;
-				}
-
-				if ($row->type && $row->type != 'language')
-				{
-					$result = $installer->uninstall($row->type, $id);
-
-					// Build an array of extensions that failed to uninstall
-					if ($result === false)
-					{
-						// There was an error in uninstalling the package
-						$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
-						$result = false;
-					}
-					else
-					{
-						// Package uninstalled sucessfully
-						$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
-						$result = true;
-					}
-				}
-				else
-				{
-					if ($row->type == 'language')
-					{
-						// One should always uninstall a language package, not a single language
-						$msgs[] = JText::_('COM_INSTALLER_UNINSTALL_LANGUAGE');
-						$result = false;
-					}
-					else
-					{
-						// There was an error in uninstalling the package
-						$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
-						$result = false;
-					}
-				}
-			}
-
-			$msg = implode("<br />", $msgs);
-			$app = JFactory::getApplication();
-			$app->enqueueMessage($msg);
-			$this->setState('action', 'remove');
-			$this->setState('name', $installer->get('name'));
-			$app->setUserState('com_installer.message', $installer->message);
-			$app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
-
-			return $result;
-		}
-		else
+		if (!$user->authorise('core.delete', 'com_installer'))
 		{
 			JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
+			
+			return false;
 		}
+
+		$failed = array();
+
+		/*
+		 * Ensure eid is an array of extension ids in the form id => client_id
+		 * TODO: If it isn't an array do we want to set an error and fail?
+		 */
+		if (!is_array($eid))
+		{
+			$eid = array($eid => 0);
+		}
+
+		// Get an installer object for the extension type
+		$installer = JInstaller::getInstance();
+		$row = JTable::getInstance('extension');
+
+		// Uninstall the chosen extensions
+		$msgs = array();
+		$result = false;
+
+		foreach ($eid as $id)
+		{
+			$id = trim($id);
+			$row->load($id);
+			$result = false;
+
+			$langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
+			$rowtype = JText::_($langstring);
+
+			if (strpos($rowtype, $langstring) !== false)
+			{
+				$rowtype = $row->type;
+			}
+
+			if ($row->type && $row->type != 'language')
+			{
+				$result = $installer->uninstall($row->type, $id);
+
+				// Build an array of extensions that failed to uninstall
+				if ($result === false)
+				{
+					// There was an error in uninstalling the package
+					$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
+					
+					continue;
+				}
+
+				// Package uninstalled sucessfully
+				$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
+				$result = true;
+
+				continue;
+			}
+
+			if ($row->type == 'language')
+			{
+				// One should always uninstall a language package, not a single language
+				$msgs[] = JText::_('COM_INSTALLER_UNINSTALL_LANGUAGE');
+
+				continue;
+			}
+
+			// There was an error in uninstalling the package
+			$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
+		}
+
+		$msg = implode("<br />", $msgs);
+		$app = JFactory::getApplication();
+		$app->enqueueMessage($msg);
+		$this->setState('action', 'remove');
+		$this->setState('name', $installer->get('name'));
+		$app->setUserState('com_installer.message', $installer->message);
+		$app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
+
+		return $result;
 	}
 
 	/**
