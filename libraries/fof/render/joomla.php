@@ -391,7 +391,7 @@ class FOFRenderJoomla extends FOFRenderAbstract
 		$key		 = $model->getTable()->getKeyName();
 		$keyValue	 = $model->getId();
 
-		JHTML::_('behavior.tooltip');
+		JHtml::_('behavior.tooltip');
 
 		$html = '';
 

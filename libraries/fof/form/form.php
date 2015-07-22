@@ -128,7 +128,7 @@ class FOFForm extends JForm
 
 			foreach ($cssfiles as $cssfile)
 			{
-				FOFTemplateUtils::addCSS(trim($cssfile));
+				FOFTemplateUtils::addCss(trim($cssfile));
 			}
 		}
 
@@ -144,7 +144,7 @@ class FOFForm extends JForm
 				$parts = explode('||', $def, 2);
 				$lessfile = $parts[0];
 				$alt = (count($parts) > 1) ? trim($parts[1]) : null;
-				FOFTemplateUtils::addLESS(trim($lessfile), $alt);
+				FOFTemplateUtils::addLess(trim($lessfile), $alt);
 			}
 		}
 	}
@@ -169,7 +169,7 @@ class FOFForm extends JForm
 
 		foreach ($jsfiles as $jsfile)
 		{
-			FOFTemplateUtils::addJS(trim($jsfile));
+			FOFTemplateUtils::addJs(trim($jsfile));
 		}
 	}
 

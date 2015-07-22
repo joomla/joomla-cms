@@ -156,7 +156,7 @@ class FOFDownload
 	 *
 	 * @return  bool|string  The downloaded data or false on failure
 	 */
-	public function getFromURL($url)
+	public function getFromUrl($url)
 	{
 		try
 		{
@@ -194,7 +194,7 @@ class FOFDownload
 	 *
 	 * @return  array  A return status array
 	 */
-	public function importFromURL($params)
+	public function importFromUrl($params)
 	{
 		$this->params = $params;
 

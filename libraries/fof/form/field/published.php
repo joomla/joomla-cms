@@ -211,6 +211,6 @@ class FOFFormFieldPublished extends JFormFieldList implements FOFFormField
 
 		// @todo Enforce ACL checks to determine if the field should be enabled or not
 		// Get the HTML
-		return JHTML::_('jgrid.published', $this->value, $this->rowid, $prefix, $enabled, $checkbox, $publish_up, $publish_down);
+		return JHtml::_('jgrid.published', $this->value, $this->rowid, $prefix, $enabled, $checkbox, $publish_up, $publish_down);
 	}
 }

@@ -319,7 +319,7 @@ abstract class FOFUtilsInstallscript
 		$status = $this->installSubextensions($parent);
 
 		// Install FOF
-		$fofInstallationStatus = $this->installFOF($parent);
+		$fofInstallationStatus = $this->installFof($parent);
 
 		// Install Akeeba Straper
 		$strapperInstallationStatus = $this->installStrapper($parent);
@@ -1108,7 +1108,7 @@ abstract class FOFUtilsInstallscript
 	 */
 	protected function uninstallSubextensions($parent)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$status = new stdClass();
 		$status->modules = array();
@@ -1252,7 +1252,7 @@ abstract class FOFUtilsInstallscript
 	 *
 	 * @return  array  The installation status
 	 */
-	protected function installFOF($parent)
+	protected function installFof($parent)
 	{
 		// Get the source path
 		$src = $parent->getParent()->getPath('source');
@@ -1318,7 +1318,7 @@ abstract class FOFUtilsInstallscript
 				'date'    => new JDate(trim($info[1]))
 			);
 
-			$haveToInstallFOF = $fofVersion['package']['date']->toUNIX() > $fofVersion['installed']['date']->toUNIX();
+			$haveToInstallFOF = $fofVersion['package']['date']->toUnix() > $fofVersion['installed']['date']->toUnix();
 		}
 
 		$installedFOF = false;
@@ -1441,7 +1441,7 @@ abstract class FOFUtilsInstallscript
 				'date'    => new JDate(trim($info[1]))
 			);
 
-			$haveToInstallStrapper = $strapperVersion['package']['date']->toUNIX() > $strapperVersion['installed']['date']->toUNIX();
+			$haveToInstallStrapper = $strapperVersion['package']['date']->toUnix() > $strapperVersion['installed']['date']->toUnix();
 		}
 
 		$installedStraper = false;
@@ -1515,7 +1515,7 @@ abstract class FOFUtilsInstallscript
 	{
 		JLoader::import('joomla.installer.installer');
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$status = new stdClass();
 		$status->modules = array();

@@ -2031,7 +2031,7 @@ class FOFModel extends FOFUtilsObject
 		// Make sure we are returning a DBO object
 		if (!array_key_exists('dbo', $config))
 		{
-			$config['dbo'] = $this->getDBO();
+			$config['dbo'] = $this->getDbo();
 		}
 
 		$instance = FOFTable::getAnInstance($name, $prefix, $config);

@@ -30,7 +30,7 @@ abstract class FOFStringUtils
 		$value = str_replace('-', ' ', $value);
 
 		// Convert to ascii characters
-		$value = self::toASCII($value);
+		$value = self::toAscii($value);
 
 		// Lowercase and trim
 		$value = trim(strtolower($value));
@@ -55,7 +55,7 @@ abstract class FOFStringUtils
 	 *
 	 * @return  string  The converted string
 	 */
-	public static function toASCII($value)
+	public static function toAscii($value)
 	{
 		$string = htmlentities(utf8_decode($value), null, 'ISO-8859-1');
 		$string = preg_replace(

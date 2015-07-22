@@ -30,7 +30,7 @@ class FOFModelBehaviorFilters extends FOFModelBehavior
 		$table = $model->getTable();
 		$tableName = $table->getTableName();
 		$tableKey = $table->getKeyName();
-		$db = $model->getDBO();
+		$db = $model->getDbo();
 
 		$filterzero = $model->getState('_emptynonzero', null);
 

@@ -119,6 +119,6 @@ class FOFFormFieldSelectrow extends JFormField implements FOFFormField
 		$key_id    = $this->item->$key_field;
 
 		// Get the HTML
-		return JHTML::_('grid.id', $this->rowid, $key_id, $checked_out);
+		return JHtml::_('grid.id', $this->rowid, $key_id, $checked_out);
 	}
 }

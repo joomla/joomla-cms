@@ -831,7 +831,7 @@ class FOFController extends FOFUtilsObject
 	 */
 	public function authorise($task)
 	{
-		FOFPlatform::getInstance()->logDeprecated(__CLASS__ . '::' .__METHOD__ . ' is deprecated. Use checkACL() instead.');
+		FOFPlatform::getInstance()->logDeprecated(__CLASS__ . '::' .__METHOD__ . ' is deprecated. Use checkAcl() instead.');
 
 		return true;
 	}
@@ -1544,7 +1544,7 @@ class FOFController extends FOFUtilsObject
 			FOFInflector::singularize($this->view) . '.acl.edit', 'core.edit'
 		);
 
-		if (!$this->checkACL($privilege))
+		if (!$this->checkAcl($privilege))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
@@ -2850,7 +2850,7 @@ class FOFController extends FOFUtilsObject
 	 *
 	 * @return  boolean  True if the user has the ACL privilege specified
 	 */
-	protected function checkACL($area)
+	protected function checkAcl($area)
 	{
 		if (in_array(strtolower($area), array('false','0','no','403')))
 		{
@@ -2956,7 +2956,7 @@ class FOFController extends FOFUtilsObject
 			FOFInflector::singularize($this->view) . '.acl.' . $task, ''
 		);
 
-		return $this->checkACL($privilege);
+		return $this->checkAcl($privilege);
 	}
 
 	/**
@@ -2993,7 +2993,7 @@ class FOFController extends FOFUtilsObject
 			$this->component . '.views.' .
 			FOFInflector::singularize($this->view) . '.acl.accesspublic', 'core.edit.state');
 
-		return $this->checkACL($privilege);
+		return $this->checkAcl($privilege);
 	}
 
 	/**
@@ -3008,7 +3008,7 @@ class FOFController extends FOFUtilsObject
 			FOFInflector::singularize($this->view) . '.acl.accessregistered', 'core.edit.state'
 		);
 
-		return $this->checkACL($privilege);
+		return $this->checkAcl($privilege);
 	}
 
 	/**
@@ -3023,7 +3023,7 @@ class FOFController extends FOFUtilsObject
 			FOFInflector::singularize($this->view) . '.acl.accessspecial', 'core.edit.state'
 		);
 
-		return $this->checkACL($privilege);
+		return $this->checkAcl($privilege);
 	}
 
 	/**
@@ -3038,7 +3038,7 @@ class FOFController extends FOFUtilsObject
 			FOFInflector::singularize($this->view) . '.acl.add', 'core.create'
 		);
 
-		return $this->checkACL($privilege);
+		return $this->checkAcl($privilege);
 	}
 
 	/**
@@ -3071,7 +3071,7 @@ class FOFController extends FOFUtilsObject
 			FOFInflector::singularize($this->view) . '.acl.apply', $defaultPrivilege
 		);
 
-		return $this->checkACL($privilege);
+		return $this->checkAcl($privilege);
 	}
 
 	/**
@@ -3088,7 +3088,7 @@ class FOFController extends FOFUtilsObject
 			FOFInflector::singularize($this->view) . '.acl.browse', $defaultPrivilege
 		);
 
-		return $this->checkACL($privilege);
+		return $this->checkAcl($privilege);
 	}
 
 	/**
@@ -3121,7 +3121,7 @@ class FOFController extends FOFUtilsObject
 			FOFInflector::singularize($this->view) . '.acl.cancel', $defaultPrivilege
 		);
 
-		return $this->checkACL($privilege);
+		return $this->checkAcl($privilege);
 	}
 
 	/**
@@ -3136,7 +3136,7 @@ class FOFController extends FOFUtilsObject
 			FOFInflector::singularize($this->view) . '.acl.edit', 'core.edit'
 		);
 
-		return $this->checkACL($privilege);
+		return $this->checkAcl($privilege);
 	}
 
 	/**
@@ -3151,7 +3151,7 @@ class FOFController extends FOFUtilsObject
 			FOFInflector::singularize($this->view) . '.acl.orderdown', 'core.edit.state'
 		);
 
-		return $this->checkACL($privilege);
+		return $this->checkAcl($privilege);
 	}
 
 	/**
@@ -3166,7 +3166,7 @@ class FOFController extends FOFUtilsObject
 			FOFInflector::singularize($this->view) . '.acl.orderup', 'core.edit.state'
 		);
 
-		return $this->checkACL($privilege);
+		return $this->checkAcl($privilege);
 	}
 
 	/**
@@ -3181,7 +3181,7 @@ class FOFController extends FOFUtilsObject
 			FOFInflector::singularize($this->view) . '.acl.publish', 'core.edit.state'
 		);
 
-		return $this->checkACL($privilege);
+		return $this->checkAcl($privilege);
 	}
 
 	/**
@@ -3196,7 +3196,7 @@ class FOFController extends FOFUtilsObject
 			FOFInflector::singularize($this->view) . '.acl.remove', 'core.delete'
 		);
 
-		return $this->checkACL($privilege);
+		return $this->checkAcl($privilege);
 	}
 
 	/**
@@ -3229,7 +3229,7 @@ class FOFController extends FOFUtilsObject
 			FOFInflector::singularize($this->view) . '.acl.save', $defaultPrivilege
 		);
 
-		return $this->checkACL($privilege);
+		return $this->checkAcl($privilege);
 	}
 
 	/**
@@ -3244,7 +3244,7 @@ class FOFController extends FOFUtilsObject
 			FOFInflector::singularize($this->view) . '.acl.savenew', 'core.create'
 		);
 
-		return $this->checkACL($privilege);
+		return $this->checkAcl($privilege);
 	}
 
 	/**
@@ -3259,7 +3259,7 @@ class FOFController extends FOFUtilsObject
 			FOFInflector::singularize($this->view) . '.acl.saveorder', 'core.edit.state'
 		);
 
-		return $this->checkACL($privilege);
+		return $this->checkAcl($privilege);
 	}
 
 	/**
@@ -3274,7 +3274,7 @@ class FOFController extends FOFUtilsObject
 			FOFInflector::singularize($this->view) . '.acl.unpublish', 'core.edit.state'
 		);
 
-		return $this->checkACL($privilege);
+		return $this->checkAcl($privilege);
 	}
 
 	/**
