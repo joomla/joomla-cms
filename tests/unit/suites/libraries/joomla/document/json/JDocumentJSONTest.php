@@ -16,7 +16,7 @@ class JDocumentJsonTest extends TestCase
 {
 	/**
 	 * @var  JDocumentJson
-\	 */
+	 */
 	protected $object;
 
 	/**
