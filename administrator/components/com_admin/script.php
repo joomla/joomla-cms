@@ -49,7 +49,7 @@ class JoomlaInstallerScript
 
 		if (strpos($db->name, 'mysql') !== false)
 		{
-			$this->updateDatabaseMySql();
+			$this->updateDatabaseMysql();
 		}
 
 		$this->uninstallEosPlugin();
@@ -60,7 +60,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return void
 	 */
-	protected function updateDatabaseMySql()
+	protected function updateDatabaseMysql()
 	{
 		$db = JFactory::getDbo();
 

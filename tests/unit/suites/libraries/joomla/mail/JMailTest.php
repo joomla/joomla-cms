@@ -143,7 +143,7 @@ class JMailTest extends TestCase
 	/**
 	 * Tests the addCC method.
 	 *
-	 * @covers  addCC::addCc
+	 * @covers  JMail::addCc
 	 *
 	 * @return void
 	 */
@@ -160,7 +160,7 @@ class JMailTest extends TestCase
 	/**
 	 * Tests the addBCC method.
 	 *
-	 * @covers  addBCC::addBcc
+	 * @covers  JMail::addBcc
 	 *
 	 * @return void
 	 */
