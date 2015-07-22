@@ -129,12 +129,12 @@ class MenusModelMenutypes extends JModelLegacy
 
 		if (is_file($mainXML))
 		{
-			$options = $this->getTypeOptionsFromXML($mainXML, $component);
+			$options = $this->getTypeOptionsFromXml($mainXML, $component);
 		}
 
 		if (empty($options))
 		{
-			$options = $this->getTypeOptionsFromMVC($component);
+			$options = $this->getTypeOptionsFromMvc($component);
 		}
 
 		return $options;
@@ -150,7 +150,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 *
 	 * @since   1.6
 	 */
-	protected function getTypeOptionsFromXML($file, $component)
+	protected function getTypeOptionsFromXml($file, $component)
 	{
 		$options = array();
 
@@ -239,7 +239,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 *
 	 * @since   1.6
 	 */
-	protected function getTypeOptionsFromMVC($component)
+	protected function getTypeOptionsFromMvc($component)
 	{
 		$options = array();
 

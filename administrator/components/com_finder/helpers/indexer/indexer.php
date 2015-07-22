@@ -165,7 +165,7 @@ abstract class FinderIndexer
 			);
 
 			// Set the current time as the start time.
-			$data->startTime = JFactory::getDate()->toSQL();
+			$data->startTime = JFactory::getDate()->toSql();
 
 			// Set the remaining default values.
 			$data->batchSize   = (int) $data->options->get('batch_size', 50);
@@ -310,7 +310,7 @@ abstract class FinderIndexer
 	 *
 	 * @since   2.5
 	 */
-	protected function tokenizeToDB($input, $context, $lang, $format)
+	protected function tokenizeToDb($input, $context, $lang, $format)
 	{
 		$count = 0;
 		$buffer = null;
@@ -370,7 +370,7 @@ abstract class FinderIndexer
 					$tokens = FinderIndexerHelper::tokenize($string, $lang);
 
 					// Add the tokens to the database.
-					$count += $this->addTokensToDB($tokens, $context);
+					$count += $this->addTokensToDb($tokens, $context);
 
 					// Check if we're approaching the memory limit of the token table.
 					if ($count > self::$state->options->get('memory_table_limit', 30000))
@@ -425,7 +425,7 @@ abstract class FinderIndexer
 					$tokens = FinderIndexerHelper::tokenize($string, $lang);
 
 					// Add the tokens to the database.
-					$count += $this->addTokensToDB($tokens, $context);
+					$count += $this->addTokensToDb($tokens, $context);
 
 					// Check if we're approaching the memory limit of the token table.
 					if ($count > self::$state->options->get('memory_table_limit', 30000))
@@ -449,7 +449,7 @@ abstract class FinderIndexer
 				$tokens = FinderIndexerHelper::tokenize($input, $lang);
 
 				// Add the tokens to the database.
-				$count = $this->addTokensToDB($tokens, $context);
+				$count = $this->addTokensToDb($tokens, $context);
 			}
 		}
 
@@ -467,7 +467,7 @@ abstract class FinderIndexer
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	abstract protected function addTokensToDB($tokens, $context = '');
+	abstract protected function addTokensToDb($tokens, $context = '');
 
 	/**
 	 * Method to switch the token tables from Memory tables to MyISAM tables

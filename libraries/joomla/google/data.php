@@ -78,7 +78,7 @@ abstract class JGoogleData
 	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
-	protected static function safeXML($data)
+	protected static function safeXml($data)
 	{
 		try
 		{

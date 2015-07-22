@@ -432,7 +432,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 						JText::sprintf(
 							'JLIB_INSTALLER_ABORT_SQL_ERROR',
 							JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
-							$this->parent->getDBO()->stderr(true)
+							$this->parent->getDbo()->stderr(true)
 						)
 					);
 				}

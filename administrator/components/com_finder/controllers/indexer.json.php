@@ -152,7 +152,7 @@ class FinderControllerIndexer extends JControllerLegacy
 			'lineend'	=> 'unix',
 			'tab'		=> '  ',
 			'language'	=> $lang->getTag(),
-			'direction'	=> $lang->isRTL() ? 'rtl' : 'ltr'
+			'direction'	=> $lang->isRtl() ? 'rtl' : 'ltr'
 		);
 
 		// Get the HTML document.
@@ -351,7 +351,7 @@ class FinderIndexerResponse
 			$this->totalItems = (int) $state->totalItems;
 
 			$this->startTime = $state->startTime;
-			$this->endTime = JFactory::getDate()->toSQL();
+			$this->endTime = JFactory::getDate()->toSql();
 
 			$this->start = !empty($state->start) ? (int) $state->start : 0;
 			$this->complete = !empty($state->complete) ? (int) $state->complete : 0;
