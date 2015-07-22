@@ -243,7 +243,7 @@ class InstallationModelDatabase extends JModelBase
 				// Try to create the database now using the alternate driver
 				try
 				{
-					$this->createDB($altDB, $options, $altDB->hasUTFSupport());
+					$this->createDb($altDB, $options, $altDB->hasUTFSupport());
 				}
 				catch (RuntimeException $e)
 				{
@@ -361,7 +361,7 @@ class InstallationModelDatabase extends JModelBase
 		catch (RuntimeException $e)
 		{
 			// If the database could not be selected, attempt to create it and then select it.
-			if ($this->createDB($db, $options, $utfSupport))
+			if ($this->createDb($db, $options, $utfSupport))
 			{
 				$db->select($options->db_name);
 			}
@@ -829,7 +829,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @since   3.1
 	 */
-	public function createDB($db, $options, $utf)
+	public function createDb($db, $options, $utf)
 	{
 		// Build the create database query.
 		try

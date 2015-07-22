@@ -190,7 +190,7 @@ class LanguagesModelInstalled extends JModelList
 				}
 
 				// Fix wrongly set parentheses in RTL languages
-				if (JFactory::getLanguage()->isRTL())
+				if (JFactory::getLanguage()->isRtl())
 				{
 					$row->name = html_entity_decode($row->name . '&#x200E;', ENT_QUOTES, 'UTF-8');
 				}

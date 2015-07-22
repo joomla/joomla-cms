@@ -42,7 +42,7 @@ class Xml extends AbstractRegistryFormat
 		// Iterate over the object members.
 		$this->getXmlChildren($root, $object, $nodeName);
 
-		return $root->asXML();
+		return $root->asXml();
 	}
 
 	/**

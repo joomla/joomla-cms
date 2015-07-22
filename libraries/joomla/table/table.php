@@ -515,7 +515,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 * @link    https://docs.joomla.org/JTable/setDBO
 	 * @since   11.1
 	 */
-	public function setDBO($db)
+	public function setDbo($db)
 	{
 		$this->_db = $db;
 

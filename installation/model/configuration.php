@@ -236,7 +236,7 @@ class InstallationModelConfiguration extends JModelBase
 		// Get a database object.
 		try
 		{
-			$db = InstallationHelperDatabase::getDBO(
+			$db = InstallationHelperDatabase::getDbo(
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,

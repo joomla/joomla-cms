@@ -91,7 +91,7 @@ class PlgEditorCodemirror extends JPlugin
 		$this->fullScreenCombo = implode('-', $fskeys);
 
 		$ext = JFactory::getConfig()->get('debug') ? '.js' : '.min.js';
-		$modeURL = JURI::root(true) . '/media/editors/codemirror/mode/%N/%N' . $ext;
+		$modeURL = JUri::root(true) . '/media/editors/codemirror/mode/%N/%N' . $ext;
 
 		$script = array(
 			';(function (cm) {',

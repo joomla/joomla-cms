@@ -326,7 +326,7 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 	 *
 	 * @return void
 	 */
-	public function testGetInputServer_UTC()
+	public function testGetInputServer_Utc()
 	{
 		// Create a stub JConfig
 		$config = new JObject;
@@ -399,7 +399,7 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 	 *
 	 * @return void
 	 */
-	public function testGetInputUser_UTC()
+	public function testGetInputUser_Utc()
 	{
 		// Create a stub JConfig
 		$config = new JObject;

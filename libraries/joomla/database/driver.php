@@ -1767,7 +1767,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 */
-	abstract public function setUTF();
+	abstract public function setUtf();
 
 	/**
 	 * Method to commit a transaction.

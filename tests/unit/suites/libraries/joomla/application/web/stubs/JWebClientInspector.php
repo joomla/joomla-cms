@@ -23,9 +23,9 @@ class JWebClientInspector extends JApplicationWebClient
 	 *
 	 * @since   11.3
 	 */
-	public function detectRequestURI()
+	public function detectRequestUri()
 	{
-		return parent::detectRequestURI();
+		return parent::detectRequestUri();
 	}
 
 	/**
