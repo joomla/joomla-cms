@@ -147,5 +147,5 @@ interface UriInterface
 	 *
 	 * @since   1.0
 	 */
-	public function isSsl();
+	public function isSSL();
 }

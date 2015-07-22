@@ -91,12 +91,12 @@ class Ini extends AbstractRegistryFormat
 						foreach ($v as $array_key => $item)
 						{
 							$array_key = ($assoc) ? $array_key : '';
-							$local[] = $k . '[' . $array_key . ']=' . $this->getValueAsIni($item);
+							$local[] = $k . '[' . $array_key . ']=' . $this->getValueAsINI($item);
 						}
 					}
 					else
 					{
-						$local[] = $k . '=' . $this->getValueAsIni($v);
+						$local[] = $k . '=' . $this->getValueAsINI($v);
 					}
 				}
 
@@ -113,13 +113,13 @@ class Ini extends AbstractRegistryFormat
 				foreach ($value as $array_key => $item)
 				{
 					$array_key = ($assoc) ? $array_key : '';
-					$global[] = $key . '[' . $array_key . ']=' . $this->getValueAsIni($item);
+					$global[] = $key . '[' . $array_key . ']=' . $this->getValueAsINI($item);
 				}
 			}
 			else
 			{
 				// Not in a section so add the property to the global array.
-				$global[] = $key . '=' . $this->getValueAsIni($value);
+				$global[] = $key . '=' . $this->getValueAsINI($value);
 				$in_section = false;
 			}
 		}
@@ -338,7 +338,7 @@ class Ini extends AbstractRegistryFormat
 	 *
 	 * @since   1.0
 	 */
-	protected function getValueAsIni($value)
+	protected function getValueAsINI($value)
 	{
 		$string = '';
 
