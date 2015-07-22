@@ -555,7 +555,8 @@ class JAccess
 				$actions[] = (object) array(
 					'name' => (string) $action['name'],
 					'title' => (string) $action['title'],
-					'description' => (string) $action['description']
+					'description' => (string) $action['description'],
+					'default' => isset($action['default']) ? (int) $action['default'] : null
 				);
 			}
 		}
