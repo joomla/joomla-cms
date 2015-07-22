@@ -159,12 +159,10 @@ class MediaControllerFile extends JControllerLegacy
 
 				return false;
 			}
-			else
-			{
-				// Trigger the onContentAfterSave event.
-				$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file, true));
-				$this->setMessage(JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
-			}
+
+			// Trigger the onContentAfterSave event.
+			$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file, true));
+			$this->setMessage(JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
 		}
 
 		return true;
