@@ -688,7 +688,7 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	 *
 	 * @since   3.4
 	 */
-	public function testSetUTF()
+	public function testSetUtf()
 	{
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}

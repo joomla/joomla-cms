@@ -16,7 +16,7 @@ require_once JPATH_PLATFORM . '/joomla/linkedin/oauth.php';
  * @subpackage  Linkedin
  * @since       13.1
  */
-class JLinkedinOAuthTest extends TestCase
+class JLinkedinOauthTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Linkedin object.

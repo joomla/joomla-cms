@@ -31,7 +31,7 @@ abstract class JFacebookObject
 	protected $client;
 
 	/**
-	 * @var    JFacebookOAuth  The OAuth client.
+	 * @var    JFacebookOauth  The OAuth client.
 	 * @since  13.1
 	 */
 	protected $oauth;
@@ -41,11 +41,11 @@ abstract class JFacebookObject
 	 *
 	 * @param   Registry        $options  Facebook options object.
 	 * @param   JHttp           $client   The HTTP client object.
-	 * @param   JFacebookOAuth  $oauth    The OAuth client.
+	 * @param   JFacebookOauth  $oauth    The OAuth client.
 	 *
 	 * @since   13.1
 	 */
-	public function __construct(Registry $options = null, JHttp $client = null, JFacebookOAuth $oauth = null)
+	public function __construct(Registry $options = null, JHttp $client = null, JFacebookOauth $oauth = null)
 	{
 		$this->options = isset($options) ? $options : new Registry;
 		$this->client = isset($client) ? $client : new JHttp($this->options);
@@ -276,13 +276,13 @@ abstract class JFacebookObject
 	/**
 	 * Method used to set the OAuth client.
 	 *
-	 * @param   JFacebookOAuth  $oauth  The OAuth client object.
+	 * @param   JFacebookOauth  $oauth  The OAuth client object.
 	 *
 	 * @return  JFacebookObject  This object for method chaining.
 	 *
 	 * @since   13.1
 	 */
-	public function setOAuth($oauth)
+	public function setOauth($oauth)
 	{
 		$this->oauth = $oauth;
 
@@ -292,11 +292,11 @@ abstract class JFacebookObject
 	/**
 	 * Method used to get the OAuth client.
 	 *
-	 * @return  JFacebookOAuth  The OAuth client
+	 * @return  JFacebookOauth  The OAuth client
 	 *
 	 * @since   13.1
 	 */
-	public function getOAuth()
+	public function getOauth()
 	{
 		return $this->oauth;
 	}

@@ -45,7 +45,7 @@ class ContentModelFeatured extends ContentModelArticles
 		$user  = JFactory::getUser();
 
 		// List state information
-		$limitstart = $input->getUInt('limitstart', 0);
+		$limitstart = $input->getUint('limitstart', 0);
 		$this->setState('list.start', $limitstart);
 
 		$params = $this->state->params;

@@ -8,16 +8,16 @@
  */
 
 /**
- * Test class for JDocumentRendererRSS.
+ * Test class for JDocumentRendererRss.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Document
  * @since       11.1
  */
-class JDocumentRendererRSSTest extends TestCase
+class JDocumentRendererRssTest extends TestCase
 {
 	/**
-	 * @var    JDocumentRendererRSS
+	 * @var    JDocumentRendererRss
 	 */
 	protected $object;
 

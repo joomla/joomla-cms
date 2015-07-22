@@ -18,7 +18,7 @@ jimport('joomla.utilities.utility');
  *
  * @since  11.1
  */
-class JDocumentHTML extends JDocument
+class JDocumentHtml extends JDocument
 {
 	/**
 	 * Array of Header <link> tags
@@ -148,7 +148,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  JDocumentHtml instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -186,7 +186,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  JDocumentHtml instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -270,7 +270,7 @@ class JDocumentHTML extends JDocument
 	 * @param   string  $relType   Relation type attribute.  Either rel or rev (default: 'rel').
 	 * @param   array   $attribs   Associative array of remaining attributes.
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  JDocumentHtml instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -294,7 +294,7 @@ class JDocumentHTML extends JDocument
 	 * @param   string  $type      File type
 	 * @param   string  $relation  Relation of link
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  JDocumentHtml instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -311,7 +311,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   string  $html  The HTML to add to the head
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  JDocumentHtml instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -420,7 +420,7 @@ class JDocumentHTML extends JDocument
 	 * @param   string  $content  The content to be set in the buffer.
 	 * @param   array   $options  Array of optional elements.
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  JDocumentHtml instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -446,7 +446,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   array  $params  Parameters for fetching the template
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  JDocumentHtml instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -602,7 +602,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   array  $params  Parameters to determine the template
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  JDocumentHtml instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
@@ -640,7 +640,7 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Parse a document template
 	 *
-	 * @return  JDocumentHTML  instance of $this to allow chaining
+	 * @return  JDocumentHtml  instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */

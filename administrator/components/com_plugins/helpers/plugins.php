@@ -99,7 +99,7 @@ class PluginsHelper
 	 *
 	 * @return  JObject
 	 */
-	public function parseXMLTemplateFile($templateBaseDir, $templateDir)
+	public function parseXmlTemplateFile($templateBaseDir, $templateDir)
 	{
 		$data = new JObject;
 
@@ -108,7 +108,7 @@ class PluginsHelper
 
 		if (is_file($filePath))
 		{
-			$xml = JInstaller::parseXMLInstallFile($filePath);
+			$xml = JInstaller::parseXmlInstallFile($filePath);
 
 			if ($xml['type'] != 'template')
 			{

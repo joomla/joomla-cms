@@ -68,7 +68,7 @@ class JReCaptcha
 	 *
 	 * @return string - encoded request.
 	 */
-	private function _encodeQS($data)
+	private function _encodeQs($data)
 	{
 		$req = "";
 		foreach ($data as $key => $value)
@@ -90,9 +90,9 @@ class JReCaptcha
 	 *
 	 * @return array response
 	 */
-	private function _submitHTTPGet($path, $data)
+	private function _submitHttpGet($path, $data)
 	{
-		$req = $this->_encodeQS($data);
+		$req = $this->_encodeQs($data);
 		$http = JHttpFactory::getHttp();
 		$response = $http->get($path . '?' . $req)->body;
 

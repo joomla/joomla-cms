@@ -16,10 +16,10 @@ use Joomla\Registry\Registry;
  *
  * @since  13.1
  */
-abstract class JOAuth1Client
+abstract class JOauth1Client
 {
 	/**
-	 * @var    Registry  Options for the JOAuth1Client object.
+	 * @var    Registry  Options for the JOauth1Client object.
 	 * @since  13.1
 	 */
 	protected $options;
@@ -565,7 +565,7 @@ abstract class JOAuth1Client
 	 * @param   string  $key    The name of the option to set
 	 * @param   mixed   $value  The option value to set
 	 *
-	 * @return  JOAuth1Client  This object for method chaining
+	 * @return  JOauth1Client  This object for method chaining
 	 *
 	 * @since   13.1
 	 */
@@ -593,7 +593,7 @@ abstract class JOAuth1Client
 	 *
 	 * @param   array  $token  The access token key and secret.
 	 *
-	 * @return  JOAuth1Client  This object for method chaining.
+	 * @return  JOauth1Client  This object for method chaining.
 	 *
 	 * @since   13.1
 	 */

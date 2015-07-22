@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
  *
  * @since  12.3
  */
-class JTwitterOAuth extends JOAuth1Client
+class JTwitterOauth extends JOauth1Client
 {
 	/**
 	* @var Registry  Options for the JTwitterOauth object.
@@ -43,7 +43,7 @@ class JTwitterOAuth extends JOAuth1Client
 		$this->options->def('authoriseURL', 'https://api.twitter.com/oauth/authorize');
 		$this->options->def('requestTokenURL', 'https://api.twitter.com/oauth/request_token');
 
-		// Call the JOAuth1Client constructor to setup the object.
+		// Call the JOauth1Client constructor to setup the object.
 		parent::__construct($this->options, $client, $input, $application);
 	}
 

@@ -27,12 +27,12 @@ class JFilterWrapperOutput
 	 *
 	 * @return void
 	 *
-	 * @see     JFilterOutput::objectHTMLSafe()
+	 * @see     JFilterOutput::objectHtmlSafe()
 	 * @since   3.4
 	 */
-	public function objectHTMLSafe(&$mixed, $quote_style = 3, $exclude_keys = '')
+	public function objectHtmlSafe(&$mixed, $quote_style = 3, $exclude_keys = '')
 	{
-		return JFilterOutput::objectHTMLSafe($mixed, $quote_style, $exclude_keys);
+		return JFilterOutput::objectHtmlSafe($mixed, $quote_style, $exclude_keys);
 	}
 
 	/**
@@ -42,12 +42,12 @@ class JFilterWrapperOutput
 	 *
 	 * @return string  Processed string.
 	 *
-	 * @see     JFilterOutput::linkXHTMLSafe()
+	 * @see     JFilterOutput::linkXhtmlSafe()
 	 * @since   3.4
 	 */
-	public function linkXHTMLSafe($input)
+	public function linkXhtmlSafe($input)
 	{
-		return JFilterOutput::linkXHTMLSafe($input);
+		return JFilterOutput::linkXhtmlSafe($input);
 	}
 
 	/**
@@ -57,27 +57,27 @@ class JFilterWrapperOutput
 	 *
 	 * @return string  Processed string.
 	 *
-	 * @see     JFilterOutput::stringURLSafe()
+	 * @see     JFilterOutput::stringUrlSafe()
 	 * @since   3.4
 	 */
-	public function stringURLSafe($string)
+	public function stringUrlSafe($string)
 	{
-		return JFilterOutput::stringURLSafe($string);
+		return JFilterOutput::stringUrlSafe($string);
 	}
 
 	/**
-	 * Helper wrapper method for stringURLUnicodeSlug
+	 * Helper wrapper method for stringUrlUnicodeSlug
 	 *
 	 * @param   string  $string  String to process.
 	 *
 	 * @return string  Processed string.
 	 *
-	 * @see     JFilterOutput::stringURLUnicodeSlug()
+	 * @see     JFilterOutput::stringUrlUnicodeSlug()
 	 * @since   3.4
 	 */
-	public function stringURLUnicodeSlug($string)
+	public function stringUrlUnicodeSlug($string)
 	{
-		return JFilterOutput::stringURLUnicodeSlug($string);
+		return JFilterOutput::stringUrlUnicodeSlug($string);
 	}
 
 	/**

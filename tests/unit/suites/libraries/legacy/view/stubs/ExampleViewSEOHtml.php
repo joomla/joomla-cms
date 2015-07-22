@@ -14,6 +14,6 @@
  * @subpackage  View
  * @since       11.3
  */
-class ExampleViewSEOHtml extends JViewLegacy
+class ExampleViewSeoHtml extends JViewLegacy
 {
 }

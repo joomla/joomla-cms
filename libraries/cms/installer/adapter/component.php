@@ -447,7 +447,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$this->parent->setPath('extension_root', $this->parent->getPath('source'));
 		$this->setManifest($this->parent->getManifest());
 
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXmlInstallFile($this->parent->getPath('manifest'));
 		$this->extension->manifest_cache = json_encode($manifest_details);
 		$this->extension->state = 0;
 		$this->extension->name = $manifest_details['name'];
@@ -1181,7 +1181,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		{
 			if (file_exists(JPATH_SITE . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'))
 			{
-				$manifest_details = JInstaller::parseXMLInstallFile(
+				$manifest_details = JInstaller::parseXmlInstallFile(
 					JPATH_SITE . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
 				);
 				$extension = JTable::getInstance('extension');
@@ -1201,7 +1201,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		{
 			if (file_exists(JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'))
 			{
-				$manifest_details = JInstaller::parseXMLInstallFile(
+				$manifest_details = JInstaller::parseXmlInstallFile(
 					JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml'
 				);
 				$extension = JTable::getInstance('extension');
@@ -1236,7 +1236,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXmlInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
 

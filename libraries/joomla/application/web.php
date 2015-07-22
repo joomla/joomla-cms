@@ -967,7 +967,7 @@ class JApplicationWeb extends JApplicationBase
 	 *
 	 * @since   12.2
 	 */
-	public function isSSLConnection()
+	public function isSslConnection()
 	{
 		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
 	}

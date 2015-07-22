@@ -879,7 +879,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   3.1
 	 */
-	public function parseSQLFiles($element)
+	public function parseSqlFiles($element)
 	{
 		if (!$element || !count($element->children()))
 		{
@@ -1966,7 +1966,7 @@ class JInstaller extends JAdapter
 	 */
 	public function generateManifestCache()
 	{
-		return json_encode(self::parseXMLInstallFile($this->getPath('manifest')));
+		return json_encode(self::parseXmlInstallFile($this->getPath('manifest')));
 	}
 
 	/**
@@ -2148,7 +2148,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   12.1
 	 */
-	public static function parseXMLInstallFile($path)
+	public static function parseXmlInstallFile($path)
 	{
 		// Read the file to see if it's a valid component XML file
 		$xml = simplexml_load_file($path);

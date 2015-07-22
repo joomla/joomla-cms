@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
  *
  * @since  13.1
  */
-class JLinkedinOauth extends JOAuth1Client
+class JLinkedinOauth extends JOauth1Client
 {
 	/**
 	* @var    Registry  Options for the JLinkedinOauth object.

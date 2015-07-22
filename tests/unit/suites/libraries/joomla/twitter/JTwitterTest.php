@@ -35,7 +35,7 @@ class JTwitterTest extends TestCase
 	protected $object;
 
 	/**
-	 * @var JTwitterOAuth Facebook OAuth 2 client
+	 * @var JTwitterOauth Facebook OAuth 2 client
 	 * @since 12.3
 	 */
 	protected $oauth;

@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  12.2
  */
-class JInputJSON extends JInput
+class JInputJson extends JInput
 {
 	/**
 	 * @var    string  The raw JSON string from the request.

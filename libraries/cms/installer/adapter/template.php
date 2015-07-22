@@ -325,7 +325,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		// Discover installs are stored a little differently
 		if ($this->route == 'discover_install')
 		{
-			$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+			$manifest_details = JInstaller::parseXmlInstallFile($this->parent->getPath('manifest'));
 
 			$this->extension->manifest_cache = json_encode($manifest_details);
 			$this->extension->state = 0;
@@ -535,7 +535,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 					continue;
 				}
 
-				$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
+				$manifest_details = JInstaller::parseXmlInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
 				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'template');
 				$extension->set('client_id', $site_info->id);
@@ -559,7 +559,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 					continue;
 				}
 
-				$manifest_details = JInstaller::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
+				$manifest_details = JInstaller::parseXmlInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
 				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'template');
 				$extension->set('client_id', $admin_info->id);
@@ -591,7 +591,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXmlInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
 

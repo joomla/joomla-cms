@@ -138,6 +138,6 @@ abstract class TestCaseDatabaseMysql extends TestCaseDatabase
 		// Create the PDO object from the DSN and options.
 		$pdo = new PDO($dsn, self::$_options['user'], self::$_options['password']);
 
-		return $this->createDefaultDBConnection($pdo, self::$_options['database']);
+		return $this->createDefaultDbConnection($pdo, self::$_options['database']);
 	}
 }

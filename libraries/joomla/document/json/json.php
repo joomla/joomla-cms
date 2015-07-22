@@ -10,12 +10,12 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JDocumentJSON class, provides an easy interface to parse and display JSON output
+ * JDocumentJson class, provides an easy interface to parse and display JSON output
  *
  * @see    http://www.json.org/
  * @since  11.1
  */
-class JDocumentJSON extends JDocument
+class JDocumentJson extends JDocument
 {
 	/**
 	 * Document name
@@ -97,7 +97,7 @@ class JDocumentJSON extends JDocument
 	 *
 	 * @param   string  $name  Document name
 	 *
-	 * @return  JDocumentJSON instance of $this to allow chaining
+	 * @return  JDocumentJson instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */

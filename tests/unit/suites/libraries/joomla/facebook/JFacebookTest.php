@@ -37,7 +37,7 @@ class JFacebookTest extends TestCase
 	protected $object;
 
 	/**
-	 * @var    JFacebookOAuth  Facebook OAuth 2 client
+	 * @var    JFacebookOauth  Facebook OAuth 2 client
 	 * @since  13.1
 	 */
 	protected $oauth;

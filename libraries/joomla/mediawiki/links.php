@@ -107,7 +107,7 @@ class JMediawikiLinks extends JMediawikiObject
 	 *
 	 * @since   12.3
 	 */
-	public function getIWLinks(array $titles, $iwurl = false, $iwlimit = null, $iwcontinue = false, $iwprefix = null, $iwtitle = null, $iwdir = null)
+	public function getIwLinks(array $titles, $iwurl = false, $iwlimit = null, $iwcontinue = false, $iwprefix = null, $iwtitle = null, $iwdir = null)
 	{
 		// Build the request.
 		$path = '?action=query&prop=links';

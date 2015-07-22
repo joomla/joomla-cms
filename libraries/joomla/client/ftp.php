@@ -1806,10 +1806,10 @@ class JClientFtp
  * @since       11.1
  * @deprecated  12.3 (Platform) & 4.0 (CMS)
  */
-class JFTP extends JClientFtp
+class JFtp extends JClientFtp
 {
 	/**
-	 * JFTP object constructor
+	 * JFtp object constructor
 	 *
 	 * @param   array  $options  Associative array of options to set
 	 *
@@ -1817,7 +1817,7 @@ class JFTP extends JClientFtp
 	 */
 	public function __construct(array $options = array())
 	{
-		JLog::add('JFTP is deprecated. Use JClientFtp instead.', JLog::WARNING, 'deprecated');
+		JLog::add('JFtp is deprecated. Use JClientFtp instead.', JLog::WARNING, 'deprecated');
 		parent::__construct($options);
 	}
 }

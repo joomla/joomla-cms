@@ -257,21 +257,21 @@ class JInstallerTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the parseXMLInstallFile method
+	 * Tests the parseXmlInstallFile method
 	 *
 	 * @since   3.1
 	 *
 	 * @return  void
 	 */
-	public function testParseXMLInstallFile()
+	public function testParseXmlInstallFile()
 	{
-		$xml = JInstaller::parseXMLInstallFile(__DIR__ . '/data/pkg_joomla.xml');
+		$xml = JInstaller::parseXmlInstallFile(__DIR__ . '/data/pkg_joomla.xml');
 
 		// Verify the method returns an array of data
 		$this->assertInternalType(
 			'array',
 			$xml,
-			'Ensure JInstaller::parseXMLInstallFile returns an array'
+			'Ensure JInstaller::parseXmlInstallFile returns an array'
 		);
 
 		// Verify the version string in the $xml object matches that from the XML file

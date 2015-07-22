@@ -8,14 +8,14 @@
  */
 
 /**
- * Inspector for the JOAuth1Client class.
+ * Inspector for the JOauth1Client class.
  *
  * @package     Joomla.UnitTest
  * @subpackage  OAuth
  *
  * @since       13.1
  */
-class JOAuth1ClientInspector extends JOAuth1Client
+class JOauth1ClientInspector extends JOauth1Client
 {
 	/**
 	 * Mimic verifing credentials.

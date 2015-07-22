@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @see    http://www.rssboard.org/rss-specification
  * @since  11.1
  */
-class JDocumentRendererRSS extends JDocumentRenderer
+class JDocumentRendererRss extends JDocumentRenderer
 {
 	/**
 	 * Renderer mime type

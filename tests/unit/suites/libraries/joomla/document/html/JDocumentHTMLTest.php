@@ -9,12 +9,12 @@
 include_once JPATH_PLATFORM . '/joomla/document/html/html.php';
 
 /**
- * Test class for JDocumentHTML
+ * Test class for JDocumentHtml
  */
-class JDocumentHTMLTest extends TestCase
+class JDocumentHtmlTest extends TestCase
 {
 	/**
-	 * @var  JDocumentHTML
+	 * @var  JDocumentHtml
 	 */
 	protected $object;
 
@@ -77,7 +77,7 @@ class JDocumentHTMLTest extends TestCase
 
 		JFactory::$language = JLanguage::getInstance('en-GB');
 
-		$this->object = new JDocumentHTML;
+		$this->object = new JDocumentHtml;
 	}
 
 	/**

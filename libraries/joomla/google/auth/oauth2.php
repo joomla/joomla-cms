@@ -21,7 +21,7 @@ jimport('joomla.oauth.v2client');
 class JGoogleAuthOauth2 extends JGoogleAuth
 {
 	/**
-	 * @var    JOAuth2Client  OAuth client for the Google authentication object.
+	 * @var    JOauth2Client  OAuth client for the Google authentication object.
 	 * @since  12.3
 	 */
 	protected $client;
@@ -30,14 +30,14 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 * Constructor.
 	 *
 	 * @param   Registry       $options  JGoogleAuth options object.
-	 * @param   JOAuth2Client  $client   OAuth client for Google authentication.
+	 * @param   JOauth2Client  $client   OAuth client for Google authentication.
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(Registry $options = null, JOAuth2Client $client = null)
+	public function __construct(Registry $options = null, JOauth2Client $client = null)
 	{
 		$this->options = isset($options) ? $options : new Registry;
-		$this->client = isset($client) ? $client : new JOAuth2Client($this->options);
+		$this->client = isset($client) ? $client : new JOauth2Client($this->options);
 	}
 
 	/**
@@ -88,7 +88,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	/**
 	 * Method to fill in Google-specific OAuth settings
 	 *
-	 * @return  JOAuth2Client  Google-configured Oauth2 client.
+	 * @return  JOauth2Client  Google-configured Oauth2 client.
 	 *
 	 * @since   12.3
 	 */

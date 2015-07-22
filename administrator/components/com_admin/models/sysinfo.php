@@ -170,7 +170,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 *
 	 * @since  1.6
 	 */
-	public function &getPHPInfo()
+	public function &getPhpInfo()
 	{
 		if (!$this->phpinfoEnabled())
 		{

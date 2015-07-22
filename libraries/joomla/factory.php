@@ -384,11 +384,11 @@ abstract class JFactory
 	 * @param   string   $data    Full path and file name.
 	 * @param   boolean  $isFile  true to load a file or false to load a string.
 	 *
-	 * @return  mixed    JXMLElement or SimpleXMLElement on success or false on error.
+	 * @return  mixed    JXmlElement or SimpleXMLElement on success or false on error.
 	 *
-	 * @see     JXMLElement
+	 * @see     JXmlElement
 	 * @since   11.1
-	 * @note    When JXMLElement is not present a SimpleXMLElement will be returned.
+	 * @note    When JXmlElement is not present a SimpleXMLElement will be returned.
 	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use SimpleXML directly.
 	 */
 	public static function getXml($data, $isFile = true)
@@ -397,9 +397,9 @@ abstract class JFactory
 
 		$class = 'SimpleXMLElement';
 
-		if (class_exists('JXMLElement'))
+		if (class_exists('JXmlElement'))
 		{
-			$class = 'JXMLElement';
+			$class = 'JXmlElement';
 		}
 
 		// Disable libxml errors and allow to fetch error information as needed

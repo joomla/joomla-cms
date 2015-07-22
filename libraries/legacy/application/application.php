@@ -841,9 +841,9 @@ class JApplication extends JApplicationBase
 	 * @since   11.1
 	 * @deprecated  4.0  Use JApplicationHelper::stringURLSafe instead
 	 */
-	public static function stringURLSafe($string)
+	public static function stringUrlSafe($string)
 	{
-		return JApplicationHelper::stringURLSafe($string);
+		return JApplicationHelper::stringUrlSafe($string);
 	}
 
 	/**
@@ -1166,7 +1166,7 @@ class JApplication extends JApplicationBase
 	 * @since   12.2
 	 * @deprecated  4.0
 	 */
-	public function isSSLConnection()
+	public function isSslConnection()
 	{
 		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
 	}

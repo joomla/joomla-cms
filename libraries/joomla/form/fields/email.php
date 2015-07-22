@@ -19,7 +19,7 @@ JFormHelper::loadFieldClass('text');
  * @see    JFormRuleEmail
  * @since  11.1
  */
-class JFormFieldEMail extends JFormFieldText
+class JFormFieldEmail extends JFormFieldText
 {
 	/**
 	 * The form field type.

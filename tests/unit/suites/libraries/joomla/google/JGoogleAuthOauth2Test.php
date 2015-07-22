@@ -16,7 +16,7 @@
 class JGoogleAuthOauth2Test extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var    JRegistry  Options for the JOauth2Client object.
 	 */
 	protected $options;
 
@@ -31,7 +31,7 @@ class JGoogleAuthOauth2Test extends TestCase
 	protected $input;
 
 	/**
-	 * @var    JOAuth2Client  The OAuth client for sending requests to Google.
+	 * @var    JOauth2Client  The OAuth client for sending requests to Google.
 	 */
 	protected $oauth;
 
@@ -79,7 +79,7 @@ class JGoogleAuthOauth2Test extends TestCase
 			->willReturnCallback(array($this, 'mockClose'));
 		$this->application = $mockApplication;
 
-		$this->oauth = new JOAuth2Client($this->options, $this->http, $this->input, $this->application);
+		$this->oauth = new JOauth2Client($this->options, $this->http, $this->input, $this->application);
 		$this->object = new JGoogleAuthOauth2($this->options, $this->oauth);
 	}
 

@@ -511,11 +511,11 @@ class ContentModelArticle extends JModelAdmin
 			{
 				if (JFactory::getConfig()->get('unicodeslugs') == 1)
 				{
-					$data['alias'] = JFilterOutput::stringURLUnicodeSlug($data['title']);
+					$data['alias'] = JFilterOutput::stringUrlUnicodeSlug($data['title']);
 				}
 				else
 				{
-					$data['alias'] = JFilterOutput::stringURLSafe($data['title']);
+					$data['alias'] = JFilterOutput::stringUrlSafe($data['title']);
 				}
 
 				$table = JTable::getInstance('Content', 'JTable');
