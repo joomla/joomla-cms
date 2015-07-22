@@ -10,7 +10,7 @@ jimport('joomla.filesystem.folder');
 
 require_once __DIR__ . '/JLanguageInspector.php';
 
-if (!class_exists('En_GBLocalise'))
+if (!class_exists('En_GbLocalise'))
 {
 	require_once __DIR__ . '/data/language/en-GB/en-GB.localise.php';
 }
