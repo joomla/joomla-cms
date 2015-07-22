@@ -130,39 +130,34 @@ class InstallerModelDatabase extends InstallerModel
 	{
 		// Get correct schema version -- last file in array.
 		$schema = $changeSet->getSchema();
-		$db = $this->getDbo();
-		$result = false;
 
 		// Check value. If ok, don't do update.
-		$version = $this->getSchemaVersion();
-
-		if ($version == $schema)
+		if ($schema == $this->getSchemaVersion())
 		{
-			$result = $version;
-		}
-		else
-		{
-			// Delete old row.
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__schemas'))
-				->where($db->quoteName('extension_id') . ' = 700');
-			$db->setQuery($query);
-			$db->execute();
-
-			// Add new row.
-			$query->clear()
-				->insert($db->quoteName('#__schemas'))
-				->columns($db->quoteName('extension_id') . ',' . $db->quoteName('version_id'))
-				->values('700, ' . $db->quote($schema));
-			$db->setQuery($query);
-
-			if ($db->execute())
-			{
-				$result = $schema;
-			}
+			return $schema;
 		}
 
-		return $result;
+		// Delete old row.
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__schemas'))
+			->where($db->quoteName('extension_id') . ' = 700');
+		$db->setQuery($query);
+		$db->execute();
+
+		// Add new row.
+		$query->clear()
+			->insert($db->quoteName('#__schemas'))
+			->columns($db->quoteName('extension_id') . ',' . $db->quoteName('version_id'))
+			->values('700, ' . $db->quote($schema));
+		$db->setQuery($query);
+
+		if (!$db->execute())
+		{
+			return false;
+		}
+
+		return $schema;
 	}
 
 	/**
