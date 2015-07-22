@@ -9,7 +9,7 @@
 
 JLoader::register('ContentViewArticle', __DIR__ . '/stubs/ContentViewArticle.php');
 JLoader::register('ContentViewHtml', __DIR__ . '/stubs/ContentViewHtml.php');
-JLoader::register('ExampleViewSEOHtml', __DIR__ . '/stubs/ExampleViewSEOHtml.php');
+JLoader::register('ExampleViewSeoHtml', __DIR__ . '/stubs/ExampleViewSeoHtml.php');
 JLoader::register('MediaViewMediaList', __DIR__ . '/stubs/MediaViewMediaList.php');
 JLoader::register('MediaViewMediaListItemsHtml', __DIR__ . '/stubs/MediaViewMediaListItemsHtml.php');
 
