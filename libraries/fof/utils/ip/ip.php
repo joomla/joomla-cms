@@ -25,7 +25,7 @@ abstract class FOFUtilsIp
 	{
 		if (is_null(static::$ip))
 		{
-			$ip = self::detectAndCleanIP();
+			$ip = self::detectAndCleanIp();
 
 			if (!empty($ip) && ($ip != '0.0.0.0') && function_exists('inet_pton') && function_exists('inet_ntop'))
 			{
@@ -191,7 +191,7 @@ abstract class FOFUtilsIp
 				elseif ($ipv6 && strstr($maskbits, ':'))
 				{
 					// Perform an IPv6 CIDR check
-					if (self::checkIPv6CIDR($myIP, $ipExpression))
+					if (self::checkIpv6Cidr($myIP, $ipExpression))
 					{
 						return true;
 					}
@@ -371,9 +371,9 @@ abstract class FOFUtilsIp
 	 *
 	 * @return  string
 	 */
-	protected static function detectAndCleanIP()
+	protected static function detectAndCleanIp()
 	{
-		$ip = self::detectIP();
+		$ip = self::detectIp();
 
 		if ((strstr($ip, ',') !== false) || (strstr($ip, ' ') !== false))
 		{
@@ -400,7 +400,7 @@ abstract class FOFUtilsIp
 	 *
 	 * @return  string
 	 */
-	protected static function detectIP()
+	protected static function detectIp()
 	{
 		// Normally the $_SERVER superglobal is set
 		if (isset($_SERVER))
@@ -487,7 +487,7 @@ abstract class FOFUtilsIp
 	 *
 	 * @return  bool
 	 */
-	protected static function checkIPv6CIDR($ip, $cidrnet)
+	protected static function checkIpv6Cidr($ip, $cidrnet)
 	{
 		$ip = inet_pton($ip);
 		$binaryip=self::inet_to_bits($ip);

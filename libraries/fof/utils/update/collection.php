@@ -43,7 +43,7 @@ class FOFUtilsUpdateCollection
 
 		// Download and parse the XML file
 		$donwloader = new FOFDownload();
-		$xmlSource = $donwloader->getFromURL($url);
+		$xmlSource = $donwloader->getFromUrl($url);
 
 		try
 		{

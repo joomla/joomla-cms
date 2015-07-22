@@ -1955,7 +1955,7 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 	 *
 	 * @return  string  The CSV line
 	 */
-	public function toCSV($separator = ',')
+	public function toCsv($separator = ',')
 	{
 		$csv = array();
 
@@ -3445,7 +3445,7 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 	 *
 	 * @return  boolean  True on success.
 	 */
-	public function setDBO(JDatabaseDriver $db)
+	public function setDbo(JDatabaseDriver $db)
 	{
 		$this->_db = $db;
 

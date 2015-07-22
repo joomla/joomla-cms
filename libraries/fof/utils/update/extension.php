@@ -34,7 +34,7 @@ class FOFUtilsUpdateExtension
 
 		// Get and parse the XML source
 		$downloader = new FOFDownload();
-		$xmlSource = $downloader->getFromURL($url);
+		$xmlSource = $downloader->getFromUrl($url);
 
 		try
 		{

@@ -25,7 +25,7 @@ class FOFTemplateUtils
 	 *
 	 * @return  void
 	 */
-	public static function addCSS($path)
+	public static function addCss($path)
 	{
 		$document = FOFPlatform::getInstance()->getDocument();
 
@@ -63,7 +63,7 @@ class FOFTemplateUtils
 	 *
 	 * @return  void
 	 */
-	public static function addJS($path, $defer = false, $async = false)
+	public static function addJs($path, $defer = false, $async = false)
 	{
 		$document = FOFPlatform::getInstance()->getDocument();
 
@@ -95,7 +95,7 @@ class FOFTemplateUtils
 	 *
 	 * @return  mixed  True = successfully included generated CSS, False = the alternate CSS file was used, null = the source file does not exist
 	 */
-	public static function addLESS($path, $altPath = null, $returnPath = false)
+	public static function addLess($path, $altPath = null, $returnPath = false)
 	{
 		// Does the cache directory exists and is writeable
 		static $sanityCheck = null;
@@ -127,13 +127,13 @@ class FOFTemplateUtils
 			{
 				if (is_string($altPath))
 				{
-					self::addCSS($altPath);
+					self::addCss($altPath);
 				}
 				elseif (is_array($altPath))
 				{
 					foreach ($altPath as $anAltPath)
 					{
-						self::addCSS($anAltPath);
+						self::addCss($anAltPath);
 					}
 				}
 			}
@@ -215,7 +215,7 @@ class FOFTemplateUtils
 	 */
 	public static function sefSort($text, $field, $list)
 	{
-		$sort = JHTML::_('grid.sort', JText::_(strtoupper($text)) . '&nbsp;', $field, $list->order_Dir, $list->order);
+		$sort = JHtml::_('grid.sort', JText::_(strtoupper($text)) . '&nbsp;', $field, $list->order_Dir, $list->order);
 
 		return str_replace('href="#"', 'href="javascript:void(0);"', $sort);
 	}
@@ -453,7 +453,7 @@ class FOFTemplateUtils
 		}
 		elseif (substr($route, 0, 1) == '&')
 		{
-			$url = JURI::getInstance();
+			$url = JUri::getInstance();
 			$vars = array();
 			parse_str($route, $vars);
 
@@ -463,7 +463,7 @@ class FOFTemplateUtils
 		}
 		else
 		{
-			$url = JURI::getInstance();
+			$url = JUri::getInstance();
 			$props = $url->getQuery(true);
 
 			// Strip 'index.php?'

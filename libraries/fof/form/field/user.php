@@ -284,7 +284,7 @@ class FOFFormFieldUser extends JFormFieldUser implements FOFFormField
 				}
 				else
 				{
-					$scheme = JURI::getInstance()->getScheme();
+					$scheme = JUri::getInstance()->getScheme();
 				}
 
 				if ($scheme == 'http')

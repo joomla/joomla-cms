@@ -280,7 +280,7 @@ class FOFDispatcher extends FOFUtilsObject
 
 		if ($platform->isCli())
 		{
-			$canDispatch = $canDispatch && $this->onBeforeDispatchCLI();
+			$canDispatch = $canDispatch && $this->onBeforeDispatchCli();
 		}
 
 		$canDispatch = $canDispatch && $this->onBeforeDispatch();
@@ -433,7 +433,7 @@ class FOFDispatcher extends FOFUtilsObject
 	 *
 	 * @return  boolean  Return false to abort
 	 */
-	public function onBeforeDispatchCLI()
+	public function onBeforeDispatchCli()
 	{
 		JLoader::import('joomla.environment.uri');
 		JLoader::import('joomla.application.component.helper');
@@ -541,7 +541,7 @@ class FOFDispatcher extends FOFUtilsObject
 
 					$encryptedData = $_SERVER['PHP_AUTH_PW'];
 
-					$authInfo = $this->_decryptWithTOTP($encryptedData);
+					$authInfo = $this->_decryptWithTotp($encryptedData);
 					break;
 
 				case 'QueryString_TOTP':
@@ -552,7 +552,7 @@ class FOFDispatcher extends FOFUtilsObject
 						continue;
 					}
 
-					$authInfo = $this->_decryptWithTOTP($encryptedData);
+					$authInfo = $this->_decryptWithTotp($encryptedData);
 					break;
 
 				case 'HTTPBasicAuth_Plaintext':
@@ -629,7 +629,7 @@ class FOFDispatcher extends FOFUtilsObject
      * @codeCoverageIgnore
 	 * @return  array  The decrypted data
 	 */
-	private function _decryptWithTOTP($encryptedData)
+	private function _decryptWithTotp($encryptedData)
 	{
 		if (empty($this->fofAuth_Key))
 		{
