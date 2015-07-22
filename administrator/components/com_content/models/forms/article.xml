@@ -188,6 +188,19 @@
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
+
+			<field
+				name="info_block_show_title"
+				type="list"
+				default=""
+				label="COM_CONTENT_FIELD_INFOBLOCK_SHOW_TITLE_LABEL"
+				description="COM_CONTENT_FIELD_INFOBLOCK_SHOW_TITLE_DESC"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
+
 			<field
 				name="info_block_position"
 				type="list"
