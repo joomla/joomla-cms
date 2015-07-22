@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Application Package
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -221,7 +221,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 		$this->setHeader('Content-Type', $this->mimeType . '; charset=' . $this->charSet);
 
 		// If the response is set to uncachable, we need to set some appropriate headers so browsers don't cache the response.
-		if (!$this->response->cachable)
+		if (!$this->allowCache())
 		{
 			// Expires in the past.
 			$this->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
@@ -588,22 +588,26 @@ abstract class AbstractWebApplication extends AbstractApplication
 		 * information from Apache or IIS.
 		 */
 
+		$phpSelf = $this->input->server->getString('PHP_SELF', '');
+		$requestUri = $this->input->server->getString('REQUEST_URI', '');
+
 		// If PHP_SELF and REQUEST_URI are both populated then we will assume "Apache Mode".
-		if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
+		if (!empty($phpSelf) && !empty($requestUri))
 		{
 			// The URI is built from the HTTP_HOST and REQUEST_URI environment variables in an Apache environment.
-			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$uri = $scheme . $this->input->server->getString('HTTP_HOST') . $requestUri;
 		}
 		else
 		// If not in "Apache Mode" we will assume that we are in an IIS environment and proceed.
 		{
 			// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
-			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
+			$uri = $scheme . $this->input->server->getString('HTTP_HOST') . $this->input->server->getString('SCRIPT_NAME');
+			$queryHost = $this->input->server->getString('QUERY_STRING', '');
 
 			// If the QUERY_STRING variable exists append it to the URI string.
-			if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING']))
+			if (!empty($queryHost))
 			{
-				$uri .= '?' . $_SERVER['QUERY_STRING'];
+				$uri .= '?' . $queryHost;
 			}
 		}
 
@@ -640,7 +644,9 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 */
 	public function isSSLConnection()
 	{
-		return (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off');
+		$serverSSLVar = $this->input->server->getString('HTTPS', '');
+
+		return (!empty($serverSSLVar) && strtolower($serverSSLVar) != 'off');
 	}
 
 	/**
@@ -699,16 +705,18 @@ abstract class AbstractWebApplication extends AbstractApplication
 			// Start with the requested URI.
 			$uri = new Uri($this->get('uri.request'));
 
+			$requestUri = $this->input->server->getString('REQUEST_URI', '');
+
 			// If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
-			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
+			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($requestUri))
 			{
 				// We aren't expecting PATH_INFO within PHP_SELF so this should work.
-				$path = dirname($_SERVER['PHP_SELF']);
+				$path = dirname($this->input->server->getString('PHP_SELF', ''));
 			}
 			else
 			// Pretty much everything else should be handled with SCRIPT_NAME.
 			{
-				$path = dirname($_SERVER['SCRIPT_NAME']);
+				$path = dirname($this->input->server->getString('SCRIPT_NAME', ''));
 			}
 		}
 
