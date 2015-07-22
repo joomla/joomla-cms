@@ -74,7 +74,7 @@ class ContactViewContact extends JViewLegacy
 		$canDo		= JHelperContent::getActions('com_contact', 'category', $this->item->catid);
 
 		JToolbarHelper::title($isNew ? JText::_('COM_CONTACT_MANAGER_CONTACT_NEW') : JText::_('COM_CONTACT_MANAGER_CONTACT_EDIT'), 'address contact');
-		
+
 		// Build the actions for new and existing records.
 		if ($isNew)
 		{

@@ -60,7 +60,7 @@ class RedirectViewLink extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$isNew		= ($this->item->id == 0);	
+		$isNew		= ($this->item->id == 0);
 		$canDo		= JHelperContent::getActions('com_redirect');
 
 		JToolbarHelper::title($isNew ? JText::_('COM_REDIRECT_MANAGER_LINK_NEW') : JText::_('COM_REDIRECT_MANAGER_LINK_EDIT'), 'refresh redirect');
