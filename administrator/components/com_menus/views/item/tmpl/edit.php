@@ -78,6 +78,8 @@ Joomla.submitbutton = function(task, type){
 // Add the script to the document head.
 JFactory::getDocument()->addScriptDeclaration($script);
 
+// Fieldsets to not automatically render by /layouts/joomla/edit/params.php
+$this->ignore_fieldsets = array('item_associations');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">

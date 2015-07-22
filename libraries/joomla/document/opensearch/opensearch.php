@@ -84,7 +84,7 @@ class JDocumentOpensearch extends JDocument
 
 				if ($path == "")
 				{
-					$favicon->data = JURI::base() . 'favicon.ico';
+					$favicon->data = JUri::base() . 'favicon.ico';
 				}
 				else
 				{
@@ -93,7 +93,7 @@ class JDocumentOpensearch extends JDocument
 						$path = substr($path, 1);
 					}
 
-					$favicon->data = JURI::base() . $path . '/favicon.ico';
+					$favicon->data = JUri::base() . $path . '/favicon.ico';
 				}
 
 				$favicon->height = '16';

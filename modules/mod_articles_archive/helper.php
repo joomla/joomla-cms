@@ -72,8 +72,8 @@ class ModArchiveHelper
 			$created_month = $date->format('n');
 			$created_year  = $date->format('Y');
 
-			$created_year_cal = JHTML::_('date', $row->created, 'Y');
-			$month_name_cal   = JHTML::_('date', $row->created, 'F');
+			$created_year_cal = JHtml::_('date', $row->created, 'Y');
+			$month_name_cal   = JHtml::_('date', $row->created, 'F');
 
 			$lists[$i] = new stdClass;
 

@@ -8,22 +8,8 @@
  */
 
 defined('_JEXEC') or die;
+JHtml::script('com_wrapper/iframe-height.min.js', false, true);
 ?>
-<script type="text/javascript">
-function iFrameHeight()
-{
-	var h = 0;
-	if (!document.all)
-	{
-		h = document.getElementById('blockrandom').contentDocument.height;
-		document.getElementById('blockrandom').style.height = h + 60 + 'px';
-	} else if (document.all)
-	{
-		h = document.frames('blockrandom').document.body.scrollHeight;
-		document.all.blockrandom.style.height = h + 20 + 'px';
-	}
-}
-</script>
 <div class="contentpane<?php echo $this->pageclass_sfx; ?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">

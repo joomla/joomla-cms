@@ -196,24 +196,22 @@ class InstallerModelUpdate extends JModelList
 		// This may or may not mean depending on your database
 		$db->setQuery('TRUNCATE TABLE #__updates');
 
-		if ($db->execute())
-		{
-			// Reset the last update check timestamp
-			$query = $db->getQuery(true)
-				->update($db->quoteName('#__update_sites'))
-				->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
-			$db->setQuery($query);
-			$db->execute();
-			$this->_message = JText::_('JLIB_INSTALLER_PURGED_UPDATES');
-
-			return true;
-		}
-		else
+		if (!$db->execute())
 		{
 			$this->_message = JText::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
 
 			return false;
 		}
+
+		// Reset the last update check timestamp
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__update_sites'))
+			->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
+		$db->setQuery($query);
+		$db->execute();
+		$this->_message = JText::_('JLIB_INSTALLER_PURGED_UPDATES');
+
+		return true;
 	}
 
 	/**
@@ -232,21 +230,19 @@ class InstallerModelUpdate extends JModelList
 			->where('enabled = 0');
 		$db->setQuery($query);
 
-		if ($db->execute())
-		{
-			if ($rows = $db->getAffectedRows())
-			{
-				$this->_message .= JText::plural('COM_INSTALLER_ENABLED_UPDATES', $rows);
-			}
-
-			return true;
-		}
-		else
+		if (!$db->execute())
 		{
 			$this->_message .= JText::_('COM_INSTALLER_FAILED_TO_ENABLE_UPDATES');
 
 			return false;
 		}
+
+		if ($rows = $db->getAffectedRows())
+		{
+			$this->_message .= JText::plural('COM_INSTALLER_ENABLED_UPDATES', $rows);
+		}
+
+		return true;
 	}
 
 	/**
@@ -301,31 +297,19 @@ class InstallerModelUpdate extends JModelList
 	{
 		$app = JFactory::getApplication();
 
-		if (isset($update->get('downloadurl')->_data))
-		{
-			$url = $update->downloadurl->_data;
-
-			$extra_query = $update->get('extra_query');
-
-			if ($extra_query)
-			{
-				if (strpos($url, '?') === false)
-				{
-					$url .= '?';
-				}
-				else
-				{
-					$url .= '&amp;';
-				}
-
-				$url .= $extra_query;
-			}
-		}
-		else
+		if (!isset($update->get('downloadurl')->_data))
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_INVALID_EXTENSION_UPDATE'));
 
 			return false;
+		}
+
+		$url = $update->downloadurl->_data;
+
+		if ($extra_query = $update->get('extra_query'))
+		{
+			$url .= (strpos($url, '?') === false) ? '?' : '&amp;';
+			$url .= $extra_query;
 		}
 
 		$p_file = JInstallerHelper::downloadPackage($url);
