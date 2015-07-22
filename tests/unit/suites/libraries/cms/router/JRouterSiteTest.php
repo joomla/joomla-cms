@@ -567,7 +567,8 @@ class JRouterSiteTest extends TestCase
 		$parseRawRouteMethod = new ReflectionMethod('JRouterSite', 'parseRawRoute');
 		$parseRawRouteMethod->setAccessible(true);
 
-		$vars = $parseRawRouteMethod->invokeArgs($object, array(new JUri($url)));
+		$uri  = new JUri($url);
+		$vars = $parseRawRouteMethod->invokeArgs($object, array(&$uri));
 
 		$this->assertEquals(
 			$expectedParseVars,
@@ -904,7 +905,8 @@ class JRouterSiteTest extends TestCase
 		$parseSefRouteMethod = new ReflectionMethod('JRouterSite', 'parseSefRoute');
 		$parseSefRouteMethod->setAccessible(true);
 
-		$vars = $parseSefRouteMethod->invokeArgs($object, array(new JUri($url)));
+		$uri  = new JUri($url);
+		$vars = $parseSefRouteMethod->invokeArgs($object, array(&$uri));
 
 		$this->assertEquals(
 			$expectedParseVars,
