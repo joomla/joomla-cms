@@ -133,7 +133,7 @@ function debugMsg($msg)
  * Akeeba Backup's JSON compatibility layer
  *
  * On systems where json_encode and json_decode are not available, Akeeba
- * Backup will attempt to use PEAR's Services_JSON library to emulate them.
+ * Backup will attempt to use PEAR's Services_Json library to emulate them.
  * A copy of this library is included in this file and will be used if and
  * only if it isn't already loaded, e.g. due to PEAR's auto-loading, or a
  * 3PD extension loading it for its own purposes.
@@ -184,7 +184,7 @@ function debugMsg($msg)
  * DAMAGE.
  *
  * @category
- * @package     Services_JSON
+ * @package     Services_Json
  * @author      Michal Migurski <mike-json@teczno.com>
  * @author      Matt Knapp <mdknapp[at]gmail[dot]com>
  * @author      Brett Stimmerman <brettstimmerman[at]gmail[dot]com>
@@ -202,37 +202,37 @@ if(!defined('JSON_FORCE_OBJECT'))
 if(!defined('SERVICES_JSON_SLICE'))
 {
 	/**
-	 * Marker constant for Services_JSON::decode(), used to flag stack state
+	 * Marker constant for Services_Json::decode(), used to flag stack state
 	 */
 	define('SERVICES_JSON_SLICE',   1);
 
 	/**
-	 * Marker constant for Services_JSON::decode(), used to flag stack state
+	 * Marker constant for Services_Json::decode(), used to flag stack state
 	 */
 	define('SERVICES_JSON_IN_STR',  2);
 
 	/**
-	 * Marker constant for Services_JSON::decode(), used to flag stack state
+	 * Marker constant for Services_Json::decode(), used to flag stack state
 	 */
 	define('SERVICES_JSON_IN_ARR',  3);
 
 	/**
-	 * Marker constant for Services_JSON::decode(), used to flag stack state
+	 * Marker constant for Services_Json::decode(), used to flag stack state
 	 */
 	define('SERVICES_JSON_IN_OBJ',  4);
 
 	/**
-	 * Marker constant for Services_JSON::decode(), used to flag stack state
+	 * Marker constant for Services_Json::decode(), used to flag stack state
 	 */
 	define('SERVICES_JSON_IN_CMT', 5);
 
 	/**
-	 * Behavior switch for Services_JSON::decode()
+	 * Behavior switch for Services_Json::decode()
 	 */
 	define('SERVICES_JSON_LOOSE_TYPE', 16);
 
 	/**
-	 * Behavior switch for Services_JSON::decode()
+	 * Behavior switch for Services_Json::decode()
 	 */
 	define('SERVICES_JSON_SUPPRESS_ERRORS', 32);
 }
@@ -243,8 +243,8 @@ if(!defined('SERVICES_JSON_SLICE'))
  * Brief example of use:
  *
  * <code>
- * // create a new instance of Services_JSON
- * $json = new Services_JSON();
+ * // create a new instance of Services_Json
+ * $json = new Services_Json();
  *
  * // convert a complexe value to JSON notation, and send it to the browser
  * $value = array('foo', 'bar', array(1, 2, 'baz'), array(3, array(4)));
@@ -258,9 +258,9 @@ if(!defined('SERVICES_JSON_SLICE'))
  * $value = $json->decode($input);
  * </code>
  */
-if(!class_exists('Akeeba_Services_JSON'))
+if(!class_exists('Akeeba_Services_Json'))
 {
-	class Akeeba_Services_JSON
+	class Akeeba_Services_Json
 	{
 	   /**
 	    * constructs a new JSON instance
@@ -278,7 +278,7 @@ if(!class_exists('Akeeba_Services_JSON'))
 	    *                                   bubble up with an error, so all return values
 	    *                                   from encode() should be checked with isError()
 	    */
-	    function Akeeba_Services_JSON($use = 0)
+	    function Akeeba_Services_Json($use = 0)
 	    {
 	        $this->use = $use;
 	    }
@@ -375,7 +375,7 @@ if(!class_exists('Akeeba_Services_JSON'))
 	    * encodes an arbitrary variable into JSON format
 	    *
 	    * @param    mixed   $var    any number, boolean, string, array, or object to be encoded.
-	    *                           see argument 1 to Services_JSON() above for array-parsing behavior.
+	    *                           see argument 1 to Services_Json() above for array-parsing behavior.
 	    *                           if var is a strng, note that encode() always expects it
 	    *                           to be in ASCII or UTF-8 format!
 	    *
@@ -529,7 +529,7 @@ if(!class_exists('Akeeba_Services_JSON'))
 	                                            array_values($var));
 
 	                    foreach($properties as $property) {
-	                        if(Akeeba_Services_JSON::isError($property)) {
+	                        if(Akeeba_Services_Json::isError($property)) {
 	                            return $property;
 	                        }
 	                    }
@@ -541,7 +541,7 @@ if(!class_exists('Akeeba_Services_JSON'))
 	                $elements = array_map(array($this, 'encode'), $var);
 
 	                foreach($elements as $element) {
-	                    if(Akeeba_Services_JSON::isError($element)) {
+	                    if(Akeeba_Services_Json::isError($element)) {
 	                        return $element;
 	                    }
 	                }
@@ -556,7 +556,7 @@ if(!class_exists('Akeeba_Services_JSON'))
 	                                        array_values($vars));
 
 	                foreach($properties as $property) {
-	                    if(Akeeba_Services_JSON::isError($property)) {
+	                    if(Akeeba_Services_Json::isError($property)) {
 	                        return $property;
 	                    }
 	                }
@@ -566,7 +566,7 @@ if(!class_exists('Akeeba_Services_JSON'))
 	            default:
 	                return ($this->use & SERVICES_JSON_SUPPRESS_ERRORS)
 	                    ? 'null'
-	                    : new Akeeba_Services_JSON_Error(gettype($var)." can not be encoded as JSON string");
+	                    : new Akeeba_Services_Json_Error(gettype($var)." can not be encoded as JSON string");
 	        }
 	    }
 
@@ -583,7 +583,7 @@ if(!class_exists('Akeeba_Services_JSON'))
 	    {
 	        $encoded_value = $this->encode($value);
 
-	        if(Akeeba_Services_JSON::isError($encoded_value)) {
+	        if(Akeeba_Services_Json::isError($encoded_value)) {
 	            return $encoded_value;
 	        }
 
@@ -624,7 +624,7 @@ if(!class_exists('Akeeba_Services_JSON'))
 	    *
 	    * @return   mixed   number, boolean, string, array, or object
 	    *                   corresponding to given JSON input string.
-	    *                   See argument 1 to Akeeba_Services_JSON() above for object-output behavior.
+	    *                   See argument 1 to Akeeba_Services_Json() above for object-output behavior.
 	    *                   Note that decode() always returns strings
 	    *                   in ASCII or UTF-8 format!
 	    * @access   public
@@ -921,9 +921,9 @@ if(!class_exists('Akeeba_Services_JSON'))
 	    }
 	}
 
-    class Akeeba_Services_JSON_Error
+    class Akeeba_Services_Json_Error
     {
-        function Akeeba_Services_JSON_Error($message = 'unknown error', $code = null,
+        function Akeeba_Services_Json_Error($message = 'unknown error', $code = null,
                                      $mode = null, $options = null, $userinfo = null)
         {
 
@@ -936,7 +936,7 @@ if(!function_exists('json_encode'))
 	function json_encode($value, $options = 0) {
 		$flags = SERVICES_JSON_LOOSE_TYPE;
 		if( $options & JSON_FORCE_OBJECT ) $flags = 0;
-		$encoder = new Akeeba_Services_JSON($flags);
+		$encoder = new Akeeba_Services_Json($flags);
 		return $encoder->encode($value);
 	}
 }
@@ -947,7 +947,7 @@ if(!function_exists('json_decode'))
 	{
 		$flags = 0;
 		if($assoc) $flags = SERVICES_JSON_LOOSE_TYPE;
-		$decoder = new Akeeba_Services_JSON($flags);
+		$decoder = new Akeeba_Services_Json($flags);
 		return $decoder->decode($value);
 	}
 }
