@@ -123,11 +123,11 @@ class FinderControllerFilter extends JControllerForm
 				if (($errors[$i]) instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+
+					continue;
 				}
-				else
-				{
-					$app->enqueueMessage($errors[$i], 'warning');
-				}
+
+				$app->enqueueMessage($errors[$i], 'warning');
 			}
 
 			// Save the data in the session.
