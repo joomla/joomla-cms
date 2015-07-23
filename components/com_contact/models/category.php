@@ -287,7 +287,7 @@ class ContactModelCategory extends JModelList
 		{
 			$this->setState('filter.published', array(0, 1, 2));
 		}
-		
+
 		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
 		// Load the parameters.
