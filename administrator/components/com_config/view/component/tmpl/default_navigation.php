@@ -15,8 +15,7 @@ defined('_JEXEC') or die;
 		<li><a href="index.php?option=com_config"><?php echo JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'); ?></a></li>
 		<li class="divider"></li>
 	<?php endif; ?>
-	<li class="nav-header"><?php echo JText::_('COM_CONFIG_COMPONENT_FIELDSET_LABEL'); ?>
-	</li>
+	<li class="nav-header"><?php echo JText::_('COM_CONFIG_COMPONENT_FIELDSET_LABEL'); ?></li>
 	<?php foreach ($this->components as $component) : ?>
 		<?php
 		$active = '';
