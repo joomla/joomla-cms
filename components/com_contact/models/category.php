@@ -168,6 +168,10 @@ class ContactModelCategory extends JModelList
 		{
 			$query->where('a.published = ' . (int) $state);
 		}
+		else
+		{
+			$query->where('(a.published IN (0,1,2))');
+		}
 		// Filter by start and end dates.
 		$nullDate = $db->quote($db->getNullDate());
 		$nowDate = $db->quote(JFactory::getDate()->toSql());
@@ -279,7 +283,11 @@ class ContactModelCategory extends JModelList
 			// Filter by start and end dates.
 			$this->setState('filter.publish_date', true);
 		}
-
+		else
+		{
+			$this->setState('filter.published', array(0, 1, 2));
+		}
+		
 		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
 		// Load the parameters.
