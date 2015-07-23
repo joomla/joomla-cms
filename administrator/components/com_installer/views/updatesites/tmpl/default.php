@@ -93,6 +93,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td>
 							<label for="cb<?php echo $i; ?>">
 								<?php echo $item->update_site_name; ?>
+								<br /><span class="small"><a href="<?php echo $item->location; ?>"><?php echo $item->location; ?></a></span>
 							</label>
 						</td>
 						<td class="hidden-phone">
