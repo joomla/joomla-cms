@@ -63,13 +63,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th width="5%" class="nowrap center hidden-phone">
 							<?php echo JText::_('COM_TEMPLATES_HEADING_ASSIGNED'); ?>
 						</th>
-						<th width="10%" class="nowrap center">
+						<th width="10%" class="nowrap">
 							<?php echo JHtml::_('grid.sort', 'JCLIENT', 'a.client_id', $listDirn, $listOrder); ?>
 						</th>
-						<th class="center hidden-phone">
+						<th class="hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.template', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap center hidden-phone">
+						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -128,14 +128,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td class="small">
 							<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<label for="cb<?php echo $i;?>" class="small">
 								<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->e_id); ?>  ">
 									<?php echo ucfirst($this->escape($item->template));?>
 								</a>
 							</label>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>

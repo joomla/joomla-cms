@@ -459,11 +459,12 @@ class BannersModelBanner extends JModelAdmin
 		{
 			// Set the values
 			$table->created = $date->toSql();
+			$table->created_by = $user->id;
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering))
 			{
-				$db = JFactory::getDbo();
+				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select('MAX(ordering)')
 					->from('#__banners');

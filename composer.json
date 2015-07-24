@@ -23,6 +23,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "4.1.*",
-        "phpunit/dbunit": "~1.3"
+        "phpunit/dbunit": "~1.3",
+        "squizlabs/php_codesniffer": "~1.5",
+        "pear/cache_lite": "1.7.16"
     }
 }

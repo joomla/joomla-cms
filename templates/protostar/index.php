@@ -127,6 +127,7 @@ else
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
 	. ($params->get('fluidContainer') ? ' fluid' : '');
+	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 
 	<!-- Body -->

@@ -1,13 +1,13 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Controller
+ * @package     Joomla.Site
+ * @subpackage  com_config
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('_JEXEC') or die;
 
 /**
  * Cancel Controller for Admin
@@ -67,6 +67,12 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 
 		if (!empty($this->redirect))
 		{
+			// Don't redirect to an external URL.
+			if (!JUri::isInternal($this->redirect))
+			{
+				$this->redirect = JUri::base();
+			}
+
 			$this->app->redirect($this->redirect);
 		}
 		else

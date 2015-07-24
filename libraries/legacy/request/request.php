@@ -44,7 +44,7 @@ class JRequest
 	 *
 	 * @deprecated   12.1
 	 */
-	public static function getURI()
+	public static function getUri()
 	{
 		$uri = JUri::getInstance();
 

@@ -249,7 +249,9 @@ class JFile
 		// Check src path
 		if (!is_readable($src))
 		{
-			return JText::_('JLIB_FILESYSTEM_CANNOT_FIND_SOURCE_FILE');
+			JLog::add(JText::_('JLIB_FILESYSTEM_CANNOT_FIND_SOURCE_FILE'), JLog::WARNING, 'jerror');
+
+			return false;
 		}
 
 		if ($use_streams)

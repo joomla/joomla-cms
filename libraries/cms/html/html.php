@@ -296,7 +296,7 @@ abstract class JHtml
 	protected static function includeRelativeFiles($folder, $file, $relative, $detect_browser, $detect_debug)
 	{
 		// If http is present in filename
-		if (strpos($file, 'http') === 0)
+		if (strpos($file, 'http') === 0 || strpos($file, '//') === 0)
 		{
 			$includes = array($file);
 		}
@@ -975,7 +975,7 @@ abstract class JHtml
 		static::_('bootstrap.tooltip');
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
-		if ((int) $value && $value != JFactory::getDbo()->getNullDate())
+		if ($value && $value != JFactory::getDbo()->getNullDate())
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');

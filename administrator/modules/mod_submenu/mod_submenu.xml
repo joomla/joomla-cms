@@ -11,7 +11,6 @@
 	<description>MOD_SUBMENU_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_submenu">mod_submenu.php</filename>
-		<filename>helper.php</filename>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

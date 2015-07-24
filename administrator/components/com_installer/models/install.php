@@ -86,7 +86,8 @@ class InstallerModelInstall extends JModelLegacy
 		{
 			return true;
 		}
-		elseif (in_array(false, $results, true))
+
+		if (in_array(false, $results, true))
 		{
 			return false;
 		}
@@ -126,7 +127,8 @@ class InstallerModelInstall extends JModelLegacy
 		{
 			return true;
 		}
-		elseif (in_array(false, $results, true))
+
+		if (in_array(false, $results, true))
 		{
 			if (in_array($installType, array('upload', 'url')))
 			{
@@ -334,7 +336,7 @@ class InstallerModelInstall extends JModelLegacy
 		{
 			jimport('joomla.updater.update');
 			$update = new JUpdate;
-			$update->loadFromXML($url);
+			$update->loadFromXml($url);
 			$package_url = trim($update->get('downloadurl', false)->_data);
 
 			if ($package_url)

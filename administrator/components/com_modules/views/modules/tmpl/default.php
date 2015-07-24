@@ -120,7 +120,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<th width="5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap center hidden-phone">
+						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -227,7 +227,7 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 							<?php endif;?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>

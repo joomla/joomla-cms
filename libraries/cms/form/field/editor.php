@@ -244,7 +244,7 @@ class JFormFieldEditor extends JFormFieldTextarea
 		$editor = $this->getEditor();
 
 		return $editor->display(
-			$this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $this->width, $this->height, $this->cols, $this->rows,
+			$this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $this->width, $this->height, $this->columns, $this->rows,
 			$this->buttons ? (is_array($this->buttons) ? array_merge($this->buttons, $this->hide) : $this->hide) : false, $this->id, $this->asset,
 			$this->form->getValue($this->authorField), array('syntax' => (string) $this->element['syntax'])
 		);

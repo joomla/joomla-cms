@@ -325,7 +325,7 @@ class JMediawikiUsers extends JMediawikiObject
 	 *
 	 * @since   12.3
 	 */
-	public function unBlockUserByID($id, $reason = null)
+	public function unBlockUserById($id, $reason = null)
 	{
 		// Get the token.
 		$token = $this->getToken($id, 'unblock');
