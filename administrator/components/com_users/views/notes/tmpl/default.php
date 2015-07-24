@@ -148,7 +148,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'notes.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 					</td>
 					<td class="center">
-						<?php if (intval($item->review_time)) : ?>
+						<?php if ($item->review_time !== JFactory::getDbo()->getNullDate()) : ?>
 							<?php echo JHtml::_('date', $item->review_time, JText::_('DATE_FORMAT_LC4')); ?>
 						<?php else : ?>
 							<?php echo JText::_('COM_USERS_EMPTY_REVIEW'); ?>

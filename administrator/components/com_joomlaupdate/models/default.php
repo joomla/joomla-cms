@@ -205,7 +205,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 */
 	public function purge()
 	{
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 
 		// Modify the database record
 		$update_site = new stdClass;
@@ -597,7 +597,7 @@ ENDDATA;
 		ob_end_clean();
 
 		// Get a database connector object.
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 
 		/*
 		 * Check to see if a file extension by the same name is already installed.

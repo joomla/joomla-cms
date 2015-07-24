@@ -744,7 +744,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @since   2.5
 	 */
-	protected function getURL($id, $extension, $view)
+	protected function getUrl($id, $extension, $view)
 	{
 		return 'index.php?option=' . $extension . '&view=' . $view . '&id=' . $id;
 	}

@@ -483,7 +483,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 	protected function extensionExistsInSystem($extension = null)
 	{
 		// Get a database connector object
-		$db = $this->parent->getDBO();
+		$db = $this->parent->getDbo();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))

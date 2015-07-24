@@ -18,14 +18,12 @@ $document = JFactory::getDocument();
 <h2><?php echo JText::_('COM_MODULES_TYPE_CHOOSE')?></h2>
 <ul id="new-modules-list" class="list list-striped">
 <?php foreach ($this->items as &$item) : ?>
-	<?php
-		// Prepare variables for the link.
+	<?php // Prepare variables for the link. ?>
+	<?php $link       = 'index.php?option=com_modules&task=module.add&eid=' . $item->extension_id; ?>
+	<?php $name       = $this->escape($item->name); ?>
+	<?php $desc       = JHtml::_('string.truncate', ($this->escape(strip_tags($item->desc))), 200); ?>
+	<?php $short_desc = JHtml::_('string.truncate', ($this->escape(strip_tags($item->desc))), 90); ?>
 
-		$link	= 'index.php?option=com_modules&task=module.add&eid=' . $item->extension_id;
-		$name	= $this->escape($item->name);
-		$desc	= JHTML::_('string.truncate', ($this->escape($item->desc)), 200);
-		$short_desc	= JHTML::_('string.truncate', ($this->escape($item->desc)), 90);
-	?>
 	<?php if ($document->direction != "rtl") : ?>
 	<li>
 		<a href="<?php echo JRoute::_($link);?>">
@@ -36,11 +34,11 @@ $document = JFactory::getDocument();
 	<?php else : ?>
 	<li>
 		<small rel="popover" data-placement="left" title="<?php echo $name; ?>" data-content="<?php echo $desc; ?>"><?php echo $short_desc; ?></small>
-		<a href="<?php echo JRoute::_($link);?>">
+		<a href="<?php echo JRoute::_($link); ?>">
 			<strong><?php echo $name; ?></strong>
 		</a>
 	</li>
-	<?php endif?>
+	<?php endif; ?>
 <?php endforeach; ?>
 </ul>
 <div class="clr"></div>

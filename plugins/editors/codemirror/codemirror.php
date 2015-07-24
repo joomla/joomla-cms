@@ -70,6 +70,7 @@ class PlgEditorCodemirror extends JPlugin
 		JHtml::_('script', $this->basePath . 'lib/codemirror.min.js');
 		JHtml::_('script', $this->basePath . 'lib/addons.min.js');
 		JHtml::_('stylesheet', $this->basePath . 'lib/codemirror.min.css');
+		JHtml::_('stylesheet', $this->basePath . 'lib/addons.min.css');
 
 		JFactory::getDocument()
 			->addScriptDeclaration($this->getInitScript())
@@ -90,7 +91,7 @@ class PlgEditorCodemirror extends JPlugin
 		$this->fullScreenCombo = implode('-', $fskeys);
 
 		$ext = JFactory::getConfig()->get('debug') ? '.js' : '.min.js';
-		$modeURL = JURI::root(true) . '/media/editors/codemirror/mode/%N/%N' . $ext;
+		$modeURL = JUri::root(true) . '/media/editors/codemirror/mode/%N/%N' . $ext;
 
 		$script = array(
 			';(function (cm) {',
