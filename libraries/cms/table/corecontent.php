@@ -110,7 +110,15 @@ class JTableCorecontent extends JTable
 		{
 			$this->core_alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
-
+		// Not Null sanity check
+		if (empty($this->core_images))
+		{
+			$this->core_images = '{}';
+		}
+		if (empty($this->core_urls))
+		{
+			$this->core_urls = '{}';
+		}
 		// Check the publish down date is not earlier than publish up.
 		if ($this->core_publish_down > $this->_db->getNullDate() && $this->core_publish_down < $this->core_publish_up)
 		{

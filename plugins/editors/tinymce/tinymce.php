@@ -102,7 +102,7 @@ class PlgEditorTinymce extends JPlugin
 
 		$text_direction = 'ltr';
 
-		if ($language->isRTL())
+		if ($language->isRtl())
 		{
 			$text_direction = 'rtl';
 		}
@@ -120,7 +120,16 @@ class PlgEditorTinymce extends JPlugin
 			->where('client_id=0 AND home=' . $db->quote('1'));
 
 		$db->setQuery($query);
-		$template = $db->loadResult();
+		try
+		{
+			$template = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+
+			return;
+		}
 
 		$content_css    = '';
 		$templates_path = JPATH_SITE . '/templates';
@@ -794,7 +803,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onGetContent($editor)
 	{
-		return 'tinyMCE.get(\'' . $editor . '\').getContent();';
+		return 'tinyMCE.activeEditor.getContent();';
 	}
 
 	/**
@@ -807,7 +816,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onSetContent($editor, $html)
 	{
-		return 'tinyMCE.get(\'' . $editor . '\').setContent(' . $html . ');';
+		return 'tinyMCE.activeEditor.setContent(' . $html . ');';
 	}
 
 	/**
@@ -819,7 +828,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onSave($editor)
 	{
-		return 'if (tinyMCE.get("' . $editor . '").isHidden()) {tinyMCE.get("' . $editor . '").show()}; tinyMCE.get("' . $editor . '").save();';
+		return 'if (tinyMCE.get("' . $editor . '").isHidden()) {tinyMCE.get("' . $editor . '").show()};';
 	}
 
 	/**

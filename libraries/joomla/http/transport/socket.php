@@ -224,7 +224,7 @@ class JHttpTransportSocket implements JHttpTransport
 		$err = null;
 
 		// Get the host from the uri.
-		$host = ($uri->isSSL()) ? 'ssl://' . $uri->getHost() : $uri->getHost();
+		$host = ($uri->isSsl()) ? 'ssl://' . $uri->getHost() : $uri->getHost();
 
 		// If the port is not explicitly set in the URI detect it.
 		if (!$uri->getPort())

@@ -318,15 +318,15 @@ class CategoriesModelCategory extends JModelAdmin
 			$data = $this->getItem();
 
 			// Pre-select some filters (Status, Language, Access) in edit form if those have been selected in Category Manager
-			if ($this->getState('category.id') == 0)
+			if (!$data->id)
 			{
 				// Check for which extension the Category Manager is used and get selected fields
 				$extension = substr($app->getUserState('com_categories.categories.filter.extension'), 4);
 				$filters = (array) $app->getUserState('com_categories.categories.' . $extension . '.filter');
 
-				$data->set('published', $app->input->getInt('published', (isset($filters['published']) ? $filters['published'] : null)));
-				$data->set('language', $app->input->getString('language', (isset($filters['language']) ? $filters['language'] : null)));
-				$data->set('access', $app->input->getInt('access', (isset($filters['access']) ? $filters['access'] : null)));
+				$data->set('published', $app->input->getInt('published', (!empty($filters['published']) ? $filters['published'] : null)));
+				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'))));
 			}
 
 		}
@@ -582,7 +582,7 @@ class CategoriesModelCategory extends JModelAdmin
 			$associations[$table->language] = $table->id;
 
 			// Deleting old association for these items
-			$db = JFactory::getDbo();
+			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->delete('#__associations')
 				->where($db->quoteName('context') . ' = ' . $db->quote('com_categories.item'))

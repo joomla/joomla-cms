@@ -67,7 +67,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 		echo '<h2>';
 	} ?>
     <?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
-		<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
+		<?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_category_title') or $this->params->get('page_subheading'))
 	{

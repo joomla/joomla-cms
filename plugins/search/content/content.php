@@ -189,7 +189,15 @@ class PlgSearchContent extends JPlugin
 			}
 
 			$db->setQuery($query, 0, $limit);
-			$list = $db->loadObjectList();
+			try
+			{
+				$list = $db->loadObjectList();
+			}
+			catch (RuntimeException $e)
+			{
+				$list = array();
+				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			}
 			$limit -= count($list);
 
 			if (isset($list))
@@ -251,7 +259,15 @@ class PlgSearchContent extends JPlugin
 			}
 
 			$db->setQuery($query, 0, $limit);
-			$list3 = $db->loadObjectList();
+			try
+			{
+				$list3 = $db->loadObjectList();
+			}
+			catch (RuntimeException $e)
+			{
+				$list3 = array();
+				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			}
 
 			// Find an itemid for archived to use if there isn't another one.
 			$item = $app->getMenu()->getItems('link', 'index.php?option=com_content&view=archive', true);
@@ -283,7 +299,7 @@ class PlgSearchContent extends JPlugin
 
 				foreach ($row as $article)
 				{
-					if (SearchHelper::checkNoHTML($article, $searchText, array('text', 'title', 'metadesc', 'metakey')))
+					if (SearchHelper::checkNoHtml($article, $searchText, array('text', 'title', 'metadesc', 'metakey')))
 					{
 						$new_row[] = $article;
 					}

@@ -137,6 +137,10 @@ class NewsfeedsModelCategory extends JModelList
 		{
 			$query->where('a.published = ' . (int) $state);
 		}
+		else
+		{
+			$query->where('(a.published IN (0,1,2))');
+		}
 
 		// Filter by start and end dates.
 		$nullDate = $db->quote($db->getNullDate());

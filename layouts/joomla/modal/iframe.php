@@ -35,6 +35,11 @@ $iframeAttributes = array(
 	'src'   => $params['url']
 );
 
+if (isset($params['title']))
+{
+	$iframeAttributes['name'] = $params['title'];
+}
+
 if (isset($params['height']))
 {
 	$iframeAttributes['height'] = $params['height'];

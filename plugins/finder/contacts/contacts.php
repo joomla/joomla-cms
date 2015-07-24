@@ -264,7 +264,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		$item->params = $registry;
 
 		// Build the necessary route and path information.
-		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
+		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
 		$item->route = ContactHelperRoute::getContactRoute($item->slug, $item->catslug, $item->language);
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
