@@ -234,10 +234,6 @@ class NewsfeedsModelCategory extends JModelList
 			// Filter by start and end dates.
 			$this->setState('filter.publish_date', true);
 		}
-		else
-		{
-			$this->setState('filter.published', array(0, 1, 2));
-		}
 
 		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
