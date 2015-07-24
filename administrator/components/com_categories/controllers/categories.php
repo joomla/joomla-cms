@@ -29,7 +29,9 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 */
 	public function getModel($name = 'Category', $prefix = 'CategoriesModel', $config = array('ignore_request' => true))
 	{
-		return parent::getModel($name, $prefix, $config);
+		$model = parent::getModel($name, $prefix, $config);
+
+		return $model;
 	}
 
 	/**
@@ -48,18 +50,20 @@ class CategoriesControllerCategories extends JControllerAdmin
 
 		$model = $this->getModel();
 
-		if (!$model->rebuild())
+		if ($model->rebuild())
+		{
+			// Rebuild succeeded.
+			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_SUCCESS'));
+
+			return true;
+		}
+		else
 		{
 			// Rebuild failed.
 			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_FAILURE'));
 
 			return false;
 		}
-
-		// Rebuild succeeded.
-		$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_SUCCESS'));
-
-		return true;
 	}
 
 	/**
@@ -82,15 +86,17 @@ class CategoriesControllerCategories extends JControllerAdmin
 		$originalOrder = explode(',', $this->input->getString('original_order_values'));
 
 		// Make sure something has changed
-		if ($order === $originalOrder)
+		if (!($order === $originalOrder))
+		{
+			parent::saveorder();
+		}
+		else
 		{
 			// Nothing to reorder
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
 			return true;
 		}
-
-		return parent::saveorder();
 	}
 
 	/**
@@ -107,32 +113,31 @@ class CategoriesControllerCategories extends JControllerAdmin
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 		$extension = $this->input->getCmd('extension', null);
-		$redirect = JRoute::_('index.php?option=' . $this->option . '&extension=' . $extension, false);
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
 			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
-
-			$this->setRedirect($redirect);
-		}
-
-		// Get the model.
-		$model = $this->getModel();
-
-		// Make sure the item ids are integers
-		jimport('joomla.utilities.arrayhelper');
-		JArrayHelper::toInteger($cid);
-
-		// Remove the items.
-		if ($model->delete($cid))
-		{
-			$this->setMessage(JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
 		}
 		else
 		{
-			$this->setMessage($model->getError());
+			// Get the model.
+			$model = $this->getModel();
+
+			// Make sure the item ids are integers
+			jimport('joomla.utilities.arrayhelper');
+			JArrayHelper::toInteger($cid);
+
+			// Remove the items.
+			if ($model->delete($cid))
+			{
+				$this->setMessage(JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
+			}
+			else
+			{
+				$this->setMessage($model->getError());
+			}
 		}
 
-		$this->setRedirect($redirect);
+		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&extension=' . $extension, false));
 	}
 }

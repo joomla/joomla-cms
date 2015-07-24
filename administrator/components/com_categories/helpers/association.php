@@ -35,27 +35,25 @@ abstract class CategoryHelperAssociation
 	{
 		$return = array();
 
-		if (!$id)
+		if ($id)
 		{
-			return $return;
-		}
+			// Load route helper
+			jimport('helper.route', JPATH_COMPONENT_SITE);
+			$helperClassname = ucfirst(substr($extension, 4)) . 'HelperRoute';
 
-		// Load route helper
-		jimport('helper.route', JPATH_COMPONENT_SITE);
-		$helperClassname = ucfirst(substr($extension, 4)) . 'HelperRoute';
+			$associations = CategoriesHelper::getAssociations($id, $extension);
 
-		$associations = CategoriesHelper::getAssociations($id, $extension);
-
-		foreach ($associations as $tag => $item)
-		{
-			if (class_exists($helperClassname) && is_callable(array($helperClassname, 'getCategoryRoute')))
+			foreach ($associations as $tag => $item)
 			{
-				$return[$tag] = $helperClassname::getCategoryRoute($item, $tag);
-
-				continue;
+				if (class_exists($helperClassname) && is_callable(array($helperClassname, 'getCategoryRoute')))
+				{
+					$return[$tag] = $helperClassname::getCategoryRoute($item, $tag);
+				}
+				else
+				{
+					$return[$tag] = 'index.php?option=' . $extension . '&view=category&id=' . $item;
+				}
 			}
-
-			$return[$tag] = 'index.php?option=' . $extension . '&view=category&id=' . $item;
 		}
 
 		return $return;

@@ -91,35 +91,32 @@ class CategoriesControllerCategory extends JControllerForm
 
 		// Fallback on edit.own.
 		// First test if the permission is available.
-		if (!$user->authorise('core.edit.own', $this->extension . '.category.' . $recordId)
-			&& !$user->authorise('core.edit.own', $this->extension))
+		if ($user->authorise('core.edit.own', $this->extension . '.category.' . $recordId) || $user->authorise('core.edit.own', $this->extension))
 		{
-			return false;
-		}
+			// Now test the owner is the user.
+			$ownerId = (int) isset($data['created_user_id']) ? $data['created_user_id'] : 0;
 
-		// Now test the owner is the user.
-		$ownerId = (int) isset($data['created_user_id']) ? $data['created_user_id'] : 0;
-
-		if (empty($ownerId) && $recordId)
-		{
-			// Need to do a lookup from the model.
-			$record = $this->getModel()->getItem($recordId);
-
-			if (empty($record))
+			if (empty($ownerId) && $recordId)
 			{
-				return false;
+				// Need to do a lookup from the model.
+				$record = $this->getModel()->getItem($recordId);
+
+				if (empty($record))
+				{
+					return false;
+				}
+
+				$ownerId = $record->created_user_id;
 			}
 
-			$ownerId = $record->created_user_id;
+			// If the owner matches 'me' then do the test.
+			if ($ownerId == $userId)
+			{
+				return true;
+			}
 		}
 
-		// If the owner matches 'me' then do the test.
-		if ($ownerId != $userId)
-		{
-			return false;
-		}
-
-		return true;
+		return false;
 	}
 
 	/**
@@ -156,9 +153,10 @@ class CategoriesControllerCategory extends JControllerForm
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		return
-			parent::getRedirectToItemAppend($recordId)
-			. '&extension=' . $this->extension;
+		$append = parent::getRedirectToItemAppend($recordId);
+		$append .= '&extension=' . $this->extension;
+
+		return $append;
 	}
 
 	/**
@@ -170,9 +168,10 @@ class CategoriesControllerCategory extends JControllerForm
 	 */
 	protected function getRedirectToListAppend()
 	{
-		return
-			parent::getRedirectToListAppend()
-			. '&extension=' . $this->extension;
+		$append = parent::getRedirectToListAppend();
+		$append .= '&extension=' . $this->extension;
+
+		return $append;
 	}
 
 	/**
@@ -202,5 +201,7 @@ class CategoriesControllerCategory extends JControllerForm
 			$registry->loadArray($item->metadata);
 			$item->metadata = (string) $registry;
 		}
+
+		return;
 	}
 }

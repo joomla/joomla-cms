@@ -176,7 +176,9 @@ class CategoriesModelCategories extends JModelList
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
 
 		// Join over the associations.
-		if ($this->getAssoc())
+		$assoc = $this->getAssoc();
+
+		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_categories.item'))
@@ -294,6 +296,7 @@ class CategoriesModelCategories extends JModelList
 			return $assoc;
 		}
 
+		$app = JFactory::getApplication();
 		$extension = $this->getState('filter.extension');
 
 		$assoc = JLanguageAssociations::isEnabled();
@@ -304,14 +307,14 @@ class CategoriesModelCategories extends JModelList
 		if (!$assoc || !$component || !$cname)
 		{
 			$assoc = false;
-
-			return $assoc;
 		}
+		else
+		{
+			$hname = $cname . 'HelperAssociation';
+			JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
 
-		$hname = $cname . 'HelperAssociation';
-		JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
-
-		$assoc = class_exists($hname) && !empty($hname::$category_association);
+			$assoc = class_exists($hname) && !empty($hname::$category_association);
+		}
 
 		return $assoc;
 	}

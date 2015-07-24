@@ -65,19 +65,21 @@ class JFormFieldCategoryParent extends JFormFieldList
 			$query->where('(a.extension = ' . $db->quote($extension) . ' OR a.parent_id = 0)');
 		}
 
-		// Prevent parenting to children of this item.
-		if ($this->element['parent']
-			&& $id = $this->form->getValue('id'))
+		if ($this->element['parent'])
 		{
-			$query->join('LEFT', $db->quoteName('#__categories') . ' AS p ON p.id = ' . (int) $id)
-				->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
+			// Prevent parenting to children of this item.
+			if ($id = $this->form->getValue('id'))
+			{
+				$query->join('LEFT', $db->quoteName('#__categories') . ' AS p ON p.id = ' . (int) $id)
+					->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
-			$rowQuery = $db->getQuery(true);
-			$rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id')
-				->from('#__categories AS a')
-				->where('a.id = ' . (int) $id);
-			$db->setQuery($rowQuery);
-			$row = $db->loadObject();
+				$rowQuery = $db->getQuery(true);
+				$rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id')
+					->from('#__categories AS a')
+					->where('a.id = ' . (int) $id);
+				$db->setQuery($rowQuery);
+				$row = $db->loadObject();
+			}
 		}
 
 		$query->where('a.published IN (0,1)')
@@ -142,14 +144,12 @@ class JFormFieldCategoryParent extends JFormFieldList
 						echo 'y';
 						unset($options[$i]);
 					}
-
-					continue;
 				}
-
-				// If you can edit.state you can also move this to another category for which you have
+				// However, if you can edit.state you can also move this to another category for which you have
 				// create permission and you should also still be able to save in the current category.
-				if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
-					&& $option->value != $oldCat)
+				elseif (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
+					&& $option->value != $oldCat
+				)
 				{
 					echo 'x';
 					unset($options[$i]);
@@ -157,16 +157,19 @@ class JFormFieldCategoryParent extends JFormFieldList
 			}
 		}
 
-		if (isset($row)
-			&& !isset($options[0])
-			&& $row->parent_id == '1')
+		if (isset($row) && !isset($options[0]))
 		{
-			$parent = new stdClass;
-			$parent->text = JText::_('JGLOBAL_ROOT_PARENT');
-			array_unshift($options, $parent);
+			if ($row->parent_id == '1')
+			{
+				$parent = new stdClass;
+				$parent->text = JText::_('JGLOBAL_ROOT_PARENT');
+				array_unshift($options, $parent);
+			}
 		}
 
 		// Merge any additional options in the XML definition.
-		return array_merge(parent::getOptions(), $options);
+		$options = array_merge(parent::getOptions(), $options);
+
+		return $options;
 	}
 }
