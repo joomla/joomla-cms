@@ -16,11 +16,14 @@ JHtml::_('bootstrap.tooltip', '.noHtmlTip', array('html' => false));
 
 $user  = JFactory::getUser();
 $input = JFactory::getApplication()->input;
+$params = JComponentHelper::getParams('com_media');
+
+JFactory::getDocument()->addScriptDeclaration(
+	"
+	var image_base_path = '" . $params->get('image_path', 'images') . "/';
+	"
+);
 ?>
-<script type='text/javascript'>
-var image_base_path = '<?php $params = JComponentHelper::getParams('com_media');
-echo $params->get('image_path', 'images'); ?>/';
-</script>
 <form action="index.php?option=com_media&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author'); ?>" class="form-vertical" id="imageForm" method="post" enctype="multipart/form-data">
 	<div id="messages" style="display: none;">
 		<span id="message"></span><?php echo JHtml::_('image', 'media/dots.gif', '...', array('width' => 22, 'height' => 12), true) ?>
@@ -131,7 +134,7 @@ echo $params->get('image_path', 'images'); ?>/';
 						<label for="upload-file" class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
 					</div>
 					<div class="controls">
-						<input type="file" id="upload-file" name="Filedata[]" multiple /><button class="btn btn-primary" id="upload-submit"><i class="icon-upload icon-white"></i> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
+						<input type="file" id="upload-file" name="Filedata[]" multiple /><button class="btn btn-primary" id="upload-submit"><span class="icon-upload icon-white"></span> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
 						<p class="help-block"><?php echo $this->config->get('upload_maxsize') == '0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></p>
 					</div>
 				</div>

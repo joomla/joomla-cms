@@ -16,7 +16,7 @@
  */
 class JHtmlFieldCheckboxTest_DataSet
 {
-	static public $getInputTest = array(
+	public static $getInputTest = array(
 		'NoValueNoChecked' => array(
 			array(
 				'id' => 'myTestId',

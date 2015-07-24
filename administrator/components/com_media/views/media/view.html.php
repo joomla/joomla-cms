@@ -57,7 +57,7 @@ class MediaViewMedia extends JViewLegacy
 
 		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
 
-		if ($lang->isRTL())
+		if ($lang->isRtl())
 		{
 			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
 		}
@@ -149,7 +149,7 @@ class MediaViewMedia extends JViewLegacy
 		}
 
 		// Add a preferences button
-		if ($user->authorise('core.admin', 'com_media'))
+		if ($user->authorise('core.admin', 'com_media') || $user->authorise('core.options', 'com_media'))
 		{
 			JToolbarHelper::preferences('com_media');
 			JToolbarHelper::divider();

@@ -90,7 +90,7 @@ class InstallationControllerDefault extends JControllerBase
 
 		if ($vName != $default_view && ($checkOptions && empty($options)))
 		{
-			$this->setRedirect('index.php');
+			$app->redirect('index.php');
 		}
 
 		// Include the component HTML helpers.

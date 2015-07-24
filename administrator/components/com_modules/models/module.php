@@ -592,6 +592,16 @@ class ModulesModelModule extends JModelAdmin
 		{
 			$data = $this->getItem();
 
+			// Pre-select some filters (Status, Module Position, Language, Access Level) in edit form if those have been selected in Module Manager
+			if (!$data->id)
+			{
+				$filters = (array) $app->getUserState('com_modules.modules.filter');
+				$data->set('published', $app->input->getInt('published', (!empty($filters['state']) ? $filters['state'] : null)));
+				$data->set('position', $app->input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
+				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'))));
+			}
+
 			// This allows us to inject parameter settings into a new module.
 			$params = $app->getUserState('com_modules.add.module.params');
 

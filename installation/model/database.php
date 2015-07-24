@@ -243,7 +243,7 @@ class InstallationModelDatabase extends JModelBase
 				// Try to create the database now using the alternate driver
 				try
 				{
-					$this->createDB($altDB, $options, $altDB->hasUTFSupport());
+					$this->createDb($altDB, $options, $altDB->hasUTFSupport());
 				}
 				catch (RuntimeException $e)
 				{
@@ -316,10 +316,38 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// PostgreSQL database older than version 9.0.0 needs to run 'CREATE LANGUAGE' to create function.
-		if (($options->db_type == 'postgresql') && (version_compare($db_version, '9.0.0', '<')))
+		if (($options->db_type == 'postgresql') && (!version_compare($db_version, '9.0.0', '>=')))
 		{
-			$db->setQuery("CREATE LANGUAGE plpgsql");
-			$db->execute();
+			$db->setQuery("select lanpltrusted from pg_language where lanname='plpgsql'");
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_QUERY'), 'notice');
+
+				return false;
+			}
+
+			$column = $db->loadResult();
+
+			if ($column != 't')
+			{
+				$db->setQuery("CREATE LANGUAGE plpgsql");
+
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_QUERY'), 'notice');
+
+					return false;
+				}
+			}
 		}
 
 		// Get database's UTF support.
@@ -333,7 +361,7 @@ class InstallationModelDatabase extends JModelBase
 		catch (RuntimeException $e)
 		{
 			// If the database could not be selected, attempt to create it and then select it.
-			if ($this->createDB($db, $options, $utfSupport))
+			if ($this->createDb($db, $options, $utfSupport))
 			{
 				$db->select($options->db_name);
 			}
@@ -801,7 +829,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @since   3.1
 	 */
-	public function createDB($db, $options, $utf)
+	public function createDb($db, $options, $utf)
 	{
 		// Build the create database query.
 		try

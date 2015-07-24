@@ -82,7 +82,7 @@ abstract class JInstallerHelper
 		// Set the target path if not given
 		if (!$target)
 		{
-			$target = $config->get('tmp_path') . '/' . self::getFilenameFromURL($url);
+			$target = $config->get('tmp_path') . '/' . self::getFilenameFromUrl($url);
 		}
 		else
 		{
@@ -265,7 +265,7 @@ abstract class JInstallerHelper
 	 *
 	 * @since   3.1
 	 */
-	public static function getFilenameFromURL($url)
+	public static function getFilenameFromUrl($url)
 	{
 		if (is_string($url))
 		{

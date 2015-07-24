@@ -35,7 +35,7 @@ class MediaViewImages extends JViewLegacy
 		JHtml::_('script', 'media/popup-imagemanager.js', true, true);
 		JHtml::_('stylesheet', 'media/popup-imagemanager.css', array(), true);
 
-		if ($lang->isRTL())
+		if ($lang->isRtl())
 		{
 			JHtml::_('stylesheet', 'media/popup-imagemanager_rtl.css', array(), true);
 		}
