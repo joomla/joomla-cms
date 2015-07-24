@@ -26,6 +26,12 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	public $name = 'pdo';
 
 	/**
+	 * @var    PDO  The database connection resource.
+	 * @since  12.1
+	 */
+	protected $connection;
+
+	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
 	 * etc.  The child classes should define this as necessary.  If a single character string the
 	 * same character is used for both sides of the quoted name, else the first character will be
@@ -450,7 +456,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 					$this->errorMsg = (string) 'SQL: ' . implode(", ", $this->connection->errorInfo());
 
 					// Throw the normal query exception.
-					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 					throw new RuntimeException($this->errorMsg, $this->errorNum);
 				}
 
@@ -465,7 +471,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				$this->errorMsg = $errorMsg;
 
 				// Throw the normal query exception.
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
 		}
@@ -676,7 +682,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 * @param   mixed    $query          The SQL statement to set either as a JDatabaseQuery object or a string.
 	 * @param   integer  $offset         The affected row offset to set.
 	 * @param   integer  $limit          The maximum affected rows to set.
-	 * @param   array    $driverOptions  The optional PDO driver options
+	 * @param   array    $driverOptions  The optional PDO driver options.
 	 *
 	 * @return  JDatabaseDriver  This object to support method chaining.
 	 *
@@ -696,14 +702,17 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		if ($query instanceof JDatabaseQueryLimitable && !is_null($offset) && !is_null($limit))
 		{
-			$query->setLimit($limit, $offset);
+			$query = $query->processLimit($query, $limit, $offset);
 		}
 
-		$query = $this->replacePrefix((string) $query);
+		// Create a stringified version of the query (with prefixes replaced):
+		$sql = $this->replacePrefix((string) $query);
 
-		$this->prepared = $this->connection->prepare($query, $driverOptions);
+		// Use the stringified version in the prepare call:
+		$this->prepared = $this->connection->prepare($sql, $driverOptions);
 
-		// Store reference to the JDatabaseQuery instance:
+		// Store reference to the original JDatabaseQuery instance within the class.
+		// This is important since binding variables depends on it within execute():
 		parent::setQuery($query, $offset, $limit);
 
 		return $this;

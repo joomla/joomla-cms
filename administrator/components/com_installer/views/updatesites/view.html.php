@@ -97,7 +97,14 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 		JHtmlSidebar::addFilter(
 			JText::_('COM_INSTALLER_VALUE_STATE_SELECT'),
 			'filter_enabled',
-			JHtml::_('select.options', array('0' => 'JUNPUBLISHED', '1' => 'JPUBLISHED'), 'value', 'text', $this->state->get('filter.enabled'), true)
+			JHtml::_(
+				'select.options',
+				array('0' => 'JDISABLED', '1' => 'JENABLED'),
+				'value',
+				'text',
+				$this->state->get('filter.enabled'),
+				true
+			)
 		);
 
 		JHtmlSidebar::addFilter(

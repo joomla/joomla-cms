@@ -2067,9 +2067,8 @@ class JFormTest extends TestCaseDatabase
 	{
 		$form = new JFormInspector('form1');
 
-		$this->assertThat(
+		$this->assertTrue(
 			$form->load(JFormDataHelper::$loadDocument),
-			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
@@ -2080,24 +2079,28 @@ class JFormTest extends TestCaseDatabase
 			$this->fail('Error in text XML data');
 		}
 
+		$addFields = array();
+
+		foreach ($xml1->field as $element)
+		{
+			$addFields[] = $element;
+		}
+
 		// Test without replace.
-
-		$this->assertThat(
-			$form->setFields($xml1->field, null, false),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The setFields method should return true.'
+		$this->assertTrue(
+			$form->setFields($addFields, null, false),
+			'Line:' . __LINE__ . ' The setFields method should return true for an existing field.'
 		);
 
-		$this->assertThat(
+		$this->assertEquals(
 			$form->getFieldAttribute('title', 'required', 'default'),
-			$this->equalTo('default'),
-			'Line:' . __LINE__ . ' The label should contain just the field name.'
+			'default',
+			'Line:' . __LINE__ . ' The getFieldAttribute method should return the default value if the attribute is not set.'
 		);
 
-		$this->assertThat(
+		$this->assertNotFalse(
 			$form->getField('ordering'),
-			$this->logicalNot($this->isFalse()),
-			'Line:' . __LINE__ . ' The label should contain just the field name.'
+			'Line:' . __LINE__ . ' The getField method does not return false when the field exists.'
 		);
 	}
 
@@ -2303,8 +2306,8 @@ class JFormTest extends TestCaseDatabase
 		$xml = $form->getXML();
 
 		// Test error handling.
-
-		$field = array_pop($xml->xpath('fields/field[@name="boolean"]'));
+		$data = $xml->xpath('fields/field[@name="boolean"]');
+		$field = array_pop($data);
 		$result = $form->validateField($field);
 		$this->assertThat(
 			$result instanceof UnexpectedValueException,
@@ -2312,7 +2315,8 @@ class JFormTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' A failed validation should return an exception.'
 		);
 
-		$field = array_pop($xml->xpath('fields/field[@name="required"]'));
+		$data = $xml->xpath('fields/field[@name="required"]');
+		$field = array_pop($data);
 		$result = $form->validateField($field);
 		$this->assertThat(
 			$result instanceof RuntimeException,
@@ -2321,22 +2325,24 @@ class JFormTest extends TestCaseDatabase
 		);
 
 		// Test general usage.
-
-		$field = array_pop($xml->xpath('fields/field[@name="boolean"]'));
+		$data = $xml->xpath('fields/field[@name="boolean"]');
+		$field = array_pop($data);
 		$this->assertThat(
 			$form->validateField($field, null, 'true'),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' A field with a passing validate attribute set should return true.'
 		);
 
-		$field = array_pop($xml->xpath('fields/field[@name="optional"]'));
+		$data = $xml->xpath('fields/field[@name="optional"]');
+		$field = array_pop($data);
 		$this->assertThat(
 			$form->validateField($field),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' A field without required set should return true.'
 		);
 
-		$field = array_pop($xml->xpath('fields/field[@name="required"]'));
+		$data = $xml->xpath('fields/field[@name="required"]');
+		$field = array_pop($data);
 		$this->assertThat(
 			$form->validateField($field, null, 'value'),
 			$this->isTrue(),
@@ -2358,8 +2364,8 @@ class JFormTest extends TestCaseDatabase
 		$form = new JFormInspector('form1');
 		$form->load(JFormDataHelper::$validateFieldDocument);
 		$xml = $form->getXML();
-
-		$field = array_pop($xml->xpath('fields/field[@name="missingrule"]'));
+		$data = $xml->xpath('fields/field[@name="missingrule"]');
+		$field = array_pop($data);
 		$form->validateField($field, null, 'value');
 	}
 }

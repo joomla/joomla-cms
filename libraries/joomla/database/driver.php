@@ -53,6 +53,15 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public $name;
 
 	/**
+	 * The type of the database server family supported by this driver. Examples: mysql, oracle, postgresql, mssql,
+	 * sqlite.
+	 *
+	 * @var    string
+	 * @since  CMS 3.5.0
+	 */
+	public $serverType;
+
+	/**
 	 * @var    resource  The database connection resource.
 	 * @since  11.1
 	 */
@@ -147,6 +156,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	protected $utf = true;
 
 	/**
+	 * @var    boolean  True if the database engine supports UTF-8 Multibyte (utf8mb4) character encoding.
+	 * @since  CMS 3.5.0
+	 */
+	protected $utf8mb4 = false;
+
+	/**
 	 * @var         integer  The database error number
 	 * @since       11.1
 	 * @deprecated  12.1
@@ -211,6 +226,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 				continue;
 			}
 
+			// Block the ext/mysql driver for PHP 7
+			if ($fileName === 'mysql.php' && PHP_MAJOR_VERSION >= 7)
+			{
+				continue;
+			}
+
 			// Derive the class name from the type.
 			$class = str_ireplace('.php', '', 'JDatabaseDriver' . ucfirst(trim($fileName)));
 
@@ -256,7 +277,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		$options['select']   = (isset($options['select'])) ? $options['select'] : true;
 
 		// If the selected driver is `mysql` and we are on PHP 7 or greater, switch to the `mysqli` driver.
-		if ($options['driver'] == 'mysql' && PHP_MAJOR_VERSION >= 7)
+		if ($options['driver'] === 'mysql' && PHP_MAJOR_VERSION >= 7)
 		{
 			// Check if we have support for the other MySQL drivers
 			$mysqliSupported   = JDatabaseDriverMysqli::isSupported();
@@ -456,6 +477,98 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Alter a table's character set, obtaining an array of queries to do so from a protected method. The conversion is
+	 * wrapped in a transaction, if supported by the database driver. Otherwise the table will be locked before the
+	 * conversion. This prevents data corruption.
+	 *
+	 * @param   string   $tableName  The name of the table to alter
+	 * @param   boolean  $rethrow    True to rethrow database exceptions. Default: false (exceptions are suppressed)
+	 *
+	 * @return  boolean  True if successful
+	 *
+	 * @since   CMS 3.5.0
+	 * @throws  RuntimeException  If the table name is empty
+	 * @throws  Exception  Relayed from the database layer if a database error occurs and $rethrow == true
+	 */
+	public function alterTableCharacterSet($tableName, $rethrow = false)
+	{
+		if (is_null($tableName))
+		{
+			throw new RuntimeException('Table name must not be null.');
+		}
+
+		$queries = $this->getAlterTableCharacterSet($tableName);
+
+		if (empty($queries))
+		{
+			return false;
+		}
+
+		$hasTransaction = true;
+
+		try
+		{
+			$this->transactionStart();
+		}
+		catch (Exception $e)
+		{
+			$hasTransaction = false;
+			$this->lockTable($tableName);
+		}
+
+		foreach ($queries as $query)
+		{
+			try
+			{
+				$this->setQuery($query)->execute();
+			}
+			catch (Exception $e)
+			{
+				if ($hasTransaction)
+				{
+					$this->transactionRollback();
+				}
+				else
+				{
+					$this->unlockTables();
+				}
+
+				if ($rethrow)
+				{
+					throw $e;
+				}
+
+				return false;
+			}
+		}
+
+		if ($hasTransaction)
+		{
+			try
+			{
+				$this->transactionCommit();
+			}
+			catch (Exception $e)
+			{
+				$this->transactionRollback();
+
+				if ($rethrow)
+				{
+					throw $e;
+				}
+
+				return false;
+			}
+		}
+		else
+		{
+			$this->unlockTables();
+		}
+
+		return true;
+	}
+
+	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -620,7 +733,124 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	protected function getAlterDbCharacterSet($dbName)
 	{
-		return 'ALTER DATABASE ' . $this->quoteName($dbName) . ' CHARACTER SET `utf8`';
+		$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
+
+		return 'ALTER DATABASE ' . $this->quoteName($dbName) . ' CHARACTER SET `' . $charset . '`';
+	}
+
+	/**
+	 * Get the query strings to alter the character set and collation of a table.
+	 *
+	 * @param   string  $tableName  The name of the table
+	 *
+	 * @return  string[]  The queries required to alter the table's character set and collation
+	 *
+	 * @since   CMS 3.5.0
+	 */
+	public function getAlterTableCharacterSet($tableName)
+	{
+		$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
+		$collation = $charset . '_general_ci';
+
+		$quotedTableName = $this->quoteName($tableName);
+
+		$queries = array();
+		$queries[] = "ALTER TABLE $quotedTableName CONVERT TO CHARACTER SET $charset COLLATE $collation";
+
+		/**
+		 * We also need to convert each text column, modifying their character set and collation. This allows us to
+		 * change, for example, a utf8_bin collated column to a utf8mb4_bin collated column.
+		 */
+		$sql = "SHOW FULL COLUMNS FROM $quotedTableName";
+		$this->setQuery($sql);
+		$columns = $this->loadAssocList();
+		$columnMods = array();
+
+		if (is_array($columns))
+		{
+			foreach ($columns as $column)
+			{
+				// Make sure we are redefining only columns which do support a collation
+				$col = (object) $column;
+
+				if (empty($col->Collation))
+				{
+					continue;
+				}
+
+				// Default new collation: utf8_general_ci or utf8mb4_general_ci
+				$newCollation = $charset . '_general_ci';
+				$collationParts = explode('_', $col->Collation);
+
+				/**
+				 * If the collation is in the form charset_collationType_ci or charset_collationType we have to change
+				 * the charset but leave the collationType intact (e.g. utf8_bin must become utf8mb4_bin, NOT
+				 * utf8mb4_general_ci).
+				 */
+				if (count($collationParts) >= 2)
+				{
+					$ci = array_pop($collationParts);
+					$collationType = array_pop($collationParts);
+					$newCollation = $charset . '_' . $collationType . '_' . $ci;
+
+					/**
+					 * When the last part of the old collation is not _ci we have a charset_collationType format,
+					 * something like utf8_bin. Therefore the new collation only has *two* parts.
+					 */
+					if ($ci != 'ci')
+					{
+						$newCollation = $charset . '_' . $ci;
+					}
+				}
+
+				// If the old and new collation is the same we don't have to change the collation type
+				if (strtolower($newCollation) == strtolower($col->Collation))
+				{
+					continue;
+				}
+
+				$null = $col->Null == 'YES' ? 'NULL' : 'NOT NULL';
+				$default = is_null($col->Default) ? '' : "DEFAULT '" . $this->q($col->Default) . "'";
+				$columnMods[] = "MODIFY COLUMN `{$col->Field}` {$col->Type} CHARACTER SET $charset COLLATE $newCollation $null $default";
+			}
+		}
+
+		if (count($columnMods))
+		{
+			$queries[] = "ALTER TABLE $quotedTableName " .
+				implode(',', $columnMods) .
+				" CHARACTER SET $charset COLLATE $collation";
+		}
+
+		return $queries;
+	}
+
+	/**
+	 * Automatically downgrade a CREATE TABLE or ALTER TABLE query from utf8mb4 (UTF-8 Multibyte) to plain utf8. Used
+	 * when the server doesn't support UTF-8 Multibyte.
+	 *
+	 * @param   string  $query  The query to convert
+	 *
+	 * @return  string  The converted query
+	 */
+	public function convertUtf8mb4QueryToUtf8($query)
+	{
+		if ($this->hasUTF8mb4Support())
+		{
+			return $query;
+		}
+
+		// If it's not an ALTER TABLE or CREATE TABLE command there's nothing to convert
+		$beginningOfQuery = substr($query, 0, 12);
+		$beginningOfQuery = strtoupper($beginningOfQuery);
+
+		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE')))
+		{
+			return $query;
+		}
+
+		// Replace utf8mb4 with utf8
+		return str_replace('utf8mb4', 'utf8', $query);
 	}
 
 	/**
@@ -639,7 +869,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		if ($utf)
 		{
-			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `utf8`';
+			$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
+
+			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `' . $charset . '`';
 		}
 
 		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
@@ -653,6 +885,17 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.1
 	 */
 	abstract public function getCollation();
+
+	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	public function getConnectionCollation()
+	{
+		return '';
+	}
 
 	/**
 	 * Method that provides access to the underlying database connection. Useful for when you need to call a
@@ -839,6 +1082,74 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Get the name of the database driver. If $this->name is not set it will try guessing the driver name from the
+	 * class name.
+	 *
+	 * @return  string
+	 *
+	 * @since   CMS 3.5.0
+	 */
+	public function getName()
+	{
+		if (empty($this->name))
+		{
+			$className = get_class($this);
+			$className = str_replace('JDatabaseDriver', '', $className);
+			$this->name = strtolower($className);
+		}
+
+		return $this->name;
+	}
+
+	/**
+	 * Get the server family type, e.g. mysql, postgresql, oracle, sqlite, mssql. If $this->serverType is not set it
+	 * will attempt guessing the server family type from the driver name. If this is not possible the driver name will
+	 * be returned instead.
+	 *
+	 * @return  string
+	 *
+	 * @since   CMS 3.5.0
+	 */
+	public function getServerType()
+	{
+		if (empty($this->serverType))
+		{
+			$name = $this->getName();
+
+			if (stristr($name, 'mysql') !== false)
+			{
+				$this->serverType = 'mysql';
+			}
+			elseif (stristr($name, 'postgre') !== false)
+			{
+				$this->serverType = 'postgresql';
+			}
+			elseif (stristr($name, 'oracle') !== false)
+			{
+				$this->serverType = 'oracle';
+			}
+			elseif (stristr($name, 'sqlite') !== false)
+			{
+				$this->serverType = 'sqlite';
+			}
+			elseif (stristr($name, 'sqlsrv') !== false)
+			{
+				$this->serverType = 'mssql';
+			}
+			elseif (stristr($name, 'mssql') !== false)
+			{
+				$this->serverType = 'mssql';
+			}
+			else
+			{
+				$this->serverType = $name;
+			}
+		}
+
+		return $this->serverType;
+	}
+
+	/**
 	 * Get the current query object or a new JDatabaseQuery object.
 	 *
 	 * @param   boolean  $new  False to return the current query object, True to return a new JDatabaseQuery object.
@@ -969,6 +1280,19 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public function hasUTFSupport()
 	{
 		return $this->utf;
+	}
+
+	/**
+	 * Determine whether the database engine support the UTF-8 Multibyte (utf8mb4) character encoding. This applies to
+	 * MySQL databases.
+	 *
+	 * @return  boolean  True if the database engine supports UTF-8 Multibyte.
+	 *
+	 * @since   CMS 3.5.0
+	 */
+	public function hasUTF8mb4Support()
+	{
+		return $this->utf8mb4;
 	}
 
 	/**

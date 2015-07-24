@@ -25,6 +25,14 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public $name = 'postgresql';
 
 	/**
+	 * The type of the database server family supported by this driver.
+	 *
+	 * @var    string
+	 * @since  CMS 3.5.0
+	 */
+	public $serverType = 'postgresql';
+
+	/**
 	 * Quote for named objects
 	 *
 	 * @var    string
@@ -266,6 +274,17 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	}
 
 	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	public function getConnectionCollation()
+	{
+		return pg_client_encoding($this->connection);
+	}
+
+	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
 	 *
 	 * @param   resource  $cur  An optional database cursor resource to extract the row count from.
@@ -393,6 +412,14 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
+				if (stristr(strtolower($field->type), "character varying"))
+				{
+					$field->Default = "";
+				}
+				if (stristr(strtolower($field->type), "text"))
+				{
+					$field->Default = "";
+				}
 				// Do some dirty translation to MySQL output.
 				// TODO: Come up with and implement a standard across databases.
 				$result[$field->column_name] = (object) array(
@@ -707,7 +734,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 					$this->errorMsg = pg_last_error($this->connection) . "SQL=" . $query;
 
 					// Throw the normal query exception.
-					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 					throw new RuntimeException($this->errorMsg);
 				}
 
@@ -722,7 +749,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				$this->errorMsg = pg_last_error($this->connection) . "SQL=" . $query;
 
 				// Throw the normal query exception.
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 				throw new RuntimeException($this->errorMsg);
 			}
 		}

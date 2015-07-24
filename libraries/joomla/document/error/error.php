@@ -53,16 +53,16 @@ class JDocumentError extends JDocument
 	 */
 	public function setError($error)
 	{
-		if ($error instanceof Exception)
+		$expectedClass = PHP_MAJOR_VERSION >= 7 ? 'Throwable' : 'Exception';
+
+		if ($error instanceof $expectedClass)
 		{
 			$this->_error = & $error;
 
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
 	/**

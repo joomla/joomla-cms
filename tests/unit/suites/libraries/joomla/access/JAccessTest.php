@@ -234,6 +234,19 @@ class JAccessTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tests the JAccess::getGroupTitle method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testGetGroupTitle()
+	{
+		$access = new JAccess;
+		$this->assertThat($access->getGroupTitle(1), $this->equalTo('Public'), 'Get group title. Line: ' . __LINE__);
+	}
+
+	/**
 	 * Tests the JAccess::getUsersByGroup method.
 	 *
 	 * @return  void

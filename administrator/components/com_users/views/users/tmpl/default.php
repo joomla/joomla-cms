@@ -91,7 +91,7 @@ $loggeduser = JFactory::getUser();
 				?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
-							<?php if ($canEdit) : ?>
+							<?php if ($canEdit || $canChange) : ?>
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							<?php endif; ?>
 						</td>

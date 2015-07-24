@@ -14,7 +14,8 @@ $doc  = JFactory::getDocument();
 $lang = JFactory::getLanguage();
 
 // Color Params
-$template_is_light = ($this->params->get('templateColor') && colorIsLight($this->params->get('templateColor')));
+$background_color = $this->params->get('loginBackgroundColor') ? $this->params->get('loginBackgroundColor') : '';
+$color_is_light = ($background_color && colorIsLight($background_color));
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
@@ -32,6 +33,14 @@ $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 if (is_file($file))
 {
 	$doc->addStyleSheet($file);
+}
+
+// Load custom.css
+$file = 'templates/' . $this->template . '/css/custom.css';
+
+if (is_file($file))
+{
+	$doc->addStyleSheetVersion($file);
 }
 
 // Detecting Active Variables
@@ -64,10 +73,10 @@ function colorIsLight($color)
         });
 	</script>
 	<style type="text/css">
-		/* Template color */
-		<?php if ($this->params->get('templateColor')) : ?>
+		/* Background color */
+		<?php if($background_color): ?>
 		.view-login {
-			background: <?php echo $this->params->get('templateColor'); ?>;
+			background-color: <?php echo $background_color; ?>;
 		}
 		<?php endif; ?>
 		/* Responsive Styles */
@@ -119,12 +128,12 @@ function colorIsLight($color)
 			<!-- End Content -->
 		</div>
 	</div>
-	<div class="navbar<?php echo $template_is_light ? ' navbar-inverse' : ''; ?> navbar-fixed-bottom hidden-phone">
+	<div class="navbar<?php echo $color_is_light ? ' navbar-inverse' : ''; ?> navbar-fixed-bottom hidden-phone">
 		<p class="pull-right">
 			&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
 		</p>
-		<a class="login-joomla hasTooltip" href="http://www.joomla.org" target="_blank" title="<?php echo JHtml::tooltipText('TPL_ISIS_ISFREESOFTWARE'); ?>"><i class="icon-joomla"></i></a>
-		<a href="<?php echo JUri::root(); ?>" target="_blank" class="pull-left"><i class="icon-out-2"></i> <?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
+		<a class="login-joomla hasTooltip" href="http://www.joomla.org" target="_blank" title="<?php echo JHtml::tooltipText('TPL_ISIS_ISFREESOFTWARE'); ?>"><span class="icon-joomla"></span></a>
+		<a href="<?php echo JUri::root(); ?>" target="_blank" class="pull-left"><span class="icon-out-2"></span> <?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
 </body>

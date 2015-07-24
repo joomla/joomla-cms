@@ -56,94 +56,111 @@ abstract class ModRelatedItemsHelper
 				->where('id = ' . (int) $id);
 			$db->setQuery($query);
 
-			if ($metakey = trim($db->loadResult()))
+			try
 			{
-				// Explode the meta keys on a comma
-				$keys = explode(',', $metakey);
-				$likes = array();
+				$metakey = trim($db->loadResult());
+			}
+			catch (RuntimeException $e)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-				// Assemble any non-blank word(s)
-				foreach ($keys as $key)
+				return;
+			}
+
+			// Explode the meta keys on a comma
+			$keys = explode(',', $metakey);
+			$likes = array();
+
+			// Assemble any non-blank word(s)
+			foreach ($keys as $key)
+			{
+				$key = trim($key);
+
+				if ($key)
 				{
-					$key = trim($key);
+					$likes[] = $db->escape($key);
+				}
+			}
 
-					if ($key)
-					{
-						$likes[] = $db->escape($key);
-					}
+			if (count($likes))
+			{
+				// Select other items based on the metakey field 'like' the keys found
+				$query->clear()
+					->select('a.id')
+					->select('a.title')
+					->select('DATE(a.created) as created')
+					->select('a.catid')
+					->select('a.language')
+					->select('cc.access AS cat_access')
+					->select('cc.published AS cat_state');
+
+				// Sqlsrv changes
+				$case_when = ' CASE WHEN ';
+				$case_when .= $query->charLength('a.alias', '!=', '0');
+				$case_when .= ' THEN ';
+				$a_id = $query->castAsChar('a.id');
+				$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
+				$case_when .= ' ELSE ';
+				$case_when .= $a_id . ' END as slug';
+				$query->select($case_when);
+
+				$case_when = ' CASE WHEN ';
+				$case_when .= $query->charLength('cc.alias', '!=', '0');
+				$case_when .= ' THEN ';
+				$c_id = $query->castAsChar('cc.id');
+				$case_when .= $query->concatenate(array($c_id, 'cc.alias'), ':');
+				$case_when .= ' ELSE ';
+				$case_when .= $c_id . ' END as catslug';
+				$query->select($case_when)
+					->from('#__content AS a')
+					->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
+					->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
+					->where('a.id != ' . (int) $id)
+					->where('a.state = 1')
+					->where('a.access IN (' . $groups . ')');
+
+				$wheres = array();
+
+				foreach ($likes as $keyword)
+				{
+					$wheres[] = 'a.metakey LIKE ' . $db->quote('%' . $keyword . '%');
 				}
 
-				if (count($likes))
+				$query->where('(' . implode(' OR ', $wheres) . ')')
+					->where('(a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ')')
+					->where('(a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')');
+
+				// Filter by language
+				if (JLanguageMultilang::isEnabled())
 				{
-					// Select other items based on the metakey field 'like' the keys found
-					$query->clear()
-						->select('a.id')
-						->select('a.title')
-						->select('DATE(a.created) as created')
-						->select('a.catid')
-						->select('a.language')
-						->select('cc.access AS cat_access')
-						->select('cc.published AS cat_state');
+					$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+				}
 
-					// Sqlsrv changes
-					$case_when = ' CASE WHEN ';
-					$case_when .= $query->charLength('a.alias', '!=', '0');
-					$case_when .= ' THEN ';
-					$a_id = $query->castAsChar('a.id');
-					$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-					$case_when .= ' ELSE ';
-					$case_when .= $a_id . ' END as slug';
-					$query->select($case_when);
-
-					$case_when = ' CASE WHEN ';
-					$case_when .= $query->charLength('cc.alias', '!=', '0');
-					$case_when .= ' THEN ';
-					$c_id = $query->castAsChar('cc.id');
-					$case_when .= $query->concatenate(array($c_id, 'cc.alias'), ':');
-					$case_when .= ' ELSE ';
-					$case_when .= $c_id . ' END as catslug';
-					$query->select($case_when)
-						->from('#__content AS a')
-						->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
-						->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
-						->where('a.id != ' . (int) $id)
-						->where('a.state = 1')
-						->where('a.access IN (' . $groups . ')');
-
-					$wheres = array();
-
-					foreach ($likes as $keyword)
-					{
-						$wheres[] = 'a.metakey LIKE ' . $db->quote('%' . $keyword . '%');
-					}
-
-					$query->where('(' . implode(' OR ', $wheres) . ')')
-						->where('(a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ')')
-						->where('(a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')');
-
-					// Filter by language
-					if (JLanguageMultilang::isEnabled())
-					{
-						$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
-					}
-
-					$db->setQuery($query, 0, $maximum);
+				$db->setQuery($query, 0, $maximum);
+				try
+				{
 					$temp = $db->loadObjectList();
+				}
+				catch (RuntimeException $e)
+				{
+					JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-					if (count($temp))
+					return;
+				}
+
+				if (count($temp))
+				{
+					foreach ($temp as $row)
 					{
-						foreach ($temp as $row)
+						if ($row->cat_state == 1)
 						{
-							if ($row->cat_state == 1)
-							{
-								$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
-								$related[] = $row;
-							}
+							$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
+							$related[] = $row;
 						}
 					}
-
-					unset ($temp);
 				}
+
+				unset ($temp);
 			}
 		}
 

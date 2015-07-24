@@ -86,7 +86,8 @@ class InstallerModelInstall extends JModelLegacy
 		{
 			return true;
 		}
-		elseif (in_array(false, $results, true))
+
+		if (in_array(false, $results, true))
 		{
 			return false;
 		}
@@ -126,7 +127,8 @@ class InstallerModelInstall extends JModelLegacy
 		{
 			return true;
 		}
-		elseif (in_array(false, $results, true))
+
+		if (in_array(false, $results, true))
 		{
 			if (in_array($installType, array('upload', 'url')))
 			{

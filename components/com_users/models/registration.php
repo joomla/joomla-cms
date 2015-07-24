@@ -267,6 +267,12 @@ class UsersModelRegistration extends JModelForm
 		// Get the form.
 		$form = $this->loadForm('com_users.registration', 'registration', array('control' => 'jform', 'load_data' => $loadData));
 
+		// When multilanguage is set, a user's default site language should also be a Content Language
+		if (JLanguageMultilang::isEnabled())
+		{
+			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
+		}
+
 		if (empty($form))
 		{
 			return false;
@@ -565,7 +571,7 @@ class UsersModelRegistration extends JModelForm
 			$this->setError(JText::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
 
 			// Send a system message to administrators receiving system mails
-			$db = JFactory::getDbo();
+			$db = $this->getDbo();
 			$query->clear()
 				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))

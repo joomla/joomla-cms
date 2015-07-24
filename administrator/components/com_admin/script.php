@@ -273,6 +273,7 @@ class JoomlaInstallerScript
 			array('plugin', 'tags', 'finder', 0),
 			array('plugin', 'totp', 'twofactorauth', 0),
 			array('plugin', 'yubikey', 'twofactorauth', 0),
+			array('plugin', 'updatenotification', 'system', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
@@ -1290,6 +1291,16 @@ class JoomlaInstallerScript
 			'/administrator/components/com_config/models/fields/index.html',
 			'/administrator/components/com_config/models/forms/application.xml',
 			'/administrator/components/com_config/models/forms/index.html',
+			// Joomla 3.4.2
+			'/libraries/composer_autoload.php',
+			// Joomla 3.4.3
+			'/libraries/classloader.php',
+			'/libraries/ClassLoader.php',
+			// Joomla 3.5.0
+			'/media/com_joomlaupdate/default.js',
+			'/media/com_joomlaupdate/encryption.js',
+			'/media/com_joomlaupdate/json2.js',
+			'/media/com_joomlaupdate/update.js',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
