@@ -191,7 +191,6 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 			if (isset($item->query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key])
 			{
 				unset($query[$view->key]);
-				$view = $view->parent;
 				while ($view)
 				{
 					unset($query[$view->parent_key]);
