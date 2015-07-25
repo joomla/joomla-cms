@@ -11,4 +11,10 @@ defined('_JEXEC') or die;
 
 $positions = $this->model->getPositions();
 
-echo JHtml::_('select.genericlist', $positions, 'jform[position]', '', '', '', $this->item['position']);
+$currentPosition = $this->item['position'];
+
+if (in_array($currentPosition, $positions) == false){
+	$positions[$currentPosition] = $currentPosition;
+}
+
+echo JHtml::_('select.genericlist', $positions, 'jform[position]', '', '', '', $currentPosition);
