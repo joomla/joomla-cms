@@ -88,6 +88,7 @@
 		type="text"
 		label="COM_CATEGORIES_FIELD_NOTE_LABEL"
 		description="COM_CATEGORIES_FIELD_NOTE_DESC"
+		maxlength="255"
 		class="span12"
 		size="40"/>
 
