@@ -33,12 +33,12 @@ class ModArchiveHelper
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
-			->select('created, id, title')
+			->select('MIN(' . $db->quoteName('created') . ') AS created')
 			->select($query->year($db->quoteName('created')) . ' AS created_year')
 			->from('#__content')
-			->where('state = 2 AND checked_out = 0')
-			->group('created_year, created_month, created, id, title')
-			->order('created_year DESC, created_month DESC');
+			->where('state = 2')
+			->group($query->year($db->quoteName('created')) . ', ' . $query->month($db->quoteName('created')))
+			->order($query->year($db->quoteName('created')) . ' DESC, ' . $query->month($db->quoteName('created')) . ' DESC');
 
 		// Filter by language
 		if (JFactory::getApplication()->getLanguageFilter())
@@ -47,7 +47,15 @@ class ModArchiveHelper
 		}
 
 		$db->setQuery($query, 0, (int) $params->get('count'));
-		$rows = (array) $db->loadObjectList();
+		try
+		{
+			$rows = (array) $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			return;
+		}
 
 		$app    = JFactory::getApplication();
 		$menu   = $app->getMenu();
@@ -64,8 +72,8 @@ class ModArchiveHelper
 			$created_month = $date->format('n');
 			$created_year  = $date->format('Y');
 
-			$created_year_cal = JHTML::_('date', $row->created, 'Y');
-			$month_name_cal   = JHTML::_('date', $row->created, 'F');
+			$created_year_cal = JHtml::_('date', $row->created, 'Y');
+			$month_name_cal   = JHtml::_('date', $row->created, 'F');
 
 			$lists[$i] = new stdClass;
 

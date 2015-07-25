@@ -231,6 +231,14 @@ abstract class JModuleHelper
 			$attribs['style'] .= ' outline';
 		}
 
+		// If the $module is nulled it will return an empty content, otherwise it will render the module normally.
+		$app->triggerEvent('onRenderModule', array(&$module, &$attribs));
+
+		if (is_null($module) || !isset($module->content))
+		{
+			return '';
+		}
+
 		foreach (explode(' ', $attribs['style']) as $style)
 		{
 			$chromeMethod = 'modChrome_' . $style;
@@ -292,14 +300,13 @@ abstract class JModuleHelper
 		{
 			return $tPath;
 		}
-		elseif (file_exists($bPath))
+
+		if (file_exists($bPath))
 		{
 			return $bPath;
 		}
-		else
-		{
-			return $dPath;
-		}
+
+		return $dPath;
 	}
 
 	/**
@@ -324,17 +331,44 @@ abstract class JModuleHelper
 	 */
 	protected static function &load()
 	{
-		static $clean;
+		static $modules;
 
-		if (isset($clean))
+		if (isset($modules))
 		{
-			return $clean;
+			return $modules;
 		}
 
 		$app = JFactory::getApplication();
+
+		$modules = null;
+
+		$app->triggerEvent('onPrepareModuleList', array(&$modules));
+
+		// If the onPrepareModuleList event returns an array of modules, then ignore the default module list creation
+		if (!is_array($modules))
+		{
+			$modules = static::getModuleList();
+		}
+
+		$app->triggerEvent('onAfterModuleList', array(&$modules));
+
+		$modules = static::cleanModuleList($modules);
+
+		$app->triggerEvent('onAfterCleanModuleList', array(&$modules));
+
+		return $modules;
+	}
+
+	/**
+	 * Module list
+	 *
+	 * @return  array
+	 */
+	public static function getModuleList()
+	{
+		$app = JFactory::getApplication();
 		$Itemid = $app->input->getInt('Itemid');
-		$user = JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
 		$lang = JFactory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
@@ -345,7 +379,6 @@ abstract class JModuleHelper
 			->from('#__modules AS m')
 			->join('LEFT', '#__modules_menu AS mm ON mm.moduleid = m.id')
 			->where('m.published = 1')
-
 			->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id')
 			->where('e.enabled = 1');
 
@@ -354,7 +387,6 @@ abstract class JModuleHelper
 		$nullDate = $db->getNullDate();
 		$query->where('(m.publish_up = ' . $db->quote($nullDate) . ' OR m.publish_up <= ' . $db->quote($now) . ')')
 			->where('(m.publish_down = ' . $db->quote($nullDate) . ' OR m.publish_down >= ' . $db->quote($now) . ')')
-
 			->where('m.access IN (' . $groups . ')')
 			->where('m.client_id = ' . $clientId)
 			->where('(mm.menuid = ' . (int) $Itemid . ' OR mm.menuid <= 0)');
@@ -369,7 +401,6 @@ abstract class JModuleHelper
 
 		// Set the query
 		$db->setQuery($query);
-		$clean = array();
 
 		try
 		{
@@ -379,24 +410,36 @@ abstract class JModuleHelper
 		{
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), JLog::WARNING, 'jerror');
 
-			return $clean;
+			return array();
 		}
 
+		return $modules;
+	}
+
+	/**
+	 * Clean the module list
+	 *
+	 * @param   array  $modules  Array with module objects
+	 *
+	 * @return  array
+	 */
+	public static function cleanModuleList($modules)
+	{
 		// Apply negative selections and eliminate duplicates
+		$Itemid = JFactory::getApplication()->input->getInt('Itemid');
 		$negId = $Itemid ? -(int) $Itemid : false;
+		$clean = array();
 		$dupes = array();
 
-		for ($i = 0, $n = count($modules); $i < $n; $i++)
+		foreach ($modules as $i => $module)
 		{
-			$module = &$modules[$i];
-
 			// The module is excluded if there is an explicit prohibition
 			$negHit = ($negId === (int) $module->menuid);
 
 			if (isset($dupes[$module->id]))
 			{
 				// If this item has been excluded, keep the duplicate flag set,
-				// but remove any item from the cleaned array.
+				// but remove any item from the modules array.
 				if ($negHit)
 				{
 					unset($clean[$module->id]);
@@ -408,21 +451,22 @@ abstract class JModuleHelper
 			$dupes[$module->id] = true;
 
 			// Only accept modules without explicit exclusions.
-			if (!$negHit)
+			if ($negHit)
 			{
-				$module->name = substr($module->module, 4);
-				$module->style = null;
-				$module->position = strtolower($module->position);
-				$clean[$module->id] = $module;
+				continue;
 			}
+
+			$module->name = substr($module->module, 4);
+			$module->style = null;
+			$module->position = strtolower($module->position);
+
+			$clean[$module->id] = $module;
 		}
 
 		unset($dupes);
 
 		// Return to simple indexing that matches the query order.
-		$clean = array_values($clean);
-
-		return $clean;
+		return array_values($clean);
 	}
 
 	/**

@@ -263,7 +263,9 @@ class MenusViewItems extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', 'com_menus') && $user->authorise('core.edit', 'com_menus') && $user->authorise('core.edit.state', 'com_menus'))
+		if ($user->authorise('core.create', 'com_menus')
+			&& $user->authorise('core.edit', 'com_menus')
+			&& $user->authorise('core.edit.state', 'com_menus'))
 		{
 			$title = JText::_('JTOOLBAR_BATCH');
 

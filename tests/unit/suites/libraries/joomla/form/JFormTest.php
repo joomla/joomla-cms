@@ -78,8 +78,8 @@ class JFormTest extends TestCaseDatabase
 		$dom = new DOMDocument('1.0');
 		$dom->preserveWhiteSpace = false;
 		$dom->formatOutput = true;
-		$dom->loadXML($form->getXml()->asXML());
-		echo $dom->saveXML();
+		$dom->loadXml($form->getXml()->asXml());
+		echo $dom->saveXml();
 	}
 
 	/**
@@ -1338,7 +1338,7 @@ class JFormTest extends TestCaseDatabase
 		);
 
 		$this->assertThat(
-			($form->getXML() instanceof SimpleXMLElement),
+			($form->getXml() instanceof SimpleXMLElement),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The internal XML should be a SimpleXMLElement object.'
 		);
@@ -1352,7 +1352,7 @@ class JFormTest extends TestCaseDatabase
 		);
 
 		$this->assertThat(
-			count($form->getXML()->xpath('/form/fields/field')),
+			count($form->getXml()->xpath('/form/fields/field')),
 			$this->equalTo(4),
 			'Line:' . __LINE__ . ' There are 2 new ungrouped field and one existing field should merge, resulting in 4 total.'
 		);
@@ -1382,27 +1382,27 @@ class JFormTest extends TestCaseDatabase
 		);
 
 		$this->assertThat(
-			count($form->getXML()->xpath('//fields[@name]')),
+			count($form->getXml()->xpath('//fields[@name]')),
 			$this->equalTo(2),
 			'Line:' . __LINE__ . ' The XML has 2 fields tags with a name attribute.'
 		);
 
 		$this->assertThat(
-			count($form->getXML()->xpath('//fields[@name="params"]/field')),
+			count($form->getXml()->xpath('//fields[@name="params"]/field')),
 			$this->equalTo(2),
 			'Line:' . __LINE__ . ' The params fields have been merged ending with 2 elements.'
 		);
 
 		$this->assertThat(
-			count($form->getXML()->xpath('/form/fields/fields[@name="params"]/field[@name="show_abstract"]')),
+			count($form->getXml()->xpath('/form/fields/fields[@name="params"]/field[@name="show_abstract"]')),
 			$this->equalTo(1),
 			'Line:' . __LINE__ . ' The show_title in the params group has been replaced by show_abstract.'
 		);
 
 		$originalform = new JFormInspector('form1');
 		$originalform->load(JFormDataHelper::$loadDocument);
-		$originalset = $originalform->getXML()->xpath('/form/fields/field');
-		$set = $form->getXML()->xpath('/form/fields/field');
+		$originalset = $originalform->getXml()->xpath('/form/fields/field');
+		$set = $form->getXml()->xpath('/form/fields/field');
 
 		for ($i = 0; $i < count($originalset); $i++)
 		{
@@ -1412,6 +1412,35 @@ class JFormTest extends TestCaseDatabase
 				'Line:' . __LINE__ . ' Replace should leave fields in the original order.'
 			);
 		}
+
+		return $form;
+	}
+
+	/**
+	 * Test the JForm::load method for descendent field elements
+	 *
+	 * This method can load an XML data object, or parse an XML string.
+	 *
+	 * @depends testLoad
+	 *
+	 * @return void
+	 */
+	// @var $form JForm
+	public function testLoad_ReplaceDescendent(JForm $form)
+	{
+		// Check the replacement data loads ok.
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadReplacementDocument),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' XML string should load successfully.'
+		);
+
+		// Check that replaced options are present
+		$this->assertThat(
+			count($form->getXml()->xpath('/form/fields/fields[@name="params"]/field[@name="show_title"]/option')),
+			$this->equalTo(3),
+			'Line:' . __LINE__ . ' The show_title in the params group is supposed to have 3 descendant nodes.'
+		);
 	}
 
 	/**
@@ -1615,7 +1644,7 @@ class JFormTest extends TestCaseDatabase
 		);
 
 		$this->assertThat(
-			($form->getXML() instanceof SimpleXMLElement),
+			($form->getXml() instanceof SimpleXMLElement),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should parse successfully.'
 		);
@@ -1632,7 +1661,7 @@ class JFormTest extends TestCaseDatabase
 		);
 
 		$this->assertThat(
-			($form->getXML() instanceof SimpleXMLElement),
+			($form->getXml() instanceof SimpleXMLElement),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should parse successfully.'
 		);
@@ -2038,9 +2067,8 @@ class JFormTest extends TestCaseDatabase
 	{
 		$form = new JFormInspector('form1');
 
-		$this->assertThat(
+		$this->assertTrue(
 			$form->load(JFormDataHelper::$loadDocument),
-			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
@@ -2053,22 +2081,20 @@ class JFormTest extends TestCaseDatabase
 
 		// Test without replace.
 
-		$this->assertThat(
+		$this->assertTrue(
 			$form->setFields($xml1->field, null, false),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The setFields method should return true.'
+			'Line:' . __LINE__ . ' The setFields method should return true for an existing field.'
 		);
 
-		$this->assertThat(
+		$this->assertEquals(
 			$form->getFieldAttribute('title', 'required', 'default'),
-			$this->equalTo('default'),
-			'Line:' . __LINE__ . ' The label should contain just the field name.'
+			'default',
+			'Line:' . __LINE__ . ' The getFieldAttribute method should return the default value if the attribute is not set.'
 		);
 
-		$this->assertThat(
+		$this->assertNotFalse(
 			$form->getField('ordering'),
-			$this->logicalNot($this->isFalse()),
-			'Line:' . __LINE__ . ' The label should contain just the field name.'
+			'Line:' . __LINE__ . ' The getField method does not return false when the field exists.'
 		);
 	}
 
@@ -2271,7 +2297,7 @@ class JFormTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-		$xml = $form->getXML();
+		$xml = $form->getXml();
 
 		// Test error handling.
 
@@ -2328,7 +2354,7 @@ class JFormTest extends TestCaseDatabase
 	{
 		$form = new JFormInspector('form1');
 		$form->load(JFormDataHelper::$validateFieldDocument);
-		$xml = $form->getXML();
+		$xml = $form->getXml();
 
 		$field = array_pop($xml->xpath('fields/field[@name="missingrule"]'));
 		$form->validateField($field, null, 'value');

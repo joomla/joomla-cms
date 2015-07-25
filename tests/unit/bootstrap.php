@@ -97,12 +97,14 @@ if (!defined('JDEBUG'))
 // Import the platform in legacy mode.
 require_once JPATH_PLATFORM . '/import.legacy.php';
 
-// Force library to be in JError legacy mode
-JError::setErrorHandling(E_NOTICE, 'message');
-JError::setErrorHandling(E_WARNING, 'message');
-
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
+
+// For PHP 7, unset the exception handler
+if (PHP_MAJOR_VERSION >= 7)
+{
+	restore_exception_handler();
+}
 
 // Register the core Joomla test classes.
 JLoader::registerPrefix('Test', __DIR__ . '/core');

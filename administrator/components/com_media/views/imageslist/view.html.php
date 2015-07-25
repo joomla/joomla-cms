@@ -34,7 +34,7 @@ class MediaViewImagesList extends JViewLegacy
 
 		JHtml::_('stylesheet', 'media/popup-imagelist.css', array(), true);
 
-		if ($lang->isRTL())
+		if ($lang->isRtl())
 		{
 			JHtml::_('stylesheet', 'media/popup-imagelist_rtl.css', array(), true);
 		}

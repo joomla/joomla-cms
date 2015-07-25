@@ -167,10 +167,11 @@ class TagsModelTag extends JModelList
 	 */
 	protected function populateState($ordering = 'c.core_title', $direction = 'ASC')
 	{
-		$app = JFactory::getApplication('site');
+		$app = JFactory::getApplication();
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_tags');
+		$params = $app->isAdmin() ? JComponentHelper::getParams('com_tags') : $app->getParams();
+
 		$this->setState('params', $params);
 
 		// Load state from the request.

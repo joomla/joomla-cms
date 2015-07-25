@@ -25,32 +25,14 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	public function __construct()
 	{
+		// Register the application name.
+		$this->_name = 'installation';
+
+		// Register the client ID.
+		$this->_clientId = 2;
+
 		// Run the parent constructor.
 		parent::__construct();
-
-		// Load and set the dispatcher.
-		$this->loadDispatcher();
-
-		// Enable sessions by default.
-		if (is_null($this->config->get('session')))
-		{
-			$this->config->set('session', true);
-		}
-
-		// Set the session default name.
-		if (is_null($this->config->get('session_name')))
-		{
-			$this->config->set('session_name', 'installation');
-		}
-
-		// Create the session if a session name is passed.
-		if ($this->config->get('session') !== false)
-		{
-			$this->loadSession();
-
-			// Register the session with JFactory.
-			JFactory::$session = $this->getSession();
-		}
 
 		// Store the debug value to config based on the JDEBUG flag.
 		$this->config->set('debug', JDEBUG);
@@ -60,12 +42,6 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 		// Register the application to JFactory.
 		JFactory::$application = $this;
-
-		// Register the application name.
-		$this->_name = 'installation';
-
-		// Register the client ID.
-		$this->_clientId = 2;
 
 		// Set the root in the URI one level up.
 		$parts = explode('/', JUri::base(true));
@@ -496,7 +472,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 				'lineend' => 'unix',
 				'tab' => '  ',
 				'language' => $lang->getTag(),
-				'direction' => $lang->isRTL() ? 'rtl' : 'ltr'
+				'direction' => $lang->isRtl() ? 'rtl' : 'ltr'
 			);
 
 			$document = JDocument::getInstance($type, $attributes);
@@ -562,6 +538,9 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 		// Set the session object.
 		$this->session = $session;
+
+		// Register the session with JFactory.
+		JFactory::$session = $session;
 
 		return $this;
 	}

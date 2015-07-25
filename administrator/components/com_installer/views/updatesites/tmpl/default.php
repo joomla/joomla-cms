@@ -35,8 +35,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_INSTALLER_FILTER_LABEL'); ?>" />
 				</div>
 				<div class="btn-group pull-left">
-					<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-					<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+					<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search"></span></button>
+					<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
 				</div>
 			</div>
 			<div class="clearfix"> </div>
@@ -65,7 +65,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th class="hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10"  class="hidden-phone">
+						<th width="10" class="hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_UPDATESITEID', 'update_site_id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -91,20 +91,26 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php endif; ?>
 						</td>
 						<td>
-							<?php echo $item->update_site_name; ?>
+							<label for="cb<?php echo $i; ?>">
+								<?php echo $item->update_site_name; ?>
+								<br />
+								<span class="small">
+									<a href="<?php echo $item->location; ?>" target="_blank"><?php echo $this->escape($item->location); ?></a>
+								</span>
+							</label>
 						</td>
-						<td  class="hidden-phone">
+						<td class="hidden-phone">
 							<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>">
 								<?php echo $item->name; ?>
 							</span>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo $item->client; ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 						</td>
 						<td class="hidden-phone">

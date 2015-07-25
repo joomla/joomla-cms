@@ -74,11 +74,11 @@ class JRouterSite extends JRouter
 		{
 			// Forward to https
 			$uri->setScheme('https');
-			$this->app->redirect((string) $uri);
+			$this->app->redirect((string) $uri, 301);
 		}
 
 		// Get the path
-		// Decode URL to convert punycode to unicode so that strings match when routing.
+		// Decode URL to convert percent-encoding to unicode so that strings match when routing.
 		$path = urldecode($uri->getPath());
 
 		// Remove the base URI path.
@@ -581,10 +581,14 @@ class JRouterSite extends JRouter
 		if ($stage == self::PROCESS_DURING)
 		{
 			// Make sure any menu vars are used if no others are specified
-			if (($this->_mode != JROUTER_MODE_SEF) && $uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)
+			$query = $uri->getQuery(true);
+			if ($this->_mode != 1
+				&& isset($query['Itemid'])
+				&& (count($query) == 2 || (count($query) == 3 && isset($query['lang']))))
 			{
 				// Get the active menu item
 				$itemid = $uri->getVar('Itemid');
+				$lang = $uri->getVar('lang');
 				$item = $this->menu->getItem($itemid);
 
 				if ($item)
@@ -593,6 +597,11 @@ class JRouterSite extends JRouter
 				}
 
 				$uri->setVar('Itemid', $itemid);
+
+				if ($lang)
+				{
+					$uri->setVar('lang', $lang);
+				}
 			}
 		}
 
@@ -643,10 +652,10 @@ class JRouterSite extends JRouter
 	 *
 	 * @since   3.2
 	 */
-	protected function createURI($url)
+	protected function createUri($url)
 	{
 		// Create the URI
-		$uri = parent::createURI($url);
+		$uri = parent::createUri($url);
 
 		// Get the itemid form the URI
 		$itemid = $uri->getVar('Itemid');

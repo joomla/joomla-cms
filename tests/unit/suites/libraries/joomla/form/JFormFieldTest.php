@@ -159,7 +159,7 @@ class JFormFieldTest extends TestCaseDatabase
 
 		// Standard usage.
 
-		$xml = $form->getXML();
+		$xml = $form->getXml();
 		$colours = array_pop($xml->xpath('fields/fields[@name="params"]/field[@name="colours"]'));
 
 		$this->assertThat(
@@ -195,7 +195,7 @@ class JFormFieldTest extends TestCaseDatabase
 
 		// Standard usage.
 
-		$xml = $form->getXML();
+		$xml = $form->getXml();
 		$title = array_pop($xml->xpath('fields/field[@name="title"]'));
 
 		$this->assertThat(
@@ -287,7 +287,7 @@ class JFormFieldTest extends TestCaseDatabase
 
 		// Standard usage.
 
-		$xml = $form->getXML();
+		$xml = $form->getXml();
 		$title = array_pop($xml->xpath('fields/field[@name="title"]'));
 
 		$this->assertThat(
@@ -348,6 +348,11 @@ class JFormFieldTest extends TestCaseDatabase
 	 */
 	public function testSetupInvalidElement()
 	{
+		if (PHP_MAJOR_VERSION >= 7)
+		{
+			$this->markTestSkipped('A fatal error is thrown on PHP 7 due to the typehinting of the method.');
+		}
+
 		$form = new JFormInspector('form1');
 		$field = new JFormFieldInspector($form);
 

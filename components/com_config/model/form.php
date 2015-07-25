@@ -4,10 +4,10 @@
  * @subpackage  com_config
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('_JEXEC') or die;
 
 /**
  * Prototype form model.
@@ -308,7 +308,7 @@ abstract class ConfigModelForm extends ConfigModelCms
 			// Get the validation messages from the form.
 			foreach ($form->getErrors() as $message)
 			{
-				JFactory::getApplication()->enqueueMessage($message, 'error');
+				JFactory::getApplication()->enqueueMessage($message->getMessage(), 'error');
 			}
 
 			return false;

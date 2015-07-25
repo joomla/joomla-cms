@@ -19,7 +19,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="filter_groups" type="usergroup"
+				<field name="filter_groups" type="usergrouplist"
 					description="PLG_DEBUG_FIELD_ALLOWED_GROUPS_DESC"
 					label="PLG_DEBUG_FIELD_ALLOWED_GROUPS_LABEL"
 					multiple="true"
@@ -181,6 +181,16 @@
 					default="0"
 					description="PLG_DEBUG_FIELD_LOG_EVERYTHING_DESC"
 					label="PLG_DEBUG_FIELD_LOG_EVERYTHING_LABEL"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				
+				<field name="log-executed-sql" type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					description="PLG_DEBUG_FIELD_EXECUTEDSQL_DESC"
+					label="PLG_DEBUG_FIELD_EXECUTEDSQL_LABEL"
 				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>

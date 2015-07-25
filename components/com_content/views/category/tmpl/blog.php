@@ -14,7 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 JHtml::_('behavior.caption');
 ?>
 <div class="blog<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="http://schema.org/Blog">
-	<?php if ($this->params->get('show_page_heading', 1)) : ?>
+	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
 			<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
 		</div>
@@ -104,7 +104,7 @@ JHtml::_('behavior.caption');
 	<?php if (!empty($this->children[$this->category->id]) && $this->maxLevel != 0) : ?>
 		<div class="cat-children">
 			<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
-				<h3> <?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?> </h3>
+				<h3> <?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?> </h3>
 			<?php endif; ?>
 			<?php echo $this->loadTemplate('children'); ?> </div>
 	<?php endif; ?>

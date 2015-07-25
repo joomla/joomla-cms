@@ -169,7 +169,15 @@ class PlgSearchCategories extends JPlugin
 		}
 
 		$db->setQuery($query, 0, $limit);
-		$rows = $db->loadObjectList();
+		try
+		{
+			$rows = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$rows = array();
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+		}
 
 		$return = array();
 
@@ -185,7 +193,7 @@ class PlgSearchCategories extends JPlugin
 
 			foreach ($rows as $category)
 			{
-				if (searchHelper::checkNoHTML($category, $searchText, array('name', 'title', 'text')))
+				if (searchHelper::checkNoHtml($category, $searchText, array('name', 'title', 'text')))
 				{
 					$return[] = $category;
 				}

@@ -152,7 +152,9 @@ class CategoriesViewCategories extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', $extension) & $user->authorise('core.edit', $extension) && $user->authorise('core.edit.state', $extension))
+		if ($user->authorise('core.create', $extension)
+			&& $user->authorise('core.edit', $extension)
+			&& $user->authorise('core.edit.state', $extension))
 		{
 			$title = JText::_('JTOOLBAR_BATCH');
 

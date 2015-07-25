@@ -379,7 +379,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	*
 	* @since   11.4
 	*/
-	public function setUTF()
+	public function setUtf()
 	{
 		return false;
 	}

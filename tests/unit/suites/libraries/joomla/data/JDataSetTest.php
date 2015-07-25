@@ -69,6 +69,11 @@ class JDataSetTest extends TestCase
 	 */
 	public function test__construct_scalar()
 	{
+		if (PHP_MAJOR_VERSION >= 7)
+		{
+			$this->markTestSkipped('A fatal error is thrown on PHP 7 due to the typehinting of the constructor.');
+		}
+
 		new JDataSet('foo');
 	}
 

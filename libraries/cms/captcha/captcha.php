@@ -234,7 +234,7 @@ class JCaptcha extends JObject
 		$plugin->params = $params;
 
 		// Build captcha plugin classname
-		$name = 'plgCaptcha' . $this->_name;
+		$name = 'PlgCaptcha' . $this->_name;
 		$this->_captcha = new $name($this, (array) $plugin, $options);
 	}
 

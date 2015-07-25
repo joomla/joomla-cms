@@ -1043,9 +1043,9 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return   void
 	 */
-	public function testSetUTF()
+	public function testSetUtf()
 	{
-		$this->assertEquals(0, self::$driver->setUTF());
+		$this->assertEquals(0, self::$driver->setUtf());
 	}
 
 	/**

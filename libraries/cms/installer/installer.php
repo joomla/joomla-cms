@@ -206,7 +206,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   3.1
 	 */
-	public function getRedirectURL()
+	public function getRedirectUrl()
 	{
 		return $this->redirect_url;
 	}
@@ -220,7 +220,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   3.1
 	 */
-	public function setRedirectURL($newurl)
+	public function setRedirectUrl($newurl)
 	{
 		$this->redirect_url = $newurl;
 	}
@@ -366,7 +366,7 @@ class JInstaller extends JAdapter
 
 				case 'extension':
 					// Get database connector object
-					$db = $this->getDBO();
+					$db = $this->getDbo();
 					$query = $db->getQuery(true);
 
 					// Remove the entry from the #__extensions table
@@ -914,7 +914,7 @@ class JInstaller extends JAdapter
 				// Check that sql files exists before reading. Otherwise raise error for rollback
 				if (!file_exists($sqlfile))
 				{
-					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
+					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_FILENOTFOUND', $sqlfile), JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -1865,6 +1865,12 @@ class JInstaller extends JAdapter
 	 */
 	public function findManifest()
 	{
+		// Do nothing if folder does not exist for some reason
+		if (!JFolder::exists($this->getPath('source')))
+		{
+			return false;
+		}
+
 		// Main folder manifests (higher priority)
 		$parentXmlfiles = JFolder::files($this->getPath('source'), '.xml$', false, true);
 
@@ -2332,7 +2338,7 @@ class JInstaller extends JAdapter
 		// Ensure the adapter type is part of the options array
 		$options['type'] = $adapter;
 
-		return new $class($this, $this->getDBO(), $options);
+		return new $class($this, $this->getDbo(), $options);
 	}
 
 	/**

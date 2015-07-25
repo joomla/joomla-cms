@@ -35,15 +35,27 @@ class JFormRuleOptions extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
-		// Check each value and return true if we get a match
-		foreach ($element->option as $option)
+		// Make an array of all available option values.
+		$options = array();
+
+		foreach ($element->option as $opt)
 		{
-			if ($value == (string) $option->attributes()->value)
-			{
-				return true;
-			}
+			$options[] = $opt->attributes()->value;
 		}
 
-		return false;
+		// There may be multiple values in the form of an array (if the element is checkboxes, for example).
+		if (is_array($value))
+		{
+			// If all values are in the $options array, $diff will be empty and the options valid.
+			$diff = array_diff($value, $options);
+
+			return empty($diff);
+		}
+		else
+		{
+			// In this case value must be a string
+
+			return in_array((string) $value, $options);
+		}
 	}
 }

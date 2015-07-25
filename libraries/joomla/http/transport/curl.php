@@ -64,7 +64,21 @@ class JHttpTransportCurl implements JHttpTransport
 		$ch = curl_init();
 
 		// Set the request method.
-		$options[CURLOPT_CUSTOMREQUEST] = strtoupper($method);
+		switch (strtoupper($method))
+		{
+			case 'GET':
+				$options[CURLOPT_HTTPGET] = true;
+				break;
+
+			case 'POST':
+				$options[CURLOPT_POST] = true;
+				break;
+
+			case 'PUT':
+			default:
+				$options[CURLOPT_CUSTOMREQUEST] = strtoupper($method);
+				break;
+		}
 
 		// Don't wait for body when $method is HEAD
 		$options[CURLOPT_NOBODY] = ($method === 'HEAD');
