@@ -68,7 +68,17 @@ class UsersControllerUser extends UsersController
 		$credentials['secretkey'] = $data['secretkey'];
 
 		// Perform the log in.
-		if (true === $app->login($credentials, $options))
+		// If you catch Exception you don't have 404 error
+		$rc = false;
+		try
+		{
+			$rc = $app->login($credentials, $options);
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage(JText::_('Unexpected login method exception:'));
+		}
+		if ($rc)
 		{
 			// Success
 			if ($options['remember'] == true)
