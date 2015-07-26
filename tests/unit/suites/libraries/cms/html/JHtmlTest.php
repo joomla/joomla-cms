@@ -1401,8 +1401,8 @@ class JHtmlTest extends TestCase
 	{
 		$cfg = $this->getMockConfig();
 		$map = array(
-			array('live_site', 'offset'),
-			array('http://example.com', 'Europe/Kiev')
+			array('live_site', 'http://example.com'),
+			array('offset', 'Europe/Kiev')
 		);
 		$cfg->expects($this->any())
 			->method('get')
