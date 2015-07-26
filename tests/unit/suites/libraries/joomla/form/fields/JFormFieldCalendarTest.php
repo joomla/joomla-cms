@@ -521,20 +521,15 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 		$mock = $this->getMock('calendarHandler', array('calendar'));
 
 		// Setup the expectation with the values from the dataset
-		$result = 'Calendar Result';
 		$mock->expects($this->once())
 			->method('calendar')
-			->with('0000-00-00 00:00:00', 'calendar', 'calendar', '%Y-%m-%d', array("maxlength" => 45))
-			->willReturn($result);
+			->with('0000-00-00 00:00:00', 'calendar', 'calendar', '%Y-%m-%d', array("maxlength" => 45));
 
 		// Register our mock with JHtml
 		JHtml::register('calendar', array($mock, 'calendar'));
 
-		$this->assertEquals(
-			$result,
-			$field->input,
-			'Line:' . __LINE__ . ' The getInput method should return something without error.'
-		);
+		// Grab the field element to invoke the test above
+		$field->input;
 
 		// Unregister the mock
 		JHtml::unregister('jhtml..calendar');
@@ -573,20 +568,15 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 		$mock = $this->getMock('calendarHandler', array('calendar'));
 
 		// Setup the expectation with the values from the dataset
-		$result = 'Calendar Result';
 		$mock->expects($this->once())
 			->method('calendar')
-			->with('2015-06-01 01:00:00', 'calendar', 'calendar', '%Y-%m-%d', array("maxlength" => 45))
-			->willReturn($result);
+			->with('2015-06-01 01:00:00', 'calendar', 'calendar', '%Y-%m-%d', array("maxlength" => 45));
 
 		// Register our mock with JHtml
 		JHtml::register('calendar', array($mock, 'calendar'));
 
-		$this->assertEquals(
-			$result,
-			$field->input,
-			'Line:' . __LINE__ . ' The getInput method should return something without error.'
-		);
+		// Grab the field element to invoke the test above
+		$field->input;
 
 		// Unregister the mock
 		JHtml::unregister('jhtml..calendar');
