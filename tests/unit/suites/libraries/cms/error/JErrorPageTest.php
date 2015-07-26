@@ -46,7 +46,7 @@ class JErrorPageTest extends TestCaseDatabase
 
 		$key = serialize(array('error', array()));
 
-		$mockErrorDocument = $this->getMockBuilder('JErrorDocument')
+		$mockErrorDocument = $this->getMockBuilder('JDocumentError')
 			->setMethods(array('setError', 'setTitle', 'render'))
 			->getMock();
 
