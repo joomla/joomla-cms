@@ -218,26 +218,24 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 	/**
 	 * Tests various attribute methods - this method does not handle filters
 	 *
-	 * @param   array  $element         @todo
-	 * @param   array  $expectedResult  @todo
+	 * @param   array  $elementProperties  The attributes to add to the XML string
+	 * @param   array  $expectedResult     The expected class vars of the form field when setup
 	 *
 	 * @dataProvider getSetupData
 	 *
 	 * @return void
 	 */
-	public function testSetup($element, $expectedResult)
+	public function testSetup($elementProperties, $expectedResult)
 	{
-		$elementStr = '';
-
-		foreach ($element as $attr => $value)
-		{
-			$elementStr .= ' ' . $attr . '="' . $value . '"';
-		}
-
-		$element = '<field type="calendar" ' . $elementStr . " />";
+		$element = '<field type="calendar" />';
 
 		$field = new JFormFieldCalendar;
 		$element = simplexml_load_string($element);
+
+		foreach ($elementProperties as $attr => $value)
+		{
+			$element->addAttribute($attr, $value);
+		}
 
 		$this->assertTrue(
 			$field->setup($element, ''),
