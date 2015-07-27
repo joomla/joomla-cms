@@ -831,6 +831,154 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	}
 
 	/**
+	 * @testdox JInstallerAdapter::install works correctly when the route is set to update
+	 */
+	public function testInstallOnUpdateRoute()
+	{
+		$mockInstaller = $this->getMock('JInstaller', array('abort'));
+
+		// For this test we to ensure abort is not called in JInstaller
+		$mockInstaller->expects($this->never())
+			->method('abort');
+
+		$mockDatabase = $this->getMockDatabase();
+		$object = $this->getMockForAbstractClass(
+			'JInstallerAdapter',
+			array($mockInstaller, $mockDatabase),
+			'',
+			true,
+			true,
+			true,
+			array(
+				'getName',
+				'getElement',
+				'finaliseInstall',
+				'triggerManifestScript',
+				'parseQueries',
+				'storeExtension',
+				'setupScriptfile',
+				'setupInstallPaths',
+				'createExtensionRoot',
+				'checkExistingExtension',
+				'checkExtensionInFilesystem',
+				'copyBaseFiles',
+				'parseOptionalTags',
+				'setupUpdates'
+			)
+		);
+
+		// Set up a mock JTableExtension
+		$mockTableExtension = $this->getMock('JTableExtension', array('find', 'load'), array($this->getMockDatabase()));
+		$mockTableExtension->extension_id = 444;
+		TestReflection::setValue($object, 'extension', $mockTableExtension);
+		TestReflection::setValue($object, 'route', 'update');
+
+		// Mock the response of internal methods
+		$object->expects($this->once())
+			->method('getName')
+			->willReturn('com_content');
+		$object->expects($this->once())
+			->method('getElement')
+			->willReturn('com_content');
+
+		// Mock the finaliseInstall method which doesn't exist in the class
+		$object->expects($this->once())
+			->method('finaliseInstall')
+			->willReturn(null);
+
+		// Check that setupUpdates has been called
+		$object->expects($this->once())
+			->method('setupUpdates');
+
+		$manifestObject = simplexml_load_string($this->sampleManifest);
+		TestReflection::setValue($object, 'manifest', $manifestObject);
+
+		// Invoke the method
+		$this->assertEquals(
+			444,
+			$object->install(),
+			'The extension ID was not returned when running install'
+		);
+
+		$this->assertEquals(
+			'Dummy Description Text',
+			$mockInstaller->message,
+			'The description text was not set into JInstaller'
+		);
+	}
+
+	/**
+	 * @testdox JInstallerAdapter::install works correctly
+	 */
+	public function testInstallAbortsWhenSetupUpdatesThrowsException()
+	{
+		$mockInstaller = $this->getMock('JInstaller', array('abort'));
+
+		// For this test we to ensure abort is not called in JInstaller
+		$mockInstaller->expects($this->once())
+			->method('abort');
+
+		$mockDatabase = $this->getMockDatabase();
+		$object = $this->getMockForAbstractClass(
+			'JInstallerAdapter',
+			array($mockInstaller, $mockDatabase),
+			'',
+			true,
+			true,
+			true,
+			array(
+				'getName',
+				'getElement',
+				'finaliseInstall',
+				'triggerManifestScript',
+				'parseQueries',
+				'storeExtension',
+				'setupScriptfile',
+				'setupInstallPaths',
+				'createExtensionRoot',
+				'checkExistingExtension',
+				'checkExtensionInFilesystem',
+				'copyBaseFiles',
+				'parseOptionalTags',
+				'setupUpdates'
+			)
+		);
+
+		// Set up a mock JTableExtension
+		$mockTableExtension = $this->getMock('JTableExtension', array('find', 'load'), array($this->getMockDatabase()));
+		$mockTableExtension->extension_id = 444;
+		TestReflection::setValue($object, 'extension', $mockTableExtension);
+		TestReflection::setValue($object, 'route', 'update');
+
+		// Mock the response of internal methods
+		$object->expects($this->once())
+			->method('getName')
+			->willReturn('com_content');
+		$object->expects($this->once())
+			->method('getElement')
+			->willReturn('com_content');
+
+		// Mock the finaliseInstall method which doesn't exist in the class
+		$object->expects($this->any())
+			->method('finaliseInstall')
+			->willReturn(null);
+
+		// Check that setupUpdates has been called
+		$object->expects($this->once())
+			->method('setupUpdates')
+			->willThrowException(new RuntimeException());
+
+		$manifestObject = simplexml_load_string($this->sampleManifest);
+		TestReflection::setValue($object, 'manifest', $manifestObject);
+
+		// Invoke the method
+		$this->assertFalse(
+			$object->install(),
+			'The extension ID was not returned when running install'
+		);
+	}
+
+	/**
 	 * @testdox JInstallerAdapter::install works correctly
 	 */
 	public function testInstallWithNoDescription()
