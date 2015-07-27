@@ -60,7 +60,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		// Reset the dispatcher instance.
+		// Reset the filter instances.
 		TestReflection::setValue('JFilterInput', 'instances', array());
 
 		parent::tearDown();
