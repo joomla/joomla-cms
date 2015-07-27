@@ -327,7 +327,6 @@ class CategoriesModelCategory extends JModelAdmin
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'))));
 			}
-
 		}
 
 		$this->preprocessData('com_categories.category', $data);
@@ -510,6 +509,7 @@ class CategoriesModelCategory extends JModelAdmin
 					$data['alias'] = '';
 				}
 			}
+
 			$data['published'] = 0;
 		}
 
@@ -937,7 +937,7 @@ class CategoriesModelCategory extends JModelAdmin
 			// Set the new location in the tree for the node.
 			$this->table->setLocation($this->table->parent_id, 'last-child');
 
-			// TODO: Deal with ordering?
+			// @TODO: Deal with ordering?
 			// $this->table->ordering	= 1;
 			$this->table->level = null;
 			$this->table->asset_id = null;
