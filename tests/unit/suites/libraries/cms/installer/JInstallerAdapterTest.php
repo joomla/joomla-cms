@@ -75,20 +75,10 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		$mockDatabase = $this->getMockDatabase();
 		$object = $this->getMockForAbstractClass('JInstallerAdapter', array($mockInstaller, $mockDatabase, array('foo' => 'bar')));
 
-		$this->assertInstanceOf(
-			'JTableExtension',
-			TestReflection::getValue($object, 'extension')
-		);
+		$this->assertAttributeInstanceOf('JTableExtension', 'extension', $object);
 
-		$this->assertInstanceOf(
-			'JDatabaseDriver',
-			TestReflection::getValue($object, 'db')
-		);
-
-		$this->assertInstanceOf(
-			'JInstaller',
-			TestReflection::getValue($object, 'parent')
-		);
+		$this->assertAttributeSame($mockDatabase, 'db', $object);
+		$this->assertAttributeSame($mockInstaller, 'parent', $object);
 
 		$this->assertEquals(
 			'bar',
@@ -245,9 +235,10 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		// Invoke the method
 		TestReflection::invoke($object, 'checkExtensionInFilesystem');
 
-		$this->assertEquals(
+		$this->assertAttributeEquals(
 			'install',
-			TestReflection::getValue($object, 'route'),
+			'route',
+			$object,
 			'JInstallerAdapter::checkExtensionInFilesystem() should not update the route unless a extension ID has been set'
 		);
 
@@ -291,9 +282,10 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		// Invoke the method
 		TestReflection::invoke($object, 'checkExtensionInFilesystem');
 
-		$this->assertEquals(
+		$this->assertAttributeEquals(
 			'update',
-			TestReflection::getValue($object, 'route'),
+			'route',
+			$object,
 			'JInstallerAdapter::checkExtensionInFilesystem() should change the route to upgrade when an extension ID has been set'
 		);
 	}
@@ -1589,9 +1581,10 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 		$object->update();
 
-		$this->assertEquals(
+		$this->assertAttributeEquals(
 			'update',
-			TestReflection::getValue($object, 'route'),
+			'route',
+			$object,
 			'Checks the route is set in the class var'
 		);
 	}
