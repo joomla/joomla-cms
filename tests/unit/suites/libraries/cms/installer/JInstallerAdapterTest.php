@@ -14,7 +14,7 @@
  * @subpackage  Installer
  * @since       3.4.4
  */
-class JInstallerAdapterTest extends TestCaseDatabase
+class JInstallerAdapterTest extends TestCase
 {
 	/**
 	 * Used in tests for callbacks involving JInstaller::setOverwrite()
@@ -68,6 +68,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox Tests the public constructor
+	 * 
+	 * @covers  JInstallerAdapter::__construct
 	 */
 	public function testConstructor()
 	{
@@ -89,6 +91,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox Test checking if an existing extension exists
+	 * 
+	 * @covers  JInstallerAdapter::checkExistingExtension
 	 */
 	public function testCheckExistingExtensionForExistingExtension()
 	{
@@ -122,15 +126,18 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		// Invoke the method
 		TestReflection::invoke($object, 'checkExistingExtension');
 
-		$this->assertEquals(
+		$this->assertAttributeEquals(
 			$extensionId,
-			TestReflection::getValue($object, 'currentExtensionId'),
+			'currentExtensionId',
+			$object,
 			'The extension ID was not populated correctly for a found extension'
 		);
 	}
 
 	/**
 	 * @testdox Test checking if an existing extension exists with an extension that doesn't exist
+	 * 
+	 * @covers  JInstallerAdapter::checkExistingExtension
 	 */
 	public function testCheckExistingExtensionForExtensionThatDoesNotExist()
 	{
@@ -173,6 +180,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	 * @testdox Test checking if an existing extension exists
 	 *
 	 * @expectedException RuntimeException
+	 * @covers  JInstallerAdapter::checkExistingExtension
 	 */
 	public function testCheckExistingExtensionReturnsErrorWhenTableGivesException()
 	{
@@ -201,6 +209,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox JInstallerAdapter::checkExtensionInFilesystem works with an existing XML file and with upgrade flag set to true
+	 * 
+	 * @covers  JInstallerAdapter::checkExtensionInFilesystem
 	 */
 	public function testCheckExtensionInFilesystem()
 	{
@@ -255,6 +265,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox JInstallerAdapter::checkExtensionInFilesystem sets the route to update when upgrade is set to true, a file exists and an extension ID is set
+	 * 
+	 * @covers  JInstallerAdapter::checkExtensionInFilesystem
 	 */
 	public function testsCheckExtensionInFilesystemInstallerRouteSetWhenFilesystemExistsWithExtensionIdSet()
 	{
@@ -294,6 +306,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	 * @testdox JInstallerAdapter::checkExtensionInFilesystem throws an exception when a file exists and overwrite is set to false
 	 *
 	 * @expectedException  RuntimeException
+	 * @covers  JInstallerAdapter::checkExtensionInFilesystem
 	 */
 	public function testsCheckExtensionInFilesystemWithOverwriteSetFalse()
 	{
@@ -324,6 +337,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox JInstallerAdapter::discover_install works correctly
+	 * 
+	 * @covers  JInstallerAdapter::discover_install
 	 */
 	public function testDiscoverInstall()
 	{
@@ -390,6 +405,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox JInstallerAdapter::discover_install works correctly
+	 * 
+	 * @covers  JInstallerAdapter::discover_install
 	 */
 	public function testDiscoverInstallWithNoDescription()
 	{
@@ -476,6 +493,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	 * @param   string  $method  The method to throw an exception in
 	 *
 	 * @dataProvider  casesTestExceptionThrownInDiscoverInstall
+	 * @covers  JInstallerAdapter::discover_install
 	 */
 	public function testDiscoverInstallWithExceptionThrownInAdapterMethods($method)
 	{
@@ -530,6 +548,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox Test getting the discover install class var
+	 * 
+	 * @covers  JInstallerAdapter::getDiscoverInstallSupported
 	 */
 	public function testDefaultGetDiscoverInstallSupported()
 	{
@@ -545,6 +565,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox Test getting the discover install class var
+	 * 
+	 * @covers  JInstallerAdapter::getDiscoverInstallSupported
 	 */
 	public function testGetDiscoverInstallSupported()
 	{
@@ -562,6 +584,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox Test getting the element from the manifest
+	 * 
+	 * @covers  JInstallerAdapter::getElement
 	 */
 	public function testGetElementWithElementInManifest()
 	{
@@ -583,6 +607,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox Test getting the element by injecting it
+	 * 
+	 * @covers  JInstallerAdapter::getElement
 	 */
 	public function testGetElementWithInjectedElement()
 	{
@@ -600,6 +626,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox Test getting the element by injecting it
+	 * 
+	 * @covers  JInstallerAdapter::getElement
 	 */
 	public function testGetElementWithElementFromName()
 	{
@@ -633,6 +661,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox Test getting the simple xml object from the manifest
+	 * 
+	 * @covers  JInstallerAdapter::getManifest
 	 */
 	public function testGetManifest()
 	{
@@ -652,6 +682,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox Test getting the name from the manifest
+	 * 
+	 * @covers  JInstallerAdapter::getName
 	 */
 	public function testGetName()
 	{
@@ -690,6 +722,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox Test getting a non-default route from the class
+	 * 
+	 * @covers  JInstallerAdapter::getRoute
 	 */
 	public function testGetRouteForSetObject()
 	{
@@ -735,6 +769,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	 * @param   string  $failureMessage  The failure message
 	 *
 	 * @dataProvider  casesGetScriptClassName
+	 * @covers  JInstallerAdapter::getScriptClassName
 	 */
 	public function testGetScriptClassName($element, $expected, $failureMessage)
 	{
@@ -753,6 +788,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox JInstallerAdapter::install works correctly
+	 * 
+	 * @covers  JInstallerAdapter::install
 	 */
 	public function testInstall()
 	{
@@ -824,6 +861,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox JInstallerAdapter::install works correctly when the route is set to update
+	 * 
+	 * @covers  JInstallerAdapter::install
 	 */
 	public function testInstallOnUpdateRoute()
 	{
@@ -901,6 +940,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox JInstallerAdapter::install works correctly
+	 * 
+	 * @covers  JInstallerAdapter::install
 	 */
 	public function testInstallAbortsWhenSetupUpdatesThrowsException()
 	{
@@ -972,6 +1013,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox JInstallerAdapter::install works correctly
+	 * 
+	 * @covers  JInstallerAdapter::install
 	 */
 	public function testInstallWithNoDescription()
 	{
@@ -1067,6 +1110,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	 * @param   string  $method  The method to throw an exception in
 	 *
 	 * @dataProvider  casesTestExceptionThrownInInstall
+	 * @covers  JInstallerAdapter::install
 	 */
 	public function testInstallWithExceptionThrownInAdapterMethods($method)
 	{
@@ -1126,6 +1170,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox JInstallerAdapter::install deals with an exception being thrown in JInstallerAdapter::finaliseInstall()
+	 * 
+	 * @covers  JInstallerAdapter::install
 	 */
 	public function testInstallWithExceptionThrownInFinaliseInstall()
 	{
@@ -1188,6 +1234,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	 * @testdox Test parse queries throws an exception with install route and JInstallerAdapter::doDatabaseTransactions() returning false
 	 *
 	 * @expectedException  RuntimeException
+	 * @covers  JInstallerAdapter::parseQueries
 	 */
 	public function testParseQueriesWithInstallRoute()
 	{
@@ -1214,6 +1261,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	 * @testdox Test parse queries throws an exception with install route and JInstallerAdapter::doDatabaseTransactions() returning false
 	 *
 	 * @expectedException  RuntimeException
+	 * @covers  JInstallerAdapter::parseQueries
 	 */
 	public function testParseQueriesWithUpdateRouteAndParsingReturningFalseReturnsException()
 	{
@@ -1253,6 +1301,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox Test JInstallerAdapter::parseQueries() correctly calls JInstaller::parseSchemaUpdates() when in update route
+	 * 
+	 * @covers  JInstallerAdapter::parseQueries
 	 */
 	public function testParseQueriesWithUpdateRouteAndParsingReturningTrueCallsParseSchemaUpdatesCorrectly()
 	{
@@ -1292,6 +1342,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox Test setting a SimpleXML object into the manifest
+	 * 
+	 * @covers  JInstallerAdapter::setManifest
 	 */
 	public function testSetManifest()
 	{
@@ -1316,6 +1368,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox Test setting a string as the route
+	 * 
+	 * @covers  JInstallerAdapter::setRoute
 	 */
 	public function testSetRoute()
 	{
@@ -1362,6 +1416,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	 * @param   string  $method  The method to run
 	 *
 	 * @dataProvider  casesTestTriggerManifestScript
+	 * @covers  JInstallerAdapter::triggerManifestScript
 	 */
 	public function testTriggerManifestScriptForMethodsTakingInstallerObjectOnly($method)
 	{
@@ -1403,6 +1458,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	 * @param   string  $method  The method to run
 	 *
 	 * @dataProvider  casesTestTriggerManifestScriptFlights
+	 * @covers  JInstallerAdapter::triggerManifestScript
 	 */
 	public function testTriggerManifestScriptForMethodsTakingInstallerObjectAndRoute($method)
 	{
@@ -1432,6 +1488,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	 * @testdox Test a exception is thrown when the preflight method returns false
 	 *
 	 * @expectedException  RuntimeException
+	 * @covers  JInstallerAdapter::triggerManifestScript
 	 */
 	public function testTriggerManifestScriptPreflightReturningFalseThrowsException()
 	{
@@ -1475,6 +1532,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	 *
 	 * @dataProvider       casesTestTriggerManifestException
 	 * @expectedException  RuntimeException
+	 * @covers  JInstallerAdapter::triggerManifestScript
 	 */
 	public function testTriggerManifestScriptInstallOrUpdateReturningFalseThrowsException($method)
 	{
@@ -1499,6 +1557,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox Test a exception isn't thrown when the uninstall method returns false
+	 * 
+	 * @covers  JInstallerAdapter::triggerManifestScript
 	 */
 	public function testTriggerManifestScriptUninstallReturningFalseDoesNotThrowAnException()
 	{
@@ -1525,6 +1585,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox Test a exception isn't thrown when the postflight method returns false
+	 * 
+	 * @covers  JInstallerAdapter::triggerManifestScript
 	 */
 	public function testTriggerManifestScriptPostflightReturningFalseDoesNotThrowAnException()
 	{
@@ -1551,6 +1613,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 
 	/**
 	 * @testdox Test running the update method
+	 * 
+	 * @covers  JInstallerAdapter::update
 	 */
 	public function testUpdate()
 	{
