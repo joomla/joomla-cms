@@ -41,7 +41,7 @@ foreach ($list as $i => &$item)
 		$class .= ' current';
 	}
 
-	if (in_array ($item->id, $trail))
+	if (in_array($item->id, $trail))
 	{
 		$class .= ' current-trail';
 	}
