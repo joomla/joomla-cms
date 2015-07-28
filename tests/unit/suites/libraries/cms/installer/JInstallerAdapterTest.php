@@ -70,6 +70,18 @@ class JInstallerAdapterTest extends TestCase
 	}
 
 	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 */
+	protected function getDataSet()
+	{
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
+		return $dataSet;
+	}
+
+	/**
 	 * @testdox Tests the public constructor
 	 * 
 	 * @covers  JInstallerAdapter::__construct
