@@ -14,7 +14,7 @@
  * @subpackage  Installer
  * @since       3.4.4
  */
-class JInstallerAdapterTest extends TestCase
+class JInstallerAdapterTest extends TestCaseDatabase
 {
 	/**
 	 * Used in tests for callbacks involving JInstaller::setOverwrite()
