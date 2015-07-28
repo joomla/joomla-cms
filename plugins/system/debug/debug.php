@@ -929,7 +929,9 @@ class PlgSystemDebug extends JPlugin
 
 				if ($timing[$id]['1'])
 				{
-					$htmlTiming .= ' ' . JText::sprintf('PLG_DEBUG_QUERY_AFTER_LAST', sprintf('<span class="label label-default">%.2f&nbsp;ms</span>', $timing[$id]['1']));
+					$htmlTiming .= ' ' . JText::sprintf('PLG_DEBUG_QUERY_AFTER_LAST',
+							sprintf('<span class="label label-default">%.2f&nbsp;ms</span>', $timing[$id]['1'])
+						);
 				}
 
 				$htmlTiming .= '</span>';
