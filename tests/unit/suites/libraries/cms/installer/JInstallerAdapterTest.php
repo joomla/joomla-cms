@@ -14,7 +14,7 @@
  * @subpackage  Installer
  * @since       3.4.4
  */
-class JInstallerAdapterTest extends TestCaseDatabase
+class JInstallerAdapterTest extends TestCase
 {
 	/**
 	 * Used in tests for callbacks involving JInstaller::setOverwrite()
@@ -44,6 +44,8 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	public function setUp()
 	{
 		parent::setUp();
+		$this->saveFactoryState();
+		JFactory::$database = $this->getMockDatabase();
 
 		// Mock JFilter
 		$filterMock = $this->getMock('JFilterInput', array('filter'));
@@ -62,6 +64,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	{
 		// Reset the filter instances.
 		TestReflection::setValue('JFilterInput', 'instances', array());
+		$this->restoreFactoryState();
 
 		parent::tearDown();
 	}
