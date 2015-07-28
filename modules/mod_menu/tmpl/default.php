@@ -22,6 +22,16 @@ defined('_JEXEC') or die;
 	}
 ?>>
 <?php
+
+foreach ($list as &$item)
+{
+	if ($item->id == $active_id)
+	{
+		$trail = $item->tree;
+		break;
+	}
+}
+
 foreach ($list as $i => &$item)
 {
 	$class = 'item-' . $item->id;
@@ -29,6 +39,11 @@ foreach ($list as $i => &$item)
 	if (($item->id == $active_id) OR ($item->type == 'alias' AND $item->params->get('aliasoptions') == $active_id))
 	{
 		$class .= ' current';
+	}
+
+	if (in_array($item->id, $trail))
+	{
+		$class .= ' current-trail';
 	}
 
 	if (in_array($item->id, $path))
