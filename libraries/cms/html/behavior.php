@@ -904,7 +904,7 @@ abstract class JHtmlBehavior
 	/**
 	 * Add script for checks the setting of php max_input_vars and notifies user
 	 *
-	 * @param   string   $formid
+	 * @param   string   $formid  The id of the form, that will be used for test
 	 *
 	 * @return  void
 	 *
