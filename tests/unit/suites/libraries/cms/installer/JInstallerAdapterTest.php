@@ -43,8 +43,6 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	public function setUp()
 	{
 		parent::setUp();
-		$this->saveFactoryState();
-		JFactory::$database = $this->getMockDatabase();
 
 		// Mock JFilter
 		$filterMock = $this->getMock('JFilterInput', array('filter'));
@@ -63,7 +61,6 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	{
 		// Reset the filter instances.
 		TestReflection::setValue('JFilterInput', 'instances', array());
-		$this->restoreFactoryState();
 
 		parent::tearDown();
 	}
