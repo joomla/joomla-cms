@@ -350,6 +350,18 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
+			
+			<field
+				name="show_intro_blog"
+				type="list"
+				description="JGLOBAL_SHOW_INTRO_DESC_BLOG"
+				label="JGLOBAL_SHOW_INTRO_LABEL_BLOG"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 
 			<field
 				name="info_block_position"
