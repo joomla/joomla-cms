@@ -900,4 +900,41 @@ abstract class JHtmlBehavior
 		JHtml::_('script', 'system/tabs-state.js', false, true);
 		self::$loaded[__METHOD__] = true;
 	}
+
+	/**
+	 * Add script for checks the setting of php max_input_vars and notifies user
+	 *
+	 * @param   string   $formid
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public static function inputLimitTest($formid = 'adminForm')
+	{
+		if (isset(self::$loaded[__METHOD__][$formid]))
+		{
+			return;
+		}
+
+		$maxinputvars = (int) ini_get('max_input_vars');
+
+		static::core();
+		JHtml::_('jquery.framework');
+		JText::script('JERROR_MAXVARS_REACHED');
+
+		JFactory::getDocument()->addScriptDeclaration('
+			jQuery(window).load(function(){
+				var form = document.getElementById("' . $formid . '"),
+					limit = ' . $maxinputvars . ', warning;
+				if (form && (form.length >= limit || form.length/limit > 0.8)) {
+					warning = Joomla.JText._("JERROR_MAXVARS_REACHED");
+					warning = warning.replace("%s", limit).replace("%s", form.length)
+					Joomla.renderMessages({"warning":[warning]});
+				}
+			});
+		');
+
+		self::$loaded[__METHOD__][$formid] = true;
+	}
 }

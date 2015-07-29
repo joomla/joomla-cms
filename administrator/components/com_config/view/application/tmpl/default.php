@@ -15,6 +15,7 @@ use Joomla\Registry\Registry;
 JHtml::_('behavior.formvalidator');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('behavior.inputlimittest', 'application-form');
 
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)

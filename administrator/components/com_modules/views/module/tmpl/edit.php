@@ -14,6 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('behavior.inputlimittest', 'module-form');
 
 $hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
 $hasContentFieldName = "content";
