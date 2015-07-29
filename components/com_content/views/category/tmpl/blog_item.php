@@ -41,11 +41,11 @@ $info    = $params->get('info_block_position', 0);
 <?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
 
 
-<?php if (!$params->get('show_intro')) :
+<?php if (!$params->get('show_intro_blog')) :
 	echo $this->item->event->afterDisplayTitle;
 else :
-    echo $this->item->event->beforeDisplayContent;
-    echo $this->item->introtext;
+	echo $this->item->event->beforeDisplayContent;
+	echo $this->item->introtext;
 endif; ?>
 
 <?php if ($useDefList && ($info == 1 || $info == 2)) : ?>

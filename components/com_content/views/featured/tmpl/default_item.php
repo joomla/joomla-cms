@@ -65,11 +65,11 @@ $info    = $this->item->params->get('info_block_position', 0);
 	src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/> </div>
 <?php endif; ?>
 
-<?php if (!$params->get('show_intro')) :
+<?php if (!$params->get('show_intro_blog')) :
 	echo $this->item->event->afterDisplayTitle;
 else :
-    echo $this->item->event->beforeDisplayContent;
-    echo $this->item->introtext;
+	echo $this->item->event->beforeDisplayContent;
+	echo $this->item->introtext;
 endif; ?>
 
 <?php if ($useDefList && ($info == 1 || $info == 2)) : ?>
