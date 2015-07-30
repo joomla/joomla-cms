@@ -779,43 +779,29 @@ abstract class JModelAdmin extends JModelForm
 
 						$db = JFactory::getDbo();
 						$query = $db->getQuery(true)
-							->select($db->quoteName('key'))
-							->from($db->quoteName('#__associations'))
-							->where($db->quoteName('context') . ' = ' . $db->quote($assoc_context))
-							->where($db->quoteName('id') . ' = ' . (int) $pk);
+							->select('COUNT(*) as count, ' . $db->quoteName('as1.key'))
+							->from($db->quoteName('#__associations') . ' AS as1')
+							->join('LEFT', $db->quoteName('#__associations') . ' AS as2 ON ' . $db->quoteName('as1.key') . ' =  ' . $db->quoteName('as2.key'))
+							->where($db->quoteName('as1.context') . ' = ' . $db->quote($assoc_context))
+							->where($db->quoteName('as1.id') . ' = ' . (int) $pk);
 
 						$db->setQuery($query);
-						$key = $db->loadResult();
+						$row = $db->loadAssoc();
 
-						if (!empty($key))
+						if (!empty($row['count']))
 						{
-							$query->clear()
-								->select('COUNT(*)')
-								->from($db->quoteName('#__associations'))
-								->where($db->quoteName('context') . ' = ' . $db->quote($assoc_context))
-								->where($db->quoteName('key') . ' = ' . $db->quote($key));
-
-							$db->setQuery($query);
-							$keycount = $db->loadResult();
-
-							$query->clear()
+							$query = $db->getQuery(true)
 								->delete($db->quoteName('#__associations'))
 								->where($db->quoteName('context') . ' = ' . $db->quote($assoc_context))
-								->where($db->quoteName('id') . ' = ' . (int) $pk);
+								->where($db->quoteName('key') . ' = ' . $db->quote($row['key']));
+
+							if ($row['count'] > 2)
+							{
+								$query->where($db->quoteName('id') . ' = ' . (int) $pk);
+							}
 
 							$db->setQuery($query);
 							$db->execute();
-
-							if ($keycount <= 2)
-							{
-								$query->clear()
-									->delete($db->quoteName('#__associations'))
-									->where($db->quoteName('key') . ' = ' . $db->quote($key))
-									->where($db->quoteName('context') . ' = ' . $db->quote($assoc_context));
-
-								$db->setQuery($query);
-								$db->execute();
-							}
 						}
 					}
 
