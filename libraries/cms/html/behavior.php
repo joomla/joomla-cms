@@ -918,7 +918,21 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		$maxinputvars = (int) ini_get('max_input_vars');
+		// Get the request limit from the PHP configiration
+		$suhosinPostVars = (int) ini_get('suhosin.post.max_vars');
+		$suhosinReqVars  = (int) ini_get('suhosin.request.max_vars');
+		$maxinputvars    = (int) ini_get('max_input_vars');
+
+		if ($suhosinPostVars || $suhosinReqVars)
+		{
+			// Take the minimum value but not a zero
+			$maxinputvars = min(array_filter(array($suhosinPostVars, $suhosinReqVars)));
+		}
+		elseif (!$maxinputvars)
+		{
+			// Server do not tell us his secrets
+			return;
+		}
 
 		static::core();
 		JHtml::_('jquery.framework');
