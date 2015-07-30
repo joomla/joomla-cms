@@ -51,7 +51,11 @@ class RedirectModelLinks extends JModelList
 	{
 		$db = $this->getDbo();
 
+		$query = $db->getQuery(true);
+
 		$query->delete('#__redirect_links')->where($db->qn('published') . '<> 1');
+
+		$db->setQuery($query);
 
 		if (!$db->execute())
 		{
