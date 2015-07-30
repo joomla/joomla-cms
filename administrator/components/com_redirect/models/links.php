@@ -40,6 +40,30 @@ class RedirectModelLinks extends JModelList
 
 		parent::__construct($config);
 	}
+	/**
+	 * Removes all of the unpublished redirects from the table.
+	 *
+	 * @return  boolean result of operation
+	 *
+	 * @since   3.5
+	 */
+	public function purge()
+	{
+		$db = $this->getDbo();
+
+		$db->setQuery('DELETE from #__redirect_links WHERE published != 1');
+
+		if (!$db->execute())
+		{
+			$this->_message = JText::_('COM_REDIRECT_CLEAR_FAIL');
+
+			return false;
+		}
+
+		$this->_message = JText::_('COM_REDIRECT_CLEAR_SUCCESS');
+
+		return true;
+	}
 
 	/**
 	 * Method to auto-populate the model state.

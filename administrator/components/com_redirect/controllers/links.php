@@ -109,4 +109,19 @@ class RedirectControllerLinks extends JControllerAdmin
 
 		$this->setRedirect('index.php?option=com_redirect&view=links');
 	}
+	
+		/**
+	 * Clean out the unpublished links.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function purge()
+	{
+		$model = $this->getModel('Links');
+		$model->purge();
+		$this->setRedirect(('index.php?option=com_redirect&view=links'), $model->_message);
+	}
+	
 }
