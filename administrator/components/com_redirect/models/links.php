@@ -53,7 +53,7 @@ class RedirectModelLinks extends JModelList
 
 		$query = $db->getQuery(true);
 
-		$query->delete('#__redirect_links')->where($db->qn('published') . '= 0'); 
+		$query->delete('#__redirect_links')->where($db->qn('published') . '= 0');
 
 		$db->setQuery($query);
 
