@@ -51,7 +51,7 @@ class RedirectModelLinks extends JModelList
 	{
 		$db = $this->getDbo();
 
-		$db->setQuery('DELETE from #__redirect_links WHERE published != 1');
+		$query->delete('#__redirect_links')->where($db->qn('published') . '<> 1');
 
 		if (!$db->execute())
 		{
