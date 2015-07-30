@@ -16,6 +16,7 @@ $template = $app->getTemplate();
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('behavior.inputlimittest', 'component-form', array('config.save.component.apply', 'config.save.component.save'));
 
 JFactory::getDocument()->addScriptDeclaration(
 	'

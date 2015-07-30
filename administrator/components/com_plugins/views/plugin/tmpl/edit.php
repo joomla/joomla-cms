@@ -13,7 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
-JHtml::_('behavior.inputlimittest', 'style-form');
+JHtml::_('behavior.inputlimittest', 'style-form', array('plugin.apply', 'plugin.save'));
 
 $this->fieldsets = $this->form->getFieldsets('params');
 

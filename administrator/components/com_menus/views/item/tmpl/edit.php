@@ -16,7 +16,7 @@ JHtml::_('behavior.core');
 JHtml::_('behavior.tabstate');
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
-JHtml::_('behavior.inputlimittest', 'item-form');
+JHtml::_('behavior.inputlimittest', 'item-form', array('item.apply', 'item.save', 'item.save2new', 'item.save2copy'));
 
 JText::script('ERROR');
 JText::script('JGLOBAL_VALIDATION_FORM_FAILED');

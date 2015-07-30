@@ -15,7 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
-JHtml::_('behavior.inputlimittest', 'item-form');
+JHtml::_('behavior.inputlimittest', 'item-form', array('category.apply', 'category.save', 'category.save2new', 'category.save2copy'));
 
 $app = JFactory::getApplication();
 $input = $app->input;

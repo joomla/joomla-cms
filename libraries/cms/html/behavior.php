@@ -902,15 +902,16 @@ abstract class JHtmlBehavior
 	}
 
 	/**
-	 * Add script for checks the setting of php max_input_vars and notifies user
+	 * Add script for checks the setting of php max_input_vars and notify user
 	 *
-	 * @param   string  $formid  The id of the form, that will be used for test
+	 * @param   string  $formid        The id of the form that will be used for test
+	 * @param   array   $preventTasks  Tasks that will be prevented when limit is reached
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 */
-	public static function inputLimitTest($formid = 'adminForm')
+	public static function inputLimitTest($formid = 'adminForm', $preventTasks = array())
 	{
 		if (isset(self::$loaded[__METHOD__][$formid]))
 		{
@@ -922,15 +923,28 @@ abstract class JHtmlBehavior
 		static::core();
 		JHtml::_('jquery.framework');
 		JText::script('JERROR_MAXVARS_REACHED');
+		JText::script('JERROR_MAXVARS_NOSUBMIT');
 
 		JFactory::getDocument()->addScriptDeclaration('
 			jQuery(window).load(function(){
 				var form = document.getElementById("' . $formid . '"),
-					limit = ' . $maxinputvars . ', warning;
-				if (form && (form.length >= limit || form.length/limit > 0.8)) {
-					warning = Joomla.JText._("JERROR_MAXVARS_REACHED");
-					warning = warning.replace("%s", limit).replace("%s", form.length)
-					Joomla.renderMessages({"warning":[warning]});
+					tasks = ' . json_encode($preventTasks) . ',
+					limit = ' . $maxinputvars . ', msg, type, reached, near;
+				if (!form) return;
+				reached = form.length >= limit;
+				near = form.length/limit > 0.8;
+				if (!reached && !near) return;
+				type = reached ? "error" : "warning";
+				msg  = Joomla.JText._("JERROR_MAXVARS_REACHED");
+				msg  = msg.replace("%s", limit).replace("%s", form.length)
+				Joomla.renderMessages({[type]:[msg]});
+				if (reached) {
+					jQuery(form).on("submit", function(e){
+						if (tasks.indexOf(this.task.value) !== -1) {
+							Joomla.renderMessages({"error":[msg, Joomla.JText._("JERROR_MAXVARS_NOSUBMIT")]});
+							return false;
+						}
+					});
 				}
 			});
 		');
