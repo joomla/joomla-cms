@@ -74,7 +74,7 @@ abstract class JModelAdmin extends JModelForm
 	protected $events_map = null;
 
 	/**
-	 * Batch copy/move command. If set to false, 
+	 * Batch copy/move command. If set to false,
 	 * the batch copy/move command is not supported
 	 *
 	 * @var string
@@ -770,6 +770,53 @@ abstract class JModelAdmin extends JModelForm
 						$this->setError($table->getError());
 
 						return false;
+					}
+
+					// Multilanguage: if associated, delete the item in the _associations table
+					if (JLanguageAssociations::isEnabled())
+					{
+						$assoc_context = $this->option . '.item';
+
+						$db = JFactory::getDbo();
+						$query = $db->getQuery(true)
+							->select($db->quoteName('key'))
+							->from($db->quoteName('#__associations'))
+							->where($db->quoteName('context') . ' = ' . $db->quote($assoc_context))
+							->where($db->quoteName('id') . ' = ' . (int) $pk);
+
+						$db->setQuery($query);
+						$key = $db->loadResult();
+
+						if (!empty($key))
+						{
+							$query->clear()
+								->select('COUNT(*)')
+								->from($db->quoteName('#__associations'))
+								->where($db->quoteName('context') . ' = ' . $db->quote($assoc_context))
+								->where($db->quoteName('key') . ' = ' . $db->quote($key));
+
+							$db->setQuery($query);
+							$keycount = $db->loadResult();
+
+							$query->clear()
+								->delete($db->quoteName('#__associations'))
+								->where($db->quoteName('context') . ' = ' . $db->quote($assoc_context))
+								->where($db->quoteName('id') . ' = ' . (int) $pk);
+
+							$db->setQuery($query);
+							$db->execute();
+
+							if ($keycount <= 2)
+							{
+								$query->clear()
+									->delete($db->quoteName('#__associations'))
+									->where($db->quoteName('key') . ' = ' .  $db->quote($key))
+									->where($db->quoteName('context') . ' = ' . $db->quote($assoc_context));
+
+								$db->setQuery($query);
+								$db->execute();
+							}
+						}
 					}
 
 					if (!$table->delete($pk))
