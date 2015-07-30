@@ -30,6 +30,14 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	public $typeAlias = 'com_newsfeeds.newsfeed';
 
 	/**
+	 * The context used for the associations table
+	 *
+	 * @var string
+	 * @since    3.4.4
+	 */
+	protected $associationsContext = 'com_newsfeeds.item';
+
+	/**
 	 * @var     string    The prefix to use with controller messages.
 	 * @since   1.6
 	 */

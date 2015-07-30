@@ -30,6 +30,14 @@ class MenusModelItem extends JModelAdmin
 	public $typeAlias = 'com_menus.item';
 
 	/**
+	 * The context used for the associations table
+	 *
+	 * @var      string
+	 * @since    3.4.4
+	 */
+	protected $associationsContext = 'com_menus.item';
+
+	/**
 	 * @var        string    The prefix to use with controller messages.
 	 * @since   1.6
 	 */

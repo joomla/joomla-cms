@@ -29,6 +29,14 @@ class ContactModelContact extends JModelAdmin
 	public $typeAlias = 'com_contact.contact';
 
 	/**
+	 * The context used for the associations table
+	 *
+	 * @var      string
+	 * @since    3.4.4
+	 */
+	protected $associationsContext = 'com_contact.item';
+
+	/**
 	 * Batch copy/move command. If set to false, 
 	 * the batch copy/move command is not supported
 	 *
