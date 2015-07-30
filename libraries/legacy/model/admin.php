@@ -1201,6 +1201,57 @@ abstract class JModelAdmin extends JModelForm
 
 		$this->setState($this->getName() . '.new', $isNew);
 
+		if ($this->associationsContext && JLanguageAssociations::isEnabled())
+		{
+			$associations = $data['associations'];
+
+			// Unset any invalid associations
+			foreach ($associations as $tag => $id)
+			{
+				if (!(int) $id)
+				{
+					unset($associations[$tag]);
+				}
+			}
+
+			// Show a notice if the item isn't assigned to a language but we have associations.
+			if ($associations && ($table->language == '*'))
+			{
+				JFactory::getApplication()->enqueueMessage(
+					JText::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
+					'notice'
+				);
+			}
+
+			// Adding self to the association
+			$associations[$table->language] = (int) $table->$key;
+
+			// Deleting old association for these items
+			$db    = $this->getDbo();
+			$query = $db->getQuery(true)
+				->delete($db->qn('#__associations'))
+				->where($db->qn('context') . ' = ' . $db->quote($this->associationsContext))
+				->where($db->qn('id') . ' IN (' . implode(',', $associations) . ')');
+			$db->setQuery($query);
+			$db->execute();
+
+			if ((count($associations) > 1) && ($table->language != '*'))
+			{
+				// Adding new association for these items
+				$key   = md5(json_encode($associations));
+				$query = $db->getQuery(true)
+					->insert('#__associations');
+
+				foreach ($associations as $id)
+				{
+					$query->values($id . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
+				}
+
+				$db->setQuery($query);
+				$db->execute();
+			}
+		}
+
 		return true;
 	}
 

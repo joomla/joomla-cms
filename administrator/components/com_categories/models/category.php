@@ -591,7 +591,7 @@ class CategoriesModelCategory extends JModelAdmin
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->delete('#__associations')
-				->where($db->quoteName('context') . ' = ' . $db->quote('com_categories.item'))
+				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
 				->where($db->quoteName('id') . ' IN (' . implode(',', $associations) . ')');
 			$db->setQuery($query);
 			$db->execute();
@@ -612,7 +612,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 				foreach ($associations as $id)
 				{
-					$query->values($id . ',' . $db->quote('com_categories.item') . ',' . $db->quote($key));
+					$query->values($id . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
 				}
 
 				$db->setQuery($query);
