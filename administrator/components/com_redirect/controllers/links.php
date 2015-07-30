@@ -109,7 +109,7 @@ class RedirectControllerLinks extends JControllerAdmin
 
 		$this->setRedirect('index.php?option=com_redirect&view=links');
 	}
-	
+
 		/**
 	 * Clean out the unpublished links.
 	 *
@@ -123,5 +123,5 @@ class RedirectControllerLinks extends JControllerAdmin
 		$model->purge();
 		$this->setRedirect(('index.php?option=com_redirect&view=links'), $model->_message);
 	}
-	
+
 }
