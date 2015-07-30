@@ -181,7 +181,7 @@
 		selectActions.hide();
 		var multiCheckboxes = $('form#adminForm table.table-striped input[type=checkbox], form#adminForm table.table-striped input[type=radio]');
 
-		multiCheckboxes.on('change', null, null, (function() {
+		multiCheckboxes.on('click', null, null, (function() {
 				var numberChecked = multiCheckboxes.filter(':checked').size();
 
 				if (numberChecked > 0) {
