@@ -35,6 +35,14 @@ class ContentModelArticle extends JModelAdmin
 	public $typeAlias = 'com_content.article';
 
 	/**
+	 * The context used for the associations table
+	 *
+	 * @var      string
+	 * @since    3.4.4
+	 */
+	protected $associationsContext = 'com_content.item';
+
+	/**
 	 * Batch copy items to a new category or current.
 	 *
 	 * @param   integer  $value     The new category.

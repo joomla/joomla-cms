@@ -33,6 +33,14 @@ class CategoriesModelCategory extends JModelAdmin
 	public $typeAlias = null;
 
 	/**
+	 * The context used for the associations table
+	 *
+	 * @var      string
+	 * @since    3.4.4
+	 */
+	protected $associationsContext = 'com_categories.item';
+
+	/**
 	 * Override parent constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.

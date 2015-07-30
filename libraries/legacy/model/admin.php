@@ -74,7 +74,7 @@ abstract class JModelAdmin extends JModelForm
 	protected $events_map = null;
 
 	/**
-	 * Batch copy/move command. If set to false, 
+	 * Batch copy/move command. If set to false,
 	 * the batch copy/move command is not supported
 	 *
 	 * @var string
@@ -91,6 +91,14 @@ abstract class JModelAdmin extends JModelForm
 		'language_id' => 'batchLanguage',
 		'tag' => 'batchTag'
 	);
+
+	/**
+	 * The context used for the associations table
+	 *
+	 * @var     string
+	 * @since   3.4.4
+	 */
+	protected $associationsContext = null;
 
 	/**
 	 * Constructor.
@@ -770,6 +778,38 @@ abstract class JModelAdmin extends JModelForm
 						$this->setError($table->getError());
 
 						return false;
+					}
+
+					// Multilanguage: if associated, delete the item in the _associations table
+					if ($this->associationsContext && JLanguageAssociations::isEnabled())
+					{
+
+						$db = JFactory::getDbo();
+						$query = $db->getQuery(true)
+							->select('COUNT(*) as count, ' . $db->quoteName('as1.key'))
+							->from($db->quoteName('#__associations') . ' AS as1')
+							->join('LEFT', $db->quoteName('#__associations') . ' AS as2 ON ' . $db->quoteName('as1.key') . ' =  ' . $db->quoteName('as2.key'))
+							->where($db->quoteName('as1.context') . ' = ' . $db->quote($this->associationsContext))
+							->where($db->quoteName('as1.id') . ' = ' . (int) $pk);
+
+						$db->setQuery($query);
+						$row = $db->loadAssoc();
+
+						if (!empty($row['count']))
+						{
+							$query = $db->getQuery(true)
+								->delete($db->quoteName('#__associations'))
+								->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
+								->where($db->quoteName('key') . ' = ' . $db->quote($row['key']));
+
+							if ($row['count'] > 2)
+							{
+								$query->where($db->quoteName('id') . ' = ' . (int) $pk);
+							}
+
+							$db->setQuery($query);
+							$db->execute();
+						}
 					}
 
 					if (!$table->delete($pk))
