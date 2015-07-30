@@ -942,7 +942,7 @@ abstract class JHtmlBehavior
 		JFactory::getDocument()->addScriptDeclaration('
 			jQuery(window).load(function(){
 				var form = document.getElementById("' . $formid . '"),
-					tasks = ' . json_encode($preventTasks) . ',
+					tasks = ' . json_encode($preventTasks) . ', msgs = {},
 					limit = ' . $maxinputvars . ', msg, type, reached, near;
 				if (!form) return;
 				reached = form.length >= limit;
@@ -950,10 +950,11 @@ abstract class JHtmlBehavior
 				if (!reached && !near) return;
 				type = reached ? "error" : "warning";
 				msg  = Joomla.JText._("JERROR_MAXVARS_REACHED");
-				msg  = msg.replace("%s", limit).replace("%s", form.length)
-				Joomla.renderMessages({[type]:[msg]});
+				msg  = msg.replace("%s", limit).replace("%s", form.length);
+				msgs[type] = [msg];
+				Joomla.renderMessages(msgs);
 				if (reached) {
-					jQuery(form).on("submit", function(e){
+					jQuery(form).on("submit", function(){
 						if (tasks.indexOf(this.task.value) !== -1) {
 							Joomla.renderMessages({"error":[msg, Joomla.JText._("JERROR_MAXVARS_NOSUBMIT")]});
 							return false;
