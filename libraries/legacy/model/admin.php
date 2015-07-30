@@ -810,7 +810,7 @@ abstract class JModelAdmin extends JModelForm
 							{
 								$query->clear()
 									->delete($db->quoteName('#__associations'))
-									->where($db->quoteName('key') . ' = ' .  $db->quote($key))
+									->where($db->quoteName('key') . ' = ' . $db->quote($key))
 									->where($db->quoteName('context') . ' = ' . $db->quote($assoc_context));
 
 								$db->setQuery($query);
