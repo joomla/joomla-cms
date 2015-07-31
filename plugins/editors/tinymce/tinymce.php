@@ -616,7 +616,8 @@ class PlgEditorTinymce extends JPlugin
 		$elements = implode(',', $elements);
 
 		// Prepare config variables
-		$toolbar1 = implode(' ', $toolbar1_add) . implode(' ', $toolbar2_add) . implode(' ', $toolbar3_add) . implode(' ', $toolbar4_add);
+		$toolbar1 = implode(' ', $toolbar1_add) . ' | ' . implode(' ', $toolbar2_add) . ' | ' . implode(' ', $toolbar3_add) . ' | ' . implode(' ', $toolbar4_add);
+
 		$toolbar3 = '';
 		$toolbar4 = '';
 		$toolbar2 = '';
