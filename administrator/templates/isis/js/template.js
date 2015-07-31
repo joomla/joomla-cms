@@ -178,7 +178,7 @@
 
 		// Hide/show buttons depending on the selection
 		var selectActions = $('#toolbar').children('#toolbar-edit,#toolbar-publish,#toolbar-unpublish,#toolbar-featured,#toolbar-unfeatured,#toolbar-checkin,#toolbar-archive,#toolbar-trash,#toolbar-batch,#toolbar-remove,#toolbar-delete,#toolbar-copy,#toolbar-default,#toolbar-unblock');
-		selectActions.hide();
+		selectActions.css('opacity', 0.3);
 		var multiCheckboxes = $('form#adminForm table.table-striped input[type=checkbox], form#adminForm table.table-striped input[type=radio]');
 
 		multiCheckboxes.on('click', null, null, (function() {
@@ -186,13 +186,13 @@
 
 				if (numberChecked > 0) {
 					if (numberChecked == 1) {
-						selectActions.fadeIn().prop('disabled', false);
+						selectActions.css('opacity', 1);
 					} else {
-						selectActions.filter(':not(#toolbar-edit)').fadeIn().prop('disabled', false);
-						selectActions.filter('#toolbar-edit').fadeOut().prop('disabled', true);
+						selectActions.filter(':not(#toolbar-edit)').css('opacity', 1);
+						selectActions.filter('#toolbar-edit').css('opacity', 0.3);
 					}
 				} else {
-					selectActions.fadeOut().prop('disabled', true);
+					selectActions.css('opacity', 0.3);
 				}
 			})
 		);
