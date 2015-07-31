@@ -75,6 +75,7 @@ class PluginsViewPlugins extends JViewLegacy
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_plugins');
+            JToolbarHelper::custom('install_plugin','puzzle','puzzle','install plugin','',false,false);
 		}
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
