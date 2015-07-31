@@ -14,6 +14,7 @@ $template = $app->getTemplate();
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('bootstrap.framework');
+JHtml::_('behavior.inputlimittest', 'component-form', array('config.save.component.apply', 'config.save.component.save'));
 
 JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)

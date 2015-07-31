@@ -14,6 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
+JHtml::_('behavior.inputlimittest', 'user-form', array('user.apply', 'user.save', 'user.save2new'));
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();

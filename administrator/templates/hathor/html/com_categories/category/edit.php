@@ -18,6 +18,7 @@ $saveHistory = $this->state->get('params')->get('save_history', 0);
 
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.inputlimittest', 'item-form', array('category.apply', 'category.save', 'category.save2new', 'category.save2copy'));
 
 JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)

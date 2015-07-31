@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.switcher');
+JHtml::_('behavior.inputlimittest', 'application-form', array('config.save.application.apply', 'config.save.application.save'));
 
 // Load submenu template, using element id 'submenu' as needed by behavior.switcher
 $this->document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');

@@ -933,7 +933,7 @@ abstract class JHtmlBehavior
 			// Server do not tell us his secrets
 			return;
 		}
-
+		$maxinputvars = 5;
 		static::core();
 		JHtml::_('jquery.framework');
 		JText::script('JERROR_MAXVARS_REACHED');

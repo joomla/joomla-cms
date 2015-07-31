@@ -14,6 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
+JHtml::_('behavior.inputlimittest', 'item-form', array('article.apply', 'article.save', 'article.save2new', 'article.save2copy'));
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
