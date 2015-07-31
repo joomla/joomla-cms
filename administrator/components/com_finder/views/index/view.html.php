@@ -95,7 +95,7 @@ class FinderViewIndex extends JViewLegacy
 
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::trash('index.purge', 'COM_FINDER_INDEX_TOOLBAR_PURGE', false);
+			JToolbarHelper::custom('index.purge', 'purge.png', 'purge2.png', 'COM_FINDER_INDEX_TOOLBAR_PURGE', false);
 		}
 
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_INDEXED_CONTENT');
