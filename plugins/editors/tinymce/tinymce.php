@@ -681,7 +681,8 @@ class PlgEditorTinymce extends JPlugin
 
 			case 1:
 			default: /* Advanced mode*/
-				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist | outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap";
+				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
+                            ."| outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap";
 				$return = $load .
 					"\t<script type=\"text/javascript\">
 				tinyMCE.init({
