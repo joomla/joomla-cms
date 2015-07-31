@@ -87,7 +87,8 @@ abstract class JModuleHelper
 
 		for ($i = 0; $i < $total; $i++)
 		{
-			if ($modules[$i]->position == $position)
+			// Only add the module if it is in the correct position and has content
+			if ($modules[$i]->position == $position && !empty($modules[$i]->content))
 			{
 				$result[] = &$modules[$i];
 			}
