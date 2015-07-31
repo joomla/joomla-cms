@@ -14,8 +14,9 @@
   CodeMirror.modeInfo = [
     {name: "APL", mime: "text/apl", mode: "apl", ext: ["dyalog", "apl"]},
     {name: "PGP", mimes: ["application/pgp", "application/pgp-keys", "application/pgp-signature"], mode: "asciiarmor", ext: ["pgp"]},
-    {name: "ASN.1", mime: "text/x-ttcn-asn", mode: "asn.1", ext: ["asn, asn1"]},
+    {name: "ASN.1", mime: "text/x-ttcn-asn", mode: "asn.1", ext: ["asn", "asn1"]},
     {name: "Asterisk", mime: "text/x-asterisk", mode: "asterisk", file: /^extensions\.conf$/i},
+    {name: "Brainfuck", mime: "text/x-brainfuck", mode: "brainfuck", ext: ["b", "bf"]},
     {name: "C", mime: "text/x-csrc", mode: "clike", ext: ["c", "h"]},
     {name: "C++", mime: "text/x-c++src", mode: "clike", ext: ["cpp", "c++", "cc", "cxx", "hpp", "h++", "hh", "hxx"], alias: ["cpp"]},
     {name: "Cobol", mime: "text/x-cobol", mode: "cobol", ext: ["cob", "cpy"]},
@@ -116,6 +117,7 @@
     {name: "SPARQL", mime: "application/sparql-query", mode: "sparql", ext: ["rq", "sparql"], alias: ["sparul"]},
     {name: "Spreadsheet", mime: "text/x-spreadsheet", mode: "spreadsheet", alias: ["excel", "formula"]},
     {name: "SQL", mime: "text/x-sql", mode: "sql", ext: ["sql"]},
+    {name: "Squirrel", mime: "text/x-squirrel", mode: "clike", ext: ["nut"]},
     {name: "Swift", mime: "text/x-swift", mode: "swift", ext: ["swift"]},
     {name: "MariaDB", mime: "text/x-mariadb", mode: "sql"},
     {name: "sTeX", mime: "text/x-stex", mode: "stex"},
