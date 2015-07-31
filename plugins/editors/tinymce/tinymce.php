@@ -616,11 +616,10 @@ class PlgEditorTinymce extends JPlugin
 		$elements = implode(',', $elements);
 
 		// Prepare config variables
-		$toolbar1 = implode(' ', $toolbar1_add) . ' | ' . implode(' ', $toolbar2_add) . ' | ' . implode(' ', $toolbar3_add) . ' | ' . implode(' ', $toolbar4_add);
-
-		$toolbar3 = '';
-		$toolbar4 = '';
-		$toolbar2 = '';
+		$toolbar1 = implode(' ', $toolbar1_add)
+			. ' | ' . implode(' ', $toolbar2_add)
+			. ' | ' . implode(' ', $toolbar3_add)
+			. ' | ' . implode(' ', $toolbar4_add);
 
 		// See if mobileVersion is activated
 		$mobileVersion = $this->params->get('mobile', 0);
@@ -752,9 +751,6 @@ class PlgEditorTinymce extends JPlugin
 					plugins : \"$plugins\",
 					// Toolbar
 					toolbar1: \"$toolbar1\",
-					toolbar2: \"$toolbar2\",
-					toolbar3: \"$toolbar3\",
-					toolbar4: \"$toolbar4\",
 					removed_menuitems: \"newdocument\",
 					// URL
 					relative_urls : $relative_urls,
