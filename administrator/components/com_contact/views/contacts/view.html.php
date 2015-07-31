@@ -78,15 +78,18 @@ class ContactViewContacts extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'address contact');
 
-		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_contact', 'core.create'))) > 0) {
+		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_contact', 'core.create'))) > 0)
+		{
 			JToolbarHelper::addNew('contact.add');
 		}
 
-		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own'))) {
+		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own')))
+		{
 			JToolbarHelper::editList('contact.edit');
 		}
 
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::publish('contacts.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('contacts.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			JToolbarHelper::archiveList('contacts.archive');
@@ -96,8 +99,8 @@ class ContactViewContacts extends JViewLegacy
 		// Add a batch button
 		if ($user->authorise('core.create', 'com_contacts')
 			&& $user->authorise('core.edit', 'com_contacts')
-			&& $user->authorise('core.edit.state', 'com_contacts')
-		) {
+			&& $user->authorise('core.edit.state', 'com_contacts'))
+		{
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
@@ -107,13 +110,17 @@ class ContactViewContacts extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'contacts.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state')) {
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::trash('contacts.trash');
 		}
 
-		if ($user->authorise('core.admin', 'com_contact') || $user->authorise('core.options', 'com_contact')) {
+		if ($user->authorise('core.admin', 'com_contact') || $user->authorise('core.options', 'com_contact'))
+		{
 			JToolbarHelper::preferences('com_contact');
 		}
 
