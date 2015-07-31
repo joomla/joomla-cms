@@ -42,10 +42,10 @@ if ($params->get('show_loggedin_users_admin', 1))
 		. '</div>';
 }
 
-//  Print the inbox message.
-if ($params->get('show_messages', 1))
+if (JComponentHelper::isInstalled('com_messages') && $params->get('show_messages', 1))
 {
-	$active = $unread ? ' badge-warning' : '';
+	//  Print the inbox message.
+	$active   = $unread ? ' badge-warning' : '';
 	$output[] = '<div class="btn-group hasTooltip ' . $inboxClass . '"'
 		. ' title="' . JText::plural('MOD_STATUS_MESSAGES', $unread) . '">'
 		. ($hideLinks ? '' : '<a href="' . $inboxLink . '">')
