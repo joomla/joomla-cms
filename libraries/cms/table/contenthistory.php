@@ -162,8 +162,8 @@ class JTableContenthistory extends JTable
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . $this->get('ucm_item_id'))
-			->where($db->quoteName('ucm_type_id') . ' = ' . $this->get('ucm_type_id'))
+			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
+			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
 			->where($db->quoteName('sha1_hash') . ' = ' . $db->quote($this->get('sha1_hash')));
 		$db->setQuery($query, 0, 1);
 
