@@ -577,8 +577,11 @@ abstract class JHtmlBehavior
 				jQuery(document).ready(function (){
 					jQuery('.minicolors').each(function() {
 						jQuery(this).minicolors({
+							alpha: jQuery(this).attr('data-alpha') || false,
 							control: jQuery(this).attr('data-control') || 'hue',
-							position: jQuery(this).attr('data-position') || 'right',
+							keywords: jQuery(this).attr('data-keywords') || '',
+							opacity: jQuery(this).attr('data-validate') === 'color' ? false : jQuery(this).attr('data-alpha') || false,
+							position: jQuery(this).attr('data-position') || 'default',
 							theme: 'bootstrap'
 						});
 					});
