@@ -73,17 +73,17 @@ class RedirectHelper
 	}
 
 	/**
-	 * Determines if the plugin for Redirect to work is enabled.
+	 * get the redirect system plugin id to use for direct access
 	 *
-	 * @return  boolean
+	 * @return  int
 	 *
-	 * @since   1.6
+	 * @since   3.4
 	 */
-	public static function isEnabled()
+	public static function getRedirectPluginId()
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName('enabled'))
+			->select($db->quoteName('extension_id'))
 			->from('#__extensions')
 			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('redirect'));
@@ -91,7 +91,7 @@ class RedirectHelper
 
 		try
 		{
-			$result = (boolean) $db->loadResult();
+			$result = (int) $db->loadResult();
 		}
 		catch (RuntimeException $e)
 		{
