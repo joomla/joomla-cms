@@ -7651,14 +7651,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 #assignment.tab-pane {
 	min-height: 500px;
 }
-.btn-primary.active,
-.btn-warning.active,
-.btn-danger.active,
-.btn-success.active,
-.btn-info.active,
-.btn-inverse.active {
-	color: rgba(255,255,255,0.95);
-}
 .chzn-container,
 .chzn-drop {
 	max-width: 100% !important;
