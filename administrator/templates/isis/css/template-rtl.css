@@ -935,6 +935,9 @@ input[type="color"],
 .uneditable-input {
 	background-color: #fff;
 	border: 1px solid #ccc;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
 	-webkit-transition: border linear .2s, box-shadow linear .2s;
 	-moz-transition: border linear .2s, box-shadow linear .2s;
 	-o-transition: border linear .2s, box-shadow linear .2s;
@@ -959,6 +962,9 @@ input[type="color"]:focus,
 	border-color: rgba(82,168,236,0.8);
 	outline: 0;
 	outline: thin dotted \9;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
 }
 input[type="radio"],
 input[type="checkbox"] {
@@ -1004,6 +1010,9 @@ input[type="checkbox"]:focus {
 	color: #999;
 	background-color: #fcfcfc;
 	border-color: #ccc;
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.025);
+	-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.025);
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.025);
 	cursor: not-allowed;
 }
 .uneditable-input {
@@ -1317,6 +1326,9 @@ input:focus:invalid:focus,
 textarea:focus:invalid:focus,
 select:focus:invalid:focus {
 	border-color: #e9322d;
+	-webkit-box-shadow: 0 0 6px #f8b9b7;
+	-moz-box-shadow: 0 0 6px #f8b9b7;
+	box-shadow: 0 0 6px #f8b9b7;
 }
 .form-actions {
 	padding: 17px 20px 18px;
@@ -1918,6 +1930,9 @@ table th[class*="span"],
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
+	-webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+	box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 	-webkit-background-clip: padding-box;
 	-moz-background-clip: padding;
 	background-clip: padding-box;
@@ -1950,6 +1965,14 @@ table th[class*="span"],
 .dropdown-submenu:focus > a {
 	text-decoration: none;
 	color: #fff;
+	background-color: #2d6ca2;
+	background-image: -moz-linear-gradient(top,#3071a9,#2a6496);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#3071a9),to(#2a6496));
+	background-image: -webkit-linear-gradient(top,#3071a9,#2a6496);
+	background-image: -o-linear-gradient(top,#3071a9,#2a6496);
+	background-image: linear-gradient(to bottom,#3071a9,#2a6496);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff2f70a9', endColorstr='#ff296395', GradientType=0);
 }
 .dropdown-menu > .active > a,
 .dropdown-menu > .active > a:hover,
@@ -1957,6 +1980,14 @@ table th[class*="span"],
 	color: #333;
 	text-decoration: none;
 	outline: 0;
+	background-color: #2d6ca2;
+	background-image: -moz-linear-gradient(top,#3071a9,#2a6496);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#3071a9),to(#2a6496));
+	background-image: -webkit-linear-gradient(top,#3071a9,#2a6496);
+	background-image: -o-linear-gradient(top,#3071a9,#2a6496);
+	background-image: linear-gradient(to bottom,#3071a9,#2a6496);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff2f70a9', endColorstr='#ff296395', GradientType=0);
 }
 .dropdown-menu > .disabled > a,
 .dropdown-menu > .disabled > a:hover,
@@ -5532,6 +5563,9 @@ a.badge:focus {
 		margin: 9px 0;
 		border-top: 1px solid #f2f2f2;
 		border-bottom: 1px solid #f2f2f2;
+		-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.1);
+		-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.1);
+		box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.1);
 	}
 	.navbar-inverse .nav-collapse .navbar-form,
 	.navbar-inverse .nav-collapse .navbar-search {
@@ -5987,6 +6021,9 @@ th .tooltip-inner {
 .btn-group > .btn + .dropdown-backdrop + .dropdown-toggle {
 	padding-left: 8px;
 	padding-right: 8px;
+	-webkit-box-shadow: inset 1px 0 0 rgba(255,255,255,.125), inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+	-moz-box-shadow: inset 1px 0 0 rgba(255,255,255,.125), inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+	box-shadow: inset 1px 0 0 rgba(255,255,255,.125), inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
 	*padding-top: 5px;
 	*padding-bottom: 5px;
 }
