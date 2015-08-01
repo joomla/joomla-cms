@@ -70,12 +70,13 @@ abstract class JModuleHelper
 	 * Get modules by position
 	 *
 	 * @param   string  $position  The position of the module
+	 * @param   boolean  $include_empty  Whether or not to include empty modules (default is true)
 	 *
 	 * @return  array  An array of module objects
 	 *
 	 * @since   1.5
 	 */
-	public static function &getModules($position)
+	public static function &getModules($position, $include_empty = true)
 	{
 		$position = strtolower($position);
 		$result = array();
@@ -87,10 +88,17 @@ abstract class JModuleHelper
 
 		for ($i = 0; $i < $total; $i++)
 		{
-			if ($modules[$i]->position == $position)
+			if ($modules[$i]->position != $position)
 			{
-				$result[] = &$modules[$i];
+				continue;
 			}
+
+			if (!$include_empty && empty($modules[$i]->content))
+			{
+				continue;
+			}
+
+			$result[] = &$modules[$i];
 		}
 
 		if (count($result) == 0)

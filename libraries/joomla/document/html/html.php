@@ -483,13 +483,14 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Count the modules based on the given condition
 	 *
-	 * @param   string  $condition  The condition to use
+	 * @param   string   $condition      The condition to use
+	 * @param   boolean  $include_empty  Whether or not to include empty modules (default is true)
 	 *
 	 * @return  integer  Number of modules found
 	 *
 	 * @since   11.1
 	 */
-	public function countModules($condition)
+	public function countModules($condition, $include_empty = true)
 	{
 		$operators = '(\+|\-|\*|\/|==|\!=|\<\>|\<|\>|\<=|\>=|and|or|xor)';
 		$words = preg_split('# ' . $operators . ' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
@@ -498,7 +499,7 @@ class JDocumentHTML extends JDocument
 		{
 			$name = strtolower($words[0]);
 			$result = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
-				? 0 : count(JModuleHelper::getModules($name));
+				? 0 : count(JModuleHelper::getModules($name, $include_empty));
 
 			return $result;
 		}
@@ -511,7 +512,7 @@ class JDocumentHTML extends JDocument
 			$name = strtolower($words[$i]);
 			$words[$i] = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
 				? 0
-				: count(JModuleHelper::getModules($name));
+				: count(JModuleHelper::getModules($name, $include_empty));
 		}
 
 		$str = 'return ' . implode(' ', $words) . ';';
