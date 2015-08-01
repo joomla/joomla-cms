@@ -1,24 +1,24 @@
 @font-face {
-	font-family: 'IcoMoon';
-	src: url('../../../../media/jui/fonts/IcoMoon.eot');
-	src: url('../../../../media/jui/fonts/IcoMoon.eot?#iefix') format('embedded-opentype'),
-	url('../../../../media/jui/fonts/IcoMoon.woff') format('woff'),
-	url('../../../../media/jui/fonts/IcoMoon.ttf') format('truetype'),
-	url('../../../../media/jui/fonts/IcoMoon.svg#IcoMoon') format('svg');
-	font-weight: normal;
-	font-style: normal;
+  font-family: 'IcoMoon';
+  src: url('../../../../media/jui/fonts/IcoMoon.eot');
+  src: url('../../../../media/jui/fonts/IcoMoon.eot?#iefix') format('embedded-opentype'),
+  url('../../../../media/jui/fonts/IcoMoon.woff') format('woff'),
+  url('../../../../media/jui/fonts/IcoMoon.ttf') format('truetype'),
+  url('../../../../media/jui/fonts/IcoMoon.svg#IcoMoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 @import "../../../../media/jui/less/icomoon.less";
 .icon-edit:before {
-	color: @btnInfoBackgroundHighlight;
+  color: @btnSuccessBackgroundHighlight;
 }
 .icon-publish:before,
 .icon-save:before,
 .icon-ok:before,
 .icon-save-new:before,
 .icon-save-copy:before,
-.btn-toolbar .icon-copy:before {
-	color: @btnSuccessBackgroundHighlight;
+.btn-toolbar .icon-copy:before  {
+  color: @btnSuccessBackgroundHighlight;
 }
 .icon-unpublish:before,
 .icon-not-ok:before,
@@ -26,14 +26,36 @@
 .icon-ban-circle:before,
 .icon-minus-sign:before,
 .btn-toolbar .icon-cancel:before {
-	color: @btnDangerBackgroundHighlight;
+  color: @btnDangerBackgroundHighlight;
 }
 .icon-featured:before,
 .icon-default:before,
 .icon-expired:before,
 .icon-pending:before {
-	color: @btnWarningBackgroundHighlight;
+  color: @btnWarningBackgroundHighlight;
+}
+
+.btn-small:hover > .icon-edit:before,
+.btn-small:hover > .icon-publish:before,
+.btn-small:hover > .icon-save:before,
+.btn-small:hover > .icon-ok:before,
+.btn-small:hover > .icon-save-new:before,
+.btn-small:hover > .icon-save-copy:before,
+.btn-small:hover > .icon-copy:before,
+.btn-small:hover > .btn-toolbar .icon-copy:before,
+.btn-small:hover > .icon-unpublish:before,
+.btn-small:hover > .icon-not-ok:before,
+.btn-small:hover > .icon-eye-close:before,
+.btn-small:hover > .icon-ban-circle:before,
+.btn-small:hover > .icon-minus-sign:before,
+.btn-small:hover > .btn-toolbar .icon-cancel:before,
+.btn-small:hover > .icon-featured:before,
+.btn-small:hover > .icon-default:before,
+.btn-small:hover > .icon-expired:before,
+.btn-small:hover > .icon-pending:before,
+.btn-small:hover > .icon-cancel:before{
+  color: white;
 }
 .icon-back:before {
-	content: "\e008";
+  content: "\e008";
 }
