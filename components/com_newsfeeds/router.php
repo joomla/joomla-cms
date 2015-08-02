@@ -31,8 +31,16 @@ class NewsfeedsRouter extends JComponentRouterView
 		parent::__construct($app, $menu);
 
 		$this->attachRule(new JComponentRouterRulesMenu($this));
-		require_once JPATH_SITE . '/components/com_newsfeeds/helpers/legacyrouter.php';
-		$this->attachRule(new NewsfeedsRouterRulesLegacy($this));
+
+		if ($this->app->get('sef_advanced', 0))
+		{
+			$this->attachRule(new JComponentRouterRulesStandard($this));
+		}
+		else
+		{
+			require_once JPATH_SITE . '/components/com_newsfeeds/helpers/legacyrouter.php';
+			$this->attachRule(new NewsfeedsRouterRulesLegacy($this));
+		}
 	}
 
 	/**

@@ -34,8 +34,16 @@ class ContentRouter extends JComponentRouterView
 		parent::__construct($app, $menu);
 
 		$this->attachRule(new JComponentRouterRulesMenu($this));
-		require_once JPATH_SITE . '/components/com_content/helpers/legacyrouter.php';
-		$this->attachRule(new ContentRouterRulesLegacy($this));
+
+		if ($this->app->get('sef_advanced', 0))
+		{
+			$this->attachRule(new JComponentRouterRulesStandard($this));
+		}
+		else
+		{
+			require_once JPATH_SITE . '/components/com_content/helpers/legacyrouter.php';
+			$this->attachRule(new ContentRouterRulesLegacy($this));
+		}
 	}
 
 	/**

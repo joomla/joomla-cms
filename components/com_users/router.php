@@ -27,8 +27,16 @@ class UsersRouter extends JComponentRouterView
 		parent::__construct($app, $menu);
 
 		$this->attachRule(new JComponentRouterRulesMenu($this));
-		require_once JPATH_SITE . '/components/com_users/helpers/legacyrouter.php';
-		$this->attachRule(new UsersRouterRulesLegacy($this));
+
+		if ($this->app->get('sef_advanced', 0))
+		{
+			$this->attachRule(new JComponentRouterRulesStandard($this));
+		}
+		else
+		{
+			require_once JPATH_SITE . '/components/com_users/helpers/legacyrouter.php';
+			$this->attachRule(new UsersRouterRulesLegacy($this));
+		}
 	}
 }
 
