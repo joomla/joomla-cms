@@ -119,7 +119,8 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	{
 		// Close the connection.
 		$this->freeResult();
-		unset($this->connection);
+
+		$this->connection = null;
 	}
 
 	/**
