@@ -142,6 +142,11 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 
 			$items = $this->router->menu->getItems($attributes, $values);
 
+			if (!is_array($items))
+			{
+				return;
+			}
+
 			foreach ($items as $item)
 			{
 				if (isset($item->query) && isset($item->query['view']))
