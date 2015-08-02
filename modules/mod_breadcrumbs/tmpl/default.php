@@ -14,7 +14,7 @@ JHtml::_('bootstrap.tooltip');
 
 <ul itemscope itemtype="http://schema.org/BreadcrumbList" class="breadcrumb<?php echo $moduleclass_sfx; ?>">
 	<?php if ($params->get('showHere', 1)) : ?>
-		<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="active">
+		<li class="active">
 			<?php echo JText::_('MOD_BREADCRUMBS_HERE'); ?>&#160;
 		</li>
 	<?php else : ?>
