@@ -45,8 +45,6 @@ class TagsViewTags extends JViewLegacy
 			return false;
 		}
 
-		TagsHelper::addSubmenu('tags');
-
 		// Preprocess the list of items to find ordering divisions.
 		foreach ($this->items as &$item)
 		{

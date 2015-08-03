@@ -1301,6 +1301,7 @@ class JoomlaInstallerScript
 			'/media/com_joomlaupdate/encryption.js',
 			'/media/com_joomlaupdate/json2.js',
 			'/media/com_joomlaupdate/update.js',
+			'/administrator/components/com_tags/helpers/tags.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1386,6 +1387,8 @@ class JoomlaInstallerScript
 			'/administrator/components/com_config/views',
 			'/administrator/components/com_config/models/fields',
 			'/administrator/components/com_config/models/forms',
+			// Joomla 3.5.0
+			'/administrator/components/com_tags/helpers',
 		);
 
 		jimport('joomla.filesystem.file');
