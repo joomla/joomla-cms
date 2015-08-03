@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-JHtml::_('behavior.modal');
 
 /**
  * View class for a list of messages.
@@ -34,9 +33,9 @@ class MessagesViewMessages extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -60,8 +59,8 @@ class MessagesViewMessages extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$state	= $this->get('State');
-		$canDo	= JHelperContent::getActions('com_messages');
+		$state = $this->get('State');
+		$canDo = JHelperContent::getActions('com_messages');
 
 		JToolbarHelper::title(JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'envelope inbox');
 
@@ -79,12 +78,23 @@ class MessagesViewMessages extends JViewLegacy
 
 		JToolbarHelper::divider();
 		$bar = JToolBar::getInstance('toolbar');
-
-		// Instantiate a new JLayoutFile instance and render the layout
-		JHtml::_('behavior.modal', 'a.messagesSettings');
-		$layout = new JLayoutFile('toolbar.mysettings');
-
-		$bar->appendButton('Custom', $layout->render(array()), 'upload');
+		$bar->appendButton(
+			'Popup',
+			'cog',
+			'COM_MESSAGES_TOOLBAR_MY_SETTINGS',
+			'index.php?option=com_messages&amp;view=config&amp;tmpl=component',
+			500,
+			250,
+			0,
+			0,
+			'',
+			'',
+			'<button class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
+				. JText::_('JCANCEL') 
+				. '</button><button class="btn btn-success" type="button" data-dismiss="modal" aria-hidden="true"onclick="jQuery(\'#modal-cog iframe\').contents().find(\'#saveBtn\').click();">' 
+				. JText::_('JSAVE') 
+				. '</button>'
+		);
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
