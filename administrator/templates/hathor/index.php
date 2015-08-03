@@ -42,7 +42,7 @@ $doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/
 // Load custom.css
 $file = 'templates/' . $this->template . '/css/custom.css';
 
-if (is_file($file))
+if (file_exists($file) && filesize($file) > 0)
 {
 	$doc->addStyleSheetVersion($file);
 }
@@ -170,7 +170,7 @@ else
 	<p class="copyright">
 		<?php
 		// Fix wrong display of Joomla!® in RTL language
-		if (JFactory::getLanguage()->isRTL())
+		if (JFactory::getLanguage()->isRtl())
 		{
 			$joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>';
 		}
