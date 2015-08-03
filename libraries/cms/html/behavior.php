@@ -99,9 +99,13 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 4.0 Use the layout (layouts/joomla/content/intro_image.php) instead
 	 */
 	public static function caption($selector = 'img.caption')
 	{
+		JLog::add('The use of caption is deprecated use the layout (layouts/joomla/content/intro_image.php) instead.', JLog::WARNING, 'deprecated');
+
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
@@ -136,7 +140,7 @@ abstract class JHtmlBehavior
 	 *
 	 * @since   1.5
 	 *
-	 * @Deprecated 3.4 Use formvalidator instead
+	 * @deprecated 4.0 Use formvalidator instead
 	 */
 	public static function formvalidation()
 	{
