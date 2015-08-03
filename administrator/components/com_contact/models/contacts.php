@@ -131,7 +131,8 @@ class ContactModelContacts extends JModelList
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.published');
-		$id .= ':' . $this->getState('filter.category_id');
+		$id .= ':' . (is_array($this->getState('filter.category_id'))
+			? implode(',', $this->getState('filter.category_id')) : $this->getState('filter.category_id'));
 		$id .= ':' . $this->getState('filter.language');
 
 		return parent::getStoreId($id);
