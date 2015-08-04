@@ -64,7 +64,7 @@ JHtml::_('bootstrap.tooltip');
 						<?php echo $separator; ?>
 					</span>
 				<?php endif; ?>
-				<meta property="position" content="<?php echo $key + 1; ?>">
+				<meta itemprop="position" content="<?php echo $key + 1; ?>">
 			</li>
 		<?php elseif ($show_last) :
 			// Render last item if reqd. ?>
@@ -72,7 +72,7 @@ JHtml::_('bootstrap.tooltip');
 				<span itemprop="name">
 					<?php echo $item->name; ?>
 				</span>
-				<meta property="position" content="<?php echo $key + 1; ?>">
+				<meta itemprop="position" content="<?php echo $key + 1; ?>">
 			</li>
 		<?php endif;
 	endforeach; ?>
