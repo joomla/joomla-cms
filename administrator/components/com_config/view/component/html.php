@@ -117,6 +117,6 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 			$url = null;
 		}
 
-		JToolbarHelper::help($ref_key, JComponentHelper::getParams($component)->exists('helpURL'), $url);
+		JToolbarHelper::help($ref_key, JComponentHelper::getParams($component)->exists('helpURL'), $url, $component);
 	}
 }
