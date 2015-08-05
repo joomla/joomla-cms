@@ -92,7 +92,7 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 		JToolbarHelper::divider();
 		JToolbarHelper::cancel('config.cancel.component');
 		JToolbarHelper::divider();
-		
+
 		/*
 		 * Get help for the component by
 		 * -remotely searching in a language defined dedicated URL: *component*_HELP_URL
@@ -100,11 +100,11 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 		 * -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
 		 */
 		$component	= JFactory::getApplication()->input->get('component');
-		
+
 		$lang = JFactory::getLanguage();
 		$lang->load($component, JPATH_BASE, null, false, true)
 		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
-		
+
 		$ref_key = 'JHELP_COMPONENTS_' . strtoupper($component) . '_OPTIONS';
 		if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
 		{
