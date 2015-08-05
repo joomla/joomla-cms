@@ -16,21 +16,6 @@ $options = array(
 	JHtml::_('select.option', 'm', JText::_('JLIB_HTML_BATCH_MOVE'))
 );
 $published = $this->state->get('filter.published');
-
-JFactory::getDocument()->addScriptDeclaration(
-	'
-		jQuery(document).ready(function($){
-			$("#batch-copy-move").css("display", "none");
-			$("#batch-menu-id").on("change", function(){
-				if ($("#batch-menu-id").val() != 0 || $("#batch-menu-id").val() != "") {
-					$("#batch-copy-move").css("display", "block");
-				} else {
-					$("#batch-copy-move").css("display", "none");
-				}
-			});
-		});
-			'
-);
 ?>
 <div class="modal hide fade" id="collapseModal">
 	<div class="modal-header">

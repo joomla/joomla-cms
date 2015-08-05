@@ -61,21 +61,6 @@ abstract class JHtmlBatch
 			JHtml::_('select.option', 'm', JText::_('JLIB_HTML_BATCH_MOVE'))
 		);
 
-		JFactory::getDocument()->addScriptDeclaration(
-		'
-		jQuery(document).ready(function($){
-			$("#batch-copy-move").css("display", "none");
-			$("#batch-category-id").on("change", function(){
-				if ($("#batch-category-id").val() != 0 || $("#batch-category-id").val() != "") {
-					$("#batch-copy-move").css("display", "block");
-				} else {
-					$("#batch-copy-move").css("display", "none");
-				}
-			});
-		});
-		'
-		);
-
 		// Create the batch selector to change select the category by which to move or copy.
 		return
 			'<label id="batch-choose-action-lbl" for="batch-choose-action">' . JText::_('JLIB_HTML_BATCH_MENU_LABEL') . '</label>'
@@ -101,6 +86,26 @@ abstract class JHtmlBatch
 	public static function language()
 	{
 		JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '.modal-body'));
+
+		JFactory::getDocument()->addScriptDeclaration(
+			'
+		jQuery(document).ready(function($){
+			if ($("#batch-category-id").length){var batchSelector = $("#batch-category-id");}
+			if ($("#batch-menu-id").length){var batchSelector = $("#batch-menu-id");}
+			if ($("#batch-position-id").length){var batchSelector = $("#batch-position-id");}
+			if ($("#batch-copy-move").length) {
+				$("#batch-copy-move").hide();
+				batchSelector.on("change", function(){
+					if (batchSelector.val() != 0 || batchSelector.val() != "") {
+						$("#batch-copy-move").show();
+					} else {
+						$("#batch-copy-move").hide();
+					}
+				});
+			}
+		});
+			'
+		);
 
 		// Create the batch selector to change the language on a selection list.
 		return
