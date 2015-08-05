@@ -66,7 +66,7 @@ abstract class JHtmlBatch
 			'<label id="batch-choose-action-lbl" for="batch-choose-action">' . JText::_('JLIB_HTML_BATCH_MENU_LABEL') . '</label>'
 			. '<div id="batch-choose-action" class="control-group">'
 			. '<select name="batch[category_id]" class="inputbox" id="batch-category-id">'
-			. '<option value="">' . JText::_('JSELECT') . '</option>'
+			. '<option value="">' . JText::_('JLIB_HTML_BATCH_NO_CATEGORY') . '</option>'
 			. JHtml::_('select.options', JHtml::_('category.options', $extension))
 			. '</select>'
 			. '</div>'
