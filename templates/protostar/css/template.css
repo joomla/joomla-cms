@@ -5705,10 +5705,6 @@ a.badge:focus {
 		overflow: hidden;
 		height: 0;
 	}
-	.nav-collapse.in.collapse {
-		overflow: visible;
-		height: 0;
-	}
 	.navbar .btn-navbar {
 		display: block;
 	}
@@ -7409,6 +7405,12 @@ figcaption {
 	}
 	.well {
 		padding: 10px;
+	}
+}
+@media (max-width: 979px) {
+	.nav-collapse.in.collapse {
+		overflow: visible;
+		height: 0;
 	}
 }
 @media (min-width: 768px) and (max-width: 979px) {

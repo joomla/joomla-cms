@@ -5722,10 +5722,6 @@ a.badge:focus {
 		overflow: hidden;
 		height: 0;
 	}
-	.nav-collapse.in.collapse {
-		overflow: visible;
-		height: 0;
-	}
 	.navbar .btn-navbar {
 		display: block;
 	}
