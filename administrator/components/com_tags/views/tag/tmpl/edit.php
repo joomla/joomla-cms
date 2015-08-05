@@ -24,7 +24,7 @@ JFactory::getDocument()->addScriptDeclaration("
 ");
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
-$this->ignore_fieldsets = array('jmetadata', 'urls');
+$this->ignore_fieldsets = array('jmetadata');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_tags&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
@@ -63,7 +63,6 @@ $this->ignore_fieldsets = array('jmetadata', 'urls');
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('JGLOBAL_FIELDSET_IMAGE_OPTIONS', true)); ?>
 		<?php echo $this->form->renderFieldset('images'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php echo $this->form->renderFieldset('urls'); ?>
 	</div>
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
