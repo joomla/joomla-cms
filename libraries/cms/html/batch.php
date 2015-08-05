@@ -63,19 +63,18 @@ abstract class JHtmlBatch
 
 		JFactory::getDocument()->addScriptDeclaration(
 		'
-			jQuery(document).ready(function($){
-				$("#batch-copy-move").css("display", "none");
-				$("#batch-category-id").on("change", function(){
-					if ($("#batch-category-id").val() != 0 || $("#batch-category-id").val() != "") {
-						$("#batch-copy-move").css("display", "block");
-					} else {
-						$("#batch-copy-move").css("display", "none");
-					}
-				});
+		jQuery(document).ready(function($){
+			$("#batch-copy-move").css("display", "none");
+			$("#batch-category-id").on("change", function(){
+				if ($("#batch-category-id").val() != 0 || $("#batch-category-id").val() != "") {
+					$("#batch-copy-move").css("display", "block");
+				} else {
+					$("#batch-copy-move").css("display", "none");
+				}
 			});
+		});
 		'
 		);
-
 		// Create the batch selector to change select the category by which to move or copy.
 		return
 			'<label id="batch-choose-action-lbl" for="batch-choose-action">' . JText::_('JLIB_HTML_BATCH_MENU_LABEL') . '</label>'
