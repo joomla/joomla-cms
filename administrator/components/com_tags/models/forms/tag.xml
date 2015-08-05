@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="urls">
-		<!-- This fieldset is needed to stop the URLs column being null which throws errors in postgres -->
-		<fieldset name="urls">
-			<field
-				name="urla"
-				type="hidden"
-			/>
-		</fieldset>
-	</fields>
-
 	<field
 		name="id"
 		type="text"
