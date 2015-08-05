@@ -59,10 +59,6 @@ $this->ignore_fieldsets = array('jmetadata');
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
-
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('JGLOBAL_FIELDSET_IMAGE_OPTIONS', true)); ?>
-		<?php echo $this->form->renderFieldset('images'); ?>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
 	</div>
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
