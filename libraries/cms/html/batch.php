@@ -61,6 +61,21 @@ abstract class JHtmlBatch
 			JHtml::_('select.option', 'm', JText::_('JLIB_HTML_BATCH_MOVE'))
 		);
 
+		JFactory::getDocument()->addScriptDeclaration(
+		'
+			jQuery(document).ready(function($){
+				$("#batch-copy-move").css("display", "none");
+				$("#batch-category-id").on("change", function(){
+					if ($("#batch-category-id").val() != 0 || $("#batch-category-id").val() != "") {
+						$("#batch-copy-move").css("display", "block");
+					} else {
+						$("#batch-copy-move").css("display", "none");
+					}
+				});
+			});
+		'
+		);
+
 		// Create the batch selector to change select the category by which to move or copy.
 		return
 			'<label id="batch-choose-action-lbl" for="batch-choose-action">' . JText::_('JLIB_HTML_BATCH_MENU_LABEL') . '</label>'
@@ -70,7 +85,7 @@ abstract class JHtmlBatch
 			. JHtml::_('select.options', JHtml::_('category.options', $extension))
 			. '</select>'
 			. '</div>'
-			. '<div id="batch-move-copy" class="control-group radio">'
+			. '<div id="batch-copy-move" class="control-group radio">'
 			. JText::_('JLIB_HTML_BATCH_MOVE_QUESTION')
 			. JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm')
 			. '</div>';
