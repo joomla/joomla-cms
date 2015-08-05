@@ -18,7 +18,6 @@ $published = $this->state->get('filter.published');
 $extension = $this->escape($this->state->get('filter.extension'));
 ?>
 
-<p><?php echo JText::_('COM_CATEGORIES_BATCH_TIP'); ?></p>
 <div class="row-fluid">
 	<div class="control-group span6">
 		<div class="controls">
