@@ -75,6 +75,7 @@ abstract class JHtmlBatch
 		});
 		'
 		);
+
 		// Create the batch selector to change select the category by which to move or copy.
 		return
 			'<label id="batch-choose-action-lbl" for="batch-choose-action">' . JText::_('JLIB_HTML_BATCH_MENU_LABEL') . '</label>'
