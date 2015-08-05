@@ -13,10 +13,6 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
-// Create shortcut to parameters.
-$params = $this->state->get('params');
-$params = $params->toArray();
-
 JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
