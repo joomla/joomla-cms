@@ -71,6 +71,7 @@ abstract class JHtmlBatch
 			. '</select>'
 			. '</div>'
 			. '<div id="batch-move-copy" class="control-group radio">'
+			. JText::_('JLIB_HTML_BATCH_MOVE_QUESTION')
 			. JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm')
 			. '</div>';
 	}
