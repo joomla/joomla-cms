@@ -78,9 +78,9 @@ class InstallerViewUpdate extends InstallerViewDefault
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::custom('update.update', 'upload', 'upload', 'COM_INSTALLER_TOOLBAR_UPDATE', true, false);
-		JToolbarHelper::custom('update.find', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES', false, false);
-		JToolbarHelper::custom('update.purge', 'purge', 'purge', 'COM_INSTALLER_TOOLBAR_PURGE', false, false);
+		JToolbarHelper::custom('update.update', 'upload', 'upload', 'COM_INSTALLER_TOOLBAR_UPDATE', true);
+		JToolbarHelper::custom('update.find', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES', false);
+		JToolbarHelper::custom('update.purge', 'purge', 'purge', 'COM_INSTALLER_TOOLBAR_PURGE', false);
 		JToolbarHelper::divider();
 
 		JHtmlSidebar::setAction('index.php?option=com_installer&view=manage');

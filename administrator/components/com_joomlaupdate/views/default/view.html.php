@@ -41,7 +41,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 
 		// Set the toolbar information.
 		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'arrow-up-2 install');
-		JToolbarHelper::custom('update.purge', 'purge', 'purge', 'JTOOLBAR_PURGE_CACHE', false, false);
+		JToolbarHelper::custom('update.purge', 'purge', 'purge', 'JTOOLBAR_PURGE_CACHE', false);
 
 		// Add toolbar buttons.
 		$user = JFactory::getUser();
