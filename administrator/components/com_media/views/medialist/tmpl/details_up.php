@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 $user = JFactory::getUser();
 ?>
-<<<<<<< HEAD
 <tr>
 	<?php if ($user->authorise('core.delete', 'com_media')): ?>
 		<td colspan="2">&#160;</td>
@@ -29,21 +28,3 @@ $user = JFactory::getUser();
 	<td>&#160;</td>
 	<td>&#160;</td>
 </tr>
-=======
-<?php if ($this->state->folder != '') : ?>
-<tr>
-	<td class="imgTotal">
-		<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->parent; ?>" target="folderframe">
-			<span class="icon-arrow-up"></span></a>
-	</td>
-	<td class="description">
-		<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->parent; ?>" target="folderframe">..</a>
-	</td>
-	<td>&#160;</td>
-	<td>&#160;</td>
-	<?php if ($user->authorise('core.delete', 'com_media')):?>
-		<td>&#160;</td>
-	<?php endif;?>
-</tr>
-<?php endif; ?>
->>>>>>> upstream/3.5-dev

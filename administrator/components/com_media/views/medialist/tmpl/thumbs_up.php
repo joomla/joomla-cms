@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 ?>
-<<<<<<< HEAD
-
 <article class="thumbnail center">
 	<div class="height-120" style="height: 120px;">
 		<div class="imgTotal">
@@ -28,23 +26,4 @@ defined('_JEXEC') or die;
 			<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->parent; ?>" target="folderframe">..</a>
 		</div>
 	</div>
-
 </article>
-=======
-<?php if ($this->state->folder != '') : ?>
-<li class="imgOutline thumbnail height-80 width-80 center">
-	<div class="imgTotal">
-		<div class="imgBorder">
-			<a class="btn" href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->parent; ?>" target="folderframe">
-				<span class="icon-arrow-up"></span></a>
-		</div>
-	</div>
-	<div class="controls">
-		<span>&#160;</span>
-	</div>
-	<div class="imginfoBorder">
-		<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->parent; ?>" target="folderframe">..</a>
-	</div>
-</li>
-<?php endif; ?>
->>>>>>> upstream/3.5-dev
