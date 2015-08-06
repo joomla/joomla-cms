@@ -12,24 +12,24 @@ $user = JFactory::getUser();
 
 JHtml::_('bootstrap.tooltip');
 ?>
-		<tr>
-			<td class="imgTotal">
-				<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->_tmp_folder->path_relative; ?>" target="folderframe">
-					<i class="icon-folder-2"></i></a>
-			</td>
-			<td class="description">
-				<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->_tmp_folder->path_relative; ?>" target="folderframe"><?php echo $this->_tmp_folder->name; ?></a>
-			</td>
-			<td>&#160;
+<tr>
+	<?php
+	$data = array(
+		'item' => $this->_tmp_img,
+	);
+	echo JLayoutHelper::render('medialist.detail.delete', $data);
+	?>
+	<td class="imgTotal">
+		<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->_tmp_folder->path_relative; ?>" target="folderframe">
+			<i class="icon-folder-2"></i></a>
+	</td>
+	<td class="description">
+		<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->_tmp_folder->path_relative; ?>" target="folderframe"><?php echo $this->_tmp_folder->name; ?></a>
+	</td>
+	<td>&#160;
 
-			</td>
-			<td>&#160;
+	</td>
+	<td>&#160;
 
-			</td>
-			<?php
-			$data   = array(
-				'item'   => $this->_tmp_folder,
-			);
-			echo JLayoutHelper::render('medialist.detail.delete', $data);
-			?>
-		</tr>
+	</td>
+</tr>

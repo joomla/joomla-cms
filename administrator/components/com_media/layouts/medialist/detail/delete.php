@@ -13,12 +13,22 @@ $user = JFactory::getUser();
 $item = $displayData['item'];
 $id = md5(var_export($item, true));
 ?>
+<td>
+	<input type="checkbox" id="<?php echo $id; ?>" name="rm[]" value="<?php echo $item->name; ?>" onclick="Joomla.isChecked(this.checked);" />
+</td>
 <?php if ($user->authorise('core.delete', 'com_media')):?>
 	<td>
-		<a class="delete-item" target="_top" href="javascript://" onclick="listItemTask('<?php echo $id; ?>', 'folder.delete');" rel="<?php echo $item->name; ?>">
-			<i class="icon-remove hasTooltip" title="<?php echo JHtml::tooltipText('JACTION_DELETE');?>"></i>
-		</a>
-
-		<input type="checkbox" id="<?php echo $id; ?>" name="rm[]" value="<?php echo $item->name; ?>" onclick="Joomla.isChecked(this.checked);" />
+		<div class="btn-group">
+			<button data-toggle="dropdown" class="dropdown-toggle btn btn-micro">
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li>
+					<a href = "javascript://" onclick="listItemTask('<?php echo $id; ?>', 'folder.delete')">
+						<span class="icon-remove"></span> <?php echo JText::_('JTOOLBAR_DELETE');?>
+					</a>
+				</li>
+			</ul>
+		</div>
 	</td>
 <?php endif;?>
