@@ -13,13 +13,12 @@ $user = JFactory::getUser();
 ?>
 <article class="thumbnail center">
 	<?php
-	$layout = new JLayoutFile('medialist.thumbnail.delete', JPATH_COMPONENT . '/layouts');
 	$data   = array(
 		'item'   => $this->_tmp_folder,
 		'folder' => $this->state->get('folder'),
 		'task'   => 'folder.delete',
 	);
-	echo $layout->render($data);
+	echo JLayoutHelper::render('medialist.thumbnail.delete', $data);
 	?>
 
 	<div class="height-80">

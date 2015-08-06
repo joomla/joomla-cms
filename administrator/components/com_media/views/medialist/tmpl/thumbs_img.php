@@ -18,13 +18,12 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 ?>
 	<article class="thumbnail center">
 		<?php
-		$layout = new JLayoutFile('medialist.thumbnail.delete', JPATH_COMPONENT . '/layouts');
 		$data   = array(
 			'item'   => $this->_tmp_img,
 			'folder' => $this->state->get('folder'),
 			'task'   => 'file.delete',
 		);
-		echo $layout->render($data);
+		echo JLayoutHelper::render('medialist.thumbnail.delete', $data);
 		?>
 
 		<div class="height-80" onclick="toggleCheckedStatus('<?php echo $this->_tmp_img->title; ?>');">
@@ -41,12 +40,11 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 			</a>
 
 			<?php
-			$layout = new JLayoutFile('medialist.thumbnail.edit', JPATH_COMPONENT . '/layouts');
 			$data   = array(
 				'item'   => $this->_tmp_img,
 				'folder' => $this->state->get('folder'),
 			);
-			echo $layout->render($data);
+			echo JLayoutHelper::render('medialist.thumbnail.edit', $data);
 			?>
 		</div>
 	</article>
