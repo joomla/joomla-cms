@@ -44,9 +44,14 @@ $user = JFactory::getUser();
 
 			</tbody>
 		</table>
+		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="task" value="list" />
 		<input type="hidden" name="username" value="" />
 		<input type="hidden" name="password" value="" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
+
+<script>
+	document.adminForm = document['mediamanager-form'];
+</script>
