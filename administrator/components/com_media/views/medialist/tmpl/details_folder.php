@@ -29,8 +29,6 @@ JHtml::_('bootstrap.tooltip');
 			<?php
 			$data   = array(
 				'item'   => $this->_tmp_folder,
-				'folder' => $this->state->get('folder'),
-				'task'   => 'folder.delete',
 			);
 			echo JLayoutHelper::render('medialist.detail.delete', $data);
 			?>
