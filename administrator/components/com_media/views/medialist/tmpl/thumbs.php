@@ -38,9 +38,14 @@ defined('_JEXEC') or die;
 			</li>
 		<?php endfor; ?>
 
+		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="username" value="" />
 		<input type="hidden" name="password" value="" />
 		<?php echo JHtml::_('form.token'); ?>
 	</ul>
 </form>
+
+<script>
+	document.adminForm = document['mediamanager-form'];
+</script>

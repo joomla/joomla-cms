@@ -20,8 +20,6 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 		<?php
 		$data   = array(
 			'item'   => $this->_tmp_img,
-			'folder' => $this->state->get('folder'),
-			'task'   => 'file.delete',
 		);
 		echo JLayoutHelper::render('medialist.thumbnail.delete', $data);
 		?>

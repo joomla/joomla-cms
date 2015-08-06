@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $user = JFactory::getUser();
 $item = $displayData['item'];
-$id = md5($item->name);
+$id = md5(var_export($item, true));
 ?>
 <?php if ($user->authorise('core.delete', 'com_media')):?>
 	<td>

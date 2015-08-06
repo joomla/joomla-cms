@@ -44,6 +44,7 @@ $user = JFactory::getUser();
 
 			</tbody>
 		</table>
+
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="task" value="list" />
 		<input type="hidden" name="username" value="" />

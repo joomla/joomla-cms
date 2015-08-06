@@ -15,8 +15,6 @@ $user = JFactory::getUser();
 	<?php
 	$data   = array(
 		'item'   => $this->_tmp_folder,
-		'folder' => $this->state->get('folder'),
-		'task'   => 'folder.delete',
 	);
 	echo JLayoutHelper::render('medialist.thumbnail.delete', $data);
 	?>
