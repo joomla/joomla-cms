@@ -11,24 +11,32 @@ defined('_JEXEC') or die;
 ?>
 <form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 	<ul class="manager thumbnails">
-		<?php
-		echo $this->loadTemplate('up');
-		?>
+		<?php if ($this->state->folder != '') : ?>
+			<li class="span2">
+				<?php echo $this->loadTemplate('up'); ?>
+			</li>
+		<?php endif; ?>
 
-		<?php for ($i = 0, $n = count($this->folders); $i < $n; $i++) :
-			$this->setFolder($i);
-			echo $this->loadTemplate('folder');
-		endfor; ?>
+		<?php for ($i = 0, $n = count($this->folders); $i < $n; $i++) : ?>
+			<li class="span2">
+				<?php $this->setFolder($i); ?>
+				<?php echo $this->loadTemplate('folder'); ?>
+			</li>
+		<?php endfor; ?>
 
-		<?php for ($i = 0, $n = count($this->documents); $i < $n; $i++) :
-			$this->setDoc($i);
-			echo $this->loadTemplate('doc');
-		endfor; ?>
+		<?php for ($i = 0, $n = count($this->documents); $i < $n; $i++) : ?>
+			<li class="span2">
+				<?php $this->setDoc($i); ?>
+				<?php echo $this->loadTemplate('doc'); ?>
+			</li>
+		<?php endfor; ?>
 
-		<?php for ($i = 0, $n = count($this->images); $i < $n; $i++) :
-			$this->setImage($i);
-			echo $this->loadTemplate('img');
-		endfor; ?>
+		<?php for ($i = 0, $n = count($this->images); $i < $n; $i++) : ?>
+			<li class="span2">
+				<?php $this->setImage($i); ?>
+				<?php echo $this->loadTemplate('img'); ?>
+			</li>
+		<?php endfor; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="username" value="" />
