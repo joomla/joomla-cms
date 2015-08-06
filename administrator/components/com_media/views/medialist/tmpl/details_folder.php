@@ -26,10 +26,12 @@ JHtml::_('bootstrap.tooltip');
 			<td>&#160;
 
 			</td>
-		<?php if ($user->authorise('core.delete', 'com_media')):?>
-			<td>
-				<a class="delete-item" target="_top" href="index.php?option=com_media&amp;task=folder.delete&amp;tmpl=index&amp;folder=<?php echo $this->state->folder; ?>&amp;<?php echo JSession::getFormToken(); ?>=1&amp;rm[]=<?php echo $this->_tmp_folder->name; ?>" rel="<?php echo $this->_tmp_folder->name; ?>' :: <?php echo $this->_tmp_folder->files + $this->_tmp_folder->folders; ?>"><i class="icon-remove hasTooltip" title="<?php echo JHtml::tooltipText('JACTION_DELETE');?>"></i></a>
-				<input type="checkbox" name="rm[]" value="<?php echo $this->_tmp_folder->name; ?>" />
-			</td>
-		<?php endif;?>
+			<?php
+			$data   = array(
+				'item'   => $this->_tmp_folder,
+				'folder' => $this->state->get('folder'),
+				'task'   => 'folder.delete',
+			);
+			echo JLayoutHelper::render('medialist.detail.delete', $data);
+			?>
 		</tr>
