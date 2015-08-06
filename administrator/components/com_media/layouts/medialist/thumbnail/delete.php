@@ -17,7 +17,7 @@ $id = md5(var_export($item, true));
 	<input class="pull-left" type="checkbox" id="<?php echo $id; ?>" name="rm[]" value="<?php echo $item->name; ?>" onclick="Joomla.isChecked(this.checked);" />
 
 	<?php if ($user->authorise('core.delete', 'com_media')): ?>
-		<a class="pull-right close delete-item" target="_top" href="javascript://" onclick="listItemTask('<?php echo $id; ?>', 'folder.delete');"  rel="<?php echo $item->name; ?>" title="<?php echo JText::_('JACTION_DELETE'); ?>">
+		<a class="pull-right close delete-item" target="_top" href="javascript://" onclick="listItemTask('<?php echo $id; ?>', 'folder.delete');" rel="<?php echo $item->name; ?>" title="<?php echo JText::_('JACTION_DELETE'); ?>">
 			<span class="icon-delete" style="font-size: x-small; color: #CB0B0B;"></span>
 		</a>
 	<?php endif; ?>

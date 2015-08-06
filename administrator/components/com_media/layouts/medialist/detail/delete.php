@@ -24,7 +24,7 @@ $id = md5(var_export($item, true));
 			</button>
 			<ul class="dropdown-menu">
 				<li>
-					<a href = "javascript://" onclick="listItemTask('<?php echo $id; ?>', 'folder.delete')">
+					<a href="javascript://" onclick="listItemTask('<?php echo $id; ?>', 'folder.delete')">
 						<span class="icon-remove"></span> <?php echo JText::_('JTOOLBAR_DELETE');?>
 					</a>
 				</li>

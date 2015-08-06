@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 $params = JComponentHelper::getParams('com_media');
 $path = 'file_path';
 ?>
-<form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
+<form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="adminForm" name="adminForm">
 	<div class="muted">
 		<p>
 			<span class="icon-folder"></span>
@@ -58,7 +58,3 @@ $path = 'file_path';
 		<?php echo JHtml::_('form.token'); ?>
 	</ul>
 </form>
-
-<script>
-	document.adminForm = document['mediamanager-form'];
-</script>
