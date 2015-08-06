@@ -2489,7 +2489,7 @@ CREATE NONCLUSTERED INDEX [idx_language] ON [#__tags]
 SET IDENTITY_INSERT [#__tags]  ON;
 
 INSERT INTO [#__tags] ([id], [parent_id], [lft], [rgt], [level], [path], [title], [alias], [note], [description], [published], [checked_out], [checked_out_time], [access], [params], [metadesc], [metakey], [metadata], [created_user_id], [created_time], [created_by_alias], [modified_user_id], [modified_time], [images], [urls], [hits], [language], [version], [publish_up], [publish_down])
-SELECT 1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, '1900-01-01 00:00:00', 1, '', '', '', '', 0, '2011-01-01 00:00:01', '', 0, '1900-01-01 00:00:00', '', '', 0, '*', 1, '1900-01-01 00:00:00', '1900-01-01 00:00:00';
+SELECT 1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, '1900-01-01 00:00:00', 1, '', '', '', '', 42, '2011-01-01 00:00:01', '', 0, '1900-01-01 00:00:00', '', '', 0, '*', 1, '1900-01-01 00:00:00', '1900-01-01 00:00:00';
 
 SET IDENTITY_INSERT [#__tags]  OFF;
 
