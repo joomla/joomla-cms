@@ -15,7 +15,6 @@ $options = array(
 $published = $this->state->get('filter.published');
 ?>
 
-<p><?php echo JText::_('COM_MENUS_BATCH_TIP'); ?></p>
 <div class="row-fluid">
 	<div class="control-group span6">
 		<div class="controls">
@@ -36,12 +35,13 @@ $published = $this->state->get('filter.published');
 			</label>
 			<div class="controls">
 				<select name="batch[menu_id]" id="batch-menu-id">
-					<option value=""><?php echo JText::_('JSELECT') ?></option>
+					<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY') ?></option>
 					<?php echo JHtml::_('select.options', JHtml::_('menu.menuitems', array('published' => $published))); ?>
 				</select>
 			</div>
 		</div>
 		<div id="batch-copy-move" class="control-group radio">
+			<?php echo JText::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
 			<?php echo JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
 		</div>
 	<?php endif; ?>

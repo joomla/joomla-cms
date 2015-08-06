@@ -18,7 +18,6 @@ $published = $this->state->get('filter.published');
 $extension = $this->escape($this->state->get('filter.extension'));
 ?>
 
-<p><?php echo JText::_('COM_CATEGORIES_BATCH_TIP'); ?></p>
 <div class="row-fluid">
 	<div class="control-group span6">
 		<div class="controls">
@@ -40,12 +39,12 @@ $extension = $this->escape($this->state->get('filter.extension'));
 				</label>
 				<div id="batch-choose-action" class="combo controls">
 					<select name="batch[category_id]" id="batch-category-id">
-						<option value=""><?php echo JText::_('JSELECT') ?></option>
+						<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY') ?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('filter.published' => $published))); ?>
 					</select>
 				</div>
 			</div>
-			<div class="control-group radio">
+			<div id="batch-copy-move" class="control-group radio">
 				<?php echo JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
 			</div>
 		</div>

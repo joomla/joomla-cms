@@ -57,7 +57,7 @@ $attr = array(
 						</label>
 						<div id="batch-choose-action" class="control-group">
 							<?php echo JHtml::_('select.groupedlist', $positions, 'batch[position_id]', $attr) ?>
-							<div id="batch-move-copy" class="control-group radio">
+							<div id="batch-copy-move" class="control-group radio">
 								<?php echo JHtml::_('modules.batchOptions'); ?>
 							</div>
 						</div>
