@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,14 +14,14 @@ require_once JPATH_COMPONENT . '/controller.php';
 /**
  * Reset controller class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersControllerRemind extends UsersController
 {
 	/**
 	 * Method to request a username reminder.
+	 *
+	 * @return  boolean
 	 *
 	 * @since   1.6
 	 */
@@ -48,6 +48,7 @@ class UsersControllerRemind extends UsersController
 			// Go back to the request form.
 			$message = JText::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_($route, false), $message, 'notice');
+
 			return false;
 		}
 		else
@@ -61,6 +62,7 @@ class UsersControllerRemind extends UsersController
 			// Proceed to step two.
 			$message = JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');
 			$this->setRedirect(JRoute::_($route, false), $message);
+
 			return true;
 		}
 	}

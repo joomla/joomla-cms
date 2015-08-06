@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,10 +15,8 @@ JFormHelper::loadFieldClass('list');
  * Form Field class for the Joomla Platform.
  * Supports a list of installed application languages
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @see         JFormFieldContentLanguage for a select list of content languages.
- * @since       11.1
+ * @see    JFormFieldContentLanguage for a select list of content languages.
+ * @since  11.1
  */
 class JFormFieldLanguage extends JFormFieldList
 {
@@ -47,10 +45,23 @@ class JFormFieldLanguage extends JFormFieldList
 			$client = 'site';
 		}
 
+		// Make sure the languages are sorted base on locale instead of random sorting
+		$languages = JLanguageHelper::createLanguageList($this->value, constant('JPATH_' . strtoupper($client)), true, true);
+		if (count($languages) > 1)
+		{
+			usort(
+				$languages,
+				function ($a, $b)
+				{
+					return strcmp($a["value"], $b["value"]);
+				}
+			);
+		}
+
 		// Merge any additional options in the XML definition.
 		$options = array_merge(
 			parent::getOptions(),
-			JLanguageHelper::createLanguageList($this->value, constant('JPATH_' . strtoupper($client)), true, true)
+			$languages
 		);
 
 		// Set the default value active language

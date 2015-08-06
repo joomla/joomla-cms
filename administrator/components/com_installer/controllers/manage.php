@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Installer Manage Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       1.6
+ * @since  1.6
  */
 class InstallerControllerManage extends JControllerLegacy
 {
@@ -75,6 +73,7 @@ class InstallerControllerManage extends JControllerLegacy
 				{
 					$ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
 				}
+
 				$this->setMessage(JText::plural($ntext, count($ids)));
 			}
 		}
@@ -91,7 +90,7 @@ class InstallerControllerManage extends JControllerLegacy
 	 */
 	public function remove()
 	{
-		// Check for request forgeries
+		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$eid   = $this->input->get('cid', array(), 'array');
@@ -113,7 +112,7 @@ class InstallerControllerManage extends JControllerLegacy
 	 */
 	public function refresh()
 	{
-		// Check for request forgeries
+		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$uid   = $this->input->get('cid', array(), 'array');

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -98,33 +98,6 @@ class JFeedParserTest extends TestCase
 			'namespaces',
 			$this->_instance
 		);
-	}
-
-	/**
-	 * Tests JFeedParser::registerNamespace() with an expected failure.  Cannot register a string.
-	 *
-	 * @return  void
-	 *
-	 * @expectedException  PHPUnit_Framework_Error
-	 * @since              12.3
-	 */
-	public function testRegisterNamespaceWithString()
-	{
-		$this->_instance->registerNamespace('foo', 'bar');
-	}
-
-	/**
-	 * Tests JFeedParser::registerNamespace() with an expected failure.  Cannot register a handler
-	 * that isn't an instance of JFeedParserNamespace.
-	 *
-	 * @return  void
-	 *
-	 * @expectedException  PHPUnit_Framework_Error
-	 * @since              12.3
-	 */
-	public function testRegisterNamespaceWithObject()
-	{
-		$this->_instance->registerNamespace('foo', new stdClass);
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQL Server database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @see         http://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
- * @since       12.1
+ * @see    http://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
+ * @since  12.1
  */
 class JDatabaseDriverSqlsrv extends JDatabaseDriver
 {
@@ -26,6 +24,14 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 * @since  12.1
 	 */
 	public $name = 'sqlsrv';
+
+	/**
+	 * The type of the database server family supported by this driver.
+	 *
+	 * @var    string
+	 * @since  CMS 3.5.0
+	 */
+	public $serverType = 'mssql';
 
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
@@ -138,6 +144,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			$this->select($this->options['database']);
 		}
+
+		// Set charactersets.
+		$this->utf = $this->setUTF();
 	}
 
 	/**
@@ -309,6 +318,18 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	}
 
 	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	public function getConnectionCollation()
+	{
+		// TODO: Not fake this
+		return 'MSSQL UTF-8 (UCS2)';
+	}
+
+	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
 	 *
 	 * @param   resource  $cursor  An optional database cursor resource to extract the row count from.
@@ -361,6 +382,10 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
+				if (stristr(strtolower($field->Type), "nvarchar"))
+				{
+					$field->Default = "";
+				}
 				$result[$field->Field] = $field;
 			}
 		}
@@ -614,6 +639,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		if ($this->debug)
 		{
 			$this->timings[] = microtime(true);
+
 			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
 			{
 				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -645,7 +671,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 					$this->errorMsg = $errors[0]['message'] . 'SQL=' . $query;
 
 					// Throw the normal query exception.
-					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 					throw new RuntimeException($this->errorMsg, $this->errorNum);
 				}
 
@@ -661,7 +687,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				$this->errorMsg = $errors[0]['message'] . 'SQL=' . $query;
 
 				// Throw the normal query exception.
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
 		}
@@ -807,7 +833,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function setUTF()
 	{
-		// TODO: Remove this?
+		return false;
 	}
 
 	/**
@@ -1022,7 +1048,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$rowNumberText = ', ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
 
 		$query = preg_replace('/\sFROM\s/i', $rowNumberText, $query, 1);
-		$query = 'SELECT * FROM (' . $query . ') _myResults WHERE RowNumber BETWEEN ' . $start . ' AND ' . $end;
 
 		return $query;
 	}
@@ -1048,6 +1073,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			$constraints = $this->getTableConstraints($oldTable);
 		}
+
 		if (!empty($constraints))
 		{
 			$this->renameConstraints($constraints, $prefix, $backup);

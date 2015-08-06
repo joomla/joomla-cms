@@ -154,7 +154,8 @@
 		
 		<field 
 			name="tag_list_show_item_description" 
-			type="list"
+			type="radio"
+			class="btn-group btn-group-yesno"
 			label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
 			description="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_DESC"
 		>
@@ -176,7 +177,18 @@
 		name="tagselection"
 		label="COM_TAGS_CONFIG_SELECTION_SETTINGS_LABEL"
 		description="COM_TAGS_CONFIG_SELECTION_SETTINGS_DESC">
-		
+
+		<field
+			name="min_term_length"
+			type="integer"
+			first="1"
+			last="3"
+			step="1"
+			default="3"
+			label="COM_TAGS_CONFIG_TAG_MIN_LENGTH_LABEL"
+			description="COM_TAGS_CONFIG_TAG_MIN_LENGTH_DESC"
+		/>
+
 		<field 
 			name="return_any_or_all" 
 			type="radio" 

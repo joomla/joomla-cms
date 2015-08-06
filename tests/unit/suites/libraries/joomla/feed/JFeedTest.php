@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -229,11 +229,16 @@ class JFeedTest extends TestCase
 	 */
 	public function testOffsetExists()
 	{
+		if (PHP_VERSION == '5.4.29' || PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
+		{
+			$this->markTestSkipped('Test is skipped due to a PHP bug in versions 5.4.29 and 5.5.13 and a change in behavior in the 5.6 branch');
+		}
+
 		$offset = new stdClass;
 
 		$mock = $this->getMockBuilder('SplObjectStorage')
-					->disableOriginalConstructor()
-					->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 
 		$mock->expects($this->once())
 			->method('offsetExists')
@@ -253,11 +258,16 @@ class JFeedTest extends TestCase
 	 */
 	public function testOffsetGet()
 	{
+		if (PHP_VERSION == '5.4.29' || PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
+		{
+			$this->markTestSkipped('Test is skipped due to a PHP bug in versions 5.4.29 and 5.5.13 and a change in behavior in the 5.6 branch');
+		}
+
 		$offset = new stdClass;
 
 		$mock = $this->getMockBuilder('SplObjectStorage')
-					->disableOriginalConstructor()
-					->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 
 		$mock->expects($this->once())
 			->method('offsetGet')

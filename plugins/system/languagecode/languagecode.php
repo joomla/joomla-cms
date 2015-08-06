@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagecode
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Language Code plugin class.
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.languagecode
- * @since       2.5
+ * @since  2.5
  */
 class PlgSystemLanguagecode extends JPlugin
 {
@@ -95,7 +93,7 @@ class PlgSystemLanguagecode extends JPlugin
 	 * Prepare form.
 	 *
 	 * @param   JForm  $form  The form to be altered.
-	 * @param   array  $data  The associated data for the form.
+	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *

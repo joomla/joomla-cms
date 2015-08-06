@@ -3,20 +3,16 @@
  * @package     Joomla.Platform
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('phpmailer.phpmailer');
-
 /**
  * Email Class.  Provides a common interface to send email from the Joomla! Platform
  *
- * @package     Joomla.Platform
- * @subpackage  Mail
- * @since       11.1
+ * @since  11.1
  */
 class JMail extends PHPMailer
 {
@@ -40,7 +36,7 @@ class JMail extends PHPMailer
 	public function __construct()
 	{
 		// PHPMailer has an issue using the relative path for its language files
-		$this->SetLanguage('joomla', JPATH_PLATFORM . '/phpmailer/language/');
+		$this->setLanguage('joomla', __DIR__ . '/language');
 	}
 
 	/**
@@ -90,7 +86,7 @@ class JMail extends PHPMailer
 				}
 			}
 
-			@$result = parent::Send();
+			$result = parent::send();
 
 			if ($result == false)
 			{
@@ -134,17 +130,17 @@ class JMail extends PHPMailer
 			if (isset($from[2]))
 			{
 				// If it is an array with entries, use them
-				$this->SetFrom(JMailHelper::cleanLine($from[0]), JMailHelper::cleanLine($from[1]), (bool) $from[2]);
+				$this->setFrom(JMailHelper::cleanLine($from[0]), JMailHelper::cleanLine($from[1]), (bool) $from[2]);
 			}
 			else
 			{
-				$this->SetFrom(JMailHelper::cleanLine($from[0]), JMailHelper::cleanLine($from[1]));
+				$this->setFrom(JMailHelper::cleanLine($from[0]), JMailHelper::cleanLine($from[1]));
 			}
 		}
 		elseif (is_string($from))
 		{
 			// If it is a string we assume it is just the address
-			$this->SetFrom(JMailHelper::cleanLine($from));
+			$this->setFrom(JMailHelper::cleanLine($from));
 		}
 		else
 		{
@@ -205,8 +201,10 @@ class JMail extends PHPMailer
 	 * @since   11.1
 	 * @throws  InvalidArgumentException
 	 */
-	protected function add($recipient, $name = '', $method = 'AddAddress')
+	protected function add($recipient, $name = '', $method = 'addAddress')
 	{
+		$method = lcfirst($method);
+
 		// If the recipient is an array, add each recipient... otherwise just add the one
 		if (is_array($recipient))
 		{
@@ -258,7 +256,7 @@ class JMail extends PHPMailer
 	 */
 	public function addRecipient($recipient, $name = '')
 	{
-		$this->add($recipient, $name, 'AddAddress');
+		$this->add($recipient, $name, 'addAddress');
 
 		return $this;
 	}
@@ -278,7 +276,7 @@ class JMail extends PHPMailer
 		// If the carbon copy recipient is an array, add each recipient... otherwise just add the one
 		if (isset($cc))
 		{
-			$this->add($cc, $name, 'AddCC');
+			$this->add($cc, $name, 'addCC');
 		}
 
 		return $this;
@@ -299,53 +297,87 @@ class JMail extends PHPMailer
 		// If the blind carbon copy recipient is an array, add each recipient... otherwise just add the one
 		if (isset($bcc))
 		{
-			$this->add($bcc, $name, 'AddBCC');
+			$this->add($bcc, $name, 'addBCC');
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Add file attachments to the email
+	 * Add file attachment to the email
 	 *
-	 * @param   mixed  $attachment  Either a string or array of strings [filenames]
-	 * @param   mixed  $name        Either a string or array of strings [names]
-	 * @param   mixed  $encoding    The encoding of the attachment
-	 * @param   mixed  $type        The mime type
+	 * @param   mixed   $path         Either a string or array of strings [filenames]
+	 * @param   mixed   $name         Either a string or array of strings [names]
+	 * @param   mixed   $encoding     The encoding of the attachment
+	 * @param   mixed   $type         The mime type
+	 * @param   string  $disposition  The disposition of the attachment
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
 	 * @since   12.2
 	 * @throws  InvalidArgumentException
 	 */
-	public function addAttachment($attachment, $name = '', $encoding = 'base64', $type = 'application/octet-stream')
+	public function addAttachment($path, $name = '', $encoding = 'base64', $type = 'application/octet-stream', $disposition = 'attachment')
 	{
 		// If the file attachments is an array, add each file... otherwise just add the one
-		if (isset($attachment))
+		if (isset($path))
 		{
-			if (is_array($attachment))
+			if (is_array($path))
 			{
-				if (!empty($name) && count($attachment) != count($name))
+				if (!empty($name) && count($path) != count($name))
 				{
 					throw new InvalidArgumentException("The number of attachments must be equal with the number of name");
 				}
 
-				foreach ($attachment as $key => $file)
+				foreach ($path as $key => $file)
 				{
 					if (!empty($name))
 					{
-						parent::AddAttachment($file, $name[$key], $encoding, $type);
+						parent::addAttachment($file, $name[$key], $encoding, $type);
 					}
 					else
 					{
-						parent::AddAttachment($file, $name, $encoding, $type);
+						parent::addAttachment($file, $name, $encoding, $type);
 					}
 				}
 			}
 			else
 			{
-				parent::AddAttachment($attachment, $name, $encoding, $type);
+				parent::addAttachment($path, $name, $encoding, $type);
 			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Unset all file attachments from the email
+	 *
+	 * @return  JMail  Returns this object for chaining.
+	 *
+	 * @since   12.2
+	 */
+	public function clearAttachments()
+	{
+		parent::clearAttachments();
+
+		return $this;
+	}
+
+	/**
+	 * Unset file attachments specified by array index.
+	 *
+	 * @param   integer  $index  The numerical index of the attachment to remove
+	 *
+	 * @return  JMail  Returns this object for chaining.
+	 *
+	 * @since   12.2
+	 */
+	public function removeAttachment($index = 0)
+	{
+		if (isset($this->attachment[$index]))
+		{
+			unset($this->attachment[$index]);
 		}
 
 		return $this;
@@ -363,7 +395,7 @@ class JMail extends PHPMailer
 	 */
 	public function addReplyTo($replyto, $name = '')
 	{
-		$this->add($replyto, $name, 'AddReplyTo');
+		$this->add($replyto, $name, 'addReplyTo');
 
 		return $this;
 	}
@@ -379,7 +411,7 @@ class JMail extends PHPMailer
 	 */
 	public function isHtml($ishtml = true)
 	{
-		parent::IsHTML($ishtml);
+		parent::isHTML($ishtml);
 
 		return $this;
 	}
@@ -399,13 +431,13 @@ class JMail extends PHPMailer
 
 		if (!empty($this->Sendmail))
 		{
-			$this->IsSendmail();
+			$this->isSendmail();
 
 			return true;
 		}
 		else
 		{
-			$this->IsMail();
+			$this->isMail();
 
 			return false;
 		}
@@ -441,13 +473,13 @@ class JMail extends PHPMailer
 		if (($this->SMTPAuth !== null && $this->Host !== null && $this->Username !== null && $this->Password !== null)
 			|| ($this->SMTPAuth === null && $this->Host !== null))
 		{
-			$this->IsSMTP();
+			$this->isSMTP();
 
 			return true;
 		}
 		else
 		{
-			$this->IsMail();
+			$this->isMail();
 
 			return false;
 		}
@@ -481,7 +513,7 @@ class JMail extends PHPMailer
 		// Are we sending the email as HTML?
 		if ($mode)
 		{
-			$this->IsHTML(true);
+			$this->isHTML(true);
 		}
 
 		$this->addRecipient($recipient);

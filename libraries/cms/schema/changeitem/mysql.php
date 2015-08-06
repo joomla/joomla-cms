@@ -3,18 +3,16 @@
  * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Checks the database schema against one MySQL DDL query to see if it has been run.
  *
- * @package     Joomla.Libraries
- * @subpackage  Schema
- * @since       2.5
+ * @since  2.5
  */
 class JSchemaChangeitemMysql extends JSchemaChangeitem
 {

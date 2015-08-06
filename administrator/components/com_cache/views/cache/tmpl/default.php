@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,7 +53,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $item->group; ?>" onclick="Joomla.isChecked(this.checked);" />
 					</td>
 					<td>
-						<strong><?php echo $item->group; ?></strong>
+						<label for="cb<?php echo $i ?>">
+							<strong><?php echo $item->group; ?></strong>
+						</label>
 					</td>
 					<td class="center">
 						<?php echo $item->count; ?>

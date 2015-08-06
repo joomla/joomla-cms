@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Activity class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Orgs
- * @since       3.3 (CMS)
+ * @since  3.3 (CMS)
  *
  * @documentation  http://developer.github.com/v3/orgs/
  *

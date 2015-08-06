@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,16 +14,6 @@ JHtml::_('bootstrap.tooltip');
 <form action="<?php echo JRoute::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row-fluid">
 		<div id="sidebar" class="span3">
-			<div id="filter-bar" class="btn-toolbar">
-				<div class="filter-search input-append">
-					<label for="helpsearch" class="element-invisible"><?php echo JText::_('COM_ADMIN_SEARCH'); ?></label>
-					<input type="text" name="helpsearch" id="helpsearch" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->help_search); ?>" class="input-small hasTooltip" title="<?php echo JHtml::tooltipText('COM_ADMIN_SEARCH'); ?>" />
-					<button type="submit" class="btn hasTooltip" title="<?php JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
-						<i class="icon-search"></i></button>
-					<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="f=document.adminForm;f.helpsearch.value='';f.submit()">
-						<i class="icon-remove"></i></button>
-				</div>
-			</div>
 			<div class="clearfix"></div>
 			<div class="sidebar-nav">
 				<ul class="nav nav-list">

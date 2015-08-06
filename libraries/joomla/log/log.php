@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,9 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * or plain Formattedtext) and finally MySQL offers the most features (e.g. rapid searching)
  * but will incur a performance hit due to INSERT being issued.
  *
- * @package     Joomla.Platform
- * @subpackage  Log
- * @since       11.1
+ * @since  11.1
  */
 class JLog
 {
@@ -173,11 +171,30 @@ class JLog
 			self::setInstance(new JLog);
 		}
 
+		self::$instance->addLoggerInternal($options, $priorities, $categories, $exclude);
+	}
+
+	/**
+	 * Add a logger to the JLog instance.  Loggers route log entries to the correct files/systems to be logged.
+	 * This method allows you to extend JLog completely.
+	 *
+	 * @param   array    $options     The object configuration array.
+	 * @param   integer  $priorities  Message priority
+	 * @param   array    $categories  Types of entry
+	 * @param   boolean  $exclude     If true, all categories will be logged except those in the $categories array
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function addLoggerInternal(array $options, $priorities = self::ALL, $categories = array(), $exclude = false)
+	{
 		// The default logger is the formatted text log file.
 		if (empty($options['logger']))
 		{
 			$options['logger'] = 'formattedtext';
 		}
+
 		$options['logger'] = strtolower($options['logger']);
 
 		// Special case - if a Closure object is sent as the callback (in case of JLogLoggerCallback)
@@ -198,12 +215,12 @@ class JLog
 		}
 
 		// Register the configuration if it doesn't exist.
-		if (empty(self::$instance->configurations[$signature]))
+		if (empty($this->configurations[$signature]))
 		{
-			self::$instance->configurations[$signature] = $options;
+			$this->configurations[$signature] = $options;
 		}
 
-		self::$instance->lookup[$signature] = (object) array(
+		$this->lookup[$signature] = (object) array(
 			'priorities' => $priorities,
 			'categories' => array_map('strtolower', (array) $categories),
 			'exclude' => (bool) $exclude);
@@ -247,7 +264,6 @@ class JLog
 			// Attempt to instantiate the logger object if it doesn't already exist.
 			if (empty($this->loggers[$signature]))
 			{
-
 				$class = 'JLogLogger' . ucfirst($this->configurations[$signature]['logger']);
 
 				if (class_exists($class))
@@ -261,7 +277,7 @@ class JLog
 			}
 
 			// Add the entry to the logger.
-			$this->loggers[$signature]->addEntry(clone($entry));
+			$this->loggers[$signature]->addEntry(clone $entry);
 		}
 	}
 

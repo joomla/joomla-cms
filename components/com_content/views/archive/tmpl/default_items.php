@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ $params = $this->params;
 			<div class="page-header">
 				<h2 itemprop="name">
 					<?php if ($params->get('link_titles')) : ?>
-						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug)); ?>" itemprop="url">
+						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)); ?>" itemprop="url">
 							<?php echo $this->escape($item->title); ?>
 						</a>
 					<?php else: ?>
@@ -122,6 +122,10 @@ $params = $this->params;
 			</div>
 		<?php endif; ?>
 
+		<?php if (!$params->get('show_intro')) : ?>
+			<?php echo $item->event->afterDisplayTitle; ?>
+		<?php endif; ?>
+		<?php echo $item->event->beforeDisplayContent; ?>
 		<?php if ($params->get('show_intro')) :?>
 			<div class="intro" itemprop="articleBody"> <?php echo JHtml::_('string.truncateComplex', $item->introtext, $params->get('introtext_limit')); ?> </div>
 		<?php endif; ?>
@@ -202,6 +206,7 @@ $params = $this->params;
 			</dl>
 		</div>
 		<?php endif; ?>
+		<?php echo $item->event->afterDisplayContent; ?>
 	</div>
 	<?php endforeach; ?>
 </div>

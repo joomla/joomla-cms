@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -616,7 +616,7 @@ class JGoogleEmbedMapsTest extends TestCase
 
 		$this->object->setAutoload('jquery');
 		$header = $this->object->getHeader();
-		$this->assertContains('$(document).ready(', $header);
+		$this->assertContains('jQuery(document).ready(', $header);
 
 		$this->object->setAutoload('mootools');
 		$header = $this->object->getHeader();
@@ -626,18 +626,6 @@ class JGoogleEmbedMapsTest extends TestCase
 		$this->object->useSync();
 		$header = $this->object->getHeader();
 		$this->assertContains("<script type='text/javascript' src='http://maps.googleapis.com/maps/api/js?key=123456&sensor=false'>", $header);
-	}
-
-	/**
-	 * Tests the getHeader method without a key
-	 *
-	 * @group	JGoogle
-	 * @expectedException UnexpectedValueException
-	 * @return void
-	 */
-	public function testGetHeaderException()
-	{
-		$this->object->getHeader();
 	}
 
 	/**

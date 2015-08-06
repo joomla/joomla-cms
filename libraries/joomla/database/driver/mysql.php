@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQL database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
  * @see         http://dev.mysql.com/doc/
  * @since       12.1
+ * @deprecated  Will be removed when the minimum supported PHP version no longer includes the deprecated PHP `mysql` extension
  */
 class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 {
@@ -36,6 +35,14 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 */
 	public function __construct($options)
 	{
+		// PHP's `mysql` extension is not present in PHP 7, block instantiation in this environment
+		if (PHP_MAJOR_VERSION >= 7)
+		{
+			throw new RuntimeException(
+				'This driver is unsupported in PHP 7, please use the MySQLi or PDO MySQL driver instead.'
+			);
+		}
+
 		// Get some basic values from the options.
 		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
 		$options['user'] = (isset($options['user'])) ? $options['user'] : 'root';
@@ -73,7 +80,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		}
 
 		// Make sure the MySQL extension for PHP is installed and enabled.
-		if (!function_exists('mysql_connect'))
+		if (!self::isSupported())
 		{
 			throw new RuntimeException('Could not connect to MySQL.');
 		}
@@ -93,8 +100,11 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 			$this->select($this->options['database']);
 		}
 
-		// Set charactersets (needed for MySQL 4.1.2+).
-		$this->setUTF();
+		// Pre-populate the UTF-8 Multibyte compatibility flag based on server version
+		$this->utf8mb4 = $this->serverClaimsUtf8mb4Support();
+
+		// Set the character set (needed for MySQL 4.1.2+).
+		$this->utf = $this->setUTF();
 
 		// Turn MySQL profiling ON in debug mode:
 		if ($this->debug && $this->hasProfiling())
@@ -318,7 +328,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 				catch (RuntimeException $e)
 				{
 					// Throw the normal query exception.
-					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 					throw new RuntimeException($this->errorMsg, $this->errorNum);
 				}
 
@@ -329,7 +339,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 			else
 			{
 				// Throw the normal query exception.
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
 		}
@@ -373,9 +383,34 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 */
 	public function setUTF()
 	{
+		// If UTF is not supported return false immediately
+		if (!$this->utf)
+		{
+			return false;
+		}
+
+		// Make sure we're connected to the server
 		$this->connect();
 
-		return mysql_set_charset('utf8', $this->connection);
+		// Which charset should I use, plain utf8 or multibyte utf8mb4?
+		$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
+
+		$result = @mysql_set_charset($charset, $this->connection);
+
+		/**
+		 * If I could not set the utf8mb4 charset then the server doesn't support utf8mb4 despite claiming otherwise.
+		 * This happens on old MySQL server versions (less than 5.5.3) using the mysqlnd PHP driver. Since mysqlnd
+		 * masks the server version and reports only its own we can not be sure if the server actually does support
+		 * UTF-8 Multibyte (i.e. it's MySQL 5.5.3 or later). Since the utf8mb4 charset is undefined in this case we
+		 * catch the error and determine that utf8mb4 is not supported!
+		 */
+		if (!$result && $this->utf8mb4)
+		{
+			$this->utf8mb4 = false;
+			$result = @mysql_set_charset('utf8', $this->connection);
+		}
+
+		return $result;
 	}
 
 	/**
@@ -454,6 +489,31 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		catch (Exception $e)
 		{
 			return false;
+		}
+	}
+
+	/**
+	 * Does the database server claim to have support for UTF-8 Multibyte (utf8mb4) collation?
+	 *
+	 * libmysql supports utf8mb4 since 5.5.3 (same version as the MySQL server). mysqlnd supports utf8mb4 since 5.0.9.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   CMS 3.5.0
+	 */
+	private function serverClaimsUtf8mb4Support()
+	{
+		$client_version = mysql_get_client_info();
+
+		if (strpos($client_version, 'mysqlnd') !== false)
+		{
+			$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
+
+			return version_compare($client_version, '5.0.9', '>=');
+		}
+		else
+		{
+			return version_compare($client_version, '5.5.3', '>=');
 		}
 	}
 }

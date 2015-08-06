@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ JFormHelper::loadFieldClass('groupedlist');
 /**
  * Chrome Styles Form Field class for the Joomla Platform.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       3.0
+ * @since  3.0
  */
 class JFormFieldChromeStyle extends JFormFieldGroupedList
 {

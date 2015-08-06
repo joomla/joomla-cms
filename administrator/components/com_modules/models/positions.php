@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,14 @@ defined('_JEXEC') or die;
 /**
  * Modules Component Positions Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_modules
- * @since       1.6
+ * @since  1.6
  */
 class ModulesModelPositions extends JModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
 	 * @since   1.6
@@ -43,6 +41,11 @@ class ModulesModelPositions extends JModelList
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -104,9 +107,11 @@ class ModulesModelPositions extends JModelList
 					->select('DISTINCT(position) as value')
 					->from('#__modules')
 					->where($this->_db->quoteName('client_id') . ' = ' . (int) $clientId);
+
 				if ($search)
 				{
-					$query->where('position LIKE ' . $this->_db->quote('%' . $this->_db->escape($search, true) . '%'));
+					$search = $this->_db->quote('%' . str_replace(' ', '%', $this->_db->escape(trim($search), true) . '%'));
+					$query->where('position LIKE ' . $search);
 				}
 
 				$this->_db->setQuery($query);
@@ -140,10 +145,12 @@ class ModulesModelPositions extends JModelList
 				if (file_exists($path))
 				{
 					$xml = simplexml_load_file($path);
+
 					if (isset($xml->positions[0]))
 					{
 						$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, true)
 						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, true);
+
 						foreach ($xml->positions[0] as $position)
 						{
 							$value = (string) $position['value'];
@@ -160,6 +167,7 @@ class ModulesModelPositions extends JModelList
 									$label = $altlabel;
 								}
 							}
+
 							if ($type == 'user' || ($state != '' && $state != $template->enabled))
 							{
 								unset($positions[$value]);
@@ -170,12 +178,14 @@ class ModulesModelPositions extends JModelList
 								{
 									$positions[$value] = array();
 								}
+
 								$positions[$value][$template->name] = $label;
 							}
 						}
 					}
 				}
 			}
+
 			$this->total = count($positions);
 
 			if ($limitstart >= $this->total)
@@ -206,6 +216,7 @@ class ModulesModelPositions extends JModelList
 					arsort($positions);
 				}
 			}
+
 			$this->items = array_slice($positions, $limitstart, $limit ? $limit : null);
 		}
 

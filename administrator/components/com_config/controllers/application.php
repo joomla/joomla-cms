@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 /**
  * Controller for global configuration
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
  * @since       1.5
  * @deprecated  4.0
  */
@@ -53,7 +51,10 @@ class ConfigControllerApplication extends JControllerLegacy
 	}
 
 	/**
-	 * Cancel operation
+	 * Cancel operation.
+	 *
+	 * @return  boolean  True if successful; false otherwise.
+	 *
 	 * @deprecated  4.0  Use ConfigControllerApplicationCancel instead.
 	 */
 	public function cancel()
@@ -65,6 +66,13 @@ class ConfigControllerApplication extends JControllerLegacy
 		return $controller->execute();
 	}
 
+	/**
+	 * Method to refresh the help display.
+	 *
+	 * @return  void
+	 *
+	 * @deprecated  4,0  Use ConfigControllerApplicationRefreshhelp instead.
+	 */
 	public function refreshHelp()
 	{
 		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationRefreshhelp instead.', JLog::WARNING, 'deprecated');

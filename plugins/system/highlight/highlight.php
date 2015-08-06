@@ -3,18 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Highlight
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 /**
  * System plugin to highlight terms.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.Highlight
- * @since       2.5
+ * @since  2.5
  */
 class PlgSystemHighlight extends JPlugin
 {

@@ -5,7 +5,7 @@
  *
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,6 +22,7 @@ if (!defined('IS_WIN'))
 {
 	define('IS_WIN', ($os === 'WIN') ? true : false);
 }
+
 if (!defined('IS_UNIX'))
 {
 	define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
@@ -68,7 +69,7 @@ JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 // Check if the JsonSerializable interface exists already
 if (!interface_exists('JsonSerializable'))
 {
-	JLoader::register('JsonSerializable', __DIR__ . '/compat/jsonserializable.php');
+	JLoader::register('JsonSerializable', JPATH_PLATFORM . '/vendor/joomla/compat/src/JsonSerializable.php');
 }
 
 // Add deprecated constants

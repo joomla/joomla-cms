@@ -2,7 +2,7 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage encrypt
- * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('FOF_INCLUDED') or die;
@@ -90,7 +90,7 @@ class FOFEncryptTotp
 
 		for ($i = -1; $i <= 1; $i++)
 		{
-			if ($this->getCode($secret, $time + $i) == $code)
+			if ($this->getCode($secret, ($time + $i) * $this->_timeStep) == $code)
 			{
 				return true;
 			}

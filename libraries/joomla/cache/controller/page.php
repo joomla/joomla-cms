@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Cache page type object
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @since       11.1
+ * @since  11.1
  */
 class JCacheControllerPage extends JCacheController
 {
@@ -39,8 +37,8 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Get the cached page data
 	 *
-	 * @param   string   $id          The cache data id
-	 * @param   string   $group       The cache data group
+	 * @param   boolean  $id     The cache data id
+	 * @param   string   $group  The cache data group
 	 *
 	 * @return  boolean  True if the cache is hit (false else)
 	 *
@@ -58,9 +56,11 @@ class JCacheControllerPage extends JCacheController
 		if (!headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH']))
 		{
 			$etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
+
 			if ($etag == $id)
 			{
 				$browserCache = isset($this->options['browsercache']) ? $this->options['browsercache'] : false;
+
 				if ($browserCache)
 				{
 					$this->_noChange();
@@ -78,6 +78,7 @@ class JCacheControllerPage extends JCacheController
 		if ($data === false)
 		{
 			$this->_locktest = $this->cache->lock($id, $group);
+
 			if ($this->_locktest->locked == true && $this->_locktest->locklooped == true)
 			{
 				$data = $this->cache->get($id, $group);
@@ -91,10 +92,12 @@ class JCacheControllerPage extends JCacheController
 			$data = JCache::getWorkarounds($data);
 
 			$this->_setEtag($id);
+
 			if ($this->_locktest->locked == true)
 			{
 				$this->cache->unlock($id, $group);
 			}
+
 			return $data;
 		}
 
@@ -130,6 +133,7 @@ class JCacheControllerPage extends JCacheController
 		{
 			$id = $this->_id;
 		}
+
 		if (empty($group))
 		{
 			$group = $this->_group;
@@ -138,13 +142,16 @@ class JCacheControllerPage extends JCacheController
 		// Only attempt to store if page data exists
 		if ($data)
 		{
-			if ($wrkarounds) {
-				$data = JCache::setWorkarounds($data, array(
-					'nopathway' => 1,
-					'nohead' 	=> 1,
-					'nomodules' => 1,
-					'headers' 	=> true
-				));
+			if ($wrkarounds)
+			{
+				$data = JCache::setWorkarounds(
+					$data, array(
+						'nopathway' => 1,
+						'nohead' 	=> 1,
+						'nomodules' => 1,
+						'headers' 	=> true
+					)
+				);
 			}
 
 			if ($this->_locktest->locked == false)
@@ -161,6 +168,7 @@ class JCacheControllerPage extends JCacheController
 
 			return $sucess;
 		}
+
 		return false;
 	}
 

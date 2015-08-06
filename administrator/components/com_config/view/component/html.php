@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View for the component configuration
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
  */
 class ConfigViewComponentHtml extends ConfigViewCmsHtml
 {
@@ -56,6 +54,14 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 			$form->bind($component->params);
 		}
 
+		$this->fieldsets = $form->getFieldsets();
+
+		// Don't show permissions fieldset if not authorised.
+		if (!$user->authorise('core.admin', $component->option) && isset($this->fieldsets['permissions']))
+		{
+			unset($this->fieldsets['permissions']);
+		}
+
 		$this->form = &$form;
 		$this->component = &$component;
 
@@ -67,7 +73,6 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 		$this->return = JFactory::getApplication()->input->get('return', '', 'base64');
 
 		$this->addToolbar();
-		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		return parent::render();
 	}

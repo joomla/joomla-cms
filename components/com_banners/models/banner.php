@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 /**
  * Banner model for the Joomla Banners component.
  *
- * @package     Joomla.Site
- * @subpackage  com_banners
- * @since       1.5
+ * @since  1.5
  */
 class BannersModelBanner extends JModelLegacy
 {
@@ -103,7 +101,7 @@ class BannersModelBanner extends JModelLegacy
 			{
 				// Update count
 				$query->update('#__banner_tracks')
-					->set($db->quoteName('count') . ' = (' . $db->quote('count') . ' + 1)')
+					->set($db->quoteName('count') . ' = (' . $db->quoteName('count') . ' + 1)')
 					->where('track_type=2')
 					->where('banner_id=' . (int) $id)
 					->where('track_date=' . $db->quote($trackDate));

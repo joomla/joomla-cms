@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Model class to display postinstall messages
  *
- * @package     Joomla.Administrator
- * @subpackage  com_postinstall
- * @since       3.2
+ * @since  3.2
  */
 class PostinstallViewMessages extends FOFViewHtml
 {
@@ -29,8 +27,27 @@ class PostinstallViewMessages extends FOFViewHtml
 	 */
 	protected function onBrowse($tpl = null)
 	{
-		$this->eid = $this->input->getInt('eid', '700');
+		/** @var PostinstallModelMessages $model */
+		$model = $this->getModel();
+
+		$this->eid = (int) $model->getState('eid', '700', 'int');
+
+		if (empty($this->eid))
+		{
+			$this->eid = 700;
+		}
+
 		$this->token = JFactory::getSession()->getFormToken();
+		$this->extension_options = $model->getComponentOptions();
+
+		$extension_name = JText::_('COM_POSTINSTALL_TITLE_JOOMLA');
+
+		if ($this->eid != 700)
+		{
+			$extension_name = $model->getExtensionName($this->eid);
+		}
+
+		JToolBarHelper::title(JText::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $extension_name));
 
 		return parent::onBrowse($tpl);
 	}

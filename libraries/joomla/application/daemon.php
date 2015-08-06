@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,14 +11,14 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.folder');
 
+use Joomla\Registry\Registry;
+
 /**
- * Class to turn JCli applications into daemons.  It requires CLI and PCNTL support built into PHP.
+ * Class to turn JApplicationCli applications into daemons.  It requires CLI and PCNTL support built into PHP.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @see         http://www.php.net/manual/en/book.pcntl.php
- * @see         http://php.net/manual/en/features.commandline.php
- * @since       11.1
+ * @see    http://www.php.net/manual/en/book.pcntl.php
+ * @see    http://php.net/manual/en/features.commandline.php
+ * @since  11.1
  */
 class JApplicationDaemon extends JApplicationCli
 {
@@ -93,21 +93,21 @@ class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Class constructor.
 	 *
-	 * @param   mixed  $input       An optional argument to provide dependency injection for the application's
-	 *                              input object.  If the argument is a JInputCli object that object will become
-	 *                              the application's input object, otherwise a default input object is created.
-	 * @param   mixed  $config      An optional argument to provide dependency injection for the application's
-	 *                              config object.  If the argument is a JRegistry object that object will become
-	 *                              the application's config object, otherwise a default config object is created.
-	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become
-	 *                              the application's event dispatcher, if it is null then the default event dispatcher
-	 *                              will be created based on the application's loadDispatcher() method.
+	 * @param   JInputCli         $input       An optional argument to provide dependency injection for the application's
+	 *                                         input object.  If the argument is a JInputCli object that object will become
+	 *                                         the application's input object, otherwise a default input object is created.
+	 * @param   Registry          $config      An optional argument to provide dependency injection for the application's
+	 *                                         config object.  If the argument is a Registry object that object will become
+	 *                                         the application's config object, otherwise a default config object is created.
+	 * @param   JEventDispatcher  $dispatcher  An optional argument to provide dependency injection for the application's
+	 *                                         event dispatcher.  If the argument is a JEventDispatcher object that object will become
+	 *                                         the application's event dispatcher, if it is null then the default event dispatcher
+	 *                                         will be created based on the application's loadDispatcher() method.
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	public function __construct(JInputCli $input = null, JRegistry $config = null, JEventDispatcher $dispatcher = null)
+	public function __construct(JInputCli $input = null, Registry $config = null, JEventDispatcher $dispatcher = null)
 	{
 		// Verify that the process control extension for PHP is available.
 		// @codeCoverageIgnoreStart
@@ -330,7 +330,7 @@ class JApplicationDaemon extends JApplicationCli
 		/*
 		 * Setup the application runtime options.  By default our execution time limit is infinite obviously
 		 * because a daemon should be constantly running unless told otherwise.  The default limit for memory
-		 * usage is 128M, which admittedly is a little high, but remember it is a "limit" and PHP's memory
+		 * usage is 256M, which admittedly is a little high, but remember it is a "limit" and PHP's memory
 		 * management leaves a bit to be desired :-)
 		 */
 
@@ -564,7 +564,6 @@ class JApplicationDaemon extends JApplicationCli
 		// Attempt to change the identity of user running the process.
 		if (!$this->changeIdentity())
 		{
-
 			// If the identity change was required then we need to return false.
 			if ($this->config->get('application_require_identity'))
 			{

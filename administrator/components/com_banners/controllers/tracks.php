@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Tracks list controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersControllerTracks extends JControllerLegacy
 {
@@ -86,9 +84,13 @@ class BannersControllerTracks extends JControllerLegacy
 		{
 			JError::raiseWarning(500, $model->getError());
 		}
-		else
+		elseif (count > 0)
 		{
 			$this->setMessage(JText::plural('COM_BANNERS_TRACKS_N_ITEMS_DELETED', $count));
+		}
+		else
+		{
+			$this->setMessage(JText::_('COM_BANNERS_TRACKS_NO_ITEMS_DELETED'));
 		}
 
 		$this->setRedirect('index.php?option=com_banners&view=tracks');

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
 /**
  * User model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_admin
- * @since       1.6
+ * @since  1.6
  */
 class AdminModelProfile extends UsersModelUser
 {
@@ -41,7 +39,7 @@ class AdminModelProfile extends UsersModelUser
 		}
 
 		// Check for username compliance and parameter set
-		$usernameCompliant = true;
+		$isUsernameCompliant = true;
 
 		if ($this->loadFormData()->username)
 		{
@@ -57,6 +55,12 @@ class AdminModelProfile extends UsersModelUser
 			$form->setFieldAttribute('username', 'required', 'false');
 			$form->setFieldAttribute('username', 'readonly', 'true');
 			$form->setFieldAttribute('username', 'description', 'COM_ADMIN_USER_FIELD_NOCHANGE_USERNAME_DESC');
+		}
+
+		// When multilanguage is set, a user's default site language should also be a Content Language
+		if (JLanguageMultilang::isEnabled())
+		{
+			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
 		}
 
 		// If the user needs to change their password, mark the password fields as required
@@ -128,8 +132,6 @@ class AdminModelProfile extends UsersModelUser
 		unset($data['sendEmail']);
 		unset($data['block']);
 
-		// Unset the username if it should not be overwritten
-		$username = $data['username'];
 		$isUsernameCompliant = $this->getState('user.username.compliant');
 
 		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)

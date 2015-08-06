@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="captcha">
+<extension version="3.4" type="plugin" group="captcha" method="upgrade">
 	<name>plg_captcha_recaptcha</name>
-	<version>3.0.0</version>
+	<version>3.4.0</version>
 	<creationDate>December 2011</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_CAPTCHA_RECAPTCHA_XML_DESCRIPTION</description>
 	<files>
-		<filename
-			plugin="recaptcha">recaptcha.php</filename>
+		<filename plugin="recaptcha">recaptcha.php</filename>
 	</files>
 	<config>
 	<fields name="params">
 		<fieldset name="basic">
+		<field
+			name="message"
+			type="note"
+			label="PLG_RECAPTCHA_VERSION_1_WARNING_LABEL"
+			showon="version:1.0" />
+		<field
+			name="version"
+			type="list"
+			default="1.0"
+			label="PLG_RECAPTCHA_VERSION_LABEL"
+			description="PLG_RECAPTCHA_VERSION_DESC"
+			size="1">
+			<option value="1.0">PLG_RECAPTCHA_VERSION_1</option>
+			<option value="2.0">PLG_RECAPTCHA_VERSION_2</option>
+		</field>
 		<field
 			name="public_key"
 			type="text"
@@ -42,7 +56,8 @@
 			default="clean"
 			label="PLG_RECAPTCHA_THEME_LABEL"
 			description="PLG_RECAPTCHA_THEME_DESC"
-			required="true"
+			required="false"
+			showon="version:1.0"
 			filter="">
 			<option
 				value="clean">PLG_RECAPTCHA_THEME_CLEAN</option>
@@ -53,6 +68,21 @@
 			<option
 				value="red">PLG_RECAPTCHA_THEME_RED</option>
 			</field>
+
+		<field
+			name="theme2"
+			type="list"
+			default="dark"
+			label="PLG_RECAPTCHA_THEME_LABEL"
+			description="PLG_RECAPTCHA_THEME_DESC"
+			required="false"
+			showon="version:2.0"
+			filter="">
+			<option
+				value="light">PLG_RECAPTCHA_THEME_LIGHT</option>
+			<option
+				value="dark">PLG_RECAPTCHA_THEME_DARK</option>
+		</field>
 		</fieldset>
 	</fields>
 	</config>

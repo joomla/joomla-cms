@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,20 +12,33 @@ defined('_JEXEC') or die;
 /**
  * The HTML Menus Menu Item View.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
- * @since       1.6
+ * @since  1.6
  */
 class MenusViewMenu extends JViewLegacy
 {
+	/**
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * @var  mixed
+	 */
 	protected $item;
 
+	/**
+	 * @var  JObject
+	 */
 	protected $state;
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -37,6 +50,7 @@ class MenusViewMenu extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -46,6 +60,8 @@ class MenusViewMenu extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -66,6 +82,7 @@ class MenusViewMenu extends JViewLegacy
 			{
 				JToolbarHelper::apply('menu.apply');
 			}
+
 			JToolbarHelper::save('menu.save');
 		}
 
@@ -81,6 +98,7 @@ class MenusViewMenu extends JViewLegacy
 		{
 			JToolbarHelper::save2new('menu.save2new');
 		}
+
 		if ($isNew)
 		{
 			JToolbarHelper::cancel('menu.cancel');
@@ -89,6 +107,7 @@ class MenusViewMenu extends JViewLegacy
 		{
 			JToolbarHelper::cancel('menu.cancel', 'JTOOLBAR_CLOSE');
 		}
+
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_MENUS_MENU_MANAGER_EDIT');
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQLi database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @see         http://php.net/manual/en/book.mysqli.php
- * @since       12.1
+ * @see    http://php.net/manual/en/book.mysqli.php
+ * @since  12.1
  */
 class JDatabaseDriverMysqli extends JDatabaseDriver
 {
@@ -26,6 +24,20 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 * @since  12.1
 	 */
 	public $name = 'mysqli';
+
+	/**
+	 * The type of the database server family supported by this driver.
+	 *
+	 * @var    string
+	 * @since  CMS 3.5.0
+	 */
+	public $serverType = 'mysql';
+
+	/**
+	 * @var    mysqli  The database connection resource.
+	 * @since  11.1
+	 */
+	protected $connection;
 
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
@@ -63,13 +75,13 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	public function __construct($options)
 	{
 		// Get some basic values from the options.
-		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
-		$options['user'] = (isset($options['user'])) ? $options['user'] : 'root';
+		$options['host']     = (isset($options['host'])) ? $options['host'] : 'localhost';
+		$options['user']     = (isset($options['user'])) ? $options['user'] : 'root';
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
-		$options['select'] = (isset($options['select'])) ? (bool) $options['select'] : true;
-		$options['port'] = null;
-		$options['socket'] = null;
+		$options['select']   = (isset($options['select'])) ? (bool) $options['select'] : true;
+		$options['port']     = null;
+		$options['socket']   = null;
 
 		// Finalize initialisation.
 		parent::__construct($options);
@@ -105,8 +117,9 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		 * have to extract them from the host string.
 		 */
 		$port = isset($this->options['port']) ? $this->options['port'] : 3306;
+		$regex = '/^(?P<host>((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(:(?P<port>.+))?$/';
 
-		if (preg_match('/^(?P<host>((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(:(?P<port>.+))?$/', $this->options['host'], $matches))
+		if (preg_match($regex, $this->options['host'], $matches))
 		{
 			// It's an IPv4 address with ot without port
 			$this->options['host'] = $matches['host'];
@@ -179,8 +192,11 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			$this->select($this->options['database']);
 		}
 
-		// Set charactersets (needed for MySQL 4.1.2+).
-		$this->setUTF();
+		// Pre-populate the UTF-8 Multibyte compatibility flag based on server version
+		$this->utf8mb4 = $this->serverClaimsUtf8mb4Support();
+
+		// Set the character set (needed for MySQL 4.1.2+).
+		$this->utf = $this->setUTF();
 
 		// Turn MySQL profiling ON in debug mode:
 		if ($this->debug && $this->hasProfiling())
@@ -305,7 +321,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	}
 
 	/**
-	 * Method to get the database collation in use by sampling a text field of a table in the database.
+	 * Method to get the database collation.
 	 *
 	 * @return  mixed  The collation in use by the database (string) or boolean false if not supported.
 	 *
@@ -316,20 +332,42 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
-		$tables = $this->getTableList();
+		// Attempt to get the database collation by accessing the server system variable.
+		$this->setQuery('SHOW VARIABLES LIKE "collation_database"');
+		$result = $this->loadObject();
 
-		$this->setQuery('SHOW FULL COLUMNS FROM ' . $tables[0]);
-		$array = $this->loadAssocList();
-
-		foreach ($array as $field)
+		if (property_exists($result, 'Value'))
 		{
-			if (!is_null($field['Collation']))
-			{
-				return $field['Collation'];
-			}
+			return $result->Value;
 		}
+		else
+		{
+			return false;
+		}
+	}
 
-		return null;
+	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	public function getConnectionCollation()
+	{
+		$this->connect();
+
+		// Attempt to get the database collation by accessing the server system variable.
+		$this->setQuery('SHOW VARIABLES LIKE "collation_connection"');
+		$result = $this->loadObject();
+
+		if (property_exists($result, 'Value'))
+		{
+			return $result->Value;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -364,6 +402,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		// Sanitize input to an array and iterate over the list.
 		settype($tables, 'array');
+
 		foreach ($tables as $table)
 		{
 			// Set the query to get the table CREATE statement.
@@ -536,7 +575,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Reset the error values.
 		$this->errorNum = 0;
 		$this->errorMsg = '';
-		$memoryBefore = null;
+		$memoryBefore   = null;
 
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
@@ -553,6 +592,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				// Avoid warning if result already freed by third-party library
 				@$this->freeResult();
 			}
+
 			$memoryBefore = memory_get_usage();
 		}
 
@@ -562,6 +602,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		if ($this->debug)
 		{
 			$this->timings[] = microtime(true);
+
 			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
 			{
 				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -570,7 +611,12 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			{
 				$this->callStacks[] = debug_backtrace();
 			}
-			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array($memoryBefore, memory_get_usage(), is_object($this->cursor) ? $this->getNumRows() : null);
+
+			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array(
+				$memoryBefore,
+				memory_get_usage(),
+				is_object($this->cursor) ? $this->getNumRows() : null
+			);
 		}
 
 		// If an error occurred handle it.
@@ -591,7 +637,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
-					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 					throw new RuntimeException($this->errorMsg, $this->errorNum);
 				}
 
@@ -601,7 +647,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			// The server was not disconnected.
 			else
 			{
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
 		}
@@ -665,9 +711,34 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 */
 	public function setUTF()
 	{
+		// If UTF is not supported return false immediately
+		if (!$this->utf)
+		{
+			return false;
+		}
+
+		// Make sure we're connected to the server
 		$this->connect();
 
-		return $this->connection->set_charset('utf8');
+		// Which charset should I use, plain utf8 or multibyte utf8mb4?
+		$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
+
+		$result = @$this->connection->set_charset($charset);
+
+		/**
+		 * If I could not set the utf8mb4 charset then the server doesn't support utf8mb4 despite claiming otherwise.
+		 * This happens on old MySQL server versions (less than 5.5.3) using the mysqlnd PHP driver. Since mysqlnd
+		 * masks the server version and reports only its own we can not be sure if the server actually does support
+		 * UTF-8 Multibyte (i.e. it's MySQL 5.5.3 or later). Since the utf8mb4 charset is undefined in this case we
+		 * catch the error and determine that utf8mb4 is not supported!
+		 */
+		if (!$result && $this->utf8mb4)
+		{
+			$this->utf8mb4 = false;
+			$result = @$this->connection->set_charset('utf8');
+		}
+
+		return $result;
 	}
 
 	/**
@@ -818,6 +889,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	protected function freeResult($cursor = null)
 	{
 		mysqli_free_result($cursor ? $cursor : $this->cursor);
+
 		if ((! $cursor) || ($cursor === $this->cursor))
 		{
 			$this->cursor = null;
@@ -858,6 +930,31 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		catch (Exception $e)
 		{
 			return false;
+		}
+	}
+
+	/**
+	 * Does the database server claim to have support for UTF-8 Multibyte (utf8mb4) collation?
+	 *
+	 * libmysql supports utf8mb4 since 5.5.3 (same version as the MySQL server). mysqlnd supports utf8mb4 since 5.0.9.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   CMS 3.5.0
+	 */
+	private function serverClaimsUtf8mb4Support()
+	{
+		$client_version = mysqli_get_client_info();
+
+		if (strpos($client_version, 'mysqlnd') !== false)
+		{
+			$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
+
+			return version_compare($client_version, '5.0.9', '>=');
+		}
+		else
+		{
+			return version_compare($client_version, '5.5.3', '>=');
 		}
 	}
 }

@@ -60,7 +60,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageOrgsTeams::getList
-     * @todo   Implement testGetList().
      */
     public function testGetList()
     {
@@ -80,7 +79,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageOrgsTeams::get
-     * @todo   Implement testGet().
      */
     public function testGet()
     {
@@ -100,7 +98,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageOrgsTeams::create
-     * @todo   Implement testCreate().
      */
     public function testCreate()
     {
@@ -120,7 +117,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageOrgsTeams::create
-	 * @todo   Implement testCreate().
 	 *
 	 * @expectedException UnexpectedValueException
 	 */
@@ -134,7 +130,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
 	/**
      * @covers JGithubPackageOrgsTeams::edit
-     * @todo   Implement testEdit().
      */
     public function testEdit()
     {
@@ -154,7 +149,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageOrgsTeams::edit
-	 * @todo   Implement testCreate().
 	 *
 	 * @expectedException UnexpectedValueException
 	 */
@@ -168,7 +162,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
 	/**
      * @covers JGithubPackageOrgsTeams::delete
-     * @todo   Implement testDelete().
      */
     public function testDelete()
     {
@@ -188,7 +181,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageOrgsTeams::getListMembers
-     * @todo   Implement testGetListMembers().
      */
     public function testGetListMembers()
     {
@@ -208,7 +200,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageOrgsTeams::isMember
-     * @todo   Implement testIsMember().
      */
     public function testIsMember()
     {
@@ -228,7 +219,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageOrgsTeams::isMember
-	 * @todo   Implement testIsMember().
 	 */
 	public function testIsMemberNo()
 	{
@@ -248,7 +238,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageOrgsTeams::isMember
-	 * @todo   Implement testIsMember().
 	 *
 	 * @expectedException UnexpectedValueException
 	 */
@@ -270,7 +259,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
 	/**
      * @covers JGithubPackageOrgsTeams::addMember
-     * @todo   Implement testAddMember().
      */
     public function testAddMember()
     {
@@ -290,7 +278,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageOrgsTeams::removeMember
-     * @todo   Implement testRemoveMember().
      */
     public function testRemoveMember()
     {
@@ -310,7 +297,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageOrgsTeams::getListRepos
-     * @todo   Implement testGetListRepos().
      */
     public function testGetListRepos()
     {
@@ -330,7 +316,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageOrgsTeams::checkRepo
-     * @todo   Implement testCheckRepo().
      */
     public function testCheckRepo()
     {
@@ -350,7 +335,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageOrgsTeams::checkRepo
-	 * @todo   Implement testCheckRepo().
 	 */
 	public function testCheckRepoNo()
 	{
@@ -370,7 +354,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageOrgsTeams::checkRepo
-	 * @todo   Implement testCheckRepo().
 	 *
 	 * @expectedException UnexpectedValueException
 	 */
@@ -392,7 +375,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
 	/**
      * @covers JGithubPackageOrgsTeams::addRepo
-     * @todo   Implement testAddRepo().
      */
     public function testAddRepo()
     {
@@ -412,7 +394,6 @@ class JGithubPackageOrgsTeamsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageOrgsTeams::removeRepo
-     * @todo   Implement testRemoveRepo().
      */
     public function testRemoveRepo()
     {

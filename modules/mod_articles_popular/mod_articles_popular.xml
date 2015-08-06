@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	type="module"
-	version="3.1"
-	client="site"
-	method="upgrade">
+<extension type="module" version="3.1" client="site" method="upgrade">
 	<name>mod_articles_popular</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -17,7 +13,6 @@
 		<filename module="mod_articles_popular">mod_articles_popular.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>index.html</filename>
 		<filename>mod_articles_popular.xml</filename>
 	</files>
 	<languages>
@@ -60,6 +55,50 @@
 					<option
 						value="0">JHIDE</option>
 				</field>
+				
+				<field name="basicspacer1" type="spacer" hr="true" />
+				
+				<field name="date_filtering" type="list" default="off"
+					label="MOD_POPULAR_FIELD_DATEFILTERING_LABEL"
+					description="MOD_POPULAR_FIELD_DATEFILTERING_DESC"
+				>
+					<option value="off">MOD_POPULAR_OPTION_OFF_VALUE
+					</option>
+					<option value="range">MOD_POPULAR_OPTION_DATERANGE_VALUE
+					</option>
+					<option value="relative">MOD_POPULAR_OPTION_RELATIVEDAY_VALUE
+					</option>
+				</field>
+
+				<field name="date_field" type="list" default="a.created"
+					label="MOD_POPULAR_FIELD_DATEFIELD_LABEL"
+					description="MOD_POPULAR_FIELD_DATEFIELD_DESC"
+				>
+					<option value="a.created">MOD_POPULAR_OPTION_CREATED_VALUE
+					</option>
+					<option value="a.modified">MOD_POPULAR_OPTION_MODIFIED_VALUE
+					</option>
+					<option value="a.publish_up">MOD_POPULAR_OPTION_STARTPUBLISHING_VALUE
+					</option>
+				</field>
+
+				<field name="start_date_range" type="calendar"
+					format="%Y-%m-%d %H:%M:%S"
+					label="MOD_POPULAR_FIELD_STARTDATE_LABEL"
+					description="MOD_POPULAR_FIELD_STARTDATE_DESC"
+					size="22"
+					filter="user_utc" />
+
+				<field name="end_date_range" type="calendar"
+					format="%Y-%m-%d %H:%M:%S"
+					label="MOD_POPULAR_FIELD_ENDDATE_LABEL"
+					description="MOD_POPULAR_FIELD_ENDDATE_DESC"
+					size="22"
+					filter="user_utc" />
+
+				<field name="relative_date" type="text" default="30"
+					label="MOD_POPULAR_FIELD_RELATIVEDATE_LABEL"
+					description="MOD_POPULAR_FIELD_RELATIVEDATE_DESC" />
 
 			</fieldset>
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Route handling class
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.1
+ * @since  11.1
  */
 class JRoute
 {
@@ -27,15 +25,16 @@ class JRoute
 	private static $_router = null;
 
 	/**
-	 * Translates an internal Joomla URL to a humanly readible URL.
+	 * Translates an internal Joomla URL to a humanly readable URL.
 	 *
 	 * @param   string   $url    Absolute or Relative URI to Joomla resource.
-	 * @param   boolean  $xhtml  Replace & by &amp; for XML compilance.
+	 * @param   boolean  $xhtml  Replace & by &amp; for XML compliance.
 	 * @param   integer  $ssl    Secure state for the resolved URI.
+	 *                             0: (default) No change, use the protocol currently used in the request
 	 *                             1: Make URI secure using global secure site URI.
 	 *                             2: Make URI unsecure using the global unsecure site URI.
 	 *
-	 * @return  The translated humanly readible URL.
+	 * @return string The translated humanly readable URL.
 	 *
 	 * @since   11.1
 	 */
@@ -82,7 +81,7 @@ class JRoute
 			}
 
 			// Determine which scheme we want.
-			$uri->setScheme(($ssl === 1 || $uri->isSSL()) ? 'https' : 'http');
+			$uri->setScheme(((int) $ssl === 1 || $uri->isSSL()) ? 'https' : 'http');
 			$uri->setHost($host_port[0]);
 			$uri->setPort($host_port[1]);
 			$scheme = array_merge($scheme, array('host', 'port', 'scheme'));

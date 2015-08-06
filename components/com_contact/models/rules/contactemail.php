@@ -3,19 +3,20 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 JFormHelper::loadRuleClass('email');
 
 /**
  * JFormRule for com_contact to make sure the E-Mail adress is not blocked.
  *
- * @package     Joomla.Site
- * @subpackage  com_contact
+ * @since  1.6
  */
 class JFormRuleContactEmail extends JFormRuleEmail
 {
@@ -27,12 +28,12 @@ class JFormRuleContactEmail extends JFormRuleEmail
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
-	 * @param   JRegistry         $input    An optional JRegistry object with the entire data set to validate against the entire form.
+	 * @param   Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
 	 * @param   JForm             $form     The form object for which the field is being tested.
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 */
-	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
+	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
 		if (!parent::test($element, $value, $group, $input, $form))
 		{
@@ -44,7 +45,7 @@ class JFormRuleContactEmail extends JFormRuleEmail
 
 		if ($banned)
 		{
-			foreach(explode(';', $banned) as $item)
+			foreach (explode(';', $banned) as $item)
 			{
 				if ($item != '' && JString::stristr($value, $item) !== false)
 				{

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCrypt cipher interface.
  *
- * @package     Joomla.Platform
- * @subpackage  Crypt
- * @since       12.1
+ * @since  12.1
  */
 interface JCryptCipher
 {
@@ -44,11 +42,11 @@ interface JCryptCipher
 
 	/**
 	 * Method to generate a new encryption key[/pair] object.
-	 * 
+	 *
 	 * @param   array  $options  Key generation options.
-	 * 
+	 *
 	 * @return  JCryptKey
-	 * 
+	 *
 	 * @since   12.1
 	 */
 	public function generateKey(array $options = array());

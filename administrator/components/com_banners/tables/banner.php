@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Banner table
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.5
+ * @since  1.5
  */
 class BannersTableBanner extends JTable
 {
@@ -33,6 +33,7 @@ class BannersTableBanner extends JTable
 
 		$date = JFactory::getDate();
 		$this->created = $date->toSql();
+		$this->setColumnAlias('published', 'state');
 	}
 
 	/**
@@ -108,7 +109,7 @@ class BannersTableBanner extends JTable
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['params']);
 
 			if ((int) $registry->get('width', 0) < 0)
@@ -223,78 +224,6 @@ class BannersTableBanner extends JTable
 			{
 				// Reorder the oldrow
 				$this->reorder($this->_db->quoteName('catid') . '=' . $this->_db->quote($oldrow->catid) . ' AND state>=0');
-			}
-		}
-
-		return count($this->getErrors()) == 0;
-	}
-
-	/**
-	 * Method to set the publishing state for a row or list of rows in the database
-	 * table.  The method respects checked out rows by other users and will attempt
-	 * to checkin rows that it can after adjustments are made.
-	 *
-	 * @param   mixed    $pks     An optional array of primary key values to update.  If not set the instance property value is used.
-	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published, 2=archived, -2=trashed]
-	 * @param   integer  $userId  The user id of the user performing the operation.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   1.6
-	 */
-	public function publish($pks = null, $state = 1, $userId = 0)
-	{
-		$k = $this->_tbl_key;
-
-		// Sanitize input.
-		JArrayHelper::toInteger($pks);
-		$userId = (int) $userId;
-		$state = (int) $state;
-
-		// If there are no primary keys set check to see if the instance key is set.
-		if (empty($pks))
-		{
-			if ($this->$k)
-			{
-				$pks = array($this->$k);
-			}
-			// Nothing to set publishing state on, return false.
-			else
-			{
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
-
-				return false;
-			}
-		}
-
-		// Get an instance of the table
-		$table = JTable::getInstance('Banner', 'BannersTable');
-
-		// For all keys
-		foreach ($pks as $pk)
-		{
-			// Load the banner
-			if (!$table->load($pk))
-			{
-				$this->setError($table->getError());
-			}
-
-			// Verify checkout
-			if ($table->checked_out == 0 || $table->checked_out == $userId)
-			{
-				// Change the state
-				$table->state = $state;
-				$table->checked_out = 0;
-				$table->checked_out_time = $this->_db->getNullDate();
-
-				// Check the row
-				$table->check();
-
-				// Store the row
-				if (!$table->store())
-				{
-					$this->setError($table->getError());
-				}
 			}
 		}
 

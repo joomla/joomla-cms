@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,32 +24,16 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $ordering 	= ($listOrder == 'a.lft');
 $saveOrder 	= ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$component	= $app->input->get('extension');
+$columns	= 7;
 
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_categories&task=categories.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'categoryList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
-
-$sortFields = $this->getSortFields();
 ?>
-<script type="text/javascript">
-	Joomla.orderTable = function()
-	{
-		table = document.getElementById("sortTable");
-		direction = document.getElementById("directionTable");
-		order = table.options[table.selectedIndex].value;
-		if (order != '<?php echo $listOrder; ?>')
-		{
-			dirn = 'asc';
-		}
-		else
-		{
-			dirn = direction.options[direction.selectedIndex].value;
-		}
-		Joomla.tableOrdering(order, dirn, '');
-	}
-</script>
+
 <form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -70,7 +54,7 @@ $sortFields = $this->getSortFields();
 						<th width="1%" class="nowrap center hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%" class="hidden-phone">
+						<th width="1%" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="1%" class="nowrap center">
@@ -79,10 +63,35 @@ $sortFields = $this->getSortFields();
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) :
+							$columns++; ?>
+							<th width="1%" class="nowrap center hidden-phone">
+								<i class="icon-publish"></i>
+							</th>
+						<?php endif;?>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) :
+							$columns++; ?>
+							<th width="1%" class="nowrap center hidden-phone">
+								<i class="icon-unpublish"></i>
+							</th>
+						<?php endif;?>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) :
+							$columns++; ?>
+							<th width="1%" class="nowrap center hidden-phone">
+								<i class="icon-archive"></i>
+							</th>
+						<?php endif;?>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) :
+							$columns++; ?>
+							<th width="1%" class="nowrap center hidden-phone">
+								<i class="icon-trash"></i>
+							</th>
+						<?php endif;?>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<?php if ($this->assoc) : ?>
+						<?php if ($this->assoc) :
+							$columns++; ?>
 							<th width="5%" class="hidden-phone">
 								<?php echo JHtml::_('searchtools.sort', 'COM_CATEGORY_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 							</th>
@@ -97,7 +106,7 @@ $sortFields = $this->getSortFields();
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="15">
+						<td colspan="<?php echo $columns; ?>">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -151,13 +160,13 @@ $sortFields = $this->getSortFields();
 								}
 								?>
 								<span class="sortable-handler<?php echo $iconClass ?>">
-									<i class="icon-menu"></i>
+									<span class="icon-menu"></span>
 								</span>
 								<?php if ($canChange && $saveOrder) : ?>
 									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>" />
 								<?php endif; ?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="center">
@@ -182,6 +191,31 @@ $sortFields = $this->getSortFields();
 									<?php endif; ?>
 								</span>
 							</td>
+							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
+								<td class="center btns hidden-phone">
+									<a class="badge <?php if ($item->count_published > 0) echo "badge-success"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1' . '&filter[level]=' . (int) $item->level);?>">
+										<?php echo $item->count_published; ?></a>
+								</td>
+							<?php endif;?>
+							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
+								<td class="center btns hidden-phone">
+									<a class="badge <?php if ($item->count_unpublished > 0) echo "badge-important"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0' . '&filter[level]=' . (int) $item->level);?>">
+										<?php echo $item->count_unpublished; ?></a>
+								</td>
+							<?php endif;?>
+							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
+								<td class="center btns hidden-phone">
+									<a class="badge <?php if ($item->count_archived > 0) echo "badge-info"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2' . '&filter[level]=' . (int) $item->level);?>">
+										<?php echo $item->count_archived; ?></a>
+								</td>
+							<?php endif;?>
+							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
+								<td class="center btns hidden-phone">
+									<a class="badge <?php if ($item->count_trashed > 0) echo "badge-inverse"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2' . '&filter[level]=' . (int) $item->level);?>">
+										<?php echo $item->count_trashed; ?></a>
+								</td>
+							<?php endif;?>
+
 							<td class="small hidden-phone">
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
@@ -207,9 +241,21 @@ $sortFields = $this->getSortFields();
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+			<?php //Load the batch processing form. ?>
+			<?php if ($user->authorise('core.create', $extension)
+				&& $user->authorise('core.edit', $extension)
+				&& $user->authorise('core.edit.state', $extension)) : ?>
+				<?php echo JHtml::_(
+						'bootstrap.renderModal',
+						'collapseModal',
+						array(
+							'title' => JText::_('COM_CATEGORIES_BATCH_OPTIONS'),
+							'footer' => $this->loadTemplate('batch_footer')
+						),
+						$this->loadTemplate('batch_body')
+					); ?>
+			<?php endif; ?>
 		<?php endif; ?>
-		<?php //Load the batch processing form. ?>
-		<?php echo $this->loadTemplate('batch'); ?>
 
 		<input type="hidden" name="extension" value="<?php echo $extension; ?>" />
 		<input type="hidden" name="task" value="" />

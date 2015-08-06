@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +46,7 @@ $saveOrder	= $listOrder == 'fp.ordering';
 			<table class="table table-striped" id="articleList">
 				<thead>
 					<tr>
-						<th width="1%" class="hidden-phone">
+						<th width="1%" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="1%" style="min-width:55px" class="nowrap center">
@@ -74,13 +74,16 @@ $saveOrder	= $listOrder == 'fp.ordering';
 							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
+						</th>
+						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="8">
+						<td colspan="10">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -90,14 +93,14 @@ $saveOrder	= $listOrder == 'fp.ordering';
 				<?php foreach ($this->items as $i => $item) :
 					$item->max_ordering = 0;
 					$ordering	= ($listOrder == 'fp.ordering');
-					$assetId	= 'com_content.article.'.$item->id;
-					$canCreate	= $user->authorise('core.create',     'com_content.category.'.$item->catid);
-					$canEdit	= $user->authorise('core.edit',       'com_content.article.'.$item->id);
+					$assetId	= 'com_content.article.' . $item->id;
+					$canCreate	= $user->authorise('core.create',     'com_content.category.' . $item->catid);
+					$canEdit	= $user->authorise('core.edit',       'com_content.article.' . $item->id);
 					$canCheckin	= $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-					$canChange	= $user->authorise('core.edit.state', 'com_content.article.'.$item->id) && $canCheckin;
+					$canChange	= $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
-						<td class="center hidden-phone">
+						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<td class="center">
@@ -133,6 +136,9 @@ $saveOrder	= $listOrder == 'fp.ordering';
 								<?php else : ?>
 									<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 								<?php endif; ?>
+								<span class="small break-word">
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+								</span>
 								<div class="small">
 									<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
 								</div>
@@ -174,6 +180,9 @@ $saveOrder	= $listOrder == 'fp.ordering';
 						</td>
 						<td class="nowrap small hidden-phone">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
+						</td>
+						<td class="center hidden-phone">
+							<?php echo (int) $item->hits; ?>
 						</td>
 						<td class="center hidden-phone">
 							<?php echo (int) $item->id; ?>

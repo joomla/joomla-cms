@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Supports a modal contact picker.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contact
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldModal_Contact extends JFormField
 {
@@ -42,8 +40,6 @@ class JFormFieldModal_Contact extends JFormField
 		JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
 
 		// Load the javascript
-		JHtml::_('behavior.framework');
-		JHtml::_('behavior.modal', 'a.modal');
 		JHtml::_('bootstrap.tooltip');
 
 		// Build the script.
@@ -51,8 +47,8 @@ class JFormFieldModal_Contact extends JFormField
 
 		// Select button script
 		$script[] = '	function jSelectContact_' . $this->id . '(id, name, object) {';
-		$script[] = '		document.id("' . $this->id . '_id").value = id;';
-		$script[] = '		document.id("' . $this->id . '_name").value = name;';
+		$script[] = '		document.getElementById("' . $this->id . '_id").value = id;';
+		$script[] = '		document.getElementById("' . $this->id . '_name").value = name;';
 
 		if ($allowEdit)
 		{
@@ -64,7 +60,14 @@ class JFormFieldModal_Contact extends JFormField
 			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
 		}
 
-		$script[] = '		SqueezeBox.close();';
+		$script[] = '		jQuery("#modalContact' . $this->id . '").modal("hide");';
+
+		if ($this->required)
+		{
+			$script[] = '		document.formvalidator.validate(document.getElementById("' . $this->id . '_id"));';
+			$script[] = '		document.formvalidator.validate(document.getElementById("' . $this->id . '_name"));';
+		}
+
 		$script[] = '	}';
 
 		// Clear button script
@@ -76,7 +79,8 @@ class JFormFieldModal_Contact extends JFormField
 
 			$script[] = '	function jClearContact(id) {';
 			$script[] = '		document.getElementById(id + "_id").value = "";';
-			$script[] = '		document.getElementById(id + "_name").value = "'.htmlspecialchars(JText::_('COM_CONTACT_SELECT_A_CONTACT', true), ENT_COMPAT, 'UTF-8').'";';
+			$script[] = '		document.getElementById(id + "_name").value = "'
+				. htmlspecialchars(JText::_('COM_CONTACT_SELECT_A_CONTACT', true), ENT_COMPAT, 'UTF-8') . '";';
 			$script[] = '		jQuery("#"+id + "_clear").addClass("hidden");';
 			$script[] = '		if (document.getElementById(id + "_edit")) {';
 			$script[] = '			jQuery("#"+id + "_edit").addClass("hidden");';
@@ -113,7 +117,7 @@ class JFormFieldModal_Contact extends JFormField
 			}
 			catch (RuntimeException $e)
 			{
-				JError::raiseWarning(500, $e->getMessage);
+				JError::raiseWarning(500, $e->getMessage());
 			}
 		}
 
@@ -137,23 +141,50 @@ class JFormFieldModal_Contact extends JFormField
 		// The current contact display field.
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title . '" disabled="disabled" size="35" />';
-		$html[] = '<a class="modal btn hasTooltip" title="' . JHtml::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '"  href="' . $link . '&amp;' . JSession::getFormToken() . '=1" rel="{handler: \'iframe\', size: {x: 800, y: 450}}"><i class="icon-file"></i> ' . JText::_('JSELECT') . '</a>';
+		$html[] = '<a href="#modalContact' . $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal"'
+			. ' title="' . JHtml::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '">'
+			. '<span class="icon-file"></span> ' . JText::_('JSELECT')
+			. '</a>';
 
-		// Edit article button
+		$html[] = JHtml::_(
+			'bootstrap.renderModal',
+			'modalContact' . $this->id,
+			array(
+				'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
+				'title' => JText::_('COM_CONTACT_CHANGE_CONTACT'),
+				'width' => '800px',
+				'height' => '300px',
+				'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+			)
+		);
+
+		// Edit contact button.
 		if ($allowEdit)
 		{
-			$html[] = '<a class="btn hasTooltip' . ($value ? '' : ' hidden') . '" href="index.php?option=com_contact&layout=modal&tmpl=component&task=contact.edit&id=' . $value . '" target="_blank" title="' . JHtml::tooltipText('COM_CONTACT_EDIT_CONTACT') . '" ><span class="icon-edit"></span> ' . JText::_('JACTION_EDIT') . '</a>';
+			$html[] = '<a'
+				. ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"'
+				. ' href="index.php?option=com_contact&layout=modal&tmpl=component&task=contact.edit&id=' . $value . '"'
+				. ' target="_blank"'
+				. ' title="' . JHtml::tooltipText('COM_CONTACT_EDIT_CONTACT') . '" >'
+				. '<span class="icon-edit"></span>' . JText::_('JACTION_EDIT')
+				. '</a>';
 		}
 
 		// Clear contact button
 		if ($allowClear)
 		{
-			$html[] = '<button id="' . $this->id . '_clear" class="btn' . ($value ? '' : ' hidden') . '" onclick="return jClearContact(\'' . $this->id . '\')"><span class="icon-remove"></span> ' . JText::_('JCLEAR') . '</button>';
+			$html[] = '<button'
+				. ' id="' . $this->id . '_clear"'
+				. ' class="btn' . ($value ? '' : ' hidden') . '"'
+				. ' onclick="return jClearContact(\'' . $this->id . '\')">'
+				. '<span class="icon-remove"></span>' . JText::_('JCLEAR')
+				. '</button>';
 		}
 
 		$html[] = '</span>';
 
-		// class='required' for client side validation
+		// Note: class='required' for client side validation.
 		$class = '';
 
 		if ($this->required)
@@ -164,5 +195,17 @@ class JFormFieldModal_Contact extends JFormField
 		$html[] = '<input type="hidden" id="' . $this->id . '_id"' . $class . ' name="' . $this->name . '" value="' . $value . '" />';
 
 		return implode("\n", $html);
+	}
+
+	/**
+	 * Method to get the field label markup.
+	 *
+	 * @return  string  The field label markup.
+	 *
+	 * @since   3.4
+	 */
+	protected function getLabel()
+	{
+		return str_replace($this->id, $this->id . '_id', parent::getLabel());
 	}
 }

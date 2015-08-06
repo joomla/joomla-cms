@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_stats
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class ModStatsHelper
 	/**
 	 * Get list of stats
 	 *
-	 * @param   JRegistry  &$params  module parameters
+	 * @param   \Joomla\Registry\Registry  &$params  module parameters
 	 *
 	 * @return  array
 	 */
@@ -57,18 +57,18 @@ class ModStatsHelper
 			$i++;
 
 			$rows[$i] = new stdClass;
-			$rows[$i]->title	= JTEXT::_('MOD_STATS_TIME');
+			$rows[$i]->title	= JText::_('MOD_STATS_TIME');
 			$rows[$i]->data	= JHtml::_('date', 'now', 'H:i');
 			$i++;
 
 			$rows[$i] = new stdClass;
 			$rows[$i]->title	= JText::_('MOD_STATS_CACHING');
-			$rows[$i]->data	= $app->getCfg('caching') ? JText::_('JENABLED'):JText::_('JDISABLED');
+			$rows[$i]->data	= $app->get('caching') ? JText::_('JENABLED') : JText::_('JDISABLED');
 			$i++;
 
 			$rows[$i] = new stdClass;
 			$rows[$i]->title	= JText::_('MOD_STATS_GZIP');
-			$rows[$i]->data	= $app->getCfg('gzip') ? JText::_('JENABLED'):JText::_('JDISABLED');
+			$rows[$i]->data	= $app->get('gzip') ? JText::_('JENABLED') : JText::_('JDISABLED');
 			$i++;
 		}
 
@@ -77,21 +77,28 @@ class ModStatsHelper
 			$query->select('COUNT(id) AS count_users')
 				->from('#__users');
 			$db->setQuery($query);
-			$users = $db->loadResult();
+			try
+			{
+				$users = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$users = false;
+			}
 
 			$query->clear()
 				->select('COUNT(id) AS count_items')
 				->from('#__content')
 				->where('state = 1');
 			$db->setQuery($query);
-			$items = $db->loadResult();
-
-			$query->clear()
-				->select('COUNT(id) AS count_links ')
-				->from('#__weblinks')
-				->where('state = 1');
-			$db->setQuery($query);
-			$links = $db->loadResult();
+			try
+			{
+				$items = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$items = false;
+			}
 
 			if ($users)
 			{
@@ -109,12 +116,30 @@ class ModStatsHelper
 				$i++;
 			}
 
-			if ($links)
+			if (JComponentHelper::isInstalled('com_weblinks'))
 			{
-				$rows[$i] = new stdClass;
-				$rows[$i]->title	= JText::_('MOD_STATS_WEBLINKS');
-				$rows[$i]->data	= $links;
-				$i++;
+				$query->clear()
+					->select('COUNT(id) AS count_links')
+					->from('#__weblinks')
+					->where('state = 1');
+				$db->setQuery($query);
+				try
+				{
+					$links = $db->loadResult();
+				}
+				catch (RuntimeException $e)
+				{
+					$links = false;
+				}
+
+				if ($links)
+				{
+					$rows[$i]        = new stdClass;
+					$rows[$i]->title = JText::_('MOD_STATS_WEBLINKS');
+					$rows[$i]->icon  = 'out-2';
+					$rows[$i]->data  = $links;
+					$i++;
+				}
 			}
 		}
 
@@ -125,7 +150,14 @@ class ModStatsHelper
 				->from('#__content')
 				->where('state = 1');
 			$db->setQuery($query);
-			$hits = $db->loadResult();
+			try
+			{
+				$hits = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$hits = false;
+			}
 
 			if ($hits)
 			{

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,10 +15,8 @@ JFormHelper::loadFieldClass('list');
  * Form Field class for the Joomla Platform.
  * Provides a list of content languages
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @see         JFormFieldLanguage for a select list of application languages.
- * @since       1.6
+ * @see    JFormFieldLanguage for a select list of application languages.
+ * @since  1.6
  */
 class JFormFieldContentlanguage extends JFormFieldList
 {

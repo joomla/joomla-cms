@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Supports a modal newsfeeds picker.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldModal_Newsfeed extends JFormField
 {
@@ -30,6 +28,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 	 * Method to get the field input markup.
 	 *
 	 * @return  string	The field input markup.
+	 *
 	 * @since   1.6
 	 */
 	protected function getInput()
@@ -41,29 +40,34 @@ class JFormFieldModal_Newsfeed extends JFormField
 		JFactory::getLanguage()->load('com_newsfeeds', JPATH_ADMINISTRATOR);
 
 		// Load the javascript
-		JHtml::_('behavior.framework');
-		JHtml::_('behavior.modal', 'a.modal');
 		JHtml::_('bootstrap.tooltip');
 
 		// Build the script.
 		$script = array();
 
 		// Select button script
-		$script[] = '	function jSelectNewsfeed_'.$this->id.'(id, name, object) {';
-		$script[] = '		document.id("'.$this->id.'_id").value = id;';
-		$script[] = '		document.id("'.$this->id.'_name").value = name;';
+		$script[] = '	function jSelectNewsfeed_' . $this->id . '(id, name, object) {';
+		$script[] = '		document.getElementById("' . $this->id . '_id").value = id;';
+		$script[] = '		document.getElementById("' . $this->id . '_name").value = name;';
 
 		if ($allowEdit)
 		{
-			$script[] = '		jQuery("#'.$this->id.'_edit").removeClass("hidden");';
+			$script[] = '		jQuery("#' . $this->id . '_edit").removeClass("hidden");';
 		}
 
 		if ($allowClear)
 		{
-			$script[] = '		jQuery("#'.$this->id.'_clear").removeClass("hidden");';
+			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
 		}
 
-		$script[] = '		SqueezeBox.close();';
+		$script[] = '		jQuery("#modalNewsfeed' . $this->id . '").modal("hide");';
+
+		if ($this->required)
+		{
+			$script[] = '		document.formvalidator.validate(document.getElementById("' . $this->id . '_id"));';
+			$script[] = '		document.formvalidator.validate(document.getElementById("' . $this->id . '_name"));';
+		}
+
 		$script[] = '	}';
 
 		// Clear button script
@@ -75,7 +79,8 @@ class JFormFieldModal_Newsfeed extends JFormField
 
 			$script[] = '	function jClearNewsfeed(id) {';
 			$script[] = '		document.getElementById(id + "_id").value = "";';
-			$script[] = '		document.getElementById(id + "_name").value = "'.htmlspecialchars(JText::_('COM_NEWSFEEDS_SELECT_A_FEED', true), ENT_COMPAT, 'UTF-8').'";';
+			$script[] = '		document.getElementById(id + "_name").value = "' .
+				htmlspecialchars(JText::_('COM_NEWSFEEDS_SELECT_A_FEED', true), ENT_COMPAT, 'UTF-8') . '";';
 			$script[] = '		jQuery("#"+id + "_clear").addClass("hidden");';
 			$script[] = '		if (document.getElementById(id + "_edit")) {';
 			$script[] = '			jQuery("#"+id + "_edit").addClass("hidden");';
@@ -89,11 +94,11 @@ class JFormFieldModal_Newsfeed extends JFormField
 
 		// Setup variables for display.
 		$html	= array();
-		$link	= 'index.php?option=com_newsfeeds&amp;view=newsfeeds&amp;layout=modal&amp;tmpl=component&amp;function=jSelectNewsfeed_'.$this->id;
+		$link	= 'index.php?option=com_newsfeeds&amp;view=newsfeeds&amp;layout=modal&amp;tmpl=component&amp;function=jSelectNewsfeed_' . $this->id;
 
 		if (isset($this->element['language']))
 		{
-			$link .= '&amp;forcedLanguage='.$this->element['language'];
+			$link .= '&amp;forcedLanguage=' . $this->element['language'];
 		}
 
 		// Get the title of the linked chart
@@ -112,7 +117,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 			}
 			catch (RuntimeException $e)
 			{
-				JError::raiseWarning(500, $e->getMessage);
+				JError::raiseWarning(500, $e->getMessage());
 			}
 		}
 
@@ -134,19 +139,41 @@ class JFormFieldModal_Newsfeed extends JFormField
 
 		// The current newsfeed display field.
 		$html[] = '<span class="input-append">';
-		$html[] = '<input type="text" class="input-medium" id="'.$this->id.'_name" value="'.$title.'" disabled="disabled" size="35" />';
-		$html[] = '<a class="modal btn hasTooltip" title="'.JHtml::tooltipText('COM_NEWSFEEDS_CHANGE_FEED_BUTTON').'"  href="'.$link.'&amp;'.JSession::getFormToken().'=1" rel="{handler: \'iframe\', size: {x: 800, y: 450}}"><i class="icon-file"></i> '.JText::_('JSELECT').'</a>';
+		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title .
+			'" disabled="disabled" size="35" />';
+
+		$html[] = '<a href="#modalNewsfeed' . $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal"'
+			. ' title="' . JHtml::tooltipText('COM_NEWSFEEDS_CHANGE_FEED_BUTTON') . '">'
+			. '<span class="icon-file"></span> ' . JText::_('JSELECT')
+			. '</a>';
+
+		$html[] = JHtml::_(
+			'bootstrap.renderModal',
+			'modalNewsfeed' . $this->id,
+			array(
+				'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
+				'title' => JText::_('COM_NEWSFEEDS_CHANGE_FEED_BUTTON'),
+				'width' => '800px',
+				'height' => '300px',
+				'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+			)
+		);
 
 		// Edit newsfeed button
 		if ($allowEdit)
 		{
-			$html[] = '<a class="btn hasTooltip'.($value ? '' : ' hidden').'" href="index.php?option=com_newsfeeds&layout=modal&tmpl=component&task=newsfeed.edit&id=' . $value. '" target="_blank" title="'.JHtml::tooltipText('COM_NEWSFEEDS_EDIT_NEWSFEED').'" ><span class="icon-edit"></span> ' . JText::_('JACTION_EDIT') . '</a>';
+			$html[] = '<a class="btn hasTooltip' . ($value ? '' : ' hidden') .
+				'" href="index.php?option=com_newsfeeds&layout=modal&tmpl=component&task=newsfeed.edit&id=' . $value .
+				'" target="_blank" title="' . JHtml::tooltipText('COM_NEWSFEEDS_EDIT_NEWSFEED') .
+				'" ><span class="icon-edit"></span>' . JText::_('JACTION_EDIT') . '</a>';
 		}
 
 		// Clear newsfeed button
 		if ($allowClear)
 		{
-			$html[] = '<button id="'.$this->id.'_clear" class="btn'.($value ? '' : ' hidden').'" onclick="return jClearNewsfeed(\''.$this->id.'\')"><span class="icon-remove"></span> ' . JText::_('JCLEAR') . '</button>';
+			$html[] = '<button id="' . $this->id . '_clear" class="btn' . ($value ? '' : ' hidden') . '" onclick="return jClearNewsfeed(\'' .
+				$this->id . '\')"><span class="icon-remove"></span>' . JText::_('JCLEAR') . '</button>';
 		}
 
 		$html[] = '</span>';
@@ -159,8 +186,20 @@ class JFormFieldModal_Newsfeed extends JFormField
 			$class = ' class="required modal-value"';
 		}
 
-		$html[] = '<input type="hidden" id="'.$this->id.'_id"'.$class.' name="'.$this->name.'" value="'.$value.'" />';
+		$html[] = '<input type="hidden" id="' . $this->id . '_id"' . $class . ' name="' . $this->name . '" value="' . $value . '" />';
 
 		return implode("\n", $html);
+	}
+
+	/**
+	 * Method to get the field label markup.
+	 *
+	 * @return  string  The field label markup.
+	 *
+	 * @since   3.4
+	 */
+	protected function getLabel()
+	{
+		return str_replace($this->id, $this->id . '_id', parent::getLabel());
 	}
 }

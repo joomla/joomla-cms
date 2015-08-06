@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * LDAP client class
  *
- * @package     Joomla.Platform
- * @subpackage  Client
- * @since       12.1
+ * @since  12.1
  */
 class JClientLdap
 {
@@ -618,6 +616,7 @@ class JClientLdap
 					$addr .= ".";
 				}
 			}
+
 			if (($addrtype == 1) || ($addrtype == 8) || ($addrtype = 9))
 			{
 				// Strip last period from end of $addr
@@ -628,6 +627,7 @@ class JClientLdap
 		{
 			$addr .= JText::_('JLIB_CLIENT_ERROR_LDAP_ADDRESS_NOT_AVAILABLE');
 		}
+
 		return array('protocol' => $addrtypes[$addrtype], 'address' => $addr);
 	}
 
@@ -661,8 +661,6 @@ class JClientLdap
 /**
  * Deprecated class placeholder. You should use JClientLdap instead.
  *
- * @package     Joomla.Platform
- * @subpackage  Client
  * @since       11.1
  * @deprecated  12.3 (Platform) & 4.0 (CMS)
  */

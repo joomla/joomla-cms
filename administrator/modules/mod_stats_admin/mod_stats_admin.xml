@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension
-	type="module"
-	version="3.1"
-	client="administrator"
-	method="upgrade">
+<extension type="module" version="3.1" client="administrator" method="upgrade">
 	<name>mod_stats_admin</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -16,8 +12,8 @@
 	<files>
 		<filename module="mod_stats_admin">mod_stats_admin.php</filename>
 		<folder>tmpl</folder>
+		<folder>language</folder>
 		<filename>helper.php</filename>
-		<filename>index.html</filename>
 		<filename>mod_stats_admin.xml</filename>
 	</files>
 	<languages>

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,81 +44,6 @@ class JMailTest extends TestCase
 	protected function tearDown()
 	{
 
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetInstance().
-	 *
-	 * @return void
-	 */
-	public function testGetInstance()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSend().
-	 *
-	 * @return void
-	 */
-	public function testSend()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSetSender().
-	 *
-	 * @return void
-	 */
-	public function testSetSender()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSetSubject().
-	 *
-	 * @return void
-	 */
-	public function testSetSubject()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSetBody().
-	 *
-	 * @return void
-	 */
-	public function testSetBody()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 
 	/**
@@ -252,8 +177,6 @@ class JMailTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @todo Implement testAddAttachment().
-	 *
 	 * @return void
 	 */
 	public function testAddAttachment()
@@ -307,21 +230,6 @@ class JMailTest extends TestCase
 		$this->object->isHtml(false);
 
 		$this->assertThat('text/plain', $this->equalTo($this->object->ContentType));
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testUseSendmail().
-	 *
-	 * @return void
-	 */
-	public function testUseSendmail()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
 	}
 
 	/**
@@ -380,35 +288,4 @@ class JMailTest extends TestCase
 			$this->equalTo($expected['return'])
 		);
 	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSendMail().
-	 *
-	 * @return void
-	 */
-	public function testSendMail()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSendAdminMail().
-	 *
-	 * @return void
-	 */
-	public function testSendAdminMail()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
 }

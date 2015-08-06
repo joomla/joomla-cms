@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.joomla
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Example Content Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.joomla
- * @since       1.6
+ * @since  1.6
  */
 class PlgContentJoomla extends JPlugin
 {
@@ -52,12 +50,6 @@ class PlgContentJoomla extends JPlugin
 			return true;
 		}
 
-		$user = JFactory::getUser();
-
-		// Messaging for new items
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/models', 'MessagesModel');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/tables');
-
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
@@ -65,6 +57,17 @@ class PlgContentJoomla extends JPlugin
 			->where($db->quoteName('sendEmail') . ' = 1');
 		$db->setQuery($query);
 		$users = (array) $db->loadColumn();
+
+		if (empty($users))
+		{
+			return true;
+		}
+
+		$user = JFactory::getUser();
+
+		// Messaging for new items
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/models', 'MessagesModel');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/tables');
 
 		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
 		$debug = JFactory::getConfig()->get('debug_lang');

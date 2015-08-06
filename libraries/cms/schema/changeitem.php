@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,9 +23,7 @@ defined('JPATH_PLATFORM') or die;
  * This is an abstract class. We need to extend it for each database and add a
  * buildCheckQuery() method that creates the query to check that a DDL query has been run.
  *
- * @package     Joomla.Libraries
- * @subpackage  Schema
- * @since       2.5
+ * @since  2.5
  */
 abstract class JSchemaChangeitem
 {
@@ -143,7 +141,7 @@ abstract class JSchemaChangeitem
 		// Get the class name
 		$dbname = $db->name;
 
-		if ($dbname == 'mysqli')
+		if ($dbname == 'mysqli' || $dbname == 'pdomysql')
 		{
 			$dbname = 'mysql';
 		}
@@ -197,7 +195,18 @@ abstract class JSchemaChangeitem
 		if ($this->checkQuery)
 		{
 			$this->db->setQuery($this->checkQuery);
-			$rows = $this->db->loadObject();
+
+			try
+			{
+				$rows = $this->db->loadObject();
+			}
+			catch (RuntimeException $e)
+			{
+				$rows = false;
+
+				// Still render the error message from the Exception object
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			}
 
 			if ($rows !== false)
 			{
