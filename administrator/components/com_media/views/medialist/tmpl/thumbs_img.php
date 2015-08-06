@@ -25,7 +25,16 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 				</a>
 			</div>
 			<div class="small">
-				<a href="<?php echo COM_MEDIA_BASEURL.'/'.$this->_tmp_img->path_relative; ?>" title="<?php echo $this->_tmp_img->name; ?>" class="preview"><?php echo JHtml::_('string.truncate', $this->_tmp_img->name, 10, false); ?></a>
+				<?php echo JHtml::_('string.truncate', $this->_tmp_img->title, 12, false); ?>
+				<a class="img-preview pull-right" href="<?php echo COM_MEDIA_BASEURL . '/' . $this->_tmp_img->path_relative; ?>" title="<?php echo $this->_tmp_img->name; ?>" >
+					<span class="icon-zoom-in" style="padding-left: 5px;"></span>
+				</a>
+				<?php if ($user->authorise('core.edit', 'com_media')):?>
+					<a class="pull-right" target="_top" href="index.php?option=com_media&amp;task=image.edit&amp;folder=<?php echo $this->state->get('folder'); ?>&amp;file=<?php echo $this->_tmp_img->name; ?>&amp;id=<?php echo $this->_tmp_img->id; ?>" title="<?php echo $this->_tmp_img->name; ?>" class="preview">
+						<span class="icon-pencil" style="padding-left: 5px;"></span>
+					</a>
+				<?php endif;?>
+				<div class="clearfix"></div>
 			</div>
 		</li>
 <?php
