@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 $user = JFactory::getUser();
-
 $item = $displayData['item'];
 
 $link = 'index.php?option=com_media&amp;task=file.edit&amp;tmpl=index&amp;';
@@ -25,9 +24,8 @@ if (is_dir(JPATH_ADMINISTRATOR . '/components/com_media/views/image') == false)
 	$allowEdit = false;
 }
 ?>
-<?php if ($allowEdit): ?>
+<?php if ($allowEdit) : ?>
 	<a class="pull-right" target="_top" href="<?php echo $link; ?>" title="<?php echo $item->name; ?>" class="preview">
 		<span class="icon-pencil" style="padding-left: 5px;"></span>
 	</a>
 <?php endif; ?>
-
