@@ -185,7 +185,6 @@ class MenusViewItems extends JViewLegacy
 
 							unset($xml);
 
-
 							// Special case if neither a view nor layout title is found
 							if (count($titleParts) == 1)
 							{
