@@ -28,12 +28,7 @@ $data = array(
 			<?php echo JLayoutHelper::render('medialist.detail.delete', $data); ?>
 			<td>
 				<a class="img-preview" href="<?php echo COM_MEDIA_BASEURL . '/' . $this->_tmp_img->path_relative; ?>" title="<?php echo $this->_tmp_img->name; ?>">
-					<?php echo JHtml::_( ?>
-						<?php 'image', ?>
-						<?php COM_MEDIA_BASEURL . '/' . $this->_tmp_img->path_relative, ?>
-						<?php JText::sprintf('COM_MEDIA_IMAGE_TITLE', $this->_tmp_img->title, JHtml::_('number.bytes', $this->_tmp_img->size)), ?>
-						<?php array('width' => $this->_tmp_img->width_16, 'height' => $this->_tmp_img->height_16) ?>
-					<?php ); ?>
+					<?php echo JHtml::_('image', COM_MEDIA_BASEURL . '/' . $this->_tmp_img->path_relative, JText::sprintf('COM_MEDIA_IMAGE_TITLE', $this->_tmp_img->title, JHtml::_('number.bytes', $this->_tmp_img->size)), array('width' => $this->_tmp_img->width_16, 'height' => $this->_tmp_img->height_16)); ?>
 				</a>
 			</td>
 			<td class="description">
