@@ -13,7 +13,7 @@ use Joomla\Registry\Registry;
 
 JHtml::_('bootstrap.tooltip');
 
-$user        = JFactory::getUser();
+$user       = JFactory::getUser();
 $params     = new Registry;
 $dispatcher = JEventDispatcher::getInstance();
 
