@@ -89,6 +89,13 @@ abstract class JFactory
 	 * @since  11.1
 	 */
 	public static $database = null;
+	
+	/**
+	 * Global datastore
+	 *
+	 * @since  11.1
+	 */
+	public static $datastore = null;
 
 	/**
 	 * Global mailer object
