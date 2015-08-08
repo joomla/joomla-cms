@@ -13,7 +13,6 @@
 		<filename module="mod_articles_archive">mod_articles_archive.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>mod_articles_archive.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_articles_archive.ini</language>
