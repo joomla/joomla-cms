@@ -26,11 +26,11 @@ abstract class ModLoggedHelper
 		  {
 		  	case 'database':
 	   		case 'none':
-					$results=ModStatusHelper::getListFromDb($params);
+					$results=ModLoggedHelper::getListFromDb($params);
 					break;	
 				case 'redis':
 	   		  //  
-	   		  $results=ModStatusHelper::getListFromFromRedis($params);
+	   		  $results=ModLoggedHelper::getListFromFromRedis($params);
 	   			break;
 	   			
 	   		default:		   		  			
