@@ -65,7 +65,7 @@ class PlgUserJoomla extends JPlugin
 					break;	
 				case 'redis':
 	   		  //  
-	   		  $results=$this->deleteUserFromFromRedis($params);
+	   		  $results=$this->deleteUserFromRedis($params);
 	   			break;
 	   			
 	   		default:		   		  			
@@ -76,7 +76,7 @@ class PlgUserJoomla extends JPlugin
 
 		return $results;
 	}
-  public function deleteUserFromFromDb($params)
+  public function deleteUserFromDb($params)
   {
 			$query = $this->db->getQuery(true)
 			->delete($this->db->quoteName('#__session'))
@@ -93,7 +93,7 @@ class PlgUserJoomla extends JPlugin
 
 		return true;
 	}
-	public function deleteUserFromFromRedis($params)
+	public function deleteUserFromRedis($params)
   {
 			$ds = JFactory::getDso();
 			
@@ -267,7 +267,7 @@ class PlgUserJoomla extends JPlugin
 					break;	
 				case 'redis':
 	   		  //  
-	   		  $results=$this->loginUserFromFromRedis($instance,$session);
+	   		  $results=$this->loginUserFromRedis($instance,$session);
 	   			break;
 	   			
 	   		default:		   		  			
@@ -282,7 +282,7 @@ class PlgUserJoomla extends JPlugin
 		return true;
 	}
 	
-	public function loginUserFromFromDb($instance,$session)
+	public function loginUserFromDb($instance,$session)
   {
 			             
 		// Update the user related fields for the Joomla sessions table.
@@ -303,7 +303,7 @@ class PlgUserJoomla extends JPlugin
 			return true;
 	}
 	
-	public function loginUserFromFromRedis($instance,$session)
+	public function loginUserFromRedis($instance,$session)
   {
 			$ds = JFactory::getDso();
 			
@@ -378,7 +378,7 @@ class PlgUserJoomla extends JPlugin
 					break;	
 				case 'redis':
 	   		  //  
-	   		  $results=$this->logoutUserFromFromRedis($user,$options);
+	   		  $results=$this->logoutUserFromRedis($user,$options);
 	   			break;
 	   			
 	   		default:		   		  			
@@ -388,7 +388,7 @@ class PlgUserJoomla extends JPlugin
 		}
 		return true;
 	}
-	public function logoutUserFromFromDb($user,$options)
+	public function logoutUserFromDb($user,$options)
   {
   	$query = $this->db->getQuery(true)
 				->delete($this->db->quoteName('#__session'))
@@ -404,7 +404,7 @@ class PlgUserJoomla extends JPlugin
 		}
   	return true;
   }	
-	public function logoutUserFromFromRedis($user,$options)
+	public function logoutUserFromRedis($user,$options)
   {
 			$ds = JFactory::getDso();
 			$key4sessionuid = 'sessid-'.(int) $user['id'].'-'.(int) $options['clientid'];
