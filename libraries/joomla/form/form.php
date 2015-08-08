@@ -1964,11 +1964,7 @@ class JForm
 			if ($multiple && is_array($value))
 			{
 				// Filter all invalid values
-				$value = array_filter(
-							$value, function($val) {
-								return !($val === '' || $val === null);
-							}
-						);
+				$value = array_filter($value, 'strlen');
 			}
 
 			// If the field is required and the value is empty return an error message. Special handling
