@@ -1958,9 +1958,9 @@ class JForm
 
 		if ($required)
 		{
-			$multiple = ((string) $element['multiple'] == 'true' || (string) $element['required'] == 'multiple');
+			$multiple = ((string) $element['multiple'] == 'true' || (string) $element['multiple'] == 'multiple');
 
-			// Prepare multiple fields: check if we have at least one valid value
+			// Prepare multiple fields: throw away all invalid values, so we can check, if we have at least one valid
 			if ($multiple && is_array($value))
 			{
 				// Filter all invalid values
@@ -1971,8 +1971,9 @@ class JForm
 						);
 			}
 
-			// If the field is required and the value is empty return an error message.
-			if ($value === '' || $value === null || ($multiple && !count($value)))
+			// If the field is required and the value is empty return an error message. Special handling
+			// For multiple fields, because the filter method sets empty fields to array()
+			if ($value === '' || $value === null || ($multiple && is_array($value) && !count($value)))
 			{
 				if ($element['label'])
 				{
