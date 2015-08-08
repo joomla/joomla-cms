@@ -795,4 +795,96 @@ abstract class JFactory
 
 		return $retval;
 	}
+		/**
+	 * Get a datastore object.
+	 *
+	 * Returns the global {@link JDatabaseDriver} object, only creating it if it doesn't already exist.
+	 *
+	 * @return  JDatabaseDriver
+	 *
+	 * @see     JDatabaseDriver
+	 * @since   11.1
+	 */
+	public static function getDso()
+	{
+		if (!self::$datastore)
+		{
+			self::$datastore = self::createDso();
+		}
+
+		return self::$datastore;
+	}
+	/**
+	 * Create an datastore object
+	 *
+	 * @return  JDatabaseDriver
+	 *
+	 * @see     JDatabaseDriver
+	 * @since   11.1
+	 */
+	protected static function createDso()
+	{
+		$conf = self::getConfig();
+
+		$server = array(
+			'host' => $conf->get('session_redis_server_host', 'localhost'),
+			'port' => $conf->get('session_redis_server_port', 6379),
+			'auth' => $conf->get('session_redis_server_auth', null),
+			'db'   => (int) $conf->get('session_redis_server_db', null),
+			'driver'   => 'redis'
+		);
+		//
+        // Attempt to connect to the server. 
+		try
+		{
+			$ds = new Redis();
+		}
+		catch (RuntimeException $e)
+		{
+			if (!headers_sent())
+			{
+				header('HTTP/1.1 500 Internal Server Error');
+			}
+
+			jexit('Redis Database Error: ' . $e->getMessage());
+		}
+
+		//$db->setDebug($debug);
+		try
+		{
+			$connection = $ds->pconnect($server['host'], $server['port']);
+			$auth       = (!empty($server['auth'])) ? $ds->auth($server['auth']) : true;
+		}
+		catch (Exception $e)
+		{
+				throw new RuntimeException('Error connecting to redis database.');
+		}
+		//var_dump('driver_redis_connect');
+		try
+		{
+			$pong = $ds->ping();
+			//var_dump($pong);
+		}
+		catch (RedisException $e)
+		{
+			$ds = null;
+
+			throw new RuntimeException('Error pinging REDIS database.');
+
+			return;
+		}
+		//var_dump('driver_redis_ping'.$pong);
+		
+		try
+		{
+			$select = $ds->select($server['db']);
+		}
+		catch (Exception $e)
+		{
+				$ds = null;
+				throw new RuntimeException('Error connecting to REdis database.');
+		}
+		//var_dump('driver_redis_select');	
+		return $ds;
+	}
 }

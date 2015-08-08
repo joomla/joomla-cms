@@ -149,7 +149,20 @@ class JApplicationCms extends JApplicationWeb
 			$session->set('user', new JUser);
 		}
 	}
-
+	public function checkSession()
+	{
+		
+		//jexit($this->config->get('session_handler'));	
+		if ($this->config->get('session_handler')=='redis')
+		{
+			$this->checkSessionNoDB();
+		}
+		else
+		{
+			$this->checkSessionDB();
+			 
+		}
+	}		
 	/**
 	 * Checks the user session.
 	 *
@@ -161,7 +174,70 @@ class JApplicationCms extends JApplicationWeb
 	 * @since   3.2
 	 * @throws  RuntimeException
 	 */
-	public function checkSession()
+	public function checkSessionNoDB()
+	{ 
+		$ds = JFactory::getDso();
+		$session = JFactory::getSession();
+		$user = JFactory::getUser();
+		//jexit(var_dump($ds));
+		try
+		{				
+			$exists = $ds->exists('sess-'.$session->getId());  
+			//var_dump($exists);      
+    	//
+		}
+		catch( Exception $e )
+			//catch (RuntimeException $e)
+		{
+			$exists=false;
+			//jexit(var_dump($exists));
+			throw new Exception(JText::_('JERROR_SESSION_STARTUP'));
+		}
+		//jexit(var_dump('E:'.$exists)); 
+		if (!$exists)
+		{
+			if ($session->isNew())
+			{
+				$ds->delete('sess-'.$session->getId());  
+				$hash = array('client_id' => (int) $this->getClientId(), 'time' => (int) time() );
+			//	var_dump('NEW:'); 
+				
+			}
+			else
+			{
+			//	var_dump('OLD:'); 
+				$hash = array('client_id' => (int) $this->getClientId(), 
+				              'guest' => (int) $user->get('guest'), 
+				              'time' => (int) $session->get('session.timer.start'), 
+				              'userid' => (int) $user->get('id'),
+				              'username' => $user->get('username')
+				              );	
+ 
+			}
+			// If the insert failed, exit the application.
+			$key = 'sess-'.$session->getId();
+ 
+			$key4sessionuid = 'sessid-'.(int) $user->get('id').'-'.(int) $this->getClientId();
+			$jsonValue = json_encode($hash);
+			 
+			$lifetime = (($this->config->get('lifetime')) ? $this->config->get('lifetime') * 60 : 900);
+			try
+			{
+				$ds->setex( $key, $lifetime, $jsonValue );
+				
+					if ($user->get('id')>0)
+		     	{ 
+				     $ds->setex( $key4sessionuid, $lifetime, $key );
+				  }   
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException(JText::_('JERROR_SESSION_STARTUP'));
+			}
+			//jexit(var_dump($ds->get($key).'cms:insrit'));
+		}
+	}
+	public function checkSessionDB()
 	{
 		$db = JFactory::getDbo();
 		$session = JFactory::getSession();
@@ -739,28 +815,39 @@ class JApplicationCms extends JApplicationWeb
 		$session->start();
 
 		// TODO: At some point we need to get away from having session data always in the db.
-		$db = JFactory::getDbo();
-
-		// Remove expired sessions from the database.
-		$time = time();
-
-		if ($time % 2)
-		{
-			// The modulus introduces a little entropy, making the flushing less accurate
-			// but fires the query less than half the time.
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
-
-			$db->setQuery($query);
-			$db->execute();
-		}
-
 		// Get the session handler from the configuration.
 		$handler = $this->get('session_handler', 'none');
+		$time = time();
+		switch ($handler)
+		{
+	   		case 'database':
+	   		case 'none':
+	   				// Remove expired sessions from the database.
+					$db = JFactory::getDbo();	
+					if ($time % 2)
+					{
+						// The modulus introduces a little entropy, making the flushing less accurate
+						// but fires the query less than half the time.
+						$query = $db->getQuery(true)
+								->delete($db->quoteName('#__session'))
+								->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
 
-		if (($handler != 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler == 'database' && $session->isNew()))
+						$db->setQuery($query);
+						$db->execute();
+					}			
+	   			break;
+	   			
+	   		case 'redis':
+	   		  // pseudo cron task to clean SETS
+	   		  $this->purgeSets();
+	   			break;
+	   			
+	   		default:	
+	   		  $db = JFactory::getDbo();				
+	   			break;	
+		}
+					
+		if ($time % 2 || $session->isNew())			
 		{
 			$this->checkSession();
 		}
@@ -794,7 +881,7 @@ class JApplicationCms extends JApplicationWeb
 	{
 		// Get the global JAuthentication object.
 		jimport('joomla.user.authentication');
-
+//jexit('cmslogin');
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
@@ -1150,4 +1237,42 @@ class JApplicationCms extends JApplicationWeb
 
 		return $this->getBody();
 	}
+	public function purgeSets()
+	{
+		$ds = JFactory::getDso();
+		try
+		{
+			$lista = $ds->smembers('utenti');
+		
+		}
+		catch (Exception $e)
+		{
+			throw new RuntimeException(JText::_('JERROR_SESSION_redis_destroy'));
+			
+			
+			return false;			
+		}
+		
+		// Get the database connection object and verify its connected.
+		foreach ($lista as $elm)
+		{
+			try
+			{
+				$exist = $ds->ttl($elm);
+		
+			}
+			catch (Exception $e)
+			{
+				throw new RuntimeException(JText::_('JERROR_SESSION_redis_destroy'));					
+				return false;			
+			}
+			
+			if ($exist == -1)
+			{
+				$ds->srem('utenti', $elm);	
+ //jexit(var_dump($elm));				
+			}
+		}	
+		
+	}	
 }

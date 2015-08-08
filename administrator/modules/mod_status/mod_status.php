@@ -8,7 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-
+// Include the whosonline functions only once
+require_once __DIR__ . '/helper.php';
 $config	= JFactory::getConfig();
 $user   = JFactory::getUser();
 $db     = JFactory::getDbo();
@@ -25,13 +26,8 @@ $db->setQuery($query);
 $unread = (int) $db->loadResult();
 
 // Get the number of back-end logged in users.
-$query->clear()
-	->select('COUNT(session_id)')
-	->from('#__session')
-	->where('guest = 0 AND client_id = 1');
 
-$db->setQuery($query);
-$count = (int) $db->loadResult();
+$count =(int) ModStatusHelper::getAdminsOnlineCount($params);
 
 // Set the inbox link.
 if ($input->getBool('hidemainmenu'))
@@ -54,12 +50,6 @@ else
 }
 
 // Get the number of frontend logged in users.
-$query->clear()
-	->select('COUNT(session_id)')
-	->from('#__session')
-	->where('guest = 0 AND client_id = 0');
-
-$db->setQuery($query);
-$online_num = (int) $db->loadResult();
+$online_num = (int) ModStatusHelper::getOnlineCount($params);
 
 require JModuleHelper::getLayoutPath('mod_status', $params->get('layout', 'default'));

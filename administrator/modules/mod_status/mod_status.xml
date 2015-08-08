@@ -12,6 +12,7 @@
 	<files>
 		<filename module="mod_status">mod_status.php</filename>
 		<folder>tmpl</folder>
+		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_status.ini</language>
