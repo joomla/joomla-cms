@@ -124,18 +124,10 @@ class MenusViewItems extends JViewLegacy
 									{
 										$viewTitle = trim((string) $view[0]['title']);
 
-										// Check if the key is valid. Needed due to B/C so we don't show untranslated keys.
+										// Check if the key is valid. Needed due to B/C so we don't show untranslated keys. This check should be removed with Joomla 4.
 										if ($lang->hasKey($viewTitle))
 										{
 											$titleParts[] = JText::_($viewTitle);
-										}
-										else
-										{
-											JLog::add(
-												'Using an untranslated string ("' . $viewTitle . '") as title in the view manifest (' . $file . ') is deprecated. Please either translate or remove it.',
-												JLog::WARNING,
-												'deprecated'
-											);
 										}
 									}
 								}
