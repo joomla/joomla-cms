@@ -13,7 +13,6 @@
 		<filename module="mod_random_image">mod_random_image.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>mod_random_image.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_random_image.ini</language>
