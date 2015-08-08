@@ -53,8 +53,32 @@ class PlgUserJoomla extends JPlugin
 		{
 			return false;
 		}
+		$cfg=JFactory::getConfig();
+		$handler = $cfg->get('session_handler', 'none');
+    
+    
+    switch ($handler)
+		  {
+		  	case 'database':
+	   		case 'none':
+					$results=$this->deleteUserFromDb($params);
+					break;	
+				case 'redis':
+	   		  //  
+	   		  $results=$this->deleteUserFromFromRedis($params);
+	   			break;
+	   			
+	   		default:		   		  			
+	   			break;			
+			 
+			}
+		
 
-		$query = $this->db->getQuery(true)
+		return $results;
+	}
+  public function deleteUserFromFromDb($params)
+  {
+			$query = $this->db->getQuery(true)
 			->delete($this->db->quoteName('#__session'))
 			->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
 
@@ -69,7 +93,23 @@ class PlgUserJoomla extends JPlugin
 
 		return true;
 	}
-
+	public function deleteUserFromFromRedis($params)
+  {
+			$ds = JFactory::getDso();
+			
+			$key4sessionuid = 'sessid-'.(int) $user->get('id').'-'.(int) JFactory::getApplication()->getClientId();
+			try
+			{
+				$key=$ds->get($key4sessionuid);
+				$ds->delete($key);				
+			  $ds->delete($key4sessionuid);
+			}
+			catch (RuntimeException $e)
+			{
+				return false;
+			}
+			return true;	
+	}
 	/**
 	 * Utility method to act on a user after it has been saved.
 	 *
@@ -214,7 +254,37 @@ class PlgUserJoomla extends JPlugin
 
 		// Check to see the the session already exists.
 		$this->app->checkSession();
+		
+		$cfg=JFactory::getConfig();
+		$handler = $cfg->get('session_handler', 'none');
+    
+    
+    switch ($handler)
+		  {
+		  	case 'database':
+	   		case 'none':
+					$results=$this->loginUserFromDb($instance,$session);
+					break;	
+				case 'redis':
+	   		  //  
+	   		  $results=$this->loginUserFromFromRedis($instance,$session);
+	   			break;
+	   			
+	   		default:		   		  			
+	   			break;			
+			 
+			}
+		
+		
+		// Hit the user last visit field
+		$instance->setLastVisit();
 
+		return true;
+	}
+	
+	public function loginUserFromFromDb($instance,$session)
+  {
+			             
 		// Update the user related fields for the Joomla sessions table.
 		$query = $this->db->getQuery(true)
 			->update($this->db->quoteName('#__session'))
@@ -229,14 +299,38 @@ class PlgUserJoomla extends JPlugin
 		catch (RuntimeException $e)
 		{
 			return false;
-		}
-
-		// Hit the user last visit field
-		$instance->setLastVisit();
-
-		return true;
+		}	              
+			return true;
 	}
+	
+	public function loginUserFromFromRedis($instance,$session)
+  {
+			$ds = JFactory::getDso();
+			
+			$hash = array( 'client_id' => (int) $this->app->getClientId(),
+				              'guest' => $this->db->quote($instance->guest), 
+				              'time' => (int) $session->get('session.timer.start'), 
+				              'userid' => (int) $instance->id,
+				              'username' => $this->db->quote($instance->username)
+				              );	
+			$jsonValue = json_encode($hash);
+			$lifetime = (($this->app->get('lifetime')) ? $this->app->get('lifetime') * 60 : 900);
+			$newkey = 'user-'.$instance->username;
+			try
+			{
 
+				$ds->setex( $newkey, $lifetime, $jsonValue );
+				$ds->setex( $instance->username, $lifetime, $instance->id);	
+				$ds->setex( $instance->id, $lifetime, $instance->username);		
+				$ds->sadd( 'utenti', $instance->username );
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException(JText::_('JERROR_SESSION_STARTUP'));
+			}				              
+				              
+			return true;
+	}
 	/**
 	 * This method should handle any logout logic and report back to the subject
 	 *
@@ -273,22 +367,64 @@ class PlgUserJoomla extends JPlugin
 
 		if ($forceLogout)
 		{
-			$query = $this->db->getQuery(true)
+		  $cfg=JFactory::getConfig();
+			$handler = $cfg->get('session_handler', 'none');
+			
+    	switch ($handler)
+		  {
+		  	case 'database':
+	   		case 'none':
+					$results=$this->logoutUserFromDb($user,$options);
+					break;	
+				case 'redis':
+	   		  //  
+	   		  $results=$this->logoutUserFromFromRedis($user,$options);
+	   			break;
+	   			
+	   		default:		   		  			
+	   			break;						 
+			} 
+			
+		}
+		return true;
+	}
+	public function logoutUserFromFromDb($user,$options)
+  {
+  	$query = $this->db->getQuery(true)
 				->delete($this->db->quoteName('#__session'))
 				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
 				->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
+		try
+		{
+			$this->db->setQuery($query)->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
+  	return true;
+  }	
+	public function logoutUserFromFromRedis($user,$options)
+  {
+			$ds = JFactory::getDso();
+			$key4sessionuid = 'sessid-'.(int) $user['id'].'-'.(int) $options['clientid'];
 			try
 			{
-				$this->db->setQuery($query)->execute();
+
+				$key=$ds->get($key4sessionuid);
+				$ds->delete($key4sessionuid);
+				$ds->delete($key);
+				$ds->delete($user['id']);
+				$ds->delete($user['username']);
+				$ds->delete('user-'.$user['username']);
+				$ds->srem( 'utenti', $user['username'] );
 			}
 			catch (RuntimeException $e)
 			{
 				return false;
-			}
-		}
-		return true;
+			}				             				              
+			return true;
 	}
-
 	/**
 	 * This method will return a user object
 	 *
