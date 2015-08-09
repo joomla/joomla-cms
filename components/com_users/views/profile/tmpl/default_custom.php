@@ -35,6 +35,9 @@ foreach ($fieldsets as $group => $fieldset): // Iterate through the form fieldse
 		if (!$field->hidden && $field->type != 'Spacer') : ?>
 		<dt><?php echo $field->title; ?></dt>
 		<dd>
+			<?php if ($field->type == 'Dob') : ?>
+				<?php $field->value = JHtml::_('date', $field->value, JText::_('DATE_FORMAT_LC4')); ?>
+			<?php endif; ?>
 			<?php if (JHtml::isRegistered('users.' . $field->id)) : ?>
 				<?php echo JHtml::_('users.' . $field->id, $field->value); ?>
 			<?php elseif (JHtml::isRegistered('users.' . $field->fieldname)) : ?>
