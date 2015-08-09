@@ -118,6 +118,11 @@ class PlgUserProfile extends JPlugin
 			{
 				JHtml::register('users.tos', array(__CLASS__, 'tos'));
 			}
+
+			if (!JHtml::isRegistered('users.dob'))
+			{
+				JHtml::register('users.dob', array(__CLASS__, 'dob'));
+			}
 		}
 
 		return true;
@@ -169,6 +174,23 @@ class PlgUserProfile extends JPlugin
 		{
 			return JHtml::_('date', $value, null, null);
 		}
+	}
+
+	/**
+	 * returns the date of birth formatted and calculated using server timezone.
+	 *
+	 * @param   string  $value  valid date string
+	 *
+	 * @return  mixed
+	 */
+	public static function dob($value)
+	{
+		if (!$value)
+		{
+			return '';
+		}
+
+		return JHtml::_('date', $value, JText::_('DATE_FORMAT_LC1'), false);
 	}
 
 	/**
