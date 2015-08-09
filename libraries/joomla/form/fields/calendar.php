@@ -203,6 +203,15 @@ class JFormFieldCalendar extends JFormField
 				}
 
 				break;
+
+			case 'RAW':
+				// Keep the date absolute.
+				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
+				{
+					$this->value = $this->value->format('Y-m-d H:i:s', true, false);
+				}
+
+				break;
 		}
 
 		// Including fallback code for HTML5 non supported browsers.
