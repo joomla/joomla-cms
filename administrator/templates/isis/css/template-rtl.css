@@ -6265,14 +6265,6 @@ div.modal.fade.in {
 	margin-right: .25em;
 	line-height: 14px;
 }
-dd > span[class^="icon-"] + time,
-dd > span[class*=" icon-"] + time {
-	margin-left: -0.25em;
-}
-dl.article-info dd.hits span[class^="icon-"],
-dl.article-info dd.hits span[class*=" icon-"] {
-	margin-right: 0;
-}
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
 	font-family: 'IcoMoon';
@@ -7778,7 +7770,7 @@ ul.manager .height-50 .icon-folder-2 {
 	z-index: 3;
 }
 .admin .chzn-container .chzn-drop {
-	z-index: 1040;
+	z-index: 1060;
 }
 ul.treeselect,
 ul.treeselect li {
@@ -8742,14 +8734,6 @@ input[type="url"] {
 [class^="icon-"],
 [class*=" icon-"] {
 	margin-left: .25em;
-}
-dd > span[class^="icon-"] + time,
-dd > span[class*=" icon-"] + time {
-	margin-left: -0.25em;
-}
-dl.article-info dd.hits span[class^="icon-"],
-dl.article-info dd.hits span[class*=" icon-"] {
-	margin-right: 0;
 }
 .navbar .admin-logo {
 	float: right;

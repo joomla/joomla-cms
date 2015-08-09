@@ -65,7 +65,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<th class="nowrap">
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
-					<th class="nowrap" width="10%">
+					<th class="center nowrap" width="10%">
 						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 					</th>
 				</tr>

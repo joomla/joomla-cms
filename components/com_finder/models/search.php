@@ -228,7 +228,7 @@ class FinderModelSearch extends JModelList
 
 		// Get the null date and the current date, minus seconds.
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(substr_replace(JFactory::getDate()->toSQL(), '00', -2));
+		$nowDate = $db->quote(substr_replace(JFactory::getDate()->toSql(), '00', -2));
 
 		// Add the publish up and publish down filters.
 		$query->where('(l.publish_start_date = ' . $nullDate . ' OR l.publish_start_date <= ' . $nowDate . ')')

@@ -122,10 +122,10 @@ JFactory::getDocument()->addScriptDeclaration('
 						<th width="1%">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th class="left">
+						<th>
 							<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="20%" class="center">
+						<th width="20%">
 							<?php echo JText::_('COM_USERS_HEADING_USERS_IN_GROUP'); ?>
 						</th>
 						<th width="1%">
@@ -171,10 +171,10 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php echo JText::_('COM_USERS_DEBUG_GROUP');?></a></div>
 							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td>
 							<?php echo $item->user_count ? $item->user_count : ''; ?>
 						</td>
-						<td class="center">
+						<td>
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>

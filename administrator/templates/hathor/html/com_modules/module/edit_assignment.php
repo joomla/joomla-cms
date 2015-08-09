@@ -55,7 +55,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<label id="jform_menuselect-lbl" for="jform_menuselect"><?php echo JText::_('JGLOBAL_MENU_SELECTION'); ?></label>
 
 			<button type="button" class="jform-assignments-button jform-rightbtn" onclick="$$('.chkbox').each(function(el) { el.checked = !el.checked; });">
-				<?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?>
+				<?php echo JText::_('JGLOBAL_SELECTION_INVERT_ALL'); ?>
 			</button>
 
 			<button type="button" class="jform-assignments-button jform-rightbtn" onclick="$$('.chkbox').each(function(el) { el.checked = false; });">

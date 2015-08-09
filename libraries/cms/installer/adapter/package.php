@@ -563,7 +563,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		foreach ($manifest->filelist as $extension)
 		{
 			$tmpInstaller = new JInstaller;
-			$id = $this->_getExtensionID($extension->type, $extension->id, $extension->client, $extension->group);
+			$id = $this->_getExtensionId($extension->type, $extension->id, $extension->client, $extension->group);
 			$client = JApplicationHelper::getClientInfo($extension->client, true);
 
 			if ($id)
@@ -617,7 +617,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	 *
 	 * @since   3.1
 	 */
-	protected function _getExtensionID($type, $id, $client, $group)
+	protected function _getExtensionId($type, $id, $client, $group)
 	{
 		$db = $this->parent->getDbo();
 

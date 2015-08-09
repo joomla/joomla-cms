@@ -102,7 +102,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<th>
 							<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_LEVEL_NAME', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap center hidden-phone">
+						<th width="5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -153,7 +153,7 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td>
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
