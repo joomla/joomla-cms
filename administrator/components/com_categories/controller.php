@@ -74,24 +74,26 @@ class CategoriesController extends JControllerLegacy
 		}
 
 		// Get and render the view.
-		if ($view = $this->getView($vName, $vFormat))
+		if (!$view = $this->getView($vName, $vFormat))
 		{
-			// Get the model for the view.
-			$model = $this->getModel($vName, 'CategoriesModel', array('name' => $vName . '.' . substr($this->extension, 4)));
-
-			// Push the model into the view (as default).
-			$view->setModel($model, true);
-			$view->setLayout($lName);
-
-			// Push document object into the view.
-			$view->document = $document;
-
-			// Load the submenu.
-			require_once JPATH_COMPONENT . '/helpers/categories.php';
-
-			CategoriesHelper::addSubmenu($model->getState('filter.extension'));
-			$view->display();
+			return $this;
 		}
+
+		// Get the model for the view.
+		$model = $this->getModel($vName, 'CategoriesModel', array('name' => $vName . '.' . substr($this->extension, 4)));
+
+		// Push the model into the view (as default).
+		$view->setModel($model, true);
+		$view->setLayout($lName);
+
+		// Push document object into the view.
+		$view->document = $document;
+
+		// Load the submenu.
+		require_once JPATH_COMPONENT . '/helpers/categories.php';
+
+		CategoriesHelper::addSubmenu($model->getState('filter.extension'));
+		$view->display();
 
 		return $this;
 	}

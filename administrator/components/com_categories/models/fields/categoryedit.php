@@ -140,11 +140,11 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			if ($options[$i]->published == 1)
 			{
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
+
+				continue;
 			}
-			else
-			{
-				$options[$i]->text = str_repeat('- ', $options[$i]->level) . '[' . $options[$i]->text . ']';
-			}
+
+			$options[$i]->text = str_repeat('- ', $options[$i]->level) . '[' . $options[$i]->text . ']';
 		}
 
 		// Get the current user object.
@@ -194,18 +194,14 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
 					&& ($option->value != $oldCat && !isset($oldParent)))
 				{
-					{
-						unset($options[$i]);
-					}
+					unset($options[$i]);
 				}
 
 				if (($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
 					&& (isset($oldParent))
 					&& $option->value != $oldParent)
 				{
-					{
-						unset($options[$i]);
-					}
+					unset($options[$i]);
 				}
 			}
 		}
@@ -225,8 +221,6 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
+		return array_merge(parent::getOptions(), $options);
 	}
 }
