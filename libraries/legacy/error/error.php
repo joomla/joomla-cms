@@ -786,11 +786,21 @@ abstract class JError
 
 			// Push the error object into the document
 			$document->setError($error);
+			$homemenu	= $app->getMenu()->getDefault(JFactory::getLanguage()->getTag());
+			$active		= $app->getMenu()->getActive();
 
 			// If site is offline and it's a 404 error, just go to index (to see offline message, instead of 404)
+			// If the 404 concerns the home page, exit and display a message
 			if ($error->getCode() == '404' && JFactory::getConfig()->get('offline') == 1)
 			{
-				JFactory::getApplication()->redirect('index.php');
+				if ($homemenu !== $active)
+				{
+					JFactory::getApplication()->redirect('index.php');
+				}
+				else
+				{
+					jexit(JText::_('JGLOBAL_OFFLINE_ERROR'));
+				}
 			}
 
 			@ob_end_clean();
