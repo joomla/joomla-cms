@@ -67,36 +67,39 @@ class CacheModelCache extends JModelList
 	 */
 	public function getData()
 	{
-		if (empty($this->_data))
+		if (!empty($this->_data))
 		{
-			$cache = $this->getCache();
-			$data = $cache->getAll();
+			return $this->_data;
+		}
 
-			if ($data != false)
-			{
-				$this->_data = $data;
-				$this->_total = count($data);
+		$data = $this->getCache()->getAll();
 
-				if ($this->_total)
-				{
-					// Apply custom ordering.
-					$ordering = $this->getState('list.ordering');
-					$direction = ($this->getState('list.direction') == 'asc') ? 1 : (-1);
+		if ($data == false)
+		{
+			$this->_data = array();
 
-					jimport('joomla.utilities.arrayhelper');
-					$this->_data = JArrayHelper::sortObjects($data, $ordering, $direction);
+			return $this->_data;
+		}
 
-					// Apply custom pagination.
-					if ($this->_total > $this->getState('list.limit') && $this->getState('list.limit'))
-					{
-						$this->_data = array_slice($this->_data, $this->getState('list.start'), $this->getState('list.limit'));
-					}
-				}
-			}
-			else
-			{
-				$this->_data = array();
-			}
+		$this->_data = $data;
+		$this->_total = count($data);
+
+		if (!$this->_total)
+		{
+			return $this->_data;
+		}
+
+		// Apply custom ordering.
+		$ordering = $this->getState('list.ordering');
+		$direction = ($this->getState('list.direction') == 'asc') ? 1 : (-1);
+
+		jimport('joomla.utilities.arrayhelper');
+		$this->_data = JArrayHelper::sortObjects($data, $ordering, $direction);
+
+		// Apply custom pagination.
+		if ($this->_total > $this->getState('list.limit') && $this->getState('list.limit'))
+		{
+			$this->_data = array_slice($this->_data, $this->getState('list.start'), $this->getState('list.limit'));
 		}
 
 		return $this->_data;
@@ -118,9 +121,7 @@ class CacheModelCache extends JModelList
 			'cachebase'		=> ($this->getState('clientId') == 1) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
 		);
 
-		$cache = JCache::getInstance('', $options);
-
-		return $cache;
+		return JCache::getInstance('', $options);
 	}
 
 	/**
@@ -173,8 +174,7 @@ class CacheModelCache extends JModelList
 	 */
 	public function clean($group = '')
 	{
-		$cache = $this->getCache();
-		$cache->clean($group);
+		$this->getCache()->clean($group);
 	}
 
 	/**
@@ -199,8 +199,6 @@ class CacheModelCache extends JModelList
 	 */
 	public function purge()
 	{
-		$cache = JFactory::getCache('');
-
-		return $cache->gc();
+		return JFactory::getCache('')->gc();
 	}
 }
