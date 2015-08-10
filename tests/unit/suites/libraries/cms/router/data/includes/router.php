@@ -21,7 +21,7 @@ class JRouterTester extends JRouter
 	/**
 	 * Class constructor
 	 *
-	 * @param   array  $options  Array of options
+	 * @param   array $options Array of options
 	 *
 	 * @since   3.4
 	 */

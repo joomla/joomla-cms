@@ -30,6 +30,14 @@ class MenusModelItem extends JModelAdmin
 	public $typeAlias = 'com_menus.item';
 
 	/**
+	 * The context used for the associations table
+	 *
+	 * @var      string
+	 * @since    3.4.4
+	 */
+	protected $associationsContext = 'com_menus.item';
+
+	/**
 	 * @var        string    The prefix to use with controller messages.
 	 * @since   1.6
 	 */
@@ -945,7 +953,7 @@ class MenusModelItem extends JModelAdmin
 				if (!$formFile && (strpos($layout, ':') > 0))
 				{
 					$temp = explode(':', $layout);
-					$templatePath = JPATH::clean(JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $option . '/' . $view . '/' . $temp[1] . '.xml');
+					$templatePath = JPath::clean(JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $option . '/' . $view . '/' . $temp[1] . '.xml');
 
 					if (is_file($templatePath))
 					{
@@ -1269,7 +1277,6 @@ class MenusModelItem extends JModelAdmin
 		$this->setState('item.menutype', $table->menutype);
 
 		// Load associated menu items
-		$app = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
 
 		if ($assoc)
@@ -1299,7 +1306,7 @@ class MenusModelItem extends JModelAdmin
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->delete('#__associations')
-				->where('context=' . $db->quote('com_menus.item'))
+				->where('context=' . $db->quote($this->associationsContext))
 				->where('id IN (' . implode(',', $associations) . ')');
 			$db->setQuery($query);
 
@@ -1323,7 +1330,7 @@ class MenusModelItem extends JModelAdmin
 
 				foreach ($associations as $id)
 				{
-					$query->values($id . ',' . $db->quote('com_menus.item') . ',' . $db->quote($key));
+					$query->values($id . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
 				}
 
 				$db->setQuery($query);

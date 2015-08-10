@@ -68,7 +68,7 @@ class FinderViewSearch extends JViewLegacy
 		}
 
 		// Set the document link.
-		$this->document->link = JRoute::_($query->toURI());
+		$this->document->link = JRoute::_($query->toUri());
 
 		// If we don't have any results, we are done.
 		if (empty($results))

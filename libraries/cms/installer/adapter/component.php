@@ -593,7 +593,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		// If we are told to delete existing extension entries then do so.
 		if ($deleteExisting)
 		{
-			$db = $this->parent->getDBO();
+			$db = $this->parent->getDbo();
 
 			$query = $db->getQuery(true)
 						->select($db->qn('extension_id'))

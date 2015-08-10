@@ -10,10 +10,9 @@
 	<version>3.0.0</version>
 	<description>MOD_FINDER_XML_DESCRIPTION</description>
 	<files>
-		<folder>tmpl</folder>
 		<filename module="mod_finder">mod_finder.php</filename>
+		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>mod_finder.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.mod_finder.ini</language>

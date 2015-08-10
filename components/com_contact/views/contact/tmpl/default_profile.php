@@ -23,9 +23,9 @@ defined('_JEXEC') or die;
 							$v_http = substr($profile->value, 0, 4);
 
 							if ($v_http == "http") :
-								echo '<dd><a href="' . $profile->text . '">' . $profile->text . '</a></dd>';
+								echo '<dd><a href="' . $profile->text . '">' . JStringPunycode::urlToUTF8($profile->text) . '</a></dd>';
 							else :
-								echo '<dd><a href="http://' . $profile->text . '">' . $profile->text . '</a></dd>';
+								echo '<dd><a href="http://' . $profile->text . '">' . JStringPunycode::urlToUTF8($profile->text) . '</a></dd>';
 							endif;
 							break;
 

@@ -520,8 +520,8 @@ class PlgSystemDebug extends JPlugin
 			$totalTime += $mark->time;
 			$totalMem += $mark->memory;
 			$htmlMark = sprintf(
-				JText::_('PLG_DEBUG_TIME') . ': <span class="label label-time">%.1f&nbsp;ms</span> / <span class="label">%.1f&nbsp;ms</span>'
-				. ' ' . JText::_('PLG_DEBUG_MEMORY') . ': <span class="label label-memory">%0.3f MB</span> / <span class="label">%0.2f MB</span>'
+				JText::_('PLG_DEBUG_TIME') . ': <span class="label label-time">%.1f&nbsp;ms</span> / <span class="label label-default">%.1f&nbsp;ms</span>'
+				. ' ' . JText::_('PLG_DEBUG_MEMORY') . ': <span class="label label-memory">%0.3f MB</span> / <span class="label label-default">%0.2f MB</span>'
 				. ' %s: %s',
 				$mark->time,
 				$mark->totalTime,
@@ -547,7 +547,7 @@ class PlgSystemDebug extends JPlugin
 			if ($mark->time > $avgTime * 1.5)
 			{
 				$barClass = 'bar-danger';
-				$labelClass = 'label-important';
+				$labelClass = 'label-important label-danger';
 			}
 			elseif ($mark->time < $avgTime / 1.5)
 			{
@@ -563,7 +563,7 @@ class PlgSystemDebug extends JPlugin
 			if ($mark->memory > $avgMem * 1.5)
 			{
 				$barClassMem = 'bar-danger';
-				$labelClassMem = 'label-important';
+				$labelClassMem = 'label-important label-danger';
 			}
 			elseif ($mark->memory < $avgMem / 1.5)
 			{
@@ -575,6 +575,9 @@ class PlgSystemDebug extends JPlugin
 				$barClassMem = 'bar-warning';
 				$labelClassMem = 'label-warning';
 			}
+
+			$barClass .= " progress-$barClass";
+			$barClassMem .= " progress-$barClassMem";
 
 			$bars[] = (object) array(
 				'width' => round($mark->time / ($totalTime / 100), 4),
@@ -664,8 +667,8 @@ class PlgSystemDebug extends JPlugin
 	{
 		$bytes = memory_get_usage();
 
-		return '<span class="label">' . JHtml::_('number.bytes', $bytes) . '</span>'
-			. ' (<span class="label">'
+		return '<span class="label label-default">' . JHtml::_('number.bytes', $bytes) . '</span>'
+			. ' (<span class="label label-default">'
 			. number_format($bytes, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'))
 			. ' '
 			. JText::_('PLG_DEBUG_BYTES')
@@ -928,7 +931,9 @@ class PlgSystemDebug extends JPlugin
 
 				if ($timing[$id]['1'])
 				{
-					$htmlTiming .= ' ' . JText::sprintf('PLG_DEBUG_QUERY_AFTER_LAST', sprintf('<span class="label">%.2f&nbsp;ms</span>', $timing[$id]['1']));
+					$htmlTiming .= ' ' . JText::sprintf('PLG_DEBUG_QUERY_AFTER_LAST',
+							sprintf('<span class="label label-default">%.2f&nbsp;ms</span>', $timing[$id]['1'])
+						);
 				}
 
 				$htmlTiming .= '</span>';
@@ -954,7 +959,7 @@ class PlgSystemDebug extends JPlugin
 
 					$htmlTiming .= ' ' . '<span class="dbg-query-memory">' . JText::sprintf('PLG_DEBUG_MEMORY_USED_FOR_QUERY',
 							sprintf('<span class="label ' . $labelClass . '">%.3f&nbsp;MB</span>', $memoryUsed / 1048576),
-							sprintf('<span class="label">%.3f&nbsp;MB</span>', $memoryBeforeQuery / 1048576)
+							sprintf('<span class="label label-default">%.3f&nbsp;MB</span>', $memoryBeforeQuery / 1048576)
 						)
 						. '</span>';
 
@@ -1208,7 +1213,7 @@ class PlgSystemDebug extends JPlugin
 				$html[] = '<div class="dbg-bar-spacer" style="width:' . $bar->pre . '%;"></div>';
 			}
 
-			$barClass = trim('bar dbg-bar ' . (isset($bar->class) ? $bar->class : ''));
+			$barClass = trim('bar dbg-bar progress-bar ' . (isset($bar->class) ? $bar->class : ''));
 
 			if ($id !== null && $i == $id)
 			{

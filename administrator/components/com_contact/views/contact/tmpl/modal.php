@@ -37,6 +37,9 @@ JFactory::getDocument()->addScriptDeclaration('
 		}
 	};
 ');
+
+// Fieldsets to not automatically render by /layouts/joomla/edit/params.php
+$this->ignore_fieldsets = array('details', 'display', 'email', 'item_associations');
 ?>
 <div class="container-popup">
 

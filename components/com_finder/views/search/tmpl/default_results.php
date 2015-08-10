@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 		<?php // Display the suggested search query. ?>
 		<?php if ($this->suggested && $this->params->get('show_suggested_query', 1)) : ?>
 			<?php // Replace the base query string with the suggested query string. ?>
-			<?php $uri = JUri::getInstance($this->query->toURI()); ?>
+			<?php $uri = JUri::getInstance($this->query->toUri()); ?>
 			<?php $uri->setVar('q', $this->suggested); ?>
 
 			<?php // Compile the suggested query link. ?>
