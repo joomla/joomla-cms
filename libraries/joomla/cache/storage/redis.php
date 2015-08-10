@@ -31,13 +31,13 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
-		
-		$ds = JFactory::getDso();
+		$ds       = JFactory::getDso();
 		$cache_id = $this->_getCacheId($id, $group);
 		$back     = $ds->get($cache_id);
 
 		return $back;
 	}
+
 	/**
 	 * Store the data to Redis by id and group
 	 *
@@ -48,19 +48,21 @@ class JCacheStorageRedis extends JCacheStorage
 	 * @return  boolean  True on success, false otherwise
 	 *
 	 * @since   3.4
-	 */	
+	 */
 	public function store($id, $group, $data)
 	{
-    $ds = JFactory::getDso();
+		$ds = JFactory::getDso();
 
-		$cache_id     = $this->_getCacheId($id, $group);
-		$config       = JFactory::getConfig();
-		$lifetime     = (int) $config->get('cachetime', 15);	
-    //lifetime to seconds
-		$ds->setex($cache_id, $lifetime*60, $data);
+		$cache_id = $this->_getCacheId($id, $group);
+		$config   = JFactory::getConfig();
+		$lifetime = (int) $config->get('cachetime', 15);	
+
+		// Lifetime to seconds
+		$ds->setex($cache_id, $lifetime * 60, $data);
+
 		return true;
 	}
-	
+
 	/**
 	 * Remove a cached data entry by id and group
 	 *
@@ -73,14 +75,13 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public function remove($id, $group)
 	{
-
-		$ds = JFactory::getDso();
+		$ds       = JFactory::getDso();
 		$cache_id = $this->_getCacheId($id, $group);
 
 		return $ds->delete($cache_id);
 	}
 
-/**
+	/**
 	 * Clean cache for a group given a mode.
 	 *
 	 * @param   string  $group  The cache data group
@@ -94,8 +95,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public function clean($group, $mode = null)
 	{
-
-		$ds = JFactory::getDso();
+		$ds      = JFactory::getDso();
 		$allKeys = $ds->keys('*');
 
 		if ($allKeys === false)
@@ -120,7 +120,14 @@ class JCacheStorageRedis extends JCacheStorage
 
 		return true;
 	}
-	
+
+	/**
+	 * Test to see if the cache storage is available.	 
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   3.4
+	 */
 	public static function isSupported()
 	{	
 		return class_exists('redis');

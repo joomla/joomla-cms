@@ -16,29 +16,6 @@ defined('_JEXEC') or die;
  */
 abstract class ModLoggedHelper
 {
-	
-		public static function getList($params)
-	{
- 			$cfg=JFactory::getConfig();
-			$handler = $cfg->get('session_handler', 'none');
-			$results=null;
-			switch ($handler)
-		  {
-		  	case 'database':
-	   		case 'none':
-					$results=ModLoggedHelper::getListFromDb($params);
-					break;	
-				case 'redis':
-	   		  //  
-	   		  $results=ModLoggedHelper::getListFromFromRedis($params);
-	   			break;
-	   			
-	   		default:		   		  			
-	   			break;			
-			 
-			}
-			return $results;
-	}		
 	/**
 	 * Get a list of logged users.
 	 *
@@ -48,7 +25,39 @@ abstract class ModLoggedHelper
 	 *
 	 * @throws  RuntimeException
 	 */
-	public static function getListFromDb(&$params)
+	public static function getList($params)
+	{
+ 		$config  = JFactory::getConfig();
+		$handler = $config->get('session_handler', 'none');
+		$results = null;
+
+		switch ($handler)
+		{
+			case 'database':
+			case 'none':
+				$results = ModLoggedHelper::getListFromDb($params);
+				break;
+			case 'redis':
+				$results = ModLoggedHelper::getListFromRedis($params);
+				break;
+			default:	   		  			
+				break;		
+		}
+
+		return $results;
+	}
+
+	/**
+	 * Get a list of logged users from the Database.
+	 *
+	 * @param   \Joomla\Registry\Registry  &$params  The module parameters.
+	 *
+	 * @return  mixed  An array of users, or false on error.
+	 *
+	 * @since   3.5
+	 * @throws  RuntimeException
+	 */
+	private function getListFromDb(&$params)
 	{
 		$db    = JFactory::getDbo();
 		$user  = JFactory::getUser();
@@ -86,40 +95,56 @@ abstract class ModLoggedHelper
 
 		return $results;
 	}
-public static function getListFromFromRedis($params)
+
+	/**
+	 * Get a list of logged users from the Redis Cache.
+	 *
+	 * @param   \Joomla\Registry\Registry  &$params  The module parameters.
+	 *
+	 * @return  mixed  An array of users, or false on error.
+	 *
+	 * @since   3.5
+	 * @throws  RuntimeException
+	 */
+	private function getListFromRedis($params)
 	{
-		$ds = JFactory::getDso();
-		$user  = JFactory::getUser();
-		$results =array();
+		$ds      = JFactory::getDso();
+		$user    = JFactory::getUser();
+		$results = array();
+
 		try
 		{
 			$lista = $ds->smembers('utenti');		
 		}
 		catch (Exception $e)
 		{
-			throw new RuntimeException(JText::_('JERROR_SESSION_redis_destroy'));					
-			return false;			
+			throw new RuntimeException(JText::_('JERROR_SESSION_REDIS_DESTROY'));
+
+			return false;
 		}
-		
+
 		// Get the database connection object and verify its connected.
 		foreach ($lista as $elm)
 		{
 			try
 			{
-				$exist = $ds->get('user-'.$elm);
-		
+				$exist = $ds->get('user-' . $elm);
 			}
 			catch (Exception $e)
 			{
-				throw new RuntimeException(JText::_('JERROR_SESSION_redis_destroy'));					
-				return false;			
+				throw new RuntimeException(JText::_('JERROR_SESSION_REDIS_DESTROY'));
+
+				return false;		
 			}
-			$data = json_decode($exist);
-			$results[]=$data;
-		//	jexit(var_dump($users->userid)	);
+
+			$data      = json_decode($exist);
+			$results[] = $data;
+
 			foreach ($results as $k => $result)
 			{
 				$results[$k]->logoutLink = '';
+				$results[$k]->name       = '';
+				$results[$k]->id   			 = $result->userid;
 
 				if ($user->authorise('core.manage', 'com_users'))
 				{
@@ -127,15 +152,16 @@ public static function getListFromFromRedis($params)
 					$results[$k]->logoutLink = JRoute::_('index.php?option=com_login&task=logout&uid=' . $result->userid . '&' . JSession::getFormToken() . '=1');
 				}
 
-				//if ($params->get('name', 1) == 0)
-				//{
-					$results[$k]->name = $results[$k]->username;
-				//}
+				if ($params->get('name', 1) == 0)
+				{
+					$results[$k]->name = $results[$k]->username;					
+				}
 			}
-		}	
-			
+		}
+
 		return $results;
-	}	
+	}
+
 	/**
 	 * Get the alternate title for the module
 	 *

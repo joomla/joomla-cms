@@ -582,6 +582,7 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
+
 		<field
 			name="MetaVersion"
 			type="radio"
@@ -772,8 +773,7 @@
 			filter="integer"
 			showon="session_handler:memcached"
 			size="5" />
-			
-		
+
 		<field
 			name="session_redis_persist"
 			type="radio"

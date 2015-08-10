@@ -8,16 +8,18 @@
  */
 
 defined('_JEXEC') or die;
-// Include the whosonline functions only once
+
+// Include the helper functions only once
 require_once __DIR__ . '/helper.php';
-$config	= JFactory::getConfig();
+
+$config = JFactory::getConfig();
 $user   = JFactory::getUser();
 $db     = JFactory::getDbo();
 $lang   = JFactory::getLanguage();
 $input  = JFactory::getApplication()->input;
 
 // Get the number of unread messages in your inbox.
-$query	= $db->getQuery(true)
+$query = $db->getQuery(true)
 	->select('COUNT(*)')
 	->from('#__messages')
 	->where('state = 0 AND user_id_to = ' . (int) $user->get('id'));
@@ -26,8 +28,7 @@ $db->setQuery($query);
 $unread = (int) $db->loadResult();
 
 // Get the number of back-end logged in users.
-
-$count =(int) ModStatusHelper::getAdminsOnlineCount($params);
+$count = (int) ModStatusHelper::getOnlineCount(true);
 
 // Set the inbox link.
 if ($input->getBool('hidemainmenu'))
@@ -50,6 +51,6 @@ else
 }
 
 // Get the number of frontend logged in users.
-$online_num = (int) ModStatusHelper::getOnlineCount($params);
+$online_num = (int) ModStatusHelper::getOnlineCount(false);
 
 require JModuleHelper::getLayoutPath('mod_status', $params->get('layout', 'default'));

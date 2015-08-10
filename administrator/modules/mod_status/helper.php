@@ -10,153 +10,129 @@
 defined('_JEXEC') or die;
 
 /**
- * Helper for mod_logged
+ * Helper for mod_status
  *
- * @since  1.5
+ * @since  3.5
  */
-class ModStatusHelper
+abstract class ModStatusHelper
 {
-
-	//Get the number of frontend logged in users.
-	public static function getOnlineCountFromDb($params)
+	/**
+	 * The count of logged users from the Database.
+	 *
+	 * @param   $admin   boolean  True if we want the backend user.
+	 *
+	 * @return  integer  The user count
+	 *
+	 * @since   3.5
+	 */
+	private function getOnlineCountFromDb($admin)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->clear()
-		->select('COUNT(session_id)')
-		->from('#__session')
-		->where('guest = 0 AND client_id = 0');
+		$query
+			->clear()
+			->select('COUNT(session_id)')
+			->from('#__session');
+
+		if ($admin == true)
+		{
+			$query->where('guest = 0 AND client_id = 1');
+		}
+		else
+		{
+			$query->where('guest = 0 AND client_id = 0');
+		}
 
 		$db->setQuery($query);
-		return  (int) $db->loadResult();
 
+		return (int) $db->loadResult();
 	}
-	
-	//Get the number of backend logged in users.
-	public static function getAdminsOnlineCountFromDb($params)
-	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->clear()
-		->select('COUNT(session_id)')
-		->from('#__session')
-		->where('guest = 0 AND client_id = 1');
 
-		$db->setQuery($query);
-		return  (int) $db->loadResult();
-	}
-	//Get the number of frontend logged in users.
-	public static function getOnlineCountFromRedis($params)
+	/**
+	 * The count of logged users from the Redis Cache.
+	 *
+	 * @param   $admin   boolean  True if we want the backend user.
+	 *
+	 * @return  integer  The user count
+	 *
+	 * @since   3.5
+	 */
+	private function getOnlineCountFromRedis($admin)
 	{
-		/// Get the number of frontend logged in users.
-		$ds = JFactory::getDso();				
-		// Calculate number of  users
-		$result	     = 0;
-		
+		// Get the number of frontend logged in users.
+		$ds = JFactory::getDso();
+		$result = array();
+
 		try
-		{			
-			//$sessions=$ds->keys('sess-*');
-			$result = $ds->smembers( 'utenti' );
+		{
+			// Get the number of users
+			$result = $ds->smembers('utenti');
 		}
 		catch (RuntimeException $e)
 		{
 			// Don't worry be happy
-			$result = array();
+			return count($result);
 		}
-		return count($result);
-	}
 
-	// Get the number of back-end logged in users.
-	public static function getAdminsOnlineCountFromRedis($params)
-	{		
-		$ds = JFactory::getDso();			
-		// Calculate number of backend users
-		$backend_users	     = 0;
-		
-		try
-		{			
+		// Init the logged Users
+		$logged_users = 0;
 
-			$result = $ds->smembers( 'utenti' );
-		}
-		catch (RuntimeException $e)
-		{
-			// Don't worry no member in set
-			$result = array();
-		}
-			
-		// Get the datastore connection object and verify its connected.
+		// Get the datastore connection object and and get the value of each key.
 		foreach ($result as $elm)
 		{
-		 
 			try
 			{
-				$data = $ds->get('user-'.$elm);		
+				$data = $ds->get('user-' . $elm);
 			}
 			catch (RuntimeException $e)
 			{
-			 
-				$backend_users = 0;
+				$data = array();
 			}
-			$data = json_decode($data);
-			$results[]=$data;
-	 
+
+			// @todo: If the try fails $data is not defined here.
+			$results[] = json_decode($data);
+
+			//foreach ($results as $k)
 			foreach ($results as $k => $result)
 			{
-			  if((int)$results[$k]->client_id == 1 )
-			  {			
- 
-				$backend_users++;
+				if ((int)$results[$k]->client_id == $admin)
+				{
+					$logged_users++;
 				}
-			}		
-		}				
-		return $backend_users;
+			}
+		}
+
+		return $logged_users;
 	}
-	
-	// Get the number of frontend logged in users.
-	public static function getAdminsOnlineCount($params)
+
+	/**
+	 * The count of logged users.
+	 *
+	 * @param   $admin   boolean  True if we want the backend user.
+	 *
+	 * @return  integer  The user count
+	 *
+	 * @since   3.5
+	 */
+	public static function getOnlineCount($admin)
 	{
- 			$cfg=JFactory::getConfig();
-			$handler = $cfg->get('session_handler', 'none');
-			$results=null;
+ 			$config  = JFactory::getConfig();
+			$handler = $config->get('session_handler', 'none');
+			$results = null;
+
 			switch ($handler)
-		  {
-		  	case 'database':
-	   		case 'none':
-					$results=ModStatusHelper::getAdminsOnlineCountFromDb($params);
-					break;	
+			{
+				case 'database':
+				case 'none':
+					$results = ModStatusHelper::getOnlineCountFromDb($admin);
+					break;
 				case 'redis':
-	   		  //  
-	   		  $results=ModStatusHelper::getAdminsOnlineCountFromRedis($params);
-	   			break;
-	   			
-	   		default:		   		  			
-	   			break;			
-			 
+					$results = ModStatusHelper::getOnlineCountFromRedis($admin);
+					break;
+				default:
+					break;
 			}
+
 			return $results;
-	}		
-// Get the number of frontend logged in users.
-	public static function getOnlineCount($params)
-	{
- 			$cfg=JFactory::getConfig();
-			$handler = $cfg->get('session_handler', 'none');
-			$results=null;
-			switch ($handler)
-		  {
-		  	case 'database':
-	   		case 'none':
-					$results=ModStatusHelper::getOnlineCountFromDb($params);
-					break;	
-				case 'redis':
-	   		  //  
-	   		  $results=ModStatusHelper::getOnlineCountFromRedis($params);
-	   			break;
-	   			
-	   		default:		   		  			
-	   			break;			
-			 
-			}
-			return $results;
-	}		
-	
+	}
 }
