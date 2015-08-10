@@ -11,6 +11,8 @@
 	<description>PLG_CODEMIRROR_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="codemirror">codemirror.php</filename>
+		<filename>styles.css</filename>
+		<filename>styles.min.css</filename>
 		<filename>fonts.json</filename>
 		<filename>fonts.php</filename>
 	</files>
