@@ -87,10 +87,12 @@ class CheckinModelCheckin extends JModelList
 
 			$db->setQuery($query);
 
-			if ($db->execute())
+			if (!$db->execute())
 			{
-				$results = $results + $db->getAffectedRows();
+				continue;
 			}
+
+			$results = $results + $db->getAffectedRows();
 		}
 
 		return $results;
@@ -122,86 +124,85 @@ class CheckinModelCheckin extends JModelList
 	 */
 	public function getItems()
 	{
-		if (!isset($this->items))
+		if (isset($this->items))
 		{
-			$app    = JFactory::getApplication();
-			$db     = $this->_db;
-			$tables = $db->getTableList();
+			return $this->items;
+		}
 
-			// This array will hold table name as key and checked in item count as value.
-			$results = array();
+		$db     = $this->_db;
+		$tables = $db->getTableList();
 
-			foreach ($tables as $i => $tn)
+		// This array will hold table name as key and checked in item count as value.
+		$results = array();
+
+		foreach ($tables as $i => $tn)
+		{
+			// Make sure we get the right tables based on prefix.
+			if (stripos($tn, JFactory::getApplication()->get('dbprefix')) !== 0)
 			{
-				// Make sure we get the right tables based on prefix.
-				if (stripos($tn, $app->get('dbprefix')) !== 0)
-				{
-					unset($tables[$i]);
-					continue;
-				}
-
-				if ($this->getState('filter.search') && stripos($tn, $this->getState('filter.search')) === false)
-				{
-					unset($tables[$i]);
-					continue;
-				}
-
-				$fields = $db->getTableColumns($tn);
-
-				if (!(isset($fields['checked_out']) && isset($fields['checked_out_time'])))
-				{
-					unset($tables[$i]);
-					continue;
-				}
+				unset($tables[$i]);
+				continue;
 			}
 
-			foreach ($tables as $tn)
+			if ($this->getState('filter.search') && stripos($tn, $this->getState('filter.search')) === false)
 			{
-				$query = $db->getQuery(true)
-					->select('COUNT(*)')
-					->from($db->quoteName($tn))
-					->where('checked_out > 0');
-
-				$db->setQuery($query);
-
-				if ($db->execute())
-				{
-					$results[$tn] = $db->loadResult();
-				}
-				else
-				{
-					continue;
-				}
+				unset($tables[$i]);
+				continue;
 			}
 
-			$this->total = count($results);
+			$fields = $db->getTableColumns($tn);
 
-			if ($this->getState('list.ordering') == 'table')
+			if (!(isset($fields['checked_out']) && isset($fields['checked_out_time'])))
 			{
-				if ($this->getState('list.direction') == 'asc')
-				{
-					ksort($results);
-				}
-				else
-				{
-					krsort($results);
-				}
+				unset($tables[$i]);
+				continue;
+			}
+		}
+
+		foreach ($tables as $tn)
+		{
+			$query = $db->getQuery(true)
+				->select('COUNT(*)')
+				->from($db->quoteName($tn))
+				->where('checked_out > 0');
+
+			$db->setQuery($query);
+
+			if (!$db->execute())
+			{
+				continue;
+			}
+
+			$results[$tn] = $db->loadResult();
+		}
+
+		$this->total = count($results);
+
+		if ($this->getState('list.ordering') == 'table')
+		{
+			if ($this->getState('list.direction') == 'asc')
+			{
+				ksort($results);
 			}
 			else
 			{
-				if ($this->getState('list.direction') == 'asc')
-				{
-					asort($results);
-				}
-				else
-				{
-					arsort($results);
-				}
+				krsort($results);
 			}
-
-			$results = array_slice($results, $this->getState('list.start'), $this->getState('list.limit') ? $this->getState('list.limit') : null);
-			$this->items = $results;
 		}
+		else
+		{
+			if ($this->getState('list.direction') == 'asc')
+			{
+				asort($results);
+			}
+			else
+			{
+				arsort($results);
+			}
+		}
+
+		$results = array_slice($results, $this->getState('list.start'), $this->getState('list.limit') ? $this->getState('list.limit') : null);
+		$this->items = $results;
 
 		return $this->items;
 	}
