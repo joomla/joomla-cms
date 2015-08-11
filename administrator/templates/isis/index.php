@@ -98,7 +98,7 @@ function colorIsLight($color)
 	return $yiq >= 200;
 }
 
-if ($displayHeader)
+if ($enhancedBtns)
 {
 	JFactory::getDocument()->addScriptDeclaration(
 		'
