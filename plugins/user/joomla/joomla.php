@@ -73,7 +73,13 @@ class PlgUserJoomla extends JPlugin
 		return $results;
 	}
 
-
+	/**
+	 * Delete user session from DB
+	 *
+	 * @return  boolean  true or false.
+	 *
+	 * @since   1.5
+	 **/
 	public function deleteUserSessionFromDb()
 	{
 		$query = $this->db->getQuery(true)
@@ -91,7 +97,13 @@ class PlgUserJoomla extends JPlugin
 
 		return true;
 	}
-
+	/**
+	 * Delete user session from Redis
+	 *
+	 * @return  boolean  true or false.
+	 *
+	 * @since   3.5
+	 **/
 	public function deleteUserSessionFromRedis()
 	{
 		$ds             = JFactory::getDso();
@@ -270,7 +282,7 @@ class PlgUserJoomla extends JPlugin
 				break;
 			default:
 				break;
-			
+
 		}
 
 		// Hit the user last visit field
@@ -278,7 +290,17 @@ class PlgUserJoomla extends JPlugin
 
 		return $results;
 	}
-
+	/**
+	 * This method handle db login logic
+	 *
+	 * @param   array  $instance     Holds the user data
+	 * @param   array  $session  Array holding options (remember, autoregister, group)
+	 *
+	 *
+	 * @return  boolean  true or false.
+	 *
+	 * @since   1.5
+	 **/
 	public function loginUserFromDb($instance, $session)
 	{
 		// Update the user related fields for the Joomla sessions table.
@@ -299,7 +321,17 @@ class PlgUserJoomla extends JPlugin
 
 		return true;
 	}
-	
+	/**
+	 * This method handle Redis login logic
+	 *
+	 * @param   array  $instance     Holds the user data
+	 * @param   array  $session  Array holding options (remember, autoregister, group)
+	 *
+	 *
+	 * @return  boolean  true or false.
+	 *
+	 * @since   3.5
+	 **/
 	public function loginUserFromRedis($instance, $session)
 	{
 		$ds = JFactory::getDso();
@@ -379,13 +411,13 @@ class PlgUserJoomla extends JPlugin
 				case 'redis':
 					$results = $this->logoutUserSessionFromRedis($user, $options);
 					break;
-					
+
 				default:
 					break;
-				} 
-			}
+			} 
+		}
 
-			return $results;
+		return $results;
 	}
 
 	/**
@@ -440,7 +472,7 @@ class PlgUserJoomla extends JPlugin
 			$ds->delete($user['id']);
 			$ds->delete($user['username']);
 			$ds->delete('user-' . $user['username']);
-			$ds->srem( 'utenti', $user['username'] );
+			$ds->srem('utenti', $user['username']);
 		}
 		catch (RuntimeException $e)
 		{
