@@ -294,8 +294,8 @@ class PlgUserJoomla extends JPlugin
 	 * This method handle db login logic
 	 *
 	 * @param   array  $instance     Holds the user data
-	 * @param   array  $session  Array holding options (remember, autoregister, group)
-	 *
+	 *	 
+	 * @param   array  $session      Array holding options (remember, autoregister, group)
 	 *
 	 * @return  boolean  true or false.
 	 *
@@ -325,8 +325,8 @@ class PlgUserJoomla extends JPlugin
 	 * This method handle Redis login logic
 	 *
 	 * @param   array  $instance     Holds the user data
-	 * @param   array  $session  Array holding options (remember, autoregister, group)
 	 *
+	 * @param   array  $session      Array holding options (remember, autoregister, group)
 	 *
 	 * @return  boolean  true or false.
 	 *
@@ -335,11 +335,11 @@ class PlgUserJoomla extends JPlugin
 	public function loginUserFromRedis($instance, $session)
 	{
 		$ds = JFactory::getDso();
-		
+
 		$hash = array(
 			'client_id' => (int) $this->app->getClientId(),
-			'guest'     => $this->db->quote($instance->guest), 
-			'time'      => (int) $session->get('session.timer.start'), 
+			'guest'     => $this->db->quote($instance->guest),
+			'time'      => (int) $session->get('session.timer.start'),
 			'userid'    => (int) $instance->id,
 			'username'  => $this->db->quote($instance->username)
 		);
@@ -414,7 +414,7 @@ class PlgUserJoomla extends JPlugin
 
 				default:
 					break;
-			} 
+			}
 		}
 
 		return $results;
@@ -424,6 +424,7 @@ class PlgUserJoomla extends JPlugin
 	 * This method will logout a user session from the Database
 	 *
 	 * @param   array    $user     Holds the user data.
+	 *
 	 * @param   array    $options  Array holding options (remember, autoregister, group).
 	 *
 	 * @return  boolean  True on success
@@ -453,6 +454,7 @@ class PlgUserJoomla extends JPlugin
 	 * This method will logout a user session from Redis
 	 *
 	 * @param   array    $user     Holds the user data.
+	 *
 	 * @param   array    $options  Array holding options (remember, autoregister, group).
 	 *
 	 * @return  boolean  True on success
