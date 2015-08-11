@@ -51,7 +51,7 @@ class PlgSystemRemember extends JPlugin
 		// Check for a cookie if user is not logged in
 		if (JFactory::getUser()->get('guest'))
 		{
-			$cookieName = 'JRememberMe_'.JUserHelper::getShortHashedUserAgent();
+			$cookieName = 'JRememberMe_' . JUserHelper::getShortHashedUserAgent();
 
 			// Check for the cookie
 			if ($this->app->input->cookie->get($cookieName))
@@ -77,7 +77,7 @@ class PlgSystemRemember extends JPlugin
 			return true;
 		}
 
-		$cookieName = 'JRememberMe_'.JUserHelper::getShortHashedUserAgent();
+		$cookieName = 'JRememberMe_' . JUserHelper::getShortHashedUserAgent();
 
 		// Check for the cookie
 		if ($this->app->input->cookie->get($cookieName))
