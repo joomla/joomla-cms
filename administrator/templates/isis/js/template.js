@@ -177,24 +177,46 @@
 		};
 
 		// Hide/show buttons depending on the selection
-		var selectActions = $('#toolbar').children('#toolbar-edit,#toolbar-publish,#toolbar-unpublish,#toolbar-featured,#toolbar-unfeatured,#toolbar-checkin,#toolbar-archive,#toolbar-trash,#toolbar-batch,#toolbar-remove,#toolbar-delete,#toolbar-copy,#toolbar-default,#toolbar-unblock');
-		selectActions.css('opacity', 0.3);
-		var multiCheckboxes = $('form#adminForm table.table-striped input[type=checkbox], form#adminForm table.table-striped input[type=radio]');
+		window.enhanceBtnsBehavior = function()
+		{
+			var selectActions = $('#toolbar').children('#toolbar-edit,#toolbar-publish,#toolbar-unpublish,#toolbar-featured,#toolbar-unfeatured,#toolbar-checkin,#toolbar-archive,#toolbar-trash,#toolbar-batch,#toolbar-remove,#toolbar-delete,#toolbar-copy,#toolbar-default,#toolbar-unblock');
+			selectActions.hide();
+			var multiCheckboxes = $('form#adminForm table.table-striped input[type=checkbox], form#adminForm table.table-striped input[type=radio]');
 
-		multiCheckboxes.on('click', null, null, (function() {
-				var numberChecked = multiCheckboxes.filter(':checked').size();
+			multiCheckboxes.on('click', null, null, (function() {
+					var numberChecked = multiCheckboxes.filter(':checked').size();
+					var checkAll = false;
 
-				if (numberChecked > 0) {
-					if (numberChecked == 1) {
-						selectActions.css('opacity', 1);
+					$("input[name='checkall-toggle']").each( function () {
+						if (this.checked) {
+							checkAll = true;
+						}
+
+					});
+
+					if (numberChecked > 0) {
+						if (checkAll )
+						{
+							if (numberChecked < 3) {
+								selectActions.show();
+							} else {
+								selectActions.filter(':not(#toolbar-edit)').show();
+								selectActions.filter('#toolbar-edit').hide();
+							}
+						} else {
+							if (numberChecked == 1) {
+								selectActions.show();
+							} else {
+								selectActions.filter(':not(#toolbar-edit)').show();
+								selectActions.filter('#toolbar-edit').hide();
+							}
+						}
+
 					} else {
-						selectActions.filter(':not(#toolbar-edit)').css('opacity', 1);
-						selectActions.filter('#toolbar-edit').css('opacity', 0.3);
+						selectActions.hide();
 					}
-				} else {
-					selectActions.css('opacity', 0.3);
-				}
-			})
-		);
+				})
+			);
+		};
 	});
 })(jQuery);
