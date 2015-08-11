@@ -47,6 +47,8 @@ class ModWhosonlineHelper
 	/**
 	 * Show online user names
 	 *
+	 * @param   mixed  $params  The parameters
+	 *
 	 * @return  array  The name of Users and Guests online.
 	 *
 	 * @since   1.5
