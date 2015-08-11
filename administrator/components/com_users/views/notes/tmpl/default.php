@@ -11,13 +11,12 @@ defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
-JHtml::_('formbehavior.chosen', 'select');
 
-$user = JFactory::getUser();
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn = $this->escape($this->state->get('list.direction'));
-$canEdit = $user->authorise('core.edit', 'com_users');
-$sortFields = $this->getSortFields();
+$user		= JFactory::getUser();
+$listOrder	= $this->escape($this->state->get('list.ordering'));
+$listDirn	= $this->escape($this->state->get('list.direction'));
+$canEdit	= $user->authorise('core.edit', 'com_users');
+$sortFields	= $this->getSortFields();
 
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.orderTable = function()
