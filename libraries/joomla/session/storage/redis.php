@@ -175,4 +175,16 @@ class JSessionStorageRedis extends JSessionStorage
 			$ds->delete('user-' . $elm);
 		}
 	}
+
+	/**
+	 * Test to see if the SessionHandler is available.
+	 *
+	 * @return boolean  True on success, false otherwise.
+	 *
+	 * @since   3.5
+	 */
+	public static function isSupported()
+	{
+		return (extension_loaded('redis') && class_exists('Redis'));
+	}
 }
