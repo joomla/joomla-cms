@@ -19,7 +19,7 @@ abstract class ModLoggedHelper
 	/**
 	 * Get a list of logged users.
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  The module parameters.
+	 * @param   \Joomla\Registry\Registry  $params  The module parameters.
 	 *
 	 * @return  mixed  An array of users, or false on error.
 	 *
@@ -27,7 +27,7 @@ abstract class ModLoggedHelper
 	 */
 	public static function getList($params)
 	{
- 		$config  = JFactory::getConfig();
+		$config  = JFactory::getConfig();
 		$handler = $config->get('session_handler', 'none');
 		$results = null;
 
@@ -35,13 +35,13 @@ abstract class ModLoggedHelper
 		{
 			case 'database':
 			case 'none':
-				$results = ModLoggedHelper::getListFromDb($params);
+				$results = self::getListFromDb($params);
 				break;
 			case 'redis':
-				$results = ModLoggedHelper::getListFromRedis($params);
+				$results = self::getListFromRedis($params);
 				break;
-			default:	   		  			
-				break;		
+			default:
+				break;
 		}
 
 		return $results;
@@ -99,7 +99,7 @@ abstract class ModLoggedHelper
 	/**
 	 * Get a list of logged users from the Redis Cache.
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  The module parameters.
+	 * @param   \Joomla\Registry\Registry  $params  The module parameters.
 	 *
 	 * @return  mixed  An array of users, or false on error.
 	 *
@@ -114,7 +114,7 @@ abstract class ModLoggedHelper
 
 		try
 		{
-			$lista = $ds->smembers('utenti');		
+			$lista = $ds->smembers('utenti');
 		}
 		catch (Exception $e)
 		{
@@ -134,7 +134,7 @@ abstract class ModLoggedHelper
 			{
 				throw new RuntimeException(JText::_('JERROR_SESSION_REDIS_DESTROY'));
 
-				return false;		
+				return false;
 			}
 
 			$data      = json_decode($exist);
@@ -144,7 +144,7 @@ abstract class ModLoggedHelper
 			{
 				$results[$k]->logoutLink = '';
 				$results[$k]->name       = '';
-				$results[$k]->id   			 = $result->userid;
+				$results[$k]->id   		 = $result->userid;
 
 				if ($user->authorise('core.manage', 'com_users'))
 				{
@@ -154,7 +154,7 @@ abstract class ModLoggedHelper
 
 				if ($params->get('name', 1) == 0)
 				{
-					$results[$k]->name = $results[$k]->username;					
+					$results[$k]->name = $results[$k]->username;
 				}
 			}
 		}
