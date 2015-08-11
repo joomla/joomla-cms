@@ -33,10 +33,10 @@ class ModWhosonlineHelper
 		{
 			case 'database':
 			case 'none':
-				$results = ModWhosonlineHelper::getOnlineCountFromDb();
+				$results = self::getOnlineCountFromDb();
 				break;
 			case 'redis':
-				$results = ModWhosonlineHelper::getOnlineCountFromRedis();
+				$results = self::getOnlineCountFromRedis();
 				break;
 			default:
 				break;
@@ -44,7 +44,13 @@ class ModWhosonlineHelper
 
 		return $results;
 	}
-
+	/**
+	 * Show online user names
+	 *
+	 * @return  array  The name of Users and Guests online.
+	 *
+	 * @since   1.5
+	 **/
 	public static function getOnlineUserNames($params)
 	{
 		$cfg     = JFactory::getConfig();
@@ -55,10 +61,10 @@ class ModWhosonlineHelper
 		{
 			case 'database':
 			case 'none':
-				$results = ModWhosonlineHelper::getOnlineUserNamesFromDb($params);
+				$results = self::getOnlineUserNamesFromDb($params);
 				break;
 			case 'redis':
-				$results = ModWhosonlineHelper::getOnlineUserNamesFromRedis($params);
+				$results = self::getOnlineUserNamesFromRedis($params);
 				break;
 			default:
 				break;
@@ -235,7 +241,6 @@ class ModWhosonlineHelper
 	/**
 	 * Purge the List
 	 *
-	 *
 	 * @return  bolean  True on success
 	 *
 	 * @since   3.5
@@ -255,7 +260,7 @@ class ModWhosonlineHelper
 			return false;
 		}
 
-		// Get the database connection object and verify its connected.
+		// Get the datastore connection object and verify its connected.
 		foreach ($lista as $elm)
 		{
 			try
