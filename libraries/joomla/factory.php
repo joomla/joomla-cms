@@ -89,7 +89,7 @@ abstract class JFactory
 	 * @since  11.1
 	 */
 	public static $database = null;
-	
+
 	/**
 	 * Global datastore
 	 *
@@ -843,7 +843,7 @@ abstract class JFactory
 
 		try
 		{
-			$ds = new Redis();
+			$ds = new Redis;
 		}
 		catch (RuntimeException $e)
 		{
@@ -887,7 +887,7 @@ abstract class JFactory
 				$ds = null;
 				throw new RuntimeException('Error connecting to REdis database.');
 		}
-	
+
 		return $ds;
 	}
 }
