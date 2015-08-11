@@ -422,13 +422,13 @@ class PlgUserJoomla extends JPlugin
 	 * This method will logout a user session from the Database
 	 *
 	 * @param   array  $user     Holds the user data
-	 * @param   array  $session  Array holding options (remember, autoregister, group)
+	 * @param   array  $options  Array holding options (remember, autoregister, group)
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.5
 	 */
-	private function logoutUserSessionFromDb($user,$options)
+	private function logoutUserSessionFromDb($user, $options)
 	{
 		$query = $this->db->getQuery(true)
 			->delete($this->db->quoteName('#__session'))
@@ -451,7 +451,7 @@ class PlgUserJoomla extends JPlugin
 	 * This method will logout a user session from Redis
 	 *
 	 * @param   array  $user     Holds the user data
-	 * @param   array  $session  Array holding options (remember, autoregister, group)
+	 * @param   array  $options  Array holding options (remember, autoregister, group)
 	 *
 	 * @return  boolean  True on success
 	 *
