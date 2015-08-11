@@ -169,7 +169,6 @@ class JApplicationCms extends JApplicationWeb
 		else
 		{
 			$this->checkSessionDatabase();
-			 
 		}
 	}
 
@@ -185,16 +184,16 @@ class JApplicationCms extends JApplicationWeb
 	 * @throws  Exception or RuntimeException
 	 */
 	public function checkSessionRedis()
-	{ 
+	{
 		$ds      = JFactory::getDso();
 		$session = JFactory::getSession();
 		$user    = JFactory::getUser();
 
 		try
-		{				
-			$exists = $ds->exists('sess-' . $session->getId());  
+		{
+			$exists = $ds->exists('sess-' . $session->getId());
 		}
-		catch( Exception $e)
+		catch (Exception $e)
 		{
 			$exists = false;
 			throw new Exception(JText::_('JERROR_SESSION_STARTUP'));
@@ -204,7 +203,7 @@ class JApplicationCms extends JApplicationWeb
 		{
 			if ($session->isNew())
 			{
-				$ds->delete('sess-' . $session->getId());  
+				$ds->delete('sess-' . $session->getId());
 				$hash = array(
 					'client_id' => (int) $this->getClientId(),
 					'time'      => (int) time(),
@@ -218,20 +217,19 @@ class JApplicationCms extends JApplicationWeb
 					'time'      => (int) $session->get('session.timer.start'),
 					'userid'    => (int) $user->get('id'),
 					'username'  => $user->get('username'),
-				);	
- 
+				);
 			}
 
 			// If the insert failed, exit the application.
 			$key            = 'sess-' . $session->getId();
- 			$key4sessionuid = 'sessid-' . (int) $user->get('id') . '-' . (int) $this->getClientId();
+			$key4sessionuid = 'sessid-' . (int) $user->get('id') . '-' . (int) $this->getClientId();
 			$jsonValue      = json_encode($hash);
 			$lifetime       = (($this->config->get('lifetime')) ? $this->config->get('lifetime') * 60 : 900);
 
 			try
 			{
 				if (!$user->get('id') > 0)
-				{ 
+				{
 					$ds->setex($key4sessionuid, $lifetime, $key);
 				}
 				else
@@ -862,11 +860,11 @@ class JApplicationCms extends JApplicationWeb
 				// Pseudo cron task to clean SETS
 				$this->purgeSets();
 				break;
-			default:	
-				break;	
+			default:
+				break;
 		}
-					
-		if ($time % 2 || $session->isNew())			
+	
+		if ($time % 2 || $session->isNew())
 		{
 			$this->checkSession();
 		}
@@ -1291,12 +1289,12 @@ class JApplicationCms extends JApplicationWeb
 			{
 				throw new RuntimeException(JText::_('JERROR_SESSION_REDIS_DESTROY'));
 
-				return false;			
+				return false;
 			}
 
 			if ($exist == -1)
 			{
-				$ds->srem('utenti', $elm);	
+				$ds->srem('utenti', $elm);
 			}
 		}
 	}
