@@ -293,9 +293,8 @@ class PlgUserJoomla extends JPlugin
 	/**
 	 * This method handle db login logic
 	 *
-	 * @param   array  $instance     Holds the user data
-	 *	 
-	 * @param   array  $session      Array holding options (remember, autoregister, group)
+	 * @param   array  $instance  Holds the user data
+	 * @param   array  $session   Array holding options (remember, autoregister, group)
 	 *
 	 * @return  boolean  true or false.
 	 *
@@ -324,9 +323,8 @@ class PlgUserJoomla extends JPlugin
 	/**
 	 * This method handle Redis login logic
 	 *
-	 * @param   array  $instance     Holds the user data
-	 *
-	 * @param   array  $session      Array holding options (remember, autoregister, group)
+	 * @param   array  $instance  Holds the user data
+	 * @param   array  $session   Array holding options (remember, autoregister, group)
 	 *
 	 * @return  boolean  true or false.
 	 *
@@ -423,9 +421,8 @@ class PlgUserJoomla extends JPlugin
 	/**
 	 * This method will logout a user session from the Database
 	 *
-	 * @param   array    $user     Holds the user data.
-	 *
-	 * @param   array    $options  Array holding options (remember, autoregister, group).
+	 * @param   array  $user     Holds the user data
+	 * @param   array  $session  Array holding options (remember, autoregister, group)
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -453,9 +450,8 @@ class PlgUserJoomla extends JPlugin
 	/**
 	 * This method will logout a user session from Redis
 	 *
-	 * @param   array    $user     Holds the user data.
-	 *
-	 * @param   array    $options  Array holding options (remember, autoregister, group).
+	 * @param   array  $user     Holds the user data
+	 * @param   array  $session  Array holding options (remember, autoregister, group)
 	 *
 	 * @return  boolean  True on success
 	 *
