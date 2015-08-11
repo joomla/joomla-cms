@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Redis cache storage handler for PECL
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @since       3.4
+ * @since  3.4
  */
 class JCacheStorageRedis extends JCacheStorage
 {
@@ -55,7 +53,7 @@ class JCacheStorageRedis extends JCacheStorage
 
 		$cache_id = $this->_getCacheId($id, $group);
 		$config   = JFactory::getConfig();
-		$lifetime = (int) $config->get('cachetime', 15);	
+		$lifetime = (int) $config->get('cachetime', 15);
 
 		// Lifetime to seconds
 		$ds->setex($cache_id, $lifetime * 60, $data);
@@ -122,14 +120,14 @@ class JCacheStorageRedis extends JCacheStorage
 	}
 
 	/**
-	 * Test to see if the cache storage is available.	 
+	 * Test to see if the cache storage is available.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   3.4
 	 */
 	public static function isSupported()
-	{	
+	{
 		return class_exists('redis');
 	}
 }
