@@ -863,7 +863,7 @@ class JApplicationCms extends JApplicationWeb
 			default:
 				break;
 		}
-	
+
 		if ($time % 2 || $session->isNew())
 		{
 			$this->checkSession();
