@@ -19,7 +19,7 @@ abstract class ModStatusHelper
 	/**
 	 * The count of logged users from the Database.
 	 *
-	 * @param   $admin   boolean  True if we want the backend user.
+	 * @param   boolean  $admin  True if we want the backend user.
 	 *
 	 * @return  integer  The user count
 	 *
@@ -51,7 +51,7 @@ abstract class ModStatusHelper
 	/**
 	 * The count of logged users from the Redis Cache.
 	 *
-	 * @param   $admin   boolean  True if we want the backend user.
+	 * @param   boolean  $admin  True if we want the backend user.
 	 *
 	 * @return  integer  The user count
 	 *
@@ -92,10 +92,9 @@ abstract class ModStatusHelper
 			// @todo: If the try fails $data is not defined here.
 			$results[] = json_decode($data);
 
-			//foreach ($results as $k)
 			foreach ($results as $k => $result)
 			{
-				if ((int)$results[$k]->client_id == $admin)
+				if ((int) $results[$k]->client_id == $admin)
 				{
 					$logged_users++;
 				}
@@ -108,7 +107,7 @@ abstract class ModStatusHelper
 	/**
 	 * The count of logged users.
 	 *
-	 * @param   $admin   boolean  True if we want the backend user.
+	 * @param   boolean  $admin  True if we want the backend user.
 	 *
 	 * @return  integer  The user count
 	 *
@@ -116,7 +115,7 @@ abstract class ModStatusHelper
 	 */
 	public static function getOnlineCount($admin)
 	{
- 			$config  = JFactory::getConfig();
+			$config  = JFactory::getConfig();
 			$handler = $config->get('session_handler', 'none');
 			$results = null;
 
@@ -124,10 +123,10 @@ abstract class ModStatusHelper
 			{
 				case 'database':
 				case 'none':
-					$results = ModStatusHelper::getOnlineCountFromDb($admin);
+					$results = self::getOnlineCountFromDb($admin);
 					break;
 				case 'redis':
-					$results = ModStatusHelper::getOnlineCountFromRedis($admin);
+					$results = self::getOnlineCountFromRedis($admin);
 					break;
 				default:
 					break;
