@@ -35,7 +35,7 @@ class JSessionStorageRedis extends JSessionStorage
 		try
 		{
 			// Get the session data from the datastore.
-			$data   = $ds->get('sess-' . $id);  
+			$data   = $ds->get('sess-' . $id);
 			$result = json_decode($data);
 			$result = str_replace('\0\0\0', chr(0) . '*' . chr(0), $result);
 
@@ -45,7 +45,7 @@ class JSessionStorageRedis extends JSessionStorage
 		{
 			throw new RuntimeException(JText::_('JERROR_SESSION_REDIS_READ'));
 			return false;
-		}	 
+		}
 	}
 
 	/**
@@ -74,7 +74,7 @@ class JSessionStorageRedis extends JSessionStorage
 		$lifetime = ((JFactory::getConfig()->get('lifetime')) ? JFactory::getConfig()->get('lifetime') * 60 : 900);
 
 		try
-		{ 
+		{
 			$ds->setex($key, $lifetime, $jsonValue);
 
 			if ($user->get('id') > 0)
