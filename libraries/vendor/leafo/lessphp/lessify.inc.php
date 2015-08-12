@@ -49,7 +49,7 @@ class easyparse {
 	}
 
 	function literal($what, $eatWhitespace = true) {
-		// this is here mainly prevent notice from { } string accessor 
+		// this is here mainly prevent notice from { } string accessor
 		if ($this->count >= strlen($this->buffer)) return false;
 
 		// shortcut on single letter
@@ -73,9 +73,9 @@ class tagparse extends easyparse {
 	function parse() {
 		if (empty(self::$combinators)) {
 			self::$combinators = '('.implode('|', array_map(array($this, 'preg_quote'),
-				array('+', '>', '~'))).')';
+					array('+', '>', '~'))).')';
 			self::$match_opts = '('.implode('|', array_map(array($this, 'preg_quote'),
-				array('=', '~=', '|=', '$=', '*='))).')';
+					array('=', '~=', '|=', '$=', '*='))).')';
 		}
 
 		// crush whitespace
@@ -137,36 +137,36 @@ class tagparse extends easyparse {
 			for ($i = $this->count; $i < strlen($this->buffer); $i++) {
 				$char = $this->buffer[$i];
 				switch ($char) {
-				case $delim:
-					if ($escapeNext) {
+					case $delim:
+						if ($escapeNext) {
+							$buff .= $char;
+							$escapeNext = false;
+							break;
+						}
+						$finished = true;
+						break 2;
+					case "\\":
+						if ($escapeNext) {
+							$buff .= $char;
+							$escapeNext = false;
+						} else {
+							$escapeNext = true;
+						}
+						break;
+					case "\n":
+						if (!$escapeNext) {
+							break 3;
+						}
+
 						$buff .= $char;
 						$escapeNext = false;
 						break;
-					}
-					$finished = true;
-					break 2;
-				case "\\":
-					if ($escapeNext) {
+					default:
+						if ($escapeNext) {
+							$buff .= "\\";
+							$escapeNext = false;
+						}
 						$buff .= $char;
-						$escapeNext = false;
-					} else {
-						$escapeNext = true;
-					}
-					break;
-				case "\n":
-					if (!$escapeNext) {
-						break 3;
-					}
-					
-					$buff .= $char;
-					$escapeNext = false;
-					break;
-				default:
-					if ($escapeNext) {
-						$buff .= "\\";
-						$escapeNext = false;
-					}
-					$buff .= $char;
 				}
 			}
 			if (!$finished) break;
@@ -419,7 +419,7 @@ class lessify extends lessc {
 					$order[] = array('compressed', $common, $block);
 					continue;
 				}
-				
+
 			}
 
 			$order[] = array('none', $block['__tags'], $block);
