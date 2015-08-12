@@ -23,7 +23,7 @@
 		<folder>img</folder>
 		<folder>js</folder>
 		<folder>language</folder>
-	<folder>less</folder>
+		<folder>less</folder>
 	</files>
 	<positions>
 		<position>menu</position>
@@ -87,16 +87,16 @@
 					value="0">JNO</option>
 				</field>
 
-				<field name="enhancedButtons" type="radio"
-				       class="btn-group btn-group-yesno"
-				       default="0"
-				       label="TPL_ISIS_FIELD_ENHANCED_BUTTONS_LABEL"
-				       description="TPL_ISIS_FIELD_ENHANCED_BUTTONS_DESC"
-				       filter="integer">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+				<field
+					name="enhancedButtons"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="TPL_ISIS_FIELD_ENHANCED_BUTTONS_LABEL"
+					description="TPL_ISIS_FIELD_ENHANCED_BUTTONS_DESC"
+					filter="integer">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="displayHeader" type="radio"
