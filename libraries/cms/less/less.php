@@ -38,12 +38,13 @@ class JLess extends lessc
 		$this->setFormatter($formatter);
 	}
 
-	/*
+	/**
 	 * Override compile because $this->allParsedFiles needs to be an array
 	 *
 	 * For documentation on this please see /vendor/leafo/lessc.inc.php
 	 */
-	public function compile($string, $name = null) {
+	public function compile($string, $name = null)
+	{
 		$locale = setlocale(LC_NUMERIC, 0);
 		setlocale(LC_NUMERIC, "C");
 
@@ -56,11 +57,12 @@ class JLess extends lessc
 
 		$this->formatter = $this->newFormatter();
 
-		if (!empty($this->registeredVars)) {
+		if (!empty($this->registeredVars))
+		{
 			$this->injectVariables($this->registeredVars);
 		}
 
-		$this->sourceParser = $this->parser; // used for error messages
+		$this->sourceParser = $this->parser; // Used for error messages
 		$this->compileBlock($root);
 
 		ob_start();
