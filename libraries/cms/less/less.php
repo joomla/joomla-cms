@@ -45,10 +45,10 @@ class JLess extends lessc
 	 * 
 	 * For documentation on this please see /vendor/leafo/lessc.inc.php
 	 *
-	 * @param   string   $string   LESS string to parse.
-	 * @param   string   $name     The sourceName used for error messages.
+	 * @param   string  $string  LESS string to parse.
+	 * @param   string  $name    The sourceName used for error messages.
 	 *
-	 * @return  string   $out      The compiled css output.
+	 * @return  string  $out     The compiled css output.
 	 */
 	public function compile($string, $name = null)
 	{
