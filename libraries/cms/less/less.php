@@ -39,41 +39,21 @@ class JLess extends lessc
 	}
 
 	/**
-	 * Override compile because $this->allParsedFiles needs to be an array
+	 * Override compile to reset $this->allParsedFiles array to allow
+	 * parsing multiple files/strings using same imports.
+	 * PR: https://github.com/leafo/lessphp/pull/607
+	 * 
 	 * For documentation on this please see /vendor/leafo/lessc.inc.php
 	 *
-	 * @param   string   $string
-	 * @param   string   $name
+	 * @param   string   $string   LESS string to parse.
+	 * @param   string   $name     The sourceName used for error messages.
 	 *
-	 * @return string $out
+	 * @return  string   $out      The compiled css output.
 	 */
 	public function compile($string, $name = null)
 	{
-		$locale = setlocale(LC_NUMERIC, 0);
-		setlocale(LC_NUMERIC, "C");
-
-		$this->parser = $this->makeParser($name);
-		$root = $this->parser->parse($string);
-
-		$this->env = null;
-		$this->scope = null;
 		$this->allParsedFiles = array();
 
-		$this->formatter = $this->newFormatter();
-
-		if (!empty($this->registeredVars))
-		{
-			$this->injectVariables($this->registeredVars);
-		}
-
-		// Used for error messages
-		$this->sourceParser = $this->parser;
-		$this->compileBlock($root);
-
-		ob_start();
-		$this->formatter->block($this->scope);
-		$out = ob_get_clean();
-		setlocale(LC_NUMERIC, $locale);
-		return $out;
+		return parent::compile($string, $name);
 	}
 }
