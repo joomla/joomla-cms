@@ -40,8 +40,12 @@ class JLess extends lessc
 
 	/**
 	 * Override compile because $this->allParsedFiles needs to be an array
-	 *
 	 * For documentation on this please see /vendor/leafo/lessc.inc.php
+	 *
+	 * @param   string   $string
+	 * @param   string   $name
+	 *
+	 * @return string $out
 	 */
 	public function compile($string, $name = null)
 	{
@@ -62,7 +66,8 @@ class JLess extends lessc
 			$this->injectVariables($this->registeredVars);
 		}
 
-		$this->sourceParser = $this->parser; // Used for error messages
+		// Used for error messages
+		$this->sourceParser = $this->parser;
 		$this->compileBlock($root);
 
 		ob_start();
