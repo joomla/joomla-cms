@@ -86,9 +86,9 @@ JHtml::_('behavior.keepalive');
 <div>
 	<?php
 		$usersConfig = JComponentHelper::getParams('com_users'); ?>
-	<?php if ($usersConfig->get('allowUserRegistration') || $usersConfig->get('allowReset')) : ?>
+	<?php if ($usersConfig->get('allowUserRegistration') || $usersConfig->get('allowReset', 1)) : ?>
 		<ul class="nav nav-tabs nav-stacked">
-			<?php if ($usersConfig->get('allowReset')) : ?>
+			<?php if ($usersConfig->get('allowReset', 1)) : ?>
 				<li>
 					<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
 					<?php echo JText::_('COM_USERS_LOGIN_RESET'); ?></a>
