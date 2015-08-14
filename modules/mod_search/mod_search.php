@@ -39,7 +39,7 @@ $button_text		= htmlspecialchars($params->get('button_text', JText::_('MOD_SEARC
 $width			= (int) $params->get('width');
 $maxlength		= $upper_limit;
 $text			= htmlspecialchars($params->get('text', JText::_('MOD_SEARCH_SEARCHBOX_TEXT')));
-$label			= htmlspecialchars($params->get('label', JText::_('MOD_SEARCH_LABEL_TEXT')));
+$label			= htmlspecialchars($params->get('label', 0));
 $set_Itemid		= (int) $params->get('set_itemid', 0);
 $moduleclass_sfx	= htmlspecialchars($params->get('moduleclass_sfx'));
 
