@@ -36,7 +36,7 @@ class UsersControllerReset extends UsersController
 		$usersConfig = JComponentHelper::getParams('com_users');
 
 		// If allowReset option is disabled, throw a 403.
-		if ($usersConfig->get('allowReset') == 0)
+		if ($usersConfig->get('allowReset', 1) == 0)
 		{
 			JError::raiseError(403, JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 
