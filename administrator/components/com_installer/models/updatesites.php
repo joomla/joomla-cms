@@ -72,6 +72,8 @@ class InstallerModelUpdatesites extends InstallerModel
 		$group = $this->getUserStateFromRequest($this->context . '.filter.group', 'filter_group', '');
 		$this->setState('filter.group', $group);
 
+		$this->setState('list.ordering', 'name');
+
 		parent::populateState('name', 'asc');
 	}
 
