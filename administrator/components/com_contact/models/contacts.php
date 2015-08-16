@@ -46,6 +46,7 @@ class ContactModelContacts extends JModelList
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
 				'ul.name', 'linked_user',
+				'tag', 'category_id',
 			);
 
 			$assoc = JLanguageAssociations::isEnabled();
@@ -84,7 +85,7 @@ class ContactModelContacts extends JModelList
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', 0, 'int');
+		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
 		$this->setState('filter.access', $access);
 
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
