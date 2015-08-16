@@ -135,7 +135,7 @@ class UsersControllerUser extends UsersController
 	 * @since   3.5
 	 */
 	public function menulogout()
-	 {
+	{
 		// Get the application
 		$app    = JFactory::getApplication();
 
