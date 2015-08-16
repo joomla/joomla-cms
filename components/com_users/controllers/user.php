@@ -128,6 +128,41 @@ class UsersControllerUser extends UsersController
 	}
 
 	/**
+	 * Method to logout directly and redirect to page.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.5
+	 */
+	public function menulogout()
+	 {
+		// Get the application
+		$app    = JFactory::getApplication();
+
+		// Get the menu item params
+		$params	= $app->getMenu()->getActive()->params;
+
+		// Get the ItemID of the page to redirect after logout
+		$itemid = $params->get('logout');
+
+		// URL to redirect after logout
+		if ($itemid)
+		{
+			$url = 'index.php?Itemid=' . $itemid;
+		}
+		else
+		{
+			// Stay on the same page
+			$url = JUri::getInstance()->toString();
+		}
+
+		$return = base64_encode($url);
+
+		// Logout and redirect
+		$this->setRedirect('index.php?option=com_users&task=user.logout&' . JSession::getFormToken() . '=1&return=' . $return);
+	}
+
+	/**
 	 * Method to register a user.
 	 *
 	 * @return  boolean
