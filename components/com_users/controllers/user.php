@@ -136,30 +136,14 @@ class UsersControllerUser extends UsersController
 	 */
 	public function menulogout()
 	{
-		// Get the application
-		$app    = JFactory::getApplication();
-
-		// Get the menu item params
-		$params	= $app->getMenu()->getActive()->params;
-
 		// Get the ItemID of the page to redirect after logout
-		$itemid = $params->get('logout');
+		$itemid = JFactory::getApplication()->getMenu()->getActive()->params->get('logout');
 
-		// URL to redirect after logout
-		if ($itemid)
-		{
-			$url = 'index.php?Itemid=' . $itemid;
-		}
-		else
-		{
-			// Stay on the same page
-			$url = JUri::getInstance()->toString();
-		}
-
-		$return = base64_encode($url);
+		// URL to redirect after logout, current URL if no ItemID is set
+		$url = $itemid ? 'index.php?Itemid=' . $itemid : JUri::getInstance()->toString();
 
 		// Logout and redirect
-		$this->setRedirect('index.php?option=com_users&task=user.logout&' . JSession::getFormToken() . '=1&return=' . $return);
+		$this->setRedirect('index.php?option=com_users&task=user.logout&' . JSession::getFormToken() . '=1&return=' . base64_encode($url));
 	}
 
 	/**
