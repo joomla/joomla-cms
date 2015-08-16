@@ -95,7 +95,7 @@ abstract class ModulesHelper
 	 *
 	 * @return  array  A list of positions
 	 */
-	public static function getPositions($clientId, $editPositions = false)
+	public static function getPositions($clientId = null, $editPositions = false)
 	{
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true)
@@ -182,7 +182,7 @@ abstract class ModulesHelper
 	 *
 	 * @return  array  Array of unique modules
 	 */
-	public static function getModules($clientId)
+	public static function getModules($clientId = null)
 	{
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true)
