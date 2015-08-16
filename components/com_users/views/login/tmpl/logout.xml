@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_USER_LOGOUT_VIEW_DEFAULT_TITLE" option="COM_USER_LOGOUT_VIEW_DEFAULT_OPTION">
+		<help key = "JHELP_MENUS_MENU_ITEM_USER_LOGOUT"/>
+		<message>
+			<![CDATA[COM_USER_LOGOUT_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+
+	<!-- Add fields to the request variables for the layout. -->
+	<fields name="request">
+		<fieldset name="request">
+			<field
+				name="task"
+				type="hidden"
+				default="user.menulogout"
+			/>
+		</fieldset>
+	</fields>
+
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
+		<fieldset name="basic" label="COM_MENUS_BASIC_FIELDSET_LABEL">
+			<field
+				name="logout"
+				type="menuitem"
+				disable="separator,alias,heading,url"
+				label="JFIELD_LOGOUT_REDIRECT_PAGE_LABEL"
+				description="JFIELD_LOGOUT_REDIRECT_PAGE_DESC"
+			>
+				<option value="">JDEFAULT</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>
