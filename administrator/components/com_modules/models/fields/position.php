@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 JFormHelper::loadFieldClass('list');
 
@@ -23,20 +23,22 @@ class JFormFieldPosition extends JFormFieldList
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var    string
+	 * @since  3.5
 	 */
 	protected $type = 'Position';
+
 	/**
 	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   1.6
+	 * @since   3.5
 	 */
 	public function getOptions()
 	{
 		$options = ModulesHelper::getPositions();
+
 		return array_merge(parent::getOptions(), $options);
 	}
 }
