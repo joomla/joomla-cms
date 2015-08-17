@@ -139,8 +139,8 @@ class UsersControllerUser extends UsersController
 		// Get the ItemID of the page to redirect after logout
 		$itemid = JFactory::getApplication()->getMenu()->getActive()->params->get('logout');
 
-		// URL to redirect after logout, current URL if no ItemID is set
-		$url = $itemid ? 'index.php?Itemid=' . $itemid : JUri::getInstance()->toString();
+		// URL to redirect after logout, default page if no ItemID is set
+		$url = $itemid ? 'index.php?Itemid=' . $itemid : JURI::root();
 
 		// Logout and redirect
 		$this->setRedirect('index.php?option=com_users&task=user.logout&' . JSession::getFormToken() . '=1&return=' . base64_encode($url));
