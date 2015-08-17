@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once __DIR__ . '/default.php';
-
 /**
  * Formatter ruleset for Joomla formatted CSS generated via LESS
  *
