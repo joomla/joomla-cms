@@ -51,13 +51,13 @@ class TemplatesViewTemplates extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items			= $this->get('Items');
-		$this->pagination		= $this->get('Pagination');
-		$this->state			= $this->get('State');
-		$this->filterForm		= $this->get('FilterForm');
-		$this->activeFilters	= $this->get('ActiveFilters');
-		$this->preview    = JComponentHelper::getParams('com_templates')->get('template_positions_display');
-		$this->file       = base64_encode('home');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+		$this->preview       = JComponentHelper::getParams('com_templates')->get('template_positions_display');
+		$this->file          = base64_encode('home');
 
 		TemplatesHelper::addSubmenu('templates');
 

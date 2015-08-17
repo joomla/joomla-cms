@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 JFormHelper::loadFieldClass('list');
 
@@ -23,10 +23,11 @@ class JFormFieldTemplateName extends JFormFieldList
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var	   string
+	 * @since  3.5
 	 */
 	protected $type = 'TemplateName';
+
 	/**
 	 * Method to get the field options.
 	 *
@@ -37,6 +38,7 @@ class JFormFieldTemplateName extends JFormFieldList
 	public function getOptions()
 	{
 		$options = TemplatesHelper::getTemplateOptions();
+
 		return array_merge(parent::getOptions(), $options);
 	}
 }
