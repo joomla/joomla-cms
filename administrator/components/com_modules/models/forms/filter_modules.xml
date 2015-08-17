@@ -44,8 +44,6 @@
         <field
                 name="access"
                 type="accesslevel"
-                label="JOPTION_FILTER_ACCESS"
-                description="JOPTION_FILTER_ACCESS_DESC"
                 onchange="this.form.submit();"
                 >
             <option value="">JOPTION_SELECT_ACCESS</option>
@@ -54,8 +52,6 @@
         <field
                 name="language"
                 type="contentlanguage"
-                label="JOPTION_FILTER_LANGUAGE"
-                description="JOPTION_FILTER_LANGUAGE_DESC"
                 onchange="this.form.submit();"
                 >
             <option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -69,8 +65,6 @@
                 type="limitbox"
                 class="input-mini"
                 default="25"
-                label="COM_MODULES_LIST_LIMIT"
-                description="COM_MODULES_LIST_LIMIT_DESC"
                 onchange="this.form.submit();"
                 />
     </fields>
