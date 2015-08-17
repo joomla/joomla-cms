@@ -37,8 +37,8 @@ class JFormFieldExtensionStatus extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$options2 = InstallerHelper::getStateOptions();
+		$options = InstallerHelper::getStateOptions();
 
-		return array_merge(parent::getOptions(), $options2);
+		return array_merge(parent::getOptions(), $options);
 	}
 }
