@@ -6,15 +6,12 @@
         <field
                 name="search"
                 type="text"
-                label="COM_PLUGINS_FILTER_SEARCH_DESC"
                 hint="JSEARCH_FILTER"
                 />
 
         <field
                 name="client_id"
                 type="templatelocation"
-                label="JOPTION_FILTER_ACCESS"
-                description="JOPTION_FILTER_ACCESS_DESC"
                 onchange="this.form.submit();"
                 >
             <option value="">JGLOBAL_FILTER_CLIENT</option>
@@ -23,8 +20,6 @@
         <field
                 name="template"
                 type="templatename"
-                label="COM_PLUGINS_FILTER_PUBLISHED"
-                description="COM_PLUGINS_FILTER_PUBLISHED_DESC"
                 onchange="this.form.submit();"
                 >
             <option value="">JOPTION_SELECT_TEMPLATE</option>
@@ -37,8 +32,6 @@
                 type="limitbox"
                 class="input-mini"
                 default="25"
-                label="COM_PLUGINS_LIST_LIMIT"
-                description="COM_PLUGINS_LIST_LIMIT_DESC"
                 onchange="this.form.submit();"
                 />
     </fields>
