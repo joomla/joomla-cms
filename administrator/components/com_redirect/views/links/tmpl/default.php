@@ -23,8 +23,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 <form action="<?php echo JRoute::_('index.php?option=com_redirect&view=links'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container">
-		<div class="clearfix"> </div>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<div class="clearfix"> </div>
 			<?php if ($this->enabled) : ?>
 		<div class="alert alert-info">
 			<a class="close" data-dismiss="alert">&#215;</a>
