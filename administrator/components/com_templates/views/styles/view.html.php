@@ -31,13 +31,12 @@ class TemplatesViewStyles extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items			= $this->get('Items');
-		$this->pagination		= $this->get('Pagination');
-		$this->state			= $this->get('State');
-		$this->filterForm		= $this->get('FilterForm');
-		$this->activeFilters	= $this->get('ActiveFilters');
-
-		$this->preview    = JComponentHelper::getParams('com_templates')->get('template_positions_display');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+		$this->preview       = JComponentHelper::getParams('com_templates')->get('template_positions_display');
 
 		TemplatesHelper::addSubmenu('styles');
 
