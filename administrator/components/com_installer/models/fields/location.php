@@ -23,20 +23,22 @@ class JFormFieldLocation extends JFormFieldList
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var	   string
+	 * @since  3.5
 	 */
 	protected $type = 'Location';
+
 	/**
 	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   1.6
+	 * @since   3.5
 	 */
 	public function getOptions()
 	{
 		$options = InstallerHelper::getClientOptions();
+
 		return array_merge(parent::getOptions(), $options);
 	}
 }
