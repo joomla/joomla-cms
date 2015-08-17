@@ -52,6 +52,8 @@ class InstallerModelDiscover extends InstallerModel
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
 
+		$this->setState('list.ordering', 'name');
+
 		parent::populateState('name', 'asc');
 	}
 
