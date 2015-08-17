@@ -198,9 +198,24 @@ class JFilterInput
 			case 'INT':
 			case 'INTEGER':
 				// Only use the first integer value
-				preg_match('/-?[0-9]+/', (string) $source, $matches);
-				$result = @ (int) $matches[0];
-				break;
+				if (is_array($source))
+				{
+					foreach ($source as $key => $value)
+					{
+						if (is_string($value))
+						{
+							$source[$key] = preg_match('/-?[0-9]+/', (string) '', $value);
+							$source[$key] = ltrim($source[$key], '.');
+						}
+					}
+					$result = $source;
+				}
+				else
+				{
+					$result = (string) preg_replace('/-?[0-9]+/', '', $source);
+					$result = ltrim($result, '.');
+				}
+ 				break;
 
 			case 'UINT':
 				// Only use the first integer value
