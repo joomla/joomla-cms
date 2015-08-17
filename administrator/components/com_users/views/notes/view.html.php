@@ -62,12 +62,13 @@ class UsersViewNotes extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Initialise view variables.
-		$this->items      		= $this->get('Items');
-		$this->pagination 		= $this->get('Pagination');
-		$this->state      		= $this->get('State');
-		$this->user       		= $this->get('User');
-		$this->filterForm		= $this->get('FilterForm');
-		$this->activeFilters	= $this->get('ActiveFilters');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->user          = $this->get('User');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+
 		UsersHelper::addSubmenu('notes');
 
 		// Check for errors.
