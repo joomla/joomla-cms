@@ -19,7 +19,7 @@ class PostinstallModelMessages extends FOFModel
 	/**
 	 * Builds the SELECT query
 	 *
-	 * @param   boolean $overrideLimits Are we requested to override the set limits?
+	 * @param   boolean  $overrideLimits  Are we requested to override the set limits?
 	 *
 	 * @return  JDatabaseQuery
 	 *
@@ -45,7 +45,7 @@ class PostinstallModelMessages extends FOFModel
 	/**
 	 * Returns the name of an extension, as registered in the #__extensions table
 	 *
-	 * @param   integer $eid The extension ID
+	 * @param   integer  $eid  The extension ID
 	 *
 	 * @return  string  The extension name
 	 *
@@ -88,7 +88,7 @@ class PostinstallModelMessages extends FOFModel
 	/**
 	 * Resets all messages for an extension
 	 *
-	 * @param   integer $eid The extension ID whose messages we'll reset
+	 * @param   integer  $eid  The extension ID whose messages we'll reset
 	 *
 	 * @return  mixed  False if we fail, a db cursor otherwise
 	 *
