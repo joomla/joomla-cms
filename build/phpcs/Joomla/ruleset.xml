@@ -111,11 +111,7 @@
 
  <!-- Remove the following when the folder limitations are dropped -->
 
- <rule ref="Joomla.Classes.MethodScope">
-  <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
- </rule>
+ <rule ref="Joomla.Classes.MethodScope" />
 
  <rule ref="Joomla.Commenting.FunctionComment">
   <!-- We only want this for libraries, language and cli for now -->
