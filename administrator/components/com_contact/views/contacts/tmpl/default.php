@@ -246,7 +246,7 @@ JFactory::getDocument()->addScriptDeclaration(
 					</tr>
 				</tfoot>
 			</table>
-			<?php //Load the batch processing form. ?>
+			<?php // Load the batch processing form. ?>
 			<?php if ($user->authorise('core.create', 'com_contact')
 				&& $user->authorise('core.edit', 'com_contact')
 				&& $user->authorise('core.edit.state', 'com_contact')) : ?>

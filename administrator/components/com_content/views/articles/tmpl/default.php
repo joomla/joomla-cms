@@ -213,7 +213,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-			<?php //Load the batch processing form. ?>
+			<?php // Load the batch processing form. ?>
 			<?php if ($user->authorise('core.create', 'com_content')
 				&& $user->authorise('core.edit', 'com_content')
 				&& $user->authorise('core.edit.state', 'com_content')) : ?>

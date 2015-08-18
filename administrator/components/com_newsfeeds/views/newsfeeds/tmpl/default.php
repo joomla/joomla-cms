@@ -235,7 +235,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-			<?php //Load the batch processing form if user is allowed ?>
+			<?php // Load the batch processing form if user is allowed ?>
 			<?php if ($user->authorise('core.create', 'com_newsfeeds')
 				&& $user->authorise('core.edit', 'com_newsfeeds')
 				&& $user->authorise('core.edit.state', 'com_newsfeeds')) : ?>

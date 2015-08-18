@@ -189,7 +189,7 @@ if ($saveOrder)
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-			<?php //Load the batch processing form. ?>
+			<?php // Load the batch processing form. ?>
 			<?php if ($user->authorise('core.create', $extension)
 				&& $user->authorise('core.edit', $extension)
 				&& $user->authorise('core.edit.state', $extension)) : ?>

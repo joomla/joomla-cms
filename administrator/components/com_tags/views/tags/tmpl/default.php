@@ -227,7 +227,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				<?php endforeach; ?>
 				</tbody>
 			</table>
-			<?php //Load the batch processing form if user is allowed ?>
+			<?php // Load the batch processing form if user is allowed ?>
 			<?php if ($user->authorise('core.create', 'com_tags')
 				&& $user->authorise('core.edit', 'com_tags')
 				&& $user->authorise('core.edit.state', 'com_tags')) : ?>

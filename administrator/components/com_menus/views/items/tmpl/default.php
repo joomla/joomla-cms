@@ -227,7 +227,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-			<?php //Load the batch processing form.is user is allowed ?>
+			<?php // Load the batch processing form if user is allowed ?>
 			<?php if ($user->authorise('core.create', 'com_menus') || $user->authorise('core.edit', 'com_menus')) : ?>
 				<?php echo JHtml::_(
 					'bootstrap.renderModal',
