@@ -76,8 +76,6 @@
 
  <rule ref="Squiz.Operators.IncrementDecrementUsage">
   <exclude name="Squiz.Operators.IncrementDecrementUsage.processAssignment"/>
-  <!-- These exceptions are temporary -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
  </rule>
 
  <rule ref="Squiz.Scope.StaticThisUsage"/>
