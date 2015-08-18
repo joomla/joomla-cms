@@ -70,8 +70,8 @@ abstract class ContactHelperRoute
 	/**
 	 * Get the URL route for a contact category from a contact category ID and language
 	 *
-	 * @param   mixed    $catid     The id of the contact's category either an integer id or a instance of JCategoryNode
-	 * @param   mixed    $language  The id of the language being used.
+	 * @param   mixed  $catid     The id of the contact's category either an integer id or a instance of JCategoryNode
+	 * @param   mixed  $language  The id of the language being used.
 	 *
 	 * @return  string  The link to the contact
 	 *
@@ -120,6 +120,15 @@ abstract class ContactHelperRoute
 		return $link;
 	}
 
+	/**
+	 * Find an item ID.
+	 *
+	 * @param   array  $needles  An array of language codes.
+	 *
+	 * @return  mixed  The ID found or null otherwise.
+	 *
+	 * @since   1.6
+	 */
 	protected static function _findItem($needles = null)
 	{
 		$app      = JFactory::getApplication();

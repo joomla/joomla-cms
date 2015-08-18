@@ -271,7 +271,7 @@ class PostinstallModelMessages extends FOFModel
 	 *                      simple PHP user function (not a class method, static method etc) which returns no result.
 	 * 						Example: com_foobar_postinstall_messageone_action
 	 *
-	 * @param array $options See description
+	 * @param   array  $options  See description
 	 *
 	 * @return  $this for chaining
 	 *

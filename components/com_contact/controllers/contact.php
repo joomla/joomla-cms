@@ -167,9 +167,9 @@ class ContactControllerContact extends JControllerForm
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   array      $data                  The data to send in the email.
-	 * @param   stdClass   $contact               The user information to send the email to
-	 * @param   boolean    $copy_email_activated  True to send a copy of the email to the user.
+	 * @param   array     $data                  The data to send in the email.
+	 * @param   stdClass  $contact               The user information to send the email to
+	 * @param   boolean   $copy_email_activated  True to send a copy of the email to the user.
 	 *
 	 * @return  boolean  True on success sending the email, false on failure.
 	 *
