@@ -414,7 +414,7 @@ class PostinstallModelMessages extends FOFModel
 			}
 		}
 
-		//Check if the definition exists
+		// Check if the definition exists
 		$table     = $this->getTable();
 		$tableName = $table->getTableName();
 

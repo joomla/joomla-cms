@@ -183,7 +183,7 @@ if ($saveOrder)
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-			<?php //Load the batch processing form. ?>
+			<?php // Load the batch processing form. ?>
 			<?php if ($user->authorise('core.create', 'com_banners')
 				&& $user->authorise('core.edit', 'com_banners')
 				&& $user->authorise('core.edit.state', 'com_banners')) : ?>
