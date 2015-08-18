@@ -97,6 +97,21 @@ class ConfigModelApplication extends ConfigModelForm
 	{
 		$app = JFactory::getApplication();
 
+		// Check that we aren't setting wrong database configuration
+		$options = array(
+			'driver'   => $data['dbtype'],
+			'host'     => $data['host'],
+			'user'     => $data['user'],
+			'password' => JFactory::getConfig()->get('password'),
+			'database' => $data['db'],
+			'prefix'   => $data['dbprefix']
+		);
+		$dbc = JDatabaseDriver::getInstance($options)->getConnection();
+		if (!$dbc)
+		{
+			$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'), 'error');
+			return false;
+		}
 		// Save the rules
 		if (isset($data['rules']))
 		{
