@@ -23,7 +23,7 @@ class InstallerModelUpdatesites extends InstallerModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array $config An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
 	 * @since   3.4
@@ -47,8 +47,8 @@ class InstallerModelUpdatesites extends InstallerModel
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string $ordering  An optional ordering field.
-	 * @param   string $direction An optional direction (asc|desc).
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
@@ -78,8 +78,8 @@ class InstallerModelUpdatesites extends InstallerModel
 	/**
 	 * Enable/Disable an extension.
 	 *
-	 * @param   array &$eid  Extension ids to un/publish
-	 * @param   int   $value Publish value
+	 * @param   array  &$eid   Extension ids to un/publish
+	 * @param   int    $value  Publish value
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -194,9 +194,9 @@ class InstallerModelUpdatesites extends InstallerModel
 	/**
 	 * Returns an object list
 	 *
-	 * @param   string $query      The query
-	 * @param   int    $limitstart Offset
-	 * @param   int    $limit      The number of records
+	 * @param   string  $query       The query
+	 * @param   int     $limitstart  Offset
+	 * @param   int     $limit       The number of records
 	 *
 	 * @return  array
 	 *
