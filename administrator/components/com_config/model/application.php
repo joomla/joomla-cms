@@ -106,8 +106,11 @@ class ConfigModelApplication extends ConfigModelForm
 			'database' => $data['db'],
 			'prefix'   => $data['dbprefix']
 		);
-		$dbc = JDatabaseDriver::getInstance($options)->getConnection();
-		if (!$dbc)
+		try
+		{
+			$dbc = JDatabaseDriver::getInstance($options)->getVersion();
+		}
+		catch (Exception $e)
 		{
 			$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'), 'error');
 			return false;
