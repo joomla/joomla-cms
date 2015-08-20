@@ -106,6 +106,7 @@ class ConfigModelApplication extends ConfigModelForm
 			'database' => $data['db'],
 			'prefix'   => $data['dbprefix']
 		);
+
 		try
 		{
 			$dbc = JDatabaseDriver::getInstance($options)->getVersion();
@@ -113,8 +114,10 @@ class ConfigModelApplication extends ConfigModelForm
 		catch (Exception $e)
 		{
 			$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'), 'error');
+
 			return false;
 		}
+
 		// Save the rules
 		if (isset($data['rules']))
 		{
