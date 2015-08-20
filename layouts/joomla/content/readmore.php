@@ -7,6 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+defined('JPATH_BASE') or die;
+
+JHtml::_('bootstrap.framework');
+
 $params = $displayData['params'];
 $item = $displayData['item'];
 ?>
