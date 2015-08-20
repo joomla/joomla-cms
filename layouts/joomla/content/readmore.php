@@ -6,6 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+ 
+// No direct access
+defined('JPATH_BASE') or die;
+
+JHtml::_('bootstrap.framework');
 
 $params = $displayData['params'];
 $item = $displayData['item'];
