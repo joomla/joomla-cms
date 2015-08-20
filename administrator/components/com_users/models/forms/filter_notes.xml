@@ -10,7 +10,7 @@
                 />
 
         <field
-                name="enabled"
+                name="published"
                 type="status"
                 onchange="this.form.submit();"
                 >
