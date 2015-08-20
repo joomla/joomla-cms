@@ -126,6 +126,7 @@
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
+  border-color: #0088cc;
 }
 .chzn-container-single-nosearch .chzn-search {
   position: absolute;
@@ -240,7 +241,7 @@
   padding: 0;
 }
 .chzn-container .chzn-results li {
-  display: none;
+  display: block;
   line-height: 15px;
   padding: 5px 6px;
   margin: 0;
@@ -267,7 +268,7 @@
 }
 .chzn-container .chzn-results .group-result {
   cursor: default;
-  color: #999;
+  color: #000;
   font-weight: bold;
 }
 .chzn-container .chzn-results .group-option {
