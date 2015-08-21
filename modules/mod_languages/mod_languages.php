@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 // Include the syndicate functions only once
 require_once __DIR__ . '/helper.php';
 
-$headerText	= JString::trim($params->get('header_text'));
-$footerText	= JString::trim($params->get('footer_text'));
+$headerText = JString::trim($params->get('header_text'));
+$footerText = JString::trim($params->get('footer_text'));
 
 $list = ModLanguagesHelper::getList($params);
 
