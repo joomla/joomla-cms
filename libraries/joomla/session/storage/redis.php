@@ -30,7 +30,7 @@ class JSessionStorageRedis extends JSessionStorage
 	public function read($id)
 	{
 		// Get the databstore connection object and verify its connected.
-		$ds = JFactory::getDso();
+		$ds = JFactory::getRedis();
 
 		try
 		{
@@ -61,7 +61,7 @@ class JSessionStorageRedis extends JSessionStorage
 	public function write($id, $data)
 	{
 		// Get the datastore connection object and verify its connected.
-		$ds             = JFactory::getDso();
+		$ds             = JFactory::getRedis();
 		$db             = JFactory::getDbo();
 		$user           = JFactory::getUser();
 		$data           = str_replace(chr(0) . '*' . chr(0), '\0\0\0', $data);
@@ -99,7 +99,7 @@ class JSessionStorageRedis extends JSessionStorage
 		}
 		catch (Exception $e)
 		{
-			throw new RuntimeException(JText::_('JERROR_SESSION_redis_write'));
+			throw new RuntimeException(JText::_('JERROR_SESSION_REDIS_WRITE'));
 
 			return false;
 		}
@@ -116,7 +116,7 @@ class JSessionStorageRedis extends JSessionStorage
 	 */
 	public function destroy($id)
 	{
-		$ds = JFactory::getDso();
+		$ds = JFactory::getRedis();
 
 		try
 		{
@@ -141,7 +141,7 @@ class JSessionStorageRedis extends JSessionStorage
 	 */
 	public function gc($lifetime = 1440)
 	{
-		$ds = JFactory::getDso();
+		$ds = JFactory::getRedis();
 
 		try
 		{
