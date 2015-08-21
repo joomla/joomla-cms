@@ -118,17 +118,17 @@ class ConfigModelApplication extends ConfigModelForm
 
 			return false;
 		}
-		
+
 		// Check that we aren't setting wrong Redis configuration for cache if selected
-		$conf = (int)JFactory::getConfig()->get('caching', 0);
-		if (($data['cache_handler']==='redis') && ($conf != 0))
+		$conf = (int) JFactory::getConfig()->get('caching', 0);
+		if (($data['cache_handler'] === 'redis') && ($conf != 0))
 		{
 			$options = array(
-				  'host'   => $data['redis_server_host'],
-				  'port'   => $data['redis_server_port'],
-				  'auth'   => $data['redis_server_auth'],
-				  'db'     => $data['redis_server_db'],
-				  'driver' => 'redis'
+				'host'   => $data['redis_server_host'],
+				'port'   => $data['redis_server_port'],
+				'auth'   => $data['redis_server_auth'],
+				'db'     => $data['redis_server_db'],
+				'driver' => 'redis'
 			);
 
 			try
@@ -143,7 +143,7 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 
 		// Check that we aren't setting wrong Redis configuration for session
-		if ($data['session_handler']==='redis')
+		if ($data['session_handler'] === 'redis')
 		{
 			$options = array(
 				'host'   => $data['session_redis_server_host'],
