@@ -119,7 +119,6 @@
 
  <rule ref="Joomla.Commenting.SingleComment">
   <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
  </rule>
