@@ -133,7 +133,7 @@ class PlgContentPagebreak extends JPlugin
 		// We have found at least one plugin, therefore at least 2 pages.
 		if ($n > 1)
 		{
-			$title	= $this->params->get('title', 1);
+			$title  = $this->params->get('title', 1);
 			$hasToc = $this->params->get('multipage_toc', 1);
 
 			// Adds heading or title to <site> Title.
@@ -212,15 +212,15 @@ class PlgContentPagebreak extends JPlugin
 
 						if (isset($match['alt']))
 						{
-							$title	= stripslashes($match['alt']);
+							$title = stripslashes($match['alt']);
 						}
 						elseif (isset($match['title']))
 						{
-							$title	= stripslashes($match['title']);
+							$title = stripslashes($match['title']);
 						}
 						else
 						{
-							$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
+							$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
 						}
 
 						$t[] = (string) JHtml::_($style . '.panel', $title, 'article' . $row->id . '-' . $style . $key);
@@ -293,33 +293,33 @@ class PlgContentPagebreak extends JPlugin
 
 				if (@$attrs2['alt'])
 				{
-					$title	= stripslashes($attrs2['alt']);
+					$title = stripslashes($attrs2['alt']);
 				}
 				elseif (@$attrs2['title'])
 				{
-					$title	= stripslashes($attrs2['title']);
+					$title = stripslashes($attrs2['title']);
 				}
 				else
 				{
-					$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
+					$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 				}
 			}
 			else
 			{
-				$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
+				$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 			}
 
-			$liClass = ($limitstart == $i - 1) ? ' class="active"' : '';
-			$class   = ($limitstart == $i - 1) ? 'toclink active' : 'toclink';
+			$liClass   = ($limitstart == $i - 1) ? ' class="active"' : '';
+			$class     = ($limitstart == $i - 1) ? 'toclink active' : 'toclink';
 			$row->toc .= '<li' . $liClass . '><a href="' . $link . '" class="' . $class . '">' . $title . '</a></li>';
 			$i++;
 		}
 
 		if ($this->params->get('showall'))
 		{
-			$link    = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1&limitstart=');
-			$liClass = ($limitstart == $i - 1) ? ' class="active"' : '';
-			$class   = ($limitstart == $i - 1) ? 'toclink active' : 'toclink';
+			$link      = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1&limitstart=');
+			$liClass   = ($limitstart == $i - 1) ? ' class="active"' : '';
+			$class     = ($limitstart == $i - 1) ? 'toclink active' : 'toclink';
 			$row->toc .= '<li' . $liClass . '><a href="' . $link . '" class="' . $class . '">'
 				. JText::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES') . '</a></li>';
 		}
