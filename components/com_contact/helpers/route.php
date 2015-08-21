@@ -42,12 +42,12 @@ abstract class ContactHelperRoute
 
 		if ($catid > 1)
 		{
-			$categories	= JCategories::getInstance('Contact');
-			$category	= $categories->get($catid);
+			$categories = JCategories::getInstance('Contact');
+			$category   = $categories->get($catid);
 
 			if ($category)
 			{
-				$needles['category'] = array_reverse($category->getPath());
+				$needles['category']   = array_reverse($category->getPath());
 				$needles['categories'] = $needles['category'];
 				$link .= '&catid=' . $catid;
 			}

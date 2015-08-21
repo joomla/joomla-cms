@@ -228,10 +228,10 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
-		$title		= null;
+		$app     = JFactory::getApplication();
+		$menus   = $app->getMenu();
+		$pathway = $app->getPathway();
+		$title   = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself

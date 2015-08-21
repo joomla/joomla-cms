@@ -70,7 +70,7 @@ class ContentModelArticle extends JModelItem
 	 */
 	public function getItem($pk = null)
 	{
-		$user	= JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
