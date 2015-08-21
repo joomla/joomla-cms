@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,10 +32,10 @@ class ModFinderHelper
 	public static function getGetFields($route = null, $paramItem = 0)
 	{
 		// Determine if there is an item id before routing.
-		$needId = !JURI::getInstance($route)->getVar('Itemid');
+		$needId = !JUri::getInstance($route)->getVar('Itemid');
 
 		$fields = array();
-		$uri = JURI::getInstance(JRoute::_($route));
+		$uri = JUri::getInstance(JRoute::_($route));
 		$uri->delVar('q');
 
 		// Create hidden input elements for each part of the URI.
@@ -57,7 +57,7 @@ class ModFinderHelper
 	/**
 	 * Get Smart Search query object.
 	 *
-	 * @param   JRegistry  $params  Module parameters.
+	 * @param   \Joomla\Registry\Registry  $params  Module parameters.
 	 *
 	 * @return  FinderIndexerQuery object
 	 *

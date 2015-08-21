@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * XCache cache storage handler
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @link        http://xcache.lighttpd.net/
- * @since       11.1
+ * @link   http://xcache.lighttpd.net/
+ * @since  11.1
  */
 class JCacheStorageXcache extends JCacheStorage
 {

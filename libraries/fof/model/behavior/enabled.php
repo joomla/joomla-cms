@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -46,7 +46,12 @@ class FOFModelBehaviorEnabled extends FOFModelBehavior
 
 		// Filter by enabled fields only
 		$db = FOFPlatform::getInstance()->getDbo();
-		$query->where($db->qn($enabledField) . ' = ' . $db->q(1));
+
+		// Alias
+		$alias = $model->getTableAlias();
+		$alias = $alias ? $db->qn($alias) . '.' : '';
+
+		$query->where($alias . $db->qn($enabledField) . ' = ' . $db->q(1));
 	}
 
 	/**

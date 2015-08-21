@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -163,12 +163,12 @@ class UsersModelMail extends JModelAdmin
 		$mailer->setSender(array($app->get('mailfrom'), $app->get('fromname')));
 		$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes($subject));
 		$mailer->setBody($message_body . $params->get('mailBodySuffix'));
-		$mailer->IsHTML($mode);
+		$mailer->IsHtml($mode);
 
 		// Add recipients
 		if ($bcc)
 		{
-			$mailer->addBCC($rows);
+			$mailer->addBcc($rows);
 			$mailer->addRecipient($app->get('mailfrom'));
 		}
 		else

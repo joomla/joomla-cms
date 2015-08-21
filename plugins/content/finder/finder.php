@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Smart Search Content Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.finder
- * @since       2.5
+ * @since  2.5
  */
 class PlgContentFinder extends JPlugin
 {

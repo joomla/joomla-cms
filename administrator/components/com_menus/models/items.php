@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,7 +64,11 @@ class MenusModelItems extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -175,6 +179,8 @@ class MenusModelItems extends JModelList
 	 * Builds an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery    A query object.
+	 *
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -189,19 +195,31 @@ class MenusModelItems extends JModelList
 			$this->getState(
 				'list.select',
 				$db->quoteName(
-					array('a.id', 'a.menutype', 'a.title', 'a.alias', 'a.note', 'a.path', 'a.link', 'a.type', 'a.parent_id', 'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav', 'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language', 'a.client_id'),
-					array(null, null, null, null, null, null, null, null, null, null, 'apublished', null, null, null, null, null, null, null, null, null, null, null, null, null)
+					array(
+						'a.id', 'a.menutype', 'a.title', 'a.alias', 'a.note', 'a.path', 'a.link', 'a.type', 'a.parent_id',
+						'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav',
+						'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language', 'a.client_id'
+					),
+					array(
+						null, null, null, null, null, null, null, null, null,
+						null, 'apublished', null, null, null, null,
+						null, null, null, null, null, null, null, null, null
+					)
 				)
 			)
 		);
 		$query->select(
-			'CASE a.type' .
-				' WHEN ' . $db->quote('component') . ' THEN a.published+2*(e.enabled-1) ' .
-				' WHEN ' . $db->quote('url') . ' THEN a.published+2 ' .
-				' WHEN ' . $db->quote('alias') . ' THEN a.published+4 ' .
-				' WHEN ' . $db->quote('separator') . ' THEN a.published+6 ' .
-				' WHEN ' . $db->quote('heading') . ' THEN a.published+8 ' .
-				' END AS published'
+			'CASE ' .
+				' WHEN a.type = ' . $db->quote('component') . ' THEN a.published+2*(e.enabled-1) ' .
+				' WHEN a.type = ' . $db->quote('url') . 'AND a.published != -2 THEN a.published+2 ' .
+				' WHEN a.type = ' . $db->quote('url') . 'AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('alias') . 'AND a.published != -2 THEN a.published+4 ' .
+				' WHEN a.type = ' . $db->quote('alias') . 'AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('separator') . 'AND a.published != -2 THEN a.published+6 ' .
+				' WHEN a.type = ' . $db->quote('separator') . 'AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('heading') . 'AND a.published != -2 THEN a.published+8 ' .
+				' WHEN a.type = ' . $db->quote('heading') . 'AND a.published = -2 THEN a.published-1 ' .
+			' END AS published '
 		);
 		$query->from($db->quoteName('#__menu') . ' AS a');
 
@@ -229,7 +247,7 @@ class MenusModelItems extends JModelList
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_menus.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id');
+				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name');
 		}
 
 		// Join over the extensions

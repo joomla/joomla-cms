@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class to transliterate strings
  *
- * @package     Joomla.Platform
- * @subpackage  Language
- * @since       11.1
- * @note        Port of phputf8's utf8_accents_to_ascii()
+ * @since  11.1
+ * @note   Port of phputf8's utf8_accents_to_ascii()
  */
 class JLanguageTransliterate
 {

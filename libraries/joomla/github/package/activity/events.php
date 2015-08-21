@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/activity/events/
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Activity
- * @since       3.3 (CMS)
+ * @since  3.3 (CMS)
  */
 class JGithubPackageActivityEvents extends JGithubPackage
 {

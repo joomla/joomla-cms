@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ require_once JPATH_COMPONENT . '/models/category.php';
 /**
  * HTML Contact View class for the Contact component
  *
- * @package     Joomla.Site
- * @subpackage  com_contact
- * @since       1.5
+ * @since  1.5
  */
 class ContactViewContact extends JViewLegacy
 {
@@ -113,14 +111,14 @@ class ContactViewContact extends JViewLegacy
 		{
 			$item->email_to = JHtml::_('email.cloak', $item->email_to);
 		}
-			if ($params->get('show_street_address') || $params->get('show_suburb') || $params->get('show_state')
-				|| $params->get('show_postcode') || $params->get('show_country'))
+		if ($params->get('show_street_address') || $params->get('show_suburb') || $params->get('show_state')
+			|| $params->get('show_postcode') || $params->get('show_country'))
+		{
+			if (!empty ($item->address) || !empty ($item->suburb) || !empty ($item->state) || !empty ($item->country) || !empty ($item->postcode))
 			{
-				if (!empty ($item->address) || !empty ($item->suburb) || !empty ($item->state) || !empty ($item->country) || !empty ($item->postcode))
-				{
-					$params->set('address_check', 1);
-				}
+				$params->set('address_check', 1);
 			}
+		}
 		else
 		{
 			$params->set('address_check', 0);
@@ -270,7 +268,7 @@ class ContactViewContact extends JViewLegacy
 
 	/**
 	 * Prepares the document
-	 * 
+	 *
 	 * @return  void
 	 */
 	protected function _prepareDocument()
@@ -346,7 +344,7 @@ class ContactViewContact extends JViewLegacy
 		{
 			$this->document->setDescription($this->item->metadesc);
 		}
-		elseif (!$this->item->metadesc && $this->params->get('menu-meta_description'))
+		elseif ($this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));
 		}
@@ -355,7 +353,7 @@ class ContactViewContact extends JViewLegacy
 		{
 			$this->document->setMetadata('keywords', $this->item->metakey);
 		}
-		elseif (!$this->item->metakey && $this->params->get('menu-meta_keywords'))
+		elseif ($this->params->get('menu-meta_keywords'))
 		{
 			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
 		}

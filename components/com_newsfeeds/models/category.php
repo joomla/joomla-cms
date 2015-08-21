@@ -3,18 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Newsfeeds Component Category Model
  *
- * @package     Joomla.Site
- * @subpackage  com_newsfeeds
- * @since       1.5
+ * @since  1.5
  */
 class NewsfeedsModelCategory extends JModelList
 {
@@ -88,7 +88,7 @@ class NewsfeedsModelCategory extends JModelList
 		{
 			if (!isset($this->_params))
 			{
-				$params = new JRegistry;
+				$params = new Registry;
 				$item->params = $params;
 				$params->loadString($item->params);
 			}
@@ -136,6 +136,10 @@ class NewsfeedsModelCategory extends JModelList
 		if (is_numeric($state))
 		{
 			$query->where('a.published = ' . (int) $state);
+		}
+		else
+		{
+			$query->where('(a.published IN (0,1,2))');
 		}
 
 		// Filter by start and end dates.
@@ -251,7 +255,7 @@ class NewsfeedsModelCategory extends JModelList
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry;
+			$params = new Registry;
 
 			if ($active)
 			{

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,20 +14,20 @@ require_once JPATH_COMPONENT . '/controller.php';
 /**
  * Registration controller class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersControllerUser extends UsersController
 {
 	/**
 	 * Method to log in a user.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function login()
 	{
-		JSession::checkToken('post') or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app    = JFactory::getApplication();
 		$input  = $app->input;
@@ -40,6 +40,12 @@ class UsersControllerUser extends UsersController
 		$data['username']  = $input->$method->get('username', '', 'USERNAME');
 		$data['password']  = $input->$method->get('password', '', 'RAW');
 		$data['secretkey'] = $input->$method->get('secretkey', '', 'RAW');
+
+		// Don't redirect to an external URL.
+		if (!JUri::isInternal($data['return']))
+		{
+			$data['return'] = '';
+		}
 
 		// Set the return URL if empty.
 		if (empty($data['return']))
@@ -85,15 +91,17 @@ class UsersControllerUser extends UsersController
 	/**
 	 * Method to log out a user.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function logout()
 	{
-		JSession::checkToken('request') or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app = JFactory::getApplication();
 
-		// Perform the log in.
+		// Perform the log out.
 		$error  = $app->logout();
 		$input  = $app->input;
 		$method = $input->getMethod();
@@ -104,6 +112,7 @@ class UsersControllerUser extends UsersController
 			// Get the return url from the request and validate that it is internal.
 			$return = $input->$method->get('return', '', 'BASE64');
 			$return = base64_decode($return);
+
 			if (!JUri::isInternal($return))
 			{
 				$return = '';
@@ -120,6 +129,8 @@ class UsersControllerUser extends UsersController
 
 	/**
 	 * Method to register a user.
+	 *
+	 * @return  boolean
 	 *
 	 * @since   1.6
 	 */
@@ -161,6 +172,7 @@ class UsersControllerUser extends UsersController
 
 			// Redirect back to the registration form.
 			$this->setRedirect('index.php?option=com_users&view=registration');
+
 			return false;
 		}
 
@@ -176,17 +188,20 @@ class UsersControllerUser extends UsersController
 			// Redirect back to the registration form.
 			$message = JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError());
 			$this->setRedirect('index.php?option=com_users&view=registration', $message, 'error');
+
 			return false;
 		}
 
 		// Flush the data from the session.
 		$app->setUserState('users.registration.form.data', null);
 
-		exit;
+		return true;
 	}
 
 	/**
 	 * Method to login a user.
+	 *
+	 * @return  boolean
 	 *
 	 * @since   1.6
 	 */
@@ -257,6 +272,8 @@ class UsersControllerUser extends UsersController
 
 	/**
 	 * Method to login a user.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

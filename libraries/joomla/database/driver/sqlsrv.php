@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQL Server database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @see         http://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
- * @since       12.1
+ * @see    http://msdn.microsoft.com/en-us/library/cc296152(SQL.90).aspx
+ * @since  12.1
  */
 class JDatabaseDriverSqlsrv extends JDatabaseDriver
 {
@@ -138,6 +136,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			$this->select($this->options['database']);
 		}
+
+		// Set charactersets.
+		$this->utf = $this->setUtf();
 	}
 
 	/**
@@ -361,6 +362,10 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
+				if (stristr(strtolower($field->Type), "nvarchar"))
+				{
+					$field->Default = "";
+				}
 				$result[$field->Field] = $field;
 			}
 		}
@@ -646,7 +651,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 					$this->errorMsg = $errors[0]['message'] . 'SQL=' . $query;
 
 					// Throw the normal query exception.
-					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 					throw new RuntimeException($this->errorMsg, $this->errorNum);
 				}
 
@@ -662,7 +667,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				$this->errorMsg = $errors[0]['message'] . 'SQL=' . $query;
 
 				// Throw the normal query exception.
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
 		}
@@ -806,9 +811,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
-		// TODO: Remove this?
+		return false;
 	}
 
 	/**
@@ -1023,7 +1028,6 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$rowNumberText = ', ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
 
 		$query = preg_replace('/\sFROM\s/i', $rowNumberText, $query, 1);
-		$query = 'SELECT * FROM (' . $query . ') _myResults WHERE RowNumber BETWEEN ' . $start . ' AND ' . $end;
 
 		return $query;
 	}

@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
@@ -181,7 +183,7 @@ class FinderIndexerQuery
 		$this->mode = 'AND';
 
 		// Initialize the temporary date storage.
-		$this->dates = new JRegistry;
+		$this->dates = new Registry;
 
 		// Populate the temporary date storage.
 		if (isset($options['date1']) && !empty($options['date1']))
@@ -269,7 +271,7 @@ class FinderIndexerQuery
 	 *
 	 * @since   2.5
 	 */
-	public function toURI($base = null)
+	public function toUri($base = null)
 	{
 		// Set the base if not specified.
 		if (empty($base))
@@ -506,7 +508,7 @@ class FinderIndexerQuery
 		$this->filter = (int) $filterId;
 
 		// Get a parameter object for the filter date options.
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadString($return->params);
 		$params = $registry;
 
@@ -691,7 +693,7 @@ class FinderIndexerQuery
 		if ($date->toUnix() !== null)
 		{
 			// Set the date filter.
-			$this->date1 = $date->toSQL();
+			$this->date1 = $date->toSql();
 			$this->when1 = in_array($when1, $whens) ? $when1 : 'before';
 		}
 
@@ -709,7 +711,7 @@ class FinderIndexerQuery
 		if ($date->toUnix() !== null)
 		{
 			// Set the date filter.
-			$this->date2 = $date->toSQL();
+			$this->date2 = $date->toSql();
 			$this->when2 = in_array($when2, $whens) ? $when2 : 'before';
 		}
 
@@ -817,7 +819,7 @@ class FinderIndexerQuery
 						if ($date->toUnix() !== null)
 						{
 							// Set the date filter.
-							$this->date1 = $date->toSQL();
+							$this->date1 = $date->toSql();
 							$this->when1 = in_array($modifier, $whens) ? $modifier : 'before';
 						}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_popular
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ abstract class ModArticlesPopularHelper
 	/**
 	 * Get a list of popular articles from the articles model
 	 *
-	 * @param   JRegistry  &$params  object holding the models parameters
+	 * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
 	 *
 	 * @return mixed
 	 */
@@ -54,6 +54,18 @@ abstract class ModArticlesPopularHelper
 		// Category filter
 		$model->setState('filter.category_id', $params->get('catid', array()));
 
+		// Date filter
+		$date_filtering = $params->get('date_filtering', 'off');
+
+		if ($date_filtering !== 'off')
+		{
+			$model->setState('filter.date_filtering', $date_filtering);
+			$model->setState('filter.date_field', $params->get('date_field', 'a.created'));
+			$model->setState('filter.start_date_range', $params->get('start_date_range', '1000-01-01 00:00:00'));
+			$model->setState('filter.end_date_range', $params->get('end_date_range', '9999-12-31 23:59:59'));
+			$model->setState('filter.relative_date', $params->get('relative_date', 30));
+		}
+
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
@@ -71,7 +83,7 @@ abstract class ModArticlesPopularHelper
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
+				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 			else
 			{

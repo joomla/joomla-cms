@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
@@ -74,7 +76,7 @@ class InstallerModelDatabase extends InstallerModel
 
 		try
 		{
-			$changeSet = JSchemaChangeset::getInstance(JFactory::getDbo(), $folder);
+			$changeSet = JSchemaChangeset::getInstance($this->getDbo(), $folder);
 		}
 		catch (RuntimeException $e)
 		{
@@ -106,7 +108,7 @@ class InstallerModelDatabase extends InstallerModel
 	 */
 	public function getSchemaVersion()
 	{
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('version_id')
 			->from($db->quoteName('#__schemas'))
@@ -128,39 +130,34 @@ class InstallerModelDatabase extends InstallerModel
 	{
 		// Get correct schema version -- last file in array.
 		$schema = $changeSet->getSchema();
-		$db = JFactory::getDbo();
-		$result = false;
 
 		// Check value. If ok, don't do update.
-		$version = $this->getSchemaVersion();
-
-		if ($version == $schema)
+		if ($schema == $this->getSchemaVersion())
 		{
-			$result = $version;
-		}
-		else
-		{
-			// Delete old row.
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__schemas'))
-				->where($db->quoteName('extension_id') . ' = 700');
-			$db->setQuery($query);
-			$db->execute();
-
-			// Add new row.
-			$query->clear()
-				->insert($db->quoteName('#__schemas'))
-				->set($db->quoteName('extension_id') . '= 700')
-				->set($db->quoteName('version_id') . '= ' . $db->quote($schema));
-			$db->setQuery($query);
-
-			if ($db->execute())
-			{
-				$result = $schema;
-			}
+			return $schema;
 		}
 
-		return $result;
+		// Delete old row.
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__schemas'))
+			->where($db->quoteName('extension_id') . ' = 700');
+		$db->setQuery($query);
+		$db->execute();
+
+		// Add new row.
+		$query->clear()
+			->insert($db->quoteName('#__schemas'))
+			->columns($db->quoteName('extension_id') . ',' . $db->quoteName('version_id'))
+			->values('700, ' . $db->quote($schema));
+		$db->setQuery($query);
+
+		if (!$db->execute())
+		{
+			return false;
+		}
+
+		return $schema;
 	}
 
 	/**
@@ -173,7 +170,7 @@ class InstallerModelDatabase extends InstallerModel
 	{
 		$table = JTable::getInstance('Extension');
 		$table->load('700');
-		$cache = new JRegistry($table->manifest_cache);
+		$cache = new Registry($table->manifest_cache);
 
 		return $cache->get('version');
 	}
@@ -187,7 +184,7 @@ class InstallerModelDatabase extends InstallerModel
 	{
 		$table = JTable::getInstance('Extension');
 		$table->load('700');
-		$cache = new JRegistry($table->manifest_cache);
+		$cache = new Registry($table->manifest_cache);
 		$updateVersion = $cache->get('version');
 		$cmsVersion = new JVersion;
 
@@ -195,20 +192,16 @@ class InstallerModelDatabase extends InstallerModel
 		{
 			return $updateVersion;
 		}
-		else
-		{
-			$cache->set('version', $cmsVersion->getShortVersion());
-			$table->manifest_cache = $cache->toString();
 
-			if ($table->store())
-			{
-				return $cmsVersion->getShortVersion();
-			}
-			else
-			{
-				return false;
-			}
+		$cache->set('version', $cmsVersion->getShortVersion());
+		$table->manifest_cache = $cache->toString();
+
+		if ($table->store())
+		{
+			return $cmsVersion->getShortVersion();
 		}
+
+		return false;
 	}
 
 	/**
@@ -244,7 +237,7 @@ class InstallerModelDatabase extends InstallerModel
 
 			if ($contentParams->get('filters'))
 			{
-				$newParams = new JRegistry;
+				$newParams = new Registry;
 				$newParams->set('filters', $contentParams->get('filters'));
 				$table->params = (string) $newParams;
 				$table->store();

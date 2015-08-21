@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Languages Override Model
@@ -133,6 +135,16 @@ class LanguagesModelOverride extends JModelAdmin
 			$client = 1 - $client;
 		}
 
+		// return false if the constant is a reserved word, i.e. YES, NO, NULL, FALSE, ON, OFF, NONE, TRUE
+		$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
+
+		if (in_array($data['key'], $blacklist))
+		{
+			$this->setError(JText::_('COM_LANGUAGES_OVERRIDE_ERROR_RESERVED_WORDS'));
+
+			return false;
+		}
+
 		$client = $client ? 'administrator' : 'site';
 
 		// Parse the override.ini file in oder to get the keys and strings.
@@ -167,7 +179,7 @@ class LanguagesModelOverride extends JModelAdmin
 		}
 
 		// Write override.ini file with the strings.
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadObject($strings);
 		$reg = $registry->toString('INI');
 

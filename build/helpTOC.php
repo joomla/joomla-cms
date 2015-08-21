@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Build
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,10 +35,9 @@ ini_set('display_errors', 1);
 JFactory::getLanguage()->load('joomla', JPATH_ADMINISTRATOR, null, false, false);
 
 /**
- * Utility CLI to retrieve the list of help screens from the docs wiki and create an index for the admin help view
+ * Utility CLI to retrieve the list of help screens from the docs wiki and create an index for the admin help view.
  *
- * @package  Joomla.Build
- * @since    3.0
+ * @since  3.0
  */
 class MediawikiCli extends JApplicationCli
 {
@@ -58,7 +57,7 @@ class MediawikiCli extends JApplicationCli
 
 		// Set up options for JMediawiki
 		$options = new JRegistry;
-		$options->set('api.url', 'http://docs.joomla.org');
+		$options->set('api.url', 'https://docs.joomla.org');
 
 		$mediawiki = new JMediawiki($options);
 

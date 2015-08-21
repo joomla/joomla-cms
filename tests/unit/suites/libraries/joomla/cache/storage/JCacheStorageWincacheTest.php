@@ -2,11 +2,9 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
-
-include_once JPATH_PLATFORM . '/joomla/cache/storage/wincache.php';
 
 /**
  * Test class for JCacheStorageWincache.
@@ -14,120 +12,79 @@ include_once JPATH_PLATFORM . '/joomla/cache/storage/wincache.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Cache
- *
  * @since       11.1
  */
 class JCacheStorageWincacheTest extends PHPUnit_Framework_TestCase
 {
-
 	/**
-	 * @var JCacheStorageWincache
+	 * @var    JCacheStorageWincache
 	 */
 	protected $object;
 
 	/**
-	 * Test Get()
-	 *
-	 * @todo Implement testGet().
-	 *
-	 * @return void
+	 * @var    boolean
 	 */
-	public function testGet()
+	protected $extensionAvailable;
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 */
+	protected function setUp()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		parent::setUp();
+
+		$this->extensionAvailable = extension_loaded('wincache') && function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), '1');
+
+		if ($this->extensionAvailable)
+		{
+			$this->object = JCacheStorage::getInstance('wincache');
+		}
+		else
+		{
+			$this->markTestSkipped('This caching method is not supported on this system.');
+		}
 	}
 
 	/**
-	 * Test...
+	 * Testing isSupported().
 	 *
-	 * @todo Implement testGetAll().
-	 *
-	 * @return void
-	 */
-	public function testGetAll()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testStore().
-	 *
-	 * @return void
-	 */
-	public function testStore()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testRemove().
-	 *
-	 * @return void
-	 */
-	public function testRemove()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testClean().
-	 *
-	 * @return void
-	 */
-	public function testClean()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGc().
-	 *
-	 * @return void
-	 */
-	public function testGc()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testIsSupported().
-	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function testIsSupported()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
+		$this->assertEquals(
+			$this->extensionAvailable,
+			$this->object->isSupported(),
+			'Claims Wincache is not loaded.'
 		);
 	}
 
+	/**
+	 * Testing lock().
+	 *
+	 * @return  void
+	 */
+	public function testLock()
+	{
+		$this->assertFalse(
+			$this->object->lock(),
+			'Should return default false'
+		);
+	}
+
+	/**
+	 * Testing unlock().
+	 *
+	 * @return  void
+	 */
+	public function testUnlock()
+	{
+		$this->assertFalse(
+			$this->object->unlock(),
+			'Should return default false'
+		);
+	}
 }

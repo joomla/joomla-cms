@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,9 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * Acts as a Factory class for application specific objects and
  * provides many supporting API functions.
  *
- * @package     Joomla.Legacy
- * @subpackage  Model
- * @since       12.2
+ * @since  12.2
  */
 abstract class JModelLegacy extends JObject
 {
@@ -32,7 +30,7 @@ abstract class JModelLegacy extends JObject
 	/**
 	 * Database Connector
 	 *
-	 * @var    object
+	 * @var    JDatabaseDriver
 	 * @since  12.2
 	 */
 	protected $_db;
@@ -56,7 +54,7 @@ abstract class JModelLegacy extends JObject
 	/**
 	 * A state object
 	 *
-	 * @var    string
+	 * @var    JObject
 	 * @since  12.2
 	 */
 	protected $state;
@@ -262,11 +260,14 @@ abstract class JModelLegacy extends JObject
 		{
 			$this->addTablePath($config['table_path']);
 		}
+		// @codeCoverageIgnoreStart
 		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
 		}
+
+		// @codeCoverageIgnoreEnd
 
 		// Set the internal state marker - used to ignore setting state from the request
 		if (!empty($config['ignore_request']))
@@ -316,14 +317,16 @@ abstract class JModelLegacy extends JObject
 	 */
 	protected function _getListCount($query)
 	{
-		// Use fast COUNT(*) on JDatabaseQuery objects if there no GROUP BY or HAVING clause:
+		// Use fast COUNT(*) on JDatabaseQuery objects if there is no GROUP BY or HAVING clause:
 		if ($query instanceof JDatabaseQuery
 			&& $query->type == 'select'
 			&& $query->group === null
+			&& $query->union === null
+			&& $query->unionAll === null
 			&& $query->having === null)
 		{
 			$query = clone $query;
-			$query->clear('select')->clear('order')->clear('limit')->select('COUNT(*)');
+			$query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
 
 			$this->_db->setQuery($query);
 
@@ -331,6 +334,14 @@ abstract class JModelLegacy extends JObject
 		}
 
 		// Otherwise fall back to inefficient way of counting all results.
+
+		// Remove the limit and offset part if it's a JDatabaseQuery object
+		if ($query instanceof JDatabaseQuery)
+		{
+			$query = clone $query;
+			$query->clear('limit')->clear('offset');
+		}
+
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 

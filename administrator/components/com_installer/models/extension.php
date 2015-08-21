@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,11 +67,11 @@ class InstallerModel extends JModelList
 
 			if (!empty($search))
 			{
-				$search = str_replace(' ', '.*', preg_quote(trim($search), '/'));
+				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
 
 				foreach ($result as $i => $item)
 				{
-					if (!preg_match("/$search/i", $item->name))
+					if (!preg_match("/$escapedSearchString/i", $item->name))
 					{
 						unset($result[$i]);
 					}
@@ -90,14 +90,12 @@ class InstallerModel extends JModelList
 
 			return array_slice($result, $limitstart, $limit ? $limit : null);
 		}
-		else
-		{
-			$query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
-			$result = parent::_getList($query, $limitstart, $limit);
-			$this->translate($result);
 
-			return $result;
-		}
+		$query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+		$result = parent::_getList($query, $limitstart, $limit);
+		$this->translate($result);
+
+		return $result;
 	}
 
 	/**
@@ -107,28 +105,23 @@ class InstallerModel extends JModelList
 	 *
 	 * @return  array The array of translated objects
 	 */
-	private function translate(&$items)
+	protected function translate(&$items)
 	{
 		$lang = JFactory::getLanguage();
 
 		foreach ($items as &$item)
 		{
-			if (strlen($item->manifest_cache))
+			if (strlen($item->manifest_cache) && $data = json_decode($item->manifest_cache))
 			{
-				$data = json_decode($item->manifest_cache);
-
-				if ($data)
+				foreach ($data as $key => $value)
 				{
-					foreach ($data as $key => $value)
+					if ($key == 'type')
 					{
-						if ($key == 'type')
-						{
-							// Ignore the type field
-							continue;
-						}
-
-						$item->$key = $value;
+						// Ignore the type field
+						continue;
 					}
+
+					$item->$key = $value;
 				}
 			}
 
@@ -158,10 +151,6 @@ class InstallerModel extends JModelList
 						$lang->load("$extension.sys", $path, null, false, true)
 					||	$lang->load("$extension.sys", $source, null, false, true);
 				break;
-				case 'package':
-					$extension = $item->element;
-						$lang->load("$extension.sys", JPATH_SITE, null, false, true);
-				break;
 				case 'plugin':
 					$extension = 'plg_' . $item->folder . '_' . $item->element;
 					$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
@@ -173,6 +162,11 @@ class InstallerModel extends JModelList
 					$source = $path . '/templates/' . $item->element;
 						$lang->load("$extension.sys", $path, null, false, true)
 					||	$lang->load("$extension.sys", $source, null, false, true);
+				break;
+				case 'package':
+				default:
+					$extension = $item->element;
+						$lang->load("$extension.sys", JPATH_SITE, null, false, true);
 				break;
 			}
 

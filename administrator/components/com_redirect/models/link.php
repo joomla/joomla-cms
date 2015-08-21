@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -105,6 +105,14 @@ class RedirectModelLink extends JModelAdmin
 			// Disable fields while saving.
 			// The controller has already verified this is a record you can edit.
 			$form->setFieldAttribute('published', 'filter', 'unset');
+		}
+
+		// If in advanced mode then we make sure the new url field is not compulsory and the header
+		// field compulsory in case people select non-3xx redirects
+		if (JComponentHelper::getParams('com_redirect')->get('mode', 0) == true)
+		{
+			$form->setFieldAttribute('new_url', 'required', 'false');
+			$form->setFieldAttribute('header', 'required', 'true');
 		}
 
 		return $form;

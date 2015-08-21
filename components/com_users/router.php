@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_users
  *
- * @package     Joomla.Site
- * @subpackage  com_users
- * @since       3.2
+ * @since  3.2
  */
 class UsersRouter extends JComponentRouterBase
 {
@@ -45,9 +43,7 @@ class UsersRouter extends JComponentRouterBase
 		if (empty($items))
 		{
 			// Get all relevant menu items.
-			$app = JFactory::getApplication();
-			$menu = $app->getMenu();
-			$items = $menu->getItems('component', 'com_users');
+			$items = $this->menu->getItems('component', 'com_users');
 
 			// Build an array of serialized query strings to menu item id mappings.
 			for ($i = 0, $n = count($items); $i < $n; $i++)
@@ -169,7 +165,9 @@ class UsersRouter extends JComponentRouterBase
 					{
 						$segments[] = $query['view'];
 					}
+
 					unset ($query['view']);
+
 					if ($query['Itemid'] = $profile)
 					{
 						unset ($query['view']);
@@ -181,10 +179,12 @@ class UsersRouter extends JComponentRouterBase
 
 					// Only append the user id if not "me".
 					$user = JFactory::getUser();
+
 					if (!empty($query['user_id']) && ($query['user_id'] != $user->id))
 					{
 						$segments[] = $query['user_id'];
 					}
+
 					unset ($query['user_id']);
 
 					break;
@@ -232,6 +232,7 @@ class UsersRouter extends JComponentRouterBase
 		if (!is_numeric($userId))
 		{
 			$vars['view'] = 'profile';
+
 			return $vars;
 		}
 
@@ -273,16 +274,29 @@ class UsersRouter extends JComponentRouterBase
  * These functions are proxys for the new router interface
  * for old SEF extensions.
  *
+ * @param   array  &$query  REQUEST query
+ *
+ * @return  array  Segments of the SEF url
+ *
  * @deprecated  4.0  Use Class based routers instead
  */
-function UsersBuildRoute(&$query)
+function usersBuildRoute(&$query)
 {
 	$router = new UsersRouter;
 
 	return $router->build($query);
 }
 
-function UsersParseRoute($segments)
+/**
+ * Convert SEF URL segments into query variables
+ *
+ * @param   array  $segments  Segments in the current URL
+ *
+ * @return  array  Query variables
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function usersParseRoute($segments)
 {
 	$router = new UsersRouter;
 

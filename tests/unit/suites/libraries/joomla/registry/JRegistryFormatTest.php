@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Registry
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,28 +27,28 @@ class JRegistryFormatTest extends PHPUnit_Framework_TestCase
 		// Test INI format.
 		$object = JRegistryFormat::getInstance('INI');
 		$this->assertInstanceOf(
-			'JRegistryFormatINI',
+			'JRegistryFormatIni',
 			$object
 		);
 
 		// Test JSON format.
 		$object = JRegistryFormat::getInstance('JSON');
 		$this->assertInstanceOf(
-			'JRegistryFormatJSON',
+			'JRegistryFormatJson',
 			$object
 		);
 
 		// Test PHP format.
 		$object = JRegistryFormat::getInstance('PHP');
 		$this->assertInstanceOf(
-			'JRegistryFormatPHP',
+			'JRegistryFormatPhp',
 			$object
 		);
 
 		// Test XML format.
 		$object = JRegistryFormat::getInstance('XML');
 		$this->assertInstanceOf(
-			'JRegistryFormatXML',
+			'JRegistryFormatXml',
 			$object
 		);
 

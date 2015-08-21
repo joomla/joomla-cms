@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="user">
+<extension version="3.1" type="plugin" group="user" method="upgrade">
 	<name>plg_user_profile</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2008</creationDate>
-	<copyright>(C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_USER_PROFILE_XML_DESCRIPTION</description>
-
 	<files>
 		<filename plugin="profile">profile.php</filename>
-		<filename>index.html</filename>
 		<folder>profiles</folder>
+		<folder>fields</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_user_profile.ini</language>
@@ -21,15 +20,15 @@
 	</languages>
 	<config>
 		<fields name="params">
-
-			<fieldset name="basic"
-				addfieldpath="/administrator/components/com_content/models/fields">
-				<field name="register-require-user" type="spacer" class="text"
+			<fieldset name="basic" addfieldpath="/administrator/components/com_content/models/fields">
+				<field name="register-require-user"
+					type="spacer"
+					class="text"
 					label="PLG_USER_PROFILE_FIELD_NAME_REGISTER_REQUIRE_USER"
 				/>
 
-				<field name="register-require_address1" type="list"
-
+				<field name="register-require_address1"
+					type="list"
 					description="PLG_USER_PROFILE_FIELD_ADDRESS1_DESC"
 					label="PLG_USER_PROFILE_FIELD_ADDRESS1_LABEL"
 				>
@@ -38,8 +37,8 @@
 					<option value="0">JDISABLED</option>
 				</field>
 
-				<field name="register-require_address2" type="list"
-
+				<field name="register-require_address2"
+					type="list"
 					description="PLG_USER_PROFILE_FIELD_ADDRESS2_DESC"
 					label="PLG_USER_PROFILE_FIELD_ADDRESS2_LABEL"
 				>
@@ -48,8 +47,8 @@
 					<option value="0">JDISABLED</option>
 				</field>
 
-				<field name="register-require_city" type="list"
-
+				<field name="register-require_city"
+					type="list"
 					description="PLG_USER_PROFILE_FIELD_CITY_DESC"
 					label="PLG_USER_PROFILE_FIELD_CITY_LABEL"
 				>
@@ -58,8 +57,8 @@
 					<option value="0">JDISABLED</option>
 				</field>
 
-				<field name="register-require_region" type="list"
-
+				<field name="register-require_region"
+					type="list"
 					description="PLG_USER_PROFILE_FIELD_REGION_DESC"
 					label="PLG_USER_PROFILE_FIELD_REGION_LABEL"
 				>
@@ -68,8 +67,8 @@
 					<option value="0">JDISABLED</option>
 				</field>
 
-				<field name="register-require_country" type="list"
-
+				<field name="register-require_country"
+					type="list"
 					description="PLG_USER_PROFILE_FIELD_COUNTRY_DESC"
 					label="PLG_USER_PROFILE_FIELD_COUNTRY_LABEL"
 				>
@@ -78,8 +77,8 @@
 					<option value="0">JDISABLED</option>
 				</field>
 
-				<field name="register-require_postal_code" type="list"
-
+				<field name="register-require_postal_code"
+					type="list"
 					description="PLG_USER_PROFILE_FIELD_POSTAL_CODE_DESC"
 					label="PLG_USER_PROFILE_FIELD_POSTAL_CODE_LABEL"
 				>
@@ -88,8 +87,8 @@
 					<option value="0">JDISABLED</option>
 				</field>
 
-				<field name="register-require_phone" type="list"
-
+				<field name="register-require_phone"
+					type="list"
 					description="PLG_USER_PROFILE_FIELD_PHONE_DESC"
 					label="PLG_USER_PROFILE_FIELD_PHONE_LABEL"
 				>
@@ -98,8 +97,8 @@
 					<option value="0">JDISABLED</option>
 				</field>
 
-				<field name="register-require_website" type="list"
-
+				<field name="register-require_website"
+					type="list"
 					description="PLG_USER_PROFILE_FIELD_WEB_SITE_DESC"
 					label="PLG_USER_PROFILE_FIELD_WEB_SITE_LABEL"
 				>
@@ -109,7 +108,6 @@
 				</field>
 				<field 	name="register-require_favoritebook"
 					type="list"
-
 					label="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_LABEL"
 					description="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_DESC"
 				>
@@ -121,7 +119,6 @@
 				<field
 					name="register-require_aboutme"
 					type="list"
-
 					label="PLG_USER_PROFILE_FIELD_ABOUT_ME_LABEL"
 					description="PLG_USER_PROFILE_FIELD_ABOUT_ME_DESC"
 				>

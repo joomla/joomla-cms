@@ -3,18 +3,18 @@
  * @package     Joomla.Legacy
  * @subpackage  Categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * JCategories Class.
  *
- * @package     Joomla.Legacy
- * @subpackage  Categories
- * @since       11.1
+ * @since  11.1
  */
 class JCategories
 {
@@ -106,6 +106,8 @@ class JCategories
 		$this->_statefield = (isset($options['statefield'])) ? $options['statefield'] : 'state';
 		$options['access'] = (isset($options['access'])) ? $options['access'] : 'true';
 		$options['published'] = (isset($options['published'])) ? $options['published'] : 1;
+		$options['countItems'] = (isset($options['countItems'])) ? $options['countItems'] : 0;
+		$options['currentlang'] = JLanguageMultilang::isEnabled() ? JFactory::getLanguage()->getTag() : 0;
 		$this->_options = $options;
 
 		return true;
@@ -259,20 +261,21 @@ class JCategories
 			->where('badcats.id is null');
 
 		// Note: i for item
-		if (isset($this->_options['countItems']) && $this->_options['countItems'] == 1)
+		if ($this->_options['countItems'] == 1)
 		{
+			$queryjoin = $db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id';
+
 			if ($this->_options['published'] == 1)
 			{
-				$query->join(
-					'LEFT',
-					$db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id AND i.' . $this->_statefield . ' = 1'
-				);
-			}
-			else
-			{
-				$query->join('LEFT', $db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id');
+				$queryjoin .= ' AND i.' . $this->_statefield . ' = 1';
 			}
 
+			if ($this->_options['currentlang'] !== 0)
+			{
+				$queryjoin .= ' AND (i.language = ' . $db->quote('*') . ' OR i.language = ' . $db->quote($this->_options['currentlang']) . ')';
+			}
+
+			$query->join('LEFT', $queryjoin);
 			$query->select('COUNT(i.' . $db->quoteName($this->_key) . ') AS numitems');
 		}
 
@@ -344,7 +347,9 @@ class JCategories
 						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
 					}
 
-					if (!isset($this->_nodes[$result->parent_id]))
+					// If the node's parent id is not in the _nodes list and the node is not root (doesn't have parent_id == 0),
+					// then remove the node from the list
+					if (!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0))
 					{
 						unset($this->_nodes[$result->id]);
 						continue;
@@ -368,9 +373,7 @@ class JCategories
 /**
  * Helper class to load Categorytree
  *
- * @package     Joomla.Legacy
- * @subpackage  Categories
- * @since       11.1
+ * @since  11.1
  */
 class JCategoryNode extends JObject
 {
@@ -890,15 +893,15 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the category parameters
 	 *
-	 * @return  JRegistry
+	 * @return  Registry
 	 *
 	 * @since   11.1
 	 */
 	public function getParams()
 	{
-		if (!($this->params instanceof JRegistry))
+		if (!($this->params instanceof Registry))
 		{
-			$temp = new JRegistry;
+			$temp = new Registry;
 			$temp->loadString($this->params);
 			$this->params = $temp;
 		}
@@ -909,15 +912,15 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the category metadata
 	 *
-	 * @return  JRegistry  A JRegistry object containing the metadata
+	 * @return  Registry  A Registry object containing the metadata
 	 *
 	 * @since   11.1
 	 */
 	public function getMetadata()
 	{
-		if (!($this->metadata instanceof JRegistry))
+		if (!($this->metadata instanceof Registry))
 		{
-			$temp = new JRegistry;
+			$temp = new Registry;
 			$temp->loadString($this->metadata);
 			$this->metadata = $temp;
 		}

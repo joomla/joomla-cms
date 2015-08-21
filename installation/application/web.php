@@ -3,18 +3,18 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla! Installation Application class.
  *
- * @package     Joomla.Installation
- * @subpackage  Application
- * @since       3.1
+ * @since  3.1
  */
 final class InstallationApplicationWeb extends JApplicationCms
 {
@@ -25,32 +25,14 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	public function __construct()
 	{
+		// Register the application name.
+		$this->_name = 'installation';
+
+		// Register the client ID.
+		$this->_clientId = 2;
+
 		// Run the parent constructor.
 		parent::__construct();
-
-		// Load and set the dispatcher.
-		$this->loadDispatcher();
-
-		// Enable sessions by default.
-		if (is_null($this->config->get('session')))
-		{
-			$this->config->set('session', true);
-		}
-
-		// Set the session default name.
-		if (is_null($this->config->get('session_name')))
-		{
-			$this->config->set('session_name', 'installation');
-		}
-
-		// Create the session if a session name is passed.
-		if ($this->config->get('session') !== false)
-		{
-			$this->loadSession();
-
-			// Register the session with JFactory.
-			JFactory::$session = $this->getSession();
-		}
 
 		// Store the debug value to config based on the JDEBUG flag.
 		$this->config->set('debug', JDEBUG);
@@ -60,12 +42,6 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 		// Register the application to JFactory.
 		JFactory::$application = $this;
-
-		// Register the application name.
-		$this->_name = 'installation';
-
-		// Register the client ID.
-		$this->_clientId = 2;
 
 		// Set the root in the URI one level up.
 		$parts = explode('/', JUri::base(true));
@@ -382,7 +358,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		{
 			$template = new stdClass;
 			$template->template = 'template';
-			$template->params = new JRegistry;
+			$template->params = new Registry;
 
 			return $template;
 		}
@@ -453,7 +429,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		// Check for custom helpurl.
 		if (empty($forced['helpurl']))
 		{
-			$options['helpurl'] = 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}';
+			$options['helpurl'] = 'https://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}';
 		}
 		else
 		{
@@ -496,7 +472,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 				'lineend' => 'unix',
 				'tab' => '  ',
 				'language' => $lang->getTag(),
-				'direction' => $lang->isRTL() ? 'rtl' : 'ltr'
+				'direction' => $lang->isRtl() ? 'rtl' : 'ltr'
 			);
 
 			$document = JDocument::getInstance($type, $attributes);
@@ -554,14 +530,17 @@ final class InstallationApplicationWeb extends JApplicationCms
 			$session->start();
 		}
 
-		if (!$session->get('registry') instanceof JRegistry)
+		if (!$session->get('registry') instanceof Registry)
 		{
 			// Registry has been corrupted somehow.
-			$session->set('registry', new JRegistry('session'));
+			$session->set('registry', new Registry('session'));
 		}
 
 		// Set the session object.
 		$this->session = $session;
+
+		// Register the session with JFactory.
+		JFactory::$session = $session;
 
 		return $this;
 	}

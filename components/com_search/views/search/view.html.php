@@ -3,18 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTML View class for the search component
  *
- * @package     Joomla.Site
- * @subpackage  com_search
- * @since       1.0
+ * @since  1.0
  */
 class SearchViewSearch extends JViewLegacy
 {
@@ -48,7 +48,7 @@ class SearchViewSearch extends JViewLegacy
 		// Because the application sets a default page title, we need to get it right from the menu item itself
 		if (is_object($menu))
 		{
-			$menu_params = new JRegistry;
+			$menu_params = new Registry;
 			$menu_params->loadString($menu->params);
 
 			if (!$menu_params->get('page_title'))

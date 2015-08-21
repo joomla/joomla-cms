@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,12 +60,6 @@ $twofactormethods = UsersHelper::getTwoFactorMethods();
 			<p id="form-login-secretkey">
 				<label for="secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
 				<input type="text" name="secretkey" class="inputbox" size="18" alt="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" id="secretkey" />
-			</p>
-		<?php endif; ?>
-		<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
-			<p id="form-login-remember">
-				<label for="remember"><?php echo JText::_('JGLOBAL_REMEMBER_ME'); ?></label>
-				<input type="checkbox" name="remember" class="inputbox" value="yes" alt="<?php echo JText::_('JGLOBAL_REMEMBER_ME'); ?>" id="remember" />
 			</p>
 		<?php endif; ?>
 		<p id="submit-buton">

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,15 +41,6 @@ class ModulesViewModules extends JViewLegacy
 			JError::raiseError(500, implode("\n", $errors));
 
 			return false;
-		}
-
-		// Check if there are no matching items
-		if (!count($this->items))
-		{
-			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_MODULES_MSG_MANAGE_NO_MODULES'),
-				'warning'
-			);
 		}
 
 		$this->addToolbar();
@@ -102,15 +93,6 @@ class ModulesViewModules extends JViewLegacy
 			JToolbarHelper::checkin('modules.checkin');
 		}
 
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
-		{
-			JToolbarHelper::deleteList('', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			JToolbarHelper::trash('modules.trash');
-		}
-
 		// Add a batch button
 		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
 			&& $user->authorise('core.edit.state', 'com_modules'))
@@ -125,24 +107,21 @@ class ModulesViewModules extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
+			JToolbarHelper::deleteList('', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::trash('modules.trash');
+		}
+
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_modules');
 		}
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
-
-		JHtmlSidebar::addEntry(
-			JText::_('JSITE'),
-			'index.php?option=com_modules&filter_client_id=0',
-			$this->state->get('filter.client_id') == 0
-		);
-
-		JHtmlSidebar::addEntry(
-			JText::_('JADMINISTRATOR'),
-			'index.php?option=com_modules&filter_client_id=1',
-			$this->state->get('filter.client_id') == 1
-		);
 
 		JHtmlSidebar::setAction('index.php?option=com_modules');
 

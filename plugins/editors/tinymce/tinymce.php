@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * TinyMCE Editor Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Editors.tinymce
- * @since       1.5
+ * @since  1.5
  */
 class PlgEditorTinymce extends JPlugin
 {
@@ -48,16 +46,38 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onInit()
 	{
+		$app      = JFactory::getApplication();
 		$language = JFactory::getLanguage();
 		$mode     = (int) $this->params->get('mode', 1);
 		$theme    = 'modern';
-		$skin     = $this->params->get('skin', '0');
 
-		switch ($skin)
+		// List the skins
+		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
+
+		// Set the selected skin
+		if ($app->isSite())
 		{
-			case '0':
-			default:
+			if ((int) $this->params->get('skin', 0) < count($skindirs))
+			{
+				$skin = 'skin : "' . basename($skindirs[(int) $this->params->get('skin', 0)]) . '",';
+			}
+			else
+			{
 				$skin = 'skin : "lightgray",';
+			}
+		}
+
+		// Set the selected administrator skin
+		elseif ($app->isAdmin())
+		{
+			if ((int) $this->params->get('skin_admin', 0) < count($skindirs))
+			{
+				$skin = 'skin : "' . basename($skindirs[(int) $this->params->get('skin_admin', 0)]) . '",';
+			}
+			else
+			{
+				$skin = 'skin : "lightgray",';
+			}
 		}
 
 		$entity_encoding = $this->params->get('entity_encoding', 'raw');
@@ -82,7 +102,7 @@ class PlgEditorTinymce extends JPlugin
 
 		$text_direction = 'ltr';
 
-		if ($language->isRTL())
+		if ($language->isRtl())
 		{
 			$text_direction = 'rtl';
 		}
@@ -100,7 +120,16 @@ class PlgEditorTinymce extends JPlugin
 			->where('client_id=0 AND home=' . $db->quote('1'));
 
 		$db->setQuery($query);
-		$template = $db->loadResult();
+		try
+		{
+			$template = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+
+			return;
+		}
 
 		$content_css    = '';
 		$templates_path = JPATH_SITE . '/templates';
@@ -204,12 +233,20 @@ class PlgEditorTinymce extends JPlugin
 			$image_advtab = "false";
 		}
 
-		// The param is true false, so we turn true to both rather than showing vertical resize only
+		// The param is true for vertical resizing only, false or both
 		$resizing = $this->params->get('resizing', '1');
+		$resize_horizontal = $this->params->get('resize_horizontal', '1');
 
 		if ($resizing || $resizing == 'true')
 		{
-			$resizing = 'resize: "both",';
+			if ($resize_horizontal || $resize_horizontal == 'true')
+			{
+				$resizing = 'resize: "both",';
+			}
+			else
+			{
+				$resizing = 'resize: true,';
+			}
 		}
 		else
 		{
@@ -472,10 +509,34 @@ class PlgEditorTinymce extends JPlugin
 			}
 			else
 			{
-				$templates = "templates: [
-					{title: 'Layout', description: 'HTMLLayout', url:'" . JUri::root() . "media/editors/tinymce/templates/layout1.html'},
-					{title: 'Simple snippet', description: 'Simple HTML snippet', url:'" . JUri::root() . "media/editors/tinymce/templates/snippet1.html'}
-				],";
+				$templates = 'templates: [';
+
+				foreach (glob(JPATH_ROOT . '/media/editors/tinymce/templates/*.html') as $filename)
+				{
+					$filename = basename($filename, '.html');
+
+					if ($filename !== 'index')
+					{
+						$lang = JFactory::getLanguage();
+						$title = $filename;
+						$description = ' ';
+
+						if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE'))
+						{
+							$title = JText::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE');
+						}
+
+						if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC'))
+						{
+							$description = JText::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC');
+						}
+
+						$templates .= '{title: \'' . $title . '\', description: \'' . $description . '\', url:\''
+									. JUri::root() . 'media/editors/tinymce/templates/' . $filename . '.html\'},';
+					}
+				}
+
+				$templates .= '],';
 			}
 		}
 		else
@@ -564,13 +625,13 @@ class PlgEditorTinymce extends JPlugin
 		$mobileVersion = $this->params->get('mobile', 0);
 
 		$load = "\t<script type=\"text/javascript\" src=\"" .
-				JUri::root() . $this->_basePath .
-				"/tinymce.min.js\"></script>\n";
+			JUri::root() . $this->_basePath .
+			"/tinymce.min.js\"></script>\n";
 
 		/**
 		 * Shrink the buttons if not on a mobile or if mobile view is off.
 		 * If mobile view is on force into simple mode and enlarge the buttons
-		**/
+		 **/
 		if (!$this->app->client->mobile)
 		{
 			$smallButtons = 'toolbar_items_size: "small",';
@@ -589,7 +650,7 @@ class PlgEditorTinymce extends JPlugin
 		{
 			case 0: /* Simple mode*/
 				$return = $load .
-				"\t<script type=\"text/javascript\">
+					"\t<script type=\"text/javascript\">
 					tinymce.init({
 						// General
 						directionality: \"$text_direction\",
@@ -616,14 +677,14 @@ class PlgEditorTinymce extends JPlugin
 						document_base_url : \"" . JUri::root() . "\"
 					});
 				</script>";
-			break;
+				break;
 
 			case 1:
 			default: /* Advanced mode*/
 				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist";
 				$toolbar2 = "outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap";
 				$return = $load .
-				"\t<script type=\"text/javascript\">
+					"\t<script type=\"text/javascript\">
 				tinyMCE.init({
 					// General
 					directionality: \"$text_direction\",
@@ -663,11 +724,11 @@ class PlgEditorTinymce extends JPlugin
 
 				});
 				</script>";
-			break;
+				break;
 
 			case 2: /* Extended mode*/
 				$return = $load .
-				"\t<script type=\"text/javascript\">
+					"\t<script type=\"text/javascript\">
 				tinyMCE.init({
 					// General
 					directionality: \"$text_direction\",
@@ -727,7 +788,7 @@ class PlgEditorTinymce extends JPlugin
 
 				});
 				</script>";
-			break;
+				break;
 		}
 
 		return $return;
@@ -742,7 +803,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onGetContent($editor)
 	{
-		return 'tinyMCE.get(\'' . $editor . '\').getContent();';
+		return 'tinyMCE.activeEditor.getContent();';
 	}
 
 	/**
@@ -755,7 +816,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onSetContent($editor, $html)
 	{
-		return 'tinyMCE.get(\'' . $editor . '\').setContent(' . $html . ');';
+		return 'tinyMCE.activeEditor.setContent(' . $html . ');';
 	}
 
 	/**
@@ -767,7 +828,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onSave($editor)
 	{
-		return 'if (tinyMCE.get("' . $editor . '").isHidden()) {tinyMCE.get("' . $editor . '").show()}; tinyMCE.get("' . $editor . '").save();';
+		return 'if (tinyMCE.get("' . $editor . '").isHidden()) {tinyMCE.get("' . $editor . '").show()};';
 	}
 
 	/**
@@ -779,32 +840,14 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onGetInsertMethod($name)
 	{
-		$doc = JFactory::getDocument();
-
-		$js = "
-			function isBrowserIE()
-			{
-				return navigator.appName==\"Microsoft Internet Explorer\";
-			}
-
+		JFactory::getDocument()->addScriptDeclaration(
+			"
 			function jInsertEditorText( text, editor )
 			{
 				tinyMCE.execCommand('mceInsertContent', false, text);
 			}
-
-			var global_ie_bookmark = false;
-
-			function IeCursorFix()
-			{
-				if (isBrowserIE())
-				{
-					tinyMCE.execCommand('mceInsertContent', false, '');
-					global_ie_bookmark = tinyMCE.activeEditor.selection.getBookmark(false);
-				}
-				return true;
-			}";
-
-		$doc->addScriptDeclaration($js);
+			"
+		);
 
 		return true;
 	}
@@ -897,6 +940,7 @@ class PlgEditorTinymce extends JPlugin
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
+
 			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
 

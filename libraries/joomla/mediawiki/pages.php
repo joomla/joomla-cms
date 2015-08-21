@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  MediaWiki
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MediaWiki API Pages class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  MediaWiki
- * @since       12.3
+ * @since  12.3
  */
 class JMediawikiPages extends JMediawikiObject
 {
@@ -102,7 +100,7 @@ class JMediawikiPages extends JMediawikiObject
 	 *
 	 * @since   12.3
 	 */
-	public function deletePageByID($pageid,  $reason = null, $watchlist = null, $oldimage = null)
+	public function deletePageById($pageid,  $reason = null, $watchlist = null, $oldimage = null)
 	{
 		// Get the token.
 		$token = $this->getToken($pageid, 'delete');
@@ -220,7 +218,7 @@ class JMediawikiPages extends JMediawikiObject
 	 *
 	 * @since   12.3
 	 */
-	public function movePageByID($fromid, $to, $reason = null, $movetalk = null, $movesubpages = null, $noredirect = null,
+	public function movePageById($fromid, $to, $reason = null, $movetalk = null, $movesubpages = null, $noredirect = null,
 		$watchlist =null, $ignorewarnings = null)
 	{
 		// Get the token.

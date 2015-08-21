@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_popular
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ abstract class ModTagsPopularHelper
 	/**
 	 * Get list of popular tags
 	 *
-	 * @param   JRegistry  &$params  module parameters
+	 * @param   \Joomla\Registry\Registry  &$params  module parameters
 	 *
 	 * @return mixed
 	 */
@@ -32,7 +32,7 @@ abstract class ModTagsPopularHelper
 		$groups 		= implode(',', $user->getAuthorisedViewLevels());
 		$timeframe		= $params->get('timeframe', 'alltime');
 		$maximum		= $params->get('maximum', 5);
-		$order_value	= $params->get('order_value', 'count');
+		$order_value	= $params->get('order_value', 'title');
 		$nowDate		= JFactory::getDate()->toSql();
 		$nullDate		= $db->quote($db->getNullDate());
 
@@ -93,7 +93,15 @@ abstract class ModTagsPopularHelper
 			->where('(' . $db->quoteName('c.core_publish_down') . ' = ' . $nullDate
 				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $db->quote($nowDate) . ')');
 		$db->setQuery($query, 0, $maximum);
-		$results = $db->loadObjectList();
+		try
+		{
+			$results = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$results = array();
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
 
 		return $results;
 	}

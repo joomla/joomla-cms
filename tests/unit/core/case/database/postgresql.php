@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -131,7 +131,19 @@ abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 	protected function getConnection()
 	{
 		// Compile the connection DSN.
-		$dsn = 'pgsql:host=' . self::$_options['host'] . ';port=' . self::$_options['port'] . ';dbname=' . self::$_options['database'];
+		$dsn = 'pgsql:';
+
+		if (!empty(self::$_options['host']))
+		{
+		        $dsn .= 'host=' . self::$_options['host'] . ' ';
+		}
+
+		if (!empty(self::$_options['port']))
+		{
+		        $dsn .= 'port=' . self::$_options['port'] . ' ';
+		}
+
+		$dsn .= 'dbname=' . self::$_options['database'];
 
 		// Create the PDO object from the DSN and options.
 		$pdo = new PDO($dsn, self::$_options['user'], self::$_options['password']);

@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Single item model for a contact
@@ -53,7 +55,7 @@ class ContactModelCategory extends JModelList
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
-
+	 *
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -94,7 +96,7 @@ class ContactModelCategory extends JModelList
 			$item = & $items[$i];
 			if (!isset($this->_params))
 			{
-				$params = new JRegistry;
+				$params = new Registry;
 				$params->loadString($item->params);
 				$item->params = $params;
 			}
@@ -109,6 +111,7 @@ class ContactModelCategory extends JModelList
 	 * Method to build an SQL query to load the list data.
 	 *
 	 * @return  string    An SQL query
+	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -166,6 +169,11 @@ class ContactModelCategory extends JModelList
 		{
 			$query->where('a.published = ' . (int) $state);
 		}
+		else
+		{
+			$query->where('(a.published IN (0,1,2))');
+		}
+
 		// Filter by start and end dates.
 		$nullDate = $db->quote($db->getNullDate());
 		$nowDate = $db->quote(JFactory::getDate()->toSql());
@@ -210,6 +218,11 @@ class ContactModelCategory extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -238,7 +251,7 @@ class ContactModelCategory extends JModelList
 		$this->setState('list.filter', $app->input->getString('filter-search'));
 
 		// Get list ordering default from the parameters
-		$menuParams = new JRegistry;
+		$menuParams = new Registry;
 
 		if ($menu = $app->getMenu()->getActive())
 		{
@@ -298,7 +311,7 @@ class ContactModelCategory extends JModelList
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry;
+			$params = new Registry;
 
 			if ($active)
 			{

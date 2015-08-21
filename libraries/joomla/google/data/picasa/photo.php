@@ -3,18 +3,18 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Google Picasa data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @since  12.3
  */
 class JGoogleDataPicasaPhoto extends JGoogleData
 {
@@ -28,12 +28,12 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 * Constructor.
 	 *
 	 * @param   SimpleXMLElement  $xml      XML from Google
-	 * @param   JRegistry         $options  Google options object
+	 * @param   Registry          $options  Google options object
 	 * @param   JGoogleAuth       $auth     Google data http client object
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(SimpleXMLElement $xml, JRegistry $options = null, JGoogleAuth $auth = null)
+	public function __construct(SimpleXMLElement $xml, Registry $options = null, JGoogleAuth $auth = null)
 	{
 		$this->xml = $xml;
 
@@ -53,7 +53,9 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 * @return  boolean  Success or failure.
 	 *
 	 * @since   12.3
-	 * @throws UnexpectedValueException
+	 * @throws  Exception
+	 * @throws  RuntimeException
+	 * @throws  UnexpectedValueException
 	 */
 	public function delete($match = '*')
 	{
@@ -127,7 +129,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @since   12.3
 	 */
-	public function getURL()
+	public function getUrl()
 	{
 		return (string) $this->xml->children()->content->attributes()->src;
 	}
@@ -326,7 +328,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 			try
 			{
 				$headers = array('GData-Version' => 2, 'Content-type' => 'application/atom+xml', 'If-Match' => $match);
-				$jdata = $this->query($url, $this->xml->asXML(), $headers, 'put');
+				$jdata = $this->query($url, $this->xml->asXml(), $headers, 'put');
 			}
 			catch (Exception $e)
 			{
@@ -338,7 +340,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 				throw $e;
 			}
 
-			$this->xml = $this->safeXML($jdata->body);
+			$this->xml = $this->safeXml($jdata->body);
 
 			return $this;
 		}
@@ -361,7 +363,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 		{
 			$url = $this->getLink();
 			$jdata = $this->query($url, null, array('GData-Version' => 2));
-			$this->xml = $this->safeXML($jdata->body);
+			$this->xml = $this->safeXml($jdata->body);
 
 			return $this;
 		}

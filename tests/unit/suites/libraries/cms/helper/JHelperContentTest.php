@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -67,18 +67,6 @@ class JHelperContentTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the getCurrentLanguage()
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function testGetCurrentLanguage()
-	{
-		$this->markTestSkipped('Test not implemented.');
-	}
-
-	/**
 	 * getLanguageId data
 	 *
 	 * @return  array
@@ -105,30 +93,6 @@ class JHelperContentTest extends TestCaseDatabase
 	{
 		$languageId = $this->object->getLanguageId($languageName);
 		$this->assertEquals($languageId, $expected);
-	}
-
-	/**
-	 * Tests the getActions() method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function testGetActions()
-	{
-		$this->markTestSkipped('Test not implemented.');
-	}
-
-	/**
-	 * Tests the addSubmenu() method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function testAddSubmenu()
-	{
-		$this->markTestSkipped('Test should be implemented in classes extendig this.');
 	}
 
 	/*

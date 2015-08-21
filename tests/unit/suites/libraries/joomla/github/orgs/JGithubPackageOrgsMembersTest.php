@@ -60,7 +60,6 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageOrgsMembers::getList
-     * @todo   Implement testGetList().
      */
     public function testGetList()
     {
@@ -80,7 +79,6 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageOrgsMembers::getList
-	 * @todo   Implement testGetList().
 	 */
 	public function testGetListNotAMember()
 	{
@@ -100,7 +98,6 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageOrgsMembers::getList
-	 * @todo   Implement testGetList().
 	 *
 	 * @expectedException UnexpectedValueException
 	 */
@@ -122,7 +119,6 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 
 	/**
      * @covers JGithubPackageOrgsMembers::check
-     * @todo   Implement testCheck().
      */
     public function testCheck()
     {
@@ -142,7 +138,6 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageOrgsMembers::check
-	 * @todo   Implement testCheck().
 	 */
 	public function testCheckNoMember()
 	{
@@ -162,7 +157,6 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageOrgsMembers::check
-	 * @todo   Implement testCheck().
 	 */
 	public function testCheckRequesterNoMember()
 	{
@@ -182,7 +176,6 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageOrgsMembers::check
-	 * @todo   Implement testCheck().
 	 *
 	 * @expectedException UnexpectedValueException
 	 */
@@ -204,7 +197,6 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 
 	/**
      * @covers JGithubPackageOrgsMembers::remove
-     * @todo   Implement testRemove().
      */
     public function testRemove()
     {
@@ -224,7 +216,6 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageOrgsMembers::getListPublic
-     * @todo   Implement testGetListPublic().
      */
     public function testGetListPublic()
     {
@@ -244,7 +235,6 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageOrgsMembers::checkPublic
-     * @todo   Implement testCheckPublic().
      */
     public function testCheckPublic()
     {
@@ -264,7 +254,6 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageOrgsMembers::checkPublic
-	 * @todo   Implement testCheckPublic().
 	 */
 	public function testCheckPublicNo()
 	{
@@ -284,7 +273,6 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers JGithubPackageOrgsMembers::checkPublic
-	 * @todo   Implement testCheckPublic().
 	 *
 	 * @expectedException UnexpectedValueException
 	 */
@@ -306,7 +294,6 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 
 	/**
      * @covers JGithubPackageOrgsMembers::publicize
-     * @todo   Implement testPublicize().
      */
     public function testPublicize()
     {
@@ -326,7 +313,6 @@ class JGithubPackageOrgsMembersTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers JGithubPackageOrgsMembers::conceal
-     * @todo   Implement testConceal().
      */
     public function testConceal()
     {
