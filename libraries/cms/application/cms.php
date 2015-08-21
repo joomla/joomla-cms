@@ -185,7 +185,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function checkSessionRedis()
 	{
-		$ds      = JFactory::getDso();
+		$ds      = JFactory::getRedis();
 		$session = JFactory::getSession();
 		$user    = JFactory::getUser();
 
@@ -1265,7 +1265,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function purgeSets()
 	{
-		$ds = JFactory::getDso();
+		$ds = JFactory::getRedis();
 
 		try
 		{
@@ -1299,3 +1299,4 @@ class JApplicationCms extends JApplicationWeb
 		}
 	}
 }
+
