@@ -29,7 +29,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
-		$ds       = JFactory::getDso();
+		$ds       = JFactory::getRedis('cache');
 		$cache_id = $this->_getCacheId($id, $group);
 		$back     = $ds->get($cache_id);
 
@@ -49,7 +49,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public function store($id, $group, $data)
 	{
-		$ds = JFactory::getDso();
+		$ds = JFactory::getRedis('cache');
 
 		$cache_id = $this->_getCacheId($id, $group);
 		$config   = JFactory::getConfig();
@@ -73,7 +73,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public function remove($id, $group)
 	{
-		$ds       = JFactory::getDso();
+		$ds       = JFactory::getRedis('cache');
 		$cache_id = $this->_getCacheId($id, $group);
 
 		return $ds->delete($cache_id);
@@ -93,7 +93,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public function clean($group, $mode = null)
 	{
-		$ds      = JFactory::getDso();
+		$ds      = JFactory::getRedis('cache');
 		$allKeys = $ds->keys('*');
 
 		if ($allKeys === false)
@@ -128,6 +128,6 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public static function isSupported()
 	{
-		return class_exists('redis');
+		return (extension_loaded('redis') && class_exists('Redis'));
 	}
 }
