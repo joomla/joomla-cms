@@ -20,19 +20,19 @@ var ImageManager = this.ImageManager = {
 		this.editor = decodeURIComponent(q['e_name']);
 
 		// Setup image manager fields object
-		this.fields			= new Object();
-		this.fields.url		= document.getElementById("f_url");
-		this.fields.alt		= document.getElementById("f_alt");
-		this.fields.align	= document.getElementById("f_align");
-		this.fields.title	= document.getElementById("f_title");
-		this.fields.caption	= document.getElementById("f_caption");
-		this.fields.c_class	= document.getElementById("f_caption_class");
+		this.fields         = new Object();
+		this.fields.url     = document.getElementById("f_url");
+		this.fields.alt     = document.getElementById("f_alt");
+		this.fields.align   = document.getElementById("f_align");
+		this.fields.title   = document.getElementById("f_title");
+		this.fields.caption = document.getElementById("f_caption");
+		this.fields.c_class = document.getElementById("f_caption_class");
 
 		// Setup image listing objects
 		this.folderlist = document.getElementById('folderlist');
 
-		this.frame		= window.frames['imageframe'];
-		this.frameurl	= this.frame.location.href;
+		this.frame    = window.frames['imageframe'];
+		this.frameurl = this.frame.location.href;
 
 		// Setup imave listing frame
 		this.imageframe = document.getElementById('imageframe');
@@ -82,24 +82,24 @@ var ImageManager = this.ImageManager = {
 
 	getImageFolder: function()
 	{
-		var url 	= this.frame.location.search.substring(1);
-		var args	= this.parseQuery(url);
+		var url  = this.frame.location.search.substring(1);
+		var args = this.parseQuery(url);
 
 		return args['folder'];
 	},
 
 	onok: function()
 	{
-		var tag		= '';
-		var extra	= '';
+		var tag   = '';
+		var extra = '';
 
 		// Get the image tag field information
-		var url		= this.fields.url.value;
-		var alt		= this.fields.alt.value;
-		var align	= this.fields.align.value;
-		var title	= this.fields.title.value;
-		var caption	= this.fields.caption.value;
-		var c_class	= this.fields.c_class.value;
+		var url     = this.fields.url.value;
+		var alt     = this.fields.alt.value;
+		var align   = this.fields.align.value;
+		var title   = this.fields.title.value;
+		var caption = this.fields.caption.value;
+		var c_class = this.fields.c_class.value;
 
 		if (url != '') {
 			// Set alt attribute
