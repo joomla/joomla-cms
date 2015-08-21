@@ -118,7 +118,8 @@
  </rule>
 
  <rule ref="Joomla.Commenting.SingleComment">
-  <!-- We only want this for libraries, language and cli for now -->
+  <!-- We don't want this in mixed html/php views for now -->
+  <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
  </rule>

@@ -37,7 +37,8 @@ abstract class ContactHelperRoute
 		$needles = array(
 			'contact'  => array((int) $id)
 		);
-		//Create the link
+
+		// Create the link
 		$link = 'index.php?option=com_contact&view=contact&id=' . $id;
 
 		if ($catid > 1)

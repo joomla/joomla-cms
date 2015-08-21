@@ -135,6 +135,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					$canEdit    = $user->authorise('core.edit',       'com_tags');
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
 					$canChange  = $user->authorise('core.edit.state', 'com_tags') && $canCheckin;
+
 					// Get the parents of item for sorting
 					if ($item->level > 1)
 					{
