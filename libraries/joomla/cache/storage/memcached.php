@@ -80,7 +80,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		/*
 		 * This will be an array of loveliness
 		 * @todo: multiple servers
-		 * $servers	= (isset($params['servers'])) ? $params['servers'] : array();
+		 * $servers = (isset($params['servers'])) ? $params['servers'] : array();
 		 */
 		$server = array();
 		$server['host'] = $config->get('memcached_server_host', 'localhost');

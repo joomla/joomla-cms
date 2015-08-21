@@ -99,8 +99,8 @@ class JMenuSite extends JMenu
 			{
 				if (JLanguageMultilang::isEnabled())
 				{
-					$attributes[] 	= 'language';
-					$values[] 		= array(JFactory::getLanguage()->getTag(), '*');
+					$attributes[] = 'language';
+					$values[]     = array(JFactory::getLanguage()->getTag(), '*');
 				}
 			}
 			elseif ($values[$key] === null)
