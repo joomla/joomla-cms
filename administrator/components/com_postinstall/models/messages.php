@@ -406,7 +406,11 @@ class PostinstallModelMessages extends FOFModel
 
 			if (empty($options['condition_method']))
 			{
-				throw new Exception('Post-installation message definitions need a condition method (function name) when they are of type "' . $options['type'] . '"', 500);
+				throw new Exception(
+					'Post-installation message definitions need a condition method (function name) when they are of type "'
+					. $options['type'] . '"',
+					500
+				);
 			}
 		}
 

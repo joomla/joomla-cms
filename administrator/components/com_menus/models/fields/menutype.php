@@ -81,7 +81,8 @@ class JFormFieldMenutype extends JFormFieldList
 		');
 
 		$link = JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&recordId=' . $recordId);
-		$html[] = '<span class="input-append"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id . '" value="' . $value . '"' . $size . $class . ' />';
+		$html[] = '<span class="input-append"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
+			. '" value="' . $value . '"' . $size . $class . ' />';
 		$html[] = '<a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JSELECT') . '">'
 			. '<span class="icon-list icon-white"></span> '
 			. JText::_('JSELECT') . '</a></span>';
@@ -97,7 +98,8 @@ class JFormFieldMenutype extends JFormFieldList
 					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 			)
 		);
-		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" />';
+		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="'
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" />';
 
 		return implode("\n", $html);
 	}
