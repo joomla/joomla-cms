@@ -84,7 +84,7 @@ class ModWhosonlineHelper
 	 **/
 	private function getOnlineCountFromRedis()
 	{
-		$ds = JFactory::getDso();
+		$ds = JFactory::getRedis();
 
 		// Calculate number of guests and users
 		$result      = array();
@@ -180,7 +180,7 @@ class ModWhosonlineHelper
 	 **/
 	private function getOnlineUserNamesFromRedis($params)
 	{
-		$ds = JFactory::getDso();
+		$ds = JFactory::getRedis();
 
 		try
 		{
@@ -249,7 +249,7 @@ class ModWhosonlineHelper
 	 **/
 	private function purgelist()
 	{
-		$ds = JFactory::getDso();
+		$ds = JFactory::getRedis();
 
 		try
 		{
