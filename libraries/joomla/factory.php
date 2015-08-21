@@ -91,11 +91,11 @@ abstract class JFactory
 	public static $database = null;
 
 	/**
-	 * Global datastore
+	 * Global key-value datastore
 	 *
 	 * @since  11.1
 	 */
-	public static $datastore = null;
+	public static $kvstore = null;
 
 	/**
 	 * Global mailer object
@@ -802,48 +802,63 @@ abstract class JFactory
 
 		return $retval;
 	}
-		/**
+	/**
 	 * Get a datastore object.
 	 *
-	 * Returns the global {@link JDatabaseDriver} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link JRedis} object, only creating it if it doesn't already exist.
 	 *
-	 * @return  JDatabaseDriver
+	 * @return  JRedis
 	 *
-	 * @see     JDatabaseDriver
-	 * @since   11.1
+	 * @see     JRedis
+	 * @since   3.5
 	 */
-	public static function getDso()
+	public static function getRedis($type = 'session')
 	{
-		if (!self::$datastore)
+		if (!isset(self::$kvstore[$type]))
 		{
-			self::$datastore = self::createDso();
+			self::$kvstore[$type] = self::createRedis($type);
 		}
 
-		return self::$datastore;
+		return self::$kvstore[$type];
 	}
 	/**
-	 * Create an datastore object
+	 * Create a datastore object
 	 *
-	 * @return  JDatabaseDriver
+	 * @return  JRedis
 	 *
-	 * @see     JDatabaseDriver
-	 * @since   11.1
+	 * @see     Jredis
+	 * @since   3.5
 	 */
-	protected static function createDso()
+	protected static function createRedis($type = 'session')
 	{
 		$conf = self::getConfig();
+		JLoader::register('JRedis', JPATH_PLATFORM . '/joomla/database/redis.php');
 
-		$server = array(
-			'host'   => $conf->get('session_redis_server_host', 'localhost'),
-			'port'   => $conf->get('session_redis_server_port', 6379),
-			'auth'   => $conf->get('session_redis_server_auth', null),
-			'db'     => (int) $conf->get('session_redis_server_db', null),
-			'driver' => 'redis',
-		);
+		if ($type=='session')
+		{
+			$options = array(
+				'host'   => $conf->get('session_redis_server_host', 'localhost'),
+				'port'   => $conf->get('session_redis_server_port', 6379),
+				'auth'   => $conf->get('session_redis_server_auth', null),
+				'db'     => $conf->get('session_redis_server_db', 0),
+				'driver' => 'redis',
+			);
+		}
+
+		if ($type=='cache')
+		{
+		$options = array(
+				'host'   => $conf->get('redis_server_host', 'localhost'),
+				'port'   => $conf->get('redis_server_port', 6379),
+				'auth'   => $conf->get('redis_server_auth', null),
+				'db'     => $conf->get('redis_server_db', 0),
+				'driver' => 'redis'
+			);
+		}
 
 		try
 		{
-			$ds = new Redis;
+			$ds = JRedis::getInstance($options);
 		}
 		catch (RuntimeException $e)
 		{
@@ -852,40 +867,7 @@ abstract class JFactory
 				header('HTTP/1.1 500 Internal Server Error');
 			}
 
-			jexit('Redis Database Error: ' . $e->getMessage());
-		}
-
-		try
-		{
-			$connection = $ds->pconnect($server['host'], $server['port']);
-			$auth       = (!empty($server['auth'])) ? $ds->auth($server['auth']) : true;
-		}
-		catch (Exception $e)
-		{
-			throw new RuntimeException('Error connecting to redis database.');
-		}
-
-		try
-		{
-			$ping = $ds->ping();
-		}
-		catch (RedisException $e)
-		{
-			$ds = null;
-
-			throw new RuntimeException('Error pinging REDIS database.');
-
-			return;
-		}
-
-		try
-		{
-			$select = $ds->select($server['db']);
-		}
-		catch (Exception $e)
-		{
-				$ds = null;
-				throw new RuntimeException('Error connecting to REdis database.');
+			jexit('Redis problem: ' . $e->getMessage());
 		}
 
 		return $ds;
