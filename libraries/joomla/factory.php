@@ -807,6 +807,8 @@ abstract class JFactory
 	 *
 	 * Returns the global {@link JRedis} object, only creating it if it doesn't already exist.
 	 *
+	 * @param   string   $type   The type of instance (session, cache)
+	 * 
 	 * @return  JRedis
 	 *
 	 * @see     JRedis
@@ -825,6 +827,8 @@ abstract class JFactory
 	 * Create a datastore object
 	 *
 	 * @return  JRedis
+	 * 
+	 * @param   string   $type   The type of instance (session, cache)
 	 *
 	 * @see     Jredis
 	 * @since   3.5
@@ -834,7 +838,7 @@ abstract class JFactory
 		$conf = self::getConfig();
 		JLoader::register('JRedis', JPATH_PLATFORM . '/joomla/database/redis.php');
 
-		if ($type=='session')
+		if ($type == 'session')
 		{
 			$options = array(
 				'host'   => $conf->get('session_redis_server_host', 'localhost'),
@@ -845,7 +849,7 @@ abstract class JFactory
 			);
 		}
 
-		if ($type=='cache')
+		if ($type == 'cache')
 		{
 		$options = array(
 				'host'   => $conf->get('redis_server_host', 'localhost'),
