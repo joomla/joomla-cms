@@ -106,7 +106,7 @@ class PlgUserJoomla extends JPlugin
 	 **/
 	public function deleteUserSessionFromRedis()
 	{
-		$ds             = JFactory::getDso();
+		$ds             = JFactory::getRedis();
 		$key4sessionuid = 'sessid-' . (int) $user->get('id') . '-' . (int) JFactory::getApplication()->getClientId();
 
 		try
@@ -332,7 +332,7 @@ class PlgUserJoomla extends JPlugin
 	 **/
 	public function loginUserFromRedis($instance, $session)
 	{
-		$ds = JFactory::getDso();
+		$ds = JFactory::getRedis();
 
 		$hash = array(
 			'client_id' => (int) $this->app->getClientId(),
@@ -459,7 +459,7 @@ class PlgUserJoomla extends JPlugin
 	 */
 	private function logoutUserSessionFromRedis($user, $options)
 	{
-		$ds             = JFactory::getDso();
+		$ds             = JFactory::getRedis();
 		$key4sessionuid = 'sessid-' . (int) $user['id'] . '-' . (int) $options['clientid'];
 
 		try
