@@ -236,7 +236,7 @@ class PlgEditorCodemirror extends JPlugin
 		$options = new stdClass;
 
 		// Should we focus on the editor on load?
-		$options->autofocus	= (boolean) $this->params->get('autoFocus', true);
+		$options->autofocus = (boolean) $this->params->get('autoFocus', true);
 
 		// Until there's a fix for the overflow problem, always wrap lines.
 		$options->lineWrapping = true;
@@ -299,8 +299,8 @@ class PlgEditorCodemirror extends JPlugin
 		$options->vimMode = (boolean) $this->params->get('vimKeyBinding', 0);
 
 		$html = array();
-		$html[]	= '<p class="label">' . JText::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $this->fullScreenCombo) . '</p>';
-		$html[]	= '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row . '">' . $content . '</textarea>';
+		$html[] = '<p class="label">' . JText::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $this->fullScreenCombo) . '</p>';
+		$html[] = '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row . '">' . $content . '</textarea>';
 		$html[] = $buttons;
 		$html[] = '<script type="text' . '/javascript">';
 		$html[] = '(function (id, options) {';
