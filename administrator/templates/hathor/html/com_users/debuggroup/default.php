@@ -14,8 +14,8 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&user_id='.(int) $this->state->get('filter.user_id'));?>" method="post" name="adminForm" id="adminForm">
@@ -107,20 +107,20 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				</td>
 				<?php foreach ($this->actions as $action) : ?>
 					<?php
-					$name	= $action[0];
-					$check	= $item->checks[$name];
+					$name  = $action[0];
+					$check = $item->checks[$name];
 					if ($check === true) :
-						$class	= 'check-a';
-						$text	= '&#10003;';
+						$class = 'check-a';
+						$text  = '&#10003;';
 					elseif ($check === false) :
-						$class	= 'check-d';
-						$text	= '&#10007;';
+						$class = 'check-d';
+						$text  = '&#10007;';
 					elseif ($check === null) :
-						$class	= 'check-0';
-						$text	= '-';
+						$class = 'check-0';
+						$text  = '-';
 					else :
-						$class	= '';
-						$text	= '&#160;';
+						$class = '';
+						$text  = '&#160;';
 					endif;
 					?>
 				<td class="center <?php echo $class;?>">
