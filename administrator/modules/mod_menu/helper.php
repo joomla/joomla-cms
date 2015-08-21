@@ -26,7 +26,7 @@ abstract class ModMenuHelper
 	public static function getMenus()
 	{
 		$db     = JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$query = $db->getQuery(true)
 			->select('a.*, SUM(b.home) AS home')
 			->from('#__menu_types AS a')
 			->join('LEFT', '#__menu AS b ON b.menutype = a.menutype AND b.home != 0')

@@ -13,18 +13,20 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$client		= $this->state->get('filter.client_id') ? 'administrator' : 'site';
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$trashed	= $this->state->get('filter.state') == -2 ? true : false;
-$canOrder	= $user->authorise('core.edit.state', 'com_modules');
-$saveOrder	= $listOrder == 'ordering';
+$client    = $this->state->get('filter.client_id') ? 'administrator' : 'site';
+$user      = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$trashed   = $this->state->get('filter.state') == -2 ? true : false;
+$canOrder  = $user->authorise('core.edit.state', 'com_modules');
+$saveOrder = $listOrder == 'ordering';
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_modules&task=modules.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'moduleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
+
 $sortFields = $this->getSortFields();
 
 JFactory::getDocument()->addScriptDeclaration('
@@ -45,6 +47,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		};
 ');
 ?>
+
 <form action="<?php echo JRoute::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
@@ -135,9 +138,9 @@ JFactory::getDocument()->addScriptDeclaration('
 				<tbody>
 				<?php foreach ($this->items as $i => $item) :
 					$ordering   = ($listOrder == 'ordering');
-					$canCreate  = $user->authorise('core.create',     'com_modules');
-					$canEdit	= $user->authorise('core.edit',		  'com_modules.module.' . $item->id);
-					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
+					$canCreate  = $user->authorise('core.create', 'com_modules');
+					$canEdit    = $user->authorise('core.edit', 'com_modules.module.' . $item->id);
+					$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
 					$canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
 				?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->position?>">

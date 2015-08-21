@@ -164,7 +164,7 @@ class UsersModelGroup extends JModelAdmin
 		}
 
 		// Check for non-super admin trying to save with super admin group
-		$iAmSuperAdmin	= JFactory::getUser()->authorise('core.admin');
+		$iAmSuperAdmin = JFactory::getUser()->authorise('core.admin');
 
 		if ((!$iAmSuperAdmin) && ($groupSuperAdmin))
 		{
@@ -228,8 +228,8 @@ class UsersModelGroup extends JModelAdmin
 	public function delete(&$pks)
 	{
 		// Typecast variable.
-		$pks = (array) $pks;
-		$user	= JFactory::getUser();
+		$pks    = (array) $pks;
+		$user   = JFactory::getUser();
 		$groups = JAccess::getGroupsByUser($user->get('id'));
 
 		// Get a row instance.
@@ -240,7 +240,7 @@ class UsersModelGroup extends JModelAdmin
 		$dispatcher = JEventDispatcher::getInstance();
 
 		// Check if I am a Super Admin
-		$iAmSuperAdmin	= $user->authorise('core.admin');
+		$iAmSuperAdmin = $user->authorise('core.admin');
 
 		// Do not allow to delete groups to which the current user belongs
 		foreach ($pks as $pk)
