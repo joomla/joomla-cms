@@ -108,7 +108,7 @@ class ContentModelArticle extends JModelAdmin
 			$this->table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			// $table->ordering	= 1;
+			// $table->ordering = 1;
 
 			// Get the featured state
 			$featured = $this->table->featured;

@@ -77,7 +77,7 @@ class UsersViewLevels extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= JHelperContent::getActions('com_users');
+		$canDo = JHelperContent::getActions('com_users');
 
 		JToolbarHelper::title(JText::_('COM_USERS_VIEW_LEVELS_TITLE'), 'users levels');
 

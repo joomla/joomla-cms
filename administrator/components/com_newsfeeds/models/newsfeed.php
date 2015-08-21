@@ -105,7 +105,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			$this->table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			// $this->table->ordering	= 1;
+			// $this->table->ordering = 1;
 
 			// Check the row.
 			if (!$this->table->check())

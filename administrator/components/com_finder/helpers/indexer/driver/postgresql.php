@@ -278,7 +278,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * aggregated data will be inserted into #__finder_tokens_aggregate
 		 * table.
 		 */
-		$query	= 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
+		$query = 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
 				' (' . $db->quoteName('term_id') .
 				', ' . $db->quoteName('term') .
 				', ' . $db->quoteName('stem') .

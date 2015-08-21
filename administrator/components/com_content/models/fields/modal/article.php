@@ -33,8 +33,8 @@ class JFormFieldModal_Article extends JFormField
 	 */
 	protected function getInput()
 	{
-		$allowEdit		= ((string) $this->element['edit'] == 'true') ? true : false;
-		$allowClear		= ((string) $this->element['clear'] != 'false') ? true : false;
+		$allowEdit  = ((string) $this->element['edit'] == 'true') ? true : false;
+		$allowClear = ((string) $this->element['clear'] != 'false') ? true : false;
 
 		// Load language
 		JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
@@ -90,8 +90,8 @@ class JFormFieldModal_Article extends JFormField
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 		// Setup variables for display.
-		$html	= array();
-		$link	= 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;function=jSelectArticle_' . $this->id;
+		$html = array();
+		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;function=jSelectArticle_' . $this->id;
 
 		if (isset($this->element['language']))
 		{
@@ -100,7 +100,7 @@ class JFormFieldModal_Article extends JFormField
 
 		if ((int) $this->value > 0)
 		{
-			$db	= JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__content'))

@@ -50,7 +50,7 @@ class TemplatesViewStyle extends JViewLegacy
 	{
 		try
 		{
-			$this->item		= $this->get('Item');
+			$this->item = $this->get('Item');
 		}
 		catch (Exception $e)
 		{
