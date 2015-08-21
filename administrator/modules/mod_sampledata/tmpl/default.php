@@ -11,52 +11,16 @@ defined('_JEXEC') or die;
 
 JHtml::_('jquery.framework');
 JHtml::_('bootstrap.tooltip');
+JHtml::_('script', 'mod_sampledata/sampledata-process.js', false, true);
 
-$url = 'index.php?option=com_ajax&format=json&group=sampledata';
-$js  = '
-function applySampledataAjax(type, steps, step) {
-	if (step <= steps) {
-		jQuery("div.sampledata-progress-" + type + " ul").append("<li class=\"sampledata-steps-" + type + "-" + step + " center\"><img src=\"' . JUri::root() . '/media/jui/img/ajax-loader.gif\" width=\"30\" height=\"30\" ></li>");
-		jQuery.get(
-			"' . $url . '&type=" + type + "&plugin=SampledataApplyStep" + step,
-			function(response) {
-				var success = false;
-				if (response.data.length > 0) {
-					jQuery.each(
-						response.data,
-						function(index, value) {
-							var successClass = "error";
-							if (value.success) {
-								success = true;
-								successClass = "success";
-								jQuery(".sampledata-progress-" + type + " progress").val(step/steps);
-							}
-							jQuery("li.sampledata-steps-" + type + "-" + step).removeClass("center");
-							jQuery("li.sampledata-steps-" + type + "-" + step).addClass("alert alert-" + successClass);
-							jQuery("li.sampledata-steps-" + type + "-" + step).html(value.message);
-						}
-					);
-					if (success) {
-						step++;
-						applySampledataAjax(type, steps, step);
-					}
-				} else {
-					jQuery(".sampledata-progress-" + type + " progress").val(0);
-					jQuery("li.sampledata-steps-" + type + "-" + step).addClass("alert alert-error");
-					jQuery("li.sampledata-steps-" + type + "-" + step).html("' . JText::_('MOD_SAMPLEDATA_INVALID_RESPONSE') . '");
-				}
-			}
-		);
-	}
-}
-function applySampledata(type, steps) {
-	var step = 1;
-	jQuery(".sampledata-" + type).after("<div class=\"row-fluid sampledata-progress-" + type + "\"><ul class=\"span12 unstyled\"></ul></div>");
-	jQuery(".sampledata-" + type).after("<div class=\"row-fluid sampledata-progress-" + type + "\"><progress class=\"span12\"></progress></div>");
-	applySampledataAjax(type, steps, step);
-}';
+JText::script('MOD_SAMPLEDATA_CONFIRM_START');
+JText::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');
+JText::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
 
-JFactory::getDocument()->addScriptDeclaration($js);
+JFactory::getDocument()->addScriptDeclaration('
+	var modSampledataUrl = "index.php?option=com_ajax&format=json&group=sampledata",
+		modSampledataIconProgress = "' . JUri::root(true) . '/media/jui/img/ajax-loader.gif";
+');
 ?>
 <div class="sampledata-container">
 	<?php if ($items) : ?>
@@ -64,7 +28,7 @@ JFactory::getDocument()->addScriptDeclaration($js);
 			<?php foreach($items as $i => $item) : ?>
 				<div class="row-fluid sampledata-<?php echo $item->name; ?>">
 					<div class="span4">
-						<a href="#" onclick="applySampledata('<?php echo $item->name; ?>', '<?php echo $item->steps; ?>');">
+						<a href="#" onclick="sampledataApply(this)" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
 							<strong class="row-title">
 								<span class="icon-<?php echo $item->icon; ?>"> </span>
 								<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
@@ -76,6 +40,14 @@ JFactory::getDocument()->addScriptDeclaration($js);
 							<?php echo htmlspecialchars($item->description); ?>
 						</small>
 					</div>
+				</div>
+				<!-- Progress bar -->
+				<div class="row-fluid sampledata-progress-<?php echo $item->name; ?> hide">
+					<progress class="span12"></progress>
+				</div>
+				<!-- Progress messages -->
+				<div class="row-fluid sampledata-progress-<?php echo $item->name; ?> hide">
+					<ul class="unstyled"></ul>
 				</div>
 			<?php endforeach; ?>
 		</div>

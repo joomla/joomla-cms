@@ -14,6 +14,9 @@
 		<filename>helper.php</filename>
 		<folder>tmpl</folder>
 	</files>
+	<media destination="mod_sampledata" folder="media">
+		<folder>js</folder>
+	</media>
 	<languages>
 		<language tag="en-GB">en-GB.mod_sampledata.ini</language>
 		<language tag="en-GB">en-GB.mod_sampledata.sys.ini</language>
