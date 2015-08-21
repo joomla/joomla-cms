@@ -15,7 +15,7 @@ jimport('joomla.filesystem.file');
 /**
  * Joomla! update overview Model
  *
- * @since       2.5.4
+ * @since  2.5.4
  */
 class JoomlaupdateModelDefault extends JModelLegacy
 {

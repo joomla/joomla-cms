@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 /**
+ * Single item model for a contact
+ *
  * @package     Joomla.Site
  * @subpackage  com_contact
  * @since       1.5

@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 /**
  * Content article class.
+ *
+ * @since  1.6.0
  */
 class ContentControllerArticle extends JControllerForm
 {
