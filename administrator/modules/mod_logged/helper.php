@@ -108,7 +108,7 @@ abstract class ModLoggedHelper
 	 */
 	private function getListFromRedis($params)
 	{
-		$ds      = JFactory::getDso();
+		$ds      = JFactory::getRedis();
 		$user    = JFactory::getUser();
 		$results = array();
 
