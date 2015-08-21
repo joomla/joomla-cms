@@ -1299,4 +1299,3 @@ class JApplicationCms extends JApplicationWeb
 		}
 	}
 }
-
