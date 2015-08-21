@@ -60,7 +60,7 @@ abstract class ModStatusHelper
 	private function getOnlineCountFromRedis($admin)
 	{
 		// Get the number of frontend logged in users.
-		$ds = JFactory::getDso();
+		$ds = JFactory::getRedis();
 		$result = array();
 
 		try
