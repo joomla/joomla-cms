@@ -23,6 +23,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		}
 	};
 ');
+
 // Load chosen.css
 JHtml::_('formbehavior.chosen', 'select');
 
