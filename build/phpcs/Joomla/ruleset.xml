@@ -32,9 +32,12 @@
 
  <rule ref="PEAR.Commenting.InlineComment"/>
 
+ <!-- Lines can be 85 chars long, but never show errors -->
  <rule ref="Generic.Files.LineLength">
- <!-- These exceptions are temporary -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+  <properties>
+   <property name="lineLimit" value="150"/>
+   <property name="absoluteLineLimit" value="0"/>
+  </properties>
   <!-- These exceptions are permanent -->
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
@@ -85,14 +88,6 @@
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
- </rule>
-
- <!-- Lines can be 85 chars long, but never show errors -->
- <rule ref="Generic.Files.LineLength">
-  <properties>
-   <property name="lineLimit" value="150"/>
-   <property name="absoluteLineLimit" value="0"/>
-  </properties>
  </rule>
 
  <!-- Use Unix newlines -->
