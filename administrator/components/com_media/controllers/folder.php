@@ -165,7 +165,7 @@ class MediaControllerFolder extends JControllerLegacy
 			if (!$user->authorise('core.create', 'com_media'))
 			{
 				// User is not authorised to create
-				JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_CREATE_NOT_PERMITTED'));
+				JError::raiseWarning(403, JText::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'));
 
 				return false;
 			}
