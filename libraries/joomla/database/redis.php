@@ -38,17 +38,15 @@ abstract class JRedis implements JRedisInterface
 
 	protected static $error     = null;
 	/**
-	 * @return  mixed  A datastore instance on success, boolean false on failure.
+	 * A datastore instance on success, boolean false on failure.
 	 *
-	 * Instances are unique to the given options and new objects are only created when a unique options array is
-	 * passed into the method.  This ensures that we don't end up with unnecessary datastore connection resources.
+	 * @param   Array  $settings  An array containing all redis config data.
 	 *
-	 * @var    resource  The Redis connection settings.
-	 * @since  3.5
+	 * @return	boolean  True on success, false on failure.
+	 *
+	 * @since	3.5.
+	 * @throws  RuntimeException
 	 */
-
-	protected $connection = null;
-
 	public static function getInstance($settings)
 	{
 
