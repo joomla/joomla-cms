@@ -107,7 +107,7 @@ abstract class JHtmlContact
 	 * @param   int   $i          Id of the item.
 	 * @param   bool  $canChange  Whether the value can be changed or not.
 	 *
-	 * @return  string	The anchor tag to toggle featured/unfeatured contacts.
+	 * @return  string  The anchor tag to toggle featured/unfeatured contacts.
 	 *
 	 * @since   1.6
 	 */
@@ -119,18 +119,19 @@ abstract class JHtmlContact
 			0 => array('unfeatured', 'contacts.featured', 'COM_CONTACT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
 			1 => array('featured', 'contacts.unfeatured', 'JFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
 		);
+
 		$state = JArrayHelper::getValue($states, (int) $value, $states[1]);
 		$icon  = $state[0];
 
 		if ($canChange)
 		{
-			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-micro hasTooltip' . ($value == 1 ? ' active' : '') . '" title="' . JHtml::tooltipText($state[3]) . '"><span class="icon-'
-				. $icon . '"></span></a>';
+			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-micro hasTooltip' .
+				($value == 1 ? ' active' : '') . '" title="' . JHtml::tooltipText($state[3]) . '"><span class="icon-' . $icon . '"></span></a>';
 		}
 		else
 		{
-			$html = '<a class="btn btn-micro hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="' . JHtml::tooltipText($state[2]) . '"><span class="icon-'
-				. $icon . '"></span></a>';
+			$html = '<a class="btn btn-micro hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="' . JHtml::tooltipText($state[2])
+				. '"><span class="icon-' . $icon . '"></span></a>';
 		}
 
 		return $html;

@@ -141,9 +141,11 @@ class ContactModelCategory extends JModelList
 		$case_when1 .= ' ELSE ';
 		$case_when1 .= $c_id . ' END as catslug';
 		$query->select($this->getState('list.select', 'a.*') . ',' . $case_when . ',' . $case_when1)
-		// TODO: we actually should be doing it but it's wrong this way
-		//	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
-		//	. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug ');
+		/**
+		 * TODO: we actually should be doing it but it's wrong this way
+		 *	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
+		 *	. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug ');
+		 */
 			->from($db->quoteName('#__contact_details') . ' AS a')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid')
 			->where('a.access IN (' . $groups . ')');

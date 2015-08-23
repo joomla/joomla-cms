@@ -178,7 +178,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 
 		$html[] = '</span>';
 
-		// class='required' for client side validation
+		// Add class='required' for client side validation
 		$class = '';
 
 		if ($this->required)

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Languages Installer Controller
  *
- * @since       2.5.7
+ * @since  2.5.7
  */
 class InstallerControllerLanguages extends JControllerLegacy
 {

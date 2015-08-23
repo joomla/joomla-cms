@@ -203,6 +203,7 @@ class InstallerModelInstall extends JModelLegacy
 	{
 		// Get the uploaded file information.
 		$input    = JFactory::getApplication()->input;
+
 		// Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See JInputFiles::get.
 		$userfile = $input->files->get('install_package', null, 'raw');
 
@@ -233,7 +234,10 @@ class InstallerModelInstall extends JModelLegacy
 		// Is the PHP tmp directory missing?
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR))
 		{
-			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'));
+			JError::raiseWarning(
+				'',
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET')
+			);
 
 			return false;
 		}
@@ -241,7 +245,10 @@ class InstallerModelInstall extends JModelLegacy
 		// Is the max upload size too small in php.ini?
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE))
 		{
-			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'));
+			JError::raiseWarning(
+				'',
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE')
+			);
 
 			return false;
 		}
