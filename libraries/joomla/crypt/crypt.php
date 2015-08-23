@@ -274,10 +274,10 @@ class JCrypt
 		}
 
 		// Prevent issues if string length is 0
-		$known .= chr(0);
+		$known   .= chr(0);
 		$unknown .= chr(0);
 
-		$knownLength = strlen($known);
+		$knownLength   = strlen($known);
 		$unknownLength = strlen($unknown);
 
 		// Set the result to the difference between the lengths
