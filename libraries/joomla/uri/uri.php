@@ -59,6 +59,9 @@ class JUri extends Uri
 	{
 		if (empty(static::$instances[$uri]))
 		{
+			// Prevent undefined index issue
+			$_SERVER['HTTP_HOST'] = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null;
+
 			// Are we obtaining the URI from the server?
 			if ($uri == 'SERVER')
 			{
