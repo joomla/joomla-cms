@@ -807,7 +807,7 @@ abstract class JFactory
 	 *
 	 * Returns the global {@link JRedis} object, only creating it if it doesn't already exist.
 	 *
-	 * @param   string   $type   The type of instance (session, cache)
+	 * @param   string  $type  The type of instance (session, cache)
 	 * 
 	 * @return  JRedis
 	 *
@@ -826,9 +826,9 @@ abstract class JFactory
 	/**
 	 * Create a datastore object
 	 *
-	 * @return  JRedis
+	 * @param   string  $type  The type of instance (session, cache)
 	 * 
-	 * @param   string   $type   The type of instance (session, cache)
+	 * @return  JRedis
 	 *
 	 * @see     Jredis
 	 * @since   3.5
