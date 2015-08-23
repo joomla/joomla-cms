@@ -35,14 +35,18 @@ abstract class JRedis implements JRedisInterface
 {
 
 	protected static $instances = array();
+
 	protected static $error     = null;
 	/**
+	 * @return  mixed  A datastore instance on success, boolean false on failure.
+	 *
 	 * Instances are unique to the given options and new objects are only created when a unique options array is
 	 * passed into the method.  This ensures that we don't end up with unnecessary datastore connection resources.
 	 *
-	 * @var    resource  The Redis connection resource.
+	 * @var    resource  The Redis connection settings.
 	 * @since  3.5
 	 */
+
 	protected $connection = null;
 
 	public static function getInstance($settings)
@@ -78,7 +82,7 @@ abstract class JRedis implements JRedisInterface
 
 			if (!$connected)
 			{
-				throw new RuntimeException('Redis unable to connect at '.$options['host'] . ':' . $options['port'], 404);
+				throw new RuntimeException('Redis unable to connect at ' . $options['host'] . ':' . $options['port'], 404);
 			}
 
 			if ($options['auth'] != null)
@@ -121,7 +125,7 @@ abstract class JRedis implements JRedisInterface
 
 			if ($pong != '+PONG')
 			{
-				throw new RuntimeException('Redis unable to ping at '.$options['host'] . ':' . $options['port']);
+				throw new RuntimeException('Redis unable to ping at ' . $options['host'] . ':' . $options['port']);
 			}
 			// Set the new connector to the global instances based on signature.
 			self::$instances[$signature] = $instance;
