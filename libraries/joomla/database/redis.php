@@ -34,16 +34,19 @@ interface JRedisInterface
 abstract class JRedis implements JRedisInterface
 {
 
-	protected static $instances =array();
-	protected static $error     =null; 
+	protected static $instances = array();
+	protected static $error     = null;
 	/**
+	 * Instances are unique to the given options and new objects are only created when a unique options array is
+	 * passed into the method.  This ensures that we don't end up with unnecessary datastore connection resources.
+	 *
 	 * @var    resource  The Redis connection resource.
 	 * @since  3.5
 	 */
 	protected $connection = null;
 
 	public static function getInstance($settings)
-	{ 
+	{
 
 		$conf = JFactory::getConfig();
 		$options = array(
@@ -54,28 +57,28 @@ abstract class JRedis implements JRedisInterface
 			'driver' => 'redis',
 		);
 
-		$is_supported = self::isSupported(); 
+		$is_supported = self::isSupported();
 		if (!$is_supported)
 		{
-			throw new RuntimeException ( 'Redis not supported'); 
+			throw new RuntimeException('Redis not supported');
 		}
 		$signature = md5(serialize($options));
 
 		if (empty(self::$instances[$signature]))
-		{ 
-			try 
+		{
+			try
 			{
 				$instance = new Redis;
-				$connected = @$instance->pconnect($options['host'],$options['port']);
+				$connected = @$instance->pconnect($options['host'], $options['port']);
 			}
 			catch (RuntimeException $e)
-			{ 
-				throw new RuntimeException ('Redis unable to connect');
+			{
+				throw new RuntimeException('Redis unable to connect');
 			}
 
 			if (!$connected)
 			{
-				throw new RuntimeException ('Redis unable to connect at '.$options['host'] . ':' . $options['port'], 404);
+				throw new RuntimeException('Redis unable to connect at '.$options['host'] . ':' . $options['port'], 404);
 			}
 
 			if ($options['auth'] != null)
@@ -86,11 +89,11 @@ abstract class JRedis implements JRedisInterface
 				}
 				catch (RuntimeException $e)
 				{
-					throw new RuntimeException ('Redis auth failed');
+					throw new RuntimeException('Redis auth failed');
 				}
 				if (!$auth)
 				{
-					throw new RuntimeException ('Redis unable to verify password at '.$options['host'] . ':' . $options['port']);
+					throw new RuntimeException('Redis unable to verify password at ' . $options['host'] . ':' . $options['port']);
 				}
 			}
 
@@ -100,28 +103,28 @@ abstract class JRedis implements JRedisInterface
 			}
 			catch (RuntimeException $e)
 			{
-				throw new RuntimeException ('Redis unable to select db');
+				throw new RuntimeException('Redis unable to select db');
 			}
 
 			if (!$db)
 			{
-				throw new RuntimeException ('Redis unable to select db at '.$options['host'] . ':' . $options['port'] . ' database:' . $options['db']);
+				throw new RuntimeException('Redis unable to select db at ' . $options['host'] . ':' . $options['port'] . ' database:' . $options['db']);
 			}
 			try
 			{
-				$pong=$instance->ping();
+				$pong = $instance->ping();
 			}
 			catch (RuntimeException $e)
 			{
-				throw new RuntimeException ('Redis unable to ping');
+				throw new RuntimeException('Redis unable to ping');
 			}
 
 			if ($pong != '+PONG')
 			{
-				throw new RuntimeException ('Redis unable to ping at '.$options['host'] . ':' . $options['port']);
+				throw new RuntimeException('Redis unable to ping at '.$options['host'] . ':' . $options['port']);
 			}
 			// Set the new connector to the global instances based on signature.
-			 self::$instances[$signature] = $instance;
+			self::$instances[$signature] = $instance;
 		}
 
 		return self::$instances[$signature];
