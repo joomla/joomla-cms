@@ -329,8 +329,6 @@ class TemplatesModelStyle extends JModelAdmin
 
 		if (!isset($this->_cache[$pk]))
 		{
-			$false	= false;
-
 			// Get a row instance.
 			$table = $this->getTable();
 
@@ -342,7 +340,7 @@ class TemplatesModelStyle extends JModelAdmin
 			{
 				$this->setError($table->getError());
 
-				return $false;
+				return false;
 			}
 
 			// Convert to the JObject before adding other data.
