@@ -11,9 +11,32 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.framework');
 
+// Set variables
+$footer	= $footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('JTOOLBAR_CLOSE') . '</a>';
+$height = $displayData['height'];
+$width 	= $displayData['width'];
+$link	= 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id='
+		. (int) $displayData['itemId'] . '&amp;type_id=' . $displayData['typeId'] . '&amp;type_alias=' . $displayData['typeAlias']
+		. '&amp;' . JSession::getFormToken() . '=1';
+$title 	= $displayData['title'];
+
+// Create modal
+echo JHtml::_(
+	'bootstrap.renderModal',
+	'contenthistoryModal',
+	array(
+		'title' 	  => $title,
+		'backdrop' 	  => 'static',
+		'keyboard' 	  => true,
+		'closeButton' => true,
+		'footer' 	  => $footer,
+		'url'		  => $link,
+		'height' 	  => '300px',
+		'width' 	  => '500px'
+	)
+);
 ?>
-<a rel="{handler: 'iframe', size: {x: <?php echo $displayData['height']; ?>, y: <?php echo $displayData['width']; ?>}}"
-	href="index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id=<?php echo (int) $displayData['itemId']; ?>&amp;type_id=<?php echo $displayData['typeId']; ?>&amp;type_alias=<?php echo $displayData['typeAlias']; ?>&amp;<?php echo JSession::getFormToken(); ?>=1"
-	title="<?php echo $displayData['title']; ?>" class="btn btn-small modal_jform_contenthistory">
-	<span class="icon-archive"></span> <?php echo $displayData['title']; ?>
+
+<a href="#contenthistoryModal" role="button" class="btn btn-small" data-toggle="modal" title="<?php echo $title; ?>">
+	<span class="icon-archive"></span> <?php echo $title; ?>
 </a>

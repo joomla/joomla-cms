@@ -33,23 +33,33 @@ class JFormFieldContenthistory extends JFormField
 	 */
 	protected function getInput()
 	{
+		$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('JTOOLBAR_CLOSE') . '</a>';
 		$typeId = JTable::getInstance('Contenttype')->getTypeId($this->element['data-typeAlias']);
 		$itemId = $this->form->getValue('id');
 		$label = JText::_('JTOOLBAR_VERSIONS');
-		$html = array();
 		$link = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;field='
 			. $this->id . '&amp;item_id=' . $itemId . '&amp;type_id=' . $typeId . '&amp;type_alias='
 			. $this->element['data-typeAlias'] . '&amp;' . JSession::getFormToken() . '=1';
 
-		// Load the modal behavior script.
-		JHtml::_('behavior.modal', 'button.modal_' . $this->id);
+		// Create Bootstrap modal.
+		$html = JHtml::_(
+			'bootstrap.renderModal',
+			'contenthistoryModal_' . $this->id,
+			array(
+				'title' 	  => JText::_('COM_CONTENTHISTORY_MODAL_TITLE'),
+				'backdrop' 	  => 'static',
+				'keyboard' 	  => true,
+				'closeButton' => true,
+				'footer' 	  => $footer,
+				'url'		  => $link,
+				'height' 	  => '300px',
+				'width' 	  => '500px'
+			)
+		);
 
-		$html[] = '		<button class="btn modal_' . $this->id . '" title="' . $label . '" href="' . $link . '"'
-			. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-		$html[] = '<span class="icon-archive"></span>';
-		$html[] = $label;
-		$html[] = '</button>';
+		$html .= '<a href="#contenthistoryModal_' . $this->id . '" role="button" class="btn" data-toggle="modal" title="' . $label . '">
+			<span class="icon-archive"></span> ' . $label . '</a>';
 
-		return implode("\n", $html);
+		return $html;
 	}
 }

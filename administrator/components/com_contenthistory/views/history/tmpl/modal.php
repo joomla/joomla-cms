@@ -24,7 +24,8 @@ $message = addslashes(JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_ONE'));
 $compareMessage = addslashes(JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_TWO'));
 $deleteMessage = addslashes(JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
 $aliasArray = explode('.', $this->state->type_alias);
-$option = (end($aliasArray) == 'category') ? 'com_categories&amp;extension=' . implode('.', array_slice($aliasArray, 0, count($aliasArray) - 1)) : $aliasArray[0];
+$option = (end($aliasArray) == 'category') ? 'com_categories&amp;extension='
+		. implode('.', array_slice($aliasArray, 0, count($aliasArray) - 1)) : $aliasArray[0];
 $filter = JFilterInput::getInstance();
 $task = $filter->clean(end($aliasArray)) . '.loadhistory';
 $loadUrl = JRoute::_('index.php?option=' . $filter->clean($option) . '&amp;task=' . $task);
@@ -87,23 +88,38 @@ JFactory::getDocument()->addScriptDeclaration("
 );
 
 ?>
-<h3><?php echo JText::_('COM_CONTENTHISTORY_MODAL_TITLE'); ?></h3>
+<div class="pull-left">
+	<h3><?php echo JText::_('COM_CONTENTHISTORY_MODAL_TITLE'); ?></h3>
+</div>
 <div class="btn-group pull-right">
-	<button id="toolbar-load" type="submit" class="btn hasTooltip" data-placement="bottom" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>"
+	<button id="toolbar-load" type="submit" class="btn hasTooltip" data-placement="bottom"
+		title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>"
 		data-url="<?php echo JRoute::_($loadUrl);?>" id="content-url">
-		<span class="icon-upload"></span><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></button>
-	<button id="toolbar-preview" type="button" class="btn hasTooltip" data-placement="bottom" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>"
-		data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1');?>">
-		<span class="icon-search"></span><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW'); ?></button>
-	<button id="toolbar-compare" type="button" class="btn hasTooltip" data-placement="bottom" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>"
-		data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&' . JSession::getFormToken() . '=1');?>">
-		<span class="icon-zoom-in"></span><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE'); ?></button>
-    <button onclick="if (document.adminForm.boxchecked.value==0){alert('<?php echo $deleteMessage; ?>');}else{ Joomla.submitbutton('history.keep')}" class="btn hasTooltip"
+			<span class="icon-upload"></span><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?>
+	</button>
+	<button id="toolbar-preview" type="button" class="btn hasTooltip" data-placement="bottom"
+		title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>"
+		data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&'
+				. JSession::getFormToken() . '=1');?>"
+		>
+			<span class="icon-search"></span><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW'); ?>
+	</button>
+	<button id="toolbar-compare" type="button" class="btn hasTooltip" data-placement="bottom"
+		title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>"
+		data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&'
+				. JSession::getFormToken() . '=1');?>">
+			<span class="icon-zoom-in"></span><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE'); ?>
+	</button>
+    <button onclick="if (document.adminForm.boxchecked.value==0){alert('<?php echo $deleteMessage; ?>');}else{ Joomla.submitbutton('history.keep')}"
+		class="btn hasTooltip"
     	title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_DESC'); ?>">
-    	<span class="icon-lock"></span><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP'); ?></button>
-    <button onclick="if (document.adminForm.boxchecked.value==0){alert('<?php echo $deleteMessage; ?>');}else{ Joomla.submitbutton('history.delete')}" class="btn hasTooltip"
+    		<span class="icon-lock"></span><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP'); ?>
+	</button>
+    <button onclick="if (document.adminForm.boxchecked.value==0){alert('<?php echo $deleteMessage; ?>');}else{ Joomla.submitbutton('history.delete')}"
+		class="btn hasTooltip"
     	title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>">
-    	<span class="icon-delete"></span><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE'); ?></button>
+    		<span class="icon-delete"></span><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE'); ?>
+	</button>
 </div>
 <div class="clearfix"></div>
 <form action="<?php echo JRoute::_($formUrl);?>" method="post" name="adminForm" id="adminForm">
@@ -139,18 +155,20 @@ JFactory::getDocument()->addScriptDeclaration("
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php $i = 0; ?>
-		<?php foreach ($this->items as $item) : ?>
+		<?php $i = 0;
+
+		foreach ($this->items as $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center hidden-phone">
 					<?php echo JHtml::_('grid.id', $i, $item->version_id); ?>
 				</td>
 				<td align="left">
 					<a class="save-date" onclick="window.open(this.href,'win2','width=800,height=600,resizable=yes,scrollbars=yes'); return false;"
-						href="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1&version_id=' . $item->version_id);?>">
+						href="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&'
+							. JSession::getFormToken() . '=1&version_id=' . $item->version_id);?>">
 						<?php echo JHtml::_('date', $item->save_date, 'Y-m-d H:i:s'); ?>
 					</a>
-					<?php if ($item->sha1_hash == $hash) :?>
+					<?php if ($item->sha1_hash == $hash) : ?>
 						<span class="icon-featured"></span>&nbsp;
 					<?php endif; ?>
 				</td>
