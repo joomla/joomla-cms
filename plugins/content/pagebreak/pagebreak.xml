@@ -11,6 +11,7 @@
 	<description>PLG_CONTENT_PAGEBREAK_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="pagebreak">pagebreak.php</filename>
+		<folder>tmpl</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_content_pagebreak.ini</language>
@@ -18,7 +19,6 @@
 	</languages>
 	<config>
 		<fields name="params">
-
 			<fieldset name="basic">
 				<field name="title" type="radio"
 					class="btn-group btn-group-yesno"
