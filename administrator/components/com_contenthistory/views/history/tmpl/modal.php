@@ -88,10 +88,7 @@ JFactory::getDocument()->addScriptDeclaration("
 );
 
 ?>
-<div class="pull-left">
-	<h3><?php echo JText::_('COM_CONTENTHISTORY_MODAL_TITLE'); ?></h3>
-</div>
-<div class="btn-group pull-right">
+<div class="btn-group pull-left">
 	<button id="toolbar-load" type="submit" class="btn hasTooltip" data-placement="bottom"
 		title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>"
 		data-url="<?php echo JRoute::_($loadUrl);?>" id="content-url">
@@ -164,8 +161,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				</td>
 				<td align="left">
 					<a class="save-date" onclick="window.open(this.href,'win2','width=800,height=600,resizable=yes,scrollbars=yes'); return false;"
-						href="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&'
-							. JSession::getFormToken() . '=1&version_id=' . $item->version_id);?>">
+						href="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1&version_id=' . $item->version_id);?>">
 						<?php echo JHtml::_('date', $item->save_date, 'Y-m-d H:i:s'); ?>
 					</a>
 					<?php if ($item->sha1_hash == $hash) : ?>

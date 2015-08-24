@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Field to select a user id from a modal list.
+ * Field to for managing content history
  *
  * @since  3.2
  */
@@ -25,6 +25,19 @@ class JFormFieldContenthistory extends JFormField
 	public $type = 'ContentHistory';
 
 	/**
+	 * Custructor class for loading language files.
+	 *
+	 * @since   3.2
+	 */
+	public function __construct()
+	{
+		// Load the com_contenthistory language files, default to the admin file and fall back to site if one isn't found
+		$lang = JFactory::getLanguage();
+		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, null, false, true)
+		||	$lang->load('com_contenthistory', JPATH_SITE, null, false, true);
+	}
+
+	/**
 	 * Method to get the content history field input markup.
 	 *
 	 * @return  string  The field input markup.
@@ -33,7 +46,7 @@ class JFormFieldContenthistory extends JFormField
 	 */
 	protected function getInput()
 	{
-		$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('JTOOLBAR_CLOSE') . '</a>';
+		$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('COM_CONTENTHISTORY_MODAL_CLOSE') . '</a>';
 		$typeId = JTable::getInstance('Contenttype')->getTypeId($this->element['data-typeAlias']);
 		$itemId = $this->form->getValue('id');
 		$label = JText::_('JTOOLBAR_VERSIONS');
@@ -44,7 +57,7 @@ class JFormFieldContenthistory extends JFormField
 		// Create Bootstrap modal.
 		$html = JHtml::_(
 			'bootstrap.renderModal',
-			'contenthistoryModal_' . $this->id,
+			'contenthistoryModal_' . $itemId,
 			array(
 				'title' 	  => JText::_('COM_CONTENTHISTORY_MODAL_TITLE'),
 				'backdrop' 	  => 'static',
@@ -57,7 +70,7 @@ class JFormFieldContenthistory extends JFormField
 			)
 		);
 
-		$html .= '<a href="#contenthistoryModal_' . $this->id . '" role="button" class="btn" data-toggle="modal" title="' . $label . '">
+		$html .= '<button class="btn" data-toggle="modal" data-target="#contenthistoryModal_' . $itemId . '" title="' . $label . '">
 			<span class="icon-archive"></span> ' . $label . '</a>';
 
 		return $html;
