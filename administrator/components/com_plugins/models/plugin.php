@@ -144,8 +144,6 @@ class PluginsModelPlugin extends JModelAdmin
 
 		if (!isset($this->_cache[$pk]))
 		{
-			$false	= false;
-
 			// Get a row instance.
 			$table = $this->getTable();
 
@@ -157,7 +155,7 @@ class PluginsModelPlugin extends JModelAdmin
 			{
 				$this->setError($table->getError());
 
-				return $false;
+				return false;
 			}
 
 			// Convert to the JObject before adding other data.
