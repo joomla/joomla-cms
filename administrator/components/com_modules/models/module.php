@@ -632,8 +632,6 @@ class ModulesModelModule extends JModelAdmin
 
 		if (!isset($this->_cache[$pk]))
 		{
-			$false = false;
-
 			// Get a row instance.
 			$table = $this->getTable();
 
@@ -645,7 +643,7 @@ class ModulesModelModule extends JModelAdmin
 			{
 				$this->setError($error);
 
-				return $false;
+				return false;
 			}
 
 			// Check if we are creating a new extension.
