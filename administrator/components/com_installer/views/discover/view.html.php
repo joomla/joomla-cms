@@ -33,6 +33,8 @@ class InstallerViewDiscover extends InstallerViewDefault
 		$this->state		= $this->get('State');
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
+		$this->filterForm = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		parent::display($tpl);
 	}
@@ -54,45 +56,6 @@ class InstallerViewDiscover extends InstallerViewDefault
 		JToolbarHelper::divider();
 
 		JHtmlSidebar::setAction('index.php?option=com_installer&view=discover');
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_INSTALLER_VALUE_CLIENT_SELECT'),
-			'filter_client_id',
-			JHtml::_(
-				'select.options',
-				array('0' => 'JSITE', '1' => 'JADMINISTRATOR'),
-				'value',
-				'text',
-				$this->state->get('filter.client_id'),
-				true
-			)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_INSTALLER_VALUE_TYPE_SELECT'),
-			'filter_type',
-			JHtml::_(
-				'select.options',
-				InstallerHelper::getExtensionTypes(),
-				'value',
-				'text',
-				$this->state->get('filter.type'),
-				true
-			)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_INSTALLER_VALUE_FOLDER_SELECT'),
-			'filter_group',
-			JHtml::_(
-				'select.options',
-				array_merge(InstallerHelper::getExtensionGroupes(), array('*' => JText::_('COM_INSTALLER_VALUE_FOLDER_NONAPPLICABLE'))),
-				'value',
-				'text',
-				$this->state->get('filter.group'),
-				true
-			)
-		);
 
 		parent::addToolbar();
 		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DISCOVER');
