@@ -12,27 +12,27 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.framework');
 
 // Set variables
-$footer	= $footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('JTOOLBAR_CLOSE') . '</a>';
+$footer = $footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('JTOOLBAR_CLOSE') . '</a>';
 $height = $displayData['height'];
-$width 	= $displayData['width'];
-$link	= 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id='
+$width  = $displayData['width'];
+$link   = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id='
 		. (int) $displayData['itemId'] . '&amp;type_id=' . $displayData['typeId'] . '&amp;type_alias=' . $displayData['typeAlias']
 		. '&amp;' . JSession::getFormToken() . '=1';
-$title 	= $displayData['title'];
+$title  = $displayData['title'];
 
 // Create modal
 echo JHtml::_(
 	'bootstrap.renderModal',
 	'contenthistoryModal',
 	array(
-		'title' 	  => $title,
-		'backdrop' 	  => 'static',
-		'keyboard' 	  => true,
+		'title'       => $title,
+		'backdrop'    => 'static',
+		'keyboard'    => true,
 		'closeButton' => true,
-		'footer' 	  => $footer,
-		'url'		  => $link,
-		'height' 	  => '300px',
-		'width' 	  => '500px'
+		'footer'      => $footer,
+		'url'         => $link,
+		'height'      => '300px',
+		'width'       => '500px',
 	)
 );
 ?>
