@@ -148,11 +148,11 @@ class FinderControllerIndexer extends JControllerLegacy
 
 		// Get the document properties.
 		$attributes = array (
-			'charset'	=> 'utf-8',
-			'lineend'	=> 'unix',
-			'tab'		=> '  ',
-			'language'	=> $lang->getTag(),
-			'direction'	=> $lang->isRtl() ? 'rtl' : 'ltr'
+			'charset'   => 'utf-8',
+			'lineend'   => 'unix',
+			'tab'       => '  ',
+			'language'  => $lang->getTag(),
+			'direction' => $lang->isRtl() ? 'rtl' : 'ltr'
 		);
 
 		// Get the HTML document.

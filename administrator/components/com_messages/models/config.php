@@ -31,12 +31,12 @@ class MessagesModelConfig extends JModelForm
 	 */
 	protected function populateState()
 	{
-		$user	= JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$this->setState('user.id', $user->get('id'));
 
 		// Load the parameters.
-		$params	= JComponentHelper::getParams('com_messages');
+		$params = JComponentHelper::getParams('com_messages');
 		$this->setState('params', $params);
 	}
 

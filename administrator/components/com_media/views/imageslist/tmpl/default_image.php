@@ -11,10 +11,11 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-$params = new Registry;
-$dispatcher	= JEventDispatcher::getInstance();
+$params     = new Registry;
+$dispatcher = JEventDispatcher::getInstance();
 $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_img, &$params));
 ?>
+
 <li class="imgOutline thumbnail height-80 width-80 center">
 	<a class="img-preview" href="javascript:ImageManager.populateFields('<?php echo $this->_tmp_img->path_relative; ?>')" title="<?php echo $this->_tmp_img->name; ?>" >
 		<div class="height-50">
