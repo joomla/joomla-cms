@@ -15,24 +15,24 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('jquery.framework');
 
-$input = JFactory::getApplication()->input;
-$field = $input->getCmd('field');
-$function = 'jSelectContenthistory_' . $field;
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn = $this->escape($this->state->get('list.direction'));
-$message = addslashes(JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_ONE'));
+$input          = JFactory::getApplication()->input;
+$field          = $input->getCmd('field');
+$function       = 'jSelectContenthistory_' . $field;
+$listOrder      = $this->escape($this->state->get('list.ordering'));
+$listDirn       = $this->escape($this->state->get('list.direction'));
+$message        = addslashes(JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_ONE'));
 $compareMessage = addslashes(JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_TWO'));
-$deleteMessage = addslashes(JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
-$aliasArray = explode('.', $this->state->type_alias);
-$option = (end($aliasArray) == 'category') ? 'com_categories&amp;extension='
-		. implode('.', array_slice($aliasArray, 0, count($aliasArray) - 1)) : $aliasArray[0];
-$filter = JFilterInput::getInstance();
-$task = $filter->clean(end($aliasArray)) . '.loadhistory';
-$loadUrl = JRoute::_('index.php?option=' . $filter->clean($option) . '&amp;task=' . $task);
-$deleteUrl = JRoute::_('index.php?option=com_contenthistory&task=history.delete');
-$hash = $this->state->get('sha1_hash');
-$formUrl = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&type_id='
-	. $this->state->get('type_id') . '&type_alias=' . $this->state->get('type_alias') . '&' . JSession::getFormToken() . '=1';
+$deleteMessage  = addslashes(JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
+$aliasArray     = explode('.', $this->state->type_alias);
+$option         = (end($aliasArray) == 'category') ? 'com_categories&amp;extension='
+			. implode('.', array_slice($aliasArray, 0, count($aliasArray) - 1)) : $aliasArray[0];
+$filter         = JFilterInput::getInstance();
+$task           = $filter->clean(end($aliasArray)) . '.loadhistory';
+$loadUrl        = JRoute::_('index.php?option=' . $filter->clean($option) . '&amp;task=' . $task);
+$deleteUrl      = JRoute::_('index.php?option=com_contenthistory&task=history.delete');
+$hash           = $this->state->get('sha1_hash');
+$formUrl        = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&type_id='
+			. $this->state->get('type_id') . '&type_alias=' . $this->state->get('type_alias') . '&' . JSession::getFormToken() . '=1';
 
 JFactory::getDocument()->addScriptDeclaration("
 	(function ($){
@@ -152,9 +152,8 @@ JFactory::getDocument()->addScriptDeclaration("
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php $i = 0;
-
-		foreach ($this->items as $item) : ?>
+		<?php $i = 0; ?>
+		<?php foreach ($this->items as $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center hidden-phone">
 					<?php echo JHtml::_('grid.id', $i, $item->version_id); ?>
