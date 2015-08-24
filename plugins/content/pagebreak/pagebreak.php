@@ -180,7 +180,44 @@ class PlgContentPagebreak extends JPlugin
 				}
 			}
 
-			if ($style == 'tabs')
+			if ($style == 'tabs' || $style == 'sliders')
+			{
+				$t[] = $text[0];
+
+				$t[] = (string) JHtml::_($style . '.start', 'article' . $row->id . '-' . $style);
+
+				foreach ($text as $key => $subtext)
+				{
+					if ($key >= 1)
+					{
+						$match = $matches[$key - 1];
+						$match = (array) JUtility::parseAttributes($match[0]);
+
+						if (isset($match['alt']))
+						{
+							$title	= stripslashes($match['alt']);
+						}
+						elseif (isset($match['title']))
+						{
+							$title	= stripslashes($match['title']);
+						}
+						else
+						{
+							$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
+						}
+
+						$t[] = (string) JHtml::_($style . '.panel', $title, 'article' . $row->id . '-' . $style . $key);
+					}
+
+					$t[] = (string) $subtext;
+				}
+
+				$t[] = (string) JHtml::_($style . '.end');
+
+				$row->text = implode(' ', $t);
+			}
+
+			if ($style == 'bootstraptabs')
 			{
 				$t[] = $text[0];
 				$t[] = JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'article-1'));
@@ -216,7 +253,7 @@ class PlgContentPagebreak extends JPlugin
 				$row->text = implode(' ', $t);
 			}
 
-			if ($style == 'sliders')
+			if ($style == 'bootstrapsliders')
 			{
 				$t[] = $text[0];
 				$t[] = JHtml::_('bootstrap.startAccordion', 'collapseTypes');

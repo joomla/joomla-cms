@@ -67,6 +67,8 @@
 					label="PLG_CONTENT_PAGEBREAK_STYLE_LABEL"
 				>
 					<option value="pages">PLG_CONTENT_PAGEBREAK_PAGES</option>
+					<option value="bootstrapsliders">PLG_CONTENT_PAGEBREAK_BOOTSTRAPSLIDERS</option>
+					<option value="bootstraptabs">PLG_CONTENT_PAGEBREAK_BOOTSTRAPTABS</option>
 					<option value="sliders">PLG_CONTENT_PAGEBREAK_SLIDERS</option>
 					<option value="tabs">PLG_CONTENT_PAGEBREAK_TABS</option>
 				</field>

@@ -19,11 +19,11 @@ $class = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
 ?>
 
 <div class="pull-right article-index">
-	<?php if ($this->params->get('article_index') == 1) : ?>
+	<?php if ($this->params->get('article_index') == 1 && $this->params->get('article_index_text') == '') : ?>
 		<h3><?php echo JText::_('PLG_CONTENT_PAGEBREAK_ARTICLE_INDEX'); ?></h3>
 	<?php endif; ?>
 
-	<?php if ($this->params->get('article_index_text')) : ?>
+	<?php if ($this->params->get('article_index_text') && $this->params->get('article_index')) : ?>
 		<h3><?php echo htmlspecialchars($this->params->get('article_index_text'), ENT_QUOTES, 'UTF-8'); ?></h3>
 	<?php endif; ?>
 
