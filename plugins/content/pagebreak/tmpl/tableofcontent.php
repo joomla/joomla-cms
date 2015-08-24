@@ -30,8 +30,7 @@ $class = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
 	<ul class="nav nav-tabs nav-stacked">
 		<li class="<?php echo $class; ?>">
 			<a
-				href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language)
-					. '&showall=&limitstart='); ?>"
+				href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart='); ?>"
 				class="<?php echo $class; ?>"
 			>
 				<?php echo $heading; ?>
