@@ -5,6 +5,8 @@
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @deprecated  3.4 Use default_batch_body and default_batch_footer
  */
 
 defined('_JEXEC') or die;

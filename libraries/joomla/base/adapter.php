@@ -80,7 +80,7 @@ class JAdapter extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function getDBO()
+	public function getDbo()
 	{
 		return $this->_db;
 	}

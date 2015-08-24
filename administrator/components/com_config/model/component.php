@@ -145,7 +145,7 @@ class ConfigModelComponent extends ConfigModelForm
 
 			if (!$asset->check() || !$asset->store())
 			{
-				throw new RuntimeException($table->getError());
+				throw new RuntimeException($asset->getError());
 			}
 
 			// We don't need this anymore

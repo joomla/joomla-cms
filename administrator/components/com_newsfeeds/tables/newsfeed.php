@@ -112,7 +112,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	/**
 	 * Overriden JTable::store to set modified data.
 	 *
-	 * @param   boolean	 $updateNulls  True to update fields even if they are null.
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success.
 	 *

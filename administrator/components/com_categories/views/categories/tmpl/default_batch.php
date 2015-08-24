@@ -5,6 +5,8 @@
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @deprecated  3.4 Use default_batch_body and default_batch_footer
  */
 
 defined('_JEXEC') or die;
@@ -42,7 +44,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 				<div class="span6">
 					<div class="control-group">
 						<label id="batch-choose-action-lbl" for="batch-category-id" class="control-label">
-							<?php echo JText::_('COM_CATEGORIES_BATCH_CATEGORY_LABEL'); ?>
+							<?php echo JText::_('JLIB_HTML_BATCH_MENU_LABEL'); ?>
 						</label>
 						<div id="batch-choose-action" class="combo controls">
 							<select name="batch[category_id]" id="batch-category-id">
@@ -51,7 +53,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 							</select>
 						</div>
 					</div>
-					<div class="control-group radio">
+					<div id="batch-copy-move" class="control-group radio">
 						<?php echo JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
 					</div>
 				</div>

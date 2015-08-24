@@ -12,7 +12,6 @@
 	<files>
 		<filename module="mod_footer">mod_footer.php</filename>
 		<folder>tmpl</folder>
-		<filename>mod_footer.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_footer.ini</language>

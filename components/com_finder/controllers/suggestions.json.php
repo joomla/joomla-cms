@@ -4,7 +4,7 @@
  * @subpackage  com_finder
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Suggestions JSON controller for Finder.
  *
- * @since       2.5
+ * @since  2.5
  */
 class FinderControllerSuggestions extends JControllerLegacy
 {

@@ -249,6 +249,29 @@
 			<option value="0">JHIDE</option>
 		</field>
 
+		<field name="articles_display_num"
+			type="list"
+			default="10"
+			label="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_LABEL"
+			description="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_DESC"
+		>
+			<option value="use_contact">COM_CONTACT_FIELD_VALUE_USE_CONTACT_SETTINGS</option>
+			<option value="5">J5</option>
+			<option value="10">J10</option>
+			<option value="15">J15</option>
+			<option value="20">J20</option>
+			<option value="25">J25</option>
+			<option value="30">J30</option>
+			<option value="50">J50</option>
+			<option value="75">J75</option>
+			<option value="100">J100</option>
+			<option value="150">J150</option>
+			<option value="200">J200</option>
+			<option value="250">J250</option>
+			<option value="300">J300</option>
+			<option value="0">JALL</option>
+		</field>
+
 		<field name="show_profile"
 			type="radio"
 			class="btn-group btn-group-yesno"

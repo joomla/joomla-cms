@@ -106,6 +106,8 @@ class JCategories
 		$this->_statefield = (isset($options['statefield'])) ? $options['statefield'] : 'state';
 		$options['access'] = (isset($options['access'])) ? $options['access'] : 'true';
 		$options['published'] = (isset($options['published'])) ? $options['published'] : 1;
+		$options['countItems'] = (isset($options['countItems'])) ? $options['countItems'] : 0;
+		$options['currentlang'] = JLanguageMultilang::isEnabled() ? JFactory::getLanguage()->getTag() : 0;
 		$this->_options = $options;
 
 		return true;
@@ -259,20 +261,21 @@ class JCategories
 			->where('badcats.id is null');
 
 		// Note: i for item
-		if (isset($this->_options['countItems']) && $this->_options['countItems'] == 1)
+		if ($this->_options['countItems'] == 1)
 		{
+			$queryjoin = $db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id';
+
 			if ($this->_options['published'] == 1)
 			{
-				$query->join(
-					'LEFT',
-					$db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id AND i.' . $this->_statefield . ' = 1'
-				);
-			}
-			else
-			{
-				$query->join('LEFT', $db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id');
+				$queryjoin .= ' AND i.' . $this->_statefield . ' = 1';
 			}
 
+			if ($this->_options['currentlang'] !== 0)
+			{
+				$queryjoin .= ' AND (i.language = ' . $db->quote('*') . ' OR i.language = ' . $db->quote($this->_options['currentlang']) . ')';
+			}
+
+			$query->join('LEFT', $queryjoin);
 			$query->select('COUNT(i.' . $db->quoteName($this->_key) . ') AS numitems');
 		}
 
@@ -344,7 +347,9 @@ class JCategories
 						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
 					}
 
-					if (!isset($this->_nodes[$result->parent_id]))
+					// If the node's parent id is not in the _nodes list and the node is not root (doesn't have parent_id == 0),
+					// then remove the node from the list
+					if (!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0))
 					{
 						unset($this->_nodes[$result->id]);
 						continue;

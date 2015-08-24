@@ -249,7 +249,7 @@ class PlgContentPagebreak extends JPlugin
 	 *
 	 * @since  1.6
 	 */
-	protected function _createTOC(&$row, &$matches, &$page)
+	protected function _createToc(&$row, &$matches, &$page)
 	{
 		$heading = isset($row->title) ? $row->title : JText::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
 		$input = JFactory::getApplication()->input;
@@ -309,32 +309,19 @@ class PlgContentPagebreak extends JPlugin
 				$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 			}
 
-			$class = ($limitstart == $i - 1) ? 'toclink active' : 'toclink';
-			$row->toc .= '
-				<li>
-
-					<a href="' . $link . '" class="' . $class . '">'
-					. $title .
-					'</a>
-
-				</li>
-				';
+			$liClass = ($limitstart == $i - 1) ? ' class="active"' : '';
+			$class   = ($limitstart == $i - 1) ? 'toclink active' : 'toclink';
+			$row->toc .= '<li' . $liClass . '><a href="' . $link . '" class="' . $class . '">' . $title . '</a></li>';
 			$i++;
 		}
 
 		if ($this->params->get('showall'))
 		{
-			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1&limitstart=');
-			$class = ($showall == 1) ? 'toclink active' : 'toclink';
-			$row->toc .= '
-			<li>
-
-					<a href="' . $link . '" class="' . $class . '">'
-					. JText::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES') .
-					'</a>
-
-			</li>
-			';
+			$link    = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1&limitstart=');
+			$liClass = ($limitstart == $i - 1) ? ' class="active"' : '';
+			$class   = ($limitstart == $i - 1) ? 'toclink active' : 'toclink';
+			$row->toc .= '<li' . $liClass . '><a href="' . $link . '" class="' . $class . '">'
+				. JText::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES') . '</a></li>';
 		}
 
 		$row->toc .= '</ul></div>';

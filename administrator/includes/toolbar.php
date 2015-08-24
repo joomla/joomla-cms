@@ -37,7 +37,7 @@ abstract class JToolbarHelper
 
 		$app = JFactory::getApplication();
 		$app->JComponentTitle = $html;
-		JFactory::getDocument()->setTitle($app->get('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . $title);
+		JFactory::getDocument()->setTitle($app->get('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . strip_tags($title));
 	}
 
 	/**
@@ -627,10 +627,11 @@ abstract class JToolbarHelper
 	 */
 	public static function modal($targetModalId, $icon, $alt)
 	{
-		JHtml::_('behavior.modal');
+		JHtml::_('bootstrap.framework');
+
 		$title = JText::_($alt);
 		$dhtml = "<button data-toggle='modal' data-target='#" . $targetModalId . "' class='btn btn-small'>
-			<i class='" . $icon . "' title='" . $title . "'></i> " . $title . "</button>";
+			<span class='" . $icon . "' title='" . $title . "'></span> " . $title . "</button>";
 
 		$bar = JToolbar::getInstance('toolbar');
 		$bar->appendButton('Custom', $dhtml, $alt);

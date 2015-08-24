@@ -2,7 +2,7 @@
 <extension version="3.4" client="administrator" type="language" method="upgrade">
 	<name>English (United Kingdom)</name>
 	<tag>en-GB</tag>
-	<version>3.4.0</version>
+	<version>3.4.2</version>
 	<creationDate>2013-03-07</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -13,10 +13,10 @@
 	<files>
 		<filename>en-GB.com_admin.ini</filename>
 		<filename>en-GB.com_admin.sys.ini</filename>
-		<filename>en-GB.com_banners.ini</filename>
-		<filename>en-GB.com_banners.sys.ini</filename>
 		<filename>en-GB.com_ajax.ini</filename>
 		<filename>en-GB.com_ajax.sys.ini</filename>
+		<filename>en-GB.com_banners.ini</filename>
+		<filename>en-GB.com_banners.sys.ini</filename>
 		<filename>en-GB.com_cache.ini</filename>
 		<filename>en-GB.com_cache.sys.ini</filename>
 		<filename>en-GB.com_categories.ini</filename>
@@ -115,9 +115,9 @@
 		<filename>en-GB.plg_authentication_ldap.sys.ini</filename>
 		<filename>en-GB.plg_captcha_recaptcha.ini</filename>
 		<filename>en-GB.plg_captcha_recaptcha.sys.ini</filename>
-		<filename>en-GB.plg_content_emailcloak.ini</filename>
 		<filename>en-GB.plg_content_contact.ini</filename>
 		<filename>en-GB.plg_content_contact.sys.ini</filename>
+		<filename>en-GB.plg_content_emailcloak.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.sys.ini</filename>
 		<filename>en-GB.plg_content_finder.ini</filename>
 		<filename>en-GB.plg_content_finder.sys.ini</filename>
@@ -213,8 +213,7 @@
 		<filename>en-GB.tpl_hathor.sys.ini</filename>
 		<filename>en-GB.tpl_isis.ini</filename>
 		<filename>en-GB.tpl_isis.sys.ini</filename>
-		<filename>index.html</filename> 
-		<filename file="meta">en-GB.xml</filename>	
+		<filename file="meta">en-GB.xml</filename>
 		<filename file="meta">install.xml</filename>
 	</files>
 	<params />

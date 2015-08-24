@@ -135,7 +135,7 @@ class LanguagesModelOverride extends JModelAdmin
 			$client = 1 - $client;
 		}
 
-		// return false if the constant is a reserved word, i.e. YES, NO, NULL, FALSE, ON, OFF, NONE, TRUE
+		// Return false if the constant is a reserved word, i.e. YES, NO, NULL, FALSE, ON, OFF, NONE, TRUE
 		$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
 
 		if (in_array($data['key'], $blacklist))

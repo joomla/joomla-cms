@@ -52,8 +52,8 @@ JFactory::getDocument()->addScriptDeclaration('
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" />
 			</div>
 			<div class="btn-group pull-left">
-				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search"></span></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
 			</div>
 		</div>
 		<div class="clearfix"> </div>
@@ -69,16 +69,16 @@ JFactory::getDocument()->addScriptDeclaration('
 					<th width="5%" class="nowrap">
 						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="center nowrap hidden-phone">
+					<th width="10%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_CREATED_BY', 'a.created_by_alias', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="center nowrap hidden-phone">
+					<th width="10%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_FINDER_FILTER_TIMESTAMP', 'a.created', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="center nowrap hidden-phone">
+					<th width="5%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_FINDER_FILTER_MAP_COUNT', 'a.map_count', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="center nowrap hidden-phone">
+					<th width="1%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.filter_id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -125,16 +125,16 @@ JFactory::getDocument()->addScriptDeclaration('
 					<td class="center nowrap">
 						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'filters.', $canChange); ?>
 					</td>
-					<td class="center nowrap hidden-phone">
+					<td class="nowrap hidden-phone">
 						<?php echo $item->created_by_alias ? $item->created_by_alias : $item->user_name; ?>
 					</td>
-					<td class="center nowrap hidden-phone">
+					<td class="nowrap hidden-phone">
 						<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 					</td>
-					<td class="center nowrap hidden-phone">
+					<td class="nowrap hidden-phone">
 						<?php echo $item->map_count; ?>
 					</td>
-					<td class="center hidden-phone">
+					<td class="hidden-phone">
 						<?php echo (int) $item->filter_id; ?>
 					</td>
 				</tr>

@@ -97,6 +97,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		$query->from('(' . $subQuery->__toString() . ') AS a')
 			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 		$query->order('a.lft ASC');
+
 		// If parent isn't explicitly stated but we are in com_categories assume we want parents
 		if ($oldCat != 0 && ($this->element['parent'] == true || $jinput->get('option') == 'com_categories'))
 		{

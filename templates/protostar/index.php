@@ -127,6 +127,7 @@ else
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
 	. ($params->get('fluidContainer') ? ' fluid' : '');
+	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 
 	<!-- Body -->
@@ -148,7 +149,16 @@ else
 			</header>
 			<?php if ($this->countModules('position-1')) : ?>
 				<nav class="navigation" role="navigation">
-					<jdoc:include type="modules" name="position-1" style="none" />
+					<div class="navbar pull-left">
+						<a class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</a>
+					</div>
+					<div class="nav-collapse">
+						<jdoc:include type="modules" name="position-1" style="none" />
+					</div>
 				</nav>
 			<?php endif; ?>
 			<jdoc:include type="modules" name="banner" style="xhtml" />

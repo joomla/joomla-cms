@@ -123,7 +123,7 @@ class InstallationModelSetup extends JModelBase
 
 		// Get the posted values from the request and validate them.
 		$data   = $app->input->post->get('jform', array(), 'array');
-		$return	= $this->validate($data, $page);
+		$return = $this->validate($data, $page);
 
 		// Attempt to save the data before validation.
 		$form = $this->getForm();
@@ -233,8 +233,8 @@ class InstallationModelSetup extends JModelBase
 
 		// Check the PHP Version.
 		$option = new stdClass;
-		$option->label  = JText::_('INSTL_PHP_VERSION') . ' >= 5.3.10';
-		$option->state  = version_compare(PHP_VERSION, '5.3.10', '>=');
+		$option->label  = JText::sprintf('INSTL_PHP_VERSION_NEWER', JOOMLA_MINIMUM_PHP);
+		$option->state  = version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '>=');
 		$option->notice = null;
 		$options[] = $option;
 

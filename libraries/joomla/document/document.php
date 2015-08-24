@@ -390,8 +390,6 @@ class JDocument
 	 */
 	public function getMetaData($name, $httpEquiv = false)
 	{
-		$name = strtolower($name);
-
 		if ($name == 'generator')
 		{
 			$result = $this->getGenerator();
@@ -428,8 +426,6 @@ class JDocument
 	 */
 	public function setMetaData($name, $content, $http_equiv = false)
 	{
-		$name = strtolower($name);
-
 		if ($name == 'generator')
 		{
 			$this->setGenerator($content);

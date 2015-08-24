@@ -25,14 +25,12 @@ abstract class JHtmlLanguages
 	 */
 	public static function published($published)
 	{
-		if ($published)
-		{
-			return JHtml::_('image', 'menu/icon-16-default.png', JText::_('COM_LANGUAGES_HEADING_DEFAULT'), null, true);
-		}
-		else
+		if (!$published)
 		{
 			return '&#160;';
 		}
+
+		return JHtml::_('image', 'menu/icon-16-default.png', JText::_('COM_LANGUAGES_HEADING_DEFAULT'), null, true);
 	}
 
 	/**

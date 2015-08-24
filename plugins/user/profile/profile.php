@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 /**
  * An example custom profile plugin.
@@ -332,9 +332,6 @@ class PlgUserProfile extends JPlugin
 		{
 			try
 			{
-				// Convert website url to punycode
-				$data['profile']['website'] = JStringPunycode::urlToPunycode($data['profile']['website']);
-
 				$date = new JDate($data['profile']['dob']);
 				$this->date = $date->format('Y-m-d H:i:s');
 			}

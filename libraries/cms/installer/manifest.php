@@ -93,7 +93,7 @@ abstract class JInstallerManifest
 	{
 		if (strlen($xmlpath))
 		{
-			$this->loadManifestFromXML($xmlpath);
+			$this->loadManifestFromXml($xmlpath);
 		}
 	}
 
@@ -106,7 +106,7 @@ abstract class JInstallerManifest
 	 *
 	 * @since   3.1
 	 */
-	public function loadManifestFromXML($xmlfile)
+	public function loadManifestFromXml($xmlfile)
 	{
 		$this->manifest_file = basename($xmlfile, '.xml');
 

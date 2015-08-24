@@ -163,12 +163,12 @@ class UsersModelMail extends JModelAdmin
 		$mailer->setSender(array($app->get('mailfrom'), $app->get('fromname')));
 		$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes($subject));
 		$mailer->setBody($message_body . $params->get('mailBodySuffix'));
-		$mailer->IsHTML($mode);
+		$mailer->IsHtml($mode);
 
 		// Add recipients
 		if ($bcc)
 		{
-			$mailer->addBCC($rows);
+			$mailer->addBcc($rows);
 			$mailer->addRecipient($app->get('mailfrom'));
 		}
 		else

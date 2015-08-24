@@ -73,46 +73,52 @@ class JHelpTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JHelp::createURL
 	 * @since   3.0
 	 */
-	public function testCreateURL_com_content()
+	public function testCreateUrl()
 	{
-		$this->assertThat(
-			JHelp::createURL('JHELP_CONTENT_ARTICLE_MANAGER', false, null, 'com_content'),
-			$this->equalTo('help/en-GB/Content_Article_Manager.html'),
+		$this->assertEquals(
+			'help/en-GB/Content_Article_Manager.html',
+			JHelp::createUrl('JHELP_CONTENT_ARTICLE_MANAGER'),
+			'Creates a local help URL for com_content Article Manager.'
+		);
+
+		$this->assertEquals(
+			'components/com_content/help/en-GB/Content_Article_Manager.html',
+			JHelp::createUrl('JHELP_CONTENT_ARTICLE_MANAGER', true, null, 'com_content'),
+			'Creates a local help URL for com_content Article Manager in the component.'
+		);
+
+		$this->assertEquals(
+			'http://domain.tld/help',
+			JHelp::createUrl('JHELP_CONTENT_ARTICLE_MANAGER', true, 'http://domain.tld/help', 'com_content'),
+			'Creates a remote help URL via an override for com_content Article Manager.'
+		);
+
+		$this->assertEquals(
+			'help/en-GB/Content_Article_Manager.html',
+			JHelp::createUrl('JHELP_CONTENT_ARTICLE_MANAGER', false, null, 'com_content'),
 			'Creates a local help URL for com_content Article Manager.'
 		);
 	}
 
 	/**
-	 * Tests the createSiteList method with no XML file passed in the params
+	 * Tests the createSiteList method
 	 *
 	 * @return  void
 	 *
+	 * @covers  JHelp::createSiteList
 	 * @since   3.0
 	 */
-	public function testCreateSiteList_noXML()
+	public function testCreateSiteList()
 	{
-		$this->assertThat(
-			JHelp::createSiteList(null),
-			$this->isType('array'),
-			'Returns the default help site list'
+		$helpsite = array(
+			'text' => 'English (GB) help.joomla.org',
+			'value' => 'http://help.joomla.org'
 		);
-	}
+		$this->assertEquals(array($helpsite), JHelp::createSiteList(null), 'Returns the default help site list');
 
-	/**
-	 * Tests the createSiteList method with an XML file passed in the params
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function testCreateSiteList_withXML()
-	{
-		$this->assertThat(
-			JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml'),
-			$this->isType('array'),
-			'Returns the help site list defined in the XML file'
-		);
+		$this->assertInternalType('array', JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml'), 'Returns the help site list defined in the XML file');
 	}
 }

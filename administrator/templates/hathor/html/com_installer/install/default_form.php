@@ -13,15 +13,14 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.framework', true);
 JHtml::_('bootstrap.tooltip');
 
-?>
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function()
 	{
 		var form = document.getElementById('adminForm');
 
 		// do field validation
-		if (form.install_package.value == ""){
-			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true); ?>");
+		if (form.install_package.value == ''){
+			alert('" . JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true) . "');
 		}
 		else
 		{
@@ -35,8 +34,8 @@ JHtml::_('bootstrap.tooltip');
 		var form = document.getElementById('adminForm');
 
 		// do field validation
-		if (form.install_directory.value == ""){
-			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_DIRECTORY', true); ?>");
+		if (form.install_directory.value == ''){
+			alert('" . JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_DIRECTORY', true) . "');
 		}
 		else
 		{
@@ -50,8 +49,8 @@ JHtml::_('bootstrap.tooltip');
 		var form = document.getElementById('adminForm');
 
 		// do field validation
-		if (form.install_url.value == "" || form.install_url.value == "http://"){
-			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true); ?>");
+		if (form.install_url.value == '' || form.install_url.value == 'http://'){
+			alert('" . JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true) . "');
 		}
 		else
 		{
@@ -68,8 +67,8 @@ JHtml::_('bootstrap.tooltip');
 
 		Joomla.submitbutton4();
 	};
-</script>
-
+");
+?>
 <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">

@@ -310,7 +310,23 @@ class UsersModelUsers extends JModelList
 		if ($groupId || isset($groups))
 		{
 			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id')
-				->group($db->quoteName(array('a.id', 'a.name', 'a.username', 'a.password', 'a.block', 'a.sendEmail', 'a.registerDate', 'a.lastvisitDate', 'a.activation', 'a.params', 'a.email')));
+				->group(
+					$db->quoteName(
+						array(
+							'a.id',
+							'a.name',
+							'a.username',
+							'a.password',
+							'a.block',
+							'a.sendEmail',
+							'a.registerDate',
+							'a.lastvisitDate',
+							'a.activation',
+							'a.params',
+							'a.email'
+						)
+					)
+				);
 
 			if ($groupId)
 			{
@@ -423,9 +439,9 @@ class UsersModelUsers extends JModelList
 	 *
 	 * @return  string   Groups titles imploded :$
 	 */
-	function _getUserDisplayedGroups($user_id)
+	protected function _getUserDisplayedGroups($user_id)
 	{
-		$db    = JFactory::getDbo();
+		$db = $this->getDbo();
 		$query = "SELECT title FROM " . $db->quoteName('#__usergroups') . " ug left join " .
 			$db->quoteName('#__user_usergroup_map') . " map on (ug.id = map.group_id)" .
 			" WHERE map.user_id=" . (int) $user_id;

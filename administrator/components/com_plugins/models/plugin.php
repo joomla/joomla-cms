@@ -241,7 +241,7 @@ class PluginsModelPlugin extends JModelAdmin
 		$lang		= JFactory::getLanguage();
 
 		// Load the core and/or local language sys file(s) for the ordering field.
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('element'))
 			->from($db->quoteName('#__extensions'))
@@ -363,6 +363,7 @@ class PluginsModelPlugin extends JModelAdmin
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		parent::cleanCache('com_plugins');
+		parent::cleanCache('com_plugins', 0);
+		parent::cleanCache('com_plugins', 1);
 	}
 }

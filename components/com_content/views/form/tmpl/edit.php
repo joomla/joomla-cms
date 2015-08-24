@@ -18,8 +18,6 @@ JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
-//$images = json_decode($this->item->images);
-//$urls = json_decode($this->item->urls);
 
 // This checks if the editor config options have ever been saved. If they haven't they will fall back to the original settings.
 $editoroptions = isset($params->show_publishing_options);
@@ -40,7 +38,7 @@ JFactory::getDocument()->addScriptDeclaration("
 ");
 ?>
 <div class="edit item-page<?php echo $this->pageclass_sfx; ?>">
-	<?php if ($params->get('show_page_heading', 1)) : ?>
+	<?php if ($params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1>
 			<?php echo $this->escape($params->get('page_heading')); ?>

@@ -809,7 +809,7 @@ class JApplication extends JApplicationBase
 	 * @since   11.1
 	 * @deprecated  4.0
 	 */
-	static public function getRouter($name = null, array $options = array())
+	public static function getRouter($name = null, array $options = array())
 	{
 		if (!isset($name))
 		{
@@ -841,7 +841,7 @@ class JApplication extends JApplicationBase
 	 * @since   11.1
 	 * @deprecated  4.0  Use JApplicationHelper::stringURLSafe instead
 	 */
-	static public function stringURLSafe($string)
+	public static function stringURLSafe($string)
 	{
 		return JApplicationHelper::stringURLSafe($string);
 	}
@@ -1151,7 +1151,7 @@ class JApplication extends JApplicationBase
 	 * @since   11.1
 	 * @deprecated  13.3 (Platform) & 4.0 (CMS) Use the IS_WIN constant instead.
 	 */
-	public static function isWinOS()
+	public static function isWinOs()
 	{
 		JLog::add('JApplication::isWinOS() is deprecated. Use the IS_WIN constant instead.', JLog::WARNING, 'deprecated');
 

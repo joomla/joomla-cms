@@ -28,8 +28,6 @@ class ModulesController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		$view   = $this->input->get('view', 'modules');
-		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
 
 		$document = JFactory::getDocument();

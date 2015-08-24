@@ -24,7 +24,7 @@ if (!empty($displayData['options']['showonEnabled']))
 }
 
 $class = empty($displayData['options']['class']) ? "" : " " . $displayData['options']['class'];
-$rel   = empty($displayData['options']['rel']) ? "" : " " .  $displayData['options']['rel'];
+$rel   = empty($displayData['options']['rel']) ? "" : " " . $displayData['options']['rel'];
 ?>
 
 <div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>

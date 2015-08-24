@@ -136,3 +136,7 @@ textarea.vert {
 textarea.noResize {
 	resize: none;
 }
+/* Tooltip */
+.tooltip {
+	white-space: pre-wrap;
+}

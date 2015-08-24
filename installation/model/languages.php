@@ -224,7 +224,7 @@ class InstallationModelLanguages extends JModelBase
 	protected function getPackageUrl($remote_manifest)
 	{
 		$update = new JUpdate;
-		$update->loadFromXML($remote_manifest);
+		$update->loadFromXml($remote_manifest);
 		$package_url = trim($update->get('downloadurl', false)->_data);
 
 		return $package_url;
@@ -1097,8 +1097,8 @@ class InstallationModelLanguages extends JModelBase
 		$db = JFactory::getDbo();
 
 		$newlanguage = new JLanguage($itemLanguage->language, false);
-		$newlanguage->load('plg_editors-xtd_article', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
-		$title = $newlanguage->_('PLG_ARTICLE_BUTTON_ARTICLE');
+		$newlanguage->load('com_content.sys', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+		$title = $newlanguage->_('COM_CONTENT_CONTENT_TYPE_ARTICLE');
 
 		$article                   = JTable::getInstance('Content');
 
@@ -1124,7 +1124,7 @@ class InstallationModelLanguages extends JModelBase
 			'catid'            => $categoryId,
 			'metadata'         => '{"robots":"","author":"","rights":"","xreference":"","tags":null}',
 			'metakey'          => '',
-			'metadesc'         => '{"robots":"","author":"","rights":"","xreference":""}',
+			'metadesc'         => '',
 			'language'         => $itemLanguage->language,
 			'featured'         => 1,
 			'attribs'          => array(),

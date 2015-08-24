@@ -37,7 +37,7 @@ class ContentModelFeature extends ContentModelArticle
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   object	A record object.
+	 * @param   object  $table  A record object.
 	 *
 	 * @return  array  An array of conditions to add to add to ordering queries.
 	 *
