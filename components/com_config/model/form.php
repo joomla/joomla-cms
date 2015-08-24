@@ -308,7 +308,14 @@ abstract class ConfigModelForm extends ConfigModelCms
 			// Get the validation messages from the form.
 			foreach ($form->getErrors() as $message)
 			{
-				JFactory::getApplication()->enqueueMessage($message->getMessage(), 'error');
+				if ($message instanceof Exception)
+				{
+					JFactory::getApplication()->enqueueMessage($message->getMessage(), 'error');
+				}
+				else
+				{
+					JFactory::getApplication()->enqueueMessage($message, 'error');
+				}
 			}
 
 			return false;
