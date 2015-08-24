@@ -96,7 +96,73 @@ class ConfigModelApplication extends ConfigModelForm
 	public function save($data)
 	{
 		$app = JFactory::getApplication();
+		JLoader::register('JRedis', JPATH_PLATFORM . '/joomla/database/redis.php');
 
+		// Check that we aren't setting wrong database configuration
+		$options = array(
+			'driver'   => $data['dbtype'],
+			'host'     => $data['host'],
+			'user'     => $data['user'],
+			'password' => JFactory::getConfig()->get('password'),
+			'database' => $data['db'],
+			'prefix'   => $data['dbprefix']
+		);
+
+		try
+		{
+			$dbc = JDatabaseDriver::getInstance($options)->getVersion();
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'), 'error');
+
+			return false;
+		}
+
+		// Check that we aren't setting wrong Redis configuration for cache if selected
+		$conf = (int) JFactory::getConfig()->get('caching', 0);
+		if (($data['cache_handler'] === 'redis') && ($conf != 0))
+		{
+			$options = array(
+				'host'   => $data['redis_server_host'],
+				'port'   => $data['redis_server_port'],
+				'auth'   => $data['redis_server_auth'],
+				'db'     => $data['redis_server_db'],
+				'driver' => 'redis'
+			);
+
+			try
+			{
+				$dsc = JRedis::getInstance($options);
+			}
+			catch (Exception $e)
+			{
+				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_SETTING_CACHE'), 'error');
+				return false;
+			}
+		}
+
+		// Check that we aren't setting wrong Redis configuration for session
+		if ($data['session_handler'] === 'redis')
+		{
+			$options = array(
+				'host'   => $data['session_redis_server_host'],
+				'port'   => $data['session_redis_server_port'],
+				'auth'   => $data['session_redis_server_auth'],
+				'db'     => $data['session_redis_server_db'],
+				'driver' => 'redis'
+			);
+
+			try
+			{
+				$dsc = JRedis::getInstance($options);
+			}
+			catch (Exception $e)
+			{
+				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_SETTING_SESSION'), 'error');
+				return false;
+			}
+		}
 		// Save the rules
 		if (isset($data['rules']))
 		{

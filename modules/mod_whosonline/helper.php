@@ -25,10 +25,107 @@ class ModWhosonlineHelper
 	 **/
 	public static function getOnlineCount()
 	{
+		$cfg     = JFactory::getConfig();
+		$handler = $cfg->get('session_handler', 'none');
+		$results = null;
+
+		switch ($handler)
+		{
+			case 'database':
+			case 'none':
+				$results = self::getOnlineCountFromDb();
+				break;
+			case 'redis':
+				$results = self::getOnlineCountFromRedis();
+				break;
+			default:
+				break;
+		}
+
+		return $results;
+	}
+	/**
+	 * Show online user names
+	 *
+	 * @param   mixed  $params  The parameters
+	 *
+	 * @return  array  The name of Users and Guests online.
+	 *
+	 * @since   1.5
+	 **/
+	public static function getOnlineUserNames($params)
+	{
+		$cfg     = JFactory::getConfig();
+		$handler = $cfg->get('session_handler', 'none');
+		$results = null;
+
+		switch ($handler)
+		{
+			case 'database':
+			case 'none':
+				$results = self::getOnlineUserNamesFromDb($params);
+				break;
+			case 'redis':
+				$results = self::getOnlineUserNamesFromRedis($params);
+				break;
+			default:
+				break;
+		}
+
+		return $results;
+	}
+
+	/**
+	 * Get online count from Redis
+	 *
+	 * @return  array  The number of Users and Guests online.
+	 *
+	 * @since   3.5
+	 **/
+	private function getOnlineCountFromRedis()
+	{
+		$ds = JFactory::getRedis();
+
+		// Calculate number of guests and users
+		$result      = array();
+		$user_array  = 0;
+		$guest_array = 0;
+
+		try
+		{
+			$sessions     = $ds->keys('sess-*');
+			$logged_users = $ds->smembers('utenti');
+		}
+		catch (RuntimeException $e)
+		{
+			// Don't worry be happy
+			$sessions = array();
+		}
+
+		if ($sessions === false)
+		{
+			$sessions = array();
+		}
+
+		$result['user']  = count($logged_users);
+		$result['guest'] = ((count($sessions) - count($logged_users)) > 0) ? (count($sessions) - count($logged_users)) : 0;
+
+		return $result;
+	}
+
+	/**
+	 * Get online count from the Database
+	 *
+	 * @return  array  The number of Users and Guests online.
+	 *
+	 * @since   3.5
+	 **/
+	private function getOnlineCountFromDb()
+	{
 		$db = JFactory::getDbo();
 
 		// Calculate number of guests and users
-		$result	     = array();
+		$result      = array();
 		$user_array  = 0;
 		$guest_array = 0;
 
@@ -73,15 +170,38 @@ class ModWhosonlineHelper
 	}
 
 	/**
-	 * Show online member names
+	 * Get online member names form Redis
 	 *
 	 * @param   mixed  $params  The parameters
 	 *
-	 * @return  array   (array) $db->loadObjectList()  The names of the online users.
+	 * @return  array  The names of the online users.
 	 *
-	 * @since   1.5
+	 * @since   3.5
 	 **/
-	public static function getOnlineUserNames($params)
+	private function getOnlineUserNamesFromRedis($params)
+	{
+		$ds = JFactory::getRedis();
+
+		try
+		{
+			return $ds->smembers('utenti');
+		}
+		catch (RuntimeException $e)
+		{
+			return array();
+		}
+	}
+
+	/**
+	 * Get online member names form the Database
+	 *
+	 * @param   mixed  $params  The parameters
+	 *
+	 * @return  array  The names of the online users.
+	 *
+	 * @since   3.5
+	 **/
+	private function getOnlineUserNamesFromDb($params)
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -117,6 +237,49 @@ class ModWhosonlineHelper
 		catch (RuntimeException $e)
 		{
 			return array();
+		}
+	}
+
+	/**
+	 * Purge the List
+	 *
+	 * @return  bolean  True on success
+	 *
+	 * @since   3.5
+	 **/
+	private function purgelist()
+	{
+		$ds = JFactory::getRedis();
+
+		try
+		{
+			$lista = $ds->smembers('utenti');
+		}
+		catch (Exception $e)
+		{
+			throw new RuntimeException(JText::_('JERROR_SESSION_REDIS_DESTROY'));
+
+			return false;
+		}
+
+		// Get the datastore connection object and verify its connected.
+		foreach ($lista as $elm)
+		{
+			try
+			{
+				$exist = $ds->ttl($elm);
+			}
+			catch (Exception $e)
+			{
+				throw new RuntimeException(JText::_('JERROR_SESSION_REDIS_DESTROY'));
+
+				return false;
+			}
+
+			if ($exist == -1)
+			{
+				$ds->srem('utenti', $elm);
+			}
 		}
 	}
 }

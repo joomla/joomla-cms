@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
 	<?php endif;?>
 	<?php foreach ($names as $name) : ?>
 		<li>
-			<?php echo $name->username; ?>
+			<?php echo (isset($name->username) ? $name->username : $name); ?>
 		</li>
 	<?php endforeach;  ?>
 	</ul>

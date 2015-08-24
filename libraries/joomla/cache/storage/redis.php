@@ -12,159 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Redis cache storage handler for PECL
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @since       3.4
+ * @since  3.4
  */
 class JCacheStorageRedis extends JCacheStorage
 {
-	/**
-	 * Redis connection object
-	 *
-	 * @var    Redis
-	 * @since  3.4
-	 */
-	protected static $_redis = null;
-
-	/**
-	 * Persistent session flag
-	 *
-	 * @var    boolean
-	 * @since  3.4
-	 */
-	protected $_persistent = false;
-
-	/**
-	 * Constructor
-	 *
-	 * @param   array  $options  Optional parameters.
-	 *
-	 * @since   3.4
-	 */
-	public function __construct($options = array())
-	{
-		parent::__construct($options);
-
-		if (static::$_redis === null)
-		{
-			$this->getConnection();
-		}
-	}
-
-	/**
-	 * Return redis connection object
-	 *
-	 * @return  mixed  Redis connection object on success, void or boolean on failure
-	 *
-	 * @since   3.4
-	 *
-	 * @throws  RuntimeException
-	 */
-	protected function getConnection()
-	{
-		if (static::isSupported() == false)
-		{
-			return false;
-		}
-
-		$config  = JFactory::getConfig();
-		$app     = JFactory::getApplication();
-		$caching = (bool) $config->get('caching');
-
-		if ($caching == false)
-		{
-			return false;
-		}
-
-		$this->_persistent = $config->get('redis_persist', true);
-
-		$server = array(
-			'host' => $config->get('redis_server_host', 'localhost'),
-			'port' => $config->get('redis_server_port', 6379),
-			'auth' => $config->get('redis_server_auth', null),
-			'db'   => (int) $config->get('redis_server_db', null)
-		);
-
-		static::$_redis = new Redis;
-
-		if ($this->_persistent)
-		{
-			try
-			{
-				$connection = static::$_redis->pconnect($server['host'], $server['port']);
-				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
-			}
-			catch (Exception $e)
-			{
-			}
-		}
-		else
-		{
-			try
-			{
-				$connection = static::$_redis->connect($server['host'], $server['port']);
-				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
-			}
-			catch (Exception $e)
-			{
-			}
-		}
-
-		if ($connection == false)
-		{
-			static::$_redis = null;
-
-			if ($app->isAdmin())
-			{
-				JError::raiseWarning(500, 'Redis connection failed');
-			}
-
-			return;
-		}
-
-		if ($auth == false)
-		{
-			if ($app->isAdmin())
-			{
-				JError::raiseWarning(500, 'Redis authentication failed');
-			}
-
-			return;
-		}
-
-		$select = static::$_redis->select($server['db']);
-
-		if ($select == false)
-		{
-			static::$_redis = null;
-
-			if ($app->isAdmin())
-			{
-				JError::raiseWarning(500, 'Redis failed to select database');
-			}
-
-			return;
-		}
-
-		try
-		{
-			static::$_redis->ping();
-		}
-		catch (RedisException $e)
-		{
-			static::$_redis = null;
-
-			if ($app->isAdmin())
-			{
-				JError::raiseWarning(500, 'Redis ping failed');
-			}
-
-			return;
-		}
-
-		return static::$_redis;
-	}
-
 	/**
 	 * Get cached data from redis by id and group
 	 *
@@ -178,63 +29,11 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
-		if (static::isConnected() == false)
-		{
-			return false;
-		}
-
+		$ds       = JFactory::getRedis('cache');
 		$cache_id = $this->_getCacheId($id, $group);
-		$back     = static::$_redis->get($cache_id);
+		$back     = $ds->get($cache_id);
 
 		return $back;
-	}
-
-	/**
-	 * Get all cached data
-	 *
-	 * @return  array  Array of cached data
-	 *
-	 * @since   3.4
-	 */
-	public function getAll()
-	{
-		if (static::isConnected() == false)
-		{
-			return false;
-		}
-
-		parent::getAll();
-
-		$allKeys = static::$_redis->keys('*');
-		$data    = array();
-		$secret  = $this->_hash;
-
-		if (!empty($allKeys))
-		{
-			foreach ($allKeys as $key)
-			{
-				$namearr = explode('-', $key);
-
-				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
-				{
-					$group = $namearr[2];
-
-					if (!isset($data[$group]))
-					{
-						$item = new JCacheStorageHelper($group);
-					}
-					else
-					{
-						$item = $data[$group];
-					}
-
-					$item->updateSize(strlen($key)*8/1024);
-					$data[$group] = $item;
-				}
-			}
-		}
-
-		return $data;
 	}
 
 	/**
@@ -250,27 +49,14 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public function store($id, $group, $data)
 	{
-		if (static::isConnected() == false)
-		{
-			return false;
-		}
+		$ds = JFactory::getRedis('cache');
 
-		$cache_id     = $this->_getCacheId($id, $group);
-		$tmparr       = new stdClass;
-		$tmparr->name = $cache_id;
-		$tmparr->size = strlen($data);
+		$cache_id = $this->_getCacheId($id, $group);
+		$config   = JFactory::getConfig();
+		$lifetime = (int) $config->get('cachetime', 15);
 
-		$config       = JFactory::getConfig();
-		$lifetime     = (int) $config->get('cachetime', 15);
-
-		if ($this->_lifetime == $lifetime)
-		{
-			$this->_lifetime = $lifetime * 60;
-		}
-
-		$index[] = $tmparr;
-
-		static::$_redis->setex($cache_id, 3600, $data);
+		// Lifetime to seconds
+		$ds->setex($cache_id, $lifetime * 60, $data);
 
 		return true;
 	}
@@ -287,14 +73,10 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public function remove($id, $group)
 	{
-		if (static::isConnected() == false)
-		{
-			return false;
-		}
-
+		$ds       = JFactory::getRedis('cache');
 		$cache_id = $this->_getCacheId($id, $group);
 
-		return static::$_redis->delete($cache_id);
+		return $ds->delete($cache_id);
 	}
 
 	/**
@@ -311,12 +93,8 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public function clean($group, $mode = null)
 	{
-		if (static::isConnected() == false)
-		{
-			return false;
-		}
-
-		$allKeys = static::$_redis->keys('*');
+		$ds      = JFactory::getRedis('cache');
+		$allKeys = $ds->keys('*');
 
 		if ($allKeys === false)
 		{
@@ -329,12 +107,12 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			if (strpos($key, $secret . '-cache-' . $group . '-') === 0 && $mode == 'group')
 			{
-				static::$_redis->delete($key);
+				$ds->delete($key);
 			}
 
 			if (strpos($key, $secret . '-cache-' . $group . '-') !== 0 && $mode != 'group')
 			{
-				static::$_redis->delete($key);
+				$ds->delete($key);
 			}
 		}
 
@@ -350,18 +128,6 @@ class JCacheStorageRedis extends JCacheStorage
 	 */
 	public static function isSupported()
 	{
-		return class_exists('Redis');
-	}
-
-	/**
-	 * Test to see if the Redis connection is up
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   3.4
-	 */
-	public static function isConnected()
-	{
-		return (bool) static::$_redis;
+		return (extension_loaded('redis') && class_exists('Redis'));
 	}
 }

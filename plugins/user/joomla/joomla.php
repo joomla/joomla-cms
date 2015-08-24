@@ -54,6 +54,34 @@ class PlgUserJoomla extends JPlugin
 			return false;
 		}
 
+		$config  = JFactory::getConfig();
+		$handler = $config->get('session_handler', 'none');
+
+		switch ($handler)
+		{
+			case 'database':
+			case 'none':
+				$results = $this->deleteUserSessionFromDb();
+				break;
+			case 'redis':
+				$results = $this->deleteUserSessionFromRedis();
+				break;
+			default:
+				break;
+		}
+
+		return $results;
+	}
+
+	/**
+	 * Delete user session from DB
+	 *
+	 * @return  boolean  true or false.
+	 *
+	 * @since   1.5
+	 **/
+	public function deleteUserSessionFromDb()
+	{
 		$query = $this->db->getQuery(true)
 			->delete($this->db->quoteName('#__session'))
 			->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
@@ -61,6 +89,31 @@ class PlgUserJoomla extends JPlugin
 		try
 		{
 			$this->db->setQuery($query)->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
+
+		return true;
+	}
+	/**
+	 * Delete user session from Redis
+	 *
+	 * @return  boolean  true or false.
+	 *
+	 * @since   3.5
+	 **/
+	public function deleteUserSessionFromRedis()
+	{
+		$ds             = JFactory::getRedis();
+		$key4sessionuid = 'sessid-' . (int) $user->get('id') . '-' . (int) JFactory::getApplication()->getClientId();
+
+		try
+		{
+			$key = $ds->get($key4sessionuid);
+			$ds->delete($key);
+			$ds->delete($key4sessionuid);
 		}
 		catch (RuntimeException $e)
 		{
@@ -215,6 +268,40 @@ class PlgUserJoomla extends JPlugin
 		// Check to see the the session already exists.
 		$this->app->checkSession();
 
+		$cfg = JFactory::getConfig();
+		$handler = $cfg->get('session_handler', 'none');
+
+		switch ($handler)
+		{
+			case 'database':
+			case 'none':
+				$results = $this->loginUserFromDb($instance, $session);
+				break;
+			case 'redis':
+				$results = $this->loginUserFromRedis($instance, $session);
+				break;
+			default:
+				break;
+
+		}
+
+		// Hit the user last visit field
+		$instance->setLastVisit();
+
+		return $results;
+	}
+	/**
+	 * This method handle db login logic
+	 *
+	 * @param   array  $instance  Holds the user data
+	 * @param   array  $session   Array holding options (remember, autoregister, group)
+	 *
+	 * @return  boolean  true or false.
+	 *
+	 * @since   1.5
+	 **/
+	public function loginUserFromDb($instance, $session)
+	{
 		// Update the user related fields for the Joomla sessions table.
 		$query = $this->db->getQuery(true)
 			->update($this->db->quoteName('#__session'))
@@ -231,8 +318,45 @@ class PlgUserJoomla extends JPlugin
 			return false;
 		}
 
-		// Hit the user last visit field
-		$instance->setLastVisit();
+		return true;
+	}
+	/**
+	 * This method handle Redis login logic
+	 *
+	 * @param   array  $instance  Holds the user data
+	 * @param   array  $session   Array holding options (remember, autoregister, group)
+	 *
+	 * @return  boolean  true or false.
+	 *
+	 * @since   3.5
+	 **/
+	public function loginUserFromRedis($instance, $session)
+	{
+		$ds = JFactory::getRedis();
+
+		$hash = array(
+			'client_id' => (int) $this->app->getClientId(),
+			'guest'     => $this->db->quote($instance->guest),
+			'time'      => (int) $session->get('session.timer.start'),
+			'userid'    => (int) $instance->id,
+			'username'  => $this->db->quote($instance->username)
+		);
+
+		$jsonValue = json_encode($hash);
+		$lifetime  = (($this->app->get('lifetime')) ? $this->app->get('lifetime') * 60 : 900);
+		$newkey    = 'user-' . $instance->username;
+
+		try
+		{
+			$ds->setex($newkey, $lifetime, $jsonValue);
+			$ds->setex($instance->username, $lifetime, $instance->id);
+			$ds->setex($instance->id, $lifetime, $instance->username);
+			$ds->sadd('utenti', $instance->username);
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
 
 		return true;
 	}
@@ -273,19 +397,86 @@ class PlgUserJoomla extends JPlugin
 
 		if ($forceLogout)
 		{
-			$query = $this->db->getQuery(true)
-				->delete($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
-				->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
-			try
+			$config  = JFactory::getConfig();
+			$handler = $config->get('session_handler', 'none');
+
+			switch ($handler)
 			{
-				$this->db->setQuery($query)->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				return false;
+				case 'database':
+				case 'none':
+					$results = $this->logoutUserSessionFromDb($user, $options);
+					break;
+				case 'redis':
+					$results = $this->logoutUserSessionFromRedis($user, $options);
+					break;
+
+				default:
+					break;
 			}
 		}
+
+		return $results;
+	}
+
+	/**
+	 * This method will logout a user session from the Database
+	 *
+	 * @param   array  $user     Holds the user data
+	 * @param   array  $options  Array holding options (remember, autoregister, group)
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.5
+	 */
+	private function logoutUserSessionFromDb($user, $options)
+	{
+		$query = $this->db->getQuery(true)
+			->delete($this->db->quoteName('#__session'))
+			->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
+			->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
+
+		try
+		{
+			$this->db->setQuery($query)->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * This method will logout a user session from Redis
+	 *
+	 * @param   array  $user     Holds the user data
+	 * @param   array  $options  Array holding options (remember, autoregister, group)
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.5
+	 */
+	private function logoutUserSessionFromRedis($user, $options)
+	{
+		$ds             = JFactory::getRedis();
+		$key4sessionuid = 'sessid-' . (int) $user['id'] . '-' . (int) $options['clientid'];
+
+		try
+		{
+			$key = $ds->get($key4sessionuid);
+			$ds->delete($key4sessionuid);
+			$ds->delete($key);
+			$ds->delete($user['id']);
+			$ds->delete($user['username']);
+			$ds->delete('user-' . $user['username']);
+			$ds->srem('utenti', $user['username']);
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
+
 		return true;
 	}
 

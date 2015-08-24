@@ -91,6 +91,13 @@ abstract class JFactory
 	public static $database = null;
 
 	/**
+	 * Global key-value datastore
+	 *
+	 * @since  11.1
+	 */
+	public static $kvstore = null;
+
+	/**
 	 * Global mailer object
 	 *
 	 * @var    JMail
@@ -794,5 +801,79 @@ abstract class JFactory
 		}
 
 		return $retval;
+	}
+	/**
+	 * Get a datastore object.
+	 *
+	 * Returns the global {@link JRedis} object, only creating it if it doesn't already exist.
+	 *
+	 * @param   string  $type  The type of instance (session, cache)
+	 * 
+	 * @return  JRedis
+	 *
+	 * @see     JRedis
+	 * @since   3.5
+	 */
+	public static function getRedis($type = 'session')
+	{
+		if (!isset(self::$kvstore[$type]))
+		{
+			self::$kvstore[$type] = self::createRedis($type);
+		}
+
+		return self::$kvstore[$type];
+	}
+	/**
+	 * Create a datastore object
+	 *
+	 * @param   string  $type  The type of instance (session, cache)
+	 * 
+	 * @return  JRedis
+	 *
+	 * @see     Jredis
+	 * @since   3.5
+	 */
+	protected static function createRedis($type = 'session')
+	{
+		$conf = self::getConfig();
+		JLoader::register('JRedis', JPATH_PLATFORM . '/joomla/database/redis.php');
+
+		if ($type == 'session')
+		{
+			$options = array(
+				'host'   => $conf->get('session_redis_server_host', 'localhost'),
+				'port'   => $conf->get('session_redis_server_port', 6379),
+				'auth'   => $conf->get('session_redis_server_auth', null),
+				'db'     => $conf->get('session_redis_server_db', 0),
+				'driver' => 'redis',
+			);
+		}
+
+		if ($type == 'cache')
+		{
+		$options = array(
+				'host'   => $conf->get('redis_server_host', 'localhost'),
+				'port'   => $conf->get('redis_server_port', 6379),
+				'auth'   => $conf->get('redis_server_auth', null),
+				'db'     => $conf->get('redis_server_db', 0),
+				'driver' => 'redis'
+			);
+		}
+
+		try
+		{
+			$ds = JRedis::getInstance($options);
+		}
+		catch (RuntimeException $e)
+		{
+			if (!headers_sent())
+			{
+				header('HTTP/1.1 500 Internal Server Error');
+			}
+
+			jexit('Redis problem: ' . $e->getMessage());
+		}
+
+		return $ds;
 	}
 }

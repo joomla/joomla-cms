@@ -158,14 +158,108 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * @return  void
 	 *
-	 * @since   3.2
-	 * @throws  RuntimeException
+	 * @since   3.5
 	 */
 	public function checkSession()
 	{
-		$db = JFactory::getDbo();
+		if ($this->config->get('session_handler') == 'redis')
+		{
+			$this->checkSessionRedis();
+		}
+		else
+		{
+			$this->checkSessionDatabase();
+		}
+	}
+
+	/**
+	 * Checks the user session via Redis.
+	 *
+	 * If the session record doesn't exist, initialise it.
+	 * If session is new, create session variables
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 * @throws  Exception or RuntimeException
+	 */
+	public function checkSessionRedis()
+	{
+		$ds      = JFactory::getRedis();
 		$session = JFactory::getSession();
-		$user = JFactory::getUser();
+		$user    = JFactory::getUser();
+
+		try
+		{
+			$exists = $ds->exists('sess-' . $session->getId());
+		}
+		catch (Exception $e)
+		{
+			$exists = false;
+			throw new Exception(JText::_('JERROR_SESSION_STARTUP'));
+		}
+
+		if (!$exists)
+		{
+			if ($session->isNew())
+			{
+				$ds->delete('sess-' . $session->getId());
+				$hash = array(
+					'client_id' => (int) $this->getClientId(),
+					'time'      => (int) time(),
+				);
+			}
+			else
+			{
+				$hash = array(
+					'client_id' => (int) $this->getClientId(),
+					'guest'     => (int) $user->get('guest'),
+					'time'      => (int) $session->get('session.timer.start'),
+					'userid'    => (int) $user->get('id'),
+					'username'  => $user->get('username'),
+				);
+			}
+
+			// If the insert failed, exit the application.
+			$key            = 'sess-' . $session->getId();
+			$key4sessionuid = 'sessid-' . (int) $user->get('id') . '-' . (int) $this->getClientId();
+			$jsonValue      = json_encode($hash);
+			$lifetime       = (($this->config->get('lifetime')) ? $this->config->get('lifetime') * 60 : 900);
+
+			try
+			{
+				if (!$user->get('id') > 0)
+				{
+					$ds->setex($key4sessionuid, $lifetime, $key);
+				}
+				else
+				{
+					$ds->setex($key, $lifetime, $jsonValue);
+				}
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException(JText::_('JERROR_SESSION_STARTUP'));
+			}
+		}
+	}
+
+	/**
+	 * Checks the user session via Databse.
+	 *
+	 * If the session record doesn't exist, initialise it.
+	 * If session is new, create session variables
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 * @throws  RuntimeException
+	 */
+	public function checkSessionDatabase()
+	{
+		$db      = JFactory::getDbo();
+		$session = JFactory::getSession();
+		$user    = JFactory::getUser();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('session_id'))
@@ -563,7 +657,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function getUserState($key, $default = null)
 	{
-		$session = JFactory::getSession();
+		$session  = JFactory::getSession();
 		$registry = $session->get('registry');
 
 		if (!is_null($registry))
@@ -739,28 +833,38 @@ class JApplicationCms extends JApplicationWeb
 		$session->start();
 
 		// TODO: At some point we need to get away from having session data always in the db.
-		$db = JFactory::getDbo();
-
-		// Remove expired sessions from the database.
-		$time = time();
-
-		if ($time % 2)
-		{
-			// The modulus introduces a little entropy, making the flushing less accurate
-			// but fires the query less than half the time.
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
-
-			$db->setQuery($query);
-			$db->execute();
-		}
-
 		// Get the session handler from the configuration.
 		$handler = $this->get('session_handler', 'none');
+		$time    = time();
 
-		if (($handler != 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler == 'database' && $session->isNew()))
+		switch ($handler)
+		{
+			case 'database':
+			case 'none':
+				// Remove expired sessions from the database.
+				$db = JFactory::getDbo();
+
+				if ($time % 2)
+				{
+					// The modulus introduces a little entropy, making the flushing less accurate
+					// but fires the query less than half the time.
+					$query = $db->getQuery(true)
+							->delete($db->quoteName('#__session'))
+							->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
+
+					$db->setQuery($query)->execute();
+				}
+
+				break;
+			case 'redis':
+				// Pseudo cron task to clean SETS
+				$this->purgeSets();
+				break;
+			default:
+				break;
+		}
+
+		if ($time % 2 || $session->isNew())
 		{
 			$this->checkSession();
 		}
@@ -1149,5 +1253,49 @@ class JApplicationCms extends JApplicationWeb
 		$this->sendHeaders();
 
 		return $this->getBody();
+	}
+
+	/**
+	 * Pseudo cron task to clean SETS
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 * @throws  RuntimeException
+	 */
+	public function purgeSets()
+	{
+		$ds = JFactory::getRedis();
+
+		try
+		{
+			$lista = $ds->smembers('utenti');
+		}
+		catch (Exception $e)
+		{
+			throw new RuntimeException(JText::_('JERROR_SESSION_REDIS_DESTROY'));
+
+			return false;
+		}
+
+		// Get the database connection object and verify its connected.
+		foreach ($lista as $elm)
+		{
+			try
+			{
+				$exist = $ds->ttl($elm);
+			}
+			catch (Exception $e)
+			{
+				throw new RuntimeException(JText::_('JERROR_SESSION_REDIS_DESTROY'));
+
+				return false;
+			}
+
+			if ($exist == -1)
+			{
+				$ds->srem('utenti', $elm);
+			}
+		}
 	}
 }
