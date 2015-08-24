@@ -86,7 +86,6 @@ class LanguagesModelLanguage extends JModelAdmin
 	public function getItem($langId = null)
 	{
 		$langId	= (!empty($langId)) ? $langId : (int) $this->getState('language.id');
-		$false  = false;
 
 		// Get a member row instance.
 		$table = $this->getTable();
@@ -99,7 +98,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		{
 			$this->setError($table->getError());
 
-			return $false;
+			return false;
 		}
 
 		// Set a valid accesslevel in case '0' is stored due to a bug in the installation SQL (was fixed with PR 2714).
@@ -109,7 +108,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		}
 
 		$properties = $table->getProperties(1);
-		$value = JArrayHelper::toObject($properties, 'JObject');
+		$value      = JArrayHelper::toObject($properties, 'JObject');
 
 		return $value;
 	}
