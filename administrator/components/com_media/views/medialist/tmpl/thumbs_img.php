@@ -26,7 +26,7 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 
 		<div class="height-80" onclick="toggleCheckedStatus('<?php echo $this->_tmp_img->title; ?>');">
 			<div class="img-preview" style="height: 80px;">
-				<?php echo JHtml::_('image', COM_MEDIA_BASEURL . '/' . $this->_tmp_img->path_relative, JText::sprintf('COM_MEDIA_IMAGE_TITLE', $this->_tmp_img->title, JHtml::_('number.bytes', $this->_tmp_img->size)), array('width' => $this->_tmp_img->width_150, 'height' => $this->_tmp_img->height_150)); ?>
+				<?php echo JHtml::_('image', COM_MEDIA_BASEURL . '/' . $this->_tmp_img->path_relative, JText::sprintf('COM_MEDIA_IMAGE_TITLE', $this->_tmp_img->title, JHtml::_('number.bytes', $this->_tmp_img->size))); ?>
 			</div>
 		</div>
 
