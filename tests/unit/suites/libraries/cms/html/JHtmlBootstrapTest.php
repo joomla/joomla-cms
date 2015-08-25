@@ -439,7 +439,7 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->assertEquals(
 			$document->_script['text/javascript'],
-			'jQuery(function($){ $("#myAccordian").collapse({"parent": false,"toggle": true,"active": ""}); });',
+			'jQuery(function($){' . "\n\t" . '$(\'#myAccordian\').collapse({"parent": false,"toggle": false})' . "\n" . '});',
 			'Verify that the startAccordion script is initialised'
 		);
 
@@ -498,7 +498,7 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->assertEquals(
 			$document->_script['text/javascript'],
-			'jQuery(function($){ $("#myAccordian").collapse({"parent": false,"toggle": true,"active": ""}); });',
+			'jQuery(function($){' . "\n\t" . '$(\'#myAccordian\').collapse({"parent": false,"toggle": false})' . "\n" . '});',
 			'Verify that the addSlide script is initialised'
 		);
 
@@ -585,7 +585,7 @@ class JHtmlBootstrapTest extends TestCase
 	{
 		$this->assertEquals(
 			JHtml::_('bootstrap.endTabSet'),
-			PHP_EOL . "</div>"
+			"\n</div>"
 		);
 	}
 
@@ -649,7 +649,7 @@ class JHtmlBootstrapTest extends TestCase
 	{
 		$this->assertEquals(
 			JHtml::_('bootstrap.endTab'),
-			PHP_EOL . "</div>"
+			"\n</div>"
 		);
 	}
 
@@ -664,7 +664,7 @@ class JHtmlBootstrapTest extends TestCase
 	{
 		$this->assertEquals(
 			JHtml::_('bootstrap.endTabSet'),
-			PHP_EOL . "</div>"
+			"\n</div>"
 		);
 	}
 
@@ -679,7 +679,7 @@ class JHtmlBootstrapTest extends TestCase
 	{
 		$this->assertEquals(
 			JHtml::_('bootstrap.endTab'),
-			PHP_EOL . "</div>"
+			"\n</div>"
 		);
 	}
 
