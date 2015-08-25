@@ -121,7 +121,21 @@ class PlgSystemCache extends JPlugin
 	}
 
 	protected function isExcluded() {
-		if ($exclusions = $this->params->get('exclude', '')) {
+		// Check if menu items have been excluded
+		if ($exclusions = $this->params->get('exclude_menu_items', array()))
+		{
+			// Get the current menu item
+			$active = JFactory::getApplication()->getMenu()->getActive();
+			
+			if ($active && $active->id && in_array($active->id, (array) $exclusions))
+			{
+				return true;
+			}
+		}
+
+		// Check if regular expressions are being used
+		if ($exclusions = $this->params->get('exclude', ''))
+		{
 			// Normalize line endings
 			$exclusions = str_replace(array("\r\n", "\r"), "\n", $exclusions);
 
@@ -132,11 +146,15 @@ class PlgSystemCache extends JPlugin
 			$path = JUri::getInstance()->toString(array('path', 'query', 'fragment'));
 
 			// Loop through each pattern
-			if ($exclusions) {
-				foreach ($exclusions as $exclusion) {
+			if ($exclusions)
+			{
+				foreach ($exclusions as $exclusion)
+				{
 					// Make sure the exclusion has some content
-					if (strlen($exclusion)) {
-						if (preg_match('/'.$exclusion.'/is', $path, $match)) {
+					if (strlen($exclusion))
+					{
+						if (preg_match('/'.$exclusion.'/is', $path, $match))
+						{
 							return true;
 						}
 					}
