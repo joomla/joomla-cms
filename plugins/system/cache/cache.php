@@ -123,7 +123,7 @@ class PlgSystemCache extends JPlugin
 	/**
 	 * Check if the page is excluded from the cache or not.
 	 *
-	 * @return   boolean   True if the page is excluded else false
+	 * @return   boolean  True if the page is excluded else false
 	 *
 	 * @since    3.5
 	 */
