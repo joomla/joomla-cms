@@ -120,7 +120,15 @@ class PlgSystemCache extends JPlugin
 		}
 	}
 
-	protected function isExcluded() {
+	/**
+	 * Check if the page is excluded from the cache or not.
+	 *
+	 * @return   boolean  True if the page is excluded else false
+	 *
+	 * @since    3.5
+	 */
+	protected function isExcluded()
+	{
 		// Check if menu items have been excluded
 		if ($exclusions = $this->params->get('exclude_menu_items', array()))
 		{
@@ -153,7 +161,7 @@ class PlgSystemCache extends JPlugin
 					// Make sure the exclusion has some content
 					if (strlen($exclusion))
 					{
-						if (preg_match('/'.$exclusion.'/is', $path, $match))
+						if (preg_match('/' . $exclusion . '/is', $path, $match))
 						{
 							return true;
 						}
