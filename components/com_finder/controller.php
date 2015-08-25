@@ -48,8 +48,8 @@ class FinderController extends JControllerLegacy
 		}
 
 		$safeurlparams = array(
-			'f' 	=> 'INT',
-			'lang' 	=> 'CMD'
+			'f'    => 'INT',
+			'lang' => 'CMD'
 		);
 
 		return parent::display($cachable, $safeurlparams);

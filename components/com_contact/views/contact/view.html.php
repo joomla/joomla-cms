@@ -93,7 +93,7 @@ class ContactViewContact extends JViewLegacy
 		}
 
 		// Check if access is not public
-		$groups	= $user->getAuthorisedViewLevels();
+		$groups = $user->getAuthorisedViewLevels();
 
 		$return = '';
 
@@ -103,8 +103,8 @@ class ContactViewContact extends JViewLegacy
 			return;
 		}
 
-		$options['category_id']	= $item->catid;
-		$options['order by']	= 'a.default_con DESC, a.ordering ASC';
+		$options['category_id'] = $item->catid;
+		$options['order by']    = 'a.default_con DESC, a.ordering ASC';
 
 		// Handle email cloaking
 		if ($item->email_to && $params->get('show_email'))
@@ -245,7 +245,8 @@ class ContactViewContact extends JViewLegacy
 
 		// Override the layout only if this is not the active menu item
 		// If it is the active menu item, then the view and item id will match
-		$active	= $app->getMenu()->getActive();
+		$active = $app->getMenu()->getActive();
+
 		if ((!$active) || ((strpos($active->link, 'view=contact') === false) || (strpos($active->link, '&id=' . (string) $this->item->id) === false)))
 		{
 			if ($layout = $params->get('contact_layout'))
@@ -273,10 +274,10 @@ class ContactViewContact extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
-		$title 		= null;
+		$app     = JFactory::getApplication();
+		$menus   = $app->getMenu();
+		$pathway = $app->getPathway();
+		$title   = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself

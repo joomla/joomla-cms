@@ -85,7 +85,7 @@ class LanguagesModelLanguage extends JModelAdmin
 	 */
 	public function getItem($langId = null)
 	{
-		$langId	= (!empty($langId)) ? $langId : (int) $this->getState('language.id');
+		$langId = (!empty($langId)) ? $langId : (int) $this->getState('language.id');
 
 		// Get a member row instance.
 		$table = $this->getTable();
@@ -170,7 +170,7 @@ class LanguagesModelLanguage extends JModelAdmin
 	public function save($data)
 	{
 		$langId = (!empty($data['lang_id'])) ? $data['lang_id'] : (int) $this->getState('language.id');
-		$isNew	= true;
+		$isNew  = true;
 
 		$dispatcher = JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin($this->events_map['save']);

@@ -192,7 +192,7 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 					'name' => 'myCalendarElement',
 					'id' => 'myCalendarId',
 					'value' => 'NOW',
-					'format' => '%Y-%m-%d',
+					'format' => 'Y-m-d',
 					'size' => 25,
 					'maxlength' => 45,
 					'disabled' => true,
@@ -203,7 +203,7 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 					'strftime(\'%Y-%m-%d\')',
 					'myCalendarElement',
 					'myCalendarId',
-					'%Y-%m-%d',
+					'Y-m-d',
 					array(
 						'size' => 25,
 						'maxlength' => 45,
@@ -294,7 +294,7 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 		if ($expectedParameters[0] == 'strftime(\'%Y-%m-%d\')')
 		{
 			date_default_timezone_set('UTC');
-			$expectedParameters[0] = strftime('%Y-%m-%d');
+			$expectedParameters[0] = strftime('%Y-%m-%d %H:%M:%S');
 		}
 
 		// Setup our values from our data set

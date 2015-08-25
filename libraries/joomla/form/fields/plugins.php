@@ -112,7 +112,7 @@ class JFormFieldPlugins extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$folder	= $this->folder;
+		$folder = $this->folder;
 
 		if (!empty($folder))
 		{

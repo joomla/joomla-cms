@@ -952,7 +952,7 @@ class CategoriesModelCategory extends JModelAdmin
 			$this->table->setLocation($this->table->parent_id, 'last-child');
 
 			// @TODO: Deal with ordering?
-			// $this->table->ordering	= 1;
+			// $this->table->ordering = 1;
 			$this->table->level = null;
 			$this->table->asset_id = null;
 			$this->table->lft = null;
@@ -960,8 +960,8 @@ class CategoriesModelCategory extends JModelAdmin
 
 			// Alter the title & alias
 			list($title, $alias) = $this->generateNewTitle($this->table->parent_id, $this->table->alias, $this->table->title);
-			$this->table->title = $title;
-			$this->table->alias = $alias;
+			$this->table->title  = $title;
+			$this->table->alias  = $alias;
 
 			// Unpublish because we are making a copy
 			$this->table->published = 0;

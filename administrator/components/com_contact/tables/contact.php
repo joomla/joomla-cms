@@ -60,15 +60,15 @@ class ContactTableContact extends JTable
 			$this->params = (string) $registry;
 		}
 
-		$date	= JFactory::getDate();
-		$user	= JFactory::getUser();
+		$date = JFactory::getDate();
+		$user = JFactory::getUser();
 
-		$this->modified		= $date->toSql();
+		$this->modified = $date->toSql();
 
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified_by	= $user->get('id');
+			$this->modified_by = $user->get('id');
 		}
 		else
 		{
