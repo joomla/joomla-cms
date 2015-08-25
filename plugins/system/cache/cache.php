@@ -113,10 +113,37 @@ class PlgSystemCache extends JPlugin
 
 		$user = JFactory::getUser();
 
-		if ($user->get('guest'))
+		if ($user->get('guest') && !$this->isExcluded())
 		{
 			// We need to check again here, because auto-login plugins have not been fired before the first aid check.
 			$this->_cache->store(null, $this->_cache_key);
 		}
+	}
+
+	protected function isExcluded() {
+		if ($exclusions = $this->params->get('exclude', '')) {
+			// Normalize line endings
+			$exclusions = str_replace(array("\r\n", "\r"), "\n", $exclusions);
+
+			// Split them
+			$exclusions = explode("\n", $exclusions);
+
+			// Get current path to match against
+			$path = JUri::getInstance()->toString(array('path', 'query', 'fragment'));
+
+			// Loop through each pattern
+			if ($exclusions) {
+				foreach ($exclusions as $exclusion) {
+					// Make sure the exclusion has some content
+					if (strlen($exclusion)) {
+						if (preg_match('/'.$exclusion.'/is', $path, $match)) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 }

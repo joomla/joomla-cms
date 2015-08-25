@@ -28,6 +28,12 @@
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
+			<field name="exclude" type="textarea"
+				filter="raw"
+				default=""
+				description="PLG_CACHE_FIELD_EXCLUDE_DESC"
+				label="PLG_CACHE_FIELD_EXCLUDE_LABEL"
+			/>
 		</fieldset>
 	</fields>
 	</config>
