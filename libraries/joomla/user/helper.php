@@ -205,12 +205,12 @@ abstract class JUserHelper
 	{
 		if ($userId == 0)
 		{
-			$user	= JFactory::getUser();
-			$userId	= $user->id;
+			$user   = JFactory::getUser();
+			$userId = $user->id;
 		}
 
 		// Get the dispatcher and load the user's plugins.
-		$dispatcher	= JEventDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
 		$data = new JObject;

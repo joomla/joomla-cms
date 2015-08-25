@@ -68,9 +68,9 @@ class SearchRouter extends JComponentRouterBase
 			$segments[$i] = urldecode(urldecode(stripcslashes($segments[$i])));
 		}
 
-		$searchword	= array_shift($segments);
+		$searchword         = array_shift($segments);
 		$vars['searchword'] = $searchword;
-		$vars['view'] = 'search';
+		$vars['view']       = 'search';
 
 		return $vars;
 	}

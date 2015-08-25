@@ -12,10 +12,10 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 // Create some shortcuts.
-$params		= &$this->item->params;
-$n		= count($this->items);
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$params    = &$this->item->params;
+$n         = count($this->items);
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 
 // Check for at least one editable article
 $isEditable = false;
@@ -131,10 +131,10 @@ if (!empty($this->items))
 						<?php else: ?>
 							<?php
 							echo $this->escape($article->title) . ' : ';
-							$menu		= JFactory::getApplication()->getMenu();
-							$active		= $menu->getActive();
-							$itemId		= $active->id;
-							$link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
+							$menu   = JFactory::getApplication()->getMenu();
+							$active = $menu->getActive();
+							$itemId = $active->id;
+							$link   = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
 							$link->setVar('return', base64_encode(JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false)));
 							?>
 							<a href="<?php echo $link; ?>" class="register">
