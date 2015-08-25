@@ -592,7 +592,7 @@ abstract class JHtmlBootstrap
 
 			// Build the script.
 			$script = array();
-			$script[] = "jQuery(document).ready(function($){";
+			$script[] = "jQuery(function($){";
 			$script[] = "\t$('#" . $selector . "').collapse(" . $options . ")";
 
 			if ($onShow)
