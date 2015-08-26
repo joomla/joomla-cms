@@ -300,6 +300,7 @@ class ContentRouter extends JComponentRouterBase
 		if (!isset($item))
 		{
 			$vars['view'] = $segments[0];
+
 			// Called if no menu item created
 			if ($vars['view'] == 'archive')
 			{
