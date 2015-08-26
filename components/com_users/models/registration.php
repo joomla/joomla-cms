@@ -82,7 +82,7 @@ class UsersModelRegistration extends JModelForm
 			$user->set('activation', $data['activation']);
 			$data['siteurl'] = JUri::base();
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			$data['activate'] = JRoute::_(JUri::root() . 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 			$data['fromname'] = $config->get('fromname');
 			$data['mailfrom'] = $config->get('mailfrom');
 			$data['sitename'] = $config->get('sitename');
