@@ -31,11 +31,11 @@ abstract class ModLanguagesHelper
 	 */
 	public static function getList(&$params)
 	{
-		$user		= JFactory::getUser();
-		$lang		= JFactory::getLanguage();
-		$languages	= JLanguageHelper::getLanguages();
-		$app		= JFactory::getApplication();
-		$menu		= $app->getMenu();
+		$user      = JFactory::getUser();
+		$lang      = JFactory::getLanguage();
+		$languages = JLanguageHelper::getLanguages();
+		$app       = JFactory::getApplication();
+		$menu      = $app->getMenu();
 
 		// Get menu home items
 		$homes = array();
@@ -73,7 +73,7 @@ abstract class ModLanguagesHelper
 			}
 		}
 
-		$levels		= $user->getAuthorisedViewLevels();
+		$levels = $user->getAuthorisedViewLevels();
 
 		// Filter allowed languages
 		foreach ($languages as $i => &$language)

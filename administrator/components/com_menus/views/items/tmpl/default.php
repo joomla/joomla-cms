@@ -16,14 +16,14 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user		= JFactory::getUser();
-$app		= JFactory::getApplication();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$ordering 	= ($listOrder == 'a.lft');
-$canOrder	= $user->authorise('core.edit.state',	'com_menus');
-$saveOrder 	= ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$user      = JFactory::getUser();
+$app       = JFactory::getApplication();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$ordering  = ($listOrder == 'a.lft');
+$canOrder  = $user->authorise('core.edit.state',	'com_menus');
+$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 
 if ($saveOrder)
 {
@@ -31,8 +31,9 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'itemList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
 
-$assoc		= JLanguageAssociations::isEnabled();
+$assoc = JLanguageAssociations::isEnabled();
 ?>
+
 <?php // Set up the filter bar. ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>

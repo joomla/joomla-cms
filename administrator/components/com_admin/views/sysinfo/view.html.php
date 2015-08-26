@@ -56,11 +56,11 @@ class AdminViewSysinfo extends JViewLegacy
 			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
-		$this->php_settings	= $this->get('PhpSettings');
-		$this->config		= $this->get('config');
-		$this->info			= $this->get('info');
-		$this->php_info		= $this->get('PhpInfo');
-		$this->directory	= $this->get('directory');
+		$this->php_settings = $this->get('PhpSettings');
+		$this->config       = $this->get('config');
+		$this->info         = $this->get('info');
+		$this->php_info     = $this->get('PhpInfo');
+		$this->directory    = $this->get('directory');
 
 		$this->addToolbar();
 		$this->_setSubMenu();

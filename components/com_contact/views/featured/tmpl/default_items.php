@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 JHtml::_('behavior.core');
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 
 // Create a shortcut for params.
 $params = &$this->item->params;

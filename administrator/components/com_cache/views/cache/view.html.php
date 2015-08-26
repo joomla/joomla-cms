@@ -33,10 +33,10 @@ class CacheViewCache extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->data			= $this->get('Data');
-		$this->client		= $this->get('Client');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->data       = $this->get('Data');
+		$this->client     = $this->get('Client');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

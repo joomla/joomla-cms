@@ -16,14 +16,14 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$app		= JFactory::getApplication();
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$extension	= $this->escape($this->state->get('filter.extension'));
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$ordering 	= ($listOrder == 'a.lft');
-$saveOrder 	= ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$app       = JFactory::getApplication();
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$extension = $this->escape($this->state->get('filter.extension'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$ordering  = ($listOrder == 'a.lft');
+$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 
 if ($saveOrder)
 {

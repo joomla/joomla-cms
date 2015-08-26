@@ -77,8 +77,8 @@ class PlgAuthenticationCookie extends JPlugin
 		$response->type = 'Cookie';
 
 		// Filter series since we're going to use it in the query
-		$filter	= new JFilterInput;
-		$series	= $filter->clean($cookieArray[1], 'ALNUM');
+		$filter = new JFilterInput;
+		$series = $filter->clean($cookieArray[1], 'ALNUM');
 
 		// Remove expired tokens
 		$query = $this->db->getQuery(true)
@@ -228,12 +228,12 @@ class PlgAuthenticationCookie extends JPlugin
 
 			// Filter series since we're going to use it in the query
 			$filter = new JFilterInput;
-			$series	= $filter->clean($cookieArray[1], 'ALNUM');
+			$series = $filter->clean($cookieArray[1], 'ALNUM');
 		}
 		elseif (!empty($options['remember']))
 		{
 			// Remember checkbox is set
-			$cookieName		= JUserHelper::getShortHashedUserAgent();
+			$cookieName = JUserHelper::getShortHashedUserAgent();
 
 			// Create an unique series which will be used over the lifespan of the cookie
 			$unique     = false;

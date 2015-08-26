@@ -27,23 +27,23 @@ abstract class ModTagsPopularHelper
 	 */
 	public static function getList(&$params)
 	{
-		$db				= JFactory::getDbo();
-		$user     		= JFactory::getUser();
-		$groups 		= implode(',', $user->getAuthorisedViewLevels());
-		$timeframe		= $params->get('timeframe', 'alltime');
-		$maximum		= $params->get('maximum', 5);
-		$order_value	= $params->get('order_value', 'title');
-		$nowDate		= JFactory::getDate()->toSql();
-		$nullDate		= $db->quote($db->getNullDate());
+		$db          = JFactory::getDbo();
+		$user        = JFactory::getUser();
+		$groups      = implode(',', $user->getAuthorisedViewLevels());
+		$timeframe   = $params->get('timeframe', 'alltime');
+		$maximum     = $params->get('maximum', 5);
+		$order_value = $params->get('order_value', 'title');
+		$nowDate     = JFactory::getDate()->toSql();
+		$nullDate    = $db->quote($db->getNullDate());
 
 		if ($order_value == 'rand()')
 		{
-			$order_direction	= '';
+			$order_direction = '';
 		}
 		else
 		{
-			$order_value		= $db->quoteName($order_value);
-			$order_direction	= $params->get('order_direction', 1) ? 'DESC' : 'ASC';
+			$order_value     = $db->quoteName($order_value);
+			$order_direction = $params->get('order_direction', 1) ? 'DESC' : 'ASC';
 		}
 
 		$query = $db->getQuery(true)

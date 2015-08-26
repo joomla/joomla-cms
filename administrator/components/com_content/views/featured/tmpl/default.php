@@ -15,14 +15,14 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$canOrder	= $user->authorise('core.edit.state', 'com_content.article');
-$archived	= $this->state->get('filter.published') == 2 ? true : false;
-$trashed	= $this->state->get('filter.published') == -2 ? true : false;
-$saveOrder	= $listOrder == 'fp.ordering';
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$canOrder  = $user->authorise('core.edit.state', 'com_content.article');
+$archived  = $this->state->get('filter.published') == 2 ? true : false;
+$trashed   = $this->state->get('filter.published') == -2 ? true : false;
+$saveOrder = $listOrder == 'fp.ordering';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=featured'); ?>" method="post" name="adminForm" id="adminForm">
@@ -89,12 +89,12 @@ $saveOrder	= $listOrder == 'fp.ordering';
 				<?php $count = count($this->items); ?>
 				<?php foreach ($this->items as $i => $item) :
 					$item->max_ordering = 0;
-					$ordering	= ($listOrder == 'fp.ordering');
-					$assetId	= 'com_content.article.' . $item->id;
-					$canCreate	= $user->authorise('core.create',     'com_content.category.' . $item->catid);
-					$canEdit	= $user->authorise('core.edit',       'com_content.article.' . $item->id);
-					$canCheckin	= $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-					$canChange	= $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
+					$ordering   = ($listOrder == 'fp.ordering');
+					$assetId    = 'com_content.article.' . $item->id;
+					$canCreate  = $user->authorise('core.create', 'com_content.category.' . $item->catid);
+					$canEdit    = $user->authorise('core.edit', 'com_content.article.' . $item->id);
+					$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+					$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
 						<td class="center">

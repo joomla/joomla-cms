@@ -16,9 +16,9 @@ defined('_JEXEC') or die;
  */
 class PlgSystemCache extends JPlugin
 {
-	var $_cache		= null;
+	var $_cache = null;
 
-	var $_cache_key	= null;
+	var $_cache_key = null;
 
 	/**
 	 * Constructor.
@@ -34,13 +34,13 @@ class PlgSystemCache extends JPlugin
 
 		// Set the language in the class.
 		$options = array(
-			'defaultgroup'	=> 'page',
-			'browsercache'	=> $this->params->get('browsercache', false),
-			'caching'		=> false,
+			'defaultgroup' => 'page',
+			'browsercache' => $this->params->get('browsercache', false),
+			'caching'      => false,
 		);
 
-		$this->_cache		= JCache::getInstance('page', $options);
-		$this->_cache_key	= JUri::getInstance()->toString();
+		$this->_cache     = JCache::getInstance('page', $options);
+		$this->_cache_key = JUri::getInstance()->toString();
 	}
 
 	/**
