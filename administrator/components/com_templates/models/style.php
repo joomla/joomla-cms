@@ -29,7 +29,7 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * The help screen base URL for the module.
 	 *
-	 * @var	    string
+	 * @var     string
 	 * @since   1.6
 	 */
 	protected $helpURL;
@@ -329,8 +329,6 @@ class TemplatesModelStyle extends JModelAdmin
 
 		if (!isset($this->_cache[$pk]))
 		{
-			$false = false;
-
 			// Get a row instance.
 			$table = $this->getTable();
 
@@ -342,11 +340,11 @@ class TemplatesModelStyle extends JModelAdmin
 			{
 				$this->setError($table->getError());
 
-				return $false;
+				return false;
 			}
 
 			// Convert to the JObject before adding other data.
-			$properties = $table->getProperties(1);
+			$properties        = $table->getProperties(1);
 			$this->_cache[$pk] = JArrayHelper::toObject($properties, 'JObject');
 
 			// Convert the params field to an array.
