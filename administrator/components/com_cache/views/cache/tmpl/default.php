@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 JHtml::_('formbehavior.chosen', 'select');
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_cache'); ?>" method="post" name="adminForm" id="adminForm">
@@ -29,10 +29,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<th class="title nowrap">
 					<?php echo JHtml::_('grid.sort', 'COM_CACHE_GROUP', 'group', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%" class="center nowrap">
+				<th width="5%" class="nowrap">
 					<?php echo JHtml::_('grid.sort', 'COM_CACHE_NUMBER_OF_FILES', 'count', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%" class="center">
+				<th width="10%">
 					<?php echo JHtml::_('grid.sort', 'COM_CACHE_SIZE', 'size', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
@@ -53,12 +53,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $item->group; ?>" onclick="Joomla.isChecked(this.checked);" />
 					</td>
 					<td>
-						<strong><?php echo $item->group; ?></strong>
+						<label for="cb<?php echo $i ?>">
+							<strong><?php echo $item->group; ?></strong>
+						</label>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo $item->count; ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo JHtml::_('number.bytes', $item->size*1024); ?>
 					</td>
 				</tr>

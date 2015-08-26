@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Controller for a single contact
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contact
- * @since       1.6
+ * @since  1.6
  */
 class ContactControllerContact extends JControllerForm
 {
@@ -111,6 +109,7 @@ class ContactControllerContact extends JControllerForm
 	 * @param   array         $validData  The validated data.
 	 *
 	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())

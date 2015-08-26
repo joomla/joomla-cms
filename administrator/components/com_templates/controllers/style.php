@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,18 +12,28 @@ defined('_JEXEC') or die;
 /**
  * Template style controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       1.6
+ * @since  1.6
  */
 class TemplatesControllerStyle extends JControllerForm
 {
 	/**
-	 * @var		string	The prefix to use with controller messages.
+	 * The prefix to use with controller messages.
+	 *
+	 * @var		string
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_TEMPLATES_STYLE';
 
+	/**
+	 * Method to save a template style.
+	 *
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @since   1.6
+	 */
 	public function save($key = null, $urlVar = null)
 	{
 		if (!JSession::checkToken())
@@ -42,7 +52,7 @@ class TemplatesControllerStyle extends JControllerForm
 			$table = $model->getTable();
 			$data  = $this->input->post->get('params', array(), 'array');
 			$checkin = property_exists($table, 'checked_out');
-			$context = "$this->option.edit.$this->context";
+			$context = $this->option . '.edit.' . $this->context;
 			$task = $this->getTask();
 
 			$item = $model->getItem($app->getTemplate('template')->id);

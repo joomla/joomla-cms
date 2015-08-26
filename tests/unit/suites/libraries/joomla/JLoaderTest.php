@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -220,6 +220,24 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests if JLoader::applyAliasFor runs automatically when loading a class by its real name
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testApplyAliasForAutorun()
+	{
+		JLoader::discover('Shuttle', JPATH_TEST_STUBS . '/discover2', true);
+
+		JLoader::registerAlias('ShuttleOV105', 'ShuttleEndeavour');
+
+		$this->assertThat(JLoader::load('ShuttleEndeavour'), $this->isTrue(), 'Tests that the class file was loaded.');
+
+		$this->assertTrue(class_exists('ShuttleOV105'), 'Tests that loading a class also loads its aliases');
+	}
+
+	/**
 	 * The success of this test depends on some files being in the file system to be imported. If the FS changes, this test may need revisited.
 	 *
 	 * @param   string   $filePath     Path to object
@@ -401,16 +419,40 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	{
 		// Clear the prefixes array for this test
 		TestReflection::setValue('JLoader', 'classAliases', array());
+		TestReflection::setValue('JLoader', 'classAliasesInverse', array());
 
 		JLoader::registerAlias('foo', 'bar');
 
 		// Get the current prefixes array
 		$aliases = TestReflection::getValue('JLoader', 'classAliases');
+		$aliasesInverse = TestReflection::getValue('JLoader', 'classAliasesInverse');
 
 		$this->assertEquals(
 			$aliases['foo'],
 			'bar',
 			'Assert the alias is set in the classAlias array.'
+		);
+
+		$this->assertArrayHasKey(
+			'bar',
+			$aliasesInverse,
+			'Assert the real class is set in the classAliasInverse array.'
+		);
+
+		$this->assertEquals(
+			array('foo'),
+			$aliasesInverse['bar'],
+			'Assert the alias is set in the classAliasInverse array for the real class.'
+		);
+
+		JLoader::registerAlias('baz', 'bar');
+
+		$aliasesInverse = TestReflection::getValue('JLoader', 'classAliasesInverse');
+
+		$this->assertEquals(
+			array('foo', 'baz'),
+			$aliasesInverse['bar'],
+			'Assert you can assign multiple aliases for each real class.'
 		);
 
 		$this->assertEquals(

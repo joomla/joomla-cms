@@ -3,20 +3,16 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.path');
-
 /**
  * A Folder handling class
  *
- * @package     Joomla.Platform
- * @subpackage  FileSystem
- * @since       11.1
+ * @since  11.1
  */
 abstract class JFolder
 {
@@ -39,11 +35,12 @@ abstract class JFolder
 		@set_time_limit(ini_get('max_execution_time'));
 
 		$FTPOptions = JClientHelper::getCredentials('ftp');
+		$pathObject = new JFilesystemWrapperPath;
 
 		if ($path)
 		{
-			$src = JPath::clean($path . '/' . $src);
-			$dest = JPath::clean($path . '/' . $dest);
+			$src  = $pathObject->clean($path . '/' . $src);
+			$dest = $pathObject->clean($path . '/' . $dest);
 		}
 
 		// Eliminate trailing directory separators, if any
@@ -54,6 +51,7 @@ abstract class JFolder
 		{
 			throw new RuntimeException('Source folder not found', -1);
 		}
+
 		if (self::exists($dest) && !$force)
 		{
 			throw new RuntimeException('Destination folder already exists', -1);
@@ -97,7 +95,7 @@ abstract class JFolder
 
 					case 'file':
 						// Translate path for the FTP account
-						$dfid = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dfid), '/');
+						$dfid = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dfid), '/');
 
 						if (!$ftp->store($sfid, $dfid))
 						{
@@ -154,6 +152,7 @@ abstract class JFolder
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -173,7 +172,8 @@ abstract class JFolder
 		static $nested = 0;
 
 		// Check to make sure the path valid and clean
-		$path = JPath::clean($path);
+		$pathObject = new JFilesystemWrapperPath;
+		$path = $pathObject->clean($path);
 
 		// Check if parent dir exists
 		$parent = dirname($path);
@@ -217,7 +217,7 @@ abstract class JFolder
 			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 			// Translate path to FTP path
-			$path = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
+			$path = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
 			$ret = $ftp->mkdir($path);
 			$ftp->chmod($path, $mode);
 		}
@@ -245,7 +245,7 @@ abstract class JFolder
 				// Iterate through open_basedir paths looking for a match
 				foreach ($obdArray as $test)
 				{
-					$test = JPath::clean($test);
+					$test = $pathObject->clean($test);
 
 					if (strpos($path, $test) === 0)
 					{
@@ -253,6 +253,7 @@ abstract class JFolder
 						break;
 					}
 				}
+
 				if ($inBaseDir == false)
 				{
 					// Return false for JFolder::create because the path to be created is not in open_basedir
@@ -279,6 +280,7 @@ abstract class JFolder
 			// Reset umask
 			@umask($origmask);
 		}
+
 		return $ret;
 	}
 
@@ -295,6 +297,7 @@ abstract class JFolder
 	public static function delete($path)
 	{
 		@set_time_limit(ini_get('max_execution_time'));
+		$pathObject = new JFilesystemWrapperPath;
 
 		// Sanity check
 		if (!$path)
@@ -310,7 +313,7 @@ abstract class JFolder
 		try
 		{
 			// Check to make sure the path valid and clean
-			$path = JPath::clean($path);
+			$path = $pathObject->clean($path);
 		}
 		catch (UnexpectedValueException $e)
 		{
@@ -330,9 +333,9 @@ abstract class JFolder
 
 		if (!empty($files))
 		{
-			jimport('joomla.filesystem.file');
+			$file = new JFilesystemWrapperFile;
 
-			if (JFile::delete($files) !== true)
+			if ($file->delete($files) !== true)
 			{
 				// JFile::delete throws an error
 				return false;
@@ -347,9 +350,9 @@ abstract class JFolder
 			if (is_link($folder))
 			{
 				// Don't descend into linked directories, just delete the link.
-				jimport('joomla.filesystem.file');
+				$file = new JFilesystemWrapperFile;
 
-				if (JFile::delete($folder) !== true)
+				if ($file->delete($folder) !== true)
 				{
 					// JFile::delete throws an error
 					return false;
@@ -377,7 +380,7 @@ abstract class JFolder
 		elseif ($FTPOptions['enabled'] == 1)
 		{
 			// Translate path and delete
-			$path = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
+			$path = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
 
 			// FTP connector throws an error
 			$ret = $ftp->delete($path);
@@ -406,11 +409,12 @@ abstract class JFolder
 	public static function move($src, $dest, $path = '', $use_streams = false)
 	{
 		$FTPOptions = JClientHelper::getCredentials('ftp');
+		$pathObject = new JFilesystemWrapperPath;
 
 		if ($path)
 		{
-			$src = JPath::clean($path . '/' . $src);
-			$dest = JPath::clean($path . '/' . $dest);
+			$src = $pathObject->clean($path . '/' . $src);
+			$dest = $pathObject->clean($path . '/' . $dest);
 		}
 
 		if (!self::exists($src))
@@ -442,8 +446,8 @@ abstract class JFolder
 				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account
-				$src = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
-				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+				$src = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
+				$dest = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
 				// Use FTP rename to simulate move
 				if (!$ftp->rename($src, $dest))
@@ -478,7 +482,9 @@ abstract class JFolder
 	 */
 	public static function exists($path)
 	{
-		return is_dir(JPath::clean($path));
+		$pathObject = new JFilesystemWrapperPath;
+
+		return is_dir($pathObject->clean($path));
 	}
 
 	/**
@@ -500,7 +506,8 @@ abstract class JFolder
 		$excludefilter = array('^\..*', '.*~'), $naturalSort = false)
 	{
 		// Check to make sure the path valid and clean
-		$path = JPath::clean($path);
+		$pathObject = new JFilesystemWrapperPath;
+		$path = $pathObject->clean($path);
 
 		// Is the path a folder?
 		if (!is_dir($path))
@@ -554,7 +561,8 @@ abstract class JFolder
 		$excludefilter = array('^\..*'))
 	{
 		// Check to make sure the path valid and clean
-		$path = JPath::clean($path);
+		$pathObject = new JFilesystemWrapperPath;
+		$path = $pathObject->clean($path);
 
 		// Is the path a folder?
 		if (!is_dir($path))
@@ -681,13 +689,14 @@ abstract class JFolder
 
 		if ($level < $maxLevel)
 		{
-			$folders = self::folders($path, $filter);
+			$folders    = self::folders($path, $filter);
+			$pathObject = new JFilesystemWrapperPath;
 
 			// First path, index foldernames
 			foreach ($folders as $name)
 			{
 				$id = ++$GLOBALS['_JFolder_folder_tree_index'];
-				$fullName = JPath::clean($path . '/' . $name);
+				$fullName = $pathObject->clean($path . '/' . $name);
 				$dirs[] = array('id' => $id, 'parent' => $parent, 'name' => $name, 'fullname' => $fullName,
 					'relname' => str_replace(JPATH_ROOT, '', $fullName));
 				$dirs2 = self::listFolderTree($fullName, $filter, $maxLevel, $level + 1, $id);

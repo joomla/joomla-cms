@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_content
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       3.3
+ * @since  3.3
  */
 class ContentRouter extends JComponentRouterBase
 {
@@ -32,20 +30,18 @@ class ContentRouter extends JComponentRouterBase
 		$segments = array();
 
 		// Get a menu item based on Itemid or currently active
-		$app = JFactory::getApplication();
-		$menu = $app->getMenu();
 		$params = JComponentHelper::getParams('com_content');
 		$advanced = $params->get('sef_advanced_link', 0);
 
 		// We need a menu item.  Either the one specified in the query, or the current active one if none specified
 		if (empty($query['Itemid']))
 		{
-			$menuItem = $menu->getActive();
+			$menuItem = $this->menu->getActive();
 			$menuItemGiven = false;
 		}
 		else
 		{
-			$menuItem = $menu->getItem($query['Itemid']);
+			$menuItem = $this->menu->getItem($query['Itemid']);
 			$menuItemGiven = true;
 		}
 
@@ -67,7 +63,10 @@ class ContentRouter extends JComponentRouterBase
 		}
 
 		// Are we dealing with an article or category that is attached to a menu item?
-		if (($menuItem instanceof stdClass) && $menuItem->query['view'] == $query['view'] && isset($query['id']) && $menuItem->query['id'] == (int) $query['id'])
+		if (($menuItem instanceof stdClass)
+			&& $menuItem->query['view'] == $query['view']
+			&& isset($query['id'])
+			&& $menuItem->query['id'] == (int) $query['id'])
 		{
 			unset($query['view']);
 
@@ -283,9 +282,7 @@ class ContentRouter extends JComponentRouterBase
 		}
 
 		// Get the active menu item.
-		$app = JFactory::getApplication();
-		$menu = $app->getMenu();
-		$item = $menu->getActive();
+		$item = $this->menu->getActive();
 		$params = JComponentHelper::getParams('com_content');
 		$advanced = $params->get('sef_advanced_link', 0);
 		$db = JFactory::getDbo();
@@ -389,6 +386,7 @@ class ContentRouter extends JComponentRouterBase
 		if (!$category)
 		{
 			JError::raiseError(404, JText::_('COM_CONTENT_ERROR_PARENT_CATEGORY_NOT_FOUND'));
+
 			return $vars;
 		}
 
@@ -423,7 +421,7 @@ class ContentRouter extends JComponentRouterBase
 						->select($db->quoteName('id'))
 						->from('#__content')
 						->where($db->quoteName('catid') . ' = ' . (int) $vars['catid'])
-						->where($db->quoteName('alias') . ' = ' . $db->quote($db->quote($segment)));
+						->where($db->quoteName('alias') . ' = ' . $db->quote($segment));
 					$db->setQuery($query);
 					$cid = $db->loadResult();
 				}
@@ -459,16 +457,33 @@ class ContentRouter extends JComponentRouterBase
  * These functions are proxys for the new router interface
  * for old SEF extensions.
  *
+ * @param   array  &$query  An array of URL arguments
+ *
+ * @return  array  The URL arguments to use to assemble the subsequent URL.
+ *
  * @deprecated  4.0  Use Class based routers instead
  */
-function ContentBuildRoute(&$query)
+function contentBuildRoute(&$query)
 {
 	$router = new ContentRouter;
 
 	return $router->build($query);
 }
 
-function ContentParseRoute($segments)
+/**
+ * Parse the segments of a URL.
+ *
+ * This function is a proxy for the new router interface
+ * for old SEF extensions.
+ *
+ * @param   array  $segments  The segments of the URL to parse.
+ *
+ * @return  array  The URL attributes to be used by the application.
+ *
+ * @since   3.3
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function contentParseRoute($segments)
 {
 	$router = new ContentRouter;
 

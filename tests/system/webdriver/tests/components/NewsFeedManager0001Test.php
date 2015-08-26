@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ use SeleniumClient\DesiredCapabilities;
  */
 class NewsFeedManager0001Test extends JoomlaWebdriverTestCase
 {
-  /**
+	/**
 	 * The page class being tested.
 	 *
 	 * @var     NewsFeedManagerPage
@@ -34,6 +34,8 @@ class NewsFeedManager0001Test extends JoomlaWebdriverTestCase
 
 	/**
 	 * Login to back end and navigate to menu NewsFeed.
+	 *
+	 * @return void
 	 *
 	 * @since   3.0
 	 */
@@ -47,6 +49,8 @@ class NewsFeedManager0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * Logout and close test.
 	 *
+	 * @return void
+	 *
 	 * @since   3.0
 	 */
 	public function tearDown()
@@ -56,13 +60,17 @@ class NewsFeedManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check all input fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
 	{
 		$this->newsFeedManagerPage->clickButton('toolbar-new');
 		$newsFeedEditPage = $this->getPageObject('NewsFeedEditPage');
-		// Option to print actual element array
+		/* Option to print actual element array */
 		/* @var $newsFeedEditPage NewsFeedEditPage */
 // 	 	$newsFeedEditPage->printFieldArray($newsFeedEditPage->getAllInputFields($newsFeedEditPage->tabs));
 
@@ -73,8 +81,11 @@ class NewsFeedManager0001Test extends JoomlaWebdriverTestCase
 		$this->newsFeedManagerPage = $this->getPageObject('NewsFeedManagerPage');
 	}
 
-
 	/**
+	 * check Newsfeed edit page
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function constructor_OpenEditScreen_FeedEditOpened()
@@ -86,8 +97,12 @@ class NewsFeedManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check tab IDs
+	 *
+	 * @return void
+	 *
 	 * @test
-	*/
+	 */
 	public function getTabIds_ScreenDisplayed_EqualExpected()
 	{
 		$this->newsFeedManagerPage->clickButton('toolbar-new');
@@ -99,8 +114,12 @@ class NewsFeedManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add feed with default values
+	 *
+	 * @return void
+	 *
 	 * @test
-	*/
+	 */
 	public function addFeed_WithFieldDefaults_FeedAdded()
 	{
 		$salt = rand();
@@ -115,20 +134,25 @@ class NewsFeedManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add feed with given values
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addFeed_WithGivenFields_FeedAdded()
 	{
 		$salt = rand();
 		$feedName = 'Test_Feed' . $salt;
-		$link = 'administrator/index.php/dummysrc'.$salt;
-		$category = 'Uncategorised'; //other than the default value
+		$link = 'administrator/index.php/dummysrc' . $salt;
+		/*other than the default value */
+		$category = 'Uncategorised';
 		$description = 'Sample Test Feed';
 		$caption = 'Sample Caption';
 		$alt = 'Sample Alt Test';
 
 		$this->assertFalse($this->newsFeedManagerPage->getRowNumber($feedName), 'Test feed should not be present');
-		$this->newsFeedManagerPage->addFeed($feedName,$link,$category,$description,$caption,$alt);
+		$this->newsFeedManagerPage->addFeed($feedName, $link, $category, $description, $caption, $alt);
 		$message = $this->newsFeedManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'News feed successfully saved') >= 0, 'Feed save should return success');
 		$this->assertEquals(5, $this->newsFeedManagerPage->getRowNumber($feedName), 'Test feed should be in row 5');
@@ -139,27 +163,36 @@ class NewsFeedManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * edit feed and change the input feed values
+	 *
+	 * @return void
+	 *
 	 * @test
-	*/
+	 */
 	public function editFeed_ChangeFields_FieldsChanged()
 	{
 		$salt = rand();
 		$feedName = 'Test_Feed' . $salt;
-		$link='administrator/index.php/dummysrc'.$salt;
-		$category = 'Uncategorised'; //other than the default value
+		$link = 'administrator/index.php/dummysrc' . $salt;
+		/* other than the default value */
+		$category = 'Uncategorised';
 		$description = 'Sample Test Feed';
 		$caption = 'Sample Caption';
 		$alt = 'Sample Alt Test';
 
 		$this->assertFalse($this->newsFeedManagerPage->getRowNumber($feedName), 'Test feed should not be present');
-		$this->newsFeedManagerPage->addFeed($feedName,$link,$category,$description,$caption,$alt);
-		$this->newsFeedManagerPage->editFeed($feedName, array('Caption'=>'NewSample Caption', 'Alt text' => 'New Alt Text'));
+		$this->newsFeedManagerPage->addFeed($feedName, $link, $category, $description, $caption, $alt);
+		$this->newsFeedManagerPage->editFeed($feedName, array('Caption' => 'NewSample Caption', 'Alt text' => 'New Alt Text'));
 		$values = $this->newsFeedManagerPage->getFieldValues('NewsFeedEditPage', $feedName, array('Caption', 'Alt text'));
 		$this->assertEquals(array('NewSample Caption','New Alt Text'), $values, 'Actual values should match expected');
 		$this->newsFeedManagerPage->trashAndDelete($feedName);
 	}
 
 	/**
+	 * change the state of the feed
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function changeFeedState_ChangeEnabledUsingToolbar_EnabledChanged()
@@ -172,5 +205,4 @@ class NewsFeedManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertEquals('unpublished', $state, 'State should be unpublished');
 		$this->newsFeedManagerPage->trashAndDelete('Test Feed');
 	}
-
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Categories component
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
- * @since       1.6
+ * @since  1.6
  */
 class CategoriesViewCategory extends JViewLegacy
 {
@@ -27,7 +25,11 @@ class CategoriesViewCategory extends JViewLegacy
 	protected $assoc;
 
 	/**
-	 * Display the view
+	 * Display the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -44,6 +46,7 @@ class CategoriesViewCategory extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -64,6 +67,8 @@ class CategoriesViewCategory extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -124,7 +129,11 @@ class CategoriesViewCategory extends JViewLegacy
 		JHtml::_('stylesheet', $component . '/administrator/categories.css', array(), true);
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'folder category-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-category-' . ($isNew ? 'add' : 'edit'));
+		JToolbarHelper::title(
+			$title,
+			'folder category-' . ($isNew ? 'add' : 'edit')
+				. ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-category-' . ($isNew ? 'add' : 'edit')
+		);
 
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories($component, 'core.create')) > 0))
@@ -139,6 +148,7 @@ class CategoriesViewCategory extends JViewLegacy
 		{
 			JToolbarHelper::apply('category.apply');
 			JToolbarHelper::save('category.save');
+
 			if ($canDo->get('core.create'))
 			{
 				JToolbarHelper::save2new('category.save2new');
@@ -174,10 +184,11 @@ class CategoriesViewCategory extends JViewLegacy
 			$ref_key = 'JHELP_COMPONENTS_' . strtoupper(substr($component, 4) . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT');
 		}
 
-		// Get help for the category/section view for the component by
-		// -remotely searching in a language defined dedicated URL: *component*_HELP_URL
-		// -locally  searching in a component help file if helpURL param exists in the component and is set to ''
-		// -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
+		/* Get help for the category/section view for the component by
+		 * -remotely searching in a language defined dedicated URL: *component*_HELP_URL
+		 * -locally  searching in a component help file if helpURL param exists in the component and is set to ''
+		 * -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
+		 */
 		if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
 		{
 			$debug = $lang->setDebug(false);
@@ -188,6 +199,7 @@ class CategoriesViewCategory extends JViewLegacy
 		{
 			$url = null;
 		}
+
 		JToolbarHelper::help($ref_key, $componentParams->exists('helpURL'), $url, $component);
 	}
 }

@@ -5,6 +5,7 @@
 			name="search"
 			type="text"
 			label="COM_CONTENT_FILTER_SEARCH_DESC"
+			description="COM_CONTENT_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 		<field
@@ -23,21 +24,9 @@
 			extension="com_content"
 			description="JOPTION_FILTER_CATEGORY_DESC"
 			onchange="this.form.submit();"
+			published="0,1,2"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
-		</field>
-		<field
-			name="level"
-			type="integer"
-			first="1"
-			last="10"
-			step="1"
-			label="JOPTION_FILTER_LEVEL"
-			languages="*"
-			description="JOPTION_FILTER_LEVEL_DESC"
-			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
 		</field>
 		<field
 			name="access"
@@ -47,15 +36,6 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
-		</field>
-		<field
-			name="author_id"
-			type="author"
-			label="COM_CONTENT_FILTER_AUTHOR"
-			description="COM_CONTENT_FILTER_AUTHOR_DESC"
-			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_AUTHOR</option>
 		</field>
 		<field
 			name="language"
@@ -77,6 +57,28 @@
 		>
 			<option value="">JOPTION_SELECT_TAG</option>
 		</field>
+        <field
+                name="author_id"
+                type="author"
+                label="COM_CONTENT_FILTER_AUTHOR"
+                description="COM_CONTENT_FILTER_AUTHOR_DESC"
+                onchange="this.form.submit();"
+                >
+            <option value="">JOPTION_SELECT_AUTHOR</option>
+        </field>
+        <field
+                name="level"
+                type="integer"
+                first="1"
+                last="10"
+                step="1"
+                label="JOPTION_FILTER_LEVEL"
+                languages="*"
+                description="JOPTION_FILTER_LEVEL_DESC"
+                onchange="this.form.submit();"
+                >
+            <option value="">JOPTION_SELECT_MAX_LEVELS</option>
+        </field>
 	</fields>
 	<fields name="list">
 		<field

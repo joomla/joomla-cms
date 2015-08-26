@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,8 +56,7 @@ $this->direction = $doc->direction;
 			<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo $color ?>_rtl.css" type="text/css" />
 		<?php endif; ?>
 	<?php endif; ?>
-	<?php $debug = JFactory::getConfig()->get('debug_lang'); ?>
-	<?php if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
+	<?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>
 		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/cms/css/debug.css" type="text/css" />
 	<?php endif; ?>
 	<!--[if lte IE 6]>
@@ -67,7 +66,7 @@ $this->direction = $doc->direction;
 		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" rel="stylesheet" type="text/css" />
 	<![endif]-->
 	<!--[if lt IE 9]>
-		<script src="<?php echo $this->baseurl; ?>/media/jui/js/html5.js"></script>
+		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
 
 	<style type="text/css">

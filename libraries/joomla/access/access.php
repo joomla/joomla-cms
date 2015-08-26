@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ jimport('joomla.utilities.arrayhelper');
 /**
  * Class that handles all access authorisation routines.
  *
- * @package     Joomla.Platform
- * @subpackage  Access
- * @since       11.1
+ * @since  11.1
  */
 class JAccess
 {
@@ -100,8 +98,7 @@ class JAccess
 		{
 			$db = JFactory::getDbo();
 			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
-			$rootId = $assets->getRootId();
-			$asset = $rootId;
+			$asset = $assets->getRootId();
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
@@ -141,10 +138,9 @@ class JAccess
 		// Default to the root asset node.
 		if (empty($asset))
 		{
-			// TODO: $rootId doesn't seem to be used!
 			$db = JFactory::getDbo();
 			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
-			$rootId = $assets->getRootId();
+			$asset = $assets->getRootId();
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.

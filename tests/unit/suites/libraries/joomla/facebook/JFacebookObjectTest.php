@@ -3,11 +3,13 @@
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once __DIR__ . '/stubs/JFacebookObjectMock.php';
+
+use Joomla\Registry\Registry;
 
 /**
  * Test class for JFacebookObject.
@@ -19,7 +21,7 @@ require_once __DIR__ . '/stubs/JFacebookObjectMock.php';
 class JFacebookObjectTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the Facebook object.
+	 * @var    Registry  Options for the Facebook object.
 	 * @since  13.1
 	 */
 	protected $options;
@@ -63,7 +65,7 @@ class JFacebookObjectTest extends TestCase
 		$_SERVER['REQUEST_URI'] = '/index.php';
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
-		$this->options = new JRegistry;
+		$this->options = new Registry;
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
 
 		$this->object = new JFacebookObjectMock($this->options, $this->client);

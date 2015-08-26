@@ -3,13 +3,12 @@
 	<name>com_newsfeeds</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
-	<copyright>(C) 2005 - 2014 Open Source Matters. All rights reserved.	</copyright>
-	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<copyright>(C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>COM_NEWSFEEDS_XML_DESCRIPTION</description>
-
 	<install> <!-- Runs on install -->
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
@@ -23,7 +22,6 @@
 
 	<files folder="site">
 		<filename>controller.php</filename>
-		<filename>index.html</filename>
 		<filename>metadata.xml</filename>
 		<filename>newsfeeds.php</filename>
 		<filename>router.php</filename>
@@ -50,7 +48,6 @@
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
-			<filename>index.html</filename>
 			<filename>newsfeeds.php</filename>
 			<folder>controllers</folder>
 			<folder>elements</folder>

@@ -60,7 +60,6 @@ class JGithubPackageRepositoriesCollaboratorsTest extends PHPUnit_Framework_Test
 
     /**
      * @covers JGithubPackageRepositoriesCollaborators::getList
-     * @todo   Implement testGetList().
      */
     public function testGetList()
     {
@@ -80,7 +79,6 @@ class JGithubPackageRepositoriesCollaboratorsTest extends PHPUnit_Framework_Test
 
     /**
      * @covers JGithubPackageRepositoriesCollaborators::get
-     * @todo   Implement testGet().
      */
     public function testGet()
     {
@@ -100,7 +98,6 @@ class JGithubPackageRepositoriesCollaboratorsTest extends PHPUnit_Framework_Test
 
 	/**
 	 * @covers JGithubPackageRepositoriesCollaborators::get
-	 * @todo   Implement testGet().
 	 */
 	public function testGetNegative()
 	{
@@ -120,7 +117,6 @@ class JGithubPackageRepositoriesCollaboratorsTest extends PHPUnit_Framework_Test
 
 	/**
 	 * @covers JGithubPackageRepositoriesCollaborators::get
-	 * @todo   Implement testGet().
 	 *
 	 * @expectedException UnexpectedValueException
 	 */
@@ -142,7 +138,6 @@ class JGithubPackageRepositoriesCollaboratorsTest extends PHPUnit_Framework_Test
 
 	/**
      * @covers JGithubPackageRepositoriesCollaborators::add
-     * @todo   Implement testAdd().
      */
     public function testAdd()
     {
@@ -162,7 +157,6 @@ class JGithubPackageRepositoriesCollaboratorsTest extends PHPUnit_Framework_Test
 
     /**
      * @covers JGithubPackageRepositoriesCollaborators::remove
-     * @todo   Implement testRemove().
      */
     public function testRemove()
     {

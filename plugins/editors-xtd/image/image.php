@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.image
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Editor Image buton
  *
- * @package     Joomla.Plugin
- * @subpackage  Editors-xtd.image
- * @since       1.5
+ * @since  1.5
  */
 class PlgButtonImage extends JPlugin
 {
@@ -54,7 +52,7 @@ class PlgButtonImage extends JPlugin
 			||	(count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author == $user->id))
 		{
 			$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name=' . $name . '&amp;asset=' . $asset . '&amp;author=' . $author;
-			JHtml::_('behavior.modal');
+
 			$button = new JObject;
 			$button->modal = true;
 			$button->class = 'btn';

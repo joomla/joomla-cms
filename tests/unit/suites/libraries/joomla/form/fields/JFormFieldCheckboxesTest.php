@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,7 +31,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->backupServer = $_SERVER;
 
@@ -393,6 +393,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 		$option1->class = '';
 		$option1->onclick = '';
 		$option1->checked = false;
+		$option1->selected = false;
 		$option1->onchange = '';
 
 		$option2 = new stdClass;
@@ -402,6 +403,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 		$option2->class = '';
 		$option2->onclick = '';
 		$option2->checked = true;
+		$option2->selected = true;
 		$option2->onchange = '';
 
 		$optionsExpected = array($option1, $option2);

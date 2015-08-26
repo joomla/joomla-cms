@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Helper for standard content style extensions.
  * This class mainly simplifies static helper methods often repeated in individual components
  *
- * @package     Joomla.Libraries
- * @subpackage  Helper
- * @since       3.1
+ * @since  3.1
  */
 class JHelperContent
 {
@@ -50,8 +48,8 @@ class JHelperContent
 		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
 		// Reverted a change for version 2.5.6
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		$user   = JFactory::getUser();
+		$result = new JObject;
 
 		$path = JPATH_ADMINISTRATOR . '/components/' . $assetName . '/access.xml';
 
@@ -102,8 +100,8 @@ class JHelperContent
 			return $result;
 		}
 
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		$user   = JFactory::getUser();
+		$result = new JObject;
 
 		$path = JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml';
 

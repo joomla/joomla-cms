@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -137,7 +137,7 @@ defined('_JEXEC') or die;
 				<td>
 					<?php echo JText::_('COM_ADMIN_DISABLED_FUNCTIONS'); ?>
 				</td>
-				<td>
+				<td class="break-word">
 					<?php echo JHtml::_('phpsetting.string', $this->php_settings['disable_functions']); ?>
 				</td>
 			</tr>

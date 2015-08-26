@@ -3,20 +3,32 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Site
- * @subpackage  com_contact
+ * View to create a VCF for a contact item
+ *
+ * @since  1.6
  */
 class ContactViewContact extends JViewLegacy
 {
+	/**
+	 * The item model state
+	 *
+	 * @var         \Joomla\Registry\Registry
+	 * @deprecated  4.0  Variable not used
+	 */
 	protected $state;
 
+	/**
+	 * The contact item
+	 *
+	 * @var   JObject
+	 */
 	protected $item;
 
 	/**

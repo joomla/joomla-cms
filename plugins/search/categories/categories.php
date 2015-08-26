@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 /**
  * Categories search plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  Search.categories
- * @since       1.6
+ * @since  1.6
  */
 class PlgSearchCategories extends JPlugin
 {
@@ -171,7 +169,15 @@ class PlgSearchCategories extends JPlugin
 		}
 
 		$db->setQuery($query, 0, $limit);
-		$rows = $db->loadObjectList();
+		try
+		{
+			$rows = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$rows = array();
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+		}
 
 		$return = array();
 
@@ -187,7 +193,7 @@ class PlgSearchCategories extends JPlugin
 
 			foreach ($rows as $category)
 			{
-				if (searchHelper::checkNoHTML($category, $searchText, array('name', 'title', 'text')))
+				if (searchHelper::checkNoHtml($category, $searchText, array('name', 'title', 'text')))
 				{
 					$return[] = $category;
 				}

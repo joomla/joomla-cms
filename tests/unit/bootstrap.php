@@ -7,7 +7,7 @@
  *
  * @package     Joomla.UnitTest
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  * @link        http://www.phpunit.de/manual/current/en/installation.html
  */
@@ -19,8 +19,11 @@ ini_set('magic_quotes_runtime', 0);
 
 // Maximise error reporting.
 ini_set('zend.ze1_compatibility_mode', '0');
-error_reporting(E_ALL & ~E_STRICT);
+error_reporting(E_ALL & ~(E_STRICT|E_USER_DEPRECATED));
 ini_set('display_errors', 1);
+
+// Set fixed precision value to avoid round related issues
+ini_set('precision', 14);
 
 /*
  * Ensure that required path constants are defined.  These can be overridden within the phpunit.xml file
@@ -94,12 +97,14 @@ if (!defined('JDEBUG'))
 // Import the platform in legacy mode.
 require_once JPATH_PLATFORM . '/import.legacy.php';
 
-// Force library to be in JError legacy mode
-JError::setErrorHandling(E_NOTICE, 'message');
-JError::setErrorHandling(E_WARNING, 'message');
-
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
+
+// For PHP 7, unset the exception handler
+if (PHP_MAJOR_VERSION >= 7)
+{
+	restore_exception_handler();
+}
 
 // Register the core Joomla test classes.
 JLoader::registerPrefix('Test', __DIR__ . '/core');

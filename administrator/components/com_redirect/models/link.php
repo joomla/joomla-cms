@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Redirect link model.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_redirect
- * @since       1.6
+ * @since  1.6
  */
 class RedirectModelLink extends JModelAdmin
 {
@@ -27,28 +25,31 @@ class RedirectModelLink extends JModelAdmin
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param   object    $record    A record object.
+	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 *
 	 * @since   1.6
 	 */
 	protected function canDelete($record)
 	{
-
 		if ($record->published != -2)
 		{
 			return false;
 		}
+
 		$user = JFactory::getUser();
+
 		return $user->authorise('core.delete', 'com_redirect');
 	}
 
 	/**
 	 * Method to test whether a record can have its state edited.
 	 *
-	 * @param   object    $record    A record object.
+	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 *
 	 * @since   1.6
 	 */
 	protected function canEditState($record)
@@ -62,10 +63,12 @@ class RedirectModelLink extends JModelAdmin
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param   type      The table type to instantiate
-	 * @param   string    A prefix for the table class name. Optional.
-	 * @param   array     Configuration array for model. Optional.
+	 * @param   string  $type    The table type to instantiate
+	 * @param   string  $prefix  A prefix for the table class name. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
 	 * @return  JTable    A database object
+	 *
 	 * @since   1.6
 	 */
 	public function getTable($type = 'Link', $prefix = 'RedirectTable', $config = array())
@@ -76,15 +79,18 @@ class RedirectModelLink extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array      $data        Data for the form.
-	 * @param   boolean    $loadData    True if the form is to load its own data (default case), false if not.
-	 * @return  JForm    A JForm object on success, false on failure
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  JForm  A JForm object on success, false on failure
+	 *
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_redirect.link', 'link', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -101,6 +107,14 @@ class RedirectModelLink extends JModelAdmin
 			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
 
+		// If in advanced mode then we make sure the new url field is not compulsory and the header
+		// field compulsory in case people select non-3xx redirects
+		if (JComponentHelper::getParams('com_redirect')->get('mode', 0) == true)
+		{
+			$form->setFieldAttribute('new_url', 'required', 'false');
+			$form->setFieldAttribute('header', 'required', 'true');
+		}
+
 		return $form;
 	}
 
@@ -108,6 +122,7 @@ class RedirectModelLink extends JModelAdmin
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
+	 *
 	 * @since   1.6
 	 */
 	protected function loadFormData()
@@ -128,10 +143,12 @@ class RedirectModelLink extends JModelAdmin
 	/**
 	 * Method to activate links.
 	 *
-	 * @param   array     An array of link ids.
-	 * @param   string    The new URL to set for the redirect.
-	 * @param   string    A comment for the redirect links.
+	 * @param   array   &$pks     An array of link ids.
+	 * @param   string  $url      The new URL to set for the redirect.
+	 * @param   string  $comment  A comment for the redirect links.
+	 *
 	 * @return  boolean  Returns true on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function activate(&$pks, $url, $comment = null)
@@ -151,6 +168,7 @@ class RedirectModelLink extends JModelAdmin
 		{
 			$pks = array();
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+
 			return false;
 		}
 
@@ -160,7 +178,7 @@ class RedirectModelLink extends JModelAdmin
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__redirect_links'))
 				->set($db->quoteName('new_url') . ' = ' . $db->quote($url))
-				->set($db->quoteName('published') . ' = ' . $db->quote(1))
+				->set($db->quoteName('published') . ' = ' . (int) 1)
 				->set($db->quoteName('comment') . ' = ' . $db->quote($comment))
 				->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
 			$db->setQuery($query);
@@ -172,9 +190,11 @@ class RedirectModelLink extends JModelAdmin
 			catch (RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 }

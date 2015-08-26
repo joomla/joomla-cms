@@ -3,26 +3,26 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTTP factory class.
  *
- * @package     Joomla.Platform
- * @subpackage  HTTP
- * @since       12.1
+ * @since  12.1
  */
 class JHttpFactory
 {
 	/**
 	 * method to receive Http instance.
 	 *
-	 * @param   JRegistry  $options   Client options object.
-	 * @param   mixed      $adapters  Adapter (string) or queue of adapters (array) to use for communication.
+	 * @param   Registry  $options   Client options object.
+	 * @param   mixed     $adapters  Adapter (string) or queue of adapters (array) to use for communication.
 	 *
 	 * @return  JHttp      Joomla Http class
 	 *
@@ -30,11 +30,11 @@ class JHttpFactory
 	 *
 	 * @since   12.1
 	 */
-	public static function getHttp(JRegistry $options = null, $adapters = null)
+	public static function getHttp(Registry $options = null, $adapters = null)
 	{
 		if (empty($options))
 		{
-			$options = new JRegistry;
+			$options = new Registry;
 		}
 
 		if (empty($adapters))
@@ -58,14 +58,14 @@ class JHttpFactory
 	/**
 	 * Finds an available http transport object for communication
 	 *
-	 * @param   JRegistry  $options  Option for creating http transport object
-	 * @param   mixed      $default  Adapter (string) or queue of adapters (array) to use
+	 * @param   Registry  $options  Option for creating http transport object
+	 * @param   mixed     $default  Adapter (string) or queue of adapters (array) to use
 	 *
 	 * @return  JHttpTransport Interface sub-class
 	 *
 	 * @since   12.1
 	 */
-	public static function getAvailableDriver(JRegistry $options, $default = null)
+	public static function getAvailableDriver(Registry $options, $default = null)
 	{
 		if (is_null($default))
 		{
@@ -87,7 +87,7 @@ class JHttpFactory
 		{
 			$class = 'JHttpTransport' . ucfirst($adapter);
 
-			if ($class::isSupported())
+			if (class_exists($class) && $class::isSupported())
 			{
 				return new $class($options);
 			}
@@ -118,6 +118,16 @@ class JHttpFactory
 			{
 				$names[] = substr($fileName, 0, strrpos($fileName, '.'));
 			}
+		}
+
+		// Keep alphabetical order across all environments
+		sort($names);
+
+		// If curl is available set it to the first position
+		if ($key = array_search('curl', $names))
+		{
+			unset($names[$key]);
+			array_unshift($names, 'curl');
 		}
 
 		return $names;

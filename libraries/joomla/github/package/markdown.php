@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2012 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2012 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation http://developer.github.com/v3/markdown
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub.Markdown
- * @since       3.3 (CMS)
+ * @since  3.3 (CMS)
  */
 class JGithubPackageMarkdown extends JGithubPackage
 {

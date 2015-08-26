@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       12.1
+ * @since  12.1
  */
 class JDatabaseDriverPostgresql extends JDatabaseDriver
 {
@@ -116,7 +114,14 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		}
 
 		// Build the DSN for the connection.
-		$dsn = "host={$this->options['host']} dbname={$this->options['database']} user={$this->options['user']} password={$this->options['password']}";
+		$dsn = '';
+
+		if (!empty($this->options['host']))
+		{
+			$dsn .= "host={$this->options['host']} ";
+		}
+
+		$dsn .= "dbname={$this->options['database']} user={$this->options['user']} password={$this->options['password']}";
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @pg_connect($dsn)))
@@ -126,6 +131,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		pg_set_error_verbosity($this->connection, PGSQL_ERRORS_DEFAULT);
 		pg_query('SET standard_conforming_strings=off');
+		pg_query('SET escape_string_warning=off');
 	}
 
 	/**
@@ -387,6 +393,14 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
+				if (stristr(strtolower($field->type), "character varying"))
+				{
+					$field->Default = "";
+				}
+				if (stristr(strtolower($field->type), "text"))
+				{
+					$field->Default = "";
+				}
 				// Do some dirty translation to MySQL output.
 				// TODO: Come up with and implement a standard across databases.
 				$result[$field->column_name] = (object) array(
@@ -698,10 +712,10 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				{
 					// Get the error number and message.
 					$this->errorNum = (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
-					$this->errorMsg = JText::_('JLIB_DATABASE_QUERY_FAILED') . "\n" . pg_last_error($this->connection) . "\nSQL=" . $query;
+					$this->errorMsg = pg_last_error($this->connection) . "SQL=" . $query;
 
 					// Throw the normal query exception.
-					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 					throw new RuntimeException($this->errorMsg);
 				}
 
@@ -713,10 +727,10 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			{
 				// Get the error number and message.
 				$this->errorNum = (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
-				$this->errorMsg = JText::_('JLIB_DATABASE_QUERY_FAILED') . "\n" . pg_last_error($this->connection) . "\nSQL=" . $query;
+				$this->errorMsg = pg_last_error($this->connection) . "SQL=" . $query;
 
 				// Throw the normal query exception.
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 				throw new RuntimeException($this->errorMsg);
 			}
 		}
@@ -824,7 +838,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
 		$this->connect();
 
@@ -1162,7 +1176,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function getStringPositionSQL( $substring, $string )
+	public function getStringPositionSql( $substring, $string )
 	{
 		$this->connect();
 

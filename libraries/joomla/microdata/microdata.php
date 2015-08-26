@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Microdata
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform class for interacting with Microdata semantics.
  *
- * @package     Joomla.Platform
- * @subpackage  Microdata
- * @since       3.2
+ * @since  3.2
  */
 class JMicrodata
 {
@@ -133,13 +131,13 @@ class JMicrodata
 	 * Reset all params
 	 *
 	 * @return void
-	 * 
+	 *
 	 * @since   3.2
 	 */
 	protected function resetParams()
 	{
 		$this->content          = null;
-		$this->machineContent	= null;
+		$this->machineContent   = null;
 		$this->property         = null;
 		$this->fallbackProperty = null;
 		$this->fallbackType     = null;
@@ -196,7 +194,7 @@ class JMicrodata
 		// If the given Type isn't available, fallback to Thing
 		if (!static::isTypeAvailable($this->type))
 		{
-			$this->type	= 'Thing';
+			$this->type = 'Thing';
 		}
 
 		return $this;

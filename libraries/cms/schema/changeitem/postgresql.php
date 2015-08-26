@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Checks the database schema against one PostgreSQL DDL query to see if it has been run.
  *
- * @package     Joomla.Libraries
- * @subpackage  Schema
- * @since       3.0
+ * @since  3.0
  */
 class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 {
@@ -71,6 +69,15 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 				. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]);
 
 				$this->queryType = 'ADD_COLUMN';
+				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
+			}
+			elseif ($alterCommand === 'DROP COLUMN')
+			{
+				$result = 'SELECT column_name FROM information_schema.columns WHERE table_name='
+				. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]);
+
+				$this->queryType = 'DROP_COLUMN';
+				$this->checkQueryExpected = 0;
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
 			}
 			elseif ($alterCommand === 'ALTER COLUMN')

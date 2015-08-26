@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -88,19 +88,19 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 	public static function addBehaviours($test, $mockObject, $options)
 	{
 		// Mock calls to JApplicationWeb::getDocument().
-		$mockObject->expects($test->any())->method('getDocument')->will($test->returnValue(TestMockDocument::create($test)));
+		$mockObject->expects($test->any())->method('getDocument')->willReturn(TestMockDocument::create($test));
 
 		// Mock calls to JApplicationWeb::getLanguage().
-		$mockObject->expects($test->any())->method('getLanguage')->will($test->returnValue(TestMockLanguage::create($test)));
+		$mockObject->expects($test->any())->method('getLanguage')->willReturn(TestMockLanguage::create($test));
 
 		// Mock a call to JApplicationWeb::getSession().
 		if (isset($options['session']))
 		{
-			$mockObject->expects($test->any())->method('getSession')->will($test->returnValue($options['session']));
+			$mockObject->expects($test->any())->method('getSession')->willReturn($options['session']);
 		}
 		else
 		{
-			$mockObject->expects($test->any())->method('getSession')->will($test->returnValue(TestMockSession::create($test)));
+			$mockObject->expects($test->any())->method('getSession')->willReturn(TestMockSession::create($test));
 		}
 
 		$test->assignMockCallbacks(

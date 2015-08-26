@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="editors-xtd">
+<extension version="3.1" type="plugin" group="editors-xtd" method="upgrade">
 	<name>plg_editors-xtd_readmore</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,7 +11,6 @@
 	<description>PLG_READMORE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="readmore">readmore.php</filename>
-		<filename>index.html</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_editors-xtd_readmore.ini</language>

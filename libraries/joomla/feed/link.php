@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Feed Link class.
  *
- * @package     Joomla.Platform
- * @subpackage  Feed
- * @since       12.3
+ * @since  12.3
  */
 class JFeedLink
 {
@@ -92,6 +90,7 @@ class JFeedLink
 		{
 			throw new InvalidArgumentException('Length must be numeric.');
 		}
+
 		$this->length = (int) $length;
 	}
 }

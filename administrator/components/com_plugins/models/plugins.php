@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,15 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of plugin records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_plugins
- * @since       1.6
+ * @since  1.6
  */
 class PluginsModelPlugins extends JModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -92,7 +91,7 @@ class PluginsModelPlugins extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string    A store id.
 	 */
@@ -109,27 +108,32 @@ class PluginsModelPlugins extends JModelList
 	}
 
 	/**
-	 * Returns an object list
+	 * Returns an object list.
 	 *
-	 * @param   string The query
-	 * @param   int    Offset
-	 * @param   int    The number of records
+	 * @param   JDatabaseQuery  $query       A database query object.
+	 * @param   integer         $limitstart  Offset.
+	 * @param   integer         $limit       The number of records.
+	 *
 	 * @return  array
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
 		$search = $this->getState('filter.search');
 		$ordering = $this->getState('list.ordering', 'ordering');
+
 		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
 		{
 			$this->_db->setQuery($query);
 			$result = $this->_db->loadObjectList();
 			$this->translate($result);
+
 			if (!empty($search))
 			{
+				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
+
 				foreach ($result as $i => $item)
 				{
-					if (!preg_match("/$search/i", $item->name))
+					if (!preg_match("/$escapedSearchString/i", $item->name))
 					{
 						unset($result[$i]);
 					}
@@ -141,11 +145,13 @@ class PluginsModelPlugins extends JModelList
 
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
+
 			if ($total < $limitstart)
 			{
 				$limitstart = 0;
 				$this->setState('list.start', 0);
 			}
+
 			return array_slice($result, $limitstart, $limit ? $limit : null);
 		}
 		else
@@ -155,23 +161,27 @@ class PluginsModelPlugins extends JModelList
 				$query->order('a.folder ASC');
 				$ordering = 'a.ordering';
 			}
+
 			$query->order($this->_db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
 
 			if ($ordering == 'folder')
 			{
 				$query->order('a.ordering ASC');
 			}
+
 			$result = parent::_getList($query, $limitstart, $limit);
 			$this->translate($result);
+
 			return $result;
 		}
 	}
 
 	/**
-	 * Translate a list of objects
+	 * Translate a list of objects.
 	 *
-	 * @param   array The array of objects
-	 * @return  array The array of translated objects
+	 * @param   array  &$items  The array of objects.
+	 *
+	 * @return  array The array of translated objects.
 	 */
 	protected function translate(&$items)
 	{
@@ -223,8 +233,9 @@ class PluginsModelPlugins extends JModelList
 			$query->where('a.access = ' . (int) $access);
 		}
 
-		// Filter by published state
+		// Filter by published state.
 		$published = $this->getState('filter.enabled');
+
 		if (is_numeric($published))
 		{
 			$query->where('a.enabled = ' . (int) $published);
@@ -234,7 +245,7 @@ class PluginsModelPlugins extends JModelList
 			$query->where('(a.enabled IN (0, 1))');
 		}
 
-		// Filter by state
+		// Filter by state.
 		$query->where('a.state >= 0');
 
 		// Filter by folder.
@@ -243,8 +254,9 @@ class PluginsModelPlugins extends JModelList
 			$query->where('a.folder = ' . $db->quote($folder));
 		}
 
-		// Filter by search in name or id
+		// Filter by search in name or id.
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)

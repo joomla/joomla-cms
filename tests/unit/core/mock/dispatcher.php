@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,12 +31,12 @@ class TestMockDispatcher
 	public static $triggered = array();
 
 	/**
-	 * Creates and instance of the mock JLanguage object.
+	 * Creates and instance of the mock JEventDispatcher object.
 	 *
-	 * @param   object   $test      A test object.
-	 * @param   boolean  $defaults  True to create the default mock handlers and triggers.
+	 * @param   PHPUnit_Framework_TestCase  $test        A test object.
+	 * @param   boolean                     $defaults  True to create the default mock handlers and triggers.
 	 *
-	 * @return  object
+	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
 	 * @since   11.3
 	 */
@@ -46,7 +46,7 @@ class TestMockDispatcher
 		self::$handlers = array();
 		self::$triggered = array();
 
-		// Collect all the relevant methods in JDatabase.
+		// Collect all the relevant methods in JEventDispatcher.
 		$methods = array(
 			'register',
 			'trigger',

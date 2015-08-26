@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of banner records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersModelBanners extends JModelList
 {
@@ -97,14 +95,23 @@ class BannersModelBanners extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id AS id, a.name AS name, a.alias AS alias,' .
+				'a.id AS id,' .
+				'a.name AS name,' .
+				'a.alias AS alias,' .
 				'a.checked_out AS checked_out,' .
-				'a.checked_out_time AS checked_out_time, a.catid AS catid,' .
-				'a.clicks AS clicks, a.metakey AS metakey, a.sticky AS sticky,' .
-				'a.impmade AS impmade, a.imptotal AS imptotal,' .
-				'a.state AS state, a.ordering AS ordering,' .
-				'a.purchase_type as purchase_type,' .
-				'a.language, a.publish_up, a.publish_down'
+				'a.checked_out_time AS checked_out_time,' .
+				'a.catid AS catid,' .
+				'a.clicks AS clicks,' .
+				'a.metakey AS metakey,' .
+				'a.sticky AS sticky,' .
+				'a.impmade AS impmade,' .
+				'a.imptotal AS imptotal,' .
+				'a.state AS state,' .
+				'a.ordering AS ordering,' .
+				'a.purchase_type AS purchase_type,' .
+				'a.language,' .
+				'a.publish_up,' .
+				'a.publish_down'
 			)
 		);
 		$query->from($db->quoteName('#__banners') . ' AS a');
@@ -164,7 +171,7 @@ class BannersModelBanners extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where('(a.name LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
 			}
 		}

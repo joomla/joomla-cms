@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Deprecated class placeholder. You should use JApplicationWebClient instead.
  *
- * @package     Joomla.Legacy
- * @subpackage  Application
  * @since       11.3
  * @deprecated  12.3 (Platform) & 4.0 (CMS)
  * @codeCoverageIgnore

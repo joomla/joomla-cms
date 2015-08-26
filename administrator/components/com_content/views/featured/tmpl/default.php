@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,14 +15,14 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$canOrder	= $user->authorise('core.edit.state', 'com_content.article');
-$archived	= $this->state->get('filter.published') == 2 ? true : false;
-$trashed	= $this->state->get('filter.published') == -2 ? true : false;
-$saveOrder	= $listOrder == 'fp.ordering';
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$canOrder  = $user->authorise('core.edit.state', 'com_content.article');
+$archived  = $this->state->get('filter.published') == 2 ? true : false;
+$trashed   = $this->state->get('filter.published') == -2 ? true : false;
+$saveOrder = $listOrder == 'fp.ordering';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=featured'); ?>" method="post" name="adminForm" id="adminForm">
@@ -46,7 +46,7 @@ $saveOrder	= $listOrder == 'fp.ordering';
 			<table class="table table-striped" id="articleList">
 				<thead>
 					<tr>
-						<th width="1%" class="hidden-phone">
+						<th width="1%" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="1%" style="min-width:55px" class="nowrap center">
@@ -80,7 +80,7 @@ $saveOrder	= $listOrder == 'fp.ordering';
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="8">
+						<td colspan="9">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -89,15 +89,15 @@ $saveOrder	= $listOrder == 'fp.ordering';
 				<?php $count = count($this->items); ?>
 				<?php foreach ($this->items as $i => $item) :
 					$item->max_ordering = 0;
-					$ordering	= ($listOrder == 'fp.ordering');
-					$assetId	= 'com_content.article.'.$item->id;
-					$canCreate	= $user->authorise('core.create',     'com_content.category.'.$item->catid);
-					$canEdit	= $user->authorise('core.edit',       'com_content.article.'.$item->id);
-					$canCheckin	= $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-					$canChange	= $user->authorise('core.edit.state', 'com_content.article.'.$item->id) && $canCheckin;
+					$ordering   = ($listOrder == 'fp.ordering');
+					$assetId    = 'com_content.article.' . $item->id;
+					$canCreate  = $user->authorise('core.create', 'com_content.category.' . $item->catid);
+					$canEdit    = $user->authorise('core.edit', 'com_content.article.' . $item->id);
+					$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+					$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
-						<td class="center hidden-phone">
+						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<td class="center">
@@ -175,7 +175,7 @@ $saveOrder	= $listOrder == 'fp.ordering';
 						<td class="nowrap small hidden-phone">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>

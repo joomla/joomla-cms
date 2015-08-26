@@ -3,23 +3,42 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Site
- * @subpackage  com_contact
+ * Controller for single contact view
+ *
+ * @since  1.5.19
  */
 class ContactControllerContact extends JControllerForm
 {
+	/**
+	 * Method to get a model object, loading it if required.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  JModelLegacy  The model.
+	 *
+	 * @since   1.6.4
+	 */
 	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, array('ignore_request' => false));
 	}
 
+	/**
+	 * Method to submit the contact form and send an email.
+	 *
+	 * @return  boolean  True on success sending the email. False on failure.
+	 *
+	 * @since   1.5.19
+	 */
 	public function submit()
 	{
 		// Check for request forgeries.
@@ -73,7 +92,7 @@ class ContactControllerContact extends JControllerForm
 		if ($validate === false)
 		{
 			// Get the validation messages.
-			$errors	= $model->getErrors();
+			$errors = $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
@@ -145,6 +164,17 @@ class ContactControllerContact extends JControllerForm
 		return true;
 	}
 
+	/**
+	 * Method to get a model object, loading it if required.
+	 *
+	 * @param   array     $data                  The data to send in the email.
+	 * @param   stdClass  $contact               The user information to send the email to
+	 * @param   boolean   $copy_email_activated  True to send a copy of the email to the user.
+	 *
+	 * @return  boolean  True on success sending the email, false on failure.
+	 *
+	 * @since   1.6.4
+	 */
 	private function _sendEmail($data, $contact, $copy_email_activated)
 	{
 			$app = JFactory::getApplication();
@@ -166,11 +196,11 @@ class ContactControllerContact extends JControllerForm
 
 			// Prepare email body
 			$prefix = JText::sprintf('COM_CONTACT_ENQUIRY_TEXT', JUri::base());
-			$body	= $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
+			$body   = $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
 
 			$mail = JFactory::getMailer();
 			$mail->addRecipient($contact->email_to);
-			$mail->addReplyTo(array($email, $name));
+			$mail->addReplyTo($email, $name);
 			$mail->setSender(array($mailfrom, $fromname));
 			$mail->setSubject($sitename . ': ' . $subject);
 			$mail->setBody($body);

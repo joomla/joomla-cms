@@ -3,23 +3,23 @@
  * @package     Joomla.Platform
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die();
 
+use Joomla\Registry\Registry;
+
 /**
  * Twitter API object class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Twitter
- * @since       12.3
+ * @since  12.3
  */
 abstract class JTwitterObject
 {
 	/**
-	 * @var    JRegistry  Options for the Twitter object.
+	 * @var    Registry  Options for the Twitter object.
 	 * @since  12.3
 	 */
 	protected $options;
@@ -39,15 +39,15 @@ abstract class JTwitterObject
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry      &$options  Twitter options object.
+	 * @param   Registry       &$options  Twitter options object.
 	 * @param   JHttp          $client    The HTTP client object.
 	 * @param   JTwitterOAuth  $oauth     The OAuth client.
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry &$options = null, JHttp $client = null, JTwitterOAuth $oauth = null)
+	public function __construct(Registry &$options = null, JHttp $client = null, JTwitterOAuth $oauth = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->client = isset($client) ? $client : new JHttp($this->options);
 		$this->oauth = $oauth;
 	}

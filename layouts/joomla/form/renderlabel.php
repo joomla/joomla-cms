@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,12 +20,12 @@ defined('_JEXEC') or die;
  * 	$position     : (string)  The tooltip position. Bottom for alias
  */
 
-$text		= $displayData['text'];
-$desc		= $displayData['description'];
-$for		= $displayData['for'];
-$req		= $displayData['required'];
-$classes	= array_filter((array) $displayData['classes']);
-$position	= $displayData['position'];
+$text     = $displayData['text'];
+$desc     = $displayData['description'];
+$for      = $displayData['for'];
+$req      = $displayData['required'];
+$classes  = array_filter((array) $displayData['classes']);
+$position = $displayData['position'];
 
 $id = $for . '-lbl';
 $title = '';
@@ -35,7 +35,7 @@ if (!empty($desc))
 {
 	JHtml::_('bootstrap.tooltip');
 	$classes[] = 'hasTooltip';
-	$title = ' title="' . JHtml::tooltipText(trim($text, ':'), $desc, 0) . '"';
+	$title     = ' title="' . JHtml::tooltipText(trim($text, ':'), $desc, 0) . '"';
 }
 
 // If required, there's a class for that.

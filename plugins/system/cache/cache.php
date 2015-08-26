@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,15 +12,13 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Page Cache Plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.cache
- * @since       1.5
+ * @since  1.5
  */
 class PlgSystemCache extends JPlugin
 {
-	var $_cache		= null;
+	var $_cache = null;
 
-	var $_cache_key	= null;
+	var $_cache_key = null;
 
 	/**
 	 * Constructor.
@@ -36,13 +34,13 @@ class PlgSystemCache extends JPlugin
 
 		// Set the language in the class.
 		$options = array(
-			'defaultgroup'	=> 'page',
-			'browsercache'	=> $this->params->get('browsercache', false),
-			'caching'		=> false,
+			'defaultgroup' => 'page',
+			'browsercache' => $this->params->get('browsercache', false),
+			'caching'      => false,
 		);
 
-		$this->_cache		= JCache::getInstance('page', $options);
-		$this->_cache_key	= JUri::getInstance()->toString();
+		$this->_cache     = JCache::getInstance('page', $options);
+		$this->_cache_key = JUri::getInstance()->toString();
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Cache base object
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @since       11.1
+ * @since  11.1
  */
 class JCache
 {
@@ -184,10 +182,12 @@ class JCache
 
 		// Get the storage
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			return $handler->get($id, $group, $this->_options['checkTime']);
 		}
+
 		return false;
 	}
 
@@ -202,10 +202,12 @@ class JCache
 	{
 		// Get the storage
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			return $handler->getAll();
 		}
+
 		return false;
 	}
 
@@ -227,11 +229,14 @@ class JCache
 
 		// Get the storage and store the cached data
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			$handler->_lifetime = $this->_options['lifetime'];
+
 			return $handler->store($id, $group, $data);
 		}
+
 		return false;
 	}
 
@@ -252,10 +257,12 @@ class JCache
 
 		// Get the storage
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception))
 		{
 			return $handler->remove($id, $group);
 		}
+
 		return false;
 	}
 
@@ -279,10 +286,12 @@ class JCache
 
 		// Get the storage handler
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception))
 		{
 			return $handler->clean($group, $mode);
 		}
+
 		return false;
 	}
 
@@ -297,10 +306,12 @@ class JCache
 	{
 		// Get the storage handler
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception))
 		{
 			return $handler->gc();
 		}
+
 		return false;
 	}
 
@@ -329,9 +340,11 @@ class JCache
 		// Allow storage handlers to perform locking on their own
 		// NOTE drivers with lock need also unlock or unlocking will fail because of false $id
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception) && $this->_options['locking'] == true && $this->_options['caching'] == true)
 		{
 			$locked = $handler->lock($id, $group, $locktime);
+
 			if ($locked !== false)
 			{
 				return $locked;
@@ -350,7 +363,6 @@ class JCache
 		if ($this->_options['locking'] == true && $this->_options['caching'] == true)
 		{
 			$data_lock = $this->get($id2, $group);
-
 		}
 		else
 		{
@@ -366,7 +378,6 @@ class JCache
 			// That implies that data get from other thread has finished
 			while ($data_lock !== false)
 			{
-
 				if ($lock_counter > $looptime)
 				{
 					$returning->locked = false;
@@ -410,9 +421,11 @@ class JCache
 
 		// Allow handlers to perform unlocking on their own
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			$unlocked = $handler->unlock($id, $group);
+
 			if ($unlocked !== false)
 			{
 				return $unlocked;
@@ -445,6 +458,7 @@ class JCache
 		}
 
 		self::$_handler[$hash] = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
+
 		return self::$_handler[$hash];
 	}
 
@@ -502,7 +516,7 @@ class JCache
 		// Set cached headers.
 		if (isset($data['headers']) && $data['headers'])
 		{
-			foreach($data['headers'] as $header)
+			foreach ($data['headers'] as $header)
 			{
 				$app->setHeader($header['name'], $header['value']);
 			}
@@ -512,12 +526,12 @@ class JCache
 		// proper token.
 		if (isset($data['body']))
 		{
-			$token 			= JSession::getFormToken();
-			$search 		= '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
-			$replacement 	= '<input type="hidden" name="' . $token . '" value="1" />';
+			$token       = JSession::getFormToken();
+			$search      = '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
+			$replacement = '<input type="hidden" name="' . $token . '" value="1" />';
 
 			$data['body'] = preg_replace($search, $replacement, $data['body']);
-			$body = $data['body'];
+			$body         = $data['body'];
 		}
 
 		// Get the document body out of the cache.
@@ -537,10 +551,10 @@ class JCache
 	public static function setWorkarounds($data, $options = array())
 	{
 		$loptions = array(
-			'nopathway' 	=> 0,
-			'nohead' 		=> 0,
-			'nomodules' 	=> 0,
-			'modulemode' 	=> 0,
+			'nopathway'  => 0,
+			'nohead'     => 0,
+			'nomodules'  => 0,
+			'modulemode' => 0,
 		);
 
 		if (isset($options['nopathway']))
@@ -570,6 +584,7 @@ class JCache
 		{
 			// Get the modules buffer before component execution.
 			$buffer1 = $document->getBuffer();
+
 			if (!is_array($buffer1))
 			{
 				$buffer1 = array();
@@ -588,7 +603,6 @@ class JCache
 		// Document head data
 		if ($loptions['nohead'] != 1 && method_exists($document, 'getHeadData'))
 		{
-
 			if ($loptions['modulemode'] == 1)
 			{
 				$headnow = $document->getHeadData();
@@ -608,8 +622,8 @@ class JCache
 					if (isset($options['headerbefore'][$now]))
 					{
 						// We have to serialize the content of the arrays because the may contain other arrays which is a notice in PHP 5.4 and newer
-						$nowvalue 		= array_map('serialize', $headnow[$now]);
-						$beforevalue 	= array_map('serialize', $options['headerbefore'][$now]);
+						$nowvalue    = array_map('serialize', $headnow[$now]);
+						$beforevalue = array_map('serialize', $options['headerbefore'][$now]);
 
 						$newvalue = array_diff_assoc($nowvalue, $beforevalue);
 						$newvalue = array_map('unserialize', $newvalue);
@@ -622,6 +636,7 @@ class JCache
 								if (isset($options['headerbefore'][$now][strtolower($type)]))
 								{
 									$oldScriptStr = $options['headerbefore'][$now][strtolower($type)];
+
 									if ($oldScriptStr != $currentScriptStr)
 									{
 										// Save only the appended declaration.
@@ -641,7 +656,6 @@ class JCache
 						$cached['head'][$now] = $newvalue;
 					}
 				}
-
 			}
 			else
 			{
@@ -664,6 +678,7 @@ class JCache
 			// @todo Check if the following is needed, seems like it should be in page cache
 			// Get the module buffer after component execution.
 			$buffer2 = $document->getBuffer();
+
 			if (!is_array($buffer2))
 			{
 				$buffer2 = array();
@@ -709,16 +724,16 @@ class JCache
 
 		// Platform defaults
 		$defaulturlparams = array(
-			'format' 	=> 'WORD',
-			'option' 	=> 'WORD',
-			'view' 		=> 'WORD',
-			'layout' 	=> 'WORD',
-			'tpl' 		=> 'CMD',
-			'id' 		=> 'INT'
+			'format' => 'WORD',
+			'option' => 'WORD',
+			'view'   => 'WORD',
+			'layout' => 'WORD',
+			'tpl'    => 'CMD',
+			'id'     => 'INT'
 		);
-		
+
 		// Use platform defaults if parameter doesn't already exist.
-		foreach($defaulturlparams as $param => $type)
+		foreach ($defaulturlparams as $param => $type)
 		{
 			if (!property_exists($registeredurlparams, $param))
 			{
@@ -754,11 +769,13 @@ class JCache
 		{
 			$paths = array();
 		}
+
 		if (!empty($path) && !in_array($path, $paths))
 		{
 			jimport('joomla.filesystem.path');
 			array_unshift($paths, JPath::clean($path));
 		}
+
 		return $paths;
 	}
 }

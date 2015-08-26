@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Form Field class for the Joomla! CMS.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldModuleOrder extends JFormField
 {
@@ -56,8 +54,8 @@ class JFormFieldModuleOrder extends JFormField
 		$html[] = 'var originalPos = "' . $position . '";';
 		$html[] = 'var orders = new Array();';
 
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('position, ordering, title')
 			->from('#__modules')
 			->where('client_id = ' . (int) $clientId)

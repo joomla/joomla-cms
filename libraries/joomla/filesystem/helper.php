@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * Holds support functions for the filesystem, particularly the stream
  *
- * @package     Joomla.Platform
- * @subpackage  FileSystem
- * @since       11.1
+ * @since  11.1
  */
 class JFilesystemHelper
 {
@@ -294,5 +292,83 @@ class JFilesystemHelper
 	public static function isJoomlaStream($streamname)
 	{
 		return in_array($streamname, self::getJStreams());
+	}
+
+	/**
+	 * Calculates the maximum upload file size and returns string with unit or the size in bytes
+	 *
+	 * Call it with JFilesystemHelper::fileUploadMaxSize();
+	 *
+	 * @param   bool  $unit_output  This parameter determines whether the return value should be a string with a unit
+	 *
+	 * @return  float|string The maximum upload size of files with the appropriate unit or in bytes
+	 *
+	 * @since   3.4
+	 */
+	public static function fileUploadMaxSize($unit_output = true)
+	{
+		static $max_size = false;
+		static $output_type = true;
+
+		if ($max_size === false || $output_type != $unit_output)
+		{
+			$max_size   = self::parseSize(ini_get('post_max_size'));
+			$upload_max = self::parseSize(ini_get('upload_max_filesize'));
+
+			if ($upload_max > 0 && ($upload_max < $max_size || $max_size == 0))
+			{
+				$max_size = $upload_max;
+			}
+
+			if ($unit_output == true)
+			{
+				$max_size = self::parseSizeUnit($max_size);
+			}
+
+			$output_type = $unit_output;
+		}
+
+		return $max_size;
+	}
+
+	/**
+	 * Returns the size in bytes without the unit for the comparison
+	 *
+	 * @param   string  $size  The size which is received from the PHP settings
+	 *
+	 * @return  float The size in bytes without the unit
+	 *
+	 * @since   3.4
+	 */
+	private static function parseSize($size)
+	{
+		$unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
+		$size = preg_replace('/[^0-9\.]/', '', $size);
+
+		$return = round($size);
+
+		if ($unit)
+		{
+			$return = round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Creates the rounded size of the size with the appropriate unit
+	 *
+	 * @param   float  $max_size  The maximum size which is allowed for the uploads
+	 *
+	 * @return  string String with the size and the appropriate unit
+	 *
+	 * @since   3.4
+	 */
+	private static function parseSizeUnit($max_size)
+	{
+		$base     = log($max_size) / log(1024);
+		$suffixes = array('', 'k', 'M', 'G', 'T');
+
+		return round(pow(1024, $base - floor($base)), 0) . $suffixes[floor($base)];
 	}
 }

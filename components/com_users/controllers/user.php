@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,20 +14,20 @@ require_once JPATH_COMPONENT . '/controller.php';
 /**
  * Registration controller class for Users.
  *
- * @package     Joomla.Site
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersControllerUser extends UsersController
 {
 	/**
 	 * Method to log in a user.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function login()
 	{
-		JSession::checkToken('post') or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app    = JFactory::getApplication();
 		$input  = $app->input;
@@ -40,6 +40,12 @@ class UsersControllerUser extends UsersController
 		$data['username']  = $input->$method->get('username', '', 'USERNAME');
 		$data['password']  = $input->$method->get('password', '', 'RAW');
 		$data['secretkey'] = $input->$method->get('secretkey', '', 'RAW');
+
+		// Don't redirect to an external URL.
+		if (!JUri::isInternal($data['return']))
+		{
+			$data['return'] = '';
+		}
 
 		// Set the return URL if empty.
 		if (empty($data['return']))
@@ -85,15 +91,17 @@ class UsersControllerUser extends UsersController
 	/**
 	 * Method to log out a user.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function logout()
 	{
-		JSession::checkToken('request') or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app = JFactory::getApplication();
 
-		// Perform the log in.
+		// Perform the log out.
 		$error  = $app->logout();
 		$input  = $app->input;
 		$method = $input->getMethod();
@@ -104,6 +112,7 @@ class UsersControllerUser extends UsersController
 			// Get the return url from the request and validate that it is internal.
 			$return = $input->$method->get('return', '', 'BASE64');
 			$return = base64_decode($return);
+
 			if (!JUri::isInternal($return))
 			{
 				$return = '';
@@ -121,6 +130,8 @@ class UsersControllerUser extends UsersController
 	/**
 	 * Method to register a user.
 	 *
+	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	public function register()
@@ -135,13 +146,13 @@ class UsersControllerUser extends UsersController
 
 		// Get the model and validate the data.
 		$model  = $this->getModel('Registration', 'UsersModel');
-		$return	= $model->validate($data);
+		$return = $model->validate($data);
 
 		// Check for errors.
 		if ($return === false)
 		{
 			// Get the validation messages.
-			$errors	= $model->getErrors();
+			$errors = $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
@@ -161,11 +172,12 @@ class UsersControllerUser extends UsersController
 
 			// Redirect back to the registration form.
 			$this->setRedirect('index.php?option=com_users&view=registration');
+
 			return false;
 		}
 
 		// Finish the registration.
-		$return	= $model->register($data);
+		$return = $model->register($data);
 
 		// Check for errors.
 		if ($return === false)
@@ -176,17 +188,20 @@ class UsersControllerUser extends UsersController
 			// Redirect back to the registration form.
 			$message = JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError());
 			$this->setRedirect('index.php?option=com_users&view=registration', $message, 'error');
+
 			return false;
 		}
 
 		// Flush the data from the session.
 		$app->setUserState('users.registration.form.data', null);
 
-		exit;
+		return true;
 	}
 
 	/**
 	 * Method to login a user.
+	 *
+	 * @return  boolean
 	 *
 	 * @since   1.6
 	 */
@@ -200,7 +215,7 @@ class UsersControllerUser extends UsersController
 		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Submit the username remind request.
-		$return	= $model->processRemindRequest($data);
+		$return = $model->processRemindRequest($data);
 
 		// Check for a hard error.
 		if ($return instanceof Exception)
@@ -245,7 +260,7 @@ class UsersControllerUser extends UsersController
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getLoginRoute();
 			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-			$route	= 'index.php?option=com_users&view=login' . $itemid;
+			$route  = 'index.php?option=com_users&view=login' . $itemid;
 
 			// Proceed to the login form.
 			$message = JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');
@@ -257,6 +272,8 @@ class UsersControllerUser extends UsersController
 
 	/**
 	 * Method to login a user.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

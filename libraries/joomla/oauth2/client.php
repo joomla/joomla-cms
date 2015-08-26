@@ -3,23 +3,23 @@
  * @package     Joomla.Platform
  * @subpackage  OAuth2
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform class for interacting with an OAuth 2.0 server.
  *
- * @package     Joomla.Platform
- * @subpackage  OAuth2
- * @since       12.3
+ * @since  12.3
  */
 class JOAuth2Client
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var    Registry  Options for the JOAuth2Client object.
 	 * @since  12.3
 	 */
 	protected $options;
@@ -45,16 +45,16 @@ class JOAuth2Client
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry        $options      JOAuth2Client options object
+	 * @param   Registry         $options      JOAuth2Client options object
 	 * @param   JHttp            $http         The HTTP client object
 	 * @param   JInput           $input        The input object
 	 * @param   JApplicationWeb  $application  The application object
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry $options = null, JHttp $http = null, JInput $input = null, JApplicationWeb $application = null)
+	public function __construct(Registry $options = null, JHttp $http = null, JInput $input = null, JApplicationWeb $application = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->http = isset($http) ? $http : new JHttp($this->options);
 		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 		$this->application = isset($application) ? $application : new JApplicationWeb;
@@ -80,7 +80,6 @@ class JOAuth2Client
 
 			if ($response->code >= 200 && $response->code < 400)
 			{
-
 				if ($response->headers['Content-Type'] == 'application/json')
 				{
 					$token = array_merge(json_decode($response->body, true), array('created' => time()));
@@ -105,6 +104,7 @@ class JOAuth2Client
 		{
 			$this->application->redirect($this->createUrl());
 		}
+
 		return false;
 	}
 
@@ -214,6 +214,7 @@ class JOAuth2Client
 			{
 				return false;
 			}
+
 			$token = $this->refreshToken($token['refresh_token']);
 		}
 
@@ -231,6 +232,7 @@ class JOAuth2Client
 			{
 				$url .= '?';
 			}
+
 			$url .= $this->getOption('getparam') ? $this->getOption('getparam') : 'access_token';
 			$url .= '=' . $token['access_token'];
 		}
@@ -256,6 +258,7 @@ class JOAuth2Client
 		{
 			throw new RuntimeException('Error code ' . $response->code . ' received requesting data: ' . $response->body . '.');
 		}
+
 		return $response;
 	}
 
@@ -318,6 +321,7 @@ class JOAuth2Client
 			$value['expires_in'] = $value['expires'];
 			unset($value['expires']);
 		}
+
 		$this->setOption('accesstoken', $value);
 
 		return $this;
@@ -349,8 +353,10 @@ class JOAuth2Client
 			{
 				throw new RuntimeException('No refresh token is available.');
 			}
+
 			$token = $token['refresh_token'];
 		}
+
 		$data['grant_type'] = 'refresh_token';
 		$data['refresh_token'] = $token;
 		$data['client_id'] = $this->getOption('clientid');

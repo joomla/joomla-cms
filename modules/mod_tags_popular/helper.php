@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_popular
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,29 +21,29 @@ abstract class ModTagsPopularHelper
 	/**
 	 * Get list of popular tags
 	 *
-	 * @param   JRegistry  &$params  module parameters
+	 * @param   \Joomla\Registry\Registry  &$params  module parameters
 	 *
 	 * @return mixed
 	 */
 	public static function getList(&$params)
 	{
-		$db				= JFactory::getDbo();
-		$user     		= JFactory::getUser();
-		$groups 		= implode(',', $user->getAuthorisedViewLevels());
-		$timeframe		= $params->get('timeframe', 'alltime');
-		$maximum		= $params->get('maximum', 5);
-		$order_value	= $params->get('order_value', 'count');
-		$nowDate		= JFactory::getDate()->toSql();
-		$nullDate		= $db->quote($db->getNullDate());
+		$db          = JFactory::getDbo();
+		$user        = JFactory::getUser();
+		$groups      = implode(',', $user->getAuthorisedViewLevels());
+		$timeframe   = $params->get('timeframe', 'alltime');
+		$maximum     = $params->get('maximum', 5);
+		$order_value = $params->get('order_value', 'title');
+		$nowDate     = JFactory::getDate()->toSql();
+		$nullDate    = $db->quote($db->getNullDate());
 
 		if ($order_value == 'rand()')
 		{
-			$order_direction	= '';
+			$order_direction = '';
 		}
 		else
 		{
-			$order_value		= $db->quoteName($order_value);
-			$order_direction	= $params->get('order_direction', 1) ? 'DESC' : 'ASC';
+			$order_value     = $db->quoteName($order_value);
+			$order_direction = $params->get('order_direction', 1) ? 'DESC' : 'ASC';
 		}
 
 		$query = $db->getQuery(true)
@@ -88,10 +88,20 @@ abstract class ModTagsPopularHelper
 
 		// Only return tags connected to published articles
 		$query->where($db->quoteName('c.core_state') . ' = 1')
-			->where('(' . $db->quoteName('c.core_publish_up') . ' = ' . $nullDate . ' OR ' . $db->quoteName('c.core_publish_up') . ' <= ' . $db->quote($nowDate) . ')')
-			->where('(' . $db->quoteName('c.core_publish_down') . ' = ' . $nullDate . ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $db->quote($nowDate) . ')');
+			->where('(' . $db->quoteName('c.core_publish_up') . ' = ' . $nullDate
+				. ' OR ' . $db->quoteName('c.core_publish_up') . ' <= ' . $db->quote($nowDate) . ')')
+			->where('(' . $db->quoteName('c.core_publish_down') . ' = ' . $nullDate
+				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $db->quote($nowDate) . ')');
 		$db->setQuery($query, 0, $maximum);
-		$results = $db->loadObjectList();
+		try
+		{
+			$results = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$results = array();
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
 
 		return $results;
 	}

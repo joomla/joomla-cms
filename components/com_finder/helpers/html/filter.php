@@ -3,20 +3,20 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
 
 /**
  * Filter HTML Behaviors for Finder.
  *
- * @package     Joomla.Site
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 abstract class JHtmlFilter
 {
@@ -67,7 +67,7 @@ abstract class JHtmlFilter
 			// Initialize the filter parameters.
 			if ($filter)
 			{
-				$registry = new JRegistry;
+				$registry = new Registry;
 				$registry->loadString($filter->params);
 				$filter->params = $registry;
 			}
@@ -114,7 +114,12 @@ abstract class JHtmlFilter
 		if ($loadMedia)
 		{
 			JHtml::_('stylesheet', 'com_finder/sliderfilter.css', false, true, false);
-			JHtml::_('script', 'com_finder/sliderfilter.js', false, true);
+
+			if (JFactory::getDocument()->direction == 'rtl')
+			{
+				JHtml::_('stylesheet', 'com_finder/finder-rtl.css', false, true, false);
+			}
+			JHtml::_('script', 'com_finder/sliderfilter.js', true, true);
 		}
 
 		// Load plug-in language files.
@@ -241,14 +246,14 @@ abstract class JHtmlFilter
 	 */
 	public static function select($idxQuery, $options)
 	{
-		$user 	= JFactory::getUser();
+		$user   = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$filter = null;
 
 		// Get the configuration options.
 		$classSuffix = $options->get('class_suffix', null);
-		$loadMedia = $options->get('load_media', true);
-		$showDates = $options->get('show_date_filters', false);
+		$loadMedia   = $options->get('load_media', true);
+		$showDates   = $options->get('show_date_filters', false);
 
 		// Try to load the results from cache.
 		$cache = JFactory::getCache('com_finder', '');
@@ -282,7 +287,7 @@ abstract class JHtmlFilter
 				// Initialize the filter parameters.
 				if ($filter)
 				{
-					$registry = new JRegistry;
+					$registry = new Registry;
 					$registry->loadString($filter->params);
 					$filter->params = $registry;
 				}
@@ -432,6 +437,11 @@ abstract class JHtmlFilter
 		if ($loadMedia)
 		{
 			JHtml::stylesheet('com_finder/sliderfilter.css', false, true, false);
+
+			if (JFactory::getDocument()->direction == 'rtl')
+			{
+				JHtml::_('stylesheet', 'com_finder/finder-rtl.css', false, true, false);
+			}
 		}
 
 		return $html;

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,10 +15,8 @@ JFormHelper::loadFieldClass('number');
  * Form Field class for the Joomla Platform.
  * Provides a horizontal scroll bar to specify a value in a range.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @link        http://www.w3.org/TR/html-markup/input.text.html#input.text
- * @since       3.2
+ * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
+ * @since  3.2
  */
 class JFormFieldRange extends JFormFieldNumber
 {

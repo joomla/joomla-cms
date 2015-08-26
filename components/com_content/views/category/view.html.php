@@ -3,18 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTML View class for the Content component
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.5
+ * @since  1.5
  */
 class ContentViewCategory extends JViewCategory
 {
@@ -73,10 +73,10 @@ class ContentViewCategory extends JViewCategory
 
 		// Prepare the data
 		// Get the metrics for the structural page layout.
-		$params		= $this->params;
-		$numLeading	= $params->def('num_leading_articles', 1);
-		$numIntro	= $params->def('num_intro_articles', 4);
-		$numLinks	= $params->def('num_links', 4);
+		$params     = $this->params;
+		$numLeading = $params->def('num_leading_articles', 1);
+		$numIntro   = $params->def('num_intro_articles', 4);
+		$numLinks   = $params->def('num_links', 4);
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($this->items as $item)
@@ -91,7 +91,7 @@ class ContentViewCategory extends JViewCategory
 				$item->parent_slug = null;
 			}
 
-			$item->catslug = $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
+			$item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 			$item->event   = new stdClass;
 
 			$dispatcher = JEventDispatcher::getInstance();
@@ -120,11 +120,11 @@ class ContentViewCategory extends JViewCategory
 
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match
-		$app = JFactory::getApplication();
-		$active	= $app->getMenu()->getActive();
-		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
-		$title		= null;
+		$app     = JFactory::getApplication();
+		$active  = $app->getMenu()->getActive();
+		$menus   = $app->getMenu();
+		$pathway = $app->getPathway();
+		$title   = null;
 
 		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
 		{
@@ -145,8 +145,6 @@ class ContentViewCategory extends JViewCategory
 		// This makes it much easier for the designer to just interrogate the arrays.
 		if (($params->get('layout_type') == 'blog') || ($this->getLayout() == 'blog'))
 		{
-			//$max = count($this->items);
-
 			foreach ($this->items as $i => $item)
 			{
 				if ($i < $numLeading)
@@ -175,7 +173,7 @@ class ContentViewCategory extends JViewCategory
 
 			if ($order == 0 && $this->columns > 1)
 			{
-				// call order down helper
+				// Call order down helper
 				$this->intro_items = ContentHelperQuery::orderDownColumns($this->intro_items, $this->columns);
 			}
 		}
@@ -218,7 +216,7 @@ class ContentViewCategory extends JViewCategory
 		{
 			$this->document->setDescription($this->category->metadesc);
 		}
-		elseif (!$this->category->metadesc && $this->params->get('menu-meta_description'))
+		elseif ($this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));
 		}
@@ -227,7 +225,7 @@ class ContentViewCategory extends JViewCategory
 		{
 			$this->document->setMetadata('keywords', $this->category->metakey);
 		}
-		elseif (!$this->category->metakey && $this->params->get('menu-meta_keywords'))
+		elseif ($this->params->get('menu-meta_keywords'))
 		{
 			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
 		}
@@ -239,7 +237,7 @@ class ContentViewCategory extends JViewCategory
 
 		if (!is_object($this->category->metadata))
 		{
-			$this->category->metadata = new JRegistry($this->category->metadata);
+			$this->category->metadata = new Registry($this->category->metadata);
 		}
 
 		if (($app->get('MetaAuthor') == '1') && $this->category->get('author', ''))

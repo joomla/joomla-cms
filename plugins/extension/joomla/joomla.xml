@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.1" type="plugin" group="extension">
+<extension version="3.1" type="plugin" group="extension" method="upgrade">
 	<name>plg_extension_joomla</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_EXTENSION_JOOMLA_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="joomla">joomla.php</filename>
-		<filename>index.html</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_extension_joomla.ini</language>

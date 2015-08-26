@@ -3,23 +3,23 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+JFormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Platform.
  * Displays options as a list of check boxes.
  * Multiselect may be forced to be true.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @see         JFormFieldCheckbox
- * @since       11.1
+ * @see    JFormFieldCheckbox
+ * @since  11.1
  */
-class JFormFieldCheckboxes extends JFormField
+class JFormFieldCheckboxes extends JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -181,50 +181,5 @@ class JFormFieldCheckboxes extends JFormField
 		$html[] = '</fieldset>';
 
 		return implode($html);
-	}
-
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   11.1
-	 */
-	protected function getOptions()
-	{
-		$options = array();
-
-		foreach ($this->element->children() as $option)
-		{
-			// Only add <option /> elements.
-			if ($option->getName() != 'option')
-			{
-				continue;
-			}
-
-			$disabled = (string) $option['disabled'];
-			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
-
-			$checked = (string) $option['checked'];
-			$checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
-
-			// Create a new option object based on the <option /> element.
-			$tmp = JHtml::_('select.option', (string) $option['value'], trim((string) $option), 'value', 'text', $disabled);
-
-			// Set some option attributes.
-			$tmp->class = (string) $option['class'];
-			$tmp->checked = $checked;
-
-			// Set some JavaScript option attributes.
-			$tmp->onclick = (string) $option['onclick'];
-			$tmp->onchange = (string) $option['onchange'];
-
-			// Add the option object to the result set.
-			$options[] = $tmp;
-		}
-
-		reset($options);
-
-		return $options;
 	}
 }

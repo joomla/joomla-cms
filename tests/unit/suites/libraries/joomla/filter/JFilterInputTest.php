@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -300,6 +300,12 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'path',
 				'http://www.fred.com/josephus',
 				'',
+				'From generic cases'
+			),
+			'path_03' => array(
+				'path',
+				'/images/system',
+				'/images/system',
 				'From generic cases'
 			),
 			'user_01' => array(

@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains post-installation message handling for eAccelerator compatibility.
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Checks if the eAccelerator caching method is enabled. This check should be
@@ -49,7 +51,7 @@ function admin_postinstall_eaccelerator_action()
 
 	$data = array_merge($prev, $data);
 
-	$config = new JRegistry('config');
+	$config = new Registry('config');
 	$config->loadArray($data);
 
 	jimport('joomla.filesystem.path');

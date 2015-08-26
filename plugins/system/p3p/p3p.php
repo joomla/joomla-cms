@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.p3p
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,8 @@ defined('_JEXEC') or die;
 /**
  * Joomla! P3P Header Plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.p3p
- * @since       1.6
+ * @since  1.6
+ * @deprecate  4.0  Obsolete
  */
 class PlgSystemP3p extends JPlugin
 {
@@ -24,6 +23,7 @@ class PlgSystemP3p extends JPlugin
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @deprecate  4.0  Obsolete
 	 */
 	public function onAfterInitialise()
 	{

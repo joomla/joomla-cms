@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * User view level controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersControllerGroup extends JControllerForm
 {
@@ -29,10 +27,11 @@ class UsersControllerGroup extends JControllerForm
 	 *
 	 * Overrides JControllerForm::allowSave to check the core.admin permission.
 	 *
-	 * @param   array   An array of input data.
-	 * @param   string  The name of the key for the primary key.
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
 	 *
 	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	protected function allowSave($data, $key = 'id')
@@ -45,10 +44,11 @@ class UsersControllerGroup extends JControllerForm
 	 *
 	 * Checks that non-Super Admins are not editing Super Admins.
 	 *
-	 * @param   array   An array of input data.
-	 * @param   string  The name of the key for the primary key.
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
 	 *
 	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
@@ -65,5 +65,4 @@ class UsersControllerGroup extends JControllerForm
 
 		return parent::allowEdit($data, $key);
 	}
-
 }

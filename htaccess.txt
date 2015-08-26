@@ -1,6 +1,6 @@
 ##
 # @package    Joomla
-# @copyright  Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+# @copyright  Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
 # @license    GNU General Public License version 2 or later; see LICENSE.txt
 ##
 
@@ -9,14 +9,18 @@
 #
 # The line just below this section: 'Options +FollowSymLinks' may cause problems
 # with some server configurations.  It is required for use of mod_rewrite, but may already
-# be set by your server administrator in a way that dissallows changing it in
+# be set by your server administrator in a way that disallows changing it in
 # your .htaccess file.  If using it causes your server to error out, comment it out (add # to
 # beginning of line), reload your site in your browser and test your sef url's.  If they work,
 # it has been set by your server administrator and you do not need it set here.
 ##
 
+## No directory listings
+IndexIgnore *
+
 ## Can be commented out if causes errors, see notes above.
-Options +FollowSymLinks
+Options +FollowSymlinks
+Options -Indexes
 
 ## Mod_rewrite in use.
 

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,15 +17,14 @@ defined('_JEXEC') or die;
 class JHtmlInstallation
 {
 	/**
-	 * Method to generate the side bar
+	 * Method to generate the side bar.
 	 *
-	 * @return  string  Markup for the side bar
+	 * @return  string  Markup for the side bar.
 	 *
 	 * @since   1.6
 	 */
 	public static function stepbar()
 	{
-
 		// Determine if the configuration file path is writable.
 		$path = JPATH_CONFIGURATION . '/configuration.php';
 		$useftp = (file_exists($path)) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
@@ -33,32 +32,36 @@ class JHtmlInstallation
 		$tabs = array();
 		$tabs[] = 'site';
 		$tabs[] = 'database';
+
 		if ($useftp)
 		{
 			$tabs[] = 'ftp';
 		}
+
 		$tabs[] = 'summary';
 
 		$html = array();
 		$html[] = '<ul class="nav nav-tabs">';
+
 		foreach ($tabs as $tab)
 		{
 			$html[] = static::getTab($tab, $tabs);
 		}
+
 		$html[] = '</ul>';
+
 		return implode('', $html);
 	}
 
 	/**
-	 * Method to generate the side bar
+	 * Method to generate the side bar.
 	 *
-	 * @return  string  Markup for the side bar
+	 * @return  string  Markup for the side bar.
 	 *
 	 * @since   3.1
 	 */
 	public static function stepbarlanguages()
 	{
-
 		$tabs = array();
 		$tabs[] = 'languages';
 		$tabs[] = 'defaultlanguage';
@@ -66,22 +69,24 @@ class JHtmlInstallation
 
 		$html = array();
 		$html[] = '<ul class="nav nav-tabs">';
+
 		foreach ($tabs as $tab)
 		{
 			$html[] = static::getTab($tab, $tabs);
 		}
+
 		$html[] = '</ul>';
 
 		return implode('', $html);
 	}
 
 	/**
-	 * Method to generate the navigation tab
+	 * Method to generate the navigation tab.
 	 *
-	 * @param   string  $id    The container ID
-	 * @param   array   $tabs  The navigation tabs
+	 * @param   string  $id    The container ID.
+	 * @param   array   $tabs  The navigation tabs.
 	 *
-	 * @return  string  Markup for the tab
+	 * @return  string  Markup for the tab.
 	 *
 	 * @since   3.1
 	 */
@@ -109,12 +114,12 @@ class JHtmlInstallation
 	}
 
 	/**
-	 * Method to determine the tab (step) number
+	 * Method to determine the tab (step) number.
 	 *
-	 * @param   string  $id    The container ID
-	 * @param   array   $tabs  The navigation tabs
+	 * @param   string  $id    The container ID.
+	 * @param   array   $tabs  The navigation tabs.
 	 *
-	 * @return  integer  Tab number in navigation sequence
+	 * @return  integer  Tab number in navigation sequence.
 	 *
 	 * @since   3.1
 	 */

@@ -3,20 +3,20 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 
 /**
  * Banners model for the Joomla Banners component.
  *
- * @package     Joomla.Site
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersModelBanners extends JModelList
 {
@@ -70,6 +70,7 @@ class BannersModelBanners extends JModelList
 				'a.name as name,' .
 				'a.clickurl as clickurl,' .
 				'a.cid as cid,' .
+				'a.description as description,' .
 				'a.params as params,' .
 				'a.custombannercode as custombannercode,' .
 				'a.track_impressions as track_impressions,' .
@@ -84,8 +85,7 @@ class BannersModelBanners extends JModelList
 
 		if ($cid)
 		{
-			$query->join('LEFT', '#__categories as cat ON a.catid = cat.id')
-				->where('a.cid = ' . (int) $cid)
+			$query->where('a.cid = ' . (int) $cid)
 				->where('cl.state = 1');
 		}
 
@@ -142,10 +142,22 @@ class BannersModelBanners extends JModelList
 				$config = JComponentHelper::getParams('com_banners');
 				$prefix = $config->get('metakey_prefix');
 
+				if ($categoryId)
+				{
+					$query->join('LEFT', '#__categories as cat ON a.catid = cat.id');
+				}
+
 				foreach ($keywords as $keyword)
 				{
 					$keyword = trim($keyword);
-					$condition1 = "a.own_prefix=1 AND a.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH( a.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=1 AND cl.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH(cl.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=0 AND " . ($prefix == substr($keyword, 0, strlen($prefix)) ? '1' : '0');
+					$condition1 = "a.own_prefix=1 "
+						. " AND a.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH( a.metakey_prefix)) "
+						. " OR a.own_prefix=0 "
+						. " AND cl.own_prefix=1 "
+						. " AND cl.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH(cl.metakey_prefix)) "
+						. " OR a.own_prefix=0 "
+						. " AND cl.own_prefix=0 "
+						. " AND " . ($prefix == substr($keyword, 0, strlen($prefix)) ? '1' : '0');
 
 					$condition2 = "a.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 
@@ -192,7 +204,7 @@ class BannersModelBanners extends JModelList
 
 			foreach ($this->cache['items'] as &$item)
 			{
-				$parameters = new JRegistry;
+				$parameters = new Registry;
 				$parameters->loadString($item->params);
 				$item->params = $parameters;
 			}

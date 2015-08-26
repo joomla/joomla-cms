@@ -3,18 +3,13 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
- * A unit test class for SubjectClass
- * The two annotations below are required because we use mocks.  This avoids bringing bogus classes into the main process.
- *
  * @package     Joomla.UnitTest
  * @subpackage  Cache
- *
- * @since       11.1
  */
 class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
 {
@@ -26,9 +21,6 @@ class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		parent::setUp();
-
-		// @todo remove: require_once dirname(dirname(dirname(dirname(dirname(__DIR__))))).'/bootstrap.php';
 		jimport('joomla.cache.cache');
 
 		require_once dirname(__DIR__) . '/storage/JCacheStorageMock.php';
@@ -40,34 +32,13 @@ class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return void
-	 */
-	public function testCallbackFunction()
-	{
-		/*
-		$cache =& JCache::getInstance('callback', array('storage'=>'mock'));
-				$arg1 = 'e1';
-				$arg2 = 'e2';
-				$callback = 'testCallbackHandlerFunc';
-				$this->expectOutputString('e1e1e1e1e1');
-				for($i = 0; $i < 5; $i++) {
-					$result = $cache->get($callback, array($arg1, $arg2));
-					$this->assertTrue($arg2 === $result,
-						'Expected: '.$arg2.' Actual: '.$result
-					);
-				}*/
-	}
-
-	/**
 	 * Test callbackStatic
 	 *
 	 * @return void
 	 */
 	public function testCallbackStatic()
 	{
-		$cache =& JCache::getInstance('callback', array('storage' => 'mock'));
+		$cache = JCache::getInstance('callback', array('storage' => 'mock'));
 		$arg1 = 'e1';
 		$arg2 = 'e2';
 		$callback = array('testCallbackController', 'staticCallback');
@@ -76,9 +47,9 @@ class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
 		for ($i = 0; $i < 5; $i++)
 		{
 			$result = $cache->get($callback, array($arg1, $arg2));
-			$this->assertTrue(
-				$arg2 === $result,
-				'Expected: ' . $arg2 . ' Actual: ' . $result
+			$this->assertSame(
+				$arg2,
+				$result
 			);
 		}
 	}
@@ -99,12 +70,11 @@ class JCacheControllerCallbackTest_Callback extends PHPUnit_Framework_TestCase
 		{
 			$instance = new testCallbackController;
 			$result = $cache->get(array($instance, 'instanceCallback'), array($arg1, $arg2));
-			$this->assertTrue(
-				$arg2 === $result,
-				'Expected: ' . $arg2 . ' Actual: ' . $result
+			$this->assertSame(
+				$arg2,
+				$result
 			);
 			unset($instance);
 		}
 	}
-
 }

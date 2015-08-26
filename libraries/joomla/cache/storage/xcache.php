@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * XCache cache storage handler
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @link        http://xcache.lighttpd.net/
- * @since       11.1
+ * @link   http://xcache.lighttpd.net/
+ * @since  11.1
  */
 class JCacheStorageXcache extends JCacheStorage
 {
@@ -247,7 +245,13 @@ class JCacheStorageXcache extends JCacheStorage
 			}
 
 			// We require a string with contents 0, not a null value because it is not set since that then defaults to On/True
-			if (($xcache_admin_enable_auth === '0'))
+			if ($xcache_admin_enable_auth === '0')
+			{
+				return true;
+			}
+
+			// In some enviorments empty is equivalent to Off; See JC: #34044 && Github: #4083
+			if ($xcache_admin_enable_auth === '')
 			{
 				return true;
 			}

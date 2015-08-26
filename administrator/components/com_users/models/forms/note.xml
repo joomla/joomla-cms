@@ -127,6 +127,7 @@
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			maxlength="255"
 			size="45"
 			labelclass="control-label"
 			/>	

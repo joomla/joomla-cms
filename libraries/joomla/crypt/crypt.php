@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCrypt is a Joomla Platform class for handling basic encryption/decryption of data.
  *
- * @package     Joomla.Platform
- * @subpackage  Crypt
- * @since       12.1
+ * @since  12.1
  */
 class JCrypt
 {
@@ -308,7 +306,7 @@ class JCrypt
 		if (!defined('PASSWORD_DEFAULT'))
 		{
 			// Always make sure that the password hashing API has been defined.
-			include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
+			include_once JPATH_ROOT . '/vendor/ircmaxell/password-compat/lib/password.php';
 		}
 
 		return true;
