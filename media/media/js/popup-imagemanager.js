@@ -68,8 +68,7 @@
 		{
 			var folder = this.getImageFolder(),
 				$form = $('#uploadForm'),
-				portString = '',
-				i, l, a, q;
+				portString = '', a, q;
 
 			// Update the frame url
 			this.frameurl = this.frame.location.href;
@@ -258,12 +257,12 @@
 				option: 'com_media',
 				view: 'imagesList',
 				tmpl: 'component',
-				folder: folder,
 				asset: asset,
 				author: author
 			};
 
-			this.frameurl = 'index.php?' + $.param(qs);
+			// Don't run folder through params because / will end up double encoded.
+			this.frameurl = 'index.php?' + $.param(qs) + '&folder=' + folder;
 			this.frame.location.href = this.frameurl;
 		},
 
