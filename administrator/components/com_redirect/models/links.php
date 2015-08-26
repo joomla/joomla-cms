@@ -59,12 +59,8 @@ class RedirectModelLinks extends JModelList
 
 		if (!$db->execute())
 		{
-			$this->_message = JText::_('COM_REDIRECT_CLEAR_FAIL');
-
 			return false;
 		}
-
-		$this->_message = JText::_('COM_REDIRECT_CLEAR_SUCCESS');
 
 		return true;
 	}
@@ -168,9 +164,9 @@ class RedirectModelLinks extends JModelList
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where(
 					'(' . $db->quoteName('old_url') . ' LIKE ' . $search .
-						' OR ' . $db->quoteName('new_url') . ' LIKE ' . $search .
-						' OR ' . $db->quoteName('comment') . ' LIKE ' . $search .
-						' OR ' . $db->quoteName('referer') . ' LIKE ' . $search . ')'
+					' OR ' . $db->quoteName('new_url') . ' LIKE ' . $search .
+					' OR ' . $db->quoteName('comment') . ' LIKE ' . $search .
+					' OR ' . $db->quoteName('referer') . ' LIKE ' . $search . ')'
 				);
 			}
 		}
@@ -184,7 +180,7 @@ class RedirectModelLinks extends JModelList
 	/**
 	 * Add the entered URLs into the database
 	 *
-	 * @param array $batch_urls Array of URLs to enter into the database
+	 * @param   array  $batch_urls  Array of URLs to enter into the database
 	 *
 	 * @return bool
 	 */
