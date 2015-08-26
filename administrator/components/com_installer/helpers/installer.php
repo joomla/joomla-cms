@@ -144,6 +144,8 @@ class InstallerHelper
 	 * Get a list of filter options for the application clients.
 	 *
 	 * @return  array  An array of JHtmlOption elements.
+	 *
+	 * @since   3.5
 	 */
 	public static function getClientOptions()
 	{
@@ -159,6 +161,8 @@ class InstallerHelper
 	 * Get a list of filter options for the application statuses.
 	 *
 	 * @return  array  An array of JHtmlOption elements.
+	 *
+	 * @since   3.5
 	 */
 	public static function getStateOptions()
 	{
