@@ -197,8 +197,9 @@ class ContentRouter extends JComponentRouterBase
 		{
 			if (!$menuItemGiven || $menuItem->query['view'] != 'archive')
 			{
-				//did not work without removing Itemid
-				if (isset($menuItem)) {
+				// did not work without removing Itemid
+				if (isset($menuItem))
+				{
 					unset($query['Itemid']);
 				}
 				$segments[] = $view;
@@ -221,7 +222,6 @@ class ContentRouter extends JComponentRouterBase
 				unset($query['month']);
 			}
 		}
-
 
 		if ($view == 'featured')
 		{
@@ -300,7 +300,7 @@ class ContentRouter extends JComponentRouterBase
 		if (!isset($item))
 		{
 			$vars['view'] = $segments[0];
-			//called if no menu item created
+			// called if no menu item created
 			if ($vars['view'] == 'archive')
 			{
 				$vars['year'] = $count >= 2 ? $segments[$count - 2] : null;
@@ -312,8 +312,8 @@ class ContentRouter extends JComponentRouterBase
 			}
 			return $vars;
 		}
-		
-		//first handle archive view
+
+		// first handle archive view
 		if ($item->query['view'] == 'archive')
 		{
 			$vars['year'] = $count >= 2 ? $segments[$count - 2] : null;
@@ -322,7 +322,7 @@ class ContentRouter extends JComponentRouterBase
 
 			return $vars;
 		}
-		
+
 		/*
 		 * If there is only one segment, then it points to either an article or a category.
 		 * We test it first to see if it is a category.  If the id and alias match a category,
