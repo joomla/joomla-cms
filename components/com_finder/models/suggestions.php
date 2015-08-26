@@ -61,7 +61,7 @@ class FinderModelSuggestions extends JModelList
 		$db = $this->getDbo();
 		if (in_array($db->name, array('mysqli', 'mysql')))
 		{
-			//attempt to change mysql for error in large select
+			// attempt to change mysql for error in large select
 			$db->setQuery('SET SQL_BIG_SELECTS=1');
 			$db->query();
 		}
@@ -100,15 +100,15 @@ class FinderModelSuggestions extends JModelList
 			->where('l.access IN (' . $groups . ')')
 			->where('l.state = 1')
 			->where('l.published = 1');
-		
+
 		// Get the null date and the current date, minus seconds.
 		$nullDate = $db->quote($db->getNullDate());
 		$nowDate = $db->quote(substr_replace(JFactory::getDate()->toSql(), '00', -2));
-		
+
 		// Add the publish up and publish down filters.
 		$query->where('(l.publish_start_date = ' . $nullDate . ' OR l.publish_start_date <= ' . $nowDate . ')')
 		->where('(l.publish_end_date = ' . $nullDate . ' OR l.publish_end_date >= ' . $nowDate . ')');
-		
+
 		if (!is_null($request->get('f')))
 		{
 			$query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS tm ON (tm.link_id=l.link_id)')
@@ -116,50 +116,6 @@ class FinderModelSuggestions extends JModelList
 				->where($db->quoteName('ff.filter_id') . ' = ' . $request->get('f', '', 'int'));
 
 		}
-/*
- * 		Didn't know what these do, so i commented them out
- *
-		// Add the start date filter to the query.
-		if (!empty($this->query->date1))
-		{
-			// Escape the date.
-			$date1 = $db->quote($this->query->date1);
-
-			// Add the appropriate WHERE condition.
-			if ($this->query->when1 == 'before')
-			{
-				$query->where($db->quoteName('l.start_date') . ' <= ' . $date1);
-			}
-			elseif ($this->query->when1 == 'after')
-			{
-				$query->where($db->quoteName('l.start_date') . ' >= ' . $date1);
-			}
-			else
-			{
-				$query->where($db->quoteName('l.start_date') . ' = ' . $date1);
-			}
-		}
-		// Add the end date filter to the query.
-		if (!empty($this->query->date2))
-		{
-			// Escape the date.
-			$date2 = $db->quote($this->query->date2);
-
-			// Add the appropriate WHERE condition.
-			if ($this->query->when2 == 'before')
-			{
-				$query->where($db->quoteName('l.start_date') . ' <= ' . $date2);
-			}
-			elseif ($this->query->when2 == 'after')
-			{
-				$query->where($db->quoteName('l.start_date') . ' >= ' . $date2);
-			}
-			else
-			{
-				$query->where($db->quoteName('l.start_date') . ' = ' . $date2);
-			}
-		}
-*/
 		return $query;
 	}
 

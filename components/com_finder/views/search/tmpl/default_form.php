@@ -39,8 +39,8 @@ jQuery(function() {";
 	if ($this->params->get('show_autosuggest', 1))
 	{
 		JHtml::_('script', 'media/jui/js/jquery.autocomplete.min.js', false, false, false, false, true);
-		$filter = ($params->get('searchfilter')!='') ? '&f=' . $params->get('searchfilter') : '';
-		
+		$filter = ($params->get('searchfilter') != '') ? '&f=' . $params->get('searchfilter') : '';
+
 		$script .= "
 	var suggest = jQuery('#q').autocomplete({
 		serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component' . $filter, false) . "',
