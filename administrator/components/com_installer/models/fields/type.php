@@ -26,8 +26,8 @@ class JFormFieldType extends JFormFieldList
 	 * @var    string
 	 * @since  3.5
 	 */
-
 	protected $type = 'Type';
+
 	/**
 	 * Method to get the field options.
 	 *
