@@ -405,9 +405,7 @@ class UsersModelRegistration extends JModelForm
 		if ($useractivation == 2)
 		{
 			// Set the link to confirm the user email.
-			$uri = JUri::getInstance();
-			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			$data['activate'] = JRoute::_($base . '/index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			$data['activate'] = JRoute::_(JUri::root() . 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
 			$emailSubject = JText::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
@@ -442,9 +440,7 @@ class UsersModelRegistration extends JModelForm
 		elseif ($useractivation == 1)
 		{
 			// Set the link to activate the user account.
-			$uri = JUri::getInstance();
-			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			$data['activate'] = JRoute::_($base . '/index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			$data['activate'] = JRoute::_(JUri::root() . 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
 			$emailSubject = JText::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
