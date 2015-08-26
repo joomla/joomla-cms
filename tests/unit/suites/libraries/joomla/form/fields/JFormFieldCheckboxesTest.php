@@ -393,6 +393,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 		$option1->class = '';
 		$option1->onclick = '';
 		$option1->checked = false;
+		$option1->selected = false;
 		$option1->onchange = '';
 
 		$option2 = new stdClass;
@@ -402,6 +403,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 		$option2->class = '';
 		$option2->onclick = '';
 		$option2->checked = true;
+		$option2->selected = true;
 		$option2->onchange = '';
 
 		$optionsExpected = array($option1, $option2);

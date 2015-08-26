@@ -143,8 +143,8 @@ class ContentModelArchive extends ContentModelArticles
 			$params = $app->getParams();
 
 			// Get the pagination request variables
-			$limit		= $app->input->get('limit', $params->get('display_num', 20), 'uint');
-			$limitstart	= $app->input->get('limitstart', 0, 'uint');
+			$limit      = $app->input->get('limit', $params->get('display_num', 20), 'uint');
+			$limitstart = $app->input->get('limitstart', 0, 'uint');
 
 			$query = $this->_buildQuery();
 

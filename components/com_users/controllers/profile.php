@@ -27,9 +27,9 @@ class UsersControllerProfile extends UsersController
 	 */
 	public function edit()
 	{
-		$app		= JFactory::getApplication();
-		$user		= JFactory::getUser();
-		$loginUserId	= (int) $user->get('id');
+		$app         = JFactory::getApplication();
+		$user        = JFactory::getUser();
+		$loginUserId = (int) $user->get('id');
 
 		// Get the previous user id (if any) and the current user id.
 		$previousId = (int) $app->getUserState('com_users.edit.profile.id');
@@ -91,10 +91,10 @@ class UsersControllerProfile extends UsersController
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Profile', 'UsersModel');
-		$user	= JFactory::getUser();
-		$userId	= (int) $user->get('id');
+		$app    = JFactory::getApplication();
+		$model  = $this->getModel('Profile', 'UsersModel');
+		$user   = JFactory::getUser();
+		$userId = (int) $user->get('id');
 
 		// Get the user data.
 		$data = $app->input->post->get('jform', array(), 'array');
@@ -119,7 +119,7 @@ class UsersControllerProfile extends UsersController
 		if ($data === false)
 		{
 			// Get the validation messages.
-			$errors	= $model->getErrors();
+			$errors = $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
@@ -145,7 +145,7 @@ class UsersControllerProfile extends UsersController
 		}
 
 		// Attempt to save the data.
-		$return	= $model->save($data);
+		$return = $model->save($data);
 
 		// Check for errors.
 		if ($return === false)

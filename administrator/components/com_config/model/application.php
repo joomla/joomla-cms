@@ -55,14 +55,14 @@ class ConfigModelApplication extends ConfigModelForm
 	public function getData()
 	{
 		// Get the config data.
-		$config	= new JConfig;
-		$data	= JArrayHelper::fromObject($config);
+		$config = new JConfig;
+		$data   = JArrayHelper::fromObject($config);
 
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
 
 		// Get the text filter data
-		$params = JComponentHelper::getParams('com_config');
+		$params          = JComponentHelper::getParams('com_config');
 		$data['filters'] = JArrayHelper::fromObject($params->get('filters'));
 
 		// If no filter data found, get from com_content (update of 1.6/1.7 site)
@@ -100,12 +100,12 @@ class ConfigModelApplication extends ConfigModelForm
 		// Save the rules
 		if (isset($data['rules']))
 		{
-			$rules	= new JAccessRules($data['rules']);
+			$rules = new JAccessRules($data['rules']);
 
 			// Check that we aren't removing our Super User permission
 			// Need to get groups from database, since they might have changed
-			$myGroups = JAccess::getGroupsByUser(JFactory::getUser()->get('id'));
-			$myRules = $rules->getData();
+			$myGroups      = JAccess::getGroupsByUser(JFactory::getUser()->get('id'));
+			$myRules       = $rules->getData();
 			$hasSuperAdmin = $myRules['core.admin']->allow($myGroups);
 
 			if (!$hasSuperAdmin)

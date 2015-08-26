@@ -111,22 +111,21 @@ class TagsModelTags extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$app = JFactory::getApplication('site');
-		$user	= JFactory::getUser();
-		$groups	= implode(',', $user->getAuthorisedViewLevels());
-		$pid = $this->getState('tag.parent_id');
-		$orderby = $this->state->params->get('all_tags_orderby', 'title');
-		$published = $this->state->params->get('published', 1);
+		$app            = JFactory::getApplication('site');
+		$user           = JFactory::getUser();
+		$groups         = implode(',', $user->getAuthorisedViewLevels());
+		$pid            = $this->getState('tag.parent_id');
+		$orderby        = $this->state->params->get('all_tags_orderby', 'title');
+		$published      = $this->state->params->get('published', 1);
 		$orderDirection = $this->state->params->get('all_tags_orderby_direction', 'ASC');
-		$language = $this->getState('tag.language');
+		$language       = $this->getState('tag.language');
 
 		// Create a new query object.
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		// Select required fields from the tags.
 		$query->select('a.*')
-
 			->from($db->quoteName('#__tags') . ' AS a')
 			->where($db->quoteName('a.access') . ' IN (' . $groups . ')');
 

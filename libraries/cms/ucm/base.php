@@ -68,8 +68,8 @@ class JUcmBase implements JUcm
 			$table = JTable::getInstance('Ucm');
 		}
 
-		$ucmId		= isset($data['ucm_id']) ? $data['ucm_id'] : null;
-		$primaryKey	= $primaryKey ? $primaryKey : $ucmId;
+		$ucmId      = isset($data['ucm_id']) ? $data['ucm_id'] : null;
+		$primaryKey = $primaryKey ? $primaryKey : $ucmId;
 
 		if (isset($primaryKey))
 		{
