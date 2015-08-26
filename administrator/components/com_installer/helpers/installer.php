@@ -52,8 +52,8 @@ class InstallerHelper
 		);
 		JHtmlSidebar::addEntry(
 		JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
-					'index.php?option=com_installer&view=warnings',
-		$vName == 'warnings'
+			'index.php?option=com_installer&view=warnings',
+			$vName == 'warnings'
 		);
 		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_LANGUAGES'),
@@ -144,13 +144,15 @@ class InstallerHelper
 	 * Get a list of filter options for the application clients.
 	 *
 	 * @return  array  An array of JHtmlOption elements.
+	 *
+	 * @since   3.5
 	 */
 	public static function getClientOptions()
 	{
 		// Build the filter options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '0', JText::_('JSITE'));
-		$options[]	= JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
+		$options   = array();
+		$options[] = JHtml::_('select.option', '0', JText::_('JSITE'));
+		$options[] = JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
 
 		return $options;
 	}
@@ -159,15 +161,17 @@ class InstallerHelper
 	 * Get a list of filter options for the application statuses.
 	 *
 	 * @return  array  An array of JHtmlOption elements.
+	 *
+	 * @since   3.5
 	 */
 	public static function getStateOptions()
 	{
 		// Build the filter options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '0', JText::_('JDISABLED'));
-		$options[]	= JHtml::_('select.option', '1', JText::_('JENABLED'));
-		$options[]	= JHtml::_('select.option', '2', JText::_('JPROTECTED'));
-		$options[]	= JHtml::_('select.option', '3', JText::_('JUNPROTECTED'));
+		$options   = array();
+		$options[] = JHtml::_('select.option', '0', JText::_('JDISABLED'));
+		$options[] = JHtml::_('select.option', '1', JText::_('JENABLED'));
+		$options[] = JHtml::_('select.option', '2', JText::_('JPROTECTED'));
+		$options[] = JHtml::_('select.option', '3', JText::_('JUNPROTECTED'));
 
 		return $options;
 	}
