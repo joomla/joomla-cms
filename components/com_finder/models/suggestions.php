@@ -1,4 +1,5 @@
 <?php
+use Joomla\Registry\Format\Json;
 /**
  * @package     Joomla.Site
  * @subpackage  com_finder
@@ -67,13 +68,21 @@ class FinderModelSuggestions extends JModelList
 		}
 		$query = $db->getQuery(true);
 
-		// Set variables
-		$user = JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
-		$app = JFactory::getApplication();
-		$input = $app->input;
-		$request = $input->request;
-
+		// Get the static Taxonomy filter parameters if necessary
+		if (!is_null($this->getState('filter')))
+		{
+			// Select filter params
+			$query->select('ff.params')
+				->from ($db->quoteName('#__finder_filters') . ' AS ff')
+				->where('ff.filter_id = ' . $this->getState('filter'));
+			$db->setQuery($query);
+			$filterparams = json_decode($db->loadResult());
+			// Get a fresh query object
+			$query = $db->getQuery(true);
+		}
+		
+		$groups = implode(',', $this->getState('user.groups'));
+		
 		// Select required fields
 		$query->select('t.term')
 			->from($db->quoteName('#__finder_terms') . ' AS t')
@@ -109,13 +118,58 @@ class FinderModelSuggestions extends JModelList
 		$query->where('(l.publish_start_date = ' . $nullDate . ' OR l.publish_start_date <= ' . $nowDate . ')')
 		->where('(l.publish_end_date = ' . $nullDate . ' OR l.publish_end_date >= ' . $nowDate . ')');
 
-		if (!is_null($request->get('f')))
+		// Add the static Taxonomy filter if necessary
+		if (!is_null($this->getState('filter')))
 		{
+			// Add the static Taxonomy filter
 			$query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS tm ON (tm.link_id=l.link_id)')
-				->join('INNER', $db->quoteName('#__finder_filters') . ' AS ff ON (ff.data=tm.node_id)')
-				->where($db->quoteName('ff.filter_id') . ' = ' . $request->get('f', '', 'int'));
+			->join('INNER', $db->quoteName('#__finder_filters') . ' AS ff ON (ff.data=tm.node_id)')
+			->where('ff.filter_id = ' . $this->getState('filter'));
 
+			// Add the start date filter to the query.
+			if ($filterparams->w1 != '')
+			{
+				// Escape the date.
+				$date1 = $db->quote($filterparams->d1);
+					
+				// Add the appropriate WHERE condition.
+				if ($filterparams->w1 == -1)
+				{
+					$query->where($db->quoteName('l.start_date') . ' <= ' . $date1);
+				}
+				elseif ($filterparams->w1 == 1)
+				{
+					$query->where($db->quoteName('l.start_date') . ' >= ' . $date1);
+				}
+				else
+				{
+					$query->where($db->quoteName('l.start_date') . ' = ' . $date1);
+				}
+			}
+				
+			// Add the end date filter to the query.
+			if ($filterparams->w2 != '')
+			{
+				// Escape the date.
+				$date2 = $db->quote($filterparams->d2);
+					
+				// Add the appropriate WHERE condition.
+				if ($filterparams->w2 == -1)
+				{
+					$query->where($db->quoteName('l.start_date') . ' <= ' . $date2);
+				}
+				elseif ($filterparams->w2 == 1)
+				{
+					$query->where($db->quoteName('l.start_date') . ' >= ' . $date2);
+				}
+				else
+				{
+					$query->where($db->quoteName('l.start_date') . ' = ' . $date2);
+				}
+			}
+		
 		}
+		
 		return $query;
 	}
 
@@ -162,10 +216,11 @@ class FinderModelSuggestions extends JModelList
 		$input = $app->input;
 		$params = JComponentHelper::getParams('com_finder');
 		$user = JFactory::getUser();
+		
 
 		// Get the query input.
 		$this->setState('input', $input->request->get('q', '', 'string'));
-
+		
 		// Set the query language
 		if (JLanguageMultilang::isEnabled())
 		{
@@ -179,6 +234,9 @@ class FinderModelSuggestions extends JModelList
 		$lang = FinderIndexerHelper::getPrimaryLanguage($lang);
 		$this->setState('language', $lang);
 
+		// Get the static taxonomy filter.
+		$this->setState('filter', $input->request->get('f', '', 'int'));
+		
 		// Load the list state.
 		$this->setState('list.start', 0);
 		$this->setState('list.limit', 10);
@@ -188,5 +246,7 @@ class FinderModelSuggestions extends JModelList
 
 		// Load the user state.
 		$this->setState('user.id', (int) $user->get('id'));
+		$this->setState('user.groups', $user->getAuthorisedViewLevels());
+		
 	}
 }
