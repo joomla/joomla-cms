@@ -202,6 +202,7 @@ class ContentRouter extends JComponentRouterBase
 				{
 					unset($query['Itemid']);
 				}
+
 				$segments[] = $view;
 				unset($query['view']);
 			}
@@ -304,22 +305,23 @@ class ContentRouter extends JComponentRouterBase
 			// Called if no menu item created
 			if ($vars['view'] == 'archive')
 			{
-				$vars['year'] = $count >= 2 ? $segments[$count - 2] : null;
+				$vars['year']  = $count >= 2 ? $segments[$count - 2] : null;
 				$vars['month'] = $segments[$count - 1];
 			}
 			else
 			{
 				$vars['id'] = $segments[$count - 1];
 			}
+
 			return $vars;
 		}
 
 		// First handle archive view
 		if ($item->query['view'] == 'archive')
 		{
-			$vars['year'] = $count >= 2 ? $segments[$count - 2] : null;
+			$vars['year']  = $count >= 2 ? $segments[$count - 2] : null;
 			$vars['month'] = $segments[$count - 1];
-			$vars['view'] = 'archive';
+			$vars['view']  = 'archive';
 
 			return $vars;
 		}
