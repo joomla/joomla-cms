@@ -52,12 +52,12 @@ class InstallerModel extends JModelList
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
-		$ordering	= $this->getState('list.ordering');
-		$search		= $this->getState('filter.search');
+		$ordering = $this->getState('list.ordering');
+		$search   = $this->getState('filter.search');
 
 		// Replace slashes so preg_match will work
-		$search 	= str_replace('/', ' ', $search);
-		$db			= $this->getDbo();
+		$search = str_replace('/', ' ', $search);
+		$db     = $this->getDbo();
 
 		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
 		{

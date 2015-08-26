@@ -14,9 +14,9 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.multiselect');
 
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$user      = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_messages&view=messages'); ?>" method="post" name="adminForm" id="adminForm">
@@ -75,7 +75,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
-			$canChange	= $user->authorise('core.edit.state', 'com_messages');
+			$canChange = $user->authorise('core.edit.state', 'com_messages');
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>

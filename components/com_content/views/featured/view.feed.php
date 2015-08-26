@@ -59,18 +59,18 @@ class ContentViewFeatured extends JViewLegacy
 			$db->setQuery($query);
 			$row->fulltext = $db->loadResult();
 
-			$description	= ($params->get('feed_summary', 0) ? $row->introtext . $row->fulltext : $row->introtext);
-			$author			= $row->created_by_alias ? $row->created_by_alias : $row->author;
+			$description = ($params->get('feed_summary', 0) ? $row->introtext . $row->fulltext : $row->introtext);
+			$author      = $row->created_by_alias ? $row->created_by_alias : $row->author;
 
 			// Load individual item creator class
-			$item				= new JFeedItem;
-			$item->title		= $title;
-			$item->link			= $link;
-			$item->date			= $row->publish_up;
-			$item->category		= array();
+			$item           = new JFeedItem;
+			$item->title    = $title;
+			$item->link     = $link;
+			$item->date     = $row->publish_up;
+			$item->category = array();
 
 			// All featured articles are categorized as "Featured"
-			$item->category[]	= JText::_('JFEATURED');
+			$item->category[] = JText::_('JFEATURED');
 
 			for ($item_category = $categories->get($row->catid); $item_category !== null; $item_category = $item_category->getParent())
 			{

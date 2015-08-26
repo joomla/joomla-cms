@@ -16,13 +16,14 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$canOrder	= $user->authorise('core.edit.state', 'com_users');
-$saveOrder	= $listOrder == 'a.ordering';
+$user       = JFactory::getUser();
+$listOrder  = $this->escape($this->state->get('list.ordering'));
+$listDirn   = $this->escape($this->state->get('list.direction'));
+$canOrder   = $user->authorise('core.edit.state', 'com_users');
+$saveOrder  = $listOrder == 'a.ordering';
 $sortFields = $this->getSortFields();
-$saveOrder	= $listOrder == 'a.ordering';
+$saveOrder  = $listOrder == 'a.ordering';
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_users&task=levels.saveOrderAjax&tmpl=component';

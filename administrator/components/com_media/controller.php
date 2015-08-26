@@ -35,28 +35,29 @@ class MediaController extends JControllerLegacy
 		{
 			case 'images':
 				$vLayout = $this->input->get('layout', 'default', 'string');
-				$mName = 'manager';
+				$mName   = 'manager';
 
 				break;
 
 			case 'imagesList':
-				$mName = 'list';
+				$mName   = 'list';
 				$vLayout = $this->input->get('layout', 'default', 'string');
 
 				break;
 
 			case 'mediaList':
-				$app	= JFactory::getApplication();
-				$mName = 'list';
+				$app     = JFactory::getApplication();
+				$mName   = 'list';
 				$vLayout = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
 				break;
 
 			case 'media':
 			default:
-				$vName = 'media';
+				$vName   = 'media';
 				$vLayout = $this->input->get('layout', 'default', 'string');
-				$mName = 'manager';
+				$mName   = 'manager';
+
 				break;
 		}
 

@@ -36,10 +36,10 @@ class UsersViewLogin extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Get the view data.
-		$this->user		= JFactory::getUser();
-		$this->form		= $this->get('Form');
-		$this->state	= $this->get('State');
-		$this->params	= $this->state->get('params');
+		$this->user   = JFactory::getUser();
+		$this->form   = $this->get('Form');
+		$this->state  = $this->get('State');
+		$this->params = $this->state->get('params');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -78,11 +78,11 @@ class UsersViewLogin extends JViewLegacy
 	 */
 	protected function prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$user		= JFactory::getUser();
-		$login		= $user->get('guest') ? true : false;
-		$title 		= null;
+		$app   = JFactory::getApplication();
+		$menus = $app->getMenu();
+		$user  = JFactory::getUser();
+		$login = $user->get('guest') ? true : false;
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself

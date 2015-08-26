@@ -27,14 +27,14 @@ class LanguagesViewMultilangstatus extends JViewLegacy
 	{
 		require_once JPATH_COMPONENT . '/helpers/multilangstatus.php';
 
-		$this->homes			= MultilangstatusHelper::getHomes();
-		$this->language_filter	= JLanguageMultilang::isEnabled();
-		$this->switchers		= MultilangstatusHelper::getLangswitchers();
-		$this->listUsersError	= MultilangstatusHelper::getContacts();
-		$this->contentlangs		= MultilangstatusHelper::getContentlangs();
-		$this->site_langs		= MultilangstatusHelper::getSitelangs();
-		$this->statuses			= MultilangstatusHelper::getStatus();
-		$this->homepages		= MultilangstatusHelper::getHomepages();
+		$this->homes           = MultilangstatusHelper::getHomes();
+		$this->language_filter = JLanguageMultilang::isEnabled();
+		$this->switchers       = MultilangstatusHelper::getLangswitchers();
+		$this->listUsersError  = MultilangstatusHelper::getContacts();
+		$this->contentlangs    = MultilangstatusHelper::getContentlangs();
+		$this->site_langs      = MultilangstatusHelper::getSitelangs();
+		$this->statuses        = MultilangstatusHelper::getStatus();
+		$this->homepages       = MultilangstatusHelper::getHomepages();
 
 		parent::display($tpl);
 	}

@@ -146,13 +146,13 @@ class UsersControllerUser extends UsersController
 
 		// Get the model and validate the data.
 		$model  = $this->getModel('Registration', 'UsersModel');
-		$return	= $model->validate($data);
+		$return = $model->validate($data);
 
 		// Check for errors.
 		if ($return === false)
 		{
 			// Get the validation messages.
-			$errors	= $model->getErrors();
+			$errors = $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
@@ -177,7 +177,7 @@ class UsersControllerUser extends UsersController
 		}
 
 		// Finish the registration.
-		$return	= $model->register($data);
+		$return = $model->register($data);
 
 		// Check for errors.
 		if ($return === false)
@@ -215,7 +215,7 @@ class UsersControllerUser extends UsersController
 		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Submit the username remind request.
-		$return	= $model->processRemindRequest($data);
+		$return = $model->processRemindRequest($data);
 
 		// Check for a hard error.
 		if ($return instanceof Exception)
@@ -260,7 +260,7 @@ class UsersControllerUser extends UsersController
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getLoginRoute();
 			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-			$route	= 'index.php?option=com_users&view=login' . $itemid;
+			$route  = 'index.php?option=com_users&view=login' . $itemid;
 
 			// Proceed to the login form.
 			$message = JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');

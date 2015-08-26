@@ -31,9 +31,9 @@ class ContactViewContacts extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		ContactHelper::addSubmenu('contacts');
 
@@ -67,8 +67,8 @@ class ContactViewContacts extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= JHelperContent::getActions('com_contact', 'category', $this->state->get('filter.category_id'));
-		$user	= JFactory::getUser();
+		$canDo = JHelperContent::getActions('com_contact', 'category', $this->state->get('filter.category_id'));
+		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
