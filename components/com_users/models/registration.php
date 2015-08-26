@@ -82,7 +82,15 @@ class UsersModelRegistration extends JModelForm
 			$user->set('activation', $data['activation']);
 			$data['siteurl'] = JUri::base();
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			$data['activate'] = JRoute::_(JUri::root() . 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			
+			// Remove administrator/ from activate url in case this method is called from admin
+			if (JFactory::getApplication()->isAdmin())
+			{
+				$adminPos = strrpos($data['activate'], 'administrator/');
+				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
+			}
+			
 			$data['fromname'] = $config->get('fromname');
 			$data['mailfrom'] = $config->get('mailfrom');
 			$data['sitename'] = $config->get('sitename');
@@ -405,7 +413,16 @@ class UsersModelRegistration extends JModelForm
 		if ($useractivation == 2)
 		{
 			// Set the link to confirm the user email.
-			$data['activate'] = JRoute::_(JUri::root() . 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			$uri = JUri::getInstance();
+ 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			
+			// Remove administrator/ from activate url in case this method is called from admin
+			if (JFactory::getApplication()->isAdmin())
+			{
+				$adminPos = strrpos($data['activate'], 'administrator/');
+				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
+			}
 
 			$emailSubject = JText::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
@@ -440,7 +457,16 @@ class UsersModelRegistration extends JModelForm
 		elseif ($useractivation == 1)
 		{
 			// Set the link to activate the user account.
-			$data['activate'] = JRoute::_(JUri::root() . 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			$uri = JUri::getInstance();
+ 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			
+			// Remove administrator/ from activate url in case this method is called from admin
+			if (JFactory::getApplication()->isAdmin())
+			{
+				$adminPos = strrpos($data['activate'], 'administrator/');
+				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
+			}
 
 			$emailSubject = JText::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
