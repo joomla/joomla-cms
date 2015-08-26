@@ -42,11 +42,11 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 	public function display($tpl = null)
 	{
 		// Get data from the model
-		$this->state      		= $this->get('State');
-		$this->items      		= $this->get('Items');
-		$this->pagination 		= $this->get('Pagination');
-		$this->filterForm		= $this->get('FilterForm');
-		$this->activeFilters	= $this->get('ActiveFilters');
+		$this->state         = $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
