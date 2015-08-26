@@ -112,8 +112,14 @@ class JApplicationAdministrator extends JApplicationCms
 	 */
 	protected function doExecute()
 	{
+		// Assemble options for the initialisation
+		$options = array('language' => $this->getUserState('application.lang'));
+
+		JPluginHelper::importPlugin('system');
+		$this->triggerEvent('onBeforeInitialise', array(&$options));
+
 		// Initialise the application
-		$this->initialiseApp(array('language' => $this->getUserState('application.lang')));
+		$this->initialiseApp($options);
 
 		// Test for magic quotes
 		if (get_magic_quotes_gpc())
