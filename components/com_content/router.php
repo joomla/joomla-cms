@@ -197,7 +197,7 @@ class ContentRouter extends JComponentRouterBase
 		{
 			if (!$menuItemGiven || $menuItem->query['view'] != 'archive')
 			{
-				// did not work without removing Itemid
+				// Did not work without removing Itemid
 				if (isset($menuItem))
 				{
 					unset($query['Itemid']);
@@ -300,7 +300,7 @@ class ContentRouter extends JComponentRouterBase
 		if (!isset($item))
 		{
 			$vars['view'] = $segments[0];
-			// called if no menu item created
+			// Called if no menu item created
 			if ($vars['view'] == 'archive')
 			{
 				$vars['year'] = $count >= 2 ? $segments[$count - 2] : null;
@@ -313,7 +313,7 @@ class ContentRouter extends JComponentRouterBase
 			return $vars;
 		}
 
-		// first handle archive view
+		// First handle archive view
 		if ($item->query['view'] == 'archive')
 		{
 			$vars['year'] = $count >= 2 ? $segments[$count - 2] : null;
