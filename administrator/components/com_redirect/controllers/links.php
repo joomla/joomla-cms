@@ -110,7 +110,7 @@ class RedirectControllerLinks extends JControllerAdmin
 		$this->setRedirect('index.php?option=com_redirect&view=links');
 	}
 
-		/**
+	/**
 	 * Clean out the unpublished links.
 	 *
 	 * @return  void
@@ -120,8 +120,17 @@ class RedirectControllerLinks extends JControllerAdmin
 	public function purge()
 	{
 		$model = $this->getModel('Links');
-		$model->purge();
-		$this->setRedirect(('index.php?option=com_redirect&view=links'), $model->_message);
+
+		if ($model->purge())
+		{
+			$message = JText::_('COM_REDIRECT_CLEAR_SUCCESS');
+		}
+		else
+		{
+			$message = JText::_('COM_REDIRECT_CLEAR_FAIL');
+		}
+
+		$this->setRedirect('index.php?option=com_redirect&view=links', $message);
 	}
 
 }
