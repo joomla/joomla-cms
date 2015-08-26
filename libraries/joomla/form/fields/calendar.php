@@ -165,7 +165,7 @@ class JFormFieldCalendar extends JFormField
 		// Handle the special case for "now".
 		if (strtoupper($this->value) == 'NOW')
 		{
-			$this->value = strftime($format);
+			$this->value = JFactory::getDate()->format('Y-m-d H:i:s');
 		}
 
 		// Get some system objects.

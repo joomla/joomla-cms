@@ -157,11 +157,11 @@ abstract class FinderIndexer
 
 			// Setup the weight lookup information.
 			$data->weights = array(
-				self::TITLE_CONTEXT	=> round($data->options->get('title_multiplier', 1.7), 2),
-				self::TEXT_CONTEXT	=> round($data->options->get('text_multiplier', 0.7), 2),
-				self::META_CONTEXT	=> round($data->options->get('meta_multiplier', 1.2), 2),
-				self::PATH_CONTEXT	=> round($data->options->get('path_multiplier', 2.0), 2),
-				self::MISC_CONTEXT	=> round($data->options->get('misc_multiplier', 0.3), 2)
+				self::TITLE_CONTEXT => round($data->options->get('title_multiplier', 1.7), 2),
+				self::TEXT_CONTEXT  => round($data->options->get('text_multiplier', 0.7), 2),
+				self::META_CONTEXT  => round($data->options->get('meta_multiplier', 1.2), 2),
+				self::PATH_CONTEXT  => round($data->options->get('path_multiplier', 2.0), 2),
+				self::MISC_CONTEXT  => round($data->options->get('misc_multiplier', 0.3), 2)
 			);
 
 			// Set the current time as the start time.

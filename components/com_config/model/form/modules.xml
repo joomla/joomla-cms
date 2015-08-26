@@ -31,7 +31,7 @@
 		/>
 
 		<field name="showtitle" type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			description="COM_MODULES_FIELD_SHOWTITLE_DESC"
 			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"

@@ -39,13 +39,12 @@ class UsersModelLevel extends JModelAdmin
 			// Populate the list once.
 			$this->levelsInUse = array();
 
-			$db		= $this->getDbo();
-			$query	= $db->getQuery(true)
+			$db    = $this->getDbo();
+			$query = $db->getQuery(true)
 				->select('DISTINCT access');
 
 			// Get all the tables and the prefix
 			$tables = $db->getTableList();
-
 			$prefix = $db->getPrefix();
 
 			foreach ($tables as $table)

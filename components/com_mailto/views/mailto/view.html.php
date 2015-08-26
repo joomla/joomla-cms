@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Class for Mail.
  * 
- * @since       1.5
+ * @since  1.5
  */
 class MailtoViewMailto extends JViewLegacy
 {

@@ -535,9 +535,9 @@ class JForm
 		foreach ($elements as $element)
 		{
 			// Get the field groups for the element.
-			$attrs	= $element->xpath('ancestor::fields[@name]/@name');
-			$groups	= array_map('strval', $attrs ? $attrs : array());
-			$group	= implode('.', $groups);
+			$attrs  = $element->xpath('ancestor::fields[@name]/@name');
+			$groups = array_map('strval', $attrs ? $attrs : array());
+			$group  = implode('.', $groups);
 
 			// If the field is successfully loaded add it to the result array.
 			if ($field = $this->loadField($element, $group))
@@ -2133,7 +2133,7 @@ class JForm
 	protected static function addNode(SimpleXMLElement $source, SimpleXMLElement $new)
 	{
 		// Add the new child node.
-		$node = $source->addChild($new->getName(), trim($new));
+		$node = $source->addChild($new->getName(), htmlspecialchars(trim($new)));
 
 		// Add the attributes of the child node.
 		foreach ($new->attributes() as $name => $value)
