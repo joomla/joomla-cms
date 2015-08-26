@@ -414,7 +414,7 @@ class UsersModelRegistration extends JModelForm
 		{
 			// Set the link to confirm the user email.
 			$uri = JUri::getInstance();
- 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 			
 			// Remove administrator/ from activate url in case this method is called from admin
@@ -458,7 +458,7 @@ class UsersModelRegistration extends JModelForm
 		{
 			// Set the link to activate the user account.
 			$uri = JUri::getInstance();
- 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 			
 			// Remove administrator/ from activate url in case this method is called from admin
