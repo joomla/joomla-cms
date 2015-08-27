@@ -242,6 +242,12 @@ class JCategories
 		if ($this->_options['published'] == 1)
 		{
 			$query->where('c.published = 1');
+
+			$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
+				'ON cat.lft BETWEEN parent.lft AND parent.rgt WHERE parent.extension = ' . $db->quote($extension) .
+				' AND parent.published != 1 GROUP BY cat.id) ';
+			$query->join('LEFT', $subQuery . 'AS badcats ON badcats.id = c.id')
+				->where('badcats.id is null');
 		}
 
 		$query->order('c.lft');
@@ -253,12 +259,6 @@ class JCategories
 			$query->join('LEFT', '#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)')
 				->where('s.id=' . (int) $id);
 		}
-
-		$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
-			'ON cat.lft BETWEEN parent.lft AND parent.rgt WHERE parent.extension = ' . $db->quote($extension) .
-			' AND parent.published != 1 GROUP BY cat.id) ';
-		$query->join('LEFT', $subQuery . 'AS badcats ON badcats.id = c.id')
-			->where('badcats.id is null');
 
 		// Note: i for item
 		if ($this->_options['countItems'] == 1)
