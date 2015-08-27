@@ -504,7 +504,7 @@ class JEditor extends JObject
 		// Get the plugin
 		// Ensure to deal with a valid object in case of no plugin found
 		$plugin = JPluginHelper::getPlugin('editors', $this->_name)
-			  or $plugin = (object)array('name' => $this->_name, 'params' => '{}', 'type' => 'editors');
+			or $plugin = (object) array('name' => $this->_name, 'params' => '{}', 'type' => 'editors');
 		$params = new Registry;
 		$params->loadString($plugin->params);
 		$params->loadArray($config);
