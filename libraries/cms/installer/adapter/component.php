@@ -1133,12 +1133,12 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		// Update all menu items which contain 'index.php?option=com_extension' or 'index.php?option=com_extension&...'
 		// to use the new component id.
 		$query = $db->getQuery(true)
-					->update('#__menu AS m')
-					->set('m.component_id = ' . $db->quote($component_id))
-					->where("m.type = " . $db->quote('component'))
-					->where('m.client_id = 0')
-					->where('m.link LIKE ' . $db->quote('index.php?option=' . $option)
-							. " OR m.link LIKE '" . $db->escape('index.php?option=' . $option . '&') . "%'");
+					->update('#__menu')
+					->set('component_id = ' . $db->quote($component_id))
+					->where("type = " . $db->quote('component'))
+					->where('client_id = 0')
+					->where('link LIKE ' . $db->quote('index.php?option=' . $option)
+							. " OR link LIKE '" . $db->escape('index.php?option=' . $option . '&') . "%'");
 
 		$db->setQuery($query);
 
