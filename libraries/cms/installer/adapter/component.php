@@ -630,6 +630,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$this->extension->access    = 0;
 			$this->extension->client_id = 1;
 			$this->extension->params    = $this->parent->getParams();
+			$this->extension->custom_data = '';
 		}
 
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();
@@ -951,6 +952,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['component_id'] = $component_id;
 			$data['img'] = ((string) $menuElement->attributes()->img) ? (string) $menuElement->attributes()->img : 'class:component';
 			$data['home'] = 0;
+			$data['path'] = '';
+			$data['params'] = '';
 		}
 		else
 		{
@@ -967,6 +970,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['component_id'] = $component_id;
 			$data['img'] = 'class:component';
 			$data['home'] = 0;
+			$data['path'] = '';
+			$data['params'] = '';
 		}
 
 		// Try to create the menu item in the database
