@@ -205,7 +205,7 @@ class ContentRouter extends JComponentRouterBase
 
 				$segments[] = $view;
 			}
-			
+
 			unset($query['view']);
 
 			if (isset($query['year']))
