@@ -131,7 +131,7 @@ class FinderModelSuggestions extends JModelList
 			{
 				// Escape the date.
 				$date1 = $db->quote($filterparams->d1);
-					
+
 				// Add the appropriate WHERE condition.
 				if ($filterparams->w1 == -1)
 				{
@@ -146,13 +146,13 @@ class FinderModelSuggestions extends JModelList
 					$query->where($db->quoteName('l.start_date') . ' = ' . $date1);
 				}
 			}
-				
+
 			// Add the end date filter to the query.
 			if ($filterparams->w2 != '')
 			{
 				// Escape the date.
 				$date2 = $db->quote($filterparams->d2);
-					
+
 				// Add the appropriate WHERE condition.
 				if ($filterparams->w2 == -1)
 				{
@@ -167,7 +167,7 @@ class FinderModelSuggestions extends JModelList
 					$query->where($db->quoteName('l.start_date') . ' = ' . $date2);
 				}
 			}
-		
+
 		}
 		
 		return $query;
@@ -216,11 +216,11 @@ class FinderModelSuggestions extends JModelList
 		$input = $app->input;
 		$params = JComponentHelper::getParams('com_finder');
 		$user = JFactory::getUser();
-		
+
 
 		// Get the query input.
 		$this->setState('input', $input->request->get('q', '', 'string'));
-		
+
 		// Set the query language
 		if (JLanguageMultilang::isEnabled())
 		{
@@ -236,7 +236,7 @@ class FinderModelSuggestions extends JModelList
 
 		// Get the static taxonomy filter.
 		$this->setState('filter', $input->request->get('f', '', 'int'));
-		
+
 		// Load the list state.
 		$this->setState('list.start', 0);
 		$this->setState('list.limit', 10);
@@ -247,6 +247,6 @@ class FinderModelSuggestions extends JModelList
 		// Load the user state.
 		$this->setState('user.id', (int) $user->get('id'));
 		$this->setState('user.groups', $user->getAuthorisedViewLevels());
-		
+
 	}
 }
