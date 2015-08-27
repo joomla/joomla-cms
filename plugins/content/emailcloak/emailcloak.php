@@ -16,6 +16,8 @@ defined('_JEXEC') or die;
  */
 class PlgContentEmailcloak extends JPlugin
 {
+	// used to save the extracted form elements in an array. If nothing to replace, it's default false;
+	var $saveReplacements = false; 
 	/**
 	 * Plugin that cloaks all emails in content from spambots via Javascript.
 	 *
@@ -111,6 +113,8 @@ class PlgContentEmailcloak extends JPlugin
 			return true;
 		}
 
+		// extract all Formelements out of the text.
+		$text = $this->_extractFormElements($text);
 		$mode = $this->params->def('mode', 1);
 
 		// Example: any@example.org
@@ -123,7 +127,7 @@ class PlgContentEmailcloak extends JPlugin
 		$searchText = '((?:[\x20-\x7f]|[\xA1-\xFF]|[\xC2-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2}|[\xF0-\xF4][\x80-\xBF]{3})[^<>]+)';
 
 		// Any Image link
-		$searchImage = "(<img[^>]+>)";
+		$searchImage	=	"(<img[^>]+>)";
 
 		// Any Text with <span or <strong
 		$searchTextSpan = '(<span[^>]+>|<span>|<strong>|<strong><span[^>]+>|<strong><span>)' . $searchText . '(</span>|</strong>|</span></strong>)';
@@ -490,7 +494,61 @@ class PlgContentEmailcloak extends JPlugin
 			// Replace the found address with the js cloaked email
 			$text = substr_replace($text, $replacement, $regs[1][1], strlen($mail));
 		}
-
+		// all exctracted Form elements get insert the text again.
+		$text = $this->_insertFormElements($text);
 		return true;
 	}
+
+	/**
+	 * extract all input, select and textareelements out of the given Text.
+	 *
+	 * @param   string  $text  The text wich must be cleaned of formElements
+	 *
+	 * @return  string, the cleaned text
+	 */
+	private function _extractFormElements($text)
+	{
+		// Pattern to extract input, checkbox, submit  and radio fields.
+		$input_pattern = '#<(?:input|checkbox|submit|radio)[^<].*>#Uis';
+
+		preg_match_all($input_pattern, $text, $results);
+		// pattern to extract select and textarea fields
+		$st_pattern = '#<(select|textarea).*</\1>#Uis';
+		preg_match_all($st_pattern, $text, $st_results);
+
+		$results = array_merge($results[0], $st_results[0]);
+		$counter = 0;
+		foreach($results as $value)
+		{
+			$replace_string = "{{##formelement_". $counter ."##}}"; 
+			$text = str_replace($value, $replace_string, $text);
+			$this->saveReplacements[$replace_string] = $value;
+			$counter++;
+		}
+
+		return $text;
+	}
+
+	/**
+	 * inserts all input, select and textareelements in  the given Text, which was extractedfrom _extractFormElements
+	 *
+	 * @param   string  $text  The text where the extracted Formelements get inserted.
+	 *
+	 * @return  string, the modifiy text.
+	 */
+	private function _insertFormElements($text)
+	{
+		if(!is_array($this->saveReplacements) )
+		{
+			return $text;
+		} 
+
+		foreach($this->saveReplacements as $key => $value)
+		{
+			$text = str_replace($key, $value, $text);
+		}
+		return $text;
+	}
+
+
 }
