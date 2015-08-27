@@ -1,5 +1,4 @@
 <?php
-use Joomla\Registry\Format\Json;
 /**
  * @package     Joomla.Site
  * @subpackage  com_finder
@@ -73,16 +72,17 @@ class FinderModelSuggestions extends JModelList
 		{
 			// Select filter params
 			$query->select('ff.params')
-				->from ($db->quoteName('#__finder_filters') . ' AS ff')
+				->from($db->quoteName('#__finder_filters') . ' AS ff')
 				->where('ff.filter_id = ' . $this->getState('filter'));
 			$db->setQuery($query);
 			$filterparams = json_decode($db->loadResult());
+
 			// Get a fresh query object
 			$query = $db->getQuery(true);
 		}
-		
+
 		$groups = implode(',', $this->getState('user.groups'));
-		
+
 		// Select required fields
 		$query->select('t.term')
 			->from($db->quoteName('#__finder_terms') . ' AS t')
@@ -169,7 +169,7 @@ class FinderModelSuggestions extends JModelList
 			}
 
 		}
-		
+
 		return $query;
 	}
 
@@ -216,7 +216,6 @@ class FinderModelSuggestions extends JModelList
 		$input = $app->input;
 		$params = JComponentHelper::getParams('com_finder');
 		$user = JFactory::getUser();
-
 
 		// Get the query input.
 		$this->setState('input', $input->request->get('q', '', 'string'));
