@@ -45,6 +45,7 @@
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
 			<filename>finder.php</filename>
+			<folder>commands</folder>
 			<folder>controllers</folder>
 			<folder>helpers</folder>
 			<folder>models</folder>

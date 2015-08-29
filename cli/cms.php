@@ -104,8 +104,14 @@ class JoomlaCmsCli extends JApplicationCli
 			$class = ucfirst($component) . 'Command';
 			$path  = JPATH_ADMINISTRATOR . '/components/com_' . strtolower($component) . '/commands';
 
-			foreach ($command as $part)
+			foreach ($command as $key => $part)
 			{
+				// Skip the first key
+				if ($key === 0)
+				{
+					continue;
+				}
+
 				$class .= ucfirst(strtolower($part));
 				$path  .= '/' . strtolower($part);
 			}
