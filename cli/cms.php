@@ -27,6 +27,9 @@ require_once JPATH_LIBRARIES . '/import.legacy.php';
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
 
+// Make sure the app config is loaded to JFactory
+JFactory::getConfig(JPATH_CONFIGURATION . '/configuration.php');
+
 /**
  * A command line job runner for the Joomla! CMS
  *
