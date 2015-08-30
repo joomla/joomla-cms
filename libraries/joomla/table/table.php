@@ -1392,12 +1392,12 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			if ($row->ordering >= 0)
 			{
 				// Only update rows that are necessary.
-				if ($row->ordering != $i*2 + 1)
+				if ($row->ordering != $i * 2 + 1)
 				{
 					// Update the row ordering field.
 					$query->clear()
 						->update($this->_tbl)
-						->set('ordering = ' . ($i*2 + 1));
+						->set('ordering = ' . ($i * 2 + 1));
 					$this->appendPrimaryKeys($query, $row);
 					$this->_db->setQuery($query);
 					$this->_db->execute();

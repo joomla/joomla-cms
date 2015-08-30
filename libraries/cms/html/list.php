@@ -115,7 +115,11 @@ abstract class JHtmlList
 				$text = $items[$i]->text;
 			}
 
-			$options[] = JHtml::_('select.option', $items[$i]->value + ($items[$i]->value < $currentOrder ? -1 : ($items[$i]->value > $currentOrder ? 1 : 0)), ($items[$i]->value + 1) / 2 . '. ' . $text);
+			$options[] = JHtml::_(
+				'select.option',
+				$items[$i]->value + ($items[$i]->value < $currentOrder ? -1 : ($items[$i]->value > $currentOrder ? 1 : 0)),
+				($items[$i]->value + 1) / 2 . '. ' . $text
+			);
 		}
 
 		return $options;
