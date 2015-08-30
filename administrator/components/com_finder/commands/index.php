@@ -70,6 +70,7 @@ class FinderCommandIndex extends JControllerBase
 		// Fool the system into thinking we are running as JApplicationSite with Smart Search as the active component.
 		$_SERVER['HTTP_HOST'] = 'domain.com';
 		JFactory::$application = JApplicationCms::getInstance('site');
+		defined('JPATH_COMPONENT_ADMINISTRATOR') or define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/com_finder');
 
 		// Purge before indexing if --purge on the command line.
 		if ($this->getInput()->getString('purge', false))
