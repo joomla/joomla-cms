@@ -139,7 +139,7 @@ final class ArrayHelper
 	 */
 	public static function fromObject($p_obj, $recurse = true, $regex = null)
 	{
-		if (is_object($p_obj))
+		if (is_object($p_obj) || is_array($p_obj))
 		{
 			return self::arrayFromObject($p_obj, $recurse, $regex);
 		}
