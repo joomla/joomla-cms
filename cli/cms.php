@@ -30,6 +30,10 @@ require_once JPATH_LIBRARIES . '/cms.php';
 // Make sure the app config is loaded to JFactory
 JFactory::getConfig(JPATH_CONFIGURATION . '/configuration.php');
 
+// Import namespaced Framework classes
+use Joomla\Application\Cli\Output\Stdout;
+use Joomla\Application\Cli\Output\Processor\ColorProcessor;
+
 /**
  * A command line job runner for the Joomla! CMS
  *
@@ -47,6 +51,11 @@ class JoomlaCmsCli extends JApplicationCli
 		parent::__construct();
 
 		JFactory::$application = $this;
+
+		// We're going to use a Stdout object for output and inject the ColorProcessor object into it to use colored output
+		$output = new Stdout;
+		$output->setProcessor(new ColorProcessor);
+		$this->setOutput($output);
 	}
 
 	/**
