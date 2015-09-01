@@ -146,7 +146,17 @@ class UsersControllerUser extends UsersController
 
 		// Get the model and validate the data.
 		$model  = $this->getModel('Registration', 'UsersModel');
-		$return = $model->validate($data);
+
+		$form = $model->getForm();
+
+		if (!$form)
+		{
+			JError::raiseError(500, $model->getError());
+
+			return false;
+		}
+
+		$return = $model->validate($form, $data);
 
 		// Check for errors.
 		if ($return === false)
