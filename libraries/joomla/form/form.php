@@ -242,15 +242,9 @@ class JForm
 			{
 				$output->set($key, $this->filterField($field, $input->get($key, (string) $field['default'])));
 			}
-
-			// Get the JFormField object for this field, only it knows if it is supposed to be multiple.
-			$jfield = $this->getField($name, $group);
-
-			// Fields supporting multiple values must be stored as empty arrays when no values are selected.
-			// If not, they will appear to be unset and then revert to their default value.
-			if ($jfield && $jfield->multiple && !$output->exists($key))
+			else
 			{
-				$output->set($key, array());
+				$output->set($key, null);
 			}
 		}
 
