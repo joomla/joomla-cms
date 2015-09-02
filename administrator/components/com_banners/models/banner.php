@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -394,9 +394,9 @@ class BannersModelBanner extends JModelAdmin
 	 */
 	public function stick(&$pks, $value = 1)
 	{
-		$user  = JFactory::getUser();
+		$user = JFactory::getUser();
 		$table = $this->getTable();
-		$pks   = (array) $pks;
+		$pks = (array) $pks;
 
 		// Access checks.
 		foreach ($pks as $i => $pk)
@@ -458,13 +458,12 @@ class BannersModelBanner extends JModelAdmin
 		if (empty($table->id))
 		{
 			// Set the values
-			$table->created    = $date->toSql();
-			$table->created_by = $user->id;
+			$table->created = $date->toSql();
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering))
 			{
-				$db = $this->getDbo();
+				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
 					->select('MAX(ordering)')
 					->from('#__banners');
@@ -478,8 +477,8 @@ class BannersModelBanner extends JModelAdmin
 		else
 		{
 			// Set the values
-			$table->modified   = $date->toSql();
-			$table->created_by = $user->id;
+			$table->modified	= $date->toSql();
+			$table->modified_by	= $user->get('id');
 		}
 		// Increment the content version number.
 		$table->version++;
