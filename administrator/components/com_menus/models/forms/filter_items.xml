@@ -61,33 +61,6 @@
 	</fields>
 	<fields name="list">
 		<field
-			name="fullordering"
-			type="list"
-			label="JGLOBAL_SORT_BY"
-			statuses="*,0,1,2,-2"
-			description="JGLOBAL_SORT_BY"
-			onchange="this.form.submit();"
-			default="a.lft ASC"
-			>
-			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="a.lft ASC">JGRID_HEADING_ORDERING_ASC</option>
-			<option value="a.lft DESC">JGRID_HEADING_ORDERING_DESC</option>
-			<option value="a.published ASC">JSTATUS_ASC</option>
-			<option value="a.published DESC">JSTATUS_DESC</option>
-			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
-			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
-			<option value="a.home ASC">COM_MENUS_HEADING_HOME_ASC</option>
-			<option value="a.home DESC">COM_MENUS_HEADING_HOME_DESC</option>
-			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
-			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
-			<option value="association ASC" requires="associations">JASSOCIATIONS_ASC</option>
-			<option value="association DESC" requries="associations">JASSOCIATIONS_DESC</option>
-			<option value="language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
-			<option value="language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
-			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
-			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
-		</field>
-		<field
 			name="limit"
 			type="limitbox"
 			class="input-mini"
