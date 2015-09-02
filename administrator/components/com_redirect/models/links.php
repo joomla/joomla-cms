@@ -57,7 +57,11 @@ class RedirectModelLinks extends JModelList
 
 		$db->setQuery($query);
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (Exception $e)
 		{
 			return false;
 		}
