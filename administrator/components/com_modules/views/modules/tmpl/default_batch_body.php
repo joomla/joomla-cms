@@ -10,7 +10,8 @@
 defined('_JEXEC') or die;
 
 $clientId  = $this->state->get('filter.client_id');
-// show only Module Positions of published Templates
+
+// Show only Module Positions of published Templates
 $published = 1;
 $positions = JHtml::_('modules.positions', $clientId, $published);
 $positions['']['items'][] = ModulesHelper::createOption('nochange', JText::_('COM_MODULES_BATCH_POSITION_NOCHANGE'));
@@ -21,8 +22,8 @@ $customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
 
 // Build field
 $attr = array(
-	'id'		=> 'batch-position-id',
-	'list.attr'	=> 'class="chzn-custom-value input-xlarge" '
+	'id'        => 'batch-position-id',
+	'list.attr' => 'class="chzn-custom-value input-xlarge" '
 		. 'data-custom_group_text="' . $customGroupText . '" '
 		. 'data-no_results_text="' . JText::_('COM_MODULES_ADD_CUSTOM_POSITION') . '" '
 		. 'data-placeholder="' . JText::_('COM_MODULES_TYPE_OR_SELECT_POSITION') . '" '

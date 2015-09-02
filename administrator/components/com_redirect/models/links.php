@@ -156,7 +156,7 @@ class RedirectModelLinks extends JModelList
 	/**
 	 * Add the entered URLs into the database
 	 *
-	 * @param array $batch_urls Array of URLs to enter into the database
+	 * @param   array  $batch_urls  Array of URLs to enter into the database
 	 *
 	 * @return bool
 	 */

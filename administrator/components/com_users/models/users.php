@@ -310,7 +310,23 @@ class UsersModelUsers extends JModelList
 		if ($groupId || isset($groups))
 		{
 			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id')
-				->group($db->quoteName(array('a.id', 'a.name', 'a.username', 'a.password', 'a.block', 'a.sendEmail', 'a.registerDate', 'a.lastvisitDate', 'a.activation', 'a.params', 'a.email')));
+				->group(
+					$db->quoteName(
+						array(
+							'a.id',
+							'a.name',
+							'a.username',
+							'a.password',
+							'a.block',
+							'a.sendEmail',
+							'a.registerDate',
+							'a.lastvisitDate',
+							'a.activation',
+							'a.params',
+							'a.email'
+						)
+					)
+				);
 
 			if ($groupId)
 			{

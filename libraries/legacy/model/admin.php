@@ -415,7 +415,7 @@ abstract class JModelAdmin extends JModelForm
 			$this->table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			// $this->table->ordering	= 1;
+			// $this->table->ordering = 1;
 
 			// Check the row.
 			if (!$this->table->check())
@@ -442,7 +442,7 @@ abstract class JModelAdmin extends JModelForm
 			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$pk]	= $newId;
+			$newIds[$pk] = $newId;
 		}
 
 		// Clean the cache

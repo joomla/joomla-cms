@@ -14,7 +14,6 @@
 		<folder>tmpl</folder>
 		<folder>language</folder>
 		<filename>helper.php</filename>
-		<filename>mod_stats_admin.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_stats.ini</language>

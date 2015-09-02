@@ -63,8 +63,8 @@ class JFormFieldContenttype extends JFormFieldList
 	protected function getOptions()
 	{
 		$lang = JFactory::getLanguage();
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('a.type_id AS value, a.type_title AS text, a.type_alias AS alias')
 			->from('#__content_types AS a')
 

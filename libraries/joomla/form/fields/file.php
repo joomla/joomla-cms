@@ -69,7 +69,7 @@ class JFormFieldFile extends JFormField
 		switch ($name)
 		{
 			case 'accept':
-				$this->$accept = (string) $value;
+				$this->$name = (string) $value;
 				break;
 
 			default:

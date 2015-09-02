@@ -94,7 +94,7 @@ class UsersModelLogin extends JModelForm
 	protected function populateState()
 	{
 		// Get the application object.
-		$params	= JFactory::getApplication()->getParams('com_users');
+		$params = JFactory::getApplication()->getParams('com_users');
 
 		// Load the parameters.
 		$this->setState('params', $params);

@@ -322,27 +322,27 @@ class InstallerModelUpdate extends JModelList
 			return false;
 		}
 
-		$config		= JFactory::getConfig();
-		$tmp_dest	= $config->get('tmp_path');
+		$config   = JFactory::getConfig();
+		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file
-		$package	= JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
+		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
 		// Get an installer instance
-		$installer	= JInstaller::getInstance();
+		$installer = JInstaller::getInstance();
 		$update->set('type', $package['type']);
 
 		// Install the package
 		if (!$installer->update($package['dir']))
 		{
 			// There was an error updating the package
-			$msg = JText::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$msg    = JText::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = false;
 		}
 		else
 		{
 			// Package updated successfully
-			$msg = JText::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$msg    = JText::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = true;
 		}
 
