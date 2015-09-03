@@ -242,10 +242,6 @@ class JForm
 			{
 				$output->set($key, $this->filterField($field, $input->get($key, (string) $field['default'])));
 			}
-			else
-			{
-				$output->set($key, null);
-			}
 		}
 
 		return $output->toArray();
