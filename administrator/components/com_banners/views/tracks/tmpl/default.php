@@ -42,9 +42,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	};
 ');
 ?>
-<script type="text/javascript">
 
-</script>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=tracks'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
