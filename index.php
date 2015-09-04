@@ -1,4 +1,7 @@
 <?php
+
+echo 'my JoomlaDay Brasil';
+
 /**
  * @package    Joomla.Site
  *
