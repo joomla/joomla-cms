@@ -38,6 +38,11 @@ $path = 'file_path';
 			echo $this->loadTemplate('doc');
 		endfor; ?>
 
+		<?php for ($i = 0, $n = count($this->videos); $i < $n; $i++) :
+			$this->setVideo($i);
+			echo $this->loadTemplate('video');
+		endfor; ?>
+
 		<?php for ($i = 0, $n = count($this->images); $i < $n; $i++) :
 			$this->setImage($i);
 			echo $this->loadTemplate('img');

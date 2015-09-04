@@ -53,9 +53,14 @@ class MediaViewMediaList extends JViewLegacy
 			});
 		});");
 
+		JHtml::_('jquery.framework');
+		JFactory::getDocument()->addScript(JUri::root() . 'media/mediaelement/mediaelement-and-player.js');
+		JFactory::getDocument()->addStyleSheet(JUri::root() . 'media/mediaelement/mediaelementplayer.css');
+
 		$images = $this->get('images');
 		$documents = $this->get('documents');
 		$folders = $this->get('folders');
+		$videos = $this->get('videos');
 		$state = $this->get('state');
 
 		// Check for invalid folder name
@@ -75,6 +80,7 @@ class MediaViewMediaList extends JViewLegacy
 		$this->documents = &$documents;
 		$this->folders = &$folders;
 		$this->state = &$state;
+		$this->videos = &$videos;
 
 		parent::display($tpl);
 	}
@@ -139,6 +145,27 @@ class MediaViewMediaList extends JViewLegacy
 		else
 		{
 			$this->_tmp_doc = new JObject;
+		}
+	}
+
+	/**
+	 * Set the active video
+	 *
+	 * @param   integer  $index  Doc position
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function setVideo($index = 0)
+	{
+		if (isset($this->videos[$index]))
+		{
+			$this->_tmp_video = &$this->videos[$index];
+		}
+		else
+		{
+			$this->_tmp_video = new JObject;
 		}
 	}
 }
