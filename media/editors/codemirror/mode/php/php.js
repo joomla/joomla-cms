@@ -105,14 +105,15 @@
         return "variable-2";
       },
       "<": function(stream, state) {
-        if (stream.match(/<</)) {
-          var nowDoc = stream.eat("'");
+        var before;
+        if (before = stream.match(/<<\s*/)) {
+          var quoted = stream.eat(/['"]/);
           stream.eatWhile(/[\w\.]/);
-          var delim = stream.current().slice(3 + (nowDoc ? 1 : 0));
-          if (nowDoc) stream.eat("'");
+          var delim = stream.current().slice(before[0].length + (quoted ? 2 : 1));
+          if (quoted) stream.eat(quoted);
           if (delim) {
             (state.tokStack || (state.tokStack = [])).push(delim, 0);
-            state.tokenize = phpString(delim, nowDoc ? false : true);
+            state.tokenize = phpString(delim, quoted != "'");
             return "string";
           }
         }
