@@ -85,15 +85,8 @@ abstract class JHtmlTabs
 			$opt['titleSelector']       = "dt.tabs";
 			$opt['descriptionSelector'] = "dd.tabs";
 
-			// Initialize value
-			$opt['useStorage'] = false;
-
-			// By default useCookie(this.options.display) is true
-			if (!isset($params['useCookie'])
-				|| (isset($params['useCookie']) && $params['useCookie']))
-			{
-				$opt['useStorage'] = true;
-			}
+			// When use storage is set and value is false - By default we allow to use storage
+			$opt['useStorage'] = (isset($params['useCookie']) && !$params['useCookie']) ? false : true;
 
 			$options = JHtml::getJSObject($opt);
 
