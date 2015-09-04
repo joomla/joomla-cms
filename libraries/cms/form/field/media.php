@@ -56,7 +56,7 @@ class JFormFieldMedia extends JFormField
 	 * @since  3.2
 	 */
 	protected $link;
-	
+
 	/**
 	 * Modal width.
 	 *
@@ -64,7 +64,7 @@ class JFormFieldMedia extends JFormField
 	 * @since  3.4.5
 	 */
 	protected $width;
-	
+
 	/**
 	 * Modal height.
 	 *
