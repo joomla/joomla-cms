@@ -189,8 +189,6 @@ function colorIsLight($color)
 						</ul>
 					</li>
 				</ul>
-				<a class="brand visible-desktop visible-tablet" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
-					<span class="icon-out-2 small"></span></a>
 			</div>
 			<!--/.nav-collapse -->
 		</div>
@@ -204,6 +202,8 @@ function colorIsLight($color)
 		</div>
 		<div class="container-title">
 			<jdoc:include type="modules" name="title" />
+             <a class="brand visible-desktop visible-tablet" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
+					<span class="icon-out-2 small"></span></a>
 		</div>
 	</header>
 <?php endif; ?>
