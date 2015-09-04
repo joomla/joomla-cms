@@ -41,6 +41,8 @@ echo JHtml::_(
 	'mediaelement',
 	array(
 		'title' => $this->_tmp_video->name,
+		'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+		. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 	),
 	'<video class="mejs-player" src="' . COM_MEDIA_BASEURL . '/' . $this->_tmp_video->path_relative . '"></video>'
 );
