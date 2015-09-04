@@ -116,6 +116,7 @@ class MediaModelList extends JModelLegacy
 		$images  = array ();
 		$folders = array ();
 		$docs    = array ();
+		$videos  = array ();
 
 		$fileList   = false;
 		$folderList = false;
@@ -187,6 +188,13 @@ class MediaModelList extends JModelLegacy
 							$images[] = $tmp;
 							break;
 
+						// Video
+						case 'mp4':
+							$tmp->icon_32 = "media/mime-icon-32/" . $ext . ".png";
+							$tmp->icon_16 = "media/mime-icon-16/" . $ext . ".png";
+							$videos[] = $tmp;
+							break;
+
 						// Non-image document
 						default:
 							$tmp->icon_32 = "media/mime-icon-32/" . $ext . ".png";
@@ -215,8 +223,22 @@ class MediaModelList extends JModelLegacy
 			}
 		}
 
-		$list = array('folders' => $folders, 'docs' => $docs, 'images' => $images);
+		$list = array('folders' => $folders, 'docs' => $docs, 'images' => $images, 'videos' => $videos);
 
 		return $list;
+	}
+
+	/**
+	 * Get the videos on the current folder
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function getVideos()
+	{
+		$list = $this->getList();
+
+		return $list['videos'];
 	}
 }
