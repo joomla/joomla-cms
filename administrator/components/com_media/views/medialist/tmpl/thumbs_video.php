@@ -15,6 +15,14 @@ $user       = JFactory::getUser();
 $params     = new Registry;
 $dispatcher = JEventDispatcher::getInstance();
 $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_video, &$params));
+
+JFactory::getDocument()->addScriptDeclaration("
+jQuery(document).ready(function($){
+	$('.modal').on('hidden', function () {
+		$('#mediaelement video.mejs-player')[0].player.pause(); // Be sure the video element exists.
+	});
+});
+");
 ?>
 
 <li class="imgOutline thumbnail height-80 width-80 center">
