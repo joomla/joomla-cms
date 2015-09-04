@@ -18,8 +18,8 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 
 JFactory::getDocument()->addScriptDeclaration("
 jQuery(document).ready(function($){
-	$('.modal').on('hidden', function () {
-		$('#mediaelement video.mejs-player')[0].player.pause(); // Be sure the video element exists.
+	$('#mediaelement.modal').on('hidden', function () {
+		$('#mediaelement.modal video.mejs-player')[0].player.pause();
 	});
 });
 ");
