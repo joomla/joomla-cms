@@ -8,9 +8,9 @@
  */
 
 defined('_JEXEC') or die;
-$user = JFactory::getUser();
+$user   = JFactory::getUser();
 $params = JComponentHelper::getParams('com_media');
-$path = 'file_path';
+$path   = 'file_path';
 
 JFactory::getDocument()->addScriptDeclaration(
 	"

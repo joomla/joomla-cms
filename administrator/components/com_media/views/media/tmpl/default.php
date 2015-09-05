@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 $user  = JFactory::getUser();
 $input = JFactory::getApplication()->input;
-
-$style    = JFactory::getApplication()->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
+$lang  = JFactory::getLanguage();
+$style = JFactory::getApplication()->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
 if (DIRECTORY_SEPARATOR == '\\')
 {
@@ -35,7 +35,6 @@ JHtml::_('bootstrap.framework');
 JHtml::_('script', 'media/mediamanager.min.js', false, true);
 JHtml::_('stylesheet', 'system/mootree.css', array(), true);
 
-$lang     = JFactory::getLanguage();
 if ($lang->isRtl())
 {
 	JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);

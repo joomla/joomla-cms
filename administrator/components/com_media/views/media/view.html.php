@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// Include jQuery
-JHtml::_('jquery.framework');
-
 /**
  * HTML View class for the Media component
  *
