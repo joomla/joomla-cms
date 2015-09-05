@@ -32,23 +32,8 @@ JFactory::getDocument()->addScriptDeclaration(
 
 JHtml::_('behavior.keepalive');
 JHtml::_('jquery.framework');
-
-//JHtml::_('script', 'media/mediaelement/mediaelement-and-player.js', false, true);
 JHtml::_('script', 'media/mediamanager.min.js', false, true);
-//JHtml::_('stylesheet', 'media/mediaelement/mediaelementplayer.css', array(), true);
 JHtml::_('stylesheet', 'system/mootree.css', array(), true);
-
-// George's part for video
-//Jfactory::getDocument()->addScriptDeclaration(
-//	"
-//	jQuery(document).ready(function(){
-//		// Initialize the script for mediaelement.js
-//		var player = new MediaElementPlayer('#videoPlayer', {});
-////		console.log(player);
-//		player.pause();
-//	});
-//	"
-//);
 
 $lang     = JFactory::getLanguage();
 if ($lang->isRtl())
@@ -126,19 +111,7 @@ if ($lang->isRtl())
 			</div>
 		</form>
 	</div>
-	<!-- End Content -->
 <?php
-// George's part for video
-//echo JHtml::_(
-//	'bootstrap.renderModal',
-//	'mediaelement',
-//	array(
-//		'title' => JText::_('COM_MEDIA_VIDEO_PREVIEW'),
-//		'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
-//			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-//	),
-//	'<div id="videoPlayer"><video class="mejs-player" src="none" /></div>'
-//);
 
 echo JHtml::_(
 	'bootstrap.renderModal',
@@ -151,4 +124,5 @@ echo JHtml::_(
 	'<div id="image"><img id="imagePreviewSrc" src="/media/jui/img/alpha.png" alt="preview" style="width:100%;"/></div>'
 );
 ?>
+	<!-- End Content -->
 </div>
