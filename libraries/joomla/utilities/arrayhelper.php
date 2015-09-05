@@ -138,7 +138,7 @@ abstract class JArrayHelper
 	 */
 	public static function fromObject($p_obj, $recurse = true, $regex = null)
 	{
-		ArrayHelper::fromObject($p_obj, $recurse, $regex);
+		return ArrayHelper::fromObject($p_obj, $recurse, $regex);
 	}
 
 	/**
