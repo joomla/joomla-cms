@@ -11,6 +11,50 @@ defined('_JEXEC') or die;
 
 $user  = JFactory::getUser();
 $input = JFactory::getApplication()->input;
+
+$style    = JFactory::getApplication()->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
+
+if (DIRECTORY_SEPARATOR == '\\')
+{
+	$base = str_replace(DIRECTORY_SEPARATOR, "\\\\", COM_MEDIA_BASE);
+}
+else
+{
+	$base = COM_MEDIA_BASE;
+}
+
+JFactory::getDocument()->addScriptDeclaration(
+	"
+		var basepath = '" . $base . "';
+		var viewstyle = '" . $style . "';
+	"
+);
+
+JHtml::_('behavior.keepalive');
+JHtml::_('jquery.framework');
+
+//JHtml::_('script', 'media/mediaelement/mediaelement-and-player.js', false, true);
+JHtml::_('script', 'media/mediamanager.min.js', false, true);
+//JHtml::_('stylesheet', 'media/mediaelement/mediaelementplayer.css', array(), true);
+JHtml::_('stylesheet', 'system/mootree.css', array(), true);
+
+// George's part for video
+//Jfactory::getDocument()->addScriptDeclaration(
+//	"
+//	jQuery(document).ready(function(){
+//		// Initialize the script for mediaelement.js
+//		var player = new MediaElementPlayer('#videoPlayer', {});
+////		console.log(player);
+//		player.pause();
+//	});
+//	"
+//);
+
+$lang     = JFactory::getLanguage();
+if ($lang->isRtl())
+{
+	JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
+}
 ?>
 <div class="row-fluid">
 	<!-- Begin Sidebar -->
@@ -83,4 +127,28 @@ $input = JFactory::getApplication()->input;
 		</form>
 	</div>
 	<!-- End Content -->
+<?php
+// George's part for video
+//echo JHtml::_(
+//	'bootstrap.renderModal',
+//	'mediaelement',
+//	array(
+//		'title' => JText::_('COM_MEDIA_VIDEO_PREVIEW'),
+//		'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+//			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+//	),
+//	'<div id="videoPlayer"><video class="mejs-player" src="none" /></div>'
+//);
+
+echo JHtml::_(
+	'bootstrap.renderModal',
+	'imagePreview',
+	array(
+		'title' => JText::_('COM_MEDIA_IMAGE_PREVIEW'),
+		'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+	),
+	'<div id="image"><img id="imagePreviewSrc" src="/media/jui/img/alpha.png" alt="preview" style="width:100%;"/></div>'
+);
+?>
 </div>

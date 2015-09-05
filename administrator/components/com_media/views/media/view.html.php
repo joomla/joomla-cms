@@ -38,42 +38,6 @@ class MediaViewMedia extends JViewLegacy
 			return $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 		}
 
-		$lang     = JFactory::getLanguage();
-		$style    = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
-		$document = JFactory::getDocument();
-
-		JHtml::_('behavior.framework', true);
-		JHtml::_('script', 'media/mediamanager.min.js', true, true);
-		JHtml::_('behavior.modal');
-
-		$document->addScriptDeclaration("
-		window.addEvent('domready', function()
-		{
-			document.preview = SqueezeBox;
-		});");
-
-		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
-
-		if ($lang->isRtl())
-		{
-			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
-		}
-
-		if (DIRECTORY_SEPARATOR == '\\')
-		{
-			$base = str_replace(DIRECTORY_SEPARATOR, "\\\\", COM_MEDIA_BASE);
-		}
-		else
-		{
-			$base = COM_MEDIA_BASE;
-		}
-
-		$js = "
-			var basepath = '" . $base . "';
-			var viewstyle = '" . $style . "';
-		";
-		$document->addScriptDeclaration($js);
-
 		/*
 		 * Display form for FTP credentials?
 		 * Don't set them here, as there are other functions called before this one if there is any file write operation
@@ -93,7 +57,6 @@ class MediaViewMedia extends JViewLegacy
 		$this->addToolbar();
 
 		parent::display($tpl);
-		echo JHtml::_('behavior.keepalive');
 	}
 
 	/**
