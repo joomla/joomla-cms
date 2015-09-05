@@ -121,7 +121,7 @@ echo JHtml::_(
 		'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
 			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 	),
-	'<div id="image"><img id="imagePreviewSrc" src="/media/jui/img/alpha.png" alt="preview" style="width:100%;"/></div>'
+	'<div id="image" style="text-align:center;"><img id="imagePreviewSrc" src="/media/jui/img/alpha.png" alt="preview" style="max-width:100%; max-height:300px;"/></div>'
 );
 ?>
 	<!-- End Content -->
