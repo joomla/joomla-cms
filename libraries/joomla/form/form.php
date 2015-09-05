@@ -242,16 +242,6 @@ class JForm
 			{
 				$output->set($key, $this->filterField($field, $input->get($key, (string) $field['default'])));
 			}
-
-			// Get the JFormField object for this field, only it knows if it is supposed to be multiple.
-			$jfield = $this->getField($name, $group);
-
-			// Fields supporting multiple values must be stored as empty arrays when no values are selected.
-			// If not, they will appear to be unset and then revert to their default value.
-			if ($jfield && $jfield->multiple && !$output->exists($key))
-			{
-				$output->set($key, array());
-			}
 		}
 
 		return $output->toArray();
@@ -535,9 +525,9 @@ class JForm
 		foreach ($elements as $element)
 		{
 			// Get the field groups for the element.
-			$attrs	= $element->xpath('ancestor::fields[@name]/@name');
-			$groups	= array_map('strval', $attrs ? $attrs : array());
-			$group	= implode('.', $groups);
+			$attrs  = $element->xpath('ancestor::fields[@name]/@name');
+			$groups = array_map('strval', $attrs ? $attrs : array());
+			$group  = implode('.', $groups);
 
 			// If the field is successfully loaded add it to the result array.
 			if ($field = $this->loadField($element, $group))
@@ -2133,7 +2123,7 @@ class JForm
 	protected static function addNode(SimpleXMLElement $source, SimpleXMLElement $new)
 	{
 		// Add the new child node.
-		$node = $source->addChild($new->getName(), trim($new));
+		$node = $source->addChild($new->getName(), htmlspecialchars(trim($new)));
 
 		// Add the attributes of the child node.
 		foreach ($new->attributes() as $name => $value)

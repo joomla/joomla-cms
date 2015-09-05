@@ -11,6 +11,7 @@
 	<description>PLG_CAPTCHA_RECAPTCHA_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="recaptcha">recaptcha.php</filename>
+		<filename>recaptchalib.php</filename>
 	</files>
 	<config>
 	<fields name="params">
