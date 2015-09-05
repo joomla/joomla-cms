@@ -14,10 +14,10 @@ jimport('joomla.filesystem.path');
 /**
  * Field to load a subform
  *
- * @Example:
+ * @Example with all attributes:
  * 	<field name="field-name" type="subform"
- * 		formsource="path/to/form.xml" max="3"
- * 		layout="joomla.form.field.subform.repeatable-table" component="com_zcm" client="site"
+ * 		formsource="path/to/form.xml" min="1" max="3" multiple="true" buttons="add,remove,move"
+ * 		layout="joomla.form.field.subform.repeatable-table" groupByFieldset="false" component="com_example" client="site"
  * 		label="Field Label" description="Field Description" />
  *
  */
@@ -75,8 +75,10 @@ class JFormFieldSubform extends JFormField
 		{
 			return false;
 		}
+
 		// Get the form source
 		$this->formsource = (string) $this->element['formsource'];
+
 		// Add root path if we have a path to XML file
 		if(strrpos($this->formsource, '.xml') === strlen($this->formsource) - 4)
 		{
@@ -111,11 +113,6 @@ class JFormFieldSubform extends JFormField
 	protected function getInput()
 	{
 		$value = $this->value ? $this->value : array();
-		if($value && is_string($value))
-		{
-			// Guess there the json_encoded value
-			$value = json_decode($value, true);
-		}
 
 		// Prepare render data
 		$data = array();
@@ -156,7 +153,7 @@ class JFormFieldSubform extends JFormField
 			return $e->getMessage();
 		}
 
-		// Show buttons
+		// Which buttons to show
 		$buttons_str = (string) $this->element['buttons'];
 		if($buttons_str)
 		{
@@ -166,7 +163,7 @@ class JFormFieldSubform extends JFormField
 		}
 		else
 		{
-			$buttons = array('add' => true, 'remove' => true, 'move' => true);
+			$buttons = $this->multiple ? array('add' => true, 'remove' => true, 'move' => true) : array();
 		}
 
 		$data['tmpl'] = $tmpl;
@@ -189,7 +186,7 @@ class JFormFieldSubform extends JFormField
 		// Render
 		$html = JLayoutHelper::render($this->layout, $data, null, array('client' => $client, 'component' => $component));
 
-		// Add hidden input on the front of subform inputs, in multiple mode
+		// Add hidden input on front of the subform inputs, in multiple mode
 		// for allow to submit the empty value
 		// @TODO: Remove when https://github.com/joomla/joomla-cms/pull/7381 will be fixed
 		if($this->multiple)

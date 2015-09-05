@@ -29,6 +29,7 @@ extract($displayData);
 		<?php endforeach; ?>
 	</td>
 	<?php endforeach; ?>
+	<?php if(!empty($buttons)):?>
 	<td>
 		<div class="btn-group">
 			<?php if(!empty($buttons['add'])):?><a class="group-add btn btn-mini button btn-success"><span class="icon-plus"></span> </a><?php endif;?>
@@ -36,4 +37,5 @@ extract($displayData);
 			<?php if(!empty($buttons['move'])):?><a class="group-move btn btn-mini button btn-primary"><span class="icon-move"></span> </a><?php endif;?>
 		</div>
 	</td>
+	<?php endif; ?>
 </tr>

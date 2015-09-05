@@ -27,8 +27,11 @@ defined('_JEXEC') or die;
 extract($displayData);
 
 // Add script
-JHtml::_('jquery.ui', array('core', 'sortable'));
-JHtml::_('script', 'system/subform-repeatable.js', false, true);
+if($multiple)
+{
+	JHtml::_('jquery.ui', array('core', 'sortable'));
+	JHtml::_('script', 'system/subform-repeatable.js', false, true);
+}
 
 // Build heading
 $table_head = '';
@@ -46,7 +49,7 @@ if(!empty($groupByFieldset))
 }
 else
 {
-	foreach($tmpl->getGroup(false) as $field) {
+	foreach($tmpl->getGroup('') as $field) {
 		$table_head .= '<th>' . strip_tags($field->label);
 		$table_head .= '<br /><small style="font-weight:normal">' . JText::_($field->description) . '</small>';
 		$table_head .= '</th>';
@@ -68,6 +71,7 @@ else
 			<thead>
 				<tr>
 					<?php echo $table_head; ?>
+					<?php if(!empty($buttons)):?>
 					<th style="width:8%;">
 					<?php if(!empty($buttons['add'])):?>
 						<div class="btn-group">
@@ -75,6 +79,7 @@ else
 						</div>
 					<?php endif;?>
 					</th>
+					<?php endif; ?>
 				</tr>
 			</thead>
 			<tbody>

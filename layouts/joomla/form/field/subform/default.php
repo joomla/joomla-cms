@@ -28,10 +28,10 @@ $form = $forms[0];
 
 <!-- Render fields for subform "<?php echo $fieldname; ?>" -->
 <div class="subform-wrapper">
-<label class="hasTooltip" title="<?php echo JHtml::tooltipText($label, $description); ?>" >
+<legend class="hasTooltip" title="<?php echo JHtml::tooltipText($label, $description); ?>" >
 	<?php echo $label; ?>
-</label>
-<?php foreach($form->getGroup(false) as $field): ?>
+</legend>
+<?php foreach($form->getGroup('') as $field): ?>
 	<?php echo $field->renderField(); ?>
 <?php endforeach; ?>
 </div>
