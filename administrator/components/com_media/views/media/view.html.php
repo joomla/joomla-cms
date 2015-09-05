@@ -72,9 +72,6 @@ class MediaViewMedia extends JViewLegacy
 		$bar  = JToolBar::getInstance('toolbar');
 		$user = JFactory::getUser();
 
-		// The toolbar functions depend on Bootstrap JS
-		JHtml::_('bootstrap.framework');
-
 		// Set the titlebar text
 		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
 

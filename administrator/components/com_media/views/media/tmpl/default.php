@@ -31,7 +31,7 @@ JFactory::getDocument()->addScriptDeclaration(
 );
 
 JHtml::_('behavior.keepalive');
-JHtml::_('jquery.framework');
+JHtml::_('bootstrap.framework');
 JHtml::_('script', 'media/mediamanager.min.js', false, true);
 JHtml::_('stylesheet', 'system/mootree.css', array(), true);
 

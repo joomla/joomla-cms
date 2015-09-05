@@ -30,18 +30,6 @@ class MediaViewImagesList extends JViewLegacy
 		// Do not allow cache
 		JFactory::getApplication()->allowCache(false);
 
-		$lang = JFactory::getLanguage();
-
-		JHtml::_('stylesheet', 'media/popup-imagelist.css', array(), true);
-
-		if ($lang->isRtl())
-		{
-			JHtml::_('stylesheet', 'media/popup-imagelist_rtl.css', array(), true);
-		}
-
-		$document = JFactory::getDocument();
-		$document->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
-
 		$images = $this->get('images');
 		$folders = $this->get('folders');
 		$state = $this->get('state');
