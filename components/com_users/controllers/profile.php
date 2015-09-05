@@ -39,6 +39,7 @@ class UsersControllerProfile extends UsersController
 		if ($userId != $loginUserId)
 		{
 			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->setHeader('status', 403, true);
 
 			return false;
 		}
