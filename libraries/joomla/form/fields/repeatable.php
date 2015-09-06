@@ -13,9 +13,9 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Display a JSON loaded window with a repeatable set of sub fields
  *
- * @deprecated 4.0 use JFormFieldSubform
- *
  * @since  3.2
+ *
+ * @deprecated 4.0  Use JFormFieldSubform
  */
 class JFormFieldRepeatable extends JFormField
 {

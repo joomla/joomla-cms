@@ -53,7 +53,7 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 			</div>
 			<?php endif; ?>
 		<?php
- 		foreach($forms as $k => $form):
+		foreach($forms as $k => $form):
 			echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));
 		endforeach;
 		?>

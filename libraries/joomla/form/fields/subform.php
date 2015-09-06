@@ -20,7 +20,7 @@ jimport('joomla.filesystem.path');
  * 		layout="joomla.form.field.subform.repeatable-table" groupByFieldset="false" component="com_example" client="site"
  * 		label="Field Label" description="Field Description" />
  *
- * @since   3.5
+ * @since  3.5
  */
 class JFormFieldSubform extends JFormField
 {
@@ -218,9 +218,10 @@ class JFormFieldSubform extends JFormField
 			{
 				$value = array_values($value);
 				$c = max($this->min, min(count($value), $this->max));
-				for($i = 0; $i < $c; $i++){
+				for ($i = 0; $i < $c; $i++)
+				{
 					$itemcontrol = $control . '[' . $this->fieldname . $i . ']';
-					$itemform = JForm::getInstance($formname.$i, $this->formsource, array('control' => $itemcontrol));
+					$itemform    = JForm::getInstance($formname . $i, $this->formsource, array('control' => $itemcontrol));
 					if (!empty($value[$i]))
 					{
 						$itemform->bind($value[$i]);
