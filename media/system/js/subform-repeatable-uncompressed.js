@@ -89,7 +89,8 @@
 
 	// update names, after sorting, or deleting,
 	$.subformRepeatable.prototype.resortNames = function(){
-		var $rows = this.$container.find(this.options.repeatableElement);
+		var $rows = this.$container.find(this.options.repeatableElement),
+			specialFields = [];
 
 		for(var i=0, l = $rows.length; i<l; i++){
 			var $row = $($rows[i]),
@@ -103,10 +104,25 @@
 				var $el = $(haveName[n]),
     				name = $el.attr('name'),
     				nameNew = name.replace('][' + group + '][', ']['+ groupnew +'][');// count new name
+
+				// special case due specific behavior of the radio input
+				if($el.prop('type') === 'radio'){
+					$el.data('nameNew', nameNew);
+					nameNew = nameNew + '[toFix]';
+					specialFields.push($el);
+				}
+
 				// replace name to new
-				$el.attr('name', nameNew);
+    			$el.attr('name', nameNew);
 			}
 		}
+
+		// hande special cases
+		for(var i=0, l = specialFields.length; i<l; i++){
+			var $el = specialFields[i]; // It alredy wrapped to jQuery
+			$el.attr('name', $el.data('nameNew'));
+		}
+
 	};
 
 	// add new row
@@ -224,6 +240,7 @@
 	};
 
 	// remove scripts attached to fields
+	// @TODO: make thing better when something like that will be accepted https://github.com/joomla/joomla-cms/pull/6357
 	$.subformRepeatable.prototype.clearScripts = function($row){
 		// destroy chosen if any
 		if($.fn.chosen){
@@ -287,9 +304,9 @@
 
 	// defaults
 	$.subformRepeatable.defaults = {
-		btAdd: "a.group-add", //  button selector for "add" action
-		btRemove: "a.group-remove",//  button selector for "remove" action
-		btMove: "a.group-move",//  button selector for "move" action
+		btAdd: ".group-add", //  button selector for "add" action
+		btRemove: ".group-remove",//  button selector for "remove" action
+		btMove: ".group-move",//  button selector for "move" action
 		minimum: 0, // minimum repeating
 		maximum: 10, // maximum repeating
 		repeatableElement: ".subform-repeatable-group",
@@ -302,13 +319,20 @@
 			var options = options || {},
 				data = $(this).data();
 
+			if(data.subformRepeatable){
+				// Alredy initialized, nothing to do here
+				return;
+			}
+
 			for (var p in data) {
 				// check options in the element
 				if (data.hasOwnProperty(p)) {
 					options[p] = data[p];
 				}
 			}
-			new $.subformRepeatable(this, options);
+
+			var inst = new $.subformRepeatable(this, options);
+			$(this).data('subformRepeatable', inst);
 		});
 	};
 
