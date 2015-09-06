@@ -90,37 +90,37 @@ elseif ($input->get('module'))
 
 	$method = $input->get('method') ? $input->get('method') : 'get';
 
-	if (is_file($helperFile))
+	if (!is_file($helperFile))
 	{
-		require_once $helperFile;
-
-		if (method_exists($class, $method . 'Ajax'))
-		{
-			// Load language file for module
-			$basePath = JPATH_BASE;
-			$lang     = JFactory::getLanguage();
-			$lang->load('mod_' . $module, $basePath, null, false, true)
-			||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module, null, false, true);
-
-			try
-			{
-				$results = call_user_func($class . '::' . $method . 'Ajax');
-			}
-			catch (Exception $e)
-			{
-				$results = $e;
-			}
-		}
-		// Method does not exist
-		else
-		{
-			$results = new LogicException(JText::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
-		}
-	}
-	// The helper file does not exist
-	else
-	{
+		// The helper file does not exist
 		$results = new RuntimeException(JText::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'mod_' . $module . '/helper.php'), 404);
+
+		return;
+	}
+
+	require_once $helperFile;
+
+	if (method_exists($class, $method . 'Ajax'))
+	{
+		// Method does not exist
+		$results = new LogicException(JText::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
+
+		return;
+	}
+
+	// Load language file for module
+	$basePath = JPATH_BASE;
+	$lang     = JFactory::getLanguage();
+	$lang->load('mod_' . $module, $basePath, null, false, true)
+	||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module, null, false, true);
+
+	try
+	{
+		$results = call_user_func($class . '::' . $method . 'Ajax');
+	}
+	catch (Exception $e)
+	{
+		$results = $e;
 	}
 }
 /*
