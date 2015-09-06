@@ -12,10 +12,10 @@ defined('_JEXEC') or die;
 /**
  * Make thing clear
  *
- * @var JForm  $form - Form for render section
- * @var string $basegroup - base group name
- * @var string $group - current group name
- * @var array  $buttons Buttons that will be enabled
+ * @var JForm   $form       The form instance for render the section
+ * @var string  $basegroup  The base group name
+ * @var string  $group      Current group name
+ * @var array   $buttons    Array of the buttons that will be rendered
  */
 extract($displayData);
 

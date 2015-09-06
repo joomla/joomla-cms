@@ -12,14 +12,17 @@ defined('_JEXEC') or die;
 /**
  * Make thing clear
  *
- * @var JForm $tmpl - Empry form for template
- * @var array $forms - array of JForm for render
- * @var bool  $multiple
- * @var int   $max - maximum repeatin for multiple
- * @var string $fieldname - the field name
- * @var string $control - the forms control
- * @var string $label
- * @var string $description
+ * @var JForm   $tmpl             The Empty form for template
+ * @var array   $forms            Array of JForm instances for render the rows
+ * @var bool    $multiple         The multiple state for the form field
+ * @var int     $min              Count of minimum repeating in multiple mode
+ * @var int     $max              Count of maximum repeating in multiple mode
+ * @var string  $fieldname        The field name
+ * @var string  $control          The forms control
+ * @var string  $label            The field label
+ * @var string  $description      The field description
+ * @var array   $buttons          Array of the buttons that will be rendered
+ * @var bool    $groupByFieldset  Whether group the subform fields by it`s fieldset
  */
 extract($displayData);
 
@@ -28,10 +31,8 @@ $form = $forms[0];
 
 <!-- Render fields for subform "<?php echo $fieldname; ?>" -->
 <div class="subform-wrapper">
-<legend class="hasTooltip" title="<?php echo JHtml::tooltipText($label, $description); ?>" >
-	<?php echo $label; ?>
-</legend>
 <?php foreach($form->getGroup('') as $field): ?>
 	<?php echo $field->renderField(); ?>
 <?php endforeach; ?>
 </div>
+<!-- End render fields for subform "<?php echo $fieldname; ?>" -->

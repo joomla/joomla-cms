@@ -117,6 +117,7 @@ class JFormFieldSubform extends JFormField
 				break;
 
 			case 'groupByFieldset':
+				$value = (string) $value;
 				$this->groupByFieldset = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 

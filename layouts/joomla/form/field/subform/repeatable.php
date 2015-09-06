@@ -12,17 +12,17 @@ defined('_JEXEC') or die;
 /**
  * Make thing clear
  *
- * @var JForm $tmpl - Empry form for template
- * @var array $forms - array of JForm for render
- * @var bool  $multiple
- * @var int   $min - minimum repeatin for multiple
- * @var int   $max - maximum repeatin for multiple
- * @var string $fieldname - the field name
- * @var string $control - the forms control
- * @var string $label
- * @var string $description
- * @var array  $buttons Buttons that will be enabled
- * @var bool   $groupByFieldset Whether group subform fields by its fieldset
+ * @var JForm   $tmpl             The Empty form for template
+ * @var array   $forms            Array of JForm instances for render the rows
+ * @var bool    $multiple         The multiple state for the form field
+ * @var int     $min              Count of minimum repeating in multiple mode
+ * @var int     $max              Count of maximum repeating in multiple mode
+ * @var string  $fieldname        The field name
+ * @var string  $control          The forms control
+ * @var string  $label            The field label
+ * @var string  $description      The field description
+ * @var array   $buttons          Array of the buttons that will be rendered
+ * @var bool    $groupByFieldset  Whether group the subform fields by it`s fieldset
  */
 extract($displayData);
 
