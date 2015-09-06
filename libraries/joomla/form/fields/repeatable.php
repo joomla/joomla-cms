@@ -13,6 +13,8 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Display a JSON loaded window with a repeatable set of sub fields
  *
+ * @deprecated 4.0 use JFormFieldSubform
+ *
  * @since  3.2
  */
 class JFormFieldRepeatable extends JFormField
@@ -34,6 +36,8 @@ class JFormFieldRepeatable extends JFormField
 	 */
 	protected function getInput()
 	{
+		JLog::add('JFormFieldRepeatable is deprecated. Use JFormFieldSubform instead.', JLog::WARNING, 'deprecated');
+
 		// Initialize variables.
 		$subForm = new JForm($this->name, array('control' => 'jform'));
 		$xml = $this->element->children()->asXml();
