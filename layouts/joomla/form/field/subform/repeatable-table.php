@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * Make thing clear
  *
  * @var JForm $tmpl - Empty form for template
- * @var array $forms - array of ZForm for render
+ * @var array $forms - array of JForm for render
  * @var bool  $multiple
  * @var int   $min - minimum repeatin for multiple
  * @var int   $max - maximum repeatin for multiple

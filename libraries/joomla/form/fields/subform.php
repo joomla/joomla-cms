@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.filesystem.path');
 
 /**
- * Field to load a subform
+ * The Field to load the form inside current form
  *
  * @Example with all attributes:
  * 	<field name="field-name" type="subform"
@@ -20,12 +20,12 @@ jimport('joomla.filesystem.path');
  * 		layout="joomla.form.field.subform.repeatable-table" groupByFieldset="false" component="com_example" client="site"
  * 		label="Field Label" description="Field Description" />
  *
+ * @since   3.5
  */
 class JFormFieldSubform extends JFormField
 {
 	/**
 	 * The form field type.
-	 *
 	 * @var    string
 	 */
 	protected $type = 'Subform';
@@ -52,13 +52,82 @@ class JFormFieldSubform extends JFormField
 	 * Layout to render the form
 	 * @var  string
 	 */
-	protected $layout = 'joomla.form.field.subform.repeatable';
+	protected $layout = 'joomla.form.field.subform.default';
 
 	/**
-	 * Whether group subform fields by its fieldset
+	 * Whether group subform fields by it`s fieldset
 	 * @var boolean
 	 */
 	protected $groupByFieldset = false;
+
+	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
+	 * @param   string  $name  The property name for which to the the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   3.5
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'formsource':
+			case 'min':
+			case 'max':
+			case 'layout':
+			case 'groupByFieldset':
+				return $this->$name;
+		}
+
+		return parent::__get($name);
+	}
+
+	/**
+	 * Method to set certain otherwise inaccessible properties of the form field object.
+	 *
+	 * @param   string  $name   The property name for which to the the value.
+	 * @param   mixed   $value  The value of the property.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function __set($name, $value)
+	{
+		switch ($name)
+		{
+			case 'formsource':
+				$this->formsource = (string) $value;
+
+				// Add root path if we have a path to XML file
+				if(strrpos($this->formsource, '.xml') === strlen($this->formsource) - 4)
+				{
+					$this->formsource = JPath::clean(JPATH_ROOT . '/' . $this->formsource);
+				}
+				break;
+
+			case 'min':
+				$this->min = (int) $value;
+				break;
+
+			case 'max':
+				$this->max = max(1, (int) $value);
+				break;
+
+			case 'groupByFieldset':
+				$this->groupByFieldset = !($value === 'false' || $value === 'off' || $value === '0');
+				break;
+
+			case 'layout':
+				$this->layout = (string) $value;
+				break;
+
+			default:
+				parent::__set($name, $value);
+		}
+	}
 
 	/**
 	 * Method to attach a JForm object to the field.
@@ -68,6 +137,8 @@ class JFormFieldSubform extends JFormField
 	 * @param   string            $group    The field name group control value.
 	 *
 	 * @return  boolean  True on success.
+	 *
+	 * @since   3.5
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
@@ -76,31 +147,10 @@ class JFormFieldSubform extends JFormField
 			return false;
 		}
 
-		// Get the form source
-		$this->formsource = (string) $this->element['formsource'];
-
-		// Add root path if we have a path to XML file
-		if(strrpos($this->formsource, '.xml') === strlen($this->formsource) - 4)
+		foreach (array('formsource', 'min', 'max', 'layout', 'groupByFieldset') as $attributeName)
 		{
-			$this->formsource = JPath::clean(JPATH_ROOT . '/' . $this->formsource);
+			$this->__set($attributeName, $element[$attributeName]);
 		}
-
-		if($this->element['min'])
-		{
-			$this->min = (int) $this->element['min'];
-		}
-
-		if($this->element['max'])
-		{
-			$this->max = max(1, (int) $this->element['max']);
-		}
-
-		if($this->element['layout'])
-		{
-			$this->layout = (string) $this->element['layout'];
-		}
-
-		$this->groupByFieldset = $this->element['groupByFieldset'] && in_array((string) $this->element['groupByFieldset'], array('true', '1'));
 
 		return true;
 	}
@@ -109,6 +159,8 @@ class JFormFieldSubform extends JFormField
 	 * Method to get the field input markup.
 	 *
 	 * @return  string  The field input markup.
+	 *
+	 * @since   3.5
 	 */
 	protected function getInput()
 	{
@@ -180,6 +232,7 @@ class JFormFieldSubform extends JFormField
 		$data['description'] = $this->translateLabel ? JText::_($this->description) : $this->description;
 		$data['groupByFieldset'] = $this->groupByFieldset;
 
+		// Allow to define some JLayout options in XML element
 		$client = $this->element['client'] ? (string) $this->element['client'] : 'site';
 		$component = $this->element['component'] ? (string) $this->element['component'] : 'auto';
 
@@ -187,8 +240,7 @@ class JFormFieldSubform extends JFormField
 		$html = JLayoutHelper::render($this->layout, $data, null, array('client' => $client, 'component' => $component));
 
 		// Add hidden input on front of the subform inputs, in multiple mode
-		// for allow to submit the empty value
-		// @TODO: Remove when https://github.com/joomla/joomla-cms/pull/7381 will be fixed
+		// for allow to submit an empty value
 		if($this->multiple)
 		{
 			$html = '<input name="' . $this->name . '" type="hidden" value="" />' . $html;
@@ -203,6 +255,8 @@ class JFormFieldSubform extends JFormField
 	 * @param   string  $fieldName  The field element name.
 	 *
 	 * @return  string  The name to be used for the field input tag.
+	 *
+	 * @since   3.5
 	 */
 	protected function getName($fieldName)
 	{
