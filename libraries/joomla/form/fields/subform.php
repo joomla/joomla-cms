@@ -61,6 +61,12 @@ class JFormFieldSubform extends JFormField
 	protected $groupByFieldset = false;
 
 	/**
+	 * Which buttons to show in miltiple mode
+	 * @var array $buttons
+	 */
+	protected $buttons = array('add' => true, 'remove' => true, 'move' => true);
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to the the value.
@@ -78,6 +84,7 @@ class JFormFieldSubform extends JFormField
 			case 'max':
 			case 'layout':
 			case 'groupByFieldset':
+			case 'buttons':
 				return $this->$name;
 		}
 
@@ -125,6 +132,26 @@ class JFormFieldSubform extends JFormField
 				$this->layout = (string) $value;
 				break;
 
+			case 'buttons':
+				if(!$this->multiple)
+				{
+					$this->buttons = array();
+					break;
+				}
+
+				if($value && !is_array($value))
+				{
+					$value = explode(',', (string) $value);
+					$value = array_fill_keys(array_filter($value), true);
+				}
+
+				if($value)
+				{
+					$value = array_merge(array('add' => false, 'remove' => false, 'move' => false), $value);
+					$this->buttons = $value;
+				}
+				break;
+
 			default:
 				parent::__set($name, $value);
 		}
@@ -148,7 +175,7 @@ class JFormFieldSubform extends JFormField
 			return false;
 		}
 
-		foreach (array('formsource', 'min', 'max', 'layout', 'groupByFieldset') as $attributeName)
+		foreach (array('formsource', 'min', 'max', 'layout', 'groupByFieldset', 'buttons') as $attributeName)
 		{
 			$this->__set($attributeName, $element[$attributeName]);
 		}
@@ -206,19 +233,6 @@ class JFormFieldSubform extends JFormField
 			return $e->getMessage();
 		}
 
-		// Which buttons to show
-		$buttons_str = (string) $this->element['buttons'];
-		if($buttons_str)
-		{
-			$buttons = explode(',', $buttons_str);
-			$buttons = array_fill_keys($buttons, true);
-			$buttons = array_merge(array('add' => false, 'remove' => false, 'move' => false), $buttons);
-		}
-		else
-		{
-			$buttons = $this->multiple ? array('add' => true, 'remove' => true, 'move' => true) : array();
-		}
-
 		$data['tmpl'] = $tmpl;
 		$data['forms'] = $forms;
 		$data['multiple'] = $this->multiple;
@@ -226,7 +240,7 @@ class JFormFieldSubform extends JFormField
 		$data['max'] = $this->max;
 		$data['fieldname'] = $this->fieldname;
 		$data['control'] = $control;
-		$data['buttons'] = $buttons;
+		$data['buttons'] = $this->buttons;
 
 		$label = (string) $this->element['label'];
 		$data['label'] = $this->translateLabel ? JText::_($label) : $label;
