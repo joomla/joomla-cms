@@ -209,7 +209,7 @@ class JRequest
 	 * @deprecated  12.1
 	 * @since       11.1
 	 */
-	public static function getUInt($name, $default = 0, $hash = 'default')
+	public static function getUint($name, $default = 0, $hash = 'default')
 	{
 		return self::getVar($name, $default, $hash, 'uint');
 	}

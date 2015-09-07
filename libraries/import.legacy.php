@@ -88,7 +88,7 @@ JLoader::register('JNode', JPATH_PLATFORM . '/legacy/base/node.php');
 JLoader::register('JObserver', JPATH_PLATFORM . '/legacy/base/observer.php');
 JLoader::register('JObservable', JPATH_PLATFORM . '/legacy/base/observable.php');
 JLoader::register('LogException', JPATH_PLATFORM . '/legacy/log/logexception.php');
-JLoader::register('JXMLElement', JPATH_PLATFORM . '/legacy/utilities/xmlelement.php');
+JLoader::register('JXmlElement', JPATH_PLATFORM . '/legacy/utilities/xmlelement.php');
 JLoader::register('JRule', JPATH_PLATFORM . '/legacy/access/rule.php');
 JLoader::register('JRules', JPATH_PLATFORM . '/legacy/access/rules.php');
 JLoader::register('JCli', JPATH_PLATFORM . '/legacy/application/cli.php');

@@ -80,15 +80,15 @@ class JApplicationHelper
 	 *
 	 * @since   3.2
 	 */
-	public static function stringURLSafe($string)
+	public static function stringUrlSafe($string)
 	{
 		if (JFactory::getConfig()->get('unicodeslugs') == 1)
 		{
-			$output = JFilterOutput::stringURLUnicodeSlug($string);
+			$output = JFilterOutput::stringUrlUnicodeSlug($string);
 		}
 		else
 		{
-			$output = JFilterOutput::stringURLSafe($string);
+			$output = JFilterOutput::stringUrlSafe($string);
 		}
 
 		return $output;
@@ -205,13 +205,13 @@ class JApplicationHelper
 	 * @return  array  XML metadata.
 	 *
 	 * @since       1.5
-	 * @deprecated  4.0 Use JInstaller::parseXMLInstallFile instead.
+	 * @deprecated  4.0 Use JInstaller::parseXmlInstallFile instead.
 	 */
-	public static function parseXMLInstallFile($path)
+	public static function parseXmlInstallFile($path)
 	{
-		JLog::add('JApplicationHelper::parseXMLInstallFile is deprecated. Use JInstaller::parseXMLInstallFile instead.', JLog::WARNING, 'deprecated');
+		JLog::add('JApplicationHelper::parseXmlInstallFile is deprecated. Use JInstaller::parseXmlInstallFile instead.', JLog::WARNING, 'deprecated');
 
-		return JInstaller::parseXMLInstallFile($path);
+		return JInstaller::parseXmlInstallFile($path);
 	}
 
 	/**
@@ -224,11 +224,11 @@ class JApplicationHelper
 	 * @return  array  XML metadata.
 	 *
 	 * @since       1.5
-	 * @deprecated  4.0 Use JInstaller::parseXMLInstallFile instead.
+	 * @deprecated  4.0 Use JInstaller::parseXmlInstallFile instead.
 	 */
-	public static function parseXMLLangMetaFile($path)
+	public static function parseXmlLangMetaFile($path)
 	{
-		JLog::add('JApplicationHelper::parseXMLLangMetaFile is deprecated. Use JInstaller::parseXMLInstallFile instead.', JLog::WARNING, 'deprecated');
+		JLog::add('JApplicationHelper::parseXmlLangMetaFile is deprecated. Use JInstaller::parseXmlInstallFile instead.', JLog::WARNING, 'deprecated');
 
 		// Read the file to see if it's a valid component XML file
 		$xml = simplexml_load_file($path);

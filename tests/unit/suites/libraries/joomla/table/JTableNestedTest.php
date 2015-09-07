@@ -775,7 +775,7 @@ class JTableNestedTest extends TestCaseDatabase
 		|  204 |  103 |   12 |   13 |   2
 		----------------------------------------
 		*/
-		return $this->createXMLDataSet(__DIR__ . '/stubs/nested.xml');
+		return $this->createXmlDataSet(__DIR__ . '/stubs/nested.xml');
 	}
 
 	/**

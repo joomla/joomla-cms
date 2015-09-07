@@ -361,7 +361,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	{
 		if (!is_null(self::$driver))
 		{
-			return $this->createDefaultDBConnection(self::$driver->getConnection(), ':memory:');
+			return $this->createDefaultDbConnection(self::$driver->getConnection(), ':memory:');
 		}
 		else
 		{
@@ -378,7 +378,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(JPATH_TESTS . '/stubs/database.xml');
+		return $this->createXmlDataSet(JPATH_TESTS . '/stubs/database.xml');
 	}
 
 	/**

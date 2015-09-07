@@ -116,7 +116,7 @@ class JMediawikiLinksTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function testGetIWLinks()
+	public function testGetIwLinks()
 	{
 		$returnData = new stdClass;
 		$returnData->code = 200;
@@ -128,7 +128,7 @@ class JMediawikiLinksTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getIWLinks(array('Main Page')),
+			$this->object->getIwLinks(array('Main Page')),
 			$this->equalTo(simplexml_load_string($this->sampleString))
 		);
 	}

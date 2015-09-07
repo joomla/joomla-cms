@@ -119,7 +119,7 @@ class JMediawikiPagesTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getIWBackLinks method
 	 */
-	public function testGetIWBackLinks()
+	public function testGetIwBackLinks()
 	{
 		$returnData = $this->getReturnData();
 
@@ -130,7 +130,7 @@ class JMediawikiPagesTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			simplexml_load_string($this->sampleString),
-			$this->object->getIWBackLinks('Joomla')
+			$this->object->getIwBackLinks('Joomla')
 		);
 	}
 

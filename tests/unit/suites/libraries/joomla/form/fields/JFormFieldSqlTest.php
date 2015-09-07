@@ -10,13 +10,13 @@
 JFormHelper::loadFieldClass('sql');
 
 /**
- * Test class for JFormFieldSQL.
+ * Test class for JFormFieldSql.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
  * @since       12.1
  */
-class JFormFieldSQLTest extends TestCaseDatabase
+class JFormFieldSqlTest extends TestCaseDatabase
 {
 	/**
 	 * Gets the data set to be loaded into the database during setup
@@ -44,7 +44,7 @@ class JFormFieldSQLTest extends TestCaseDatabase
 	 */
 	public function testSetup()
 	{
-		$field = new JFormFieldSQL;
+		$field = new JFormFieldSql;
 		$element = simplexml_load_string(
 			'<field name="sql" type="sql" value_field="title" key_field="id" query="SELECT * FROM `jos_categories`">' .
 			'<option value="*">None</option></field>');
@@ -89,7 +89,7 @@ class JFormFieldSQLTest extends TestCaseDatabase
 	 */
 	public function testGetInput()
 	{
-		$formField = new JFormFieldSQL;
+		$formField = new JFormFieldSql;
 
 		TestReflection::setValue($formField, 'id', 'myTestId');
 		TestReflection::setValue($formField, 'name', 'sql');

@@ -42,7 +42,7 @@ class ContentModelArticle extends JModelItem
 		$pk = $app->input->getInt('id');
 		$this->setState('article.id', $pk);
 
-		$offset = $app->input->getUInt('limitstart');
+		$offset = $app->input->getUint('limitstart');
 		$this->setState('list.offset', $offset);
 
 		// Load the parameters.

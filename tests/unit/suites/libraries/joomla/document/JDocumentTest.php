@@ -109,11 +109,11 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @testdox  Test retrieving an instance of JDocumentHTML
+	 * @testdox  Test retrieving an instance of JDocumentHtml
 	 */
 	public function testRetrievingAnInstanceOfTheHtmlDocument()
 	{
-		$this->assertInstanceOf('JDocumentHTML', JDocument::getInstance());
+		$this->assertInstanceOf('JDocumentHtml', JDocument::getInstance());
 	}
 
 	/**

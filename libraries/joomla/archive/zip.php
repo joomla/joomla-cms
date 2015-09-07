@@ -104,10 +104,10 @@ class JArchiveZip implements JArchiveExtractable
 
 		foreach ($files as $file)
 		{
-			$this->_addToZIPFile($file, $contents, $ctrldir);
+			$this->_addToZipFile($file, $contents, $ctrldir);
 		}
 
-		return $this->_createZIPFile($contents, $ctrldir, $archive);
+		return $this->_createZipFile($contents, $ctrldir, $archive);
 	}
 
 	/**
@@ -552,7 +552,7 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @since   11.1
 	 */
-	protected function _unix2DOSTime($unixtime = null)
+	protected function _unix2DosTime($unixtime = null)
 	{
 		$timearray = (is_null($unixtime)) ? getdate() : getdate($unixtime);
 
@@ -583,7 +583,7 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @todo    Review and finish implementation
 	 */
-	private function _addToZIPFile(array &$file, array &$contents, array &$ctrldir)
+	private function _addToZipFile(array &$file, array &$contents, array &$ctrldir)
 	{
 		$data = &$file['data'];
 		$name = str_replace('\\', '/', $file['name']);
@@ -694,7 +694,7 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @todo	Review and finish implementation
 	 */
-	private function _createZIPFile(array &$contents, array &$ctrlDir, $path)
+	private function _createZipFile(array &$contents, array &$ctrlDir, $path)
 	{
 		$data = implode('', $contents);
 		$dir = implode('', $ctrlDir);

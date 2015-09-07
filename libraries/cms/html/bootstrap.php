@@ -51,7 +51,7 @@ abstract class JHtmlBootstrap
 			// Setup options object
 			$opt['offset'] = isset($params['offset']) ? $params['offset'] : 10;
 
-			$options = JHtml::getJSObject($opt);
+			$options = JHtml::getJsObject($opt);
 
 			// Attach affix to document
 			JFactory::getDocument()->addScriptDeclaration(
@@ -159,7 +159,7 @@ abstract class JHtmlBootstrap
 			$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
 			$opt['pause']    = isset($params['pause']) ? $params['pause'] : 'hover';
 
-			$options = JHtml::getJSObject($opt);
+			$options = JHtml::getJsObject($opt);
 
 			// Attach the carousel to document
 			JFactory::getDocument()->addScriptDeclaration(
@@ -273,7 +273,7 @@ abstract class JHtmlBootstrap
 			$opt['show']     = isset($params['show']) ? (boolean) $params['show'] : true;
 			$opt['remote']   = isset($params['remote']) ?  $params['remote'] : '';
 
-			$options = JHtml::getJSObject($opt);
+			$options = JHtml::getJsObject($opt);
 
 			// Attach the modal to document
 			JFactory::getDocument()->addScriptDeclaration(
@@ -371,7 +371,7 @@ abstract class JHtmlBootstrap
 		$opt['delay']     = isset($params['delay']) ? $params['delay'] : null;
 		$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
 
-		$options = JHtml::getJSObject($opt);
+		$options = JHtml::getJsObject($opt);
 
 		// Attach the popover to the document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -410,7 +410,7 @@ abstract class JHtmlBootstrap
 			// Setup options object
 			$opt['offset'] = isset($params['offset']) ? (int) $params['offset'] : 10;
 
-			$options = JHtml::getJSObject($opt);
+			$options = JHtml::getJsObject($opt);
 
 			// Attach ScrollSpy to document
 			JFactory::getDocument()->addScriptDeclaration(
@@ -473,7 +473,7 @@ abstract class JHtmlBootstrap
 			$onHide           = isset($params['onHide']) ? (string) $params['onHide'] : null;
 			$onHidden         = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
-			$options = JHtml::getJSObject($opt);
+			$options = JHtml::getJsObject($opt);
 
 			// Build the script.
 			$script = array();
@@ -554,7 +554,7 @@ abstract class JHtmlBootstrap
 			$opt['updater']     = isset($params['updater']) ? (string) $params['updater'] : null;
 			$opt['highlighter'] = isset($params['highlighter']) ? (int) $params['highlighter'] : null;
 
-			$options = JHtml::getJSObject($opt);
+			$options = JHtml::getJsObject($opt);
 
 			// Attach typehead to document
 			JFactory::getDocument()->addScriptDeclaration(
@@ -608,7 +608,7 @@ abstract class JHtmlBootstrap
 			$onHide = isset($params['onHide']) ? (string) $params['onHide'] : null;
 			$onHidden = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
-			$options = JHtml::getJSObject($opt);
+			$options = JHtml::getJsObject($opt);
 
 			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
 

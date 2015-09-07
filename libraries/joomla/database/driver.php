@@ -950,13 +950,13 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @return  boolean  True if the database engine supports UTF-8 character encoding.
 	 *
 	 * @since   11.1
-	 * @deprecated 12.3 (Platform) & 4.0 (CMS) - Use hasUTFSupport() instead
+	 * @deprecated 12.3 (Platform) & 4.0 (CMS) - Use hasUtfSupport() instead
 	 */
-	public function getUTFSupport()
+	public function getUtfSupport()
 	{
-		JLog::add('JDatabaseDriver::getUTFSupport() is deprecated. Use JDatabaseDriver::hasUTFSupport() instead.', JLog::WARNING, 'deprecated');
+		JLog::add('JDatabaseDriver::getUtfSupport() is deprecated. Use JDatabaseDriver::hasUtfSupport() instead.', JLog::WARNING, 'deprecated');
 
-		return $this->hasUTFSupport();
+		return $this->hasUtfSupport();
 	}
 
 	/**
@@ -966,7 +966,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   12.1
 	 */
-	public function hasUTFSupport()
+	public function hasUtfSupport()
 	{
 		return $this->utf;
 	}

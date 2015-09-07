@@ -9,16 +9,16 @@
 
 use Joomla\Registry\Registry;
 
-include_once __DIR__ . '/stubs/JOAuth1ClientInspector.php';
+include_once __DIR__ . '/stubs/JOauth1ClientInspector.php';
 
 /**
- * Test class for JOAuth1Client.
+ * Test class for JOauth1Client.
  *
  * @package     Joomla.UnitTest
  * @subpackage  OAuth
  * @since       13.1
  */
-class JOAuth1ClientTest extends TestCase
+class JOauth1ClientTest extends TestCase
 {
 	/**
 	 * @var    JInput  input for the OAuth object.
@@ -41,7 +41,7 @@ class JOAuth1ClientTest extends TestCase
 	/**
 	 * An instance of the object to test.
 	 *
-	 * @var    JOAuth1ClientInspector
+	 * @var    JOauth1ClientInspector
 	 * @since  13.1
 	 */
 	protected $object;
@@ -92,7 +92,7 @@ class JOAuth1ClientTest extends TestCase
 
 		$this->options->set('consumer_key', $key);
 		$this->options->set('consumer_secret', $secret);
-		$this->object = new JOAuth1ClientInspector($this->options, $this->client, $this->input, $this->application);
+		$this->object = new JOauth1ClientInspector($this->options, $this->client, $this->input, $this->application);
 	}
 
 	/**

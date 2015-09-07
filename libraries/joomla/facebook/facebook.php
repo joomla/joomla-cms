@@ -31,7 +31,7 @@ class JFacebook
 	protected $client;
 
 	/**
-	 * @var    JFacebookOAuth  The OAuth client.
+	 * @var    JFacebookOauth  The OAuth client.
 	 * @since  13.1
 	 */
 	protected $oauth;
@@ -111,13 +111,13 @@ class JFacebook
 	/**
 	 * Constructor.
 	 *
-	 * @param   JFacebookOAuth  $oauth    OAuth client.
+	 * @param   JFacebookOauth  $oauth    OAuth client.
 	 * @param   Registry        $options  Facebook options object.
 	 * @param   JHttp           $client   The HTTP client object.
 	 *
 	 * @since   13.1
 	 */
-	public function __construct(JFacebookOAuth $oauth = null, Registry $options = null, JHttp $client = null)
+	public function __construct(JFacebookOauth $oauth = null, Registry $options = null, JHttp $client = null)
 	{
 		$this->oauth = $oauth;
 		$this->options = isset($options) ? $options : new Registry;

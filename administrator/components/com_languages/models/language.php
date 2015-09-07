@@ -199,7 +199,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		}
 
 		$data['sef'] = str_replace($spaces, '', $data['sef']);
-		$data['sef'] = JApplicationHelper::stringURLSafe($data['sef']);
+		$data['sef'] = JApplicationHelper::stringUrlSafe($data['sef']);
 
 		// Bind the data.
 		if (!$table->bind($data))

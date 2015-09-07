@@ -163,7 +163,7 @@ abstract class JHtmlUsers
 
 			if (is_file("$path/$file"))
 			{
-				$result = JLanguage::parseXMLLanguageFile("$path/$file");
+				$result = JLanguage::parseXmlLanguageFile("$path/$file");
 			}
 
 			if ($result)
@@ -201,7 +201,7 @@ abstract class JHtmlUsers
 
 			if (is_file("$path/$file"))
 			{
-				$result = JLanguage::parseXMLLanguageFile("$path/$file");
+				$result = JLanguage::parseXmlLanguageFile("$path/$file");
 			}
 
 			if ($result)

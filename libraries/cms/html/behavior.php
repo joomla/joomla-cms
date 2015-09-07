@@ -296,7 +296,7 @@ abstract class JHtmlBehavior
 		$opt['onShow']    = (isset($params['onShow'])) ? '\\' . $params['onShow'] : null;
 		$opt['onHide']    = (isset($params['onHide'])) ? '\\' . $params['onHide'] : null;
 
-		$options = JHtml::getJSObject($opt);
+		$options = JHtml::getJsObject($opt);
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
@@ -393,7 +393,7 @@ abstract class JHtmlBehavior
 			$opt['size']      = array('x' => '\\jQuery(window).width() - 80', 'y' => '\\jQuery(window).height() - 80');
 		}
 
-		$options = JHtml::getJSObject($opt);
+		$options = JHtml::getJsObject($opt);
 
 		// Attach modal behavior to document
 		$document
@@ -493,7 +493,7 @@ abstract class JHtmlBehavior
 		$opt['onClick']  = (array_key_exists('onClick', $params)) ? '\\' . $params['onClick']
 		: '\\function(node){  window.open(node.data.url, node.data.target != null ? node.data.target : \'_self\'); }';
 
-		$options = JHtml::getJSObject($opt);
+		$options = JHtml::getJsObject($opt);
 
 		// Setup root node
 		$rt['text']     = (array_key_exists('text', $root)) ? $root['text'] : 'Root';
@@ -503,7 +503,7 @@ abstract class JHtmlBehavior
 		$rt['icon']     = (array_key_exists('icon', $root)) ? $root['icon'] : null;
 		$rt['openicon'] = (array_key_exists('openicon', $root)) ? $root['openicon'] : null;
 		$rt['data']     = (array_key_exists('data', $root)) ? $root['data'] : null;
-		$rootNode = JHtml::getJSObject($rt);
+		$rootNode = JHtml::getJsObject($rt);
 
 		$treeName = (array_key_exists('treeName', $params)) ? $params['treeName'] : '';
 
@@ -775,13 +775,13 @@ abstract class JHtmlBehavior
 	 * @return  string  JavaScript object notation representation of the array
 	 *
 	 * @since       1.5
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JHtml::getJSObject() instead.
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JHtml::getJsObject() instead.
 	 */
-	protected static function _getJSObject($array = array())
+	protected static function _getJsObject($array = array())
 	{
-		JLog::add('JHtmlBehavior::_getJSObject() is deprecated. JHtml::getJSObject() instead..', JLog::WARNING, 'deprecated');
+		JLog::add('JHtmlBehavior::_getJsObject() is deprecated. JHtml::getJsObject() instead..', JLog::WARNING, 'deprecated');
 
-		return JHtml::getJSObject($array);
+		return JHtml::getJsObject($array);
 	}
 
 	/**

@@ -197,7 +197,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 *
 	 * @since   3.4
 	 */
-	public function postprocessSEFBuildRule(&$router, &$uri)
+	public function postprocessSefBuildRule(&$router, &$uri)
 	{
 		$uri->delVar('lang');
 	}
@@ -212,7 +212,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 *
 	 * @since   3.4
 	 */
-	public function postprocessNonSEFBuildRule(&$router, &$uri)
+	public function postprocessNonSefBuildRule(&$router, &$uri)
 	{
 		$lang = $uri->getVar('lang');
 
@@ -721,7 +721,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		// Create a cookie.
 		$cookie_domain = $this->app->get('cookie_domain');
 		$cookie_path   = $this->app->get('cookie_path', '/');
-		$cookie_secure = $this->app->isSSLConnection();
+		$cookie_secure = $this->app->isSslConnection();
 		$this->app->input->cookie->set(JApplicationHelper::getHash('language'), $lang_code, $cookie_expire, $cookie_path, $cookie_domain, $cookie_secure);
 	}
 

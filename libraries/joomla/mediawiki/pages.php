@@ -567,7 +567,7 @@ class JMediawikiPages extends JMediawikiObject
 	 *
 	 * @since   12.3
 	 */
-	public function getIWBackLinks($iwbltitle, $iwblprefix = null, $iwblcontinue = null, $iwbllimit = null, array $iwblprop = null)
+	public function getIwBackLinks($iwbltitle, $iwblprefix = null, $iwblcontinue = null, $iwbllimit = null, array $iwblprop = null)
 	{
 		// Build the request
 		$path = '?action=query&list=iwbacklinks';

@@ -108,7 +108,7 @@ class TemplatesHelper
 	 *
 	 * @return  boolean|JObject
 	 */
-	public static function parseXMLTemplateFile($templateBaseDir, $templateDir)
+	public static function parseXmlTemplateFile($templateBaseDir, $templateDir)
 	{
 		$data = new JObject;
 
@@ -117,7 +117,7 @@ class TemplatesHelper
 
 		if (is_file($filePath))
 		{
-			$xml = JInstaller::parseXMLInstallFile($filePath);
+			$xml = JInstaller::parseXmlInstallFile($filePath);
 
 			if ($xml['type'] != 'template')
 			{

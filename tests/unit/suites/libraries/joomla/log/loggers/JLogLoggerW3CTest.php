@@ -29,7 +29,7 @@ class JLogLoggerW3CTest extends PHPUnit_Framework_TestCase
 		$config = array(
 			'text_file_path' => JPATH_TESTS . '/tmp',
 		);
-		$logger = new JLogLoggerW3CInspector($config);
+		$logger = new JLogLoggerW3cInspector($config);
 
 		// Remove the log file if it exists.
 		@ unlink($logger->path);

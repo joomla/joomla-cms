@@ -16,10 +16,10 @@ use Joomla\Registry\Registry;
  *
  * @since  13.1
  */
-class JFacebookOAuth extends JOAuth2Client
+class JFacebookOauth extends JOauth2Client
 {
 	/**
-	 * @var    Registry Options for the JFacebookOAuth object.
+	 * @var    Registry Options for the JFacebookOauth object.
 	 * @since  13.1
 	 */
 	protected $options;

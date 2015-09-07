@@ -359,7 +359,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		// Discover installs are stored a little differently
 		if ($this->route == 'discover_install')
 		{
-			$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+			$manifest_details = JInstaller::parseXmlInstallFile($this->parent->getPath('manifest'));
 
 			$this->extension->manifest_cache = json_encode($manifest_details);
 			$this->extension->state = 0;
@@ -554,7 +554,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		ob_end_clean();
 
 		// Let's run the queries for the plugin
-		$utfresult = $this->parent->parseSQLFiles($this->getManifest()->uninstall->sql);
+		$utfresult = $this->parent->parseSqlFiles($this->getManifest()->uninstall->sql);
 
 		if ($utfresult === false)
 		{
@@ -624,7 +624,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 
 			foreach ($file_list as $file)
 			{
-				$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . '/plugins/' . $folder . '/' . $file);
+				$manifest_details = JInstaller::parseXmlInstallFile(JPATH_SITE . '/plugins/' . $folder . '/' . $file);
 				$file = JFile::stripExt($file);
 
 				// Ignore example plugins
@@ -655,7 +655,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 
 				foreach ($file_list as $file)
 				{
-					$manifest_details = JInstaller::parseXMLInstallFile(
+					$manifest_details = JInstaller::parseXmlInstallFile(
 						JPATH_SITE . '/plugins/' . $folder . '/' . $plugin_folder . '/' . $file
 					);
 					$file = JFile::stripExt($file);
@@ -704,7 +704,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 			. $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXmlInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 
 		$this->parent->extension->name = $manifest_details['name'];

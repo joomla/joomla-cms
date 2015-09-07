@@ -133,6 +133,6 @@ abstract class TestCaseDatabaseSqlsrv extends TestCaseDatabase
 		// Create the PDO object from the DSN and options.
 		$pdo = new PDO($dsn, self::$options['user'], self::$options['password']);
 
-		return $this->createDefaultDBConnection($pdo, self::$options['database']);
+		return $this->createDefaultDbConnection($pdo, self::$options['database']);
 	}
 }

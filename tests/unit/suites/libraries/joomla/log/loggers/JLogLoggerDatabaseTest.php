@@ -25,7 +25,7 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__ . '/stubs/database/S01.xml');
+		return $this->createXmlDataSet(__DIR__ . '/stubs/database/S01.xml');
 	}
 
 	/**
@@ -61,7 +61,7 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 		$logger = new JLogLoggerDatabaseInspector($config);
 
 		// Get the expected database from XML.
-		$expected = $this->createXMLDataSet(__DIR__ . '/stubs/database/S01E01.xml');
+		$expected = $this->createXmlDataSet(__DIR__ . '/stubs/database/S01E01.xml');
 
 		// Add the new entries to the database.
 		$logger->addEntry(new JLogEntry('Testing Entry 02', JLog::INFO, null, '2009-12-01 12:30:00'));
@@ -92,7 +92,7 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 		TestReflection::setValue($logger, 'db', JFactory::$database);
 
 		// Get the expected database from XML.
-		$expected = $this->createXMLDataSet(__DIR__ . '/stubs/database/S01E01.xml');
+		$expected = $this->createXmlDataSet(__DIR__ . '/stubs/database/S01E01.xml');
 
 		// Add the new entries to the database.
 		$logger->addEntry(new JLogEntry('Testing Entry 02', JLog::INFO, null, '2009-12-01 12:30:00'));

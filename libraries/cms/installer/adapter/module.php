@@ -303,7 +303,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		// Discover installs are stored a little differently
 		if ($this->route == 'discover_install')
 		{
-			$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+			$manifest_details = JInstaller::parseXmlInstallFile($this->parent->getPath('manifest'));
 
 			$this->extension->manifest_cache = json_encode($manifest_details);
 			$this->extension->state = 0;
@@ -432,7 +432,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		{
 			if (file_exists(JPATH_SITE . "/modules/$module/$module.xml"))
 			{
-				$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
+				$manifest_details = JInstaller::parseXmlInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
 				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'module');
 				$extension->set('client_id', $site_info->id);
@@ -450,7 +450,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		{
 			if (file_exists(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml"))
 			{
-				$manifest_details = JInstaller::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
+				$manifest_details = JInstaller::parseXmlInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
 				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'module');
 				$extension->set('client_id', $admin_info->id);
@@ -480,7 +480,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		$manifestPath = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXmlInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
 

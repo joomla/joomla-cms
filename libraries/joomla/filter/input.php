@@ -1043,7 +1043,7 @@ class JFilterInput
 
 			// Escape bad chars
 			$attributeValue = str_replace($badChars, $escapedChars, $attributeValue);
-			$attributeValue = $this->_stripCSSExpressions($attributeValue);
+			$attributeValue = $this->_stripCssExpressions($attributeValue);
 			$alreadyFiltered .= substr($remainder, 0, $nextBefore) . $attributeValue . $quote;
 			$remainder = substr($remainder, $nextAfter + 1);
 		}
@@ -1061,7 +1061,7 @@ class JFilterInput
 	 *
 	 * @since   11.1
 	 */
-	protected function _stripCSSExpressions($source)
+	protected function _stripCssExpressions($source)
 	{
 		// Strip any comments out (in the form of /*...*/)
 		$test = preg_replace('#\/\*.*\*\/#U', '', $source);

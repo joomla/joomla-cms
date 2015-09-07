@@ -166,9 +166,9 @@ class JWebClientInspector extends JApplicationWebClient
 	 *
 	 * @since   11.3
 	 */
-	public function loadSystemURIs()
+	public function loadSystemUris()
 	{
-		return parent::loadSystemURIs();
+		return parent::loadSystemUris();
 	}
 
 	/**

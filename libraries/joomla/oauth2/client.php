@@ -16,10 +16,10 @@ use Joomla\Registry\Registry;
  *
  * @since  12.3
  */
-class JOAuth2Client
+class JOauth2Client
 {
 	/**
-	 * @var    Registry  Options for the JOAuth2Client object.
+	 * @var    Registry  Options for the JOauth2Client object.
 	 * @since  12.3
 	 */
 	protected $options;
@@ -45,7 +45,7 @@ class JOAuth2Client
 	/**
 	 * Constructor.
 	 *
-	 * @param   Registry         $options      JOAuth2Client options object
+	 * @param   Registry         $options      JOauth2Client options object
 	 * @param   JHttp            $http         The HTTP client object
 	 * @param   JInput           $input        The input object
 	 * @param   JApplicationWeb  $application  The application object
@@ -263,7 +263,7 @@ class JOAuth2Client
 	}
 
 	/**
-	 * Get an option from the JOAuth2Client instance.
+	 * Get an option from the JOauth2Client instance.
 	 *
 	 * @param   string  $key  The name of the option to get
 	 *
@@ -277,12 +277,12 @@ class JOAuth2Client
 	}
 
 	/**
-	 * Set an option for the JOAuth2Client instance.
+	 * Set an option for the JOauth2Client instance.
 	 *
 	 * @param   string  $key    The name of the option to set
 	 * @param   mixed   $value  The option value to set
 	 *
-	 * @return  JOAuth2Client  This object for method chaining
+	 * @return  JOauth2Client  This object for method chaining
 	 *
 	 * @since   12.3
 	 */
@@ -294,7 +294,7 @@ class JOAuth2Client
 	}
 
 	/**
-	 * Get the access token from the JOAuth2Client instance.
+	 * Get the access token from the JOauth2Client instance.
 	 *
 	 * @return  array  The access token
 	 *
@@ -306,11 +306,11 @@ class JOAuth2Client
 	}
 
 	/**
-	 * Set an option for the JOAuth2Client instance.
+	 * Set an option for the JOauth2Client instance.
 	 *
 	 * @param   array  $value  The access token
 	 *
-	 * @return  JOAuth2Client  This object for method chaining
+	 * @return  JOauth2Client  This object for method chaining
 	 *
 	 * @since   12.3
 	 */

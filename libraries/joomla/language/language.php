@@ -1193,7 +1193,7 @@ class JLanguage
 
 		if (is_file("$path/$file"))
 		{
-			$result = self::parseXMLLanguageFile("$path/$file");
+			$result = self::parseXmlLanguageFile("$path/$file");
 		}
 
 		if (empty($result))
@@ -1343,7 +1343,7 @@ class JLanguage
 
 			try
 			{
-				$metadata = self::parseXMLLanguageFile($file->getRealPath());
+				$metadata = self::parseXmlLanguageFile($file->getRealPath());
 
 				if ($metadata)
 				{
@@ -1371,7 +1371,7 @@ class JLanguage
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	public static function parseXMLLanguageFile($path)
+	public static function parseXmlLanguageFile($path)
 	{
 		if (!is_readable($path))
 		{

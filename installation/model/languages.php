@@ -307,7 +307,7 @@ class InstallationModelLanguages extends JModelBase
 		foreach ($langlist as $lang)
 		{
 			$file          = $path . '/' . $lang . '/' . $lang . '.xml';
-			$info          = JInstaller::parseXMLInstallFile($file);
+			$info          = JInstaller::parseXmlInstallFile($file);
 			$row           = new stdClass;
 			$row->language = $lang;
 

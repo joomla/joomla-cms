@@ -60,7 +60,7 @@ class TemplatesModelTemplates extends JModelList
 		foreach ($items as &$item)
 		{
 			$client = JApplicationHelper::getClientInfo($item->client_id);
-			$item->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $item->element);
+			$item->xmldata = TemplatesHelper::parseXmlTemplateFile($client->path, $item->element);
 		}
 
 		return $items;

@@ -31,7 +31,7 @@ abstract class JTwitterObject
 	protected $client;
 
 	/**
-	 * @var    JTwitterOAuth The OAuth client.
+	 * @var    JTwitterOauth The OAuth client.
 	 * @since  12.3
 	 */
 	protected $oauth;
@@ -41,11 +41,11 @@ abstract class JTwitterObject
 	 *
 	 * @param   Registry       &$options  Twitter options object.
 	 * @param   JHttp          $client    The HTTP client object.
-	 * @param   JTwitterOAuth  $oauth     The OAuth client.
+	 * @param   JTwitterOauth  $oauth     The OAuth client.
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(Registry &$options = null, JHttp $client = null, JTwitterOAuth $oauth = null)
+	public function __construct(Registry &$options = null, JHttp $client = null, JTwitterOauth $oauth = null)
 	{
 		$this->options = isset($options) ? $options : new Registry;
 		$this->client = isset($client) ? $client : new JHttp($this->options);

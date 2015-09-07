@@ -10,16 +10,16 @@
 use Joomla\Registry\Registry;
 
 /**
- * Test class for JOAuth2Client.
+ * Test class for JOauth2Client.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Oauth
  * @since       12.3
  */
-class JOAuth2ClientTest extends TestCase
+class JOauth2ClientTest extends TestCase
 {
 	/**
-	 * @var    Registry  Options for the JOAuth2Client object.
+	 * @var    Registry  Options for the JOauth2Client object.
 	 */
 	protected $options;
 
@@ -39,7 +39,7 @@ class JOAuth2ClientTest extends TestCase
 	protected $application;
 
 	/**
-	 * @var    JOAuth2Client  Object under test.
+	 * @var    JOauth2Client  Object under test.
 	 */
 	protected $object;
 
@@ -70,13 +70,13 @@ class JOAuth2ClientTest extends TestCase
 		$array = array();
 		$this->input = new JInput($array);
 		$this->application = $this->getMockWeb();
-		$this->object = new JOAuth2Client($this->options, $this->http, $this->input, $this->application);
+		$this->object = new JOauth2Client($this->options, $this->http, $this->input, $this->application);
 	}
 
 	/**
 	 * Tests the auth method
 	 *
-	 * @group	JOAuth2
+	 * @group	JOauth2
 	 * @return void
 	 */
 	public function testAuth()
@@ -106,7 +106,7 @@ class JOAuth2ClientTest extends TestCase
 	/**
 	 * Tests the auth method with JSON data
 	 *
-	 * @group	JOAuth2
+	 * @group	JOauth2
 	 * @return void
 	 */
 	public function testAuthJson()
@@ -126,7 +126,7 @@ class JOAuth2ClientTest extends TestCase
 	/**
 	 * Tests the isauth method
 	 *
-	 * @group	JOAuth2
+	 * @group	JOauth2
 	 * @return void
 	 */
 	public function testIsAuth()
@@ -151,7 +151,7 @@ class JOAuth2ClientTest extends TestCase
 	/**
 	 * Tests the auth method
 	 *
-	 * @group	JOAuth2
+	 * @group	JOauth2
 	 * @return void
 	 */
 	public function testCreateUrl()
@@ -176,7 +176,7 @@ class JOAuth2ClientTest extends TestCase
 	/**
 	 * Tests the auth method
 	 *
-	 * @group	JOAuth2
+	 * @group	JOauth2
 	 * @return void
 	 */
 	public function testQuery()
@@ -208,7 +208,7 @@ class JOAuth2ClientTest extends TestCase
 	/**
 	 * Tests the setOption method
 	 *
-	 * @group	JOAuth2
+	 * @group	JOauth2
 	 * @return void
 	 */
 	public function testSetOption()
@@ -224,7 +224,7 @@ class JOAuth2ClientTest extends TestCase
 	/**
 	 * Tests the getOption method
 	 *
-	 * @group	JOAuth2
+	 * @group	JOauth2
 	 * @return void
 	 */
 	public function testGetOption()
@@ -240,7 +240,7 @@ class JOAuth2ClientTest extends TestCase
 	/**
 	 * Tests the setToken method
 	 *
-	 * @group	JOAuth2
+	 * @group	JOauth2
 	 * @return void
 	 */
 	public function testSetToken()
@@ -270,7 +270,7 @@ class JOAuth2ClientTest extends TestCase
 	/**
 	 * Tests the getToken method
 	 *
-	 * @group	JOAuth2
+	 * @group	JOauth2
 	 * @return void
 	 */
 	public function testGetToken()
@@ -286,7 +286,7 @@ class JOAuth2ClientTest extends TestCase
 	/**
 	 * Tests the refreshToken method
 	 *
-	 * @group	JOAuth2
+	 * @group	JOauth2
 	 * @return void
 	 */
 	public function testRefreshToken()
@@ -309,7 +309,7 @@ class JOAuth2ClientTest extends TestCase
 	/**
 	 * Tests the refreshToken method with JSON
 	 *
-	 * @group	JOAuth2
+	 * @group	JOauth2
 	 * @return void
 	 */
 	public function testRefreshTokenJson()

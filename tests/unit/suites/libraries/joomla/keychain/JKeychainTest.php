@@ -55,7 +55,7 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   12.3
 	 */
-	public function testLoadCLIKeychain()
+	public function testLoadCliKeychain()
 	{
 		$keychain = new JKeychain;
 

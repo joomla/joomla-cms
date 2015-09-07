@@ -31,7 +31,7 @@ class JTwitter
 	protected $client;
 
 	/**
-	 * @var    JTwitterOAuth The OAuth client.
+	 * @var    JTwitterOauth The OAuth client.
 	 * @since  12.3
 	 */
 	protected $oauth;
@@ -117,7 +117,7 @@ class JTwitter
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JTwitterOAuth $oauth = null, Registry $options = null, JHttp $client = null)
+	public function __construct(JTwitterOauth $oauth = null, Registry $options = null, JHttp $client = null)
 	{
 		$this->oauth = $oauth;
 		$this->options = isset($options) ? $options : new Registry;

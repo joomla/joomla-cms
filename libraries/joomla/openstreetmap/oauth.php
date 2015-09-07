@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
  *
  * @since  13.1
  */
-class JOpenstreetmapOauth extends JOAuth1Client
+class JOpenstreetmapOauth extends JOauth1Client
 {
 	/**
 	 * Options for the JOpenstreetmapOauth object.

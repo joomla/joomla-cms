@@ -18,7 +18,7 @@
  * @subpackage  Log
  * @since       11.1
  */
-class JLogLoggerW3CInspector extends JLogLoggerW3c
+class JLogLoggerW3cInspector extends JLogLoggerW3c
 {
 	public $file;
 

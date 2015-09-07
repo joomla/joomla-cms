@@ -421,7 +421,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		// Let's run the install queries for the component
 		if (isset($this->getManifest()->{$route}->sql))
 		{
-			$result = $this->parent->parseSQLFiles($this->getManifest()->{$route}->sql);
+			$result = $this->parent->parseSqlFiles($this->getManifest()->{$route}->sql);
 
 			if ($result === false)
 			{

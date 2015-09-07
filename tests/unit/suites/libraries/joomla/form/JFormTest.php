@@ -1508,7 +1508,7 @@ class JFormTest extends TestCaseDatabase
 	 *
 	 * @return void
 	 */
-	public function testLoad_XPath()
+	public function testLoad_Xpath()
 	{
 		$form = new JFormInspector('form1');
 

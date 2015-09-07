@@ -154,8 +154,8 @@ class JFacebookUserTest extends TestCase
 		else
 		{
 			// User is not authenticated.
-			$token = $this->object->getOAuth();
-			$this->object->setOAuth(null);
+			$token = $this->object->getOauth();
+			$this->object->setOauth(null);
 
 			$this->client->expects($this->once())
 			->method('get')
@@ -168,7 +168,7 @@ class JFacebookUserTest extends TestCase
 			);
 
 			// Authenticated.
-			$this->object->setOAuth($token);
+			$this->object->setOauth($token);
 		}
 	}
 
@@ -201,8 +201,8 @@ class JFacebookUserTest extends TestCase
 		else
 		{
 			// User is not authenticated.
-			$token = $this->object->getOAuth();
-			$this->object->setOAuth(null);
+			$token = $this->object->getOauth();
+			$this->object->setOauth(null);
 
 			$this->client->expects($this->once())
 			->method('get')
@@ -213,7 +213,7 @@ class JFacebookUserTest extends TestCase
 			$this->object->getUser('me');
 
 			// Authenticated.
-			$this->object->setOAuth($token);
+			$this->object->setOauth($token);
 		}
 	}
 
@@ -623,8 +623,8 @@ class JFacebookUserTest extends TestCase
 		else
 		{
 			// User is not authenticated.
-			$token = $this->object->getOAuth();
-			$this->object->setOAuth(null);
+			$token = $this->object->getOauth();
+			$this->object->setOauth(null);
 
 			$this->client->expects($this->once())
 			->method('get')
@@ -637,7 +637,7 @@ class JFacebookUserTest extends TestCase
 			);
 
 			// Authenticated.
-			$this->object->setOAuth($token);
+			$this->object->setOauth($token);
 		}
 	}
 

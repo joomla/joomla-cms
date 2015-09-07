@@ -73,9 +73,9 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function testObjectHTMLSafe()
+	public function testObjectHtmlSafe()
 	{
-		$this->object->objectHTMLSafe($this->safeObject, null, 'string3');
+		$this->object->objectHtmlSafe($this->safeObject, null, 'string3');
 		$this->assertEquals('&lt;script&gt;alert();&lt;/script&gt;', $this->safeObject->string1, "Script tag should be defused");
 		$this->assertEquals('This is a test.', $this->safeObject->string2, "Plain text should pass");
 		$this->assertEquals('<script>alert(3);</script>', $this->safeObject->string3, "This Script tag should be passed");
@@ -86,9 +86,9 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function testObjectHTMLSafeWithArray()
+	public function testObjectHtmlSafeWithArray()
 	{
-		$this->object->objectHTMLSafe($this->safeObject, null, array('string1', 'string3'));
+		$this->object->objectHtmlSafe($this->safeObject, null, array('string1', 'string3'));
 		$this->assertEquals('<script>alert();</script>', $this->safeObject->string1, "Script tag should pass array test");
 		$this->assertEquals('This is a test.', $this->safeObject->string2, "Plain text should pass array test");
 		$this->assertEquals('<script>alert(3);</script>', $this->safeObject->string3, "This Script tag should pass array test");
@@ -99,11 +99,11 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function testLinkXHTMLSafe()
+	public function testLinkXhtmlSafe()
 	{
 		$this->assertEquals(
 			'<a href="http://www.example.com/index.frd?one=1&amp;two=2&amp;three=3">This & That</a>',
-			$this->object->linkXHTMLSafe('<a href="http://www.example.com/index.frd?one=1&two=2&three=3">This & That</a>'),
+			$this->object->linkXhtmlSafe('<a href="http://www.example.com/index.frd?one=1&two=2&three=3">This & That</a>'),
 			'Should clean ampersands only out of link, not out of link text'
 		);
 	}
@@ -113,11 +113,11 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function testStringURLSafe()
+	public function testStringUrlSafe()
 	{
 		$this->assertEquals(
 			'1234567890-qwertyuiop-qwertyuiop-asdfghjkl-asdfghjkl-zxcvbnm-zxcvbnm',
-			$this->object->stringURLSafe('`1234567890-=~!@#$%^&*()_+	qwertyuiop[]\QWERTYUIOP{}|asdfghjkl;\'ASDFGHJKL:"zxcvbnm,./ZXCVBNM<>?'),
+			$this->object->stringUrlSafe('`1234567890-=~!@#$%^&*()_+	qwertyuiop[]\QWERTYUIOP{}|asdfghjkl;\'ASDFGHJKL:"zxcvbnm,./ZXCVBNM<>?'),
 			'Should clean keyboard string down to ASCII-7'
 		);
 	}
@@ -129,11 +129,11 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   11.3
 	 */
-	public function testStringURLUnicodeSlug()
+	public function testStringUrlUnicodeSlug()
 	{
 		$this->assertEquals(
 			'what-if-i-do-not-get_this-right',
-			$this->object->stringURLUnicodeSlug('What-if I do.not get_this right?'),
+			$this->object->stringUrlUnicodeSlug('What-if I do.not get_this right?'),
 			'Should be URL unicoded'
 		);
 	}

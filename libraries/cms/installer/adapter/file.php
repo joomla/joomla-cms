@@ -381,7 +381,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 			$db = JFactory::getDbo();
 
 			// Let's run the uninstall queries for the extension
-			$result = $this->parent->parseSQLFiles($this->getManifest()->uninstall->sql);
+			$result = $this->parent->parseSqlFiles($this->getManifest()->uninstall->sql);
 
 			if ($result === false)
 			{
@@ -622,7 +622,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
-		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details = JInstaller::parseXmlInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
 

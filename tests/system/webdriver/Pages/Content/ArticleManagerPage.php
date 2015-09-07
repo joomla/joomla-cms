@@ -297,7 +297,7 @@ class ArticleManagerPage extends AdminManagerPage
 		}
 		else
 		{
-			$this->driver->findElement(By::XPath("//input[@id='batch[move_copy]m']"))->click();
+			$this->driver->findElement(By::xPath("//input[@id='batch[move_copy]m']"))->click();
 		}
 
 		$this->driver->findElement(By::xPath("//button[contains(text(),'Process')]"))->click();

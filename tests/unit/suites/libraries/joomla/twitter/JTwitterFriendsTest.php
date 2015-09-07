@@ -42,7 +42,7 @@ class JTwitterFriendsTest extends TestCase
 	protected $object;
 
 	/**
-	 * @var    JTwitterOAuth  Authentication object for the Twitter object.
+	 * @var    JTwitterOauth  Authentication object for the Twitter object.
 	 * @since  12.3
 	 */
 	protected $oauth;
@@ -112,7 +112,7 @@ class JTwitterFriendsTest extends TestCase
 		$this->options = new JRegistry;
 		$this->input = new JInput;
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
-		$this->oauth = new JTwitterOAuth($this->options, $this->client, $this->input);
+		$this->oauth = new JTwitterOauth($this->options, $this->client, $this->input);
 		$this->oauth->setToken($access_token);
 
 		$this->object = new JTwitterFriends($this->options, $this->client, $this->oauth);

@@ -93,7 +93,7 @@ class JTwitterBlockTest extends TestCase
 		$this->options = new JRegistry;
 		$this->input = new JInput;
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
-		$this->oauth = new JTwitterOAuth($this->options, $this->client, $this->input);
+		$this->oauth = new JTwitterOauth($this->options, $this->client, $this->input);
 		$this->oauth->setToken($access_token);
 
 		$this->object = new JTwitterBlock($this->options, $this->client, $this->oauth);

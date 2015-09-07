@@ -17,7 +17,7 @@ JLog::add('ModulesHelperXML is deprecated. Do not use.', JLog::WARNING, 'depreca
  * @since       1.5
  * @deprecated  3.2  Do not use.
  */
-class ModulesHelperXML
+class ModulesHelperXml
 {
 	/**
 	 * Parse the module XML file
@@ -30,7 +30,7 @@ class ModulesHelperXML
 	 *
 	 * @deprecated  3.2  Do not use.
 	 */
-	public function parseXMLModuleFile(&$rows)
+	public function parseXmlModuleFile(&$rows)
 	{
 		foreach ($rows as $i => $row)
 		{
@@ -42,7 +42,7 @@ class ModulesHelperXML
 			}
 			else
 			{
-				$data = JInstaller::parseXMLInstallFile($row->path . '/' . $row->file);
+				$data = JInstaller::parseXmlInstallFile($row->path . '/' . $row->file);
 
 				if ($data['type'] == 'module')
 				{

@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLog::add('JXMLElement is deprecated. Use SimpleXMLElement.', JLog::WARNING, 'deprecated');
+JLog::add('JXmlElement is deprecated. Use SimpleXMLElement.', JLog::WARNING, 'deprecated');
 
 /**
  * Wrapper class for php SimpleXMLElement.
@@ -17,7 +17,7 @@ JLog::add('JXMLElement is deprecated. Use SimpleXMLElement.', JLog::WARNING, 'de
  * @since       11.1
  * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use SimpleXMLElement instead.
  */
-class JXMLElement extends SimpleXMLElement
+class JXmlElement extends SimpleXMLElement
 {
 	/**
 	 * Get the name of the element.
@@ -29,7 +29,7 @@ class JXMLElement extends SimpleXMLElement
 	 */
 	public function name()
 	{
-		JLog::add('JXMLElement::name() is deprecated, use SimpleXMLElement::getName() instead.', JLog::WARNING, 'deprecated');
+		JLog::add('JXmlElement::name() is deprecated, use SimpleXMLElement::getName() instead.', JLog::WARNING, 'deprecated');
 
 		return (string) $this->getName();
 	}
@@ -48,7 +48,7 @@ class JXMLElement extends SimpleXMLElement
 	 */
 	public function asFormattedXml($compressed = false, $indent = "\t", $level = 0)
 	{
-		JLog::add('JXMLElement::asFormattedXml() is deprecated, use SimpleXMLElement::asXml() instead.', JLog::WARNING, 'deprecated');
+		JLog::add('JXmlElement::asFormattedXml() is deprecated, use SimpleXMLElement::asXml() instead.', JLog::WARNING, 'deprecated');
 		$out = '';
 
 		// Start a new line, indent by the number indicated in $level

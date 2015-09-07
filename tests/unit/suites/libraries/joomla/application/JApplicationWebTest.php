@@ -1332,20 +1332,20 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the isSSLConnection method
+	 * Tests the isSslConnection method
 	 *
 	 * @return  void
 	 *
 	 * @since   12.2
 	 */
-	public function testIsSSLConnection()
+	public function testIsSslConnection()
 	{
 		unset($_SERVER['HTTPS']);
 
-		$this->assertFalse($this->class->isSSLConnection());
+		$this->assertFalse($this->class->isSslConnection());
 
 		$_SERVER['HTTPS'] = 'on';
 
-		$this->assertTrue($this->class->isSSLConnection());
+		$this->assertTrue($this->class->isSslConnection());
 	}
 }

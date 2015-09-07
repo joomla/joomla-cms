@@ -1061,7 +1061,7 @@ abstract class JHtml
 	 *
 	 * @since   3.0
 	 */
-	public static function getJSObject(array $array = array())
+	public static function getJsObject(array $array = array())
 	{
 		JLog::add(__METHOD__ . ' is deprecated. Use json_encode instead.', JLog::WARNING, 'deprecated');
 
@@ -1101,7 +1101,7 @@ abstract class JHtml
 			}
 			else
 			{
-				$elements[] = $key . ': ' . static::getJSObject(is_object($v) ? get_object_vars($v) : $v);
+				$elements[] = $key . ': ' . static::getJsObject(is_object($v) ? get_object_vars($v) : $v);
 			}
 		}
 

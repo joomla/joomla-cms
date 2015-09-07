@@ -571,7 +571,7 @@ class JClientLdap
 	 * @author  Jay Burrell, Systems & Networks, Mississippi State University
 	 * @since   12.1
 	 */
-	public static function LDAPNetAddr($networkaddress)
+	public static function LdapNetAddr($networkaddress)
 	{
 		$addr = "";
 		$addrtype = (int) substr($networkaddress, 0, 1);
@@ -664,7 +664,7 @@ class JClientLdap
  * @since       11.1
  * @deprecated  12.3 (Platform) & 4.0 (CMS)
  */
-class JLDAP extends JClientLdap
+class JLdap extends JClientLdap
 {
 	/**
 	 * Constructor
@@ -675,7 +675,7 @@ class JLDAP extends JClientLdap
 	 */
 	public function __construct($configObj = null)
 	{
-		JLog::add('JLDAP is deprecated. Use JClientLdap instead.', JLog::WARNING, 'deprecated');
+		JLog::add('JLdap is deprecated. Use JClientLdap instead.', JLog::WARNING, 'deprecated');
 		parent::__construct($configObj);
 	}
 }

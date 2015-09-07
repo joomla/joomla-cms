@@ -10,7 +10,7 @@ jimport('joomla.filesystem.folder');
 
 require_once __DIR__ . '/JLanguageInspector.php';
 
-if (!class_exists('En_GBLocalise'))
+if (!class_exists('En_GbLocalise'))
 {
 	require_once __DIR__ . '/data/language/en-GB/en-GB.localise.php';
 }
@@ -1144,7 +1144,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function testParseXMLLanguageFile()
+	public function testParseXmlLanguageFile()
 	{
 		$option = array(
 			'name' => 'English (United Kingdom)',
@@ -1160,14 +1160,14 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			$option,
-			JLanguage::parseXMLLanguageFile($path),
+			JLanguage::parseXmlLanguageFile($path),
 			'Line: ' . __LINE__
 		);
 
 		$path2 = __DIR__ . '/data/language/es-ES/es-ES.xml';
 		$this->assertEquals(
 			$option,
-			JLanguage::parseXMLLanguageFile($path),
+			JLanguage::parseXmlLanguageFile($path),
 			'Line: ' . __LINE__
 		);
 	}
@@ -1179,10 +1179,10 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function testParseXMLLanguageFileException()
+	public function testParseXmlLanguageFileException()
 	{
 		$path = __DIR__ . '/data/language/es-ES/es-ES.xml';
 
-		JLanguage::parseXMLLanguageFile($path);
+		JLanguage::parseXmlLanguageFile($path);
 	}
 }

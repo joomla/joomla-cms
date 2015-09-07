@@ -16,7 +16,7 @@
 class JGoogleEmbedAnalyticsTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var    JRegistry  Options for the JOauth2Client object.
 	 */
 	protected $options;
 
