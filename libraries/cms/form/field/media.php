@@ -293,7 +293,7 @@ class JFormFieldMedia extends JFormField
 		$attr .= ' title="' . htmlspecialchars('<span id="TipImgpath"></span>', ENT_COMPAT, 'UTF-8') . '"';
 
 		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="input-small ' . $this->class . '"' : ' class="input-large"';
+		$attr .= !empty($this->class) ? ' class="input-large ' . $this->class . '"' : ' class="input-large"';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 
 		// Initialize JavaScript field attributes.
