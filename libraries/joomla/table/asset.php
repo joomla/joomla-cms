@@ -98,7 +98,11 @@ class JTableAsset extends JTableNested
 	public function check()
 	{
 		$this->parent_id = (int) $this->parent_id;
-
+		
+		if (empty($this->rules))
+		{
+			$this->rules = '{}';
+		}
 		// JTableNested does not allow parent_id = 0, override this.
 		if ($this->parent_id > 0)
 		{
@@ -118,10 +122,7 @@ class JTableAsset extends JTableNested
 				$this->setError('Invalid Parent ID');
 
 				return false;
-			}
-			if (empty($this->rules))
-			{
-				$this->rules = '{}';
+
 			}
 		}
 
