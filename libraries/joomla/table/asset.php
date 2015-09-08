@@ -98,7 +98,7 @@ class JTableAsset extends JTableNested
 	public function check()
 	{
 		$this->parent_id = (int) $this->parent_id;
-		
+
 		if (empty($this->rules))
 		{
 			$this->rules = '{}';
