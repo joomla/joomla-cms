@@ -857,7 +857,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
 		$this->connect();
 
@@ -1195,7 +1195,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function getStringPositionSQL( $substring, $string )
+	public function getStringPositionSql( $substring, $string )
 	{
 		$this->connect();
 

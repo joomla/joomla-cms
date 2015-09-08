@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-$minsize	= $params->get('minsize', 1);
-$maxsize	= $params->get('maxsize', 2);
+$minsize = $params->get('minsize', 1);
+$maxsize = $params->get('maxsize', 2);
 
 JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php');
 ?>

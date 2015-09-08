@@ -526,12 +526,12 @@ class JCache
 		// proper token.
 		if (isset($data['body']))
 		{
-			$token 			= JSession::getFormToken();
-			$search 		= '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
-			$replacement 	= '<input type="hidden" name="' . $token . '" value="1" />';
+			$token       = JSession::getFormToken();
+			$search      = '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
+			$replacement = '<input type="hidden" name="' . $token . '" value="1" />';
 
 			$data['body'] = preg_replace($search, $replacement, $data['body']);
-			$body = $data['body'];
+			$body         = $data['body'];
 		}
 
 		// Get the document body out of the cache.
@@ -551,10 +551,10 @@ class JCache
 	public static function setWorkarounds($data, $options = array())
 	{
 		$loptions = array(
-			'nopathway' 	=> 0,
-			'nohead' 		=> 0,
-			'nomodules' 	=> 0,
-			'modulemode' 	=> 0,
+			'nopathway'  => 0,
+			'nohead'     => 0,
+			'nomodules'  => 0,
+			'modulemode' => 0,
 		);
 
 		if (isset($options['nopathway']))
@@ -622,8 +622,8 @@ class JCache
 					if (isset($options['headerbefore'][$now]))
 					{
 						// We have to serialize the content of the arrays because the may contain other arrays which is a notice in PHP 5.4 and newer
-						$nowvalue 		= array_map('serialize', $headnow[$now]);
-						$beforevalue 	= array_map('serialize', $options['headerbefore'][$now]);
+						$nowvalue    = array_map('serialize', $headnow[$now]);
+						$beforevalue = array_map('serialize', $options['headerbefore'][$now]);
 
 						$newvalue = array_diff_assoc($nowvalue, $beforevalue);
 						$newvalue = array_map('unserialize', $newvalue);
@@ -724,12 +724,12 @@ class JCache
 
 		// Platform defaults
 		$defaulturlparams = array(
-			'format' 	=> 'WORD',
-			'option' 	=> 'WORD',
-			'view' 		=> 'WORD',
-			'layout' 	=> 'WORD',
-			'tpl' 		=> 'CMD',
-			'id' 		=> 'INT'
+			'format' => 'WORD',
+			'option' => 'WORD',
+			'view'   => 'WORD',
+			'layout' => 'WORD',
+			'tpl'    => 'CMD',
+			'id'     => 'INT'
 		);
 
 		// Use platform defaults if parameter doesn't already exist.

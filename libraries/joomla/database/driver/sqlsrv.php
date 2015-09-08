@@ -146,7 +146,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		}
 
 		// Set charactersets.
-		$this->utf = $this->setUTF();
+		$this->utf = $this->setUtf();
 	}
 
 	/**
@@ -831,7 +831,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
 		return false;
 	}

@@ -30,9 +30,9 @@ class InstallerViewDiscover extends InstallerViewDefault
 	public function display($tpl = null)
 	{
 		// Get data from the model.
-		$this->state		= $this->get('State');
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
+		$this->state      = $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
 
 		parent::display($tpl);
 	}
@@ -49,8 +49,8 @@ class InstallerViewDiscover extends InstallerViewDefault
 		/*
 		 * Set toolbar items for the page.
 		 */
-		JToolbarHelper::custom('discover.install', 'upload', 'upload', 'JTOOLBAR_INSTALL', true, false);
-		JToolbarHelper::custom('discover.refresh', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DISCOVER', false, false);
+		JToolbarHelper::custom('discover.install', 'upload', 'upload', 'JTOOLBAR_INSTALL', true);
+		JToolbarHelper::custom('discover.refresh', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DISCOVER', false);
 		JToolbarHelper::divider();
 
 		JHtmlSidebar::setAction('index.php?option=com_installer&view=discover');

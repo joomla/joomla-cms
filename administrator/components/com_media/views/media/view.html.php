@@ -30,7 +30,7 @@ class MediaViewMedia extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app	= JFactory::getApplication();
+		$app    = JFactory::getApplication();
 		$config = JComponentHelper::getParams('com_media');
 
 		if (!$app->isAdmin())
@@ -38,17 +38,14 @@ class MediaViewMedia extends JViewLegacy
 			return $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 		}
 
-		$lang	= JFactory::getLanguage();
-
-		$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
-
+		$lang     = JFactory::getLanguage();
+		$style    = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 		$document = JFactory::getDocument();
 
 		JHtml::_('behavior.framework', true);
-
 		JHtml::_('script', 'media/mediamanager.min.js', true, true);
-
 		JHtml::_('behavior.modal');
+
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function()
 		{
@@ -57,7 +54,7 @@ class MediaViewMedia extends JViewLegacy
 
 		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
 
-		if ($lang->isRTL())
+		if ($lang->isRtl())
 		{
 			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
 		}
@@ -83,14 +80,14 @@ class MediaViewMedia extends JViewLegacy
 		 */
 		$ftp = !JClientHelper::hasCredentials('ftp');
 
-		$session	= JFactory::getSession();
-		$state		= $this->get('state');
-		$this->session = $session;
-		$this->config = &$config;
-		$this->state = &$state;
+		$session           = JFactory::getSession();
+		$state             = $this->get('state');
+		$this->session     = $session;
+		$this->config      = &$config;
+		$this->state       = &$state;
 		$this->require_ftp = $ftp;
-		$this->folders_id = ' id="media-tree"';
-		$this->folders = $this->get('folderTree');
+		$this->folders_id  = ' id="media-tree"';
+		$this->folders     = $this->get('folderTree');
 
 		$this->sidebar = JHtmlSidebar::render();
 
@@ -111,7 +108,7 @@ class MediaViewMedia extends JViewLegacy
 	protected function addToolbar()
 	{
 		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+		$bar  = JToolBar::getInstance('toolbar');
 		$user = JFactory::getUser();
 
 		// The toolbar functions depend on Bootstrap JS
@@ -172,13 +169,13 @@ class MediaViewMedia extends JViewLegacy
 	protected function getFolderLevel($folder)
 	{
 		$this->folders_id = null;
-		$txt = null;
+		$txt              = null;
 
 		if (isset($folder['children']) && count($folder['children']))
 		{
-			$tmp = $this->folders;
+			$tmp           = $this->folders;
 			$this->folders = $folder;
-			$txt = $this->loadTemplate('folders');
+			$txt           = $this->loadTemplate('folders');
 			$this->folders = $tmp;
 		}
 

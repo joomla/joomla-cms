@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 require_once __DIR__ . '/helper.php';
 
 // Get the breadcrumbs
-$list	= ModBreadCrumbsHelper::getList($params);
-$count	= count($list);
+$list  = ModBreadCrumbsHelper::getList($params);
+$count = count($list);
 
 // Set the default separator
 $separator = ModBreadCrumbsHelper::setSeparator($params->get('separator'));

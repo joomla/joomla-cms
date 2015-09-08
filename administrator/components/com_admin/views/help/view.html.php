@@ -55,11 +55,11 @@ class AdminViewHelp extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->help_search			= $this->get('HelpSearch');
-		$this->page					= $this->get('Page');
-		$this->toc					= $this->get('Toc');
-		$this->lang_tag				= $this->get('LangTag');
-		$this->latest_version_check	= $this->get('LatestVersionCheck');
+		$this->help_search          = $this->get('HelpSearch');
+		$this->page                 = $this->get('Page');
+		$this->toc                  = $this->get('Toc');
+		$this->lang_tag             = $this->get('LangTag');
+		$this->latest_version_check = $this->get('LatestVersionCheck');
 
 		$this->addToolbar();
 		parent::display($tpl);

@@ -832,9 +832,8 @@ abstract class JHtmlBehavior
 		// This will become an object in Javascript but define it first in PHP for readability
 		$today = " " . JText::_('JLIB_HTML_BEHAVIOR_TODAY') . " ";
 		$text = array(
-			'INFO'			=> JText::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR'),
-
-			'ABOUT'			=> "DHTML Date/Time Selector\n"
+			'INFO'           => JText::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR'),
+			'ABOUT'          => "DHTML Date/Time Selector\n"
 				. "(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n"
 				. "For latest version visit: http://www.dynarch.com/projects/calendar/\n"
 				. "Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details."
@@ -843,29 +842,27 @@ abstract class JHtmlBehavior
 				. JText::_('JLIB_HTML_BEHAVIOR_YEAR_SELECT')
 				. JText::_('JLIB_HTML_BEHAVIOR_MONTH_SELECT')
 				. JText::_('JLIB_HTML_BEHAVIOR_HOLD_MOUSE'),
-
-			'ABOUT_TIME'	=> "\n\n"
+			'ABOUT_TIME'      => "\n\n"
 				. "Time selection:\n"
 				. "- Click on any of the time parts to increase it\n"
 				. "- or Shift-click to decrease it\n"
 				. "- or click and drag for faster selection.",
-
-			'PREV_YEAR'		=> JText::_('JLIB_HTML_BEHAVIOR_PREV_YEAR_HOLD_FOR_MENU'),
-			'PREV_MONTH'	=> JText::_('JLIB_HTML_BEHAVIOR_PREV_MONTH_HOLD_FOR_MENU'),
-			'GO_TODAY'		=> JText::_('JLIB_HTML_BEHAVIOR_GO_TODAY'),
-			'NEXT_MONTH'	=> JText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU'),
-			'SEL_DATE'		=> JText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE'),
-			'DRAG_TO_MOVE'	=> JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE'),
-			'PART_TODAY'	=> $today,
-			'DAY_FIRST'		=> JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST'),
-			'WEEKEND'		=> JFactory::getLanguage()->getWeekEnd(),
-			'CLOSE'			=> JText::_('JLIB_HTML_BEHAVIOR_CLOSE'),
-			'TODAY'			=> JText::_('JLIB_HTML_BEHAVIOR_TODAY'),
-			'TIME_PART'		=> JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE'),
-			'DEF_DATE_FORMAT'	=> "%Y-%m-%d",
-			'TT_DATE_FORMAT'	=> JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT'),
-			'WK'			=> JText::_('JLIB_HTML_BEHAVIOR_WK'),
-			'TIME'			=> JText::_('JLIB_HTML_BEHAVIOR_TIME')
+			'PREV_YEAR'       => JText::_('JLIB_HTML_BEHAVIOR_PREV_YEAR_HOLD_FOR_MENU'),
+			'PREV_MONTH'      => JText::_('JLIB_HTML_BEHAVIOR_PREV_MONTH_HOLD_FOR_MENU'),
+			'GO_TODAY'        => JText::_('JLIB_HTML_BEHAVIOR_GO_TODAY'),
+			'NEXT_MONTH'      => JText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU'),
+			'SEL_DATE'        => JText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE'),
+			'DRAG_TO_MOVE'    => JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE'),
+			'PART_TODAY'      => $today,
+			'DAY_FIRST'       => JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST'),
+			'WEEKEND'         => JFactory::getLanguage()->getWeekEnd(),
+			'CLOSE'           => JText::_('JLIB_HTML_BEHAVIOR_CLOSE'),
+			'TODAY'           => JText::_('JLIB_HTML_BEHAVIOR_TODAY'),
+			'TIME_PART'       => JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE'),
+			'DEF_DATE_FORMAT' => "%Y-%m-%d",
+			'TT_DATE_FORMAT'  => JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT'),
+			'WK'              => JText::_('JLIB_HTML_BEHAVIOR_WK'),
+			'TIME'            => JText::_('JLIB_HTML_BEHAVIOR_TIME')
 		);
 
 		return 'Calendar._DN = ' . json_encode($weekdays_full) . ';'

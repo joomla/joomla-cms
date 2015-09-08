@@ -110,21 +110,20 @@ class MediaModelList extends JModelLegacy
 		// Get current path from request
 		$current = (string) $this->getState('folder');
 
-		$basePath = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
-
+		$basePath  = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
 		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
 
 		$images  = array ();
 		$folders = array ();
 		$docs    = array ();
 
-		$fileList = false;
+		$fileList   = false;
 		$folderList = false;
 
 		if (file_exists($basePath))
 		{
 			// Get the list of files and folders from the given folder
-			$fileList	= JFolder::files($basePath);
+			$fileList   = JFolder::files($basePath);
 			$folderList = JFolder::folders($basePath);
 		}
 
@@ -156,10 +155,10 @@ class MediaModelList extends JModelLegacy
 						case 'jpeg':
 						case 'ico':
 							$info = @getimagesize($tmp->path);
-							$tmp->width		= @$info[0];
-							$tmp->height	= @$info[1];
-							$tmp->type		= @$info[2];
-							$tmp->mime		= @$info['mime'];
+							$tmp->width  = @$info[0];
+							$tmp->height = @$info[1];
+							$tmp->type   = @$info[2];
+							$tmp->mime   = @$info['mime'];
 
 							if (($info[0] > 60) || ($info[1] > 60))
 							{

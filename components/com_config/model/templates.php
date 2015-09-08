@@ -30,7 +30,7 @@ class ConfigModelTemplates extends ConfigModelForm
 		$state = $this->loadState();
 
 		// Load the parameters.
-		$params	= JComponentHelper::getParams('com_templates');
+		$params = JComponentHelper::getParams('com_templates');
 		$state->set('params', $params);
 
 		$this->setState($state);
@@ -42,7 +42,7 @@ class ConfigModelTemplates extends ConfigModelForm
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm	A JForm object on success, false on failure
+	 * @return  JForm    A JForm object on success, false on failure
 	 *
 	 * @since   3.2
 	 */
@@ -97,15 +97,15 @@ class ConfigModelTemplates extends ConfigModelForm
 
 		// Load the core and/or local language file(s).
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-		||	$lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, true);
+		|| $lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, true);
 
 		// Look for com_config.xml, which contains fileds to display
-		$formFile	= JPath::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
+		$formFile = JPath::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
 
 		if (!file_exists($formFile))
 		{
 			// If com_config.xml not found, fall back to templateDetails.xml
-			$formFile	= JPath::clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
+			$formFile = JPath::clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
 		}
 
 		if (file_exists($formFile))

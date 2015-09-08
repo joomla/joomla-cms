@@ -220,7 +220,7 @@ if ($saveOrder)
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
 							<?php if ($this->assoc) : ?>
-								<td class="center hidden-phone">
+								<td class="hidden-phone">
 									<?php if ($item->association): ?>
 										<?php echo JHtml::_('CategoriesAdministrator.association', $item->id, $extension); ?>
 									<?php endif; ?>
@@ -233,7 +233,7 @@ if ($saveOrder)
 									<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 								<?php endif; ?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="hidden-phone">
 								<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
 									<?php echo (int) $item->id; ?></span>
 							</td>
@@ -241,7 +241,7 @@ if ($saveOrder)
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-			<?php //Load the batch processing form. ?>
+			<?php // Load the batch processing form. ?>
 			<?php if ($user->authorise('core.create', $extension)
 				&& $user->authorise('core.edit', $extension)
 				&& $user->authorise('core.edit.state', $extension)) : ?>

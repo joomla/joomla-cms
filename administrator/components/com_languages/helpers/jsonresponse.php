@@ -101,15 +101,15 @@ class JJsonResponse
 		{
 			// Prepare the error response.
 			$this->success = false;
-			$this->error = true;
-			$this->message	= $response->getMessage();
+			$this->error   = true;
+			$this->message = $response->getMessage();
 		}
 		else
 		{
 			// Prepare the response data.
 			$this->success = !$error;
-			$this->error = $error;
-			$this->data = $response;
+			$this->error   = $error;
+			$this->data    = $response;
 		}
 	}
 
