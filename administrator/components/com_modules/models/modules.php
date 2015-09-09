@@ -339,6 +339,9 @@ class ModulesModelModules extends JModelList
 		{
 			$query->where('a.language = ' . $db->quote($language));
 		}
+		
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger('onComModulesGetListQuery', array( &$query));
 
 		return $query;
 	}
