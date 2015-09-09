@@ -17,7 +17,7 @@ JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
 $this->configFieldsets  = array('editorConfig');
-$this->hiddenFieldsets  = array('basic-limited');
+$this->hiddenFieldsets  = array('basic-limited', 'extra-content');
 $this->ignore_fieldsets = array('jmetadata', 'item_associations');
 
 // Create shortcut to parameters.
@@ -85,6 +85,10 @@ JFactory::getDocument()->addScriptDeclaration('
 			<div class="span9">
 				<fieldset class="adminform">
 					<?php echo $this->form->getInput('articletext'); ?>
+					<?php
+						$extra = $this->form->renderFieldset('extra-content');
+						if ($extra) echo '<div class="extraFieldset">' . $extra . '</div>';
+					?>
 				</fieldset>
 			</div>
 			<div class="span3">
