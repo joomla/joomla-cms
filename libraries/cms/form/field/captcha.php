@@ -84,9 +84,10 @@ class JFormFieldCaptcha extends JFormField
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
 		$result = parent::setup($element, $value, $group);
-		
-		if (JFactory::getApplication()->isAdmin()) {
-			return $result;	
+
+		if (JFactory::getApplication()->isAdmin())
+		{
+			return $result;
 		}
 
 		$plugin = $this->element['plugin'] ?
