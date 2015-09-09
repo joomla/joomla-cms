@@ -32,15 +32,15 @@ abstract class JHtmlFilter
 	 */
 	public static function slider($options = array())
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
+		$db     = JFactory::getDbo();
+		$query  = $db->getQuery(true);
+		$user   = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
-		$html = '';
+		$html   = '';
 		$filter = null;
 
 		// Get the configuration options.
-		$filterId = array_key_exists('filter_id', $options) ? $options['filter_id'] : null;
+		$filterId    = array_key_exists('filter_id', $options) ? $options['filter_id'] : null;
 		$activeNodes = array_key_exists('selected_nodes', $options) ? $options['selected_nodes'] : array();
 		$classSuffix = array_key_exists('class_suffix', $options) ? $options['class_suffix'] : '';
 
@@ -213,16 +213,16 @@ abstract class JHtmlFilter
 
 		// Get the configuration options.
 		$classSuffix = $options->get('class_suffix', null);
-		$showDates = $options->get('show_date_filters', false);
+		$showDates   = $options->get('show_date_filters', false);
 
 		// Try to load the results from cache.
-		$cache = JFactory::getCache('com_finder', '');
+		$cache   = JFactory::getCache('com_finder', '');
 		$cacheId = 'filter_select_' . serialize(array($idxQuery->filter, $options, $groups, JFactory::getLanguage()->getTag()));
 
 		// Check the cached results.
 		if (!($branches = $cache->get($cacheId)))
 		{
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Load the predefined filter if specified.
@@ -368,14 +368,14 @@ abstract class JHtmlFilter
 			if (array_key_exists($bv->title, $idxQuery->filters))
 			{
 				// Get the request filters.
-				$temp = JFactory::getApplication()->input->request->get('t', array(), 'array');
+				$temp   = JFactory::getApplication()->input->request->get('t', array(), 'array');
+
 				// Search for active nodes in the branch and get the active node.
 				$active = array_intersect($temp, $idxQuery->filters[$bv->title]);
 				$active = count($active) === 1 ? array_shift($active) : null;
 			}
 
 			// Build a node.
-
 			$html .= '<div class="controls finder-selects">';
 			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" class="control-label">';
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
@@ -409,13 +409,13 @@ abstract class JHtmlFilter
 
 		// Get the configuration options.
 		$classSuffix = $options->get('class_suffix', null);
-		$loadMedia = $options->get('load_media', true);
-		$showDates = $options->get('show_date_filters', false);
+		$loadMedia   = $options->get('load_media', true);
+		$showDates   = $options->get('show_date_filters', false);
 
 		if (!empty($showDates))
 		{
 			// Build the date operators options.
-			$operators = array();
+			$operators   = array();
 			$operators[] = JHtml::_('select.option', 'before', JText::_('COM_FINDER_FILTER_DATE_BEFORE'));
 			$operators[] = JHtml::_('select.option', 'exact', JText::_('COM_FINDER_FILTER_DATE_EXACTLY'));
 			$operators[] = JHtml::_('select.option', 'after', JText::_('COM_FINDER_FILTER_DATE_AFTER'));
