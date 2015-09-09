@@ -96,7 +96,7 @@ abstract class JHtmlJGrid
 	 * Returns a state on a grid
 	 *
 	 * @param   array         $states     array of value/state. Each state is an array of the form
-	 *                                    (task, text, title,html active class, HTML inactive class)
+	 *                                    (task, text, active title, inactive title, tip (boolean), HTML active class, HTML inactive class)
 	 *                                    or ('task'=>task, 'text'=>text, 'active_title'=>active title,
 	 *                                    'inactive_title'=>inactive title, 'tip'=>boolean, 'active_class'=>html active class,
 	 *                                    'inactive_class'=>html inactive class)
