@@ -22,8 +22,18 @@ JFactory::getDocument()->addScriptDeclaration(
 					return false;
 				});
 			});
+			$('.video-preview').each(function(index, value) {
+				$(this).unbind('click');
+				$(this).on('click', function(e) {
+					e.preventDefault();
+					window.parent.jQuery('#videoPreview').modal('show');
+					//console.log(window.parent.jQuery('.mejs-player')[0].player.media);
+					window.parent.jQuery('#mejsPlayer')[0].player.media.setSrc($(this).attr('href'));
+					return false;
+				});
+			});
 		});
-			"
+	"
 );
 ?>
 <form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
