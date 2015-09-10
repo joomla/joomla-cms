@@ -1082,6 +1082,8 @@ class JoomlaInstallerScript
 			'/libraries/joomla/registry/format/json.php',
 			'/libraries/joomla/registry/format/php.php',
 			'/libraries/joomla/registry/format/xml.php',
+			// Joomla 3.3.1
+			'/administrator/templates/isis/html/message.php',
 			// Joomla! 3.4
 			'/administrator/components/com_tags/helpers/html/index.html',
 			'/administrator/components/com_tags/models/fields/index.html',

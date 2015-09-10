@@ -55,7 +55,7 @@ JHtml::_('bootstrap.tooltip');
 					</a>
 				<?php else : ?>
 					<span itemprop="name">
-						<?php $item->name; ?>
+						<?php echo $item->name; ?>
 					</span>
 				<?php endif; ?>
 

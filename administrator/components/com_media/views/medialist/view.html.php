@@ -37,31 +37,11 @@ class MediaViewMediaList extends JViewLegacy
 		// Do not allow cache
 		$app->allowCache(false);
 
-		JHtml::_('behavior.framework', true);
-
-		JFactory::getDocument()->addScriptDeclaration("
-		window.addEvent('domready', function()
-		{
-			window.parent.document.updateUploader();
-			$$('a.img-preview').each(function(el)
-			{
-				el.addEvent('click', function(e)
-				{
-					window.top.document.preview.fromElement(el);
-					return false;
-				});
-			});
-		});");
-
-		JHtml::_('jquery.framework');
-		JFactory::getDocument()->addScript(JUri::root() . 'media/mediaelement/mediaelement-and-player.js');
-		JFactory::getDocument()->addStyleSheet(JUri::root() . 'media/mediaelement/mediaelementplayer.css');
-
-		$images = $this->get('images');
+		$images    = $this->get('images');
 		$documents = $this->get('documents');
-		$folders = $this->get('folders');
-		$videos = $this->get('videos');
-		$state = $this->get('state');
+		$folders   = $this->get('folders');
+		$videos    = $this->get('videos');
+		$state     = $this->get('state');
 
 		// Check for invalid folder name
 		if (empty($state->folder))
@@ -75,12 +55,12 @@ class MediaViewMediaList extends JViewLegacy
 			}
 		}
 
-		$this->baseURL = JUri::root();
-		$this->images = &$images;
+		$this->baseURL   = JUri::root();
+		$this->images    = &$images;
 		$this->documents = &$documents;
-		$this->folders = &$folders;
-		$this->state = &$state;
-		$this->videos = &$videos;
+		$this->folders   = &$folders;
+		$this->state     = &$state;
+		$this->videos    = &$videos;
 
 		parent::display($tpl);
 	}

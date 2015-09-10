@@ -8,9 +8,24 @@
  */
 
 defined('_JEXEC') or die;
-$user = JFactory::getUser();
+$user   = JFactory::getUser();
 $params = JComponentHelper::getParams('com_media');
-$path = 'file_path';
+$path   = 'file_path';
+
+JFactory::getDocument()->addScriptDeclaration(
+	"
+		jQuery(document).ready(function($){
+			window.parent.document.updateUploader();
+			$('.img-preview, .preview').each(function(index, value) {
+				$(this).on('click', function(e) {
+				window.parent.jQuery('#imagePreviewSrc').attr('src', $(this).attr('href'));
+				window.parent.jQuery('#imagePreview').modal('show');
+					return false;
+				});
+			});
+		});
+			"
+);
 ?>
 <form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 	<div class="muted">
