@@ -208,8 +208,15 @@ class JControllerAdmin extends JControllerLegacy
 			{
 				$model->publish($cid, $value);
 
+				$errors = $model->getErrors();
+
 				if ($value == 1)
 				{
+					if(!empty($errors)){
+						$exception = new Exception(JText::_('COM_CATEGORIES_PUBLISHING_NOT_SUCCESSFUL'));
+						throw $exception;
+					}
+
 					$ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
 				}
 				elseif ($value == 0)
