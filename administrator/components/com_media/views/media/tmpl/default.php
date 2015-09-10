@@ -133,7 +133,7 @@ echo JHtml::_(
 		'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
 			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 	),
-	'<div id="videoPlayer" style="z-index: -100;"><video class="mejs-player" id="mejsPlayer" src="/media/jui/img/dummy.mp4" style="height: 250px;"/></div>'
+	'<div id="videoPlayer" style="z-index: -100;"><video id="mejsPlayer" style="height: 250px;"/></div>'
 );
 ?>
 	<!-- End Content -->
