@@ -487,7 +487,7 @@ abstract class JHtml
 								{
 									$md5 = dirname($path) . '/MD5SUM';
 									$includes[] = JUri::root(true) . "/media/system/$folder/$file" .
-										(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+											(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
 
 									break;
 								}
@@ -996,7 +996,7 @@ abstract class JHtml
 			$document = JFactory::getDocument();
 			$document
 				->addScriptDeclaration(
-					'jQuery(document).ready(function($) {Calendar.setup({
+				'jQuery(document).ready(function($) {Calendar.setup({
 			// Id of the input field
 			inputField: "' . $id . '",
 			// Format of the input field
@@ -1008,7 +1008,7 @@ abstract class JHtml
 			singleClick: true,
 			firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
 			});});'
-				);
+			);
 			$done[] = $id;
 		}
 
@@ -1017,10 +1017,10 @@ abstract class JHtml
 		$div_class = (!$readonly && !$disabled) ? ' class="input-append"' : '';
 
 		return '<div' . $div_class . '>'
-		. '<input type="text" title="' . ($inputvalue ? static::_('date', $value, null, null) : '')
-		. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-		. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><span class="icon-calendar"></span></button>'
-		. '</div>';
+				. '<input type="text" title="' . ($inputvalue ? static::_('date', $value, null, null) : '')
+				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
+				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><span class="icon-calendar"></span></button>'
+			. '</div>';
 	}
 
 	/**
