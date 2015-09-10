@@ -37,7 +37,7 @@ jQuery(document).ready(function($){
 		</a>
 	</td>
 	<td class="dimensions">
-		<?php //echo JText::sprintf('COM_MEDIA_IMAGE_DIMENSIONS', $this->_tmp_video->width, $this->_tmp_video->height); ?>
+		<?php // Can we figure out the dimensions of the video? ?>
 	</td>
 	<td class="filesize">
 		<?php echo JHtml::_('number.bytes', $this->_tmp_video->size); ?>
@@ -49,7 +49,6 @@ jQuery(document).ready(function($){
 		</td>
 	<?php endif;?>
 </tr>
+
 <?php
-
 $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$this->_tmp_video, &$params));
-
