@@ -37,6 +37,10 @@ class MediaViewMediaList extends JViewLegacy
 		// Do not allow cache
 		$app->allowCache(false);
 
+		JHtml::_('jquery.framework');
+		JFactory::getDocument()->addScript(JUri::root() . 'media/mediaelement/mediaelement-and-player.js');
+		JFactory::getDocument()->addStyleSheet(JUri::root() . 'media/mediaelement/mediaelementplayer.css');
+
 		$images    = $this->get('images');
 		$documents = $this->get('documents');
 		$folders   = $this->get('folders');
