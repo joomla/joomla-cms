@@ -89,6 +89,13 @@ class JImage
 	protected static $formats = array();
 
 	/**
+	 * @var    string  Method when generate thumbnail image.
+	 *
+	 * @since  3.4.4
+	 */
+	protected $generateBestQuality = true;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
@@ -127,6 +134,10 @@ class JImage
 			// If the source input is not empty, assume it is a path and populate the image handle.
 			$this->loadFile($source);
 		}
+
+		// Get generate method from global configuration
+		$config = JFactory::getConfig();
+		$this->generateBestQuality = (boolean) $config->get('thumbnail_generate_method', true);
 	}
 
 	/**
@@ -420,12 +431,15 @@ class JImage
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
+		}
 
-			imagecopyresized($handle, $this->handle, 0, 0, $left, $top, $width, $height, $width, $height);
+		if ($this->generateBestQuality)
+		{
+			imagecopyresampled($handle, $this->handle, 0, 0, $left, $top, $width, $height, $width, $height);
 		}
 		else
 		{
-			imagecopyresampled($handle, $this->handle, 0, 0, $left, $top, $width, $height, $width, $height);
+			imagecopyresized($handle, $this->handle, 0, 0, $left, $top, $width, $height, $width, $height);
 		}
 
 		// If we are cropping to a new image, create a new JImage object.
@@ -758,8 +772,11 @@ class JImage
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
+		}
 
-			imagecopyresized(
+		if ($this->generateBestQuality)
+		{
+			imagecopyresampled(
 				$handle,
 				$this->handle,
 				$offset->x,
@@ -774,7 +791,7 @@ class JImage
 		}
 		else
 		{
-			imagecopyresampled(
+			imagecopyresized(
 				$handle,
 				$this->handle,
 				$offset->x,

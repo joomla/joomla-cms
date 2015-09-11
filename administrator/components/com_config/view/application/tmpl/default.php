@@ -69,6 +69,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<div class="span6">
 							<?php echo $this->loadTemplate('seo'); ?>
 							<?php echo $this->loadTemplate('cookie'); ?>
+							<?php echo $this->loadTemplate('thumbnail'); ?>
 						</div>
 					</div>
 				</div>
