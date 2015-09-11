@@ -129,7 +129,7 @@ echo JHtml::_(
 	'bootstrap.renderModal',
 	'videoPreview',
 	array(
-		'title' => JText::_('COM_MEDIA_VIDEO_PREVIEW'),
+		'title' => JText::_('COM_MEDIA_PREVIEW'),
 		'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
 			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 	),
