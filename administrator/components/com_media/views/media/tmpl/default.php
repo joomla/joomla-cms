@@ -116,7 +116,7 @@ echo JHtml::_(
 	'bootstrap.renderModal',
 	'imagePreview',
 	array(
-		'title' => JText::_('COM_MEDIA_IMAGE_PREVIEW'),
+		'title' => JText::_('COM_MEDIA_PREVIEW'),
 		'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
 			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 	),
