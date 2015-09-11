@@ -962,6 +962,23 @@
 	</fieldset>
 
 	<fieldset
+		name="thumbnail"
+		label="CONFIG_THUMBNAIL_SETTINGS_LABEL">
+		<field
+			name="thumbnail_generate_method"
+			type="radio"
+			class="btn-group"
+			label="COM_CONFIG_FIELD_THUMBNAIL_GENERATE_METHOD_LABEL"
+			description="COM_CONFIG_FIELD_THUMBNAIL_GENERATE_METHOD_DESC"
+			required="false"
+			default="1">
+			<option value="1">COM_CONFIG_FIELD_VALUE_THUMBNAIL_QUALITY</option>
+			<option value="0">COM_CONFIG_FIELD_VALUE_THUMBNAIL_SPEED</option>
+
+		</field>
+	</fieldset>
+
+	<fieldset
 		name="permissions"
 		label="CONFIG_PERMISSION_SETTINGS_LABEL">
 
