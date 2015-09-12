@@ -327,12 +327,12 @@ class ContactModelContact extends JModelForm
 
 				if (empty($result))
 				{
-					JError::raiseError(404, JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'));
+					throw new Exception(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'));
 				}
 			}
 			catch (Exception $e)
 			{
-				$this->setError($e);
+				$this->setError($e->getMessage());
 
 				return false;
 			}
