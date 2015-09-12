@@ -69,8 +69,8 @@ class PlgSystemLogout extends JPlugin
 			// Create the cookie.
 			$hash = JApplicationHelper::getHash('PlgSystemLogout');
 			$conf = JFactory::getConfig();
-			$cookie_domain 	= $conf->get('cookie_domain', '');
-			$cookie_path 	= $conf->get('cookie_path', '/');
+			$cookie_domain = $conf->get('cookie_domain', '');
+			$cookie_path   = $conf->get('cookie_path', '/');
 			setcookie($hash, true, time() + 86400, $cookie_path, $cookie_domain);
 		}
 

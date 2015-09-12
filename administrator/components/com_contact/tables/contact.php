@@ -60,15 +60,15 @@ class ContactTableContact extends JTable
 			$this->params = (string) $registry;
 		}
 
-		$date	= JFactory::getDate();
-		$user	= JFactory::getUser();
+		$date = JFactory::getDate();
+		$user = JFactory::getUser();
 
-		$this->modified		= $date->toSql();
+		$this->modified = $date->toSql();
 
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified_by	= $user->get('id');
+			$this->modified_by = $user->get('id');
 		}
 		else
 		{
@@ -141,7 +141,7 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		/** check for valid name */
+		// Check for valid name
 		if (trim($this->name) == '')
 		{
 			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
@@ -152,14 +152,14 @@ class ContactTableContact extends JTable
 		// Generate a valid alias
 		$this->generateAlias();
 
-		/** check for valid category */
+		// Check for valid category
 		if (trim($this->catid) == '')
 		{
 			$this->setError(JText::_('COM_CONTACT_WARNING_CATEGORY'));
 
 			return false;
 		}
-		/** sanity check for user_id */
+		// Sanity check for user_id */
 		if (!($this->user_id))
 		{
 			$this->user_id = 0;
@@ -177,7 +177,7 @@ class ContactTableContact extends JTable
 		 * Clean up keywords -- eliminate extra spaces between phrases
 		 * and cr (\r) and lf (\n) characters from string.
 		 * Only process if not empty.
- 		 */
+		 */
 		if (!empty($this->metakey))
 		{
 			// Array of characters to remove.

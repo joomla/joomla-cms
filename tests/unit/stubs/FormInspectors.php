@@ -148,7 +148,7 @@ class JFormInspector extends JForm
 	 *
 	 * @return string
 	 */
-	public function getXML()
+	public function getXml()
 	{
 		return $this->xml;
 	}

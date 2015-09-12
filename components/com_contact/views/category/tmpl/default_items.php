@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <?php if (empty($this->items)) : ?>
 	<p> <?php echo JText::_('COM_CONTACT_NO_CONTACTS'); ?>	 </p>
@@ -51,15 +51,15 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 						<span class="pull-right">
 							<?php if ($this->params->get('show_telephone_headings') AND !empty($item->telephone)) : ?>
-								<?php echo JTEXT::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br />
+								<?php echo JText::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br />
 							<?php endif; ?>
 
 							<?php if ($this->params->get('show_mobile_headings') AND !empty ($item->mobile)) : ?>
-									<?php echo JTEXT::sprintf('COM_CONTACT_MOBILE_NUMBER', $item->mobile); ?><br />
+									<?php echo JText::sprintf('COM_CONTACT_MOBILE_NUMBER', $item->mobile); ?><br />
 							<?php endif; ?>
 
 							<?php if ($this->params->get('show_fax_headings') AND !empty($item->fax) ) : ?>
-								<?php echo JTEXT::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br />
+								<?php echo JText::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br />
 							<?php endif; ?>
 					</span>
 

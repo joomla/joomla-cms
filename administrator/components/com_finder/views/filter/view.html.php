@@ -68,7 +68,10 @@ class FinderViewFilter extends JViewLegacy
 		$canDo = JHelperContent::getActions('com_finder');
 
 		// Configure the toolbar.
-		JToolbarHelper::title(JText::_('COM_FINDER_FILTER_EDIT_TOOLBAR_TITLE'), 'zoom-in finder');
+		JToolbarHelper::title(
+			$isNew ? JText::_('COM_FINDER_FILTER_NEW_TOOLBAR_TITLE') : JText::_('COM_FINDER_FILTER_EDIT_TOOLBAR_TITLE'),
+			'zoom-in finder'
+		);
 
 		// Set the actions for new and existing records.
 		if ($isNew)

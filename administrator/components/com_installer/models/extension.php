@@ -52,12 +52,12 @@ class InstallerModel extends JModelList
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
-		$ordering	= $this->getState('list.ordering');
-		$search		= $this->getState('filter.search');
+		$ordering = $this->getState('list.ordering');
+		$search   = $this->getState('filter.search');
 
 		// Replace slashes so preg_match will work
-		$search 	= str_replace('/', ' ', $search);
-		$db			= $this->getDbo();
+		$search = str_replace('/', ' ', $search);
+		$db     = $this->getDbo();
 
 		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
 		{
@@ -90,14 +90,12 @@ class InstallerModel extends JModelList
 
 			return array_slice($result, $limitstart, $limit ? $limit : null);
 		}
-		else
-		{
-			$query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
-			$result = parent::_getList($query, $limitstart, $limit);
-			$this->translate($result);
 
-			return $result;
-		}
+		$query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+		$result = parent::_getList($query, $limitstart, $limit);
+		$this->translate($result);
+
+		return $result;
 	}
 
 	/**
@@ -113,22 +111,17 @@ class InstallerModel extends JModelList
 
 		foreach ($items as &$item)
 		{
-			if (strlen($item->manifest_cache))
+			if (strlen($item->manifest_cache) && $data = json_decode($item->manifest_cache))
 			{
-				$data = json_decode($item->manifest_cache);
-
-				if ($data)
+				foreach ($data as $key => $value)
 				{
-					foreach ($data as $key => $value)
+					if ($key == 'type')
 					{
-						if ($key == 'type')
-						{
-							// Ignore the type field
-							continue;
-						}
-
-						$item->$key = $value;
+						// Ignore the type field
+						continue;
 					}
+
+					$item->$key = $value;
 				}
 			}
 

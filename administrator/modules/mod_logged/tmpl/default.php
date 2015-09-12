@@ -41,7 +41,7 @@ JHtml::_('bootstrap.tooltip');
 			</div>
 			<div class="span3">
 				<span class="small hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LOGGED_LAST_ACTIVITY'); ?>">
-					<span class="icon-calendar"></span> <?php echo JHtml::_('date', $user->time, JText::_('DATE_FORMAT_LC4')); ?>
+					<span class="icon-calendar"></span> <?php echo JHtml::_('date', $user->time, JText::_('DATE_FORMAT_LC2')); ?>
 				</span>
 			</div>
 		</div>

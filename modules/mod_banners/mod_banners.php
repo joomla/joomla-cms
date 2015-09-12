@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 // Include the syndicate functions only once
 require_once __DIR__ . '/helper.php';
 
-$headerText	= trim($params->get('header_text'));
-$footerText	= trim($params->get('footer_text'));
+$headerText = trim($params->get('header_text'));
+$footerText = trim($params->get('footer_text'));
 
 require_once JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php';
 BannersHelper::updateReset();

@@ -31,6 +31,7 @@ class JErrorPageTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
+		TestReflection::setValue('JDocument', 'instances', array());
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -41,6 +42,20 @@ class JErrorPageTest extends TestCaseDatabase
 	 */
 	public function testEnsureTheErrorPageIsCorrectlyRendered()
 	{
+		$documentResponse = '<title>500 - Testing JErrorPage::render()</title>';
+
+		$key = serialize(array('error', array()));
+
+		$mockErrorDocument = $this->getMockBuilder('JDocumentError')
+			->setMethods(array('setError', 'setTitle', 'render'))
+			->getMock();
+
+		$mockErrorDocument->expects($this->any())
+			->method('render')
+			->willReturn($documentResponse);
+
+		TestReflection::setValue('JDocument', 'instances', array($key => $mockErrorDocument));
+
 		// Create an Exception to inject into the method
 		$exception = new RuntimeException('Testing JErrorPage::render()', 500);
 
@@ -49,7 +64,7 @@ class JErrorPageTest extends TestCaseDatabase
 		JErrorPage::render($exception);
 		$output = ob_get_clean();
 
-		// Validate the <title> element was set correctly
-		$this->assertContains('<title>500 - Testing JErrorPage::render()</title>', $output);
+		// Validate the mocked response from JDocument was received
+		$this->assertEquals($documentResponse, $output);
 	}
 }

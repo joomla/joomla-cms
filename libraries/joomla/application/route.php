@@ -70,7 +70,7 @@ class JRoute
 		 * https and need to set our secure URL to the current request URL, if not, and the scheme is
 		 * 'http', then we need to do a quick string manipulation to switch schemes.
 		 */
-		if ((int) $ssl || $uri->isSSL())
+		if ((int) $ssl || $uri->isSsl())
 		{
 			static $host_port;
 
@@ -81,7 +81,7 @@ class JRoute
 			}
 
 			// Determine which scheme we want.
-			$uri->setScheme(((int) $ssl === 1 || $uri->isSSL()) ? 'https' : 'http');
+			$uri->setScheme(((int) $ssl === 1 || $uri->isSsl()) ? 'https' : 'http');
 			$uri->setHost($host_port[0]);
 			$uri->setPort($host_port[1]);
 			$scheme = array_merge($scheme, array('host', 'port', 'scheme'));

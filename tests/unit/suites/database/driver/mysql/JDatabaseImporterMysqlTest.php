@@ -214,7 +214,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array  Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
 	 */
-	public function dataGetAlterTableSQL()
+	public function dataGetAlterTableSql()
 	{
 		$f1 = '<field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />';
 		$f2 = '<field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />';
@@ -267,7 +267,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array  Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
 	 */
-	public function dataGetColumnSQL()
+	public function dataGetColumnSql()
 	{
 		return array(
 			array(
@@ -299,7 +299,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array  Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
 	 */
-	public function dataGetKeySQL()
+	public function dataGetKeySql()
 	{
 		return array(
 			array(
@@ -411,7 +411,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * Note that combinations of fields is tested in testGetColumnSQL.
 	 */
-	public function testGetAddColumnSQL()
+	public function testGetAddColumnSql()
 	{
 		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
@@ -430,7 +430,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * Note that combinations of keys is tested in testGetKeySQL.
 	 */
-	public function testGetAddKeySQL()
+	public function testGetAddKeySql()
 	{
 		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
@@ -453,7 +453,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider dataGetAlterTableSQL
 	 */
-	public function testGetAlterTableSQL($structure, $expected, $message)
+	public function testGetAlterTableSql($structure, $expected, $message)
 	{
 		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
@@ -472,7 +472,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * Note that combinations of fields is tested in testGetColumnSQL.
 	 */
-	public function testGetChangeColumnSQL()
+	public function testGetChangeColumnSql()
 	{
 		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
@@ -495,7 +495,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider dataGetColumnSQL
 	 */
-	public function testGetColumnSQL($field, $expected, $message)
+	public function testGetColumnSql($field, $expected, $message)
 	{
 		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
@@ -510,7 +510,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getDropColumnSQL method.
 	 */
-	public function testGetDropColumnSQL()
+	public function testGetDropColumnSql()
 	{
 		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
@@ -527,7 +527,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getDropKeySQL method.
 	 */
-	public function testGetDropKeySQL()
+	public function testGetDropKeySql()
 	{
 		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
@@ -544,7 +544,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getDropPrimaryKeySQL method.
 	 */
-	public function testGetDropPrimaryKeySQL()
+	public function testGetDropPrimaryKeySql()
 	{
 		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
@@ -605,7 +605,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider dataGetKeySQL
 	 */
-	public function testGetKeySQL($field, $expected, $message)
+	public function testGetKeySql($field, $expected, $message)
 	{
 		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);

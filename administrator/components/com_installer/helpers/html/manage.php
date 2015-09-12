@@ -32,7 +32,7 @@ abstract class InstallerHtmlManage
 	 */
 	public static function state($value, $i, $enabled = true, $checkbox = 'cb')
 	{
-		$states	= array(
+		$states = array(
 			2 => array(
 				'',
 				'COM_INSTALLER_EXTENSION_PROTECTED',

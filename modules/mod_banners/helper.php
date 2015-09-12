@@ -28,9 +28,9 @@ class ModBannersHelper
 	public static function &getList(&$params)
 	{
 		JModelLegacy::addIncludePath(JPATH_ROOT . '/components/com_banners/models', 'BannersModel');
-		$document	= JFactory::getDocument();
-		$app		= JFactory::getApplication();
-		$keywords	= explode(',', $document->getMetaData('keywords'));
+		$document = JFactory::getDocument();
+		$app      = JFactory::getApplication();
+		$keywords = explode(',', $document->getMetaData('keywords'));
 
 		$model = JModelLegacy::getInstance('Banners', 'BannersModel', array('ignore_request' => true));
 		$model->setState('filter.client_id', (int) $params->get('cid'));

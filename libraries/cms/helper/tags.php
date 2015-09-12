@@ -544,6 +544,7 @@ class JHelperTags extends JHelper
 				. ', ' . 'count(m.tag_id) AS match_count'
 				. ', ' . 'MAX(m.tag_date) as tag_date'
 				. ', ' . 'MAX(c.core_title) AS core_title'
+				. ', ' . 'MAX(c.core_params) AS core_params'
 			)
 			->select('MAX(c.core_alias) AS core_alias, MAX(c.core_body) AS core_body, MAX(c.core_state) AS core_state, MAX(c.core_access) AS core_access')
 			->select(
@@ -804,7 +805,7 @@ class JHelperTags extends JHelper
 		// Process ucm_content and ucm_base if either tags have changed or we have some tags.
 		if ($this->tagsChanged || (!empty($newTags) && $newTags[0] != ''))
 		{
-			if (!$newTags && $replace = true)
+			if (!$newTags && $replace == true)
 			{
 				// Delete all tags data
 				$key = $table->getKeyName();

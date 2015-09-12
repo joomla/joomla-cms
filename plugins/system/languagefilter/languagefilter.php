@@ -58,10 +58,10 @@ class PlgSystemLanguageFilter extends JPlugin
 		if ($this->app->isSite())
 		{
 			// Setup language data.
-			$this->mode_sef		= $this->app->get('sef', 0);
-			$this->sefs			= JLanguageHelper::getLanguages('sef');
-			$this->lang_codes	= JLanguageHelper::getLanguages('lang_code');
-			$this->default_lang	= JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+			$this->mode_sef     = $this->app->get('sef', 0);
+			$this->sefs         = JLanguageHelper::getLanguages('sef');
+			$this->lang_codes   = JLanguageHelper::getLanguages('lang_code');
+			$this->default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 
 			$levels = JFactory::getUser()->getAuthorisedViewLevels();
 
@@ -246,21 +246,29 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			$sef = $parts[0];
 
-			// If the default prefix should be removed and the SEF prefix is not among those
-			// that we have in our system, its the default language and we "found" the right language
-			if ($this->params->get('remove_default_prefix', 0) && !isset($this->sefs[$sef]))
+			// Do we have a URL Language Code ?
+			if (!isset($this->sefs[$sef]))
 			{
-				if ($parts[0])
+				// Check if remove default url language code is set
+				if ($this->params->get('remove_default_prefix', 0))
 				{
-					// We load a default site language page
-					$lang_code = $this->default_lang;
+					if ($parts[0])
+					{
+						// We load a default site language page
+						$lang_code = $this->default_lang;
+					}
+					else
+					{
+						// We check for an existing language cookie
+						$lang_code = $this->getLanguageCookie();
+					}
 				}
 				else
 				{
-					// We check for an existing language cookie
 					$lang_code = $this->getLanguageCookie();
 				}
 
+				// No language code. Try using browser settings or default site language
 				if (!$lang_code && $this->params->get('detect_browser', 0) == 1)
 				{
 					$lang_code = JLanguageHelper::detectLanguage();
@@ -271,20 +279,16 @@ class PlgSystemLanguageFilter extends JPlugin
 					$lang_code = $this->default_lang;
 				}
 
-				if ($lang_code == $this->default_lang)
+				if ($this->params->get('remove_default_prefix', 0) && $lang_code == $this->default_lang)
 				{
 					$found = true;
 				}
 			}
 			else
 			{
-				// If the language prefix should always be present or it is indeed , we can now look it up in our array
-				if (isset($this->sefs[$sef]))
-				{
-					// We found our language
-					$found = true;
-					$lang_code = $this->sefs[$sef]->lang_code;
-				}
+				// We found our language
+				$found = true;
+				$lang_code = $this->sefs[$sef]->lang_code;
 
 				// If we found our language, but its the default language and we don't want a prefix for that, we are on a wrong URL.
 				// Or we try to change the language back to the default language. We need a redirect to the proper URL for the default language.
@@ -308,6 +312,21 @@ class PlgSystemLanguageFilter extends JPlugin
 			}
 		}
 		// We are not in SEF mode
+		else
+		{
+			$lang_code = $this->getLanguageCookie();
+
+			if ($this->params->get('detect_browser', 1) && !$lang_code)
+			{
+				$lang_code = JLanguageHelper::detectLanguage();
+			}
+
+			if (!isset($this->lang_codes[$lang_code]))
+			{
+				$lang_code = $this->default_lang;
+			}
+		}
+
 		$lang = $uri->getVar('lang', $lang_code);
 
 		if (isset($this->sefs[$lang]))

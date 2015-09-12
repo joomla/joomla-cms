@@ -27,7 +27,7 @@ class ModLoginHelper
 	 *
 	 * @return string
 	 */
-	public static function getReturnURL($params, $type)
+	public static function getReturnUrl($params, $type)
 	{
 		$app  = JFactory::getApplication();
 		$item = $app->getMenu()->getItem($params->get($type));

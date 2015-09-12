@@ -83,12 +83,12 @@ class PlgUserContactCreator extends JPlugin
 				$contact->published = $this->params->get('autopublish', 0);
 			}
 
-			$contact->name		= $user['name'];
-			$contact->user_id	= $user_id;
-			$contact->email_to	= $user['email'];
-			$contact->catid		= $categoryId;
-			$contact->access	= (int) JFactory::getConfig()->get('access');
-			$contact->language	= '*';
+			$contact->name     = $user['name'];
+			$contact->user_id  = $user_id;
+			$contact->email_to = $user['email'];
+			$contact->catid    = $categoryId;
+			$contact->access   = (int) JFactory::getConfig()->get('access');
+			$contact->language = '*';
 			$contact->generateAlias();
 
 			// Check if the contact already exists to generate new name & alias if required

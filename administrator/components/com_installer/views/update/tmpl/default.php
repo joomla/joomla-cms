@@ -13,8 +13,8 @@ JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <div id="installer-update" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=update');?>" method="post" name="adminForm" id="adminForm">
@@ -62,7 +62,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="center">
+					<th width="10%">
 						<?php echo JText::_('JVERSION'); ?>
 					</th>
 					<th>
@@ -99,19 +99,19 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							</span>
 						</label>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo $item->extension_id ? JText::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : JText::_('COM_INSTALLER_NEW_INSTALL') ?>
 					</td>
 					<td>
 						<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type) ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo $item->version ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo $client; ?>
 					</td>
 					<td><?php echo $item->detailsurl ?>

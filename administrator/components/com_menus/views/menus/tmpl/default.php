@@ -110,7 +110,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 
 						</th>
-						<th width="1%" class="center nowrap">
+						<th width="1%" class="nowrap">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -198,8 +198,8 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 									<?php endif; ?>
 								<?php endforeach; ?>
 							<?php elseif ($modMenuId) : ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype); ?>">
-								<?php echo JText::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
+								<?php $link = JRoute::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype); ?>
+								<a href="<?php echo $link; ?>"><?php echo JText::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
 								<?php echo JHtml::_(
 										'bootstrap.renderModal',
 										'moduleModal',
@@ -214,7 +214,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 									); ?>
 							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td>
 							<?php echo $item->id; ?>
 						</td>
 					</tr>
