@@ -327,7 +327,15 @@ class ContactModelContact extends JModelForm
 
 				if (empty($result))
 				{
-					throw new Exception(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+					$access = $this->getState('filter.access');
+
+					if ($access) {
+						throw new Exception(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+					}
+					else
+					{
+						throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'),403);
+					}
 				}
 			}
 			catch (Exception $e)
