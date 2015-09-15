@@ -183,12 +183,13 @@ class MenusHelper
 			if (is_array($published))
 			{
 				$pnobool = array_map(
-					function ($v) 
+					function ($v)
 					{
-						if (strcasecmp($v, 'true') == 0) {
+						if (strcasecmp($v, 'true') == 0)
+					       	{
 							return 1;
-						} 
-						elseif (strcasecmp($v, 'false') == 0) 
+						}
+						elseif (strcasecmp($v, 'false') == 0)
 						{
 							return 0;
 						}
