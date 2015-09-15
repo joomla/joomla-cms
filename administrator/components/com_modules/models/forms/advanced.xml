@@ -13,6 +13,20 @@
 			/>
 
 			<field
+				name="bootstrap_class"
+				type="list"
+				default="span"
+				label="COM_MODULES_FIELD_BOOTSTRAP_CLASS_LABEL"
+				description="COM_MODULES_FIELD_BOOTSTRAP_CLASS_DESC"
+			>
+				<option value="span">COM_MODULES_OPTION_BOOTSTRAP_CLASS_SPAN</option>
+				<option value="col-xs-">COM_MODULES_OPTION_BOOTSTRAP_CLASS_COLXS</option>
+				<option value="col-sm-">COM_MODULES_OPTION_BOOTSTRAP_CLASS_COLSM</option>
+				<option value="col-md-">COM_MODULES_OPTION_BOOTSTRAP_CLASS_COLMD</option>
+				<option value="col-lg-">COM_MODULES_OPTION_BOOTSTRAP_CLASS_COLLG</option>
+			</field>
+
+			<field
 				name="bootstrap_size"
 				type="integer"
 				first="0"

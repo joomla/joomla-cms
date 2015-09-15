@@ -25,7 +25,8 @@ function modChrome_html5($module, &$params, &$attribs)
 	$moduleTag      = $params->get('module_tag', 'div');
 	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'));
 	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
-	$moduleClass    = $bootstrapSize != 0 ? ' span' . $bootstrapSize : '';
+	$bootstrapClass = $params->get('bootstrap_class', 'span');
+	$moduleClass    = $bootstrapSize != 0 ? ' ' . $bootstrapClass . $bootstrapSize : '';
 
 	// Temporarily store header class in variable
 	$headerClass    = $params->get('header_class');
@@ -91,7 +92,8 @@ function modChrome_xhtml($module, &$params, &$attribs)
 	$moduleTag      = $params->get('module_tag', 'div');
 	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'));
 	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
-	$moduleClass    = $bootstrapSize != 0 ? ' span' . $bootstrapSize : '';
+	$bootstrapClass = $params->get('bootstrap_class', 'span');
+	$moduleClass    = $bootstrapSize != 0 ? ' ' . $bootstrapClass . $bootstrapSize : '';
 
 	// Temporarily store header class in variable
 	$headerClass    = $params->get('header_class');
