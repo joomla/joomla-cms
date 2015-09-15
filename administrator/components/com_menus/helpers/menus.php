@@ -186,7 +186,7 @@ class MenusHelper
 					function ($v)
 					{
 						if (strcasecmp($v, 'true') == 0)
-					       	{
+						{
 							return 1;
 						}
 						elseif (strcasecmp($v, 'false') == 0)
