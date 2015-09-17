@@ -25,7 +25,7 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 			<div <?php echo $class; ?> >
 			<?php $class = ''; ?>
 				<h3 class="page-header item-title">
-					<a href="<?php echo JRoute::_(ContactHelperRoute::getCategoryRoute($item->id)); ?>">
+					<a href="<?php echo JRoute::_(ContactHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
 					<?php echo $this->escape($item->title); ?></a>
 					<?php if ($this->params->get('show_cat_items_cat') == 1) :?>
 						<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::tooltipText('COM_CONTACT_NUM_ITEMS'); ?>">
@@ -33,7 +33,7 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 						</span>
 					<?php endif; ?>
 					<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
-						<a id="category-btn-<?php echo $item->id;?>" href="#category-<?php echo $item->id;?>" 
+						<a id="category-btn-<?php echo $item->id;?>" href="#category-<?php echo $item->id;?>"
 							data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
 					<?php endif;?>
 				</h3>
