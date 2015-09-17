@@ -155,11 +155,11 @@ else
 			// Fix wrong display of Joomla!® in RTL language
 			if (JFactory::getLanguage()->isRtl())
 			{
-				$joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>';
+				$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>';
 			}
 			else
 			{
-				$joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>';
+				$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>';
 			}
 			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla);
 			?>
