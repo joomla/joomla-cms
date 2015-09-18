@@ -78,6 +78,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		$options['driverOptions'] = (isset($options['driverOptions'])) ? $options['driverOptions'] : array();
 
 		$hostParts = explode(':', $options['host']);
+
 		if (!empty($hostParts[1]))
 		{
 			$options['host'] = $hostParts[0];
