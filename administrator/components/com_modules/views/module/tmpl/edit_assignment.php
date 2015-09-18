@@ -111,6 +111,11 @@ JFactory::getDocument()->addScriptDeclaration($script);
 									<label for="<?php echo $id . $link->value; ?>" class="pull-left">
 										<?php if ($link->published == 0) : ?><i class="icon icon-unpublish"></i><?php endif;?>
 										<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias));?></span>
+										<?php if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*')
+										{
+											echo JHtml::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, array('title' => $link->language_title), true);
+										}
+										?>
 									</label>
 								</div>
 						<?php
