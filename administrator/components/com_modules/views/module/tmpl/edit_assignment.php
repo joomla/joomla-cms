@@ -109,12 +109,8 @@ JFactory::getDocument()->addScriptDeclaration($script);
 								<div class="treeselect-item pull-left">
 									<input type="checkbox" class="pull-left" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; ?> />
 									<label for="<?php echo $id . $link->value; ?>" class="pull-left">
-										<?php if($link->published==0):?>
-											<del>
-											<i class="icon icon-unpublish"></i>
-										<?php endif;?>
+										<?php if($link->published==0):?><i class="icon icon-unpublish"></i><?php endif;?>
 										<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias));?></span>
-										<?php if($link->published==0):?></del><?php endif;?>
 									</label>
 								</div>
 						<?php
