@@ -40,7 +40,7 @@ class CacheViewPurge extends JViewLegacy
 	protected function addToolbar()
 	{
 		JToolbarHelper::title(JText::_('COM_CACHE_PURGE_EXPIRED_CACHE'), 'lightning purge');
-		JToolbarHelper::custom('purge', 'delete.png', 'delete_f2.png', 'COM_CACHE_PURGE_EXPIRED', false);
+		JToolbarHelper::custom('purge', 'purge.png', 'purge_f2.png', 'COM_CACHE_PURGE_EXPIRED', false);
 		JToolbarHelper::divider();
 
 		if (JFactory::getUser()->authorise('core.admin', 'com_cache'))

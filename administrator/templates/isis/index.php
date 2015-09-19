@@ -69,6 +69,7 @@ foreach ($this->submenumodules as $submenumodule)
 $displayHeader = $this->params->get('displayHeader', '1');
 $statusFixed   = $this->params->get('statusFixed', '1');
 $stickyToolbar = $this->params->get('stickyToolbar', '1');
+$enhancedBtns  = $this->params->get('enhancedButtons', '0');
 
 // Header classes
 $template_is_light = ($this->params->get('templateColor') && colorIsLight($this->params->get('templateColor')));
@@ -95,6 +96,17 @@ function colorIsLight($color)
 	$yiq = (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
 
 	return $yiq >= 200;
+}
+
+if ($enhancedBtns)
+{
+	JFactory::getDocument()->addScriptDeclaration(
+		'
+		jQuery(document).ready(function() {
+			enhanceBtnsBehavior();
+		});
+		'
+	);
 }
 ?>
 <!DOCTYPE html>

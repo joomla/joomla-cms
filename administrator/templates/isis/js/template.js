@@ -174,6 +174,49 @@
 					localStorage.setItem( context, false );
 				}
 			}
-		}
+		};
+
+		// Hide/show buttons depending on the selection
+		window.enhanceBtnsBehavior = function()
+		{
+			var selectActions = $('#toolbar').children('#toolbar-edit,#toolbar-publish,#toolbar-unpublish,#toolbar-featured,#toolbar-unfeatured,#toolbar-checkin,#toolbar-archive,#toolbar-trash,#toolbar-batch,#toolbar-remove,#toolbar-delete,#toolbar-copy,#toolbar-default,#toolbar-unblock');
+			selectActions.hide();
+			var multiCheckboxes = $('form#adminForm table.table-striped input[type=checkbox], form#adminForm table.table-striped input[type=radio]');
+
+			multiCheckboxes.on('click', null, null, (function() {
+					var numberChecked = multiCheckboxes.filter(':checked').size();
+					var checkAll = false;
+
+					$("input[name='checkall-toggle']").each( function () {
+						if (this.checked) {
+							checkAll = true;
+						}
+
+					});
+
+					if (numberChecked > 0) {
+						if (checkAll )
+						{
+							if (numberChecked < 3) {
+								selectActions.show();
+							} else {
+								selectActions.filter(':not(#toolbar-edit)').show();
+								selectActions.filter('#toolbar-edit').hide();
+							}
+						} else {
+							if (numberChecked == 1) {
+								selectActions.show();
+							} else {
+								selectActions.filter(':not(#toolbar-edit)').show();
+								selectActions.filter('#toolbar-edit').hide();
+							}
+						}
+
+					} else {
+						selectActions.hide();
+					}
+				})
+			);
+		};
 	});
 })(jQuery);
