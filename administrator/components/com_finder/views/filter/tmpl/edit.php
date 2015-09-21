@@ -51,6 +51,9 @@ JFactory::getDocument()->addStyleDeclaration(
 	.accordion-inner .control-group .controls {
 		margin-left: 10px;
 	}
+	.accordion-inner > .control-group {
+		margin-bottom: 0;
+	}
 	"
 );
 ?>
