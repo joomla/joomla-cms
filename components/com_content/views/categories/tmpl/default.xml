@@ -277,28 +277,7 @@
 				<option value="published">JPUBLISHED</option>
 			</field>
 
-			<field name="show_pagination" type="list"
-				description="JGLOBAL_PAGINATION_DESC"
-				label="JGLOBAL_PAGINATION_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-				<option value="2">JGLOBAL_AUTO</option>
-			</field>
-
-			<field name="show_pagination_results" type="list"
-				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-				description="JGLOBAL_PAGINATION_RESULTS_DESC">
-
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-
 </fieldset>
-
 
 <fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS" >
 			<field name="spacer6" type="spacer" class="text"
@@ -369,24 +348,6 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="show_pagination" type="list"
-				description="JGLOBAL_PAGINATION_DESC"
-				label="JGLOBAL_PAGINATION_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-				<option value="2">JGLOBAL_AUTO</option>
-			</field>
-
-			<field name="show_pagination_results" type="list"
-				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-				description="JGLOBAL_PAGINATION_RESULTS_DESC">
-
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-		</field>
 		<field name="display_num" type="list"
 				default="10"
 				description="JGLOBAL_NUMBER_ITEMS_LIST_DESC"
@@ -403,6 +364,28 @@
 		</field>
 
 	</fieldset>
+
+		<fieldset name="shared" label="COM_CONTENT_SHARED_LABEL" description="COM_CONTENT_SHARED_DESC">
+
+			<field name="show_pagination" type="list"
+				description="JGLOBAL_PAGINATION_DESC"
+				label="JGLOBAL_PAGINATION_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+				<option value="2">JGLOBAL_AUTO</option>
+			</field>
+
+			<field name="show_pagination_results" type="list"
+				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
+				description="JGLOBAL_PAGINATION_RESULTS_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+		</fieldset>
 
 	<fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
 			<field name="show_title" type="list"
