@@ -89,6 +89,13 @@ class JImage
 	protected static $formats = array();
 
 	/**
+	 * @var    boolean  True for best quality. False for speed
+	 *
+	 * @since  3.4.4
+	 */
+	protected $generateBestQuality = true;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
@@ -420,7 +427,10 @@ class JImage
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
+		}
 
+		if (!$this->generateBestQuality)
+		{
 			imagecopyresized($handle, $this->handle, 0, 0, $left, $top, $width, $height, $width, $height);
 		}
 		else
@@ -758,7 +768,10 @@ class JImage
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
+		}
 
+		if (!$this->generateBestQuality)
+		{
 			imagecopyresized(
 				$handle,
 				$this->handle,
@@ -1135,5 +1148,17 @@ class JImage
 	public function __destruct()
 	{
 		$this->destroy();
+	}
+
+	/**
+	 * Method for set option of generate thumbnail method
+	 *
+	 * @param   boolean  $quality  True for best quality. False for best speed.
+	 *
+	 * @return  void
+	 */
+	public function setThumbnailGenerate($quality = true)
+	{
+		$this->generateBestQuality = (boolean) $quality;
 	}
 }
