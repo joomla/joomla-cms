@@ -208,6 +208,12 @@ abstract class JDatabaseQuery
 	 * @since  11.1
 	 */
 	protected $set = null;
+	
+	/**
+	 * @var    JDatabaseQueryElement  The replace element.
+	 * @since  11.1
+	 */
+	protected $replace = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The where element.
@@ -420,6 +426,11 @@ abstract class JDatabaseQuery
 				}
 
 				$query .= (string) $this->set;
+				
+				if ($this->replace)
+				{
+					$query .= (string) $this->replace;
+				}
 
 				if ($this->where)
 				{
@@ -1399,6 +1410,24 @@ abstract class JDatabaseQuery
 		else
 		{
 			$this->set->append($conditions);
+		}
+
+		return $this;
+	}
+	
+	/**
+	 * Add the MySQL function REPLACE
+	 */
+	public function replace($conditions, $glue = ',')
+	{
+		if (is_null($this->replace))
+		{
+			$glue = strtoupper($glue);
+			$this->replace = new JDatabaseQueryElement('= REPLACE', $conditions, "\n\t$glue ");
+		}
+		else
+		{
+			$this->replace->append($conditions);
 		}
 
 		return $this;
