@@ -208,7 +208,7 @@ abstract class JDatabaseQuery
 	 * @since  11.1
 	 */
 	protected $set = null;
-	
+
 	/**
 	 * @var    JDatabaseQueryElement  The replace element.
 	 * @since  11.1
@@ -426,7 +426,7 @@ abstract class JDatabaseQuery
 				}
 
 				$query .= (string) $this->set;
-				
+
 				if ($this->replace)
 				{
 					$query .= (string) $this->replace;
@@ -1414,9 +1414,20 @@ abstract class JDatabaseQuery
 
 		return $this;
 	}
-	
+
 	/**
 	 * Add the MySQL function REPLACE
+	 *
+	 * Usage:
+	 * $query->replace(*some example here*);
+	 *
+	 * @param   mixed   $conditions  A string or array of string conditions.
+	 * @param   string  $glue        The glue by which to join the condition strings. Defaults to ,.
+	 *                               Note that the glue is set on first use and cannot be changed.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
 	 */
 	public function replace($conditions, $glue = ',')
 	{
