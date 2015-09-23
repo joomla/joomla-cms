@@ -192,20 +192,6 @@ abstract class JModuleHelper
 			ob_end_clean();
 		}
 
-		// Automatic title
-		if ($params->get('automatic_title', '0') == '0')
-		{
-			$module->title = $module->title;
-		}
-		elseif (method_exists('mod' . $module->name . 'Helper', 'getTitle'))
-		{
-			$module->title = call_user_func_array(array('mod' . $module->name . 'Helper', 'getTitle'), array($params));
-		}
-		else
-		{
-			$module->title = JText::_('MOD_' . $module->name . '_TITLE');
-		}
-
 		// Load the module chrome functions
 		if (!$chrome)
 		{
