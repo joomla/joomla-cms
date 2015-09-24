@@ -88,26 +88,24 @@ class ContactViewContact extends JViewLegacy
 
 		$rev = date('c', strtotime($item->modified));
 
-        JFactory::getApplication()->setHeader('Content-disposition', 'attachment; filename="' . utf8_decode($card_name) . '.vcf"', true);
+		JFactory::getApplication()->setHeader('Content-disposition', 'attachment; filename="' . utf8_decode($card_name) . '.vcf"', true);
 
-        $vcard = array();
-        $vcard[].= 'BEGIN:VCARD';
-        $vcard[].= 'VERSION:3.0';
-        $vcard[] = 'N:'. utf8_decode($lastname.';'.$firstname.';'.$middlename);
-        /* Zeichensatz auf UTF-8 geändert -> */
-        $vcard[] = 'FN:'. utf8_decode($item->name);
-        $vcard[] = 'TITLE:'. utf8_decode($item->con_position);
-        /* <- Zeichensatz auf UTF-8 geändert */
-        $vcard[] = 'TEL;TYPE=WORK,VOICE:'.$item->telephone;
-        $vcard[] = 'TEL;TYPE=WORK,FAX:'.$item->fax;
-        $vcard[] = 'TEL;TYPE=WORK,MOBILE:'.$item->mobile;
-        $vcard[] = 'ADR;TYPE=WORK:;;'. utf8_decode($item->address.';'.$item->suburb.';'.$item->state.';'.$item->postcode.';'.$item->country);
-        $vcard[] = 'LABEL;TYPE=WORK:'. utf8_decode($item->address."\n".$item->suburb."\n".$item->state."\n".$item->postcode."\n".$item->country);
-        $vcard[] = 'EMAIL;TYPE=PREF,INTERNET:'.$item->email_to;
-        $vcard[] = 'URL:'.$item->webpage;
-        $vcard[] = 'REV:'.$rev.'Z';
-        $vcard[] = 'END:VCARD';
+		$vcard = array();
+		$vcard[].= 'BEGIN:VCARD';
+		$vcard[].= 'VERSION:3.0';
+		$vcard[] = 'N:' . utf8_decode($lastname . ';' . $firstname . ';' . $middlename);
+		$vcard[] = 'FN:' . utf8_decode($item->name);
+		$vcard[] = 'TITLE:' . utf8_decode($item->con_position);
+		$vcard[] = 'TEL;TYPE=WORK,VOICE:' . $item->telephone;
+		$vcard[] = 'TEL;TYPE=WORK,FAX:' . $item->fax;
+		$vcard[] = 'TEL;TYPE=WORK,MOBILE:' . $item->mobile;
+		$vcard[] = 'ADR;TYPE=WORK:;;' . utf8_decode($item->address . ';' . $item->suburb . ';' . $item->state . ';' . $item->postcode . ';' . $item->country);
+		$vcard[] = 'LABEL;TYPE=WORK:' . utf8_decode($item->address . "\n" . $item->suburb . "\n" . $item->state . "\n" . $item->postcode . "\n" . $item->country);
+		$vcard[] = 'EMAIL;TYPE=PREF,INTERNET:' . $item->email_to;
+		$vcard[] = 'URL:' . $item->webpage;
+		$vcard[] = 'REV:' . $rev . 'Z';
+		$vcard[] = 'END:VCARD';
 
-        echo implode("\n", $vcard);
+		echo implode("\n", $vcard);
 	}
 }
