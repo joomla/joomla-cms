@@ -128,13 +128,13 @@ class PlgCaptchaRecaptcha extends JPlugin
 				{
 					$response = $input->get('recaptcha_response_field', '', 'string');
 				}
-				
+
 				$spam = ($challenge == null || strlen($challenge) == 0 || $response == null || strlen($response) == 0);
 				break;
 			case '2.0':
 				// Challenge Not needed in 2.0 but needed for getResponse call
 				$challenge = null;
-				
+
 				// We check the override $code param
 				if (!empty($code))
 				{
@@ -144,7 +144,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 				{
 					$response = $input->get('g-recaptcha-response', '', 'string');
 				}
-				
+
 				$spam = ($response == null || strlen($response) == 0);
 				break;
 		}
