@@ -41,6 +41,14 @@ class InstallationViewSummaryHtml extends InstallationViewDefault
 	protected $phpsettings;
 
 	/**
+	 * The PHP support status checked by the installer
+	 *
+	 * @var    array
+	 * @since  3.5
+	 */
+	protected $phpsupport;
+
+	/**
 	 * Method to render the view.
 	 *
 	 * @return  string  The rendered view.
@@ -52,6 +60,7 @@ class InstallationViewSummaryHtml extends InstallationViewDefault
 		$this->options     = $this->model->getOptions();
 		$this->phpoptions  = $this->model->getPhpOptions();
 		$this->phpsettings = $this->model->getPhpSettings();
+		$this->phpsupport  = $this->model->getPhpSupport();
 
 		return parent::render();
 	}
