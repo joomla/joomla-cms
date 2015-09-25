@@ -437,6 +437,7 @@ class JDataSet implements JDataDumpable, ArrayAccess, Countable, Iterator
 			$position = array_search($this->_current, $keys);
 
 			$current = false;
+
 			// Check if there is an object before the current object.
 			if ($position > 0)
 			{
