@@ -251,24 +251,13 @@ class JCategories
 		if ($id != 'root')
 		{
 			// Get the selected category
-			$query->where('s.id=' . (int) $id);
-
-			if ($app->isSite() && JLanguageMultilang::isEnabled())
-			{
-				$query->join('LEFT', '#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt
-					 AND c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
-			}
-			else
-			{
-				$query->join('LEFT', '#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
-			}
+			$query->join('LEFT', '#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)')
+				->where('s.id=' . (int) $id);
 		}
-		else
+
+		if ($app->isSite() && JLanguageMultilang::isEnabled())
 		{
-			if ($app->isSite() && JLanguageMultilang::isEnabled())
-			{
-				$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
-			}
+			$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 		}
 
 		$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
