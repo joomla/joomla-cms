@@ -66,11 +66,11 @@ class JCryptKey
 	 */
 	public function __get($name)
 	{
-		if ($name != 'type')
+		if ($name == 'type')
 		{
-			trigger_error('Cannot access property ' . __CLASS__ . '::' . $name, E_USER_WARNING);
+			return $this->type;
 		}
 
-		return $this->type;
+		trigger_error('Cannot access property ' . __CLASS__ . '::' . $name, E_USER_WARNING);
 	}
 }
