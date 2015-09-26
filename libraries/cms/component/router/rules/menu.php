@@ -55,7 +55,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	 */
 	public function preprocess(&$query)
 	{
-		if (isset($query['Itemid']) && $query['Itemid'] != $this->router->menu->getActive()->id)
+		if (isset($query['Itemid']) && $this->router->menu->getActive() && $query['Itemid'] != $this->router->menu->getActive()->id)
 		{
 			return;
 		}
@@ -141,11 +141,6 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 			$values[]     = array($language, '*');
 
 			$items = $this->router->menu->getItems($attributes, $values);
-
-			if (!is_array($items))
-			{
-				return;
-			}
 
 			foreach ($items as $item)
 			{
