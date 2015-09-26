@@ -114,7 +114,7 @@ $trashed    = $this->state->get('filter.state') == -2 ? true : false;
 							<td class="small hidden-phone">
 								<?php echo $item->contact; ?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="hidden-phone">
 								<?php echo $item->nbanners; ?>
 							</td>
 							<td class="small hidden-phone">
@@ -124,7 +124,7 @@ $trashed    = $this->state->get('filter.state') == -2 ? true : false;
 									<?php echo JText::_('COM_BANNERS_FIELD_VALUE_' . $item->purchase_type); ?>
 								<?php endif; ?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="hidden-phone">
 								<?php echo $item->id; ?>
 							</td>
 						</tr>

@@ -464,7 +464,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
 		return false;
 	}

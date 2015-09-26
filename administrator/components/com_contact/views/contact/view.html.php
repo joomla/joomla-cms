@@ -32,9 +32,9 @@ class ContactViewContact extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Initialise variables.
-		$this->form		= $this->get('Form');
-		$this->item		= $this->get('Item');
-		$this->state	= $this->get('State');
+		$this->form  = $this->get('Form');
+		$this->item  = $this->get('Item');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -65,15 +65,15 @@ class ContactViewContact extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user		= JFactory::getUser();
-		$userId		= $user->get('id');
-		$isNew		= ($this->item->id == 0);
-		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+		$user       = JFactory::getUser();
+		$userId     = $user->get('id');
+		$isNew      = ($this->item->id == 0);
+		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Since we don't track these assets at the item level, use the category id.
-		$canDo		= JHelperContent::getActions('com_contact', 'category', $this->item->catid);
+		$canDo = JHelperContent::getActions('com_contact', 'category', $this->item->catid);
 
-		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACT'), 'address contact');
+		JToolbarHelper::title($isNew ? JText::_('COM_CONTACT_MANAGER_CONTACT_NEW') : JText::_('COM_CONTACT_MANAGER_CONTACT_EDIT'), 'address contact');
 
 		// Build the actions for new and existing records.
 		if ($isNew)

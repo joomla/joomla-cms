@@ -159,7 +159,7 @@ class JFormFieldTest extends TestCaseDatabase
 
 		// Standard usage.
 
-		$xml = $form->getXML();
+		$xml = $form->getXml();
 		$data = $xml->xpath('fields/fields[@name="params"]/field[@name="colours"]');
 		$colours = array_pop($data);
 
@@ -196,7 +196,7 @@ class JFormFieldTest extends TestCaseDatabase
 
 		// Standard usage.
 
-		$xml = $form->getXML();
+		$xml = $form->getXml();
 		$data = $xml->xpath('fields/field[@name="title"]');
 		$title = array_pop($data);
 
@@ -289,7 +289,7 @@ class JFormFieldTest extends TestCaseDatabase
 
 		// Standard usage.
 
-		$xml = $form->getXML();
+		$xml = $form->getXml();
 		$data = $xml->xpath('fields/field[@name="title"]');
 		$title = array_pop($data);
 

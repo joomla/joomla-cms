@@ -193,7 +193,7 @@ class PlgSearchCategories extends JPlugin
 
 			foreach ($rows as $category)
 			{
-				if (searchHelper::checkNoHTML($category, $searchText, array('name', 'title', 'text')))
+				if (searchHelper::checkNoHtml($category, $searchText, array('name', 'title', 'text')))
 				{
 					$return[] = $category;
 				}

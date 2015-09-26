@@ -725,7 +725,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
 		return false;
 	}
@@ -898,9 +898,11 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
+	 * @deprecated  4.0 (CMS)  Use getIterator() instead
 	 */
 	public function loadNextObject($class = 'stdClass')
 	{
+		JLog::add(__METHOD__ . '() is deprecated. Use JDatabaseDriver::getIterator() instead.', JLog::WARNING, 'deprecated');
 		$this->connect();
 
 		// Execute the query and get the result set cursor.
@@ -964,9 +966,11 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
+	 * @deprecated  4.0 (CMS)  Use getIterator() instead
 	 */
 	public function loadNextRow()
 	{
+		JLog::add(__METHOD__ . '() is deprecated. Use JDatabaseDriver::getIterator() instead.', JLog::WARNING, 'deprecated');
 		$this->connect();
 
 		// Execute the query and get the result set cursor.

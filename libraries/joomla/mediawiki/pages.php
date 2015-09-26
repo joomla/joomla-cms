@@ -100,7 +100,7 @@ class JMediawikiPages extends JMediawikiObject
 	 *
 	 * @since   12.3
 	 */
-	public function deletePageByID($pageid,  $reason = null, $watchlist = null, $oldimage = null)
+	public function deletePageById($pageid,  $reason = null, $watchlist = null, $oldimage = null)
 	{
 		// Get the token.
 		$token = $this->getToken($pageid, 'delete');
@@ -218,7 +218,7 @@ class JMediawikiPages extends JMediawikiObject
 	 *
 	 * @since   12.3
 	 */
-	public function movePageByID($fromid, $to, $reason = null, $movetalk = null, $movesubpages = null, $noredirect = null,
+	public function movePageById($fromid, $to, $reason = null, $movetalk = null, $movesubpages = null, $noredirect = null,
 		$watchlist =null, $ignorewarnings = null)
 	{
 		// Get the token.

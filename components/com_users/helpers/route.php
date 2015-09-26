@@ -32,10 +32,10 @@ class UsersHelperRoute
 		// Get the menu items for this component.
 		if (!isset($items))
 		{
-			$app	= JFactory::getApplication();
-			$menu	= $app->getMenu();
-			$com	= JComponentHelper::getComponent('com_users');
-			$items	= $menu->getItems('component_id', $com->id);
+			$app   = JFactory::getApplication();
+			$menu  = $app->getMenu();
+			$com   = JComponentHelper::getComponent('com_users');
+			$items = $menu->getItems('component_id', $com->id);
 
 			// If no items found, set to empty array.
 			if (!$items)
@@ -58,8 +58,8 @@ class UsersHelperRoute
 	public static function getLoginRoute()
 	{
 		// Get the items.
-		$items	= self::getItems();
-		$itemid	= null;
+		$items  = self::getItems();
+		$itemid = null;
 
 		// Search for a suitable menu id.
 		foreach ($items as $item)
@@ -85,8 +85,8 @@ class UsersHelperRoute
 	public static function getProfileRoute()
 	{
 		// Get the items.
-		$items	= self::getItems();
-		$itemid	= null;
+		$items  = self::getItems();
+		$itemid = null;
 
 		// Search for a suitable menu id.
 		// Menu link can only go to users own profile.
@@ -114,8 +114,8 @@ class UsersHelperRoute
 	public static function getRegistrationRoute()
 	{
 		// Get the items.
-		$items	= self::getItems();
-		$itemid	= null;
+		$items  = self::getItems();
+		$itemid = null;
 
 		// Search for a suitable menu id.
 		foreach ($items as $item)
@@ -141,8 +141,8 @@ class UsersHelperRoute
 	public static function getRemindRoute()
 	{
 		// Get the items.
-		$items	= self::getItems();
-		$itemid	= null;
+		$items  = self::getItems();
+		$itemid = null;
 
 		// Search for a suitable menu id.
 		foreach ($items as $item)
@@ -168,8 +168,8 @@ class UsersHelperRoute
 	public static function getResendRoute()
 	{
 		// Get the items.
-		$items	= self::getItems();
-		$itemid	= null;
+		$items  = self::getItems();
+		$itemid = null;
 
 		// Search for a suitable menu id.
 		foreach ($items as $item)
@@ -195,8 +195,8 @@ class UsersHelperRoute
 	public static function getResetRoute()
 	{
 		// Get the items.
-		$items	= self::getItems();
-		$itemid	= null;
+		$items  = self::getItems();
+		$itemid = null;
 
 		// Search for a suitable menu id.
 		foreach ($items as $item)

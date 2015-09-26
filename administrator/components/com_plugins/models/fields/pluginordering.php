@@ -33,8 +33,8 @@ class JFormFieldPluginordering extends JFormFieldOrdering
 	 */
 	protected function getQuery()
 	{
-		$db = JFactory::getDbo();
-		$folder	= $this->form->getValue('folder');
+		$db     = JFactory::getDbo();
+		$folder = $this->form->getValue('folder');
 
 		// Build the query for the ordering list.
 		$query = $db->getQuery(true)

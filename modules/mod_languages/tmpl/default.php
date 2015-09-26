@@ -20,7 +20,7 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 	<form name="lang" method="post" action="<?php echo htmlspecialchars(JUri::current()); ?>">
 	<select class="inputbox" onchange="document.location.replace(this.value);" >
 	<?php foreach ($list as $language) : ?>
-		<option dir=<?php echo JLanguage::getInstance($language->lang_code)->isRTL() ? '"rtl"' : '"ltr"'?> value="<?php echo $language->link;?>" <?php echo $language->active ? 'selected="selected"' : ''?>>
+		<option dir=<?php echo JLanguage::getInstance($language->lang_code)->isRtl() ? '"rtl"' : '"ltr"'?> value="<?php echo $language->link;?>" <?php echo $language->active ? 'selected="selected"' : ''?>>
 		<?php echo $language->title_native;?></option>
 	<?php endforeach; ?>
 	</select>
@@ -29,7 +29,7 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 	<ul class="<?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block';?>">
 	<?php foreach ($list as $language) : ?>
 		<?php if ($params->get('show_active', 0) || !$language->active):?>
-			<li class="<?php echo $language->active ? 'lang-active' : '';?>" dir="<?php echo JLanguage::getInstance($language->lang_code)->isRTL() ? 'rtl' : 'ltr' ?>">
+			<li class="<?php echo $language->active ? 'lang-active' : '';?>" dir="<?php echo JLanguage::getInstance($language->lang_code)->isRtl() ? 'rtl' : 'ltr' ?>">
 			<a href="<?php echo $language->link;?>">
 			<?php if ($params->get('image', 1)):?>
 				<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true);?>

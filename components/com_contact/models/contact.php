@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 /**
+ * Single item model for a contact
+ *
  * @package     Joomla.Site
  * @subpackage  com_contact
  * @since       1.5
@@ -271,41 +273,42 @@ class ContactModelContact extends JModelForm
 	protected function getContactQuery($pk = null)
 	{
 		// @todo Cache on the fingerprint of the arguments
-		$db		= $this->getDbo();
+		$db       = $this->getDbo();
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(JFactory::getDate()->toSql());
-		$user	= JFactory::getUser();
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
-		$query	= $db->getQuery(true);
+		$nowDate  = $db->quote(JFactory::getDate()->toSql());
+		$user     = JFactory::getUser();
+		$pk       = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
+		$query    = $db->getQuery(true);
 
 		if ($pk)
 		{
 			// Sqlsrv changes
-			$case_when = ' CASE WHEN ';
+			$case_when  = ' CASE WHEN ';
 			$case_when .= $query->charLength('a.alias', '!=', '0');
 			$case_when .= ' THEN ';
-			$a_id = $query->castAsChar('a.id');
+
+			$a_id       = $query->castAsChar('a.id');
 			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 			$case_when .= ' ELSE ';
 			$case_when .= $a_id . ' END as slug';
 
-			$case_when1 = ' CASE WHEN ';
+			$case_when1  = ' CASE WHEN ';
 			$case_when1 .= $query->charLength('cc.alias', '!=', '0');
 			$case_when1 .= ' THEN ';
-			$c_id = $query->castAsChar('cc.id');
+
+			$c_id        = $query->castAsChar('cc.id');
 			$case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
+
 			$query->select(
 				'a.*, cc.access as category_access, cc.title as category_name, '
 				. $case_when . ',' . $case_when1
 			)
-
 				->from('#__contact_details AS a')
-
 				->join('INNER', '#__categories AS cc on cc.id = a.catid')
-
 				->where('a.id = ' . (int) $pk);
+
 			$published = $this->getState('filter.published');
 
 			if (is_numeric($published))
@@ -351,7 +354,7 @@ class ContactModelContact extends JModelForm
 				if ((int) $result->user_id && $this->getState('params')->get('show_articles'))
 				{
 
-					$query	= $db->getQuery(true)
+					$query = $db->getQuery(true)
 						->select('a.id')
 						->select('a.title')
 						->select('a.state')
@@ -431,7 +434,7 @@ class ContactModelContact extends JModelForm
 				$form = new JForm('com_users.profile');
 
 				// Get the dispatcher.
-				$dispatcher	= JEventDispatcher::getInstance();
+				$dispatcher = JEventDispatcher::getInstance();
 
 				// Trigger the form preparation event.
 				$dispatcher->trigger('onContentPrepareForm', array($form, $data));

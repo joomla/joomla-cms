@@ -15,7 +15,7 @@ jimport('joomla.filesystem.file');
 /**
  * Joomla! update overview Model
  *
- * @since       2.5.4
+ * @since  2.5.4
  */
 class JoomlaupdateModelDefault extends JModelLegacy
 {
@@ -58,11 +58,13 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				}
 				break;
 
-			// "Minor & Patch Release for Current version (recommended and default)".
-			// The commented "case" below are for documenting where 'default' and legacy options falls
-			// case 'default':
-			// case 'lts':
-			// case 'nochange':
+			/**
+			 * "Minor & Patch Release for Current version (recommended and default)".
+			 * The commented "case" below are for documenting where 'default' and legacy options falls
+			 * case 'default':
+			 * case 'lts':
+			 * case 'nochange':
+			 */
 			default:
 				$updateURL = 'http://update.joomla.org/core/list.xml';
 		}

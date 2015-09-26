@@ -104,7 +104,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		$this->utf8mb4 = $this->serverClaimsUtf8mb4Support();
 
 		// Set the character set (needed for MySQL 4.1.2+).
-		$this->utf = $this->setUTF();
+		$this->utf = $this->setUtf();
 
 		// Turn MySQL profiling ON in debug mode:
 		if ($this->debug && $this->hasProfiling())
@@ -381,7 +381,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
 		// If UTF is not supported return false immediately
 		if (!$this->utf)

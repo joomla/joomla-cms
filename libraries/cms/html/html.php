@@ -1013,8 +1013,8 @@ abstract class JHtml
 		}
 
 		// Hide button using inline styles for readonly/disabled fields
-		$btn_style	= ($readonly || $disabled) ? ' style="display:none;"' : '';
-		$div_class	= (!$readonly && !$disabled) ? ' class="input-append"' : '';
+		$btn_style = ($readonly || $disabled) ? ' style="display:none;"' : '';
+		$div_class = (!$readonly && !$disabled) ? ' class="input-append"' : '';
 
 		return '<div' . $div_class . '>'
 				. '<input type="text" title="' . ($inputvalue ? static::_('date', $value, null, null) : '')
