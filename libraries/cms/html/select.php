@@ -122,7 +122,7 @@ abstract class JHtmlSelect
 
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
 		$html = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol']
-			. static::options($data, $options) . $baseIndent . '</select>' . $options['format.eol'];
+			. JHtml::_('select.options', $data, $options) . $baseIndent . '</select>' . $options['format.eol'];
 
 		return $html;
 	}
@@ -172,7 +172,7 @@ abstract class JHtmlSelect
 
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
 		$html = $baseIndent . '<datalist' . $id . '>' . $options['format.eol']
-			. static::options($data, $options) . $baseIndent . '</datalist>' . $options['format.eol'];
+			. JHtml::_('select.options', $data, $options) . $baseIndent . '</datalist>' . $options['format.eol'];
 
 		return $html;
 	}
@@ -304,13 +304,13 @@ abstract class JHtmlSelect
 
 			if ($noGroup)
 			{
-				$html .= static::options($subList, $options);
+				$html .= JHtml::_('select.options', $subList, $options);
 			}
 			else
 			{
 				$html .= $groupIndent . '<optgroup' . (empty($id) ? '' : ' id="' . $id . '"') . ' label="'
 					. ($options['group.label.toHtml'] ? htmlspecialchars($label, ENT_COMPAT, 'UTF-8') : $label) . '">' . $options['format.eol']
-					. static::options($subList, $options) . $groupIndent . '</optgroup>' . $options['format.eol'];
+					. JHtml::_('select.options', $subList, $options) . $groupIndent . '</optgroup>' . $options['format.eol'];
 			}
 		}
 

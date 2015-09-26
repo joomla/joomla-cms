@@ -55,13 +55,13 @@ abstract class JHtmlBehavior
 
 		if ($type != 'core' && empty(static::$loaded[__METHOD__]['core']))
 		{
-			static::framework(false, $debug);
+			JHtml::_('behavior.framework', false, $debug);
 		}
 
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
 
 		// Keep loading core.js for BC reasons
-		static::core();
+		JHtml::_('behavior.core');
 
 		static::$loaded[__METHOD__][$type] = true;
 
@@ -149,10 +149,10 @@ abstract class JHtmlBehavior
 		}
 
 		// Include MooTools framework
-		static::framework();
+		JHtml::_('behavior.framework');
 
 		// Load the new jQuery code
-		static::formvalidator();
+		JHtml::_('behavior.formvalidator');
 	}
 
 	/**
@@ -176,7 +176,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Include core
-		static::core();
+		JHtml::_('behavior.core');
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
@@ -239,8 +239,9 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
+
 		// Include core
-		static::core();
+		JHtml::_('behavior.core');
 
 		JHtml::_('script', 'system/combobox.js', false, true);
 		static::$loaded[__METHOD__] = true;
@@ -282,7 +283,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Include MooTools framework
-		static::framework(true);
+		JHtml::_('behavior.framework', true);
 
 		// Setup options object
 		$opt['maxTitleChars'] = (isset($params['maxTitleChars']) && ($params['maxTitleChars'])) ? (int) $params['maxTitleChars'] : 50;
@@ -296,7 +297,7 @@ abstract class JHtmlBehavior
 		$opt['onShow']    = (isset($params['onShow'])) ? '\\' . $params['onShow'] : null;
 		$opt['onHide']    = (isset($params['onHide'])) ? '\\' . $params['onHide'] : null;
 
-		$options = JHtml::getJSObject($opt);
+		$options = JHtml::_('getJSObject', $opt);
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
@@ -352,7 +353,7 @@ abstract class JHtmlBehavior
 		if (!isset(static::$loaded[__METHOD__]))
 		{
 			// Include MooTools framework
-			static::framework(true);
+			JHtml::_('behavior.framework', true);
 
 			// Load the JavaScript and css
 			JHtml::_('script', 'system/modal.js', true, true);
@@ -393,7 +394,7 @@ abstract class JHtmlBehavior
 			$opt['size']      = array('x' => '\\jQuery(window).width() - 80', 'y' => '\\jQuery(window).height() - 80');
 		}
 
-		$options = JHtml::getJSObject($opt);
+		$options = JHtml::_('getJSObject', $opt);
 
 		// Attach modal behavior to document
 		$document
@@ -434,7 +435,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Include core
-		static::core();
+		JHtml::_('behavior.core');
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
@@ -493,7 +494,7 @@ abstract class JHtmlBehavior
 		$opt['onClick']  = (array_key_exists('onClick', $params)) ? '\\' . $params['onClick']
 		: '\\function(node){  window.open(node.data.url, node.data.target != null ? node.data.target : \'_self\'); }';
 
-		$options = JHtml::getJSObject($opt);
+		$options = JHtml::_('getJSObject', $opt);
 
 		// Setup root node
 		$rt['text']     = (array_key_exists('text', $root)) ? $root['text'] : 'Root';
@@ -503,7 +504,7 @@ abstract class JHtmlBehavior
 		$rt['icon']     = (array_key_exists('icon', $root)) ? $root['icon'] : null;
 		$rt['openicon'] = (array_key_exists('openicon', $root)) ? $root['openicon'] : null;
 		$rt['data']     = (array_key_exists('data', $root)) ? $root['data'] : null;
-		$rootNode = JHtml::getJSObject($rt);
+		$rootNode = JHtml::_('getJSObject', $rt);
 
 		$treeName = (array_key_exists('treeName', $params)) ? $params['treeName'] : '';
 
@@ -701,7 +702,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Include core
-		static::core();
+		JHtml::_('behavior.core');
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
@@ -751,7 +752,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Include core
-		static::core();
+		JHtml::_('behavior.core');
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
@@ -779,9 +780,9 @@ abstract class JHtmlBehavior
 	 */
 	protected static function _getJSObject($array = array())
 	{
-		JLog::add('JHtmlBehavior::_getJSObject() is deprecated. JHtml::getJSObject() instead..', JLog::WARNING, 'deprecated');
+		JLog::add('JHtmlBehavior::_getJSObject() is deprecated. JHtml::getJSObject() instead.', JLog::WARNING, 'deprecated');
 
-		return JHtml::getJSObject($array);
+		return JHtml::_('getJSObject', $array);
 	}
 
 	/**
@@ -888,13 +889,13 @@ abstract class JHtmlBehavior
 	 */
 	public static function tabstate()
 	{
-		if (isset(self::$loaded[__METHOD__]))
+		if (isset(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
 		// Include jQuery
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/tabs-state.js', false, true);
-		self::$loaded[__METHOD__] = true;
+		static::$loaded[__METHOD__] = true;
 	}
 }

@@ -274,7 +274,7 @@ abstract class JHtmlAccess
 	{
 		static $count;
 
-		$options = static::assetgroups();
+		$options = JHtml::_('access.assetgroups');
 
 		if (isset($config['title']))
 		{

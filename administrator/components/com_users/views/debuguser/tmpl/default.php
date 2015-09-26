@@ -29,11 +29,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 <?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
-				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_USERS_SEARCH_ASSETS'); ?>" />
+				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_USERS_SEARCH_ASSETS'); ?>" />
 			</div>
 			<div class="btn-group pull-left">
-				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search"></span></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_RESET'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
+				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search"></span></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_RESET'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
 			</div>
 		</div>
 		<div class="clearfix"> </div>
@@ -48,7 +48,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					</th>
 					<?php foreach ($this->actions as $key => $action) : ?>
 					<th width="5%" class="center">
-						<span class="hasTooltip" title="<?php echo JHtml::tooltipText($key, $action[1]); ?>"><?php echo JText::_($key); ?></span>
+						<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', $key, $action[1]); ?>"><?php echo JText::_($key); ?></span>
 					</th>
 					<?php endforeach; ?>
 					<th width="5%" class="center">

@@ -66,7 +66,7 @@ abstract class JHtmlActionsDropdown
 	public static function publish($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'publish';
-		static::addCustomItem(JText::_('JTOOLBAR_PUBLISH'), 'publish', $id, $task);
+		JHtml::_('actionsdropdown.addcustomitem', JText::_('JTOOLBAR_PUBLISH'), 'publish', $id, $task);
 	}
 
 	/**
@@ -82,7 +82,7 @@ abstract class JHtmlActionsDropdown
 	public static function unpublish($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'unpublish';
-		static::addCustomItem(JText::_('JTOOLBAR_UNPUBLISH'), 'unpublish', $id, $task);
+		JHtml::_('actionsdropdown.addcustomitem', JText::_('JTOOLBAR_UNPUBLISH'), 'unpublish', $id, $task);
 	}
 
 	/**
@@ -98,7 +98,7 @@ abstract class JHtmlActionsDropdown
 	public static function feature($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'featured';
-		static::addCustomItem(JText::_('JFEATURE'), 'featured', $id, $task);
+		JHtml::_('actionsdropdown.addcustomitem', JText::_('JFEATURE'), 'featured', $id, $task);
 	}
 
 	/**
@@ -114,7 +114,7 @@ abstract class JHtmlActionsDropdown
 	public static function unfeature($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'unfeatured';
-		static::addCustomItem(JText::_('JUNFEATURE'), 'unfeatured', $id, $task);
+		JHtml::_('actionsdropdown.addcustomitem', JText::_('JUNFEATURE'), 'unfeatured', $id, $task);
 	}
 
 	/**
@@ -130,7 +130,7 @@ abstract class JHtmlActionsDropdown
 	public static function archive($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'archive';
-		static::addCustomItem(JText::_('JTOOLBAR_ARCHIVE'), 'archive', $id, $task);
+		JHtml::_('actionsdropdown.addcustomitem', JText::_('JTOOLBAR_ARCHIVE'), 'archive', $id, $task);
 	}
 
 	/**
@@ -146,7 +146,7 @@ abstract class JHtmlActionsDropdown
 	public static function unarchive($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'unpublish';
-		static::addCustomItem(JText::_('JTOOLBAR_UNARCHIVE'), 'unarchive', $id, $task);
+		JHtml::_('actionsdropdown.addcustomitem', JText::_('JTOOLBAR_UNARCHIVE'), 'unarchive', $id, $task);
 	}
 
 	/**
@@ -162,7 +162,7 @@ abstract class JHtmlActionsDropdown
 	public static function duplicate($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'duplicate';
-		static::addCustomItem(JText::_('JTOOLBAR_DUPLICATE'), 'copy', $id, $task);
+		JHtml::_('actionsdropdown.addcustomitem', JText::_('JTOOLBAR_DUPLICATE'), 'copy', $id, $task);
 	}
 
 	/**
@@ -178,7 +178,7 @@ abstract class JHtmlActionsDropdown
 	public static function trash($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'trash';
-		static::addCustomItem(JText::_('JTOOLBAR_TRASH'), 'trash', $id, $task);
+		JHtml::_('actionsdropdown.addcustomitem', JText::_('JTOOLBAR_TRASH'), 'trash', $id, $task);
 	}
 
 	/**
@@ -193,7 +193,7 @@ abstract class JHtmlActionsDropdown
 	 */
 	public static function untrash($id, $prefix = '')
 	{
-		self::publish($id, $prefix);
+		JHtml::_('actionsdropdown.publish', $id, $prefix);
 	}
 
 	/**

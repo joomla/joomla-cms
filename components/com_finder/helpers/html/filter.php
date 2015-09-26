@@ -436,7 +436,7 @@ abstract class JHtmlFilter
 		// Load the CSS/JS resources.
 		if ($loadMedia)
 		{
-			JHtml::stylesheet('com_finder/sliderfilter.css', false, true, false);
+			JHtml::_('stylesheet', 'com_finder/sliderfilter.css', false, true, false);
 
 			if (JFactory::getDocument()->direction == 'rtl')
 			{
@@ -477,7 +477,7 @@ abstract class JHtmlFilter
 			// Load the CSS/JS resources.
 			if ($loadMedia)
 			{
-				JHtml::stylesheet('com_finder/dates.css', false, true, false);
+				JHtml::_('stylesheet', 'com_finder/dates.css', false, true, false);
 			}
 
 			// Open the widget.
@@ -493,7 +493,7 @@ abstract class JHtmlFilter
 			$html .= JHtml::_(
 				'select.genericlist', $operators, 'w1', 'class="inputbox filter-date-operator"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
 			);
-			$html .= JHtml::calendar($idxQuery->date1, 'd1', 'filter_date1', '%Y-%m-%d', $attribs);
+			$html .= JHtml::_('calendar', $idxQuery->date1, 'd1', 'filter_date1', '%Y-%m-%d', $attribs);
 			$html .= '</li>';
 
 			// End date filter.
@@ -505,7 +505,7 @@ abstract class JHtmlFilter
 			$html .= JHtml::_(
 				'select.genericlist', $operators, 'w2', 'class="inputbox filter-date-operator"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'
 			);
-			$html .= JHtml::calendar($idxQuery->date2, 'd2', 'filter_date2', '%Y-%m-%d', $attribs);
+			$html .= JHtml::_('calendar', $idxQuery->date2, 'd2', 'filter_date2', '%Y-%m-%d', $attribs);
 			$html .= '</li>';
 
 			// Close the widget.

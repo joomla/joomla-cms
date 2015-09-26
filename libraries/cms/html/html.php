@@ -845,7 +845,7 @@ abstract class JHtml
 		if (!$text)
 		{
 			$alt = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
-			$text = static::image($image, $alt, null, true);
+			$text = static::_('image', $image, $alt, null, true);
 		}
 
 		if ($href)
@@ -870,7 +870,7 @@ abstract class JHtml
 		}
 		else
 		{
-			$tooltip = self::tooltipText($title, $tooltip, 0);
+			$tooltip = static::_('tooltipText', $title, $tooltip, 0);
 		}
 
 		return '<span class="' . $class . '" title="' . $tooltip . '">' . $tip . '</span>';

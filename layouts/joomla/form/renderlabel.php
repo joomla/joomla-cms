@@ -35,7 +35,7 @@ if (!empty($desc))
 {
 	JHtml::_('bootstrap.tooltip');
 	$classes[] = 'hasTooltip';
-	$title     = ' title="' . JHtml::tooltipText(trim($text, ':'), $desc, 0) . '"';
+	$title     = ' title="' . JHtml::_('tooltipText', trim($text, ':'), $desc, 0) . '"';
 }
 
 // If required, there's a class for that.

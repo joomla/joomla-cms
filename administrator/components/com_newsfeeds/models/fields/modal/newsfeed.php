@@ -143,7 +143,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 			'" disabled="disabled" size="35" />';
 
 		$html[] = '<a href="#modalNewsfeed' . $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal"'
-			. ' title="' . JHtml::tooltipText('COM_NEWSFEEDS_CHANGE_FEED_BUTTON') . '">'
+			. ' title="' . JHtml::_('tooltipText', 'COM_NEWSFEEDS_CHANGE_FEED_BUTTON') . '">'
 			. '<span class="icon-file"></span> ' . JText::_('JSELECT')
 			. '</a>';
 
@@ -165,7 +165,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 		{
 			$html[] = '<a class="btn hasTooltip' . ($value ? '' : ' hidden') .
 				'" href="index.php?option=com_newsfeeds&layout=modal&tmpl=component&task=newsfeed.edit&id=' . $value .
-				'" target="_blank" title="' . JHtml::tooltipText('COM_NEWSFEEDS_EDIT_NEWSFEED') .
+				'" target="_blank" title="' . JHtml::_('tooltipText', 'COM_NEWSFEEDS_EDIT_NEWSFEED') .
 				'" ><span class="icon-edit"></span>' . JText::_('JACTION_EDIT') . '</a>';
 		}
 

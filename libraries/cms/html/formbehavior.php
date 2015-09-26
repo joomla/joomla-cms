@@ -135,7 +135,7 @@ abstract class JHtmlFormbehavior
 			JHtml::_('jquery.framework');
 
 			// Requires chosen to work
-			static::chosen($selector, $debug);
+			JHtml::_('formbehavior.chosen', $selector, $debug);
 
 			JHtml::_('script', 'jui/ajax-chosen.min.js', false, true, false, false, $debug);
 			JFactory::getDocument()->addScriptDeclaration("
