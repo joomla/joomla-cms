@@ -239,7 +239,7 @@ class JHtmlElement
 	/**
 	 * Method to set the innerHtml for an element
 	 *
-	 * @param   mixed   $innerHtml  string|JHtmlElement|mixed array of string|JHtmlElement
+	 * @param   mixed  $innerHtml  string|JHtmlElement|mixed array of string|JHtmlElement
 	 *
 	 * @return $this to allow for chaining
 	 */
@@ -269,7 +269,7 @@ class JHtmlElement
 	/**
 	 * Method to get the innerHtml of an element
 	 *
-	 * @param   bool  $toString flag to return the innerHtml as a HTML String
+	 * @param   bool  $toString  flag to return the innerHtml as a HTML String
 	 *
 	 * @return array|string
 	 */
@@ -297,8 +297,8 @@ class JHtmlElement
 	/**
 	 * Method to add to the innerHtml
 	 *
-	 * @param   string|JHtmlElement   $innerHtml  This can be a string value or a JHtmlElement object
-	 * @param   bool                  $before     Should $innerHtml be placed at the beginning or the end of $this->innerHtml?
+	 * @param   string|JHtmlElement  $innerHtml  This can be a string value or a JHtmlElement object
+	 * @param   bool                 $before     Should $innerHtml be placed at the beginning or the end of $this->innerHtml?
 	 *
 	 * @return $this to allow chaining
 	 */
