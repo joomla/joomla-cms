@@ -169,7 +169,9 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = '<span class="hasTooltip icon-lock" title="' . JHtml::_('tooltipText', $tooltip . '', 0) . '"></span> ' . JText::_('JLIB_HTML_CHECKED_OUT');
+				$text = '<span class="hasTooltip icon-lock" title="'
+				. JHtml::_('tooltipText', $tooltip . '', 0) . '"></span> '
+				. JText::_('JLIB_HTML_CHECKED_OUT');
 			}
 
 			$output = JHtml::_('link', '#', $text, $attribs);
