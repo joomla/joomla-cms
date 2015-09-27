@@ -58,11 +58,6 @@ function colorIsLight($color)
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<jdoc:include type="head" />
-	<script type="text/javascript">
-        jQuery(function($) {
-            $( "#form-login input[name='username']" ).focus();
-        });
-	</script>
 	<style type="text/css">
 		/* Template color */
 		<?php if ($this->params->get('templateColor')) : ?>

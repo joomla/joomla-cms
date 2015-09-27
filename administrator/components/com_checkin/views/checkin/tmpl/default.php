@@ -37,7 +37,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 					<th width="1%">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
-					<th class="left"><?php echo JHtml::_('grid.sort', 'COM_CHECKIN_DATABASE_TABLE', 'table', $listDirn, $listOrder); ?></th>
+					<th><?php echo JHtml::_('grid.sort', 'COM_CHECKIN_DATABASE_TABLE', 'table', $listDirn, $listOrder); ?></th>
 					<th><?php echo JHtml::_('grid.sort', 'COM_CHECKIN_ITEMS_TO_CHECK_IN', 'count', $listDirn, $listOrder); ?></th>
 				</tr>
 			</thead>
@@ -51,7 +51,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<?php echo JText::sprintf('COM_CHECKIN_TABLE', $table); ?>
 							</label>
 						</td>
-						<td width="200" class="center"><span class="label label-info"><?php echo $count; ?></span></td>
+						<td><span class="label label-info"><?php echo $count; ?></span></td>
 					</tr>
 					<?php $i++; ?>
 				<?php endforeach; ?>

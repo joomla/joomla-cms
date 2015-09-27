@@ -197,7 +197,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		}
 
 		// Validate the Yubikey OTP
-		$check = $this->validateYubikeyOTP($data['securitycode']);
+		$check = $this->validateYubikeyOtp($data['securitycode']);
 
 		if (!$check)
 		{
@@ -264,7 +264,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		if ($check)
 		{
-			$check = $this->validateYubikeyOTP($credentials['secretkey']);
+			$check = $this->validateYubikeyOtp($credentials['secretkey']);
 		}
 
 		return $check;
@@ -279,7 +279,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 	 *
 	 * @since   3.2
 	 */
-	public function validateYubikeyOTP($otp)
+	public function validateYubikeyOtp($otp)
 	{
 		$server_queue = array(
 			'api.yubico.com',

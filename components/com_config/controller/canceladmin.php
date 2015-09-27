@@ -67,6 +67,12 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 
 		if (!empty($this->redirect))
 		{
+			// Don't redirect to an external URL.
+			if (!JUri::isInternal($this->redirect))
+			{
+				$this->redirect = JUri::base();
+			}
+
 			$this->app->redirect($this->redirect);
 		}
 		else

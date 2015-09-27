@@ -70,7 +70,7 @@ class MenusControllerItems extends JControllerAdmin
 		else
 		{
 			// Rebuild failed.
-			$this->setMessage(JText::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'));
+			$this->setMessage(JText::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'), 'error');
 
 			return false;
 		}

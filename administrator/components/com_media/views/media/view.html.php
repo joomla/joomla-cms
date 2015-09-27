@@ -57,7 +57,7 @@ class MediaViewMedia extends JViewLegacy
 
 		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
 
-		if ($lang->isRTL())
+		if ($lang->isRtl())
 		{
 			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
 		}

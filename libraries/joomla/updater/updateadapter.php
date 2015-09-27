@@ -141,7 +141,7 @@ abstract class JUpdateAdapter extends JAdapterInstance
 			return;
 		}
 
-		$db = $this->parent->getDBO();
+		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true)
 			->update($db->qn('#__update_sites'))
 			->set($db->qn('enabled') . ' = ' . $db->q($enabled ? 1 : 0))
@@ -174,7 +174,7 @@ abstract class JUpdateAdapter extends JAdapterInstance
 			return '';
 		}
 
-		$db = $this->parent->getDBO();
+		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true)
 					->select($db->qn('name'))
 					->from($db->qn('#__update_sites'))

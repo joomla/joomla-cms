@@ -634,28 +634,43 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		$config = JFactory::getConfig();
-		$lifetime = ($config->get('lifetime') * 60000);
-		$refreshTime = ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
-
-		// Refresh time is 1 minute less than the lifetime assigned in the configuration.php file.
-
-		// The longest refresh period is one hour to prevent integer overflow.
-		if ($refreshTime > 3600000 || $refreshTime <= 0)
+		// If the handler is not 'Database', we set a fixed, small refresh value (here: 5 min)
+		if (JFactory::getConfig()->get('session_handler') != 'database')
 		{
-			$refreshTime = 3600000;
+			$refresh_time = 300000;
+		}
+		else
+		{
+			$life_time    = JFactory::getConfig()->get('lifetime') * 60000;
+			$refresh_time = ($life_time <= 60000) ? 45000 : $life_time - 60000;
+
+			// The longest refresh period is one hour to prevent integer overflow.
+			if ($refresh_time > 3600000 || $refresh_time <= 0)
+			{
+				$refresh_time = 3600000;
+			}
 		}
 
-		$document = JFactory::getDocument();
+		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
+		if (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest)
+		{
+			$url = JUri::base(true) . '/index.php?option=com_ajax&format=json';
+		}
+		else
+		{
+			$url = JUri::base(true) . '/index.php';
+		}
+
 		$script = 'window.setInterval(function(){';
 		$script .= 'var r;';
 		$script .= 'try{';
 		$script .= 'r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")';
 		$script .= '}catch(e){}';
-		$script .= 'if(r){r.open("GET","./",true);r.send(null)}';
-		$script .= '},' . $refreshTime . ');';
+		$script .= 'if(r){r.open("GET","' . $url . '",true);r.send(null)}';
+		$script .= '},' . $refresh_time . ');';
 
-		$document->addScriptDeclaration($script);
+		JFactory::getDocument()->addScriptDeclaration($script);
+
 		static::$loaded[__METHOD__] = true;
 
 		return;

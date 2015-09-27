@@ -10,7 +10,6 @@
 use Joomla\Registry\Registry;
 
 include_once __DIR__ . '/stubs/JOAuth1ClientInspector.php';
-include_once __DIR__ . '/../application/stubs/JApplicationWebInspector.php';
 
 /**
  * Test class for JOAuth1Client.
@@ -89,7 +88,7 @@ class JOAuth1ClientTest extends TestCase
 		$this->options = new Registry;
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
 		$this->input = new JInput(array());
-		$this->application = new JApplicationWebInspector;
+		$this->application = $this->getMockWeb();
 
 		$this->options->set('consumer_key', $key);
 		$this->options->set('consumer_secret', $secret);

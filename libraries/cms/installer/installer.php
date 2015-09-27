@@ -206,7 +206,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   3.1
 	 */
-	public function getRedirectURL()
+	public function getRedirectUrl()
 	{
 		return $this->redirect_url;
 	}
@@ -220,7 +220,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   3.1
 	 */
-	public function setRedirectURL($newurl)
+	public function setRedirectUrl($newurl)
 	{
 		$this->redirect_url = $newurl;
 	}
@@ -366,7 +366,7 @@ class JInstaller extends JAdapter
 
 				case 'extension':
 					// Get database connector object
-					$db = $this->getDBO();
+					$db = $this->getDbo();
 					$query = $db->getQuery(true);
 
 					// Remove the entry from the #__extensions table
@@ -2338,7 +2338,7 @@ class JInstaller extends JAdapter
 		// Ensure the adapter type is part of the options array
 		$options['type'] = $adapter;
 
-		return new $class($this, $this->getDBO(), $options);
+		return new $class($this, $this->getDbo(), $options);
 	}
 
 	/**

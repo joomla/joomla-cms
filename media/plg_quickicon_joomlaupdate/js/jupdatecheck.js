@@ -25,7 +25,7 @@ jQuery(document).ready(function() {
 					var updateInfo = updateInfoList.shift();
 					if (updateInfo.version != plg_quickicon_jupdatecheck_jversion) {
 						var updateString = plg_quickicon_joomlaupdate_text.UPDATEFOUND.replace("%s", updateInfo.version + "");
-						jQuery('#plg_quickicon_joomlaupdate').find('span').html(updateString);
+						jQuery('#plg_quickicon_joomlaupdate').find('.j-links-link').html(updateString);
 						var updateString = plg_quickicon_joomlaupdate_text.UPDATEFOUND_MESSAGE.replace("%s", updateInfo.version + "");
 						if (jQuery('.alert-joomlaupdate').length == 0) {
 							jQuery('#system-message-container').prepend(

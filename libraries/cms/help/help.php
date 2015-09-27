@@ -28,7 +28,7 @@ class JHelp
 	 *
 	 * @since   1.5
 	 */
-	public static function createURL($ref, $useComponent = false, $override = null, $component = null)
+	public static function createUrl($ref, $useComponent = false, $override = null, $component = null)
 	{
 		$local = false;
 		$app   = JFactory::getApplication();

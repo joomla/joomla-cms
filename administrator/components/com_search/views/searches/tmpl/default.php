@@ -67,10 +67,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<th class="title">
 						<?php echo JHtml::_('grid.sort', 'COM_SEARCH_HEADING_PHRASE', 'a.search_term', $listDirn, $listOrder); ?>
 					</th>
-					<th width="15%" class="center">
+					<th width="15%">
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
-					<th width="15%" class="center">
+					<th width="15%">
 						<?php echo JText::_('COM_SEARCH_HEADING_RESULTS'); ?>
 					</th>
 				</tr>
@@ -88,10 +88,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<td>
 						<?php echo $this->escape($item->search_term); ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo (int) $item->hits; ?>
 					</td>
-					<td class="center">
+					<td>
 					<?php if ($this->state->get('filter.results')) : ?>
 						<?php echo (int) $item->returns; ?>
 					<?php else: ?>
