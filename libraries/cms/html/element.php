@@ -9,6 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
+/**
+ * Class JHtmlElement
+ * Simple class that allows you to create HTML output in an OOP manner
+ */
 class JHtmlElement
 {
 	/**
@@ -37,9 +41,10 @@ class JHtmlElement
 
 	/**
 	 * Constructor
-	 * @param string $tagName the name of the HTML element I.E. div, p, a
-	 * @param array $attributes associative array of attributes Format: array('propertyName' => 'propertyValue')
-	 * @param array $innerHtml This can be a mixed array of string values and JHtmlElement objects
+	 *
+	 * @param    string  $tagName     the name of the HTML element I.E. div, p, a
+	 * @param    array   $attributes  associative array of attributes Format: array('propertyName' => 'propertyValue')
+	 * @param    array   $innerHtml   This can be a mixed array of string values and JHtmlElement objects
 	 */
 	public function __construct($tagName, $attributes = array(), $innerHtml = array())
 	{
