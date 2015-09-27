@@ -57,7 +57,7 @@ class JHtmlElement
 	 * Method to escape HTML special characters.
 	 * Also trims whitespace from the string
 	 *
-	 * @param string $string to escape
+	 * @param   string  $string to escape
 	 *
 	 * @return string
 	 */
@@ -70,7 +70,8 @@ class JHtmlElement
 
 	/**
 	 * Method to set the attributes of the element
-	 * @param array $attributes associative array 'name' => 'value' format
+	 *
+	 * @param   array  $attributes associative array 'name' => 'value' format
 	 *
 	 * @return $this to allow chaining
 	 */
@@ -87,7 +88,7 @@ class JHtmlElement
 	/**
 	 * Method to get the properties
 	 *
-	 * @param bool $toString flag to return the properties in $name="$value" format
+	 * @param   bool  $toString flag to return the properties in $name="$value" format
 	 *
 	 * @return array|string
 	 */
@@ -115,8 +116,8 @@ class JHtmlElement
 	/**
 	 * Method to add attributes to the element.
 	 *
-	 * @param string $name
-	 * @param        mixed string or value $value
+	 * @param   string  $name  attribute name
+	 * @param   mixed   $value attribute value
 	 *
 	 * @return $this to allow chaining
 	 */
@@ -139,7 +140,7 @@ class JHtmlElement
 	/**
 	 * Method to remove a attribute by name
 	 *
-	 * @param string $name
+	 * @param   string  $name
 	 *
 	 * @return $this to allow chaining
 	 */
@@ -153,7 +154,7 @@ class JHtmlElement
 	/**
 	 * Method to set the css classes of this element
 	 *
-	 * @param array $classes  array('className','className') format
+	 * @param   array  $classes  array('className','className') format
 	 *
 	 * @return $this to allow chaining
 	 */
@@ -173,7 +174,7 @@ class JHtmlElement
 	/**
 	 * Method to get the classes
 	 *
-	 * @param bool $toString flag to return the properties in class="$classes[0] $classes[1] etc..." format
+	 * @param   bool  $toString  flag to return the properties in class="$classes[0] $classes[1] etc..." format
 	 *
 	 * @return array|string
 	 */
@@ -205,7 +206,7 @@ class JHtmlElement
 	/**
 	 * Method to add css classes to the input
 	 *
-	 * @param string $className
+	 * @param   string  $className
 	 *
 	 * @return $this to allow for chaining
 	 */
@@ -220,7 +221,7 @@ class JHtmlElement
 	/**
 	 * Method to remove css classes from the input
 	 *
-	 * @param string $className
+	 * @param   string  $className
 	 *
 	 * @return $this to allow for chaining
 	 */
@@ -235,7 +236,7 @@ class JHtmlElement
 	/**
 	 * Method to set the innerHtml for an element
 	 *
-	 * @param string|JHtmlElement $innerHtml
+	 * @param   string|JHtmlElement   $innerHtml
 	 *
 	 * @return $this to allow for chaining
 	 */
@@ -292,14 +293,14 @@ class JHtmlElement
 	/**
 	 * Method to add to the innerHtml
 	 *
-	 * @param string|JHtmlElement $innerHtml
-	 * @param bool $before should $innerHtml be placed at the beginning or the end of $this->innerHtml?
+	 * @param   string|JHtmlElement   $innerHtml  This can be a string value or a JHtmlElement object
+	 * @param   bool                  $before     Should $innerHtml be placed at the beginning or the end of $this->innerHtml?
 	 *
 	 * @return $this to allow chaining
 	 */
 	public function addInnerHtml($innerHtml, $before = false)
 	{
-		if ($before)// add it to the front
+		if ($before) // Add it to the front
 		{
 			array_unshift($this->innerHtml,$innerHtml);
 			return $this;
@@ -312,10 +313,10 @@ class JHtmlElement
 	/**
 	 * Convenience method to add a new child element to the innerHtml array
 	 *
-	 * @param string $tagName    the type of tag to insert
-	 * @param array  $attributes array of element attributes
-	 * @param array  $innerHtml  inner content
-	 * @param bool   $before     should the child be added before current content or after.
+	 * @param    string  $tagName    the type of tag to insert
+	 * @param    array   $attributes array of element attributes
+	 * @param    array   $innerHtml  This can be a mixed array of string values and JHtmlElement objects and will be used in the constructor for the returned element
+	 * @param    bool    $before     should the child be added before current content or after.
 	 *
 	 * @return JHtmlElement reference to the newly created child element
 	 */
@@ -327,6 +328,11 @@ class JHtmlElement
 		return $child;
 	}
 
+	/**
+	 * Magic method to render the class as a string.
+	 *
+	 * @return string
+	 */
 	public function __toString()
 	{
 		return $this->renderHtml();
@@ -334,6 +340,7 @@ class JHtmlElement
 
 	/**
 	 * Method to render object to HTML
+	 *
 	 * @return string HTML element
 	 */
 	protected function renderHtml()
@@ -342,26 +349,30 @@ class JHtmlElement
 		$html .= $this->getClasses();
 		$html .= $this->getAttributes();
 
-		if($this->isVoidElement())
+		if ($this->isVoidElement())
 		{
-			$html .='/>';
-			return $html; //void elements don't have innerHtml
+			$html .= '/>';
+			return $html; // Void elements don't have innerHtml
 		}
 
 		$html .= '>';
 		$html .= $this->getInnerHtml();
-		$html .= '</'.$this->tagName.'>';
+		$html .= '</' . $this->tagName . '>';
 
 		return $html;
 	}
 
 	/**
 	 * Method to check if the tagName is a HTML void element
+	 *
 	 * @return bool
 	 */
 	protected function isVoidElement()
 	{
-		$voidElements = array('area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr');
+		$voidElements = array('area', 'base', 'br', 'col', 'command', 'embed', 'hr',
+						'img', 'input', 'keygen', 'link', 'meta', 'param', 'source',
+						'track', 'wbr');
+
 		return in_array($this->tagName, $voidElements);
 	}
 }
