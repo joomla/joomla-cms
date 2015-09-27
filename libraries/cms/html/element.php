@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Class JHtmlElement
  * Simple class that allows you to create HTML output in an OOP manner
  *
- * @since 3.5
+ * @since  3.5
  */
 class JHtmlElement
 {
@@ -44,9 +44,9 @@ class JHtmlElement
 	/**
 	 * Constructor
 	 *
-	 * @param    string  $tagName     the name of the HTML element I.E. div, p, a
-	 * @param    array   $attributes  associative array of attributes Format: array('propertyName' => 'propertyValue')
-	 * @param    array   $innerHtml   This can be a mixed array of string values and JHtmlElement objects
+	 * @param   string  $tagName     the name of the HTML element I.E. div, p, a
+	 * @param   array   $attributes  associative array of attributes Format: array('propertyName' => 'propertyValue')
+	 * @param   array   $innerHtml   This can be a mixed array of string values and JHtmlElement objects
 	 */
 	public function __construct($tagName, $attributes = array(), $innerHtml = array())
 	{
@@ -59,7 +59,7 @@ class JHtmlElement
 	 * Method to escape HTML special characters.
 	 * Also trims whitespace from the string
 	 *
-	 * @param   string  $string to escape
+	 * @param   string  $string  to escape
 	 *
 	 * @return string
 	 */
@@ -112,7 +112,7 @@ class JHtmlElement
 			$attributes .= ' ' . $name . '="' . $value . '"';
 		}
 
-		return ' '.trim($attributes);
+		return ' ' . trim($attributes);
 	}
 
 	/**
@@ -125,7 +125,8 @@ class JHtmlElement
 	 */
 	public function addAttribute($name, $value)
 	{
-		if($name == 'class') //classes are a special property, so we don't handle them here.
+		// Classes are a special property, so we don't handle them here.
+		if ($name == 'class')
 		{
 			$this->setClasses($value);
 			return $this;
@@ -208,7 +209,7 @@ class JHtmlElement
 	/**
 	 * Method to add css classes to the input
 	 *
-	 * @param   string  $className The name of the class
+	 * @param   string  $className  The name of the class
 	 *
 	 * @return $this to allow for chaining
 	 */
@@ -223,7 +224,7 @@ class JHtmlElement
 	/**
 	 * Method to remove css classes from the input
 	 *
-	 * @param   string  $className The name of the class
+	 * @param   string  $className  The name of the class
 	 *
 	 * @return $this to allow for chaining
 	 */
@@ -268,7 +269,7 @@ class JHtmlElement
 	/**
 	 * Method to get the innerHtml of an element
 	 *
-	 * @param bool $toString flag to return the innerHtml as a HTML String
+	 * @param   bool  $toString flag to return the innerHtml as a HTML String
 	 *
 	 * @return array|string
 	 */
@@ -306,7 +307,7 @@ class JHtmlElement
 		// Add it to the front
 		if ($before)
 		{
-			array_unshift($this->innerHtml,$innerHtml);
+			array_unshift($this->innerHtml, $innerHtml);
 			return $this;
 		}
 
@@ -317,10 +318,11 @@ class JHtmlElement
 	/**
 	 * Convenience method to add a new child element to the innerHtml array
 	 *
-	 * @param    string  $tagName     the type of tag to insert
-	 * @param    array   $attributes  array of element attributes
-	 * @param    array   $innerHtml   This can be a mixed array of string values and JHtmlElement objects and will be used in the constructor for the returned element
-	 * @param    bool    $before      Should the child be added before current content or after.
+	 * @param   string  $tagName     the type of tag to insert
+	 * @param   array   $attributes  array of element attributes
+	 * @param   array   $innerHtml   This can be a mixed array of string values and JHtmlElement objects.
+	 *                                It will be used in the constructor for the returned element
+	 * @param   bool    $before      Should the child be added before current content or after.
 	 *
 	 * @return JHtmlElement reference to the newly created child element
 	 */
@@ -349,7 +351,7 @@ class JHtmlElement
 	 */
 	protected function renderHtml()
 	{
-		$html = '<'.$this->tagName;
+		$html = '<' . $this->tagName;
 		$html .= $this->getClasses();
 		$html .= $this->getAttributes();
 
