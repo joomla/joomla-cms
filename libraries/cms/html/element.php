@@ -127,6 +127,7 @@ class JHtmlElement
 		if ($name == 'class')
 		{
 			$this->setClasses($value);
+
 			return $this;
 		}
 
@@ -243,6 +244,7 @@ class JHtmlElement
 	public function removeClass($className)
 	{
 		$cleanName = $this->escape($className);
+
 		unset($this->classes[$cleanName]);
 
 		return $this;
@@ -260,6 +262,7 @@ class JHtmlElement
 		if (!is_array($innerHtml))
 		{
 			$this->innerHtml[] = $innerHtml;
+
 			return $this;
 		}
 
@@ -320,6 +323,7 @@ class JHtmlElement
 		if ($before)
 		{
 			array_unshift($this->innerHtml, $innerHtml);
+
 			return $this;
 		}
 
@@ -372,6 +376,7 @@ class JHtmlElement
 		if ($this->isVoidElement())
 		{
 			$html .= '/>';
+
 			return $html;
 		}
 
