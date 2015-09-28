@@ -439,39 +439,33 @@ abstract class JFolder
 				return JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_RENAME', $stream->getError());
 			}
 
-			$ret = true;
+			return true;
 		}
-		else
+
+		if ($FTPOptions['enabled'] != 1)
 		{
-			if ($FTPOptions['enabled'] == 1)
+			if (!@rename($src, $dest))
 			{
-				// Connect the FTP client
-				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
-
-				// Translate path for the FTP account
-				$src = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
-				$dest = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
-
-				// Use FTP rename to simulate move
-				if (!$ftp->rename($src, $dest))
-				{
-					return JText::_('Rename failed');
-				}
-
-				$ret = true;
+				return JText::_('Rename failed');
 			}
-			else
-			{
-				if (!@rename($src, $dest))
-				{
-					return JText::_('Rename failed');
-				}
 
-				$ret = true;
-			}
+			return true;
 		}
 
-		return $ret;
+		// Connect the FTP client
+		$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+
+		// Translate path for the FTP account
+		$src = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
+		$dest = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+
+		// Use FTP rename to simulate move
+		if (!$ftp->rename($src, $dest))
+		{
+			return JText::_('Rename failed');
+		}
+
+		return true;
 	}
 
 	/**
@@ -521,26 +515,22 @@ abstract class JFolder
 		}
 
 		// Compute the excludefilter string
+		$excludefilter_string = '';
 		if (count($excludefilter))
 		{
 			$excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
-		}
-		else
-		{
-			$excludefilter_string = '';
 		}
 
 		// Get the files
 		$arr = self::_items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, true);
 
-		// Sort the files based on either natural or alpha method
+		// Sort the files alpha method by default
+		asort($arr);
+
+		// If enabled then sort by natural order
 		if ($naturalSort)
 		{
 			natsort($arr);
-		}
-		else
-		{
-			asort($arr);
 		}
 
 		return array_values($arr);
@@ -576,13 +566,10 @@ abstract class JFolder
 		}
 
 		// Compute the excludefilter string
+		$excludefilter_string = '';
 		if (count($excludefilter))
 		{
 			$excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
-		}
-		else
-		{
-			$excludefilter_string = '';
 		}
 
 		// Get the folders
