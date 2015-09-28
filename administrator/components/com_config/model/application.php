@@ -120,8 +120,7 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 
 		// Check that we aren't setting wrong Redis configuration for cache if selected
-		$conf = (int) JFactory::getConfig()->get('caching', 0);
-		if (($data['cache_handler'] === 'redis') && ($conf != 0))
+		if (($data['cache_handler'] === 'redis') && ($data['caching'] > 0))
 		{
 			$options = array(
 				'host'   => $data['redis_server_host'],
