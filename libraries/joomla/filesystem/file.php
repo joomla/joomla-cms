@@ -165,7 +165,7 @@ class JFile
 			$file = array($file);
 		}
 
-		$files[] = $file;
+		$files = $file;
 
 		// Do NOT use ftp if it is not enabled
 		if ($FTPOptions['enabled'] == 1)
