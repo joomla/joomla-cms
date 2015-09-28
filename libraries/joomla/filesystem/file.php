@@ -160,14 +160,12 @@ class JFile
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 		$pathObject = new JFilesystemWrapperPath;
 
-		if (is_array($file))
+		if (!is_array($file))
 		{
-			$files = $file;
+			$file = array($file);
 		}
-		else
-		{
-			$files[] = $file;
-		}
+
+		$files = $file;
 
 		// Do NOT use ftp if it is not enabled
 		if ($FTPOptions['enabled'] == 1)
