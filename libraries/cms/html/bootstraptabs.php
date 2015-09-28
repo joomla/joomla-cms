@@ -43,8 +43,9 @@ abstract class JHtmlBootstraptabs
 	 * You can then use the returned object reference to populate
 	 * the panel content using JHtmlElement::addInnerHtml or JHtmlElement::setInnerHtml
 	 *
-	 * @param   string  $text  Text to display.
-	 * @param   string  $id    Identifier of the panel.
+	 * @param   JHtmlElement  $wrapper  Wrapper element for the tab set
+	 * @param   string        $text     Text to display.
+	 * @param   string        $id       Identifier of the panel.
 	 *
 	 * @return  JHtmlElement  reference to a new panel object to put content into
 	 *
@@ -52,7 +53,7 @@ abstract class JHtmlBootstraptabs
 	 */
 	public static function panel(JHtmlElement $wrapper, $text, $id)
 	{
-		$wrapper->addChild('dt', array('class'=> 'tabs' . $id))->addChild('span')->addChild('h3')->addChild('a', array('href', 'javascript:void(0);'), $text);
+		$wrapper->addChild('dt', array('class' => 'tabs' . $id))->addChild('span')->addChild('h3')->addChild('a', array('href' => 'javascript:void(0);'), $text);
 		return $wrapper->addChild('dd', array('class' => 'tabs'));
 	}
 
