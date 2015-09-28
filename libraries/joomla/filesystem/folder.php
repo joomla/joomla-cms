@@ -232,13 +232,10 @@ abstract class JFolder
 			// If open_basedir is set we need to get the open_basedir that the path is in
 			if ($obd != null)
 			{
+				$obdSeparator = ":";
 				if (IS_WIN)
 				{
 					$obdSeparator = ";";
-				}
-				else
-				{
-					$obdSeparator = ":";
 				}
 
 				// Create the array of open_basedir paths
@@ -313,15 +310,8 @@ abstract class JFolder
 
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
-		try
-		{
-			// Check to make sure the path valid and clean
-			$path = $pathObject->clean($path);
-		}
-		catch (UnexpectedValueException $e)
-		{
-			throw $e;
-		}
+		// Check to make sure the path valid and clean
+		$path = $pathObject->clean($path);
 
 		// Is this really a folder?
 		if (!is_dir($path))
@@ -338,11 +328,9 @@ abstract class JFolder
 		{
 			$file = new JFilesystemWrapperFile;
 
-			if ($file->delete($files) !== true)
-			{
-				// JFile::delete throws an error
-				return false;
-			}
+			// JFile::delete throws an error
+			// So we don't need to check anything here
+			$file->delete($files);
 		}
 
 		// Remove sub-folders of folder; disable all filtering
@@ -355,15 +343,15 @@ abstract class JFolder
 				// Don't descend into linked directories, just delete the link.
 				$file = new JFilesystemWrapperFile;
 
-				if ($file->delete($folder) !== true)
+				$file->delete($folder);
 				{
-					// JFile::delete throws an error
+					// JFile::delete throws an error (Not always)
 					return false;
 				}
 			}
 			elseif (self::delete($folder) !== true)
 			{
-				// JFolder::delete throws an error
+				// JFolder::delete throws an error (Not always)
 				return false;
 			}
 		}
@@ -378,23 +366,20 @@ abstract class JFolder
 		// as long as the owner is either the webserver or the ftp.
 		if (@rmdir($path))
 		{
-			$ret = true;
+			return true;
 		}
-		elseif ($FTPOptions['enabled'] == 1)
-		{
-			// Translate path and delete
-			$path = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
 
-			// FTP connector throws an error
-			$ret = $ftp->delete($path);
-		}
-		else
+		if ($FTPOptions['enabled'] != 1)
 		{
 			JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), JLog::WARNING, 'jerror');
-			$ret = false;
+			return false;
 		}
 
-		return $ret;
+		// Translate path and delete
+		$path = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
+
+		// FTP connector throws an error
+		return $ftp->delete($path);
 	}
 
 	/**
