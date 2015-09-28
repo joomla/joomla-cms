@@ -65,9 +65,7 @@ class JHtmlElement
 	 */
 	protected function escape($string)
 	{
-		$value = htmlspecialchars(trim($string), ENT_COMPAT, 'UTF-8', false);
-
-		return $value;
+		return htmlspecialchars(trim($string), ENT_COMPAT, 'UTF-8', false);
 	}
 
 	/**
@@ -200,22 +198,12 @@ class JHtmlElement
 			return $this->classes;
 		}
 
-		$classNames = '';
-		foreach ($this->classes AS $className)
-		{
-			$classNames .= ' ' . $className;
-		}
-
-		if (empty($classNames))
+		if (empty($this->classes))
 		{
 			return null;
 		}
 
-		$classes = ' class="';
-		$classes .= trim($classNames);
-		$classes .= '"';
-
-		return $classes;
+		return ' class="' . trim(implode(' ', $this->classes)) . '"';
 	}
 
 	/**
@@ -336,6 +324,7 @@ class JHtmlElement
 		}
 
 		array_push($this->innerHtml, $innerHtml);
+
 		return $this;
 	}
 
