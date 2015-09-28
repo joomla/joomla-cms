@@ -141,6 +141,18 @@ class JHtmlElement
 	}
 
 	/**
+	 * Method to check if an attribute exists in the the attributes array
+	 *
+	 * @param   string $name of the attribute
+	 *
+	 * @return bool
+	 */
+	public function hasAttribute($name)
+	{
+		return array_key_exists($this->escape($name), $this->attributes);
+	}
+
+	/**
 	 * Method to remove a attribute by name
 	 *
 	 * @param   string  $name  of the attribute to remove
@@ -219,6 +231,18 @@ class JHtmlElement
 		$this->classes[$cleanName] = trim($className);
 
 		return $this;
+	}
+
+	/**
+	 * Method to check if a CSS class exists in the classes array
+	 *
+	 * @param   string  $className  name of the class to look for
+	 *
+	 * @return bool
+	 */
+	public function hasClass($className)
+	{
+		return array_key_exists($this->escape($className), $this->classes);
 	}
 
 	/**
