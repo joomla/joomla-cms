@@ -73,6 +73,7 @@ abstract class JFolder
 			{
 				throw new RuntimeException('Cannot open source folder', -1);
 			}
+
 			// Walk through the directory copying files and recursing into folders.
 			while (($file = readdir($dh)) !== false)
 			{
@@ -82,15 +83,15 @@ abstract class JFolder
 				switch (filetype($sfid))
 				{
 					case 'dir':
+
 						if ($file != '.' && $file != '..')
 						{
-							$ret = self::copy($sfid, $dfid, null, $force);
-
-							if ($ret !== true)
+							if (!self::copy($sfid, $dfid, null, $force))
 							{
-								return $ret;
+								return false;
 							}
 						}
+
 						break;
 
 					case 'file':
@@ -101,55 +102,57 @@ abstract class JFolder
 						{
 							throw new RuntimeException('Copy file failed', -1);
 						}
+
 						break;
 				}
 			}
+
+			return true;
 		}
-		else
+
+		if (!($dh = @opendir($src)))
 		{
-			if (!($dh = @opendir($src)))
+			throw new RuntimeException('Cannot open source folder', -1);
+		}
+
+		// Walk through the directory copying files and recursing into folders.
+		while (($file = readdir($dh)) !== false)
+		{
+			$sfid = $src . '/' . $file;
+			$dfid = $dest . '/' . $file;
+
+			switch (filetype($sfid))
 			{
-				throw new RuntimeException('Cannot open source folder', -1);
-			}
-			// Walk through the directory copying files and recursing into folders.
-			while (($file = readdir($dh)) !== false)
-			{
-				$sfid = $src . '/' . $file;
-				$dfid = $dest . '/' . $file;
-
-				switch (filetype($sfid))
-				{
-					case 'dir':
-						if ($file != '.' && $file != '..')
+				case 'dir':
+					if ($file != '.' && $file != '..')
+					{
+						if (self::copy($sfid, $dfid, null, $force, $use_streams))
 						{
-							$ret = self::copy($sfid, $dfid, null, $force, $use_streams);
-
-							if ($ret !== true)
-							{
-								return $ret;
-							}
+							return false;
 						}
+					}
+					break;
+
+				case 'file':
+
+					if ($use_streams)
+					{
+						$stream = JFactory::getStream();
+
+						if (!$stream->copy($sfid, $dfid))
+						{
+							throw new RuntimeException('Cannot copy file: ' . $stream->getError(), -1);
+						}
+
 						break;
+					}
 
-					case 'file':
-						if ($use_streams)
-						{
-							$stream = JFactory::getStream();
+					if (!@copy($sfid, $dfid))
+					{
+						throw new RuntimeException('Copy file failed', -1);
+					}
 
-							if (!$stream->copy($sfid, $dfid))
-							{
-								throw new RuntimeException('Cannot copy file: ' . $stream->getError(), -1);
-							}
-						}
-						else
-						{
-							if (!@copy($sfid, $dfid))
-							{
-								throw new RuntimeException('Copy file failed', -1);
-							}
-						}
-						break;
-				}
+					break;
 			}
 		}
 
