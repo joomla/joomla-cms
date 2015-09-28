@@ -1355,22 +1355,6 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Sets up the fixture.
-	 *
-	 * This method is called before a test is executed.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		require_once JPATH_PLATFORM . '/joomla/string/string.php';
-	}
-
-	/**
 	 * Tests the JArrayHelper::arrayUnique method.
 	 *
 	 * @param   array   $input     The array being input.
