@@ -143,7 +143,7 @@ class JHtmlElement
 	/**
 	 * Method to check if an attribute exists in the the attributes array
 	 *
-	 * @param   string $name of the attribute
+	 * @param   string  $name  of the attribute
 	 *
 	 * @return bool
 	 */
