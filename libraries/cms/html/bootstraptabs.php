@@ -53,7 +53,11 @@ abstract class JHtmlBootstraptabs
 	 */
 	public static function panel(JHtmlElement $wrapper, $text, $id)
 	{
-		$wrapper->addChild('dt', array('class' => 'tabs' . $id))->addChild('span')->addChild('h3')->addChild('a', array('href' => 'javascript:void(0);'), $text);
+		$wrapper->addChild('dt', array('class' => 'tabs' . $id))
+				->addChild('span')
+				->addChild('h3')
+				->addChild('a', array('href' => 'javascript:void(0);'), $text);
+
 		return $wrapper->addChild('dd', array('class' => 'tabs'));
 	}
 
