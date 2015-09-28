@@ -10,23 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Joomla Platform Database Interface
- *
- * @since  11.2
-*/
-interface JDatabaseInterface
-{
-	/**
-	 * Test to see if the connector is available.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.2
-	 */
-	public static function isSupported();
-}
-
-/**
  * Joomla Platform Database Driver Class
  *
  * @since  12.1
