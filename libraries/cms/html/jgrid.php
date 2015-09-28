@@ -53,44 +53,42 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
+		$title = $enabled ? $active_title : $inactive_title;
+
+		if($translate)
+		{
+			$title = JText::_($title);
+		}
+
+		// I just assume it is disabled.
+		$ui = new JHtmlElement('a', array('class' => 'btn btn-micro disabled jgrid', 'title' => $title));
+
+		if($active_class == 'protected')
+		{
+			$inactive_class = 'lock';
+		}
+
+		$inactiveIcon =  'icon-' . $inactive_class;
+		$icon = $ui->addChild('i', array('class' => $inactiveIcon));
+
 		if ($tip)
 		{
 			JHtml::_('bootstrap.tooltip');
-
-			$title = $enabled ? $active_title : $inactive_title;
-			$title = $translate ? JText::_($title) : $title;
-			$title = JHtml::tooltipText($title, '', 0);
+			$ui->addAttribute('title', JHtml::tooltipText($title, '', 0));
+			$ui->addClass('hasTooltip');
 		}
 
+		// Then if it is actually enabled I just manipulate the element.
 		if ($enabled)
 		{
-			$html[] = '<a class="btn btn-micro' . ($active_class == 'publish' ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
-			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
-			$html[] = $tip ? ' title="' . $title . '"' : '';
-			$html[] = '>';
-			$html[] = '<i class="icon-' . $active_class . '">';
-			$html[] = '</i>';
-			$html[] = '</a>';
-		}
-		else
-		{
-			$html[] = '<a class="btn btn-micro disabled jgrid' . ($tip ? ' hasTooltip' : '') . '"';
-			$html[] = $tip ? ' title="' . $title . '"' : '';
-			$html[] = '>';
+			$ui->removeClass('disabled')->removeClass('jgrid');
+			$ui->addClass(($active_class == 'publish' ? ' active' : ''));
+			$ui->addAttribute('onclick', 'return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')');
 
-			if ($active_class == "protected")
-			{
-				$html[] = '<i class="icon-lock"></i>';
-			}
-			else
-			{
-				$html[] = '<i class="icon-' . $inactive_class . '"></i>';
-			}
-
-			$html[] = '</a>';
+			$icon->removeClass($inactiveIcon)->addClass('icon-' . $active_class);
 		}
 
-		return implode($html);
+		return $ui->__toString();
 	}
 
 	/**
