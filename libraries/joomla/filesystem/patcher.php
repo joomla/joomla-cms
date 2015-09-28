@@ -144,7 +144,6 @@ class JFilesystemPatcher
 				$src = $patch['root'] . preg_replace($regex, '', $src);
 				$dst = $patch['root'] . preg_replace($regex, '', $dst);
 
-
 				// Loop for each hunk of differences
 				while (self::findHunk($lines, $src_line, $src_size, $dst_line, $dst_size))
 				{
