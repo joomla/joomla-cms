@@ -193,7 +193,7 @@ class JFile
 			// as long as the owner is either the webserver or the ftp
 			if (@unlink($file))
 			{
-				continue;
+				return true;
 			}
 
 			if ($FTPOptions['enabled'] != 1)
