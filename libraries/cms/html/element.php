@@ -152,17 +152,17 @@ class JHtmlElement
 		$cleanName = $this->escape($name);
 
 		// We have a method used for checking classes, so lets use it.
-		if($name === 'class' && !is_null($value))
+		if ($name === 'class' && !is_null($value))
 		{
 			return $this->hasClass($value);
 		}
 
-		if(!array_key_exists($cleanName, $this->attributes))
+		if (!array_key_exists($cleanName, $this->attributes))
 		{
 			return false;
 		}
 
-		if(!is_null($value))
+		if (!is_null($value))
 		{
 			return ($this->attributes[$cleanName] == $value);
 		}
@@ -196,14 +196,14 @@ class JHtmlElement
 	public function getChildrenByAttribute($name, $value = null)
 	{
 		$found = array();
-		foreach($this->innerHtml AS $child)
+		foreach ($this->innerHtml AS $child)
 		{
-			if(!($child instanceof JHtmlElement))
+			if (!($child instanceof JHtmlElement))
 			{
 				continue;
 			}
 
-			if($child->hasAttribute($name, $value))
+			if ($child->hasAttribute($name, $value))
 			{
 				$found[] = $child;
 			}
