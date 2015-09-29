@@ -142,13 +142,32 @@ class JHtmlElement
 	/**
 	 * Method to check if an attribute exists in the the attributes array
 	 *
-	 * @param   string  $name  of the attribute
+	 * @param   string  $name   of the attribute
+	 * @param   string  $value  Optional check if the attribute has a specific value
 	 *
 	 * @return bool
 	 */
-	public function hasAttribute($name)
+	public function hasAttribute($name, $value = null)
 	{
-		return array_key_exists($this->escape($name), $this->attributes);
+		$cleanName = $this->escape($name);
+
+		// We have a method used for checking classes, so lets use it.
+		if($name === 'class' && !is_null($value))
+		{
+			return $this->hasClass($value);
+		}
+
+		if(!array_key_exists($cleanName, $this->attributes))
+		{
+			return false;
+		}
+
+		if(!is_null($value))
+		{
+			return ($this->attributes[$cleanName] == $value);
+		}
+
+		return true;
 	}
 
 	/**
@@ -163,6 +182,34 @@ class JHtmlElement
 		unset($this->attributes[$name]);
 
 		return $this;
+	}
+
+	/**
+	 * Method to get all child element with a specific attribute
+	 * You can optionally check for a specific value
+	 *
+	 * @param   string  $name   of the attribute
+	 * @param   string  $value  Optional value of the attribute
+	 *
+	 * @return mixed
+	 */
+	public function getChildByAttribute($name, $value = null)
+	{
+		$found = array();
+		foreach($this->innerHtml AS $child)
+		{
+			if(!($child instanceof JHtmlElement))
+			{
+				continue;
+			}
+
+			if($child->hasAttribute($name, $value))
+			{
+				$found[] = $child;
+			}
+		}
+
+		return $found;
 	}
 
 	/**
