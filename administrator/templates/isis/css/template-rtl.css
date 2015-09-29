@@ -7461,6 +7461,9 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 .chzn-drop {
 	max-width: 100% !important;
 }
+.control-group:last-of-type .chzn-container-active .chzn-drop {
+	position: static !important;
+}
 @media (max-width: 979px) {
 	.navbar .nav {
 		font-size: 13px;
