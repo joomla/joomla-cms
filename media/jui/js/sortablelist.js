@@ -217,36 +217,36 @@
 				if (ui.originalPosition.top > ui.position.top) //if item moved up
 				{						
 					if (ui.item.position().top != ui.originalPosition.top){
-						$('[type=text]', ui.item).attr('value', parseInt($('[type=text]', ui.item.next()).attr('value')));
+						$('[name="order[]"]', ui.item).attr('value', parseInt($('[name="order[]"]', ui.item.next()).attr('value')));
 					}
 					$(range).each(function () {
 						var _top = $(this).position().top;
 						if ( ui.item.get(0) !== $(this).get(0)){	
 							if (_top > ui.item.position().top && _top <= ui.originalPosition.top) {
 								if (sortDir == 'asc') {
-									var newValue = parseInt($('[type=text]', $(this)).attr('value')) + 1;
+									var newValue = parseInt($('[name="order[]"]', $(this)).attr('value')) + 1;
 								} else {
-									var newValue = parseInt($('[type=text]', $(this)).attr('value')) - 1;
+									var newValue = parseInt($('[name="order[]"]', $(this)).attr('value')) - 1;
 								}
 	
-								$('[type=text]', $(this)).attr('value', newValue);
+								$('[name="order[]"]', $(this)).attr('value', newValue);
 							}
 						}
 					});
 				} else if (ui.originalPosition.top < ui.position.top) {
 					if (ui.item.position().top != ui.originalPosition.top){
-						$('[type=text]', ui.item).attr('value', parseInt($('[type=text]', ui.item.prev()).attr('value')));
+						$('[name="order[]"]', ui.item).attr('value', parseInt($('[name="order[]"]', ui.item.prev()).attr('value')));
 					}					
 					$(range).each(function () {												
 						var _top = $(this).position().top;
 						if ( ui.item.get(0) !== $(this).get(0)){						
 							if (_top < ui.item.position().top && _top >= ui.originalPosition.top) {
 								if (sortDir == 'asc') {
-									var newValue = parseInt($('[type=text]', $(this)).attr('value')) - 1;
+									var newValue = parseInt($('[name="order[]"]', $(this)).attr('value')) - 1;
 								} else {
-									var newValue = parseInt($('[type=text]', $(this)).attr('value')) + 1;
+									var newValue = parseInt($('[name="order[]"]', $(this)).attr('value')) + 1;
 								}
-								$('[type=text]', $(this)).attr('value', newValue);
+								$('[name="order[]"]', $(this)).attr('value', newValue);
 							}
 						}
 						
