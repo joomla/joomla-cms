@@ -587,18 +587,15 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
 	{
-		$cur_state = $this->getUserState($key, $default);
 		$new_state = $this->input->get($request, null, $type);
 
 		// Save the new value only if it was set in this request.
-		if ($new_state !== null)
+		if ($new_state === null)
 		{
-			$this->setUserState($key, $new_state);
+			$new_state = $this->getUserState($key, $default);
 		}
-		else
-		{
-			$new_state = $cur_state;
-		}
+
+		$this->setUserState($key, $new_state);
 
 		return $new_state;
 	}
