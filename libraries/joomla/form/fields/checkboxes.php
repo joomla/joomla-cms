@@ -122,63 +122,69 @@ class JFormFieldCheckboxes extends JFormField
 	 */
 	protected function getInput()
 	{
-		$html = array();
-
-		// Initialize some field attributes.
-		$class          = !empty($this->class) ? ' class="checkboxes ' . $this->class . '"' : ' class="checkboxes"';
-		$checkedOptions = explode(',', (string) $this->checkedOptions);
-		$required       = $this->required ? ' required aria-required="true"' : '';
-		$autofocus      = $this->autofocus ? ' autofocus' : '';
-
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		// Start the checkbox field output.
-		$html[] = '<fieldset id="' . $this->id . '"' . $class . $required . $autofocus . '>';
+		$class = !empty($this->class) ? 'checkboxes '. $this->class : 'checkboxes';
 
-		// Get the field options.
-		$options = $this->getOptions();
+		$fieldset = new JHtmlElement('fieldset', array('class' => $class));
+
+		if($this->required)
+		{
+			$fieldset->addAttribute('required aria-required', 'true');
+		}
+
+		if($this->autofocus)
+		{
+			$fieldset->addAttribute('autofocus');
+		}
 
 		// Build the checkbox field output.
-		$html[] = '<ul>';
+		$ul = $fieldset->addChild('ul');
+
+		// Get the field options.
+		$checkedOptions = explode(',', (string) $this->checkedOptions);
+		$options = $this->getOptions();
+
 
 		foreach ($options as $i => $option)
 		{
-			// Initialize some option attributes.
-			if (!isset($this->value) || empty($this->value))
+			$inputId = $this->id . $i;
+			$cleanValue = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
+
+			$li = $ul->addChild('li');
+			$input = $li->addChild('input', array('type' => 'checkbox', 'id' => $inputId, 'name' => $this->name, 'value' => $cleanValue, 'class' => $option->class));
+			$li->addChild('label', array('for' =>  $inputId, 'class' => $option->class), JText::_($option->text));
+
+			// Initialize value checks.
+			$value = !is_array($this->value) ? explode(',', $this->value) : $this->value;
+			$valueEmpty = (empty($value));
+			$inClassValue = (in_array((string) $option->value, (array) $value) ? ' checked' : '');
+			$inCheckedOptions = (in_array((string) $option->value, (array) $checkedOptions));
+
+			if ($inClassValue || ($valueEmpty && $inCheckedOptions) || $option->checked)
 			{
-				$checked = (in_array((string) $option->value, (array) $checkedOptions) ? ' checked' : '');
+				$input->addAttribute('checked', 'checked');
 			}
-			else
+
+			if(!empty($option->disable) || $this->disabled)
 			{
-				$value = !is_array($this->value) ? explode(',', $this->value) : $this->value;
-				$checked = (in_array((string) $option->value, $value) ? ' checked' : '');
+				$input->addAttribute('disabled', 'disabled');
 			}
 
-			$checked = empty($checked) && $option->checked ? ' checked' : $checked;
+			if(!empty($option->onclick))
+			{
+				$input->addAttribute('onclick', $option->onclick);
+			}
 
-			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
-			$disabled = !empty($option->disable) || $this->disabled ? ' disabled' : '';
-
-			// Initialize some JavaScript option attributes.
-			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
-			$onchange = !empty($option->onchange) ? ' onchange="' . $option->onchange . '"' : '';
-
-			$html[] = '<li>';
-			$html[] = '<input type="checkbox" id="' . $this->id . $i . '" name="' . $this->name . '" value="'
-				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $class . $onclick . $onchange . $disabled . '/>';
-
-			$html[] = '<label for="' . $this->id . $i . '"' . $class . '>' . JText::_($option->text) . '</label>';
-			$html[] = '</li>';
+			if(!empty($option->onchange))
+			{
+				$input->addAttribute('onchange', $option->onchange);
+			}
 		}
 
-		$html[] = '</ul>';
-
-		// End the checkbox field output.
-		$html[] = '</fieldset>';
-
-		return implode($html);
+		return $fieldset->__toString();
 	}
 
 	/**
