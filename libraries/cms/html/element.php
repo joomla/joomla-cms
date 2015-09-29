@@ -193,7 +193,7 @@ class JHtmlElement
 	 *
 	 * @return mixed
 	 */
-	public function getChildByAttribute($name, $value = null)
+	public function getChildrenByAttribute($name, $value = null)
 	{
 		$found = array();
 		foreach($this->innerHtml AS $child)
