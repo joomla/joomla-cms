@@ -9,26 +9,26 @@
 
 defined('_JEXEC') or die;
 
-?>
-<div class="categories-list<?php echo $displayData->pageclass_sfx;?>">
-<?php if ($displayData->params->get('show_page_heading')) : ?>
-<h1>
-	<?php echo $displayData->escape($displayData->params->get('page_heading')); ?>
-</h1>
-<?php endif; ?>
+$div = new JHtmlElement('div', array('class' => 'categories-list' . $displayData->pageclass_sfx));
 
-<?php if ($displayData->params->get('show_base_description')) : ?>
-	<?php //If there is a description in the menu parameters use that; ?>
-		<?php if($displayData->params->get('categories_description')) : ?>
-			<div class="category-desc base-desc">
-			<?php echo JHtml::_('content.prepare', $displayData->params->get('categories_description'), '',  $displayData->get('extension') . '.categories'); ?>
-			</div>
-		<?php else : ?>
-			<?php //Otherwise get one from the database if it exists. ?>
-			<?php  if ($displayData->parent->description) : ?>
-				<div class="category-desc base-desc">
-					<?php echo JHtml::_('content.prepare', $displayData->parent->description, '', $displayData->parent->extension . '.categories'); ?>
-				</div>
-			<?php endif; ?>
-		<?php endif; ?>
-	<?php endif; ?>
+if ($displayData->params->get('show_page_heading'))
+{
+	$div->addChild('h1', array(), $displayData->escape($displayData->params->get('page_heading')));
+}
+
+if ($displayData->params->get('show_base_description'))
+{
+	$descDiv = $div->addChild('div', array('class' => 'category-desc base-desc'));
+
+	// If there is a description in the menu parameters use that
+	if($displayData->params->get('categories_description'))
+	{
+		$descDiv->setInnerHtml(JHtml::_('content.prepare', $displayData->params->get('categories_description'), '',  $displayData->get('extension') . '.categories'));
+	}
+	elseif($displayData->parent->description)
+	{
+		$descDiv->setInnerHtml(JHtml::_('content.prepare', $displayData->parent->description, '', $displayData->parent->extension . '.categories'));
+	}
+}
+
+echo $div;
