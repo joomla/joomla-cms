@@ -42,23 +42,19 @@ abstract class JComponentRouterBase implements JComponentRouterInterface
 	 */
 	public function __construct($app = null, $menu = null)
 	{
-		if ($app)
+		if (is_null($app))
 		{
-			$this->app = $app;
-		}
-		else
-		{
-			$this->app = JFactory::getApplication();
+			$app =JFactory::getApplication();
 		}
 
-		if ($menu)
+		$this->app = $app;
+
+		if (!is_null($menu))
 		{
-			$this->menu = $menu;
+			$menu = $this->app->getMenu();
 		}
-		else
-		{
-			$this->menu = $this->app->getMenu();
-		}
+
+		$this->menu = $menu;
 	}
 
 	/**
