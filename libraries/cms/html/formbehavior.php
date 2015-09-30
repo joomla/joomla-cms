@@ -60,6 +60,12 @@ abstract class JHtmlFormbehavior
 			$options['disable_search_threshold'] = 10;
 		}
 
+		// Allow searching contains space in query
+		if (!isset($options['search_contains']))
+		{
+			$options['search_contains'] = true;
+		}
+
 		if (!isset($options['allow_single_deselect']))
 		{
 			$options['allow_single_deselect'] = true;
