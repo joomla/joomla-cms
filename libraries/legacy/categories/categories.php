@@ -210,6 +210,7 @@ class JCategories
 	protected function _load($id)
 	{
 		$db = JFactory::getDbo();
+		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$extension = $this->_extension;
 
