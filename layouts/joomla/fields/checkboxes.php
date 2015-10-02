@@ -27,8 +27,10 @@ $classes[] = 'checkboxes';
  *     %4 = any other attributes
  */
 $format = '<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" %4$s />';
-$id     = $data->get('id', '');
-$name   = $data->get('name', '');
+
+$id      = $data->get('id', '');
+$name    = $data->get('name', '');
+$options = $data->get('options', array());
 
 // The alt option for JText::alt
 $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
@@ -38,7 +40,7 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 	<?php echo $data->get('required') ? 'required aria-required="true"' : '';?>
 	<?php echo $data->get('autofocus') ? 'autofocus' : ''; ?>>
 
-	<?php foreach ($data->get('options', array()) as $i => $option) : ?>
+	<?php foreach ($options as $i => $option) : ?>
 		<?php // Initialize some option attributes. ?>
 		<?php $checked = in_array((string) $option->value, $data->get('checkedOptions', array())) ? 'checked' : ''; ?>
 
