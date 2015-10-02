@@ -43,11 +43,10 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 	<?php echo $data->get('autofocus') ? 'autofocus' : ''; ?>>
 
 	<?php if (!empty($options)) : ?>
-	<ul>
 		<?php foreach ($options as $i => $option) : ?>
 		<?php
 		// Initialize some option attributes.
-		$checked = ((string) $option->value == $value) ? 'checked' : '';
+		$checked = ((string) $option->value == $value) ? 'checked="checked"' : '';
 
 		$class = !empty($option->class) ? 'class="' . $option->class . '"' : '';
 		$disabled = !empty($option->disable) || ($data->get('disabled') && !$checked) ? 'disabled' : '';
@@ -66,12 +65,11 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 		}
 		?>
 
-		<li>
-			<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
-			<label for="<?php echo $id; ?>" <?php echo $class; ?>><?php echo JText::alt($option->text, $alt); ?></label>
-		</li>
+		<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
+		<label for="<?php echo $oid; ?>" <?php echo $class; ?>>
+			<?php echo JText::alt($option->text, $alt); ?>
+		</label>
 
 		<?php endforeach; ?>
-	</ul>
 	<?php endif; ?>
 </fieldset>
