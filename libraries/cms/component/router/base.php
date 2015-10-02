@@ -49,7 +49,7 @@ abstract class JComponentRouterBase implements JComponentRouterInterface
 
 		$this->app = $app;
 
-		if (!is_null($menu))
+		if (is_null($menu))
 		{
 			$menu = $this->app->getMenu();
 		}
