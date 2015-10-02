@@ -16,7 +16,7 @@ JHtml::_('script', 'system/html5fallback.js', false, true);
 $data = new JRegistry($displayData);
 
 // Always use the 'checkboxes' class.
-$classes = $data->get('classes', array());
+$classes   = $data->get('classes', array());
 $classes[] = 'checkboxes';
 
 /**
@@ -28,7 +28,7 @@ $classes[] = 'checkboxes';
  */
 $format = '<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" %4$s />';
 
-$id = $data->get('id', '');
+$id   = $data->get('id', '');
 $name = $data->get('name', '');
 
 $options = $data->get('options', array());
@@ -65,7 +65,9 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
 		<li>
 			<?php echo sprintf($format, $oid, $name, $value, implode(' ', $attributes)); ?>
-			<label for="<?php echo $oid; ?>" <?php echo $class; ?>><?php echo JText::alt($option->text, $alt); ?></label>
+			<label for="<?php echo $oid; ?>" <?php echo $class; ?>>
+				<?php echo JText::alt($option->text, $alt); ?>
+			</label>
 		</li>
 
 		<?php endforeach; ?>
