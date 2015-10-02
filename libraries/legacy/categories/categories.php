@@ -260,6 +260,11 @@ class JCategories
 				->where('s.id=' . (int) $id);
 		}
 
+		if ($app->isSite() && JLanguageMultilang::isEnabled())
+		{
+			$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+		}
+
 		// Note: i for item
 		if ($this->_options['countItems'] == 1)
 		{
