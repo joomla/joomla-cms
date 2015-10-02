@@ -210,7 +210,6 @@ class JCategories
 	protected function _load($id)
 	{
 		$db = JFactory::getDbo();
-		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$extension = $this->_extension;
 
@@ -243,6 +242,12 @@ class JCategories
 		if ($this->_options['published'] == 1)
 		{
 			$query->where('c.published = 1');
+
+			$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
+				'ON cat.lft BETWEEN parent.lft AND parent.rgt WHERE parent.extension = ' . $db->quote($extension) .
+				' AND parent.published != 1 GROUP BY cat.id) ';
+			$query->join('LEFT', $subQuery . 'AS badcats ON badcats.id = c.id')
+				->where('badcats.id is null');
 		}
 
 		$query->order('c.lft');
@@ -259,12 +264,6 @@ class JCategories
 		{
 			$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 		}
-
-		$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
-			'ON cat.lft BETWEEN parent.lft AND parent.rgt WHERE parent.extension = ' . $db->quote($extension) .
-			' AND parent.published != 1 GROUP BY cat.id) ';
-		$query->join('LEFT', $subQuery . 'AS badcats ON badcats.id = c.id')
-			->where('badcats.id is null');
 
 		// Note: i for item
 		if ($this->_options['countItems'] == 1)
