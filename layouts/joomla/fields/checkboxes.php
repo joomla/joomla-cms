@@ -9,6 +9,10 @@
 
 defined('JPATH_BASE') or die;
 
+// Including fallback code for HTML5 non supported browsers.
+JHtml::_('jquery.framework');
+JHtml::_('script', 'system/html5fallback.js', false, true);
+
 $data = new JRegistry($displayData);
 
 // Always use the 'checkboxes' class.
