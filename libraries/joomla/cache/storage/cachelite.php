@@ -233,6 +233,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	public function clean($group, $mode = null)
 	{
 		jimport('joomla.filesystem.folder');
+		jimport('joomla.filesystem.file');
 
 		switch ($mode)
 		{
