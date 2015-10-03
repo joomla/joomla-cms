@@ -127,7 +127,7 @@ class JEditor extends JObject
 	/**
 	 * Attach an observer object
 	 *
-	 * @param   object  $observer  An observer object to attach
+	 * @param   object|array  $observer  An observer object  or an array to attach
 	 *
 	 * @return  void
 	 *
@@ -135,46 +135,36 @@ class JEditor extends JObject
 	 */
 	public function attach($observer)
 	{
-		if (is_array($observer))
+		$notValidArray = (!is_array($observer) || (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler'])));
+		$notValidObject = (!($observer instanceof JEditor));
+
+		if ($notValidArray && $notValidObject)
 		{
-			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler']))
-			{
-				return;
-			}
-
-			// Make sure we haven't already attached this array as an observer
-			foreach ($this->_observers as $check)
-			{
-				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
-				{
-					return;
-				}
-			}
-
-			$this->_observers[] = $observer;
-			end($this->_observers);
-			$methods = array($observer['event']);
+			return;
 		}
-		else
+
+		// Make sure we haven't already attached this observer
+		foreach ($this->_observers as $check)
 		{
-			if (!($observer instanceof JEditor))
+			$duplicateArray = (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler']);
+			if ($duplicateArray)
 			{
-				return;
+				return null;
 			}
 
-			// Make sure we haven't already attached this object as an observer
 			$class = get_class($observer);
-
-			foreach ($this->_observers as $check)
+			if ($check instanceof $class)
 			{
-				if ($check instanceof $class)
-				{
-					return;
-				}
+				return null;
 			}
+		}
 
-			$this->_observers[] = $observer;
-			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
+		$this->_observers[] = $observer;
+
+		$methods = $this->getObserverEvents($observer);
+		if (is_null($methods))
+		{
+			return;
 		}
 
 		$key = key($this->_observers);
@@ -192,6 +182,23 @@ class JEditor extends JObject
 		}
 	}
 
+	/**
+	 * Private method to get the methods/ events of an observer
+	 *
+	 * @param   object|array  $observer  An observer object or array to attach
+	 *
+	 * @return array
+	 */
+	private function getObserverEvents($observer)
+	{
+		if (is_array($observer))
+		{
+			end($this->_observers);
+			return array($observer['event']);
+		}
+
+		return array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
+	}
 	/**
 	 * Detach an observer object
 	 *
