@@ -1070,22 +1070,40 @@ class JFormTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-		$this->assertThat(
+		$matcher = array(
+			'id' => 'title_id',
+			'tag' => 'input',
+			'attributes' => array(
+				'type' => 'text',
+				'name' => 'title',
+				'value' => 'The Title',
+				'class' => 'inputbox',
+				'aria-required' => 'true'
+			)
+		);
+
+		$this->assertTag(
+			$matcher,
 			$form->getInput('title', null, 'The Title'),
-			$this->equalTo('<input type="text" name="title" id="title_id" value="The Title" class="inputbox required" required aria-required="true" />'),
 			'Line:' . __LINE__ . ' The method should return a simple input text field.'
 		);
 
-		$this->assertThat(
+		$matcher = array(
+			'id' => 'params_show_title',
+			'tag' => 'fieldset',
+			'attributes' => array('class' => 'radio'),
+			'descendant' => array(
+				'tag' => 'input',
+				'attributes' => array(
+					'type' => 'radio',
+					'name' => 'params[show_title]'
+				)
+			)
+		);
+
+		$this->assertTag(
+			$matcher,
 			$form->getInput('show_title', 'params', '0'),
-			$this->equalTo(
-				'<fieldset id="params_show_title" class="radio" >' .
-					'<input type="radio" id="params_show_title0" name="params[show_title]" value="1" />' .
-					'<label for="params_show_title0" >' . JText::_('JYes') . '</label>' .
-					'<input type="radio" id="params_show_title1" name="params[show_title]" value="0" checked="checked" />' .
-					'<label for="params_show_title1" >' . JText::_('JNo') . '</label>' .
-					'</fieldset>'
-			),
 			'Line:' . __LINE__ . ' The method should return a radio list.'
 		);
 
@@ -1097,46 +1115,81 @@ class JFormTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-		$this->assertThat(
-			$form->getInput('colours', 'params', 'blue'),
-			$this->equalTo(
-				'<select id="jform_params_colours" name="jform[params][colours][]" multiple>' .
-					"\n\t" . '<option value="red">Red</option>' .
-					"\n\t" . '<option value="blue" selected="selected">Blue</option>' .
-					"\n\t" . '<option value="green">Green</option>' .
-					"\n\t" . '<option value="yellow">Yellow</option>' .
-					"\n" . '</select>' .
-					"\n"
+		$matcher = array(
+			'id' => 'jform_params_colours',
+			'tag' => 'select',
+			'attributes' => array(
+				'name' => 'jform[params][colours][]',
+				'multiple' => true
 			),
-			'Line:' . __LINE__ . ' XML string should load successfully.'
+			'child' => array(
+				'tag' => 'option',
+				'content' => 'Red',
+				'attributes' => array(
+					'value' => 'red'
+				)
+			),
+			'children' => array(
+				'count' => 4,
+				'only' => array('tag' => 'option')
+			)
+		);
+
+		$this->assertTag(
+			$matcher,
+			$form->getInput('colours', 'params', 'blue'),
+			'Line:' . __LINE__ . ' The method should return a select list.'
+		);
+
+		$matcher = array(
+			'id' => 'jform_translate_default',
+			'tag' => 'input',
+			'attributes' => array(
+				'name' => 'jform[translate_default]',
+				'value' => 'DEFAULT_KEY'
+			)
 		);
 
 		// Test translate default
-		$this->assertThat(
+		$this->assertTag(
+			$matcher,
 			$form->getInput('translate_default'),
-			$this->equalTo(
-				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="DEFAULT_KEY" />'
-			),
 			'Line:' . __LINE__ .
 			' The method should return a simple input text field whose value is untranslated since the DEFAULT_KEY does not exist in the language.'
 		);
 
 		$lang = JFactory::getLanguage();
 		$debug = $lang->setDebug(true);
-		$this->assertThat(
+
+		$matcher = array(
+			'id' => 'jform_translate_default',
+			'tag' => 'input',
+			'attributes' => array(
+				'name' => 'jform[translate_default]',
+				'value' => '??DEFAULT_KEY??'
+			)
+		);
+
+		$this->assertTag(
+			$matcher,
 			$form->getInput('translate_default'),
-			$this->equalTo(
-				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="??DEFAULT_KEY??" />'
-			),
 			'Line:' . __LINE__ . ' The method should return a simple input text field whose value is marked untranslated.'
 		);
 
 		$lang->load('form_test', __DIR__);
-		$this->assertThat(
+
+		$matcher = array(
+			'id' => 'jform_translate_default',
+			'tag' => 'input',
+			'attributes' => array(
+				'name' => 'jform[translate_default]',
+				'value' => 'My Default'
+			)
+		);
+
+		$this->assertTag(
+			$matcher,
 			$form->getInput('translate_default'),
-			$this->equalTo(
-				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="My Default" />'
-			),
 			'Line:' . __LINE__ . ' The method should return a simple input text field whose value is translated.'
 		);
 		$lang->setDebug($debug);
