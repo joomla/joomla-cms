@@ -15,6 +15,7 @@ JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
 
 $uri = JUri::getInstance();
+
 if ($params->get('usesecure'))
 {
 	$uri->setScheme('https');
