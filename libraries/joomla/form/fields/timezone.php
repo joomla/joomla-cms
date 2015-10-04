@@ -56,7 +56,7 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 		switch ($name)
 		{
 			case 'keyField':
-				return $this->$name;
+				return $this->keyField;
 		}
 
 		return parent::__get($name);

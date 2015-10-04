@@ -70,9 +70,7 @@ class JCryptKey
 		{
 			return $this->type;
 		}
-		else
-		{
-			trigger_error('Cannot access property ' . __CLASS__ . '::' . $name, E_USER_WARNING);
-		}
+
+		trigger_error('Cannot access property ' . __CLASS__ . '::' . $name, E_USER_WARNING);
 	}
 }
