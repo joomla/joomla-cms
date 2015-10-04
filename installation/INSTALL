@@ -16,7 +16,7 @@ First you must have the base environment for Joomla.
 We have thoroughly tested Joomla! on: Linux, Free BSD, Mac OS X and Windows.
 Linux or one of the BSD's are recommended, but anything else that can run the
 a supported PHP version, a supported database and a supported webserver listed
-in the Technical Requirements at http://www.joomla.org/technical-requirements.html
+in the Technical Requirements at https://www.joomla.org/technical-requirements.html
 should do it.
 
 SERVER CONFIGURATION
@@ -42,7 +42,7 @@ INSTALLATION
 1. DOWNLOAD Joomla
 
 	You can obtain the latest Joomla! release from:
-		http://www.joomla.org/download.html
+		https://www.joomla.org/download.html
 
 	Copy the tar.gz file into a working directory e.g.
 
@@ -70,7 +70,7 @@ INSTALLATION
 
 2. CREATE THE Joomla! DATABASE
 
-	Joomla! will currently work with MySQL, MSSQL and PostgreSQL but 
+	Joomla! will currently work with MySQL, MSSQL and PostgreSQL but
 	the following instructions are for MySQL. Refer to relevant
 	documentation if you are using another database.
 

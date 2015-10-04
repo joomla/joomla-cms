@@ -99,7 +99,9 @@ class ContactViewContact extends JViewLegacy
 
 		if ((!in_array($item->access, $groups)) || (!in_array($item->category_access, $groups)))
 		{
-			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
+			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->setHeader('status', 403, true);
+
 			return;
 		}
 

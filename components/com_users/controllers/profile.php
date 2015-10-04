@@ -38,7 +38,8 @@ class UsersControllerProfile extends UsersController
 		// Check if the user is trying to edit another users profile.
 		if ($userId != $loginUserId)
 		{
-			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->setHeader('status', 403, true);
 
 			return false;
 		}

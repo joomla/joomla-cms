@@ -168,7 +168,7 @@ class JFactoryTest extends TestCaseDatabase
 	{
 		$this->assertInstanceOf(
 			'JUri',
-			JFactory::getUri('http://www.joomla.org'),
+			JFactory::getUri('https://www.joomla.org'),
 			'Line: ' . __LINE__
 		);
 	}

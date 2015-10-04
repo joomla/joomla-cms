@@ -444,6 +444,12 @@ class ContentModelArticle extends JModelAdmin
 			}
 		}
 
+		// If there are params fieldsets in the form it will fail with a registry object
+		if (isset($data->params) && $data->params instanceof Registry)
+		{
+			$data->params = $data->params->toArray();
+		}
+
 		$this->preprocessData('com_content.article', $data);
 
 		return $data;
