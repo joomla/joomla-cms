@@ -281,7 +281,7 @@ class JAuthentication extends JObject
 
 			// Try to authenticate
 			$plugin->onUserAuthenticate($credentials, $options, $response);
-			
+
 			// If authentication is canceled break out of the loop
 			if ($response->status === self::STATUS_CANCEL)
 				break;
