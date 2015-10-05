@@ -1,3 +1,50 @@
+Version 4.2.6 (2015-09-28)
+	Added capability to set request headers when using XHRs.
+	Added capability to upload local images automatically default delay is set to 30 seconds after editing images.
+	Added commands ids mceEditImage, mceAchor and mceMedia to be avaiable from execCommand.
+	Added Edge browser to saucelabs grunt task. Patch contributed by John-David Dalton.
+	Fixed bug where blob uris not produced by tinymce would produce HTML invalid markup.
+	Fixed bug where selection of contents of a nearly empty editor in Edge would sometimes fail.
+	Fixed bug where color styles woudln't be retained on copy/paste in Blink/Webkit.
+	Fixed bug where the table plugin would throw an error when inserting rows after a child table.
+	Fixed bug where the template plugin wouldn't handle functions as variable replacements.
+	Fixed bug where undo/redo sometimes wouldn't work properly when applying formatting collapsed ranges.
+	Fixed bug where shift+delete wouldn't do a cut operation on Blink/WebKit.
+	Fixed bug where cut action wouldn't properly store the before selection bookmark for the undo level.
+	Fixed bug where backspace in side an empty list element on IE would loose editor focus.
+	Fixed bug where the save plugin wouldn't enable the buttons when a change occured.
+	Fixed bug where Edge wouldn't initialize the editor if a document.domain was specified.
+	Fixed bug where enter key before nested images would sometimes not properly expand the previous block.
+	Fixed bug where the inline toolbars wouldn't get properly hidden when blurring the editor instance.
+	Fixed bug where Edge would paste Chinese characters on some Windows 10 installations.
+	Fixed bug where IME would loose focus on IE 11 due to the double trailing br bug fix.
+	Fixed bug where the proxy url in imagetools was incorrect. Patch contributed by Wong Ho Wang.
+Version 4.2.5 (2015-08-31)
+	Added fullscreen capability to embedded youtube and vimeo videos.
+	Fixed bug where the uploadImages call didn't work on IE 10.
+	Fixed bug where image place holders would be uploaded by uploadImages call.
+	Fixed bug where images marked with bogus would be uploaded by the uploadImages call.
+	Fixed bug where multiple calls to uploadImages would result in decreased performance.
+	Fixed bug where pagebreaks were editable to imagetools patch contributed by Rasmus Wallin.
+	Fixed bug where the element path could cause too much recursion exception.
+	Fixed bug for domains containing ".min". Patch contributed by Loïc Février.
+	Fixed so validation of external links to accept a number after www. Patch contributed by Victor Carvalho.
+	Fixed so the charmap is exposed though execCommand. Patch contributed by Matthew Will.
+	Fixed so that the image uploads are concurrent for improved performance.
+	Fixed various grammar problems in inline documentation. Patches provided by nikolas.
+Version 4.2.4 (2015-08-17)
+	Added picture as a valid element to the HTML 5 schema. Patch contributed by Adam Taylor.
+	Fixed bug where contents would be duplicated on drag/drop within the same editor.
+	Fixed bug where floating/alignment of images on Edge wouldn't work properly.
+	Fixed bug where it wasn't possible to drag images on IE 11.
+	Fixed bug where image selection on Edge would sometimes fail.
+	Fixed bug where contextual toolbars icons wasn't rendered properly when using the toolbar_items_size.
+	Fixed bug where searchreplace dialog doesn't get prefilled with the selected text.
+	Fixed bug where fragmented matches wouldn't get properly replaced by the searchreplace plugin.
+	Fixed bug where enter key wouldn't place the caret if was after a trailing space within an inline element.
+	Fixed bug where the autolink plugin could produce multiple links for the same text on Gecko.
+	Fixed bug where EditorUpload could sometimes throw an exception if the blob wasn't found.
+	Fixed xss issues with media plugin not properly filtering out some script attributes.
 Version 4.2.3 (2015-07-30)
 	Fixed bug where image selection wasn't possible on Edge due to incompatible setBaseAndExtend API.
 	Fixed bug where image blobs urls where not properly destroyed by the imagetools plugin.
