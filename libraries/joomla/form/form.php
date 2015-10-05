@@ -1480,6 +1480,7 @@ class JForm
 				{
 					$return = JFilterInput::getInstance()->clean($value, $filter);
 				}
+
 				break;
 		}
 
@@ -1919,6 +1920,17 @@ class JForm
 		{
 			$path = JPATH_ROOT . '/' . ltrim($path, '/\\');
 			self::addRulePath($path);
+		}
+
+		// Get any addoptionpath attributes from the form definition.
+		$paths = $this->xml->xpath('//*[@addoptionpath]/@addoptionpath');
+		$paths = array_map('strval', $paths ? $paths : array());
+
+		// Add the option paths.
+		foreach ($paths as $path)
+		{
+			$path = JPATH_ROOT . '/' . ltrim($path, '/\\');
+			self::addOptionPath($path);
 		}
 
 		return true;
