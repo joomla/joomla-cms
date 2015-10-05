@@ -28,11 +28,11 @@ class ModBreadCrumbsHelper
 	public static function getList(&$params)
 	{
 		// Get the PathWay object from the application
-		$app		= JFactory::getApplication();
-		$pathway	= $app->getPathway();
-		$items		= $pathway->getPathWay();
-		$lang = JFactory::getLanguage();
-		$menu = $app->getMenu();
+		$app     = JFactory::getApplication();
+		$pathway = $app->getPathway();
+		$items   = $pathway->getPathWay();
+		$lang    = JFactory::getLanguage();
+		$menu    = $app->getMenu();
 
 		// Look for the home menu
 		if (JLanguageMultilang::isEnabled())
@@ -47,7 +47,7 @@ class ModBreadCrumbsHelper
 		$count = count($items);
 
 		// Don't use $items here as it references JPathway properties directly
-		$crumbs	= array();
+		$crumbs = array();
 
 		for ($i = 0; $i < $count; $i ++)
 		{
@@ -85,7 +85,7 @@ class ModBreadCrumbsHelper
 		// specific one first, and if that is not present we load the default separator
 		if ($custom == null)
 		{
-			if ($lang->isRTL())
+			if ($lang->isRtl())
 			{
 				$_separator = JHtml::_('image', 'system/arrow_rtl.png', null, null, true);
 			}

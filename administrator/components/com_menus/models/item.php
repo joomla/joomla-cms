@@ -30,6 +30,14 @@ class MenusModelItem extends JModelAdmin
 	public $typeAlias = 'com_menus.item';
 
 	/**
+	 * The context used for the associations table
+	 *
+	 * @var      string
+	 * @since    3.4.4
+	 */
+	protected $associationsContext = 'com_menus.item';
+
+	/**
 	 * @var        string    The prefix to use with controller messages.
 	 * @since   1.6
 	 */
@@ -237,11 +245,11 @@ class MenusModelItem extends JModelAdmin
 			$table->setLocation($table->parent_id, 'last-child');
 
 			// TODO: Deal with ordering?
-			// $table->ordering	= 1;
+			// $table->ordering = 1;
 			$table->level = null;
-			$table->lft = null;
-			$table->rgt = null;
-			$table->home = 0;
+			$table->lft   = null;
+			$table->rgt   = null;
+			$table->home  = 0;
 
 			// Alter the title & alias
 			list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
@@ -310,12 +318,12 @@ class MenusModelItem extends JModelAdmin
 	protected function batchMove($value, $pks, $contexts)
 	{
 		// $value comes as {menutype}.{parent_id}
-		$parts = explode('.', $value);
+		$parts    = explode('.', $value);
 		$menuType = $parts[0];
 		$parentId = (int) JArrayHelper::getValue($parts, 1, 0);
 
 		$table = $this->getTable();
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Check that the parent exists.
@@ -531,6 +539,16 @@ class MenusModelItem extends JModelAdmin
 	{
 		// Check the session for previously entered form data.
 		$data = array_merge((array) $this->getItem(), (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
+
+		// For a new menu item, pre-select some filters (Status, Language, Access) in edit form if those have been selected in Menu Manager
+		if ($this->getItem()->id == 0)
+		{
+			// Get selected fields
+			$filters = JFactory::getApplication()->getUserState('com_menus.items.filter');
+			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
+			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
+			$data['access'] = (isset($filters['access']) ? $filters['access'] : null);
+		}
 
 		$this->preprocessData('com_menus.item', $data);
 
@@ -904,9 +922,6 @@ class MenusModelItem extends JModelAdmin
 				$base = JPATH_SITE . '/components/' . $option;
 			}
 
-			// Confirm a view is defined.
-			$formFile = false;
-
 			if (isset($args['view']))
 			{
 				$view = $args['view'];
@@ -920,8 +935,6 @@ class MenusModelItem extends JModelAdmin
 				{
 					$layout = 'default';
 				}
-
-				$formFile = false;
 
 				// Check for the layout XML file. Use standard xml file if it exists.
 				$tplFolders = array(
@@ -940,7 +953,7 @@ class MenusModelItem extends JModelAdmin
 				if (!$formFile && (strpos($layout, ':') > 0))
 				{
 					$temp = explode(':', $layout);
-					$templatePath = JPATH::clean(JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $option . '/' . $view . '/' . $temp[1] . '.xml');
+					$templatePath = JPath::clean(JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $option . '/' . $view . '/' . $temp[1] . '.xml');
 
 					if (is_file($templatePath))
 					{
@@ -1023,26 +1036,6 @@ class MenusModelItem extends JModelAdmin
 			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
 		}
 
-		// Now load the component params.
-		// TODO: Work out why 'fixing' this breaks JForm
-		if ($isNew = false)
-		{
-			$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $option . '/config.xml');
-		}
-		else
-		{
-			$path = 'null';
-		}
-
-		if (is_file($path))
-		{
-			// Add the component params last of all to the existing form.
-			if (!$form->load($path, true, '/config'))
-			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-			}
-		}
-
 		// Load the specific type file
 		if (!$form->loadFile('item_' . $type, false, false))
 		{
@@ -1105,7 +1098,18 @@ class MenusModelItem extends JModelAdmin
 		$query = $db->getQuery(true);
 		$table = $this->getTable();
 
-		if (!$table->rebuild())
+		try
+		{
+			$rebuildResult = $table->rebuild();
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		if (!$rebuildResult)
 		{
 			$this->setError($table->getError());
 
@@ -1273,7 +1277,6 @@ class MenusModelItem extends JModelAdmin
 		$this->setState('item.menutype', $table->menutype);
 
 		// Load associated menu items
-		$app = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
 
 		if ($assoc)
@@ -1300,10 +1303,10 @@ class MenusModelItem extends JModelAdmin
 			$associations[$table->language] = $table->id;
 
 			// Deleting old association for these items
-			$db = JFactory::getDbo();
+			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->delete('#__associations')
-				->where('context=' . $db->quote('com_menus.item'))
+				->where('context=' . $db->quote($this->associationsContext))
 				->where('id IN (' . implode(',', $associations) . ')');
 			$db->setQuery($query);
 
@@ -1327,7 +1330,7 @@ class MenusModelItem extends JModelAdmin
 
 				foreach ($associations as $id)
 				{
-					$query->values($id . ',' . $db->quote('com_menus.item') . ',' . $db->quote($key));
+					$query->values($id . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
 				}
 
 				$db->setQuery($query);

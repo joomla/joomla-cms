@@ -333,7 +333,9 @@ class JInput implements Serializable, Countable
 	 */
 	public function getMethod()
 	{
-		$method = strtoupper($_SERVER['REQUEST_METHOD']);
+		// Get method if exist
+		$method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : '';
+		$method = strtoupper($method);
 
 		return $method;
 	}

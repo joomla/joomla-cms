@@ -50,13 +50,13 @@ class InstallerViewDefault extends JViewLegacy
 
 		if (is_object($state))
 		{
-			$message1		= $state->get('message');
-			$message2		= $state->get('extension_message');
-			$showMessage	= ($message1 || $message2);
+			$message1    = $state->get('message');
+			$message2    = $state->get('extension_message');
+			$showMessage = ($message1 || $message2);
 		}
 
 		$this->showMessage = $showMessage;
-		$this->state = &$state;
+		$this->state       = &$state;
 
 		$this->addToolbar();
 		parent::display($tpl);
@@ -71,18 +71,14 @@ class InstallerViewDefault extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= JHelperContent::getActions('com_installer');
+		$canDo = JHelperContent::getActions('com_installer');
 		JToolbarHelper::title(JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'puzzle install');
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_installer');
 			JToolbarHelper::divider();
 		}
-
-		// Document.
-		$document = JFactory::getDocument();
-		$document->setTitle(JText::_('COM_INSTALLER_TITLE_' . $this->getName()));
 
 		// Render side bar.
 		$this->sidebar = JHtmlSidebar::render();

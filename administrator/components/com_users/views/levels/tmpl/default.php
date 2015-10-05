@@ -16,13 +16,14 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$canOrder	= $user->authorise('core.edit.state', 'com_users');
-$saveOrder	= $listOrder == 'a.ordering';
+$user       = JFactory::getUser();
+$listOrder  = $this->escape($this->state->get('list.ordering'));
+$listDirn   = $this->escape($this->state->get('list.direction'));
+$canOrder   = $user->authorise('core.edit.state', 'com_users');
+$saveOrder  = $listOrder == 'a.ordering';
 $sortFields = $this->getSortFields();
-$saveOrder	= $listOrder == 'a.ordering';
+$saveOrder  = $listOrder == 'a.ordering';
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_users&task=levels.saveOrderAjax&tmpl=component';
@@ -61,8 +62,8 @@ JFactory::getDocument()->addScriptDeclaration('
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_USERS_SEARCH_TITLE_LEVELS'); ?>" />
 			</div>
 			<div class="filter-search btn-group pull-left">
-				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_RESET'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search"></span></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_RESET'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
 			</div>
 			<div class="btn-group pull-right hidden-phone">
 				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
@@ -94,7 +95,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				<thead>
 					<tr>
 						<th width="1%" class="nowrap center hidden-phone">
-							<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
+							<?php echo JHtml::_('grid.sort', '<span class="icon-menu-2"></span>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
 						</th>
 						<th width="1%">
 							<?php echo JHtml::_('grid.checkall'); ?>
@@ -102,7 +103,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<th>
 							<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_LEVEL_NAME', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap center hidden-phone">
+						<th width="5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -136,7 +137,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							}
 							?>
 							<span class="sortable-handler<?php echo $iconClass ?>">
-								<i class="icon-menu"></i>
+								<span class="icon-menu"></span>
 							</span>
 							<?php if ($canChange && $saveOrder) : ?>
 								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
@@ -153,7 +154,7 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td>
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>

@@ -151,7 +151,7 @@ function colorIsLight($color)
 	<div class="navbar-inner">
 		<div class="container-fluid">
 			<?php if ($this->params->get('admin_menus') != '0') : ?>
-				<a class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+				<a href="#" class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -168,7 +168,7 @@ function colorIsLight($color)
 				<ul class="nav nav-user<?php echo ($this->direction == 'rtl') ? ' pull-left' : ' pull-right'; ?>">
 					<li class="dropdown">
 						<a class="<?php echo ($hidden ? ' disabled' : 'dropdown-toggle'); ?>" data-toggle="<?php echo ($hidden ? '' : 'dropdown'); ?>" <?php echo ($hidden ? '' : 'href="#"'); ?>><span class="icon-cog"></span>
-							<b class="caret"></b></a>
+							<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<?php if (!$hidden) : ?>
 								<li>
@@ -220,7 +220,7 @@ function colorIsLight($color)
 <?php if (!$cpanel) : ?>
 	<!-- Subheader -->
 	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ISIS_TOOLBAR'); ?>
-		<i class="icon-wrench"></i></a>
+		<span class="icon-wrench"></span></a>
 	<div class="subhead-collapse collapse">
 		<div class="subhead">
 			<div class="container-fluid">
@@ -309,6 +309,9 @@ function colorIsLight($color)
 				if ($('.subhead').length) {
 					navTop = $('.subhead').length && $('.subhead').offset().top - <?php echo ($displayHeader || !$statusFixed) ? 30 : 20;?>;
 
+					// Fix the container top
+					$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
+
 					// Only apply the scrollspy when the toolbar is not collapsed
 					if (document.body.clientWidth > 480)
 					{
@@ -325,6 +328,9 @@ function colorIsLight($color)
 					if (scrollTop >= navTop && !isFixed) {
 						isFixed = true;
 						$('.subhead').addClass('subhead-fixed');
+
+						// Fix the container top
+						$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
 					} else if (scrollTop <= navTop && isFixed) {
 						isFixed = false;
 						$('.subhead').removeClass('subhead-fixed');

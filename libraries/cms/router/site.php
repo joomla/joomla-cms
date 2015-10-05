@@ -78,7 +78,7 @@ class JRouterSite extends JRouter
 		}
 
 		// Get the path
-		// Decode URL to convert punycode to unicode so that strings match when routing.
+		// Decode URL to convert percent-encoding to unicode so that strings match when routing.
 		$path = urldecode($uri->getPath());
 
 		// Remove the base URI path.
@@ -652,10 +652,10 @@ class JRouterSite extends JRouter
 	 *
 	 * @since   3.2
 	 */
-	protected function createURI($url)
+	protected function createUri($url)
 	{
 		// Create the URI
-		$uri = parent::createURI($url);
+		$uri = parent::createUri($url);
 
 		// Get the itemid form the URI
 		$itemid = $uri->getVar('Itemid');

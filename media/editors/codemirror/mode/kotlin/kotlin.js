@@ -21,7 +21,7 @@ CodeMirror.defineMode("kotlin", function (config, parserConfig) {
   var multiLineStrings = parserConfig.multiLineStrings;
 
   var keywords = words(
-          "package continue return object while break class data trait throw super" +
+          "package continue return object while break class data trait interface throw super" +
           " when type this else This try val var fun for is in if do as true false null get set");
   var softKeywords = words("import" +
       " where by get set abstract enum open annotation override private public internal" +
@@ -271,7 +271,11 @@ CodeMirror.defineMode("kotlin", function (config, parserConfig) {
       else return ctx.indented + (closing ? 0 : config.indentUnit);
     },
 
-    electricChars: "{}"
+    closeBrackets: {triples: "'\""},
+    electricChars: "{}",
+    blockCommentStart: "/*",
+    blockCommentEnd: "*/",
+    lineComment: "//"
   };
 });
 

@@ -51,9 +51,9 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		NewsfeedsHelper::addSubmenu('newsfeeds');
 
@@ -78,9 +78,9 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$state	= $this->get('State');
-		$canDo	= JHelperContent::getActions('com_newsfeeds', 'category', $state->get('filter.category_id'));
-		$user	= JFactory::getUser();
+		$state = $this->get('State');
+		$canDo = JHelperContent::getActions('com_newsfeeds', 'category', $state->get('filter.category_id'));
+		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
@@ -113,7 +113,6 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			&& $user->authorise('core.edit', 'com_newsfeeds')
 			&& $user->authorise('core.edit.state', 'com_newsfeeds'))
 		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
@@ -132,7 +131,7 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			JToolbarHelper::trash('newsfeeds.trash');
 		}
 
-		if ($user->authorise('core.admin', 'com_newsfeeds'))
+		if ($user->authorise('core.admin', 'com_newsfeeds') || $user->authorise('core.options', 'com_newsfeeds'))
 		{
 			JToolbarHelper::preferences('com_newsfeeds');
 		}
@@ -182,15 +181,15 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.published' => JText::_('JSTATUS'),
-			'a.name' => JText::_('JGLOBAL_TITLE'),
+			'a.ordering'     => JText::_('JGRID_HEADING_ORDERING'),
+			'a.published'    => JText::_('JSTATUS'),
+			'a.name'         => JText::_('JGLOBAL_TITLE'),
 			'category_title' => JText::_('JCATEGORY'),
-			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
-			'numarticles' => JText::_('COM_NEWSFEEDS_NUM_ARTICLES_HEADING'),
-			'a.cache_time' => JText::_('COM_NEWSFEEDS_CACHE_TIME_HEADING'),
-			'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
+			'numarticles'    => JText::_('COM_NEWSFEEDS_NUM_ARTICLES_HEADING'),
+			'a.cache_time'   => JText::_('COM_NEWSFEEDS_CACHE_TIME_HEADING'),
+			'a.language'     => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'           => JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

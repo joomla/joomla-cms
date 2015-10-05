@@ -16,19 +16,21 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$app		= JFactory::getApplication();
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$ordering 	= ($listOrder == 'a.lft');
-$canOrder	= $user->authorise('core.edit.state',	'com_tags');
-$saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
+$app       = JFactory::getApplication();
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$ordering  = ($listOrder == 'a.lft');
+$canOrder  = $user->authorise('core.edit.state', 'com_tags');
+$saveOrder = ($listOrder == 'a.lft' && $listDirn == 'asc');
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_tags&task=tags.saveOrderAjax';
 	JHtml::_('sortablelist.sortable', 'categoryList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
+
 $sortFields = $this->getSortFields();
 
 JFactory::getDocument()->addScriptDeclaration('
@@ -64,8 +66,8 @@ JFactory::getDocument()->addScriptDeclaration('
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_TAGS_ITEMS_SEARCH_FILTER'); ?>" />
 			</div>
 			<div class="btn-group">
-				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search"></span></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
 			</div>
 			<div class="btn-group pull-right hidden-phone">
 				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
@@ -98,7 +100,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				<thead>
 					<tr>
 						<th width="1%" class="center">
-							<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
+							<?php echo JHtml::_('grid.sort', '<span class="icon-menu-2"></span>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
 						</th>
 						<th width="1%" class="hidden-phone">
 							<?php echo JHtml::_('grid.checkall'); ?>
@@ -135,6 +137,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					$canEdit    = $user->authorise('core.edit',       'com_tags');
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
 					$canChange  = $user->authorise('core.edit.state', 'com_tags') && $canCheckin;
+
 					// Get the parents of item for sorting
 					if ($item->level > 1)
 					{
@@ -175,7 +178,7 @@ JFactory::getDocument()->addScriptDeclaration('
 								}
 								?>
 								<span class="sortable-handler<?php echo $iconClass ?>">
-									<i class="icon-menu"></i>
+									<span class="icon-menu"></span>
 								</span>
 								<?php if ($canChange && $saveOrder) : ?>
 									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" />
@@ -218,7 +221,7 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 							<?php endif;?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="hidden-phone">
 								<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
 									<?php echo (int) $item->id; ?></span>
 							</td>
@@ -227,9 +230,21 @@ JFactory::getDocument()->addScriptDeclaration('
 				<?php endforeach; ?>
 				</tbody>
 			</table>
+			<?php // Load the batch processing form if user is allowed ?>
+			<?php if ($user->authorise('core.create', 'com_tags')
+				&& $user->authorise('core.edit', 'com_tags')
+				&& $user->authorise('core.edit.state', 'com_tags')) : ?>
+				<?php echo JHtml::_(
+					'bootstrap.renderModal',
+					'collapseModal',
+					array(
+						'title' => JText::_('COM_TAGS_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer')
+					),
+					$this->loadTemplate('batch_body')
+				); ?>
+			<?php endif;?>
 		<?php endif; ?>
-		<?php //Load the batch processing form. ?>
-		<?php echo $this->loadTemplate('batch'); ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

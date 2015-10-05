@@ -12,17 +12,17 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.multiselect');
-JHtml::_('behavior.modal');
 
-$app		= JFactory::getApplication();
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$saveOrder	= $listOrder == 'a.ordering';
-$assoc		= JLanguageAssociations::isEnabled();
-$n			= count($this->items);
+$app       = JFactory::getApplication();
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$saveOrder = $listOrder == 'a.ordering';
+$assoc     = JLanguageAssociations::isEnabled();
+$n         = count($this->items);
 ?>
+
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
@@ -51,7 +51,7 @@ $n			= count($this->items);
 			<label class="selectlabel" for="filter_category_id"><?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?></label>
 			<select name="filter_category_id" id="filter_category_id">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_content'), 'value', 'text', $this->state->get('filter.category_id')); ?>
+				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_content', array('filter.published' => array(-2, 0, 1, 2))), 'value', 'text', $this->state->get('filter.category_id')); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_level"><?php echo JText::_('JOPTION_SELECT_MAX_LEVELS'); ?></label>
@@ -232,8 +232,20 @@ $n			= count($this->items);
 		</tbody>
 	</table>
 
-	<?php //Load the batch processing form. ?>
-	<?php echo $this->loadTemplate('batch'); ?>
+		<?php //Load the batch processing form. ?>
+		<?php if ($user->authorise('core.create', 'com_content')
+			&& $user->authorise('core.edit', 'com_content')
+			&& $user->authorise('core.edit.state', 'com_content')) : ?>
+			<?php echo JHtml::_(
+				'bootstrap.renderModal',
+				'collapseModal',
+				array(
+					'title' => JText::_('COM_CONTENT_BATCH_OPTIONS'),
+					'footer' => $this->loadTemplate('batch_footer')
+				),
+				$this->loadTemplate('batch_body')
+			); ?>
+		<?php endif; ?>
 
 	<?php echo $this->pagination->getListFooter(); ?>
 

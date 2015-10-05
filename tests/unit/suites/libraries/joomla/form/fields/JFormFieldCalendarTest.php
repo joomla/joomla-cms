@@ -16,7 +16,7 @@ JFormHelper::loadFieldClass('calendar');
  * @subpackage  Form
  * @since       11.1
  */
-class JFormFieldCalendarTest extends TestCase
+class JFormFieldCalendarTest extends TestCaseDatabase
 {
 	/**
 	 * Backup of the SERVER superglobal
@@ -192,7 +192,7 @@ class JFormFieldCalendarTest extends TestCase
 					'name' => 'myCalendarElement',
 					'id' => 'myCalendarId',
 					'value' => 'NOW',
-					'format' => '%Y-%m-%d',
+					'format' => 'Y-m-d',
 					'size' => 25,
 					'maxlength' => 45,
 					'disabled' => true,
@@ -203,7 +203,7 @@ class JFormFieldCalendarTest extends TestCase
 					'strftime(\'%Y-%m-%d\')',
 					'myCalendarElement',
 					'myCalendarId',
-					'%Y-%m-%d',
+					'Y-m-d',
 					array(
 						'size' => 25,
 						'maxlength' => 45,
@@ -294,7 +294,7 @@ class JFormFieldCalendarTest extends TestCase
 		if ($expectedParameters[0] == 'strftime(\'%Y-%m-%d\')')
 		{
 			date_default_timezone_set('UTC');
-			$expectedParameters[0] = strftime('%Y-%m-%d');
+			$expectedParameters[0] = strftime('%Y-%m-%d %H:%M:%S');
 		}
 
 		// Setup our values from our data set
@@ -326,7 +326,7 @@ class JFormFieldCalendarTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function testGetInputServer_UTC()
+	public function testGetInputServer_Utc()
 	{
 		// Create a stub JConfig
 		$config = new JObject;
@@ -399,7 +399,7 @@ class JFormFieldCalendarTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function testGetInputUser_UTC()
+	public function testGetInputUser_Utc()
 	{
 		// Create a stub JConfig
 		$config = new JObject;
@@ -501,7 +501,7 @@ class JFormFieldCalendarTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function testGetInput()
+	public function testGetInputWithNullDatabase()
 	{
 		$form = new JForm('form1');
 
@@ -514,7 +514,49 @@ class JFormFieldCalendarTest extends TestCase
 		$field = new JFormFieldCalendar($form);
 
 		$this->assertThat(
-			$field->setup($form->getXml()->field, 'value'),
+			$field->setup($form->getXml()->field, '0000-00-00 00:00:00'),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The setup method should return true.'
+		);
+
+		$this->assertThat(
+			strlen($field->input),
+			$this->greaterThan(0),
+			'Line:' . __LINE__ . ' The getInput method should return something without error.'
+		);
+
+		// TODO: Should check all the attributes have come in properly.
+	}
+
+	/**
+	 * Test the getInput method.
+	 *
+	 * @return void
+	 */
+	public function testGetInputWithStringValue()
+	{
+		$form = new JForm('form1');
+
+		$this->assertThat(
+			$form->load('<form><field name="calendar" type="calendar" /></form>'),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' XML string should load successfully.'
+		);
+
+		// The calendar form field depends on having the time zone available. Easiest way is to
+		// mock it in the config
+		$testConfig = $this->getMockConfig();
+		$testConfig->expects(
+			$this->any()
+		)
+			->method('get')
+			->will($this->returnValue('Europe/London'));
+		JFactory::$config = $testConfig;
+
+		$field = new JFormFieldCalendar($form);
+
+		$this->assertThat(
+			$field->setup($form->getXml()->field, 'June 2015'),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);

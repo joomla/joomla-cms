@@ -145,7 +145,7 @@ class ContentModelCategory extends JModelList
 
 			// Filter by start and end dates.
 			$nullDate = $db->quote($db->getNullDate());
-			$nowDate = $db->quote(JFactory::getDate()->toSQL());
+			$nowDate = $db->quote(JFactory::getDate()->toSql());
 
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
 				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
@@ -280,13 +280,13 @@ class ContentModelCategory extends JModelList
 	 */
 	protected function _buildContentOrderBy()
 	{
-		$app		= JFactory::getApplication('site');
-		$db			= $this->getDbo();
-		$params		= $this->state->params;
-		$itemid		= $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
-		$orderCol	= $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
-		$orderDirn	= $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
-		$orderby	= ' ';
+		$app       = JFactory::getApplication('site');
+		$db        = $this->getDbo();
+		$params    = $this->state->params;
+		$itemid    = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
+		$orderCol  = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
+		$orderDirn = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
+		$orderby   = ' ';
 
 		if (!in_array($orderCol, $this->filter_fields))
 		{
@@ -303,11 +303,11 @@ class ContentModelCategory extends JModelList
 			$orderby .= $db->escape($orderCol) . ' ' . $db->escape($orderDirn) . ', ';
 		}
 
-		$articleOrderby		= $params->get('orderby_sec', 'rdate');
-		$articleOrderDate	= $params->get('order_date');
-		$categoryOrderby	= $params->def('orderby_pri', '');
-		$secondary			= ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
-		$primary			= ContentHelperQuery::orderbyPrimary($categoryOrderby);
+		$articleOrderby   = $params->get('orderby_sec', 'rdate');
+		$articleOrderDate = $params->get('order_date');
+		$categoryOrderby  = $params->def('orderby_pri', '');
+		$secondary        = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
+		$primary          = ContentHelperQuery::orderbyPrimary($categoryOrderby);
 
 		$orderby .= $primary . ' ' . $secondary . ' a.created ';
 
@@ -359,8 +359,8 @@ class ContentModelCategory extends JModelList
 			// Compute selected asset permissions.
 			if (is_object($this->_item))
 			{
-				$user	= JFactory::getUser();
-				$asset	= 'com_content.category.' . $this->_item->id;
+				$user  = JFactory::getUser();
+				$asset = 'com_content.category.' . $this->_item->id;
 
 				// Check general create permission.
 				if ($user->authorise('core.create', $asset))

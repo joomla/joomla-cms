@@ -11,6 +11,34 @@ defined('_JEXEC') or die;
 
 $user  = JFactory::getUser();
 $input = JFactory::getApplication()->input;
+$lang  = JFactory::getLanguage();
+$style = JFactory::getApplication()->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
+
+if (DIRECTORY_SEPARATOR == '\\')
+{
+	$base = str_replace(DIRECTORY_SEPARATOR, "\\\\", COM_MEDIA_BASE);
+}
+else
+{
+	$base = COM_MEDIA_BASE;
+}
+
+JFactory::getDocument()->addScriptDeclaration(
+	"
+		var basepath = '" . $base . "';
+		var viewstyle = '" . $style . "';
+	"
+);
+
+JHtml::_('behavior.keepalive');
+JHtml::_('bootstrap.framework');
+JHtml::_('script', 'media/mediamanager.min.js', false, true);
+JHtml::_('stylesheet', 'system/mootree.css', array(), true);
+
+if ($lang->isRtl())
+{
+	JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
+}
 ?>
 <div class="row-fluid">
 	<!-- Begin Sidebar -->
@@ -52,7 +80,7 @@ $input = JFactory::getApplication()->input;
 				<div id="uploadform">
 					<fieldset id="upload-noflash" class="actions">
 							<label for="upload-file" class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
-								<input type="file" id="upload-file" name="Filedata[]" multiple /> <button class="btn btn-primary" id="upload-submit"><i class="icon-upload icon-white"></i> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
+								<input type="file" id="upload-file" name="Filedata[]" multiple /> <button class="btn btn-primary" id="upload-submit"><span class="icon-upload icon-white"></span> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
 								<p class="help-block"><?php echo $this->config->get('upload_maxsize') == '0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></p>
 					</fieldset>
 					<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
@@ -66,7 +94,7 @@ $input = JFactory::getApplication()->input;
 						<input type="text" id="folderpath" readonly="readonly" class="update-folder" />
 						<input type="text" id="foldername" name="foldername" />
 						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
-						<button type="submit" class="btn"><i class="icon-folder-open"></i> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?></button>
+						<button type="submit" class="btn"><span class="icon-folder-open"></span> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?></button>
 					</div>
 					<?php echo JHtml::_('form.token'); ?>
 			</form>
@@ -82,5 +110,18 @@ $input = JFactory::getApplication()->input;
 			</div>
 		</form>
 	</div>
+<?php
+
+echo JHtml::_(
+	'bootstrap.renderModal',
+	'imagePreview',
+	array(
+		'title' => JText::_('COM_MEDIA_PREVIEW'),
+		'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+	),
+	'<div id="image" style="text-align:center;"><img id="imagePreviewSrc" src="/media/jui/img/alpha.png" alt="preview" style="max-width:100%; max-height:300px;"/></div>'
+);
+?>
 	<!-- End Content -->
 </div>

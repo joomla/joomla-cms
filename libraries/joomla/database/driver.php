@@ -10,23 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Joomla Platform Database Interface
- *
- * @since  11.2
-*/
-interface JDatabaseInterface
-{
-	/**
-	 * Test to see if the connector is available.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.2
-	 */
-	public static function isSupported();
-}
-
-/**
  * Joomla Platform Database Driver Class
  *
  * @since  12.1
@@ -254,6 +237,45 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		$options['driver']   = (isset($options['driver'])) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $options['driver']) : 'mysqli';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : null;
 		$options['select']   = (isset($options['select'])) ? $options['select'] : true;
+
+		// If the selected driver is `mysql` and we are on PHP 7 or greater, switch to the `mysqli` driver.
+		if ($options['driver'] == 'mysql' && PHP_MAJOR_VERSION >= 7)
+		{
+			// Check if we have support for the other MySQL drivers
+			$mysqliSupported   = JDatabaseDriverMysqli::isSupported();
+			$pdoMysqlSupported = JDatabaseDriverPdomysql::isSupported();
+
+			// If neither is supported, then the user cannot use MySQL; throw an exception
+			if (!$mysqliSupported && !$pdoMysqlSupported)
+			{
+				throw new RuntimeException(
+					'The PHP `ext/mysql` extension is removed in PHP 7, cannot use the `mysql` driver.'
+					. ' Also, this system does not support MySQLi or PDO MySQL.  Cannot instantiate database driver.'
+				);
+			}
+
+			// Prefer MySQLi as it is a closer replacement for the removed MySQL driver, otherwise use the PDO driver
+			if ($mysqliSupported)
+			{
+				JLog::add(
+					'The PHP `ext/mysql` extension is removed in PHP 7, cannot use the `mysql` driver.  Trying `mysqli` instead.',
+					JLog::WARNING,
+					'deprecated'
+				);
+
+				$options['driver'] = 'mysqli';
+			}
+			else
+			{
+				JLog::add(
+					'The PHP `ext/mysql` extension is removed in PHP 7, cannot use the `mysql` driver.  Trying `pdomysql` instead.',
+					JLog::WARNING,
+					'deprecated'
+				);
+
+				$options['driver'] = 'pdomysql';
+			}
+		}
 
 		// Get the options signature for the database connector.
 		$signature = md5(serialize($options));
@@ -1151,10 +1173,11 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use getIterator() instead
 	 */
 	public function loadNextObject($class = 'stdClass')
 	{
-		JLog::add(__METHOD__ . '() is deprecated. Use JDatabase::getIterator() instead.', JLog::WARNING, 'deprecated');
+		JLog::add(__METHOD__ . '() is deprecated. Use JDatabaseDriver::getIterator() instead.', JLog::WARNING, 'deprecated');
 		$this->connect();
 
 		static $cursor = null;
@@ -1188,11 +1211,11 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
-	 * @deprecated  N/A (CMS)  Use JDatabaseDriver::getIterator() instead
+	 * @deprecated  4.0 (CMS)  Use JDatabaseDriver::getIterator() instead
 	 */
 	public function loadNextRow()
 	{
-		JLog::add('JDatabaseDriver::loadNextRow() is deprecated. Use JDatabaseDriver::getIterator() instead.', JLog::WARNING, 'deprecated');
+		JLog::add(__METHOD__ . '() is deprecated. Use JDatabaseDriver::getIterator() instead.', JLog::WARNING, 'deprecated');
 		$this->connect();
 
 		static $cursor = null;
@@ -1728,7 +1751,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 */
-	abstract public function setUTF();
+	abstract public function setUtf();
 
 	/**
 	 * Method to commit a transaction.

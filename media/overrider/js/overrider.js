@@ -79,8 +79,8 @@ Joomla.overrider.searchStrings = function(more)
 	// was used to start the search (that will be the case if 'more' is null)
 	if (!more)
 	{
-		this.states.searchstring 	= $('#jform_searchstring').val();
-		this.states.searchtype = $('#jform_searchtype') !== null ? $('#jform_searchtype').val() : 'value';
+		this.states.searchstring = $('#jform_searchstring').val();
+		this.states.searchtype   = $('#jform_searchtype') !== null ? $('#jform_searchtype').val() : 'value';
 	}
 
 	if (!this.states.searchstring)

@@ -57,7 +57,7 @@ class JUri extends Uri
 	 */
 	public static function getInstance($uri = 'SERVER')
 	{
-		if (empty(self::$instances[$uri]))
+		if (empty(static::$instances[$uri]))
 		{
 			// Are we obtaining the URI from the server?
 			if ($uri == 'SERVER')
@@ -111,10 +111,10 @@ class JUri extends Uri
 				$theURI = $uri;
 			}
 
-			self::$instances[$uri] = new JUri($theURI);
+			static::$instances[$uri] = new static($theURI);
 		}
 
-		return self::$instances[$uri];
+		return static::$instances[$uri];
 	}
 
 	/**
@@ -129,29 +129,29 @@ class JUri extends Uri
 	public static function base($pathonly = false)
 	{
 		// Get the base request path.
-		if (empty(self::$base))
+		if (empty(static::$base))
 		{
 			$config = JFactory::getConfig();
-			$uri = self::getInstance();
-			$live_site = ($uri->isSSL()) ? str_replace("http://", "https://", $config->get('live_site')) : $config->get('live_site');
+			$uri = static::getInstance();
+			$live_site = ($uri->isSsl()) ? str_replace("http://", "https://", $config->get('live_site')) : $config->get('live_site');
 
 			if (trim($live_site) != '')
 			{
-				$uri = self::getInstance($live_site);
-				self::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
-				self::$base['path'] = rtrim($uri->toString(array('path')), '/\\');
+				$uri = static::getInstance($live_site);
+				static::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
+				static::$base['path'] = rtrim($uri->toString(array('path')), '/\\');
 
 				if (defined('JPATH_BASE') && defined('JPATH_ADMINISTRATOR'))
 				{
 					if (JPATH_BASE == JPATH_ADMINISTRATOR)
 					{
-						self::$base['path'] .= '/administrator';
+						static::$base['path'] .= '/administrator';
 					}
 				}
 			}
 			else
 			{
-				self::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
+				static::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 
 				if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
 				{
@@ -167,11 +167,11 @@ class JUri extends Uri
 					$script_name = $_SERVER['SCRIPT_NAME'];
 				}
 
-				self::$base['path'] = rtrim(dirname($script_name), '/\\');
+				static::$base['path'] = rtrim(dirname($script_name), '/\\');
 			}
 		}
 
-		return $pathonly === false ? self::$base['prefix'] . self::$base['path'] . '/' : self::$base['path'];
+		return $pathonly === false ? static::$base['prefix'] . static::$base['path'] . '/' : static::$base['path'];
 	}
 
 	/**
@@ -187,20 +187,20 @@ class JUri extends Uri
 	public static function root($pathonly = false, $path = null)
 	{
 		// Get the scheme
-		if (empty(self::$root))
+		if (empty(static::$root))
 		{
-			$uri = self::getInstance(self::base());
-			self::$root['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
-			self::$root['path'] = rtrim($uri->toString(array('path')), '/\\');
+			$uri = static::getInstance(static::base());
+			static::$root['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
+			static::$root['path'] = rtrim($uri->toString(array('path')), '/\\');
 		}
 
 		// Get the scheme
 		if (isset($path))
 		{
-			self::$root['path'] = $path;
+			static::$root['path'] = $path;
 		}
 
-		return $pathonly === false ? self::$root['prefix'] . self::$root['path'] . '/' : self::$root['path'];
+		return $pathonly === false ? static::$root['prefix'] . static::$root['path'] . '/' : static::$root['path'];
 	}
 
 	/**
@@ -213,13 +213,13 @@ class JUri extends Uri
 	public static function current()
 	{
 		// Get the current URL.
-		if (empty(self::$current))
+		if (empty(static::$current))
 		{
-			$uri = self::getInstance();
-			self::$current = $uri->toString(array('scheme', 'host', 'port', 'path'));
+			$uri = static::getInstance();
+			static::$current = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		}
 
-		return self::$current;
+		return static::$current;
 	}
 
 	/**
@@ -231,10 +231,10 @@ class JUri extends Uri
 	 */
 	public static function reset()
 	{
-		self::$instances = array();
-		self::$base = array();
-		self::$root = array();
-		self::$current = '';
+		static::$instances = array();
+		static::$base = array();
+		static::$root = array();
+		static::$current = '';
 	}
 
 	/**
@@ -264,11 +264,11 @@ class JUri extends Uri
 	 */
 	public static function isInternal($url)
 	{
-		$uri = self::getInstance($url);
+		$uri = static::getInstance($url);
 		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host = $uri->toString(array('scheme', 'host', 'port'));
 
-		if (stripos($base, self::base()) !== 0 && !empty($host))
+		if (stripos($base, static::base()) !== 0 && !empty($host))
 		{
 			return false;
 		}
@@ -311,7 +311,7 @@ class JUri extends Uri
 	 * Resolves //, ../ and ./ from a path and returns
 	 * the result. Eg:
 	 *
-	 * /foo/bar/../boo.php	=> /foo/boo.php
+	 * /foo/bar/../boo.php    => /foo/boo.php
 	 * /foo/bar/../../boo.php => /boo.php
 	 * /foo/bar/.././/boo.php => /foo/boo.php
 	 *

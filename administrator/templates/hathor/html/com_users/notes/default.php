@@ -92,7 +92,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 		</thead>
 		<tbody>
 		<?php foreach ($this->items as $i => $item) : ?>
-			<?php $canChange	= $user->authorise('core.edit.state',	'com_users'); ?>
+			<?php $canChange = $user->authorise('core.edit.state',	'com_users'); ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center checklist">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
@@ -125,7 +125,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'notes.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 				</td>
 				<td class="center">
-					<?php if ((int) $item->review_time) : ?>
+					<?php if ($item->review_time !== JFactory::getDbo()->getNullDate()) : ?>
 						<?php echo JHtml::_('date', $item->review_time, JText::_('DATE_FORMAT_LC4')); ?>
 					<?php else : ?>
 						<?php echo JText::_('COM_USERS_EMPTY_REVIEW'); ?>

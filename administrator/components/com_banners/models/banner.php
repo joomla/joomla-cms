@@ -193,7 +193,7 @@ class BannersModelBanner extends JModelAdmin
 			$table->state = 0;
 
 			// TODO: Deal with ordering?
-			// $table->ordering	= 1;
+			// $table->ordering = 1;
 
 			// Check the row.
 			if (!$table->check())
@@ -459,11 +459,12 @@ class BannersModelBanner extends JModelAdmin
 		{
 			// Set the values
 			$table->created = $date->toSql();
+			$table->created_by = $user->id;
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering))
 			{
-				$db = JFactory::getDbo();
+				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select('MAX(ordering)')
 					->from('#__banners');
@@ -477,8 +478,8 @@ class BannersModelBanner extends JModelAdmin
 		else
 		{
 			// Set the values
-			$table->modified	= $date->toSql();
-			$table->modified_by	= $user->get('id');
+			$table->modified    = $date->toSql();
+			$table->modified_by = $user->get('id');
 		}
 		// Increment the content version number.
 		$table->version++;

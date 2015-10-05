@@ -43,9 +43,9 @@ class ContentViewFeatured extends JViewLegacy
 	{
 		$user = JFactory::getUser();
 
-		$state 		= $this->get('State');
-		$items 		= $this->get('Items');
-		$pagination	= $this->get('Pagination');
+		$state      = $this->get('State');
+		$items      = $this->get('Items');
+		$pagination = $this->get('Pagination');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -60,15 +60,15 @@ class ContentViewFeatured extends JViewLegacy
 		// PREPARE THE DATA
 
 		// Get the metrics for the structural page layout.
-		$numLeading	= (int) $params->def('num_leading_articles', 1);
-		$numIntro	= (int) $params->def('num_intro_articles', 4);
-		$numLinks	= (int) $params->def('num_links', 4);
+		$numLeading = (int) $params->def('num_leading_articles', 1);
+		$numIntro   = (int) $params->def('num_intro_articles', 4);
+		$numLinks   = (int) $params->def('num_links', 4);
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($items as &$item)
 		{
-			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$item->catslug = ($item->category_alias) ? ($item->catid . ':' . $item->category_alias) : $item->catid;
+			$item->slug        = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+			$item->catslug     = ($item->category_alias) ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
 			// No link for ROOT category
@@ -78,8 +78,7 @@ class ContentViewFeatured extends JViewLegacy
 			}
 
 			$item->event = new stdClass;
-
-			$dispatcher = JEventDispatcher::getInstance();
+			$dispatcher  = JEventDispatcher::getInstance();
 
 			// Old plugins: Ensure that text property is available
 			if (!isset($item->text))

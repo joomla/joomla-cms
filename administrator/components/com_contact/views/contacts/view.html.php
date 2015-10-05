@@ -31,9 +31,9 @@ class ContactViewContacts extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		ContactHelper::addSubmenu('contacts');
 
@@ -67,8 +67,8 @@ class ContactViewContacts extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= JHelperContent::getActions('com_contact', 'category', $this->state->get('filter.category_id'));
-		$user	= JFactory::getUser();
+		$canDo = JHelperContent::getActions('com_contact', 'category', $this->state->get('filter.category_id'));
+		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
@@ -98,7 +98,6 @@ class ContactViewContacts extends JViewLegacy
 			&& $user->authorise('core.edit', 'com_contacts')
 			&& $user->authorise('core.edit.state', 'com_contacts'))
 		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
@@ -117,7 +116,7 @@ class ContactViewContacts extends JViewLegacy
 			JToolbarHelper::trash('contacts.trash');
 		}
 
-		if ($user->authorise('core.admin', 'com_contact'))
+		if ($user->authorise('core.admin', 'com_contact') || $user->authorise('core.options', 'com_contact'))
 		{
 			JToolbarHelper::preferences('com_contact');
 		}

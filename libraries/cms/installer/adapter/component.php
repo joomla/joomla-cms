@@ -309,6 +309,13 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			JLog::add(JText::_('JLIB_INSTALLER_ABORT_COMP_BUILDADMINMENUS_FAILED'), JLog::WARNING, 'jerror');
 		}
 
+		// Make sure that menu items pointing to the component have correct component id assigned to them.
+		// Prevents message "Component 'com_extension' does not exist." after uninstalling / re-installing component.
+		if (!$this->_updateSiteMenus($this->extension->extension_id))
+		{
+			JLog::add(JText::_('JLIB_INSTALLER_ABORT_COMP_UPDATESITEMENUS_FAILED'), JLog::WARNING, 'jerror');
+		}
+
 		/** @var JTableAsset $asset */
 		$asset = JTable::getInstance('Asset');
 
@@ -586,7 +593,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		// If we are told to delete existing extension entries then do so.
 		if ($deleteExisting)
 		{
-			$db = $this->parent->getDBO();
+			$db = $this->parent->getDbo();
 
 			$query = $db->getQuery(true)
 						->select($db->qn('extension_id'))
@@ -623,6 +630,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$this->extension->access    = 0;
 			$this->extension->client_id = 1;
 			$this->extension->params    = $this->parent->getParams();
+			$this->extension->custom_data = '';
 		}
 
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();
@@ -944,6 +952,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['component_id'] = $component_id;
 			$data['img'] = ((string) $menuElement->attributes()->img) ? (string) $menuElement->attributes()->img : 'class:component';
 			$data['home'] = 0;
+			$data['path'] = '';
+			$data['params'] = '';
 		}
 		else
 		{
@@ -960,6 +970,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['component_id'] = $component_id;
 			$data['img'] = 'class:component';
 			$data['home'] = 0;
+			$data['path'] = '';
+			$data['params'] = '';
 		}
 
 		// Try to create the menu item in the database
@@ -1102,6 +1114,44 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Method to update menu database entries for a component in case if the component has been uninstalled before.
+	 *
+	 * @param   int|null  $component_id  The component ID.
+	 *
+	 * @return  boolean  True if successful
+	 *
+	 * @since   3.4.2
+	 */
+	protected function _updateSiteMenus($component_id = null)
+	{
+		$db     = $this->parent->getDbo();
+		$option = $this->get('element');
+
+		// Update all menu items which contain 'index.php?option=com_extension' or 'index.php?option=com_extension&...'
+		// to use the new component id.
+		$query = $db->getQuery(true)
+					->update('#__menu')
+					->set('component_id = ' . $db->quote($component_id))
+					->where("type = " . $db->quote('component'))
+					->where('client_id = 0')
+					->where('link LIKE ' . $db->quote('index.php?option=' . $option)
+							. " OR link LIKE '" . $db->escape('index.php?option=' . $option . '&') . "%'");
+
+		$db->setQuery($query);
+
+		try
+		{
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

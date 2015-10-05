@@ -47,10 +47,10 @@ class MenusViewMenus extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->modules		= $this->get('Modules');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->modules    = $this->get('Modules');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		MenusHelper::addSubmenu('menus');
 
@@ -76,7 +76,7 @@ class MenusViewMenus extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= JHelperContent::getActions('com_menus');
+		$canDo = JHelperContent::getActions('com_menus');
 
 		JToolbarHelper::title(JText::_('COM_MENUS_VIEW_MENUS_TITLE'), 'list menumgr');
 
@@ -98,7 +98,7 @@ class MenusViewMenus extends JViewLegacy
 
 		JToolbarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::divider();
 			JToolbarHelper::preferences('com_menus');

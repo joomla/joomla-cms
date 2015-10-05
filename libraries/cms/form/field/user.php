@@ -94,7 +94,7 @@ class JFormFieldUser extends JFormField
 		{
 			$html[] = '		<a class="btn btn-primary modal_' . $this->id . '" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '" href="' . $link . '"'
 				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-			$html[] = '<i class="icon-user"></i></a>';
+			$html[] = '<span class="icon-user"></span></a>';
 		}
 
 		$html[] = '</div>';
@@ -114,6 +114,11 @@ class JFormFieldUser extends JFormField
 	 */
 	protected function getGroups()
 	{
+		if (isset($this->element['groups']))
+		{
+			return explode(',', $this->element['groups']);
+		}
+
 		return null;
 	}
 
@@ -126,6 +131,11 @@ class JFormFieldUser extends JFormField
 	 */
 	protected function getExcluded()
 	{
+		if (isset($this->element['exclude']))
+		{
+			return explode(',', $this->element['exclude']);
+		}
+
 		return null;
 	}
 }

@@ -37,7 +37,7 @@
 		 * @return  void
 		 */
 		submit: function( task ) {
-			form = this.frame.document.getElementById( 'mediamanager-form' );
+			var form = this.frame.document.getElementById( 'mediamanager-form' );
 			form.task.value = task;
 
 			if ( $( '#username' ).length ) {

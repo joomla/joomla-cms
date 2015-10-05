@@ -617,11 +617,3 @@ input[type="url"] {
 [class*=" icon-"] {
 	margin-left: .25em;
 }
-dd > span[class^="icon-"] + time,
-dd > span[class*=" icon-"] + time {
-	margin-left: -0.25em;
-}
-dl.article-info dd.hits span[class^="icon-"],
-dl.article-info dd.hits span[class*=" icon-"] {
-	margin-right: 0;
-}

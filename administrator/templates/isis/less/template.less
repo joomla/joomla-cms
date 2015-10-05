@@ -965,7 +965,7 @@ ul.manager .height-50 .icon-folder-2 {
 }
 
 .admin .chzn-container .chzn-drop {
-	z-index: 1040;
+	z-index: 1060;
 }
 /* Tree Select */
 ul.treeselect,
@@ -1284,4 +1284,10 @@ textarea.vert {
 
 textarea.noResize {
 	resize: none;
+}
+
+/* Prevent scrolling on the parent window of a modal */
+body.modal-open {
+  overflow: hidden;
+  -ms-overflow-style: none;
 }

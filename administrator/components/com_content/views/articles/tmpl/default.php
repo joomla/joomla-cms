@@ -15,14 +15,15 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$app		= JFactory::getApplication();
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$archived	= $this->state->get('filter.published') == 2 ? true : false;
-$trashed	= $this->state->get('filter.published') == -2 ? true : false;
-$saveOrder	= $listOrder == 'a.ordering';
+$app       = JFactory::getApplication();
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$archived  = $this->state->get('filter.published') == 2 ? true : false;
+$trashed   = $this->state->get('filter.published') == -2 ? true : false;
+$saveOrder = $listOrder == 'a.ordering';
+$columns   = 10;
 
 if ($saveOrder)
 {
@@ -30,7 +31,7 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 
-$assoc		= JLanguageAssociations::isEnabled();
+$assoc = JLanguageAssociations::isEnabled();
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
@@ -70,6 +71,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 					<?php if ($assoc) : ?>
+						<?php $columns++; ?>
 						<th width="5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 						</th>
@@ -91,6 +93,12 @@ $assoc		= JLanguageAssociations::isEnabled();
 						</th>
 					</tr>
 				</thead>
+				<tfoot>
+					<tr>
+						<td colspan="<?php echo $columns; ?>">
+						</td>
+					</tr>
+				</tfoot>
 				<tbody>
 				<?php foreach ($this->items as $i => $item) :
 					$item->max_ordering = 0;
@@ -115,7 +123,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 							}
 							?>
 							<span class="sortable-handler<?php echo $iconClass ?>">
-								<i class="icon-menu"></i>
+								<span class="icon-menu"></span>
 							</span>
 							<?php if ($canChange && $saveOrder) : ?>
 								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
@@ -195,21 +203,33 @@ $assoc		= JLanguageAssociations::isEnabled();
 						<td class="nowrap small hidden-phone">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo (int) $item->hits; ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif; ?>
+			<?php // Load the batch processing form. ?>
+			<?php if ($user->authorise('core.create', 'com_content')
+				&& $user->authorise('core.edit', 'com_content')
+				&& $user->authorise('core.edit.state', 'com_content')) : ?>
+				<?php echo JHtml::_(
+					'bootstrap.renderModal',
+					'collapseModal',
+					array(
+						'title' => JText::_('COM_CONTENT_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer')
+					),
+					$this->loadTemplate('batch_body')
+				); ?>
+			<?php endif; ?>
+		<?php endif;?>
 
 		<?php echo $this->pagination->getListFooter(); ?>
-		<?php // Load the batch processing form. ?>
-		<?php echo $this->loadTemplate('batch'); ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

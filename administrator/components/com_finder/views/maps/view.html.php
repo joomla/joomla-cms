@@ -33,10 +33,10 @@ class FinderViewMaps extends JViewLegacy
 		FinderHelperLanguage::loadPluginLanguage();
 
 		// Load the view data.
-		$this->items		= $this->get('Items');
-		$this->total		= $this->get('Total');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->total      = $this->get('Total');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		FinderHelper::addSubmenu('maps');
 
@@ -65,7 +65,7 @@ class FinderViewMaps extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= JHelperContent::getActions('com_finder');
+		$canDo = JHelperContent::getActions('com_finder');
 
 		JToolbarHelper::title(JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'zoom-in finder');
 		$toolbar = JToolbar::getInstance('toolbar');
@@ -77,7 +77,7 @@ class FinderViewMaps extends JViewLegacy
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_finder');
 		}

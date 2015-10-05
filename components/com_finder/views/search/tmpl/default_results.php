@@ -4,7 +4,7 @@
  * @subpackage  com_finder
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 		<?php // Display the suggested search query. ?>
 		<?php if ($this->suggested && $this->params->get('show_suggested_query', 1)) : ?>
 			<?php // Replace the base query string with the suggested query string. ?>
-			<?php $uri = JUri::getInstance($this->query->toURI()); ?>
+			<?php $uri = JUri::getInstance($this->query->toUri()); ?>
 			<?php $uri->setVar('q', $this->suggested); ?>
 
 			<?php // Compile the suggested query link. ?>
@@ -72,7 +72,7 @@ defined('_JEXEC') or die;
 			// Prepare the pagination string.  Results X - Y of Z
 			$start = (int) $this->pagination->get('limitstart') + 1;
 			$total = (int) $this->pagination->get('total');
-			$limit = (int) $this->pagination->get('limit') * $this->pagination->pagesTotal;
+			$limit = (int) $this->pagination->get('limit') * $this->pagination->get('pages.current');
 			$limit = (int) ($limit > $total ? $total : $limit);
 
 			echo JText::sprintf('COM_FINDER_SEARCH_RESULTS_OF', $start, $limit, $total);

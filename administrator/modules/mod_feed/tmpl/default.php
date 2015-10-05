@@ -19,18 +19,18 @@ else
 	$myrtl     = $params->get('rssrtl');
 	$direction = " ";
 
-	if ($lang->isRTL() && $myrtl == 0)
+	if ($lang->isRtl() && $myrtl == 0)
 	{
 		$direction = " redirect-rtl";
 	}
 
 	// Feed description
-	elseif ($lang->isRTL() && $myrtl == 1)
+	elseif ($lang->isRtl() && $myrtl == 1)
 	{
 		$direction = " redirect-ltr";
 	}
 
-	elseif ($lang->isRTL() && $myrtl == 2)
+	elseif ($lang->isRtl() && $myrtl == 2)
 	{
 		$direction = " redirect-rtl";
 	}
@@ -50,7 +50,7 @@ else
 
 	if ($feed != false) :
 		// Image handling
-		$iUrl	= isset($feed->image)	? $feed->image	: null;
+		$iUrl   = isset($feed->image) ? $feed->image : null;
 		$iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null;
 		?>
 		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important"  class="feed<?php echo $moduleclass_sfx; ?>">

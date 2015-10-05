@@ -33,6 +33,14 @@ class CategoriesModelCategory extends JModelAdmin
 	public $typeAlias = null;
 
 	/**
+	 * The context used for the associations table
+	 *
+	 * @var      string
+	 * @since    3.4.4
+	 */
+	protected $associationsContext = 'com_categories.item';
+
+	/**
 	 * Override parent constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
@@ -309,11 +317,30 @@ class CategoriesModelCategory extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_categories.edit.' . $this->getName() . '.data', array());
+		$app = JFactory::getApplication();
+		$data = $app->getUserState('com_categories.edit.' . $this->getName() . '.data', array());
 
 		if (empty($data))
 		{
 			$data = $this->getItem();
+
+			// Pre-select some filters (Status, Language, Access) in edit form if those have been selected in Category Manager
+			if (!$data->id)
+			{
+				// Check for which extension the Category Manager is used and get selected fields
+				$extension = substr($app->getUserState('com_categories.categories.filter.extension'), 4);
+				$filters = (array) $app->getUserState('com_categories.categories.' . $extension . '.filter');
+
+				$data->set(
+					'published',
+					$app->input->getInt(
+						'published',
+						((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
+					)
+				);
+				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'))));
+			}
 		}
 
 		$this->preprocessData('com_categories.category', $data);
@@ -496,6 +523,7 @@ class CategoriesModelCategory extends JModelAdmin
 					$data['alias'] = '';
 				}
 			}
+
 			$data['published'] = 0;
 		}
 
@@ -566,10 +594,10 @@ class CategoriesModelCategory extends JModelAdmin
 			$associations[$table->language] = $table->id;
 
 			// Deleting old association for these items
-			$db = JFactory::getDbo();
+			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->delete('#__associations')
-				->where($db->quoteName('context') . ' = ' . $db->quote('com_categories.item'))
+				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
 				->where($db->quoteName('id') . ' IN (' . implode(',', $associations) . ')');
 			$db->setQuery($query);
 			$db->execute();
@@ -590,7 +618,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 				foreach ($associations as $id)
 				{
-					$query->values($id . ',' . $db->quote('com_categories.item') . ',' . $db->quote($key));
+					$query->values($id . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
 				}
 
 				$db->setQuery($query);
@@ -923,8 +951,8 @@ class CategoriesModelCategory extends JModelAdmin
 			// Set the new location in the tree for the node.
 			$this->table->setLocation($this->table->parent_id, 'last-child');
 
-			// TODO: Deal with ordering?
-			// $this->table->ordering	= 1;
+			// @TODO: Deal with ordering?
+			// $this->table->ordering = 1;
 			$this->table->level = null;
 			$this->table->asset_id = null;
 			$this->table->lft = null;
@@ -932,8 +960,8 @@ class CategoriesModelCategory extends JModelAdmin
 
 			// Alter the title & alias
 			list($title, $alias) = $this->generateNewTitle($this->table->parent_id, $this->table->alias, $this->table->title);
-			$this->table->title = $title;
-			$this->table->alias = $alias;
+			$this->table->title  = $title;
+			$this->table->alias  = $alias;
 
 			// Unpublish because we are making a copy
 			$this->table->published = 0;

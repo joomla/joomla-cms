@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View Module positions class.
  * 
- * @since       1.6
+ * @since  1.6
  */
 class ModulesViewPositions extends JViewLegacy
 {
@@ -31,9 +31,9 @@ class ModulesViewPositions extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

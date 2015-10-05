@@ -29,6 +29,14 @@ class ContactModelContact extends JModelAdmin
 	public $typeAlias = 'com_contact.contact';
 
 	/**
+	 * The context used for the associations table
+	 *
+	 * @var      string
+	 * @since    3.4.4
+	 */
+	protected $associationsContext = 'com_contact.item';
+
+	/**
 	 * Batch copy/move command. If set to false, 
 	 * the batch copy/move command is not supported
 	 *
@@ -415,80 +423,7 @@ class ContactModelContact extends JModelAdmin
 			}
 		}
 
-		if (parent::save($data))
-		{
-			$assoc = JLanguageAssociations::isEnabled();
-
-			if ($assoc)
-			{
-				$id = (int) $this->getState($this->getName() . '.id');
-				$item = $this->getItem($id);
-
-				// Adding self to the association
-				$associations = $data['associations'];
-
-				foreach ($associations as $tag => $id)
-				{
-					if (empty($id))
-					{
-						unset($associations[$tag]);
-					}
-				}
-
-				// Detecting all item menus
-				$all_language = $item->language == '*';
-
-				if ($all_language && !empty($associations))
-				{
-					JError::raiseNotice(403, JText::_('COM_CONTACT_ERROR_ALL_LANGUAGE_ASSOCIATED'));
-				}
-
-				$associations[$item->language] = $item->id;
-
-				// Deleting old association for these items
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true)
-					->delete('#__associations')
-					->where('context=' . $db->quote('com_contact.item'))
-					->where('id IN (' . implode(',', $associations) . ')');
-				$db->setQuery($query);
-				$db->execute();
-
-				if ($error = $db->getErrorMsg())
-				{
-					$this->setError($error);
-
-					return false;
-				}
-
-				if (!$all_language && count($associations))
-				{
-					// Adding new association for these items
-					$key = md5(json_encode($associations));
-					$query->clear()
-						->insert('#__associations');
-
-					foreach ($associations as $id)
-					{
-						$query->values($id . ',' . $db->quote('com_contact.item') . ',' . $db->quote($key));
-					}
-
-					$db->setQuery($query);
-					$db->execute();
-
-					if ($error = $db->getErrorMsg())
-					{
-						$this->setError($error);
-
-						return false;
-					}
-				}
-			}
-
-			return true;
-		}
-
-		return false;
+		return parent::save($data);
 	}
 
 	/**
@@ -517,7 +452,7 @@ class ContactModelContact extends JModelAdmin
 			// Set ordering to the last item if not set
 			if (empty($table->ordering))
 			{
-				$db = JFactory::getDbo();
+				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select('MAX(ordering)')
 					->from($db->quoteName('#__contact_details'));

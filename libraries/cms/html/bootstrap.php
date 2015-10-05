@@ -465,13 +465,13 @@ abstract class JHtmlBootstrap
 			$opt['selector']  = isset($params['selector']) ? (string) $params['selector'] : null;
 			$opt['title']     = isset($params['title']) ? (string) $params['title'] : null;
 			$opt['trigger']   = isset($params['trigger']) ? (string) $params['trigger'] : null;
-			$opt['delay']     = isset($params['delay']) ? (int) $params['delay'] : null;
+			$opt['delay']     = isset($params['delay']) ? (is_array($params['delay']) ? $params['delay'] : (int) $params['delay']) : null;
 			$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
 			$opt['template']  = isset($params['template']) ? (string) $params['template'] : null;
-			$onShow = isset($params['onShow']) ? (string) $params['onShow'] : null;
-			$onShown = isset($params['onShown']) ? (string) $params['onShown'] : null;
-			$onHide = isset($params['onHide']) ? (string) $params['onHide'] : null;
-			$onHidden = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
+			$onShow           = isset($params['onShow']) ? (string) $params['onShow'] : null;
+			$onShown          = isset($params['onShown']) ? (string) $params['onShown'] : null;
+			$onHide           = isset($params['onHide']) ? (string) $params['onHide'] : null;
+			$onHidden         = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
 			$options = JHtml::getJSObject($opt);
 

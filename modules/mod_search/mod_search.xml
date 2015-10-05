@@ -13,7 +13,6 @@
 		<filename module="mod_search">mod_search.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>mod_search.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_search.ini</language>
@@ -31,7 +30,6 @@
 				<field
 					name="width"
 					type="text"
-					default="20"
 					label="MOD_SEARCH_FIELD_BOXWIDTH_LABEL"
 					description="MOD_SEARCH_FIELD_BOXWIDTH_DESC" />
 				<field

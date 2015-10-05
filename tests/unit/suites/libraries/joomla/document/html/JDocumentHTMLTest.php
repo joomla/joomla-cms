@@ -114,6 +114,9 @@ class JDocumentHTMLTest extends TestCase
 	 */
 	public function testEnsureSetHeadDataReturnsThisObject()
 	{
+		// This method calls JText::script() which has a dependency to JHtml::_('behavior.core') and requires the application be loaded
+		JFactory::$application = $this->getMockCmsApp();
+
 		$this->assertSame($this->object, $this->object->setHeadData($this->testHeadData));
 	}
 

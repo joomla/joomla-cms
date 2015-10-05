@@ -138,7 +138,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		}
 
 		// Set charactersets.
-		$this->utf = $this->setUTF();
+		$this->utf = $this->setUtf();
 	}
 
 	/**
@@ -362,6 +362,10 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
+				if (stristr(strtolower($field->Type), "nvarchar"))
+				{
+					$field->Default = "";
+				}
 				$result[$field->Field] = $field;
 			}
 		}
@@ -647,7 +651,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 					$this->errorMsg = $errors[0]['message'] . 'SQL=' . $query;
 
 					// Throw the normal query exception.
-					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 					throw new RuntimeException($this->errorMsg, $this->errorNum);
 				}
 
@@ -663,7 +667,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				$this->errorMsg = $errors[0]['message'] . 'SQL=' . $query;
 
 				// Throw the normal query exception.
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
 		}
@@ -807,7 +811,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
 		return false;
 	}

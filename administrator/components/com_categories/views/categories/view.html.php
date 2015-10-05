@@ -55,17 +55,17 @@ class CategoriesViewCategories extends JViewLegacy
 		}
 
 		// Levels filter.
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '1', JText::_('J1'));
-		$options[]	= JHtml::_('select.option', '2', JText::_('J2'));
-		$options[]	= JHtml::_('select.option', '3', JText::_('J3'));
-		$options[]	= JHtml::_('select.option', '4', JText::_('J4'));
-		$options[]	= JHtml::_('select.option', '5', JText::_('J5'));
-		$options[]	= JHtml::_('select.option', '6', JText::_('J6'));
-		$options[]	= JHtml::_('select.option', '7', JText::_('J7'));
-		$options[]	= JHtml::_('select.option', '8', JText::_('J8'));
-		$options[]	= JHtml::_('select.option', '9', JText::_('J9'));
-		$options[]	= JHtml::_('select.option', '10', JText::_('J10'));
+		$options   = array();
+		$options[] = JHtml::_('select.option', '1', JText::_('J1'));
+		$options[] = JHtml::_('select.option', '2', JText::_('J2'));
+		$options[] = JHtml::_('select.option', '3', JText::_('J3'));
+		$options[] = JHtml::_('select.option', '4', JText::_('J4'));
+		$options[] = JHtml::_('select.option', '5', JText::_('J5'));
+		$options[] = JHtml::_('select.option', '6', JText::_('J6'));
+		$options[] = JHtml::_('select.option', '7', JText::_('J7'));
+		$options[] = JHtml::_('select.option', '8', JText::_('J8'));
+		$options[] = JHtml::_('select.option', '9', JText::_('J9'));
+		$options[] = JHtml::_('select.option', '10', JText::_('J10'));
 
 		$this->f_levels = $options;
 
@@ -83,11 +83,11 @@ class CategoriesViewCategories extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$categoryId	= $this->state->get('filter.category_id');
-		$component	= $this->state->get('filter.component');
-		$section	= $this->state->get('filter.section');
-		$canDo		= JHelperContent::getActions($component, 'category', $categoryId);
-		$user		= JFactory::getUser();
+		$categoryId = $this->state->get('filter.category_id');
+		$component  = $this->state->get('filter.component');
+		$section    = $this->state->get('filter.section');
+		$canDo      = JHelperContent::getActions($component, 'category', $categoryId);
+		$user       = JFactory::getUser();
 		$extension  = JFactory::getApplication()->input->get('extension', '', 'word');
 
 		// Get the toolbar object instance
@@ -152,9 +152,10 @@ class CategoriesViewCategories extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', $extension) & $user->authorise('core.edit', $extension) && $user->authorise('core.edit.state', $extension))
+		if ($user->authorise('core.create', $extension)
+			&& $user->authorise('core.edit', $extension)
+			&& $user->authorise('core.edit.state', $extension))
 		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button

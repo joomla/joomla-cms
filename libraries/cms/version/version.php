@@ -23,7 +23,7 @@ final class JVersion
 	public $RELEASE = '3.4';
 
 	/** @var  string  Maintenance version. */
-	public $DEV_LEVEL = '2-dev';
+	public $DEV_LEVEL = '5';
 
 	/** @var  string  Development STATUS. */
 	public $DEV_STATUS = 'Development';
@@ -35,10 +35,10 @@ final class JVersion
 	public $CODENAME = 'Ember';
 
 	/** @var  string  Release date. */
-	public $RELDATE = '21-March-2015';
+	public $RELDATE = '8-September-2015';
 
 	/** @var  string  Release time. */
-	public $RELTIME = '20:30';
+	public $RELTIME = '21:30';
 
 	/** @var  string  Release timezone. */
 	public $RELTZ = 'GMT';
@@ -47,14 +47,26 @@ final class JVersion
 	public $COPYRIGHT = 'Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.';
 
 	/** @var  string  Link text. */
-	public $URL = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+	public $URL = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+
+	/**
+	 * Check if we are in development mode
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.4.3
+	 */
+	public function isInDevelopmentState()
+	{
+		return strtolower($this->DEV_STATUS) != 'stable';
+	}
 
 	/**
 	 * Compares two a "PHP standardized" version number against the current Joomla version.
 	 *
 	 * @param   string  $minimum  The minimum version of the Joomla which is compatible.
 	 *
-	 * @return  bool    True if the version is compatible.
+	 * @return  boolean True if the version is compatible.
 	 *
 	 * @see     http://www.php.net/version_compare
 	 * @since   1.0

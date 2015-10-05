@@ -13,18 +13,17 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.multiselect');
-JHtml::_('behavior.modal');
 
-$app		= JFactory::getApplication();
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$extension	= $this->escape($this->state->get('filter.extension'));
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$ordering 	= ($listOrder == 'a.lft');
-$saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
-$assoc		= JLanguageAssociations::isEnabled();
+$app       = JFactory::getApplication();
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$extension = $this->escape($this->state->get('filter.extension'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$ordering  = ($listOrder == 'a.lft');
+$saveOrder = ($listOrder == 'a.lft' && $listDirn == 'asc');
 ?>
+
 <div class="categories">
 	<form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories'); ?>" method="post" name="adminForm" id="adminForm">
 		<?php if (!empty($this->sidebar)) : ?>
@@ -101,7 +100,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 						<th class="access-col">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
-						<?php if ($assoc) : ?>
+						<?php if ($this->assoc) : ?>
 							<th width="5%">
 								<?php echo JHtml::_('grid.sort', 'COM_CATEGORY_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 							</th>
@@ -165,7 +164,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 							<td class="center">
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
-							<?php if ($assoc) : ?>
+							<?php if ($this->assoc) : ?>
 								<td class="center">
 									<?php if ($item->association): ?>
 										<?php echo JHtml::_('CategoriesAdministrator.association', $item->id, $extension); ?>
@@ -192,7 +191,19 @@ $assoc		= JLanguageAssociations::isEnabled();
 			<div class="clr"></div>
 
 			<?php //Load the batch processing form. ?>
-			<?php echo $this->loadTemplate('batch'); ?>
+			<?php if ($user->authorise('core.create', $extension)
+				&& $user->authorise('core.edit', $extension)
+				&& $user->authorise('core.edit.state', $extension)) : ?>
+				<?php echo JHtml::_(
+					'bootstrap.renderModal',
+					'collapseModal',
+					array(
+						'title' => JText::_('COM_CATEGORIES_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer')
+					),
+					$this->loadTemplate('batch_body')
+				); ?>
+			<?php endif; ?>
 
 			<input type="hidden" name="extension" value="<?php echo $extension; ?>" />
 			<input type="hidden" name="task" value="" />

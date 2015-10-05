@@ -70,7 +70,7 @@ class JInstallerManifestLibraryTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'http://www.joomla.org',
+			'https://www.joomla.org',
 			$this->object->authorurl
 		);
 
@@ -80,7 +80,7 @@ class JInstallerManifestLibraryTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'http://www.joomla.org',
+			'https://www.joomla.org',
 			$this->object->packagerurl
 		);
 

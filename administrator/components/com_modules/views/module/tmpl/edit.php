@@ -120,7 +120,7 @@ $script .= "
 							jQuery('#position-" . $this->item->id . "', parent.document).text(updPosition);
 							jQuery('#access-" . $this->item->id . "', parent.document).html(parent.viewLevels[updAccess]);
 					}
-					window.parent.jQuery('.modal').modal('hide');
+					window.parent.jQuery('#module" . $this->item->id . "Modal').modal('hide');
 				}
 			}
 	};";

@@ -16,14 +16,14 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user		= JFactory::getUser();
-$app		= JFactory::getApplication();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$ordering 	= ($listOrder == 'a.lft');
-$canOrder	= $user->authorise('core.edit.state',	'com_menus');
-$saveOrder 	= ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$user      = JFactory::getUser();
+$app       = JFactory::getApplication();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$ordering  = ($listOrder == 'a.lft');
+$canOrder  = $user->authorise('core.edit.state',	'com_menus');
+$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 
 if ($saveOrder)
 {
@@ -31,8 +31,9 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'itemList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
 
-$assoc		= JLanguageAssociations::isEnabled();
+$assoc = JLanguageAssociations::isEnabled();
 ?>
+
 <?php // Set up the filter bar. ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
@@ -67,16 +68,16 @@ $assoc		= JLanguageAssociations::isEnabled();
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-phone">
+						<th width="5%" class="center nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
-					<th width="10%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-					</th>
-					<?php if ($assoc) : ?>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
-					</th>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
+						</th>
+						<?php if ($assoc) : ?>
+							<th width="5%" class="nowrap hidden-phone">
+								<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+							</th>
 						<?php endif;?>
 						<th width="5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -146,7 +147,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 							}
 							?>
 							<span class="sortable-handler<?php echo $iconClass ?>">
-								<i class="icon-menu"></i>
+								<span class="icon-menu"></span>
 							</span>
 							<?php if ($canChange && $saveOrder) : ?>
 								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" />
@@ -188,49 +189,58 @@ $assoc		= JLanguageAssociations::isEnabled();
 						</td>
 						<td class="center hidden-phone">
 							<?php if ($item->type == 'component') : ?>
-								<?php if ($item->language == '*' || $item->home == '0'):?>
-									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange);?>
-								<?php elseif ($canChange):?>
-									<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1');?>">
-										<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
+								<?php if ($item->language == '*' || $item->home == '0') : ?>
+									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange); ?>
+								<?php elseif ($canChange) : ?>
+									<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1'); ?>">
+										<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
 									</a>
-								<?php else:?>
-									<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true);?>
-								<?php endif;?>
+								<?php else : ?>
+									<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+								<?php endif; ?>
 							<?php endif; ?>
 						</td>
-					<td class="small hidden-phone">
-						<?php echo $this->escape($item->access_level); ?>
-					</td>
-					<?php if ($assoc):?>
-					<td class="small hidden-phone">
-						<?php if ($item->association):?>
-							<?php echo JHtml::_('MenusHtml.Menus.association', $item->id);?>
-							<?php endif;?>
+						<td class="small hidden-phone">
+							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<?php endif;?>
+						<?php if ($assoc) : ?>
+							<td class="small hidden-phone">
+								<?php if ($item->association) : ?>
+									<?php echo JHtml::_('MenusHtml.Menus.association', $item->id); ?>
+								<?php endif; ?>
+							</td>
+						<?php endif; ?>
 						<td class="small hidden-phone">
 							<?php if ($item->language == ''):?>
 								<?php echo JText::_('JDEFAULT'); ?>
-							<?php elseif ($item->language == '*'):?>
+							<?php elseif ($item->language == '*') : ?>
 								<?php echo JText::alt('JALL', 'language'); ?>
-							<?php else:?>
+							<?php else : ?>
 								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-							<?php endif;?>
+							<?php endif; ?>
 						</td>
-						<td class="center hidden-phone">
-							<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt);?>">
-								<?php echo (int) $item->id; ?></span>
+						<td class="hidden-phone">
+							<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
+								<?php echo (int) $item->id; ?>
+							</span>
 						</td>
 					</tr>
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+			<?php // Load the batch processing form if user is allowed ?>
+			<?php if ($user->authorise('core.create', 'com_menus') || $user->authorise('core.edit', 'com_menus')) : ?>
+				<?php echo JHtml::_(
+					'bootstrap.renderModal',
+					'collapseModal',
+					array(
+						'title' => JText::_('COM_MENUS_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer')
+					),
+					$this->loadTemplate('batch_body')
+				); ?>
+			<?php endif; ?>
 		<?php endif; ?>
-		<?php //Load the batch processing form.is user is allowed ?>
-		<?php if ($user->authorise('core.create', 'com_menus') || $user->authorise('core.edit', 'com_menus')) : ?>
-			<?php echo $this->loadTemplate('batch'); ?>
-		<?php endif;?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

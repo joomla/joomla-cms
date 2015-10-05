@@ -127,7 +127,7 @@ class JEditor extends JObject
 	/**
 	 * Attach an observer object
 	 *
-	 * @param   object  $observer  An observer object to attach
+	 * @param   array|object  $observer  An observer object to attach or an array with handler and event keys
 	 *
 	 * @return  void
 	 *
@@ -174,6 +174,8 @@ class JEditor extends JObject
 			}
 
 			$this->_observers[] = $observer;
+
+			// @todo We require a JEditor object above but get the methods from JPlugin - something isn't right here!
 			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
 		}
 
