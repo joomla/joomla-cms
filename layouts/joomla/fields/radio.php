@@ -16,7 +16,7 @@ JHtml::_('script', 'system/html5fallback.js', false, true);
 $data = new JRegistry($displayData);
 
 // Always use the 'radio' class.
-$classes = $data->get('classes', array());
+$classes = array_filter($data->get('classes', array()));
 $classes[] = 'radio';
 
 /**
