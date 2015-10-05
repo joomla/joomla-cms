@@ -73,9 +73,9 @@ class JFormFieldRadioTest extends TestCase
 	 * Test the getInput method where there is no value from the element
 	 * and no checked attribute.
 	 *
-	 * @param   string  $element   @todo
-	 * @param   array   $data  	   @todo
-	 * @param   string  $expected  @todo
+	 * @param   string  $element  @todo
+	 * @param   array   $data  	  @todo
+	 * @param   array   --        Any number of matcher arrays can be passed as additional arguments.
 	 *
 	 * @return  void
 	 *
@@ -83,7 +83,7 @@ class JFormFieldRadioTest extends TestCase
 	 *
 	 * @dataProvider  getInputData
 	 */
-	public function testGetInput($element, $data, $expected)
+	public function testGetInput($element, $data)
 	{
 		$formField = new JFormFieldRadio;
 
@@ -97,14 +97,17 @@ class JFormFieldRadioTest extends TestCase
 		// Get the result once, we may perform multiple tests
 		$result = TestReflection::invoke($formField, 'getInput');
 
-		// Test that the tag exists
-		$matcher = array('id' => 'myTestId');
+		// Any additional arguments are used as matcher arrays for testing.
+		$matchers = array_slice(func_get_args(), 2);
 
-		$this->assertTag(
-			$matcher,
-			$result,
-			'The tag did not have the correct id.'
-		);
+		foreach ($matchers as $matcher)
+		{
+			$this->assertTag(
+				$matcher,
+				$result,
+				'The tag did not have the correct structure. '
+			);
+		}
 	}
 
 	/**
