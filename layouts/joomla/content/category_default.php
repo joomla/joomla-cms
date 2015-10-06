@@ -52,7 +52,7 @@ $tagsData = $displayData->get('category')->tags->itemTags;
 					<img src="<?php echo $displayData->get('category')->getParams()->get('image'); ?>" alt="<?php echo htmlspecialchars($displayData->get('category')->getParams()->get('image_alt')); ?>"/>
 				<?php endif; ?>
 				<?php if ($params->get('show_description') && $displayData->get('category')->description) : ?>
-					<?php echo JHtml::_('content.prepare', $displayData->get('category')->description, '', $extension . '.category'); ?>
+					<?php echo JHtml::_('content.prepare', $displayData->get('category')->description, '', $extension . '.category.description'); ?>
 				<?php endif; ?>
 				<div class="clr"></div>
 			</div>
