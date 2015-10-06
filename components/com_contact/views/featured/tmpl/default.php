@@ -20,9 +20,9 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>
 <?php endif; ?>
-<?php echo $this->item->event->afterDisplayTitle; ?>
-<?php echo $this->item->event->beforeDisplayContent; ?>
+
 <?php echo $this->loadTemplate('items'); ?>
+
 <?php if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->pagesTotal > 1)) : ?>
 	<div class="pagination">
 
@@ -35,5 +35,4 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 		<?php echo $this->pagination->getPagesLinks(); ?>
 	</div>
 <?php endif; ?>
-<?php echo $this->item->event->afterDisplayContent; ?>
 </div>

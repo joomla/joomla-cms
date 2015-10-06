@@ -300,7 +300,7 @@ class ContactViewContact extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   1.5
+	 * @since   1.6
 	 */
 	protected function _prepareDocument()
 	{

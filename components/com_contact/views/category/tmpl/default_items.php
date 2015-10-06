@@ -71,6 +71,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 							<?php endif; ?>
 						</div>
+
+						<?php echo $item->event->afterDisplayTitle; ?>
+
+						<?php echo $item->event->beforeDisplayContent; ?>
+
 						<?php if ($this->params->get('show_position_headings')) : ?>
 								<?php echo $item->con_position; ?><br />
 						<?php endif; ?>
@@ -89,7 +94,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo $item->country; ?><br />
 						<?php endif; ?>
 					</p>
-					</li>
+
+					<?php echo $item->event->afterDisplayContent; ?>
+				</li>
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>

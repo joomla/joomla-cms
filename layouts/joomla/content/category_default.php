@@ -42,16 +42,8 @@ $tagsData = $displayData->get('category')->tags->itemTags;
 			</h2>
 		<?php endif; ?>
 
-		<?php if (isset($displayData->get('items')->event->afterDisplayTitle)) : ?>
-			<?php echo $displayData->get('items')->event->afterDisplayTitle; ?>
-		<?php endif; ?>
-
 		<?php if ($params->get('show_cat_tags', 1)) : ?>
 			<?php echo JLayoutHelper::render('joomla.content.tags', $tagsData); ?>
-		<?php endif; ?>
-
-		<?php if (isset($displayData->get('items')->event->beforeDisplayContent)) : ?>
-			<?php echo $displayData->get('items')->event->beforeDisplayContent; ?>
 		<?php endif; ?>
 
 		<?php if ($params->get('show_description', 1) || $params->def('show_description_image', 1)) : ?>
@@ -76,10 +68,6 @@ $tagsData = $displayData->get('category')->tags->itemTags;
 				<?php endif; ?>
 				<?php echo $displayData->loadTemplate('children'); ?>
 			</div>
-		<?php endif; ?>
-
-		<?php if (isset($displayData->get('items')->event->afterDisplayContent)) : ?>
-			<?php echo $displayData->get('items')->event->afterDisplayContent; ?>
 		<?php endif; ?>
 	</div>
 </div>
