@@ -61,11 +61,13 @@ class ContactViewFeatured extends JViewLegacy
 	protected $pagination;
 
 	/**
-	 * Display the view
+	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  False on error, null otherwise.
+	 * @return  mixed  Exception on failure, void on success.
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -84,6 +86,7 @@ class ContactViewFeatured extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseWarning(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -96,8 +99,9 @@ class ContactViewFeatured extends JViewLegacy
 			$temp       = new Registry;
 
 			$temp->loadString($item->params);
-			$item->params = clone($params);
+			$item->params = clone $params;
 			$item->params->merge($temp);
+
 			if ($item->params->get('show_email', 0) == 1)
 			{
 				$item->email_to = trim($item->email_to);
@@ -112,6 +116,22 @@ class ContactViewFeatured extends JViewLegacy
 				}
 			}
 		}
+
+		// Process the content plugins.
+		$dispatcher	= JEventDispatcher::getInstance();
+		JPluginHelper::importPlugin('content');
+		$offset = $state->get('list.offset');
+		$dispatcher->trigger('onContentPrepare', array ('com_contact.featured', &$item, &$this->params, $offset));
+
+		$item->event = new stdClass;
+		$results = $dispatcher->trigger('onContentAfterTitle', array('com_contact.featured', &$item, &$this->params, $offset));
+		$item->event->afterDisplayTitle = trim(implode("\n", $results));
+
+		$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_contact.featured', &$item, &$this->params, $offset));
+		$item->event->beforeDisplayContent = trim(implode("\n", $results));
+
+		$results = $dispatcher->trigger('onContentAfterDisplay', array('com_contact.featured', &$item, &$this->params, $offset));
+		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
