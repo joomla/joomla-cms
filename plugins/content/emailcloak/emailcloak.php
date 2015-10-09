@@ -20,7 +20,7 @@ class PlgContentEmailcloak extends JPlugin
 	 * Used to save the extracted form elements in an array. If nothing to replace, it's default false
 	 *
 	 * @since  3.4.5
-	 */ 
+	 */
 	private $saveReplacements = false;
 
 	/**
@@ -506,11 +506,11 @@ class PlgContentEmailcloak extends JPlugin
 	}
 
 	/**
-	 * Extract all input, select, textarea, script, picture  and noemailclloak tags out of the given Text.
+	 * Extract all input, select, textarea, script, picture and noemailclloak tags out of the given Text.
 	 *
 	 * @param   string  $text  The text wich must be cleaned of elements
 	 *
-	 * @return  string, the cleaned text
+	 * @return  string  $text  The cleaned text
 	 *
 	 * @since   3.4.5
 	 */
@@ -558,7 +558,7 @@ class PlgContentEmailcloak extends JPlugin
 	}
 
 	/**
-	 * Inserts all input, select and textareelements in  the given Text, which was extractedfrom _extractFormElements
+	 * Inserts all input, select and textareelements in the given Text, which was extractedfrom _extractFormElements
 	 *
 	 * @param   string  $text  The text where the extracted Formelements get inserted.
 	 *
