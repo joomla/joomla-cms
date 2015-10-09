@@ -439,7 +439,7 @@ class JFilterInput
 				if (!empty($options['forbidden_extensions']))
 				{
 					$explodedName = explode('.', $intendedName);
-					array_reverse($explodedName);
+					$explodedName =	array_reverse($explodedName);
 					array_pop($explodedName);
 					array_map('strtolower', $explodedName);
 

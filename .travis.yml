@@ -29,15 +29,16 @@ before_script:
   # Set up Apache
   # - ./build/travis/php-apache.sh
   # Enable additional PHP extensions
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ]; then phpenv config-add build/travis/phpenv/memcached.ini; fi"
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' == '5.3' ] || [ '$TRAVIS_PHP_VERSION' == '5.4' ]; then phpenv config-add build/travis/phpenv/apc-$TRAVIS_PHP_VERSION.ini; fi"
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ]; then phpenv config-add build/travis/phpenv/redis.ini; fi"
-  # PHP 5.5+ needs APCu
-  - if [ '$TRAVIS_PHP_VERSION' == "5.5" ] || [ '$TRAVIS_PHP_VERSION' == "5.6" ]; then printf "\n" | echo -e "extension = apcu.so\napc.enabled=1\napc.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
+  - if [ $TRAVIS_PHP_VERSION != "7.0" ]; then phpenv config-add build/travis/phpenv/memcached.ini; fi
+  # PHP 5.3 and 5.4 use APC
+  - if [ $TRAVIS_PHP_VERSION == "5.3" ] || [ $TRAVIS_PHP_VERSION == "5.4" ]; then phpenv config-add build/travis/phpenv/apc-$TRAVIS_PHP_VERSION.ini; fi
+  # PHP 5.5+ use APCu
+  - if [ $TRAVIS_PHP_VERSION == "5.5" ] || [ $TRAVIS_PHP_VERSION == "5.6" ]; then printf "\n" | pecl install apcu-beta; fi
+  - if [ $TRAVIS_PHP_VERSION != "7.0" ]; then phpenv config-add build/travis/phpenv/redis.ini; fi
 
 script:
   - libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '7.0' ]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi"
+  - if [ $TRAVIS_PHP_VERSION != "7.0" ]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi
 
 branches:
   except:

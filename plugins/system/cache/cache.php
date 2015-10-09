@@ -79,7 +79,7 @@ class PlgSystemCache extends JPlugin
 			// Set cached body.
 			$app->setBody($data);
 
-			echo $app->toString($app->get('gzip'));
+			echo $app->toString();
 
 			if (JDEBUG)
 			{
@@ -97,7 +97,7 @@ class PlgSystemCache extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	public function onAfterRender()
+	public function onAfterRespond()
 	{
 		$app = JFactory::getApplication();
 
