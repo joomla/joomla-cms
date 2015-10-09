@@ -16,8 +16,11 @@ defined('_JEXEC') or die;
  */
 class PlgContentEmailcloak extends JPlugin
 {
-	// Used to save the extracted form elements in an array. If nothing to replace, it's default false;
+	/**
+	 * Used to save the extracted form elements in an array. If nothing to replace, it's default false
+	 */ 
 	private $saveReplacements = false;
+
 	/**
 	 * Plugin that cloaks all emails in content from spambots via Javascript.
 	 *
@@ -127,7 +130,7 @@ class PlgContentEmailcloak extends JPlugin
 		$searchText = '((?:[\x20-\x7f]|[\xA1-\xFF]|[\xC2-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2}|[\xF0-\xF4][\x80-\xBF]{3})[^<>]+)';
 
 		// Any Image link
-		$searchImage	=	"(<img[^>]+>)";
+		$searchImage = '(<img[^>]+>)';
 
 		// Any Text with <span or <strong
 		$searchTextSpan = '(<span[^>]+>|<span>|<strong>|<strong><span[^>]+>|<strong><span>)' . $searchText . '(</span>|</strong>|</span></strong>)';
@@ -501,23 +504,27 @@ class PlgContentEmailcloak extends JPlugin
 	}
 
 	/**
-	 * extract all input, select, textarea, script, picture  and noemailclloak tags out of the given Text.
+	 * Extract all input, select, textarea, script, picture  and noemailclloak tags out of the given Text.
 	 *
 	 * @param   string  $text  The text wich must be cleaned of elements
 	 *
 	 * @return  string, the cleaned text
+	 *
+	 * @since   3.4.5
 	 */
 	private function _extractFormElements($text)
 	{
 		// Pattern to extract the noemailcloak sections.
 		$noemailcloak_pattern = '#\{noemailcloak\}(.*)\{/noemailcloak\}#Uis';
+		$counter              = 0;
+
 		preg_match_all($noemailcloak_pattern, $text, $results, PREG_SET_ORDER);
-		$counter = 0;
 
 		foreach ($results as $result)
 		{
 			$replace_string = "{{##formelement_" . $counter . "##}}";
-			$text = str_replace($result[0], $replace_string,  $text);
+			$text           = str_replace($result[0], $replace_string,  $text);
+
 			$this->saveReplacements[$replace_string] = $result[1];
 			$counter++;
 		}
@@ -531,6 +538,7 @@ class PlgContentEmailcloak extends JPlugin
 
 		// Pattern to extract select, textarea picture and script tags.
 		$st_pattern = '#<(select|textarea|picture|script).*</\1>#Uis';
+
 		preg_match_all($st_pattern, $text, $st_results);
 
 		$results = array_merge($results[0], $st_results[0]);
@@ -538,7 +546,8 @@ class PlgContentEmailcloak extends JPlugin
 		foreach ($results as $value)
 		{
 			$replace_string = "{{##formelement_" . $counter . "##}}";
-			$text = str_replace($value, $replace_string, $text);
+			$text           = str_replace($value, $replace_string, $text);
+
 			$this->saveReplacements[$replace_string] = $value;
 			$counter++;
 		}
@@ -547,15 +556,17 @@ class PlgContentEmailcloak extends JPlugin
 	}
 
 	/**
-	 * inserts all input, select and textareelements in  the given Text, which was extractedfrom _extractFormElements
+	 * Inserts all input, select and textareelements in  the given Text, which was extractedfrom _extractFormElements
 	 *
 	 * @param   string  $text  The text where the extracted Formelements get inserted.
 	 *
-	 * @return  string, the modifiy text.
+	 * @return  string  $text  The modifiy text.
+	 *
+	 * @since   3.4.5
 	 */
 	private function _insertFormElements($text)
 	{
-		if (!is_array($this->saveReplacements) )
+		if (!is_array($this->saveReplacements))
 		{
 			return $text;
 		}
