@@ -16,8 +16,8 @@ defined('_JEXEC') or die;
  */
 class PlgContentEmailcloak extends JPlugin
 {
-	// used to save the extracted form elements in an array. If nothing to replace, it's default false;
-	var $saveReplacements = false; 
+	// Used to save the extracted form elements in an array. If nothing to replace, it's default false;
+	private $saveReplacements = false;
 	/**
 	 * Plugin that cloaks all emails in content from spambots via Javascript.
 	 *
@@ -113,7 +113,7 @@ class PlgContentEmailcloak extends JPlugin
 			return true;
 		}
 
-		// extract all Formelements out of the text.
+		// Extract all Formelements out of the text.
 		$text = $this->_extractFormElements($text);
 		$mode = $this->params->def('mode', 1);
 
@@ -494,30 +494,43 @@ class PlgContentEmailcloak extends JPlugin
 			// Replace the found address with the js cloaked email
 			$text = substr_replace($text, $replacement, $regs[1][1], strlen($mail));
 		}
-		// all exctracted Form elements get insert the text again.
+		// All exctracted Form elements get insert the text again.
 		$text = $this->_insertFormElements($text);
+
 		return true;
 	}
 
 	/**
-	 * extract all input, select and textareelements out of the given Text.
+	 * extract all input, select, textarea, script, picture  and noemailclloak tags out of the given Text.
 	 *
-	 * @param   string  $text  The text wich must be cleaned of formElements
+	 * @param   string  $text  The text wich must be cleaned of elements
 	 *
 	 * @return  string, the cleaned text
 	 */
 	private function _extractFormElements($text)
 	{
-		// Pattern to extract input, checkbox, submit  and radio fields.
-		$input_pattern = '#<(?:input|checkbox|submit|radio)[^<].*>#Uis';
+		// Pattern to extract the noemailcloak sections.
+		$noemailcloak_pattern = '#\{noemailcloak\}(.*)\{/noemailcloak\}#Uis';
+		preg_match_all($noemailcloak_pattern, $text, $results, PREG_SET_ORDER);
+		$counter = 0;
+
+		foreach ($results as $result)
+		{
+			$replace_string = "{{##formelement_" . $counter ."##}}";
+			$text = str_replace($result[0], $replace_string,  $text);
+			$this->saveReplacements[$replace_string] = $result[1];
+			$counter++;
+		}
+		unset($results);
+		// Pattern to extract all input tags, (text, checkbox, radio, hidden, submit> and img-tag.
+		$input_pattern = '#<(input|img) [^<].*>#Uis';
 
 		preg_match_all($input_pattern, $text, $results);
-		// pattern to extract select and textarea fields
-		$st_pattern = '#<(select|textarea).*</\1>#Uis';
+		// pattern to extract select, textarea picture and script tags.
+		$st_pattern = '#<(select|textarea|picture|script).*</\1>#Uis';
 		preg_match_all($st_pattern, $text, $st_results);
 
 		$results = array_merge($results[0], $st_results[0]);
-		$counter = 0;
 		foreach($results as $value)
 		{
 			$replace_string = "{{##formelement_". $counter ."##}}"; 
@@ -538,17 +551,16 @@ class PlgContentEmailcloak extends JPlugin
 	 */
 	private function _insertFormElements($text)
 	{
-		if(!is_array($this->saveReplacements) )
+		if (!is_array($this->saveReplacements) )
 		{
 			return $text;
-		} 
+		}
 
-		foreach($this->saveReplacements as $key => $value)
+		foreach ($this->saveReplacements as $key => $value)
 		{
 			$text = str_replace($key, $value, $text);
 		}
+
 		return $text;
 	}
-
-
 }
