@@ -516,24 +516,28 @@ class PlgContentEmailcloak extends JPlugin
 
 		foreach ($results as $result)
 		{
-			$replace_string = "{{##formelement_" . $counter ."##}}";
+			$replace_string = "{{##formelement_" . $counter . "##}}";
 			$text = str_replace($result[0], $replace_string,  $text);
 			$this->saveReplacements[$replace_string] = $result[1];
 			$counter++;
 		}
+
 		unset($results);
+
 		// Pattern to extract all input tags, (text, checkbox, radio, hidden, submit> and img-tag.
 		$input_pattern = '#<(input|img) [^<].*>#Uis';
 
 		preg_match_all($input_pattern, $text, $results);
-		// pattern to extract select, textarea picture and script tags.
+
+		// Pattern to extract select, textarea picture and script tags.
 		$st_pattern = '#<(select|textarea|picture|script).*</\1>#Uis';
 		preg_match_all($st_pattern, $text, $st_results);
 
 		$results = array_merge($results[0], $st_results[0]);
-		foreach($results as $value)
+
+		foreach ($results as $value)
 		{
-			$replace_string = "{{##formelement_". $counter ."##}}"; 
+			$replace_string = "{{##formelement_" . $counter . "##}}";
 			$text = str_replace($value, $replace_string, $text);
 			$this->saveReplacements[$replace_string] = $value;
 			$counter++;
