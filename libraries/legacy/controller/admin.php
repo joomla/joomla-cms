@@ -212,7 +212,8 @@ class JControllerAdmin extends JControllerLegacy
 
 				if ($value == 1)
 				{
-					if(!empty($errors)){
+					if (!empty($errors))
+					{
 						$exception = new Exception(JText::_('COM_CATEGORIES_PUBLISHING_NOT_SUCCESSFUL'));
 						throw $exception;
 					}
