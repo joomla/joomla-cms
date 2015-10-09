@@ -18,6 +18,8 @@ class PlgContentEmailcloak extends JPlugin
 {
 	/**
 	 * Used to save the extracted form elements in an array. If nothing to replace, it's default false
+	 *
+	 * @since  3.4.5
 	 */ 
 	private $saveReplacements = false;
 
