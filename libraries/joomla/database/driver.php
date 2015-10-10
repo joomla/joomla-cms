@@ -320,7 +320,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 			catch (RuntimeException $e)
 			{
-				throw new RuntimeException(sprintf('Unable to connect to the Database: %s', $e->getMessage()));
+				throw new RuntimeException(sprintf('Unable to connect to the Database: %s', $e->getMessage()), $e->getCode(), $e);
 			}
 
 			// Set the new connector to the global instances based on signature.

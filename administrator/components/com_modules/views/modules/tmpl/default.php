@@ -114,21 +114,25 @@ if ($saveOrder)
 							<?php endif; ?>
 						</td>
 						<td class="center">
-							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+							<?php if ($item->enabled > 0) : ?>
+								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+							<?php endif; ?>
 						</td>
 						<td class="center">
 							<div class="btn-group">
+							<?php // Check if extension is enabled ?>
+							<?php if ($item->enabled > 0) : ?>
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-								<?php
-									// Create dropdown items
-									JHtml::_('actionsdropdown.duplicate', 'cb' . $i, 'modules');
-
-									$action = $trashed ? 'untrash' : 'trash';
-									JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'modules');
-
-								// Render dropdown list
-								echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
-								?>
+								<?php // Create dropdown items ?>
+								<?php JHtml::_('actionsdropdown.duplicate', 'cb' . $i, 'modules'); ?>
+								<?php $action = $trashed ? 'untrash' : 'trash'; ?>
+								<?php JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'modules'); ?>
+								<?php // Render dropdown list ?>
+								<?php echo JHtml::_('actionsdropdown.render', $this->escape($item->title)); ?>
+							<?php else : ?>
+								<?php // Extension is not enabled, show a message that indicates this. ?>
+								<button class="btn-micro hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>"><i class="icon-ban-circle"></i></button>
+							<?php endif; ?>
 							</div>
 						</td>
 						<td class="has-context">

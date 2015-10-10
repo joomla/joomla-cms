@@ -120,8 +120,8 @@ $saveOrder = $listOrder == 'fp.ordering';
 								?>
 							</div>
 						</td>
-						<td class="nowrap has-context">
-							<div class="pull-left">
+						<td class="has-context">
+							<div class="pull-left break-word">
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 								<?php endif; ?>

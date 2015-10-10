@@ -850,7 +850,7 @@
 			default="tinymce"
 			label="COM_CONFIG_FIELD_DEFAULT_EDITOR_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_EDITOR_DESC"
-			required="true"
+			required="false"
 			filter="cmd" />
 
 		<field
