@@ -504,7 +504,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	/**
 	 * Get the manifest object.
 	 *
-	 * @return  object  Manifest object
+	 * @return  SimpleXMLElement  Manifest object
 	 *
 	 * @since   3.4
 	 */
