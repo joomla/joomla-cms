@@ -35,10 +35,10 @@ abstract class ModRelatedItemsHelper
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$date = JFactory::getDate();
 		$maximum = (int) $params->get('maximum', 5);
-		
+
 		// Get an instance of the generic articles model
 		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
-		
+
 		// Set application parameters in model
 		$appParams = $app->getParams();
 		$articles->setState('params', $appParams);
@@ -173,7 +173,8 @@ abstract class ModRelatedItemsHelper
 			}
 		}
 
-		if (count($related)) {
+		if (count($related))
+		{
 			// Prepare data for display using display options
 			foreach ($related as &$item)
 			{
