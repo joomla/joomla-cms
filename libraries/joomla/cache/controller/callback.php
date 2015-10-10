@@ -144,7 +144,7 @@ class JCacheControllerCallback extends JCacheController
 				if (method_exists($document, 'getHeadData'))
 				{
 					$coptions['headerbefore'] = $document->getHeadData();
-				}	
+				}
 			}
 			else
 			{
@@ -194,6 +194,8 @@ class JCacheControllerCallback extends JCacheController
 	 */
 	protected function _makeId($callback, $args)
 	{
+		$prefix = $this->_getPlatformPrefix();
+
 		if (is_array($callback) && is_object($callback[0]))
 		{
 			$vars = get_object_vars($callback[0]);
@@ -201,6 +203,18 @@ class JCacheControllerCallback extends JCacheController
 			$callback[0] = $vars;
 		}
 
-		return md5(serialize(array($callback, $args)));
+		return $prefix . md5(serialize(array($callback, $args)));
+	}
+
+	/**
+	 * Set prefix cache key if device calls for separate caching
+	 *
+	 * @return  string   Platform specific prefix
+	 *
+	 * @since 3.5
+	 */
+	protected function _getPlatformPrefix()
+	{
+		return JCache::getPlatformPrefix();
 	}
 }

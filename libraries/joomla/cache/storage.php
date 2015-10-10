@@ -312,10 +312,23 @@ class JCacheStorage
 	 */
 	protected function _getCacheId($id, $group)
 	{
+		$prefix = $this->_getPlatformPrefix();
 		$name = md5($this->_application . '-' . $id . '-' . $this->_language);
 		$this->rawname = $this->_hash . '-' . $name;
 
-		return $this->_hash . '-cache-' . $group . '-' . $name;
+		return $prefix . $this->_hash . '-cache-' . $group . '-' . $name;
+	}
+
+	/**
+	 * Set prefix cache key if device calls for separate caching
+	 *
+	 * @return  string   Platform specific prefix
+	 *
+	 * @since 3.5
+	 */
+	protected function _getPlatformPrefix()
+	{
+		return JCache::getPlatformPrefix();
 	}
 
 	/**

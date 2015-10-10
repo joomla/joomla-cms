@@ -713,6 +713,7 @@ class JCache
 	public static function makeId()
 	{
 		$app = JFactory::getApplication();
+		$prefix = static::getPlatformPrefix();
 
 		$registeredurlparams = new stdClass;
 
@@ -748,7 +749,34 @@ class JCache
 			$safeuriaddon->$key = $app->input->get($key, null, $value);
 		}
 
-		return md5(serialize($safeuriaddon));
+		return $prefix . md5(serialize($safeuriaddon));
+	}
+
+	/**
+	 * Set prefix cache key if device calls for separate caching
+	 *
+	 * @return  string   Platform specific prefix
+	 *
+	 * @since 3.5
+	 */
+	public static function getPlatformPrefix()
+	{
+		jimport('joomla.environment.browser');
+		$client = JFactory::getApplication()->client;
+		$conf = JFactory::getConfig();
+
+		// No prefix when Global Config is set to no platfom specific prefix
+		if (!$conf->get('cache_platformprefix', '0'))
+		{
+			return;
+		}
+
+		if ($client->mobile)
+		{
+			return 'M-';
+		}
+
+		return;
 	}
 
 	/**

@@ -129,6 +129,20 @@ class JCacheControllerView extends JCacheController
 	 */
 	protected function _makeId(&$view, $method)
 	{
-		return md5(serialize(array(JCache::makeId(), get_class($view), $method)));
+		$prefix = $this->_getPlatformPrefix();
+
+		return $prefix . md5(serialize(array(JCache::makeId(), get_class($view), $method)));
+	}
+
+	/**
+	 * Set prefix cache key if device calls for separate caching
+	 *
+	 * @return  string   Platform specific prefix
+	 *
+	 * @since 3.5
+	 */
+	protected function _getPlatformPrefix()
+	{
+		return JCache::getPlatformPrefix();
 	}
 }
