@@ -647,9 +647,24 @@ class JFilterInput
 	 *
 	 * @return  string  'Cleaned' version of input parameter
 	 *
-	 * @since   11.1
+	 * @since      11.1
+	 * @deprecated 4.0 Use JFilterInput::remove() instead
 	 */
 	protected function _remove($source)
+	{
+		return $this->remove($source);
+	}
+
+	/**
+	 * Internal method to iteratively remove all unwanted tags and attributes
+	 *
+	 * @param   string  $source  Input string to be 'cleaned'
+	 *
+	 * @return  string  'Cleaned' version of input parameter
+	 *
+	 * @since   3.5
+	 */
+	protected function remove($source)
 	{
 		$loopCounter = 0;
 
@@ -670,9 +685,24 @@ class JFilterInput
 	 *
 	 * @return  string  'Cleaned' version of input parameter
 	 *
-	 * @since   11.1
+	 * @since      11.1
+	 * @deprecated 4.0 Use JFilterInput::cleanTags() instead
 	 */
 	protected function _cleanTags($source)
+	{
+		return $this->cleanTags($source);
+	}
+
+	/**
+	 * Internal method to strip a string of certain tags
+	 *
+	 * @param   string  $source  Input string to be 'cleaned'
+	 *
+	 * @return  string  'Cleaned' version of input parameter
+	 *
+	 * @since   3.5
+	 */
+	protected function cleanTags($source)
 	{
 		// First, pre-process this for illegal characters inside attribute values
 		$source = $this->_escapeAttributeValues($source);
@@ -900,9 +930,24 @@ class JFilterInput
 	 *
 	 * @return  array  Filtered array of attribute pairs
 	 *
-	 * @since   11.1
+	 * @since      11.1
+	 * @deprecated 4.0 Use JFilterInput::cleanAttributes() instead
 	 */
 	protected function _cleanAttributes($attrSet)
+	{
+		return $this->cleanAttributes($attrSet);
+	}
+
+	/**
+	 * Internal method to strip a tag of certain attributes
+	 *
+	 * @param   array  $attrSet  Array of attribute pairs to filter
+	 *
+	 * @return  array  Filtered array of attribute pairs
+	 *
+	 * @since   3.5
+	 */
+	protected function cleanAttributes($attrSet)
 	{
 		$newSet = array();
 
@@ -1003,9 +1048,24 @@ class JFilterInput
 	 *
 	 * @return  string  Plaintext string
 	 *
-	 * @since   11.1
+	 * @since      11.1
+	 * @deprecated 4.0 Use JFilterInput::decode() instead
 	 */
 	protected function _decode($source)
+	{
+		return $this->decode($source);
+	}
+
+	/**
+	 * Try to convert to plaintext
+	 *
+	 * @param   string  $source  The source string.
+	 *
+	 * @return  string  Plaintext string
+	 *
+	 * @since   3.5
+	 */
+	protected function decode($source)
 	{
 		static $ttr;
 
@@ -1046,9 +1106,24 @@ class JFilterInput
 	 *
 	 * @return  string  Filtered string
 	 *
-	 * @since    11.1
+	 * @since      11.1
+	 * @deprecated 4.0 Use JFilterInput::escapeAttributeValues() instead
 	 */
 	protected function _escapeAttributeValues($source)
+	{
+		return $this->escapeAttributeValues($source);
+	}
+
+	/**
+	 * Escape < > and " inside attribute values
+	 *
+	 * @param   string  $source  The source string.
+	 *
+	 * @return  string  Filtered string
+	 *
+	 * @since    3.5
+	 */
+	protected function escapeAttributeValues($source)
 	{
 		$alreadyFiltered = '';
 		$remainder = $source;
@@ -1101,9 +1176,24 @@ class JFilterInput
 	 *
 	 * @return  string  Filtered string
 	 *
-	 * @since   11.1
+	 * @since      11.1
+	 * @deprecated 4.0 Use JFilterInput::stripCSSExpressions() instead
 	 */
 	protected function _stripCSSExpressions($source)
+	{
+		return $this->stripCSSExpressions($source);
+	}
+
+	/**
+	 * Remove CSS Expressions in the form of <property>:expression(...)
+	 *
+	 * @param   string  $source  The source string.
+	 *
+	 * @return  string  Filtered string
+	 *
+	 * @since   3.5
+	 */
+	protected function stripCSSExpressions($source)
 	{
 		// Strip any comments out (in the form of /*...*/)
 		$test = preg_replace('#\/\*.*\*\/#U', '', $source);
