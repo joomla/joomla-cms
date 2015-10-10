@@ -357,6 +357,14 @@ $prev = $useftp ? 'ftp' : 'database';
 			</table>
 		</div>
 	</div>
+	<div class="row-fluid">
+		<div class="btn-toolbar">
+			<div class="btn-group pull-right">
+				<a class="btn" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><span class="icon-arrow-left"></span> <?php echo JText::_('JPrevious'); ?></a>
+				<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
+			</div>
+		</div>
+	</div>
 
 	<input type="hidden" name="task" value="summary" />
 	<?php echo JHtml::_('form.token'); ?>
