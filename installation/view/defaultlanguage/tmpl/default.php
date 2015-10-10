@@ -160,7 +160,35 @@ defined('_JEXEC') or die;
 		</tbody>
 	</table>
 	<input type="hidden" name="task" value="setdefaultlanguage" />
+	
 	<?php echo JHtml::_('form.token'); ?>
+	<div class="row-fluid">
+		<div class="btn-toolbar">
+			<div class="btn-group pull-right">
+				<a
+					class="btn"
+					href="#"
+					onclick="return Install.goToPage('languages');"
+					rel="prev"
+					title="<?php echo JText::_('JPREVIOUS'); ?>">
+					<i class="icon-arrow-left"></i>
+					<?php echo JText::_('JPREVIOUS'); ?>
+				</a>
+				<?php // Check if there are languages in the list, if not you cannot move forward ?>
+				<?php if ($this->items->administrator) : ?>
+					<a
+						class="btn btn-primary"
+						href="#"
+						onclick="Install.submitform();"
+						rel="next"
+						title="<?php echo JText::_('JNEXT'); ?>">
+						<i class="icon-arrow-right icon-white"></i>
+						<?php echo JText::_('JNEXT'); ?>
+					</a>
+				<?php endif; ?>
+			</div>
+		</div>
+	</div>	
 </form>
 
 <script type="text/javascript">
