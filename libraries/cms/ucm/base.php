@@ -100,15 +100,13 @@ class JUcmBase implements JUcm
 	/**
 	 * Get the UCM Content type.
 	 *
-	 * @return  object  The UCM content type
+	 * @return  JUcmType  The UCM content type
 	 *
 	 * @since   3.1
 	 */
 	public function getType()
 	{
-		$type = new JUcmType($this->alias);
-
-		return $type;
+		return new JUcmType($this->alias);
 	}
 
 	/**

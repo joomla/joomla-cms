@@ -69,7 +69,7 @@ class JUcmType implements JUcm
 	/**
 	 * The alias for the content type
 	 *
-	 * @var	  string
+	 * @var	   string
 	 * @since  3.1
 	 */
 	protected $alias;
