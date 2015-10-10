@@ -13,7 +13,6 @@
 		<filename module="mod_breadcrumbs">mod_breadcrumbs.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>mod_breadcrumbs.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_breadcrumbs.ini</language>

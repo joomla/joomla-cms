@@ -59,7 +59,7 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 		}
 
 		// Get the model.
-		$model	= $this->getModel('Updatesites');
+		$model = $this->getModel('Updatesites');
 
 		// Change the state of the records.
 		if (!$model->publish($ids, $value))

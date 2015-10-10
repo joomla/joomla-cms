@@ -14,13 +14,13 @@ require_once __DIR__ . '/helper.php';
 
 $params = ModWrapperHelper::getParams($params);
 
-$load	= $params->get('load');
-$url	= htmlspecialchars($params->get('url'));
-$target = htmlspecialchars($params->get('target'));
-$width	= htmlspecialchars($params->get('width'));
-$height = htmlspecialchars($params->get('height'));
-$scroll = htmlspecialchars($params->get('scrolling'));
+$load            = $params->get('load');
+$url             = htmlspecialchars($params->get('url'));
+$target          = htmlspecialchars($params->get('target'));
+$width           = htmlspecialchars($params->get('width'));
+$height          = htmlspecialchars($params->get('height'));
+$scroll          = htmlspecialchars($params->get('scrolling'));
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
-$frameborder = htmlspecialchars($params->get('frameborder'));
+$frameborder     = htmlspecialchars($params->get('frameborder'));
 
 require JModuleHelper::getLayoutPath('mod_wrapper', $params->get('layout', 'default'));

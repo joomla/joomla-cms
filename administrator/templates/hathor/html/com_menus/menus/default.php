@@ -14,12 +14,12 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.multiselect');
 
-$uri		= JUri::getInstance();
-$return		= base64_encode($uri);
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$uri       = JUri::getInstance();
+$return    = base64_encode($uri);
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 $modMenuId = (int) $this->get('ModMenuId');
 
 JFactory::getDocument()->addScriptDeclaration("

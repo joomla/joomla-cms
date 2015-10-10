@@ -1964,26 +1964,32 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	 */
 	protected function nextFile()
 	{
-		debugMsg('Current part is '.$this->currentPartNumber.'; opening the next part');
+		debugMsg('Current part is ' . $this->currentPartNumber . '; opening the next part');
 		++$this->currentPartNumber;
 
-		if( $this->currentPartNumber > (count($this->archiveList) - 1) )
+		if($this->currentPartNumber > (count($this->archiveList) - 1))
 		{
 			$this->setState('postrun');
 			return false;
 		}
-		else
+
+		if(is_resource($this->fp))
 		{
-			if( is_resource($this->fp) ) @fclose($this->fp);
-			debugMsg('Opening file '.$this->archiveList[$this->currentPartNumber]);
-			$this->fp = @fopen( $this->archiveList[$this->currentPartNumber], 'rb' );
-			if($this->fp === false) {
-				debugMsg('Could not open file - crash imminent');
-			}
-			fseek($this->fp, 0);
-			$this->currentPartOffset = 0;
-			return true;
+			@fclose($this->fp);
 		}
+
+		debugMsg('Opening file ' . $this->archiveList[$this->currentPartNumber]);
+		$this->fp = @fopen($this->archiveList[$this->currentPartNumber], 'rb');
+
+		if($this->fp === false)
+		{
+			debugMsg('Could not open file - crash imminent');
+		}
+
+		fseek($this->fp, 0);
+		$this->currentPartOffset = 0;
+
+		return true;
 	}
 
 	/**
@@ -2001,11 +2007,12 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 			// feof() doesn't report true. It expects the fp to be positioned *beyond* the EOF to report
 			// true. Incredible! :(
 			$position = @ftell($this->fp);
-			$filesize = @filesize( $this->archiveList[$this->currentPartNumber] );
+			$filesize = @filesize($this->archiveList[$this->currentPartNumber]);
+
 			if($filesize <= 0) {
 				// 2Gb or more files on a 32 bit version of PHP tend to get screwed up. Meh.
 				$eof = false;
-			} elseif( $position >= $filesize  ) {
+			} elseif($position >= $filesize) {
 				$eof = true;
 			}
 		}
@@ -2014,10 +2021,8 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 		{
 			return $eof;
 		}
-		else
-		{
-			return $eof && ($this->currentPartNumber >= (count($this->archiveList)-1) );
-		}
+
+		return $eof && ($this->currentPartNumber >= (count($this->archiveList)-1));
 	}
 
 	/**

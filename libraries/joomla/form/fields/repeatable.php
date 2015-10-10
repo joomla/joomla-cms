@@ -36,7 +36,7 @@ class JFormFieldRepeatable extends JFormField
 	{
 		// Initialize variables.
 		$subForm = new JForm($this->name, array('control' => 'jform'));
-		$xml = $this->element->children()->asXML();
+		$xml = $this->element->children()->asXml();
 		$subForm->load($xml);
 
 		// Needed for repeating modals in gmaps

@@ -1399,10 +1399,15 @@ class JHtmlTest extends TestCase
 	 */
 	public function testCalendar()
 	{
-		// @TODO - Test currently failing, fix this later
-		$this->markTestSkipped('Skipping failing test');
+		$cfg = $this->getMockConfig();
+		$map = array(
+			array('live_site', 'http://example.com'),
+			array('offset', 'Europe/Kiev')
+		);
+		$cfg->expects($this->any())
+			->method('get')
+			->willReturnMap($map);
 
-		$cfg = new JObject;
 		JFactory::$session = $this->getMockSession();
 		JFactory::$config = $cfg;
 
@@ -1410,14 +1415,11 @@ class JHtmlTest extends TestCase
 			->method('getTemplate')
 			->will($this->returnValue('atomic'));
 
-		$cfg->live_site = 'http://example.com';
-		$cfg->offset = 'Europe/Kiev';
-
 		// Two sets of test data
 		$test_data = array(
 			'date' => '2010-05-28 00:00:00', 'friendly_date' => 'Friday, 28 May 2010',
 			'name' => 'cal1_name', 'id' => 'cal1_id', 'format' => '%Y-%m-%d',
-			'attribs' => array()
+			'attribs' => array(), 'formattedDate' => '2010-05-28'
 		);
 
 		$test_data_ro = array_merge($test_data, array('attribs' => array('readonly' => 'readonly')));
@@ -1425,125 +1427,110 @@ class JHtmlTest extends TestCase
 		foreach (array($test_data, $test_data_ro) as $data)
 		{
 			// Reset the document
-			JFactory::$document = JDocument::getInstance('html', array('unique_key' => serialize($data)));
+			JFactory::$document = $this->getMockDocument();
 
 			$input = JHtml::calendar($data['date'], $data['name'], $data['id'], $data['format'], $data['attribs']);
 			$this->assertGreaterThan(
-				strlen($input),
 				0,
+				strlen($input),
 				'Line:' . __LINE__ . ' The calendar method should return something without error.'
 			);
 
 			$xml = new SimpleXMLElement('<calendar>' . $input . '</calendar>');
 			$this->assertEquals(
 				'text',
-				(string) $xml->input['type'],
+				(string) $xml->div->input['type'],
 				'Line:' . __LINE__ . ' The calendar input should have `type == "text"`'
 			);
 
-			// @todo We can't test this yet due to dependency on language strings
-
 			$this->assertEquals(
 				$data['friendly_date'],
-				(string) $xml->input['title'],
+				(string) $xml->div->input['title'],
 				'Line:'.__LINE__.' The calendar input should have `title == "' . $data['friendly_date'] . '"`'
 			);
 
 			$this->assertEquals(
 				$data['name'],
-				(string) $xml->input['name'],
+				(string) $xml->div->input['name'],
 				'Line:'.__LINE__.' The calendar input should have `name == "' . $data['name'] . '"`'
 			);
 
 			$this->assertEquals(
 				$data['id'],
-				(string) $xml->input['id'],
+				(string) $xml->div->input['id'],
 				'Line:'.__LINE__.' The calendar input should have `id == "' . $data['id'] . '"`'
 			);
 
 			$this->assertEquals(
-				$data['date'],
-				(string) $xml->input['value'],
-				'Line:' . __LINE__ . ' The calendar input should have `value == "' . $data['date'] . '"`'
+				$data['formattedDate'],
+				(string) $xml->div->input['value'],
+				'Line:' . __LINE__ . ' The calendar input should have `value == "' . $data['formattedDate'] . '"`'
 			);
-
-			$head_data = JFactory::getDocument()->getHeadData();
 
 			if (isset($data['attribs']['readonly']) && $data['attribs']['readonly'] === 'readonly')
 			{
 				$this->assertEquals(
 					$data['attribs']['readonly'],
-					(string) $xml->input['readonly'],
+					(string) $xml->div->input['readonly'],
 					'Line:' . __LINE__ . ' The readonly calendar input should have `readonly == "' . $data['attribs']['readonly'] . '"`'
 				);
 
-				$this->assertFalse(
-					isset($xml->img),
-					'Line:' . __LINE__ . ' The readonly calendar input shouldn\'t have a calendar image'
+				$this->assertTrue(
+					isset($xml->div->button['style']),
+					'Line:' . __LINE__ . ' The calendar input should not have a visible button'
 				);
 
 				$this->assertArrayNotHasKey(
 					'/media/system/js/calendar.js',
-					$head_data['scripts'],
+					JFactory::getDocument()->_scripts,
 					'Line:' . __LINE__ . ' JS file "calendar.js" shouldn\'t be loaded'
 				);
 
 				$this->assertArrayNotHasKey(
 					'/media/system/js/calendar-setup.js',
-					$head_data['scripts'],
+					JFactory::getDocument()->_scripts,
 					'Line:' . __LINE__ . ' JS file "calendar-setup.js" shouldn\'t be loaded'
 				);
 
 				$this->assertArrayNotHasKey(
 					'text/javascript',
-					$head_data['script'],
+					JFactory::getDocument()->_script,
 					'Line:' . __LINE__ . ' Inline JS for the calendar shouldn\'t be loaded'
 				);
 			}
 			else
 			{
 				$this->assertFalse(
-					isset($xml->input['readonly']),
+					isset($xml->div->input['readonly']),
 					'Line:' . __LINE__ . ' The calendar input shouldn\'t have readonly attribute'
 				);
 
-				$this->assertTrue(
-					isset($xml->img),
-					'Line:' . __LINE__ . ' The calendar input should have a calendar image'
+				$this->assertFalse(
+					isset($xml->div->button['style']),
+					'Line:' . __LINE__ . ' The calendar input should visible button'
 				);
 
 				$this->assertEquals(
 					$data['id'] . '_img',
-					(string) $xml->img['id'],
-					'Line:' . __LINE__ . ' The calendar image should have `id == "' . $data['id'] . '_img' . '"`'
-				);
-
-				$this->assertEquals(
-					'calendar',
-					(string) $xml->img['class'],
-					'Line:' . __LINE__ . ' The calendar image should have `class == "calendar"`'
-				);
-
-				$this->assertFileExists(
-					JPATH_ROOT . $xml->img['src'],
-					'Line:' . __LINE__ . ' The calendar image source should point to an existent file'
+					(string) $xml->div->button['id'],
+					'Line:' . __LINE__ . ' The calendar button should have `id == "' . $data['id'] . '_img' . '"`'
 				);
 
 				$this->assertArrayHasKey(
 					'/media/system/js/calendar.js',
-					$head_data['scripts'],
+					JFactory::getDocument()->_scripts,
 					'Line:'.__LINE__.' JS file "calendar.js" should be loaded'
 				);
 
 				$this->assertArrayHasKey(
 					'/media/system/js/calendar-setup.js',
-					$head_data['scripts'],
+					JFactory::getDocument()->_scripts,
 					'Line:'.__LINE__.' JS file "calendar-setup.js" should be loaded'
 				);
 
 				$this->assertContains(
 					'DHTML Date\\/Time Selector',
-					$head_data['script']['text/javascript'],
+					JFactory::getDocument()->_script['text/javascript'],
 					'Line:' . __LINE__ . ' Inline JS for the calendar should be loaded'
 				);
 			}

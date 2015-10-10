@@ -138,7 +138,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		}
 
 		// Set charactersets.
-		$this->utf = $this->setUTF();
+		$this->utf = $this->setUtf();
 	}
 
 	/**
@@ -652,7 +652,8 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
-					throw new RuntimeException($this->errorMsg, $this->errorNum);
+
+					throw new RuntimeException($this->errorMsg, $this->errorNum, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -668,6 +669,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
 		}
@@ -811,7 +813,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
 		return false;
 	}

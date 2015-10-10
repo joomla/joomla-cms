@@ -27,7 +27,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			var v = typeof(params) !== "object" ? $("#jform_type").val() : params.selected;
 			
 			var img_url = $("#image, #url");
-			var custom 	= $("#custom");
+			var custom  = $("#custom");
 			
 			switch (v) {
 				case "0":

@@ -33,11 +33,13 @@ class JFormFieldImpTotal extends JFormField
 	 */
 	protected function getInput()
 	{
-		$class		= ' class="validate-numeric text_area"';
-		$onchange	= ' onchange="document.getElementById(\'' . $this->id . '_unlimited\').checked=document.getElementById(\'' . $this->id . '\').value==\'\';"';
-		$onclick	= ' onclick="if (document.getElementById(\'' . $this->id . '_unlimited\').checked) document.getElementById(\'' . $this->id . '\').value=\'\';"';
-		$value		= empty($this->value) ? '' : $this->value;
-		$checked	= empty($this->value) ? ' checked="checked"' : '';
+		$class    = ' class="validate-numeric text_area"';
+		$onchange = ' onchange="document.getElementById(\'' . $this->id . '_unlimited\').checked=document.getElementById(\'' . $this->id
+			. '\').value==\'\';"';
+		$onclick  = ' onclick="if (document.getElementById(\'' . $this->id . '_unlimited\').checked) document.getElementById(\'' . $this->id
+			. '\').value=\'\';"';
+		$value    = empty($this->value) ? '' : $this->value;
+		$checked  = empty($this->value) ? ' checked="checked"' : '';
 
 		return
 			'<input type="text" name="' . $this->name . '" id="' . $this->id . '" size="9" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8')

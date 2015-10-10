@@ -173,7 +173,7 @@ $this->direction = $doc->direction;
 				<div id="footer">
 				<p>
 					<?php echo JText::_('TPL_BEEZ3_POWERED_BY'); ?>
-					<a href="http://www.joomla.org/">
+					<a href="https://www.joomla.org/">
 						Joomla!&#174;
 					</a>
 				</p>

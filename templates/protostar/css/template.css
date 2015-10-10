@@ -7407,6 +7407,13 @@ figcaption {
 		padding: 10px;
 	}
 }
+@media (max-width: 979px) {
+	.nav-collapse.in.collapse {
+		overflow: visible;
+		height: 0;
+		z-index: 100;
+	}
+}
 @media (min-width: 768px) and (max-width: 979px) {
 	#login-form .input-small {
 		width: 62px;

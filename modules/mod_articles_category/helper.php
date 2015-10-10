@@ -258,7 +258,7 @@ abstract class ModArticlesCategoryHelper
 
 			if ($show_date)
 			{
-				$item->displayDate = JHTML::_('date', $item->$show_date_field, $show_date_format);
+				$item->displayDate = JHtml::_('date', $item->$show_date_field, $show_date_format);
 			}
 
 			if ($item->catid)

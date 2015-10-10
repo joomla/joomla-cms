@@ -65,8 +65,8 @@ class RedirectViewLinks extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$state	= $this->get('State');
-		$canDo	= JHelperContent::getActions('com_redirect');
+		$state = $this->get('State');
+		$canDo = JHelperContent::getActions('com_redirect');
 
 		JToolbarHelper::title(JText::_('COM_REDIRECT_MANAGER_LINKS'), 'refresh redirect');
 

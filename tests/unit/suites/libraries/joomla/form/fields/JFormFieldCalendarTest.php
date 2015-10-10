@@ -192,7 +192,7 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 					'name' => 'myCalendarElement',
 					'id' => 'myCalendarId',
 					'value' => 'NOW',
-					'format' => '%Y-%m-%d',
+					'format' => 'Y-m-d',
 					'size' => 25,
 					'maxlength' => 45,
 					'disabled' => true,
@@ -203,7 +203,7 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 					'strftime(\'%Y-%m-%d\')',
 					'myCalendarElement',
 					'myCalendarId',
-					'%Y-%m-%d',
+					'Y-m-d',
 					array(
 						'size' => 25,
 						'maxlength' => 45,
@@ -294,7 +294,7 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 		if ($expectedParameters[0] == 'strftime(\'%Y-%m-%d\')')
 		{
 			date_default_timezone_set('UTC');
-			$expectedParameters[0] = strftime('%Y-%m-%d');
+			$expectedParameters[0] = strftime('%Y-%m-%d %H:%M:%S');
 		}
 
 		// Setup our values from our data set
@@ -326,7 +326,7 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 	 *
 	 * @return void
 	 */
-	public function testGetInputServer_UTC()
+	public function testGetInputServer_Utc()
 	{
 		// Create a stub JConfig
 		$config = new JObject;
@@ -399,7 +399,7 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 	 *
 	 * @return void
 	 */
-	public function testGetInputUser_UTC()
+	public function testGetInputUser_Utc()
 	{
 		// Create a stub JConfig
 		$config = new JObject;

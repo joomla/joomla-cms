@@ -793,9 +793,9 @@ class JRouterTest extends TestCase
 	}
 
 	/**
-	 * Tests createURI() method
+	 * Tests createUri() method
 	 *
-	 * @param   array  $url      valid inputs to the createURI() method
+	 * @param   array  $url      valid inputs to the createUri() method
 	 * @param   array  $preset   global Vars that should be merged into the URL
 	 * @param   string $expected expected URI string
 	 *

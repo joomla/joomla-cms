@@ -63,11 +63,11 @@ abstract class ModulesHelper
 	public static function getStateOptions()
 	{
 		// Build the filter options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option',	'1',	JText::_('JPUBLISHED'));
-		$options[]	= JHtml::_('select.option',	'0',	JText::_('JUNPUBLISHED'));
-		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JTRASHED'));
-		$options[]	= JHtml::_('select.option',	'*',	JText::_('JALL'));
+		$options   = array();
+		$options[] = JHtml::_('select.option', '1', JText::_('JPUBLISHED'));
+		$options[] = JHtml::_('select.option', '0', JText::_('JUNPUBLISHED'));
+		$options[] = JHtml::_('select.option', '-2', JText::_('JTRASHED'));
+		$options[] = JHtml::_('select.option', '*', JText::_('JALL'));
 
 		return $options;
 	}
@@ -80,9 +80,9 @@ abstract class ModulesHelper
 	public static function getClientOptions()
 	{
 		// Build the filter options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '0', JText::_('JSITE'));
-		$options[]	= JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
+		$options   = array();
+		$options[] = JHtml::_('select.option', '0', JText::_('JSITE'));
+		$options[] = JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
 
 		return $options;
 	}
@@ -97,8 +97,8 @@ abstract class ModulesHelper
 	 */
 	public static function getPositions($clientId, $editPositions = false)
 	{
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('DISTINCT(position)')
 			->from('#__modules')
 			->where($db->quoteName('client_id') . ' = ' . (int) $clientId)
@@ -125,11 +125,11 @@ abstract class ModulesHelper
 		{
 			if (!$position && !$editPositions)
 			{
-				$options[]	= JHtml::_('select.option', 'none', ':: ' . JText::_('JNONE') . ' ::');
+				$options[] = JHtml::_('select.option', 'none', ':: ' . JText::_('JNONE') . ' ::');
 			}
 			else
 			{
-				$options[]	= JHtml::_('select.option', $position, $position);
+				$options[] = JHtml::_('select.option', $position, $position);
 			}
 		}
 
@@ -150,7 +150,7 @@ abstract class ModulesHelper
 		$db = JFactory::getDbo();
 
 		// Get the database object and a new query object.
-		$query	= $db->getQuery(true);
+		$query = $db->getQuery(true);
 
 		// Build the query.
 		$query->select('element, name, enabled')
@@ -184,8 +184,8 @@ abstract class ModulesHelper
 	 */
 	public static function getModules($clientId)
 	{
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('element AS value, name AS text')
 			->from('#__extensions as e')
 			->where('e.client_id = ' . (int) $clientId)
