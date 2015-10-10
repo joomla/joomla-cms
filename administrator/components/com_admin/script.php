@@ -1303,6 +1303,17 @@ class JoomlaInstallerScript
 			'/media/com_joomlaupdate/encryption.js',
 			'/media/com_joomlaupdate/json2.js',
 			'/media/com_joomlaupdate/update.js',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Dumper.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Escaper.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Inline.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/LICENSE',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Parser.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Unescaper.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Yaml.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/DumpException.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ExceptionInterface.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ParseException.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/RuntimeException.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1388,6 +1399,11 @@ class JoomlaInstallerScript
 			'/administrator/components/com_config/views',
 			'/administrator/components/com_config/models/fields',
 			'/administrator/components/com_config/models/forms',
+			// Joomla! 3.5
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml',
+			'/libraries/vendor/symfony/yaml/Symfony/Component',
+			'/libraries/vendor/symfony/yaml/Symfony',
 		);
 
 		jimport('joomla.filesystem.file');
