@@ -13,7 +13,6 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
 
 $client    = $this->state->get('filter.client_id') ? 'administrator' : 'site';
-$function  = JFactory::getApplication()->input->getCmd('function', 'jSelectModule');
 $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -130,13 +129,8 @@ JFactory::getDocument()->addScriptDeclaration('
 				<tbody>
 				<?php foreach ($this->items as $i => $item) :
 					$ordering   = ($listOrder == 'ordering');
-					$canCreate  = $user->authorise('core.create', 'com_modules');
-					$canEdit    = $user->authorise('core.edit', 'com_modules.module.' . $item->id);
-					$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
-					$canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->position?>">
-
 						<td class="center">
 							<div class="btn-group">
 								<?php // Check if extension is enabled ?>
