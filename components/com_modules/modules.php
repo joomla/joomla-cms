@@ -14,7 +14,10 @@ $language     = JFactory::getLanguage();
 $extension    = 'com_modules';
 $base_dir     = JPATH_ADMINISTRATOR;
 $language_tag = $language->getTag();
+
+$language->load('', $base_dir, $language_tag, true);
 $language->load($extension, $base_dir, $language_tag, true);
+
 $controller->execute(JFactory::getApplication()->input->get('task'));
 
 $controller->redirect();
