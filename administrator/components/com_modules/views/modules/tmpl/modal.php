@@ -48,7 +48,8 @@ JFactory::getDocument()->addScriptDeclaration('
 		moduleIns = function(type, name) {
 			var extraClass = "";
 			if(jQuery("#extra_class").val() !=""){
-				extraClass = "," + jQuery("#extra_class").val().trim();
+				extraClass = jQuery("#extra_class").val().trim().replace(/^[-\w\s]+$/,"");
+				extraClass = "," + extraClass;
 			}
 
 			parent.window.jInsertEditorText("{loadmodule " + type + "," + name + extraClass + "}");
@@ -57,7 +58,8 @@ JFactory::getDocument()->addScriptDeclaration('
 		modulePosIns = function(position) {
 			var extraClass = "";
 			if(jQuery("#extra_class").val() !=""){
-				extraClass = "," + jQuery("#extra_class").val().trim();
+				extraClass = jQuery("#extra_class").val().trim().replace(/^[-\w\s]+$/,"");
+				extraClass = "," + extraClass;
 			}
 
 			parent.window.jInsertEditorText("{loadposition " + position + extraClass + "}");
