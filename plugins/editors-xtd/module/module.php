@@ -32,14 +32,8 @@ class PlgButtonModule extends JPlugin
 	 */
 	public function onDisplay()
 	{
-		// Button should not be available when editing modules
-		if (JFactory::getApplication()->input->get('option') == 'com_modules')
-		{
-			return array();
-		}
-
 		/*
-		 * Use the built-in element view to select the article.
+		 * Use the built-in element view to select the module.
 		 * Currently uses blank class.
 		 */
 		$link = 'index.php?option=com_modules&amp;view=modules&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';

@@ -101,7 +101,7 @@
 			description="COM_MODULES_FIELD_CONTENT_DESC"
 			filter="JComponentHelper::filterText"
 			label="COM_MODULES_FIELD_CONTENT_LABEL"
-			hide="readmore,pagebreak"
+			hide="readmore,pagebreak,module"
 		/>
 
 		<field name="language" type="contentlanguage"
