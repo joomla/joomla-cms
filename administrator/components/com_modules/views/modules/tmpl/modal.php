@@ -46,12 +46,38 @@ JFactory::getDocument()->addScriptDeclaration('
 		};
 
 		moduleIns = function(type, name) {
-			parent.window.jInsertEditorText("{loadmodule " + type + "," + name + "}");
+			var extraClass = "";
+			if(jQuery("#extra_class").val() !=""){
+				extraClass = "," + jQuery("#extra_class").val().trim();
+			}
+
+			parent.window.jInsertEditorText("{loadmodule " + type + "," + name + extraClass + "}");
+			parent.window.jModalClose();
+		}
+		modulePosIns = function(position) {
+			var extraClass = "";
+			if(jQuery("#extra_class").val() !=""){
+				extraClass = "," + jQuery("#extra_class").val().trim();
+			}
+
+			parent.window.jInsertEditorText("{loadposition " + position + extraClass + "}");
 			parent.window.jModalClose();
 		}
 ');
 ?>
-
+<div style="padding-top: 25px;"></div>
+<div class="well">
+	<div class="control-group">
+		<div class="control-label">
+			<label for="extra_class" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_MODULES_EXTRA_STYLE_DESC'); ?>" aria-invalid="false">
+				<?php echo JText::_('COM_MODULES_EXTRA_STYLE_TITLE'); ?>
+			</label>
+		</div>
+		<div class="controls">
+			<input type="text" id="extra_class" value="" class="span12" size="45" maxlength="255" aria-invalid="false">
+		</div>
+	</div>
+</div>
 <form action="<?php echo JRoute::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1');?>"
 	method="post" name="adminForm" id="adminForm">
 <form action="<?php echo JRoute::_('index.php?option=com_modules&layout=modal'); ?>" method="post" name="adminForm" id="adminForm">
@@ -94,9 +120,6 @@ JFactory::getDocument()->addScriptDeclaration('
 			<table class="table table-striped" id="moduleList">
 				<thead>
 				<tr>
-					<th width="1%" class="nowrap center" style="min-width:55px">
-						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
-					</th>
 					<th class="title">
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
@@ -132,32 +155,15 @@ JFactory::getDocument()->addScriptDeclaration('
 					$ordering   = ($listOrder == 'ordering');
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->position?>">
-						<td class="center">
-							<div class="btn-group">
-								<?php // Check if extension is enabled ?>
-								<?php if ($item->enabled > 0) : ?>
-									<label>
-										<?php if ($item->published) : ?>
-											<?php echo '<span class="icon-publish"></span>'; ?>
-										<?php endif; ?>
-										<?php if (!$item->published) : ?>
-											<?php echo '<span class="icon-unpublish"></span>'; ?>
-										<?php endif; ?>
-									 </label>
-								<?php endif; ?>
-							</div>
-						</td>
 						<td class="has-context">
-							<div class="pull-left">
-								<a href="#" onclick="moduleIns('<?php echo $this->escape($item->module); ?>', '<?php echo $this->escape($item->title); ?>')">
+								<a class="btn btn-small btn-block btn-success" href="#" onclick="moduleIns('<?php echo $this->escape($item->module); ?>', '<?php echo $this->escape($item->title); ?>')">
 									<?php echo $this->escape($item->title); ?></a>
-							</div>
 						</td>
 						<td class="small hidden-phone">
 							<?php if ($item->position) : ?>
-								<span class="label label-info">
+							<a class="btn btn-small btn-block btn-warning" href="#" onclick="modulePosIns('<?php echo $item->position; ?>')">
 								<?php echo $item->position; ?>
-							</span>
+							</a>
 							<?php else : ?>
 								<span class="label">
 								<?php echo JText::_('JNONE'); ?>

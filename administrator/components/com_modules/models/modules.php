@@ -286,6 +286,12 @@ class ModulesModelModules extends JModelList
 		// Filter by published state
 		$state = $this->getState('filter.state');
 
+		// Modal view should return only front end modules
+		if (JFactory::getApplication()->input->get('layout') == 'modal')
+		{
+			$state = 1;
+		}
+
 		if (is_numeric($state))
 		{
 			$query->where('a.published = ' . (int) $state);
