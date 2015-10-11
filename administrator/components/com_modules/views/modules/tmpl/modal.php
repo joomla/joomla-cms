@@ -45,8 +45,8 @@ JFactory::getDocument()->addScriptDeclaration('
 			Joomla.tableOrdering(order, dirn, "");
 		};
 
-		moduleIns = function(name) {
-			parent.window.jInsertEditorText("{loadmodule " + name + "}");
+		moduleIns = function(type, name) {
+			parent.window.jInsertEditorText("{loadmodule " + type + "," + name + "}");
 			parent.window.jModalClose();
 		}
 ');
@@ -149,7 +149,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						</td>
 						<td class="has-context">
 							<div class="pull-left">
-								<a href="#" onclick="moduleIns('<?php echo $this->escape($item->title); ?>')">
+								<a href="#" onclick="moduleIns('<?php echo $this->escape($item->module); ?>', '<?php echo $this->escape($item->title); ?>')">
 									<?php echo $this->escape($item->title); ?></a>
 							</div>
 						</td>
