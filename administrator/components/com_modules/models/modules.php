@@ -91,6 +91,12 @@ class ModulesModelModules extends JModelList
 			$app->setUserState($this->context . '.filter.client_id_previous', $clientId);
 		}
 
+		// Modal view should return only front end modules
+		if (JFactory::getApplication()->input->get('layout') == 'modal')
+		{
+			$clientId = 0;
+		}
+
 		$this->setState('filter.client_id', $clientId);
 
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
@@ -312,6 +318,12 @@ class ModulesModelModules extends JModelList
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
+
+		// Modal view should return only front end modules
+		if (JFactory::getApplication()->input->get('layout') == 'modal')
+		{
+			$clientId = 0;
+		}
 
 		if (is_numeric($clientId))
 		{

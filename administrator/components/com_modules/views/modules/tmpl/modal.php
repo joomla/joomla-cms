@@ -51,8 +51,9 @@ JFactory::getDocument()->addScriptDeclaration('
 		}
 ');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&function=' . $function . '&' . JSession::getFormToken() . '=1');?>"
-	method="post" name="adminForm" id="adminForm" class="form-inline">
+
+<form action="<?php echo JRoute::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1');?>"
+	method="post" name="adminForm" id="adminForm">
 <form action="<?php echo JRoute::_('index.php?option=com_modules&layout=modal'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container">
 		<div id="filter-bar" class="btn-toolbar">

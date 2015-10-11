@@ -43,7 +43,7 @@ class ModulesViewModules extends JViewLegacy
 			return false;
 		}
 
-		if (!$this->getLayout() == 'modal')
+		if ($this->getLayout() == 'default')
 		{
 			$this->addToolbar();
 		}
