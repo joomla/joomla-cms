@@ -89,7 +89,7 @@ class ContentViewArticles extends JViewLegacy
 		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_CONTENT_ARTICLES_TITLE'), 'stack article');
 

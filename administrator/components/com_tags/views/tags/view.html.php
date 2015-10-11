@@ -91,7 +91,7 @@ class TagsViewTags extends JViewLegacy
 		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_TAGS_MANAGER_TAGS'), 'tags');
 
