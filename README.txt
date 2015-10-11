@@ -20,7 +20,7 @@
 	* You can also add languages directly to your website via your Joomla! administration panel.
 
 5- Learn Joomla!
-	* Read Getting Started with Joomla to find out the basics: https://docs.joomla.org/Getting_Started_with_Joomla!
+	* Read Getting Started with Joomla to find out the basics: https://docs.joomla.org/J3.x:Getting_Started_with_Joomla!
 	* Before installing, read the beginners guide: https://docs.joomla.org/Beginners
 
 6- What are the limits of Joomla?
