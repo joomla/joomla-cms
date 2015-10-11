@@ -75,7 +75,9 @@ class JEditor extends JObject
 	protected $author = null;
 
 	/**
-	 * @var    array  JEditor instances container.
+	 * JEditor instances container.
+	 *
+	 * @var    JEditor[]
 	 * @since  2.5
 	 */
 	protected static $instances = array();

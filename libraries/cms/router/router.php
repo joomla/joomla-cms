@@ -130,7 +130,7 @@ class JRouter
 	/**
 	 * JRouter instances container.
 	 *
-	 * @var    array
+	 * @var    JRouter[]
 	 * @since  1.7
 	 */
 	protected static $instances = array();

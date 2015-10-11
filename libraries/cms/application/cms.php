@@ -29,7 +29,7 @@ class JApplicationCms extends JApplicationWeb
 	/**
 	 * Application instances container.
 	 *
-	 * @var    array
+	 * @var    JApplicationCms[]
 	 * @since  3.2
 	 */
 	protected static $instances = array();
@@ -582,7 +582,7 @@ class JApplicationCms extends JApplicationWeb
 	 * @param   string  $default  The default value for the variable if not found. Optional.
 	 * @param   string  $type     Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
 	 *
-	 * @return  object  The request user state.
+	 * @return  mixed  The request user state.
 	 *
 	 * @since   3.2
 	 */
