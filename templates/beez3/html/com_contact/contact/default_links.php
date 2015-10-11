@@ -16,7 +16,7 @@ if ($this->params->get('presentation_style') == 'sliders') : ?>
 	<?php echo JHtmlTabs::panel(JText::_('COM_CONTACT_LINKS'), 'display-links'); ?>
 <?php endif; ?>
 <?php if  ($this->params->get('presentation_style') == 'plain'):?>
-	<?php echo '<h3>'. JText::_('JGLOBAL_ARTICLES').'</h3>'; ?>
+	<?php echo '<h3>'. JText::_('COM_CONTACT_LINKS').'</h3>'; ?>
 <?php endif; ?>
 
 <div class="contact-links">
