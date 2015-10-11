@@ -27,6 +27,7 @@ class PlgButtonModule extends JPlugin
 	/**
 	 * Display the button
 	 *
+	 * @since  3.5
 	 * @return array
 	 */
 	public function onDisplay()
