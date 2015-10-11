@@ -776,6 +776,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 */
 	public function store($updateNulls = false)
 	{
+		$result = true;
+
 		$k = $this->_tbl_keys;
 
 		// Implement JObservableInterface: Pre-processing by observers
@@ -797,11 +799,11 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		// If a primary key exists update the object, otherwise insert it.
 		if ($this->hasPrimaryKey())
 		{
-			$result = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_keys, $updateNulls);
+			$this->_db->updateObject($this->_tbl, $this, $this->_tbl_keys, $updateNulls);
 		}
 		else
 		{
-			$result = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_keys[0]);
+			$this->_db->insertObject($this->_tbl, $this, $this->_tbl_keys[0]);
 		}
 
 		// If the table is not set to track assets return true.
