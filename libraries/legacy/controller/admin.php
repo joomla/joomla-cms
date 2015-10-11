@@ -207,10 +207,25 @@ class JControllerAdmin extends JControllerLegacy
 			try
 			{
 				$model->publish($cid, $value);
+				$errors = $model->getErrors();
 
 				if ($value == 1)
 				{
-					$ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
+					// Check is ancestor has lower state
+					if (!empty($errors))
+					{
+						foreach ($errors as $error)
+						{
+							if (strpos($error, 'ancestors have lower state') !== false)
+							{
+								$ntext = $this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING';
+							}
+						}
+					}
+					else
+					{
+						$ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
+					}
 				}
 				elseif ($value == 0)
 				{
