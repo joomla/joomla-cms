@@ -106,7 +106,7 @@ class UsersModelNotes extends JModelList
 		}
 
 		// Filter by published state
-		$published = $this->getState('filter.state');
+		$published = $this->getState('filter.published');
 
 		if (is_numeric($published))
 		{
