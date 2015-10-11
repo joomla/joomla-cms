@@ -146,23 +146,13 @@ class UsersControllerUser extends UsersController
 
 		// Get the model and validate the data.
 		$model  = $this->getModel('Registration', 'UsersModel');
-
-		$form = $model->getForm();
-
-		if (!$form)
-		{
-			JError::raiseError(500, $model->getError());
-
-			return false;
-		}
-
-		$return = $model->validate($form, $data);
+		$return	= $model->validate($data);
 
 		// Check for errors.
 		if ($return === false)
 		{
 			// Get the validation messages.
-			$errors = $model->getErrors();
+			$errors	= $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
@@ -187,7 +177,7 @@ class UsersControllerUser extends UsersController
 		}
 
 		// Finish the registration.
-		$return = $model->register($data);
+		$return	= $model->register($data);
 
 		// Check for errors.
 		if ($return === false)
@@ -225,7 +215,7 @@ class UsersControllerUser extends UsersController
 		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Submit the username remind request.
-		$return = $model->processRemindRequest($data);
+		$return	= $model->processRemindRequest($data);
 
 		// Check for a hard error.
 		if ($return instanceof Exception)
@@ -240,41 +230,26 @@ class UsersControllerUser extends UsersController
 				$message = JText::_('COM_USERS_REMIND_REQUEST_ERROR');
 			}
 
-			// Get the route to the next page.
-			$itemid = UsersHelperRoute::getRemindRoute();
-			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-			$route  = 'index.php?option=com_users&view=remind' . $itemid;
-
 			// Go back to the complete form.
-			$this->setRedirect(JRoute::_($route, false), $message, 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=remind', false), $message, 'error');
 
 			return false;
 		}
 		elseif ($return === false)
 		{
 			// Complete failed.
-			// Get the route to the next page.
-			$itemid = UsersHelperRoute::getRemindRoute();
-			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-			$route  = 'index.php?option=com_users&view=remind' . $itemid;
-
 			// Go back to the complete form.
 			$message = JText::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_($route, false), $message, 'notice');
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=remind', false), $message, 'notice');
 
 			return false;
 		}
 		else
 		{
 			// Complete succeeded.
-			// Get the route to the next page.
-			$itemid = UsersHelperRoute::getLoginRoute();
-			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-			$route  = 'index.php?option=com_users&view=login' . $itemid;
-
 			// Proceed to the login form.
 			$message = JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');
-			$this->setRedirect(JRoute::_($route, false), $message);
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false), $message);
 
 			return true;
 		}
