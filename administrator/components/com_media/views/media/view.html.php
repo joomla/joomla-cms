@@ -66,7 +66,7 @@ class MediaViewMedia extends JViewLegacy
 	protected function addToolbar()
 	{
 		// Get the toolbar object instance
-		$bar  = JToolBar::getInstance('toolbar');
+		$bar  = JToolbar::getInstance('toolbar');
 		$user = JFactory::getUser();
 
 		// Set the titlebar text
