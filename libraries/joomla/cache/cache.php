@@ -764,7 +764,7 @@ class JCache
 		// No prefix when Global Config is set to no platfom specific prefix
 		if (!$conf->get('cache_platformprefix', '0'))
 		{
-			return;
+			return '';
 		}
 
 		jimport('joomla.application.web.client');
@@ -775,7 +775,7 @@ class JCache
 			return 'M-';
 		}
 
-		return;
+		return '';
 	}
 
 	/**
