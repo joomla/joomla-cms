@@ -45,7 +45,10 @@ class ModulesViewModules extends JViewLegacy
 			return false;
 		}
 
-		$this->addToolbar();
+		if ($this->getLayout() == 'default')
+		{
+			$this->addToolbar();
+		}
 
 		// Include the component HTML helpers.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -135,16 +138,29 @@ class ModulesViewModules extends JViewLegacy
 	 */
 	protected function getSortFields()
 	{
+		if ($this->getLayout() == 'default')
+		{
+			return array(
+				'ordering'       => JText::_('JGRID_HEADING_ORDERING'),
+				'a.published'    => JText::_('JSTATUS'),
+				'a.title'        => JText::_('JGLOBAL_TITLE'),
+				'position'       => JText::_('COM_MODULES_HEADING_POSITION'),
+				'name'           => JText::_('COM_MODULES_HEADING_MODULE'),
+				'pages'          => JText::_('COM_MODULES_HEADING_PAGES'),
+				'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
+				'language_title' => JText::_('JGRID_HEADING_LANGUAGE'),
+				'a.id'           => JText::_('JGRID_HEADING_ID')
+			);
+		}
+
 		return array(
-			'ordering' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.published' => JText::_('JSTATUS'),
-			'a.title' => JText::_('JGLOBAL_TITLE'),
-			'position' => JText::_('COM_MODULES_HEADING_POSITION'),
-			'name' => JText::_('COM_MODULES_HEADING_MODULE'),
-			'pages' => JText::_('COM_MODULES_HEADING_PAGES'),
-			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
+			'a.title'        => JText::_('JGLOBAL_TITLE'),
+			'position'       => JText::_('COM_MODULES_HEADING_POSITION'),
+			'name'           => JText::_('COM_MODULES_HEADING_MODULE'),
+			'pages'          => JText::_('COM_MODULES_HEADING_PAGES'),
+			'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
 			'language_title' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'a.id'           => JText::_('JGRID_HEADING_ID')
 		);
 	}
 }
