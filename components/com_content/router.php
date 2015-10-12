@@ -195,28 +195,29 @@ class ContentRouter extends JComponentRouterBase
 
 		if ($view == 'archive')
 		{
-			if (!$menuItemGiven)
+			if (!$menuItemGiven || $menuItem->query['view'] != 'archive')
 			{
+				// Did not work without removing Itemid
+				if (isset($menuItem))
+				{
+					unset($query['Itemid']);
+				}
+
 				$segments[] = $view;
-				unset($query['view']);
 			}
+
+			unset($query['view']);
 
 			if (isset($query['year']))
 			{
-				if ($menuItemGiven)
-				{
-					$segments[] = $query['year'];
-					unset($query['year']);
-				}
+				$segments[] = $query['year'];
+				unset($query['year']);
 			}
 
-			if (isset($query['year']) && isset($query['month']))
+			if (isset($query['month']))
 			{
-				if ($menuItemGiven)
-				{
-					$segments[] = $query['month'];
-					unset($query['month']);
-				}
+				$segments[] = $query['month'];
+				unset($query['month']);
 			}
 		}
 
@@ -297,7 +298,27 @@ class ContentRouter extends JComponentRouterBase
 		if (!isset($item))
 		{
 			$vars['view'] = $segments[0];
-			$vars['id'] = $segments[$count - 1];
+
+			// Called if no menu item created
+			if ($vars['view'] == 'archive')
+			{
+				$vars['year']  = $count >= 2 ? $segments[$count - 2] : null;
+				$vars['month'] = $segments[$count - 1];
+			}
+			else
+			{
+				$vars['id'] = $segments[$count - 1];
+			}
+
+			return $vars;
+		}
+
+		// First handle archive view
+		if ($item->query['view'] == 'archive')
+		{
+			$vars['year']  = $count >= 2 ? $segments[$count - 2] : null;
+			$vars['month'] = $segments[$count - 1];
+			$vars['view']  = 'archive';
 
 			return $vars;
 		}
@@ -431,17 +452,7 @@ class ContentRouter extends JComponentRouterBase
 				}
 
 				$vars['id'] = $cid;
-
-				if ($item->query['view'] == 'archive' && $count != 1)
-				{
-					$vars['year'] = $count >= 2 ? $segments[$count - 2] : null;
-					$vars['month'] = $segments[$count - 1];
-					$vars['view'] = 'archive';
-				}
-				else
-				{
-					$vars['view'] = 'article';
-				}
+				$vars['view'] = 'article';
 			}
 
 			$found = 0;

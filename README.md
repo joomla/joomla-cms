@@ -32,7 +32,7 @@ How to find a Joomla! translation?
 
 Learn Joomla!
 ---------------------
-* Read ['Getting Started with Joomla!'](https://docs.joomla.org/Getting_Started_with_Joomla!) to learn the basics.
+* Read ['Getting Started with Joomla!'](https://docs.joomla.org/J3.x:Getting_Started_with_Joomla!) to learn the basics.
 * Before installing, read the ['Beginners' Guide'](https://docs.joomla.org/Beginners).
 
 What are the benefits of Joomla?

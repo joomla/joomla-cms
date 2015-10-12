@@ -911,7 +911,7 @@
 		<field
 			name="feed_email"
 			type="list"
-			default="author"
+			default="none"
 			label="COM_CONFIG_FIELD_FEED_EMAIL_LABEL"
 			description="COM_CONFIG_FIELD_FEED_EMAIL_DESC"
 			filter="word">
