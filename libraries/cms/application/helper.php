@@ -12,7 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Application helper functions
  *
- * @since  1.5
+ * @since       1.5
+ *
+ * @deprecated  4.0 Deprecated without replacement
  */
 class JApplicationHelper
 {
