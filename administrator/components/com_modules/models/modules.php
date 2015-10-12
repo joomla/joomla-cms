@@ -352,9 +352,17 @@ class ModulesModelModules extends JModelList
 			}
 		}
 
-		// Filter on the language.
-		if ($language = $this->getState('filter.language'))
+		// Modal view should return only specific language and ALL
+		if (JFactory::getApplication()->input->get('layout') == 'modal')
 		{
+			if (JFactory::getApplication()->isSite() && JLanguageMultilang::isEnabled())
+			{
+				$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			}
+		}
+		elseif ($language = $this->getState('filter.language'))
+		{
+			// Filter on the language.
 			$query->where('a.language = ' . $db->quote($language));
 		}
 
