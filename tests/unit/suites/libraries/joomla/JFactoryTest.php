@@ -148,11 +148,11 @@ class JFactoryTest extends TestCaseDatabase
 	 *
 	 * @since   12.1
 	 */
-	public function testGetACL()
+	public function testGetAcl()
 	{
 		$this->assertInstanceOf(
 			'JAccess',
-			JFactory::getACL(),
+			JFactory::getAcl(),
 			'Line: ' . __LINE__
 		);
 	}
@@ -168,7 +168,7 @@ class JFactoryTest extends TestCaseDatabase
 	{
 		$this->assertInstanceOf(
 			'JUri',
-			JFactory::getURI('http://www.joomla.org'),
+			JFactory::getUri('https://www.joomla.org'),
 			'Line: ' . __LINE__
 		);
 	}
@@ -182,7 +182,7 @@ class JFactoryTest extends TestCaseDatabase
 	 */
 	public function testGetXml()
 	{
-		$xml = JFactory::getXML('<foo />', false);
+		$xml = JFactory::getXml('<foo />', false);
 
 		$this->assertInstanceOf(
 			'SimpleXMLElement',

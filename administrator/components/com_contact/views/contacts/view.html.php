@@ -31,9 +31,11 @@ class ContactViewContacts extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		ContactHelper::addSubmenu('contacts');
 
@@ -67,11 +69,11 @@ class ContactViewContacts extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= JHelperContent::getActions('com_contact', 'category', $this->state->get('filter.category_id'));
-		$user	= JFactory::getUser();
+		$canDo = JHelperContent::getActions('com_contact', 'category', $this->state->get('filter.category_id'));
+		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'address contact');
 
@@ -124,36 +126,6 @@ class ContactViewContacts extends JViewLegacy
 		JToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS');
 
 		JHtmlSidebar::setAction('index.php?option=com_contact');
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_published',
-			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_CATEGORY'),
-			'filter_category_id',
-			JHtml::_('select.options', JHtml::_('category.options', 'com_contact'), 'value', 'text', $this->state->get('filter.category_id'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_ACCESS'),
-			'filter_access',
-			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_LANGUAGE'),
-			'filter_language',
-			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_TAG'),
-			'filter_tag',
-			JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
-		);
 	}
 
 	/**

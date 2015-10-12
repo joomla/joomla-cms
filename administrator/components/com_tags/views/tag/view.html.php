@@ -63,27 +63,30 @@ class TagsViewTag extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$user		= JFactory::getUser();
-		$userId		= $user->get('id');
+		$user   = JFactory::getUser();
+		$userId = $user->get('id');
 
-		$isNew		= ($this->item->id == 0);
-		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+		$isNew      = ($this->item->id == 0);
+		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = JFactory::getLanguage();
-			$lang->load('com_tags', JPATH_BASE, null, false, true)
-		||	$lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', null, false, true);
+		$lang->load('com_tags', JPATH_BASE, null, false, true)
+		|| $lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', null, false, true);
 
 		// Load the tags helper.
 		require_once JPATH_COMPONENT . '/helpers/tags.php';
 
 		// Get the results for each action.
 		$canDo = $this->canDo;
+		$title = JText::_('COM_TAGS_BASE_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE');
 
-		$title = JText::_('COM_TAGS_BASE_' . ($isNew?'ADD':'EDIT') . '_TITLE');
-
-		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'tag tag-' . ($isNew?'add':'edit') . ($isNew?'add':'edit'));
+		/**
+		 * Prepare the toolbar.
+		 * If it is new we get: `tag tag-add add`
+		 * else we get `tag tag-edit edit`
+		 */
+		JToolbarHelper::title($title, 'tag tag-' . ($isNew ? 'add add' : 'edit edit'));
 
 		// For new records, check the create permission.
 		if ($isNew)

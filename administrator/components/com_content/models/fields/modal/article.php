@@ -33,8 +33,8 @@ class JFormFieldModal_Article extends JFormField
 	 */
 	protected function getInput()
 	{
-		$allowEdit		= ((string) $this->element['edit'] == 'true') ? true : false;
-		$allowClear		= ((string) $this->element['clear'] != 'false') ? true : false;
+		$allowEdit  = ((string) $this->element['edit'] == 'true') ? true : false;
+		$allowClear = ((string) $this->element['clear'] != 'false') ? true : false;
 
 		// Load language
 		JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
@@ -90,8 +90,8 @@ class JFormFieldModal_Article extends JFormField
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 		// Setup variables for display.
-		$html	= array();
-		$link	= 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;function=jSelectArticle_' . $this->id;
+		$html = array();
+		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;function=jSelectArticle_' . $this->id;
 
 		if (isset($this->element['language']))
 		{
@@ -100,7 +100,7 @@ class JFormFieldModal_Article extends JFormField
 
 		if ((int) $this->value > 0)
 		{
-			$db	= JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__content'))
@@ -134,6 +134,7 @@ class JFormFieldModal_Article extends JFormField
 		}
 
 		$url = $link . '&amp;' . JSession::getFormToken() . '=1';
+
 		// The current article display field.
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title . '" disabled="disabled" size="35" />';
@@ -145,7 +146,9 @@ class JFormFieldModal_Article extends JFormField
 		// Edit article button
 		if ($allowEdit)
 		{
-			$html[] = '<a class="btn hasTooltip' . ($value ? '' : ' hidden') . '" href="index.php?option=com_content&layout=modal&tmpl=component&task=article.edit&id=' . $value . '" target="_blank" title="' . JHtml::tooltipText('COM_CONTENT_EDIT_ARTICLE') . '" ><span class="icon-edit"></span>' . JText::_('JACTION_EDIT') . '</a>';
+			$html[] = '<a class="btn hasTooltip' . ($value ? '' : ' hidden')
+				. '" href="index.php?option=com_content&layout=modal&tmpl=component&task=article.edit&id=' . $value . '" target="_blank" title="'
+				. JHtml::tooltipText('COM_CONTENT_EDIT_ARTICLE') . '" ><span class="icon-edit"></span>' . JText::_('JACTION_EDIT') . '</a>';
 		}
 
 		// Clear article button

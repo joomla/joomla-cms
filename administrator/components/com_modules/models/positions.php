@@ -103,7 +103,7 @@ class ModulesModelPositions extends JModelList
 			if ($type != 'template')
 			{
 				// Get the database object and a new query object.
-				$query	= $this->_db->getQuery(true)
+				$query = $this->_db->getQuery(true)
 					->select('DISTINCT(position) as value')
 					->from('#__modules')
 					->where($this->_db->quoteName('client_id') . ' = ' . (int) $clientId);

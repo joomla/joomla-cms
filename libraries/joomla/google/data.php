@@ -78,7 +78,7 @@ abstract class JGoogleData
 	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
-	protected static function safeXML($data)
+	protected static function safeXml($data)
 	{
 		try
 		{
@@ -86,7 +86,7 @@ abstract class JGoogleData
 		}
 		catch (Exception $e)
 		{
-			throw new UnexpectedValueException("Unexpected data received from Google: `$data`.");
+			throw new UnexpectedValueException("Unexpected data received from Google: `$data`.", $e->getCode(), $e);
 		}
 	}
 

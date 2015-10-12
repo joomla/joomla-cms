@@ -189,9 +189,9 @@ class BannersHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   object $query The query object of com_categories
+	 * @param   JDatabaseQuery  $query  The query object of com_categories
 	 *
-	 * @return  object
+	 * @return  JDatabaseQuery
 	 *
 	 * @since   3.4
 	 */

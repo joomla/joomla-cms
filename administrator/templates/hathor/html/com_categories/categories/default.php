@@ -14,17 +14,18 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.multiselect');
 
-$app		= JFactory::getApplication();
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$extension	= $this->escape($this->state->get('filter.extension'));
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$ordering 	= ($listOrder == 'a.lft');
-$saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
-$jinput 	= JFactory::getApplication()->input;
-$component	= $jinput->get('extension');
+$app       = JFactory::getApplication();
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$extension = $this->escape($this->state->get('filter.extension'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$ordering  = ($listOrder == 'a.lft');
+$saveOrder = ($listOrder == 'a.lft' && $listDirn == 'asc');
+$jinput    = JFactory::getApplication()->input;
+$component = $jinput->get('extension');
 ?>
+
 <div class="categories">
 	<form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories'); ?>" method="post" name="adminForm" id="adminForm">
 		<?php if (!empty($this->sidebar)) : ?>

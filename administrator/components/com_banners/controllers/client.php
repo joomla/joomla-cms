@@ -18,7 +18,7 @@ class BannersControllerClient extends JControllerForm
 {
 	/**
 	 * @var     string  The prefix to use with controller messages.
-	 * 
+	 *
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_BANNERS_CLIENT';

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
 JHtml::_('jquery.framework');
-
+JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
 // Load the smart search component language file.
@@ -20,57 +20,6 @@ $lang = JFactory::getLanguage();
 $lang->load('com_finder', JPATH_SITE);
 
 $suffix = $params->get('moduleclass_sfx');
-$output = '<input type="text" name="q" id="mod-finder-searchword" class="search-query input-medium" size="' . $params->get('field_size', 20) . '" value="' . htmlspecialchars(JFactory::getApplication()->input->get('q', '', 'string')) . '" />';
-
-if ($params->get('show_label', 1))
-{
-	$label = '<label for="mod-finder-searchword" class="finder' . $suffix . '">' . $params->get('alt_label', JText::_('JSEARCH_FILTER_SUBMIT')) . '</label>';
-
-	switch ($params->get('label_pos', 'left'))
-	{
-		case 'top' :
-			$output = $label . '<br />' . $output;
-			break;
-
-		case 'bottom' :
-			$output .= '<br />' . $label;
-			break;
-
-		case 'right' :
-			$output .= $label;
-			break;
-
-		case 'left' :
-		default :
-			$output = $label . $output;
-			break;
-	}
-}
-
-if ($params->get('show_button'))
-{
-	$button = '<button class="btn btn-primary hasTooltip ' . $suffix . ' finder' . $suffix . '" type="submit" title="' . JText::_('MOD_FINDER_SEARCH_BUTTON') . '"><span class="icon-search icon-white"></span></button>';
-
-	switch ($params->get('button_pos', 'left'))
-	{
-		case 'top' :
-			$output = $button . '<br />' . $output;
-			break;
-
-		case 'bottom' :
-			$output .= '<br />' . $button;
-			break;
-
-		case 'right' :
-			$output .= $button;
-			break;
-
-		case 'left' :
-		default :
-			$output = $button . $output;
-			break;
-	}
-}
 
 JHtml::stylesheet('com_finder/finder.css', false, true, false);
 
@@ -145,10 +94,19 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 <form id="mod-finder-searchform" action="<?php echo JRoute::_($route); ?>" method="get" class="form-search">
 	<div class="finder<?php echo $suffix; ?>">
-		<?php
-		// Show the form fields.
-		echo $output;
-		?>
+		<div class="control-group">
+			<?php if ($params->get('show_label', 1)) : ?>
+				<div class="control-label">
+					<label for="mod-finder-searchword" class="finder<?php echo $suffix; ?>"><?php echo $params->get('alt_label', JText::_('JSEARCH_FILTER_SUBMIT')); ?></label>
+				</div>
+			<?php endif; ?>
+			<div class="input-append">
+				<input type="text" name="q" id="mod-finder-searchword" class="search-query input-small" size="<?php echo $params->get('field_size', 20) . '" value="' . htmlspecialchars(JFactory::getApplication()->input->get('q', '', 'string')); ?>" />
+				<?php if ($params->get('show_button')) : ?>
+					<button class="btn btn-primary hasTooltip <?php echo $suffix; ?> finder<?php echo $suffix; ?>" type="submit" title="<?php echo JText::_('MOD_FINDER_SEARCH_BUTTON'); ?>"><span class="icon-search icon-white"></span></button>
+				<?php endif; ?>
+			</div>
+		</div>
 
 		<?php $show_advanced = $params->get('show_advanced'); ?>
 		<?php if ($show_advanced == 2) : ?>

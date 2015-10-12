@@ -74,7 +74,7 @@ class JFeedFactory
 		}
 		catch (Exception $e)
 		{
-			throw new RuntimeException('Error reading feed.');
+			throw new RuntimeException('Error reading feed.', $e->getCode(), $e);
 		}
 
 		// Setup the appopriate feed parser for the feed.

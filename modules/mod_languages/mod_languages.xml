@@ -13,7 +13,6 @@
 		<filename module="mod_languages">mod_languages.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>mod_languages.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_languages.ini</language>

@@ -56,7 +56,7 @@ class InstallerControllerManage extends JControllerLegacy
 		else
 		{
 			// Get the model.
-			$model	= $this->getModel('manage');
+			$model = $this->getModel('manage');
 
 			// Change the state of the records.
 			if (!$model->publish($ids, $value))

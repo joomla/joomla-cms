@@ -1214,7 +1214,7 @@ class JRouterSiteTest extends TestCase
 	 *
 	 * @since   3.4
 	 */
-	public function casesCreateURI()
+	public function casesCreateUri()
 	{
 		return array(
 			// Check if a rather non-URL is returned identical
@@ -1269,9 +1269,9 @@ class JRouterSiteTest extends TestCase
 	}
 
 	/**
-	 * Tests createURI() method
+	 * Tests createUri() method
 	 *
-	 * @param   array  $url      valid inputs to the createURI() method
+	 * @param   array  $url      valid inputs to the createUri() method
 	 * @param   array  $preset   global Vars that should be merged into the URL
 	 * @param   string $expected expected URI string
 	 *
@@ -1281,7 +1281,7 @@ class JRouterSiteTest extends TestCase
 	 * @testdox      Create URI
 	 * @since        3.4
 	 */
-	public function testCreateURI($url, $preset, $expected)
+	public function testCreateUri($url, $preset, $expected)
 	{
 		$object = new JRouterSite(
 			array(),

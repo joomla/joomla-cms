@@ -15,7 +15,7 @@ JHtml::_('behavior.keepalive');
 	<fieldset class="loginform">
 
 		<label id="mod-login-username-lbl" for="mod-login-username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
-		<input name="username" id="mod-login-username" type="text" size="15" />
+		<input name="username" id="mod-login-username" type="text" size="15" autofocus="true" />
 
 		<label id="mod-login-password-lbl" for="mod-login-password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
 		<input name="passwd" id="mod-login-password" type="password" size="15" />

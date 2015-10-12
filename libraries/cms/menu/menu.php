@@ -46,7 +46,9 @@ class JMenu
 	protected $_active = 0;
 
 	/**
-	 * @var    array  JMenu instances container.
+	 * JMenu instances container.
+	 *
+	 * @var    JMenu[]
 	 * @since  1.7
 	 */
 	protected static $instances = array();

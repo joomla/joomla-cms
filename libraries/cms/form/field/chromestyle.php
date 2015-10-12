@@ -128,7 +128,7 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 		$db = JFactory::getDbo();
 
 		// Get the database object and a new query object.
-		$query	= $db->getQuery(true);
+		$query = $db->getQuery(true);
 
 		// Build the query.
 		$query->select('element, name, enabled')

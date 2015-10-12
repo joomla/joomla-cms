@@ -13,7 +13,6 @@
 		<filename module="mod_related_items">mod_related_items.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>mod_related_items.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_related_items.ini</language>

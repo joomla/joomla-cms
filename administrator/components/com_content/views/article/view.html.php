@@ -46,10 +46,10 @@ class ContentViewArticle extends JViewLegacy
 			return;
 		}
 
-		$this->form		= $this->get('Form');
-		$this->item		= $this->get('Item');
-		$this->state	= $this->get('State');
-		$this->canDo	= JHelperContent::getActions('com_content', 'article', $this->item->id);
+		$this->form  = $this->get('Form');
+		$this->item  = $this->get('Item');
+		$this->state = $this->get('State');
+		$this->canDo = JHelperContent::getActions('com_content', 'article', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -78,13 +78,14 @@ class ContentViewArticle extends JViewLegacy
 	protected function addToolbar()
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
-		$user		= JFactory::getUser();
-		$userId		= $user->get('id');
-		$isNew		= ($this->item->id == 0);
-		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+		$user       = JFactory::getUser();
+		$userId     = $user->get('id');
+		$isNew      = ($this->item->id == 0);
+		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Built the actions for new and existing records.
-		$canDo		= $this->canDo;
+		$canDo = $this->canDo;
+
 		JToolbarHelper::title(
 			JText::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
 			'pencil-2 article-add'
