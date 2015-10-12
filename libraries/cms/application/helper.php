@@ -13,6 +13,8 @@ defined('JPATH_PLATFORM') or die;
  * Application helper functions
  *
  * @since  1.5
+ *
+ * @deprecated CMS 4
  */
 class JApplicationHelper
 {
