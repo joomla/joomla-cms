@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -913,10 +913,46 @@ abstract class JFormField
 			$showon   = explode(':', $showon, 2);
 			$options['class'] .= ' showon_' . implode(' showon_', explode(',', $showon[1]));
 			$id = $this->getName($showon[0]);
+			$id = $this->multiple ? str_replace('[]', '', $id) : $id;
 			$options['rel'] = ' rel="showon_' . $id . '"';
 			$options['showonEnabled'] = true;
 		}
 
 		return JLayoutHelper::render($this->renderLayout, array('input' => $this->getInput(), 'label' => $this->getLabel(), 'options' => $options));
+	}
+
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.5
+	 */
+	protected function getInputLayoutData()
+	{
+		$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
+
+		return array(
+			'autocomplete' => $this->autocomplete,
+			'autofocus' => $this->autofocus,
+			'classes' => explode(' ', $this->class),
+			'disabled' => $this->disabled,
+			'group' => $this->group,
+			'hidden' => $this->hidden,
+			'hint' => $this->translateHint ? JText::alt($this->hint, $alt) : $this->hint,
+			'id' => $this->id,
+			'multiple' => $this->multiple,
+			'name' => $this->name,
+			'onchange' => $this->onchange,
+			'onclick' => $this->onclick,
+			'pattern' => $this->pattern,
+			'readonly' => $this->readonly,
+			'repeat' => $this->repeat,
+			'required' => $this->required,
+			'size' => $this->size,
+			'spellcheck' => $this->spellcheck,
+			'validate' => $this->validate,
+			'value' => $this->value
+		);
 	}
 }

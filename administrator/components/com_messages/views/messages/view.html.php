@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,9 +34,9 @@ class MessagesViewMessages extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -60,8 +60,8 @@ class MessagesViewMessages extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$state	= $this->get('State');
-		$canDo	= JHelperContent::getActions('com_messages');
+		$state = $this->get('State');
+		$canDo = JHelperContent::getActions('com_messages');
 
 		JToolbarHelper::title(JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'envelope inbox');
 
@@ -78,7 +78,7 @@ class MessagesViewMessages extends JViewLegacy
 		}
 
 		JToolbarHelper::divider();
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		// Instantiate a new JLayoutFile instance and render the layout
 		JHtml::_('behavior.modal', 'a.messagesSettings');

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
- * @link   http://docs.joomla.org/JTableAsset
+ * @link   https://docs.joomla.org/JTableAsset
  * @since  11.1
  */
 class JTableAsset extends JTableNested
@@ -92,13 +92,17 @@ class JTableAsset extends JTableNested
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
-	 * @link    http://docs.joomla.org/JTable/check
+	 * @link    https://docs.joomla.org/JTable/check
 	 * @since   11.1
 	 */
 	public function check()
 	{
 		$this->parent_id = (int) $this->parent_id;
 
+		if (empty($this->rules))
+		{
+			$this->rules = '{}';
+		}
 		// JTableNested does not allow parent_id = 0, override this.
 		if ($this->parent_id > 0)
 		{
@@ -118,6 +122,7 @@ class JTableAsset extends JTableNested
 				$this->setError('Invalid Parent ID');
 
 				return false;
+
 			}
 		}
 

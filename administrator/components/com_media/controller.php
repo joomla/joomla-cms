@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,28 +35,29 @@ class MediaController extends JControllerLegacy
 		{
 			case 'images':
 				$vLayout = $this->input->get('layout', 'default', 'string');
-				$mName = 'manager';
+				$mName   = 'manager';
 
 				break;
 
 			case 'imagesList':
-				$mName = 'list';
+				$mName   = 'list';
 				$vLayout = $this->input->get('layout', 'default', 'string');
 
 				break;
 
 			case 'mediaList':
-				$app	= JFactory::getApplication();
-				$mName = 'list';
+				$app     = JFactory::getApplication();
+				$mName   = 'list';
 				$vLayout = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
 				break;
 
 			case 'media':
 			default:
-				$vName = 'media';
+				$vName   = 'media';
 				$vLayout = $this->input->get('layout', 'default', 'string');
-				$mName = 'manager';
+				$mName   = 'manager';
+
 				break;
 		}
 
@@ -64,8 +65,7 @@ class MediaController extends JControllerLegacy
 		$vType    = $document->getType();
 
 		// Get/Create the view
-		$view = $this->getView($vName, $vType);
-		$view->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR . '/views/' . strtolower($vName) . '/tmpl');
+		$view = $this->getView($vName, $vType, '', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
 
 		// Get/Create the model
 		if ($model = $this->getModel($mName))

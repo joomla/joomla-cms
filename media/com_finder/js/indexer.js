@@ -85,8 +85,9 @@ var FinderIndexer = function(){
 			jQuery('#progress-bar').removeClass('bar-success').addClass('bar-warning').attr('aria-valuemin', 100).attr('aria-valuemax', 200);
 			jQuery('#progress-bar').css('width', progress + '%').attr('aria-valuenow', progress);
 		}
-		if (progress == 200) {
+		if (message == msg) {
 			jQuery('#progress').remove();
+			window.parent.jQuery('#modal-archive', parent.document).modal('hide');
 		}
 	};
 

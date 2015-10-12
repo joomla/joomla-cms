@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,9 +30,6 @@ JFactory::getDocument()->addScriptDeclaration('
 <div id="j-toggle-sidebar-wrapper">
 	<div id="j-toggle-button-wrapper" class="j-toggle-button-wrapper">
 		<?php echo JLayoutHelper::render('joomla.sidebars.toggle'); ?>
-	</div>
-	<div id="j-toggle-sidebar-header" class="j-toggle-sidebar-header">
-		<?php echo JText::_('JTOGGLE_SIDEBAR_LABEL');?>
 	</div>
 	<div id="sidebar" class="sidebar">
 		<div class="sidebar-nav">

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Editor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -75,7 +75,9 @@ class JEditor extends JObject
 	protected $author = null;
 
 	/**
-	 * @var    array  JEditor instances container.
+	 * JEditor instances container.
+	 *
+	 * @var    JEditor[]
 	 * @since  2.5
 	 */
 	protected static $instances = array();
@@ -127,7 +129,7 @@ class JEditor extends JObject
 	/**
 	 * Attach an observer object
 	 *
-	 * @param   object  $observer  An observer object to attach
+	 * @param   array|object  $observer  An observer object to attach or an array with handler and event keys
 	 *
 	 * @return  void
 	 *
@@ -174,6 +176,8 @@ class JEditor extends JObject
 			}
 
 			$this->_observers[] = $observer;
+
+			// @todo We require a JEditor object above but get the methods from JPlugin - something isn't right here!
 			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
 		}
 
@@ -291,6 +295,8 @@ class JEditor extends JObject
 		// Check whether editor is already loaded
 		if (is_null(($this->_editor)))
 		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'error');
+
 			return;
 		}
 
@@ -489,18 +495,13 @@ class JEditor extends JObject
 
 		// Build the path to the needed editor plugin
 		$name = JFilterInput::getInstance()->clean($this->_name, 'cmd');
-		$path = JPATH_PLUGINS . '/editors/' . $name . '.php';
+		$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
 
 		if (!is_file($path))
 		{
-			$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
+			JLog::add(JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), JLog::WARNING, 'jerror');
 
-			if (!is_file($path))
-			{
-				JLog::add(JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), JLog::WARNING, 'jerror');
-
-				return false;
-			}
+			return false;
 		}
 
 		// Require plugin file
@@ -508,6 +509,13 @@ class JEditor extends JObject
 
 		// Get the plugin
 		$plugin = JPluginHelper::getPlugin('editors', $this->_name);
+
+		// If no plugin is published we get an empty array and there not so much to do with it
+		if (empty($plugin))
+		{
+			return false;
+		}
+
 		$params = new Registry;
 		$params->loadString($plugin->params);
 		$params->loadArray($config);

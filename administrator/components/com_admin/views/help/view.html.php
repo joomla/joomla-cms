@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ class AdminViewHelp extends JViewLegacy
 	/**
 	 * @var string url for the latest version check
 	 */
-	protected $latest_version_check = 'http://www.joomla.org/download.html';
+	protected $latest_version_check = 'https://www.joomla.org/download.html';
 
 	/**
 	 * @var string url for the start here link.
@@ -55,11 +55,11 @@ class AdminViewHelp extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->help_search			= $this->get('HelpSearch');
-		$this->page					= $this->get('Page');
-		$this->toc					= $this->get('Toc');
-		$this->lang_tag				= $this->get('LangTag');
-		$this->latest_version_check	= $this->get('LatestVersionCheck');
+		$this->help_search          = $this->get('HelpSearch');
+		$this->page                 = $this->get('Page');
+		$this->toc                  = $this->get('Toc');
+		$this->lang_tag             = $this->get('LangTag');
+		$this->latest_version_check = $this->get('LatestVersionCheck');
 
 		$this->addToolbar();
 		parent::display($tpl);

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,11 +65,11 @@ class BannersTableBanner extends JTable
 		$this->name = htmlspecialchars_decode($this->name, ENT_QUOTES);
 
 		// Set alias
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
 
 		if (empty($this->alias))
 		{
-			$this->alias = JApplication::stringURLSafe($this->name);
+			$this->alias = JApplicationHelper::stringURLSafe($this->name);
 		}
 
 		// Check the publish down date is not earlier than publish up.

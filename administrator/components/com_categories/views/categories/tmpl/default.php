@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,42 +16,20 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$app		= JFactory::getApplication();
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$extension	= $this->escape($this->state->get('filter.extension'));
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$ordering 	= ($listOrder == 'a.lft');
-$saveOrder 	= ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$app       = JFactory::getApplication();
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$extension = $this->escape($this->state->get('filter.extension'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$ordering  = ($listOrder == 'a.lft');
+$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_categories&task=categories.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'categoryList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
-
-$sortFields = $this->getSortFields();
-
-JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
-	Joomla.orderTable = function()
-	{
-		table = document.getElementById("sortTable");
-		direction = document.getElementById("directionTable");
-		order = table.options[table.selectedIndex].value;
-		if (order != "' . $listOrder . '")
-		{
-			dirn = "asc";
-		}
-		else
-		{
-			dirn = direction.options[direction.selectedIndex].value;
-		}
-		Joomla.tableOrdering(order, dirn, "");
-	}
-});');
-
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories'); ?>" method="post" name="adminForm" id="adminForm">
@@ -74,7 +52,7 @@ jQuery(document).ready(function() {
 						<th width="1%" class="nowrap center hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%" class="hidden-phone">
+						<th width="1%" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="1%" class="nowrap center">
@@ -155,13 +133,13 @@ jQuery(document).ready(function() {
 								}
 								?>
 								<span class="sortable-handler<?php echo $iconClass ?>">
-									<i class="icon-menu"></i>
+									<span class="icon-menu"></span>
 								</span>
 								<?php if ($canChange && $saveOrder) : ?>
 									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>" />
 								<?php endif; ?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="center">
@@ -173,7 +151,7 @@ jQuery(document).ready(function() {
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'categories.', $canCheckin); ?>
 								<?php endif; ?>
 								<?php if ($canEdit || $canEditOwn) : ?>
-									<a href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->id . '&extension=' . $extension); ?>">
+									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->id . '&extension=' . $extension); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
 										<?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
 									<?php echo $this->escape($item->title); ?>
@@ -190,7 +168,7 @@ jQuery(document).ready(function() {
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
 							<?php if ($this->assoc) : ?>
-								<td class="center hidden-phone">
+								<td class="hidden-phone">
 									<?php if ($item->association): ?>
 										<?php echo JHtml::_('CategoriesAdministrator.association', $item->id, $extension); ?>
 									<?php endif; ?>
@@ -203,7 +181,7 @@ jQuery(document).ready(function() {
 									<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 								<?php endif; ?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="hidden-phone">
 								<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
 									<?php echo (int) $item->id; ?></span>
 							</td>
@@ -211,9 +189,21 @@ jQuery(document).ready(function() {
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+			<?php // Load the batch processing form. ?>
+			<?php if ($user->authorise('core.create', $extension)
+				&& $user->authorise('core.edit', $extension)
+				&& $user->authorise('core.edit.state', $extension)) : ?>
+				<?php echo JHtml::_(
+						'bootstrap.renderModal',
+						'collapseModal',
+						array(
+							'title' => JText::_('COM_CATEGORIES_BATCH_OPTIONS'),
+							'footer' => $this->loadTemplate('batch_footer')
+						),
+						$this->loadTemplate('batch_body')
+					); ?>
+			<?php endif; ?>
 		<?php endif; ?>
-		<?php //Load the batch processing form. ?>
-		<?php echo $this->loadTemplate('batch'); ?>
 
 		<input type="hidden" name="extension" value="<?php echo $extension; ?>" />
 		<input type="hidden" name="task" value="" />

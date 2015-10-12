@@ -37,7 +37,7 @@
                         "unichr", "unicode", "xrange", "False", "True", "None"],
              keywords: ["exec", "print"]};
   var py3 = {builtins: ["ascii", "bytes", "exec", "print"],
-             keywords: ["nonlocal", "False", "True", "None"]};
+             keywords: ["nonlocal", "False", "True", "None", "async", "await"]};
 
   CodeMirror.registerHelper("hintWords", "python", commonKeywords.concat(commonBuiltins));
 
@@ -162,15 +162,13 @@
       if (stream.match(tripleDelimiters) || stream.match(doubleDelimiters))
         return null;
 
-      if (stream.match(doubleOperators)
-          || stream.match(singleOperators)
-          || stream.match(wordOperators))
+      if (stream.match(doubleOperators) || stream.match(singleOperators))
         return "operator";
 
       if (stream.match(singleDelimiters))
         return null;
 
-      if (stream.match(keywords))
+      if (stream.match(keywords) || stream.match(wordOperators))
         return "keyword";
 
       if (stream.match(builtins))
@@ -339,6 +337,7 @@
           return scope.offset;
       },
 
+      closeBrackets: {triples: "'\""},
       lineComment: "#",
       fold: "indent"
     };

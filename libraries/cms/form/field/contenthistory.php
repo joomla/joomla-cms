@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,7 +46,7 @@ class JFormFieldContenthistory extends JFormField
 
 		$html[] = '		<button class="btn modal_' . $this->id . '" title="' . $label . '" href="' . $link . '"'
 			. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-		$html[] = '<i class="icon-archive"></i>';
+		$html[] = '<span class="icon-archive"></span>';
 		$html[] = $label;
 		$html[] = '</button>';
 

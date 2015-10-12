@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1348,22 +1348,6 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				false
 			),
 		);
-	}
-
-	/**
-	 * Sets up the fixture.
-	 *
-	 * This method is called before a test is executed.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		require_once JPATH_PLATFORM . '/joomla/string/string.php';
 	}
 
 	/**

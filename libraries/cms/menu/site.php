@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Menu
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -90,7 +90,7 @@ class JMenuSite extends JMenu
 	{
 		$attributes = (array) $attributes;
 		$values     = (array) $values;
-		$app        = JApplication::getInstance('site');
+		$app        = JApplicationCms::getInstance('site');
 
 		if ($app->isSite())
 		{
@@ -99,8 +99,8 @@ class JMenuSite extends JMenu
 			{
 				if (JLanguageMultilang::isEnabled())
 				{
-					$attributes[] 	= 'language';
-					$values[] 		= array(JFactory::getLanguage()->getTag(), '*');
+					$attributes[] = 'language';
+					$values[]     = array(JFactory::getLanguage()->getTag(), '*');
 				}
 			}
 			elseif ($values[$key] === null)
@@ -140,7 +140,7 @@ class JMenuSite extends JMenu
 	 */
 	public function getDefault($language = '*')
 	{
-		if (array_key_exists($language, $this->_default) && JApplication::getInstance('site')->getLanguageFilter())
+		if (array_key_exists($language, $this->_default) && JApplicationCms::getInstance('site')->getLanguageFilter())
 		{
 			return $this->_items[$this->_default[$language]];
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,7 @@ class PlgEditorTinymce extends JPlugin
 
 		$text_direction = 'ltr';
 
-		if ($language->isRTL())
+		if ($language->isRtl())
 		{
 			$text_direction = 'rtl';
 		}
@@ -120,7 +120,16 @@ class PlgEditorTinymce extends JPlugin
 			->where('client_id=0 AND home=' . $db->quote('1'));
 
 		$db->setQuery($query);
-		$template = $db->loadResult();
+		try
+		{
+			$template = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+
+			return;
+		}
 
 		$content_css    = '';
 		$templates_path = JPATH_SITE . '/templates';
@@ -224,12 +233,20 @@ class PlgEditorTinymce extends JPlugin
 			$image_advtab = "false";
 		}
 
-		// The param is true false, so we turn true to both rather than showing vertical resize only
+		// The param is true for vertical resizing only, false or both
 		$resizing = $this->params->get('resizing', '1');
+		$resize_horizontal = $this->params->get('resize_horizontal', '1');
 
 		if ($resizing || $resizing == 'true')
 		{
-			$resizing = 'resize: "both",';
+			if ($resize_horizontal || $resize_horizontal == 'true')
+			{
+				$resizing = 'resize: "both",';
+			}
+			else
+			{
+				$resizing = 'resize: true,';
+			}
 		}
 		else
 		{
@@ -786,7 +803,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onGetContent($editor)
 	{
-		return 'tinyMCE.get(\'' . $editor . '\').getContent();';
+		return 'tinyMCE.activeEditor.getContent();';
 	}
 
 	/**
@@ -799,7 +816,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onSetContent($editor, $html)
 	{
-		return 'tinyMCE.get(\'' . $editor . '\').setContent(' . $html . ');';
+		return 'tinyMCE.activeEditor.setContent(' . $html . ');';
 	}
 
 	/**
@@ -811,7 +828,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onSave($editor)
 	{
-		return 'if (tinyMCE.get("' . $editor . '").isHidden()) {tinyMCE.get("' . $editor . '").show()}; tinyMCE.get("' . $editor . '").save();';
+		return 'if (tinyMCE.get("' . $editor . '").isHidden()) {tinyMCE.get("' . $editor . '").show()};';
 	}
 
 	/**
@@ -823,32 +840,14 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onGetInsertMethod($name)
 	{
-		$doc = JFactory::getDocument();
-
-		$js = "
-			function isBrowserIE()
-			{
-				return navigator.appName==\"Microsoft Internet Explorer\";
-			}
-
+		JFactory::getDocument()->addScriptDeclaration(
+			"
 			function jInsertEditorText( text, editor )
 			{
 				tinyMCE.execCommand('mceInsertContent', false, text);
 			}
-
-			var global_ie_bookmark = false;
-
-			function IeCursorFix()
-			{
-				if (isBrowserIE())
-				{
-					tinyMCE.execCommand('mceInsertContent', false, '');
-					global_ie_bookmark = tinyMCE.activeEditor.selection.getBookmark(false);
-				}
-				return true;
-			}";
-
-		$doc->addScriptDeclaration($js);
+			"
+		);
 
 		return true;
 	}
@@ -941,6 +940,7 @@ class PlgEditorTinymce extends JPlugin
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
+
 			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
 

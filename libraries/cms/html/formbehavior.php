@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -58,6 +58,12 @@ abstract class JHtmlFormbehavior
 		if (!isset($options['disable_search_threshold']))
 		{
 			$options['disable_search_threshold'] = 10;
+		}
+
+		// Allow searching contains space in query
+		if (!isset($options['search_contains']))
+		{
+			$options['search_contains'] = true;
 		}
 
 		if (!isset($options['allow_single_deselect']))

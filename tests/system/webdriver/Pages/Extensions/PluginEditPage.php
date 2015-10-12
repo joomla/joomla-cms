@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,13 +24,13 @@ use SeleniumClient\WebElement;
  */
 class PluginEditPage extends AdminEditPage
 {
-  /**
+	/**
 	 * XPath string used to uniquely identify this page
 	 *
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $waitForXpath =  "//form[@id='style-form']";
+	protected $waitForXpath = "//form[@id='style-form']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -55,7 +55,8 @@ class PluginEditPage extends AdminEditPage
 	 * @since  3.0
 	 */
 	public $tabLabels = array('Details','Basic Options');
-	//Basic Options screen would be present in some plugins and in some plugins the screen would not be present
+
+	// Basic Options screen would be present in some plugins and in some plugins the screen would not be present
 
 	/**
 	 * Array of all the field Details of the Edit page, along with the ID and tab value they are present on
@@ -70,7 +71,4 @@ class PluginEditPage extends AdminEditPage
 			array('label' => 'Check category deletion', 'id' => 'jform_params_check_categories', 'type' => 'fieldset', 'tab' => 'general'),
 			array('label' => 'Email on new site article', 'id' => 'jform_params_email_new_fe', 'type' => 'fieldset', 'tab' => 'general'),
 			);
-
-
-
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -691,7 +691,7 @@ class JApplicationWeb extends JApplicationBase
 				if ('status' == strtolower($header['name']))
 				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
-					$this->header(ucfirst(strtolower($header['name'])) . ': ' . $header['value'], null, (int) $header['value']);
+					$this->header('HTTP/1.1 ' . $header['value'], null, (int) $header['value']);
 				}
 				else
 				{

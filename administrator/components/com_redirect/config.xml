@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset
-		name="permissions"
-		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC">
-
-		<field
-			name="rules"
-			type="rules"
-			label="JCONFIG_PERMISSIONS_LABEL"
-			filter="rules"
-			validate="rules"
-			component="com_redirect"
-			section="component" />
-	</fieldset>
 	<fieldset name="redirect"
 		label="COM_REDIRECT_ADVANCED_OPTIONS"
 	>
@@ -28,5 +14,19 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
+	</fieldset>
+	<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC">
+
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			filter="rules"
+			validate="rules"
+			component="com_redirect"
+			section="component" />
 	</fieldset>
 </config>

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -224,7 +224,7 @@ class JHttpTransportSocket implements JHttpTransport
 		$err = null;
 
 		// Get the host from the uri.
-		$host = ($uri->isSSL()) ? 'ssl://' . $uri->getHost() : $uri->getHost();
+		$host = ($uri->isSsl()) ? 'ssl://' . $uri->getHost() : $uri->getHost();
 
 		// If the port is not explicitly set in the URI detect it.
 		if (!$uri->getPort())

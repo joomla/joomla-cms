@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,9 +33,9 @@ JFactory::getDocument()->addScriptDeclaration("
 				<h3><?php echo JText::_('COM_MESSAGES_MY_SETTINGS');?></h3>
 			</div>
 			<div class="modal-body">
-				<button class="btn btn-primary" type="submit" onclick="Joomla.submitform('config.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 700);">
+				<button class="btn btn-primary" type="submit" onclick="Joomla.submitform('config.save', this.form);window.top.setTimeout('window.parent.jModalClose()', 700);">
 					<?php echo JText::_('JSAVE');?></button>
-				<button class="btn" type="button" onclick="window.parent.SqueezeBox.close();">
+				<button class="btn" type="button" onclick="window.parent.jModalClose();">
 					<?php echo JText::_('JCANCEL');?></button>
 				<hr />
 				<div class="control-group">

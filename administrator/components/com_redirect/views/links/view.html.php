@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,8 +65,8 @@ class RedirectViewLinks extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$state	= $this->get('State');
-		$canDo	= JHelperContent::getActions('com_redirect');
+		$state = $this->get('State');
+		$canDo = JHelperContent::getActions('com_redirect');
 
 		JToolbarHelper::title(JText::_('COM_REDIRECT_MANAGER_LINKS'), 'refresh redirect');
 
@@ -107,9 +107,8 @@ class RedirectViewLinks extends JViewLegacy
 		if ($canDo->get('core.create'))
 		{
 			// Get the toolbar object instance
-			$bar = JToolBar::getInstance('toolbar');
+			$bar = JToolbar::getInstance('toolbar');
 
-			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
@@ -130,7 +129,7 @@ class RedirectViewLinks extends JViewLegacy
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_redirect');
 			JToolbarHelper::divider();

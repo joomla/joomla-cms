@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -138,7 +138,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		}
 
 		// Set charactersets.
-		$this->utf = $this->setUTF();
+		$this->utf = $this->setUtf();
 	}
 
 	/**
@@ -362,6 +362,10 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
+				if (stristr(strtolower($field->Type), "nvarchar"))
+				{
+					$field->Default = "";
+				}
 				$result[$field->Field] = $field;
 			}
 		}
@@ -647,8 +651,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 					$this->errorMsg = $errors[0]['message'] . 'SQL=' . $query;
 
 					// Throw the normal query exception.
-					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-					throw new RuntimeException($this->errorMsg, $this->errorNum);
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
+					throw new RuntimeException($this->errorMsg, $this->errorNum, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -663,7 +668,8 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				$this->errorMsg = $errors[0]['message'] . 'SQL=' . $query;
 
 				// Throw the normal query exception.
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
 		}
@@ -807,7 +813,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
 		return false;
 	}

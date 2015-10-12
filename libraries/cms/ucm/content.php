@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  UCM
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,7 +125,7 @@ class JUcmContent extends JUcmBase
 	 * @param   array     $original  The original data array
 	 * @param   JUcmType  $type      Type object for this data
 	 *
-	 * @return  object  $ucmData  The mapped UCM data
+	 * @return  array  $ucmData  The mapped UCM data
 	 *
 	 * @since   3.1
 	 */

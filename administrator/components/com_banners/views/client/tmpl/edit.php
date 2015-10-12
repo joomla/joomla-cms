@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,20 +13,17 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
-JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
+JFactory::getDocument()->addScriptDeclaration(
+	'
 	Joomla.submitbutton = function(task)
 	{
 		if (task == "client.cancel" || document.formvalidator.isValid(document.getElementById("client-form")))
 		{
 			Joomla.submitform(task, document.getElementById("client-form"));
 		}
-	}
-});');
+	};'
+);
 ?>
-<script type="text/javascript">
-
-</script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="client-form" class="form-validate">
 

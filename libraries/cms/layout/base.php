@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Base class for rendering a display layout
  *
- * @see    http://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
+ * @see    https://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
  * @since  3.0
  */
 class JLayoutBase implements JLayout

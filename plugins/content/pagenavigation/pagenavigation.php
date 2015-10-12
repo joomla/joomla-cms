@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagenavigation
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -139,7 +139,7 @@ class PlgContentPagenavigation extends JPlugin
 				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
 				->where(
 					'a.catid = ' . (int) $row->catid . ' AND a.state = ' . (int) $row->state
-						. ($canPublish ? '' : ' AND a.access = ' . (int) $row->access) . $xwhere
+						. ($canPublish ? '' : ' AND a.access IN (' . implode(",", JAccess::getAuthorisedViewLevels($user->id)) . ') ') . $xwhere
 				);
 			$query->order($orderby);
 

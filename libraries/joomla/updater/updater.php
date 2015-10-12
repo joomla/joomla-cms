@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -110,7 +110,7 @@ class JUpdater extends JAdapter
 	 */
 	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimum_stability = self::STABILITY_STABLE)
 	{
-		$db     = $this->getDBO();
+		$db     = $this->getDbo();
 		$query  = $db->getQuery(true);
 
 		$retval = false;
@@ -262,7 +262,7 @@ class JUpdater extends JAdapter
 		$updaterow->load($id);
 		$update = new JUpdate;
 
-		if ($update->loadFromXML($updaterow->detailsurl))
+		if ($update->loadFromXml($updaterow->detailsurl))
 		{
 			return $update->install();
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -203,9 +203,9 @@ class LanguagesModelOverrides extends JModelList
 		}
 
 		// Get all languages of frontend and backend.
-		$languages 			= array();
-		$site_languages 	= JLanguage::getKnownLanguages(JPATH_SITE);
-		$admin_languages	= JLanguage::getKnownLanguages(JPATH_ADMINISTRATOR);
+		$languages       = array();
+		$site_languages  = JLanguage::getKnownLanguages(JPATH_SITE);
+		$admin_languages = JLanguage::getKnownLanguages(JPATH_ADMINISTRATOR);
 
 		// Create a single array of them.
 		foreach ($site_languages as $tag => $language)

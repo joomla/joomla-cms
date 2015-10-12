@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -343,6 +343,22 @@ class JFormDataHelper
 			<field
 				name="show_title"
 				type="radio">
+				<option value="1">JYes</option>
+				<option value="0">JNo</option>
+			</field>
+		</fields>
+	</fields>
+</form>';
+
+	public static $loadReplacementDocument = '<form>
+	<fields>
+		<fields
+			name="params">
+			<field
+				name="show_title"
+				type="radio"
+				default="2">
+				<option value="2">JDefault</option>
 				<option value="1">JYes</option>
 				<option value="0">JNo</option>
 			</field>

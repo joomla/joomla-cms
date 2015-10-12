@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1018,8 +1018,8 @@ class JSession implements IteratorAggregate
 			}
 			elseif ($_SERVER['HTTP_USER_AGENT'] !== $browser)
 			{
-				// @todo remove code: 				$this->_state	=	'error';
-				// @todo remove code: 				return false;
+				// @todo remove code: $this->_state = 'error';
+				// @todo remove code: return false;
 			}
 		}
 

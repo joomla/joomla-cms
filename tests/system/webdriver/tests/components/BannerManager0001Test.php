@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,6 +35,8 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * Login to back end and navigate to menu Banners.
 	 *
+	 * @return void
+	 *
 	 * @since   3.2
 	 */
 	public function setUp()
@@ -47,6 +49,8 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * Logout and close test.
 	 *
+	 * @return void
+	 *
 	 * @since   3.2
 	 */
 	public function tearDown()
@@ -56,6 +60,10 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check all input fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
@@ -63,7 +71,7 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 		$this->bannerManagerPage->clickButton('toolbar-new');
 		$bannerEditPage = $this->getPageObject('BannerEditPage');
 
-		// Option to print actual element array
+		/* Option to print actual element array */
 		/* @var $bannerEditPage BannerEditPage */
 // 	 	$bannerEditPage->printFieldArray($bannerEditPage->getAllInputFields($bannerEditPage->tabs));
 
@@ -75,6 +83,10 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check bannner edit page
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function constructor_OpenEditScreen_BannerEditOpened()
@@ -86,6 +98,10 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check tab IDs
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getTabIds_ScreenDisplayed_EqualExpected()
@@ -99,6 +115,10 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add banner with default fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addBanner_WithFieldDefaults_BannerAdded()
@@ -115,6 +135,10 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add banner with given fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addBanner_WithGivenFields_BannerAdded()
@@ -137,6 +161,10 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * edit banner and change the value of the fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function editBanner_ChangeFields_FieldsChanged()
@@ -155,6 +183,10 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * change the state of the banner
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function changeBannerState_ChangeEnabledUsingToolbar_EnabledChanged()

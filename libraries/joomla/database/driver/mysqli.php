@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -179,7 +179,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		}
 
 		// Set charactersets (needed for MySQL 4.1.2+).
-		$this->setUTF();
+		$this->setUtf();
 
 		// Turn MySQL profiling ON in debug mode:
 		if ($this->debug && $this->hasProfiling())
@@ -596,8 +596,9 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
-					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-					throw new RuntimeException($this->errorMsg, $this->errorNum);
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
+					throw new RuntimeException($this->errorMsg, $this->errorNum, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -606,7 +607,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			// The server was not disconnected.
 			else
 			{
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
 		}
@@ -668,7 +670,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
 		$this->connect();
 
@@ -850,7 +852,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @return  boolean
 	 *
-	 * @since 3.1.3
+	 * @since   3.1.3
 	 */
 	private function hasProfiling()
 	{

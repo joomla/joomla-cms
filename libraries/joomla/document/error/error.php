@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -84,7 +84,14 @@ class JDocumentError extends JDocument
 		}
 
 		// Set the status header
-		JFactory::getApplication()->setHeader('status', $this->_error->getCode() . ' ' . str_replace("\n", ' ', $this->_error->getMessage()));
+		$status = $this->_error->getCode();
+
+		if ($status < 400 || $status > 599)
+		{
+			$status = 500;
+		}
+
+		JFactory::getApplication()->setHeader('status',  $status . ' ' . str_replace("\n", ' ', $this->_error->getMessage()));
 		$file = 'error.php';
 
 		// Check template

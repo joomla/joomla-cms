@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Build
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,7 +57,7 @@ class MediawikiCli extends JApplicationCli
 
 		// Set up options for JMediawiki
 		$options = new JRegistry;
-		$options->set('api.url', 'http://docs.joomla.org');
+		$options->set('api.url', 'https://docs.joomla.org');
 
 		$mediawiki = new JMediawiki($options);
 

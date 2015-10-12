@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,9 +31,9 @@ class ModulesViewModules extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -59,12 +59,12 @@ class ModulesViewModules extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$state	= $this->get('State');
-		$canDo	= JHelperContent::getActions('com_modules');
+		$state = $this->get('State');
+		$canDo = JHelperContent::getActions('com_modules');
 		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'cube module');
 
@@ -93,15 +93,6 @@ class ModulesViewModules extends JViewLegacy
 			JToolbarHelper::checkin('modules.checkin');
 		}
 
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
-		{
-			JToolbarHelper::deleteList('', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			JToolbarHelper::trash('modules.trash');
-		}
-
 		// Add a batch button
 		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
 			&& $user->authorise('core.edit.state', 'com_modules'))
@@ -114,6 +105,15 @@ class ModulesViewModules extends JViewLegacy
 
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
+		}
+
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
+			JToolbarHelper::deleteList('', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::trash('modules.trash');
 		}
 
 		if ($canDo->get('core.admin'))

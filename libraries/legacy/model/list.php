@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -659,6 +659,18 @@ class JModelList extends JModelLegacy
 		$old_state = $app->getUserState($key);
 		$cur_state = (!is_null($old_state)) ? $old_state : $default;
 		$new_state = $input->get($request, null, $type);
+
+		// BC for Search Tools which uses different naming
+		if ($new_state === null && strpos($request, 'filter_') === 0)
+		{
+			$name    = substr($request, 7);
+			$filters = $app->input->get('filter', array(), 'array');
+
+			if (!empty($filters[$name]))
+			{
+				$new_state = $filters[$name];
+			}
+		}
 
 		if (($cur_state != $new_state) && ($resetPage))
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ $text    = empty($displayData['text']) ? '' : ('<span>' . $displayData['text'] .
 <div class="row-fluid"<?php echo $id; ?>>
 	<div class="span12">
 		<a href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
-			<i class="icon-<?php echo $displayData['image']; ?>"></i> <?php echo $text; ?>
+			<span class="icon-<?php echo $displayData['image']; ?>"></span> <?php echo $text; ?>
 		</a>
 	</div>
 </div>

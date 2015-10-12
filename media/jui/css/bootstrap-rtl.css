@@ -613,3 +613,7 @@ input[type="url"] {
 .dropdown-menu {
 	text-align: right;
 }
+[class^="icon-"],
+[class*=" icon-"] {
+	margin-left: .25em;
+}
