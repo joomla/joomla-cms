@@ -46,23 +46,12 @@ JFactory::getDocument()->addScriptDeclaration('
 		};
 
 		moduleIns = function(type, name) {
-			var extraClass = "";
-			if(jQuery("#extra_class").val() !=""){
-				extraClass = jQuery("#extra_class").val().trim().replace(/^[-\w\s]+$/,"");
-				extraClass = "," + extraClass;
-			}
-
-			parent.window.jInsertEditorText("{loadmodule " + type + "," + name + extraClass + "}");
+			parent.window.jInsertEditorText("{loadmodule " + type + "," + name + "," + jQuery("#extra_class").val() + "}");
 			parent.window.jModalClose();
 		}
-		modulePosIns = function(position) {
-			var extraClass = "";
-			if(jQuery("#extra_class").val() !=""){
-				extraClass = jQuery("#extra_class").val().trim().replace(/^[-\w\s]+$/,"");
-				extraClass = "," + extraClass;
-			}
 
-			parent.window.jInsertEditorText("{loadposition " + position + extraClass + "}");
+		modulePosIns = function(position) {
+			parent.window.jInsertEditorText("{loadposition " + position + "," + jQuery("#extra_class").val() + "}");
 			parent.window.jModalClose();
 		}
 ');
