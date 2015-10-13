@@ -37,7 +37,8 @@ class JFormFieldTemplateName extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$clientId = JModelList::getUserStateFromRequest('.filter.client_id', 'filter_client_id', null);
+		$app = JFactory::getApplication();
+		$clientId = $app->getUserStateFromRequest('.filter.client_id', 'filter_client_id', null);
 		$options = TemplatesHelper::getTemplateOptions($clientId);
 
 		return array_merge(parent::getOptions(), $options);
