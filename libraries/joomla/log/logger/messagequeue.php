@@ -31,13 +31,20 @@ class JLogLoggerMessagequeue extends JLogLogger
 	 */
 	public function addEntry(JLogEntry $entry)
 	{
+		$errorReporting = JFactory::getConfig()->get("error_reporting");
+
+		if ($errorReporting == "none")
+		{
+			return;
+		}
+
 		switch ($entry->priority)
 		{
 			case JLog::EMERGENCY:
 			case JLog::ALERT:
 			case JLog::CRITICAL:
 			case JLog::ERROR:
-				JFactory::getApplication()->enqueueMessage($entry->message, 'error');
+				JFactory::getApplication()->enqueueMessage( $entry->message, 'error' );
 				break;
 			case JLog::WARNING:
 				JFactory::getApplication()->enqueueMessage($entry->message, 'warning');
