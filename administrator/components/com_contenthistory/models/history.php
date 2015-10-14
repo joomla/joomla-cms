@@ -269,8 +269,8 @@ class ContenthistoryModelHistory extends JModelList
 			)
 		)
 		->from($db->quoteName('#__ucm_history') . ' AS h')
-		->where($db->quoteName('h.ucm_item_id') . ' = ' . $this->getState('item_id'))
-		->where($db->quoteName('h.ucm_type_id') . ' = ' . $this->getState('type_id'))
+		->where($db->quoteName('h.ucm_item_id') . ' = ' . (int) $this->getState('item_id'))
+		->where($db->quoteName('h.ucm_type_id') . ' = ' . (int) $this->getState('type_id'))
 
 		// Join over the users for the editor
 		->select('uc.name AS editor')
