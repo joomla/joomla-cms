@@ -211,17 +211,10 @@ class JControllerAdmin extends JControllerLegacy
 
 				if ($value == 1)
 				{
-					// Check is ancestor has lower state
-					if (!empty($errors))
+					if ($errors)
 					{
-						foreach ($errors as $error)
-						{
-							if (strpos($error, 'ancestors have lower state') !== false)
-							{
-								$app = JFactory::getApplication();
-								$app->enqueueMessage(JText::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
-							}
-						}
+						$app = JFactory::getApplication();
+						$app->enqueueMessage(JText::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
 					}
 					else
 					{
