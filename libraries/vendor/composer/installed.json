@@ -320,62 +320,6 @@
         ]
     },
     {
-        "name": "joomla/registry",
-        "version": "1.4.5",
-        "version_normalized": "1.4.5.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/joomla-framework/registry.git",
-            "reference": "4f926ba961ca45eb95076a1598c3ae689cb02fc5"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/registry/zipball/4f926ba961ca45eb95076a1598c3ae689cb02fc5",
-            "reference": "4f926ba961ca45eb95076a1598c3ae689cb02fc5",
-            "shasum": ""
-        },
-        "require": {
-            "joomla/compat": "~1.0",
-            "joomla/string": "~1.3",
-            "joomla/utilities": "~1.0",
-            "php": ">=5.3.10"
-        },
-        "require-dev": {
-            "joomla/test": "~1.0",
-            "phpunit/phpunit": "4.*",
-            "squizlabs/php_codesniffer": "1.*",
-            "symfony/yaml": "~2.0"
-        },
-        "suggest": {
-            "symfony/yaml": "Install 2.* if you require YAML support."
-        },
-        "time": "2015-03-28 17:54:38",
-        "type": "joomla-package",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Joomla\\Registry\\": "src/",
-                "Joomla\\Registry\\Tests\\": "Tests/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0+"
-        ],
-        "description": "Joomla Registry Package",
-        "homepage": "https://github.com/joomla-framework/registry",
-        "keywords": [
-            "framework",
-            "joomla",
-            "registry"
-        ]
-    },
-    {
         "name": "joomla/event",
         "version": "1.1.1",
         "version_normalized": "1.1.1.0",
@@ -765,6 +709,62 @@
             "application",
             "framework",
             "joomla"
+        ]
+    },
+    {
+        "name": "joomla/registry",
+        "version": "1.5.0",
+        "version_normalized": "1.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/registry.git",
+            "reference": "db55cf426bd27524557affbe95b18d6a2f959657"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/registry/zipball/db55cf426bd27524557affbe95b18d6a2f959657",
+            "reference": "db55cf426bd27524557affbe95b18d6a2f959657",
+            "shasum": ""
+        },
+        "require": {
+            "joomla/compat": "~1.0",
+            "joomla/string": "~1.3",
+            "joomla/utilities": "~1.0",
+            "php": ">=5.3.10"
+        },
+        "require-dev": {
+            "joomla/test": "~1.0",
+            "phpunit/phpunit": "4.*",
+            "squizlabs/php_codesniffer": "1.*",
+            "symfony/yaml": "~2.0"
+        },
+        "suggest": {
+            "symfony/yaml": "Install 2.* if you require YAML support."
+        },
+        "time": "2015-10-14 17:01:46",
+        "type": "joomla-package",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\Registry\\": "src/",
+                "Joomla\\Registry\\Tests\\": "Tests/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla Registry Package",
+        "homepage": "https://github.com/joomla-framework/registry",
+        "keywords": [
+            "framework",
+            "joomla",
+            "registry"
         ]
     }
 ]
