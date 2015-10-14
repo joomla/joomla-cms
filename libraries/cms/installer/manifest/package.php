@@ -79,7 +79,7 @@ class JInstallerManifestPackage extends JInstallerManifest
 			foreach ($xml->files->folder as $folder)
 			{
 				// NOTE: JInstallerExtension doesn't expect a string.
-				// DO NOT CAST $file
+				// DO NOT CAST $folder
 				$this->filelist[] = new JInstallerExtension($folder);
 			}
 		}
