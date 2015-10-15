@@ -51,7 +51,7 @@ class ContentModelForm extends ContentModelArticle
 		$this->setState('return_page', base64_decode($return));
 
 		// Load the parameters.
-		$params	= $app->getParams();
+		$params = $app->getParams();
 		$this->setState('params', $params);
 
 		$this->setState('layout', $app->input->getString('layout'));
@@ -90,9 +90,9 @@ class ContentModelForm extends ContentModelArticle
 		$value->params->loadString($value->attribs);
 
 		// Compute selected asset permissions.
-		$user	= JFactory::getUser();
-		$userId	= $user->get('id');
-		$asset	= 'com_content.article.' . $value->id;
+		$user   = JFactory::getUser();
+		$userId = $user->get('id');
+		$asset  = 'com_content.article.' . $value->id;
 
 		// Check general edit permission first.
 		if ($user->authorise('core.edit', $asset))

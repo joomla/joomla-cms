@@ -94,5 +94,5 @@ class JConfig {
 
 	/* Feed Settings */
 	public $feed_limit = 10;
-	public $feed_email = 'author';
+	public $feed_email = 'none';
 }

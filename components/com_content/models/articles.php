@@ -171,7 +171,7 @@ class ContentModelArticles extends JModelList
 	protected function getListQuery()
 	{
 		// Get the current user for authorisation checks
-		$user	= JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Create a new query object.
 		$db = $this->getDbo();
@@ -442,8 +442,8 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Define null and now dates
-		$nullDate	= $db->quote($db->getNullDate());
-		$nowDate	= $db->quote(JFactory::getDate()->toSql());
+		$nullDate = $db->quote($db->getNullDate());
+		$nowDate  = $db->quote(JFactory::getDate()->toSql());
 
 		// Filter by start and end dates.
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))

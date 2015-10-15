@@ -28,12 +28,12 @@ class ModFeedHelper
 	public static function getFeed($params)
 	{
 		// Module params
-		$rssurl	= $params->get('rssurl', '');
+		$rssurl = $params->get('rssurl', '');
 
 		// Get RSS parsed object
 		try
 		{
-			$feed = new JFeedFactory;
+			$feed   = new JFeedFactory;
 			$rssDoc = $feed->getFeed($rssurl);
 		}
 		catch (InvalidArgumentException $e)

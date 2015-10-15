@@ -15,6 +15,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_modules'))
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-$controller	= JControllerLegacy::getInstance('Modules');
+$controller = JControllerLegacy::getInstance('Modules');
 $controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();

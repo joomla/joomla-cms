@@ -164,7 +164,7 @@ $loggeduser = JFactory::getUser();
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-			<?php //Load the batch processing form if user is allowed ?>
+			<?php // Load the batch processing form if user is allowed ?>
 			<?php if ($loggeduser->authorise('core.create', 'com_users')
 				&& $loggeduser->authorise('core.edit', 'com_users')
 				&& $loggeduser->authorise('core.edit.state', 'com_users')) : ?>

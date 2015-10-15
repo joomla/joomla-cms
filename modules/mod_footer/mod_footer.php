@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-$app		= JFactory::getApplication();
-$date		= JFactory::getDate();
-$cur_year	= JHtml::_('date', $date, 'Y');
-$csite_name	= $app->get('sitename');
+$app        = JFactory::getApplication();
+$date       = JFactory::getDate();
+$cur_year   = JHtml::_('date', $date, 'Y');
+$csite_name = $app->get('sitename');
 
 if (is_int(JString::strpos(JText :: _('MOD_FOOTER_LINE1'), '%date%')))
 {
