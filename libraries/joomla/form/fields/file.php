@@ -48,7 +48,7 @@ class JFormFieldFile extends JFormField
 		switch ($name)
 		{
 			case 'accept':
-				return $this->$name;
+				return $this->accept;
 		}
 
 		return parent::__get($name);
@@ -69,7 +69,7 @@ class JFormFieldFile extends JFormField
 		switch ($name)
 		{
 			case 'accept':
-				$this->$accept = (string) $value;
+				$this->accept = (string) $value;
 				break;
 
 			default:
@@ -132,7 +132,7 @@ class JFormFieldFile extends JFormField
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		return '<input type="file" name="' . $this->name . '" id="' . $this->id . '" value=""' . $accept
+		return '<input type="file" name="' . $this->name . '" id="' . $this->id . '"' . $accept
 			. $disabled . $class . $size . $onchange . $required . $autofocus . $multiple . ' />';
 	}
 }

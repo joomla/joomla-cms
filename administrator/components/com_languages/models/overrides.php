@@ -203,9 +203,9 @@ class LanguagesModelOverrides extends JModelList
 		}
 
 		// Get all languages of frontend and backend.
-		$languages 			= array();
-		$site_languages 	= JLanguage::getKnownLanguages(JPATH_SITE);
-		$admin_languages	= JLanguage::getKnownLanguages(JPATH_ADMINISTRATOR);
+		$languages       = array();
+		$site_languages  = JLanguage::getKnownLanguages(JPATH_SITE);
+		$admin_languages = JLanguage::getKnownLanguages(JPATH_ADMINISTRATOR);
 
 		// Create a single array of them.
 		foreach ($site_languages as $tag => $language)

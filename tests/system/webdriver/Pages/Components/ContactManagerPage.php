@@ -160,6 +160,11 @@ class ContactManagerPage extends AdminManagerPage
 			$this->clickButton('toolbar-unpublish');
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		}
+		elseif (strtolower($state) == 'archived')
+		{
+			$this->clickButton('toolbar-archive');
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
 		$this->searchFor();
 	}
 }

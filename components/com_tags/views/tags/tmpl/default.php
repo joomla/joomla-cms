@@ -16,7 +16,7 @@ $description = $this->params->get('all_tags_description');
 $descriptionImage = $this->params->get('all_tags_description_image');
 ?>
 <div class="tag-category<?php echo $this->pageclass_sfx; ?>">
-	<?php if ($this->state->get('show_page_heading')) : ?>
+	<?php if ($this->params->get('show_page_heading')) : ?>
 		<h1>
 			<?php echo $this->escape($this->params->get('page_heading')); ?>
 		</h1>

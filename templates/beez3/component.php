@@ -53,7 +53,7 @@ if ($this->direction == 'rtl')
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ieonly.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <!--[if lt IE 9]>
-	<script src="<?php echo $this->baseurl; ?>/media/jui/js/html5.js"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
 <![endif]-->
 </head>
 <body class="contentpane">

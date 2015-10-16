@@ -66,11 +66,12 @@ abstract class JHtmlBatch
 			'<label id="batch-choose-action-lbl" for="batch-choose-action">' . JText::_('JLIB_HTML_BATCH_MENU_LABEL') . '</label>'
 			. '<div id="batch-choose-action" class="control-group">'
 			. '<select name="batch[category_id]" class="inputbox" id="batch-category-id">'
-			. '<option value="">' . JText::_('JSELECT') . '</option>'
+			. '<option value="">' . JText::_('JLIB_HTML_BATCH_NO_CATEGORY') . '</option>'
 			. JHtml::_('select.options', JHtml::_('category.options', $extension))
 			. '</select>'
 			. '</div>'
-			. '<div id="batch-move-copy" class="control-group radio">'
+			. '<div id="batch-copy-move" class="control-group radio">'
+			. JText::_('JLIB_HTML_BATCH_MOVE_QUESTION')
 			. JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm')
 			. '</div>';
 	}
@@ -85,6 +86,26 @@ abstract class JHtmlBatch
 	public static function language()
 	{
 		JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '.modal-body'));
+
+		JFactory::getDocument()->addScriptDeclaration(
+			'
+		jQuery(document).ready(function($){
+			if ($("#batch-category-id").length){var batchSelector = $("#batch-category-id");}
+			if ($("#batch-menu-id").length){var batchSelector = $("#batch-menu-id");}
+			if ($("#batch-position-id").length){var batchSelector = $("#batch-position-id");}
+			if ($("#batch-copy-move").length) {
+				$("#batch-copy-move").hide();
+				batchSelector.on("change", function(){
+					if (batchSelector.val() != 0 || batchSelector.val() != "") {
+						$("#batch-copy-move").show();
+					} else {
+						$("#batch-copy-move").hide();
+					}
+				});
+			}
+		});
+			'
+		);
 
 		// Create the batch selector to change the language on a selection list.
 		return

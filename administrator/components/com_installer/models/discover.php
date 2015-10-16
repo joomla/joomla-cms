@@ -68,7 +68,7 @@ class InstallerModelDiscover extends InstallerModel
 		$client = $this->getState('filter.client_id');
 		$group  = $this->getState('filter.group');
 
-		$query = JFactory::getDbo()->getQuery(true)
+		$query = $this->getDbo()->getQuery(true)
 			->select('*')
 			->from('#__extensions')
 			->where('state=-1');
@@ -113,11 +113,11 @@ class InstallerModelDiscover extends InstallerModel
 		// Purge the list of discovered extensions
 		$this->purge();
 
-		$installer	= JInstaller::getInstance();
-		$results	= $installer->discover();
+		$installer = JInstaller::getInstance();
+		$results   = $installer->discover();
 
 		// Get all templates, including discovered ones
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('extension_id, element, folder, client_id, type')
 			->from('#__extensions');
@@ -209,23 +209,21 @@ class InstallerModelDiscover extends InstallerModel
 	 */
 	public function purge()
 	{
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
 			->delete('#__extensions')
 			->where('state = -1');
 		$db->setQuery($query);
 
-		if ($db->execute())
-		{
-			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
-
-			return true;
-		}
-		else
+		if (!$db->execute())
 		{
 			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_FAILEDTOPURGEEXTENSIONS');
 
 			return false;
 		}
+
+		$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
+
+		return true;
 	}
 }

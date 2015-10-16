@@ -123,7 +123,7 @@ class TemplatesModelStyles extends JModelList
 
 		// Filter by extension enabled
 		$query->select('extension_id AS e_id')
-			->join('LEFT', '#__extensions AS e ON e.element = a.template')
+			->join('LEFT', '#__extensions AS e ON e.element = a.template AND e.client_id = a.client_id')
 			->where('e.enabled = 1')
 			->where('e.type=' . $db->quote('template'));
 
@@ -152,9 +152,8 @@ class TemplatesModelStyles extends JModelList
 			}
 			else
 			{
-				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
-				$search = $db->quote($escapedSearchString);
-				$query->where('(' . 'a.template REGEXP ' . $search . ' OR a.title REGEXP ' . $search . ')');
+				$search = $db->quote('%' . strtolower($search) . '%');
+				$query->where('(' . ' LOWER(a.template) LIKE ' . $search . ' OR LOWER(a.title) LIKE ' . $search . ')');
 			}
 		}
 

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 ?>
 <div class="reset<?php echo $this->pageclass_sfx?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>

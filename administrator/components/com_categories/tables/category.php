@@ -24,7 +24,7 @@ class CategoriesTableCategory extends JTableCategory
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     http://docs.joomla.org/JTableNested/delete
+	 * @see     https://docs.joomla.org/JTableNested/delete
 	 * @since   2.5
 	 */
 	public function delete($pk = null, $children = false)

@@ -55,7 +55,9 @@
   cmds[map["Alt-Left"] = "goSubwordLeft"] = function(cm) { moveSubword(cm, -1); };
   cmds[map["Alt-Right"] = "goSubwordRight"] = function(cm) { moveSubword(cm, 1); };
 
-  cmds[map[ctrl + "Up"] = "scrollLineUp"] = function(cm) {
+  var scrollLineCombo = mac ? "Ctrl-Alt-" : "Ctrl-";
+
+  cmds[map[scrollLineCombo + "Up"] = "scrollLineUp"] = function(cm) {
     var info = cm.getScrollInfo();
     if (!cm.somethingSelected()) {
       var visibleBottomLine = cm.lineAtHeight(info.top + info.clientHeight, "local");
@@ -64,7 +66,7 @@
     }
     cm.scrollTo(null, info.top - cm.defaultTextHeight());
   };
-  cmds[map[ctrl + "Down"] = "scrollLineDown"] = function(cm) {
+  cmds[map[scrollLineCombo + "Down"] = "scrollLineDown"] = function(cm) {
     var info = cm.getScrollInfo();
     if (!cm.somethingSelected()) {
       var visibleTopLine = cm.lineAtHeight(info.top, "local")+1;
@@ -408,6 +410,19 @@
   }
 
   map[cK + ctrl + "Backspace"] = "delLineLeft";
+
+  cmds[map["Backspace"] = "smartBackspace"] = function(cm) {
+    if (cm.somethingSelected()) return CodeMirror.Pass;
+
+    var cursor = cm.getCursor();
+    var toStartOfLine = cm.getRange({line: cursor.line, ch: 0}, cursor);
+    var column = CodeMirror.countColumn(toStartOfLine, null, cm.getOption("tabSize"));
+
+    if (toStartOfLine && !/\S/.test(toStartOfLine) && column % cm.getOption("indentUnit") == 0)
+      return cm.indentSelection("subtract");
+    else
+      return CodeMirror.Pass;
+  };
 
   cmds[map[cK + ctrl + "K"] = "delLineRight"] = function(cm) {
     cm.operation(function() {

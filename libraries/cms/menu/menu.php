@@ -46,7 +46,9 @@ class JMenu
 	protected $_active = 0;
 
 	/**
-	 * @var    array  JMenu instances container.
+	 * JMenu instances container.
+	 *
+	 * @var    JMenu[]
 	 * @since  1.7
 	 */
 	protected static $instances = array();
@@ -266,7 +268,7 @@ class JMenu
 			{
 				if (is_array($values[$i]))
 				{
-					if (!in_array($item->$attributes[$i], $values[$i]))
+					if (!in_array($item->{$attributes[$i]}, $values[$i]))
 					{
 						$test = false;
 						break;
@@ -274,7 +276,7 @@ class JMenu
 				}
 				else
 				{
-					if ($item->$attributes[$i] != $values[$i])
+					if ($item->{$attributes[$i]} != $values[$i])
 					{
 						$test = false;
 						break;

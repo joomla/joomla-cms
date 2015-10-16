@@ -60,7 +60,7 @@ class JObject
 	}
 
 	/**
-	 * Sets a default value if not alreay assigned
+	 * Sets a default value if not already assigned
 	 *
 	 * @param   string  $property  The name of the property.
 	 * @param   mixed   $default   The default value.

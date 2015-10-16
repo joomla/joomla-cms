@@ -101,4 +101,23 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 
 		return $this;
 	}
+
+	/**
+	 * Return correct regexp operator for mysqli.
+	 *
+	 * Ensure that the regexp operator is mysqli compatible.
+	 *
+	 * Usage:
+	 * $query->where('field ' . $query->regexp($search));
+	 *
+	 * @param   string  $value  The regex pattern.
+	 *
+	 * @return  string  Returns the regex operator.
+	 *
+	 * @since   11.3
+	 */
+	public function regexp($value)
+	{
+		return ' REGEXP ' . $value;
+	}
 }

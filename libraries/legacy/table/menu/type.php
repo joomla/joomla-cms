@@ -38,7 +38,7 @@ class JTableMenuType extends JTable
 	 */
 	public function check()
 	{
-		$this->menutype = JApplication::stringURLSafe($this->menutype);
+		$this->menutype = JApplicationHelper::stringURLSafe($this->menutype);
 
 		if (empty($this->menutype))
 		{
@@ -82,7 +82,7 @@ class JTableMenuType extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/store
+	 * @link    https://docs.joomla.org/JTable/store
 	 * @since   11.1
 	 */
 	public function store($updateNulls = false)
@@ -164,7 +164,7 @@ class JTableMenuType extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/delete
+	 * @link    https://docs.joomla.org/JTable/delete
 	 * @since   11.1
 	 */
 	public function delete($pk = null)

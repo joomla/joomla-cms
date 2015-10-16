@@ -85,13 +85,13 @@ class JGoogleEmbedMapsTest extends TestCase
 	 * @group	JGoogle
 	 * @return void
 	 */
-	public function testGetMapID()
+	public function testGetMapId()
 	{
-		$id = $this->object->getMapID();
+		$id = $this->object->getMapId();
 		$this->assertEquals($id, 'map_canvas');
 
 		$this->object->setOption('mapid', 'canvas');
-		$id = $this->object->getMapID();
+		$id = $this->object->getMapId();
 		$this->assertEquals($id, 'canvas');
 	}
 
@@ -101,9 +101,9 @@ class JGoogleEmbedMapsTest extends TestCase
 	 * @group	JGoogle
 	 * @return void
 	 */
-	public function testSetMapID()
+	public function testSetMapId()
 	{
-		$this->object->setMapID('map_canvas');
+		$this->object->setMapId('map_canvas');
 		$id = $this->object->getOption('mapid');
 		$this->assertEquals($id, 'map_canvas');
 	}
@@ -585,7 +585,7 @@ class JGoogleEmbedMapsTest extends TestCase
 		$this->object->setZoom(8);
 		$this->object->setCenter('San Francisco', 'Home', array('centerkey' => 'value'));
 		$this->object->setMaptype('SATELLITE');
-		$this->object->setMapID('MAPID');
+		$this->object->setMapId('MAPID');
 		$this->object->setKey('123456');
 		$this->object->useSensor();
 		$this->object->setAdditionalMapOptions(array('mapkey1' => 5, 'mapkey2' => array ('subkey' => 'subvalue')));
@@ -636,7 +636,7 @@ class JGoogleEmbedMapsTest extends TestCase
 	 */
 	public function testGetBody()
 	{
-		$this->object->setMapID('MAPID');
+		$this->object->setMapId('MAPID');
 		$this->object->setMapClass('class1 class2');
 		$this->object->setMapStyle('width: 100%');
 

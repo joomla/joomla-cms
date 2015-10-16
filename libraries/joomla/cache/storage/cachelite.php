@@ -74,7 +74,10 @@ class JCacheStorageCachelite extends JCacheStorage
 	 */
 	protected function initCache($cloptions)
 	{
-		require_once 'Cache/Lite.php';
+		if (!class_exists('Cache_Lite'))
+		{
+			require_once 'Cache/Lite.php';
+		}
 
 		self::$CacheLiteInstance = new Cache_Lite($cloptions);
 
@@ -230,6 +233,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	public function clean($group, $mode = null)
 	{
 		jimport('joomla.filesystem.folder');
+		jimport('joomla.filesystem.file');
 
 		switch ($mode)
 		{
@@ -244,7 +248,23 @@ class JCacheStorageCachelite extends JCacheStorage
 					$clmode = $group;
 					self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
 					$success = self::$CacheLiteInstance->clean($group, $clmode);
-					JFolder::delete($this->_root . '/' . $group);
+					// Remove sub-folders of folder; disable all filtering
+					$folders = JFolder::folders($this->_root . '/' . $group, '.', false, true, array(), array());
+
+					foreach ($folders as $folder)
+					{
+						if (is_link($folder))
+						{
+							if (JFile::delete($folder) !== true)
+							{
+								return false;
+							}
+						}
+						elseif (JFolder::delete($folder) !== true)
+						{
+							return false;
+						}
+					}
 				}
 				else
 				{
@@ -326,13 +346,6 @@ class JCacheStorageCachelite extends JCacheStorage
 	{
 		@include_once 'Cache/Lite.php';
 
-		if (class_exists('Cache_Lite'))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return class_exists('Cache_Lite');
 	}
 }

@@ -266,10 +266,10 @@ class JFormFieldRules extends JFormField
 
 				$html[] = '<td headers="settings-th' . $group->value . '">';
 
-				$html[] = '<select class="input-small" name="' . $this->name . '[' . $action->name . '][' . $group->value . ']" id="' . $this->id
-					. '_' . $action->name
-					. '_' . $group->value . '" title="'
-					. JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)) . '">';
+				$html[] = '<select data-chosen="true" class="input-small"'
+					. ' name="' . $this->name . '[' . $action->name . '][' . $group->value . ']"'
+					. ' id="' . $this->id . '_' . $action->name	. '_' . $group->value . '"'
+					. ' title="' . JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)) . '">';
 
 				$inheritedRule = JAccess::checkGroup($group->value, $action->name, $assetId);
 
@@ -323,14 +323,14 @@ class JFormFieldRules extends JFormField
 							}
 							else
 							{
-								$html[] = '<span class="label"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED')
+								$html[] = '<span class="label"><span class="icon-lock icon-white"></span> ' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED')
 									. '</span>';
 							}
 						}
 					}
 					elseif (!empty($component))
 					{
-						$html[] = '<span class="label label-success"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
+						$html[] = '<span class="label label-success"><span class="icon-lock icon-white"></span> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
 							. '</span>';
 					}
 					else
@@ -344,12 +344,12 @@ class JFormFieldRules extends JFormField
 						elseif ($inheritedRule === false)
 						{
 							// Other actions cannot be changed.
-							$html[] = '<span class="label label-important"><i class="icon-lock icon-white"></i> '
+							$html[] = '<span class="label label-important"><span class="icon-lock icon-white"></span> '
 								. JText::_('JLIB_RULES_NOT_ALLOWED_ADMIN_CONFLICT') . '</span>';
 						}
 						else
 						{
-							$html[] = '<span class="label label-success"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
+							$html[] = '<span class="label label-success"><span class="icon-lock icon-white"></span> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
 								. '</span>';
 						}
 					}

@@ -195,7 +195,18 @@ abstract class JSchemaChangeitem
 		if ($this->checkQuery)
 		{
 			$this->db->setQuery($this->checkQuery);
-			$rows = $this->db->loadObject();
+
+			try
+			{
+				$rows = $this->db->loadObject();
+			}
+			catch (RuntimeException $e)
+			{
+				$rows = false;
+
+				// Still render the error message from the Exception object
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			}
 
 			if ($rows !== false)
 			{

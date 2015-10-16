@@ -67,26 +67,28 @@ class AdminModelSysInfo extends JModelLegacy
 	 */
 	public function &getPhpSettings()
 	{
-		if (is_null($this->php_settings))
+		if (!is_null($this->php_settings))
 		{
-			$this->php_settings = array();
-			$this->php_settings['safe_mode']			= ini_get('safe_mode') == '1';
-			$this->php_settings['display_errors']		= ini_get('display_errors') == '1';
-			$this->php_settings['short_open_tag']		= ini_get('short_open_tag') == '1';
-			$this->php_settings['file_uploads']			= ini_get('file_uploads') == '1';
-			$this->php_settings['magic_quotes_gpc']		= ini_get('magic_quotes_gpc') == '1';
-			$this->php_settings['register_globals']		= ini_get('register_globals') == '1';
-			$this->php_settings['output_buffering']		= (bool) ini_get('output_buffering');
-			$this->php_settings['open_basedir']			= ini_get('open_basedir');
-			$this->php_settings['session.save_path']	= ini_get('session.save_path');
-			$this->php_settings['session.auto_start']	= ini_get('session.auto_start');
-			$this->php_settings['disable_functions']	= ini_get('disable_functions');
-			$this->php_settings['xml']					= extension_loaded('xml');
-			$this->php_settings['zlib']					= extension_loaded('zlib');
-			$this->php_settings['zip']					= function_exists('zip_open') && function_exists('zip_read');
-			$this->php_settings['mbstring']				= extension_loaded('mbstring');
-			$this->php_settings['iconv']				= function_exists('iconv');
+			return $this->php_settings;
 		}
+
+		$this->php_settings = array();
+		$this->php_settings['safe_mode'] = ini_get('safe_mode') == '1';
+		$this->php_settings['display_errors'] = ini_get('display_errors') == '1';
+		$this->php_settings['short_open_tag'] = ini_get('short_open_tag') == '1';
+		$this->php_settings['file_uploads'] = ini_get('file_uploads') == '1';
+		$this->php_settings['magic_quotes_gpc'] = ini_get('magic_quotes_gpc') == '1';
+		$this->php_settings['register_globals'] = ini_get('register_globals') == '1';
+		$this->php_settings['output_buffering'] = (bool) ini_get('output_buffering');
+		$this->php_settings['open_basedir'] = ini_get('open_basedir');
+		$this->php_settings['session.save_path'] = ini_get('session.save_path');
+		$this->php_settings['session.auto_start'] = ini_get('session.auto_start');
+		$this->php_settings['disable_functions'] = ini_get('disable_functions');
+		$this->php_settings['xml'] = extension_loaded('xml');
+		$this->php_settings['zlib'] = extension_loaded('zlib');
+		$this->php_settings['zip'] = function_exists('zip_open') && function_exists('zip_read');
+		$this->php_settings['mbstring'] = extension_loaded('mbstring');
+		$this->php_settings['iconv'] = function_exists('iconv');
 
 		return $this->php_settings;
 	}
@@ -100,16 +102,18 @@ class AdminModelSysInfo extends JModelLegacy
 	 */
 	public function &getConfig()
 	{
-		if (is_null($this->config))
+		if (!is_null($this->config))
 		{
-			$registry = new Registry(new JConfig);
-			$this->config = $registry->toArray();
-			$hidden = array('host', 'user', 'password', 'ftp_user', 'ftp_pass', 'smtpuser', 'smtppass');
+			return $this->config;
+		}
 
-			foreach ($hidden as $key)
-			{
-				$this->config[$key] = 'xxxxxx';
-			}
+		$registry = new Registry(new JConfig);
+		$this->config = $registry->toArray();
+		$hidden = array('host', 'user', 'password', 'ftp_user', 'ftp_pass', 'smtpuser', 'smtppass');
+
+		foreach ($hidden as $key)
+		{
+			$this->config[$key] = 'xxxxxx';
 		}
 
 		return $this->config;
@@ -124,34 +128,39 @@ class AdminModelSysInfo extends JModelLegacy
 	 */
 	public function &getInfo()
 	{
-		if (is_null($this->info))
+		if (!is_null($this->info))
 		{
-			$this->info = array();
-			$version = new JVersion;
-			$platform = new JPlatform;
-			$db = JFactory::getDbo();
-
-			if (isset($_SERVER['SERVER_SOFTWARE']))
-			{
-				$sf = $_SERVER['SERVER_SOFTWARE'];
-			}
-			else
-			{
-				$sf = getenv('SERVER_SOFTWARE');
-			}
-
-			$this->info['php']			= php_uname();
-			$this->info['dbversion']	= $db->getVersion();
-			$this->info['dbcollation']	= $db->getCollation();
-			$this->info['phpversion']	= phpversion();
-			$this->info['server']		= $sf;
-			$this->info['sapi_name']	= php_sapi_name();
-			$this->info['version']		= $version->getLongVersion();
-			$this->info['platform']		= $platform->getLongVersion();
-			$this->info['useragent']	= isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "";
+			return $this->info;
 		}
 
+		$this->info = array();
+		$version = new JVersion;
+		$platform = new JPlatform;
+		$db = $this->getDbo();
+
+		$this->info['php'] = php_uname();
+		$this->info['dbversion'] = $db->getVersion();
+		$this->info['dbcollation'] = $db->getCollation();
+		$this->info['phpversion'] = phpversion();
+		$this->info['server'] = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : getenv('SERVER_SOFTWARE');
+		$this->info['sapi_name'] = php_sapi_name();
+		$this->info['version'] = $version->getLongVersion();
+		$this->info['platform'] = $platform->getLongVersion();
+		$this->info['useragent'] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "";
+
 		return $this->info;
+	}
+
+	/**
+	 * Method to get if phpinfo method is enabled from php.ini
+	 *
+	 * @return  boolean True if enabled
+	 *
+	 * @since  3.4.1
+	 */
+	public function phpinfoEnabled()
+	{
+		return !in_array('phpinfo', explode(',', ini_get('disable_functions')));
 	}
 
 	/**
@@ -163,23 +172,32 @@ class AdminModelSysInfo extends JModelLegacy
 	 */
 	public function &getPHPInfo()
 	{
-		if (is_null($this->php_info))
+		if (!$this->phpinfoEnabled())
 		{
-			ob_start();
-			date_default_timezone_set('UTC');
-			phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES);
-			$phpInfo = ob_get_contents();
-			ob_end_clean();
-			preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpInfo, $output);
-			$output = preg_replace('#<table[^>]*>#', '<table class="table table-striped adminlist">', $output[1][0]);
-			$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
-			$output = preg_replace('#<hr />#', '', $output);
-			$output = str_replace('<div class="center">', '', $output);
-			$output = preg_replace('#<tr class="h">(.*)<\/tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
-			$output = str_replace('</table>', '</tbody></table>', $output);
-			$output = str_replace('</div>', '', $output);
-			$this->php_info = $output;
+			$this->php_info = JText::_('COM_ADMIN_PHPINFO_DISABLED');
+
+			return $this->php_info;
 		}
+
+		if (!is_null($this->php_info))
+		{
+			return $this->php_info;
+		}
+
+		ob_start();
+		date_default_timezone_set('UTC');
+		phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES);
+		$phpInfo = ob_get_contents();
+		ob_end_clean();
+		preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpInfo, $output);
+		$output = preg_replace('#<table[^>]*>#', '<table class="table table-striped adminlist">', $output[1][0]);
+		$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
+		$output = preg_replace('#<hr />#', '', $output);
+		$output = str_replace('<div class="center">', '', $output);
+		$output = preg_replace('#<tr class="h">(.*)<\/tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output);
+		$output = str_replace('</table>', '</tbody></table>', $output);
+		$output = str_replace('</div>', '', $output);
+		$this->php_info = $output;
 
 		return $this->php_info;
 	}
@@ -193,103 +211,115 @@ class AdminModelSysInfo extends JModelLegacy
 	 */
 	public function getDirectory()
 	{
-		if (is_null($this->directories))
+		if (!is_null($this->directories))
 		{
-			$this->directories = array();
+			return $this->directories;
+		}
 
-			$registry = JFactory::getConfig();
-			$cparams = JComponentHelper::getParams('com_media');
+		$this->directories = array();
 
-			$this->_addDirectory('administrator/components', JPATH_ADMINISTRATOR . '/components');
-			$this->_addDirectory('administrator/language', JPATH_ADMINISTRATOR . '/language');
+		$registry = JFactory::getConfig();
+		$cparams = JComponentHelper::getParams('com_media');
 
-			// List all admin languages
-			$admin_langs = new DirectoryIterator(JPATH_ADMINISTRATOR . '/language');
+		$this->_addDirectory('administrator/components', JPATH_ADMINISTRATOR . '/components');
+		$this->_addDirectory('administrator/language', JPATH_ADMINISTRATOR . '/language');
 
-			foreach ($admin_langs as $folder)
+		// List all admin languages
+		$admin_langs = new DirectoryIterator(JPATH_ADMINISTRATOR . '/language');
+
+		foreach ($admin_langs as $folder)
+		{
+			if (!$folder->isDir() || $folder->isDot())
 			{
-				if (!$folder->isDir() || $folder->isDot())
-				{
-					continue;
-				}
-
-				$this->_addDirectory('administrator/language/' . $folder->getFilename(), JPATH_ADMINISTRATOR . '/language/' . $folder->getFilename());
+				continue;
 			}
 
-			// List all manifests folders
-			$manifests = new DirectoryIterator(JPATH_ADMINISTRATOR . '/manifests');
+			$this->_addDirectory('administrator/language/' . $folder->getFilename(), JPATH_ADMINISTRATOR . '/language/' . $folder->getFilename());
+		}
 
-			foreach ($manifests as $folder)
+		// List all manifests folders
+		$manifests = new DirectoryIterator(JPATH_ADMINISTRATOR . '/manifests');
+
+		foreach ($manifests as $folder)
+		{
+			if (!$folder->isDir() || $folder->isDot())
 			{
-				if (!$folder->isDir() || $folder->isDot())
-				{
-					continue;
-				}
-
-				$this->_addDirectory('administrator/manifests/' . $folder->getFilename(), JPATH_ADMINISTRATOR . '/manifests/' . $folder->getFilename());
+				continue;
 			}
 
-			$this->_addDirectory('administrator/modules', JPATH_ADMINISTRATOR . '/modules');
-			$this->_addDirectory('administrator/templates', JPATH_THEMES);
+			$this->_addDirectory('administrator/manifests/' . $folder->getFilename(), JPATH_ADMINISTRATOR . '/manifests/' . $folder->getFilename());
+		}
 
-			$this->_addDirectory('components', JPATH_SITE . '/components');
+		$this->_addDirectory('administrator/modules', JPATH_ADMINISTRATOR . '/modules');
+		$this->_addDirectory('administrator/templates', JPATH_THEMES);
 
-			$this->_addDirectory($cparams->get('image_path'), JPATH_SITE . '/' . $cparams->get('image_path'));
+		$this->_addDirectory('components', JPATH_SITE . '/components');
 
-			// List all images folders
-			$image_folders = new DirectoryIterator(JPATH_SITE . '/' . $cparams->get('image_path'));
+		$this->_addDirectory($cparams->get('image_path'), JPATH_SITE . '/' . $cparams->get('image_path'));
 
-			foreach ($image_folders as $folder)
+		// List all images folders
+		$image_folders = new DirectoryIterator(JPATH_SITE . '/' . $cparams->get('image_path'));
+
+		foreach ($image_folders as $folder)
+		{
+			if (!$folder->isDir() || $folder->isDot())
 			{
-				if (!$folder->isDir() || $folder->isDot())
-				{
-					continue;
-				}
-
-				$this->_addDirectory('images/' . $folder->getFilename(), JPATH_SITE . '/' . $cparams->get('image_path') . '/' . $folder->getFilename());
+				continue;
 			}
 
-			$this->_addDirectory('language', JPATH_SITE . '/language');
+			$this->_addDirectory('images/' . $folder->getFilename(), JPATH_SITE . '/' . $cparams->get('image_path') . '/' . $folder->getFilename());
+		}
 
-			// List all site languages
-			$site_langs = new DirectoryIterator(JPATH_SITE . '/language');
+		$this->_addDirectory('language', JPATH_SITE . '/language');
 
-			foreach ($site_langs as $folder)
+		// List all site languages
+		$site_langs = new DirectoryIterator(JPATH_SITE . '/language');
+
+		foreach ($site_langs as $folder)
+		{
+			if (!$folder->isDir() || $folder->isDot())
 			{
-				if (!$folder->isDir() || $folder->isDot())
-				{
-					continue;
-				}
-
-				$this->_addDirectory('language/' . $folder->getFilename(), JPATH_SITE . '/language/' . $folder->getFilename());
+				continue;
 			}
 
-			$this->_addDirectory('libraries', JPATH_LIBRARIES);
+			$this->_addDirectory('language/' . $folder->getFilename(), JPATH_SITE . '/language/' . $folder->getFilename());
+		}
 
-			$this->_addDirectory('media', JPATH_SITE . '/media');
-			$this->_addDirectory('modules', JPATH_SITE . '/modules');
-			$this->_addDirectory('plugins', JPATH_PLUGINS);
+		$this->_addDirectory('libraries', JPATH_LIBRARIES);
 
-			$plugin_groups = new DirectoryIterator(JPATH_SITE . '/plugins');
+		$this->_addDirectory('media', JPATH_SITE . '/media');
+		$this->_addDirectory('modules', JPATH_SITE . '/modules');
+		$this->_addDirectory('plugins', JPATH_PLUGINS);
 
-			foreach ($plugin_groups as $folder)
+		$plugin_groups = new DirectoryIterator(JPATH_SITE . '/plugins');
+
+		foreach ($plugin_groups as $folder)
+		{
+			if (!$folder->isDir() || $folder->isDot())
 			{
-				if (!$folder->isDir() || $folder->isDot())
-				{
-					continue;
-				}
-
-				$this->_addDirectory('plugins/' . $folder->getFilename(), JPATH_PLUGINS . '/' . $folder->getFilename());
+				continue;
 			}
 
-			$this->_addDirectory('templates', JPATH_SITE . '/templates');
-			$this->_addDirectory('configuration.php', JPATH_CONFIGURATION . '/configuration.php');
+			$this->_addDirectory('plugins/' . $folder->getFilename(), JPATH_PLUGINS . '/' . $folder->getFilename());
+		}
+
+		$this->_addDirectory('templates', JPATH_SITE . '/templates');
+		$this->_addDirectory('configuration.php', JPATH_CONFIGURATION . '/configuration.php');
+
+		// Is there a cache path in configuration.php?
+		if ($cache_path = trim($registry->get('cache_path', '')))
+		{
+			// Frontend and backend use same directory for caching.
+			$this->_addDirectory($cache_path, $cache_path, 'COM_ADMIN_CACHE_DIRECTORY');
+		}
+		else
+		{
 			$this->_addDirectory('cache', JPATH_SITE . '/cache', 'COM_ADMIN_CACHE_DIRECTORY');
 			$this->_addDirectory('administrator/cache', JPATH_CACHE, 'COM_ADMIN_CACHE_DIRECTORY');
-
-			$this->_addDirectory($registry->get('log_path', JPATH_ROOT . '/log'), $registry->get('log_path', JPATH_ROOT . '/log'), 'COM_ADMIN_LOG_DIRECTORY');
-			$this->_addDirectory($registry->get('tmp_path', JPATH_ROOT . '/tmp'), $registry->get('tmp_path', JPATH_ROOT . '/tmp'), 'COM_ADMIN_TEMP_DIRECTORY');
 		}
+
+		$this->_addDirectory($registry->get('log_path', JPATH_ROOT . '/log'), $registry->get('log_path', JPATH_ROOT . '/log'), 'COM_ADMIN_LOG_DIRECTORY');
+		$this->_addDirectory($registry->get('tmp_path', JPATH_ROOT . '/tmp'), $registry->get('tmp_path', JPATH_ROOT . '/tmp'), 'COM_ADMIN_TEMP_DIRECTORY');
 
 		return $this->directories;
 	}
@@ -325,11 +355,12 @@ class AdminModelSysInfo extends JModelLegacy
 	 */
 	public function &getEditor()
 	{
-		if (is_null($this->editor))
+		if (!is_null($this->editor))
 		{
-			$config = JFactory::getConfig();
-			$this->editor = $config->get('editor');
+			return $this->editor;
 		}
+
+		$this->editor = JFactory::getConfig()->get('editor');
 
 		return $this->editor;
 	}

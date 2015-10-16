@@ -49,7 +49,7 @@ abstract class NewsfeedsHelperAssociation extends CategoryHelperAssociation
 
 				foreach ($associations as $tag => $item)
 				{
-					$return[$tag] = NewsfeedsHelperRoute::getNewsfeedRoute($item->id, $item->catid, $item->language);
+					$return[$tag] = NewsfeedsHelperRoute::getNewsfeedRoute($item->id, (int) $item->catid, $item->language);
 				}
 
 				return $return;

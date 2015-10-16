@@ -35,6 +35,14 @@ class ContentModelArticle extends JModelAdmin
 	public $typeAlias = 'com_content.article';
 
 	/**
+	 * The context used for the associations table
+	 *
+	 * @var      string
+	 * @since    3.4.4
+	 */
+	protected $associationsContext = 'com_content.item';
+
+	/**
 	 * Batch copy items to a new category or current.
 	 *
 	 * @param   integer  $value     The new category.
@@ -100,7 +108,7 @@ class ContentModelArticle extends JModelAdmin
 			$this->table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			// $table->ordering	= 1;
+			// $table->ordering = 1;
 
 			// Get the featured state
 			$featured = $this->table->featured;
@@ -390,7 +398,7 @@ class ContentModelArticle extends JModelAdmin
 			$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
 
 			// Make fields read only
-			if ($associations)
+			if (!empty($associations))
 			{
 				$form->setFieldAttribute('language', 'readonly', 'true');
 				$form->setFieldAttribute('catid', 'readonly', 'true');
@@ -419,14 +427,27 @@ class ContentModelArticle extends JModelAdmin
 		{
 			$data = $this->getItem();
 
-			// Prime some default values.
+			// Pre-select some filters (Status, Category, Language, Access) in edit form if those have been selected in Article Manager: Articles
 			if ($this->getState('article.id') == 0)
 			{
 				$filters = (array) $app->getUserState('com_content.articles.filter');
-				$filterCatId = isset($filters['category_id']) ? $filters['category_id'] : null;
-
-				$data->set('catid', $app->input->getInt('catid', $filterCatId));
+				$data->set(
+					'state',
+					$app->input->getInt(
+						'state',
+						((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
+					)
+				);
+				$data->set('catid', $app->input->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
+				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'))));
 			}
+		}
+
+		// If there are params fieldsets in the form it will fail with a registry object
+		if (isset($data->params) && $data->params instanceof Registry)
+		{
+			$data->params = $data->params->toArray();
 		}
 
 		$this->preprocessData('com_content.article', $data);
@@ -504,7 +525,7 @@ class ContentModelArticle extends JModelAdmin
 		}
 
 		// Automatic handling of alias for empty fields
-		if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (int) $input->get('id') == 0)
+		if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (!isset($data['id']) || (int) $data['id'] == 0))
 		{
 			if ($data['alias'] == null)
 			{
@@ -540,72 +561,6 @@ class ContentModelArticle extends JModelAdmin
 			if (isset($data['featured']))
 			{
 				$this->featured($this->getState($this->getName() . '.id'), $data['featured']);
-			}
-
-			$assoc = JLanguageAssociations::isEnabled();
-			if ($assoc)
-			{
-				$id = (int) $this->getState($this->getName() . '.id');
-				$item = $this->getItem($id);
-
-				// Adding self to the association
-				$associations = $data['associations'];
-
-				foreach ($associations as $tag => $id)
-				{
-					if (empty($id))
-					{
-						unset($associations[$tag]);
-					}
-				}
-
-				// Detecting all item menus
-				$all_language = $item->language == '*';
-
-				if ($all_language && !empty($associations))
-				{
-					JError::raiseNotice(403, JText::_('COM_CONTENT_ERROR_ALL_LANGUAGE_ASSOCIATED'));
-				}
-
-				$associations[$item->language] = $item->id;
-
-				// Deleting old association for these items
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true)
-					->delete('#__associations')
-					->where('context=' . $db->quote('com_content.item'))
-					->where('id IN (' . implode(',', $associations) . ')');
-				$db->setQuery($query);
-				$db->execute();
-
-				if ($error = $db->getErrorMsg())
-				{
-					$this->setError($error);
-
-					return false;
-				}
-
-				if (!$all_language && count($associations))
-				{
-					// Adding new association for these items
-					$key = md5(json_encode($associations));
-					$query->clear()
-						->insert('#__associations');
-
-					foreach ($associations as $id)
-					{
-						$query->values($id . ',' . $db->quote('com_content.item') . ',' . $db->quote($key));
-					}
-
-					$db->setQuery($query);
-					$db->execute();
-
-					if ($error = $db->getErrorMsg())
-					{
-						$this->setError($error);
-						return false;
-					}
-				}
 			}
 
 			return true;

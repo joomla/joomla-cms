@@ -393,6 +393,14 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
+				if (stristr(strtolower($field->type), "character varying"))
+				{
+					$field->Default = "";
+				}
+				if (stristr(strtolower($field->type), "text"))
+				{
+					$field->Default = "";
+				}
 				// Do some dirty translation to MySQL output.
 				// TODO: Come up with and implement a standard across databases.
 				$result[$field->column_name] = (object) array(
@@ -707,8 +715,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 					$this->errorMsg = pg_last_error($this->connection) . "SQL=" . $query;
 
 					// Throw the normal query exception.
-					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-					throw new RuntimeException($this->errorMsg);
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
+					throw new RuntimeException($this->errorMsg, null, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -722,7 +731,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				$this->errorMsg = pg_last_error($this->connection) . "SQL=" . $query;
 
 				// Throw the normal query exception.
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
 				throw new RuntimeException($this->errorMsg);
 			}
 		}
@@ -830,7 +840,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
 		$this->connect();
 
@@ -1168,7 +1178,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function getStringPositionSQL( $substring, $string )
+	public function getStringPositionSql( $substring, $string )
 	{
 		$this->connect();
 

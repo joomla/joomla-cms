@@ -74,7 +74,6 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
 		$this->addToolbar();
-		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		return parent::render();
 	}

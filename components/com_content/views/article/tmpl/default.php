@@ -22,7 +22,7 @@ JHtml::_('behavior.caption');
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="http://schema.org/Article">
 	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? JFactory::getConfig()->get('language') : $this->item->language; ?>" />
-	<?php if ($this->params->get('show_page_heading', 1)) : ?>
+	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
 	</div>
@@ -113,6 +113,10 @@ JHtml::_('behavior.caption');
 
 	<?php if ($useDefList && ($info == 1 || $info == 2)) : ?>
 		<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
+		<?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
+			<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+			<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+		<?php endif; ?>
 	<?php endif; ?>
 
 	<?php
@@ -126,12 +130,15 @@ JHtml::_('behavior.caption');
 	<?php // Optional teaser intro text for guests ?>
 	<?php elseif ($params->get('show_noauth') == true && $user->get('guest')) : ?>
 	<?php echo $this->item->introtext; ?>
-	<?php //Optional link to let them register to see the whole article. ?>
-	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) :
-		$link1 = JRoute::_('index.php?option=com_users&view=login');
-		$link = new JUri($link1);?>
+	<?php // Optional link to let them register to see the whole article. ?>
+	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) : ?>
+	<?php $menu = JFactory::getApplication()->getMenu(); ?>
+	<?php $active = $menu->getActive(); ?>
+	<?php $itemId = $active->id; ?>
+	<?php $link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false)); ?>
+	<?php $link->setVar('return', base64_encode(JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language), false))); ?>
 	<p class="readmore">
-		<a href="<?php echo $link; ?>">
+		<a href="<?php echo $link; ?>" class="register">
 		<?php $attribs = json_decode($this->item->attribs); ?>
 		<?php
 		if ($attribs->alternative_readmore == null) :
@@ -158,4 +165,3 @@ JHtml::_('behavior.caption');
 	<?php endif; ?>
 	<?php echo $this->item->event->afterDisplayContent; ?>
 </div>
-

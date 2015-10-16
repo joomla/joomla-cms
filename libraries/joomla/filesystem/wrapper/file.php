@@ -9,8 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.filesystem.file');
+
 /**
- * Wrapper class for JFilesystemFile
+ * Wrapper class for JFile
  *
  * @package     Joomla.Platform
  * @subpackage  Filesystem

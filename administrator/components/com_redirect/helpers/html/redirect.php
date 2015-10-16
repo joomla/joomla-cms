@@ -38,18 +38,20 @@ class JHtmlRedirect
 		}
 
 		// Array of image, task, title, action
-		$states	= array(
-			1	=> array('tick.png',		'links.unpublish',	'JENABLED',	'COM_REDIRECT_DISABLE_LINK'),
-			0	=> array('publish_x.png',	'links.publish',		'JDISABLED',	'COM_REDIRECT_ENABLE_LINK'),
-			2	=> array('disabled.png',	'links.unpublish',	'JARCHIVED',	'JUNARCHIVE'),
-			-2	=> array('trash.png',		'links.publish',		'JTRASHED',	'COM_REDIRECT_ENABLE_LINK'),
+		$states = array(
+			1  => array('publish', 'links.unpublish', 'JENABLED', 'COM_REDIRECT_DISABLE_LINK'),
+			0  => array('unpublish', 'links.publish', 'JDISABLED', 'COM_REDIRECT_ENABLE_LINK'),
+			2  => array('archive', 'links.unpublish', 'JARCHIVED', 'JUNARCHIVE'),
+			-2 => array('trash', 'links.publish', 'JTRASHED', 'COM_REDIRECT_ENABLE_LINK'),
 		);
-		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$html	= JHtml::_('image', 'admin/' . $state[0], JText::_($state[2]), null, true);
+
+		$state = JArrayHelper::getValue($states, (int) $value, $states[0]);
+		$icon  = $state[0];
 
 		if ($canChange)
 		{
-			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" title="' . JText::_($state[3]) . '">' . $html . '</a>';
+			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-micro hasTooltip'
+				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::tooltipText($state[3]) . '"><span class="icon-'	. $icon . '"></span></a>';
 		}
 
 		return $html;

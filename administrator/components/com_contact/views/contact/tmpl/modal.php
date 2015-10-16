@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
 $app = JFactory::getApplication();
@@ -37,6 +37,9 @@ JFactory::getDocument()->addScriptDeclaration('
 		}
 	};
 ');
+
+// Fieldsets to not automatically render by /layouts/joomla/edit/params.php
+$this->ignore_fieldsets = array('details', 'display', 'email', 'item_associations');
 ?>
 <div class="container-popup">
 

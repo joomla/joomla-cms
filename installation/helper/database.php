@@ -30,7 +30,7 @@ abstract class InstallationHelperDatabase
 	 *
 	 * @since   1.6
 	 */
-	public static function getDBO($driver, $host, $user, $password, $database, $prefix, $select = true)
+	public static function getDbo($driver, $host, $user, $password, $database, $prefix, $select = true)
 	{
 		static $db;
 

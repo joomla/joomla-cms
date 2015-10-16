@@ -331,6 +331,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 		$rowNumberText = ', ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
 
 		$query = preg_replace('/\sFROM\s/i', $rowNumberText, $query, 1);
+		$query = 'SELECT * FROM (' . $query . ') A WHERE A.RowNumber BETWEEN ' . $start . ' AND ' . $end;
 
 		return $query;
 	}

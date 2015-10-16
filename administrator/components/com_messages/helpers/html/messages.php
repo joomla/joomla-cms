@@ -67,18 +67,19 @@ class JHtmlMessages
 	public static function status($i, $value = 0, $canChange = false)
 	{
 		// Array of image, task, title, action.
-		$states	= array(
-			-2	=> array('trash.png',		'messages.unpublish',	'JTRASHED',				'COM_MESSAGES_MARK_AS_UNREAD'),
-			1	=> array('tick.png',		'messages.unpublish',	'COM_MESSAGES_OPTION_READ',		'COM_MESSAGES_MARK_AS_UNREAD'),
-			0	=> array('publish_x.png',	'messages.publish',		'COM_MESSAGES_OPTION_UNREAD',	'COM_MESSAGES_MARK_AS_READ')
+		$states = array(
+			-2 => array('trash', 'messages.unpublish', 'JTRASHED', 'COM_MESSAGES_MARK_AS_UNREAD'),
+			1 => array('publish', 'messages.unpublish', 'COM_MESSAGES_OPTION_READ', 'COM_MESSAGES_MARK_AS_UNREAD'),
+			0 => array('unpublish', 'messages.publish', 'COM_MESSAGES_OPTION_UNREAD', 'COM_MESSAGES_MARK_AS_READ'),
 		);
-		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$html	= JHtml::_('image', 'admin/' . $state[0], JText::_($state[2]), null, true);
+
+		$state = JArrayHelper::getValue($states, (int) $value, $states[0]);
+		$icon  = $state[0];
 
 		if ($canChange)
 		{
-			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" title="' . JText::_($state[3]) . '">'
-					. $html . '</a>';
+			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-micro hasTooltip'
+				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::tooltipText($state[3]) . '"><span class="icon-'	. $icon . '"></span></a>';
 		}
 
 		return $html;

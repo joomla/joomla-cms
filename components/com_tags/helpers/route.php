@@ -110,17 +110,17 @@ class TagsHelperRoute extends JHelperRoute
 	 */
 	protected static function _findItem($needles = null)
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu('site');
-		$language	= isset($needles['language']) ? $needles['language'] : '*';
+		$app      = JFactory::getApplication();
+		$menus    = $app->getMenu('site');
+		$language = isset($needles['language']) ? $needles['language'] : '*';
 
 		// Prepare the reverse lookup array.
 		if (self::$lookup === null)
 		{
 			self::$lookup = array();
 
-			$component	= JComponentHelper::getComponent('com_tags');
-			$items		= $menus->getItems('component_id', $component->id);
+			$component = JComponentHelper::getComponent('com_tags');
+			$items     = $menus->getItems('component_id', $component->id);
 
 			if ($items)
 			{
@@ -143,9 +143,15 @@ class TagsHelperRoute extends JHelperRoute
 						}
 
 						// Only match menu items that list one tag
-						if (isset($item->query['id'][0]) && count($item->query['id']) == 1)
+						if (isset($item->query['id']) && is_array($item->query['id']))
 						{
-							self::$lookup[$lang][$view][$item->query['id'][0]] = $item->id;
+							foreach ($item->query['id'] as $position => $tagId)
+							{
+								if (!isset(self::$lookup[$lang][$view][$item->query['id'][$position]]) || count($item->query['id']) == 1)
+								{
+									self::$lookup[$lang][$view][$item->query['id'][$position]] = $item->id;
+								}
+							}
 						}
 					}
 				}

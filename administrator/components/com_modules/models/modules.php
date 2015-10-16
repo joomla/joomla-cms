@@ -241,7 +241,7 @@ class ModulesModelModules extends JModelList
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.note, a.position, a.module, a.language,' .
-					'a.checked_out, a.checked_out_time, a.published+2*(e.enabled-1) as published, a.access, a.ordering, a.publish_up, a.publish_down'
+					'a.checked_out, a.checked_out_time, a.published as published, e.enabled as enabled, a.access, a.ordering, a.publish_up, a.publish_down'
 			)
 		);
 		$query->from($db->quoteName('#__modules') . ' AS a');
@@ -329,9 +329,8 @@ class ModulesModelModules extends JModelList
 			}
 			else
 			{
-				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
-				$search = $db->quote($escapedSearchString);
-				$query->where('(' . 'a.title REGEXP ' . $search . ' OR a.note REGEXP ' . $search . ')');
+				$search = $db->quote('%' . strtolower($search) . '%');
+				$query->where('(' . ' LOWER(a.title) LIKE ' . $search . ' OR LOWER(a.note) LIKE ' . $search . ')');
 			}
 		}
 

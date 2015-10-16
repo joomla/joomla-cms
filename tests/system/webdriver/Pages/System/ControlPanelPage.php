@@ -39,7 +39,6 @@ class ControlPanelPage extends AdminPage
 			'Template Manager' => 'administrator/index.php?option=com_templates',
 			'Language Manager' => 'administrator/index.php?option=com_languages',
 			'Install Extensions' => 'administrator/index.php?option=com_installer',
-			'All extensions are up-to-date' => 'administrator/index.php?option=com_installer&view=update',
 	);
 
 	/**

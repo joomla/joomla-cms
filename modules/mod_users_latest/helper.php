@@ -30,8 +30,8 @@ class ModUsersLatestHelper
 	 */
 	public static function getUsers($params)
 	{
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select($db->quoteName(array('a.id', 'a.name', 'a.username', 'a.registerDate')))
 			->order($db->quoteName('a.registerDate') . ' DESC')
 			->from('#__users AS a');
@@ -53,8 +53,16 @@ class ModUsersLatestHelper
 		}
 
 		$db->setQuery($query, 0, $params->get('shownumber'));
-		$result = $db->loadObjectList();
 
-		return (array) $result;
+		try
+		{
+			return (array) $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+
+			return array();
+		}
 	}
 }

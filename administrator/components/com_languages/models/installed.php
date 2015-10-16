@@ -165,12 +165,12 @@ class LanguagesModelInstalled extends JModelList
 		if (is_null($this->data))
 		{
 			// Get information.
-			$path		= $this->getPath();
-			$client		= $this->getClient();
-			$langlist   = $this->getLanguageList();
+			$path     = $this->getPath();
+			$client   = $this->getClient();
+			$langlist = $this->getLanguageList();
 
 			// Compute all the languages.
-			$data	= array ();
+			$data = array ();
 
 			foreach ($langlist as $lang)
 			{
@@ -189,12 +189,18 @@ class LanguagesModelInstalled extends JModelList
 					$row->$key = $value;
 				}
 
+				// Fix wrongly set parentheses in RTL languages
+				if (JFactory::getLanguage()->isRtl())
+				{
+					$row->name = html_entity_decode($row->name . '&#x200E;', ENT_QUOTES, 'UTF-8');
+				}
+
 				// If current than set published.
 				$params = JComponentHelper::getParams('com_languages');
 
 				if ($params->get($client->name, 'en-GB') == $row->language)
 				{
-					$row->published	= 1;
+					$row->published = 1;
 				}
 				else
 				{
@@ -233,7 +239,7 @@ class LanguagesModelInstalled extends JModelList
 			}
 
 			// Compute the displayed languages.
-			$this->data	= array();
+			$this->data = array();
 
 			for ($i = $start; $i < $end; $i++)
 			{
@@ -308,13 +314,13 @@ class LanguagesModelInstalled extends JModelList
 	{
 		if ($cid)
 		{
-			$client	= $this->getClient();
+			$client = $this->getClient();
 
 			$params = JComponentHelper::getParams('com_languages');
 			$params->set($client->name, $cid);
 
 			$table = JTable::getInstance('extension');
-			$id = $table->find(array('element' => 'com_languages'));
+			$id    = $table->find(array('element' => 'com_languages'));
 
 			// Load.
 			if (!$table->load($id))

@@ -36,69 +36,20 @@ $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0)
 			</div>
 		<?php endif; ?>
 		<?php if ($published) : ?>
-			<div class="control-group">
-				<div class="control-label">
-					<?php echo $displayData->getForm()->getLabel('published'); ?>
-				</div>
-				<div class="controls">
-					<?php echo $displayData->getForm()->getInput('published'); ?>
-				</div>
-			</div>
+			<?php echo $displayData->getForm()->renderField('published'); ?>
 		<?php else : ?>
-			<div class="control-group">
-				<div class="control-label">
-					<?php echo $displayData->getForm()->getLabel('state'); ?>
-				</div>
-				<div class="controls">
-					<?php echo $displayData->getForm()->getInput('state'); ?>
-				</div>
-			</div>
+			<?php echo $displayData->getForm()->renderField('state'); ?>
 		<?php endif; ?>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $displayData->getForm()->getLabel('access'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $displayData->getForm()->getInput('access'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $displayData->getForm()->getLabel('featured'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $displayData->getForm()->getInput('featured'); ?>
-			</div>
-		</div>
+		<?php echo $displayData->getForm()->renderField('access'); ?>
+		<?php echo $displayData->getForm()->renderField('featured'); ?>
 		<?php if (JLanguageMultilang::isEnabled()) : ?>
-			<div class="control-group">
-				<div class="control-label">
-					<?php echo $displayData->getForm()->getLabel('language'); ?>
-				</div>
-				<div class="controls">
-					<?php echo $displayData->getForm()->getInput('language'); ?>
-				</div>
-			</div>
+			<?php echo $displayData->getForm()->renderField('language'); ?>
 		<?php else : ?>
 		<input type="hidden" id="jform_language" name="jform[language]" value="<?php echo $displayData->getForm()->getValue('language'); ?>" />
 		<?php endif; ?>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $displayData->getForm()->getLabel('tags'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $displayData->getForm()->getInput('tags'); ?>
-			</div>
-		</div>
+		<?php echo $displayData->getForm()->renderField('tags'); ?>
 		<?php if ($saveHistory) : ?>
-			<div class="control-group">
-			<div class="control-label">
-				<?php echo $displayData->getForm()->getLabel('version_note'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $displayData->getForm()->getInput('version_note'); ?>
-			</div>
-			</div>
+			<?php echo $displayData->getForm()->renderField('version_note'); ?>
 		<?php endif; ?>
 	</fieldset>
 </div>

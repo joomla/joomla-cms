@@ -9,13 +9,15 @@
 
 defined('_JEXEC') or die;
 
+JHtmlBehavior::core();
 // Add specific helper files for html generation
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$client		= $this->state->get('filter.client_id', 0) ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
-$clientId	= $this->state->get('filter.client_id', 0);
+$user     = JFactory::getUser();
+$userId   = $user->get('id');
+$client   = $this->state->get('filter.client_id', 0) ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+$clientId = $this->state->get('filter.client_id', 0);
 ?>
+
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed&client='.$clientId); ?>" method="post" id="adminForm" name="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
@@ -94,7 +96,7 @@ $clientId	= $this->state->get('filter.client_id', 0);
 					<?php echo $this->escape($row->author); ?>
 				</td>
 				<td class="center">
-					<?php echo $this->escape($row->authorEmail); ?>
+					<?php echo JStringPunycode::emailToUTF8($this->escape($row->authorEmail)); ?>
 				</td>
 			</tr>
 		<?php endforeach;?>

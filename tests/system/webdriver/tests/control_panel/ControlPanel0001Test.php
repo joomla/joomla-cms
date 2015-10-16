@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
+ *
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
 require_once 'JoomlaWebdriverTestCase.php';
 
@@ -8,10 +15,24 @@ use SeleniumClient\WebDriver;
 use SeleniumClient\WebDriverWait;
 use SeleniumClient\DesiredCapabilities;
 
+/**
+ * This class tests the  Control panel.
+ *
+ * @package     Joomla.Tests
+ * @subpackage  Test
+ *
+ * @copyright   Copyright (c) 2005 - 2015 Open Source Matters, Inc.   All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @since       Joomla 3.3
+ */
 class ControlPanel0001Test extends JoomlaWebdriverTestCase
 {
 
 	/**
+	 * do admin login and check for icons
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function doAdminLogin_NormalLogin_LogsIntoBackEnd()
@@ -49,7 +70,7 @@ class ControlPanel0001Test extends JoomlaWebdriverTestCase
 
 		foreach ($cpPage->allMenuLinks as $menuText => $link)
 		{
-			$link = (substr($link, 0, 7) == 'http://') ? $link : $this->cfg->host . $this->cfg->path . $link;
+			$link = (substr($link, 0, 7) == 'http://' || substr($link, 0, 8) == 'https://' ) ? $link : $this->cfg->host . $this->cfg->path . $link;
 			$this->assertTrue(strpos($actualLinks, $link) !== false, "Expected link $link should be in on the page.");
 		}
 
@@ -57,6 +78,10 @@ class ControlPanel0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check the menu links
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function clickMenu_LoadBackendMenuLinks_LinksShouldLoad()
@@ -66,6 +91,7 @@ class ControlPanel0001Test extends JoomlaWebdriverTestCase
 
 		// These pages are skipped because they don't have a help icon, which is used by the GenericAdminPage.
 		// As we create page classes for each screen, we could check to see if the page class exists and use that instead of the generic.
+		
 		$skipPages = array('Control Panel', 'Edit Account', 'Logout', 'Joomla! Update', 'Joomla Help', 'Post-installation Messages');
 		foreach ($cpPage->allMenuLinks as $menuText => $link)
 		{

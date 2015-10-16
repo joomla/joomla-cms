@@ -30,7 +30,7 @@ abstract class JModelLegacy extends JObject
 	/**
 	 * Database Connector
 	 *
-	 * @var    object
+	 * @var    JDatabaseDriver
 	 * @since  12.2
 	 */
 	protected $_db;
@@ -54,7 +54,7 @@ abstract class JModelLegacy extends JObject
 	/**
 	 * A state object
 	 *
-	 * @var    string
+	 * @var    JObject
 	 * @since  12.2
 	 */
 	protected $state;
@@ -101,14 +101,22 @@ abstract class JModelLegacy extends JObject
 		{
 			jimport('joomla.filesystem.path');
 
-			if (!in_array($path, $paths[$prefix]))
+			if (!is_array($path))
 			{
-				array_unshift($paths[$prefix], JPath::clean($path));
+				$path = array($path);
 			}
 
-			if (!in_array($path, $paths['']))
+			foreach ($path as $includePath)
 			{
-				array_unshift($paths[''], JPath::clean($path));
+				if (!in_array($includePath, $paths[$prefix]))
+				{
+					array_unshift($paths[$prefix], JPath::clean($includePath));
+				}
+
+				if (!in_array($includePath, $paths['']))
+				{
+					array_unshift($paths[''], JPath::clean($includePath));
+				}
 			}
 		}
 

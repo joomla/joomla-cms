@@ -30,7 +30,7 @@ class TagsRouter extends JComponentRouterBase
 		$segments = array();
 
 		// Get a menu item based on Itemid or currently active
-		$params		= JComponentHelper::getParams('com_tags');
+		$params = JComponentHelper::getParams('com_tags');
 
 		// We need a menu item.  Either the one specified in the query, or the current active one if none specified
 		if (empty($query['Itemid']))
@@ -51,6 +51,7 @@ class TagsRouter extends JComponentRouterBase
 		}
 
 		$view = '';
+
 		if (isset($query['view']))
 		{
 			$view = $query['view'];
@@ -67,12 +68,15 @@ class TagsRouter extends JComponentRouterBase
 		if ($mView == $view && isset($query['id']) && $mId == $query['id'])
 		{
 			unset($query['id']);
+
 			return $segments;
 		}
 
-		if (isset($view) and $view == 'tag')
+		if ($view == 'tag')
 		{
-			if (($mId != (int) $query['id'] || $mView != $view) && $view == 'tag')
+			$notActiveTag = is_array($mId) ? (count($mId) > 1 || $mId[0] != (int) $query['id']) : ($mId != (int) $query['id']);
+
+			if ($notActiveTag || $mView != $view)
 			{
 				// ID in com_tags can be either an integer, a string or an array of IDs
 				$id = is_array($query['id']) ? implode(',', $query['id']) : $query['id'];
@@ -122,7 +126,7 @@ class TagsRouter extends JComponentRouterBase
 		}
 
 		// Get the active menu item.
-		$item	= $this->menu->getActive();
+		$item = $this->menu->getActive();
 
 		// Count route segments
 		$count = count($segments);
@@ -130,8 +134,8 @@ class TagsRouter extends JComponentRouterBase
 		// Standard routing for tags.
 		if (!isset($item))
 		{
-			$vars['view']	= $segments[0];
-			$vars['id']		= $segments[$count - 1];
+			$vars['view'] = $segments[0];
+			$vars['id']   = $segments[$count - 1];
 
 			return $vars;
 		}
@@ -155,7 +159,7 @@ class TagsRouter extends JComponentRouterBase
  *
  * @deprecated  4.0  Use Class based routers instead
  */
-function TagsBuildRoute(&$query)
+function tagsBuildRoute(&$query)
 {
 	$router = new TagsRouter;
 
@@ -171,7 +175,7 @@ function TagsBuildRoute(&$query)
  *
  * @deprecated  4.0  Use Class based routers instead
  */
-function TagsParseRoute($segments)
+function tagsParseRoute($segments)
 {
 	$router = new TagsRouter;
 

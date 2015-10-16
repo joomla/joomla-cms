@@ -86,8 +86,6 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 			JToolbarHelper::divider();
 		}
 
-		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATESITES');
-
 		JHtmlSidebar::setAction('index.php?option=com_installer&view=updatesites');
 
 		JHtmlSidebar::addFilter(
@@ -111,9 +109,20 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 		JHtmlSidebar::addFilter(
 			JText::_('COM_INSTALLER_VALUE_FOLDER_SELECT'),
 			'filter_group',
-			JHtml::_('select.options', array_merge(InstallerHelper::getExtensionGroupes(), array('*' => JText::_('COM_INSTALLER_VALUE_FOLDER_NONAPPLICABLE'))), 'value', 'text', $this->state->get('filter.group'), true)
+			JHtml::_(
+				'select.options',
+				array_merge(
+					InstallerHelper::getExtensionGroupes(),
+					array('*' => JText::_('COM_INSTALLER_VALUE_FOLDER_NONAPPLICABLE'))
+				),
+				'value',
+				'text',
+				$this->state->get('filter.group'),
+				true
+			)
 		);
 
 		parent::addToolbar();
+		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATESITES');
 	}
 }

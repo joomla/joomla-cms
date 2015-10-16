@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+
 $user = JFactory::getUser();
 ?>
 <li class="imgOutline thumbnail height-80 width-80 center">
@@ -18,7 +19,7 @@ $user = JFactory::getUser();
 	<?php endif;?>
 	<div class="height-50">
 		<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->_tmp_folder->path_relative; ?>" target="folderframe">
-			<i class="icon-folder-2"></i>
+			<span class="icon-folder-2"></span>
 		</a>
 	</div>
 	<div class="small">

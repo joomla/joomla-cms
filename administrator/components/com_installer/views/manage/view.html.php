@@ -66,7 +66,7 @@ class InstallerViewManage extends InstallerViewDefault
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= JHelperContent::getActions('com_installer');
+		$canDo = JHelperContent::getActions('com_installer');
 
 		if ($canDo->get('core.edit.state'))
 		{
@@ -83,8 +83,6 @@ class InstallerViewManage extends InstallerViewDefault
 			JToolbarHelper::deleteList('', 'manage.remove', 'JTOOLBAR_UNINSTALL');
 			JToolbarHelper::divider();
 		}
-
-		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');
 
 		JHtmlSidebar::setAction('index.php?option=com_installer&view=manage');
 
@@ -141,5 +139,6 @@ class InstallerViewManage extends InstallerViewDefault
 		);
 
 		parent::addToolbar();
+		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');
 	}
 }

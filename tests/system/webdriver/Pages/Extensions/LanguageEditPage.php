@@ -24,13 +24,13 @@ use SeleniumClient\WebElement;
  */
 class LanguageEditPage extends AdminEditPage
 {
-  /**
+	/**
 	 * XPath string used to uniquely identify this page
 	 *
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $waitForXpath =  "//form[@id='language-form']";
+	protected $waitForXpath = "//form[@id='language-form']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -76,6 +76,4 @@ class LanguageEditPage extends AdminEditPage
 			array('label' => 'Meta Description', 'id' => 'jform_metadesc', 'type' => 'textarea', 'tab' => 'metadata'),
 			array('label' => 'Custom Site Name', 'id' => 'jform_sitename', 'type' => 'input', 'tab' => 'site_name'),
 		);
-
-
 }

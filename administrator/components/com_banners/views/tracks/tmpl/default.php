@@ -20,7 +20,8 @@ $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $sortFields = $this->getSortFields();
 
-JFactory::getDocument()->addScriptDeclaration('
+JFactory::getDocument()->addScriptDeclaration(
+	'
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -40,12 +41,9 @@ JFactory::getDocument()->addScriptDeclaration('
 	Joomla.closeModalDialog = function()
 	{
 		window.jQuery("#modal-download").modal("hide");
-	};
-');
+	};'
+);
 ?>
-<script type="text/javascript">
-
-</script>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=tracks'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -72,7 +70,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<option value="desc" <?php echo $listDirn == 'desc' ? 'selected="selected"' : ''; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING'); ?></option>
 				</select>
 			</div>
-			<div class="btn-group pull-right">
+			<div class="btn-group pull-right hidden-phone">
 				<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY'); ?></label>
 				<select name="sortTable" id="sortTable" class="input-medium" onchange="Joomla.orderTable()">
 					<option value=""><?php echo JText::_('JGLOBAL_SORT_BY'); ?></option>

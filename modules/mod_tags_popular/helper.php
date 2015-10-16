@@ -27,23 +27,23 @@ abstract class ModTagsPopularHelper
 	 */
 	public static function getList(&$params)
 	{
-		$db				= JFactory::getDbo();
-		$user     		= JFactory::getUser();
-		$groups 		= implode(',', $user->getAuthorisedViewLevels());
-		$timeframe		= $params->get('timeframe', 'alltime');
-		$maximum		= $params->get('maximum', 5);
-		$order_value	= $params->get('order_value', 'count');
-		$nowDate		= JFactory::getDate()->toSql();
-		$nullDate		= $db->quote($db->getNullDate());
+		$db          = JFactory::getDbo();
+		$user        = JFactory::getUser();
+		$groups      = implode(',', $user->getAuthorisedViewLevels());
+		$timeframe   = $params->get('timeframe', 'alltime');
+		$maximum     = $params->get('maximum', 5);
+		$order_value = $params->get('order_value', 'title');
+		$nowDate     = JFactory::getDate()->toSql();
+		$nullDate    = $db->quote($db->getNullDate());
 
 		if ($order_value == 'rand()')
 		{
-			$order_direction	= '';
+			$order_direction = '';
 		}
 		else
 		{
-			$order_value		= $db->quoteName($order_value);
-			$order_direction	= $params->get('order_direction', 1) ? 'DESC' : 'ASC';
+			$order_value     = $db->quoteName($order_value);
+			$order_direction = $params->get('order_direction', 1) ? 'DESC' : 'ASC';
 		}
 
 		$query = $db->getQuery(true)
@@ -93,7 +93,15 @@ abstract class ModTagsPopularHelper
 			->where('(' . $db->quoteName('c.core_publish_down') . ' = ' . $nullDate
 				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $db->quote($nowDate) . ')');
 		$db->setQuery($query, 0, $maximum);
-		$results = $db->loadObjectList();
+		try
+		{
+			$results = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$results = array();
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
 
 		return $results;
 	}

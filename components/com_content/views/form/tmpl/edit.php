@@ -18,11 +18,10 @@ JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
-//$images = json_decode($this->item->images);
-//$urls = json_decode($this->item->urls);
 
 // This checks if the editor config options have ever been saved. If they haven't they will fall back to the original settings.
 $editoroptions = isset($params->show_publishing_options);
+
 if (!$editoroptions)
 {
 	$params->show_urls_images_frontend = '0';
@@ -40,7 +39,7 @@ JFactory::getDocument()->addScriptDeclaration("
 ");
 ?>
 <div class="edit item-page<?php echo $this->pageclass_sfx; ?>">
-	<?php if ($params->get('show_page_heading', 1)) : ?>
+	<?php if ($params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1>
 			<?php echo $this->escape($params->get('page_heading')); ?>
@@ -72,6 +71,9 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php if ($params->get('show_urls_images_frontend') ) : ?>
 				<li><a href="#images" data-toggle="tab"><?php echo JText::_('COM_CONTENT_IMAGES_AND_URLS') ?></a></li>
 				<?php endif; ?>
+				<?php foreach ($this->form->getFieldsets('params') as $name => $fieldSet) : ?>
+				<li><a href="#params-<?php echo $name; ?>" data-toggle="tab"><?php echo JText::_($fieldSet->label); ?></a></li>
+				<?php endforeach; ?>
 				<li><a href="#publishing" data-toggle="tab"><?php echo JText::_('COM_CONTENT_PUBLISHING') ?></a></li>
 				<li><a href="#language" data-toggle="tab"><?php echo JText::_('JFIELD_LANGUAGE_LABEL') ?></a></li>
 				<li><a href="#metadata" data-toggle="tab"><?php echo JText::_('COM_CONTENT_METADATA') ?></a></li>
@@ -120,6 +122,13 @@ JFactory::getDocument()->addScriptDeclaration("
 					</div>
 				</div>
 				<?php endif; ?>
+				<?php foreach ($this->form->getFieldsets('params') as $name => $fieldSet) : ?>
+					<div class="tab-pane" id="params-<?php echo $name; ?>">
+						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+							<?php echo $field->renderField(); ?>
+						<?php endforeach; ?>
+					</div>
+				<?php endforeach; ?>
 				<div class="tab-pane" id="publishing">
 					<?php echo $this->form->renderField('catid'); ?>
 					<?php echo $this->form->renderField('tags'); ?>

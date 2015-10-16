@@ -29,9 +29,13 @@ $version = new JVersion;
 	<?php else : ?>
 		<div id="j-main-container">
 	<?php endif;?>
-
-		<?php if (count($this->items) || $this->escape($this->state->get('filter.search'))) : ?>
-			<?php echo $this->loadTemplate('filter'); ?>
+	<?php if (count($this->items) || $this->escape($this->state->get('filter.search'))) : ?>
+		<?php echo $this->loadTemplate('filter'); ?>
+		<?php if (empty($this->items)) : ?>
+			<div class="alert alert-no-items">
+				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
+		<?php else : ?>
 			<table class="table table-striped">
 				<thead>
 					<tr>
@@ -41,10 +45,10 @@ $version = new JVersion;
 						<th class="nowrap">
 							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="center">
+						<th width="10%">
 							<?php echo JText::_('JVERSION'); ?>
 						</th>
-						<th class="center nowrap hidden-phone">
+						<th class="nowrap hidden-phone">
 							<?php echo JText::_('COM_INSTALLER_HEADING_TYPE'); ?>
 						</th>
 						<th width="35%" class="nowrap hidden-phone">
@@ -63,8 +67,7 @@ $version = new JVersion;
 					</tr>
 				</tfoot>
 				<tbody>
-					<?php foreach ($this->items as $i => $language) :
-				?>
+				<?php foreach ($this->items as $i => $language) : ?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $language->update_id, false, 'cid'); ?>
@@ -80,10 +83,10 @@ $version = new JVersion;
 								<?php endif; ?>
 							</label>
 						</td>
-						<td class="center small">
+						<td class="small">
 							<?php echo $language->version; ?>
 						</td>
-						<td class="center small hidden-phone">
+						<td class="small hidden-phone">
 							<?php echo JText::_('COM_INSTALLER_TYPE_' . strtoupper($language->type)); ?>
 						</td>
 						<td class="small hidden-phone">
@@ -93,12 +96,13 @@ $version = new JVersion;
 							<?php echo $language->update_id; ?>
 						</td>
 					</tr>
-					<?php endforeach; ?>
+				<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php else : ?>
-			<div class="alert"><?php echo JText::_('COM_INSTALLER_MSG_LANGUAGES_NOLANGUAGES'); ?></div>
 		<?php endif; ?>
+	<?php else : ?>
+		<div class="alert"><?php echo JText::_('COM_INSTALLER_MSG_LANGUAGES_NOLANGUAGES'); ?></div>
+	<?php endif; ?>
 
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />

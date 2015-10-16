@@ -143,7 +143,7 @@ class ModulesControllerModule extends JControllerForm
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Set the model
-		$model	= $this->getModel('Module', '', array());
+		$model = $this->getModel('Module', '', array());
 
 		// Preset the redirect
 		$redirectUrl = 'index.php?option=com_modules&view=modules' . $this->getRedirectToListAppend();
@@ -183,9 +183,12 @@ class ModulesControllerModule extends JControllerForm
 	}
 
 	/**
-	 * Save fuction for com_modules
+	 * Method to save a record.
 	 *
-	 * @see JControllerForm::save()
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key
+	 *
+	 * @return  boolean  True if successful, false otherwise.
 	 */
 	public function save($key = null, $urlVar = null)
 	{
@@ -203,6 +206,11 @@ class ModulesControllerModule extends JControllerForm
 
 			// Replace changed properties
 			$data = array_replace_recursive($properties, $data);
+
+			if (!empty($data['assigned']))
+			{
+				$data['assigned'] = array_map('abs', $data['assigned']);
+			}
 
 			// Add new data to input before process by parent save()
 			$this->input->post->set('jform', $data);

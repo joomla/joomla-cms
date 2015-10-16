@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
@@ -39,12 +39,12 @@ class JFormRulePassword extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
-		$meter		= isset($this->element['strengthmeter'])  ? ' meter="0"' : '1';
-		$threshold	= isset($this->element['threshold']) ? (int) $this->element['threshold'] : 66;
-		$minimumLength = isset($this->element['minimum_length']) ? (int) $this->element['minimum_length'] : 4;
-		$minimumIntegers = isset($this->element['minimum_integers']) ? (int) $this->element['minimum_integers'] : 0;
-		$minimumSymbols = isset($this->element['minimum_symbols']) ? (int) $this->element['minimum_symbols'] : 0;
-		$minimumUppercase = isset($this->element['minimum_uppercase']) ? (int) $this->element['minimum_uppercase'] : 0;
+		$meter            = isset($element['strengthmeter'])  ? ' meter="0"' : '1';
+		$threshold        = isset($element['threshold']) ? (int) $element['threshold'] : 66;
+		$minimumLength    = isset($element['minimum_length']) ? (int) $element['minimum_length'] : 4;
+		$minimumIntegers  = isset($element['minimum_integers']) ? (int) $element['minimum_integers'] : 0;
+		$minimumSymbols   = isset($element['minimum_symbols']) ? (int) $element['minimum_symbols'] : 0;
+		$minimumUppercase = isset($element['minimum_uppercase']) ? (int) $element['minimum_uppercase'] : 0;
 
 		// If we have parameters from com_users, use those instead.
 		// Some of these may be empty for legacy reasons.
@@ -52,12 +52,12 @@ class JFormRulePassword extends JFormRule
 
 		if (!empty($params))
 		{
-			$minimumLengthp = $params->get('minimum_length');
-			$minimumIntegersp = $params->get('minimum_integers');
-			$minimumSymbolsp = $params->get('minimum_symbols');
+			$minimumLengthp    = $params->get('minimum_length');
+			$minimumIntegersp  = $params->get('minimum_integers');
+			$minimumSymbolsp   = $params->get('minimum_symbols');
 			$minimumUppercasep = $params->get('minimum_uppercase');
-			$meterp = $params->get('meter');
-			$thresholdp = $params->get('threshold');
+			$meterp            = $params->get('meter');
+			$thresholdp        = $params->get('threshold');
 
 			empty($minimumLengthp) ? : $minimumLength = (int) $minimumLengthp;
 			empty($minimumIntegersp) ? : $minimumIntegers = (int) $minimumIntegersp;

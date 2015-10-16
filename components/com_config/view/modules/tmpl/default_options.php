@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.site
+ * @package     Joomla.Site
  * @subpackage  com_config
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
@@ -24,7 +24,7 @@ if (isset($fieldSet->description) && trim($fieldSet->description)) :
 echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
 endif;
 ?>
-<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', ucfirst($name), 'collapse' . ($i++)); ?>
+<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_($label), 'collapse' . ($i++)); ?>
 
 <ul class="nav nav-tabs nav-stacked">
 <?php foreach ($this->form->getFieldset($name) as $field) : ?>

@@ -64,16 +64,17 @@ class JFeedFactory
 		try
 		{
 			// Skip ahead to the root node.
-			do
+			while ($reader->read())
 			{
-				$reader->read();
+				if ($reader->nodeType == XMLReader::ELEMENT)
+				{
+					break;
+				}
 			}
-
-			while ($reader->nodeType !== XMLReader::ELEMENT);
 		}
 		catch (Exception $e)
 		{
-			throw new RuntimeException('Error reading feed.');
+			throw new RuntimeException('Error reading feed.', $e->getCode(), $e);
 		}
 
 		// Setup the appopriate feed parser for the feed.

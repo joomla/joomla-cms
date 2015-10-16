@@ -92,7 +92,7 @@ class ContactControllerContact extends JControllerForm
 		if ($validate === false)
 		{
 			// Get the validation messages.
-			$errors	= $model->getErrors();
+			$errors = $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
@@ -167,9 +167,9 @@ class ContactControllerContact extends JControllerForm
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   array      $data                  The data to send in the email.
-	 * @param   stdClass   $contact               The user information to send the email to
-	 * @param   boolean    $copy_email_activated  True to send a copy of the email to the user.
+	 * @param   array     $data                  The data to send in the email.
+	 * @param   stdClass  $contact               The user information to send the email to
+	 * @param   boolean   $copy_email_activated  True to send a copy of the email to the user.
 	 *
 	 * @return  boolean  True on success sending the email, false on failure.
 	 *
@@ -196,11 +196,11 @@ class ContactControllerContact extends JControllerForm
 
 			// Prepare email body
 			$prefix = JText::sprintf('COM_CONTACT_ENQUIRY_TEXT', JUri::base());
-			$body	= $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
+			$body   = $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
 
 			$mail = JFactory::getMailer();
 			$mail->addRecipient($contact->email_to);
-			$mail->addReplyTo(array($email, $name));
+			$mail->addReplyTo($email, $name);
 			$mail->setSender(array($mailfrom, $fromname));
 			$mail->setSubject($sitename . ': ' . $subject);
 			$mail->setBody($body);

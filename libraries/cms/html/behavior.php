@@ -308,8 +308,9 @@ abstract class JHtmlBehavior
 				var title = $(this).attr('title');
 				if (title) {
 					var parts = title.split('::', 2);
-					$(this).data('tip:title', parts[0]);
-					$(this).data('tip:text', parts[1]);
+					var mtelement = document.id(this);
+					mtelement.store('tip:title', parts[0]);
+					mtelement.store('tip:text', parts[1]);
 				}
 			});
 			var JTooltips = new Tips($('$selector').get(), $options);
@@ -633,28 +634,43 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		$config = JFactory::getConfig();
-		$lifetime = ($config->get('lifetime') * 60000);
-		$refreshTime = ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
-
-		// Refresh time is 1 minute less than the lifetime assigned in the configuration.php file.
-
-		// The longest refresh period is one hour to prevent integer overflow.
-		if ($refreshTime > 3600000 || $refreshTime <= 0)
+		// If the handler is not 'Database', we set a fixed, small refresh value (here: 5 min)
+		if (JFactory::getConfig()->get('session_handler') != 'database')
 		{
-			$refreshTime = 3600000;
+			$refresh_time = 300000;
+		}
+		else
+		{
+			$life_time    = JFactory::getConfig()->get('lifetime') * 60000;
+			$refresh_time = ($life_time <= 60000) ? 45000 : $life_time - 60000;
+
+			// The longest refresh period is one hour to prevent integer overflow.
+			if ($refresh_time > 3600000 || $refresh_time <= 0)
+			{
+				$refresh_time = 3600000;
+			}
 		}
 
-		$document = JFactory::getDocument();
+		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
+		if (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest)
+		{
+			$url = JUri::base(true) . '/index.php?option=com_ajax&format=json';
+		}
+		else
+		{
+			$url = JUri::base(true) . '/index.php';
+		}
+
 		$script = 'window.setInterval(function(){';
 		$script .= 'var r;';
 		$script .= 'try{';
 		$script .= 'r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")';
 		$script .= '}catch(e){}';
-		$script .= 'if(r){r.open("GET","./",true);r.send(null)}';
-		$script .= '},' . $refreshTime . ');';
+		$script .= 'if(r){r.open("GET","' . $url . '",true);r.send(null)}';
+		$script .= '},' . $refresh_time . ');';
 
-		$document->addScriptDeclaration($script);
+		JFactory::getDocument()->addScriptDeclaration($script);
+
 		static::$loaded[__METHOD__] = true;
 
 		return;
@@ -816,9 +832,8 @@ abstract class JHtmlBehavior
 		// This will become an object in Javascript but define it first in PHP for readability
 		$today = " " . JText::_('JLIB_HTML_BEHAVIOR_TODAY') . " ";
 		$text = array(
-			'INFO'			=> JText::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR'),
-
-			'ABOUT'			=> "DHTML Date/Time Selector\n"
+			'INFO'           => JText::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR'),
+			'ABOUT'          => "DHTML Date/Time Selector\n"
 				. "(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n"
 				. "For latest version visit: http://www.dynarch.com/projects/calendar/\n"
 				. "Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details."
@@ -827,29 +842,27 @@ abstract class JHtmlBehavior
 				. JText::_('JLIB_HTML_BEHAVIOR_YEAR_SELECT')
 				. JText::_('JLIB_HTML_BEHAVIOR_MONTH_SELECT')
 				. JText::_('JLIB_HTML_BEHAVIOR_HOLD_MOUSE'),
-
-			'ABOUT_TIME'	=> "\n\n"
+			'ABOUT_TIME'      => "\n\n"
 				. "Time selection:\n"
 				. "- Click on any of the time parts to increase it\n"
 				. "- or Shift-click to decrease it\n"
 				. "- or click and drag for faster selection.",
-
-			'PREV_YEAR'		=> JText::_('JLIB_HTML_BEHAVIOR_PREV_YEAR_HOLD_FOR_MENU'),
-			'PREV_MONTH'	=> JText::_('JLIB_HTML_BEHAVIOR_PREV_MONTH_HOLD_FOR_MENU'),
-			'GO_TODAY'		=> JText::_('JLIB_HTML_BEHAVIOR_GO_TODAY'),
-			'NEXT_MONTH'	=> JText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU'),
-			'SEL_DATE'		=> JText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE'),
-			'DRAG_TO_MOVE'	=> JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE'),
-			'PART_TODAY'	=> $today,
-			'DAY_FIRST'		=> JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST'),
-			'WEEKEND'		=> JFactory::getLanguage()->getWeekEnd(),
-			'CLOSE'			=> JText::_('JLIB_HTML_BEHAVIOR_CLOSE'),
-			'TODAY'			=> JText::_('JLIB_HTML_BEHAVIOR_TODAY'),
-			'TIME_PART'		=> JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE'),
-			'DEF_DATE_FORMAT'	=> "%Y-%m-%d",
-			'TT_DATE_FORMAT'	=> JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT'),
-			'WK'			=> JText::_('JLIB_HTML_BEHAVIOR_WK'),
-			'TIME'			=> JText::_('JLIB_HTML_BEHAVIOR_TIME')
+			'PREV_YEAR'       => JText::_('JLIB_HTML_BEHAVIOR_PREV_YEAR_HOLD_FOR_MENU'),
+			'PREV_MONTH'      => JText::_('JLIB_HTML_BEHAVIOR_PREV_MONTH_HOLD_FOR_MENU'),
+			'GO_TODAY'        => JText::_('JLIB_HTML_BEHAVIOR_GO_TODAY'),
+			'NEXT_MONTH'      => JText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU'),
+			'SEL_DATE'        => JText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE'),
+			'DRAG_TO_MOVE'    => JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE'),
+			'PART_TODAY'      => $today,
+			'DAY_FIRST'       => JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST'),
+			'WEEKEND'         => JFactory::getLanguage()->getWeekEnd(),
+			'CLOSE'           => JText::_('JLIB_HTML_BEHAVIOR_CLOSE'),
+			'TODAY'           => JText::_('JLIB_HTML_BEHAVIOR_TODAY'),
+			'TIME_PART'       => JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE'),
+			'DEF_DATE_FORMAT' => "%Y-%m-%d",
+			'TT_DATE_FORMAT'  => JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT'),
+			'WK'              => JText::_('JLIB_HTML_BEHAVIOR_WK'),
+			'TIME'            => JText::_('JLIB_HTML_BEHAVIOR_TIME')
 		);
 
 		return 'Calendar._DN = ' . json_encode($weekdays_full) . ';'

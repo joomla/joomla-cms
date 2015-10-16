@@ -408,8 +408,12 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 					if ($this->parent->manifestClass->$method($this->route, $this) === false)
 					{
 						// The script failed, rollback changes
-						$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE'));
-						return false;
+						throw new RuntimeException(
+							JText::sprintf(
+								'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
+								JText::_('JLIB_INSTALLER_' . $this->route)
+							)
+						);
 					}
 
 					break;
@@ -429,8 +433,12 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 						if ($method != 'uninstall')
 						{
 							// The script failed, rollback changes
-							$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE'));
-							return false;
+							throw new RuntimeException(
+								JText::sprintf(
+									'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
+									JText::_('JLIB_INSTALLER_' . $this->route)
+								)
+							);
 						}
 					}
 
@@ -448,22 +456,6 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		}
 
 		return true;
-	}
-
-	/**
-	 * Updates a package
-	 *
-	 * The only difference between an update and a full install
-	 * is how we handle the database
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function update()
-	{
-		$this->route = 'update';
-		$this->install();
 	}
 
 	/**
@@ -571,7 +563,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		foreach ($manifest->filelist as $extension)
 		{
 			$tmpInstaller = new JInstaller;
-			$id = $this->_getExtensionID($extension->type, $extension->id, $extension->client, $extension->group);
+			$id = $this->_getExtensionId($extension->type, $extension->id, $extension->client, $extension->group);
 			$client = JApplicationHelper::getClientInfo($extension->client, true);
 
 			if ($id)
@@ -625,7 +617,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	 *
 	 * @since   3.1
 	 */
-	protected function _getExtensionID($type, $id, $client, $group)
+	protected function _getExtensionId($type, $id, $client, $group)
 	{
 		$db = $this->parent->getDbo();
 

@@ -379,7 +379,6 @@
   right: auto;
   left: 4px;
 }
-.chzn-rtl.chzn-container-single-nosearch .chzn-search,
 .chzn-rtl .chzn-drop {
   left: 9999px;
 }
@@ -409,6 +408,14 @@
 }
 .chzn-rtl.chzn-container-single.chzn-with-drop .chzn-single div b {
   background-position: -12px 2px;
+}
+[dir="rtl"] .chzn-container .chzn-drop,
+[dir="rtl"] .chzn-container-single.chzn-container-single-nosearch .chzn-search {
+  left: auto;
+  right: -9999px;
+}
+[dir="rtl"] .chzn-container.chzn-with-drop .chzn-drop {
+  right: 0;
 }
 
 /* @end */

@@ -12,17 +12,15 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.multiselect');
-JHtml::_('behavior.modal');
 
-$app		= JFactory::getApplication();
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$canOrder	= $user->authorise('core.edit.state', 'com_contact.category');
-$saveOrder	= $listOrder == 'a.ordering';
-$assoc		= JLanguageAssociations::isEnabled();
-
+$app       = JFactory::getApplication();
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$canOrder  = $user->authorise('core.edit.state', 'com_contact.category');
+$saveOrder = $listOrder == 'a.ordering';
+$assoc     = JLanguageAssociations::isEnabled();
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="adminForm">
@@ -219,8 +217,20 @@ $assoc		= JLanguageAssociations::isEnabled();
 		</tbody>
 	</table>
 
-	<?php //Load the batch processing form. ?>
-	<?php echo $this->loadTemplate('batch'); ?>
+		<?php //Load the batch processing form. ?>
+		<?php if ($user->authorise('core.create', 'com_contact')
+			&& $user->authorise('core.edit', 'com_contact')
+			&& $user->authorise('core.edit.state', 'com_contact')) : ?>
+			<?php echo JHtml::_(
+				'bootstrap.renderModal',
+				'collapseModal',
+				array(
+					'title' => JText::_('COM_CONTACT_BATCH_OPTIONS'),
+					'footer' => $this->loadTemplate('batch_footer')
+				),
+				$this->loadTemplate('batch_body')
+			); ?>
+		<?php endif; ?>
 
 	<?php echo $this->pagination->getListFooter(); ?>
 

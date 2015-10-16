@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Observer mapping pattern implementation for Joomla
  *
- * @link   http://docs.joomla.org/JObserverMapper
+ * @link   https://docs.joomla.org/JObserverMapper
  * @since  3.1.2
  */
 class JObserverMapper

@@ -18,7 +18,7 @@ if ($params->get('show_viewsite', 1))
 {
 	$output[] = '<div class="btn-group viewsite">'
 		. '<a href="' . JUri::root() . '" target="_blank">'
-		. '<i class="icon-share-alt"></i> ' . JText::_('JGLOBAL_VIEW_SITE')
+		. '<span class="icon-out-2"></span> ' . JText::_('JGLOBAL_VIEW_SITE')
 		. '</a>'
 		. '</div>'
 		. '<div class="btn-group divider"></div>';
@@ -49,7 +49,7 @@ if ($params->get('show_messages', 1))
 	$output[] = '<div class="btn-group hasTooltip ' . $inboxClass . '"'
 		. ' title="' . JText::plural('MOD_STATUS_MESSAGES', $unread) . '">'
 		. ($hideLinks ? '' : '<a href="' . $inboxLink . '">')
-		. '<i class="icon-envelope"></i> '
+		. '<span class="icon-envelope"></span> '
 		. '<span class="badge' . $active . '">' . $unread . '</span>'
 		. ($hideLinks ? '' : '</a>')
 		. '<div class="btn-group divider"></div>'
@@ -70,7 +70,7 @@ if ($params->get('show_logout', 1))
 {
 	$output[] = '<div class="btn-group logout">'
 		. ($hideLinks ? '' : '<a href="' . $logoutLink . '">')
-		. '<i class="icon-minus-2"></i> ' . JText::_('JLOGOUT')
+		. '<span class="icon-minus-2"></span> ' . JText::_('JLOGOUT')
 		. ($hideLinks ? '' : '</a>')
 		. '</div>';
 }
