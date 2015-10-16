@@ -226,9 +226,11 @@ class JFormFieldMedia extends JFormField
 			$script[] = '		var $ = jQuery.noConflict();';
 			$script[] = '		var value = $("#" + id).val();';
 			$script[] = '		var $img = $("#" + id + "_preview");';
+			$script[] = '		var basepath = $("#" + id).data("basepath"); console.log($img);';
+
 			$script[] = '		if ($img.length) {';
 			$script[] = '			if (value) {';
-			$script[] = '				$img.attr("src", "' . JUri::root() . '" + value);';
+			$script[] = '				$img.attr("src", basepath + value);';
 			$script[] = '				$("#" + id + "_preview_empty").hide();';
 			$script[] = '				$("#" + id + "_preview_img").show()';
 			$script[] = '			} else { ';
@@ -244,20 +246,22 @@ class JFormFieldMedia extends JFormField
 			$script[] = '		var $ = jQuery.noConflict();';
 			$script[] = '		var $tip = $(tip);';
 			$script[] = '		var $img = $tip.find("img.media-preview");';
-			$script[] = '		$tip.find("div.tip").css("max-width", "none");';
-			$script[] = '		var id = $img.attr("id");';
-			$script[] = '		id = id.substring(0, id.length - "_preview".length);';
-			$script[] = '		jMediaRefreshPreview(id);';
-			$script[] = '		$tip.show();';
+			$script[] = '       $img.each(function(index, value) {';
+			$script[] = '		    $tip.find("div.tip").css("max-width", "none");';
+			$script[] = '		    var id = $(this).attr("id");';
+			$script[] = '		    id = id.substring(0, id.length - "_preview".length);';
+			$script[] = '		    jMediaRefreshPreview(id);';
+			$script[] = '		    $tip.show(this);';
+			$script[] = '       });';
 			$script[] = '	}';
 
 			// JQuery for tooltip for INPUT showing whole image path
-			$script[] = '	function jMediaRefreshImgpathTip(tip)';
+			$script[] = '	function jMediaRefreshImgpathTip(tip, els)';
 			$script[] = '	{';
-			$script[] = '		var $ = jQuery.noConflict();';
+			$script[] = '		var $ = jQuery.noConflict(); console.log(els);';
 			$script[] = '		var $tip = $(tip);';
 			$script[] = '		$tip.css("max-width", "none");';
-			$script[] = '		var $imgpath = $("#" + "' . $this->id . '").val();';
+			$script[] = '		var $imgpath = $(els).val();';
 			$script[] = '		$("#TipImgpath").html($imgpath);';
 			$script[] = '		if ($imgpath.length) {';
 			$script[] = '		 $tip.show();';
@@ -380,7 +384,8 @@ class JFormFieldMedia extends JFormField
 		}
 
 		$html[] = '	<input type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly"' . $attr . ' />';
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly"' . $attr . ' data-basepath="'
+			. JUri::root() . '"/>';
 
 		if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
 		{
@@ -403,12 +408,13 @@ class JFormFieldMedia extends JFormField
 		{
 			JHtml::_('bootstrap.tooltip');
 
-			$html[] = '<a class="modal btn" title="' . JText::_('JLIB_FORM_BUTTON_SELECT') . '" href="'
+			$html[] = '<a class="modal btn" title="' . JText::_('JLIB_FORM_BUTTON_SELECT') . '" id="" href="'
 				. ($this->readonly ? ''
 				: ($this->link ? $this->link
 					: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
 					. $this->form->getValue($this->authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
-				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
+				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}" data-basepath="'
+				. JUri::root() . '"">';
 			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a><a class="btn hasTooltip" title="'
 				. JText::_('JLIB_FORM_BUTTON_CLEAR') . '" href="#" onclick="';
 			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
