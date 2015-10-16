@@ -35,16 +35,20 @@ if ($multiple)
 
 // Build heading
 $table_head = '';
+
 if (!empty($groupByFieldset))
 {
 	foreach($tmpl->getFieldsets() as $fieldset) {
 		$table_head .= '<th>' . JText::_($fieldset->label);
+
 		if (!empty($fieldset->description))
 		{
 			$table_head .= '<br /><small style="font-weight:normal">' . JText::_($fieldset->description) . '</small>';
 		}
+
 		$table_head .= '</th>';
 	}
+
 	$sublayout = 'section-byfieldsets';
 }
 else
@@ -54,13 +58,13 @@ else
 		$table_head .= '<br /><small style="font-weight:normal">' . JText::_($field->description) . '</small>';
 		$table_head .= '</th>';
 	}
+
 	$sublayout = 'section';
 }
 
 ?>
 
 <div class="row-fluid">
-	<!-- Render fields for repeatable subform "<?php echo $fieldname; ?>" -->
 	<div class="subform-repeatable-wrapper subform-table-layout">
 		<div class="subform-repeatable"
 			data-bt-add="a.group-add" data-bt-remove="a.group-remove" data-bt-move="a.group-move"
@@ -91,13 +95,10 @@ else
 			</tbody>
 		</table>
 		<?php if ($multiple):?>
-		<!-- Template subform "<?php echo $fieldname; ?>" -->
 		<script type="text/subform-repeatable-template-section" class="subform-repeatable-template-section">
 		<?php echo $this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 0, 'buttons' => $buttons));?>
 		</script>
-		<!-- End template subform "<?php echo $fieldname; ?>" -->
 		<?php endif;?>
 		</div>
 	</div>
-	<!-- End render fields for repeatable subform "<?php echo $fieldname; ?>" -->
 </div>

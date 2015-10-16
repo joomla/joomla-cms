@@ -37,7 +37,6 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 ?>
 
 <div class="row-fluid">
-	<!-- Render fields for repeatable subform "<?php echo $fieldname; ?>" -->
 	<div class="subform-repeatable-wrapper subform-layout">
 		<legend class="hasTooltip" title="<?php echo JHtml::tooltipText($label, $description); ?>" >
 			<?php echo $label; ?>
@@ -58,13 +57,10 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 		endforeach;
 		?>
 		<?php if ($multiple):?>
-		<!-- Template subform "<?php echo $fieldname; ?>" -->
 		<script type="text/subform-repeatable-template-section" class="subform-repeatable-template-section">
 		<?php echo $this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 0, 'buttons' => $buttons))?>
 		</script>
-		<!-- End template subform "<?php echo $fieldname; ?>" -->
 		<?php endif;?>
 		</div>
 	</div>
-	<!-- End render fields for repeatable subform "<?php echo $fieldname; ?>" -->
 </div>

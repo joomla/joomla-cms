@@ -113,6 +113,7 @@ class JFormFieldSubform extends JFormField
 				{
 					$this->formsource = JPath::clean(JPATH_ROOT . '/' . $this->formsource);
 				}
+
 				break;
 
 			case 'min':
@@ -133,6 +134,7 @@ class JFormFieldSubform extends JFormField
 				break;
 
 			case 'buttons':
+
 				if (!$this->multiple)
 				{
 					$this->buttons = array();
@@ -150,6 +152,7 @@ class JFormFieldSubform extends JFormField
 					$value = array_merge(array('add' => false, 'remove' => false, 'move' => false), $value);
 					$this->buttons = $value;
 				}
+
 				break;
 
 			default:
@@ -222,10 +225,12 @@ class JFormFieldSubform extends JFormField
 				{
 					$itemcontrol = $control . '[' . $this->fieldname . $i . ']';
 					$itemform    = JForm::getInstance($formname . $i, $this->formsource, array('control' => $itemcontrol));
+
 					if (!empty($value[$i]))
 					{
 						$itemform->bind($value[$i]);
 					}
+
 					$forms[] = $itemform;
 				}
 			}

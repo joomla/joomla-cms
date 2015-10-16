@@ -29,10 +29,9 @@ extract($displayData);
 $form = $forms[0];
 ?>
 
-<!-- Render fields for subform "<?php echo $fieldname; ?>" -->
 <div class="subform-wrapper">
 <?php foreach($form->getGroup('') as $field): ?>
 	<?php echo $field->renderField(); ?>
 <?php endforeach; ?>
 </div>
-<!-- End render fields for subform "<?php echo $fieldname; ?>" -->
+
