@@ -28,7 +28,7 @@ if ($noUser)
 }
 ?>
 <label id="batch-user-lbl" for="batch-user" class="modalTooltip" title="<?php
-echo JHtml::tooltipText('JLIB_HTML_BATCH_USER_LABEL', 'JLIB_HTML_BATCH_USER_LABEL_DESC'); ?>">
+echo JHtml::_('tooltipText', 'JLIB_HTML_BATCH_USER_LABEL', 'JLIB_HTML_BATCH_USER_LABEL_DESC'); ?>">
 	<?php echo JText::_('JLIB_HTML_BATCH_USER_LABEL'); ?>
 </label>
 <select name="batch[user_id]" class="inputbox" id="batch-user-id">

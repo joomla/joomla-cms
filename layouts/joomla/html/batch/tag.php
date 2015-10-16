@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '.modal-body'));
 ?>
 <label id="batch-tag-lbl" for="batch-tag-id" class="modalTooltip" title="<?php
-echo JHtml::tooltipText('JLIB_HTML_BATCH_TAG_LABEL', 'JLIB_HTML_BATCH_TAG_LABEL_DESC'); ?>">
+echo JHtml::_('tooltipText', 'JLIB_HTML_BATCH_TAG_LABEL', 'JLIB_HTML_BATCH_TAG_LABEL_DESC'); ?>">
 <?php echo JText::_('JLIB_HTML_BATCH_TAG_LABEL'); ?>
 </label>
 <select name="batch[tag]" class="inputbox" id="batch-tag-id">

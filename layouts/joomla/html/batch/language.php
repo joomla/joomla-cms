@@ -37,7 +37,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			'
 );
 ?>
-<label id="batch-language-lbl" for="batch-language-id" class="modalTooltip" title="<?php echo JHtml::tooltipText('JLIB_HTML_BATCH_LANGUAGE_LABEL', 'JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC'); ?>">
+<label id="batch-language-lbl" for="batch-language-id" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', 'JLIB_HTML_BATCH_LANGUAGE_LABEL', 'JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC'); ?>">
 	<?php echo JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL'); ?>
 </label>
 <select name="batch[language_id]" class="inputbox" id="batch-language-id">
