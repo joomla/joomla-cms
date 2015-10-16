@@ -1,4 +1,3 @@
-
 <?php
 /**
  * @package     Joomla.Site
@@ -37,7 +36,6 @@ JFactory::getDocument()->addScriptDeclaration(
 			var sortableList = new $.JSortableList('#"
 	. $tableId . " tbody','" . $formId . "','" . $sortDir . "' , '" . $saveOrderingUrl . "','','" . $nestedList . "');
 		});
-
 	"
 );
 
@@ -64,4 +62,3 @@ if ($proceedSaveOrderButton)
 		"
 	);
 }
-
