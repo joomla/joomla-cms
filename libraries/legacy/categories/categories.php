@@ -257,14 +257,24 @@ class JCategories
 		if ($id != 'root')
 		{
 			// Get the selected category
-			$query->join('LEFT', '#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)')
-				->where('s.id=' . (int) $id);
-		}
+			$query->where('s.id=' . (int) $id);
 
-		if ($app->isSite() && JLanguageMultilang::isEnabled())
-		{
-			$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
+				$query->join('LEFT', '#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
+			}
+			else
+			{
+				$query->join('LEFT', '#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
+			}
 		}
+		else
+		{
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
+				$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+			}
+ 		}
 
 		// Note: i for item
 		if ($this->_options['countItems'] == 1)
