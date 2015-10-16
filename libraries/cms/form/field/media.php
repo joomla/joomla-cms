@@ -205,73 +205,7 @@ class JFormFieldMedia extends JFormField
 
 			// Include jQuery
 			JHtml::_('jquery.framework');
-
-			// Build the script.
-			$script = array();
-			$script[] = '	function jInsertFieldValue(value, id) {';
-			$script[] = '		var $ = jQuery.noConflict();';
-			$script[] = '		var old_value = $("#" + id).val();';
-			$script[] = '		if (old_value != value) {';
-			$script[] = '			var $elem = $("#" + id);';
-			$script[] = '			$elem.val(value);';
-			$script[] = '			$elem.trigger("change");';
-			$script[] = '			if (typeof($elem.get(0).onchange) === "function") {';
-			$script[] = '				$elem.get(0).onchange();';
-			$script[] = '			}';
-			$script[] = '			jMediaRefreshPreview(id);';
-			$script[] = '		}';
-			$script[] = '	}';
-
-			$script[] = '	function jMediaRefreshPreview(id) {';
-			$script[] = '		var $ = jQuery.noConflict();';
-			$script[] = '		var value = $("#" + id).val();';
-			$script[] = '		var $img = $("#" + id + "_preview");';
-			$script[] = '		var basepath = $("#" + id).data("basepath"); console.log($img);';
-
-			$script[] = '		if ($img.length) {';
-			$script[] = '			if (value) {';
-			$script[] = '				$img.attr("src", basepath + value);';
-			$script[] = '				$("#" + id + "_preview_empty").hide();';
-			$script[] = '				$("#" + id + "_preview_img").show()';
-			$script[] = '			} else { ';
-			$script[] = '				$img.attr("src", "");';
-			$script[] = '				$("#" + id + "_preview_empty").show();';
-			$script[] = '				$("#" + id + "_preview_img").hide();';
-			$script[] = '			} ';
-			$script[] = '		} ';
-			$script[] = '	}';
-
-			$script[] = '	function jMediaRefreshPreviewTip(tip)';
-			$script[] = '	{';
-			$script[] = '		var $ = jQuery.noConflict();';
-			$script[] = '		var $tip = $(tip);';
-			$script[] = '		var $img = $tip.find("img.media-preview");';
-			$script[] = '       $img.each(function(index, value) {';
-			$script[] = '		    $tip.find("div.tip").css("max-width", "none");';
-			$script[] = '		    var id = $(this).attr("id");';
-			$script[] = '		    id = id.substring(0, id.length - "_preview".length);';
-			$script[] = '		    jMediaRefreshPreview(id);';
-			$script[] = '		    $tip.show(this);';
-			$script[] = '       });';
-			$script[] = '	}';
-
-			// JQuery for tooltip for INPUT showing whole image path
-			$script[] = '	function jMediaRefreshImgpathTip(tip, els)';
-			$script[] = '	{';
-			$script[] = '		var $ = jQuery.noConflict(); console.log(els);';
-			$script[] = '		var $tip = $(tip);';
-			$script[] = '		$tip.css("max-width", "none");';
-			$script[] = '		var $imgpath = $(els).val();';
-			$script[] = '		$("#TipImgpath").html($imgpath);';
-			$script[] = '		if ($imgpath.length) {';
-			$script[] = '		 $tip.show();';
-			$script[] = '		} else {';
-			$script[] = '		 $tip.hide();';
-			$script[] = '		}';
-			$script[] = '	}';
-
-			// Add the script to the document head.
-			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+			JHtml::_('script', 'media/mediafield-mootools.min.js', true, true, false, false, true);
 
 			self::$initialised = true;
 		}
