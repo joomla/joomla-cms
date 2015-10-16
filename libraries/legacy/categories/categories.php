@@ -261,7 +261,8 @@ class JCategories
 
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
-				$query->join('LEFT', '#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
+				$query->join('LEFT', '#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . 
+					',' . $db->Quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
 			}
 			else
 			{
@@ -274,7 +275,7 @@ class JCategories
 			{
 				$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 			}
- 		}
+		}
 
 		// Note: i for item
 		if ($this->_options['countItems'] == 1)
