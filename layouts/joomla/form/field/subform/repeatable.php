@@ -38,14 +38,11 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 
 <div class="row-fluid">
 	<div class="subform-repeatable-wrapper subform-layout">
-		<legend class="hasTooltip" title="<?php echo JHtml::tooltipText($label, $description); ?>" >
-			<?php echo $label; ?>
-		</legend>
 		<div class="subform-repeatable"
 			data-bt-add="a.group-add" data-bt-remove="a.group-remove" data-bt-move="a.group-move"
 			data-repeatable-element="div.subform-repeatable-group" data-minimum="<?php echo $min; ?>" data-maximum="<?php echo $max; ?>">
 			<?php if (!empty($buttons['add'])):?>
-			<div class="btn-toolbar text-right">
+			<div class="btn-toolbar">
 				<div class="btn-group">
 					<a class="group-add btn btn-mini button btn-success"><span class="icon-plus"></span> </a>
 				</div>
