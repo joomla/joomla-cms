@@ -342,7 +342,7 @@ class JFormFieldMedia extends JFormField
 		{
 			JHtml::_('bootstrap.tooltip');
 
-			$html[] = '<a class="modal btn" title="' . JText::_('JLIB_FORM_BUTTON_SELECT') . '" id="" href="'
+			$html[] = '<a class="modal btn" title="' . JText::_('JLIB_FORM_BUTTON_SELECT') . '" href="'
 				. ($this->readonly ? ''
 				: ($this->link ? $this->link
 					: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
