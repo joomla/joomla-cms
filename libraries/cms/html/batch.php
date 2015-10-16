@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since       1.7
  *
- * @deprecated  3.5 To be removed 4.0
+ * @deprecated  4 Use JLayout directly
  */
 abstract class JHtmlBatch
 {
