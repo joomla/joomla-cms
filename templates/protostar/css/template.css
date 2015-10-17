@@ -172,6 +172,9 @@ textarea {
 	left: auto;
 	right: 13px;
 }
+.rtl .categories-list .collapse {
+	margin: 0 20px 0 0;
+}
 .clearfix {
 	*zoom: 1;
 }
@@ -7280,6 +7283,9 @@ figcaption {
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0076b2', GradientType=0);
 }
+.categories-list .collapse {
+	margin-left: 20px;
+}
 @media (max-width: 480px) {
 	.item-info > span {
 		display: block;
@@ -7405,6 +7411,13 @@ figcaption {
 	}
 	.well {
 		padding: 10px;
+	}
+}
+@media (max-width: 979px) {
+	.nav-collapse.in.collapse {
+		overflow: visible;
+		height: 0;
+		z-index: 100;
 	}
 }
 @media (min-width: 768px) and (max-width: 979px) {

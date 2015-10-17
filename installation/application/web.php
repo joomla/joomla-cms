@@ -472,7 +472,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 				'lineend' => 'unix',
 				'tab' => '  ',
 				'language' => $lang->getTag(),
-				'direction' => $lang->isRTL() ? 'rtl' : 'ltr'
+				'direction' => $lang->isRtl() ? 'rtl' : 'ltr'
 			);
 
 			$document = JDocument::getInstance($type, $attributes);

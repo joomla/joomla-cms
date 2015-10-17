@@ -42,8 +42,8 @@ class JFormFieldModal_Category extends JFormField
 			$extension = (string) JFactory::getApplication()->input->get('extension', 'com_content');
 		}
 
-		$allowEdit		= ((string) $this->element['edit'] == 'true') ? true : false;
-		$allowClear		= ((string) $this->element['clear'] != 'false') ? true : false;
+		$allowEdit  = ((string) $this->element['edit'] == 'true') ? true : false;
+		$allowClear = ((string) $this->element['clear'] != 'false') ? true : false;
 
 		// Load language
 		JFactory::getLanguage()->load('com_categories', JPATH_ADMINISTRATOR);
@@ -103,7 +103,7 @@ class JFormFieldModal_Category extends JFormField
 
 		if ((int) $this->value > 0)
 		{
-			$db	= JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__categories'))

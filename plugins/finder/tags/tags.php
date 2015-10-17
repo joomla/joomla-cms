@@ -225,7 +225,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 		$item->metadata = $registry;
 
 		// Build the necessary route and path information.
-		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
+		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
 		$item->route = TagsHelperRoute::getTagRoute($item->slug);
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 

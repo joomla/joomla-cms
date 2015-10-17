@@ -128,6 +128,25 @@ class UsersControllerUser extends UsersController
 	}
 
 	/**
+	 * Method to logout directly and redirect to page.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.5
+	 */
+	public function menulogout()
+	{
+		// Get the ItemID of the page to redirect after logout
+		$itemid = JFactory::getApplication()->getMenu()->getActive()->params->get('logout');
+
+		// URL to redirect after logout, default page if no ItemID is set
+		$url = $itemid ? 'index.php?Itemid=' . $itemid : JURI::root();
+
+		// Logout and redirect
+		$this->setRedirect('index.php?option=com_users&task=user.logout&' . JSession::getFormToken() . '=1&return=' . base64_encode($url));
+	}
+
+	/**
 	 * Method to register a user.
 	 *
 	 * @return  boolean
@@ -146,13 +165,23 @@ class UsersControllerUser extends UsersController
 
 		// Get the model and validate the data.
 		$model  = $this->getModel('Registration', 'UsersModel');
-		$return	= $model->validate($data);
+
+		$form = $model->getForm();
+
+		if (!$form)
+		{
+			JError::raiseError(500, $model->getError());
+
+			return false;
+		}
+
+		$return = $model->validate($form, $data);
 
 		// Check for errors.
 		if ($return === false)
 		{
 			// Get the validation messages.
-			$errors	= $model->getErrors();
+			$errors = $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
@@ -177,7 +206,7 @@ class UsersControllerUser extends UsersController
 		}
 
 		// Finish the registration.
-		$return	= $model->register($data);
+		$return = $model->register($data);
 
 		// Check for errors.
 		if ($return === false)
@@ -215,7 +244,7 @@ class UsersControllerUser extends UsersController
 		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Submit the username remind request.
-		$return	= $model->processRemindRequest($data);
+		$return = $model->processRemindRequest($data);
 
 		// Check for a hard error.
 		if ($return instanceof Exception)
@@ -260,7 +289,7 @@ class UsersControllerUser extends UsersController
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getLoginRoute();
 			$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
-			$route	= 'index.php?option=com_users&view=login' . $itemid;
+			$route  = 'index.php?option=com_users&view=login' . $itemid;
 
 			// Proceed to the login form.
 			$message = JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');

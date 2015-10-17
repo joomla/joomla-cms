@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bad26becd36b945ed683e42d14c81bb2",
+    "hash": "ea2b1550a8ac55f171e4d818cc5d28b6",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -50,16 +50,16 @@
         },
         {
             "name": "joomla/application",
-            "version": "1.4.1",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/application.git",
-                "reference": "5825e9fd60681aa77644be85f7eefc8ea3e98285"
+                "reference": "a50d524bdc31488aad46da0da8cb59b1767fc4fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/application/zipball/5825e9fd60681aa77644be85f7eefc8ea3e98285",
-                "reference": "5825e9fd60681aa77644be85f7eefc8ea3e98285",
+                "url": "https://api.github.com/repos/joomla-framework/application/zipball/a50d524bdc31488aad46da0da8cb59b1767fc4fd",
+                "reference": "a50d524bdc31488aad46da0da8cb59b1767fc4fd",
                 "shasum": ""
             },
             "require": {
@@ -102,7 +102,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2015-07-17 22:26:06"
+            "time": "2015-10-09 12:10:44"
         },
         {
             "name": "joomla/compat",
@@ -383,17 +383,17 @@
         },
         {
             "name": "joomla/session",
-            "version": "1.2.3",
+            "version": "1.3.0",
             "target-dir": "Joomla/Session",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/session.git",
-                "reference": "ef955cf9642793c4ad5874f334069051c33ba604"
+                "reference": "6b5d16661213ea41d3ef7dcb8c8d355e18e75d45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/session/zipball/ef955cf9642793c4ad5874f334069051c33ba604",
-                "reference": "ef955cf9642793c4ad5874f334069051c33ba604",
+                "url": "https://api.github.com/repos/joomla-framework/session/zipball/6b5d16661213ea41d3ef7dcb8c8d355e18e75d45",
+                "reference": "6b5d16661213ea41d3ef7dcb8c8d355e18e75d45",
                 "shasum": ""
             },
             "require": {
@@ -402,7 +402,11 @@
                 "php": ">=5.3.10"
             },
             "require-dev": {
-                "joomla/test": "~1.0"
+                "joomla/database": "~1.0",
+                "joomla/test": "~1.0",
+                "phpunit/dbunit": "~1.2",
+                "phpunit/phpunit": "4.*",
+                "squizlabs/php_codesniffer": "1.*"
             },
             "suggest": {
                 "joomla/database": "Install joomla/database if you want to use Database session storage."
@@ -424,7 +428,7 @@
                 "joomla",
                 "session"
             ],
-            "time": "2014-08-18 17:41:06"
+            "time": "2015-07-26 23:44:05"
         },
         {
             "name": "joomla/string",
@@ -691,30 +695,32 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.6.1",
-            "target-dir": "Symfony/Component/Yaml",
+            "version": "v2.7.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Yaml.git",
-                "reference": "3346fc090a3eb6b53d408db2903b241af51dcb20"
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "31cb2ad0155c95b88ee55fe12bc7ff92232c1770"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/3346fc090a3eb6b53d408db2903b241af51dcb20",
-                "reference": "3346fc090a3eb6b53d408db2903b241af51dcb20",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/31cb2ad0155c95b88ee55fe12bc7ff92232c1770",
+                "reference": "31cb2ad0155c95b88ee55fe12bc7ff92232c1770",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "~2.7"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
+                "psr-4": {
                     "Symfony\\Component\\Yaml\\": ""
                 }
             },
@@ -724,17 +730,17 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony Yaml Component",
-            "homepage": "http://symfony.com",
-            "time": "2014-12-02 20:19:20"
+            "homepage": "https://symfony.com",
+            "time": "2015-09-14 14:14:09"
         }
     ],
     "packages-dev": [
@@ -953,24 +959,24 @@
         },
         {
             "name": "phpunit/dbunit",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/dbunit.git",
-                "reference": "1afe25c90834ec499f007f48dd73767fdec3bf4f"
+                "reference": "9aaee6447663ff1b0cd50c23637e04af74c5e2ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/dbunit/zipball/1afe25c90834ec499f007f48dd73767fdec3bf4f",
-                "reference": "1afe25c90834ec499f007f48dd73767fdec3bf4f",
+                "url": "https://api.github.com/repos/sebastianbergmann/dbunit/zipball/9aaee6447663ff1b0cd50c23637e04af74c5e2ae",
+                "reference": "9aaee6447663ff1b0cd50c23637e04af74c5e2ae",
                 "shasum": ""
             },
             "require": {
                 "ext-pdo": "*",
                 "ext-simplexml": "*",
                 "php": ">=5.3.3",
-                "phpunit/phpunit": "~4.0",
-                "symfony/yaml": "~2.1"
+                "phpunit/phpunit": "~4|~5",
+                "symfony/yaml": "~2.1|~3.0"
             },
             "bin": [
                 "composer/bin/dbunit"
@@ -1008,7 +1014,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-05-21 21:11:02"
+            "time": "2015-08-07 04:57:38"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -1255,16 +1261,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.7.7",
+            "version": "4.8.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9b97f9d807b862c2de2a36e86690000801c85724"
+                "reference": "bdd199472410fd7e32751f9c814c7e06f2c21bd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9b97f9d807b862c2de2a36e86690000801c85724",
-                "reference": "9b97f9d807b862c2de2a36e86690000801c85724",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/bdd199472410fd7e32751f9c814c7e06f2c21bd5",
+                "reference": "bdd199472410fd7e32751f9c814c7e06f2c21bd5",
                 "shasum": ""
             },
             "require": {
@@ -1274,7 +1280,7 @@
                 "ext-reflection": "*",
                 "ext-spl": "*",
                 "php": ">=5.3.3",
-                "phpspec/prophecy": "~1.3,>=1.3.1",
+                "phpspec/prophecy": "^1.3.1",
                 "phpunit/php-code-coverage": "~2.1",
                 "phpunit/php-file-iterator": "~1.4",
                 "phpunit/php-text-template": "~1.2",
@@ -1282,7 +1288,7 @@
                 "phpunit/phpunit-mock-objects": "~2.3",
                 "sebastian/comparator": "~1.1",
                 "sebastian/diff": "~1.2",
-                "sebastian/environment": "~1.2",
+                "sebastian/environment": "~1.3",
                 "sebastian/exporter": "~1.2",
                 "sebastian/global-state": "~1.0",
                 "sebastian/version": "~1.0",
@@ -1297,7 +1303,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.7.x-dev"
+                    "dev-master": "4.8.x-dev"
                 }
             },
             "autoload": {
@@ -1323,7 +1329,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-07-13 11:28:34"
+            "time": "2015-10-07 10:39:46"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1498,16 +1504,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "1.2.2",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "5a8c7d31914337b69923db26c4221b81ff5a196e"
+                "reference": "6324c907ce7a52478eeeaede764f48733ef5ae44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/5a8c7d31914337b69923db26c4221b81ff5a196e",
-                "reference": "5a8c7d31914337b69923db26c4221b81ff5a196e",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/6324c907ce7a52478eeeaede764f48733ef5ae44",
+                "reference": "6324c907ce7a52478eeeaede764f48733ef5ae44",
                 "shasum": ""
             },
             "require": {
@@ -1544,7 +1550,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2015-01-01 10:01:08"
+            "time": "2015-08-03 06:14:51"
         },
         {
             "name": "sebastian/exporter",

@@ -735,7 +735,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
-					throw new RuntimeException($this->errorMsg);
+
+					throw new RuntimeException($this->errorMsg, null, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -750,6 +751,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
 				throw new RuntimeException($this->errorMsg);
 			}
 		}
@@ -857,7 +859,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
 		$this->connect();
 
@@ -1195,7 +1197,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function getStringPositionSQL( $substring, $string )
+	public function getStringPositionSql( $substring, $string )
 	{
 		$this->connect();
 

@@ -11,8 +11,8 @@
 	<description>MOD_QUICKICON_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_quickicon">mod_quickicon.php</filename>
-		<filename>helper.php</filename>
 		<folder>tmpl</folder>
+		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_quickicon.ini</language>

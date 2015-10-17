@@ -279,7 +279,7 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @param   string  $option  The component option
 	 *
-	 * @return  object  The parameters object
+	 * @return  Registry  The parameters object
 	 *
 	 * @since   3.2
 	 * @deprecated  4.0  Use getParams() instead
@@ -294,7 +294,7 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @param   string  $option  The component option
 	 *
-	 * @return  object  The parameters object
+	 * @return  Registry  The parameters object
 	 *
 	 * @since   3.2
 	 */

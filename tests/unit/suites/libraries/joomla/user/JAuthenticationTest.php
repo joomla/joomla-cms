@@ -27,6 +27,14 @@ class JAuthenticationTest extends TestCase
 	protected $object;
 
 	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var    array
+	 * @since  3.4.4
+	 */
+	protected $backupServer;
+
+	/**
 	 * Sets up the fixture.
 	 *
 	 * This method is called before a test is executed.
@@ -38,6 +46,8 @@ class JAuthenticationTest extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
+
+		$this->backupServer = $_SERVER;
 
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['SCRIPT_NAME'] = '';
@@ -82,6 +92,8 @@ class JAuthenticationTest extends TestCase
 
 		// Reset the loaded plugins.
 		TestReflection::setValue('JPluginHelper', 'plugins', null);
+
+		$_SERVER = $this->backupServer;
 
 		parent::tearDown();
 	}

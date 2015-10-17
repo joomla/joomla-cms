@@ -45,7 +45,7 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 
 	protected $COPYRIGHT = 'Copyright (C) 2005 - 3109 Open Source Matters. All rights reserved.';
 
-	protected $URL = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+	protected $URL = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
 	 * This checks for the correct Short Version.
@@ -143,7 +143,7 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 			'RELTIME'    => '23:00',
 			'RELTZ'      => 'GMT',
 			'COPYRIGHT'  => 'Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.',
-			'URL'        => '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.'
+			'URL'        => '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.'
 		);
 
 		$testInstance = $this->object->__set_state($testData);

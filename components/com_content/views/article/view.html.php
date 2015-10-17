@@ -133,7 +133,8 @@ class ContentViewArticle extends JViewLegacy
 		// Check the view access to the article (the model has already computed the values).
 		if ($item->params->get('access-view') == false && ($item->params->get('show_noauth', '0') == '0'))
 		{
-			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
+			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->setHeader('status', 403, true);
 
 			return;
 		}

@@ -9,15 +9,6 @@
  */
 
 /**
- * Set focus to username on the login screen
- */
-function setFocus() {
-	if (jQuery("#login-page").length) {
-		jQuery('#form-login').find('input[name="username"]').focus()
-	}
-}
-
-/**
  * Change the skip nav target to work with webkit browsers (Safari/Chrome) and
  * Opera
  */
@@ -127,7 +118,6 @@ jQuery(function($){
 });
 
 jQuery(function() {
-	setFocus();
 	setSkip();
 	setAriaRoleElementsById();
 	setAriaProperties();

@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+
 $user = JFactory::getUser();
 ?>
 <li class="imgOutline thumbnail height-80 width-80 center">

@@ -14,4 +14,9 @@ require_once __DIR__ . '/helper.php';
 
 $users = ModLoggedHelper::getList($params);
 
+if ($params->get('automatic_title', 0))
+{
+	$module->title = ModLoggedHelper::getTitle($params);
+}
+
 require JModuleHelper::getLayoutPath('mod_logged', $params->get('layout', 'default'));

@@ -59,7 +59,7 @@ jQuery(function() {";
 }
 ?>
 
-<form id="finder-search" action="<?php echo JRoute::_($this->query->toURI()); ?>" method="get" class="form-inline">
+<form id="finder-search" action="<?php echo JRoute::_($this->query->toUri()); ?>" method="get" class="form-inline">
 	<?php echo $this->getFields(); ?>
 
 	<?php

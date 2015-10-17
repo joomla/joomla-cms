@@ -853,10 +853,10 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function testIsRTL()
+	public function testIsRtl()
 	{
 		$this->assertFalse(
-			$this->object->isRTL()
+			$this->object->isRtl()
 		);
 	}
 

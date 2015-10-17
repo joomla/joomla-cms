@@ -196,7 +196,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		$this->utf8mb4 = $this->serverClaimsUtf8mb4Support();
 
 		// Set the character set (needed for MySQL 4.1.2+).
-		$this->utf = $this->setUTF();
+		$this->utf = $this->setUtf();
 
 		// Turn MySQL profiling ON in debug mode:
 		if ($this->debug && $this->hasProfiling())
@@ -638,7 +638,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				catch (RuntimeException $e)
 				{
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
-					throw new RuntimeException($this->errorMsg, $this->errorNum);
+
+					throw new RuntimeException($this->errorMsg, $this->errorNum, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -648,6 +649,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			else
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
 		}
@@ -709,7 +711,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
 		// If UTF is not supported return false immediately
 		if (!$this->utf)
@@ -916,7 +918,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @return  boolean
 	 *
-	 * @since 3.1.3
+	 * @since   3.1.3
 	 */
 	private function hasProfiling()
 	{

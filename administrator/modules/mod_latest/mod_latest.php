@@ -13,4 +13,10 @@ defined('_JEXEC') or die;
 require_once __DIR__ . '/helper.php';
 
 $list = ModLatestHelper::getList($params);
+
+if ($params->get('automatic_title', 0))
+{
+	$module->title = ModLatestHelper::getTitle($params);
+}
+
 require JModuleHelper::getLayoutPath('mod_latest', $params->get('layout', 'default'));

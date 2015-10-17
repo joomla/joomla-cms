@@ -617,21 +617,21 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JUri::isSSL
+	 * @covers  JUri::isSsl
 	 */
-	public function testIsSSL()
+	public function testIsSsl()
 	{
 		$this->object->parse('https://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
 
 		$this->assertThat(
-			$this->object->isSSL(),
+			$this->object->isSsl(),
 			$this->equalTo(true)
 		);
 
 		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
 
 		$this->assertThat(
-			$this->object->isSSL(),
+			$this->object->isSsl(),
 			$this->equalTo(false)
 		);
 	}

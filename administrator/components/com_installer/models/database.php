@@ -250,6 +250,13 @@ class InstallerModelDatabase extends InstallerModel
 		}
 	}
 
+	/**
+	 * Converts the site's database tables to support UTF-8 Multibyte
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
 	public function convertTablesToUtf8mb4()
 	{
 		$db = JFactory::getDbo();

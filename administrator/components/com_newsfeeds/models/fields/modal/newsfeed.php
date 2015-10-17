@@ -33,8 +33,8 @@ class JFormFieldModal_Newsfeed extends JFormField
 	 */
 	protected function getInput()
 	{
-		$allowEdit		= ((string) $this->element['edit'] == 'true') ? true : false;
-		$allowClear		= ((string) $this->element['clear'] != 'false') ? true : false;
+		$allowEdit  = ((string) $this->element['edit'] == 'true') ? true : false;
+		$allowClear = ((string) $this->element['clear'] != 'false') ? true : false;
 
 		// Load language
 		JFactory::getLanguage()->load('com_newsfeeds', JPATH_ADMINISTRATOR);
@@ -93,8 +93,8 @@ class JFormFieldModal_Newsfeed extends JFormField
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 		// Setup variables for display.
-		$html	= array();
-		$link	= 'index.php?option=com_newsfeeds&amp;view=newsfeeds&amp;layout=modal&amp;tmpl=component&amp;function=jSelectNewsfeed_' . $this->id;
+		$html = array();
+		$link = 'index.php?option=com_newsfeeds&amp;view=newsfeeds&amp;layout=modal&amp;tmpl=component&amp;function=jSelectNewsfeed_' . $this->id;
 
 		if (isset($this->element['language']))
 		{
@@ -178,7 +178,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 
 		$html[] = '</span>';
 
-		// class='required' for client side validation
+		// Add class='required' for client side validation
 		$class = '';
 
 		if ($this->required)

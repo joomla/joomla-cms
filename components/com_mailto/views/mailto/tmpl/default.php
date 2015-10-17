@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.core');
 JHtml::_('behavior.keepalive');
 
-$data	= $this->get('data');
+$data = $this->get('data');
 
 JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(pressbutton)
