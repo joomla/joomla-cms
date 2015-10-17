@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.5
  */
-class JHtmlElement
+final class JHtmlElement
 {
 	/**
 	 * Element Tag Name. I.E. div, p, a etc...
