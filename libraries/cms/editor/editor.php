@@ -286,6 +286,15 @@ class JEditor extends JObject
 	{
 		$this->asset = $asset;
 		$this->author = $author;
+
+		// Backwards compatibility. Width and height should be passed without a semicolon from now on.
+		// If editor plugins need a unit like "px" for CSS styling, they need to take care of that
+		$width = str_replace(';', '', $width);
+		$height = str_replace(';', '', $height);
+
+		$params['html_height'] = $height;
+		$params['html_width'] = $width;
+
 		$this->_loadEditor($params);
 
 		// Check whether editor is already loaded
@@ -293,11 +302,6 @@ class JEditor extends JObject
 		{
 			return;
 		}
-
-		// Backwards compatibility. Width and height should be passed without a semicolon from now on.
-		// If editor plugins need a unit like "px" for CSS styling, they need to take care of that
-		$width = str_replace(';', '', $width);
-		$height = str_replace(';', '', $height);
 
 		$return = null;
 
