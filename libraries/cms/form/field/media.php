@@ -58,6 +58,22 @@ class JFormFieldMedia extends JFormField
 	protected $link;
 
 	/**
+	 * Modal width.
+	 *
+	 * @var    integer
+	 * @since  3.4.5
+	 */
+	protected $width;
+
+	/**
+	 * Modal height.
+	 *
+	 * @var    integer
+	 * @since  3.4.5
+	 */
+	protected $height;
+
+	/**
 	 * The authorField.
 	 *
 	 * @var    string
@@ -105,6 +121,8 @@ class JFormFieldMedia extends JFormField
 			case 'authorField':
 			case 'asset':
 			case 'link':
+			case 'width':
+			case 'height':
 			case 'preview':
 			case 'directory':
 			case 'previewWidth':
@@ -132,6 +150,8 @@ class JFormFieldMedia extends JFormField
 			case 'authorField':
 			case 'asset':
 			case 'link':
+			case 'width':
+			case 'height':
 			case 'preview':
 			case 'directory':
 				$this->$name = (string) $value;
@@ -172,6 +192,8 @@ class JFormFieldMedia extends JFormField
 			$this->authorField   = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
 			$this->asset         = $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'];
 			$this->link          = (string) $this->element['link'];
+			$this->width  	     = isset($this->element['width']) ? (int) $this->element['width'] : 800;
+			$this->height 	     = isset($this->element['height']) ? (int) $this->element['height'] : 500;
 			$this->preview       = (string) $this->element['preview'];
 			$this->directory     = (string) $this->element['directory'];
 			$this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
@@ -408,7 +430,7 @@ class JFormFieldMedia extends JFormField
 				: ($this->link ? $this->link
 					: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
 					. $this->form->getValue($this->authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
-				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
+				. ' rel="{handler: \'iframe\', size: {x: ' . $this->width . ', y: ' . $this->height . '}}">';
 			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a><a class="btn hasTooltip" title="'
 				. JText::_('JLIB_FORM_BUTTON_CLEAR') . '" href="#" onclick="';
 			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
