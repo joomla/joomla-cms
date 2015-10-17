@@ -38,13 +38,13 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 	/**
 	 * @var    integer  The affected row limit for the current SQL statement.
-	 * @since  3.2 CMS
+	 * @since  3.2
 	 */
 	protected $limit = 0;
 
 	/**
 	 * @var    integer  The affected row offset to apply for the current SQL statement.
-	 * @since  3.2 CMS
+	 * @since  3.2
 	 */
 	protected $offset = 0;
 
@@ -220,7 +220,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  string  The required char length call.
 	 *
-	 * @since 11.1
+	 * @since   11.1
 	 */
 	public function charLength($field, $operator = null, $condition = null)
 	{
@@ -366,7 +366,9 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 * Usage:
 	 * $query->Rand();
 	 * 
-	 * @return string the correct rand function.
+	 * @return  string  The correct rand function.
+	 *
+	 * @since   3.5
 	 */
 	public function Rand()
 	{
