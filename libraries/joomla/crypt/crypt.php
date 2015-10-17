@@ -256,6 +256,7 @@ class JCrypt
 	/**
 	 * A timing safe comparison method. This defeats hacking
 	 * attempts that use timing based attack vectors.
+	 * Length will leak.
 	 *
 	 * @param   string  $known    A known string to check against.
 	 * @param   string  $unknown  An unknown string to check.
@@ -266,11 +267,17 @@ class JCrypt
 	 */
 	public static function timingSafeCompare($known, $unknown)
 	{
+		// Use the build in function hash_equals if it exists
+		if (function_exists('hash_equals'))
+		{
+			return hash_equals((string) $known, (string) $unknown);
+		}
+
 		// Prevent issues if string length is 0
-		$known .= chr(0);
+		$known   .= chr(0);
 		$unknown .= chr(0);
 
-		$knownLength = strlen($known);
+		$knownLength   = strlen($known);
 		$unknownLength = strlen($unknown);
 
 		// Set the result to the difference between the lengths
