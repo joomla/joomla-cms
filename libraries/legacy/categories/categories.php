@@ -273,7 +273,7 @@ class JCategories
 		{
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
-				$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+				$query->where('c.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 			}
 		}
 
