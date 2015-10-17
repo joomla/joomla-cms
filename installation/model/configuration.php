@@ -117,6 +117,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('caching', 0);
 		$registry->set('cache_handler', 'file');
 		$registry->set('cachetime', 15);
+		$registry->set('cache_platformprefix', 0);
 
 		// Meta settings.
 		$registry->set('MetaDesc', $options->site_metadesc);
