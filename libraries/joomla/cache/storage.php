@@ -312,10 +312,11 @@ class JCacheStorage
 	 */
 	protected function _getCacheId($id, $group)
 	{
+		$prefix = JCache::getPlatformPrefix();
 		$name = md5($this->_application . '-' . $id . '-' . $this->_language);
 		$this->rawname = $this->_hash . '-' . $name;
 
-		return $this->_hash . '-cache-' . $group . '-' . $name;
+		return $prefix . $this->_hash . '-cache-' . $group . '-' . $name;
 	}
 
 	/**
