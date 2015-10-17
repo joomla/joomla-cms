@@ -129,7 +129,9 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 * Usage:
 	 * $query->Rand();
 	 * 
-	 * @return string the correct rand function.
+	 * @return  string  The correct rand function.
+	 *
+	 * @since   3.5
 	 */
 	public function Rand()
 	{
