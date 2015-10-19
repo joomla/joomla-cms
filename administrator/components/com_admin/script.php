@@ -1302,6 +1302,8 @@ class JoomlaInstallerScript
 			// Joomla 3.4.3
 			'/libraries/classloader.php',
 			'/libraries/ClassLoader.php',
+			// Joomla 3.4.6
+			'/components/com_wrapper/views/wrapper/metadata.xml',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
