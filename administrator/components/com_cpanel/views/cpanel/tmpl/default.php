@@ -31,7 +31,7 @@ $user = JFactory::getUser();
 	<div class="span<?php echo ($iconmodules) ? 9 : 12; ?>">
 		<?php if ($user->authorise('core.manage', 'com_postinstall') && $this->postinstall_message_count) : ?>
 			<div class="row-fluid">
-					<div class="alert alert-info">
+				<div class="alert alert-info">
 					<h4>
 						<?php echo JText::_('COM_CPANEL_MESSAGES_TITLE'); ?>
 					</h4>
@@ -43,10 +43,10 @@ $user = JFactory::getUser();
 					</p>
 					<p>
 						<a href="index.php?option=com_postinstall&amp;eid=700" class="btn btn-primary">
-						<?php echo JText::_('COM_CPANEL_MESSAGES_REVIEW'); ?>
+							<?php echo JText::_('COM_CPANEL_MESSAGES_REVIEW'); ?>
 						</a>
 					</p>
-					</div>
+				</div>
 			</div>
 		<?php endif; ?>
 		<div class="row-fluid">
