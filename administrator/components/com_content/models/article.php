@@ -432,12 +432,12 @@ class ContentModelArticle extends JModelAdmin
 			{
 				$filters = (array) $app->getUserState('com_content.articles.filter');
 				$data->set(
-                    'state',
-                    $app->input->getInt(
-                        'state',
-                        ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
-                    )
-                );
+					'state',
+					$app->input->getInt(
+						'state',
+						((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
+					)
+				);
 				$data->set('catid', $app->input->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'))));
