@@ -108,7 +108,7 @@ class ContentModelArticle extends JModelAdmin
 			$this->table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			// $table->ordering	= 1;
+			// $table->ordering = 1;
 
 			// Get the featured state
 			$featured = $this->table->featured;
@@ -444,6 +444,12 @@ class ContentModelArticle extends JModelAdmin
 			}
 		}
 
+		// If there are params fieldsets in the form it will fail with a registry object
+		if (isset($data->params) && $data->params instanceof Registry)
+		{
+			$data->params = $data->params->toArray();
+		}
+
 		$this->preprocessData('com_content.article', $data);
 
 		return $data;
@@ -482,22 +488,14 @@ class ContentModelArticle extends JModelAdmin
 
 		if (isset($data['urls']) && is_array($data['urls']))
 		{
-			$check = $input->post->get('jform', array(), 'array');
 			foreach ($data['urls'] as $i => $url)
 			{
 				if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc'))
 				{
-					if (preg_match('~^#[a-zA-Z]{1}[a-zA-Z0-9-_:.]*$~', $check['urls'][$i]) == 1)
-					{
-						$data['urls'][$i] = $check['urls'][$i];
-					}
-					else
-					{
-						$data['urls'][$i] = JStringPunycode::urlToPunycode($url);
-					}
+					$data['urls'][$i] = JStringPunycode::urlToPunycode($url);
 				}
 			}
-			unset($check);
+
 			$registry = new Registry;
 			$registry->loadArray($data['urls']);
 			$data['urls'] = (string) $registry;
