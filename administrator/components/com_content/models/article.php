@@ -453,7 +453,7 @@ class ContentModelArticle extends JModelAdmin
 	 * @since   1.6
 	 */
 	public function save($data)
-	{ 
+	{
 		$input = JFactory::getApplication()->input;
 		$filter  = JFilterInput::getInstance();
 
@@ -481,12 +481,12 @@ class ContentModelArticle extends JModelAdmin
 			{
 				if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc'))
 				{
-					if(preg_match('~^#[a-zA-Z]{1}[a-zA-Z0-9-_:.]*$~', $check['urls'][$i]) == 1) 
+					if (preg_match('~^#[a-zA-Z]{1}[a-zA-Z0-9-_:.]*$~', $check['urls'][$i]) == 1)
 					{
 						$data['urls'][$i] = $check['urls'][$i];
-					} 
+					}
 					else
-					{ 
+					{
 						$data['urls'][$i] = JStringPunycode::urlToPunycode($url);
 					}
 				}
