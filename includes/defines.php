@@ -8,11 +8,8 @@
 
 defined('_JEXEC') or die;
 
-// Global definitions
-$parts = explode(DIRECTORY_SEPARATOR, JPATH_BASE);
-
 // Defines.
-define('JPATH_ROOT',          implode(DIRECTORY_SEPARATOR, $parts));
+define('JPATH_ROOT',          JPATH_BASE);
 define('JPATH_SITE',          JPATH_ROOT);
 define('JPATH_CONFIGURATION', JPATH_ROOT);
 define('JPATH_ADMINISTRATOR', JPATH_ROOT . DIRECTORY_SEPARATOR . 'administrator');
