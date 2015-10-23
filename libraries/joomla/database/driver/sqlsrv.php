@@ -633,10 +633,10 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		// If an error occurred handle it.
 		if (!$this->cursor)
 		{
-			// Get the error number and message.
-			$errors         = sqlsrv_errors();
-			$this->errorNum = $errors[0]['SQLSTATE'];
-			$errorMessage   = (string) $errors[0]['message'];
+			// Get the error number and message before we execute any more queries.
+			$errors       = sqlsrv_errors();
+			$errorNum     = $errors[0]['SQLSTATE'];
+			$errorMessage = (string) $errors[0]['message'];
 
 			// Replace the Databaseprefix with `#__` if we are not in Debug
 			if (!$this->debug)
@@ -645,7 +645,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
 			}
 
-			$this->errorMsg = $errorMessage . 'SQL=' . $query;
+			$errorMsg = $errorMessage . 'SQL=' . $query;
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -659,6 +659,20 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
+					// Get the error number and message.
+					$errors         = sqlsrv_errors();
+					$this->errorNum = $errors[0]['SQLSTATE'];
+					$errorMessage   = (string) $errors[0]['message'];
+		
+					// Replace the Databaseprefix with `#__` if we are not in Debug
+					if (!$this->debug)
+					{
+						$query        = str_replace($this->tablePrefix, '#__', $query);
+						$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
+					}
+		
+					$this->errorMsg = $errorMessage . 'SQL=' . $query;
+
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
@@ -671,6 +685,10 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			// The server was not disconnected.
 			else
 			{
+				// Get the error number and message from before we tried to reconnect.
+				$this->errorNum = $errorNum;
+				$this->errorMsg = $errorMsg;
+
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
