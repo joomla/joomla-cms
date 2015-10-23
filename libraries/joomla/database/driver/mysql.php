@@ -309,7 +309,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		if (!$this->cursor)
 		{
 			// Get the error number and message before we execute any more queries.
-			$errorNum = $this->getErrorNum();
+			$errorNum = $this->getErrorNumber();
 			$errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
@@ -325,7 +325,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 				catch (RuntimeException $e)
 				{
 					// Get the error number and message.
-					$this->errorNum = $this->getErrorNum();
+					$this->errorNum = $this->getErrorNumber();
 					$this->errorMsg = $this->getErrorMessage();
 
 					// Throw the normal query exception.
@@ -481,7 +481,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorNum()
+	protected function getErrorNumber()
 	{
 		return (int) mysql_errno($this->connection);
 	}
