@@ -635,7 +635,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			// Get the error number and message before we execute any more queries.
 			$errorNum = $this->getErrorNum();
-			$errorMsg = $this->getErrorMsg();
+			$errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -651,7 +651,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				{
 					// Get the error number and message.
 					$this->errorNum = $this->getErrorNum();
-					$this->errorMsg = $this->getErrorMsg();
+					$this->errorMsg = $this->getErrorMessage();
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
@@ -1117,7 +1117,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorMsg()
+	protected function getErrorMessage()
 	{
 		$errors       = sqlsrv_errors();
 		$errorMessage = (string) $errors[0]['message'];
