@@ -437,20 +437,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		// If an error occurred handle it.
 		if (!$this->executed)
 		{
-			// Get the error number and message before we execute any more queries.
-			$this->errorNum = (int) $this->connection->errorCode();
-
-			// The SQL Error Information
-			$query = implode(", ", $this->connection->errorInfo();
-
-			// Replace the Databaseprefix with `#__` if we are not in Debug
-			if (!$this->debug)
-			{
-				$query = str_replace($this->tablePrefix, '#__', $query);
-			}
-
-			$this->errorMsg = (string) 'SQL: ' . $query);
-
 			// Check if the server was disconnected.
 			if (!$this->connected())
 			{
@@ -463,6 +449,20 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
+					// Get the error number and message before we execute any more queries.
+					$this->errorNum = (int) $this->connection->errorCode();
+
+					// The SQL Error Information
+					$query = implode(", ", $this->connection->errorInfo());
+
+					// Replace the Databaseprefix with `#__` if we are not in Debug
+					if (!$this->debug)
+					{
+						$query = str_replace($this->tablePrefix, '#__', $query);
+					}
+
+					$this->errorMsg = (string) 'SQL: ' . $query);
+
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
@@ -475,6 +475,20 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			// The server was not disconnected.
 			else
 			{
+				// Get the error number and message before we execute any more queries.
+				$this->errorNum = (int) $this->connection->errorCode();
+
+				// The SQL Error Information
+				$query = implode(", ", $this->connection->errorInfo());
+
+				// Replace the Databaseprefix with `#__` if we are not in Debug
+				if (!$this->debug)
+				{
+					$query = str_replace($this->tablePrefix, '#__', $query);
+				}
+
+				$this->errorMsg = (string) 'SQL: ' . $query);
+
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
