@@ -1485,6 +1485,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
 		}
 
-		return $errorMessage . "SQL=" . $this->query;
+		return $errorMessage . "SQL=" . $this->sql;
 	}
 }
