@@ -581,6 +581,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// If an error occurred handle it.
 		if (!$this->cursor)
 		{
+			// Get the error number and message before we execute any more queries.
 			$errorNum     = (int) mysqli_errno($this->connection);
 			$errorMessage = (string) mysqli_error($this->connection);
 
