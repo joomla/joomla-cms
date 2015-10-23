@@ -463,7 +463,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
-					// Get the error number and message
+					// Get the error number and message.
 					$this->errorNum = (int) $this->connection->errorCode();
 
 					// The SQL Error Information
