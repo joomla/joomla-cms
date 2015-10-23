@@ -309,17 +309,8 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		if (!$this->cursor)
 		{
 			// Get the error number and message before we execute any more queries.
-			$errorNum     = (int) mysql_errno($this->connection);
-			$errorMessage = (string) mysql_error($this->connection);
-
-			// Replace the Databaseprefix with `#__` if we are not in Debug
-			if (!$this->debug)
-			{
-				$query        = str_replace($this->tablePrefix, '#__', $query);
-				$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
-			}
-
-			$errorMsg = $errorMessage . ' SQL=' . $query;
+			$errorNum = $this->getErrorNum();
+			$errorMsg = $this->getErrorMsg();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -334,17 +325,8 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 				catch (RuntimeException $e)
 				{
 					// Get the error number and message.
-					$this->errorNum = (int) mysql_errno($this->connection);
-					$errorMessage   = (string) mysql_error($this->connection);
-
-					// Replace the Databaseprefix with `#__` if we are not in Debug
-					if (!$this->debug)
-					{
-						$query        = str_replace($this->tablePrefix, '#__', $query);
-						$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
-					}
-
-					$this->errorMsg = $errorMessage . ' SQL=' . $query;
+					$this->errorNum = $this->getErrorNum();
+					$this->errorMsg = $this->getErrorMsg();
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
