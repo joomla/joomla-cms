@@ -582,7 +582,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		if (!$this->cursor)
 		{
 			// Get the error number and message before we execute any more queries.
-			$errorNum = $this->getErrorNum();
+			$errorNum = $this->getErrorNumber();
 			$errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
@@ -598,7 +598,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				catch (RuntimeException $e)
 				{
 					// Get the error number and message.
-					$this->errorNum = $this->getErrorNum();
+					$this->errorNum = $this->getErrorNumber();
 					$this->errorMsg = $this->getErrorMessage();
 
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
@@ -885,7 +885,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorNum()
+	protected function getErrorNumber()
 	{
 		return (int) mysqli_errno($this->connection);
 	}
