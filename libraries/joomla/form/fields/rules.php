@@ -407,7 +407,6 @@ class JFormFieldRules extends JFormField
 }
 
 JFactory::getDocument()->addScriptDeclaration("
-	jQf = jQuery.noConflict();
 
 	function sendPermissions(event) {
 		// set the icon while storing the values
@@ -435,27 +434,23 @@ JFactory::getDocument()->addScriptDeclaration("
 		else if (extension != false && view != false){
 			asset = extension + '.' + view + '.' + getUrlParam('id');
 			title = document.getElementById('jform_title').value;
-			console.log(title);
 		}
 		else if (extension == false && view != false){
 			asset = option + '.' + view + '.' + getUrlParam('id');
 			title = document.getElementById('jform_title').value;
-			console.log(title);
 		}
 
 		var data = '&comp=' + asset + '&action=' + id[2] + '&rule=' + id[3] + '&value=' + value + '&title=' + title;
 		var url = 'index.php?option=com_config&task=config.store&format=raw' + data;
 
 		// doing ajax request
-		jQf.ajax({
+		jQuery.ajax({
 			type: 'GET',
 			url: url,
 			datatype: 'JSON'
 		}).success(function (response) {
-			console.log(response);
 			var element = event.target;
 			var resp = JSON.parse(response);
-			console.log(resp.data);
 			if (resp.data == 'true')
 			{
 				icon.removeAttribute('style');
@@ -493,7 +488,6 @@ JFactory::getDocument()->addScriptDeclaration("
 			icon.setAttribute('class', 'icon-cancel');
 		})
 	}
-
 
 	// function to get parameters out of the url
 	function getUrlParam(variable) {
