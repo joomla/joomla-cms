@@ -700,7 +700,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			// Get the error number and message before we execute any more queries.
 			$errorNum = $this->getErrorNum();
-			$errorMsg = $this->getErrorMsg();
+			$errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -715,7 +715,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				catch (RuntimeException $e)
 				{
 					$this->errorNum = $this->getErrorNum();
-					$this->errorMsg = $this->getErrorMsg();
+					$this->errorMsg = $this->getErrorMessage();
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
@@ -1475,7 +1475,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorMsg()
+	protected function getErrorMessage()
 	{
 		$errorMessage = (string) pg_last_error($this->connection);
 
