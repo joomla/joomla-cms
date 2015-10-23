@@ -699,7 +699,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		if (!$this->cursor)
 		{
 			// Get the error number and message before we execute any more queries.
-			$errorNum = $this->getErrorNum();
+			$errorNum = $this->getErrorNumber();
 			$errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
@@ -714,7 +714,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
-					$this->errorNum = $this->getErrorNum();
+					$this->errorNum = $this->getErrorNumber();
 					$this->errorMsg = $this->getErrorMessage();
 
 					// Throw the normal query exception.
@@ -1463,7 +1463,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorNum()
+	protected function getErrorNumber()
 	{
 		return (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
 	}
