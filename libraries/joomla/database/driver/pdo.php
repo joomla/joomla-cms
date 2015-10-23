@@ -438,7 +438,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		if (!$this->executed)
 		{
 			// Get the error number and message before we execute any more queries.
-			$errorNum = $this->getErrorNum();
+			$errorNum = $this->getErrorNumber();
 			$errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
@@ -454,7 +454,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				catch (RuntimeException $e)
 				{
 					// Get the error number and message.
-					$this->errorNum = $this->getErrorNum();
+					$this->errorNum = $this->getErrorNumber();
 					$this->errorMsg = $this->getErrorMessage();
 
 					// Throw the normal query exception.
@@ -1046,7 +1046,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorNum()
+	protected function getErrorNumber()
 	{
 		return (int) $this->connection->errorCode();
 	}
