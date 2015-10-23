@@ -310,6 +310,13 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		{
 			// Get the error number and message.
 			$this->errorNum = (int) mysql_errno($this->connection);
+
+			// Replace the Databaseprefix with `#__` if we are not in Debug
+			if (!$this->debug)
+			{
+				$query = str_replace($this->tablePrefix, '#__', $query);
+			}
+
 			$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $query;
 
 			// Check if the server was disconnected.
