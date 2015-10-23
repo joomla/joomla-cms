@@ -449,7 +449,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				$query = str_replace($this->tablePrefix, '#__', $query);
 			}
 
-			$errorMsg = (string) 'SQL: ' . $query);
+			$errorMsg = (string) 'SQL: ' . $query;
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -475,7 +475,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 						$query = str_replace($this->tablePrefix, '#__', $query);
 					}
 
-					$this->errorMsg = (string) 'SQL: ' . $query);
+					$this->errorMsg = (string) 'SQL: ' . $query;
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
