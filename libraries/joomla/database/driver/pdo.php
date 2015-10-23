@@ -438,18 +438,8 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		if (!$this->executed)
 		{
 			// Get the error number and message before we execute any more queries.
-			$errorNum = (int) $this->connection->errorCode();
-
-			// The SQL Error Information
-			$query = implode(", ", $this->connection->errorInfo());
-
-			// Replace the Databaseprefix with `#__` if we are not in Debug
-			if (!$this->debug)
-			{
-				$query = str_replace($this->tablePrefix, '#__', $query);
-			}
-
-			$errorMsg = (string) 'SQL: ' . $query;
+			$errorNum = $this->getErrorNum();
+			$errorMsg = $this->getErrorMsg();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -464,18 +454,8 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				catch (RuntimeException $e)
 				{
 					// Get the error number and message.
-					$this->errorNum = (int) $this->connection->errorCode();
-
-					// The SQL Error Information
-					$query = implode(", ", $this->connection->errorInfo());
-
-					// Replace the Databaseprefix with `#__` if we are not in Debug
-					if (!$this->debug)
-					{
-						$query = str_replace($this->tablePrefix, '#__', $query);
-					}
-
-					$this->errorMsg = (string) 'SQL: ' . $query;
+					$this->errorNum = $this->getErrorNum();
+					$this->errorMsg = $this->getErrorMsg();
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
