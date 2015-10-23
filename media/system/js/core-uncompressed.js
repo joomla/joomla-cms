@@ -19,6 +19,14 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * Generic submit form
 	 */
 	Joomla.submitform = function(task, form, validate) {
+
+        // Disables all permission fields before sending the form request
+        var elements = document.getElementById('permissions-sliders');
+        elements = elements.getElementsByTagName('SELECT')
+        for(var i = 0; i < elements.length; i++) {
+            elements[i].setAttribute('disabled', 'disabled');
+        }
+
 		if (!form) {
 			form = document.getElementById('adminForm');
 		}
