@@ -641,7 +641,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			// Replace the Databaseprefix with `#__` if we are not in Debug
 			if (!$this->debug)
 			{
-				$query = str_replace($this->tablePrefix, '#__', $query);
+				$query        = str_replace($this->tablePrefix, '#__', $query);
 				$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
 			}
 
