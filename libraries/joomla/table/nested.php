@@ -663,9 +663,6 @@ class JTableNested extends JTable
 	 * @return  boolean  True if all checks pass.
 	 *
 	 * @since   11.1
-	 * @throws  Exception
-	 * @throws  RuntimeException on database error.
-	 * @throws  UnexpectedValueException
 	 */
 	public function check()
 	{
@@ -697,13 +694,6 @@ class JTableNested extends JTable
 
 			return false;
 		}
-		// @codeCoverageIgnoreStart
-		catch (Exception $e)
-		{
-			// Database error - rethrow.
-			throw $e;
-		}
-		// @codeCoverageIgnoreEnd
 
 		return true;
 	}

@@ -10,23 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Joomla Platform Database Interface
- *
- * @since  11.2
-*/
-interface JDatabaseInterface
-{
-	/**
-	 * Test to see if the connector is available.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.2
-	 */
-	public static function isSupported();
-}
-
-/**
  * Joomla Platform Database Driver Class
  *
  * @since  12.1
@@ -316,7 +299,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 			catch (RuntimeException $e)
 			{
-				throw new RuntimeException(sprintf('Unable to connect to the Database: %s', $e->getMessage()));
+				throw new RuntimeException(sprintf('Unable to connect to the Database: %s', $e->getMessage()), $e->getCode(), $e);
 			}
 
 			// Set the new connector to the global instances based on signature.

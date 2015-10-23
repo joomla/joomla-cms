@@ -78,7 +78,7 @@ class MessagesViewMessages extends JViewLegacy
 		}
 
 		JToolbarHelper::divider();
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		// Instantiate a new JLayoutFile instance and render the layout
 		JHtml::_('behavior.modal', 'a.messagesSettings');

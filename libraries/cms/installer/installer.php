@@ -265,7 +265,7 @@ class JInstaller extends JAdapter
 	/**
 	 * Get the installation manifest object
 	 *
-	 * @return  object  Manifest object
+	 * @return  SimpleXMLElement  Manifest object
 	 *
 	 * @since   3.1
 	 */
@@ -1933,7 +1933,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @param   string  $file  An xmlfile path to check
 	 *
-	 * @return  mixed  A SimpleXMLElement, or null if the file failed to parse
+	 * @return  SimpleXMLElement|null  A SimpleXMLElement, or null if the file failed to parse
 	 *
 	 * @since   3.1
 	 */

@@ -26,7 +26,7 @@ final class JVersion
 	public $DEV_LEVEL = '5';
 
 	/** @var  string  Development STATUS. */
-	public $DEV_STATUS = 'Stable';
+	public $DEV_STATUS = 'Development';
 
 	/** @var  string  Build number. */
 	public $BUILD = '';
@@ -47,7 +47,7 @@ final class JVersion
 	public $COPYRIGHT = 'Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.';
 
 	/** @var  string  Link text. */
-	public $URL = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+	public $URL = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
 	 * Check if we are in development mode

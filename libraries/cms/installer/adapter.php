@@ -162,7 +162,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
 					JText::_('JLIB_INSTALLER_' . $this->route),
 					$e->getMessage()
-				)
+				),
+				$e->getCode(),
+				$e
 			);
 		}
 	}
@@ -502,7 +504,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	/**
 	 * Get the manifest object.
 	 *
-	 * @return  object  Manifest object
+	 * @return  SimpleXMLElement  Manifest object
 	 *
 	 * @since   3.4
 	 */

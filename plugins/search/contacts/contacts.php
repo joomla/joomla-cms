@@ -155,7 +155,6 @@ class PlgSearchContacts extends JPlugin
 					. ' OR a.fax LIKE ' . $text . ') AND a.published IN (' . implode(',', $state) . ') AND c.published=1 '
 					. ' AND a.access IN (' . $groups . ') AND c.access IN (' . $groups . ')'
 			)
-			->group('a.id, a.con_position, a.misc, c.alias, c.id')
 			->order($order);
 
 		// Filter by language.

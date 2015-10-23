@@ -65,11 +65,11 @@ class BannersTableBanner extends JTable
 		$this->name = htmlspecialchars_decode($this->name, ENT_QUOTES);
 
 		// Set alias
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
 
 		if (empty($this->alias))
 		{
-			$this->alias = JApplication::stringURLSafe($this->name);
+			$this->alias = JApplicationHelper::stringURLSafe($this->name);
 		}
 
 		// Check the publish down date is not earlier than publish up.

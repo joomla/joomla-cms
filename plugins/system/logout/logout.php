@@ -96,7 +96,7 @@ class PlgSystemLogout extends JPlugin
 		{
 			// Redirect to the home page.
 			$app->enqueueMessage(JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'));
-			$app->redirect('index.php', true);
+			$app->redirect('index.php');
 		}
 		else
 		{

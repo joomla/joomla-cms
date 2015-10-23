@@ -38,7 +38,9 @@
 		label="JFIELD_BASIS_LOGIN_DESCRIPTION_LABEL"
 		description="JFIELD_BASIS_LOGIN_DESCRIPTION_DESC"
 		rows="3"
-		cols="40"/>
+		cols="40"
+		filter="safehtml"
+		/>
 
 		<field
 		name="login_image"
@@ -72,7 +74,9 @@
 		label="JFIELD_BASIS_LOGOUT_DESCRIPTION_LABEL"
 		description="JFIELD_BASIS_LOGOUT_DESCRIPTION_DESC"
 		rows="3"
-		cols="40"/>
+		cols="40"
+		filter="safehtml"
+		/>
 
 		<field
 		name="logout_image"

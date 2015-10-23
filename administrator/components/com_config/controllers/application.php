@@ -71,7 +71,7 @@ class ConfigControllerApplication extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  4,0  Use ConfigControllerApplicationRefreshhelp instead.
+	 * @deprecated  4.0  Use ConfigControllerApplicationRefreshhelp instead.
 	 */
 	public function refreshHelp()
 	{
