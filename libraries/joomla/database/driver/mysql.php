@@ -493,7 +493,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorMsg()
+	protected function getErrorMessage()
 	{
 		$errorMessage = (string) mysql_error($this->connection);
 
