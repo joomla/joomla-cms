@@ -1058,4 +1058,37 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		// Get connection back
 		$this->__construct($this->options);
 	}
+
+	/**
+	 * Return the actual SQL Error number
+	 *
+	 * @return  integer  The SQL Error number
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorNum()
+	{
+		return (int) $this->connection->errorCode();
+	}
+
+	/**
+	 * Return the actual SQL Error message
+	 *
+	 * @return  string  The SQL Error message
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorMsg()
+	{
+		// The SQL Error Information
+		$query = implode(", ", $this->connection->errorInfo());
+
+		// Replace the Databaseprefix with `#__` if we are not in Debug
+		if (!$this->debug)
+		{
+			$query = str_replace($this->tablePrefix, '#__', $query);
+		}
+
+		return 'SQL: ' . $query;
+	}
 }
