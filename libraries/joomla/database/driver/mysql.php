@@ -491,4 +491,36 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 			return false;
 		}
 	}
+
+	/**
+	 * Return the actual SQL Error number
+	 *
+	 * @return  integer  The SQL Error number
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorNum()
+	{
+		return (int) mysql_errno($this->connection);
+	}
+
+	/**
+	 * Return the actual SQL Error message
+	 *
+	 * @return  string  The SQL Error message
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorMsg()
+	{
+		$errorMessage = (string) mysql_error($this->connection);
+
+		// Replace the Databaseprefix with `#__` if we are not in Debug
+		if (!$this->debug)
+		{
+			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
+		}
+
+		return $errorMessage . ' SQL=' . $this->query;
+	}
 }
