@@ -636,14 +636,16 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			// Get the error number and message.
 			$errors         = sqlsrv_errors();
 			$this->errorNum = $errors[0]['SQLSTATE'];
+			$errorMessage   = (string) $errors[0]['message'];
 
 			// Replace the Databaseprefix with `#__` if we are not in Debug
 			if (!$this->debug)
 			{
 				$query = str_replace($this->tablePrefix, '#__', $query);
+				$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
 			}
 
-			$this->errorMsg = $errors[0]['message'] . 'SQL=' . $query;
+			$this->errorMsg = $errorMessage . 'SQL=' . $query;
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
