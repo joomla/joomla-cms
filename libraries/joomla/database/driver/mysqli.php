@@ -581,8 +581,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// If an error occurred handle it.
 		if (!$this->cursor)
 		{
-			$this->errorNum = (int) mysqli_errno($this->connection);
-			$errorMessage   = (string) mysqli_error($this->connection);
+			$errorNum     = (int) mysqli_errno($this->connection);
+			$errorMessage = (string) mysqli_error($this->connection);
 
 			// Replace the Databaseprefix with `#__` if we are not in Debug
 			if (!$this->debug)
@@ -591,7 +591,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
 			}
 
-			$this->errorMsg = $errorMessage . ' SQL=' . $query;
+			$errorMsg = $errorMessage . ' SQL=' . $query;
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -605,6 +605,19 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
+					// Get the error number and message.
+					$this->errorNum = (int) mysqli_errno($this->connection);
+					$errorMessage   = (string) mysqli_error($this->connection);
+
+					// Replace the Databaseprefix with `#__` if we are not in Debug
+					if (!$this->debug)
+					{
+						$query        = str_replace($this->tablePrefix, '#__', $query);
+						$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
+					}
+
+					$this->errorMsg = $errorMessage . ' SQL=' . $query;
+
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
 					throw new RuntimeException($this->errorMsg, $this->errorNum, $e);
@@ -616,6 +629,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			// The server was not disconnected.
 			else
 			{
+				// Get the error number and message from before we tried to reconnect.
+				$this->errorNum = $errorNum;
+				$this->errorMsg = $errorMsg;
+
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
