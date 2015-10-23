@@ -699,17 +699,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		if (!$this->cursor)
 		{
 			// Get the error number and message before we execute any more queries.
-			$errorNum     = (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
-			$errorMessage = (string) pg_last_error($this->connection);
-
-			// Replace the Databaseprefix with `#__` if we are not in Debug
-			if (!$this->debug)
-			{
-				$query        = str_replace($this->tablePrefix, '#__', $query);
-				$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
-			}
-
-			$errorMsg = $errorMessage . "SQL=" . $query;
+			$errorNum = $this->getErrorNum();
+			$errorMsg = $this->getErrorMsg();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -723,17 +714,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
-					$this->errorNum = (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
-					$errorMessage   = (string) pg_last_error($this->connection);
-
-					// Replace the Databaseprefix with `#__` if we are not in Debug
-					if (!$this->debug)
-					{
-						$query        = str_replace($this->tablePrefix, '#__', $query);
-						$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
-					}
-
-					$this->errorMsg = $errorMessage . "SQL=" . $query;
+					$this->errorNum = $this->getErrorNum();
+					$this->errorMsg = $this->getErrorMsg();
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
@@ -1472,5 +1454,37 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$this->setQuery(sprintf($statement, implode(",", $fields), implode(' AND ', $where)));
 
 		return $this->execute();
+	}
+
+	/**
+	 * Return the actual SQL Error number
+	 *
+	 * @return  integer  The SQL Error number
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorNum()
+	{
+		return (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
+	}
+
+	/**
+	 * Return the actual SQL Error message
+	 *
+	 * @return  string  The SQL Error message
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorMsg()
+	{
+		$errorMessage = (string) pg_last_error($this->connection);
+
+		// Replace the Databaseprefix with `#__` if we are not in Debug
+		if (!$this->debug)
+		{
+			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
+		}
+
+		return = $errorMessage . "SQL=" . $this->query;
 	}
 }
