@@ -38,6 +38,9 @@ if ($hasContent)
 }
 $script .= "
 			Joomla.submitform(task, document.getElementById('module-form'));
+
+				jQuery('#permissions-sliders select').attr('disabled', 'disabled');
+
 				if (self != top)
 				{
 					if (parent.viewLevels)
