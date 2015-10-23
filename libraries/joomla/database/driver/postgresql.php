@@ -700,14 +700,16 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			// Get the error number and message.
 			$this->errorNum = (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
+			$errorMessage   = (string) pg_last_error($this->connection);
 
 			// Replace the Databaseprefix with `#__` if we are not in Debug
 			if (!$this->debug)
 			{
-				$query = str_replace($this->tablePrefix, '#__', $query);
+				$query        = str_replace($this->tablePrefix, '#__', $query);
+				$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
 			}
 
-			$this->errorMsg = (string) pg_last_error($this->connection) . "SQL=" . $query;
+			$this->errorMsg = $errorMessage . "SQL=" . $query;
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
