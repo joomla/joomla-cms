@@ -634,7 +634,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		if (!$this->cursor)
 		{
 			// Get the error number and message before we execute any more queries.
-			$errorNum = $this->getErrorNum();
+			$errorNum = $this->getErrorNumber();
 			$errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
@@ -650,7 +650,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				catch (RuntimeException $e)
 				{
 					// Get the error number and message.
-					$this->errorNum = $this->getErrorNum();
+					$this->errorNum = $this->getErrorNumber();
 					$this->errorMsg = $this->getErrorMessage();
 
 					// Throw the normal query exception.
@@ -1103,7 +1103,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorNum()
+	protected function getErrorNumber()
 	{
 		$errors = sqlsrv_errors();
 
