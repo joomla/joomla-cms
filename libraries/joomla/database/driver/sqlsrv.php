@@ -634,7 +634,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		if (!$this->cursor)
 		{
 			// Get the error number and message.
-			$errors = sqlsrv_errors();
+			$errors         = sqlsrv_errors();
 			$this->errorNum = $errors[0]['SQLSTATE'];
 
 			// Replace the Databaseprefix with `#__` if we are not in Debug
