@@ -349,8 +349,8 @@ class ConfigModelApplication extends ConfigModelForm
 		{
 			// Create a new query object.
 			$query = $db->getQuery(true);
-			$query->select($db->quoteName(array('name', 'rules')));
-					->from($db->quoteName('#__assets'));
+			$query->select($db->quoteName(array('name', 'rules')))
+					->from($db->quoteName('#__assets'))
 					->where($db->quoteName('name') . ' = ' . $db->quote($array['component']));
 
 			$db->setQuery($query);
@@ -422,4 +422,3 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 	}
 }
-
