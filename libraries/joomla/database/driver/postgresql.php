@@ -707,7 +707,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				$query = str_replace($this->tablePrefix, '#__', $query);
 			}
 
-			$this->errorMsg = pg_last_error($this->connection) . "SQL=" . $query;
+			$this->errorMsg = (string) pg_last_error($this->connection) . "SQL=" . $query;
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
