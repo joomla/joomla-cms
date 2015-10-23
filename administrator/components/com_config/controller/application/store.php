@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  *  Controller for global configuration, Store Permissions in Database
  *
- * @since  3.2
+ * @since  3.4.5
  */
 class ConfigControllerApplicationStore extends JControllerBase
 {

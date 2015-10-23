@@ -338,7 +338,7 @@ class ConfigModelApplication extends ConfigModelForm
  *
  * @return	boolean  True on success, false on failure.
  *
- * @since	...
+ * @since	3.4.5
  */
 public function storePermissions($array)
 {
