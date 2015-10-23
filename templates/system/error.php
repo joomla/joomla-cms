@@ -54,13 +54,13 @@ $this->direction = $doc->direction;
 				<li><a href="<?php echo $this->baseurl; ?>/index.php" title="<?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?>"><?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></li>
 			</ul>
 			<p><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
-			<div id="techinfo">
-			<p><?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
-			<p>
-				<?php if ($this->debug) : ?>
+			<?php if ($this->debug) : ?>
+				<div id="techinfo">
+				<p><?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+				<p>
 					<?php echo $this->renderBacktrace(); ?>
-				<?php endif; ?>
-			</p>
+				</p>
+			<?php endif; ?>
 			</div>
 			</div>
 		</div>

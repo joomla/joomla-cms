@@ -157,15 +157,16 @@ $this->direction = $doc->direction;
 							<h3>
 								<?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?>
 							</h3>
-							<h2>#<?php echo $this->error->getCode(); ?>&nbsp;<?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
-							</h2>
-							<br />
+							<?php if ($this->debug) : ?>
+								<h2>#<?php echo $this->error->getCode(); ?>&nbsp;<?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></h2>
+								<br />
+							<?php endif; ?>
 						</div><!-- end errorboxbody -->
 					</div><!-- end wrapper2 -->
 				</div><!-- end contentarea2 -->
-				<?php if ($this->debug) :
-					echo $this->renderBacktrace();
-				endif; ?>
+				<?php if ($this->debug) : ?>
+					<?php echo $this->renderBacktrace(); ?>
+				<?php endif; ?>
 			</div><!--end back -->
 		</div><!--end all -->
 		<div id="footer-outer">
