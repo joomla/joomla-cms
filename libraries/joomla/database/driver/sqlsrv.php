@@ -634,18 +634,8 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		if (!$this->cursor)
 		{
 			// Get the error number and message before we execute any more queries.
-			$errors       = sqlsrv_errors();
-			$errorNum     = $errors[0]['SQLSTATE'];
-			$errorMessage = (string) $errors[0]['message'];
-
-			// Replace the Databaseprefix with `#__` if we are not in Debug
-			if (!$this->debug)
-			{
-				$query        = str_replace($this->tablePrefix, '#__', $query);
-				$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
-			}
-
-			$errorMsg = $errorMessage . 'SQL=' . $query;
+			$errorNum = $this->getErrorNum();
+			$errorMsg = $this->getErrorMsg();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -660,18 +650,8 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				catch (RuntimeException $e)
 				{
 					// Get the error number and message.
-					$errors         = sqlsrv_errors();
-					$this->errorNum = $errors[0]['SQLSTATE'];
-					$errorMessage   = (string) $errors[0]['message'];
-
-					// Replace the Databaseprefix with `#__` if we are not in Debug
-					if (!$this->debug)
-					{
-						$query        = str_replace($this->tablePrefix, '#__', $query);
-						$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
-					}
-
-					$this->errorMsg = $errorMessage . 'SQL=' . $query;
+					$this->errorNum = $this->getErrorNum();
+					$this->errorMsg = $this->getErrorMsg();
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
@@ -1114,5 +1094,40 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	public function unlockTables()
 	{
 		return $this;
+	}
+
+	/**
+	 * Return the actual SQL Error number
+	 *
+	 * @return  integer  The SQL Error number
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorNum()
+	{
+		$errors = sqlsrv_errors();
+
+		return $errors[0]['SQLSTATE'];
+	}
+
+	/**
+	 * Return the actual SQL Error message
+	 *
+	 * @return  string  The SQL Error message
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorMsg()
+	{
+		$errors       = sqlsrv_errors();
+		$errorMessage = (string) $errors[0]['message'];
+
+		// Replace the Databaseprefix with `#__` if we are not in Debug
+		if (!$this->debug)
+		{
+			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
+		}
+
+		return $errorMessage . 'SQL=' . $this->query;
 	}
 }
