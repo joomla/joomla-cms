@@ -328,100 +328,98 @@ class ConfigModelApplication extends ConfigModelForm
 		return true;
 	}
 
-/**
- * Method to store the permission values in the asset table.
- *
- * This method will get an arrray with permission key value paires and transform it
- * into json and update the asset table in the database.
- *
- * @param   string  $array  Need an Array with Permissions (component, rule, value and title)
- *
- * @return	boolean  True on success, false on failure.
- *
- * @since	3.4.5
- */
-public function storePermissions($array)
-{
-	// Get a db connection.
-	$db = JFactory::getDbo();
-
-	try
+	/**
+	 * Method to store the permission values in the asset table.
+	 *
+	 * This method will get an arrray with permission key value paires and transform it
+	 * into json and update the asset table in the database.
+	 *
+	 * @param   string  $array  Need an Array with Permissions (component, rule, value and title)
+	 *
+	 * @return  boolean  True on success, false on failure.
+	 *
+	 * @since   3.5
+	 */
+	public function storePermissions($array)
 	{
-		// Create a new query object.
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName(array('name', 'rules')));
-		$query->from($db->quoteName('#__assets'));
-		$query->where($db->quoteName('name') . ' = ' . $db->quote($array['component']));
+		// Get a db connection.
+		$db = JFactory::getDbo();
 
-		$db->setQuery($query);
-
-		// Load the results as a list of stdClass objects (see later for more options on retrieving data).
-		$results = $db->loadAssocList();
-
-		if (empty($results))
+		try
 		{
-			$data = array();
-			$data[$array['action']] = array();
-			$data[$array['action']] = array($array['rule'] => $array['value']);
-
-			$app = JFactory::getApplication();
-			$rules	= new JAccessRules($data);
-
-			$asset = JTable::getInstance('asset');
-			$asset->rules = (string) $rules;
-			$asset->name = (string) $array['component'];
-			$asset->title = (string) $array['title'];
-
-			if (!$asset->check() || !$asset->store())
-			{
-				$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
-
-				return false;
-			}
-
-			return true;
-		}
-		else
-		{
-			$temp = json_decode($results[0]['rules'], true);
-
-			if (isset($array['value']))
-			{
-				if (!isset($temp[$array['action']]))
-				{
-					$temp[$array['action']] = array();
-				}
-
-				if (!isset($temp[$array['action']][$array['rule']]))
-				{
-					$temp[$array['action']][$array['rule']] = array($array['rule'] => $array['value']);
-				}
-
-				$temp[$array['action']][$array['rule']] = intval($array['value']);
-			}
-			else
-			{
-				unset($temp[$array['action']]);
-			}
-
-			$temp = json_encode($temp);
-
+			// Create a new query object.
 			$query = $db->getQuery(true);
-
-			$query->update(
-				$db->quoteName('#__assets')
-			)->set('rules = ' . $db->quote($temp))->where($db->quoteName('name') . ' = ' . $db->quote($array['component']));
+			$query->select($db->quoteName(array('name', 'rules')));
+					->from($db->quoteName('#__assets'));
+					->where($db->quoteName('name') . ' = ' . $db->quote($array['component']));
 
 			$db->setQuery($query);
 
-			$result = $db->execute();
+			// Load the results as a list of stdClass objects (see later for more options on retrieving data).
+			$results = $db->loadAssocList();
 
-			return $result;
+			if (empty($results))
+			{
+				$data = array();
+				$data[$array['action']] = array();
+				$data[$array['action']] = array($array['rule'] => $array['value']);
+
+				$rules = new JAccessRules($data);
+				$asset = JTable::getInstance('asset');
+				$asset->rules = (string) $rules;
+				$asset->name  = (string) $array['component'];
+				$asset->title = (string) $array['title'];
+
+				if (!$asset->check() || !$asset->store())
+				{
+					JFactory::getApplication()->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
+
+					return false;
+				}
+
+				return true;
+			}
+			else
+			{
+				$temp = json_decode($results[0]['rules'], true);
+
+				if (isset($array['value']))
+				{
+					if (!isset($temp[$array['action']]))
+					{
+						$temp[$array['action']] = array();
+					}
+
+					if (!isset($temp[$array['action']][$array['rule']]))
+					{
+						$temp[$array['action']][$array['rule']] = array($array['rule'] => $array['value']);
+					}
+
+					$temp[$array['action']][$array['rule']] = intval($array['value']);
+				}
+				else
+				{
+					unset($temp[$array['action']]);
+				}
+
+				$temp  = json_encode($temp);
+				$query = $db->getQuery(true);
+
+				$query->update($db->quoteName('#__assets'))
+					->set('rules = ' . $db->quote($temp))
+					->where($db->quoteName('name') . ' = ' . $db->quote($array['component']));
+
+				$db->setQuery($query);
+
+				$result = $db->execute();
+
+				return $result;
+			}
+		}
+		catch (Exception $e)
+		{
+			return $e->getMessage();
 		}
 	}
-	catch (Exception $e)
-	{
-		return $e->getMessage();
-	}
 }
-}
+
