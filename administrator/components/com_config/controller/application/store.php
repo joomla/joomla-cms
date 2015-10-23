@@ -11,16 +11,16 @@ defined('_JEXEC') or die;
 /**
  *  Controller for global configuration, Store Permissions in Database
  *
- * @since  3.4.5
+ * @since  3.5
  */
 class ConfigControllerApplicationStore extends JControllerBase
 {
 	/**
 	 * Method to GET permission value and give it to the model for storing in the database.
 	 *
-	 * @return  true on success, false when failed
+	 * @return  boolean  true on success, false when failed
 	 *
-	 * @since   ..
+	 * @since   3.5
 	 */
 	public function execute()
 	{
@@ -34,17 +34,18 @@ class ConfigControllerApplicationStore extends JControllerBase
 		// Get Post DATA
 		$permissions = array(
 			'component' => $this->input->get->get('comp'),
-			'action' => $this->input->get->get('action'),
-			'rule' => $this->input->get->get('rule'),
-			'value' => $this->input->get->get('value'),
-			'title' => $this->input->get->get('title', '', 'RAW')
+			'action'    => $this->input->get->get('action'),
+			'rule'      => $this->input->get->get('rule'),
+			'value'     => $this->input->get->get('value'),
+			'title'     => $this->input->get->get('title', '', 'RAW')
 		);
 
 		if (!(substr($permissions['component'], -6) == '.false'))
 		{
 			// Load Permissions from Session and send to Model
-			$model = new ConfigModelApplication;
+			$model    = new ConfigModelApplication;
 			$response = $model->storePermissions($permissions);
+
 			echo new JResponseJson(json_encode($response));
 		}
 		else
