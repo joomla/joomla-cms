@@ -89,6 +89,10 @@ JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 			'height': 	outerDiv.height(),
 			'display':  'none'
 		});
+		// allow to use other tabs while Install From Web is busy
+		$('a[href="#upload"], a[href="#web"], a[href="#url"]').click(function(){
+			$('#appsloading').css('display', 'none');
+		});
 	});
 </script>
 <style type="text/css">
