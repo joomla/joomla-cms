@@ -19,25 +19,26 @@ $user            = JFactory::getUser();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
+
 $doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
 $doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
 
 // Load specific language related CSS
-$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+$languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 
-if (is_file($file))
+if (file_exists($languageCss) && filesize($languageCss) > 0)
 {
-	$doc->addStyleSheetVersion($file);
+	$doc->addStyleSheetVersion($languageCss);
 }
 
 // Load custom.css
-$file = 'templates/' . $this->template . '/css/custom.css';
+$customCss = 'templates/' . $this->template . '/css/custom.css';
 
-if (is_file($file))
+if (file_exists($customCss) && filesize($customCss) > 0)
 {
-	$doc->addStyleSheetVersion($file);
+	$doc->addStyleSheetVersion($customCss);
 }
 
 // Detecting Active Variables
