@@ -212,7 +212,7 @@ class JTableMenu extends JTableNested
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_ALIAS_STARTS_WITH_A_NUMBER'));
 
 			return false;
-		}	
+		}
 
 		// Verify that the home page for this language is unique
 		if ($this->home == '1')
