@@ -21,7 +21,8 @@
 			default=""
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_HANDLER_DESC"
-			filter="word">
+			filter="word"
+			showon="caching:1,2">
 		</field>
 
 		<field
@@ -32,7 +33,9 @@
 			description="COM_CONFIG_FIELD_CACHE_TIME_DESC"
 			required="true"
 			filter="integer"
-			size="6" />
+			size="6"
+			showon="caching:1,2"
+			/>
 
 		<field
 			name="memcache_persist"
@@ -805,7 +808,8 @@
 			default="1"
 			label="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_DESC"
-			filter="integer">
+			filter="integer"
+			showon="offline:1">
 			<option value="0">JHIDE</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_DISPLAY_OFFLINE_MESSAGE_CUSTOM</option>
 			<option value="2">COM_CONFIG_FIELD_VALUE_DISPLAY_OFFLINE_MESSAGE_LANGUAGE</option>
@@ -818,13 +822,15 @@
 			description="COM_CONFIG_FIELD_OFFLINE_MESSAGE_DESC"
 			filter="safehtml"
 			cols="60"
-			rows="2" />
+			rows="2" 
+			showon="display_offline_message:1"/>
 
 		<field
 			name="offline_image"
 			type="media"
 			label="COM_CONFIG_FIELD_OFFLINE_IMAGE_LABEL"
-			description="COM_CONFIG_FIELD_OFFLINE_IMAGE_DESC" />
+			description="COM_CONFIG_FIELD_OFFLINE_IMAGE_DESC" 
+			showon="offline:1"/>
 
 		<field
 			name="frontediting"
