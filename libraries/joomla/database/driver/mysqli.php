@@ -583,7 +583,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			// Get the error number and message before we execute any more queries.
 			$errorNum = $this->getErrorNumber();
-			$errorMsg = $this->getErrorMessage();
+			$errorMsg = $this->getErrorMessage($query);
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -599,7 +599,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				{
 					// Get the error number and message.
 					$this->errorNum = $this->getErrorNumber();
-					$this->errorMsg = $this->getErrorMessage();
+					$this->errorMsg = $this->getErrorMessage($query);
 
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
@@ -893,11 +893,13 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Return the actual SQL Error message
 	 *
+	 * @param   string  The SQL Query that fails
+	 *
 	 * @return  string  The SQL Error message
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorMessage()
+	protected function getErrorMessage($query)
 	{
 		$errorMessage = (string) mysqli_error($this->connection);
 
@@ -905,8 +907,9 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		if (!$this->debug)
 		{
 			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
+			$query        = str_replace($this->tablePrefix, '#__', $query);
 		}
 
-		return $errorMessage . ' SQL=' . $this->sql;
+		return $errorMessage . ' SQL=' . $query;
 	}
 }

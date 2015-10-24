@@ -439,7 +439,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		{
 			// Get the error number and message before we execute any more queries.
 			$errorNum = $this->getErrorNumber();
-			$errorMsg = $this->getErrorMessage();
+			$errorMsg = $this->getErrorMessage($query);
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -455,7 +455,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				{
 					// Get the error number and message.
 					$this->errorNum = $this->getErrorNumber();
-					$this->errorMsg = $this->getErrorMessage();
+					$this->errorMsg = $this->getErrorMessage($query);
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
@@ -1054,21 +1054,25 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	/**
 	 * Return the actual SQL Error message
 	 *
+	 * @param   string  The SQL Query that fails
+	 *
 	 * @return  string  The SQL Error message
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorMessage()
+	protected function getErrorMessage($query)
 	{
+		// Note we ignoring $query here as it not used in the original code.
+		
 		// The SQL Error Information
-		$query = implode(", ", $this->connection->errorInfo());
+		$errorInfo = implode(", ", $this->connection->errorInfo());
 
 		// Replace the Databaseprefix with `#__` if we are not in Debug
 		if (!$this->debug)
 		{
-			$query = str_replace($this->tablePrefix, '#__', $query);
+			$errorInfo = str_replace($this->tablePrefix, '#__', $errorInfo);
 		}
 
-		return 'SQL: ' . $query;
+		return 'SQL: ' . $errorInfo;
 	}
 }
