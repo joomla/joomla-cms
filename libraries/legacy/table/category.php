@@ -234,15 +234,15 @@ class JTableCategory extends JTableNested
 
 			return false;
 		}
-		
+
 		// Verify if the alias starts with a number and send an error message.
-		if (  preg_match('/^\d/', $this->alias) === 1 )
+		if (preg_match('/^\d/', $this->alias) === 1)
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_ALIAS_STARTS_WITH_A_NUMBER'));
 
 			return false;
 		}		
-				
+
 		return parent::store($updateNulls);
 	}
 }
