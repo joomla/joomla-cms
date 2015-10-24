@@ -38,8 +38,7 @@ This code intentionally commented
 */
 }
 
-// Initialize module parameters.
-$params->def('field_size', 20);
+$width = (int) $params->get('field_size');
 
 // Get the route.
 $route = FinderHelperRoute::getSearchRoute($params->get('searchfilter', null));
