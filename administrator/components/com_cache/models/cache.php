@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Cache Model
  *
@@ -19,21 +21,21 @@ class CacheModelCache extends JModelList
 	/**
 	 * An Array of CacheItems indexed by cache group ID
 	 *
-	 * @var Array
+	 * @var  array
 	 */
 	protected $_data = array();
 
 	/**
 	 * Group total
 	 *
-	 * @var integer
+	 * @var  integer
 	 */
 	protected $_total = null;
 
 	/**
 	 * Pagination object
 	 *
-	 * @var object
+	 * @var  JPagination
 	 */
 	protected $_pagination = null;
 
@@ -63,7 +65,7 @@ class CacheModelCache extends JModelList
 	/**
 	 * Method to get cache data
 	 *
-	 * @return array
+	 * @return  array
 	 */
 	public function getData()
 	{
@@ -83,8 +85,7 @@ class CacheModelCache extends JModelList
 					$ordering = $this->getState('list.ordering');
 					$direction = ($this->getState('list.direction') == 'asc') ? 1 : (-1);
 
-					jimport('joomla.utilities.arrayhelper');
-					$this->_data = JArrayHelper::sortObjects($data, $ordering, $direction);
+					$this->_data = ArrayHelper::sortObjects($data, $ordering, $direction);
 
 					// Apply custom pagination.
 					if ($this->_total > $this->getState('list.limit') && $this->getState('list.limit'))
@@ -105,7 +106,7 @@ class CacheModelCache extends JModelList
 	/**
 	 * Method to get cache instance.
 	 *
-	 * @return object
+	 * @return  JCacheController
 	 */
 	public function getCache()
 	{
@@ -118,15 +119,13 @@ class CacheModelCache extends JModelList
 			'cachebase'    => ($this->getState('clientId') == 1) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
 		);
 
-		$cache = JCache::getInstance('', $options);
-
-		return $cache;
+		return JCache::getInstance('', $options);
 	}
 
 	/**
 	 * Method to get client data.
 	 *
-	 * @return array
+	 * @return  array
 	 */
 	public function getClient()
 	{
@@ -136,7 +135,7 @@ class CacheModelCache extends JModelList
 	/**
 	 * Get the number of current Cache Groups.
 	 *
-	 * @return  int
+	 * @return  integer
 	 */
 	public function getTotal()
 	{
@@ -151,7 +150,7 @@ class CacheModelCache extends JModelList
 	/**
 	 * Method to get a pagination object for the cache.
 	 *
-	 * @return  integer
+	 * @return  JPagination
 	 */
 	public function getPagination()
 	{
@@ -173,8 +172,7 @@ class CacheModelCache extends JModelList
 	 */
 	public function clean($group = '')
 	{
-		$cache = $this->getCache();
-		$cache->clean($group);
+		$this->getCache()->clean($group);
 	}
 
 	/**
@@ -199,8 +197,6 @@ class CacheModelCache extends JModelList
 	 */
 	public function purge()
 	{
-		$cache = JFactory::getCache('');
-
-		return $cache->gc();
+		return JFactory::getCache('')->gc();
 	}
 }

@@ -71,7 +71,7 @@ class JCache
 	 * @param   string  $type     The cache object type to instantiate
 	 * @param   array   $options  The array of options
 	 *
-	 * @return  JCache  A JCache object
+	 * @return  JCacheController  A JCacheController object
 	 *
 	 * @since   11.1
 	 */

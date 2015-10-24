@@ -16,12 +16,32 @@ defined('_JEXEC') or die;
  */
 class CacheViewCache extends JViewLegacy
 {
+	/**
+	 * The client data
+	 *
+	 * @var  object
+	 */
 	protected $client;
 
+	/**
+	 * The cache data
+	 *
+	 * @var  array
+	 */
 	protected $data;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
 	protected $state;
 
 	/**
@@ -48,7 +68,8 @@ class CacheViewCache extends JViewLegacy
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
