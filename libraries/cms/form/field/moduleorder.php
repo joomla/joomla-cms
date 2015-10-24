@@ -71,7 +71,7 @@ class JFormFieldModuleOrder extends JFormField
 		{
 			JError::raiseWarning(500, $e->getMessage());
 
-			return false;
+			return '';
 		}
 
 		$orders2 = array();

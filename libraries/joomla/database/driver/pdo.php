@@ -77,6 +77,14 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['driverOptions'] = (isset($options['driverOptions'])) ? $options['driverOptions'] : array();
 
+		$hostParts = explode(':', $options['host']);
+
+		if (!empty($hostParts[1]))
+		{
+			$options['host'] = $hostParts[0];
+			$options['port'] = $hostParts[1];
+		}
+
 		// Finalize initialisation
 		parent::__construct($options);
 	}
@@ -451,7 +459,8 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
-					throw new RuntimeException($this->errorMsg, $this->errorNum);
+
+					throw new RuntimeException($this->errorMsg, $this->errorNum, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -466,6 +475,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
 		}

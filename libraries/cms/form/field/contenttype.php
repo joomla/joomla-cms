@@ -48,9 +48,7 @@ class JFormFieldContenttype extends JFormFieldList
 			}
 		}
 
-		$input = parent::getInput();
-
-		return $input;
+		return parent::getInput();
 	}
 
 	/**
@@ -79,7 +77,7 @@ class JFormFieldContenttype extends JFormFieldList
 		}
 		catch (RuntimeException $e)
 		{
-			return false;
+			return array();
 		}
 
 		// Merge any additional options in the XML definition.

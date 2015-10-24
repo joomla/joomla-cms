@@ -25,10 +25,11 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 			<div <?php echo $class; ?> >
 			<?php $class = ''; ?>
 				<h3 class="page-header item-title">
-					<a href="<?php echo JRoute::_(ContactHelperRoute::getCategoryRoute($item->id)); ?>">
+					<a href="<?php echo JRoute::_(ContactHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
 					<?php echo $this->escape($item->title); ?></a>
 					<?php if ($this->params->get('show_cat_items_cat') == 1) :?>
 						<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_CONTACT_NUM_ITEMS'); ?>">
+							<?php echo JText::_('COM_CONTACT_NUM_ITEMS'); ?>&nbsp;
 							<?php echo $item->numitems; ?>
 						</span>
 					<?php endif; ?>

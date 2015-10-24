@@ -91,7 +91,7 @@ class CategoriesViewCategories extends JViewLegacy
 		$extension  = JFactory::getApplication()->input->get('extension', '', 'word');
 
 		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		// Avoid nonsense situation.
 		if ($component == 'com_categories')

@@ -65,8 +65,7 @@ class MediaController extends JControllerLegacy
 		$vType    = $document->getType();
 
 		// Get/Create the view
-		$view = $this->getView($vName, $vType);
-		$view->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR . '/views/' . strtolower($vName) . '/tmpl');
+		$view = $this->getView($vName, $vType, '', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
 
 		// Get/Create the model
 		if ($model = $this->getModel($mName))

@@ -1,4 +1,4 @@
-tinymce.addI18n('sl_SI',{
+tinymce.addI18n('sl',{
 "Cut": "Izre\u017ei",
 "Header 2": "Naslov 2",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Varnostne nastavitve brskalnika ne dopu\u0161\u010dajo direktnega dostopa do odlo\u017ei\u0161\u010da. Uporabite kombinacijo tipk Ctrl+X\/C\/V na tipkovnici.",

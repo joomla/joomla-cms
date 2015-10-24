@@ -107,7 +107,7 @@ class RedirectViewLinks extends JViewLegacy
 		if ($canDo->get('core.create'))
 		{
 			// Get the toolbar object instance
-			$bar = JToolBar::getInstance('toolbar');
+			$bar = JToolbar::getInstance('toolbar');
 
 			$title = JText::_('JTOOLBAR_BATCH');
 

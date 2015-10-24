@@ -381,7 +381,7 @@ abstract class JHtmlSelect
 	 * @param   string  $optKey   The returned object property name for the value
 	 * @param   string  $optText  The returned object property name for the text
 	 *
-	 * @return  object
+	 * @return  stdClass
 	 *
 	 * @deprecated  4.0  Use JHtmlSelect::groupedList()
 	 * @see     JHtmlSelect::groupedList()
@@ -441,7 +441,7 @@ abstract class JHtmlSelect
 	 *                             parameter is ignored if an options array is passed.
 	 * @param   boolean  $disable  Not used.
 	 *
-	 * @return  object
+	 * @return  stdClass
 	 *
 	 * @since   1.5
 	 */
@@ -784,7 +784,7 @@ abstract class JHtmlSelect
 
 			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="radio">';
 			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id . '" value="' . $k . '" ' . $extra
-				. $attribs . ' >' . $t;
+				. $attribs . ' />' . $t;
 			$html .= "\n\t" . '</label>';
 		}
 

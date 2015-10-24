@@ -29,7 +29,7 @@ class ContentViewFeatured extends JViewLegacy
 		$app       = JFactory::getApplication();
 		$doc       = JFactory::getDocument();
 		$params    = $app->getParams();
-		$feedEmail = $app->get('feed_email', 'author');
+		$feedEmail = $app->get('feed_email', 'none');
 		$siteEmail = $app->get('mailfrom');
 		$doc->link = JRoute::_('index.php?option=com_content&view=featured');
 

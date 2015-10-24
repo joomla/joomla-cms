@@ -1285,6 +1285,7 @@
 
       on(te, "compositionstart", function() {
         var start = cm.getCursor("from");
+        if (input.composing) input.composing.range.clear()
         input.composing = {
           start: start,
           range: cm.markText(start, cm.getCursor("to"), {className: "CodeMirror-composing"})
@@ -1533,6 +1534,10 @@
       }
     },
 
+    readOnlyChanged: function(val) {
+      if (!val) this.reset();
+    },
+
     setUneditable: nothing,
 
     needsContentAttribute: false
@@ -1551,7 +1556,6 @@
     init: function(display) {
       var input = this, cm = input.cm;
       var div = input.div = display.lineDiv;
-      div.contentEditable = "true";
       disableBrowserMagic(div);
 
       on(div, "paste", function(e) { handlePaste(e, cm); })
@@ -1592,7 +1596,7 @@
 
       on(div, "input", function() {
         if (input.composing) return;
-        if (!input.pollContent())
+        if (isReadOnly(cm) || !input.pollContent())
           runInOp(input.cm, function() {regChange(cm);});
       });
 
@@ -1817,17 +1821,24 @@
       this.div.focus();
     },
     applyComposition: function(composing) {
-      if (composing.data && composing.data != composing.startData)
+      if (isReadOnly(this.cm))
+        operation(this.cm, regChange)(this.cm)
+      else if (composing.data && composing.data != composing.startData)
         operation(this.cm, applyTextInput)(this.cm, composing.data, 0, composing.sel);
     },
 
     setUneditable: function(node) {
-      node.setAttribute("contenteditable", "false");
+      node.contentEditable = "false"
     },
 
     onKeyPress: function(e) {
       e.preventDefault();
-      operation(this.cm, applyTextInput)(this.cm, String.fromCharCode(e.charCode == null ? e.keyCode : e.charCode), 0);
+      if (!isReadOnly(this.cm))
+        operation(this.cm, applyTextInput)(this.cm, String.fromCharCode(e.charCode == null ? e.keyCode : e.charCode), 0);
+    },
+
+    readOnlyChanged: function(val) {
+      this.div.contentEditable = String(val != "nocursor")
     },
 
     onContextMenu: nothing,
@@ -5388,8 +5399,8 @@
       cm.display.disabled = true;
     } else {
       cm.display.disabled = false;
-      if (!val) cm.display.input.reset();
     }
+    cm.display.input.readOnlyChanged(val)
   });
   option("disableInput", false, function(cm, val) {if (!val) cm.display.input.reset();}, true);
   option("dragDrop", true, dragDropChanged);
@@ -6952,7 +6963,7 @@
           txt.setAttribute("cm-text", "\t");
           builder.col += tabWidth;
         } else if (m[0] == "\r" || m[0] == "\n") {
-          var txt = content.appendChild(elt("span", m[0] == "\r" ? "␍" : "␤", "cm-invalidchar"));
+          var txt = content.appendChild(elt("span", m[0] == "\r" ? "\u240d" : "\u2424", "cm-invalidchar"));
           txt.setAttribute("cm-text", m[0]);
           builder.col += 1;
         } else {
@@ -8211,7 +8222,7 @@
 
   // The inverse of countColumn -- find the offset that corresponds to
   // a particular column.
-  function findColumn(string, goal, tabSize) {
+  var findColumn = CodeMirror.findColumn = function(string, goal, tabSize) {
     for (var pos = 0, col = 0;;) {
       var nextTab = string.indexOf("\t", pos);
       if (nextTab == -1) nextTab = string.length;
@@ -8504,14 +8515,16 @@
 
   // KEY NAMES
 
-  var keyNames = {3: "Enter", 8: "Backspace", 9: "Tab", 13: "Enter", 16: "Shift", 17: "Ctrl", 18: "Alt",
-                  19: "Pause", 20: "CapsLock", 27: "Esc", 32: "Space", 33: "PageUp", 34: "PageDown", 35: "End",
-                  36: "Home", 37: "Left", 38: "Up", 39: "Right", 40: "Down", 44: "PrintScrn", 45: "Insert",
-                  46: "Delete", 59: ";", 61: "=", 91: "Mod", 92: "Mod", 93: "Mod", 107: "=", 109: "-", 127: "Delete",
-                  173: "-", 186: ";", 187: "=", 188: ",", 189: "-", 190: ".", 191: "/", 192: "`", 219: "[", 220: "\\",
-                  221: "]", 222: "'", 63232: "Up", 63233: "Down", 63234: "Left", 63235: "Right", 63272: "Delete",
-                  63273: "Home", 63275: "End", 63276: "PageUp", 63277: "PageDown", 63302: "Insert"};
-  CodeMirror.keyNames = keyNames;
+  var keyNames = CodeMirror.keyNames = {
+    3: "Enter", 8: "Backspace", 9: "Tab", 13: "Enter", 16: "Shift", 17: "Ctrl", 18: "Alt",
+    19: "Pause", 20: "CapsLock", 27: "Esc", 32: "Space", 33: "PageUp", 34: "PageDown", 35: "End",
+    36: "Home", 37: "Left", 38: "Up", 39: "Right", 40: "Down", 44: "PrintScrn", 45: "Insert",
+    46: "Delete", 59: ";", 61: "=", 91: "Mod", 92: "Mod", 93: "Mod",
+    106: "*", 107: "=", 109: "-", 110: ".", 111: "/", 127: "Delete",
+    173: "-", 186: ";", 187: "=", 188: ",", 189: "-", 190: ".", 191: "/", 192: "`", 219: "[", 220: "\\",
+    221: "]", 222: "'", 63232: "Up", 63233: "Down", 63234: "Left", 63235: "Right", 63272: "Delete",
+    63273: "Home", 63275: "End", 63276: "PageUp", 63277: "PageDown", 63302: "Insert"
+  };
   (function() {
     // Number keys
     for (var i = 0; i < 10; i++) keyNames[i + 48] = keyNames[i + 96] = String(i);
@@ -8816,7 +8829,7 @@
 
   // THE END
 
-  CodeMirror.version = "5.6.0";
+  CodeMirror.version = "5.7.0";
 
   return CodeMirror;
 });
