@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_tinymce</name>
-	<version>4.1.7</version>
-	<creationDate>2005-2014</creationDate>
-	<author>Moxiecode Systems AB</author>
+	<version>4.2.6</version>
+	<creationDate>2005-2015</creationDate>
+	<author>Ephox Corporation</author>
 	<authorEmail>N/A</authorEmail>
-	<authorUrl>tinymce.moxiecode.com</authorUrl>
-	<copyright>Moxiecode Systems AB</copyright>
+	<authorUrl>tinymce.com</authorUrl>
+	<copyright>Ephox Corporation</copyright>
 	<license>LGPL</license>
 	<description>PLG_TINY_XML_DESCRIPTION</description>
 	<files>
