@@ -30,7 +30,8 @@ class FinderModelMaps extends JModelList
 		{
 			$config['filter_fields'] = array(
 				'state', 'a.state',
-				'title', 'a.title'
+				'title', 'a.title',
+				'branch'
 			);
 		}
 
@@ -263,7 +264,7 @@ class FinderModelMaps extends JModelList
 		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
 
-		$branch = $this->getUserStateFromRequest($this->context . '.filter.branch', 'filter_branch', '1', 'string');
+		$branch = $this->getUserStateFromRequest($this->context . '.filter.branch', 'filter_branch', '', 'string');
 		$this->setState('filter.branch', $branch);
 
 		// Load the parameters.
