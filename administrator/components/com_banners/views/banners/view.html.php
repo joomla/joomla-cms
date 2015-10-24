@@ -16,12 +16,32 @@ defined('_JEXEC') or die;
  */
 class BannersViewBanners extends JViewLegacy
 {
+	/**
+	 * Category data
+	 *
+	 * @var  array
+	 */
 	protected $categories;
 
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
 	protected $state;
 
 	/**
@@ -59,7 +79,8 @@ class BannersViewBanners extends JViewLegacy
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -74,10 +95,7 @@ class BannersViewBanners extends JViewLegacy
 		require_once JPATH_COMPONENT . '/helpers/banners.php';
 
 		$canDo = JHelperContent::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
-		$user = JFactory::getUser();
-
-		// Get the toolbar object instance
-		$bar = JToolbar::getInstance('toolbar');
+		$user  = JFactory::getUser();
 
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
 
@@ -128,7 +146,7 @@ class BannersViewBanners extends JViewLegacy
 			$layout = new JLayoutFile('joomla.toolbar.batch');
 
 			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
+			JToolbar::getInstance('toolbar')->appendButton('Custom', $dhtml, 'batch');
 		}
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
