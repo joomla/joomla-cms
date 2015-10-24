@@ -638,9 +638,10 @@ class JSession implements IteratorAggregate
 			$session_name = session_name();
 
 			// Get the JInputCookie object
-			$cookie = $this->_input->cookie;
+			$cookie      = $this->_input->cookie;
+			$cookieValue = $cookie->get($session_name);
 
-			if (is_null($cookie->get($session_name)))
+			if (is_null($cookieValue))
 			{
 				$session_clean = $this->_input->get($session_name, false, 'string');
 
@@ -649,6 +650,11 @@ class JSession implements IteratorAggregate
 					session_id($session_clean);
 					$cookie->set($session_name, '', time() - 3600);
 				}
+			}
+			elseif ($cookieValue == '')
+			{
+				session_regenerate_id(true);
+				$cookie->set($session_name, '', time() - 3600);
 			}
 		}
 
