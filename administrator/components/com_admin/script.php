@@ -21,7 +21,7 @@ class JoomlaInstallerScript
 	 *
 	 * @param   JInstallerFile  $installer  The class calling this method
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function update($installer)
 	{
@@ -41,7 +41,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Database
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function updateDatabase()
 	{
@@ -58,7 +58,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update MySQL Database
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function updateDatabaseMysql()
 	{
@@ -104,7 +104,7 @@ class JoomlaInstallerScript
 	/**
 	 * Uninstall the 2.5 EOS plugin
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function uninstallEosPlugin()
 	{
@@ -138,7 +138,7 @@ class JoomlaInstallerScript
 	/**
 	 * Update the manifest caches
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function updateManifestCaches()
 	{
@@ -334,7 +334,7 @@ class JoomlaInstallerScript
 	/**
 	 * Delete files that should not exist
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function deleteUnexistingFiles()
 	{
@@ -1423,8 +1423,9 @@ class JoomlaInstallerScript
 	}
 
 	/**
-	 * Clears the RAD layer's table cache. The cache vastly improves performance
-	 * but needs to be cleared every time you update the database schema.
+	 * Clears the RAD layer's table cache.
+	 *
+	 * The cache vastly improves performance but needs to be cleared every time you update the database schema.
 	 *
 	 * @return  void
 	 *
@@ -1461,6 +1462,7 @@ class JoomlaInstallerScript
 
 		foreach ($newComponents as $component)
 		{
+			/** @var JTableAsset $asset */
 			$asset = JTable::getInstance('Asset');
 
 			if ($asset->loadByName($component))
