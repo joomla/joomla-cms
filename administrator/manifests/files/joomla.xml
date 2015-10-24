@@ -8,7 +8,6 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>3.5.0-dev</version>
 	<creationDate>June 2015</creationDate>
-	<creationDate>September 2015</creationDate>
 	<description>FILES_JOOMLA_XML_DESCRIPTION</description>
 
 	<scriptfile>administrator/components/com_admin/script.php</scriptfile>

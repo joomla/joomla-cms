@@ -761,6 +761,11 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/autosave/langs/en.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/bbcode/index.html',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/bbcode/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/compat3x/editable_selects.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/compat3x/form_utils.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/compat3x/mctabs.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/compat3x/tiny_mce_popup.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/compat3x/validate.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/contextmenu/index.html',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/contextmenu/editor_plugin.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/directionality/index.html',
@@ -1298,6 +1303,8 @@ class JoomlaInstallerScript
 			// Joomla 3.4.3
 			'/libraries/classloader.php',
 			'/libraries/ClassLoader.php',
+			// Joomla 3.4.6
+			'/components/com_wrapper/views/wrapper/metadata.xml',
 			// Joomla 3.5.0
 			'/media/com_joomlaupdate/default.js',
 			'/media/com_joomlaupdate/encryption.js',
