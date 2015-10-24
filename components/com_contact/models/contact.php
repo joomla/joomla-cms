@@ -446,7 +446,7 @@ class ContactModelContact extends JModelForm
 
 				if (empty($result))
 				{
-					throw new Exception(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+					return false;
 				}
 			}
 			catch (Exception $e)
