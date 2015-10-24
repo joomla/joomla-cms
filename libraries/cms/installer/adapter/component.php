@@ -500,7 +500,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			}
 			catch (RuntimeException $e)
 			{
-				throw new RuntimeException(JText::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'));
+				throw new RuntimeException(JText::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'), $e->getCode(), $e);
 			}
 		}
 	}

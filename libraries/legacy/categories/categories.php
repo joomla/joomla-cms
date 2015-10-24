@@ -210,6 +210,7 @@ class JCategories
 	protected function _load($id)
 	{
 		$db = JFactory::getDbo();
+		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$extension = $this->_extension;
 
@@ -256,8 +257,24 @@ class JCategories
 		if ($id != 'root')
 		{
 			// Get the selected category
-			$query->join('LEFT', '#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)')
-				->where('s.id=' . (int) $id);
+			$query->where('s.id=' . (int) $id);
+
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
+				$query->join('LEFT', '#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->quote(JFactory::getLanguage()->getTag())
+					. ',' . $db->quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
+			}
+			else
+			{
+				$query->join('LEFT', '#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
+			}
+		}
+		else
+		{
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
+				$query->where('c.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			}
 		}
 
 		// Note: i for item

@@ -75,7 +75,9 @@ class JEditor extends JObject
 	protected $author = null;
 
 	/**
-	 * @var    array  JEditor instances container.
+	 * JEditor instances container.
+	 *
+	 * @var    JEditor[]
 	 * @since  2.5
 	 */
 	protected static $instances = array();
@@ -293,6 +295,8 @@ class JEditor extends JObject
 		// Check whether editor is already loaded
 		if (is_null(($this->_editor)))
 		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'error');
+
 			return;
 		}
 
@@ -505,6 +509,13 @@ class JEditor extends JObject
 
 		// Get the plugin
 		$plugin = JPluginHelper::getPlugin('editors', $this->_name);
+
+		// If no plugin is published we get an empty array and there not so much to do with it
+		if (empty($plugin))
+		{
+			return false;
+		}
+
 		$params = new Registry;
 		$params->loadString($plugin->params);
 		$params->loadArray($config);

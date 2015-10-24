@@ -32,7 +32,7 @@ class TagsViewTag extends JViewLegacy
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');
 		$fromName         = $app->get('fromname');
-		$feedEmail        = $app->get('feed_email', 'author');
+		$feedEmail        = $app->get('feed_email', 'none');
 		$document->editor = $fromName;
 
 		if ($feedEmail != "none")

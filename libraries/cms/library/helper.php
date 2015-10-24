@@ -32,7 +32,7 @@ class JLibraryHelper
 	 * @param   string   $element  Element of the library in the extensions table.
 	 * @param   boolean  $strict   If set and the library does not exist, the enabled attribute will be set to false.
 	 *
-	 * @return  object   An object with the library's information.
+	 * @return  stdClass   An object with the library's information.
 	 *
 	 * @since   3.2
 	 */
