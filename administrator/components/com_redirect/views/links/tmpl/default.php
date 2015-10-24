@@ -16,9 +16,9 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$user      = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_redirect&view=links'); ?>" method="post" name="adminForm" id="adminForm">
@@ -141,7 +141,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-			<?php //Load the batch processing form if user is allowed ?>
+			<?php // Load the batch processing form if user is allowed ?>
 			<?php if ($user->authorise('core.create', 'com_redirect')
 				&& $user->authorise('core.edit', 'com_redirect')
 				&& $user->authorise('core.edit.state', 'com_redirect')) : ?>

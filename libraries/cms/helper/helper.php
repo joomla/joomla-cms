@@ -98,7 +98,7 @@ class JHelper
 	 *
 	 * @param   JTableInterface  $table  JTable object.
 	 *
-	 * @return  object Contains all of the columns and values.
+	 * @return  stdClass  Contains all of the columns and values.
 	 *
 	 * @since   3.2
 	 */

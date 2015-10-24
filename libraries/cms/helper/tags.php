@@ -805,7 +805,7 @@ class JHelperTags extends JHelper
 		// Process ucm_content and ucm_base if either tags have changed or we have some tags.
 		if ($this->tagsChanged || (!empty($newTags) && $newTags[0] != ''))
 		{
-			if (!$newTags && $replace = true)
+			if (!$newTags && $replace == true)
 			{
 				// Delete all tags data
 				$key = $table->getKeyName();
@@ -953,13 +953,11 @@ class JHelperTags extends JHelper
 		}
 		catch (RuntimeException $e)
 		{
-			return false;
+			return array();
 		}
 
 		// We will replace path aliases with tag names
-		$results = self::convertPathsToNames($results);
-
-		return $results;
+		return self::convertPathsToNames($results);
 	}
 
 	/**

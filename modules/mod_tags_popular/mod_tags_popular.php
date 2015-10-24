@@ -26,8 +26,8 @@ if (!count($list) && !$params->get('no_results_text'))
 	return;
 }
 
-$moduleclass_sfx	= htmlspecialchars($params->get('moduleclass_sfx'));
-$display_count		= $params->get('display_count', 0);
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+$display_count   = $params->get('display_count', 0);
 
 
 require JModuleHelper::getLayoutPath('mod_tags_popular', $params->get('layout', 'default'));

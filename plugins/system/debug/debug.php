@@ -1615,16 +1615,13 @@ class PlgSystemDebug extends JPlugin
 		$regex = array(
 
 			// Tables are identified by the prefix.
-			'/(=)/'
-			=> '<b class="dbg-operator">$1</b>',
+			'/(=)/' => '<b class="dbg-operator">$1</b>',
 
 			// All uppercase words have a special meaning.
-			'/(?<!\w|>)([A-Z_]{2,})(?!\w)/x'
-			=> '<span class="dbg-command">$1</span>',
+			'/(?<!\w|>)([A-Z_]{2,})(?!\w)/x' => '<span class="dbg-command">$1</span>',
 
 			// Tables are identified by the prefix.
-			'/(' . JFactory::getDbo()->getPrefix() . '[a-z_0-9]+)/'
-			=> '<span class="dbg-table">$1</span>'
+			'/(' . JFactory::getDbo()->getPrefix() . '[a-z_0-9]+)/' => '<span class="dbg-table">$1</span>'
 
 		);
 

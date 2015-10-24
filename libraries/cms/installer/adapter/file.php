@@ -259,6 +259,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 			$this->extension->params = '';
 			$this->extension->system_data = '';
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();
+			$this->extension->custom_data = '';
 
 			if (!$this->extension->store())
 			{

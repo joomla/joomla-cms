@@ -12,10 +12,9 @@ defined('_JEXEC') or die;
 // Include the syndicate functions only once
 require_once __DIR__ . '/helper.php';
 
-$link	= $params->get('link');
-
-$folder	= ModRandomImageHelper::getFolder($params);
-$images	= ModRandomImageHelper::getImages($params, $folder);
+$link   = $params->get('link');
+$folder = ModRandomImageHelper::getFolder($params);
+$images = ModRandomImageHelper::getImages($params, $folder);
 
 if (!count($images))
 {

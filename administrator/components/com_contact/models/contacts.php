@@ -268,7 +268,7 @@ class ContactModelContacts extends JModelList
 		}
 		elseif (is_array($categoryId))
 		{
-			Joomla\Utilities\ArrayHelper::toInteger($categoryId);
+			$categoryId = Joomla\Utilities\ArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
 			$query->where($db->quoteName('a.catid') . ' IN (' . $categoryId . ')');
 		}

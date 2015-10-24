@@ -86,7 +86,7 @@ abstract class JGoogleData
 		}
 		catch (Exception $e)
 		{
-			throw new UnexpectedValueException("Unexpected data received from Google: `$data`.");
+			throw new UnexpectedValueException("Unexpected data received from Google: `$data`.", $e->getCode(), $e);
 		}
 	}
 

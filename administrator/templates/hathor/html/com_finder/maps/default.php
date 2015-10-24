@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.multiselect');
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$lang      = JFactory::getLanguage();
 
-$lang = JFactory::getLanguage();
 JText::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 
 JFactory::getDocument()->addScriptDeclaration("
@@ -105,7 +105,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			</tr>
 		<?php endif; ?>
 
-		<?php $canChange	= JFactory::getUser()->authorise('core.manage',	'com_finder'); ?>
+		<?php $canChange = JFactory::getUser()->authorise('core.manage', 'com_finder'); ?>
 		<?php foreach ($this->items as $i => $item) :?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<th class="center">

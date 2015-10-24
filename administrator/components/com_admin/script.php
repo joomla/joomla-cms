@@ -19,9 +19,9 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstallerFile $installer The class calling this method
+	 * @param   JInstallerFile  $installer  The class calling this method
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function update($installer)
 	{
@@ -41,7 +41,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Database
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function updateDatabase()
 	{
@@ -58,7 +58,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update MySQL Database
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function updateDatabaseMysql()
 	{
@@ -104,7 +104,7 @@ class JoomlaInstallerScript
 	/**
 	 * Uninstall the 2.5 EOS plugin
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function uninstallEosPlugin()
 	{
@@ -138,7 +138,7 @@ class JoomlaInstallerScript
 	/**
 	 * Update the manifest caches
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function updateManifestCaches()
 	{
@@ -334,7 +334,7 @@ class JoomlaInstallerScript
 	/**
 	 * Delete files that should not exist
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function deleteUnexistingFiles()
 	{
@@ -760,6 +760,11 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/autosave/langs/en.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/bbcode/index.html',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/bbcode/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/compat3x/editable_selects.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/compat3x/form_utils.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/compat3x/mctabs.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/compat3x/tiny_mce_popup.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/compat3x/validate.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/contextmenu/index.html',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/contextmenu/editor_plugin.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/directionality/index.html',
@@ -1082,6 +1087,8 @@ class JoomlaInstallerScript
 			'/libraries/joomla/registry/format/json.php',
 			'/libraries/joomla/registry/format/php.php',
 			'/libraries/joomla/registry/format/xml.php',
+			// Joomla 3.3.1
+			'/administrator/templates/isis/html/message.php',
 			// Joomla! 3.4
 			'/administrator/components/com_tags/helpers/html/index.html',
 			'/administrator/components/com_tags/models/fields/index.html',
@@ -1295,6 +1302,8 @@ class JoomlaInstallerScript
 			// Joomla 3.4.3
 			'/libraries/classloader.php',
 			'/libraries/ClassLoader.php',
+			// Joomla 3.4.6
+			'/components/com_wrapper/views/wrapper/metadata.xml',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1414,8 +1423,9 @@ class JoomlaInstallerScript
 	}
 
 	/**
-	 * Clears the RAD layer's table cache. The cache vastly improves performance
-	 * but needs to be cleared every time you update the database schema.
+	 * Clears the RAD layer's table cache.
+	 *
+	 * The cache vastly improves performance but needs to be cleared every time you update the database schema.
 	 *
 	 * @return  void
 	 *
@@ -1452,6 +1462,7 @@ class JoomlaInstallerScript
 
 		foreach ($newComponents as $component)
 		{
+			/** @var JTableAsset $asset */
 			$asset = JTable::getInstance('Asset');
 
 			if ($asset->loadByName($component))

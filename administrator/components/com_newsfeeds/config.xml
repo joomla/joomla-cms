@@ -169,8 +169,8 @@
 			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
 		>
-	 		<option value="0">JHIDE</option>
 	 		<option value="1">JSHOW</option>
+	 		<option value="0">JHIDE</option>
 	 	</field>
 
 		<field name="maxLevel" type="list"
@@ -305,7 +305,7 @@
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			>
 				<option value="1">JSHOW</option>
-				<option value="hide">JHIDE</option>
+				<option value="0">JHIDE</option>
 		</field>
 
 		<field

@@ -13,18 +13,20 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$client		= $this->state->get('filter.client_id') ? 'administrator' : 'site';
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$trashed	= $this->state->get('filter.state') == -2 ? true : false;
-$canOrder	= $user->authorise('core.edit.state', 'com_modules');
-$saveOrder	= $listOrder == 'ordering';
+$client    = $this->state->get('filter.client_id') ? 'administrator' : 'site';
+$user      = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$trashed   = $this->state->get('filter.state') == -2 ? true : false;
+$canOrder  = $user->authorise('core.edit.state', 'com_modules');
+$saveOrder = $listOrder == 'ordering';
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_modules&task=modules.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'moduleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
+
 $sortFields = $this->getSortFields();
 
 JFactory::getDocument()->addScriptDeclaration('
@@ -45,6 +47,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		};
 ');
 ?>
+
 <form action="<?php echo JRoute::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
@@ -135,9 +138,9 @@ JFactory::getDocument()->addScriptDeclaration('
 				<tbody>
 				<?php foreach ($this->items as $i => $item) :
 					$ordering   = ($listOrder == 'ordering');
-					$canCreate  = $user->authorise('core.create',     'com_modules');
-					$canEdit	= $user->authorise('core.edit',		  'com_modules.module.' . $item->id);
-					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
+					$canCreate  = $user->authorise('core.create', 'com_modules');
+					$canEdit    = $user->authorise('core.edit', 'com_modules.module.' . $item->id);
+					$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
 					$canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
 				?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->position?>">
@@ -161,21 +164,25 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php endif; ?>
 						</td>
 						<td class="center">
-							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+							<?php if ($item->enabled > 0) : ?>
+								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+							<?php endif; ?>
 						</td>
 						<td class="center">
 							<div class="btn-group">
+							<?php // Check if extension is enabled ?>
+							<?php if ($item->enabled > 0) : ?>
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-								<?php
-									// Create dropdown items
-									JHtml::_('actionsdropdown.duplicate', 'cb' . $i, 'modules');
-
-									$action = $trashed ? 'untrash' : 'trash';
-									JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'modules');
-
-								// Render dropdown list
-								echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
-								?>
+								<?php // Create dropdown items ?>
+								<?php JHtml::_('actionsdropdown.duplicate', 'cb' . $i, 'modules'); ?>
+								<?php $action = $trashed ? 'untrash' : 'trash'; ?>
+								<?php JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'modules'); ?>
+								<?php // Render dropdown list ?>
+								<?php echo JHtml::_('actionsdropdown.render', $this->escape($item->title)); ?>
+							<?php else : ?>
+								<?php // Extension is not enabled, show a message that indicates this. ?>
+								<button class="btn-micro hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>"><i class="icon-ban-circle"></i></button>
+							<?php endif; ?>
 							</div>
 						</td>
 						<td class="has-context">
@@ -236,7 +243,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			</table>
 		<?php endif;?>
 
-		<?php //Load the batch processing form. ?>
+		<?php // Load the batch processing form. ?>
 		<?php if ($user->authorise('core.create', 'com_modules')
 			&& $user->authorise('core.edit', 'com_modules')
 			&& $user->authorise('core.edit.state', 'com_modules')) : ?>

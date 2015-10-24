@@ -17,29 +17,44 @@ defined('_JEXEC') or die;
 class AdminViewSysinfo extends JViewLegacy
 {
 	/**
-	 * @var array some php settings
+	 * Some PHP settings
+	 *
+	 * @var    array
+	 * @since  1.6
 	 */
-	protected $php_settings = null;
+	protected $php_settings = array();
 
 	/**
-	 * @var array config values
+	 * Config values
+	 *
+	 * @var    array
+	 * @since  1.6
 	 */
-	protected $config = null;
+	protected $config = array();
 
 	/**
-	 * @var array somme system values
+	 * Some system values
+	 *
+	 * @var    array
+	 * @since  1.6
 	 */
-	protected $info = null;
+	protected $info = array();
 
 	/**
-	 * @var string php info
+	 * PHP info
+	 *
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $php_info = null;
 
 	/**
-	 * @var array informations about writable state of directories
+	 * Information about writable state of directories
+	 *
+	 * @var    array
+	 * @since  1.6
 	 */
-	protected $directory = null;
+	protected $directory = array();
 
 	/**
 	 * Execute and display a template script.
@@ -47,6 +62,8 @@ class AdminViewSysinfo extends JViewLegacy
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -56,15 +73,16 @@ class AdminViewSysinfo extends JViewLegacy
 			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
-		$this->php_settings	= $this->get('PhpSettings');
-		$this->config		= $this->get('config');
-		$this->info			= $this->get('info');
-		$this->php_info		= $this->get('PhpInfo');
-		$this->directory	= $this->get('directory');
+		$this->php_settings = $this->get('PhpSettings');
+		$this->config       = $this->get('config');
+		$this->info         = $this->get('info');
+		$this->php_info     = $this->get('PhpInfo');
+		$this->directory    = $this->get('directory');
 
 		$this->addToolbar();
 		$this->_setSubMenu();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**

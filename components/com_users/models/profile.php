@@ -130,7 +130,7 @@ class UsersModelProfile extends JModelForm
 			$userId = $this->getState('user.id');
 
 			// Initialise the table with JUser.
-			$this->data	= new JUser($userId);
+			$this->data = new JUser($userId);
 
 			// Set the base user data.
 			$this->data->email1 = $this->data->get('email');
@@ -148,11 +148,11 @@ class UsersModelProfile extends JModelForm
 			unset($this->data->password1);
 			unset($this->data->password2);
 
-			$registry = new Registry($this->data->params);
+			$registry           = new Registry($this->data->params);
 			$this->data->params = $registry->toArray();
 
 			// Get the dispatcher and load the users plugins.
-			$dispatcher	= JEventDispatcher::getInstance();
+			$dispatcher = JEventDispatcher::getInstance();
 			JPluginHelper::importPlugin('user');
 
 			// Trigger the data preparation event.
@@ -281,7 +281,7 @@ class UsersModelProfile extends JModelForm
 	protected function populateState()
 	{
 		// Get the application object.
-		$params	= JFactory::getApplication()->getParams('com_users');
+		$params = JFactory::getApplication()->getParams('com_users');
 
 		// Get the user id.
 		$userId = JFactory::getApplication()->getUserState('com_users.edit.profile.id');
@@ -310,11 +310,11 @@ class UsersModelProfile extends JModelForm
 		$user = new JUser($userId);
 
 		// Prepare the data for the user object.
-		$data['email']		= JStringPunycode::emailToPunycode($data['email1']);
-		$data['password']	= $data['password1'];
+		$data['email']    = JStringPunycode::emailToPunycode($data['email1']);
+		$data['password'] = $data['password1'];
 
 		// Unset the username if it should not be overwritten
-		$username = $data['username'];
+		$username            = $data['username'];
 		$isUsernameCompliant = $this->getState('user.username.compliant');
 
 		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)

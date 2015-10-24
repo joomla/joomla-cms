@@ -193,15 +193,7 @@ abstract class JDatabaseImporter
 					foreach ($queries as $query)
 					{
 						$this->db->setQuery((string) $query);
-
-						try
-						{
-							$this->db->execute();
-						}
-						catch (RuntimeException $e)
-						{
-							throw $e;
-						}
+						$this->db->execute();
 					}
 				}
 			}
@@ -211,15 +203,7 @@ abstract class JDatabaseImporter
 				$sql = $this->xmlToCreate($table);
 
 				$this->db->setQuery((string) $sql);
-
-				try
-				{
-					$this->db->execute();
-				}
-				catch (RuntimeException $e)
-				{
-					throw $e;
-				}
+				$this->db->execute();
 			}
 		}
 	}

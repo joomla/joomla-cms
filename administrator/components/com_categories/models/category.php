@@ -331,7 +331,13 @@ class CategoriesModelCategory extends JModelAdmin
 				$extension = substr($app->getUserState('com_categories.categories.filter.extension'), 4);
 				$filters = (array) $app->getUserState('com_categories.categories.' . $extension . '.filter');
 
-				$data->set('published', $app->input->getInt('published', ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)));
+				$data->set(
+					'published',
+					$app->input->getInt(
+						'published',
+						((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
+					)
+				);
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'))));
 			}
@@ -946,7 +952,7 @@ class CategoriesModelCategory extends JModelAdmin
 			$this->table->setLocation($this->table->parent_id, 'last-child');
 
 			// @TODO: Deal with ordering?
-			// $this->table->ordering	= 1;
+			// $this->table->ordering = 1;
 			$this->table->level = null;
 			$this->table->asset_id = null;
 			$this->table->lft = null;
@@ -954,8 +960,8 @@ class CategoriesModelCategory extends JModelAdmin
 
 			// Alter the title & alias
 			list($title, $alias) = $this->generateNewTitle($this->table->parent_id, $this->table->alias, $this->table->title);
-			$this->table->title = $title;
-			$this->table->alias = $alias;
+			$this->table->title  = $title;
+			$this->table->alias  = $alias;
 
 			// Unpublish because we are making a copy
 			$this->table->published = 0;

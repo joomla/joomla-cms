@@ -566,7 +566,7 @@ abstract class JToolbarHelper
 	{
 		$component = urlencode($component);
 		$path = urlencode($path);
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		$uri = (string) JUri::getInstance();
 		$return = urlencode(base64_encode($uri));

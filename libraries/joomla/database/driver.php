@@ -10,23 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Joomla Platform Database Interface
- *
- * @since  11.2
-*/
-interface JDatabaseInterface
-{
-	/**
-	 * Test to see if the connector is available.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.2
-	 */
-	public static function isSupported();
-}
-
-/**
  * Joomla Platform Database Driver Class
  *
  * @since  12.1
@@ -316,7 +299,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 			catch (RuntimeException $e)
 			{
-				throw new RuntimeException(sprintf('Unable to connect to the Database: %s', $e->getMessage()));
+				throw new RuntimeException(sprintf('Unable to connect to the Database: %s', $e->getMessage()), $e->getCode(), $e);
 			}
 
 			// Set the new connector to the global instances based on signature.
@@ -1190,10 +1173,11 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use getIterator() instead
 	 */
 	public function loadNextObject($class = 'stdClass')
 	{
-		JLog::add(__METHOD__ . '() is deprecated. Use JDatabase::getIterator() instead.', JLog::WARNING, 'deprecated');
+		JLog::add(__METHOD__ . '() is deprecated. Use JDatabaseDriver::getIterator() instead.', JLog::WARNING, 'deprecated');
 		$this->connect();
 
 		static $cursor = null;
@@ -1227,11 +1211,11 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
-	 * @deprecated  N/A (CMS)  Use JDatabaseDriver::getIterator() instead
+	 * @deprecated  4.0 (CMS)  Use JDatabaseDriver::getIterator() instead
 	 */
 	public function loadNextRow()
 	{
-		JLog::add('JDatabaseDriver::loadNextRow() is deprecated. Use JDatabaseDriver::getIterator() instead.', JLog::WARNING, 'deprecated');
+		JLog::add(__METHOD__ . '() is deprecated. Use JDatabaseDriver::getIterator() instead.', JLog::WARNING, 'deprecated');
 		$this->connect();
 
 		static $cursor = null;
