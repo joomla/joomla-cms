@@ -349,7 +349,7 @@ class JTableContent extends JTable
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_ALIAS_STARTS_WITH_A_NUMBER'));
 
 			return false;
-		}		
+		}
 
 		return parent::store($updateNulls);
 	}
