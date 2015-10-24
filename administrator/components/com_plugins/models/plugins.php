@@ -121,7 +121,7 @@ class PluginsModelPlugins extends JModelList
 		$search = $this->getState('filter.search');
 		$ordering = $this->getState('list.tableOrdering', 'ordering');
 
-		// if "Sort Table By:" is not set, set ordering to name
+		//If "Sort Table By:" is not set, set ordering to name
 		if ($ordering == '')
 		{
 			$ordering = "name";
