@@ -125,6 +125,7 @@ class RedirectViewLinks extends JViewLegacy
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
+			JToolbarHelper::custom('links.purge', 'purge', 'purge', 'COM_REDIRECT_TOOLBAR_PURGE', false);
 			JToolbarHelper::trash('links.trash');
 			JToolbarHelper::divider();
 		}
