@@ -489,7 +489,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	/**
 	 * Return the actual SQL Error message
 	 *
-	 * @param   string  The SQL Query that fails
+	 * @param   string  $query  The SQL Query that fails
 	 *
 	 * @return  string  The SQL Error message
 	 *
