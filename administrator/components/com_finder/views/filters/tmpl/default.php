@@ -50,7 +50,6 @@ JFactory::getDocument()->addScriptDeclaration('
 			<?php
 			// Search tools bar
 			echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-		<div class="clearfix"> </div>
 		<table class="table table-striped">
 			<thead>
 				<tr>

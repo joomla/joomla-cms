@@ -47,7 +47,6 @@ JFactory::getDocument()->addScriptDeclaration('
 	<div id="j-main-container">
 <?php endif;?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-		<div class="clearfix"> </div>
 		<table class="table table-striped">
 			<thead>
 				<tr>

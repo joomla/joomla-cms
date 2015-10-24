@@ -61,7 +61,6 @@ JFactory::getDocument()->addScriptDeclaration('
 	<div id="j-main-container">
 <?php endif;?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-		<div class="clearfix"> </div>
 		<?php if (!$this->pluginState['plg_content_finder']->enabled) : ?>
 			<div class="alert fade in">
 				<button class="close" data-dismiss="alert">×</button>
