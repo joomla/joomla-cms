@@ -145,7 +145,7 @@ abstract class JFolder
 						{
 							if (!@copy($sfid, $dfid))
 							{
-								throw new RuntimeException('Copy file failed', -1);
+								throw new RuntimeException('Copy file failed ('.$sfid."=>".$dfid.")", -1);
 							}
 						}
 						break;
@@ -292,6 +292,7 @@ abstract class JFolder
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public static function delete($path)
 	{
@@ -309,8 +310,15 @@ abstract class JFolder
 
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
-		// Check to make sure the path valid and clean
-		$path = $pathObject->clean($path);
+		try
+		{
+			// Check to make sure the path valid and clean
+			$path = $pathObject->clean($path);
+		}
+		catch (UnexpectedValueException $e)
+		{
+			throw $e;
+		}
 
 		// Is this really a folder?
 		if (!is_dir($path))
