@@ -1063,7 +1063,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	protected function getErrorMessage($query)
 	{
 		// Note we ignoring $query here as it not used in the original code.
-		
+
 		// The SQL Error Information
 		$errorInfo = implode(", ", $this->connection->errorInfo());
 
