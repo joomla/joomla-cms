@@ -20,31 +20,32 @@ $lang = JFactory::getLanguage();
 $lang->load('com_finder', JPATH_SITE);
 
 $suffix = $params->get('moduleclass_sfx');
-$output = '<input type="text" name="q" id="mod-finder-searchword" class="search-query input-medium" size="' . $params->get('field_size', 20) . '" value="' . htmlspecialchars(JFactory::getApplication()->input->get('q', '', 'string')) . '" />';
+$output = '<input type="text" name="q" id="mod-finder-searchword" class="search-query input-medium" size="'
+	. $params->get('field_size', 20) . '" value="' . htmlspecialchars(JFactory::getApplication()->input->get('q', '', 'string')) . '"'
+	. ' placeholder="' . JText::_('MOD_FINDER_SEARCH_VALUE') . '"/>';
 
-if ($params->get('show_label', 1))
+$showLabel  = $params->get('show_label', 1);
+$labelClass = (!$showLabel ? 'element-invisible ' : '') . 'finder' . $suffix;
+$label      = '<label for="mod-finder-searchword" class="' . $labelClass . '">' . $params->get('alt_label', JText::_('JSEARCH_FILTER_SUBMIT')) . '</label>';
+
+switch ($params->get('label_pos', 'left'))
 {
-	$label = '<label for="mod-finder-searchword" class="finder' . $suffix . '">' . $params->get('alt_label', JText::_('JSEARCH_FILTER_SUBMIT')) . '</label>';
+	case 'top' :
+		$output = $label . '<br />' . $output;
+		break;
 
-	switch ($params->get('label_pos', 'left'))
-	{
-		case 'top' :
-			$output = $label . '<br />' . $output;
-			break;
+	case 'bottom' :
+		$output .= '<br />' . $label;
+		break;
 
-		case 'bottom' :
-			$output .= '<br />' . $label;
-			break;
+	case 'right' :
+		$output .= $label;
+		break;
 
-		case 'right' :
-			$output .= $label;
-			break;
-
-		case 'left' :
-		default :
-			$output = $label . $output;
-			break;
-	}
+	case 'left' :
+	default :
+		$output = $label . $output;
+		break;
 }
 
 if ($params->get('show_button'))
@@ -72,24 +73,20 @@ if ($params->get('show_button'))
 	}
 }
 
-JHtml::stylesheet('com_finder/finder.css', false, true, false);
+JHtml::_('stylesheet', 'com_finder/finder.css', false, true, false);
 
 $script = "
 jQuery(document).ready(function() {
 	var value, searchword = jQuery('#mod-finder-searchword');
 
-		// Set the input value if not already set.
-		if (!searchword.val())
-		{
-			searchword.val('" . JText::_('MOD_FINDER_SEARCH_VALUE', true) . "');
-		}
-
 		// Get the current value.
 		value = searchword.val();
 
 		// If the current value equals the default value, clear it.
-		searchword.on('focus', function()
-		{	var el = jQuery(this);
+		searchword.on('focus', function ()
+		{
+			var el = jQuery(this);
+
 			if (el.val() === '" . JText::_('MOD_FINDER_SEARCH_VALUE', true) . "')
 			{
 				el.val('');
@@ -97,23 +94,30 @@ jQuery(document).ready(function() {
 		});
 
 		// If the current value is empty, set the previous value.
-		searchword.on('blur', function()
-		{	var el = jQuery(this);
+		searchword.on('blur', function ()
+		{
+			var el = jQuery(this);
+
 			if (!el.val())
 			{
 				el.val(value);
 			}
 		});
 
-		jQuery('#mod-finder-searchform').on('submit', function(e){
+		jQuery('#mod-finder-searchform').on('submit', function (e)
+		{
 			e.stopPropagation();
 			var advanced = jQuery('#mod-finder-advanced');
+
 			// Disable select boxes with no value selected.
-			if ( advanced.length)
+			if (advanced.length)
 			{
-				advanced.find('select').each(function(index, el) {
+				advanced.find('select').each(function (index, el)
+				{
 					var el = jQuery(el);
-					if(!el.val()){
+
+					if (!el.val())
+					{
 						el.attr('disabled', 'disabled');
 					}
 				});
@@ -159,6 +163,6 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				<?php echo JHtml::_('filter.select', $query, $params); ?>
 			</div>
 		<?php endif; ?>
-		<?php echo modFinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
+		<?php echo ModFinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
 	</div>
 </form>
