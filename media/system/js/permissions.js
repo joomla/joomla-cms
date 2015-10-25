@@ -1,1 +1,100 @@
-function sendPermissions(e){var t=document.getElementById("icon_"+this.id);t.removeAttribute("class"),t.setAttribute("style","background: url(../media/system/images/modal/spinner.gif); display: inline-block; width: 16px; height: 16px");var i=this.id.split("_"),r="not",n=getUrlParam("component"),l=getUrlParam("extension"),a=getUrlParam("option"),s=getUrlParam("view"),o=n,m=this.value;"com_config"==a&&0==n&&0==l?r="com_config":0==l&&"component"==s?r=n:0!=l&&0!=s?(r=l+"."+s+"."+getUrlParam("id"),o=document.getElementById("jform_title").value):0==l&&0!=s&&(r=a+"."+s+"."+getUrlParam("id"),o=document.getElementById("jform_title").value);var c="&comp="+r+"&action="+i[2]+"&rule="+i[3]+"&value="+m+"&title="+o,u="index.php?option=com_config&task=config.store&format=raw"+c;jQuery.ajax({type:"GET",url:u,datatype:"JSON"}).success(function(i){var r=e.target,n=JSON.parse(i);if("true"==n.data)t.removeAttribute("style"),t.setAttribute("class","icon-save"),"1"===m?(r.parentElement.nextSibling.nextSibling.firstElementChild.setAttribute("class","label label-success"),r.parentElement.nextSibling.nextSibling.firstElementChild.innerHTML="Allowed"):(r.parentElement.nextSibling.nextSibling.firstElementChild.setAttribute("class","label label-important"),r.parentElement.nextSibling.nextSibling.firstElementChild.innerHTML="Not Allowed");else{var l={error:[Joomla.JText._("JLIB_RULES_DATABASE_FAILURE ")]};Joomla.renderMessages(l),t.removeAttribute("style"),t.setAttribute("class","icon-cancel")}if(0==n.message){var l={error:[Joomla.JText._("JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS")]};Joomla.renderMessages(l),t.removeAttribute("style"),t.setAttribute("class","icon-cancel")}}).fail(function(){var e={error:[Joomla.JText._("JLIB_RULES_REQUEST_FAILURE")]};Joomla.renderMessages(e),t.removeAttribute("style"),t.setAttribute("class","icon-cancel")})}function getUrlParam(e){for(var t=window.location.search.substring(1),i=t.split("&"),r=0;r<i.length;r++){var n=i[r].split("=");if(n[0]==e)return n[1]}return!1}
+/**
+ * Function to send Permissions via Ajax to Com-Config Application Controller
+ */
+function sendPermissions(event) {
+	// set the icon while storing the values
+	var icon = document.getElementById('icon_' + this.id);
+	icon.removeAttribute('class');
+	icon.setAttribute('style', 'background: url(../media/system/images/modal/spinner.gif); display: inline-block; width: 16px; height: 16px');
+
+	//get values and prepare GET-Parameter
+	var id = this.id.split('_');
+	var asset = 'not';
+	var component = getUrlParam('component');
+	var extension = getUrlParam('extension');
+	var option = getUrlParam('option');
+	var view = getUrlParam('view');
+	var title = component;
+	var value = this.value;
+
+	if (option == 'com_config' && component == false && extension == false)
+	{
+		asset = 'com_config';
+	}
+	else if (extension == false && view == 'component'){
+		asset = component;
+	}
+	else if (extension != false && view != false){
+		asset = extension + '.' + view + '.' + getUrlParam('id');
+		title = document.getElementById('jform_title').value;
+	}
+	else if (extension == false && view != false){
+		asset = option + '.' + view + '.' + getUrlParam('id');
+		title = document.getElementById('jform_title').value;
+	}
+
+	var data = '&comp=' + asset + '&action=' + id[2] + '&rule=' + id[3] + '&value=' + value + '&title=' + title;
+	var url = 'index.php?option=com_config&task=config.store&format=raw' + data;
+
+	// doing ajax request
+	jQuery.ajax({
+		type: 'GET',
+		url: url,
+		datatype: 'JSON'
+	}).success(function (response) {
+		var element = event.target;
+		var resp = JSON.parse(response);
+		if (resp.data == 'true')
+		{
+			icon.removeAttribute('style');
+			icon.setAttribute('class', 'icon-save');
+			if (value === '1')
+			{
+				element.parentElement.nextSibling.nextSibling.firstElementChild.setAttribute('class', 'label label-success');
+				element.parentElement.nextSibling.nextSibling.firstElementChild.innerHTML='Allowed';
+			}
+			else
+			{
+				element.parentElement.nextSibling.nextSibling.firstElementChild.setAttribute('class', 'label label-important');
+				element.parentElement.nextSibling.nextSibling.firstElementChild.innerHTML='Not Allowed';
+			}
+		}
+		else
+		{
+			var msg = { error: [Joomla.JText._('JLIB_RULES_DATABASE_FAILURE ')] };
+			Joomla.renderMessages(msg);
+			icon.removeAttribute('style');
+			icon.setAttribute('class', 'icon-cancel');
+		}
+		if (resp.message == 0)
+		{
+			var msg = { error: [Joomla.JText._('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS')] };
+			Joomla.renderMessages(msg);
+			icon.removeAttribute('style');
+			icon.setAttribute('class', 'icon-cancel');
+		}
+	}).fail(function() {
+		//set cancel icon on http failure
+		var msg = { error: [Joomla.JText._('JLIB_RULES_REQUEST_FAILURE')] };
+		Joomla.renderMessages(msg);
+		icon.removeAttribute('style');
+		icon.setAttribute('class', 'icon-cancel');
+	})
+}
+
+/**
+ * Function to get parameters out of the url
+ */
+function getUrlParam(variable) {
+	var query = window.location.search.substring(1);
+	var vars = query.split('&');
+	for (var i=0;i<vars.length;i++)
+	{
+		var pair = vars[i].split('=');
+		if (pair[0] == variable)
+		{
+			return pair[1];
+		}
+	}
+	return false;
+}

@@ -139,10 +139,9 @@ class JFormFieldRules extends JFormField
 		JHtml::_('bootstrap.tooltip');
 
 		// Add Javascript for permission change
-		$document = JFactory::getDocument();
-		$document->addScript('../media/system/js/permissions.js');
+		JHtml::script(Juri::base() . '../media/system/js/permissions.min.js');
 
-		//Add JText for error messages
+		// Add JText for error messages
 		JText::script('JLIB_RULES_REQUEST_FAILURE');
 		JText::script('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS');
 		JText::script('JLIB_RULES_REQUEST_FAILURE');
