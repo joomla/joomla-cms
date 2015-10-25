@@ -466,8 +466,8 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$input = JFactory::getApplication()->input;
-		$filter  = JFilterInput::getInstance();
+		$input  = JFactory::getApplication()->input;
+		$filter = JFilterInput::getInstance();
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
@@ -483,12 +483,14 @@ class ContentModelArticle extends JModelAdmin
 		{
 			$registry = new Registry;
 			$registry->loadArray($data['images']);
+
 			$data['images'] = (string) $registry;
 		}
 
 		if (isset($data['urls']) && is_array($data['urls']))
 		{
 			$check = $input->post->get('jform', array(), 'array');
+
 			foreach ($data['urls'] as $i => $url)
 			{
 				if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc'))
@@ -503,9 +505,12 @@ class ContentModelArticle extends JModelAdmin
 					}
 				}
 			}
+
 			unset($check);
+
 			$registry = new Registry;
 			$registry->loadArray($data['urls']);
+
 			$data['urls'] = (string) $registry;
 		}
 
