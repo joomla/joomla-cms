@@ -138,6 +138,15 @@ class JFormFieldRules extends JFormField
 	{
 		JHtml::_('bootstrap.tooltip');
 
+		// Add Javascript for permission change
+		$document = JFactory::getDocument();
+		$document->addScript('../media/system/js/permissions.js');
+
+		//Add JText for error messages
+		JText::script('JLIB_RULES_REQUEST_FAILURE');
+		JText::script('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS');
+		JText::script('JLIB_RULES_REQUEST_FAILURE');
+
 		// Initialise some field attributes.
 		$section = $this->section;
 		$component = $this->component;
@@ -405,102 +414,3 @@ class JFormFieldRules extends JFormField
 		return $options;
 	}
 }
-
-JFactory::getDocument()->addScriptDeclaration("
-
-	function sendPermissions(event) {
-		// set the icon while storing the values
-		var icon = document.getElementById('icon_' + this.id);
-		icon.removeAttribute('class');
-		icon.setAttribute('style', 'background: url(../media/system/images/modal/spinner.gif); display: inline-block; width: 16px; height: 16px');
-
-		//get values and prepare GET-Parameter
-		var id = this.id.split('_');
-		var asset = 'not';
-		var component = getUrlParam('component');
-		var extension = getUrlParam('extension');
-		var option = getUrlParam('option');
-		var view = getUrlParam('view');
-		var title = component;
-		var value = this.value;
-
-		if (option == 'com_config' && component == false && extension == false)
-		{
-			asset = 'com_config';
-		}
-		else if (extension == false && view == 'component'){
-			asset = component;
-		}
-		else if (extension != false && view != false){
-			asset = extension + '.' + view + '.' + getUrlParam('id');
-			title = document.getElementById('jform_title').value;
-		}
-		else if (extension == false && view != false){
-			asset = option + '.' + view + '.' + getUrlParam('id');
-			title = document.getElementById('jform_title').value;
-		}
-
-		var data = '&comp=' + asset + '&action=' + id[2] + '&rule=' + id[3] + '&value=' + value + '&title=' + title;
-		var url = 'index.php?option=com_config&task=config.store&format=raw' + data;
-
-		// doing ajax request
-		jQuery.ajax({
-			type: 'GET',
-			url: url,
-			datatype: 'JSON'
-		}).success(function (response) {
-			var element = event.target;
-			var resp = JSON.parse(response);
-			if (resp.data == 'true')
-			{
-				icon.removeAttribute('style');
-				icon.setAttribute('class', 'icon-save');
-				if (value === '1')
-				{
-					element.parentElement.nextSibling.nextSibling.firstElementChild.setAttribute('class', 'label label-success');
-					element.parentElement.nextSibling.nextSibling.firstElementChild.innerHTML='Allowed';
-				}
-				else
-				{
-					element.parentElement.nextSibling.nextSibling.firstElementChild.setAttribute('class', 'label label-important');
-					element.parentElement.nextSibling.nextSibling.firstElementChild.innerHTML='Not Allowed';
-				}
-			}
-			else
-			{
-				var msg = { error: ['" . JText::_('JLIB_RULES_DATABASE_FAILURE ') . "' + resp.data] };
-				Joomla.renderMessages(msg);
-				icon.removeAttribute('style');
-				icon.setAttribute('class', 'icon-cancel');
-			}
-			if (resp.message == 0)
-			{
-				var msg = { error: ['" . JText::_('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS') . "'] };
-				Joomla.renderMessages(msg);
-				icon.removeAttribute('style');
-				icon.setAttribute('class', 'icon-cancel');
-			}
-		}).fail(function() {
-			//set cancel icon on http failure
-			var msg = { error: ['" . JText::_('JLIB_RULES_REQUEST_FAILURE') . "'] };
-			Joomla.renderMessages(msg);
-			icon.removeAttribute('style');
-			icon.setAttribute('class', 'icon-cancel');
-		})
-	}
-
-	// function to get parameters out of the url
-	function getUrlParam(variable) {
-		var query = window.location.search.substring(1);
-		var vars = query.split('&');
-		for (var i=0;i<vars.length;i++)
-		{
-			var pair = vars[i].split('=');
-			if (pair[0] == variable)
-			{
-			  return pair[1];
-			}
-		}
-		return false;
-	}
-");
