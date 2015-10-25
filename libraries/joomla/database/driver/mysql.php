@@ -311,9 +311,9 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// If an error occurred handle it.
 		if (!$this->cursor)
 		{
-			// Get the error number and message.
-			$this->errorNum = (int) mysql_errno($this->connection);
-			$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $query;
+			// Get the error number and message before we execute any more queries.
+			$this->errorNum = $this->getErrorNumber();
+			$this->errorMsg = $this->getErrorMessage($query);
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -327,6 +327,10 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
+					// Get the error number and message.
+					$this->errorNum = $this->getErrorNumber();
+					$this->errorMsg = $this->getErrorMessage($query);
+
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
@@ -517,5 +521,40 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		{
 			return version_compare($client_version, '5.5.3', '>=');
 		}
+	}
+
+	/**
+	 * Return the actual SQL Error number
+	 *
+	 * @return  integer  The SQL Error number
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorNumber()
+	{
+		return (int) mysql_errno($this->connection);
+	}
+
+	/**
+	 * Return the actual SQL Error message
+	 *
+	 * @param   string  $query  The SQL Query that fails
+	 *
+	 * @return  string  The SQL Error message
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorMessage($query)
+	{
+		$errorMessage = (string) mysql_error($this->connection);
+
+		// Replace the Databaseprefix with `#__` if we are not in Debug
+		if (!$this->debug)
+		{
+			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
+			$query        = str_replace($this->tablePrefix, '#__', $query);
+		}
+
+		return $errorMessage . ' SQL=' . $query;
 	}
 }
