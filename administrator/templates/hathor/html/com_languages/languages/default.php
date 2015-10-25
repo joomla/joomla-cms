@@ -14,13 +14,13 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$n			= count($this->items);
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$canOrder	= $user->authorise('core.edit.state', 'com_languages');
-$saveOrder	= $listOrder == 'a.ordering';
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$n         = count($this->items);
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$canOrder  = $user->authorise('core.edit.state', 'com_languages');
+$saveOrder = $listOrder == 'a.ordering';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=languages'); ?>" method="post" name="adminForm" id="adminForm">

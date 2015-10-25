@@ -16,9 +16,9 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$user      = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
@@ -51,16 +51,16 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="center">
+					<th width="10%">
 						<?php echo JHtml::_('grid.sort', 'JCLIENT', 'a.client_id', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="center hidden-phone">
+					<th width="10%" class="hidden-phone">
 						<?php echo JText::_('JVERSION'); ?>
 					</th>
-					<th width="15%" class="center hidden-phone">
+					<th width="15%" class="hidden-phone">
 						<?php echo JText::_('JDATE'); ?>
 					</th>
-					<th width="25%" class="center hidden-phone" >
+					<th width="25%" class="hidden-phone" >
 						<?php echo JText::_('JAUTHOR'); ?>
 					</th>
 				</tr>
@@ -93,13 +93,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php endif; ?>
 						</p>
 					</td>
-					<td class="small center">
+					<td class="small">
 						<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 					</td>
-					<td class="small center hidden-phone">
+					<td class="small hidden-phone">
 						<?php echo $this->escape($item->xmldata->get('version')); ?>
 					</td>
-					<td class="small center hidden-phone">
+					<td class="small hidden-phone">
 						<?php echo $this->escape($item->xmldata->get('creationDate')); ?>
 					</td>
 					<td class="hidden-phone">

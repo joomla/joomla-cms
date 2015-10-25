@@ -76,17 +76,6 @@ else
 {
 	$logo = '<span class="site-title" title="' . $sitename . '">' . $sitename . '</span>';
 }
-
-// Get the correct logo link in multilingual
-if (JLanguageMultilang::isEnabled())
-{
-	$homemenu	= $app->getMenu()->getDefault(JFactory::getLanguage()->getTag());
-	$logo_link	= JRoute::_('index.php?Itemid=' . $homemenu->id);
-}
-else
-{
-	$logo_link = $this->baseurl;
-}
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -114,16 +103,10 @@ else
 		{
 			color: <?php echo $this->params->get('templateColor'); ?>;
 		}
-		.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover,
+		.nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover,
 		.btn-primary
 		{
 			background: <?php echo $this->params->get('templateColor'); ?>;
-		}
-		.navbar-inner
-		{
-			-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-			-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-			box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
 		}
 	</style>
 	<?php endif; ?>
@@ -147,7 +130,7 @@ else
 			<!-- Header -->
 			<header class="header" role="banner">
 				<div class="header-inner clearfix">
-					<a class="brand pull-left" href="<?php echo $logo_link; ?>">
+					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>/">
 						<?php echo $logo; ?>
 						<?php if ($this->params->get('sitedescription')) : ?>
 							<?php echo '<div class="site-description">' . htmlspecialchars($this->params->get('sitedescription')) . '</div>'; ?>

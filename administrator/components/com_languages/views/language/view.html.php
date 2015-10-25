@@ -31,10 +31,10 @@ class LanguagesViewLanguage extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->item 	= $this->get('Item');
-		$this->form 	= $this->get('Form');
-		$this->state 	= $this->get('State');
-		$this->canDo	= JHelperContent::getActions('com_languages');
+		$this->item  = $this->get('Item');
+		$this->form  = $this->get('Form');
+		$this->state = $this->get('State');
+		$this->canDo = JHelperContent::getActions('com_languages');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

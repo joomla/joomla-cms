@@ -33,11 +33,13 @@ switch ($params->get('updatesource', 'default'))
 		$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM');
 		break;
 
-	// "Minor & Patch Release for Current version (recommended and default)".
-	// The commented "case" below are for documenting where 'default' and legacy options falls
-	// case 'default':
-	// case 'lts':
-	// case 'nochange':
+	/**
+	 * "Minor & Patch Release for Current version (recommended and default)".
+	 * The commented "case" below are for documenting where 'default' and legacy options falls
+	 * case 'default':
+	 * case 'lts':
+	 * case 'nochange':
+	 */
 	default:
 		$langKey          = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_DEFAULT';
 		$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');

@@ -60,7 +60,7 @@ class ModStatsHelper
 			$i++;
 
 			$rows[$i]        = new stdClass;
-			$rows[$i]->title = JTEXT::_('MOD_STATS_TIME');
+			$rows[$i]->title = JText::_('MOD_STATS_TIME');
 			$rows[$i]->icon  = 'clock';
 			$rows[$i]->data  = JHtml::_('date', 'now', 'H:i');
 			$i++;

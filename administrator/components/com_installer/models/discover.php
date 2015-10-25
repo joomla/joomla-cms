@@ -113,8 +113,8 @@ class InstallerModelDiscover extends InstallerModel
 		// Purge the list of discovered extensions
 		$this->purge();
 
-		$installer	= JInstaller::getInstance();
-		$results	= $installer->discover();
+		$installer = JInstaller::getInstance();
+		$results   = $installer->discover();
 
 		// Get all templates, including discovered ones
 		$db = $this->getDbo();
@@ -209,23 +209,21 @@ class InstallerModelDiscover extends InstallerModel
 	 */
 	public function purge()
 	{
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true)
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
 			->delete('#__extensions')
 			->where('state = -1');
 		$db->setQuery($query);
 
-		if ($db->execute())
-		{
-			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
-
-			return true;
-		}
-		else
+		if (!$db->execute())
 		{
 			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_FAILEDTOPURGEEXTENSIONS');
 
 			return false;
 		}
+
+		$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
+
+		return true;
 	}
 }

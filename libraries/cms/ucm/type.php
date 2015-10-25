@@ -69,7 +69,7 @@ class JUcmType implements JUcm
 	/**
 	 * The alias for the content type
 	 *
-	 * @var	  string
+	 * @var	   string
 	 * @since  3.1
 	 */
 	protected $alias;
@@ -109,7 +109,7 @@ class JUcmType implements JUcm
 			$pk = $this->getTypeId();
 		}
 
-		$query	= $this->db->getQuery(true);
+		$query = $this->db->getQuery(true);
 		$query->select('ct.*');
 		$query->from($this->db->quoteName('#__content_types', 'ct'));
 
@@ -132,7 +132,7 @@ class JUcmType implements JUcm
 	 */
 	public function getTypeByAlias($typeAlias = null)
 	{
-		$query	= $this->db->getQuery(true);
+		$query = $this->db->getQuery(true);
 		$query->select('ct.*');
 		$query->from($this->db->quoteName('#__content_types', 'ct'));
 		$query->where($this->db->quoteName('ct.type_alias') . ' = ' . $this->db->quote($typeAlias));
@@ -155,7 +155,7 @@ class JUcmType implements JUcm
 	 */
 	public function getTypeByTable($tableName)
 	{
-		$query	= $this->db->getQuery(true);
+		$query = $this->db->getQuery(true);
 		$query->select('ct.*');
 		$query->from($this->db->quoteName('#__content_types', 'ct'));
 

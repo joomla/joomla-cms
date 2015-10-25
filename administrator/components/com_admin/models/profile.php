@@ -103,9 +103,7 @@ class AdminModelProfile extends UsersModelUser
 	 */
 	public function getItem($pk = null)
 	{
-		$user = JFactory::getUser();
-
-		return parent::getItem($user->get('id'));
+		return parent::getItem(JFactory::getUser()->id);
 	}
 
 	/**

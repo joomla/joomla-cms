@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.multiselect');
-JHtml::_('behavior.modal', 'a.modal');
 JHtml::_('formbehavior.chosen', 'select');
 
 $user       = JFactory::getUser();
@@ -20,8 +19,7 @@ $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $sortFields = $this->getSortFields();
 
-JFactory::getDocument()->addScriptDeclaration(
-	'
+JFactory::getDocument()->addScriptDeclaration('
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("sortTable");
@@ -41,9 +39,10 @@ JFactory::getDocument()->addScriptDeclaration(
 	Joomla.closeModalDialog = function()
 	{
 		window.jQuery("#modal-download").modal("hide");
-	};'
-);
+	};
+');
 ?>
+
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=tracks'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>

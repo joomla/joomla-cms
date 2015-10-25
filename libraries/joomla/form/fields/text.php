@@ -93,10 +93,11 @@ class JFormFieldText extends JFormField
 
 			case 'dirname':
 				$value = (string) $value;
-				$value = ($value == $name || $value == 'true' || $value == '1');
+				$this->dirname = ($value == $name || $value == 'true' || $value == '1');
+				break;
 
 			case 'inputmode':
-				$this->name = (string) $value;
+				$this->inputmode = (string) $value;
 				break;
 
 			default:

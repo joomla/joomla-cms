@@ -393,6 +393,10 @@ figcaption {
   #gradient > .vertical(@dropdownLinkBackgroundHover, darken(@dropdownLinkBackgroundHover, 5%));
 }
 
+// Category collapse
+.categories-list .collapse {
+	margin: 0 0 0 20px;
+}
 @media (max-width: 480px) {
 	.item-info > span {
 		display:block;
@@ -516,6 +520,13 @@ figcaption {
 	}
 	.well {
 		padding: 10px;
+	}
+}
+@media (max-width: 979px) {
+	.nav-collapse.in.collapse {
+		overflow: visible;
+		height: 0;
+		z-index: 100;
 	}
 }
 @media (min-width: 768px) and (max-width: 979px) {

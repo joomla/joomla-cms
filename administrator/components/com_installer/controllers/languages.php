@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Languages Installer Controller
  *
- * @since       2.5.7
+ * @since  2.5.7
  */
 class InstallerControllerLanguages extends JControllerLegacy
 {
@@ -38,7 +38,7 @@ class InstallerControllerLanguages extends JControllerLegacy
 		$cache_timeout = 3600 * $cache_timeout;
 
 		// Find updates
-		$model	= $this->getModel('languages');
+		$model = $this->getModel('languages');
 
 		if (!$model->findLanguages($cache_timeout))
 		{

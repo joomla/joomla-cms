@@ -136,7 +136,7 @@ $info    = $params->get('info_block_position', 0);
 	<?php // Optional teaser intro text for guests ?>
 	<?php elseif ($params->get('show_noauth') == true && $user->get('guest')) : ?>
 	<?php echo $this->item->introtext; ?>
-	<?php //Optional link to let them register to see the whole article. ?>
+	<?php // Optional link to let them register to see the whole article. ?>
 	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) : ?>
 	<?php $menu = JFactory::getApplication()->getMenu(); ?>
 	<?php $active = $menu->getActive(); ?>

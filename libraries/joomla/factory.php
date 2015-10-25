@@ -243,7 +243,7 @@ abstract class JFactory
 			}
 		}
 		// Check if we have a string as the id or if the numeric id is the current instance
-		elseif (is_string($id) || $instance->id !== $id)
+		elseif (!($instance instanceof JUser) || is_string($id) || $instance->id !== $id)
 		{
 			$instance = JUser::getInstance($id);
 		}
@@ -300,7 +300,7 @@ abstract class JFactory
 	 *
 	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JAccess directly.
 	 */
-	public static function getACL()
+	public static function getAcl()
 	{
 		JLog::add(__METHOD__ . ' is deprecated. Use JAccess directly.', JLog::WARNING, 'deprecated');
 
@@ -391,7 +391,7 @@ abstract class JFactory
 	 * @note    When JXMLElement is not present a SimpleXMLElement will be returned.
 	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use SimpleXML directly.
 	 */
-	public static function getXML($data, $isFile = true)
+	public static function getXml($data, $isFile = true)
 	{
 		JLog::add(__METHOD__ . ' is deprecated. Use SimpleXML directly.', JLog::WARNING, 'deprecated');
 
@@ -475,7 +475,7 @@ abstract class JFactory
 	 * @since   11.1
 	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JUri directly.
 	 */
-	public static function getURI($uri = 'SERVER')
+	public static function getUri($uri = 'SERVER')
 	{
 		JLog::add(__METHOD__ . ' is deprecated. Use JUri directly.', JLog::WARNING, 'deprecated');
 
@@ -677,7 +677,7 @@ abstract class JFactory
 		switch ($mailer)
 		{
 			case 'smtp':
-				$mail->useSMTP($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
+				$mail->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
 				break;
 
 			case 'sendmail':
@@ -732,7 +732,7 @@ abstract class JFactory
 			'lineend' => 'unix',
 			'tab' => '  ',
 			'language' => $lang->getTag(),
-			'direction' => $lang->isRTL() ? 'rtl' : 'ltr',
+			'direction' => $lang->isRtl() ? 'rtl' : 'ltr',
 			'mediaversion' => $version->getMediaVersion()
 		);
 

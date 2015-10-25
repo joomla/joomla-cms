@@ -128,7 +128,7 @@ abstract class JDatabaseImporter
 	 *
 	 * @since   13.1
 	 */
-	protected function getDropColumnSQL($table, $name)
+	protected function getDropColumnSql($table, $name)
 	{
 		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP COLUMN ' . $this->db->quoteName($name);
 	}
@@ -187,21 +187,13 @@ abstract class JDatabaseImporter
 			if (in_array($tableName, $tables))
 			{
 				// The table already exists. Now check if there is any difference.
-				if ($queries = $this->getAlterTableSQL($xml->database->table_structure))
+				if ($queries = $this->getAlterTableSql($xml->database->table_structure))
 				{
 					// Run the queries to upgrade the data structure.
 					foreach ($queries as $query)
 					{
 						$this->db->setQuery((string) $query);
-
-						try
-						{
-							$this->db->execute();
-						}
-						catch (RuntimeException $e)
-						{
-							throw $e;
-						}
+						$this->db->execute();
 					}
 				}
 			}
@@ -211,15 +203,7 @@ abstract class JDatabaseImporter
 				$sql = $this->xmlToCreate($table);
 
 				$this->db->setQuery((string) $sql);
-
-				try
-				{
-					$this->db->execute();
-				}
-				catch (RuntimeException $e)
-				{
-					throw $e;
-				}
+				$this->db->execute();
 			}
 		}
 	}

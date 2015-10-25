@@ -32,10 +32,10 @@ class ModFinderHelper
 	public static function getGetFields($route = null, $paramItem = 0)
 	{
 		// Determine if there is an item id before routing.
-		$needId = !JURI::getInstance($route)->getVar('Itemid');
+		$needId = !JUri::getInstance($route)->getVar('Itemid');
 
 		$fields = array();
-		$uri = JURI::getInstance(JRoute::_($route));
+		$uri = JUri::getInstance(JRoute::_($route));
 		$uri->delVar('q');
 
 		// Create hidden input elements for each part of the URI.

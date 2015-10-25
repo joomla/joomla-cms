@@ -19,7 +19,7 @@ class JHtmlTemplates
 	/**
 	 * Display the thumb for the template.
 	 *
-	 * @param   string	 $template  The name of the template.
+	 * @param   string   $template  The name of the template.
 	 * @param   integer  $clientId  The application client ID the template applies to
 	 *
 	 * @return  string  The html string
@@ -55,7 +55,7 @@ class JHtmlTemplates
 	/**
 	 * Renders the html for the modal linked to thumb.
 	 *
-	 * @param   string	 $template  The name of the template.
+	 * @param   string   $template  The name of the template.
 	 * @param   integer  $clientId  The application client ID the template applies to
 	 *
 	 * @return  string  The html string

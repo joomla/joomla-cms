@@ -120,13 +120,13 @@ JFactory::getDocument()->addScriptDeclaration('
 						<th width="5%" class="nowrap">
 							<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_HEADING_LANG_IMAGE', 'a.image', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="center nowrap">
+						<th width="5%" class="nowrap">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<th width="5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_HOMEPAGE', '', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="center nowrap hidden-phone">
+						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.lang_id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -185,26 +185,26 @@ JFactory::getDocument()->addScriptDeclaration('
 						<td class="hidden-phone">
 							<?php echo $this->escape($item->title_native); ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo $this->escape($item->lang_code); ?>
 						</td>
-						<td class="center">
+						<td>
 							<?php echo $this->escape($item->sef); ?>
 						</td>
-						<td class="center">
+						<td>
 							<?php echo $this->escape($item->image); ?>&nbsp;<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, array('title' => $item->image), true); ?>
 						</td>
 						<td class="center">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php if ($item->home == '1') : ?>
 								<?php echo JText::_('JYES');?>
 							<?php else:?>
 								<?php echo JText::_('JNO');?>
 							<?php endif;?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo $this->escape($item->lang_id); ?>
 						</td>
 					</tr>
