@@ -352,7 +352,7 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar2_add[] = '|';
 		$toolbar2_add[] = 'code';
 
-		// Colours
+		// Colors
 		$colors = $this->params->get('colors', 1);
 
 		if (isset($access[$colors]))
