@@ -22,7 +22,7 @@ class FinderModelMaps extends JModelList
 	 * @param   array  $config  An associative array of configuration settings. [optional]
 	 *
 	 * @since   2.5
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 */
 	public function __construct($config = array())
 	{
@@ -48,9 +48,7 @@ class FinderModelMaps extends JModelList
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.delete', $this->option);
+		return JFactory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -64,9 +62,7 @@ class FinderModelMaps extends JModelList
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.edit.state', $this->option);
+		return JFactory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -254,7 +250,7 @@ class FinderModelMaps extends JModelList
 	 *
 	 * @since   2.5
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.title', $direction = 'asc')
 	{
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
@@ -271,7 +267,7 @@ class FinderModelMaps extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.title', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**

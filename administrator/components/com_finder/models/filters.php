@@ -22,7 +22,7 @@ class FinderModelFilters extends JModelList
 	 * @param   array  $config  An associative array of configuration settings. [optional]
 	 *
 	 * @since   2.5
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 */
 	public function __construct($config = array())
 	{
@@ -116,7 +116,7 @@ class FinderModelFilters extends JModelList
 	 *
 	 * @since   2.5
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.title', $direction = 'asc')
 	{
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
@@ -130,6 +130,6 @@ class FinderModelFilters extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.title', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 }

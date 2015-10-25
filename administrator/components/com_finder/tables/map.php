@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Map table class for the Finder package.
  *
@@ -47,7 +49,7 @@ class FinderTableMap extends JTable
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 		$state = (int) $state;
 
 		// If there are no primary keys set check to see if the instance key is set.
