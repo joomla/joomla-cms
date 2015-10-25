@@ -41,7 +41,8 @@ class CheckinViewCheckin extends JViewLegacy
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -56,7 +57,7 @@ class CheckinViewCheckin extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_CHECKIN_GLOBAL_CHECK_IN'), 'checkin');
 
 		JToolbarHelper::custom('checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
-		
+
 		if (JFactory::getUser()->authorise('core.admin', 'com_checkin'))
 		{
 			JToolbarHelper::divider();
