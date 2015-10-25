@@ -196,6 +196,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 
 		// Generate scripts options
 		$scriptOptions = $document->getScriptOptions();
+
 		if (!empty($scriptOptions))
 		{
 			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;

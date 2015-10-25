@@ -540,7 +540,7 @@ class JDocument
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
-	 * @since   5.0
+	 * @since   3.5
 	 */
 	public function addScriptOptions($key, $options, $merge = true)
 	{
@@ -548,6 +548,7 @@ class JDocument
 		{
 			$this->scriptOptions[$key] = array();
 		}
+
 		if ($merge && is_array($options))
 		{
 			$this->scriptOptions[$key] = array_merge($this->scriptOptions[$key], $options);
@@ -567,7 +568,7 @@ class JDocument
 	 *
 	 * @return  array  Options for given $key, or all script options
 	 *
-	 * @since   5.0
+	 * @since   3.5
 	 */
 	public function getScriptOptions($key = null)
 	{
