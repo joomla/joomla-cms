@@ -581,8 +581,9 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// If an error occurred handle it.
 		if (!$this->cursor)
 		{
-			$this->errorNum = (int) mysqli_errno($this->connection);
-			$this->errorMsg = (string) mysqli_error($this->connection) . ' SQL=' . $query;
+			// Get the error number and message before we execute any more queries.
+			$errorNum = $this->getErrorNumber();
+			$errorMsg = $this->getErrorMessage($query);
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -596,6 +597,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
+					// Get the error number and message.
+					$this->errorNum = $this->getErrorNumber();
+					$this->errorMsg = $this->getErrorMessage($query);
+
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
 					throw new RuntimeException($this->errorMsg, $this->errorNum, $e);
@@ -607,6 +612,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			// The server was not disconnected.
 			else
 			{
+				// Get the error number and message from before we tried to reconnect.
+				$this->errorNum = $errorNum;
+				$this->errorMsg = $errorMsg;
+
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
@@ -867,5 +876,40 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Return the actual SQL Error number
+	 *
+	 * @return  integer  The SQL Error number
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorNumber()
+	{
+		return (int) mysqli_errno($this->connection);
+	}
+
+	/**
+	 * Return the actual SQL Error message
+	 *
+	 * @param   string  $query  The SQL Query that fails
+	 *
+	 * @return  string  The SQL Error message
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorMessage($query)
+	{
+		$errorMessage = (string) mysqli_error($this->connection);
+
+		// Replace the Databaseprefix with `#__` if we are not in Debug
+		if (!$this->debug)
+		{
+			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
+			$query        = str_replace($this->tablePrefix, '#__', $query);
+		}
+
+		return $errorMessage . ' SQL=' . $query;
 	}
 }
