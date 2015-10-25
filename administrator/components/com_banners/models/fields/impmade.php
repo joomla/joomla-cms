@@ -19,8 +19,8 @@ class JFormFieldImpMade extends JFormField
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $type = 'ImpMade';
 
@@ -35,8 +35,7 @@ class JFormFieldImpMade extends JFormField
 	{
 		$onclick = ' onclick="document.getElementById(\'' . $this->id . '\').value=\'0\';"';
 
-		return
-			'<input class="input-small" type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
+		return '<input class="input-small" type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly" /> <a class="btn" ' . $onclick . '>'
 			. '<span class="icon-refresh"></span> ' . JText::_('COM_BANNERS_RESET_IMPMADE') . '</a>';
 	}

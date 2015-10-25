@@ -16,6 +16,11 @@ defined('_JEXEC') or die;
  */
 class BannersViewDownload extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
 	/**
@@ -23,7 +28,7 @@ class BannersViewDownload extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise a Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -37,6 +42,6 @@ class BannersViewDownload extends JViewLegacy
 			return false;
 		}
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 }
