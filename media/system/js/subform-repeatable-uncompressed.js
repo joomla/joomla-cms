@@ -296,9 +296,19 @@
 			$select.attr('href', oldHref.replace(/&fieldid=(.+)&/, '&fieldid=' + inputId + '&'));
 		});
 
-		//tooltips
+		// bootstrap based Media field
+		if($.fn.fieldMedia){
+			$row.find('.field-media-wrapper').fieldMedia();
+		}
+
+		// bootstrap tooltips
 		if($.fn.tooltip){
-			$('.hasTooltip').tooltip({html: true, container: "body"});
+			$row.find('.hasTooltip').tooltip({html: true, container: "body"});
+		}
+
+		// bootstrap based User field
+		if($.fn.fieldUser){
+			$row.find('.field-user-wrapper').fieldUser();
 		}
 
 		// another modals
