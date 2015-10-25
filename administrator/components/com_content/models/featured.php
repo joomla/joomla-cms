@@ -9,10 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 require_once __DIR__ . '/articles.php';
 
 /**
- * About Page Model
+ * Methods supporting a list of featured article records.
  *
  * @since  1.6
  */
@@ -23,7 +25,7 @@ class ContentModelFeatured extends ContentModelArticles
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -63,13 +65,11 @@ class ContentModelFeatured extends ContentModelArticles
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @param   boolean  $resolveFKs  True to join selected foreign information
-	 *
-	 * @return  string
+	 * @return  JDatabaseQuery
 	 *
 	 * @since   1.6
 	 */
-	protected function getListQuery($resolveFKs = true)
+	protected function getListQuery()
 	{
 		// Create a new query object.
 		$db = $this->getDbo();
@@ -143,9 +143,8 @@ class ContentModelFeatured extends ContentModelArticles
 		}
 		elseif (is_array($categoryId))
 		{
-			JArrayHelper::toInteger($categoryId);
-			$categoryId = implode(',', $categoryId);
-			$query->where('a.catid IN (' . $categoryId . ')');
+			$categoryId = implode(',', ArrayHelper::toInteger($categoryId));
+			$query->where('a.catid IN (' . implode(',', ArrayHelper::toInteger($categoryId)) . ')');
 		}
 
 		// Filter on the level.
@@ -196,7 +195,8 @@ class ContentModelFeatured extends ContentModelArticles
 		{
 			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
 				->join(
-					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+					'LEFT',
+					$db->quoteName('#__contentitem_tag_map', 'tagmap')
 					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
 				);

@@ -19,8 +19,8 @@ class JFormFieldModal_Article extends JFormField
 	/**
 	 * The form field type.
 	 *
-	 * @var     string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $type = 'Modal_Article';
 
@@ -33,8 +33,8 @@ class JFormFieldModal_Article extends JFormField
 	 */
 	protected function getInput()
 	{
-		$allowEdit  = ((string) $this->element['edit'] == 'true') ? true : false;
-		$allowClear = ((string) $this->element['clear'] != 'false') ? true : false;
+		$allowEdit  = (string) $this->element['edit'] == 'true';
+		$allowClear = (string) $this->element['clear'] != 'false';
 
 		// Load language
 		JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
