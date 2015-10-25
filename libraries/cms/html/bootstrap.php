@@ -492,7 +492,7 @@ abstract class JHtmlBootstrap
 
 			if ($onHide)
 			{
-				$script[] = "\tjQuery('" . $selector . "').on('hide.bs.tooltip', " . $onHide . ");";
+				$script[] = "\tjQuery('" . $selector . "').on('hideme.bs.tooltip', " . $onHide . ");";
 			}
 
 			if ($onHidden)
