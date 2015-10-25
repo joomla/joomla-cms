@@ -30,13 +30,12 @@ class ContentControllerFeatured extends ContentControllerArticles
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$user = JFactory::getUser();
 		$ids  = $this->input->get('cid', array(), 'array');
 
 		// Access checks.
 		foreach ($ids as $i => $id)
 		{
-			if (!$user->authorise('core.delete', 'com_content.article.' . (int) $id))
+			if (!JFactory::getUser()->authorise('core.delete', 'com_content.article.' . (int) $id))
 			{
 				// Prune items that you can't delete.
 				unset($ids[$i]);
@@ -51,6 +50,7 @@ class ContentControllerFeatured extends ContentControllerArticles
 		else
 		{
 			// Get the model.
+			/** @var ContentModelFeature $model */
 			$model = $this->getModel();
 
 			// Remove the items.
@@ -84,13 +84,12 @@ class ContentControllerFeatured extends ContentControllerArticles
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  object  The model.
+	 * @return  JModelLegacy  The model.
 	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Feature', $prefix = 'ContentModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 }
