@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<views>
+		<view name="showplugins" type="params" ui="admin" label="Plugin Management" icon="puzzle-piece" viewformatting="none">
+			<tablebrowser name="pluginsbrowser" table="#__comprofiler_plugin" class="\CB\Database\Table\PluginTable" permissionasset="com_comprofiler.plugins">
+				<toolbarmenu>
+					<menu name="install" action="linkAction" task="download" buttonclass="success" link="cb_action:installcbplugin" label="Install CB Plugin" permission="core.admin" permissionasset="root" />
+					<menu name="edit" action="linkAction" task="edit" link="cbo:editrows/cid" label="Edit" permission="core.edit" />
+					<menu name="publish" action="linkAction" task="publish" link="cbo:publish/published" label="Publish" permission="core.edit or core.edit.state" />
+					<menu name="unpublish" action="linkAction" task="unpublish" link="cbo:unpublish/published" label="Unpublish" permission="core.edit or core.edit.state" />
+					<menu name="delete" action="linkAction" task="delete" link="cbo:deleterows" label="Delete" permission="core.delete" />
+					<menu name="cancel" action="linkAction" task="cancel" link="cb_action:panel" label="Close" />
+					<menu name="permissions" action="linkAction" task="options" link="cb_action:pluginperms" label="Permissions" />
+					<menu name="help" action="help" href="http://www.joomlapolis.com/documentation/community-builder/help/plugin-management?pk_campaign=in-cb&amp;pk_kwd=help" label="Help" />
+				</toolbarmenu>
+				<quicksearchfields placeholder="Search Plugins..." size="30">
+					<field name="name" />
+					<field name="id" valuetype="const:int" />
+				</quicksearchfields>
+				<filters>
+					<filter name="published" value="published" valuetype="sql:int" type="xml:plugin_published" label="" blanktext="- Select Published -" />
+					<filter name="viewaccesslevel" value="viewaccesslevel" valuetype="sql:int" type="viewaccesslevel" label="" blanktext="- Select Access -" managelevels="false" />
+					<filter name="type" value="type" valuetype="sql:string" type="data" label="" blanktext="- Select Type -">
+						<data name="type" type="sql:multiplerows" table="#__comprofiler_plugin" key="id">
+							<rows>
+								<field name="type" as="value" />
+								<field name="type" as="text" />
+							</rows>
+							<orderby>
+								<field name="type" ordering="ASC" />
+								<field name="ordering" ordering="ASC" />
+								<field name="name" ordering="ASC" />
+							</orderby>
+						</data>
+					</filter>
+					<filter name="id" type="field_show_only_if_selected" base="int" default="" label="" blanktext="- Select ID -" />
+				</filters>
+				<orderby>
+					<ordergroup name="ordering_asc" label="Order ascending" default="true" translate-default="no">
+						<field name="type" ordering="ASC" />
+						<field name="ordering" ordering="ASC" />
+						<field name="name" ordering="ASC" />
+					</ordergroup>
+					<ordergroup name="ordering_desc" label="Order descending">
+						<field name="type" ordering="ASC" />
+						<field name="ordering" ordering="DESC" />
+						<field name="name" ordering="ASC" />
+					</ordergroup>
+				</orderby>
+				<listfields>
+					<header type="standard" />
+					<rows type="standard" height="auto">
+						<field name="" type="rownumber" width="1%" align="center" label="#" responsivehiddenon="xsmall" />
+						<field name="id" type="primarycheckbox" width="1%" align="center" />
+						<field name="name" type="group" align="left" label="Name" formatting="none" allowordering="ascending,descending">
+							<if name="" type="permission" permission="core.edit">
+								<then>
+									<if name="" nametype="data:int" operator="=" value="0" valuetype="const:int" type="condition">
+										<left>
+											<param name="" type="private" class="self" method="checkPluginCompatibility" />
+										</left>
+										<then>
+											<if name="" nametype="data:int" operator="=" value="1" valuetype="const:int" type="condition">
+												<left>
+													<param name="" type="private" class="self" method="checkCustomPluginEdit" />
+												</left>
+												<then>
+													<field name="name" type="string" translate="_UE" link="index.php?option=com_comprofiler&amp;view=editPlugin" parameters="cid" paramvalues="id" cssclasslink="text-danger" title="This plugin is not compatible with your current CB version. This plugin may still be used, but it may not function properly." />
+												</then>
+												<else>
+													<field name="name" type="string" translate="_UE" link="cbo:rowedit" parameters="cid" paramvalues="id" cssclasslink="text-danger" title="This plugin is not compatible with your current CB version. This plugin may still be used, but it may not function properly." />
+												</else>
+											</if>
+										</then>
+										<else>
+											<if name="" nametype="data:int" operator="=" value="0" valuetype="const:int" type="condition">
+												<left>
+													<param name="" type="private" class="self" method="checkPluginInstalled" />
+												</left>
+												<then>
+													<field name="name" type="string" translate="_UE" parameters="cid" paramvalues="id" title="Plugin files missing." />
+												</then>
+												<else>
+													<if name="" nametype="data:int" operator="=" value="1" valuetype="const:int" type="condition">
+														<left>
+															<param name="" type="private" class="self" method="checkCustomPluginEdit" />
+														</left>
+														<then>
+															<field name="name" type="string" translate="_UE" link="index.php?option=com_comprofiler&amp;view=editPlugin" parameters="cid" paramvalues="id" />
+														</then>
+														<else>
+															<field name="name" type="string" translate="_UE" link="cbo:rowedit" parameters="cid" paramvalues="id" />
+														</else>
+													</if>
+												</else>
+											</if>
+										</else>
+									</if>
+									<param name="" type="private" class="self" method="getPluginMenu" />
+									<grid fluid="true">
+										<gridrow>
+											<showview mode="view" type="xml" path="/*/views/view[@name=&quot;pluginmenu&quot;]" file="/components/com_comprofiler/plugin/{raw:type}/{raw:folder}/xml/controllers/frontcontroller" mandatory="false" />
+										</gridrow>
+									</grid>
+								</then>
+								<else>
+									<field name="name" type="string" translate="_UE" parameters="cid" paramvalues="id" />
+								</else>
+							</if>
+						</field>
+						<field name="" type="private" method="getPluginVersion" key="id" width="10%" align="center" label="Version" default="-" size="15" />
+						<field name="" type="group" width="5%" align="center" label="Installed" formatting="none" responsivehiddenon="xsmall">
+							<if name="" nametype="data:int" operator="=" value="0" valuetype="const:int" type="condition">
+								<left>
+									<param name="" type="private" class="self" method="checkPluginCompatibility" />
+								</left>
+								<then>
+									<param name="" default="2" type="xml:plugin_installed" />
+								</then>
+								<else>
+									<if name="" nametype="data:int" operator="=" value="0" valuetype="const:int" type="condition">
+										<left>
+											<param name="" type="private" class="self" method="checkPluginInstalled" />
+										</left>
+										<then>
+											<param name="" default="0" type="xml:plugin_installed" />
+										</then>
+										<else>
+											<param name="" default="1" type="xml:plugin_installed" />
+										</else>
+									</if>
+								</else>
+							</if>
+						</field>
+						<field name="published" type="group" width="5%" align="center" label="Published" formatting="none" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<if name="" type="permission" permission="core.edit or core.edit.state">
+								<then>
+									<if name="published" nametype="param:int" operator="=" value="0" valuetype="const:int" type="condition">
+										<then>
+											<param name="published" type="xml:plugin_published" onclick="toggle" />
+										</then>
+										<else>
+											<if name="type" nametype="param:string" operator="=" value="language" valuetype="const:string" type="condition">
+												<then>
+													<param name="published" type="published" title="Language plugins publish state can not be changed." />
+												</then>
+												<else>
+													<if name="id" nametype="param:string" operator="in" value="1|*|7" valuetype="const:string" type="condition">
+														<then>
+															<param name="published" type="published" title="Core plugins publish state can not be changed." />
+														</then>
+														<else>
+															<param name="published" type="xml:plugin_published" onclick="toggle" />
+														</else>
+													</if>
+												</else>
+											</if>
+										</else>
+									</if>
+								</then>
+								<else>
+									<param name="published" type="xml:plugin_published" />
+								</else>
+							</if>
+						</field>
+						<field name="viewaccesslevel" type="viewaccesslevel" width="10%" align="center" label="Access Level" responsivehiddenon="xsmall" allowordering="ascending,descending" />
+						<field name="type" type="firstwords" size="15" width="10%" align="left" label="Type" responsivehiddenon="xsmall" allowordering="ascending,descending" />
+						<field name="element" type="firstwords" size="15" width="10%" align="left" label="Element" responsivehiddenon="xsmall" allowordering="ascending,descending" />
+						<field name="ordering" type="ordering" value="title" width="10%" align="center" label="Order" onclick="arrows,number" responsivehiddenon="xsmall" permission="core.edit" allowordering="ascending,descending">
+							<orderinggroups>
+								<ordering name="type" type="string" />
+							</orderinggroups>
+						</field>
+						<field name="id" type="int" width="5%" align="center" label="ID" allowordering="ascending,descending" />
+						<field name="folder" type="hidden" label="" display="none" />
+					</rows>
+				</listfields>
+				<batchprocess permission="core.edit">
+					<batch name="viewaccesslevel" value="viewaccesslevel" valuetype="sql:int" type="viewaccesslevel" label="" blanktext="- Select Access -" managelevels="false" />
+				</batchprocess>
+			</tablebrowser>
+		</view>
+	</views>
+</cbxml>

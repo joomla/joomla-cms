@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<views>
+		<view name="showfields" type="params" ui="admin" label="Field Management" icon="check-square-o" viewformatting="none">
+			<tablebrowser name="fieldsbrowser" table="#__comprofiler_fields" class="\CB\Database\Table\FieldTable" permissionasset="com_comprofiler.fields">
+				<toolbarmenu>
+					<menu name="new" action="linkAction" task="new" link="cbo:newrow" label="New" permission="core.create" />
+					<menu name="edit" action="linkAction" task="edit" link="cbo:editrows/cid" label="Edit" permission="core.edit" />
+					<menu name="copy" action="linkAction" task="copy" link="cbo:copyrows" label="Copy" permission="core.create" />
+					<menu name="publish" action="linkAction" task="publish" link="cbo:publish/published" label="Publish" permission="core.edit or core.edit.state" />
+					<menu name="unpublish" action="linkAction" task="unpublish" link="cbo:unpublish/published" label="Unpublish" permission="core.edit or core.edit.state" />
+					<menu name="delete" action="linkAction" task="delete" link="cbo:deleterows" label="Delete" permission="core.delete" />
+					<menu name="cancel" action="linkAction" task="cancel" link="cb_action:panel" label="Close" />
+					<menu name="permissions" action="linkAction" task="options" link="cb_action:fieldperms" label="Permissions" />
+					<menu name="help" action="help" href="http://www.joomlapolis.com/documentation/community-builder/help/field-management?pk_campaign=in-cb&amp;pk_kwd=help" label="Help" />
+				</toolbarmenu>
+				<quicksearchfields placeholder="Search Fields..." size="30">
+					<field name="name" />
+					<field name="fieldid" valuetype="const:int" />
+				</quicksearchfields>
+				<filters>
+					<filter name="type" value="type" valuetype="sql:string" type="list" label="" blanktext="- Select Type -">
+						<data name="" type="private" method="renderFieldTypeSelector" />
+					</filter>
+					<filter name="tabid" value="tabid" valuetype="sql:string" type="data" label="" blanktext="- Select Tab -">
+						<data name="tab" type="sql:multiplerows" table="#__comprofiler_tabs" key="id">
+							<rows>
+								<field name="tabid" as="value" />
+								<field name="title" as="text" />
+							</rows>
+							<orderby>
+								<field name="position" ordering="ASC" />
+								<field name="ordering" ordering="ASC" />
+							</orderby>
+							<where>
+								<column name="fields" operator="=" value="1" type="sql:field" valuetype="const:int" />
+							</where>
+						</data>
+					</filter>
+					<filter name="required" value="required" valuetype="sql:int" type="xml:field_required" label="" blanktext="- Select Required -" />
+					<filter name="profile" value="profile" valuetype="sql:int" type="xml:field_display" label="" blanktext="- Select Profile -" />
+					<filter name="registration" value="registration" valuetype="sql:int" type="xml:field_display" label="" blanktext="- Select Registration -" />
+					<filter name="edit" value="edit" valuetype="sql:int" type="xml:field_display" label="" blanktext="- Select Edit -" />
+					<filter name="searchable" value="searchable" valuetype="sql:int" type="xml:field_searchable" label="" blanktext="- Select Searchable -" />
+					<filter name="published" value="published" valuetype="sql:int" type="xml:field_published" label="" blanktext="- Select Published -" />
+					<filter name="fieldid" type="field_show_only_if_selected" base="int" default="" label="" blanktext="- Select ID -" />
+				</filters>
+				<orderby>
+					<ordergroup name="ordering_asc" label="Order ascending" default="true" translate-default="no">
+						<field name="tabposition_comment" type="sql:string" ordering="ASC">
+							<data name="position" type="sql:field" table="#__comprofiler_tabs" class="\CB\Database\Table\TabTable">
+								<joinkeys type="inner" dogroupby="false">
+									<column name="fields" operator="=" value="1" type="sql:field" valuetype="const:int" />
+									<column name="tabid" operator="=" value="tabid" type="sql:field" valuetype="sql:field" />
+								</joinkeys>
+							</data>
+						</field>
+						<field name="tabordering_comment" type="sql:int" ordering="ASC">
+							<data name="ordering" type="sql:field" table="#__comprofiler_tabs" class="\CB\Database\Table\TabTable">
+								<joinkeys type="inner" dogroupby="false">
+									<column name="fields" operator="=" value="1" type="sql:field" valuetype="const:int" />
+									<column name="tabid" operator="=" value="tabid" type="sql:field" valuetype="sql:field" />
+								</joinkeys>
+							</data>
+						</field>
+						<field name="ordering" ordering="ASC" />
+						<field name="name" ordering="ASC" />
+					</ordergroup>
+					<ordergroup name="ordering_desc" label="Order descending">
+						<field name="tabposition_comment" type="sql:string" ordering="ASC">
+							<data name="position" type="sql:field" table="#__comprofiler_tabs" class="\CB\Database\Table\TabTable">
+								<joinkeys type="inner" dogroupby="false">
+									<column name="fields" operator="=" value="1" type="sql:field" valuetype="const:int" />
+									<column name="tabid" operator="=" value="tabid" type="sql:field" valuetype="sql:field" />
+								</joinkeys>
+							</data>
+						</field>
+						<field name="tabordering_comment" type="sql:int" ordering="ASC">
+							<data name="ordering" type="sql:field" table="#__comprofiler_tabs" class="\CB\Database\Table\TabTable">
+								<joinkeys type="inner" dogroupby="false">
+									<column name="fields" operator="=" value="1" type="sql:field" valuetype="const:int" />
+									<column name="tabid" operator="=" value="tabid" type="sql:field" valuetype="sql:field" />
+								</joinkeys>
+							</data>
+						</field>
+						<field name="ordering" ordering="DESC" />
+						<field name="name" ordering="ASC" />
+					</ordergroup>
+					<ordergroup name="tabname_asc" label="Tab ascending">
+						<field name="tabname_comment" type="sql:string" ordering="ASC">
+							<data name="title" type="sql:field" table="#__comprofiler_tabs" class="\CB\Database\Table\TabTable">
+								<joinkeys type="inner" dogroupby="false">
+									<column name="fields" operator="=" value="1" type="sql:field" valuetype="const:int" />
+									<column name="tabid" operator="=" value="tabid" type="sql:field" valuetype="sql:field" />
+								</joinkeys>
+							</data>
+						</field>
+					</ordergroup>
+					<ordergroup name="tabname_desc" label="Tab descending">
+						<field name="tabname_comment" type="sql:string" ordering="DESC">
+							<data name="title" type="sql:field" table="#__comprofiler_tabs" class="\CB\Database\Table\TabTable">
+								<joinkeys type="inner" dogroupby="false">
+									<column name="fields" operator="=" value="1" type="sql:field" valuetype="const:int" />
+									<column name="tabid" operator="=" value="tabid" type="sql:field" valuetype="sql:field" />
+								</joinkeys>
+							</data>
+						</field>
+					</ordergroup>
+				</orderby>
+				<listfields>
+					<header type="standard" />
+					<rows type="standard" height="auto">
+						<field name="" type="rownumber" width="1%" align="center" label="#" responsivehiddenon="xsmall" />
+						<field name="fieldid" type="primarycheckbox" width="1%" align="center" />
+						<field name="name" type="string" translate="false" link="cbo:rowedit" parameters="cid" paramvalues="fieldid" width="10%" align="left" label="Name" allowordering="ascending,descending">
+							<attributes>
+								<attribute name="link">
+									<if name="" type="permission" permission="core.edit">
+										<then>
+											<param name="" default="cbo:rowedit" translate-default="no" type="string" />
+										</then>
+										<else>
+											<param name="" default="" type="string" />
+										</else>
+									</if>
+								</attribute>
+							</attributes>
+						</field>
+						<field name="title" type="string" translate="_UE" align="left" label="Title" responsivehiddenon="xsmall" allowordering="ascending,descending" />
+						<field name="type" type="private" method="renderFieldTypeLabel" key="fieldid" width="10%" align="left" label="Type" default="-" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<data name="name" as="pluginname" type="sql:field" table="#__comprofiler_plugin" class="\CB\Database\Table\PluginTable" key="id" value="pluginid" />
+							<data name="published" as="pluginstate" type="sql:field" table="#__comprofiler_plugin" class="\CB\Database\Table\PluginTable" key="id" value="pluginid" />
+							<data name="pluginid" type="sql:field" />
+							<data name="type" type="sql:field" />
+							<attributes>
+								<attribute name="textclass">
+									<if name="pluginid" nametype="param:int" operator="&gt;" value="0" valuetype="const:int" type="condition">
+										<if name="pluginname" nametype="param:string" operator="=" value="" valuetype="const:string" type="condition">
+											<then>
+												<param name="" default="danger" translate-default="no" type="string" />
+											</then>
+											<else>
+												<if name="pluginstate" nametype="param:int" operator="=" value="0" valuetype="const:int" type="condition">
+													<then>
+														<param name="" default="danger" translate-default="no" type="string" />
+													</then>
+													<else>
+														<if name="" nametype="data:int" operator="=" value="0" valuetype="const:int" type="condition">
+															<left>
+																<param name="" type="private" class="self" method="checkPluginCompatibility" />
+															</left>
+															<then>
+																<param name="" default="warning" translate-default="no" type="string" />
+															</then>
+														</if>
+													</else>
+												</if>
+											</else>
+										</if>
+									</if>
+								</attribute>
+								<attribute name="title">
+									<if name="pluginid" nametype="param:int" operator="&gt;" value="0" valuetype="const:int" type="condition">
+										<if name="pluginname" nametype="param:string" operator="=" value="" valuetype="const:string" type="condition">
+											<then>
+												<param name="" default="Field will not be visible as this fields plugin is not installed." type="string" />
+											</then>
+											<else>
+												<if name="pluginstate" nametype="param:int" operator="=" value="0" valuetype="const:int" type="condition">
+													<then>
+														<param name="" default="Field will not be visible as this fields plugin is not published." type="string" />
+													</then>
+													<else>
+														<if name="" nametype="data:int" operator="=" value="0" valuetype="const:int" type="condition">
+															<left>
+																<param name="" type="private" class="self" method="checkPluginCompatibility" />
+															</left>
+															<then>
+																<param name="" default="This fields plugin is not compatible with your current CB version. This field may still be used, but it may not function properly." type="string" />
+															</then>
+														</if>
+													</else>
+												</if>
+											</else>
+										</if>
+									</if>
+								</attribute>
+							</attributes>
+						</field>
+						<field name="tabname" type="firstwords" size="15" translate="_UE" width="10%" align="left" label="Tab" default="-" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<data name="pluginid" as="tabpluginid" select="true" type="sql:field" table="#__comprofiler_tabs" class="\CB\Database\Table\TabTable">
+								<joinkeys type="inner" dogroupby="false">
+									<column name="fields" operator="=" value="1" type="sql:field" valuetype="const:int" />
+									<column name="tabid" operator="=" value="tabid" type="sql:field" valuetype="sql:field" />
+								</joinkeys>
+								<data name="name" as="tabpluginname" select="true" type="sql:field" table="#__comprofiler_plugin" class="\CB\Database\Table\PluginTable">
+									<joinkeys type="left" dogroupby="false">
+										<column name="id" operator="=" value="pluginid" type="sql:field" valuetype="sql:field" />
+									</joinkeys>
+								</data>
+								<data name="published" as="tabpluginstate" select="true" type="sql:field" table="#__comprofiler_plugin" class="\CB\Database\Table\PluginTable">
+									<joinkeys type="left" dogroupby="false">
+										<column name="id" operator="=" value="pluginid" type="sql:field" valuetype="sql:field" />
+									</joinkeys>
+								</data>
+							</data>
+							<data name="title" as="tabname" type="sql:field" table="#__comprofiler_tabs" class="\CB\Database\Table\TabTable">
+								<joinkeys type="inner" dogroupby="false">
+									<column name="fields" operator="=" value="1" type="sql:field" valuetype="const:int" />
+									<column name="tabid" operator="=" value="tabid" type="sql:field" valuetype="sql:field" />
+								</joinkeys>
+							</data>
+							<data name="enabled" as="tabstate" type="sql:field" table="#__comprofiler_tabs" class="\CB\Database\Table\TabTable">
+								<joinkeys type="inner" dogroupby="false">
+									<column name="fields" operator="=" value="1" type="sql:field" valuetype="const:int" />
+									<column name="tabid" operator="=" value="tabid" type="sql:field" valuetype="sql:field" />
+								</joinkeys>
+							</data>
+							<data name="tabid" type="sql:field" />
+							<attributes>
+								<attribute name="textclass">
+									<if name="tabname" nametype="param:string" operator="=" value="" valuetype="const:string" type="condition">
+										<then>
+											<param name="" default="danger" translate-default="no" type="string" />
+										</then>
+										<else>
+											<if name="tabstate" nametype="param:int" operator="=" value="0" valuetype="const:int" type="condition">
+												<then>
+													<param name="" default="danger" translate-default="no" type="string" />
+												</then>
+												<else>
+													<if name="tabpluginid" nametype="param:int" operator="&gt;" value="0" valuetype="const:int" type="condition">
+														<if name="tabpluginname" nametype="param:string" operator="=" value="" valuetype="const:string" type="condition">
+															<then>
+																<param name="" default="danger" translate-default="no" type="string" />
+															</then>
+															<else>
+																<if name="tabpluginstate" nametype="param:int" operator="=" value="0" valuetype="const:int" type="condition">
+																	<param name="" default="danger" translate-default="no" type="string" />
+																</if>
+															</else>
+														</if>
+													</if>
+												</else>
+											</if>
+										</else>
+									</if>
+								</attribute>
+								<attribute name="title">
+									<if name="tabname" nametype="param:string" operator="=" value="" valuetype="const:string" type="condition">
+										<then>
+											<param name="" default="Field will not be visible as this fields tab is not installed." type="string" />
+										</then>
+										<else>
+											<if name="tabstate" nametype="param:int" operator="=" value="0" valuetype="const:int" type="condition">
+												<then>
+													<param name="" default="Field will not be visible as this fields tab is not published." type="string" />
+												</then>
+												<else>
+													<if name="tabpluginid" nametype="param:int" operator="&gt;" value="0" valuetype="const:int" type="condition">
+														<if name="tabpluginname" nametype="param:string" operator="=" value="" valuetype="const:string" type="condition">
+															<then>
+																<param name="" default="Field will not be visible as the plugin of the tab of this field is not installed." type="string" />
+															</then>
+															<else>
+																<if name="tabpluginstate" nametype="param:int" operator="=" value="0" valuetype="const:int" type="condition">
+																	<param name="" default="Field will not be visible as this plugin of the tab of this field is not published." type="string" />
+																</if>
+															</else>
+														</if>
+													</if>
+												</else>
+											</if>
+										</else>
+									</if>
+								</attribute>
+							</attributes>
+						</field>
+						<field name="required" type="xml:field_required" width="5%" align="center" label="Required" onclick="toggle" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<attributes>
+								<attribute name="onclick">
+									<if name="" type="permission" permission="core.edit or core.edit.state">
+										<then>
+											<param name="" default="toggle" translate-default="no" type="string" />
+										</then>
+										<else>
+											<param name="" default="" type="string" />
+										</else>
+									</if>
+								</attribute>
+							</attributes>
+						</field>
+						<field name="profile" type="group" width="8%" align="center" label="Profile" formatting="none" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<param name="profile" type="xml:field_display" onclick="toggle">
+								<attributes>
+									<attribute name="onclick">
+										<if name="" type="permission" permission="core.edit or core.edit.state">
+											<then>
+												<param name="" default="toggle" translate-default="no" type="string" />
+											</then>
+											<else>
+												<param name="" default="" type="string" />
+											</else>
+										</if>
+									</attribute>
+								</attributes>
+							</param>
+							<if name="profile" nametype="param:int" operator="=" value="2" valuetype="const:int" type="condition">
+								<then>
+									<param name="remark" type="spacer" label="" default="(2 lines)" description="" />
+								</then>
+								<else>
+									<if name="profile" nametype="param:int" operator="!=" value="0" valuetype="const:int" type="condition">
+										<param name="remark" type="spacer" label="" default="(1 line)" description="" />
+									</if>
+								</else>
+							</if>
+						</field>
+						<field name="registration" type="group" width="8%" align="center" label="Registration" formatting="none" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<param name="registration" type="xml:field_display" onclick="toggle">
+								<attributes>
+									<attribute name="onclick">
+										<if name="" type="permission" permission="core.edit or core.edit.state">
+											<then>
+												<param name="" default="toggle" translate-default="no" type="string" />
+											</then>
+											<else>
+												<param name="" default="" type="string" />
+											</else>
+										</if>
+									</attribute>
+								</attributes>
+							</param>
+							<if name="registration" nametype="param:int" operator="=" value="2" valuetype="const:int" type="condition">
+								<then>
+									<param name="remark" type="spacer" label="" default="(2 lines)" description="" />
+								</then>
+								<else>
+									<if name="registration" nametype="param:int" operator="!=" value="0" valuetype="const:int" type="condition">
+										<param name="remark" type="spacer" label="" default="(1 line)" description="" />
+									</if>
+								</else>
+							</if>
+						</field>
+						<field name="edit" type="group" width="8%" align="center" label="Edit" formatting="none" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<param name="edit" type="xml:field_display" onclick="toggle">
+								<attributes>
+									<attribute name="onclick">
+										<if name="" type="permission" permission="core.edit or core.edit.state">
+											<then>
+												<param name="" default="toggle" translate-default="no" type="string" />
+											</then>
+											<else>
+												<param name="" default="" type="string" />
+											</else>
+										</if>
+									</attribute>
+								</attributes>
+							</param>
+							<if name="edit" nametype="param:int" operator="=" value="2" valuetype="const:int" type="condition">
+								<then>
+									<param name="remark" type="spacer" label="" default="(2 lines)" description="" />
+								</then>
+								<else>
+									<if name="edit" nametype="param:int" operator="!=" value="0" valuetype="const:int" type="condition">
+										<param name="remark" type="spacer" label="" default="(1 line)" description="" />
+									</if>
+								</else>
+							</if>
+						</field>
+						<field name="searchable" type="group" width="5%" align="center" label="Searchable" formatting="none" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<if name="" type="permission" permission="core.edit or core.edit.state">
+								<then>
+									<if name="tablecolumns" nametype="param:string" operator="=" value="" valuetype="const:string" type="condition">
+										<then>
+											<param name="searchable" type="checkmark" title="Calculated fields searchable state can not be changed." />
+										</then>
+										<else>
+											<if name="type" nametype="param:string" operator="in" value="password|*|userparams" valuetype="const:string" type="condition">
+												<then>
+													<param name="searchable" type="checkmark" title="Private fields searchable state can not be changed." />
+												</then>
+												<else>
+													<param name="searchable" type="xml:field_searchable" onclick="toggle" />
+												</else>
+											</if>
+										</else>
+									</if>
+								</then>
+								<else>
+									<param name="searchable" type="xml:field_searchable" />
+								</else>
+							</if>
+						</field>
+						<field name="published" type="group" width="5%" align="center" label="Published" formatting="none" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<if name="" type="permission" permission="core.edit or core.edit.state">
+								<then>
+									<if name="sys" nametype="param:int" operator="=" value="1" valuetype="const:int" type="condition">
+										<then>
+											<if name="name" nametype="param:string" operator="in" value="name|*|firstname|*|middlename|*|lastname" valuetype="const:string" type="condition">
+												<then>
+													<param name="published" type="published" title="Name fields publish state is determined by Name Style configuration." />
+												</then>
+												<else>
+													<param name="published" type="published" title="System fields publish state can not be changed." />
+												</else>
+											</if>
+										</then>
+										<else>
+											<param name="published" type="xml:field_published" onclick="toggle" />
+										</else>
+									</if>
+								</then>
+								<else>
+									<param name="published" type="xml:field_published" />
+								</else>
+							</if>
+						</field>
+						<field name="ordering" type="ordering" value="title" width="10%" align="center" label="Order" onclick="arrows,number" responsivehiddenon="xsmall" permission="core.edit" allowordering="ascending,descending">
+							<orderinggroups>
+								<ordering name="tabid" type="int" />
+							</orderinggroups>
+						</field>
+						<field name="fieldid" type="int" width="5%" align="center" label="ID" allowordering="ascending,descending" />
+						<field name="sys" type="hidden" />
+						<field name="tablecolumns" type="hidden" />
+					</rows>
+				</listfields>
+				<batchprocess permission="core.edit">
+					<batch name="type" value="type" valuetype="sql:string" type="list" label="" blanktext="- Select Type -">
+						<data name="" type="private" method="renderFieldTypeSelector" />
+					</batch>
+					<batch name="tabid" value="tabid" valuetype="sql:string" type="data" label="" blanktext="- Select Tab -">
+						<data name="tab" type="sql:multiplerows" table="#__comprofiler_tabs" key="id">
+							<rows>
+								<field name="tabid" as="value" />
+								<field name="title" as="text" />
+							</rows>
+							<orderby>
+								<field name="position" ordering="ASC" />
+								<field name="ordering" ordering="ASC" />
+							</orderby>
+							<where>
+								<column name="fields" operator="=" value="1" type="sql:field" valuetype="const:int" />
+							</where>
+						</data>
+					</batch>
+					<batch name="required" value="required" valuetype="sql:int" type="xml:field_required" label="" blanktext="- Select Required -" />
+					<batch name="profile" value="profile" valuetype="sql:int" type="xml:field_display" label="" blanktext="- Select Profile -" />
+					<batch name="registration" value="registration" valuetype="sql:int" type="xml:field_display" label="" blanktext="- Select Registration -" />
+					<batch name="edit" value="edit" valuetype="sql:int" type="xml:field_display" label="" blanktext="- Select Edit -" />
+					<batch name="searchable" value="searchable" valuetype="sql:int" type="xml:field_searchable" label="" blanktext="- Select Searchable -" />
+				</batchprocess>
+			</tablebrowser>
+		</view>
+	</views>
+</cbxml>

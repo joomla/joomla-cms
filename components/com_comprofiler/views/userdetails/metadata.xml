@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<view>
+		<options>
+			<default name="User Profile Edit" msg="This is an optional menu item for accessing Community Builder User profile edit. Normally not needed, as Community Builder has its own menu system on the user profile for this action." />
+		</options>
+	</view>
+	<state>
+		<name>Community Builder User Profile Edit</name>
+		<description>This is an optional menu item for accessing Community Builder User profile edit. Normally not needed, as Community Builder has its own menu system on the user profile for this action.</description>
+	</state>
+</metadata>

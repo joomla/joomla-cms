@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.0" type="plugin" group="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<name>pms.MyPMSPro</name>
+	<author>CB Team</author>
+	<creationDate>2015-09-22</creationDate>
+	<copyright>(C) 2004-2015 www.joomlapolis.com / Lightning MultiCom SA - and its licensors, all rights reserved</copyright>
+	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2</license>
+	<authorEmail>cbteam@joomlapolis.com</authorEmail>
+	<authorUrl>www.joomlapolis.com</authorUrl>
+	<version>2.0.11</version>
+	<description>Provides UddeIM private message system integration for Community Builder.</description>
+	<files>
+		<filename plugin="pms.mypmspro">pms.mypmspro.php</filename>
+		<filename>index.html</filename>
+	</files>
+    <params>
+		<param name="pmsDelete" type="yesno" default="0" label="Auto Delete" description="Enable or disable automatic deletion of private message information for a user when a user is deleted." yes="Enable" no="Disable" />
+		<if name="pmsDelete" type="showhide" operator="=" value="1" valuetype="const:int">
+			<param name="pmsDeleteSent" type="yesno" default="0" label="Delete Sent" description="Enable or disable automatic deletion of messages sent by a user when a user is deleted." yes="Enable" no="Disable" />
+			<param name="pmsDeleteRecieved" type="yesno" default="1" label="Delete Recieved" description="Enable or disable automatic deletion of messages sent to a user when a user is deleted." yes="Enable" no="Disable" />
+		</if>
+	</params>
+	<tabs>
+		<tab name="_UE_PMSTAB" translated-name="Quick Message" description="" class="getmypmsproTab" fields="0" sys="1" position="cb_right" displaytype="html">
+			<params>
+				<param name="pmsShowTitle" type="yesno" default="1" label="Show Title" description="Enable or disable display of tab title in quick message panel." yes="Enable" no="Disable" />
+				<param name="pmsShowSubject" type="yesno" default="0" label="Show Subject" description="Enable or disable display of quick message subject input. Subject will automatically prepend to the message." yes="Enable" no="Disable" />
+			</params>
+		</tab>
+	</tabs>
+	<database>
+	</database>
+</cbinstall>

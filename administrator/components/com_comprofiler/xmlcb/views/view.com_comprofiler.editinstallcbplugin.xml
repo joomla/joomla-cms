@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<views>
+		<view name="editinstallcbplugin" type="params" ui="admin" label="Install CB Plugin" icon="download" description="" viewformatting="div">
+			<toolbarmenu>
+				<menu name="cancel" action="linkAction" task="cancel" link="cb_action:plugins" label="Close" />
+				<menu name="help" action="help" href="http://www.joomlapolis.com/documentation/community-builder/help/plugin-management-install-cb-plugin?pk_campaign=in-cb&amp;pk_kwd=help" label="Help" />
+			</toolbarmenu>
+			<fieldset name="info" label="Get Community Builder CB Plugins">
+				<param name="" type="group" formatting="none" label="" display="2lines">
+					<param name="" type="button" buttonclass="primary" label="" display="2lines" default="Get CB Plugins from CB Team" description="Get more CB Plugins (languages, field types, Social networks-Connects, paid memberships and more) from CB Team at joomlapolis.com" link="http://www.joomlapolis.com/cb-solutions?pk_campaign=in-cb&amp;pk_kwd=get-plugin-button" target="popup" title="Opens Community Builder Solutions in a new window" />
+					<param name="" type="spacer" display="2lines" default="to extend your Community Builder, or" />
+					<param name="" type="button" buttonclass="default" label="" display="2lines" default="Browse third-party plugins on the JED" description="Click here to see our CB listing on the Joomla! Extensions Directory (JED) and find third-party add-ons for your website." link="http://extensions.joomla.org/extensions/clients-a-communities/communities/210" target="popup" title="Opens Joomlapolis Directory in a new window" />
+				</param>
+			</fieldset>
+			<fieldset name="info" label="Install CB Plugins">
+				<tabpane name="installfrom">
+					<tabpanetab name="upload" label="Upload Package File" description="Upload and Install CB Plugin Package File" display="2lines">
+						<param name="uploadfile" type="uploadfile" label="Package File" />
+						<param name="uploadmaxfilesize" type="private" method="displayUploadMaxFilesize" label="Maximum File Size" mode="show" />
+						<param name="" type="group" formatting="none">
+							<param name="" type="button" default="Upload &amp; Install" buttonclass="primary" buttonsize="small" label="" task="act=apply&amp;func=installPluginUpload" />
+						</param>
+					</tabpanetab>
+					<tabpanetab name="fromdirectory" label="Install from Directory" description="Install CB Plugin Package from Directory" display="2lines">
+						<param name="localdirectory" type="text" label="Install Directory" size="60" />
+						<param name="" type="group" formatting="none">
+							<param name="" type="button" default="Install" buttonclass="primary" buttonsize="small" label="" task="act=apply&amp;func=installPluginDir" />
+						</param>
+					</tabpanetab>
+					<tabpanetab name="fromurl" label="Install from URL" description="Install CB Plugin Package from URL" display="2lines">
+						<param name="packageurl" type="text" label="Install URL" default="http://" translate-default="no" size="60" />
+						<param name="" type="group" formatting="none">
+							<param name="" type="button" default="Install" buttonclass="primary" buttonsize="small" label="" task="act=apply&amp;func=installPluginURL" />
+						</param>
+					</tabpanetab>
+					<tabpanetab name="fromdiscovery" label="Install from Discovery" description="Install CB Plugin Package from Discovery" display="2lines">
+						<param name="" type="private" label="" display="2lines" method="displayDiscoveries" />
+					</tabpanetab>
+				</tabpane>
+			</fieldset>
+			<fieldset name="dirinfo" label="Directory Permissions">
+				<param type="writable" display="2lines" directory="components/com_comprofiler/plugin/user/" />
+				<param type="writable" display="2lines" directory="components/com_comprofiler/plugin/templates/" />
+				<param type="writable" display="2lines" directory="components/com_comprofiler/plugin/language/" />
+				<param type="writable" display="2lines" directory="images/comprofiler/" />
+				<param type="writable" display="2lines" directory="tmp/" />
+				<param type="writable" display="2lines" directory="media/" />
+				<param type="writable" display="2lines" directory="cache/" />
+			</fieldset>
+		</view>
+	</views>
+</cbxml>

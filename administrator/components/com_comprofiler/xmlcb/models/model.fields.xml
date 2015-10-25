@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<types>
+		<type name="field_required" base="checkmark" valuetype="string">
+			<option value="0" title="Mark Not Required">Not Required</option>
+			<option value="1" title="Mark Required">Required</option>
+		</type>
+		<type name="field_display" base="checkmark" valuetype="string">
+			<option value="0" title="Mark Not Displayed">No</option>
+			<option value="1" title="Mark Displayed, 1 Line with Title">Yes, 1 Line with Title</option>
+			<option value="3" title="Mark Displayed, 1 Line with Empty Title">Yes, 1 Line with Empty Title</option>
+			<option value="4" title="Mark Displayed, 1 Line without Title">Yes, 1 Line without Title</option>
+			<option value="2" title="Mark Displayed, 2 Lines with Title">Yes, 2 Lines with Title</option>
+		</type>
+		<type name="field_published" base="published" valuetype="string">
+			<option value="0" title="Unpublish Item">Unpublished</option>
+			<option value="1" title="Publish Item">Published</option>
+			<option value="2" selectable="false">Name fields publish state is determined by Name Style configuration.</option>
+			<option value="3" selectable="false">System fields publish state can not be changed.</option>
+		</type>
+		<type name="field_searchable" base="checkmark" valuetype="string">
+			<option value="0" title="Make Unsearchable">Unsearchable</option>
+			<option value="1" title="Make Searchable">Searchable</option>
+			<option value="2" selectable="false" iconclass="times" textclass="danger">Calculated fields searchable state can not be changed.</option>
+			<option value="3" selectable="false" iconclass="times" textclass="danger">Private fields searchable state can not be changed.</option>
+		</type>
+		<type name="field_webaddresstypes" base="list" valuetype="string">
+			<option value="0">URL Only</option>
+			<option value="2">Hypertext and URL</option>
+		</type>
+	</types>
+</cbxml>

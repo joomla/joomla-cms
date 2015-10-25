@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<views>
+		<view name="editfield" type="params" ui="admin" label="Field" icon="check-square-o" description="" viewformatting="div">
+			<toolbarmenu>
+				<menu name="apply" action="apply" task="act=apply" label="Save" />
+				<menu name="save" action="save" task="act=save" label="Save &amp; Close" />
+				<menu name="savenew" action="custom" task="act=savenew" label="Save &amp; New" icon="save-new" />
+				<menu name="savecopy" action="custom" task="act=savecopy" label="Save as Copy" icon="save-copy" />
+				<menu name="cancel" action="linkAction" task="cancel" link="cb_action:fields" label="Cancel" />
+				<menu name="help" action="help" href="http://www.joomlapolis.com/documentation/community-builder/help/field-management-edit?pk_campaign=in-cb&amp;pk_kwd=help" label="Help" />
+			</toolbarmenu>
+			<param name="" type="group" label="" display="2lines">
+				<param name="title" type="text" label="Title %s" size="80" description="Optionally input the title to display as this fields title." />
+			</param>
+			<param name="" type="group" label="" display="2lines">
+				<if name="fieldid" nametype="param:int" operator="&gt;" value="0" valuetype="const:int" type="condition">
+					<then>
+						<if name="sys" nametype="param:int" operator="=" value="1" valuetype="const:int" type="condition">
+							<then>
+								<param name="name" type="text" label="Name %s" mode="show" description="System fields name can not be changed." />
+							</then>
+							<else>
+								<if name="calculated" nametype="param:int" operator="=" value="1" valuetype="const:int" type="condition">
+									<then>
+										<param name="name" type="text" label="Name %s" mode="show" description="Calculated fields name can not be changed." />
+									</then>
+									<else>
+										<if name="" nametype="data:int" operator="=" value="1" valuetype="const:int" type="condition">
+											<left>
+												<param name="" type="private" method="checkFieldUnique" />
+											</left>
+											<then>
+												<param name="name" type="text" label="Name %s" mode="show" description="Unique fields name can not be changed." />
+											</then>
+											<else>
+												<param name="name" type="text" label="Name %s" size="80" validate="required" description="Input the internal name for referencing this field and its database storage." />
+												<if name="name" nametype="data:string" operator="!=" value="name" valuetype="param:string" type="showhide">
+													<param name="fieldNameWarning" type="group" label="" formatting="none">
+														<param name="" type="spacer" default="Note changing a fields name will also change its database columns. This could result in broken queries or broken parameters that depend on the fields name and/or database columns. Change with caution." label="" alertclass="warning" />
+													</param>
+												</if>
+											</else>
+										</if>
+									</else>
+								</if>
+							</else>
+						</if>
+					</then>
+					<else>
+						<param name="name" type="text" label="Name %s" size="80" validate="required" description="Input the internal name for referencing this field and its database storage." />
+					</else>
+				</if>
+			</param>
+			<tabpane name="editpane">
+				<tabpanetab name="global" label="Global" description="">
+					<grid fluid="true">
+						<gridcol size="9">
+							<gridrow>
+								<param name="description" type="htmlarea" width="100%" height="400px" label="Description" display="2lines" description="Optionally input the description to describe this fields purpose on profile edit and registration." />
+								<if name="type" operator="regexp" value="multicheckbox|select|multiselect|radio" valuetype="const:string" type="condition">
+									<param name="" type="private" method="fetchFieldValues" display="none" />
+									<params name="_fieldvalues" type="params" repeat="true" label="Values" display="2lines">
+										<grid fluid="true">
+											<gridcol size="6">
+												<gridrow>
+													<param name="fieldvalueid" type="hidden" label="" cssclass="hidden" />
+													<param name="fieldtitle" type="text" label="Value" size="35" display="2lines" description="Input the value for storage of this option. If no Label is supplied then Value will also be used for display." />
+												</gridrow>
+											</gridcol>
+											<gridcol size="6">
+												<gridrow>
+													<param name="fieldlabel" type="text" label="Label" size="35" display="2lines" description="Input the label for display of this option. If no Label is supplied then Value will also be used for display." />
+												</gridrow>
+											</gridcol>
+										</grid>
+									</params>
+								</if>
+							</gridrow>
+						</gridcol>
+						<gridcol size="3">
+							<gridrow>
+								<if name="sys" nametype="param:int" operator="=" value="1" valuetype="const:int" type="condition">
+									<then>
+										<if name="name" nametype="param:string" operator="in" value="name|*|firstname|*|middlename|*|lastname" valuetype="const:string" type="condition">
+											<then>
+												<param name="published" type="yesno" label="Publish" display="2lines" mode="show" description="Name fields publish state is determined by Name Style configuration." />
+											</then>
+											<else>
+												<param name="published" type="yesno" label="Publish" display="2lines" mode="show" description="System fields publish state can not be changed." />
+											</else>
+										</if>
+									</then>
+									<else>
+										<param name="published" type="published" default="1" label="Publish" display="2lines" description="Select the publish state of this field." />
+									</else>
+								</if>
+								<if name="fieldid" nametype="param:int" operator="&gt;" value="0" valuetype="const:int" type="condition">
+									<then>
+										<if name="sys" nametype="param:int" operator="=" value="1" valuetype="const:int" type="condition">
+											<then>
+												<param name="type" type="list" default="text" translate-default="no" onchange="evaluate" label="Type" display="2lines" mode="show" description="System fields type can not be changed.">
+													<data name="" type="private" method="renderFieldTypeSelector" />
+												</param>
+											</then>
+											<else>
+												<if name="calculated" nametype="param:int" operator="=" value="1" valuetype="const:int" type="condition">
+													<then>
+														<param name="type" type="list" default="text" translate-default="no" onchange="evaluate" label="Type" display="2lines" mode="show" description="Calculated fields type can not be changed.">
+															<data name="" type="private" method="renderFieldTypeSelector" />
+														</param>
+													</then>
+													<else>
+														<if name="" nametype="data:int" operator="=" value="1" valuetype="const:int" type="condition">
+															<left>
+																<param name="" type="private" method="checkFieldUnique" />
+															</left>
+															<then>
+																<param name="type" type="list" default="text" translate-default="no" onchange="evaluate" label="Type" display="2lines" mode="show" description="Unique fields type can not be changed.">
+																	<data name="" type="private" method="renderFieldTypeSelector" />
+																</param>
+															</then>
+															<else>
+																<param name="type" type="list" default="text" translate-default="no" onchange="evaluate" label="Type" display="2lines" description="Select the type of field this field should be. Field type determines a fields display, storage, and searching behavior. Changing type of an existing field may result in data loss.">
+																	<data name="" type="private" method="renderFieldTypeSelector" />
+																</param>
+															</else>
+														</if>
+													</else>
+												</if>
+											</else>
+										</if>
+									</then>
+									<else>
+										<param name="type" type="list" default="text" translate-default="no" onchange="evaluate" label="Type" display="2lines" description="Select the type of field this field should be. Field type determines a fields display, storage, and searching behavior. Changing type of an existing field may result in data loss.">
+											<data name="" type="private" method="renderFieldTypeSelector" />
+										</param>
+									</else>
+								</if>
+								<param name="tabid" type="data" default="11" label="Tab" display="2lines" description="Select the tab to display this field on.">
+									<data name="tabidsnames" type="sql:multiplerows" table="#__comprofiler_tabs" key="tabid">
+										<rows>
+											<field name="tabid" as="value" />
+											<field name="title" as="text" />
+										</rows>
+										<where>
+											<column name="fields" operator="=" value="1" type="sql:field" valuetype="const:int" />
+										</where>
+										<orderby>
+											<field name="position" ordering="ASC" />
+											<field name="ordering" ordering="ASC" />
+										</orderby>
+									</data>
+								</param>
+								<param name="required" type="xml:field_required" default="0" label="Required" display="2lines" description="Select if this field should be required or not in profile edit and registration." />
+								<param name="readonly" type="yesno" default="0" label="Read Only" display="2lines" description="Select if this field should be read only (visible, but not editable) during frontend profile updates (does not influence registration form)." />
+								<param name="profile" type="xml:field_display" default="1" label="Show on Profile" display="2lines" description="Select how this field should display on profile view." />
+								<param name="registration" type="xml:field_display" default="1" label="Show on Registration" display="2lines" description="Select how this field should display on registration." />
+								<if name="registration" nametype="data:int" operator="&gt;" value="0" valuetype="const:int" type="showhide">
+									<param name="default" type="text" label="Default Registration Value" display="2lines" description="Input the default value for this field on registration. For select field types the default must be a valid value available to the field." />
+									<else action="set" name="default" value="" type="const:string" />
+								</if>
+								<param name="edit" default="1" type="xml:field_display" label="Show on Profile Edit" display="2lines" description="Select how this field should display on profile edit." />
+								<if name="tablecolumns" nametype="param:string" operator="!=" value="" valuetype="const:string" type="condition">
+									<then>
+										<if name="type" nametype="param:string" operator="!regexp" value="password|userparams" valuetype="const:string" type="condition">
+											<then>
+												<param name="searchable" type="yesno" default="0" label="Searchable" display="2lines" description="Select if this field is searchable from userlists or not." />
+											</then>
+											<else>
+												<param name="searchable" type="hidden" value="0" label="" display="none" />
+											</else>
+										</if>
+									</then>
+									<else>
+										<if name="fieldid" nametype="param:int" operator="=" value="0" valuetype="const:int" type="condition">
+											<then>
+												<if name="type" nametype="param:string" operator="!regexp" value="password|userparams" valuetype="const:string" type="condition">
+													<then>
+														<param name="searchable" type="yesno" default="0" label="Searchable" display="2lines" description="Select if this field is searchable from userlists or not." />
+													</then>
+													<else>
+														<param name="searchable" type="hidden" value="0" label="" display="none" />
+													</else>
+												</if>
+											</then>
+											<else>
+												<param name="searchable" type="hidden" value="0" label="" display="none" />
+											</else>
+										</if>
+									</else>
+								</if>
+								<if name="type" nametype="param:string" operator="regexp" value="^$|textarea|editorta|emailaddress|password|text|integer|predefined|webaddress" valuetype="const:string" type="condition">
+									<param name="maxlength" type="text" default="0" label="Maximum Length" display="2lines" description="Optionally input the maximum number of characters for this field." />
+								</if>
+								<if name="type" nametype="param:string" operator="!regexp" value="textarea|editorta|checkbox" valuetype="const:string" type="condition">
+									<param name="size" type="text" default="0" label="Size" display="2lines" description="Optionally input the size of the HTML input for this field." />
+								</if>
+								<if name="type" nametype="param:string" operator="regexp" value="textarea|editorta|radio|multicheckbox" valuetype="const:string" type="condition">
+									<param name="cols" type="text" default="0" label="Columns" display="2lines" description="Optionally input the number of columns to use for textarea display or when displayed as a list for this field." />
+									<param name="rows" type="text" default="0" label="Rows" display="2lines" description="Optionally input the number of rows to use for textarea display or when displayed as a list for this field." />
+								</if>
+								<if name="type" nametype="param:string" operator="=" value="webaddress" valuetype="const:string" type="condition">
+									<params name="params" type="params">
+										<param name="webaddresstypes" type="xml:field_webaddresstypes" default="0" label="Web Address Type" display="2lines" description="" />
+									</params>
+								</if>
+								<param name="ordering" type="ordering" value="name" label="Ordering" display="2lines" description="Select the order of this field.">
+									<orderinggroups>
+										<ordering name="tabid" type="int" />
+									</orderinggroups>
+								</param>
+								<param name="cssclass" type="text" default="" label="CSS Class" display="2lines" description="Optionally input the CSS class added to this fields row. Separate multiple CSS classes with a space." />
+							</gridrow>
+						</gridcol>
+					</grid>
+				</tabpanetab>
+				<tabpanetab name="params" label="Parameters" description="">
+					<showview name="params" view="fieldtype{raw:type}" mandatory="false">
+						<data name="params" type="sql:string" default="" />
+					</showview>
+					<showview name="params" path="fieldtypes/field[@type=&quot;{raw:type}&quot;]/params" type="plugins">
+						<data name="params" type="sql:string" default="" />
+					</showview>
+				</tabpanetab>
+				<tabpanetab name="integrations" label="Integrations" description="">
+					<tabpane name="editfieldintegrations">
+						<showview name="params" view="fieldintegrations{raw:type}" mandatory="false" formatting="tab">
+							<data name="params" type="sql:string" default="" />
+						</showview>
+						<showview name="params" path="fieldsparams/field[@type=&quot;{raw:type}&quot;]/params" type="plugins" formatting="tab">
+							<data name="params" type="sql:string" default="" />
+						</showview>
+						<showview name="params" path="fieldsparams/field[@type=&quot;other_types&quot;]/params" type="plugins" formatting="tab">
+							<data name="params" type="sql:string" default="" />
+						</showview>
+					</tabpane>
+				</tabpanetab>
+			</tabpane>
+		</view>
+	</views>
+</cbxml>

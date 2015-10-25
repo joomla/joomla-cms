@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<view>
+		<options>
+			<default name="User Send Mail" msg="This is an optional menu item for accessing Community Builder user send mail form." />
+		</options>
+		<fields name="request">
+			<fieldset name="request">
+				<field name="uid" type="text" extension="com_comprofiler" default="" required="true" label="User ID" description="Input the user id for the send mail recipient." />
+			</fieldset>
+		</fields>
+	</view>
+	<state>
+		<name>Community Builder User Send Mail</name>
+		<description>This is an optional menu item for accessing Community Builder user send mail form.</description>
+		<url addpath="/administrator/components/com_comprofiler">
+			<param name="uid" type="text" default="" label="User ID" description="Input the user id for the send mail recipient." />
+		</url>
+	</state>
+</metadata>

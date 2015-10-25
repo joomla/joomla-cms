@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<views>
+		<view name="editplugin" type="params" ui="admin" label="Plugin" icon="puzzle-piece" description="" viewformatting="div">
+			<toolbarmenu>
+				<menu name="apply" action="apply" task="act=apply" label="Save" />
+				<menu name="save" action="save" task="act=save" label="Save &amp; Close" />
+				<menu name="cancel" action="linkAction" task="cancel" link="cb_action:plugins" label="Cancel" />
+				<menu name="help" action="help" href="http://www.joomlapolis.com/documentation/community-builder/help/plugin-management-edit?pk_campaign=in-cb&amp;pk_kwd=help" label="Help" />
+			</toolbarmenu>
+			<param name="" type="group" label="" display="2lines">
+				<param name="name" type="text" label="Name %s" size="80" validate="required" description="Input the plugins name." />
+			</param>
+			<tabpane name="editpane">
+				<tabpanetab name="global" label="Global" description="">
+					<grid fluid="true">
+						<gridcol size="9">
+							<gridrow>
+								<param name="" type="xpath" file="/components/com_comprofiler/plugin/{raw:type}/{raw:folder}/{raw:element}" path="description" translate="yes" label="Description" display="2lines" />
+								<showview name="params" type="xml" file="/components/com_comprofiler/plugin/{raw:type}/{raw:folder}/{raw:element}" path="views/view[@type=&quot;settings&quot;]/params" mandatory="false">
+									<data name="params" type="sql:string" default="" />
+								</showview>
+							</gridrow>
+						</gridcol>
+						<gridcol size="3">
+							<gridrow>
+								<if name="published" nametype="param:int" operator="=" value="0" valuetype="const:int" type="condition">
+									<then>
+										<param name="published" type="published" default="1" label="Publish" display="2lines" description="Select the publish state of this plugin." />
+									</then>
+									<else>
+										<if name="type" nametype="param:string" operator="=" value="language" valuetype="const:string" type="condition">
+											<then>
+												<param name="published" type="yesno" label="Publish" display="2lines" mode="show" description="Language plugins publish state can not be changed." />
+											</then>
+											<else>
+												<if name="id" nametype="param:string" operator="in" value="1|*|7" valuetype="const:string" type="condition">
+													<then>
+														<param name="published" type="yesno" label="Publish" display="2lines" mode="show" description="Core plugins publish state can not be changed." />
+													</then>
+													<else>
+														<param name="published" type="published" default="1" label="Publish" display="2lines" description="Select the publish state of this plugin." />
+													</else>
+												</if>
+											</else>
+										</if>
+									</else>
+								</if>
+								<param name="viewaccesslevel" type="viewaccesslevel" default="1" blanktext="" label="Access Level" managelevels="false" display="2lines" description="Select the view access level for this plugin. Only users with this view access level will be able to access this plugin and any tabs or fields associated with it." />
+								<param name="ordering" type="ordering" value="name" label="Ordering" display="2lines" description="Select the ordering of this plugin. Order determines what order the plugins will load in.">
+									<orderinggroups>
+										<ordering name="type" type="string" />
+									</orderinggroups>
+								</param>
+								<param name="type" type="text" label="Type" mode="show" display="2lines" description="The type this plugin belongs to." />
+								<param name="folder" type="text" label="Folder" mode="show" display="2lines" description="The folder this plugin is located in." />
+								<param name="element" type="text" label="Element" mode="show" display="2lines" description="The element this plugin is associated with." />
+								<param name="" type="private" method="getPluginVersion" label="Version" default="-" mode="show" display="2lines" description="The current version of this plugin." />
+							</gridrow>
+						</gridcol>
+					</grid>
+				</tabpanetab>
+				<tabpanetab name="params" label="Parameters" description="">
+					<showview name="params" view="plugin{raw:element}" mandatory="false">
+						<data name="params" type="sql:string" default="" />
+					</showview>
+					<showview name="params" type="xml" file="/components/com_comprofiler/plugin/{raw:type}/{raw:folder}/{raw:element}" path="params" mandatory="false">
+						<data name="params" type="sql:string" default="" />
+					</showview>
+				</tabpanetab>
+				<tabpanetab name="integrations" label="Integrations" description="">
+					<tabpane name="editpluginintegrations">
+						<showview name="params" view="pluginintegrations{raw:element}" mandatory="false" formatting="tab">
+							<data name="params" type="sql:string" default="" />
+						</showview>
+					</tabpane>
+				</tabpanetab>
+			</tabpane>
+		</view>
+	</views>
+</cbxml>

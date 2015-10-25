@@ -1,0 +1,877 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.0" type="plugin" group="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<name>CB Core</name>
+	<author>JoomlaJoe and Beat</author>
+	<creationDate>2015-09-22</creationDate>
+	<copyright>(C) 2004-2015 www.joomlapolis.com / Lightning MultiCom SA - and its licensors, all rights reserved</copyright>
+	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2</license>
+	<authorEmail>beat@joomlapolis.com</authorEmail>
+	<authorUrl>www.joomlapolis.com</authorUrl>
+	<version>2.0.11</version>
+	<description>Core CB Tabs and Events.</description>
+	<files>
+		<filename plugin="cb.core">cb.core.php</filename>
+		<filename>index.html</filename>
+		<foldername>xml</foldername>
+	</files>
+	<params>
+	</params>
+	<tabs>
+		<tab name="_UE_CONTACT_INFO_HEADER" translated-name="Contact Info" description="" class="getContactTab" fields="1" sys="1" position="cb_main" displaytype="tab">
+			<params>
+			</params>
+			<fields>
+<!-- Note: Here for AWK parsing only
+				<field name="name" type="predefined" title="_UE_NAME" translated-title="Name" description="_UE_REGWARN_NAME" translated-description="Please enter your real full name." calculated="1" sys="1" />
+				<field name="username" type="predefined" title="_UE_UNAME" translated-title="Username" description="_UE_VALID_UNAME" translated-description="Please enter a valid username.  No spaces, at least 3 characters and contain 0-9,a-z,A-Z" calculated="1" sys="1" />
+				<field name="acceptedterms" type="terms" title="USER_TERMS_AND_CONDITIONS_TITLE" translated-title="Terms and Conditions" description="" calculated="1" sys="1" />
+				<field name="formatname" type="formatname" title="_UE_FORMATNAME" translated-title="Formatted Name" description="" calculated="1" sys="1" />
+				<field name="firstname" type="predefined" title="_UE_YOUR_FNAME" translated-title="First Name" description="_UE_REGWARN_FNAME" translated-description="Please enter your real first name." calculated="1" sys="1" />
+				<field name="middlename" type="predefined" title="_UE_YOUR_MNAME" translated-title="Middle Name" description="_UE_REGWARN_MNAME" translated-description="Please enter your real middle name." calculated="1" sys="1" />
+				<field name="lastname" type="predefined" title="_UE_YOUR_LNAME" translated-title="Last Name" description="_UE_REGWARN_LNAME" translated-description="Please enter your real last name." calculated="1" sys="1" />
+				<field name="email" type="primaryemailaddress" title="_UE_EMAIL" translated-title="Email" description="_UE_REGWARN_MAIL" translated-description="Please enter a valid e-mail address. A confirmation email will be sent to this address upon sign up." calculated="1" sys="1" />
+				<field name="password" type="password" title="_UE_PASS" translated-title="Password" description="_UE_VALID_PASS" translated-description="Please enter a valid password.  No spaces, at least 6 characters and contain lower and upper-case letters, numbers and special signs" calculated="1" sys="1" />
+				<field name="params" type="userparams" title="_UE_USERPARAMS" translated-title="User Parameters" description="" calculated="1" sys="1" />
+				<field name="pm" type="pm" title="_UE_PM" translated-title="PM" description="" calculated="1" sys="1" />
+-->
+			</fields>
+		</tab>
+		<tab name="_UE_PORTRAIT" translated-name="Portrait" description="" class="getPortraitTab" fields="1" sys="1" position="cb_head" displaytype="html">
+			<params>
+			</params>
+			<fields>
+<!-- Note: Here for AWK parsing only
+				<field name="onlinestatus" type="status" title="_UE_ONLINESTATUS" translated-title="Online Status" description="" calculated="1" sys="1" />
+				<field name="avatar" type="image" title="_UE_IMAGE" translated-title="Profile image" description="" calculated="1" sys="1" />
+-->
+			</fields>
+		</tab>
+		<tab name="USER_CANVAS_TITLE" translated-name="Canvas" description="" class="getCanvasTab" fields="1" sys="1" position="canvas_background" displaytype="html">
+			<params>
+			</params>
+			<fields>
+<!-- Note: Here for AWK parsing only
+				<field name="canvas" type="image" title="USER_CANVAS_IMAGE_TITLE" translated-title="Canvas image" description="" calculated="1" sys="1" />
+-->
+			</fields>
+		</tab>
+		<tab name="USER_STATISTICS_TITLE" translated-name="Statistics" description="" class="getStatsTab" fields="1" sys="1" position="canvas_stats_bottom" displaytype="html">
+			<params>
+			</params>
+			<fields>
+<!-- Note: Here for AWK parsing only
+				<field name="connections" type="connections" title="_UE_CONNECTION" translated-title="Connections" description="" calculated="1" sys="1" />
+				<field name="hits" type="counter" title="_UE_HITS" translated-title="Views" description="_UE_HITS_DESC" translated-description="Number of Views of this user profile" calculated="1" sys="1" />
+-->
+			</fields>
+		</tab>
+		<tab name="_UE_PROFILE_PAGE_TITLE" translated-name="User Profile Page Title" description="" class="getPageTitleTab" fields="1" sys="1" position="cb_head" displaytype="html">
+			<params>
+				<param name="title" type="text" size="25" default="_UE_PROFILE_TITLE_TEXT" translated-default="%s" label="User Profile Title text" description="Page title text. Enter text to be displayed as profile page title. %s will be replaced by user-name depending on global settings. Or use language-dependant _UE_PROFILE_TITLE_TEXT (default)" />
+			</params>
+			<fields>
+			</fields>
+		</tab>
+	</tabs>
+	<fieldtypes>
+		<field type="checkbox" label="Check Box (Single)">
+			<data name="" nametype="namesuffix" type="sql:tinyint(3)" unsigned="true" null="true" default="NULL" translate-default="no" />
+			<params>
+				<showview view="fieldLayoutParams" mode="edit" type="view" />
+			</params>
+		</field>
+		<field type="multicheckbox" label="Check Box (Multiple)">
+			<data name="" nametype="namesuffix" type="sql:mediumtext" />
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="field_display_style" type="list" default="0" label="Display on profiles as" description="How to display the values of this multi-valued field">
+							<option value="0">Comma ","-separated line</option>
+							<option value="1">Unnumbered list "ul"</option>
+							<option value="2">Ordered list "ol"</option>
+						</param>
+						<if name="field_display_style" type="showhide" operator="&gt;" value="0" valuetype="const:int">
+							<param name="field_display_class" type="text" size="40" default="" label="CSS class of the list" description="Enter the name of the list class (optional) for OL or UL tag" />
+						</if>
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="integer" label="Integer Number">
+			<database version="1">
+				<table name="#__comprofiler" class="\CB\Database\Table\ComprofilerTable" maintable="true" strict="false" drop="never" shared="true">
+					<columns>
+						<column name="" nametype="namesuffix" type="sql:int(11)" unsigned="false" null="true" default="NULL" translate-default="no" />
+					</columns>
+				</table>
+			</database>
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="fieldPlaceholder" type="text" default="" label="Placeholder Value" description="Optionally input substitution supported html placeholder attribute value." />
+					</tabpanetab>
+					<tabpanetab label="Validation">
+						<showview view="fieldIntValidateParams" mode="edit" type="view" />
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="date" label="Date">
+			<data name="" nametype="namesuffix" type="sql:date" null="true" default="NULL" translate-default="no" />
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="field_display_by" type="list" default="0" label="Profile View Display" description="Whether you want users to see this date on profile as a date or as an age">
+							<option value="0">Date</option>
+							<option value="1">Age</option>
+							<option value="2">Timeago, with Ago</option>
+							<option value="6">Timeago, without Ago</option>
+							<option value="3">Birthday</option>
+							<option value="5">Custom</option>
+						</param>
+						<if name="field_display_by" type="showhide" operator="!=" value="1" valuetype="const:int">
+							<param name="date_offset" type="yesno" default="1" label="Timezone Offset" description="Enable or disable server timezone offset of the date." yes="Enable" no="Disable" />
+						</if>
+						<if name="field_display_by" type="showhide" operator="=" value="5" valuetype="const:int">
+							<param name="custom_date_format" type="text" default="Y-m-d" translate-default="no" label="Custom Date Format" description="Input custom PHP date function format to format date values." />
+						</if>
+						<param name="field_search_by" type="list" default="0" label="Userlist Search Display" description="Whether you want users to search by date or by age">
+							<option value="0">Full Date</option>
+							<option value="1">Age</option>
+						</param>
+						<param name="duration_title" type="text" default="" label="Profile View Title" description="Leave blank for using same title as in normal date display mode, or enter alternate text, e.g. 'Age' (multilingual: type just: _UE_AGE) or 'Birthday' (_UE_Birthday) instead of normal birthdate title. CB translation strings, as well as fields-substitutions, e.g. '[name]'s age' can be used." />
+					</tabpanetab>
+					<tabpanetab label="Validation">
+						<param name="year_min" type="text" default="-110" label="Minimum Year" description="Type +0 for this year, type-in 4-digits year, for example 1923, or just a number prefixed with + or - sign, for example +25 or -110, to set a value relative to current year, e.g. -99 for maximum age of 99 years" />
+						<param name="year_max" type="text" default="+25" label="Maximum Year" description="Type +0 for this year, type-in 4-digits year, for example 1923, or just a number prefixed with + or - sign, for example +25 or -110, to set a value relative to current year, e.g. -12 for minimum age of 12 years" />
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="datetime" label="Datetime">
+			<data name="" nametype="namesuffix" type="sql:datetime" null="false" default="0000-00-00 00:00:00" strict="true" />
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="field_display_by" type="list" default="0" label="Profile View Display" description="Whether you want users to see this date on profile as a date or as an age">
+							<option value="0">Datetime</option>
+							<option value="1">Age</option>
+							<option value="2">Timeago, with Ago</option>
+							<option value="6">Timeago, without Ago</option>
+							<option value="3">Birthday</option>
+							<option value="4">Date</option>
+							<option value="5">Custom</option>
+						</param>
+						<if name="field_display_by" type="showhide" operator="!=" value="1" valuetype="const:int">
+							<param name="date_offset" type="yesno" default="1" label="Timezone Offset" description="Enable or disable server timezone offset of the date." yes="Enable" no="Disable" />
+						</if>
+						<if name="field_display_by" type="showhide" operator="=" value="5" valuetype="const:int">
+							<param name="custom_date_format" type="text" default="Y-m-d" translate-default="no" label="Custom Date Format" description="Input custom PHP date function format to format date values." />
+							<param name="custom_time_format" type="text" default="H:i:s" translate-default="no" label="Custom Time Format" description="Input custom PHP date function format to format time values." />
+						</if>
+						<param name="field_search_by" type="list" default="0" label="Userlist Search Display" description="Whether you want users to search by date or by age">
+							<option value="0">Full Datetime</option>
+							<option value="1">Age</option>
+						</param>
+						<param name="duration_title" type="text" default="" label="Profile View Title" description="Leave blank for using same title as in normal date display mode, or enter alternate text, e.g. 'Age' (multilingual: type just: _UE_AGE) or 'Birthday' (_UE_Birthday) instead of normal birthdate title. CB translation strings, as well as fields-substitutions, e.g. '[name]'s age' can be used." />
+					</tabpanetab>
+					<tabpanetab label="Validation">
+						<param name="year_min" type="text" default="-110" label="Minimum Year" description="Type +0 for this year, type-in 4-digits year, for example 1923, or just a number prefixed with + or - sign, for example +25 or -110, to set a value relative to current year, e.g. -99 for maximum age of 99 years" />
+						<param name="year_max" type="text" default="+25" label="Maximum Year" description="Type +0 for this year, type-in 4-digits year, for example 1923, or just a number prefixed with + or - sign, for example +25 or -110, to set a value relative to current year, e.g. -12 for minimum age of 12 years" />
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="select" label="Drop Down (Single Select)">
+			<data name="" nametype="namesuffix" type="sql:text||sql:varchar(255)" null="true" default="NULL" translate-default="no" />
+			<params>
+				<showview view="fieldLayoutParams" mode="edit" type="view" />
+			</params>
+		</field>
+		<field type="multiselect" label="Drop Down (Multi-select)">
+			<data name="" nametype="namesuffix" type="sql:mediumtext" null="true" default="NULL" translate-default="no" />
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="field_display_style" type="list" default="0" label="Display on profiles as" description="How to display the values of this multi-valued field">
+							<option value="0">Comma ","-separated line</option>
+							<option value="1">Unnumbered list "ul"</option>
+							<option value="2">Ordered list "ol"</option>
+						</param>
+						<if name="field_display_style" type="showhide" operator="&gt;" value="0" valuetype="const:int">
+							<param name="field_display_class" type="text" size="40" default="" label="CSS class of the list" description="Enter the name of the list class (optional) for OL or UL tag" />
+						</if>
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="emailaddress" label="Email Address">
+			<data name="" nametype="namesuffix" type="sql:text||sql:varchar(255)" null="true" default="NULL" translate-default="no" />
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="fieldPlaceholder" type="text" default="" label="Placeholder Value" description="Optionally input substitution supported html placeholder attribute value." />
+					</tabpanetab>
+					<tabpanetab label="Validation">
+						<param name="field_check_email" type="list" default="0" label="Enable Email checker" description="Choose if email address validity should be checked. This will check formatting, existing MX DNS records when possible, and that the corresponding email servers accept incomming emails to this address by SMTP when possible. Advanced checking will also check for email address availability, which could be a privacy concern as allows for email address guessing. For SMTP checking to function you must have a static ip address, the sites email address must be valid, and this server be listed in its authorized originators (SPF record). For DNS checking this server must be able to send DNS and SMTP packets (review firewall settings if enabled).">
+							<option value="0">No</option>
+							<option value="1">Yes, Simple</option>
+							<option value="2">Yes, Advanced</option>
+						</param>
+						<showview view="fieldStringValidateParams" mode="edit" type="view" />
+						<param name="fieldVerifyInput" type="yesno" default="0" label="Verify field input" description="Enable or disable additional verify input." yes="Enable" no="Disable" />
+						<if name="fieldVerifyInput" type="showhide" operator="=" value="1" valuetype="const:int">
+							<param name="verifyEmailTitle" type="text" default="_UE_VERIFY_SOMETHING" translated-default="Verify %s" label="Label for the verify email field" description="The default is _UE_VERIFY_SOMETHING (Verify %s) where %s is replaced by translated field title." />
+						</if>
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="primaryemailaddress" label="Email address (main)" unique="true">
+			<database version="1">
+				<table name="#__users" class="mosUser" maintable="true" strict="false" drop="never" shared="true">
+					<columns>
+						<column name="email" type="sql:varchar(100)" null="false" strict="false" />
+					</columns>
+				</table>
+			</database>
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="fieldPlaceholder" type="text" default="" label="Placeholder Value" description="Optionally input substitution supported html placeholder attribute value." />
+						<param name="displayMode" type="list" default="0" label="Profile Display Mode" description="Select how the Email icon and text should display on profiles.">
+							<option value="0">Text Only</option>
+							<option value="1">Icon Only</option>
+							<option value="2">Icon and Text</option>
+						</param>
+						<param name="displayModeList" type="list" default="0" label="Userlist Display Mode" description="Select how the Email icon and text should display on userlists.">
+							<option value="0">Text Only</option>
+							<option value="1">Icon Only</option>
+							<option value="2">Icon and Text</option>
+						</param>
+					</tabpanetab>
+					<tabpanetab label="Validation">
+						<param name="field_check_email" type="list" default="0" label="Enable Email checker" description="Choose if email address validity should be checked. This will check formatting, existing MX DNS records when possible, and that the corresponding email servers accept incomming emails to this address by SMTP when possible. Advanced checking will also check for email address availability, which could be a privacy concern as allows for email address guessing. For SMTP checking to function you must have a static ip address, the sites email address must be valid, and this server be listed in its authorized originators (SPF record). For DNS checking this server must be able to send DNS and SMTP packets (review firewall settings if enabled).">
+							<option value="0">No</option>
+							<option value="1">Yes, Simple</option>
+							<option value="2">Yes, Advanced</option>
+						</param>
+						<showview view="fieldStringValidateParams" mode="edit" type="view" />
+						<param name="fieldVerifyInput" type="yesno" default="0" label="Verify field input" description="Enable or disable additional verify input." yes="Enable" no="Disable" />
+						<if name="fieldVerifyInput" type="showhide" operator="=" value="1" valuetype="const:int">
+							<param name="verifyEmailTitle" type="text" default="_UE_VERIFY_SOMETHING" translated-default="Verify %s" label="Label for the verify email field" description="The default is _UE_VERIFY_SOMETHING (Verify %s) where %s is replaced by translated field title." />
+						</if>
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="editorta" label="Editor Text Area">
+			<data name="" nametype="namesuffix" type="sql:mediumtext" null="true" default="NULL" translate-default="no" />
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Validation">
+						<param name="fieldMinLength" type="text" default="0" label="Minimum length" description="Minimum length of content (0 = no minimum)" />
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="textarea" label="Text Area">
+			<data name="" nametype="namesuffix" type="sql:mediumtext" null="true" default="NULL" translate-default="no" />
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="fieldPlaceholder" type="textarea" default="" cols="40" rows="5" label="Placeholder Value" description="Optionally input substitution supported html placeholder attribute value." />
+					</tabpanetab>
+					<tabpanetab label="Validation">
+						<showview view="fieldStringValidateParams" mode="edit" type="view" />
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="text" label="Text Field">
+			<data name="" nametype="namesuffix" type="sql:text||sql:varchar(255)" null="true" default="NULL" translate-default="no" />
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="fieldPlaceholder" type="text" default="" label="Placeholder Value" description="Optionally input substitution supported html placeholder attribute value." />
+					</tabpanetab>
+					<tabpanetab label="Validation">
+						<showview view="fieldStringValidateParams" mode="edit" type="view" />
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="radio" label="Radio Buttons">
+			<data name="" nametype="namesuffix" type="sql:text||sql:varchar(255)" null="true" default="NULL" translate-default="no" />
+			<params>
+				<showview view="fieldLayoutParams" mode="edit" type="view" />
+			</params>
+		</field>
+		<field type="webaddress" label="Web Address">
+			<data name="" nametype="namesuffix" type="sql:text||sql:varchar(255)" null="true" default="NULL" translate-default="no" />
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="fieldPlaceholder" type="text" default="" label="Placeholder Value" description="Optionally input substitution supported html placeholder attribute value." />
+						<param name="webaddress_nofollow" type="yesno" default="1" label="Follow this link" description="The nofollow attribute for this web address." yes="No Follow" no="Follow" />
+					</tabpanetab>
+					<tabpanetab label="Validation">
+						<showview view="fieldStringValidateParams" mode="edit" type="view" />
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="predefined" label="Predefined name and username fields" unique="true">
+			<database version="1">
+				<table name="#__users" class="mosUser" maintable="true" strict="false" drop="never" shared="true">
+					<columns>
+						<column name="username" type="sql:varchar(100)" null="false" strict="false" />
+						<column name="name" type="sql:varchar(50)" null="false" strict="false" />
+					</columns>
+				</table>
+				<table name="#__comprofiler" class="\CB\Database\Table\ComprofilerTable" maintable="true" strict="false" drop="never" shared="true">
+					<columns>
+						<column name="firstname" type="sql:varchar(100)" null="true" />
+						<column name="middlename" type="sql:varchar(100)" null="true" />
+						<column name="lastname" type="sql:varchar(100)" null="true" />
+					</columns>
+				</table>
+			</database>
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="fieldPlaceholder" type="text" default="" label="Placeholder Value" description="Optionally input substitution supported html placeholder attribute value." />
+					</tabpanetab>
+					<tabpanetab label="Validation">
+						<showview view="fieldStringValidateParams" mode="edit" type="view" />
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="password" label="Password">
+			<data name="" nametype="namesuffix" type="sql:varchar(100)" null="false" default="" />
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Display">
+						<param name="fieldPlaceholder" type="text" default="" label="Placeholder Value" description="Optionally input substitution supported html placeholder attribute value." />
+					</tabpanetab>
+					<tabpanetab label="Validation">
+						<showview view="fieldStringValidateParams" mode="edit" type="view" />
+						<param name="fieldVerifyInput" type="yesno" default="1" label="Verify field input" description="Enable or disable additional verify input." yes="Enable" no="Disable" />
+						<if name="fieldVerifyInput" type="showhide" operator="=" value="1" valuetype="const:int">
+							<param name="verifyPassTitle" type="text" default="_UE_VERIFY_SOMETHING" translated-default="Verify %s" label="Label for the verify password field" description="The default is _UE_VERIFY_SOMETHING (Verify %s) where %s is replaced by translated field title. System password uses constant _UE_VPASS" />
+						</if>
+						<param name="passTestSrength" type="yesno" default="0" label="Test Password Strength" description="Enable or disable testing of passwords strength." yes="Enable" no="Disable" />
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="image" label="Image">
+			<database version="1">
+				<table name="#__comprofiler" class="\CB\Database\Table\ComprofilerTable" maintable="true" strict="false" drop="never" shared="true">
+					<columns>
+						<column name="" nametype="namesuffix" type="sql:text||sql:varchar(255)" null="true" />
+						<column name="approved" nametype="namesuffix" type="sql:tinyint(4)" null="false" default="1" />
+					</columns>
+				</table>
+			</database>
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Image limits" description="If left empty, the default settings from global Community Builder configuration will be taken. Other settings, like images-library, systematic resampling and so on is done in the CB global configuration.">
+						<param name="image_allow_uploads" type="yesno" default="1" label="Allow Upload" description="Enable or disable uploading of images." yes="Enable" no="Disable" />
+						<if name="image_allow_uploads" type="showhide" operator="=" value="1" valuetype="const:string">
+							<param name="avatarResizeAlways" type="list" default="" label="Always Resample" description="Optionally override global image resampling.">
+								<option value="">Normal CB Default</option>
+								<option value="1">Yes</option>
+								<option value="0">No</option>
+							</param>
+							<param name="avatarHeight" type="text" default="" label="Maximum Image Height" description="Maximum height in pixels to which the image on the profile will be resized">
+								<attributes>
+									<attribute name="default">
+										<if name="parent/name" type="condition" operator="=" value="canvas" valuetype="const:string">
+											<then>
+												<param name="" default="640" type="string" />
+											</then>
+										</if>
+									</attribute>
+								</attributes>
+							</param>
+							<param name="avatarWidth" type="text" default="" label="Maximum Image Width" description="Maximum width in pixels to which the image on the profile will be resized">
+								<attributes>
+									<attribute name="default">
+										<if name="parent/name" type="condition" operator="=" value="canvas" valuetype="const:string">
+											<then>
+												<param name="" default="1280" type="string" />
+											</then>
+										</if>
+									</attribute>
+								</attributes>
+							</param>
+							<param name="avatarSize" type="text" default="" label="Maximum Image Filesize" description="Maximum size of file upload in kilobytes: recommended: 4000 for modern cameras (if your server supports that)" />
+							<param name="thumbHeight" type="text" default="" label="Maximum Thumbnail Height" description="Maximum height in pixels to which the image on a users-list be resized">
+								<attributes>
+									<attribute name="default">
+										<if name="parent/name" type="condition" operator="=" value="canvas" valuetype="const:string">
+											<then>
+												<param name="" default="320" type="string" />
+											</then>
+										</if>
+									</attribute>
+								</attributes>
+							</param>
+							<param name="thumbWidth" type="text" default="" label="Maximum Thumbnail Width" description="Maximum width in pixels to which the image on a users-list be resized">
+								<attributes>
+									<attribute name="default">
+										<if name="parent/name" type="condition" operator="=" value="canvas" valuetype="const:string">
+											<then>
+												<param name="" default="640" type="string" />
+											</then>
+										</if>
+									</attribute>
+								</attributes>
+							</param>
+							<param name="avatarMaintainRatio" type="list" default="" label="Maintain Aspect Ratio" description="Optionally override global image maintain aspect ratio.">
+								<option value="">Normal CB Default</option>
+								<option value="1">Yes</option>
+								<option value="2">Yes, with Cropping</option>
+								<option value="0">No</option>
+							</param>
+							<param name="avatarUploadApproval" type="list" default="" label="Upload Approval" description="Optionally override global image upload approval.">
+								<option value="">Normal CB Default</option>
+								<option value="1">Yes</option>
+								<option value="0">No</option>
+							</param>
+						</if>
+					</tabpanetab>
+					<tabpanetab label="Image Gallery">
+						<param name="image_allow_gallery" type="yesno" default="0" label="Allow Gallery" description="Enable or disable display of image gallery." yes="Enable" no="Disable">
+							<attributes>
+								<attribute name="default">
+									<if name="parent/name" type="condition" operator="in" value="avatar|*|canvas" valuetype="const:string">
+										<then>
+											<param name="" default="1" type="string" />
+										</then>
+										<else>
+											<param name="" default="0" type="string" />
+										</else>
+									</if>
+								</attribute>
+							</attributes>
+						</param>
+						<if name="image_allow_gallery" type="showhide" operator="=" value="1" valuetype="const:string">
+							<param name="image_gallery_path" type="text" default="" size="60" label="Path" description="Input the path from Joomla root to your gallery images (e.g. /images). Leave blank for default of /images/comprofiler/gallery or /images/comprofiler/gallery/canvas as needed." />
+						</if>
+					</tabpanetab>
+					<tabpanetab label="Image Display">
+						<param name="imageStyle" type="list" default="roundedbordered" translate-default="no" label="Style" description="Select the styling applied to the image. Note for best results use squared images. Circles can display as ovals if the image is not squared.">
+							<option value="">None</option>
+							<option value="rounded">Rounded</option>
+							<option value="roundedbordered">Rounded Bordered</option>
+							<option value="circle">Circle</option>
+							<option value="circlebordered">Circle Bordered</option>
+						</param>
+						<param name="pendingDefaultAvatar" type="list" default="" label="Pending Default" description="Optionally specify the default image if the field is pending approval.">
+							<if name="parent/name" type="condition" operator="=" value="canvas" valuetype="const:string">
+								<then>
+									<data name="" type="custom" class="CBfield_image" method="loadDefaultCanvasImages" />
+								</then>
+								<else>
+									<data name="" type="custom" class="CBfield_image" method="loadDefaultImages" />
+								</else>
+							</if>
+						</param>
+						<param name="defaultAvatar" type="list" default="" label="Empty Default" description="Optionally specify the default image if the field has no value.">
+							<if name="parent/name" type="condition" operator="=" value="canvas" valuetype="const:string">
+								<then>
+									<data name="" type="custom" class="CBfield_image" method="loadDefaultCanvasImages" />
+								</then>
+								<else>
+									<data name="" type="custom" class="CBfield_image" method="loadDefaultImages" />
+								</else>
+							</if>
+						</param>
+						<param name="altText" type="list" default="" label="Alt" description="Optionally change the display of image Alt text.">
+							<option value="">Normal CB Default</option>
+							<option value="1">None</option>
+							<option value="2">Custom</option>
+						</param>
+						<if name="altText" type="showhide" operator="=" value="2" valuetype="const:int">
+							<param name="altTextCustom" type="text" default="" label="Alt Text" description="Optionally supply substitution supported image Alt text." />
+						</if>
+						<param name="titleText" type="list" default="" label="Title" description="Optionally change the display of image Title text.">
+							<option value="">Normal CB Default</option>
+							<option value="1">None</option>
+							<option value="2">Custom</option>
+						</param>
+						<if name="titleText" type="showhide" operator="=" value="2" valuetype="const:int">
+							<param name="titleTextCustom" type="text" default="" label="Title Text" description="Optionally supply substitution supported image Title text." />
+						</if>
+					</tabpanetab>
+					<tabpanetab label="Terms and Conditions">
+						<param name="image_terms" type="yesno" default="0" label="Terms and Conditions" description="Enable or disable display of terms and conditions." yes="Enable" no="Disable" />
+						<if name="image_terms" type="showhide" operator="=" value="1" valuetype="const:string">
+							<showview view="fieldTermsParams" mode="edit" type="view" />
+						</if>
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="pm" label="Private Message" unique="true">
+			<database version="1">
+				<table name="#__comprofiler" class="\CB\Database\Table\ComprofilerTable" maintable="true" strict="false" drop="never" shared="true">
+					<columns>
+					</columns>
+				</table>
+			</database>
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="displayMode" type="list" default="0" label="Profile Display Mode" description="Select how the PM icon and text should display on profiles.">
+							<option value="0">Text Only</option>
+							<option value="1">Icon Only</option>
+							<option value="2">Icon and Text</option>
+						</param>
+						<param name="displayModeList" type="list" default="0" label="Userlist Display Mode" description="Select how the PM icon and text should display on userlists.">
+							<option value="0">Text Only</option>
+							<option value="1">Icon Only</option>
+							<option value="2">Icon and Text</option>
+						</param>
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="status" label="Online Status" unique="true">
+			<database version="1">
+				<table name="#__comprofiler" class="\CB\Database\Table\ComprofilerTable" maintable="true" strict="false" drop="never" shared="true">
+					<columns>
+					</columns>
+				</table>
+			</database>
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="displayMode" type="list" default="2" label="Profile Display Mode" description="Select how the online icon and text should display on profiles.">
+							<option value="0">Text Only</option>
+							<option value="1">Icon Only</option>
+							<option value="2">Icon and Text</option>
+						</param>
+						<param name="displayModeList" type="list" default="2" label="Userlist Display Mode" description="Select how the online icon and text should display on userlists.">
+							<option value="0">Text Only</option>
+							<option value="1">Icon Only</option>
+							<option value="2">Icon and Text</option>
+						</param>
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="connections" label="Connections" unique="true">
+			<database version="1">
+				<table name="#__comprofiler" class="\CB\Database\Table\ComprofilerTable" maintable="true" strict="false" drop="never" shared="true">
+					<columns>
+					</columns>
+				</table>
+			</database>
+			<params>
+				<showview view="fieldLayoutParams" mode="edit" type="view" />
+			</params>
+		</field>
+		<field type="counter" label="Counter" unique="true">
+			<data name="" nametype="namesuffix" type="sql:int(11)" unsigned="false" null="false" default="0" />
+			<params>
+				<showview view="fieldLayoutParams" mode="edit" type="view" />
+			</params>
+		</field>
+		<field type="formatname" label="Formatted name" unique="true">
+			<database version="1">
+			</database>
+			<params>
+				<showview view="fieldLayoutParams" mode="edit" type="view" />
+			</params>
+		</field>
+		<field type="userparams" label="User parameters" unique="true">
+			<database version="1">
+				<table name="#__users" class="mosUser" maintable="true" strict="false" drop="never" shared="true">
+					<columns>
+						<column name="params" type="sql:text" null="false" strict="false" />
+					</columns>
+				</table>
+			</database>
+			<params>
+				<param name="hide_userparams" type="list" multiple="true" size="6" default="" label="Hide Parameters" description="Select the user parameters to hide on frontend view. Backend view is unaffected and will always show all parameters available.">
+					<if name="version" nametype="cmsversion:string" type="condition" operator="version_compare:&gt;" value="1.5" valuetype="const:string">
+						<option value="params_admin_style">Backend Template Style</option>
+						<option value="params_admin_language">Backend Language</option>
+						<option value="params_language">Frontend Language</option>
+						<option value="params_editor">Editor</option>
+						<option value="params_helpsite">Help Site</option>
+						<option value="params_timezone">Time Zone</option>
+					</if>
+					<if name="version" nametype="cmsversion:string" type="condition" operator="version_compare:&lt;=" value="1.5" valuetype="const:string">
+						<option value="admin_language">Backend Language</option>
+						<option value="language">Frontend Language</option>
+						<option value="editor">Editor</option>
+						<option value="helpsite">Help Site</option>
+						<option value="timezone">Time Zone</option>
+					</if>
+				</param>
+			</params>
+		</field>
+		<field type="delimiter" label="Custom HTML">
+			<database version="1">
+				<table name="#__comprofiler" class="\CB\Database\Table\ComprofilerTable" maintable="true" strict="false" drop="never" shared="true">
+					<columns>
+					</columns>
+				</table>
+			</database>
+			<params>
+				<param name="field_content_plugins" type="yesno" default="0" label="Prepare content using CMS Content plugins" description="Select Yes if you need CMS Content plugins content.prepare to be triggered on the description of this delimiter field. Select No if you do not need CMS Content plugins content.prepare to be triggered." />
+			</params>
+		</field>
+		<field type="file" label="File">
+			<data name="" nametype="namesuffix" type="sql:text||sql:varchar(255)" null="true" default="NULL" translate-default="no" />
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="fieldFile_force" type="yesno" default="0" label="Force Download" description="Enable or disable for downloading of files. If disable files that can open (pdf, text, etc..) will open instead of download." yes="Enable" no="Disable"/>
+					</tabpanetab>
+					<tabpanetab label="Validation">
+						<param name="fieldValidateFile_types" type="text" default="zip,rar,doc,pdf,txt,xls" translate-default="no" label="Allowed File Types" description="File extensions allowed for upload. The following extensions are not allowed regardless of Allowed File Types for security reasons: php, php3, php4, php5, asp, exe, and py." />
+						<param name="fieldValidateFile_sizeMax" type="text" default="1024" label="Maximum File Size" description="Maximum size of file in KBs permitted for upload." />
+						<param name="fieldValidateFile_sizeMin" type="text" default="0" label="Minimum File Size" description="Minimum size of file in KBs permitted for upload." />
+					</tabpanetab>
+					<tabpanetab label="Terms and Conditions">
+						<param name="fieldFile_terms" type="yesno" default="0" label="Terms and Conditions" description="Enable or disable display of terms and conditions." yes="Enable" no="Disable" />
+						<if name="fieldFile_terms" type="showhide" operator="=" value="1" valuetype="const:string">
+							<showview view="fieldTermsParams" mode="edit" type="view" />
+						</if>
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="video" label="Video">
+			<data name="" nametype="namesuffix" type="sql:text||sql:varchar(255)" null="true" default="NULL" translate-default="no" />
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="video_width" type="text" default="400" size="5" label="Width" description="Input the size in pixels the width of the video embed. Set empty for 100% width." />
+						<param name="video_thumbwidth" type="text" default="400" size="5" label="Thumb Width" description="Input the size in pixels the width of the video thumbnail embed. Set empty for 100% width." />
+					</tabpanetab>
+					<tabpanetab label="Uploads">
+						<param name="video_allow_uploads" type="yesno" default="1" label="Allow Upload" description="Enable or disable uploading of video files. This allows video files to be uploaded and played on site." yes="Enable" no="Disable" />
+						<if name="video_allow_uploads" type="showhide" operator="=" value="1" valuetype="const:string">
+							<param name="fieldValidateVideo_sizeMax" type="text" default="1024" label="Maximum File Size" description="Maximum size of video file in KBs permitted for upload." />
+							<param name="fieldValidateVideo_sizeMin" type="text" default="0" label="Minimum File Size" description="Minimum size of video file in KBs permitted for upload." />
+						</if>
+					</tabpanetab>
+					<tabpanetab label="Links">
+						<param name="video_allow_links" type="yesno" default="1" label="Allow Linking" description="Enable or disable linking to video urls. This allows video files or streams to be played from external and internal URLs." yes="Enable" no="Disable" />
+						<if name="video_allow_links" type="showhide" operator="=" value="1" valuetype="const:string">
+							<showview view="fieldStringValidateParams" mode="edit" type="view" />
+						</if>
+					</tabpanetab>
+					<tabpanetab label="Terms and Conditions">
+						<param name="video_terms" type="yesno" default="0" label="Terms and Conditions" description="Enable or disable display of terms and conditions." yes="Enable" no="Disable" />
+						<if name="video_terms" type="showhide" operator="=" value="1" valuetype="const:string">
+							<showview view="fieldTermsParams" mode="edit" type="view" />
+						</if>
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="audio" label="Audio">
+			<data name="" nametype="namesuffix" type="sql:text||sql:varchar(255)" null="true" default="NULL" translate-default="no" />
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="audio_width" type="text" default="400" size="5" label="Width" description="Input the size in pixels the width of the audio embed. Set empty for 100% width." />
+						<param name="audio_thumbwidth" type="text" default="400" size="5" label="Thumb Width" description="Input the size in pixels the width of the audio thumbnail embed. Set empty for 100% width." />
+					</tabpanetab>
+					<tabpanetab label="Uploads">
+						<param name="audio_allow_uploads" type="yesno" default="1" label="Allow Upload" description="Enable or disable uploading of audio files. This allows audio files to be uploaded and played on site." yes="Enable" no="Disable" />
+						<if name="audio_allow_uploads" type="showhide" operator="=" value="1" valuetype="const:string">
+							<param name="fieldValidateAudio_sizeMax" type="text" default="1024" label="Maximum File Size" description="Maximum size of audio file in KBs permitted for upload." />
+							<param name="fieldValidateAudio_sizeMin" type="text" default="0" label="Minimum File Size" description="Minimum size of audio file in KBs permitted for upload." />
+						</if>
+					</tabpanetab>
+					<tabpanetab label="Links">
+						<param name="audio_allow_links" type="yesno" default="1" label="Allow Linking" description="Enable or disable linking to audio urls. This allows audio files or streams to be played from external and internal URLs." yes="Enable" no="Disable" />
+						<if name="audio_allow_links" type="showhide" operator="=" value="1" valuetype="const:string">
+							<showview view="fieldStringValidateParams" mode="edit" type="view" />
+						</if>
+					</tabpanetab>
+					<tabpanetab label="Terms and Conditions">
+						<param name="audio_terms" type="yesno" default="0" label="Terms and Conditions" description="Enable or disable display of terms and conditions." yes="Enable" no="Disable" />
+						<if name="audio_terms" type="showhide" operator="=" value="1" valuetype="const:string">
+							<showview view="fieldTermsParams" mode="edit" type="view" />
+						</if>
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="rating" label="Rating">
+			<data name="" nametype="namesuffix" type="sql:float" null="true" default="NULL" translate-default="no" />
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="rating_number" type="text" default="5" size="5" label="Number of Stars" description="Input the number of rating stars to display." />
+						<param name="rating_step" type="text" default="1.0" size="5" label="Rating Step" description="Input the step rate for star ratings (e.g. 1.0 is 1 star and 0.5 is half star)." />
+						<param name="rating_numerical" type="yesno" default="0" label="Numerical Rating" description="Enable or disable display of the numerical rating (e.g. (4.32))" yes="Enable" no="Disable" />
+						<param name="rating_votes" type="yesno" default="0" label="Number of Votes" description="Enable or disable display of vote count (e.g. (42))" yes="Enable" no="Disable" />
+						<param name="rating_whole" type="yesno" default="0" label="Force Whole Numbers" description="Enable or disable forcing of total rating to whole numbers. This prevents point star ratings (half stars, etc..)." yes="Enable" no="Disable" />
+					</tabpanetab>
+					<tabpanetab label="Access">
+						<param name="rating_access" type="list" default="1" label="Vote Access" description="Select who can vote using this rating field.">
+							<option value="1">Everyone</option>
+							<option value="2">Self Only</option>
+							<option value="3">Non-Self Only</option>
+							<option value="4">Registered Users</option>
+							<option value="5">Non-Registered Users</option>
+							<option value="6">Connections Only</option>
+							<option value="7">Moderators Only</option>
+							<option value="8">View Access Level</option>
+						</param>
+						<if name="rating_access" type="showhide" operator="in" value="1|*|4|*|7|*|8" valuetype="const:string">
+							<param name="rating_access_exclude" type="yesno" default="0" label="Exclude Self" description="Exclude self from vote access." yes="Enable" no="Disable" />
+						</if>
+						<if name="rating_access" type="showhide" operator="in" value="5|*|6" valuetype="const:string">
+							<param name="rating_access_include" type="yesno" default="0" label="Include Self" description="Include self for vote access." yes="Enable" no="Disable" />
+						</if>
+						<if name="rating_access" type="showhide" operator="=" value="8" valuetype="const:int">
+							<param name="rating_access_custom" type="viewaccesslevel" default="1" label="View Access Level" description="Select the view access level that can vote using this rating field." />
+						</if>
+						<param name="rating_list" type="yesno" default="0" label="Userlist Voting" description="Enable or disable voting access on userlists." yes="Enable" no="Disable" />
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="points" label="Points">
+			<data name="" nametype="namesuffix" type="sql:int(11)" null="true" default="NULL" translate-default="no" />
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<param name="points_layout" type="textarea" default="" cols="40" rows="5" label="Points Layout" description="Optionally override the points plus, minus, and counter layout. Use [plus] to render the plus button, [minus] for the minus button, and [value] for the points count." />
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<param name="points_plus_class" type="text" default="" size="30" label="Plus CSS Class" description="Optionally input a css class to override the plus button Fontawesome css class (e.g. fa fa-plus-square)." />
+						<param name="points_minus_class" type="text" default="" size="30" label="Minus CSS Class" description="Optionally input a css class to override the minus button Fontawesome css class (e.g. fa fa-minus-square)." />
+					</tabpanetab>
+					<tabpanetab label="Increment">
+						<param name="points_inc_plus" type="text" default="1" size="5" label="Plus Increment" description="Input the number of points to add when using the plus button." />
+						<param name="points_inc_minus" type="text" default="1" size="5" label="Minus Increment" description="Input the number of points to subtract when using the minus button." />
+						<param name="points_inc_delay" type="list" default="" label="Increment Delay" description="Select the delay between incrementing per user.">
+							<option value="">None</option>
+							<option value="+1 HOUR">Hourly</option>
+							<option value="+1 DAY">Daily</option>
+							<option value="+1 WEEK">Weekly</option>
+							<option value="+1 MONTH">Monthly</option>
+							<option value="+1 YEAR">Yearly</option>
+							<option value="FOREVER">Forever</option>
+							<option value="CUSTOM">Custom</option>
+						</param>
+						<if name="points_inc_delay" type="showhide" operator="=" value="CUSTOM" valuetype="const:string">
+							<param name="points_inc_delay_custom" type="text" default="" size="15" label="Custom Delay" description="Input custom relative date for increment delay (e.g. +30 MINUTES)." />
+						</if>
+					</tabpanetab>
+					<tabpanetab label="Validation">
+						<showview view="fieldIntValidateParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Access">
+						<param name="points_access" type="list" default="1" label="Increment Access" description="Select who can increment using this points field.">
+							<option value="1">Everyone</option>
+							<option value="2">Self Only</option>
+							<option value="3">Non-Self Only</option>
+							<option value="4">Registered Users</option>
+							<option value="5">Non-Registered Users</option>
+							<option value="6">Connections Only</option>
+							<option value="7">Moderators Only</option>
+							<option value="8">View Access Level</option>
+						</param>
+						<if name="points_access" type="showhide" operator="in" value="1|*|4|*|7|*|8" valuetype="const:string">
+							<param name="points_access_exclude" type="yesno" default="0" label="Exclude Self" description="Exclude self from increment access." yes="Enable" no="Disable" />
+						</if>
+						<if name="points_access" type="showhide" operator="in" value="5|*|6" valuetype="const:string">
+							<param name="points_access_include" type="yesno" default="0" label="Include Self" description="Include self for increment access." yes="Enable" no="Disable" />
+						</if>
+						<if name="points_access" type="showhide" operator="=" value="8" valuetype="const:int">
+							<param name="points_access_custom" type="viewaccesslevel" default="1" label="View Access Level" description="Select the view access level that can increment using this points field." />
+						</if>
+						<param name="points_list" type="yesno" default="0" label="Userlist Increment" description="Enable or disable incrementing access on userlists." yes="Enable" no="Disable" />
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+		<field type="terms" label="Terms and Conditions">
+			<data name="" nametype="namesuffix" type="sql:tinyint(1)" unsigned="true" null="false" default="0" />
+			<params>
+				<tabpane name="field">
+					<tabpanetab label="Layout">
+						<showview view="fieldLayoutParams" mode="edit" type="view" />
+					</tabpanetab>
+					<tabpanetab label="Display">
+						<showview view="fieldTermsParams" mode="edit" type="view" />
+					</tabpanetab>
+				</tabpane>
+			</params>
+		</field>
+	</fieldtypes>
+	<database>
+	</database>
+</cbinstall>

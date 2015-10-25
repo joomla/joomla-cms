@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<view>
+		<options>
+			<default name="Moderate Images" msg="This is an optional menu item for accessing Community Builder image moderation. Normally not needed, as you would normally use Community Builder workflow module for this so it adapts automatically to login state." />
+		</options>
+	</view>
+	<state>
+		<name>Community Builder Moderate Images</name>
+		<description>This is an optional menu item for accessing Community Builder image moderation. Normally not needed, as you would normally use Community Builder workflow module for this so it adapts automatically to login state.</description>
+	</state>
+</metadata>

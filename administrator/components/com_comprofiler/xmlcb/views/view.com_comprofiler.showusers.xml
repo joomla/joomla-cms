@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<views>
+		<view name="showusers" type="params" ui="admin" label="User Management" icon="users" viewformatting="none">
+			<tablebrowser name="usersbrowser" table="#__comprofiler" class="\CB\Database\Table\UserTable" permissionasset="com_users">
+				<toolbarmenu>
+					<menu name="new" action="linkAction" task="new" link="index.php?option=com_comprofiler&amp;view=new" label="New" permission="core.create" />
+					<!--<menu name="new" action="linkAction" task="new" link="cbo:newrow" label="New" />-->
+					<menu name="edit" action="linkAction" task="edit" link="javascript:cbDoListTask( this, 'edit', '', '', 'cbusersbrowserid' );" label="Edit" permission="core.edit" />
+					<!--<menu name="edit" action="linkAction" task="edit" link="cbo:editrows" label="Edit" />-->
+					<menu name="email" action="linkAction" task="mail" link="javascript:cbDoListTask( this, 'emailusers', '', '', 'cbusersbrowserid' );" label="Mass Mailer" />
+					<!--<menu name="email" action="linkAction" task="emailusers" link="cb_action:massmailer" label="Mass Mailer" />-->
+					<menu name="reconfirm" action="linkAction" task="mail" link="javascript:cbDoListTask( this, 'resendconfirmationemails', '', '', 'cbusersbrowserid' );" label="Resend Confirmation" />
+					<!--<menu name="reconfirm" action="linkAction" task="resendconfirmationemails" link="cb_action:resendconfirmation" label="Resend Confirmation" />-->
+					<menu name="delete" action="linkAction" task="delete" link="cbo:deleterows" label="Delete" permission="core.delete" />
+					<menu name="cancel" action="linkAction" task="cancel" link="cb_action:panel" label="Close" />
+					<menu name="permissions" action="linkAction" task="options" link="cb_action:userperms" label="Permissions" />
+					<menu name="help" action="help" href="http://www.joomlapolis.com/documentation/community-builder/help/user-management?pk_campaign=in-cb&amp;pk_kwd=help" label="Help" />
+				</toolbarmenu>
+				<quicksearchfields placeholder="Search Users..." size="30">
+					<field name="username" />
+					<field name="name" />
+					<field name="id" valuetype="const:int" />
+				</quicksearchfields>
+				<filters>
+					<filter name="session_id" value="session_id" type="list" valuetype="const:string" base="string" label="" blanktext="- Select Online -">
+						<option operator="&lt;&gt;" value="1">Online</option>
+						<option operator="=||ISNULL" value="0">Offline</option>
+					</filter>
+					<filter name="group_id" value="group_id" type="usergroup" label="" blanktext="- Select Group -" managegroups="false">
+						<data name="group_id" type="sql:multiplerows" table="#__user_usergroup_map">
+							<where>
+								<column name="group_id" operator="=" value="group_id" type="int" valuetype="sql:formula">
+									<data name="group_id" type="sql:field" table="#__user_usergroup_map" key="user_id" value="id" valuetype="sql:field">
+										<data name="user_id" type="sql:field" table="#__comprofiler" class="\CB\Database\Table\UserTable" key="id" value="user_id" valuetype="sql:field" />
+									</data>
+								</column>
+							</where>
+						</data>
+					</filter>
+					<filter name="banned" value="banned" valuetype="sql:int" type="xml:user_banned" label="" blanktext="- Select Banned -" />
+					<filter name="block" value="block" valuetype="sql:int" type="xml:user_block" label="" blanktext="- Select Enabled -" />
+					<filter name="confirmed" value="confirmed" valuetype="sql:int" type="xml:user_confirmed" label="" blanktext="- Select Confirmed -" />
+					<filter name="approved" value="approved" valuetype="sql:int" type="xml:user_approved" label="" blanktext="- Select Approved -" />
+					<filter name="id" type="field_show_only_if_selected" base="int" default="" label="" blanktext="- Select ID -" />
+					<filter name="advanced" type="field" multiple="true" view="advanced" />
+					<view name="advanced" type="params" viewformatting="none">
+						<params name="filter_advanced" type="params" repeat="true" repeatordering="false" label="" display="2lines">
+							<param name="" type="group" label="" display="2lines" formatting="span">
+								<param name="column" valuetype="sql:string" type="field" label="" blanktext="- Select Field -" storable="true" />
+								<param name="operator" valuetype="sql:string" type="xml:user_operator" label="" blanktext="- Select Operator -" />
+								<param name="value" valuetype="sql:string" type="string" label="" />
+							</param>
+						</params>
+					</view>
+				</filters>
+				<orderby>
+					<ordergroup name="id_asc" label="Id ascending" default="true" translate-default="no">
+						<field name="id" ordering="ASC" />
+					</ordergroup>
+				</orderby>
+				<listfields>
+					<header type="standard" />
+					<rows type="standard" height="auto">
+						<field name="" type="rownumber" width="1%" align="center" label="#" responsivehiddenon="xsmall" />
+						<field name="id" type="primarycheckbox" width="1%" align="center" />
+						<field name="name" type="string" link="index.php?option=com_comprofiler&amp;view=edit" parameters="cid" paramvalues="id" align="left" label="Name" allowordering="ascending,descending">
+						<!--<field name="name" type="string" link="cbo:rowedit" parameters="id" paramvalues="id" align="left" label="Name">-->
+							<data name="name" type="sql:field" table="#__users">
+								<joinkeys type="inner" dogroupby="false">
+									<column name="id" operator="=" value="id" type="sql:field" valuetype="sql:field" />
+								</joinkeys>
+							</data>
+							<attributes>
+								<attribute name="link">
+									<if name="" type="permission" permission="core.edit">
+										<then>
+											<param name="" default="index.php?option=com_comprofiler&amp;view=edit" translate-default="no" type="string" />
+										</then>
+										<else>
+											<param name="" default="" type="string" />
+										</else>
+									</if>
+								</attribute>
+							</attributes>
+						</field>
+						<field name="username" type="string" width="10%" align="left" label="Username" allowordering="ascending,descending">
+							<data name="username" type="sql:field" table="#__users">
+								<joinkeys type="inner" dogroupby="false">
+									<column name="id" operator="=" value="id" type="sql:field" valuetype="sql:field" />
+								</joinkeys>
+							</data>
+						</field>
+						<field name="session_id" type="checkmark" width="5%" align="center" label="Online" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<data name="session_id" type="sql:field" table="#__session">
+								<joinkeys type="left" dogroupby="false">
+									<column name="client_id" operator="in" value="0,1" type="sql:field" valuetype="sql:formula" />
+									<column name="userid" operator="=" value="id" type="sql:field" valuetype="sql:field" />
+								</joinkeys>
+							</data>
+							<attributes>
+								<attribute name="title">
+									<if name="session_id" nametype="param:string" operator="=" value="" valuetype="const:string" type="condition">
+										<then>
+											<param name="" default="Offline" type="string" />
+										</then>
+										<else>
+											<param name="" default="Online" type="string" />
+										</else>
+									</if>
+								</attribute>
+							</attributes>
+						</field>
+						<field name="groups" type="usergroup" width="10%" align="center" label="Group" multiple="true" responsivehiddenon="xsmall">
+							<data name="groups" type="sql:formula" operator="GROUP_CONCAT">
+								<data name="DISTINCT" type="const:formula" />
+								<data name="group_id" type="sql:field" table="#__user_usergroup_map">
+									<joinkeys dogroupby="true">
+										<column name="user_id" operator="=" value="id" type="sql:field" valuetype="sql:field" />
+									</joinkeys>
+								</data>
+								<data name="SEPARATOR" type="const:formula" />
+								<data name="|*|" type="const:string" />
+							</data>
+						</field>
+						<field name="email" type="string" width="10%" align="left" label="Email" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<data name="email" type="sql:field" table="#__users">
+								<joinkeys type="inner" dogroupby="false">
+									<column name="id" operator="=" value="id" type="sql:field" valuetype="sql:field" />
+								</joinkeys>
+							</data>
+						</field>
+						<field name="registerDate" type="datetime" width="10%" align="center" label="Registered" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<data name="registerDate" type="sql:field" table="#__users">
+								<joinkeys type="inner" dogroupby="false">
+									<column name="id" operator="=" value="id" type="sql:field" valuetype="sql:field" />
+								</joinkeys>
+							</data>
+						</field>
+						<field name="lastvisitDate" type="datetime" width="10%" align="center" label="Last Visit" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<data name="lastvisitDate" type="sql:field" table="#__users">
+								<joinkeys type="inner" dogroupby="false">
+									<column name="id" operator="=" value="id" type="sql:field" valuetype="sql:field" />
+								</joinkeys>
+							</data>
+						</field>
+						<field name="banned" type="xml:user_banned" width="5%" align="center" label="Banned" onclick="toggle" class="self" method="toggleUserBan" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<attributes>
+								<attribute name="onclick">
+									<if name="" type="permission" permission="core.edit or core.edit.state">
+										<then>
+											<if name="id" nametype="user:int" operator="=" value="id" valuetype="param:int" type="condition">
+												<then>
+													<param name="" default="" type="string" />
+												</then>
+												<else>
+													<param name="" default="toggle" translate-default="no" type="string" />
+												</else>
+											</if>
+										</then>
+										<else>
+											<param name="" default="" type="string" />
+										</else>
+									</if>
+								</attribute>
+							</attributes>
+						</field>
+						<field name="block" type="xml:user_block" width="5%" align="center" label="Enabled" onclick="toggle" class="self" method="toggleUserBlock" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<data name="block" type="sql:field" table="#__users">
+								<joinkeys type="inner" dogroupby="false">
+									<column name="id" operator="=" value="id" type="sql:field" valuetype="sql:field" />
+								</joinkeys>
+							</data>
+							<attributes>
+								<attribute name="onclick">
+									<if name="" type="permission" permission="core.edit or core.edit.state">
+										<then>
+											<if name="id" nametype="user:int" operator="=" value="id" valuetype="param:int" type="condition">
+												<then>
+													<param name="" default="" type="string" />
+												</then>
+												<else>
+													<param name="" default="toggle" translate-default="no" type="string" />
+												</else>
+											</if>
+										</then>
+										<else>
+											<param name="" default="" type="string" />
+										</else>
+									</if>
+								</attribute>
+							</attributes>
+						</field>
+						<field name="confirmed" type="xml:user_confirmed" width="5%" align="center" label="Confirmed" onclick="toggle" class="self" method="toggleUserConfirm" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<attributes>
+								<attribute name="onclick">
+									<if name="" type="permission" permission="core.edit or core.edit.state">
+										<then>
+											<if name="id" nametype="user:int" operator="=" value="id" valuetype="param:int" type="condition">
+												<then>
+													<param name="" default="" type="string" />
+												</then>
+												<else>
+													<param name="" default="toggle" translate-default="no" type="string" />
+												</else>
+											</if>
+										</then>
+										<else>
+											<param name="" default="" type="string" />
+										</else>
+									</if>
+								</attribute>
+							</attributes>
+						</field>
+						<field name="approved" type="xml:user_approved" width="5%" align="center" label="Approved" onclick="toggle" class="self" method="toggleUserApproval" responsivehiddenon="xsmall" allowordering="ascending,descending">
+							<attributes>
+								<attribute name="onclick">
+									<if name="" type="permission" permission="core.edit or core.edit.state">
+										<then>
+											<if name="id" nametype="user:int" operator="=" value="id" valuetype="param:int" type="condition">
+												<then>
+													<param name="" default="" type="string" />
+												</then>
+												<else>
+													<param name="" default="toggle" translate-default="no" type="string" />
+												</else>
+											</if>
+										</then>
+										<else>
+											<param name="" default="" type="string" />
+										</else>
+									</if>
+								</attribute>
+							</attributes>
+						</field>
+						<field name="id" type="int" width="5%" align="center" label="USER_ID" translated-label="Id" allowordering="ascending,descending" />
+					</rows>
+				</listfields>
+				<batchprocess permission="core.edit">
+					<batch name="group_id" value="gids" type="usergroup" multiple="true" label="" blanktext="- Select Groups -" managegroups="false">
+						<data name="group_id" type="sql:multiplerows" table="#__user_usergroup_map">
+							<where>
+								<column name="group_id" operator="=" value="group_id" type="int" valuetype="sql:formula">
+									<data name="group_id" type="sql:field" table="#__user_usergroup_map" key="user_id" value="id" valuetype="sql:field">
+										<data name="user_id" type="sql:field" table="#__comprofiler" class="\CB\Database\Table\UserTable" key="user_id" value="user_id" valuetype="sql:field" />
+									</data>
+								</column>
+							</where>
+						</data>
+					</batch>
+					<batch name="banned" value="banned" valuetype="sql:int" type="xml:user_banned" label="" blanktext="- Select Banned -" />
+					<batch name="block" value="block" valuetype="sql:int" type="xml:user_block" label="" blanktext="- Select Enabled -" />
+					<batch name="confirmed" value="confirmed" valuetype="sql:int" type="xml:user_confirmed" label="" blanktext="- Select Confirmed -" />
+					<batch name="approved" value="approved" valuetype="sql:int" type="xml:user_approved" label="" blanktext="- Select Approved -" />
+				</batchprocess>
+			</tablebrowser>
+		</view>
+	</views>
+</cbxml>

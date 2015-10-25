@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<extension type="module" version="1.6" client="site" method="upgrade">
+	<name>Community Builder Online module</name>
+	<creationDate>2015-09-22</creationDate>
+	<author>CB Team</author>
+	<copyright>(C) 2004-2015 www.joomlapolis.com / Lightning MultiCom SA - and its licensors, all rights reserved2 License</copyright>
+	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2. All copyright statements must be kept and derivative work must prominently duly acknowledge original work on web interface and on website where downloaded.</license>
+	<authorEmail>cbteam@joomlapolis.com</authorEmail>
+	<authorUrl>http://www.joomlapolis.com/</authorUrl>
+	<version>2.0.11</version>
+	<description>Displays a list of users logged in with a link to their profile.</description>
+	<scriptfile>script.mod_comprofileronline.php</scriptfile>
+	<files>
+		<filename module="mod_comprofileronline">mod_comprofileronline.php</filename> 
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<folder>fields</folder>
+		<folder>tmpl</folder>
+	</files>
+	<config>
+		<fields name="params" addfieldpath="/modules/mod_comprofileronline/fields">
+			<fieldset name="basic">
+				<field name="mode" type="list" default="1" label="Display Mode" description="Select the mode this module should display.">
+					<option value="1">Online Users</option>
+					<option value="2">Latest Visitors</option>
+					<option value="3">Latest Registrations</option>
+					<option value="4">Latest Profile Updates</option>
+					<option value="5">Custom Latest</option>
+					<option value="6">Online Statistics</option>
+					<option value="7">User Census</option>
+				</field>
+				<field name="pretext" type="textarea" filter="raw" cols="20" rows="5" default="" label="Pre-text" description="Input substitution supported html to display at the top of the module." />
+				<field name="posttext" type="textarea" filter="raw" cols="20" rows="5" default="" label="Post-text" description="Input substitution supported html to display at the bottom of the module." />
+				<field name="limit" type="text" size="5" default="30" label="Limit" description="Set the maximum number of latest entries to display. Leave empty for no limit." />
+				<field name="cb_plugins" type="radio" default="0" label="CB Plugins integration" description="Choose if you want to use CB events for CB plugins integration. Plugins must be installed and configured in CB plugins management. Warning: this loads CB plugins on each page where this module is displayed, consuming memory and processing power." >
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+			</fieldset>
+			<fieldset name="custom" label="Custom Latest">
+				<field name="custom_field" type="cbfields" default="username" label="Field" description="Select the CB field to order the latests list by." />
+				<field name="custom_direction" type="list" default="ASC" label="Direction" description="Select the ordering direction.">
+					<option value="ASC">Ascending</option>
+					<option value="DESC">Descending</option>
+				</field>
+			</fieldset>
+			<fieldset name="statistics" label="Statistics and Census">
+				<field name="label" type="list" default="1" label="Label Display" description="Select how to display counter labels.">
+					<option value="1">Text Only</option>
+					<option value="2">Icon Only</option>
+					<option value="3">Text and Icon</option>
+				</field>
+				<field name="separator" type="text" size="5" default="," label="Thousands Separator" description="Set what character to use for separating counters in the thousands. Default comma." />
+			</fieldset>
+			<fieldset name="advanced" label="Advanced Options">
+				<field name="layout" type="modulelayout" default="_:default" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				<field name="moduleclass_sfx" type="text" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field name="cache" type="list" default="0" label="COM_MODULES_FIELD_CACHING_LABEL" description="COM_MODULES_FIELD_CACHING_DESC">
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+	<!-- Now done through package:
+	<updateservers>
+		<server type="extension" priority="1" name="Community Builder Online Module Update Site">http://update.joomlapolis.net/versions/mod_comprofileronline-update.xml</server>
+	</updateservers>
+	-->
+</extension>

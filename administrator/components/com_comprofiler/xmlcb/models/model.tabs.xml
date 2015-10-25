@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<types>
+		<type name="tab_published" base="checkmark" valuetype="string">
+			<option value="0" title="Unpublish Item">Unpublished</option>
+			<option value="1" title="Publish Item">Published</option>
+		</type>
+		<type name="tab_position" base="list" valuetype="string">
+			<option value="canvas_menu">Canvas Menu</option>
+			<option value="canvas_background">Canvas Background</option>
+			<option value="canvas_stats_top">Canvas Stats Top</option>
+			<option value="canvas_stats_middle">Canvas Stats Middle</option>
+			<option value="canvas_stats_bottom">Canvas Stats Bottom</option>
+			<option value="canvas_photo">Canvas Photo</option>
+			<option value="canvas_title_top">Canvas Title Top</option>
+			<option value="canvas_title_middle">Canvas Title Middle</option>
+			<option value="canvas_title_bottom">Canvas Title Bottom</option>
+			<option value="canvas_main_left">Canvas Main Left</option>
+			<option value="canvas_main_left_static">Canvas Main Left Static</option>
+			<option value="canvas_main_middle">Canvas Main Middle</option>
+			<option value="canvas_main_right">Canvas Main Right</option>
+			<option value="canvas_main_right_static">Canvas Main Right Static</option>
+			<option value="cb_head">Header (above left/middle/right)</option>
+			<option value="cb_left">Left side (of middle area)</option>
+			<option value="cb_middle">Middle area</option>
+			<option value="cb_right">Right side (of middle area)</option>
+			<option value="cb_tabmain">Main area (below left/middle/right)</option>
+			<option value="cb_underall">Bottom area (below main area)</option>
+			<option value="L1C1">Line 1 Column 1</option>
+			<option value="L1C2">Line 1 Column 2</option>
+			<option value="L1C3">Line 1 Column 3</option>
+			<option value="L1C4">Line 1 Column 4</option>
+			<option value="L1C5">Line 1 Column 5</option>
+			<option value="L1C6">Line 1 Column 6</option>
+			<option value="L1C7">Line 1 Column 7</option>
+			<option value="L1C8">Line 1 Column 8</option>
+			<option value="L1C9">Line 1 Column 9</option>
+			<option value="L2C1">Line 2 Column 1</option>
+			<option value="L2C2">Line 2 Column 2</option>
+			<option value="L2C3">Line 2 Column 3</option>
+			<option value="L2C4">Line 2 Column 4</option>
+			<option value="L2C5">Line 2 Column 5</option>
+			<option value="L2C6">Line 2 Column 6</option>
+			<option value="L2C7">Line 2 Column 7</option>
+			<option value="L2C8">Line 2 Column 8</option>
+			<option value="L2C9">Line 2 Column 9</option>
+			<option value="L3C1">Line 3 Column 1</option>
+			<option value="L3C2">Line 3 Column 2</option>
+			<option value="L3C3">Line 3 Column 3</option>
+			<option value="L3C4">Line 3 Column 4</option>
+			<option value="L3C5">Line 3 Column 5</option>
+			<option value="L3C6">Line 3 Column 6</option>
+			<option value="L3C7">Line 3 Column 7</option>
+			<option value="L3C8">Line 3 Column 8</option>
+			<option value="L3C9">Line 3 Column 9</option>
+			<option value="L4C1">Line 4 Column 1</option>
+			<option value="L4C2">Line 4 Column 2</option>
+			<option value="L4C3">Line 4 Column 3</option>
+			<option value="L4C4">Line 4 Column 4</option>
+			<option value="L4C5">Line 4 Column 5</option>
+			<option value="L4C6">Line 4 Column 6</option>
+			<option value="L4C7">Line 4 Column 7</option>
+			<option value="L4C8">Line 4 Column 8</option>
+			<option value="L4C9">Line 4 Column 9</option>
+			<option value="L5C1">Line 5 Column 1</option>
+			<option value="L5C2">Line 5 Column 2</option>
+			<option value="L5C3">Line 5 Column 3</option>
+			<option value="L5C4">Line 5 Column 4</option>
+			<option value="L5C5">Line 5 Column 5</option>
+			<option value="L5C6">Line 5 Column 6</option>
+			<option value="L5C7">Line 5 Column 7</option>
+			<option value="L5C8">Line 5 Column 8</option>
+			<option value="L5C9">Line 5 Column 9</option>
+			<option value="L6C1">Line 6 Column 1</option>
+			<option value="L6C2">Line 6 Column 2</option>
+			<option value="L6C3">Line 6 Column 3</option>
+			<option value="L6C4">Line 6 Column 4</option>
+			<option value="L6C5">Line 6 Column 5</option>
+			<option value="L6C6">Line 6 Column 6</option>
+			<option value="L6C7">Line 6 Column 7</option>
+			<option value="L6C8">Line 6 Column 8</option>
+			<option value="L6C9">Line 6 Column 9</option>
+			<option value="L7C1">Line 7 Column 1</option>
+			<option value="L7C2">Line 7 Column 2</option>
+			<option value="L7C3">Line 7 Column 3</option>
+			<option value="L7C4">Line 7 Column 4</option>
+			<option value="L7C5">Line 7 Column 5</option>
+			<option value="L7C6">Line 7 Column 6</option>
+			<option value="L7C7">Line 7 Column 7</option>
+			<option value="L7C8">Line 7 Column 8</option>
+			<option value="L7C9">Line 7 Column 9</option>
+			<option value="L8C1">Line 8 Column 1</option>
+			<option value="L8C2">Line 8 Column 2</option>
+			<option value="L8C3">Line 8 Column 3</option>
+			<option value="L8C4">Line 8 Column 4</option>
+			<option value="L8C5">Line 8 Column 5</option>
+			<option value="L8C6">Line 8 Column 6</option>
+			<option value="L8C7">Line 8 Column 7</option>
+			<option value="L8C8">Line 8 Column 8</option>
+			<option value="L8C9">Line 8 Column 9</option>
+			<option value="L9C1">Line 9 Column 1</option>
+			<option value="L9C2">Line 9 Column 2</option>
+			<option value="L9C3">Line 9 Column 3</option>
+			<option value="L9C4">Line 9 Column 4</option>
+			<option value="L9C5">Line 9 Column 5</option>
+			<option value="L9C6">Line 9 Column 6</option>
+			<option value="L9C7">Line 9 Column 7</option>
+			<option value="L9C8">Line 9 Column 8</option>
+			<option value="L9C9">Line 9 Column 9</option>
+			<option value="not_on_profile_1">Not displayed on profile 1</option>
+			<option value="not_on_profile_2">Not displayed on profile 2</option>
+			<option value="not_on_profile_3">Not displayed on profile 3</option>
+			<option value="not_on_profile_4">Not displayed on profile 4</option>
+			<option value="not_on_profile_5">Not displayed on profile 5</option>
+			<option value="not_on_profile_6">Not displayed on profile 6</option>
+			<option value="not_on_profile_7">Not displayed on profile 7</option>
+			<option value="not_on_profile_8">Not displayed on profile 8</option>
+			<option value="not_on_profile_9">Not displayed on profile 9</option>
+		</type>
+		<type name="tab_displaytype" base="list" valuetype="string">
+			<option value="tab">Tab Horizontal (Left/Right)</option>
+			<option value="nested">Nested Tab Horizontal (Left/Right)</option>
+			<option value="vertical">Tab Vertical (Up/Down)</option>
+			<option value="nestedvertical">Nested Tab Vertical (Up/Down)</option>
+			<option value="menu">Tab Menu</option>
+			<option value="menunested">Nested Tab Menu</option>
+			<option value="div">Div with Title</option>
+			<option value="html">Div without Title</option>
+			<option value="rounddiv">Rounded Div with Title</option>
+			<option value="roundhtml">Rounded Div without Title</option>
+			<option value="overlib">Overlay moving with Mouse</option>
+			<option value="overlibfix">Fixed Overlay closing with Mouseout</option>
+			<option value="overlibsticky">Button with Fixed Overlay</option>
+		</type>
+	</types>
+</cbxml>

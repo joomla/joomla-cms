@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../../../validation/ahawow.xsd">
+	<views>
+		<view name="editblog.internal" type="params" ui="admin" label="Blog" icon="font" viewformatting="div">
+			<param name="published" type="published" default="1" label="Published" description="Select publish status of the blog. Unpublished blogs will not be visible to the public." />
+			<param name="category" type="list" label="Category" hideblanktext="always" description="Select blog category. Select the category that best describes your blog.">
+				<data name="" type="private" class="cbblogsModel" method="getCategoriesList" />
+			</param>
+			<param name="access" type="viewaccesslevel" default="1" blanktext="" label="Access Level" managelevels="false" description="Select access to blog; all groups above that level will also have access to the blog." />
+			<param name="title" type="text" label="Title" size="80" validate="required" description="Input blog title. This is the title that will distinguish this blog from others. Suggested to input something unique and intuitive." />
+			<param name="blog_intro" type="htmlarea" width="100%" height="400px" label="Blog Intro" description="Input HTML supported blog intro contents. Suggested to use minimal but well formatting for easy readability." />
+			<param name="blog_full" type="htmlarea" width="100%" height="400px" label="Blog Full" description="Input HTML supported blog contents. Suggested to use minimal but well formatting for easy readability." />
+			<param name="user" type="user" label="Owner" size="5" validate="required" description="Input owner of blog as single integer user_id." />
+		</view>
+	</views>
+</cbxml>

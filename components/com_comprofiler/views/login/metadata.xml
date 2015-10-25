@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<view>
+		<options>
+			<default name="Login Form" msg="This is an optional menu item for accessing Community Builder Login page. Normally not needed, as you would normally use Community Builder login module for this. This menu requires the CB Login module to be installed to work." />
+		</options>
+	</view>
+	<state>
+		<name>Community Builder Login Form</name>
+		<description>This is an optional menu item for accessing Community Builder Login page. Normally not needed, as you would normally use Community Builder login module for this. This menu requires the CB Login module to be installed to work.</description>
+	</state>
+</metadata>

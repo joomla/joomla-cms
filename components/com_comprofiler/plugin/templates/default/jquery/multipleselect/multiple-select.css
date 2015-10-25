@@ -1,0 +1,346 @@
+/**
+ * @author zhixin wen <wenzhixin2010@gmail.com>
+ */
+.ms-parent {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+}
+.ms-choice {
+  display: block;
+  width: 100%;
+  height: 26px;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #aaa;
+  text-align: left;
+  white-space: nowrap;
+  line-height: 26px;
+  color: #444;
+  text-decoration: none;
+  border-radius: 4px;
+  background-color: #fff;
+}
+.ms-choice.disabled {
+  background-color: #f4f4f4;
+  background-image: none;
+  border: 1px solid #ddd;
+  cursor: default;
+}
+.ms-choice > span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  padding-left: 8px;
+}
+.ms-choice > span.placeholder {
+  color: #999;
+}
+.ms-choice > div {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 25px;
+  background: url('multiple-select.png') left top no-repeat;
+}
+.ms-choice > div.open {
+  background: url('multiple-select.png') right top no-repeat;
+}
+.ms-drop {
+  width: 100%;
+  overflow: hidden;
+  display: none;
+  margin-top: -1px;
+  padding: 0;
+  position: absolute;
+  z-index: 1000;
+  background: #fff;
+  color: #000;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+.ms-drop.bottom {
+  top: 100%;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.15);
+}
+.ms-drop.top {
+  bottom: 100%;
+  box-shadow: 0 -4px 5px rgba(0, 0, 0, 0.15);
+}
+.ms-search {
+  display: inline-block;
+  margin: 0;
+  min-height: 26px;
+  padding: 4px;
+  position: relative;
+  white-space: nowrap;
+  width: 100%;
+  z-index: 10000;
+}
+.ms-search input {
+  width: 100%;
+  height: auto !important;
+  min-height: 24px;
+  padding: 0 20px 0 5px;
+  margin: 0;
+  outline: 0;
+  font-family: sans-serif;
+  font-size: 1em;
+  border: 1px solid #aaa;
+  border-radius: 0;
+  box-shadow: none;
+  background: #ffffff url('multiple-select.png') no-repeat 100% -22px;
+  background: url('multiple-select.png') no-repeat 100% -22px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, #ffffff), color-stop(0.99, #eeeeee));
+  background: url('multiple-select.png') no-repeat 100% -22px, -webkit-linear-gradient(center bottom, #ffffff 85%, #eeeeee 99%);
+  background: url('multiple-select.png') no-repeat 100% -22px, -webkit-linear-gradient(top, #ffffff 85%, #eeeeee 99%);
+  background: url('multiple-select.png') no-repeat 100% -22px, linear-gradient(top, #ffffff 85%, #eeeeee 99%);
+}
+.ms-search,
+.ms-search input {
+  -khtml-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.ms-drop ul {
+  overflow: auto;
+  margin: 0;
+  padding: 5px 8px;
+}
+.ms-drop ul > li {
+  list-style: none;
+  display: list-item;
+  background-image: none;
+  position: static;
+}
+.ms-drop ul > li .disabled {
+  opacity: .35;
+  filter: alpha(opacity=35);
+}
+.ms-drop ul > li.multiple {
+  display: block;
+  float: left;
+}
+.ms-drop ul > li.group {
+  clear: both;
+}
+.ms-drop ul > li.multiple label {
+  width: 100%;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ms-drop ul > li label {
+  font-weight: normal;
+  display: block;
+  white-space: nowrap;
+}
+.ms-drop ul > li label.optgroup {
+  font-weight: bold;
+}
+.ms-drop input[type="checkbox"] {
+  vertical-align: middle;
+}
+.ms-drop .ms-no-results {
+  display: none;
+}
+.has-success .form-control.ms-parent.ms-parent-active {
+  border-color: #2b542c;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168;
+}
+.has-warning .form-control.ms-parent.ms-parent-active {
+  border-color: #66512c;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b;
+}
+.has-error .form-control.ms-parent.ms-parent-active {
+  border-color: #843534;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;
+}
+.ms-parent {
+  padding: 0 !important;
+}
+.ms-parent.ms-parent-active {
+  border-color: #66afe9;
+  outline: 0;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+.ms-parent > .ms-choice {
+  margin: 0;
+  padding: 6px 12px;
+  height: 100%;
+  width: 100%;
+  border: 0;
+  background: none;
+  outline: none;
+}
+.ms-parent > .ms-choice:hover {
+  margin: 0;
+  padding: 6px 12px;
+  height: 100%;
+  width: 100%;
+  border: 0;
+  background: none;
+}
+.ms-parent > .ms-choice > span {
+  position: relative;
+  display: block;
+  margin: 0;
+  padding: 0 26px 0 0;
+  height: 100%;
+  width: 100%;
+  border: 0;
+}
+.ms-parent > .ms-choice > div {
+  position: absolute;
+  top: 25%;
+  right: 5px;
+  margin: 0;
+  height: auto;
+  width: auto;
+  border: 0;
+  text-align: right;
+  background: none;
+  color: #333333;
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.ms-parent > .ms-choice > div:before {
+  content: "\f0d7";
+  line-height: inherit;
+  height: 100%;
+}
+.ms-parent > .ms-choice > div.open:before {
+  content: "\f0d8";
+}
+.ms-parent.btn {
+  padding: 0;
+}
+.ms-parent.btn > .ms-choice {
+  padding: 6px 12px;
+}
+.ms-parent.btn-lg > .ms-choice {
+  padding: 10px 16px;
+}
+.ms-parent.btn-sm > .ms-choice {
+  padding: 5px 10px;
+}
+.ms-parent.btn-xs > .ms-choice {
+  padding: 1px 5px;
+}
+.ms-drop {
+  left: 0;
+  border-color: #cccccc;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333333;
+}
+.ms-drop.bottom {
+  border-radius: 0 0 4px 4px;
+  margin-top: -1px;
+  box-shadow: none;
+}
+.ms-drop.top {
+  border-radius: 4px 4px 0 0;
+  margin-top: 1px;
+  box-shadow: none;
+}
+.ms-drop > .ms-search {
+  padding: 4px;
+}
+.ms-drop > .ms-search > input {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555555;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  height: 30px;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  margin: 0;
+}
+.ms-drop > .ms-search > input:focus {
+  border-color: #66afe9;
+  outline: 0;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+select.ms-drop > .ms-search > input {
+  height: 30px;
+  line-height: 30px;
+}
+textarea.ms-drop > .ms-search > input,
+select[multiple].ms-drop > .ms-search > input {
+  height: auto;
+}
+.ms-drop > ul {
+  padding: 0 0 0 4px;
+  margin: 4px 4px 4px 0;
+  text-align: left;
+}
+.ms-drop > ul > li.group ~ li:not(.group) > label {
+  padding-left: 30px;
+}
+.ms-drop > ul > li.selected {
+  background: #f5f5f5;
+  color: #333333;
+}
+.ms-drop > ul > li.selected > label:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\f00c";
+  line-height: inherit;
+}
+.ms-drop > ul > li > label {
+  padding: 3px 7px 4px;
+  margin: 0;
+  cursor: pointer;
+  min-height: 1em;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  font-size: 14px;
+  float: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ms-drop > ul > li > label:before {
+  content: '';
+  width: 20px;
+  display: inline-block;
+}
+.ms-drop > ul > li > label:hover {
+  background: #337ab7;
+  color: #ffffff;
+}
+.ms-drop > ul > li > label > input {
+  visibility: hidden;
+  width: 0;
+  position: absolute;
+}

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbxml version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<types>
+		<type name="cfg_name_style" base="list" valuetype="string">
+			<option value="1">Single Name Field</option>
+			<option value="2">First and Last Name Fields</option>
+			<option value="3">First, Middle, and Last Name Fields</option>
+		</type>
+		<type name="cfg_name_format" base="list" valuetype="string">
+			<option value="1">Name Only</option>
+			<option value="2">Name (Username)</option>
+			<option value="3">Username Only</option>
+			<option value="4">Username (Name)</option>
+		</type>
+		<type name="cfg_date_format" base="list" valuetype="string">
+			<option value="Y/m/d">yyyy/mm/dd</option>
+			<option value="d/m/y">dd/mm/yy</option>
+			<option value="y/m/d">yy/mm/dd</option>
+			<option value="d/m/Y">dd/mm/yyyy</option>
+			<option value="m/d/y">mm/dd/yy</option>
+			<option value="m/d/Y">mm/dd/yyyy</option>
+			<option value="Y-m-d">yyyy-mm-dd</option>
+			<option value="d-m-y">dd-mm-yy</option>
+			<option value="y-m-d">yy-mm-dd</option>
+			<option value="d-m-Y">dd-mm-yyyy</option>
+			<option value="m-d-y">mm-dd-yy</option>
+			<option value="m-d-Y">mm-dd-yyyy</option>
+			<option value="Y.m.d">yyyy.mm.dd</option>
+			<option value="d.m.y">dd.mm.yy</option>
+			<option value="y.m.d">yy.mm.dd</option>
+			<option value="d.m.Y">dd.mm.yyyy</option>
+			<option value="m.d.y">mm.dd.yy</option>
+			<option value="m.d.Y">mm.dd.yyyy</option>
+		</type>
+		<type name="cfg_time_format" base="list" valuetype="string">
+			<optgroup label="12 Hour">
+				<option value="g:i:s">h:mm:ss</option>
+				<option value="g:i:s a">h:mm:ss am/pm</option>
+				<option value="g:i:s A">h:mm:ss AM/PM</option>
+				<option value="g:i">h:mm</option>
+				<option value="g:i a">h:mm am/pm</option>
+				<option value="g:i A">h:mm AM/PM</option>
+				<option value="h:i:s">hh:mm:ss</option>
+				<option value="h:i:s a">hh:mm:ss am/pm</option>
+				<option value="h:i:s A">hh:mm:ss AM/PM</option>
+				<option value="h:i">hh:mm</option>
+				<option value="h:i a">hh:mm am/pm</option>
+				<option value="h:i A">hh:mm AM/PM</option>
+			</optgroup>
+			<optgroup label="24 Hour">
+				<option value="G:i:s">h:mm:ss</option>
+				<option value="G:i:s a">h:mm:ss am/pm</option>
+				<option value="G:i:s A">h:mm:ss AM/PM</option>
+				<option value="G:i">h:mm</option>
+				<option value="G:i a">h:mm am/pm</option>
+				<option value="G:i A">h:mm AM/PM</option>
+				<option value="H:i:s">hh:mm:ss</option>
+				<option value="H:i:s a">hh:mm:ss am/pm</option>
+				<option value="H:i:s A">hh:mm:ss AM/PM</option>
+				<option value="H:i">hh:mm</option>
+				<option value="H:i a">hh:mm am/pm</option>
+				<option value="H:i A">hh:mm AM/PM</option>
+			</optgroup>
+		</type>
+		<type name="cfg_calendar_type" base="list" valuetype="string">
+			<option value="2">Drop-down, with Popup Calendar</option>
+			<option value="3">Drop-down, without Popup Calendar</option>
+			<option value="1">Popup Calendar</option>
+		</type>
+		<type name="cfg_allow_email_display" base="list" valuetype="string">
+			<option value="1">Display Email Only</option>
+			<option value="2">Display Email with Mail-To link</option>
+			<option value="3">Display Link to Email Form</option>
+			<option value="4">Do Not Display Email</option>
+		</type>
+		<type name="cfg_allow_email_replyto" base="list" valuetype="string">
+			<option value="1">User Email Address</option>
+			<option value="2">Admin Email Address, with Reply-To User Email Address</option>
+		</type>
+		<type name="cfg_icons_display" base="list" valuetype="string">
+			<option value="0">No Icons</option>
+			<option value="1">Only Required Icon</option>
+			<option value="2">Only Profile and No Profile Icons</option>
+			<option value="3">Only Required and Profile Icons</option>
+			<option value="4">Only Info Icon</option>
+			<option value="8">Only Info Text</option>
+			<option value="5">Only Required and Info Icons</option>
+			<option value="9">Only Required Icon and Info Text</option>
+			<option value="6">Only Profile and Info Icons</option>
+			<option value="10">Only Profile Icon and Info Text</option>
+			<option value="7">All Icons (Required, Profile, and Info)</option>
+			<option value="11">All Icons (Required and Profile) and Info Text</option>
+		</type>
+		<type name="cfg_login_type" base="list" valuetype="string">
+			<option value="0">Username</option>
+			<option value="1">Username or Email Address</option>
+			<option value="2">Email Address</option>
+			<option value="3">Username, Email Address, or CMS Authentication Plugins</option>
+			<option value="4">None</option>
+		</type>
+		<type name="cfg_reg_admin_allowcbregistration" base="list" valuetype="string">
+			<option value="0">Same as CMS "allow registration"</option>
+			<option value="1">Yes, Independent of CMS "allow registration"</option>
+		</type>
+		<type name="cfg_reg_layouts" base="list" valuetype="string">
+			<option value="flat">Flat</option>
+			<option value="tabbed">Tabbed</option>
+			<option value="stepped">Step by Step</option>
+		</type>
+		<type name="cfg_layouts" base="list" valuetype="string">
+			<option value="flat">Flat</option>
+			<option value="tabbed">Tabbed</option>
+		</type>
+		<type name="cfg_icon_locations" base="list" valuetype="string">
+			<option value="0">Hidden</option>
+			<option value="1">Top</option>
+			<option value="2">Bottom</option>
+			<option value="3">Top and Bottom</option>
+		</type>
+		<type name="cfg_use_divs" base="list" valuetype="string">
+			<option value="0">Tables</option>
+			<option value="1">Divs</option>
+		</type>
+		<type name="cfg_allowModeratorsUserEdit" base="list" valuetype="string">
+			<option value="0">No</option>
+			<option value="1">Moderators and Super Administrators Only</option>
+			<option value="7">Administrators and Super Administrators Only</option>
+			<option value="8">Super Administrators Only</option>
+		</type>
+		<type name="cfg_connectionDisplay" base="list" valuetype="string">
+			<option value="0">Public</option>
+			<option value="1">Private</option>
+		</type>
+		<type name="cfg_conNotifyType" base="list" valuetype="string">
+			<option value="0">None</option>
+			<option value="1">Email</option>
+			<option value="2">PMS</option>
+			<option value="3">PMS and Email</option>
+		</type>
+		<type name="cfg_translations_debug" base="list" valuetype="string">
+			<option value="0">No</option>
+			<option value="1">Text Markers</option>
+			<option value="2">HTML and Text Markers</option>
+			<option value="3">Markers and List Untranslated Strings</option>
+			<option value="4">Markers and List All Strings</option>
+		</type>
+		<type name="cfg_noVersionCheck" base="list" valuetype="string">
+			<option value="0">Automatic</option>
+			<option value="1">Manual</option>
+		</type>
+		<type name="cfg_avatarMaintainRatio" base="list" valuetype="string">
+			<option value="1">Yes</option>
+			<option value="2">Yes, with Cropping</option>
+			<option value="0">No</option>
+		</type>
+	</types>
+</cbxml>

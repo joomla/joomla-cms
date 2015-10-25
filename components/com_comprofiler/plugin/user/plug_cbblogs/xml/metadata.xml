@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="request">
+		<fieldset name="request" label="TEST">
+			<field name="action" type="hidden" default="blogs" label="" description="" />
+			<field name="func" type="list" required="true" default="show" label="Function" description="">
+				<option value="new">New Blog</option>
+				<option value="edit">Edit Blog</option>
+				<option value="show">Show Blog</option>
+			</field>
+			<field name="id" type="text" required="false" default="" label="ID" description="" />
+		</fieldset>
+	</fields>
+</form>

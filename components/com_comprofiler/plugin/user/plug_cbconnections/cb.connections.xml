@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbinstall version="1.0" type="plugin" group="user" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:../../../../../validation/ahawow.xsd">
+	<name>CB Connections</name>
+	<author>JoomlaJoe</author>
+	<creationDate>2015-09-22</creationDate>
+	<copyright>(C) 2004-2015 www.joomlapolis.com / Lightning MultiCom SA - and its licensors, all rights reserved</copyright>
+	<license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2</license>
+	<authorEmail>beat@joomlapolis.com</authorEmail>
+	<authorUrl>www.joomlapolis.com</authorUrl>
+	<version>2.0.11</version>
+	<description>Provides CB Core Connections functionality</description>
+	<files>
+		<filename plugin="cb.connections">cb.connections.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<params>
+		<param name="@spacer" type="spacer" default="Display Settings" label="User Profile Status :" description="" />
+		<param name="@spacer" type="spacer" default="see Field: Connections: Parameters" label="Connections Status Settings :" description="" />
+	</params>
+	<tabs>
+		<tab name="_UE_CONNECTION" translated-name="Connections" description="" class="getConnectionTab" fields="0" sys="1" position="cb_main" displaytype="tab">
+			<params>
+				<param name="con_ShowSummary" type="yesno" default="0" label="Show Summary" description="Shows a small number of connections with a link to see them all in paginated form." />
+				<param name="con_SummaryEntries" type="text" default="4" label="Entries shown in Summary" description="If Show Summary is enabled, this is the number of connections displayed. Otherwise, this is ignored. Default is 4." />
+				<param name="con_PagingEnabled" type="yesno" default="1" label="Enable Paging" description="Allow entries to automatically page when they exceed the number per page limit." />
+				<param name="con_EntriesPerPage" type="text" default="10" label="Max entries shown or per page" description="If paging is enabled, this is the number of connections per page. Otherwise, this is the number of connections to show. Default is 10." />
+			</params>
+			<fields>
+			</fields>
+		</tab>
+		<tab name="_UE_CONNECTIONPATHS" translated-name="Connection Paths" description="" class="getConnectionPathsTab" fields="0" position="cb_head" displaytype="html">
+			<params>
+			</params>
+			<fields>
+			</fields>
+		</tab>
+	</tabs>
+	<database>
+	</database>
+</cbinstall>

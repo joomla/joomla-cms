@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<view>
+		<options>
+			<default name="Registration Form" msg="This is an optional menu item for accessing Community Builder Registration page. Normally not needed, as you would normally use Community Builder login module for this so it adapts automatically to login state." />
+		</options>
+	</view>
+	<state>
+		<name>Community Builder Registration Form</name>
+		<description>This is an optional menu item for accessing Community Builder Registration page. Normally not needed, as you would normally use Community Builder login module for this so it adapts automatically to login state.</description>
+	</state>
+</metadata>
