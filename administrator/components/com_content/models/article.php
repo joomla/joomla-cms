@@ -483,7 +483,7 @@ class ContentModelArticle extends JModelAdmin
 		{
 			$registry = new Registry;
 			$registry->loadArray($data['images']);
-	
+
 			$data['images'] = (string) $registry;
 		}
 
