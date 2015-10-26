@@ -91,7 +91,7 @@ class PlgUserJoomla extends JPlugin
 		if ($isnew)
 		{
 			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
-			if ($this->app->isAdmin())
+			if ($this->app instanceof JApplicationCms && $this->app->isAdmin())
 			{
 				if ($mail_to_user)
 				{
