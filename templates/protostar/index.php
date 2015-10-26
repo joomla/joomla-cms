@@ -26,6 +26,9 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
+// Output as HTML5
+$doc->setHtml5(true);
+
 if($task == "edit" || $layout == "form" )
 {
 	$fullWidth = 1;
