@@ -29,53 +29,21 @@ abstract class JUserHelper
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
+	 * @deprecated  4.0
 	 */
 	public static function addUserToGroup($userId, $groupId)
 	{
 		// Get the user object.
-		$user = new JUser((int) $userId);
+		$user = JUser::getInstance((int) $userId);
 
-		// Add the user to the group if necessary.
-		if (!in_array($groupId, $user->groups))
+		$result = $user->addGroup($groupId);
+
+		if (JFactory::getUser()->id == $user->id)
 		{
-			// Get the title of the group.
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select($db->quoteName('title'))
-				->from($db->quoteName('#__usergroups'))
-				->where($db->quoteName('id') . ' = ' . (int) $groupId);
-			$db->setQuery($query);
-			$title = $db->loadResult();
-
-			// If the group does not exist, return an exception.
-			if (!$title)
-			{
-				throw new RuntimeException('Access Usergroup Invalid');
-			}
-
-			// Add the group data to the user object.
-			$user->groups[$title] = $groupId;
-
-			// Store the user object.
-			$user->save();
+			$user->clearAccessRights();
 		}
 
-		if (session_id())
-		{
-			// Set the group data for any preloaded user objects.
-			$temp = JFactory::getUser((int) $userId);
-			$temp->groups = $user->groups;
-
-			// Set the group data for the user object in the session.
-			$temp = JFactory::getUser();
-
-			if ($temp->id == $userId)
-			{
-				$temp->groups = $user->groups;
-			}
-		}
-
-		return true;
+		return $result;
 	}
 
 	/**
@@ -86,13 +54,13 @@ abstract class JUserHelper
 	 * @return  array    List of groups
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public static function getUserGroups($userId)
 	{
-		// Get the user object.
 		$user = JUser::getInstance((int) $userId);
 
-		return isset($user->groups) ? $user->groups : array();
+		return $user->getGroups(false);
 	}
 
 	/**
@@ -104,37 +72,21 @@ abstract class JUserHelper
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public static function removeUserFromGroup($userId, $groupId)
 	{
 		// Get the user object.
 		$user = JUser::getInstance((int) $userId);
 
-		// Remove the user from the group if necessary.
-		$key = array_search($groupId, $user->groups);
+		$result = $user->removeGroup($groupId);
 
-		if ($key !== false)
+		if (JFactory::getUser()->id == $userId)
 		{
-			// Remove the user from the group.
-			unset($user->groups[$key]);
-
-			// Store the user object.
-			$user->save();
+			$user->clearAccessRights();
 		}
 
-		// Set the group data for any preloaded user objects.
-		$temp = JFactory::getUser((int) $userId);
-		$temp->groups = $user->groups;
-
-		// Set the group data for the user object in the session.
-		$temp = JFactory::getUser();
-
-		if ($temp->id == $userId)
-		{
-			$temp->groups = $user->groups;
-		}
-
-		return true;
+		return $result;
 	}
 
 	/**
@@ -154,39 +106,10 @@ abstract class JUserHelper
 
 		// Set the group ids.
 		JArrayHelper::toInteger($groups);
-		$user->groups = $groups;
 
-		// Get the titles for the user groups.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('id') . ', ' . $db->quoteName('title'))
-			->from($db->quoteName('#__usergroups'))
-			->where($db->quoteName('id') . ' = ' . implode(' OR ' . $db->quoteName('id') . ' = ', $user->groups));
-		$db->setQuery($query);
-		$results = $db->loadObjectList();
-
-		// Set the titles for the user groups.
-		for ($i = 0, $n = count($results); $i < $n; $i++)
+		foreach ($groups as $group)
 		{
-			$user->groups[$results[$i]->id] = $results[$i]->id;
-		}
-
-		// Store the user object.
-		$user->save();
-
-		if (session_id())
-		{
-			// Set the group data for any preloaded user objects.
-			$temp = JFactory::getUser((int) $userId);
-			$temp->groups = $user->groups;
-
-			// Set the group data for the user object in the session.
-			$temp = JFactory::getUser();
-
-			if ($temp->id == $userId)
-			{
-				$temp->groups = $user->groups;
-			}
+			$user->addGroup($group);
 		}
 
 		return true;
@@ -344,7 +267,6 @@ abstract class JUserHelper
 			JCrypt::hasStrongPasswordSupport();
 			$match = password_verify($password, $hash);
 
-			// Uncomment this line if we actually move to bcrypt.
 			$rehash = password_needs_rehash($hash, PASSWORD_DEFAULT);
 		}
 		elseif (substr($hash, 0, 8) == '{SHA256}')
@@ -673,6 +595,7 @@ abstract class JUserHelper
 	 * @return  string  $value converted to the 64 MD5 characters.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	protected static function _toAPRMD5($value, $count)
 	{
@@ -699,6 +622,7 @@ abstract class JUserHelper
 	 * @return  string  Binary data.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	private static function _bin($hex)
 	{
