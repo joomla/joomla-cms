@@ -168,6 +168,10 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 			// Build the options array.
 			foreach ($items as $link)
 			{
+				if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*')
+				{
+					$link->text .= ' (' . $link->language . ')';
+				}
 				$groups[$menuType][] = JHtml::_('select.option', $link->value, $link->text, 'value', 'text', in_array($link->type, $this->disable));
 			}
 		}
@@ -183,6 +187,10 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 				// Build the options array.
 				foreach ($menu->links as $link)
 				{
+					if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*')
+					{
+						$link->text .= ' (' . $link->language . ')';
+					}
 					$groups[$menu->menutype][] = JHtml::_(
 						'select.option', $link->value, $link->text, 'value', 'text',
 						in_array($link->type, $this->disable)
