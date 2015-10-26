@@ -91,6 +91,12 @@ class ModulesModelModules extends JModelList
 			$app->setUserState($this->context . '.filter.client_id_previous', $clientId);
 		}
 
+		// Modal view should return only front end modules
+		if (JFactory::getApplication()->input->get('layout') == 'modal')
+		{
+			$clientId = 0;
+		}
+
 		$this->setState('filter.client_id', $clientId);
 
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
@@ -280,6 +286,12 @@ class ModulesModelModules extends JModelList
 		// Filter by published state
 		$state = $this->getState('filter.state');
 
+		// Modal view should return only front end modules
+		if (JFactory::getApplication()->input->get('layout') == 'modal')
+		{
+			$state = 1;
+		}
+
 		if (is_numeric($state))
 		{
 			$query->where('a.published = ' . (int) $state);
@@ -313,6 +325,12 @@ class ModulesModelModules extends JModelList
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
 
+		// Modal view should return only front end modules
+		if (JFactory::getApplication()->input->get('layout') == 'modal')
+		{
+			$clientId = 0;
+		}
+
 		if (is_numeric($clientId))
 		{
 			$query->where('a.client_id = ' . (int) $clientId . ' AND e.client_id =' . (int) $clientId);
@@ -334,9 +352,17 @@ class ModulesModelModules extends JModelList
 			}
 		}
 
-		// Filter on the language.
-		if ($language = $this->getState('filter.language'))
+		// Modal view should return only specific language and ALL
+		if (JFactory::getApplication()->input->get('layout') == 'modal')
 		{
+			if (JFactory::getApplication()->isSite() && JLanguageMultilang::isEnabled())
+			{
+				$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			}
+		}
+		elseif ($language = $this->getState('filter.language'))
+		{
+			// Filter on the language.
 			$query->where('a.language = ' . $db->quote($language));
 		}
 
