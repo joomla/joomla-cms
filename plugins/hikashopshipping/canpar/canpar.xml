@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="2.5" method="upgrade" group="hikashopshipping">
+	<name>Hikashop CANPAR Shipping Plugin</name>
+	<creationDate>January 2014</creationDate>
+	<version>1.0.0</version>
+	<author>Parameshwar (Ravi) Roy</author>
+	<authorEmail>imraviroy@yahoo.com</authorEmail>
+	<authorUrl>http://www.linkedin.com/in/raviroy</authorUrl>
+	<copyright>Copyright (C) 2014 Parameshwar (Ravi) Roy - All rights reserved.</copyright>
+	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+	<description>This Hikashop plugin handle CANPAR Shipping Service</description>
+	<files>
+		<filename plugin="canpar">canpar.php</filename>
+		<filename>canpar_configuration.php</filename>
+	</files>
+	<params addpath="/components/com_hikashop/params">
+	</params>
+</extension>

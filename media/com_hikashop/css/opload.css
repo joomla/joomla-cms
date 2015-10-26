@@ -1,0 +1,211 @@
+/**
+ * @package    HikaShop for Joomla!
+ * @version    2.6.0
+ * @author     hikashop.com
+ * @copyright  (C) 2010-2015 HIKARI SOFTWARE. All rights reserved.
+ * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ */
+.oploadQueueItem {
+	font: 11px Verdana, Geneva, sans-serif;
+	border: 2px solid #E5E5E5;
+	background-color: #F5F5F5;
+	margin:5px;
+	padding: 10px 10px 10px 0px;
+	border: 1px solid #ddd;
+	-webkit-border-radius: 4px;
+	   -moz-border-radius: 4px;
+			border-radius: 4px;
+}
+
+.oploadQueueItem.oploadError {
+	border: 1px solid #DD514C !important;
+	background-color: #FDE5DD !important;
+}
+.oploadQueueItem.oploadFinish {
+	border: 1px solid #5EB95E !important;
+	background-color: #E2FDDD !important;
+}
+
+.oploadQueueItem .cancel {
+	position: relative;
+	top: -2px;
+	right: 5px;
+	line-height: 20px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin:0;
+	vertical-align:middle;
+	float: right;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 20px;
+	color: #000000;
+	text-shadow: 0 1px 0 #ffffff;
+	opacity: 0.2;
+	filter: alpha(opacity=20);
+	text-decoration:none;
+}
+.oploadQueueItem .cancel:hover,
+.oploadQueueItem .cancel:focus {
+	color: #000000;
+	text-decoration: none;
+	cursor: pointer;
+	opacity: 0.4;
+	filter: alpha(opacity=40);
+}
+.oploadQueueItem .fileName {
+	margin-right:6px;
+}
+
+.oploadProgress {
+	border:1px solid #f7f7f7;
+	margin-top: 10px;
+	height: 16px;
+	margin-bottom: 0px;
+	overflow: hidden;
+	background-color: #ffffff;
+	background-image: -moz-linear-gradient(top, #f9f9f9, #ffffff);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f9f9f9), to(#ffffff));
+	background-image: -webkit-linear-gradient(top, #f9f9f9, #ffffff);
+	background-image: -o-linear-gradient(top, #f9f9f9, #ffffff);
+	background-image: linear-gradient(to bottom, #f9f9f9, #ffffff);
+	background-repeat: repeat-x;
+	-webkit-border-radius: 4px;
+	   -moz-border-radius: 4px;
+			border-radius: 4px;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff9f9f9', endColorstr='#ffffffff', GradientType=0);
+	-webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+	   -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+			box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.oploadProgressBar {
+	float: left;
+	width: 0;
+	height: 100%;
+	font-size: 12px;
+	color: #ffffff;
+	text-align: center;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	background-color: #5eb95e;
+	background-image: -moz-linear-gradient(top, #62c462, #57a957);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#62c462), to(#57a957));
+	background-image: -webkit-linear-gradient(top, #62c462, #57a957);
+	background-image: -o-linear-gradient(top, #62c462, #57a957);
+	background-image: linear-gradient(to bottom, #62c462, #57a957);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462', endColorstr='#ff57a957', GradientType=0);
+	-webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+	   -moz-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+			box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+			box-sizing: border-box;
+	-webkit-transition: width 0.4s ease;
+	   -moz-transition: width 0.4s ease;
+	     -o-transition: width 0.4s ease;
+			transition: width 0.4s ease;
+	-webkit-border-radius: 4px;
+	   -moz-border-radius: 4px;
+			border-radius: 4px;
+	-webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+	   -moz-box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+			box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+}
+
+@-webkit-keyframes oploadbar-stripes {
+	from { background-position:0 0 }
+	to { background-position:80px 0 }
+}
+@-moz-keyframes oploadbar-stripes {
+	from { background-position:0 0 }
+	to { background-position:80px 0 }
+}
+@-ms-keyframes oploadbar-stripes {
+	from { background-position:0 0 }
+	to { background-position:80px 0 }
+}
+@-o-keyframes oploadbar-stripes {
+	from { background-position:0 0 }
+	to { background-position:80px 0 }
+}
+@keyframes oploadbar-stripes {
+	from { background-position:0 0 }
+	to { background-position:80px 0 }
+}
+
+.oploadProgressBar.active {
+	background-color: #149bdf;
+	background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.25, rgba(255, 255, 255, 0.15)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(255, 255, 255, 0.15)), color-stop(0.75, rgba(255, 255, 255, 0.15)), color-stop(0.75, transparent), to(transparent));
+	background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+	background-image: -moz-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+	background-image: -o-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+	background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+	-webkit-background-size: 40px 40px;
+	   -moz-background-size: 40px 40px;
+	     -o-background-size: 40px 40px;
+			background-size: 40px 40px;
+	-webkit-animation: oploadbar-stripes 1s linear infinite;
+	   -moz-animation: oploadbar-stripes 1s linear infinite;
+	    -ms-animation: oploadbar-stripes 1s linear infinite;
+	     -o-animation: oploadbar-stripes 1s linear infinite;
+			animation: oploadbar-stripes 1s linear infinite;
+}
+
+.oploadError .oploadProgressBar {
+	background-color: #dd514c;
+	background-image: -moz-linear-gradient(top, #ee5f5b, #c43c35);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ee5f5b), to(#c43c35));
+	background-image: -webkit-linear-gradient(top, #ee5f5b, #c43c35);
+	background-image: -o-linear-gradient(top, #ee5f5b, #c43c35);
+	background-image: linear-gradient(to bottom, #ee5f5b, #c43c35);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffee5f5b', endColorstr='#ffc43c35', GradientType=0);
+}
+
+.oploadThumb {
+	float:left;
+	max-width:50px;
+	height:50px;
+	max-height:50px;
+	width:auto;
+	padding:0 5px;
+	margin:0;
+}
+.oploadThumb img {
+	max-height:50px;
+	max-width:50px;
+	margin:0;
+	padding:0;
+}
+
+.oploadBtn {
+	width: 80px;
+	margin: 3px 0px 0px 0px;
+	padding: 6px;
+	text-align: center;
+	border: 1px solid #333333;
+	background-color: #ececec;
+}
+
+.opload-drop-zone {
+	border: 2px dashed rgb(204, 204, 204);
+	left:0;right:0;
+	border-radius: 12px 12px 12px 12px;
+	min-height: 100px;
+}
+
+.opload-drop-zone .instructions,
+.opload-drop-zone .text-over {
+	width:100%;
+	padding-top:35px;
+	text-align:center;
+	display:inline-block;
+}
+.opload-drop-zone .text-over { display: none; }
+.opload-drop-over .instructions { display: none; }
+.opload-drop-over .text-over { display:inline-block; }
+
+.opload-drop-over {
+	background-color: #d0d0d0;
+	border-color: #000000;
+}

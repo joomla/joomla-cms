@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+  <name>Hikashop Characteristics</name>
+  <author>Hikari Software</author>
+  <version>1.0.0</version>
+  <description>Definition of characteristics for the hikashop component</description>
+  <copyright>Copyright (C) 2009 Hikari Software SARL - All rights reserved.</copyright>
+  <reference type="content">
+  	<table name="hikashop_characteristic">
+  		<field type="referenceid" name="characteristic_id" translate="0">ID</field>
+  		<field type="titletext" name="characteristic_value"  length="255" maxlength="255" translate="1">Characteristic value</field>
+  	</table>
+  </reference>
+  <translationfilters>
+  </translationfilters>
+</joomfish>

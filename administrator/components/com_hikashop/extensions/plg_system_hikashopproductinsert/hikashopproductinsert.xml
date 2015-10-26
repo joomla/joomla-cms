@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="2.5" method="upgrade" group="system">
+	<name>HikaShop Product TAG translation</name>
+	<creationDate>21 octobre 2015</creationDate>
+	<version>2.6.0</version>
+	<author>Hikari Software</author>
+	<authorEmail>dev@hikashop.com</authorEmail>
+	<authorUrl>http://www.hikashop.com</authorUrl>
+	<copyright>(C) 2010-2015 HIKARI SOFTWARE. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
+	<description>Hikashop product tag translation plugin</description>
+	<files>
+		<filename plugin="hikashopproductinsert">hikashopproductinsert.php</filename>
+		<filename plugin="hikashopproductinsert">hikashopproductinsert_view.php</filename>
+	</files>
+	<params addpath="/components/com_hikashop/params">
+		<param name="itemid" type="text" default="" label="Menu" description="The id of the hikashop products listing menu where to redirect" />
+	</params>
+	<config>
+		<fields name="params" addfieldpath="/components/com_hikashop/fields">
+			<fieldset name="basic">
+				<field name="itemid" type="text" default="" label="Menu" description="The id of the hikashop products listing menu where to redirect" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

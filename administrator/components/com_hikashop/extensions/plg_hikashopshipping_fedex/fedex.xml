@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="2.5" method="upgrade" group="hikashopshipping">
+	<name>Hikashop FedEx Shipping Plugin</name>
+	<creationDate>21 octobre 2015</creationDate>
+	<version>2.6.0</version>
+	<author>Rich S Wyatt - D3 Web Creations / OBSIDEV</author>
+	<authorEmail>info@dcubedweb.com / contact@obsidev.com</authorEmail>
+	<authorUrl>http://www.dcubedweb.com / http://www.obsidev.com</authorUrl>
+	<copyright>Copyright (C) 2011-2012 D3 Web Creations - All rights reserved. / Copyright (C) 2012 OBSIDEV</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>This plugin enables you to setup handle FedEx service</description>
+	<files>
+		<filename plugin="fedex">fedex.php</filename>
+		<filename plugin="fedex">fedex_configuration.php</filename>
+		<filename>fedex_rate.wsdl</filename>
+	</files>
+	<params addpath="/components/com_hikashop/params">
+	</params>
+</extension>

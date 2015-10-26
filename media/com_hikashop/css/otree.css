@@ -1,0 +1,80 @@
+/**
+ * @package    HikaShop for Joomla!
+ * @version    2.6.0
+ * @author     hikashop.com
+ * @copyright  (C) 2010-2015 HIKARI SOFTWARE. All rights reserved.
+ * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ */
+.oTree {
+	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color:#666;
+	white-space:nowrap;
+	line-height:normal;
+	text-align:left;
+}
+.oTree img {
+	border:0px;
+	vertical-align:middle;
+	margin:0px !important;
+}
+.oTree input {
+	border:0px;
+}
+.oTree a img {
+	margin:0px !important;
+}
+.oTree input[type="checkbox"] {
+	vertical-align:middle;
+	margin:0px 2px 0px 0px;
+}
+.oTree a, .oTree span {
+	color:#333;
+	text-decoration:none !important;
+	font-size:9px;
+}
+.oTree a.node, .oTree span.node {
+	white-space:nowrap;
+	padding:1px 2px 1px 2px;
+}
+.oTree a.node:hover, .oTree a.nodeSel:hover {
+	color:#333;
+	text-decoration:underline !important;
+}
+.oTree a.nodeSel {
+	background-color:#c0d2ec;
+	white-space:nowrap;
+	padding:1px 2px 1px 2px;
+}
+.oTree .clip {
+
+}
+
+.oTree .e1 { margin-left:18px; display:inline; }
+.oTree .e2 { margin-left:36px; display:inline; }
+.oTree .e3 { margin-left:54px; display:inline; }
+.oTree .e4 { margin-left:72px; display:inline; }
+.oTree .e5 { margin-left:90px; display:inline; }
+.oTree .e6 { margin-left:108px; display:inline; }
+
+.oList ul { margin:0 !important; padding: 0 !important; }
+.oList li { display: list-item; list-style: none; margin:0px; padding: 0px; }
+.oList a { display: block; text-decoration: none; padding: 5px 6px; }
+.oList li span { display: block; text-decoration: none; padding: 5px 6px; }
+.oList a:hover, .oList a.sel { background-color:#0066CC; color: white; text-decoration:none; }
+.oList em { text-decoration:none; font-weight: bold; font-style: normal; }
+.oList table.oListTable { width: 100%; }
+.oList table.oListTable th { background-color: #eaeaea; }
+.oList tr {  }
+.oList td { border-top: 1px solid #d0d0d0; padding: 4px; }
+.oList tr.oListLine { }
+.oList tr.oListLine:hover { cursor:pointer; background-color:#0066CC; color: white; text-decoration:none; }
+.oList tr.oListLine:hover td { background-color:#0066CC; }
+
+.oList li.oListSelected a { background-color:#289CC9; color: white; text-decoration:none; }
+.oList tr.oListSelected { background-color:#289CC9; color: white; text-decoration:none; }
+.oList tr.oListSelected td { background-color:#289CC9; }
+
+.oList tr.oListBlocked { background-color:#f6f6f6; }
+.oList li.oListLoadMore,
+.oList tr.oListLoadMore td { height: 16px; background:url('../images/otree/loading.gif') no-repeat center; }

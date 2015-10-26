@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="1.5" method="upgrade" group="hikashop">
+	<name>HikaShop Shipping Manual - Price per product plugin</name>
+	<creationDate>21 octobre 2015</creationDate>
+	<version>2.6.0</version>
+	<author>Obsidev</author>
+	<authorEmail>dev@obsidev.com</authorEmail>
+	<authorUrl>http://www.obsidev.com</authorUrl>
+	<copyright>Copyright (C) 2012-2015 OBSIDEV SARL - All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>This plugin allow to configure price per product for manual shippings</description>
+	<files>
+		<filename plugin="shippingmanual_prices">shippingmanual_prices.php</filename>
+	</files>
+	<params/>
+	<config/>
+</extension>

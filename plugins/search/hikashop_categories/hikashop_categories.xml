@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="search" method="upgrade">
+	<name>Search - Hikashop Categories/Manufacturers</name>
+	<author>Hikari Software</author>
+	<creationDate>21 octobre 2015</creationDate>
+	<version>2.6.0</version>
+	<copyright>(C) 2010-2015 HIKARI SOFTWARE. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>enquiry@hikashop.com</authorEmail>
+	<authorUrl>www.hikashop.com</authorUrl>
+	<description>Allows Searching of Products Categories and manufacturers</description>
+	<files>
+		<filename plugin="hikashop_categories">hikashop_categories.php</filename>
+	</files>
+	<params>
+		<param name="search_limit" type="text" size="5" default="50" label="Search Limit" description="Number of Search items to return"/>
+		<param name="item_id" type="text" size="5" default="" label="Itemid for categories" description="The id of the menu to append to the URLs so that the cateogry page uses the corresponding HikaShop options"/>
+		<param name="manufacturers" type="radio" default="1" label="Manufacturers" description="Allow search for manufacturers">
+			<option value="2">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="manu_item_id" type="text" size="5" default="" label="Itemid for manufacturers" description="The id of the menu to append to the URLs so that the manufacturer page uses the corresponding HikaShop options"/>
+		<param name="new_page" type="radio" default="1" label="New page" description="Open links on a new page">
+			<option value="2">No</option>
+			<option value="1">Yes</option>
+		</param>
+	</params>
+	<config>
+		<fields name="params" addfieldpath="/components/com_hikashop/fields">
+			<fieldset name="basic">
+				<field
+					name="search_limit"
+					type="text"
+					label="Search Limit"
+					size="5"
+					default="50"
+					description="Number of Search items to return" />
+				<field
+					name="item_id"
+					type="text"
+					label="Itemid for categories"
+					size="5"
+					default=""
+					description="The id of the menu to append to the URLs so that the cateogry page uses the corresponding HikaShop options" />
+				<field name="manufacturers" type="radio" default="1" label="Manufacturers" description="Allow search for manufacturers">
+					<option value="2">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field
+					name="manu_item_id"
+					type="text"
+					label="Itemid for manufacturers"
+					size="5"
+					default=""
+					description="The id of the menu to append to the URLs so that the manufacturer page uses the corresponding HikaShop options" />
+				<field
+					name="new_page"
+					type="radio"
+					default="1"
+					label="New page"
+					description="Open links on a new page">
+					<option value="2">No</option>
+					<option value="1">Yes</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

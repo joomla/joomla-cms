@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="search" method="upgrade">
+	<name>Search - Hikashop Products</name>
+	<author>Hikari Software</author>
+	<creationDate>21 octobre 2015</creationDate>
+	<version>2.6.0</version>
+	<copyright>(C) 2010-2015 HIKARI SOFTWARE. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>enquiry@hikashop.com</authorEmail>
+	<authorUrl>www.hikashop.com</authorUrl>
+	<description>Allows Searching of Products</description>
+	<files>
+		<filename plugin="hikashop_products">hikashop_products.php</filename>
+	</files>
+	<params addpath="/components/com_hikashop/params">
+		<param name="search_limit" type="text" size="5" default="50" label="Search Limit" description="Number of Search items to return"/>
+		<param name="item_id" type="text" size="5" default="" label="Itemid" description="The id of the menu to append to the URLs so that the product page uses the corresponding HikaShop options"/>
+		<param name="full_path" type="radio" default="1" label="Full breadcrumb path" description="If the id set above is a products listing menu and that this option is toggled on, the breadcrumb path will contain the full category tree down to the product">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="out_of_stock_display" type="radio" default="1" label="Out of stock products" description="Allow out of stock products to be displayed in the search results">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="new_page" type="radio" default="1" label="New page" description="Open links on a new page">
+			<option value="2">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="variants" type="radio" default="0" label="Search variants" description="Search variants">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="fields" type="searchfields" default="product_name,product_description" label="Fields" description="Select the fields you want to be searchable" />
+	</params>
+	<config>
+		<fields name="params" addfieldpath="/components/com_hikashop/fields">
+			<fieldset name="basic">
+				<field
+					name="search_limit"
+					type="text"
+					label="Search Limit"
+					size="5"
+					default="50"
+					description="Number of Search items to return" />
+				<field
+					name="item_id"
+					type="text"
+					label="Itemid"
+					size="5"
+					default=""
+					description="The id of the menu to append to the URLs so that the product page uses the corresponding HikaShop options" />
+				<field
+					name="full_path"
+					type="radio"
+					default="1"
+					label="Full breadcrumb path"
+					description="If the id set above is a products listing menu and that this option is toggled on, the breadcrumb path will contain the full category tree down to the product">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field
+					name="out_of_stock_display"
+					type="radio"
+					default="1"
+					label="Out of stock products"
+					description="Allow out of stock products to be displayed in the search results">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field
+					name="new_page"
+					type="radio"
+					default="1"
+					label="New page"
+					description="Open links on a new page">
+					<option value="2">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="variants" type="radio" default="0" label="Search variants" description="Search variants">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="fields" type="searchfields" default="product_name,product_description" label="Fields" description="Select the fields you want to be searchable" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

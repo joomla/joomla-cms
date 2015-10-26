@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="system" method="upgrade">
+	<name>User - HikaShop</name>
+	<creationDate>21 octobre 2015</creationDate>
+	<version>2.6.0</version>
+	<author>HikaShop</author>
+	<authorEmail>dev@hikashop.com</authorEmail>
+	<authorUrl>http://www.hikashop.com</authorUrl>
+	<copyright>(C) 2010-2015 HIKARI SOFTWARE. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>HikaShop User plugin to automatically synchronise the Joomla Users and the HikaShop ones</description>
+	<files>
+		<filename plugin="hikashopuser">hikashopuser.php</filename>
+	</files>
+	<params addpath="/components/com_hikashop/params">
+		<param name="fields_on_user_profile" type="radio" default="1" label="Display custom user fields on user profile edition page" description="Enable isplay custom user fields on the user profile edition page">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+	</params>
+	<config>
+		<fields name="params" addfieldpath="/components/com_hikashop/fields">
+			<fieldset name="basic">
+				<field name="fields_on_user_profile" type="radio" default="1" label="Display custom user fields on user profile edition page" description="Enable isplay custom user fields on the user profile edition page">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="1.5" method="upgrade" group="system">
+	<name>System - Hikashop Social Plugin</name>
+	<creationDate>21 octobre 2015</creationDate>
+	<version>2.6.0</version>
+	<author>Hikashop</author>
+	<authorEmail>dev@hikashop.com</authorEmail>
+	<authorUrl>http://www.hikashop.com</authorUrl>
+	<copyright>(C) 2010-2015 HIKARI SOFTWARE. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>This plugin enables you to add a Facebook "like" button and a Twitter button</description>
+	<files>
+		<filename plugin="hikashopsocial">hikashopsocial.php</filename>
+	</files>
+	<params addpath="/components/com_hikashop/params">
+		<param name="display_fb" type="radio" default="1" label="Display Facebook button" description="Display or not the Facebook like button">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="display_twitter" type="radio" default="1" label="Dislpay Twitter button" description="Display or not the twitter button to share the product page">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="display_google" type="radio" default="1" label="Display Google +1 button" description="Display or not Google +1 button">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="display_pinterest" type="radio" default="1" label="Display Pinterest button" description="Display or not Pinterest button">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="display_addThis" type="radio" default="1" label="Display AddThis button" description="Display or not AddThis button">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="position" type="list" default="0" label="Button position" description="Postion of the twitter and facebook buttons on your product page">
+			<option value="0">Left</option>
+			<option value="1">Right</option>
+		</param>
+		<param name="width" type="text" default="0" label="Width" description="The width of your div (in px)" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="fb_tag" type="radio" default="xfbml" label="Tag type" description="Coding language used for implementing the Facebook button">
+			<option value="xfbml">XFBML</option>
+			<option value="ifram">IFRAME</option>
+		</param>
+		<param name="fb_style" type="list" default="0" label="Facebook display style" description="Choose the style of the facebook button">
+			<option value="0">Standard</option>
+			<option value="1">Button count</option>
+			<option value="2">Box count</option>
+			<option value="3">Button</option>
+		</param>
+		<param name="fb_faces" type="radio" default="1" label="Show Facebook faces" description="Show or not the face of the people who used your Facebook button">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="fb_send" type="radio" default="0" label="Show Send button" description="Show or not the send button next to the like button (doesn't work if you use the iframe)">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="fb_verb" type="list" default="0" label="Verb to display" description="Choose the verb to display on your button">
+			<option value="0">Like</option>
+			<option value="1">Recommend</option>
+		</param>
+		<param name="fb_theme" type="list" default="0" label="Color theme" description="The color of the Facebook button">
+			<option value="0">Light</option>
+			<option value="1">Dark</option>
+		</param>
+		<param name="fb_font" type="list" default="0" label="Facebook button Font" description="The font of the Facebook button">
+			<option value="0">Arial</option>
+			<option value="1">Lucida grande</option>
+			<option value="2">segoe ui</option>
+			<option value="3">Tahoma</option>
+			<option value="4">Trebuchet ms</option>
+			<option value="5">Verdana</option>
+		</param>
+		<param name="fb_type" type="list" default="0" label="Product type" description="Type of the linked content">
+			<option value="0">Product</option>
+			<option value="1">Album</option>
+			<option value="2">Book</option>
+			<option value="3">Company</option>
+			<option value="4">Drink</option>
+			<option value="5">Game</option>
+			<option value="6">Movie</option>
+			<option value="7">Song</option>
+		</param>
+		<param name="admin" type="text" default="" label="Facebook admin" description="The name or ID of your facebook account" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="twitter_count" type="list" default="0" label="Twitter count display" description="Choose the style of the twitter count display">
+			<option value="0">Horizontal</option>
+			<option value="1">Vertical</option>
+			<option value="2">None</option>
+		</param>
+		<param name="twitter_text" type="text" default="" label="Tweet text" description="If you want to display a special text into the tweet. If this field is empty, the name of the page will be used." />
+		<param name="twitter_mention" type="text" default="" label="Mention to" description="Name of the account which will be mentioned in the tweet" />
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="google_size" type="list" default="0" label="Google button size" description="Choose the size of the Google +1 button">
+			<option value="0">Standard</option>
+			<option value="1">Small</option>
+			<option value="2">Medium</option>
+			<option value="3">Tall</option>
+		</param>
+		<param name="google_count" type="radio" default="1" label="Show Google count" description="Show or not the number of person who used this button">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="pinterest_display" type="list" default="0" label="Pinterest count display" description="Choose the style of the Pinterest count display">
+			<option value="0">Horizontal</option>
+			<option value="1">Vertical</option>
+			<option value="2">None</option>
+		</param>
+		<param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="addThis_display" type="list" default="0" label="addThis display" description="Choose the style of the addThis button">
+			<option value="0">Compact</option>
+			<option value="1">Big</option>
+			<option value="2">Count</option>
+		</param>
+		<param name="services_exclude" type="text" default="" label="Services exclude" description="Services you don't want to display (i.e. 'myspace, facebook'). You can find the list of service here: http://www.addthis.com/services/list#.UbXcsj6VBVU" />
+	</params>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="display_fb" type="radio" default="1" label="Display Facebook button" description="Display or not the Facebook like button">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="display_twitter" type="radio" default="1" label="Dislpay Twitter button" description="Display or not the twitter button to share the product page">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="display_google" type="radio" default="1" label="Display Google +1 button" description="Display or not Google +1 button">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="display_pinterest" type="radio" default="1" label="Display Pinterest button" description="Display or not Pinterest button">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="display_addThis" type="radio" default="1" label="Display AddThis button" description="Display or not AddThis button">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="position" type="list" default="0" label="Button position" description="Postion of the twitter and facebook buttons on your product page">
+					<option value="0">Left</option>
+					<option value="1">Right</option>
+				</field>
+				<field name="width" type="text" default="0" label="Width" description="The width of your div (in px). 0=100%" />
+				<field name="spacer1" type="spacer"	hr="true"/>
+				<field name="fb_tag" type="radio" default="xfbml" label="Tag type" description="Coding language used for implementing the Facebook button">
+					<option value="xfbml">XFBML</option>
+					<option value="iframe">IFRAME</option>
+				</field>
+				<field name="fb_style" type="list" default="0" label="Facebook display style" description="Choose the style of the facebook button">
+					<option value="0">Standard</option>
+					<option value="1">Button count</option>
+					<option value="2">Box count</option>
+					<option value="3">Button</option>
+				</field>
+				<field name="fb_faces" type="radio" default="1" label="Show Facebook faces" description="Show or not the face of the people who used your Facebook button">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="fb_send" type="radio" default="0" label="Show Send button" description="Show or not the send button next to the like button (doesn't work if you use the iframe)">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="fb_verb" type="list" default="0" label="Verb to display" description="Choose the verb to display on your button">
+					<option value="0">Like</option>
+					<option value="1">Recommend</option>
+				</field>
+				<field name="fb_theme" type="list" default="0" label="Color theme" description="The color of the Facebook button">
+					<option value="0">Light</option>
+					<option value="1">Dark</option>
+				</field>
+				<field name="fb_font" type="list" default="0" label="Facebook button Font" description="The font of the Facebook button">
+					<option value="0">Arial</option>
+					<option value="1">Lucida grande</option>
+					<option value="2">segoe ui</option>
+					<option value="3">Tahoma</option>
+					<option value="4">Trebuchet ms</option>
+					<option value="5">Verdana</option>
+				</field>
+				<field name="fb_type" type="list" default="0" label="Product type" description="Type of the linked content">
+					<option value="0">Product</option>
+					<option value="1">Album</option>
+					<option value="2">Book</option>
+					<option value="3">Company</option>
+					<option value="4">Drink</option>
+					<option value="5">Game</option>
+					<option value="6">Movie</option>
+					<option value="7">Song</option>
+				</field>
+				<field name="admin" type="text" default="" label="Facebook admin" description="The name or ID of your facebook account" />
+				<field name="spacer2" type="spacer"	hr="true"/>
+				<field name="twitter_count" type="list" default="0" label="Twitter count display" description="Choose the style of the twitter count display">
+					<option value="0">Horizontal</option>
+					<option value="1">Vertical</option>
+					<option value="2">None</option>
+				</field>
+				<field name="twitter_text" type="text" default="" label="Tweet text" description="If you want to display a special text into the tweet. If this field is empty, the name of the page will be used." />
+				<field name="twitter_mention" type="text" default="" label="Mention to" description="Name of the account which will be mentioned in the tweet" />
+				<field name="spacer3" type="spacer"	hr="true"/>
+				<field name="google_size" type="list" default="0" label="Google button size" description="Choose the size of the Google +1 button">
+					<option value="0">Standard</option>
+					<option value="1">Small</option>
+					<option value="2">Medium</option>
+					<option value="3">Tall</option>
+				</field>
+				<field name="google_count" type="radio" default="1" label="Show Google count" description="Show or not the number of person who used this button">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="spacer4" type="spacer"	hr="true"/>
+				<field name="pinterest_display" type="list" default="0" label="Pinterest count display" description="Choose the style of the Pinterest count display">
+					<option value="0">Horizontal</option>
+					<option value="1">Vertical</option>
+					<option value="2">None</option>
+				</field>
+				<field name="spacer5" type="spacer"	hr="true"/>
+				<field name="addThis_display" type="list" default="0" label="addThis display" description="Choose the style of the addThis button">
+					<option value="0">Compact</option>
+					<option value="1">Big</option>
+					<option value="2">Count</option>
+				</field>
+				<field name="services_exclude" type="text" default="" label="Services exclude" description="Services you don't want to display (i.e. 'myspace, facebook'). You can find the list of service here: http://www.addthis.com/services/list#.UbXcsj6VBVU" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

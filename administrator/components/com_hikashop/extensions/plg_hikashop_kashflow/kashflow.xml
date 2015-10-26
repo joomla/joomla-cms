@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="2.5" method="upgrade" group="hikashop">
+	<name>Hikashop - Kashflow invoice synchronization plugin</name>
+	<creationDate>21 octobre 2015</creationDate>
+	<version>2.6.0</version>
+	<author>HikaShop Team</author>
+	<authorEmail>team@hikashop.com</authorEmail>
+	<authorUrl>http://www.hikashop.com</authorUrl>
+	<copyright>(C) 2010-2015 HIKARI SOFTWARE. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>This plugin synchronizes the invoices of HikaShop to the Kashflow online service</description>
+	<files>
+		<filename plugin="kashflow">kashflow.php</filename>
+		<folder>library</folder>
+	</files>
+	<params addpath="/components/com_hikashop/params">
+		<param name="username" type="text" size="50" default="" label="Username" description="Your username on Kashflow" />
+		<param name="password" type="text" size="50" default="" label="Password" description="Your password on Kashflow" />
+		<param name="source" type="text" size="50" default="" label="Customers source" description="You can enter here the ID/name of the source of your customers. You can also enter a custom user field column name and the system will use automatically the value of that field for each customer." />
+		<param name="discount" type="text" size="50" default="" label="Customers discount percentage" description="You can enter here the discount percentage of your customers. You can also enter a custom user field column name and the system will use automatically the value of that field for each customer." />
+		<param name="showdiscount" type="text" size="50" default="0" label="Display discount" description="You can enter here either 0 or 1 to set whether your customers should see discounts (for KashFlow). You can also enter a custom user field column name and the system will use automatically the value of that field for each customer."/>
+		<param name="paymentterms" type="text" size="50" default="0" label="Customers payment terms" description="You can enter here the delay (number of days) for invoices payment for your customers. You can also enter a custom user field column name and the system will use automatically the value of that field for each customer." />
+		<param name="nominal_code" type="text" size="50" default="0" label="Nominal Code" description="You can enter here the nominal code of your products (for KashFlow). You can also enter a custom product field column name and the system will use automatically the value of that field for each product." />
+		<param name="coupon_nominal_code" type="text" size="50" default="0" label="Shipping costs Nominal Code" description="You can enter here the nominal code of your coupons (for KashFlow)." />
+		<param name="shipping_nominal_code" type="text" size="50" default="0" label="Coupons Nominal Code" description="You can enter here the nominal code of your shipping costs (for KashFlow)." />
+		<param name="project_id" type="text" size="50" default="0" label="Project ID" description="You can enter here the ID of the project to which the invoices will be attached to in KashFlow." />
+	</params>
+	<config>
+		<fields name="params" addfieldpath="/components/com_hikashop/fields">
+			<fieldset name="basic">
+				<field name="username" type="text" size="50" default="" label="Username" description="Your username on Kashflow" />
+				<field name="password" type="text" size="50" default="" label="Password" description="Your password on Kashflow" />
+				<field name="source" type="text" size="50" default="" label="Customers source" description="You can enter here the ID/name of the source of your customers. You can also enter a custom user field column name and the system will use automatically the value of that field for each customer." />
+				<field name="discount" type="text" size="50" default="" label="Customers discount percentage" description="You can enter here the discount percentage of your customers. You can also enter a custom user field column name and the system will use automatically the value of that field for each customer." />
+				<field name="showdiscount" type="text" size="50" default="0" label="Display discount" description="You can enter here either 0 or 1 to set whether your customers should see discounts (for KashFlow). You can also enter a custom user field column name and the system will use automatically the value of that field for each customer."/>
+				<field name="paymentterms" type="text" size="50" default="0" label="Customers payment terms" description="You can enter here the delay (number of days) for invoices payment for your customers. You can also enter a custom user field column name and the system will use automatically the value of that field for each customer." />
+				<field name="nominal_code" type="text" size="50" default="0" label="Nominal Code" description="You can enter here the nominal code of your products (for KashFlow). You can also enter a custom product field column name and the system will use automatically the value of that field for each product." />
+				<field name="coupon_nominal_code" type="text" size="50" default="0" label="Shipping costs Nominal Code" description="You can enter here the nominal code of your coupons (for KashFlow)." />
+				<field name="shipping_nominal_code" type="text" size="50" default="0" label="Coupons Nominal Code" description="You can enter here the nominal code of your shipping costs (for KashFlow)." />
+				<field name="project_id" type="text" size="50" default="0" label="Project ID" description="You can enter here the ID of the project to which the invoices will be attached to in KashFlow." />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

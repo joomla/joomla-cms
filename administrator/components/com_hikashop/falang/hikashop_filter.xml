@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<falang type="contentelement">
+	<name>Hikashop Filters</name>
+	<author>Hikari Software</author>
+	<version>1.0.0</version>
+	<description>Definition of filters for the hikashop component</description>
+	<copyright>Copyright (C) 2012 Hikari Software SARL - All rights reserved.</copyright>
+	<reference type="content">
+		<table name="hikashop_filter">
+			<field type="referenceid" name="filter_id" translate="0">ID</field>
+			<field type="titletext" name="filter_name" length="255" maxlength="255" translate="1">Filter name</field>
+			<field type="text" name="filter_category_id" length="255" maxlength="255" translate="1">Filter Category id</field>
+			<field type="textarea" name="filter_value" rows="10" columns="80" translate="1">Filter values</field>
+			<field type="textarea" name="filter_data" rows="10" columns="80" translate="1">Filter data</field>
+		</table>
+	</reference>
+	<translationfilters>
+	</translationfilters>
+</falang>

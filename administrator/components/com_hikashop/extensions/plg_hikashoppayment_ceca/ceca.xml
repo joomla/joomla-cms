@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="2.5" method="upgrade" group="hikashoppayment">
+	<name>Hikashop CECA Payment Plugin</name>
+	<creationDate>21 octobre 2015</creationDate>
+	<version>2.6.0</version>
+	<author>Ayuda Joomla</author>
+	<authorEmail>info@ayudajoomla.com</authorEmail>
+	<authorUrl>http://www.ayudajoomla.com.com</authorUrl>
+	<copyright>Copyright (C) 2013 Ayuda Joomla - All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>This plugin enables you to setup your CECA payment system</description>
+	<files>
+		<folder>language</folder>
+		<filename plugin="ceca">ceca.php</filename>
+		<filename>ceca_configuration.php</filename>
+		<filename>ceca_end.php</filename>
+	</files>
+	<params addpath="/components/com_hikashop/params">
+		<param name="pluginoptions" type="pluginoptions" default="plugin" label="hikashop" description="HikaShop options" />
+	</params>
+	<config>
+		<fields name="params" addfieldpath="/components/com_hikashop/fields">
+			<fieldset name="basic">
+				<field id="pluginoptions" name="pluginoptions" type="pluginoptions" label="hikashop" description="HikaShop options" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<state>
+		<name>Product page</name>
+		<params addpath="/components/com_hikashop/params">
+			<param name="product_id" type="selectproduct" default="0" label="Select a product" description="Select here the product to display for the current link" />
+		</params>
+	</state>
+	<layout title="COM_HIKASHOP_PRODUCT_FORM_VIEW_DEFAULT_TITLE">
+		<message></message>
+	</layout>
+	<fields name="params" addfieldpath="/components/com_hikashop/fields">
+		<fieldset name="basic" label="Select a product">
+								<field
+												id="product_id"
+												name="product_id"
+												type="selectproduct"
+												label="Select a product"
+												description="Select here the product to display for the current link"
+								/>
+		</fieldset>
+	</fields>
+</metadata>

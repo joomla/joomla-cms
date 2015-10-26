@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<state>
+		<name>User registration form</name>
+	</state>
+	<layout title="COM_HIKASHOP_USER_VIEW_DEFAULT_TITLE">
+		<message></message>
+	</layout>
+</metadata>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<state>
+		<name>Categories listing</name>
+		<params addpath="/components/com_hikashop/params">
+			<param name="options" type="selectoptions" default="module" label="options" description="HikaShop options" />
+		</params>
+	</state>
+	<layout title="COM_HIKASHOP_CATEGORY_VIEW_DEFAULT_TITLE">
+		<message></message>
+	</layout>
+	<fields name="params" addfieldpath="/components/com_hikashop/fields">
+		<fieldset name="basic" label="Categories Options">
+			<field
+				id="hk_category"
+				name="hk_category"
+				multiple="true"
+				type="selectoptions"
+				menu="category"
+				content="category"
+				label="HikaShop"
+				description="HikaShop options"
+			/>
+		</fieldset>
+		<fieldset name="products" label="Products Options">
+			<field
+				id="hk_product"
+				name="hk_product"
+				multiple="true"
+				type="selectoptions"
+				menu="category"
+				content="product"
+				label="HikaShop"
+				description="HikaShop options"
+			/>
+		</fieldset>
+	</fields>
+</metadata>

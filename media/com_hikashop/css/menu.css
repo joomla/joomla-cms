@@ -1,0 +1,145 @@
+/**
+ * @package    HikaShop for Joomla!
+ * @version    2.6.0
+ * @author     hikashop.com
+ * @copyright  (C) 2010-2015 HIKARI SOFTWARE. All rights reserved.
+ * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ */
+#hikashop_menu {
+	font-size:11px;
+	line-height:20px;
+	font-weight:normal;
+	height:20px;
+}
+#hikashop_menu a:link {
+	color:#377D9F;
+}
+#hikashop_menu ul {
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+#hikashop_menu > ul > li {
+	float:left;
+}
+#hikashop_menu li a {
+	display:block;
+	line-height:20px;
+	padding:0px 6px;
+	text-decoration:none;
+	background-repeat:no-repeat;
+	width:auto;
+	height:auto;
+}
+#hikashop_menu li:hover ul a {
+	color:#069;
+}
+#hikashop_menu > ul > li:hover, #hikashop_menu > ul > li.sel {
+	background-color:#377D9F;
+	-webkit-border-top-left-radius:5px;
+	   -moz-border-top-left-radius:5px;
+	        border-top-left-radius:5px;
+	-webkit-border-top-right-radius:5px;
+	   -moz-border-top-right-radius:5px;
+	        border-top-right-radius:5px;
+}
+#hikashop_menu > ul > li.sel {
+	-webkit-border-bottom-left-radius:5px;
+	   -moz-border-bottom-left-radius:5px;
+	        border-bottom-left-radius:5px;
+	-webkit-border-bottom-right-radius:5px;
+	   -moz-border-bottom-right-radius:5px;
+	        border-bottom-right-radius:5px;
+}
+#hikashop_menu > ul > li.sel:hover {
+	-webkit-border-bottom-left-radius:0px;
+	   -moz-border-bottom-left-radius:0px;
+	        border-bottom-left-radius:0px;
+	-webkit-border-bottom-right-radius:0px;
+	   -moz-border-bottom-right-radius:0px;
+	        border-bottom-right-radius:0px;
+}
+#hikashop_menu > ul > li > a:focus, #hikashop_menu > ul > li:hover > a, #hikashop_menu > ul > li.sel > a {
+	color:#ffffff;
+}
+#hikashop_menu li ul {
+	background:#377D9F;
+	display:none;
+	height:auto;
+	position:absolute;
+	z-index:200;
+	padding:1px;
+}
+#hikashop_menu li:hover ul {
+	display:block;
+}
+#hikashop_menu li li {
+	display:block;
+	float:none;
+}
+#hikashop_menu li ul a {
+	display:block;
+	font-style:normal;
+	font-weight:normal;
+	text-align:left;
+	background-color:#F8F8F8;
+	background-position:5px 50%;
+	border-bottom:1px dotted #AAC6D4;
+	padding-left:25px;
+	padding-right:15px;
+	min-width:85px;
+}
+#hikashop_menu li ul li.sep {
+	display:block;
+	font-style:normal;
+	font-weight:normal;
+	text-align:center;
+	color:white;
+	min-height:5px;
+}
+#hikashop_menu li ul li.sel a {
+	background-color:#BFE3F5;
+}
+#hikashop_menu li ul a.last {
+	border-bottom:0px;
+}
+#hikashop_menu li ul a:hover, #hikashop_menu li ul li.sel a:hover {
+	background-color:#6FB7DB;
+	color:#ffffff;
+}
+#hikashop_menu .e1 {
+	padding-left:25px;
+	padding-bottom:2px;
+	background-position: 5px 3px;
+}
+#hikashop_menu .l1 {
+	padding-right:0px;
+	margin-right:2px;
+}
+#hikashop_menu .singlemenu a {
+	padding-right:0px;
+}
+#hikashop_menu .parentmenu {
+	padding-right:10px;
+	background:url(../images/arrow_menu.png) no-repeat;
+	background-position:right 8px;
+}
+#hikashop_menu .parentmenu:hover, #hikashop_menu li.sel {
+	background-position:right -7px;
+}
+
+#hikashop_menu_j3 i {
+	width: 16px;
+	height: 16px;
+	vertical-align:-3px;
+}
+#hikashop_menu_j3 > li.sel {
+	background-color:#BFE3F5;
+}
+#hikashop_menu_j3 .dropdown-menu li.sel {
+	background-color:#6FB7DB;
+	color:#ffffff;
+}
+#hikashop_main_content .navbar {
+	padding-bottom: 5px;
+}

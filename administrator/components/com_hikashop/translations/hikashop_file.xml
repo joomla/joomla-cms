@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<joomfish type="contentelement">
+	<name>Hikashop Files</name>
+	<author>Hikari Software</author>
+	<version>1.0.0</version>
+	<description>Definition of files/images for the hikashop component</description>
+	<copyright>Copyright (C) 2010 Hikari Software SARL - All rights reserved.</copyright>
+	<reference type="content">
+		<table name="hikashop_file">
+			<field type="referenceid" name="file_id" translate="0">ID</field>
+			<field type="text" name="file_name" length="255" maxlength="255" translate="1">File name</field>
+			<field type="titletext" name="file_path" length="255" maxlength="255" translate="1">File path</field>
+			<field type="textarea" name="file_description" rows="10" columns="80" translate="1">File description</field>
+		</table>
+	</reference>
+	<translationfilters>
+	</translationfilters>
+</joomfish>

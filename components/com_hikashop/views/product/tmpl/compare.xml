@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<state>
+		<name>Product page</name>
+		<params addpath="/components/com_hikashop/params">
+			<param name="product_id" type="selectproducts" default="0" label="Select products" description="Select here the products to display for the compare page" />
+		</params>
+	</state>
+	<layout title="COM_HIKASHOP_COMPARE_VIEW_DEFAULT_TITLE">
+		<message></message>
+	</layout>
+	<fields name="params" addfieldpath="/components/com_hikashop/fields">
+		<fieldset name="basic" label="Select products">
+			<field
+				id="product_id"
+				name="product_id"
+				type="selectproducts"
+				label="Select products"
+				description="Select here the products to display for the compare page"
+			/>
+		</fieldset>
+	</fields>
+</metadata>

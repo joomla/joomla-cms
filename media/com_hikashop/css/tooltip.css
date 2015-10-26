@@ -1,0 +1,94 @@
+/**
+ * @package    HikaShop for Joomla!
+ * @version    2.6.0
+ * @author     hikashop.com
+ * @copyright  (C) 2010-2015 HIKARI SOFTWARE. All rights reserved.
+ * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ */
+.hk-tooltip {
+	position: absolute;
+	z-index: 1030;
+	display: block;
+	font-size: 11px;
+	line-height: 1.4;
+	opacity: 0;
+	filter: alpha(opacity=0);
+	visibility: visible;
+}
+
+.hk-tooltip.in {
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+}
+
+.hk-tooltip.top {
+	padding: 5px 0;
+	margin-top: -3px;
+}
+
+.hk-tooltip.right {
+	padding: 0 5px;
+	margin-left: 3px;
+}
+
+.hk-tooltip.bottom {
+	padding: 5px 0;
+	margin-top: 3px;
+}
+
+.hk-tooltip.left {
+	padding: 0 5px;
+	margin-left: -3px;
+}
+
+.hk-tooltip-inner {
+	max-width: 200px;
+	padding: 8px;
+	color: #ffffff;
+	text-align: left;
+	text-decoration: none;
+	background-color: #000000;
+	-webkit-border-radius: 4px;
+	   -moz-border-radius: 4px;
+		    border-radius: 4px;
+}
+
+.hk-tooltip-arrow {
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+}
+
+.hk-tooltip.top .hk-tooltip-arrow {
+	bottom: 0;
+	left: 50%;
+	margin-left: -5px;
+	border-top-color: #000000;
+	border-width: 5px 5px 0;
+}
+
+.hk-tooltip.right .hk-tooltip-arrow {
+	top: 50%;
+	left: 0;
+	margin-top: -5px;
+	border-right-color: #000000;
+	border-width: 5px 5px 5px 0;
+}
+
+.hk-tooltip.left .hk-tooltip-arrow {
+	top: 50%;
+	right: 0;
+	margin-top: -5px;
+	border-left-color: #000000;
+	border-width: 5px 0 5px 5px;
+}
+
+.hk-tooltip.bottom .hk-tooltip-arrow {
+	top: 0;
+	left: 50%;
+	margin-left: -5px;
+	border-bottom-color: #000000;
+	border-width: 0 5px 5px;
+}

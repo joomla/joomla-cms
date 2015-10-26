@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<falang type="contentelement">
+  <name>Hikashop Widgets</name>
+  <author>Hikari Software</author>
+  <version>1.0.0</version>
+  <description>Definition of widgets for the hikashop component</description>
+  <copyright>Copyright (C) 2009 Hikari Software SARL - All rights reserved.</copyright>
+  <reference type="content">
+  	<table name="hikashop_widget">
+  		<field type="referenceid" name="widget_id" translate="0">ID</field>
+  		<field type="titletext" name="widget_name"  length="255" maxlength="255" translate="1">Widget name</field>
+  	</table>
+  </reference>
+  <translationfilters>
+  </translationfilters>
+</falang>
