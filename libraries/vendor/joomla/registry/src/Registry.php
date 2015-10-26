@@ -26,6 +26,14 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	protected $data;
 
 	/**
+        * $data is an empty, newly created object
+        * 
+        * @var    bool
+        * @since  1.4.4
+        */
+       protected $_data_empty;
+
+       /**
 	 * Registry instances container.
 	 *
 	 * @var    array
@@ -52,10 +60,12 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	{
 		// Instantiate the internal data object.
 		$this->data = new \stdClass;
+               $this->_data_empty = true;
 
 		// Optionally load supplied data.
 		if (is_array($data) || is_object($data))
 		{
+                       $this->_data_empty = false;
 			$this->bindData($this->data, $data);
 
 			return;
@@ -64,6 +74,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		if (!empty($data) && is_string($data))
 		{
 			$this->loadString($data);
+                       $this->_data_empty = false;
 		}
 	}
 
@@ -357,6 +368,12 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		$handler = AbstractRegistryFormat::getInstance($format);
 
 		$obj = $handler->stringToObject($data, $options);
+               if($this->_data_empty)
+               {
+                       $this->data = $obj;
+                       $this->_data_empty = false;
+                       return $this;
+               }
 		$this->loadObject($obj);
 
 		return $this;
@@ -663,6 +680,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 */
 	protected function bindData($parent, $data, $recursive = true, $allowNull = true)
 	{
+	       $this->_data_empty = false;
 		// Ensure the input data is an array.
 		$data = is_object($data)
 			? get_object_vars($data)
