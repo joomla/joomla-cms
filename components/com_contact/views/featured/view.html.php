@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Frontpage View class
  *
- * @package     Joomla.Site
- * @subpackage  com_contact
- * @since       1.6
+ * @since  1.6
  */
 class ContactViewFeatured extends JViewLegacy
 {
