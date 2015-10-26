@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT.'/models/category.php';
+require_once JPATH_COMPONENT . '/models/category.php';
 
 /**
  * HTML Contact View class for the Contact component
@@ -27,6 +27,7 @@ class ContactViewContact extends JViewLegacy
 	 * @since  1.6
 	 */
 	protected $state;
+
 	/**
 	 * The form object for the contact item
 	 *
@@ -34,6 +35,7 @@ class ContactViewContact extends JViewLegacy
 	 * @since  1.6
 	 */
 	protected $form;
+
 	/**
 	 * The item object details
 	 *
@@ -41,6 +43,7 @@ class ContactViewContact extends JViewLegacy
 	 * @since  1.6
 	 */
 	protected $item;
+
 	/**
 	 * The page to return to on sumission
 	 *
@@ -326,7 +329,7 @@ class ContactViewContact extends JViewLegacy
 
 		$id = (int) @$menu->query['id'];
 
-		// if the menu item does not concern this contact
+		// If the menu item does not concern this contact
 		if ($menu && ($menu->query['option'] != 'com_contact' || $menu->query['view'] != 'contact' || $id != $this->item->id))
 		{
 			// If this is not a single contact menu item, set the page title to the contact title
