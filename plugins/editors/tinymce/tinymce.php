@@ -816,7 +816,7 @@ class PlgEditorTinymce extends JPlugin
 			// Plugins
 			plugins : \"$plugins $dragDropPlg\",
 			// Toolbar
-			toolbar1: \"$toolbar1 | $toolbar5 | code\",
+			toolbar1: \"$toolbar1 | code\",
 			removed_menuitems: \"newdocument\",
 			// URL
 			relative_urls : $relative_urls,
