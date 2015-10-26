@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * The Categories List Controller
  *
@@ -23,15 +25,13 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  object  The model.
+	 * @return  JModelLegacy  The model.
 	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Category', $prefix = 'CategoriesModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
@@ -48,6 +48,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 		$extension = $this->input->get('extension');
 		$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories&extension=' . $extension, false));
 
+		/** @var CategoriesModelCategory $model */
 		$model = $this->getModel();
 
 		if ($model->rebuild())
@@ -57,13 +58,11 @@ class CategoriesControllerCategories extends JControllerAdmin
 
 			return true;
 		}
-		else
-		{
-			// Rebuild failed.
-			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_FAILURE'));
 
-			return false;
-		}
+		// Rebuild failed.
+		$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_FAILURE'));
+
+		return false;
 	}
 
 	/**
@@ -121,11 +120,11 @@ class CategoriesControllerCategories extends JControllerAdmin
 		else
 		{
 			// Get the model.
+			/** @var CategoriesModelCategory $model */
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			jimport('joomla.utilities.arrayhelper');
-			JArrayHelper::toInteger($cid);
+			$cid = ArrayHelper::toInteger($cid);
 
 			// Remove the items.
 			if ($model->delete($cid))
