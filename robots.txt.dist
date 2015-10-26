@@ -27,6 +27,5 @@ Disallow: /modules/
 Disallow: /plugins/
 Disallow: /tmp/
 
-User-Agent: Googlebot
 Allow: .js
 Allow: .css
