@@ -21,7 +21,7 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -299,9 +299,8 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * @return  boolean  True if the association exists
 	 *
-	 * @since  3.0
+	 * @since   3.0
 	 */
-
 	public function getAssoc()
 	{
 		static $assoc = null;
@@ -311,7 +310,6 @@ class CategoriesModelCategories extends JModelList
 			return $assoc;
 		}
 
-		$app = JFactory::getApplication();
 		$extension = $this->getState('filter.extension');
 
 		$assoc = JLanguageAssociations::isEnabled();

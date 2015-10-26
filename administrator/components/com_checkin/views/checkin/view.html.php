@@ -16,7 +16,41 @@ defined('_JEXEC') or die;
  */
 class CheckinViewCheckin extends JViewLegacy
 {
+	/**
+	 * Unused class variable
+	 *
+	 * @var  object
+	 * @deprecated  4.0
+	 */
 	protected $tables;
+
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
+	protected $items;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
+	protected $pagination;
+
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
+	protected $state;
+
+	/**
+	 * The sidebar markup
+	 *
+	 * @var  string
+	 */
+	protected $sidebar;
 
 	/**
 	 * Execute and display a template script.
