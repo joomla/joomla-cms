@@ -717,7 +717,7 @@
 		<field
 			name="lifetime"
 			type="text"
-			default="15"
+			default="1440"
 			label="COM_CONFIG_FIELD_SESSION_TIME_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_TIME_DESC"
 			required="true"
