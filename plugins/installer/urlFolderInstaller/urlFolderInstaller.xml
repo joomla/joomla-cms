@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.2" type="plugin" group="installer">
+	<name>plg_installer_urlfolderinstaller</name>
+	<author>Willy Noel Nzefameni, Markus Pompejus, Lukas Gies</author>
+	<creationDate>02.10.2015</creationDate>
+	<copyright>Copyright (C) 2013 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0</version>
+	<description>PLG_INSTALLER_PLUGIN_XML_DESCRIPTION</description>
+	
+    <!--Files and Folder for installation definition -->
+	<files>
+		<filename plugin="urlFolderInstaller">urlFolderInstaller.php</filename>
+		<filename>index.html</filename>
+		<folder>language</folder>
+		<folder>js</folder>
+		<folder>css</folder>
+	</files>
+	
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_installer_urlFolderInstaller.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_installer_urlFolderInstaller.sys.ini</language>
+		
+		<language tag="fr-FR">fr-FR/fr-FR.plg_installer_urlFolderInstaller.ini</language>
+		<language tag="fr-FR">fr-FR/fr-FR.plg_installer_urlFolderInstaller.sys.ini</language>
+		
+		<language tag="de-DE">de-DE/de-DE.plg_installer_urlFolderInstaller.ini</language>
+		<language tag="de-DE">de-DE/de-DE.plg_installer_urlFolderInstaller.sys.ini</language>
+	</languages>
+	
+    <!-- configuration definition -->
+</extension>
