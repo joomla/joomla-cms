@@ -27,6 +27,12 @@ $n = count($this->items);
 
 ?>
 
+<script type="text/javascript">
+	var resetFilter = function() {
+		document.getElementById('filter-search').value = '';
+	}
+</script>
+
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
 	<fieldset class="filters btn-toolbar">
@@ -36,6 +42,12 @@ $n = count($this->items);
 					<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL') . '&#160;'; ?>
 				</label>
 				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>" />
+				<button type="reset" name="filter-clear-button" title="Clear" class="btn" onclick="resetFilter(); document.adminForm.submit();">
+					<span class="icon-remove"></span>
+				</button>
+				<button type="button" name="filter-search-button" title="Search" onclick="document.adminForm.submit();" class="btn">
+					<span class="icon-search"></span>
+				</button>
 			</div>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
