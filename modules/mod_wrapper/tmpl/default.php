@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-JHtml::script('com_wrapper/iframe-height.min.js', false, true);
+JHtml::_('script', 'com_wrapper/iframe-height.min.js', false, true);
 ?>
 <iframe <?php echo $load; ?>
 	id="blockrandom"

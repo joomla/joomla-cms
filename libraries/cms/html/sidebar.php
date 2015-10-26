@@ -51,9 +51,9 @@ abstract class JHtmlSidebar
 	{
 		// Collect display data
 		$data                 = new stdClass;
-		$data->list           = static::getEntries();
-		$data->filters        = static::getFilters();
-		$data->action         = static::getAction();
+		$data->list           = JHtml::_('sidebar.getEntries');
+		$data->filters        = JHtml::_('sidebar.getFilters');
+		$data->action         = JHtml::_('sidebar.getAction');
 		$data->displayMenu    = count($data->list);
 		$data->displayFilters = count($data->filters);
 		$data->hide           = JFactory::getApplication()->input->getBool('hidemainmenu');

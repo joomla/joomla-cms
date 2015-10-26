@@ -64,7 +64,7 @@ abstract class JHtmlIcon
 
 		$button = JHtml::_('link', JRoute::_($url), $text, $attribs);
 
-		$output = '<span class="hasTooltip" title="' . JHtml::tooltipText('COM_CONTENT_CREATE_ARTICLE') . '">' . $button . '</span>';
+		$output = '<span class="hasTooltip" title="' . JHtml::_('tooltipText', 'COM_CONTENT_CREATE_ARTICLE') . '">' . $button . '</span>';
 
 		return $output;
 	}
@@ -164,12 +164,14 @@ abstract class JHtmlIcon
 			if ($legacy)
 			{
 				$button = JHtml::_('image', 'system/checked_out.png', null, null, true);
-				$text   = '<span class="hasTooltip" title="' . JHtml::tooltipText($tooltip . '', 0) . '">'
+				$text   = '<span class="hasTooltip" title="' . JHtml::_('tooltipText', $tooltip . '', 0) . '">'
 					. $button . '</span> ' . JText::_('JLIB_HTML_CHECKED_OUT');
 			}
 			else
 			{
-				$text = '<span class="hasTooltip icon-lock" title="' . JHtml::tooltipText($tooltip . '', 0) . '"></span> ' . JText::_('JLIB_HTML_CHECKED_OUT');
+				$text = '<span class="hasTooltip icon-lock" title="'
+				. JHtml::_('tooltipText', $tooltip . '', 0) . '"></span> '
+				. JText::_('JLIB_HTML_CHECKED_OUT');
 			}
 
 			$output = JHtml::_('link', '#', $text, $attribs);
@@ -218,7 +220,7 @@ abstract class JHtmlIcon
 				$icon = 'eye-close';
 			}
 
-			$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="' . JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0)
+			$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="' . JHtml::_('tooltipText', JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0)
 				. '"></span>'
 				. JText::_('JGLOBAL_EDIT');
 		}

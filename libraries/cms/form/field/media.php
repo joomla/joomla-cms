@@ -290,7 +290,7 @@ class JFormFieldMedia extends JFormField
 				'style' => $style,
 			);
 
-			$img = JHtml::image($src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
+			$img = JHtml::_('image', $src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
 			$previewImg = '<div id="' . $this->id . '_preview_img"' . ($src ? '' : ' style="display:none"') . '>' . $img . '</div>';
 			$previewImgEmpty = '<div id="' . $this->id . '_preview_empty"' . ($src ? ' style="display:none"' : '') . '>'
 				. JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
@@ -305,7 +305,7 @@ class JFormFieldMedia extends JFormField
 					'class' => 'hasTipPreview'
 				);
 
-				$html[] = JHtml::tooltip($tooltip, $options);
+				$html[] = JHtml::_('tooltip', $tooltip, $options);
 				$html[] = '</div>';
 			}
 			else

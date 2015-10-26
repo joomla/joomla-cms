@@ -68,7 +68,7 @@ abstract class JHtmlMenu
 	{
 		if (empty(static::$items))
 		{
-			$menus = static::menus();
+			$menus = JHtml::_('menu.menus');
 
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -153,7 +153,7 @@ abstract class JHtmlMenu
 	{
 		static $count;
 
-		$options = static::menuitems($config);
+		$options = JHtml::_('menu.menuitems', $config);
 
 		return JHtml::_(
 			'select.genericlist', $options, $name,
@@ -244,7 +244,7 @@ abstract class JHtmlMenu
 		}
 
 		// Second pass - get an indent list of the items
-		$list = static::treerecurse((int) $mitems[0]->parent_id, '', array(), $children, 9999, 0, 0);
+		$list = JHtml::_('menu.treerecurse', (int) $mitems[0]->parent_id, '', array(), $children, 9999, 0, 0);
 
 		// Code that adds menu name to Display of Page(s)
 		$mitems = array();
@@ -340,7 +340,7 @@ abstract class JHtmlMenu
 				$list[$id] = $v;
 				$list[$id]->treename = $indent . $txt;
 				$list[$id]->children = count(@$children[$id]);
-				$list = static::treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
+				$list = JHtml::_('menu.treerecurse', $id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
 			}
 		}
 

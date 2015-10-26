@@ -70,7 +70,7 @@ abstract class JHtmlSearchtools
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			static::main();
+			JHtml::_('searchtools.main');
 
 			// Add the form selector to the search tools options
 			$options['formSelector'] = $selector;

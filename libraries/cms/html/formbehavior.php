@@ -128,7 +128,7 @@ abstract class JHtmlFormbehavior
 			}
 
 			// Requires chosen to work
-			static::chosen($selector, $debug);
+			JHtml::_('formbehavior.chosen', $selector, $debug);
 
 			$displayData = array(
 				'debug'          => $debug,

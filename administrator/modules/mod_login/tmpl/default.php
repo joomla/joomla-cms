@@ -71,7 +71,7 @@ JHtml::_('formbehavior.chosen');
 				<div class="controls">
 					<div class="input-prepend">
 						<span class="add-on">
-							<span class="icon-comment hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LOGIN_LANGUAGE'); ?>"></span>
+							<span class="icon-comment hasTooltip" title="<?php echo JHtml::_('tooltipText', 'MOD_LOGIN_LANGUAGE'); ?>"></span>
 							<label for="lang" class="element-invisible">
 								<?php echo JText::_('MOD_LOGIN_LANGUAGE'); ?>
 							</label>

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-JHtml::stylesheet('com_finder/finder.css', false, true, false);
+JHtml::_('stylesheet', 'com_finder/finder.css', false, true, false);
 ?>
 
 <div class="finder<?php echo $this->pageclass_sfx; ?>">

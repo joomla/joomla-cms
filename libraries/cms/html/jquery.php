@@ -87,7 +87,7 @@ abstract class JHtmlJquery
 		$supported = array('core', 'sortable');
 
 		// Include jQuery
-		static::framework();
+		JHtml::_('jquery.framework');
 
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
