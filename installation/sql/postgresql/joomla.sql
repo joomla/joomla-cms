@@ -1170,7 +1170,6 @@ CREATE TABLE "#__menu" (
   "language" varchar(7) DEFAULT '' NOT NULL,
   "client_id" smallint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id"),
-  CONSTRAINT "#__menu_idx_client_id_parent_id_alias_language" UNIQUE ("client_id", "parent_id", "alias", "language")
 );
 CREATE INDEX "#__menu_idx_componentid" ON "#__menu" ("component_id", "menutype", "published", "access");
 CREATE INDEX "#__menu_idx_menutype" ON "#__menu" ("menutype");

@@ -168,6 +168,63 @@ class JTableMenu extends JTableNested
 	}
 
 	/**
+	 * Method to set the publishing state for a row or list of rows in the database
+	 * table.  The method respects checked out rows by other users and will attempt
+	 * to checkin rows that it can after adjustments are made.
+	 *
+	 * @param   mixed    $pks     An optional array of primary key values to update.
+	 *                            If not set the instance property value is used.
+	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
+	 * @param   integer  $userId  The user id of the user performing the operation.
+	 *
+	 * @return  boolean  True on success; false if $pks is empty.
+	 *
+	 * @see    JTable::publish
+	 * @since   11.1 
+	 */
+	public function publish($pks = null, $state = 1, $userId = 0)
+	{
+
+		$db = JFactory::getDBO();
+
+		// Check that a conflicting alias doesn't exist.
+		$query = $db->getQuery(true);
+		$query->select('menutype')
+			->from('#__menu')
+			->where(
+				$db->quoteName('id') . ' != ' . $db->quote($this->id) . ' AND ' .
+				$db->quoteName('alias') . ' = ' . $db->quote($this->alias) . ' AND ' .
+				$db->quoteName('parent_id') . ' = ' . $db->quote($this->parent_id) . ' AND ' .
+				$db->quoteName('client_id') . ' = ' . $db->quote((int) $this->client_id) . ' AND ' .
+				$db->quoteName('language') . ' = ' . $db->quote($this->language) . ' AND ' .
+				$db->quoteName('published') . ' != ' . $db->quote('-2')
+			);
+
+		$db->setQuery($query);
+		$db->execute();
+
+		$result = $db->loadResult();
+
+		if (count($result) > 0 && $state != '-2')
+		{
+
+			if ($this->menutype == $result)
+			{
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
+			}
+			else
+			{
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ROOT'));
+			}
+
+			return false;
+		}
+
+		return parent::publish($pks, $state, $userId);
+
+	}
+
+	/**
 	 * Overloaded store function
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
@@ -181,20 +238,32 @@ class JTableMenu extends JTableNested
 	{
 		$db = JFactory::getDbo();
 
-		// Verify that the alias is unique
+		// Verify that the alias is unique in regards to non-deleted items.
 		$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
 
-		if ($table->load(
-				array(
-				'alias' => $this->alias,
-				'parent_id' => $this->parent_id,
-				'client_id' => (int) $this->client_id,
-				'language' => $this->language
-				)
-			)
-			&& ($table->id != $this->id || $this->id == 0))
+		// Check that a conflicting alias doesn't exist..
+		$query = $db->getQuery(true);
+
+		$query->select('menutype')
+			->from('#__menu')
+			->where(
+				$db->quoteName('id') . ' != ' . $db->quote($this->id) . ' AND ' .
+				$db->quoteName('alias') . ' = ' . $db->quote($this->alias) . ' AND ' .
+				$db->quoteName('parent_id') . ' = ' . $db->quote($this->parent_id) . ' AND ' .
+				$db->quoteName('client_id') . ' = ' . $db->quote((int) $this->client_id) . ' AND ' .
+				$db->quoteName('language') . ' = ' . $db->quote($this->language) . ' AND ' .
+				$db->quoteName('published') . ' != ' . $db->quote('-2')
+				);
+
+		$db->setQuery($query);
+		$db->execute();
+
+		$result = $db->loadResult();
+
+		if (count($result) > 0)
 		{
-			if ($this->menutype == $table->menutype)
+
+			if ($this->menutype == $result)
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
 			}
