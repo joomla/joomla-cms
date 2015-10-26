@@ -932,7 +932,7 @@ abstract class JHtml
 			// Escape everything, if required.
 			if ($escape)
 			{
-				$result = htmlspecialchars($result);
+				$result = htmlspecialchars($result, ENT_COMPAT, 'UTF-8');
 			}
 		}
 
