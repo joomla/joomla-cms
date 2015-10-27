@@ -908,6 +908,58 @@ class JImage
 	}
 
 	/**
+	 * Method to flip the current image.
+	 *
+	 * @param   integer  $mode       The flip mode for flipping the image {@link http://php.net/imageflip#refsect1-function.imageflip-parameters}
+	 * @param   boolean  $createNew  If true the current image will be cloned, flipped and returned; else
+	 *                               the current image will be flipped and returned.
+	 *
+	 * @return  JImage
+	 *
+	 * @since   11.3
+	 * @throws  LogicException
+	 */
+	public function flip($mode, $createNew = true)
+	{
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
+		{
+			throw new LogicException('No valid image was loaded.');
+		}
+
+		// Create the new truecolor image handle.
+		$handle = imagecreatetruecolor($this->getWidth(), $this->getHeight());
+
+		// Copy the image
+		imagecopy($handle, $this->handle, 0, 0, 0, 0, $this->getWidth(), $this->getHeight());
+
+		// Flip the image
+		if (!imageflip($handle, $mode))
+		{
+			throw new LogicException('Unable to flip the image.');
+		}
+
+		// If we are resizing to a new image, create a new JImage object.
+		if ($createNew)
+		{
+			// @codeCoverageIgnoreStart
+			$new = new JImage($handle);
+
+			return $new;
+
+			// @codeCoverageIgnoreEnd
+		}
+
+		// Free the memory from the current handle
+		$this->destroy();
+
+		// Swap out the current handle for the new image handle.
+		$this->handle = $handle;
+
+		return $this;
+	}
+
+	/**
 	 * Method to write the current image out to a file.
 	 *
 	 * @param   string   $path     The filesystem path to save the image.

@@ -3318,6 +3318,9 @@ ul.helpmenu li {
 .menu-postinstall {
 	background-image: url(../images/menu/icon-16-generic.png);
 }
+.icon-32-cog {
+	background-image: url(../images/toolbar/icon-32-cog.png);
+}
 #menu li a:focus+ul {
 	margin-left: 0;
 }

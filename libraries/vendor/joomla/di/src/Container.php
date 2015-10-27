@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework DI Package
  *
- * @copyright  Copyright (C) 2013 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2013 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -93,6 +93,11 @@ class Container
 		if (isset($this->aliases[$key]))
 		{
 			return $this->aliases[$key];
+		}
+
+		if ($this->parent instanceof Container)
+		{
+			return $this->parent->resolveAlias($key);
 		}
 
 		return $key;
@@ -389,7 +394,15 @@ class Container
 		{
 			return $this->dataStore[$key];
 		}
-		elseif ($this->parent instanceof Container)
+
+		$aliasKey = $this->resolveAlias($key);
+
+		if ($aliasKey != $key && isset($this->dataStore[$aliasKey]))
+		{
+			return $this->dataStore[$aliasKey];
+		}
+
+		if ($this->parent instanceof Container)
 		{
 			return $this->parent->getRaw($key);
 		}

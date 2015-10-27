@@ -38,45 +38,35 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 */
 	public function onInit($id = 'dynamic_recaptcha_1')
 	{
-		$document = JFactory::getDocument();
-		$app      = JFactory::getApplication();
-
 		JHtml::_('jquery.framework');
 
-		$lang       = $this->_getLanguage();
-		$version    = $this->params->get('version', '1.0');
-		$pubkey     = $this->params->get('public_key', '');
+		$pubkey = $this->params->get('public_key', '');
 
 		if ($pubkey == null || $pubkey == '')
 		{
 			throw new Exception(JText::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
 
-		switch ($version)
+		if ($this->params->get('version', '1.0') == '1.0')
 		{
-			case '1.0':
-				$theme = $this->params->get('theme', 'clean');
-				$file  = 'https://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
+			$theme = $this->params->get('theme', 'clean');
+			$file  = 'https://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
 
-				JHtml::_('script', $file);
-
-				$document->addScriptDeclaration('jQuery( document ).ready(function()
-				{
-					Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '",' . $lang . 'tabindex: 0});});'
-				);
-				break;
-			case '2.0':
-				$theme = $this->params->get('theme2', 'light');
-				$file  = 'https://www.google.com/recaptcha/api.js?hl=' . JFactory::getLanguage()->getTag() . '&amp;render=explicit';
-
-				JHtml::_('script', $file, true, true);
-
-				$document->addScriptDeclaration('jQuery(document).ready(function($) {$(window).load(function() {'
-					. 'grecaptcha.render("' . $id . '", {sitekey: "' . $pubkey . '", theme: "' . $theme . '"});'
-					. '});});'
-				);
-				break;
+			$document = 'jQuery( document ).ready(function()
+				{Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '",' . $this->_getLanguage() . 'tabindex: 0});});';
 		}
+		else
+		{
+			$theme = $this->params->get('theme2', 'light');
+			$file  = 'https://www.google.com/recaptcha/api.js?hl=' . JFactory::getLanguage()->getTag() . '&amp;render=explicit';
+
+			$document = 'jQuery(document).ready(function($) {$(window).load(function()
+					{grecaptcha.render("' . $id . '", {sitekey: "' . $pubkey . '", theme: "' . $theme . '"});
+				});});';
+		}
+
+		JFactory::getDocument()->addScriptDeclaration($document);
+		JHtml::_('script', $file);
 
 		return true;
 	}

@@ -14,7 +14,8 @@ $doc  = JFactory::getDocument();
 $lang = JFactory::getLanguage();
 
 // Color Params
-$template_is_light = ($this->params->get('templateColor') && colorIsLight($this->params->get('templateColor')));
+$background_color = $this->params->get('loginBackgroundColor') ? $this->params->get('loginBackgroundColor') : '';
+$color_is_light = ($background_color && colorIsLight($background_color));
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
@@ -32,6 +33,14 @@ $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 if (is_file($file))
 {
 	$doc->addStyleSheet($file);
+}
+
+// Load custom.css
+$file = 'templates/' . $this->template . '/css/custom.css';
+
+if (is_file($file))
+{
+	$doc->addStyleSheetVersion($file);
 }
 
 // Detecting Active Variables
@@ -59,10 +68,10 @@ function colorIsLight($color)
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<jdoc:include type="head" />
 	<style type="text/css">
-		/* Template color */
-		<?php if ($this->params->get('templateColor')) : ?>
+		/* Background color */
+		<?php if($background_color): ?>
 		.view-login {
-			background: <?php echo $this->params->get('templateColor'); ?>;
+			background-color: <?php echo $background_color; ?>;
 		}
 		<?php endif; ?>
 		/* Responsive Styles */
@@ -114,7 +123,7 @@ function colorIsLight($color)
 			<!-- End Content -->
 		</div>
 	</div>
-	<div class="navbar<?php echo $template_is_light ? ' navbar-inverse' : ''; ?> navbar-fixed-bottom hidden-phone">
+	<div class="navbar<?php echo $color_is_light ? ' navbar-inverse' : ''; ?> navbar-fixed-bottom hidden-phone">
 		<p class="pull-right">
 			&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
 		</p>
