@@ -999,12 +999,6 @@ class PlgEditorTinymce extends JPlugin
 				if ($button->get('modal') || $href)
 				{
 					$tempConstructor .= "
-							SqueezeBox.close = (function(){
-								return function() {
-									tinyMCE.activeEditor.windowManager.close();
-									SqueezeBox.close();
-								}
-							})();
 							editor.windowManager.open({
 								title  : \"" . $title . "\",
 								url : '" . $href . "',";
