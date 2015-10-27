@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  Messages
+ * @subpackage  com_messages
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -89,7 +89,9 @@ class MessagesViewMessages extends JViewLegacy
 			'',
 			'<button class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
 			. JText::_('JCANCEL')
-			. '</button><button class="btn btn-success" type="button" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#modal-cog iframe\').contents().find(\'#saveBtn\').click();">'
+			. '</button>'
+			. '<button class="btn btn-success" type="button" data-dismiss="modal" aria-hidden="true"'
+			. ' onclick="jQuery(\'#modal-cog iframe\').contents().find(\'#saveBtn\').click();">'
 			. JText::_('JSAVE')
 			. '</button>'
 		);
