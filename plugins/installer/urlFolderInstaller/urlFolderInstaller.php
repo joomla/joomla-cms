@@ -142,9 +142,9 @@ class PlgInstallerUrlFolderInstaller  extends JPlugin
 					<input type="hidden" name="install_url" value="" />
 					<input type="hidden" name="install_directory" value="" />
 				</fieldset>
-<?php
-			echo JHtml::_('bootstrap.endTab');
+
+				<?php
+				echo JHtml::_('bootstrap.endTab');
 		}
 	}
 }
-?>
