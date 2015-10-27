@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ea2b1550a8ac55f171e4d818cc5d28b6",
+    "hash": "ebcdf1d53174fd7ec1585f5121ca6783",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -654,6 +654,56 @@
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "time": "2014-09-26 18:33:30"
+        },
+        {
+            "name": "phpwhois/idna-convert",
+            "version": "v0.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpWhois/idna-convert.git",
+                "reference": "663c4b170d4e542946e04840ee212e6c896ac80b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpWhois/idna-convert/zipball/663c4b170d4e542946e04840ee212e6c896ac80b",
+                "reference": "663c4b170d4e542946e04840ee212e6c896ac80b",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.9.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "idna_convert.class.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Matthias Sommerfeld",
+                    "email": "phlymail@phlylabs.de",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Dmitry Lukashin",
+                    "email": "dmitry@lukashin.ru",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "idna-convert library based on http://idnaconv.phlymail.de/",
+            "homepage": "http://idnaconv.phlymail.de/",
+            "keywords": [
+                "idn",
+                "idna",
+                "php"
+            ],
+            "time": "2015-01-09 03:31:11"
         },
         {
             "name": "psr/log",

@@ -21,6 +21,7 @@
         "ircmaxell/password-compat": "1.*",
         "leafo/lessphp": "0.3.9",
         "phpmailer/phpmailer": "5.2.9",
+        "phpwhois/idna-convert": "~0.9",
         "symfony/yaml": "2.*"
     },
     "require-dev": {

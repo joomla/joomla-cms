@@ -7,4 +7,5 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     $vendorDir . '/ircmaxell/password-compat/lib/password.php',
+    $vendorDir . '/phpwhois/idna-convert/idna_convert.class.php',
 );

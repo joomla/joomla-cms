@@ -175,11 +175,9 @@ class JoomlaInstallerScript
 			array('component', 'com_postinstall', '', 1),
 
 			// Libraries
-			array('library', 'phpmailer', '', 0),
 			array('library', 'simplepie', '', 0),
 			array('library', 'phputf8', '', 0),
 			array('library', 'joomla', '', 0),
-			array('library', 'idna_convert', '', 0),
 			array('library', 'fof', '', 0),
 			array('library', 'phpass', '', 0),
 
@@ -1307,6 +1305,13 @@ class JoomlaInstallerScript
 			// Joomla 3.4.6
 			'/components/com_wrapper/views/wrapper/metadata.xml',
 			// Joomla 3.5.0
+			'/administrator/manifests/libraries/idna_convert.xml',
+			'/language/en-GB/en-GB.lib_idna_convert.sys.ini',
+			'/libraries/idna_convert/idna_convert.class.php',
+			'/libraries/idna_convert/LICENCE',
+			'/libraries/idna_convert/ReadMe.txt',
+			'/libraries/idna_convert/transcode_wrapper.php',
+			'/libraries/idna_convert/uctc.php',
 			'/media/com_joomlaupdate/default.js',
 			'/media/com_joomlaupdate/encryption.js',
 			'/media/com_joomlaupdate/json2.js',
@@ -1414,6 +1419,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/symfony/yaml/Symfony/Component',
 			'/libraries/vendor/symfony/yaml/Symfony',
 			'/administrator/components/com_tags/helpers',
+			'/libraries/idna_convert',
 		);
 
 		jimport('joomla.filesystem.file');

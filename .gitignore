@@ -98,6 +98,9 @@ Desktop.ini
 /libraries/vendor/phpmailer/phpmailer/composer.json
 /libraries/vendor/phpmailer/phpmailer/README.md
 /libraries/vendor/phpmailer/phpmailer/travis.phpunit.xml.dist
+/libraries/vendor/phpwhois/idna-convert/composer.json
+/libraries/vendor/phpwhois/idna-convert/example.php
+/libraries/vendor/phpwhois/idna-convert/README.md
 /libraries/vendor/psr/log/Psr/Log/Test
 /libraries/vendor/psr/log/.gitignore
 /libraries/vendor/psr/log/composer.json
