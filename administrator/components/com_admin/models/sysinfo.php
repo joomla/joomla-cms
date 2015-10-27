@@ -150,6 +150,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'php'         => php_uname(),
 			'dbversion'   => $db->getVersion(),
 			'dbcollation' => $db->getCollation(),
+			'dbconnectioncollation' => $db->getConnectionCollation(),
 			'phpversion'  => phpversion(),
 			'server'      => isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : getenv('SERVER_SOFTWARE'),
 			'sapi_name'   => php_sapi_name(),
