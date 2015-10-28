@@ -36,16 +36,8 @@ echo JHtml::_(
 			. JText::_("JTOOLBAR_CLOSE") . '</button>'
 	)
 );
-
-JFactory::getDocument()->addStyleDeclaration(
-	"
-	div.toolbar-box h3 {
-		height: auto;
-		position: relative;
-	}
-	"
-);
 ?>
 <button onclick="jQuery('#versionsModal').modal('show')" class="btn btn-small" data-toggle="modal" title="<?php echo $title; ?>">
-	<span class="icon-32-restore"></span><?php echo $title; ?>
+	<span class="icon-archive"></span><?php echo $title; ?>
 </button>
+
