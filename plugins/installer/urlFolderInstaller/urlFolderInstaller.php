@@ -124,7 +124,6 @@ class PlgInstallerUrlFolderInstaller  extends JPlugin
 
 		if ($ishathor || !$ishathor)
 		{
-			echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'all'));
 			echo JHtml::_('bootstrap.addTab', 'myTab', 'all', JText::_('PLG_INSTALLALL_TEXT', true));
 			?>
 			<div class="clr"></div>
