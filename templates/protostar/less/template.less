@@ -410,7 +410,9 @@ figcaption {
 	}
 }
 @media (max-width: 768px) {
+  /* Fix ios scrolling inside boottrap modals */
 	body {
+		-webkit-overflow-scrolling: touch;
 		padding-top: 0;
 	}
 	.header {

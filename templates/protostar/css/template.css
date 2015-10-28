@@ -7300,6 +7300,7 @@ figcaption {
 }
 @media (max-width: 768px) {
 	body {
+		-webkit-overflow-scrolling: touch;
 		padding-top: 0;
 	}
 	.header {
