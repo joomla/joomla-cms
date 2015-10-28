@@ -7,6 +7,7 @@
  */
 defined('_JEXEC') or die;
 
+JHtml::_('bootstrap.tooltip');
 
 // Injection so that the Javascript the Key can be translate in Language
 JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE');
@@ -70,7 +71,7 @@ class PlgInstallerPackageInstaller  extends JPlugin
 	 */
 	public function onInstallerViewAfterLastTab()
 	{
-		if ($this->params->get('tab_position', 0))
+		if ($this->params->get('tab_position', 0))//0
 		{
 			$this->getChanges();
 		}
@@ -125,7 +126,7 @@ class PlgInstallerPackageInstaller  extends JPlugin
 		if ($ishathor || !$ishathor)
 		{
 			echo JHtml::_('bootstrap.addTab', 'myTab', 'upload', JText::_('PLG_INSTALLER_UPLOAD_PACKAGE_FILE', true));
-?>
+			?>
 			<fieldset class="uploadform">
 				<legend><?php echo JText::_('PLG_INSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
 				<div class="control-group">
@@ -141,7 +142,7 @@ class PlgInstallerPackageInstaller  extends JPlugin
 			</fieldset>
 
 			<!-- get the Value from the form -->
-			
+
 			<?php
 			echo JHtml::_('bootstrap.endTab');
 		}
