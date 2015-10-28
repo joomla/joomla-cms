@@ -17,6 +17,30 @@ defined('_JEXEC') or die;
 class InstallationModelSetup extends JModelBase
 {
 	/**
+	 * Constant representing the active PHP version being fully supported
+	 *
+	 * @const  integer
+	 * @since  3.5
+	 */
+	const PHP_SUPPORTED = 0;
+
+	/**
+	 * Constant representing the active PHP version receiving security support only
+	 *
+	 * @const  integer
+	 * @since  3.5
+	 */
+	const PHP_SECURITY_ONLY = 1;
+
+	/**
+	 * Constant representing the active PHP version being unsupported
+	 *
+	 * @const  integer
+	 * @since  3.5
+	 */
+	const PHP_UNSUPPORTED = 2;
+
+	/**
 	 * Get the current setup options from the session.
 	 *
 	 * @return  array  An array of options from the session.
@@ -405,6 +429,78 @@ class InstallationModelSetup extends JModelBase
 		$settings[] = $setting;
 
 		return $settings;
+	}
+
+	/**
+	 * Gets PHP support status.
+	 *
+	 * @return	array  Array of PHP support data
+	 *
+	 * @since   3.5
+	 */
+	public function getPhpSupport()
+	{
+		$phpSupportData = array(
+			'5.3' => array(
+				'security' => '2013-07-11',
+				'eos'      => '2014-08-14',
+			),
+			'5.4' => array(
+				'security' => '2014-09-14',
+				'eos'      => '2015-09-14',
+			),
+			'5.5' => array(
+				'security' => '2015-07-10',
+				'eos'      => '2016-07-10'
+			),
+			'5.6' => array(
+				'security' => '2016-08-28',
+				'eos'      => '2017-08-28'
+			),
+		);
+
+		// Fill our return array with default values
+		$supportStatus = array(
+			'version' => PHP_VERSION,
+			'eos'     => null,
+			'status'  => self::PHP_SUPPORTED,
+			'message' => null
+		);
+
+		// Check the PHP version's support status using the minor version
+		$activePhpVersion = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+
+		// Do we have the PHP version's data?
+		if (isset($phpSupportData[$activePhpVersion]))
+		{
+			// Set the 'eos' date in the return array
+			$supportStatus['eos'] = $phpSupportData[$activePhpVersion]['eos'];
+
+			// First check if the version has reached end of support
+			$today           = new JDate;
+			$phpEndOfSupport = new JDate($phpSupportData[$activePhpVersion]['eos']);
+
+			if ($phpNotSupported = $today > $phpEndOfSupport)
+			{
+				$supportStatus['status']  = self::PHP_UNSUPPORTED;
+				$supportStatus['message'] = JText::sprintf(
+					'INSTL_PHP_MESSAGE_UNSUPPORTED', PHP_VERSION, $phpEndOfSupport->format(JText::_('DATE_FORMAT_LC4'))
+				);
+			}
+
+			// If the version is still supported, check if it has reached security support only
+			$phpSecurityOnlyDate = new JDate($phpSupportData[$activePhpVersion]['security']);
+
+			if (!$phpNotSupported && $today > $phpSecurityOnlyDate)
+			{
+				$supportStatus['status']  = self::PHP_SECURITY_ONLY;
+				$supportStatus['message'] = JText::sprintf(
+					'INSTL_PHP_MESSAGE_SECURITY_ONLY', PHP_VERSION, $phpEndOfSupport->format(JText::_('DATE_FORMAT_LC4'))
+				);
+			}
+		}
+
+		return $supportStatus;
 	}
 
 	/**

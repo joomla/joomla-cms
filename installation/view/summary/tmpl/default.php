@@ -28,6 +28,13 @@ $prev = $useftp ? 'ftp' : 'database';
 	<h3><?php echo JText::_('INSTL_FINALISATION'); ?></h3>
 	<hr class="hr-condensed" />
 
+	<?php // If the PHP version is not fully supported, display a message informing the user ?>
+	<?php if ($this->phpsupport['status'] !== InstallationModelSetup::PHP_SUPPORTED) : ?>
+		<div class="alert alert-info">
+			<h4><?php echo JText::_('INSTL_PHP_VERSION_SUPPORT'); ?></h4>
+			<?php echo $this->phpsupport['message']; ?>
+		</div>
+	<?php endif; ?>
 	<div class="control-group">
 		<div class="control-label">
 			<?php echo $this->form->getLabel('sample_file'); ?>
