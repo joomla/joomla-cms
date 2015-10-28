@@ -48,7 +48,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		if ($this->params->get('version', '1.0') == '1.0')
 		{
 			JHtml::_('jquery.framework');
-			
+
 			$theme	= $this->params->get('theme', 'clean');
 			$file	= 'https://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
 
@@ -59,7 +59,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		{
 			$file	= 'https://www.google.com/recaptcha/api.js?hl=' . JFactory::getLanguage()->getTag();
 		}
-		
+
 		JHtml::_('script', $file);
 
 		return true;
@@ -85,7 +85,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 		else
 		{
-			return '<div id="' . $id . '" ' . str_replace('class="','class="g-recaptcha ',$class) .
+			return '<div id="' . $id . '" ' . str_replace('class="', 'class="g-recaptcha ', $class) .
 					' data-sitekey="' . $this->params->get('public_key', '') . '" data-theme="' . $this->params->get('theme2', 'light') . '"></div>';
 		}
 	}
