@@ -33,8 +33,8 @@ $sortFields = $this->getSortFields();
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.orderTable = function()
 	{
-		table = document.getElementById("sortTable");
-		direction = document.getElementById("directionTable");
+		table = document.getElementById("list_sortTable");
+		direction = document.getElementById("list_directionTable");
 		order = table.options[table.selectedIndex].value;
 		if (order != "' . $listOrder . '")
 		{
