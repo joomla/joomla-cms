@@ -119,7 +119,7 @@ class PluginsModelPlugins extends JModelList
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
 		$search = $this->getState('filter.search');
-		$ordering = $this->getState('list.tableOrdering', 'ordering');
+		$ordering = $this->getState('list.ordering', 'ordering');
 
 		// If "Sort Table By:" is not set, set ordering to name
 		if ($ordering == '')
@@ -146,7 +146,7 @@ class PluginsModelPlugins extends JModelList
 				}
 			}
 
-			$direction = ($this->getState('list.tableDirection') == 'desc') ? -1 : 1;
+			$direction = ($this->getState('list.direction') == 'desc') ? -1 : 1;
 			JArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
 			$total = count($result);
@@ -168,7 +168,7 @@ class PluginsModelPlugins extends JModelList
 				$ordering = 'a.ordering';
 			}
 
-			$query->order($this->_db->quoteName($ordering) . ' ' . $this->getState('list.tableDirection'));
+			$query->order($this->_db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
 
 			if ($ordering == 'folder')
 			{
