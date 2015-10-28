@@ -65,7 +65,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th class="hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10"  class="hidden-phone">
+						<th width="10" class="hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_UPDATESITEID', 'update_site_id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -87,24 +87,30 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php if (!$item->element) : ?>
 								<strong>X</strong>
 							<?php else : ?>
-								<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'updatesites.'); ?>
+								<?php echo JHtml::_('InstallerHtml.Updatesites.state', $item->enabled, $i, $item->enabled < 2, 'cb'); ?>
 							<?php endif; ?>
 						</td>
 						<td>
-							<?php echo $item->update_site_name; ?>
+							<label for="cb<?php echo $i; ?>">
+								<?php echo JText::_($item->update_site_name); ?>
+								<br />
+								<span class="small">
+									<a href="<?php echo $item->location; ?>" target="_blank"><?php echo $this->escape($item->location); ?></a>
+								</span>
+							</label>
 						</td>
-						<td  class="hidden-phone">
+						<td class="hidden-phone">
 							<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>">
 								<?php echo $item->name; ?>
 							</span>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo $item->client; ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 						</td>
 						<td class="hidden-phone">

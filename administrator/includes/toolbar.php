@@ -37,7 +37,7 @@ abstract class JToolbarHelper
 
 		$app = JFactory::getApplication();
 		$app->JComponentTitle = $html;
-		JFactory::getDocument()->setTitle($app->get('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . $title);
+		JFactory::getDocument()->setTitle($app->get('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . strip_tags($title));
 	}
 
 	/**
@@ -566,7 +566,7 @@ abstract class JToolbarHelper
 	{
 		$component = urlencode($component);
 		$path = urlencode($path);
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		$uri = (string) JUri::getInstance();
 		$return = urlencode(base64_encode($uri));

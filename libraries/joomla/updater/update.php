@@ -406,7 +406,7 @@ class JUpdate extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function loadFromXML($url, $minimum_stability = JUpdater::STABILITY_STABLE)
+	public function loadFromXml($url, $minimum_stability = JUpdater::STABILITY_STABLE)
 	{
 		$http = JHttpFactory::getHttp();
 

@@ -143,9 +143,9 @@ class JGoogleDataPicasaPhotoTest extends TestCase
 	 * @group	JGoogle
 	 * @return void
 	 */
-	public function testGetURL()
+	public function testGetUrl()
 	{
-		$url = $this->object->getURL();
+		$url = $this->object->getUrl();
 		$this->assertEquals($url, 'https://lh3.googleusercontent.com/-VQfLCrQyGuw/UAYBmwBJZ3I/AAAAAAAAF-k/8y_1iBPJcdQ/Photo2.jpg');
 	}
 

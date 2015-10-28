@@ -210,14 +210,8 @@ class TagsModelTag extends JModelList
 		}
 		else
 		{
-			if ($this->state->params->get('show_pagination_limit'))
-			{
-				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
-			}
-			else
-			{
-				$limit = $this->state->params->get('maximum', 20);
-			}
+			$limit = $params->get('display_num', $app->get('list_limit', 20));
+			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $limit, 'uint');
 		}
 
 		$this->setState('list.limit', $limit);

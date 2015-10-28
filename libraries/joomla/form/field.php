@@ -920,4 +920,39 @@ abstract class JFormField
 
 		return JLayoutHelper::render($this->renderLayout, array('input' => $this->getInput(), 'label' => $this->getLabel(), 'options' => $options));
 	}
+
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.5
+	 */
+	protected function getInputLayoutData()
+	{
+		$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
+
+		return array(
+			'autocomplete' => $this->autocomplete,
+			'autofocus' => $this->autofocus,
+			'classes' => explode(' ', $this->class),
+			'disabled' => $this->disabled,
+			'group' => $this->group,
+			'hidden' => $this->hidden,
+			'hint' => $this->translateHint ? JText::alt($this->hint, $alt) : $this->hint,
+			'id' => $this->id,
+			'multiple' => $this->multiple,
+			'name' => $this->name,
+			'onchange' => $this->onchange,
+			'onclick' => $this->onclick,
+			'pattern' => $this->pattern,
+			'readonly' => $this->readonly,
+			'repeat' => $this->repeat,
+			'required' => $this->required,
+			'size' => $this->size,
+			'spellcheck' => $this->spellcheck,
+			'validate' => $this->validate,
+			'value' => $this->value
+		);
+	}
 }

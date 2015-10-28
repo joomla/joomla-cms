@@ -21,8 +21,8 @@ class JFormFieldCategoryParent extends JFormFieldList
 	/**
 	 * The form field type.
 	 *
-	 * @var        string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $type = 'CategoryParent';
 
@@ -168,8 +168,6 @@ class JFormFieldCategoryParent extends JFormFieldList
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
+		return array_merge(parent::getOptions(), $options);
 	}
 }

@@ -82,7 +82,17 @@ class JInputCookie extends JInput
 	 */
 	public function set($name, $value, $expire = 0, $path = '', $domain = '', $secure = false, $httpOnly = false)
 	{
-		setcookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
+		if (is_array($value))
+		{
+			foreach ($value as $key => $val)
+			{
+				setcookie($name . "[$key]", $val, $expire, $path, $domain, $secure, $httpOnly);
+			}
+		}
+		else
+		{
+			setcookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
+		}
 
 		$this->data[$name] = $value;
 	}

@@ -13,7 +13,6 @@
 		<filename module="mod_login">mod_login.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>mod_login.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_login.ini</language>

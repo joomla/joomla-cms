@@ -53,16 +53,16 @@ class JDocumentError extends JDocument
 	 */
 	public function setError($error)
 	{
-		if ($error instanceof Exception)
+		$expectedClass = PHP_MAJOR_VERSION >= 7 ? 'Throwable' : 'Exception';
+
+		if ($error instanceof $expectedClass)
 		{
 			$this->_error = & $error;
 
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
@@ -84,7 +84,14 @@ class JDocumentError extends JDocument
 		}
 
 		// Set the status header
-		JFactory::getApplication()->setHeader('status', $this->_error->getCode() . ' ' . str_replace("\n", ' ', $this->_error->getMessage()));
+		$status = $this->_error->getCode();
+
+		if ($status < 400 || $status > 599)
+		{
+			$status = 500;
+		}
+
+		JFactory::getApplication()->setHeader('status',  $status . ' ' . str_replace("\n", ' ', $this->_error->getMessage()));
 		$file = 'error.php';
 
 		// Check template

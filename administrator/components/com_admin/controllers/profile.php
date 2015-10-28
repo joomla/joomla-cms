@@ -63,7 +63,7 @@ class AdminControllerProfile extends JControllerForm
 	 *
 	 * @param   string  $key  The name of the primary key of the URL variable.
 	 *
-	 * @return  Boolean  True if access level checks pass, false otherwise.
+	 * @return  boolean  True if access level checks pass, false otherwise.
 	 *
 	 * @since   1.6
 	 */

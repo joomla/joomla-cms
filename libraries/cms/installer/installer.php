@@ -206,7 +206,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   3.1
 	 */
-	public function getRedirectURL()
+	public function getRedirectUrl()
 	{
 		return $this->redirect_url;
 	}
@@ -220,7 +220,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   3.1
 	 */
-	public function setRedirectURL($newurl)
+	public function setRedirectUrl($newurl)
 	{
 		$this->redirect_url = $newurl;
 	}
@@ -265,7 +265,7 @@ class JInstaller extends JAdapter
 	/**
 	 * Get the installation manifest object
 	 *
-	 * @return  object  Manifest object
+	 * @return  SimpleXMLElement  Manifest object
 	 *
 	 * @since   3.1
 	 */
@@ -366,7 +366,7 @@ class JInstaller extends JAdapter
 
 				case 'extension':
 					// Get database connector object
-					$db = $this->getDBO();
+					$db = $this->getDbo();
 					$query = $db->getQuery(true);
 
 					// Remove the entry from the #__extensions table
@@ -945,6 +945,23 @@ class JInstaller extends JAdapter
 
 					if ($query != '' && $query{0} != '#')
 					{
+						/**
+						 * If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
+						 *
+						 * Note: the JDatabaseDriver::convertUtf8mb4QueryToUtf8 performs the conversion ONLY when
+						 * necessary, so there's no need to check the conditions in JInstaller.
+						 */
+						$query = $db->convertUtf8mb4QueryToUtf8($query);
+
+						/**
+						 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
+						 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.
+						 */
+						if (!$db->hasUTF8mb4Support() && stristr($query, 'CONVERT TO CHARACTER SET utf8 '))
+						{
+							continue;
+						}
+
 						$db->setQuery($query);
 
 						if (!$db->execute())
@@ -1933,7 +1950,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @param   string  $file  An xmlfile path to check
 	 *
-	 * @return  mixed  A SimpleXMLElement, or null if the file failed to parse
+	 * @return  SimpleXMLElement|null  A SimpleXMLElement, or null if the file failed to parse
 	 *
 	 * @since   3.1
 	 */
@@ -2338,7 +2355,7 @@ class JInstaller extends JAdapter
 		// Ensure the adapter type is part of the options array
 		$options['type'] = $adapter;
 
-		return new $class($this, $this->getDBO(), $options);
+		return new $class($this, $this->getDbo(), $options);
 	}
 
 	/**

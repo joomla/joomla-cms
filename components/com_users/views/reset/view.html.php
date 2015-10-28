@@ -52,9 +52,9 @@ class UsersViewReset extends JViewLegacy
 		}
 
 		// Get the view data.
-		$this->form	= $this->get($formname);
-		$this->state	= $this->get('State');
-		$this->params	= $this->state->params;
+		$this->form   = $this->get($formname);
+		$this->state  = $this->get('State');
+		$this->params = $this->state->params;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

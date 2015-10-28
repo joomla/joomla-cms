@@ -22,16 +22,14 @@ class CheckinController extends JControllerLegacy
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
+	 * @return  CheckinController  A JControllerLegacy object to support chaining.
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
 		// Load the submenu.
 		$this->addSubmenu($this->input->getWord('option', 'com_checkin'));
 
-		parent::display();
-
-		return $this;
+		return parent::display();
 	}
 
 	/**
@@ -53,6 +51,7 @@ class CheckinController extends JControllerLegacy
 		else
 		{
 			// Get the model.
+			/** @var CheckinModelCheckin $model */
 			$model = $this->getModel();
 
 			// Checked in the items.

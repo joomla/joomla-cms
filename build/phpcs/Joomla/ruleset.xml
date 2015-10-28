@@ -21,8 +21,6 @@
 
  <exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore.php</exclude-pattern>
  <exclude-pattern type="relative">configuration.php</exclude-pattern>
- <exclude-pattern type="relative">libraries/ClassLoader.php</exclude-pattern>
- <exclude-pattern type="relative">libraries/composer_autoload.php</exclude-pattern>
  <exclude-pattern type="relative">plugins/captcha/recaptcha/recaptchalib.php</exclude-pattern>
 
  <!-- Include all sniffs in an external standard directory -->
@@ -34,10 +32,12 @@
 
  <rule ref="PEAR.Commenting.InlineComment"/>
 
- <rule ref="Generic.Files.LineEndings"/>
+ <!-- Lines can be 85 chars long, but never show errors -->
  <rule ref="Generic.Files.LineLength">
- <!-- These exceptions are temporary -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+  <properties>
+   <property name="lineLimit" value="150"/>
+   <property name="absoluteLineLimit" value="0"/>
+  </properties>
   <!-- These exceptions are permanent -->
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
@@ -79,8 +79,6 @@
 
  <rule ref="Squiz.Operators.IncrementDecrementUsage">
   <exclude name="Squiz.Operators.IncrementDecrementUsage.processAssignment"/>
-  <!-- These exceptions are temporary -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
  </rule>
 
  <rule ref="Squiz.Scope.StaticThisUsage"/>
@@ -90,14 +88,6 @@
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
- </rule>
-
- <!-- Lines can be 85 chars long, but never show errors -->
- <rule ref="Generic.Files.LineLength">
-  <properties>
-   <property name="lineLimit" value="150"/>
-   <property name="absoluteLineLimit" value="0"/>
-  </properties>
  </rule>
 
  <!-- Use Unix newlines -->
@@ -114,33 +104,22 @@
 
  <!-- Remove the following when the folder limitations are dropped -->
 
- <rule ref="Joomla.Classes.MethodScope">
-  <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
- </rule>
+ <rule ref="Joomla.Classes.MethodScope" />
 
  <rule ref="Joomla.Commenting.FunctionComment">
   <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.Commenting.SingleComment">
-  <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
+  <!-- We don't want this in mixed html/php views for now -->
+  <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>
   <exclude-pattern type="relative">layouts/*</exclude-pattern>
  </rule>
 
- <rule ref="Joomla.Commenting.ClassComment">
-  <!-- We exclude components and modules for now -->
-  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">components/*</exclude-pattern>
- </rule>
+ <rule ref="Joomla.Commenting.ClassComment" />
 
  <rule ref="Joomla.WhiteSpace.ConcatenationSpacing">
   <!-- We only want this for libraries, language and cli for now -->

@@ -50,6 +50,12 @@ class InstallerControllerUpdate extends JControllerLegacy
 		$app          = JFactory::getApplication();
 		$redirect_url = $app->getUserState('com_installer.redirect_url');
 
+		// Don't redirect to an external URL.
+		if (!JUri::isInternal($redirect_url))
+		{
+			$redirect_url = '';
+		}
+
 		if (empty($redirect_url))
 		{
 			$redirect_url = JRoute::_('index.php?option=com_installer&view=update', false);
@@ -138,7 +144,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 
 		if (!JSession::checkToken('get'))
 		{
-			JResponse::setHeader('status', 403, true);
+			$app->setHeader('status', 403, true);
 			$app->sendHeaders();
 			echo JText::_('JINVALID_TOKEN');
 			$app->close();

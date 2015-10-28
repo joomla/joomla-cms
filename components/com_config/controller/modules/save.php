@@ -104,6 +104,12 @@ class ConfigControllerModulesSave extends JControllerBase
 				if (!empty($returnUri))
 				{
 					$redirect = base64_decode(urldecode($returnUri));
+
+					// Don't redirect to an external URL.
+					if (!JUri::isInternal($redirect))
+					{
+						$redirect = JUri::base();
+					}
 				}
 				else
 				{

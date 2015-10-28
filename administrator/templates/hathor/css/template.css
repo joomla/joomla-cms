@@ -178,14 +178,6 @@ body.modal-open {
 	margin-right: .25em;
 	line-height: 14px;
 }
-dd > span[class^="icon-"] + time,
-dd > span[class*=" icon-"] + time {
-	margin-left: -0.25em;
-}
-dl.article-info dd.hits span[class^="icon-"],
-dl.article-info dd.hits span[class*=" icon-"] {
-	margin-right: 0;
-}
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
 	font-family: 'IcoMoon';
@@ -3325,6 +3317,9 @@ ul.helpmenu li {
 }
 .menu-postinstall {
 	background-image: url(../images/menu/icon-16-generic.png);
+}
+.icon-32-cog {
+	background-image: url(../images/toolbar/icon-32-cog.png);
 }
 #menu li a:focus+ul {
 	margin-left: 0;

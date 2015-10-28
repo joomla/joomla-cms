@@ -29,8 +29,8 @@ class ModulesViewSelect extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$state		= $this->get('State');
-		$items		= $this->get('Items');
+		$state = $this->get('State');
+		$items = $this->get('Items');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -60,7 +60,7 @@ class ModulesViewSelect extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'cube module');
 
 		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new JLayoutFile('toolbar.cancelselect');
