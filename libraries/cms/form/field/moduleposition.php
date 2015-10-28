@@ -35,6 +35,13 @@ class JFormFieldModulePosition extends JFormFieldText
 	protected $clientId;
 
 	/**
+	* Layout to render the label
+	*
+	* @var  string
+	*/
+	protected $layout = 'joomla.form.field.moduleposition';
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to the the value.
@@ -131,32 +138,12 @@ class JFormFieldModulePosition extends JFormFieldText
 	 */
 	protected function getInput()
 	{
-		// Load the modal behavior script.
-		JHtml::_('behavior.modal', 'a.modal');
+		$displayData = array(
+			'id'       => $this->id,
+			'clientId' => $this->clientId,
+			'inputTag'    => parent::getInput()
+		);
 
-		// Build the script.
-		$script = array();
-		$script[] = '	function jSelectPosition_' . $this->id . '(name) {';
-		$script[] = '		document.getElementById("' . $this->id . '").value = name;';
-		$script[] = '		jModalClose();';
-		$script[] = '	}';
-
-		// Add the script to the document head.
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
-
-		// Setup variables for display.
-		$html = array();
-		$link = 'index.php?option=com_modules&view=positions&layout=modal&tmpl=component&function=jSelectPosition_' . $this->id
-			. '&amp;client_id=' . $this->clientId;
-
-		// The current user display field.
-		$html[] = '<div class="input-append">';
-		$html[] = parent::getInput()
-			. '<a class="btn modal" title="' . JText::_('COM_MODULES_CHANGE_POSITION_TITLE') . '"  href="' . $link
-			. '" rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
-			. JText::_('COM_MODULES_CHANGE_POSITION_BUTTON') . '</a>';
-		$html[] = '</div>';
-
-		return implode("\n", $html);
+		return JLayoutHelper::render($this->layout, $displayData);
 	}
 }
