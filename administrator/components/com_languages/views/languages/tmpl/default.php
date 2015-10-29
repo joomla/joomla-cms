@@ -32,10 +32,16 @@ if ($saveOrder)
 $sortFields = $this->getSortFields();
 
 JFactory::getDocument()->addScriptDeclaration('
+	jQuery(function()
+	{
+		jQuery("#list_sortTable").val("' . $listOrder . '").trigger("liszt:updated");
+		jQuery("#list_directionTable").val("' . $listDirn . '").trigger("liszt:updated");
+	});
+
 	Joomla.orderTable = function()
 	{
-		table = document.getElementById("sortTable");
-		direction = document.getElementById("directionTable");
+		table = document.getElementById("list_sortTable");
+		direction = document.getElementById("list_directionTable");
 		order = table.options[table.selectedIndex].value;
 		if (order != "' . $listOrder . '")
 		{
