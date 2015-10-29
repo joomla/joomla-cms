@@ -27,20 +27,6 @@ class PlgInstallerUrlFolderInstaller  extends JPlugin
 	private $hathor = null;
 
 	/**
-	 * Install the Plugin before displaying it.
-	 *
-	 * @param   boolean  &$showpackageInstaller  Parameter.
-	 *
-	 * @return void
-	 *
-	 * @since   1.6
-	 */
-	public function onInstallerBeforeDisplay(&$showpackageInstaller)
-	{
-		$showpackageInstaller = false;
-	}
-
-	/**
 	 * onInstallerViewBeforeFirstTab.
 	 *
 	 * @return void
@@ -124,7 +110,7 @@ class PlgInstallerUrlFolderInstaller  extends JPlugin
 
 		if ($ishathor || !$ishathor)
 		{
-			echo JHtml::_('bootstrap.addTab', 'myTab', 'all', JText::_('PLG_INSTALLALL_TEXT', true));
+			echo JHtml::_('bootstrap.addTab', 'myTab', 'urlfolder', JText::_('PLG_INSTALLALL_TEXT', true));
 			?>
 			<div class="clr"></div>
 			<fieldset class="uploadform">

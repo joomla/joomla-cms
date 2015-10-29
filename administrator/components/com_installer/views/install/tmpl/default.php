@@ -14,6 +14,32 @@ JHtml::_('behavior.framework', true);
 JHtml::_('bootstrap.tooltip');
 ?>
 <script type="text/javascript">
+	Joomla.submitbutton4 = function()
+	{
+		var form = document.getElementById('adminForm');
+
+		// do field validation
+		if (form.install_url.value == "" || form.install_url.value == "http://"){
+			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true); ?>");
+		}
+		else
+		{
+			jQuery('#loading').css('display', 'block');
+
+			form.installtype.value = 'url';
+			form.submit();
+		}
+	};
+
+	Joomla.submitbuttonInstallWebInstaller = function()
+	{
+		var form = document.getElementById('adminForm');
+
+		form.install_url.value = 'http://appscdn.joomla.org/webapps/jedapps/webinstaller.xml';
+
+		Joomla.submitbutton4();
+	};
+
 	// Add spindle-wheel for installations:
 	jQuery(document).ready(function($) {
 		var outerDiv = $('#installer-install');
@@ -32,6 +58,19 @@ JHtml::_('bootstrap.tooltip');
 			.appendTo(outerDiv);
 	});
 
+	// Set the first tab to active if there is other active tab
+	jQuery(document).ready(function($) {
+		var hasTab = function(href){
+			return $('a[data-toggle="tab"]a[href*=' + href + ']').length;
+		};
+
+		if (!hasTab(localStorage.getItem('tab-href')))
+		{
+			var tabAnchor = $("#myTabTabs li:first a");
+			window.localStorage.setItem('tab-href', tabAnchor.attr('href'));
+			tabAnchor.click();
+		}
+	});
 </script>
 
 <div id="installer-install" class="clearfix">
@@ -52,7 +91,7 @@ JHtml::_('bootstrap.tooltip');
 
 				<?php endif; ?>
 
-				<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'all')); ?>
+				<?php echo JHtml::_('bootstrap.startTabSet', 'myTab'); ?>
 
 				<?php JEventDispatcher::getInstance()->trigger('onInstallerViewBeforeFirstTab', array()); ?>
 				<!-- Extension fieldset of the plugin installer urlFolderInstaller-->

@@ -28,20 +28,6 @@ class PlgInstallerPackageInstaller  extends JPlugin
 	private $hathor = null;
 
 	/**
-	 * Install the Plugin before displaying it.
-	 *
-	 * @param   boolean  &$showpackageInstaller  Parameter.
-	 *
-	 * @return void
-	 *
-	 * @since   1.6
-	 */
-	public function onInstallerBeforeDisplay(&$showpackageInstaller)
-	{
-		$showpackageInstaller = false;
-	}
-
-	/**
 	 * onInstallerViewBeforeFirstTab.
 	 *
 	 * @return void
@@ -125,7 +111,7 @@ class PlgInstallerPackageInstaller  extends JPlugin
 
 		if ($ishathor || !$ishathor)
 		{
-			echo JHtml::_('bootstrap.addTab', 'myTab', 'upload', JText::_('PLG_INSTALLER_UPLOAD_PACKAGE_FILE', true));
+			echo JHtml::_('bootstrap.addTab', 'myTab', 'package', JText::_('PLG_INSTALLER_UPLOAD_PACKAGE_FILE', true));
 			?>
 			<fieldset class="uploadform">
 				<legend><?php echo JText::_('PLG_INSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
