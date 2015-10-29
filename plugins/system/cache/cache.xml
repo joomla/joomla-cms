@@ -37,6 +37,8 @@
 		</fieldset>
 		<fieldset name="advanced">
 			<field name="exclude" type="textarea"
+				class="input-xxlarge"
+				rows="15"
 				filter="raw"
 				default=""
 				description="PLG_CACHE_FIELD_EXCLUDE_DESC"
