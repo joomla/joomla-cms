@@ -46,7 +46,7 @@ class PluginsViewPlugins extends JViewLegacy
 		}
 
 		$this->addToolbar();
-		
+
 		return parent::display($tpl);
 	}
 
