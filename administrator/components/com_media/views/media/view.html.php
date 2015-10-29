@@ -50,6 +50,8 @@ class MediaViewMedia extends JViewLegacy
 		$this->folders_id  = ' id="media-tree"';
 		$this->folders     = $this->get('folderTree');
 
+		$this->sidebar = JHtmlSidebar::render();
+
 		// Set the toolbar
 		$this->addToolbar();
 

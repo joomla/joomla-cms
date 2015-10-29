@@ -42,10 +42,10 @@ $saveOrder = $listOrder == 'ordering';
 		</div>
 
 		<div class="filter-select">
-			<label class="selectlabel" for="filter_client_id">
+			<label class="selectlabel" for="client_id">
 				<?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?>
 			</label>
-			<select name="filter_client_id" id="filter_client_id">
+			<select name="client_id" id="client_id">
 				<?php echo JHtml::_('select.options', ModulesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
 
@@ -226,3 +226,9 @@ $saveOrder = $listOrder == 'ordering';
 	<?php echo JHtml::_('form.token'); ?>
 </div>
 </form>
+<script type="text/javascript">
+jQuery("#client_id").on("change", function()
+{
+	jQuery("#filter_position, #filter_module, #filter_language").val("");
+});
+</script>

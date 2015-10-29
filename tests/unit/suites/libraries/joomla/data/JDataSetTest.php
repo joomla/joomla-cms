@@ -60,24 +60,6 @@ class JDataSetTest extends TestCase
 	}
 
 	/**
-	 * Tests the __construct method with scalar input.
-	 *
-	 * @return  void
-	 *
-	 * @expectedException  PHPUnit_Framework_Error
-	 * @since              12.3
-	 */
-	public function test__construct_scalar()
-	{
-		if (PHP_MAJOR_VERSION >= 7)
-		{
-			$this->markTestSkipped('A fatal error is thrown on PHP 7 due to the typehinting of the constructor.');
-		}
-
-		new JDataSet('foo');
-	}
-
-	/**
 	 * Tests the __call method.
 	 *
 	 * @return  void

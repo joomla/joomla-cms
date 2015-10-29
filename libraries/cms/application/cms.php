@@ -419,6 +419,12 @@ class JApplicationCms extends JApplicationWeb
 			$name = $this->getName();
 		}
 
+		// Inject this application object into the JMenu tree if one isn't already specified
+		if (!isset($options['app']))
+		{
+			$options['app'] = $this;
+		}
+
 		try
 		{
 			$menu = JMenu::getInstance($name, $options);

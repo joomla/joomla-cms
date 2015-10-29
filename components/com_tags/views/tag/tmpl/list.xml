@@ -22,7 +22,7 @@
 				required="true"
 				multiple="true"
 			/>
-			
+
 			<field 
 				name="types" 
 				type="contenttype"
@@ -30,7 +30,7 @@
 				description="COM_TAGS_FIELD_TYPE_DESC"
 				multiple="true"
 			/>
-			
+
 			<field 
 				name="tag_list_language_filter"
 				type="contentlanguage"
@@ -42,7 +42,7 @@
 					<option value="all">JALL</option>
 					<option value="current_language">JCURRENT</option>
 			</field>
-			
+
 		</fieldset>
 	</fields>
 	<!-- Add fields to the parameters object for the layout. -->
@@ -81,14 +81,14 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field 
 				name="tag_list_image" 
 				type="media"
 				label="COM_TAGS_TAG_LIST_MEDIA_LABEL"
 				description="COM_TAGS_TAG_LIST_MEDIA_DESC"
 			/>
-			
+
 			<field 
 				name="tag_list_description" 
 				type="textarea"
@@ -118,12 +118,12 @@
 				description="JGLOBAL_FIELD_FIELD_ORDERING_DESC"
 				default=""
 			>
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="c.core_title">JGLOBAL_TITLE</option>
-					<option value="match_count">COM_TAGS_MATCH_COUNT</option>
-					<option value="c.core_created_time">JGLOBAL_CREATED_DATE</option>
-					<option value="c.core_modified_time">JGLOBAL_MODIFIED_DATE</option>
-					<option value="c.core_publish_up">JGLOBAL_PUBLISHED_DATE</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="c.core_title">JGLOBAL_TITLE</option>
+				<option value="match_count">COM_TAGS_MATCH_COUNT</option>
+				<option value="c.core_created_time">JGLOBAL_CREATED_DATE</option>
+				<option value="c.core_modified_time">JGLOBAL_MODIFIED_DATE</option>
+				<option value="c.core_publish_up">JGLOBAL_PUBLISHED_DATE</option>
 			</field>
 
 			<field 
@@ -140,14 +140,14 @@
 		</fieldset>
 
 		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
-			
+
 			<field 
 				name="spacer2" 
 				type="spacer" 
 				class="text"
 				label="COM_TAGS_SUBSLIDER_DRILL_TAG_LIST_LABEL"
 			/>
-			
+
 			<field 
 				name="tag_list_show_item_image" 
 				type="list"
@@ -169,7 +169,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field
 				name="tag_list_item_maximum_characters"
 				type="text"
@@ -201,6 +201,22 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field name="display_num" type="list"
+				default="20"
+				description="COM_TAGS_FIELD_NUMBER_ITEMS_LIST_DESC"
+				label="COM_TAGS_FIELD_NUMBER_ITEMS_LIST_LABEL"
+			>
+				<option value="5">J5</option>
+				<option value="10">J10</option>
+				<option value="15">J15</option>
+				<option value="20">J20</option>
+				<option value="25">J25</option>
+				<option value="30">J30</option>
+				<option value="50">J50</option>
+				<option value="100">J100</option>
+				<option value="0">JALL</option>
+			</field>
+
 			<field 
 				name="show_pagination" 
 				type="list"
@@ -222,7 +238,7 @@
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field 
 				name="tag_list_show_date" 
 				type="list"
@@ -245,9 +261,9 @@
 			/>
 
 		</fieldset>
-		
+
 		<fieldset name="selection" label="COM_TAGS_LIST_SELECTION_OPTIONS">
-			
+
 			<field 
 				name="return_any_or_all" 
 				type="list"
@@ -258,7 +274,7 @@
 				<option value="0">COM_TAGS_ALL</option>
 				<option value="1">COM_TAGS_ANY</option>
 			</field>
-				
+
 			<field 
 				name="include_children" 
 				type="list"
@@ -269,21 +285,12 @@
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">COM_TAGS_EXCLUDE</option>
 				<option value="1">COM_TAGS_INCLUDE</option>
-			</field>		
-		
-			<field
-				name="maximum"
-				type="text"
-				default="200"
-				filter="integer"
-				label="COM_TAGS_LIST_MAX_LABEL"
-				description="COM_TAGS_LIST_MAX_DESC">
 			</field>
-			
+
 		</fieldset>
-		
+
 		<fieldset name="integration">
-			
+
 			<field 
 				name="show_feed_link" 
 				type="list"

@@ -93,9 +93,6 @@ class InstallationControllerDefault extends JControllerBase
 			$app->redirect('index.php');
 		}
 
-		// Include the component HTML helpers.
-		JHtml::addIncludePath(JPATH_COMPONENT . '/helper/html');
-
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;
 		$paths->insert(JPATH_INSTALLATION . '/view/' . $vName . '/tmpl', 'normal');

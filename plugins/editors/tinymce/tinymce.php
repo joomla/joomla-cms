@@ -532,7 +532,7 @@ class PlgEditorTinymce extends JPlugin
 						}
 
 						$templates .= '{title: \'' . $title . '\', description: \'' . $description . '\', url:\''
-									. JUri::root() . 'media/editors/tinymce/templates/' . $filename . '.html\'},';
+							. JUri::root() . 'media/editors/tinymce/templates/' . $filename . '.html\'},';
 					}
 				}
 
@@ -611,7 +611,12 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar4_add[] = $custom_button;
 		}
 
-		// Prepare config variables
+		// We shall put the XTD button inside tinymce
+		$buttons = $this->tinyButtons();
+		$btnsNames = $buttons['names'];
+		$tinyBtns  = $buttons['script'];
+
+			// Prepare config variables
 		$plugins  = implode(',', $plugins);
 		$elements = implode(',', $elements);
 
@@ -620,13 +625,15 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar2 = implode(' ', $toolbar2_add);
 		$toolbar3 = implode(' ', $toolbar3_add);
 		$toolbar4 = implode(' ', $toolbar4_add);
+		$toolbar5 = implode(" | ", $btnsNames);
+
+		// The buttons script
+		$tinyBtns = implode("; ", $tinyBtns);
 
 		// See if mobileVersion is activated
 		$mobileVersion = $this->params->get('mobile', 0);
 
-		$load = "\t<script type=\"text/javascript\" src=\"" .
-			JUri::root() . $this->_basePath .
-			"/tinymce.min.js\"></script>\n";
+		JHtml::script($this->_basePath . '/tinymce.min.js', false, false, false, false, false);
 
 		/**
 		 * Shrink the buttons if not on a mobile or if mobile view is off.
@@ -649,149 +656,175 @@ class PlgEditorTinymce extends JPlugin
 		switch ($mode)
 		{
 			case 0: /* Simple mode*/
-				$return = $load .
-					"\t<script type=\"text/javascript\">
-					tinymce.init({
-						// General
-						directionality: \"$text_direction\",
-						selector: \"textarea.mce_editable\",
-						language : \"$langPrefix\",
-						mode : \"specific_textareas\",
-						autosave_restore_when_empty: false,
-						$skin
-						theme : \"$theme\",
-						schema: \"html5\",
-						menubar: false,
-						toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist\",
-						// Cleanup/Output
-						inline_styles : true,
-						gecko_spellcheck : true,
-						entity_encoding : \"$entity_encoding\",
-						$forcenewline
-						$smallButtons
-						// URL
-						relative_urls : $relative_urls,
-						remove_script_host : false,
-						// Layout
-						$content_css
-						document_base_url : \"" . JUri::root() . "\"
-					});
-				</script>";
+				JFactory::getDocument()->addScriptDeclaration(
+					"
+		tinymce.init({
+			// General
+			directionality: \"$text_direction\",
+			selector: \"textarea.mce_editable\",
+			language : \"$langPrefix\",
+			mode : \"specific_textareas\",
+			autosave_restore_when_empty: false,
+			$skin
+			theme : \"$theme\",
+			schema: \"html5\",
+			menubar: false,
+			toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist\",
+			toolbar2: \"$toolbar5 | code\",
+			plugins: \"code\",
+			// Cleanup/Output
+			inline_styles : true,
+			gecko_spellcheck : true,
+			entity_encoding : \"$entity_encoding\",
+			$forcenewline
+			$smallButtons
+			// URL
+			relative_urls : $relative_urls,
+			remove_script_host : false,
+			// Layout
+			$content_css
+			document_base_url : \"" . JUri::root() . "\",
+			setup: function (editor) {
+				$tinyBtns
+			}
+		});
+		"
+				);
 				break;
 
 			case 1:
 			default: /* Advanced mode*/
 				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist";
-				$toolbar2 = "outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap";
-				$return = $load .
-					"\t<script type=\"text/javascript\">
-				tinyMCE.init({
-					// General
-					directionality: \"$text_direction\",
-					language : \"$langPrefix\",
-					mode : \"specific_textareas\",
-					autosave_restore_when_empty: false,
-					$skin
-					theme : \"$theme\",
-					schema: \"html5\",
-					selector: \"textarea.mce_editable\",
-					// Cleanup/Output
-					inline_styles : true,
-					gecko_spellcheck : true,
-					entity_encoding : \"$entity_encoding\",
-					valid_elements : \"$valid_elements\",
-					extended_valid_elements : \"$elements\",
-					$forcenewline
-					$smallButtons
-					invalid_elements : \"$invalid_elements\",
-					// Plugins
-					plugins : \"table link image code hr charmap autolink lists importcss\",
-					// Toolbar
-					toolbar1: \"$toolbar1\",
-					toolbar2: \"$toolbar2\",
-					removed_menuitems: \"newdocument\",
-					// URL
-					relative_urls : $relative_urls,
-					remove_script_host : false,
-					document_base_url : \"" . JUri::root() . "\",
-					// Layout
-					$content_css
-					importcss_append: true,
-					// Advanced Options
-					$resizing
-					height : \"$html_height\",
-					width : \"$html_width\",
-
-				});
-				</script>";
+				$toolbar2 = "outdent indent | undo redo | link unlink anchor image | hr table | subscript superscript | charmap";
+				JFactory::getDocument()->addScriptDeclaration(
+					"
+		tinyMCE.init({
+			// General
+			directionality: \"$text_direction\",
+			language : \"$langPrefix\",
+			mode : \"specific_textareas\",
+			autosave_restore_when_empty: false,
+			$skin
+			theme : \"$theme\",
+			schema: \"html5\",
+			selector: \"textarea.mce_editable\",
+			// Cleanup/Output
+			inline_styles : true,
+			gecko_spellcheck : true,
+			entity_encoding : \"$entity_encoding\",
+			valid_elements : \"$valid_elements\",
+			extended_valid_elements : \"$elements\",
+			$forcenewline
+			$smallButtons
+			invalid_elements : \"$invalid_elements\",
+			// Plugins
+			plugins : \"table link image code hr charmap autolink lists importcss\",
+			// Toolbar
+			toolbar1: \"$toolbar1\",
+			toolbar2: \"$toolbar2\",
+			toolbar3: \"$toolbar5 | code\",
+			removed_menuitems: \"newdocument\",
+			// URL
+			relative_urls : $relative_urls,
+			remove_script_host : false,
+			document_base_url : \"" . JUri::root() . "\",
+			// Layout
+			$content_css
+			importcss_append: true,
+			// Advanced Options
+			$resizing
+			height : \"$html_height\",
+			width : \"$html_width\",
+			setup: function (editor) {
+				$tinyBtns
+			}
+		});
+			"
+				);
 				break;
 
 			case 2: /* Extended mode*/
-				$return = $load .
-					"\t<script type=\"text/javascript\">
-				tinyMCE.init({
-					// General
-					directionality: \"$text_direction\",
-					language : \"$langPrefix\",
-					mode : \"specific_textareas\",
-					autosave_restore_when_empty: false,
-					$skin
-					theme : \"$theme\",
-					schema: \"html5\",
-					selector: \"textarea.mce_editable\",
-					// Cleanup/Output
-					inline_styles : true,
-					gecko_spellcheck : true,
-					entity_encoding : \"$entity_encoding\",
-					valid_elements : \"$valid_elements\",
-					extended_valid_elements : \"$elements\",
-					$forcenewline
-					$smallButtons
-					invalid_elements : \"$invalid_elements\",
-					// Plugins
-					plugins : \"$plugins\",
-					// Toolbar
-					toolbar1: \"$toolbar1\",
-					toolbar2: \"$toolbar2\",
-					toolbar3: \"$toolbar3\",
-					toolbar4: \"$toolbar4\",
-					removed_menuitems: \"newdocument\",
-					// URL
-					relative_urls : $relative_urls,
-					remove_script_host : false,
-					document_base_url : \"" . JUri::root() . "\",
-					rel_list : [
-						{title: 'Alternate', value: 'alternate'},
-						{title: 'Author', value: 'author'},
-						{title: 'Bookmark', value: 'bookmark'},
-						{title: 'Help', value: 'help'},
-						{title: 'License', value: 'license'},
-						{title: 'Lightbox', value: 'lightbox'},
-						{title: 'Next', value: 'next'},
-						{title: 'No Follow', value: 'nofollow'},
-						{title: 'No Referrer', value: 'noreferrer'},
-						{title: 'Prefetch', value: 'prefetch'},
-						{title: 'Prev', value: 'prev'},
-						{title: 'Search', value: 'search'},
-						{title: 'Tag', value: 'tag'}
-					],
-					//Templates
-					" . $templates . "
-					// Layout
-					$content_css
-					importcss_append: true,
-					// Advanced Options
-					$resizing
-					image_advtab: $image_advtab,
-					height : \"$html_height\",
-					width : \"$html_width\",
-
-				});
-				</script>";
+				JFactory::getDocument()->addScriptDeclaration(
+					"
+		tinyMCE.init({
+			// General
+			directionality: \"$text_direction\",
+			language : \"$langPrefix\",
+			mode : \"specific_textareas\",
+			autosave_restore_when_empty: false,
+			$skin
+			theme : \"$theme\",
+			schema: \"html5\",
+			selector: \"textarea.mce_editable\",
+			// Cleanup/Output
+			inline_styles : true,
+			gecko_spellcheck : true,
+			entity_encoding : \"$entity_encoding\",
+			valid_elements : \"$valid_elements\",
+			extended_valid_elements : \"$elements\",
+			$forcenewline
+			$smallButtons
+			invalid_elements : \"$invalid_elements\",
+			// Plugins
+			plugins : \"$plugins\",
+			// Toolbar
+			toolbar1: \"$toolbar1\",
+			toolbar2: \"$toolbar2\",
+			toolbar3: \"$toolbar3\",
+			toolbar4: \"$toolbar4\",
+			toolbar5: \"$toolbar5 | code\",
+			removed_menuitems: \"newdocument\",
+			// URL
+			relative_urls : $relative_urls,
+			remove_script_host : false,
+			document_base_url : \"" . JUri::root() . "\",
+			rel_list : [
+				{title: 'Alternate', value: 'alternate'},
+				{title: 'Author', value: 'author'},
+				{title: 'Bookmark', value: 'bookmark'},
+				{title: 'Help', value: 'help'},
+				{title: 'License', value: 'license'},
+				{title: 'Lightbox', value: 'lightbox'},
+				{title: 'Next', value: 'next'},
+				{title: 'No Follow', value: 'nofollow'},
+				{title: 'No Referrer', value: 'noreferrer'},
+				{title: 'Prefetch', value: 'prefetch'},
+				{title: 'Prev', value: 'prev'},
+				{title: 'Search', value: 'search'},
+				{title: 'Tag', value: 'tag'}
+			],
+			//Templates
+			" . $templates . "
+			// Layout
+			$content_css
+			importcss_append: true,
+			// Advanced Options
+			$resizing
+			image_advtab: $image_advtab,
+			height : \"$html_height\",
+			width : \"$html_width\",
+			setup: function (editor) {
+				$tinyBtns
+			}
+		});
+		"
+				);
 				break;
 		}
 
-		return $return;
+		if (!empty($btnsNames))
+		{
+			JFactory::getDocument()->addScriptDeclaration(
+				"
+		function jInsertEditorText( text, editor )
+		{
+			tinyMCE.activeEditor.execCommand('mceInsertContent', false, text);
+		}
+			"
+			);
+		}
+
+		return;
 	}
 
 	/**
@@ -836,20 +869,13 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @param   string  $name  The name of the editor
 	 *
-	 * @return  boolean
+	 * @return  void
+	 *
+	 * @deprecated 3.5 tinyMCE (API v4) will get the content automatically from the text area
 	 */
 	public function onGetInsertMethod($name)
 	{
-		JFactory::getDocument()->addScriptDeclaration(
-			"
-			function jInsertEditorText( text, editor )
-			{
-				tinyMCE.execCommand('mceInsertContent', false, text);
-			}
-			"
-		);
-
-		return true;
+		return;
 	}
 
 	/**
@@ -898,53 +924,10 @@ class PlgEditorTinymce extends JPlugin
 
 		$editor = '<div class="editor">';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
-		$editor .= $this->_displayButtons($id, $buttons, $asset, $author);
 		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
 
 		return $editor;
-	}
-
-	/**
-	 * Displays the editor buttons.
-	 *
-	 * @param   string  $name     The editor name
-	 * @param   mixed   $buttons  [array with button objects | boolean true to display buttons]
-	 * @param   string  $asset    The object asset
-	 * @param   object  $author   The author.
-	 *
-	 * @return  string HTML
-	 */
-	private function _displayButtons($name, $buttons, $asset, $author)
-	{
-		$return = '';
-
-		$args = array(
-			'name'  => $name,
-			'event' => 'onGetInsertMethod'
-		);
-
-		$results = (array) $this->update($args);
-
-		if ($results)
-		{
-			foreach ($results as $result)
-			{
-				if (is_string($result) && trim($result))
-				{
-					$return .= $result;
-				}
-			}
-		}
-
-		if (is_array($buttons) || (is_bool($buttons) && $buttons))
-		{
-			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
-
-			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
-		}
-
-		return $return;
 	}
 
 	/**
@@ -957,5 +940,108 @@ class PlgEditorTinymce extends JPlugin
 	private function _toogleButton($name)
 	{
 		return JLayoutHelper::render('joomla.tinymce.togglebutton', $name);
+	}
+
+	/**
+	 * Get the XTD buttons and render them inside tinyMCE
+	 *
+	 * @return array
+	 */
+	private function tinyButtons()
+	{
+		// Get the available buttons
+		$buttons = $this->_subject->getButtons($this->_name, true);
+
+		// Init the arrays for the buttons
+		$tinyBtns  = array();
+		$btnsNames = array();
+
+		// Build the script
+		foreach ($buttons as $button)
+		{
+			if ($button->get('name'))
+			{
+				// Set some vars
+				$name     = str_replace(" ", "", $button->get('text'));
+				$title    = $button->get('text');
+				$onclick  = ($button->get('onclick')) ? $button->get('onclick') : null;
+				$options  = $button->get('options');
+				$icon     = $button->get('name');
+
+				if ($button->get('link') != "#")
+				{
+					$href = JUri::base() . $button->get('link');
+				}
+				else
+				{
+					$href = null;
+				}
+
+				// We do some hack here to set the correct icon for 3PD buttons
+				$icon = 'none icon-' . $icon;
+
+				// Get the modal width/height
+				if ($options)
+				{
+					preg_match('/x:\s*+\d{2,4}/', $options, $modalWidth);
+					preg_match('/y:\s*+\d{2,4}/', $options, $modalHeight);
+					$modalWidth  = filter_var(implode("", $modalWidth), FILTER_SANITIZE_NUMBER_INT);
+					$modalHeight = filter_var(implode("", $modalHeight), FILTER_SANITIZE_NUMBER_INT);
+				}
+
+				// Now we can built the script
+				$tempConstructor = "
+				editor.addButton(\"" . $name . "\", {
+					text: \"" . $title . "\",
+					title: \"" . $title . "\",
+					icon: \"" . $icon . "\",
+					onclick: function () {";
+				if ($button->get('modal') || $href)
+				{
+					$tempConstructor .= "
+							editor.windowManager.open({
+								title  : \"" . $title . "\",
+								url : '" . $href . "',";
+					if (!empty($modalHeight) && !empty($modalWidth))
+					{
+						$tempConstructor .= "
+								width  : $modalWidth,
+								height : $modalHeight,";
+					}
+					$tempConstructor .= "
+								buttons: [{
+									text   : \"Close\",
+									onclick: \"close\"
+								}]
+							});";
+					if ($onclick && ($button->get('modal') || $href))
+					{
+						$tempConstructor .= ",
+						" . $onclick . "
+							";
+					}
+				}
+				else
+				{
+					$tempConstructor .= "
+						" . $onclick . "
+							";
+				}
+				$tempConstructor .= "
+					}
+				})";
+
+				// The array with the toolbar buttons
+				$btnsNames[] = $name;
+
+				// The array with code for each button
+				$tinyBtns[] = $tempConstructor;
+			}
+		}
+
+		return array(
+			'names' => $btnsNames,
+			'script' => $tinyBtns
+		);
 	}
 }

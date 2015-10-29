@@ -75,6 +75,7 @@ Desktop.ini
 /libraries/vendor/joomla/session/Joomla/Session/_Tests
 /libraries/vendor/joomla/session/Joomla/Session/build
 /libraries/vendor/joomla/session/Joomla/Session/Tests
+/libraries/vendor/joomla/session/Joomla/Session/CONTRIBUTING.md
 /libraries/vendor/joomla/session/Joomla/Session/composer.json
 /libraries/vendor/joomla/session/Joomla/Session/phpunit.xml.dist
 /libraries/vendor/joomla/session/Joomla/Session/README.md
@@ -101,9 +102,9 @@ Desktop.ini
 /libraries/vendor/psr/log/.gitignore
 /libraries/vendor/psr/log/composer.json
 /libraries/vendor/psr/log/README.md
-/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Tests
-/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/.gitignore
-/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/CHANGELOG.md
-/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/composer.json
-/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/phpunit.xml.dist
-/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/README.md
+/libraries/vendor/symfony/yaml/Tests
+/libraries/vendor/symfony/yaml/.gitignore
+/libraries/vendor/symfony/yaml/CHANGELOG.md
+/libraries/vendor/symfony/yaml/composer.json
+/libraries/vendor/symfony/yaml/phpunit.xml.dist
+/libraries/vendor/symfony/yaml/README.md

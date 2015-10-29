@@ -124,6 +124,12 @@ class JHttpTransportStream implements JHttpTransport
 		// Follow redirects.
 		$options['follow_location'] = (int) $this->options->get('follow_location', 1);
 
+		// Set any custom transport options
+		foreach ($this->options->get('transport.stream', array()) as $key => $value)
+		{
+			$options[$key] = $value;
+		}
+
 		// Create the stream context for the request.
 		$context = stream_context_create(
 			array(

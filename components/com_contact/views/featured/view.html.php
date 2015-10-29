@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 /**
- * Featured View class
+ * Frontpage View class
  *
  * @since  1.6
  */
@@ -61,29 +61,32 @@ class ContactViewFeatured extends JViewLegacy
 	protected $pagination;
 
 	/**
-	 * Display the view
+	 * Method to display the view.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  False on error, null otherwise.
+	 * @return  mixed  Exception on failure, void on success.
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
-		$app    = JFactory::getApplication();
-		$params = $app->getParams();
+		$app		= JFactory::getApplication();
+		$params		= $app->getParams();
 
 		// Get some data from the models
-		$state      = $this->get('State');
-		$items      = $this->get('Items');
-		$category   = $this->get('Category');
-		$children   = $this->get('Children');
-		$parent     = $this->get('Parent');
-		$pagination = $this->get('Pagination');
+		$state		= $this->get('State');
+		$items		= $this->get('Items');
+		$category	= $this->get('Category');
+		$children	= $this->get('Children');
+		$parent 	= $this->get('Parent');
+		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseWarning(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -91,13 +94,14 @@ class ContactViewFeatured extends JViewLegacy
 		// Compute the contact slug.
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
-			$item       = &$items[$i];
-			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$temp       = new Registry;
+			$item		= &$items[$i];
+			$item->slug	= $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+			$temp		= new Registry;
 
 			$temp->loadString($item->params);
-			$item->params = clone($params);
+			$item->params = clone $params;
 			$item->params->merge($temp);
+
 			if ($item->params->get('show_email', 0) == 1)
 			{
 				$item->email_to = trim($item->email_to);
@@ -128,7 +132,7 @@ class ContactViewFeatured extends JViewLegacy
 
 		$this->_prepareDocument();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
@@ -136,13 +140,13 @@ class ContactViewFeatured extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   1.5
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = JFactory::getApplication();
-		$menus = $app->getMenu();
-		$title = null;
+		$app		= JFactory::getApplication();
+		$menus		= $app->getMenu();
+		$title 		= null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
@@ -161,15 +165,15 @@ class ContactViewFeatured extends JViewLegacy
 
 		if (empty($title))
 		{
-			$title = $app->get('sitename');
+			$title = $app->getCfg('sitename');
 		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
 		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
 		}
 
 		$this->document->setTitle($title);

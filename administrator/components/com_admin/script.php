@@ -273,6 +273,8 @@ class JoomlaInstallerScript
 			array('plugin', 'tags', 'finder', 0),
 			array('plugin', 'totp', 'twofactorauth', 0),
 			array('plugin', 'yubikey', 'twofactorauth', 0),
+			array('plugin', 'updatenotification', 'system', 0),
+			array('plugin', 'module', 'editors-xtd', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
@@ -1304,6 +1306,23 @@ class JoomlaInstallerScript
 			'/libraries/ClassLoader.php',
 			// Joomla 3.4.6
 			'/components/com_wrapper/views/wrapper/metadata.xml',
+			// Joomla 3.5.0
+			'/media/com_joomlaupdate/default.js',
+			'/media/com_joomlaupdate/encryption.js',
+			'/media/com_joomlaupdate/json2.js',
+			'/media/com_joomlaupdate/update.js',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Dumper.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Escaper.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Inline.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/LICENSE',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Parser.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Unescaper.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Yaml.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/DumpException.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ExceptionInterface.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ParseException.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/RuntimeException.php',
+			'/administrator/components/com_tags/helpers/tags.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1389,6 +1408,12 @@ class JoomlaInstallerScript
 			'/administrator/components/com_config/views',
 			'/administrator/components/com_config/models/fields',
 			'/administrator/components/com_config/models/forms',
+			// Joomla! 3.5
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml',
+			'/libraries/vendor/symfony/yaml/Symfony/Component',
+			'/libraries/vendor/symfony/yaml/Symfony',
+			'/administrator/components/com_tags/helpers',
 		);
 
 		jimport('joomla.filesystem.file');

@@ -287,7 +287,7 @@ class JDate extends DateTime
 		}
 
 		// If the returned time should not be local use GMT.
-		if ($local == false)
+		if ($local == false && !empty(self::$gmt))
 		{
 			parent::setTimezone(self::$gmt);
 		}
@@ -319,7 +319,7 @@ class JDate extends DateTime
 			}
 		}
 
-		if ($local == false)
+		if ($local == false && !empty($this->tz))
 		{
 			parent::setTimezone($this->tz);
 		}

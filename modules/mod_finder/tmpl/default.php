@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
 JHtml::_('jquery.framework');
-
+JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
 // Load the smart search component language file.
@@ -163,6 +163,6 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				<?php echo JHtml::_('filter.select', $query, $params); ?>
 			</div>
 		<?php endif; ?>
-		<?php echo ModFinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
+		<?php echo modFinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
 	</div>
 </form>

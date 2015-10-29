@@ -73,7 +73,7 @@
 		<field
 			name="theme2"
 			type="list"
-			default="dark"
+			default="light"
 			label="PLG_RECAPTCHA_THEME_LABEL"
 			description="PLG_RECAPTCHA_THEME_DESC"
 			required="false"

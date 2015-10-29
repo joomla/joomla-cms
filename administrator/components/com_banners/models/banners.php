@@ -133,7 +133,7 @@ class BannersModelBanners extends JModelList
 			->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid');
 
 		// Filter by published state
-		$published = $this->getState('filter.state');
+		$published = $this->getState('filter.published');
 
 		if (is_numeric($published))
 		{
@@ -219,7 +219,7 @@ class BannersModelBanners extends JModelList
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.access');
-		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.published');
 		$id .= ':' . $this->getState('filter.category_id');
 		$id .= ':' . $this->getState('filter.language');
 
