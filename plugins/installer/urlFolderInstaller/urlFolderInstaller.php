@@ -8,6 +8,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
+
 // Injection so that the Javascript the Key can be translate in Language
 JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE');
 
@@ -133,6 +134,5 @@ class PlgInstallerUrlFolderInstaller  extends JPlugin
 			<?php
 			echo JHtml::_('bootstrap.endTab');
 		}
-
 	}
 }

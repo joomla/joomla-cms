@@ -57,7 +57,7 @@ class PlgInstallerPackageInstaller  extends JPlugin
 	 */
 	public function onInstallerViewAfterLastTab()
 	{
-		if ($this->params->get('tab_position', 0))//0
+		if ($this->params->get('tab_position', 0))
 		{
 			$this->getChanges();
 		}
