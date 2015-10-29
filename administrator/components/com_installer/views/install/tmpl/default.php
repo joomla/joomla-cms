@@ -52,7 +52,7 @@ JHtml::_('bootstrap.tooltip');
 
 				<?php endif; ?>
 
-				<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'upload')); ?>
+				<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'all')); ?>
 
 				<?php JEventDispatcher::getInstance()->trigger('onInstallerViewBeforeFirstTab', array()); ?>
 				<!-- Extension fieldset of the plugin installer urlFolderInstaller-->
@@ -70,5 +70,6 @@ JHtml::_('bootstrap.tooltip');
 				<?php echo JHtml::_('form.token'); ?>
 
 				<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+
 	</form>
 </div>
