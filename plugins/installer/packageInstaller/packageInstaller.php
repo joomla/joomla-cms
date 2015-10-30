@@ -111,19 +111,19 @@ class PlgInstallerPackageInstaller  extends JPlugin
 
 		if ($ishathor || !$ishathor)
 		{
-			echo JHtml::_('bootstrap.addTab', 'myTab', 'package', JText::_('PLG_INSTALLER_UPLOAD_PACKAGE_FILE', true));
+			echo JHtml::_('bootstrap.addTab', 'myTab', 'package', JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE', true));
 			?>
 			<fieldset class="uploadform">
-				<legend><?php echo JText::_('PLG_INSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
+				<legend><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
 				<div class="control-group">
-					<label for="install_package" class="control-label"><?php echo JText::_('PLG_INSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
+					<label for="install_package" class="control-label"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
 					<div class="controls">
 						<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
 					</div>
 				</div>
 				<div class="form-actions">
 					<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton_package()">
-						<?php echo JText::_('PLG_INSTALLER_UPLOAD_AND_INSTALL'); ?></button>
+						<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER__UPLOAD_AND_INSTALL'); ?></button>
 				</div>
 			</fieldset>
 
