@@ -101,7 +101,9 @@ class PlgInstallerPackageInstaller  extends JPlugin
 	/**
 	 * Textfield or Form of the Plugin.
 	 *
-	 * @return object
+	 * @return  void
+	 *
+	 * @since   3.5
 	 */
 	private function getChanges()
 	{
@@ -125,7 +127,7 @@ class PlgInstallerPackageInstaller  extends JPlugin
 				</div>
 			</fieldset>
 
-			<!-- get the Value from the form -->
+			<!-- Get the Value from the form -->
 
 			<?php
 			echo JHtml::_('bootstrap.endTab');
