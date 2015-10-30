@@ -157,7 +157,7 @@ class JFormFieldModal_Category extends JFormField
 				. '<span class="icon-edit"></span>' . JText::_('JACTION_EDIT')
 				. '</a>';
 		}
-		
+
 		$html[] = JHtml::_(
 			'bootstrap.renderModal',
 			'modalCategory-' . $this->id,
@@ -170,7 +170,7 @@ class JFormFieldModal_Category extends JFormField
 					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 			)
 		);
-		
+
 		// Clear category button
 		if ($allowClear)
 		{
