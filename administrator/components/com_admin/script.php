@@ -1334,9 +1334,6 @@ class JoomlaInstallerScript
 			// Joomla 3.0
 			'/administrator/components/com_contact/elements',
 			'/administrator/components/com_content/elements',
-			'/administrator/components/com_installer/models/fields',
-			'/administrator/components/com_installer/models/forms',
-			'/administrator/components/com_modules/models/fields',
 			'/administrator/components/com_newsfeeds/elements',
 			'/administrator/components/com_templates/views/prevuuw/tmpl',
 			'/administrator/components/com_templates/views/prevuuw',
