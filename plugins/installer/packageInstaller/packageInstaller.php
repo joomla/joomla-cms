@@ -74,7 +74,9 @@ class PlgInstallerPackageInstaller  extends JPlugin
 	/**
 	 * Returns true if it is hathor else false
 	 *
-	 * @return $this->hathor
+	 * @return  boolean
+	 *
+	 * @since   3.5
 	 */
 	private function isHathor()
 	{
