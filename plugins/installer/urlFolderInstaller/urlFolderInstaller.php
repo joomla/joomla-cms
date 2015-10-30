@@ -2,8 +2,9 @@
 /**
  * @package     Joomla.Plugin
  * @subpackage  Installer.urlFolderInstaller
- * @copyright   Copyright (C) 2013 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ *
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
@@ -20,19 +21,19 @@ JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE');
 class PlgInstallerUrlFolderInstaller  extends JPlugin
 {
 	/**
-	 * Load the language file on instantiation.
+	 * Is the backend Template hathor (true) or not (false)
 	 *
 	 * @var    boolean
-	 * @since  3.1
+	 * @since  3.5
 	 */
 	private $hathor = null;
 
 	/**
-	 * onInstallerViewBeforeFirstTab.
+	 * The onInstallerViewBeforeFirstTab event
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   3.5
 	 */
 	public function onInstallerViewBeforeFirstTab()
 	{
@@ -49,11 +50,11 @@ class PlgInstallerUrlFolderInstaller  extends JPlugin
 	}
 
 	/**
-	 * onInstallerViewAfterLastTab.
+	 * The onInstallerViewAfterLastTab event
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   3.5
 	 */
 	public function onInstallerViewAfterLastTab()
 	{
@@ -62,12 +63,6 @@ class PlgInstallerUrlFolderInstaller  extends JPlugin
 			$this->getChanges();
 		}
 
-		/**
-		 * Load the language file on instantiation.
-		 *
-		 * @var    boolean
-		 * @since  3.1
-		 */
 		$document = JFactory::getDocument();
 
 		// External files added Javascript and CSS
@@ -78,22 +73,24 @@ class PlgInstallerUrlFolderInstaller  extends JPlugin
 	/**
 	 * This is for the Layout of the Plugin.
 	 *
-	 * @return $this->hathor
+	 * @return  boolean
+	 *
+	 * @since   3.5
 	 */
 	private function isHathor()
 	{
 		if (is_null($this->hathor))
 		{
-			$app = JFactory::getApplication();
+			$app          = JFactory::getApplication();
 			$templateName = strtolower($app->getTemplate());
 
 			if ($templateName == 'hathor')
 			{
-				$this->_hathor = true;
+				$this->hathor = true;
 			}
 			else
 			{
-				$this->_hathor = false;
+				$this->hathor = false;
 			}
 		}
 
@@ -103,7 +100,9 @@ class PlgInstallerUrlFolderInstaller  extends JPlugin
 	/**
 	 * Textfield or Form of the Plugin.
 	 *
-	 * @return object
+	 * @return  void
+	 *
+	 * @since   3.5
 	 */
 	private function getChanges()
 	{
