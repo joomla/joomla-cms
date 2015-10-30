@@ -126,7 +126,9 @@ class PlgInstallerUrlFolderInstaller  extends JPlugin
 
 				</div>
 				<div class="form-actions">
-					<input type="button" class="btn btn-primary" value="<?php echo JText::_('PLG_INSTALLER_URLFOLDERINSTALLER_INSTALLALL_BUTTON'); ?>" onclick="Joomla.submitbuttonall()" />
+					<input type="button" class="btn btn-primary"
+						value="<?php echo JText::_('PLG_INSTALLER_URLFOLDERINSTALLER_INSTALLALL_BUTTON'); ?>" onclick="Joomla.submitbuttonall()"
+					/>
 				</div>
 
 				<input type="hidden" name="install_url" value="" />
