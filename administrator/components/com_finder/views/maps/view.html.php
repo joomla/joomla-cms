@@ -19,6 +19,41 @@ JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com
 class FinderViewMaps extends JViewLegacy
 {
 	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
+	protected $items;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
+	protected $pagination;
+
+	/**
+	 * The HTML markup for the sidebar
+	 *
+	 * @var  string
+	 */
+	protected $sidebar;
+
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
+	protected $state;
+
+	/**
+	 * The total number of items
+	 *
+	 * @var  object
+	 */
+	protected $total;
+
+	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
@@ -53,7 +88,8 @@ class FinderViewMaps extends JViewLegacy
 		// Prepare the view.
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -68,7 +104,6 @@ class FinderViewMaps extends JViewLegacy
 		$canDo = JHelperContent::getActions('com_finder');
 
 		JToolbarHelper::title(JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'zoom-in finder');
-		$toolbar = JToolbar::getInstance('toolbar');
 
 		if ($canDo->get('core.edit.state'))
 		{
@@ -83,7 +118,14 @@ class FinderViewMaps extends JViewLegacy
 		}
 
 		JToolbarHelper::divider();
-		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
+		JToolbar::getInstance('toolbar')->appendButton(
+			'Popup',
+			'bars',
+			'COM_FINDER_STATISTICS',
+			'index.php?option=com_finder&view=statistics&tmpl=component',
+			550,
+			350
+		);
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
 
