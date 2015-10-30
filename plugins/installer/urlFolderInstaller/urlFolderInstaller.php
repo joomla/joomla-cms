@@ -16,7 +16,7 @@ JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE');
 /**
  * UrlFolderInstaller Plugin.
  *
- * @since  1.6
+ * @since  3.5
  */
 class PlgInstallerUrlFolderInstaller  extends JPlugin
 {
@@ -110,20 +110,20 @@ class PlgInstallerUrlFolderInstaller  extends JPlugin
 
 		if ($ishathor || !$ishathor)
 		{
-			echo JHtml::_('bootstrap.addTab', 'myTab', 'urlfolder', JText::_('PLG_INSTALLALL_TEXT', true));
+			echo JHtml::_('bootstrap.addTab', 'myTab', 'urlfolder', JText::_('PLG_URL_INSTALLER_INSTALLALL_TEXT', true));
 			?>
 			<div class="clr"></div>
 			<fieldset class="uploadform">
-				<legend><?php echo JText::_('PLG_INSTALLALL_TEXT'); ?></legend>
+				<legend><?php echo JText::_('PLG_URL_INSTALLER_INSTALLALL_TEXT'); ?></legend>
 				<div class="control-group">
-					<label for="install_all" class="control-label"><?php echo JText::_('PLG_INSTALLALL_TEXT'); ?></label>
+					<label for="install_all" class="control-label"><?php echo JText::_('PLG_URL_INSTALLER_INSTALLALL_TEXT'); ?></label>
 					<div class="controls">
 						<input type="text" id="install_all" name="install_all" class="span5 input_box" size="70" value="" />
 					</div>
 
 				</div>
 				<div class="form-actions">
-					<input type="button" class="btn btn-primary" value="<?php echo JText::_('PLG_INSTALLALL_BUTTON'); ?>" onclick="Joomla.submitbuttonall()" />
+					<input type="button" class="btn btn-primary" value="<?php echo JText::_('PLG_URL_INSTALLER_INSTALLALL_BUTTON'); ?>" onclick="Joomla.submitbuttonall()" />
 				</div>
 
 				<input type="hidden" name="install_url" value="" />
