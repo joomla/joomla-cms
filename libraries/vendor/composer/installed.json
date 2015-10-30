@@ -766,5 +766,57 @@
             "joomla",
             "registry"
         ]
+    },
+    {
+        "name": "phpwhois/idna-convert",
+        "version": "v0.9.0",
+        "version_normalized": "0.9.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/phpWhois/idna-convert.git",
+            "reference": "663c4b170d4e542946e04840ee212e6c896ac80b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/phpWhois/idna-convert/zipball/663c4b170d4e542946e04840ee212e6c896ac80b",
+            "reference": "663c4b170d4e542946e04840ee212e6c896ac80b",
+            "shasum": ""
+        },
+        "time": "2015-01-09 03:31:11",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.9.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "idna_convert.class.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1"
+        ],
+        "authors": [
+            {
+                "name": "Matthias Sommerfeld",
+                "email": "phlymail@phlylabs.de",
+                "role": "Developer"
+            },
+            {
+                "name": "Dmitry Lukashin",
+                "email": "dmitry@lukashin.ru",
+                "role": "Maintainer"
+            }
+        ],
+        "description": "idna-convert library based on http://idnaconv.phlymail.de/",
+        "homepage": "http://idnaconv.phlymail.de/",
+        "keywords": [
+            "idn",
+            "idna",
+            "php"
+        ]
     }
 ]
