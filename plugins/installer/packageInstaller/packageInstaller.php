@@ -2,9 +2,11 @@
 /**
  * @package     Joomla.Plugin
  * @subpackage  Installer.packageInstaller
- * @copyright   Copyright (C) 2013 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ *
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+ 
 defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
@@ -15,24 +17,24 @@ JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE');
 /**
  * PackageInstaller Plugin.
  *
- * @since  1.6
+ * @since  3.5
  */
 class PlgInstallerPackageInstaller  extends JPlugin
 {
 	/**
-	 * Load the language file on instantiation.
+	 * Is the backend Template hathor (true) or not (false)
 	 *
 	 * @var    boolean
-	 * @since  3.1
+	 * @since  3.5
 	 */
 	private $hathor = null;
 
 	/**
-	 * onInstallerViewBeforeFirstTab.
+	 * The onInstallerViewBeforeFirstTab event
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   3.5
 	 */
 	public function onInstallerViewBeforeFirstTab()
 	{
@@ -49,11 +51,11 @@ class PlgInstallerPackageInstaller  extends JPlugin
 	}
 
 	/**
-	 * onInstallerViewAfterLastTab.
+	 * The onInstallerViewAfterLastTab event
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   3.5
 	 */
 	public function onInstallerViewAfterLastTab()
 	{
@@ -62,21 +64,15 @@ class PlgInstallerPackageInstaller  extends JPlugin
 			$this->getChanges();
 		}
 
-		/**
-		 * Load the language file on instantiation.
-		 *
-		 * @var    boolean
-		 * @since  3.1
-		 */
 		$document = JFactory::getDocument();
 
 		// External files added Javascript and CSS
-		$document->addScript(JURI::root() . 'plugins/installer/packageInstaller/js/packageInstaller.js');
-		$document->addStyleSheet(JURI::root() . 'plugins/installer/packageInstaller/css/client.css');
+		$document->addScript(JUri::root() . 'plugins/installer/packageInstaller/js/packageInstaller.js');
+		$document->addStyleSheet(JUri::root() . 'plugins/installer/packageInstaller/css/client.css');
 	}
 
 	/**
-	 * test comment
+	 * Returns true if it is hathor else false
 	 *
 	 * @return $this->hathor
 	 */
@@ -84,16 +80,16 @@ class PlgInstallerPackageInstaller  extends JPlugin
 	{
 		if (is_null($this->hathor))
 		{
-			$app = JFactory::getApplication();
+			$app          = JFactory::getApplication();
 			$templateName = strtolower($app->getTemplate());
 
 			if ($templateName == 'hathor')
 			{
-				$this->_hathor = true;
+				$this->hathor = true;
 			}
 			else
 			{
-				$this->_hathor = false;
+				$this->hathor = false;
 			}
 		}
 
