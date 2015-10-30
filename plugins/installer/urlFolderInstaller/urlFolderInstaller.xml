@@ -8,7 +8,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.5.0</version>
-	<description>PLG_PACKAGE_INSTALLER_PLUGIN_XML_DESCRIPTION</description>
+	<description>PLG_URL_INSTALLER_PLUGIN_XML_DESCRIPTION</description>
 
 	<!--Files and Folder for installation definition -->
 	<files>
