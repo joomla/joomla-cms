@@ -22,6 +22,14 @@ JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE');
 class PlgInstallerPackageInstaller  extends JPlugin
 {
 	/**
+	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 *
+	 * @var    boolean
+	 * @since  3.5
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * Is the backend Template hathor (true) or not (false)
 	 *
 	 * @var    boolean
@@ -38,11 +46,6 @@ class PlgInstallerPackageInstaller  extends JPlugin
 	 */
 	public function onInstallerViewBeforeFirstTab()
 	{
-		$lang = JFactory::getLanguage();
-
-		// Load all the require Language file needed
-		$lang->load('plg_installer_packageInstaller', JPATH_ADMINISTRATOR);
-
 		// Filter by Position of the Plugin
 		if (!$this->params->get('tab_position', 0))
 		{
