@@ -22,11 +22,11 @@ class CacheController extends JControllerLegacy
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController  This object to support chaining.
+	 * @return  CacheController  This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
 		require_once JPATH_COMPONENT . '/helpers/cache.php';
 
@@ -62,6 +62,8 @@ class CacheController extends JControllerLegacy
 
 			$view->display();
 		}
+
+		return $this;
 	}
 
 	/**
@@ -76,6 +78,7 @@ class CacheController extends JControllerLegacy
 
 		$cid = $this->input->post->get('cid', array(), 'array');
 
+		/** @var CacheModelCache $model */
 		$model = $this->getModel('cache');
 
 		if (empty($cid))
@@ -100,6 +103,7 @@ class CacheController extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
+		/** @var CacheModelCache $model */
 		$model = $this->getModel('cache');
 		$ret = $model->purge();
 

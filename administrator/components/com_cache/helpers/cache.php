@@ -19,16 +19,14 @@ class CacheHelper
 	/**
 	 * Get a list of filter options for the application clients.
 	 *
-	 * @return  array  An array of JHtmlOption elements.
+	 * @return  stdClass[]  An array of option elements.
 	 */
 	public static function getClientOptions()
 	{
-		// Build the filter options.
-		$options   = array();
-		$options[] = JHtml::_('select.option', '0', JText::_('JSITE'));
-		$options[] = JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
-
-		return $options;
+		return array(
+			JHtml::_('select.option', '0', JText::_('JSITE')),
+			JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'))
+		);
 	}
 
 	/**
