@@ -14,20 +14,13 @@
 	<files>
 		<filename plugin="urlFolderInstaller">urlFolderInstaller.php</filename>
 		<filename>index.html</filename>
-		<folder>language</folder>
 		<folder>js</folder>
 		<folder>css</folder>
 	</files>
 	
-	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.plg_installer_urlFolderInstaller.ini</language>
-		<language tag="en-GB">en-GB/en-GB.plg_installer_urlFolderInstaller.sys.ini</language>
-		
-		<language tag="fr-FR">fr-FR/fr-FR.plg_installer_urlFolderInstaller.ini</language>
-		<language tag="fr-FR">fr-FR/fr-FR.plg_installer_urlFolderInstaller.sys.ini</language>
-		
-		<language tag="de-DE">de-DE/de-DE.plg_installer_urlFolderInstaller.ini</language>
-		<language tag="de-DE">de-DE/de-DE.plg_installer_urlFolderInstaller.sys.ini</language>
+	<languages>
+		<language tag="en-GB">en-GB.plg_installer_urlFolderInstaller.ini</language>
+		<language tag="en-GB">en-GB.plg_installer_urlFolderInstaller.sys.ini</language>
 	</languages>
 	
     <!-- configuration definition -->
