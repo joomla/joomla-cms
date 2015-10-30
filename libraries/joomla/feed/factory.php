@@ -44,13 +44,13 @@ class JFeedFactory
 			// Retry with JHttpFactory that allow using CURL and Sockets as alternative method when available
 
 			// Adding a valid user agent string, otherwise some feed-servers returning a error
-			$options 	= new \joomla\Registry\Registry();
-			$options->set('userAgent','Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
+			$options 	= new \joomla\Registry\Registry;
+			$options->set('userAgent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
 
 			$connector 	= JHttpFactory::getHttp($options);
 			$feed 		= $connector->get($uri);
 
-			if($feed->code != 200)
+			if ($feed->code != 200)
 			{
 				throw new RuntimeException('Unable to open the feed.');
 			}
