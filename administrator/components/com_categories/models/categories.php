@@ -162,13 +162,13 @@ class CategoriesModelCategories extends JModelList
 
 		// Select the required fields from the table.
 		$query->select(
-				$this->getState(
-					'list.select',
-					'a.id, a.title, a.alias, a.note, a.published, a.access' .
-					', a.checked_out, a.checked_out_time, a.created_user_id' .
-					', a.path, a.parent_id, a.level, a.lft, a.rgt' .
-					', a.language'
-				)
+			$this->getState(
+				'list.select',
+				'a.id, a.title, a.alias, a.note, a.published, a.access' .
+				', a.checked_out, a.checked_out_time, a.created_user_id' .
+				', a.path, a.parent_id, a.level, a.lft, a.rgt' .
+				', a.language'
+			)
 		);
 		$query->from('#__categories AS a');
 
