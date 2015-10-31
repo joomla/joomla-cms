@@ -281,7 +281,7 @@ class CategoriesModelCategories extends JModelList
 		}
 
 		// Group by on Categories for JOIN with component tables to count items
-		$query->group('a.id');
+		$query->group('a.id, l.title, uc.name, ag.title, ua.name');
 
 		// Load Helper file of the component for which com_categories displays the categories
 		$classname = ucfirst(substr($extension, 4)) . 'Helper';
