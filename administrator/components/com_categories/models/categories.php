@@ -147,10 +147,6 @@ class CategoriesModelCategories extends JModelList
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
 
-		// Determine for which component the category manager retrieves its categories (for item count)
-		$jinput	= JFactory::getApplication()->input;
-		$countitemhelper = JPATH_ADMINISTRATOR . "/components/" . $jinput->get('extension') . '/helpers/countitems.php';
-
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
@@ -285,6 +281,7 @@ class CategoriesModelCategories extends JModelList
 
 		// Load Helper file of the component for which com_categories displays the categories
 		$classname = ucfirst(substr($extension, 4)) . 'Helper';
+
 		if (class_exists($classname) && method_exists($classname, 'countItems'))
 		{
 			// Get the SQL to extend the com_category $query object with item count (published, unpublished, trashed)
