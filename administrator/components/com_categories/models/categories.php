@@ -79,7 +79,6 @@ class CategoriesModelCategories extends JModelList
 		// Extract the optional section name
 		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
 
-
 		$search = $this->getUserStateFromRequest($context . '.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
@@ -174,19 +173,19 @@ class CategoriesModelCategories extends JModelList
 
 		// Join over the language
 		$query->select('l.title AS language_title')
-				->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor')
-				->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level')
-				->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name')
-				->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
+			->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
 
 		// Join over the associations.
 		$assoc = $this->getAssoc();
