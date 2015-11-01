@@ -79,14 +79,14 @@ class PlgSystemSef extends JPlugin
 		$buffer    = preg_replace($regex, " $1=\"$base\$2\"", $buffer);
 		$this->checkBuffer($buffer);
 
-		if($this->params->get('fix_winopen', 1))
+		if ($this->params->get('fix_winopen', 1))
 		{
 			$regex  = '#(onclick="window.open\(\')(?!/|' . $protocols . '|\#)([^/]+[^\']*?\')#m';
 			$buffer = preg_replace($regex, '$1' . $base . '$2', $buffer);
 			$this->checkBuffer($buffer);
 		}
 
-		if($this->params->get('fix_onmouse', 1))
+		if ($this->params->get('fix_onmouse', 1))
 		{
 			// ONMOUSEOVER / ONMOUSEOUT
 			$regex  = '#(onmouseover|onmouseout)="this.src=([\']+)(?!/|' . $protocols . '|\#|\')([^"]+)"#m';
@@ -94,7 +94,7 @@ class PlgSystemSef extends JPlugin
 			$this->checkBuffer($buffer);
 		}
 
-		if($this->params->get('fix_style_background', 1))
+		if ($this->params->get('fix_style_background', 1))
 		{
 			// Background image.
 			$regex  = '#style\s*=\s*[\'\"](.*):\s*url\s*\([\'\"]?(?!/|' . $protocols . '|\#)([^\)\'\"]+)[\'\"]?\)#m';
@@ -102,7 +102,7 @@ class PlgSystemSef extends JPlugin
 			$this->checkBuffer($buffer);
 		}
 
-		if($this->params->get('fix_object', 1))
+		if ($this->params->get('fix_object', 1))
 		{
 			// OBJECT <param name="xx", value="yy"> -- fix it only inside the <param> tag.
 			$regex  = '#(<param\s+)name\s*=\s*"(movie|src|url)"[^>]\s*value\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
