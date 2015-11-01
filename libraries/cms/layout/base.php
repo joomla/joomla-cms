@@ -157,11 +157,6 @@ class JLayoutBase implements JLayout
 	 */
 	public function renderDebugMessages()
 	{
-		if (!$this->isDebugEnabled())
-		{
-			return '';
-		}
-
 		return implode($this->debugMessages, "\n");
 	}
 
@@ -176,10 +171,7 @@ class JLayoutBase implements JLayout
 	 */
 	public function addDebugMessage($message)
 	{
-		if ($this->isDebugEnabled())
-		{
-			$this->debugMessages[] = $message;
-		}
+		$this->debugMessages[] = $message;
 
 		return $this;
 	}
