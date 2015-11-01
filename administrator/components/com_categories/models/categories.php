@@ -240,7 +240,7 @@ class CategoriesModelCategories extends JModelList
 
 		if ($uri->getVar('layout') == 'modal')
 		{
-			$search = $this->getState('filter.search_modal');
+			$search = $this->getState('filter.searchModal');
 		}
 
 		if (!empty($search))
