@@ -76,7 +76,6 @@ tinymce.PluginManager.add('jdragdrop', function(editor) {
 		// Notify user when file is over the drop area
 		editor.on('dragover', function(e) {
 			e.preventDefault();
-			tinyMCE.activeEditor.contentAreaContainer.style.borderColor = 'green';
 			tinyMCE.activeEditor.contentAreaContainer.style.borderStyle = 'dashed';
 			tinyMCE.activeEditor.contentAreaContainer.style.borderWidth = '5px';
 
