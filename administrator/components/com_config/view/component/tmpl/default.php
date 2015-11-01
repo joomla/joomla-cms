@@ -72,14 +72,15 @@ JFactory::getDocument()->addScriptDeclaration(
 								$class = ' showon_' . implode(' showon_', explode(',', $showon[1]));
 								$rel = ' rel="showon_' . $id . '[' . $showon[0] . ']"';
 							}
+							$label = !empty($field->getAttribute('label'));
 							?>
 							<div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
-								<?php if (!$field->hidden && $name != "permissions") : ?>
+								<?php if (!$field->hidden && $name != "permissions" && $label) : ?>
 									<div class="control-label">
 										<?php echo $field->label; ?>
 									</div>
 								<?php endif; ?>
-								<div class="<?php if ($name != "permissions") : ?>controls<?php endif; ?>">
+								<div class="<?php if ($name != "permissions" && $label) : ?>controls<?php endif; ?>">
 									<?php echo $field->input; ?>
 								</div>
 							</div>
