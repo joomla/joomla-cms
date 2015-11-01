@@ -213,6 +213,11 @@ class PlgEditorTinymce extends JPlugin
 		$valid_elements    = $this->params->get('valid_elements', '');
 
 		// Advanced Options
+		$access = JFactory::getUser()->getAuthorisedViewLevels();
+
+		// Flip for performance, so we can direct check for the key isset($access[$key])
+		$access = array_flip($access);
+
 		$html_height = $this->params->get('html_height', '550');
 		$html_width  = $this->params->get('html_width', '');
 
@@ -224,7 +229,7 @@ class PlgEditorTinymce extends JPlugin
 		// Image advanced options
 		$image_advtab = $this->params->get('image_advtab', 1);
 
-		if ($image_advtab)
+		if (isset($access[$image_advtab]))
 		{
 			$image_advtab = "true";
 		}
@@ -280,7 +285,7 @@ class PlgEditorTinymce extends JPlugin
 		// Alignment buttons
 		$alignment = $this->params->get('alignment', 1);
 
-		if ($alignment)
+		if (isset($access[$alignment]))
 		{
 			$toolbar1_add[] = '|';
 			$toolbar1_add[] = 'alignleft';
@@ -297,7 +302,7 @@ class PlgEditorTinymce extends JPlugin
 		// Fonts
 		$fonts = $this->params->get('fonts', 1);
 
-		if ($fonts)
+		if (isset($access[$fonts]))
 		{
 			$toolbar1_add[] = 'fontselect';
 			$toolbar1_add[] = 'fontsizeselect';
@@ -306,7 +311,7 @@ class PlgEditorTinymce extends JPlugin
 		// Search & replace
 		$searchreplace = $this->params->get('searchreplace', 1);
 
-		if ($searchreplace)
+		if (isset($access[$searchreplace]))
 		{
 			$plugins[]      = 'searchreplace';
 			$toolbar2_add[] = 'searchreplace';
@@ -326,7 +331,7 @@ class PlgEditorTinymce extends JPlugin
 		// Insert date and/or time plugin
 		$insertdate = $this->params->get('insertdate', 1);
 
-		if ($insertdate)
+		if (isset($access[$insertdate]))
 		{
 			$plugins[]      = 'insertdatetime';
 			$toolbar4_add[] = 'inserttime';
@@ -335,7 +340,7 @@ class PlgEditorTinymce extends JPlugin
 		// Link plugin
 		$link = $this->params->get('link', 1);
 
-		if ($link)
+		if (isset($access[$link]))
 		{
 			$plugins[]      = 'link';
 			$toolbar2_add[] = 'link';
@@ -347,10 +352,10 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar2_add[] = '|';
 		$toolbar2_add[] = 'code';
 
-		// Colours
-		$colours = $this->params->get('colours', 1);
+		// Colors
+		$colors = $this->params->get('colors', 1);
 
-		if ($colours)
+		if (isset($access[$colors]))
 		{
 			$toolbar2_add[] = '|';
 			$toolbar2_add[] = 'forecolor,backcolor';
@@ -359,7 +364,7 @@ class PlgEditorTinymce extends JPlugin
 		// Fullscreen
 		$fullscreen = $this->params->get('fullscreen', 1);
 
-		if ($fullscreen)
+		if (isset($access[$fullscreen]))
 		{
 			$plugins[]      = 'fullscreen';
 			$toolbar2_add[] = '|';
@@ -369,7 +374,7 @@ class PlgEditorTinymce extends JPlugin
 		// Table
 		$table = $this->params->get('table', 1);
 
-		if ($table)
+		if (isset($access[$table]))
 		{
 			$plugins[]      = 'table';
 			$toolbar3_add[] = 'table';
@@ -384,7 +389,7 @@ class PlgEditorTinymce extends JPlugin
 		// Emotions
 		$smilies = $this->params->get('smilies', 1);
 
-		if ($smilies)
+		if (isset($access[$smilies]))
 		{
 			$plugins[]      = 'emoticons';
 			$toolbar3_add[] = 'emoticons';
@@ -393,7 +398,7 @@ class PlgEditorTinymce extends JPlugin
 		// Media plugin
 		$media = $this->params->get('media', 1);
 
-		if ($media)
+		if (isset($access[$media]))
 		{
 			$plugins[]      = 'media';
 			$toolbar3_add[] = 'media';
@@ -402,7 +407,7 @@ class PlgEditorTinymce extends JPlugin
 		// Horizontal line
 		$hr = $this->params->get('hr', 1);
 
-		if ($hr)
+		if (isset($access[$hr]))
 		{
 			$plugins[]      = 'hr';
 			$elements[]     = 'hr[id|title|alt|class|width|size|noshade]';
@@ -416,7 +421,7 @@ class PlgEditorTinymce extends JPlugin
 		// RTL/LTR buttons
 		$directionality = $this->params->get('directionality', 1);
 
-		if ($directionality)
+		if (isset($access[$directionality]))
 		{
 			$plugins[] = 'directionality';
 			$toolbar3_add[] = 'ltr rtl';
@@ -433,7 +438,7 @@ class PlgEditorTinymce extends JPlugin
 		// Paste
 		$paste = $this->params->get('paste', 1);
 
-		if ($paste)
+		if (isset($access[$paste]))
 		{
 			$plugins[]      = 'paste';
 			$toolbar4_add[] = 'paste';
@@ -444,7 +449,7 @@ class PlgEditorTinymce extends JPlugin
 		// Visualchars
 		$visualchars = $this->params->get('visualchars', 1);
 
-		if ($visualchars)
+		if (isset($access[$visualchars]))
 		{
 			$plugins[]      = 'visualchars';
 			$toolbar4_add[] = 'visualchars';
@@ -453,7 +458,7 @@ class PlgEditorTinymce extends JPlugin
 		// Visualblocks
 		$visualblocks = $this->params->get('visualblocks', 1);
 
-		if ($visualblocks)
+		if (isset($access[$visualblocks]))
 		{
 			$plugins[]      = 'visualblocks';
 			$toolbar4_add[] = 'visualblocks';
@@ -462,7 +467,7 @@ class PlgEditorTinymce extends JPlugin
 		// Non-breaking
 		$nonbreaking = $this->params->get('nonbreaking', 1);
 
-		if ($nonbreaking)
+		if (isset($access[$nonbreaking]))
 		{
 			$plugins[]      = 'nonbreaking';
 			$toolbar4_add[] = 'nonbreaking';
@@ -471,7 +476,7 @@ class PlgEditorTinymce extends JPlugin
 		// Blockquote
 		$blockquote = $this->params->get('blockquote', 1);
 
-		if ($blockquote)
+		if (isset($access[$blockquote]))
 		{
 			$toolbar4_add[] = 'blockquote';
 		}
@@ -479,7 +484,7 @@ class PlgEditorTinymce extends JPlugin
 		// Template
 		$template = $this->params->get('template', 1);
 
-		if ($template)
+		if (isset($access[$template]))
 		{
 			$plugins[]      = 'template';
 			$toolbar4_add[] = 'template';
@@ -547,7 +552,7 @@ class PlgEditorTinymce extends JPlugin
 		// Print
 		$print = $this->params->get('print', 1);
 
-		if ($print)
+		if (isset($access[$print]))
 		{
 			$plugins[] = 'print';
 			$toolbar4_add[] = '|';
@@ -558,7 +563,7 @@ class PlgEditorTinymce extends JPlugin
 		// Spellchecker
 		$spell = $this->params->get('spell', 0);
 
-		if ($spell)
+		if (isset($access[$spell]))
 		{
 			$plugins[]      = 'spellchecker';
 			$toolbar4_add[] = '|';
@@ -568,7 +573,7 @@ class PlgEditorTinymce extends JPlugin
 		// Wordcount
 		$wordcount = $this->params->get('wordcount', 1);
 
-		if ($wordcount)
+		if (isset($access[$wordcount]))
 		{
 			$plugins[] = 'wordcount';
 		}
@@ -576,7 +581,7 @@ class PlgEditorTinymce extends JPlugin
 		// Advlist
 		$advlist = $this->params->get('advlist', 1);
 
-		if ($advlist)
+		if (isset($access[$advlist]))
 		{
 			$plugins[] = 'advlist';
 		}
@@ -584,7 +589,7 @@ class PlgEditorTinymce extends JPlugin
 		// Autosave
 		$autosave = $this->params->get('autosave', 1);
 
-		if ($autosave)
+		if (isset($access[$autosave]))
 		{
 			$plugins[] = 'autosave';
 		}
@@ -592,7 +597,7 @@ class PlgEditorTinymce extends JPlugin
 		// Context menu
 		$contextmenu = $this->params->get('contextmenu', 1);
 
-		if ($contextmenu)
+		if (isset($access[$contextmenu]))
 		{
 			$plugins[] = 'contextmenu';
 		}
