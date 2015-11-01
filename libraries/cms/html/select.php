@@ -283,17 +283,17 @@ abstract class JHtmlSelect
 			elseif (is_object($group))
 			{
 				// Sub-list is in a property of an object
-				$subList = $group->$options['group.items'];
+				$subList = $group->{$options['group.items']};
 
-				if (isset($group->$options['group.label']))
+				if (isset($group->{$options['group.label']}))
 				{
-					$label = $group->$options['group.label'];
+					$label = $group->{$options['group.label']};
 					$noGroup = false;
 				}
 
-				if (isset($options['group.id']) && isset($group->$options['group.id']))
+				if (isset($options['group.id']) && isset($group->{$options['group.id']}))
 				{
-					$id = $group->$options['group.id'];
+					$id = $group->{$options['group.id']};
 					$noGroup = false;
 				}
 			}
@@ -696,7 +696,7 @@ abstract class JHtmlSelect
 				{
 					foreach ($options['list.select'] as $val)
 					{
-						$key2 = is_object($val) ? $val->$options['option.key'] : $val;
+						$key2 = is_object($val) ? $val->{$options['option.key']} : $val;
 
 						if ($key == $key2)
 						{

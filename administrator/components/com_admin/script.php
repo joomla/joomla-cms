@@ -425,7 +425,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_installer/models/fields/group.php',
 			'/administrator/components/com_installer/models/fields/index.html',
 			'/administrator/components/com_installer/models/fields/search.php',
-			'/administrator/components/com_installer/models/fields/type.php',
 			'/administrator/components/com_installer/models/forms/index.html',
 			'/administrator/components/com_installer/models/forms/manage.xml',
 			'/administrator/components/com_installer/views/install/tmpl/default_form.php',
@@ -1334,9 +1333,6 @@ class JoomlaInstallerScript
 			// Joomla 3.0
 			'/administrator/components/com_contact/elements',
 			'/administrator/components/com_content/elements',
-			'/administrator/components/com_installer/models/fields',
-			'/administrator/components/com_installer/models/forms',
-			'/administrator/components/com_modules/models/fields',
 			'/administrator/components/com_newsfeeds/elements',
 			'/administrator/components/com_templates/views/prevuuw/tmpl',
 			'/administrator/components/com_templates/views/prevuuw',

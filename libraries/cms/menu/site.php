@@ -140,7 +140,7 @@ class JMenuSite extends JMenu
 				if (JLanguageMultilang::isEnabled())
 				{
 					$attributes[] = 'language';
-					$values[]     = array($this->language->getTag(), '*');
+					$values[]     = array(JFactory::getLanguage()->getTag(), '*');
 				}
 			}
 			elseif ($values[$key] === null)
