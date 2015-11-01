@@ -48,15 +48,17 @@ function sendPermissions(event) {
 		{
 			icon.removeAttribute('style');
 			icon.setAttribute('class', 'icon-save');
-			if (value === '1')
+			if (value == '1')
 			{
-				element.parentElement.nextSibling.nextSibling.firstElementChild.setAttribute('class', 'label label-success');
-				element.parentElement.nextSibling.nextSibling.firstElementChild.innerHTML='Allowed';
+				jQuery(element).parents().next('td').find('span')
+					.removeClass('label label-important').addClass('label label-success')
+					.html('Allowed');
 			}
 			else
 			{
-				element.parentElement.nextSibling.nextSibling.firstElementChild.setAttribute('class', 'label label-important');
-				element.parentElement.nextSibling.nextSibling.firstElementChild.innerHTML='Not Allowed';
+				jQuery(element).parents().next('td').find('span')
+					.removeClass('label label-success').addClass('label label-important')
+					.html('Not Allowed.');
 			}
 		}
 		else
