@@ -90,17 +90,22 @@ tinymce.PluginManager.add('jdragdrop', function(editor) {
 			if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
 				for (var i = 0, f; f = e.dataTransfer.files[i]; i++) {
 
-					// Display a spining Joomla! logo
-					jQuery('.mce-toolbar-grp').append(
-						'<div id=\"jloader\">' +
-						'   <div class=\"progress progress-success progress-striped active\" style=\"width:100%;height:30px;\">' +
-						'       <div class=\"bar\" style=\"width: 0%\"></div>' +
-						'   </div>' +
-						'</div>');
-					editor.contentAreaContainer.style.borderWidth = '';
+					// Only images allowed
+					if (f.name.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/)) {
 
-					// Upload the file(s)
-					UploadFile(f);
+						// Display a spining Joomla! logo
+						jQuery('.mce-toolbar-grp').append(
+							'<div id=\"jloader\">' +
+							'   <div class=\"progress progress-success progress-striped active\" style=\"width:100%;height:30px;\">' +
+							'       <div class=\"bar\" style=\"width: 0%\"></div>' +
+							'   </div>' +
+							'</div>');
+						editor.contentAreaContainer.style.borderWidth = '';
+
+						// Upload the file(s)
+						UploadFile(f);
+					}
+
 					e.preventDefault();
 				}
 			}

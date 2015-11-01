@@ -84,21 +84,6 @@ class MediaControllerFile extends JControllerLegacy
 			$fileparts['filename'] = JStringPunycode::toPunycode($fileparts['filename']);
 			$tempExt = (!empty($fileparts['extension'])) ? strtolower($fileparts['extension']) : '';
 
-			if (!in_array($tempExt, array('jpg', 'jpeg', 'gif', 'png')))
-			{
-				JLog::add('Invalid extension: ' . $tempExt, JLog::INFO, 'upload');
-
-				$response = array(
-					'status'  => '0',
-					'message' => JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'),
-					'error'   => JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE')
-				);
-
-				echo json_encode($response);
-
-				return;
-			}
-
 			// Transform filename to punycode, then neglect otherthan non-alphanumeric characters & underscores. Also transform extension to lowercase
 			$safeFileName = preg_replace(array("/[\\s]/", "/[^a-zA-Z0-9_]/"), array("_", ""), $fileparts['filename']) . '.' . $tempExt;
 
@@ -205,7 +190,7 @@ class MediaControllerFile extends JControllerLegacy
 					'status'   => '1',
 					'message'  => JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', $returnUrl),
 					'error'    => JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', $returnUrl),
-					'location' => $returnUrl
+					'location' => str_replace('\\', '/', $returnUrl)
 				);
 
 				echo json_encode($response);
