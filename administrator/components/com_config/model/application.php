@@ -342,21 +342,19 @@ class ConfigModelApplication extends ConfigModelForm
 	 */
 	public function storePermissions($array)
 	{
-		// Get a db connection.
-		$db = $this->db;
 
 		try
 		{
 			// Create a new query object.
-			$query = $db->getQuery(true);
-			$query->select($db->quoteName(array('name', 'rules')))
-					->from($db->quoteName('#__assets'))
-					->where($db->quoteName('name') . ' = ' . $db->quote($array['component']));
+			$query = $this->db->getQuery(true);
+			$query->select($this->db->quoteName(array('name', 'rules')))
+					->from($this->db->quoteName('#__assets'))
+					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($array['component']));
 
-			$db->setQuery($query);
+			$this->db->setQuery($query);
 
 			// Load the results as a list of stdClass objects (see later for more options on retrieving data).
-			$results = $db->loadAssocList();
+			$results = $this->db->loadAssocList();
 
 			if (empty($results))
 			{
@@ -403,15 +401,15 @@ class ConfigModelApplication extends ConfigModelForm
 				}
 
 				$temp  = json_encode($temp);
-				$query = $db->getQuery(true);
+				$query = $this->db->getQuery(true);
 
-				$query->update($db->quoteName('#__assets'))
-					->set('rules = ' . $db->quote($temp))
-					->where($db->quoteName('name') . ' = ' . $db->quote($array['component']));
+				$query->update($this->db->quoteName('#__assets'))
+					->set('rules = ' . $this->db->quote($temp))
+					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($array['component']));
 
-				$db->setQuery($query);
+				$this->db->setQuery($query);
 
-				$result = $db->execute();
+				$result = $this->db->execute();
 
 				return $result;
 			}
