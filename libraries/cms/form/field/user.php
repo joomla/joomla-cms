@@ -71,6 +71,9 @@ class JFormFieldUser extends JFormField
 	 */
 	public function getLayoutData()
 	{
+		// Get the basic field data
+		$data = parent::getLayoutData();
+
 		// Load the current username if available.
 		$table = JTable::getInstance('user');
 
@@ -93,19 +96,16 @@ class JFormFieldUser extends JFormField
 		// Initialize JavaScript field attributes.
 		$onchange = (string) $this->element['onchange'];
 
-		return array(
-			'id'        => $this->id,
-			'name'      => $this->name,
-			'required'  => $this->required,
-			'userName'  => $table->name,
-			'value'     => $this->value,
-			'class'     => $this->class,
-			'size'      => $this->size,
-			'onchange'  => $onchange,
-			'groups'    => $this->getGroups(),
-			'excluded'  => $this->getExcluded(),
-			'readOnly'  => $this->readonly
+		$extraData = array(
+				'onchange'  => $onchange,
+				'userName'  => $table->name,
+				'groups'    => $this->getGroups(),
+				'excluded'  => $this->getExcluded(),
+				'readOnly'  => $this->readonly,
+				'class'     => $this->class,
 		);
+
+		return array_merge($data, $extraData);
 	}
 
 	/**
