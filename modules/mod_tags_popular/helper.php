@@ -73,7 +73,7 @@ abstract class ModTagsPopularHelper
 		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = t.id')
 		->join('INNER', $db->qn('#__ucm_content', 'c') . ' ON ' . $db->qn('m.core_content_id') . ' = ' . $db->qn('c.core_content_id'));
 
-		if ($order_value == 'random')
+		if ($order_value == 'rand()')
 		{
 			$query->order($query->Rand());
 		}
