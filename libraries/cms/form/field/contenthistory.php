@@ -38,6 +38,9 @@ class JFormFieldContenthistory extends JFormField
 	 */
 	public function getLayoutData()
 	{
+		// Get the basic field data
+		$data = parent::getLayoutData();
+
 		$typeId = JTable::getInstance('Contenttype')->getTypeId($this->element['data-typeAlias']);
 		$itemId = $this->form->getValue('id');
 		$label  = JText::_('JTOOLBAR_VERSIONS');
@@ -46,12 +49,14 @@ class JFormFieldContenthistory extends JFormField
 			. $this->id . '&amp;item_id=' . $itemId . '&amp;type_id=' . $typeId . '&amp;type_alias='
 			. $this->element['data-typeAlias'] . '&amp;' . JSession::getFormToken() . '=1';
 
-		return array(
-			'type' => $typeId,
-			'item' => $itemId,
-			'label' => $label,
-			'link' => $link
+		$extraData = array(
+				'type' => $typeId,
+				'item' => $itemId,
+				'label' => $label,
+				'link' => $link
 		);
+
+		return array_merge($data, $extraData);
 	}
 
 	/**
