@@ -68,7 +68,11 @@ class JFormFieldContenthistory extends JFormField
 	 */
 	protected function getInput()
 	{
+		if (empty($this->layout))
+		{
+			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+		}
 
-		return JLayoutHelper::render($this->layout, $this->getLayoutData());
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
 	}
 }
