@@ -45,9 +45,7 @@ class JFormFieldRadio extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		$layout = $this->getAttribute('layout', $this->layout);
-
-		return $this->getRenderer($layout)->render($this->getLayoutData());
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
 	}
 
 	/**

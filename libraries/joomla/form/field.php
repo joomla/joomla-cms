@@ -381,6 +381,7 @@ abstract class JFormField
 			case 'validate':
 			case 'value':
 			case 'class':
+			case 'layout':
 			case 'labelclass':
 			case 'size':
 			case 'onchange':
@@ -441,6 +442,7 @@ abstract class JFormField
 			case 'hint':
 			case 'value':
 			case 'labelclass':
+			case 'layout':
 			case 'onchange':
 			case 'onclick':
 			case 'validate':
@@ -589,6 +591,8 @@ abstract class JFormField
 		// Set the visibility.
 		$this->hidden = ($this->hidden || (string) $element['type'] == 'hidden');
 
+		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
+
 		// Add required to class list if field is required.
 		if ($this->required)
 		{
@@ -683,9 +687,7 @@ abstract class JFormField
 	 */
 	protected function getInput()
 	{
-		$layout = $this->getAttribute('layout', $this->layout);
-
-		return $this->getRenderer($layout)->render($this->getLayoutData());
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
 	}
 
 	/**
