@@ -303,6 +303,14 @@ abstract class JFormField
 	protected static $generated_fieldname = '__field';
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.5
+	 */
+	protected $layout;
+
+	/**
 	 * Layout to render the form field
 	 *
 	 * @var  string
@@ -673,7 +681,12 @@ abstract class JFormField
 	 *
 	 * @since   11.1
 	 */
-	abstract protected function getInput();
+	protected function getInput()
+	{
+		$layout = $this->getAttribute('layout', $this->layout);
+
+		return $this->getRenderer($layout)->render($this->getLayoutData());
+	}
 
 	/**
 	 * Method to get the field title.
@@ -712,25 +725,20 @@ abstract class JFormField
 			return '';
 		}
 
-		// Get the label text from the XML element, defaulting to the element name.
-		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-		$text = $this->translateLabel ? JText::_($text) : $text;
+		$data = $this->getLayoutData();
 
 		// Forcing the Alias field to display the tip below
 		$position = $this->element['name'] == 'alias' ? ' data-placement="bottom" ' : '';
 
-		$description = ($this->translateDescription && !empty($this->description)) ? JText::_($this->description) : $this->description;
+		// Here mainly for B/C with old layouts. This can be done in the layouts directly
+		$extraData = array(
+			'text'        => $data['label'],
+			'for'         => $this->id,
+			'classes'     => $data['labelClasses'],
+			'position'    => $position
+		);
 
-		$displayData = array(
-				'text'        => $text,
-				'description' => $description,
-				'for'         => $this->id,
-				'required'    => (bool) $this->required,
-				'classes'     => explode(' ', $this->labelclass),
-				'position'    => $position
-			);
-
-		return JLayoutHelper::render($this->renderLabelLayout, $displayData);
+		return $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));
 	}
 
 	/**
@@ -918,7 +926,13 @@ abstract class JFormField
 			$options['showonEnabled'] = true;
 		}
 
-		return JLayoutHelper::render($this->renderLayout, array('input' => $this->getInput(), 'label' => $this->getLabel(), 'options' => $options));
+		$data = array(
+			'input'   => $this->getInput(),
+			'label'   => $this->getLabel(),
+			'options' => $options
+		);
+
+		return $this->getRenderer($this->renderLayout)->render($data);
 	}
 
 	/**
@@ -928,31 +942,72 @@ abstract class JFormField
 	 *
 	 * @since 3.5
 	 */
-	protected function getInputLayoutData()
+	protected function getLayoutData()
 	{
+		// Label preprocess
+		$label = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
+		$label = $this->translateLabel ? JText::_($label) : $label;
+
+		// Description preprocess
+		$description = !empty($this->description) ? $this->description : null;
+		$description = !empty($description) && $this->translateDescription ? JText::_($description) : $description;
+
 		$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 
 		return array(
 			'autocomplete' => $this->autocomplete,
-			'autofocus' => $this->autofocus,
-			'classes' => explode(' ', $this->class),
-			'disabled' => $this->disabled,
-			'group' => $this->group,
-			'hidden' => $this->hidden,
-			'hint' => $this->translateHint ? JText::alt($this->hint, $alt) : $this->hint,
-			'id' => $this->id,
-			'multiple' => $this->multiple,
-			'name' => $this->name,
-			'onchange' => $this->onchange,
-			'onclick' => $this->onclick,
-			'pattern' => $this->pattern,
-			'readonly' => $this->readonly,
-			'repeat' => $this->repeat,
-			'required' => $this->required,
-			'size' => $this->size,
-			'spellcheck' => $this->spellcheck,
-			'validate' => $this->validate,
-			'value' => $this->value
+			'autofocus'    => $this->autofocus,
+			'classes'      => explode(' ', $this->class),
+			'description'  => $description,
+			'disabled'     => $this->disabled,
+			'group'        => $this->group,
+			'hidden'       => $this->hidden,
+			'hint'         => $this->translateHint ? JText::alt($this->hint, $alt) : $this->hint,
+			'id'           => $this->id,
+			'label'        => $label,
+			'labelClasses' => explode(' ', $this->labelclass),
+			'multiple'     => $this->multiple,
+			'name'         => $this->name,
+			'onchange'     => $this->onchange,
+			'onclick'      => $this->onclick,
+			'pattern'      => $this->pattern,
+			'readonly'     => $this->readonly,
+			'repeat'       => $this->repeat,
+			'required'     => (bool) $this->required,
+			'size'         => $this->size,
+			'spellcheck'   => $this->spellcheck,
+			'validate'     => $this->validate,
+			'value'        => $this->value
 		);
+	}
+
+	/**
+	 * Get the renderer
+	 *
+	 * @param   string  $layoutId  Id to load
+	 *
+	 * @return  JLayout
+	 *
+	 * @since   3.5
+	 */
+	protected function getRenderer($layoutId = 'default')
+	{
+		$renderer = new JLayoutFile($layoutId);
+
+		$renderer->setDebug($this->isDebugEnabled());
+
+		return $renderer;
+	}
+
+	/**
+	 * Is debug enabled for this field
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.5
+	 */
+	protected function isDebugEnabled()
+	{
+		return ($this->getAttribute('debug', 'false') === 'true');
 	}
 }

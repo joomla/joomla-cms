@@ -29,6 +29,14 @@ class JFormFieldRadio extends JFormFieldList
 	protected $type = 'Radio';
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.5
+	 */
+	protected $layout = 'joomla.fields.radio';
+
+	/**
 	 * Method to get the radio button field input markup.
 	 *
 	 * @return  string  The field input markup.
@@ -37,9 +45,9 @@ class JFormFieldRadio extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		$displayData = $this->getInputLayoutData();
+		$layout = $this->getAttribute('layout', $this->layout);
 
-		return JLayoutHelper::render('joomla.fields.radio', $displayData);
+		return $this->getRenderer($layout)->render($this->getLayoutData());
 	}
 
 	/**
@@ -47,15 +55,15 @@ class JFormFieldRadio extends JFormFieldList
 	 *
 	 * @return  array
 	 *
-	 * @since 3.5
+	 * @since   3.5
 	 */
-	protected function getInputLayoutData()
+	protected function getLayoutData()
 	{
-		$displayData = parent::getInputLayoutData();
+		$data = parent::getLayoutData();
 
-		$displayData['value'] = (string) $this->value;
-		$displayData['options'] = $this->getOptions();
+		$data['value'] = (string) $this->value;
+		$data['options'] = $this->getOptions();
 
-		return $displayData;
+		return $data;
 	}
 }

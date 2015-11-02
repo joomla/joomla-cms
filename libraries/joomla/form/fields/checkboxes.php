@@ -30,6 +30,14 @@ class JFormFieldCheckboxes extends JFormFieldList
 	protected $type = 'Checkboxes';
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.5
+	 */
+	protected $layout = 'joomla.fields.checkboxes';
+
+	/**
 	 * Flag to tell the field to always be in multiple values mode.
 	 *
 	 * @var    boolean
@@ -116,29 +124,15 @@ class JFormFieldCheckboxes extends JFormFieldList
 	}
 
 	/**
-	 * Method to get the field input markup for check boxes.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   11.1
-	 */
-	protected function getInput()
-	{
-		$displayData = $this->getInputLayoutData();
-
-		return JLayoutHelper::render('joomla.fields.checkboxes', $displayData);
-	}
-
-	/**
 	 * Method to get the data to be passed to the layout for rendering.
 	 *
 	 * @return  array
 	 *
 	 * @since 3.5
 	 */
-	protected function getInputLayoutData()
+	protected function getLayoutData()
 	{
-		$displayData = parent::getInputLayoutData();
+		$data = parent::getLayoutData();
 
 		// True if the field has 'value' set. In other words, it has been stored, don't use the default values.
 		$hasValue = (isset($this->value) && !empty($this->value));
@@ -146,10 +140,12 @@ class JFormFieldCheckboxes extends JFormFieldList
 		// If a value has been stored, use it. Otherwise, use the defaults.
 		$checkedOptions = $hasValue ? $this->value : $this->checkedOptions;
 
-		$displayData['checkedOptions'] = is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions);
-		$displayData['hasValue'] = $hasValue;
-		$displayData['options'] = $this->getOptions();
+		$extraData = array(
+			'checkedOptions' => is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions),
+			'hasValue'       => $hasValue,
+			'options'        => $this->getOptions()
+		);
 
-		return $displayData;
+		return array_merge($data, $extraData);
 	}
 }
