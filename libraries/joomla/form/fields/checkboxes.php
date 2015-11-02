@@ -98,6 +98,23 @@ class JFormFieldCheckboxes extends JFormFieldList
 	}
 
 	/**
+	 * Method to get the radio button field input markup.
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   11.1
+	 */
+	protected function getInput()
+	{
+		if (empty($this->layout))
+		{
+			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+		}
+
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+	}
+
+	/**
 	 * Method to attach a JForm object to the field.
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
