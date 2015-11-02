@@ -44,6 +44,7 @@
 		});
 		this.$modalBody.append($iframe);
 		this.$modal.modal('show');
+		$('body').addClass('modal-open');
 
 		var self = this; // save context
 		$iframe.load(function(){
@@ -53,6 +54,7 @@
 			content.on('click', '.button-select', function(){
 				self.setValue($(this).data('user-value'), $(this).data('user-name'));
 				self.modalClose();
+				$('body').removeClass('modal-open');
 			});
 		});
 	};
@@ -61,11 +63,13 @@
 	$.fieldUser.prototype.modalClose = function() {
 		this.$modal.modal('hide');
 		this.$modalBody.empty();
+		$('body').removeClass('modal-open');
 	};
 
 	// close modal
 	$.fieldUser.prototype.removeIframe = function() {
 		this.$modalBody.empty();
+		$('body').removeClass('modal-open');
 	};
 
 	// set the value
