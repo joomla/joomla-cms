@@ -343,7 +343,7 @@ class ConfigModelApplication extends ConfigModelForm
 	public function storePermissions($array)
 	{
 		// Get a db connection.
-		$db = JFactory::getDbo();
+		$db = $this->db;
 
 		try
 		{
