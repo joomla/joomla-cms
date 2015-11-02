@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 /**
- *  Controller for global configuration, Store Permissions in Database
+ * Controller for global configuration, Store Permissions in Database
  *
  * @since  3.5
  */
