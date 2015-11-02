@@ -54,14 +54,13 @@ class JFormFieldUser extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Ensure field meets the requirements
-		if ($this->layout)
+		if (empty($this->layout))
 		{
-
-			return JLayoutHelper::render($this->layout, $this->getLayoutData());
+			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
 		}
 
-		return null;
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+
 	}
 
 	/**
