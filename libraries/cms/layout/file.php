@@ -117,20 +117,10 @@ class JLayoutFile extends JLayoutBase
 			return $layoutOutput;
 		}
 
-		if (JDEBUG)
-		{
-			$layoutOutput .= "<!-- Start layout: " . $path . " -->\n";
-		}
-
 		ob_start();
 		include $path;
 		$layoutOutput .= ob_get_contents();
 		ob_end_clean();
-
-		if (JDEBUG)
-		{
-			$layoutOutput .= "<!-- End layout: " . $path . " -->\n";
-		}
 
 		return $layoutOutput;
 	}
