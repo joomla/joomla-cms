@@ -33,7 +33,7 @@ class UsersControllerProfile extends UsersController
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		if (($data = file_get_contents('http://update.joomla.org/helpsites/helpsites.xml')) === false)
+		if (($data = file_get_contents('https://update.joomla.org/helpsites/helpsites.xml')) === false)
 		{
 			throw new Exception(JText::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 500);
 		}
