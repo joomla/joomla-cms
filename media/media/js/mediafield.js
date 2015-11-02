@@ -39,8 +39,9 @@
 			width: this.options.modalWidth,
 			height: this.options.modalHeight
 		});
-		this.$modalBody.append($iframe)
+		this.$modalBody.append($iframe);
 		this.$modal.modal('show');
+		$('body').addClass('modal-open');
 
 		var self = this; // save context
 		$iframe.load(function(){
@@ -56,19 +57,24 @@
 			});
 
 			// bind cancel
-			content.on('click', '.button-cancel', self.modalClose.bind(self));
+			content.on('click', '.button-cancel', function(){
+				$('body').removeClass('modal-open');
+				self.modalClose.bind(self);
+			});
 		});
 	};
 
 	// close modal
 	$.fieldMedia.prototype.modalClose = function() {
 		this.$modal.modal('hide');
+		$('body').removeClass('modal-open');
 		this.$modalBody.empty();
 	};
 
 	// Clear the iframe
 	$.fieldMedia.prototype.removeIframe = function() {
 		this.$modalBody.empty();
+		$('body').removeClass('modal-open');
 	};
 
 	// set the value
@@ -127,7 +133,7 @@
 			var $el = $(this), instance = $el.data('fieldMedia');
 			if(!instance){
 				var options = options || {},
-					data = $el.data();
+						data = $el.data();
 
 				// Check options in the element
 				for (var p in data) {
