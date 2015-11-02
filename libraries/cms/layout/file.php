@@ -21,24 +21,31 @@ class JLayoutFile extends JLayoutBase
 	/**
 	 * Cached layout paths
 	 *
-	 * @var  array
+	 * @var    array
+	 * @since  3.5
 	 */
 	protected static $cache = array();
 
 	/**
-	 * @var    string  Dot separated path to the layout file, relative to base path
+	 * Dot separated path to the layout file, relative to base path
+	 *
+	 * @var    string
 	 * @since  3.0
 	 */
 	protected $layoutId = '';
 
 	/**
-	 * @var    string  Base path to use when loading layout files
+	 * Base path to use when loading layout files
+	 *
+	 * @var    string
 	 * @since  3.0
 	 */
 	protected $basePath = null;
 
 	/**
-	 * @var    string  Full path to actual layout files, after possible template override check
+	 * Full path to actual layout files, after possible template override check
+	 *
+	 * @var    string
 	 * @since  3.0.3
 	 */
 	protected $fullPath = null;
@@ -350,7 +357,7 @@ class JLayoutFile extends JLayoutBase
 	 *
 	 * @return  self
 	 *
-	 * @since   1.0
+	 * @since   3.5
 	 */
 	public function loadVersionSuffixes()
 	{
@@ -574,7 +581,7 @@ class JLayoutFile extends JLayoutBase
 		// Reset includePaths
 		$paths = array();
 
-		// (1 - 	highest priority) Received a custom high priority path
+		// (1 - highest priority) Received a custom high priority path
 		if (!is_null($this->basePath))
 		{
 			$paths[] = rtrim($this->basePath, DIRECTORY_SEPARATOR);

@@ -289,7 +289,7 @@ class JLayoutBase implements JLayout
 	 *
 	 * @return  void
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
 	public function setDebug($debug)
 	{
