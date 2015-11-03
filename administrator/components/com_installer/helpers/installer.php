@@ -52,8 +52,8 @@ class InstallerHelper
 		);
 		JHtmlSidebar::addEntry(
 		JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
-					'index.php?option=com_installer&view=warnings',
-		$vName == 'warnings'
+			'index.php?option=com_installer&view=warnings',
+			$vName == 'warnings'
 		);
 		JHtmlSidebar::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_LANGUAGES'),
