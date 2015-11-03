@@ -156,7 +156,7 @@ class JDocumentHTML extends JDocument
 	{
 		if (empty($data) || !is_array($data))
 		{
-			return;
+			return $this;
 		}
 
 		$this->title        = (isset($data['title']) && !empty($data['title'])) ? $data['title'] : $this->title;
