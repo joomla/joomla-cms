@@ -741,7 +741,7 @@ abstract class JFormField
 		$extraData = array(
 			'text'        => $data['label'],
 			'for'         => $this->id,
-			'classes'     => $data['labelClasses'],
+			'classes'     => explode(' ', $data['labelclass']),
 			'position'    => $position
 		);
 
@@ -964,15 +964,16 @@ abstract class JFormField
 		return array(
 			'autocomplete' => $this->autocomplete,
 			'autofocus'    => $this->autofocus,
-			'classes'      => explode(' ', $this->class),
+			'class'        => $this->class,
 			'description'  => $description,
 			'disabled'     => $this->disabled,
+			'field'        => $this,
 			'group'        => $this->group,
 			'hidden'       => $this->hidden,
 			'hint'         => $this->translateHint ? JText::alt($this->hint, $alt) : $this->hint,
 			'id'           => $this->id,
 			'label'        => $label,
-			'labelClasses' => explode(' ', $this->labelclass),
+			'labelclass'   => $this->labelclass,
 			'multiple'     => $this->multiple,
 			'name'         => $this->name,
 			'onchange'     => $this->onchange,

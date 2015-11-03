@@ -64,9 +64,12 @@ class JFormFieldRadio extends JFormFieldList
 	{
 		$data = parent::getLayoutData();
 
-		$data['value'] = (string) $this->value;
-		$data['options'] = $this->getOptions();
+		$extraData = array(
+			'classes' => explode(' ', $data['class']),
+			'options' => $this->getOptions(),
+			'value'   => (string) $this->value
+		);
 
-		return $data;
+		return array_merge($data, $extraData);
 	}
 }

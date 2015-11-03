@@ -158,6 +158,7 @@ class JFormFieldCheckboxes extends JFormFieldList
 		$checkedOptions = $hasValue ? $this->value : $this->checkedOptions;
 
 		$extraData = array(
+			'classes'        => explode(' ', $data['class']),
 			'checkedOptions' => is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions),
 			'hasValue'       => $hasValue,
 			'options'        => $this->getOptions()
