@@ -69,13 +69,6 @@ class ContenthistoryModelHistory extends JModelList
 				 */
 				$user   = JFactory::getUser();
 				$result = $user->authorise('core.edit', $typeAlias . '.' . (int) $record->ucm_item_id);
-
-				// If the user is not allowed the root core edit
-				// Lets try core edit own permissions
-				if ($result === false)
-				{
-					$result = $user->authorise('core.edit.own', $typeAlias . '.' . (int) $record->ucm_item_id);
-				}
 			}
 		}
 
