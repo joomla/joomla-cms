@@ -34,7 +34,7 @@ class AdminViewSysinfo extends JViewLegacy
 		}
 
 		header('Content-Description: File Transfer');
-		header('Content-Disposition: attachment; filename="systeminfo-' . microtime(true) . '.txt"');
+		header('Content-Disposition: attachment; filename="systeminfo-' . date("c") . '.txt"');
 		header('Cache-Control: must-revalidate');
 
 		$data = $this->getLayoutData();
