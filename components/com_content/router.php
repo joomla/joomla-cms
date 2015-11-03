@@ -22,7 +22,7 @@ class ContentRouter extends JComponentRouterView
 		$categories->setKey('id');
 		$this->registerView($categories);
 		$category = new JComponentRouterViewconfiguration('category');
-		$category->setKey('id')->setParent($categories, 'id')->setNestable()->addLayout('blog');
+		$category->setKey('id')->setParent($categories, 'catid')->setNestable()->addLayout('blog');
 		$this->registerView($category);
 		$article = new JComponentRouterViewconfiguration('article');
 		$article->setKey('id')->setParent($category, 'catid');

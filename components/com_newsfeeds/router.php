@@ -22,7 +22,7 @@ class NewsfeedsRouter extends JComponentRouterView
 		$categories->setKey('id');
 		$this->registerView($categories);
 		$category = new JComponentRouterViewconfiguration('category');
-		$category->setKey('id')->setParent($categories, 'id')->setNestable();
+		$category->setKey('id')->setParent($categories, 'catid')->setNestable();
 		$this->registerView($category);
 		$newsfeed = new JComponentRouterViewconfiguration('newsfeed');
 		$newsfeed->setKey('id')->setParent($category, 'catid');

@@ -22,7 +22,7 @@ class ContactRouter extends JComponentRouterView
 		$categories->setKey('id');
 		$this->registerView($categories);
 		$category = new JComponentRouterViewconfiguration('category');
-		$category->setKey('id')->setParent($categories, 'id')->setNestable();
+		$category->setKey('id')->setParent($categories, 'catid')->setNestable();
 		$this->registerView($category);
 		$contact = new JComponentRouterViewconfiguration('contact');
 		$contact->setKey('id')->setParent($category, 'catid');
@@ -55,6 +55,7 @@ class ContactRouter extends JComponentRouterView
 	public function getCategorySegment($id, $query)
 	{
 		$category = JCategories::getInstance($this->getName())->get($id);
+
 		if ($category)
 		{
 			return array_reverse($category->getPath());
