@@ -19,7 +19,7 @@ if ($lang->isRtl())
 }
 
 JFactory::getDocument()->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
-Jfactory::getDocument()->addStyleDeclaration(
+JFactory::getDocument()->addStyleDeclaration(
 	"
 		@media (max-width: 767px) {
 			li.imgOutline.thumbnail.height-80.width-80.center {

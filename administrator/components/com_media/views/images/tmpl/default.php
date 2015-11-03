@@ -21,11 +21,7 @@ JHtml::_('bootstrap.tooltip', '.noHtmlTip', array('html' => false));
 
 // Include jQuery
 JHtml::_('jquery.framework');
-<<<<<<< HEAD
-JHtml::_('script', 'media/popup-imagemanager.min.js', false, true);
-=======
 JHtml::_('script', 'media/popup-imagemanager.min.js', false, true, false, false, true);
->>>>>>> Squashed commit of the following:
 JHtml::_('stylesheet', 'media/popup-imagemanager.css', array(), true);
 
 if ($lang->isRtl())
@@ -70,7 +66,6 @@ JFactory::getDocument()->addScriptDeclaration(
 						</div>
 					</div>
 				</div>
-				<a id="imgBtn" onclick="ImageManager.onok();" class="hidden"></a>
 
 				<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder?>&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>"></iframe>
 
