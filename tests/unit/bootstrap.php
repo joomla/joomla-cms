@@ -12,6 +12,18 @@
  * @link        http://www.phpunit.de/manual/current/en/installation.html
  */
 
+/**
+ * Mock for the global application exit.
+ *
+ * @param   mixed  $message  Exit code or string. Defaults to zero.
+ *
+ * @return  void
+ */
+function jexit($message = 0)
+{
+	return;
+}
+
 define('_JEXEC', 1);
 
 // Fix magic quotes.
@@ -19,7 +31,7 @@ ini_set('magic_quotes_runtime', 0);
 
 // Maximise error reporting.
 ini_set('zend.ze1_compatibility_mode', '0');
-error_reporting(E_ALL & ~(E_STRICT|E_USER_DEPRECATED));
+error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Set fixed precision value to avoid round related issues
@@ -100,11 +112,8 @@ require_once JPATH_PLATFORM . '/import.legacy.php';
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
 
-// For PHP 7, unset the exception handler
-if (PHP_MAJOR_VERSION >= 7)
-{
-	restore_exception_handler();
-}
-
 // Register the core Joomla test classes.
 JLoader::registerPrefix('Test', __DIR__ . '/core');
+
+// Register the deprecation handler
+TestHelper::registerDeprecationHandler();

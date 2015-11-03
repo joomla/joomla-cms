@@ -233,10 +233,15 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// For empty queue, if messages exists in the session, enqueue them first.
-		$this->getMessageQueue();
+		$messages = $this->getMessageQueue();
 
-		// Enqueue the message.
-		$this->_messageQueue[] = array('message' => $msg, 'type' => strtolower($type));
+		$message = array('message' => $msg, 'type' => strtolower($type));
+
+		if (!in_array($message, $this->_messageQueue))
+		{
+			// Enqueue the message.
+			$this->_messageQueue[] = $message;
+		}
 	}
 
 	/**
@@ -417,6 +422,12 @@ class JApplicationCms extends JApplicationWeb
 		if (!isset($name))
 		{
 			$name = $this->getName();
+		}
+
+		// Inject this application object into the JMenu tree if one isn't already specified
+		if (!isset($options['app']))
+		{
+			$options['app'] = $this;
 		}
 
 		try

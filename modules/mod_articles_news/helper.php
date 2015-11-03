@@ -70,12 +70,13 @@ abstract class ModArticlesNewsHelper
 
 		if (trim($ordering) == 'rand()')
 		{
-			$model->setState('list.direction', '');
+			$model->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
 		}
 		else
 		{
 			$direction = $params->get('direction', 1) ? 'DESC' : 'ASC';
 			$model->setState('list.direction', $direction);
+			$model->setState('list.ordering', $ordering);
 		}
 
 		// Retrieve Content

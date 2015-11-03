@@ -261,7 +261,7 @@ class JEditor extends JObject
 
 		$document = JFactory::getDocument();
 
-		if (method_exists($document, "addCustomTag"))
+		if (method_exists($document, "addCustomTag") && !empty($return))
 		{
 			$document->addCustomTag($return);
 		}
@@ -459,7 +459,12 @@ class JEditor extends JObject
 			}
 
 			JPluginHelper::importPlugin('editors-xtd', $plugin->name, false);
-			$className = 'plgButton' . $plugin->name;
+			$className = 'PlgEditorsXtd' . $plugin->name;
+
+			if (!class_exists($className))
+			{
+				$className = 'PlgButton' . $plugin->name;
+			}
 
 			if (class_exists($className))
 			{
@@ -522,7 +527,7 @@ class JEditor extends JObject
 		$plugin->params = $params;
 
 		// Build editor plugin classname
-		$name = 'plgEditor' . $this->_name;
+		$name = 'PlgEditor' . $this->_name;
 
 		if ($this->_editor = new $name($this, (array) $plugin))
 		{

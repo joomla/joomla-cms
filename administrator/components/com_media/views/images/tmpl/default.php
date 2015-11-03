@@ -21,7 +21,7 @@ $lang   = JFactory::getLanguage();
 
 // Include jQuery
 JHtml::_('jquery.framework');
-JHtml::_('script', 'media/popup-imagemanager.js', false, true);
+JHtml::_('script', 'media/popup-imagemanager.min.js', false, true);
 JHtml::_('stylesheet', 'media/popup-imagemanager.css', array(), true);
 
 if ($lang->isRtl())

@@ -23,6 +23,7 @@ JFactory::getDocument()->addScriptDeclaration(
 	{
 		if (task === "config.cancel.component" || document.formvalidator.isValid(document.getElementById("component-form")))
 		{
+			jQuery("#permissions-sliders select").attr("disabled", "disabled");
 			Joomla.submitform(task, document.getElementById("component-form"));
 		}
 	};
