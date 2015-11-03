@@ -328,7 +328,8 @@ class JApplicationAdministrator extends JApplicationCms
 
 		if (!($result instanceof Exception))
 		{
-			$lang = $this->input->getCmd('lang', 'en-GB');
+			$defaultLang = JFactory::getLanguage()->getDefault();
+			$lang = $this->input->getCmd('lang', $defaultLang);
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
 			$this->setUserState('application.lang', $lang);
 
