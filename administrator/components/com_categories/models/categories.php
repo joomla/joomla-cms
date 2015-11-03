@@ -21,7 +21,7 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -281,7 +281,26 @@ class CategoriesModelCategories extends JModelList
 		}
 
 		// Group by on Categories for JOIN with component tables to count items
-		$query->group('a.id');
+		$query->group('a.id, 
+				a.title, 
+				a.alias, 
+				a.note, 
+				a.published, 
+				a.access, 
+				a.checked_out, 
+				a.checked_out_time, 
+				a.created_user_id, 
+				a.path, 
+				a.parent_id, 
+				a.level, 
+				a.lft, 
+				a.rgt, 
+				a.language, 
+				l.title, 
+				uc.name, 
+				ag.title, 
+				ua.name'
+			);
 
 		// Load Helper file of the component for which com_categories displays the categories
 		$classname = ucfirst(substr($extension, 4)) . 'Helper';
@@ -299,9 +318,8 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * @return  boolean  True if the association exists
 	 *
-	 * @since  3.0
+	 * @since   3.0
 	 */
-
 	public function getAssoc()
 	{
 		static $assoc = null;
@@ -311,7 +329,6 @@ class CategoriesModelCategories extends JModelList
 			return $assoc;
 		}
 
-		$app = JFactory::getApplication();
 		$extension = $this->getState('filter.extension');
 
 		$assoc = JLanguageAssociations::isEnabled();

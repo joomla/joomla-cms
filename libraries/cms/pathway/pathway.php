@@ -33,7 +33,9 @@ class JPathway
 	protected $_count = 0;
 
 	/**
-	 * @var    array  JPathway instances container.
+	 * JPathway instances container.
+	 *
+	 * @var    JPathway[]
 	 * @since  1.7
 	 */
 	protected static $instances = array();

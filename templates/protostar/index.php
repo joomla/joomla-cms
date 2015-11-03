@@ -26,6 +26,9 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
+// Output as HTML5
+$doc->setHtml5(true);
+
 if($task == "edit" || $layout == "form" )
 {
 	$fullWidth = 1;
@@ -47,7 +50,7 @@ $userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
 
 if (file_exists($userCss) && filesize($userCss) > 0)
 {
-	$doc->addStyleSheet('templates/' . $this->template . '/css/user.css');
+	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/user.css');
 }
 
 // Load optional RTL Bootstrap CSS

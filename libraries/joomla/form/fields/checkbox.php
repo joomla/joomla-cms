@@ -50,7 +50,7 @@ class JFormFieldCheckbox extends JFormField
 		switch ($name)
 		{
 			case 'checked':
-				return $this->$name;
+				return $this->checked;
 		}
 
 		return parent::__get($name);
@@ -72,7 +72,7 @@ class JFormFieldCheckbox extends JFormField
 		{
 			case 'checked':
 				$value = (string) $value;
-				$this->$name = ($value == 'true' || $value == $name || $value == '1');
+				$this->checked = ($value == 'true' || $value == $name || $value == '1');
 				break;
 
 			default:

@@ -243,7 +243,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEnsureAddScriptReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->addScript('http://www.joomla.org/media/system/js/core.js'));
+		$this->assertSame($this->object, $this->object->addScript('https://www.joomla.org/media/system/js/core.js'));
 	}
 
 	/**
@@ -251,7 +251,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEnsureAddScriptVersionWithDefaultParamsReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->addScriptVersion('http://www.joomla.org/media/system/js/core.js'));
+		$this->assertSame($this->object, $this->object->addScriptVersion('https://www.joomla.org/media/system/js/core.js'));
 	}
 
 	/**
@@ -266,7 +266,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	{
 		$this->object->setMediaVersion('1a2b3c4d');
 
-		$this->assertSame($this->object, $this->object->addScriptVersion('http://www.joomla.org/media/system/js/core.js'));
+		$this->assertSame($this->object, $this->object->addScriptVersion('https://www.joomla.org/media/system/js/core.js'));
 	}
 
 	/**
@@ -291,7 +291,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEnsureAddStylesheetReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->addStyleSheet('http://www.joomla.org/media/system/css/system.css'));
+		$this->assertSame($this->object, $this->object->addStyleSheet('https://www.joomla.org/media/system/css/system.css'));
 	}
 
 	/**
@@ -299,7 +299,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEnsureAddStylesheetVersionWithDefaultParamsReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->addStyleSheetVersion('http://www.joomla.org/media/system/css/system.css'));
+		$this->assertSame($this->object, $this->object->addStyleSheetVersion('https://www.joomla.org/media/system/css/system.css'));
 	}
 
 	/**
@@ -314,7 +314,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	{
 		$this->object->setMediaVersion('1a2b3c4d');
 
-		$this->assertSame($this->object, $this->object->addStyleSheetVersion('http://www.joomla.org/media/system/css/system.css'));
+		$this->assertSame($this->object, $this->object->addStyleSheetVersion('https://www.joomla.org/media/system/css/system.css'));
 	}
 
 	/**
@@ -403,7 +403,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEnsureSetBaseReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setBase('http://www.joomla.org'));
+		$this->assertSame($this->object, $this->object->setBase('https://www.joomla.org'));
 	}
 
 	/**
@@ -435,7 +435,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEnsureSetLinkReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setLink('http://www.joomla.org'));
+		$this->assertSame($this->object, $this->object->setLink('https://www.joomla.org'));
 	}
 
 	/**

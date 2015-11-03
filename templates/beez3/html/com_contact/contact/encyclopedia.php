@@ -24,6 +24,10 @@ $cparams = JComponentHelper::getParams('com_media');
 		</h2>
 	<?php endif;  ?>
 
+	<?php echo $this->item->event->afterDisplayTitle; ?>
+
+	<?php echo $this->item->event->beforeDisplayContent; ?>
+
 	<div class="encyclopedia_col1">
 		<?php if ($this->contact->image ) : ?>
 			<div class="contact-image">
@@ -73,3 +77,4 @@ $cparams = JComponentHelper::getParams('com_media');
 			<?php echo JHtml::_($this->params->get('presentation_style').'.end'); ?>
 			<?php endif; ?>
 </div>
+<?php echo $this->item->event->afterDisplayContent; ?>

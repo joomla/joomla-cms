@@ -135,7 +135,7 @@ abstract class ModTagssimilarHelper
 
 		if ($ordering == 'random' || $ordering == 'countrandom')
 		{
-			$query->order('RAND()');
+			$query->order($query->Rand());
 		}
 
 		$db->setQuery($query, 0, $maximum);

@@ -96,9 +96,7 @@ class JFormFieldTag extends JFormFieldList
 			}
 		}
 
-		$input = parent::getInput();
-
-		return $input;
+		return parent::getInput();
 	}
 
 	/**
@@ -148,7 +146,7 @@ class JFormFieldTag extends JFormFieldList
 		}
 		catch (RuntimeException $e)
 		{
-			return false;
+			return array();
 		}
 
 		// Block the possibility to set a tag as it own parent

@@ -25,6 +25,19 @@
 		</field>
 
 		<field
+			name="cache_platformprefix"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
+			description="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_DESC"
+			filter="integer"
+			showon="caching:1,2">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="cachetime"
 			type="number"
 			min="1"
@@ -862,7 +875,7 @@
 			default="tinymce"
 			label="COM_CONFIG_FIELD_DEFAULT_EDITOR_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_EDITOR_DESC"
-			required="true"
+			required="false"
 			filter="cmd" />
 
 		<field
@@ -923,7 +936,7 @@
 		<field
 			name="feed_email"
 			type="list"
-			default="author"
+			default="none"
 			label="COM_CONFIG_FIELD_FEED_EMAIL_LABEL"
 			description="COM_CONFIG_FIELD_FEED_EMAIL_DESC"
 			filter="word">
