@@ -99,22 +99,22 @@ $component = $jinput->get('extension');
 								<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'categories.saveorder'); ?>
 							<?php endif; ?>
 						</th>
-						<?php if (isset($this->items[0]) && property_exists($this->items[0], count_published)) : ?>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
 								<i class="icon-publish"></i>
 							</th>
 						<?php endif;?>
-						<?php if (isset($this->items[0]) && property_exists($this->items[0], count_unpublished)) : ?>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
 								<i class="icon-unpublish"></i>
 							</th>
 						<?php endif;?>
-						<?php if (isset($this->items[0]) && property_exists($this->items[0], count_archived)) : ?>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
 								<i class="icon-archive"></i>
 							</th>
 						<?php endif;?>
-						<?php if (isset($this->items[0]) && property_exists($this->items[0], count_trashed)) : ?>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
 								<i class="icon-trash"></i>
 							</th>
@@ -183,25 +183,25 @@ $component = $jinput->get('extension');
 									<?php echo $orderkey + 1; ?>
 								<?php endif; ?>
 							</td>
-							<?php if (isset($this->items[0]) && property_exists($this->items[0], count_published)) : ?>
+							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 								<td class="center">
 									<a title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1' . '&filter[level]=' . (int) $item->level);?>">
 										<?php echo $item->count_published; ?></a>
 								</td>
 							<?php endif;?>
-							<?php if (isset($this->items[0]) && property_exists($this->items[0], count_unpublished)) : ?>
+							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 								<td class="center">
 									<a title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0' . '&filter[level]=' . (int) $item->level);?>">
 										<?php echo $item->count_unpublished; ?></a>
 								</td>
 							<?php endif;?>
-							<?php if (isset($this->items[0]) && property_exists($this->items[0], count_archived)) : ?>
+							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 								<td class="center">
 									<a title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2' . '&filter[level]=' . (int) $item->level);?>">
 										<?php echo $item->count_archived; ?></a>
 								</td>
 							<?php endif;?>
-							<?php if (isset($this->items[0]) && property_exists($this->items[0], count_trashed)) : ?>
+							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 								<td class="center">
 									<a title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2' . '&filter[level]=' . (int) $item->level);?>">
 										<?php echo $item->count_trashed; ?></a>
