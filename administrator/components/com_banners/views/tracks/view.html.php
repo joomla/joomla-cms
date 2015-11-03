@@ -48,9 +48,11 @@ class BannersViewTracks extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items      = $this->get('Items');
+		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
-		$this->state      = $this->get('State');
+		$this->state = $this->get('State');
+		$this->filterForm = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -103,29 +105,6 @@ class BannersViewTracks extends JViewLegacy
 
 		JHtmlSidebar::setAction('index.php?option=com_banners&view=tracks');
 
-		JHtmlSidebar::addFilter(
-			JText::_('COM_BANNERS_SELECT_CLIENT'),
-			'filter_client_id',
-			JHtml::_('select.options', BannersHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_CATEGORY'),
-			'filter_category_id',
-			JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_BANNERS_SELECT_TYPE'),
-			'filter_type',
-			JHtml::_(
-				'select.options',
-				array(JHtml::_('select.option', 1, JText::_('COM_BANNERS_IMPRESSION')), JHtml::_('select.option', 2, JText::_('COM_BANNERS_CLICK'))),
-				'value',
-				'text',
-				$this->state->get('filter.type')
-			)
-		);
 	}
 
 	/**
