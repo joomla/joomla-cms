@@ -115,6 +115,10 @@ abstract class JComponentRouterView extends JComponentRouterBase
 				{
 					$result[$view->name] = call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Segment'), array($query[$key], $query));
 				}
+				elseif ($view->key && isset($query[$view->key]) && is_callable(array($this, 'get' . ucfirst($view->name) . 'Segment')))
+				{
+					$result[$view->name] = call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Segment'), array($query[$view->key], $query));
+				}
 				else
 				{
 					$result[$view->name] = true;
@@ -229,6 +233,7 @@ abstract class JComponentRouterView extends JComponentRouterBase
 		{
 			$rule->build($query, $segments);
 		}
+
 		return $segments;
 	}
 

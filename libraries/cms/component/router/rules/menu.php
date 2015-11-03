@@ -163,7 +163,7 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 						if (isset($item->query[$views[$view]->key])
 							&& (!isset($this->lookup[$language][$view][$item->query[$views[$view]->key]]) || $item->language != '*'))
 						{
-							$this->lookup[$language][$view][$item->query['id']] = $item->id;
+							$this->lookup[$language][$view][$item->query[$views[$view]->key]] = $item->id;
 						}
 					}
 					else

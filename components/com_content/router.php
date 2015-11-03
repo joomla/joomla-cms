@@ -57,6 +57,7 @@ class ContentRouter extends JComponentRouterView
 	public function getCategorySegment($id, $query)
 	{
 		$category = JCategories::getInstance($this->getName())->get($id);
+
 		if ($category)
 		{
 			return array_reverse($category->getPath());
