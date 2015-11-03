@@ -3913,7 +3913,7 @@ input[type="submit"].btn.btn-mini {
 	position: relative;
 	max-height: 400px;
 	padding: 1%;
-	overflow: auto;
+	overflow: hidden;
 }
 .modal-body iframe {
 	width: 100%;
