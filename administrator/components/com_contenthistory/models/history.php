@@ -67,8 +67,15 @@ class ContenthistoryModelHistory extends JModelList
 				 * Make sure user has edit privileges for this content item. Note that we use edit permissions
 				 * for the content item, not delete permissions for the content history row.
 				 */
-				$user = JFactory::getUser();
+				$user   = JFactory::getUser();
 				$result = $user->authorise('core.edit', $typeAlias . '.' . (int) $record->ucm_item_id);
+
+				// If the user is not allowed the root core edit
+				// Lets try core edit own permissions
+				if ($result === false)
+				{
+					$result = $user->authorise('core.edit.own', $typeAlias . '.' . (int) $record->ucm_item_id);
+				}
 			}
 		}
 
