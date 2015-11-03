@@ -31,12 +31,6 @@ if ($saveOrder)
 $sortFields = $this->getSortFields();
 
 JFactory::getDocument()->addScriptDeclaration('
-	jQuery(function()
-	{
-		jQuery("#list_sortTable").val("' . $listOrder . '").trigger("liszt:updated");
-		jQuery("#list_directionTable").val("' . $listDirn . '").trigger("liszt:updated");
-	});
-
 	Joomla.orderTable = function()
 	{
 		table = document.getElementById("list_sortTable");
