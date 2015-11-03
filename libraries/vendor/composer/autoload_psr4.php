@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
     'Joomla\\Utilities\\Tests\\' => array($vendorDir . '/joomla/utilities/Tests'),
     'Joomla\\Utilities\\' => array($vendorDir . '/joomla/utilities/src'),
     'Joomla\\Uri\\Tests\\' => array($vendorDir . '/joomla/uri/Tests'),

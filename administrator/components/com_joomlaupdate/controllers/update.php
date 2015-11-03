@@ -121,7 +121,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		$model->cleanUp();
 
-		$url = 'index.php?option=com_joomlaupdate&layout=complete';
+		$url = 'index.php?option=com_joomlaupdate&view=default&layout=complete';
 		$this->setRedirect($url);
 		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', JVERSION), JLog::INFO, 'Update');
 	}

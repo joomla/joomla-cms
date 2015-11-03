@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
 JHtml::_('jquery.framework');
-
+JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
 // Load the smart search component language file.
@@ -132,7 +132,7 @@ if ($params->get('show_autosuggest', 1))
 
 	$script .= "
 	var suggest = jQuery('#mod-finder-searchword').autocomplete({
-		serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false) . "',
+		serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component') . "',
 		paramName: 'q',
 		minChars: 1,
 		maxHeight: 400,
@@ -163,6 +163,6 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				<?php echo JHtml::_('filter.select', $query, $params); ?>
 			</div>
 		<?php endif; ?>
-		<?php echo ModFinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
+		<?php echo modFinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
 	</div>
 </form>

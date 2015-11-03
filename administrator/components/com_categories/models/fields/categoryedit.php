@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -21,8 +23,8 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	/**
 	 * A flexible category list that respects access controls
 	 *
-	 * @var        string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	public $type = 'CategoryEdit';
 
@@ -90,11 +92,10 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		}
 		elseif (is_array($published))
 		{
-			JArrayHelper::toInteger($published);
-			$subQuery->where('published IN (' . implode(',', $published) . ')');
+			$subQuery->where('published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
 		}
 
-		$query->from('(' . $subQuery->__toString() . ') AS a')
+		$query->from('(' . (string) $subQuery . ') AS a')
 			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 		$query->order('a.lft ASC');
 
@@ -226,8 +227,6 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
+		return array_merge(parent::getOptions(), $options);
 	}
 }

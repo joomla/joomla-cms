@@ -160,7 +160,8 @@ class JFormFieldTest extends TestCaseDatabase
 		// Standard usage.
 
 		$xml = $form->getXml();
-		$colours = array_pop($xml->xpath('fields/fields[@name="params"]/field[@name="colours"]'));
+		$data = $xml->xpath('fields/fields[@name="params"]/field[@name="colours"]');
+		$colours = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($colours, 'red', 'params'),
@@ -196,7 +197,8 @@ class JFormFieldTest extends TestCaseDatabase
 		// Standard usage.
 
 		$xml = $form->getXml();
-		$title = array_pop($xml->xpath('fields/field[@name="title"]'));
+		$data = $xml->xpath('fields/field[@name="title"]');
+		$title = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($title, 'The title'),
@@ -227,8 +229,8 @@ class JFormFieldTest extends TestCaseDatabase
 		);
 
 		// Not required
-
-		$colours = array_pop($xml->xpath('fields/fields[@name="params"]/field[@name="colours"]'));
+		$data = $xml->xpath('fields/fields[@name="params"]/field[@name="colours"]');
+		$colours = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($colours, 'id'),
@@ -253,8 +255,8 @@ class JFormFieldTest extends TestCaseDatabase
 		);
 
 		// Hidden field
-
-		$id = array_pop($xml->xpath('fields/field[@name="id"]'));
+		$data = $xml->xpath('fields/field[@name="id"]');
+		$id = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($id, 'id'),
@@ -288,7 +290,8 @@ class JFormFieldTest extends TestCaseDatabase
 		// Standard usage.
 
 		$xml = $form->getXml();
-		$title = array_pop($xml->xpath('fields/field[@name="title"]'));
+		$data = $xml->xpath('fields/field[@name="title"]');
+		$title = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($title, 'The title'),
@@ -303,8 +306,8 @@ class JFormFieldTest extends TestCaseDatabase
 		);
 
 		// Hidden field
-
-		$id = array_pop($xml->xpath('fields/field[@name="id"]'));
+		$data = $xml->xpath('fields/field[@name="id"]');
+		$id = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($id, 'id'),
@@ -336,31 +339,6 @@ class JFormFieldTest extends TestCaseDatabase
 			$field->getForm(),
 			$this->identicalTo($form2),
 			'Line:' . __LINE__ . ' The internal form should be identical to the last set.'
-		);
-	}
-
-	/**
-	 * Test an invalid argument for the JFormField::setup method
-	 *
-	 * @expectedException PHPUnit_Framework_Error
-	 *
-	 * @return void
-	 */
-	public function testSetupInvalidElement()
-	{
-		if (PHP_MAJOR_VERSION >= 7)
-		{
-			$this->markTestSkipped('A fatal error is thrown on PHP 7 due to the typehinting of the method.');
-		}
-
-		$form = new JFormInspector('form1');
-		$field = new JFormFieldInspector($form);
-
-		$wrong = 'wrong';
-		$this->assertThat(
-			$field->setup($wrong, 0),
-			$this->isFalse(),
-			'Line:' . __LINE__ . ' If not a form object, setup should return false.'
 		);
 	}
 

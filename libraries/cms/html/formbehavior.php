@@ -131,6 +131,7 @@ abstract class JHtmlFormbehavior
 			static::chosen($selector, $debug);
 
 			$displayData = array(
+				'url'            => $url,
 				'debug'          => $debug,
 				'options'        => $options,
 				'selector'       => $selector,

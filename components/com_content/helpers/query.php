@@ -105,6 +105,10 @@ class ContentHelperQuery
 				$orderby = 'a.featured DESC, fp.ordering, ' . $queryDate . ' DESC ';
 				break;
 
+			case 'random' :
+				$orderby = JFactory::getDbo()->getQuery(true)->Rand();
+				break;
+
 			default :
 				$orderby = 'a.ordering';
 				break;

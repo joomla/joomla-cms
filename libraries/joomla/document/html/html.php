@@ -358,7 +358,7 @@ class JDocumentHTML extends JDocument
 	 * @param   string  $name     The name of the element to render
 	 * @param   array   $attribs  Associative array of remaining attributes.
 	 *
-	 * @return  The output of the renderer
+	 * @return  mixed|string The output of the renderer
 	 *
 	 * @since   11.1
 	 */
@@ -461,7 +461,7 @@ class JDocumentHTML extends JDocument
 	 * @param   boolean  $caching  If true, cache the output
 	 * @param   array    $params   Associative array of attributes
 	 *
-	 * @return  The rendered data
+	 * @return  string The rendered data
 	 *
 	 * @since   11.1
 	 */
