@@ -588,7 +588,9 @@ class JModelListTest extends TestCaseDatabase
 				'direction' => 'ASC',
 				'limit' => 30,
 				'ordering' => 'enabled',
-				'start' => 0
+				'start' => 0,
+				'sortTable' => 'enabled',
+				'directionTable' => 'ASC'
 			)
 		);
 
