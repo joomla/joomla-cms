@@ -37,8 +37,8 @@ class ModulesViewModules extends JViewLegacy
 
 		if ($this->getLayout() == 'default')
 		{
-			$this->filterForm       = $this->get('FilterForm');
-			$this->activeFilters    = $this->get('ActiveFilters');
+			$this->filterForm    = $this->get('FilterForm');
+			$this->activeFilters = $this->get('ActiveFilters');
 		}
 
 		// Check for errors.
