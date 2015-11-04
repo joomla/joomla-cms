@@ -458,7 +458,7 @@ class JModelList extends JModelLegacy
 		}
 
 		// Set the selected filter values for pages that use the JLayouts for filtering
-		$data->list['sortTable'] = $this->state->get('list.ordering'); 
+		$data->list['sortTable'] = $this->state->get('list.ordering');
 		$data->list['directionTable'] = $this->state->get('list.direction');
 
 		return $data;
