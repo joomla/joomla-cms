@@ -28,7 +28,7 @@ class PlgButtonModule extends JPlugin
 	 * Display the button
 	 *
 	 * @param   string  $name  The name of the button to add
-
+	 *
 	 * @since  3.5
 	 * @return array
 	 */
