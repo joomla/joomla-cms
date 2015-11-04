@@ -35,18 +35,6 @@ class JFormFieldBranches extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		// Build the query.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('id AS value, title AS text')
-			->from($db->quoteName('#__finder_taxonomy'))
-			->where('parent_id = 1')
-			->order('title ASC');
-		$db->setQuery($query);
-		$options = $db->loadObjectList();
-
-		array_unshift($options, JHtml::_('select.option', '', JText::_('COM_FINDER_MAPS_SELECT_BRANCHE'), 'value', 'text'));
-
-		return $options;
+		return JHtml::_('finder.mapslist');
 	}
 }
