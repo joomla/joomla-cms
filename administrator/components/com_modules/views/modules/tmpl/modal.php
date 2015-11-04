@@ -19,7 +19,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $trashed   = $this->state->get('filter.state') == -2 ? true : false;
 $canOrder  = $user->authorise('core.edit.state', 'com_modules');
 $saveOrder = $listOrder == 'ordering';
-$editor    = JFactory::getApplication()->input->get('editor', '');
+$editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 
 if ($saveOrder)
 {
