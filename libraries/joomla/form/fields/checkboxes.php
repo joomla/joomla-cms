@@ -35,7 +35,7 @@ class JFormFieldCheckboxes extends JFormFieldList
 	 * @var    string
 	 * @since  3.5
 	 */
-	protected $layout = 'joomla.fields.checkboxes';
+	protected $layout = 'joomla.form.field.checkboxes';
 
 	/**
 	 * Flag to tell the field to always be in multiple values mode.
@@ -158,7 +158,6 @@ class JFormFieldCheckboxes extends JFormFieldList
 		$checkedOptions = $hasValue ? $this->value : $this->checkedOptions;
 
 		$extraData = array(
-			'classes'        => explode(' ', $data['class']),
 			'checkedOptions' => is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions),
 			'hasValue'       => $hasValue,
 			'options'        => $this->getOptions()
