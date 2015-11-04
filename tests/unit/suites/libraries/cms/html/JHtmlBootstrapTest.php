@@ -292,7 +292,7 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/jui/css/bootstrap-rtl.css',
+			'/media/jui/css/bootstrap-rtl.min.css',
 			$document->_styleSheets,
 			'Verify that the RTL Bootstrap CSS is loaded'
 		);

@@ -73,7 +73,7 @@ body.modal {
 .row-odd {
 	padding: 5px;
 	width: 99%;
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #dddddd;
 }
 .row-odd {
 	background-color: transparent;
@@ -140,21 +140,21 @@ body.modal {
 	line-height: 18px;
 }
 .nav-tabs.nav-dark {
-	border-bottom: 1px solid #333;
-	text-shadow: 1px 1px 1px #000;
+	border-bottom: 1px solid #333333;
+	text-shadow: 1px 1px 1px #000000;
 }
 .nav-tabs.nav-dark > li > a {
 	color: #F8F8F8;
 }
 .nav-tabs.nav-dark > li > a:hover {
-	border-color: #333 #333 #111;
+	border-color: #333333 #333333 #111111;
 	background-color: #777777;
 }
 .nav-tabs.nav-dark > .active > a,
 .nav-tabs.nav-dark > .active > a:hover {
 	color: #ffffff;
 	background-color: #555555;
-	border: 1px solid #222;
+	border: 1px solid #222222;
 	border-bottom-color: transparent;
 }
 .thumbnail.pull-left {
@@ -232,14 +232,14 @@ hr.hr-condensed {
 	line-height: 18px;
 	text-align: left;
 	vertical-align: middle;
-	border-top: 1px solid #ddd;
+	border-top: 1px solid #dddddd;
 	margin-left: 0;
 }
 .list-striped li,
 .list-striped dd,
 .row-striped .row,
 .row-striped .row-fluid {
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #dddddd;
 	padding: 8px;
 }
 .list-striped li:nth-child(odd),
@@ -280,7 +280,7 @@ hr.hr-condensed {
 	text-align: left;
 	vertical-align: middle;
 	margin-left: 0;
-	border: 1px solid #ddd;
+	border: 1px solid #dddddd;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
@@ -301,7 +301,7 @@ fieldset.radio.btn-group {
 	padding-left: 0;
 }
 .iframe-bordered {
-	border: 1px solid #ddd;
+	border: 1px solid #dddddd;
 }
 .tab-content {
 	overflow: visible;
@@ -333,10 +333,10 @@ fieldset.radio.btn-group {
 .tip-wrap {
 	max-width: 200px;
 	padding: 3px 8px;
-	color: #fff;
+	color: #ffffff;
 	text-align: center;
 	text-decoration: none;
-	background-color: #000;
+	background-color: #000000;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
@@ -348,7 +348,7 @@ fieldset.radio.btn-group {
 }
 .input-prepend .chzn-container-single .chzn-single,
 .input-append .chzn-container-single .chzn-single {
-	border-color: #ccc;
+	border-color: #cccccc;
 	height: 26px;
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
@@ -356,7 +356,7 @@ fieldset.radio.btn-group {
 }
 .input-prepend .chzn-container-single .chzn-drop,
 .input-append .chzn-container-single .chzn-drop {
-	border-color: #ccc;
+	border-color: #cccccc;
 }
 .input-prepend > .add-on,
 .input-append > .add-on {
@@ -451,9 +451,9 @@ th .tooltip-inner {
 .btn-group > .btn + .dropdown-backdrop + .dropdown-toggle {
 	padding-left: 8px;
 	padding-right: 8px;
-	-webkit-box-shadow: inset 1px 0 0 rgba(255,255,255,.125), inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
-	-moz-box-shadow: inset 1px 0 0 rgba(255,255,255,.125), inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
-	box-shadow: inset 1px 0 0 rgba(255,255,255,.125), inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+	-webkit-box-shadow: inset 1px 0 0 rgba(255, 255, 255, .125), inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+	-moz-box-shadow: inset 1px 0 0 rgba(255, 255, 255, .125), inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+	box-shadow: inset 1px 0 0 rgba(255, 255, 255, .125), inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
 	*padding-top: 5px;
 	*padding-bottom: 5px;
 }

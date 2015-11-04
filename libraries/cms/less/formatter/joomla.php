@@ -15,16 +15,8 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Libraries
  * @subpackage  Less
  * @since       3.4
+ * @deprecated  3.4.2  Use JLessFormatterDefault
  */
-class JLessFormatterJoomla extends lessc_formatter_classic
+class JLessFormatterJoomla extends JLessFormatterDefault
 {
-	public $disableSingle = true;
-
-	public $breakSelectors = true;
-
-	public $assignSeparator = ": ";
-
-	public $selectorSeparator = ",";
-
-	public $indentChar = "\t";
 }
