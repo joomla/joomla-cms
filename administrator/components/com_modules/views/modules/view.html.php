@@ -34,6 +34,7 @@ class ModulesViewModules extends JViewLegacy
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
+
 		if ($this->getLayout() == 'default')
 		{
 			$this->filterForm       = $this->get('FilterForm');
