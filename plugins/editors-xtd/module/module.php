@@ -27,6 +27,8 @@ class PlgButtonModule extends JPlugin
 	/**
 	 * Display the button
 	 *
+	 * @param   string  $name  The name of the button to add
+
 	 * @since  3.5
 	 * @return array
 	 */
@@ -36,7 +38,8 @@ class PlgButtonModule extends JPlugin
 		 * Use the built-in element view to select the module.
 		 * Currently uses blank class.
 		 */
-		$link = 'index.php?option=com_modules&amp;view=modules&amp;layout=modal&amp;tmpl=component&amp;editor=' . $name . '&amp;' . JSession::getFormToken() . '=1';
+		$link = 'index.php?option=com_modules&amp;view=modules&amp;layout=modal&amp;tmpl=component&amp;editor='
+				. $name . '&amp;' . JSession::getFormToken() . '=1';
 
 		$button = new JObject;
 		$button->modal = true;
