@@ -184,8 +184,6 @@ class FinderModelMaps extends JModelList
 		if (!empty($branch_id))
 		{
 			$query->where('a.parent_id = ' . (int) $branch_id);
-		}else{
-			$query->where('a.parent_id = 1');
 		}
 
 		// Filter the maps over the search string if set.
