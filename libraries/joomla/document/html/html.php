@@ -148,7 +148,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  JDocumentHTML|null instance of $this to allow chaining or null for empty input data
 	 *
 	 * @since   11.1
 	 */
@@ -156,7 +156,7 @@ class JDocumentHTML extends JDocument
 	{
 		if (empty($data) || !is_array($data))
 		{
-			return;
+			return null;
 		}
 
 		$this->title        = (isset($data['title']) && !empty($data['title'])) ? $data['title'] : $this->title;
@@ -186,7 +186,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  JDocumentHTML|null instance of $this to allow chaining or null for empty input data
 	 *
 	 * @since   11.1
 	 */
@@ -194,7 +194,7 @@ class JDocumentHTML extends JDocument
 	{
 		if (empty($data) || !is_array($data))
 		{
-			return;
+			return null;
 		}
 
 		$this->title = (isset($data['title']) && !empty($data['title']) && !stristr($this->title, $data['title']))
