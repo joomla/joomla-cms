@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Editor Module buton
+ * Editor Module button
  *
  * @since  3.5
  */
@@ -30,13 +30,13 @@ class PlgButtonModule extends JPlugin
 	 * @since  3.5
 	 * @return array
 	 */
-	public function onDisplay()
+	public function onDisplay($name)
 	{
 		/*
 		 * Use the built-in element view to select the module.
 		 * Currently uses blank class.
 		 */
-		$link = 'index.php?option=com_modules&amp;view=modules&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
+		$link = 'index.php?option=com_modules&amp;view=modules&amp;layout=modal&amp;tmpl=component&amp;editor=' . $name . '&amp;' . JSession::getFormToken() . '=1';
 
 		$button = new JObject;
 		$button->modal = true;

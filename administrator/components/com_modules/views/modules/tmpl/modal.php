@@ -19,6 +19,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $trashed   = $this->state->get('filter.state') == -2 ? true : false;
 $canOrder  = $user->authorise('core.edit.state', 'com_modules');
 $saveOrder = $listOrder == 'ordering';
+$editor    = JFactory::getApplication()->input->get('editor', '');
 
 if ($saveOrder)
 {
@@ -46,12 +47,12 @@ JFactory::getDocument()->addScriptDeclaration('
 		};
 
 		moduleIns = function(type, name) {
-			parent.window.jInsertEditorText("{loadmodule " + type + "," + name + "," + jQuery("#extra_class").val() + "}");
+			parent.window.jInsertEditorText("{loadmodule " + type + "," + name + "," + jQuery("#extra_class").val() + "}", "' . $editor . '");
 			parent.window.jModalClose();
 		}
 
 		modulePosIns = function(position) {
-			parent.window.jInsertEditorText("{loadposition " + position + "," + jQuery("#extra_class").val() + "}");
+			parent.window.jInsertEditorText("{loadposition " + position + "," + jQuery("#extra_class").val() + "}", "' . $editor . '");
 			parent.window.jModalClose();
 		}
 ');
