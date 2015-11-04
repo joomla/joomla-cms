@@ -62,11 +62,11 @@ class UsersViewNotes extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Initialise view variables.
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->user          = $this->get('User');
-		$this->filterForm    = $this->get('FilterForm');
+		$this->items = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state = $this->get('State');
+		$this->user = $this->get('User');
+		$this->filterForm = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		UsersHelper::addSubmenu('notes');
@@ -146,7 +146,6 @@ class UsersViewNotes extends JViewLegacy
 		JToolbarHelper::help('JHELP_USERS_USER_NOTES');
 
 		JHtmlSidebar::setAction('index.php?option=com_users&view=notes');
-
 	}
 
 	/**
