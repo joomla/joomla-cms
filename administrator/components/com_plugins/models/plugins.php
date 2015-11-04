@@ -273,4 +273,22 @@ class PluginsModelPlugins extends JModelList
 
 		return $query;
 	}
+
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return	mixed	The data for the form.
+	 *
+	 * @since	3.5
+	 */
+	protected function loadFormData()
+	{
+		$data = parent::loadFormData();
+
+		// Set the selected filter values for pages that use the JLayouts for filtering
+		$data->list['sortTable'] = $this->state->get('list.ordering');
+		$data->list['directionTable'] = $this->state->get('list.direction');
+
+		return $data;
+	}
 }
