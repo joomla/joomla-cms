@@ -168,7 +168,6 @@ class InstallerModelDatabase extends InstallerModel
 	 *
 	 * @return  mixed   version if successful, false if fail.
 	 */
-
 	public function getUpdateVersion()
 	{
 		$table = JTable::getInstance('Extension');
@@ -270,7 +269,7 @@ class InstallerModelDatabase extends InstallerModel
 		// Get the SQL file to convert the core tables. Yes, this is hardcoded because we have all sorts of index
 		// conversions and funky things we can't automate in core tables without an actual SQL file.
 		$serverType = $db->getServerType();
-		$fileName = JPATH_ADMINISTRATOR . "/components/com_admin/sql/updates/$serverType/3.5.0-2015-01-01.sql";
+		$fileName   = JPATH_ADMINISTRATOR . "/components/com_admin/sql/updates/$serverType/3.5.0-2015-07-01.sql";
 
 		if (!is_file($fileName))
 		{
@@ -278,7 +277,7 @@ class InstallerModelDatabase extends InstallerModel
 		}
 
 		$fileContents = @file_get_contents($fileName);
-		$queries = $db->splitSql($fileContents);
+		$queries      = $db->splitSql($fileContents);
 
 		if (empty($queries))
 		{
