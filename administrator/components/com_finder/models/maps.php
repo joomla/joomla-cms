@@ -184,6 +184,8 @@ class FinderModelMaps extends JModelList
 		if (!empty($branch_id))
 		{
 			$query->where('a.parent_id = ' . (int) $branch_id);
+		}else{
+			$query->where('a.parent_id = 1');
 		}
 
 		// Filter the maps over the search string if set.
@@ -264,7 +266,7 @@ class FinderModelMaps extends JModelList
 		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
 
-		$branch = $this->getUserStateFromRequest($this->context . '.filter.branch', 'filter_branch', '1', 'string');
+		$branch = $this->getUserStateFromRequest($this->context . '.filter.branch', 'filter_branch', '', 'string');
 		$this->setState('filter.branch', $branch);
 
 		// Load the parameters.
