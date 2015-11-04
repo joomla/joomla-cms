@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+    <fieldset addfieldpath="/administrator/components/com_templates/models/fields" />
+
     <fields name="filter">
         <field
                 name="search"
@@ -17,17 +19,16 @@
                 >
             <option value="">JOPTION_SELECT_PUBLISHED</option>
         </field>
+
         <field
                 name="branch"
-                type="sql"
+                type="branches"
                 default="0"
-                query="SELECT id AS value, title AS branch FROM #__finder_taxonomy WHERE parent_id = 1"
-                label="JOPTION_FILTER_CATEGORY"
-                description="JOPTION_FILTER_CATEGORY_DESC"
                 onchange="this.form.submit();"
                 >
             <option value="">COM_FINDER_MAPS_SELECT_BRANCHE</option>
         </field>
+
     </fields>
     <fields name="list">
         <field
