@@ -323,7 +323,7 @@ class ContenthistoryHelper
 	{
 		$object = static::decodeFields($table->version_data);
 		$typesTable = JTable::getInstance('Contenttype');
-		$typesTable->load(array('type_id' => $table->ucm_type_id));
+		$typesTable->load(array('type_id' => (int) $table->ucm_type_id));
 		$formValues = static::getFormValues($object, $typesTable);
 		$object = static::mergeLabels($object, $formValues);
 		$object = static::hideFields($object, $typesTable);
