@@ -15,7 +15,7 @@ JHtml::_('jquery.framework');
 JFactory::getDocument()->addStyleDeclaration('.navbar-fixed-bottom {z-index:1050;}');
 
 $link = JRoute::_('index.php?option=com_languages&view=multilangstatus&tmpl=component');
-$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('JTOOLBAR_CLOSE') . '</a>';
+$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('JTOOLBAR_CLOSE') . '</button>';
 ?>
 <div class="btn-group multilanguage">
 	<a href="#multiLangModal" role="button" class="btn btn-link" data-toggle="modal" title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>">

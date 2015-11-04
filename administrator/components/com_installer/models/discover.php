@@ -51,6 +51,7 @@ class InstallerModelDiscover extends InstallerModel
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
+		$this->setState('list.ordering', 'name');
 
 		parent::populateState('name', 'asc');
 	}
@@ -113,8 +114,8 @@ class InstallerModelDiscover extends InstallerModel
 		// Purge the list of discovered extensions
 		$this->purge();
 
-		$installer	= JInstaller::getInstance();
-		$results	= $installer->discover();
+		$installer = JInstaller::getInstance();
+		$results   = $installer->discover();
 
 		// Get all templates, including discovered ones
 		$db = $this->getDbo();
@@ -209,8 +210,8 @@ class InstallerModelDiscover extends InstallerModel
 	 */
 	public function purge()
 	{
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true)
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
 			->delete('#__extensions')
 			->where('state = -1');
 		$db->setQuery($query);

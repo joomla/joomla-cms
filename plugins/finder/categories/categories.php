@@ -130,10 +130,10 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			{
 				// Process the change.
 				$this->itemAccessChange($row);
-
-				// Reindex the category item.
-				$this->reindex($row->id);
 			}
+
+			// Reindex the category item.
+			$this->reindex($row->id);
 
 			// Check if the parent access level is different.
 			if (!$isNew && $this->old_cataccess != $row->access)

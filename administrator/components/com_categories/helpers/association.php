@@ -30,7 +30,6 @@ abstract class CategoryHelperAssociation
 	 *
 	 * @since  3.0
 	 */
-
 	public static function getCategoryAssociations($id = 0, $extension = 'com_content')
 	{
 		$return = array();

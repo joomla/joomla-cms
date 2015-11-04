@@ -26,6 +26,20 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	public $name = 'mysqli';
 
 	/**
+	 * The type of the database server family supported by this driver.
+	 *
+	 * @var    string
+	 * @since  CMS 3.5.0
+	 */
+	public $serverType = 'mysql';
+
+	/**
+	 * @var    mysqli  The database connection resource.
+	 * @since  11.1
+	 */
+	protected $connection;
+
+	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
 	 * etc. The child classes should define this as necessary.  If a single character string the
 	 * same character is used for both sides of the quoted name, else the first character will be
@@ -178,8 +192,11 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			$this->select($this->options['database']);
 		}
 
-		// Set charactersets (needed for MySQL 4.1.2+).
-		$this->setUtf();
+		// Pre-populate the UTF-8 Multibyte compatibility flag based on server version
+		$this->utf8mb4 = $this->serverClaimsUtf8mb4Support();
+
+		// Set the character set (needed for MySQL 4.1.2+).
+		$this->utf = $this->setUtf();
 
 		// Turn MySQL profiling ON in debug mode:
 		if ($this->debug && $this->hasProfiling())
@@ -317,6 +334,30 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		// Attempt to get the database collation by accessing the server system variable.
 		$this->setQuery('SHOW VARIABLES LIKE "collation_database"');
+		$result = $this->loadObject();
+
+		if (property_exists($result, 'Value'))
+		{
+			return $result->Value;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	public function getConnectionCollation()
+	{
+		$this->connect();
+
+		// Attempt to get the database collation by accessing the server system variable.
+		$this->setQuery('SHOW VARIABLES LIKE "collation_connection"');
 		$result = $this->loadObject();
 
 		if (property_exists($result, 'Value'))
@@ -581,8 +622,9 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// If an error occurred handle it.
 		if (!$this->cursor)
 		{
-			$this->errorNum = (int) mysqli_errno($this->connection);
-			$this->errorMsg = (string) mysqli_error($this->connection) . ' SQL=' . $query;
+			// Get the error number and message before we execute any more queries.
+			$this->errorNum = $this->getErrorNumber();
+			$this->errorMsg = $this->getErrorMessage($query);
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -596,8 +638,13 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
+					// Get the error number and message.
+					$this->errorNum = $this->getErrorNumber();
+					$this->errorMsg = $this->getErrorMessage($query);
+
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
-					throw new RuntimeException($this->errorMsg, $this->errorNum);
+
+					throw new RuntimeException($this->errorMsg, $this->errorNum, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -607,6 +654,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			else
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
 		}
@@ -670,9 +718,34 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 */
 	public function setUtf()
 	{
+		// If UTF is not supported return false immediately
+		if (!$this->utf)
+		{
+			return false;
+		}
+
+		// Make sure we're connected to the server
 		$this->connect();
 
-		return $this->connection->set_charset('utf8');
+		// Which charset should I use, plain utf8 or multibyte utf8mb4?
+		$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
+
+		$result = @$this->connection->set_charset($charset);
+
+		/**
+		 * If I could not set the utf8mb4 charset then the server doesn't support utf8mb4 despite claiming otherwise.
+		 * This happens on old MySQL server versions (less than 5.5.3) using the mysqlnd PHP driver. Since mysqlnd
+		 * masks the server version and reports only its own we can not be sure if the server actually does support
+		 * UTF-8 Multibyte (i.e. it's MySQL 5.5.3 or later). Since the utf8mb4 charset is undefined in this case we
+		 * catch the error and determine that utf8mb4 is not supported!
+		 */
+		if (!$result && $this->utf8mb4)
+		{
+			$this->utf8mb4 = false;
+			$result = @$this->connection->set_charset('utf8');
+		}
+
+		return $result;
 	}
 
 	/**
@@ -850,7 +923,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @return  boolean
 	 *
-	 * @since 3.1.3
+	 * @since   3.1.3
 	 */
 	private function hasProfiling()
 	{
@@ -865,5 +938,65 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Does the database server claim to have support for UTF-8 Multibyte (utf8mb4) collation?
+	 *
+	 * libmysql supports utf8mb4 since 5.5.3 (same version as the MySQL server). mysqlnd supports utf8mb4 since 5.0.9.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   CMS 3.5.0
+	 */
+	private function serverClaimsUtf8mb4Support()
+	{
+		$client_version = mysqli_get_client_info();
+
+		if (strpos($client_version, 'mysqlnd') !== false)
+		{
+			$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
+
+			return version_compare($client_version, '5.0.9', '>=');
+		}
+		else
+		{
+			return version_compare($client_version, '5.5.3', '>=');
+		}
+	}
+
+	/**
+	 * Return the actual SQL Error number
+	 *
+	 * @return  integer  The SQL Error number
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorNumber()
+	{
+		return (int) mysqli_errno($this->connection);
+	}
+
+	/**
+	 * Return the actual SQL Error message
+	 *
+	 * @param   string  $query  The SQL Query that fails
+	 *
+	 * @return  string  The SQL Error message
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorMessage($query)
+	{
+		$errorMessage = (string) mysqli_error($this->connection);
+
+		// Replace the Databaseprefix with `#__` if we are not in Debug
+		if (!$this->debug)
+		{
+			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
+			$query        = str_replace($this->tablePrefix, '#__', $query);
+		}
+
+		return $errorMessage . ' SQL=' . $query;
 	}
 }

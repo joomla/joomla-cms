@@ -31,7 +31,7 @@ abstract class JHtmlModules
 
 		foreach ($templates as $template)
 		{
-			$options[]	= JHtml::_('select.option', $template->element, $template->name);
+			$options[] = JHtml::_('select.option', $template->element, $template->name);
 		}
 
 		return $options;
@@ -80,7 +80,7 @@ abstract class JHtmlModules
 	 */
 	public static function state($value, $i, $enabled = true, $checkbox = 'cb')
 	{
-		$states	= array(
+		$states = array(
 			1 => array(
 				'unpublish',
 				'COM_MODULES_EXTENSION_PUBLISHED_ENABLED',
@@ -88,7 +88,7 @@ abstract class JHtmlModules
 				'COM_MODULES_EXTENSION_PUBLISHED_ENABLED',
 				true,
 				'publish',
-				'publish'
+				'publish',
 			),
 			0 => array(
 				'publish',
@@ -97,7 +97,7 @@ abstract class JHtmlModules
 				'COM_MODULES_EXTENSION_UNPUBLISHED_ENABLED',
 				true,
 				'unpublish',
-				'unpublish'
+				'unpublish',
 			),
 			-1 => array(
 				'unpublish',
@@ -106,7 +106,7 @@ abstract class JHtmlModules
 				'COM_MODULES_EXTENSION_PUBLISHED_DISABLED',
 				true,
 				'warning',
-				'warning'
+				'warning',
 			),
 			-2 => array(
 				'publish',
@@ -115,7 +115,7 @@ abstract class JHtmlModules
 				'COM_MODULES_EXTENSION_UNPUBLISHED_DISABLED',
 				true,
 				'unpublish',
-				'unpublish'
+				'unpublish',
 			),
 		);
 
@@ -209,8 +209,8 @@ abstract class JHtmlModules
 	 */
 	public static function positionList($clientId = 0)
 	{
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('DISTINCT(position) as value')
 			->select('position as text')
 			->from($db->quoteName('#__modules'))

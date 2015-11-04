@@ -72,5 +72,16 @@ class JInstallerManifestPackage extends JInstallerManifest
 				$this->filelist[] = new JInstallerExtension($file);
 			}
 		}
+
+		// Handle cases where package contains folders
+		if (isset($xml->files->folder) && count($xml->files->folder))
+		{
+			foreach ($xml->files->folder as $folder)
+			{
+				// NOTE: JInstallerExtension doesn't expect a string.
+				// DO NOT CAST $folder
+				$this->filelist[] = new JInstallerExtension($folder);
+			}
+		}
 	}
 }

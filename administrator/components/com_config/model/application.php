@@ -55,14 +55,14 @@ class ConfigModelApplication extends ConfigModelForm
 	public function getData()
 	{
 		// Get the config data.
-		$config	= new JConfig;
-		$data	= JArrayHelper::fromObject($config);
+		$config = new JConfig;
+		$data   = JArrayHelper::fromObject($config);
 
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
 
 		// Get the text filter data
-		$params = JComponentHelper::getParams('com_config');
+		$params          = JComponentHelper::getParams('com_config');
 		$data['filters'] = JArrayHelper::fromObject($params->get('filters'));
 
 		// If no filter data found, get from com_content (update of 1.6/1.7 site)
@@ -97,15 +97,36 @@ class ConfigModelApplication extends ConfigModelForm
 	{
 		$app = JFactory::getApplication();
 
+		// Check that we aren't setting wrong database configuration
+		$options = array(
+			'driver'   => $data['dbtype'],
+			'host'     => $data['host'],
+			'user'     => $data['user'],
+			'password' => JFactory::getConfig()->get('password'),
+			'database' => $data['db'],
+			'prefix'   => $data['dbprefix']
+		);
+
+		try
+		{
+			$dbc = JDatabaseDriver::getInstance($options)->getVersion();
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'), 'error');
+
+			return false;
+		}
+
 		// Save the rules
 		if (isset($data['rules']))
 		{
-			$rules	= new JAccessRules($data['rules']);
+			$rules = new JAccessRules($data['rules']);
 
 			// Check that we aren't removing our Super User permission
 			// Need to get groups from database, since they might have changed
-			$myGroups = JAccess::getGroupsByUser(JFactory::getUser()->get('id'));
-			$myRules = $rules->getData();
+			$myGroups      = JAccess::getGroupsByUser(JFactory::getUser()->get('id'));
+			$myRules       = $rules->getData();
 			$hasSuperAdmin = $myRules['core.admin']->allow($myGroups);
 
 			if (!$hasSuperAdmin)
@@ -305,5 +326,97 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to store the permission values in the asset table.
+	 *
+	 * This method will get an arrray with permission key value paires and transform it
+	 * into json and update the asset table in the database.
+	 *
+	 * @param   string  $array  Need an Array with Permissions (component, rule, value and title)
+	 *
+	 * @return  boolean  True on success, false on failure.
+	 *
+	 * @since   3.5
+	 */
+	public function storePermissions($array)
+	{
+
+		try
+		{
+			// Create a new query object.
+			$query = $this->db->getQuery(true);
+			$query->select($this->db->quoteName(array('name', 'rules')))
+					->from($this->db->quoteName('#__assets'))
+					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($array['component']));
+
+			$this->db->setQuery($query);
+
+			// Load the results as a list of stdClass objects (see later for more options on retrieving data).
+			$results = $this->db->loadAssocList();
+
+			if (empty($results))
+			{
+				$data = array();
+				$data[$array['action']] = array();
+				$data[$array['action']] = array($array['rule'] => $array['value']);
+
+				$rules = new JAccessRules($data);
+				$asset = JTable::getInstance('asset');
+				$asset->rules = (string) $rules;
+				$asset->name  = (string) $array['component'];
+				$asset->title = (string) $array['title'];
+
+				if (!$asset->check() || !$asset->store())
+				{
+					JFactory::getApplication()->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
+
+					return false;
+				}
+
+				return true;
+			}
+			else
+			{
+				$temp = json_decode($results[0]['rules'], true);
+
+				if (isset($array['value']))
+				{
+					if (!isset($temp[$array['action']]))
+					{
+						$temp[$array['action']] = array();
+					}
+
+					if (!isset($temp[$array['action']][$array['rule']]))
+					{
+						$temp[$array['action']][$array['rule']] = array($array['rule'] => $array['value']);
+					}
+
+					$temp[$array['action']][$array['rule']] = intval($array['value']);
+				}
+				else
+				{
+					unset($temp[$array['action']]);
+				}
+
+				$temp  = json_encode($temp);
+				$query = $this->db->getQuery(true);
+
+				$query->update($this->db->quoteName('#__assets'))
+					->set('rules = ' . $this->db->quote($temp))
+					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($array['component']));
+
+				$this->db->setQuery($query);
+
+				$result = $this->db->execute();
+
+				return $result;
+			}
+		}
+		catch (Exception $e)
+		{
+			return $e->getMessage();
+		}
 	}
 }

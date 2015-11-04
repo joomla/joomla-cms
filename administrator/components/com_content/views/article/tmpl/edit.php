@@ -65,6 +65,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	{
 		if (task == "article.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
 		{
+			jQuery("#permissions-sliders select").attr("disabled", "disabled");
 			' . $this->form->getField('articletext')->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
 		}

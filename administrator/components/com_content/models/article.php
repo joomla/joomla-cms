@@ -431,11 +431,23 @@ class ContentModelArticle extends JModelAdmin
 			if ($this->getState('article.id') == 0)
 			{
 				$filters = (array) $app->getUserState('com_content.articles.filter');
-				$data->set('state', $app->input->getInt('state', ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)));
+				$data->set(
+					'state',
+					$app->input->getInt(
+						'state',
+						((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
+					)
+				);
 				$data->set('catid', $app->input->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'))));
 			}
+		}
+
+		// If there are params fieldsets in the form it will fail with a registry object
+		if (isset($data->params) && $data->params instanceof Registry)
+		{
+			$data->params = $data->params->toArray();
 		}
 
 		$this->preprocessData('com_content.article', $data);
@@ -454,8 +466,8 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$input = JFactory::getApplication()->input;
-		$filter  = JFilterInput::getInstance();
+		$input  = JFactory::getApplication()->input;
+		$filter = JFilterInput::getInstance();
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
@@ -471,21 +483,34 @@ class ContentModelArticle extends JModelAdmin
 		{
 			$registry = new Registry;
 			$registry->loadArray($data['images']);
+
 			$data['images'] = (string) $registry;
 		}
 
 		if (isset($data['urls']) && is_array($data['urls']))
 		{
+			$check = $input->post->get('jform', array(), 'array');
+
 			foreach ($data['urls'] as $i => $url)
 			{
 				if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc'))
 				{
-					$data['urls'][$i] = JStringPunycode::urlToPunycode($url);
+					if (preg_match('~^#[a-zA-Z]{1}[a-zA-Z0-9-_:.]*$~', $check['urls'][$i]) == 1)
+					{
+						$data['urls'][$i] = $check['urls'][$i];
+					}
+					else
+					{
+						$data['urls'][$i] = JStringPunycode::urlToPunycode($url);
+					}
 				}
 			}
 
+			unset($check);
+
 			$registry = new Registry;
 			$registry->loadArray($data['urls']);
+
 			$data['urls'] = (string) $registry;
 		}
 

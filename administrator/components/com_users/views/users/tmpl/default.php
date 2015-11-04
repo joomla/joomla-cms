@@ -91,7 +91,7 @@ $loggeduser = JFactory::getUser();
 				?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
-							<?php if ($canEdit) : ?>
+							<?php if ($canEdit || $canChange) : ?>
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							<?php endif; ?>
 						</td>
@@ -164,7 +164,7 @@ $loggeduser = JFactory::getUser();
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-			<?php //Load the batch processing form if user is allowed ?>
+			<?php // Load the batch processing form if user is allowed ?>
 			<?php if ($loggeduser->authorise('core.create', 'com_users')
 				&& $loggeduser->authorise('core.edit', 'com_users')
 				&& $loggeduser->authorise('core.edit.state', 'com_users')) : ?>

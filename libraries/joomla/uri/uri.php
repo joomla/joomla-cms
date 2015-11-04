@@ -311,7 +311,7 @@ class JUri extends Uri
 	 * Resolves //, ../ and ./ from a path and returns
 	 * the result. Eg:
 	 *
-	 * /foo/bar/../boo.php	=> /foo/boo.php
+	 * /foo/bar/../boo.php    => /foo/boo.php
 	 * /foo/bar/../../boo.php => /boo.php
 	 * /foo/bar/.././/boo.php => /foo/boo.php
 	 *

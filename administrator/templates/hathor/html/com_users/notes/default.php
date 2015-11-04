@@ -92,7 +92,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 		</thead>
 		<tbody>
 		<?php foreach ($this->items as $i => $item) : ?>
-			<?php $canChange	= $user->authorise('core.edit.state',	'com_users'); ?>
+			<?php $canChange = $user->authorise('core.edit.state',	'com_users'); ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center checklist">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>

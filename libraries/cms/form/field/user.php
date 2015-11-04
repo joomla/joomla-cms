@@ -114,6 +114,11 @@ class JFormFieldUser extends JFormField
 	 */
 	protected function getGroups()
 	{
+		if (isset($this->element['groups']))
+		{
+			return explode(',', $this->element['groups']);
+		}
+
 		return null;
 	}
 
@@ -126,6 +131,11 @@ class JFormFieldUser extends JFormField
 	 */
 	protected function getExcluded()
 	{
+		if (isset($this->element['exclude']))
+		{
+			return explode(',', $this->element['exclude']);
+		}
+
 		return null;
 	}
 }

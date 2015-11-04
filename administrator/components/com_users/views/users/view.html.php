@@ -84,11 +84,11 @@ class UsersViewUsers extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= $this->canDo;
-		$user 	= JFactory::getUser();
+		$canDo = $this->canDo;
+		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'users user');
 
