@@ -19,7 +19,9 @@ class UsersRouter extends JComponentRouterView
 	function __construct($app = null, $menu = null)
 	{
 		$this->registerView(new JComponentRouterViewconfiguration('login'));
-		$this->registerView(new JComponentRouterViewconfiguration('profile'));
+		$profile = new JComponentRouterViewconfiguration('profile');
+		$profile->addLayout('edit');
+		$this->registerView($profile);
 		$this->registerView(new JComponentRouterViewconfiguration('registration'));
 		$this->registerView(new JComponentRouterViewconfiguration('remind'));
 		$this->registerView(new JComponentRouterViewconfiguration('reset'));

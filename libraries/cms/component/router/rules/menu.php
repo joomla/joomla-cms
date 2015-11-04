@@ -73,19 +73,32 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 
 		$needles = $this->router->getPath($query);
 
+		$layout = '';
+
+		if (isset($query['layout']))
+		{
+			$layout = ':' . $query['layout'];
+		}
+
 		if ($needles)
 		{
 			foreach ($needles as $view => $ids)
 			{
-				if (isset($this->lookup[$language][$view]))
+				if (isset($this->lookup[$language][$view . $layout]))
 				{
 					if (is_bool($ids))
 					{
-						$query['Itemid'] = $this->lookup[$language][$view];
+						$query['Itemid'] = $this->lookup[$language][$view . $layout];
 						return;
 					}
 					foreach ($ids as $id)
 					{
+						if (isset($this->lookup[$language][$view . $layout][(int) $id]))
+						{
+							$query['Itemid'] = $this->lookup[$language][$view . $layout][(int) $id];
+							return;
+						}
+
 						if (isset($this->lookup[$language][$view][(int) $id]))
 						{
 							$query['Itemid'] = $this->lookup[$language][$view][(int) $id];
@@ -148,8 +161,20 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 				{
 					$view = $item->query['view'];
 
+					$layout = '';
+
+					if (isset($item->query['layout']))
+					{
+						$layout = ':' . $item->query['layout'];
+					}
+
 					if ($views[$view]->key)
 					{
+						if (!isset($this->lookup[$language][$view . $layout]))
+						{
+							$this->lookup[$language][$view . $layout] = array();
+						}
+
 						if (!isset($this->lookup[$language][$view]))
 						{
 							$this->lookup[$language][$view] = array();
@@ -161,8 +186,9 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 						 * language == * cannot override existing entries
 						 */
 						if (isset($item->query[$views[$view]->key])
-							&& (!isset($this->lookup[$language][$view][$item->query[$views[$view]->key]]) || $item->language != '*'))
+							&& (!isset($this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]]) || $item->language != '*'))
 						{
+							$this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]] = $item->id;
 							$this->lookup[$language][$view][$item->query[$views[$view]->key]] = $item->id;
 						}
 					}
@@ -173,8 +199,9 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 						 * language != * can override existing entries
 						 * language == * cannot override existing entries
 						 */
-						if (!isset($this->lookup[$language][$view]) || $item->language != '*')
+						if (!isset($this->lookup[$language][$view . $layout]) || $item->language != '*')
 						{
+							$this->lookup[$language][$view . $layout] = $item->id;
 							$this->lookup[$language][$view] = $item->id;
 						}
 					}

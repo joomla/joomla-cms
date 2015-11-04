@@ -188,6 +188,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 		if (isset($item->query['view']) && $item->query['view'] == $query['view'])
 		{
 			$view = $views[$query['view']];
+
 			if (isset($item->query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key])
 			{
 				unset($query[$view->key]);
@@ -197,8 +198,23 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 					$view = $view->parent;
 				}
 				unset($query['view']);
-				unset($query['layout']);
+
+				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] == $query['layout'])
+				{
+					unset($query['layout']);
+				}
+
 				return;
+			}
+
+			if (!$view->key)
+			{
+				if ($item->query['layout'] == $query['layout'])
+				{
+					unset($query['view']);
+					unset($query['layout']);
+					return;
+				}
 			}
 		}
 
