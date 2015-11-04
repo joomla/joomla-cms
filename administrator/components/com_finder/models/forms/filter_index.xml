@@ -26,7 +26,7 @@
                 description="JOPTION_FILTER_CATEGORY_DESC"
                 onchange="this.form.submit();"
                 >
-            <option value="0">COM_FINDER_MAPS_SELECT_TYPE</option>
+            <option value="">COM_FINDER_MAPS_SELECT_TYPE</option>
         </field>
     </fields>
     <fields name="list">
