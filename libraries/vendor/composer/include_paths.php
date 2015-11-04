@@ -7,10 +7,6 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     $vendorDir . '/pear/cache_lite',
-    $vendorDir . '/phpunit/phpunit-mock-objects',
-    $vendorDir . '/phpunit/php-file-iterator',
-    $vendorDir . '/phpunit/phpunit',
-    $vendorDir . '/symfony/yaml',
     $vendorDir . '/phpunit/dbunit',
     $vendorDir . '/symfony/yaml',
 );
