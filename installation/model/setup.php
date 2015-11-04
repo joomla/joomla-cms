@@ -123,7 +123,7 @@ class InstallationModelSetup extends JModelBase
 
 		// Get the posted values from the request and validate them.
 		$data   = $app->input->post->get('jform', array(), 'array');
-		$return	= $this->validate($data, $page);
+		$return = $this->validate($data, $page);
 
 		// Attempt to save the data before validation.
 		$form = $this->getForm();

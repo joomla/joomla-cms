@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
 
-$lang	= JFactory::getLanguage();
 $class = ' class="first"';
+$lang  = JFactory::getLanguage();
 
 if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) : ?>
 
@@ -44,6 +44,7 @@ if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) : ?
 				<?php echo $this->escape($child->title); ?></a>
 				<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
 					<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::tooltipText('COM_CONTENT_NUM_ITEMS'); ?>">
+						<?php echo JText::_('COM_CONTENT_NUM_ITEMS'); ?>&nbsp;
 						<?php echo $child->getNumItems(true); ?>
 					</span>
 				<?php endif; ?>

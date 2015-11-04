@@ -95,14 +95,14 @@ class JResponseJson
 		if ($response instanceof Exception)
 		{
 			// Prepare the error response
-			$this->success	= false;
-			$this->message	= $response->getMessage();
+			$this->success = false;
+			$this->message = $response->getMessage();
 		}
 		else
 		{
 			// Prepare the response data
-			$this->success	= !$error;
-			$this->data			= $response;
+			$this->success = !$error;
+			$this->data    = $response;
 		}
 	}
 

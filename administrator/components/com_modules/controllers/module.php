@@ -143,7 +143,7 @@ class ModulesControllerModule extends JControllerForm
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Set the model
-		$model	= $this->getModel('Module', '', array());
+		$model = $this->getModel('Module', '', array());
 
 		// Preset the redirect
 		$redirectUrl = 'index.php?option=com_modules&view=modules' . $this->getRedirectToListAppend();

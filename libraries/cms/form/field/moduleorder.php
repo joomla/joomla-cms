@@ -54,8 +54,8 @@ class JFormFieldModuleOrder extends JFormField
 		$html[] = 'var originalPos = "' . $position . '";';
 		$html[] = 'var orders = new Array();';
 
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('position, ordering, title')
 			->from('#__modules')
 			->where('client_id = ' . (int) $clientId)
@@ -71,7 +71,7 @@ class JFormFieldModuleOrder extends JFormField
 		{
 			JError::raiseWarning(500, $e->getMessage());
 
-			return false;
+			return '';
 		}
 
 		$orders2 = array();

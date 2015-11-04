@@ -11,13 +11,13 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 
-
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.framework');
 
-$n = count($this->items);
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$n         = count($this->items);
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+
 ?>
 
 <?php if (empty($this->items)) : ?>
@@ -136,11 +136,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php else : ?>
 				<td>
 					<?php
-						echo $this->escape($article->title).' : ';
-						$menu		= JFactory::getApplication()->getMenu();
-						$active		= $menu->getActive();
-						$itemId		= $active->id;
-						$link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
+						echo $this->escape($article->title) . ' : ';
+						$menu   = JFactory::getApplication()->getMenu();
+						$active = $menu->getActive();
+						$itemId = $active->id;
+						$link   = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
 						$link->setVar('return', base64_encode(JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false)));
 					?>
 					<a href="<?php echo $link; ?>" class="register">

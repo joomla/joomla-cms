@@ -363,9 +363,9 @@ class FinderCli extends JApplicationCli
 			foreach ($taxonomies as $taxonomy)
 			{
 				$this->filters[$filter->filter_id][] = array(
-					'filter'	=> $filter->title,
-					'title'		=> $taxonomy->title,
-					'parent'	=> $taxonomy->parent,
+					'filter' => $filter->title,
+					'title'  => $taxonomy->title,
+					'parent' => $taxonomy->parent,
 				);
 			}
 		}

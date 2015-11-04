@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
+
 /**
  * Banners master display controller.
  *
@@ -22,13 +24,12 @@ class BannersController extends JControllerLegacy
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  BannersController  This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
-		require_once JPATH_COMPONENT . '/helpers/banners.php';
 		BannersHelper::updateReset();
 
 		$view   = $this->input->get('view', 'banners');
@@ -55,8 +56,6 @@ class BannersController extends JControllerLegacy
 			return false;
 		}
 
-		parent::display();
-
-		return $this;
+		return parent::display();
 	}
 }

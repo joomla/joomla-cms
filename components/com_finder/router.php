@@ -148,7 +148,7 @@ function FinderBuildRoute(&$query)
  * These functions are proxys for the new router interface
  * for old SEF extensions.
  *
- * @param   array  &$segments  The segments of the URL to parse.
+ * @param   array  $segments  The segments of the URL to parse.
  *
  * @return  array  The URL attributes to be used by the application.
  *

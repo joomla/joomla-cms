@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
+
 /**
  * View class for a list of clients.
  *
@@ -16,10 +18,25 @@ defined('_JEXEC') or die;
  */
 class BannersViewClients extends JViewLegacy
 {
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
 	protected $state;
 
 	/**
@@ -27,7 +44,7 @@ class BannersViewClients extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise a Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -49,7 +66,8 @@ class BannersViewClients extends JViewLegacy
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -61,8 +79,6 @@ class BannersViewClients extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT . '/helpers/banners.php';
-
 		$canDo = JHelperContent::getActions('com_banners');
 
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'bookmark banners-clients');

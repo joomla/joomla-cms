@@ -33,9 +33,9 @@ class RedirectViewLink extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->form		= $this->get('Form');
-		$this->item		= $this->get('Item');
-		$this->state	= $this->get('State');
+		$this->form  = $this->get('Form');
+		$this->item  = $this->get('Item');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -60,8 +60,8 @@ class RedirectViewLink extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$isNew		= ($this->item->id == 0);
-		$canDo		= JHelperContent::getActions('com_redirect');
+		$isNew = ($this->item->id == 0);
+		$canDo = JHelperContent::getActions('com_redirect');
 
 		JToolbarHelper::title($isNew ? JText::_('COM_REDIRECT_MANAGER_LINK_NEW') : JText::_('COM_REDIRECT_MANAGER_LINK_EDIT'), 'refresh redirect');
 
