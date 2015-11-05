@@ -379,7 +379,7 @@ class JApplicationAdministrator extends JApplicationCms
 
 			$query->clear()
 				->delete($db->quoteName('#__messages'))
-				->where($db->quoteName('date_time') . ' < ' . $db->Quote($pastStamp), 'AND')
+				->where($db->quoteName('date_time') . ' < ' . $db->quote($pastStamp), 'AND')
 				->where($db->quoteName('user_id_to') . ' = ' . (int) $userid, 'AND');
 			$db->setQuery($query);
 			$db->execute();

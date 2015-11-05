@@ -122,7 +122,7 @@ class PlgContentPagebreak extends JPlugin
 		// We have found at least one plugin, therefore at least 2 pages.
 		if ($n > 1)
 		{
-			$title	= $this->params->get('title', 1);
+			$title  = $this->params->get('title', 1);
 			$hasToc = $this->params->get('multipage_toc', 1);
 
 			// Adds heading or title to <site> Title.
@@ -195,15 +195,15 @@ class PlgContentPagebreak extends JPlugin
 
 						if (isset($match['alt']))
 						{
-							$title	= stripslashes($match['alt']);
+							$title = stripslashes($match['alt']);
 						}
 						elseif (isset($match['title']))
 						{
-							$title	= stripslashes($match['title']);
+							$title = stripslashes($match['title']);
 						}
 						else
 						{
-							$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
+							$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
 						}
 
 						$t[] = (string) JHtml::_($style . '.panel', $title, 'article' . $row->id . '-' . $style . $key);
@@ -307,7 +307,7 @@ class PlgContentPagebreak extends JPlugin
 	protected function _createToc(&$row, &$matches, &$page)
 	{
 		$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'tableofcontent');
-
+		
 		ob_start();
 		include $path;
 		$row->toc = ob_get_clean();

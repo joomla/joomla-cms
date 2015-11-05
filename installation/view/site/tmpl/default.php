@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /* @var InstallationViewDefault $this */
 ?>
-<?php echo JHtml::_('installation.stepbar'); ?>
+<?php echo JHtml::_('InstallationHtml.helper.stepbar'); ?>
 <div class="btn-toolbar">
 	<div class="btn-group pull-right">
 		<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('JNext'); ?></a>
@@ -104,6 +104,13 @@ defined('_JEXEC') or die;
 						<?php echo JText::_('INSTL_SITE_OFFLINE_TITLE_LABEL'); ?>
 					</p>
 				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="btn-toolbar">
+			<div class="btn-group pull-right">
+				<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('JNext'); ?></a>
 			</div>
 		</div>
 	</div>

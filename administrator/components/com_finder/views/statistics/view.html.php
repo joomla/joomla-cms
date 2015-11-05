@@ -28,7 +28,7 @@ class FinderViewStatistics extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Load the view data.
-		$this->data		= $this->get('Data');
+		$this->data = $this->get('Data');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

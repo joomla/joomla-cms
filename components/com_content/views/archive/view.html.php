@@ -33,18 +33,17 @@ class ContentViewArchive extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$user		= JFactory::getUser();
-
-		$state 		= $this->get('State');
-		$items 		= $this->get('Items');
-		$pagination	= $this->get('Pagination');
+		$user       = JFactory::getUser();
+		$state      = $this->get('State');
+		$items      = $this->get('Items');
+		$pagination = $this->get('Pagination');
 
 		// Get the page/component configuration
 		$params = &$state->params;
 
 		foreach ($items as $item)
 		{
-			$item->catslug = ($item->category_alias) ? ($item->catid . ':' . $item->category_alias) : $item->catid;
+			$item->catslug     = ($item->category_alias) ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
 			// No link for ROOT category

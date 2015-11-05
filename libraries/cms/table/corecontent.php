@@ -104,7 +104,7 @@ class JTableCorecontent extends JTable
 			$this->core_alias = $this->core_title;
 		}
 
-		$this->core_alias = JApplication::stringURLSafe($this->core_alias);
+		$this->core_alias = JApplicationHelper::stringURLSafe($this->core_alias);
 
 		if (trim(str_replace('-', '', $this->core_alias)) == '')
 		{

@@ -86,9 +86,7 @@ class CategoriesHelper
 		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
 		// Get list of actions
-		$result = JHelperContent::getActions($extension, 'category', $categoryId);
-
-		return $result;
+		return JHelperContent::getActions($extension, 'category', $categoryId);
 	}
 
 	/**
@@ -97,7 +95,7 @@ class CategoriesHelper
 	 * @param   integer  $pk         Content item key.
 	 * @param   string   $extension  Optional extension name.
 	 *
-	 * @return  array of associations. 
+	 * @return  array of associations.
 	 */
 	public static function getAssociations($pk, $extension = 'com_content')
 	{
@@ -116,14 +114,16 @@ class CategoriesHelper
 		);
 		$query->select($select);
 		$db->setQuery($query);
-		$contentitems = $db->loadObjectList('language');
 
-		// Check for a database error.
-		if ($error = $db->getErrorMsg())
+		try
 		{
-			JError::raiseWarning(500, $error);
+			$contentitems = $db->loadObjectList('language');
+		}
+		catch (RuntimeException $exception)
+		{
+			JError::raiseWarning(500, $exception->getMessage());
 
-			return false;
+			return array();
 		}
 
 		foreach ($contentitems as $tag => $item)

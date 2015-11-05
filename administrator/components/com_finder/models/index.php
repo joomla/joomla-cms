@@ -49,7 +49,8 @@ class FinderModelIndex extends JModelList
 				'title', 'l.title',
 				'type_id', 'l.type_id',
 				'url', 'l.url',
-				'indexdate', 'l.indexdate'
+				'indexdate', 'l.indexdate',
+				'type'
 			);
 		}
 

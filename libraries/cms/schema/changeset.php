@@ -24,7 +24,7 @@ class JSchemaChangeset
 	/**
 	 * Array of JSchemaChangeitem objects
 	 *
-	 * @var    array
+	 * @var    JSchemaChangeitem[]
 	 * @since  2.5
 	 */
 	protected $changeItems = array();

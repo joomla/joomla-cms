@@ -32,6 +32,7 @@ class FinderViewFilter extends JViewLegacy
 		$this->item = $this->get('Item');
 		$this->form = $this->get('Form');
 		$this->state = $this->get('State');
+		$this->total = $this->get('Total');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

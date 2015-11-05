@@ -69,7 +69,7 @@ class FinderModelFilters extends JModelList
 		if ($this->getState('filter.search'))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
-			$query->where('( a.title LIKE \'%' . $search . '%\' )');
+			$query->where('( a.title LIKE ' . $search . ' )');
 		}
 
 		// If the model is set to check item state, add to the query.
@@ -79,7 +79,7 @@ class FinderModelFilters extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering') . ' ' . $db->escape($this->getState('list.direction'))));
+		$query->order($db->escape($this->getState('list.ordering', 'a.title') . ' ' . $db->escape($this->getState('list.direction'))));
 
 		return $query;
 	}

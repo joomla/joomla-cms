@@ -45,16 +45,16 @@ class JFormFieldDob extends JFormFieldCalendar
 
 		if ($text)
 		{
-			$app	= JFactory::getApplication();
-			$layout	= new JLayoutFile('plugins.user.profile.fields.dob');
-			$view	= $app->input->getString('view', '');
+			$app    = JFactory::getApplication();
+			$layout = new JLayoutFile('plugins.user.profile.fields.dob');
+			$view   = $app->input->getString('view', '');
 
 			// Only display the tip when editing profile
 			if ($app->isAdmin() || $view == 'profile' || $view == 'registration')
 			{
-				$layout	= new JLayoutFile('plugins.user.profile.fields.dob');
-				$info	= $layout->render(array('text' => $text));
-				$label	= $info . $label;
+				$layout = new JLayoutFile('plugins.user.profile.fields.dob');
+				$info   = $layout->render(array('text' => $text));
+				$label  = $info . $label;
 			}
 		}
 

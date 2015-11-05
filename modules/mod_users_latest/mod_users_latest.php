@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 require_once __DIR__ . '/helper.php';
 
 $shownumber = $params->get('shownumber', 5);
-$names	= ModUsersLatestHelper::getUsers($params);
+$names = ModUsersLatestHelper::getUsers($params);
 $linknames = $params->get('linknames', 0);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 

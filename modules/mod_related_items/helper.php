@@ -36,6 +36,13 @@ abstract class ModRelatedItemsHelper
 		$date = JFactory::getDate();
 		$maximum = (int) $params->get('maximum', 5);
 
+		// Get an instance of the generic articles model
+		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+
+		// Set application parameters in model
+		$appParams = $app->getParams();
+		$articles->setState('params', $appParams);
+
 		$option = $app->input->get('option');
 		$view = $app->input->get('view');
 
@@ -150,17 +157,31 @@ abstract class ModRelatedItemsHelper
 
 				if (count($temp))
 				{
+					$articles_ids = array();
+
 					foreach ($temp as $row)
 					{
-						if ($row->cat_state == 1)
-						{
-							$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
-							$related[] = $row;
-						}
+						$articles_ids[] = $row->id;
 					}
+
+					$articles->setState('filter.article_id', $articles_ids);
+					$articles->setState('filter.published', 1);
+					$related = $articles->getItems();
 				}
 
 				unset ($temp);
+			}
+		}
+
+		if (count($related))
+		{
+			// Prepare data for display using display options
+			foreach ($related as &$item)
+			{
+				$item->slug    = $item->id . ':' . $item->alias;
+				$item->catslug = $item->catid . ':' . $item->category_alias;
+
+				$item->route = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 		}
 

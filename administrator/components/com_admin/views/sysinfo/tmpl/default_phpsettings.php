@@ -157,6 +157,14 @@ defined('_JEXEC') or die;
 					<?php echo JHtml::_('phpsetting.set', $this->php_settings['iconv']); ?>
 				</td>
 			</tr>
+			<tr>
+				<td>
+					<?php echo JText::_('COM_ADMIN_MAX_INPUT_VARS'); ?>
+				</td>
+				<td>
+					<?php echo JHtml::_('phpsetting.integer', $this->php_settings['max_input_vars']); ?>
+				</td>
+			</tr>
 		</tbody>
 	</table>
 </fieldset>

@@ -17,8 +17,10 @@ defined('_JEXEC') or die;
 class ContactController extends JControllerLegacy
 {
 	/**
-	 * @var		string	The default view.
-	 * @since   1.6
+	 * The default view.
+	 *
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $default_view = 'contacts';
 
@@ -28,11 +30,11 @@ class ContactController extends JControllerLegacy
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  ContactController  This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
 		require_once JPATH_COMPONENT . '/helpers/contact.php';
 
@@ -51,8 +53,6 @@ class ContactController extends JControllerLegacy
 			return false;
 		}
 
-		parent::display();
-
-		return $this;
+		return parent::display();
 	}
 }

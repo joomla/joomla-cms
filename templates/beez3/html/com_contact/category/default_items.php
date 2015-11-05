@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.framework');
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <?php if (empty($this->items)) : ?>
 	<p> <?php echo JText::_('COM_CONTACT_NO_CONTACTS'); ?> </p>

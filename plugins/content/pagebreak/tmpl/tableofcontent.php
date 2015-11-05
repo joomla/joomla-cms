@@ -51,20 +51,20 @@ $class = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
 
 				if (@$attrs2['alt'])
 				{
-					$title	= stripslashes($attrs2['alt']);
+					$title = stripslashes($attrs2['alt']);
 				}
 				elseif (@$attrs2['title'])
 				{
-					$title	= stripslashes($attrs2['title']);
+					$title = stripslashes($attrs2['title']);
 				}
 				else
 				{
-					$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
+					$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 				}
 			}
 			else
 			{
-				$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
+				$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 			}
 
 			$liClass = ($limitstart == $i - 1) ? ' class="active"' : '';

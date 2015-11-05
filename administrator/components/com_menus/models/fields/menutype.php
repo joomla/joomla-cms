@@ -35,15 +35,15 @@ class JFormFieldMenutype extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		$html 		= array();
-		$recordId	= (int) $this->form->getValue('id');
-		$size		= ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
-		$class		= ($v = $this->element['class']) ? ' class="' . $v . '"' : 'class="text_area"';
-		$required	= ($v = $this->element['required']) ? ' required="required"' : '';
+		$html     = array();
+		$recordId = (int) $this->form->getValue('id');
+		$size     = ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
+		$class    = ($v = $this->element['class']) ? ' class="' . $v . '"' : 'class="text_area"';
+		$required = ($v = $this->element['required']) ? ' required="required"' : '';
 
 		// Get a reverse lookup of the base link URL to Title
-		$model 	= JModelLegacy::getInstance('menutypes', 'menusModel');
-		$rlu 	= $model->getReverseLookup();
+		$model = JModelLegacy::getInstance('menutypes', 'menusModel');
+		$rlu   = $model->getReverseLookup();
 
 		switch ($this->value)
 		{
@@ -64,10 +64,10 @@ class JFormFieldMenutype extends JFormFieldList
 				break;
 
 			default:
-				$link	= $this->form->getValue('link');
+				$link = $this->form->getValue('link');
 
 				// Clean the link back to the option, view and layout
-				$value	= JText::_(JArrayHelper::getValue($rlu, MenusHelper::getLinkKey($link)));
+				$value = JText::_(JArrayHelper::getValue($rlu, MenusHelper::getLinkKey($link)));
 				break;
 		}
 		// Include jQuery
@@ -90,9 +90,9 @@ class JFormFieldMenutype extends JFormFieldList
 			'bootstrap.renderModal',
 			'menuTypeModal',
 			array(
-				'url' => $link,
-				'title' => JText::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),
-				'width' => '800px',
+				'url'    => $link,
+				'title'  => JText::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),
+				'width'  => '800px',
 				'height' => '300px',
 				'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
 					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'

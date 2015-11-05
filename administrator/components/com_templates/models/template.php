@@ -64,7 +64,7 @@ class TemplatesModelTemplate extends JModelForm
 	 */
 	public function getFiles()
 	{
-		$result	= array();
+		$result = array();
 
 		if ($template = $this->getTemplate())
 		{
@@ -552,19 +552,19 @@ class TemplatesModelTemplate extends JModelForm
 	{
 		if ($template = $this->getTemplate())
 		{
-			$client 	        = JApplicationHelper::getClientInfo($template->client_id);
-			$componentPath		= JPath::clean($client->path . '/components/');
-			$modulePath		    = JPath::clean($client->path . '/modules/');
-			$layoutPath		    = JPath::clean(JPATH_ROOT . '/layouts/joomla/');
-			$components         = JFolder::folders($componentPath);
+			$client        = JApplicationHelper::getClientInfo($template->client_id);
+			$componentPath = JPath::clean($client->path . '/components/');
+			$modulePath    = JPath::clean($client->path . '/modules/');
+			$layoutPath    = JPath::clean(JPATH_ROOT . '/layouts/joomla/');
+			$components    = JFolder::folders($componentPath);
 
 			foreach ($components as $component)
 			{
-				$viewPath	= JPath::clean($componentPath . '/' . $component . '/views/');
+				$viewPath = JPath::clean($componentPath . '/' . $component . '/views/');
 
 				if (file_exists($viewPath))
 				{
-					$views	= JFolder::folders($viewPath);
+					$views = JFolder::folders($viewPath);
 
 					foreach ($views as $view)
 					{
@@ -1033,10 +1033,10 @@ class TemplatesModelTemplate extends JModelForm
 			if (file_exists(JPath::clean($path . $fileName)))
 			{
 				$JImage = new JImage(JPath::clean($path . $fileName));
-				$image['address'] 	= $uri . $fileName;
-				$image['path']		= $fileName;
-				$image['height'] 	= $JImage->getHeight();
-				$image['width']  	= $JImage->getWidth();
+				$image['address'] = $uri . $fileName;
+				$image['path']    = $fileName;
+				$image['height']  = $JImage->getHeight();
+				$image['width']   = $JImage->getWidth();
 			}
 
 			else
