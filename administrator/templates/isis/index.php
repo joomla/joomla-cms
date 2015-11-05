@@ -112,15 +112,8 @@ $stickyBar = 0;
 
 if ($stickyToolbar)
 {
-	$stickyBar = 1;
+	$stickyBar = 'true';
 }
-
-$doc->addScriptDeclaration(
-	"
-	window.isisStickyToolbar = $stickyBar;
-	window.isisOffsetTop = $offset;
-	"
-);
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -315,5 +308,6 @@ $doc->addScriptDeclaration(
 	<!-- End Status Module -->
 <?php endif; ?>
 <jdoc:include type="modules" name="debug" style="none" />
+<div id="isisJsData" data-tmpl-sticky="<?php echo $stickyBar; ?>" data-tmpl-offset="<?php echo $offset; ?>"></div>
 </body>
 </html>
