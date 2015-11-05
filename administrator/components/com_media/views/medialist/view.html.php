@@ -135,7 +135,7 @@ class MediaViewMediaList extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   3.5
 	 */
 	public function setVideo($index = 0)
 	{
