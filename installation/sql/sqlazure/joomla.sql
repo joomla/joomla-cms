@@ -999,7 +999,9 @@ SELECT 451, 'plg_search_tags', 'plugin', 'tags', 'search', 0, 1, 1, 0, '', '{"se
 UNION ALL
 SELECT 452, 'plg_system_updatenotification', 'plugin', 'updatenotification', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 453, 'plg_editors-xtd_module', 'plugin', 'module', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+SELECT 453, 'plg_editors-xtd_module', 'plugin', 'module', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
+SELECT 454, 'plg_system_stats', 'plugin', 'stats', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 
 INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
