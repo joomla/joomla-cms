@@ -99,12 +99,6 @@ JFactory::getDocument()->addScriptDeclaration(
 		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
 		filter: alpha(opacity = 80);
 	}
-
-	.j-jed-message {
-		margin-bottom: 40px;
-		line-height: 2em;
-		color:#333333;
-	}
 </style>
 
 <div id="installer-install" class="clearfix">
