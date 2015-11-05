@@ -92,15 +92,62 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 		TestReflection::setValue($formFieldCheckboxes, 'id', 'myTestId');
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
 
-		$expected = '<fieldset id="myTestId" class="checkboxes"><ul>' .
-			'<li><input type="checkbox" id="myTestId0" name="myTestName" value="red"/><label for="myTestId0">red</label></li>' .
-			'<li><input type="checkbox" id="myTestId1" name="myTestName" value="blue"/>' .
-			'<label for="myTestId1">blue</label></li></ul></fieldset>';
+		// Get the result once, we will perform multiple tests
+		$result = TestReflection::invoke($formFieldCheckboxes, 'getInput');
 
-		$this->assertEquals(
-			$expected,
-			TestReflection::invoke($formFieldCheckboxes, 'getInput'),
-			'The field with no value and no checked values did not produce the right html'
+		// Test that the tag exists
+		$matcher = array('id' => 'myTestId');
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'The tag did not have the correct id.'
+		);
+
+		// Test that the 'red' option exists
+		$matcher['descendant'] = array(
+			'tag' => 'input',
+			'attributes' => array(
+				'type' => 'checkbox',
+				'name' => 'myTestName',
+				'value' => 'red'
+				)
+			);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'A descendant tag like <input type="checkbox" name="color" value="red" /> was missing.'
+		);
+
+		// Test that the 'blue' option exists
+		$matcher['descendant'] = array(
+			'tag' => 'input',
+			'attributes' => array(
+				'type' => 'checkbox',
+				'name' => 'myTestName',
+				'value' => 'blue'
+				)
+			);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'A descendant tag like <input type="checkbox" name="color" value="blue" /> was missing.'
+		);
+
+		// Test that no option is checked
+		$matcher['descendant'] = array(
+			'tag' => 'input',
+			'attributes' => array(
+				'checked' => true
+				)
+			);
+
+		$this->assertNotTag(
+			$matcher,
+			$result,
+			'One or more inputs were checked.'
 		);
 	}
 
@@ -141,16 +188,50 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 		TestReflection::setValue($formFieldCheckboxes, 'value', 'red');
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
 
-		$expected = '<fieldset id="myTestId" class="checkboxes"><ul>' .
-			'<li><input type="checkbox" id="myTestId0" name="myTestName" value="red" checked/>' .
-			'<label for="myTestId0">red</label></li>' .
-			'<li><input type="checkbox" id="myTestId1" name="myTestName" value="blue"/><label for="myTestId1">blue</label>' .
-			'</li></ul></fieldset>';
+		// Get the result once, we will perform multiple tests
+		$result = TestReflection::invoke($formFieldCheckboxes, 'getInput');
 
-		$this->assertEquals(
-			$expected,
-			TestReflection::invoke($formFieldCheckboxes, 'getInput'),
-			'The field with one value did not produce the right html'
+		// Test that the tag exists
+		$matcher = array('id' => 'myTestId');
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'The tag did not have the correct id.'
+		);
+
+		// Test that the 'red' option exists and is checked
+		$matcher['descendant'] = array(
+			'tag' => 'input',
+			'attributes' => array(
+				'type' => 'checkbox',
+				'name' => 'myTestName',
+				'value' => 'red',
+				'checked' => true
+				)
+			);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'A descendant tag like <input type="checkbox" name="color" value="red" checked /> was missing.'
+		);
+
+		// Test that the 'blue' option exists and is not checked
+		$matcher['descendant'] = array(
+			'tag' => 'input',
+			'attributes' => array(
+				'type' => 'checkbox',
+				'name' => 'myTestName',
+				'value' => 'blue',
+				'checked' => false
+				)
+			);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'A descendant tag like <input type="checkbox" name="color" value="blue" /> was missing.'
 		);
 	}
 
@@ -192,14 +273,50 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 		TestReflection::setValue($formFieldCheckboxes, 'value', $valuearray);
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
 
-		$fieldsetString = '<fieldset id="myTestId" class="checkboxes"><ul>' .
-			'<li><input type="checkbox" id="myTestId0" name="myTestName" value="red" checked/><label for="myTestId0">red</label></li>' .
-			'<li><input type="checkbox" id="myTestId1" name="myTestName" value="blue"/><label for="myTestId1">blue</label></li></ul></fieldset>';
+		// Get the result once, we will perform multiple tests
+		$result = TestReflection::invoke($formFieldCheckboxes, 'getInput');
 
-		$this->assertEquals(
-			$fieldsetString,
-			TestReflection::invoke($formFieldCheckboxes, 'getInput'),
-			'The field with one value did not produce the right html'
+		// Test that the tag exists
+		$matcher = array('id' => 'myTestId');
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'The tag did not have the correct id.'
+		);
+
+		// Test that the 'red' option exists and is checked
+		$matcher['descendant'] = array(
+			'tag' => 'input',
+			'attributes' => array(
+				'type' => 'checkbox',
+				'name' => 'myTestName',
+				'value' => 'red',
+				'checked' => true
+				)
+			);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'A descendant tag like <input type="checkbox" name="color" value="red" checked /> was missing.'
+		);
+
+		// Test that the 'blue' option exists and is not checked
+		$matcher['descendant'] = array(
+			'tag' => 'input',
+			'attributes' => array(
+				'type' => 'checkbox',
+				'name' => 'myTestName',
+				'value' => 'blue',
+				'checked' => false
+				)
+			);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'A descendant tag like <input type="checkbox" name="color" value="blue" /> was missing.'
 		);
 	}
 
@@ -233,15 +350,50 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
 		TestReflection::setValue($formFieldCheckboxes, 'checkedOptions', 'blue');
 
-		$expected = '<fieldset id="myTestId" class="checkboxes"><ul>' .
-			'<li><input type="checkbox" id="myTestId0" name="myTestName" value="red"/><label for="myTestId0">red</label></li>' .
-			'<li><input type="checkbox" id="myTestId1" name="myTestName" value="blue" checked/>' .
-			'<label for="myTestId1">blue</label></li></ul></fieldset>';
+		// Get the result once, we will perform multiple tests
+		$result = TestReflection::invoke($formFieldCheckboxes, 'getInput');
 
-		$this->assertEquals(
-			$expected,
-			TestReflection::invoke($formFieldCheckboxes, 'getInput'),
-			'The field with no values and one value in the checked element did not produce the right html'
+		// Test that the tag exists
+		$matcher = array('id' => 'myTestId');
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'The tag did not have the correct id.'
+		);
+
+		// Test that the 'red' option exists and is not checked
+		$matcher['descendant'] = array(
+			'tag' => 'input',
+			'attributes' => array(
+				'type' => 'checkbox',
+				'name' => 'myTestName',
+				'value' => 'red',
+				'checked' => false
+				)
+			);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'A descendant tag like <input type="checkbox" name="color" value="red" /> was missing.'
+		);
+
+		// Test that the 'blue' option exists and is checked
+		$matcher['descendant'] = array(
+			'tag' => 'input',
+			'attributes' => array(
+				'type' => 'checkbox',
+				'name' => 'myTestName',
+				'value' => 'blue',
+				'checked' => true
+				)
+			);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'A descendant tag like <input type="checkbox" name="color" value="blue" checked /> was missing.'
 		);
 	}
 
@@ -277,15 +429,50 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 		TestReflection::setValue($formFieldCheckboxes, 'value', '""');
 		TestReflection::setValue($formFieldCheckboxes, 'checkedOptions', 'red,blue');
 
-		$expected = '<fieldset id="myTestId" class="checkboxes"><ul>' .
-			'<li><input type="checkbox" id="myTestId0" name="myTestName" value="red"/><label for="myTestId0">red</label></li>' .
-			'<li><input type="checkbox" id="myTestId1" name="myTestName" value="blue"/><label for="myTestId1">blue</label>' .
-			'</li></ul></fieldset>';
+		// Get the result once, we will perform multiple tests
+		$result = TestReflection::invoke($formFieldCheckboxes, 'getInput');
 
-		$this->assertEquals(
-			$expected,
-			TestReflection::invoke($formFieldCheckboxes, 'getInput'),
-			'The field with no values and two items in the checked element did not produce the right html'
+		// Test that the tag exists
+		$matcher = array('id' => 'myTestId');
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'The tag did not have the correct id.'
+		);
+
+		// Test that the 'red' option exists and is not checked
+		$matcher['descendant'] = array(
+			'tag' => 'input',
+			'attributes' => array(
+				'type' => 'checkbox',
+				'name' => 'myTestName',
+				'value' => 'red',
+				'checked' => false
+				)
+			);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'A descendant tag like <input type="checkbox" name="color" value="red" /> was missing.'
+		);
+
+		// Test that the 'blue' option exists and is not checked
+		$matcher['descendant'] = array(
+			'tag' => 'input',
+			'attributes' => array(
+				'type' => 'checkbox',
+				'name' => 'myTestName',
+				'value' => 'blue',
+				'checked' => false
+				)
+			);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'A descendant tag like <input type="checkbox" name="color" value="blue" /> was missing.'
 		);
 	}
 
@@ -321,15 +508,50 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
 		TestReflection::setValue($formFieldCheckboxes, 'checkedOptions', 'blue');
 
-		$expected = '<fieldset id="myTestId" class="checkboxes"><ul><li>' .
-			'<input type="checkbox" id="myTestId0" name="myTestName" value="red" checked/>' .
-			'<label for="myTestId0">red</label></li><li><input type="checkbox" id="myTestId1" name="myTestName" value="blue"/>' .
-			'<label for="myTestId1">blue</label></li></ul></fieldset>';
+		// Get the result once, we will perform multiple tests
+		$result = TestReflection::invoke($formFieldCheckboxes, 'getInput');
 
-		$this->assertEquals(
-			$expected,
-			TestReflection::invoke($formFieldCheckboxes, 'getInput'),
-			'The field with one value and a different value in the checked element did not produce the right html'
+		// Test that the tag exists
+		$matcher = array('id' => 'myTestId');
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'The tag did not have the correct id.'
+		);
+
+		// Test that the 'red' option exists and is checked
+		$matcher['descendant'] = array(
+			'tag' => 'input',
+			'attributes' => array(
+				'type' => 'checkbox',
+				'name' => 'myTestName',
+				'value' => 'red',
+				'checked' => true
+				)
+			);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'A descendant tag like <input type="checkbox" name="color" value="red" checked /> was missing.'
+		);
+
+		// Test that the 'blue' option exists and is not checked
+		$matcher['descendant'] = array(
+			'tag' => 'input',
+			'attributes' => array(
+				'type' => 'checkbox',
+				'name' => 'myTestName',
+				'value' => 'blue',
+				'checked' => false
+				)
+			);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'A descendant tag like <input type="checkbox" name="color" value="blue" /> was missing.'
 		);
 	}
 
@@ -364,14 +586,50 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 		TestReflection::setValue($formFieldCheckboxes, 'value', 'yellow,green');
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
 
-		$expected = '<fieldset id="myTestId" class="checkboxes"><ul><li>' .
-			'<input type="checkbox" id="myTestId0" name="myTestName" value="red"/><label for="myTestId0">red</label></li><li>' .
-			'<input type="checkbox" id="myTestId1" name="myTestName" value="blue"/><label for="myTestId1">blue</label></li></ul></fieldset>';
+		// Get the result once, we will perform multiple tests
+		$result = TestReflection::invoke($formFieldCheckboxes, 'getInput');
 
-		$this->assertEquals(
-			$expected,
-			TestReflection::invoke($formFieldCheckboxes, 'getInput'),
-			'The field with two values did not produce the right html'
+		// Test that the tag exists
+		$matcher = array('id' => 'myTestId');
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'The tag did not have the correct id.'
+		);
+
+		// Test that the 'red' option exists and is not checked
+		$matcher['descendant'] = array(
+			'tag' => 'input',
+			'attributes' => array(
+				'type' => 'checkbox',
+				'name' => 'myTestName',
+				'value' => 'red',
+				'checked' => false
+				)
+			);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'A descendant tag like <input type="checkbox" name="color" value="red" /> was missing.'
+		);
+
+		// Test that the 'blue' option exists and is not checked
+		$matcher['descendant'] = array(
+			'tag' => 'input',
+			'attributes' => array(
+				'type' => 'checkbox',
+				'name' => 'myTestName',
+				'value' => 'blue',
+				'checked' => false
+				)
+			);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'A descendant tag like <input type="checkbox" name="color" value="blue" /> was missing.'
 		);
 	}
 

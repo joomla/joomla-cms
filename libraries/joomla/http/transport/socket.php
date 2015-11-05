@@ -124,6 +124,12 @@ class JHttpTransportSocket implements JHttpTransport
 			}
 		}
 
+		// Set any custom transport options
+		foreach ($this->options->get('transport.socket', array()) as $value)
+		{
+			$request[] = $value;
+		}
+
 		// If we have data to send add it to the request payload.
 		if (!empty($data))
 		{

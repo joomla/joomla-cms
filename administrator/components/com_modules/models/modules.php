@@ -33,7 +33,7 @@ class ModulesModelModules extends JModelList
 				'title', 'a.title',
 				'checked_out', 'a.checked_out',
 				'checked_out_time', 'a.checked_out_time',
-				'published', 'a.published',
+				'published', 'a.published', 'state',
 				'access', 'a.access', 'access_level',
 				'ordering', 'a.ordering',
 				'module', 'a.module',
@@ -70,8 +70,8 @@ class ModulesModelModules extends JModelList
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$accessId = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', null, 'int');
-		$this->setState('filter.access', $accessId);
+		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
+		$this->setState('filter.access', $access);
 
 		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
@@ -82,13 +82,42 @@ class ModulesModelModules extends JModelList
 		$module = $this->getUserStateFromRequest($this->context . '.filter.module', 'filter_module', '', 'string');
 		$this->setState('filter.module', $module);
 
-		$clientId = $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', 0, 'int', false);
-		$previousId = $app->getUserState($this->context . '.filter.client_id_previous', null);
+		// Special handling for filter client_id.
 
-		if ($previousId != $clientId || $previousId === null)
+		// Try to get current Client selection from $_POST.
+		$clientId = $app->input->getString('client_id', null);
+
+		// Client Site(0) or Administrator(1) selected?
+		if (in_array($clientId, array('0', '1')))
 		{
-			$this->getUserStateFromRequest($this->context . '.filter.client_id_previous', 'filter_client_id_previous', 0, 'int', true);
-			$app->setUserState($this->context . '.filter.client_id_previous', $clientId);
+			// Not the same client like saved previous one?
+			if ($clientId != $app->getUserState($this->context . '.client_id'))
+			{
+				// Save current selection as new previous value in session.
+				$app->setUserState($this->context . '.client_id', $clientId);
+
+				// Reset pagination.
+				$app->input->set('limitstart', 0);
+			}
+		}
+
+		// No Client selected?
+		else
+		{
+			// Try to get previous one from session.
+			$clientId = (string) $app->getUserState($this->context . '.client_id');
+
+			// Client not Site(0) and not Administrator(1)? So, set to Site(0).
+			if (!in_array($clientId, array('0', '1')))
+			{
+				$clientId = '0';
+			}
+		}
+
+		// Modal view should return only front end modules
+		if (JFactory::getApplication()->input->get('layout') == 'modal')
+		{
+			$clientId = 0;
 		}
 
 		$this->setState('filter.client_id', $clientId);
@@ -241,7 +270,7 @@ class ModulesModelModules extends JModelList
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.note, a.position, a.module, a.language,' .
-					'a.checked_out, a.checked_out_time, a.published+2*(e.enabled-1) as published, a.access, a.ordering, a.publish_up, a.publish_down'
+					'a.checked_out, a.checked_out_time, a.published as published, e.enabled as enabled, a.access, a.ordering, a.publish_up, a.publish_down'
 			)
 		);
 		$query->from($db->quoteName('#__modules') . ' AS a');
@@ -280,6 +309,12 @@ class ModulesModelModules extends JModelList
 		// Filter by published state
 		$state = $this->getState('filter.state');
 
+		// Modal view should return only front end modules
+		if (JFactory::getApplication()->input->get('layout') == 'modal')
+		{
+			$state = 1;
+		}
+
 		if (is_numeric($state))
 		{
 			$query->where('a.published = ' . (int) $state);
@@ -313,6 +348,12 @@ class ModulesModelModules extends JModelList
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
 
+		// Modal view should return only front end modules
+		if (JFactory::getApplication()->input->get('layout') == 'modal')
+		{
+			$clientId = 0;
+		}
+
 		if (is_numeric($clientId))
 		{
 			$query->where('a.client_id = ' . (int) $clientId . ' AND e.client_id =' . (int) $clientId);
@@ -334,9 +375,17 @@ class ModulesModelModules extends JModelList
 			}
 		}
 
-		// Filter on the language.
-		if ($language = $this->getState('filter.language'))
+		// Modal view should return only specific language and ALL
+		if (JFactory::getApplication()->input->get('layout') == 'modal')
 		{
+			if (JFactory::getApplication()->isSite() && JLanguageMultilang::isEnabled())
+			{
+				$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			}
+		}
+		elseif ($language = $this->getState('filter.language'))
+		{
+			// Filter on the language.
 			$query->where('a.language = ' . $db->quote($language));
 		}
 

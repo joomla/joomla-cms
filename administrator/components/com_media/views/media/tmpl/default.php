@@ -44,16 +44,21 @@ if ($lang->isRtl())
 ?>
 <div class="row-fluid">
 	<!-- Begin Sidebar -->
-	<div class="span2">
-		<div id="treeview">
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+		<div class="j-toggle-sidebar-header">
+		<h3 style="padding-left: 10px;"><?php echo JText::_('COM_MEDIA_FOLDERS');?> </h3>
+		</div>
+		<div id="treeview" class="sidebar">
 			<div id="media-tree_tree" class="sidebar-nav">
 				<?php echo $this->loadTemplate('folders'); ?>
 			</div>
 		</div>
 	</div>
 	<!-- End Sidebar -->
+
 	<!-- Begin Content -->
-	<div class="span10">
+	<div id="j-main-container" class="span10">
 		<?php echo $this->loadTemplate('navigation'); ?>
 		<?php if (($user->authorise('core.create', 'com_media')) and $this->require_ftp) : ?>
 			<form action="index.php?option=com_media&amp;task=ftpValidate" name="ftpForm" id="ftpForm" method="post">
@@ -118,7 +123,7 @@ echo JHtml::_(
 	'bootstrap.renderModal',
 	'imagePreview',
 	array(
-		'title' => JText::_('COM_MEDIA_IMAGE_PREVIEW'),
+		'title' => JText::_('COM_MEDIA_PREVIEW'),
 		'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
 			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 	),

@@ -117,7 +117,7 @@
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="hide">JHIDE</option>
+				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 

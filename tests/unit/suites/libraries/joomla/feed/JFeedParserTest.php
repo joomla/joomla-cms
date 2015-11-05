@@ -101,43 +101,6 @@ class JFeedParserTest extends TestCase
 	}
 
 	/**
-	 * Tests JFeedParser::registerNamespace() with an expected failure.  Cannot register a string.
-	 *
-	 * @return  void
-	 *
-	 * @expectedException  PHPUnit_Framework_Error
-	 * @since              12.3
-	 */
-	public function testRegisterNamespaceWithString()
-	{
-		if (PHP_MAJOR_VERSION >= 7)
-		{
-			$this->markTestSkipped('A fatal error is thrown on PHP 7 due to the typehinting of the method.');
-		}
-
-		$this->_instance->registerNamespace('foo', 'bar');
-	}
-
-	/**
-	 * Tests JFeedParser::registerNamespace() with an expected failure.  Cannot register a handler
-	 * that isn't an instance of JFeedParserNamespace.
-	 *
-	 * @return  void
-	 *
-	 * @expectedException  PHPUnit_Framework_Error
-	 * @since              12.3
-	 */
-	public function testRegisterNamespaceWithObject()
-	{
-		if (PHP_MAJOR_VERSION >= 7)
-		{
-			$this->markTestSkipped('A fatal error is thrown on PHP 7 due to the typehinting of the method.');
-		}
-
-		$this->_instance->registerNamespace('foo', new stdClass);
-	}
-
-	/**
 	 * Tests JFeedParser::processElement() with processing a normal element.
 	 *
 	 * @return  void

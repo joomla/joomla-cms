@@ -72,9 +72,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<td colspan="15">
 						<div>
 							<?php echo JText::_('COM_USERS_DEBUG_LEGEND'); ?>
-							<span class="btn disabled btn-micro btn-warning"><span class="icon-white icon-ban-circle"></span></span> <?php echo JText::_('COM_USERS_DEBUG_IMPLICIT_DENY');?>
-							<span class="btn disabled btn-micro btn-success"><span class="icon-white icon-ok"></span></span> <?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');?>
-							<span class="btn disabled btn-micro btn-danger"><span class="icon-white icon-remove"></span></span> <?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_DENY');?>
+							<span class="icon-white icon-ban-circle"></span> <?php echo JText::_('COM_USERS_DEBUG_IMPLICIT_DENY');?>
+							<span class="icon-white icon-ok"></span> <?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');?>
+							<span class="icon-white icon-remove"></span> <?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_DENY');?>
 						</div>
 					</td>
 				</tr>
@@ -106,9 +106,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							endif;
 							?>
 						<td class="center">
-							<span class="btn disabled btn-micro <?php echo $button; ?>">
-								<span class="icon-white <?php echo $class; ?>"></span>
-							</span>
+							<span class="icon-white <?php echo $class; ?>"></span>
 						</td>
 						<?php endforeach; ?>
 						<td class="center">

@@ -18,10 +18,25 @@ JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
  */
 class BannersViewBanner extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * The active item
+	 *
+	 * @var  object
+	 */
 	protected $item;
 
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
 	protected $state;
 
 	/**
@@ -29,7 +44,7 @@ class BannersViewBanner extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise a Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -48,7 +63,8 @@ class BannersViewBanner extends JViewLegacy
 
 		$this->addToolbar();
 		JHtml::_('jquery.framework');
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -63,7 +79,7 @@ class BannersViewBanner extends JViewLegacy
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$user       = JFactory::getUser();
-		$userId     = $user->get('id');
+		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 

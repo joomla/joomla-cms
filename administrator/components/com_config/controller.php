@@ -12,7 +12,8 @@ defined('_JEXEC') or die;
 /**
  * Config Component Controller
  *
- * @since  1.5
+ * @since       1.5
+ * @deprecated  4.0
  */
 class ConfigController extends JControllerLegacy
 {

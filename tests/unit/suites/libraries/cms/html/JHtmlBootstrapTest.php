@@ -91,7 +91,7 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->assertEquals(
 			$document->_script['text/javascript'],
-			"(function($){" . PHP_EOL . "\t\t\t\t$('.alert').alert();" . PHP_EOL . "\t\t\t\t})(jQuery);",
+			"(function($){\n\t\t\t\t$('.alert').alert();\n\t\t\t\t})(jQuery);",
 			'Verify that the alert script is initialised'
 		);
 	}
@@ -119,7 +119,7 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->assertEquals(
 			$document->_script['text/javascript'],
-			"(function($){" . PHP_EOL . "\t\t\t\t$('.button').button();" . PHP_EOL . "\t\t\t\t})(jQuery);",
+			"(function($){\n\t\t\t\t$('.button').button();\n\t\t\t\t})(jQuery);",
 			'Verify that the button script is initialised'
 		);
 	}
@@ -147,7 +147,7 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->assertEquals(
 			$document->_script['text/javascript'],
-			"(function($){" . PHP_EOL . "\t\t\t\t$('.dropdown-toggle').dropdown();" . PHP_EOL . "\t\t\t\t})(jQuery);",
+			"(function($){\n\t\t\t\t$('.dropdown-toggle').dropdown();\n\t\t\t\t})(jQuery);",
 			'Verify that the dropdown script is initialised'
 		);
 	}

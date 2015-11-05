@@ -176,7 +176,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		$isSuperUser = $user->authorise('core.admin');
 
 		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 		$explodeArray = explode('.', $this->fileName);
 		$ext = end($explodeArray);
 
