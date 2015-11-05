@@ -1216,7 +1216,7 @@ class JFormTest extends TestCaseDatabase
 				'attributes' => array(
 						'for'   => 'title_id',
 						'class' => 'hasTooltip required',
-						'title' => '<strong>Title</strong><br />The title.'
+						'title' => '<span class="tooltip-title">Title</span><br />The title.'
 					),
 				'content'    => 'regexp:/Title.*\*/',
 				'child'      => array(

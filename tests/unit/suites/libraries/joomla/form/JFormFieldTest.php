@@ -212,7 +212,7 @@ class JFormFieldTest extends TestCaseDatabase
 				'attributes' => array(
 						'for'   => 'title_id',
 						'class' => 'hasTooltip required',
-						'title' => '<strong>Title</strong><br />The title.'
+						'title' => '<span class="tooltip-title">Title</span><br />The title.'
 					),
 				'content'    => 'regexp:/Title.*\*/',
 				'child'      => array(
@@ -372,7 +372,7 @@ class JFormFieldTest extends TestCaseDatabase
 				'attributes' => array(
 						'for'   => 'myId',
 						'class' => 'hasTooltip',
-						'title' => '<strong>My Title</strong><br />The description.'
+						'title' => '<span class="tooltip-title">My Title</span><br />The description.'
 					),
 				'content'    => 'regexp:/My Title/'
 			);

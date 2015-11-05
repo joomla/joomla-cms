@@ -917,12 +917,12 @@ abstract class JHtml
 			// Use only the title, if title and text are the same.
 			elseif ($title == $content)
 			{
-				$result = '<strong>' . $title . '</strong>';
+				$result = '<span class="tooltip-title">' . $title . '</span>';
 			}
 			// Use a formatted string combining the title and content.
 			elseif ($content != '')
 			{
-				$result = '<strong>' . $title . '</strong><br />' . $content;
+				$result = '<span class="tooltip-title">' . $title . '</span><br />' . $content;
 			}
 			else
 			{
@@ -932,7 +932,7 @@ abstract class JHtml
 			// Escape everything, if required.
 			if ($escape)
 			{
-				$result = htmlspecialchars($result);
+				$result = htmlspecialchars($result, ENT_QUOTES, 'UTF-8');
 			}
 		}
 

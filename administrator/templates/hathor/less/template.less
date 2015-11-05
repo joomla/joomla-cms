@@ -3489,20 +3489,6 @@ table.adminlist .item-associations li a  {
 // Bootstrap Tooltips (need to load last, something is overriding these styles in the CSS, debug later ;-) )
 @import "../../../../media/jui/less/tooltip.less";
 
-.tooltip {
-	max-width: 400px;
-}
-.tooltip-inner {
-	max-width: none;
-	text-align: left;
-	text-shadow: none;
-}
-th .tooltip-inner {
-	font-weight: normal;
-}
-.tooltip.hasimage {
-	opacity: 1;
-}
 fieldset.panelform .tooltip img {
 	float: none;
 	margin: 0;
@@ -3530,4 +3516,62 @@ div.toggle-editor {
 }
 .muted {
 	color: #999;
+}
+
+/* Tweaking of tooltips */
+.tooltip {
+	max-width: 400px;
+	.opacity(0);
+	&.in { .opacity(100); }
+	.box-shadow(0 0 5px rgba(0,0,0,0.3));
+}
+
+.tooltip-inner {
+	max-width: none;
+	text-shadow: none;
+	text-align: left;
+	background-color: @tooltipBackground;
+	padding: 6px 8px;
+	font-size: @baseFontSize;
+	border: 1px solid #aaa;
+}
+
+.tooltip-arrow {
+	margin-bottom: -5px;
+}
+
+.tooltip.top {
+	padding: 0 0;
+}
+
+.tooltip-inner .tooltip-title {
+	display:block;
+	margin:-6px -8px -12px;
+	padding:6px 10px;
+	font-weight: bold;
+	background:@tableBackgroundHover;
+	.border-radius(@baseBorderRadius @baseBorderRadius 0 0);
+}
+
+.tooltip {
+	&.top .tooltip-arrow {
+		border-top-color: @tooltipArrowColor;
+	}
+	&.right .tooltip-arrow {
+		border-right-color: @tooltipArrowColor;
+	}
+	&.left .tooltip-arrow {
+		border-left-color: @tooltipArrowColor;
+	}
+	&.bottom .tooltip-arrow {
+		border-bottom-color: @tooltipArrowColor;
+	}
+}
+
+th .tooltip-inner {
+	font-weight: normal;
+}
+
+.tooltip.hasimage {
+	opacity: 1;
 }
