@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  com_media
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
@@ -59,7 +59,7 @@ JFactory::getDocument()->addScriptDeclaration(
 							</div>
 						</div>
 						<div class="pull-right">
-							<button class="btn btn-success button-save-selected" type="button" onclick="<?php if ($this->state->get('field.id')):?>window.parent.jInsertFieldValue(document.getElementById('f_url').value,'<?php echo $this->state->get('field.id');?>');<?php else:?>ImageManager.onok();<?php endif;?>window.parent.jModalClose();" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
+							<button class="btn btn-success button-save-selected" type="button" <?php if (!$this->state->get('field.id')):?>onclick="ImageManager.onok();window.parent.jModalClose();"<?php endif;?> data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
 							<button class="btn button-cancel" type="button" <?php if (!$this->state->get('field.id')) :
 							// This is for Mootools compatibility ?>onclick="parent.jModalClose();"<?php endif;?> data-dismiss="modal"><?php echo JText::_('JCANCEL') ?></button>
 						</div>
