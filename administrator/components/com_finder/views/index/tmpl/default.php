@@ -20,11 +20,6 @@ $lang = JFactory::getLanguage();
 JText::script('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
 JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 
-if (!$this->pluginState['plg_content_finder']->enabled)
-{
-	JFactory::getApplication()->enqueueMessage(JText::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED'), 'warning');
-}
-
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(pressbutton)
 	{

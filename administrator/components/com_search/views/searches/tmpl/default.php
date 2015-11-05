@@ -18,15 +18,6 @@ JHtml::_('formbehavior.chosen', 'select');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
-
-if ($this->enabled)
-{
-	JFactory::getApplication()->enqueueMessage(JText::_('COM_SEARCH_LOGGING_ENABLED'), 'notice');
-}
-else
-{
-	JFactory::getApplication()->enqueueMessage(JText::_('COM_SEARCH_LOGGING_DISABLED'), 'error');
-}
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_search&view=searches'); ?>" method="post" name="adminForm" id="adminForm">

@@ -19,19 +19,6 @@ JHtml::_('formbehavior.chosen', 'select');
 $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-
-if ($this->enabled && $this->collect_urls_enabled)
-{
-	JFactory::getApplication()->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . ' ' . JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'), 'notice');
-}
-elseif ($this->enabled && !$this->collect_urls_enabled)
-{
-	JFactory::getApplication()->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . JText::_('COM_REDIRECT_COLLECT_URLS_DISABLED'), 'notice');
-}
-else
-{
-	JFactory::getApplication()->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_DISABLED'), 'error');
-}
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_redirect&view=links'); ?>" method="post" name="adminForm" id="adminForm">
