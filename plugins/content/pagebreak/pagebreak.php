@@ -307,7 +307,7 @@ class PlgContentPagebreak extends JPlugin
 	protected function _createToc(&$row, &$matches, &$page)
 	{
 		$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'tableofcontent');
-	
+
 		ob_start();
 		include $path;
 		$row->toc = ob_get_clean();
