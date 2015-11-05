@@ -39,7 +39,7 @@ echo JHtml::_(
 		'url' => $link,
 		'title' => JText::_('COM_MODULES_CHANGE_POSITION_TITLE'),
 		'height' => '300px',
-		'width' => '800px'
+		'width' => '100%'
 	)
 );
 ?>
