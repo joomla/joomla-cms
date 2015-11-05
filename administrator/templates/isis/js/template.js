@@ -62,7 +62,7 @@
 		var isFixed = false;
 
 
-		if ($('#isisJsData').data('tmpl-sticky') == true) {
+		if (document.getElementById('isisJsData').getAttribute('data-tmpl-sticky') == "true") {
 			processScrollInit();
 			processScroll();
 
@@ -72,7 +72,7 @@
 
 		function processScrollInit() {
 			if ($('.subhead').length) {
-				navTop = $('.subhead').length && $('.subhead').offset().top - $('#isisJsData').data('tmpl-offset');
+				navTop = $('.subhead').length && $('.subhead').offset().top - parseInt(document.getElementById('isisJsData').getAttribute('data-tmpl-offset'));
 
 				// Fix the container top
 				$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
