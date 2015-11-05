@@ -62,7 +62,7 @@
 		var isFixed = false;
 
 
-		if (document.getElementById('isisJsData').getAttribute('data-tmpl-sticky') == "true") {
+		if (document.getElementById('isisJsData') && document.getElementById('isisJsData').getAttribute('data-tmpl-sticky') == "true") {
 			processScrollInit();
 			processScroll();
 
