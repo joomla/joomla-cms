@@ -233,7 +233,7 @@ class MediaModelList extends JModelLegacy
 	 *
 	 * @return  array
 	 *
-	 * @since   1.5
+	 * @since   3.5
 	 */
 	public function getVideos()
 	{
