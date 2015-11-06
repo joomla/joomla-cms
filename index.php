@@ -26,7 +26,9 @@ define('JPATH_BASE', __DIR__);
 if (file_exists(JPATH_BASE . '/defines.php'))
 {
 	include_once JPATH_BASE . '/defines.php';
-} else {
+}
+else
+{
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
