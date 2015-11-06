@@ -29,7 +29,9 @@ class MediaController extends JControllerLegacy
 	public function display($cachable = false, $urlparams = false)
 	{
 		JPluginHelper::importPlugin('content');
-		$vName = $this->input->get('view', 'media');
+
+		$vType    = JFactory::getDocument()->getType();
+		$vName    = $this->input->get('view', 'media');
 
 		switch ($vName)
 		{
@@ -60,9 +62,6 @@ class MediaController extends JControllerLegacy
 
 				break;
 		}
-
-		$document = JFactory::getDocument();
-		$vType    = $document->getType();
 
 		// Get/Create the view
 		$view = $this->getView($vName, $vType, '', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
