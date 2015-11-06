@@ -38,7 +38,7 @@ $fullScreenCombo = implode('-', $fskeys);
 	cm.keyMap.default[<?php echo json_encode($fullScreenCombo); ?>] = toggleFullScreen;
 	cm.keyMap.default["Esc"] = closeFullScreen;
 	<?php // For mode autoloading. ?>
-	cm.modeURL = <?php echo json_encode($modePath . $extJS); ?>;
+	cm.modeURL = <?php echo json_encode(JUri::root(true) . '/' . $modePath . $extJS); ?>;
 
 	<?php // Fire this function any time an editor is created. ?>
 	cm.defineInitHook(function (editor)
