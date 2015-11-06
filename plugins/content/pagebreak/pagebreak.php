@@ -130,9 +130,13 @@ class PlgContentPagebreak extends JPlugin
 			{
 				$attrs = JUtility::parseAttributes($matches[$page - 1][1]);
 
-				if ($attrs['title'])
+				if (isset($attrs['title']))
 				{
 					$row->page_title = $attrs['title'];
+				}
+				else
+				{
+					$row->page_title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $page + 1);
 				}
 			}
 
@@ -146,7 +150,7 @@ class PlgContentPagebreak extends JPlugin
 				// Display TOC.
 				if ($hasToc)
 				{
-					$this->_createToc($row, $matches, $page);
+					$this->_createToc($row, $matches);
 				}
 				else
 				{
@@ -246,7 +250,7 @@ class PlgContentPagebreak extends JPlugin
 	 *
 	 * @since  1.6
 	 */
-	protected function _createToc(&$row, &$matches, &$page)
+	protected function _createToc(&$row, &$matches)
 	{
 		$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'tableofcontent');
 
@@ -259,8 +263,8 @@ class PlgContentPagebreak extends JPlugin
 	 * Creates the navigation for the item
 	 *
 	 * @param   object  &$row  The article object.  Note $article->text is also available
-	 * @param   int     $page  The total number of pages
-	 * @param   int     $n     The page number
+	 * @param   int     $page  The page number
+	 * @param   int     $n     The total number of pages
 	 *
 	 * @return  void
 	 *
@@ -268,6 +272,7 @@ class PlgContentPagebreak extends JPlugin
 	 */
 	protected function _createNavigation(&$row, $page, $n)
 	{
+		// We need a next button for all pages, exept the last one
 		if ($page < $n - 1)
 		{
 			$page_next = $page + 1;
@@ -275,10 +280,11 @@ class PlgContentPagebreak extends JPlugin
 		}
 		else
 		{
+			$page_next = '';
 			$link_next = null;
-			$next      = JText::_('JNEXT');
 		}
 
+		// We need a prev button for all pages exept the first one
 		if ($page > 0)
 		{
 			$page_prev = $page - 1 == 0 ? '' : $page - 1;
@@ -286,14 +292,20 @@ class PlgContentPagebreak extends JPlugin
 		}
 		else
 		{
+			$page_prev = '';
 			$link_prev = null;
-			$prev      = JText::_('JPREV');
 		}
 
-		$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'navigation');
+		// Collect data for the layout
+		$data       = array(
+						'page_next' => $page_next,
+						'link_next' => $link_next,
+						'page_prev' => $page_prev,
+						'link_prev' => $link_prev
+					);
 
-		ob_start();
-		include $path;
-		$row->text .= ob_get_clean();
+		// JLayout
+		$layout     = new JLayoutFile('plugins.content.pagebreak.navigation', $basePath = null);
+		$row->text .= $layout->render($data);
 	}
 }

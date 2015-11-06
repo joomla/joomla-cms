@@ -14,19 +14,19 @@ $lang = JFactory::getLanguage();
 
 <div class="pager">
 	<ul class="pager pagenav">
-	<?php if ($link_prev) : ?>
+	<?php if ($displayData['link_prev']) : ?>
 		<?php $direction = $lang->isRtl() ? 'right' : 'left'; ?>
 		<li class="previous">
-			<a href="<?php echo $link_prev; ?>" rel="prev">
-				<?php echo '<span class="icon-chevron-' . $direction . '"></span>' . JText::_('JPREV'); ?>
+			<a href="<?php echo $displayData['link_prev']; ?>" rel="prev">
+				<span class="icon-chevron-<?php echo $direction; ?>"></span> <?php echo JText::_('JPREV'); ?>
 			</a>
 		</li>
 	<?php endif; ?>
-	<?php if ($link_next) : ?>
+	<?php if ($displayData['link_next']) : ?>
 		<?php $direction = $lang->isRtl() ? 'left' : 'right'; ?>
 		<li class="next">
-			<a href="<?php echo $link_next; ?>" rel="next">
-				<?php echo JText::_('JNEXT') . '<span class="icon-chevron-' . $direction . '"></span>'; ?>
+			<a href="<?php echo $displayData['link_next']; ?>" rel="next">
+				<?php echo JText::_('JNEXT'); ?> <span class="icon-chevron-<?php echo $direction; ?>"></span>
 			</a>
 		</li>
 	<?php endif; ?>
