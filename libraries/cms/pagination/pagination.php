@@ -786,11 +786,14 @@ class JPagination
 			$data->start->base = '0';
 			$data->start->link = JRoute::_($params . '&' . $this->prefix);
 			$data->previous->base = $page;
-			if($page != '0'){
-	                    $data->previous->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $page);
-	                } else {
-	                    $data->previous->link = JRoute::_($params . '&' . $this->prefix);
-	                }
+			if($page != '0')
+			{
+				$data->previous->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $page);
+			}
+			else
+			{
+				$data->previous->link = JRoute::_($params . '&' . $this->prefix);
+			}
 		}
 
 		// Set the next and end data objects.
@@ -820,11 +823,14 @@ class JPagination
 			if ($i != $this->pagesCurrent || $this->viewall)
 			{
 				$data->pages[$i]->base = $offset;
-				if ($offset == '0') {
-		                    $data->pages[$i]->link = JRoute::_($params . '&' . $this->prefix);
-		                } else {
-		                    $data->pages[$i]->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
-		                }
+				if ($offset == '0')
+				{
+					$data->pages[$i]->link = JRoute::_($params . '&' . $this->prefix);
+				}
+				else
+				{
+					$data->pages[$i]->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
+				}
 			}
 			else
 			{
