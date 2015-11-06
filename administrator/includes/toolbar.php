@@ -613,8 +613,8 @@ abstract class JToolbarHelper
 	 */
 	public static function versions($typeAlias, $itemId, $height = 800, $width = 500, $alt = 'JTOOLBAR_VERSIONS')
 	{
-		JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
-
+		$lang = JFactory::getLanguage();
+		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 		$contentTypeTable = JTable::getInstance('Contenttype');
 		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
@@ -645,8 +645,6 @@ abstract class JToolbarHelper
 	 */
 	public static function modal($targetModalId, $icon, $alt)
 	{
-		JHtml::_('bootstrap.framework');
-
 		$title = JText::_($alt);
 		$dhtml = "<button data-toggle='modal' data-target='#" . $targetModalId . "' class='btn btn-small'>
 			<span class='" . $icon . "' title='" . $title . "'></span> " . $title . "</button>";
