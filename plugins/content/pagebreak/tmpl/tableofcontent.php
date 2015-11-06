@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-$app   	 	= JFactory::getApplication();
+$app        = JFactory::getApplication();
 $limitstart = $app->input->getUInt('limitstart', 0);
-$showall 	= $app->input->getInt('showall', 0);
-$heading 	= isset($row->title) ? $row->title : JText::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
+$showall    = $app->input->getInt('showall', 0);
+$heading    = isset($row->title) ? $row->title : JText::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
 
 // Define class for navigation
 $class = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
@@ -38,7 +38,7 @@ $class = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
 		</li>
 
 		<?php
-		$i 		= 2;
+		$i      = 2;
 		$output = '';
 
 		foreach ($matches as $bot)
