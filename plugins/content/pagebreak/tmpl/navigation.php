@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 $lang = JFactory::getLanguage();
 ?>
+
 <div class="pager">
 	<ul class="pager pagenav">
 	<?php if ($link_prev) : ?>

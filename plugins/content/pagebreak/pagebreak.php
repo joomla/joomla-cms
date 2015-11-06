@@ -56,7 +56,7 @@ class PlgContentPagebreak extends JPlugin
 		$showall = $app->input->getBool('showall');
 		$full 	 = $app->input->getBool('fullview');
 
-		if (($context != 'com_content.article'))
+		if ($context != 'com_content.article')
 		{
 			return;
 		}
@@ -93,7 +93,7 @@ class PlgContentPagebreak extends JPlugin
 		$matches = array();
 		preg_match_all($regex, $row->text, $matches, PREG_SET_ORDER);
 
-		if (($showall && $this->params->get('showall', 1)))
+		if ($showall && $this->params->get('showall', 1))
 		{
 			$hasToc = $this->params->get('multipage_toc', 1);
 
@@ -217,76 +217,18 @@ class PlgContentPagebreak extends JPlugin
 				$row->text = implode(' ', $t);
 			}
 
-			if ($style == 'bootstraptabs')
+			if ($style == 'newtabs')
 			{
-				$t[] = $text[0];
-				$t[] = JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'article-1'));
+				$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'newtabs');
 
-				foreach ($text as $key => $subtext)
-				{
-					if ($key >= 1)
-					{
-						$match = $matches[$key - 1];
-						$match = (array) JUtility::parseAttributes($match[0]);
-
-						if (isset($match['alt']))
-						{
-							$title = stripslashes($match['alt']);
-						}
-						elseif (isset($match['title']))
-						{
-							$title = stripslashes($match['title']);
-						}
-						else
-						{
-							$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
-						}
-
-						$t[] = JHtml::_('bootstrap.addTab', 'myTab', 'article-' . $key, $title);
-						$t[] = (string) $subtext;
-						$t[] = JHtml::_('bootstrap.endTab');
-					}
-				}
-
-				$t[] = JHtml::_('bootstrap.endTabSet');
-
-				$row->text = implode(' ', $t);
+				include $path;
 			}
 
-			if ($style == 'bootstrapsliders')
+			if ($style == 'newsliders')
 			{
-				$t[] = $text[0];
-				$t[] = JHtml::_('bootstrap.startAccordion', 'collapseTypes');
+				$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'newsliders');
 
-				foreach ($text as $key => $subtext)
-				{
-					if ($key >= 1)
-					{
-						$match = $matches[$key - 1];
-						$match = (array) JUtility::parseAttributes($match[0]);
-
-						if (isset($match['alt']))
-						{
-							$title = stripslashes($match['alt']);
-						}
-						elseif (isset($match['title']))
-						{
-							$title = stripslashes($match['title']);
-						}
-						else
-						{
-							$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
-						}
-
-						$t[] = JHtml::_('bootstrap.addSlide', 'collapseTypes', $title, 'collapse-' . $key);
-						$t[] = (string) $subtext;
-						$t[] = JHtml::_('bootstrap.endSlide');
-					}
-				}
-
-				$t[] = JHtml::_('bootstrap.endAccordion');
-
-				$row->text = implode(' ', $t);
+				include $path;
 			}
 		}
 
