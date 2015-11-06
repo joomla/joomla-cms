@@ -242,8 +242,8 @@ class PlgContentPagebreak extends JPlugin
 	/**
 	 * Creates a Table of Contents for the pagebreak
 	 *
-	 * @param   object   &$row      The article object.  Note $article->text is also available
-	 * @param   array    &$matches  Array of matches of a regex in onContentPrepare
+	 * @param   object  &$row      The article object.  Note $article->text is also available
+	 * @param   array   &$matches  Array of matches of a regex in onContentPrepare
 	 *
 	 * @return  void
 	 *
