@@ -786,7 +786,7 @@ class JPagination
 			$data->start->base = '0';
 			$data->start->link = JRoute::_($params . '&' . $this->prefix);
 			$data->previous->base = $page;
-			if($page != '0')
+			if ($page != '0')
 			{
 				$data->previous->link = JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $page);
 			}
