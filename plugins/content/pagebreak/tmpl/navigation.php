@@ -13,16 +13,16 @@ $lang = JFactory::getLanguage();
 ?>
 <div class="pager">
 	<ul class="pager pagenav">
-	<?php if ($link_prev) :
-		$direction = $lang->isRtl() ? 'right' : 'left'; ?>
+	<?php if ($link_prev) : ?>
+		<?php $direction = $lang->isRtl() ? 'right' : 'left'; ?>
 		<li class="previous">
 			<a href="<?php echo $link_prev; ?>" rel="prev">
 				<?php echo '<span class="icon-chevron-' . $direction . '"></span>' . JText::_('JPREV'); ?>
 			</a>
 		</li>
 	<?php endif; ?>
-	<?php if ($link_next) :
-		$direction = $lang->isRtl() ? 'left' : 'right'; ?>
+	<?php if ($link_next) : ?>
+		<?php $direction = $lang->isRtl() ? 'left' : 'right'; ?>
 		<li class="next">
 			<a href="<?php echo $link_next; ?>" rel="next">
 				<?php echo JText::_('JNEXT') . '<span class="icon-chevron-' . $direction . '"></span>'; ?>

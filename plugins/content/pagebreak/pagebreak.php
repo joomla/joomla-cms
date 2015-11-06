@@ -231,15 +231,15 @@ class PlgContentPagebreak extends JPlugin
 
 						if (isset($match['alt']))
 						{
-							$title	= stripslashes($match['alt']);
+							$title = stripslashes($match['alt']);
 						}
 						elseif (isset($match['title']))
 						{
-							$title	= stripslashes($match['title']);
+							$title = stripslashes($match['title']);
 						}
 						else
 						{
-							$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
+							$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
 						}
 
 						$t[] = JHtml::_('bootstrap.addTab', 'myTab', 'article-' . $key, $title);
@@ -267,15 +267,15 @@ class PlgContentPagebreak extends JPlugin
 
 						if (isset($match['alt']))
 						{
-							$title	= stripslashes($match['alt']);
+							$title = stripslashes($match['alt']);
 						}
 						elseif (isset($match['title']))
 						{
-							$title	= stripslashes($match['title']);
+							$title = stripslashes($match['title']);
 						}
 						else
 						{
-							$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
+							$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
 						}
 
 						$t[] = JHtml::_('bootstrap.addSlide', 'collapseTypes', $title, 'collapse-' . $key);
@@ -333,8 +333,8 @@ class PlgContentPagebreak extends JPlugin
 		}
 		else
 		{
-			$link_next  = null;
-			$next 		= JText::_('JNEXT');
+			$link_next = null;
+			$next      = JText::_('JNEXT');
 		}
 
 		if ($page > 0)
@@ -344,8 +344,8 @@ class PlgContentPagebreak extends JPlugin
 		}
 		else
 		{
-			$link_prev  = null;
-			$prev 		= JText::_('JPREV');
+			$link_prev = null;
+			$prev      = JText::_('JPREV');
 		}
 
 		$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'navigation');
