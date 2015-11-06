@@ -244,7 +244,6 @@ class PlgContentPagebreak extends JPlugin
 	 *
 	 * @param   object   &$row      The article object.  Note $article->text is also available
 	 * @param   array    &$matches  Array of matches of a regex in onContentPrepare
-	 * @param   integer  &$page     The 'page' number
 	 *
 	 * @return  void
 	 *
