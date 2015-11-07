@@ -135,7 +135,7 @@ class JTableAsset extends JTableNested
 	 * @return  integer  1 + value of root rgt on success, false on failure
 	 *
 	 * @link    https://docs.joomla.org/JTableNested/rebuild
-	 * @since   11.1
+	 * @since   3.5
 	 * @throws  RuntimeException on database error.
 	 */
 	public function rebuild($parentId = null, $leftId = 0, $level = 0, $path = null)
