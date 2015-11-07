@@ -546,7 +546,6 @@ a:focus {
 }
 p {
 	margin: 0 0 9px;
-	word-wrap: break-word;
 }
 .lead {
 	margin-bottom: 18px;
@@ -622,7 +621,6 @@ h6 {
 	line-height: 18px;
 	color: inherit;
 	text-rendering: optimizelegibility;
-	word-wrap: break-word;
 }
 h1 small,
 h2 small,
@@ -7058,6 +7056,7 @@ h4,
 h5,
 h6 {
 	margin: 12px 0;
+	word-wrap: break-word;
 }
 h1 {
 	font-size: 26px;
@@ -7087,6 +7086,9 @@ h6 {
 	padding-bottom: 17px;
 	margin: 20px 0 18px 0;
 	border-bottom: 1px solid #eeeeee;
+}
+p {
+	word-wrap: break-word;
 }
 .item-title {
 	margin-bottom: 9px;
