@@ -198,7 +198,7 @@ class FinderModelIndex extends JModelList
 		if ($this->getState('filter.search') != '')
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
-			$query->where('l.title LIKE ' . $search . ' OR l.url LIKE ' . $search . ' OR l.indexdate LIKE  ' . $search);
+			$query->where('l.title LIKE ' . $search . ' OR l.url LIKE ' . $search);
 		}
 
 		// Handle the list ordering.
