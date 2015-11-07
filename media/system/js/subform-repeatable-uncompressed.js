@@ -66,7 +66,8 @@
 	$.subformRepeatable.prototype.prepareTemplate = function(){
 		// create from template
 		if(this.options.rowTemplateSelector){
-			this.template = $.trim(this.$container.find(this.options.rowTemplateSelector).text());
+			var tmplElement = this.$container.find(this.options.rowTemplateSelector)[0] || {};
+			this.template = $.trim(tmplElement.text || tmplElement.textContent); //(text || textContent) is IE8 fix
 		}
 		// create from existing rows
 		else {
