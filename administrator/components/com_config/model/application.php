@@ -410,13 +410,20 @@ class ConfigModelApplication extends ConfigModelForm
 				$this->db->setQuery($query);
 
 				$result = $this->db->execute();
-
-				return $result;
 			}
 		}
 		catch (Exception $e)
 		{
 			return $e->getMessage();
 		}
+
+		// Not allways we get true on success e.g. PDO but allways false if it fails. 
+		if ($result == false)
+		{
+			return false;
+		}
+
+		// If the result is not false lets all works as expected.
+		return true;
 	}
 }
