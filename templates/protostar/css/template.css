@@ -546,6 +546,7 @@ a:focus {
 }
 p {
 	margin: 0 0 9px;
+	word-wrap: break-word;
 }
 .lead {
 	margin-bottom: 18px;
@@ -621,6 +622,7 @@ h6 {
 	line-height: 18px;
 	color: inherit;
 	text-rendering: optimizelegibility;
+	word-wrap: break-word;
 }
 h1 small,
 h2 small,
