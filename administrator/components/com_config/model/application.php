@@ -417,7 +417,7 @@ class ConfigModelApplication extends ConfigModelForm
 			return $e->getMessage();
 		}
 
-		// Not allways we get true on success e.g. PDO but allways false if it fails. 
+		// Not allways we get true on success e.g. PDO but allways false if it fails.
 		if ($result == false)
 		{
 			return false;
