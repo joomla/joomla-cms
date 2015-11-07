@@ -7502,3 +7502,6 @@ body.modal-open {
 	padding: 5px 10px;
 	overflow: hidden;
 }
+li {
+	word-wrap: break-word;
+}
