@@ -45,8 +45,10 @@ class PlgSystemStats extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		// Only run this in admin
-		if (!$this->app->isAdmin())
+		$option = JFactory::getApplication()->input->get('option', 'com_cpanel');
+
+		// Only run this in admin on the start
+		if (!$this->app->isAdmin() || $option != 'com_cpanel')
 		{
 			return;
 		}
