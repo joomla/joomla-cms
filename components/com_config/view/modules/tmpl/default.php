@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.framework', true);
 JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
 
