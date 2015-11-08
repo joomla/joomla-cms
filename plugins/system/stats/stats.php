@@ -79,9 +79,11 @@ class PlgSystemStats extends JPlugin
 			return;
 		}
 
-		// Do we need to run? Compare the last run timestamp stored in the plugin's options with the current
-		// timestamp. If the difference is greater than the cache timeout we shall not execute again.
-		// 12 hours - 60*60*12 = 43200
+		/*
+		 * Do we need to run? Compare the last run timestamp stored in the plugin's options with the current
+		 * timestamp. If the difference is greater than the cache timeout we shall not execute again.
+		 * 12 hours - 60*60*12 = 43200
+		 */
 		if (!defined('PLG_SYSTEM_STATS_DEBUG') && (abs($now - $last) < 43200))
 		{
 			return;
