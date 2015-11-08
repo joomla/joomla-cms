@@ -51,20 +51,6 @@ class PlgSystemStats extends JPlugin
 			return;
 		}
 
-		// Do we need to run? Compare the last run timestamp stored in the plugin's options with the current
-		// timestamp. If the difference is greater than the cache timeout we shall not execute again.
-		$now  = time();
-		$last = (int) $this->params->get('lastrun', 0);
-
-		// 12 hours - 60*60*12 = 43200
-		if (!defined('PLG_SYSTEM_STATS_DEBUG') && (abs($now - $last) < 43200))
-		{
-			return;
-		}
-
-		// Update last run status
-		$this->params->set('lastrun', $now);
-
 		$uniqueId = $this->params->get('unique_id', '');
 
 		/*
@@ -77,48 +63,34 @@ class PlgSystemStats extends JPlugin
 			$this->params->set('unique_id', $uniqueId);
 		}
 
-		$query = $this->db->getQuery(true)
-			->update($this->db->quoteName('#__extensions'))
-			->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))
-			->where($this->db->quoteName('type') . ' = ' . $this->db->quote('plugin'))
-			->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('system'))
-			->where($this->db->quoteName('element') . ' = ' . $this->db->quote('stats'));
+		$last = (int) $this->params->get('lastrun', 0);
 
-		try
+		// What's the time?
+		$now  = time();
+
+		if ($last == 0)
 		{
-			// Lock the tables to prevent multiple plugin executions causing a race condition
-			$this->db->lockTable('#__extensions');
-		}
-		catch (Exception $e)
-		{
-			// If we can't lock the tables it's too risky to continue execution
+			// This is the first run of the plugin, we save a last time some hours in the future
+			// It allows people to disable the plugin before data is send the first time
+			$this->params->set('lastrun', $now + 21600);
+
+			$result = $this->saveParams();
+
 			return;
 		}
 
-		try
+		// Do we need to run? Compare the last run timestamp stored in the plugin's options with the current
+		// timestamp. If the difference is greater than the cache timeout we shall not execute again.
+		// 12 hours - 60*60*12 = 43200
+		if (!defined('PLG_SYSTEM_STATS_DEBUG') && (abs($now - $last) < 43200))
 		{
-			// Update the plugin parameters
-			$result = $this->db->setQuery($query)->execute();
-
-			$this->clearCacheGroups(array('com_plugins'), array(0, 1));
-		}
-		catch (Exception $exc)
-		{
-			// If we failed to execute
-			$this->db->unlockTables();
-			$result = false;
+			return;
 		}
 
-		try
-		{
-			// Unlock the tables after writing
-			$this->db->unlockTables();
-		}
-		catch (Exception $e)
-		{
-			// If we can't lock the tables assume we have somehow failed
-			$result = false;
-		}
+		// Update last run status
+		$this->params->set('lastrun', $now);
+
+		$result = $this->saveParams();
 
 		// Abort on failure
 		if (!$result)
@@ -156,6 +128,61 @@ class PlgSystemStats extends JPlugin
 			// An unexpected error in processing; don't let this failure kill the site
 			JLog::add('Unexpected error connecting to statistics server: ' . $e->getMessage(), JLog::WARNING, 'stats');
 		}
+	}
+
+	/**
+	 * Save the plugin parameters
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.5
+	 */
+	private function saveParams()
+	{
+		$query = $this->db->getQuery(true)
+				->update($this->db->quoteName('#__extensions'))
+				->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))
+				->where($this->db->quoteName('type') . ' = ' . $this->db->quote('plugin'))
+				->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('system'))
+				->where($this->db->quoteName('element') . ' = ' . $this->db->quote('stats'));
+
+		try
+		{
+			// Lock the tables to prevent multiple plugin executions causing a race condition
+			$this->db->lockTable('#__extensions');
+		}
+		catch (Exception $e)
+		{
+			// If we can't lock the tables it's too risky to continue execution
+			return false;
+		}
+
+		try
+		{
+			// Update the plugin parameters
+			$result = $this->db->setQuery($query)->execute();
+
+			$this->clearCacheGroups(array('com_plugins'), array(0, 1));
+		}
+		catch (Exception $exc)
+		{
+			// If we failed to execute
+			$this->db->unlockTables();
+			$result = false;
+		}
+
+		try
+		{
+			// Unlock the tables after writing
+			$this->db->unlockTables();
+		}
+		catch (Exception $e)
+		{
+			// If we can't lock the tables assume we have somehow failed
+			$result = false;
+		}
+
+		return $result;
 	}
 
 	/**
