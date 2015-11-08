@@ -714,7 +714,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   12.2
 	 */
-	protected function getAlterDbCharacterSet($dbName)
+	public function getAlterDbCharacterSet($dbName)
 	{
 		$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
 
