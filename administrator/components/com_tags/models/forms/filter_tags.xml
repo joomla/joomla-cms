@@ -4,14 +4,11 @@
 		<field
 			name="search"
 			type="text"
-			label="COM_TAGS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 		<field
 			name="published"
 			type="status"
-			label="COM_TAGS_FILTER_PUBLISHED"
-			description="COM_TAGS_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -19,8 +16,6 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_FILTER_ACCESS"
-			description="JOPTION_FILTER_ACCESS_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -28,8 +23,6 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_FILTER_LANGUAGE"
-			description="JOPTION_FILTER_LANGUAGE_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -40,8 +33,6 @@
 		<field
             name="fullordering"
 			type="list"
-			label="COM_TAGS_LIST_FULL_ORDERING"
-			description="COM_TAGS_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
 			default="a.id DESC"
 			>
@@ -64,8 +55,6 @@
 			type="limitbox"
 			class="input-mini"
 			default="25"
-			label="COM_TAGS_LIST_LIMIT"
-			description="COM_TAGS_LIST_LIMIT_DESC"
 			onchange="this.form.submit();"
 		/>
 	</fields>

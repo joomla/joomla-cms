@@ -4,15 +4,12 @@
         <field
                 name="search"
                 type="text"
-                label="COM_FINDER_FILTER_SEARCH_DESC"
                 hint="JSEARCH_FILTER"
                 />
         <field
                 name="state"
                 type="status"
                 filter="*,0,1"
-                label="COM_FINDER_FILTER_PUBLISHED"
-                description="COM_FINDER_FILTER_PUBLISHED_DESC"
                 onchange="this.form.submit();"
                 >
             <option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -22,8 +19,6 @@
                 type="sql"
                 default="0"
                 query="SELECT id AS value, title AS type FROM #__finder_types ORDER BY title"
-                label="JOPTION_FILTER_CATEGORY"
-                description="JOPTION_FILTER_CATEGORY_DESC"
                 onchange="this.form.submit();"
                 >
             <option value="">COM_FINDER_MAPS_SELECT_TYPE</option>
@@ -35,8 +30,6 @@
                 type="limitbox"
                 class="input-mini"
                 default="25"
-                label="COM_FINDER_LIST_LIMIT"
-                description="COM_FINDER_LIST_LIMIT_DESC"
                 onchange="this.form.submit();"
                 />
     </fields>

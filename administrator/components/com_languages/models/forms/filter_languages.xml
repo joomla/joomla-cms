@@ -28,8 +28,6 @@
 		<field
 				name="sortTable"
 				type="list"
-				label="JGLOBAL_SORT_BY"
-				description="JFIELD_ORDERING_DESC"
 				onchange="Joomla.orderTable();"
 				default="a.id DESC"
 				>
@@ -48,8 +46,6 @@
 		<field
 				name="directionTable"
 				type="list"
-				label="JGLOBAL_ORDER_DIRECTION_LABEL"
-				description="JGLOBAL_ORDER_DIRECTION_DESC"
 				onchange="Joomla.tableOrdering();"
 				>
 			<option value="">JGLOBAL_ORDER_DIRECTION_LABEL</option>

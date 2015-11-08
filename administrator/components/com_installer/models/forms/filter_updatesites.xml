@@ -20,8 +20,6 @@
         <field
                 name="enabled"
                 type="list"
-                label="COM_PLUGINS_FILTER_PUBLISHED"
-                description="COM_PLUGINS_FILTER_PUBLISHED_DESC"
                 onchange="this.form.submit();"
                 >
             <option value="">JOPTION_SELECT_PUBLISHED</option>
