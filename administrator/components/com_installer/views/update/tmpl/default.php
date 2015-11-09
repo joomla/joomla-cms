@@ -50,6 +50,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
 					</th>
 					<th width="10%">
+						<?php echo JText::_('JVERSIONCURRENT'); ?>
+					</th>
+					<th width="10%">
 						<?php echo JText::_('JVERSION'); ?>
 					</th>
 					<th>
@@ -91,6 +94,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					</td>
 					<td>
 						<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type) ?>
+					</td>
+					<td>
+						<?php echo json_decode($item->manifest_cache, true)['version']; ?>
 					</td>
 					<td>
 						<?php echo $item->version ?>
