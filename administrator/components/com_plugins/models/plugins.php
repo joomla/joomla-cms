@@ -9,286 +9,162 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Methods supporting a list of plugin records.
- *
- * @since  1.6
- */
-class PluginsModelPlugins extends JModelList
+// Include the component HTML helpers.
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
+JHtml::_('bootstrap.tooltip');
+JHtml::_('behavior.multiselect');
+JHtml::_('formbehavior.chosen', 'select');
+
+$user      = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$canOrder  = $user->authorise('core.edit.state', 'com_plugins');
+$saveOrder = $listOrder == 'ordering';
+
+if ($saveOrder)
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
-	 * @see     JController
-	 * @since   1.6
-	 */
-	public function __construct($config = array())
+	$saveOrderingUrl = 'index.php?option=com_plugins&task=plugins.saveOrderAjax&tmpl=component';
+	JHtml::_('sortablelist.sortable', 'pluginList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+}
+
+$sortFields = $this->getSortFields();
+
+JFactory::getDocument()->addScriptDeclaration('
+	Joomla.orderTable = function()
 	{
-		if (empty($config['filter_fields']))
+		table = document.getElementById("list_sortTable");
+		direction = document.getElementById("list_directionTable");
+		order = table.options[table.selectedIndex].value;
+		if (order != "' . $listOrder . '")
 		{
-			$config['filter_fields'] = array(
-				'extension_id', 'a.extension_id',
-				'name', 'a.name',
-				'folder', 'a.folder',
-				'element', 'a.element',
-				'checked_out', 'a.checked_out',
-				'checked_out_time', 'a.checked_out_time',
-				'state', 'a.state',
-				'enabled', 'a.enabled',
-				'access', 'a.access', 'access_level',
-				'ordering', 'a.ordering',
-				'client_id', 'a.client_id',
-			);
-		}
-
-		parent::__construct($config);
-	}
-
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function populateState($ordering = null, $direction = null)
-	{
-		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$accessId = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', null, 'int');
-		$this->setState('filter.access', $accessId);
-
-		$state = $this->getUserStateFromRequest($this->context . '.filter.enabled', 'filter_enabled', '', 'string');
-		$this->setState('filter.enabled', $state);
-
-		$folder = $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', null, 'cmd');
-		$this->setState('filter.folder', $folder);
-
-		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
-		$this->setState('filter.language', $language);
-
-		// Load the parameters.
-		$params = JComponentHelper::getParams('com_plugins');
-		$this->setState('params', $params);
-
-		// List state information.
-		parent::populateState('folder', 'asc');
-	}
-
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param   string  $id  A prefix for the store id.
-	 *
-	 * @return  string    A store id.
-	 */
-	protected function getStoreId($id = '')
-	{
-		// Compile the store id.
-		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.access');
-		$id .= ':' . $this->getState('filter.state');
-		$id .= ':' . $this->getState('filter.folder');
-		$id .= ':' . $this->getState('filter.language');
-
-		return parent::getStoreId($id);
-	}
-
-	/**
-	 * Returns an object list.
-	 *
-	 * @param   JDatabaseQuery  $query       A database query object.
-	 * @param   integer         $limitstart  Offset.
-	 * @param   integer         $limit       The number of records.
-	 *
-	 * @return  array
-	 */
-	protected function _getList($query, $limitstart = 0, $limit = 0)
-	{
-		$search = $this->getState('filter.search');
-		$ordering = $this->getState('list.ordering', 'ordering');
-
-		// If "Sort Table By:" is not set, set ordering to name
-		if ($ordering == '')
-		{
-			$ordering = "name";
-		}
-
-		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
-		{
-			$this->_db->setQuery($query);
-			$result = $this->_db->loadObjectList();
-			$this->translate($result);
-
-			if (!empty($search))
-			{
-				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
-
-				foreach ($result as $i => $item)
-				{
-					if (!preg_match("/$escapedSearchString/i", $item->name))
-					{
-						unset($result[$i]);
-					}
-				}
-			}
-
-			$direction = ($this->getState('list.direction') == 'desc') ? -1 : 1;
-			JArrayHelper::sortObjects($result, $ordering, $direction, true, true);
-
-			$total = count($result);
-			$this->cache[$this->getStoreId('getTotal')] = $total;
-
-			if ($total < $limitstart)
-			{
-				$limitstart = 0;
-				$this->setState('list.start', 0);
-			}
-
-			return array_slice($result, $limitstart, $limit ? $limit : null);
+			dirn = "asc";
 		}
 		else
 		{
-			if ($ordering == 'ordering')
-			{
-				$query->order('a.folder ASC');
-				$ordering = 'a.ordering';
-			}
-
-			$query->order($this->_db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
-
-			if ($ordering == 'folder')
-			{
-				$query->order('a.ordering ASC');
-			}
-
-			$result = parent::_getList($query, $limitstart, $limit);
-			$this->translate($result);
-
-			return $result;
+			dirn = direction.options[direction.selectedIndex].value;
 		}
-	}
+		Joomla.tableOrdering(order, dirn, "");
+	};
+');
+?>
 
-	/**
-	 * Translate a list of objects.
-	 *
-	 * @param   array  &$items  The array of objects.
-	 *
-	 * @return  array The array of translated objects.
-	 */
-	protected function translate(&$items)
-	{
-		$lang = JFactory::getLanguage();
+<form action="<?php echo JRoute::_('index.php?option=com_plugins&view=plugins'); ?>" method="post" name="adminForm" id="adminForm">
+<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<div class="clearfix"> </div>
+		<?php if (empty($this->items)) : ?>
+			<div class="alert alert-no-items">
+				<?php echo JText::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'); ?>
+			</div>
+		<?php else : ?>
+			<table class="table table-striped" id="pluginList">
+				<thead>
+					<tr>
+						<th width="1%" class="hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', '', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+						</th>
+						<th width="1%" class="hidden-phone">
+							<?php echo JHtml::_('grid.checkall'); ?>
+						</th>
+						<th width="1%" class="nowrap center" style="min-width:55px">
+							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
+						</th>
+						<th class="title">
+							<?php echo JHtml::_('searchtools.sort', 'COM_PLUGINS_NAME_HEADING', 'name', $listDirn, $listOrder); ?>
+						</th>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'COM_PLUGINS_FOLDER_HEADING', 'folder', $listDirn, $listOrder); ?>
+						</th>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'COM_PLUGINS_ELEMENT_HEADING', 'element', $listDirn, $listOrder); ?>
+						</th>
+						<th width="5%" class="hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access', $listDirn, $listOrder); ?>
+						</th>
+						<th width="1%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
+						</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<td colspan="12">
+							<?php echo $this->pagination->getListFooter(); ?>
+						</td>
+					</tr>
+				</tfoot>
+				<tbody>
+				<?php foreach ($this->items as $i => $item) :
+					$ordering   = ($listOrder == 'ordering');
+					$canEdit    = $user->authorise('core.edit',       'com_plugins');
+					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
+					$canChange  = $user->authorise('core.edit.state', 'com_plugins') && $canCheckin;
+					?>
+					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->folder?>">
+						<td class="order nowrap center hidden-phone">
+							<?php
+							$iconClass = '';
+							if (!$canChange)
+							{
+								$iconClass = ' inactive';
+							}
+							elseif (!$saveOrder)
+							{
+								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+							}
+							?>
+							<span class="sortable-handler<?php echo $iconClass ?>">
+								<span class="icon-menu"></span>
+							</span>
+							<?php if ($canChange && $saveOrder) : ?>
+								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering;?>" class="width-20 text-area-order " />
+							<?php endif; ?>
+						</td>
+						<td class="center hidden-phone">
+							<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
+						</td>
+						<td class="center">
+							<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'plugins.', $canChange); ?>
+						</td>
+						<td>
+							<?php if ($item->checked_out) : ?>
+								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'plugins.', $canCheckin); ?>
+							<?php endif; ?>
+							<?php if ($canEdit) : ?>
+								<a href="<?php echo JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . (int) $item->extension_id); ?>">
+									<?php echo $item->name; ?></a>
+							<?php else : ?>
+									<?php echo $item->name; ?>
+							<?php endif; ?>
+						</td>
+						<td class="nowrap small hidden-phone">
+							<?php echo $this->escape($item->folder);?>
+						</td>
+						<td class="nowrap small hidden-phone">
+							<?php echo $this->escape($item->element);?>
+						</td>
+						<td class="small hidden-phone">
+							<?php echo $this->escape($item->access_level); ?>
+						</td>
+						<td class="hidden-phone">
+							<?php echo (int) $item->extension_id;?>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+				</tbody>
+			</table>
+		<?php endif;?>
 
-		foreach ($items as &$item)
-		{
-			$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
-			$extension = 'plg_' . $item->folder . '_' . $item->element;
-			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-				|| $lang->load($extension . '.sys', $source, null, false, true);
-			$item->name = JText::_($item->name);
-		}
-	}
-
-	/**
-	 * Build an SQL query to load the list data.
-	 *
-	 * @return  JDatabaseQuery
-	 */
-	protected function getListQuery()
-	{
-		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		// Select the required fields from the table.
-		$query->select(
-			$this->getState(
-				'list.select',
-				'a.extension_id , a.name, a.element, a.folder, a.checked_out, a.checked_out_time,' .
-					' a.enabled, a.access, a.ordering'
-			)
-		)
-			->from($db->quoteName('#__extensions') . ' AS a')
-			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
-
-		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor')
-			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
-
-		// Join over the asset groups.
-		$query->select('ag.title AS access_level')
-			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
-
-		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
-		{
-			$query->where('a.access = ' . (int) $access);
-		}
-
-		// Filter by published state.
-		$published = $this->getState('filter.enabled');
-
-		if (is_numeric($published))
-		{
-			$query->where('a.enabled = ' . (int) $published);
-		}
-		elseif ($published === '')
-		{
-			$query->where('(a.enabled IN (0, 1))');
-		}
-
-		// Filter by state.
-		$query->where('a.state >= 0');
-
-		// Filter by folder.
-		if ($folder = $this->getState('filter.folder'))
-		{
-			$query->where('a.folder = ' . $db->quote($folder));
-		}
-
-		// Filter by search in name or id.
-		$search = $this->getState('filter.search');
-
-		if (!empty($search))
-		{
-			if (stripos($search, 'id:') === 0)
-			{
-				$query->where('a.extension_id = ' . (int) substr($search, 3));
-			}
-		}
-
-		return $query;
-	}
-
-	/**
-	 * Method to get the data that should be injected in the form.
-	 *
-	 * @return	mixed	The data for the form.
-	 *
-	 * @since	3.5
-	 */
-	protected function loadFormData()
-	{
-		$data = parent::loadFormData();
-
-		// Set the selected filter values for pages that use the JLayouts for filtering
-		$data->list['sortTable'] = $this->state->get('list.ordering');
-		$data->list['directionTable'] = $this->state->get('list.direction');
-
-		return $data;
-	}
-}
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="boxchecked" value="0" />
+		<?php echo JHtml::_('form.token'); ?>
+	</div>
+</form>
