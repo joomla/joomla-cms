@@ -53,7 +53,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo JText::_('JVERSIONCURRENT'); ?>
 					</th>
 					<th width="10%">
-						<?php echo JText::_('JVERSION'); ?>
+						<?php echo JText::_('JVERSIONUPDATE'); ?>
 					</th>
 					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
