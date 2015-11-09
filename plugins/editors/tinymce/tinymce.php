@@ -707,13 +707,12 @@ class PlgEditorTinymce extends JPlugin
 			$mode         = 0;
 		}
 
-		switch ($mode)
-		{
-			case 0: /* Simple mode*/
-				JFactory::getDocument()->addScriptDeclaration(
-					"
+		$script = "
 		tinymce.init({
-			// General
+		";
+
+		// General
+		$script .= "
 			directionality: \"$text_direction\",
 			selector: \"textarea.mce_editable\",
 			language : \"$langPrefix\",
@@ -722,101 +721,71 @@ class PlgEditorTinymce extends JPlugin
 			$skin
 			theme : \"$theme\",
 			schema: \"html5\",
-			menubar: false,
-			toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | $toolbar5 | code\",
-			plugins: \"$dragDropPlg code\",
-			// Cleanup/Output
+			";
+
+		// Cleanup/Output
+		$script .= "
 			inline_styles : true,
 			gecko_spellcheck : true,
 			entity_encoding : \"$entity_encoding\",
 			$forcenewline
 			$smallButtons
-			// URL
+		";
+
+		// URL
+		$script .= "
 			relative_urls : $relative_urls,
 			remove_script_host : false,
-			// Layout
+		";
+
+		// Layout
+		$script .= "
 			$content_css
 			document_base_url : \"" . JUri::root() . "\",
 			setup: function (editor) {
-				$tinyBtns
+		$tinyBtns
 			},
-			paste_data_images: $allowImgPaste
+			paste_data_images: $allowImgPaste,
+		";
+		switch ($mode)
+		{
+			case 0: /* Simple mode*/
+				$script .= "
+			menubar: false,
+			toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | $toolbar5 | code\",
+			plugins: \"$dragDropPlg code\",
 		});
-		"
-				);
+		";
 				break;
 
 			case 1:
 			default: /* Advanced mode*/
 			$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
 				. "| outdent indent | undo redo | link unlink anchor image | hr table | subscript superscript | charmap";
-				JFactory::getDocument()->addScriptDeclaration(
-					"
-		tinyMCE.init({
-			// General
-			directionality: \"$text_direction\",
-			language : \"$langPrefix\",
-			mode : \"specific_textareas\",
-			autosave_restore_when_empty: false,
-			$skin
-			theme : \"$theme\",
-			schema: \"html5\",
-			selector: \"textarea.mce_editable\",
-			// Cleanup/Output
-			inline_styles : true,
-			gecko_spellcheck : true,
-			entity_encoding : \"$entity_encoding\",
+
+			$script .= "
 			valid_elements : \"$valid_elements\",
 			extended_valid_elements : \"$elements\",
-			$forcenewline
-			$smallButtons
 			invalid_elements : \"$invalid_elements\",
 			// Plugins
 			plugins : \"table link image code hr charmap autolink lists importcss $dragDropPlg\",
 			// Toolbar
 			toolbar1: \"$toolbar1 | $toolbar5 | code\",
 			removed_menuitems: \"newdocument\",
-			// URL
-			relative_urls : $relative_urls,
-			remove_script_host : false,
-			document_base_url : \"" . JUri::root() . "\",
 			// Layout
-			$content_css
 			importcss_append: true,
 			// Advanced Options
 			$resizing
 			height : \"$html_height\",
-			width : \"$html_width\",
-			setup: function (editor) {
-				$tinyBtns
-			},
-			paste_data_images: $allowImgPaste
+			width : \"$html_width\"
 		});
-			"
-				);
+			";
 				break;
 
 			case 2: /* Extended mode*/
-				JFactory::getDocument()->addScriptDeclaration(
-					"
-		tinyMCE.init({
-			// General
-			directionality: \"$text_direction\",
-			language : \"$langPrefix\",
-			mode : \"specific_textareas\",
-			autosave_restore_when_empty: false,
-			$skin
-			theme : \"$theme\",
-			schema: \"html5\",
-			selector: \"textarea.mce_editable\",
-			// Cleanup/Output
-			inline_styles : true,
-			gecko_spellcheck : true,
-			entity_encoding : \"$entity_encoding\",
+					$script .= "
 			valid_elements : \"$valid_elements\",
 			extended_valid_elements : \"$elements\",
-			$forcenewline
-			$smallButtons
 			invalid_elements : \"$invalid_elements\",
 			// Plugins
 			plugins : \"$plugins $dragDropPlg\",
@@ -824,9 +793,6 @@ class PlgEditorTinymce extends JPlugin
 			toolbar1: \"$toolbar1 | code\",
 			removed_menuitems: \"newdocument\",
 			// URL
-			relative_urls : $relative_urls,
-			remove_script_host : false,
-			document_base_url : \"" . JUri::root() . "\",
 			rel_list : [
 				{title: 'Alternate', value: 'alternate'},
 				{title: 'Author', value: 'author'},
@@ -845,34 +811,18 @@ class PlgEditorTinymce extends JPlugin
 			//Templates
 			" . $templates . "
 			// Layout
-			$content_css
 			importcss_append: true,
 			// Advanced Options
 			$resizing
 			image_advtab: $image_advtab,
 			height : \"$html_height\",
 			width : \"$html_width\",
-			setup: function (editor) {
-				$tinyBtns
-			},
-			paste_data_images: $allowImgPaste
 		});
-		"
-				);
+		";
 				break;
 		}
 
-		if (!empty($btnsNames))
-		{
-			JFactory::getDocument()->addScriptDeclaration(
-				"
-		function jInsertEditorText( text, editor )
-		{
-			tinyMCE.activeEditor.execCommand('mceInsertContent', false, text);
-		}
-			"
-			);
-		}
+		JFactory::getDocument()->addScriptDeclaration($script);
 
 		return;
 	}
@@ -886,7 +836,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onGetContent($editor)
 	{
-		return 'tinyMCE.activeEditor.getContent();';
+		return 'tinyMCE.getElementById("' . $editor . '").getContent();';
 	}
 
 	/**
@@ -899,7 +849,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onSetContent($editor, $html)
 	{
-		return 'tinyMCE.activeEditor.setContent(' . $html . ');';
+		return 'tinyMCE.getElementById("' . $editor .'").setContent(' . $html . ');';
 	}
 
 	/**
@@ -925,6 +875,15 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onGetInsertMethod($name)
 	{
+		JFactory::getDocument()->addScriptDeclaration(
+			"
+		function jInsertEditorText( text, editor )
+		{
+			tinyMCE.get('" . $name . "').execCommand('mceInsertContent', false, text);
+		}
+			"
+		);
+
 		return;
 	}
 
