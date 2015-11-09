@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * JCrypt is a Joomla Platform class for handling basic encryption/decryption of data.
  *
@@ -270,8 +272,8 @@ class JCrypt
 		$known .= chr(0);
 		$unknown .= chr(0);
 
-		$knownLength = strlen($known);
-		$unknownLength = strlen($unknown);
+		$knownLength = StringHelper::strlen($known);
+		$unknownLength = StringHelper::strlen($unknown);
 
 		// Set the result to the difference between the lengths
 		$result = $knownLength - $unknownLength;
