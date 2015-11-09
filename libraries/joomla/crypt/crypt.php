@@ -270,8 +270,8 @@ class JCrypt
 		$known .= chr(0);
 		$unknown .= chr(0);
 
-		$knownLength = strlen($known);
-		$unknownLength = strlen($unknown);
+		$knownLength = static::safeStrlen($known);
+		$unknownLength = static::safeStrlen($unknown);
 
 		// Set the result to the difference between the lengths
 		$result = $knownLength - $unknownLength;
@@ -310,5 +310,92 @@ class JCrypt
 		}
 
 		return true;
+	}
+
+	/**
+	 * Safely detect a string's length
+	 *
+	 * This method is derived from \ParagonIE\Halite\Util::safeStrlen()
+	 *
+	 * @param   string  $str  String to check the length of
+	 *
+	 * @return  integer
+	 *
+	 * @since   3.5
+	 * @ref     mbstring.func_overload
+	 * @throws  RuntimeException
+	 */
+	public static function safeStrlen($str)
+	{
+		static $exists = null;
+
+		if ($exists === null)
+		{
+			$exists = function_exists('mb_strlen');
+		}
+
+		if ($exists)
+		{
+			$length = mb_strlen($str, '8bit');
+
+			if ($length === false)
+			{
+				throw new RuntimeException('mb_strlen() failed unexpectedly');
+			}
+
+			return $length;
+		}
+
+		// If we reached here, we can rely on strlen to count bytes:
+		return \strlen($str);
+	}
+
+	/**
+	 * Safely extract a substring
+	 *
+	 * This method is derived from \ParagonIE\Halite\Util::safeSubstr()
+	 *
+	 * @param   string   $str     The string to extract the substring from
+	 * @param   integer  $start   The starting position to extract from
+	 * @param   integer  $length  The length of the string to return
+	 *
+	 * @return  string
+	 *
+	 * @since   3.5
+	 */
+	public static function safeSubstr($str, $start, $length = null)
+	{
+		static $exists = null;
+
+		if ($exists === null)
+		{
+			$exists = function_exists('mb_substr');
+		}
+
+		if ($exists)
+		{
+			// In PHP 5.3 mb_substr($str, 0, NULL, '8bit') returns an empty string, so we have to find the length ourselves.
+			if ($length === null)
+			{
+				if ($start >= 0)
+				{
+					$length = static::safeStrlen($str) - $start;
+				}
+				else
+				{
+					$length = -$start;
+				}
+			}
+
+			return mb_substr($str, $start, $length, '8bit');
+		}
+
+		// Unlike mb_substr(), substr() doesn't accept NULL for length
+		if ($length !== null)
+		{
+			return substr($str, $start, $length);
+		}
+
+		return substr($str, $start);
 	}
 }
