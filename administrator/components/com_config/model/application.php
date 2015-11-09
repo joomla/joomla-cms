@@ -422,7 +422,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 				$result = $this->db->execute();
 
-				return $result;
+				return (bool) $result;
 			}
 		}
 		catch (Exception $e)
