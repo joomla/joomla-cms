@@ -4,7 +4,7 @@
 			'option' : 'com_ajax',
 			'group'  : 'system',
 			'plugin' : 'renderStatsMessage',
-			'format' : 'json'
+			'format' : 'raw'
 			},
 			messageContainer = $('#system-message-container');
 
@@ -32,9 +32,7 @@
 				detailsContainer.remove();
 				ajaxData.plugin = 'sendAlways';
 
-				$.getJSON('index.php', ajaxData, function(response){
-
-				});
+				$.getJSON('index.php', ajaxData, function(response){});
 				e.preventDefault();
 			});
 
@@ -47,9 +45,7 @@
 
 				ajaxData.plugin = 'sendOnce';
 
-				$.getJSON('index.php', ajaxData, function(response){
-
-				});
+				$.getJSON('index.php', ajaxData, function(response){});
 				e.preventDefault();
 			});
 
@@ -62,20 +58,21 @@
 
 				ajaxData.plugin = 'sendNever';
 
-				$.getJSON('index.php', ajaxData, function(response){
-				});
+				$.getJSON('index.php', ajaxData, function(response){});
 				e.preventDefault();
 			});
 		}
 
-		ajaxData.plugin = 'renderStatsMessage';
+		ajaxData.plugin = 'sendStats';
 
 		$.getJSON('index.php', ajaxData, function(response){
-			messageContainer
-				.append(response.data[0].html)
-				.find('.js-pstats-alert').show(200);
+			if (response && response.html) {
+				messageContainer
+					.append(response.html)
+					.find('.js-pstats-alert').show(200);
 
-			initStatsEvents();
+				initStatsEvents();
+			}
 		});
 	});
 })(jQuery);

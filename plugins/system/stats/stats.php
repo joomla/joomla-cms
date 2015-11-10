@@ -60,6 +60,13 @@ class PlgSystemStats extends JPlugin
 	protected $db;
 
 	/**
+	 * Url to send the statistics.
+	 *
+	 * @var  string
+	 */
+	protected $serverUrl = 'https://developer.joomla.org/stats/submit';
+
+	/**
 	 * Unique identifier for this site
 	 *
 	 * @var    string
@@ -76,25 +83,13 @@ class PlgSystemStats extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		if (!$this->app->isAdmin() || !$this->isAllowedUser() || !$this->isUpdateRequired())
+		if (!$this->app->isAdmin() || !$this->isAllowedUser())
 		{
 			return;
 		}
 
-		$mode = (int) $this->params->get('mode');
-
-		// Plugin parameters are saved and send always enabled
-		if ($mode === static::MODE_ALLOW_ALWAYS)
+		if (!$this->isDebugEnabled() && !$this->isUpdateRequired())
 		{
-			try
-			{
-				$this->sendStats();
-			}
-			catch (Exception $e)
-			{
-				JLog::add($e->getMessage(), JLog::WARNING, 'stats');
-			}
-
 			return;
 		}
 
@@ -103,30 +98,14 @@ class PlgSystemStats extends JPlugin
 	}
 
 	/**
-	 * Get the user message rendered
-	 *
-	 * @return  array
-	 *
-	 * @since   3.5
-	 */
-	public function onAjaxRenderStatsMessage()
-	{
-		if (!$this->isAllowedUser() || !$this->isAjaxRequest())
-		{
-			throw new Exception(JText::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
-		}
-
-		return array(
-			'html' => $this->getRenderer('message')->render($this->getLayoutData())
-		);
-	}
-
-	/**
 	 * User selected to always send data
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
+	 *
+	 * @throws  Exception         If user is not allowed.
+	 * @throws  RuntimeException  If there is an error saving the params or sending the data.
 	 */
 	public function onAjaxSendAlways()
 	{
@@ -143,6 +122,8 @@ class PlgSystemStats extends JPlugin
 		}
 
 		$this->sendStats();
+
+		echo json_encode(array('sent' => 1));
 	}
 
 	/**
@@ -151,6 +132,9 @@ class PlgSystemStats extends JPlugin
 	 * @return  void
 	 *
 	 * @since   3.5
+	 *
+	 * @throws  Exception         If user is not allowed.
+	 * @throws  RuntimeException  If there is an error saving the params.
 	 */
 	public function onAjaxSendNever()
 	{
@@ -165,6 +149,8 @@ class PlgSystemStats extends JPlugin
 		{
 			throw new RuntimeException('Unable to save plugin settings', 500);
 		}
+
+		echo json_encode(array('sent' => 0));
 	}
 
 	/**
@@ -173,6 +159,9 @@ class PlgSystemStats extends JPlugin
 	 * @return  void
 	 *
 	 * @since   3.5
+	 *
+	 * @throws  Exception         If user is not allowed.
+	 * @throws  RuntimeException  If there is an error saving the params or sending the data.
 	 */
 	public function onAjaxSendOnce()
 	{
@@ -189,6 +178,49 @@ class PlgSystemStats extends JPlugin
 		}
 
 		$this->sendStats();
+
+		echo json_encode(array('sent' => 1));
+	}
+
+	/**
+	 * Send the stats to the server.
+	 * On first load | on demand mode it will show a message asking users to select mode.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 *
+	 * @throws  Exception         If user is not allowed.
+	 * @throws  RuntimeException  If there is an error saving the params or sending the data.
+	 */
+	public function onAjaxSendStats()
+	{
+		if (!$this->isAllowedUser() || !$this->isAjaxRequest())
+		{
+			throw new Exception(JText::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+		}
+
+		// User has not selected the mode. Show message.
+		if ((int) $this->params->get('mode') !== static::MODE_ALLOW_ALWAYS)
+		{
+			$data = array(
+				'sent' => 0,
+				'html' => $this->getRenderer('message')->render($this->getLayoutData())
+			);
+
+			echo json_encode($data);
+
+			return;
+		}
+
+		if (!$this->saveParams())
+		{
+			throw new RuntimeException('Unable to save plugin settings', 500);
+		}
+
+		$this->sendStats();
+
+		echo json_encode(array('sent' => 1));
 	}
 
 	/**
@@ -321,7 +353,7 @@ class PlgSystemStats extends JPlugin
 		}
 
 		// Never updated or debug enabled
-		if (!$last || !$interval || $this->isDebugEnabled())
+		if (!$last || $this->isDebugEnabled())
 		{
 			return true;
 		}
@@ -338,7 +370,7 @@ class PlgSystemStats extends JPlugin
 	 */
 	private function isAjaxRequest()
 	{
-		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
+		return strtolower($this->app->input->server->get('HTTP_X_REQUESTED_WITH', '')) == 'xmlhttprequest';
 	}
 
 	/**
@@ -408,13 +440,15 @@ class PlgSystemStats extends JPlugin
 	 * @return  boolean
 	 *
 	 * @since   3.5
+	 *
+	 * @throws  RuntimeException  If there is an error sending the data.
 	 */
 	private function sendStats()
 	{
 		try
 		{
 			// Don't let the request take longer than 2 seconds to avoid page timeout issues
-			$response = JHttpFactory::getHttp()->post($this->params->get('url', 'https://developer.joomla.org/stats/submit'), $this->getStatsData(), null, 2);
+			JHttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), null, 2);
 		}
 		catch (UnexpectedValueException $e)
 		{
