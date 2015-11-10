@@ -62,7 +62,8 @@ class PlgSystemStats extends JPlugin
 	/**
 	 * Url to send the statistics.
 	 *
-	 * @var  string
+	 * @var    string
+	 * @since  3.5
 	 */
 	protected $serverUrl = 'https://developer.joomla.org/stats/submit';
 
