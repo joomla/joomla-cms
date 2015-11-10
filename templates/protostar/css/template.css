@@ -7498,7 +7498,7 @@ body.modal-open {
 #users-profile-custom label {
 	display: inline;
 }
-.modal-body {
+.field-media-wrapper .modal .modal-body {
 	padding: 5px 10px;
 	overflow: hidden;
 }
