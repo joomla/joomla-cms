@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// Uncomment the following line to enable debug mode (stats sent every single time)
-// define('PLG_SYSTEM_STATS_DEBUG', 1);
-
 /**
  * Statistics system plugin. This sends anonymous data back to the Joomla! Project about the
  * PHP, SQL, Joomla and OS versions
@@ -21,12 +18,38 @@ defined('_JEXEC') or die;
 class PlgSystemStats extends JPlugin
 {
 	/**
+	 * @const  integer
+	 * @since  3.5
+	 */
+	const MODE_ALLOW_ALWAYS = 1;
+
+	/**
+	 * @const  integer
+	 * @since  3.5
+	 */
+	const MODE_ALLOW_ONCE = 2;
+
+	/**
+	 * @const  integer
+	 * @since  3.5
+	 */
+	const MODE_ALLOW_NEVER = 3;
+
+	/**
 	 * Application object
 	 *
 	 * @var    JApplicationCms
 	 * @since  3.5
 	 */
 	protected $app;
+
+	/**
+	 * Load plugin language files automatically
+	 *
+	 * @var    boolean
+	 * @since  3.5
+	 */
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Database object
@@ -37,6 +60,14 @@ class PlgSystemStats extends JPlugin
 	protected $db;
 
 	/**
+	 * Unique identifier for this site
+	 *
+	 * @var    string
+	 * @since  3.5
+	 */
+	protected $uniqueId;
+
+	/**
 	 * Listener for the `onAfterInitialise` event
 	 *
 	 * @return  void
@@ -45,91 +76,269 @@ class PlgSystemStats extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		// Only run this in admin
-		if (!$this->app->isAdmin())
+		if (!$this->app->isAdmin() || !$this->isAllowedUser() || !$this->isUpdateRequired())
 		{
 			return;
 		}
 
-		$uniqueId = $this->params->get('unique_id', '');
+		$mode = (int) $this->params->get('mode');
 
-		/*
-		 * If the unique ID is empty (because we have never submitted a piece of data before or because the refresh button
-		 * has been used - generate a new ID and store it in the database for future use.
-		 */
-		if (empty($uniqueId))
+		// Plugin parameters are saved and send always enabled
+		if ($mode === static::MODE_ALLOW_ALWAYS)
 		{
-			$uniqueId = hash('sha1', JUserHelper::genRandomPassword(28) . time());
-			$this->params->set('unique_id', $uniqueId);
-		}
-
-		$last = (int) $this->params->get('lastrun', 0);
-
-		// What's the time?
-		$now  = time();
-
-		if ($last == 0)
-		{
-			// This is the first run of the plugin, we save a last time some hours in the future
-			// It allows people to disable the plugin before data is send the first time
-			$this->params->set('lastrun', $now + 21600);
-
-			$result = $this->saveParams();
+			try
+			{
+				$this->sendStats();
+			}
+			catch (Exception $e)
+			{
+				JLog::add($e->getMessage(), JLog::WARNING, 'stats');
+			}
 
 			return;
 		}
 
-		/*
-		 * Do we need to run? Compare the last run timestamp stored in the plugin's options with the current
-		 * timestamp. If the difference is greater than the cache timeout we shall not execute again.
-		 * 12 hours - 60*60*12 = 43200
-		 */
-		if (!defined('PLG_SYSTEM_STATS_DEBUG') && (abs($now - $last) < 43200))
+		JHtml::_('jquery.framework');
+		JHtml::script('plg_system_stats/stats.js', false, true, false);
+	}
+
+	/**
+	 * Get the user message rendered
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function onAjaxRenderStatsMessage()
+	{
+		if (!$this->isAllowedUser() || !$this->isAjaxRequest())
 		{
-			return;
+			throw new Exception(JText::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
 		}
 
-		// Update last run status
-		$this->params->set('lastrun', $now);
+		return array(
+			'html' => $this->getRenderer('message')->render($this->getLayoutData())
+		);
+	}
 
-		$result = $this->saveParams();
-
-		// Abort on failure
-		if (!$result)
+	/**
+	 * User selected to always send data
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function onAjaxSendAlways()
+	{
+		if (!$this->isAllowedUser() || !$this->isAjaxRequest())
 		{
-			return;
+			throw new Exception(JText::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
 		}
 
-		$data = array(
-			'unique_id'   => $uniqueId,
+		$this->params->set('mode', static::MODE_ALLOW_ALWAYS);
+
+		if (!$this->saveParams())
+		{
+			throw new RuntimeException('Unable to save plugin settings', 500);
+		}
+
+		$this->sendStats();
+	}
+
+	/**
+	 * User selected to never send data.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function onAjaxSendNever()
+	{
+		if (!$this->isAllowedUser() || !$this->isAjaxRequest())
+		{
+			throw new Exception(JText::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+		}
+
+		$this->params->set('mode', static::MODE_ALLOW_NEVER);
+
+		if (!$this->saveParams())
+		{
+			throw new RuntimeException('Unable to save plugin settings', 500);
+		}
+	}
+
+	/**
+	 * User selected to send data once.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function onAjaxSendOnce()
+	{
+		if (!$this->isAllowedUser() || !$this->isAjaxRequest())
+		{
+			throw new Exception(JText::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+		}
+
+		$this->params->set('mode', static::MODE_ALLOW_ONCE);
+
+		if (!$this->saveParams())
+		{
+			throw new RuntimeException('Unable to save plugin settings', 500);
+		}
+
+		$this->sendStats();
+	}
+
+	/**
+	 * Get the data for the layout
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	protected function getLayoutData()
+	{
+		return array(
+			'plugin'       => $this,
+			'pluginParams' => $this->params,
+			'statsData'    => $this->getStatsData()
+		);
+	}
+
+	/**
+	 * Get the layout paths
+	 *
+	 * @return  array()
+	 *
+	 * @since   3.5
+	 */
+	protected function getLayoutsPaths()
+	{
+		$template = JFactory::getApplication()->getTemplate();
+
+		return array(
+			JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/' . $this->_type . '/' . $this->_name,
+			__DIR__ . '/layouts',
+		);
+	}
+
+	/**
+	 * Get the plugin renderer
+	 *
+	 * @param   string  $layoutId  Layout identifier
+	 *
+	 * @return  JLayout
+	 *
+	 * @since   3.5
+	 */
+	protected function getRenderer($layoutId = 'default')
+	{
+		$renderer = new JLayoutFile($layoutId);
+
+		$renderer->setIncludePaths($this->getLayoutsPaths());
+
+		return $renderer;
+	}
+
+	/**
+	 * Get the data that will be sent to the stats server.
+	 *
+	 * @return  array.
+	 *
+	 * @since   3.5
+	 */
+	private function getStatsData()
+	{
+		return array(
+			'unique_id'   => $this->getUniqueId(),
 			'php_version' => PHP_VERSION,
 			'db_type'     => $this->db->name,
 			'db_version'  => $this->db->getVersion(),
 			'cms_version' => JVERSION,
 			'server_os'   => php_uname('s') . ' ' . php_uname('r')
 		);
+	}
 
-		// Don't let the request take longer than 2 seconds to avoid page timeout issues
-		try
+	/**
+	 * Get the unique id. Generates one if none is set.
+	 *
+	 * @return  integer
+	 *
+	 * @since   3.5
+	 */
+	private function getUniqueId()
+	{
+		if (null === $this->uniqueId)
 		{
-			// Don't let the request take longer than 2 seconds to avoid page timeout issues
-			JHttpFactory::getHttp()->post($this->params->get('url', 'https://developer.joomla.org/stats/submit'), $data, null, 2);
+			$this->uniqueId = $this->params->get('unique_id', hash('sha1', JUserHelper::genRandomPassword(28) . time()));
 		}
-		catch (UnexpectedValueException $e)
+
+		return $this->uniqueId;
+	}
+
+	/**
+	 * Check if current user is allowed to send the data
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.5
+	 */
+	private function isAllowedUser()
+	{
+		return JFactory::getUser()->authorise('core.admin');
+	}
+
+	/**
+	 * Check if the debug is enabled
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.5
+	 */
+	private function isDebugEnabled()
+	{
+		return ((int) $this->params->get('debug', 0) === 1);
+	}
+
+	/**
+	 * Check if last_run + interval > now
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.5
+	 */
+	private function isUpdateRequired()
+	{
+		$last     = (int) $this->params->get('lastrun', 0);
+		$interval = (int) $this->params->get('interval', 12);
+		$mode     = (int) $this->params->get('mode', 0);
+
+		if ($mode === static::MODE_ALLOW_NEVER)
 		{
-			// There was an error sending stats. Should we do anything?
-			JLog::add('Could not send site statistics to remote server: ' . $e->getMessage(), JLog::WARNING, 'stats');
+			return false;
 		}
-		catch (RuntimeException $e)
+
+		// Never updated or debug enabled
+		if (!$last || !$interval || $this->isDebugEnabled())
 		{
-			// There was an error connecting to the server or in the post request
-			JLog::add('Could not connect to statistics server: ' . $e->getMessage(), JLog::WARNING, 'stats');
+			return true;
 		}
-		catch (Exception $e)
-		{
-			// An unexpected error in processing; don't let this failure kill the site
-			JLog::add('Unexpected error connecting to statistics server: ' . $e->getMessage(), JLog::WARNING, 'stats');
-		}
+
+		return (abs(time() - $last) > $interval * 3600);
+	}
+
+	/**
+	 * Check valid AJAX request
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.5
+	 */
+	private function isAjaxRequest()
+	{
+		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
 	}
 
 	/**
@@ -141,6 +350,12 @@ class PlgSystemStats extends JPlugin
 	 */
 	private function saveParams()
 	{
+		// Update params
+		$this->params->set('lastrun', time());
+		$this->params->set('unique_id', $this->getUniqueId());
+		$interval = (int) $this->params->get('interval', 12);
+		$this->params->set('interval', $interval ? $interval : 12);
+
 		$query = $this->db->getQuery(true)
 				->update($this->db->quoteName('#__extensions'))
 				->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))
@@ -185,6 +400,39 @@ class PlgSystemStats extends JPlugin
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Send the stats to the stats server
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.5
+	 */
+	private function sendStats()
+	{
+		try
+		{
+			// Don't let the request take longer than 2 seconds to avoid page timeout issues
+			$response = JHttpFactory::getHttp()->post($this->params->get('url', 'https://developer.joomla.org/stats/submit'), $this->getStatsData(), null, 2);
+		}
+		catch (UnexpectedValueException $e)
+		{
+			// There was an error sending stats. Should we do anything?
+			throw new RuntimeException('Could not send site statistics to remote server: ' . $e->getMessage(), 500);
+		}
+		catch (RuntimeException $e)
+		{
+			// There was an error connecting to the server or in the post request
+			throw new RuntimeException('Could not connect to statistics server: ' . $e->getMessage(), 500);
+		}
+		catch (Exception $e)
+		{
+			// An unexpected error in processing; don't let this failure kill the site
+			throw new RuntimeException('Unexpected error connecting to statistics server: ' . $e->getMessage(), 500);
+		}
+
+		return true;
 	}
 
 	/**
