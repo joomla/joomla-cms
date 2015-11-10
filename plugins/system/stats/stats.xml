@@ -10,8 +10,9 @@
 	<version>3.5.0</version>
 	<description>PLG_SYSTEM_STATS_XML_DESCRIPTION</description>
 	<files>
-		<filename plugin="stats">stats.php</filename>
 		<folder>fields</folder>
+		<folder>layouts</folder>
+		<filename plugin="stats">stats.php</filename>
 	</files>
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.plg_system_stats.ini</language>
@@ -28,20 +29,43 @@
 					size="10"
 				/>
 				<field
-					name="url"
-					type="url"
-					filter="url"
-					size="30"
-					default="https://developer.joomla.org/stats/submit"
-					description="PLG_SYSTEM_STATS_URL_DESC"
-					label="PLG_SYSTEM_STATS_URL_LABEL"					
+					name="interval"
+					type="text"
+					filter="integer"
+					default="12"
+					description="PLG_SYSTEM_STATS_INTERVAL_DESC"
+					label="PLG_SYSTEM_STATS_INTERVAL_LABEL"
 				/>
+				<field
+					name="mode"
+					type="list"
+					default="1"
+					description="PLG_SYSTEM_STATS_MODE_DESC"
+					label="PLG_SYSTEM_STATS_MODE_LABEL"
+				>
+					<option value="1">PLG_SYSTEM_STATS_MODE_OPTION_ALWAYS_SEND</option>
+					<option value="2">PLG_SYSTEM_STATS_MODE_OPTION_ON_DEMAND</option>
+					<option value="3">PLG_SYSTEM_STATS_MODE_OPTION_NEVER_SEND</option>
+				</field>
 				<field
 					name="lastrun"
 					type="hidden"
 					default="0"
 					size="15"
 				/>
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="debug"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					description="PLG_SYSTEM_STATS_DEBUG_DESC"
+					label="PLG_SYSTEM_STATS_DEBUG_LABEL"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
