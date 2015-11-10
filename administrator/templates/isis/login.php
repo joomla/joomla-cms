@@ -24,8 +24,13 @@ JHtml::_('bootstrap.tooltip');
 // Add Stylesheets
 $doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
 
-// Add CustomStylesheets
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/custom' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
+// Load custom.css
+$file = 'templates/' . $this->template . '/css/custom.css';
+
+if (is_file($file))
+{
+	$doc->addStyleSheetVersion($file);
+}
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
