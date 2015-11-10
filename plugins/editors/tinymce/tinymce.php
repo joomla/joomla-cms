@@ -849,7 +849,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onSetContent($editor, $html)
 	{
-		return 'tinyMCE.getElementById("' . $editor .'").setContent(' . $html . ');';
+		return 'tinyMCE.getElementById("' . $editor . '").setContent(' . $html . ');';
 	}
 
 	/**
