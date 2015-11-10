@@ -29,15 +29,6 @@
 					size="10"
 				/>
 				<field
-					name="url"
-					type="url"
-					filter="url"
-					size="30"
-					default="https://developer.joomla.org/stats/submit"
-					description="PLG_SYSTEM_STATS_URL_DESC"
-					label="PLG_SYSTEM_STATS_URL_LABEL"
-				/>
-				<field
 					name="interval"
 					type="text"
 					filter="integer"
@@ -57,6 +48,14 @@
 					<option value="3">PLG_SYSTEM_STATS_MODE_OPTION_NEVER_SEND</option>
 				</field>
 				<field
+					name="lastrun"
+					type="hidden"
+					default="0"
+					size="15"
+				/>
+			</fieldset>
+			<fieldset name="advanced">
+				<field
 					name="debug"
 					type="radio"
 					class="btn-group btn-group-yesno"
@@ -67,12 +66,6 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				<field
-					name="lastrun"
-					type="hidden"
-					default="0"
-					size="15"
-				/>
 			</fieldset>
 		</fields>
 	</config>
