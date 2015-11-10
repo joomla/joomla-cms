@@ -33,6 +33,12 @@ class ContentRouter extends JComponentRouterBase
 		$params = JComponentHelper::getParams('com_content');
 		$advanced = $params->get('sef_advanced_link', 0);
 
+		// Unset limitstart=0 since it's pointless
+		if (isset($query['limitstart']) && $query['limitstart'] == 0)
+		{
+			unset($query['limitstart']);
+		}
+
 		// We need a menu item.  Either the one specified in the query, or the current active one if none specified
 		if (empty($query['Itemid']))
 		{
