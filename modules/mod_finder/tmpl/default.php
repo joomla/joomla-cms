@@ -24,28 +24,30 @@ $output = '<input type="text" name="q" id="mod-finder-searchword" class="search-
 	. $params->get('field_size', 20) . '" value="' . htmlspecialchars(JFactory::getApplication()->input->get('q', '', 'string')) . '"'
 	. ' placeholder="' . JText::_('MOD_FINDER_SEARCH_VALUE') . '"/>';
 
-$showLabel  = $params->get('show_label', 1);
-$labelClass = (!$showLabel ? 'element-invisible ' : '') . 'finder' . $suffix;
-$label      = '<label for="mod-finder-searchword" class="' . $labelClass . '">' . $params->get('alt_label', JText::_('JSEARCH_FILTER_SUBMIT')) . '</label>';
 
-switch ($params->get('label_pos', 'left'))
+if ($params->get('show_label', 1))
 {
-	case 'top' :
-		$output = $label . '<br />' . $output;
-		break;
+	$label = '<label for="mod-finder-searchword" class="finder' . $suffix . '">' . $params->get('alt_label', JText::_('JSEARCH_FILTER_SUBMIT')) . '</label>';
 
-	case 'bottom' :
-		$output .= '<br />' . $label;
-		break;
+	switch ($params->get('label_pos', 'left'))
+	{
+		case 'top' :
+			$output = $label . '<br />' . $output;
+			break;
 
-	case 'right' :
-		$output .= $label;
-		break;
+		case 'bottom' :
+			$output .= '<br />' . $label;
+			break;
 
-	case 'left' :
-	default :
-		$output = $label . $output;
-		break;
+		case 'right' :
+			$output .= $label;
+			break;
+
+		case 'left' :
+		default :
+			$output = $label . $output;
+			break;
+	}
 }
 
 if ($params->get('show_button'))
