@@ -152,7 +152,7 @@ class JTableCategory extends JTableNested
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = 'a'.JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		return true;
@@ -235,10 +235,12 @@ class JTableCategory extends JTableNested
 			return false;
 		}
 
-		// Verify if the alias starts with a number and send a notice in this case.
-		if (preg_match('/^\d/', $this->alias) === 1)
+		// Verify if the alias starts with a number
+		if (preg_match('/^\d/', $this->alias) === 1 && $this->modified_time === $this->created_time)
 		{
-			JError::raiseNotice(100, JText::_('JLIB_DATABASE_ERROR_ALIAS_STARTS_WITH_A_NUMBER'));
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_ALIAS_STARTS_WITH_A_NUMBER'));
+
+			return false;
 		}
 
 		return parent::store($updateNulls);
