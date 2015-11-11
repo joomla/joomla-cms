@@ -10,7 +10,7 @@
 	<version>3.5.0</version>
 	<description>PLG_SYSTEM_STATS_XML_DESCRIPTION</description>
 	<files>
-		<folder>fields</folder>
+		<folder>field</folder>
 		<folder>layouts</folder>
 		<filename plugin="stats">stats.php</filename>
 	</files>
@@ -19,11 +19,16 @@
 		<language tag="en-GB">en-GB/en-GB.plg_system_stats.sys.ini</language>
 	</languages>
 	<config>
-		<fields name="params" addfieldpath="/plugins/system/stats/fields">
+		<fields name="params" addfieldpath="/plugins/system/stats/field">
 			<fieldset name="basic">
 				<field
+					name="data"
+					type="plgsystemstats.data"
+					label=""
+				/>
+				<field
 					name="unique_id"
-					type="stats.uniqueid"
+					type="plgsystemstats.uniqueid"
 					description="PLG_SYSTEM_STATS_UNIQUE_ID_DESC"
 					label="PLG_SYSTEM_STATS_UNIQUE_ID_LABEL"
 					size="10"

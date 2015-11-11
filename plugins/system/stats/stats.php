@@ -230,6 +230,20 @@ class PlgSystemStats extends JPlugin
 	}
 
 	/**
+	 * Get the data through events
+	 *
+	 * @param   string  $context  Context where this will be called from
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function onGetStatsData($context)
+	{
+		return $this->getStatsData();
+	}
+
+	/**
 	 * Get the data for the layout
 	 *
 	 * @return  array
@@ -252,7 +266,7 @@ class PlgSystemStats extends JPlugin
 	 *
 	 * @since   3.5
 	 */
-	protected function getLayoutsPaths()
+	protected function getLayoutPaths()
 	{
 		$template = JFactory::getApplication()->getTemplate();
 
@@ -271,11 +285,11 @@ class PlgSystemStats extends JPlugin
 	 *
 	 * @since   3.5
 	 */
-	protected function getRenderer($layoutId = 'default')
+	public function getRenderer($layoutId = 'default')
 	{
 		$renderer = new JLayoutFile($layoutId);
 
-		$renderer->setIncludePaths($this->getLayoutsPaths());
+		$renderer->setIncludePaths($this->getLayoutPaths());
 
 		return $renderer;
 	}
