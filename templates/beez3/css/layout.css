@@ -852,6 +852,10 @@ ul.menu ul ul ul ul a {
 	display: inline
 }
 
+ul.latestnews li {
+	word-wrap: break-word;
+}
+
 /* ++++++++++++++++++++++  Footer +++++++++++++++++++++++++ */
 #footer-outer
 {font-size:0.8em}
