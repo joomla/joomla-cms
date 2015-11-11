@@ -870,6 +870,9 @@ class PlgEditorTinymce extends JPlugin
 		{
 			tinyMCE.activeEditor.execCommand('mceInsertContent', false, text);
 		}
+		function jModalClose() {
+				tinyMCE.activeEditor.windowManager.close();
+		}
 			"
 			);
 		}
