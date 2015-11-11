@@ -998,6 +998,18 @@ abstract class JFormField
 	}
 
 	/**
+	 * Allow to override renderer include paths in child fields
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	protected function getLayoutPaths()
+	{
+		return array();
+	}
+
+	/**
 	 * Get the renderer
 	 *
 	 * @param   string  $layoutId  Id to load
@@ -1006,11 +1018,18 @@ abstract class JFormField
 	 *
 	 * @since   3.5
 	 */
-	protected function getRenderer($layoutId = 'default')
+	public function getRenderer($layoutId = 'default')
 	{
 		$renderer = new JLayoutFile($layoutId);
 
 		$renderer->setDebug($this->isDebugEnabled());
+
+		$layoutPaths = $this->getLayoutPaths();
+
+		if ($layoutPaths)
+		{
+			$renderer->setIncludePaths($layoutPaths);
+		}
 
 		return $renderer;
 	}
