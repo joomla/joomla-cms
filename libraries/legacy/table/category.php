@@ -152,7 +152,7 @@ class JTableCategory extends JTableNested
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
-			$this->alias = 'a'.JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = 'a' . JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		return true;
