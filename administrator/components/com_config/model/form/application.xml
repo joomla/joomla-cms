@@ -215,6 +215,7 @@
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_HOST_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_HOST_DESC"
+			required="true"
 			filter="string"
 			size="30" />
 
@@ -223,6 +224,7 @@
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_USERNAME_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_USERNAME_DESC"
+			required="true"
 			filter="string"
 			size="30" />
 
@@ -231,6 +233,7 @@
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_NAME_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_NAME_DESC"
+			required="true"
 			filter="string"
 			size="30" />
 
