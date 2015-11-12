@@ -34,7 +34,7 @@ class SearchViewSearches extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Set variables
-		$app			  = JFactory::getApplication();
+		$app              = JFactory::getApplication();
 		$this->items      = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
 		$this->state      = $this->get('State');

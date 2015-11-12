@@ -2835,10 +2835,6 @@ input[type="submit"].btn.btn-mini {
 .alert-block p + p {
 	margin-top: 5px;
 }
-.j-jed-message {
-	line-height: 2em;
-	color:#333333;
-}
 .nav {
 	margin-left: 0;
 	margin-bottom: 18px;
@@ -7678,6 +7674,10 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 }
 .alert-joomlaupdate button {
 	vertical-align: baseline;
+}
+.j-jed-message {
+	line-height: 2em;
+	color: #333333;
 }
 .form-horizontal .control-label {
 	width: auto;
