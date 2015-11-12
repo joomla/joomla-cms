@@ -64,6 +64,3 @@ JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 
 // Register the PasswordHash lib
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
-
-// Register the Crypto lib
-JLoader::register('Crypto', JPATH_PLATFORM . '/defuse/php-encryption/Crypto.php');
