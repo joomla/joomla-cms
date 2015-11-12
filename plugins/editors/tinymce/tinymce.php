@@ -870,6 +870,21 @@ class PlgEditorTinymce extends JPlugin
 		{
 			tinyMCE.activeEditor.execCommand('mceInsertContent', false, text);
 		}
+		function jModalClose() {
+			tinyMCE.activeEditor.windowManager.close();
+		}
+		var SqueezeBox;
+		if (SqueezeBox != undefined)
+		{
+			var otherStr = 'SqueezeBox.close', otherCallback;
+			otherCallback = new Function(otherStr);
+			otherCallback.call(SqueezeBox.close);
+		} else {
+			var SqueezeBox = {};
+			SqueezeBox.close = function(){
+				tinyMCE.activeEditor.windowManager.close();
+			}
+		}
 			"
 			);
 		}
@@ -1033,10 +1048,24 @@ class PlgEditorTinymce extends JPlugin
 				// Get the modal width/height
 				if ($options)
 				{
-					preg_match('/x:\s*+\d{2,4}/', $options, $modalWidth);
-					preg_match('/y:\s*+\d{2,4}/', $options, $modalHeight);
-					$modalWidth  = filter_var(implode("", $modalWidth), FILTER_SANITIZE_NUMBER_INT);
-					$modalHeight = filter_var(implode("", $modalHeight), FILTER_SANITIZE_NUMBER_INT);
+					preg_match('/\s*+(window)/', $options, $matches);
+					if (in_array('window', $matches))
+					{
+//						$newOptions  = preg_split('/[\s,]+/', $options);
+//						preg_match('/x:\s*(.*),/', $options, $modalWidths);
+//						$modalWidth  = preg_replace('/x:\s*/', '', $modalWidths[1]);
+//						preg_match('/y:\s*(.*)}}/', $options, $modalHeights);
+//						$modalHeight = preg_replace('/x:\s*/', '', $modalHeights[1]);
+						$modalWidth  = '800';
+						$modalHeight = '600';
+					}
+					else
+					{
+						preg_match('/x:\s*+\d{2,4}/', $options, $modalWidth);
+						preg_match('/y:\s*+\d{2,4}/', $options, $modalHeight);
+						$modalWidth  = filter_var(implode("", $modalWidth), FILTER_SANITIZE_NUMBER_INT);
+						$modalHeight = filter_var(implode("", $modalHeight), FILTER_SANITIZE_NUMBER_INT);
+					}
 				}
 
 				// Now we can built the script
