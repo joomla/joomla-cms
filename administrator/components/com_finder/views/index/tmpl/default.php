@@ -107,7 +107,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<td>
 						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
 					</td>
-					<td>
+					<td class="pull-left break-word">
 						<label for="cb<?php echo $i ?>">
 							<strong>
 								<?php echo $this->escape($item->title); ?>

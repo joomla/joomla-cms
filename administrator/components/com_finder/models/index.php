@@ -194,11 +194,20 @@ class FinderModelIndex extends JModelList
 			$query->where('l.published = ' . (int) $this->getState('filter.state'));
 		}
 
-		// Check the search phrase.
+			// Check the search phrase.
 		if ($this->getState('filter.search') != '')
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
-			$query->where('l.title LIKE ' . $search . ' OR l.url LIKE ' . $search . ' OR l.indexdate LIKE  ' . $search);
+
+			// Do not filter by indexdate if $search contains non-ascii characters
+			if (preg_match('/[^\x00-\x7F]/', $search))
+			{
+				$query->where('l.title LIKE ' . $search . ' OR l.url LIKE ' . $search);
+			}
+			else
+			{
+				$query->where('l.title LIKE ' . $search . ' OR l.url LIKE ' . $search . ' OR l.indexdate LIKE  ' . $search);
+			}
 		}
 
 		// Handle the list ordering.
