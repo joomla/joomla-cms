@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 JLoader::register('FinderIndexer', __DIR__ . '/indexer.php');
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('FinderIndexerResult', __DIR__ . '/result.php');
@@ -551,7 +553,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$row = $this->db->loadAssoc();
 
 		// Convert the item to a result object.
-		$item = JArrayHelper::toObject($row, 'FinderIndexerResult');
+		$item = ArrayHelper::toObject((array) $row, 'FinderIndexerResult');
 
 		// Set the item type.
 		$item->type_id = $this->type_id;
@@ -586,7 +588,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		foreach ($rows as $row)
 		{
 			// Convert the item to a result object.
-			$item = JArrayHelper::toObject($row, 'FinderIndexerResult');
+			$item = ArrayHelper::toObject((array) $row, 'FinderIndexerResult');
 
 			// Set the item type.
 			$item->type_id = $this->type_id;
