@@ -141,21 +141,27 @@ class JCryptPasswordSimple implements JCryptPassword
 				$type = '$2y$';
 			}
 
-			$hash = $type . substr($hash, 4);
-
-			return (crypt($password, $hash) === $hash);
+			return password_verify($password, $hash);
 		}
 
 		// Check if the hash is an MD5 hash.
 		if (substr($hash, 0, 3) == '$1$')
 		{
-			return (crypt($password, $hash) === $hash);
+			return JCrypt::timingSafeCompare(crypt($password, $hash), $hash);
 		}
 
 		// Check if the hash is a Joomla hash.
 		if (preg_match('#[a-z0-9]{32}:[A-Za-z0-9]{32}#', $hash) === 1)
 		{
-			return md5($password . substr($hash, 33)) === substr($hash, 0, 32);
+			// Check the password
+			$parts = explode(':', $hash);
+			$salt  = @$parts[1];
+
+			// Compile the hash to compare
+			// If the salt is empty AND there is a ':' in the original hash, we must append ':' at the end
+			$testcrypt = md5($password . $salt) . ($salt ? ':' . $salt : (strpos($hash, ':') !== false ? ':' : ''));
+
+			return JCrypt::timingSafeCompare($hash, $testcrypt);
 		}
 
 		return false;
