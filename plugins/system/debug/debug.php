@@ -154,7 +154,6 @@ class PlgSystemDebug extends JPlugin
 		// Prepare disconnect handler for SQL profiling.
 		$db = JFactory::getDbo();
 		$db->addDisconnectHandler(array($this, 'mysqlDisconnectHandler'));
-		$db->disconnect();
 	}
 
 	/**
@@ -654,6 +653,7 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
+		$db->disconnect();
 		return implode('', $html);
 	}
 
