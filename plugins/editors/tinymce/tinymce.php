@@ -783,7 +783,7 @@ class PlgEditorTinymce extends JPlugin
 				break;
 
 			case 2: /* Extended mode*/
-					$script .= "
+			$script .= "
 			valid_elements : \"$valid_elements\",
 			extended_valid_elements : \"$elements\",
 			invalid_elements : \"$invalid_elements\",
@@ -820,6 +820,29 @@ class PlgEditorTinymce extends JPlugin
 		});
 		";
 				break;
+		}
+
+		if (!empty($btnsNames))
+		{
+			JFactory::getDocument()->addScriptDeclaration(
+					"
+		function jModalClose() {
+			tinyMCE.activeEditor.windowManager.close();
+		}
+		var SqueezeBox;
+		if (SqueezeBox != undefined)
+		{
+			var otherStr = 'SqueezeBox.close', otherCallback;
+			otherCallback = new Function(otherStr);
+			otherCallback.call(SqueezeBox.close);
+		} else {
+			var SqueezeBox = {};
+			SqueezeBox.close = function(){
+				tinyMCE.activeEditor.windowManager.close();
+			}
+		}
+			"
+			);
 		}
 
 		JFactory::getDocument()->addScriptDeclaration($script);
@@ -992,10 +1015,19 @@ class PlgEditorTinymce extends JPlugin
 				// Get the modal width/height
 				if ($options)
 				{
-					preg_match('/x:\s*+\d{2,4}/', $options, $modalWidth);
-					preg_match('/y:\s*+\d{2,4}/', $options, $modalHeight);
-					$modalWidth  = filter_var(implode("", $modalWidth), FILTER_SANITIZE_NUMBER_INT);
-					$modalHeight = filter_var(implode("", $modalHeight), FILTER_SANITIZE_NUMBER_INT);
+					preg_match('/\s*+(window)/', $options, $matches);
+					if (in_array('window', $matches))
+					{
+						$modalWidth  = '800';
+						$modalHeight = '600';
+					}
+					else
+					{
+						preg_match('/x:\s*+\d{2,4}/', $options, $modalWidth);
+						preg_match('/y:\s*+\d{2,4}/', $options, $modalHeight);
+						$modalWidth  = filter_var(implode("", $modalWidth), FILTER_SANITIZE_NUMBER_INT);
+						$modalHeight = filter_var(implode("", $modalHeight), FILTER_SANITIZE_NUMBER_INT);
+					}
 				}
 
 				// Now we can built the script
