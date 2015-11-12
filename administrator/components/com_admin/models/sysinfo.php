@@ -69,6 +69,7 @@ class AdminModelSysInfo extends JModelLegacy
 	protected $privateSettings = array(
 		'phpInfoArray' => array(
 			'CONTEXT_DOCUMENT_ROOT',
+			'Cookie',
 			'DOCUMENT_ROOT',
 			'extension_dir',
 			'Host',
