@@ -602,6 +602,7 @@ class PlgSystemDebug extends JPlugin
 		$html[] = '<div class="dbg-profile-list">' . implode('', $htmlMarks) . '</div>';
 
 		$db = JFactory::getDbo();
+
 		//  fix  for support custom shutdown function via register_shutdown_function().
 		$db->disconnect();
 
