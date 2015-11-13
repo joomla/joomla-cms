@@ -3,10 +3,10 @@
 If you're going to use JCrypt in any of your plugins, make *sure* you use **JCryptCipherCrypt**; it's the only one that's cryptographically secure. (It's [version 1.1 of Defuse Security's encryption library](https://github.com/defuse/php-encryption)).
 
 ```php
-$message = 'Sensitive field';
-$key = Crypto::CreateNewRandomKey(); // Store this for long-term use
-$ciphertext = Crypto::encrypt($message, $key);
-$decrypted = Crypto::decrypt($ciphertext, $key);
+$cipher = new JCryptCipherCrypto();
+$key = $cipher->generateKey(); // Store this for long-term use
+$ciphertext = $cipher->encrypt($message, $key);
+$decrypted = $cipher->decrypt($ciphertext, $key);
 ```
 
 ## Avoid these Ciphers if Possible
