@@ -16,7 +16,7 @@ $decrypted = $cipher->decrypt($ciphertext, $key);
 * `JcryptCipherMcrypt`
 * `JcryptCipherRijndael256`
 
-All of these ciphers are vulnerable to something called a [chosen-ciphertext attack](https://en.wikipedia.org/wiki/Chosen-ciphertext_attack). The only provable way to prevent chosen-ciphertext attacks is to [use uthenticated encryption](https://paragonie.com/blog/2015/05/using-encryption-and-authentication-correctly), preferrably in an [Encrypt-then-MAC construction](http://www.thoughtcrime.org/blog/the-cryptographic-doom-principle/).
+All of these ciphers are vulnerable to something called a [chosen-ciphertext attack](https://en.wikipedia.org/wiki/Chosen-ciphertext_attack). The only provable way to prevent chosen-ciphertext attacks is to [use authenticated encryption](https://paragonie.com/blog/2015/05/using-encryption-and-authentication-correctly), preferrably in an [Encrypt-then-MAC construction](http://www.thoughtcrime.org/blog/the-cryptographic-doom-principle/).
 
 The only JCrypt cipher that meets the *authenticated encryption* criteria is **`JCryptCipherCrypto`**.
 
