@@ -5,6 +5,8 @@ If you're going to use JCrypt in any of your plugins, make *sure* you use **JCry
 ```php
 $cipher = new JCryptCipherCrypto();
 $key = $cipher->generateKey(); // Store this for long-term use
+
+$message = "We're all living on a yellow submarine!";
 $ciphertext = $cipher->encrypt($message, $key);
 $decrypted = $cipher->decrypt($ciphertext, $key);
 ```
