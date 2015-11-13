@@ -238,15 +238,19 @@ class MenusViewItems extends JViewLegacy
 	{
 		$canDo = JHelperContent::getActions('com_menus');
 		$user  = JFactory::getUser();
+		$menuType = (array) JFactory::getApplication()->getUserState('com_menus.items.menutype');
 
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_TITLE'), 'list menumgr');
 
-		if ($canDo->get('core.create'))
+		if (!empty($menuType))
 		{
-			JToolbarHelper::addNew('item.add');
+			if ($canDo->get('core.create'))
+			{
+				JToolbarHelper::addNew('item.add');
+			}
 		}
 
 		if ($canDo->get('core.edit'))
@@ -276,17 +280,20 @@ class MenusViewItems extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', 'com_menus')
-			&& $user->authorise('core.edit', 'com_menus')
-			&& $user->authorise('core.edit.state', 'com_menus'))
+		if (!empty($menuType))
 		{
-			$title = JText::_('JTOOLBAR_BATCH');
+			if ($user->authorise('core.create', 'com_menus')
+				&& $user->authorise('core.edit', 'com_menus')
+				&& $user->authorise('core.edit.state', 'com_menus'))
+			{
+				$title = JText::_('JTOOLBAR_BATCH');
 
-			// Instantiate a new JLayoutFile instance and render the batch button
-			$layout = new JLayoutFile('joomla.toolbar.batch');
+				// Instantiate a new JLayoutFile instance and render the batch button
+				$layout = new JLayoutFile('joomla.toolbar.batch');
 
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
+				$dhtml = $layout->render(array('title' => $title));
+				$bar->appendButton('Custom', $dhtml, 'batch');
+			}
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
