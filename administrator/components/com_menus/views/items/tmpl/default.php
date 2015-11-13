@@ -32,6 +32,7 @@ if ($saveOrder)
 }
 
 $assoc = JLanguageAssociations::isEnabled();
+$menuType = (array) $app->getUserState('com_menus.items.menutype');
 ?>
 
 <?php // Set up the filter bar. ?>
@@ -56,9 +57,11 @@ $assoc = JLanguageAssociations::isEnabled();
 			<table class="table table-striped" id="itemList">
 				<thead>
 					<tr>
-						<th width="1%" class="hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-						</th>
+						<?php if (!empty($menuType)) : ?>
+							<th width="1%" class="hidden-phone">
+								<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+							</th>
+						<?php endif; ?>
 						<th width="1%" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
@@ -136,26 +139,28 @@ $assoc = JLanguageAssociations::isEnabled();
 					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id;?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
-						<td class="order nowrap center hidden-phone">
-							<?php
-							$iconClass = '';
+						<?php if (!empty($menuType)) : ?>
+							<td class="order nowrap center hidden-phone">
+								<?php
+								$iconClass = '';
 
-							if (!$canChange)
-							{
-								$iconClass = ' inactive';
-							}
-							elseif (!$saveOrder)
-							{
-								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
-							}
-							?>
-							<span class="sortable-handler<?php echo $iconClass ?>">
-								<span class="icon-menu"></span>
-							</span>
-							<?php if ($canChange && $saveOrder) : ?>
-								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" />
-							<?php endif; ?>
-						</td>
+								if (!$canChange)
+								{
+									$iconClass = ' inactive';
+								}
+								elseif (!$saveOrder)
+								{
+									$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+								}
+								?>
+								<span class="sortable-handler<?php echo $iconClass ?>">
+									<span class="icon-menu"></span>
+								</span>
+								<?php if ($canChange && $saveOrder) : ?>
+									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" />
+								<?php endif; ?>
+							</td>
+						<?php endif; ?>
 						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
