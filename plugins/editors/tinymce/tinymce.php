@@ -822,6 +822,14 @@ class PlgEditorTinymce extends JPlugin
 				break;
 		}
 
+		$script .= "
+		function jInsertEditorText( text, editor )
+		{
+			tinyMCE.activeEditor.execCommand('mceInsertContent', false, text);
+		}
+		";
+
+
 		if (!empty($btnsNames))
 		{
 			JFactory::getDocument()->addScriptDeclaration(
@@ -859,7 +867,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onGetContent($editor)
 	{
-		return 'tinyMCE.getElementById("' . $editor . '").getContent();';
+		return 'tinyMCE.get("' . $editor . '").getContent();';
 	}
 
 	/**
@@ -872,7 +880,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onSetContent($editor, $html)
 	{
-		return 'tinyMCE.getElementById("' . $editor . '").setContent(' . $html . ');';
+		return 'tinyMCE.get("' . $editor . '").setContent(' . $html . ');';
 	}
 
 	/**
@@ -898,15 +906,6 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onGetInsertMethod($name)
 	{
-		JFactory::getDocument()->addScriptDeclaration(
-			"
-		function jInsertEditorText( text, editor )
-		{
-			tinyMCE.get('" . $name . "').execCommand('mceInsertContent', false, text);
-		}
-			"
-		);
-
 		return;
 	}
 
