@@ -68,6 +68,9 @@ $assoc = JLanguageAssociations::isEnabled();
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
+						<th class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'a.menutype', $listDirn, $listOrder); ?>
+						</th>
 						<th width="5%" class="center nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
@@ -186,6 +189,9 @@ $assoc = JLanguageAssociations::isEnabled();
 								<span title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 									<?php echo $this->escape($item->item_type); ?></span>
 							</div>
+						</td>
+						<td class="small hidden-phone">
+							<?php echo $this->escape($item->menutype); ?>
 						</td>
 						<td class="center hidden-phone">
 							<?php if ($item->type == 'component') : ?>
