@@ -8146,7 +8146,7 @@ body.modal-open {
 	overflow: hidden;
 	-ms-overflow-style: none;
 }
-.modal-body {
+.field-media-wrapper .modal .modal-body {
 	padding: 5px 10px;
 	overflow: hidden;
 }
