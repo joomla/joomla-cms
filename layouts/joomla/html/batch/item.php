@@ -31,7 +31,7 @@ $options = array(
 		<?php echo JHtml::_('select.options', JHtml::_('category.options', $extension)); ?>
 	</select>
 </div>
-<div id="batch-copy-move" class="control-group radio">'
+<div id="batch-copy-move" class="control-group radio">
 	<?php echo JText::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
 	<?php echo JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
 </div>
