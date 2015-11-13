@@ -829,7 +829,6 @@ class PlgEditorTinymce extends JPlugin
 		}
 		";
 
-
 		if (!empty($btnsNames))
 		{
 			JFactory::getDocument()->addScriptDeclaration(
