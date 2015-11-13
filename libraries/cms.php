@@ -64,6 +64,9 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER))
 // Register JArrayHelper due to JRegistry moved to composer's vendor folder
 JLoader::register('JArrayHelper', JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php');
 
+// Register the Crypto lib
+JLoader::register('Crypto', JPATH_PLATFORM . '/php-encryption/Crypto.php');
+
 // Register classes where the names have been changed to fit the autoloader rules
 // @deprecated  4.0
 JLoader::register('JToolBar', JPATH_PLATFORM . '/cms/toolbar/toolbar.php');
