@@ -27,7 +27,8 @@ class UsersControllerUser extends UsersController
 	 */
 	public function login()
 	{
-		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		$currenturl = JURI::current();
+		JSession::checkToken('post') or jexit(JError::raiseError( 'Woops', 'Something went wrong.<br><br><a href= ' .  $currenturl . '   >Please <span style="text-decoration:underline">click here</span></a> to reload the page you were trying to access and try logging in again' ));
 
 		$app    = JFactory::getApplication();
 		$input  = $app->input;
