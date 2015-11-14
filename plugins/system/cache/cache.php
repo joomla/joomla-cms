@@ -55,19 +55,13 @@ class PlgSystemCache extends JPlugin
 		global $_PROFILER;
 
 		$app  = JFactory::getApplication();
-		$user = JFactory::getUser();
 
-		if ($app->isAdmin())
+		if ($app->isAdmin() || count($app->getMessageQueue()))
 		{
 			return;
 		}
 
-		if (count($app->getMessageQueue()))
-		{
-			return;
-		}
-
-		if ($user->get('guest') && $app->input->getMethod() == 'GET')
+		if (JFactory::getUser()->get('guest') && $app->input->getMethod() == 'GET')
 		{
 			$this->_cache->setCaching(true);
 		}
@@ -76,6 +70,9 @@ class PlgSystemCache extends JPlugin
 
 		if ($data !== false)
 		{
+			// Replace form token if exists (for any page with forms, com_users, com_contact, etc)
+			$data = preg_replace('%<input type="hidden" name="[A-Za-z0-9]+" value="1"\s+/>%', JHtml::_('form.token'), $data);
+
 			// Set cached body.
 			$app->setBody($data);
 
@@ -91,6 +88,28 @@ class PlgSystemCache extends JPlugin
 	}
 
 	/**
+	 * Verifying that the page is not excluded from cache
+	 *
+	 * @return   void
+	 *
+	 * @since   3.5
+	 */
+	public function onAfterRoute()
+	{
+		$app = JFactory::getApplication();
+
+		if ($app->isAdmin() || count($app->getMessageQueue()))
+		{
+			return;
+		}
+
+		if ($this->isExcluded())
+		{
+			$this->_cache->setCaching(false);
+		}
+	}
+
+	/**
 	 * After render.
 	 *
 	 * @return   void
@@ -101,19 +120,12 @@ class PlgSystemCache extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->isAdmin())
+		if ($app->isAdmin() || count($app->getMessageQueue()))
 		{
 			return;
 		}
 
-		if (count($app->getMessageQueue()))
-		{
-			return;
-		}
-
-		$user = JFactory::getUser();
-
-		if ($user->get('guest') && !$this->isExcluded())
+		if (JFactory::getUser()->get('guest'))
 		{
 			// We need to check again here, because auto-login plugins have not been fired before the first aid check.
 			$this->_cache->store(null, $this->_cache_key);
@@ -129,11 +141,13 @@ class PlgSystemCache extends JPlugin
 	 */
 	protected function isExcluded()
 	{
+		$app = JFactory::getApplication();
+		
 		// Check if menu items have been excluded
 		if ($exclusions = $this->params->get('exclude_menu_items', array()))
 		{
 			// Get the current menu item
-			$active = JFactory::getApplication()->getMenu()->getActive();
+			$active = $app->getMenu()->getActive();
 			
 			if ($active && $active->id && in_array($active->id, (array) $exclusions))
 			{
@@ -150,8 +164,8 @@ class PlgSystemCache extends JPlugin
 			// Split them
 			$exclusions = explode("\n", $exclusions);
 
-			// Get current path to match against
-			$path = JUri::getInstance()->toString(array('path', 'query', 'fragment'));
+			// Gets internal URI
+			$internal_uri	= '/index.php?' . JUri::getInstance()->buildQuery($app->getRouter()->getVars());
 
 			// Loop through each pattern
 			if ($exclusions)
@@ -161,7 +175,7 @@ class PlgSystemCache extends JPlugin
 					// Make sure the exclusion has some content
 					if (strlen($exclusion))
 					{
-						if (preg_match('/' . $exclusion . '/is', $path, $match))
+						if (preg_match('%' . $exclusion . '%is', $this->_cache_key, $match) || preg_match('%' . $exclusion . '%is', $internal_uri, $match))
 						{
 							return true;
 						}
