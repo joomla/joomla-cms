@@ -56,7 +56,7 @@ class PlgSystemCache extends JPlugin
 
 		$app  = JFactory::getApplication();
 
-		if ($app->isAdmin() || count($app->getMessageQueue()))
+		if ($app->isAdmin() || count($app->getMessageQueue()) || $app->get('offline','0') == 1)
 		{
 			return;
 		}
@@ -98,7 +98,7 @@ class PlgSystemCache extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->isAdmin() || count($app->getMessageQueue()))
+		if ($app->isAdmin() || count($app->getMessageQueue()) || $app->get('offline','0') == 1)
 		{
 			return;
 		}
@@ -120,7 +120,7 @@ class PlgSystemCache extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->isAdmin() || count($app->getMessageQueue()))
+		if ($app->isAdmin() || count($app->getMessageQueue()) || $app->get('offline','0') == 1)
 		{
 			return;
 		}
