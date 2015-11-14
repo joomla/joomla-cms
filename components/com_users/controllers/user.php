@@ -29,7 +29,7 @@ class UsersControllerUser extends UsersController
 	{
 		if(!JSession::checkToken('post')) {
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('INVALID_TOKEN_HTML'));
+			$app->enqueueMessage(JText::_('JINVALID_TOKEN_HTML'));
 			$app->redirect(JURI::current());
 		}
 		
