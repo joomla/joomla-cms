@@ -86,6 +86,10 @@ class MenusControllerItem extends JControllerForm
 			// Clear the ancillary data from the session.
 			$app->setUserState($context . '.type', null);
 			$app->setUserState($context . '.link', null);
+
+			// Redirect to the list screen.
+			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
+				. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false));
 		}
 
 		return $result;
@@ -326,7 +330,8 @@ class MenusControllerItem extends JControllerForm
 				$app->setUserState('com_menus.edit.item.link', null);
 
 				// Redirect to the list screen.
-				$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+				$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
+					. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false));
 				break;
 		}
 

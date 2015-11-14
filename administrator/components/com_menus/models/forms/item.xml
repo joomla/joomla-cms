@@ -56,7 +56,10 @@
 			label="COM_MENUS_ITEM_FIELD_ASSIGNED_LABEL"
 			description="COM_MENUS_ITEM_FIELD_ASSIGNED_DESC"
 			required="true"
-			size="1" />
+			size="1" 
+			>
+			<option value="">COM_MENUS_SELECT_MENU</option>
+		</field>
 
 		<field
 			name="type"
