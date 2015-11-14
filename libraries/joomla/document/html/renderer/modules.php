@@ -34,9 +34,9 @@ class JDocumentRendererModules extends JDocumentRenderer
 
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
-		$frontediting = ($app->isSite() && $app->get('frontediting', 1) && !$user->guest);
+		$frontediting = ($app->isSite() && $app->get('frontediting', 0) && !$user->guest);
 
-		$menusEditing = ($app->get('frontediting', 1) == 2) && $user->authorise('core.edit', 'com_menus');
+		$menusEditing = ($app->get('frontediting', 0) == 2) && $user->authorise('core.edit', 'com_menus');
 
 		foreach (JModuleHelper::getModules($position) as $mod)
 		{
