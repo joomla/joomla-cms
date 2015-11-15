@@ -112,7 +112,7 @@ abstract class ModLanguagesHelper
 					{
 						if ($language->active)
 						{
-							$language->link = JUri::getInstance()->toString(array('scheme', 'host', 'port', 'path', 'query'));
+							$language->link = JUri::getInstance()->toString(array('path', 'query'));
 						}
 						else
 						{
