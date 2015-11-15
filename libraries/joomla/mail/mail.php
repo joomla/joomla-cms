@@ -511,10 +511,7 @@ class JMail extends PHPMailer
 		$this->setBody($body);
 
 		// Are we sending the email as HTML?
-		if ($mode)
-		{
-			$this->isHtml(true);
-		}
+		$this->isHtml($mode);
 
 		$this->addRecipient($recipient);
 		$this->addCc($cc);
