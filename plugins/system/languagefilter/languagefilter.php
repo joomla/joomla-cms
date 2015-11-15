@@ -697,7 +697,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 
 				// Add x-default for default site URI
-				if ($is_home)
+				if ($is_home && !$remove_default_prefix)
 				{
 					$doc->addHeadLink($server . '/', 'alternate', 'rel', array('hreflang' => 'x-default'));
 				}
