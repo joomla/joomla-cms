@@ -218,46 +218,39 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 	/**
 	 * Tests various attribute methods - this method does not handle filters
 	 *
-	 * @param   array  $element         @todo
-	 * @param   array  $expectedResult  @todo
+	 * @param   array  $elementProperties  The attributes to add to the XML string
+	 * @param   array  $expectedResult     The expected class vars of the form field when setup
 	 *
 	 * @dataProvider getSetupData
 	 *
 	 * @return void
 	 */
-	/*public function testSetup($element, $expectedResult)
+	public function testSetup($elementProperties, $expectedResult)
 	{
-		require_once JPATH_PLATFORM . '/joomla/form/fields/calendar.php';
-
-		$elementStr = '';
-
-		$userObject = new JUser;
-
-		foreach ($element as $attr => $value)
-		{
-			$elementStr .= ' ' . $attr . '="' . $value . '"';
-		}
-
-		$element = '<field type="calendar" ' . $elementStr . " />";
+		$element = '<field type="calendar" />';
 
 		$field = new JFormFieldCalendar;
 		$element = simplexml_load_string($element);
 
-		$this->assertThat(
+		foreach ($elementProperties as $attr => $value)
+		{
+			$element->addAttribute($attr, $value);
+		}
+
+		$this->assertTrue(
 			$field->setup($element, ''),
-			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		foreach ($expectedResult as $property => $value)
 		{
-			$this->assertThat(
+			$this->assertEquals(
+				$value,
 				$field->$property,
-				$this->equalTo($value),
 				'Line:' . __LINE__ . ' The property ' . $property . ' should be computed from the XML.'
 			);
 		}
-	}*/
+	}
 
 	/**
 	 * Tests various attribute methods - this method does not handle filters
@@ -278,7 +271,7 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 		JFactory::$config = $config;
 		$sessionMock = $this->getMock('sessionMock', array('get'));
 
-		$userObject = new JUser;
+		$userObject = $this->getMock('JUser');
 
 		$sessionMock->expects($this->any())
 			->method('get')
@@ -328,14 +321,25 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 	 */
 	public function testGetInputServer_Utc()
 	{
-		// Create a stub JConfig
-		$config = new JObject;
+		$cfg = $this->getMockConfig();
+		$map = array(
+			// -5
+			array('offset', 'US/Eastern'),
+			array('debug', false)
+		);
+		$cfg->expects($this->any())
+			->method('get')
+			->willReturnMap($map);
+		JFactory::$config = $cfg;
 
-		// Put the stub in place
-		JFactory::$config = $config;
 		$sessionMock = $this->getMock('sessionMock', array('get'));
 
-		$userObject = new JUser;
+		$userObject = $this->getMock('JUser');
+		// -3 (note because we are testing server UTC we don't want this to be called!)
+		$userObject->expects($this->never())
+			->method('getParam')
+			->with('timezone')
+			->willReturn('America/Buenos_Aires');
 
 		$sessionMock->expects($this->any())
 			->method('get')
@@ -362,12 +366,6 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 
 		// 1269442718
 		TestReflection::setValue($calendar, 'value', 1269442718);
-
-		// -5
-		$config->set('offset', 'US/Eastern');
-
-		// -3
-		$userObject->setParam('timezone', 'America/Buenos_Aires');
 
 		// Create the mock to implant into JHtml so that we can check our values
 		$mock = $this->getMock('calendarHandler', array('calendar'));
@@ -413,7 +411,7 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 		$sessionMock->expects($this->any())
 			->method('get')
 			->with('user')
-			->will($this->returnValue($userObject));
+			->willReturn($userObject);
 
 		// Put the stub in place
 		JFactory::$session = $sessionMock;
@@ -505,27 +503,34 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 	{
 		$form = new JForm('form1');
 
-		$this->assertThat(
+		$this->assertTrue(
 			$form->load('<form><field name="calendar" type="calendar" /></form>'),
-			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		$field = new JFormFieldCalendar($form);
 
-		$this->assertThat(
+		$this->assertTrue(
 			$field->setup($form->getXml()->field, '0000-00-00 00:00:00'),
-			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
-		$this->assertThat(
-			strlen($field->input),
-			$this->greaterThan(0),
-			'Line:' . __LINE__ . ' The getInput method should return something without error.'
-		);
+		// Create the mock to implant into JHtml so that we can check our values
+		$mock = $this->getMock('calendarHandler', array('calendar'));
 
-		// TODO: Should check all the attributes have come in properly.
+		// Setup the expectation with the values from the dataset
+		$mock->expects($this->once())
+			->method('calendar')
+			->with('0000-00-00 00:00:00', 'calendar', 'calendar', '%Y-%m-%d', array("maxlength" => 45));
+
+		// Register our mock with JHtml
+		JHtml::register('calendar', array($mock, 'calendar'));
+
+		// Grab the field element to invoke the test above
+		$field->input;
+
+		// Unregister the mock
+		JHtml::unregister('jhtml..calendar');
 	}
 
 	/**
@@ -537,36 +542,41 @@ class JFormFieldCalendarTest extends TestCaseDatabase
 	{
 		$form = new JForm('form1');
 
-		$this->assertThat(
+		$this->assertTrue(
 			$form->load('<form><field name="calendar" type="calendar" /></form>'),
-			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
 		// The calendar form field depends on having the time zone available. Easiest way is to
 		// mock it in the config
 		$testConfig = $this->getMockConfig();
-		$testConfig->expects(
-			$this->any()
-		)
+		$testConfig->expects($this->any())
 			->method('get')
 			->will($this->returnValue('Europe/London'));
 		JFactory::$config = $testConfig;
 
 		$field = new JFormFieldCalendar($form);
 
-		$this->assertThat(
+		$this->assertTrue(
 			$field->setup($form->getXml()->field, 'June 2015'),
-			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
-		$this->assertThat(
-			strlen($field->input),
-			$this->greaterThan(0),
-			'Line:' . __LINE__ . ' The getInput method should return something without error.'
-		);
+		// Create the mock to implant into JHtml so that we can check our values
+		$mock = $this->getMock('calendarHandler', array('calendar'));
 
-		// TODO: Should check all the attributes have come in properly.
+		// Setup the expectation with the values from the dataset
+		$mock->expects($this->once())
+			->method('calendar')
+			->with('2015-06-01 01:00:00', 'calendar', 'calendar', '%Y-%m-%d', array("maxlength" => 45));
+
+		// Register our mock with JHtml
+		JHtml::register('calendar', array($mock, 'calendar'));
+
+		// Grab the field element to invoke the test above
+		$field->input;
+
+		// Unregister the mock
+		JHtml::unregister('jhtml..calendar');
 	}
 }
