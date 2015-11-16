@@ -707,7 +707,14 @@ class PlgEditorTinymce extends JPlugin
 			$mode         = 0;
 		}
 
-		$script = "
+		$script = '';
+
+				// Mootools b/c
+		$script .= '
+		window.getSize = window.getSize || function(){return {x: jQuery(window).width(), y: jQuery(window).height()};};
+		';
+
+		$script .= "
 		tinymce.init({
 		";
 
@@ -1010,26 +1017,27 @@ class PlgEditorTinymce extends JPlugin
 				// We do some hack here to set the correct icon for 3PD buttons
 				$icon = 'none icon-' . $icon;
 
+				// Now we can built the script
+				$tempConstructor = '
+			!(function(){';
+
 				// Get the modal width/height
-				if ($options)
+				if ($options && is_scalar($options))
 				{
-					preg_match('/\s*+(window)/', $options, $matches);
-					if (in_array('window', $matches))
-					{
-						$modalWidth  = 'window.parent.jQuery(window).width() - 100';
-						$modalHeight = 'window.parent.jQuery(window).height() - 200';
-					}
-					else
-					{
-						preg_match('/x:\s*+\d{2,4}/', $options, $modalWidth);
-						preg_match('/y:\s*+\d{2,4}/', $options, $modalHeight);
-						$modalWidth  = filter_var(implode("", $modalWidth), FILTER_SANITIZE_NUMBER_INT);
-						$modalHeight = filter_var(implode("", $modalHeight), FILTER_SANITIZE_NUMBER_INT);
-					}
+					$tempConstructor .= '
+				var getBtnOptions = new Function("return ' . addslashes($options) . '"),
+					btnOptions = getBtnOptions(),
+					modalWidth = btnOptions.size && btnOptions.size.x ?  btnOptions.size.x : null,
+					modalHeight = btnOptions.size && btnOptions.size.y ?  btnOptions.size.y : null;';
+
+				}
+				else {
+					$tempConstructor .= '
+				var btnOptions = {}, modalWidth = null, modalHeight = null;';
 				}
 
-				// Now we can built the script
-				$tempConstructor = "
+
+				$tempConstructor .= "
 				editor.addButton(\"" . $name . "\", {
 					text: \"" . $title . "\",
 					title: \"" . $title . "\",
@@ -1038,21 +1046,21 @@ class PlgEditorTinymce extends JPlugin
 				if ($button->get('modal') || $href)
 				{
 					$tempConstructor .= "
-							editor.windowManager.open({
+							var modalOptions = {
 								title  : \"" . $title . "\",
-								url : '" . $href . "',";
-					if (!empty($modalHeight) && !empty($modalWidth))
-					{
-						$tempConstructor .= "
-								width  : $modalWidth,
-								height : $modalHeight,";
-					}
-					$tempConstructor .= "
+								url : '" . $href . "',
 								buttons: [{
 									text   : \"Close\",
 									onclick: \"close\"
 								}]
-							});";
+							}
+							if(modalWidth){
+								modalOptions.width = modalWidth;
+							}
+							if(modalHeight){
+								modalOptions.height = modalHeight;
+							}
+							editor.windowManager.open(modalOptions);";
 					if ($onclick && ($button->get('modal') || $href))
 					{
 						$tempConstructor .= "\r\n
@@ -1068,7 +1076,8 @@ class PlgEditorTinymce extends JPlugin
 				}
 				$tempConstructor .= "
 					}
-				})";
+				});
+			})();";
 
 				// The array with the toolbar buttons
 				$btnsNames[] = $name;
@@ -1079,8 +1088,8 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		return array(
-			'names'  => $btnsNames,
-			'script' => $tinyBtns
+				'names'  => $btnsNames,
+				'script' => $tinyBtns
 		);
 	}
 }
