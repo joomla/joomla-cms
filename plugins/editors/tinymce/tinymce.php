@@ -860,6 +860,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		JFactory::getDocument()->addScriptDeclaration($script);
+		JFactory::getDocument()->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
 
 		return;
 	}
