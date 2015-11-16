@@ -15,6 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.framework');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.modal');
+JHtml::_('behavior.inputlimittest', 'item-form', array('item.apply', 'item.save', 'item.save2new', 'item.save2copy'));
 
 $assoc = JLanguageAssociations::isEnabled();
 

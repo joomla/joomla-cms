@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.inputlimittest', 'style-form', array('plugin.apply', 'plugin.save'));
 
 JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)

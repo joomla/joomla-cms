@@ -900,4 +900,70 @@ abstract class JHtmlBehavior
 		JHtml::_('script', 'system/tabs-state.js', false, true);
 		self::$loaded[__METHOD__] = true;
 	}
+
+	/**
+	 * Add script for checks the setting of php max_input_vars and notify user
+	 *
+	 * @param   string  $formid        The id of the form that will be used for test
+	 * @param   array   $preventTasks  Tasks that will be prevented when limit is reached
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public static function inputLimitTest($formid = 'adminForm', $preventTasks = array())
+	{
+		if (isset(self::$loaded[__METHOD__][$formid]))
+		{
+			return;
+		}
+
+		// Get the request limit from the PHP configiration
+		$suhosinPostVars = (int) ini_get('suhosin.post.max_vars');
+		$suhosinReqVars  = (int) ini_get('suhosin.request.max_vars');
+		$maxinputvars    = (int) ini_get('max_input_vars');
+
+		if ($suhosinPostVars || $suhosinReqVars)
+		{
+			// Take the minimum value but not a zero
+			$maxinputvars = min(array_filter(array($suhosinPostVars, $suhosinReqVars)));
+		}
+		elseif (!$maxinputvars)
+		{
+			// Server do not tell us his secrets
+			return;
+		}
+
+		static::core();
+		JHtml::_('jquery.framework');
+		JText::script('JERROR_MAXVARS_REACHED');
+		JText::script('JERROR_MAXVARS_NOSUBMIT');
+
+		JFactory::getDocument()->addScriptDeclaration('
+			jQuery(window).load(function(){
+				var form = document.getElementById("' . $formid . '"),
+					tasks = ' . json_encode($preventTasks) . ', msgs = {},
+					limit = ' . $maxinputvars . ', msg, type, reached, near;
+				if (!form) return;
+				reached = form.length >= limit;
+				near = form.length/limit > 0.8;
+				if (!reached && !near) return;
+				type = reached ? "error" : "warning";
+				msg  = Joomla.JText._("JERROR_MAXVARS_REACHED");
+				msg  = msg.replace("%s", limit).replace("%s", form.length);
+				msgs[type] = [msg];
+				Joomla.renderMessages(msgs);
+				if (reached) {
+					jQuery(form).on("submit", function(){
+						if (tasks.indexOf(this.task.value) !== -1) {
+							Joomla.renderMessages({"error":[msg, Joomla.JText._("JERROR_MAXVARS_NOSUBMIT")]});
+							return false;
+						}
+					});
+				}
+			});
+		');
+
+		self::$loaded[__METHOD__][$formid] = true;
+	}
 }
