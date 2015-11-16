@@ -19,6 +19,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * Generic submit form
 	 */
 	Joomla.submitform = function(task, form, validate) {
+
 		if (!form) {
 			form = document.getElementById('adminForm');
 		}
@@ -372,9 +373,9 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * @param radioObj
 	 * @return
 	 */
-	// return the value of the radio button that is checked
-	// return an empty string if none are checked, or
-	// there are no radio buttons
+		// return the value of the radio button that is checked
+		// return an empty string if none are checked, or
+		// there are no radio buttons
 	window.radioGetCheckedValue = function ( radioObj ) {
 		if ( !radioObj ) { return ''; }
 

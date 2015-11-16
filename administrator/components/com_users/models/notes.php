@@ -106,7 +106,7 @@ class UsersModelNotes extends JModelList
 		}
 
 		// Filter by published state
-		$published = $this->getState('filter.state');
+		$published = $this->getState('filter.published');
 
 		if (is_numeric($published))
 		{
@@ -139,7 +139,7 @@ class UsersModelNotes extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering');
+		$orderCol = $this->state->get('list.ordering', 'a.review_time');
 		$orderDirn = $this->state->get('list.direction');
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 

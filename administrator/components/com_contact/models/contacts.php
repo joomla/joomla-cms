@@ -226,10 +226,26 @@ class ContactModelContacts extends JModelList
 					$db->quoteName(
 						array(
 							'a.id',
-							'ul.name',
-							'l.title',
-							'uc.name',
-							'ag.title',
+							'a.name',
+							'a.alias',
+							'a.checked_out',
+							'a.checked_out_time',
+							'a.catid',
+							'a.user_id',
+							'a.published',
+							'a.access',
+							'a.created',
+							'a.created_by',
+							'a.ordering',
+							'a.featured',
+							'a.language',
+							'a.publish_up',
+							'a.publish_down',
+							'ul.name' ,
+							'ul.email',
+							'l.title' ,
+							'uc.name' ,
+							'ag.title' ,
 							'c.title'
 						)
 					)

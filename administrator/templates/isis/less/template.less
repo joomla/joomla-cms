@@ -368,6 +368,10 @@ body .navbar-fixed-top {
 	z-index: 100;
 }
 @media (max-width: 767px) {
+	/* Fix ios scrolling inside boottrap modals */
+	body {
+		-webkit-overflow-scrolling: touch;
+	}
 	.subhead {
 		margin-left: -20px;
 		margin-right: -20px;
@@ -1290,4 +1294,10 @@ textarea.noResize {
 body.modal-open {
   overflow: hidden;
   -ms-overflow-style: none;
+}
+
+/*Corrects the modals padding*/
+.field-media-wrapper .modal .modal-body {
+	padding: 5px 10px;
+	overflow: hidden;
 }

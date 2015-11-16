@@ -80,7 +80,7 @@ class UsersModelUsers extends JModelList
 		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state');
 		$this->setState('filter.state', $state);
 
-		$groupId = $this->getUserStateFromRequest($this->context . '.filter.group', 'filter_group_id', null, 'int');
+		$groupId = $this->getUserStateFromRequest($this->context . '.filter.group_id', 'filter_group_id', null, 'int');
 		$this->setState('filter.group_id', $groupId);
 
 		$range = $this->getUserStateFromRequest($this->context . '.filter.range', 'filter_range');

@@ -231,8 +231,12 @@ class JCaptcha extends JObject
 			throw new RuntimeException(JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
 
-		$params = new Registry($plugin->params);
-		$plugin->params = $params;
+		// Check for already loaded params
+		if (!($plugin->params instanceof Registry))
+		{
+			$params = new Registry($plugin->params);
+			$plugin->params = $params;
+		}
 
 		// Build captcha plugin classname
 		$name = 'PlgCaptcha' . $this->_name;
