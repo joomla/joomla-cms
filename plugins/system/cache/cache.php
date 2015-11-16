@@ -70,9 +70,6 @@ class PlgSystemCache extends JPlugin
 
 		if ($data !== false)
 		{
-			// Replace form token if exists (for any page with forms, com_users, com_contact, etc)
-			$data = preg_replace('%<input type="hidden" name="[A-Za-z0-9]+" value="1"\s+/>%', JHtml::_('form.token'), $data);
-
 			// Set cached body.
 			$app->setBody($data);
 
