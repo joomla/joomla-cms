@@ -172,7 +172,7 @@ class PlgSystemCache extends JPlugin
 					// Make sure the exclusion has some content
 					if (strlen($exclusion))
 					{
-						if (preg_match('%' . $exclusion . '%is', $this->_cache_key, $match) || preg_match('%' . $exclusion . '%is', $internal_uri, $match))
+						if (preg_match('%' . $exclusion . '%is', $this->_cache_key . '-' . $internal_uri, $match))
 						{
 							return true;
 						}
