@@ -1,6 +1,6 @@
 # Important Security Information
 
-If you're going to use JCrypt in any of your plugins, make *sure* you use **JCryptCipherCrypt**; it's the only one that's cryptographically secure. (It's [version 1.1 of Defuse Security's encryption library](https://github.com/defuse/php-encryption)).
+If you're going to use JCrypt in any of your plugins, make *sure* you use **JCryptCipherCrypto**; it's the only one that's cryptographically secure. (It's [version 1.1 of Defuse Security's encryption library](https://github.com/defuse/php-encryption)).
 
 ```php
 $cipher = new JCryptCipherCrypto();
