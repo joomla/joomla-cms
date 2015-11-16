@@ -245,6 +245,11 @@ class JBrowser
 					$this->identifyBrowserVersion();
 				}
 			}
+			elseif (preg_match('|OPR[/ ]([0-9.]+)|', $this->agent, $version)) // for opera 15+
+			{
+				$this->setBrowser('opera');
+				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+			}
 			elseif (preg_match('|Chrome[/ ]([0-9.]+)|', $this->agent, $version))
 			{
 				$this->setBrowser('chrome');
