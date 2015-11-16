@@ -1031,11 +1031,11 @@ class PlgEditorTinymce extends JPlugin
 					modalHeight = btnOptions.size && btnOptions.size.y ?  btnOptions.size.y : null;';
 
 				}
-				else {
+				else
+				{
 					$tempConstructor .= '
 				var btnOptions = {}, modalWidth = null, modalHeight = null;';
 				}
-
 
 				$tempConstructor .= "
 				editor.addButton(\"" . $name . "\", {
