@@ -1601,7 +1601,7 @@ class JoomlaInstallerScript
 			{
 				try
 				{
-					if (!$this->serverClaimsUtf8mb4Support())
+					if (!$this->serverClaimsUtf8mb4Support($db->name))
 					{
 						$query = str_replace('utf8mb4', 'utf8', $query);
 					}
@@ -1621,13 +1621,24 @@ class JoomlaInstallerScript
 	 *
 	 * libmysql supports utf8mb4 since 5.5.3 (same version as the MySQL server). mysqlnd supports utf8mb4 since 5.0.9.
 	 *
+	 * @param   string  $format  The type of database connection.
+	 *
 	 * @return  boolean
 	 *
 	 * @since   3.5.0
 	 */
-	private function serverClaimsUtf8mb4Support()
+	private function serverClaimsUtf8mb4Support($format)
 	{
-		$client_version = mysqli_get_client_info();
+		switch ($format)
+		{
+			case 'mysql':
+			case 'pdomysql':
+				$client_version = mysql_get_client_info();
+				break;
+			case 'mysqli':
+				$client_version = mysqli_get_client_info();
+				break;
+		}
 
 		if (strpos($client_version, 'mysqlnd') !== false)
 		{
