@@ -28,10 +28,11 @@ class PostinstallModelMessages extends FOFModel
 	public function buildQuery($overrideLimits = false)
 	{
 		// Save the old filter order dir
-		$oldState = $this->getState('filter_order_dir', 'DESC');
+		$oldState = $this->getState('filter_order_Dir', 'DESC');
 
 		// Set the filter_order_dir to bypass the check in fof
-		$this->setState('filter_order_dir', 'DESC');
+		// As this is bad in fof please make sure the state is "filter_order_Dir" else it don't work :(
+		$this->setState('filter_order_Dir', 'DESC');
 
 		$query = parent::buildQuery($overrideLimits);
 
@@ -46,7 +47,7 @@ class PostinstallModelMessages extends FOFModel
 		$query->where($db->qn('enabled') . ' = ' . $db->q($published));
 
 		// Reset to the old state
-		$this->setState('filter_order_dir', $oldState);
+		$this->setState('filter_order_Dir', $oldState);
 
 		return $query;
 	}
