@@ -2,19 +2,19 @@
 <metafile
 	version="3.5"
 	client="installation">
-	<name>Armenian (hy-AM)</name>
+	<name>Irish (ga-IE)</name>
 	<version>3.5.0</version>
-	<creationDate>2015-09-10</creationDate>
-	<author>Andrey Aleksanyants</author>
+	<creationDate>2015-11-10</creationDate>
+	<author>Irish translation team</author>
 	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>hy-AM installation language</description>
+	<description>Irish installation language</description>
 	<files>
-		<filename>hy-AM.ini</filename>
+		<filename>ga-IE.ini</filename>
 	</files>
 	<metadata>
-		<name>Armenian (hy-AM)</name>
-		<tag>hy-AM</tag>
+		<name>Irish (Gaeilge-Éire)</name>
+		<tag>ga-IE</tag>
 		<rtl>0</rtl>
 	</metadata>
 	<params />
