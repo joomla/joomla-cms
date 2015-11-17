@@ -16,7 +16,7 @@ JHtml::_('behavior.formvalidator');
 ?>
 <div class="contact-form">
 	<form id="contact-form" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-validate form-horizontal well">
-		<?php foreach ($this->form->getFieldsets() as $fieldset): ?>
+		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<?php $fields = $this->form->getFieldset($fieldset->name); ?>
 			<?php if (count($fields)) : ?>
 				<fieldset>
