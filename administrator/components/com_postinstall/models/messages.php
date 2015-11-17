@@ -44,7 +44,7 @@ class PostinstallModelMessages extends FOFModel
 		// Force filter only enabled messages
 		$published = $this->getState('published', 1, 'int');
 		$query->where($db->qn('enabled') . ' = ' . $db->q($published));
-		
+
 		// Reset to the old state
 		$this->setState('filter_order_dir', $oldState);
 
