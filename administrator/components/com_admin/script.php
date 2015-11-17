@@ -1635,7 +1635,7 @@ class JoomlaInstallerScript
 			case 'pdomysql':
 				$client_version = mysql_get_client_info();
 				break;
-			case 'mysqli':
+			default:
 				$client_version = mysqli_get_client_info();
 				break;
 		}
