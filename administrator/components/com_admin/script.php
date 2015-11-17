@@ -1623,7 +1623,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  boolean
 	 *
-	 * @since   CMS 3.5.0
+	 * @since   3.5.0
 	 */
 	private function serverClaimsUtf8mb4Support()
 	{
