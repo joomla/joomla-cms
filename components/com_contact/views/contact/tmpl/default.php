@@ -8,12 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-
-$cparams = JComponentHelper::getParams('com_media');
-
-jimport('joomla.html.html.bootstrap');
 ?>
-<div class="contact<?php echo $this->pageclass_sfx?>">
+<div class="contact<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<h1>
 			<?php echo $this->escape($this->params->get('page_heading')); ?>
