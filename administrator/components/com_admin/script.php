@@ -1583,14 +1583,14 @@ class JoomlaInstallerScript
 		// Setup the adapter for the indexer.
 		$format = $db->name;
 
-		if ($format == 'mysqli' || $format == 'pdomysql')
+		if ($format == 'mysqli')
 		{
 			$format = 'mysql';
 		}
 
 		if ($format == 'mysql' && version_compare(JVERSION, '3.5.0', 'lt'))
 		{
-			$fileName = JPATH_ADMINISTRATOR . "/components/com_admin/sql/ut8mb4/$format/3.5.0-2015-07-01.sql";
+			$fileName = JPATH_ADMINISTRATOR . "/components/com_admin/sql/utf8mb4/$format/3.5.0-2015-07-01.sql";
 
 			// Split the queries
 			$fileContents = @file_get_contents($fileName);
@@ -1632,23 +1632,29 @@ class JoomlaInstallerScript
 		switch ($format)
 		{
 			case 'mysql':
-			case 'pdomysql':
 				$client_version = mysql_get_client_info();
 				break;
-			default:
+			case 'mysqli':
 				$client_version = mysqli_get_client_info();
 				break;
+			default:
+				$client_version = false;
 		}
 
-		if (strpos($client_version, 'mysqlnd') !== false)
+		if ($client_version)
 		{
-			$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
+			if (strpos($client_version, 'mysqlnd') !== false)
+			{
+				$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
 
-			return version_compare($client_version, '5.0.9', '>=');
+				return version_compare($client_version, '5.0.9', '>=');
+			}
+			else
+			{
+				return version_compare($client_version, '5.5.3', '>=');
+			}
 		}
-		else
-		{
-			return version_compare($client_version, '5.5.3', '>=');
-		}
+
+		return false;
 	}
 }
