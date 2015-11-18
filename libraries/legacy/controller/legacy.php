@@ -537,7 +537,7 @@ class JControllerLegacy extends JObject
 		jimport('joomla.filesystem.folder');
 		foreach ($path as $includePath)
 		{
-			// for only exists path
+			// For only exists path
 			if (!in_array($includePath, static::$includePaths) && JFolder::exists($includePath))
 			{
 				array_unshift(static::$includePaths, JPath::clean($includePath));
