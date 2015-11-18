@@ -555,7 +555,6 @@ class JModelList extends JModelLegacy
 								break;
 
 							case 'limit':
-							case 'start':
 								$limit = $inputFilter->clean($value, 'int');
 								break;
 
