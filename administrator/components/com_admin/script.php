@@ -1588,7 +1588,7 @@ class JoomlaInstallerScript
 			$format = 'mysql';
 		}
 
-		if ($format == 'mysql' && version_compare(JVERSION, '3.5.0', 'lt'))
+		if ($format == 'mysql')
 		{
 			$fileName = JPATH_ADMINISTRATOR . "/components/com_admin/sql/utf8mb4/$format/3.5.0-2015-07-01.sql";
 
@@ -1629,13 +1629,17 @@ class JoomlaInstallerScript
 	 */
 	private function serverClaimsUtf8mb4Support($format)
 	{
+		$db = JFactory::getDbo();
+
 		switch ($format)
 		{
 			case 'mysql':
 				$client_version = mysql_get_client_info();
+				$server_version = $db->getVersion();
 				break;
 			case 'mysqli':
 				$client_version = mysqli_get_client_info();
+				$server_version = $db->getVersion();
 				break;
 			default:
 				$client_version = false;
@@ -1647,7 +1651,7 @@ class JoomlaInstallerScript
 			{
 				$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
 
-				return version_compare($client_version, '5.0.9', '>=');
+				return (version_compare($client_version, '5.0.9', '>=') && version_compare($server_version, '5.5.3', '>='));
 			}
 			else
 			{
