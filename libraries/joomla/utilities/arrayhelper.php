@@ -138,7 +138,63 @@ abstract class JArrayHelper
 	 */
 	public static function fromObject($p_obj, $recurse = true, $regex = null)
 	{
-		return ArrayHelper::fromObject($p_obj, $recurse, $regex);
+		if (is_object($p_obj))
+		{
+			return self::_fromObject($p_obj, $recurse, $regex);
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * Utility function to map an object or array to an array
+	 *
+	 * @param   mixed    $item     The source object or array
+	 * @param   boolean  $recurse  True to recurse through multi-level objects
+	 * @param   string   $regex    An optional regular expression to match on field names
+	 *
+	 * @return  array  The array mapped from the given object
+	 *
+	 * @since   11.1
+	 */
+	protected static function _fromObject($item, $recurse, $regex)
+	{
+		if (is_object($item))
+		{
+			$result = array();
+
+			foreach (get_object_vars($item) as $k => $v)
+			{
+				if (!$regex || preg_match($regex, $k))
+				{
+					if ($recurse)
+					{
+						$result[$k] = self::_fromObject($v, $recurse, $regex);
+					}
+					else
+					{
+						$result[$k] = $v;
+					}
+				}
+			}
+		}
+		elseif (is_array($item))
+		{
+			$result = array();
+
+			foreach ($item as $k => $v)
+			{
+				$result[$k] = self::_fromObject($v, $recurse, $regex);
+			}
+		}
+		else
+		{
+			$result = $item;
+		}
+
+		return $result;
 	}
 
 	/**
@@ -278,16 +334,86 @@ abstract class JArrayHelper
 	 */
 	public static function sortObjects(&$a, $k, $direction = 1, $caseSensitive = true, $locale = false)
 	{
-		if (is_array($a))
+		if (!is_array($locale) || !is_array($locale[0]))
 		{
-			$a = ArrayHelper::sortObjects($a, $k, $direction, $caseSensitive, $locale);
-		}
-		else
-		{
-			JLog::add('This method is typehinted to be an array in \Joomla\Utilities\ArrayHelper::sortObjects.', JLog::WARNING, 'deprecated');
+			$locale = array($locale);
 		}
 
+		self::$sortCase = (array) $caseSensitive;
+		self::$sortDirection = (array) $direction;
+		self::$sortKey = (array) $k;
+		self::$sortLocale = $locale;
+
+		usort($a, array(__CLASS__, '_sortObjects'));
+
+		self::$sortCase = null;
+		self::$sortDirection = null;
+		self::$sortKey = null;
+		self::$sortLocale = null;
+
 		return $a;
+	}
+
+	/**
+	 * Callback function for sorting an array of objects on a key
+	 *
+	 * @param   array  &$a  An array of objects
+	 * @param   array  &$b  An array of objects
+	 *
+	 * @return  integer  Comparison status
+	 *
+	 * @see     JArrayHelper::sortObjects()
+	 * @since   11.1
+	 */
+	protected static function _sortObjects(&$a, &$b)
+	{
+		$key = self::$sortKey;
+
+		for ($i = 0, $count = count($key); $i < $count; $i++)
+		{
+			if (isset(self::$sortDirection[$i]))
+			{
+				$direction = self::$sortDirection[$i];
+			}
+
+			if (isset(self::$sortCase[$i]))
+			{
+				$caseSensitive = self::$sortCase[$i];
+			}
+
+			if (isset(self::$sortLocale[$i]))
+			{
+				$locale = self::$sortLocale[$i];
+			}
+
+			$va = $a->{$key[$i]};
+			$vb = $b->{$key[$i]};
+
+			if ((is_bool($va) || is_numeric($va)) && (is_bool($vb) || is_numeric($vb)))
+			{
+				$cmp = $va - $vb;
+			}
+			elseif ($caseSensitive)
+			{
+				$cmp = JString::strcmp($va, $vb, $locale);
+			}
+			else
+			{
+				$cmp = JString::strcasecmp($va, $vb, $locale);
+			}
+
+			if ($cmp > 0)
+			{
+				return $direction;
+			}
+
+			if ($cmp < 0)
+			{
+				return -$direction;
+			}
+		}
+
+		return 0;
 	}
 
 	/**
