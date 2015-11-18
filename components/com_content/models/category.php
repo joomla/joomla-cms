@@ -463,7 +463,7 @@ class ContentModelCategory extends JModelList
 
 			if ($params->get('orderby_pri') == 'alpha' || $params->get('orderby_pri') == 'ralpha')
 			{
-				ArrayHelper::sortObjects((array)$this->_children, 'title', ($params->get('orderby_pri') == 'alpha') ? 1 : (-1));
+				ArrayHelper::sortObjects((array) $this->_children, 'title', ($params->get('orderby_pri') == 'alpha') ? 1 : (-1));
 			}
 		}
 
