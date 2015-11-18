@@ -331,7 +331,6 @@ fieldset.word {
 
 fieldset.phrases label,fieldset.only label {
 	display: inline;
-	margin: 0 10px
 }
 
  :root *> fieldset.only label:before {
@@ -348,7 +347,6 @@ fieldset.phrases label,fieldset.only label {
 	margin: 0 4px 0 0;
 	text-transform: uppercase;
 	width: 1em;
-	content: ".";
 	display: inline-block;
 	margin-left: -40px;
 	padding: 2px;
@@ -379,7 +377,6 @@ input[type="checkbox"]:checked+label:before {
 	margin: 0 4px 0 0;
 	text-transform: uppercase;
 	width: 1.3em;
-	content: ".";
 	display: inline-block;
 	margin-left: -40px;
 	-moz-border-radius: 12px;
@@ -1050,4 +1047,23 @@ div.current {
 	margin: 0 3px;
 	vertical-align: middle;
 	width: 18px;
+}
+/* Smartsearch Calendar*/
+#filter_date1_img,
+#filter_date2_img {
+	background: rgba(0, 0, 0, 0) url("../images/system/calendar.png") no-repeat scroll 0 0;
+	cursor: pointer;
+	height: 18px;
+	margin-left: 3px;
+	vertical-align: middle;
+	width: 18px;
+}
+#search-results {
+	clear: both;
+}
+#finder-filter-window {
+	overflow: visible;
+}
+#searchForm .searchintro {
+	padding: 0 0 0 250px;
 }
