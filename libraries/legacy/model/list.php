@@ -698,7 +698,7 @@ class JModelList extends JModelLegacy
 			$name    = substr($request, 7);
 			$filters = $app->input->get('filter', array(), 'array');
 
-			if (isset($filters[$name]) && $filters[$name] !== '')
+			if (isset($filters[$name]))
 			{
 				$new_state = $filters[$name];
 			}
