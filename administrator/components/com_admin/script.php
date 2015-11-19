@@ -1596,21 +1596,33 @@ class JoomlaInstallerScript
 			$fileContents = @file_get_contents($fileName);
 			$queries = $db->splitSql($fileContents);
 
+			if (count($queries) == 0)
+			{
+				// No queries to process
+				return;
+			}
+
+
 			// Execute the queries
 			foreach ($queries as $query)
 			{
-				try
-				{
-					if (!$this->serverClaimsUtf8mb4Support($db->name))
-					{
-						$query = str_replace('utf8mb4', 'utf8', $query);
-					}
+				$query = trim($query);
 
-					$db->setQuery($query)->execute();
-				}
-				catch (RuntimeException $e)
+				if ($query != '' && $query{0} != '#')
 				{
-					JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $e->getCode(), $e->getMessage()));
+					try
+					{
+						if (!$this->serverClaimsUtf8mb4Support($db->name))
+						{
+							$query = str_replace('utf8mb4', 'utf8', $query);
+						}
+
+						$db->setQuery($query)->execute();
+					}
+					catch (RuntimeException $e)
+					{
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $e->getCode(), $e->getMessage()));
+					}
 				}
 			}
 		}
