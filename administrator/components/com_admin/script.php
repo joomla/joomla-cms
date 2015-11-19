@@ -77,6 +77,8 @@ class JoomlaInstallerScript
 			$params['lastrun'] = '';
 		}
 
+		$params = json_encode($params);
+
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__extensions'))
 			->set($db->quoteName('params') . ' = ' . $db->quote($params))
