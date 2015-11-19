@@ -122,6 +122,7 @@ abstract class JHtmlGrid
 	 */
 	public static function checkall($name = 'checkall-toggle', $tip = 'JGLOBAL_CHECK_ALL', $action = 'Joomla.checkAll(this)')
 	{
+		JHtml::_('behavior.core');
 		JHtml::_('bootstrap.tooltip');
 
 		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::tooltipText($tip)
