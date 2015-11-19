@@ -153,3 +153,5 @@ ALTER TABLE `#__update_sites` CHANGE COLUMN `location` `location` TEXT NOT NULL;
 ALTER TABLE `#__users` CHANGE COLUMN `params` `params` TEXT NOT NULL;
 ALTER TABLE `#__user_notes` CHANGE COLUMN `body` `body` TEXT NOT NULL;
 ALTER TABLE `#__user_profiles` CHANGE COLUMN `profile_value` `profile_value` TEXT NOT NULL;
+
+ALTER TABLE `#__update_sites_extensions` ENGINE=InnoDB;
