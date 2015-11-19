@@ -48,7 +48,7 @@ class JTwittersearch extends JTwitterObject
 		$path = '/search/tweets.json';
 
 		// Set query parameter.
-		$data['q'] = rawurlencode($query);
+		$data['q'] = $query;
 
 		// Check if callback is specified.
 		if ($callback)

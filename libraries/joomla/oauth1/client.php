@@ -285,6 +285,8 @@ abstract class JOAuth1Client
 		{
 			$oauth_headers = array_diff_key($oauth_headers, $data);
 		}
+		
+		$data = $this->safeEncode($data);
 
 		// Send the request.
 		switch ($method)
