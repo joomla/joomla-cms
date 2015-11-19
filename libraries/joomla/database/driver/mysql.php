@@ -505,7 +505,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.5.0
+	 * @since   CMS 3.5.0
 	 */
 	private function serverClaimsUtf8mb4Support()
 	{

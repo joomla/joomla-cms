@@ -1613,7 +1613,7 @@ class JoomlaInstallerScript
 				{
 					try
 					{
-						if (!utf8mb4IsSupported)
+						if (!$utf8mb4IsSupported)
 						{
 							$query = str_replace('utf8mb4', 'utf8', $query);
 						}
