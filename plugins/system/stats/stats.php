@@ -468,7 +468,7 @@ class PlgSystemStats extends JPlugin
 		try
 		{
 			// Don't let the request take longer than 2 seconds to avoid page timeout issues
-			JHttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), null, 2);
+			$response = JHttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), null, 2);
 		}
 		catch (UnexpectedValueException $e)
 		{
@@ -484,6 +484,13 @@ class PlgSystemStats extends JPlugin
 		{
 			// An unexpected error in processing; don't let this failure kill the site
 			throw new RuntimeException('Unexpected error connecting to statistics server: ' . $e->getMessage(), 500);
+		}
+
+		if ($response->code !== 200)
+		{
+			$data = json_decode($response->body);
+
+			throw new RuntimeException('Could not send site statistics to remote server: ' . $data->message, $response->code);
 		}
 
 		return true;
