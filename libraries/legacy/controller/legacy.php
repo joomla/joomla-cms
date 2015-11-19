@@ -140,7 +140,7 @@ class JControllerLegacy extends JObject
 	 * @since  12.2
 	 */
 	protected static $instance;
-	
+
 	/**
 	 * Instance container containing the include paths.
 	 *
@@ -148,7 +148,7 @@ class JControllerLegacy extends JObject
 	 * @since  3.4
 	 */
 	protected static $includePaths = array();
-	
+
 	/**
 	 * Instance container containing the views.
 	 *
@@ -286,7 +286,7 @@ class JControllerLegacy extends JObject
 			$backupfile = self::createFileName('controller', array('name' => 'controller'));
 			$backuppath = $basePath . '/' . $backupfile;
 		}
-		
+
 		$includePaths = static::$includePaths;
 		if (count($includePaths))
 		{
@@ -327,7 +327,7 @@ class JControllerLegacy extends JObject
 			{
 				require_once $backuppath;
 			}
-			//If path is not exist the find another from include paths
+			// If path is not exist the find another from include paths
 			elseif (count($includePaths))
 			{
 				if ($type)
@@ -345,7 +345,7 @@ class JControllerLegacy extends JObject
 					}
 				}
 			}
-			if(!class_exists($class))
+			if (!class_exists($class))
 			{
 				throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format));
 			}
@@ -523,11 +523,11 @@ class JControllerLegacy extends JObject
 
 		return $this;
 	}
-	
+
 	/**
 	 * Add one or more controller paths, in LIFO order.
 	 *
-	 * @param   mixed $path The directory (string) or list of directories (array) to add.
+	 * @param   mixed  $path  The directory (string) or list of directories (array) to add.
 	 *
 	 * @return array
 	 */
@@ -537,7 +537,7 @@ class JControllerLegacy extends JObject
 		jimport('joomla.filesystem.folder');
 		foreach ($path as $includePath)
 		{
-			//for only exists path
+			// For only exists path
 			if (!in_array($includePath, static::$includePaths) && JFolder::exists($includePath))
 			{
 				array_unshift(static::$includePaths, JPath::clean($includePath));
@@ -693,10 +693,10 @@ class JControllerLegacy extends JObject
 				return null;
 			}
 		}
-		//Real base path
+		// Real base path
 		$pattern             = '#(/(views?)?/[a-zA-z0-9]+/view\.' . $type . '\.php)$#i';
 		$config['base_path'] = preg_replace($pattern, '', str_replace('\\', '/', $path));
-		
+
 		return new $viewClass($config);
 	}
 
