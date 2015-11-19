@@ -5,6 +5,8 @@ ALTER TABLE `#__menu` DROP KEY `idx_client_id_parent_id_alias_language`, ADD UNI
 
 ALTER TABLE `#__redirect_links` DROP KEY `idx_link_old`, ADD UNIQUE KEY `idx_link_old` (`old_url`(191));
 
+ALTER TABLE `#__menu` DROP  KEY `idx_path`, ADD KEY `idx_path` (`path`(191));
+
 ALTER TABLE `#__session` MODIFY `session_id` varchar(191) NOT NULL DEFAULT '';
 
 ALTER TABLE `#__user_keys` MODIFY `series` varchar(191) NOT NULL;
@@ -119,7 +121,7 @@ ALTER TABLE `#__finder_filters` CHANGE COLUMN `data` `data` TEXT NOT NULL;
 ALTER TABLE `#__finder_filters` CHANGE COLUMN `params` `params` MEDIUMTEXT;
 ALTER TABLE `#__languages` CHANGE COLUMN `metakey` `metakey` TEXT NOT NULL;
 ALTER TABLE `#__languages` CHANGE COLUMN `metadesc` `metadesc` TEXT NOT NULL;
-ALTER TABLE `#__menu` CHANGE COLUMN `params` `params` TEXT NOT NULL;
+ALTER TABLE `#__menu` CHANGE COLUMN `params` `params` TEXT NOT NULL COMMENT 'JSON encoded data for the menu item.';
 ALTER TABLE `#__messages` CHANGE COLUMN `message` `message` TEXT NOT NULL;
 ALTER TABLE `#__modules` CHANGE COLUMN `content` `content` TEXT NOT NULL;
 ALTER TABLE `#__modules` CHANGE COLUMN `params` `params` TEXT NOT NULL;
@@ -130,7 +132,7 @@ ALTER TABLE `#__newsfeeds` CHANGE COLUMN `metadata` `metadata` TEXT NOT NULL;
 ALTER TABLE `#__newsfeeds` CHANGE COLUMN `description` `description` TEXT NOT NULL;
 ALTER TABLE `#__newsfeeds` CHANGE COLUMN `images` `images` TEXT NOT NULL;
 ALTER TABLE `#__overrider` CHANGE COLUMN `string` `string` TEXT NOT NULL;
-ALTER TABLE `#__session` CHANGE COLUMN `data` `data` MEDIUMTEXT NOT NULL;
+ALTER TABLE `#__session` CHANGE COLUMN `data` `data` MEDIUMTEXT;
 ALTER TABLE `#__tags` CHANGE COLUMN `description` `description` MEDIUMTEXT NOT NULL;
 ALTER TABLE `#__tags` CHANGE COLUMN `params` `params` TEXT NOT NULL;
 ALTER TABLE `#__tags` CHANGE COLUMN `images` `images` TEXT NOT NULL;
