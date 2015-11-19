@@ -555,11 +555,8 @@ class JModelList extends JModelLegacy
 								break;
 
 							case 'limit':
-								$limit = $inputFilter->clean($value, 'int');
-								break;
-
-							case 'start':
 								$value = $inputFilter->clean($value, 'int');
+								$limit = $value;
 								break;
 
 							case 'select':
