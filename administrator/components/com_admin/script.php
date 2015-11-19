@@ -1583,7 +1583,7 @@ class JoomlaInstallerScript
 		// Setup the adapter for the indexer.
 		$format = $db->name;
 
-		if ($format == 'mysqli')
+		if ($format == 'mysqli' || $format == 'pdomysql')
 		{
 			$format = 'mysql';
 		}
@@ -1596,21 +1596,34 @@ class JoomlaInstallerScript
 			$fileContents = @file_get_contents($fileName);
 			$queries = $db->splitSql($fileContents);
 
+			if (count($queries) == 0)
+			{
+				// No queries to process
+				return;
+			}
+
+			$utf8mb4IsSupported = $this->serverClaimsUtf8mb4Support($db->name);
+
 			// Execute the queries
 			foreach ($queries as $query)
 			{
-				try
-				{
-					if (!$this->serverClaimsUtf8mb4Support($db->name))
-					{
-						$query = str_replace('utf8mb4', 'utf8', $query);
-					}
+				$query = trim($query);
 
-					$db->setQuery($query)->execute();
-				}
-				catch (RuntimeException $e)
+				if ($query != '' && $query{0} != '#')
 				{
-					JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $e->getCode(), $e->getMessage()));
+					try
+					{
+						if (!utf8mb4IsSupported)
+						{
+							$query = str_replace('utf8mb4', 'utf8', $query);
+						}
+
+						$db->setQuery($query)->execute();
+					}
+					catch (RuntimeException $e)
+					{
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $e->getCode(), $e->getMessage()));
+					}
 				}
 			}
 		}
@@ -1640,6 +1653,10 @@ class JoomlaInstallerScript
 			case 'mysqli':
 				$client_version = mysqli_get_client_info();
 				$server_version = $db->getVersion();
+				break;
+			case 'pdomysql';
+				$client_version = $db->getOption(PDO::ATTR_CLIENT_VERSION);
+				$server_version = $db->getOption(PDO::ATTR_SERVER_VERSION);
 				break;
 			default:
 				$client_version = false;
