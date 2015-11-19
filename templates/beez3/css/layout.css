@@ -1067,3 +1067,18 @@ div.current {
 #searchForm .searchintro {
 	padding: 0 0 0 250px;
 }
+.collapse {
+	position: relative;
+	height: 0;
+	overflow: hidden;
+	-webkit-transition: height .35s ease;
+	-moz-transition: height .35s ease;
+	-o-transition: height .35s ease;
+	transition: height .35s ease;
+}
+.collapse.in {
+	height: auto;
+}
+#finder-search .in.collapse {
+	overflow: visible;
+}
