@@ -1660,6 +1660,7 @@ class JoomlaInstallerScript
 				break;
 			default:
 				$client_version = false;
+				$server_version = false;
 		}
 
 		if ($client_version && version_compare($server_version, '5.5.3', '>='))
@@ -1668,7 +1669,7 @@ class JoomlaInstallerScript
 			{
 				$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
 
-				return (version_compare($client_version, '5.0.9', '>=');
+				return version_compare($client_version, '5.0.9', '>=');
 			}
 			else
 			{

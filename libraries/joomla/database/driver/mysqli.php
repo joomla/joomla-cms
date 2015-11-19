@@ -952,8 +952,9 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	private function serverClaimsUtf8mb4Support()
 	{
 		$client_version = mysqli_get_client_info();
+		$server_support = version_compare($this->getVersion(), '5.5.3', '>=');
 
-		if (strpos($client_version, 'mysqlnd') !== false)
+		if (strpos($client_version, 'mysqlnd') !== false && $server_support)
 		{
 			$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
 
@@ -961,7 +962,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		}
 		else
 		{
-			return version_compare($client_version, '5.5.3', '>=');
+			return $server_support;
 		}
 	}
 
