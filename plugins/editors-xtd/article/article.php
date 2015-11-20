@@ -34,32 +34,11 @@ class PlgButtonArticle extends JPlugin
 	public function onDisplay($name)
 	{
 		/*
-		 * Javascript to insert the link
-		 * View element calls jSelectArticle when an article is clicked
-		 * jSelectArticle creates the link tag, sends it to the editor,
-		 * and closes the select frame.
-		 */
-		$js = "
-		function jSelectArticle(id, title, catid, object, link, lang)
-		{
-			var hreflang = '';
-			if (lang !== '')
-			{
-				var hreflang = ' hreflang = \"' + lang + '\"';
-			}
-			var tag = '<a' + hreflang + ' href=\"' + link + '\">' + title + '</a>';
-			jInsertEditorText(tag, '" . $name . "');
-			jModalClose();
-		}";
-
-		$doc = JFactory::getDocument();
-		$doc->addScriptDeclaration($js);
-
-		/*
 		 * Use the built-in element view to select the article.
 		 * Currently uses blank class.
 		 */
-		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
+		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;editor='
+				. $name . '&amp;' . JSession::getFormToken() . '=1';
 
 		$button = new JObject;
 		$button->modal = true;
