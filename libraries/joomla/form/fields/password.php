@@ -162,24 +162,25 @@ class JFormFieldPassword extends JFormField
 
 			// Load script on document load.
 			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function($){
-					'use strict';
-					var options = {};
-					options.ui = {
-						bootstrap2: true,
-						showErrors: true,
-					};
-					options.ui.errorMessages = {
-						wordLength: '" . JText::_('JFIELD_PASSWORD_LENGTH') . "',
-
-						wordNotEmail: '" . JText::_('JFIELD_PASSWORD_NOEMAIL') . "',
-						wordSimilarToUsername: '" . JText::_('JFIELD_PASSWORD_USERNAME') . "',
-						wordTwoCharacterClasses: '" . JText::_('JFIELD_PASSWORD_CHARCLASS') . "',
-						wordRepetitions: '" . JText::_('JFIELD_PASSWORD_WORDREP') . "',
-						wordSequences: '" . JText::_('JFIELD_PASSWORD_WORDSEQ') . "'
-					};
-					jQuery('#" . $this->id . "').pwstrength(options);
-				});"
+				"
+		jQuery(document).ready(function($){
+			'use strict';
+			var options = {};
+			options.ui = {
+				bootstrap2: true,
+				showErrors: true,
+			};
+			options.ui.errorMessages = {
+				wordLength: '" . JText::_('JFIELD_PASSWORD_INDICATE_LENGTH') . "',
+				wordNotEmail: '" . JText::_('JFIELD_PASSWORD_INDICATE_NOEMAIL') . "',
+				wordSimilarToUsername: '" . JText::_('JFIELD_PASSWORD_INDICATE_USERNAME') . "',
+				wordTwoCharacterClasses: '" . JText::_('JFIELD_PASSWORD_INDICATE_CHARCLASS') . "',
+				wordRepetitions: '" . JText::_('JFIELD_PASSWORD_INDICATE_WORDREP') . "',
+				wordSequences: '" . JText::_('JFIELD_PASSWORD_INDICATE_WORDSEQ') . "'
+			};
+			jQuery('#" . $this->id . "').pwstrength(options);
+		});
+				"
 			);
 		}
 
