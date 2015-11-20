@@ -287,13 +287,18 @@ class InstallerModelDatabase extends InstallerModel
 
 		foreach ($queries as $query)
 		{
-			try
+			$query = trim($query);
+
+			if ($query != '' && $query{0} != '#')
 			{
-				$db->setQuery($query)->execute();
-			}
-			catch (Exception $e)
-			{
-				// If the query fails we will go on. It probably means we've already done this conversion.
+				try
+				{
+					$db->setQuery($query)->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $e->getCode(), $e->getMessage()));
+				}
 			}
 		}
 	}
