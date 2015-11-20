@@ -12,7 +12,16 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 
-$captchaEnabled = (JFactory::getApplication()->get('captcha', '0') !== '0' && !empty(JPluginHelper::getPlugin('captcha')));
+$captchaEnabled = false;
+
+foreach (JPluginHelper::getPlugin('captcha') as $plugin)
+{
+	if (JFactory::getApplication()->get('captcha', '0') === $plugin->name)
+	{
+		$captchaEnabled = true;
+		break;
+	}
+}
 ?>
 <div class="contact-form">
 	<form id="contact-form" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-validate form-horizontal well">
