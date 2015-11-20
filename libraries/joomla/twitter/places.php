@@ -145,7 +145,7 @@ class JTwitterPlaces extends JTwitterObject
 		// Check if query is specified.
 		if ($query)
 		{
-			$data['query'] = rawurlencode($query);
+			$data['query'] = $query;
 		}
 
 		// Check if ip is specified.
@@ -181,7 +181,7 @@ class JTwitterPlaces extends JTwitterObject
 		// Check if attribute is specified
 		if ($attribute)
 		{
-			$data['attribute:street_address'] = rawurlencode($attribute);
+			$data['attribute:street_address'] = $attribute;
 		}
 
 		// Check if callback is specified
@@ -218,7 +218,7 @@ class JTwitterPlaces extends JTwitterObject
 
 		$data['lat'] = $lat;
 		$data['long'] = $long;
-		$data['name'] = rawurlencode($name);
+		$data['name'] = $name;
 
 		// Check if within is specified
 		if ($within)
@@ -229,7 +229,7 @@ class JTwitterPlaces extends JTwitterObject
 		// Check if attribute is specified
 		if ($attribute)
 		{
-			$data['attribute:street_address'] = rawurlencode($attribute);
+			$data['attribute:street_address'] = $attribute;
 		}
 
 		// Check if callback is specified

@@ -339,7 +339,7 @@ class JLinkedinCompaniesTest extends TestCase
 		$returnData->code = 200;
 		$returnData->body = $this->sampleString;
 
-		$path = $this->oauth->toUrl($path, $data);
+		$path = $this->oauth->toUrl($path, $this->oauth->safeEncode($data));
 
 		$this->client->expects($this->once())
 			->method('get')
@@ -394,7 +394,7 @@ class JLinkedinCompaniesTest extends TestCase
 		$returnData->code = 401;
 		$returnData->body = $this->errorString;
 
-		$path = $this->oauth->toUrl($path, $data);
+		$path = $this->oauth->toUrl($path, $this->oauth->safeEncode($data));
 
 		$this->client->expects($this->once())
 			->method('get')
