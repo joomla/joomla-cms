@@ -158,19 +158,28 @@ class JFormFieldPassword extends JFormField
 
 		if ($this->meter)
 		{
-			JHtml::_('script', 'system/passwordstrength.js', true, true);
-			$script = 'new Form.PasswordStrength("' . $this->id . '",
-				{
-					threshold: ' . $this->threshold . ',
-					onUpdate: function(element, strength, threshold) {
-						element.set("data-passwordstrength", strength);
-					}
-				}
-			);';
+			JHtml::_('script', 'jui/pwstrength-bootstrap-1.2.9.min.js', false, true, false, false, true);
 
 			// Load script on document load.
 			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function(){" . $script . "});"
+				"jQuery(document).ready(function($){
+					'use strict';
+					var options = {};
+					options.ui = {
+						bootstrap2: true,
+						showErrors: true,
+					};
+					options.ui.errorMessages = {
+						wordLength: '" . JText::_('JFIELD_PASSWORD_LENGTH') . "',
+
+						wordNotEmail: '" . JText::_('JFIELD_PASSWORD_NOEMAIL') . "',
+						wordSimilarToUsername: '" . JText::_('JFIELD_PASSWORD_USERNAME') . "',
+						wordTwoCharacterClasses: '" . JText::_('JFIELD_PASSWORD_CHARCLASS') . "',
+						wordRepetitions: '" . JText::_('JFIELD_PASSWORD_WORDREP') . "',
+						wordSequences: '" . JText::_('JFIELD_PASSWORD_WORDSEQ') . "'
+					};
+					jQuery('#" . $this->id . "').pwstrength(options);
+				});"
 			);
 		}
 

@@ -29,6 +29,7 @@
 			required="true"
 			filter="raw"
 			autocomplete="off"
+			strengthmeter="true"
 		/>
 
 		<field name="admin_password2" type="password" id="admin_password2" class="inputbox"
