@@ -290,7 +290,7 @@ abstract class JOAuth1Client
 		switch ($method)
 		{
 			case 'GET':
-				// encode data here to not break the oauth signature.
+				// Encode data here to not break the oauth signature.
 				$url = $this->toUrl($url, $this->safeEncode($data));
 				$response = $this->client->get($url, array('Authorization' => $this->_createHeader($oauth_headers)));
 				break;
