@@ -30,6 +30,8 @@
 			filter="raw"
 			autocomplete="off"
 			strengthmeter="true"
+			minlength="4"
+			username="admin_user"
 		/>
 
 		<field name="admin_password2" type="password" id="admin_password2" class="inputbox"
