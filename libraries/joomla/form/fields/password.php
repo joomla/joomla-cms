@@ -174,7 +174,7 @@ class JFormFieldPassword extends JFormField
 		$hint            = $hint ? ' placeholder="' . $hint . '"' : '';
 		$autocomplete    = !$this->autocomplete ? ' autocomplete="off"' : '';
 		$autofocus       = $this->autofocus ? ' autofocus' : '';
-		$this->username  = $this->username ? 'options.common.usernameField = "#jform_' . $this->username . '";' : '';
+		$this->username  = $this->element['username'] ? 'options.common.usernameField = "#jform_' . $this->element['username'] . '";' : '';
 		$this->minLength = 'options.common.minChar = ' . (int) JComponentHelper::getParams('com_users')->get('minimum_length') . ';';
 
 		if ($this->meter)
