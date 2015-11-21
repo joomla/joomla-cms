@@ -10,3 +10,5 @@ ALTER TABLE `#__menu` DROP  KEY `idx_path`, ADD KEY `idx_path` (`path`(191));
 ALTER TABLE `#__session` MODIFY `session_id` varchar(191) NOT NULL DEFAULT '';
 
 ALTER TABLE `#__user_keys` MODIFY `series` varchar(191) NOT NULL;
+
+ALTER TABLE `#__update_sites_extensions` ENGINE='DEFAULT';
