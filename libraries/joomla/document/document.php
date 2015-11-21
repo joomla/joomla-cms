@@ -267,7 +267,6 @@ class JDocument
 	 * @return  object  The document object.
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException
 	 */
 	public static function getInstance($type = 'html', $attributes = array())
 	{
@@ -293,20 +292,13 @@ class JDocument
 					require_once $path;
 				}
 				// Default to the raw format
-				elseif (file_exists($rawpath))
+				else
 				{
 					$ntype = $type;
 					$type  = 'raw';
 					$class = 'JDocument' . $type;
 
 					require_once $rawpath;
-				}
-				else
-				{
-					// @codeCoverageIgnoreStart
-					throw new RuntimeException('Invalid JDocument Class', 500);
-
-					// @codeCoverageIgnoreEnd
 				}
 			}
 
