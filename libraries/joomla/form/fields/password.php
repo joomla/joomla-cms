@@ -84,6 +84,7 @@ class JFormFieldPassword extends JFormField
 			case 'maxLength':
 			case 'meter':
 			case 'username':
+			case 'minlength':
 				return $this->$name;
 		}
 
@@ -108,6 +109,7 @@ class JFormFieldPassword extends JFormField
 		{
 			case 'maxLength':
 			case 'threshold':
+			case 'minlength':
 			case 'username':
 				$this->$name = $value;
 				break;
@@ -143,8 +145,6 @@ class JFormFieldPassword extends JFormField
 		{
 			$this->maxLength = $this->element['maxlength'] ? (int) $this->element['maxlength'] : 99;
 			$this->threshold = $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
-			$this->username  = $this->element['username'] ? 'options.common.usernameField = "#jform_' . $this->element['username'] . '";' : '';
-			$this->minLength = 'options.common.minChar = ' . (int) JComponentHelper::getParams('com_users')->get('minimum_length') . ';';
 			$meter           = (string) $this->element['strengthmeter'];
 			$this->meter     = ($meter == 'true' || $meter == 'on' || $meter == '1');
 		}
@@ -165,15 +165,17 @@ class JFormFieldPassword extends JFormField
 		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 
 		// Initialize some field attributes.
-		$size         = !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
-		$class        = !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$readonly     = $this->readonly ? ' readonly' : '';
-		$disabled     = $this->disabled ? ' disabled' : '';
-		$required     = $this->required ? ' required aria-required="true"' : '';
-		$hint         = $hint ? ' placeholder="' . $hint . '"' : '';
-		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : '';
-		$autofocus    = $this->autofocus ? ' autofocus' : '';
+		$size            = !empty($this->size) ? ' size="' . $this->size . '"' : '';
+		$maxLength       = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
+		$class           = !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$readonly        = $this->readonly ? ' readonly' : '';
+		$disabled        = $this->disabled ? ' disabled' : '';
+		$required        = $this->required ? ' required aria-required="true"' : '';
+		$hint            = $hint ? ' placeholder="' . $hint . '"' : '';
+		$autocomplete    = !$this->autocomplete ? ' autocomplete="off"' : '';
+		$autofocus       = $this->autofocus ? ' autofocus' : '';
+		$this->username  = $this->username ? 'options.common.usernameField = "#jform_' . $this->username . '";' : '';
+		$this->minLength = 'options.common.minChar = ' . (int) JComponentHelper::getParams('com_users')->get('minimum_length') . ';';
 
 		if ($this->meter)
 		{
