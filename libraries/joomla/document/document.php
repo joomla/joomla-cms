@@ -987,37 +987,43 @@ class JDocument
 	 *
 	 * @param   string  $type  The renderer type
 	 *
-	 * @return  JDocumentRenderer  Object or null if class does not exist
+	 * @return  JDocumentRenderer
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
 	public function loadRenderer($type)
 	{
-		$class = 'JDocumentRenderer' . $type;
+		// New class name format adds the format type to the class name
+		$class = 'JDocumentRenderer' . ucfirst($this->getType()) . ucfirst($type);
 
 		if (!class_exists($class))
 		{
-			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
+			// "Legacy" class name structure
+			$class = 'JDocumentRenderer' . $type;
 
-			if (file_exists($path))
+			if (!class_exists($class))
 			{
+				// @deprecated 4.0 - Non-autoloadable class support is deprecated, only log a message though if a file is found
+				$path = __DIR__ . '/' . $this->getType() . '/renderer/' . $type . '.php';
+
+				if (!file_exists($path))
+				{
+					throw new RuntimeException('Unable to load renderer class', 500);
+				}
+
+				JLog::add('Non-autoloadable JDocumentRenderer subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
 				require_once $path;
-			}
-			else
-			{
-				throw new RuntimeException('Unable to load renderer class', 500);
+
+				// If the class still doesn't exist after including the path, we've got issues
+				if (!class_exists($class))
+				{
+					throw new RuntimeException('Unable to load renderer class', 500);
+				}
 			}
 		}
 
-		if (!class_exists($class))
-		{
-			return null;
-		}
-
-		$instance = new $class($this);
-
-		return $instance;
+		return new $class($this);
 	}
 
 	/**
