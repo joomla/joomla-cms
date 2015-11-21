@@ -8203,6 +8203,10 @@ body.modal-open {
 	-webkit-overflow-scrolling: touch;
 	overflow-y: auto !important;
 }
+.controls .progress {
+	margin-top: 7px;
+	width: 220px;
+}
 .pull-right {
 	float: left;
 }
