@@ -33,7 +33,7 @@ class JoomlaInstallerScript
 
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
-		$this->uninstallEosPlugin();
+		$this->updateDatabase();
 		$this->clearRadCache();
 		$this->updateAssets();
 		$this->clearStatsCache();
@@ -94,6 +94,69 @@ class JoomlaInstallerScript
 			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
 
 			return;
+		}
+	}
+
+	/**
+	 * Method to update Database
+	 *
+	 * @return  void
+	 */
+	protected function updateDatabase()
+	{
+		$db = JFactory::getDbo();
+
+		if (strpos($db->name, 'mysql') !== false)
+		{
+			$this->updateDatabaseMysql();
+		}
+
+		$this->uninstallEosPlugin();
+	}
+
+	/**
+	 * Method to update MySQL Database
+	 *
+	 * @return  void
+	 */
+	protected function updateDatabaseMysql()
+	{
+		$db = JFactory::getDbo();
+
+		$db->setQuery('SHOW ENGINES');
+
+		try
+		{
+			$results = $db->loadObjectList();
+		}
+		catch (Exception $e)
+		{
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+
+			return;
+		}
+
+		foreach ($results as $result)
+		{
+			if ($result->Support != 'DEFAULT')
+			{
+				continue;
+			}
+
+			$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (Exception $e)
+			{
+				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+
+				return;
+			}
+
+			break;
 		}
 	}
 
@@ -1517,49 +1580,47 @@ class JoomlaInstallerScript
 	{
 		$db = JFactory::getDbo();
 
-		// Setup the adapter for the indexer.
-		$format = $db->name;
+		$utf8mb4IsSupported = $this->serverClaimsUtf8mb4Support($db->name);
 
-		if ($format == 'mysqli' || $format == 'pdomysql')
+		if ($utf8mb4IsSupported)
 		{
-			$format = 'mysql';
-		}
+			// Setup the adapter for the indexer.
+			$format = $db->name;
 
-		if ($format == 'mysql')
-		{
-			$fileName = JPATH_ADMINISTRATOR . "/components/com_admin/sql/utf8mb4/$format/3.5.0-2015-07-01.sql";
-
-			// Split the queries
-			$fileContents = @file_get_contents($fileName);
-			$queries = $db->splitSql($fileContents);
-
-			if (count($queries) == 0)
+			if ($format == 'mysqli' || $format == 'pdomysql')
 			{
-				// No queries to process
-				return;
+				$format = 'mysql';
 			}
 
-			$utf8mb4IsSupported = $this->serverClaimsUtf8mb4Support($db->name);
-
-			// Execute the queries
-			foreach ($queries as $query)
+			if ($format == 'mysql')
 			{
-				$query = trim($query);
+				$fileName = JPATH_ADMINISTRATOR . "/components/com_admin/sql/utf8mb4/" . $format . ".sql";
 
-				if ($query != '' && $query{0} != '#')
+				// Split the queries
+				$fileContents = @file_get_contents($fileName);
+				$queries = $db->splitSql($fileContents);
+
+				if (count($queries) == 0)
 				{
-					try
-					{
-						if (!$utf8mb4IsSupported)
-						{
-							$query = str_replace('utf8mb4', 'utf8', $query);
-						}
+					// No queries to process
+					return;
+				}
 
-						$db->setQuery($query)->execute();
-					}
-					catch (RuntimeException $e)
+				// Execute the queries
+				foreach ($queries as $query)
+				{
+					$query = trim($query);
+
+					if ($query != '' && $query{0} != '#')
 					{
-						JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $e->getCode(), $e->getMessage()));
+						try
+						{
+							$db->setQuery($query)->execute();
+						}
+						catch (RuntimeException $e)
+						{
+							JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $e->getCode(), $e->getMessage()));
+						}
 					}
 				}
 			}

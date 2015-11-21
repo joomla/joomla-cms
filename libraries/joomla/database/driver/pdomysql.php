@@ -74,6 +74,7 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	{
 		// Get some basic values from the options.
 		$options['driver']  = 'mysql';
+
 		if (!isset($options['charset']) || $options['charset'] == 'utf8')
 		{
 			$options['charset'] = 'utf8mb4';
