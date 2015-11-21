@@ -109,7 +109,6 @@ class JFormFieldPassword extends JFormField
 		{
 			case 'maxLength':
 			case 'threshold':
-			case 'minlength':
 			case 'username':
 				$this->$name = $value;
 				break;

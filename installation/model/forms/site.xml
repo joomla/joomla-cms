@@ -30,7 +30,6 @@
 			filter="raw"
 			autocomplete="off"
 			strengthmeter="true"
-			minlength="4"
 			username="admin_user"
 		/>
 
