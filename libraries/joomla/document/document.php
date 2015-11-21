@@ -278,13 +278,12 @@ class JDocument
 			$ntype = null;
 
 			// Determine the path and class
-			$class = 'JDocument' . $type;
+			$class = 'JDocument' . ucfirst($type);
 
 			if (!class_exists($class))
 			{
 				// @deprecated 4.0 - JDocument objects should be autoloaded instead
-				$path    = __DIR__ . '/' . $type . '/' . $type . '.php';
-				$rawpath = __DIR__ . '/raw/raw.php';
+				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 
 				if (file_exists($path))
 				{
@@ -297,8 +296,6 @@ class JDocument
 					$ntype = $type;
 					$type  = 'raw';
 					$class = 'JDocument' . $type;
-
-					require_once $rawpath;
 				}
 			}
 

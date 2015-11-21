@@ -1383,6 +1383,15 @@ class JoomlaInstallerScript
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ParseException.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/RuntimeException.php',
 			'/administrator/components/com_tags/helpers/tags.php',
+			// Joomla 3.6.0
+			'/libraries/joomla/document/error/error.php',
+			'/libraries/joomla/document/feed/feed.php',
+			'/libraries/joomla/document/html/html.php',
+			'/libraries/joomla/document/image/image.php',
+			'/libraries/joomla/document/json/json.php',
+			'/libraries/joomla/document/opensearch/opensearch.php',
+			'/libraries/joomla/document/raw/raw.php',
+			'/libraries/joomla/document/xml/xml.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1471,6 +1480,13 @@ class JoomlaInstallerScript
 			'/libraries/vendor/symfony/yaml/Symfony/Component',
 			'/libraries/vendor/symfony/yaml/Symfony',
 			'/administrator/components/com_tags/helpers',
+			// Joomla 3.6.0
+			'/libraries/joomla/document/error',
+			'/libraries/joomla/document/image',
+			'/libraries/joomla/document/json',
+			'/libraries/joomla/document/opensearch',
+			'/libraries/joomla/document/raw',
+			'/libraries/joomla/document/xml',
 		);
 
 		jimport('joomla.filesystem.file');
