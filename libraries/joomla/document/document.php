@@ -275,9 +275,7 @@ class JDocument
 
 		if (empty(self::$instances[$signature]))
 		{
-			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-			$path = __DIR__ . '/' . $type . '/' . $type . '.php';
-			$rawpath = __DIR__ . '/raw/raw.php';
+			$type  = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 			$ntype = null;
 
 			// Determine the path and class
@@ -285,16 +283,20 @@ class JDocument
 
 			if (!class_exists($class))
 			{
+				// @deprecated 4.0 - JDocument objects should be autoloaded instead
+				$path    = __DIR__ . '/' . $type . '/' . $type . '.php';
+				$rawpath = __DIR__ . '/raw/raw.php';
+
 				if (file_exists($path))
 				{
+					JLog::add('Non-autoloadable JDocument subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
 					require_once $path;
 				}
 				// Default to the raw format
 				elseif (file_exists($rawpath))
 				{
 					$ntype = $type;
-					$type = 'raw';
-
+					$type  = 'raw';
 					$class = 'JDocument' . $type;
 
 					require_once $rawpath;
