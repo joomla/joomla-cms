@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -84,6 +84,7 @@ class JFormFieldPassword extends JFormField
 			case 'maxLength':
 			case 'meter':
 			case 'username':
+			case 'minlength':
 				return $this->$name;
 		}
 
@@ -109,6 +110,7 @@ class JFormFieldPassword extends JFormField
 			case 'maxLength':
 			case 'threshold':
 			case 'username':
+			case 'minlength':
 				$this->$name = $value;
 				break;
 
@@ -124,7 +126,7 @@ class JFormFieldPassword extends JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
@@ -144,7 +146,7 @@ class JFormFieldPassword extends JFormField
 			$this->maxLength = $this->element['maxlength'] ? (int) $this->element['maxlength'] : 99;
 			$this->threshold = $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 			$this->username  = $this->element['username'] ? 'options.common.usernameField = "#jform_' . $this->element['username'] . '";' : '';
-			$this->minLength = 'options.common.minChar = ' . (int) JComponentHelper::getParams('com_users')->get('minimum_length') . ';';
+			$this->minLength = $this->element['minlength'] ? 'options.common.minChar = ' . $this->element['minlength'] . ';' : 'options.common.minChar = 4;';
 			$meter           = (string) $this->element['strengthmeter'];
 			$this->meter     = ($meter == 'true' || $meter == 'on' || $meter == '1');
 		}
@@ -210,7 +212,7 @@ class JFormFieldPassword extends JFormField
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
+		return '<span>test<span/><input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
 			' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $hint . $autocomplete .
 			$class . $readonly . $disabled . $size . $maxLength . $required . $autofocus . ' />';
 	}
