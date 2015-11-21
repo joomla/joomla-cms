@@ -11,4 +11,4 @@ ALTER TABLE `#__session` MODIFY `session_id` varchar(191) NOT NULL DEFAULT '';
 
 ALTER TABLE `#__user_keys` MODIFY `series` varchar(191) NOT NULL;
 
-ALTER TABLE `#__update_sites_extensions` ENGINE='DEFAULT';
+ALTER TABLE `#__update_sites_extensions` ENGINE=InnoDB;
