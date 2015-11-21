@@ -44,6 +44,22 @@ class JFormFieldPassword extends JFormField
 	protected $maxLength;
 
 	/**
+	 * The allowable minlength of password.
+	 *
+	 * @var    integer
+	 * @since  3.5
+	 */
+	protected $minLength;
+
+	/**
+	 * The linked username field.
+	 *
+	 * @var    string
+	 * @since  3.5
+	 */
+	protected $username;
+
+	/**
 	 * Whether to attach a password strength meter or not.
 	 *
 	 * @var    boolean
@@ -67,6 +83,8 @@ class JFormFieldPassword extends JFormField
 			case 'threshold':
 			case 'maxLength':
 			case 'meter':
+			case 'username':
+			case 'minlength':
 				return $this->$name;
 		}
 
@@ -91,6 +109,8 @@ class JFormFieldPassword extends JFormField
 		{
 			case 'maxLength':
 			case 'threshold':
+			case 'username':
+			case 'minlength':
 				$this->$name = $value;
 				break;
 
@@ -125,6 +145,8 @@ class JFormFieldPassword extends JFormField
 		{
 			$this->maxLength = $this->element['maxlength'] ? (int) $this->element['maxlength'] : 99;
 			$this->threshold = $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
+			$this->username  = $this->element['username'] ? 'options.common.usernameField = "#jform_' . $this->element['username'] . '";' : '';
+			$this->minLength = $this->element['minlength'] ? 'options.common.minChar = ' . $this->element['minlength'] . ';' : 'options.common.minChar = 4;';
 
 			$meter       = (string) $this->element['strengthmeter'];
 			$this->meter = ($meter == 'true' || $meter == 'on' || $meter == '1');
@@ -166,6 +188,9 @@ class JFormFieldPassword extends JFormField
 		jQuery(document).ready(function($){
 			'use strict';
 			var options = {};
+			options.common = {};
+			" . $this->username . "
+			" . $this->minLength . "
 			options.ui = {
 				bootstrap2: true,
 				showErrors: true,
