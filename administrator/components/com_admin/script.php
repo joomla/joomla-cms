@@ -33,7 +33,7 @@ class JoomlaInstallerScript
 
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
-		$this->updateDatabase();
+		$this->uninstallEosPlugin();
 		$this->clearRadCache();
 		$this->updateAssets();
 		$this->clearStatsCache();
@@ -94,69 +94,6 @@ class JoomlaInstallerScript
 			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
 
 			return;
-		}
-	}
-
-	/**
-	 * Method to update Database
-	 *
-	 * @return  void
-	 */
-	protected function updateDatabase()
-	{
-		$db = JFactory::getDbo();
-
-		if (strpos($db->name, 'mysql') !== false)
-		{
-			$this->updateDatabaseMysql();
-		}
-
-		$this->uninstallEosPlugin();
-	}
-
-	/**
-	 * Method to update MySQL Database
-	 *
-	 * @return  void
-	 */
-	protected function updateDatabaseMysql()
-	{
-		$db = JFactory::getDbo();
-
-		$db->setQuery('SHOW ENGINES');
-
-		try
-		{
-			$results = $db->loadObjectList();
-		}
-		catch (Exception $e)
-		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
-
-			return;
-		}
-
-		foreach ($results as $result)
-		{
-			if ($result->Support != 'DEFAULT')
-			{
-				continue;
-			}
-
-			$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
-
-			try
-			{
-				$db->execute();
-			}
-			catch (Exception $e)
-			{
-				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
-
-				return;
-			}
-
-			break;
 		}
 	}
 
