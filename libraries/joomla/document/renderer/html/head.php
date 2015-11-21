@@ -139,9 +139,12 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 				$buffer .= ' media="' . $strAttr['media'] . '"';
 			}
 
-			if ($temp = ArrayHelper::toString($strAttr['attribs']))
+			if (is_array($strAttr['attribs']))
 			{
-				$buffer .= ' ' . $temp;
+				if ($temp = ArrayHelper::toString($strAttr['attribs']))
+				{
+					$buffer .= ' ' . $temp;
+				}
 			}
 
 			$buffer .= $tagEnd . $lnEnd;
