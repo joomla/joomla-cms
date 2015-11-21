@@ -294,8 +294,7 @@ class JDocument
 				else
 				{
 					$ntype = $type;
-					$type  = 'raw';
-					$class = 'JDocument' . $type;
+					$class = 'JDocumentRaw';
 				}
 			}
 
