@@ -74,7 +74,6 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 				</noscript>
 			</div>
 			<div id="container-installation">
-				<div id="loading"></div>
 				<jdoc:include type="component" />
 			</div>
 			<hr />
