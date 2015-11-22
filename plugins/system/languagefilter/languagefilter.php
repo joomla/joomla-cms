@@ -703,7 +703,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				{
 					// Use a custom tag because addHeadLink is limited to one URI per tag
 					$doc->addCustomTag('<link href="' . $server . $languages[$xdefault]->link . '" rel="alternate" hreflang="x-default" />');
-					//$doc->addHeadLink($server . $languages[$xdefault]->link, 'alternate', 'rel', array('hreflang' => 'x-default'));
+					// $doc->addHeadLink($server . $languages[$xdefault]->link, 'alternate', 'rel', array('hreflang' => 'x-default'));
 				}
 			}
 		}
