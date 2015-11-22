@@ -613,8 +613,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			$active = $menu->getActive();
 			$levels = JFactory::getUser()->getAuthorisedViewLevels();
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
-			$xdefault = $this->params->get('xdefault', 'default');
-			$xdefault = ($xdefault == 'default') ? $this->default_lang : $xdefault;
+			$xdefault = $this->params->get('xdefault', $this->default_lang);
 			$server = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
 			$is_home = false;
 
