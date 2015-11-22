@@ -697,7 +697,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				{
 					$doc->addHeadLink($server . $language->link, 'alternate', 'rel', array('hreflang' => $i));
 				}
-				
+
 				// Add x-default language tag
 				$doc->addHeadLink($server . $languages[$xdefault]->link, 'alternate', 'rel', array('hreflang' => 'x-default'));
 			}
