@@ -197,6 +197,12 @@ class JFormFieldPassword extends JFormField
 				bootstrap2: true,
 				showErrors: true,
 			};
+			options.ui.verdicts = [
+			'" . JText::_('JFIELD_PASSWORD_INDICATE_WEAK') . "',
+			'" . JText::_('JFIELD_PASSWORD_INDICATE_NORMAL') . "',
+			'" . JText::_('JFIELD_PASSWORD_INDICATE_MEDIUM') . "',
+			'" . JText::_('JFIELD_PASSWORD_INDICATE_STRONG') . "',
+			'" . JText::_('JFIELD_PASSWORD_INDICATE_VSTRONG') . "'];
 			options.ui.errorMessages = {
 				wordLength: '" . JText::_('JFIELD_PASSWORD_INDICATE_LENGTH') . "',
 				wordNotEmail: '" . JText::_('JFIELD_PASSWORD_INDICATE_NOEMAIL') . "',
