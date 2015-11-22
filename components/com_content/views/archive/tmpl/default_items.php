@@ -16,7 +16,7 @@ $params = $this->params;
 <div id="archive-items">
 	<?php foreach ($this->items as $i => $item) : ?>
 		<?php $info = $item->params->get('info_block_position', 0); ?>
-		<div class="row<?php echo $i % 2; ?>" itemscope itemtype="http://schema.org/Article">
+		<div class="row<?php echo $i % 2; ?>" itemscope itemtype="https://schema.org/Article">
 			<div class="page-header">
 				<h2 itemprop="name">
 					<?php if ($params->get('link_titles')) : ?>
@@ -28,7 +28,7 @@ $params = $this->params;
 					<?php endif; ?>
 				</h2>
 				<?php if ($params->get('show_author') && !empty($item->author )) : ?>
-					<div class="createdby" itemprop="author" itemscope itemtype="http://schema.org/Person">
+					<div class="createdby" itemprop="author" itemscope itemtype="https://schema.org/Person">
 					<?php $author = ($item->created_by_alias) ? $item->created_by_alias : $item->author; ?>
 					<?php $author = '<span itemprop="name">' . $author . '</span>'; ?>
 						<?php if (!empty($item->contact_link) && $params->get('link_author') == true) : ?>
