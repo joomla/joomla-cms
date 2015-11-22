@@ -55,13 +55,15 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				<field name="xdefault" type="language"
-					client="site" 
-					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_DESC"
-					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LABEL"
-					default="en-GB"
+				<field
+					name="xdefault" type="contentlanguage"
+					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_DESC"
+					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LABEL"
+					default="default"
 					showon="alternate_meta:1"
-					/>
+				>
+					<option value="default">PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_DEFAULT</option>
+				</field>
 				<field name="remove_default_prefix" type="radio"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_DESC"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_LABEL"
