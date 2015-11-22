@@ -57,8 +57,8 @@
 				</field>
 				<field
 					name="xdefault" type="contentlanguage"
-					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_DESC"
-					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LABEL"
+					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_DESC"
+					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LABEL"
 					default="default"
 					showon="alternate_meta:1"
 				>
