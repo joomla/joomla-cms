@@ -603,6 +603,9 @@ class PlgSystemDebug extends JPlugin
 
 		$db = JFactory::getDbo();
 
+		//  fix  for support custom shutdown function via register_shutdown_function().
+		$db->disconnect();
+
 		$log = $db->getLog();
 
 		if ($log)

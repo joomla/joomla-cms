@@ -189,7 +189,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 
 		if ($feed_display_order == 'asc')
 		{
-			$newsfeed->items = array_reverse($newsfeed->items);
+			$this->rssDoc->reverseItems();
 		}
 
 		// Escape strings for HTML output

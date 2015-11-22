@@ -64,29 +64,7 @@ abstract class JArrayHelper
 	 */
 	public static function toInteger(&$array, $default = null)
 	{
-		if (is_array($array))
-		{
-			foreach ($array as $i => $v)
-			{
-				$array[$i] = (int) $v;
-			}
-		}
-		else
-		{
-			if ($default === null)
-			{
-				$array = array();
-			}
-			elseif (is_array($default))
-			{
-				self::toInteger($default, null);
-				$array = $default;
-			}
-			else
-			{
-				$array = array((int) $default);
-			}
-		}
+		$array = ArrayHelper::toInteger($array, $default);
 	}
 
 	/**
@@ -160,63 +138,7 @@ abstract class JArrayHelper
 	 */
 	public static function fromObject($p_obj, $recurse = true, $regex = null)
 	{
-		if (is_object($p_obj))
-		{
-			return self::_fromObject($p_obj, $recurse, $regex);
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	/**
-	 * Utility function to map an object or array to an array
-	 *
-	 * @param   mixed    $item     The source object or array
-	 * @param   boolean  $recurse  True to recurse through multi-level objects
-	 * @param   string   $regex    An optional regular expression to match on field names
-	 *
-	 * @return  array  The array mapped from the given object
-	 *
-	 * @since   11.1
-	 */
-	protected static function _fromObject($item, $recurse, $regex)
-	{
-		if (is_object($item))
-		{
-			$result = array();
-
-			foreach (get_object_vars($item) as $k => $v)
-			{
-				if (!$regex || preg_match($regex, $k))
-				{
-					if ($recurse)
-					{
-						$result[$k] = self::_fromObject($v, $recurse, $regex);
-					}
-					else
-					{
-						$result[$k] = $v;
-					}
-				}
-			}
-		}
-		elseif (is_array($item))
-		{
-			$result = array();
-
-			foreach ($item as $k => $v)
-			{
-				$result[$k] = self::_fromObject($v, $recurse, $regex);
-			}
-		}
-		else
-		{
-			$result = $item;
-		}
-
-		return $result;
+		return ArrayHelper::fromObject($p_obj, $recurse, $regex);
 	}
 
 	/**
@@ -327,64 +249,15 @@ abstract class JArrayHelper
 	public static function pivot($source, $key = null)
 	{
 		$result = array();
-		$counter = array();
 
-		foreach ($source as $index => $value)
+		if (is_array($source))
 		{
-			// Determine the name of the pivot key, and its value.
-			if (is_array($value))
-			{
-				// If the key does not exist, ignore it.
-				if (!isset($value[$key]))
-				{
-					continue;
-				}
-
-				$resultKey = $value[$key];
-				$resultValue = &$source[$index];
-			}
-			elseif (is_object($value))
-			{
-				// If the key does not exist, ignore it.
-				if (!isset($value->$key))
-				{
-					continue;
-				}
-
-				$resultKey = $value->$key;
-				$resultValue = &$source[$index];
-			}
-			else
-			{
-				// Just a scalar value.
-				$resultKey = $value;
-				$resultValue = $index;
-			}
-
-			// The counter tracks how many times a key has been used.
-			if (empty($counter[$resultKey]))
-			{
-				// The first time around we just assign the value to the key.
-				$result[$resultKey] = $resultValue;
-				$counter[$resultKey] = 1;
-			}
-			elseif ($counter[$resultKey] == 1)
-			{
-				// If there is a second time, we convert the value into an array.
-				$result[$resultKey] = array(
-					$result[$resultKey],
-					$resultValue,
-				);
-				$counter[$resultKey]++;
-			}
-			else
-			{
-				// After the second time, no need to track any more. Just append to the existing array.
-				$result[$resultKey][] = $resultValue;
-			}
+			$result = ArrayHelper::pivot($source, $key);
 		}
-
-		unset($counter);
+		else
+		{
+			JLog::add('This method is typehinted to be an array in \Joomla\Utilities\ArrayHelper::pivot.', JLog::WARNING, 'deprecated');
+		}
 
 		return $result;
 	}
@@ -405,86 +278,16 @@ abstract class JArrayHelper
 	 */
 	public static function sortObjects(&$a, $k, $direction = 1, $caseSensitive = true, $locale = false)
 	{
-		if (!is_array($locale) || !is_array($locale[0]))
+		if (is_array($a))
 		{
-			$locale = array($locale);
+			$a = ArrayHelper::sortObjects($a, $k, $direction, $caseSensitive, $locale);
 		}
-
-		self::$sortCase = (array) $caseSensitive;
-		self::$sortDirection = (array) $direction;
-		self::$sortKey = (array) $k;
-		self::$sortLocale = $locale;
-
-		usort($a, array(__CLASS__, '_sortObjects'));
-
-		self::$sortCase = null;
-		self::$sortDirection = null;
-		self::$sortKey = null;
-		self::$sortLocale = null;
+		else
+		{
+			JLog::add('This method is typehinted to be an array in \Joomla\Utilities\ArrayHelper::sortObjects.', JLog::WARNING, 'deprecated');
+		}
 
 		return $a;
-	}
-
-	/**
-	 * Callback function for sorting an array of objects on a key
-	 *
-	 * @param   array  &$a  An array of objects
-	 * @param   array  &$b  An array of objects
-	 *
-	 * @return  integer  Comparison status
-	 *
-	 * @see     JArrayHelper::sortObjects()
-	 * @since   11.1
-	 */
-	protected static function _sortObjects(&$a, &$b)
-	{
-		$key = self::$sortKey;
-
-		for ($i = 0, $count = count($key); $i < $count; $i++)
-		{
-			if (isset(self::$sortDirection[$i]))
-			{
-				$direction = self::$sortDirection[$i];
-			}
-
-			if (isset(self::$sortCase[$i]))
-			{
-				$caseSensitive = self::$sortCase[$i];
-			}
-
-			if (isset(self::$sortLocale[$i]))
-			{
-				$locale = self::$sortLocale[$i];
-			}
-
-			$va = $a->{$key[$i]};
-			$vb = $b->{$key[$i]};
-
-			if ((is_bool($va) || is_numeric($va)) && (is_bool($vb) || is_numeric($vb)))
-			{
-				$cmp = $va - $vb;
-			}
-			elseif ($caseSensitive)
-			{
-				$cmp = JString::strcmp($va, $vb, $locale);
-			}
-			else
-			{
-				$cmp = JString::strcasecmp($va, $vb, $locale);
-			}
-
-			if ($cmp > 0)
-			{
-				return $direction;
-			}
-
-			if ($cmp < 0)
-			{
-				return -$direction;
-			}
-		}
-
-		return 0;
 	}
 
 	/**
@@ -500,23 +303,6 @@ abstract class JArrayHelper
 	 */
 	public static function arrayUnique($myArray)
 	{
-		if (!is_array($myArray))
-		{
-			return $myArray;
-		}
-
-		foreach ($myArray as &$myvalue)
-		{
-			$myvalue = serialize($myvalue);
-		}
-
-		$myArray = array_unique($myArray);
-
-		foreach ($myArray as &$myvalue)
-		{
-			$myvalue = unserialize($myvalue);
-		}
-
-		return $myArray;
+		return is_array($myArray) ? ArrayHelper::arrayUnique($myArray) : $myArray;
 	}
 }

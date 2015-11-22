@@ -19,6 +19,7 @@
 			filter="string"
 			validate="contactemail"
 			required="true"
+			autocomplete="email"
 		/>
 		<field name="contact_subject"
 			type="text"
