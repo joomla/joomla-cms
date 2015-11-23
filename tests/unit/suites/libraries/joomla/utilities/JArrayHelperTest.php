@@ -1387,7 +1387,6 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getTestFromObjectData
 	 * @covers  JArrayHelper::fromObject
-	 * @covers  JArrayHelper::_fromObject
 	 * @since   11.1
 	 */
 	public function testFromObject($input, $recurse, $regex, $expect, $defaults)
@@ -1552,7 +1551,6 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider getTestSortObjectData
 	 * @covers  JArrayHelper::sortObjects
-	 * @covers  JArrayHelper::_sortObjects
 	 * @since   11.1
 	 */
 	public function testSortObjects($input, $key, $direction, $casesensitive, $locale, $expect, $message, $defaults, $swappableKeys = array())

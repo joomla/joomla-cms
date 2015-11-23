@@ -126,6 +126,9 @@ class PostinstallModelMessages extends FOFModel
 		$unset_keys          = array();
 		$language_extensions = array();
 
+		// Order the results DESC so the newest is on the top.
+		$resultArray = array_reverse($resultArray);
+
 		foreach ($resultArray as $key => $item)
 		{
 			// Filter out messages based on dynamically loaded programmatic conditions.
