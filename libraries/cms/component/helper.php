@@ -32,7 +32,7 @@ class JComponentHelper
 	 * @param   string   $option  The component option.
 	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribute will be set to false.
 	 *
-	 * @return  object   An object with the information for the component.
+	 * @return  stdClass   An object with the information for the component.
 	 *
 	 * @since   1.5
 	 */
@@ -308,7 +308,7 @@ class JComponentHelper
 	 * @param   string  $option  The component option.
 	 * @param   array   $params  The component parameters
 	 *
-	 * @return  object
+	 * @return  string
 	 *
 	 * @since   1.5
 	 * @throws  Exception

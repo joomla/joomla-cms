@@ -245,6 +245,12 @@
     });
   }
 
+  function contractSelection(sel) {
+    var inverted = CodeMirror.cmpPos(sel.anchor, sel.head) > 0;
+    return {anchor: new Pos(sel.anchor.line, sel.anchor.ch + (inverted ? -1 : 1)),
+            head: new Pos(sel.head.line, sel.head.ch + (inverted ? 1 : -1))};
+  }
+
   function handleChar(cm, ch) {
     var conf = getConfig(cm);
     if (!conf || cm.getOption("disableInput")) return CodeMirror.Pass;
@@ -300,6 +306,10 @@
         for (var i = 0; i < sels.length; i++)
           sels[i] = left + sels[i] + right;
         cm.replaceSelections(sels, "around");
+        sels = cm.listSelections().slice();
+        for (var i = 0; i < sels.length; i++)
+          sels[i] = contractSelection(sels[i]);
+        cm.setSelections(sels);
       } else if (type == "both") {
         cm.replaceSelection(left + right, null);
         cm.triggerElectric(left + right);
@@ -449,19 +459,22 @@
       // when completing in JS/CSS snippet in htmlmixed mode. Does not
       // work for other XML embedded languages (there is no general
       // way to go from a mixed mode to its current XML state).
+      var replacement;
       if (inner.mode.name != "xml") {
         if (cm.getMode().name == "htmlmixed" && inner.mode.name == "javascript")
-          replacements[i] = head + "script>";
+          replacement = head + "script";
         else if (cm.getMode().name == "htmlmixed" && inner.mode.name == "css")
-          replacements[i] = head + "style>";
+          replacement = head + "style";
         else
           return CodeMirror.Pass;
       } else {
         if (!state.context || !state.context.tagName ||
             closingTagExists(cm, state.context.tagName, pos, state))
           return CodeMirror.Pass;
-        replacements[i] = head + state.context.tagName + ">";
+        replacement = head + state.context.tagName;
       }
+      if (cm.getLine(pos.line).charAt(tok.end) != ">") replacement += ">";
+      replacements[i] = replacement;
     }
     cm.replaceSelections(replacements);
     ranges = cm.listSelections();
@@ -2542,6 +2555,8 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       mapCommand: mapCommand,
       _mapCommand: _mapCommand,
 
+      defineRegister: defineRegister,
+
       exitVisualMode: exitVisualMode,
       exitInsertMode: exitInsertMode
     };
@@ -2630,6 +2645,25 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         return this.keyBuffer.join('');
       }
     };
+
+    /**
+     * Defines an external register.
+     *
+     * The name should be a single character that will be used to reference the register.
+     * The register should support setText, pushText, clear, and toString(). See Register
+     * for a reference implementation.
+     */
+    function defineRegister(name, register) {
+      var registers = vimGlobalState.registerController.registers[name];
+      if (!name || name.length != 1) {
+        throw Error('Register name must be 1 character');
+      }
+      if (registers[name]) {
+        throw Error('Register already defined ' + name);
+      }
+      registers[name] = register;
+      validRegisters.push(name);
+    }
 
     /*
      * vim registers allow you to keep many independent copy and paste buffers.
@@ -5978,7 +6012,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
               if (decimal + hex + octal > 1) { return 'Invalid arguments'; }
               number = decimal && 'decimal' || hex && 'hex' || octal && 'octal';
             }
-            if (args.eatSpace() && args.match(/\/.*\//)) { 'patterns not supported'; }
+            if (args.match(/\/.*\//)) { return 'patterns not supported'; }
           }
         }
         var err = parseArgs();
@@ -6417,7 +6451,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     }
 
     function _mapCommand(command) {
-      defaultKeymap.push(command);
+      defaultKeymap.unshift(command);
     }
 
     function mapCommand(keys, type, name, args, extra) {
@@ -6506,7 +6540,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       if (macroModeState.isPlaying) { return; }
       var registerName = macroModeState.latestRegister;
       var register = vimGlobalState.registerController.getRegister(registerName);
-      if (register) {
+      if (register && register.pushInsertModeChanges) {
         register.pushInsertModeChanges(macroModeState.lastInsertModeChanges);
       }
     }
@@ -6515,7 +6549,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       if (macroModeState.isPlaying) { return; }
       var registerName = macroModeState.latestRegister;
       var register = vimGlobalState.registerController.getRegister(registerName);
-      if (register) {
+      if (register && register.pushSearchQuery) {
         register.pushSearchQuery(query);
       }
     }

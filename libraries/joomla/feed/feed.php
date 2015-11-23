@@ -326,4 +326,17 @@ class JFeed implements ArrayAccess
 
 		return $this;
 	}
+
+	/** Method to reverse the items if display is set to 'oldest first'
+	 *
+	 * @return JFeed
+	 */
+	public function reverseItems()
+	{
+		if (is_array($this->entries) && !empty($this->entries))
+		{
+			$this->entries = array_reverse($this->entries);
+		}
+		return $this;
+	}
 }

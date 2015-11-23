@@ -16,22 +16,24 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$app		= JFactory::getApplication();
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$archived	= $this->state->get('filter.published') == 2 ? true : false;
-$trashed	= $this->state->get('filter.published') == -2 ? true : false;
-$canOrder	= $user->authorise('core.edit.state', 'com_newsfeeds.category');
-$saveOrder	= $listOrder == 'a.ordering';
+$app       = JFactory::getApplication();
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$archived  = $this->state->get('filter.published') == 2 ? true : false;
+$trashed   = $this->state->get('filter.published') == -2 ? true : false;
+$canOrder  = $user->authorise('core.edit.state', 'com_newsfeeds.category');
+$saveOrder = $listOrder == 'a.ordering';
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_newsfeeds&task=newsfeeds.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'newsfeedList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
+
 $sortFields = $this->getSortFields();
-$assoc		= JLanguageAssociations::isEnabled();
+$assoc      = JLanguageAssociations::isEnabled();
 
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.orderTable = function()
@@ -51,6 +53,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	};
 ');
 ?>
+
 <form action="<?php echo JRoute::_('index.php?option=com_newsfeeds&view=newsfeeds'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
@@ -60,35 +63,10 @@ JFactory::getDocument()->addScriptDeclaration('
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif;?>
-		<div id="filter-bar" class="btn-toolbar">
-			<div class="filter-search btn-group pull-left">
-				<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_NEWSFEEDS_FILTER_SEARCH_DESC');?></label>
-				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_NEWSFEEDS_SEARCH_IN_TITLE'); ?>" />
-			</div>
-			<div class="btn-group pull-left">
-				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search"></span></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
-			</div>
-			<div class="btn-group pull-right hidden-phone">
-				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
-				<?php echo $this->pagination->getLimitBox(); ?>
-			</div>
-			<div class="btn-group pull-right hidden-phone">
-				<label for="directionTable" class="element-invisible"><?php echo JText::_('JFIELD_ORDERING_DESC');?></label>
-				<select name="directionTable" id="directionTable" class="input-medium" onchange="Joomla.orderTable()">
-					<option value=""><?php echo JText::_('JFIELD_ORDERING_DESC');?></option>
-					<option value="asc" <?php if ($listDirn == 'asc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_ASCENDING');?></option>
-					<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING');?></option>
-				</select>
-			</div>
-			<div class="btn-group pull-right hidden-phone">
-				<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY');?></label>
-				<select name="sortTable" id="sortTable" class="input-medium" onchange="Joomla.orderTable()">
-					<option value=""><?php echo JText::_('JGLOBAL_SORT_BY');?></option>
-					<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder);?>
-				</select>
-			</div>
-		</div>
+		<?php
+		// Search tools bar
+		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+		?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
@@ -127,7 +105,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<th width="5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap center hidden-phone">
+						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -208,10 +186,10 @@ JFactory::getDocument()->addScriptDeclaration('
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo (int) $item->numarticles; ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo (int) $item->cache_time; ?>
 						</td>
 						<?php if ($assoc) : ?>
@@ -228,14 +206,14 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 							<?php endif;?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-			<?php //Load the batch processing form if user is allowed ?>
+			<?php // Load the batch processing form if user is allowed ?>
 			<?php if ($user->authorise('core.create', 'com_newsfeeds')
 				&& $user->authorise('core.edit', 'com_newsfeeds')
 				&& $user->authorise('core.edit.state', 'com_newsfeeds')) : ?>

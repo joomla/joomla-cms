@@ -110,9 +110,10 @@ abstract class JHtmlDropdown
 	 */
 	public static function render()
 	{
-		$dropDownList = static::$dropDownList;
+		$dropDownList  = static::$dropDownList;
 		$dropDownList .= '</ul></div>';
-		static::$dropDownList	= null;
+
+		static::$dropDownList = null;
 		static::$loaded['JHtmlDropdown::start'] = false;
 
 		return $dropDownList;

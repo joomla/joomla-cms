@@ -9,16 +9,9 @@
 
 defined('_JEXEC') or die;
 
-// Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
-
-// Create shortcut to parameters.
-$params = $this->state->get('params');
-$params = $params->toArray();
 
 JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
@@ -29,6 +22,9 @@ JFactory::getDocument()->addScriptDeclaration("
 		}
 	};
 ");
+
+// Fieldsets to not automatically render by /layouts/joomla/edit/params.php
+$this->ignore_fieldsets = array('jmetadata');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_tags&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
@@ -63,11 +59,6 @@ JFactory::getDocument()->addScriptDeclaration("
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
-
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('JGLOBAL_FIELDSET_IMAGE_OPTIONS', true)); ?>
-		<?php echo $this->form->renderFieldset('images'); ?>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php echo $this->form->renderFieldset('urls'); ?>
 	</div>
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>

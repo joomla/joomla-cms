@@ -58,7 +58,9 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
 					JText::_('JLIB_INSTALLER_' . $this->route),
 					$e->getMessage()
-				)
+				),
+				$e->getCode(),
+				$e
 			);
 		}
 	}
@@ -221,7 +223,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	 */
 	protected function getScriptClassName()
 	{
-		return 'plg' . str_replace('-', '', $this->group) . $this->element . 'InstallerScript';
+		return 'Plg' . str_replace('-', '', $this->group) . $this->element . 'InstallerScript';
 	}
 
 	/**
@@ -522,7 +524,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 			$folderClass = str_replace('-', '', $row->folder);
 
 			// Set the class name
-			$classname = 'plg' . $folderClass . $row->element . 'InstallerScript';
+			$classname = 'Plg' . $folderClass . $row->element . 'InstallerScript';
 
 			if (class_exists($classname))
 			{

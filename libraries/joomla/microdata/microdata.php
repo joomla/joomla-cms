@@ -137,7 +137,7 @@ class JMicrodata
 	protected function resetParams()
 	{
 		$this->content          = null;
-		$this->machineContent	= null;
+		$this->machineContent   = null;
 		$this->property         = null;
 		$this->fallbackProperty = null;
 		$this->fallbackType     = null;
@@ -194,7 +194,7 @@ class JMicrodata
 		// If the given Type isn't available, fallback to Thing
 		if (!static::isTypeAvailable($this->type))
 		{
-			$this->type	= 'Thing';
+			$this->type = 'Thing';
 		}
 
 		return $this;
@@ -687,7 +687,7 @@ class JMicrodata
 	 * Return the expected display type of the [normal|nested|meta]
 	 * In wich way to display the Property:
 	 * normal -> itemprop="name"
-	 * nested -> itemprop="director" itemscope itemtype="http://schema.org/Person"
+	 * nested -> itemprop="director" itemscope itemtype="https://schema.org/Person"
 	 * meta   -> <meta itemprop="datePublished" content="1991-05-01">
 	 *
 	 * @param   string  $type      The Type where to find the Property

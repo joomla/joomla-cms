@@ -10,7 +10,6 @@ defined('_JEXEC') or die;
 $published = $this->state->get('filter.published');
 ?>
 
-<p><?php echo JText::_('COM_CONTENT_BATCH_TIP'); ?></p>
 <div class="row-fluid">
 	<div class="control-group span6">
 		<div class="controls">

@@ -638,4 +638,21 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	{
 		return ' ~* ' . $value;
 	}
+
+	/**
+	 * Return correct rand() function for Postgresql.
+	 *
+	 * Ensure that the rand() function is Postgresql compatible.
+	 * 
+	 * Usage:
+	 * $query->Rand();
+	 * 
+	 * @return  string  The correct rand function.
+	 *
+	 * @since   3.5
+	 */
+	public function Rand()
+	{
+		return ' RANDOM() ';
+	}
 }

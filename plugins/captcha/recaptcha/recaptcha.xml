@@ -11,6 +11,7 @@
 	<description>PLG_CAPTCHA_RECAPTCHA_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="recaptcha">recaptcha.php</filename>
+		<filename>recaptchalib.php</filename>
 	</files>
 	<config>
 	<fields name="params">
@@ -27,8 +28,8 @@
 			label="PLG_RECAPTCHA_VERSION_LABEL"
 			description="PLG_RECAPTCHA_VERSION_DESC"
 			size="1">
-			<option value="1.0">PLG_RECAPTCHA_VERSION_1</option>
-			<option value="2.0">PLG_RECAPTCHA_VERSION_2</option>
+			<option value="1.0">PLG_RECAPTCHA_VERSION_V1</option>
+			<option value="2.0">PLG_RECAPTCHA_VERSION_V2</option>
 		</field>
 		<field
 			name="public_key"
@@ -72,7 +73,7 @@
 		<field
 			name="theme2"
 			type="list"
-			default="dark"
+			default="light"
 			label="PLG_RECAPTCHA_THEME_LABEL"
 			description="PLG_RECAPTCHA_THEME_DESC"
 			required="false"

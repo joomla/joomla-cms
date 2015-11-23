@@ -25,10 +25,10 @@ class BannersViewTracks extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$basename		= $this->get('BaseName');
-		$filetype		= $this->get('FileType');
-		$mimetype		= $this->get('MimeType');
-		$content		= $this->get('Content');
+		$basename = $this->get('BaseName');
+		$filetype = $this->get('FileType');
+		$mimetype = $this->get('MimeType');
+		$content  = $this->get('Content');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

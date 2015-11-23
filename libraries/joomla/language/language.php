@@ -905,7 +905,7 @@ class JLanguage
 				}
 
 				// Check that the line passes the necessary format.
-				if (!preg_match('#^[A-Z][A-Z0-9_\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
+				if (!preg_match('#^[A-Z][A-Z0-9_\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
 				{
 					$errors[] = $realNumber;
 					continue;
@@ -1070,7 +1070,7 @@ class JLanguage
 	 *
 	 * @since   11.1
 	 */
-	public function isRTL()
+	public function isRtl()
 	{
 		return (bool) $this->metadata['rtl'];
 	}

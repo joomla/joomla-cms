@@ -14,17 +14,18 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.multiselect');
 
-$user		= JFactory::getUser();
-$app		= JFactory::getApplication();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$ordering 	= ($listOrder == 'a.lft');
-$canOrder	= $user->authorise('core.edit.state',	'com_menus');
-$saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
-$assoc		= JLanguageAssociations::isEnabled();
+$user      = JFactory::getUser();
+$app       = JFactory::getApplication();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$ordering  = ($listOrder == 'a.lft');
+$canOrder  = $user->authorise('core.edit.state',	'com_menus');
+$saveOrder = ($listOrder == 'a.lft' && $listDirn == 'asc');
+$assoc     = JLanguageAssociations::isEnabled();
 ?>
-<?php //Set up the filter bar. ?>
+
+<?php // Set up the filter bar. ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">

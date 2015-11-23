@@ -142,7 +142,7 @@ class JFormFieldFilters extends JFormField
 	protected function getUserGroups()
 	{
 		// Get a database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Get the user groups from the database.
 		$query = $db->getQuery(true);

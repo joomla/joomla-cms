@@ -7029,7 +7029,7 @@ a:focus {
 	outline: none;
 }
 .view-login {
-	background-color: #10223e;
+	background-color: #17568c;
 	padding-top: 0;
 }
 .view-login .container {
@@ -7271,6 +7271,9 @@ body .navbar-fixed-top {
 	z-index: 100;
 }
 @media (max-width: 767px) {
+	body {
+		-webkit-overflow-scrolling: touch;
+	}
 	.subhead {
 		margin-left: -20px;
 		margin-right: -20px;
@@ -7770,7 +7773,7 @@ ul.manager .height-50 .icon-folder-2 {
 	z-index: 3;
 }
 .admin .chzn-container .chzn-drop {
-	z-index: 1040;
+	z-index: 1060;
 }
 ul.treeselect,
 ul.treeselect li {
@@ -8142,4 +8145,8 @@ textarea.noResize {
 body.modal-open {
 	overflow: hidden;
 	-ms-overflow-style: none;
+}
+.field-media-wrapper .modal .modal-body {
+	padding: 5px 10px;
+	overflow: hidden;
 }
