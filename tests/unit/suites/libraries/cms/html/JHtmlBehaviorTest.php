@@ -136,8 +136,7 @@ class JHtmlBehaviorTest extends TestCase
 	public function getCaptionData()
 	{
 		$data = array(
-			array(array('JHtmlBehavior::caption' => array('img.caption' => true))),
-			array(array('JHtmlBehavior::caption' => array('img.caption2' => true)), 'img.caption2'),
+			array(array('JHtmlBehavior::caption') => true),
 		);
 
 		return $data;
@@ -154,7 +153,7 @@ class JHtmlBehaviorTest extends TestCase
 	 * @since         3.1
 	 * @dataProvider  getCaptionData
 	 */
-	public function testCaption($expected, $selector = 'img.caption')
+	public function testCaption($expected)
 	{
 		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
@@ -171,7 +170,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JFactory::$application = $mock;
 
-		JHtmlBehaviorInspector::caption($selector);
+		JHtmlBehaviorInspector::caption();
 		$this->assertEquals(
 			$expected,
 			JHtmlBehaviorInspector::getLoaded()

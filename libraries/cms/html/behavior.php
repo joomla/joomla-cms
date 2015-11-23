@@ -100,10 +100,10 @@ abstract class JHtmlBehavior
 	 *
 	 * @since   1.5
 	 */
-	public static function caption($selector = 'img.caption')
+	public static function caption()
 	{
 		// Only load once
-		if (isset(static::$loaded[__METHOD__][$selector]))
+		if (isset(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
@@ -113,15 +113,8 @@ abstract class JHtmlBehavior
 
 		JHtml::_('script', 'system/caption.js', false, true);
 
-		// Attach caption to document
-		JFactory::getDocument()->addScriptDeclaration(
-			"jQuery(window).on('load',  function() {
-				new JCaption('" . $selector . "');
-			});"
-		);
-
 		// Set static array
-		static::$loaded[__METHOD__][$selector] = true;
+		static::$loaded[__METHOD__] = true;
 	}
 
 	/**
