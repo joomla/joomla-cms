@@ -127,30 +127,14 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
-	 * Data for the testCaption method
-	 *
-	 * @return  array
-	 *
-	 * @since   3.1
-	 */
-	public function getCaptionData()
-	{
-		$data = array('JHtmlBehavior::caption' => true);
-
-		return $data;
-	}
-
-	/**
 	 * Tests the caption method.
-	 *
-	 * @param   string  $expected  @todo
 	 *
 	 * @return  void
 	 *
 	 * @since         3.1
 	 * @dataProvider  getCaptionData
 	 */
-	public function testCaption($expected)
+	public function testCaption()
 	{
 		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
@@ -169,7 +153,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::caption();
 		$this->assertEquals(
-			$expected,
+			array('JHtmlBehavior::caption' => true),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}
