@@ -68,12 +68,13 @@ JFactory::getDocument()->addScriptDeclaration(
 								JHtml::_('jquery.framework');
 								JHtml::_('script', 'jui/cms.js', false, true);
 								$showonarr = array();
-								foreach (explode(';', $showonstring, 2) as $showonfield)
+								foreach (preg_split('%\[AND\]|\[OR\]%', $showonstring) as $showonfield)
 								{
 									$showon   = explode(':', $showonfield, 2);
 									$showonarr[] = array(
-														'field'		=> $this->form->getFormControl() . '[' . $this->form->getFieldAttribute($showon[0], 'name') . ']',
-														'values'	=> explode(',', $showon[1])
+														'field'  => $this->form->getFormControl() . '[' . $this->form->getFieldAttribute($showon[0], 'name') . ']',
+														'values' => explode(',', $showon[1]),
+														'op'     => (preg_match('%(\[.+\])'.$showonfield.'%',$showonstring, $matches)) ? str_replace(array('[', ']'), '', $matches[1]) : ''
 														);
 								}
 								$datashowon = ' data-showon="' . htmlspecialchars(json_encode($showonarr)) . '"';

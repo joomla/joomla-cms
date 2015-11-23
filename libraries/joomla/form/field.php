@@ -926,12 +926,13 @@ abstract class JFormField
 		if ($showonstring = $this->getAttribute('showon'))
 		{
 			$showonarr = array();
-			foreach (explode(';', $showonstring, 2) as $showonfield)
+			foreach (preg_split('%\[AND\]|\[OR\]%', $showonstring) as $showonfield)
 			{
 				$showon   = explode(':', $showonfield, 2);
 				$showonarr[] = array(
-									'field'		=> str_replace('[]', '', $this->getName($showon[0])),
-									'values'	=> explode(',', $showon[1])
+									'field'  => str_replace('[]', '', $this->getName($showon[0])),
+									'values' => explode(',', $showon[1]),
+									'op'     => (preg_match('%(\[.+\])'.$showonfield.'%',$showonstring, $matches)) ? str_replace(array('[', ']'), '', $matches[1]) : ''
 									);
 			}
 			$options['rel'] = ' data-showon="' . htmlspecialchars(json_encode($showonarr)) . '"';
