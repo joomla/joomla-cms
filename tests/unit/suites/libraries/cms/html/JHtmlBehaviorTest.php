@@ -146,7 +146,6 @@ class JHtmlBehaviorTest extends TestCase
 	 * Tests the caption method.
 	 *
 	 * @param   string  $expected  @todo
-	 * @param   string  $selector  @todo
 	 *
 	 * @return  void
 	 *

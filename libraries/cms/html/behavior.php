@@ -94,8 +94,6 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive JavaScript support for image captions.
 	 *
-	 * @param   string  $selector  The selector for which a caption behaviour is to be applied.
-	 *
 	 * @return  void
 	 *
 	 * @since   1.5
