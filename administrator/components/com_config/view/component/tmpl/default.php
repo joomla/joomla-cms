@@ -67,12 +67,12 @@ JFactory::getDocument()->addScriptDeclaration(
 							{
 								JHtml::_('jquery.framework');
 								JHtml::_('script', 'jui/cms.js', false, true);
-								$showonarr=array();
+								$showonarr = array();
 								foreach (explode(';', $showonstring, 2) as $showonfield)
 								{
 									$showon   = explode(':', $showonfield, 2);
 									$showonarr[] = array(
-														'field'		=> $this->form->getFormControl() . '[' . $this->form->getFieldAttribute($showon[0], 'name'). ']',
+														'field'		=> $this->form->getFormControl() . '[' . $this->form->getFieldAttribute($showon[0], 'name'). ']' ,
 														'values'	=> explode(',', $showon[1])
 														);
 								}

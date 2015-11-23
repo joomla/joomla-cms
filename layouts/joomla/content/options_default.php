@@ -25,8 +25,8 @@ defined('_JEXEC') or die;
 			if ($showonstring = $displayData->form->getFieldAttribute($field->fieldname, 'showon'))
 			{
 				JHtml::_('jquery.framework');
-				JHtml::_('script', 'jui/cms.js', false, true);			
-				$showonarr=array();
+				JHtml::_('script', 'jui/cms.js', false, true);
+				$showonarr = array();
 				foreach (explode(';', $showonstring, 2) as $showonfield)
 				{
 					$showon   = explode(':', $showonfield, 2);

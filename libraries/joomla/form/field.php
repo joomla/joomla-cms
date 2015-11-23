@@ -925,7 +925,7 @@ abstract class JFormField
 
 		if ($showonstring = $this->getAttribute('showon'))
 		{
-			$showonarr=array();
+			$showonarr = array();
 			foreach (explode(';', $showonstring, 2) as $showonfield)
 			{
 				$showon   = explode(':', $showonfield, 2);
