@@ -62,19 +62,24 @@ JFactory::getDocument()->addScriptDeclaration(
 						?>
 						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 							<?php
-							$class = '';
-							$rel = '';
-							if ($showon = $field->getAttribute('showon'))
+							$datashowon = '';
+							if ($showonstring = $field->getAttribute('showon'))
 							{
 								JHtml::_('jquery.framework');
 								JHtml::_('script', 'jui/cms.js', false, true);
-								$id = $this->form->getFormControl();
-								$showon = explode(':', $showon, 2);
-								$class = ' showon_' . implode(' showon_', explode(',', $showon[1]));
-								$rel = ' rel="showon_' . $id . '[' . $showon[0] . ']"';
+								$showonarr=array();
+								foreach (explode(';', $showonstring, 2) as $showonfield)
+								{
+									$showon   = explode(':', $showonfield, 2);
+									$showonarr[] = array(
+														'field'		=> $this->form->getFormControl() . '[' . $this->form->getFieldAttribute($showon[0], 'name'). ']',
+														'values'	=> explode(',', $showon[1])
+														);
+								}
+								$datashowon = ' data-showon="' . htmlspecialchars(json_encode($showonarr)) . '"';
 							}
 							?>
-							<div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
+							<div class="control-group"<?php echo $datashowon; ?>>
 								<?php if (!$field->hidden && $name != "permissions") : ?>
 									<div class="control-label">
 										<?php echo $field->label; ?>

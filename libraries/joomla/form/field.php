@@ -923,13 +923,18 @@ abstract class JFormField
 			$options['hiddenLabel'] = true;
 		}
 
-		if ($showon = $this->getAttribute('showon'))
+		if ($showonstring = $this->getAttribute('showon'))
 		{
-			$showon   = explode(':', $showon, 2);
-			$options['class'] .= ' showon_' . implode(' showon_', explode(',', $showon[1]));
-			$id = $this->getName($showon[0]);
-			$id = $this->multiple ? str_replace('[]', '', $id) : $id;
-			$options['rel'] = ' rel="showon_' . $id . '"';
+			$showonarr=array();
+			foreach (explode(';', $showonstring, 2) as $showonfield)
+			{
+				$showon   = explode(':', $showonfield, 2);
+				$showonarr[] = array(
+									'field'		=> str_replace('[]', '', $this->getName($showon[0])),
+									'values'	=> explode(',', $showon[1])
+									);
+			}
+			$options['rel'] = ' data-showon="' . htmlspecialchars(json_encode($showonarr)) . '"';
 			$options['showonEnabled'] = true;
 		}
 

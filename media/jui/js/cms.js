@@ -19,32 +19,34 @@ Joomla.setcollapse = function(url, name, height) {
 
 if (jQuery) {
 	jQuery(document).ready(function($) {
-		var elements = {},
-			linkedoptions = function(element, target, checkType) {
-				var v = element.val(), id = element.attr('id');
-				if(checkType && !element.is(':checked'))
-					return;
-				$('[rel=\"showon_'+target+'\"]').each(function(){
-					var i = jQuery(this);
-					if (i.hasClass('showon_' + v))
-						i.slideDown();
-					else
-						i.slideUp();
+		var linkedoptions = function(target) {
+			var showfield = true, itemval;
+			
+			// Check if all target conditions are satisfied
+			$.each(target.data(), function(i, items) {
+				$.each(items, function(j, item) {
+					itemval = (['checkbox','radio'].indexOf($('[name="' + item['field'] + '"]').attr('type')) != -1) ? $('[name="' + item['field'] + '"]:checked').val() : $('[name="' + item['field'] + '"]').val();
+					showfield = (item['values'].indexOf(itemval) == -1) ? false : true;
 				});
-			};
-		$('[rel^=\"showon_\"]').each(function(){
-			var el = $(this), target = el.attr('rel').replace('showon_', ''), targetEl = $('[name=\"' + target+'\"]');
-			if (!elements[target]) {
-				var targetType = targetEl.attr('type'), checkType = (targetType == 'checkbox' || targetType == 'radio');
-				targetEl.bind('change', function(){
-					linkedoptions( $(this), target, checkType);
-				}).bind('click', function(){
-					linkedoptions( $(this), target, checkType );
-				}).each(function(){
-					linkedoptions( $(this), target, checkType );
+			});
+
+			// If all satisfied show the target field(s), else hide
+			(showfield) ? target.slideDown() : target.slideUp();
+		};
+
+		$('[data-showon]').each(function() {
+			var target = $(this);
+			
+			// Attach events to referenced element
+			$.each($(this).data(), function(i, items) {
+				$.each(items, function(j, item) {
+					$('[name="' + item['field'] + '"]').each(function() {
+						linkedoptions(target);
+					}).bind('change click', function() {
+						linkedoptions(target);
+					});
 				});
-				elements[target] = true;
-			}
+			});
 		});
 	});
 }
