@@ -33,7 +33,7 @@ defined('_JEXEC') or die;
 					$showonarr[] = array(
 										'field'  => $displayData->form->getFormControl() . '[' . $displayData->form->getFieldAttribute($showon[0], 'name') . ']',
 										'values' => explode(',', $showon[1]),
-										'op'     => (preg_match('%(\[.+\])' . $showonfield . '%', $showonstring, $matches)) ? str_replace(array('[', ']'), '', $matches[1]) : ''
+										'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : ''
 										);
 				}
 				$datashowon = ' data-showon="' . htmlspecialchars(json_encode($showonarr)) . '"';
