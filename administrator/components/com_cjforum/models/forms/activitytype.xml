@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
+		<field name="id" type="text" class="readonly" label="JGLOBAL_FIELD_ID_LABEL" description="JGLOBAL_FIELD_ID_DESC" size="10" default="0" readonly="true" />
+
+		<field name="title" type="text" label="JGLOBAL_TITLE" description="JFIELD_TITLE_DESC" class="inputbox input-xxlarge input-large-text" size="40" required="true" />
+		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL" description="JFIELD_ALIAS_DESC" hint="JFIELD_ALIAS_PLACEHOLDER" class="inputbox" size="40" />
+		<field name="description" type="editor" class="inputbox" label="COM_CJFORUM_FIELD_DESCRIPTION_LABEL" description="COM_CJFORUM_FIELD_DESCRIPTION_DESC" filter="JComponentHelper::filterText" buttons="true" />
+		<field name="created" type="calendar" label="COM_CJFORUM_FIELD_CREATED_LABEL"  description="COM_CJFORUM_FIELD_CREATED_DESC" class="inputbox" size="22" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
+		<field name="created_by" type="user" label="COM_CJFORUM_FIELD_CREATED_BY_LABEL" description="COM_CJFORUM_FIELD_CREATED_BY_DESC" />
+		<field name="checked_out" type="hidden" filter="unset" />
+		<field name="checked_out_time" type="hidden" filter="unset" />
+	
+		<fieldset name="options" label="COM_CJFORUM_EDITORCONFIG_FIELDSET_LABEL">
+			<field name="published" type="list" label="JSTATUS" description="JFIELD_PUBLISHED_DESC" class="chzn-color-state" filter="intval" size="1" default="1">
+				<option value="1">JPUBLISHED</option>
+				<option value="0">JUNPUBLISHED</option>
+				<option value="2">JARCHIVED</option>
+				<option value="-2">JTRASHED</option>
+			</field>
+			<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL" description="JFIELD_ACCESS_DESC" size="1" />
+			<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="COM_CJFORUM_FIELD_LANGUAGE_DESC">
+				<option value="*">JALL</option>
+			</field>
+			<field name="activity_name" type="text" label="COM_CJFORUM_FIELD_RULE_NAME_LABEL" description="COM_CJFORUM_FIELD_RULE_NAME_DESC" class="inputbox" size="40" required="true" />
+			<field name="app_name" type="text" label="COM_CJFORUM_FIELD_APP_NAME_LABEL" description="COM_CJFORUM_FIELD_APP_NAME_DESC" class="inputbox" size="40" required="true" />
+		</fieldset>
+	</fieldset>
+
+	<fields name="attribs" label="COM_CJFORUM_ATTRIBS_FIELDSET_LABEL">
+		<fieldset name="editorConfig" label="COM_CJFORUM_EDITORCONFIG_FIELDSET_LABEL">
+			<field name="show_publishing_options" type="list" class="chzn-color" default="" label="COM_CJFORUM_SHOW_PUBLISHING_OPTIONS_LABEL" description="COM_CJFORUM_SHOW_PUBLISHING_OPTIONS_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>

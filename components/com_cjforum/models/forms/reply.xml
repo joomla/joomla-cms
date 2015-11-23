@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field id="id" name="id" type="hidden" class="inputbox" label="COM_CJFORUM_ID_LABEL" size="10" default="0" readonly="true" />
+		<field name="topic_id" type="hidden" readonly="true" />
+		
+		<field name="description" type="cjeditor" buttons="true" label="COM_CJFORUM_REPLY_TEXT_LABEL" description="CONTENT_TEXT_DESC" class="inputbox" 
+		    filter="JComponentHelper::filterText" asset_id="com_cjforum" required="true" height="250"/>
+
+		<field id="state" name="state" type="list" label="JSTATUS" description="JFIELD_PUBLISHED_DESC" class="inputbox" size="1" default="1">
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
+
+		<field id="featured" name="featured" type="list" label="JGLOBAL_FIELD_FEATURED_LABEL" description="JGLOBAL_FIELD_FEATURED_DESC" class="inputbox" default="0">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		
+		<field id="created" name="created" type="calendar" filter="unset" />
+		<field id="created_by" name="created_by" type="text" filter="unset" />
+		
+		<field id="created_by_alias" name="created_by_alias" type="text" label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL" 
+		    description="JGLOBAL_FIELD_CREATED_BY_ALIAS_DESC" class="inputbox" size="20" />
+
+		<field id="publish_up" name="publish_up" type="calendar" label="JGLOBAL_FIELD_PUBLISH_UP_LABEL" 
+		    description="JGLOBAL_FIELD_PUBLISH_UP_DESC" class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22" filter="user_utc" />
+
+		<field id="publish_down" name="publish_down" type="calendar" label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL" 
+		    description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC" class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22" filter="user_utc" />
+		
+		<field name="ordering" type="text" label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" class="inputbox" size="6" default="0" />
+
+		<field id="access" name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
+		
+		<field name="rules" type="rules" label="JFIELD_RULES_LABEL" translate_label="false" class="inputbox" filter="rules"
+			component="com_cjforum" section="topic" validate="rules"/>
+	</fieldset>
+	<fields name="images">
+		<fieldset name="image-intro">
+			<field name="image_intro" type="media" label="COM_CJFORUM_FIELD_INTRO_LABEL" description="COM_CJFORUM_FIELD_INTRO_DESC" />
+			<field name="image_intro_alt" type="text" label="COM_CJFORUM_FIELD_IMAGE_ALT_LABEL" description="COM_CJFORUM_FIELD_IMAGE_ALT_DESC" class="inputbox" size="20" />
+			<field name="image_intro_caption" type="text" label="COM_CJFORUM_FIELD_IMAGE_CAPTION_LABEL" description="COM_CJFORUM_FIELD_IMAGE_CAPTION_DESC" class="inputbox" size="20" />
+			<field name="float_intro" type="list" label="COM_CJFORUM_FLOAT_INTRO_LABEL" description="COM_CJFORUM_FLOAT_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="right">COM_CJFORUM_RIGHT</option>
+				<option value="left">COM_CJFORUM_LEFT</option>
+			</field>
+		</fieldset>
+		<fieldset name="image-full">
+			<field name="image_fulltext" type="media" label="COM_CJFORUM_FIELD_FULL_LABEL" description="COM_CJFORUM_FIELD_FULL_DESC" />
+			<field name="image_fulltext_alt" type="text" label="COM_CJFORUM_FIELD_IMAGE_ALT_LABEL" description="COM_CJFORUM_FIELD_IMAGE_ALT_DESC" class="inputbox" size="20" />
+			<field name="image_fulltext_caption" type="text" label="COM_CJFORUM_FIELD_IMAGE_CAPTION_LABEL" description="COM_CJFORUM_FIELD_IMAGE_CAPTION_DESC" class="inputbox" size="20" />
+			<field name="float_fulltext" type="list" label="COM_CJFORUM_FLOAT_FULLTEXT_LABEL" description="COM_CJFORUM_FLOAT_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="right">COM_CJFORUM_RIGHT</option>
+				<option value="left">COM_CJFORUM_LEFT</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>

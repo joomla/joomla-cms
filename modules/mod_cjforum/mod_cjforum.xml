@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<extension client="site" method="upgrade" type="module" version="2.5.0">
+	<name>CjForum Module</name>
+	<author>Maverick</author>
+	<creationDate>2015-Oct-04</creationDate>
+	<copyright>All rights reserved by www.corejoomla.com 2009-15.</copyright>
+	<license>GPL 2.0</license>
+	<authorEmail>support@corejoomla.com</authorEmail>
+	<authorUrl>www.corejoomla.com</authorUrl>
+	<version>1.1.0</version>
+	<description>Please vote for us if you like this extension. Please write a review on Joomla Extension Directory.</description>
+	<files>
+		<filename module="mod_cjforum">mod_cjforum.php</filename>
+		<filename>index.html</filename>
+		<folder>tmpl</folder>
+	</files>
+
+	<languages folder="language/en-GB">
+		<language tag="en-GB">en-GB.mod_cjforum.ini</language>
+	</languages>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field class="btn-group btn-group-yesno" default="1" description="MOD_CJFORUM_TRENDING_TOPICS_DESC" label="MOD_CJFORUM_TRENDING_TOPICS_LABEL" name="show_trending" type="radio">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field class="btn-group btn-group-yesno" default="1" description="MOD_CJFORUM_LATEST_TOPICS_DESC" label="MOD_CJFORUM_LATEST_TOPICS_LABEL" name="show_latest" type="radio">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field class="btn-group btn-group-yesno" default="1" description="MOD_CJFORUM_POPULAR_TOPICS_DESC" label="MOD_CJFORUM_POPULAR_TOPICS_LABEL" name="show_popular" type="radio">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field class="btn-group btn-group-yesno" default="1" description="MOD_CJFORUM_MOST_LIKED_TOPICS_DESC" label="MOD_CJFORUM_MOST_LIKED_TOPICS_LABEL" name="show_liked" type="radio">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field description="MOD_CJFORUM_FILTER_CATEGORIES_DESC" extension="com_cjforum" label="MOD_CJFORUM_FILTER_CATEGORIES_LABEL" multiple="true" name="filter_category" show_root="true" size="10" type="category"/>
+				<field default="5" description="MOD_CJFORUM_TOPICS_COUNT_DESC" label="MOD_CJFORUM_TOPICS_COUNT_LABEL" name="topics_count" type="text"/>
+				<field default="" description="" label="" name="@spacer" type="spacer"/>
+					
+				<field class="btn-group btn-group-yesno" default="1" description="MOD_CJFORUM_SHOW_CATEGORY_DESC" label="MOD_CJFORUM_SHOW_CATEGORY_LABEL" name="show_category" type="radio">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field class="btn-group btn-group-yesno" default="1" description="MOD_CJFORUM_SHOW_AUTHOR_DESC" label="MOD_CJFORUM_SHOW_AUTHOR_LABEL" name="show_author" type="radio">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field class="btn-group btn-group-yesno" default="1" description="MOD_CJFORUM_SHOW_REPLIES_COUNT_DESC" label="MOD_CJFORUM_SHOW_REPLIES_COUNT_LABEL" name="show_replies" type="radio">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field class="btn-group btn-group-yesno" default="1" description="MOD_CJFORUM_SHOW_DESCRIPTION_DESC" label="MOD_CJFORUM_SHOW_DESCRIPTION_LABEL" name="show_description" type="radio">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field class="btn-group btn-group-yesno" default="1" description="MOD_CJFORUM_SHOW_DATE_DESC" label="MOD_CJFORUM_SHOW_DATE_LABEL" name="show_date" type="radio">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field class="btn-group btn-group-yesno" default="1" description="MOD_CJFORUM_SHOW_TABS_DESC" label="MOD_CJFORUM_SHOW_TABS_LABEL" name="show_tabs" type="radio">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field class="btn-group btn-group-yesno" default="1" description="MOD_CJFORUM_SHOW_AVATAR_DESC" label="MOD_CJFORUM_SHOW_AVATAR_LABEL" name="show_avatar" type="radio">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field default="32" description="MOD_CJFORUM_SHOW_AVATAR_SIZE_DESC" label="MOD_CJFORUM_SHOW_AVATAR_SIZE_LABEL" name="avatar_size" type="text"/>
+				<field default="T,P,L,M" description="MOD_CJFORUM_TABS_ORDER_DESC" label="MOD_CJFORUM_TABS_ORDER_LABEL" name="tabs_order" type="text"/>
+				<field default="250" description="MOD_CJFORUM_INTROTEXT_LENGTH_DESC" label="MOD_CJFORUM_INTROTEXT_LENGTH_LABEL" name="introtext_length" type="text"/>
+			</fieldset>
+			<fieldset name="advanced">
+				<field description="JFIELD_ALT_MODULE_LAYOUT_DESC" label="JFIELD_ALT_LAYOUT_LABEL" name="layout" type="modulelayout"/>
+				<field description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" name="moduleclass_sfx" type="text"/>
+				<field default="1" description="COM_MODULES_FIELD_CACHING_DESC" label="COM_MODULES_FIELD_CACHING_LABEL" name="cache" type="list"> 
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+				<field default="900" description="COM_MODULES_FIELD_CACHE_TIME_DESC" label="COM_MODULES_FIELD_CACHE_TIME_LABEL" name="cache_time" type="text"/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

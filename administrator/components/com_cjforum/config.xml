@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset name="topics" label="COM_CJFORUM_MENU_TOPICS" description="COM_CJFORUM_CONFIG_TOPIC_SETTINGS_DESC">
+		<field name="topic_layout" type="componentlayout" label="JGLOBAL_FIELD_LAYOUT_LABEL" description="JGLOBAL_FIELD_LAYOUT_DESC" menuitems="true" extension="com_cjforum" view="topics" />
+		<field name="replies_ordering" type="list" class="btn-group btn-group-yesno" default="1" label="COM_CJFORUM_FIELD_REPLIES_ORDERING_LABEL" description="COM_CJFORUM_FIELD_REPLIES_ORDERING_DESC">
+			<option value="a.created">COM_CJFORUM_FIELD_OPTION_CREATED_DATE</option>
+			<option value="a.ordering">COM_CJFORUM_FIELD_OPTION_ORDER</option>
+			<option value="a.likes">COM_CJFORUM_FIELD_OPTION_LIKES</option>
+			<option value="a.dislikes">COM_CJFORUM_FIELD_OPTION_DISLIKES</option>
+		</field>
+		<field name="replies_ordering_dir" type="list" class="btn-group btn-group-yesno" default="asc" label="COM_CJFORUM_FIELD_REPLIES_ORDER_DIR_LABEL" description="COM_CJFORUM_FIELD_REPLIES_ORDER_DIR_DESC">
+			<option value="asc">COM_CJFORUM_FIELD_OPTION_ASCENDING</option>
+			<option value="desc">COM_CJFORUM_FIELD_OPTION_DESCENDING</option>
+		</field>
+		<field name="theme" type="list" default="default" label="COM_CJFORUM_FIELD_THEME_LABEL" description="COM_CJFORUM_FIELD_THEME_DESC">
+			<option value="default">Default</option>
+			<option value="primary">Primary</option>
+			<option value="success">Success</option>
+			<option value="info">Info</option>
+			<option value="warning">Warning</option>
+			<option value="danger">Danger</option>
+		</field>
+		<field name="topic_avatar_size" type="list" default="96" label="COM_CJFORUM_FIELD_AVATAR_SIZE_LABEL" description="COM_CJFORUM_FIELD_AVATAR_SIZE_DESC">
+		    <option value="16">COM_CJFORUM_SIZE_EXTRA_SMALL</option>
+		    <option value="32">COM_CJFORUM_SIZE_SMALL</option>
+		    <option value="40">COM_CJFORUM_SIZE_FIT</option>
+		    <option value="48">COM_CJFORUM_SIZE_MEDIUM</option>
+		    <option value="64">COM_CJFORUM_SIZE_BIG</option>
+		    <option value="96">COM_CJFORUM_SIZE_LARGE</option>
+		    <option value="128">COM_CJFORUM_SIZE_EXTRA_LARGE</option>
+		</field>
+		<field name="show_title" type="radio" class="btn-group btn-group-yesno" default="1" label="JGLOBAL_SHOW_TITLE_LABEL" description="JGLOBAL_SHOW_TITLE_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="link_titles" type="radio" class="btn-group btn-group-yesno" default="1" label="JGLOBAL_LINKED_TITLES_LABEL" description="JGLOBAL_LINKED_TITLES_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="show_intro" type="radio" class="btn-group btn-group-yesno" default="1" label="JGLOBAL_SHOW_INTRO_LABEL" description="JGLOBAL_SHOW_INTRO_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="info_block_position" type="list" default="0" label="COM_CJFORUM_FIELD_INFOBLOCK_POSITION_LABEL" description="COM_CJFORUM_FIELD_INFOBLOCK_POSITION_DESC">
+			<option value="0">COM_CJFORUM_FIELD_OPTION_ABOVE</option>
+			<option value="1">COM_CJFORUM_FIELD_OPTION_BELOW</option>
+			<option value="2">COM_CJFORUM_FIELD_OPTION_SPLIT</option>
+		</field>
+		<field name="show_category" type="radio" class="btn-group btn-group-yesno" label="JGLOBAL_SHOW_CATEGORY_LABEL" description="JGLOBAL_SHOW_CATEGORY_DESC" default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="link_category" type="radio" class="btn-group btn-group-yesno" label="JGLOBAL_LINK_CATEGORY_LABEL" description="JGLOBAL_LINK_CATEGORY_DESC" default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="show_parent_category" type="radio" class="btn-group btn-group-yesno" label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL" description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC" default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="link_parent_category" type="radio" class="btn-group btn-group-yesno" label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL" description="JGLOBAL_LINK_PARENT_CATEGORY_DESC" default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="spacer1" type="spacer" hr="true" />
+		<field name="show_author" type="radio" class="btn-group btn-group-yesno" label="JGLOBAL_SHOW_AUTHOR_LABEL" description="JGLOBAL_SHOW_AUTHOR_DESC" default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="link_author" type="radio" class="btn-group btn-group-yesno" label="JGLOBAL_LINK_AUTHOR_LABEL" description="JGLOBAL_LINK_AUTHOR_DESC" default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="show_create_date" type="radio" class="btn-group btn-group-yesno" label="JGLOBAL_SHOW_CREATE_DATE_LABEL" description="JGLOBAL_SHOW_CREATE_DATE_DESC" default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="show_modify_date" type="radio" class="btn-group btn-group-yesno" label="JGLOBAL_SHOW_MODIFY_DATE_LABEL" description="JGLOBAL_SHOW_MODIFY_DATE_DESC" default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="show_publish_date" type="radio" class="btn-group btn-group-yesno" label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL" description="JGLOBAL_SHOW_PUBLISH_DATE_DESC" default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="replies_limit" type="text" label="COM_CJFORUM_FIELD_REPLIES_LIMIT_LABEL" description="COM_CJFORUM_FIELD_REPLIES_LIMIT_DESC" default="5" />
+		<field id="show_tags" name="show_tags" type="radio" class="btn-group btn-group-yesno" default="1"
+			label="COM_CJFORUM_FIELD_SHOW_TAGS_LABEL" description="COM_CJFORUM_FIELD_SHOW_TAGS_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="spacer2" type="spacer" hr="true" />
+		<field name="show_hits" type="radio" class="btn-group btn-group-yesno" label="JGLOBAL_SHOW_HITS_LABEL" description="JGLOBAL_SHOW_HITS_DESC" default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="show_noauth" type="radio" class="btn-group btn-group-yesno" default="0" label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL" description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="social_sharing" type="radio" class="btn-group btn-group-yesno" label="COM_CJFORUM_FIELD_SOCIAL_SHARING_LABEL" description="COM_CJFORUM_FIELD_SOCIAL_SHARING_DESC" default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+	</fieldset>
+	
+	<fieldset name="editinglayout" label="COM_CJFORUM_EDITING_LAYOUT" description="COM_CJFORUM_CONFIG_EDITOR_LAYOUT">
+		<field name="show_publishing_options" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_CJFORUM_SHOW_PUBLISHING_OPTIONS_LABEL" description="COM_CJFORUM_SHOW_PUBLISHING_OPTIONS_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="show_topic_options" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_CJFORUM_SHOW_TOPIC_OPTIONS_LABEL" description="COM_CJFORUM_SHOW_TOPIC_OPTIONS_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fieldset>
+
+	<fieldset name="category" label="JCATEGORY" description="COM_CJFORUM_CONFIG_CATEGORY_SETTINGS_DESC">
+		<field name="category_layout" type="componentlayout" label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			description="JGLOBAL_FIELD_LAYOUT_DESC" menuitems="true" extension="com_cjforum" view="category" />
+		<field name="show_category_heading_title_text" type="radio" class="btn-group btn-group-yesno" 
+		    label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL" description="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_DESC" default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="show_category_title" type="radio" class="btn-group btn-group-yesno" 
+		    label="JGLOBAL_SHOW_CATEGORY_TITLE" description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC" default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="show_description" type="radio" class="btn-group btn-group-yesno"
+			default="1" label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL" description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="show_description_image" type="radio" class="btn-group btn-group-yesno" default="1" label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL" description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="maxLevel" type="list" description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC" label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL" default="-1">
+			<option value="0">JNONE</option>
+			<option value="-1">JALL</option>
+			<option value="1">J1</option>
+			<option value="2">J2</option>
+			<option value="3">J3</option>
+			<option value="4">J4</option>
+			<option value="5">J5</option>
+		</field>
+		<field name="show_empty_categories" type="radio" class="btn-group btn-group-yesno" label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL" 
+		    description="COM_CJFORUM_SHOW_EMPTY_CATEGORIES_DESC" default="0">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="show_no_topics" type="radio" class="btn-group btn-group-yesno"
+			label="COM_CJFORUM_NO_TOPICS_LABEL" description="COM_CJFORUM_NO_TOPICS_DESC" default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="show_subcat_desc" type="radio" class="btn-group btn-group-yesno"
+			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL" description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC" default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="show_cat_num_topics" type="radio" class="btn-group btn-group-yesno" 
+		    label="COM_CJFORUM_NUMBER_CATEGORY_ITEMS_LABEL" description="COM_CJFORUM_NUMBER_CATEGORY_ITEMS_DESC" default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="show_tags" type="radio" label="COM_CJFORUM_FIELD_SHOW_CAT_TAGS_LABEL" description="COM_CJFORUM_FIELD_SHOW_CAT_TAGS_DESC" class="btn-group btn-group-yesno" default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+	</fieldset>
+
+	<fieldset name="categories" label="JCATEGORIES" description="COM_CJFORUM_CONFIG_CATEGORIES_SETTINGS_DESC">
+		<field name="show_base_description" type="radio" class="btn-group btn-group-yesno" default="1"
+			label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL" description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="maxLevelcat" type="list" default="-1" description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC" label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL">
+			<option value="-1">JALL</option>
+			<option value="1">J1</option>
+			<option value="2">J2</option>
+			<option value="3">J3</option>
+			<option value="4">J4</option>
+			<option value="5">J5</option>
+		</field>
+		<field name="show_empty_categories_cat" type="radio" class="btn-group btn-group-yesno" default="0" 
+		    label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL" description="COM_CJFORUM_SHOW_EMPTY_CATEGORIES_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="show_subcat_desc_cat" type="radio" class="btn-group btn-group-yesno" default="1" 
+		    label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL" description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="show_cat_num_topics_cat" type="radio" class="btn-group btn-group-yesno" default="1" 
+		    label="COM_CJFORUM_NUMBER_CATEGORY_ITEMS_LABEL" description="COM_CJFORUM_NUMBER_CATEGORY_ITEMS_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+	</fieldset>
+
+	<fieldset name="list_default_parameters" label="JGLOBAL_LIST_LAYOUT_OPTIONS" description="COM_CJFORUM_CONFIG_LIST_SETTINGS_DESC">
+		<field name="show_pagination_limit" type="radio" class="btn-group btn-group-yesno" default="1" label="JGLOBAL_DISPLAY_SELECT_LABEL" description="JGLOBAL_DISPLAY_SELECT_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="show_headings" type="radio" class="btn-group btn-group-yesno" default="1" label="JGLOBAL_SHOW_HEADINGS_LABEL" description="JGLOBAL_SHOW_HEADINGS_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="list_show_author" type="radio" class="btn-group btn-group-yesno" default="1" label="JGLOBAL_LIST_AUTHOR_LABEL" description="JGLOBAL_LIST_AUTHOR_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="list_show_reply_date" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_CJFORUM_FIELD_SHOW_REPLY_DATE_LABEL" description="COM_CJFORUM_FIELD_SHOW_REPLY_DATE_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="list_show_hits" type="radio" class="btn-group btn-group-yesno" default="1" label="JGLOBAL_LIST_HITS_LABEL" description="JGLOBAL_LIST_HITS_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="list_show_parent" type="radio" class="btn-group btn-group-yesno" default="0" label="JGLOBAL_SHOW_CATEGORY_LABEL" description="JGLOBAL_SHOW_CATEGORY_DESC">
+		    <option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="date_format" type="text" size="15" label="JGLOBAL_DATE_FORMAT_LABEL" description="JGLOBAL_DATE_FORMAT_DESC" />
+		<field name="list_avatar_size" type="list" default="32" label="COM_CJFORUM_FIELD_AVATAR_SIZE_LABEL" description="COM_CJFORUM_FIELD_AVATAR_SIZE_DESC">
+		    <option value="16">COM_CJFORUM_SIZE_EXTRA_SMALL</option>
+		    <option value="32">COM_CJFORUM_SIZE_SMALL</option>
+		    <option value="40">COM_CJFORUM_SIZE_FIT</option>
+		    <option value="48">COM_CJFORUM_SIZE_MEDIUM</option>
+		    <option value="64">COM_CJFORUM_SIZE_BIG</option>
+		    <option value="96">COM_CJFORUM_SIZE_LARGE</option>
+		    <option value="128">COM_CJFORUM_SIZE_EXTRA_LARGE</option>
+		</field>
+		<field name="filter_field" type="list" default="hide" label="JGLOBAL_FILTER_FIELD_LABEL" description="JGLOBAL_FILTER_FIELD_DESC">
+			<option value="hide">JHIDE</option>
+			<option value="title">JGLOBAL_TITLE</option>
+			<option value="author">JAUTHOR</option>
+			<option value="hits">JGLOBAL_HITS</option>
+		</field>
+		<field name="list_show_date" type="list" default="created" label="JGLOBAL_SHOW_DATE_LABEL" description="JGLOBAL_SHOW_DATE_DESC">
+			<option value="0">JHIDE</option>
+			<option value="created">JGLOBAL_CREATED</option>
+			<option value="modified">JGLOBAL_MODIFIED</option>
+			<option value="published">JPUBLISHED</option>
+		</field>
+	</fieldset>
+	
+	<fieldset name="flood_control" label="COM_CJFORUM_CONFIG_FLOOD_CONTROL_LABEL" description="COM_CJFORUM_CONFIG_FLOOD_CONTROL_DESC">
+		<field name="spacer1" type="spacer" hr="true" />
+		<field name="max_topics_per_day" default="0" type="text" label="COM_CJFORUM_FIELD_MAX_TOPICS_PER_DAY_LABEL" description="COM_CJFORUM_FIELD_MAX_TOPICS_PER_DAY_DESC" />
+		<field name="max_replies_per_day" default="0" type="text" label="COM_CJFORUM_FIELD_MAX_REPLIES_PER_DAY_LABEL" description="COM_CJFORUM_FIELD_MAX_REPLIES_PER_DAY_DESC" />
+		<field name="max_replies_per_topic" default="0" type="text" label="COM_CJFORUM_FIELD_MAX_REPLIES_PER_TOPIC_LABEL" description="COM_CJFORUM_FIELD_MAX_REPLIES_PER_TOPIC_DESC" />
+		<field name="spacer2" type="spacer" hr="true" />
+		<field name="new_user_status_days" default="7" type="text" label="COM_CJFORUM_FIELD_NEW_USER_STATUS_DAYS_LABEL" description="COM_CJFORUM_FIELD_NEW_USER_STATUS_DAYS_DESC" />
+		<field name="max_topics_per_new_user" default="0" type="text" label="COM_CJFORUM_FIELD_MAX_TOPICS_PER_NEW_USER_LABEL" description="COM_CJFORUM_FIELD_MAX_TOPICS_PER_NEW_USER_DESC" />
+		<field name="max_replies_per_new_user" default="0" type="text" label="COM_CJFORUM_FIELD_MAX_REPLIES_PER_NEW_USER_LABEL" description="COM_CJFORUM_FIELD_MAX_REPLIES_PER_NEW_USER_DESC" />
+		<field name="max_replies_per_topic_new_user" default="0" type="text" label="COM_CJFORUM_FIELD_MAX_REPLIES_PER_TOPIC_NEW_USER_LABEL" description="COM_CJFORUM_FIELD_MAX_REPLIES_PER_TOPIC_NEW_USER_DESC" />
+	</fieldset>
+	
+	<fieldset name="profile" label="COM_CJFORUM_MENU_PROFILE" description="COM_CJFORUM_CONFIG_PROFILE_SETTINGS_DESC">
+		<field name="profile_show_gender" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_CJFORUM_FIELD_SHOW_GENDER_LABEL" description="COM_CJFORUM_FIELD_SHOW_GENDER_DESC">
+		    <option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="profile_show_age" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_CJFORUM_FIELD_SHOW_AGE_LABEL" description="COM_CJFORUM_FIELD_SHOW_AGE_DESC">
+		    <option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="profile_show_member_since" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_CJFORUM_FIELD_SHOW_MEMBER_SINCE_LABEL" description="COM_CJFORUM_FIELD_SHOW_MEMBER_SINCE_DESC">
+		    <option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="profile_show_last_visit" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_CJFORUM_FIELD_SHOW_LAST_VISIT_LABEL" description="COM_CJFORUM_FIELD_LAST_VISIT_DESC">
+		    <option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>	
+	</fieldset>
+
+	<fieldset name="shared" label="COM_CJFORUM_SHARED_LABEL" description="COM_CJFORUM_SHARED_DESC">
+		<field name="default_editor" type="plugins" folder="editors" default="tinymce" filter="cmd"
+			label="COM_CJFORUM_FIELD_DEFAULT_EDITOR_LABEL" description="COM_CJFORUM_FIELD_DEFAULT_EDITOR_DESC">
+			<option value="0">JGLOBAL_USE_GLOBAL</option>
+		</field>
+		<field name="enable_ratings" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_CJFORUM_FIELD_ENABLE_RATINGS_LABEL" description="COM_CJFORUM_FIELD_ENABLE_RATINGS_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="orderby_pri" type="list" default="none"
+			label="JGLOBAL_CATEGORY_ORDER_LABEL" description="JGLOBAL_CATEGORY_ORDER_DESC">
+			<option value="none">JGLOBAL_NO_ORDER</option>
+			<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+			<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+			<option value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
+		</field>
+		<field name="orderby_sec" type="list" default="rdate" label="JGLOBAL_Article_Order_Label" description="JGLOBAL_Article_Order_Desc">
+			<option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
+			<option value="date">JGLOBAL_OLDEST_FIRST</option>
+			<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+			<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+			<option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
+			<option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
+			<option value="hits">JGLOBAL_MOST_HITS</option>
+			<option value="rhits">JGLOBAL_LEAST_HITS</option>
+			<option value="order">JGLOBAL_TOPIC_MANAGER_ORDER</option>
+		</field>
+		<field name="order_date" type="list" default="published" description="JGLOBAL_ORDERING_DATE_DESC" label="JGLOBAL_ORDERING_DATE_LABEL">
+			<option value="created">JGLOBAL_CREATED</option>
+			<option value="modified">JGLOBAL_MODIFIED</option>
+			<option value="published">JPUBLISHED</option>
+		</field>
+		<field name="show_pagination" type="list" default="2" label="JGLOBAL_PAGINATION_LABEL" description="JGLOBAL_PAGINATION_DESC">
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+			<option value="2">JGLOBAL_AUTO</option>
+		</field>
+		<field name="show_pagination_results" type="radio" class="btn-group btn-group-yesno" default="1" label="JGLOBAL_PAGINATION_RESULTS_LABEL" description="JGLOBAL_PAGINATION_RESULTS_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="allow_activity_replies" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_CJFORUM_FIELD_ALLOW_ACTIVITY_REPLIES_LABEL" description="COM_CJFORUM_FIELD_ALLOW_ACTIVITY_REPLIES_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fieldset>
+
+	<fieldset name="integration" label="JGLOBAL_INTEGRATION_LABEL" description="COM_CJFORUM_CONFIG_INTEGRATION_SETTINGS_DESC">
+		<field name="load_bootstrap_css" type="radio" class="btn-group btn-group-yesno" default="0" label="Load Bootstrap CSS" description="Enable it if your template does not load bootstrap.">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	    <field name="layout" default="default" type="list" label="COM_CJFORUM_DEFAULT_LAYOUT_LABEL" description="COM_CJFORUM_DEFAULT_LAYOUT_DESC" filter="cmd">
+	        <option value="default">Default</option>
+	        <option value="bs3">BS3</option>
+	    </field>
+		<field name="show_feed_link" type="radio" class="btn-group btn-group-yesno" default="1" label="JGLOBAL_SHOW_FEED_LINK_LABEL" description="JGLOBAL_SHOW_FEED_LINK_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="feed_summary" type="list" label="JGLOBAL_FEED_SUMMARY_LABEL" default="0" description="JGLOBAL_FEED_SUMMARY_DESC">
+			<option value="0">JGLOBAL_INTRO_TEXT</option>
+			<option value="1">JGLOBAL_FULL_TEXT</option>
+		</field>
+		<field name="feed_show_readmore" type="radio" class="btn-group btn-group-yesno" default="0" label="JGLOBAL_FEED_SHOW_READMORE_LABEL" description="JGLOBAL_FEED_SHOW_READMORE_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="show_points_messages" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_CJFORUM_FIELD_SHOW_POINTS_NOTICES_LABEL" description="COM_CJFORUM_FIELD_SHOW_POINTS_NOTICES_DESC">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field name="profile_component" type="list" class="btn-group" default="cjforum" label="COM_CJFORUM_FIELD_PROFILE_COMPONENT_LABEL" description="COM_CJFORUM_FIELD_PROFILE_COMPONENT_DESC">
+			<option value="none">None</option>
+			<option value="cjforum">CjForum</option>
+			<option value="cjblog">CjBlog</option>
+			<option value="jomsocial">JomSocial</option>
+			<option value="easysocial">EasySocial</option>
+			<option value="cb">Community Builder</option>
+			<option value="kunena">Kunena</option>
+			<option value="gravatar">Gravatar</option>
+		</field>
+		<field name="avatar_component" type="list" class="btn-group" default="cjforum" label="COM_CJFORUM_FIELD_AVATAR_COMPONENT_LABEL" description="COM_CJFORUM_FIELD_AVATAR_COMPONENT_DESC">
+			<option value="none">None</option>
+			<option value="cjforum">CjForum</option>
+			<option value="cjblog">CjBlog</option>
+			<option value="jomsocial">JomSocial</option>
+			<option value="easysocial">EasySocial</option>
+			<option value="cb">Community Builder</option>
+			<option value="kunena">Kunena</option>
+			<option value="gravatar">Gravatar</option>
+		</field>
+		<field name="points_component" type="list" class="btn-group" default="cjforum" label="COM_CJFORUM_FIELD_POINTS_COMPONENT_LABEL" description="COM_CJFORUM_FIELD_POINTS_COMPONENT_DESC">
+			<option value="none">None</option>
+			<option value="cjforum">CjForum</option>
+			<option value="cjblog">CjBlog</option>
+			<option value="jomsocial">JomSocial</option>
+			<option value="easysocial">EasySocial</option>
+			<option value="aup">Alpha User Points</option>
+		</field>
+		<field name="stream_component" type="list" class="btn-group" default="cjforum" label="COM_CJFORUM_FIELD_STREAM_COMPONENT_LABEL" description="COM_CJFORUM_FIELD_STREAM_COMPONENT_DESC">
+			<option value="none">None</option>
+			<option value="cjforum">CjForum</option>
+			<option value="jomsocial">JomSocial</option>
+			<option value="easysocial">EasySocial</option>
+		</field>
+		<field name="max_description_length" type="text" filter="integer"  default="180" label="COM_CJFORUM_FIELD_ACTIVITY_DESCRIPTION_LENGTH_LABEL" description="COM_CJFORUM_FIELD_ACTIVITY_DESCRIPTION_LENGTH_DESC" />
+		<field name="display_name" type="list" default="name" label="COM_CJFORUM_FIELD_DISPLAY_NAME_LABEL" description="COM_CJFORUM_FIELD_DISPLAY_NAME_DESC">
+			<option value="name">COM_CJFORUM_OPTION_NAME</option>
+			<option value="username">COM_CJFORUM_OPTION_USERNAME</option>
+		</field>
+		
+		<field name="spacer2" type="spacer" label="COM_CJFORUM_FIELD_INTEGRATION_LABEL" hr="true"/>
+		<field name="spacer3" type="spacer" label="COM_CJFORUM_FIELD_INTEGRATION_LABEL"/>
+		
+		<field name="integrate_articles" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_CJFORUM_FIELD_ARTICLES_LABEL" description="COM_CJFORUM_FIELD_ARTICLES_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="integrate_answers" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_CJFORUM_FIELD_COMMUNITY_ANSWERS_LABEL" description="COM_CJFORUM_FIELD_COMMUNITY_ANSWERS_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="integrate_polls" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_CJFORUM_FIELD_COMMUNITY_POLLS_LABEL" description="COM_CJFORUM_FIELD_COMMUNITY_POLLS_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="integrate_quotes" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_CJFORUM_FIELD_COMMUNITY_QUOTES_LABEL" description="COM_CJFORUM_FIELD_COMMUNITY_QUOTES_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="integrate_quizzes" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_CJFORUM_FIELD_COMMUNITY_QUIZZES_LABEL" description="COM_CJFORUM_FIELD_COMMUNITY_QUIZZES_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="integrate_tracks" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_CJFORUM_FIELD_TRACKS_LABEL" description="COM_CJFORUM_FIELD_TRACKS_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="integrate_surveys" type="radio" class="btn-group btn-group-yesno" default="0" label="COM_CJFORUM_FIELD_COMMUNITY_SURVEYS_LABEL" description="COM_CJFORUM_FIELD_COMMUNITY_SURVEYS_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+	</fieldset>
+
+	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
+		<field name="rules" type="rules" label="JCONFIG_PERMISSIONS_LABEL" class="inputbox" validate="rules" filter="rules" component="com_cjforum" section="component" />
+	</fieldset>
+</config>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_CJFORUM_USER_PROFILE_VIEW_DEFAULT_TITLE" option="COM_CJFORUM_USER_PROFILE_VIEW_DEFAULT_OPTION">
+		<help key="JHELP_MENUS_MENU_ITEM_TOPIC_CREATE" />
+		<message>
+			<![CDATA[COM_CJFORUM_USER_PROFILE_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+	<fields name="params">
+		<fieldset name="basic">
+		</fieldset>
+	</fields>
+</metadata>

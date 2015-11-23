@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cjforum>
+	<points_rule>
+		<name>com_cjforum.archive</name>
+		<appname>com_cjforum</appname>
+		<title>Archived points</title>
+		<description>Archived points.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_cjforum.custom</name>
+		<appname>com_cjforum</appname>
+		<title>Custom points</title>
+		<description>Custom points awarded to the user on need basis.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_content.read</name>
+		<appname>com_content</appname>
+		<title>Read article</title>
+		<description>Points awarded for reading articles.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_content.create</name>
+		<appname>com_content</appname>
+		<title>Submit article</title>
+		<description>Points awarded for submitting articles.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_content.delete</name>
+		<appname>com_content</appname>
+		<title>Delete article</title>
+		<description>Points awarded/deducted for deleting/unpublishing article.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_users.login</name>
+		<appname>com_users</appname>
+		<title>Daily login</title>
+		<description>Points awarded for logging into the site daily.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_users.signup</name>
+		<appname>com_users</appname>
+		<title>Sign up</title>
+		<description>Points awarded for registering on site.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_cjforum.new_topic</name>
+		<appname>com_cjforum</appname>
+		<title>New topic</title>
+		<description>Points awarded for posting a topic.</description>
+		<points>1</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_cjforum.topic_reply</name>
+		<appname>com_cjforum</appname>
+		<title>Reply to a topic</title>
+		<description>Points awarded for replying to a topic.</description>
+		<points>1</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_cjforum.liked_topic</name>
+		<appname>com_cjforum</appname>
+		<title>Like a topic</title>
+		<description>Points awarded when you like a topic.</description>
+		<points>1</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_cjforum.disliked_topic</name>
+		<appname>com_cjforum</appname>
+		<title>Dislike a topic</title>
+		<description>Points awarded when you dislike a topic.</description>
+		<points>1</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_cjforum.liked_reply</name>
+		<appname>com_cjforum</appname>
+		<title>Like a reply</title>
+		<description>Points awarded when you like a reply.</description>
+		<points>1</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_cjforum.disliked_reply</name>
+		<appname>com_cjforum</appname>
+		<title>Dislike a reply</title>
+		<description>Points awarded when you dislike a reply.</description>
+		<points>1</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_cjforum.thankyou_reply_author</name>
+		<appname>com_cjforum</appname>
+		<title>Got thank you for a reply</title>
+		<description>Points awarded to the author when someone said thank you to his reply.</description>
+		<points>1</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_cjforum.thankyou_reply</name>
+		<appname>com_cjforum</appname>
+		<title>Said thank you to a reply</title>
+		<description>Points awarded to the user when he said thank you to a reply.</description>
+		<points>1</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_cjforum.favored_topic</name>
+		<appname>com_cjforum</appname>
+		<title>Added a topic to favorites</title>
+		<description>Points awarded for adding a topic to favorites.</description>
+		<points>1</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_cjforum.deleted_topic</name>
+		<appname>com_cjforum</appname>
+		<title>A topic is deleted</title>
+		<description>Points awarded/deducted for a topic deleted.</description>
+		<points>1</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_cjforum.deleted_reply</name>
+		<appname>com_cjforum</appname>
+		<title>A reply is deleted</title>
+		<description>Points awarded/deducted for a reply deleted.</description>
+		<points>1</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_cjforum.birthday</name>
+		<appname>com_cjforum</appname>
+		<title>Birthday bonus</title>
+		<description>Points awarded on birthday.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_communitypolls.poll</name>
+		<appname>com_communitypolls</appname>
+		<title>Submit poll.</title>
+		<description>Points awarded for submitting a poll.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_communitypolls.vote</name>
+		<appname>com_communitypolls</appname>
+		<title>Vote on a poll.</title>
+		<description>Points awarded for vote on a poll.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_communitypolls.author</name>
+		<appname>com_communitypolls</appname>
+		<title>Vote on a poll.</title>
+		<description>Points awarded/deducted from poll author points, when someone voted on the poll.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_communityquotes.create</name>
+		<appname>com_communityquotes</appname>
+		<title>Submit quote.</title>
+		<description>Points awarded for submitting a quote.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_communityquotes.like</name>
+		<appname>com_communityquotes</appname>
+		<title>Like quote.</title>
+		<description>Points awarded when you like a quote.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_crosswords.create</name>
+		<appname>com_crosswords</appname>
+		<title>Submitting crossword.</title>
+		<description>Points awarded for submitting a crossword.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_crosswords.solve</name>
+		<appname>com_crosswords</appname>
+		<title>Solve crossword.</title>
+		<description>Points awarded for solving a crossword.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_communityquiz.create</name>
+		<appname>com_communityquiz</appname>
+		<title>Submit quiz.</title>
+		<description>Points awarded for submitting a quiz.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_communityquiz.respond</name>
+		<appname>com_communityquiz</appname>
+		<title>Respond to a quiz.</title>
+		<description>Points awarded for responding to a quiz.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<points_rule>
+		<name>com_communityquiz.pass</name>
+		<appname>com_communityquiz</appname>
+		<title>Pass quiz.</title>
+		<description>Points awarded for passing a quiz.</description>
+		<points>0</points>
+		<state>1</state>
+		<auto_approve>1</auto_approve>
+		<access>1</access>
+	</points_rule>
+	<activity_type>
+		<name>com_cjforum.new_topic</name>
+		<appname>com_cjforum</appname>
+		<title>New topic</title>
+		<description>Activity about new topic created.</description>
+		<state>1</state>
+		<access>1</access>
+		<language>*</language>
+	</activity_type>
+	<activity_type>
+		<name>com_cjforum.topic_reply</name>
+		<appname>com_cjforum</appname>
+		<title>Reply to a topic</title>
+		<description>Activity about new topic reply.</description>
+		<state>1</state>
+		<access>1</access>
+		<language>*</language>
+	</activity_type>
+	<activity_type>
+		<name>com_cjforum.liked_topic</name>
+		<appname>com_cjforum</appname>
+		<title>Like a topic</title>
+		<description>Activity posted when someone like a topic.</description>
+		<state>1</state>
+		<access>1</access>
+		<language>*</language>
+	</activity_type>
+	<activity_type>
+		<name>com_cjforum.disliked_topic</name>
+		<appname>com_cjforum</appname>
+		<title>Dislike a topic</title>
+		<description>Activity posted when someone dislike a topic.</description>
+		<state>1</state>
+		<access>1</access>
+		<language>*</language>
+	</activity_type>
+	<activity_type>
+		<name>com_cjforum.liked_reply</name>
+		<appname>com_cjforum</appname>
+		<title>Like a reply</title>
+		<description>Activity posted when someone like a reply.</description>
+		<state>1</state>
+		<access>1</access>
+		<language>*</language>
+	</activity_type>
+	<activity_type>
+		<name>com_cjforum.disliked_reply</name>
+		<appname>com_cjforum</appname>
+		<title>Dislike a reply</title>
+		<description>Activity posted when someone dislike a reply.</description>
+		<state>1</state>
+		<access>1</access>
+		<language>*</language>
+	</activity_type>
+	<activity_type>
+		<name>com_cjforum.thankyou_reply</name>
+		<appname>com_cjforum</appname>
+		<title>Said thank you to a reply</title>
+		<description>Activity posted when someone said thank you to a reply.</description>
+		<state>1</state>
+		<access>1</access>
+		<language>*</language>
+	</activity_type>
+	<activity_type>
+		<name>com_cjforum.favored_topic</name>
+		<appname>com_cjforum</appname>
+		<title>Added a topic to favorites</title>
+		<description>Activity posted when someone added a topic to his favorites.</description>
+		<state>1</state>
+		<access>1</access>
+		<language>*</language>
+	</activity_type>
+	<activity_type>
+		<name>com_content.create</name>
+		<appname>com_content</appname>
+		<title>New Article</title>
+		<description>Activity about new article created.</description>
+		<state>1</state>
+		<access>1</access>
+		<language>*</language>
+	</activity_type>
+	<activity_type>
+		<name>com_communityquotes.create</name>
+		<appname>com_communityquotes</appname>
+		<title>New Quote</title>
+		<description>Activity about new quote created.</description>
+		<state>1</state>
+		<access>1</access>
+		<language>*</language>
+	</activity_type>
+	<activity_type>
+		<name>com_communityquotes.like</name>
+		<appname>com_communityquotes</appname>
+		<title>Like Quote</title>
+		<description>Activity about a quote being liked by the user.</description>
+		<state>1</state>
+		<access>1</access>
+		<language>*</language>
+	</activity_type>
+	<activity_type>
+		<name>com_crosswords.create</name>
+		<appname>com_crosswords</appname>
+		<title>New Crossword</title>
+		<description>Activity about new crossword created.</description>
+		<state>1</state>
+		<access>1</access>
+		<language>*</language>
+	</activity_type>
+	<activity_type>
+		<name>com_crosswords.solve</name>
+		<appname>com_crosswords</appname>
+		<title>Solve Crossword</title>
+		<description>Activity about a crossword being solved by the user.</description>
+		<state>1</state>
+		<access>1</access>
+		<language>*</language>
+	</activity_type>
+</cjforum>

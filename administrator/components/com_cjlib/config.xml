@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: config.xml 14 2011-01-11 12:15:22Z maverick $ -->
+<config>
+	<fieldset name="cron" label="COM_CJLIB_CRON_CONFIGURATION_LABEL">
+		<field name="enable_manual_cron" type="radio" class="btn-group btn-group-yesno" default="1" label="COM_CJLIB_FIELD_ENABLE_MANUAL_CRON_LABEL" description="COM_CJLIB_FIELD_ENABLE_MANUAL_CRON_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="num_emails_in_batch" default="60" type="text" label="COM_CJLIB_NUM_FIELD_EMAILS_IN_BATCH_LABEL" description="COM_CJLIB_NUM_FIELD_EMAILS_IN_BATCH_DESC"/>
+		<field name="max_delay_per_batch" default="10" type="text" label="COM_CJLIB_FIELD_MAX_DELAY_PER_BATCH_LABEL" description="COM_CJLIB_FIELD_MAX_DELAY_PER_BATCH_LABEL"/>
+	</fieldset>
+	<fieldset name="update" label="COM_CJLIB_AUTOUPDATE_LABEL">
+		<field name="update_credentials_download_id" default="" type="text" label="COM_CJLIB_FIELD_DOWNLOADID_LABEL" description="COM_CJLIB_FIELD_DOWNLOADID_DESC"/>
+	</fieldset>
+	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
+		<field name="rules" type="rules" label="JCONFIG_PERMISSIONS_LABEL" class="inputbox" validate="rules" filter="rules" component="com_cjlib" section="component" />
+	</fieldset>
+</config>
+

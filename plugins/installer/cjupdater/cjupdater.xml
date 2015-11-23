@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="installer" method="upgrade">
+	<name>plg_installer_cjupdater</name>
+	<author>Maverick</author>
+	<creationDate>2015-08-31</creationDate>
+	<copyright>Copyright (C) 2011 corejoomla.com. All rights reserved.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>maverick@corejoomla.com</authorEmail>
+    <authorUrl>www.corejoomla.com</authorUrl>
+	<version>1.0</version>
+	<description>Handle paid-for extension update</description>
+	<files>
+		<filename plugin="cjupdater">cjupdater.php</filename>
+		<filename>index.html</filename>
+	</files>
+</extension>

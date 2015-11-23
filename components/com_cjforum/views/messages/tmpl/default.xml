@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_CJFORUM_PMS_VIEW_DEFAULT_TITLE" option="COM_CJFORUM_PMS_VIEW_DEFAULT_OPTION">
+		<help key="JHELP_MENUS_MENU_ITEM_PMS_HOME" />
+		<message>
+			<![CDATA[COM_CJFORUM_PMS_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+</metadata>

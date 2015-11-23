@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<extension method="upgrade" type="component" version="2.5">
+	<name>CJLib</name>
+	<creationDate>2015-Nov-23</creationDate>
+	<author>Maverick</author>
+	<authorEmail>support@corejoomla.com</authorEmail>
+	<authorUrl>http://www.corejoomla.org</authorUrl>
+	<copyright>Copyright corejoomla.com. All rights reserved.</copyright>
+	<license>Gnu/GPL v2 or later</license>
+	<version>2.3.5</version>
+	<description>CoreJoomla Library.</description>
+
+	<install>
+		<sql>
+			<file charset="utf8" driver="mysql">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+
+	<files folder="site">
+		<filename>cjlib.php</filename>
+		<filename>framework.php</filename>
+		<filename>controller.php</filename>
+		<filename>router.php</filename>
+		<folder>framework</folder>
+		<folder>lib</folder>
+		<folder>tree</folder>
+		<folder>twitter</folder>
+		<folder>jquery</folder>
+	</files>
+	
+	<media destination="com_cjlib" folder="site/media">
+		<filename>index.html</filename>
+		<folder>bootstrap</folder>
+		<folder>bscalendar</folder>
+		<folder>fontawesome</folder>
+		<folder>datatables</folder>
+		<folder>sceditor</folder>
+		<folder>jquery</folder>
+		<folder>smileys</folder>
+		<folder>colorbox</folder>
+		<folder>treeview</folder>
+		<folder>jssocials</folder>
+	</media>
+
+	<administration>
+		<menu img="components/com_cjlib/assets/images/icon-16-package.png">CJLib</menu>
+		<files folder="admin">
+			<filename>controller.php</filename>
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<file>cjlib.php</file>
+			<folder>assets</folder>
+			<folder>views</folder>
+			<folder>models</folder>
+			<folder>sql</folder>
+		</files>
+
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB/en-GB.com_cjlib.ini</language>
+			<language tag="en-GB">language/en-GB/en-GB.com_cjlib.sys.ini
+			</language>
+		</languages>
+	</administration>
+
+	<scriptfile>script.php</scriptfile>
+</extension>

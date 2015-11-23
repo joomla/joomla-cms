@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="params">
+		<fieldset name="params">
+			<field name="cjforum_big_icon_class" type="text" 
+				label="PLG_CONTENT_CJFORUM_MAIN_CATEGORY_ICON_CLASS_LABEL" description="PLG_CONTENT_CJFORUM_MAIN_CATEGORY_ICON_CLASS_DESC"/>
+			<field name="cjforum_small_icon_class" type="text" 
+				label="PLG_CONTENT_CJFORUM_SUB_CATEGORY_ICON_CLASS_LABEL" description="PLG_CONTENT_CJFORUM_SUB_CATEGORY_ICON_CLASS_DESC"/>
+			<field name="cjforum_category_row_class" type="text" 
+				label="PLG_CONTENT_CJFORUM_CATEGORY_ROW_CLASS_LABEL" description="PLG_CONTENT_CJFORUM_CATEGORY_ROW_CLASS_DESC"/>
+		</fieldset>
+	</fields>
+</form>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<extension group="content" method="upgrade" type="plugin" version="3.3">
+    <name>Content - CjForum</name>
+	<creationDate>2015-Oct-04</creationDate>
+    <author>Maverick</author>
+    <authorEmail>support@corejoomla.com</authorEmail>
+    <authorUrl>http://www.corejoomla.com</authorUrl>
+	<copyright>All rights reserved by www.corejoomla.com 2009-12.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <version>1.1.0</version>
+    <description>Adds support for CjForum points system to Joomla(R) articles.</description>
+    
+    <languages folder="language/en-GB">
+        <language tag="en-GB">en-GB.plg_content_cjforum.ini</language>
+    </languages>
+    <files>
+        <filename>cjforum.xml</filename>
+        <filename plugin="cjforum">cjforum.php</filename>
+        <filename>index.html</filename>
+        <folder>forms</folder>
+    </files>
+</extension>

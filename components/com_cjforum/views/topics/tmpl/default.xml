@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_CJFORUM_TOPICS_VIEW_DEFAULT_TITLE" option="COM_CJFORUM_TOPICS_VIEW_DEFAULT_OPTION">
+		<help key="JHELP_MENUS_MENU_ITEM_TOPICS" />
+	    <message><![CDATA[COM_CJFORUM_TOPICS_VIEW_DEFAULT_DESC]]></message>
+	</layout>
+</metadata>

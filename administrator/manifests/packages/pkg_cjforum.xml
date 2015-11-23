@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<extension method="upgrade" type="package" version="3.0">
+	<name>CjForum Package</name>
+	<author>Maverick</author>
+	<creationDate>2015-Oct-04</creationDate>
+	<packagename>communityanswers</packagename>
+	<version>1.1.0</version>
+	<url>http://www.corejoomla.com/</url>
+	<packager>Maverick</packager>
+	<packagerurl>http://www.corejoomla.com/</packagerurl>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description><![CDATA[
+	    <div class="well">
+		<p>CjForum Package:</p>
+		<table class="table table-hover table-striped"> 
+		<tr><td>CjForum Component</td><td>Successfully installed</td></tr>
+		<tr><td>CjForum Listing Module</td><td>Successfully installed</td></tr>
+		<tr><td>CjForum Categories Module</td><td>Successfully installed</td></tr>
+		<tr><td>CjForum Content Plugin</td><td>Successfully installed</td></tr>
+		<tr><td>CjForum User Plugin</td><td>Successfully installed</td></tr>
+		<tr><td>CjForum Topics Plugin</td><td>Successfully installed</td></tr>
+		</table>
+		<p><strong style="color: red;">Please install CjLib component if not yet installed. Please enable the plugins from plugin manager.</strong></p>
+		<p>Thank you for using corejoomla&reg; software. Please add a rating and review at Joomla&reg; Extension Directory.</p>
+		</div>
+		]]></description>
+	
+	<files folder="packages">
+		<file id="cjforum" type="component">com_cjforum.zip</file>
+		<file client="site" id="cjforum" type="module">mod_cjforum.zip</file>
+		<file client="site" id="cjforum" type="module">mod_cjforumcategories.zip</file>
+		<file client="site" group="cjforum" id="cjforum" type="plugin">plg_cjforum_topics.zip</file>
+		<file client="site" group="content" id="cjforum" type="plugin">plg_content_cjforum.zip</file>
+		<file client="site" group="user" id="cjforum" type="plugin">plg_user_cjforum.zip</file>
+	</files>
+	
+	<updateservers>
+		<server name="CjForum Update Site" priority="1" type="collection">https://www.corejoomla.com/media/autoupdates/cjforum/package.xml</server>
+	</updateservers>
+</extension>

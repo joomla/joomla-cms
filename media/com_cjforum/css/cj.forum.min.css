@@ -1,0 +1,95 @@
+#cj-wrapper .item-count-box {min-width: 48px; margin-bottom: 0;}
+#cj-wrapper .item-count-box .panel-body {padding: 7px 5px;}
+#cj-wrapper .item-count-box .item-count-num {font-weight: bold; font-size: 110%; text-align: center;}
+#cj-wrapper .item-count-box .item-count-caption {padding: 0 2px; font-weight: bold; font-size: 60%; text-transform: uppercase; text-align: center;}
+#cj-wrapper .forum-info, #cj-wrapper .forum-info > li:first-child {margin-left: 0; padding-left: 0;}
+#cj-wrapper .forum-info li {margin-right: 0; padding: 0;}
+#cj-wrapper .topic-head hr {margin-top: 10px; margin-bottom: 10px;}
+#cj-wrapper .replies .avatar {margin-right: 10px;}
+#cj-wrapper .replies .reply-title {margin-bottom: 5px; font-size: 120%;}
+#cj-wrapper .chzn-container {width: auto;}
+#cj-wrapper .profile-banner-main .panel {min-height: 180px;}
+#cj-wrapper .profile-banner-main .profile-banner-inner {position: relative; vertical-align: bottom;}
+#cj-wrapper .profile-banner-main .profile-banner-avatar {position: absolute; top: 20%;}
+#cj-wrapper .profile-banner-main .profile-banner-name {display: block; }
+#cj-wrapper .nav {margin-bottom: 0}
+#cj-wrapper .cjheader {border-bottom: 1px solid #ccc; text-transform: uppercase; margin-bottom: 3px; padding-bottom: 2px; margin-top: 20px; font-weight: bold; font-size: 1.05em;}
+#cj-wrapper .cjheader:first-child {margin-top: 5px;}
+#cj-wrapper .list-summary {margin-bottom: 20px;}
+#cj-wrapper .list-summary, #cj-wrapper .list-summary li {list-style: none; list-style-image: none; list-style-type: none; margin-left: 0; padding-left: 0;}
+#cj-wrapper .list-summary li {white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 5px;}
+#cj-wrapper .child-forums li {margin-left: 5px; padding-left: 0;}
+#cj-wrapper .profile-info {text-align: center;}
+#cj-wrapper .profile-info .rank {display: block; font-size: 1.1em; padding: 4px; margin-bottom: 5px;}
+#cj-wrapper .profile-icons a {text-decoration: none;}
+#cj-wrapper .profile-boxes {display: block}
+#cj-wrapper .profile-boxes .item-count-num {font-size: large; margin: 5px;}
+#cj-wrapper .profile-boxes .item-count-caption {font-size: 90%;}
+#cj-wrapper .activity .comments {margin-left: 0;}
+#cj-wrapper .activity .comments .avatar img {max-height: 24px;}
+#cj-wrapper .activity .commentbox {margin-bottom: 0; padding-left: 10px; height: 32px;}
+#cj-wrapper .reply-description pre, #cj-wrapper .reply-description code {white-space: pre-wrap;}
+#cj-wrapper .reply-description img {max-width: 100%; white-space: pre-wrap;}
+#cj-wrapper .attachment {margin-bottom: 10px;}
+#cj-wrapper .reply-description pre, #cj-wrapper .reply-description code, #cj-wrapper .topic-body pre, #cj-wrapper .topic-body code
+	{border-left-color: #aa6708; padding: 10px; margin: 20px 0; border: 1px solid #eee; border-left-width: 5px; border-radius: 3px; background-color: transparent; border-left: 5px solid #aa6708;}
+#cj-wrapper .no-space-left {margin-left: 0; padding-left: 0;}
+#cj-wrapper .no-space-right {margin-right: 0; padding-right: 0;}
+#cj-wrapper .no-space-bottom {margin-bottom: 0; padding-bottom: 0;}
+#cj-wrapper .no-space-top {margin-top: 0; padding-top: 0;}
+#cj-wrapper .no-pad-bottom {padding-bottom: 0;}
+#cj-wrapper .no-pad-left {padding-left: 0;}
+#cj-wrapper .no-margin-top {margin-top: 0;}
+#cj-wrapper .no-margin-bottom {margin-bottom: 0;}
+#cj-wrapper .no-margin-left {margin-left: 0;}
+#cj-wrapper .no-margin-right {margin-right: 0;}
+#cj-wrapper .margin-bottom-10 {margin-bottom: 10px;}
+#cj-wrapper .margin-right-10 {margin-right: 10px;}
+#cj-wrapper .margin-top-10 {margin-top: 10px;}
+#cj-wrapper .margin-left-10 {margin-left: 10px;}
+#cj-wrapper .margin-bottom-5 {margin-bottom: 5px;}
+#cj-wrapper .margin-top-5 {margin-top: 5px;}
+#cj-wrapper .margin-right-5 {margin-right: 5px;}
+#cj-wrapper .margin-right-2 {margin-right: 2px;}
+#cj-wrapper .margin-left-5 {margin-left: 5px;}
+#cj-wrapper .pad-bottom-5 {padding-bottom: 5px;}
+#cj-wrapper .pad-top-5 {padding-top: 5px;}
+#cj-wrapper .pad-top-20 {padding-top: 20px;}
+#cj-wrapper .margin-top-20 {margin-top: 20px;}
+#cj-wrapper .margin-bottom-20 {margin-bottom: 20px;}
+#cj-wrapper .reply-icon-text {margin-top: 0; color: white;}
+#cj-wrapper .last-reply-date {color: #b00;}
+#cj-wrapper .new-posts-text {margin-left: 5px;}
+#cj-wrapper .new-posts-text a {color: #480; font-size: small;}
+#cj-wrapper .leader-rank-box {padding: 0; margin: 0 10px 0 0;}
+#cj-wrapper .leader-rank-box .leader-rank {margin: 10px 0 5px 0;}
+#cj-wrapper .category-icon {max-width: 96px; text-align: center;}
+#cj-wrapper .pagination-xs > li > a, #cj-wrapper .pagination-xs > li > span {padding: 0 6px; font-size: 9.75px;}
+#cj-wrapper .pagination-xs > li:first-child > a, #cj-wrapper .pagination-xs > li:first-child > span {border-top-left-radius: 3px; border-bottom-left-radius: 3px;}
+#cj-wrapper .pagination-xs > li:last-child > a, #cj-wrapper .pagination-xs > li:last-child > span {border-top-right-radius: 3px; border-bottom-right-radius: 3px;}
+#cj-wrapper .avatar {max-width: 192px;}
+
+.guillotine-window {display: block; position: relative; overflow: hidden;}
+.guillotine-canvas {position: absolute; top: 0; left: 0; text-align: center; margin: 0 !important; padding: 0 !important; border: none !important;}
+.guillotine-canvas > * {position: absolute; top: 0; left: 0; max-width: none; max-height: none; width: 100%; height: 100%; margin: 0 !important; padding: 0 !important; border: none !important;}
+#cj-wrapper #avatar-image {cursor: move;}
+#avatar-controls {padding: 10px; text-align: center; display: block;}
+#avatar-controls a {margin-right: 20px; font-size: large; color: #888;}
+#avatar-controls a:hover {color: #fff;}
+
+.dropdown-menu {min-width: 200px;}
+.dropdown-menu.columns-2 {min-width: 400px;}
+.dropdown-menu.columns-3 {min-width: 600px;}
+.dropdown-menu li a {padding: 5px 15px; font-weight: 300;}
+.multi-column-dropdown {list-style: none; padding-left: 0;}
+.multi-column-dropdown li a {display: block; clear: both; line-height: 1.428571429; color: #333; white-space: normal;}
+.multi-column-dropdown li a:hover {text-decoration: none; color: #262626; background-color: #f5f5f5;}
+@media (min-width: 768px) {
+	.dropdown-menu-right {left: auto; right: 0;}
+}
+@media (max-width: 767px) {
+	.dropdown-menu.multi-column { min-width: 240px !important; overflow-x: hidden;}
+}
+@media (max-width: 480px) {
+	.content {width: 90%; margin: 50px auto; padding: 10px;}
+}

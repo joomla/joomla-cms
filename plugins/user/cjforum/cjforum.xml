@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<extension group="user" method="upgrade" type="plugin" version="3.3">
+	<name>User - CjForum</name>
+	<author>CjForum User Plugin</author>
+	<creationDate>2015-Oct-04</creationDate>
+	<copyright>(C) 2009 - 2014 corejoomla.com. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>support@corejoomla.com</authorEmail>
+	<authorUrl>www.corejoomla.com</authorUrl>
+	<version>1.1.0</version>
+	<description>User plugin for CjForum</description>
+	<files>
+		<filename plugin="cjforum">cjforum.php</filename>
+		<filename>index.html</filename>
+	</files>
+</extension>

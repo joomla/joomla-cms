@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<extension version="1.6.0" client="site" type="plugin" group="content" method="upgrade">
+    <name>Content - Bad Word Filter</name>
+    <author>Christopher Mavros</author>
+    <creationDate>November 2009</creationDate>
+    <copyright>Copyright (C) 2009 Christopher Mavros. All rights reserved.</copyright>
+    <license>GNU General Public License</license>
+    <authorEmail>mavrosxristoforos@gmail.com</authorEmail>
+    <authorUrl>http://www.mavrosxristoforos.com/</authorUrl>
+    <version>1.0.0</version>
+    <description>A simple word filter plugin. Produces a user-defined HTML if it finds a bad word</description>
+    <files>
+        <filename plugin="badwordfilter">badwordfilter.php</filename>
+    </files>
+    <config><fields name="params"><fieldset name="basic">
+        <field name="bad_words"
+        type="textarea" cols="30" rows="4"
+        default="porn,sex"
+        label="Bad Words"
+        description="Words to filter out, separated by commas. Example: porn,sex" />
+        <field name="html_out"
+        type="textarea" cols="30" rows="10"
+        filter="raw"
+        default="&lt;s&gt;BAD WORD&lt;/s&gt;"
+        label="HTML Replacement"
+        description="The HTML produced when a word is found. CAUTION: This is 'raw' output
+        (i.e. what you put here is what is outputted onto the page, exactly!)" />         
+        <field name="allow_exceptions"
+        type="radio"
+        default="1"
+        label="Allow Exceptions"
+        description="If this is yes, BWF will not replace words in articles that contain the keyword {no_badwordfilter}.">
+            <option value="0">No</option>
+            <option value="1">Yes</option>        
+        </field>
+    </fieldset></fields></config>
+</extension>

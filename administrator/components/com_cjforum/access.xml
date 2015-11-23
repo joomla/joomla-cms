@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<access component="com_cjforum">
+	<section name="component">
+		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
+		<action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
+		<action name="core.create" title="JACTION_CREATE" description="JACTION_CREATE_COMPONENT_DESC" />
+		<action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
+		<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />
+		<action name="core.edit.own" title="JACTION_EDITOWN" description="JACTION_EDITOWN_COMPONENT_DESC" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
+		<action name="core.edit.state.own" title="COM_CJFORUM_JACTION_EDITSTATE_OWN_LABEL" description="COM_CJFORUM_JACTION_EDITSTATE_OWN_DESC" />
+		<action name="core.view" title="COM_CJFORUM_JACTION_VIEW_LABEL" description="COM_CJFORUM_JACTION_VIEW_DESC" />
+		<action name="core.reply" title="COM_CJFORUM_JACTION_REPLY_LABEL" description="COM_CJFORUM_JACTION_REPLY_LABEL_DESC" />
+		<action name="core.view.replies" title="COM_CJFORUM_JACTION_VIEW_REPLIES_LABEL" description="COM_CJFORUM_JACTION_VIEW_REPLIES_DESC" />
+		<action name="core.moderate.topic" title="COM_CJFORUM_JACTION_MODERATE_TOPIC_LABEL" description="COM_CJFORUM_JACTION_MODERATE_TOPIC_DESC" />
+		<action name="core.moderate.reply" title="COM_CJFORUM_JACTION_MODERATE_REPLY_LABEL" description="COM_CJFORUM_JACTION_MODERATE_REPLY_DESC" />
+		<action name="core.vote" title="COM_CJFORUM_JACTION_RATE_LABEL" description="COM_CJFORUM_JACTION_RATE_LABEL_DESC" />
+		<action name="core.download" title="COM_CJFORUM_JACTION_DOWNLOAD_ATTACHMENTS_LABEL" description="COM_CJFORUM_JACTION_DOWNLOAD_ATTACHMENTS_DESC" />
+	</section>
+	<section name="category">
+		<action name="core.create" title="JACTION_CREATE" description="COM_CATEGORIES_ACCESS_CREATE_DESC" />
+		<action name="core.delete" title="JACTION_DELETE" description="COM_CATEGORIES_ACCESS_DELETE_DESC" />
+		<action name="core.edit" title="JACTION_EDIT" description="COM_CATEGORIES_ACCESS_EDIT_DESC" />
+		<action name="core.edit.own" title="JACTION_EDITOWN" description="COM_CATEGORIES_ACCESS_EDITOWN_DESC" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_CATEGORIES_ACCESS_EDITSTATE_DESC" />
+		<action name="core.edit.state.own" title="COM_CJFORUM_JACTION_EDITSTATE_OWN_LABEL" description="COM_CJFORUM_JACTION_EDITSTATE_OWN_DESC" />
+		<action name="core.view" title="COM_CJFORUM_JACTION_VIEW_LABEL" description="COM_CJFORUM_JACTION_VIEW_DESC" />
+		<action name="core.reply" title="COM_CJFORUM_JACTION_REPLY_LABEL" description="COM_CJFORUM_JACTION_REPLY_LABEL_DESC" />
+		<action name="core.moderate.topic" title="COM_CJFORUM_JACTION_MODERATE_TOPIC_LABEL" description="COM_CJFORUM_JACTION_MODERATE_TOPIC_DESC" />
+		<action name="core.moderate.reply" title="COM_CJFORUM_JACTION_MODERATE_REPLY_LABEL" description="COM_CJFORUM_JACTION_MODERATE_REPLY_DESC" />
+		<action name="core.vote" title="COM_CJFORUM_JACTION_RATE_LABEL" description="COM_CJFORUM_JACTION_RATE_LABEL_DESC" />
+		<action name="core.download" title="COM_CJFORUM_JACTION_DOWNLOAD_ATTACHMENTS_LABEL" description="COM_CJFORUM_JACTION_DOWNLOAD_ATTACHMENTS_DESC" />
+	</section>
+	<section name="topic">
+		<action name="core.delete" title="JACTION_DELETE" description="COM_CJFORUM_ACCESS_DELETE_TOPIC_DESC" />
+		<action name="core.edit" title="JACTION_EDIT" description="COM_CJFORUM_ACCESS_EDIT_TOPIC_DESC" />
+		<action name="core.edit.own" title="JACTION_EDITOWN" description="COM_CATEGORIES_ACCESS_EDITOWN_DESC" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_CJFORUM_ACCESS_EDITSTATE_TOPIC_DESC" />
+		<action name="core.edit.state.own" title="COM_CJFORUM_JACTION_EDITSTATE_OWN_LABEL" description="COM_CJFORUM_JACTION_EDITSTATE_OWN_DESC" />
+		<action name="core.view" title="COM_CJFORUM_JACTION_VIEW_LABEL" description="COM_CJFORUM_JACTION_VIEW_DESC" />
+		<action name="core.reply" title="COM_CJFORUM_JACTION_REPLY_LABEL" description="COM_CJFORUM_JACTION_REPLY_LABEL_DESC" />
+		<action name="core.moderate.reply" title="COM_CJFORUM_JACTION_MODERATE_REPLY_LABEL" description="COM_CJFORUM_JACTION_MODERATE_REPLY_DESC" />
+		<action name="core.vote" title="COM_CJFORUM_JACTION_RATE_LABEL" description="COM_CJFORUM_JACTION_RATE_LABEL_DESC" />
+	</section>
+	<section name="rank">
+		<action name="core.delete" title="JACTION_DELETE" description="COM_CJFORUM_ACCESS_DELETE_RANK_DESC" />
+		<action name="core.edit" title="JACTION_EDIT" description="COM_CJFORUM_ACCESS_EDIT_RANK_DESC" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_CJFORUM_ACCESS_EDITSTATE_RANK_DESC" />
+	</section>
+	<section name="profile">
+		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
+		<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />
+		<action name="core.edit.own" title="JACTION_EDITOWN" description="JACTION_EDITOWN_COMPONENT_DESC" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
+	</section>
+</access>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
+		<field id="id" name="id" type="hidden" class="inputbox" label="COM_CJFORUM_ID_LABEL" size="10" default="0" readonly="true"/>
+		<field id="handle" name="handle" type="text" label="COM_CJFORUM_FIELD_HANDLE_LABEL" description="COM_CJFORUM_FIELD_HANDLE_DESC" hint="COM_CJFORUM_FIELD_HANDLE_PLACEHOLDER" class="form-control inputbox" size="45" />
+		<field id="signature" name="signature" type="editor" label="COM_CJFORUM_FIELD_SIGNATURE_LABEL" description="COM_CJFORUM_FIELD_SIGNATURE_DESC" 
+			rows="5" height="150px" filter="JComponentHelper::filterText" asset_id="com_cjforum"/>
+		<field id="about" name="about" type="editor" label="COM_CJFORUM_FIELD_ABOUT_LABEL" description="COM_CJFORUM_FIELD_ABOUT_DESC" 
+			rows="5" height="150px" filter="JComponentHelper::filterText" asset_id="com_cjforum" />
+		<field id="banned" name="banned" type="calendar" label="COM_CJFORUM_FIELD_BANNED_LABEL" description="COM_CJFORUM_FIELD_BANNED_DESC" default="0000-00-00 00:00" class="form-control"/>
+		<field id="birthday" name="birthday" type="calendar" label="COM_CJFORUM_FIELD_BIRTHDAY_LABEL" description="COM_CJFORUM_FIELD_BIRTHDAY_DESC" default="0000-00-00" class="form-control"/>
+		<field id="gender" name="gender" type="list" label="COM_CJFORUM_FIELD_GENDER_LABEL" description="COM_CJFORUM_FIELD_GENDER_DESC" class="inputbox form-control" default="0">
+			<option value="0">COM_CJFORUM_PROFILE_GENDER_0</option>
+			<option value="1">COM_CJFORUM_PROFILE_GENDER_1</option>
+			<option value="2">COM_CJFORUM_PROFILE_GENDER_2</option>
+			<option value="3">COM_CJFORUM_PROFILE_GENDER_3</option>
+			<option value="4">COM_CJFORUM_PROFILE_GENDER_4</option>
+			<option value="5">COM_CJFORUM_PROFILE_GENDER_5</option>
+		</field>
+		<field id="location" name="location" type="text" label="COM_CJFORUM_FIELD_LOCATION_LABEL" description="COM_CJFORUM_FIELD_LOCATION_DESC" 
+			hint="COM_CJFORUM_FIELD_LOCATION_LABEL" class="inputbox form-control" size="45" />
+		<field id="rank" name="rank" type="ranks" label="COM_CJFORUM_FIELD_RANK_LABEL" description="COM_CJFORUM_FIELD_RANK_DESC" class="form-control"/>
+		
+		<field id="avatar" name="avatar" type="hidden"/>
+		<field id="created" name="created" type="calendar" filter="unset" />
+		<field id="created_by" name="created_by" type="text" filter="unset" />
+		<field id="metakey" name="metakey" type="textarea" label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC" class="input-block-level form-control" rows="5" cols="50" />
+		<field id="metadesc" name="metadesc" type="textarea" label="JFIELD_META_DESCRIPTION_LABEL" description="JFIELD_META_DESCRIPTION_DESC" class="input-block-level form-control" rows="5" cols="50" />
+	</fieldset>
+	<fieldset name="social" label="COM_CJFORUM_FIELDSET_SOCIAL_OPTIONS">
+		<field id="twitter" name="twitter" type="text" label="COM_CJFORUM_FIELD_TWITTER_LABEL" description="COM_CJFORUM_FIELD_TWITTER_DESC" hint="COM_CJFORUM_FIELD_TWITTER_LABEL" class="inputbox form-control" size="45" />
+		<field id="facebook" name="facebook" type="text" label="COM_CJFORUM_FIELD_FACEBOOK_LABEL" description="COM_CJFORUM_FIELD_FACEBOOK_DESC" hint="COM_CJFORUM_FIELD_FACEBOOK_LABEL" class="inputbox form-control" size="45" />
+		<field id="gplus" name="gplus" type="text" label="COM_CJFORUM_FIELD_GPLUS_LABEL" description="COM_CJFORUM_FIELD_GPLUS_DESC" hint="COM_CJFORUM_FIELD_GPLUS_LABEL" class="inputbox form-control" size="45" />
+		<field id="linkedin" name="linkedin" type="text" label="COM_CJFORUM_FIELD_LINKEDIN_LABEL" description="COM_CJFORUM_FIELD_LINKEDIN_DESC" hint="COM_CJFORUM_FIELD_LINKEDIN_LABEL" class="inputbox form-control" size="45" />
+		<field id="flickr" name="flickr" type="text" label="COM_CJFORUM_FIELD_FLICKR_LABEL" description="COM_CJFORUM_FIELD_FLICKR_DESC" hint="COM_CJFORUM_FIELD_FLICKR_LABEL" class="inputbox form-control" size="45" />
+		<field id="bebo" name="bebo" type="text" label="COM_CJFORUM_FIELD_BEBO_LABEL" description="COM_CJFORUM_FIELD_BEBO_DESC" hint="COM_CJFORUM_FIELD_BEBO_LABEL" class="inputbox form-control" size="45" />
+		<field id="skype" name="skype" type="text" label="COM_CJFORUM_FIELD_SKYPE_LABEL" description="COM_CJFORUM_FIELD_SKYPE_DESC" hint="COM_CJFORUM_FIELD_SKYPE_LABEL" class="inputbox form-control" size="45" />
+	</fieldset>
+	<fields name="metadata">
+		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+
+			<field name="robots" type="hidden" filter="unset"
+				label="JFIELD_METADATA_ROBOTS_LABEL" description="JFIELD_METADATA_ROBOTS_DESC"
+				labelclass="control-label">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
+				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
+				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
+				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+			</field>
+
+			<field name="author" type="hidden" filter="unset" label="JAUTHOR" description="JFIELD_METADATA_AUTHOR_DESC" size="20" labelclass="control-label" />
+			<field name="rights" type="hidden" label="JFIELD_META_RIGHTS_LABEL" filter="unset" description="JFIELD_META_RIGHTS_DESC" required="false" labelclass="control-label" />
+			<field name="xreference" type="hidden" filter="unset" label="COM_CJFORUM_FIELD_XREFERENCE_LABEL" 
+			    description="COM_CJFORUM_FIELD_XREFERENCE_DESC" class="inputbox" size="20" labelclass="control-label" />
+		</fieldset>
+	</fields>
+</form>

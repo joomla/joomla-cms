@@ -1,0 +1,9 @@
+.icon-48-cjlib{background-image: url(../images/icon-48-package.png); background-repeat: no-repeat;}
+.pagetitle {background-position: top left; height: 48px;}
+#toolbar-box .modal {position: relative; top: auto; left: auto; z-index: 0; width: inherit; margin: auto; background-color: inherit; -webkit-border-radius: 0; border-radius: 0;
+	-webkit-box-shadow: 0px; box-shadow: 0 0 0 rgba(0, 0, 0, 0.3); -webkit-background-clip: none; background-clip: none; -moz-background-clip: none; -moz-box-shadow: 0; -moz-border-radius: 0;}
+#toolbar-box [class^="icon-"], #toolbar-box [class*=" icon-"], #header-box [class^="icon-"], #header-box [class*=" icon-"]{width: auto;}
+#toolbar-box [class^="icon-"], #toolbar-box [class*=" icon-"]{min-width: 32px;}
+#toolbar [class^="icon-"], #toolbar [class*=" icon-"]{background-position: top center; background-repeat: no-repeat;}
+#cj-wrapper button {margin-top: 0;} 
+#cj-wrapper .full-screen {max-width: 1200px; margin: 40px auto}

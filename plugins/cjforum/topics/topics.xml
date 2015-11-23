@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<extension group="cjforum" method="upgrade" type="plugin" version="2.5">
+    <name>CjForum - Topics</name>
+	<creationDate>2015-Oct-04</creationDate>
+    <author>Maverick</author>
+    <authorEmail>support@corejoomla.com</authorEmail>
+    <authorUrl>http://www.corejoomla.com</authorUrl>
+	<copyright>All rights reserved by www.corejoomla.com 2009-12.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <version>1.1.0</version>
+    <description>CjForum topics plugin - adds support for cjforum topics event handling.</description>
+    <files>
+        <filename>topics.xml</filename>
+        <filename plugin="topics">topics.php</filename>
+        <filename>index.html</filename>
+    </files>
+     <languages folder="language/en-GB">
+        <language tag="en-GB">en-GB.plg_cjforum_topics.ini</language>
+    </languages>
+	
+	<config>
+		<fields name="params">
+			<fieldset name="activity_stream">
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_ACTIVITY_NEW_TOPIC_DESC" label="PLG_CJFORUM_TOPICS_ACTIVITY_NEW_TOPIC_LABEL" name="activity_new_topic" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_ACTIVITY_NEW_REPLY_DESC" label="PLG_CJFORUM_TOPICS_ACTIVITY_NEW_REPLY_LABEL" name="activity_new_reply" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_ACTIVITY_LIKED_TOPIC_DESC" label="PLG_CJFORUM_TOPICS_ACTIVITY_LIKED_TOPIC_LABEL" name="activity_liked_topic" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_ACTIVITY_DISLIKED_TOPIC_DESC" label="PLG_CJFORUM_TOPICS_ACTIVITY_DISLIKED_TOPIC_LABEL" name="activity_disliked_topic" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_ACTIVITY_LIKED_REPLY_DESC" label="PLG_CJFORUM_TOPICS_ACTIVITY_LIKED_REPLY_LABEL" name="activity_liked_reply" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_ACTIVITY_DISLIKED_REPLY_DESC" label="PLG_CJFORUM_TOPICS_ACTIVITY_DISLIKED_REPLY_LABEL" name="activity_disliked_reply" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_ACTIVITY_THANKYOU_REPLY_DESC" label="PLG_CJFORUM_TOPICS_ACTIVITY_THANKYOU_REPLY_LABEL" name="activity_thankyou_reply" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_ACTIVITY_FAVORED_TOPIC_DESC" label="PLG_CJFORUM_TOPICS_ACTIVITY_FAVORED_TOPIC_LABEL" name="activity_favored_topic" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			</fieldset>
+			<fieldset name="emails">
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_EMAIL_NEW_TOPIC_DESC" label="PLG_CJFORUM_TOPICS_EMAIL_NEW_TOPIC_LABEL" name="email_new_topic" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_EMAIL_NEW_REPLY_DESC" label="PLG_CJFORUM_TOPICS_EMAIL_NEW_REPLY_LABEL" name="email_new_reply" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_EMAIL_LIKED_TOPIC_DESC" label="PLG_CJFORUM_TOPICS_EMAIL_LIKED_TOPIC_LABEL" name="email_liked_topic" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_EMAIL_DISLIKED_TOPIC_DESC" label="PLG_CJFORUM_TOPICS_EMAIL_DISLIKED_TOPIC_LABEL" name="email_disliked_topic" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_EMAIL_LIKED_REPLY_DESC" label="PLG_CJFORUM_TOPICS_EMAIL_LIKED_REPLY_LABEL" name="email_liked_reply" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_EMAIL_DISLIKED_REPLY_DESC" label="PLG_CJFORUM_TOPICS_EMAIL_DISLIKED_REPLY_LABEL" name="email_disliked_reply" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_SAID_THANK_YOU_DESC" label="PLG_CJFORUM_TOPICS_SAID_THANK_YOU_LABEL" name="email_thankyou_reply" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			</fieldset>
+			<fieldset name="points_system">
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_POINTS_NEW_TOPIC_DESC" label="PLG_CJFORUM_TOPICS_POINTS_NEW_TOPIC_LABEL" name="points_new_topic" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_POINTS_NEW_REPLY_DESC" label="PLG_CJFORUM_TOPICS_POINTS_NEW_REPLY_LABEL" name="points_new_reply" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_POINTS_LIKED_TOPIC_DESC" label="PLG_CJFORUM_TOPICS_POINTS_LIKED_TOPIC_LABEL" name="points_liked_topic" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_POINTS_DISLIKED_TOPIC_DESC" label="PLG_CJFORUM_TOPICS_POINTS_DISLIKED_TOPIC_LABEL" name="points_disliked_topic" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_POINTS_LIKED_REPLY_DESC" label="PLG_CJFORUM_TOPICS_POINTS_LIKED_REPLY_LABEL" name="points_liked_reply" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_POINTS_DISLIKED_REPLY_DESC" label="PLG_CJFORUM_TOPICS_POINTS_DISLIKED_REPLY_LABEL" name="points_disliked_reply" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_POINTS_AUTHOR_THANKYOU_REPLY_DESC" label="PLG_CJFORUM_TOPICS_POINTS_AUTHOR_THANKYOU_REPLY_LABEL" name="points_author_thankyou_reply" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_POINTS_THANKYOU_REPLY_DESC" label="PLG_CJFORUM_TOPICS_POINTS_THANKYOU_REPLY_LABEL" name="points_thankyou_reply" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_POINTS_FAVORED_TOPIC_DESC" label="PLG_CJFORUM_TOPICS_POINTS_FAVORED_TOPIC_LABEL" name="points_favored_topic" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_POINTS_DELETED_TOPIC_DESC" label="PLG_CJFORUM_TOPICS_POINTS_DELETED_TOPIC_LABEL" name="points_deleted_topic" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			    <field class="btn-group btn-group-yesno" default="1" description="PLG_CJFORUM_TOPICS_POINTS_DELETED_REPLY_DESC" label="PLG_CJFORUM_TOPICS_POINTS_DELETED_REPLY_LABEL" name="points_deleted_reply" type="radio">
+			    	<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<extension method="upgrade" type="package" version="2.5">
+	<name>CjLib Package</name>
+	<author>Maverick</author>
+	<creationDate>2015-Nov-23</creationDate>
+	<packagename>cjlib</packagename>
+	<version>2.3.5</version>
+	<url>http://www.corejoomla.com/</url>
+	<packager>Maverick</packager>
+	<packagerurl>http://www.corejoomla.com/</packagerurl>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description><![CDATA[
+		<p>CjLib Package:</p> 
+		<table class="table table-hover table-striped"> 
+		<tr><td>CjLib Component</td><td>Successfully installed</td></tr>
+		<tr><td>CjLib Plugin</td><td>Successfully installed</td></tr>
+		</table>
+		<p>Thank you for using corejoomla&reg; software. Please add a rating and review at Joomla&reg; Extension Directory.</p>
+		]]></description>
+	
+	<files folder="packages">
+		<file id="cjlib" type="component">com_cjlib.zip</file>
+		<file group="installer" id="cjlib" type="plugin">plg_installer_cjupdater.zip</file>
+	</files>
+	
+	<updateservers>
+		<server name="CjLib Update Site" priority="1" type="collection">https://www.corejoomla.com/media/autoupdates/cjlib/package.xml</server>
+	</updateservers>
+</extension>

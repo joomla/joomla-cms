@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<extension method="upgrade" type="component" version="3.2">
+	<name>CjForum</name>
+	<author>Maverick</author>
+	<creationDate>2015-Oct-04</creationDate>
+	<copyright>(C) 2009 - 2014 corejoomla.com. All rights reserved.	</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.corejoomla.com</authorUrl>
+	<version>1.1.0</version>
+	<description>COM_CJFORUM_XML_DESCRIPTION</description>
+
+	<files folder="site">
+		<filename>cjforum.php</filename>
+		<filename>controller.php</filename>
+		<filename>index.html</filename>
+		<filename>router.php</filename>
+		<folder>controllers</folder>
+		<folder>helpers</folder>
+		<folder>layouts</folder>
+		<folder>lib</folder>
+		<folder>models</folder>
+		<folder>plugins</folder>
+		<folder>views</folder>
+	</files>
+	<media destination="com_cjforum" folder="site/media">
+		<filename>index.html</filename>
+		<folder>css</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+	</media>
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB.com_cjforum.ini</language>
+	</languages>
+	<administration>
+	    <menu img="../components/com_cjforum/assets/images/cjforum.png" view="dashboard">COM_CJFORUM_MENU</menu>
+		<submenu>
+			<menu link="option=com_cjforum&amp;view=dashboard" view="dashboard">COM_CJFORUM_MENU_DASHBOARD</menu>
+			<menu link="option=com_cjforum&amp;view=topics" view="topics">COM_CJFORUM_MENU_TOPICS</menu>
+			<menu link="option=com_categories&amp;extension=com_cjforum" view="categories">COM_CJFORUM_MENU_CATEGORIES</menu>
+			<menu link="option=com_cjforum&amp;view=ranks" view="ranks">COM_CJFORUM_MENU_RANKS</menu>
+			<menu link="option=com_cjforum&amp;view=users" view="users">COM_CJFORUM_MENU_USERS</menu>
+			<menu link="option=com_cjforum&amp;view=activities" view="activities">COM_CJFORUM_MENU_ACTIVITIES</menu>
+			<menu link="option=com_cjforum&amp;view=points" view="points">COM_CJFORUM_MENU_POINTS</menu>
+			<menu link="option=com_cjforum&amp;view=activitytypes" view="activitytypes">COM_CJFORUM_MENU_ACTIVITY_TYPES</menu>
+			<menu link="option=com_cjforum&amp;view=pointsrules" view="pointsrules">COM_CJFORUM_MENU_POINTS_RULES</menu>
+			<menu link="option=com_cjforum&amp;view=emails" view="emails">COM_CJFORUM_MENU_EMAIL_TEMPLATES</menu>
+			<menu link="option=com_cjforum&amp;view=migrate" view="migrate">COM_CJFORUM_MENU_MIGRATE</menu>
+		</submenu>
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>cjforum.php</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>
+			<filename>cjforum_rules.xml</filename>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+			<folder>sql</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB.com_cjforum.ini</language>
+			<language tag="en-GB">language/en-GB.com_cjforum.sys.ini</language>
+		</languages>
+	</administration>
+	<update> 
+		<schemas> 
+			<schemapath type="mysql">sql/updates/mysql</schemapath> 
+		</schemas> 
+	</update>
+	<scriptfile>script.php</scriptfile>
+</extension>
