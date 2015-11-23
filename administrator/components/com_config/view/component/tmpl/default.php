@@ -72,7 +72,7 @@ JFactory::getDocument()->addScriptDeclaration(
 								{
 									$showon   = explode(':', $showonfield, 2);
 									$showonarr[] = array(
-														'field'		=> $this->form->getFormControl() . '[' . $this->form->getFieldAttribute($showon[0], 'name'). ']' ,
+														'field'		=> $this->form->getFormControl() . '[' . $this->form->getFieldAttribute($showon[0], 'name') . ']',
 														'values'	=> explode(',', $showon[1])
 														);
 								}
