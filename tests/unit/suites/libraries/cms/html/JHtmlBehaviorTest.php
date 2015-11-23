@@ -132,7 +132,6 @@ class JHtmlBehaviorTest extends TestCase
 	 * @return  void
 	 *
 	 * @since         3.1
-	 * @dataProvider  getCaptionData
 	 */
 	public function testCaption()
 	{
