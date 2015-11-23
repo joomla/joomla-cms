@@ -56,13 +56,24 @@
 					<option value="0">JNO</option>
 				</field>
 				<field
-					name="xdefault" type="contentlanguage"
+					name="xdefault" type="radio"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_DESC"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LABEL"
-					default="default"
-					showon="alternate_meta:1"
+					default="1"
+					class="btn-group btn-group-yesno"
+					showon="item_associations:1[AND]alternate_meta:1"
 				>
-					<option value="default">PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_DEFAULT</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="xdefault_language" type="contentlanguage"
+					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LANGUAGE_DESC"
+					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LANGUAGE_LABEL"
+					default="default"
+					showon="item_associations:1[AND]alternate_meta:1[AND]xdefault:1"
+				>
+					<option value="default">PLG_SYSTEM_LANGUAGEFILTER_OPTION_DEFAULT_LANGUAGE</option>
 				</field>
 				<field name="remove_default_prefix" type="radio"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_DESC"
