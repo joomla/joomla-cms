@@ -59,7 +59,6 @@ switch ($preview)
 	case 'yes': // Deprecated parameter value
 	case 'true':
 	case 'show':
-		break;
 	case 'tooltip':
 	default:
 		$showPreview = true;

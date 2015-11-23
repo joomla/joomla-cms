@@ -533,3 +533,20 @@ ul.menu li ul li ul li ul li ul {
 	right: 50%;
 	margin-right: -5px;
 }
+
+/* Smartsearch Calendar*/
+#filter_date1_img,
+#filter_date2_img {
+	margin-left: 0;
+	margin-right: 3px;
+}
+ul#finder-filter-select-dates li.filter-date {
+	text-align: right;
+}
+.radio, .checkbox {
+	padding-left: 0;
+	padding-right: 4px;
+}
+#searchForm .searchintro {
+	padding: 0 250px 0 0;
+}

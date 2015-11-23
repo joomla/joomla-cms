@@ -58,7 +58,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<span class="icon-cancel"></span><?php echo JText::_('JCANCEL') ?>
 				</button>
 			</div>
-			<?php if ($params->get('save_history', 0)) : ?>
+			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>
 			<div class="btn-group">
 				<?php echo $this->form->getInput('contenthistory'); ?>
 			</div>
