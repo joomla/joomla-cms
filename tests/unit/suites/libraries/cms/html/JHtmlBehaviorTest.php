@@ -135,9 +135,7 @@ class JHtmlBehaviorTest extends TestCase
 	 */
 	public function getCaptionData()
 	{
-		$data = array(
-			array(array('JHtmlBehavior::caption') => true),
-		);
+		$data = array('JHtmlBehavior::caption' => true);
 
 		return $data;
 	}
