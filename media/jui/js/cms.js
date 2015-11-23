@@ -26,7 +26,7 @@ if (jQuery) {
 			$.each(target.data(), function(i, items) {
 				$.each(items, function(j, item) {
 					itemval = (['checkbox','radio'].indexOf($('[name="' + item['field'] + '"]').attr('type')) != -1) ? $('[name="' + item['field'] + '"]:checked').val() : $('[name="' + item['field'] + '"]').val();
-					showfield = (item['values'].indexOf(itemval) == -1) ? false : true;
+					showfield = (item['values'].indexOf(itemval) == -1) ? false : showfield;
 				});
 			});
 
