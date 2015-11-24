@@ -58,6 +58,7 @@ class ConfigModelComponent extends ConfigModelForm
 	public function getForm($data = array(), $loadData = true)
 	{
 		$state = $this->getState();
+		$component = $state->get('component.option');
 
 		if ($path = $state->get('component.path'))
 		{
@@ -67,7 +68,7 @@ class ConfigModelComponent extends ConfigModelForm
 		else
 		{
 			// Add the search path for the admin component config.xml file.
-			JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $state->get('component.option'));
+			JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $component);
 		}
 
 		// Get the form.
@@ -83,6 +84,14 @@ class ConfigModelComponent extends ConfigModelForm
 		{
 			return false;
 		}
+
+		$lang = JFactory::getLanguage();
+
+		$lang->load($component, JPATH_ADMINISTRATOR, null, false, true)
+		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
+
+		$lang->load($component . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+		|| $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
 
 		return $form;
 	}
