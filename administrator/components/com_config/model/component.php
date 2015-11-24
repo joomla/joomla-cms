@@ -58,7 +58,7 @@ class ConfigModelComponent extends ConfigModelForm
 	public function getForm($data = array(), $loadData = true)
 	{
 		$state = $this->getState();
-		$component = $state->get('component.option');
+		$option = $state->get('component.option');
 
 		if ($path = $state->get('component.path'))
 		{
@@ -68,7 +68,7 @@ class ConfigModelComponent extends ConfigModelForm
 		else
 		{
 			// Add the search path for the admin component config.xml file.
-			JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $component);
+			JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 
 		// Get the form.
