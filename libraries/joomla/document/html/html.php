@@ -335,7 +335,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   string  $name     The name of the data attribute
 	 * @param   string  $data     The value of the data attribute
-	 * @element string  $element  The element to add the dat attribute (use text for tags and # prefix for ids)
+	 * @param   string  $element  The element to add the data attribute (text for tags or # prefix for ids)
 	 *
 	 * @return  JDocumentHTML instance of $this to allow chaining
 	 *
