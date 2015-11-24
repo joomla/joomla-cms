@@ -40,7 +40,7 @@ class JDocumentHTML extends JDocument
 	 * Array of data-* attributes
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public $_htmldata = array();
 
@@ -333,13 +333,13 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Adds a data-* attribute to an element
 	 *
-	 * @param   string  $attribute_name     The name of the data attribute
-	 * @param   string  $attribute_value    The value of the data attribute
-	 * @param   string  $element            The element to add the data attribute (text for tags or # prefix for ids)
+	 * @param   string  $attribute_name   The name of the data attribute
+	 * @param   string  $attribute_value  The value of the data attribute
+	 * @param   string  $element          The element to add the data attribute (text for tags or # prefix for ids)
 	 *
 	 * @return  JDocumentHTML instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function addHTMLData($attribute_name, $attribute_value, $element = 'body')
 	{
@@ -510,7 +510,7 @@ class JDocumentHTML extends JDocument
 				if (!empty($this->_htmldata[$element]))
 				{
 					$data_attribs = '';
-					$search_string=(substr($element, 0, 1) != '#') ? '<' . $element : 'id="' . ltrim($element, '#') . '"';
+					$search_string = (substr($element, 0, 1) != '#') ? '<' . $element : 'id="' . ltrim($element, '#') . '"';
 					foreach ($this->_htmldata[$element] as $attribute_name => $attribute_values)
 					{
 						$data_attribs .= ' data-' . $attribute_name . '=\'' . json_encode($attribute_values) . '\'';
