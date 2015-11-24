@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
+// Only required for legacy captions. This should be removed in j4.
 JHtml::_('behavior.caption');
 
 // If the page class is defined, add to class as suffix.
