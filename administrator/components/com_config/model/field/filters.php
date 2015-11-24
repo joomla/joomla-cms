@@ -83,7 +83,11 @@ class JFormFieldFilters extends JFormField
 			$html[] = '			' . str_repeat('<span class="gi">|&mdash;</span>', $group->level) . $group->text;
 			$html[] = '		</th>';
 			$html[] = '		<td>';
-			$html[] = '				<select name="' . $this->name . '[' . $group->value . '][filter_type]" id="' . $this->id . $group->value . '_filter_type" class="novalidate" data-chosen="true">';
+			$html[] = '				<select'
+				. ' name="' . $this->name . '[' . $group->value . '][filter_type]"'
+				. ' id="' . $this->id . $group->value . '_filter_type"'
+				. ' class="novalidate" data-chosen="true"'
+				. '>';
 			$html[] = '					<option value="BL"' . ($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '') . '>'
 				. JText::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_BLACK_LIST') . '</option>';
 			$html[] = '					<option value="CBL"' . ($group_filter['filter_type'] == 'CBL' ? ' selected="selected"' : '') . '>'
