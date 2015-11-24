@@ -554,6 +554,21 @@ class JDocumentHTML extends JDocument
 	}
 
 	/**
+	 * Replaces a regex string for another in the template
+	 *
+	 * @param   string  $search   The regex string to search
+	 * @param   string  $replace  The regex string to replace
+	 *
+	 * @return  JDocumentHTML  instance of $this to allow chaining
+	 *
+	 * @since   11.1
+	 */
+	public function regexReplaceInTemplate($search, $replace)
+	{
+		$this->_template = preg_replace('%' . $search . '%', $replace, $this->_template);
+	}
+
+	/**
 	 * Load a template file
 	 *
 	 * @param   string  $directory  The name of the template
