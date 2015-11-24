@@ -559,7 +559,7 @@ class JDocumentHTML extends JDocument
 	 * @param   string  $search   The regex string to search
 	 * @param   string  $replace  The regex string to replace
 	 *
-	 * @return  JDocumentHTML  instance of $this to allow chaining
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
