@@ -37,6 +37,14 @@ class JDocumentHTML extends JDocument
 	public $_custom = array();
 
 	/**
+	 * Array of data-* attributes
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	public $_htmldata = array();
+
+	/**
 	 * Name of the template
 	 *
 	 * @var    string
@@ -323,6 +331,24 @@ class JDocumentHTML extends JDocument
 	}
 
 	/**
+	 * Adds a data-* attribute to an element
+	 *
+	 * @param   string  $name     The name of the data attribute
+	 * @param   string  $data     The value of the data attribute
+	 * @element string  $element  The element to add the dat attribute (use text for tags and # prefix for ids)
+	 *
+	 * @return  JDocumentHTML instance of $this to allow chaining
+	 *
+	 * @since   11.1
+	 */
+	public function addHTMLData($name, $data, $element = 'body')
+	{
+		$this->_htmldata[$element][$name] = $data;
+
+		return $this;
+	}
+
+	/**
 	 * Returns whether the document is set up to be output as HTML5
 	 *
 	 * @return  Boolean true when HTML5 is used
@@ -475,6 +501,25 @@ class JDocumentHTML extends JDocument
 		}
 
 		$data = $this->_renderTemplate();
+
+		// Add data attribs to elements
+		if (!empty($this->_htmldata))
+		{
+			foreach ($this->_htmldata as $element => $elementvalues)
+			{
+				if (!empty($this->_htmldata[$element]))
+				{
+					$data_attribs = '';
+					$search_string=(substr($element, 0, 1) != '#') ? '<' . $element : 'id="' . ltrim($element, '#') . '"';
+					foreach ($this->_htmldata[$element] as $attribute_name => $attribute_value)
+					{
+						$data_attribs .= ' data-' . $attribute_name . '=\'' . json_encode($attribute_value) . '\'';
+					}
+					$data = str_replace($search_string, $search_string . $data_attribs, $data);
+				}
+			}
+		}
+
 		parent::render();
 
 		return $data;
