@@ -139,6 +139,7 @@ class JHtmlBehaviorTest extends TestCase
 			array(array('JHtmlBehavior::caption' => array('img.caption' => true))),
 			array(array('JHtmlBehavior::caption' => array('img.caption2' => true)), 'img.caption2'),
 		);
+
 		return $data;
 	}
 
@@ -157,15 +158,19 @@ class JHtmlBehaviorTest extends TestCase
 	{
 		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
+
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
+
 		// @todo We need to mock this.
 		$mock->input = new JInput;
+
 		JFactory::$application = $mock;
+
 		JHtmlBehaviorInspector::caption($selector);
 		$this->assertEquals(
 			$expected,
