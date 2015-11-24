@@ -112,7 +112,7 @@ abstract class JHtmlBehavior
 		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/caption.js', false, true);
-		
+
 		// Attach caption to document B/C
 		if ($selector != 'img.caption')
 		{
