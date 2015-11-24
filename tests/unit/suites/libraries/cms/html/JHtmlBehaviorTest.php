@@ -127,6 +127,22 @@ class JHtmlBehaviorTest extends TestCase
 	}
 
 	/**
+	 * Data for the testCaption method
+	 *
+	 * @return  array
+	 *
+	 * @since   3.1
+	 */
+	public function getCaptionData()
+	{
+		$data = array(
+			array(array('JHtmlBehavior::caption' => array('img.caption' => true))),
+			array(array('JHtmlBehavior::caption' => array('img.caption2' => true)), 'img.caption2'),
+		);
+		return $data;
+	}
+
+	/**
 	 * Tests the caption method.
 	 *
 	 * @param   string  $expected  @todo

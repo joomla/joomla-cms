@@ -107,8 +107,10 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
+
 		// Include jQuery
 		JHtml::_('jquery.framework');
+
 		JHtml::_('script', 'system/caption.js', false, true);
 		
 		// Attach caption to document B/C
@@ -120,6 +122,7 @@ abstract class JHtmlBehavior
 				});"
 			);
 		}
+
 		// Set static array
 		static::$loaded[__METHOD__][$selector] = true;
 	}
