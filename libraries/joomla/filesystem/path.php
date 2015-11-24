@@ -238,7 +238,7 @@ class JPath
 		// Try to find a writable directory
 		$dir = false;
 
-		foreach (array('/tmp', $ssp, $jtp) as $currentDir)
+		foreach (array($jtp, $ssp, '/tmp') as $currentDir)
 		{
 			if (is_writable($currentDir))
 			{
