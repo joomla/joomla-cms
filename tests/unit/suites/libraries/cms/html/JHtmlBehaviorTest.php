@@ -129,30 +129,30 @@ class JHtmlBehaviorTest extends TestCase
 	/**
 	 * Tests the caption method.
 	 *
+	 * @param   string  $expected  @todo
+	 * @param   string  $selector  @todo
+	 *
 	 * @return  void
 	 *
 	 * @since         3.1
+	 * @dataProvider  getCaptionData
 	 */
-	public function testCaption()
+	public function testCaption($expected, $selector = 'img.caption')
 	{
 		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
-
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));
-
 		// @todo We need to mock this.
 		$mock->input = new JInput;
-
 		JFactory::$application = $mock;
-
-		JHtmlBehaviorInspector::caption();
+		JHtmlBehaviorInspector::caption($selector);
 		$this->assertEquals(
-			array('JHtmlBehavior::caption' => true),
+			$expected,
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}

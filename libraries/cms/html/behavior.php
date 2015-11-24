@@ -94,25 +94,34 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive JavaScript support for image captions.
 	 *
+	 * @param   string  $selector  The selector for which a caption behaviour is to be applied.
+	 *
 	 * @return  void
 	 *
 	 * @since   1.5
 	 */
-	public static function caption()
+	public static function caption($selector = 'img.caption')
 	{
 		// Only load once
-		if (isset(static::$loaded[__METHOD__]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
-
 		// Include jQuery
 		JHtml::_('jquery.framework');
-
 		JHtml::_('script', 'system/caption.js', false, true);
-
+		
+		// Attach caption to document B/C
+		if ($selector != 'img.caption')
+		{
+			JFactory::getDocument()->addScriptDeclaration(
+				"jQuery(window).on('load',  function() {
+					new JCaption('" . $selector . "');
+				});"
+			);
+		}
 		// Set static array
-		static::$loaded[__METHOD__] = true;
+		static::$loaded[__METHOD__][$selector] = true;
 	}
 
 	/**
