@@ -86,12 +86,8 @@ class ConfigModelComponent extends ConfigModelForm
 		}
 
 		$lang = JFactory::getLanguage();
-
-		$lang->load($component, JPATH_ADMINISTRATOR, null, false, true)
-		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
-
-		$lang->load($component . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-		|| $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
+		$lang->load($option, JPATH_BASE, null, false, true)
+		|| $lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
 
 		return $form;
 	}
