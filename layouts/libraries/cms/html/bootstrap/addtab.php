@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
 
 $id = empty($displayData['id']) ? '' : $displayData['id'];
 $active = empty($displayData['active']) ? '' : $displayData['active'];

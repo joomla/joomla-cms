@@ -54,7 +54,8 @@ class PlgContentJoomla extends JPlugin
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('sendEmail') . ' = 1');
+			->where($db->quoteName('sendEmail') . ' = 1')
+			->where($db->quoteName('block') . ' = 0');
 		$db->setQuery($query);
 		$users = (array) $db->loadColumn();
 
