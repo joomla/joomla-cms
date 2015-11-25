@@ -935,7 +935,7 @@ abstract class JFormField
 									'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : ''
 									);
 			}
-			$options['rel'] = ' data-showon=\'' . json_encode($showonarr)) . '\'';
+			$options['rel'] = ' data-showon=\'' . json_encode($showonarr) . '\'';
 			$options['showonEnabled'] = true;
 		}
 
