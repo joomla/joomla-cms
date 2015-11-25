@@ -452,10 +452,10 @@ class JDocument
 	/**
 	 * Adds a linked script to the page
 	 *
-	 * @param   string   $url    URL to the linked script
-	 * @param   string   $type   Type of script. Defaults to 'text/javascript'
-	 * @param   boolean  $defer  Adds the defer attribute.
-	 * @param   boolean  $async  Adds the async attribute.
+	 * @param   string   $url      URL to the linked script
+	 * @param   string   $type     Type of script. Defaults to 'text/javascript'
+	 * @param   boolean  $defer    Adds the defer attribute.
+	 * @param   boolean  $async    Adds the async attribute.
 	 * @param   array    $attribs  Array of attributes
 	 *
 	 * @return  JDocument instance of $this to allow chaining
