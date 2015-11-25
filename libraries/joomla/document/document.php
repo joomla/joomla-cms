@@ -456,16 +456,18 @@ class JDocument
 	 * @param   string   $type   Type of script. Defaults to 'text/javascript'
 	 * @param   boolean  $defer  Adds the defer attribute.
 	 * @param   boolean  $async  Adds the async attribute.
+	 * @param   array    $attribs  Array of attributes
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function addScript($url, $type = "text/javascript", $defer = false, $async = false)
+	public function addScript($url, $type = "text/javascript", $defer = false, $async = false, $attribs = array())
 	{
-		$this->_scripts[$url]['mime'] = $type;
-		$this->_scripts[$url]['defer'] = $defer;
-		$this->_scripts[$url]['async'] = $async;
+		$this->_scripts[$url]['mime']    = $type;
+		$this->_scripts[$url]['defer']   = $defer;
+		$this->_scripts[$url]['async']   = $async;
+		$this->_scripts[$url]['attribs'] = $attribs;
 
 		return $this;
 	}
@@ -478,13 +480,14 @@ class JDocument
 	 * @param   string   $version  Version of the script
 	 * @param   string   $type     Type of script. Defaults to 'text/javascript'
 	 * @param   boolean  $defer    Adds the defer attribute.
-	 * @param   boolean  $async    [description]
+	 * @param   boolean  $async    Adds the async attribute.
+	 * @param   array    $attribs  Array of attributes
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   3.2
 	 */
-	public function addScriptVersion($url, $version = null, $type = "text/javascript", $defer = false, $async = false)
+	public function addScriptVersion($url, $version = null, $type = "text/javascript", $defer = false, $async = false, $attribs = array())
 	{
 		// Automatic version
 		if ($version === null)
@@ -497,7 +500,7 @@ class JDocument
 			$url .= '?' . $version;
 		}
 
-		return $this->addScript($url, $type, $defer, $async);
+		return $this->addScript($url, $type, $defer, $async, $attribs);
 	}
 
 	/**
