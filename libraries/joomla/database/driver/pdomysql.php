@@ -142,6 +142,10 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 			{
 				// Reconnect with the utf8 character set.
 				parent::disconnect();
+
+				// Disconnect unset the connection, make sure it exists.
+				$this->connection = false;
+
 				$this->options['charset'] = 'utf8';
 				parent::connect();
 			}
