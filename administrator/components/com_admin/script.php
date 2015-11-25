@@ -1589,7 +1589,7 @@ class JoomlaInstallerScript
 				$client_version = mysqli_get_client_info();
 				$server_version = $db->getVersion();
 				break;
-			case 'pdomysql';
+			case 'pdomysql':
 				$client_version = $db->getOption(PDO::ATTR_CLIENT_VERSION);
 				$server_version = $db->getOption(PDO::ATTR_SERVER_VERSION);
 				break;
