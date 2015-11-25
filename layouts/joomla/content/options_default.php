@@ -36,7 +36,7 @@ defined('_JEXEC') or die;
 										'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : ''
 										);
 				}
-				$datashowon = ' data-showon="' . htmlspecialchars(json_encode($showonarr)) . '"';
+				$datashowon = ' data-showon=\'' . json_encode($showonarr) . '\'';
 			}
 	?>
 		<div class="control-group"<?php echo $datashowon; ?>>

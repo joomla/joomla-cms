@@ -20,15 +20,15 @@ Joomla.setcollapse = function(url, name, height) {
 if (jQuery) {
 	jQuery(document).ready(function($) {
 		var linkedoptions = function(target) {
-			var showfield = true, itemval, jsondata = target.data()['showon'];
+			var showfield = true, itemval, jsondata = target.data('showon');
 
 			// Check if target conditions are satisfied
 			$.each(jsondata, function(j, item) {
 				itemval = (['checkbox','radio'].indexOf($('[name="' + jsondata[j]['field'] + '"]').attr('type')) != -1) ? $('[name="' + jsondata[j]['field'] + '"]:checked').val() : $('[name="' + jsondata[j]['field'] + '"]').val();
 				jsondata[j]['valid'] = (jsondata[j]['values'].indexOf(itemval) != -1) ? 1 : 0;
-				if (   (jsondata[j]['op'] == ''    && jsondata[j]['valid'] == 0)
-					|| (jsondata[j]['op'] == 'AND' && jsondata[j]['valid'] + jsondata[j-1]['valid'] < 2)
-					|| (jsondata[j]['op'] == 'OR'  && jsondata[j]['valid'] + jsondata[j-1]['valid'] < 1))
+				if ((jsondata[j]['op'] == ''    && jsondata[j]['valid'] == 0) ||
+					(jsondata[j]['op'] == 'AND' && jsondata[j]['valid'] + jsondata[j-1]['valid'] < 2) ||
+					(jsondata[j]['op'] == 'OR'  && jsondata[j]['valid'] + jsondata[j-1]['valid'] < 1))
 					{ showfield = false; }
 			});
 
@@ -37,7 +37,7 @@ if (jQuery) {
 		};
 
 		$('[data-showon]').each(function() {
-			var target = $(this), jsondata = $(this).data()['showon'];
+			var target = $(this), jsondata = $(this).data(['showon']);
 
 			// Attach events to referenced element
 			$.each(jsondata, function(j, item) {
