@@ -133,19 +133,58 @@ class MediaControllerFile extends JControllerLegacy
 
 			if (JFile::exists($object_file->filepath))
 			{
-				// File exists
-				JLog::add('File exists: ' . $object_file->filepath . ' by user_id ' . $user->id, JLog::INFO, 'upload');
 
-				$response = array(
-					'status'   => '0',
-					'message'  => JText::_('COM_MEDIA_ERROR_FILE_EXISTS'),
-					'error'    => JText::_('COM_MEDIA_ERROR_FILE_EXISTS'),
-					'location' => str_replace(JPATH_ROOT, '',  $filepath)
-				);
+				// Create duplicate destination
+				$i = 0;
+                do {
+                    $base_name  = JFile::stripExt($object_file->filepath) . ($i ? "$i" : "");
+                    $ext        = JFile::getExt($object_file->filepath);
+                    $image_name = $base_name . "." . $ext;
+                    $i++;
+                    $object_file->filepath = $image_name;
+                } while(JFile::exists($object_file->filepath));
 
-				echo json_encode($response);
+                $returnUrl = str_replace(JPATH_ROOT, '',  $object_file->filepath);
 
-				return;
+				// Trigger the onContentAfterSave event.
+				$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file, true));
+				JLog::add($folder, JLog::INFO, 'upload');
+
+				
+				// Upload duplicate file
+				if (!JFile::upload($object_file->tmp_name, $object_file->filepath))
+				{
+					// Error in upload
+					JLog::add('Error on upload: ' . $object_file->filepath, JLog::INFO, 'upload');
+
+					$response = array(
+						'status'  => '0',
+						'message' => JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'),
+						'error'   => JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE')
+					);
+
+					echo json_encode($response);
+
+					return;
+				}
+				else
+				{
+					// Trigger the onContentAfterSave event.
+					$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file, true));
+					JLog::add($folder, JLog::INFO, 'upload');
+
+					$response = array(
+						'status'   => '1',
+						'message'  => JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', $returnUrl),
+						'error'    => JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', $returnUrl),
+						'location' => str_replace('\\', '/', $returnUrl)
+					);
+
+					echo json_encode($response);
+
+					return;
+				}
+
 			}
 			elseif (!$user->authorise('core.create', 'com_media'))
 			{
