@@ -244,6 +244,23 @@ class PlgSystemStats extends JPlugin
 	}
 
 	/**
+	 * Debug a layout of this plugin
+	 *
+	 * @param   string  $layoutId  Layout identifier
+	 * @param   array   $data      Optional data for the layout
+	 *
+	 * @return  string
+	 *
+	 * @since   3.5
+	 */
+	public function debug($layoutId, $data = array())
+	{
+		$data = array_merge($this->getLayoutData(), $data);
+
+		return $this->getRenderer($layoutId)->debug($data);
+	}
+
+	/**
 	 * Get the data for the layout
 	 *
 	 * @return  array
@@ -285,7 +302,7 @@ class PlgSystemStats extends JPlugin
 	 *
 	 * @since   3.5
 	 */
-	public function getRenderer($layoutId = 'default')
+	protected function getRenderer($layoutId = 'default')
 	{
 		$renderer = new JLayoutFile($layoutId);
 
@@ -391,6 +408,23 @@ class PlgSystemStats extends JPlugin
 	private function isAjaxRequest()
 	{
 		return strtolower($this->app->input->server->get('HTTP_X_REQUESTED_WITH', '')) == 'xmlhttprequest';
+	}
+
+	/**
+	 * Render a layout of this plugin
+	 *
+	 * @param   string  $layoutId  Layout identifier
+	 * @param   array   $data      Optional data for the layout
+	 *
+	 * @return  string
+	 *
+	 * @since   3.5
+	 */
+	public function render($layoutId, $data = array())
+	{
+		$data = array_merge($this->getLayoutData(), $data);
+
+		return $this->getRenderer($layoutId)->render($data);
 	}
 
 	/**
