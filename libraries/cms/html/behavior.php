@@ -657,12 +657,20 @@ abstract class JHtmlBehavior
 		}
 
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
-		$refreshuri = (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest) ? JRoute::_('index.php?option=com_ajax&format=json') : JRoute::_('index.php');
+		if (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest)
+		{
+			$refresh_uri = JRoute::_('index.php?option=com_ajax&format=json');
+		}
+		else
+		{
+			$refresh_uri = JRoute::_('index.php');
+		}
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/keepalive.js', false, true, false, true, true, array('data-keepalive' => array('uri' => $refreshuri, 'seconds' => $refresh_time)));
+		JHtml::_('script', 'system/keepalive.js', false, true, false, true, true, 
+				array('data-keepalive' => array('uri' => $refresh_uri, 'seconds' => $refresh_time)));
 
 		static::$loaded[__METHOD__] = true;
 
