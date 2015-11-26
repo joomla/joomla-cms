@@ -43,6 +43,6 @@ extract($displayData);
 
 JHtml::_('jquery.framework');
 ?>
-<a href="#" onclick="jQuery('.js-pstats-data-details').toggle(200); return false;"><?php echo JText::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
+<a href="#" onclick="jQuery(this).next().toggle(200); return false;"><?php echo JText::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
 <?php
-echo $field->getRenderer('stats')->render(compact('statsData'));
+echo $field->render('stats', compact('statsData'));

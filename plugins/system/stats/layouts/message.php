@@ -22,9 +22,12 @@ extract($displayData);
 <div class="alert alert-info js-pstats-alert" style="display:none;">
 	<button data-dismiss="alert" class="close" type="button">×</button>
 	<h2><?php echo JText::_('PLG_SYSTEM_STATS_LABEL_MESSAGE_TITLE'); ?></h2>
-	<p><?php echo JText::_('PLG_SYSTEM_STATS_MSG_JOOMLA_WANTS_TO_SEND_DATA'); ?> <a href="#" class="js-pstats-btn-details"><?php echo JText::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a></p>
+	<p>
+		<?php echo JText::_('PLG_SYSTEM_STATS_MSG_JOOMLA_WANTS_TO_SEND_DATA'); ?>
+		<a href="#" class="js-pstats-btn-details"><?php echo JText::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
+	</p>
 	<?php
-		echo $plugin->getRenderer('stats')->render(compact('statsData'));
+		echo $plugin->render('stats', compact('statsData'));
 	?>
 	<p><?php echo JText::_('PLG_SYSTEM_STATS_MSG_ALLOW_SENDING_DATA'); ?></p>
 	<p class="actions">

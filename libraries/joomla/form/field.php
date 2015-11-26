@@ -896,6 +896,23 @@ abstract class JFormField
 	}
 
 	/**
+	 * Render a layout of this field
+	 *
+	 * @param   string  $layoutId  Layout identifier
+	 * @param   array   $data      Optional data for the layout
+	 *
+	 * @return  string
+	 *
+	 * @since   3.5
+	 */
+	public function render($layoutId, $data = array())
+	{
+		$data = array_merge($this->getLayoutData(), $data);
+
+		return $this->getRenderer($layoutId)->render($data);
+	}
+
+	/**
 	 * Method to get a control group with label and input.
 	 *
 	 * @param   array  $options  Options to be passed into the rendering of the field
@@ -1018,7 +1035,7 @@ abstract class JFormField
 	 *
 	 * @since   3.5
 	 */
-	public function getRenderer($layoutId = 'default')
+	protected function getRenderer($layoutId = 'default')
 	{
 		$renderer = new JLayoutFile($layoutId);
 
