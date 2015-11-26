@@ -462,7 +462,7 @@ class JDocument
 	 *
 	 * @since   11.1
 	 */
-	public function addScript($url, $type = "text/javascript", $defer = false, $async = false, $attribs = array())
+	public function addScript($url, $type = "text/javascript", $defer = false, $async = false, array $attribs = array())
 	{
 		$this->_scripts[$url]['mime']    = $type;
 		$this->_scripts[$url]['defer']   = $defer;
