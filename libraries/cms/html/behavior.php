@@ -637,40 +637,41 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		$keepalive_data = array();
+
 		$config = JFactory::getConfig();
 
 		// If the handler is not 'Database', we set a fixed, small refresh value (here: 5 min)
 		if ($config->get('session_handler') != 'database')
 		{
-			$refresh_time = 300000;
+			$keepalive_data['seconds'] = 300000;
 		}
 		else
 		{
 			$life_time    = $config->get('lifetime') * 60000;
-			$refresh_time = ($life_time <= 60000) ? 45000 : $life_time - 60000;
+			$keepalive_data['seconds'] = ($life_time <= 60000) ? 45000 : $life_time - 60000;
 
 			// The longest refresh period is one hour to prevent integer overflow.
-			if ($refresh_time > 3600000 || $refresh_time <= 0)
+			if ($keepalive_data['seconds'] > 3600000 || $keepalive_data['seconds'] <= 0)
 			{
-				$refresh_time = 3600000;
+				$keepalive_data['seconds'] = 3600000;
 			}
 		}
 
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
 		if (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest)
 		{
-			$refresh_uri = JRoute::_('index.php?option=com_ajax&format=json');
+			$keepalive_data['uri'] = JRoute::_('index.php?option=com_ajax&format=json');
 		}
 		else
 		{
-			$refresh_uri = JRoute::_('index.php');
+			$keepalive_data['uri'] = JRoute::_('index.php');
 		}
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/keepalive.js', false, true, false, true, true, 
-				array('data-keepalive' => array('uri' => $refresh_uri, 'seconds' => $refresh_time)));
+		JHtml::_('script', 'system/keepalive.js', false, true, false, true, true, array('data-keepalive' => $keepalive_data));
 
 		static::$loaded[__METHOD__] = true;
 
