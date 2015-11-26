@@ -487,7 +487,7 @@ class JDocument
 	 *
 	 * @since   3.2
 	 */
-	public function addScriptVersion($url, $version = null, $type = "text/javascript", $defer = false, $async = false, $attribs = array())
+	public function addScriptVersion($url, $version = null, $type = "text/javascript", $defer = false, $async = false, array $attribs = array())
 	{
 		// Automatic version
 		if ($version === null)
