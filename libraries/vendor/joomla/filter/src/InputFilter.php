@@ -2,11 +2,13 @@
 /**
  * Part of the Joomla Framework Filter Package
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Filter;
+
+use Joomla\String\StringHelper;
 
 /**
  * InputFilter is a class for filtering input from any data source
@@ -231,8 +233,8 @@ class InputFilter
 
 			case 'TRIM':
 				$result = (string) trim($source);
-				$result = trim($result, chr(0xE3) . chr(0x80) . chr(0x80));
-				$result = trim($result, chr(0xC2) . chr(0xA0));
+				$result = StringHelper::trim($result, chr(0xE3) . chr(0x80) . chr(0x80));
+				$result = StringHelper::trim($result, chr(0xC2) . chr(0xA0));
 				break;
 
 			case 'USERNAME':

@@ -6,7 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
-    $vendorDir . '/ircmaxell/password-compat/lib/password.php',
-    $vendorDir . '/paragonie/random_compat/lib/random.php',
-    $vendorDir . '/symfony/polyfill-php56/bootstrap.php',
+    '05669301f06448944ce5eb260126f84e' => $vendorDir . '/ircmaxell/password-compat/lib/password.php',
+    'e87a3015738447d44bc0516cb3cdcd72' => $vendorDir . '/symfony/polyfill-php56/bootstrap.php',
+    '64777cd7d356cde6e827c1fa49f98dbd' => $vendorDir . '/paragonie/random_compat/lib/random.php',
 );
