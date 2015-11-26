@@ -196,7 +196,14 @@ class JDocumentRendererHead extends JDocumentRenderer
 			{
 				foreach ($strAttr['attribs'] as $attrib => $attrib_value)
 				{
-					$buffer .= ' ' . htmlspecialchars($attrib) . '=' . (!is_scalar($attrib_value) ? '"' . htmlspecialchars($attrib_value) . '"' : '\'' . json_encode($attrib_value) . '\'');
+					if (!is_scalar($attrib_value))
+					{
+						$buffer .= ' ' . htmlspecialchars($attrib) . '=' . '"' . htmlspecialchars($attrib_value) . '"';
+					}
+					else
+					{
+						$buffer .= ' ' . htmlspecialchars($attrib) . '=' . '\'' . json_encode($attrib_value) . '\'';
+					}
 				}
 			}
 
