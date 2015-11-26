@@ -670,7 +670,8 @@ abstract class JHtml
 	 * @see     JHtml::stylesheet()
 	 * @since   1.5
 	 */
-	public static function script($file, $framework = false, $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true, array $attribs = array())
+	public static function script($file, $framework = false, $relative = false, $path_only = false, $detect_browser = true,
+								  $detect_debug = true, array $attribs = array())
 	{
 		// Include MooTools framework
 		if ($framework)
