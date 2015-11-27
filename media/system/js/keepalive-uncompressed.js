@@ -23,8 +23,8 @@ jQuery(window).on('load', function() {
 		catch (e) {}
 		if (r)
 		{
-			r.open('GET', jsonkeepalive['uri'], true);
+			r.open('GET', jsonkeepalive.uri, true);
 			r.send(null);
 		}
-	}, jsonkeepalive['interval']);
+	}, jsonkeepalive.interval);
 });
