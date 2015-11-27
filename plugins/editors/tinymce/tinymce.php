@@ -665,8 +665,16 @@ class PlgEditorTinymce extends JPlugin
 				$plugins[] = 'advlist';
 			}
 
-			// Autosave
-			$autosave = $this->params->get('autosave', 1);
+			// Codesample
+			$advlist = $this->params->get('code_sample', 1);
+
+			if (isset($access[$advlist]))
+			{
+				$plugins[]      = 'codesample';
+				$toolbar4_add[] = 'codesample';
+			}
+		// Autosave
+		$autosave = $this->params->get('autosave', 1);
 
 			if (isset($access[$autosave]))
 			{
@@ -871,9 +879,9 @@ class PlgEditorTinymce extends JPlugin
 			extended_valid_elements : \"$elements\",
 			invalid_elements : \"$invalid_elements\",
 			// Plugins
-			plugins : \"$plugins $dragDropPlg\",
+			plugins : \"$plugins $dragDropPlg codesample\",
 			// Toolbar
-			toolbar1: \"$toolbar1 | code\",
+			toolbar1: \"$toolbar1 | codesample | code\",
 			removed_menuitems: \"newdocument\",
 			// URL
 			rel_list : [
