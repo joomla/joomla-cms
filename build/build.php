@@ -123,6 +123,7 @@ $doNotPackage = array(
 	'phpunit.xml.dist',
 	'tests',
 	'travisci-phpunit.xml',
+	'libraries/joomla/crypt/README.md',
 );
 
 /*
