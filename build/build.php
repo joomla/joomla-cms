@@ -123,6 +123,7 @@ $doNotPackage = array(
 	'phpunit.xml.dist',
 	'tests',
 	'travisci-phpunit.xml',
+	'libraries/joomla/crypt/README.md',
 );
 
 /*
@@ -247,3 +248,4 @@ system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_'
 system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip * > /dev/null');
 
 echo "Build of version $fullVersion complete!\n";
+'''
