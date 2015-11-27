@@ -53,12 +53,6 @@ if (jQuery) {
 							jsondata[j]['valid'] = 1;
 						}
 					}
-
-					// Test if condition is valid
-					if (jsondata[j]['values'].indexOf(itemval) != -1)
-					{
-						jsondata[j]['valid'] = 1;
-					}
 				});
 
 				// Verify conditions
