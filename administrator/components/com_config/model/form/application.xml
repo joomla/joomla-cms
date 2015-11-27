@@ -20,7 +20,8 @@
 			default=""
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_HANDLER_DESC"
-			filter="word">
+			filter="word"
+			showon="caching:1,2">
 		</field>
 
 		<field
@@ -46,6 +47,7 @@
 			required="true"
 			filter="integer"
 			validate="number"
+			showon="caching:1,2"
 			size="6" />
 
 		<field
@@ -55,7 +57,7 @@
 			default="1"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
-			showon="cache_handler:memcache"
+			showon="caching:1,2[AND]cache_handler:memcache"
 			filter="integer">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -68,7 +70,7 @@
 			default="0"
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
-			showon="cache_handler:memcache"
+			showon="caching:1,2[AND]cache_handler:memcache"
 			filter="integer">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -80,7 +82,7 @@
 			default="localhost"
 			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
-			showon="cache_handler:memcache"
+			showon="caching:1,2[AND]cache_handler:memcache"
 			filter="string"
 			size="25" />
 
@@ -90,7 +92,7 @@
 			default="11211"
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
-			showon="cache_handler:memcache"
+			showon="caching:1,2[AND]cache_handler:memcache"
 			filter="integer"
 			size="5" />
 
@@ -101,7 +103,7 @@
 			default="1"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
-			showon="cache_handler:memcached"
+			showon="caching:1,2[AND]cache_handler:memcached"
 			filter="integer">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -114,7 +116,7 @@
 			default="0"
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
-			showon="cache_handler:memcached"
+			showon="caching:1,2[AND]cache_handler:memcached"
 			filter="integer">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -126,7 +128,7 @@
 			default="localhost"
 			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
-			showon="cache_handler:memcached"
+			showon="caching:1,2[AND]cache_handler:memcached"
 			filter="string"
 			size="25" />
 
@@ -136,7 +138,7 @@
 			default="11211"
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
-			showon="cache_handler:memcached"
+			showon="caching:1,2[AND]cache_handler:memcached"
 			filter="integer"
 			size="5" />
 
@@ -148,7 +150,7 @@
 			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
 			filter="integer"
-			showon="cache_handler:redis">
+			showon="caching:1,2[AND]cache_handler:redis">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -160,7 +162,7 @@
 			label="COM_CONFIG_FIELD_REDIS_HOST_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_HOST_DESC"
 			filter="string"
-			showon="cache_handler:redis"
+			showon="caching:1,2[AND]cache_handler:redis"
 			size="25" />
 
 		<field
@@ -170,7 +172,7 @@
 			label="COM_CONFIG_FIELD_REDIS_PORT_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_PORT_DESC"
 			filter="integer"
-			showon="cache_handler:redis"
+			showon="caching:1,2[AND]cache_handler:redis"
 			size="5" />
 
 		<field
@@ -179,7 +181,7 @@
 			label="COM_CONFIG_FIELD_REDIS_AUTH_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_AUTH_DESC"
 			filter="raw"
-			showon="cache_handler:redis"
+			showon="caching:1,2[AND]cache_handler:redis"
 			autocomplete="off"
 			size="30" />
 
@@ -190,7 +192,7 @@
 			label="COM_CONFIG_FIELD_REDIS_DB_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_DB_DESC"
 			filter="integer"
-			showon="cache_handler:redis"
+			showon="caching:1,2[AND]cache_handler:redis"
 			size="4" />
 	</fieldset>
 
