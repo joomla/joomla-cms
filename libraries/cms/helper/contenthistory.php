@@ -102,7 +102,7 @@ class JHelperContenthistory extends JHelper
 		$historyTable = JTable::getInstance('Contenthistory', 'JTable');
 		$typeTable = JTable::getInstance('Contenttype', 'JTable');
 		$typeTable->load(array('type_alias' => $this->typeAlias));
-		$historyTable->set('ucm_type_id', $typeTable->type_id);
+		$historyTable->set('ucm_type_id', (int) $typeTable->type_id);
 
 		$key = $table->getKeyName();
 		$historyTable->set('ucm_item_id', $table->$key);
