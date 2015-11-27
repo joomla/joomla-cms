@@ -483,17 +483,25 @@
 			size="30" />
 
 		<field
-			name="smtpauth"
-			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
+			name="smtphost"
+			type="text"
+			default="localhost"
 			showon="mailonline:1[AND]mailer:smtp"
-			label="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_LABEL"
-			description="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_DESC"
-			filter="integer">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
-		</field>
+			label="COM_CONFIG_FIELD_MAIL_SMTP_HOST_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_SMTP_HOST_DESC"
+			filter="string"
+			size="30" />
+
+		<field
+			name="smtpport"
+			type="text"
+			default="25"
+			showon="mailonline:1[AND]mailer:smtp"
+			label="COM_CONFIG_FIELD_MAIL_SMTP_PORT_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_SMTP_PORT_DESC"
+			required="true"
+			filter="string"
+			size="6" />
 
 		<field
 			name="smtpsecure"
@@ -509,20 +517,22 @@
 		</field>
 
 		<field
-			name="smtpport"
-			type="text"
-			default="25"
+			name="smtpauth"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
 			showon="mailonline:1[AND]mailer:smtp"
-			label="COM_CONFIG_FIELD_MAIL_SMTP_PORT_LABEL"
-			description="COM_CONFIG_FIELD_MAIL_SMTP_PORT_DESC"
-			required="true"
-			filter="string"
-			size="6" />
+			label="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_DESC"
+			filter="integer">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 
 		<field
 			name="smtpuser"
 			type="text"
-			showon="mailonline:1[AND]mailer:smtp"
+			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:1"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_USERNAME_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_USERNAME_DESC"
 			filter="string"
@@ -532,21 +542,11 @@
 		<field
 			name="smtppass"
 			type="password"
-			showon="mailonline:1[AND]mailer:smtp"
+			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:1"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_DESC"
 			filter="raw"
 			autocomplete="off"
-			size="30" />
-
-		<field
-			name="smtphost"
-			type="text"
-			default="localhost"
-			showon="mailonline:1[AND]mailer:smtp"
-			label="COM_CONFIG_FIELD_MAIL_SMTP_HOST_LABEL"
-			description="COM_CONFIG_FIELD_MAIL_SMTP_HOST_DESC"
-			filter="string"
 			size="30" />
 	</fieldset>
 
