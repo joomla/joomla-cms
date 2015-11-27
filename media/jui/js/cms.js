@@ -24,22 +24,29 @@ if (jQuery) {
 
 			// Check if target conditions are satisfied
 			$.each(jsondata, function(j, item) {
-				$field = $('[name="' + jsondata[j]['field'] + '"]');
+				$fields = $('[name^="' + jsondata[j]['field'] + '"]');
+				jsondata[j]['valid'] = 0;
 
-				// If checkbox or radio box the value is read form proprieties
-				if (['checkbox','radio'].indexOf($field.attr('type')) != -1)
-				{
-					itemval = $field.prop('checked') ? '1' : '0';
-				}
-				else
-				{
-					itemval = $field.val();
-				}
+				// Test in each of the elements in the field array if condition is valid
+				$fields.each(function() {
+					// If checkbox or radio box the value is read from proprieties
+					if (['checkbox','radio'].indexOf($(this).attr('type')) != -1)
+					{
+						itemval = $(this).prop('checked') ? $(this).val() : '';
+					}
+					else
+					{
+						itemval = $(this).val();
+					}
 
-				// Test if condition is valid
-				jsondata[j]['valid'] = (jsondata[j]['values'].indexOf(itemval) != -1) ? 1 : 0;
+					// Test if condition is valid
+					if (jsondata[j]['values'].indexOf(itemval) != -1)
+					{
+						jsondata[j]['valid'] = 1;
+					}
+				});
 
-				// Verify multiple conditions
+				// Verify conditions
 				// First condition (no operator): current condition must be valid
 				if (jsondata[j]['op'] == '')
 				{
@@ -48,7 +55,7 @@ if (jQuery) {
 						showfield = false;
 					}
 				}
-				// Other conditions
+				// Other conditions (if exists)
 				else
 				{
 					// AND operator: both the previous and current conditions must be valid
@@ -73,9 +80,11 @@ if (jQuery) {
 
 			// Attach events to referenced element
 			$.each(jsondata, function(j, item) {
-				$('[name="' + jsondata[j]['field'] + '"]').each(function() {
+				$fields = $('[name^="' + jsondata[j]['field'] + '"]');
+				// Attach events to referenced element
+				$fields.each(function() {
 					linkedoptions(target);
-				}).bind('change click', function() {
+				}).bind('change', function() {
 					linkedoptions(target);
 				});
 			});
