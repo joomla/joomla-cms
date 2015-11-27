@@ -48,7 +48,6 @@ if (jQuery) {
 					// Test if any of the values of the field exists in showon conditions
 					for (var i in itemval)
 					{
-						console.log(itemval[i]);
 						if (jsondata[j]['values'].indexOf(itemval[i]) != -1)
 						{
 							jsondata[j]['valid'] = 1;
