@@ -24,7 +24,7 @@ if (jQuery) {
 
 			// Check if target conditions are satisfied
 			$.each(jsondata, function(j, item) {
-				$fields = $('[name^="' + jsondata[j]['field'] + '"]');
+				$fields = $('[name="' + jsondata[j]['field'] + '"], [name="' + jsondata[j]['field'] + '[]"]');
 				jsondata[j]['valid'] = 0;
 
 				// Test in each of the elements in the field array if condition is valid
@@ -37,6 +37,22 @@ if (jQuery) {
 					else
 					{
 						itemval = $(this).val();
+					}
+
+					// Convert to array to allow multiple values in the field (e.g. type=list multiple) and normalize as string
+					if (!(typeof itemval === 'object'))
+					{
+						itemval = JSON.parse('["' + itemval + '"]');
+					}
+
+					// Test if any of the values of the field exists in showon conditions
+					for (var i in itemval)
+					{
+						console.log(itemval[i]);
+						if (jsondata[j]['values'].indexOf(itemval[i]) != -1)
+						{
+							jsondata[j]['valid'] = 1;
+						}
 					}
 
 					// Test if condition is valid
@@ -80,7 +96,7 @@ if (jQuery) {
 
 			// Attach events to referenced element
 			$.each(jsondata, function(j, item) {
-				$fields = $('[name^="' + jsondata[j]['field'] + '"]');
+				$fields = $('[name="' + jsondata[j]['field'] + '"], [name="' + jsondata[j]['field'] + '[]"]');
 				// Attach events to referenced element
 				$fields.each(function() {
 					linkedoptions(target);
