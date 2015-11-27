@@ -37,6 +37,17 @@
 		</field>
 
 		<field
+			name="show_intro_blog"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="JGLOBAL_SHOW_INTRO_LABEL_BLOG"
+			description="JGLOBAL_SHOW_INTRO_DESC_BLOG">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		
+		<field
 			name="show_intro"
 			type="radio"
 			class="btn-group btn-group-yesno"
