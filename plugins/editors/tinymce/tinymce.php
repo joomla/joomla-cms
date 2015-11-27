@@ -673,8 +673,9 @@ class PlgEditorTinymce extends JPlugin
 				$plugins[]      = 'codesample';
 				$toolbar4_add[] = 'codesample';
 			}
-		// Autosave
-		$autosave = $this->params->get('autosave', 1);
+
+			// Autosave
+			$autosave = $this->params->get('autosave', 1);
 
 			if (isset($access[$autosave]))
 			{
@@ -879,9 +880,9 @@ class PlgEditorTinymce extends JPlugin
 			extended_valid_elements : \"$elements\",
 			invalid_elements : \"$invalid_elements\",
 			// Plugins
-			plugins : \"$plugins $dragDropPlg codesample\",
+			plugins : \"$plugins $dragDropPlg\",
 			// Toolbar
-			toolbar1: \"$toolbar1 | codesample | code\",
+			toolbar1: \"$toolbar1 | code\",
 			removed_menuitems: \"newdocument\",
 			// URL
 			rel_list : [
