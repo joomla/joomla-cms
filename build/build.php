@@ -248,4 +248,3 @@ system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_'
 system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip * > /dev/null');
 
 echo "Build of version $fullVersion complete!\n";
-'''
