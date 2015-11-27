@@ -842,7 +842,7 @@
 			filter="safehtml"
 			cols="60"
 			rows="2"
-			showon="offline:1" />
+			showon="offline:1[AND]display_offline_message:1" />
 
 		<field
 			name="offline_image"
