@@ -644,17 +644,17 @@ abstract class JHtmlBehavior
 		// If the handler is not 'Database', we set a fixed, small refresh value (here: 5 min)
 		if ($config->get('session_handler') != 'database')
 		{
-			$keepalive_data['seconds'] = 300000;
+			$keepalive_data['interval'] = 300000;
 		}
 		else
 		{
 			$life_time    = $config->get('lifetime') * 60000;
-			$keepalive_data['seconds'] = ($life_time <= 60000) ? 45000 : $life_time - 60000;
+			$keepalive_data['interval'] = ($life_time <= 60000) ? 45000 : $life_time - 60000;
 
 			// The longest refresh period is one hour to prevent integer overflow.
-			if ($keepalive_data['seconds'] > 3600000 || $keepalive_data['seconds'] <= 0)
+			if ($keepalive_data['interval'] > 3600000 || $keepalive_data['interval'] <= 0)
 			{
-				$keepalive_data['seconds'] = 3600000;
+				$keepalive_data['interval'] = 3600000;
 			}
 		}
 

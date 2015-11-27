@@ -26,5 +26,5 @@ jQuery(window).on('load', function() {
 			r.open('GET', jsonkeepalive['uri'], true);
 			r.send(null);
 		}
-	}, jsonkeepalive['seconds']);
+	}, jsonkeepalive['interval']);
 });
