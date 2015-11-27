@@ -429,7 +429,8 @@
 			default="mail"
 			label="COM_CONFIG_FIELD_MAIL_MAILER_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_MAILER_DESC"
-			filter="word">
+			filter="word"
+			showon="mailonline:1">
 			<option value="mail">COM_CONFIG_FIELD_VALUE_PHP_MAIL</option>
 			<option value="sendmail">COM_CONFIG_FIELD_VALUE_SENDMAIL</option>
 			<option value="smtp">COM_CONFIG_FIELD_VALUE_SMTP</option>
@@ -442,7 +443,8 @@
 			description="COM_CONFIG_FIELD_MAIL_FROM_EMAIL_DESC"
 			filter="string"
 			size="30"
-			validate="email" />
+			validate="email"
+			showon="mailonline:1" />
 
 		<field
 			name="fromname"
@@ -450,7 +452,8 @@
 			label="COM_CONFIG_FIELD_MAIL_FROM_NAME_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_FROM_NAME_DESC"
 			filter="string"
-			size="30" />
+			size="30"
+			showon="mailonline:1" />
 
 		<field
 				name="massmailoff"
@@ -459,7 +462,8 @@
 				default="0"
 				label="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_LABEL"
 				description="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_DESC"
-				filter="integer">
+				filter="integer"
+				showon="mailonline:1">
 			<option
 					value="1">JYES</option>
 			<option
@@ -470,7 +474,7 @@
 			name="sendmail"
 			type="text"
 			default="/usr/sbin/sendmail"
-			showon="mailer:sendmail"
+			showon="mailonline:1[AND]mailer:sendmail"
 			label="COM_CONFIG_FIELD_MAIL_SENDMAIL_PATH_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SENDMAIL_PATH_DESC"
 			filter="string"
@@ -481,7 +485,7 @@
 			type="radio"
 			class="btn-group btn-group-yesno"
 			default="0"
-			showon="mailer:smtp"
+			showon="mailonline:1[AND]mailer:smtp"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_DESC"
 			filter="integer">
@@ -493,7 +497,7 @@
 			name="smtpsecure"
 			type="list"
 			default="none"
-			showon="mailer:smtp"
+			showon="mailonline:1[AND]mailer:smtp"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_SECURE_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_SECURE_DESC"
 			filter="word">
@@ -506,7 +510,7 @@
 			name="smtpport"
 			type="text"
 			default="25"
-			showon="mailer:smtp"
+			showon="mailonline:1[AND]mailer:smtp"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_PORT_DESC"
 			required="true"
@@ -516,7 +520,7 @@
 		<field
 			name="smtpuser"
 			type="text"
-			showon="mailer:smtp"
+			showon="mailonline:1[AND]mailer:smtp"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_USERNAME_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_USERNAME_DESC"
 			filter="string"
@@ -526,7 +530,7 @@
 		<field
 			name="smtppass"
 			type="password"
-			showon="mailer:smtp"
+			showon="mailonline:1[AND]mailer:smtp"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_DESC"
 			filter="raw"
@@ -537,7 +541,7 @@
 			name="smtphost"
 			type="text"
 			default="localhost"
-			showon="mailer:smtp"
+			showon="mailonline:1[AND]mailer:smtp"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_HOST_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_HOST_DESC"
 			filter="string"
@@ -821,7 +825,8 @@
 			default="1"
 			label="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_DESC"
-			filter="integer">
+			filter="integer"
+			showon="offline:1">
 			<option value="0">JHIDE</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_DISPLAY_OFFLINE_MESSAGE_CUSTOM</option>
 			<option value="2">COM_CONFIG_FIELD_VALUE_DISPLAY_OFFLINE_MESSAGE_LANGUAGE</option>
@@ -834,13 +839,15 @@
 			description="COM_CONFIG_FIELD_OFFLINE_MESSAGE_DESC"
 			filter="safehtml"
 			cols="60"
-			rows="2" />
+			rows="2"
+			showon="offline:1" />
 
 		<field
 			name="offline_image"
 			type="media"
 			label="COM_CONFIG_FIELD_OFFLINE_IMAGE_LABEL"
-			description="COM_CONFIG_FIELD_OFFLINE_IMAGE_DESC" />
+			description="COM_CONFIG_FIELD_OFFLINE_IMAGE_DESC"
+			showon="offline:1" />
 
 		<field
 			name="frontediting"
