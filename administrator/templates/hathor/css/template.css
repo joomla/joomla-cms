@@ -2778,6 +2778,9 @@ ul.helpmenu li {
 .menu-help-community {
 	background-image: url(../images/menu/icon-16-help-community.png);
 }
+.menu-help-certification {
+	background-image: url(../images/menu/icon-16-help-cert.png);
+}
 .menu-help-security {
 	background-image: url(../images/menu/icon-16-help-security.png);
 }
