@@ -40,20 +40,27 @@ if (jQuery) {
 				jsondata[j]['valid'] = (jsondata[j]['values'].indexOf(itemval) != -1) ? 1 : 0;
 
 				// Verify multiple conditions
-				// No operator (first condition): current condition must be valid
-				if (jsondata[j]['op'] == '' && jsondata[j]['valid'] == 0)
+				// First condition (no operator): current condition must be valid
+				if (jsondata[j]['op'] == '')
 				{
-					showfield = false;
+					if (jsondata[j]['valid'] == 0)
+					{
+						showfield = false;
+					}
 				}
-				// AND operator: both the previous and current conditions must be valid
-				if (jsondata[j]['op'] == 'AND' && jsondata[j]['valid'] + jsondata[j-1]['valid'] < 2)
+				// Other conditions
+				else
 				{
-					showfield = false;
-				}
-				// OR operator: one of the previous and current conditions must be valid
-				if (jsondata[j]['op'] == 'OR'  && jsondata[j]['valid'] + jsondata[j-1]['valid'] > 0)
-				{
-					showfield = true;
+					// AND operator: both the previous and current conditions must be valid
+					if (jsondata[j]['op'] == 'AND' && jsondata[j]['valid'] + jsondata[j-1]['valid'] < 2)
+					{
+						showfield = false;
+					}
+					// OR operator: one of the previous and current conditions must be valid
+					if (jsondata[j]['op'] == 'OR'  && jsondata[j]['valid'] + jsondata[j-1]['valid'] > 0)
+					{
+						showfield = true;
+					}
 				}
 			});
 
