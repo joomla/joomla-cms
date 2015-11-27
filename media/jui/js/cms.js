@@ -24,15 +24,40 @@ if (jQuery) {
 
 			// Check if target conditions are satisfied
 			$.each(jsondata, function(j, item) {
-				itemval = (['checkbox','radio'].indexOf($('[name="' + jsondata[j]['field'] + '"]').attr('type')) != -1) ? $('[name="' + jsondata[j]['field'] + '"]:checked').val() : $('[name="' + jsondata[j]['field'] + '"]').val();
+				$field = $('[name="' + jsondata[j]['field'] + '"]');
+
+				// If checkbox or radio box the value is read form proprieties
+				if (['checkbox','radio'].indexOf($field.attr('type')) != -1)
+				{
+					itemval = $field.prop('checked') ? '1' : '0';
+				}
+				else
+				{
+					itemval = $field.val();
+				}
+
+				// Test if condition is valid
 				jsondata[j]['valid'] = (jsondata[j]['values'].indexOf(itemval) != -1) ? 1 : 0;
-				if ((jsondata[j]['op'] == ''    && jsondata[j]['valid'] == 0) ||
-				    (jsondata[j]['op'] == 'AND' && jsondata[j]['valid'] + jsondata[j-1]['valid'] < 2) ||
-				    (jsondata[j]['op'] == 'OR'  && jsondata[j]['valid'] + jsondata[j-1]['valid'] < 1))
-				    { showfield = false; }
+
+				// Verify multiple conditions
+				// No operator (first condition): current condition must be valid
+				if (jsondata[j]['op'] == '' && jsondata[j]['valid'] == 0)
+				{
+					showfield = false;
+				}
+				// AND operator: both the previous and current conditions must be valid
+				if (jsondata[j]['op'] == 'AND' && jsondata[j]['valid'] + jsondata[j-1]['valid'] < 2)
+				{
+					showfield = false;
+				}
+				// OR operator: one of the previous and current conditions must be valid
+				if (jsondata[j]['op'] == 'OR'  && jsondata[j]['valid'] + jsondata[j-1]['valid'] > 0)
+				{
+					showfield = true;
+				}
 			});
 
-			// If all satisfied show the target field(s), else hide
+			// If conditions are satisfied show the target field(s), else hide
 			(showfield) ? target.slideDown() : target.slideUp();
 		};
 
