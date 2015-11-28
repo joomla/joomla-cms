@@ -637,39 +637,37 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		$keepalive_data = array();
+		// By default we set a fixed refresh value (15 min, the same as com_config default)
+		$life_time = JFactory::getConfig()->get('lifetime', 15);
 
-		$config = JFactory::getConfig();
-
-		// If the handler is not 'Database', we set a fixed, small refresh value (here: 5 min)
-		if ($config->get('session_handler') != 'database')
+		// The shortest refresh period is one minute to prevent uri fetching overflow.
+		if ($life_time < 1)
 		{
-			$keepalive_data['interval'] = 300000;
+			$life_time = 1;
 		}
-		else
-		{
-			$life_time    = $config->get('lifetime') * 60000;
-			$keepalive_data['interval'] = ($life_time <= 60000) ? 45000 : $life_time - 60000;
 
-			// The longest refresh period is one hour to prevent integer overflow.
-			if ($keepalive_data['interval'] > 3600000 || $keepalive_data['interval'] <= 0)
-			{
-				$keepalive_data['interval'] = 3600000;
-			}
+		// The longest refresh period is one hour to prevent integer overflow.
+		if ($life_time > 60)
+		{
+			$life_time = 60;
 		}
+
+		// We remove a quarter of a minute to prevent the session from expiring before is renewed
+		$life_time = $life_time - 0.25;
 
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
 		if (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest)
 		{
-			$keepalive_data['uri'] = JRoute::_('index.php?option=com_ajax&format=json', false);
+			$uri = JRoute::_('index.php?option=com_ajax&format=json', false);
 		}
 		else
 		{
-			$keepalive_data['uri'] = JRoute::_('index.php');
+			$uri = JRoute::_('index.php');
 		}
 
-		JHtml::_('script', 'system/keepalive.js', false, true, false, true, true, array('id' => 'keepalive',
-			'data-keepalive-uri' => $keepalive_data['uri'], 'data-keepalive-interval' => $keepalive_data['interval']));
+		JHtml::_('script', 'system/keepalive.js', false, true, false, true, true, 
+			array('id' => 'keepalive', 'data-keepalive-interval' => $life_time * 60 * 1000, 'data-keepalive-uri' => $uri)
+			);
 
 		static::$loaded[__METHOD__] = true;
 
