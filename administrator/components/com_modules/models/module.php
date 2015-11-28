@@ -601,7 +601,7 @@ class ModulesModelModule extends JModelAdmin
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'))));
 			}
-			
+
 			// Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.
 			if (empty($data->params))
 			{
