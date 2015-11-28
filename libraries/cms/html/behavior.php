@@ -756,15 +756,13 @@ abstract class JHtmlBehavior
 		// Include core
 		static::core();
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
-		$js = "jQuery(function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
-			" else {top.location = self.location; }});";
+		// Old browsers frame busting defence. IE7 and old browsers that don't support X-Frame-Options
+		$framebustingjs = 'if(top===self){document.documentElement.style.display="block";}else{top.location=self.location;}';
 		$document = JFactory::getDocument();
-		$document->addStyleDeclaration('html { display:none }');
-		$document->addScriptDeclaration($js);
+		$document->addStyleDeclaration('html{display:none;}');
+		$document->addScriptDeclaration('(function(){' . $framebustingjs . '})();');
 
+		// Modern browsers frame busting defence IE8+ and all major browsers
 		JFactory::getApplication()->setHeader('X-Frame-Options', 'SAMEORIGIN');
 
 		static::$loaded[__METHOD__] = true;
