@@ -665,8 +665,8 @@ abstract class JHtmlBehavior
 			$uri = JRoute::_('index.php');
 		}
 
-		JHtml::_('script', 'system/keepalive.js', false, true, false, true, true,
-			array('id' => 'keepalive', 'data-keepalive-interval' => $life_time * 60 * 1000, 'data-keepalive-uri' => $uri)
+		JHtml::_('script', 'jui/keepalive.min.js', false, true, false, true, true,
+			array('id' => 'keepalive', 'async' => 'async', 'data-keepalive-interval' => $life_time * 60 * 1000, 'data-keepalive-uri' => $uri)
 			);
 
 		static::$loaded[__METHOD__] = true;

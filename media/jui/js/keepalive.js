@@ -17,7 +17,15 @@
 	// Keepalive function
 	window.keepalive = function() {
 		var keepalive_element  = document.getElementById('keepalive');
-		var keepalive_uri = keepalive_element.getAttribute('data-keepalive-uri'), keepalive_interval = keepalive_element.getAttribute('data-keepalive-interval');
+		if (keepalive_element)
+		{
+			var keepalive_uri = keepalive_element.getAttribute('data-keepalive-uri'), keepalive_interval = keepalive_element.getAttribute('data-keepalive-interval');
+		}
+		// If id attribute is not found in the script tag (script loaders extensions) set defaults
+		else
+		{
+			var keepalive_uri = window.location.pathname + '?option=com_ajax&format=json', keepalive_interval = 0.75 * 60 * 1000;
+		}
 		setInterval(function() {
 			var r;
 			try
