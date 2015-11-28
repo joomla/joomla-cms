@@ -1370,7 +1370,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		}
 
 	        // Speedup by SQL optimalization
-	        if ($this->_db->name == 'mysql')
+	        if ( ($this->_db->name == 'mysql') or ($this->_db->name == 'mysqli') )
 	            return $this->reorderMysql($where);
        
 	        // Default (slow) reorder
