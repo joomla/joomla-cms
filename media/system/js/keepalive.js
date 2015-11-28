@@ -1,4 +1,1 @@
-/*
-        GNU General Public License version 2 or later; see LICENSE.txt
-*/
-jQuery(window).on('load',function(){var jsonkeepalive=jQuery('[data-keepalive]').data('keepalive');window.setInterval(function(){var r;try{r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP");}catch(e){}if (r){r.open('GET',jsonkeepalive.uri,true);r.send(null);}},jsonkeepalive.interval);});
+window.keepalive=function(){var e=document.getElementById("keepalive");var t=e.getAttribute("data-keepalive-uri"),a=e.getAttribute("data-keepalive-interval");window.setInterval(function(){var e;try{e=window.XMLHttpRequest?new XMLHttpRequest:new ActiveXObject("Microsoft.XMLHTTP")}catch(a){}if(e){e.open("GET",t,true);e.send(null)}},a)};if("complete"===document.readyState||"loaded"==document.readyState)keepalive();else{var type="load",target=window,listenerMethod=target.addEventListener||target.attachEvent,eventName=target.addEventListener?type:"on"+type;listenerMethod(type,keepalive())}

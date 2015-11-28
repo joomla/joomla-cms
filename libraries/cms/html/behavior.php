@@ -668,10 +668,8 @@ abstract class JHtmlBehavior
 			$keepalive_data['uri'] = JRoute::_('index.php');
 		}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
-		JHtml::_('script', 'system/keepalive.js', false, true, false, true, true, array('data-keepalive' => $keepalive_data));
+		JHtml::_('script', 'system/keepalive.js', false, true, false, true, true, array('id' => 'keepalive',
+			'data-keepalive-uri' => $keepalive_data['uri'], 'data-keepalive-interval' => $keepalive_data['interval']));
 
 		static::$loaded[__METHOD__] = true;
 
