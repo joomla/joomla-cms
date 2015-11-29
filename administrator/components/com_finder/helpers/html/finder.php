@@ -92,7 +92,7 @@ abstract class JHtmlFinder
 
 		// Compile the options.
 		$options = array();
-		$options[] = JHtml::_('select.option', '1', JText::_('COM_FINDER_MAPS_BRANCHES'));
+		$options[] = JHtml::_('select.option', '1', JText::_('COM_FINDER_MAPS_SELECT_BRANCH'));
 
 		foreach ($rows as $row)
 		{
