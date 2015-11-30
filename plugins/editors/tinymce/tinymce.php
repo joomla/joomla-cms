@@ -1010,7 +1010,7 @@ class PlgEditorTinymce extends JPlugin
 							});";
 					if ($onclick && ($button->get('modal') || $href))
 					{
-						$tempConstructor .= ",
+						$tempConstructor .= "
 						" . $onclick . "
 							";
 					}
