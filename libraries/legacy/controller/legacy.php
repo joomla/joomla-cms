@@ -327,7 +327,7 @@ class JControllerLegacy extends JObject
 			{
 				require_once $backuppath;
 			}
-			// If path is not exist the find another from include paths
+			// If path is not exist then find another from include paths
 			elseif (count($includePaths))
 			{
 				if ($type)
@@ -694,7 +694,7 @@ class JControllerLegacy extends JObject
 			}
 		}
 		// Real base path
-		$pattern             = '#(/(views?)?/[a-zA-z0-9]+/view\.' . $type . '\.php)$#i';
+		$pattern             = '#(/(views?/)?[a-zA-z0-9]+/view\.' . $type . '\.php)$#i';
 		$config['base_path'] = preg_replace($pattern, '', str_replace('\\', '/', $path));
 
 		return new $viewClass($config);
