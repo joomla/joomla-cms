@@ -42,7 +42,13 @@ class UsersControllerProfile extends UsersController
 			throw new Exception(JText::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 500);
 		}
 
-		$options = JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml');
+		$options = array_merge(
+			array(
+				JHtml::_('select.option', '', JText::_('JOPTION_USE_DEFAULT'))
+			),
+			JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml')
+		);
+
 		echo json_encode($options);
 		JFactory::getApplication()->close();
 	}
