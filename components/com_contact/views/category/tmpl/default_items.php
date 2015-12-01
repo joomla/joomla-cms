@@ -46,52 +46,75 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if ($this->items[$i]->published == 0) : ?>
 						<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 					<?php else: ?>
-						<li class="cat-list-row<?php echo $i % 2; ?>" >
+						<li class="row cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
 
-						<span class="pull-right">
-							<?php if ($this->params->get('show_telephone_headings') AND !empty($item->telephone)) : ?>
-								<?php echo JText::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br />
+					<?php 
+						$imgcol = 0; 
+						$desccol = 9; 
+						$extracol = 3;
+						if ($this->params->get('show_image_heading')) {
+							if ($this->params->get('list_cols_width')== 1) {
+								$imgcol = 3; 
+								$desccol = 6; 
+								$extracol = 3;
+							} else if ($this->params->get('list_cols_width')== 0) 
+							{
+								$imgcol = 2; 
+								$desccol = 7; 
+								$extracol = 3;
+							}
+						}
+					?>
+					<?php if ($this->params->get('show_image_heading')) : ?>
+						<div class="span<?php echo $imgcol; ?> col-md-<?php echo $imgcol; ?>">
+							<?php if ($this->items[$i]->image) : ?>
+								<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
+									<?php echo JHtml::_('image', $this->items[$i]->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('class' => 'contact-thumbnail img-thumbnail')); ?></a>
 							<?php endif; ?>
-
-							<?php if ($this->params->get('show_mobile_headings') AND !empty ($item->mobile)) : ?>
-									<?php echo JText::sprintf('COM_CONTACT_MOBILE_NUMBER', $item->mobile); ?><br />
-							<?php endif; ?>
-
-							<?php if ($this->params->get('show_fax_headings') AND !empty($item->fax) ) : ?>
-								<?php echo JText::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br />
-							<?php endif; ?>
-					</span>
+						</div>
+					<?php endif; ?>
 
 					<div class="list-item">
-						<div class="list-title">
+						<div class="list-title span<?php echo $desccol; ?> col-md-<?php echo $desccol; ?>">
 							<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 								<?php echo $item->name; ?></a>
 							<?php if ($this->items[$i]->published == 0) : ?>
 								<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 							<?php endif; ?>
+							<?php echo $item->event->afterDisplayTitle; ?>
+
+							<?php echo $item->event->beforeDisplayContent; ?>
+							<?php if ($this->params->get('show_position_headings')) : ?>
+									<?php echo $item->con_position; ?><br />
+							<?php endif; ?>
+							<?php if ($this->params->get('show_email_headings')) : ?>
+									<?php echo $item->email_to; ?><br />
+							<?php endif; ?>
+							<?php if ($this->params->get('show_suburb_headings') AND !empty($item->suburb)) : ?>
+								<?php echo $item->suburb . ', '; ?>
+							<?php endif; ?>
+
+							<?php if ($this->params->get('show_state_headings') AND !empty($item->state)) : ?>
+								<?php echo $item->state . ', '; ?>
+							<?php endif; ?>
+
+							<?php if ($this->params->get('show_country_headings') AND !empty($item->country)) : ?>
+								<?php echo $item->country; ?><br />
+							<?php endif; ?>
 						</div>
-
-						<?php echo $item->event->afterDisplayTitle; ?>
-
-						<?php echo $item->event->beforeDisplayContent; ?>
-
-						<?php if ($this->params->get('show_position_headings')) : ?>
-								<?php echo $item->con_position; ?><br />
-						<?php endif; ?>
-						<?php if ($this->params->get('show_email_headings')) : ?>
-								<?php echo $item->email_to; ?>
-						<?php endif; ?>
-						<?php if ($this->params->get('show_suburb_headings') AND !empty($item->suburb)) : ?>
-							<?php echo $item->suburb . ', '; ?>
+					</div>
+					<div class="span<?php echo $extracol; ?> col-md-<?php echo $extracol; ?>">
+						<?php if ($this->params->get('show_telephone_headings') AND !empty($item->telephone)) : ?>
+							<?php echo JText::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br />
 						<?php endif; ?>
 
-						<?php if ($this->params->get('show_state_headings') AND !empty($item->state)) : ?>
-							<?php echo $item->state . ', '; ?>
+						<?php if ($this->params->get('show_mobile_headings') AND !empty ($item->mobile)) : ?>
+								<?php echo JText::sprintf('COM_CONTACT_MOBILE_NUMBER', $item->mobile); ?><br />
 						<?php endif; ?>
 
-						<?php if ($this->params->get('show_country_headings') AND !empty($item->country)) : ?>
-							<?php echo $item->country; ?><br />
+						<?php if ($this->params->get('show_fax_headings') AND !empty($item->fax) ) : ?>
+							<?php echo JText::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br />
 						<?php endif; ?>
 					</div>
 

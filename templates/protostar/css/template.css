@@ -7511,3 +7511,6 @@ body.modal-open {
 #finder-search .in.collapse {
 	overflow: visible;
 }
+.contact-category .row {
+	margin-left:0;
+}
