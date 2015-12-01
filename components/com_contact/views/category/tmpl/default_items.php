@@ -50,18 +50,18 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 
 					<?php 
-						$imgcol = 0; 
-						$desccol = 9; 
+						$imgcol = 0;
+						$desccol = 9;
 						$extracol = 3;
 						if ($this->params->get('show_image_heading')) {
-							if ($this->params->get('list_cols_width')== 1) {
-								$imgcol = 3; 
-								$desccol = 6; 
+							if ($this->params->get('list_cols_width') == 1) {
+								$imgcol = 3;
+								$desccol = 6;
 								$extracol = 3;
-							} else if ($this->params->get('list_cols_width')== 0) 
+							} elseif ($this->params->get('list_cols_width') == 0)
 							{
-								$imgcol = 2; 
-								$desccol = 7; 
+								$imgcol = 2;
+								$desccol = 7;
 								$extracol = 3;
 							}
 						}
