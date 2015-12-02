@@ -600,8 +600,8 @@
 			label="COM_CONTACT_FIELD_SHOW_LIST_COLS_LABEL"
 			default="0"
 		>
-			<option value="0">COM_CONTACT_FIELD_SHOW_LIST_COLS_1</option>
-			<option value="1">COM_CONTACT_FIELD_SHOW_LIST_COLS_2</option>
+			<option value="0">COM_CONTACT_FIELD_SHOW_LIST_COLS_SMALL</option>
+			<option value="1">COM_CONTACT_FIELD_SHOW_LIST_COLS_WIDE</option>
 		</field>
 
 		<field name="show_position_headings" type="radio"
