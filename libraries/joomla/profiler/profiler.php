@@ -17,6 +17,8 @@ defined('JPATH_PLATFORM') or die;
  */
 class JProfiler
 {
+	const ONE_MEGABYTE = 1048576;
+
 	/**
 	 * @var    integer  The start time.
 	 * @since  12.1
@@ -109,7 +111,7 @@ class JProfiler
 	public function mark($label)
 	{
 		$current = microtime(1) - $this->start;
-		$currentMem = memory_get_usage() / 1048576;
+		$currentMem = memory_get_usage() / self::ONE_MEGABYTE;
 
 		$m = (object) array(
 			'prefix' => $this->prefix,
@@ -210,7 +212,7 @@ class JProfiler
 	public function setStart($startTime = 0, $startMem = 0)
 	{
 		$this->start       = (double) $startTime;
-		$this->previousMem = (int) $startMem / 1048576;
+		$this->previousMem = (int) $startMem / self::ONE_MEGABYTE;
 
 		return $this;
 	}
