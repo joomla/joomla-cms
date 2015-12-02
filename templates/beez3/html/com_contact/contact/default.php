@@ -38,6 +38,9 @@ $cparams = JComponentHelper::getParams('com_media');
 			</span>
 		</h3>
 	<?php endif; ?>
+
+	<?php echo $this->item->event->afterDisplayTitle; ?>
+
 	<?php if ($this->params->get('show_contact_list') && count($this->contacts) > 1) : ?>
 		<form action="#" method="get" name="selectForm" id="selectForm">
 			<?php echo JText::_('COM_CONTACT_SELECT_CONTACT'); ?>
@@ -50,6 +53,8 @@ $cparams = JComponentHelper::getParams('com_media');
 		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
 	<?php endif; ?>
 
+	<?php echo $this->item->event->beforeDisplayContent; ?>
+
 	<?php  if ($this->params->get('presentation_style') == 'sliders') : ?>
 		<?php echo JHtml::_('sliders.start', 'panel-sliders', array('useCookie' => '1')); ?>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_DETAILS'), 'basic-details'); ?>
@@ -57,6 +62,7 @@ $cparams = JComponentHelper::getParams('com_media');
 	<?php  if ($this->params->get('presentation_style') == 'tabs') : ?>
 		<?php echo JHtmlTabs::start('tabs', array('useCookie' => '1')); ?>
 		<?php echo JHtmlTabs::panel(JText::_('COM_CONTACT_DETAILS'), 'basic-details'); ?>
+
 	<?php endif; ?>
 	<?php if ($this->params->get('presentation_style') == 'plain'):?>
 		<?php  echo '<h3>' . JText::_('COM_CONTACT_DETAILS') . '</h3>';  ?>
@@ -166,4 +172,6 @@ $cparams = JComponentHelper::getParams('com_media');
 	<?php if ($this->params->get('presentation_style') == 'sliders') :
 		echo JHtml::_('sliders.end');
 	endif; ?>
+
+	<?php echo $this->item->event->afterDisplayContent; ?>
 </div>
