@@ -56,12 +56,15 @@ class JFormFieldHelpsite extends JFormFieldList
 			'var helpsite_base = "' . addslashes(JUri::root()) . '";'
 		);
 
+		$showDefault = $this->getAttribute('showDefault') === 'false' ? 'false' : 'true';
+
 		$html = parent::getInput();
 		$button = '<button
 						type="button"
 						class="btn btn-small"
 						id="helpsite-refresh"
 						rel="' . $this->id . '"
+						showDefault="' . $showDefault . '"
 					>
 					<span>' . JText::_('JGLOBAL_HELPREFRESH_BUTTON') . '</span>
 					</button>';
