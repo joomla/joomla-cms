@@ -27,7 +27,7 @@ defined('_JEXEC') or die;
 		<img src="<?php echo $this->category->getParams()->get('image'); ?>"/>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
-		<?php echo JHtml::_('content.prepare', $this->category->description, '', 'com_contact.category.description'); ?>
+		<?php echo JHtml::_('content.prepare', $this->category->description, '', 'com_contact.category'); ?>
 	<?php endif; ?>
 	<div class="clr"></div>
 	</div>
