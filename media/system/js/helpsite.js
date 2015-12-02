@@ -14,7 +14,7 @@ jQuery(document).ready(function() {
 		var select_id   = jQuery(this).attr('rel');
 		var showDefault = jQuery(this).attr('showDefault');
 
-		jQuery.getJSON(helpsite_base + 'index.php?option=com_users&task=profile.gethelpsites&format=json', function(data){
+		jQuery.getJSON('index.php?option=com_users&task=profile.gethelpsites&format=json', function(data){
 			// The response contains the options to use in help site select field
 			var items = [];
 

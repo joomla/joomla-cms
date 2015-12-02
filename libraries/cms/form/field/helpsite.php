@@ -52,9 +52,6 @@ class JFormFieldHelpsite extends JFormFieldList
 	protected function getInput()
 	{
 		JHtml::script('system/helpsite.js', false, true);
-		JFactory::getDocument()->addScriptDeclaration(
-			'var helpsite_base = "' . addslashes(JUri::root()) . '";'
-		);
 
 		$showDefault = $this->getAttribute('showDefault') === 'false' ? 'false' : 'true';
 
