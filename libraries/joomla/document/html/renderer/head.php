@@ -192,7 +192,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			}
 
 			// Adds additional attributes
-			if ($strAttr['attribs'])
+			if (isset($strAttr['attribs']))
 			{
 				foreach ($strAttr['attribs'] as $attrib => $attrib_value)
 				{
