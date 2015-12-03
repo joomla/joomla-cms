@@ -53,6 +53,7 @@ class PlgEditorTinymce extends JPlugin
 
 		// List the skins
 		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
+		$skin     = 'skin : "lightgray",';
 
 		// Set the selected skin
 		if ($app->isSite())
@@ -60,10 +61,6 @@ class PlgEditorTinymce extends JPlugin
 			if ((int) $this->params->get('skin', 0) < count($skindirs))
 			{
 				$skin = 'skin : "' . basename($skindirs[(int) $this->params->get('skin', 0)]) . '",';
-			}
-			else
-			{
-				$skin = 'skin : "lightgray",';
 			}
 		}
 
@@ -73,10 +70,6 @@ class PlgEditorTinymce extends JPlugin
 			if ((int) $this->params->get('skin_admin', 0) < count($skindirs))
 			{
 				$skin = 'skin : "' . basename($skindirs[(int) $this->params->get('skin_admin', 0)]) . '",';
-			}
-			else
-			{
-				$skin = 'skin : "lightgray",';
 			}
 		}
 
