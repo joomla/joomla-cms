@@ -49,6 +49,24 @@ JFactory::getDocument()->addScriptDeclaration('
 				<legend><?php echo empty($this->item->key) ? JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_NEW_OVERRIDE_LEGEND') : JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_EDIT_OVERRIDE_LEGEND'); ?></legend>
 				<div class="control-group">
 					<div class="control-label">
+						<?php echo $this->form->getLabel('language'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('language'); ?>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('client'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('client'); ?>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<div class="control-label">
 						<?php echo $this->form->getLabel('key'); ?>
 					</div>
 					<div class="controls">
@@ -75,24 +93,6 @@ JFactory::getDocument()->addScriptDeclaration('
 					</div>
 				</div>
 				<?php endif; ?>
-
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('language'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('language'); ?>
-						</div>
-					</div>
-
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('client'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('client'); ?>
-					</div>
-				</div>
 
 				<div class="control-group">
 					<div class="control-label">

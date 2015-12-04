@@ -62,6 +62,7 @@ $cparams = JComponentHelper::getParams('com_media');
 	<?php  if ($this->params->get('presentation_style') == 'tabs') : ?>
 		<?php echo JHtmlTabs::start('tabs', array('useCookie' => '1')); ?>
 		<?php echo JHtmlTabs::panel(JText::_('COM_CONTACT_DETAILS'), 'basic-details'); ?>
+
 	<?php endif; ?>
 	<?php if ($this->params->get('presentation_style') == 'plain'):?>
 		<?php  echo '<h3>' . JText::_('COM_CONTACT_DETAILS') . '</h3>';  ?>

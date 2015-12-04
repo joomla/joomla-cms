@@ -94,6 +94,11 @@ class PlgSystemStats extends JPlugin
 			return;
 		}
 
+		if (JUri::getInstance()->getVar("tmpl") === "component")
+		{
+			return;
+		}
+
 		JHtml::_('jquery.framework');
 		JHtml::script('plg_system_stats/stats.js', false, true, false);
 	}

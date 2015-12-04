@@ -7502,3 +7502,12 @@ body.modal-open {
 	padding: 5px 10px;
 	overflow: hidden;
 }
+#search-results {
+	clear: both;
+}
+#finder-filter-window {
+	overflow: visible;
+}
+#finder-search .in.collapse {
+	overflow: visible;
+}
