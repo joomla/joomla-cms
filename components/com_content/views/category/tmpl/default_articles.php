@@ -71,6 +71,7 @@ if (!empty($this->items))
 <?php endif; ?>
 
 <table class="category table table-striped table-bordered table-hover<?php if ($this->params->get('show_headings') != 1) { echo ' table-noheader'; } ?>">
+	<caption class="hide"><?php echo JText::sprintf('COM_CONTENT_CATEGORY_LIST_TABLE_CAPTION', $this->category->title); ?></caption>
 	<thead>
 		<tr>
 			<th id="categorylist_header_title">
