@@ -66,6 +66,7 @@ if (!empty($this->items))
 		<input type="hidden" name="limitstart" value="" />
 		<input type="hidden" name="task" value="" />
 	</fieldset>
+	<input type="submit" class="hide" name="submit_filter" value="<?php echo JText::_('COM_CONTENT_FORM_FILTER_SUBMIT'); ?>" />
 </form>
 <?php endif; ?>
 
