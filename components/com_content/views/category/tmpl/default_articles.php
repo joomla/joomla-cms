@@ -78,7 +78,7 @@ if (!empty($this->items))
 				<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 			</th>
 			<?php if ($date = $this->params->get('list_show_date')) : ?>
-				<th id="categorylist_header_date">
+				<th scope="col" id="categorylist_header_date">
 					<?php if ($date == "created") : ?>
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.created', $listDirn, $listOrder); ?>
 					<?php elseif ($date == "modified") : ?>
@@ -89,17 +89,17 @@ if (!empty($this->items))
 				</th>
 			<?php endif; ?>
 			<?php if ($this->params->get('list_show_author')) : ?>
-				<th id="categorylist_header_author">
+				<th scope="col" id="categorylist_header_author">
 					<?php echo JHtml::_('grid.sort', 'JAUTHOR', 'author', $listDirn, $listOrder); ?>
 				</th>
 			<?php endif; ?>
 			<?php if ($this->params->get('list_show_hits')) : ?>
-				<th id="categorylist_header_hits">
+				<th scope="col" id="categorylist_header_hits">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 				</th>
 			<?php endif; ?>
 			<?php if ($isEditable) : ?>
-				<th id="categorylist_header_edit"><?php echo JText::_('COM_CONTENT_EDIT_ITEM'); ?></th>
+				<th scope="col" id="categorylist_header_edit"><?php echo JText::_('COM_CONTENT_EDIT_ITEM'); ?></th>
 			<?php endif; ?>
 		</tr>
 	</thead>
