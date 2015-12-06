@@ -31,6 +31,13 @@
 		<fieldset name="basic"
 			label="COM_CONTENT_ATTRIBS_ARTICLE_SETTINGS_LABEL">
 
+		<field name="article_layout" type="componentlayout"
+			label="JFIELD_ALT_LAYOUT_LABEL"
+			description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+			useglobal="true"
+			extension="com_content" view="article"
+		/>
+
 		<field
 			name="show_title"
 			type="radio"
