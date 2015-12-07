@@ -325,6 +325,28 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field
+				name="show_tags"
+				type="list"
+				label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
+				description="COM_CONTACT_FIELD_SHOW_TAGS_DESC"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_info"
+				type="list"
+				label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
+				description="COM_CONTACT_FIELD_SHOW_INFO_DESC"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
 			<field name="show_name"
 				type="list"
 				description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
@@ -446,16 +468,6 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="show_misc"
-				type="list"
-				description="COM_CONTACT_FIELD_PARAMS_MISC_INFO_DESC"
-				label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
 			<field name="show_image"
 				type="list"
 				description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
@@ -471,6 +483,16 @@
 				description="COM_CONTACT_FIELD_PARAMS_VCARD_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_VCARD_LABEL"
 			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_misc"
+				type="list"
+				label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
+				description="COM_CONTACT_FIELD_PARAMS_MISC_INFO_DESC"
+				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
