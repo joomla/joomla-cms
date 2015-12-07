@@ -156,7 +156,7 @@ class JViewCategory extends JViewLegacy
 			$dispatcher = JEventDispatcher::getInstance();
 			JPluginHelper::importPlugin('content');
 
-			$dispatcher->trigger('onContentPrepare', array ('com_contact.category', &$itemElement, &$itemElement->params, 0));
+			$dispatcher->trigger('onContentPrepare', array ($this->extension . '.category', &$itemElement, &$itemElement->params, 0));
 
 			$results = $dispatcher->trigger('onContentAfterTitle', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
 			$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));

@@ -923,9 +923,9 @@ abstract class JFormField
 			$options['hiddenLabel'] = true;
 		}
 
-		if ($showon = $this->getAttribute('showon'))
+		if (($showon = $this->getAttribute('showon')))
 		{
-			$showon   = explode(':', $showon, 2);
+			$showon = explode(':', $showon, 2);
 			$options['class'] .= ' showon_' . implode(' showon_', explode(',', $showon[1]));
 			$id = $this->getName($showon[0]);
 			$id = $this->multiple ? str_replace('[]', '', $id) : $id;
