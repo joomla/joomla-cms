@@ -495,9 +495,9 @@ class ContentModelArticle extends JModelAdmin
 
 			$categoryModel = JModelLegacy::getInstance('Category', 'CategoriesModel');
 
- 			$catData["title"] = $data['catid'];
+			$catData["title"] = $data['catid'];
 			$catData["parent_id"] = 1;
-			$catData["extension"] ="com_content";
+			$catData["extension"] = "com_content";
 			$catData["language"] = $data['language'];
 			$catData["published"] = 1;
 
