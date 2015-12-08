@@ -75,12 +75,20 @@ class UsersModelRegistration extends JModelForm
 		if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0))
 		{
 			$uri = JUri::getInstance();
+			$baseUri = JUri::getInstance(JUri::base());
+			if ($userParams->get('usesecure'))
+			{
+				$uri->setScheme('http');
+				$uri->setPort($config->get('http_port'));
+				$baseUri->setScheme('http');
+				$baseUri->setPort($config->get('http_port'));
+			}
 
 			// Compile the admin notification mail values.
 			$data = $user->getProperties();
 			$data['activation'] = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
 			$user->set('activation', $data['activation']);
-			$data['siteurl'] = JUri::base();
+			$data['siteurl'] = $baseUri->toString();
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
@@ -154,13 +162,20 @@ class UsersModelRegistration extends JModelForm
 			$user->set('activation', '');
 			$user->set('block', '0');
 
+			$baseUri = JUri::getInstance(JUri::base());
+			if ($userParams->get('usesecure'))
+			{
+				$baseUri->setScheme('http');
+				$baseUri->setPort($config->get('http_port'));
+			}
+
 			// Compile the user activated notification mail values.
 			$data = $user->getProperties();
 			$user->setParam('activate', 0);
 			$data['fromname'] = $config->get('fromname');
 			$data['mailfrom'] = $config->get('mailfrom');
 			$data['sitename'] = $config->get('sitename');
-			$data['siteurl'] = JUri::base();
+			$data['siteurl'] = $baseUri->toString();
 			$emailSubject = JText::sprintf(
 				'COM_USERS_EMAIL_ACTIVATED_BY_ADMIN_ACTIVATION_SUBJECT',
 				$data['name'],
@@ -377,6 +392,7 @@ class UsersModelRegistration extends JModelForm
 		$data['password'] = $data['password1'];
 		$useractivation = $params->get('useractivation');
 		$sendpassword = $params->get('sendpassword', 1);
+		$usesecure = $params->get('usesecure');
 
 		// Check if the user needs to activate their account.
 		if (($useractivation == 1) || ($useractivation == 2))
@@ -413,13 +429,24 @@ class UsersModelRegistration extends JModelForm
 		$data['fromname'] = $config->get('fromname');
 		$data['mailfrom'] = $config->get('mailfrom');
 		$data['sitename'] = $config->get('sitename');
-		$data['siteurl'] = JUri::root();
+		$siteurl = JUri::getInstance(JUri::root());
+		if ($usesecure)
+		{
+			$siteurl->setScheme('http');
+			$siteurl->setPort($config->get('http_port'));
+		}
+		$data['siteurl'] = $siteurl->toString();
 
 		// Handle account activation/confirmation emails.
 		if ($useractivation == 2)
 		{
 			// Set the link to confirm the user email.
 			$uri = JUri::getInstance();
+			if ($usesecure)
+			{
+				$uri->setScheme('http');
+				$uri->setPort($config->get('http_port'));
+			}
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
@@ -464,6 +491,11 @@ class UsersModelRegistration extends JModelForm
 		{
 			// Set the link to activate the user account.
 			$uri = JUri::getInstance();
+			if ($usesecure)
+			{
+				$uri->setScheme('http');
+				$uri->setPort($config->get('http_port'));
+			}
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
