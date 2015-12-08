@@ -10,8 +10,24 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
+
+$config = JFactory::getConfig();
+$usersConfig = JComponentHelper::getParams('com_users');
+$actionUri = JUri::getInstance();
+if ($usersConfig->get('usesecure'))
+{
+	$actionUri->setScheme('https');
+	$actionUri->setPort($config->get('https_port'));
+	$actionUri = $actionUri->toString();
+}
+else
+{
+	$actionUri = $actionUri->toString(array('path', 'query', 'fragment'));
+}
+$actionUri = htmlspecialchars($actionUri);
+
 ?>
-<form action="<?php echo JRoute::_(htmlspecialchars(JUri::getInstance()->toString()), true, $params->get('usesecure')); ?>" method="post" id="login-form" class="form-vertical">
+<form action="<?php echo $actionUri; ?>" method="post" id="login-form" class="form-vertical">
 <?php if ($params->get('greeting')) : ?>
 	<div class="login-greeting">
 	<?php if ($params->get('name') == 0) : {
