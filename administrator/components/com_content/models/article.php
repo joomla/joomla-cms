@@ -503,8 +503,8 @@ class ContentModelArticle extends JModelAdmin
 
 			$categoryModel->save($catData);
 
-			//todo retrieve id of new category
-			//$data['catid'] = $this->getState($this->getName() . '.id');
+			// Get the category id of the new category we have just created.
+			$data['catid'] = $categoryModel->getState("category.id");
 		}
 
 		if (isset($data['urls']) && is_array($data['urls']))
