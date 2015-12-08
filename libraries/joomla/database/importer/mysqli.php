@@ -373,6 +373,8 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 		$kNonUnique = (string) $columns[0]['Non_unique'];
 		$kName = (string) $columns[0]['Key_name'];
 		$kColumn = (string) $columns[0]['Column_name'];
+		$kLength = (string) $columns[0]['Sub_part'];
+		$kLength = $kLength == '' ? '' : '(' . $kLength . ')';
 
 		$prefix = '';
 
@@ -390,13 +392,13 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 
 		if ($nColumns == 1)
 		{
-			$kColumns[] = $this->db->quoteName($kColumn);
+			$kColumns[] = $this->db->quoteName($kColumn) . $kLength;
 		}
 		else
 		{
 			foreach ($columns as $column)
 			{
-				$kColumns[] = (string) $column['Column_name'];
+				$kColumns[] = (string) $column['Column_name'] . $kLength;
 			}
 		}
 
