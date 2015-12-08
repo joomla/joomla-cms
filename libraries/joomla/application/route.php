@@ -72,18 +72,27 @@ class JRoute
 		 */
 		if ((int) $ssl || $uri->isSsl())
 		{
-			static $host_port;
+			static $host_ports;
 
-			if (!is_array($host_port))
+			if (!is_array($host_ports))
 			{
 				$uri2 = JUri::getInstance();
-				$host_port = array($uri2->getHost(), $uri2->getPort());
+				$config = JFactory::getConfig();
+				$host_ports = array($uri2->getHost(), $config->get('https_port'), $config->get('http_port'));
 			}
 
-			// Determine which scheme we want.
-			$uri->setScheme(((int) $ssl === 1 || $uri->isSsl()) ? 'https' : 'http');
-			$uri->setHost($host_port[0]);
-			$uri->setPort($host_port[1]);
+			// Determine which scheme and port we want.
+			if ((int) $ssl === 1 || ($uri->isSsl() && (int) $ssl !== 2))
+			{
+				$uri->setScheme('https');
+				$uri->setPort($host_ports[1]);
+			}
+			else
+			{
+				$uri->setScheme('http');
+				$uri->setPort($host_ports[2]);
+			}
+			$uri->setHost($host_ports[0]);
 			$scheme = array_merge($scheme, array('host', 'port', 'scheme'));
 		}
 
