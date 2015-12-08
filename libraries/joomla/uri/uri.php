@@ -283,8 +283,8 @@ class JUri extends Uri
 			$ourBaseUri = static::getInstance($ourBase);
 			if ($uri->getHost() == $ourBaseUri->getHost())
 			{
-				// same host for the given URL and our base
-				// assign (for the following tests) the scheme and the port from our base to the given URL
+				// Same host for the given URL and our base
+				// Assign (for the following tests) the scheme and the port from our base to the given URL
 				$uri->setScheme($ourBaseUri->getScheme());
 				$uri->setPort($ourBaseUri->getPort());
 			}
