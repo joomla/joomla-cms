@@ -14,6 +14,8 @@ jimport('joomla.filesystem.file');
 
 /**
  * Media Component File Model
+ *
+ * @todo: Make sure to store this model in the Joomla database
  */
 class MediaModelFile extends JModelLegacy
 {
@@ -32,14 +34,19 @@ class MediaModelFile extends JModelLegacy
 	protected $_fileName = null;
 
 	/**
-	 * List of available file type classes
+	 * List of available file type objects
 	 */
-	protected $_availableFileTypeClasses = null;
+	protected $_availableFileTypes = null;
+
+	/**
+	 * List of available file type identifiers
+	 */
+	protected $_defaultFileTypeIdentifiers = array('image', 'pdf');
 
 	/**
 	 * Abstraction of the file type of $_file
 	 */
-	protected $_fileTypeClass = null;
+	protected $_fileType = null;
 
 	/**
 	 * Method to detect which file type class to use for a specific $_file
@@ -49,49 +56,113 @@ class MediaModelFile extends JModelLegacy
 		//
 		foreach ($this->getAvailableFileTypes() as $availableFileTypeClass)
 		{
-			/** @var $availableFileTypeClass MediaModelFileTypeAbstract */
-			if (in_array(JText::getExt($this->_fileName), $availableFileTypeClass->getExtensions()))
+			/** @var $availableFileType MediaModelFileTypeAbstract */
+			if (in_array(JText::getExt($this->_fileName), $availableFileType->getExtensions()))
 			{
-				$this->_fileTypeClass = $availableFileTypeClass;
+				$this->_fileType = $availableFileType;
 				break;
 			}
 
 			// @todo: Detect the MIME type of this file
 			$mimeType = null;
 
-			if (in_array($mimeType, $availableFileTypeClass->getMimeTypes()))
+			if (in_array($mimeType, $availableFileType->getMimeTypes()))
 			{
-				$this->_fileTypeClass = $availableFileTypeClass;
+				$this->_fileType = $availableFileType;
 				break;
 			}
 		}
 
 		// @todo: Set a default file type
 
-		return $this->_fileTypeClass;
+		return $this->_fileType;
 	}
 
 	/**
-	 * Method to get the support file type classes
+	 * Method to get the support file types
+	 *
+	 * @return array
 	 */
-	public function getAvailableFileTypes()
+	protected function getAvailableFileTypes()
 	{
-		// @todo
+		if (empty($this->_availableFileTypes))
+		{
+			foreach ($this->_defaultFileTypeIdentifiers as $defaultFileTypeIdentifier)
+			{
+				$fileType = $this->getFileTypeObjectFromIdentifier($defaultFileTypeIdentifier);
+
+				if ($fileType == false)
+				{
+					continue;
+				}
+
+				$this->_availableFileTypes[$defaultFileTypeIdentifier] = $fileType;
+			}
+
+			// Allow plugins to modify this listing of file types
+			$this->modifyAvailableFileTypes();
+		}
+
+		return $this->_availableFileTypes;
 	}
 
 	/**
+	 * Modify the list of available file types through the plugin event onMediaBuildFileTypes()
+	 */
+	protected function modifyAvailableFileTypes()
+	{
+		JPluginHelper::importPlugin('media');
+
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onMediaBuildFileTypes', array(&$this->_availableFileTypes));
+	}
+
+	/**
+	 * Get a file type object based on an identifier string
+	 *
+	 * @param string $identifier
+	 *
+	 * @return bool|MediaModelInterfaceFileType
+	 */
+	protected function getFileTypeObjectFromIdentifier($identifier)
+	{
+		if (empty($identifier))
+		{
+			return false;
+		}
+
+		$identifierFile = __DIR__ . '/file/type/' . $identifier . '.php';
+
+		if (!is_file($identifierFile))
+		{
+			return false;
+		}
+
+		include_once $identifierFile;
+
+		$fileTypeClass = 'MediaModelFileType' .  ucfirst($identifier);
+		$fileType = new $fileTypeClass;
+
+		return $fileType;
+	}
+
+	/**
+	 * Return the current file type object
+	 *
 	 * @return mixed
 	 */
-	public function getFileTypeClass()
+	public function getFileType()
 	{
-		return $this->_fileTypeClass;
+		return $this->_fileType;
 	}
 
 	/**
-	 * @param mixed $fileTypeClass
+	 * Set the current file type object
+	 *
+	 * @param mixed $fileType
 	 */
-	public function setFileTypeClass($fileTypeClass)
+	public function setFileType($fileType)
 	{
-		$this->_fileTypeClass = $fileTypeClass;
+		$this->_fileType = $fileType;
 	}
 }
