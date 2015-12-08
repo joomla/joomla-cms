@@ -18,6 +18,11 @@ jimport('joomla.filesystem.file');
 class MediaModelFileTypeImage extends MediaModelFileTypeAbstract implements MediaModelInterfaceFileType
 {
 	/**
+	 * File group
+	 */
+	protected $_group = 'images';
+
+	/**
 	 * File extensions supported by this file type
 	 */
 	protected $_extensions = array(
@@ -38,4 +43,48 @@ class MediaModelFileTypeImage extends MediaModelFileTypeAbstract implements Medi
 		'image/png',
 		'image/jpeg',
 	);
+
+	/**
+	 * Return the file properties of a specific file
+	 *
+	 * @param string $filePath
+	 *
+	 * @return array
+	 */
+	public function getProperties($filePath)
+	{
+		$properties = array();
+
+		$info = @getimagesize($filePath);
+		$properties['width'] = @$info[0];
+		$properties['height'] = @$info[1];
+		$properties['type'] = @$info[2];
+		$properties['mime']  = @$info['mime'];
+
+		if (($info[0] > 60) || ($info[1] > 60))
+		{
+			$dimensions = MediaHelper::imageResize($info[0], $info[1], 60);
+			$properties['width_60'] = $dimensions[0];
+			$properties['height_60'] = $dimensions[1];
+		}
+		else
+		{
+			$properties['width_60'] = $properties['width'];
+			$properties['height_60'] = $properties['height'];
+		}
+
+		if (($info[0] > 16) || ($info[1] > 16))
+		{
+			$dimensions = MediaHelper::imageResize($info[0], $info[1], 16);
+			$properties['width_16'] = $dimensions[0];
+			$properties['height_16'] = $dimensions[1];
+		}
+		else
+		{
+			$properties['width_16'] = $properties['width'];
+			$properties['height_16'] = $properties['height'];
+		}
+
+		return $properties;
+	}
 }

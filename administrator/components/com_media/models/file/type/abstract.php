@@ -18,6 +18,11 @@ jimport('joomla.filesystem.file');
 abstract class MediaModelFileTypeAbstract implements MediaModelInterfaceFileType
 {
 	/**
+	 * File group
+	 */
+	protected $_group = 'docs';
+
+	/**
 	 * File extensions supported by this file type
 	 */
 	protected $_extensions = array();
@@ -45,5 +50,27 @@ abstract class MediaModelFileTypeAbstract implements MediaModelInterfaceFileType
 	public function getMimeTypes()
 	{
 		return $this->_mimeTypes;
+	}
+
+	/**
+	 * Return the file properties of a specific file
+	 *
+	 * @param string $filePath
+	 *
+	 * @return array
+	 */
+	public function getProperties($filePath)
+	{
+		return array();
+	}
+
+	/**
+	 * Return the group name
+	 *
+	 * @return string
+	 */
+	public function getGroup()
+	{
+		return $this->_group;
 	}
 }

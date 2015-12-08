@@ -27,4 +27,18 @@ interface MediaModelInterfaceFileType
 	 * @return mixed
 	 */
 	public function getMimeTypes();
+
+	/**
+	 * Return the file properties of a specific file
+	 *
+	 * @return array
+	 */
+	public function getProperties($filePath);
+
+	/**
+	 * Return the group name
+	 *
+	 * @return string
+	 */
+	public function getGroup();
 }

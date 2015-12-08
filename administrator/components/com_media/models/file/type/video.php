@@ -13,22 +13,20 @@ jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
 /**
- * Media Component File Type Image Model
+ * Media Component File Type Video Model
  */
-class MediaModelFileTypePdf extends MediaModelFileTypeAbstract implements MediaModelInterfaceFileType
+class MediaModelFileTypeVideo extends MediaModelFileTypeAbstract implements MediaModelInterfaceFileType
 {
+	/**
+	 * File group
+	 */
+	protected $_group = 'videos';
+
 	/**
 	 * File extensions supported by this file type
 	 */
 	protected $_extensions = array(
-		'pdf',
-	);
-
-	/**
-	 * MIME types supported by this file type
-	 */
-	protected $_mimeTypes = array(
-		'application/pdf',
+		'mp4',
 	);
 
 	/**
@@ -40,9 +38,10 @@ class MediaModelFileTypePdf extends MediaModelFileTypeAbstract implements MediaM
 	 */
 	public function getProperties($filePath)
 	{
-		// @todo: Count the number of pages in the PDF
-		// @todo: Detect the PDF version type
+		$properties = array();
+		$properties['icon_32'] = 'media/mime-icon-32/mp4.png';
+		$properties['icon_16'] = 'media/mime-icon-16/mp4.png';
 
-		return array();
+		return $properties;
 	}
 }

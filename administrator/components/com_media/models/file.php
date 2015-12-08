@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
+require_once __DIR__ . '/interface/file/type.php';
+require_once __DIR__ . '/file/type/abstract.php';
+
 /**
  * Media Component File Model
  *
@@ -20,51 +23,92 @@ jimport('joomla.filesystem.file');
 class MediaModelFile extends JModelLegacy
 {
 	/**
-	 * Identifier for this file
+	 * Numerical database identifier for this file
 	 *
-	 * @var string
+	 * @var int
 	 */
 	protected $_id = null;
 
 	/**
-	 * File handler class
+	 * Properties of a file
 	 *
-	 * @var string
+	 * @var array
 	 */
-	protected $_fileName = null;
+	protected $_fileProperties = array();
 
 	/**
 	 * List of available file type objects
+	 *
+	 * @var array
 	 */
-	protected $_availableFileTypes = null;
+	protected $_availableFileTypes = array();
 
 	/**
 	 * List of available file type identifiers
+	 *
+	 * @var array
 	 */
 	protected $_defaultFileTypeIdentifiers = array('image', 'pdf');
 
 	/**
 	 * Abstraction of the file type of $_file
+	 *
+	 * @var MediaModelInterfaceFileType
 	 */
 	protected $_fileType = null;
+
+	/**
+	 * Load a new file model by path
+	 *
+	 * @param $path
+	 *
+	 * @return bool
+	 */
+	public function loadByPath($filePath)
+	{
+		if (JFile::exists($filePath) == false)
+		{
+			return false;
+		}
+
+		$fileExtension = strtolower(JFile::getExt($filePath));
+		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
+
+		$this->_fileProperties = array(
+			'group' => 'docs',
+			'name' => $filePath,
+			'title' => basename($filePath),
+			'path' => $filePath,
+			'path_relative' => str_replace($mediaBase, '', $filePath),
+			'extension' => $fileExtension,
+			'size' => filesize($filePath),
+			'icon_32' => 'media/mime-icon-32/' . $fileExtension . '.png',
+			'icon_16' => 'media/mime-icon-16/' . $fileExtension . '.png',
+		);
+
+		// @todo; Add database query to load the respective entity
+
+		$this->detectFileType();
+		$this->setPropertiesByFileType();
+	}
 
 	/**
 	 * Method to detect which file type class to use for a specific $_file
 	 */
 	public function detectFileType()
 	{
-		//
-		foreach ($this->getAvailableFileTypes() as $availableFileTypeClass)
+		// Loop through the available file types and match this file accordingly
+		foreach ($this->getAvailableFileTypes() as $availableFileType)
 		{
 			/** @var $availableFileType MediaModelFileTypeAbstract */
-			if (in_array(JText::getExt($this->_fileName), $availableFileType->getExtensions()))
+			if (in_array(JFile::getExt($this->_fileProperties['path']), $availableFileType->getExtensions()))
 			{
 				$this->_fileType = $availableFileType;
 				break;
 			}
 
-			// @todo: Detect the MIME type of this file
-			$mimeType = null;
+			// Detect the MIME-type
+			$mimeType = $this->detectMimeType($this->_fileProperties['path']);
 
 			if (in_array($mimeType, $availableFileType->getMimeTypes()))
 			{
@@ -76,6 +120,27 @@ class MediaModelFile extends JModelLegacy
 		// @todo: Set a default file type
 
 		return $this->_fileType;
+	}
+
+	/**
+	 * Merge file type specific properties with the generic file properties
+	 */
+	public function setPropertiesByFileType()
+	{
+		if ($this->_fileType)
+		{
+			$properties = $this->_fileType->getProperties($this->_fileProperties['path']);
+			$this->_fileProperties = array_merge($this->_fileProperties, $properties);
+			$this->_fileProperties['group'] = $this->_fileType->getGroup();
+		}
+	}
+
+	/**
+	 * Detect the MIME type of a specific file
+	 */
+	protected function detectMimeType($filePath)
+	{
+		// @todo: Detect the MIME type of this file
 	}
 
 	/**
@@ -140,10 +205,30 @@ class MediaModelFile extends JModelLegacy
 
 		include_once $identifierFile;
 
-		$fileTypeClass = 'MediaModelFileType' .  ucfirst($identifier);
-		$fileType = new $fileTypeClass;
+		$fileTypeClass = 'MediaModelFileType' . ucfirst($identifier);
+		$fileType      = new $fileTypeClass;
 
 		return $fileType;
+	}
+
+	/**
+	 * Get the file properties
+	 *
+	 * @return array
+	 */
+	public function getFileProperties()
+	{
+		return $this->_fileProperties;
+	}
+
+	/**
+	 * Set the file properties
+	 *
+	 * @param array $properties
+	 */
+	public function setFileProperties($properties)
+	{
+		$this->_fileProperties = $properties;
 	}
 
 	/**
