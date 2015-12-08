@@ -43,7 +43,7 @@ class ModLoginHelper
 			$uConfig = JComponentHelper::getParams('com_users');
 			if ($uConfig->get('usesecure'))
 			{
-				// encrypted login form activated
+				// Encrypted login form activated
 				// login: switch to HTTPS, logout: switch to HTTP
 				$config = JFactory::getConfig();
 				if ($type == 'login')
