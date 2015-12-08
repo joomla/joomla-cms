@@ -279,7 +279,7 @@ class JUri extends Uri
 		$ourBase = static::base();
 		if ($uri->getScheme())
 		{
-			// the given URL contains a scheme
+			// The given URL contains a scheme
 			$ourBaseUri = static::getInstance($ourBase);
 			if ($uri->getHost() == $ourBaseUri->getHost())
 			{
