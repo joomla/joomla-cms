@@ -39,8 +39,8 @@ before_script:
   # Enable additional PHP extensions
   - if [ "$INSTALL_MEMCACHED" == "yes" ]; then phpenv config-add build/travis/phpenv/memcached.ini; fi
   - if [ "$INSTALL_APC" == "yes" ]; then phpenv config-add build/travis/phpenv/apc-$TRAVIS_PHP_VERSION.ini; fi
-  - if [ "$INSTALL_APCU_BC" == "yes" ]; then printf "\n" | pecl install apcu-4.0.10; fi
-  - if [ "$INSTALL_APCU_BETA" == "yes" ]; then printf "\n" | pecl install apcu-beta; fi
+  - if [ "$INSTALL_APCU_BC" == "yes" ]; then printf "\n" | pecl install apcu_bc; fi
+  - if [ "$INSTALL_APCU_BETA" == "yes" ]; then printf "\n" | pecl install apcu_bc-beta; fi
   - if [ "$INSTALL_REDIS" == "yes" ]; then phpenv config-add build/travis/phpenv/redis.ini; fi
 
 script:
