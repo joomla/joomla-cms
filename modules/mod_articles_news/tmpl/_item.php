@@ -25,13 +25,11 @@ $item_heading = $params->get('item_heading', 'h4');
 
 <?php endif; ?>
 
-<?php if (!$params->get('intro_only') && $params->get('prepare_content', 1)) : ?>
+<?php if (!$params->get('intro_only')) : ?>
     <?php echo $item->afterDisplayTitle; ?>
 <?php endif; ?>
 
-<?php if ($params->get('prepare_content', 1)) : ?>
-    <?php echo $item->beforeDisplayContent; ?>
-<?php endif; ?>     
+<?php echo $item->beforeDisplayContent; ?>    
 
 <?php echo $item->introtext; ?>
 

@@ -143,16 +143,6 @@
 			</fieldset>
 
 			<fieldset name="advanced">
-				<field
-					name="prepare_content"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					label="MOD_ARTICLES_NEWS_FIELD_PREPARE_CONTENT_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_PREPARE_CONTENT_DESC"
-					default="0">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
                                 
 				<field
 					name="layout"

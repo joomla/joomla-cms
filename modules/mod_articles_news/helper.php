@@ -96,9 +96,8 @@ abstract class ModArticlesNewsHelper
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}
 
-                if ($params->get('prepare_content', 1)){
                     $item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
-                }
+                
 
 			// New
 			if (!$params->get('image'))
@@ -106,13 +105,12 @@ abstract class ModArticlesNewsHelper
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
 			}
 
-            if ($params->get('prepare_content', 1)){
-                $results = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 1));
+                $results = $app->triggerEvent('onContentAfterDisplay', array('mod_articles_news.content', &$item, &$params, 1));
                 $item->afterDisplayTitle = trim(implode("\n", $results));
 
-                $results = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 1));
+                $results = $app->triggerEvent('onContentBeforeDisplay', array('mod_articles_news.content', &$item, &$params, 1));
                 $item->beforeDisplayContent = trim(implode("\n", $results));
-            }
+            
 
         }
 
