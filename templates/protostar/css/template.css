@@ -7511,3 +7511,7 @@ body.modal-open {
 #finder-search .in.collapse {
 	overflow: visible;
 }
+.break-word {
+	word-break: break-all;
+	word-wrap: break-word;
+}
