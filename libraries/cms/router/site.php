@@ -74,6 +74,7 @@ class JRouterSite extends JRouter
 		{
 			// Forward to https
 			$uri->setScheme('https');
+			$uri->setPort($this->app->get('https_port'));
 			$this->app->redirect((string) $uri, 301);
 		}
 
