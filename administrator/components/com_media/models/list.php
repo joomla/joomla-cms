@@ -95,11 +95,8 @@ class MediaModelList extends JModelLegacy
 				$fileModel = $this->getFileModel();
 				$fileModel->loadByPath($basePath . '/' . $file);
 
-				$storedFile = $this->getStoredFileByPath($file, $basePath);
-
 				$tmp = new JObject;
 				$tmp->setProperties($fileModel->getFileProperties());
-				$tmp->id = $storedFile->id;
 
 				$group          = $tmp->get('group');
 				$list[$group][] = $tmp;
@@ -169,49 +166,6 @@ class MediaModelList extends JModelLegacy
 	}
 
 	/**
-	 * Find a stored file by its filename or path
-	 *
-	 * @param $filename
-	 * @param $path
-	 *
-	 * @return bool
-	 */
-	protected function getStoredFileByPath($filename, $path)
-	{
-		foreach ($this->getStoredFiles() as $storedFile)
-		{
-			if ($storedFile->filename == $filename && $storedFile->path == $path)
-			{
-				return $storedFile;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Fetch a list of all the files stored in the database
-	 *
-	 * @return array
-	 */
-	public function getStoredFiles($folder = null)
-	{
-		static $files = array();
-
-		if (empty($folder))
-		{
-			$folder = $this->getCurrentFolder();
-		}
-
-		if (empty($files[$folder]))
-		{
-			$files[$folder] = $this->getFilesModel()->getFiles($folder);
-		}
-
-		return $files[$folder];
-	}
-
-	/**
 	 * Get the images on the current folder
 	 *
 	 * @return  array
@@ -275,15 +229,5 @@ class MediaModelList extends JModelLegacy
 	public function getFileModel()
 	{
 		return new MediaModelFile;
-	}
-
-	/**
-	 * Return th files model
-	 *
-	 * @return MediaModelFiles
-	 */
-	public function getFilesModel()
-	{
-		return new MediaModelFiles;
 	}
 }

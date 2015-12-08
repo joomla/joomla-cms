@@ -74,9 +74,10 @@ class MediaModelFile extends JModelLegacy
 		$fileExtension = strtolower(JFile::getExt($filePath));
 		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
 
+		// Base file properties
 		$this->_fileProperties = array(
 			'group' => 'docs',
-			'name' => $filePath,
+			'name' => basename($filePath),
 			'title' => basename($filePath),
 			'path' => $filePath,
 			'path_relative' => str_replace($mediaBase, '', $filePath),
@@ -86,11 +87,78 @@ class MediaModelFile extends JModelLegacy
 			'icon_16' => 'media/mime-icon-16/' . $fileExtension . '.png',
 		);
 
-		// @todo; Add database query to load the respective entity
-
+		// Detect properties per file type
 		$this->detectFileType();
 		$this->setPropertiesByFileType();
-		$this->create();
+
+		// Attach the stored file
+		$this->attachStoredFile($filePath);
+	}
+
+	/**
+	 * @param $filePath
+	 *
+	 * @return bool
+	 */
+	protected function attachStoredFile($filePath)
+	{
+		// Attach the database stored file to this detected version
+		$storedFile = $this->getStoredFileByPath($filePath);
+
+		if (!empty($storedFile))
+		{
+			$this->_id = $storedFile->id;
+			$this->_fileProperties['id'] = $this->_id;
+			$this->update();
+
+			return true;
+		}
+
+		$this->_id = $this->create();
+		$this->_fileProperties['id'] = $this->_id;
+
+		return true;
+	}
+
+	/**
+	 * Find a stored file by its filename or path
+	 *
+	 * @param $filename
+	 * @param $path
+	 *
+	 * @return bool
+	 */
+	protected function getStoredFileByPath($filePath)
+	{
+		$path = dirname($filePath);
+		$filename = basename($filePath);
+
+		foreach ($this->getStoredFiles($path) as $storedFile)
+		{
+			if ($storedFile->filename == $filename && $storedFile->path == $path)
+			{
+				return $storedFile;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Fetch a list of all the files stored in the database
+	 *
+	 * @return array
+	 */
+	protected function getStoredFiles($folder = null)
+	{
+		static $files = array();
+
+		if (empty($files[$folder]))
+		{
+			$files[$folder] = $this->getFilesModel()->getFiles($folder);
+		}
+
+		return $files[$folder];
 	}
 
 	/**
@@ -105,10 +173,9 @@ class MediaModelFile extends JModelLegacy
 			return false;
 		}
 
-		return true;
-
 		$user = JFactory::getUser();
 		$date = JFactory::getDate();
+		$db = JFactory::getDbo();
 
 		$file = (object) null;
 		$file->filename = basename($this->_fileProperties['path']);
@@ -121,11 +188,16 @@ class MediaModelFile extends JModelLegacy
 		$file->published = 1;
 		$file->ordering = 1;
 
-		$rs = JFactory::getDbo()->insertObject('#__media_files', $file);
+		$db->insertObject('#__media_files', $file);
 
-		return $rs;
+		return $db->insertid();;
 	}
 
+	/**
+	 * Update the current stored file
+	 *
+	 * @return bool
+	 */
 	protected function update()
 	{
 		if (empty($this->_fileProperties))
@@ -142,8 +214,8 @@ class MediaModelFile extends JModelLegacy
 		$file->path = dirname($this->_fileProperties['path']);
 		$file->md5sum = md5_file($this->_fileProperties['path']);
 		$file->user_id = $user->id;
-		$file->created_by = $user->id;
-		$file->created = $date->toSql();
+		$file->modified_by = $user->id;
+		$file->modified = $date->toSql();
 		$file->adapter = 'local';
 		$file->published = 1;
 		$file->ordering = 1;
@@ -156,7 +228,7 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Method to detect which file type class to use for a specific $_file
 	 */
-	public function detectFileType()
+	protected function detectFileType()
 	{
 		// Loop through the available file types and match this file accordingly
 		foreach ($this->getAvailableFileTypes() as $availableFileType)
@@ -186,7 +258,7 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Merge file type specific properties with the generic file properties
 	 */
-	public function setPropertiesByFileType()
+	protected function setPropertiesByFileType()
 	{
 		if ($this->_fileType)
 		{
@@ -310,5 +382,15 @@ class MediaModelFile extends JModelLegacy
 	public function setFileType($fileType)
 	{
 		$this->_fileType = $fileType;
+	}
+
+	/**
+	 * Return th files model
+	 *
+	 * @return MediaModelFiles
+	 */
+	public function getFilesModel()
+	{
+		return new MediaModelFiles;
 	}
 }
