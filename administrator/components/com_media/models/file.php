@@ -90,6 +90,67 @@ class MediaModelFile extends JModelLegacy
 
 		$this->detectFileType();
 		$this->setPropertiesByFileType();
+		$this->create();
+	}
+
+	/**
+	 * Create a new entry for this file in the database
+	 *
+	 * @return bool
+	 */
+	protected function create()
+	{
+		if (empty($this->_fileProperties))
+		{
+			return false;
+		}
+
+		return true;
+
+		$user = JFactory::getUser();
+		$date = JFactory::getDate();
+
+		$file = (object) null;
+		$file->filename = basename($this->_fileProperties['path']);
+		$file->path = dirname($this->_fileProperties['path']);
+		$file->md5sum = md5_file($this->_fileProperties['path']);
+		$file->user_id = $user->id;
+		$file->created_by = $user->id;
+		$file->created = $date->toSql();
+		$file->adapter = 'local';
+		$file->published = 1;
+		$file->ordering = 1;
+
+		$rs = JFactory::getDbo()->insertObject('#__media_files', $file);
+
+		return $rs;
+	}
+
+	protected function update()
+	{
+		if (empty($this->_fileProperties))
+		{
+			return false;
+		}
+
+		$user = JFactory::getUser();
+		$date = JFactory::getDate();
+
+		$file = (object) null;
+		$file->id = $this->_id;
+		$file->filename = basename($this->_fileProperties['path']);
+		$file->path = dirname($this->_fileProperties['path']);
+		$file->md5sum = md5_file($this->_fileProperties['path']);
+		$file->user_id = $user->id;
+		$file->created_by = $user->id;
+		$file->created = $date->toSql();
+		$file->adapter = 'local';
+		$file->published = 1;
+		$file->ordering = 1;
+
+		$rs = JFactory::getDbo()->updateObject('#__media_files', $file, 'id');
+
+		return $rs;
 	}
 
 	/**

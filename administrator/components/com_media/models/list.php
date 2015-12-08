@@ -13,6 +13,7 @@ jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
 require_once __DIR__ . '/file.php';
+require_once __DIR__ . '/files.php';
 
 /**
  * Media Component List Model
@@ -24,8 +25,8 @@ class MediaModelList extends JModelLegacy
 	/**
 	 * Method to get model state variables
 	 *
-	 * @param   string  $property  Optional parameter name
-	 * @param   mixed   $default   Optional default value
+	 * @param   string $property Optional parameter name
+	 * @param   mixed  $default  Optional default value
 	 *
 	 * @return  object  The property where specified, the state object where omitted
 	 *
@@ -51,7 +52,7 @@ class MediaModelList extends JModelLegacy
 	}
 
 	/**
-	 * Build imagelist
+	 * Build browsable list
 	 *
 	 * @return  array
 	 *
@@ -69,38 +70,39 @@ class MediaModelList extends JModelLegacy
 
 		$list = array('folders' => array(), 'docs' => array(), 'images' => array(), 'videos' => array());
 
-		// Get current path from request
-		$current = (string) $this->getState('folder');
-
-		$basePath  = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
+		// Determine current path from the current state
+		$basePath = $this->getCurrentFolder();
 		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
 
-		$folders = array ();
-		$fileList   = false;
-		$folderList = false;
-
-		if (file_exists($basePath))
+		if (!file_exists($basePath))
 		{
-			// Get the list of files and folders from the given folder
-			$fileList   = JFolder::files($basePath);
-			$folderList = JFolder::folders($basePath);
+			return $list;
 		}
+
+		$fileList   = JFolder::files($basePath);
+		$folderList = JFolder::folders($basePath);
 
 		// Iterate over the files if they exist
 		if ($fileList !== false)
 		{
 			foreach ($fileList as $file)
 			{
-				if (is_file($basePath . '/' . $file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html')
+				if (!$this->isFileBrowsable($basePath . '/' . $file))
 				{
-					$fileModel = $this->getFileModel();
-					$fileModel->loadByPath($basePath . '/' . $file);
-
-					$tmp = new JObject;
-					$tmp->setProperties($fileModel->getFileProperties());
-					$group = $tmp->get('group');
-					$list[$group][] = $tmp;
+					continue;
 				}
+
+				$fileModel = $this->getFileModel();
+				$fileModel->loadByPath($basePath . '/' . $file);
+
+				$storedFile = $this->getStoredFileByPath($file, $basePath);
+
+				$tmp = new JObject;
+				$tmp->setProperties($fileModel->getFileProperties());
+				$tmp->id = $storedFile->id;
+
+				$group          = $tmp->get('group');
+				$list[$group][] = $tmp;
 			}
 		}
 
@@ -109,13 +111,13 @@ class MediaModelList extends JModelLegacy
 		{
 			foreach ($folderList as $folder)
 			{
-				$tmp = new JObject;
-				$tmp->name = basename($folder);
-				$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
+				$tmp                = new JObject;
+				$tmp->name          = basename($folder);
+				$tmp->path          = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
-				$count = MediaHelper::countFiles($tmp->path);
-				$tmp->files = $count[0];
-				$tmp->folders = $count[1];
+				$count              = MediaHelper::countFiles($tmp->path);
+				$tmp->files         = $count[0];
+				$tmp->folders       = $count[1];
 
 				$list['folders'][] = $tmp;
 			}
@@ -124,6 +126,90 @@ class MediaModelList extends JModelLegacy
 		return $list;
 	}
 
+	/**
+	 * Check whether this file is browsable in the Media Manager
+	 *
+	 * @param $file
+	 *
+	 * @return bool
+	 */
+	protected function isFileBrowsable($file)
+	{
+		$relativeFile = basename($file);
+
+		if (!is_file($file))
+		{
+			return false;
+		}
+
+		if (substr($relativeFile, 0, 1) == '.')
+		{
+			return false;
+		}
+
+		if (strtolower($relativeFile) == 'index.html')
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Return the current folder
+	 *
+	 * @return string
+	 */
+	public function getCurrentFolder()
+	{
+		$current = (string) $this->getState('folder');
+		$currentFolder  = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
+
+		return $currentFolder;
+	}
+
+	/**
+	 * Find a stored file by its filename or path
+	 *
+	 * @param $filename
+	 * @param $path
+	 *
+	 * @return bool
+	 */
+	protected function getStoredFileByPath($filename, $path)
+	{
+		foreach ($this->getStoredFiles() as $storedFile)
+		{
+			if ($storedFile->filename == $filename && $storedFile->path == $path)
+			{
+				return $storedFile;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Fetch a list of all the files stored in the database
+	 *
+	 * @return array
+	 */
+	public function getStoredFiles($folder = null)
+	{
+		static $files = array();
+
+		if (empty($folder))
+		{
+			$folder = $this->getCurrentFolder();
+		}
+
+		if (empty($files[$folder]))
+		{
+			$files[$folder] = $this->getFilesModel()->getFiles($folder);
+		}
+
+		return $files[$folder];
+	}
 
 	/**
 	 * Get the images on the current folder
@@ -189,5 +275,15 @@ class MediaModelList extends JModelLegacy
 	public function getFileModel()
 	{
 		return new MediaModelFile;
+	}
+
+	/**
+	 * Return th files model
+	 *
+	 * @return MediaModelFiles
+	 */
+	public function getFilesModel()
+	{
+		return new MediaModelFiles;
 	}
 }
