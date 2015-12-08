@@ -1,2 +1,1 @@
-DROP TABLE IF EXISTS `#__contact_details`;
-
+DROP TABLE IF EXISTS `#__media_files`;
