@@ -137,4 +137,24 @@ class CategoriesHelper
 
 		return $associations;
 	}
+
+	/**
+	 * Create new Category from within item view.
+	 *
+	 * @param   array   $data  Array of data for new category.
+	 *
+	 * @return  integer.
+	 */
+	public static function createCategory($data)
+	{
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/models');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/tables');
+
+		$categoryModel = JModelLegacy::getInstance('Category', 'CategoriesModel');
+		$categoryModel->save($data);
+
+		$catid = $categoryModel->getState('category.id');
+
+		return $catid;
+	}
 }

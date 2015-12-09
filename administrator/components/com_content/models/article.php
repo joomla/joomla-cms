@@ -490,21 +490,17 @@ class ContentModelArticle extends JModelAdmin
 		// Save New Category
 		if ((int) $data['catid'] == 0)
 		{
-			require_once JPATH_ADMINISTRATOR . '/components/com_categories/models/category.php';
-			require_once JPATH_ADMINISTRATOR . '/components/com_categories/tables/category.php';
+			require_once JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php';
 
-			$categoryModel = JModelLegacy::getInstance('Category', 'CategoriesModel');
+			$category = array();
+			$category['title'] = $data['catid'];
+			$category['parent_id'] = 1;
+			$category['extension'] = 'com_content';
+			$category['language'] = $data['language'];
+			$category['published'] = 1;
 
-			$catData["title"] = $data['catid'];
-			$catData["parent_id"] = 1;
-			$catData["extension"] = "com_content";
-			$catData["language"] = $data['language'];
-			$catData["published"] = 1;
-
-			$categoryModel->save($catData);
-
-			// Get the category id of the new category we have just created.
-			$data['catid'] = $categoryModel->getState("category.id");
+			// Create new category and get catid back
+			$data['catid'] = CategoriesHelper::createCategory($category);
 		}
 
 		if (isset($data['urls']) && is_array($data['urls']))
@@ -571,9 +567,9 @@ class ContentModelArticle extends JModelAdmin
 					$data['alias'] = JFilterOutput::stringURLSafe($data['title']);
 				}
 
-				$catData = JTable::getInstance('Content', 'JTable');
+				$category = JTable::getInstance('Content', 'JTable');
 
-				if ($catData->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
+				if ($category->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
 				{
 					$msg = JText::_('COM_CONTENT_SAVE_WARNING');
 				}

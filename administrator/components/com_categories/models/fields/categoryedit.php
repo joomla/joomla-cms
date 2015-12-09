@@ -247,7 +247,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		// Initialize some field attributes.
 		$class[] = !empty($this->class) ? $this->class : '';
 
-		if ($this->element["allowAdd"])
+		if ($this->allowAdd)
 		{
 			$customGroupText = JText::_('JGLOBAL_CUSTOM_CATEGORY');
 
