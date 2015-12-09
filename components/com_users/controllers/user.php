@@ -71,6 +71,7 @@ class UsersControllerUser extends UsersController
 		if (true !== $app->login($credentials, $options))
 		{
 			// Login failed !
+			// Clear password and secret key before sending the login form back to the user.
 			$data['remember'] = (int) $options['remember'];
 			$data['password'] = '';
 			$data['secretkey'] = '';
