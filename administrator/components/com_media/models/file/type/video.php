@@ -18,14 +18,9 @@ jimport('joomla.filesystem.file');
 class MediaModelFileTypeVideo extends MediaModelFileTypeAbstract implements MediaModelInterfaceFileType
 {
 	/**
-	 * File group
-	 */
-	protected $_group = 'videos';
-
-	/**
 	 * File extensions supported by this file type
 	 */
-	protected $_extensions = array(
+	protected $extensions = array(
 		'mp4',
 	);
 

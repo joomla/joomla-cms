@@ -34,11 +34,4 @@ interface MediaModelInterfaceFileType
 	 * @return array
 	 */
 	public function getProperties($filePath);
-
-	/**
-	 * Return the group name
-	 *
-	 * @return string
-	 */
-	public function getGroup();
 }

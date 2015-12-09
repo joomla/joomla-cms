@@ -9,16 +9,9 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
-
 /**
- * Media Component Folder Model
+ * Media Component File Adapter Interface
  */
-class MediaModelFolder extends JModelLegacy
+interface MediaModelInterfaceFileAdapter
 {
-	/**
-	 * Identifier
-	 */
-	protected $id = null;
 }

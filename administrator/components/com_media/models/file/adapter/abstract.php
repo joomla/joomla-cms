@@ -13,12 +13,8 @@ jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
 /**
- * Media Component Folder Model
+ * Media Manager model to abstract file actions
  */
-class MediaModelFolder extends JModelLegacy
+abstract class MediaModelFileAdapterAbstract implements MediaModelInterfaceFileAdapter
 {
-	/**
-	 * Identifier
-	 */
-	protected $id = null;
 }

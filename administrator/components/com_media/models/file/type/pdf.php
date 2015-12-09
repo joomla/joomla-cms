@@ -20,14 +20,14 @@ class MediaModelFileTypePdf extends MediaModelFileTypeAbstract implements MediaM
 	/**
 	 * File extensions supported by this file type
 	 */
-	protected $_extensions = array(
+	protected $extensions = array(
 		'pdf',
 	);
 
 	/**
 	 * MIME types supported by this file type
 	 */
-	protected $_mimeTypes = array(
+	protected $mimeTypes = array(
 		'application/pdf',
 	);
 
