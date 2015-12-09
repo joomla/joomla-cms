@@ -487,11 +487,20 @@ class ContentModelArticle extends JModelAdmin
 			$data['images'] = (string) $registry;
 		}
 
-		// Save New Category
-		if ((int) $data['catid'] == 0)
-		{
-			require_once JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php';
+		require_once JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php';
 
+		// Cast catid to integer for comparison
+		$catid = (int) $data['catid'];
+
+		// Check if New Category exists
+		if ($catid > 0)
+		{
+			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
+		}
+
+		// Save New Category
+		if ($catid == 0)
+		{
 			$category = array();
 			$category['title'] = $data['catid'];
 			$category['parent_id'] = 1;

@@ -139,6 +139,32 @@ class CategoriesHelper
 	}
 
 	/**
+	 * Check if Category ID exists otherwise assign to ROOT category.
+	 *
+	 * @param   mixed $catid Name or ID of category.
+	 * @param   string  $extension  Extension that triggers this function
+	 *
+	 * @return int $catid  Category ID.
+	 */
+	public static function validateCategoryId($catid, $extension)
+	{
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/tables');
+
+		$categoryTable = JTable::getInstance('Category');
+
+		$data = array();
+		$data['id'] = $catid;
+		$data['extension'] = $extension;
+
+		if (!$categoryTable->load($data))
+		{
+			$catid = 0;
+		}
+
+		return (int) $catid;
+	}
+
+	/**
 	 * Create new Category from within item view.
 	 *
 	 * @param   array  $data  Array of data for new category.
