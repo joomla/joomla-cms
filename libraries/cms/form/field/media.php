@@ -50,6 +50,14 @@ class JFormFieldMedia extends JFormField
 	protected $link;
 
 	/**
+	 * Mode to restrict upload process.
+	 *
+	 * @var    string
+	 * @since  3.5
+	 */
+	protected $mode;
+
+	/**
 	 * Modal width.
 	 *
 	 * @var    integer
@@ -82,6 +90,14 @@ class JFormFieldMedia extends JFormField
 	protected $directory;
 
 	/**
+	 * The component for image path retrieving.
+	 *
+	 * @var    string
+	 * @since  3.5
+	 */
+	protected $component;
+
+	/**
 	 * The previewWidth.
 	 *
 	 * @var    int
@@ -103,6 +119,7 @@ class JFormFieldMedia extends JFormField
 	 * @var  string
 	 */
 	protected $layout = 'joomla.form.field.media';
+
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
@@ -119,10 +136,12 @@ class JFormFieldMedia extends JFormField
 			case 'authorField':
 			case 'asset':
 			case 'link':
+			case 'mode':
 			case 'width':
 			case 'height':
 			case 'preview':
 			case 'directory':
+			case 'component':
 			case 'previewWidth':
 			case 'previewHeight':
 				return $this->$name;
@@ -148,10 +167,12 @@ class JFormFieldMedia extends JFormField
 			case 'authorField':
 			case 'asset':
 			case 'link':
+			case 'mode':
 			case 'width':
 			case 'height':
 			case 'preview':
 			case 'directory':
+			case 'component':
 				$this->$name = (string) $value;
 				break;
 
@@ -192,8 +213,10 @@ class JFormFieldMedia extends JFormField
 			$this->link          = (string) $this->element['link'];
 			$this->width  	     = isset($this->element['width']) ? (int) $this->element['width'] : 800;
 			$this->height 	     = isset($this->element['height']) ? (int) $this->element['height'] : 500;
+			$this->mode          = isset($this->element['mode']) ? (string) $this->element['mode'] : 'normal';
 			$this->preview       = (string) $this->element['preview'];
 			$this->directory     = (string) $this->element['directory'];
+			$this->component     = (isset($this->element['component']) && JComponentHelper::isInstalled($this->element['component'])) ? (string) $this->element['component'] : 'com_media';
 			$this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
 			$this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
 		}
@@ -216,6 +239,11 @@ class JFormFieldMedia extends JFormField
 			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
 		}
 
+		if (!JFactory::getUser()->authorise('core.create', 'com_media') && $this->mode == 'strict')
+		{
+			return '<div class="field-media-wrapper">' . JText::_('JLIB_MEDIA_ERROR_WARNNOUPLOADRIGHTS') . '</div>';
+		}
+
 		return $this->getRenderer($this->layout)->render($this->getLayoutData());
 	}
 
@@ -236,33 +264,70 @@ class JFormFieldMedia extends JFormField
 			$asset = JFactory::getApplication()->input->get('option');
 		}
 
+		$this->folder = $this->translatePath($this->directory);
+
 		if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
 		{
 			$this->folder = explode('/', $this->value);
-			$this->folder = array_diff_assoc($this->folder, explode('/', JComponentHelper::getParams('com_media')->get('image_path', 'images')));
+			$this->folder = array_diff_assoc($this->folder, explode('/', JComponentHelper::getParams($this->component)->get('image_path', 'images')));
 			array_pop($this->folder);
 			$this->folder = implode('/', $this->folder);
 		}
-		elseif (file_exists(JPATH_ROOT . '/' . JComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory))
-		{
-			$this->folder = $this->directory;
-		}
-		else
-		{
-			$this->folder = '';
-		}
 
 		$extraData = array(
-			'asset'         => $asset,
-			'authorField'   => $this->authorField,
-			'authorId'      => $this->form->getValue($this->authorField),
-			'folder'        => $this->folder,
-			'link'          => $this->link,
-			'preview'       => $this->preview,
-			'previewHeight' => $this->previewHeight,
-			'previewWidth'  => $this->previewWidth,
+				'asset'         => $asset,
+				'authorField'   => $this->authorField,
+				'authorId'      => $this->form->getValue($this->authorField),
+				'folder'        => $this->folder,
+				'link'          => $this->link,
+				'preview'       => $this->preview,
+				'previewHeight' => $this->previewHeight,
+				'previewWidth'  => $this->previewWidth,
 		);
 
 		return array_merge($data, $extraData);
+	}
+
+	/**
+	 * Translates directory value to correct path
+	 *
+	 * Possible parameters:
+	 * {username}, {userid}
+	 * Format characters of date() - Example: {d}, {m} or {Y}
+	 *
+	 * @param  string  $directory  Upload path which was specified in the manifest file
+	 *
+	 * @return  string
+	 *
+	 * @since   3.5
+	 */
+	protected function translatePath($directory)
+	{
+		// First set the directory as path
+		$path = $directory;
+
+		if (preg_match_all('@{(.*)}@U', $directory, $matches))
+		{
+			foreach ($matches[1] as &$match)
+			{
+				switch ($match)
+				{
+					case 'userid':
+						$match = JFactory::getUser()->id;
+						break;
+
+					case 'username':
+						$match = JFactory::getUser()->username;
+						break;
+
+					default:
+						$match = date($match);
+				}
+			}
+
+			$path = str_replace($matches[0], $matches[1], $directory);
+		}
+
+		return $path;
 	}
 }
