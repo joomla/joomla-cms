@@ -69,6 +69,8 @@
 			label="JCATEGORY"
 			description="JFIELD_CATEGORY_DESC"
 			required="true"
+			allowAdd="true"
+			default=""
 		/>
 
 		<field name="access"
