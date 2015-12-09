@@ -141,7 +141,7 @@ class CategoriesHelper
 	/**
 	 * Check if Category ID exists otherwise assign to ROOT category.
 	 *
-	 * @param   mixed $catid Name or ID of category.
+	 * @param   mixed   $catid      Name or ID of category.
 	 * @param   string  $extension  Extension that triggers this function
 	 *
 	 * @return int $catid  Category ID.
