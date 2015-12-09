@@ -501,15 +501,15 @@ class ContentModelArticle extends JModelAdmin
 		// Save New Category
 		if ($catid == 0)
 		{
-			$category = array();
-			$category['title'] = $data['catid'];
-			$category['parent_id'] = 1;
-			$category['extension'] = 'com_content';
-			$category['language'] = $data['language'];
-			$category['published'] = 1;
+			$table = array();
+			$table['title'] = $data['catid'];
+			$table['parent_id'] = 1;
+			$table['extension'] = 'com_content';
+			$table['language'] = $data['language'];
+			$table['published'] = 1;
 
 			// Create new category and get catid back
-			$data['catid'] = CategoriesHelper::createCategory($category);
+			$data['catid'] = CategoriesHelper::createCategory($table);
 		}
 
 		if (isset($data['urls']) && is_array($data['urls']))
@@ -576,9 +576,9 @@ class ContentModelArticle extends JModelAdmin
 					$data['alias'] = JFilterOutput::stringURLSafe($data['title']);
 				}
 
-				$category = JTable::getInstance('Content', 'JTable');
+				$table = JTable::getInstance('Content', 'JTable');
 
-				if ($category->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
+				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
 				{
 					$msg = JText::_('COM_CONTENT_SAVE_WARNING');
 				}

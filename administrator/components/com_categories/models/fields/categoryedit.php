@@ -21,12 +21,92 @@ JFormHelper::loadFieldClass('list');
 class JFormFieldCategoryEdit extends JFormFieldList
 {
 	/**
+	 * To allow creation of new categories.
+	 *
+	 * @var    int
+	 * @since  3.6
+	 */
+	protected $allowAdd;
+
+	/**
 	 * A flexible category list that respects access controls
 	 *
 	 * @var    string
 	 * @since  1.6
 	 */
 	public $type = 'CategoryEdit';
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see     JFormField::setup()
+	 * @since   3.2
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		$return = parent::setup($element, $value, $group);
+
+		if ($return)
+		{
+			$this->allowAdd = isset($this->element['allowAdd']) ? $this->element['allowAdd'] : '';
+		}
+
+		return $return;
+	}
+
+
+	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
+	 * @param   string  $name  The property name for which to the the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   3.6
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'allowAdd':
+				return $this->$name;
+		}
+
+		return parent::__get($name);
+	}
+
+	/**
+	 * Method to set certain otherwise inaccessible properties of the form field object.
+	 *
+	 * @param   string  $name   The property name for which to the the value.
+	 * @param   mixed   $value  The value of the property.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 */
+	public function __set($name, $value)
+	{
+		$value = (string) $value;
+
+		switch ($name)
+		{
+			case 'allowAdd':
+				$value = (string) $value;
+				$this->$name = ($value === 'true' || $value === $name || $value === '1');
+				break;
+			default:
+				parent::__set($name, $value);
+		}
+	}
 
 	/**
 	 * Method to get a list of categories that respects access controls and can be used for

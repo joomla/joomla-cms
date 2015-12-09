@@ -287,14 +287,6 @@ abstract class JFormField
 	protected $onclick;
 
 	/**
-	 * To allow creation of new categories.
-	 *
-	 * @var    int
-	 * @since  3.6
-	 */
-	protected $allowAdd;
-
-	/**
 	 * The count value for generated name field
 	 *
 	 * @var    integer
@@ -401,8 +393,6 @@ abstract class JFormField
 			case 'autofocus':
 			case 'autocomplete':
 			case 'spellcheck':
-			case 'allowAdd':
-				return $this->$name;
 
 			case 'input':
 				// If the input hasn't yet been generated, generate it.
@@ -484,7 +474,6 @@ abstract class JFormField
 			case 'readonly':
 			case 'autofocus':
 			case 'hidden':
-			case 'allowAdd':
 				$value = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
 				break;
@@ -579,7 +568,7 @@ abstract class JFormField
 
 		$attributes = array(
 			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange',
-			'onclick', 'validate', 'pattern', 'default', 'required', 'allowAdd',
+			'onclick', 'validate', 'pattern', 'default', 'required',
 			'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck',
 			'translateHint', 'translateLabel','translate_label', 'translateDescription',
 			'translate_description' ,'size');
