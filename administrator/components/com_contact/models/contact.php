@@ -384,7 +384,7 @@ class ContactModelContact extends JModelAdmin
 	{
 		$input = JFactory::getApplication()->input;
 
-		require_once JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php';
+		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
 		// Cast catid to integer for comparison
 		$catid = (int) $data['catid'];
