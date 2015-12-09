@@ -393,6 +393,7 @@ abstract class JFormField
 			case 'autofocus':
 			case 'autocomplete':
 			case 'spellcheck':
+				return $this->$name;
 
 			case 'input':
 				// If the input hasn't yet been generated, generate it.
