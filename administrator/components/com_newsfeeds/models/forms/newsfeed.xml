@@ -30,9 +30,14 @@
 				JTRASHED</option>
 		</field>
 
-		<field name="catid" type="categoryedit" extension="com_newsfeeds"
-			label="JCATEGORY" description="COM_NEWSFEEDS_FIELD_CATEGORY_DESC"
-			required="true"
+		<field	name="catid"
+				type="categoryedit"
+				extension="com_newsfeeds"
+				label="JCATEGORY"
+				description="COM_NEWSFEEDS_FIELD_CATEGORY_DESC"
+				required="true"
+				allowAdd="true"
+				default=""
 		>
 		</field>
 
