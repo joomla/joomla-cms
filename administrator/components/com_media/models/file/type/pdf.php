@@ -9,13 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
-
 /**
  * Media Component File Type Image Model
  */
-class MediaModelFileTypePdf extends MediaModelFileTypeAbstract implements MediaModelInterfaceFileType
+class MediaModelFileTypePdf extends MediaModelFileTypeAbstract implements MediaModelFileTypeInterface
 {
 	/**
 	 * File extensions supported by this file type

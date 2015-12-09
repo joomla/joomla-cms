@@ -9,12 +9,39 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
-
 /**
  * Media Manager model to abstract file actions
  */
-abstract class MediaModelFileAdapterAbstract implements MediaModelInterfaceFileAdapter
+abstract class MediaModelFileAdapterAbstract implements MediaModelFileAdapterInterface
 {
+	/**
+	 * Full path to a file
+	 *
+	 * @var string
+	 */
+	protected $filePath;
+
+	/**
+	 * Get the current file path
+	 *
+	 * @return string
+	 */
+	public function getFilePath()
+	{
+		return $this->filePath;
+	}
+
+	/**
+	 * Set the current file path
+	 *
+	 * @param string $filePath
+	 *
+	 * @return $this
+	 */
+	public function setFilePath($filePath)
+	{
+		$this->filePath = $filePath;
+
+		return $this;
+	}
 }

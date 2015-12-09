@@ -84,13 +84,15 @@ class MediaModelFiles extends JModelLegacy
 			// Add all files that are physically detected in this folder
 			foreach ($fileList as $file)
 			{
-				if (!$this->isFileBrowsable($currentFolder . '/' . $file))
+				$filePath = $currentFolder . '/' . $file;
+
+				if (!$this->isFileBrowsable($filePath))
 				{
 					continue;
 				}
 
 				$fileModel = $this->getFileModel();
-				$fileModel->loadByPath($currentFolder . '/' . $file);
+				$fileModel->setFileAdapter('local', $filePath)->loadByPath($filePath);
 
 				// Construct the file object for use in the Media Manager
 				$tmp = new JObject;
@@ -139,7 +141,7 @@ class MediaModelFiles extends JModelLegacy
 
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName(array('id', 'filename', 'path')));
+		$query->select($db->quoteName(array('id', 'filename', 'path', 'md5sum', 'adapter')));
 		$query->from($db->quoteName('#__media_files'));
 		$query->where($db->quoteName('path') . ' = '. $db->quote($folder));
 		$query->order('ordering ASC');

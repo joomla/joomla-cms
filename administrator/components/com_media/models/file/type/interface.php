@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Media Component File Type Interface
  */
-interface MediaModelInterfaceFileType
+interface MediaModelFileTypeInterface
 {
 	/**
 	 * Return a listing of supported file extensions

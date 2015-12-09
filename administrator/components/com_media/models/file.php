@@ -9,19 +9,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
-
-require_once __DIR__ . '/interface/file/adapter.php';
-require_once __DIR__ . '/interface/file/type.php';
-
-require_once __DIR__ . '/file/adapter/abstract.php';
-require_once __DIR__ . '/file/type/abstract.php';
+require_once __DIR__ . '/file/adapter.php';
+require_once __DIR__ . '/file/type.php';
 
 /**
  * Media Component File Model
- *
- * @todo: Make sure to store this model in the Joomla database
  */
 class MediaModelFile extends JModelLegacy
 {
@@ -40,51 +32,24 @@ class MediaModelFile extends JModelLegacy
 	protected $fileProperties = array();
 
 	/**
-	 * List of available file type objects
+	 * File type object
 	 *
-	 * @var array
-	 */
-	protected $availableFileTypes = array();
-
-	/**
-	 * List of available file type identifiers
-	 *
-	 * @var array
-	 */
-	protected $defaultFileTypeIdentifiers = array('image', 'pdf');
-
-	/**
-	 * Abstraction of the file type of $_file
-	 *
-	 * @var MediaModelInterfaceFileType
+	 * @var MediaModelFileTypeInterface
 	 */
 	protected $fileType = null;
 
 	/**
-	 * List of available file adapter objects
+	 * File adapter object
 	 *
-	 * @var array
-	 */
-	protected $availableFileAdapters = array();
-
-	/**
-	 * List of available file adapter identifiers
-	 *
-	 * @var array
-	 */
-	protected $defaultFileAdapterIdentifiers = array('local');
-
-	/**
-	 * Abstraction of the file adapter
-	 *
-	 * @var MediaModelInterfaceFileAdapter
+	 * @var MediaModelFileAdapterInterface
 	 */
 	protected $fileAdapter = null;
 
 	/**
 	 * Load a new file model by path
 	 *
-	 * @param string $path
+	 * @param string $filePath
+	 * @param string $fileAdapter
 	 *
 	 * @return bool
 	 */
@@ -111,11 +76,12 @@ class MediaModelFile extends JModelLegacy
 		);
 
 		// Detect properties per file type
-		$this->detectFileType();
+		$this->attachStoredFile($filePath);
+		$this->loadFileAdapter();
+		$this->loadFileType();
 		$this->setPropertiesByFileType();
 
-		// Attach the stored file
-		$this->attachStoredFile($filePath);
+		return true;
 	}
 
 	/**
@@ -133,14 +99,27 @@ class MediaModelFile extends JModelLegacy
 		if (!empty($storedFile))
 		{
 			$this->id = $storedFile->id;
+
 			$this->fileProperties['id'] = $this->id;
-			// @todo: Check for MD5sum
-			$this->update();
+			$this->fileProperties['hash'] = $storedFile->md5sum;
+			$this->fileProperties['adapter'] = $storedFile->adapter;
+
+			// Check for hash to see if this entry needs updating
+			if (!empty($this->fileAdapter))
+			{
+				$this->fileAdapter->setFilePath($this->fileProperties['path']);
+
+				if ($this->fileAdapter->getHash() != $this->fileProperties['hash'])
+				{
+					$this->update();
+				}
+			}
 
 			return true;
 		}
 
 		$this->id = $this->create();
+
 		$this->fileProperties['id'] = $this->id;
 
 		return true;
@@ -149,14 +128,13 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Find a stored file by its filename or path
 	 *
-	 * @param string $filename
-	 * @param string $path
+	 * @param string $filePath
 	 *
-	 * @return bool
+	 * @return bool|object
 	 */
 	protected function getStoredFileByPath($filePath)
 	{
-		$path = dirname($filePath);
+		$path = str_replace(JPATH_ROOT.'/', '', dirname($filePath));
 		$filename = basename($filePath);
 
 		foreach ($this->getStoredFiles($path) as $storedFile)
@@ -205,10 +183,18 @@ class MediaModelFile extends JModelLegacy
 		$date = JFactory::getDate();
 		$db = JFactory::getDbo();
 
+		$path = str_replace(JPATH_ROOT.'/', '', dirname($this->fileProperties['path']));
+		$hash = null;
+
+		if ($this->fileAdapter instanceof MediaModelFileAdapterInterface)
+		{
+			$hash = $this->fileAdapter->getHash();
+		}
+
 		$file = (object) null;
 		$file->filename = basename($this->fileProperties['path']);
-		$file->path = dirname($this->fileProperties['path']);
-		$file->md5sum = md5_file($this->fileProperties['path']);
+		$file->path = $path;
+		$file->md5sum = $hash;
 		$file->user_id = $user->id;
 		$file->created_by = $user->id;
 		$file->created = $date->toSql();
@@ -218,7 +204,7 @@ class MediaModelFile extends JModelLegacy
 
 		$db->insertObject('#__media_files', $file);
 
-		return $db->insertid();;
+		return $db->insertid();
 	}
 
 	/**
@@ -236,11 +222,19 @@ class MediaModelFile extends JModelLegacy
 		$user = JFactory::getUser();
 		$date = JFactory::getDate();
 
+		$path = str_replace(JPATH_ROOT.'/', '', dirname($this->fileProperties['path']));
+		$hash = null;
+
+		if ($this->fileAdapter instanceof MediaModelFileAdapterInterface)
+		{
+			$hash = $this->fileAdapter->getHash();
+		}
+
 		$file = (object) null;
 		$file->id = $this->id;
 		$file->filename = basename($this->fileProperties['path']);
-		$file->path = dirname($this->fileProperties['path']);
-		$file->md5sum = md5_file($this->fileProperties['path']);
+		$file->path = $path;
+		$file->md5sum = $hash;
 		$file->user_id = $user->id;
 		$file->modified_by = $user->id;
 		$file->modified = $date->toSql();
@@ -254,33 +248,53 @@ class MediaModelFile extends JModelLegacy
 	}
 
 	/**
-	 * Method to detect which file type class to use for a specific $_file
+	 * Method to set the current file adapter
 	 *
-	 * @return MediaModelInterfaceFileType
+	 * @return MediaModelFileAdapterInterface
 	 */
-	protected function detectFileType()
+	protected function loadFileAdapter()
 	{
-		// Loop through the available file types and match this file accordingly
-		foreach ($this->getAvailableFileTypes() as $availableFileType)
+		if ($this->fileAdapter instanceof MediaModelFileAdapterInterface)
 		{
-			// Detect the MIME-type
-			$mimeType = $this->detectMimeType($this->fileProperties['path']);
-
-			if (in_array($mimeType, $availableFileType->getMimeTypes()))
-			{
-				$this->fileType = $availableFileType;
-				break;
-			}
-
-			/** @var $availableFileType MediaModelFileTypeAbstract */
-			if (in_array(JFile::getExt($this->fileProperties['path']), $availableFileType->getExtensions()))
-			{
-				$this->fileType = $availableFileType;
-				break;
-			}
+			return $this->fileAdapter;
 		}
 
-		// @todo: Set a default file type?
+		if (!isset($this->fileProperties['adapter']))
+		{
+			return false;
+		}
+
+		$adapterFactory = new MediaModelFileAdapter;
+		$this->fileAdapter = $adapterFactory->getFileAdapter($this->fileProperties['adapter']);
+		$this->fileAdapter->setFilePath($this->fileProperties['path']);
+
+		return $this->fileAdapter;
+	}
+
+	/**
+	 * Method to detect which file type class to use for a specific $_file
+	 *
+	 * @return MediaModelFileTypeInterface
+	 */
+	protected function loadFileType()
+	{
+		if ($this->fileType instanceof MediaModelFileTypeInterface)
+		{
+			return $this->fileType;
+		}
+
+		if (!isset($this->fileProperties['path']))
+		{
+			return false;
+		}
+
+		if (!$this->fileAdapter instanceof MediaModelFileAdapterInterface)
+		{
+			$this->loadFileAdapter();
+		}
+
+		$typeFactory = new MediaModelFileType;
+		$this->fileType = $typeFactory->getFileType($this->fileProperties['path'], $this->fileAdapter);
 
 		return $this->fileType;
 	}
@@ -298,154 +312,6 @@ class MediaModelFile extends JModelLegacy
 	}
 
 	/**
-	 * Detect the MIME type of a specific file
-	 *
-	 * @return string
-	 */
-	protected function detectMimeType($filePath)
-	{
-		$fileInfo = finfo_open(FILEINFO_MIME_TYPE);
-
-		return finfo_file($fileInfo, $filePath);
-	}
-
-	/**
-	 * Method to get the support file adapters
-	 *
-	 * @return array
-	 */
-	protected function getAvailableFileAdapters()
-	{
-		if (empty($this->availableFileAdapters))
-		{
-			foreach ($this->defaultFileAdapterIdentifiers as $defaultFileAdapterIdentifier)
-			{
-				$fileAdapter = $this->getFileAdapterObjectFromIdentifier($defaultFileAdapterIdentifier);
-
-				if ($fileAdapter == false)
-				{
-					continue;
-				}
-
-				$this->availableFileAdapters[$defaultFileAdapterIdentifier] = $fileAdapter;
-			}
-
-			// Allow plugins to modify this listing of adapter types
-			$this->modifyAvailableFileAdapters();
-		}
-
-		return $this->availableFileAdapters;
-	}
-
-	/**
-	 * Modify the list of available file adapters through the plugin event onMediaBuildFileAdapters()
-	 */
-	protected function modifyAvailableFileAdapters()
-	{
-		JPluginHelper::importPlugin('media');
-
-		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger('onMediaBuildFileAdapters', array(&$this->availableFileAdapters));
-	}
-
-	/**
-	 * Get a file adapter object based on an identifier string
-	 *
-	 * @param string $identifier
-	 *
-	 * @return bool|MediaModelInterfaceFileAdapter
-	 */
-	protected function getFileAdapterObjectFromIdentifier($identifier)
-	{
-		if (empty($identifier))
-		{
-			return false;
-		}
-
-		$identifierFile = __DIR__ . '/file/adapter/' . $identifier . '.php';
-
-		if (!is_file($identifierFile))
-		{
-			return false;
-		}
-
-		include_once $identifierFile;
-
-		$fileAdapterClass = 'MediaModelFileAdapter' . ucfirst($identifier);
-		$fileType      = new $fileAdapterClass;
-
-		return $fileType;
-	}
-
-	/**
-	 * Method to get the support file types
-	 *
-	 * @return array
-	 */
-	protected function getAvailableFileTypes()
-	{
-		if (empty($this->availableFileTypes))
-		{
-			foreach ($this->defaultFileTypeIdentifiers as $defaultFileTypeIdentifier)
-			{
-				$fileType = $this->getFileTypeObjectFromIdentifier($defaultFileTypeIdentifier);
-
-				if ($fileType == false)
-				{
-					continue;
-				}
-
-				$this->availableFileTypes[$defaultFileTypeIdentifier] = $fileType;
-			}
-
-			// Allow plugins to modify this listing of file types
-			$this->modifyAvailableFileTypes();
-		}
-
-		return $this->availableFileTypes;
-	}
-
-	/**
-	 * Modify the list of available file types through the plugin event onMediaBuildFileTypes()
-	 */
-	protected function modifyAvailableFileTypes()
-	{
-		JPluginHelper::importPlugin('media');
-
-		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger('onMediaBuildFileTypes', array(&$this->availableFileTypes));
-	}
-
-	/**
-	 * Get a file type object based on an identifier string
-	 *
-	 * @param string $identifier
-	 *
-	 * @return bool|MediaModelInterfaceFileType
-	 */
-	protected function getFileTypeObjectFromIdentifier($identifier)
-	{
-		if (empty($identifier))
-		{
-			return false;
-		}
-
-		$identifierFile = __DIR__ . '/file/type/' . $identifier . '.php';
-
-		if (!is_file($identifierFile))
-		{
-			return false;
-		}
-
-		include_once $identifierFile;
-
-		$fileTypeClass = 'MediaModelFileType' . ucfirst($identifier);
-		$fileType      = new $fileTypeClass;
-
-		return $fileType;
-	}
-
-	/**
 	 * Return the current file adapter object
 	 *
 	 * @return mixed
@@ -459,10 +325,17 @@ class MediaModelFile extends JModelLegacy
 	 * Set the current file adapter object
 	 *
 	 * @param mixed $fileAdapter
+	 * @param string $filePath
+	 *
+	 * @return $this
 	 */
-	public function setFileAdapter($fileAdapter)
+	public function setFileAdapter($fileAdapter, $filePath = null)
 	{
-		$this->fileAdapter = $fileAdapter;
+		$adapterFactory = new MediaModelFileAdapter;
+		$this->fileAdapter = $adapterFactory->getFileAdapter($fileAdapter);
+		$this->fileAdapter->setFilePath($filePath);
+
+		return $this;
 	}
 
 	/**
@@ -479,10 +352,14 @@ class MediaModelFile extends JModelLegacy
 	 * Set the current file type object
 	 *
 	 * @param mixed $fileType
+	 *
+	 * @return $this
 	 */
 	public function setFileType($fileType)
 	{
 		$this->fileType = $fileType;
+
+		return $this;
 	}
 
 	/**
