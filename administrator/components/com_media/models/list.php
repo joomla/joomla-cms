@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
+require_once __DIR__ . '/file.php';
+require_once __DIR__ . '/files.php';
+
 /**
  * Media Component List Model
  *
@@ -22,8 +25,8 @@ class MediaModelList extends JModelLegacy
 	/**
 	 * Method to get model state variables
 	 *
-	 * @param   string  $property  Optional parameter name
-	 * @param   mixed   $default   Optional default value
+	 * @param   string $property Optional parameter name
+	 * @param   mixed  $default  Optional default value
 	 *
 	 * @return  object  The property where specified, the state object where omitted
 	 *
@@ -46,6 +49,120 @@ class MediaModelList extends JModelLegacy
 		}
 
 		return parent::getState($property, $default);
+	}
+
+	/**
+	 * Build browsable list
+	 *
+	 * @return  array
+	 *
+	 * @since 1.5
+	 */
+	public function getList()
+	{
+		static $list;
+
+		// Only process the list once per request
+		if (is_array($list))
+		{
+			return $list;
+		}
+
+		$list = array('folders' => array(), 'docs' => array(), 'images' => array(), 'videos' => array());
+
+		// Determine current path from the current state
+		$basePath = $this->getCurrentFolder();
+		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
+
+		if (!file_exists($basePath))
+		{
+			return $list;
+		}
+
+		$fileList   = JFolder::files($basePath);
+		$folderList = JFolder::folders($basePath);
+
+		// Iterate over the files if they exist
+		if ($fileList !== false)
+		{
+			foreach ($fileList as $file)
+			{
+				if (!$this->isFileBrowsable($basePath . '/' . $file))
+				{
+					continue;
+				}
+
+				$fileModel = $this->getFileModel();
+				$fileModel->loadByPath($basePath . '/' . $file);
+
+				$tmp = new JObject;
+				$tmp->setProperties($fileModel->getFileProperties());
+
+				$group          = $tmp->get('group');
+				$list[$group][] = $tmp;
+			}
+		}
+
+		// Iterate over the folders if they exist
+		if ($folderList !== false)
+		{
+			foreach ($folderList as $folder)
+			{
+				$tmp                = new JObject;
+				$tmp->name          = basename($folder);
+				$tmp->path          = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
+				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
+				$count              = MediaHelper::countFiles($tmp->path);
+				$tmp->files         = $count[0];
+				$tmp->folders       = $count[1];
+
+				$list['folders'][] = $tmp;
+			}
+		}
+
+		return $list;
+	}
+
+	/**
+	 * Check whether this file is browsable in the Media Manager
+	 *
+	 * @param $file
+	 *
+	 * @return bool
+	 */
+	protected function isFileBrowsable($file)
+	{
+		$relativeFile = basename($file);
+
+		if (!is_file($file))
+		{
+			return false;
+		}
+
+		if (substr($relativeFile, 0, 1) == '.')
+		{
+			return false;
+		}
+
+		if (strtolower($relativeFile) == 'index.html')
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Return the current folder
+	 *
+	 * @return string
+	 */
+	public function getCurrentFolder()
+	{
+		$current = (string) $this->getState('folder');
+		$currentFolder  = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
+
+		return $currentFolder;
 	}
 
 	/**
@@ -91,144 +208,6 @@ class MediaModelList extends JModelLegacy
 	}
 
 	/**
-	 * Build imagelist
-	 *
-	 * @return  array
-	 *
-	 * @since 1.5
-	 */
-	public function getList()
-	{
-		static $list;
-
-		// Only process the list once per request
-		if (is_array($list))
-		{
-			return $list;
-		}
-
-		// Get current path from request
-		$current = (string) $this->getState('folder');
-
-		$basePath  = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
-		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
-
-		$images  = array ();
-		$folders = array ();
-		$docs    = array ();
-		$videos  = array ();
-
-		$fileList   = false;
-		$folderList = false;
-
-		if (file_exists($basePath))
-		{
-			// Get the list of files and folders from the given folder
-			$fileList   = JFolder::files($basePath);
-			$folderList = JFolder::folders($basePath);
-		}
-
-		// Iterate over the files if they exist
-		if ($fileList !== false)
-		{
-			foreach ($fileList as $file)
-			{
-				if (is_file($basePath . '/' . $file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html')
-				{
-					$tmp = new JObject;
-					$tmp->name = $file;
-					$tmp->title = $file;
-					$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $file));
-					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
-					$tmp->size = filesize($tmp->path);
-
-					$ext = strtolower(JFile::getExt($file));
-
-					switch ($ext)
-					{
-						// Image
-						case 'jpg':
-						case 'png':
-						case 'gif':
-						case 'xcf':
-						case 'odg':
-						case 'bmp':
-						case 'jpeg':
-						case 'ico':
-							$info = @getimagesize($tmp->path);
-							$tmp->width  = @$info[0];
-							$tmp->height = @$info[1];
-							$tmp->type   = @$info[2];
-							$tmp->mime   = @$info['mime'];
-
-							if (($info[0] > 60) || ($info[1] > 60))
-							{
-								$dimensions = MediaHelper::imageResize($info[0], $info[1], 60);
-								$tmp->width_60 = $dimensions[0];
-								$tmp->height_60 = $dimensions[1];
-							}
-							else
-							{
-								$tmp->width_60 = $tmp->width;
-								$tmp->height_60 = $tmp->height;
-							}
-
-							if (($info[0] > 16) || ($info[1] > 16))
-							{
-								$dimensions = MediaHelper::imageResize($info[0], $info[1], 16);
-								$tmp->width_16 = $dimensions[0];
-								$tmp->height_16 = $dimensions[1];
-							}
-							else
-							{
-								$tmp->width_16 = $tmp->width;
-								$tmp->height_16 = $tmp->height;
-							}
-
-							$images[] = $tmp;
-							break;
-
-						// Video
-						case 'mp4':
-							$tmp->icon_32 = "media/mime-icon-32/" . $ext . ".png";
-							$tmp->icon_16 = "media/mime-icon-16/" . $ext . ".png";
-							$videos[] = $tmp;
-							break;
-
-						// Non-image document
-						default:
-							$tmp->icon_32 = "media/mime-icon-32/" . $ext . ".png";
-							$tmp->icon_16 = "media/mime-icon-16/" . $ext . ".png";
-							$docs[] = $tmp;
-							break;
-					}
-				}
-			}
-		}
-
-		// Iterate over the folders if they exist
-		if ($folderList !== false)
-		{
-			foreach ($folderList as $folder)
-			{
-				$tmp = new JObject;
-				$tmp->name = basename($folder);
-				$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
-				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
-				$count = MediaHelper::countFiles($tmp->path);
-				$tmp->files = $count[0];
-				$tmp->folders = $count[1];
-
-				$folders[] = $tmp;
-			}
-		}
-
-		$list = array('folders' => $folders, 'docs' => $docs, 'images' => $images, 'videos' => $videos);
-
-		return $list;
-	}
-
-	/**
 	 * Get the videos on the current folder
 	 *
 	 * @return  array
@@ -240,5 +219,15 @@ class MediaModelList extends JModelLegacy
 		$list = $this->getList();
 
 		return $list['videos'];
+	}
+
+	/**
+	 * Return th file model
+	 *
+	 * @return MediaModelFile
+	 */
+	public function getFileModel()
+	{
+		return new MediaModelFile;
 	}
 }

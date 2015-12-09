@@ -9,14 +9,28 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>COM_MEDIA_XML_DESCRIPTION</description>
+
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+
 	<files folder="site">
 		<filename>controller.php</filename>
 		<filename>media.php</filename>
 		<folder>helpers</folder>
 	</files>
+
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB.com_media.ini</language>
 	</languages>
+
 	<administration>
 		<files folder="admin">
 			<filename>config.xml</filename>
