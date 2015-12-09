@@ -61,8 +61,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 
 		return $return;
 	}
-
-
+	
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
