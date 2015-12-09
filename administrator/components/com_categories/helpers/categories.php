@@ -141,7 +141,7 @@ class CategoriesHelper
 	/**
 	 * Create new Category from within item view.
 	 *
-	 * @param   array   $data  Array of data for new category.
+	 * @param   array  $data  Array of data for new category.
 	 *
 	 * @return  integer.
 	 */
