@@ -98,7 +98,10 @@
 			label="JCATEGORY"
 			description="JFIELD_CATEGORY_DESC"
 			class="inputbox"
-			required="true">
+			required="true"
+			allowAdd="true"
+			default=""
+		>
 		</field>
 
 		<field
