@@ -37,8 +37,7 @@ class ConfigControllerApplicationSendtestmail extends JControllerBase
 		}
 
 		$model = new ConfigModelApplication;
-		$response = new JResponseJson($model->sendTestMail());
-		echo $response->__toString();
+		echo new JResponseJson($model->sendTestMail());
 		JFactory::getApplication()->close();
 	}
 }

@@ -442,33 +442,33 @@ class ConfigModelApplication extends ConfigModelForm
 	public function sendTestMail()
 	{
 		// Set the new values to test with the current settings
-		$conf  = JFactory::getConfig();
-		$input = JFactory::getApplication()->input;
+		$app = JFactory::getApplication();
+		$input = $app->input;
 
-		$conf->set('smtpauth', $input->get('smtpauth'));
-		$conf->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
-		$conf->set('smtppass', $input->get('smtppass', '', 'RAW'));
-		$conf->set('smtphost', $input->get('smtphost'));
-		$conf->set('smtpsecure', $input->get('smtpsecure'));
-		$conf->set('smtpport', $input->get('smtpport'));
-		$conf->set('mailfrom', $input->get('mailfrom', '', 'STRING'));
-		$conf->set('fromname', $input->get('fromname', '', 'STRING'));
-		$conf->set('mailer', $input->get('mailer'));
-		$conf->set('mailonline', $input->get('mailonline'));
+		$app->set('smtpauth', $input->get('smtpauth'));
+		$app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
+		$app->set('smtppass', $input->get('smtppass', '', 'RAW'));
+		$app->set('smtphost', $input->get('smtphost'));
+		$app->set('smtpsecure', $input->get('smtpsecure'));
+		$app->set('smtpport', $input->get('smtpport'));
+		$app->set('mailfrom', $input->get('mailfrom', '', 'STRING'));
+		$app->set('fromname', $input->get('fromname', '', 'STRING'));
+		$app->set('mailer', $input->get('mailer'));
+		$app->set('mailonline', $input->get('mailonline'));
 
 		// Prepare email and send try to send it
-		$mail_subject = JText::sprintf('COM_CONFIG_SENDMAIL_SUBJECT', $conf->get('sitename'));
-		$mail_body    = JText::sprintf('COM_CONFIG_SENDMAIL_BODY', JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($conf->get('mailer'))));
+		$mailSubject = JText::sprintf('COM_CONFIG_SENDMAIL_SUBJECT', $app->get('sitename'));
+		$mailBody    = JText::sprintf('COM_CONFIG_SENDMAIL_BODY', JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($app->get('mailer'))));
 
-		if (JFactory::getMailer()->sendMail($conf->get('mailfrom'), $conf->get('fromname'), $conf->get('mailfrom'), $mail_subject, $mail_body) === true)
+		if (JFactory::getMailer()->sendMail($app->get('mailfrom'), $app->get('fromname'), $app->get('mailfrom'), $mailSubject, $mailBody) === true)
 		{
-			$method_name = JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($conf->get('mailer')));
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $conf->get('mailfrom'), $method_name), 'success');
+			$methodName = JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($app->get('mailer')));
+			$app->enqueueMessage(JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $app->get('mailfrom'), $methodName), 'success');
 
 			return true;
 		}
 
-		JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_SENDMAIL_ERROR'), 'error');
+		$app->enqueueMessage(JText::_('COM_CONFIG_SENDMAIL_ERROR'), 'error');
 
 		return false;
 	}
