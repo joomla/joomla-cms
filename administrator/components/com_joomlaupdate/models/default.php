@@ -294,14 +294,9 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		// Get the handler to download the package
 		try
 		{
-			$handler = JHttpFactory::getHttp(null, array('curl', 'stream'));
+			$http = JHttpFactory::getHttp(null, array('curl', 'stream'));
 		}
 		catch (RuntimeException $e)
-		{
-			$handler = false;
-		}
-
-		if (!$handler)
 		{
 			return false;
 		}
@@ -312,9 +307,9 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		JFile::delete($target);
 
 		// Download the package
-		$result = $handler->get($url);
+		$result = $http->get($url);
 
-		if (!$result || ($result->code != '200' && $result->code != '310'))
+		if (!$result || ($result->code != 200 && $result->code != 310))
 		{
 			return false;
 		}
