@@ -292,7 +292,14 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), JLog::INFO, 'Update');
 
 		// Get the handler to download the package
-		$handler = $this->getHandler();
+		try
+		{
+			$handler = JHttpFactory::getHttp(null, array('curl', 'stream'));
+		}
+		catch (RuntimeException $e)
+		{
+			$handler = false;
+		}
 
 		if (!$handler)
 		{
@@ -305,8 +312,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		JFile::delete($target);
 
 		// Download the package
-		$uri = new JUri($url);
-		$result = $handler->request('get', $uri, null, array(), 30, 'Joomla/' . JVERSION);
+		$result = $handler->get($url);
 
 		if (!$result || ($result->code != '200' && $result->code != '310'))
 		{
@@ -317,40 +323,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		JFile::write($target, $result->body);
 
 		return basename($target);
-	}
-
-	/**
-	 * Get the transport handler.
-	 *
-	 * @return  object  The transport handler.
-	 *
-	 * @since   3.5.0
-	 */
-	private function getHandler()
-	{
-		$adapter = false;
-
-		// List of handlers
-		$handlers = array(
-				'Curl',
-				'Stream',
-		);
-
-		// Load the cURL handler
-		$options = new \Joomla\Registry\Registry;
-
-		foreach ($handlers as $handler)
-		{
-			$className = 'JHttpTransport' . $handler;
-			$adapter = new $className($options);
-
-			if ($adapter->isSupported())
-			{
-				break;
-			}
-		}
-
-		return $adapter;
 	}
 
 	/**
