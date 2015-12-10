@@ -462,7 +462,8 @@ class ConfigModelApplication extends ConfigModelForm
 
 		if (JFactory::getMailer()->sendMail($conf->get('mailfrom'), $conf->get('fromname'), $conf->get('mailfrom'), $mail_subject, $mail_body) === true)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $conf->get('mailfrom'), JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($conf->get('mailer')))), 'success');
+			$method_name = JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($conf->get('mailer')));
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $conf->get('mailfrom'), $method_name), 'success');
 
 			return true;
 		}
