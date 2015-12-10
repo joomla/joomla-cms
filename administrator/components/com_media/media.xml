@@ -40,8 +40,10 @@
 			<folder>helpers</folder>
 			<folder>layouts</folder>
 			<folder>models</folder>
+			<folder>tables</folder>
 			<folder>views</folder>
 		</files>
+
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_media.ini</language>
 			<language tag="en-GB">language/en-GB.com_media.sys.ini</language>

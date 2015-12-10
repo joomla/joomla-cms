@@ -111,14 +111,24 @@ class MediaModelFile extends JModelLegacy
 
 				if ($this->fileAdapter->getHash() != $this->fileProperties['hash'])
 				{
-					$this->update();
+					try
+					{
+						$this->update();
+					}
+					catch(Exception $e)
+					{}
 				}
 			}
 
 			return true;
 		}
 
-		$this->id = $this->create();
+		try
+		{
+			$this->id = $this->create();
+		}
+		catch(Exception $e)
+		{}
 
 		$this->fileProperties['id'] = $this->id;
 
@@ -170,7 +180,9 @@ class MediaModelFile extends JModelLegacy
 	/**
 	 * Create a new entry for this file in the database
 	 *
-	 * @return bool
+	 * @throw Exception
+	 *
+	 * @return bool|int
 	 */
 	protected function create()
 	{
@@ -181,7 +193,7 @@ class MediaModelFile extends JModelLegacy
 
 		$user = JFactory::getUser();
 		$date = JFactory::getDate();
-		$db = JFactory::getDbo();
+		$table = JTable::getInstance('File', 'MediaTable');
 
 		$path = str_replace(JPATH_ROOT.'/', '', dirname($this->fileProperties['path']));
 		$hash = null;
@@ -191,18 +203,26 @@ class MediaModelFile extends JModelLegacy
 			$hash = $this->fileAdapter->getHash();
 		}
 
-		$file = (object) null;
-		$file->filename = basename($this->fileProperties['path']);
-		$file->path = $path;
-		$file->md5sum = $hash;
-		$file->user_id = $user->id;
-		$file->created_by = $user->id;
-		$file->created = $date->toSql();
-		$file->adapter = 'local';
-		$file->published = 1;
-		$file->ordering = 1;
+		$data = array(
+			'filename' => basename($this->fileProperties['path']),
+			'path' => $path,
+			'md5sum' => $hash,
+			'user_id' => $user->id,
+			'created_by' => $user->id,
+			'created' => $date->toSql(),
+			'adapter' => 'local',
+			'published' => 1,
+			'ordering' => 1,
+		);
 
-		$db->insertObject('#__media_files', $file);
+		if (!$table->save($data))
+		{
+			throw RuntimeException($table->getError());
+
+			return false;
+		}
+
+		$db = JFactory::getDbo();
 
 		return $db->insertid();
 	}
@@ -221,6 +241,7 @@ class MediaModelFile extends JModelLegacy
 
 		$user = JFactory::getUser();
 		$date = JFactory::getDate();
+		$table = JTable::getInstance('File', 'MediaTable');
 
 		$path = str_replace(JPATH_ROOT.'/', '', dirname($this->fileProperties['path']));
 		$hash = null;
@@ -230,21 +251,27 @@ class MediaModelFile extends JModelLegacy
 			$hash = $this->fileAdapter->getHash();
 		}
 
-		$file = (object) null;
-		$file->id = $this->id;
-		$file->filename = basename($this->fileProperties['path']);
-		$file->path = $path;
-		$file->md5sum = $hash;
-		$file->user_id = $user->id;
-		$file->modified_by = $user->id;
-		$file->modified = $date->toSql();
-		$file->adapter = 'local';
-		$file->published = 1;
-		$file->ordering = 1;
+		$data = array(
+			'id' => $this->id,
+			'filename' => basename($this->fileProperties['path']),
+			'path' => $path,
+			'md5sum' => $hash,
+			'user_id' => $user->id,
+			'modified_by' => $user->id,
+			'modified' => $date->toSql(),
+			'adapter' => 'local',
+			'published' => 1,
+			'ordering' => 1,
+		);
 
-		$rs = JFactory::getDbo()->updateObject('#__media_files', $file, 'id');
+		if (!$table->save($data))
+		{
+			throw RuntimeException($table->getError());
 
-		return $rs;
+			return false;
+		}
+
+		return $this->id;
 	}
 
 	/**
