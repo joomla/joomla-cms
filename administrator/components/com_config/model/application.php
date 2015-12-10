@@ -435,14 +435,14 @@ class ConfigModelApplication extends ConfigModelForm
 	 * Method to send a test mail which is called via an AJAX request
 	 *
 	 * @return bool
-	 * @throws Exception
 	 *
 	 * @since   3.6
+	 * @throws Exception
 	 */
 	public function sendTestMail()
 	{
 		// Set the new values to test with the current settings
-		$conf = JFactory::getConfig();
+		$conf  = JFactory::getConfig();
 		$input = JFactory::getApplication()->input;
 
 		$conf->set('smtpauth', $input->get('smtpauth'));
@@ -458,10 +458,17 @@ class ConfigModelApplication extends ConfigModelForm
 
 		// Prepare email and send try to send it
 		$mail_subject = JText::sprintf('COM_CONFIG_SENDMAIL_SUBJECT', $conf->get('sitename'));
-		$mail_body = JText::_('COM_CONFIG_SENDMAIL_BODY');
+		$mail_body    = JText::sprintf('COM_CONFIG_SENDMAIL_BODY', JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($conf->get('mailer'))));
 
-		$send = JFactory::getMailer()->sendMail($conf->get('mailfrom'), $conf->get('fromname'), $conf->get('mailfrom'), $mail_subject, $mail_body);
+		if (JFactory::getMailer()->sendMail($conf->get('mailfrom'), $conf->get('fromname'), $conf->get('mailfrom'), $mail_subject, $mail_body) === true)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $conf->get('mailfrom'), JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($conf->get('mailer')))), 'success');
 
-		return $send === true ? true : false;
+			return true;
+		}
+
+		JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_SENDMAIL_ERROR'), 'error');
+
+		return false;
 	}
 }

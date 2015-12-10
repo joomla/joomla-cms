@@ -1,7 +1,7 @@
 /**
  * @package         Joomla.JavaScript
  * @copyright       Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license          GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -11,7 +11,7 @@ jQuery(document).ready(function ($)
 {
 	$('#sendtestmail').click(function ()
 	{
-		var data = {
+		var email_data = {
 			smtpauth  : $('input[name="jform[smtpauth]"]').val(),
 			smtpuser  : $('input[name="jform[smtpuser]"]').val(),
 			smtppass  : $('input[name="jform[smtppass]"]').val(),
@@ -25,38 +25,43 @@ jQuery(document).ready(function ($)
 		};
 
 		$.ajax({
-			url: sendtestmail_url,
-			data: data
-		})
+				url: sendtestmail_url,
+				data: email_data
+			})
 
 		.done(function (response)
 		{
-			var data = $.parseJSON(response);
+			var data_response = $.parseJSON(response);
 			var msg = {};
 
-			if (data.data)
+			if (data_response.data)
 			{
-				msg.success = [success_sendmail];
+				if (typeof data_response.messages == 'object')
+				{
+					if (typeof data_response.messages.success != 'undefined' && data_response.messages.success.length > 0)
+					{
+						msg.success = [data_response.messages.success];
+					}
+				}
+
 			}
 			else
 			{
-				msg.error = [error_sendmail];
-
-				if (typeof data.messages == 'object')
+				if (typeof data_response.messages == 'object')
 				{
-					if (typeof data.messages.error != 'undefined' && data.messages.error.length > 0)
+					if (typeof data_response.messages.error != 'undefined' && data_response.messages.error.length > 0)
 					{
-						msg.error.push(data.messages.error);
+						msg.error = [data_response.messages.error];
 					}
 
-					if (typeof data.messages.notice != 'undefined' && data.messages.notice.length > 0)
+					if (typeof data_response.messages.notice != 'undefined' && data_response.messages.notice.length > 0)
 					{
-						msg.notice = [data.messages.notice]
+						msg.notice = [data_response.messages.notice];
 					}
 
-					if (typeof data.messages.message != 'undefined' && data.messages.message.length > 0)
+					if (typeof data_response.messages.message != 'undefined' && data_response.messages.message.length > 0)
 					{
-						msg.message = [data.messages.message];
+						msg.message = [data_response.messages.message];
 					}
 				}
 			}

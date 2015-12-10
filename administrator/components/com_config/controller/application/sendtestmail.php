@@ -18,6 +18,8 @@ class ConfigControllerApplicationSendtestmail extends JControllerBase
 	/**
 	 * Method to send the test mail.
 	 *
+	 * @return  string
+	 *
 	 * @since   3.6
 	 */
 	public function execute()
