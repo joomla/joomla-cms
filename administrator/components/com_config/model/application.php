@@ -431,7 +431,6 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 	}
 
-
 	/**
 	 * Method to send a test mail which is called via an AJAX request
 	 *
