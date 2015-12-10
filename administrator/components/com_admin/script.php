@@ -1383,6 +1383,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ParseException.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/RuntimeException.php',
 			'/administrator/components/com_tags/helpers/tags.php',
+			'/administrator/components/com_joomlaupdate/helpers/download.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
