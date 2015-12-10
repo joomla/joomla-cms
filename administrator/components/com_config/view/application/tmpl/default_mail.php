@@ -18,6 +18,6 @@ $this->name = JText::_('COM_CONFIG_MAIL_SETTINGS');
 $this->fieldsname = 'mail';
 echo JLayoutHelper::render('joomla.content.options_default', $this);
 
-echo '<button type="button" class="btn btn-small" id="sendtestmail" rel="' . $this->id . '">
+echo '<button type="button" class="btn btn-small" id="sendtestmail">
 		<span>' . JText::_('COM_CONFIG_SENDMAIL_ACTION_BUTTON') . '</span>
 	</button>';
