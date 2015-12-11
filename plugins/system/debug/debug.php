@@ -582,13 +582,13 @@ class PlgSystemDebug extends JPlugin
 			$bars[] = (object) array(
 				'width' => round($mark->time / ($totalTime / 100), 4),
 				'class' => $barClass,
-				'tip' => $mark->tip
+				'tip' => $mark->tip . ' ' . round($mark->time, 1) . ' ms'
 			);
 
 			$barsMem[] = (object) array(
 				'width' => round($mark->memory / ($totalMem / 100), 4),
 				'class' => $barClassMem,
-				'tip' => $mark->tip
+				'tip' => $mark->tip . ' ' . round($mark->memory, 3) . '  MB',
 			);
 
 			$htmlMarks[] = '<div>' . str_replace('label-time', $labelClass, str_replace('label-memory', $labelClassMem, $mark->html)) . '</div>';
