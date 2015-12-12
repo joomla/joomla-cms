@@ -85,6 +85,11 @@ class JFormFieldCaptcha extends JFormField
 	{
 		$result = parent::setup($element, $value, $group);
 
+		if (JFactory::getApplication()->isAdmin())
+		{
+			return $result;
+		}
+
 		$plugin = $this->element['plugin'] ?
 			(string) $this->element['plugin'] :
 			JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
