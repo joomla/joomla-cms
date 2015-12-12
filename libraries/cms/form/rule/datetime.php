@@ -37,7 +37,10 @@ class JFormRuleDatetime extends JFormRule
 	{
 		if ($value && $value != JFactory::getDbo()->getNullDate() && strtotime($value) === false)
 		{
-			return false;
+			$fieldLabel = JText::_($element['label']);
+			$message    = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID_DATETIME', $value, $fieldLabel);
+
+			return new UnexpectedValueException($message);
 		}
 
 		return true;
