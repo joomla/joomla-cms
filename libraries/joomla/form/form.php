@@ -1218,6 +1218,7 @@ class JForm
 		// Get the field filter type.
 		$filter   = (string) $element['filter'];
 		$validate = (string) $element['validate'];
+		$format = (string) $element['format'] ? (string) $element['format'] : '%Y-%m-%d';
 
 		// Process the input value based on the filter.
 		$return = null;
@@ -1273,7 +1274,9 @@ class JForm
 
 			// Convert a date to UTC based on the server timezone offset.
 			case 'SERVER_UTC':
-				if ((int) $value > 0 && strtotime($value) !== false)
+				$tz = date_default_timezone_get();
+				date_default_timezone_set('UTC');
+				if ((int) $value > 0 && strtotime($value) !== false && $value == strftime($format, strtotime($value)))
 				{
 					// Get the server timezone setting.
 					$offset = JFactory::getConfig()->get('offset');
@@ -1289,11 +1292,15 @@ class JForm
 				{
 					$return = '';
 				}
+
+				date_default_timezone_set($tz);
 				break;
 
 			// Convert a date to UTC based on the user timezone offset.
 			case 'USER_UTC':
-				if ((int) $value > 0 && strtotime($value) !== false)
+				$tz = date_default_timezone_get();
+				date_default_timezone_set('UTC');
+				if ((int) $value > 0 && strtotime($value) !== false && $value == strftime($format, strtotime($value)))
 				{
 					// Get the user timezone setting defaulting to the server timezone setting.
 					$offset = JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'));
@@ -1309,6 +1316,8 @@ class JForm
 				{
 					$return = '';
 				}
+
+				date_default_timezone_set($tz);
 				break;
 
 			/*
@@ -1998,7 +2007,7 @@ class JForm
 			else
 			{
 				$message = JText::_($element['label']);
-				$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
+				$message = JText::sprintf('.0', $message);
 
 				return new UnexpectedValueException($message);
 			}
