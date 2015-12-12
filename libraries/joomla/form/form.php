@@ -1217,8 +1217,6 @@ class JForm
 
 		// Get the field filter type.
 		$filter   = (string) $element['filter'];
-		$validate = (string) $element['validate'];
-		$format = (string) $element['format'] ? (string) $element['format'] : '%Y-%m-%d';
 
 		// Process the input value based on the filter.
 		$return = null;
@@ -1274,6 +1272,8 @@ class JForm
 
 			// Convert a date to UTC based on the server timezone offset.
 			case 'SERVER_UTC':
+				$validate = (string) $element['validate'];
+				$format = (string) $element['format'] ? (string) $element['format'] : '%Y-%m-%d';
 				$tz = date_default_timezone_get();
 				date_default_timezone_set('UTC');
 				if ((int) $value > 0 && strtotime($value) !== false && $value == strftime($format, strtotime($value)))
@@ -1298,6 +1298,8 @@ class JForm
 
 			// Convert a date to UTC based on the user timezone offset.
 			case 'USER_UTC':
+				$validate = (string) $element['validate'];
+				$format = (string) $element['format'] ? (string) $element['format'] : '%Y-%m-%d';
 				$tz = date_default_timezone_get();
 				date_default_timezone_set('UTC');
 				if ((int) $value > 0 && strtotime($value) !== false && $value == strftime($format, strtotime($value)))
