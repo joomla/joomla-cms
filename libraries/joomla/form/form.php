@@ -1216,7 +1216,7 @@ class JForm
 		}
 
 		// Get the field filter type.
-		$filter   = (string) $element['filter'];
+		$filter = (string) $element['filter'];
 
 		// Process the input value based on the filter.
 		$return = null;
@@ -1272,54 +1272,55 @@ class JForm
 
 			// Convert a date to UTC based on the server timezone offset.
 			case 'SERVER_UTC':
-				$validate = (string) $element['validate'];
-				$format = (string) $element['format'] ? (string) $element['format'] : '%Y-%m-%d';
-				$tz = date_default_timezone_get();
-				date_default_timezone_set('UTC');
-				if ((int) $value > 0 && strtotime($value) !== false && $value == strftime($format, strtotime($value)))
-				{
-					// Get the server timezone setting.
-					$offset = JFactory::getConfig()->get('offset');
+				$return = '';
 
-					// Return an SQL formatted datetime string in UTC.
-					$return = JFactory::getDate($value, $offset)->toSql();
-				}
-				elseif ($validate == 'datetime')
+				if ((int) $value > 0)
 				{
-					$return = $value;
-				}
-				else
-				{
-					$return = '';
-				}
+					try
+					{
+						// Get the server timezone setting.
+						$offset = JFactory::getConfig()->get('offset');
 
-				date_default_timezone_set($tz);
+						// Return an SQL formatted datetime string in UTC.
+						$return = JFactory::getDate($value, $offset)->toSql();
+					}
+					catch (Exception $e)
+					{
+						$validate = (string) $element['validate'];
+
+						// Return the entered value
+						if ($validate == 'datetime')
+						{
+							$return = $value;
+						}
+					}
+				}
 				break;
 
 			// Convert a date to UTC based on the user timezone offset.
 			case 'USER_UTC':
-				$validate = (string) $element['validate'];
-				$format = (string) $element['format'] ? (string) $element['format'] : '%Y-%m-%d';
-				$tz = date_default_timezone_get();
-				date_default_timezone_set('UTC');
-				if ((int) $value > 0 && strtotime($value) !== false && $value == strftime($format, strtotime($value)))
-				{
-					// Get the user timezone setting defaulting to the server timezone setting.
-					$offset = JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'));
+				$return = '';
 
-					// Return a MySQL formatted datetime string in UTC.
-					$return = JFactory::getDate($value, $offset)->toSql();
-				}
-				elseif ($validate == 'datetime')
+				if ((int) $value > 0)
 				{
-					$return = $value;
-				}
-				else
-				{
-					$return = '';
-				}
+					try
+					{
+						// Get the user timezone setting defaulting to the server timezone setting.
+						$offset = JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'));
 
-				date_default_timezone_set($tz);
+						// Return a MySQL formatted datetime string in UTC.
+						$return = JFactory::getDate($value, $offset)->toSql();
+					}
+					catch (Exception $e)
+					{
+						$validate = (string) $element['validate'];
+
+						if ($validate == 'datetime')
+						{
+							$return = $value;
+						}
+					}
+				}
 				break;
 
 			/*
