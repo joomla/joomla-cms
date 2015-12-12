@@ -64,7 +64,7 @@
 
 		<field name="created" type="calendar" label="COM_CONTENT_FIELD_CREATED_LABEL"
 			description="COM_CONTENT_FIELD_CREATED_DESC" size="22"
-			format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
+			format="%Y-%m-%d %H:%M:%S" filter="user_utc" validate="datetime" />
 
 		<field name="created_by" type="user"
 			label="COM_CONTENT_FIELD_CREATED_BY_LABEL" description="COM_CONTENT_FIELD_CREATED_BY_DESC" />
@@ -91,12 +91,14 @@
 		<field name="publish_up" type="calendar"
 			label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL" description="COM_CONTENT_FIELD_PUBLISH_UP_DESC"
 			format="%Y-%m-%d %H:%M:%S" size="22"
-			filter="user_utc" />
+			filter="user_utc"
+			validate="datetime" />
 
 		<field name="publish_down" type="calendar"
 			label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL" description="COM_CONTENT_FIELD_PUBLISH_DOWN_DESC"
 			format="%Y-%m-%d %H:%M:%S" size="22"
-			filter="user_utc" />
+			filter="user_utc" 
+			validate="datetime" />
 
 		<field name="version" type="text" class="readonly"
 			label="COM_CONTENT_FIELD_VERSION_LABEL" size="6" description="COM_CONTENT_FIELD_VERSION_DESC"
