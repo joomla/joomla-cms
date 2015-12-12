@@ -2007,7 +2007,7 @@ class JForm
 			else
 			{
 				$message = JText::_($element['label']);
-				$message = JText::sprintf('.0', $message);
+				$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
 
 				return new UnexpectedValueException($message);
 			}
