@@ -60,19 +60,6 @@ class JDataSetTest extends TestCase
 	}
 
 	/**
-	 * Tests the __construct method with scalar input.
-	 *
-	 * @return  void
-	 *
-	 * @expectedException  PHPUnit_Framework_Error
-	 * @since              12.3
-	 */
-	public function test__construct_scalar()
-	{
-		new JDataSet('foo');
-	}
-
-	/**
 	 * Tests the __call method.
 	 *
 	 * @return  void

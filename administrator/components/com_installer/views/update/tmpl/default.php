@@ -13,8 +13,8 @@ JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <div id="installer-update" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=update');?>" method="post" name="adminForm" id="adminForm">
@@ -30,20 +30,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php if ($this->ftp) : ?>
 		<?php echo $this->loadTemplate('ftp'); ?>
 	<?php endif; ?>
-	<div id="filter-bar" class="btn-toolbar">
-		<div class="btn-group pull-right hidden-phone">
-			<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
-			<?php echo $this->pagination->getLimitBox(); ?>
-		</div>
-		<div class="filter-search btn-group pull-left">
-			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_INSTALLER_FILTER_LABEL'); ?>" />
-		</div>
-		<div class="btn-group pull-left">
-			<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-			<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
-		</div>
-	</div>
-	<div class="clearfix"> </div>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 	<!-- Begin Content -->
 		<?php if (count($this->items)) : ?>
@@ -62,7 +49,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="center">
+					<th width="10%">
 						<?php echo JText::_('JVERSION'); ?>
 					</th>
 					<th>
@@ -99,19 +86,19 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							</span>
 						</label>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo $item->extension_id ? JText::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : JText::_('COM_INSTALLER_NEW_INSTALL') ?>
 					</td>
 					<td>
 						<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type) ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo $item->version ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo $client; ?>
 					</td>
 					<td><?php echo $item->detailsurl ?>

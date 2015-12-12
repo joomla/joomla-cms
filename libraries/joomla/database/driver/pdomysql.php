@@ -28,6 +28,14 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	public $name = 'pdomysql';
 
 	/**
+	 * The type of the database server family supported by this driver.
+	 *
+	 * @var    string
+	 * @since  CMS 3.5.0
+	 */
+	public $serverType = 'mysql';
+
+	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
 	 * etc. The child classes should define this as necessary.  If a single character string the
 	 * same character is used for both sides of the quoted name, else the first character will be
@@ -64,9 +72,22 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	 */
 	public function __construct($options)
 	{
+		/**
+		 * Pre-populate the UTF-8 Multibyte compatibility flag. Unfortuantely PDO won't report the server version
+		 * unless we're connected to it and we cannot connect to it unless we know if it supports utf8mb4 which requires
+		 * us knowing the server version. Between this chicken and egg issue we _assume_ it's supported and we'll just
+		 * catch any problems at connection time.
+		 */
+		$this->utf8mb4 = true;
+
 		// Get some basic values from the options.
 		$options['driver']  = 'mysql';
 		$options['charset'] = (isset($options['charset'])) ? $options['charset'] : 'utf8';
+
+		if ($this->utf8mb4 && ($options['charset'] == 'utf8'))
+		{
+			$options['charset'] = 'utf8mb4';
+		}
 
 		$this->charset = $options['charset'];
 
@@ -84,7 +105,33 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	 */
 	public function connect()
 	{
-		parent::connect();
+		try
+		{
+			// Try to connect to MySQL
+			parent::connect();
+		}
+		catch (\RuntimeException $e)
+		{
+			// If the connection failed but not because of the wrong character set bubble up the exception
+			if (!$this->utf8mb4 || ($this->options['charset'] != 'utf8mb4'))
+			{
+				throw $e;
+			}
+
+			/**
+			 * If the connection failed and I was trying to use the utf8mb4 charset then it is likely that the server
+			 * doesn't support utf8mb4 despite claiming otherwise.
+			 *
+			 * This happens on old MySQL server versions (less than 5.5.3) using the mysqlnd PHP driver. Since mysqlnd
+			 * masks the server version and reports only its own we can not be sure if the server actually does support
+			 * UTF-8 Multibyte (i.e. it's MySQL 5.5.3 or later). Since the utf8mb4 charset is undefined in this case we
+			 * catch the error and determine that utf8mb4 is not supported!
+			 */
+			$this->utf8mb4 = false;
+			$this->options['charset'] = 'utf8';
+
+			parent::connect();
+		}
 
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
@@ -163,6 +210,30 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 
 		// Attempt to get the database collation by accessing the server system variable.
 		$this->setQuery('SHOW VARIABLES LIKE "collation_database"');
+		$result = $this->loadObject();
+
+		if (property_exists($result, 'Value'))
+		{
+			return $result->Value;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	public function getConnectionCollation()
+	{
+		$this->connect();
+
+		// Attempt to get the database collation by accessing the server system variable.
+		$this->setQuery('SHOW VARIABLES LIKE "collation_connection"');
 		$result = $this->loadObject();
 
 		if (property_exists($result, 'Value'))

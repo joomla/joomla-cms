@@ -57,7 +57,7 @@ class MenusModelMenutypes extends JModelLegacy
 		$list = array();
 
 		// Get the list of components.
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('name, element AS ' . $db->quoteName('option'))
 			->from('#__extensions')
@@ -129,12 +129,12 @@ class MenusModelMenutypes extends JModelLegacy
 
 		if (is_file($mainXML))
 		{
-			$options = $this->getTypeOptionsFromXML($mainXML, $component);
+			$options = $this->getTypeOptionsFromXml($mainXML, $component);
 		}
 
 		if (empty($options))
 		{
-			$options = $this->getTypeOptionsFromMVC($component);
+			$options = $this->getTypeOptionsFromMvc($component);
 		}
 
 		return $options;
@@ -150,7 +150,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 *
 	 * @since   1.6
 	 */
-	protected function getTypeOptionsFromXML($file, $component)
+	protected function getTypeOptionsFromXml($file, $component)
 	{
 		$options = array();
 
@@ -175,9 +175,9 @@ class MenusModelMenutypes extends JModelLegacy
 		{
 			// Create the menu option for the component.
 			$o = new JObject;
-			$o->title		= (string) $menu['name'];
-			$o->description	= (string) $menu['msg'];
-			$o->request		= array('option' => $component);
+			$o->title       = (string) $menu['name'];
+			$o->description = (string) $menu['msg'];
+			$o->request     = array('option' => $component);
 
 			$options[] = $o;
 
@@ -208,9 +208,9 @@ class MenusModelMenutypes extends JModelLegacy
 				{
 					// Create the menu option for the component.
 					$o = new JObject;
-					$o->title		= (string) $child['name'];
-					$o->description	= (string) $child['msg'];
-					$o->request		= array('option' => $component, (string) $optionsNode['var'] => (string) $child['value']);
+					$o->title       = (string) $child['name'];
+					$o->description = (string) $child['msg'];
+					$o->request     = array('option' => $component, (string) $optionsNode['var'] => (string) $child['value']);
 
 					$options[] = $o;
 				}
@@ -218,9 +218,9 @@ class MenusModelMenutypes extends JModelLegacy
 				{
 					// Create the menu option for the component.
 					$o = new JObject;
-					$o->title		= (string) $child['name'];
-					$o->description	= (string) $child['msg'];
-					$o->request		= array('option' => $component);
+					$o->title       = (string) $child['name'];
+					$o->description = (string) $child['msg'];
+					$o->request     = array('option' => $component);
 
 					$options[] = $o;
 				}
@@ -239,7 +239,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 *
 	 * @since   1.6
 	 */
-	protected function getTypeOptionsFromMVC($component)
+	protected function getTypeOptionsFromMvc($component)
 	{
 		$options = array();
 
@@ -306,9 +306,9 @@ class MenusModelMenutypes extends JModelLegacy
 										{
 											// Create the menu option for the component.
 											$o = new JObject;
-											$o->title		= (string) $child['name'];
-											$o->description	= (string) $child['msg'];
-											$o->request		= array('option' => $component, 'view' => $view, (string) $optionsNode['var'] => (string) $child['value']);
+											$o->title       = (string) $child['name'];
+											$o->description = (string) $child['msg'];
+											$o->request     = array('option' => $component, 'view' => $view, (string) $optionsNode['var'] => (string) $child['value']);
 
 											$options[] = $o;
 										}
@@ -316,9 +316,9 @@ class MenusModelMenutypes extends JModelLegacy
 										{
 											// Create the menu option for the component.
 											$o = new JObject;
-											$o->title		= (string) $child['name'];
-											$o->description	= (string) $child['msg'];
-											$o->request		= array('option' => $component, 'view' => $view);
+											$o->title       = (string) $child['name'];
+											$o->description = (string) $child['msg'];
+											$o->request     = array('option' => $component, 'view' => $view);
 
 											$options[] = $o;
 										}
@@ -356,11 +356,11 @@ class MenusModelMenutypes extends JModelLegacy
 	 */
 	protected function getTypeOptionsFromLayouts($component, $view)
 	{
-		$options = array();
-		$layouts = array();
+		$options     = array();
+		$layouts     = array();
 		$layoutNames = array();
-		$lang = JFactory::getLanguage();
-		$path = '';
+		$lang        = JFactory::getLanguage();
+		$path        = '';
 
 		// Get the views for this component.
 		if (is_dir(JPATH_SITE . '/components/' . $component))
@@ -406,7 +406,7 @@ class MenusModelMenutypes extends JModelLegacy
 			{
 				$template = basename($folder);
 				$lang->load('tpl_' . $template . '.sys', JPATH_SITE, null, false, true)
-				||	$lang->load('tpl_' . $template . '.sys', JPATH_SITE . '/templates/' . $template, null, false, true);
+				|| $lang->load('tpl_' . $template . '.sys', JPATH_SITE . '/templates/' . $template, null, false, true);
 
 				$templateLayouts = JFolder::files($folder . '/html/' . $component . '/' . $view, '.xml$', false, true);
 
@@ -440,9 +440,9 @@ class MenusModelMenutypes extends JModelLegacy
 
 				// Create the menu option for the layout.
 				$o = new JObject;
-				$o->title		= ucfirst($layout);
-				$o->description	= '';
-				$o->request		= array('option' => $component, 'view' => $view);
+				$o->title       = ucfirst($layout);
+				$o->description = '';
+				$o->request     = array('option' => $component, 'view' => $view);
 
 				// Only add the layout request argument if not the default layout.
 				if ($layout != 'default')

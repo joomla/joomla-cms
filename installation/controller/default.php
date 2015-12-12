@@ -90,11 +90,8 @@ class InstallationControllerDefault extends JControllerBase
 
 		if ($vName != $default_view && ($checkOptions && empty($options)))
 		{
-			$this->setRedirect('index.php');
+			$app->redirect('index.php');
 		}
-
-		// Include the component HTML helpers.
-		JHtml::addIncludePath(JPATH_COMPONENT . '/helper/html');
 
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;

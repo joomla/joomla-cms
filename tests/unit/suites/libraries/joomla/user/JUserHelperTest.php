@@ -36,6 +36,9 @@ class JUserHelperTest extends TestCaseDatabase
 		parent::setUp();
 
 		$this->saveFactoryState();
+
+		// Set the session object for JUserHelper::addUserToGroup()
+		JFactory::$session = $this->getMockSession();
 	}
 
 	/**
@@ -301,10 +304,9 @@ class JUserHelperTest extends TestCaseDatabase
 	 */
 	public function testActivateUser($activation, $expected)
 	{
-		$this->markTestSkipped('Unexpected test failure in CMS environment');
-		$this->assertThat(
+		$this->assertEquals(
 			JUserHelper::activateUser($activation),
-			$this->equalTo($expected)
+			$expected
 		);
 	}
 

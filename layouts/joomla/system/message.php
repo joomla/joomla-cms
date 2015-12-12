@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
 
 $msgList = $displayData['msgList'];
 
@@ -24,7 +24,7 @@ $msgList = $displayData['msgList'];
 						<h4 class="alert-heading"><?php echo JText::_($type); ?></h4>
 						<div>
 							<?php foreach ($msgs as $msg) : ?>
-								<p><?php echo $msg; ?></p>
+								<p class="alert-message"><?php echo $msg; ?></p>
 							<?php endforeach; ?>
 						</div>
 					<?php endif; ?>

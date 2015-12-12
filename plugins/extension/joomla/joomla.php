@@ -229,8 +229,8 @@ class PlgExtensionJoomla extends JPlugin
 	 */
 	private function processUpdateSites()
 	{
-		$manifest		= $this->installer->getManifest();
-		$updateservers	= $manifest->updateservers;
+		$manifest      = $this->installer->getManifest();
+		$updateservers = $manifest->updateservers;
 
 		if ($updateservers)
 		{

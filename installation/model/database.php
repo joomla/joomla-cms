@@ -243,7 +243,7 @@ class InstallationModelDatabase extends JModelBase
 				// Try to create the database now using the alternate driver
 				try
 				{
-					$this->createDB($altDB, $options, $altDB->hasUTFSupport());
+					$this->createDb($altDB, $options, $altDB->hasUTFSupport());
 				}
 				catch (RuntimeException $e)
 				{
@@ -316,10 +316,38 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// PostgreSQL database older than version 9.0.0 needs to run 'CREATE LANGUAGE' to create function.
-		if (($options->db_type == 'postgresql') && (version_compare($db_version, '9.0.0', '<')))
+		if (($options->db_type == 'postgresql') && (!version_compare($db_version, '9.0.0', '>=')))
 		{
-			$db->setQuery("CREATE LANGUAGE plpgsql");
-			$db->execute();
+			$db->setQuery("select lanpltrusted from pg_language where lanname='plpgsql'");
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_QUERY'), 'notice');
+
+				return false;
+			}
+
+			$column = $db->loadResult();
+
+			if ($column != 't')
+			{
+				$db->setQuery("CREATE LANGUAGE plpgsql");
+
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_QUERY'), 'notice');
+
+					return false;
+				}
+			}
 		}
 
 		// Get database's UTF support.
@@ -333,7 +361,7 @@ class InstallationModelDatabase extends JModelBase
 		catch (RuntimeException $e)
 		{
 			// If the database could not be selected, attempt to create it and then select it.
-			if ($this->createDB($db, $options, $utfSupport))
+			if ($this->createDb($db, $options, $utfSupport))
 			{
 				$db->select($options->db_name);
 			}
@@ -801,7 +829,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @since   3.1
 	 */
-	public function createDB($db, $options, $utf)
+	public function createDb($db, $options, $utf)
 	{
 		// Build the create database query.
 		try
@@ -896,6 +924,23 @@ class InstallationModelDatabase extends JModelBase
 			// If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
 			if (!empty($query) && ($query{0} != '#') && ($query{0} != '-'))
 			{
+				/**
+				 * If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
+				 *
+				 * Note: the JDatabaseDriver::convertUtf8mb4QueryToUtf8 performs the conversion ONLY when
+				 * necessary, so there's no need to check the conditions in JInstaller.
+				 */
+				$query = $db->convertUtf8mb4QueryToUtf8($query);
+
+				/**
+				 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
+				 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.
+				 */
+				if (!$db->hasUTF8mb4Support() && stristr($query, 'CONVERT TO CHARACTER SET utf8 '))
+				{
+					continue;
+				}
+
 				// Execute the query.
 				$db->setQuery($query);
 

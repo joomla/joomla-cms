@@ -83,7 +83,7 @@ class UsersModelUser extends JModelAdmin
 		$result->tags->getTagIds($result->id, $context);
 
 		// Get the dispatcher and load the content plugins.
-		$dispatcher	= JEventDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('content');
 
 		// Load the user plugins for backward compatibility (v3.3.3 and earlier).
@@ -132,6 +132,12 @@ class UsersModelUser extends JModelAdmin
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
 			$form->setFieldAttribute('password2', 'required', 'true');
+		}
+
+		// When multilanguage is set, a user's default site language should also be a Content Language
+		if (JLanguageMultilang::isEnabled())
+		{
+			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
 		}
 
 		// The user should not be able to set the requireReset value on their own account
@@ -506,8 +512,8 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function activate(&$pks)
 	{
-		$dispatcher	= JEventDispatcher::getInstance();
-		$user		= JFactory::getUser();
+		$dispatcher = JEventDispatcher::getInstance();
+		$user       = JFactory::getUser();
 
 		// Check if I am a Super Admin
 		$iAmSuperAdmin = $user->authorise('core.admin');
@@ -521,8 +527,8 @@ class UsersModelUser extends JModelAdmin
 		{
 			if ($table->load($pk))
 			{
-				$old	= $table->getProperties();
-				$allow	= $user->authorise('core.edit.state', 'com_users');
+				$old   = $table->getProperties();
+				$allow = $user->authorise('core.edit.state', 'com_users');
 
 				// Don't allow non-super-admin to delete a super admin
 				$allow = (!$iAmSuperAdmin && JAccess::check($pk, 'core.admin')) ? false : $allow;
@@ -534,8 +540,8 @@ class UsersModelUser extends JModelAdmin
 				}
 				elseif ($allow)
 				{
-					$table->block		= 0;
-					$table->activation	= '';
+					$table->block      = 0;
+					$table->activation = '';
 
 					// Allow an exception to be thrown.
 					try
@@ -871,9 +877,14 @@ class UsersModelUser extends JModelAdmin
 
 		if (empty($userId))
 		{
-			$result = array();
+			$result   = array();
+			$form     = $this->getForm();
+			$groupIDs = array();
 
-			$groupsIDs = $this->getForm()->getValue('groups');
+			if ($form)
+			{
+				$groupsIDs = $form->getValue('groups');
+			}
 
 			if (!empty($groupsIDs))
 			{

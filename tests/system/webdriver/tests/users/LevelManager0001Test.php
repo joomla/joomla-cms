@@ -107,7 +107,7 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 		$this->levelManagerPage->addLevel();
 		$message = $this->levelManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Level successfully saved') >= 0, 'Level save should return success');
-		$this->assertEquals(7, $this->levelManagerPage->getRowNumber('Test Level'), 'Test level should be in row 6');
+		$this->assertGreaterThanOrEqual(1, $this->levelManagerPage->getRowNumber('Test Level'), 'Test level should be present');
 		$this->levelManagerPage->delete('Test Level');
 		$this->assertFalse($this->levelManagerPage->getRowNumber('Test Level'), 'Test level should not be present');
 	}

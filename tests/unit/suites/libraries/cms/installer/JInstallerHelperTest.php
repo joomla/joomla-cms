@@ -23,10 +23,10 @@ class JInstallerHelperTest extends TestCase
 	 *
 	 * @return  void
 	 */
-	public function testGetFilenameFromURL()
+	public function testGetFilenameFromUrl()
 	{
 		$this->assertThat(
-			JInstallerHelper::getFilenameFromURL('http://update.joomla.org/core/list.xml'),
+			JInstallerHelper::getFilenameFromUrl('http://update.joomla.org/core/list.xml'),
 			$this->equalTo('list.xml'),
 			'JInstallerHelper::getFilenameFromURL should return the last portion of the URL'
 		);

@@ -7,7 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
+
+extract($displayData);
 
 /**
  * Layout variables
@@ -17,19 +19,18 @@ defined('_JEXEC') or die;
  * 	$input           : (string) The input field html code
  */
 
-if (!empty($displayData['options']['showonEnabled']))
+if (!empty($options['showonEnabled']))
 {
 	JHtml::_('jquery.framework');
 	JHtml::_('script', 'jui/cms.js', false, true);
 }
 
-$class = empty($displayData['options']['class']) ? "" : " " . $displayData['options']['class'];
-$rel   = empty($displayData['options']['rel']) ? "" : " " .  $displayData['options']['rel'];
+$class = empty($options['class']) ? '' : ' ' . $options['class'];
+$rel   = empty($options['rel']) ? '' : ' ' . $options['rel'];
 ?>
-
 <div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
-	<?php if (empty($displayData['options']['hiddenLabel'])) : ?>
-		<div class="control-label"><?php echo $displayData['label']; ?></div>
+	<?php if (empty($options['hiddenLabel'])) : ?>
+		<div class="control-label"><?php echo $label; ?></div>
 	<?php endif; ?>
-	<div class="controls"><?php echo $displayData['input']; ?></div>
+	<div class="controls"><?php echo $input; ?></div>
 </div>

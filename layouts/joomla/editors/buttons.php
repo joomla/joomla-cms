@@ -7,12 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
 
 $buttons = $displayData;
 
-// Load modal popup behavior
-JHtml::_('behavior.modal', 'a.modal-button');
 ?>
 <div id="editor-xtd-buttons" class="btn-toolbar pull-left">
 	<?php if ($buttons) : ?>

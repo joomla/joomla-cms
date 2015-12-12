@@ -9,6 +9,7 @@
 			required="true"
 			size="30"
 			validate="email"
+			autocomplete="email"
 		/>
 		
 		<field

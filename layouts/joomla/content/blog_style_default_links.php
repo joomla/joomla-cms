@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
 ?>
 <ol class="nav nav-tabs nav-stacked">
 <?php foreach ($displayData->get('link_items') as $item) : ?>

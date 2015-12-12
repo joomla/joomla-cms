@@ -40,12 +40,11 @@ umask(022);
 // Import JVersion to set the version information
 define('JPATH_PLATFORM', 1);
 require_once dirname(__DIR__) . '/libraries/cms/version/version.php';
-$jversion = new JVersion;
 
 // Set version information for the build
-$version     = $jversion->RELEASE;
-$release     = $jversion->DEV_LEVEL;
-$stability   = $jversion->DEV_STATUS;
+$version     = JVersion::RELEASE;
+$release     = JVersion::DEV_LEVEL;
+$stability   = JVersion::DEV_STATUS;
 $fullVersion = $version . '.' . $release;
 
 // Shortcut the paths to the repository root and build folder
@@ -235,9 +234,7 @@ system('rm -r installation');
 system('rm -r images/banners');
 system('rm -r images/headers');
 system('rm -r images/sampledata');
-system('rm images/joomla_black.gif');
-system('rm images/joomla_green.gif');
-system('rm images/joomla_logo_black.jpg');
+system('rm images/joomla_black.png');
 system('rm images/powered_by.png');
 
 // Move the weblinks manifest back

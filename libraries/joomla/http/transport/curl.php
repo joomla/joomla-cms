@@ -75,9 +75,6 @@ class JHttpTransportCurl implements JHttpTransport
 				break;
 
 			case 'PUT':
-				$options[CURLOPT_PUT] = true;
-				break;
-
 			default:
 				$options[CURLOPT_CUSTOMREQUEST] = strtoupper($method);
 				break;
@@ -176,6 +173,12 @@ class JHttpTransportCurl implements JHttpTransport
 			{
 				$options[CURLOPT_PROXYUSERPWD] = $user . ':' . $config->get('proxy_pass');
 			}
+		}
+
+		// Set any custom transport options
+		foreach ($this->options->get('transport.curl', array()) as $key => $value)
+		{
+			$options[$key] = $value;
 		}
 
 		// Set the cURL options.

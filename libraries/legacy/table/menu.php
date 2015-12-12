@@ -90,6 +90,13 @@ class JTableMenu extends JTableNested
 	 */
 	public function check()
 	{
+		// Check for a title.
+		if (trim($this->title) == '')
+		{
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
+
+			return false;
+		}
 		// Set correct component id to ensure proper 404 messages with separator items
 		if ($this->type == "separator")
 		{
@@ -104,8 +111,24 @@ class JTableMenu extends JTableNested
 			$this->alias = $this->title;
 		}
 
+		// Check for a path.
+		if (trim($this->path) == '')
+		{
+			$this->path = $this->alias;
+		}
+		// Check for params.
+		if (trim($this->params) == '')
+		{
+			$this->params = '{}';
+		}
+		// Check for img.
+		if (trim($this->img) == '')
+		{
+			$this->img = ' ';
+		}
+
 		// Make the alias URL safe.
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{

@@ -171,7 +171,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 	 */
 	public function loadLanguage($path)
 	{
-		$extension = 'files_' . strtolower(str_replace('files_', '', $this->name));
+		$extension = 'files_' . strtolower(str_replace('files_', '', $this->getElement()));
 
 		$this->doLoadLanguage($extension, $path, JPATH_SITE);
 	}
@@ -259,6 +259,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 			$this->extension->params = '';
 			$this->extension->system_data = '';
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();
+			$this->extension->custom_data = '';
 
 			if (!$this->extension->store())
 			{
@@ -483,7 +484,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 	protected function extensionExistsInSystem($extension = null)
 	{
 		// Get a database connector object
-		$db = $this->parent->getDBO();
+		$db = $this->parent->getDbo();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))

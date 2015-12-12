@@ -29,10 +29,8 @@ abstract class JHtmlDirectory
 		{
 			return '<span class="badge badge-success">' . JText::_('COM_ADMIN_WRITABLE') . '</span>';
 		}
-		else
-		{
-			return '<span class="badge badge-important">' . JText::_('COM_ADMIN_UNWRITABLE') . '</span>';
-		}
+
+		return '<span class="badge badge-important">' . JText::_('COM_ADMIN_UNWRITABLE') . '</span>';
 	}
 
 	/**
@@ -46,22 +44,13 @@ abstract class JHtmlDirectory
 	 */
 	public static function message($dir, $message, $visible = true)
 	{
-		if ($visible)
-		{
-			$output = $dir;
-		}
-		else
-		{
-			$output = '';
-		}
+		$output = $visible ? $dir : '';
 
 		if (empty($message))
 		{
 			return $output;
 		}
-		else
-		{
-			return $output . ' <strong>' . JText::_($message) . '</strong>';
-		}
+
+		return $output . ' <strong>' . JText::_($message) . '</strong>';
 	}
 }

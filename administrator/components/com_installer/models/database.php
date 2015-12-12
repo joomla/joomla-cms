@@ -63,6 +63,9 @@ class InstallerModelDatabase extends InstallerModel
 		$installer = new JoomlaInstallerScript;
 		$installer->deleteUnexistingFiles();
 		$this->fixDefaultTextFilters();
+
+		// Finally, make sure the database is converted to utf8mb4 if supported by the server
+		$this->convertTablesToUtf8mb4();
 	}
 
 	/**
@@ -76,7 +79,7 @@ class InstallerModelDatabase extends InstallerModel
 
 		try
 		{
-			$changeSet = JSchemaChangeset::getInstance(JFactory::getDbo(), $folder);
+			$changeSet = JSchemaChangeset::getInstance($this->getDbo(), $folder);
 		}
 		catch (RuntimeException $e)
 		{
@@ -108,7 +111,7 @@ class InstallerModelDatabase extends InstallerModel
 	 */
 	public function getSchemaVersion()
 	{
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('version_id')
 			->from($db->quoteName('#__schemas'))
@@ -130,39 +133,34 @@ class InstallerModelDatabase extends InstallerModel
 	{
 		// Get correct schema version -- last file in array.
 		$schema = $changeSet->getSchema();
-		$db = JFactory::getDbo();
-		$result = false;
 
 		// Check value. If ok, don't do update.
-		$version = $this->getSchemaVersion();
-
-		if ($version == $schema)
+		if ($schema == $this->getSchemaVersion())
 		{
-			$result = $version;
-		}
-		else
-		{
-			// Delete old row.
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__schemas'))
-				->where($db->quoteName('extension_id') . ' = 700');
-			$db->setQuery($query);
-			$db->execute();
-
-			// Add new row.
-			$query->clear()
-				->insert($db->quoteName('#__schemas'))
-				->columns($db->quoteName('extension_id') . ',' . $db->quoteName('version_id'))
-				->values('700, ' . $db->quote($schema));
-			$db->setQuery($query);
-
-			if ($db->execute())
-			{
-				$result = $schema;
-			}
+			return $schema;
 		}
 
-		return $result;
+		// Delete old row.
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__schemas'))
+			->where($db->quoteName('extension_id') . ' = 700');
+		$db->setQuery($query);
+		$db->execute();
+
+		// Add new row.
+		$query->clear()
+			->insert($db->quoteName('#__schemas'))
+			->columns($db->quoteName('extension_id') . ',' . $db->quoteName('version_id'))
+			->values('700, ' . $db->quote($schema));
+		$db->setQuery($query);
+
+		if (!$db->execute())
+		{
+			return false;
+		}
+
+		return $schema;
 	}
 
 	/**
@@ -197,20 +195,16 @@ class InstallerModelDatabase extends InstallerModel
 		{
 			return $updateVersion;
 		}
-		else
-		{
-			$cache->set('version', $cmsVersion->getShortVersion());
-			$table->manifest_cache = $cache->toString();
 
-			if ($table->store())
-			{
-				return $cmsVersion->getShortVersion();
-			}
-			else
-			{
-				return false;
-			}
+		$cache->set('version', $cmsVersion->getShortVersion());
+		$table->manifest_cache = $cache->toString();
+
+		if ($table->store())
+		{
+			return $cmsVersion->getShortVersion();
 		}
+
+		return false;
 	}
 
 	/**
@@ -252,6 +246,54 @@ class InstallerModelDatabase extends InstallerModel
 				$table->store();
 
 				return true;
+			}
+		}
+	}
+
+	/**
+	 * Converts the site's database tables to support UTF-8 Multibyte
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function convertTablesToUtf8mb4()
+	{
+		$db = JFactory::getDbo();
+
+		// If the database does not have UTF-8 Multibyte (utf8mb4) support we can't do much about it.
+		if (!$db->hasUTF8mb4Support())
+		{
+			return;
+		}
+
+		// Get the SQL file to convert the core tables. Yes, this is hardcoded because we have all sorts of index
+		// conversions and funky things we can't automate in core tables without an actual SQL file.
+		$serverType = $db->getServerType();
+		$fileName = JPATH_ADMINISTRATOR . "/components/com_admin/sql/updates/$serverType/3.5.0-2015-07-01.sql";
+
+		if (!is_file($fileName))
+		{
+			return;
+		}
+
+		$fileContents = @file_get_contents($fileName);
+		$queries = $db->splitSql($fileContents);
+
+		if (empty($queries))
+		{
+			return;
+		}
+
+		foreach ($queries as $query)
+		{
+			try
+			{
+				$db->setQuery($query)->execute();
+			}
+			catch (Exception $e)
+			{
+				// If the query fails we will go on. It probably means we've already done this conversion.
 			}
 		}
 	}

@@ -203,9 +203,9 @@ class LanguagesModelOverrides extends JModelList
 		}
 
 		// Get all languages of frontend and backend.
-		$languages 			= array();
-		$site_languages 	= JLanguage::getKnownLanguages(JPATH_SITE);
-		$admin_languages	= JLanguage::getKnownLanguages(JPATH_ADMINISTRATOR);
+		$languages       = array();
+		$site_languages  = JLanguage::getKnownLanguages(JPATH_SITE);
+		$admin_languages = JLanguage::getKnownLanguages(JPATH_ADMINISTRATOR);
 
 		// Create a single array of them.
 		foreach ($site_languages as $tag => $language)
@@ -285,5 +285,30 @@ class LanguagesModelOverrides extends JModelList
 		$this->cleanCache();
 
 		return count($cids);
+	}
+
+	/**
+	 * Removes all of the cached strings from the table.
+	 *
+	 * @return  boolean result of operation
+	 *
+	 * @since   3.4.2
+	 */
+	public function purge()
+	{
+		$db = JFactory::getDbo();
+
+		// Note: TRUNCATE is a DDL operation
+		// This may or may not mean depending on your database
+		try
+		{
+			$db->truncateTable('#__overrider');
+		}
+		catch (RuntimeException $e)
+		{
+			return $e;
+		}
+
+		JFactory::getApplication()->enqueueMessage(JText::_('COM_LANGUAGES_VIEW_OVERRIDES_PURGE_SUCCESS'));
 	}
 }

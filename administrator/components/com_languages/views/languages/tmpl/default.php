@@ -32,10 +32,16 @@ if ($saveOrder)
 $sortFields = $this->getSortFields();
 
 JFactory::getDocument()->addScriptDeclaration('
+	jQuery(function()
+	{
+		jQuery("#list_sortTable").val("' . $listOrder . '").trigger("liszt:updated");
+		jQuery("#list_directionTable").val("' . $listDirn . '").trigger("liszt:updated");
+	});
+
 	Joomla.orderTable = function()
 	{
-		table = document.getElementById("sortTable");
-		direction = document.getElementById("directionTable");
+		table = document.getElementById("list_sortTable");
+		direction = document.getElementById("list_directionTable");
 		order = table.options[table.selectedIndex].value;
 		if (order != "' . $listOrder . '")
 		{
@@ -59,34 +65,7 @@ JFactory::getDocument()->addScriptDeclaration('
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif;?>
-		<div id="filter-bar" class="btn-toolbar">
-			<div class="filter-search btn-group pull-left">
-				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_LANGUAGES_SEARCH_IN_TITLE'); ?>" />
-			</div>
-			<div class="btn-group pull-left">
-				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
-			</div>
-			<div class="btn-group pull-right hidden-phone">
-				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
-				<?php echo $this->pagination->getLimitBox(); ?>
-			</div>
-			<div class="btn-group pull-right hidden-phone">
-				<label for="directionTable" class="element-invisible"><?php echo JText::_('JFIELD_ORDERING_DESC'); ?></label>
-				<select name="directionTable" id="directionTable" class="input-medium" onchange="Joomla.orderTable()">
-					<option value=""><?php echo JText::_('JFIELD_ORDERING_DESC'); ?></option>
-					<option value="asc" <?php if ($listDirn == 'asc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_ASCENDING'); ?></option>
-					<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING');  ?></option>
-				</select>
-			</div>
-			<div class="btn-group pull-right hidden-phone">
-				<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY'); ?></label>
-				<select name="sortTable" id="sortTable" class="input-medium" onchange="Joomla.orderTable()">
-					<option value=""><?php echo JText::_('JGLOBAL_SORT_BY');?></option>
-					<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder); ?>
-				</select>
-			</div>
-		</div>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
@@ -97,7 +76,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				<thead>
 					<tr>
 						<th width="1%" class="nowrap center hidden-phone">
-							<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
+							<?php echo JHtml::_('grid.sort', '<span class="icon-menu-2"></span>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
 						</th>
 						<th width="20">
 							<?php echo JHtml::_('grid.checkall'); ?>
@@ -120,13 +99,13 @@ JFactory::getDocument()->addScriptDeclaration('
 						<th width="5%" class="nowrap">
 							<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_HEADING_LANG_IMAGE', 'a.image', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="center nowrap">
+						<th width="5%" class="nowrap">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<th width="5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_HOMEPAGE', '', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="center nowrap hidden-phone">
+						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.lang_id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -157,12 +136,12 @@ JFactory::getDocument()->addScriptDeclaration('
 									$disableClassName = 'inactive tip-top';
 								endif; ?>
 								<span class="sortable-handler hasTooltip <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
-									<i class="icon-menu"></i>
+									<span class="icon-menu"></span>
 								</span>
 								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
 							<?php else : ?>
 								<span class="sortable-handler inactive" >
-									<i class="icon-menu"></i>
+									<span class="icon-menu"></span>
 								</span>
 							<?php endif; ?>
 						</td>
@@ -185,26 +164,26 @@ JFactory::getDocument()->addScriptDeclaration('
 						<td class="hidden-phone">
 							<?php echo $this->escape($item->title_native); ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo $this->escape($item->lang_code); ?>
 						</td>
-						<td class="center">
+						<td>
 							<?php echo $this->escape($item->sef); ?>
 						</td>
-						<td class="center">
+						<td>
 							<?php echo $this->escape($item->image); ?>&nbsp;<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, array('title' => $item->image), true); ?>
 						</td>
 						<td class="center">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php if ($item->home == '1') : ?>
 								<?php echo JText::_('JYES');?>
 							<?php else:?>
 								<?php echo JText::_('JNO');?>
 							<?php endif;?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo $this->escape($item->lang_id); ?>
 						</td>
 					</tr>

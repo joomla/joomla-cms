@@ -108,19 +108,22 @@
       // when completing in JS/CSS snippet in htmlmixed mode. Does not
       // work for other XML embedded languages (there is no general
       // way to go from a mixed mode to its current XML state).
+      var replacement;
       if (inner.mode.name != "xml") {
         if (cm.getMode().name == "htmlmixed" && inner.mode.name == "javascript")
-          replacements[i] = head + "script>";
+          replacement = head + "script";
         else if (cm.getMode().name == "htmlmixed" && inner.mode.name == "css")
-          replacements[i] = head + "style>";
+          replacement = head + "style";
         else
           return CodeMirror.Pass;
       } else {
         if (!state.context || !state.context.tagName ||
             closingTagExists(cm, state.context.tagName, pos, state))
           return CodeMirror.Pass;
-        replacements[i] = head + state.context.tagName + ">";
+        replacement = head + state.context.tagName;
       }
+      if (cm.getLine(pos.line).charAt(tok.end) != ">") replacement += ">";
+      replacements[i] = replacement;
     }
     cm.replaceSelections(replacements);
     ranges = cm.listSelections();
@@ -131,7 +134,7 @@
 
   function autoCloseSlash(cm) {
     if (cm.getOption("disableInput")) return CodeMirror.Pass;
-    autoCloseCurrent(cm, true);
+    return autoCloseCurrent(cm, true);
   }
 
   CodeMirror.commands.closeTag = function(cm) { return autoCloseCurrent(cm); };

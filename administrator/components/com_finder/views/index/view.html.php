@@ -32,11 +32,13 @@ class FinderViewIndex extends JViewLegacy
 		// Load plug-in language files.
 		FinderHelperLanguage::loadPluginLanguage();
 
-		$this->items		= $this->get('Items');
-		$this->total		= $this->get('Total');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-		$this->pluginState  = $this->get('pluginState');
+		$this->items = $this->get('Items');
+		$this->total = $this->get('Total');
+		$this->pagination = $this->get('Pagination');
+		$this->state = $this->get('State');
+		$this->pluginState = $this->get('pluginState');
+		$this->filterForm = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		FinderHelper::addSubmenu('index');
 
@@ -65,7 +67,7 @@ class FinderViewIndex extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= JHelperContent::getActions('com_finder');
+		$canDo = JHelperContent::getActions('com_finder');
 
 		JToolbarHelper::title(JText::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'zoom-in finder');
 
@@ -81,7 +83,7 @@ class FinderViewIndex extends JViewLegacy
 			JToolbarHelper::unpublishList('index.unpublish');
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_finder');
 		}
@@ -99,19 +101,5 @@ class FinderViewIndex extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_INDEXED_CONTENT');
-
-		JHtmlSidebar::setAction('index.php?option=com_finder&view=index');
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'),
-			'filter_state',
-			JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_FINDER_INDEX_TYPE_FILTER'),
-			'filter_type',
-			JHtml::_('select.options', JHtml::_('finder.typeslist'), 'value', 'text', $this->state->get('filter.type'))
-		);
 	}
 }

@@ -13,8 +13,8 @@ JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <div id="installer-manage" class="clearfix">
 <form action="<?php echo JRoute::_('index.php?option=com_installer&view=manage');?>" method="post" name="adminForm" id="adminForm">
@@ -34,19 +34,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php if ($this->ftp) : ?>
 		<?php echo $this->loadTemplate('ftp'); ?>
 	<?php endif; ?>
-		<div id="filter-bar" class="btn-toolbar">
-			<div class="btn-group pull-right hidden-phone">
-				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
-				<?php echo $this->pagination->getLimitBox(); ?>
-			</div>
-			<div class="filter-search btn-group pull-left">
-				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_INSTALLER_FILTER_LABEL'); ?>" />
-			</div>
-			<div class="btn-group pull-left">
-				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
-			</div>
-		</div>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
@@ -59,19 +47,19 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<th width="20">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
+						<th width="10%" class="center">
+							<?php echo JHtml::_('grid.sort', 'JSTATUS', 'status', $listDirn, $listOrder); ?>
+						</th>
 						<th class="nowrap">
 							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 						</th>
 						<th>
 							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="center">
-							<?php echo JHtml::_('grid.sort', 'JSTATUS', 'status', $listDirn, $listOrder); ?>
-						</th>
 						<th>
 							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="center hidden-phone">
+						<th width="10%" class="hidden-phone">
 							<?php echo JText::_('JVERSION'); ?>
 						</th>
 						<th width="10%" class="hidden-phone">
@@ -101,16 +89,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<td>
 							<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
 						</td>
-						<td>
-							<label for="cb<?php echo $i; ?>">
-								<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>">
-									<?php echo $item->name; ?>
-								</span>
-							</label>
-						</td>
-						<td class="center">
-							<?php echo $item->client; ?>
-						</td>
 						<td class="center">
 							<?php if (!$item->element) : ?>
 							<strong>X</strong>
@@ -118,21 +96,31 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 								<?php echo JHtml::_('InstallerHtml.Manage.state', $item->status, $i, $item->status < 2, 'cb'); ?>
 							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td>
+							<label for="cb<?php echo $i; ?>">
+								<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>">
+									<?php echo $item->name; ?>
+								</span>
+							</label>
+						</td>
+						<td>
+							<?php echo $item->client; ?>
+						</td>
+						<td>
 							<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo @$item->version != '' ? $item->version : '&#160;'; ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
 								<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
 							</span>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 						</td>
 						<td class="hidden-phone">

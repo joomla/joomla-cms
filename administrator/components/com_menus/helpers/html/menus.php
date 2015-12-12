@@ -12,8 +12,11 @@ defined('_JEXEC') or die;
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
 /**
+ * Menus HTML helper class.
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_menus
+ * @since       1.7
  */
 abstract class MenusHtmlMenus
 {
@@ -102,80 +105,80 @@ abstract class MenusHtmlMenus
 	 */
 	public static function state($value, $i, $enabled = true, $checkbox = 'cb')
 	{
-		$states	= array(
-			9	=> array(
+		$states = array(
+			9 => array(
 				'unpublish',
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_HEADING',
 				'',
-				false,
+				true,
 				'publish',
 				'publish'
 			),
-			8	=> array(
+			8 => array(
 				'publish',
 				'',
 				'COM_MENUS_HTML_PUBLISH_HEADING',
 				'',
-				false,
+				true,
 				'unpublish',
 				'unpublish'
 			),
-			7	=> array(
+			7 => array(
 				'unpublish',
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_SEPARATOR',
 				'',
-				false,
+				true,
 				'publish',
 				'publish'
 			),
-			6	=> array(
+			6 => array(
 				'publish',
 				'',
 				'COM_MENUS_HTML_PUBLISH_SEPARATOR',
 				'',
-				false,
+				true,
 				'unpublish',
 				'unpublish'
 			),
-			5	=> array(
+			5 => array(
 				'unpublish',
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_ALIAS',
 				'',
-				false,
+				true,
 				'publish',
 				'publish'
 			),
-			4	=> array(
+			4 => array(
 				'publish',
 				'',
 				'COM_MENUS_HTML_PUBLISH_ALIAS',
 				'',
-				false,
+				true,
 				'unpublish',
 				'unpublish'
 			),
-			3	=> array(
+			3 => array(
 				'unpublish',
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_URL',
 				'',
-				false,
+				true,
 				'publish',
 				'publish'
 			),
-			2	=> array(
+			2 => array(
 				'publish',
 				'',
 				'COM_MENUS_HTML_PUBLISH_URL',
 				'',
-				false,
+				true,
 				'unpublish',
 				'unpublish'
 			),
-			1	=> array(
+			1 => array(
 				'unpublish',
 				'COM_MENUS_EXTENSION_PUBLISHED_ENABLED',
 				'COM_MENUS_HTML_UNPUBLISH_ENABLED',
@@ -184,7 +187,7 @@ abstract class MenusHtmlMenus
 				'publish',
 				'publish'
 			),
-			0	=> array(
+			0 => array(
 				'publish',
 				'COM_MENUS_EXTENSION_UNPUBLISHED_ENABLED',
 				'COM_MENUS_HTML_PUBLISH_ENABLED',
@@ -193,7 +196,7 @@ abstract class MenusHtmlMenus
 				'unpublish',
 				'unpublish'
 			),
-			-1	=> array(
+			-1 => array(
 				'unpublish',
 				'COM_MENUS_EXTENSION_PUBLISHED_DISABLED',
 				'COM_MENUS_HTML_UNPUBLISH_DISABLED',
@@ -202,14 +205,23 @@ abstract class MenusHtmlMenus
 				'warning',
 				'warning'
 			),
-			-2	=> array(
+			-2 => array(
 				'publish',
 				'COM_MENUS_EXTENSION_UNPUBLISHED_DISABLED',
 				'COM_MENUS_HTML_PUBLISH_DISABLED',
 				'COM_MENUS_EXTENSION_UNPUBLISHED_DISABLED',
 				true,
-				'unpublish',
-				'unpublish'
+				'trash',
+				'trash'
+			),
+			-3 => array(
+				'publish',
+				'',
+				'COM_MENUS_HTML_PUBLISH',
+				'',
+				true,
+				'trash',
+				'trash'
 			),
 		);
 

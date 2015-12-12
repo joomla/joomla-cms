@@ -64,7 +64,7 @@ class JDatabaseFactory
 		}
 		catch (RuntimeException $e)
 		{
-			throw new RuntimeException(sprintf('Unable to connect to the Database: %s', $e->getMessage()));
+			throw new RuntimeException(sprintf('Unable to connect to the Database: %s', $e->getMessage()), $e->getCode(), $e);
 		}
 
 		return $instance;

@@ -135,11 +135,19 @@ abstract class ModTagssimilarHelper
 
 		if ($ordering == 'random' || $ordering == 'countrandom')
 		{
-			$query->order('RAND()');
+			$query->order($query->Rand());
 		}
 
 		$db->setQuery($query, 0, $maximum);
-		$results = $db->loadObjectList();
+		try
+		{
+			$results = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$results = array();
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+		}
 
 		foreach ($results as $result)
 		{

@@ -11,9 +11,9 @@
 	<description>MOD_VERSION_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_version">mod_version.php</filename>
-		<filename>helper.php</filename>
-		<folder>tmpl</folder>
 		<folder>language</folder>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.mod_version.ini</language>

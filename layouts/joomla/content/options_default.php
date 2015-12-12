@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
-
-JHtml::_('behavior.framework');
+defined('JPATH_BASE') or die;
 
 ?>
 <fieldset class="<?php echo !empty($displayData->formclass) ? $displayData->formclass : 'form-horizontal'; ?>">
