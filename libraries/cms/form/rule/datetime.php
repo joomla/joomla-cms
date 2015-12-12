@@ -35,30 +35,13 @@ class JFormRuleDatetime extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
-		if ($value && $value != JFactory::getDbo()->getNullDate())
+		if ((int) $value > 0)
 		{
-			$valid = true;
-
-			if (strtotime($value) === false)
+			try
 			{
-				$valid = false;
+				$date = JFactory::getDate($value);
 			}
-			else
-			{
-				// Make sure the value has valid format given by format attribute of the form field
-				$format = (string) $element['format'] ? (string) $element['format'] : '%Y-%m-%d';
-				$tz = date_default_timezone_get();
-				date_default_timezone_set('UTC');
-
-				if ($value != strftime($format, strtotime($value)))
-				{
-					$valid = false;
-				}
-
-				date_default_timezone_set($tz);
-			}
-
-			if (!$valid)
+			catch (Exception $e)
 			{
 				$fieldLabel = JText::_($element['label']);
 				$message    = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID_DATETIME', $value, $fieldLabel);
