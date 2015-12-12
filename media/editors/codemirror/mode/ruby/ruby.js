@@ -25,7 +25,7 @@ CodeMirror.defineMode("ruby", function(config) {
     "caller", "lambda", "proc", "public", "protected", "private", "require", "load",
     "require_relative", "extend", "autoload", "__END__", "__FILE__", "__LINE__", "__dir__"
   ]);
-  var indentWords = wordObj(["def", "class", "case", "for", "while", "module", "then",
+  var indentWords = wordObj(["def", "class", "case", "for", "while", "until", "module", "then",
                              "catch", "loop", "proc", "begin"]);
   var dedentWords = wordObj(["end", "until"]);
   var matching = {"[": "]", "{": "}", "(": ")"};
@@ -37,7 +37,6 @@ CodeMirror.defineMode("ruby", function(config) {
   }
 
   function tokenBase(stream, state) {
-    curPunc = null;
     if (stream.sol() && stream.match("=begin") && stream.eol()) {
       state.tokenize.push(readBlockComment);
       return "comment";
@@ -107,16 +106,16 @@ CodeMirror.defineMode("ruby", function(config) {
       }
 
       // Symbols can't start by a digit
-      if (stream.eat(/[a-zA-Z$@_]/)) {
-        stream.eatWhile(/[\w]/);
+      if (stream.eat(/[a-zA-Z$@_\xa1-\uffff]/)) {
+        stream.eatWhile(/[\w$\xa1-\uffff]/);
         // Only one ? ! = is allowed and only as the last character
         stream.eat(/[\?\!\=]/);
         return "atom";
       }
       return "operator";
-    } else if (ch == "@" && stream.match(/^@?[a-zA-Z_]/)) {
+    } else if (ch == "@" && stream.match(/^@?[a-zA-Z_\xa1-\uffff]/)) {
       stream.eat("@");
-      stream.eatWhile(/[\w]/);
+      stream.eatWhile(/[\w\xa1-\uffff]/);
       return "variable-2";
     } else if (ch == "$") {
       if (stream.eat(/[a-zA-Z_]/)) {
@@ -127,8 +126,8 @@ CodeMirror.defineMode("ruby", function(config) {
         stream.next(); // Must be a special global like $: or $!
       }
       return "variable-3";
-    } else if (/[a-zA-Z_]/.test(ch)) {
-      stream.eatWhile(/[\w]/);
+    } else if (/[a-zA-Z_\xa1-\uffff]/.test(ch)) {
+      stream.eatWhile(/[\w\xa1-\uffff]/);
       stream.eat(/[\?\!]/);
       if (stream.eat(":")) return "atom";
       return "ident";
@@ -149,17 +148,18 @@ CodeMirror.defineMode("ruby", function(config) {
     }
   }
 
-  function tokenBaseUntilBrace() {
-    var depth = 1;
+  function tokenBaseUntilBrace(depth) {
+    if (!depth) depth = 1;
     return function(stream, state) {
       if (stream.peek() == "}") {
-        depth--;
-        if (depth == 0) {
+        if (depth == 1) {
           state.tokenize.pop();
           return state.tokenize[state.tokenize.length-1](stream, state);
+        } else {
+          state.tokenize[state.tokenize.length - 1] = tokenBaseUntilBrace(depth - 1);
         }
       } else if (stream.peek() == "{") {
-        depth++;
+        state.tokenize[state.tokenize.length - 1] = tokenBaseUntilBrace(depth + 1);
       }
       return tokenBase(stream, state);
     };
@@ -231,6 +231,7 @@ CodeMirror.defineMode("ruby", function(config) {
     },
 
     token: function(stream, state) {
+      curPunc = null;
       if (stream.sol()) state.indented = stream.indentation();
       var style = state.tokenize[state.tokenize.length-1](stream, state), kwtype;
       var thisTok = curPunc;

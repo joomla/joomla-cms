@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -406,7 +406,7 @@ class JUpdate extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function loadFromXML($url, $minimum_stability = JUpdater::STABILITY_STABLE)
+	public function loadFromXml($url, $minimum_stability = JUpdater::STABILITY_STABLE)
 	{
 		$http = JHttpFactory::getHttp();
 

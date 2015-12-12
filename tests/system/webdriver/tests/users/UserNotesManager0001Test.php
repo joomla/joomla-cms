@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
+ *
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
 require_once 'JoomlaWebdriverTestCase.php';
 
@@ -10,8 +17,10 @@ use SeleniumClient\DesiredCapabilities;
 
 /**
  * This class tests the  Manager: Add / Edit  Screen
- * @author Mark
  *
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
+ * @since       3.0
  */
 class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 {
@@ -19,8 +28,15 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 	 *
 	 * @var UserNotesManagerPage
 	 */
-	protected $userNotesManagerPage = null; // Global configuration page
+	protected $userNotesManagerPage = null; /* Global configuration page*/
 
+	/**
+	 * Login to back end and navigate to menu Language Manager.
+	 *
+	 * @return void
+	 *
+	 * @since   3.0
+	 */
 	public function setUp()
 	{
 		parent::setUp();
@@ -28,6 +44,13 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 		$this->userNotesManagerPage = $cpPage->clickMenu('User Notes', 'UserNotesManagerPage');
 	}
 
+	/**
+	 * Logout and close test.
+	 *
+	 * @return void
+	 *
+	 * @since   3.0
+	 */
 	public function tearDown()
 	{
 		$this->doAdminLogout();
@@ -35,6 +58,10 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check usernotes edit page
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function constructor_OpenEditScreen_UserNotesEditOpened()
@@ -46,6 +73,10 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check all input fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
@@ -55,9 +86,9 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 		$testElements = $userNotesEditPage->getAllInputFields();
 		$actualFields = $this->getActualFieldsFromElements($testElements);
 
-		// Option to print actual element array
-		/* @var $userNotesEditPage UserNotesEditPage */
-		// 	 	$userNotesEditPage->printFieldArray($userNotesEditPage->getAllInputFields($$userNotesEditPage->tabs));
+		/* Option to print actual element array
+		 @var $userNotesEditPage UserNotesEditPage */
+		/* 	$userNotesEditPage->printFieldArray($userNotesEditPage->getAllInputFields($$userNotesEditPage->tabs));*/
 
 
 		$this->assertEquals($userNotesEditPage->inputFields, $actualFields);
@@ -66,7 +97,10 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * TODO: Add User Notes Category to methods
+	 * Add User Notes Category to methods
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function add_WithFieldDefaults_Added()
@@ -81,6 +115,10 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add usernotes with given values
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addUserNotes_WithGivenFields_UserNotesAdded()
@@ -93,7 +131,7 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 		$note = 'This is a test note.';
 		$this->assertFalse($this->userNotesManagerPage->getRowNumber($userNotesName), 'Test User Notes should not be present');
 
-		$this->userNotesManagerPage->addUserNotes($userNotesName, 'Super User', array('Category' => $category, 'Status' => $status, 'Review time' => $reviewTime, 'Note' => $note));
+		$this->userNotesManagerPage->addUserNotes($userNotesName, 'Super User', array('Category' => $category, 'Status' => $status, 'Review Date' => $reviewTime, 'Note' => $note));
 		$message = $this->userNotesManagerPage->getAlertMessage();
 		$this->assertTrue(strlen($message) > 0);
 		$this->assertTrue(strpos($message, 'UserNotes successfully saved') >= 0, 'User Notes save should return success');
@@ -116,7 +154,10 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * TODO: Finish this test
+	 * edit the values of the input fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function editUserNotes_ChangeFields_FieldsChanged()
@@ -128,12 +169,15 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 		$reviewTime = '2012-12-31';
 		$note = 'This is a user note with custom fields.';
 		$this->assertFalse($this->userNotesManagerPage->getRowNumber($userNotesName), 'Test userNotes should not be present');
-		$this->userNotesManagerPage->addUserNotes($userNotesName, 'Super User', array('Category' => $category, 'Status' => $status, 'Review time' => $reviewTime, 'Note' => $note));
+		$this->userNotesManagerPage->addUserNotes($userNotesName, 'Super User', array('Category' => $category, 'Status' => $status, 'Review Date' => $reviewTime, 'Note' => $note));
 
 		/* @var $userManagerPage UserManagerPage */
 		$userManagerPage = $this->userNotesManagerPage->clickMenu('User Manager', 'UserManagerPage');
 		$userName = 'Test User ' . $salt;
-		$userManagerPage->addUser($userName);
+		$userNameLogin = 'test' .rand(9, 99);
+		$userNamePassword = 'password1';
+		$userNameEmail = $userNameLogin . '@test.com';
+		$userManagerPage->addUser($userName, $userNameLogin, $userNamePassword, $userNameEmail);
 		$this->userNotesManagerPage = $userManagerPage->clickMenu('User Notes', 'UserNotesManagerPage');
 
 		$newNotesName = 'NewUserNotes' . $salt;
@@ -141,7 +185,7 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 		$newStatus = 'Unpublished';
 		$newReviewTime = '2012-12-30';
 		$newNote = 'This is a modified note';
-		$this->userNotesManagerPage->editUserNotes($userNotesName, array('Subject' => $newNotesName, 'ID' => $newUserName, 'Status' => $newStatus, 'Review time' => $newReviewTime, 'Note' => $newNote));
+		$this->userNotesManagerPage->editUserNotes($userNotesName, array('Subject' => $newNotesName, 'ID' => $newUserName, 'Status' => $newStatus, 'Review Date' => $newReviewTime, 'Note' => $newNote));
 
 		$message = $this->userNotesManagerPage->getAlertMessage();
 		$this->assertTrue(strlen($message) > 0);
@@ -154,7 +198,7 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 		$actualStatus = $userEditPage->getFieldValue('Status');
 		$actualId = $userEditPage->getFieldValue('ID');
 		$actualNote = $userEditPage->getFieldValue('Note');
-		$actualReviewTime = $userEditPage->getFieldValue('Review time');
+		$actualReviewTime = $userEditPage->getFieldValue('Review Date');
 		$this->assertEquals($newStatus, $actualStatus, 'Status should be set to new value');
 		$this->assertEquals($newUserName, $actualId, 'User name should be set to new value');
 		$this->assertContains($newNote, $actualNote, 'Note should be set to new value');
@@ -168,7 +212,12 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 		$userManagerPage = $this->userNotesManagerPage->clickMenu('User Manager', 'UserManagerPage');
 		$userManagerPage->delete($newUserName);
 	}
+
 	/**
+	 * check the filters
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function setFilter_TestOrdering_ShouldOrderNotes()
@@ -179,14 +228,20 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 		$status = 'Published';
 		$reviewTime = '2014-01-01';
 		$note = 'This is a user note with custom fields.';
-		$this->userNotesManagerPage->addUserNotes($superUserNotesName, 'Super User', array('Category' => $category, 'Status' => $status, 'Review time' => $reviewTime, 'Note' => $note));
+		$this->userNotesManagerPage->addUserNotes($superUserNotesName, 'Super User', array('Category' => $category, 'Status' => $status, 'Review Date' => $reviewTime, 'Note' => $note));
 
 		/* @var $userManagerPage UserManagerPage */
 		$userManagerPage = $this->userNotesManagerPage->clickMenu('User Manager', 'UserManagerPage');
 		$userName1 = '1 Test User';
-		$userManagerPage->addUser($userName1);
+		$userName1Login = 'test1' .rand(9, 99);
+		$userName1Password = 'password1';
+		$userName1Email = $userName1Login . '@test.com';
+		$userManagerPage->addUser($userName1, $userName1Login, $userName1Password, $userName1Email);
 		$userName2 = 'Test User 2';
-		$userManagerPage->addUser($userName2, 'test2', 'password2', 'test2@test.com');
+		$userName2Login = 'test2' .rand(9, 99);
+		$userName2Password = 'password2';
+		$userName2Email = $userName2Login . '@test.com';
+		$userManagerPage->addUser($userName2, $userName2Login, $userName2Password, $userName2Email);
 
 		/* @var $userEditPage UserEditPage */
 		$this->userNotesManagerPage = $userManagerPage->clickMenu('User Notes', 'UserNotesManagerPage');
@@ -194,15 +249,15 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 		$user1Status = 'Unpublished';
 		$user1ReviewTime = '2012-12-30';
 		$user1Note = 'This is another user note with custom fields.';
-		$this->userNotesManagerPage->addUserNotes($user1NotesName, $userName1, array('Category' => $category, 'Status' => $user1Status, 'Review time' => $user1ReviewTime, 'Note' => $user1Note));
+		$this->userNotesManagerPage->addUserNotes($user1NotesName, $userName1, array('Category' => $category, 'Status' => $user1Status, 'Review Date' => $user1ReviewTime, 'Note' => $user1Note));
 
 		$user2NotesName = 'UserNotes A';
 		$user2Status = 'Published';
 		$user2ReviewTime = '2012-12-31';
 		$user2Note = 'This is another user note with custom fields.';
-		$this->userNotesManagerPage->addUserNotes($user2NotesName, $userName2, array('Category' => $category, 'Status' => $user2Status, 'Review time' => $user2ReviewTime, 'Note' => $user2Note));
+		$this->userNotesManagerPage->addUserNotes($user2NotesName, $userName2, array('Category' => $category, 'Status' => $user2Status, 'Review Date' => $user2ReviewTime, 'Note' => $user2Note));
 
-		$orderings = array('User', 'Subject', 'Category', 'Status', 'Review date', 'ID');
+		$orderings = array('User', 'Subject', 'Category', 'Status', 'Review Date', 'ID');
 		$rows = array('1 Test User', 'Super User', 'Test User 2');
 		$actualRowNumbers = $this->userNotesManagerPage->orderAndGetRowNumbers($orderings, $rows);
 
@@ -211,7 +266,7 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 				'Subject' => array('ascending' => array(3, 2, 1), 'descending' => array(1, 2, 3)),
 				'Category' => array('ascending' => array(2, 1, 3), 'descending' => array(2, 1, 3)),
 				'Status' => array('ascending' => array(1, 2, 3), 'descending' => array(3, 1, 2)),
-				'Review date' => array('ascending' => array(1, 3, 2), 'descending' => array(3, 1, 2)),
+				'Review Date' => array('ascending' => array(1, 3, 2), 'descending' => array(3, 1, 2)),
 				'ID' => array('ascending' => array(2, 1, 3), 'descending' => array(2, 3, 1))
 		);
 

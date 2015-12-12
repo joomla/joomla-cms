@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Uri
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -617,21 +617,21 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JUri::isSSL
+	 * @covers  JUri::isSsl
 	 */
-	public function testIsSSL()
+	public function testIsSsl()
 	{
 		$this->object->parse('https://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
 
 		$this->assertThat(
-			$this->object->isSSL(),
+			$this->object->isSsl(),
 			$this->equalTo(true)
 		);
 
 		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
 
 		$this->assertThat(
-			$this->object->isSSL(),
+			$this->object->isSsl(),
 			$this->equalTo(false)
 		);
 	}

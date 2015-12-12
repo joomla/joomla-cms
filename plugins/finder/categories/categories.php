@@ -3,11 +3,11 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
@@ -130,10 +130,10 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			{
 				// Process the change.
 				$this->itemAccessChange($row);
-
-				// Reindex the category item.
-				$this->reindex($row->id);
 			}
+
+			// Reindex the category item.
+			$this->reindex($row->id);
 
 			// Check if the parent access level is different.
 			if (!$isNew && $this->old_cataccess != $row->access)
@@ -199,13 +199,11 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			 */
 			foreach ($pks as $pk)
 			{
-				/* TODO: The $item variable does not seem to be used at all
 				$query = clone($this->getStateQuery());
 				$query->where('a.id = ' . (int) $pk);
 
 				$this->db->setQuery($query);
 				$item = $this->db->loadObject();
-				*/
 
 				// Translate the state.
 				$state = null;
@@ -293,7 +291,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);
 
 		// Build the necessary route and path information.
-		$item->url = $this->getURL($item->id, $item->extension, $this->layout);
+		$item->url = $this->getUrl($item->id, $item->extension, $this->layout);
 
 		$class = $extension . 'HelperRoute';
 
@@ -395,6 +393,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	{
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName('a.id'))
+			->select($this->db->quoteName('a.parent_id'))
 			->select('a.' . $this->state_field . ' AS state, c.published AS cat_state')
 			->select('a.access, c.access AS cat_access')
 			->from($this->db->quoteName('#__categories') . ' AS a')

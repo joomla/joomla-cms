@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -141,7 +141,10 @@ class JCacheControllerCallback extends JCacheController
 			{
 				$document = JFactory::getDocument();
 				$coptions['modulemode'] = 1;
-				$coptions['headerbefore'] = $document->getHeadData();
+				if (method_exists($document, 'getHeadData'))
+				{
+					$coptions['headerbefore'] = $document->getHeadData();
+				}	
 			}
 			else
 			{

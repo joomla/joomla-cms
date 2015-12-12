@@ -9,7 +9,7 @@
 namespace Joomla\Filter;
 
 /**
- * JFilterInput is a class for filtering input from any data source
+ * InputFilter is a class for filtering input from any data source
  *
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
  * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, Chris Tobin and Andrew Eddie.
@@ -19,9 +19,9 @@ namespace Joomla\Filter;
 class InputFilter
 {
 	/**
-	 * A container for JFilterInput instances.
+	 * A container for InputFilter instances.
 	 *
-	 * @var    array
+	 * @var    InputFilter[]
 	 * @since  1.0
 	 */
 	protected static $instances = array();
@@ -101,7 +101,7 @@ class InputFilter
 	 * The list of the default blacklisted tag attributes. All event handlers implicit.
 	 *
 	 * @var    array
-	 * @since   1.0
+	 * @since  1.0
 	 */
 	public $attrBlacklist = array(
 		'action',
@@ -154,6 +154,7 @@ class InputFilter
 	 *                           HTML:      A sanitised string,
 	 *                           ARRAY:     An array,
 	 *                           PATH:      A sanitised file path,
+	 *                           TRIM:      A string trimmed from normal, non-breaking and multibyte spaces
 	 *                           USERNAME:  Do not use (use an application specific filter),
 	 *                           RAW:       The raw string is returned with no filtering,
 	 *                           unknown:   An unknown filter will act like STRING. If the input is an array it will return an
@@ -172,20 +173,20 @@ class InputFilter
 			case 'INTEGER':
 				// Only use the first integer value
 				preg_match('/-?[0-9]+/', (string) $source, $matches);
-				$result = isset($matches[0]) ? (int) $matches[0] : null;
+				$result = isset($matches[0]) ? (int) $matches[0] : 0;
 				break;
 
 			case 'UINT':
 				// Only use the first integer value
 				preg_match('/-?[0-9]+/', (string) $source, $matches);
-				$result = isset($matches[0]) ? abs((int) $matches[0]) : null;
+				$result = isset($matches[0]) ? abs((int) $matches[0]) : 0;
 				break;
 
 			case 'FLOAT':
 			case 'DOUBLE':
 				// Only use the first floating point value
 				preg_match('/-?[0-9]+(\.[0-9]+)?/', (string) $source, $matches);
-				$result = isset($matches[0]) ? (float) $matches[0] : null;
+				$result = isset($matches[0]) ? (float) $matches[0] : 0;
 				break;
 
 			case 'BOOL':
@@ -223,9 +224,15 @@ class InputFilter
 				break;
 
 			case 'PATH':
-				$pattern = '/^[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
+				$pattern = '/^[A-Za-z0-9_\/-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
 				preg_match($pattern, (string) $source, $matches);
-				$result = isset($matches[0]) ? (string) $matches[0] : null;
+				$result = isset($matches[0]) ? (string) $matches[0] : '';
+				break;
+
+			case 'TRIM':
+				$result = (string) trim($source);
+				$result = trim($result, chr(0xE3) . chr(0x80) . chr(0x80));
+				$result = trim($result, chr(0xC2) . chr(0xA0));
 				break;
 
 			case 'USERNAME':

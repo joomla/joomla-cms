@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldpath="/administrator/components/com_templates/models/fields" />
+
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			label="COM_FINDER_FILTER_SEARCH_DESC"
+			hint="JSEARCH_FILTER"
+		/>
+		<field
+			name="state"
+				type="status"
+				filter="*,0,1"
+				label="COM_FINDER_FILTER_PUBLISHED"
+				description="COM_FINDER_FILTER_PUBLISHED_DESC"
+				onchange="this.form.submit();"
+				>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+
+		<field
+			name="branch"
+			type="branches"
+			default="0"
+			onchange="this.form.submit();"
+		/>
+
+	</fields>
+	<fields name="list">
+		<field
+			name="limit"
+			type="limitbox"
+			class="input-mini"
+			default="25"
+			label="COM_FINDER_LIST_LIMIT"
+			description="COM_FINDER_LIST_LIMIT_DESC"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

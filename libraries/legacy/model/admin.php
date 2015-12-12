@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -72,6 +72,33 @@ abstract class JModelAdmin extends JModelForm
 	 * @var array
 	 */
 	protected $events_map = null;
+
+	/**
+	 * Batch copy/move command. If set to false,
+	 * the batch copy/move command is not supported
+	 *
+	 * @var string
+	 */
+	protected $batch_copymove = 'category_id';
+
+	/**
+	 * Allowed batch commands
+	 *
+	 * @var array
+	 */
+	protected $batch_commands = array(
+		'assetgroup_id' => 'batchAccess',
+		'language_id' => 'batchLanguage',
+		'tag' => 'batchTag'
+	);
+
+	/**
+	 * The context used for the associations table
+	 *
+	 * @var     string
+	 * @since   3.4.4
+	 */
+	protected $associationsContext = null;
 
 	/**
 	 * Constructor.
@@ -197,37 +224,30 @@ abstract class JModelAdmin extends JModelForm
 			$this->type = $type->getTypeByAlias($this->typeAlias);
 		}
 
-		if ($this->type === false)
-		{
-			$type = new JUcmType;
-			$this->type = $type->getTypeByAlias($this->typeAlias);
-			$typeAlias = $this->type->type_alias;
-		}
-		else
-		{
-			$typeAlias = $this->type->type_alias;
-		}
-
 		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
 
-		if (!empty($commands['category_id']))
+		if ($this->batch_copymove && !empty($commands[$this->batch_copymove]))
 		{
 			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
 
 			if ($cmd == 'c')
 			{
-				$result = $this->batchCopy($commands['category_id'], $pks, $contexts);
+				$result = $this->batchCopy($commands[$this->batch_copymove], $pks, $contexts);
 
 				if (is_array($result))
 				{
-					$pks = $result;
+					foreach ($result as $old => $new)
+					{
+						$contexts[$new] = $contexts[$old];
+					}
+					$pks = array_values($result);
 				}
 				else
 				{
 					return false;
 				}
 			}
-			elseif ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks, $contexts))
+			elseif ($cmd == 'm' && !$this->batchMove($commands[$this->batch_copymove], $pks, $contexts))
 			{
 				return false;
 			}
@@ -235,34 +255,17 @@ abstract class JModelAdmin extends JModelForm
 			$done = true;
 		}
 
-		if (!empty($commands['assetgroup_id']))
+		foreach ($this->batch_commands as $identifier => $command)
 		{
-			if (!$this->batchAccess($commands['assetgroup_id'], $pks, $contexts))
+			if (strlen($commands[$identifier]) > 0)
 			{
-				return false;
+				if (!$this->$command($commands[$identifier], $pks, $contexts))
+				{
+					return false;
+				}
+
+				$done = true;
 			}
-
-			$done = true;
-		}
-
-		if (!empty($commands['language_id']))
-		{
-			if (!$this->batchLanguage($commands['language_id'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
-		}
-
-		if (!empty($commands['tag']))
-		{
-			if (!$this->batchTag($commands['tag'], $pks, $contexts))
-			{
-				return false;
-			}
-
-			$done = true;
 		}
 
 		if (!$done)
@@ -358,14 +361,14 @@ abstract class JModelAdmin extends JModelForm
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		}
 
-		$i = 0;
-
 		$categoryId = $value;
 
 		if (!static::checkCategoryId($categoryId))
 		{
 			return false;
 		}
+
+		$newIds = array();
 
 		// Parent exists so let's proceed
 		while (!empty($pks))
@@ -412,7 +415,7 @@ abstract class JModelAdmin extends JModelForm
 			$this->table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			// $this->table->ordering	= 1;
+			// $this->table->ordering = 1;
 
 			// Check the row.
 			if (!$this->table->check())
@@ -439,8 +442,7 @@ abstract class JModelAdmin extends JModelForm
 			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i]	= $newId;
-			$i++;
+			$newIds[$pk] = $newId;
 		}
 
 		// Clean the cache
@@ -776,6 +778,38 @@ abstract class JModelAdmin extends JModelForm
 						$this->setError($table->getError());
 
 						return false;
+					}
+
+					// Multilanguage: if associated, delete the item in the _associations table
+					if ($this->associationsContext && JLanguageAssociations::isEnabled())
+					{
+
+						$db = JFactory::getDbo();
+						$query = $db->getQuery(true)
+							->select('COUNT(*) as count, ' . $db->quoteName('as1.key'))
+							->from($db->quoteName('#__associations') . ' AS as1')
+							->join('LEFT', $db->quoteName('#__associations') . ' AS as2 ON ' . $db->quoteName('as1.key') . ' =  ' . $db->quoteName('as2.key'))
+							->where($db->quoteName('as1.context') . ' = ' . $db->quote($this->associationsContext))
+							->where($db->quoteName('as1.id') . ' = ' . (int) $pk);
+
+						$db->setQuery($query);
+						$row = $db->loadAssoc();
+
+						if (!empty($row['count']))
+						{
+							$query = $db->getQuery(true)
+								->delete($db->quoteName('#__associations'))
+								->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
+								->where($db->quoteName('key') . ' = ' . $db->quote($row['key']));
+
+							if ($row['count'] > 2)
+							{
+								$query->where($db->quoteName('id') . ' = ' . (int) $pk);
+							}
+
+							$db->setQuery($query);
+							$db->execute();
+						}
 					}
 
 					if (!$table->delete($pk))
@@ -1166,6 +1200,57 @@ abstract class JModelAdmin extends JModelForm
 		}
 
 		$this->setState($this->getName() . '.new', $isNew);
+
+		if ($this->associationsContext && JLanguageAssociations::isEnabled())
+		{
+			$associations = $data['associations'];
+
+			// Unset any invalid associations
+			foreach ($associations as $tag => $id)
+			{
+				if (!(int) $id)
+				{
+					unset($associations[$tag]);
+				}
+			}
+
+			// Show a notice if the item isn't assigned to a language but we have associations.
+			if ($associations && ($table->language == '*'))
+			{
+				JFactory::getApplication()->enqueueMessage(
+					JText::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
+					'notice'
+				);
+			}
+
+			// Adding self to the association
+			$associations[$table->language] = (int) $table->$key;
+
+			// Deleting old association for these items
+			$db    = $this->getDbo();
+			$query = $db->getQuery(true)
+				->delete($db->qn('#__associations'))
+				->where($db->qn('context') . ' = ' . $db->quote($this->associationsContext))
+				->where($db->qn('id') . ' IN (' . implode(',', $associations) . ')');
+			$db->setQuery($query);
+			$db->execute();
+
+			if ((count($associations) > 1) && ($table->language != '*'))
+			{
+				// Adding new association for these items
+				$key   = md5(json_encode($associations));
+				$query = $db->getQuery(true)
+					->insert('#__associations');
+
+				foreach ($associations as $id)
+				{
+					$query->values($id . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
+				}
+
+				$db->setQuery($query);
+				$db->execute();
+			}
+		}
 
 		return true;
 	}

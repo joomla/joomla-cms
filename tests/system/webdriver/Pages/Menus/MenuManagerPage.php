@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Page
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use SeleniumClient\By;
@@ -16,10 +16,12 @@ use SeleniumClient\WebElement;
 /**
  * Class for the back-end control panel screen.
  *
+ * @since  joomla 3.0
  */
 class MenuManagerPage extends AdminManagerPage
 {
-	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_menus&view=menus']";
+	protected $waitForXpath = "//ul/li/a[@href='index.php?option=com_menus&view=menus']";
+
 	protected $url = 'administrator/index.php?option=com_menus&view=menus';
 
 	public $filters = array();
@@ -38,15 +40,32 @@ class MenuManagerPage extends AdminManagerPage
 	);
 
 
+	/**
+	 * function to add a menu
+	 *
+	 * @param   string  $title        stores value of title
+	 * @param   string  $type         stores value of menu type
+	 * @param   string  $description  stores value of description
+	 *
+	 * @return AdminPage
+	 */
 	public function addMenu($title='Test Menu', $type='testMenu', $description='This is a test menu.')
 	{
 		$this->clickButton('toolbar-new');
 		$menuEditPage = $this->test->getPageObject('MenuEditPage');
 		$menuEditPage->setFieldValues(array('Title' => $title, 'Menu type' => $type, 'Description' => $description));
 		$menuEditPage->clickButton('toolbar-save');
+
 		return $this->test->getPageObject('MenuManagerPage');
 	}
 
+	/**
+	 * function to delete menu
+	 *
+	 * @param   string  $title  stores value of title
+	 *
+	 * @return void
+	 */
 	public function deleteMenu($title)
 	{
 		if ($this->getRowText($title))
@@ -58,6 +77,14 @@ class MenuManagerPage extends AdminManagerPage
 		}
 	}
 
+	/**
+	 * function to edit page
+	 *
+	 * @param   string $title   stores value of title
+	 * @param   array  $fields  stores value of input fields
+	 *
+	 * @return AdminPage
+	 */
 	public function editMenu($title, $fields)
 	{
 		$this->checkBox($title);
@@ -68,9 +95,17 @@ class MenuManagerPage extends AdminManagerPage
 		$menuEditPage = $this->test->getPageObject('MenuEditPage');
 		$menuEditPage->setFieldValues($fields);
 		$menuEditPage->clickButton('toolbar-save');
+
 		return $this->test->getPageObject('MenuManagerPage');
 	}
 
+	/**
+	 * function to check box
+	 *
+	 * @param   string  $title  stores value of title
+	 *
+	 * @return void
+	 */
 	public function checkBox($title)
 	{
 		$this->driver->findElement(By::xPath("//td[contains(., '" . $title . "')]/../td/input"))->click();
@@ -81,6 +116,8 @@ class MenuManagerPage extends AdminManagerPage
 	 *
 	 * @param string  $itemName    Name of item (user name, article title, and so on)
 	 * @param array   $fieldNames  Array of field labels to get values of.
+	 *
+	 * @return string
 	 */
 	public function getFieldValues($className, $itemName, $fieldNames)
 	{
@@ -88,6 +125,7 @@ class MenuManagerPage extends AdminManagerPage
 		$this->clickButton('Edit');
 		$this->editItem = $this->test->getPageObject($className);
 		$result = array();
+
 		if (is_array($fieldNames))
 		{
 			foreach ($fieldNames as $name)
@@ -95,8 +133,9 @@ class MenuManagerPage extends AdminManagerPage
 				$result[] = $this->editItem->getFieldValue($name);
 			}
 		}
+
 		$this->editItem->saveAndClose();
+
 		return $result;
 	}
-
 }

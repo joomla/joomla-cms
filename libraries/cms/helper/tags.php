@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -544,6 +544,7 @@ class JHelperTags extends JHelper
 				. ', ' . 'count(m.tag_id) AS match_count'
 				. ', ' . 'MAX(m.tag_date) as tag_date'
 				. ', ' . 'MAX(c.core_title) AS core_title'
+				. ', ' . 'MAX(c.core_params) AS core_params'
 			)
 			->select('MAX(c.core_alias) AS core_alias, MAX(c.core_body) AS core_body, MAX(c.core_state) AS core_state, MAX(c.core_access) AS core_access')
 			->select(
@@ -595,15 +596,14 @@ class JHelperTags extends JHelper
 		// Get the type data, limited to types in the request if there are any specified.
 		$typesarray = self::getTypes('assocList', $typesr, false);
 
-		$typeAliases = '';
+		$typeAliases = array();
 
 		foreach ($typesarray as $type)
 		{
-			$typeAliases .= "'" . $type['type_alias'] . "'" . ',';
+			$typeAliases[] = $db->quote($type['type_alias']);
 		}
 
-		$typeAliases = rtrim($typeAliases, ',');
-		$query->where('m.type_alias IN (' . $typeAliases . ')');
+		$query->where('m.type_alias IN (' . implode(',', $typeAliases) . ')');
 
 		$groups = '0,' . implode(',', array_unique($user->getAuthorisedViewLevels()));
 		$query->where('c.core_access IN (' . $groups . ')')
@@ -675,6 +675,7 @@ class JHelperTags extends JHelper
 	public function getTagTreeArray($id, &$tagTreeArray = array())
 	{
 		// Get a level row instance.
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
 		$table = JTable::getInstance('Tag', 'TagsTable');
 
 		if ($table->isLeaf($id))
@@ -790,7 +791,7 @@ class JHelperTags extends JHelper
 	{
 		if (!empty($table->newTags) && empty($newTags))
 		{
-				$newTags = $table->newTags;
+			$newTags = $table->newTags;
 		}
 
 		// If existing row, check to see if tags have changed.
@@ -804,7 +805,7 @@ class JHelperTags extends JHelper
 		// Process ucm_content and ucm_base if either tags have changed or we have some tags.
 		if ($this->tagsChanged || (!empty($newTags) && $newTags[0] != ''))
 		{
-			if (!$newTags && $replace = true)
+			if (!$newTags && $replace == true)
 			{
 				// Delete all tags data
 				$key = $table->getKeyName();
@@ -918,7 +919,7 @@ class JHelperTags extends JHelper
 		}
 
 		// Filter on the published state
-		if (is_numeric($filters['published']))
+		if (isset($filters['published']) && is_numeric($filters['published']))
 		{
 			$query->where('a.published = ' . (int) $filters['published']);
 		}
@@ -952,13 +953,11 @@ class JHelperTags extends JHelper
 		}
 		catch (RuntimeException $e)
 		{
-			return false;
+			return array();
 		}
 
 		// We will replace path aliases with tag names
-		$results = self::convertPathsToNames($results);
-
-		return $results;
+		return self::convertPathsToNames($results);
 	}
 
 	/**

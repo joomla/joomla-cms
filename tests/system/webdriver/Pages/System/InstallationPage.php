@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Page
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use SeleniumClient\By;
@@ -139,7 +139,7 @@ class InstallationPage extends AdminPage
 		$this->setField('Table Prefix', $cfg->db_prefix);
 
 		$this->driver->findElement(By::xPath("//label[@for='jform_db_old1']"))->click();
-
+		
 		$this->driver->findElement(By::xPath("//li[@id='summary']/a"))->click();
 		$this->driver->waitForElementUntilIsPresent(By::xPath("//li[@id='summary'][@class='step active']"));
 

@@ -1,4 +1,4 @@
-tinymce.addI18n('tr_TR',{
+tinymce.addI18n('tr',{
 "Cut": "Kes",
 "Header 2": "Ba\u015fl\u0131k 2",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Taray\u0131c\u0131n\u0131z panoya direk eri\u015fimi desteklemiyor. L\u00fctfen Ctrl+X\/C\/V klavye k\u0131sayollar\u0131n\u0131 kullan\u0131n.",

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,7 +71,7 @@ class ConfigControllerApplication extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  4,0  Use ConfigControllerApplicationRefreshhelp instead.
+	 * @deprecated  4.0  Use ConfigControllerApplicationRefreshhelp instead.
 	 */
 	public function refreshHelp()
 	{

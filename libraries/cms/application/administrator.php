@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -379,7 +379,7 @@ class JApplicationAdministrator extends JApplicationCms
 
 			$query->clear()
 				->delete($db->quoteName('#__messages'))
-				->where($db->quoteName('date_time') . ' < ' . $db->Quote($pastStamp), 'AND')
+				->where($db->quoteName('date_time') . ' < ' . $db->quote($pastStamp), 'AND')
 				->where($db->quoteName('user_id_to') . ' = ' . (int) $userid, 'AND');
 			$db->setQuery($query);
 			$db->execute();
@@ -420,7 +420,7 @@ class JApplicationAdministrator extends JApplicationCms
 			$this->enqueueMessage(
 				JText::sprintf(
 					'JWARNING_REMOVE_ROOT_USER',
-					'index.php?option=com_config&task=application.removeroot&' . JSession::getFormToken() . '=1'
+					'index.php?option=com_config&task=config.removeroot&' . JSession::getFormToken() . '=1'
 				),
 				'notice'
 			);
@@ -449,7 +449,7 @@ class JApplicationAdministrator extends JApplicationCms
 		{
 			// Forward to https
 			$uri->setScheme('https');
-			$this->redirect((string) $uri);
+			$this->redirect((string) $uri, 301);
 		}
 
 		// Trigger the onAfterRoute event.
