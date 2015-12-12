@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
 
 // JLayout for standard handling of associations fields in the administrator items edit screens.
 echo $displayData->getForm()->renderFieldset('item_associations');

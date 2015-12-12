@@ -9,7 +9,7 @@
  * @deprecated  3.2
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
 
 $app = JFactory::getApplication();
 
