@@ -41,6 +41,9 @@ class JApplicationAdministrator extends JApplicationCms
 		// Register the client ID
 		$this->_clientId = 1;
 
+		// Register default language
+		$this->_defaultLang = JLanguage::exists(JFactory::getLanguage()->getDefault()) ? JFactory::getLanguage()->getDefault() : 'en-GB';
+
 		// Execute the parent constructor
 		parent::__construct($input, $config, $client);
 
@@ -270,14 +273,14 @@ class JApplicationAdministrator extends JApplicationCms
 			else
 			{
 				$params = JComponentHelper::getParams('com_languages');
-				$options['language'] = $params->get('administrator', $this->get('language', 'en-GB'));
+				$options['language'] = $params->get('administrator', $this->get('language', $this->_defaultLang));
 			}
 		}
 
 		// One last check to make sure we have something
 		if (!JLanguage::exists($options['language']))
 		{
-			$lang = $this->get('language', 'en-GB');
+			$lang = $this->get('language', $this->_defaultLang);
 
 			if (JLanguage::exists($lang))
 			{
@@ -286,7 +289,7 @@ class JApplicationAdministrator extends JApplicationCms
 			else
 			{
 				// As a last ditch fail to english
-				$options['language'] = 'en-GB';
+				$options['language'] = $this->_defaultLang;
 			}
 		}
 
@@ -328,7 +331,7 @@ class JApplicationAdministrator extends JApplicationCms
 
 		if (!($result instanceof Exception))
 		{
-			$lang = $this->input->getCmd('lang', 'en-GB');
+			$lang = $this->input->getCmd('lang', $this->_defaultLang);
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
 			$this->setUserState('application.lang', $lang);
 
