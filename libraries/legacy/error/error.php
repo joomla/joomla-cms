@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Error
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,8 +28,6 @@ const JERROR_ILLEGAL_MODE = 3;
  * - Sebastian Mordziol	<argh@php-tools.net>
  * - Stephan Schmidt		<scst@php-tools.net>
  *
- * @package     Joomla.Legacy
- * @subpackage  Error
  * @since       11.1
  * @deprecated  12.1 (Platform) & 4.0 (CMS) - Use PHP Exception
  */
@@ -116,6 +114,7 @@ abstract class JError
 		{
 			$error = &self::$stack[0];
 		}
+
 		return $error;
 	}
 
@@ -176,6 +175,7 @@ abstract class JError
 
 		// Build error object
 		$exception = new JException($msg, $code, $level, $info, $backtrace);
+
 		return self::throwError($exception);
 	}
 
@@ -212,6 +212,7 @@ abstract class JError
 		$handler = self::getErrorHandling($level);
 
 		$function = 'handle' . ucfirst($handler['mode']);
+
 		if (is_callable(array('JError', $function)))
 		{
 			$reference = call_user_func_array(array('JError', $function), array(&$exception, (isset($handler['options'])) ? $handler['options'] : array()));
@@ -375,6 +376,7 @@ abstract class JError
 				if (!is_callable($options))
 				{
 					$tmp = array('GLOBAL');
+
 					if (is_array($options))
 					{
 						$tmp[0] = $options[0];
@@ -396,6 +398,7 @@ abstract class JError
 
 			// Save settings
 			self::$handlers[$eLevel] = array('mode' => $mode);
+
 			if ($options != null)
 			{
 				self::$handlers[$eLevel]['options'] = $options;
@@ -533,10 +536,11 @@ abstract class JError
 		$level_human = self::translateErrorLevel($error->get('level'));
 
 		// If system debug is set, then output some more information.
-		if (defined('JDEBUG'))
+		if (JDEBUG)
 		{
 			$backtrace = $error->getTrace();
 			$trace = '';
+
 			for ($i = count($backtrace) - 1; $i >= 0; $i--)
 			{
 				if (isset($backtrace[$i]['class']))
@@ -560,7 +564,7 @@ abstract class JError
 			// Output as html
 			echo "<br /><b>jos-$level_human</b>: "
 				. $error->get('message') . "<br />\n"
-				. (defined('JDEBUG') ? nl2br($trace) : '');
+				. (JDEBUG ? nl2br($trace) : '');
 		}
 		else
 		{
@@ -568,7 +572,8 @@ abstract class JError
 			if (defined('STDERR'))
 			{
 				fwrite(STDERR, "J$level_human: " . $error->get('message') . "\n");
-				if (defined('JDEBUG'))
+
+				if (JDEBUG)
 				{
 					fwrite(STDERR, $trace);
 				}
@@ -576,7 +581,8 @@ abstract class JError
 			else
 			{
 				echo "J$level_human: " . $error->get('message') . "\n";
-				if (defined('JDEBUG'))
+
+				if (JDEBUG)
 				{
 					echo $trace;
 				}
@@ -622,11 +628,11 @@ abstract class JError
 		{
 			// Output as simple text
 			echo "J$level_human: " . $error->get('message') . "\n";
+
 			if ($info != null)
 			{
 				echo "\t" . $info . "\n";
 			}
-
 		}
 
 		return $error;
@@ -770,6 +776,7 @@ abstract class JError
 
 		$app = JFactory::getApplication();
 		$document = JDocument::getInstance('error');
+
 		if ($document)
 		{
 			$config = JFactory::getConfig();
@@ -810,6 +817,7 @@ abstract class JError
 			// This is a common use case for Command Line Interface applications.
 			self::handleEcho($error, array());
 		}
+
 		$app->close(0);
 	}
 

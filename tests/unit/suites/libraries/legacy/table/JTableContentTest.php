@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -76,19 +76,6 @@ class JTableContentTest extends TestCaseDatabase
 		$dataSet->addTable('jos_tags', JPATH_TEST_DATABASE . '/jos_tags.csv');
 
 		return $dataSet;
-	}
-
-	/**
-	 * Test JTableContent::bind
-	 *
-	 * @todo   Implement testBind().
-	 *
-	 * @return  void
-	 */
-	public function testBind()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,15 +14,20 @@ JLog::add('ModulesHelperXML is deprecated. Do not use.', JLog::WARNING, 'depreca
 /**
  * Helper for parse XML module files
  *
- * @package     Joomla.Administrator
- * @subpackage  com_modules
  * @since       1.5
  * @deprecated  3.2  Do not use.
  */
 class ModulesHelperXML
 {
 	/**
+	 * Parse the module XML file
+	 *
+	 * @param   array  &$rows  XML rows
+	 *
+	 * @return  void
+	 *
 	 * @since       1.5
+	 *
 	 * @deprecated  3.2  Do not use.
 	 */
 	public function parseXMLModuleFile(&$rows)

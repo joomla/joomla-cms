@@ -3,18 +3,18 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Menu table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
- * @since       11.1
+ * @since  11.1
  */
 class JTableMenu extends JTableNested
 {
@@ -72,7 +72,7 @@ class JTableMenu extends JTableNested
 
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
@@ -90,6 +90,13 @@ class JTableMenu extends JTableNested
 	 */
 	public function check()
 	{
+		// Check for a title.
+		if (trim($this->title) == '')
+		{
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
+
+			return false;
+		}
 		// Set correct component id to ensure proper 404 messages with separator items
 		if ($this->type == "separator")
 		{
@@ -104,8 +111,24 @@ class JTableMenu extends JTableNested
 			$this->alias = $this->title;
 		}
 
+		// Check for a path.
+		if (trim($this->path) == '')
+		{
+			$this->path = $this->alias;
+		}
+		// Check for params.
+		if (trim($this->params) == '')
+		{
+			$this->params = '{}';
+		}
+		// Check for img.
+		if (trim($this->img) == '')
+		{
+			$this->img = ' ';
+		}
+
 		// Make the alias URL safe.
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
@@ -161,7 +184,14 @@ class JTableMenu extends JTableNested
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
 
-		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => (int) $this->client_id, 'language' => $this->language))
+		if ($table->load(
+				array(
+				'alias' => $this->alias,
+				'parent_id' => $this->parent_id,
+				'client_id' => (int) $this->client_id,
+				'language' => $this->language
+				)
+			)
 			&& ($table->id != $this->id || $this->id == 0))
 		{
 			if ($this->menutype == $table->menutype)

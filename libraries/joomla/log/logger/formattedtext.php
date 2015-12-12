@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,9 +17,7 @@ jimport('joomla.filesystem.folder');
  * This class is designed to use as a base for building formatted text files for output. By
  * default it emulates the Syslog style format output. This is a disk based output format.
  *
- * @package     Joomla.Platform
- * @subpackage  Log
- * @since       11.1
+ * @since  11.1
  */
 class JLogLoggerFormattedtext extends JLogLogger
 {
@@ -34,7 +32,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 	 * in all caps and be within curly brackets eg. {FOOBAR}.
 	 * @since  11.1
 	 */
-	protected $format = '{DATETIME}	{PRIORITY}	{CATEGORY}	{MESSAGE}';
+	protected $format = '{DATETIME}	{PRIORITY} {CLIENTIP}	{CATEGORY}	{MESSAGE}';
 
 	/**
 	 * @var    array  The parsed fields from the format string.
@@ -125,7 +123,6 @@ class JLogLoggerFormattedtext extends JLogLogger
 		// Set some default field values if not already set.
 		if (!isset($entry->clientIP))
 		{
-
 			// Check for proxies as well.
 			if (isset($_SERVER['REMOTE_ADDR']))
 			{
@@ -144,7 +141,6 @@ class JLogLoggerFormattedtext extends JLogLogger
 		// If the time field is missing or the date field isn't only the date we need to rework it.
 		if ((strlen($entry->date) != 10) || !isset($entry->time))
 		{
-
 			// Get the date and time strings in GMT.
 			$entry->datetime = $entry->date->toISO8601();
 			$entry->time = $entry->date->format('H:i:s', false);
@@ -192,6 +188,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 			$head[] = '#';
 			$head[] = '#<?php die(\'Forbidden.\'); ?>';
 		}
+
 		$head[] = '#Date: ' . gmdate('Y-m-d H:i:s') . ' UTC';
 		$head[] = '#Software: ' . JPlatform::getLongVersion();
 		$head[] = '';
@@ -218,7 +215,6 @@ class JLogLoggerFormattedtext extends JLogLogger
 		// If the file doesn't already exist we need to create it and generate the file header.
 		if (!is_file($this->path))
 		{
-
 			// Make sure the folder exists in which to create the log file.
 			JFolder::create(dirname($this->path));
 
@@ -235,6 +231,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 		{
 			throw new RuntimeException('Cannot open file for writing log');
 		}
+
 		if ($head)
 		{
 			if (!fwrite($this->file, $head))

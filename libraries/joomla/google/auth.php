@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,14 +12,12 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google authentication class abstract
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @since  12.3
  */
 abstract class JGoogleAuth
 {
 	/**
-	 * @var    JRegistry  Options for the Google authentication object.
+	 * @var    \Joomla\Registry\Registry  Options for the Google authentication object.
 	 * @since  12.3
 	 */
 	protected $options;

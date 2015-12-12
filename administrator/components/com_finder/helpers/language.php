@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Finder language helper class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderHelperLanguage
 {
@@ -31,7 +29,14 @@ class FinderHelperLanguage
 	{
 		$return = preg_replace('/[^a-zA-Z0-9]+/', '_', strtoupper($branchName));
 
-		return 'PLG_FINDER_QUERY_FILTER_BRANCH_P_' . $return;
+		if ($return != '_')
+		{
+			return 'PLG_FINDER_QUERY_FILTER_BRANCH_P_' . $return;
+		}
+		else
+		{
+			return $branchName;
+		}
 	}
 
 	/**
@@ -79,6 +84,7 @@ class FinderHelperLanguage
 		{
 			return;
 		}
+
 		$loaded = true;
 
 		// Get array of all the enabled Smart Search plug-in names.

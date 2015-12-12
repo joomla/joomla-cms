@@ -9,23 +9,9 @@
 			class="js-stools-search-string"
 		/>
 		<field
-			name="level"
-			type="integer"
-			first="1"
-			last="10"
-			step="1"
-			label="JOPTION_FILTER_LEVEL"
-			languages="*"
-			description="JOPTION_FILTER_LEVEL_DESC"
-			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
-		</field>
-		<field
 			name="published"
 			type="status"
 			label="COM_CATEGORIES_FILTER_PUBLISHED"
-			statuses="*,0,1,2,-2"
 			description="COM_CATEGORIES_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"
 			>
@@ -60,6 +46,19 @@
 		>
 			<option value="">JOPTION_SELECT_TAG</option>
 		</field>
+        <field
+                name="level"
+                type="integer"
+                first="1"
+                last="10"
+                step="1"
+                label="JOPTION_FILTER_LEVEL"
+                languages="*"
+                description="JOPTION_FILTER_LEVEL_DESC"
+                onchange="this.form.submit();"
+                >
+            <option value="">JOPTION_SELECT_MAX_LEVELS</option>
+        </field>
 	</fields>
 	<fields name="list">
 		<field
@@ -88,7 +87,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="inputbox input-mini"
+			class="input-mini"
 			default="25"
 			label="COM_CATEGORIES_LIST_LIMIT"
 			description="COM_CATEGORIES_LIST_LIMIT_DESC"

@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -118,6 +118,8 @@
 
 			for(var i=0; i<flen; i++) {
 				var elem = f[i];
+				elem.isRequired = !!elem.required;
+				elem.isDisabled = !!elem.disabled;
 
 				//Do Validation
 				if(!elem.isDisabled) {
@@ -142,41 +144,46 @@
 			}
 			var	self = elem.form.H5Form,
 				$elem = $(elem),
-				isMissing = false;
-			elem.isRequired = !!($(elem).attr("required")),
-			elem.isDisabled = !!($(elem).attr("disabled"));
+				isMissing = false,
+				isRequired = !!($(elem).attr("required")),
+				isDisabled = !!($elem.attr("disabled"));
 			if(!elem.isDisabled){
-				isMissing = !self.browser.isRequiredNative && elem.isRequired && self.isValueMissing(self, elem);
+				isMissing = !self.browser.isRequiredNative && isRequired && self.isValueMissing(self, elem);
 				isPatternMismatched = !self.browser.isPatternNative && self.matchPattern(self, elem);
 			}
 			elem.validityState = {
 				valueMissing: isMissing,
 				patterMismatch : isPatternMismatched,
-				valid: (!isMissing && !isPatternMismatched &&  !elem.isDisabled)
+				valid: (elem.isDisabled || !(isMissing || isPatternMismatched))
 			};
-			if(elem.validityState.valueMissing){
-				$elem.addClass(self.options.requiredClass);
+
+			if(!self.browser.isRequiredNative){
+				if(elem.validityState.valueMissing){
+					$elem.addClass(self.options.requiredClass);
+				}
+				else{
+					$elem.removeClass(self.options.requiredClass);
+				}
 			}
-			else{
-				$elem.removeClass(self.options.requiredClass);
+
+			if(!self.browser.isPatternNative){
+				if(elem.validityState.patterMismatch){
+					$elem.addClass(self.options.patternClass);
+				}
+				else{
+					$elem.removeClass(self.options.patternClass);
+				}
 			}
-			if(elem.validityState.patterMismatch){
-				$elem.addClass(self.options.patternClass);
-			}
-			else{
-				$elem.removeClass(self.options.patternClass);
-			}
+
 			if(!elem.validityState.valid){
 				$elem.addClass(self.options.invalidClass);
 				var $labelref = self.findLabel($elem);
 				$labelref.addClass(self.options.invalidClass);
-				$labelref.attr('aria-invalid', 'true');
 			}
 			else{
 				$elem.removeClass(self.options.invalidClass);
 				var $labelref = self.findLabel($elem);
 				$labelref.removeClass(self.options.invalidClass)
-				$labelref.attr('aria-invalid', 'false');
 			}
 			return elem.validityState.valid;
 		},
@@ -223,9 +230,9 @@
 
 		matchPattern : function(self, elem){
 			var $elem = $(elem),
-				val = !self.browser.isPlaceholderNative && 
-						$elem.attr('placeholder') && 
-						$elem.hasClass(self.options.placeholderClass) ? 
+				val = !self.browser.isPlaceholderNative &&
+						$elem.attr('placeholder') &&
+						$elem.hasClass(self.options.placeholderClass) ?
 							'' : $elem.attr('value'),
 				pattern = $elem.attr('pattern'),
 				type = $elem.attr('type');
@@ -384,6 +391,6 @@
 	    urlPatt : /[a-z][\-\.+a-z]*:\/\//i
 	};
 	$(function(){
-		$('form').h5f({doRenderMessage : true});
+		$('form').h5f({doRenderMessage : true, requiredClass : "musthavevalue"});
 	});
 })(jQuery,document);

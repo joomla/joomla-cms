@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Menu table
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
+ * @since  1.6
  */
 class MenusTableMenu extends JTableMenu
 {
@@ -26,7 +25,7 @@ class MenusTableMenu extends JTableMenu
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
-	 * @see     http://docs.joomla.org/JTableNested/delete
+	 * @see     https://docs.joomla.org/JTableNested/delete
 	 */
 	public function delete($pk = null, $children = false)
 	{

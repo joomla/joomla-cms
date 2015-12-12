@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -33,7 +39,6 @@ class ControlPanelPage extends AdminPage
 			'Template Manager' => 'administrator/index.php?option=com_templates',
 			'Language Manager' => 'administrator/index.php?option=com_languages',
 			'Install Extensions' => 'administrator/index.php?option=com_installer',
-			'All extensions are up-to-date' => 'administrator/index.php?option=com_installer&view=update',
 	);
 
 	/**

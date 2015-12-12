@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * RESTful Web application router class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       12.2
+ * @since  12.2
  */
 class JApplicationWebRouterRest extends JApplicationWebRouterBase
 {

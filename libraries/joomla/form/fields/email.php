@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,11 +15,9 @@ JFormHelper::loadFieldClass('text');
  * Form Field class for the Joomla Platform.
  * Provides and input field for e-mail addresses
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @link        http://www.w3.org/TR/html-markup/input.email.html#input.email
- * @see         JFormRuleEmail
- * @since       11.1
+ * @link   http://www.w3.org/TR/html-markup/input.email.html#input.email
+ * @see    JFormRuleEmail
+ * @since  11.1
  */
 class JFormFieldEMail extends JFormFieldText
 {
@@ -65,7 +63,7 @@ class JFormFieldEMail extends JFormFieldText
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
 		return '<input type="email" name="' . $this->name . '"' . $class . ' id="' . $this->id . '" value="'
-			. JStringPunycode::emailToUTF8($this->value, ENT_COMPAT, 'UTF-8') . '"' . $spellcheck . $size . $disabled . $readonly . $onchange . $autocomplete
-			. $multiple . $maxLength . $hint . $required . $autofocus . ' />';
+			. htmlspecialchars(JStringPunycode::emailToUTF8($this->value), ENT_COMPAT, 'UTF-8') . '"' . $spellcheck . $size . $disabled . $readonly
+			. $onchange . $autocomplete . $multiple . $maxLength . $hint . $required . $autofocus . ' />';
 	}
 }

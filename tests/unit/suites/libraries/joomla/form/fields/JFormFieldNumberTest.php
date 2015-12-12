@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldNumber-helper-dataset.php';
  * @subpackage  Form
  * @since       12.1
  */
-class JFormFieldNumberTest extends TestCase
+class JFormFieldNumberTest extends TestCaseDatabase
 {
 	/**
 	 * Backup of the SERVER superglobal
@@ -42,7 +42,7 @@ class JFormFieldNumberTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->backupServer = $_SERVER;
 

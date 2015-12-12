@@ -2,12 +2,12 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework model behavior class
@@ -60,6 +60,7 @@ abstract class FOFModelField
 
 		$this->name = $field->name;
 		$this->type = $field->type;
+		$this->filterzero = $field->filterzero;
 		$this->table_alias = $table_alias;
 	}
 
@@ -72,7 +73,8 @@ abstract class FOFModelField
 	 */
 	public function isEmpty($value)
 	{
-		return ($value === $this->null_value) || empty($value);
+		return (($value === $this->null_value) || empty($value))
+			&& !($this->filterzero && $value === "0");
 	}
 
 	/**
@@ -135,7 +137,7 @@ abstract class FOFModelField
 
 		if (is_array($value))
 		{
-			$db = JFactory::getDbo();
+			$db    = FOFPlatform::getInstance()->getDbo();
 			$value = array_map(array($db, 'quote'), $value);
 
 			return '(' . $this->getFieldName() . ' IN (' . implode(',', $value) . '))';
@@ -198,6 +200,33 @@ abstract class FOFModelField
 	abstract public function interval($from, $interval);
 
 	/**
+	 * Perform a between limits match (usually: search for a value between
+	 * two numbers or a date between two preset dates). When $include is true
+	 * the condition tested is:
+	 * $from <= VALUE <= $to
+	 * When $include is false the condition tested is:
+	 * $from < VALUE < $to
+	 *
+	 * @param   mixed    $from     The lowest value to compare to
+	 * @param   mixed    $to       The higherst value to compare to
+	 * @param   boolean  $include  Should we include the boundaries in the search?
+	 *
+	 * @return  string  The SQL where clause for this search
+	 */
+	abstract public function range($from, $to, $include = true);
+
+	/**
+	 * Perform an modulo search
+	 *
+	 * @param   integer|float  $value     The starting value of the search space
+	 * @param   integer|float  $interval  The interval period of the search space
+	 * @param   boolean        $include   Should I include the boundaries in the search?
+	 *
+	 * @return  string  The SQL where clause
+	 */
+	abstract public function modulo($from, $interval, $include = true);
+
+	/**
 	 * Return the SQL where clause for a search
 	 *
 	 * @param   mixed   $value     The value to search for
@@ -256,7 +285,7 @@ abstract class FOFModelField
 			}
 			else
 			{
-				$db = JFactory::getDBO();
+				$db = FOFPlatform::getInstance()->getDbo();
 			}
 
 			if (isset($config['table_alias']))

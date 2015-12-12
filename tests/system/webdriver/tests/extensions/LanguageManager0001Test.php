@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,6 +35,8 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * Login to back end and navigate to menu Language Manager.
 	 *
+	 * @return void
+	 *
 	 * @since   3.0
 	 */
 	public function setUp()
@@ -48,6 +50,8 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * Logout and close test.
 	 *
+	 * @return void
+	 *
 	 * @since   3.0
 	 */
 	public function tearDown()
@@ -57,6 +61,10 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * test to check all available input fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
@@ -66,17 +74,23 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 		$languageEditPage = $this->getPageObject('LanguageEditPage');
 		$testElements = $languageEditPage->getAllInputFields(array('details', 'metadata', 'site_name'));
 		$actualFields = array();
+
 		foreach ($testElements as $el)
 		{
 			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
 			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
 		}
+
 		$this->assertEquals($languageEditPage->inputFields, $actualFields);
 		$languageEditPage->clickButton('toolbar-cancel');
 		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');
 	}
 
 	/**
+	 * ttest to open edit screen
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function constructor_OpenEditScreen_LanguageEditOpened()
@@ -89,6 +103,10 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * test get the tab IDs
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getTabIds_ScreenDisplayed_EqualExpected()
@@ -103,6 +121,10 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add language with default fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addLanguage_WithFieldDefaults_LanguageAdded()
@@ -114,28 +136,33 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 		$this->languageManagerPage->addLanguage($langName);
 		$message = $this->languageManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Content Language successfully saved') >= 0, 'Content Language save should return success');
-		$this->assertEquals(2, $this->languageManagerPage->getRowNumber($langName), 'Test lang should be in row 2');
+		$this->assertGreaterThanOrEqual(1, $this->languageManagerPage->getRowNumber($langName), 'Test lang should be present');
 		$this->languageManagerPage->trashAndDelete($langName);
 		$this->assertFalse($this->languageManagerPage->getRowNumber($langName), 'Test lang should not be present');
 	}
 
 	/**
+	 * add language with given input fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addLanguage_WithGivenFields_LanguageAdded()
 	{
 		$salt = rand();
+		/*Other than the Default Value*/
 		$langName = 'lang' . $salt;
 		$lang_title_native = 'Sample' . $salt;
 		$url_code = 'Sample' . $salt;
-		$image_prefix = 'us'; //Other than the Default Value
+		$image_prefix = 'us';
 		$language_tag = 'Sample';
 		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');
 		$this->assertFalse($this->languageManagerPage->getRowNumber($langName), 'Test lang should not be present');
 		$this->languageManagerPage->addLanguage($langName, $lang_title_native, $url_code, $image_prefix, $language_tag);
 		$message = $this->languageManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Content Language successfully saved') >= 0, 'Content Language save should return success');
-		$this->assertEquals(2, $this->languageManagerPage->getRowNumber($langName), 'Test lang should be in row 2');
+		$this->assertGreaterThanOrEqual(1, $this->languageManagerPage->getRowNumber($langName), 'Test lang should be present');
 		$values = $this->languageManagerPage->getFieldValues('LanguageEditPage', $langName, array('Title', 'Title Native'));
 		$this->assertEquals(array($langName, $lang_title_native), $values, 'Actual name, native name should match expected');
 		$this->languageManagerPage->trashAndDelete($langName);
@@ -143,16 +170,21 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * test to edit the values of input fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function editLanguage_ChangeFields_FieldsChanged()
 	{
 		$salt = rand();
+		/*Other than the Default Value*/
 		$langName = 'lang' . $salt;
 		$new_lang_name = 'new_sample_Title';
 		$lang_title_native = 'Sample' . $salt;
 		$url_code = 'Sample' . $salt;
-		$image_prefix = 'us'; //Other than the Default Value
+		$image_prefix = 'us';
 		$language_tag = 'Sample';
 		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');
 		$this->assertFalse($this->languageManagerPage->getRowNumber($langName), 'Test lang should not be present');
@@ -166,6 +198,10 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * test to change the state of the language
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function changeLanguageState_ChangeEnabledUsingToolbar_EnabledChanged()
@@ -179,6 +215,4 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertEquals('unpublished', $state, 'State should be unpublished');
 		$this->languageManagerPage->trashAndDelete('Test Lang');
 	}
-
-
 }

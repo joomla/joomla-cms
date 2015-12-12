@@ -11,7 +11,7 @@
 		<field name="title" type="text"
 			description="COM_MODULES_FIELD_TITLE_DESC"
 			label="JGLOBAL_TITLE"
-			class="inputbox input-xxlarge input-large-text"
+			class="input-xxlarge input-large-text"
 			size="40"
 			maxlength="100"
 			required="true"
@@ -20,9 +20,9 @@
 		<field name="note" type="text"
 			description="COM_MODULES_FIELD_NOTE_DESC"
 			label="COM_MODULES_FIELD_NOTE_LABEL"
-			maxlength="100"
+			maxlength="255"
 			size="40"
-			class="inputbox span12"
+			class="span12"
 		/>
 
 		<field name="module" type="hidden"
@@ -98,11 +98,10 @@
 
 		<field name="content" type="editor"
 			buttons="true"
-			class="inputbox"
 			description="COM_MODULES_FIELD_CONTENT_DESC"
 			filter="JComponentHelper::filterText"
 			label="COM_MODULES_FIELD_CONTENT_LABEL"
-			hide="readmore,pagebreak"
+			hide="readmore,pagebreak,module"
 		/>
 
 		<field name="language" type="contentlanguage"
@@ -123,7 +122,6 @@
 		<field name="rules" type="rules"
 			label="JFIELD_RULES_LABEL"
 			translate_label="false"
-			class="inputbox"
 			filter="rules"
 			component="com_modules"
 			section="module"

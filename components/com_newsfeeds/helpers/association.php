@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,9 +15,7 @@ JLoader::register('CategoryHelperAssociation', JPATH_ADMINISTRATOR . '/component
 /**
  * Newsfeeds Component Association Helper
  *
- * @package     Joomla.Site
- * @subpackage  com_contact
- * @since       3.0
+ * @since  3.0
  */
 abstract class NewsfeedsHelperAssociation extends CategoryHelperAssociation
 {
@@ -51,7 +49,7 @@ abstract class NewsfeedsHelperAssociation extends CategoryHelperAssociation
 
 				foreach ($associations as $tag => $item)
 				{
-					$return[$tag] = NewsfeedsHelperRoute::getNewsfeedRoute($item->id, $item->catid, $item->language);
+					$return[$tag] = NewsfeedsHelperRoute::getNewsfeedRoute($item->id, (int) $item->catid, $item->language);
 				}
 
 				return $return;
@@ -64,6 +62,5 @@ abstract class NewsfeedsHelperAssociation extends CategoryHelperAssociation
 		}
 
 		return array();
-
 	}
 }

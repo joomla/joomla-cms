@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,12 +12,9 @@ defined('_JEXEC') or die;
 JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_newsfeeds/helpers/newsfeeds.php');
 
 /**
- * Utility class for creating HTML Grids
+ * Utility class for creating HTML Grids.
  *
- * @static
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
- * @since       1.5
+ * @since  1.5
  */
 class JHtmlNewsfeed
 {
@@ -27,6 +24,8 @@ class JHtmlNewsfeed
 	 * @param   int  $newsfeedid  The item id to search associations
 	 *
 	 * @return  string  The language HTML
+	 *
+	 * @throws  Exception  Throws a 500 Exception on Database failure
 	 */
 	public static function association($newsfeedid)
 	{
@@ -79,7 +78,16 @@ class JHtmlNewsfeed
 						$item->title,
 						'(' . $item->category_title . ')'
 					);
-					$item->link = JHtml::_('tooltip', implode(' ', $tooltipParts), null, null, $text, $url, null, 'hasTooltip label label-association label-' . $item->lang_sef);
+					$item->link = JHtml::_(
+						'tooltip',
+						implode(' ', $tooltipParts),
+						null,
+						null,
+						$text,
+						$url,
+						null,
+						'hasTooltip label label-association label-' . $item->lang_sef
+					);
 				}
 			}
 

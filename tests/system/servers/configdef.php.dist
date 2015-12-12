@@ -18,6 +18,7 @@ class SeleniumConfig
 	// $folder is the path to the apache root folder
 	var $folder = 'c:/xampp/htdocs'; // typical windows example with XAMPP
 //	var $folder = '/usr/local/apache/htdocs'; // typical linux example
+//	var $folder = '/Applications/XAMPP/xamppfiles/htdocs'; // typical MacOS example with XAMPP
 
 	// $host is normally 'http://localhost'
 	var $host = 'http://localhost';

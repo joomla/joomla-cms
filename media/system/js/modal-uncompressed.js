@@ -129,7 +129,7 @@ var SqueezeBox = {
 			return !SqueezeBox.fromElement(this, options);
 		});
 	},
-	
+
 	open: function(subject, options) {
 		this.initialize();
 
@@ -158,7 +158,7 @@ var SqueezeBox = {
 			return false;
 		}, this);
 	},
-	
+
 	fromElement: function(from, options) {
 		return this.open(from, options);
 	},
@@ -216,7 +216,7 @@ var SqueezeBox = {
 		if (content) {
 			if (['string', 'array'].contains(typeOf(content))) {
 				this.content.set('html', content);
-			} else if (!(content !== this.content && this.content.contains(content))) {
+			} else {
 				this.content.adopt(content);
 			}
 		}
@@ -241,12 +241,21 @@ var SqueezeBox = {
 			this.size.y = this.size.y - 50;
 			this.size.x = this.size.x - 20;
 		}
-		var to = {
-			width: this.size.x,
-			height: this.size.y,
-			left: (scroll.x + (box.x - this.size.x - this.options.marginInner.x) / 2).toInt(),
-			top: (scroll.y + (box.y - this.size.y - this.options.marginInner.y) / 2).toInt()
-		};
+		if (box.x > 979) {
+			var to = {
+				width: this.size.x,
+				height: this.size.y,
+				left: (scroll.x + (box.x - this.size.x - this.options.marginInner.x) / 2).toInt(),
+				top: (scroll.y + (box.y - this.size.y - this.options.marginInner.y) / 2).toInt()
+			};
+		} else {
+			var to = {
+				width: box.x - 40,
+				height: box.y,
+				left: (scroll.x + 10).toInt(),
+				top: (scroll.y + 20).toInt()
+			};
+		}
 		this.hideContent();
 		if (!instantly) {
 			this.fx.win.start(to).chain(this.showContent.bind(this));
@@ -434,11 +443,19 @@ SqueezeBox.handlers.extend({
 	},
 
 	iframe: function(url) {
+		var box = this.doc.getSize();
+		if (box.x > 979) {
+			var modal_width = this.options.size.x;
+			var modal_height = this.options.size.y;
+		} else {
+			var modal_width = box.x;
+			var modal_height = box.y - 50;
+		}
 		this.asset = new Element('iframe', Object.merge({
 			src: url,
 			frameBorder: 0,
-			width: this.options.size.x,
-			height: this.options.size.y
+			width: modal_width,
+			height: modal_height
 		}, this.options.iframeOptions));
 		if (this.options.iframePreload) {
 			this.asset.addEvent('load', function() {

@@ -12,7 +12,7 @@
 		</field>
 
 		<field name="basename" type="text"
-			class="inputbox" size="40"
+			size="40"
 			label="COM_BANNERS_FIELD_BASENAME_LABEL" description="COM_BANNERS_FIELD_BASENAME_DESC" />
 
 	</fieldset>

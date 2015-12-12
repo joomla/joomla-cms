@@ -3,9 +3,11 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\Registry\Registry;
 
 include_once __DIR__ . '/stubs/JApplicationCliInspector.php';
 
@@ -66,11 +68,9 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function test__construct()
 	{
-		$this->assertInstanceOf('JInput', $this->class->input, 'Input property wrong type');
-
-		$this->assertAttributeInstanceOf('JRegistry', 'config', $this->class, 'Checks config property');
-
-		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class, 'Checks dispatcher property');
+		$this->assertAttributeInstanceOf('JInput', 'input', $this->class);
+		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
+		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class);
 
 		// TODO Test that configuration data loaded.
 
@@ -87,37 +87,31 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function test__constructDependancyInjection()
 	{
-		$mockInput = $this->getMock('JInputCli', array('test'), array(), '', false);
-		$mockInput
-			->expects($this->any())
-			->method('test')
-			->will(
-			$this->returnValue('ok')
-		);
+		if (PHP_VERSION == '5.4.29' || PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
+		{
+			$this->markTestSkipped('Test is skipped due to a PHP bug in versions 5.4.29 and 5.5.13 and a change in behavior in the 5.6 branch');
+		}
 
-		$mockConfig = $this->getMock('JRegistry', array('test'), array(null), '', true);
+		$mockInput = $this->getMock('JInputCli', array('test'), array(), '', false);
+		$mockInput->expects($this->any())
+			->method('test')
+			->willReturn('ok');
+
+		$mockConfig = $this->getMock('\\Joomla\\Registry\\Registry', array('test'), array(null), '', true);
 		$mockConfig
 			->expects($this->any())
 			->method('test')
-			->will(
-			$this->returnValue('ok')
-		);
+			->willReturn('ok');
 
 		$mockDispatcher = $this->getMockDispatcher();
-		$mockDispatcher
-			->expects($this->any())
+		$mockDispatcher->expects($this->any())
 			->method('test')
-			->will(
-			$this->returnValue('ok')
-		);
+			->willReturn('ok');
 
-		$class = new JApplicationCliInspector($mockInput, $mockConfig, $mockDispatcher);
+		$class = $this->getMock('JApplicationCli', array(), array($mockInput, $mockConfig, $mockDispatcher));
 
 		$this->assertEquals('ok', $class->input->test(), 'Tests input injection.');
-
 		$this->assertEquals('ok', TestReflection::getValue($class, 'config')->test(), 'Tests config injection.');
-
-		$this->assertEquals('ok', TestReflection::getValue($class, 'dispatcher')->test(), 'Tests dispatcher injection.');
 	}
 
 	/**
@@ -130,20 +124,12 @@ class JApplicationCliTest extends TestCase
 	public function testClose()
 	{
 		// Make sure the application is not already closed.
-		$this->assertSame(
-			$this->class->closed,
-			null,
-			'Checks the application doesn\'t start closed.'
-		);
+		$this->assertSame($this->class->closed, null);
 
 		$this->class->close(3);
 
 		// Make sure the application is closed with code 3.
-		$this->assertSame(
-			$this->class->closed,
-			3,
-			'Checks the application was closed with exit code 3.'
-		);
+		$this->assertSame($this->class->closed, 3);
 	}
 
 	/**
@@ -171,8 +157,7 @@ class JApplicationCliTest extends TestCase
 				'JWebDoExecute',
 				'onAfterExecute',
 			),
-			TestMockDispatcher::$triggered,
-			'Check that events fire in the right order.'
+			TestMockDispatcher::$triggered
 		);
 	}
 
@@ -187,8 +172,8 @@ class JApplicationCliTest extends TestCase
 	{
 		return array(
 			// Note: file, class, expectsClass, (expected result array), whether there should be an exception
-			'Default configuration class' => array(JPATH_TESTS . '/tmp/configuration.php', null, 'JConfig', 'ConfigEval'),
-			'Custom file, invalid class' => array(JPATH_TESTS . '/tmp/config.JCli-wrongclass.php', 'noclass', false, array(), true),
+			'Default configuration class' => array(JPATH_TEST_STUBS . '/configuration.php', null, 'JConfig', 'ConfigEval'),
+			'Custom file, invalid class' => array(JPATH_TEST_STUBS . '/config.wrongclass.php', 'noclass', false, array(), true),
 		);
 	}
 
@@ -234,18 +219,10 @@ class JApplicationCliTest extends TestCase
 
 		if ($expectsClass)
 		{
-			$this->assertInstanceOf(
-				$expectsClass,
-				$config,
-				'Checks the configuration object is the appropriate class.'
-			);
+			$this->assertInstanceOf($expectsClass, $config, 'Checks the configuration object is the appropriate class.');
 		}
 
-		$this->assertEquals(
-			$expects,
-			(array) $config,
-			'Checks the content of the configuration object.'
-		);
+		$this->assertEquals($expects, (array) $config, 'Checks the content of the configuration object.');
 	}
 
 	/**
@@ -257,12 +234,11 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function testGet()
 	{
-		$config = new JRegistry(array('foo' => 'bar'));
+		$config = new Registry(array('foo' => 'bar'));
 
 		TestReflection::getValue($this->class, 'config', $config);
 
 		$this->assertEquals('bar', $this->class->get('foo', 'bar'), 'Checks a known configuration setting is returned.');
-
 		$this->assertEquals('car', $this->class->get('goo', 'car'), 'Checks an unknown configuration setting returns the default.');
 	}
 
@@ -303,15 +279,8 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function testLoadConfiguration()
 	{
-		$this->assertThat(
-			$this->class->loadConfiguration(
-				array(
-					'foo' => 'bar',
-				)
-			),
-			$this->identicalTo($this->class),
-			'Check chaining.'
-		);
+		$this->assertSame(
+			$this->class, $this->class->loadConfiguration(array('foo' => 'bar')));
 
 		$this->assertEquals('bar', TestReflection::getValue($this->class, 'config')->get('foo'), 'Check the configuration array was loaded.');
 
@@ -333,12 +302,11 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function testSet()
 	{
-		$config = new JRegistry(array('foo' => 'bar'));
+		$config = new Registry(array('foo' => 'bar'));
 
 		TestReflection::setValue($this->class, 'config', $config);
 
 		$this->assertEquals('bar', $this->class->set('foo', 'car'), 'Checks set returns the previous value.');
-
 		$this->assertEquals('car', $config->get('foo'), 'Checks the new value has been set.');
 	}
 }

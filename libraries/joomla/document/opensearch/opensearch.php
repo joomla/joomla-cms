@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * OpenSearch class, provides an easy interface to display an OpenSearch document
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @see         http://www.opensearch.org/
- * @since       11.1
+ * @see    http://www.opensearch.org/
+ * @since  11.1
  */
 class JDocumentOpensearch extends JDocument
 {
@@ -80,12 +78,24 @@ class JDocumentOpensearch extends JDocument
 		{
 			if (file_exists($dir . '/favicon.ico'))
 			{
-
-				$path = str_replace(JPATH_BASE . '/', '', $dir);
+				$path = str_replace(JPATH_BASE, '', $dir);
 				$path = str_replace('\\', '/', $path);
-
 				$favicon = new JOpenSearchImage;
-				$favicon->data = JUri::base() . $path . '/favicon.ico';
+
+				if ($path == "")
+				{
+					$favicon->data = JUri::base() . 'favicon.ico';
+				}
+				else
+				{
+					if ($path[0] == "/")
+					{
+						$path = substr($path, 1);
+					}
+
+					$favicon->data = JUri::base() . $path . '/favicon.ico';
+				}
+
 				$favicon->height = '16';
 				$favicon->width = '16';
 				$favicon->type = 'image/vnd.microsoft.icon';
@@ -110,6 +120,7 @@ class JDocumentOpensearch extends JDocument
 	public function render($cache = false, $params = array())
 	{
 		$xml = new DOMDocument('1.0', 'utf-8');
+
 		if (defined('JDEBUG') && JDEBUG)
 		{
 			$xml->formatOutput = true;
@@ -119,24 +130,24 @@ class JDocumentOpensearch extends JDocument
 		$osns = 'http://a9.com/-/spec/opensearch/1.1/';
 
 		// Create the root element
-		$elOs = $xml->createElementNS($osns, 'OpenSearchDescription');
+		$elOs = $xml->createElementNs($osns, 'OpenSearchDescription');
 
-		$elShortName = $xml->createElementNS($osns, 'ShortName');
+		$elShortName = $xml->createElementNs($osns, 'ShortName');
 		$elShortName->appendChild($xml->createTextNode(htmlspecialchars($this->_shortName)));
 		$elOs->appendChild($elShortName);
 
-		$elDescription = $xml->createElementNS($osns, 'Description');
+		$elDescription = $xml->createElementNs($osns, 'Description');
 		$elDescription->appendChild($xml->createTextNode(htmlspecialchars($this->description)));
 		$elOs->appendChild($elDescription);
 
 		// Always set the accepted input encoding to UTF-8
-		$elInputEncoding = $xml->createElementNS($osns, 'InputEncoding');
+		$elInputEncoding = $xml->createElementNs($osns, 'InputEncoding');
 		$elInputEncoding->appendChild($xml->createTextNode('UTF-8'));
 		$elOs->appendChild($elInputEncoding);
 
 		foreach ($this->_images as $image)
 		{
-			$elImage = $xml->createElementNS($osns, 'Image');
+			$elImage = $xml->createElementNs($osns, 'Image');
 			$elImage->setAttribute('type', $image->type);
 			$elImage->setAttribute('width', $image->width);
 			$elImage->setAttribute('height', $image->height);
@@ -146,7 +157,7 @@ class JDocumentOpensearch extends JDocument
 
 		foreach ($this->_urls as $url)
 		{
-			$elUrl = $xml->createElementNS($osns, 'Url');
+			$elUrl = $xml->createElementNs($osns, 'Url');
 			$elUrl->setAttribute('type', $url->type);
 
 			// Results is the default value so we don't need to add it
@@ -154,13 +165,15 @@ class JDocumentOpensearch extends JDocument
 			{
 				$elUrl->setAttribute('rel', $url->rel);
 			}
+
 			$elUrl->setAttribute('template', $url->template);
 			$elOs->appendChild($elUrl);
 		}
 
 		$xml->appendChild($elOs);
 		parent::render();
-		return $xml->saveXML();
+
+		return $xml->saveXml();
 	}
 
 	/**
@@ -215,9 +228,7 @@ class JDocumentOpensearch extends JDocument
 /**
  * JOpenSearchUrl is an internal class that stores the search URLs for the OpenSearch description
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JOpenSearchUrl
 {
@@ -255,9 +266,7 @@ class JOpenSearchUrl
 /**
  * JOpenSearchImage is an internal class that stores Images for the OpenSearch Description
  *
- * @package     Joomla.Platform
- * @subpackage  Document
- * @since       11.1
+ * @since  11.1
  */
 class JOpenSearchImage
 {

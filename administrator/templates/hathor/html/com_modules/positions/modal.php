@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ $type      = $this->state->get('filter.type');
 
 			<button type="submit">
 				<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();">
+			<button type="button" onclick="document.getElementById('filter_search').value='';this.form.submit();">
 				<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 
@@ -39,7 +39,7 @@ $type      = $this->state->get('filter.type');
 			<label class="selectlabel" for="filter_state">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
-			<select name="filter_state" class="inputbox" id="filter_state">
+			<select name="filter_state" id="filter_state">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('modules.templateStates'), 'value', 'text', $state, true);?>
 			</select>
@@ -47,7 +47,7 @@ $type      = $this->state->get('filter.type');
 			<label class="selectlabel" for="filter_type">
 				<?php echo JText::_('COM_MODULES_OPTION_SELECT_TYPE'); ?>
 			</label>
-			<select name="filter_type" class="inputbox" id="filter_type">
+			<select name="filter_type" id="filter_type">
 				<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_TYPE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('modules.types'), 'value', 'text', $type, true);?>
 			</select>
@@ -55,7 +55,7 @@ $type      = $this->state->get('filter.type');
 			<label class="selectlabel" for="filter_template">
 				<?php echo JText::_('JOPTION_SELECT_TEMPLATE'); ?>
 			</label>
-			<select name="filter_template" class="inputbox" id="filter_template">
+			<select name="filter_template" id="filter_template">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_TEMPLATE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('modules.templates', $clientId), 'value', 'text', $template, true);?>
 			</select>
