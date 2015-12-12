@@ -1216,7 +1216,8 @@ class JForm
 		}
 
 		// Get the field filter type.
-		$filter = (string) $element['filter'];
+		$filter   = (string) $element['filter'];
+		$validate = (string) $element['validate'];
 
 		// Process the input value based on the filter.
 		$return = null;
@@ -1280,6 +1281,10 @@ class JForm
 					// Return an SQL formatted datetime string in UTC.
 					$return = JFactory::getDate($value, $offset)->toSql();
 				}
+				elseif ($validate == 'datetime')
+				{
+					$return = $value;
+				}
 				else
 				{
 					$return = '';
@@ -1295,6 +1300,10 @@ class JForm
 
 					// Return a MySQL formatted datetime string in UTC.
 					$return = JFactory::getDate($value, $offset)->toSql();
+				}
+				elseif ($validate == 'datetime')
+				{
+					$return = $value;
 				}
 				else
 				{
