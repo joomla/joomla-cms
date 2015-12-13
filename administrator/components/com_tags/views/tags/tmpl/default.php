@@ -52,7 +52,7 @@ if ($saveOrder)
 			<table class="table table-striped" id="categoryList">
 				<thead>
 					<tr>
-						<th width="1%" class="noweap hidden-phone center">
+						<th width="1%" class="nowrap hidden-phone center">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
 						<th width="1%" class="hidden-phone">
