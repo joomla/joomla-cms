@@ -354,7 +354,7 @@ class ContentModelArticles extends JModelList
 				}
 
 				// Add the subquery to the main query
-				$query->where('(' . $categoryEquals . ' OR a.catid IN (' . $subQuery->__toString() . '))');
+				$query->where('(' . $categoryEquals . ' OR a.catid IN (' . (string) $subQuery . '))');
 			}
 			else
 			{
