@@ -440,7 +440,6 @@ class TemplatesModelTemplate extends JModelForm
 			$fileName = base64_decode($input->get('file'));
 			$client   = JApplicationHelper::getClientInfo($this->template->client_id);
 
-
 			try
 			{
 				$filePath = JPath::check($client->path . '/templates/' . $this->template->element . '/' . $fileName);

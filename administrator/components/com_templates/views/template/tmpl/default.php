@@ -432,7 +432,7 @@ if($this->type == 'font')
 				<input type="hidden" name="task" value="template.delete" />
 				<input type="hidden" name="id" value="<? echo $input->getInt('id'); ?>" />
 				<input type="hidden" name="file" value="<? echo $this->file; ?>" />
-				<?php echo JHtml::_( 'form.token' ); ?>
+				<?php echo JHtml::_('form.token'); ?>
 				<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
 				<button type="submit" class="btn btn-danger"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?></button>
 			</form>
