@@ -53,14 +53,6 @@ class JApplicationWebTest extends TestCase
 	protected $class;
 
 	/**
-	 * Backup of the SERVER superglobal
-	 *
-	 * @var    array
-	 * @since  3.4
-	 */
-	protected $backupServer;
-
-	/**
 	 * Data for detectRequestUri method.
 	 *
 	 * @return  array
@@ -110,15 +102,26 @@ class JApplicationWebTest extends TestCase
 		JFactory::$document = $this->getMockDocument();
 		JFactory::$language = $this->getMockLanguage();
 
-		$this->backupServer = $_SERVER;
+		$mockInput = $this->getMockInput();
 
-		$_SERVER['HTTP_HOST'] = self::TEST_HTTP_HOST;
-		$_SERVER['HTTP_USER_AGENT'] = self::TEST_USER_AGENT;
-		$_SERVER['REQUEST_URI'] = self::TEST_REQUEST_URI;
-		$_SERVER['SCRIPT_NAME'] = '/index.php';
+		$serverInputData = array(
+			'HTTP_HOST' => 	self::TEST_HTTP_HOST,
+			'HTTP_USER_AGENT' => self::TEST_USER_AGENT,
+			'REQUEST_URI' => self::TEST_REQUEST_URI,
+			'SCRIPT_NAME' => '/index.php'
+		);
+
+		$mockServerInput = $this->getMockInput();
+		TestReflection::setValue($mockServerInput, 'data', $serverInputData);
+
+		$inputInternals = array(
+			'server' => $mockServerInput
+		);
+
+		TestReflection::setValue($mockInput, 'inputs', $inputInternals);
 
 		// Get a new JApplicationWebInspector instance.
-		$this->class = new JApplicationWebInspector;
+		$this->class = new JApplicationWebInspector($mockInput);
 	}
 
 	/**
@@ -138,8 +141,6 @@ class JApplicationWebTest extends TestCase
 		// Reset some web inspector static settings.
 		JApplicationWebInspector::$headersSent = false;
 		JApplicationWebInspector::$connectionAlive = true;
-
-		$_SERVER = $this->backupServer;
 
 		$this->restoreFactoryState();
 
@@ -539,18 +540,34 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testDetectRequestUri($https, $phpSelf, $requestUri, $httpHost, $scriptName, $queryString, $expects)
 	{
+		$mockInput = $this->getMock('JInput', array('get', 'getString'), array(), '', true, true, true, false, true);
+
+		$serverInputData = array(
+			'PHP_SELF'     => $phpSelf,
+			'REQUEST_URI'  => $requestUri,
+			'HTTP_HOST'    => $httpHost,
+			'SCRIPT_NAME'  => $scriptName,
+			'QUERY_STRING' => $queryString
+		);
+
 		if ($https !== null)
 		{
-			$_SERVER['HTTPS'] = $https;
+			$serverInputData['HTTPS'] = $https;
 		}
 
-		$_SERVER['PHP_SELF'] = $phpSelf;
-		$_SERVER['REQUEST_URI'] = $requestUri;
-		$_SERVER['HTTP_HOST'] = $httpHost;
-		$_SERVER['SCRIPT_NAME'] = $scriptName;
-		$_SERVER['QUERY_STRING'] = $queryString;
+		// Mock the Input object internals
+		$mockServerInput = $this->getMock('JInput', array('get', 'set'), array($serverInputData), '', true, true, true, false, true);
 
-		$this->assertEquals($expects, TestReflection::invoke($this->class, 'detectRequestUri'));
+		$inputInternals = array(
+			'server' => $mockServerInput
+		);
+
+		TestReflection::setValue($mockInput, 'inputs', $inputInternals);
+		$object = $this->getMockForAbstractClass('JApplicationWeb', array($mockInput));
+		$this->assertSame(
+			$expects,
+			TestReflection::invoke($object, 'detectRequestUri')
+		);
 	}
 
 	/**
@@ -1340,12 +1357,10 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testIsSSLConnection()
 	{
-		unset($_SERVER['HTTPS']);
+		$this->assertFalse($this->class->isSslConnection());
 
-		$this->assertFalse($this->class->isSSLConnection());
+		$this->class->input->server->set('HTTPS', 'on');
 
-		$_SERVER['HTTPS'] = 'on';
-
-		$this->assertTrue($this->class->isSSLConnection());
+		$this->assertTrue($this->class->isSslConnection());
 	}
 }

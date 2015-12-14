@@ -62,8 +62,11 @@ class JUri extends Uri
 			// Are we obtaining the URI from the server?
 			if ($uri == 'SERVER')
 			{
+				$input = new JInput;
+				$serverSSLVar = $input->server->getString('HTTPS', '');
+
 				// Determine if the request was over SSL (HTTPS).
-				if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off'))
+				if (isset($serverSSLVar) && !empty($serverSSLVar) && (strtolower($serverSSLVar) != 'off'))
 				{
 					$https = 's://';
 				}
@@ -78,11 +81,14 @@ class JUri extends Uri
 				 * are present, we will assume we are running on apache.
 				 */
 
-				if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
+				$phpSelf = $input->server->getString('PHP_SELF', '');
+				$requestUri = $input->server->getString('REQUEST_URI', '');
+
+				if (!empty($phpSelf) && !empty($requestUri))
 				{
 					// To build the entire URI we need to prepend the protocol, and the http host
 					// to the URI string.
-					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+					$theURI = 'http' . $https . $input->server->getString('HTTP_HOST') . $requestUri;
 				}
 				else
 				{
@@ -93,12 +99,13 @@ class JUri extends Uri
 					 *
 					 * IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
 					 */
-					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
+					$theURI   = 'http' . $https . $input->server->getString('HTTP_HOST') . $input->server->getString('SCRIPT_NAME');
+					$queryString = $input->server->getString('QUERY_STRING', '');
 
 					// If the query string exists append it to the URI string
-					if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING']))
+					if (isset($queryString) && !empty($queryString))
 					{
-						$theURI .= '?' . $_SERVER['QUERY_STRING'];
+						$theURI .= '?' . $queryString;
 					}
 				}
 
@@ -152,19 +159,21 @@ class JUri extends Uri
 			else
 			{
 				static::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
+				$input = new JInput;
+				$requestUri = $input->server->getString('REQUEST_URI', '');
 
-				if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
+				if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($requestUri))
 				{
 					// PHP-CGI on Apache with "cgi.fix_pathinfo = 0"
 
 					// We shouldn't have user-supplied PATH_INFO in PHP_SELF in this case
 					// because PHP will not work with PATH_INFO at all.
-					$script_name = $_SERVER['PHP_SELF'];
+					$script_name = $input->server->getString('PHP_SELF', '');
 				}
 				else
 				{
 					// Others
-					$script_name = $_SERVER['SCRIPT_NAME'];
+					$script_name = $input->server->getString('SCRIPT_NAME', '');
 				}
 
 				static::$base['path'] = rtrim(dirname($script_name), '/\\');
