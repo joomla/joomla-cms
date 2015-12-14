@@ -62,7 +62,7 @@ class JUri extends Uri
 			// Are we obtaining the URI from the server?
 			if ($uri == 'SERVER')
 			{
-				$input = JFactory::getApplication()->input;
+				$input = new JInput;
 				$serverSSLVar = $input->server->getString('HTTPS', '');
 
 				// Determine if the request was over SSL (HTTPS).
@@ -159,7 +159,7 @@ class JUri extends Uri
 			else
 			{
 				static::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
-				$input = JFactory::getApplication()->input;
+				$input = new JInput;
 				$requestUri = $input->server->getString('REQUEST_URI', '');
 
 				if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($requestUri))
