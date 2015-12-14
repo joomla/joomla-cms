@@ -284,14 +284,9 @@ class PlgSystemUpdatenotification extends JPlugin
 
 		try
 		{
-			$query = $db->getQuery(true)
-						->select($db->qn('rules'))
-						->from($db->qn('#__assets'))
-						->where($db->qn('parent_id') . ' = ' . $db->q(0));
-			$db->setQuery($query, 0, 1);
-			$rulesJSON = $db->loadResult();
-			$rules     = json_decode($rulesJSON, true);
-
+			$assets = JTable::getInstance('Asset', 'JTable');
+			$rootId = $assets->getRootId();
+			$rules = JAccess::getAssetRules($rootId)->getData();
 			$rawGroups = $rules['core.admin'];
 			$groups    = array();
 
