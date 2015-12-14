@@ -840,8 +840,10 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	protected function detectRequestUri()
 	{
+		$serverSSLVar = $this->input->server->getString('HTTPS', '');
+
 		// First we need to detect the URI scheme.
-		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off'))
+		if (isset($serverSSLVar) && !empty($serverSSLVar) && (strtolower($serverSSLVar) != 'off'))
 		{
 			$scheme = 'https://';
 		}
@@ -856,22 +858,26 @@ class JApplicationWeb extends JApplicationBase
 		 * information from Apache or IIS.
 		 */
 
+		$phpSelf = $this->input->server->getString('PHP_SELF', '');
+		$requestUri = $this->input->server->getString('REQUEST_URI', '');
+
 		// If PHP_SELF and REQUEST_URI are both populated then we will assume "Apache Mode".
-		if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
+		if (!empty($phpSelf) && !empty($requestUri))
 		{
 			// The URI is built from the HTTP_HOST and REQUEST_URI environment variables in an Apache environment.
-			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$uri = $scheme . $this->input->server->getString('HTTP_HOST', '') . $requestUri;
 		}
 		// If not in "Apache Mode" we will assume that we are in an IIS environment and proceed.
 		else
 		{
 			// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
-			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
+			$uri = $scheme . $this->input->server->getString('HTTP_HOST') . $this->input->server->getString('SCRIPT_NAME');
+			$queryString = $this->input->server->getString('QUERY_STRING', '');
 
 			// If the QUERY_STRING variable exists append it to the URI string.
-			if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING']))
+			if (isset($queryString) && !empty($queryString))
 			{
-				$uri .= '?' . $_SERVER['QUERY_STRING'];
+				$uri .= '?' . $queryString;
 			}
 		}
 
@@ -970,7 +976,9 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function isSSLConnection()
 	{
-		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
+		$serverSSLVar = $this->input->server->getString('HTTPS', '');
+
+		return (!empty($serverSSLVar) && strtolower($serverSSLVar) != 'off');
 	}
 
 	/**
@@ -1127,17 +1135,18 @@ class JApplicationWeb extends JApplicationBase
 		{
 			// Start with the requested URI.
 			$uri = JUri::getInstance($this->get('uri.request'));
+			$requestUri = $this->input->server->get('REQUEST_URI', '');
 
 			// If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
-			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
+			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($requestUri))
 			{
 				// We aren't expecting PATH_INFO within PHP_SELF so this should work.
-				$path = dirname($_SERVER['PHP_SELF']);
+				$path = dirname($this->input->server->getString('PHP_SELF', ''));
 			}
 			// Pretty much everything else should be handled with SCRIPT_NAME.
 			else
 			{
-				$path = dirname($_SERVER['SCRIPT_NAME']);
+				$path = dirname($this->input->server->getString('SCRIPT_NAME', ''));
 			}
 		}
 
