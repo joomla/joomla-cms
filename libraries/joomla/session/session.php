@@ -905,22 +905,26 @@ class JSession implements IteratorAggregate
 			}
 		}
 
+		$httpForwardedFor = $this->_input->server->getString('HTTP_X_FORWARDED_FOR', '');
+
 		// Record proxy forwarded for in the session in case we need it later
-		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+		if (!empty($httpForwardedFor))
 		{
-			$this->set('session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR']);
+			$this->set('session.client.forwarded', $httpForwardedFor);
 		}
 
+		$remoteAddress = $this->_input->server->getString('REMOTE_ADDR', '');
+
 		// Check for client address
-		if (in_array('fix_adress', $this->_security) && isset($_SERVER['REMOTE_ADDR']))
+		if (in_array('fix_adress', $this->_security) && !empty($remoteAddress))
 		{
 			$ip = $this->get('session.client.address');
 
 			if ($ip === null)
 			{
-				$this->set('session.client.address', $_SERVER['REMOTE_ADDR']);
+				$this->set('session.client.address', $remoteAddress);
 			}
-			elseif ($_SERVER['REMOTE_ADDR'] !== $ip)
+			elseif ($remoteAddress !== $ip)
 			{
 				$this->_state = 'error';
 
@@ -928,16 +932,18 @@ class JSession implements IteratorAggregate
 			}
 		}
 
+		$userAgent = $this->_input->server->getString('HTTP_USER_AGENT', '');
+
 		// Check for clients browser
-		if (in_array('fix_browser', $this->_security) && isset($_SERVER['HTTP_USER_AGENT']))
+		if (in_array('fix_browser', $this->_security) && !empty($userAgent))
 		{
 			$browser = $this->get('session.client.browser');
 
 			if ($browser === null)
 			{
-				$this->set('session.client.browser', $_SERVER['HTTP_USER_AGENT']);
+				$this->set('session.client.browser', $userAgent);
 			}
-			elseif ($_SERVER['HTTP_USER_AGENT'] !== $browser)
+			elseif ($userAgent !== $browser)
 			{
 				// @todo remove code: $this->_state = 'error';
 				// @todo remove code: return false;
