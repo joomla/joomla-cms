@@ -539,18 +539,34 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testDetectRequestUri($https, $phpSelf, $requestUri, $httpHost, $scriptName, $queryString, $expects)
 	{
+		$mockInput = $this->getMock('JInput', array('get', 'getString'), array(), '', true, true, true, false, true);
+
+		$serverInputData = array(
+			'PHP_SELF'     => $phpSelf,
+			'REQUEST_URI'  => $requestUri,
+			'HTTP_HOST'    => $httpHost,
+			'SCRIPT_NAME'  => $scriptName,
+			'QUERY_STRING' => $queryString
+		);
+
 		if ($https !== null)
 		{
-			$_SERVER['HTTPS'] = $https;
+			$serverInputData['HTTPS'] = $https;
 		}
 
-		$_SERVER['PHP_SELF'] = $phpSelf;
-		$_SERVER['REQUEST_URI'] = $requestUri;
-		$_SERVER['HTTP_HOST'] = $httpHost;
-		$_SERVER['SCRIPT_NAME'] = $scriptName;
-		$_SERVER['QUERY_STRING'] = $queryString;
+		// Mock the Input object internals
+		$mockServerInput = $this->getMock('JInput', array('get', 'set'), array($serverInputData), '', true, true, true, false, true);
 
-		$this->assertEquals($expects, TestReflection::invoke($this->class, 'detectRequestUri'));
+		$inputInternals = array(
+			'server' => $mockServerInput
+		);
+
+		TestReflection::setValue($mockInput, 'inputs', $inputInternals);
+		$object = $this->getMockForAbstractClass('JApplicationWeb', array($mockInput));
+		$this->assertSame(
+			$expects,
+			TestReflection::invoke($object, 'detectRequestUri')
+		);
 	}
 
 	/**
