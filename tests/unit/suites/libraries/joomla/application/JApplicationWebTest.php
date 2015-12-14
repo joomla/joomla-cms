@@ -53,14 +53,6 @@ class JApplicationWebTest extends TestCase
 	protected $class;
 
 	/**
-	 * Backup of the SERVER superglobal
-	 *
-	 * @var    array
-	 * @since  3.4
-	 */
-	protected $backupServer;
-
-	/**
 	 * Data for detectRequestUri method.
 	 *
 	 * @return  array
@@ -110,15 +102,26 @@ class JApplicationWebTest extends TestCase
 		JFactory::$document = $this->getMockDocument();
 		JFactory::$language = $this->getMockLanguage();
 
-		$this->backupServer = $_SERVER;
+		$mockInput = $this->getMockInput();
 
-		$_SERVER['HTTP_HOST'] = self::TEST_HTTP_HOST;
-		$_SERVER['HTTP_USER_AGENT'] = self::TEST_USER_AGENT;
-		$_SERVER['REQUEST_URI'] = self::TEST_REQUEST_URI;
-		$_SERVER['SCRIPT_NAME'] = '/index.php';
+		$serverInputData = array(
+			'HTTP_HOST' => 	self::TEST_HTTP_HOST,
+			'HTTP_USER_AGENT' => self::TEST_USER_AGENT,
+			'REQUEST_URI' => self::TEST_REQUEST_URI,
+			'SCRIPT_NAME' => '/index.php'
+		);
+
+		$mockServerInput = $this->getMockInput();
+		TestReflection::setValue($mockServerInput, 'data', $serverInputData);
+
+		$inputInternals = array(
+			'server' => $mockServerInput
+		);
+
+		TestReflection::setValue($mockInput, 'inputs', $inputInternals);
 
 		// Get a new JApplicationWebInspector instance.
-		$this->class = new JApplicationWebInspector;
+		$this->class = new JApplicationWebInspector($mockInput);
 	}
 
 	/**
@@ -138,8 +141,6 @@ class JApplicationWebTest extends TestCase
 		// Reset some web inspector static settings.
 		JApplicationWebInspector::$headersSent = false;
 		JApplicationWebInspector::$connectionAlive = true;
-
-		$_SERVER = $this->backupServer;
 
 		$this->restoreFactoryState();
 
@@ -1356,12 +1357,10 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testIsSSLConnection()
 	{
-		unset($_SERVER['HTTPS']);
+		$this->assertFalse($this->object->isSslConnection());
 
-		$this->assertFalse($this->class->isSSLConnection());
+		$this->object->input->server->set('HTTPS', 'on');
 
-		$_SERVER['HTTPS'] = 'on';
-
-		$this->assertTrue($this->class->isSSLConnection());
+		$this->assertTrue($this->object->isSslConnection());
 	}
 }
