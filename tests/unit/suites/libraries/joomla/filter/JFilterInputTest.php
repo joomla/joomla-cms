@@ -104,10 +104,46 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				-789,
 				'From generic cases'
 			),
+			'int_11' => array(
+				'int',
+				'',
+				0,
+				'From generic cases'
+			),
+			'int_12' => array(
+				'int',
+				array(1, 3, 9),
+				array(1, 3, 9),
+				'From generic cases'
+			),
+			'int_13' => array(
+				'int',
+				array(1, 'ab-123ab', '-ab123.456ab'),
+				array(1, -123, 123),
+				'From generic cases'
+			),
 			'uint_1' => array(
 				'uint',
 				-789,
 				789,
+				'From generic cases'
+			),
+			'uint_2' => array(
+				'uint',
+				'',
+				0,
+				'From generic cases'
+			),
+			'uint_3' => array(
+				'uint',
+				array(-1, -3, -9),
+				array(1, 3, 9),
+				'From generic cases'
+			),
+			'uint_4' => array(
+				'uint',
+				array(1, 'ab-123ab', '-ab123.456ab'),
+				array(1, 123, 123),
 				'From generic cases'
 			),
 			'float_01' => array(
@@ -162,6 +198,36 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'float',
 				'abc-12. 456',
 				-12,
+				'From generic cases'
+			),
+			'float_09' => array(
+				'float',
+				'',
+				0,
+				'From generic cases'
+			),
+			'float_10' => array(
+				'float',
+				'27.3e-34',
+				27.3e-34,
+				'From generic cases'
+			),
+			'float_11' => array(
+				'float',
+				array(1.0, 3.1, 6.2),
+				array(1.0, 3.1, 6.2),
+				'From generic cases'
+			),
+			'float_12' => array(
+				'float',
+				array(1.0, 'abc-12. 456', 'abc-12.456abc'),
+				array(1.0, -12, -12.456),
+				'From generic cases'
+			),
+			'float_13' => array(
+				'float',
+				array(1.0, 'abcdef-7E-10', '+27.3E-34', '+27.3e-34'),
+				array(1.0, -7E-10, 27.3E-34, 27.3e-34),
 				'From generic cases'
 			),
 			'bool_0' => array(
