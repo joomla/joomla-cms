@@ -439,7 +439,17 @@ class TemplatesModelTemplate extends JModelForm
 			$input    = JFactory::getApplication()->input;
 			$fileName = base64_decode($input->get('file'));
 			$client   = JApplicationHelper::getClientInfo($this->template->client_id);
-			$filePath = JPath::clean($client->path . '/templates/' . $this->template->element . '/' . $fileName);
+
+
+			try
+			{
+				$filePath = JPath::check($client->path . '/templates/' . $this->template->element . '/' . $fileName);
+			}
+			catch (Exception $e)
+			{
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
+				return;
+			}
 
 			if (file_exists($filePath))
 			{
