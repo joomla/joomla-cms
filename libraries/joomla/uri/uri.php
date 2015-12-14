@@ -84,7 +84,7 @@ class JUri extends Uri
 				$phpSelf = $input->server->getString('PHP_SELF', '');
 				$requestUri = $input->server->getString('REQUEST_URI', '');
 
-				if (!empty($phpSelf && !empty($requestUri)))
+				if (!empty($phpSelf) && !empty($requestUri))
 				{
 					// To build the entire URI we need to prepend the protocol, and the http host
 					// to the URI string.
