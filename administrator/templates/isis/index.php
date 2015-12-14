@@ -121,6 +121,18 @@ $doc->addScriptDeclaration(
 	window.isisOffsetTop = $offset;
 	"
 );
+
+// Calculate site home page URL
+$config = JFactory::getConfig();
+$siteUri = JUri::root();
+if ($config->get('force_ssl') == 1)
+{
+	// force_ssl == 1 means: administration via HTTPS, site via HTTP
+	$siteUri = JUri::getInstance($siteUri);
+	$siteUri->setScheme('http');
+	$siteUri->setPort($config->get('http_port'));
+	$siteUri = $siteUri->toString();
+}
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -185,7 +197,7 @@ $doc->addScriptDeclaration(
 
 			<a class="admin-logo <?php echo ($hidden ? 'disabled' : ''); ?>" <?php echo ($hidden ? '' : 'href="' . $this->baseurl . '"'); ?>><span class="icon-joomla"></span></a>
 
-			<a class="brand hidden-desktop hidden-tablet" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
+			<a class="brand hidden-desktop hidden-tablet" href="<?php echo $siteUri; ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
 				<span class="icon-out-2 small"></span></a>
 
 			<div<?php echo ($this->params->get('admin_menus') != '0') ? ' class="nav-collapse collapse"' : ''; ?>>
@@ -214,7 +226,7 @@ $doc->addScriptDeclaration(
 						</ul>
 					</li>
 				</ul>
-				<a class="brand visible-desktop visible-tablet" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
+				<a class="brand visible-desktop visible-tablet" href="<?php echo $siteUri; ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
 					<span class="icon-out-2 small"></span></a>
 			</div>
 			<!--/.nav-collapse -->

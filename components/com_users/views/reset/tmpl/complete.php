@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
+$usersConfig = JComponentHelper::getParams('com_users');
 ?>
 <div class="reset-complete<?php echo $this->pageclass_sfx?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -21,7 +22,7 @@ JHtml::_('behavior.formvalidator');
 		</div>
 	<?php endif; ?>
 
-	<form action="<?php echo JRoute::_('index.php?option=com_users&task=reset.complete'); ?>" method="post" class="form-validate form-horizontal well">
+	<form action="<?php echo JRoute::_('index.php?option=com_users&task=reset.complete', true, $usersConfig->get('usesecure')); ?>" method="post" class="form-validate form-horizontal well">
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<fieldset>
 				<p><?php echo JText::_($fieldset->label); ?></p>

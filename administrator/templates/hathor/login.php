@@ -78,6 +78,17 @@ else
 	$logo = $this->baseurl . '/templates/' . $this->template . '/images/logo.png';
 }
 
+// Calculate site home page URL
+$config = JFactory::getConfig();
+$siteUri = JUri::root();
+if ($config->get('force_ssl') == 1)
+{
+	// force_ssl == 1 means: administration via HTTPS, site via HTTP
+	$siteUri = JUri::getInstance($siteUri);
+	$siteUri->setScheme('http');
+	$siteUri->setPort($config->get('http_port'));
+	$siteUri = $siteUri->toString();
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
@@ -112,7 +123,7 @@ else
 					<div class="login-inst">
 					<p><?php echo JText::_('COM_LOGIN_VALID') ?></p>
 					<div id="lock"></div>
-					<a href="<?php echo JUri::root(); ?>" target="_blank"><?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
+					<a href="<?php echo $siteUri; ?>" target="_blank"><?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
 					</div>
 					<!-- Login Component -->
 					<div class="login-box">

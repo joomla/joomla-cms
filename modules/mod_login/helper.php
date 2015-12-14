@@ -39,7 +39,25 @@ class ModLoginHelper
 		else
 		{
 			// Stay on the same page
-			$url = JUri::getInstance()->toString();
+			$uri = JUri::getInstance();
+			$uConfig = JComponentHelper::getParams('com_users');
+			if ($uConfig->get('usesecure'))
+			{
+				// Encrypted login form activated
+				// login: switch to HTTPS, logout: switch to HTTP
+				$config = JFactory::getConfig();
+				if ($type == 'login')
+				{
+					$uri->setScheme('https');
+					$uri->setPort($config->get('https_port'));
+				}
+				else
+				{
+					$uri->setScheme('http');
+					$uri->setPort($config->get('http_port'));
+				}
+			}
+			$url = $uri->toString();
 		}
 
 		return base64_encode($url);

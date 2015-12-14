@@ -33,6 +33,9 @@ class UsersControllerUser extends UsersController
 		$input  = $app->input;
 		$method = $input->getMethod();
 
+		$uParams = JComponentHelper::getParams('com_users');
+		$useSSL = ($uParams->get('usesecure') ? 2 : 0);
+
 		// Populate the data array:
 		$data = array();
 
@@ -73,7 +76,7 @@ class UsersControllerUser extends UsersController
 			// Login failed !
 			$data['remember'] = (int) $options['remember'];
 			$app->setUserState('users.login.form.data', $data);
-			$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
+			$app->redirect(JRoute::_('index.php?option=com_users&view=login', false, $useSSL));
 		}
 
 		// Success

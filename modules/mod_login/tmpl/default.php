@@ -14,8 +14,23 @@ require_once JPATH_SITE . '/components/com_users/helpers/route.php';
 JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
 
+$config = JFactory::getConfig();
+$usersConfig = JComponentHelper::getParams('com_users');
+$actionUri = JUri::getInstance();
+if ($usersConfig->get('usesecure'))
+{
+	$actionUri->setScheme('https');
+	$actionUri->setPort($config->get('https_port'));
+	$actionUri = $actionUri->toString();
+}
+else
+{
+	$actionUri = $actionUri->toString(array('path', 'query', 'fragment'));
+}
+$actionUri = htmlspecialchars($actionUri);
+
 ?>
-<form action="<?php echo JRoute::_(htmlspecialchars(JUri::getInstance()->toString()), true, $params->get('usesecure')); ?>" method="post" id="login-form" class="form-inline">
+<form action="<?php echo $actionUri; ?>" method="post" id="login-form" class="form-inline">
 	<?php if ($params->get('pretext')) : ?>
 		<div class="pretext">
 			<p><?php echo $params->get('pretext'); ?></p>
@@ -93,8 +108,6 @@ JHtml::_('bootstrap.tooltip');
 				<button type="submit" tabindex="0" name="Submit" class="btn btn-primary"><?php echo JText::_('JLOGIN') ?></button>
 			</div>
 		</div>
-		<?php
-			$usersConfig = JComponentHelper::getParams('com_users'); ?>
 			<ul class="unstyled">
 			<?php if ($usersConfig->get('allowUserRegistration')) : ?>
 				<li>

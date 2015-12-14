@@ -12,9 +12,10 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen');
+$usersConfig = JComponentHelper::getParams('com_users');
 
 ?>
-<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login" class="form-inline">
+<form action="<?php echo JRoute::_('index.php', true, $usersConfig->get('usesecure')); ?>" method="post" id="form-login" class="form-inline">
 	<fieldset class="loginform">
 		<div class="control-group">
 			<div class="controls">

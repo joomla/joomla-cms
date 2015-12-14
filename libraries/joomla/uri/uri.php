@@ -133,11 +133,22 @@ class JUri extends Uri
 		{
 			$config = JFactory::getConfig();
 			$uri = static::getInstance();
-			$live_site = ($uri->isSsl()) ? str_replace("http://", "https://", $config->get('live_site')) : $config->get('live_site');
+			$live_site = $config->get('live_site');
 
 			if (trim($live_site) != '')
 			{
+				$isSsl = $uri->isSsl();
 				$uri = static::getInstance($live_site);
+				if ($isSsl)
+				{
+					$uri->setScheme('https');
+					$uri->setPort($config->get('https_port'));
+				}
+				else
+				{
+					$uri->setScheme('http');
+					$uri->setPort($config->get('http_port'));
+				}
 				static::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 				static::$base['path'] = rtrim($uri->toString(array('path')), '/\\');
 
@@ -265,10 +276,23 @@ class JUri extends Uri
 	public static function isInternal($url)
 	{
 		$uri = static::getInstance($url);
+		$ourBase = static::base();
+		if ($uri->getScheme())
+		{
+			// The given URL contains a scheme
+			$ourBaseUri = static::getInstance($ourBase);
+			if ($uri->getHost() == $ourBaseUri->getHost())
+			{
+				// Same host for the given URL and our base
+				// Assign (for the following tests) the scheme and the port from our base to the given URL
+				$uri->setScheme($ourBaseUri->getScheme());
+				$uri->setPort($ourBaseUri->getPort());
+			}
+		}
 		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host = $uri->toString(array('scheme', 'host', 'port'));
 
-		if (stripos($base, static::base()) !== 0 && !empty($host))
+		if (stripos($base, $ourBase) !== 0 && !empty($host))
 		{
 			return false;
 		}

@@ -449,6 +449,7 @@ class JApplicationAdministrator extends JApplicationCms
 		{
 			// Forward to https
 			$uri->setScheme('https');
+			$uri->setPort($this->get('https_port'));
 			$this->redirect((string) $uri, 301);
 		}
 

@@ -16,8 +16,18 @@ $output    = array();
 // Print the Preview link to Main site.
 if ($params->get('show_viewsite', 1))
 {
+	$config = JFactory::getConfig();
+	$siteUri = JUri::root();
+	if ($config->get('force_ssl') == 1)
+	{
+		// force_ssl == 1 means: administration via HTTPS, site via HTTP
+		$siteUri = JUri::getInstance($siteUri);
+		$siteUri->setScheme('http');
+		$siteUri->setPort($config->get('http_port'));
+		$siteUri = $siteUri->toString();
+	}
 	$output[] = '<div class="btn-group viewsite">'
-		. '<a href="' . JUri::root() . '" target="_blank">'
+		. '<a href="' . $siteUri . '" target="_blank">'
 		. '<span class="icon-out-2"></span> ' . JText::_('JGLOBAL_VIEW_SITE')
 		. '</a>'
 		. '</div>'

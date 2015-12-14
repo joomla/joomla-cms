@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+$usersConfig = JComponentHelper::getParams('com_users');
 ?>
 <div class="logout<?php echo $this->pageclass_sfx?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -34,7 +35,7 @@ defined('_JEXEC') or die;
 	</div>
 	<?php endif; ?>
 
-	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post" class="form-horizontal well">
+	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout', true, $usersConfig->get('usesecure')); ?>" method="post" class="form-horizontal well">
 		<div class="control-group">
 			<div class="controls">
 				<button type="submit" class="btn btn-primary"><span class="icon-arrow-left icon-white"></span> <?php echo JText::_('JLOGOUT'); ?></button>
