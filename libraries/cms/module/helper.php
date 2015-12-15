@@ -255,6 +255,9 @@ abstract class JModuleHelper
 			}
 		}
 
+		// Call the plugins to be able to change the module before rendering it
+		$app->triggerEvent('onAfterRenderModule', array(&$module, &$attribs));
+
 		// Revert the scope
 		$app->scope = $scope;
 
