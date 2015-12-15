@@ -141,7 +141,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						$active = $menu->getActive();
 						$itemId = $active->id;
 						$link   = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
-						$link->setVar('return', base64_encode(JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false)));
+						$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false));
 					?>
 					<a href="<?php echo $link; ?>" class="register">
 					<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?></a>
