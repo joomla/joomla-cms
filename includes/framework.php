@@ -5,96 +5,126 @@
  * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 defined('_JEXEC') or die;
 
 // Joomla system checks.
 @ini_set('magic_quotes_runtime', 0);
 
-// System includes
-require_once JPATH_LIBRARIES . '/import.legacy.php';
-
-// Set system error handling
-JError::setErrorHandling(E_NOTICE, 'message');
-JError::setErrorHandling(E_WARNING, 'message');
-JError::setErrorHandling(E_ERROR, 'callback', array('JError', 'customErrorPage'));
-
-// Bootstrap the CMS libraries.
-require_once JPATH_LIBRARIES . '/cms.php';
-
-$version = new JVersion;
-
-// Installation check, and check on removal of the install directory.
-if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
-	|| (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10)
-	|| (file_exists(JPATH_INSTALLATION . '/index.php') && (false === $version->isInDevelopmentState())))
+/**
+ * Provides methods to initialize the cms environment and dependencies.
+ *
+ * @since  VERSION
+ */
+class JBootstrap
 {
-	if (file_exists(JPATH_INSTALLATION . '/index.php'))
+	/**
+	 * @var  JConfig
+	 */
+	protected static $config;
+
+	/**
+	 * @var  string  Relative location of installation directory, used for redirection.
+	 */
+	protected static $install_path = 'installation/index.php';
+
+	/**
+	 * Installation check, and check on removal of the install directory.
+	 *
+	 * @return  void
+	 */
+	public static function checkInstallation()
 	{
-		header('Location: ' . substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php')) . 'installation/index.php');
+		// If install directory exists, always redirect to it.
+		// Todo: Make adjustments to allow JVersion::isInDevelopmentState() condition test
+		if (file_exists(JPATH_INSTALLATION . '/index.php'))
+		{
+			header('Location: ' . substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php')) . static::$install_path);
 
-		exit;
+			exit;
+		}
+
+		if (!file_exists(JPATH_CONFIGURATION . '/configuration.php') || (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10))
+		{
+			echo 'No configuration file found and no installation code available. Exiting...';
+
+			exit;
+		}
 	}
-	else
+
+	/**
+	 * Load the cms and application context.
+	 *
+	 * @return  void
+	 */
+	public static function loadCms()
 	{
-		echo 'No configuration file found and no installation code available. Exiting...';
+		static::loadConfig();
 
-		exit;
+		// System includes
+		require_once JPATH_LIBRARIES . '/import.legacy.php';
+
+		// Set system error handling
+		JError::setErrorHandling(E_NOTICE, 'message');
+		JError::setErrorHandling(E_WARNING, 'message');
+		JError::setErrorHandling(E_ERROR, 'callback', array('JError', 'customErrorPage'));
+
+		// Bootstrap the CMS libraries.
+		require_once JPATH_LIBRARIES . '/cms.php';
 	}
-}
 
-// Pre-Load configuration. Don't remove the Output Buffering due to BOM issues, see JCode 26026
-ob_start();
-require_once JPATH_CONFIGURATION . '/configuration.php';
-ob_end_clean();
+	/**
+	 * Load site configuration from config file.
+	 *
+	 * @return  void
+	 */
+	protected static function loadConfig()
+	{
+		// Pre-Load configuration. Don't remove the Output Buffering due to BOM issues, see JCode 26026
+		ob_start();
+		require_once JPATH_CONFIGURATION . '/configuration.php';
+		ob_end_clean();
 
-// System configuration.
-$config = new JConfig;
+		// System configuration.
+		static::$config = new JConfig;
 
-// Set the error_reporting
-switch ($config->error_reporting)
-{
-	case 'default':
-	case '-1':
-		break;
+		// Set the error_reporting
+		switch (static::$config->error_reporting)
+		{
+			case 'default':
+			case '-1':
+				break;
 
-	case 'none':
-	case '0':
-		error_reporting(0);
+			case 'none':
+			case '0':
+				error_reporting(0);
 
-		break;
+				break;
 
-	case 'simple':
-		error_reporting(E_ERROR | E_WARNING | E_PARSE);
-		ini_set('display_errors', 1);
+			case 'simple':
+				error_reporting(E_ERROR | E_WARNING | E_PARSE);
+				ini_set('display_errors', 1);
 
-		break;
+				break;
 
-	case 'maximum':
-		error_reporting(E_ALL);
-		ini_set('display_errors', 1);
+			case 'maximum':
+				error_reporting(E_ALL);
+				ini_set('display_errors', 1);
 
-		break;
+				break;
 
-	case 'development':
-		error_reporting(-1);
-		ini_set('display_errors', 1);
+			case 'development':
+				error_reporting(-1);
+				ini_set('display_errors', 1);
 
-		break;
+				break;
 
-	default:
-		error_reporting($config->error_reporting);
-		ini_set('display_errors', 1);
+			default:
+				error_reporting(static::$config->error_reporting);
+				ini_set('display_errors', 1);
 
-		break;
-}
+				break;
+		}
 
-define('JDEBUG', $config->debug);
-
-unset($config);
-
-// System profiler
-if (JDEBUG)
-{
-	$_PROFILER = JProfiler::getInstance('Application');
+		define('JDEBUG', static::$config->debug);
+	}
 }

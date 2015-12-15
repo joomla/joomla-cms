@@ -35,8 +35,22 @@ if (!defined('_JDEFINES'))
 
 require_once JPATH_BASE . '/includes/framework.php';
 
-// Mark afterLoad in the profiler.
-JDEBUG ? $_PROFILER->mark('afterLoad') : null;
+// Make sure the JBootstrap class is present.
+if (!class_exists('JBootstrap'))
+{
+	die('Error while initialising the application. Bootstrap class not found.');
+}
+
+JBootstrap::checkInstallation();
+
+JBootstrap::loadCms();
+
+if (JDEBUG)
+{
+	// Mark afterLoad in the profiler.
+	$_PROFILER = JProfiler::getInstance('Application');
+	$_PROFILER->mark('afterLoad');
+}
 
 // Instantiate the application.
 $app = JFactory::getApplication('site');

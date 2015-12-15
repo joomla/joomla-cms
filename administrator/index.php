@@ -34,11 +34,23 @@ if (!defined('_JDEFINES'))
 }
 
 require_once JPATH_BASE . '/includes/framework.php';
-require_once JPATH_BASE . '/includes/helper.php';
-require_once JPATH_BASE . '/includes/toolbar.php';
 
-// Mark afterLoad in the profiler.
-JDEBUG ? $_PROFILER->mark('afterLoad') : null;
+// Make sure the JBootstrapAdministrator class is present.
+if (!class_exists('JBootstrapAdministrator'))
+{
+	die('Error while initialising the application. Bootstrap class not found.');
+}
+
+JBootstrapAdministrator::checkInstallation();
+
+JBootstrapAdministrator::loadCms();
+
+if (JDEBUG)
+{
+	// Mark afterLoad in the profiler.
+	$_PROFILER = JProfiler::getInstance('Application');
+	$_PROFILER->mark('afterLoad');
+}
 
 // Instantiate the application.
 $app = JFactory::getApplication('administrator');
