@@ -68,7 +68,7 @@
 			type="calendar"
 			label="COM_USERS_FIELD_REVIEW_TIME_LABEL"
 			description="COM_USERS_FIELD_REVIEW_TIME_DESC"
-			default="0000-00-00"
+			default="NOW"
 			format="%Y-%m-%d"
 			/>
 
