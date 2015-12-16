@@ -709,12 +709,11 @@ class PlgEditorTinymce extends JPlugin
 
 		$script = '';
 
-				// Mootools b/c
-		$script .= '
-		window.getSize = window.getSize || function(){return {x: jQuery(window).width(), y: jQuery(window).height()};};
-		';
-
+		// First line is for Mootools b/c
 		$script .= "
+		window.getSize = window.getSize || function(){return {x: jQuery(window).width(), y: jQuery(window).height()};};
+		tinymce.suffix = '.min';
+		tinymce.baseURL = '" . JUri::root() . "media/editors/tinymce';
 		tinymce.init({
 		";
 
