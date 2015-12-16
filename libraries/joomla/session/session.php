@@ -219,7 +219,7 @@ class JSession implements IteratorAggregate
 		// Create a token
 		if ($token === null || $forceNew)
 		{
-			$token = $this->_createToken(12);
+			$token = $this->_createToken();
 			$this->set('session.token', $token);
 		}
 
