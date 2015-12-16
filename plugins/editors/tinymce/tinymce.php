@@ -983,12 +983,14 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * Get the XTD buttons and render them inside tinyMCE
 	 *
+	 * @param   string  $excluded  the buttons that should be hidden
+	 *
 	 * @return array
 	 */
-	private function tinyButtons($buttons)
+	private function tinyButtons($excluded)
 	{
 		// Get the available buttons
-		$buttons = $this->_subject->getButtons($this->_name, $buttons);
+		$buttons = $this->_subject->getButtons($this->_name, $excluded);
 
 		// Init the arrays for the buttons
 		$tinyBtns  = array();
