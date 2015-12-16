@@ -51,7 +51,7 @@
 		/>
 
 		<field name="description" type="editor"
-               filter="raw" rows="3" cols="30" label="JGLOBAL_DESCRIPTION"
+               filter="JComponentHelper::filterText" buttons="true" hide="readmore,pagebreak" label="JGLOBAL_DESCRIPTION"
 			description="COM_BANNERS_FIELD_DESCRIPTION_DESC" />
 
 		<field name="type" type="list"
@@ -64,7 +64,7 @@
 		</field>
 
 		<field name="custombannercode" type="textarea"
-			rows="3" cols="30" filter="raw"
+			rows="3" cols="30" filter="JComponentHelper::filterText"
 			label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL" description="COM_BANNERS_FIELD_CUSTOMCODE_DESC" />
 
 		<field name="clickurl" type="url" filter="url"
