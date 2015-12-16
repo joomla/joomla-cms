@@ -108,38 +108,9 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
 	{
-		// If a input object is given use it.
-		if ($input instanceof JInput)
-		{
-			$this->input = $input;
-		}
-		// Create the input based on the application logic.
-		else
-		{
-			$this->input = new JInput;
-		}
-
-		// If a config object is given use it.
-		if ($config instanceof Registry)
-		{
-			$this->config = $config;
-		}
-		// Instantiate a new configuration object.
-		else
-		{
-			$this->config = new Registry;
-		}
-
-		// If a client object is given use it.
-		if ($client instanceof JApplicationWebClient)
-		{
-			$this->client = $client;
-		}
-		// Instantiate a new web client object.
-		else
-		{
-			$this->client = new JApplicationWebClient;
-		}
+		$this->input = $input ?: new JInput;
+		$this->config = $config ?: new Registry;
+		$this->client = $client ?: new JApplicationWebClient;
 
 		// Load the configuration object.
 		$this->loadConfiguration($this->fetchConfigurationData());
