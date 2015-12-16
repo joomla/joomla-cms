@@ -10,14 +10,6 @@
                 />
 
         <field
-                name="client_id"
-                type="location"
-                onchange="this.form.submit();"
-                >
-            <option value="">COM_INSTALLER_VALUE_CLIENT_SELECT</option>
-        </field>
-
-        <field
                 name="enabled"
                 type="list"
                 label="COM_PLUGINS_FILTER_PUBLISHED"
@@ -29,6 +21,14 @@
             <option value="1">JPUBLISHED</option>
         </field>
 
+        <field
+                name="client_id"
+                type="location"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_INSTALLER_VALUE_CLIENT_SELECT</option>
+        </field>
+    
         <field
                 name="type"
                 type="type"
