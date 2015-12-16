@@ -172,12 +172,12 @@ class PlgEditorTinymce extends JPlugin
 					}
 					else
 					{
-						$content_css = 'content_css : "' . JUri::root() . 'templates/system/css/editor.css",';
+						$content_css = 'content_css : "' . JUri::root(true) . 'templates/system/css/editor.css",';
 					}
 				}
 				else
 				{
-					$content_css = 'content_css : "' . JUri::root() . 'templates/' . $template . '/css/editor.css",';
+					$content_css = 'content_css : "' . JUri::root(true) . 'templates/' . $template . '/css/editor.css",';
 				}
 			}
 		}
