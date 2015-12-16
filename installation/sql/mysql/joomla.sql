@@ -2112,3 +2112,88 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (3, 'Special', 3, '[6,3,8]'),
 (5, 'Guest', 1, '[9]'),
 (6, 'Super Users', 4, '[8]');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__permissions`
+--
+
+CREATE TABLE `#__permissions` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  `permission` VARCHAR( 50 ) NOT NULL ,
+  `value` BOOL NOT NULL ,
+  `group` INT NOT NULL ,
+  `assetid` INT NOT NULL ,
+  INDEX ( `assetid` ),
+  INDEX ( `group` ),
+  INDEX ( `value` ),
+  UNIQUE KEY `uniq` ( `permission` , `group` , `assetid` )
+) ENGINE = InnoDB COMMENT = 'Joomla permission table' DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `#__viewlevels`
+--
+
+INSERT INTO `#__permissions` (`id`, `permission`, `value`, `group`, `assetid`) VALUES
+  (1, 'core.login.site', 1, 6, 1),
+  (2, 'core.login.site', 1, 2, 1),
+  (3, 'core.login.admin', 1, 6, 1),
+  (4, 'core.login.offline', 1, 6, 1),
+  (5, 'core.admin', 1, 8, 1),
+  (6, 'core.manage', 1, 7, 1),
+  (7, 'core.create', 1, 6, 1),
+  (8, 'core.create', 1, 3, 1),
+  (9, 'core.delete', 1, 6, 1),
+  (10, 'core.edit', 1, 6, 1),
+  (11, 'core.edit', 1, 4, 1),
+  (12, 'core.edit.state', 1, 6, 1),
+  (13, 'core.edit.state', 1, 5, 1),
+  (14, 'core.edit.own', 1, 6, 1),
+  (15, 'core.edit.own', 1, 3, 1),
+  (16, 'core.admin', 1, 7, 3),
+  (17, 'core.manage', 1, 6, 3),
+  (18, 'core.admin', 1, 7, 4),
+  (19, 'core.manage', 1, 7, 4),
+  (20, 'core.admin', 1, 7, 5),
+  (21, 'core.manage', 1, 7, 5),
+  (22, 'core.admin', 1, 7, 7),
+  (23, 'core.manage', 1, 6, 7),
+  (24, 'core.admin', 1, 7, 8),
+  (25, 'core.manage', 1, 6, 8),
+  (26, 'core.create', 1, 3, 8),
+  (27, 'core.edit', 1, 4, 8),
+  (28, 'core.edit.state', 1, 5, 8),
+  (29, 'core.manage', 0, 7, 10),
+  (30, 'core.delete', 0, 7, 10),
+  (31, 'core.edit.state', 0, 7, 10),
+  (32, 'core.admin', 1, 7, 11),
+  (33, 'core.admin', 1, 7, 15),
+  (34, 'core.manage', 1, 6, 15),
+  (35, 'core.create', 1, 3, 15),
+  (36, 'core.delete', 1, 5, 15),
+  (37, 'core.admin', 1, 7, 16),
+  (38, 'core.admin', 1, 7, 17),
+  (39, 'core.manage', 1, 7, 17),
+  (40, 'core.admin', 1, 7, 18),
+  (41, 'core.admin', 1, 7, 19),
+  (42, 'core.manage', 1, 6, 19),
+  (43, 'core.admin', 1, 7, 20),
+  (44, 'core.admin', 1, 7, 21),
+  (45, 'core.admin', 1, 7, 22),
+  (46, 'core.manage', 1, 6, 22),
+  (47, 'core.admin', 1, 7, 23),
+  (48, 'core.admin', 1, 7, 24),
+  (49, 'core.admin', 1, 7, 33),
+  (50, 'core.manage', 1, 6, 33);
+
+
+-- To be moved to change sql later and merged with tables sql
+-- ALTER TABLE `#__menu` ADD `asset_id` INT( 10 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.';
+-- ALTER TABLE `#__extensions` ADD `asset_id` INT( 10 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.';
+ALTER TABLE `#__contact_details` ADD INDEX `idx_useri_id` ( `user_id` );
+ALTER TABLE `#__assets` ADD INDEX `idx_id_level` ( `level` , `id` );
+
+-- TESTING ONLY
+UPDATE `#__assets` SET `rules`='{}';
+
