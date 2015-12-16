@@ -46,6 +46,80 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onInit()
 	{
+		JHtml::script($this->_basePath . '/tinymce.min.js', false, false, false, false, false);
+
+		return;
+	}
+
+	/**
+	 * TinyMCE WYSIWYG Editor - get the editor content
+	 *
+	 * @param   string  $editor  The name of the editor
+	 *
+	 * @return  string
+	 */
+	public function onGetContent($editor)
+	{
+		return 'tinyMCE.activeEditor.getContent();';
+	}
+
+	/**
+	 * TinyMCE WYSIWYG Editor - set the editor content
+	 *
+	 * @param   string  $editor  The name of the editor
+	 * @param   string  $html    The html to place in the editor
+	 *
+	 * @return  string
+	 */
+	public function onSetContent($editor, $html)
+	{
+		return 'tinyMCE.activeEditor.setContent(' . $html . ');';
+	}
+
+	/**
+	 * TinyMCE WYSIWYG Editor - copy editor content to form field
+	 *
+	 * @param   string  $editor  The name of the editor
+	 *
+	 * @return  string
+	 */
+	public function onSave($editor)
+	{
+		return 'if (tinyMCE.get("' . $editor . '").isHidden()) {tinyMCE.get("' . $editor . '").show()};';
+	}
+
+	/**
+	 * Inserts html code into the editor
+	 *
+	 * @param   string  $name  The name of the editor
+	 *
+	 * @return  void
+	 *
+	 * @deprecated 3.5 tinyMCE (API v4) will get the content automatically from the text area
+	 */
+	public function onGetInsertMethod($name)
+	{
+		return;
+	}
+
+	/**
+	 * Display the editor area.
+	 *
+	 * @param   string   $name     The name of the editor area.
+	 * @param   string   $content  The content of the field.
+	 * @param   string   $width    The width of the editor area.
+	 * @param   string   $height   The height of the editor area.
+	 * @param   int      $col      The number of columns for the editor area.
+	 * @param   int      $row      The number of rows for the editor area.
+	 * @param   boolean  $buttons  True and the editor buttons will be displayed.
+	 * @param   string   $id       An optional ID for the textarea. If not supplied the name is used.
+	 * @param   string   $asset    The object asset
+	 * @param   object   $author   The author.
+	 *
+	 * @return  string
+	 */
+	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
+	{
 		$app      = JFactory::getApplication();
 		$language = JFactory::getLanguage();
 		$mode     = (int) $this->params->get('mode', 1);
@@ -617,9 +691,9 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		// We shall put the XTD button inside tinymce
-		$buttons = $this->tinyButtons();
-		$btnsNames = $buttons['names'];
-		$tinyBtns  = $buttons['script'];
+		$btns = $this->tinyButtons($buttons);
+		$btnsNames = $btns['names'];
+		$tinyBtns  = $btns['script'];
 
 		// Drag and drop Images
 		$allowImgPaste = "false";
@@ -687,8 +761,6 @@ class PlgEditorTinymce extends JPlugin
 		// See if mobileVersion is activated
 		$mobileVersion = $this->params->get('mobile', 0);
 
-		JHtml::script($this->_basePath . '/tinymce.min.js', false, false, false, false, false);
-
 		/**
 		 * Shrink the buttons if not on a mobile or if mobile view is off.
 		 * If mobile view is on force into simple mode and enlarge the buttons
@@ -709,7 +781,7 @@ class PlgEditorTinymce extends JPlugin
 
 		$script = '';
 
-				// Mootools b/c
+		// Mootools b/c
 		$script .= '
 		window.getSize = window.getSize || function(){return {x: jQuery(window).width(), y: jQuery(window).height()};};
 		';
@@ -767,10 +839,10 @@ class PlgEditorTinymce extends JPlugin
 
 			case 1:
 			default: /* Advanced mode*/
-			$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
-				. "| outdent indent | undo redo | link unlink anchor image | hr table | subscript superscript | charmap";
+				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
+					. "| outdent indent | undo redo | link unlink anchor image | hr table | subscript superscript | charmap";
 
-			$script .= "
+				$script .= "
 			valid_elements : \"$valid_elements\",
 			extended_valid_elements : \"$elements\",
 			invalid_elements : \"$invalid_elements\",
@@ -790,7 +862,7 @@ class PlgEditorTinymce extends JPlugin
 				break;
 
 			case 2: /* Extended mode*/
-			$script .= "
+				$script .= "
 			valid_elements : \"$valid_elements\",
 			extended_valid_elements : \"$elements\",
 			invalid_elements : \"$invalid_elements\",
@@ -839,7 +911,7 @@ class PlgEditorTinymce extends JPlugin
 		if (!empty($btnsNames))
 		{
 			JFactory::getDocument()->addScriptDeclaration(
-					"
+				"
 		function jModalClose() {
 			tinyMCE.activeEditor.windowManager.close();
 		}
@@ -862,78 +934,6 @@ class PlgEditorTinymce extends JPlugin
 		JFactory::getDocument()->addScriptDeclaration($script);
 		JFactory::getDocument()->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
 
-		return;
-	}
-
-	/**
-	 * TinyMCE WYSIWYG Editor - get the editor content
-	 *
-	 * @param   string  $editor  The name of the editor
-	 *
-	 * @return  string
-	 */
-	public function onGetContent($editor)
-	{
-		return 'tinyMCE.activeEditor.getContent();';
-	}
-
-	/**
-	 * TinyMCE WYSIWYG Editor - set the editor content
-	 *
-	 * @param   string  $editor  The name of the editor
-	 * @param   string  $html    The html to place in the editor
-	 *
-	 * @return  string
-	 */
-	public function onSetContent($editor, $html)
-	{
-		return 'tinyMCE.activeEditor.setContent(' . $html . ');';
-	}
-
-	/**
-	 * TinyMCE WYSIWYG Editor - copy editor content to form field
-	 *
-	 * @param   string  $editor  The name of the editor
-	 *
-	 * @return  string
-	 */
-	public function onSave($editor)
-	{
-		return 'if (tinyMCE.get("' . $editor . '").isHidden()) {tinyMCE.get("' . $editor . '").show()};';
-	}
-
-	/**
-	 * Inserts html code into the editor
-	 *
-	 * @param   string  $name  The name of the editor
-	 *
-	 * @return  void
-	 *
-	 * @deprecated 3.5 tinyMCE (API v4) will get the content automatically from the text area
-	 */
-	public function onGetInsertMethod($name)
-	{
-		return;
-	}
-
-	/**
-	 * Display the editor area.
-	 *
-	 * @param   string   $name     The name of the editor area.
-	 * @param   string   $content  The content of the field.
-	 * @param   string   $width    The width of the editor area.
-	 * @param   string   $height   The height of the editor area.
-	 * @param   int      $col      The number of columns for the editor area.
-	 * @param   int      $row      The number of rows for the editor area.
-	 * @param   boolean  $buttons  True and the editor buttons will be displayed.
-	 * @param   string   $id       An optional ID for the textarea. If not supplied the name is used.
-	 * @param   string   $asset    The object asset
-	 * @param   object   $author   The author.
-	 *
-	 * @return  string
-	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
-	{
 		if (empty($id))
 		{
 			$id = $name;
@@ -985,10 +985,10 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @return array
 	 */
-	private function tinyButtons()
+	private function tinyButtons($buttons)
 	{
 		// Get the available buttons
-		$buttons = $this->_subject->getButtons($this->_name, true);
+		$buttons = $this->_subject->getButtons($this->_name, $buttons);
 
 		// Init the arrays for the buttons
 		$tinyBtns  = array();
