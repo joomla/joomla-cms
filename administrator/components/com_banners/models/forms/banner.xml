@@ -64,7 +64,7 @@
 		</field>
 
 		<field name="custombannercode" type="textarea"
-			rows="3" cols="30" filter="JComponentHelper::filterText"
+			rows="3" cols="30" filter="raw"
 			label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL" description="COM_BANNERS_FIELD_CUSTOMCODE_DESC" />
 
 		<field name="clickurl" type="url" filter="url"
