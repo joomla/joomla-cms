@@ -172,12 +172,12 @@ class PlgEditorTinymce extends JPlugin
 					}
 					else
 					{
-						$content_css = 'content_css : "' . JUri::root() . 'templates/system/css/editor.css",';
+						$content_css = 'content_css : "' . JUri::root(true) . 'templates/system/css/editor.css",';
 					}
 				}
 				else
 				{
-					$content_css = 'content_css : "' . JUri::root() . 'templates/' . $template . '/css/editor.css",';
+					$content_css = 'content_css : "' . JUri::root(true) . 'templates/' . $template . '/css/editor.css",';
 				}
 			}
 		}
@@ -709,12 +709,11 @@ class PlgEditorTinymce extends JPlugin
 
 		$script = '';
 
-				// Mootools b/c
-		$script .= '
-		window.getSize = window.getSize || function(){return {x: jQuery(window).width(), y: jQuery(window).height()};};
-		';
-
+		// First line is for Mootools b/c
 		$script .= "
+		window.getSize = window.getSize || function(){return {x: jQuery(window).width(), y: jQuery(window).height()};};
+		tinymce.suffix = '.min';
+		tinymce.baseURL = '" . JUri::root() . "media/editors/tinymce';
 		tinymce.init({
 		";
 
