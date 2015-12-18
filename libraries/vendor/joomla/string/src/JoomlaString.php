@@ -16,6 +16,6 @@ namespace Joomla\String;
  * @since       1.0
  * @deprecated  2.0  Use StringHelper instead
  */
-abstract class String extends StringHelper
+abstract class JoomlaString extends StringHelper
 {
 }
