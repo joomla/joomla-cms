@@ -9,7 +9,7 @@
 namespace Joomla\Filter;
 
 use Joomla\Language\Language;
-use Joomla\String\String;
+use Joomla\String\JoomlaString;
 
 /**
  * OutputFilter
@@ -101,7 +101,7 @@ class OutputFilter
 		$str = $lang->transliterate($str);
 
 		// Trim white spaces at beginning and end of alias and make lowercase
-		$str = trim(String::strtolower($str));
+		$str = trim(JoomlaString::strtolower($str));
 
 		// Remove any duplicate whitespace, and ensure all characters are alphanumeric
 		$str = preg_replace('/(\s|[^A-Za-z0-9\-])+/', '-', $str);
@@ -138,7 +138,7 @@ class OutputFilter
 		$str = str_replace('?', '', $str);
 
 		// Trim white spaces at beginning and end of alias and make lowercase
-		$str = trim(String::strtolower($str));
+		$str = trim(JoomlaString::strtolower($str));
 
 		// Remove any duplicate whitespace and replace whitespaces by hyphens
 		$str = preg_replace('#\x20+#', '-', $str);
