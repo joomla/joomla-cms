@@ -258,7 +258,7 @@ abstract class JModuleHelper
 		// Revert the scope
 		$app->scope = $scope;
 
-		$app->triggerEvent('onAfterRenderModule', array(&$module));
+		$app->triggerEvent('onAfterRenderModule', array(&$module, &$attribs));
 
 		if (JDEBUG)
 		{
