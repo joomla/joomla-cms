@@ -569,9 +569,20 @@ class TemplatesModelTemplate extends JModelForm
 
 			foreach ($components as $component)
 			{
-				$viewPath = JPath::clean($componentPath . '/' . $component . '/views/');
+				if (file_exists($componentPath . '/' . $component . '/views/'))
+				{
+					$viewPath = JPath::clean($componentPath . '/' . $component . '/views/');
+				}
+				elseif (file_exists($componentPath . '/' . $component . '/view/'))
+				{
+					$viewPath = JPath::clean($componentPath . '/' . $component . '/view/');
+				}
+				else
+				{
+					$viewPath = '';
+				}
 
-				if (file_exists($viewPath))
+				if ($viewPath)
 				{
 					$views = JFolder::folders($viewPath);
 
