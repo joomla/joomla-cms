@@ -588,7 +588,11 @@ class TemplatesModelTemplate extends JModelForm
 
 					foreach ($views as $view)
 					{
-						$result['components'][$component][] = $this->getOverridesFolder($view, $viewPath);
+						// Only show the view has layout inside it
+						if (file_exists($viewPath . $view . '/tmpl'))
+						{
+							$result['components'][$component][] = $this->getOverridesFolder($view, $viewPath);
+						}
 					}
 				}
 			}
