@@ -1399,7 +1399,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function extendWhere($outerGlue, $conditions, $innerGlue = 'AND')
 	{
@@ -1424,7 +1424,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function orWhere($conditions, $glue = 'AND')
 	{
@@ -1443,7 +1443,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function andWhere($conditions, $glue = 'OR')
 	{

@@ -115,7 +115,7 @@ class JDatabaseQueryElement
 	 *
 	 * @return  JDatabaseQueryElement  Returns this object to allow chaining.
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function setName($name)
 	{
