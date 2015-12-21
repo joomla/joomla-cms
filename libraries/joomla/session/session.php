@@ -91,6 +91,12 @@ class JSession implements IteratorAggregate
 	 */
 	private $_dispatcher = null;
 	/**
+	 * Internal data store for the session data
+	 *
+	 * @var  \Joomla\Registry\Registry
+	 */
+	protected $data;
+	/**
 	 * Constructor
 	 *
 	 * @param   string  $store    The type of storage for the session.
@@ -263,7 +269,7 @@ class JSession implements IteratorAggregate
 	 */
 	public function getIterator()
 	{
-		return new ArrayIterator($_SESSION);
+		return new ArrayIterator($this->getData());
 	}
 	/**
 	 * Checks for a form token in the request.
@@ -331,6 +337,17 @@ class JSession implements IteratorAggregate
 		}
 		return session_id();
 	}
+
+	/**
+	 * Returns a clone of the internal data pointer
+	 *
+	 * @return  \Joomla\Registry\Registry
+	 */
+	public function getData()
+	{
+		return clone $this->data;
+	}
+
 	/**
 	 * Get the session handlers
 	 *
@@ -427,11 +444,8 @@ class JSession implements IteratorAggregate
 			$error = null;
 			return $error;
 		}
-		if (isset($_SESSION[$namespace][$name]))
-		{
-			return $_SESSION[$namespace][$name];
-		}
-		return $default;
+
+		return $this->data->get($namespace . '.' . $name, $default);
 	}
 	/**
 	 * Set data into the session store.
@@ -453,16 +467,7 @@ class JSession implements IteratorAggregate
 			// @TODO :: generated error here
 			return null;
 		}
-		$old = isset($_SESSION[$namespace][$name]) ? $_SESSION[$namespace][$name] : null;
-		if (null === $value)
-		{
-			unset($_SESSION[$namespace][$name]);
-		}
-		else
-		{
-			$_SESSION[$namespace][$name] = $value;
-		}
-		return $old;
+		return $this->data->set($namespace . '.' . $name, $value);
 	}
 	/**
 	 * Check whether data exists in the session store
@@ -483,7 +488,7 @@ class JSession implements IteratorAggregate
 			// @TODO :: generated error here
 			return null;
 		}
-		return isset($_SESSION[$namespace][$name]);
+		return !is_null($this->data->get($namespace . '.' . $name, null));
 	}
 	/**
 	 * Unset data from the session store
@@ -504,13 +509,7 @@ class JSession implements IteratorAggregate
 			// @TODO :: generated error here
 			return null;
 		}
-		$value = null;
-		if (isset($_SESSION[$namespace][$name]))
-		{
-			$value = $_SESSION[$namespace][$name];
-			unset($_SESSION[$namespace][$name]);
-		}
-		return $value;
+		return $this->data->set($namespace . '.' . $name, null);
 	}
 	/**
 	 * Start a session.
@@ -575,16 +574,50 @@ class JSession implements IteratorAggregate
 		 *
 		 * Replace with session_register_shutdown() when dropping compatibility with PHP 5.3
 		 */
-		register_shutdown_function('session_write_close');
+		register_shutdown_function(array($this, 'close'));
 		session_cache_limiter('none');
 		session_start();
+
+		// Ok let's unserialize the whole thing
+		$this->data = new \Joomla\Registry\Registry;
+
+		// Try loading data from the session
+		if (isset($_SESSION['joomla']) && !empty($_SESSION['joomla']))
+		{
+			$data = $_SESSION['joomla'];
+			$data = base64_decode($data);
+			$this->data = unserialize($data);
+		}
+
+		// Migrate existing session data to avoid logout on update from J < 3.4.7
+		if (isset($_SESSION['__default']))
+		{
+			$migratableKeys = array("user", "session.token", "session.counter", "session.timer.start", "session.timer.last", "session.timer.now");
+
+			foreach ($migratableKeys as $migratableKey)
+			{
+				if (!empty($_SESSION['__default'][$migratableKey]))
+				{
+					// Don't overwrite existing session data
+					if(!is_null($this->data->get('__default.' . $migratableKey, null)))
+					{
+						continue;
+					}
+
+					$this->data->set('__default.' . $migratableKey, $_SESSION['__default'][$migratableKey]);
+
+					unset($_SESSION['__default'][$migratableKey]);
+				}
+			}
+		}
+
 		return true;
 	}
 	/**
 	 * Frees all session variables and destroys all data registered to a session
 	 *
-	 * This method resets the $_SESSION variable and destroys all of the data associated
-	 * with the current session in its storage (file or DB). It forces new session to be
+	 * This method resets the data pointer and destroys all of the data associated
+	 * with the current session in its storage (file or DB). It forces a new session to be
 	 * started after this method is called. It does not unset the session cookie.
 	 *
 	 * @return  boolean  True on success
@@ -612,6 +645,7 @@ class JSession implements IteratorAggregate
 			$cookie_path = $config->get('cookie_path', '/');
 			setcookie(session_name(), '', time() - 42000, $cookie_path, $cookie_domain);
 		}
+		$this->data = new \Joomla\Registry\Registry;
 		session_unset();
 		session_destroy();
 		$this->_state = 'destroyed';
@@ -682,14 +716,28 @@ class JSession implements IteratorAggregate
 	 * frames by ending the session as soon as all changes to session variables are
 	 * done.
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @see     session_write_close()
 	 * @since   11.1
 	 */
 	public function close()
 	{
+		if ($this->_state !== 'active')
+		{
+			// @TODO :: generated error here
+			return false;
+		}
+
+		$session = JFactory::getSession();
+		$data    = $session->getData();
+
+		// Before storing it, let's serialize and encode the JRegistry object
+		$_SESSION['joomla'] = base64_encode(serialize($data));
+
 		session_write_close();
+
+		return true;
 	}
 	/**
 	 * Set session cookie parameters
