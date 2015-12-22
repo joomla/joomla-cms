@@ -100,7 +100,7 @@ class InstallerModelUpdate extends JModelList
 			->select('u.*')
 			->select('e.manifest_cache')
 			->from($db->quoteName('#__updates', 'u'))
-			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('u.extension_id'));
+			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('u.extension_id'))
 			->where($db->quoteName('u.extension_id') . ' != 0')
 			->order($db->quoteName('u.' . $this->getState('list.ordering')) . ' ' . $this->getState('list.direction'));
 
