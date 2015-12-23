@@ -13,6 +13,8 @@ use Joomla\Service\Immutable;
 
 /**
  * Contact id value object.
+ * 
+ * @since  __DEPLOY__
  */
 class JValueContactid extends Immutable
 {

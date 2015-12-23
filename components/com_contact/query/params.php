@@ -9,6 +9,11 @@
 
 use Joomla\Service\QueryBase;
 
+/**
+ * Contact parameters query.
+ * 
+ * @since  __DEPLOY__
+ */
 final class ContactQueryParams extends QueryBase
 {
 	/**

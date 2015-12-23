@@ -13,6 +13,8 @@ use Joomla\Service\ServiceBase;
 
 /**
  * Domain event listener for Contact Validated events.
+ * 
+ * @since  __DEPLOY__
  */
 final class ContactEventListenerContactvalidated
 {
