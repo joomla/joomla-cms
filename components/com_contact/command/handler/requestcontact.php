@@ -37,6 +37,13 @@ final class ContactCommandHandlerRequestcontact extends CommandHandlerBase
 		// Get the model.
 		$model = JModelLegacy::getInstance('Contact', 'ContactModel');
 
+		// Kludge, for CLI, otherwise parameters get overwritten.
+		// Do a dummy getState to force populateState to run first.
+		$model->getState('dummy');
+
+		// Set the component parameters into the model.
+		$model->setState('params', JComponentHelper::getParams('com_contact'));
+
 		// Get the contact from the model.
 		$contact = $model->getItem($contactId->id);
 
