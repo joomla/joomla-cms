@@ -101,6 +101,13 @@ class JSession implements IteratorAggregate
 	protected $_handler = null;
 
 	/**
+	 * Internal data store for the session data
+	 *
+	 * @var  \Joomla\Registry\Registry
+	 */
+	protected $data;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   string                    $store             The type of storage for the session.
@@ -276,13 +283,13 @@ class JSession implements IteratorAggregate
 	/**
 	 * Retrieve an external iterator.
 	 *
-	 * @return  ArrayIterator  Return an ArrayIterator of $_SESSION.
+	 * @return  ArrayIterator
 	 *
 	 * @since   12.2
 	 */
 	public function getIterator()
 	{
-		return new ArrayIterator($_SESSION);
+		return new ArrayIterator($this->getData());
 	}
 
 	/**
@@ -358,6 +365,16 @@ class JSession implements IteratorAggregate
 		}
 
 		return $this->_handler->getId();
+	}
+
+	/**
+	 * Returns a clone of the internal data pointer
+	 *
+	 * @return  \Joomla\Registry\Registry
+	 */
+	public function getData()
+	{
+		return clone $this->data;
 	}
 
 	/**
@@ -480,12 +497,7 @@ class JSession implements IteratorAggregate
 			return $error;
 		}
 
-		if (isset($_SESSION[$namespace][$name]))
-		{
-			return $_SESSION[$namespace][$name];
-		}
-
-		return $default;
+		return $this->data->get($namespace . '.' . $name, $default);
 	}
 
 	/**
@@ -510,18 +522,7 @@ class JSession implements IteratorAggregate
 			return null;
 		}
 
-		$old = isset($_SESSION[$namespace][$name]) ? $_SESSION[$namespace][$name] : null;
-
-		if (null === $value)
-		{
-			unset($_SESSION[$namespace][$name]);
-		}
-		else
-		{
-			$_SESSION[$namespace][$name] = $value;
-		}
-
-		return $old;
+		return $this->data->set($namespace . '.' . $name, $value);
 	}
 
 	/**
@@ -545,7 +546,7 @@ class JSession implements IteratorAggregate
 			return null;
 		}
 
-		return isset($_SESSION[$namespace][$name]);
+		return !is_null($this->data->get($namespace . '.' . $name, null));
 	}
 
 	/**
@@ -569,15 +570,7 @@ class JSession implements IteratorAggregate
 			return null;
 		}
 
-		$value = null;
-
-		if (isset($_SESSION[$namespace][$name]))
-		{
-			$value = $_SESSION[$namespace][$name];
-			unset($_SESSION[$namespace][$name]);
-		}
-
-		return $value;
+		return $this->data->set($namespace . '.' . $name, null);
 	}
 
 	/**
@@ -624,14 +617,48 @@ class JSession implements IteratorAggregate
 	{
 		$this->_handler->start();
 
+		// Ok let's unserialize the whole thing
+		$this->data = new \Joomla\Registry\Registry;
+
+		// Try loading data from the session
+		if (isset($_SESSION['joomla']) && !empty($_SESSION['joomla']))
+		{
+			$data = $_SESSION['joomla'];
+
+			$data = base64_decode($data);
+
+			$this->data = unserialize($data);
+		}
+
+		// Migrate existing session data to avoid logout on update from J < 3.4.7
+		if (isset($_SESSION['__default']))
+		{
+			$migratableKeys = array("user", "session.token", "session.counter", "session.timer.start", "session.timer.last", "session.timer.now");
+
+			foreach ($migratableKeys as $migratableKey)
+			{
+				if (!empty($_SESSION['__default'][$migratableKey]))
+				{
+					// Don't overwrite existing session data
+					if (!is_null($this->data->get('__default.' . $migratableKey, null)))
+					{
+						continue;
+					}
+
+					$this->data->set('__default.' . $migratableKey, $_SESSION['__default'][$migratableKey]);
+					unset($_SESSION['__default'][$migratableKey]);
+				}
+			}
+		}
+
 		return true;
 	}
 
 	/**
 	 * Frees all session variables and destroys all data registered to a session
 	 *
-	 * This method resets the $_SESSION variable and destroys all of the data associated
-	 * with the current session in its storage (file or DB). It forces new session to be
+	 * This method resets the data pointer and destroys all of the data associated
+	 * with the current session in its storage. It forces a new session to be
 	 * started after this method is called. It does not unset the session cookie.
 	 *
 	 * @return  boolean  True on success
@@ -649,6 +676,9 @@ class JSession implements IteratorAggregate
 		}
 
 		$this->_handler->clear();
+
+		// Create new data storage
+		$this->data = new \Joomla\Registry\Registry;
 
 		$this->_state = 'destroyed';
 

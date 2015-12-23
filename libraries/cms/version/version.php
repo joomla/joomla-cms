@@ -64,6 +64,7 @@ final class JVersion
 	 */
 	const CODENAME = 'Ember';
 
+<<<<<<< HEAD
 	/**
 	 * Release date.
 	 *
@@ -103,6 +104,13 @@ final class JVersion
 	 * @since  3.5
 	 */
 	const URL = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+=======
+	/** @var  string  Release date. */
+	public $RELDATE = '21-December-2015';
+
+	/** @var  string  Release time. */
+	public $RELTIME = '16:00';
+>>>>>>> 3.4.7
 
 	/**
 	 * Magic getter providing access to constants previously defined as class member vars.
