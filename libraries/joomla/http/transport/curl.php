@@ -211,9 +211,9 @@ class JHttpTransportCurl implements JHttpTransport
 
 		// Manually follow redirects if server config doesn't allow to follow then using curl
 		// Used for PHP 5.5 or lower with safe_mode or open_basedir enabled
-		if ($response->code >= 300 && $response->code <= 309)
+		if ($response->code >= 301 && $response->code < 400 && isset($response->headers['Location']))
 		{
-			$response = $this->request($method, JUri::getInstance($response->headers['Location']), $data, $headers, $timeout, $userAgent);
+			$response = $this->request($method, new JUri($response->headers['Location']), $data, $headers, $timeout, $userAgent);
 		}
 
 		return $response;
