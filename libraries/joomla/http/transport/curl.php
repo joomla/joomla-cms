@@ -211,11 +211,15 @@ class JHttpTransportCurl implements JHttpTransport
 
 		$response = $this->getResponse($content, $info);
 
-		// Manually follow redirects if server config doesn't allow to follow then using curl
-		// Used for PHP 5.5 or lower with safe_mode or open_basedir enabled
+		// Manually follow redirects if server doesn't allow to follow location using curl
 		if ($response->code >= 301 && $response->code < 400 && isset($response->headers['Location']))
 		{
-			$response = $this->request($method, new JUri($response->headers['Location']), $data, $headers, $timeout, $userAgent);
+			$redirect_uri = new JUri($response->headers['Location']);
+	        if (in_array($redirect_uri->getScheme(), array('file', 'scp')))
+			{
+				throw new RuntimeException('Curl redirect cannot be used in file or scp requests.');
+			}
+			$response = $this->request($method, $redirect_uri, $data, $headers, $timeout, $userAgent);
 		}
 
 		return $response;
