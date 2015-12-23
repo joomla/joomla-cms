@@ -529,8 +529,14 @@ class JSession implements IteratorAggregate
 		// Initialise the session
 		$this->_setCounter();
 		$this->_setTimers();
+
 		// Perform security checks
-		$this->_validate();
+		if(!$this->_validate())
+        {
+            // Destroy the session if it's not valid
+            $this->destroy();
+        }
+
 		if ($this->_dispatcher instanceof JEventDispatcher)
 		{
 			$this->_dispatcher->trigger('onAfterSessionStart');
@@ -672,8 +678,14 @@ class JSession implements IteratorAggregate
 		session_regenerate_id(true);
 		$this->_start();
 		$this->_state = 'active';
-		$this->_validate();
-		$this->_setCounter();
+
+        if(!$this->_validate())
+        {
+            // Destroy the session if it's not valid
+            $this->destroy();
+        }
+
+        $this->_setCounter();
 		return true;
 	}
 	/**
