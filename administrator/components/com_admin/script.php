@@ -36,6 +36,10 @@ class JoomlaInstallerScript
 		$this->updateDatabase();
 		$this->clearRadCache();
 		$this->updateAssets();
+
+        // VERY IMPORTANT! THIS METHOD SHOULD BE CALLED LAST, SINCE IT COULD
+        // LOGOUT ALL THE USERS
+        $this->flushSessions();
 	}
 
 	/**
@@ -1478,4 +1482,35 @@ class JoomlaInstallerScript
 
 		return true;
 	}
+
+    /**
+     * If we migrated the session from the previous system, flush all the active sessions.
+     * Otherwise users will be logged in, but not able to do anything since they don't have
+     * a valid session
+     *
+     * @return  boolean
+     */
+    public function flushSessions()
+    {
+        // No default namespace? No need to flush the sessions
+        if(!isset($_SESSION['__default']))
+        {
+            return true;
+        }
+
+        $db = JFactory::getDbo();
+
+        try
+        {
+            $db->truncateTable($db->qn('#__sessions'));
+        }
+        catch(Exception $e)
+        {
+            echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+
+            return false;
+        }
+
+        return true;
+    }
 }
