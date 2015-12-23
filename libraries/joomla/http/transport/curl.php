@@ -207,7 +207,16 @@ class JHttpTransportCurl implements JHttpTransport
 		// Close the connection.
 		curl_close($ch);
 
-		return $this->getResponse($content, $info);
+		$response = $this->getResponse($content, $info);
+
+		// Manually follow redirects if server config doesn't allow it using curl
+		// For PHP 5.5 or lower with safe_mode or open_basedir that can't follow redirects in curl
+		if ($options[CURLOPT_FOLLOWLOCATION] != true && $response->code >= 300 && $response->code <= 309)
+		{
+			$response = $this->request($method, JUri::getInstance($response->headers['Location']), $data, $headers, $timeout, $userAgent);
+		}
+
+		return $response;
 	}
 
 	/**
