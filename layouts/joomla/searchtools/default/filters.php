@@ -20,12 +20,10 @@ unset($filters['filter_search']);
 // Introduced 'removedFilters' (array) option that lets remove filters
 if (isset($data['options']['removedFilters']))
 {
-    foreach ($data['options']['removedFilters'] as $removedFilters){
-        if (isset($filters[$removedFilters]))
-        {
-            unset($filters[$removedFilters]);
-        }
-    }
+	foreach ($data['options']['removedFilters'] as $removedFilters)
+	{
+        	unset($filters[$removedFilters]);
+	}
 }
 
 ?>
