@@ -1492,8 +1492,12 @@ class JoomlaInstallerScript
      */
     public function flushSessions()
     {
-        // No default namespace? No need to flush the sessions
-        if(!isset($_SESSION['__default']))
+	    // The session may have not been started yet (e.g. CLI-based Joomla! update scripts). Let's make sure we do
+	    // have a valid session.
+	    JFactory::getSession()->restart();
+
+	    // If $_SESSION['__default'] is no longer set we do not have a migrated session, therefore we can quit.
+        if (!isset($_SESSION['__default']))
         {
             return true;
         }
@@ -1502,7 +1506,22 @@ class JoomlaInstallerScript
 
         try
         {
-            $db->truncateTable($db->qn('#__sessions'));
+	        switch ($db->name)
+	        {
+		        // MySQL database, use TRUNCATE (faster, more resilient)
+		        case 'pdomysql':
+		        case 'mysql':
+		        case 'mysqli':
+		            $db->truncateTable($db->qn('#__sessions'));
+			        break;
+
+		        // Non-MySQL databases, use a simple DELETE FROM query
+		        default:
+					$query = $db->getQuery(true)
+							->delete($db->qn('#__sessions'));
+					$db->setQuery($query)->execute();
+			        break;
+	        }
         }
         catch(Exception $e)
         {
