@@ -154,10 +154,11 @@ class JHttpTransportCurl implements JHttpTransport
 		$options[CURLOPT_HTTPHEADER][] = 'Expect:';
 
 		/*
-		 * Follow redirects if server config allows
+		 * Follow redirects if server allows (server with PHP 5.6+ and libcurl 7.19.4+ or safe_mode and open_basedir disabled in php config)
 		 * @deprecated  safe_mode is removed in PHP 5.4, check will be dropped when PHP 5.3 support is dropped
 		 */
-		if (version_compare(PHP_VERSION, '5.6', 'ge') || (!ini_get('safe_mode') && !ini_get('open_basedir')))
+		if ((version_compare(PHP_VERSION, '5.6', 'ge') && version_compare(curl_version()['version'], '7.19.4', 'ge'))
+			|| (!ini_get('safe_mode') && !ini_get('open_basedir')))
 		{
 			$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->options->get('follow_location', true);
 		}
