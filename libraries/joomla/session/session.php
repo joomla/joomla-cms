@@ -571,8 +571,6 @@ class JSession implements IteratorAggregate
 		 * Write and Close handlers are called after destructing objects since PHP 5.0.5.
 		 * Thus destructors can use sessions but session handler can't use objects.
 		 * So we are moving session closure before destructing objects.
-		 *
-		 * Replace with session_register_shutdown() when dropping compatibility with PHP 5.3
 		 */
 		register_shutdown_function(array($this, 'close'));
 		session_cache_limiter('none');
@@ -723,12 +721,6 @@ class JSession implements IteratorAggregate
 	 */
 	public function close()
 	{
-		if ($this->_state !== 'active')
-		{
-			// @TODO :: generated error here
-			return false;
-		}
-
 		$session = JFactory::getSession();
 		$data    = $session->getData();
 
