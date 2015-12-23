@@ -14,6 +14,7 @@ use Joomla\Service\Command;
 use Joomla\Service\CommandBase;
 use Joomla\Service\CommandBusProvider;
 use Joomla\Service\CommandHandlerBase;
+use Joomla\Service\DispatcherProvider;
 use Joomla\Service\EventBase;
 use Joomla\Service\Query;
 use Joomla\Service\QueryBase;
@@ -50,6 +51,7 @@ class ContactControllerContact extends JControllerForm
 		$this->container = new Container;
 		$this->container->registerServiceProvider(new CommandBusProvider);
 		$this->container->registerServiceProvider(new QueryBusProvider);
+		$this->container->registerServiceProvider(new DispatcherProvider);
 
 		parent::__construct($config);
 	}
@@ -103,7 +105,7 @@ class ContactControllerContact extends JControllerForm
 		$app->setUserState('com_contact.contact.data', $event->data);
 
 		// Redirect back to the contact form.
-		$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $event->id, false));
+		$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $event->contactId->id, false));
 	}
 
 	/**
@@ -121,21 +123,22 @@ class ContactControllerContact extends JControllerForm
 		$app = JFactory::getApplication();
 
 		// Get the data from POST
-		$id   = (int) $this->input->getInt('id');
+		$contactId = new JValueContactid((int) $this->input->getInt('id'));
 		$data = $this->input->post->get('jform', array(), 'array');
 
 		// Register local event listeners.
-		\JEventDispatcher::getInstance()->register('onContactEventFormvalidationerroroccurred', array($this, 'handleFormValidationError'));
+		$this->container->get('dispatcher')
+			->register('onContactEventFormvalidationerroroccurred', array($this, 'handleFormValidationError'));
 
 		// Get the command bus.
 		$service = new ServiceBase($this->container);
 
 		// Get contact parameters.
-		$params = $service->execute(new ContactQueryParams($id));
+		$params = $service->execute(new ContactQueryParams($contactId));
 
 		// Check for a valid session cookie.
-		if ($params->get('validate_session', 0) &&
-			JFactory::getSession()->getState() != 'active')
+		if ($params->get('validate_session', 0)
+			&& JFactory::getSession()->getState() != 'active')
 		{
 			JError::raiseWarning(403, JText::_('COM_CONTACT_SESSION_INVALID'));
 
@@ -143,13 +146,13 @@ class ContactControllerContact extends JControllerForm
 			$app->setUserState('com_contact.contact.data', $data);
 
 			// Redirect back to the contact form.
-			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . (int) $id, false));
+			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $contactId->id, false));
 
 			return false;
 		}
 
 		// Execute the command to process the contact request.
-		$service->execute((new ContactCommandRequestcontact($id, $data)));
+		$service->execute((new ContactCommandRequestcontact($contactId, $data)));
 
 		// If the contact request attempt failed, simply return.
 		if (!$this->contactSuccessful)
@@ -172,7 +175,7 @@ class ContactControllerContact extends JControllerForm
 		}
 
 		// Otherwise redirect back to where we came from.
-		$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . (int) $id, false), $msg);
+		$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $contactId->id, false), $msg);
 
 		return true;
 	}

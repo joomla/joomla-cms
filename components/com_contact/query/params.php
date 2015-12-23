@@ -14,16 +14,11 @@ final class ContactQueryParams extends QueryBase
 	/**
 	 * Constructor.
 	 * 
-	 * @param   integer  $id  Contact id.
+	 * @param   JValueContactid  $id  Contact id.
 	 */
-	public function __construct($id)
+	public function __construct(JValueContactid $id)
 	{
-		if (!is_numeric($id) || $id <= 0)
-		{
-			throw new InvalidArgumentException('Invalid contact id');
-		}
-
-		$this->id = $id;
+		$this->contactId = $id;
 
 		parent::__construct();
 	}

@@ -9,11 +9,23 @@
 
 use Joomla\Service\EventBase;
 
+/**
+ * Contact validated domain event.
+ * 
+ * @since  __DEPLOY__
+ */
 final class ContactEventContactvalidated extends EventBase
 {
-	public function __construct($id, array $data, $contact)
+	/**
+	 * Constructor.
+	 * 
+	 * @param   JValueContactid  $id       Contact id.
+	 * @param   array            $data     Array of data items.
+	 * @param   object           $contact  Contact object.
+	 */
+	public function __construct(JValueContactid $id, array $data, $contact)
 	{
-		$this->id = $id;
+		$this->contactId = $id;
 		$this->data = $data;
 		$this->contact = $contact;
 

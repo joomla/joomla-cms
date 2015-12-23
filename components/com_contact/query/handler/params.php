@@ -9,6 +9,11 @@
 
 use Joomla\Service\QueryHandlerBase;
 
+/**
+ * Contact parameters query handler.
+ * 
+ * @since  __DEPLOY__
+ */
 final class ContactQueryHandlerParams extends QueryHandlerBase
 {
 	/**
@@ -24,7 +29,7 @@ final class ContactQueryHandlerParams extends QueryHandlerBase
 		$params = JComponentHelper::getParams('com_contact');
 
 		// Get the contact from the model.
-		$contact = $model->getItem($query->id);
+		$contact = $model->getItem($query->contactId->id);
 
 		// Merge the params.
 		$params->merge($contact->params);

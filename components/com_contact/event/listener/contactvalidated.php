@@ -11,6 +11,9 @@ use Joomla\DI\Container;
 use Joomla\Service\EventBase;
 use Joomla\Service\ServiceBase;
 
+/**
+ * Domain event listener for Contact Validated events.
+ */
 final class ContactEventListenerContactvalidated
 {
 	/**
@@ -19,12 +22,11 @@ final class ContactEventListenerContactvalidated
 	 * This event is fired only for a previously validated contact.
 	 * This method sends an email.
 	 * 
-	 * @param   ContactEventContactsucceeded  $event      A domain event.
-	 * @param   Container                     $container  DI container.
+	 * @param   ContactEventContactsucceeded  $event  A domain event.
 	 * 
 	 * @return  void
 	 */
-	public static function onContactEventContactvalidated(ContactEventContactValidated $event, Container $container)
+	public static function onContactEventContactvalidated(ContactEventContactValidated $event)
 	{
 		$sent = false;
 		$data = $event->data;

@@ -9,21 +9,21 @@
 
 use Joomla\Service\CommandBase;
 
+/**
+ * Request contact command.
+ * 
+ * @since  __DEPLOY__
+ */
 final class ContactCommandRequestcontact extends CommandBase
 {
 	/**
 	 * Constructor.
 	 * 
-	 * @param   integer  $id    Contact id.
-	 * @param   array    $data  Array of contact request information.
+	 * @param   JValueContactid  $id    Contact id.
+	 * @param   array            $data  Array of contact request information.
 	 */
-	public function __construct($id, array $data)
+	public function __construct(JValueContactid $id, array $data)
 	{
-		if (!is_numeric($id) || $id <= 0)
-		{
-			throw new InvalidArgumentException('Invalid contact id');
-		}
-
 		if (empty($data['contact_name']))
 		{
 			throw new InvalidArgumentException('Invalid or missing contact name');
@@ -44,7 +44,7 @@ final class ContactCommandRequestcontact extends CommandBase
 			throw new InvalidArgumentException('Invalid or missing message body');
 		}
 
-		$this->id = $id;
+		$this->contactId = $id;
 		$this->data = $data;
 
 		parent::__construct();

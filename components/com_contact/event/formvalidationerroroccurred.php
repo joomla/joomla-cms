@@ -9,19 +9,25 @@
 
 use Joomla\Service\EventBase;
 
+/**
+ * Form validation error occurred domain event.
+ * 
+ * @since  __DEPLOY__
+ */
 final class ContactEventFormvalidationerroroccurred extends EventBase
 {
 	/**
 	 * Constructor.
 	 * 
-	 * @param   integer  $id      Contact id.
-	 * @param   array    $data    Array of data fields.
-	 * @param   array    $errors  Array of error messages.
+	 * @param   JValueContactid  $id      Contact id.
+	 * @param   array            $data    Array of data fields.
+	 * @param   array            $errors  Array of error messages.
 	 * 
+	 * @since  __DEPLOY__
 	 */
-	public function __construct($id, array $data, array $errors)
+	public function __construct(JValueContactid $id, array $data, array $errors)
 	{
-		$this->id = $id;
+		$this->contactId = $id;
 		$this->data = $data;
 		$this->errors = $errors;
 

@@ -9,6 +9,11 @@
 
 use Joomla\Service\CommandHandlerBase;
 
+/**
+ * Command handler for Request Contact commands.
+ * 
+ * @since  __DEPLOY__
+ */
 final class ContactCommandHandlerRequestcontact extends CommandHandlerBase
 {
 	/**
@@ -17,11 +22,12 @@ final class ContactCommandHandlerRequestcontact extends CommandHandlerBase
 	 * @param   ContactCommandRequestcontact  $command  A command.
 	 * 
 	 * @return  array of DomainEvent objects.
+	 * 
 	 * @throws  RuntimeException
 	 */
 	public function handle(ContactCommandRequestcontact $command)
 	{
-		$id = $command->id;
+		$contactId = $command->contactId;
 		$data = $command->data;
 
 		// Contact plugins
@@ -32,7 +38,7 @@ final class ContactCommandHandlerRequestcontact extends CommandHandlerBase
 		$model = JModelLegacy::getInstance('Contact', 'ContactModel');
 
 		// Get the contact from the model.
-		$contact = $model->getItem($id);
+		$contact = $model->getItem($contactId->id);
 
 		// Get the contact form.
 		$form = $model->getForm();
@@ -51,7 +57,7 @@ final class ContactCommandHandlerRequestcontact extends CommandHandlerBase
 
 			// Raise a validation error domain event.
 			return $this->releaseEvents(
-				new ContactEventFormvalidationerroroccurred($id, $data, $errors)
+				new ContactEventFormvalidationerroroccurred($contactId, $data, $errors)
 			);
 		}
 
@@ -65,7 +71,7 @@ final class ContactCommandHandlerRequestcontact extends CommandHandlerBase
 			{
 				// Raise a validation error domain event.
 				return $this->releaseEvents(
-					new ContactEventFormvalidationerroroccurred($id, $data, array($result))
+					new ContactEventFormvalidationerroroccurred($contactId, $data, array($result))
 				);
 			}
 		}
@@ -75,7 +81,7 @@ final class ContactCommandHandlerRequestcontact extends CommandHandlerBase
 
 		// Contact has been validated.  Publish the event so that notification messages may be sent.
 		return $this->releaseEvents(
-			new ContactEventContactvalidated($id, $data, $contact)
+			new ContactEventContactvalidated($contactId, $data, $contact)
 		);
 	}
 }
