@@ -215,7 +215,7 @@ class JHttpTransportCurl implements JHttpTransport
 		if ($response->code >= 301 && $response->code < 400 && isset($response->headers['Location']))
 		{
 			$redirect_uri = new JUri($response->headers['Location']);
-	        if (in_array($redirect_uri->getScheme(), array('file', 'scp')))
+			if (in_array($redirect_uri->getScheme(), array('file', 'scp')))
 			{
 				throw new RuntimeException('Curl redirect cannot be used in file or scp requests.');
 			}
