@@ -106,6 +106,9 @@ class JSession implements IteratorAggregate
 	 */
 	public function __construct($store = 'none', array $options = array())
 	{
+        // Initialize the data variable, let's avoid fatal error if the session is not corretly started (ie in CLI).
+        $this->data = new \Joomla\Registry\Registry;
+
 		// Need to destroy any existing sessions started with session.auto_start
 		if (session_id())
 		{
@@ -579,8 +582,6 @@ class JSession implements IteratorAggregate
 		session_start();
 
 		// Ok let's unserialize the whole thing
-		$this->data = new \Joomla\Registry\Registry;
-
 		// Try loading data from the session
 		if (isset($_SESSION['joomla']) && !empty($_SESSION['joomla']))
 		{
