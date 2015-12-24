@@ -595,7 +595,7 @@ class JSession implements IteratorAggregate
 
 		// Perform security checks
 		if (!$this->_validate())
-        {
+		{
 			// Destroy the session if it's not valid
 			$this->destroy();
 		}
@@ -680,9 +680,11 @@ class JSession implements IteratorAggregate
 				}
 			}
 
-			// Finally, empty the __default key since we no longer need it. Don't unset it completely, we need this
-			// for the administrator/components/com_admin/script.php to detect upgraded sessions and perform a full
-			// session cleanup.
+			/**
+			 * Finally, empty the __default key since we no longer need it. Don't unset it completely, we need this
+			 * for the administrator/components/com_admin/script.php to detect upgraded sessions and perform a full
+			 * session cleanup.
+			 */
 			$_SESSION['__default'] = array();
 		}
 
@@ -756,13 +758,13 @@ class JSession implements IteratorAggregate
 		$this->_start();
 		$this->_state = 'active';
 
-        if(!$this->_validate())
-        {
-            // Destroy the session if it's not valid
-            $this->destroy();
-        }
+		if (!$this->_validate())
+		{
+			// Destroy the session if it's not valid
+			$this->destroy();
+		}
 
-        $this->_setCounter();
+		$this->_setCounter();
 
 		return true;
 	}
