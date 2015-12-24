@@ -133,24 +133,6 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
-	 * Event listener for the `onAfterSessionStart` event.
-	 *
-	 * @param   JSession  $session  Session object
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function afterSessionStart(JSession $session)
-	{
-		if ($session->isNew())
-		{
-			$session->set('registry', new Registry('session'));
-			$session->set('user', new JUser);
-		}
-	}
-
-	/**
 	 * Checks the user session.
 	 *
 	 * If the session record doesn't exist, initialise it.
@@ -160,58 +142,10 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * @since   3.2
 	 * @throws  RuntimeException
+	 * @deprecated  4.0  Functionality moved to a system plugin
 	 */
 	public function checkSession()
 	{
-		$db = JFactory::getDbo();
-		$session = JFactory::getSession();
-		$user = JFactory::getUser();
-
-		$query = $db->getQuery(true)
-			->select($db->quoteName('session_id'))
-			->from($db->quoteName('#__session'))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($session->getId()));
-
-		$db->setQuery($query, 0, 1);
-		$exists = $db->loadResult();
-
-		// If the session record doesn't exist initialise it.
-		if (!$exists)
-		{
-			$query->clear();
-
-			if ($session->isNew())
-			{
-				$query->insert($db->quoteName('#__session'))
-					->columns($db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('time'))
-					->values($db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $db->quote((int) time()));
-				$db->setQuery($query);
-			}
-			else
-			{
-				$query->insert($db->quoteName('#__session'))
-					->columns(
-						$db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('guest') . ', ' .
-						$db->quoteName('time') . ', ' . $db->quoteName('userid') . ', ' . $db->quoteName('username')
-					)
-					->values(
-						$db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
-						$db->quote((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $db->quote($user->get('username'))
-					);
-
-				$db->setQuery($query);
-			}
-
-			// If the insert failed, exit the application.
-			try
-			{
-				$db->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				throw new RuntimeException(JText::_('JERROR_SESSION_STARTUP'), $e->getCode(), $e);
-			}
-		}
 	}
 
 	/**

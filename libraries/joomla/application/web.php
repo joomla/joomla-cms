@@ -1075,14 +1075,14 @@ class JApplicationWeb extends JApplicationBase
 	/**
 	 * After the session has been started we need to populate it with some default values.
 	 *
+	 * @param   JSession  $session  Session object
+	 *
 	 * @return  void
 	 *
 	 * @since   12.2
 	 */
-	public function afterSessionStart()
+	public function afterSessionStart(JSession $session)
 	{
-		$session = JFactory::getSession();
-
 		if ($session->isNew())
 		{
 			$session->set('registry', new Registry('session'));
