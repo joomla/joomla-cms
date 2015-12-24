@@ -532,8 +532,14 @@ class JSession implements IteratorAggregate
 		// Initialise the session
 		$this->_setCounter();
 		$this->_setTimers();
+
 		// Perform security checks
-		$this->_validate();
+		if(!$this->_validate())
+        {
+            // Destroy the session if it's not valid
+            $this->destroy();
+        }
+
 		if ($this->_dispatcher instanceof JEventDispatcher)
 		{
 			$this->_dispatcher->trigger('onAfterSessionStart');
@@ -574,8 +580,6 @@ class JSession implements IteratorAggregate
 		 * Write and Close handlers are called after destructing objects since PHP 5.0.5.
 		 * Thus destructors can use sessions but session handler can't use objects.
 		 * So we are moving session closure before destructing objects.
-		 *
-		 * Replace with session_register_shutdown() when dropping compatibility with PHP 5.3
 		 */
 		register_shutdown_function(array($this, 'close'));
 		session_cache_limiter('none');
@@ -680,8 +684,14 @@ class JSession implements IteratorAggregate
 		session_regenerate_id(true);
 		$this->_start();
 		$this->_state = 'active';
-		$this->_validate();
-		$this->_setCounter();
+
+        if(!$this->_validate())
+        {
+            // Destroy the session if it's not valid
+            $this->destroy();
+        }
+
+        $this->_setCounter();
 		return true;
 	}
 	/**
@@ -729,12 +739,6 @@ class JSession implements IteratorAggregate
 	 */
 	public function close()
 	{
-		if ($this->_state !== 'active')
-		{
-			// @TODO :: generated error here
-			return false;
-		}
-
 		$session = JFactory::getSession();
 		$data    = $session->getData();
 
