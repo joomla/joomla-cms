@@ -18,6 +18,75 @@ defined('JPATH_PLATFORM') or die;
 class JSessionStorageDatabase extends JSessionStorage
 {
 	/**
+	 * Flag whether gc() has been called
+	 *
+	 * @var    boolean
+	 * @since  3.5
+	 */
+	private $gcCalled = false;
+
+	/**
+	 * Lifetime for garbage collection
+	 *
+	 * @var    integer
+	 * @since  3.5
+	 */
+	private $gcLifetime;
+
+	/**
+	 * Close the session
+	 *
+	 * @return  boolean  True on success, false otherwise
+	 *
+	 * @since   3.5
+	 */
+	public function close()
+	{
+		$db = JFactory::getDbo();
+
+		if ($this->gcCalled)
+		{
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__session'))
+				->where($db->quoteName('time') . ' < ' . $db->quote((int) $this->gcLifetime));
+
+			// Remove expired sessions from the database.
+			try
+			{
+				$db->setQuery($query)->execute();
+			}
+			catch (JDatabaseExceptionExecuting $e)
+			{
+				// Executing garbage collection should not cause closing the session to fatally error out, so we can safely ignore this Exception
+			}
+
+			$this->gcCalled   = false;
+			$this->gcLifetime = null;
+		}
+
+		$db->disconnect();
+
+		return true;
+	}
+
+	/**
+	 * Initialize session
+	 *
+	 * @param   string  $save_path   The path where to store/retrieve the session
+	 * @param   string  $id  The session id
+	 *
+	 * @return  boolean  True on success, false otherwise
+	 *
+	 * @since   3.5
+	 */
+	public function open($save_path, $id)
+	{
+		JFactory::getDbo()->connect();
+
+		return true;
+	}
+
+	/**
 	 * Read the data for a particular session identifier from the SessionHandler backend.
 	 *
 	 * @param   string  $id  The session identifier.
@@ -36,8 +105,8 @@ class JSessionStorageDatabase extends JSessionStorage
 			// Get the session data from the database table.
 			$query = $db->getQuery(true)
 				->select($db->quoteName('data'))
-			->from($db->quoteName('#__session'))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+				->from($db->quoteName('#__session'))
+				->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
 			$db->setQuery($query);
 
@@ -49,7 +118,7 @@ class JSessionStorageDatabase extends JSessionStorage
 		}
 		catch (RuntimeException $e)
 		{
-			return false;
+			return '';
 		}
 	}
 
@@ -72,23 +141,33 @@ class JSessionStorageDatabase extends JSessionStorage
 
 		try
 		{
+			// Figure out if a row exists for the session ID
 			$query = $db->getQuery(true)
-				->update($db->quoteName('#__session'))
-				->set($db->quoteName('data') . ' = ' . $db->quote($data))
-				->set($db->quoteName('time') . ' = ' . $db->quote((int) time()))
+				->select($db->quoteName('session_id'))
+				->from($db->quoteName('#__session'))
 				->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
-			// Try to update the session data in the database table.
-			$db->setQuery($query);
+			$idExists = $db->setQuery($query)->loadResult();
 
-			if (!$db->execute())
+			$query = $db->getQuery(true);
+
+			if ($idExists)
 			{
-				return false;
+				$query->update($db->quoteName('#__session'))
+					->set($db->quoteName('data') . ' = ' . $db->quote($data))
+					->set($db->quoteName('time') . ' = ' . $db->quote((int) time()))
+					->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 			}
-			/* Since $db->execute did not throw an exception, so the query was successful.
-			Either the data changed, or the data was identical.
-			In either case we are done.
-			*/
+			else
+			{
+				$query->insert($db->quoteName('#__session'))
+					->columns(array($db->quoteName('data'), $db->quoteName('time'), $db->quoteName('session_id')))
+					->values(implode(', ', array($db->quote($data), (int) time(), $db->quote($id))));
+			}
+
+			// Try to insert the session data in the database table.
+			$db->setQuery($query)->execute();
+
 			return true;
 		}
 		catch (RuntimeException $e)
@@ -118,9 +197,9 @@ class JSessionStorageDatabase extends JSessionStorage
 				->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
 			// Remove a session from the database.
-			$db->setQuery($query);
+			$db->setQuery($query)->execute();
 
-			return (boolean) $db->execute();
+			return true;
 		}
 		catch (RuntimeException $e)
 		{
@@ -139,26 +218,10 @@ class JSessionStorageDatabase extends JSessionStorage
 	 */
 	public function gc($lifetime = 1440)
 	{
-		// Get the database connection object and verify its connected.
-		$db = JFactory::getDbo();
+		// We'll delay garbage collection until the session is closed to prevent potential issues mid-cycle
+		$this->gcLifetime = time() - $lifetime;
+		$this->gcCalled   = true;
 
-		// Determine the timestamp threshold with which to purge old sessions.
-		$past = time() - $lifetime;
-
-		try
-		{
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('time') . ' < ' . $db->quote((int) $past));
-
-			// Remove expired sessions from the database.
-			$db->setQuery($query);
-
-			return (boolean) $db->execute();
-		}
-		catch (RuntimeException $e)
-		{
-			return false;
-		}
+		return true;
 	}
 }
