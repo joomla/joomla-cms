@@ -633,7 +633,7 @@ class JSession implements IteratorAggregate
 		// Migrate existing session data to avoid logout on update from J < 3.4.7
 		if (isset($_SESSION['__default']))
 		{
-			$migratableKeys = array("user", "session.token", "session.counter", "session.timer.start", "session.timer.last", "session.timer.now");
+			$migratableKeys = array("user", "session.token", "session.counter", "session.timer.start", "session.timer.last", "session.timer.now", "registry");
 
 			foreach ($migratableKeys as $migratableKey)
 			{
