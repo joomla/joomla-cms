@@ -199,7 +199,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	public function disconnect()
 	{
 		// Close the connection.
-		if (!empty($this->connection) && ($this->connection->stat() !== false))
+		if ($this->connection instanceof mysqli && $this->connection->stat() !== false)
 		{
 			foreach ($this->disconnectHandlers as $h)
 			{
