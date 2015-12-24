@@ -745,7 +745,6 @@ class JApplicationCms extends JApplicationWeb
 		// There's an internal coupling to the session object being present in JFactory, need to deal with this at some point
 		$session = JFactory::getSession($options);
 		$session->initialise($this->input, $this->dispatcher);
-		$session->start();
 
 		// TODO: At some point we need to get away from having session data always in the db.
 		$db = JFactory::getDbo();
