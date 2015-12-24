@@ -133,6 +133,90 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
+	 * Event listener for the `onAfterSessionStart` event.
+	 *
+	 * @param   JSession  $session  Session object
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function afterSessionStart(JSession $session)
+	{
+		parent::afterSessionStart($session);
+
+		// If we are logging session metadata, validate the state
+		if ($this->get('use_session_metadata', '1') == '0')
+		{
+			return;
+		}
+
+		// If not using the database store, register the cleanup function to run at the end of the application cycle
+		if ($this->get('session_handler', 'none') != 'database')
+		{
+			$this->registerEvent('onAfterRender', array($this, 'cleanupSessionMetadata'));
+		}
+
+		$db   = JFactory::getDbo();
+		$user = JFactory::getUser();
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName('session_id'))
+			->from($db->quoteName('#__session'))
+			->where($db->quoteName('session_id') . ' = ' . $db->quote($session->getId()));
+
+		try
+		{
+			$exists = $db->setQuery($query, 0, 1)->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException(JText::_('JERROR_SESSION_STARTUP'), $e->getCode(), $e);
+		}
+
+		// If the session record doesn't exist initialise it.
+		if (!$exists)
+		{
+			$query->clear();
+
+			if ($session->isNew())
+			{
+				$query->insert($db->quoteName('#__session'))
+					->columns(implode(', ', $db->quoteName(array('session_id', 'client_id', 'time'))))
+					->values(implode(', ', array($db->quote($session->getId()), $this->getClientId(), $db->quote((int) time()))));
+			}
+			else
+			{
+				$query->insert($db->quoteName('#__session'))
+					->columns(implode(', ', $db->quoteName(array('session_id', 'client_id', 'guest', 'time', 'userid', 'username'))))
+					->values(
+						implode(
+							', ',
+							array(
+								$db->quote($session->getId()),
+								$this->getClientId(),
+								(int) $user->guest,
+								(int) $session->get('session.timer.start'),
+								(int) $user->id,
+								$db->quote($user->get('username'))
+							)
+						)
+					);
+			}
+
+			// If the insert failed, exit the application.
+			try
+			{
+				$db->setQuery($query)->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException(JText::_('JERROR_SESSION_STARTUP'), $e->getCode(), $e);
+			}
+		}
+	}
+
+	/**
 	 * Checks the user session.
 	 *
 	 * If the session record doesn't exist, initialise it.
@@ -142,10 +226,44 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * @since   3.2
 	 * @throws  RuntimeException
-	 * @deprecated  4.0  Functionality moved to a system plugin
+	 * @deprecated  4.0  Functionality moved to plugin event listeners
 	 */
 	public function checkSession()
 	{
+	}
+
+	/**
+	 * Cleanup the session metadata
+	 *
+	 * This method is registered as an event listener for the `onAfterRender` system event and acts as a garbage handler
+	 * for the extra session metadata when a non-database session store is used.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function cleanupSessionMetadata()
+	{
+		$time = time();
+
+		if ($time % 2)
+		{
+			$db = JFactory::getDbo();
+
+			// The modulus introduces a little entropy, making the flushing less accurate but fires the query less than half the time.
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__session'))
+				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $this->getSession()->getExpire())));
+
+			try
+			{
+				$db->setQuery($query)->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				// Not a fatal error, and the database API logs errors, carry on
+			}
+		}
 	}
 
 	/**
@@ -686,30 +804,6 @@ class JApplicationCms extends JApplicationWeb
 		// There's an internal coupling to the session object being present in JFactory, need to deal with this at some point
 		$session = JSession::getInstance($handler, $options, new JSessionHandlerJoomla($options));
 		$session->initialise($this->input, $this->dispatcher);
-
-		// TODO: At some point we need to get away from having session data always in the db.
-		$db = JFactory::getDbo();
-
-		// Remove expired sessions from the database.
-		$time = time();
-
-		if ($time % 2)
-		{
-			// The modulus introduces a little entropy, making the flushing less accurate
-			// but fires the query less than half the time.
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
-
-			$db->setQuery($query);
-			$db->execute();
-		}
-
-		if (($handler != 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler == 'database' && $session->isNew()))
-		{
-			$this->checkSession();
-		}
 
 		// Set the session object.
 		$this->session = $session;
