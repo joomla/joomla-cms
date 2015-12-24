@@ -133,16 +133,16 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
-	 * After the session has been started we need to populate it with some default values.
+	 * Event listener for the `onAfterSessionStart` event.
+	 *
+	 * @param   JSession  $session  Session object
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	public function afterSessionStart()
+	public function afterSessionStart(JSession $session)
 	{
-		$session = JFactory::getSession();
-
 		if ($session->isNew())
 		{
 			$session->set('registry', new Registry('session'));

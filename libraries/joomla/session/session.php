@@ -630,7 +630,7 @@ class JSession implements IteratorAggregate
 
 		if ($this->_dispatcher instanceof JEventDispatcher)
 		{
-			$this->_dispatcher->trigger('onAfterSessionStart');
+			$this->_dispatcher->trigger('onAfterSessionStart', array($this));
 		}
 	}
 
