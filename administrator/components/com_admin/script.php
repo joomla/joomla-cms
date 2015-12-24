@@ -33,10 +33,11 @@ class JoomlaInstallerScript
 
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
-		$this->updateDatabase();
+		$this->uninstallEosPlugin();
 		$this->clearRadCache();
 		$this->updateAssets();
 		$this->clearStatsCache();
+		$this->updateUtf8Mb4();
 	}
 
 	/**
@@ -95,69 +96,6 @@ class JoomlaInstallerScript
 			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
 
 			return;
-		}
-	}
-
-	/**
-	 * Method to update Database
-	 *
-	 * @return  void
-	 */
-	protected function updateDatabase()
-	{
-		$db = JFactory::getDbo();
-
-		if (strpos($db->name, 'mysql') !== false)
-		{
-			$this->updateDatabaseMysql();
-		}
-
-		$this->uninstallEosPlugin();
-	}
-
-	/**
-	 * Method to update MySQL Database
-	 *
-	 * @return  void
-	 */
-	protected function updateDatabaseMysql()
-	{
-		$db = JFactory::getDbo();
-
-		$db->setQuery('SHOW ENGINES');
-
-		try
-		{
-			$results = $db->loadObjectList();
-		}
-		catch (Exception $e)
-		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
-
-			return;
-		}
-
-		foreach ($results as $result)
-		{
-			if ($result->Support != 'DEFAULT')
-			{
-				continue;
-			}
-
-			$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
-
-			try
-			{
-				$db->execute();
-			}
-			catch (Exception $e)
-			{
-				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
-
-				return;
-			}
-
-			break;
 		}
 	}
 
@@ -1568,5 +1506,114 @@ class JoomlaInstallerScript
 		}
 
 		return true;
+	}
+
+	/**
+	 * Update the database with the correct UTF8MB4 settings.
+	 *
+	 * @return  void.
+	 *
+	 * @since   3.5.0
+	 */
+	private function updateUtf8Mb4()
+	{
+		$db = JFactory::getDbo();
+
+		$utf8mb4IsSupported = $this->serverClaimsUtf8mb4Support($db->name);
+
+		if ($utf8mb4IsSupported)
+		{
+			// Setup the adapter for the indexer.
+			$format = $db->name;
+
+			if ($format == 'mysqli' || $format == 'pdomysql')
+			{
+				$format = 'mysql';
+			}
+
+			if ($format == 'mysql')
+			{
+				$fileName = JPATH_ADMINISTRATOR . "/components/com_admin/sql/utf8mb4/" . $format . ".sql";
+
+				// Split the queries
+				$fileContents = @file_get_contents($fileName);
+				$queries = $db->splitSql($fileContents);
+
+				if (count($queries) == 0)
+				{
+					// No queries to process
+					return;
+				}
+
+				// Execute the queries
+				foreach ($queries as $query)
+				{
+					$query = trim($query);
+
+					if ($query != '' && $query{0} != '#')
+					{
+						try
+						{
+							$db->setQuery($query)->execute();
+						}
+						catch (RuntimeException $e)
+						{
+							JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $e->getCode(), $e->getMessage()));
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Does the database server claim to have support for UTF-8 Multibyte (utf8mb4) collation?
+	 *
+	 * libmysql supports utf8mb4 since 5.5.3 (same version as the MySQL server). mysqlnd supports utf8mb4 since 5.0.9.
+	 *
+	 * @param   string  $format  The type of database connection.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.5.0
+	 */
+	private function serverClaimsUtf8mb4Support($format)
+	{
+		$db = JFactory::getDbo();
+
+		switch ($format)
+		{
+			case 'mysql':
+				$client_version = mysql_get_client_info();
+				$server_version = $db->getVersion();
+				break;
+			case 'mysqli':
+				$client_version = mysqli_get_client_info();
+				$server_version = $db->getVersion();
+				break;
+			case 'pdomysql':
+				$client_version = $db->getOption(PDO::ATTR_CLIENT_VERSION);
+				$server_version = $db->getOption(PDO::ATTR_SERVER_VERSION);
+				break;
+			default:
+				$client_version = false;
+				$server_version = false;
+		}
+
+		if ($client_version && version_compare($server_version, '5.5.3', '>='))
+		{
+			if (strpos($client_version, 'mysqlnd') !== false)
+			{
+				$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
+
+				return version_compare($client_version, '5.0.9', '>=');
+			}
+			else
+			{
+				return version_compare($client_version, '5.5.3', '>=');
+			}
+		}
+
+		return false;
 	}
 }

@@ -270,7 +270,7 @@ class InstallerModelDatabase extends InstallerModel
 		// Get the SQL file to convert the core tables. Yes, this is hardcoded because we have all sorts of index
 		// conversions and funky things we can't automate in core tables without an actual SQL file.
 		$serverType = $db->getServerType();
-		$fileName = JPATH_ADMINISTRATOR . "/components/com_admin/sql/updates/$serverType/3.5.0-2015-07-01.sql";
+		$fileName = JPATH_ADMINISTRATOR . "/components/com_admin/sql/utf8mb4/" . $serverType . ".sql";
 
 		if (!is_file($fileName))
 		{
@@ -287,13 +287,18 @@ class InstallerModelDatabase extends InstallerModel
 
 		foreach ($queries as $query)
 		{
-			try
+			$query = trim($query);
+
+			if ($query != '' && $query{0} != '#')
 			{
-				$db->setQuery($query)->execute();
-			}
-			catch (Exception $e)
-			{
-				// If the query fails we will go on. It probably means we've already done this conversion.
+				try
+				{
+					$db->setQuery($query)->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $e->getCode(), $e->getMessage()));
+				}
 			}
 		}
 	}
