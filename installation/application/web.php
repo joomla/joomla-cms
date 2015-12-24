@@ -50,6 +50,23 @@ final class InstallationApplicationWeb extends JApplicationCms
 	}
 
 	/**
+	 * Event listener for the `onAfterSessionStart` event.
+	 *
+	 * @param   JSession  $session  Session object
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function afterSessionStart(JSession $session)
+	{
+		if ($session->isNew())
+		{
+			$session->set('registry', new Registry('session'));
+		}
+	}
+
+	/**
 	 * Method to display errors in language parsing.
 	 *
 	 * @return  string  Language debug output.
