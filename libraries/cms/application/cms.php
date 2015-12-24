@@ -704,7 +704,11 @@ class JApplicationCms extends JApplicationWeb
 	{
 		if ($session !== null)
 		{
+			// Set the session object.
 			$this->session = $session;
+
+			// Register the session with JFactory.
+			JFactory::$session = $session;
 
 			return $this;
 		}
@@ -742,8 +746,11 @@ class JApplicationCms extends JApplicationWeb
 
 		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
 
+		// Get the session handler from the configuration.
+		$handler = $this->get('session_handler', 'none');
+
 		// There's an internal coupling to the session object being present in JFactory, need to deal with this at some point
-		$session = JFactory::getSession($options);
+		$session = JSession::getInstance($handler, $options, new JSessionHandlerJoomla($options));
 		$session->initialise($this->input, $this->dispatcher);
 
 		// TODO: At some point we need to get away from having session data always in the db.
@@ -764,9 +771,6 @@ class JApplicationCms extends JApplicationWeb
 			$db->execute();
 		}
 
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
-
 		if (($handler != 'database' && ($time % 2 || $session->isNew()))
 			|| ($handler == 'database' && $session->isNew()))
 		{
@@ -775,6 +779,9 @@ class JApplicationCms extends JApplicationWeb
 
 		// Set the session object.
 		$this->session = $session;
+
+		// Register the session with JFactory.
+		JFactory::$session = $session;
 
 		return $this;
 	}
