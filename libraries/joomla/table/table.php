@@ -1572,8 +1572,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 				->update($this->_tbl)
 				->set($this->_db->quoteName($this->getColumnAlias('published')) . ' = ' . (int) $state);
 
-			// Set published date/time if not previously set
-			if (property_exists($this, 'publish_up') && (int) $this->publish_up == 0)
+			// If publishing, set published date/time if not previously set
+			if ($state && property_exists($this, 'publish_up') && (int) $this->publish_up == 0)
 			{
 				$nowDate = $this->_db->quote(JFactory::getDate()->toSql());
 				$query->set($this->_db->quoteName($this->getColumnAlias('publish_up')) . ' = ' . $nowDate);
