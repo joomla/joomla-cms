@@ -687,25 +687,9 @@ class JSession implements IteratorAggregate
 			return true;
 		}
 
-<<<<<<< HEAD
 		$this->_handler->clear();
 
 		// Create new data storage
-=======
-		/*
-		 * In order to kill the session altogether, such as to log the user out, the session id
-		 * must also be unset. If a cookie is used to propagate the session id (default behavior),
-		 * then the session cookie must be deleted.
-		 */
-		if (isset($_COOKIE[session_name()]))
-		{
-			$config = JFactory::getConfig();
-			$cookie_domain = $config->get('cookie_domain', '');
-			$cookie_path = $config->get('cookie_path', '/');
-			setcookie(session_name(), '', time() - 42000, $cookie_path, $cookie_domain);
-		}
-
->>>>>>> 3.4.8
 		$this->data = new \Joomla\Registry\Registry;
 
 		$this->_state = 'destroyed';
