@@ -13,7 +13,7 @@ $cparams = JComponentHelper::getParams('com_media');
 
 jimport('joomla.html.html.bootstrap');
 ?>
-<div class="contact<?php echo $this->pageclass_sfx?>" itemscope itemtype="http://schema.org/Person">
+<div class="contact<?php echo $this->pageclass_sfx?>" itemscope itemtype="https://schema.org/Person">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<h1>
 			<?php echo $this->escape($this->params->get('page_heading')); ?>
