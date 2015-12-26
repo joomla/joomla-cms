@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Facebook API Album class for the Joomla Platform.
  *
- * @see    http://developers.facebook.com/docs/reference/api/album/
+ * @see    https://developers.facebook.com/docs/graph-api/reference/album/
  * @since  13.1
  */
 class JFacebookAlbum extends JFacebookObject

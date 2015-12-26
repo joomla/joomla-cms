@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Facebook API Post class for the Joomla Platform.
  *
- * @see    http://developers.facebook.com/docs/reference/api/post/
+ * @see    https://developers.facebook.com/docs/graph-api/reference/post/
  * @since  13.1
  */
 class JFacebookPost extends JFacebookObject

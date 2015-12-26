@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Facebook API Video class for the Joomla Platform.
  *
- * @see    http://developers.facebook.com/docs/reference/api/video/
+ * @see    https://developers.facebook.com/docs/graph-api/reference/video/
  * @since  13.1
  */
 class JFacebookVideo extends JFacebookObject

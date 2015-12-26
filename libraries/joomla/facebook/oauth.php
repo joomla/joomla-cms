@@ -38,7 +38,7 @@ class JFacebookOAuth extends JOAuth2Client
 		$this->options = isset($options) ? $options : new Registry;
 
 		// Setup the authentication and token urls if not already set.
-		$this->options->def('authurl', 'http://www.facebook.com/dialog/oauth');
+		$this->options->def('authurl', 'https://www.facebook.com/dialog/oauth');
 		$this->options->def('tokenurl', 'https://graph.facebook.com/oauth/access_token');
 
 		// Call the JOauthOauth2client constructor to setup the object.
