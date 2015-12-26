@@ -125,6 +125,15 @@ class JApplicationCms extends JApplicationWeb
 			$this->config->set('session_name', $this->getName());
 		}
 
+		// Set the default backend dir.
+		$administrator_dir = $this->config->get('administrator_dir');
+
+		// If defined path is not a real directory fallback to default value 'administrator'.
+		if (empty($administrator_dir) || !is_dir(JPATH_ROOT . DIRECTORY_SEPARATOR . $administrator_dir))
+		{
+			$this->config->set('administrator_dir', 'administrator');
+		}
+
 		// Create the session if a session name is passed.
 		if ($this->config->get('session') !== false)
 		{

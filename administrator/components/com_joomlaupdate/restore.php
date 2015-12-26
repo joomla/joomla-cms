@@ -6794,8 +6794,8 @@ class AKFactory {
 			if(!defined('KICKSTART'))
 			{
 				// In restore.php mode we have to exclude some more files
-				$config['skip_files'][] = 'administrator/components/com_akeeba/restore.php';
-				$config['skip_files'][] = 'administrator/components/com_akeeba/restoration.php';
+				$config['skip_files'][] = JADMINISTRATOR_DIR . '/components/com_akeeba/restore.php';
+				$config['skip_files'][] = JADMINISTRATOR_DIR . '/components/com_akeeba/restoration.php';
 			}
 
 			if(!empty($configOverride))

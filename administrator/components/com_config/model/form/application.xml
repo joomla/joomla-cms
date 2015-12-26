@@ -843,6 +843,15 @@
 			description="COM_CONFIG_FIELD_OFFLINE_IMAGE_DESC" />
 
 		<field
+			name="administrator_dir"
+			type="text"
+			default="administrator"
+			label="COM_CONFIG_FIELD_ADMINISTRATOR_DIR_LABEL"
+			description="COM_CONFIG_FIELD_ADMINISTRATOR_DIR_DESC"
+			filter="cmd"
+		/>
+
+		<field
 			name="frontediting"
 			type="list"
 			default="1"

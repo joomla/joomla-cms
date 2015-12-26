@@ -152,6 +152,15 @@ abstract class JFactory
 			}
 
 			self::$config = self::createConfig($file, $type, $namespace);
+
+			// Set the default backend dir.
+			$administrator_dir = self::$config->get('administrator_dir');
+
+			// If defined path is not a real directory fallback to default value 'administrator'.
+			if (empty($administrator_dir) || !is_dir(JPATH_ROOT . DIRECTORY_SEPARATOR . $administrator_dir))
+			{
+				self::$config->set('administrator_dir', 'administrator');
+			}
 		}
 
 		return self::$config;

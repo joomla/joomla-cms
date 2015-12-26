@@ -194,7 +194,7 @@ class FOFToolbar
             if(!class_exists('JToolbarHelper'))
             {
                 $platformDirs = FOFPlatform::getInstance()->getPlatformBaseDirs();
-                require_once $platformDirs['root'] . '/administrator/includes/toolbar.php';
+                require_once $platformDirs['root'] . '/' . JADMINISTRATOR_DIR . '/includes/toolbar.php';
             }
 
 			// Things to do if we have to render a front-end toolbar

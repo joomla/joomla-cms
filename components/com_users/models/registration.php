@@ -87,8 +87,8 @@ class UsersModelRegistration extends JModelForm
 			// Remove administrator/ from activate url in case this method is called from admin
 			if (JFactory::getApplication()->isAdmin())
 			{
-				$adminPos         = strrpos($data['activate'], 'administrator/');
-				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
+				$adminPos         = strrpos($data['activate'], JADMINISTRATOR_DIR . '/');
+				$data['activate'] = substr_replace($data['activate'], '', $adminPos, strlen(JADMINISTRATOR_DIR) + 1);
 			}
 
 			$data['fromname'] = $config->get('fromname');
@@ -426,8 +426,8 @@ class UsersModelRegistration extends JModelForm
 			// Remove administrator/ from activate url in case this method is called from admin
 			if (JFactory::getApplication()->isAdmin())
 			{
-				$adminPos         = strrpos($data['activate'], 'administrator/');
-				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
+				$adminPos         = strrpos($data['activate'], JADMINISTRATOR_DIR . '/');
+				$data['activate'] = substr_replace($data['activate'], '', $adminPos, strlen(JADMINISTRATOR_DIR) + 1);
 			}
 
 			$emailSubject = JText::sprintf(
@@ -470,8 +470,8 @@ class UsersModelRegistration extends JModelForm
 			// Remove administrator/ from activate url in case this method is called from admin
 			if (JFactory::getApplication()->isAdmin())
 			{
-				$adminPos         = strrpos($data['activate'], 'administrator/');
-				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
+				$adminPos         = strrpos($data['activate'], JADMINISTRATOR_DIR . '/');
+				$data['activate'] = substr_replace($data['activate'], '', $adminPos, strlen(JADMINISTRATOR_DIR) + 1);
 			}
 
 			$emailSubject = JText::sprintf(

@@ -1477,6 +1477,8 @@ class JoomlaInstallerScript
 
 		foreach ($files as $file)
 		{
+			$file = preg_replace('|^([\\\/])?administrator|', '$1' . JADMINISTRATOR_DIR, $file);
+
 			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
 			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br />';
@@ -1487,6 +1489,8 @@ class JoomlaInstallerScript
 
 		foreach ($folders as $folder)
 		{
+			$folder = preg_replace('|^([\\\/])?administrator|', '$1' . JADMINISTRATOR_DIR, $folder);
+
 			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
 			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
