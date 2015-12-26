@@ -121,6 +121,9 @@ class JSession implements IteratorAggregate
 		// Set the session handler
 		$this->_handler = $handlerInterface instanceof JSessionHandlerInterface ? $handlerInterface : new JSessionHandlerJoomla($options);
 
+		// Initialize the data variable, let's avoid fatal error if the session is not corretly started (ie in CLI).
+		$this->data = new \Joomla\Registry\Registry;
+
 		// Clear any existing sessions
 		if ($this->_handler->getId())
 		{
@@ -596,7 +599,11 @@ class JSession implements IteratorAggregate
 		$this->_setTimers();
 
 		// Perform security checks
-		$this->_validate();
+		if (!$this->_validate())
+		{
+			// Destroy the session if it's not valid
+			$this->destroy();
+		}
 
 		if ($this->_dispatcher instanceof JEventDispatcher)
 		{
@@ -618,8 +625,6 @@ class JSession implements IteratorAggregate
 		$this->_handler->start();
 
 		// Ok let's unserialize the whole thing
-		$this->data = new \Joomla\Registry\Registry;
-
 		// Try loading data from the session
 		if (isset($_SESSION['joomla']) && !empty($_SESSION['joomla']))
 		{
@@ -630,8 +635,8 @@ class JSession implements IteratorAggregate
 			$this->data = unserialize($data);
 		}
 
-		// Migrate existing session data to avoid logout on update from J < 3.4.7
-		if (isset($_SESSION['__default']))
+		// Temporary, PARTIAL, data migration of existing session data to avoid logout on update from J < 3.4.7
+		if (isset($_SESSION['__default']) && !empty($_SESSION['__default']))
 		{
 			$migratableKeys = array("user", "session.token", "session.counter", "session.timer.start", "session.timer.last", "session.timer.now");
 
@@ -649,6 +654,13 @@ class JSession implements IteratorAggregate
 					unset($_SESSION['__default'][$migratableKey]);
 				}
 			}
+
+			/**
+			 * Finally, empty the __default key since we no longer need it. Don't unset it completely, we need this
+			 * for the administrator/components/com_admin/script.php to detect upgraded sessions and perform a full
+			 * session cleanup.
+			 */
+			$_SESSION['__default'] = array();
 		}
 
 		return true;
@@ -675,9 +687,25 @@ class JSession implements IteratorAggregate
 			return true;
 		}
 
+<<<<<<< HEAD
 		$this->_handler->clear();
 
 		// Create new data storage
+=======
+		/*
+		 * In order to kill the session altogether, such as to log the user out, the session id
+		 * must also be unset. If a cookie is used to propagate the session id (default behavior),
+		 * then the session cookie must be deleted.
+		 */
+		if (isset($_COOKIE[session_name()]))
+		{
+			$config = JFactory::getConfig();
+			$cookie_domain = $config->get('cookie_domain', '');
+			$cookie_path = $config->get('cookie_path', '/');
+			setcookie(session_name(), '', time() - 42000, $cookie_path, $cookie_domain);
+		}
+
+>>>>>>> 3.4.8
 		$this->data = new \Joomla\Registry\Registry;
 
 		$this->_state = 'destroyed';
@@ -713,7 +741,12 @@ class JSession implements IteratorAggregate
 		$this->_start();
 		$this->_state = 'active';
 
-		$this->_validate();
+		if (!$this->_validate())
+		{
+			// Destroy the session if it's not valid
+			$this->destroy();
+		}
+
 		$this->_setCounter();
 
 		return true;
