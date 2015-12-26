@@ -407,7 +407,7 @@ class JDate extends DateTime
 	 *
 	 * @return  string  The date string in ISO 8601 format.
 	 *
-	 * @link    http://www.ietf.org/rfc/rfc3339.txt
+	 * @link    https://www.ietf.org/rfc/rfc3339
 	 * @since   11.1
 	 */
 	public function toISO8601($local = false)
@@ -444,7 +444,7 @@ class JDate extends DateTime
 	 *
 	 * @return  string   The date string in RFC 822 format.
 	 *
-	 * @link    http://www.ietf.org/rfc/rfc2822.txt
+	 * @link    https://www.ietf.org/rfc/rfc2822
 	 * @since   11.1
 	 */
 	public function toRFC822($local = false)

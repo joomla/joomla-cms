@@ -45,7 +45,7 @@ class JFormRuleTel extends JFormRule
 
 		/*
 		 * @see http://www.nanpa.com/
-		 * @see http://tools.ietf.org/html/rfc4933
+		 * @see https://www.ietf.org/rfc/rfc4933
 		 * @see http://www.itu.int/rec/T-REC-E.164/en
 		 *
 		 * Regex by Steve Levithan

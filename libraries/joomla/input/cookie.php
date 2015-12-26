@@ -76,7 +76,7 @@ class JInputCookie extends JInput
 	 *
 	 * @return  void
 	 *
-	 * @link    http://www.ietf.org/rfc/rfc2109.txt
+	 * @link    https://www.ietf.org/rfc/rfc2109
 	 * @see     setcookie()
 	 * @since   11.1
 	 */
