@@ -6,10 +6,10 @@
  *    - Get a reCAPTCHA API Key
  *          https://www.google.com/recaptcha/admin/create
  *    - Discussion group
- *          http://groups.google.com/group/recaptcha
+ *          https://groups.google.com/forum/#!forum/recaptcha
  *
  * @copyright Copyright (c) 2014, Google Inc.
- * @link      http://www.google.com/recaptcha
+ * @link      https://www.google.com/recaptcha
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal

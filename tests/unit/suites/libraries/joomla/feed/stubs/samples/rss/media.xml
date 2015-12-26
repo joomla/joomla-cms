@@ -1,7 +1,7 @@
 <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
 	<channel>
 		<title>Title of RSS feed</title>
-		<link>http://www.google.com</link>
+		<link>https://www.google.com</link>
 		<description>Details about the feed</description>
 		<pubDate>Mon, 24 Nov 08 21:44:21 -0500</pubDate>
 		<language>en</language>
