@@ -118,7 +118,7 @@ class JDocumentRendererAtomTest extends TestCase
 	<subtitle type="text"></subtitle>
 	<link rel="alternate" type="text/html" href="http://localhost"/>
 	<id></id>
-	<generator uri="http://joomla.org" version="1.6">Joomla! 1.6 - Open Source Content Management</generator>
+	<generator uri="https://www.joomla.org" version="1.6">Joomla! 1.6 - Open Source Content Management</generator>
 	<link rel="self" type="application/atom+xml" href="http://localhost/index.php?format=feed&amp;type=atom"/>
 	<entry>
 		<title>Joomla!</title>

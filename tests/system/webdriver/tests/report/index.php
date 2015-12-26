@@ -42,7 +42,7 @@ if (file_exists('../logs/junit.xml'))
 		<?php if (!$logFileExist) : ?>
 			<h1>Please execute System Test and wait until the execution has finished to view the report</h1>
 			<h2>For more details about how to run system tests please read here
-				<a href="http://docs.joomla.org/System_Testing"> System Test</a>
+				<a href="https://docs.joomla.org/System_Testing"> System Test</a>
 			</h2>
 		<?php else : ?>
 		<table class="table table-striped table-hover">

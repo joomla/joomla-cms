@@ -26,7 +26,7 @@ class JDocumentHTMLTest extends TestCase
 	private $testHeadData = array(
 		'title' => 'My Custom Title',
 		'description' => 'My Description',
-		'link' => 'http://joomla.org',
+		'link' => 'https://www.joomla.org',
 		'metaTags' => array(
 			'myMetaTag' => array('myMetaTag', true)
 		),
