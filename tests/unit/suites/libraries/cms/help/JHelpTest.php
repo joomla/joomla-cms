@@ -115,7 +115,7 @@ class JHelpTest extends TestCase
 	{
 		$helpsite = array(
 			'text' => 'English (GB) help.joomla.org',
-			'value' => 'http://help.joomla.org'
+			'value' => 'https://help.joomla.org'
 		);
 		$this->assertEquals(array($helpsite), JHelp::createSiteList(null), 'Returns the default help site list');
 

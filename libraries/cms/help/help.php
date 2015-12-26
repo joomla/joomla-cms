@@ -184,7 +184,7 @@ class JHelp
 		if (!$xml)
 		{
 			$option['text']  = 'English (GB) help.joomla.org';
-			$option['value'] = 'http://help.joomla.org';
+			$option['value'] = 'https://help.joomla.org';
 
 			$list[] = $option;
 		}
