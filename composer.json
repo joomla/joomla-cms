@@ -6,6 +6,9 @@
     "homepage": "https://github.com/joomla/joomla-cms",
     "license": "GPL-2.0+",
     "config": {
+        "platform": {
+            "php": "5.3.10"
+        },
         "vendor-dir": "libraries/vendor"
     },
     "require": {

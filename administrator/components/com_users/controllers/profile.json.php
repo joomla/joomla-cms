@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Site
+ * @package     Joomla.Administrator
  * @subpackage  com_users
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
@@ -14,7 +14,7 @@ require_once JPATH_SITE . '/components/com_users/controllers/profile_base_json.p
 /**
  * Profile controller class for Users.
  *
- * @since  1.6
+ * @since  3.5
  */
 class UsersControllerProfile extends UsersControllerProfile_Base_Json
 {
