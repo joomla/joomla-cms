@@ -316,7 +316,7 @@ class JLog
 				else
 				{
 					// If either there are no set categories (meaning all) or the specific category is set, add this logger.
-					if (empty($category) || empty($rules->categories) || in_array($category, $rules->categories))
+					if (empty($rules->categories) || in_array($category, $rules->categories))
 					{
 						$loggers[] = $signature;
 					}

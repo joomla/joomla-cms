@@ -953,13 +953,11 @@ class JHelperTags extends JHelper
 		}
 		catch (RuntimeException $e)
 		{
-			return false;
+			return array();
 		}
 
 		// We will replace path aliases with tag names
-		$results = self::convertPathsToNames($results);
-
-		return $results;
+		return self::convertPathsToNames($results);
 	}
 
 	/**

@@ -104,12 +104,12 @@ class JFormFieldMeter extends JFormFieldNumber
 
 			case 'active':
 				$value = (string) $value;
-				$this->$name = ($value === 'true' || $value === $name || $value === '1');
+				$this->active = ($value === 'true' || $value === $name || $value === '1');
 				break;
 
 			case 'animated':
 				$value = (string) $value;
-				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
+				$this->animated = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
 			default:

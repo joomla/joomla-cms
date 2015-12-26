@@ -28,7 +28,6 @@
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
 			<folder>controllers</folder>
-			<folder>helpers</folder>
 			<folder>models</folder>
 			<folder>views</folder>
 		</files>

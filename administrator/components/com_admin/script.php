@@ -21,7 +21,7 @@ class JoomlaInstallerScript
 	 *
 	 * @param   JInstallerFile  $installer  The class calling this method
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function update($installer)
 	{
@@ -36,12 +36,70 @@ class JoomlaInstallerScript
 		$this->updateDatabase();
 		$this->clearRadCache();
 		$this->updateAssets();
+		$this->clearStatsCache();
+	}
+
+	/**
+	 * Method to clear our stats plugin cache to ensure we get fresh data on Joomla Update
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	protected function clearStatsCache()
+	{
+		$db = JFactory::getDbo();
+
+		try
+		{
+			// Get the params for the stats plugin
+			$params = $db->setQuery(
+				$db->getQuery(true)
+					->select($db->quoteName('params'))
+					->from($db->quoteName('#__extensions'))
+					->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+					->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+					->where($db->quoteName('element') . ' = ' . $db->quote('stats'))
+			)->loadResult();
+		}
+		catch (Exception $e)
+		{
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+
+			return;
+		}
+
+		$params = json_decode($params, true);
+
+		// Reset the last run parameter
+		if (isset($params['lastrun']))
+		{
+			$params['lastrun'] = '';
+		}
+
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__extensions'))
+			->set($db->quoteName('params') . ' = ' . $db->quote($params))
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('stats'));
+
+		try
+		{
+			$db->setQuery($query)->execute();
+		}
+		catch (Exception $e)
+		{
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+
+			return;
+		}
 	}
 
 	/**
 	 * Method to update Database
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function updateDatabase()
 	{
@@ -58,7 +116,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update MySQL Database
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function updateDatabaseMysql()
 	{
@@ -104,7 +162,7 @@ class JoomlaInstallerScript
 	/**
 	 * Uninstall the 2.5 EOS plugin
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function uninstallEosPlugin()
 	{
@@ -138,7 +196,7 @@ class JoomlaInstallerScript
 	/**
 	 * Update the manifest caches
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function updateManifestCaches()
 	{
@@ -273,6 +331,9 @@ class JoomlaInstallerScript
 			array('plugin', 'tags', 'finder', 0),
 			array('plugin', 'totp', 'twofactorauth', 0),
 			array('plugin', 'yubikey', 'twofactorauth', 0),
+			array('plugin', 'updatenotification', 'system', 0),
+			array('plugin', 'module', 'editors-xtd', 0),
+			array('plugin', 'stats', 'system', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
@@ -334,7 +395,7 @@ class JoomlaInstallerScript
 	/**
 	 * Delete files that should not exist
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function deleteUnexistingFiles()
 	{
@@ -423,7 +484,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_installer/models/fields/group.php',
 			'/administrator/components/com_installer/models/fields/index.html',
 			'/administrator/components/com_installer/models/fields/search.php',
-			'/administrator/components/com_installer/models/fields/type.php',
 			'/administrator/components/com_installer/models/forms/index.html',
 			'/administrator/components/com_installer/models/forms/manage.xml',
 			'/administrator/components/com_installer/views/install/tmpl/default_form.php',
@@ -760,6 +820,11 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/autosave/langs/en.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/bbcode/index.html',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/bbcode/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/compat3x/editable_selects.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/compat3x/form_utils.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/compat3x/mctabs.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/compat3x/tiny_mce_popup.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/compat3x/validate.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/contextmenu/index.html',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/contextmenu/editor_plugin.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/directionality/index.html',
@@ -1297,6 +1362,25 @@ class JoomlaInstallerScript
 			// Joomla 3.4.3
 			'/libraries/classloader.php',
 			'/libraries/ClassLoader.php',
+			// Joomla 3.4.6
+			'/components/com_wrapper/views/wrapper/metadata.xml',
+			// Joomla 3.5.0
+			'/media/com_joomlaupdate/default.js',
+			'/media/com_joomlaupdate/encryption.js',
+			'/media/com_joomlaupdate/json2.js',
+			'/media/com_joomlaupdate/update.js',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Dumper.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Escaper.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Inline.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/LICENSE',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Parser.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Unescaper.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Yaml.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/DumpException.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ExceptionInterface.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ParseException.php',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/RuntimeException.php',
+			'/administrator/components/com_tags/helpers/tags.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1308,9 +1392,6 @@ class JoomlaInstallerScript
 			// Joomla 3.0
 			'/administrator/components/com_contact/elements',
 			'/administrator/components/com_content/elements',
-			'/administrator/components/com_installer/models/fields',
-			'/administrator/components/com_installer/models/forms',
-			'/administrator/components/com_modules/models/fields',
 			'/administrator/components/com_newsfeeds/elements',
 			'/administrator/components/com_templates/views/prevuuw/tmpl',
 			'/administrator/components/com_templates/views/prevuuw',
@@ -1382,6 +1463,12 @@ class JoomlaInstallerScript
 			'/administrator/components/com_config/views',
 			'/administrator/components/com_config/models/fields',
 			'/administrator/components/com_config/models/forms',
+			// Joomla! 3.5
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception',
+			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml',
+			'/libraries/vendor/symfony/yaml/Symfony/Component',
+			'/libraries/vendor/symfony/yaml/Symfony',
+			'/administrator/components/com_tags/helpers',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -1416,8 +1503,9 @@ class JoomlaInstallerScript
 	}
 
 	/**
-	 * Clears the RAD layer's table cache. The cache vastly improves performance
-	 * but needs to be cleared every time you update the database schema.
+	 * Clears the RAD layer's table cache.
+	 *
+	 * The cache vastly improves performance but needs to be cleared every time you update the database schema.
 	 *
 	 * @return  void
 	 *
@@ -1454,6 +1542,7 @@ class JoomlaInstallerScript
 
 		foreach ($newComponents as $component)
 		{
+			/** @var JTableAsset $asset */
 			$asset = JTable::getInstance('Asset');
 
 			if ($asset->loadByName($component))

@@ -10,7 +10,7 @@ What is this?
 ---------------------
 * This is a Joomla! 3.x installation/upgrade package.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 3.4 [version history](https://docs.joomla.org/Joomla_3.4_version_history).
+* Joomla! 3.5 [version history](https://docs.joomla.org/Joomla_3.5_version_history).
 * Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/master).
 
 What is Joomla?
@@ -32,7 +32,7 @@ How to find a Joomla! translation?
 
 Learn Joomla!
 ---------------------
-* Read ['Getting Started with Joomla!'](https://docs.joomla.org/Getting_Started_with_Joomla!) to learn the basics.
+* Read ['Getting Started with Joomla!'](https://docs.joomla.org/J3.x:Getting_Started_with_Joomla!) to learn the basics.
 * Before installing, read the ['Beginners' Guide'](https://docs.joomla.org/Beginners).
 
 What are the benefits of Joomla?

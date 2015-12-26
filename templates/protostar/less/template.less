@@ -393,6 +393,10 @@ figcaption {
   #gradient > .vertical(@dropdownLinkBackgroundHover, darken(@dropdownLinkBackgroundHover, 5%));
 }
 
+// Category collapse
+.categories-list .collapse {
+	margin: 0 0 0 20px;
+}
 @media (max-width: 480px) {
 	.item-info > span {
 		display:block;
@@ -406,7 +410,9 @@ figcaption {
 	}
 }
 @media (max-width: 768px) {
+  /* Fix ios scrolling inside boottrap modals */
 	body {
+		-webkit-overflow-scrolling: touch;
 		padding-top: 0;
 	}
 	.header {
@@ -618,4 +624,10 @@ body.modal-open {
 /* Align fields for the profile display */
 #users-profile-custom label {
 	display: inline;
+}
+
+/*Corrects the modals padding*/
+.modal-body {
+	padding: 5px 10px;
+	overflow: hidden;
 }

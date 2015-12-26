@@ -45,7 +45,7 @@ class NewsfeedsViewCategory extends JViewCategory
 	 */
 	public function display($tpl = null)
 	{
-		parent::commonCategoryDisplay();
+		$this->commonCategoryDisplay();
 
 		// Prepare the data.
 		// Compute the newsfeed slug.
@@ -69,6 +69,7 @@ class NewsfeedsViewCategory extends JViewCategory
 	protected function prepareDocument()
 	{
 		parent::prepareDocument();
+
 		$id = (int) @$menu->query['id'];
 
 		$menu = $this->menu;
@@ -91,7 +92,5 @@ class NewsfeedsViewCategory extends JViewCategory
 				$this->pathway->addItem($item['title'], $item['link']);
 			}
 		}
-
-		parent::addFeed();
 	}
 }

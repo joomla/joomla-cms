@@ -65,6 +65,14 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/
 $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/respond.src.js', 'text/javascript');
 $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/template.js', 'text/javascript');
 
+// Check for a custom CSS file
+$userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
+
+if (file_exists($userCss) && filesize($userCss) > 0)
+{
+	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/user.css');
+}
+
 ?>
 
 <!DOCTYPE html>

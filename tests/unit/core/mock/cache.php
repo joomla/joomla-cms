@@ -74,7 +74,7 @@ class TestMockCache
 	 *
 	 * @since   12.1
 	 */
-	public function mockGet($id)
+	public static function mockGet($id)
 	{
 		return isset(self::$cache[$id]) ? self::$cache[$id] : null;
 	}
@@ -89,7 +89,7 @@ class TestMockCache
 	 *
 	 * @since   12.1
 	 */
-	public function mockStore($value, $id)
+	public static function mockStore($value, $id)
 	{
 		self::$cache[$id] = $value;
 	}

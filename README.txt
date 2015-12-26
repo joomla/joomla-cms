@@ -1,7 +1,7 @@
 1- What is this?
 	* This is a Joomla! installation/upgrade package to version 3.x
 	* Joomla! Official site: https://www.joomla.org
-	* Joomla! 3.4 version history - https://docs.joomla.org/Joomla_3.4_version_history
+	* Joomla! 3.5 version history - https://docs.joomla.org/Joomla_3.5_version_history
 	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/master
 
 2- What is Joomla?
@@ -20,7 +20,7 @@
 	* You can also add languages directly to your website via your Joomla! administration panel.
 
 5- Learn Joomla!
-	* Read Getting Started with Joomla to find out the basics: https://docs.joomla.org/Getting_Started_with_Joomla!
+	* Read Getting Started with Joomla to find out the basics: https://docs.joomla.org/J3.x:Getting_Started_with_Joomla!
 	* Before installing, read the beginners guide: https://docs.joomla.org/Beginners
 
 6- What are the limits of Joomla?

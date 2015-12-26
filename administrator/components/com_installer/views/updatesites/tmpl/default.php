@@ -26,20 +26,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php else : ?>
 			<div id="j-main-container">
 		<?php endif; ?>
-			<div id="filter-bar" class="btn-toolbar">
-				<div class="btn-group pull-right hidden-phone">
-					<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
-					<?php echo $this->pagination->getLimitBox(); ?>
-				</div>
-				<div class="filter-search btn-group pull-left">
-					<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_INSTALLER_FILTER_LABEL'); ?>" />
-				</div>
-				<div class="btn-group pull-left">
-					<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search"></span></button>
-					<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
-				</div>
-			</div>
-			<div class="clearfix"> </div>
+			<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+
 			<?php if (count($this->items)) : ?>
 			<table class="table table-striped">
 				<thead>
@@ -87,12 +75,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php if (!$item->element) : ?>
 								<strong>X</strong>
 							<?php else : ?>
-								<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'updatesites.'); ?>
+								<?php echo JHtml::_('InstallerHtml.Updatesites.state', $item->enabled, $i, $item->enabled < 2, 'cb'); ?>
 							<?php endif; ?>
 						</td>
 						<td>
 							<label for="cb<?php echo $i; ?>">
-								<?php echo $item->update_site_name; ?>
+								<?php echo JText::_($item->update_site_name); ?>
 								<br />
 								<span class="small">
 									<a href="<?php echo $item->location; ?>" target="_blank"><?php echo $this->escape($item->location); ?></a>
