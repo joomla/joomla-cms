@@ -290,7 +290,7 @@ class JHttpTransportCurl implements JHttpTransport
 	{
 		return function_exists('curl_version') && curl_version();
 	}
-	
+
 	/**
 	 * Check if redirects are allowed
 	 *
