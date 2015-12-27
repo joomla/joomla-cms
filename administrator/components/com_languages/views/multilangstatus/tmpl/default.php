@@ -100,7 +100,7 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 				<th>
 					<?php echo JText::_('JDETAILS'); ?>
 				</th>
-				<th>
+				<th class="center">
 					<?php echo JText::_('JSTATUS'); ?>
 				</th>
 			</tr>
