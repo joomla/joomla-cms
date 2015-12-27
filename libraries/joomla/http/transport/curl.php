@@ -306,7 +306,7 @@ class JHttpTransportCurl implements JHttpTransport
 		if (version_compare(PHP_VERSION, '5.6', '>='))
 		{
 			// But we also need to check if libcurl version is 7.19.4 or higher
-			if (version_compare($curlVersion['version'], '7.19.4', '>='))
+			if (!ini_get('open_basedir') || version_compare($curlVersion['version'], '7.19.4', '>='))
 			{
 				return true;
 			}
@@ -334,7 +334,7 @@ class JHttpTransportCurl implements JHttpTransport
 		else
 		{
 			// But we also need to check if libcurl version is 5.10 or lower
-			if (version_compare($curlVersion['version'], '5.10', '<='))
+			if ((!ini_get('safe_mode') && !ini_get('open_basedir')) || version_compare($curlVersion['version'], '5.10', '<='))
 			{
 				return true;
 			}
