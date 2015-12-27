@@ -305,7 +305,7 @@ class JHttpTransportCurl implements JHttpTransport
 		// In PHP 5.6.0 or later there are no issues with curl redirects
 		if (version_compare(PHP_VERSION, '5.6', '>='))
 		{
-			// But we also need to check if libcurl version is 7.19.4 or higher
+			// But if open_basedir is enabled we also need to check if libcurl version is 7.19.4 or higher
 			if (!ini_get('open_basedir') || version_compare($curlVersion['version'], '7.19.4', '>='))
 			{
 				return true;
@@ -333,7 +333,7 @@ class JHttpTransportCurl implements JHttpTransport
 		// In PHP 5.1.4 or lower versions there are no issues with curl redirects
 		else
 		{
-			// But we also need to check if libcurl version is 5.10 or lower
+			// But if safe_mode or open_basedir are enabled we also need to check if libcurl version is 5.10 or lower
 			if ((!ini_get('safe_mode') && !ini_get('open_basedir')) || version_compare($curlVersion['version'], '5.10', '<='))
 			{
 				return true;
