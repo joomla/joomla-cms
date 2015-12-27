@@ -322,6 +322,7 @@ class JAuthentication extends JObject
 	 * @return  array[JAuthenticationResponse]  results of authorisation
 	 *
 	 * @since  11.2
+	 * @deprecated 4.0
 	 */
 	public static function authorise($response, $options = array())
 	{
