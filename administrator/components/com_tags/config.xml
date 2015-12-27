@@ -73,16 +73,16 @@
 		<field
 			name="tag_list_image"
 			type="media"
-			description="COM_TAGS_TAG_LIST_MEDIA_DESC"
 			label="COM_TAGS_TAG_LIST_MEDIA_LABEL"
+			description="COM_TAGS_TAG_LIST_MEDIA_DESC"
 		/>
 		
 		<field
 			name="show_tag_num_items"
 			type="radio"
-			class="btn-group btn-group-yesno"
 			label="COM_TAGS_NUMBER_TAG_ITEMS_LABEL"
 			description="COM_TAGS_NUMBER_TAG_ITEMS_DESC"
+			class="btn-group btn-group-yesno"
 			default="0"
 			>
 			<option value="1">JSHOW</option>
@@ -247,9 +247,9 @@
 		<field
 			name="all_tags_orderby"
 			type="list"
-			default="title"
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 			description="JGLOBAL_FIELD_FIELD_ORDERING_DESC"
+			default="title"
 			>
 			<option value="title">JGLOBAL_TITLE</option>
 			<option value="hits">JGLOBAL_HITS</option>

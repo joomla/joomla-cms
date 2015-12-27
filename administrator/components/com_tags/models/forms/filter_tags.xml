@@ -46,7 +46,7 @@
 	<fields name="list">
 
 		<field
-            name="fullordering"
+			name="fullordering"
 			type="list"
 			label="COM_TAGS_LIST_FULL_ORDERING"
 			description="COM_TAGS_LIST_FULL_ORDERING_DESC"
