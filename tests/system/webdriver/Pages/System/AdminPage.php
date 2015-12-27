@@ -140,8 +140,8 @@ abstract class AdminPage
 			'Joomla Translations'	=> 'http://community.joomla.org/translations.html',
 			'Joomla Resources'		=> 'http://resources.joomla.org/',
 			'Community Portal'		=> 'http://community.joomla.org/',
-			'Security Center'		=> 'http://developer.joomla.org/security.html',
-			'Developer Resources'	=> 'http://developer.joomla.org/',
+			'Security Centre'		=> 'https://developer.joomla.org/security-centre.html',
+			'Developer Resources'	=> 'https://developer.joomla.org/',
 			'Joomla Shop'			=> 'http://shop.joomla.org/',
 			'Tags'			=>	'administrator/index.php?option=com_tags',
 	);

@@ -74,7 +74,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 			),
 			array(
 				array('language' => "de-de", 'direction' => 'rtl',
-					'tab' => 'Crazy Tab', 'link' => 'http://joomla.org',
+					'tab' => 'Crazy Tab', 'link' => 'https://www.joomla.org',
 					'base' => 'http://base.joomla.org/dir'),
 				array(
 					'lineend' => "\12",
@@ -82,7 +82,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 					'language' => 'de-de',
 					'direction' => 'rtl',
 					'tab' => "Crazy Tab",
-					'link' => 'http://joomla.org',
+					'link' => 'https://www.joomla.org',
 					'base' => 'http://base.joomla.org/dir'
 				)
 			)

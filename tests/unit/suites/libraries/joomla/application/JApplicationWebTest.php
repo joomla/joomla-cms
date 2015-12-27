@@ -964,7 +964,7 @@ class JApplicationWebTest extends TestCase
 	public function testLoadSystemUrisWithoutSiteUriWithMediaUriSet()
 	{
 		// Set the media_uri value in the configuration.
-		$config = new Registry(array('media_uri' => 'http://cdn.joomla.org/media/'));
+		$config = new Registry(array('media_uri' => 'https://cdn.joomla.org/media/'));
 		TestReflection::setValue($this->class, 'config', $config);
 
 		TestReflection::invoke($this->class, 'loadSystemUris', 'http://joom.la/application');
@@ -972,8 +972,8 @@ class JApplicationWebTest extends TestCase
 		$this->assertEquals('http://joom.la/', $this->class->get('uri.base.full'));
 		$this->assertEquals('http://joom.la', $this->class->get('uri.base.host'));
 		$this->assertEquals('/', $this->class->get('uri.base.path'));
-		$this->assertEquals('http://cdn.joomla.org/media/', $this->class->get('uri.media.full'));
-		$this->assertEquals('http://cdn.joomla.org/media/', $this->class->get('uri.media.path'));
+		$this->assertEquals('https://cdn.joomla.org/media/', $this->class->get('uri.media.full'));
+		$this->assertEquals('https://cdn.joomla.org/media/', $this->class->get('uri.media.path'));
 	}
 
 	/**

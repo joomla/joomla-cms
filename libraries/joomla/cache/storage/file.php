@@ -334,7 +334,7 @@ class JCacheStorageFile extends JCacheStorage
 		}
 		else
 		{
-			// Expect true if $_fileopen is false. Ref: http://issues.joomla.org/tracker/joomla-cms/2535
+			// Expect true if $_fileopen is false. Ref: https://issues.joomla.org/tracker/joomla-cms/2535
 			$ret = true;
 		}
 
