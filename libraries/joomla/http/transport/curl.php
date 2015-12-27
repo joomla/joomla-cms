@@ -153,13 +153,8 @@ class JHttpTransportCurl implements JHttpTransport
 		// Link: http://the-stickman.com/web-development/php-and-curl-disabling-100-continue-header/
 		$options[CURLOPT_HTTPHEADER][] = 'Expect:';
 
-		/*
-		 * Follow redirects if server allows
-		 * Server allows if it uses PHP 5.6+ and libcurl 7.19.4+ or lower versions with safe_mode and open_basedir disabled in php config
-		 * @deprecated  safe_mode is removed in PHP 5.4, check will be dropped when PHP 5.3 support is dropped
-		 */
-		if ((version_compare(PHP_VERSION, '5.6', 'ge') && version_compare(curl_version()['version'], '7.19.4', 'ge'))
-			|| (!ini_get('safe_mode') && !ini_get('open_basedir')))
+		// Follow redirects if server config allows
+		if ($this->redirectsAllowed())
 		{
 			$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->options->get('follow_location', true);
 		}
@@ -294,5 +289,55 @@ class JHttpTransportCurl implements JHttpTransport
 	public static function isSupported()
 	{
 		return function_exists('curl_version') && curl_version();
+	}
+	
+	/**
+	 * Check if redirects are allowed
+	 *
+	 * @return  boolean
+	 *
+	 * @since   12.1
+	 */
+	private function redirectsAllowed()
+	{
+		// In PHP 5.6.0 or later there are no issues with curl redirects
+		if (version_compare(PHP_VERSION, '5.6', '>='))
+		{
+			// But we also need to check if libcurl version is 7.19.4 or higher
+			if (version_compare(curl_version()['version'], '7.19.4', '>='))
+			{
+				return true;
+			}
+		}
+
+		// In PHP 5.4.0 to 5.5.30 curl redirects are only allowed if open_basedir is disabled
+		else if (version_compare(PHP_VERSION, '5.4', '>='))
+		{
+			if (!ini_get('open_basedir'))
+			{
+				return true;
+			}
+		}
+
+		// In PHP 5.1.5 to 5.3.30 curl redirects are only allowed if safe_mode and open_basedir are disabled
+		else if (version_compare(PHP_VERSION, '5.1.5', '>='))
+		{
+			if (!ini_get('safe_mode') && !ini_get('open_basedir'))
+			{
+				return true;
+			}
+		}
+
+		// In PHP 5.1.4 or lower versions there are no issues with curl redirects
+		else
+		{
+			// But we also need to check if libcurl version is 5.10 or lower
+			if (version_compare(curl_version()['version'], '5.10', '<='))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
