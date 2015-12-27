@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * This is useful both for display on issue/pull request information pages and also
  * to determine who should be notified of comments.
  *
- * @documentation http://developer.github.com/v3/issues/events/
+ * @documentation https://developer.github.com/v3/issues/events/
  *
  * @since  12.3
  */

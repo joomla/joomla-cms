@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Assignees class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/issues/assignees/
+ * @documentation https://developer.github.com/v3/issues/assignees/
  *
  * @since  12.3
  */

@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * The Issue Comments API supports listing, viewing, editing, and creating comments
  * on issues and pull requests.
  *
- * @documentation http://developer.github.com/v3/issues/comments/
+ * @documentation https://developer.github.com/v3/issues/comments/
  *
  * @since  12.3
  */

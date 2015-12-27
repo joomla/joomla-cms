@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.3 (CMS)
  *
- * @documentation  http://developer.github.com/v3/orgs/
+ * @documentation  https://developer.github.com/v3/orgs/
  *
  * @property-read  JGithubPackageOrgsMembers  $members  GitHub API object for members.
  * @property-read  JGithubPackageOrgsTeams    $teams    GitHub API object for teams.

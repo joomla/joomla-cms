@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * The Repository Statistics API allows you to fetch the data that GitHub uses for
  * visualizing different types of repository activity.
  *
- * @documentation http://developer.github.com/v3/repos/statistics
+ * @documentation https://developer.github.com/v3/repos/statistics
  *
  * @since  3.3 (CMS)
  */
