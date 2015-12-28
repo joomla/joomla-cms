@@ -466,7 +466,7 @@ class JComponentHelper
 
 		return true;
 	}
-	
+
 	/**
 	 * Get installed components
 	 *
@@ -480,7 +480,7 @@ class JComponentHelper
 		{
 			static::load('*');
 		}
-		
+
 		return static::$components;
-	}	
+	}
 }
