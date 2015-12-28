@@ -101,22 +101,22 @@ $component = $jinput->get('extension');
 						</th>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
-								<i class="icon-publish"></i>
+								<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>"></i>
 							</th>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
-								<i class="icon-unpublish"></i>
+								<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>"></i>
 							</th>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
-								<i class="icon-archive"></i>
+								<i class="icon-archive hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>"></i>
 							</th>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
-								<i class="icon-trash"></i>
+								<i class="icon-trash hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>"></i>
 							</th>
 						<?php endif;?>
 						<th class="access-col">
