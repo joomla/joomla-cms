@@ -912,28 +912,37 @@ class PlgEditorTinymce extends JPlugin
 		}
 		";
 
-			if (!empty($btnsNames))
-			{
-				JFactory::getDocument()->addScriptDeclaration(
-					"
-		function jModalClose() {
-			tinyMCE.activeEditor.windowManager.close();
-		}
-		var SqueezeBox;
-		if (SqueezeBox != undefined)
+		if (!empty($btnsNames))
 		{
-			var otherStr = 'SqueezeBox.close', otherCallback;
-			otherCallback = new Function(otherStr);
-			otherCallback.call(SqueezeBox.close);
+			JFactory::getDocument()->addScriptDeclaration(
+				"
+		if (jModalClose === undefined && typeof(jModalClose) != 'function') {
+			var jModalClose;
+			jModalClose = function() {
+				tinyMCE.activeEditor.windowManager.close();
+			}
+		} else {
+			var oldClose = jModalClose;
+			jModalClose = function() {
+				oldClose.apply(this, arguments);
+				tinyMCE.activeEditor.windowManager.close();
+			};
+		}
+		if (SqueezeBox != undefined) {
+			var oldSqueezeBox = SqueezeBox.close;
+			SqueezeBox.close = function() {
+				oldSqueezeBox.apply(this, arguments);
+				tinyMCE.activeEditor.windowManager.close();
+			}
 		} else {
 			var SqueezeBox = {};
-			SqueezeBox.close = function(){
+			SqueezeBox.close = function() {
 				tinyMCE.activeEditor.windowManager.close();
 			}
 		}
 			"
-				);
-			}
+			);
+		}
 
 			JFactory::getDocument()->addScriptDeclaration($script);
 			JFactory::getDocument()->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
