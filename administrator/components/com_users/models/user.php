@@ -877,9 +877,14 @@ class UsersModelUser extends JModelAdmin
 
 		if (empty($userId))
 		{
-			$result = array();
+			$result   = array();
+			$form     = $this->getForm();
+			$groupIDs = array();
 
-			$groupsIDs = $this->getForm()->getValue('groups');
+			if ($form)
+			{
+				$groupsIDs = $form->getValue('groups');
+			}
 
 			if (!empty($groupsIDs))
 			{

@@ -1206,9 +1206,12 @@ abstract class JModelAdmin extends JModelForm
 			$associations = $data['associations'];
 
 			// Unset any invalid associations
+			$associations = Joomla\Utilities\ArrayHelper::toInteger($associations);
+
+			// Unset any invalid associations
 			foreach ($associations as $tag => $id)
 			{
-				if (!(int) $id)
+				if (!$id)
 				{
 					unset($associations[$tag]);
 				}
@@ -1244,7 +1247,7 @@ abstract class JModelAdmin extends JModelForm
 
 				foreach ($associations as $id)
 				{
-					$query->values($id . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
+					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
 				}
 
 				$db->setQuery($query);
