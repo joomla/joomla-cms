@@ -225,7 +225,7 @@ class PlgEditorTinymce extends JPlugin
 				// If it is not a URL, assume it is a file name in the current template folder
 				else
 				{
-					$content_css = 'content_css : "' . JUri::root() . 'templates/' . $template . '/css/' . $content_css_custom . '",';
+					$content_css = 'content_css : "' . JUri::root(true) . '/templates/' . $template . '/css/' . $content_css_custom . '",';
 
 					// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
 					if (!file_exists($templates_path . '/' . $template . '/css/' . $content_css_custom))
@@ -251,12 +251,12 @@ class PlgEditorTinymce extends JPlugin
 						}
 						else
 						{
-							$content_css = 'content_css : "' . JUri::root() . 'templates/system/css/editor.css",';
+							$content_css = 'content_css : "' . JUri::root(true) . '/templates/system/css/editor.css",';
 						}
 					}
 					else
 					{
-						$content_css = 'content_css : "' . JUri::root() . 'templates/' . $template . '/css/editor.css",';
+						$content_css = 'content_css : "' . JUri::root(true) . '/templates/' . $template . '/css/editor.css",';
 					}
 				}
 			}
