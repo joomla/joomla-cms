@@ -57,7 +57,8 @@ class ModMenuHelper
 					if (($start && $start > $item->level)
 						|| ($end && $item->level > $end)
 						|| (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))
-						|| ($start > 1 && !in_array($item->tree[$start - 2], $path)))
+						|| ($start > 1 && !in_array($item->tree[$start - 2], $path))
+						|| ($item->params->get('menu_show', 1) == 0))
 					{
 						unset($items[$i]);
 						continue;
