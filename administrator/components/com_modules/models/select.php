@@ -33,7 +33,7 @@ class ModulesModelSelect extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$clientId = $app->getUserState('com_modules.modules.filter.client_id', 0);
+		$clientId = $app->getUserState('com_modules.modules.client_id', 0);
 		$this->setState('filter.client_id', (int) $clientId);
 
 		// Load the parameters.
