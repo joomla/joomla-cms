@@ -63,7 +63,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		$buffer = '';
 
 		// Generate charset when using HTML5 (should happen first)
-		if ($document->isHtml5())
+		if (method_exists($document, 'isHtml5') && $document->isHtml5())
 		{
 			$buffer .= $tab . '<meta charset="' . $document->getCharset() . '" />' . $lnEnd;
 		}
@@ -81,7 +81,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		{
 			foreach ($tag as $name => $content)
 			{
-				if ($type == 'http-equiv' && !($document->isHtml5() && $name == 'content-type'))
+				if ($type == 'http-equiv' && !(method_exists($document, 'isHtml5') && $document->isHtml5() && $name == 'content-type'))
 				{
 					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($content) . '" />' . $lnEnd;
 				}
@@ -111,16 +111,18 @@ class JDocumentRendererHead extends JDocumentRenderer
 		$buffer .= $tab . '<title>' . htmlspecialchars($document->getTitle(), ENT_COMPAT, 'UTF-8') . '</title>' . $lnEnd;
 
 		// Generate link declarations
-		foreach ($document->_links as $link => $linkAtrr)
-		{
-			$buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
-
-			if ($temp = JArrayHelper::toString($linkAtrr['attribs']))
+		if(property_exists($document, '_links')){
+			foreach ($document->_links as $link => $linkAtrr)
 			{
-				$buffer .= ' ' . $temp;
-			}
+				$buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
 
-			$buffer .= ' />' . $lnEnd;
+				if ($temp = JArrayHelper::toString($linkAtrr['attribs']))
+				{
+					$buffer .= ' ' . $temp;
+				}
+
+				$buffer .= ' />' . $lnEnd;
+			}
 		}
 
 		// Generate stylesheet links
@@ -128,7 +130,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		{
 			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '"';
 
-			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || $strAttr['mime'] != 'text/css'))
+			if (!is_null($strAttr['mime']) && ((method_exists($document, 'isHtml5') && !$document->isHtml5()) || $strAttr['mime'] != 'text/css'))
 			{
 				$buffer .= ' type="' . $strAttr['mime'] . '"';
 			}
@@ -176,7 +178,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 				'text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript'
 			);
 
-			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultMimes)))
+			if (!is_null($strAttr['mime']) && ((method_exists($document, 'isHtml5') && !$document->isHtml5()) || !in_array($strAttr['mime'], $defaultMimes)))
 			{
 				$buffer .= ' type="' . $strAttr['mime'] . '"';
 			}
@@ -239,9 +241,11 @@ class JDocumentRendererHead extends JDocumentRenderer
 		}
 
 		// Output the custom tags - array_unique makes sure that we don't output the same tags twice
-		foreach (array_unique($document->_custom) as $custom)
-		{
-			$buffer .= $tab . $custom . $lnEnd;
+		if(property_exists($document, '_custom')){
+			foreach (array_unique($document->_custom) as $custom)
+			{
+				$buffer .= $tab . $custom . $lnEnd;
+			}
 		}
 
 		return $buffer;
