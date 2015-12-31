@@ -28,7 +28,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clear"> </div>
 		<?php if (empty($this->items)) : ?>
@@ -85,26 +85,37 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<span class="icon-eye-open hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'), $item->title, 0); ?>" ></span></a>
 							<?php elseif ($item->client_id == '1') : ?>
 								<span class="icon-eye-close disabled hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>" ></span>
-							<?php else: ?>
+							<?php else : ?>
 								<span class="icon-eye-close disabled hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>" ></span>
 							<?php endif; ?>
 							<?php if ($canEdit) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id=' . (int) $item->id); ?>">
-								<?php echo $this->escape($item->title);?></a>
+								<?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
-								<?php echo $this->escape($item->title);?>
+								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
 						</td>
 						<td class="center">
-							<?php if ($item->home == '0' || $item->home == '1'):?>
-								<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1');?>
-							<?php elseif ($canChange):?>
-								<a href="<?php echo JRoute::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1');?>">
-									<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
-								</a>
-							<?php else:?>
-								<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true);?>
-							<?php endif;?>
+							<?php if ($item->home == '0' || $item->home == '1') : ?>
+								<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1'); ?>
+							<?php else : ?>
+								<?php
+									$language_image      = JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array(), true);
+									$language_image_text = $language_image . '&nbsp;' . $item->language_title;
+									echo JHtml::_(
+										'jgrid.isdefault',
+										true,
+										$i,
+										array(
+											'prefix'         => 'styles.',
+											'active_title'   => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $language_image_text),
+											'inactive_title' => JText::_('JDEFAULT') . '&nbsp;' . $language_image_text,
+											'text'           => $language_image
+										),
+										$canChange
+										);
+								?>
+							<?php endif; ?>
 						</td>
 						<td class="center hidden-phone">
 							<?php if ($item->assigned > 0) : ?>
@@ -117,9 +128,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 						</td>
 						<td class="hidden-phone">
-							<label for="cb<?php echo $i;?>" class="small">
-								<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->e_id); ?>  ">
-									<?php echo ucfirst($this->escape($item->template));?>
+							<label for="cb<?php echo $i; ?>" class="small">
+								<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->e_id); ?>">
+									<?php echo ucfirst($this->escape($item->template)); ?>
 								</a>
 							</label>
 						</td>
@@ -130,7 +141,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-		<?php endif;?>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
