@@ -37,10 +37,6 @@ class JoomlaInstallerScript
 		$this->clearRadCache();
 		$this->updateAssets();
 		$this->clearStatsCache();
-
-		// VERY IMPORTANT! THIS METHOD SHOULD BE CALLED LAST, SINCE IT COULD
-		// LOGOUT ALL THE USERS
-		$this->flushSessions();
 	}
 
 	/**
@@ -1569,58 +1565,6 @@ class JoomlaInstallerScript
 
 				return false;
 			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * If we migrated the session from the previous system, flush all the active sessions.
-	 * Otherwise users will be logged in, but not able to do anything since they don't have
-	 * a valid session
-	 *
-	 * @return  boolean
-	 */
-	public function flushSessions()
-	{
-		/**
-		 * The session may have not been started yet (e.g. CLI-based Joomla! update scripts). Let's make sure we do
-		 * have a valid session.
-		 */
-		JFactory::getSession()->restart();
-
-		// If $_SESSION['__default'] is no longer set we do not have a migrated session, therefore we can quit.
-		if (!isset($_SESSION['__default']))
-		{
-			return true;
-		}
-
-		$db = JFactory::getDbo();
-
-		try
-		{
-			switch ($db->name)
-			{
-				// MySQL database, use TRUNCATE (faster, more resilient)
-				case 'pdomysql':
-				case 'mysql':
-				case 'mysqli':
-					$db->truncateTable($db->qn('#__sessions'));
-					break;
-
-				// Non-MySQL databases, use a simple DELETE FROM query
-				default:
-					$query = $db->getQuery(true)
-						->delete($db->qn('#__sessions'));
-					$db->setQuery($query)->execute();
-					break;
-			}
-		}
-		catch (Exception $e)
-		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
-
-			return false;
 		}
 
 		return true;
