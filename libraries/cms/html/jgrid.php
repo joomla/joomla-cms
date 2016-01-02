@@ -81,7 +81,7 @@ abstract class JHtmlJGrid
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
-			$html[] = '<span' . (!empty($active_class) ? ' class="icon-' . $active_class .'"' : '') . '>' . $button_text . '</span>';
+			$html[] = '<span' . (!empty($active_class) ? ' class="icon-' . $active_class . '"' : '') . '>' . $button_text . '</span>';
 			$html[] = '</a>';
 		}
 		else
@@ -96,7 +96,7 @@ abstract class JHtmlJGrid
 			}
 			else
 			{
-				$html[] = '<span' . (!empty($inactive_class) ? ' class="icon-' . $inactive_class .'"' : '') . '>' . $button_text . '</span>';
+				$html[] = '<span' . (!empty($inactive_class) ? ' class="icon-' . $inactive_class . '"' : '') . '>' . $button_text . '</span>';
 			}
 
 			$html[] = '</a>';
@@ -248,12 +248,12 @@ abstract class JHtmlJGrid
 	/**
 	 * Returns a isDefault state on a grid
 	 *
-	 * @param   integer       $value     The state value.
-	 * @param   integer       $i         The row index
-	 * @param   string|array  $prefix    An optional task prefix or an array of options
-	 * @param   boolean       $enabled   An optional setting for access control on the action.
-	 * @param   boolean       $translate An optional setting for translation.
-	 * @param   string        $checkbox  An optional prefix for checkboxes.
+	 * @param   integer       $value      The state value.
+	 * @param   integer       $i          The row index
+	 * @param   string|array  $prefix     An optional task prefix or an array of options
+	 * @param   boolean       $enabled    An optional setting for access control on the action.
+	 * @param   boolean       $translate  An optional setting for translation.
+	 * @param   string        $checkbox   An optional prefix for checkboxes.
 	 *
 	 * @return  string  The HTML markup
 	 *
