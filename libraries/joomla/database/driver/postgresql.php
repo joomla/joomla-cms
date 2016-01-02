@@ -242,7 +242,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	}
 
 	/**
-	 * Get the number of affected rows for the previous executed SQL statement.
+	 * Get the number of affected rows by the last INSERT, UPDATE, REPLACE or DELETE for the previous executed SQL statement.
 	 *
 	 * @return  integer  The number of affected rows in the previous operation
 	 *
@@ -286,6 +286,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
+	 * This command is only valid for statements like SELECT or SHOW that return an actual result set.
+	 * To retrieve the number of rows affected by a INSERT, UPDATE, REPLACE or DELETE query, use getAffectedRows().
 	 *
 	 * @param   resource  $cur  An optional database cursor resource to extract the row count from.
 	 *

@@ -67,22 +67,6 @@ class ConfigControllerApplication extends JControllerLegacy
 	}
 
 	/**
-	 * Method to refresh the help display.
-	 *
-	 * @return  void
-	 *
-	 * @deprecated  4.0  Use ConfigControllerApplicationRefreshhelp instead.
-	 */
-	public function refreshHelp()
-	{
-		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationRefreshhelp instead.', JLog::WARNING, 'deprecated');
-
-		$controller = new ConfigControllerApplicationRefreshhelp;
-
-		$controller->execute();
-	}
-
-	/**
 	 * Method to remove the root property from the configuration.
 	 *
 	 * @return  bool  True on success, false on failure.
