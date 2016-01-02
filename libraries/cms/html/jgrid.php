@@ -62,18 +62,13 @@ abstract class JHtmlJGrid
 			$title = JHtml::tooltipText($title, '', 0);
 		}
 
-		if ($text)
-		{
-			$text = empty($active_class) ? $text : '';
-		}
-
 		if ($enabled)
 		{
 			$html[] = '<a class="btn btn-micro' . ($active_class == 'publish' ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
-			$html[] = '<span class="icon-' . $active_class . '">' . $text . '</span>';
+			$html[] = '<span class="icon-' . $active_class . '"></span>';
 			$html[] = '</a>';
 		}
 		else
@@ -84,11 +79,11 @@ abstract class JHtmlJGrid
 
 			if ($active_class == "protected")
 			{
-				$html[] = '<span class="icon-lock">' . $text . '</span>';
+				$html[] = '<span class="icon-lock"></span>';
 			}
 			else
 			{
-				$html[] = '<span class="icon-' . $inactive_class . '">' . $text . '</span>';
+				$html[] = '<span class="icon-' . $inactive_class . '"></span>';
 			}
 
 			$html[] = '</a>';
@@ -258,24 +253,14 @@ abstract class JHtmlJGrid
 			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
-			$active_title = array_key_exists('active_title', $options) ? $options['active_title'] : '';
-			$inactive_title = array_key_exists('inactive_title', $options) ? $options['inactive_title'] : '';
-			$text = array_key_exists('text', $options) ? $options['text'] : '';
 		}
 
-		$translate = true;
 		$states = array(
 			0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', 1, 'unfeatured', 'unfeatured'),
 			1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', 1, 'featured', 'featured'),
 		);
 
-		if (!empty($text))
-		{
-			$translate = false;
-			$states[1] = array('unsetDefault', $text, $active_title, $inactive_title, 1, '', '');
-		}
-
-		return static::state($states, $value, $i, $prefix, $enabled, $translate, $checkbox);
+		return static::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
 	}
 
 	/**

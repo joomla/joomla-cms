@@ -79,7 +79,7 @@ $assoc = JLanguageAssociations::isEnabled();
 								<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 							</th>
 						<?php endif;?>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
@@ -191,23 +191,12 @@ $assoc = JLanguageAssociations::isEnabled();
 							<?php if ($item->type == 'component') : ?>
 								<?php if ($item->language == '*' || $item->home == '0') : ?>
 									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange); ?>
+								<?php elseif ($canChange) : ?>
+									<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1'); ?>">
+										<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
+									</a>
 								<?php else : ?>
-									<?php
-										$language_image      = JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array(), true);
-										$language_image_text = $language_image . '&nbsp;' . $item->language_title;
-										echo JHtml::_(
-											'jgrid.isdefault',
-											true,
-											$i,
-											array(
-												'prefix'         => 'items.',
-												'active_title'   => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $language_image_text),
-												'inactive_title' => JText::_('JDEFAULT') . '&nbsp;' . $language_image_text,
-												'text'           => $language_image
-											),
-											$canChange
-											);
-									?>
+									<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 								<?php endif; ?>
 							<?php endif; ?>
 						</td>
