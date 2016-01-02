@@ -96,7 +96,7 @@ else
 		</table>
 		<?php if ($multiple):?>
 		<script type="text/subform-repeatable-template-section" class="subform-repeatable-template-section">
-		<?php echo $this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 0, 'buttons' => $buttons));?>
+		<?php echo $this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons));?>
 		</script>
 		<?php endif;?>
 		</div>

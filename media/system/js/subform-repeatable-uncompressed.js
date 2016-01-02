@@ -28,6 +28,9 @@
 		// check rows container
 		this.$containerRows = this.options.rowsContainer ? this.$container.find(this.options.rowsContainer) : this.$container;
 
+		// last row number, help to avoid the name duplications
+        this.lastRowNum = this.$containerRows.find(this.options.repeatableElement).length;
+
 		// To avoid scope issues,
 		var self = this;
 
@@ -53,8 +56,7 @@
 			this.$containerRows.sortable({
 				items: this.options.repeatableElement,
 				handle: this.options.btMove,
-				tolerance: 'pointer',
-				update: this.resortNames.bind(this)
+				tolerance: 'pointer'
 			});
 		}
 
@@ -88,44 +90,6 @@
 		}
 	};
 
-	// update names, after sorting, or deleting,
-	$.subformRepeatable.prototype.resortNames = function(){
-		var $rows = this.$container.find(this.options.repeatableElement),
-			specialFields = [];
-
-		for(var i=0, l = $rows.length; i<l; i++){
-			var $row = $($rows[i]),
-				group = $row.attr('data-group'),// group that was used for old
-				basename = $row.attr('data-base-name'), // base name, without count
-				groupnew = basename + i,
-				haveName = $row.find('*[name]');
-
-			$row.attr('data-group', groupnew);
-			for(var n=0, nl = haveName.length; n<nl; n++){
-				var $el = $(haveName[n]),
-    				name = $el.attr('name'),
-    				nameNew = name.replace('][' + group + '][', ']['+ groupnew +'][');// count new name
-
-				// special case due specific behavior of the radio input
-				if($el.prop('type') === 'radio'){
-					$el.data('nameNew', nameNew);
-					nameNew = nameNew + '[toFix]';
-					specialFields.push($el);
-				}
-
-				// replace name to new
-    			$el.attr('name', nameNew);
-			}
-		}
-
-		// hande special cases
-		for(var i=0, l = specialFields.length; i<l; i++){
-			var $el = specialFields[i]; // It alredy wrapped to jQuery
-			$el.attr('name', $el.data('nameNew'));
-		}
-
-	};
-
 	// add new row
 	$.subformRepeatable.prototype.addRow = function(after){
 		// count how much we already have
@@ -149,8 +113,6 @@
 		$row.attr('data-new', 'true');
 		// fix names and id`s, and reset values
 		this.fixUniqueAttributes($row, count);
-		//make sure that ordering is right
-		this.resortNames();
 
 		// try find out with related scripts,
 		// tricky thing, so be careful
@@ -178,17 +140,18 @@
 		// tell everyoune about the row will be removed
 		this.$container.trigger('subform-row-remove', $row);
 		$row.remove();
-		//make sure that ordering is right
-		this.resortNames();
 	};
 
-	//fix names ind id`s for field that in $row
+	// fix names ind id`s for field that in $row
 	$.subformRepeatable.prototype.fixUniqueAttributes = function($row, count){
-		var group = $row.attr('data-group'),// group for that was used for old
-			basename = $row.attr('data-base-name'), // base name, without count
-			count = count ? count - 1 : 0,
-			groupnew = basename + (count + 1); // new group name
+		this.lastRowNum++;
+		var group = $row.attr('data-group'),// current group name
+			basename = $row.attr('data-base-name'), // group base name, without count
+			count    = count || 0,
+			countnew = Math.max(this.lastRowNum, count + 1),
+    		groupnew = basename + countnew; // new group name
 
+		this.lastRowNum = countnew;
 		$row.attr('data-group', groupnew);
 
 		// fix inputs that have a "name" attribute
@@ -313,7 +276,7 @@
 		}
 
 		// another modals
-		if(window.SqueezeBox){
+		if(window.SqueezeBox && window.SqueezeBox.assign){
 			SqueezeBox.assign($row.find('a.modal').get(), {parse: 'rel'});
 		}
 	};

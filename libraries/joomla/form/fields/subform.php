@@ -213,7 +213,7 @@ class JFormFieldSubform extends JFormField
 		{
 			// Get the form template
 			$formname = 'subform' . ($this->group ? $this->group . '.' : '.') . $this->fieldname;
-			$tmplcontrol = !$this->multiple ? $control : $control . '[' . $this->fieldname . '0]';
+			$tmplcontrol = !$this->multiple ? $control : $control . '[' . $this->fieldname . 'X]';
 			$tmpl = JForm::getInstance($formname, $this->formsource, array('control' => $tmplcontrol));
 
 			// Prepare the forms for exiting values
@@ -260,7 +260,7 @@ class JFormFieldSubform extends JFormField
 		$data['groupByFieldset'] = $this->groupByFieldset;
 
 		// Allow to define some JLayout options in XML element
-		$client = $this->element['client'] ? (string) $this->element['client'] : 'site';
+		$client = $this->element['client'] ? (string) $this->element['client'] : 'auto';
 		$component = $this->element['component'] ? (string) $this->element['component'] : 'auto';
 
 		// Render
