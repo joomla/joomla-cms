@@ -31,14 +31,14 @@ abstract class JHtmlJGrid
 	 * @param   boolean       $enabled         An optional setting for access control on the action.
 	 * @param   boolean       $translate       An optional setting for translation.
 	 * @param   string        $checkbox	       An optional prefix for checkboxes.
-	 * @param   boolean       $language        An optional setting for language icons.
+	 * @param   boolean       $show_text       An optional setting for showing text inside the button.
 	 *
 	 * @return  string  The HTML markup
 	 *
 	 * @since   1.6
 	 */
 	public static function action($i, $task, $prefix = '', $text = '', $active_title = '', $inactive_title = '', $tip = false, $active_class = '',
-		$inactive_class = '', $enabled = true, $translate = true, $checkbox = 'cb', $language = false)
+		$inactive_class = '', $enabled = true, $translate = true, $checkbox = 'cb', $show_text = false)
 	{
 		if (is_array($prefix))
 		{
@@ -52,6 +52,7 @@ abstract class JHtmlJGrid
 			$translate = array_key_exists('translate', $options) ? $options['translate'] : $translate;
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+			$text = array_key_exists('text', $options) ? $options['text'] : $text;
 		}
 
 		if ($tip)
@@ -63,7 +64,7 @@ abstract class JHtmlJGrid
 			$title = JHtml::tooltipText($title, '', 0);
 		}
 
-		if ($language)
+		if ($show_text)
 		{
 			$button_text = $text;
 			$button_class  = 'btn-mini';
@@ -118,13 +119,12 @@ abstract class JHtmlJGrid
 	 * @param   boolean       $enabled    An optional setting for access control on the action.
 	 * @param   boolean       $translate  An optional setting for translation.
 	 * @param   string        $checkbox   An optional prefix for checkboxes.
-	 * @param   boolean       $language   An optional setting for language icons.
 	 *
 	 * @return  string  The HTML markup
 	 *
 	 * @since   1.6
 	 */
-	public static function state($states, $value, $i, $prefix = '', $enabled = true, $translate = true, $checkbox = 'cb', $language = false)
+	public static function state($states, $value, $i, $prefix = '', $enabled = true, $translate = true, $checkbox = 'cb')
 	{
 		if (is_array($prefix))
 		{
@@ -143,10 +143,11 @@ abstract class JHtmlJGrid
 		$tip = array_key_exists('tip', $state) ? $state['tip'] : (array_key_exists(4, $state) ? $state[4] : false);
 		$active_class = array_key_exists('active_class', $state) ? $state['active_class'] : (array_key_exists(5, $state) ? $state[5] : '');
 		$inactive_class = array_key_exists('inactive_class', $state) ? $state['inactive_class'] : (array_key_exists(6, $state) ? $state[6] : '');
+		$show_text = array_key_exists('show_text', $state) ? $state['show_text'] : (array_key_exists(7, $state) ? $state[7] : '');
 
 		return static::action(
 			$i, $task, $prefix, $text, $active_title, $inactive_title, $tip,
-			$active_class, $inactive_class, $enabled, $translate, $checkbox, $language
+			$active_class, $inactive_class, $enabled, $translate, $checkbox, $show_text
 		);
 	}
 
@@ -251,41 +252,31 @@ abstract class JHtmlJGrid
 	 * @param   integer       $i         The row index
 	 * @param   string|array  $prefix    An optional task prefix or an array of options
 	 * @param   boolean       $enabled   An optional setting for access control on the action.
+	 * @param   boolean       $translate An optional setting for translation.
 	 * @param   string        $checkbox  An optional prefix for checkboxes.
-	 * @param   boolean       $language  An optional setting for language icons.
 	 *
 	 * @return  string  The HTML markup
 	 *
 	 * @see     JHtmlJGrid::state()
 	 * @since   1.6
 	 */
-	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $language = false)
+	public static function isdefault($value, $i, $prefix = '', $enabled = true, $translate = true, $checkbox = 'cb')
 	{
-		$translate = true;
-		
+		$states = array(
+			0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', 1, 'unfeatured', 'unfeatured', 0),
+			1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', 1, 'featured', 'featured', 0),
+		);
+
 		if (is_array($prefix))
 		{
 			$options = $prefix;
 			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
-			$active_title = array_key_exists('active_title', $options) ? $options['active_title'] : '';
-			$inactive_title = array_key_exists('inactive_title', $options) ? $options['inactive_title'] : '';
-			$text = array_key_exists('text', $options) ? $options['text'] : '';
-			$translate = array_key_exists('translate', $options) ? $options['translate'] : true;
+			$states = array_key_exists('states', $options) ? $options['states'] : $states;
 		}
 
-		$states = array(
-			0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', 1, 'unfeatured', 'unfeatured'),
-			1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', 1, 'featured', 'featured'),
-		);
-
-		if ($language)
-		{
-			$states[1] = array('unsetDefault', $text, $active_title, $inactive_title, 1, '', '');
-		}
-
-		return static::state($states, $value, $i, $prefix, $enabled, $translate, $checkbox, $language);
+		return static::state($states, $value, $i, $prefix, $enabled, $translate, $checkbox);
 	}
 
 	/**

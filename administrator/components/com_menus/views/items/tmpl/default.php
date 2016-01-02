@@ -189,24 +189,74 @@ $assoc = JLanguageAssociations::isEnabled();
 						</td>
 						<td class="center hidden-phone">
 							<?php if ($item->type == 'component') : ?>
-								<?php if ($item->language == '*' || $item->home == '0') : ?>
-									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange); ?>
+								<?php if ($item->language == '*') : ?>
+									<?php
+										echo JHtml::_(
+											'jgrid.isdefault',
+											$item->home,
+											$i,
+											array(
+												'prefix'  => 'items.',
+												'states'  => array(
+													0 => array(
+																'setDefault',
+																'',
+																JText::_('COM_MENUS_GRID_SET_DEFAULT'),
+																'',
+																1,
+																'unfeatured',
+																'unfeatured',
+																0
+															),
+													1 => array(
+																'unsetDefault',
+																'',
+																JText::_('COM_MENUS_GRID_UNSET_DEFAULT'),
+																JText::_('COM_MENUS_GRID_DEFAULT'),
+																1,
+																'featured',
+																'featured',
+																0
+															)
+													)
+											),
+											!$item->home && $canChange,
+											false
+											);
+									?>
 								<?php else : ?>
 									<?php
 										echo JHtml::_(
 											'jgrid.isdefault',
-											true,
+											$item->home,
 											$i,
 											array(
-												'prefix'         => 'items.',
-												'active_title'   => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title),
-												'inactive_title' => JText::_('JDEFAULT') . '&nbsp;' . $item->language_title,
-												'text'           => JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array(), true),
-												'translate'      => false
+												'prefix'  => 'items.',
+												'states'  => array(
+													0 => array(
+																'setDefault',
+																JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('style' => 'opacity: 0.2;'), true),
+																JText::sprintf('COM_MENUS_GRID_SET_DEFAULT_LANGUAGE', $item->language_title),
+																'',
+																1,
+																'',
+																'',
+																1
+															),
+													1 => array(
+																'unsetDefault',
+																JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array(), true),
+																JText::sprintf('COM_MENUS_GRID_UNSET_DEFAULT_LANGUAGE', $item->language_title),
+																JText::sprintf('COM_MENUS_GRID_DEFAULT_LANGUAGE', $item->language_title),
+																1,
+																'',
+																'',
+																1
+															)
+													)
 											),
-											$canChange,
-											'cb',
-											true
+											!$item->home && $canChange,
+											false
 											);
 									?>
 								<?php endif; ?>
