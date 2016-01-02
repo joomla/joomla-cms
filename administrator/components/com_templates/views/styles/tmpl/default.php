@@ -98,13 +98,23 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td class="center">
 							<?php if ($item->home == '0' || $item->home == '1'):?>
 								<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1');?>
-							<?php elseif ($canChange):?>
-								<a href="<?php echo JRoute::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1');?>">
-									<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
-								</a>
-							<?php else:?>
-								<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true);?>
-							<?php endif;?>
+								<?php
+									echo JHtml::_(
+										'jgrid.isdefault',
+										true,
+										$i,
+										array(
+											'prefix'         => 'styles.',
+											'active_title'   => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title),
+											'inactive_title' => JText::_('JDEFAULT') . '&nbsp;' . $item->language_title,
+											'text'           => JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array(), true),
+											'translate'      => false
+										),
+										$canChange,
+										'cb',
+										true
+										);
+								?>
 						</td>
 						<td class="center hidden-phone">
 							<?php if ($item->assigned > 0) : ?>
