@@ -96,7 +96,7 @@ class JDocumentRendererAtomTest extends TestCase
 		$item = new JFeedItem(
 			array(
 				'title' => 'Joomla!',
-				'link' => 'http://www.joomla.org',
+				'link' => 'https://www.joomla.org',
 				'description' => 'Joomla main site',
 				'author' => 'Joomla',
 				'authorEmail' => 'joomla@joomla.org',
@@ -104,7 +104,7 @@ class JDocumentRendererAtomTest extends TestCase
 				'comments' => 'No comment',
 				'guid' => 'joomla',
 				'date' => 'Mon, 20 Jan 03 18:05:41 +0400',
-				'source' => 'http://www.joomla.org'
+				'source' => 'https://www.joomla.org'
 			)
 		);
 		$this->object->addItem($item);
@@ -122,7 +122,7 @@ class JDocumentRendererAtomTest extends TestCase
 	<link rel="self" type="application/atom+xml" href="http://localhost/index.php?format=feed&amp;type=atom"/>
 	<entry>
 		<title>Joomla!</title>
-		<link rel="alternate" type="text/html" href="http://localhosthttp://www.joomla.org"/>
+		<link rel="alternate" type="text/html" href="http://localhosthttps://www.joomla.org"/>
 		<published>2003-01-20T14:05:41+00:00</published>
 		<id>joomla</id>
 		<author>

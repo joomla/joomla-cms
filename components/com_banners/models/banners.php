@@ -184,7 +184,7 @@ class BannersModelBanners extends JModelList
 			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
-		$query->order('a.sticky DESC,' . ($randomise ? 'RAND()' : 'a.ordering'));
+		$query->order('a.sticky DESC,' . ($randomise ? $query->Rand() : 'a.ordering'));
 
 		return $query;
 	}

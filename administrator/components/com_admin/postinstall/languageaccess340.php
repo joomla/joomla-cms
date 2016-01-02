@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  * @see     https://github.com/joomla/joomla-cms/pull/6172
  * @see     https://github.com/joomla/joomla-cms/pull/6194
  *
- * @return  bool
+ * @return  boolean
  *
  * @since   3.4.1
  */
@@ -35,8 +35,7 @@ function admin_postinstall_languageaccess340_condition()
 
 	if (isset($numRows) && $numRows != 0)
 	{
-		// We have rows here so we have at minumum
-		// one row with access set to 0
+		// We have rows here so we have at minumum one row with access set to 0
 		return true;
 	}
 

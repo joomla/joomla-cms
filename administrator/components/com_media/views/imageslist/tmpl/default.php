@@ -8,6 +8,27 @@
  */
 
 defined('_JEXEC') or die;
+
+$lang = JFactory::getLanguage();
+
+JHtml::_('stylesheet', 'media/popup-imagelist.css', array(), true);
+
+if ($lang->isRtl())
+{
+	JHtml::_('stylesheet', 'media/popup-imagelist_rtl.css', array(), true);
+}
+
+JFactory::getDocument()->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
+JFactory::getDocument()->addStyleDeclaration(
+	"
+		@media (max-width: 767px) {
+			li.imgOutline.thumbnail.height-80.width-80.center {
+				float: left;
+				margin-left: 15px;
+			}
+		}
+	"
+);
 ?>
 <?php if (count($this->images) > 0 || count($this->folders) > 0) : ?>
 	<ul class="manager thumbnails">

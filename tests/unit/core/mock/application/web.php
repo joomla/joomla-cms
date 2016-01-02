@@ -257,7 +257,7 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 	 *
 	 * @since   3.2
 	 */
-	public function mockSetHeader($name, $value, $replace = false)
+	public static function mockSetHeader($name, $value, $replace = false)
 	{
 		// Sanitize the input values.
 		$name = (string) $name;

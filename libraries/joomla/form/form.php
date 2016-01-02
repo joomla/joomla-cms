@@ -126,7 +126,24 @@ class JForm
 			return false;
 		}
 
-		// Convert the input to an array.
+		$this->bindLevel(null, $data);
+
+		return true;
+	}
+
+	/**
+	 * Method to bind data to the form for the group level.
+	 *
+	 * @param   string  $group  The dot-separated form group path on which to bind the data.
+	 * @param   mixed   $data   An array or object of data to bind to the form for the group level.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function bindLevel($group, $data)
+	{
+		// Ensure the input data is an array.
 		if (is_object($data))
 		{
 			if ($data instanceof Registry)
@@ -149,48 +166,17 @@ class JForm
 		// Process the input data.
 		foreach ($data as $k => $v)
 		{
-			if ($this->findField($k))
-			{
-				// If the field exists set the value.
-				$this->data->set($k, $v);
-			}
-			elseif (is_object($v) || JArrayHelper::isAssociative($v))
-			{
-				// If the value is an object or an associative array hand it off to the recursive bind level method.
-				$this->bindLevel($k, $v);
-			}
-		}
+			$level = $group ? $group . '.' . $k : $k;
 
-		return true;
-	}
-
-	/**
-	 * Method to bind data to the form for the group level.
-	 *
-	 * @param   string  $group  The dot-separated form group path on which to bind the data.
-	 * @param   mixed   $data   An array or object of data to bind to the form for the group level.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected function bindLevel($group, $data)
-	{
-		// Ensure the input data is an array.
-		settype($data, 'array');
-
-		// Process the input data.
-		foreach ($data as $k => $v)
-		{
 			if ($this->findField($k, $group))
 			{
 				// If the field exists set the value.
-				$this->data->set($group . '.' . $k, $v);
+				$this->data->set($level, $v);
 			}
 			elseif (is_object($v) || JArrayHelper::isAssociative($v))
 			{
-				// If the value is an object or an associative array, hand it off to the recursive bind level method
-				$this->bindLevel($group . '.' . $k, $v);
+				// If the value is an object or an associative array, hand it off to the recursive bind level method.
+				$this->bindLevel($level, $v);
 			}
 		}
 	}

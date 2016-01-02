@@ -175,6 +175,12 @@ class JHttpTransportCurl implements JHttpTransport
 			}
 		}
 
+		// Set any custom transport options
+		foreach ($this->options->get('transport.curl', array()) as $key => $value)
+		{
+			$options[$key] = $value;
+		}
+
 		// Set the cURL options.
 		curl_setopt_array($ch, $options);
 

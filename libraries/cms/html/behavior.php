@@ -406,6 +406,9 @@ abstract class JHtmlBehavior
 			});
 		});
 		function jModalClose() {
+			if (jQuery('.mce-window').length ){
+				tinyMCE.activeEditor.windowManager.close();
+			}
 			SqueezeBox.close();
 		}"
 		);
@@ -756,8 +759,18 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		$js = "jQuery(function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
-			" else {top.location = self.location; }});";
+		$js = 'jQuery(function () {
+			if (top == self) {
+				document.documentElement.style.display = "block";
+			}
+			else
+			{
+				top.location = self.location;
+			}
+
+			// Firefox fix
+			jQuery("input[autofocus]").focus();
+		})';
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration('html { display:none }');
 		$document->addScriptDeclaration($js);

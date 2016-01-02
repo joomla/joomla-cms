@@ -89,7 +89,6 @@ class JFormFieldCalendar extends JFormField
 		{
 			case 'maxlength':
 				$value = (int) $value;
-
 			case 'format':
 			case 'filter':
 				$this->$name = (string) $value;

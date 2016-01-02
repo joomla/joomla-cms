@@ -7038,7 +7038,7 @@ a:focus {
 	outline: none;
 }
 .view-login {
-	background-color: #10223e;
+	background-color: #17568c;
 	padding-top: 0;
 }
 .view-login .container {
@@ -7280,6 +7280,9 @@ body .navbar-fixed-top {
 	z-index: 100;
 }
 @media (max-width: 767px) {
+	body {
+		-webkit-overflow-scrolling: touch;
+	}
 	.subhead {
 		margin-left: -20px;
 		margin-right: -20px;
@@ -8151,4 +8154,8 @@ textarea.noResize {
 body.modal-open {
 	overflow: hidden;
 	-ms-overflow-style: none;
+}
+.field-media-wrapper .modal .modal-body {
+	padding: 5px 10px;
+	overflow: hidden;
 }
