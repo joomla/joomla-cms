@@ -150,11 +150,11 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 								<?php echo $item->count_published; ?></a>
 						</td>
 						<td class="center btns">
-							<a class="badge<?php if ($item->count_published > 0) echo ' badge-important'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
+							<a class="badge<?php if ($item->count_unpublished > 0) echo ' badge-important'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
 								<?php echo $item->count_unpublished; ?></a>
 						</td>
 						<td class="center btns">
-							<a class="badge<?php if ($item->count_published > 0) echo ' badge-inverse'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
+							<a class="badge<?php if ($item->count_trashed > 0) echo ' badge-inverse'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
 								<?php echo $item->count_trashed; ?></a>
 						</td>
 						<td class="center">
