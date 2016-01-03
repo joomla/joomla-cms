@@ -55,7 +55,7 @@ class PlgEditorTinymce extends JPlugin
 		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
 
 		// Set the selected skin in the current side, front-end or back-end
-		$side = $app->getClientId() ? 'skin_admin' : 'skin';
+		$side = $app->isAdmin() ? 'skin_admin' : 'skin';
 		if ((int) $this->params->get($side, 0) < count($skindirs))
 		{
 			$skin = 'skin : "' . basename($skindirs[(int) $this->params->get($side, 0)]) . '",';
