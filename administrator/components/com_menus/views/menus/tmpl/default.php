@@ -133,27 +133,28 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<td>
-							<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype) ?>">
+							<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>">
 								<?php echo $this->escape($item->title); ?></a>
-							<p class="small">(<span><?php echo JText::_('COM_MENUS_MENU_MENUTYPE_LABEL'); ?></span>
+							<div class="small">
+								<?php echo JText::_('COM_MENUS_MENU_MENUTYPE_LABEL'); ?>:
 								<?php if ($canEdit) : ?>
-									<?php echo '<a href="' . JRoute::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id) . '" title="' . $this->escape($item->description) . '">' .
-									$this->escape($item->menutype) . '</a>'; ?>)
+									<a href="<?php echo JRoute::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>" title="<?php echo $this->escape($item->description); ?>">
+									<?php echo $this->escape($item->menutype); ?></a>
 								<?php else : ?>
-									<?php echo $this->escape($item->menutype); ?>)
+									<?php echo $this->escape($item->menutype); ?>
 								<?php endif; ?>
-							</p>
+							</div>
 						</td>
 						<td class="center btns">
-							<a class="badge badge-success" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
+							<a class="badge<?php if ($item->count_published > 0) echo ' badge-success'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
 								<?php echo $item->count_published; ?></a>
 						</td>
 						<td class="center btns">
-							<a class="badge" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
+							<a class="badge<?php if ($item->count_published > 0) echo ' badge-important'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
 								<?php echo $item->count_unpublished; ?></a>
 						</td>
 						<td class="center btns">
-							<a class="badge badge-error" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
+							<a class="badge<?php if ($item->count_published > 0) echo ' badge-inverse'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
 								<?php echo $item->count_trashed; ?></a>
 						</td>
 						<td class="center">
