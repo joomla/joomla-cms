@@ -220,7 +220,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 			form = document.getElementById( 'adminForm' );
 		}
 
-		form.boxchecked.value += isitchecked ? 1 : -1;
+		isitchecked ? form.boxchecked.value++ : form.boxchecked.value--;
 
 		// If we don't have a checkall-toggle, done.
 		if ( !form.elements[ 'checkall-toggle' ] ) return;
