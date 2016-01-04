@@ -129,7 +129,7 @@ class PlgContentPagebreak extends JPlugin
 
 		if (!isset($text[$page]))
 		{
-			JError::raiseError(404, JText::_('PLG_CONTENT_PAGEBREAK_PAGE_NOT_FOUND'));
+			throw new Exception(JText::_('PLG_CONTENT_PAGEBREAK_PAGE_NOT_FOUND'), 404);
 		}
 
 		// Count the number of pages.
