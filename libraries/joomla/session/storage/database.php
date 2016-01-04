@@ -36,16 +36,34 @@ class JSessionStorageDatabase extends JSessionStorage
 			// Get the session data from the database table.
 			$query = $db->getQuery(true)
 				->select($db->quoteName('data'))
-			->from($db->quoteName('#__session'))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+				->select($db->quoteName('time'))
+				->from($db->quoteName('#__session'))
+				->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
 			$db->setQuery($query);
 
-			$result = (string) $db->loadResult();
+			$result = $db->loadObject();
+			$data = '';
 
-			$result = str_replace('\0\0\0', chr(0) . '*' . chr(0), $result);
+			if ($result)
+			{
+				$data = str_replace('\0\0\0', chr(0) . '*' . chr(0), $result->data);
+				$currentTime = time();
 
-			return $result;
+				// If session time was expired and data still available, then set current time for a session
+				if ($result->time < $currentTime + (int) ini_get('session.gc_maxlifetime'))
+				{
+					$query->clear()
+						->update($db->quoteName('#__session'))
+						->set($db->quoteName('time') . ' = ' . $db->quote((int) $currentTime))
+						->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+
+					$db->setQuery($query)
+						->execute();
+				}
+			}
+
+			return $data;
 		}
 		catch (Exception $e)
 		{
