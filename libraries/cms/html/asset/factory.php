@@ -57,6 +57,18 @@ class JHtmlAssetFactory
 	protected $dataFiles = array();
 
 	/**
+	 * Available Assets
+	 * @var array
+	 */
+	protected $assets = array();
+
+	/**
+	 * Weight of the most heavier active asset
+	 * @var float $lastItemWeight
+	 */
+	protected $lastItemWeight = 1;
+
+	/**
 	 * Class constructor
 	 */
 	public function __construct()
@@ -65,9 +77,60 @@ class JHtmlAssetFactory
 	}
 
 	/**
+	 * Add asset to collection of known assets
+	 * @param JHtmlAssetItem $asset
+	 * @return JHtmlAssetFactory
+	 */
+	public function setAsset(JHtmlAssetItem $asset)
+	{
+		$name = $asset->getName();
+		$this->assets[$name] = $asset;
+
+		return $this;
+	}
+
+	/**
+	 * Get asset by it's name
+	 * @param string $name Asset name
+	 * @return JHtmlAssetItem|bool Return asset object or false if asset doesnot exists
+	 */
+	public function getAsset($name)
+	{
+		// Check if there any new data file was added
+		$this->parseDataFiles();
+
+		if(!empty($this->assets[$name]))
+		{
+			return $this->assets[$name];
+		}
+
+		return false;
+	}
+
+	/**
+	 * Make asset active. Means it will be attached to the Document
+	 * @param string $name Asset name
+	 * @return JHtmlAssetFactory
+	 * @throws RuntimeException if asset with given name does not exists
+	 */
+	public function makeActive($name)
+	{
+		$asset = $this->getAsset();
+
+		if(!$asset)
+		{
+			throw new RuntimeException('Asset "' . $name . '" do not exists');
+		}
+
+		$asset->setActive(true);
+
+		return $this;
+	}
+
+	/**
 	 * Register new file with asset info
 	 * @param  string  $path  Relative path
-	 * @return void
+	 * @return JHtmlAssetFactory
 	 * @throws UnexpectedValueException If file does not exists
 	 */
 	public function registerDataFile($path)
@@ -82,6 +145,8 @@ class JHtmlAssetFactory
 		{
 			$this->dataFiles[$path] = true;
 		}
+
+		return $this;
 	}
 
 	/**
@@ -90,6 +155,7 @@ class JHtmlAssetFactory
 	 */
 	protected function searchForDataFiles()
 	{
+		//@TODO Use glob() without recursion
 		$pathBase = JPATH_ROOT . '/media';
 		$files = JFolder::files($pathBase, '^joomla\.asset\.json$', true, true);
 		if (empty($files))
@@ -107,7 +173,7 @@ class JHtmlAssetFactory
 	 * Parse registered data files
 	 * @return void
 	 */
-	public function parseDataFiles()
+	protected function parseDataFiles()
 	{
 		// Filter new asset data files and parse each
 		foreach(array_keys(array_filter($this->dataFiles)) as $path) {
@@ -129,7 +195,7 @@ class JHtmlAssetFactory
 
 		if (!$data)
 		{
-			throw new RuntimeException('Asset data file is incorrect or broken');
+			throw new RuntimeException('Asset data file "' . $path . '" is incorrect or broken');
 		}
 
 		// Asset exists but empty, skip it silently
@@ -138,11 +204,41 @@ class JHtmlAssetFactory
 			return;
 		}
 
-		var_dump($data);
+		// Prepare AssetItem instance
+		$owner = $data;
+		$owner['dataFile'] = $path;
+		unset($owner['assets']);
+
+		foreach($data['assets'] as $item){
+			if(empty($item['name']))
+			{
+				throw new RuntimeException('Asset data file "' . $path . '" contains incorrect asset defination');
+			}
+
+			$version   = !empty($item['version']) ? $item['version'] : null;
+			$assetItem = new JHtmlAssetItem($item['name'], $version, $owner);
+
+			if (!empty($item['js']))
+			{
+				$assetItem->setJs((array) $item['js']);
+			}
+
+			if (!empty($item['css']))
+			{
+				$assetItem->setCss((array) $item['css']);
+			}
+
+			if (!empty($item['dependency']))
+			{
+				$assetItem->setDependency((array) $item['dependency']);
+			}
+
+			$this->setAsset($assetItem);
+		}
 	}
 
 	/**
-	 * Helper method to build the asset.json data from files in the media folder
+	 * Helper method to build the joomla.asset.json data from files in the media folder
 	 *
 	 * @param string $pathBase Relative path to Folder for scan for files
 	 * @param string $prefix   Media folder prefix
