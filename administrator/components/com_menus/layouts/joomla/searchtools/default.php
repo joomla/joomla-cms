@@ -14,7 +14,7 @@ $data = $displayData;
 // Receive overridable options
 $data['options'] = !empty($data['options']) ? $data['options'] : array();
 
-if (!empty($data['view']->activeFilters['menutype']))
+if ($data['view'] instanceof MenusViewItems)
 {
 	$doc = JFactory::getDocument();
 

@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 
 $data = $displayData;
 
-if (!empty($data['view']->activeFilters['menutype']))
+if ($data['view'] instanceof MenusViewItems)
 {
 	// We will get the menutype filter & remove it from the form filters
 	$menuTypeField = $data['view']->filterForm->getField('menutype');
