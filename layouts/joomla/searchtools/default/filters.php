@@ -22,7 +22,7 @@ if (isset($data['options']['removedFilters']))
 {
 	foreach ($data['options']['removedFilters'] as $removedFilters)
 	{
-        	unset($filters[$removedFilters]);
+		unset($filters[$removedFilters]);
 	}
 }
 
