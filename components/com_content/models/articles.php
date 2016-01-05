@@ -49,7 +49,7 @@ class ContentModelArticles extends JModelList
 				'publish_down', 'a.publish_down',
 				'images', 'a.images',
 				'urls', 'a.urls',
-        'filter_tag'
+        			'filter_tag'
 			);
 		}
 
@@ -83,7 +83,7 @@ class ContentModelArticles extends JModelList
 		$value = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.start', $value);
 
-    $value = $app->input->get('filter_tag', 0, 'uint');
+    		$value = $app->input->get('filter_tag', 0, 'uint');
 		$this->setState('filter.tag', $value);
 
 		$orderCol = $app->input->get('filter_order', 'a.ordering');
@@ -521,7 +521,7 @@ class ContentModelArticles extends JModelList
 			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
-    // Filter by a single tag.
+    		// Filter by a single tag.
 		$tagId = $this->getState('filter.tag');
 
 		if (is_numeric($tagId))
