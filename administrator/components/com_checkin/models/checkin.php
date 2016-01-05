@@ -32,6 +32,27 @@ class CheckinModelCheckin extends JModelList
 	protected $tables;
 
 	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JController
+	 * @since   3.5
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'table',
+				'count',
+			);
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note: Calling getState in this method will result in recursion.
@@ -185,30 +206,34 @@ class CheckinModelCheckin extends JModelList
 
 			$this->total = count($results);
 
-			if ($this->getState('list.ordering') == 'table')
+			// Order items
+			if ($this->getState('list.ordering') == 'table' && $this->getState('list.direction') == 'ASC')
 			{
-				if ($this->getState('list.direction') == 'asc')
-				{
-					ksort($results);
-				}
-				else
-				{
-					krsort($results);
-				}
+				ksort($results);
+			}
+			elseif ($this->getState('list.ordering') == 'table' && $this->getState('list.direction') == 'DESC')
+			{
+				krsort($results);
+			}
+			elseif ($this->getState('list.ordering') == 'count' && $this->getState('list.direction') == 'ASC')
+			{
+				asort($results);
+			}
+			elseif ($this->getState('list.ordering') == 'count' && $this->getState('list.direction') == 'DESC')
+			{
+				arsort($results);
+			}
+
+			// Pagination
+			$limit = (int) $this->getState('list.limit');
+			if ($limit !== 0)
+			{
+				$this->items = array_slice($results, $this->getState('list.start'), $limit);
 			}
 			else
 			{
-				if ($this->getState('list.direction') == 'asc')
-				{
-					asort($results);
-				}
-				else
-				{
-					arsort($results);
-				}
+				$this->items = $results;
 			}
-
-			$this->items = array_slice($results, $this->getState('list.start'), $this->getState('list.limit'));
 		}
 
 		return $this->items;
