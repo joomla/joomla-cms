@@ -94,7 +94,6 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 						<th width="20%" class="nowrap center">
 							<span class="icon-cube"></span>
 							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
-
 						</th>
 						<th width="1%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
