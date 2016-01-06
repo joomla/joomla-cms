@@ -59,6 +59,7 @@ defined('_JEXEC') or die;
 			<?php echo $this->form->getLabel('db_pass'); ?>
 		</div>
 		<div class="controls">
+			<?php // Disables autocomplete ?> <input type="password" style="display:none">
 			<?php echo $this->form->getInput('db_pass'); ?>
 			<p class="help-block">
 				<?php echo JText::_('INSTL_DATABASE_PASSWORD_DESC'); ?>

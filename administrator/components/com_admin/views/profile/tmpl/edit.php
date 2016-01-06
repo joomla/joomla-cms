@@ -40,7 +40,7 @@ $fieldsets = $this->form->getFieldsets();
 			<div class="control-label"><?php echo $field->label; ?></div>
 			<div class="controls">
 				<?php if ($field->fieldname == 'password2') : ?>
-					<?php // Disables autocomplete ?> <input type="text" style="display:none">
+					<?php // Disables autocomplete ?> <input type="password" style="display:none">
 				<?php endif; ?>
 				<?php echo $field->input; ?>
 			</div>

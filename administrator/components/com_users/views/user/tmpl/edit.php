@@ -60,7 +60,7 @@ $fieldsets = $this->form->getFieldsets();
 						</div>
 						<div class="controls">
 							<?php if ($field->fieldname == 'password') : ?>
-								<?php // Disables autocomplete ?> <input type="text" style="display:none">
+								<?php // Disables autocomplete ?> <input type="password" style="display:none">
 							<?php endif; ?>
 							<?php echo $field->input; ?>
 						</div>
