@@ -195,8 +195,8 @@ class JHtmlAssetItem
 	 * Return asset state
 	 * @return bool
 	 */
-	public function getActive()
+	public function isActive()
 	{
-		return $this->ective;
+		return $this->active;
 	}
 }

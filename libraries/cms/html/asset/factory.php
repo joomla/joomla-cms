@@ -90,6 +90,21 @@ class JHtmlAssetFactory
 	}
 
 	/**
+	 * Remove Asset by name
+	 * @param string $name
+	 * @return JHtmlAssetFactory
+	 */
+	public function removeAsset($name)
+	{
+		if(!empty($this->assets[$name]))
+		{
+			unset($this->assets[$name]);
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Get asset by it's name
 	 * @param string $name Asset name
 	 * @return JHtmlAssetItem|bool Return asset object or false if asset doesnot exists
@@ -108,21 +123,154 @@ class JHtmlAssetFactory
 	}
 
 	/**
-	 * Make asset active. Means it will be attached to the Document
+	 * Return dependancy for Asset as array of AssetItem objects
+	 * @param JHtmlAssetItem $asset
+	 * @return JHtmlAssetItem[]
+	 * @throws RuntimeException When Dependency cannot be found
+	 */
+	public function getAssetDependancy(JHtmlAssetItem $asset)
+	{
+		$assets = array();
+
+		foreach($asset->getDependency() as $depName){
+			$dep = $this->getAsset($depName);
+
+			if(!$dep)
+			{
+				throw new RuntimeException('Cannot find Dependency "' . $depName . '" for Asset "' . $asset->getName() . '"');
+			}
+
+			$assets[$depName] = $dep;
+		}
+
+		return $assets;
+	}
+
+	/**
+	 * Activate deactivate the asset by name
 	 * @param string $name Asset name
+	 * @param bool   $state new state
 	 * @return JHtmlAssetFactory
 	 * @throws RuntimeException if asset with given name does not exists
 	 */
-	public function makeActive($name)
+	public function makeActive($name, $state = true)
 	{
-		$asset = $this->getAsset();
+		$asset = $this->getAsset($name);
 
 		if(!$asset)
 		{
 			throw new RuntimeException('Asset "' . $name . '" do not exists');
 		}
 
-		$asset->setActive(true);
+		// Change state
+		$asset->setActive($state);
+
+		// Calculate weight
+		if($state)
+		{
+			$dependency = $asset->getDependency();
+			$this->lastItemWeight = $this->lastItemWeight + count($dependency) + 1;
+			$asset->setWeight($this->lastItemWeight);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Search for all active assets.
+	 * @return JHtmlAssetItem[] Array with active assets
+	 */
+	public function getActiveAssets()
+	{
+		$assets = array_filter($this->assets, function($asset){
+			return $asset->isActive();
+		});
+
+		// Order them by weight
+		$this->sortByWeight($assets);
+
+		return $assets;
+	}
+
+	/**
+	 * Attach active assets to the Document
+	 * @param JDocument $doc
+	 * @return void
+	 */
+	public function attach($doc)
+	{
+		// Resolve Dependency
+		$this->resolveDependency();
+	}
+
+	/**
+	 * Resolve Dependency for active assets
+	 * @return JHtmlAssetFactory
+	 * @throws RuntimeException When Dependency cannot be resolved
+	 */
+	protected function resolveDependency()
+	{
+		$assets = $this->getActiveAssets();
+
+		foreach($assets as $asset){
+			$this->resolveItemDependency($asset);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Resolve Dependency for given asset
+	 * @param JHtmlAssetItem $asset
+	 * @return JHtmlAssetFactory
+	 * @throws RuntimeException When Dependency cannot be resolved
+	 */
+	protected function resolveItemDependency(JHtmlAssetItem $asset)
+	{
+		foreach($this->getAssetDependancy($asset) as $depItem){
+
+			// Make active
+			$depItem->setActive(true);
+
+			// Calculate weight, make it a bit lighter
+			$depWeight   = $depItem->getWeight();
+			$assetWeight = $asset->getWeight();
+
+			$depWeight = $depWeight === 0 ? $this->lastItemWeight : $depWeight;
+			$weight    = $depWeight > $assetWeight ? $assetWeight : $depWeight;
+			$weight    = $weight - 0.1;
+
+			$depItem->setWeight($weight);
+
+			$this->resolveItemDependency($depItem);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Sort assets by it`s weight
+	 * @param JHtmlAssetItem[] $assets Linked array
+	 * @param bool $ask Order direction: true for ASC and false for DESC
+	 * @return JHtmlAssetFactory
+	 */
+	protected function sortByWeight(array &$assets, $ask = true)
+	{
+		uasort($assets, function($a, $b) use ($ask) {
+			if ($a->getWeight() === $b->getWeight())
+			{
+				return 0;
+			}
+
+			if ($ask)
+			{
+				return $a->getWeight() > $b->getWeight() ? 1 : -1;
+			}
+			else
+			{
+				return $a->getWeight() > $b->getWeight() ? -1 : 1;
+			}
+		});
 
 		return $this;
 	}
@@ -141,7 +289,7 @@ class JHtmlAssetFactory
 			throw new UnexpectedValueException('Asset data file do not available');
 		}
 
-		if(!isset($this->dataFiles[$path]))
+		if (!isset($this->dataFiles[$path]))
 		{
 			$this->dataFiles[$path] = true;
 		}
@@ -163,7 +311,7 @@ class JHtmlAssetFactory
 			return;
 		}
 
-		foreach($files as $file) {
+		foreach ($files as $file) {
 			$path = preg_replace('#^' . JPATH_ROOT . '/#', '', $file);
 			$this->registerDataFile($path);
 		}
@@ -176,7 +324,7 @@ class JHtmlAssetFactory
 	protected function parseDataFiles()
 	{
 		// Filter new asset data files and parse each
-		foreach(array_keys(array_filter($this->dataFiles)) as $path) {
+		foreach (array_keys(array_filter($this->dataFiles)) as $path) {
 			$this->parseDataFile($path);
 
 			// Mark as parsed (not new)
@@ -199,7 +347,7 @@ class JHtmlAssetFactory
 		}
 
 		// Asset exists but empty, skip it silently
-		if(empty($data['assets']))
+		if (empty($data['assets']))
 		{
 			return;
 		}
@@ -209,7 +357,7 @@ class JHtmlAssetFactory
 		$owner['dataFile'] = $path;
 		unset($owner['assets']);
 
-		foreach($data['assets'] as $item){
+		foreach ($data['assets'] as $item){
 			if(empty($item['name']))
 			{
 				throw new RuntimeException('Asset data file "' . $path . '" contains incorrect asset defination');

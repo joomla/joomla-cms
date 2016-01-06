@@ -22,7 +22,10 @@ class JHtmlAsset
 
 	/**
 	 * Set up and return AssetFactory instance
+	 *
 	 * @return JHtmlAssetFactory
+	 *
+	 * @TODO Move to JFactory
 	 */
 	public static function instance()
 	{
@@ -32,5 +35,25 @@ class JHtmlAsset
 		}
 
 		return static::$instance;
+	}
+
+	/**
+	 * Make the asset active
+	 * @param string $name assset name
+	 * @return void
+	 */
+	public static function load($name)
+	{
+		static::instance()->makeActive($name, true);
+	}
+
+	/**
+	 * Make the asset inactive
+	 * @param string $name assset name
+	 * @return void
+	 */
+	public static function unload($name)
+	{
+		static::instance()->makeActive($name, false);
 	}
 }
