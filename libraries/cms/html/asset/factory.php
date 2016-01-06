@@ -69,6 +69,12 @@ class JHtmlAssetFactory
 	protected $lastItemWeight = 1;
 
 	/**
+	 * Deafult defer mode for attached JavaScripts
+	 * @var bool $jsDeferMode
+	 */
+	protected $jsDeferMode = false;
+
+	/**
 	 * Class constructor
 	 */
 	public function __construct()
@@ -193,15 +199,70 @@ class JHtmlAssetFactory
 	}
 
 	/**
+	 * Allow to change default defer behaviour forJavaScript files
+	 * @param bool $defer
+	 * @return JHtmlAssetFactory
+	 */
+	public function deferJavaScript($defer = true)
+	{
+		$this->jsDeferMode = $defer;
+		return $this;
+	}
+
+	/**
 	 * Attach active assets to the Document
 	 * @param JDocument $doc
 	 * @return void
 	 */
-	public function attach($doc)
+	public function attach(JDocument $doc)
 	{
 		// Resolve Dependency
 		$this->resolveDependency();
+
+		// Attach them do the document
+		$assets = $this->getActiveAssets();
+		foreach($assets as $asset){
+			$this->attachCss($asset->getCss(), $doc);
+			$this->attachJs($asset->getJs(), $doc);
+		}
 	}
+
+	/**
+	 * Attach StyleSheet files to the document
+	 * @param array $css
+	 * @param JDocument $doc
+	 * @return void
+	 */
+	protected function attachCss(array $css, JDocument $doc)
+	{
+		foreach($css as $path){
+			$file = JHtml::_('stylesheet', $path, array(), true, true);
+
+			if ($file)
+			{
+				$doc->addStyleSheet($file);
+			}
+		}
+	}
+
+	/**
+	 * Attach JavaScript files to the document
+	 * @param array $js
+	 * @param JDocument $doc
+	 * @return void
+	 */
+	protected function attachJs(array $js, JDocument $doc)
+	{
+		foreach($js as $path){
+			$file = JHtml::_('script', $path, false, true, true);
+
+			if ($file)
+			{
+				$doc->addScript($file, 'text/javascript', $this->jsDeferMode);
+			}
+		}
+	}
+
 
 	/**
 	 * Resolve Dependency for active assets
