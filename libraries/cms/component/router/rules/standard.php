@@ -209,7 +209,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 
 			if (!$view->key)
 			{
-				if ($item->query['layout'] == $query['layout'])
+				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] == $query['layout'])
 				{
 					unset($query['view']);
 					unset($query['layout']);
