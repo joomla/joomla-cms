@@ -332,14 +332,13 @@ class JTableUser extends JTable
 				->insert($this->_db->quoteName('#__user_usergroup_map'))
 				->columns(array($this->_db->quoteName('user_id'), $this->_db->quoteName('group_id')));
 
-			// Have to break this up into individual queries for cross-database support.
 			foreach ($this->groups as $group)
 			{
-				$query->clear('values')
-					->values($this->id . ', ' . $group);
-				$this->_db->setQuery($query);
-				$this->_db->execute();
+				$query->values($this->id . ', ' . $group);
 			}
+
+			$this->_db->setQuery($query);
+			$this->_db->execute();
 		}
 
 		// If a user is blocked, delete the cookie login rows
