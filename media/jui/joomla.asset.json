@@ -5,25 +5,28 @@
 
 	"assets": [
 		{
-			"name": "chosen.ajax",
-			"js": [
-				"jui/ajax-chosen.min.js"
-			],
+			"name": "bootstrap",
+			"version": "2.3.2",
 			"dependency": [
-				"jquery.chosen"
+				"bootstrap.css",
+				"bootstrap.js"
 			]
 		},
 		{
-			"name": "bootstrap",
+			"name": "bootstrap.js",
 			"version": "2.3.2",
 			"js": [
 				"jui/bootstrap.min.js"
 			],
-			"css": [
-				"jui/bootstrap.min.css"
-			],
 			"dependency": [
 				"jquery"
+			]
+		},
+		{
+			"name": "bootstrap.css",
+			"version": "2.3.2",
+			"css": [
+				"jui/bootstrap.min.css"
 			]
 		},
 		{
@@ -33,7 +36,7 @@
 				"jui/bootstrap-extended.css"
 			],
 			"dependency": [
-				"bootstrap"
+				"bootstrap.css"
 			]
 		},
 		{
@@ -43,20 +46,7 @@
 				"jui/bootstrap-responsive.min.css"
 			],
 			"dependency": [
-				"bootstrap"
-			]
-		},
-		{
-			"name": "jquery.chosen",
-			"version": "0.14.0",
-			"js": [
-				"jui/chosen.jquery.min.js"
-			],
-			"css": [
-				"jui/chosen.css"
-			],
-			"dependency": [
-				"jquery"
+				"bootstrap.css"
 			]
 		},
 		{
@@ -99,6 +89,15 @@
 			]
 		},
 		{
+			"name": "jquery",
+			"version": "1.11.3",
+			"js": [
+				"jui/jquery.min.js",
+				"jui/jquery-migrate.min.js",
+				"jui/jquery-noconflict.js"
+			]
+		},
+		{
 			"name": "jquery.autocomplete",
 			"version": "1.2.24",
 			"js": [
@@ -109,12 +108,25 @@
 			]
 		},
 		{
-			"name": "jquery",
-			"version": "1.11.3",
+			"name": "jquery.chosen",
+			"version": "0.14.0",
 			"js": [
-				"jui/jquery.min.js",
-				"jui/jquery-migrate.min.js",
-				"jui/jquery-noconflict.js"
+				"jui/chosen.jquery.min.js"
+			],
+			"css": [
+				"jui/chosen.css"
+			],
+			"dependency": [
+				"jquery"
+			]
+		},
+		{
+			"name": "jquery.chosen.ajax",
+			"js": [
+				"jui/ajax-chosen.min.js"
+			],
+			"dependency": [
+				"jquery.chosen"
 			]
 		},
 		{
