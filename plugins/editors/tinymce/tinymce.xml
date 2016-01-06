@@ -13,6 +13,9 @@
 		<filename plugin="tinymce">tinymce.php</filename>
 		<folder>fields</folder>
 	</files>
+	<media destination="editors" folder="media">
+		<folder>tinymce</folder>
+	</media>
 	<languages>
 		<language tag="en-GB">en-GB.plg_editors_tinymce.ini</language>
 		<language tag="en-GB">en-GB.plg_editors_tinymce.sys.ini</language>
