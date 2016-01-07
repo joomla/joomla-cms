@@ -31,6 +31,7 @@ class JHtmlAssetFactory
 		{
 			"name": "library1",
 			"version": "3.5.0",
+			"versionAttach": true,
 			"js": [
 				"com_example/library1.min.js"
 			]
@@ -228,44 +229,55 @@ class JHtmlAssetFactory
 
 		// Attach them do the document
 		$assets = $this->getActiveAssets();
+		$config = JFactory::getConfig();
+
 		foreach($assets as $asset){
-			$this->attachCss($asset->getCss(), $doc);
-			$this->attachJs($asset->getJs(), $doc);
+			$version = $asset->isVersionAttach() ? $asset->getVersion() : false;
+			$version = $version ? md5($version . $config->get('secret')) : $version; // Avoid NULL version
+
+			$this->attachCss($asset, $doc, $version);
+			$this->attachJs($asset, $doc, $version);
 		}
 	}
 
 	/**
 	 * Attach StyleSheet files to the document
-	 * @param array $css
+	 * @param JHtmlAssetItem $asset
 	 * @param JDocument $doc
+	 * @param string $version Version to be attached, or false
 	 * @return void
 	 */
-	protected function attachCss(array $css, JDocument $doc)
+	protected function attachCss(JHtmlAssetItem $asset, JDocument $doc, $version = false)
 	{
-		foreach($css as $path){
+		foreach($asset->getCss() as $path){
 			$file = JHtml::_('stylesheet', $path, array(), true, true);
 
 			if ($file)
 			{
-				$doc->addStyleSheet($file);
+				$version === false
+					? $doc->addStyleSheet($file)
+					: $doc->addStyleSheetVersion($file, $version);
 			}
 		}
 	}
 
 	/**
 	 * Attach JavaScript files to the document
-	 * @param array $js
+	 * @param JHtmlAssetItem $asset
 	 * @param JDocument $doc
+	 * @param string $version Version to be attached, or false
 	 * @return void
 	 */
-	protected function attachJs(array $js, JDocument $doc)
+	protected function attachJs(JHtmlAssetItem $asset, JDocument $doc, $version = false)
 	{
-		foreach($js as $path){
+		foreach($asset->getJs() as $path){
 			$file = JHtml::_('script', $path, false, true, true);
 
 			if ($file)
 			{
-				$doc->addScript($file, 'text/javascript', $this->jsDeferMode);
+				$version === false
+					? $doc->addScript($file, 'text/javascript', $this->jsDeferMode)
+					: $doc->addScriptVersion($file, $version, 'text/javascript', $this->jsDeferMode);
 			}
 		}
 	}
@@ -451,6 +463,11 @@ class JHtmlAssetFactory
 			if (!empty($item['dependency']))
 			{
 				$assetItem->setDependency((array) $item['dependency']);
+			}
+
+			if (array_key_exists('versionAttach', $item))
+			{
+				$assetItem->versionAttach($item['versionAttach']);
 			}
 
 			$this->addAsset($assetItem);

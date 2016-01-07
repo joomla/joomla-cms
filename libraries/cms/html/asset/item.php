@@ -27,6 +27,12 @@ class JHtmlAssetItem
 	protected $version;
 
 	/**
+	 * Whether attach the version to the scripts/stylesheets
+	 * @var bool
+	 */
+	protected $versionAttach = false;
+
+	/**
 	 * Asset data file owner info.
 	 * Just for debug, where it come from.
 	 * @var array $owner
@@ -192,11 +198,32 @@ class JHtmlAssetItem
 	}
 
 	/**
-	 * Return asset state
+	 * Check asset state
 	 * @return bool
 	 */
 	public function isActive()
 	{
 		return $this->active;
+	}
+
+	/**
+	 * Set Version Attach property
+	 * @param bool $value
+	 * @return JHtmlAssetItem
+	 */
+	public function versionAttach($value)
+	{
+		$this->versionAttach = (bool) $value;
+
+		return $this;
+	}
+
+	/**
+	 * Check Version Attach property
+	 * @return bool
+	 */
+	public function isVersionAttach()
+	{
+		return $this->versionAttach;
 	}
 }

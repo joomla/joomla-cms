@@ -27,7 +27,7 @@ $js  = array('template.js');
 $dep = array('bootstrap.js');
 
 $assetTemplate = new JHtmlAssetItem('template.isis');
-$assetTemplate->setCss($css)->setJs($js)->setDependency($dep);
+$assetTemplate->setCss($css)->setJs($js)->setDependency($dep)->versionAttach(true);
 JHtml::_('asset.add', $assetTemplate);
 
 // Load the template assets
