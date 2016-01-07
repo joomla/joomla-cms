@@ -42,7 +42,7 @@ class PlgQuickiconExtensionupdate extends JPlugin
 			return;
 		}
 
-		JHtml::_('jquery.framework');
+		JHtml::_('asset.load', 'plg.quickicon.extensionupdatecheck');
 
 		$token    = JSession::getFormToken() . '=' . 1;
 		$url      = JUri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token;
@@ -58,7 +58,6 @@ class PlgQuickiconExtensionupdate extends JPlugin
 			. '"ERROR": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true) . '",'
 			. '};';
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
-		JHtml::_('script', 'plg_quickicon_extensionupdate/extensionupdatecheck.js', false, true);
 
 		return array(
 			array(

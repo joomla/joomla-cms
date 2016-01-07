@@ -38,32 +38,8 @@ abstract class JHtmlBehavior
 	 */
 	public static function framework($extras = false, $debug = null)
 	{
-		$type = $extras ? 'more' : 'core';
-
-		// Only load once
-		if (!empty(static::$loaded[__METHOD__][$type]))
-		{
-			return;
-		}
-
-		// If no debugging value is set, use the configuration setting
-		if ($debug === null)
-		{
-			$config = JFactory::getConfig();
-			$debug = $config->get('debug');
-		}
-
-		if ($type != 'core' && empty(static::$loaded[__METHOD__]['core']))
-		{
-			static::framework(false, $debug);
-		}
-
-		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
-
-		// Keep loading core.js for BC reasons
-		static::core();
-
-		static::$loaded[__METHOD__][$type] = true;
+		$type = $extras ? 'mootools-more' : 'mootools';
+		JHtml::_('asset.load', $type);
 
 		return;
 	}
@@ -79,14 +55,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function core()
 	{
-		// Only load once
-		if (isset(static::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		JHtml::_('script', 'system/core.js', false, true);
-		static::$loaded[__METHOD__] = true;
+		JHtml::_('asset.load', 'core');
 
 		return;
 	}
@@ -108,10 +77,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
-		JHtml::_('script', 'system/caption.js', false, true);
+		JHtml::_('asset.load', 'caption');
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -169,24 +135,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function formvalidator()
 	{
-		// Only load once
-		if (isset(static::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		// Include core
-		static::core();
-
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
-		// Add validate.js language strings
-		JText::script('JLIB_FORM_FIELD_INVALID');
-
-		JHtml::_('script', 'system/punycode.js', false, true);
-		JHtml::_('script', 'system/validate.js', false, true);
-		static::$loaded[__METHOD__] = true;
+		JHtml::_('asset.load', 'validate');
 	}
 
 	/**
@@ -204,10 +153,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
-		JHtml::_('script', 'system/switcher.js', true, true);
+		JHtml::_('asset.load', 'switcher');
 
 		$script = "
 			document.switcher = null;
@@ -235,15 +181,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function combobox()
 	{
-		if (isset(static::$loaded[__METHOD__]))
-		{
-			return;
-		}
-		// Include core
-		static::core();
-
-		JHtml::_('script', 'system/combobox.js', false, true);
-		static::$loaded[__METHOD__] = true;
+		JHtml::_('asset.load', 'combobox');
 	}
 
 	/**
@@ -351,12 +289,7 @@ abstract class JHtmlBehavior
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset(static::$loaded[__METHOD__]))
 		{
-			// Include MooTools framework
-			static::framework(true);
-
-			// Load the JavaScript and css
-			JHtml::_('script', 'system/modal.js', true, true);
-			JHtml::_('stylesheet', 'system/modal.css', array(), true);
+			JHtml::_('asset.load', 'modal');
 		}
 
 		$sig = md5(serialize(array($selector, $params)));
@@ -384,9 +317,6 @@ abstract class JHtmlBehavior
 		$opt['onMove']        = (isset($params['onMove'])) ? $params['onMove'] : null;
 		$opt['onShow']        = (isset($params['onShow'])) ? $params['onShow'] : null;
 		$opt['onHide']        = (isset($params['onHide'])) ? $params['onHide'] : null;
-
-		// Include jQuery
-		JHtml::_('jquery.framework');
 
 		if (isset($params['fullScreen']) && (bool) $params['fullScreen'])
 		{
@@ -436,13 +366,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include core
-		static::core();
-
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
-		JHtml::_('script', 'system/multiselect.js', false, true);
+		JHtml::_('asset.load', 'multiselect');
 
 		// Attach multiselect to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -470,19 +394,12 @@ abstract class JHtmlBehavior
 	 */
 	public static function tree($id, $params = array(), $root = array())
 	{
-		// Include MooTools framework
-		static::framework();
-
-		JHtml::_('script', 'system/mootree.js', true, true, false, false);
-		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
-
 		if (isset(static::$loaded[__METHOD__][$id]))
 		{
 			return;
 		}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
+		JHtml::_('asset.load', 'mootree');
 
 		// Setup options object
 		$opt['div']   = (array_key_exists('div', $params)) ? $params['div'] : $id . '_tree';
@@ -571,11 +488,8 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
+		JHtml::_('asset.load', 'jquery.minicolors');
 
-		JHtml::_('script', 'jui/jquery.minicolors.min.js', false, true);
-		JHtml::_('stylesheet', 'jui/jquery.minicolors.css', false, true);
 		JFactory::getDocument()->addScriptDeclaration("
 				jQuery(document).ready(function (){
 					jQuery('.minicolors').each(function() {
@@ -607,11 +521,8 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
+		JHtml::_('asset.load', 'jquery.simplecolors');
 
-		JHtml::_('script', 'jui/jquery.simplecolors.min.js', false, true);
-		JHtml::_('stylesheet', 'jui/jquery.simplecolors.css', false, true);
 		JFactory::getDocument()->addScriptDeclaration("
 				jQuery(document).ready(function (){
 					jQuery('select.simplecolors').simplecolors();
@@ -703,13 +614,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include core
-		static::core();
-
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
-		JHtml::_('script', 'system/highlighter.js', false, true);
+		JHtml::_('asset.load', 'highlighter');
 
 		$terms = str_replace('"', '\"', $terms);
 
@@ -753,11 +658,8 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include core
-		static::core();
-
-		// Include jQuery
-		JHtml::_('jquery.framework');
+		JHtml::_('asset.load', 'core');
+		JHtml::_('asset.load', 'jquery');
 
 		$js = 'jQuery(function () {
 			if (top == self) {
@@ -901,13 +803,6 @@ abstract class JHtmlBehavior
 	 */
 	public static function tabstate()
 	{
-		if (isset(self::$loaded[__METHOD__]))
-		{
-			return;
-		}
-		// Include jQuery
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/tabs-state.js', false, true);
-		self::$loaded[__METHOD__] = true;
+		JHtml::_('asset.load', 'tabs-state');
 	}
 }

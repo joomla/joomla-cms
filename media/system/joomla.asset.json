@@ -16,6 +16,9 @@
 			"version": "1.4.5",
 			"js": [
 				"system/mootools-core.js"
+			],
+			"dependency": [
+				"core"
 			]
 		},
 		{
@@ -53,6 +56,7 @@
 				"system/combobox.js"
 			],
 			"dependency": [
+				"core",
 				"jquery"
 			]
 		},
@@ -225,7 +229,8 @@
 			],
 			"dependency": [
 				"core",
-				"jquery"
+				"jquery",
+				"punycode"
 			]
 		},
 		{

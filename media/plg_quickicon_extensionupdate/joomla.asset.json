@@ -1,0 +1,17 @@
+{
+	"title" : "plg_quickicon_extensionupdate",
+	"name"  : "plg_quickicon_extensionupdate",
+	"author": "Joomla! CMS",
+
+	"assets": [
+		{
+			"name": "plg.quickicon.extensionupdatecheck",
+			"js": [
+				"plg_quickicon_extensionupdate/extensionupdatecheck.js"
+			],
+			"dependency": [
+				"jquery"
+			]
+		}
+	]
+}
