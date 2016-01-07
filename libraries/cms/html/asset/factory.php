@@ -231,6 +231,11 @@ class JHtmlAssetFactory
 		$assets = $this->getActiveAssets();
 		$config = JFactory::getConfig();
 
+		// Backward compatibility hack. Part 1. @TODO: remove it someday.
+		// Presave existing Scripts, and attach them after requested assets.
+		$jsBack = $doc->_scripts;
+		$doc->_scripts = array();
+
 		foreach($assets as $asset){
 			$version = $asset->isVersionAttach() ? $asset->getVersion() : false;
 			$version = $version ? md5($version . $config->get('secret')) : $version; // Avoid NULL version
@@ -238,6 +243,9 @@ class JHtmlAssetFactory
 			$this->attachCss($asset, $doc, $version);
 			$this->attachJs($asset, $doc, $version);
 		}
+
+		// Backward compatibility hack. Part 2. @TODO: remove it someday, and do not forget about Part 1.
+		$doc->_scripts = array_merge($doc->_scripts, $jsBack);
 	}
 
 	/**
