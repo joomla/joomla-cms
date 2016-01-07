@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Legacy routing rules class from com_users
  *
- * @since  3.4
+ * @since       3.6
  * @deprecated  4.0
  */
 class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
@@ -22,9 +22,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 	 *
 	 * @param   JComponentRouterAdvanced  $router  The router this rule belongs to
 	 *
-	 * @return  void
-	 *
-	 * @since   3.4
+	 * @since       3.6
 	 * @deprecated  4.0
 	 */
 	public function __construct($router)
@@ -39,7 +37,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since       3.6
 	 * @deprecated  4.0
 	 */
 	public function preprocess(&$query)
@@ -54,7 +52,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since       3.6
 	 * @deprecated  4.0
 	 */
 	public function build(&$query, &$segments)
@@ -237,7 +235,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since       3.6
 	 * @deprecated  4.0
 	 */
 	public function parse(&$segments, &$vars)

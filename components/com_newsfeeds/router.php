@@ -16,7 +16,13 @@ defined('_JEXEC') or die;
  */
 class NewsfeedsRouter extends JComponentRouterView
 {
-	function __construct($app = null, $menu = null)
+	/**
+	 * Newsfeeds Component router constructor
+	 * 
+	 * @param   JApplicationCms   $app   The application object
+	 * @param   JMenu             $menu  The menu object to work with
+	 */
+	public function __construct($app = null, $menu = null)
 	{
 		$categories = new JComponentRouterViewconfiguration('categories');
 		$categories->setKey('id');
@@ -94,7 +100,7 @@ class NewsfeedsRouter extends JComponentRouterView
 	 * @param   string  $segment  Segment to retrieve the ID for
 	 * @param   array   $query    The request that is parsed right now
 	 *
-	 * @return  array|int  The id of this item
+	 * @return  mixed   The id of this item or false
 	 */
 	public function getCategoryId($segment, $query)
 	{
@@ -120,7 +126,7 @@ class NewsfeedsRouter extends JComponentRouterView
 	 * @param   string  $id     ID of the category to retrieve the segments for
 	 * @param   array   $query  The request that is parsed right now
 	 * 
-	 * @return  array|int  The segments of this item
+	 * @return  mixed   The id of this item or false
 	 */
 	public function getCategoriesId($segment, $query)
 	{
@@ -133,7 +139,7 @@ class NewsfeedsRouter extends JComponentRouterView
 	 * @param   string  $segment  Segment of the newsfeed to retrieve the ID for
 	 * @param   array   $query    The request that is parsed right now
 	 * 
-	 * @return  array|int  The segments of this item
+	 * @return  mixed   The id of this item or false
 	 */
 	public function getNewsfeedId($segment, $query)
 	{

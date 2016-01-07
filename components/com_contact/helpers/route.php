@@ -32,7 +32,7 @@ abstract class ContactHelperRoute
 	 */
 	public static function getContactRoute($id, $catid, $language = 0)
 	{
-		//Create the link
+		// Create the link
 		$link = 'index.php?option=com_contact&view=contact&id=' . $id;
 
 		if ($catid > 1)
@@ -51,8 +51,8 @@ abstract class ContactHelperRoute
 	/**
 	 * Get the URL route for a contact category from a contact category ID and language
 	 *
-	 * @param   mixed    $catid     The id of the contact's category either an integer id or a instance of JCategoryNode
-	 * @param   mixed    $language  The id of the language being used.
+	 * @param   mixed  $catid     The id of the contact's category either an integer id or a instance of JCategoryNode
+	 * @param   mixed  $language  The id of the language being used.
 	 *
 	 * @return  string  The link to the contact
 	 *

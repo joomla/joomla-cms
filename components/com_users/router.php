@@ -16,7 +16,13 @@ defined('_JEXEC') or die;
  */
 class UsersRouter extends JComponentRouterView
 {
-	function __construct($app = null, $menu = null)
+	/**
+	 * Users Component router constructor
+	 * 
+	 * @param   JApplicationCms   $app   The application object
+	 * @param   JMenu             $menu  The menu object to work with
+	 */
+	public function __construct($app = null, $menu = null)
 	{
 		$this->registerView(new JComponentRouterViewconfiguration('login'));
 		$profile = new JComponentRouterViewconfiguration('profile');

@@ -16,7 +16,13 @@ defined('_JEXEC') or die;
  */
 class ContentRouter extends JComponentRouterView
 {
-	function __construct($app = null, $menu = null)
+	/**
+	 * Content Component router constructor
+	 * 
+	 * @param   JApplicationCms   $app   The application object
+	 * @param   JMenu             $menu  The menu object to work with
+	 */
+	public function __construct($app = null, $menu = null)
 	{
 		$categories = new JComponentRouterViewconfiguration('categories');
 		$categories->setKey('id');
@@ -98,7 +104,7 @@ class ContentRouter extends JComponentRouterView
 	 * @param   string  $segment  Segment to retrieve the ID for
 	 * @param   array   $query    The request that is parsed right now
 	 *
-	 * @return  array|int  The id of this item
+	 * @return  mixed   The id of this item or false
 	 */
 	public function getCategoryId($segment, $query)
 	{
@@ -124,7 +130,7 @@ class ContentRouter extends JComponentRouterView
 	 * @param   string  $id     ID of the category to retrieve the segments for
 	 * @param   array   $query  The request that is parsed right now
 	 * 
-	 * @return  array|int  The segments of this item
+	 * @return  mixed   The id of this item or false
 	 */
 	public function getCategoriesId($segment, $query)
 	{
@@ -137,7 +143,7 @@ class ContentRouter extends JComponentRouterView
 	 * @param   string  $segment  Segment of the article to retrieve the ID for
 	 * @param   array   $query    The request that is parsed right now
 	 * 
-	 * @return  array|int  The segments of this item
+	 * @return  mixed   The id of this item or false
 	 */
 	public function getArticleId($segment, $query)
 	{
