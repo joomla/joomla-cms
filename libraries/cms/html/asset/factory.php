@@ -376,9 +376,8 @@ class JHtmlAssetFactory
 	 */
 	protected function searchForDataFiles()
 	{
-		//@TODO Use glob() without recursion
-		$pathBase = JPATH_ROOT . '/media';
-		$files = JFolder::files($pathBase, '^joomla\.asset\.json$', true, true);
+		$files = glob(JPATH_ROOT . '/media/*/joomla.asset.json');
+
 		if (empty($files))
 		{
 			return;
