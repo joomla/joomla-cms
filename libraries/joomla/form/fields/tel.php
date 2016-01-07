@@ -59,8 +59,7 @@ class JFormFieldTel extends JFormFieldText
 		$onchange = $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
+		JHtml::_('asset.load', 'html5fallback');
 
 		return '<input type="tel" name="' . $this->name . '"' . $class . ' id="' . $this->id . '" value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly

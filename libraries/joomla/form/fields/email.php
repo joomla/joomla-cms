@@ -59,8 +59,7 @@ class JFormFieldEMail extends JFormFieldText
 		$onchange = $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
+		JHtml::_('asset.load', 'html5fallback');
 
 		return '<input type="email" name="' . $this->name . '"' . $class . ' id="' . $this->id . '" value="'
 			. htmlspecialchars(JStringPunycode::emailToUTF8($this->value), ENT_COMPAT, 'UTF-8') . '"' . $spellcheck . $size . $disabled . $readonly

@@ -129,8 +129,7 @@ class JFormFieldFile extends JFormField
 		$onchange = $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
+		JHtml::_('asset.load', 'html5fallback');
 
 		return '<input type="file" name="' . $this->name . '" id="' . $this->id . '"' . $accept
 			. $disabled . $class . $size . $onchange . $required . $autofocus . $multiple . ' />';
