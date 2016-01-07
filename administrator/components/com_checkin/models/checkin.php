@@ -205,7 +205,7 @@ class CheckinModelCheckin extends JModelList
 
 			$this->total = count($results);
 
-			// Order items
+			// Order items by table
 			if ($this->getState('list.ordering') == 'table')
 			{
 				if (strtolower($this->getState('list.direction')) == 'asc')
@@ -217,7 +217,8 @@ class CheckinModelCheckin extends JModelList
 					krsort($results);
 				}
 			}
-			elseif ($this->getState('list.ordering') == 'count')
+			// Order items by number of items
+			else
 			{
 				if (strtolower($this->getState('list.direction')) == 'asc')
 				{
