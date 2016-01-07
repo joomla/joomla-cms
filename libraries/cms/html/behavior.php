@@ -406,9 +406,6 @@ abstract class JHtmlBehavior
 			});
 		});
 		function jModalClose() {
-			if (jQuery('.mce-window').length ){
-				tinyMCE.activeEditor.windowManager.close();
-			}
 			SqueezeBox.close();
 		}"
 		);
