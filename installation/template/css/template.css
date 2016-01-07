@@ -138,5 +138,5 @@ textarea.noResize {
  	opacity: .95;
 	 -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 95);
  	filter: alpha(opacity = 95);
- 	background: url('../../../media/jui/images/ajax-loader.gif') rgba(255,255,255,0.7) 50% 10px no-repeat;
+ 	background: url('../../../media/jui/images/ajax-loader.gif') rgba(255,255,255,0.7) center no-repeat;
  }
