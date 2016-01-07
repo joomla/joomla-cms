@@ -66,8 +66,7 @@ class CheckinModelCheckin extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
 
 		// List state information.
 		parent::populateState('table', 'asc');
@@ -207,21 +206,27 @@ class CheckinModelCheckin extends JModelList
 			$this->total = count($results);
 
 			// Order items
-			if ($this->getState('list.ordering') == 'table' && $this->getState('list.direction') == 'ASC')
+			if ($this->getState('list.ordering') == 'table')
 			{
-				ksort($results);
+				if (strtolower($this->getState('list.direction')) == 'asc')
+				{
+					ksort($results);
+				}
+				else
+				{
+					krsort($results);
+				}
 			}
-			elseif ($this->getState('list.ordering') == 'table' && $this->getState('list.direction') == 'DESC')
+			elseif ($this->getState('list.ordering') == 'count')
 			{
-				krsort($results);
-			}
-			elseif ($this->getState('list.ordering') == 'count' && $this->getState('list.direction') == 'ASC')
-			{
-				asort($results);
-			}
-			elseif ($this->getState('list.ordering') == 'count' && $this->getState('list.direction') == 'DESC')
-			{
-				arsort($results);
+				if (strtolower($this->getState('list.direction')) == 'asc')
+				{
+					asort($results);
+				}
+				else
+				{
+					arsort($results);
+				}
 			}
 
 			// Pagination
