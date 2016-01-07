@@ -56,4 +56,14 @@ class JHtmlAsset
 	{
 		static::instance()->makeActive($name, false);
 	}
+
+	/**
+	 * Add asset to collection of known assets
+	 * @param JHtmlAssetItem $asset
+	 * @return void
+	 */
+	public static function add(JHtmlAssetItem $asset)
+	{
+		static::instance()->addAsset($asset);
+	}
 }

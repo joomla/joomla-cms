@@ -87,7 +87,7 @@ class JHtmlAssetFactory
 	 * @param JHtmlAssetItem $asset
 	 * @return JHtmlAssetFactory
 	 */
-	public function setAsset(JHtmlAssetItem $asset)
+	public function addAsset(JHtmlAssetItem $asset)
 	{
 		$name = $asset->getName();
 		$this->assets[$name] = $asset;
@@ -154,18 +154,25 @@ class JHtmlAssetFactory
 
 	/**
 	 * Activate deactivate the asset by name
-	 * @param string $name Asset name
-	 * @param bool   $state new state
+	 * @param string $name  Asset name
+	 * @param bool   $state New state
+	 * @param bool   $force Force weight calculation if the Asset alredy was enabled previously
 	 * @return JHtmlAssetFactory
 	 * @throws RuntimeException if asset with given name does not exists
 	 */
-	public function makeActive($name, $state = true)
+	public function makeActive($name, $state = true, $force = false)
 	{
 		$asset = $this->getAsset($name);
 
 		if(!$asset)
 		{
 			throw new RuntimeException('Asset "' . $name . '" do not exists');
+		}
+
+		// Asset alredy has the requested state, so stop here, prevent Weight recalulation
+		if ($asset->isActive() === $state && !$force)
+		{
+			return $this;
 		}
 
 		// Change state
@@ -289,6 +296,7 @@ class JHtmlAssetFactory
 	protected function resolveItemDependency(JHtmlAssetItem $asset)
 	{
 		foreach($this->getAssetDependancy($asset) as $depItem){
+			$oldState = $depItem->isActive();
 
 			// Make active
 			$depItem->setActive(true);
@@ -303,7 +311,11 @@ class JHtmlAssetFactory
 
 			$depItem->setWeight($weight);
 
-			$this->resolveItemDependency($depItem);
+			// Prevent duplicated work if Dependency already was activated
+			if (!$oldState)
+			{
+				$this->resolveItemDependency($depItem);
+			}
 		}
 
 		return $this;
@@ -442,7 +454,7 @@ class JHtmlAssetFactory
 				$assetItem->setDependency((array) $item['dependency']);
 			}
 
-			$this->setAsset($assetItem);
+			$this->addAsset($assetItem);
 		}
 	}
 

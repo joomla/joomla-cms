@@ -30,6 +30,20 @@
 			]
 		},
 		{
+			"name": "bootstrap.css.ltr",
+			"version": "2.3.2",
+			"dependency": [
+				"bootstrap.css"
+			]
+		},
+		{
+			"name": "bootstrap.css.rtl",
+			"version": "2.3.2",
+			"css": [
+				"jui/bootstrap-rtl.css"
+			]
+		},
+		{
 			"name": "bootstrap.extended",
 			"version": "2.3.2",
 			"css": [
