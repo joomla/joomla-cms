@@ -123,8 +123,8 @@ class NewsfeedsRouter extends JComponentRouterView
 	/**
 	 * Method to get the segment(s) for a category
 	 * 
-	 * @param   string  $id     ID of the category to retrieve the segments for
-	 * @param   array   $query  The request that is parsed right now
+	 * @param   string  $segment  Segment to retrieve the ID for
+	 * @param   array   $query    The request that is parsed right now
 	 * 
 	 * @return  mixed   The id of this item or false
 	 */

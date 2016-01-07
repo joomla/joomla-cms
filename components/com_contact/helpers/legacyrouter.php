@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Legacy routing rules class from com_contact
  *
- * @since  3.4
+ * @since       3.6
  * @deprecated  4.0
  */
 class ContactRouterRulesLegacy implements JComponentRouterRulesInterface

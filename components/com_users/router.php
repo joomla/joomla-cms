@@ -19,8 +19,8 @@ class UsersRouter extends JComponentRouterView
 	/**
 	 * Users Component router constructor
 	 * 
-	 * @param   JApplicationCms   $app   The application object
-	 * @param   JMenu             $menu  The menu object to work with
+	 * @param   JApplicationCms  $app   The application object
+	 * @param   JMenu            $menu  The menu object to work with
 	 */
 	public function __construct($app = null, $menu = null)
 	{

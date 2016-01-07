@@ -19,8 +19,8 @@ class ContentRouter extends JComponentRouterView
 	/**
 	 * Content Component router constructor
 	 * 
-	 * @param   JApplicationCms   $app   The application object
-	 * @param   JMenu             $menu  The menu object to work with
+	 * @param   JApplicationCms  $app   The application object
+	 * @param   JMenu            $menu  The menu object to work with
 	 */
 	public function __construct($app = null, $menu = null)
 	{
@@ -127,8 +127,8 @@ class ContentRouter extends JComponentRouterView
 	/**
 	 * Method to get the segment(s) for a category
 	 * 
-	 * @param   string  $id     ID of the category to retrieve the segments for
-	 * @param   array   $query  The request that is parsed right now
+	 * @param   string  $segment  Segment to retrieve the ID for
+	 * @param   array   $query    The request that is parsed right now
 	 * 
 	 * @return  mixed   The id of this item or false
 	 */
