@@ -113,10 +113,10 @@ $doc->addScriptDeclaration(
 		<tbody>
 			<?php
 				echo $this->loadTemplate('up'),
-					$this->loadTemplate('folder'),
-					$this->loadTemplate('doc'),
-					$this->loadTemplate('video'),
-					$this->loadTemplate('img');
+					$this->loadTemplate('folders'),
+					$this->loadTemplate('docs'),
+					$this->loadTemplate('videos'),
+					$this->loadTemplate('imgs');
 			?>
 		</tbody>
 		</table>
