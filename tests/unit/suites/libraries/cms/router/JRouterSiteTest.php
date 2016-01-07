@@ -1341,9 +1341,9 @@ class JRouterSiteTest extends TestCaseDatabase
 
 		/**
 		 * Check if a proper router is automatically loaded
-		 * by loading the router of com_content
+		 * by loading the router of com_search
 		 */
-		$this->assertInstanceOf('ContentRouter', $object->getComponentRouter('com_content'));
+		$this->assertInstanceOf('SearchRouter', $object->getComponentRouter('com_search'));
 
 		/**
 		 * Check if an instance of JComponentRouterLegacy

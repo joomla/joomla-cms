@@ -117,17 +117,17 @@ class JComponentRouterViewTest extends TestCaseDatabase
 		$cases[] = array(array('view' => 'form'), array('form' => true));
 
 		// View without any parents, but with children
-		$cases[] = array(array('view' => 'categories'), array('categories' => true));
+		$cases[] = array(array('view' => 'categories'), array('categories' => array()));
 
 		// View with parent and children
-		$qcases[] = array(array('view' => 'category', 'id' => '9'), array('category' => array('9:uncategorised'), 'categories' => true));
+		$cases[] = array(array('view' => 'category', 'id' => '9'), array('category' => array('9:uncategorised'), 'categories' => array('9:uncategorised')));
 
 		//View with parent, no children
 		$cases[] = array(array('view' => 'article', 'id' => '42:question-for-everything', 'catid' => '9'),
 			array(
 				'article' => array('42:question-for-everything'),
 				'category' => array('9:uncategorised'),
-				'categories' => true
+				'categories' => array('9:uncategorised')
 			)
 		);
 
@@ -139,7 +139,10 @@ class JComponentRouterViewTest extends TestCaseDatabase
 					'19:joomla',
 					'14:sample-data-articles'
 				),
-				'categories' => true
+				'categories' => array('20:extensions',
+					'19:joomla',
+					'14:sample-data-articles'
+				)
 			)
 		);
 
@@ -331,7 +334,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 		$categories = new JComponentRouterViewconfiguration('categories');
 		$categories->setKey('id');
 		$category = new JComponentRouterViewconfiguration('category');
-		$category->setKey('id')->setParent($categories)->setNestable()->addLayout('blog');
+		$category->setKey('id')->setParent($categories, 'catid')->setNestable()->addLayout('blog');
 		$article = new JComponentRouterViewconfiguration('article');
 		$article->setKey('id')->setParent($category, 'catid');
 		$archive = new JComponentRouterViewconfiguration('archive');
