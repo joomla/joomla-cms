@@ -1475,6 +1475,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/symfony/yaml/Symfony/Component',
 			'/libraries/vendor/symfony/yaml/Symfony',
 			'/administrator/components/com_tags/helpers',
+			'/libraries/vendor/phpmailer/phpmailer/extras/class.html2text.php',
 		);
 
 		jimport('joomla.filesystem.file');
