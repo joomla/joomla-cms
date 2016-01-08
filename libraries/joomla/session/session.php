@@ -635,8 +635,8 @@ class JSession implements IteratorAggregate
 			$this->data = unserialize($data);
 		}
 
-		// Temporary, PARTIAL, data migration of existing session data to avoid logout on update from J < 3.4.7
-		if (isset($_SESSION['__default']) && !empty($_SESSION['__default']))
+		// Migrate existing session data to avoid logout on update from J < 3.4.7
+		if (!empty($_SESSION['__default']))
 		{
 			$migratableKeys = array("user", "session.token", "session.counter", "session.timer.start", "session.timer.last", "session.timer.now");
 
@@ -655,12 +655,8 @@ class JSession implements IteratorAggregate
 				}
 			}
 
-			/**
-			 * Finally, empty the __default key since we no longer need it. Don't unset it completely, we need this
-			 * for the administrator/components/com_admin/script.php to detect upgraded sessions and perform a full
-			 * session cleanup.
-			 */
-			$_SESSION['__default'] = array();
+			$this->data->set('__default.registry', new Joomla\Registry\Registry);
+			unset($_SESSION['__default']);
 		}
 
 		return true;
