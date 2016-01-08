@@ -142,8 +142,8 @@ class CjLibUtils
 				
 			$ip = strip_tags($_SERVER['REMOTE_ADDR']);
 		}
-// 		$ip = explode(',', $ip);
-// 		$ip = $ip[0];
+		$ip = explode(',', $ip);
+		$ip = $ip[0];
 		return trim($ip);
 	}
 
@@ -337,6 +337,12 @@ class CjLibUtils
 	
 	public static function getUserLocation($ip)
 	{
+		require_once CJLIB_PATH.'/lib/maxmind/Exception/GeoIp2Exception.php';
+		require_once CJLIB_PATH.'/lib/maxmind/Exception/AddressNotFoundException.php';
+		require_once CJLIB_PATH.'/lib/maxmind/Exception/AuthenticationException.php';
+		require_once CJLIB_PATH.'/lib/maxmind/Exception/HttpException.php';
+		require_once CJLIB_PATH.'/lib/maxmind/Exception/InvalidRequestException.php';
+		require_once CJLIB_PATH.'/lib/maxmind/Exception/OutOfQueriesException.php';
 		require_once CJLIB_PATH.'/lib/maxmind/ProviderInterface.php';
 		require_once CJLIB_PATH.'/lib/maxmind/Database/Reader.php';
 		require_once CJLIB_PATH.'/lib/maxmind/MaxMind/Db/Reader/Decoder.php';
@@ -355,8 +361,12 @@ class CjLibUtils
 		require_once CJLIB_PATH.'/lib/maxmind/Record/RepresentedCountry.php';
 		require_once CJLIB_PATH.'/lib/maxmind/Record/Traits.php';
 		require_once CJLIB_PATH.'/lib/maxmind/Model/AbstractModel.php';
+		require_once CJLIB_PATH.'/lib/maxmind/Model/AnonymousIp.php';
 		require_once CJLIB_PATH.'/lib/maxmind/Model/Country.php';
 		require_once CJLIB_PATH.'/lib/maxmind/Model/City.php';
+		require_once CJLIB_PATH.'/lib/maxmind/Model/Domain.php';
+		require_once CJLIB_PATH.'/lib/maxmind/Model/Insights.php';
+		require_once CJLIB_PATH.'/lib/maxmind/Model/Isp.php';
 		require_once CJLIB_PATH.'/lib/maxmind/MaxMind/Db/Reader.php';
 		
 		$info = array();

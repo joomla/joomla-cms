@@ -968,7 +968,7 @@ class CJFunctions {
 	 */
 	public static function get_formatted_date($strdate) {
 		
-		require_once 'dateutils.php';
+		require_once JPATH_ROOT.'/components/com_cjlib/lib/corejoomla/dateutils.php';
 		return CjLibDateUtils::getHumanReadableDate($strdate);
 	}
 	

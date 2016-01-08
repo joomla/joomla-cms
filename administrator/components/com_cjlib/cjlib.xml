@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <extension method="upgrade" type="component" version="2.5">
 	<name>CJLib</name>
-	<creationDate>2015-Nov-23</creationDate>
+	<creationDate>2015-Dec-12</creationDate>
 	<author>Maverick</author>
 	<authorEmail>support@corejoomla.com</authorEmail>
 	<authorUrl>http://www.corejoomla.org</authorUrl>
 	<copyright>Copyright corejoomla.com. All rights reserved.</copyright>
 	<license>Gnu/GPL v2 or later</license>
-	<version>2.3.5</version>
+	<version>2.3.8</version>
 	<description>CoreJoomla Library.</description>
 
 	<install>

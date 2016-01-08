@@ -2,9 +2,9 @@
 <extension method="upgrade" type="package" version="2.5">
 	<name>CjLib Package</name>
 	<author>Maverick</author>
-	<creationDate>2015-Nov-23</creationDate>
+	<creationDate>2015-Dec-12</creationDate>
 	<packagename>cjlib</packagename>
-	<version>2.3.5</version>
+	<version>2.3.8</version>
 	<url>http://www.corejoomla.com/</url>
 	<packager>Maverick</packager>
 	<packagerurl>http://www.corejoomla.com/</packagerurl>
@@ -14,6 +14,7 @@
 		<table class="table table-hover table-striped"> 
 		<tr><td>CjLib Component</td><td>Successfully installed</td></tr>
 		<tr><td>CjLib Plugin</td><td>Successfully installed</td></tr>
+		<tr><td>CoreJoomla Socials Plugin</td><td>Successfully installed</td></tr>
 		</table>
 		<p>Thank you for using corejoomla&reg; software. Please add a rating and review at Joomla&reg; Extension Directory.</p>
 		]]></description>
@@ -21,6 +22,7 @@
 	<files folder="packages">
 		<file id="cjlib" type="component">com_cjlib.zip</file>
 		<file group="installer" id="cjlib" type="plugin">plg_installer_cjupdater.zip</file>
+		<file group="corejoomla" id="cjlib" type="plugin">plg_corejoomla_socials.zip</file>
 	</files>
 	
 	<updateservers>

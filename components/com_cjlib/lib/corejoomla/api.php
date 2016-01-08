@@ -3,13 +3,15 @@
  * @package     corejoomla.administrator
  * @subpackage  com_cjlib
  *
- * @copyright   Copyright (C) 2009 - 2014 corejoomla.com. All rights reserved.
+ * @copyright   Copyright (C) 2009 - 2015 corejoomla.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
 require_once 'utils.php';
 require_once 'dateutils.php';
+
+use Joomla\Utilities\ArrayHelper;
 
 class CjLibApi
 {
@@ -46,7 +48,7 @@ class CjLibApi
 					{
 						$imgAttribs['height'] = $height.'px';
 						$imgAttribs['style'] = 'max-height: '.$height.'px; max-width: '.$height.'px;';
-						$avatar = '<img src="'.$avatar.'" alt="' . $alt . '" '.trim((is_array($imgAttribs) ? JArrayHelper::toString($imgAttribs) : $imgAttribs).' /'). '>'; 
+						$avatar = '<img src="'.$avatar.'" alt="' . $alt . '" '.(is_array($imgAttribs) ? ArrayHelper::toString($imgAttribs) : $imgAttribs).' />'; 
 					}
 				}
 				
@@ -64,7 +66,7 @@ class CjLibApi
 					{
 						$imgAttribs['height'] = $height.'px';
 						$imgAttribs['style'] = 'max-height: '.$height.'px; max-width: '.$height.'px;';
-						$avatar = '<img src="'.$avatar.'" alt="' . $alt . '" '.trim((is_array($imgAttribs) ? JArrayHelper::toString($imgAttribs) : $imgAttribs).' /'). '>'; 
+						$avatar = '<img src="'.$avatar.'" alt="' . $alt . '" '.(is_array($imgAttribs) ? ArrayHelper::toString($imgAttribs) : $imgAttribs).' />'; 
 					}
 				}
 				
@@ -80,7 +82,7 @@ class CjLibApi
                     {
                         $imgAttribs['height'] = $height.'px';
                         $imgAttribs['style'] = 'max-height: '.$height.'px; display: block; margin: 0 auto';
-                        $avatar = '<img src="'.$avatar.'" alt="'.$alt.'" '.trim((is_array($imgAttribs) ? JArrayHelper::toString($imgAttribs) : $imgAttribs).' /').'>';
+                        $avatar = '<img src="'.$avatar.'" alt="'.$alt.'" '.(is_array($imgAttribs) ? ArrayHelper::toString($imgAttribs) : $imgAttribs).' />';
                     }
                 }
 		
@@ -97,7 +99,7 @@ class CjLibApi
 				if($urlOnly == false)
 				{
 					$imgAttribs['height'] = $height.'px';
-					$avatar = '<img src="'.$avatar.'" alt="' . $alt . '" '.trim((is_array($imgAttribs) ? JArrayHelper::toString($imgAttribs) : $imgAttribs).' /'). '>';
+					$avatar = '<img src="'.$avatar.'" alt="' . $alt . '" '.(is_array($imgAttribs) ? ArrayHelper::toString($imgAttribs) : $imgAttribs).' />';
 				}
 		
 				break;
@@ -145,7 +147,7 @@ class CjLibApi
 				
 				if($urlOnly == false)
 				{
-					$avatar = '<img src="'.$avatar.'" alt="' . $alt . '" '.trim((is_array($imgAttribs) ? JArrayHelper::toString($imgAttribs) : $imgAttribs).' /'). '>';
+					$avatar = '<img src="'.$avatar.'" alt="' . $alt . '" '.(is_array($imgAttribs) ? ArrayHelper::toString($imgAttribs) : $imgAttribs).' />';
 				}
 		
 				break;
@@ -225,7 +227,7 @@ class CjLibApi
 					
 					if($urlOnly == false)
 					{
-						$avatar = '<img src="'.$avatar.'" alt="' . $alt . '" '.trim((is_array($imgAttribs) ? JArrayHelper::toString($imgAttribs) : $imgAttribs).' /'). '>';
+						$avatar = '<img src="'.$avatar.'" alt="' . $alt . '" '.(is_array($imgAttribs) ? ArrayHelper::toString($imgAttribs) : $imgAttribs).' />';
 					}
 				}
 			

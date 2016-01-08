@@ -14,17 +14,11 @@ class CjHtml
 	
 	public static function _($key)
 	{
-		if (array_key_exists($key, static::$registry))
-		{
-			return false;
-		}
-
 		// function name should be removed
 		$args = func_get_args();
 		array_shift($args);
 		
 		// call the function
-		static::register($key, $key);
 		$toCall = array('CjHtml', $key);
 		
 		return static::call($toCall, $args);
@@ -48,55 +42,15 @@ class CjHtml
 		return call_user_func_array($function, $temp);
 	}
 	
-	public static function register($key, $function)
-	{
-		if (is_callable($function))
-		{
-			static::$registry[$key] = $function;
-	
-			return true;
-		}
-	
-		return false;
-	}
-	
-	private static function fontawesome($options = null)
-	{
-		$custom = isset($options['custom']) ? $options['custom'] : null;
-		static::addStyleSheet(JUri::root(true).'/media/com_cjlib/fontawesome/font-awesome.min.css', $custom);
-	}
-	
 	private static function jssocials($options = null)
 	{
-		$custom = isset($options['custom']) ? $options['custom'] : null;
-		static::addStyleSheet(JUri::root(true).'/media/com_cjlib/jssocials/jssocials.css', $custom);
-		static::addStyleSheet(JUri::root(true).'/media/com_cjlib/jssocials/jssocials-theme-flat.css', $custom);
-		static::addScript(JUri::root(true).'/media/com_cjlib/jssocials/jssocials.min.js', $custom);
-	}
-	
-	private static function addStyleSheet($css, $custom = false)
-	{
-		$document = JFactory::getDocument();
-		if($custom)
-		{
-			$document->addCustomTag('<link rel="stylesheet" href="'.$css.'" type="text/css" />');
-		}
-		else
-		{
-			$document->addStyleSheet($css);
-		}
-	}
-	
-	private static function addScript($script, $custom = false)
-	{
-		$document = JFactory::getDocument();
-		if($custom)
-		{
-			$document->addCustomTag('<script src="'.$script.'" type="text/javascript"></script>');
-		}
-		else
-		{
-			$document->addScript($script);
-		}
+		CjScript::_('jssocials', $options);
+		$content = 'jQuery(document).ready(function($){
+				$("#cjshare").jsSocials({shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pinterest"]});
+		});';
+		JFactory::getDocument()->addScriptDeclaration($content);
+		$size = isset($options['size']) ? $options['size'] : 12;
+		
+		return '<div id="cjshare" style="display: inline-block; font-size: '.$size.'px;"></div>';
 	}
 }

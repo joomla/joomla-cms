@@ -12,32 +12,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-defined("T_CJ_RATING") or define("T_CJ_RATING",								"#__corejoomla_rating");
-defined("T_CJ_RATING_DETAILS") or define("T_CJ_RATING_DETAILS",				"#__corejoomla_rating_details");
-defined("T_CJ_MESSAGES") or define("T_CJ_MESSAGES",							"#__corejoomla_messages");
-defined("T_CJ_MESSAGEQUEUE") or define("T_CJ_MESSAGEQUEUE",					"#__corejoomla_messagequeue");
-
-defined('DS') or define('DS', 												DIRECTORY_SEPARATOR);
-defined('CJLIB_VER') or define('CJLIB_VER', 								'2.3.5');
-defined('CJLIB_PATH') or define('CJLIB_PATH', 								JPATH_ROOT.'/components/com_cjlib');
-defined('CJLIB_URI') or define('CJLIB_URI', 								JURI::root(true).'/components/com_cjlib');
-defined('CJLIB_MEDIA_PATH') or define('CJLIB_MEDIA_PATH',					JPATH_ROOT.'/media/com_cjlib');
-defined('CJLIB_MEDIA_URI') or define('CJLIB_MEDIA_URI',						JURI::root(true).'/media/com_cjlib');
-
-if(!defined('APP_VERSION'))
-{
-	if(version_compare(JVERSION,'3.2.0','ge')){
-	
-		define('APP_VERSION', 3.2);
-	} else if(version_compare(JVERSION,'3.0.0','ge')){
-		
-		define('APP_VERSION', 3);
-	} else if(version_compare(JVERSION,'2.5.0','ge')){
-		
-		define('APP_VERSION', 2.5);
-	}
-}
-
+defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filter.output');
@@ -48,9 +23,11 @@ jimport('joomla.html.html.list');
 jimport('joomla.html.html.access');
 jimport('joomla.session.session');
 
-require_once CJLIB_PATH.'/framework/xssclean.php';
+require_once JPATH_ROOT.'/components/com_cjlib/lib/corejoomla/constants.php';
 require_once JPATH_ROOT.'/components/com_cjlib/lib/corejoomla/api.php';
+require_once JPATH_ROOT.'/components/com_cjlib/lib/corejoomla/script.php';
 require_once JPATH_ROOT.'/components/com_cjlib/lib/corejoomla/html.php';
+require_once JPATH_ROOT.'/components/com_cjlib/framework/xssclean.php';
 
 JFactory::getLanguage()->load('com_cjlib.sys', JPATH_ADMINISTRATOR);
 

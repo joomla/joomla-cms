@@ -24,7 +24,7 @@ $link = str_replace('/administrator/','/', $link);
 <hr/>
 <h3>Please update your <span style="color:red">download id</span> in CjLib Options. Click on Options button on toolbar above.</h3>
 <p>For autoupdates to work, please make sure plg_installer_cjupdater plugin is enabled.</p>
-<p>Visit <a href="http://wwww.corejoomla.com" target="_blank">www.corejoomla.com</a> to find your download id. Download ID will allow you to update corejoomla extensions automatically.</p>
+<p>Visit <a href="http://www.corejoomla.com" target="_blank">www.corejoomla.com</a> to find your download id. Download ID will allow you to update corejoomla extensions automatically.</p>
 <hr/>
 
 <div id="cjlib-configuration" style="margin: 0 10px;">
