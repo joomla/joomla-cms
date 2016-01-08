@@ -754,6 +754,7 @@ class JApplicationCms extends JApplicationWeb
 
 		// Remove expired sessions from the database.
 		$time = time();
+		$checkSessionNeeded = false;
 
 		if ($time % 2)
 		{
@@ -765,13 +766,14 @@ class JApplicationCms extends JApplicationWeb
 
 			$db->setQuery($query);
 			$db->execute();
+			$checkSessionNeeded = true;
 		}
 
 		// Get the session handler from the configuration.
 		$handler = $this->get('session_handler', 'none');
 
 		if (($handler != 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler == 'database' && $session->isNew()))
+			|| ($handler == 'database' && ($session->isNew() || $checkSessionNeeded)))
 		{
 			$this->checkSession();
 		}
