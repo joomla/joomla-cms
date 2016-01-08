@@ -158,7 +158,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Workaround for UPPERCASE table prefix for postgresql 
+		// Workaround for UPPERCASE table prefix for postgresql
 		if ($options->db_type == 'postgresql')
 		{
 			if (strtolower($options->db_prefix) != $options->db_prefix)
