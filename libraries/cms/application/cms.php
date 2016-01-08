@@ -782,14 +782,22 @@ class JApplicationCms extends JApplicationWeb
 		// Purge expired session data if not using the database handler; the handler will run garbage collection as a native part of PHP's API
 		if ($handler != 'database' && $time % 2)
 		{
-			// The modulus introduces a little entropy, making the flushing less accurate
-			// but fires the query less than half the time.
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
-
-			$db->setQuery($query);
-			$db->execute();
+			// The modulus introduces a little entropy, making the flushing less accurate but fires the query less than half the time.
+			try
+			{
+				$db->setQuery(
+					$db->getQuery(true)
+						->delete($db->quoteName('#__session'))
+						->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())))
+				)->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				/*
+				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
+				 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
+				 */
+			}
 		}
 
 		/*
