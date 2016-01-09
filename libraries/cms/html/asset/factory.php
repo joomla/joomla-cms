@@ -73,7 +73,7 @@ class JHtmlAssetFactory
 	 * Deafult defer mode for attached JavaScripts
 	 * @var bool $jsDeferMode
 	 */
-	protected $jsDeferMode = false;
+	protected $jsDeferMode = null;
 
 	/**
 	 * Class constructor
@@ -211,7 +211,7 @@ class JHtmlAssetFactory
 	 * @param bool $defer
 	 * @return JHtmlAssetFactory
 	 */
-	public function deferJavaScript($defer = true)
+	public function deferJavaScript($defer = null)
 	{
 		$this->jsDeferMode = $defer;
 		return $this;
@@ -227,9 +227,8 @@ class JHtmlAssetFactory
 		// Resolve Dependency
 		$this->resolveDependency();
 
-		// Attach them do the document
+		// Attach an active assets do the document
 		$assets = $this->getActiveAssets();
-		$config = JFactory::getConfig();
 
 		// Backward compatibility hack. Part 1. @TODO: remove it someday.
 		// Presave existing Scripts, and attach them after requested assets.
@@ -237,59 +236,17 @@ class JHtmlAssetFactory
 		$doc->_scripts = array();
 
 		foreach($assets as $asset){
-			$version = $asset->isVersionAttach() ? $asset->getVersion() : false;
-			$version = $version ? md5($version . $config->get('secret')) : $version; // Avoid NULL version
+			if ($this->jsDeferMode !== null)
+			{
+				$asset->deferJavaScript($this->jsDeferMode);
+			}
 
-			$this->attachCss($asset, $doc, $version);
-			$this->attachJs($asset, $doc, $version);
+			$asset->attach($doc);
 		}
 
 		// Backward compatibility hack. Part 2. @TODO: remove it someday, and do not forget about Part 1.
 		$doc->_scripts = array_merge($doc->_scripts, $jsBack);
 	}
-
-	/**
-	 * Attach StyleSheet files to the document
-	 * @param JHtmlAssetItem $asset
-	 * @param JDocument $doc
-	 * @param string $version Version to be attached, or false
-	 * @return void
-	 */
-	protected function attachCss(JHtmlAssetItem $asset, JDocument $doc, $version = false)
-	{
-		foreach($asset->getCss() as $path){
-			$file = JHtml::_('stylesheet', $path, array(), true, true);
-
-			if ($file)
-			{
-				$version === false
-					? $doc->addStyleSheet($file)
-					: $doc->addStyleSheetVersion($file, $version);
-			}
-		}
-	}
-
-	/**
-	 * Attach JavaScript files to the document
-	 * @param JHtmlAssetItem $asset
-	 * @param JDocument $doc
-	 * @param string $version Version to be attached, or false
-	 * @return void
-	 */
-	protected function attachJs(JHtmlAssetItem $asset, JDocument $doc, $version = false)
-	{
-		foreach($asset->getJs() as $path){
-			$file = JHtml::_('script', $path, false, true, true);
-
-			if ($file)
-			{
-				$version === false
-					? $doc->addScript($file, 'text/javascript', $this->jsDeferMode)
-					: $doc->addScriptVersion($file, $version, 'text/javascript', $this->jsDeferMode);
-			}
-		}
-	}
-
 
 	/**
 	 * Resolve Dependency for active assets
