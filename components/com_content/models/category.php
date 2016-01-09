@@ -113,7 +113,7 @@ class ContentModelCategory extends JModelList
 
 		$this->setState('category.id', $pk);
 
-		$value = $app->input->get('filter_tag', 0, 'uint');
+		$value = $app->input->get('filter_tag', null, 'uint');
 		$this->setState('filter.tag', $value);
 
 		// Load the parameters. Merge Global and Menu Item params into new object
@@ -249,7 +249,11 @@ class ContentModelCategory extends JModelList
 			$model->setState('list.limit', $limit);
 			$model->setState('list.direction', $this->getState('list.direction'));
 			$model->setState('list.filter', $this->getState('list.filter'));
+<<<<<<< b7c50f7d83743ef42ab25c0d3ca2c5d2873146df
 			$model->setState('filter.tag', $this->getState('filter.tag'));
+=======
+      $model->setState('filter.tag', $this->getState('filter.tag'));
+>>>>>>> Add filter tag field to global settings. Set correct default value if no tag is provided
 
 			// Filter.subcategories indicates whether to include articles from subcategories in the list or blog
 			$model->setState('filter.subcategories', $this->getState('filter.subcategories'));

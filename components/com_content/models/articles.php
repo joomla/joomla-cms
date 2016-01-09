@@ -83,7 +83,7 @@ class ContentModelArticles extends JModelList
 		$value = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.start', $value);
 
-		$value = $app->input->get('filter_tag', 0, 'uint');
+		$value = $app->input->get('filter_tag', null, 'uint');
 		$this->setState('filter.tag', $value);
 
 		$orderCol = $app->input->get('filter_order', 'a.ordering');
