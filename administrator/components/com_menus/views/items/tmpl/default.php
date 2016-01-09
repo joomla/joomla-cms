@@ -235,7 +235,7 @@ $assoc = JLanguageAssociations::isEnabled();
 												'states'  => array(
 													0 => array(
 																'setDefault',
-																JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('style' => 'opacity: 0.2;'), true),
+																JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array(), true),
 																JText::sprintf('COM_MENUS_GRID_SET_DEFAULT_LANGUAGE', $item->language_title),
 																'',
 																1,
@@ -249,13 +249,13 @@ $assoc = JLanguageAssociations::isEnabled();
 																JText::sprintf('COM_MENUS_GRID_UNSET_DEFAULT_LANGUAGE', $item->language_title),
 																JText::sprintf('COM_MENUS_GRID_DEFAULT_LANGUAGE', $item->language_title),
 																1,
-																'',
-																'',
+																'active',
+																'active',
 																1
 															)
 													)
 											),
-											!$item->home && $canChange,
+											$canChange,
 											false
 											);
 									?>

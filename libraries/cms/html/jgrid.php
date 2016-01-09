@@ -77,11 +77,11 @@ abstract class JHtmlJGrid
 
 		if ($enabled)
 		{
-			$html[] = '<a class="btn ' . $button_class . ($active_class == 'publish' ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
+			$html[] = '<a class="btn ' . $button_class . (in_array($active_class, array('publish', 'active')) ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
-			$html[] = '<span' . (!empty($active_class) ? ' class="icon-' . $active_class . '"' : '') . '>' . $button_text . '</span>';
+			$html[] = '<span' . (!in_array($active_class, array('', 'active')) ? ' class="icon-' . $active_class . '"' : '') . '>' . $button_text . '</span>';
 			$html[] = '</a>';
 		}
 		else
@@ -96,7 +96,7 @@ abstract class JHtmlJGrid
 			}
 			else
 			{
-				$html[] = '<span' . (!empty($inactive_class) ? ' class="icon-' . $inactive_class . '"' : '') . '>' . $button_text . '</span>';
+				$html[] = '<span' . (!in_array($inactive_class, array('', 'active')) ? ' class="icon-' . $inactive_class . '"' : '') . '>' . $button_text . '</span>';
 			}
 
 			$html[] = '</a>';

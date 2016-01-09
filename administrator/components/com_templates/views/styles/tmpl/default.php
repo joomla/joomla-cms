@@ -142,7 +142,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											'states'  => array(
 												0 => array(
 															'setDefault',
-															JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('style' => 'opacity: 0.3;'), true),
+															JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array(), true),
 															JText::sprintf('COM_TEMPLATES_GRID_SET_DEFAULT_LANGUAGE', $item->language_title),
 															'',
 															1,
@@ -156,8 +156,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 															JText::sprintf('COM_TEMPLATES_GRID_UNSET_DEFAULT_LANGUAGE', $item->language_title),
 															JText::sprintf('COM_TEMPLATES_GRID_DEFAULT_LANGUAGE', $item->language_title),
 															1,
-															'',
-															'',
+															'active',
+															'active',
 															1
 														)
 												)
