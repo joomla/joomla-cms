@@ -48,7 +48,15 @@ class JHtmlAssetFactory
 					"dependency": [
 						"core",
 						"library1"
-					]
+					],
+					"attribute": {
+						"com_example/library2.min.js": {
+							"attrname": "attrvalue"
+						},
+						"com_example/library2.css": {
+							"media": "all"
+						}
+					}
 				},
 
 			]
@@ -461,6 +469,14 @@ class JHtmlAssetFactory
 		if (array_key_exists('versionAttach', $info))
 		{
 			$asset->versionAttach($info['versionAttach']);
+		}
+
+		if (!empty($info['attribute']) && is_array($info['attribute']))
+		{
+			foreach($info['attribute'] as $file => $attributes)
+			{
+				$asset->setAttributes($file, $attributes);
+			}
 		}
 
 		return $asset;

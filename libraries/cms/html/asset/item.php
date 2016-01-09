@@ -58,6 +58,13 @@ class JHtmlAssetItem
 	protected $dependency = array();
 
 	/**
+	 * Attributes of JavaScript/StyleSheet files
+	 *
+	 * @var array $attribute
+	 */
+	protected $attribute = array();
+
+	/**
 	 * Item weight
 	 * @var float
 	 */
@@ -183,6 +190,39 @@ class JHtmlAssetItem
 	}
 
 	/**
+	 * Set Attributes for asset file
+	 * @param string $file JavaScript/StyleSheet asset file
+	 * @param array $attributes
+	 * @return JHtmlAssetItem
+	 */
+	public function setAttributes($file, array $attributes = array())
+	{
+		if (empty($this->attribute[$file]))
+		{
+			$this->attribute[$file] = array();
+		}
+
+		$this->attribute[$file] = array_merge($this->attribute[$file], $attributes);
+
+		return $this;
+	}
+
+	/**
+	 * Return Attributes for asset file
+	 * @param string $file JavaScript/StyleSheet asset file
+	 * @return array
+	 */
+	public function getAttributes($file)
+	{
+		if (!empty($this->attribute[$file]))
+		{
+			return $this->attribute[$file];
+		}
+
+		return array();
+	}
+
+	/**
 	 * Set asset Weight
 	 * @param float $weight
 	 * @return JHtmlAssetItem
@@ -283,9 +323,15 @@ class JHtmlAssetItem
 
 			if ($file)
 			{
+				$attribute = $this->getAttributes($path);
+				$type      = empty($attribute['type']) ? 'text/css' : $attribute['type'];
+				$media     = empty($attribute['media']) ? null : $attribute['media'];
+
+				unset($attribute['type'], $attribute['media']);
+
 				$version === false
-					? $doc->addStyleSheet($file)
-					: $doc->addStyleSheetVersion($file, $version);
+					? $doc->addStyleSheet($file, $type, $media, $attribute)
+					: $doc->addStyleSheetVersion($file, $version, $type, $media, $attribute);
 			}
 		}
 
@@ -305,9 +351,16 @@ class JHtmlAssetItem
 
 			if ($file)
 			{
+				$attribute = $this->getAttributes($path);
+				$type      = empty($attribute['type']) ? 'text/javascript' : $attribute['type'];
+				$defer     = empty($attribute['defer']) ? $this->jsDeferMode : (bool) $attribute['defer'];
+
+				unset($attribute['type'], $attribute['defer']);
+
+				// @TODO: Pass $attribute to addScript() when it will support it
 				$version === false
-					? $doc->addScript($file, 'text/javascript', $this->jsDeferMode)
-					: $doc->addScriptVersion($file, $version, 'text/javascript', $this->jsDeferMode);
+					? $doc->addScript($file, $type, $defer)
+					: $doc->addScriptVersion($file, $version, $type, $defer);
 			}
 		}
 
