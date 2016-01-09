@@ -456,12 +456,17 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		$document = JFactory::getDocument();
-		$tag = JFactory::getLanguage()->getTag();
+		JHtml::_('asset.load', 'calendar');
 
-		JHtml::_('stylesheet', 'system/calendar-jos.css', array(' title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN'), ' media' => 'all'), true);
-		JHtml::_('script', $tag . '/calendar.js', false, true);
-		JHtml::_('script', $tag . '/calendar-setup.js', false, true);
+		$document = JFactory::getDocument();
+		$tag   = JFactory::getLanguage()->getTag();
+		$asset = JHtml::_('asset.instance')->getAsset('calendar');
+
+		$asset->setAttributes('system/calendar-jos.css', array('title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN')));
+		$asset->setJs(array(
+			$tag . '/calendar.js',
+			$tag . '/calendar-setup.js',
+		));
 
 		$translation = static::calendartranslation();
 

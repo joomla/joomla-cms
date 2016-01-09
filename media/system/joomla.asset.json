@@ -39,7 +39,13 @@
 			],
 			"css": [
 				"system/calendar-jos.css"
-			]
+			],
+			"attribute": {
+				"system/calendar-jos.css": {
+					"media": "all",
+					"title": "Green"
+				}
+			}
 		},
 		{
 			"name": "caption",
