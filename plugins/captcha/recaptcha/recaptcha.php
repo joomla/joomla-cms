@@ -57,7 +57,12 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 		else
 		{
+			$theme = $this->params->get('theme2', 'light');
 			$file	= 'https://www.google.com/recaptcha/api.js?hl=' . JFactory::getLanguage()->getTag();
+			JFactory::getDocument()->addScriptDeclaration('jQuery(document).ready(function($) {$(window).load(function() {'
+				. 'grecaptcha.render("' . $id . '", {sitekey: "' . $pubkey . '", theme: "' . $theme . '"});'
+				. '});});'
+			);
 		}
 
 		JHtml::_('script', $file);
