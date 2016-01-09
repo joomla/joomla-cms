@@ -23,36 +23,36 @@ class JHtmlAssetFactory
 	 * @var array as filePath => (bool) isNew
 	 *
 	 * @example of data file:
-{
-	"title" : "Example",
-	"name"  : "com_example",
-	"author": "Joomla! CMS",
-	"assets": [
 		{
-			"name": "library1",
-			"version": "3.5.0",
-			"versionAttach": true,
-			"js": [
-				"com_example/library1.min.js"
-			]
-		},
-		{
-			"name": "library2",
-			"version": "3.5.0",
-			"js": [
-				"com_example/library2.min.js"
-			],
-			"css": [
-				"com_example/library2.css"
-			],
-			"dependency": [
-				"core",
-				"library1"
-			]
-		},
+			"title" : "Example",
+			"name"  : "com_example",
+			"author": "Joomla! CMS",
+			"assets": [
+				{
+					"name": "library1",
+					"version": "3.5.0",
+					"versionAttach": true,
+					"js": [
+						"com_example/library1.min.js"
+					]
+				},
+				{
+					"name": "library2",
+					"version": "3.5.0",
+					"js": [
+						"com_example/library2.min.js"
+					],
+					"css": [
+						"com_example/library2.css"
+					],
+					"dependency": [
+						"core",
+						"library1"
+					]
+				},
 
-	]
-}
+			]
+		}
 	 *
 	 */
 	protected $dataFiles = array();
@@ -85,7 +85,7 @@ class JHtmlAssetFactory
 
 	/**
 	 * Add asset to collection of known assets
-	 * @param JHtmlAssetItem $asset
+	 * @param  JHtmlAssetItem $asset
 	 * @return JHtmlAssetFactory
 	 */
 	public function addAsset(JHtmlAssetItem $asset)
@@ -417,31 +417,53 @@ class JHtmlAssetFactory
 				throw new RuntimeException('Asset data file "' . $path . '" contains incorrect asset defination');
 			}
 
-			$version   = !empty($item['version']) ? $item['version'] : null;
-			$assetItem = new JHtmlAssetItem($item['name'], $version, $owner);
-
-			if (!empty($item['js']))
-			{
-				$assetItem->setJs((array) $item['js']);
-			}
-
-			if (!empty($item['css']))
-			{
-				$assetItem->setCss((array) $item['css']);
-			}
-
-			if (!empty($item['dependency']))
-			{
-				$assetItem->setDependency((array) $item['dependency']);
-			}
-
-			if (array_key_exists('versionAttach', $item))
-			{
-				$assetItem->versionAttach($item['versionAttach']);
-			}
-
+			$assetItem = $this->prepareAssetInstance($item['name'], $item, $owner);
 			$this->addAsset($assetItem);
 		}
+	}
+
+	/**
+	 * Prepare Asset instance
+	 *
+	 * @param  string  $name Asset name
+	 * @param  array   $info
+	 * @param  array   $owner
+	 *
+	 * @return JHtmlAssetItem
+	 */
+	public function prepareAssetInstance($name, array $info = array(), array $owner = array())
+	{
+		$version = !empty($info['version']) ? $info['version'] : null;
+
+		// Check for specific class
+		// @TODO is it realy can be usefull ???
+		//$class = 'JHtmlAsset' . implode('', array_map('ucfirst', explode('.', $name)));
+		//$class = class_exists($class) ? $class : 'JHtmlAssetItem';
+		//$asset = new $class($name, $version, $owner);
+
+		$asset = new JHtmlAssetItem($name, $version, $owner);
+
+		if (!empty($info['js']))
+		{
+			$asset->setJs((array) $info['js']);
+		}
+
+		if (!empty($info['css']))
+		{
+			$asset->setCss((array) $info['css']);
+		}
+
+		if (!empty($info['dependency']))
+		{
+			$asset->setDependency((array) $info['dependency']);
+		}
+
+		if (array_key_exists('versionAttach', $info))
+		{
+			$asset->versionAttach($info['versionAttach']);
+		}
+
+		return $asset;
 	}
 
 	/**
