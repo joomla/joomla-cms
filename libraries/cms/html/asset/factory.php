@@ -224,8 +224,13 @@ class JHtmlAssetFactory
 	 */
 	public function attach(JDocument $doc)
 	{
+		$app = JFactory::getApplication();
+
 		// Resolve Dependency
 		$this->resolveDependency();
+
+		// Trigger the onBeforeHeadAttachHtmlAsset event
+		$app->triggerEvent('onBeforeHeadAttachHtmlAsset', array($this));
 
 		// Attach an active assets do the document
 		$assets = $this->getActiveAssets();
