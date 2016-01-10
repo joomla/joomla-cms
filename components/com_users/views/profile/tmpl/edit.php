@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -70,7 +70,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 						</div>
 						<div class="controls">
 							<?php if ($field->fieldname == 'password1') : ?>
-								<?php // Disables autocomplete ?> <input type="text" style="display:none">
+								<?php // Disables autocomplete ?> <input type="password" style="display:none">
 							<?php endif; ?>
 							<?php echo $field->input; ?>
 						</div>
