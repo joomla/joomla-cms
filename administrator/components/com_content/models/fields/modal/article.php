@@ -178,7 +178,7 @@ class JFormFieldModal_Article extends JFormField
 				'title' => JText::_('COM_CONTENT_CHANGE_ARTICLE'),
 				'width' => '800px',
 				'height' => '300px',
-				'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+				'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
 					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 			)
 		);
