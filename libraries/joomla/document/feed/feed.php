@@ -337,7 +337,7 @@ class JFeedItem
 	public $guid;
 
 	/**
-	 * Published date
+	 * Update date (Alternative publish date)
 	 *
 	 * optional
 	 *
@@ -357,6 +357,28 @@ class JFeedItem
 	 * @since  11.1
 	 */
 	public $date;
+        
+	/**
+	 * Published date
+	 *
+	 * optional
+	 *
+	 * May be in one of the following formats:
+	 *
+	 * RFC 822:
+	 * "Mon, 20 Jan 03 18:05:41 +0400"
+	 * "20 Jan 03 18:05:41 +0000"
+	 *
+	 * ISO 8601:
+	 * "2003-01-20T18:05:41+04:00"
+	 *
+	 * Unix:
+	 * 1043082341
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	public $pubDate;
 
 	/**
 	 * Source element

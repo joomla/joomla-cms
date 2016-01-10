@@ -150,8 +150,15 @@ class JDocumentRendererAtom extends JDocumentRenderer
 
 			$itemDate = JFactory::getDate($data->items[$i]->date);
 			$itemDate->setTimeZone($tz);
-			$feed .= "		<published>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</published>\n";
-			$feed .= "		<updated>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";
+			if(empty($data->items[$i]->pubDate)) {
+				$feed .= "		<updated>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";
+				$feed .= "		<published>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</published>\n";
+			} else {
+				$pubDate = JFactory::getDate($data->items[$i]->pubDate);
+				$pubDate->setTimezone($tz);
+				$feed .= "		<updated>" . htmlspecialchars($pubDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";
+				$feed .= "		<published>" . htmlspecialchars($pubDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</published>\n";
+			}
 
 			if (empty($data->items[$i]->guid) === true)
 			{
