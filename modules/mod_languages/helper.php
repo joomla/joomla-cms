@@ -105,7 +105,7 @@ abstract class ModLanguagesHelper
 				{
 					$language->rtl = $lang->isRtl();
 				}
-				// If not loaded language fecth metadata directly for performance
+				// If not loaded language fetch metadata directly for performance
 				else
 				{
 					$languageMetadata = JLanguage::getMetadata($language->lang_code);
