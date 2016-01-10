@@ -32,7 +32,7 @@ echo JHtml::_(
 		'title'  => JText::_('COM_CONTENTHISTORY_MODAL_TITLE'),
 		'height' => '300px',
 		'width'  => '800px',
-		'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+		'footer' => '<button class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
 			. JText::_("JTOOLBAR_CLOSE") . '</button>'
 	)
 );
