@@ -98,7 +98,7 @@ abstract class ModLanguagesHelper
 			else
 			{
 				$language->active = ($language->lang_code == $lang->getTag());
-				
+
 				// Fetch language rtl
 				// If loaded language get from current JLanguage metadata
 				if ($language->active)
