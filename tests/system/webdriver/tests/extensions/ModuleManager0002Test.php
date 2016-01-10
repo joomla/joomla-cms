@@ -10,7 +10,7 @@ use SeleniumClient\By;
  * @package     Joomla.Tests
  * @subpackage  Test
  *
- * @copyright   Copyright (c) 2005 - 2015 Open Source Matters, Inc.   All rights reserved.
+ * @copyright   Copyright (c) 2005 - 2016 Open Source Matters, Inc.   All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       Joomla 3.3
  */
