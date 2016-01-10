@@ -243,6 +243,8 @@ class JFilterInput
 
 				if (is_array($source))
 				{
+					$result = array();
+
 					// Itterate through the array
 					foreach ($source as $eachString)
 					{
@@ -263,6 +265,8 @@ class JFilterInput
 
 				if (is_array($source))
 				{
+					$result = array();
+
 					// Itterate through the array
 					foreach ($source as $eachString)
 					{
@@ -284,6 +288,8 @@ class JFilterInput
 
 				if (is_array($source))
 				{
+					$result = array();
+
 					// Itterate through the array
 					foreach ($source as $eachString)
 					{
@@ -301,32 +307,141 @@ class JFilterInput
 
 			case 'BOOL':
 			case 'BOOLEAN':
-				$result = (bool) $source;
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (bool) $eachString;
+					}
+				}
+				else
+				{
+					$result = (bool) $source;
+				}
+
 				break;
 
 			case 'WORD':
-				$result = (string) preg_replace('/[^A-Z_]/i', '', $source);
+				$pattern = '/[^A-Z_]/i';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) preg_replace($pattern, '', $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+				}
+
 				break;
 
 			case 'ALNUM':
-				$result = (string) preg_replace('/[^A-Z0-9]/i', '', $source);
+				$pattern = '/[^A-Z0-9]/i';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) preg_replace($pattern, '', $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+				}
+
 				break;
 
 			case 'CMD':
-				$result = (string) preg_replace('/[^A-Z0-9_\.-]/i', '', $source);
-				$result = ltrim($result, '.');
+				$pattern = '/[^A-Z0-9_\.-]/i';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$cleaned  = (string) preg_replace($pattern, '', $eachString);
+						$result[] = ltrim($cleaned, '.');
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+					$result = ltrim($result, '.');
+				}
+
 				break;
 
 			case 'BASE64':
-				$result = (string) preg_replace('/[^A-Z0-9\/+=]/i', '', $source);
+				$pattern = '/[^A-Z0-9\/+=]/i';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) preg_replace($pattern, '', $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+				}
+
 				break;
 
 			case 'STRING':
-				$result = (string) $this->_remove($this->_decode((string) $source));
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) $this->remove($this->decode((string) $eachString));
+					}
+				}
+				else
+				{
+					$result = (string) $this->remove($this->decode((string) $source));
+				}
+
 				break;
 
 			case 'HTML':
-				$result = (string) $this->_remove((string) $source);
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) $this->remove((string) $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) $this->remove((string) $source);
+				}
+
 				break;
 
 			case 'ARRAY':
@@ -338,6 +453,8 @@ class JFilterInput
 
 				if (is_array($source))
 				{
+					$result = array();
+
 					// Itterate through the array
 					foreach ($source as $eachString)
 					{
@@ -354,13 +471,46 @@ class JFilterInput
 				break;
 
 			case 'TRIM':
-				$result = (string) trim($source);
-				$result = JString::trim($result, chr(0xE3) . chr(0x80) . chr(0x80));
-				$result = JString::trim($result, chr(0xC2) . chr(0xA0));
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$cleaned  = (string) trim($eachString);
+						$cleaned  = StringHelper::trim($cleaned, chr(0xE3) . chr(0x80) . chr(0x80));
+						$result[] = StringHelper::trim($cleaned, chr(0xC2) . chr(0xA0));
+					}
+				}
+				else
+				{
+					$result = (string) trim($source);
+					$result = StringHelper::trim($result, chr(0xE3) . chr(0x80) . chr(0x80));
+					$result = StringHelper::trim($result, chr(0xC2) . chr(0xA0));
+				}
+
 				break;
 
 			case 'USERNAME':
-				$result = (string) preg_replace('/[\x00-\x1F\x7F<>"\'%&]/', '', $source);
+				$pattern = '/[\x00-\x1F\x7F<>"\'%&]/';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) preg_replace($pattern, '', $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+				}
+
 				break;
 
 			case 'RAW':
@@ -441,9 +591,12 @@ class JFilterInput
 		$attrSubSet[0] = strtolower($attrSubSet[0]);
 		$attrSubSet[1] = strtolower($attrSubSet[1]);
 
-		return (((strpos($attrSubSet[1], 'expression') !== false) && ($attrSubSet[0]) == 'style') || (strpos($attrSubSet[1], 'javascript:') !== false) ||
-			(strpos($attrSubSet[1], 'behaviour:') !== false) || (strpos($attrSubSet[1], 'vbscript:') !== false) ||
-			(strpos($attrSubSet[1], 'mocha:') !== false) || (strpos($attrSubSet[1], 'livescript:') !== false));
+		return (((strpos($attrSubSet[1], 'expression') !== false) && ($attrSubSet[0]) == 'style') 
+			|| (strpos($attrSubSet[1], 'javascript:') !== false)
+			|| (strpos($attrSubSet[1], 'behaviour:') !== false)
+			|| (strpos($attrSubSet[1], 'vbscript:') !== false)
+			|| (strpos($attrSubSet[1], 'mocha:') !== false)
+			|| (strpos($attrSubSet[1], 'livescript:') !== false));
 	}
 
 	/**
