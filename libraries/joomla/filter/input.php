@@ -593,7 +593,7 @@ class JFilterInput
 		$attrSubSet[0] = strtolower($attrSubSet[0]);
 		$attrSubSet[1] = strtolower($attrSubSet[1]);
 
-		return (((strpos($attrSubSet[1], 'expression') !== false) && ($attrSubSet[0]) == 'style') 
+		return (((strpos($attrSubSet[1], 'expression') !== false) && ($attrSubSet[0]) == 'style')
 			|| (strpos($attrSubSet[1], 'javascript:') !== false)
 			|| (strpos($attrSubSet[1], 'behaviour:') !== false)
 			|| (strpos($attrSubSet[1], 'vbscript:') !== false)
