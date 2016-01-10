@@ -1330,13 +1330,13 @@ class JLanguage
 		$languages = array();
 
 		// Search main language directory for subdirectories
-		foreach(glob($dir . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $directory)
+		foreach (glob($dir . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $directory)
 		{
 			// But only directories with lang code format
 			if (preg_match('#/[A-Za-z]{2,3}-[A-Za-z]{2,3}$#', $directory))
 			{
 				// Search all xml files inside those directories
-				foreach(glob($directory . '/*.xml', GLOB_NOSORT) as $file)
+				foreach (glob($directory . '/*.xml', GLOB_NOSORT) as $file)
 				{
 					// But only the xml files with lang code format
 					if (preg_match('#/[A-Za-z]{2,3}-[A-Za-z]{2,3}\.xml$#', $file))
