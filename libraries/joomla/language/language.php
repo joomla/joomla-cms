@@ -1329,32 +1329,43 @@ class JLanguage
 	{
 		$languages = array();
 
-		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
-
-		foreach ($iterator as $file)
+		// Search main language directory for subdirectories
+		foreach(glob($dir . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $directory)
 		{
-			$langs    = array();
-			$fileName = $file->getFilename();
-
-			if (!$file->isFile() || !preg_match("/^([-_A-Za-z]*)\.xml$/", $fileName))
+			// But only directories with lang code format
+			if (preg_match('#/[A-Za-z]{2,3}-[A-Za-z]{2,3}$#', $directory))
 			{
-				continue;
-			}
-
-			try
-			{
-				$metadata = self::parseXMLLanguageFile($file->getRealPath());
-
-				if ($metadata)
+				// Search all xml files inside those directories
+				foreach(glob($directory . '/*.xml', GLOB_NOSORT) as $file)
 				{
-					$lang = str_replace('.xml', '', $fileName);
-					$langs[$lang] = $metadata;
-				}
+					// But only the xml files with lang code format
+					if (preg_match('#/[A-Za-z]{2,3}-[A-Za-z]{2,3}\.xml$#', $file))
+					{
+						$langs    = array();
 
-				$languages = array_merge($languages, $langs);
-			}
-			catch (RuntimeException $e)
-			{
+						if (!is_file($file))
+						{
+							continue;
+						}
+
+						try
+						{
+							// Get installed language metadata from xml file
+							$metadata = self::parseXMLLanguageFile($file);
+							if ($metadata)
+							{
+								$path_parts   = pathinfo($file);
+								$lang         = $path_parts['filename'];
+								$langs[$lang] = $metadata;
+							}
+
+							$languages = array_merge($languages, $langs);
+						}
+						catch (RuntimeException $e)
+						{
+						}
+					}
+				}
 			}
 		}
 
