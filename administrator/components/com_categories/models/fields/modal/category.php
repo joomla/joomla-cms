@@ -166,7 +166,7 @@ class JFormFieldModal_Category extends JFormField
 				'title' => JText::_('COM_CATEGORIES_SELECT_A_CATEGORY'),
 				'width' => '800px',
 				'height' => '300px',
-				'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+				'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
 					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 			)
 		);
