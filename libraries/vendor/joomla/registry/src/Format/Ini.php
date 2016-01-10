@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Registry Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -91,12 +91,12 @@ class Ini extends AbstractRegistryFormat
 						foreach ($v as $array_key => $item)
 						{
 							$array_key = ($assoc) ? $array_key : '';
-							$local[] = $k . '[' . $array_key . ']=' . $this->getValueAsINI($item);
+							$local[] = $k . '[' . $array_key . ']=' . $this->getValueAsIni($item);
 						}
 					}
 					else
 					{
-						$local[] = $k . '=' . $this->getValueAsINI($v);
+						$local[] = $k . '=' . $this->getValueAsIni($v);
 					}
 				}
 
@@ -113,13 +113,13 @@ class Ini extends AbstractRegistryFormat
 				foreach ($value as $array_key => $item)
 				{
 					$array_key = ($assoc) ? $array_key : '';
-					$global[] = $key . '[' . $array_key . ']=' . $this->getValueAsINI($item);
+					$global[] = $key . '[' . $array_key . ']=' . $this->getValueAsIni($item);
 				}
 			}
 			else
 			{
 				// Not in a section so add the property to the global array.
-				$global[] = $key . '=' . $this->getValueAsINI($value);
+				$global[] = $key . '=' . $this->getValueAsIni($value);
 				$in_section = false;
 			}
 		}
@@ -338,7 +338,7 @@ class Ini extends AbstractRegistryFormat
 	 *
 	 * @since   1.0
 	 */
-	protected function getValueAsINI($value)
+	protected function getValueAsIni($value)
 	{
 		$string = '';
 

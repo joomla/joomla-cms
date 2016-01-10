@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -258,7 +258,7 @@ abstract class ModArticlesCategoryHelper
 
 			if ($show_date)
 			{
-				$item->displayDate = JHTML::_('date', $item->$show_date_field, $show_date_format);
+				$item->displayDate = JHtml::_('date', $item->$show_date_field, $show_date_format);
 			}
 
 			if ($item->catid)

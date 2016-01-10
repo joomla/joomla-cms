@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,15 +17,22 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
-JFactory::getDocument()->addScriptDeclaration('
+JFactory::getDocument()->addScriptDeclaration(
+	'
 	Joomla.submitbutton = function(task)
 	{
 		if (task === "config.cancel.component" || document.formvalidator.isValid(document.getElementById("component-form")))
 		{
+			jQuery("#permissions-sliders select").attr("disabled", "disabled");
 			Joomla.submitform(task, document.getElementById("component-form"));
 		}
 	};
-');
+
+	// Select first tab
+	jQuery(document).ready(function() {
+		jQuery("#configTabs a:first").tab("show");
+	});'
+);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate form-horizontal">
@@ -91,6 +98,3 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
-<script type="text/javascript">
-	jQuery('#configTabs a:first').tab('show'); // Select first tab
-</script>

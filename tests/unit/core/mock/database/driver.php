@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -51,6 +51,7 @@ class TestMockDatabaseDriver
 			'freeResult',
 			'getAffectedRows',
 			'getCollation',
+			'getConnectionCollation',
 			'getConnectors',
 			'getDateFormat',
 			'getErrorMsg',
@@ -139,7 +140,7 @@ class TestMockDatabaseDriver
 	 *
 	 * @since   11.3
 	 */
-	public function mockEscape($text)
+	public static function mockEscape($text)
 	{
 		return "_{$text}_";
 	}

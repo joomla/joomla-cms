@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,14 +17,14 @@ JHtml::_('behavior.framework');
 
 // Get the user object.
 $user = JFactory::getUser();
-// Check if user is allowed to add/edit based on weblinks permissinos.
-$canEdit = $user->authorise('core.edit', 'com_weblinks');
-$canCreate = $user->authorise('core.create', 'com_weblinks');
-$canEditState = $user->authorise('core.edit.state', 'com_weblinks');
 
-$n = count($this->items);
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+// Check if user is allowed to add/edit based on weblinks permissinos.
+$canEdit      = $user->authorise('core.edit', 'com_weblinks');
+$canCreate    = $user->authorise('core.create', 'com_weblinks');
+$canEditState = $user->authorise('core.edit.state', 'com_weblinks');
+$n            = count($this->items);
+$listOrder    = $this->escape($this->state->get('list.ordering'));
+$listDirn     = $this->escape($this->state->get('list.direction'));
 ?>
 
 <?php if (empty($this->items)) : ?>
@@ -81,14 +81,15 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php endif; ?>
 				<?php
 					// Compute the correct link
-					$menuclass = 'category'.$this->pageclass_sfx;
-					$link = $item->link;
-					$width	= $item->params->get('width');
-					$height	= $item->params->get('height');
+					$menuclass = 'category' . $this->pageclass_sfx;
+					$link   = $item->link;
+					$width  = $item->params->get('width');
+					$height = $item->params->get('height');
+
 					if ($width == null || $height == null)
 					{
-						$width	= 600;
-						$height	= 500;
+						$width  = 600;
+						$height = 500;
 					}
 
 					switch ($item->params->get('target', $this->params->get('target')))

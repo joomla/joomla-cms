@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,36 +108,23 @@ class MediaModelList extends JModelLegacy
 		}
 
 		// Get current path from request
-		$current = $this->getState('folder');
+		$current = (string) $this->getState('folder');
 
-		// If undefined, set to empty
-		if ($current == 'undefined')
-		{
-			$current = '';
-		}
-
-		if (strlen($current) > 0)
-		{
-			$basePath = COM_MEDIA_BASE . '/' . $current;
-		}
-		else
-		{
-			$basePath = COM_MEDIA_BASE;
-		}
-
+		$basePath  = COM_MEDIA_BASE . ((strlen($current) > 0) ? '/' . $current : '');
 		$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE . '/');
 
-		$images		= array ();
-		$folders	= array ();
-		$docs		= array ();
+		$images  = array ();
+		$folders = array ();
+		$docs    = array ();
+		$videos  = array ();
 
-		$fileList = false;
+		$fileList   = false;
 		$folderList = false;
 
 		if (file_exists($basePath))
 		{
 			// Get the list of files and folders from the given folder
-			$fileList	= JFolder::files($basePath);
+			$fileList   = JFolder::files($basePath);
 			$folderList = JFolder::folders($basePath);
 		}
 
@@ -169,10 +156,10 @@ class MediaModelList extends JModelLegacy
 						case 'jpeg':
 						case 'ico':
 							$info = @getimagesize($tmp->path);
-							$tmp->width		= @$info[0];
-							$tmp->height	= @$info[1];
-							$tmp->type		= @$info[2];
-							$tmp->mime		= @$info['mime'];
+							$tmp->width  = @$info[0];
+							$tmp->height = @$info[1];
+							$tmp->type   = @$info[2];
+							$tmp->mime   = @$info['mime'];
 
 							if (($info[0] > 60) || ($info[1] > 60))
 							{
@@ -199,6 +186,13 @@ class MediaModelList extends JModelLegacy
 							}
 
 							$images[] = $tmp;
+							break;
+
+						// Video
+						case 'mp4':
+							$tmp->icon_32 = "media/mime-icon-32/" . $ext . ".png";
+							$tmp->icon_16 = "media/mime-icon-16/" . $ext . ".png";
+							$videos[] = $tmp;
 							break;
 
 						// Non-image document
@@ -229,8 +223,22 @@ class MediaModelList extends JModelLegacy
 			}
 		}
 
-		$list = array('folders' => $folders, 'docs' => $docs, 'images' => $images);
+		$list = array('folders' => $folders, 'docs' => $docs, 'images' => $images, 'videos' => $videos);
 
 		return $list;
+	}
+
+	/**
+	 * Get the videos on the current folder
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function getVideos()
+	{
+		$list = $this->getList();
+
+		return $list['videos'];
 	}
 }

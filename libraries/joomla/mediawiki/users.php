@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  MediaWiki
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -325,7 +325,7 @@ class JMediawikiUsers extends JMediawikiObject
 	 *
 	 * @since   12.3
 	 */
-	public function unBlockUserByID($id, $reason = null)
+	public function unBlockUserById($id, $reason = null)
 	{
 		// Get the token.
 		$token = $this->getToken($id, 'unblock');

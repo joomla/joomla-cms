@@ -3,7 +3,7 @@
 	<name>mod_menu</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,9 +11,9 @@
 	<description>MOD_MENU_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_menu">mod_menu.php</filename>
-		<filename>menu.php</filename>
-		<filename>helper.php</filename>
 		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>menu.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_menu.ini</language>

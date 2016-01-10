@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -157,15 +157,15 @@ abstract class FinderIndexer
 
 			// Setup the weight lookup information.
 			$data->weights = array(
-				self::TITLE_CONTEXT	=> round($data->options->get('title_multiplier', 1.7), 2),
-				self::TEXT_CONTEXT	=> round($data->options->get('text_multiplier', 0.7), 2),
-				self::META_CONTEXT	=> round($data->options->get('meta_multiplier', 1.2), 2),
-				self::PATH_CONTEXT	=> round($data->options->get('path_multiplier', 2.0), 2),
-				self::MISC_CONTEXT	=> round($data->options->get('misc_multiplier', 0.3), 2)
+				self::TITLE_CONTEXT => round($data->options->get('title_multiplier', 1.7), 2),
+				self::TEXT_CONTEXT  => round($data->options->get('text_multiplier', 0.7), 2),
+				self::META_CONTEXT  => round($data->options->get('meta_multiplier', 1.2), 2),
+				self::PATH_CONTEXT  => round($data->options->get('path_multiplier', 2.0), 2),
+				self::MISC_CONTEXT  => round($data->options->get('misc_multiplier', 0.3), 2)
 			);
 
 			// Set the current time as the start time.
-			$data->startTime = JFactory::getDate()->toSQL();
+			$data->startTime = JFactory::getDate()->toSql();
 
 			// Set the remaining default values.
 			$data->batchSize   = (int) $data->options->get('batch_size', 50);
@@ -310,7 +310,7 @@ abstract class FinderIndexer
 	 *
 	 * @since   2.5
 	 */
-	protected function tokenizeToDB($input, $context, $lang, $format)
+	protected function tokenizeToDb($input, $context, $lang, $format)
 	{
 		$count = 0;
 		$buffer = null;
@@ -370,7 +370,7 @@ abstract class FinderIndexer
 					$tokens = FinderIndexerHelper::tokenize($string, $lang);
 
 					// Add the tokens to the database.
-					$count += $this->addTokensToDB($tokens, $context);
+					$count += $this->addTokensToDb($tokens, $context);
 
 					// Check if we're approaching the memory limit of the token table.
 					if ($count > self::$state->options->get('memory_table_limit', 30000))
@@ -425,7 +425,7 @@ abstract class FinderIndexer
 					$tokens = FinderIndexerHelper::tokenize($string, $lang);
 
 					// Add the tokens to the database.
-					$count += $this->addTokensToDB($tokens, $context);
+					$count += $this->addTokensToDb($tokens, $context);
 
 					// Check if we're approaching the memory limit of the token table.
 					if ($count > self::$state->options->get('memory_table_limit', 30000))
@@ -449,7 +449,7 @@ abstract class FinderIndexer
 				$tokens = FinderIndexerHelper::tokenize($input, $lang);
 
 				// Add the tokens to the database.
-				$count = $this->addTokensToDB($tokens, $context);
+				$count = $this->addTokensToDb($tokens, $context);
 			}
 		}
 
@@ -467,7 +467,7 @@ abstract class FinderIndexer
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	abstract protected function addTokensToDB($tokens, $context = '');
+	abstract protected function addTokensToDb($tokens, $context = '');
 
 	/**
 	 * Method to switch the token tables from Memory tables to MyISAM tables

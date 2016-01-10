@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -148,7 +148,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  JDocumentHTML|null instance of $this to allow chaining or null for empty input data
 	 *
 	 * @since   11.1
 	 */
@@ -156,7 +156,7 @@ class JDocumentHTML extends JDocument
 	{
 		if (empty($data) || !is_array($data))
 		{
-			return;
+			return null;
 		}
 
 		$this->title        = (isset($data['title']) && !empty($data['title'])) ? $data['title'] : $this->title;
@@ -186,7 +186,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   array  $data  The document head data in array form
 	 *
-	 * @return  JDocumentHTML instance of $this to allow chaining
+	 * @return  JDocumentHTML|null instance of $this to allow chaining or null for empty input data
 	 *
 	 * @since   11.1
 	 */
@@ -194,7 +194,7 @@ class JDocumentHTML extends JDocument
 	{
 		if (empty($data) || !is_array($data))
 		{
-			return;
+			return null;
 		}
 
 		$this->title = (isset($data['title']) && !empty($data['title']) && !stristr($this->title, $data['title']))
@@ -358,7 +358,7 @@ class JDocumentHTML extends JDocument
 	 * @param   string  $name     The name of the element to render
 	 * @param   array   $attribs  Associative array of remaining attributes.
 	 *
-	 * @return  The output of the renderer
+	 * @return  mixed|string The output of the renderer
 	 *
 	 * @since   11.1
 	 */
@@ -461,7 +461,7 @@ class JDocumentHTML extends JDocument
 	 * @param   boolean  $caching  If true, cache the output
 	 * @param   array    $params   Associative array of attributes
 	 *
-	 * @return  The rendered data
+	 * @return  string The rendered data
 	 *
 	 * @since   11.1
 	 */
@@ -581,18 +581,15 @@ class JDocumentHTML extends JDocument
 		}
 
 		// Try to find a favicon by checking the template and root folder
-		$path = $directory . '/';
-		$dirs = array($path, JPATH_BASE . '/');
+		$icon = '/favicon.ico';
 
-		foreach ($dirs as $dir)
+		foreach (array($directory, JPATH_BASE) as $dir)
 		{
-			$icon = $dir . 'favicon.ico';
-
-			if (file_exists($icon))
+			if (file_exists($dir . $icon))
 			{
-				$path = str_replace(JPATH_BASE . '/', '', $dir);
+				$path = str_replace(JPATH_BASE, '', $dir);
 				$path = str_replace('\\', '/', $path);
-				$this->addFavicon(JUri::base(true) . '/' . $path . 'favicon.ico');
+				$this->addFavicon(JUri::base(true) . $path . $icon);
 				break;
 			}
 		}

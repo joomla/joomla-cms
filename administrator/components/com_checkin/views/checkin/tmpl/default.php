@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,9 +25,9 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 			</div>
 			<div class="btn-group pull-left">
 				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
-					<i class="icon-search"></i></button>
+					<span class="icon-search"></span></button>
 				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();">
-					<i class="icon-remove"></i></button>
+					<span class="icon-remove"></span></button>
 			</div>
 		</div>
 		<div class="clearfix"></div>
@@ -37,7 +37,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 					<th width="1%">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
-					<th class="left"><?php echo JHtml::_('grid.sort', 'COM_CHECKIN_DATABASE_TABLE', 'table', $listDirn, $listOrder); ?></th>
+					<th><?php echo JHtml::_('grid.sort', 'COM_CHECKIN_DATABASE_TABLE', 'table', $listDirn, $listOrder); ?></th>
 					<th><?php echo JHtml::_('grid.sort', 'COM_CHECKIN_ITEMS_TO_CHECK_IN', 'count', $listDirn, $listOrder); ?></th>
 				</tr>
 			</thead>
@@ -51,7 +51,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<?php echo JText::sprintf('COM_CHECKIN_TABLE', $table); ?>
 							</label>
 						</td>
-						<td width="200" class="center"><span class="label label-info"><?php echo $count; ?></span></td>
+						<td><span class="label label-info"><?php echo $count; ?></span></td>
 					</tr>
 					<?php $i++; ?>
 				<?php endforeach; ?>

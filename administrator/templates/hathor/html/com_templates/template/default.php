@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,132 +13,121 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.modal');
 
 $input = JFactory::getApplication()->input;
+if ($this->type == 'image')
+{
+	JHtml::_('script', 'system/jquery.Jcrop.min.js', false, true);
+	JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
+}
+JFactory::getDocument()->addScriptDeclaration("
+jQuery(document).ready(function($){
+	// Hide all the folder when the page loads
+	$('.folder ul, .component-folder ul').hide();
+	// Display the tree after loading
+	$('.directory-tree').removeClass('directory-tree');
+	// Show all the lists in the path of an open file
+	$('.show > ul').show();
+	// Stop the default action of anchor tag on a click event
+	$('.folder-url, .component-folder-url').click(function(event){
+		event.preventDefault();
+	});
+	// Prevent the click event from proliferating
+	$('.file, .component-file-url').bind('click',function(e){
+		e.stopPropagation();
+	});
+	// Toggle the child indented list on a click event
+	$('.folder, .component-folder').bind('click',function(e){
+		$(this).children('ul').toggle();
+		e.stopPropagation();
+	});
+	// New file tree
+	$('#fileModal .folder-url').bind('click',function(e){
+		$('.folder-url').removeClass('selected');
+		e.stopPropagation();
+		$('#fileModal input.address').val($(this).attr('data-id'));
+		$(this).addClass('selected');
+	});
+	// Folder manager tree
+	$('#folderModal .folder-url').bind('click',function(e){
+		$('.folder-url').removeClass('selected');
+		e.stopPropagation();
+		$('#folderModal input.address').val($(this).attr('data-id'));
+		$(this).addClass('selected');
+	});
+});");
 if($this->type == 'image')
 {
-	$doc = JFactory::getDocument();
-	$doc->addScript(JUri::root() . 'media/system/js/jquery.Jcrop.min.js');
-	$doc->addStyleSheet(JUri::root() . 'media/system/css/jquery.Jcrop.min.css');
+	JFactory::getDocument()->addScriptDeclaration("
+		jQuery(document).ready(function() {
+			var jcrop_api;
+			// Configuration for image cropping
+			$('#image-crop').Jcrop({
+				onChange:   showCoords,
+				onSelect:   showCoords,
+				onRelease:  clearCoords,
+				trueSize:   " . $this->image['width'] . "," . $this->image['height'] . "]
+			},function(){
+				jcrop_api = this;
+			});
+			// Function for calculating the crop coordinates
+			function showCoords(c)
+			{
+				$('#x').val(c.x);
+				$('#y').val(c.y);
+				$('#w').val(c.w);
+				$('#h').val(c.h);
+			};
+			// Function for clearing the coordinates
+			function clearCoords()
+			{
+				$('#adminForm input').val('');
+			};
+		});");
 }
-?>
-<script type="text/javascript">
-	jQuery(document).ready(function($){
-
-		// Hide all the folder when the page loads
-		$('.folder ul, .component-folder ul').hide();
-
-		// Show all the lists in the path of an open file
-		$('.show > ul').show();
-
-		// Stop the default action of anchor tag on a click event
-		$('.folder-url, .component-folder-url').click(function(event){
-			event.preventDefault();
-		});
-
-		// Prevent the click event from proliferating
-		$('.file, .component-file-url').bind('click',function(e){
-			e.stopPropagation();
-		});
-
-		// Toggle the child indented list on a click event
-		$('.folder, .component-folder').bind('click',function(e){
-			$(this).children('ul').toggle();
-			e.stopPropagation();
-		});
-
-		// New file tree
-		$('#fileModal .folder-url').bind('click',function(e){
-			$('.folder-url').removeClass('selected');
-			e.stopPropagation();
-			$('#fileModal input.address').val($(this).attr('data-id'));
-			$(this).addClass('selected');
-		});
-
-		// Folder manager tree
-		$('#folderModal .folder-url').bind('click',function(e){
-			$('.folder-url').removeClass('selected');
-			e.stopPropagation();
-			$('#folderModal input.address').val($(this).attr('data-id'));
-			$(this).addClass('selected');
-		});
-
-		<?php if($this->type == 'image'): ?>
-		var jcrop_api;
-
-		// Configuration for image cropping
-		$('#image-crop').Jcrop({
-			onChange:   showCoords,
-			onSelect:   showCoords,
-			onRelease:  clearCoords,
-			trueSize:   [<?php echo $this->image['width']; ?>,<?php echo $this->image['height']; ?>]
-		},function(){
-			jcrop_api = this;
-		});
-
-		// Function for calculating the crop coordinates
-		function showCoords(c)
-		{
-			$('#x').val(c.x);
-			$('#y').val(c.y);
-			$('#w').val(c.w);
-			$('#h').val(c.h);
-		};
-
-		// Function for clearing the coordinates
-		function clearCoords()
-		{
-			$('#adminForm input').val('');
-		};
-
-		<?php endif; ?>
-
-	});
-</script>
-<style>
-
-		/* Styles for modals */
+JFactory::getDocument()->addStyleDeclaration("
+	/* Styles for modals */
 	.selected{
-		display: block;
-		background: #08c ;
-		color: #fff !important;
-	}
-	.selected:hover{
-		display: block;
 		background: #08c;
 		color: #fff;
 	}
-
+	.selected:hover{
+		background: #08c !important;
+		color: #fff;
+	}
+	.modal-body .column {
+		width: 50%; float: left;
+	}
+	#deleteFolder{
+		margin: 0;
+	}
 	#image-crop{
 		max-width: 100% !important;
 		width: auto;
 		height: auto;
 	}
-
-	#image-box, #home-box{
-		margin: 20px 10px 10px;
-		overflow: hidden;
-		border: 1px solid rgb(199, 200, 178);
-		padding: 5px;
+	.directory-tree{
+		display: none;
 	}
-
-	<?php if($this->type == 'font'): ?>
-
-		/* Styles for font preview */
-	@font-face
-	{
-		font-family: previewFont;
-		src: url('<?php echo $this->font['address'] ?>')
+	.tree-holder{
+		overflow-x: auto;
 	}
-
-	.font-preview{
-		font-family: previewFont !important;
-	}
-
-	<?php endif; ?>
-
-</style>
+");
+if($this->type == 'font')
+{
+	JFactory::getDocument()->addStyleDeclaration(
+			"/* Styles for font preview */
+		@font-face
+		{
+			font-family: previewFont;
+			src: url('" . $this->font['address'] . "')
+		}
+		.font-preview{
+			font-family: previewFont !important;
+		}"
+	);
+}
+?>
 <div class="width-60 fltlft">
 
 	<?php if ($this->type != 'home'): ?>
@@ -152,8 +141,15 @@ if($this->type == 'image')
 					<p><?php echo JText::sprintf('COM_TEMPLATES_MODAL_FILE_DELETE', $this->fileName); ?></p>
 				</div>
 				<div class="modal-footer">
-					<a href="#" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
-					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=template.delete&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?></a>
+					<form method="post" action="">
+						<input type="hidden" name="option" value="com_templates" />
+						<input type="hidden" name="task" value="template.delete" />
+						<input type="hidden" name="id" value="<?php echo $input->getInt('id'); ?>" />
+						<input type="hidden" name="file" value="<?php echo $this->file; ?>" />
+						<?php echo JHtml::_('form.token'); ?>
+						<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
+						<button type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?></button>
+					</form>
 				</div>
 			</fieldset>
 		</div>
@@ -335,10 +331,10 @@ if($this->type == 'image')
 					<?php foreach ($this->archive as $file): ?>
 						<li>
 							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR): ?>
-								<i class="icon-folder"></i>&nbsp;<?php echo $file; ?>
+								<span class="icon-folder"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR): ?>
-								<i class="icon-file"></i>&nbsp;<?php echo $file; ?>
+								<span class="icon-file"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
@@ -438,72 +434,72 @@ if($this->type == 'image')
 	</fieldset>
 
 	<?php echo JHtml::_('sliders.start', 'content-sliders', array('useCookie' => 1)); ?>
-		<?php echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_TEMPLATE_COPY'), 'template-copy'); ?>
-			<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-				  method="post" name="adminForm" id="adminForm">
-				<fieldset class="panelform">
-					<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
-					<input type="text" id="new_name" name="new_name"  />
-					<button type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
-				</fieldset>
-				<?php echo JHtml::_('form.token'); ?>
-			</form>
-		<?php if ($this->type != 'home'): ?>
-			<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_BUTTON_RENAME'), 'file-rename'); ?>
-				<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-					  method="post" name="adminForm" id="adminForm">
-					<fieldset class="panelform">
-						<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>"><?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME')?></label>
-						<input type="text" name="new_name"  />
-						<button type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RENAME'); ?></button>
-					</fieldset>
-					<?php echo JHtml::_('form.token'); ?>
-				</form>
-		<?php endif; ?>
+	<?php echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_TEMPLATE_COPY'), 'template-copy'); ?>
+	<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
+		  method="post" name="adminForm" id="adminForm">
+		<fieldset class="panelform">
+			<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
+			<input type="text" id="new_name" name="new_name"  />
+			<button type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
+		</fieldset>
+		<?php echo JHtml::_('form.token'); ?>
+	</form>
+	<?php if ($this->type != 'home'): ?>
+		<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_BUTTON_RENAME'), 'file-rename'); ?>
+		<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
+			  method="post" name="adminForm" id="adminForm">
+			<fieldset class="panelform">
+				<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>"><?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME')?></label>
+				<input type="text" name="new_name"  />
+				<button type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RENAME'); ?></button>
+			</fieldset>
+			<?php echo JHtml::_('form.token'); ?>
+		</form>
+	<?php endif; ?>
 	<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_OVERRIDES_MODULES'), 'override-module'); ?>
-		<fieldset class="panelform">
-			<ul class="adminformlist">
-				<?php foreach($this->overridesList['modules'] as $module): ?>
-					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-							<i class="icon-copy"></i>&nbsp;<?php echo $module->name; ?>
-						</a>
-					</li>
-				<?php endforeach; ?>
-			</ul>
-		</fieldset>
+	<fieldset class="panelform">
+		<ul class="adminformlist">
+			<?php foreach($this->overridesList['modules'] as $module): ?>
+				<li>
+					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+						<span class="icon-copy"></span>&nbsp;<?php echo $module->name; ?>
+					</a>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</fieldset>
 	<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'), 'override-component'); ?>
-		<fieldset class="panelform">
-			<ul class="adminformlist">
-				<?php foreach ($this->overridesList['components'] as $key => $value): ?>
-					<li class="component-folder">
-						<a href="#" class="component-folder-url">
-							<i class="icon-folder"></i>&nbsp;<?php echo $key; ?>
-						</a>
-						<ul class="adminformList">
-							<?php foreach ($value as $view): ?>
-								<li>
-									<a class="component-file-url" href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $view->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-										<i class="icon-copy"></i>&nbsp;<?php echo $view->name; ?>
-									</a>
-								</li>
-							<?php endforeach; ?>
-						</ul>
-					</li>
-				<?php endforeach; ?>
-			</ul>
-		</fieldset>
+	<fieldset class="panelform">
+		<ul class="adminformlist">
+			<?php foreach ($this->overridesList['components'] as $key => $value): ?>
+				<li class="component-folder">
+					<a href="#" class="component-folder-url">
+						<span class="icon-folder"></span>&nbsp;<?php echo $key; ?>
+					</a>
+					<ul class="adminformList">
+						<?php foreach ($value as $view): ?>
+							<li>
+								<a class="component-file-url" href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $view->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+									<span class="icon-copy"></span>&nbsp;<?php echo $view->name; ?>
+								</a>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</fieldset>
 	<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'), 'override-layout'); ?>
-		<fieldset class="panelform">
-			<ul class="adminformlist">
-				<?php foreach($this->overridesList['layouts'] as $layout): ?>
-					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-							<i class="icon-copy"></i>&nbsp;<?php echo $layout->name; ?>
-						</a>
-					</li>
-				<?php endforeach; ?>
-			</ul>
-		</fieldset>
+	<fieldset class="panelform">
+		<ul class="adminformlist">
+			<?php foreach($this->overridesList['layouts'] as $layout): ?>
+				<li>
+					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+						<span class="icon-copy"></span>&nbsp;<?php echo $layout->name; ?>
+					</a>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</fieldset>
 	<?php echo JHtml::_('sliders.end'); ?>
 </div>

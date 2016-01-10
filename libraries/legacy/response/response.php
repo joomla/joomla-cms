@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Response
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -237,14 +237,12 @@ class JResponse
 		$level = 4;
 
 		/*
-		$size		= strlen($data);
-		$crc		= crc32($data);
-
-		$gzdata		= "\x1f\x8b\x08\x00\x00\x00\x00\x00";
-		$gzdata		.= gzcompress($data, $level);
-
-		$gzdata	= substr($gzdata, 0, strlen($gzdata) - 4);
-		$gzdata	.= pack("V",$crc) . pack("V", $size);
+		$size    = strlen($data);
+		$crc     = crc32($data);
+		$gzdata  = "\x1f\x8b\x08\x00\x00\x00\x00\x00";
+		$gzdata .= gzcompress($data, $level);
+		$gzdata  = substr($gzdata, 0, strlen($gzdata) - 4);
+		$gzdata .= pack("V",$crc) . pack("V", $size);
 		*/
 
 		$gzdata = gzencode($data, $level);

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -120,6 +120,12 @@ class PluginsModelPlugins extends JModelList
 	{
 		$search = $this->getState('filter.search');
 		$ordering = $this->getState('list.ordering', 'ordering');
+
+		// If "Sort Table By:" is not set, set ordering to name
+		if ($ordering == '')
+		{
+			$ordering = "name";
+		}
 
 		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
 		{
@@ -266,5 +272,23 @@ class PluginsModelPlugins extends JModelList
 		}
 
 		return $query;
+	}
+
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return	mixed	The data for the form.
+	 *
+	 * @since	3.5
+	 */
+	protected function loadFormData()
+	{
+		$data = parent::loadFormData();
+
+		// Set the selected filter values for pages that use the JLayouts for filtering
+		$data->list['sortTable'] = $this->state->get('list.ordering');
+		$data->list['directionTable'] = $this->state->get('list.direction');
+
+		return $data;
 	}
 }

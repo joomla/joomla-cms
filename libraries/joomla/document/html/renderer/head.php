@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -238,7 +238,8 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}
 
-		foreach ($document->_custom as $custom)
+		// Output the custom tags - array_unique makes sure that we don't output the same tags twice
+		foreach (array_unique($document->_custom) as $custom)
 		{
 			$buffer .= $tab . $custom . $lnEnd;
 		}

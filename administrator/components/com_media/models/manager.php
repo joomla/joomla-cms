@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -81,10 +81,10 @@ class MediaModelManager extends JModelLegacy
 
 		foreach ($folders as $folder)
 		{
-			$folder		= str_replace($com_media_base_uni, "", str_replace(DIRECTORY_SEPARATOR, '/', $folder));
-			$value		= substr($folder, 1);
-			$text		= str_replace(DIRECTORY_SEPARATOR, "/", $folder);
-			$options[]	= JHtml::_('select.option', $value, $text);
+			$folder    = str_replace($com_media_base_uni, "", str_replace(DIRECTORY_SEPARATOR, '/', $folder));
+			$value     = substr($folder, 1);
+			$text      = str_replace(DIRECTORY_SEPARATOR, "/", $folder);
+			$options[] = JHtml::_('select.option', $value, $text);
 		}
 
 		// Sort the folder list array
@@ -140,14 +140,13 @@ class MediaModelManager extends JModelLegacy
 
 		foreach ($folders as $folder)
 		{
-			$folder		= str_replace(DIRECTORY_SEPARATOR, '/', $folder);
-			$name		= substr($folder, strrpos($folder, '/') + 1);
-			$relative	= str_replace($mediaBase, '', $folder);
-			$absolute	= $folder;
-			$path		= explode('/', $relative);
-			$node		= (object) array('name' => $name, 'relative' => $relative, 'absolute' => $absolute);
-
-			$tmp = &$tree;
+			$folder   = str_replace(DIRECTORY_SEPARATOR, '/', $folder);
+			$name     = substr($folder, strrpos($folder, '/') + 1);
+			$relative = str_replace($mediaBase, '', $folder);
+			$absolute = $folder;
+			$path     = explode('/', $relative);
+			$node     = (object) array('name' => $name, 'relative' => $relative, 'absolute' => $absolute);
+			$tmp      = &$tree;
 
 			for ($i = 0, $n = count($path); $i < $n; $i++)
 			{
@@ -160,6 +159,7 @@ class MediaModelManager extends JModelLegacy
 				{
 					// We need to place the node
 					$tmp['children'][$relative] = array('data' => $node, 'children' => array());
+
 					break;
 				}
 

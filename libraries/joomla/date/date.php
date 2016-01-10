@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Date
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,6 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDate is a class that stores a date and provides logic to manipulate
  * and render that date in a variety of formats.
+ *
+ * @method  JDate  add(DateInterval $interval)  Adds an amount of days, months, years, hours, minutes and seconds to a JDate object
+ * @method  JDate  sub(DateInterval $interval)  Subtracts an amount of days, months, years, hours, minutes and seconds from a JDate object
  *
  * @property-read  string   $daysinmonth   t - Number of days in the given month.
  * @property-read  string   $dayofweek     N - ISO-8601 numeric representation of the day of the week.
@@ -284,7 +287,7 @@ class JDate extends DateTime
 		}
 
 		// If the returned time should not be local use GMT.
-		if ($local == false)
+		if ($local == false && !empty(self::$gmt))
 		{
 			parent::setTimezone(self::$gmt);
 		}
@@ -316,7 +319,7 @@ class JDate extends DateTime
 			}
 		}
 
-		if ($local == false)
+		if ($local == false && !empty($this->tz))
 		{
 			parent::setTimezone($this->tz);
 		}
@@ -333,7 +336,7 @@ class JDate extends DateTime
 	 *
 	 * @since   11.1
 	 */
-	public function getOffsetFromGMT($hours = false)
+	public function getOffsetFromGmt($hours = false)
 	{
 		return (float) $hours ? ($this->tz->getOffset($this) / 3600) : $this->tz->getOffset($this);
 	}

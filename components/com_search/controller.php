@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -81,8 +81,8 @@ class SearchController extends JControllerLegacy
 		$post['Itemid'] = $this->input->getInt('Itemid');
 
 		// Set Itemid id for links from menu
-		$app	= JFactory::getApplication();
-		$menu	= $app->getMenu();
+		$app  = JFactory::getApplication();
+		$menu = $app->getMenu();
 		$item = $menu->getItem($post['Itemid']);
 
 		// The request Item is not a search page so we need to find one

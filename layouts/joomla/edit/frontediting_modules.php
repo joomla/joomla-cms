@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
 
 // JLayout for standard handling of the edit modules:
 
@@ -15,7 +15,9 @@ $moduleHtml   =& $displayData['moduleHtml'];
 $mod          = $displayData['module'];
 $position     = $displayData['position'];
 $menusEditing = $displayData['menusediting'];
-$redirectUri = '&return='. urlencode(base64_encode(JUri::getInstance()->toString()));
+$parameters   = JComponentHelper::getParams('com_modules');
+$redirectUri  = '&return=' . urlencode(base64_encode(JUri::getInstance()->toString()));
+$target       = '_blank';
 
 if (preg_match('/<(?:div|span|nav|ul|ol|h\d) [^>]*class="[^"]* jmoddiv"/', $moduleHtml))
 {
@@ -24,7 +26,13 @@ if (preg_match('/<(?:div|span|nav|ul|ol|h\d) [^>]*class="[^"]* jmoddiv"/', $modu
 }
 
 // Add css class jmoddiv and data attributes for module-editing URL and for the tooltip:
-$editUrl = JUri::base() . 'index.php?option=com_config&controller=config.display.modules&id=' . (int) $mod->id . $redirectUri;
+$editUrl = JUri::base() . 'administrator/index.php?option=com_modules&view=module&layout=edit&id=' . (int) $mod->id;
+
+if ($parameters->get('redirect_edit', 'site') == 'site')
+{
+	$editUrl = JUri::base() . 'index.php?option=com_config&controller=config.display.modules&id=' . (int) $mod->id . $redirectUri;
+	$target  = '_self';
+}
 
 // Add class, editing URL and tooltip, and if module of type menu, also the tooltip for editing the menu item:
 $count = 0;
@@ -32,7 +40,7 @@ $moduleHtml = preg_replace(
 	// Replace first tag of module with a class
 	'/^(\s*<(?:div|span|nav|ul|ol|h\d) [^>]*class="[^"]*)"/',
 	// By itself, adding class jmoddiv and data attributes for the url and tooltip:
-	'\\1 jmoddiv" data-jmodediturl="' . $editUrl . '" data-jmodtip="'
+	'\\1 jmoddiv" data-jmodediturl="' . $editUrl . '" data-target="' . $target . '" data-jmodtip="'
 	.	JHtml::tooltipText(
 			JText::_('JLIB_HTML_EDIT_MODULE'),
 			htmlspecialchars($mod->title) . '<br />' . sprintf(JText::_('JLIB_HTML_EDIT_MODULE_IN_POSITION'), htmlspecialchars($position)),

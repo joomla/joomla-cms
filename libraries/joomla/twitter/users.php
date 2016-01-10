@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -160,7 +160,7 @@ class JTwitterUsers extends JTwitterObject
 	public function getUser($user, $entities = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit('users', 'show');
+		$this->checkRateLimit('users', 'show/:id');
 
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))

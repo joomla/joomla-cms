@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -52,27 +52,16 @@ abstract class JHtmlSortablelist
 			throw new InvalidArgumentException('$saveOrderingUrl is a required argument in JHtmlSortablelist::sortable');
 		}
 
-		// Depends on jQuery UI
-		JHtml::_('jquery.ui', array('core', 'sortable'));
-
-		JHtml::_('script', 'jui/sortablelist.js', false, true);
-		JHtml::_('stylesheet', 'jui/sortablelist.css', false, true, false);
-
-		// Attach sortable to document
-		JFactory::getDocument()->addScriptDeclaration("
-			(function ($){
-				$(document).ready(function (){
-					var sortableList = new $.JSortableList('#"
-						. $tableId . " tbody','" . $formId . "','" . $sortDir . "' , '" . $saveOrderingUrl . "','','" . $nestedList . "');
-				});
-			})(jQuery);
-			"
+		$displayData = array(
+			'tableId'                => $tableId,
+			'formId'                 => $formId,
+			'sortDir'                => $sortDir,
+			'saveOrderingUrl'        => $saveOrderingUrl,
+			'nestedList'             => $nestedList,
+			'proceedSaveOrderButton' => $proceedSaveOrderButton
 		);
 
-		if ($proceedSaveOrderButton)
-		{
-			static::_proceedSaveOrderButton();
-		}
+		JLayoutHelper::render('joomla.html.sortablelist', $displayData);
 
 		// Set static array
 		static::$loaded[__METHOD__] = true;
@@ -87,6 +76,8 @@ abstract class JHtmlSortablelist
 	 * @return  void
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated 4.0 The logic is merged in the JLayout file
 	 */
 	public static function _proceedSaveOrderButton()
 	{

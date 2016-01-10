@@ -4,7 +4,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -105,7 +105,7 @@ class PlgSearchTags extends JPlugin
 		$query->select('a.id, a.title, a.alias, a.note, a.published, a.access' .
 			', a.checked_out, a.checked_out_time, a.created_user_id' .
 			', a.path, a.parent_id, a.level, a.lft, a.rgt' .
-			', a.language, a.created_time AS created, a.note, a.description');
+			', a.language, a.created_time AS created, a.description');
 
 		$case_when_item_alias = ' CASE WHEN ';
 		$case_when_item_alias .= $query->charLength('a.alias', '!=', '0');
@@ -136,7 +136,15 @@ class PlgSearchTags extends JPlugin
 		$query->order($order);
 
 		$db->setQuery($query, 0, $limit);
-		$rows = $db->loadObjectList();
+		try
+		{
+			$rows = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$rows = array();
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+		}
 
 		if ($rows)
 		{

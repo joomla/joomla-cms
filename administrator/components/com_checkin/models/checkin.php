@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,8 +16,19 @@ defined('_JEXEC') or die;
  */
 class CheckinModelCheckin extends JModelList
 {
+	/**
+	 * Count of the total items checked out
+	 *
+	 * @var  integer
+	 */
 	protected $total;
 
+	/**
+	 * Unused class variable
+	 *
+	 * @var  object
+	 * @deprecated  4.0
+	 */
 	protected $tables;
 
 	/**
@@ -52,13 +63,12 @@ class CheckinModelCheckin extends JModelList
 	 */
 	public function checkin($ids = array())
 	{
-		$app = JFactory::getApplication();
-		$db = $this->_db;
+		$db = $this->getDbo();
 		$nullDate = $db->getNullDate();
 
 		if (!is_array($ids))
 		{
-			return;
+			return 0;
 		}
 
 		// This int will hold the checked item count.
@@ -67,7 +77,7 @@ class CheckinModelCheckin extends JModelList
 		foreach ($ids as $tn)
 		{
 			// Make sure we get the right tables based on prefix.
-			if (stripos($tn, $app->get('dbprefix')) !== 0)
+			if (stripos($tn, JFactory::getApplication()->get('dbprefix')) !== 0)
 			{
 				continue;
 			}
@@ -99,7 +109,7 @@ class CheckinModelCheckin extends JModelList
 	/**
 	 * Get total of tables
 	 *
-	 * @return  int    Total to check-in tables
+	 * @return  integer  Total to check-in tables
 	 *
 	 * @since   1.6
 	 */
@@ -124,8 +134,7 @@ class CheckinModelCheckin extends JModelList
 	{
 		if (!isset($this->items))
 		{
-			$app    = JFactory::getApplication();
-			$db     = $this->_db;
+			$db     = $this->getDbo();
 			$tables = $db->getTableList();
 
 			// This array will hold table name as key and checked in item count as value.
@@ -134,7 +143,7 @@ class CheckinModelCheckin extends JModelList
 			foreach ($tables as $i => $tn)
 			{
 				// Make sure we get the right tables based on prefix.
-				if (stripos($tn, $app->get('dbprefix')) !== 0)
+				if (stripos($tn, JFactory::getApplication()->get('dbprefix')) !== 0)
 				{
 					unset($tables[$i]);
 					continue;
@@ -199,8 +208,7 @@ class CheckinModelCheckin extends JModelList
 				}
 			}
 
-			$results = array_slice($results, $this->getState('list.start'), $this->getState('list.limit') ? $this->getState('list.limit') : null);
-			$this->items = $results;
+			$this->items = array_slice($results, $this->getState('list.start'), $this->getState('list.limit'));
 		}
 
 		return $this->items;

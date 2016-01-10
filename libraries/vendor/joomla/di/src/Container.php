@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework DI Package
  *
- * @copyright  Copyright (C) 2013 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2013 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -95,6 +95,11 @@ class Container
 			return $this->aliases[$key];
 		}
 
+		if ($this->parent instanceof Container)
+		{
+			return $this->parent->resolveAlias($key);
+		}
+
 		return $key;
 	}
 
@@ -184,6 +189,7 @@ class Container
 	 */
 	public function extend($key, \Closure $callable)
 	{
+		$key = $this->resolveAlias($key);
 		$raw = $this->getRaw($key);
 
 		if (is_null($raw))
@@ -336,6 +342,7 @@ class Container
 	 */
 	public function get($key, $forceNew = false)
 	{
+		$key = $this->resolveAlias($key);
 		$raw = $this->getRaw($key);
 
 		if (is_null($raw))
@@ -367,6 +374,8 @@ class Container
 	 */
 	public function exists($key)
 	{
+		$key = $this->resolveAlias($key);
+
 		return (bool) $this->getRaw($key);
 	}
 
@@ -381,13 +390,19 @@ class Container
 	 */
 	protected function getRaw($key)
 	{
-		$key = $this->resolveAlias($key);
-
 		if (isset($this->dataStore[$key]))
 		{
 			return $this->dataStore[$key];
 		}
-		elseif ($this->parent instanceof Container)
+
+		$aliasKey = $this->resolveAlias($key);
+
+		if ($aliasKey != $key && isset($this->dataStore[$aliasKey]))
+		{
+			return $this->dataStore[$aliasKey];
+		}
+
+		if ($this->parent instanceof Container)
 		{
 			return $this->parent->getRaw($key);
 		}
@@ -413,7 +428,7 @@ class Container
 	/**
 	 * Register a service provider to the container.
 	 *
-	 * @param   ServiceProviderInterface  $provider  The service provider to register.w
+	 * @param   ServiceProviderInterface  $provider  The service provider to register.
 	 *
 	 * @return  Container  This object for chaining.
 	 *

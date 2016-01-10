@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ abstract class JToolbarHelper
 
 		$app = JFactory::getApplication();
 		$app->JComponentTitle = $html;
-		JFactory::getDocument()->setTitle($app->get('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . $title);
+		JFactory::getDocument()->setTitle($app->get('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . strip_tags($title));
 	}
 
 	/**
@@ -151,6 +151,24 @@ abstract class JToolbarHelper
 
 		// Add a back button.
 		$bar->appendButton('Link', 'back', $alt, $href);
+	}
+
+	/**
+	 * Creates a button to redirect to a link
+	 *
+	 * @param   string  $url   The link url
+	 * @param   string  $text  Button text
+	 * @param   string  $name  Name to be used as apart of the id
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public static function link($url, $text, $name = 'link')
+	{
+		$bar = JToolbar::getInstance('toolbar');
+
+		$bar->appendButton('Link', $name, $text, $url);
 	}
 
 	/**
@@ -566,7 +584,7 @@ abstract class JToolbarHelper
 	{
 		$component = urlencode($component);
 		$path = urlencode($path);
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		$uri = (string) JUri::getInstance();
 		$return = urlencode(base64_encode($uri));
@@ -595,8 +613,8 @@ abstract class JToolbarHelper
 	 */
 	public static function versions($typeAlias, $itemId, $height = 800, $width = 500, $alt = 'JTOOLBAR_VERSIONS')
 	{
-		JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
-
+		$lang = JFactory::getLanguage();
+		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 		$contentTypeTable = JTable::getInstance('Contenttype');
 		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
@@ -627,10 +645,9 @@ abstract class JToolbarHelper
 	 */
 	public static function modal($targetModalId, $icon, $alt)
 	{
-		JHtml::_('behavior.modal');
 		$title = JText::_($alt);
 		$dhtml = "<button data-toggle='modal' data-target='#" . $targetModalId . "' class='btn btn-small'>
-			<i class='" . $icon . "' title='" . $title . "'></i> " . $title . "</button>";
+			<span class='" . $icon . "' title='" . $title . "'></span> " . $title . "</button>";
 
 		$bar = JToolbar::getInstance('toolbar');
 		$bar->appendButton('Custom', $dhtml, $alt);

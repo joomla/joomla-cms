@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -126,6 +126,12 @@ class ConfigControllerComponentSave extends JControllerBase
 				if (!empty($returnUri))
 				{
 					$redirect = base64_decode($returnUri);
+				}
+
+				// Don't redirect to an external URL.
+				if (!JUri::isInternal($redirect))
+				{
+					$redirect = JUri::base();
 				}
 
 				$this->app->redirect(JRoute::_($redirect, false));

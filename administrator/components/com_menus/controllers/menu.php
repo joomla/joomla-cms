@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,8 +79,8 @@ class MenusControllerMenu extends JControllerForm
 		$data['id'] = $recordId;
 
 		// Get the model and attempt to validate the posted data.
-		$model	= $this->getModel('Menu');
-		$form	= $model->getForm();
+		$model = $this->getModel('Menu');
+		$form  = $model->getForm();
 
 		if (!$form)
 		{
@@ -89,13 +89,13 @@ class MenusControllerMenu extends JControllerForm
 			return false;
 		}
 
-		$data	= $model->validate($form, $data);
+		$data = $model->validate($form, $data);
 
 		// Check for validation errors.
 		if ($data === false)
 		{
 			// Get the validation messages.
-			$errors	= $model->getErrors();
+			$errors = $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
@@ -125,7 +125,7 @@ class MenusControllerMenu extends JControllerForm
 			$app->setUserState('com_menus.edit.menu.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'warning');
+			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
 
 			return false;

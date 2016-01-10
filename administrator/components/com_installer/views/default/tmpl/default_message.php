@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,6 @@ $message2 = $state->get('extension_message');
 <?php endif; ?> 
 <?php if ($message2) : ?> 
 	<div class="span12"> 
-		<strong><?php echo $message2; ?></strong>
+		<?php echo $message2; ?>
 	</div> 
 <?php endif; ?>

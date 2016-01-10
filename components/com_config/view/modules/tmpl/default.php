@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.framework', true);
 JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -49,21 +48,21 @@ JFactory::getDocument()->addScriptDeclaration("
 				<div class="btn-group">
 					<button type="button" class="btn btn-default btn-primary"
 						onclick="Joomla.submitbutton('config.save.modules.apply')">
-						<i class="icon-apply"></i>
+						<span class="icon-apply"></span>
 						<?php echo JText::_('JAPPLY') ?>
 					</button>
 				</div>
 				<div class="btn-group">
 					<button type="button" class="btn btn-default"
 						onclick="Joomla.submitbutton('config.save.modules.save')">
-						<i class="icon-save"></i>
+						<span class="icon-save"></span>
 						<?php echo JText::_('JSAVE') ?>
 					</button>
 				</div>
 				<div class="btn-group">
 					<button type="button" class="btn btn-default"
 						onclick="Joomla.submitbutton('config.cancel.modules')">
-						<i class="icon-cancel"></i>
+						<span class="icon-cancel"></span>
 						<?php echo JText::_('JCANCEL') ?>
 					</button>
 				</div>
@@ -157,7 +156,7 @@ JFactory::getDocument()->addScriptDeclaration("
 								<?php echo $this->form->getInput('ordering'); ?>
 							</div>
 						</div>
-	
+
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('language'); ?>

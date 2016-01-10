@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,11 +51,13 @@ class TemplatesViewTemplates extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items      = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->state      = $this->get('State');
-		$this->preview    = JComponentHelper::getParams('com_templates')->get('template_positions_display');
-		$this->file       = base64_encode('home');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+		$this->preview       = JComponentHelper::getParams('com_templates')->get('template_positions_display');
+		$this->file          = base64_encode('home');
 
 		TemplatesHelper::addSubmenu('templates');
 
@@ -85,7 +87,7 @@ class TemplatesViewTemplates extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_TEMPLATES'), 'eye thememanager');
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_templates');
 			JToolbarHelper::divider();
@@ -94,12 +96,6 @@ class TemplatesViewTemplates extends JViewLegacy
 		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES');
 
 		JHtmlSidebar::setAction('index.php?option=com_templates&view=templates');
-
-		JHtmlSidebar::addFilter(
-			JText::_('JGLOBAL_FILTER_CLIENT'),
-			'filter_client_id',
-			JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
-		);
 
 		$this->sidebar = JHtmlSidebar::render();
 	}

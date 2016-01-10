@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.Contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,7 +57,7 @@ class PlgContentContact extends JPlugin
 			return true;
 		}
 
-		$row->contactid = $this->getContactID($row->created_by);
+		$row->contactid = $this->getContactId($row->created_by);
 
 		if ($row->contactid)
 		{
@@ -82,7 +82,7 @@ class PlgContentContact extends JPlugin
 	 *
 	 * @return  mixed|null|integer
 	 */
-	protected function getContactID($created_by)
+	protected function getContactId($created_by)
 	{
 		static $contacts = array();
 

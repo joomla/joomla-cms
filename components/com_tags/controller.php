@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ class TagsController extends JControllerLegacy
 	 */
 	public function display($cachable = true, $urlparams = false)
 	{
-		$user		= JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Set the default view name and format from the Request.
 		$vName = $this->input->get('view', 'tags');
@@ -40,13 +40,13 @@ class TagsController extends JControllerLegacy
 		}
 
 		$safeurlparams = array(
-			'id'				=> 'ARRAY',
-			'type'				=> 'ARRAY',
-			'limit'				=> 'UINT',
-			'limitstart'		=> 'UINT',
-			'filter_order'		=> 'CMD',
-			'filter_order_Dir'	=> 'CMD',
-			'lang'				=> 'CMD'
+			'id'               => 'ARRAY',
+			'type'             => 'ARRAY',
+			'limit'            => 'UINT',
+			'limitstart'       => 'UINT',
+			'filter_order'     => 'CMD',
+			'filter_order_Dir' => 'CMD',
+			'lang'             => 'CMD'
 		);
 
 		return parent::display($cachable, $safeurlparams);

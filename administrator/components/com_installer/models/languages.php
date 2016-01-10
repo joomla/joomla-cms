@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -354,7 +354,7 @@ class InstallerModelLanguages extends JModelList
 	protected function _getPackageUrl( $remote_manifest )
 	{
 		$update = new JUpdate;
-		$update->loadFromXML($remote_manifest);
+		$update->loadFromXml($remote_manifest);
 		$package_url = trim($update->get('downloadurl', false)->_data);
 
 		return $package_url;

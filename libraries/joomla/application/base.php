@@ -3,16 +3,19 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractApplication;
+use Joomla\Registry\Registry;
 
 /**
  * Joomla Platform Base Application Class
+ *
+ * @property-read  JInput  $input  The application input object
  *
  * @since  12.1
  */
@@ -33,6 +36,26 @@ abstract class JApplicationBase extends AbstractApplication
 	 * @since  12.1
 	 */
 	protected $identity;
+
+	/**
+	 * Class constructor.
+	 *
+	 * @param   JInput    $input   An optional argument to provide dependency injection for the application's
+	 *                             input object.  If the argument is a JInput object that object will become
+	 *                             the application's input object, otherwise a default input object is created.
+	 * @param   Registry  $config  An optional argument to provide dependency injection for the application's
+	 *                             config object.  If the argument is a Registry object that object will become
+	 *                             the application's config object, otherwise a default config object is created.
+	 *
+	 * @since   12.1
+	 */
+	public function __construct(JInput $input = null, Registry $config = null)
+	{
+		$this->input = $input instanceof JInput ? $input : new JInput;
+		$this->config = $config instanceof Registry ? $config : new Registry;
+
+		$this->initialise();
+	}
 
 	/**
 	 * Get the application identity.

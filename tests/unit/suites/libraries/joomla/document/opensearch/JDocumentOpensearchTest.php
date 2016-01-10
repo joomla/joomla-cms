@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -72,7 +72,7 @@ class JDocumentOpensearchTest extends TestCase
 	 */
 	public function testEnsureAddUrlReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->addUrl(new JOpenSearchUrl('http://www.joomla.org')));
+		$this->assertSame($this->object, $this->object->addUrl(new JOpenSearchUrl('https://www.joomla.org')));
 	}
 
 	/**
@@ -80,6 +80,6 @@ class JDocumentOpensearchTest extends TestCase
 	 */
 	public function testEnsureAddImageReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->addImage(new JOpenSearchImage('http://www.joomla.org')));
+		$this->assertSame($this->object, $this->object->addImage(new JOpenSearchImage('https://www.joomla.org')));
 	}
 }

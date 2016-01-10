@@ -3,14 +3,16 @@
  * @package     Joomla.Platform
  * @subpackage  Filesystem
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.filesystem.path');
+
 /**
- * Wrapper class for JFilesystemPath
+ * Wrapper class for JPath
  *
  * @package     Joomla.Platform
  * @subpackage  Filesystem
@@ -93,7 +95,7 @@ class JFilesystemWrapperPath
 	 * @since   3.4
 	 * @throws  UnexpectedValueException
 	 */
-	public function clean($path, $ds = '\\')
+	public function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{
 		return JPath::clean($path, $ds);
 	}

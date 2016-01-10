@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ class MessagesControllerConfig extends JControllerLegacy
 		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Validate the posted data.
-		$form	= $model->getForm();
+		$form = $model->getForm();
 
 		if (!$form)
 		{
@@ -48,7 +48,7 @@ class MessagesControllerConfig extends JControllerLegacy
 		if ($data === false)
 		{
 			// Get the validation messages.
-			$errors	= $model->getErrors();
+			$errors = $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)

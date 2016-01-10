@@ -3,14 +3,13 @@
  * @package     Joomla.UnitTest
  * @subpackage  OAuth
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 use Joomla\Registry\Registry;
 
 include_once __DIR__ . '/stubs/JOAuth1ClientInspector.php';
-include_once __DIR__ . '/../application/stubs/JApplicationWebInspector.php';
 
 /**
  * Test class for JOAuth1Client.
@@ -89,7 +88,7 @@ class JOAuth1ClientTest extends TestCase
 		$this->options = new Registry;
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
 		$this->input = new JInput(array());
-		$this->application = new JApplicationWebInspector;
+		$this->application = $this->getMockWeb();
 
 		$this->options->set('consumer_key', $key);
 		$this->options->set('consumer_secret', $secret);

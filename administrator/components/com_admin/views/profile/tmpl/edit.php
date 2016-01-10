@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,6 +23,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		}
 	};
 ');
+
 // Load chosen.css
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -37,7 +38,12 @@ $fieldsets = $this->form->getFieldsets();
 	<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
 		<div class="control-group">
 			<div class="control-label"><?php echo $field->label; ?></div>
-			<div class="controls"><?php echo $field->input; ?></div>
+			<div class="controls">
+				<?php if ($field->fieldname == 'password2') : ?>
+					<?php // Disables autocomplete ?> <input type="password" style="display:none">
+				<?php endif; ?>
+				<?php echo $field->input; ?>
+			</div>
 		</div>
 	<?php endforeach; ?>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,14 +25,12 @@ abstract class JHtmlLanguages
 	 */
 	public static function published($published)
 	{
-		if ($published)
-		{
-			return JHtml::_('image', 'menu/icon-16-default.png', JText::_('COM_LANGUAGES_HEADING_DEFAULT'), null, true);
-		}
-		else
+		if (!$published)
 		{
 			return '&#160;';
 		}
+
+		return JHtml::_('image', 'menu/icon-16-default.png', JText::_('COM_LANGUAGES_HEADING_DEFAULT'), null, true);
 	}
 
 	/**
@@ -78,11 +76,11 @@ abstract class JHtmlLanguages
 	public static function publishedOptions()
 	{
 		// Build the active state filter options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '1', 'JPUBLISHED');
-		$options[]	= JHtml::_('select.option', '0', 'JUNPUBLISHED');
-		$options[]	= JHtml::_('select.option', '-2', 'JTRASHED');
-		$options[]	= JHtml::_('select.option', '*', 'JALL');
+		$options   = array();
+		$options[] = JHtml::_('select.option', '1', 'JPUBLISHED');
+		$options[] = JHtml::_('select.option', '0', 'JUNPUBLISHED');
+		$options[] = JHtml::_('select.option', '-2', 'JTRASHED');
+		$options[] = JHtml::_('select.option', '*', 'JALL');
 
 		return $options;
 	}

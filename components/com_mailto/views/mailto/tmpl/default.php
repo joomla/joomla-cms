@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_mailto
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.core');
 JHtml::_('behavior.keepalive');
 
-$data	= $this->get('data');
+$data = $this->get('data');
 
 JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(pressbutton)

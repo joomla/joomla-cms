@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -162,14 +162,16 @@ class JUpdaterCollection extends JUpdateAdapter
 				{
 					$values['targetplatform'] = $product;
 				}
+
 				// Set this to ourself as a default
 				if (!isset($values['targetplatformversion']))
 				{
 					$values['targetplatformversion'] = $ver->RELEASE;
 				}
+
 				// Set this to ourselves as a default
 				// validate that we can install the extension
-				if ($product == $values['targetplatform'] && preg_match('/' . $values['targetplatformversion'] . '/', $ver->RELEASE))
+				if ($product == $values['targetplatform'] && preg_match('/^' . $values['targetplatformversion'] . '/', JVERSION))
 				{
 					$update->bind($values);
 					$this->updates[] = $update;

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,36 +14,41 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.multiselect');
 
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$user      = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 
 JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
-?>
-<script type="text/javascript">
-	Joomla.submitbutton = function(task)
+
+$groupsWithUsers = array();
+
+foreach ($this->items as $i => $item)
+{
+	if ($item->user_count > 0)
 	{
-		if (task == 'groups.delete')
-		{
-			var f = document.adminForm;
-			var cb='';
-<?php foreach ($this->items as $i => $item):?>
-<?php if ($item->user_count > 0):?>
-			cb = f['cb'+<?php echo $i;?>];
-			if (cb && cb.checked)
-			{
-				if (confirm(Joomla.JText._('COM_USERS_GROUPS_CONFIRM_DELETE')))
-				{
-					Joomla.submitform(task);
-				}
-				return;
-			}
-<?php endif;?>
-<?php endforeach;?>
-		}
-		Joomla.submitform(task);
+		array_push($groupsWithUsers, $i);
 	}
-</script>
+}
+JFactory::getDocument()->addScriptDeclaration('
+		Joomla.submitbutton = function(task) {
+			if (task == "groups.delete") {
+				var f = document.adminForm;
+				var cb = "";
+				var groupsWithUsers = [' . implode(',', $groupsWithUsers) . '];
+				for (index = 0; index < groupsWithUsers.length; ++index) {
+					cb = f["cb" + groupsWithUsers[index]];
+					if (cb && cb.checked) {
+						if (confirm(Joomla.JText._("COM_USERS_GROUPS_CONFIRM_DELETE"))) {
+							Joomla.submitform(task);
+						}
+						return;
+					}
+				}
+			}
+			Joomla.submitform(task);
+		};
+');
+?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=groups');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
@@ -91,7 +96,7 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 			{
 				$canEdit = false;
 			}
-			$canChange	= $user->authorise('core.edit.state',	'com_users');
+			$canChange = $user->authorise('core.edit.state',	'com_users');
 		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -74,7 +74,7 @@ class TestMockCache
 	 *
 	 * @since   12.1
 	 */
-	public function mockGet($id)
+	public static function mockGet($id)
 	{
 		return isset(self::$cache[$id]) ? self::$cache[$id] : null;
 	}
@@ -89,7 +89,7 @@ class TestMockCache
 	 *
 	 * @since   12.1
 	 */
-	public function mockStore($value, $id)
+	public static function mockStore($value, $id)
 	{
 		self::$cache[$id] = $value;
 	}

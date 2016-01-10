@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,6 +50,14 @@ defined('_JEXEC') or die;
 				</td>
 				<td>
 					<?php echo $this->info['dbcollation']; ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong><?php echo JText::_('COM_ADMIN_DATABASE_CONNECTION_COLLATION'); ?></strong>
+				</td>
+				<td>
+					<?php echo $this->info['dbconnectioncollation']; ?>
 				</td>
 			</tr>
 			<tr>

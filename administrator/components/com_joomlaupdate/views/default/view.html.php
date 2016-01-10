@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Update's Default View
  *
- * @since       2.5.4
+ * @since  2.5.4
  */
 class JoomlaupdateViewDefault extends JViewLegacy
 {
@@ -40,28 +40,19 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->assign('methodSelect', JoomlaupdateHelperSelect::getMethods($ftp['enabled']));
 
 		// Set the toolbar information.
-		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'arrow-up-2 install');
-		JToolbarHelper::custom('update.purge', 'purge', 'purge', 'JTOOLBAR_PURGE_CACHE', false, false);
+		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
+		JToolbarHelper::custom('update.purge', 'purge', 'purge', 'JTOOLBAR_PURGE_CACHE', false);
 
 		// Add toolbar buttons.
-		if (JFactory::getUser()->authorise('core.admin', 'com_joomlaupdate'))
+		$user = JFactory::getUser();
+
+		if ($user->authorise('core.admin', 'com_joomlaupdate') || $user->authorise('core.options', 'com_joomlaupdate'))
 		{
 			JToolbarHelper::preferences('com_joomlaupdate');
 		}
 
 		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
-
-		// Load mooTools.
-		JHtml::_('behavior.framework', true);
-
-		// Include jQuery.
-		JHtml::_('jquery.framework');
-
-		// Load our Javascript.
-		$document = JFactory::getDocument();
-		$document->addScript('../media/com_joomlaupdate/default.js');
-		JHtml::_('stylesheet', 'media/mediamanager.css', array(), true);
 
 		if (!is_null($this->updateInfo['object']))
 		{

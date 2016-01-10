@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 JFormHelper::loadFieldClass('list');
 
@@ -21,8 +23,8 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	/**
 	 * A flexible category list that respects access controls
 	 *
-	 * @var        string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	public $type = 'CategoryEdit';
 
@@ -62,9 +64,9 @@ class JFormFieldCategoryEdit extends JFormFieldList
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT a.id AS value, a.title AS text, a.level, a.published');
+			->select('DISTINCT a.id AS value, a.title AS text, a.level, a.published, a.lft');
 		$subQuery = $db->getQuery(true)
-			->select('DISTINCT id,title,level,published,parent_id,extension,lft,rgt')
+			->select('id,title,level,published,parent_id,extension,lft,rgt')
 			->from('#__categories');
 
 		// Filter by the extension type
@@ -90,13 +92,12 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		}
 		elseif (is_array($published))
 		{
-			JArrayHelper::toInteger($published);
-			$subQuery->where('published IN (' . implode(',', $published) . ')');
+			$subQuery->where('published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
 		}
 
-		$subQuery->order('lft ASC');
-		$query->from('(' . $subQuery->__toString() . ') AS a')
+		$query->from('(' . (string) $subQuery . ') AS a')
 			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->order('a.lft ASC');
 
 		// If parent isn't explicitly stated but we are in com_categories assume we want parents
 		if ($oldCat != 0 && ($this->element['parent'] == true || $jinput->get('option') == 'com_categories'))
@@ -226,8 +227,6 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
+		return array_merge(parent::getOptions(), $options);
 	}
 }

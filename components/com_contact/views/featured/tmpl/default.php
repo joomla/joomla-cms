@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,6 +22,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 <?php endif; ?>
 
 <?php echo $this->loadTemplate('items'); ?>
+
 <?php if ($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2 && $this->pagination->pagesTotal > 1)) : ?>
 	<div class="pagination">
 
@@ -29,9 +30,9 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 			<p class="counter">
 				<?php echo $this->pagination->getPagesCounter(); ?>
 			</p>
-		<?php  endif; ?>
-				<?php echo $this->pagination->getPagesLinks(); ?>
+		<?php endif; ?>
+
+		<?php echo $this->pagination->getPagesLinks(); ?>
 	</div>
 <?php endif; ?>
-
 </div>

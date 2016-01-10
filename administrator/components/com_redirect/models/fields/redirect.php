@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,6 +102,7 @@ class JFormFieldRedirect extends JFormFieldList
 	 * Method to get the field input markup.
 	 *
 	 * @return  string	The field input markup.
+	 *
 	 * @since   3.4
 	 */
 	protected function getOptions()

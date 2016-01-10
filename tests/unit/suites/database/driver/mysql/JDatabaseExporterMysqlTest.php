@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,11 +32,25 @@ class JDatabaseExporterMysqlTest extends TestCase
 	protected $dbo = null;
 
 	/**
-	 * Sets up the testing conditions
+	 * This method is called before the first test of this test class is run.
 	 *
 	 * @return  void
 	 */
-	public function setup()
+	public static function setUpBeforeClass()
+	{
+		if (PHP_MAJOR_VERSION >= 7)
+		{
+			self::markTestSkipped('ext/mysql is unsupported on PHP 7.');
+		}
+	}
+
+	/**
+	 * Sets up the fixture, for example, open a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 */
+	protected function setUp()
 	{
 		$this->dbo = $this->getMockDatabase('Mysql');
 
@@ -101,6 +115,8 @@ class JDatabaseExporterMysqlTest extends TestCase
 			->expects($this->any())
 			->method('loadObjectList')
 			->willReturnCallback(array($this, 'callbackLoadObjectList'));
+
+		parent::setUp();
 	}
 
 	/**

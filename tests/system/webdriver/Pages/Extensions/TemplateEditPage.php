@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,13 +24,13 @@ use SeleniumClient\WebElement;
  */
 class TemplateEditPage extends AdminEditPage
 {
-  /**
+	/**
 	 * XPath string used to uniquely identify this page
 	 *
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $waitForXpath =  "//form[@id='style-form']";
+	protected $waitForXpath = "//form[@id='style-form']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -56,7 +56,8 @@ class TemplateEditPage extends AdminEditPage
 	 * @since  3.0
 	 */
 	public $tabLabels = array('Details','Options');
-	//Options screen would be present in some plugins and in some plugins the screen would not be present
+
+	// Options screen would be present in some plugins and in some plugins the screen would not be present
 
 	/**
 	 * Array of all the field Details of the Edit page, along with the ID and tab value they are present on
@@ -67,8 +68,8 @@ class TemplateEditPage extends AdminEditPage
 	public $inputFields = array (
 			array('label' => 'Style Name', 'id' => 'jform_title', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Default', 'id' => 'jform_home', 'type' => 'fieldset', 'tab' => 'details'),
-			array('lable' => 'Show Site Name', 'id'=>'jform_params_showSiteName', 'type' => 'fieldset', 'tab' => 'options'),
-			array('lable' => 'Select Colour', 'id'=>'jform_params_colourChoice', 'type' => 'select', 'tab' => 'options'),
-			array('lable' => 'Bold Text', 'id'=>'jform_params_boldText', 'type' => 'fieldset', 'tab' => 'options'),
+			array('lable' => 'Show Site Name', 'id' => 'jform_params_showSiteName', 'type' => 'fieldset', 'tab' => 'options'),
+			array('lable' => 'Select Colour', 'id' => 'jform_params_colourChoice', 'type' => 'select', 'tab' => 'options'),
+			array('lable' => 'Bold Text', 'id' => 'jform_params_boldText', 'type' => 'fieldset', 'tab' => 'options'),
 			);
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -246,7 +246,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array  Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
 	 */
-	public function dataGetAlterTableSQL()
+	public function dataGetAlterTableSql()
 	{
 		$f1 = '<field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" ' .
 			'Comments="" />';
@@ -393,7 +393,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array  Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
 	 */
-	public function dataGetColumnSQL()
+	public function dataGetColumnSql()
 	{
 		$sample = array(
 			'xml-id-field' => '<field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',
@@ -525,7 +525,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * Note that combinations of fields are tested in testGetColumnSQL.
 	 */
-	public function testGetAddColumnSQL()
+	public function testGetAddColumnSql()
 	{
 		$instance = new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
@@ -565,7 +565,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getAddSequenceSQL method.
 	 */
-	public function testGetAddSequenceSQL()
+	public function testGetAddSequenceSql()
 	{
 		$instance = new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
@@ -585,7 +585,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getAddIndexSQL method.
 	 */
-	public function testGetAddIndexSQL()
+	public function testGetAddIndexSql()
 	{
 		$xmlIndex = '<key Index="jos_dbtest_idx_name" is_primary="FALSE" is_unique="FALSE" ' .
 			'Query="CREATE INDEX jos_dbtest_idx_name ON jos_dbtest USING btree (name)" />';
@@ -621,7 +621,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider dataGetAlterTableSQL
 	 */
-	public function testGetAlterTableSQL($structure, $expected, $message)
+	public function testGetAlterTableSql($structure, $expected, $message)
 	{
 		$instance = new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
@@ -640,7 +640,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * Note that combinations of fields is tested in testGetColumnSQL
 	 */
-	public function testGetChangeColumnSQL()
+	public function testGetChangeColumnSql()
 	{
 		$xmlTitleField = '<field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />';
 
@@ -661,7 +661,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getChangeSequenceSQL method.
 	 */
-	public function testGetChangeSequenceSQL()
+	public function testGetChangeSequenceSql()
 	{
 		$xmlIdSeq = '<sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" ' .
 			'Type="bigint" Start_Value="1" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" /> ';
@@ -687,7 +687,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider dataGetColumnSQL
 	 */
-	public function testGetColumnSQL($field, $expected, $message)
+	public function testGetColumnSql($field, $expected, $message)
 	{
 		$instance	= new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
@@ -702,7 +702,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getDropColumnSQL method.
 	 */
-	public function testGetDropColumnSQL()
+	public function testGetDropColumnSql()
 	{
 		$instance = new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
@@ -719,7 +719,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getDropKeySQL method.
 	 */
-	public function testGetDropIndexSQL()
+	public function testGetDropIndexSql()
 	{
 		$instance = new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
@@ -736,7 +736,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getDropPrimaryKeySQL method.
 	 */
-	public function testGetDropPrimaryKeySQL()
+	public function testGetDropPrimaryKeySql()
 	{
 		$instance = new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);
@@ -753,7 +753,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getDropSequenceSQL method.
 	 */
-	public function testGetDropSequenceSQL()
+	public function testGetDropSequenceSql()
 	{
 		$instance = new JDatabaseImporterPostgresql;
 		$instance->setDbo($this->dbo);

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -102,8 +102,8 @@ class JCacheControllerPage extends JCacheController
 		}
 
 		// Set id and group placeholders
-		$this->_id 		= $id;
-		$this->_group 	= $group;
+		$this->_id    = $id;
+		$this->_group = $group;
 
 		return false;
 	}
@@ -147,9 +147,9 @@ class JCacheControllerPage extends JCacheController
 				$data = JCache::setWorkarounds(
 					$data, array(
 						'nopathway' => 1,
-						'nohead' 	=> 1,
+						'nohead'    => 1,
 						'nomodules' => 1,
-						'headers' 	=> true
+						'headers'   => true
 					)
 				);
 			}

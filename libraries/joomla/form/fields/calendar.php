@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -89,7 +89,6 @@ class JFormFieldCalendar extends JFormField
 		{
 			case 'maxlength':
 				$value = (int) $value;
-
 			case 'format':
 			case 'filter':
 				$this->$name = (string) $value;
@@ -165,7 +164,7 @@ class JFormFieldCalendar extends JFormField
 		// Handle the special case for "now".
 		if (strtoupper($this->value) == 'NOW')
 		{
-			$this->value = strftime($format);
+			$this->value = JFactory::getDate()->format('Y-m-d H:i:s');
 		}
 
 		// Get some system objects.
@@ -177,7 +176,7 @@ class JFormFieldCalendar extends JFormField
 		{
 			case 'SERVER_UTC':
 				// Convert a date to UTC based on the server timezone.
-				if ((int) $this->value && $this->value != JFactory::getDbo()->getNullDate())
+				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
 				{
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
@@ -191,7 +190,7 @@ class JFormFieldCalendar extends JFormField
 
 			case 'USER_UTC':
 				// Convert a date to UTC based on the user timezone.
-				if ((int) $this->value && $this->value != JFactory::getDbo()->getNullDate())
+				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
 				{
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');

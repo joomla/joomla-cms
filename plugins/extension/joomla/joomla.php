@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Joomla
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -229,8 +229,8 @@ class PlgExtensionJoomla extends JPlugin
 	 */
 	private function processUpdateSites()
 	{
-		$manifest		= $this->installer->getManifest();
-		$updateservers	= $manifest->updateservers;
+		$manifest      = $this->installer->getManifest();
+		$updateservers = $manifest->updateservers;
 
 		if ($updateservers)
 		{

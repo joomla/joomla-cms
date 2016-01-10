@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,18 +12,21 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-JHtml::_('behavior.formvalidation');
-?>
+JHtml::_('behavior.formvalidator');
 
-<script type="text/javascript">
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'menu.cancel' || document.formvalidator.isValid(document.id('item-form')))
+JText::script('ERROR');
+
+JFactory::getDocument()->addScriptDeclaration("
+		Joomla.submitbutton = function(task)
 		{
-			Joomla.submitform(task, document.getElementById('item-form'));
-		}
-	}
-</script>
+			var form = document.getElementById('item-form');
+			if (task == 'menu.cancel' || document.formvalidator.isValid(form))
+			{
+				Joomla.submitform(task, form);
+			}
+		};
+");
+?>
 
 <div class="menu-edit">
 

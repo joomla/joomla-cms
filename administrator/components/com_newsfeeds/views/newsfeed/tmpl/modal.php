@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,6 +35,8 @@ JFactory::getDocument()->addScriptDeclaration("
 		}
 	};
 ");
+
+$this->ignore_fieldsets = array('jbasic', 'item_associations');
 ?>
 <div class="container-popup">
 
@@ -93,7 +95,6 @@ JFactory::getDocument()->addScriptDeclaration("
 		<?php echo $this->loadTemplate('display'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php $this->set('ignore_fieldsets', array('jbasic')); ?>
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php if ($assoc) : ?>

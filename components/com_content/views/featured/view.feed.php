@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ class ContentViewFeatured extends JViewLegacy
 		$app       = JFactory::getApplication();
 		$doc       = JFactory::getDocument();
 		$params    = $app->getParams();
-		$feedEmail = $app->get('feed_email', 'author');
+		$feedEmail = $app->get('feed_email', 'none');
 		$siteEmail = $app->get('mailfrom');
 		$doc->link = JRoute::_('index.php?option=com_content&view=featured');
 
@@ -59,18 +59,18 @@ class ContentViewFeatured extends JViewLegacy
 			$db->setQuery($query);
 			$row->fulltext = $db->loadResult();
 
-			$description	= ($params->get('feed_summary', 0) ? $row->introtext . $row->fulltext : $row->introtext);
-			$author			= $row->created_by_alias ? $row->created_by_alias : $row->author;
+			$description = ($params->get('feed_summary', 0) ? $row->introtext . $row->fulltext : $row->introtext);
+			$author      = $row->created_by_alias ? $row->created_by_alias : $row->author;
 
 			// Load individual item creator class
-			$item				= new JFeedItem;
-			$item->title		= $title;
-			$item->link			= $link;
-			$item->date			= $row->publish_up;
-			$item->category		= array();
+			$item           = new JFeedItem;
+			$item->title    = $title;
+			$item->link     = $link;
+			$item->date     = $row->publish_up;
+			$item->category = array();
 
 			// All featured articles are categorized as "Featured"
-			$item->category[]	= JText::_('JFEATURED');
+			$item->category[] = JText::_('JFEATURED');
 
 			for ($item_category = $categories->get($row->catid); $item_category !== null; $item_category = $item_category->getParent())
 			{

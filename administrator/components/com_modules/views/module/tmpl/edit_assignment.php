@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,6 +36,7 @@ $script = "
 		}
 	}
 ";
+
 // Add the script to the document head
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
@@ -107,7 +108,18 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							<li>
 								<div class="treeselect-item pull-left">
 									<input type="checkbox" class="pull-left" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; ?> />
-									<label for="<?php echo $id . $link->value; ?>" class="pull-left"><?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias));?></span></label>
+									<label for="<?php echo $id . $link->value; ?>" class="pull-left">
+										<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias));?></span>
+										<?php if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*')
+										{
+											echo JHtml::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, array('title' => $link->language_title), true);
+										}
+										if ($link->published == 0)
+										{
+											echo ' <span class="label">' . JText::_('JUNPUBLISHED') . '</span>';
+										}
+										?>
+									</label>
 								</div>
 						<?php
 
@@ -134,14 +146,14 @@ JFactory::getDocument()->addScriptDeclaration($script);
 						<ul class="dropdown-menu">
 							<li class="nav-header"><?php echo JText::_('COM_MODULES_SUBITEMS'); ?></li>
 							<li class="divider"></li>
-							<li class=""><a class="checkall" href="javascript://"><i class="icon-checkbox"></i> <?php echo JText::_('JSELECT'); ?></a>
+							<li class=""><a class="checkall" href="javascript://"><span class="icon-checkbox"></span> <?php echo JText::_('JSELECT'); ?></a>
 							</li>
-							<li><a class="uncheckall" href="javascript://"><i class="icon-checkbox-unchecked"></i> <?php echo JText::_('COM_MODULES_DESELECT'); ?></a>
+							<li><a class="uncheckall" href="javascript://"><span class="icon-checkbox-unchecked"></span> <?php echo JText::_('COM_MODULES_DESELECT'); ?></a>
 							</li>
 							<div class="treeselect-menu-expand">
 							<li class="divider"></li>
-							<li><a class="expandall" href="javascript://"><i class="icon-plus"></i> <?php echo JText::_('COM_MODULES_EXPAND'); ?></a></li>
-							<li><a class="collapseall" href="javascript://"><i class="icon-minus"></i> <?php echo JText::_('COM_MODULES_COLLAPSE'); ?></a></li>
+							<li><a class="expandall" href="javascript://"><span class="icon-plus"></span> <?php echo JText::_('COM_MODULES_EXPAND'); ?></a></li>
+							<li><a class="collapseall" href="javascript://"><span class="icon-minus"></span> <?php echo JText::_('COM_MODULES_COLLAPSE'); ?></a></li>
 							</div>
 						</ul>
 					</div>

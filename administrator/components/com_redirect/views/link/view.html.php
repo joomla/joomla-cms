@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,9 +33,9 @@ class RedirectViewLink extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->form		= $this->get('Form');
-		$this->item		= $this->get('Item');
-		$this->state	= $this->get('State');
+		$this->form  = $this->get('Form');
+		$this->item  = $this->get('Item');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -60,9 +60,10 @@ class RedirectViewLink extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$canDo		= JHelperContent::getActions('com_redirect');
+		$isNew = ($this->item->id == 0);
+		$canDo = JHelperContent::getActions('com_redirect');
 
-		JToolbarHelper::title(JText::_('COM_REDIRECT_MANAGER_LINK'), 'refresh redirect');
+		JToolbarHelper::title($isNew ? JText::_('COM_REDIRECT_MANAGER_LINK_NEW') : JText::_('COM_REDIRECT_MANAGER_LINK_EDIT'), 'refresh redirect');
 
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))

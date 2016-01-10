@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -247,7 +247,7 @@ class JCacheStorage
 	 *
 	 * @return   boolean  True on success, false otherwise
 	 *
-	 * @since    12.1.
+	 * @since    12.1
 	 */
 	public static function isSupported()
 	{
@@ -312,10 +312,11 @@ class JCacheStorage
 	 */
 	protected function _getCacheId($id, $group)
 	{
+		$prefix = JCache::getPlatformPrefix();
 		$name = md5($this->_application . '-' . $id . '-' . $this->_language);
 		$this->rawname = $this->_hash . '-' . $name;
 
-		return $this->_hash . '-cache-' . $group . '-' . $name;
+		return $prefix . $this->_hash . '-cache-' . $group . '-' . $name;
 	}
 
 	/**

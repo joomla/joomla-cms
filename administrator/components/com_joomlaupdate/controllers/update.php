@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -121,7 +121,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		$model->cleanUp();
 
-		$url = 'index.php?option=com_joomlaupdate&layout=complete';
+		$url = 'index.php?option=com_joomlaupdate&view=default&layout=complete';
 		$this->setRedirect($url);
 		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', JVERSION), JLog::INFO, 'Update');
 	}
