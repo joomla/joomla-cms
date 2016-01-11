@@ -23,62 +23,64 @@ class JHtmlAssetFactory
 	 * @var array as filePath => (bool) isNew
 	 *
 	 * @example of data file:
-		{
-			"title" : "Example",
-			"name"  : "com_example",
-			"author": "Joomla! CMS",
-			"assets": [
-				{
-					"name": "library1",
-					"version": "3.5.0",
-					"versionAttach": true,
-					"js": [
-						"com_example/library1.min.js"
-					]
-				},
-				{
-					"name": "library2",
-					"version": "3.5.0",
-					"js": [
-						"com_example/library2.min.js"
-					],
-					"css": [
-						"com_example/library2.css"
-					],
-					"dependency": [
-						"core",
-						"library1"
-					],
-					"attribute": {
-						"com_example/library2.min.js": {
-							"attrname": "attrvalue"
-						},
-						"com_example/library2.css": {
-							"media": "all"
-						}
-					}
-				},
-
-			]
-		}
+	 *	{
+	 *		"title" : "Example",
+	 *		"name"  : "com_example",
+	 *		"author": "Joomla! CMS",
+	 *		"assets": [
+	 *			{
+	 *				"name": "library1",
+	 *				"version": "3.5.0",
+	 *				"versionAttach": true,
+	 *				"js": [
+	 *					"com_example/library1.min.js"
+	 *				]
+	 *			},
+	 *			{
+	 *				"name": "library2",
+	 *				"version": "3.5.0",
+	 *				"js": [
+	 *					"com_example/library2.min.js"
+	 *				],
+	 *				"css": [
+	 *					"com_example/library2.css"
+	 *				],
+	 *				"dependency": [
+	 *					"core",
+	 *					"library1"
+	 *				],
+	 *				"attribute": {
+	 *					"com_example/library2.min.js": {
+	 *						"attrname": "attrvalue"
+	 *					},
+	 *					"com_example/library2.css": {
+	 *						"media": "all"
+	 *					}
+	 *				}
+	 *			},
+	 *		]
+	 *	}
 	 *
 	 */
 	protected $dataFiles = array();
 
 	/**
 	 * Available Assets
+	 *
 	 * @var array
 	 */
 	protected $assets = array();
 
 	/**
 	 * Weight of the most heavier active asset
+	 *
 	 * @var float $lastItemWeight
 	 */
 	protected $lastItemWeight = 1;
 
 	/**
 	 * Deafult defer mode for attached JavaScripts
+	 *
 	 * @var bool $jsDeferMode
 	 */
 	protected $jsDeferMode = null;
@@ -93,8 +95,10 @@ class JHtmlAssetFactory
 
 	/**
 	 * Add asset to collection of known assets
-	 * @param  JHtmlAssetItem $asset
-	 * @return JHtmlAssetFactory
+	 *
+	 * @param  JHtmlAssetItem  $asset
+	 *
+	 * @return  JHtmlAssetFactory
 	 */
 	public function addAsset(JHtmlAssetItem $asset)
 	{
@@ -106,12 +110,14 @@ class JHtmlAssetFactory
 
 	/**
 	 * Remove Asset by name
-	 * @param string $name
-	 * @return JHtmlAssetFactory
+	 *
+	 * @param  string  $name
+	 *
+	 * @return  JHtmlAssetFactory
 	 */
 	public function removeAsset($name)
 	{
-		if(!empty($this->assets[$name]))
+		if (!empty($this->assets[$name]))
 		{
 			unset($this->assets[$name]);
 		}
@@ -121,15 +127,17 @@ class JHtmlAssetFactory
 
 	/**
 	 * Get asset by it's name
-	 * @param string $name Asset name
-	 * @return JHtmlAssetItem|bool Return asset object or false if asset doesnot exists
+	 *
+	 * @param  string $name  Asset name
+	 *
+	 * @return  JHtmlAssetItem|bool Return asset object or false if asset doesnot exists
 	 */
 	public function getAsset($name)
 	{
 		// Check if there any new data file was added
 		$this->parseDataFiles();
 
-		if(!empty($this->assets[$name]))
+		if (!empty($this->assets[$name]))
 		{
 			return $this->assets[$name];
 		}
@@ -139,18 +147,21 @@ class JHtmlAssetFactory
 
 	/**
 	 * Return dependancy for Asset as array of AssetItem objects
-	 * @param JHtmlAssetItem $asset
-	 * @return JHtmlAssetItem[]
-	 * @throws RuntimeException When Dependency cannot be found
+	 *
+	 * @param  JHtmlAssetItem  $asset
+	 *
+	 * @return  JHtmlAssetItem[]
+	 * @throws  RuntimeException When Dependency cannot be found
 	 */
 	public function getAssetDependancy(JHtmlAssetItem $asset)
 	{
 		$assets = array();
 
-		foreach($asset->getDependency() as $depName){
+		foreach ($asset->getDependency() as $depName)
+		{
 			$dep = $this->getAsset($depName);
 
-			if(!$dep)
+			if (!$dep)
 			{
 				throw new RuntimeException('Cannot find Dependency "' . $depName . '" for Asset "' . $asset->getName() . '"');
 			}
@@ -163,17 +174,19 @@ class JHtmlAssetFactory
 
 	/**
 	 * Activate deactivate the asset by name
-	 * @param string $name  Asset name
-	 * @param bool   $state New state
-	 * @param bool   $force Force weight calculation if the Asset alredy was enabled previously
-	 * @return JHtmlAssetFactory
-	 * @throws RuntimeException if asset with given name does not exists
+	 *
+	 * @param  string  $name   Asset name
+	 * @param  bool    $state  New state
+	 * @param  bool    $force  Force weight calculation if the Asset alredy was enabled previously
+	 *
+	 * @return  JHtmlAssetFactory
+	 * @throws  RuntimeException if asset with given name does not exists
 	 */
 	public function makeActive($name, $state = true, $force = false)
 	{
 		$asset = $this->getAsset($name);
 
-		if(!$asset)
+		if (!$asset)
 		{
 			throw new RuntimeException('Asset "' . $name . '" do not exists');
 		}
@@ -188,7 +201,7 @@ class JHtmlAssetFactory
 		$asset->setActive($state);
 
 		// Calculate weight
-		if($state)
+		if ($state)
 		{
 			$dependency = $asset->getDependency();
 			$this->lastItemWeight = $this->lastItemWeight + count($dependency) + 1;
@@ -200,7 +213,8 @@ class JHtmlAssetFactory
 
 	/**
 	 * Search for all active assets.
-	 * @return JHtmlAssetItem[] Array with active assets
+	 *
+	 * @return  JHtmlAssetItem[]  Array with active assets
 	 */
 	public function getActiveAssets()
 	{
@@ -216,19 +230,24 @@ class JHtmlAssetFactory
 
 	/**
 	 * Allow to change default defer behaviour forJavaScript files
-	 * @param bool $defer
-	 * @return JHtmlAssetFactory
+	 *
+	 * @param  bool  $defer
+	 *
+	 * @return  JHtmlAssetFactory
 	 */
 	public function deferJavaScript($defer = null)
 	{
 		$this->jsDeferMode = $defer;
+
 		return $this;
 	}
 
 	/**
 	 * Attach active assets to the Document
-	 * @param JDocument $doc
-	 * @return void
+	 *
+	 * @param  JDocument  $doc
+	 *
+	 * @return  void
 	 */
 	public function attach(JDocument $doc)
 	{
@@ -248,7 +267,8 @@ class JHtmlAssetFactory
 		$jsBack = $doc->_scripts;
 		$doc->_scripts = array();
 
-		foreach($assets as $asset){
+		foreach ($assets as $asset)
+		{
 			if ($this->jsDeferMode !== null)
 			{
 				$asset->deferJavaScript($this->jsDeferMode);
@@ -263,14 +283,16 @@ class JHtmlAssetFactory
 
 	/**
 	 * Resolve Dependency for active assets
-	 * @return JHtmlAssetFactory
-	 * @throws RuntimeException When Dependency cannot be resolved
+	 *
+	 * @return  JHtmlAssetFactory
+	 * @throws  RuntimeException When Dependency cannot be resolved
 	 */
 	protected function resolveDependency()
 	{
 		$assets = $this->getActiveAssets();
 
-		foreach($assets as $asset){
+		foreach ($assets as $asset)
+		{
 			$this->resolveItemDependency($asset);
 		}
 
@@ -279,13 +301,16 @@ class JHtmlAssetFactory
 
 	/**
 	 * Resolve Dependency for given asset
-	 * @param JHtmlAssetItem $asset
-	 * @return JHtmlAssetFactory
-	 * @throws RuntimeException When Dependency cannot be resolved
+	 *
+	 * @param  JHtmlAssetItem  $asset
+	 *
+	 * @return  JHtmlAssetFactory
+	 * @throws  RuntimeException When Dependency cannot be resolved
 	 */
 	protected function resolveItemDependency(JHtmlAssetItem $asset)
 	{
-		foreach($this->getAssetDependancy($asset) as $depItem){
+		foreach ($this->getAssetDependancy($asset) as $depItem)
+		{
 			$oldState = $depItem->isActive();
 
 			// Make active
@@ -313,13 +338,16 @@ class JHtmlAssetFactory
 
 	/**
 	 * Sort assets by it`s weight
-	 * @param JHtmlAssetItem[] $assets Linked array
-	 * @param bool $ask Order direction: true for ASC and false for DESC
-	 * @return JHtmlAssetFactory
+	 *
+	 * @param  JHtmlAssetItem[]  $assets  Linked array
+	 * @param  bool              $ask     Order direction: true for ASC and false for DESC
+	 *
+	 * @return  JHtmlAssetFactory
 	 */
 	protected function sortByWeight(array &$assets, $ask = true)
 	{
 		uasort($assets, function($a, $b) use ($ask) {
+
 			if ($a->getWeight() === $b->getWeight())
 			{
 				return 0;
@@ -340,13 +368,16 @@ class JHtmlAssetFactory
 
 	/**
 	 * Register new file with asset info
+	 *
 	 * @param  string  $path  Relative path
-	 * @return JHtmlAssetFactory
-	 * @throws UnexpectedValueException If file does not exists
+	 *
+	 * @return  JHtmlAssetFactory
+	 * @throws  UnexpectedValueException If file does not exists
 	 */
 	public function registerDataFile($path)
 	{
 		$path = JPath::clean($path);
+
 		if (!is_file(JPATH_ROOT . '/' . $path))
 		{
 			throw new UnexpectedValueException('Asset data file do not available');
@@ -362,7 +393,8 @@ class JHtmlAssetFactory
 
 	/**
 	 * Search for joomla.asset.json filse in the Media folder
-	 * @return void
+	 *
+	 * @return  void
 	 */
 	protected function searchForDataFiles()
 	{
@@ -373,7 +405,8 @@ class JHtmlAssetFactory
 			return;
 		}
 
-		foreach ($files as $file) {
+		foreach ($files as $file)
+		{
 			$path = preg_replace('#^' . JPATH_ROOT . '/#', '', $file);
 			$this->registerDataFile($path);
 		}
@@ -381,12 +414,14 @@ class JHtmlAssetFactory
 
 	/**
 	 * Parse registered data files
-	 * @return void
+	 *
+	 * @return  void
 	 */
 	protected function parseDataFiles()
 	{
 		// Filter new asset data files and parse each
-		foreach (array_keys(array_filter($this->dataFiles)) as $path) {
+		foreach (array_keys(array_filter($this->dataFiles)) as $path)
+		{
 			$this->parseDataFile($path);
 
 			// Mark as parsed (not new)
@@ -396,8 +431,9 @@ class JHtmlAssetFactory
 
 	/**
 	 * Parse data file
-	 * @return void
-	 * @throws RuntimeException If file is empty or invalid
+	 *
+	 * @return  void
+	 * @throws  RuntimeException If file is empty or invalid
 	 */
 	protected function parseDataFile($path)
 	{
@@ -419,8 +455,9 @@ class JHtmlAssetFactory
 		$owner['dataFile'] = $path;
 		unset($owner['assets']);
 
-		foreach ($data['assets'] as $item){
-			if(empty($item['name']))
+		foreach ($data['assets'] as $item)
+		{
+			if (empty($item['name']))
 			{
 				throw new RuntimeException('Asset data file "' . $path . '" contains incorrect asset defination');
 			}
@@ -437,7 +474,7 @@ class JHtmlAssetFactory
 	 * @param  array   $info
 	 * @param  array   $owner
 	 *
-	 * @return JHtmlAssetItem
+	 * @return  JHtmlAssetItem
 	 */
 	public function prepareAssetInstance($name, array $info = array(), array $owner = array())
 	{
@@ -473,7 +510,7 @@ class JHtmlAssetFactory
 
 		if (!empty($info['attribute']) && is_array($info['attribute']))
 		{
-			foreach($info['attribute'] as $file => $attributes)
+			foreach ($info['attribute'] as $file => $attributes)
 			{
 				$asset->setAttributes($file, $attributes);
 			}
@@ -485,25 +522,27 @@ class JHtmlAssetFactory
 	/**
 	 * Helper method to build the joomla.asset.json data from files in the media folder
 	 *
-	 * @param string $pathBase Relative path to Folder for scan for files
-	 * @param string $prefix   Media folder prefix
-	 * @param string $title
-	 * @param string $author
+	 * @param  string  $pathBase  Relative path to Folder for scan for files
+	 * @param  string  $prefix    Media folder prefix
+	 * @param  string  $title
+	 * @param  string  $author
 	 *
-	 * @return string JSON data
+	 * @return  string JSON data
 	 */
 	public function buildDataFileContent($pathBase, $prefix = null, $title = '', $author = 'Joomla! CMS')
 	{
-		$title  = $title ? $title : 'Autogenerated assets collection';
-		$assets = array();
+		$title    = $title ? $title : 'Autogenerated assets collection';
+		$assets   = array();
 		$prefix   = $prefix === null ? preg_replace('#^media\/#', '', $pathBase) : $prefix;
 		$pathBase = JPath::clean(JPATH_ROOT . '/' . trim($pathBase, '/'));
 
 		// Search for JavaScript files
 		$js = JFolder::files($pathBase, '\.js$', true, true);
+
 		if (!empty($js))
 		{
-			foreach($js as $file){
+			foreach ($js as $file){
+
 				// Remove base path
 				$relative = preg_replace('#^' . $pathBase . '/#', '', $file);
 
@@ -511,7 +550,7 @@ class JHtmlAssetFactory
 				$parts = explode('/', $relative);
 				$sIndex = count($parts) - 2;
 
-				if(!empty($parts[$sIndex]) && $parts[$sIndex] === 'js')
+				if (!empty($parts[$sIndex]) && $parts[$sIndex] === 'js')
 				{
 					unset($parts[$sIndex]);
 				}
@@ -519,7 +558,7 @@ class JHtmlAssetFactory
 				$relative = implode('/', $parts);
 				$name     = preg_replace(array('#-uncompressed\.js$#', '#\.min\.js$#', '#\.js$#'), '', $relative);
 
-				if(empty($assets[$name]))
+				if (empty($assets[$name]))
 				{
 					$assets[$name] = array(
 						'name' => $name,
@@ -529,15 +568,18 @@ class JHtmlAssetFactory
 						'dependency' => array(),
 					);
 				}
+
 				$assets[$name]['js'][$name] = $prefix . '/' . $relative;
 			}
 		}
 
 		// Search for StyleSheet files
 		$css = JFolder::files($pathBase, '\.css$', true, true);
+
 		if (!empty($css))
 		{
-			foreach($css as $file){
+			foreach ($css as $file){
+
 				// Remove base path
 				$relative = preg_replace('#^' . $pathBase . '/#', '', $file);
 
@@ -545,7 +587,7 @@ class JHtmlAssetFactory
 				$parts = explode('/', $relative);
 				$sIndex = count($parts) - 2;
 
-				if(!empty($parts[$sIndex]) && $parts[$sIndex] === 'css')
+				if (!empty($parts[$sIndex]) && $parts[$sIndex] === 'css')
 				{
 					unset($parts[$sIndex]);
 				}
@@ -553,7 +595,7 @@ class JHtmlAssetFactory
 				$relative = implode('/', $parts);
 				$name     = preg_replace(array('#\.min\.css$#', '#\.css$#'), '', $relative);
 
-				if(empty($assets[$name]))
+				if (empty($assets[$name]))
 				{
 					$assets[$name] = array(
 						'name' => $name,
@@ -563,12 +605,14 @@ class JHtmlAssetFactory
 						'dependency' => array(),
 					);
 				}
+
 				$assets[$name]['css'][$name] = $prefix . '/' . $relative;
 			}
 		}
 
 		// Remove asset "keys", and empty valuse
-		foreach($assets as $name => $asset) {
+		foreach ($assets as $name => $asset) {
+
 			if (empty($asset['js']))
 			{
 				unset($assets[$name]['js']);
@@ -578,7 +622,7 @@ class JHtmlAssetFactory
 				$assets[$name]['js'] = array_values($asset['js']);
 			}
 
-			if(empty($asset['css']))
+			if (empty($asset['css']))
 			{
 				unset($assets[$name]['css']);
 			}

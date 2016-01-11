@@ -16,18 +16,21 @@ class JHtmlAssetItem
 {
 	/**
 	 * Asset name
+	 *
 	 * @var  string  $name
 	 */
 	protected $name;
 
 	/**
 	 * Asset version
+	 *
 	 * @var  string
 	 */
 	protected $version;
 
 	/**
 	 * Whether attach the version to the scripts/stylesheets
+	 *
 	 * @var bool
 	 */
 	protected $versionAttach = false;
@@ -35,24 +38,28 @@ class JHtmlAssetItem
 	/**
 	 * Asset data file owner info.
 	 * Just for debug, where it come from.
+	 *
 	 * @var array $owner
 	 */
 	protected $owner;
 
 	/**
 	 * Asset JavaScript files
+	 *
 	 * @var  string[]
 	 */
 	protected $js = array();
 
 	/**
 	 * Asset StyleSheet files
+	 *
 	 * @var  string[]
 	 */
 	protected $css = array();
 
 	/**
 	 * Asset dependency
+	 *
 	 * @var  string[]
 	 */
 	protected $dependency = array();
@@ -66,18 +73,21 @@ class JHtmlAssetItem
 
 	/**
 	 * Item weight
+	 *
 	 * @var float
 	 */
 	protected $weight = 0;
 
 	/**
 	 * Asset state
+	 *
 	 * @var bool $active
 	 */
 	protected $active = false;
 
 	/**
 	 * Deafult defer mode for attached JavaScripts
+	 *
 	 * @var bool $jsDeferMode
 	 */
 	protected $jsDeferMode = false;
@@ -98,7 +108,8 @@ class JHtmlAssetItem
 
 	/**
 	 * Return asset name
-	 * @return string
+	 *
+	 * @return  string
 	 */
 	public function getName()
 	{
@@ -107,7 +118,8 @@ class JHtmlAssetItem
 
 	/**
 	 * Return asset version
-	 * @return string
+	 *
+	 * @return  string
 	 */
 	public function getVersion()
 	{
@@ -116,8 +128,10 @@ class JHtmlAssetItem
 
 	/**
 	 * Set JavaScript files
-	 * @param array $js
-	 * @return JHtmlAssetItem
+	 *
+	 * @param  array  $js
+	 *
+	 * @return  JHtmlAssetItem
 	 */
 	public function setJs(array $js)
 	{
@@ -128,7 +142,8 @@ class JHtmlAssetItem
 
 	/**
 	 * Return JavaScript files
-	 * @return array
+	 *
+	 * @return  array
 	 */
 	public function getJs()
 	{
@@ -137,8 +152,10 @@ class JHtmlAssetItem
 
 	/**
 	 * Allow to change default defer behaviour forJavaScript files
-	 * @param bool $defer
-	 * @return JHtmlAssetItem
+	 *
+	 * @param  bool  $defer
+	 *
+	 * @return  JHtmlAssetItem
 	 */
 	public function deferJavaScript($defer = true)
 	{
@@ -149,8 +166,10 @@ class JHtmlAssetItem
 
 	/**
 	 * Set StyleSheet files
-	 * @param array $css
-	 * @return JHtmlAssetItem
+	 *
+	 * @param  array  $css
+	 *
+	 * @return  JHtmlAssetItem
 	 */
 	public function setCss(array $css)
 	{
@@ -161,7 +180,8 @@ class JHtmlAssetItem
 
 	/**
 	 * Return StyleSheet files
-	 * @return array
+	 *
+	 * @return  array
 	 */
 	public function getCss()
 	{
@@ -170,8 +190,10 @@ class JHtmlAssetItem
 
 	/**
 	 * Set dependency
-	 * @param array $dependency
-	 * @return JHtmlAssetItem
+	 *
+	 * @param  array  $dependency
+	 *
+	 * @return  JHtmlAssetItem
 	 */
 	public function setDependency(array $dependency)
 	{
@@ -182,7 +204,8 @@ class JHtmlAssetItem
 
 	/**
 	 * Return dependency
-	 * @return array
+	 *
+	 * @return  array
 	 */
 	public function getDependency()
 	{
@@ -191,9 +214,11 @@ class JHtmlAssetItem
 
 	/**
 	 * Set Attributes for asset file
-	 * @param string $file JavaScript/StyleSheet asset file
-	 * @param array $attributes
-	 * @return JHtmlAssetItem
+	 *
+	 * @param  string  $file        JavaScript/StyleSheet asset file
+	 * @param  array   $attributes
+	 *
+	 * @return  JHtmlAssetItem
 	 */
 	public function setAttributes($file, array $attributes = array())
 	{
@@ -209,8 +234,10 @@ class JHtmlAssetItem
 
 	/**
 	 * Return Attributes for asset file
-	 * @param string $file JavaScript/StyleSheet asset file
-	 * @return array
+	 *
+	 * @param  string  $file  JavaScript/StyleSheet asset file
+	 *
+	 * @return  array
 	 */
 	public function getAttributes($file)
 	{
@@ -224,8 +251,10 @@ class JHtmlAssetItem
 
 	/**
 	 * Set asset Weight
-	 * @param float $weight
-	 * @return JHtmlAssetItem
+	 *
+	 * @param  float  $weight
+	 *
+	 * @return  JHtmlAssetItem
 	 */
 	public function setWeight($weight)
 	{
@@ -236,7 +265,8 @@ class JHtmlAssetItem
 
 	/**
 	 * Return asset Weight
-	 * @return float
+	 *
+	 * @return  float
 	 */
 	public function getWeight()
 	{
@@ -245,8 +275,10 @@ class JHtmlAssetItem
 
 	/**
 	 * Set asset State
-	 * @param bool $state
-	 * @return JHtmlAssetItem
+	 *
+	 * @param  bool  $state
+	 *
+	 * @return  JHtmlAssetItem
 	 */
 	public function setActive($state)
 	{
@@ -257,7 +289,8 @@ class JHtmlAssetItem
 
 	/**
 	 * Check asset state
-	 * @return bool
+	 *
+	 * @return  bool
 	 */
 	public function isActive()
 	{
@@ -266,8 +299,10 @@ class JHtmlAssetItem
 
 	/**
 	 * Set Version Attach property
-	 * @param bool $value
-	 * @return JHtmlAssetItem
+	 *
+	 * @param  bool  $value
+	 *
+	 * @return  JHtmlAssetItem
 	 */
 	public function versionAttach($value)
 	{
@@ -278,7 +313,8 @@ class JHtmlAssetItem
 
 	/**
 	 * Check Version Attach property
-	 * @return bool
+	 *
+	 * @return  bool
 	 */
 	public function isVersionAttach()
 	{
@@ -287,9 +323,11 @@ class JHtmlAssetItem
 
 	/**
 	 * Attach active asset to the Document
-	 * @param JDocument $doc
-	 * @return JHtmlAssetItem
-	 * @throws RuntimeException If try attach inactive asset
+	 *
+	 * @param  JDocument  $doc
+	 *
+	 * @return  JHtmlAssetItem
+	 * @throws  RuntimeException If try attach inactive asset
 	 */
 	public function attach(JDocument $doc)
 	{
@@ -312,13 +350,16 @@ class JHtmlAssetItem
 
 	/**
 	 * Attach StyleSheet files to the document
-	 * @param JDocument $doc
-	 * @param string $version Version to be attached, or false
-	 * @return JHtmlAssetItem
+	 *
+	 * @param  JDocument  $doc
+	 * @param  string     $version  Version to be attached, or false
+	 *
+	 * @return  JHtmlAssetItem
 	 */
 	protected function attachCss(JDocument $doc, $version = false)
 	{
-		foreach($this->getCss() as $path){
+		foreach ($this->getCss() as $path)
+		{
 			$file = $path;
 
 			if (!$this->isPathExternal($path))
@@ -345,13 +386,16 @@ class JHtmlAssetItem
 
 	/**
 	 * Attach JavaScript files to the document
-	 * @param JDocument $doc
-	 * @param string $version Version to be attached, or false
-	 * @return JHtmlAssetItem
+	 *
+	 * @param  JDocument  $doc
+	 * @param  string     $version  Version to be attached, or false
+	 *
+	 * @return  JHtmlAssetItem
 	 */
 	protected function attachJs(JDocument $doc, $version = false)
 	{
-		foreach($this->getJs() as $path){
+		foreach ($this->getJs() as $path)
+		{
 			$file = $path;
 
 			if (!$this->isPathExternal($path))
@@ -379,8 +423,10 @@ class JHtmlAssetItem
 
 	/**
 	 * Check if the Path is External
-	 * @param string $path Path to test
-	 * @return bool
+	 *
+	 * @param  string $path Path to test
+	 *
+	 * @return  bool
 	 */
 	protected function isPathExternal($path)
 	{
@@ -389,8 +435,10 @@ class JHtmlAssetItem
 
 	/**
 	 * Check if the Path is relative to /media folder
-	 * @param string $path Path to test
-	 * @return bool
+	 *
+	 * @param  string $path Path to test
+	 *
+	 * @return  bool
 	 */
 	protected function isPathRelative($path)
 	{

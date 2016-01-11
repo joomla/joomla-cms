@@ -20,7 +20,7 @@ $user            = JFactory::getUser();
 // Define the template asset
 $css = array(
 	'template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css',
-	'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', //  @TODO: fix JHtml to load existing files, by full path
+	'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css',
 	'custom.css',
 );
 $js  = array('template.js');
