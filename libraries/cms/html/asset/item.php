@@ -319,7 +319,12 @@ class JHtmlAssetItem
 	protected function attachCss(JDocument $doc, $version = false)
 	{
 		foreach($this->getCss() as $path){
-			$file = JHtml::_('stylesheet', $path, array(), true, true);
+			$file = $path;
+
+			if (!$this->isPathExternal($path))
+			{
+				$file = JHtml::_('stylesheet', $path, array(), $this->isPathRelative($path), true);
+			}
 
 			if ($file)
 			{
@@ -347,7 +352,12 @@ class JHtmlAssetItem
 	protected function attachJs(JDocument $doc, $version = false)
 	{
 		foreach($this->getJs() as $path){
-			$file = JHtml::_('script', $path, false, true, true);
+			$file = $path;
+
+			if (!$this->isPathExternal($path))
+			{
+				$file = JHtml::_('script', $path, false, $this->isPathRelative($path), true);
+			}
 
 			if ($file)
 			{
@@ -357,7 +367,7 @@ class JHtmlAssetItem
 
 				unset($attribute['type'], $attribute['defer']);
 
-				// @TODO: Pass $attribute to addScript() when it will support it
+				// @TODO: Pass $attribute to addScript() when JDocument will support it
 				$version === false
 					? $doc->addScript($file, $type, $defer)
 					: $doc->addScriptVersion($file, $version, $type, $defer);
@@ -365,5 +375,31 @@ class JHtmlAssetItem
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Check if the Path is External
+	 * @param string $path Path to test
+	 * @return bool
+	 */
+	protected function isPathExternal($path)
+	{
+		return strpos($path, 'http') === 0 || strpos($path, '//') === 0;
+	}
+
+	/**
+	 * Check if the Path is relative to /media folder
+	 * @param string $path Path to test
+	 * @return bool
+	 */
+	protected function isPathRelative($path)
+	{
+		if (is_file(JPATH_ROOT . '/' . $path))
+		{
+			// We have a full path
+			return false;
+		}
+
+		return true;
 	}
 }
