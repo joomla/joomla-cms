@@ -328,6 +328,11 @@ class JComponentHelper
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
+		if (JDEBUG)
+		{
+			JProfiler::getInstance('Application')->mark('beforeRenderComponent ' . $option);
+		}
+
 		// Record the scope
 		$scope = $app->scope;
 
@@ -373,6 +378,11 @@ class JComponentHelper
 
 		// Revert the scope
 		$app->scope = $scope;
+
+		if (JDEBUG)
+		{
+			JProfiler::getInstance('Application')->mark('afterRenderComponent ' . $option);
+		}
 
 		return $contents;
 	}
