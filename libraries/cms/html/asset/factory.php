@@ -212,7 +212,7 @@ class JHtmlAssetFactory
 		}
 
 		// Change state
-		$asset->setActive($state);
+		$asset->setState(JHtmlAssetItem::ASSET_STATE_ACTIVE);
 
 		// Calculate weight
 		if ($state)
@@ -234,6 +234,25 @@ class JHtmlAssetFactory
 	{
 		$assets = array_filter($this->assets, function($asset){
 			return $asset->isActive();
+		});
+
+		// Order them by weight
+		$this->sortByWeight($assets);
+
+		return $assets;
+	}
+
+	/**
+	 * Search for assets with specific state.
+	 *
+	 * @param  int  $state
+	 *
+	 * @return  JHtmlAssetItem[]  Array with active assets
+	 */
+	public function getAssetsByState($state)
+	{
+		$assets = array_filter($this->assets, function($asset) use ($state) {
+			return $asset->getState() === $state;
 		});
 
 		// Order them by weight
@@ -278,7 +297,7 @@ class JHtmlAssetFactory
 
 		// Backward compatibility hack. Part 1. @TODO: remove it someday.
 		// Presave existing Scripts, and attach them after requested assets.
-		$jsBack = $doc->_scripts;
+		$jsBackup = $doc->_scripts;
 		$doc->_scripts = array();
 
 		foreach ($assets as $asset)
@@ -292,7 +311,7 @@ class JHtmlAssetFactory
 		}
 
 		// Backward compatibility hack. Part 2. @TODO: remove it someday, and do not forget about Part 1.
-		$doc->_scripts = array_merge($doc->_scripts, $jsBack);
+		$doc->_scripts = array_merge($doc->_scripts, $jsBackup);
 	}
 
 	/**
@@ -303,11 +322,12 @@ class JHtmlAssetFactory
 	 */
 	protected function resolveDependency()
 	{
-		$assets = $this->getActiveAssets();
+		$assets = $this->getAssetsByState(JHtmlAssetItem::ASSET_STATE_ACTIVE);
 
 		foreach ($assets as $asset)
 		{
 			$this->resolveItemDependency($asset);
+			$asset->setState(JHtmlAssetItem::ASSET_STATE_RESOLVED);
 		}
 
 		return $this;
@@ -328,7 +348,10 @@ class JHtmlAssetFactory
 			$oldState = $depItem->isActive();
 
 			// Make active
-			$depItem->setActive(true);
+			if (!$oldState)
+			{
+				$depItem->setState(JHtmlAssetItem::ASSET_STATE_DEPENDANCY);
+			}
 
 			// Calculate weight, make it a bit lighter
 			$depWeight   = $depItem->getWeight();

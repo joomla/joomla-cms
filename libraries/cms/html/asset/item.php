@@ -79,11 +79,39 @@ class JHtmlAssetItem
 	protected $weight = 0;
 
 	/**
+	 * Mark incative asset
+	 *
+	 * @var int
+	 */
+	const ASSET_STATE_INACTIVE = 0;
+
+	/**
+	 * Mark ative asset. Loaded but WITHOUT dependency
+	 *
+	 * @var int
+	 */
+	const ASSET_STATE_ACTIVE = 1;
+
+	/**
+	 * Mark ative asset. Loaded WITH all dependency
+	 *
+	 * @var int
+	 */
+	const ASSET_STATE_RESOLVED = 2;
+
+	/**
+	 * Mark ative asset that is loaded as Dependacy to another asset
+	 *
+	 * @var int
+	 */
+	const ASSET_STATE_DEPENDANCY = 3;
+
+	/**
 	 * Asset state
 	 *
-	 * @var bool $active
+	 * @var bool $state
 	 */
-	protected $active = false;
+	protected $state = self::ASSET_STATE_INACTIVE;
 
 	/**
 	 * Deafult defer mode for attached JavaScripts
@@ -276,15 +304,25 @@ class JHtmlAssetItem
 	/**
 	 * Set asset State
 	 *
-	 * @param  bool  $state
+	 * @param  int  $state
 	 *
 	 * @return  JHtmlAssetItem
 	 */
-	public function setActive($state)
+	public function setState($state)
 	{
-		$this->active = (bool) $state;
+		$this->state = (int) $state;
 
 		return $this;
+	}
+
+	/**
+	 * Get asset State
+	 *
+	 * @return  int
+	 */
+	public function getState()
+	{
+		return $this->state;
 	}
 
 	/**
@@ -294,7 +332,7 @@ class JHtmlAssetItem
 	 */
 	public function isActive()
 	{
-		return $this->active;
+		return $this->state !== self::ASSET_STATE_INACTIVE;
 	}
 
 	/**
