@@ -1325,52 +1325,39 @@ class JLanguage
 	 *
 	 * @since   11.1
 	 */
-	public static function parseLanguageFiles($dir = null)
-	{
-		$languages = array();
+    public static function parseLanguageFiles($dir = null)
+    {
+        $languages = array();
 
-		// Search main language directory for subdirectories
-		foreach (glob($dir . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $directory)
-		{
-			// But only directories with lang code format
-			if (preg_match('#/[A-Za-z]{2,3}-[A-Za-z]{2,3}$#', $directory))
-			{
-				// Search all xml files inside those directories
-				foreach (glob($directory . '/*.xml', GLOB_NOSORT) as $file)
-				{
-					// But only the xml files with lang code format
-					if (preg_match('#/[A-Za-z]{2,3}-[A-Za-z]{2,3}\.xml$#', $file))
-					{
-						$langs    = array();
+        // Search main language directory for subdirectories
+        foreach (glob($dir . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $directory)
+        {
+            // But only directories with lang code format
+            if (preg_match('#/[a-z]{2,3}-[A-Z]{2}$#', $directory))
+            {
+                $dirPathParts = pathinfo($directory);
+                $file         = $directory . '/' . $dirPathParts['filename'] . '.xml';
 
-						if (!is_file($file))
-						{
-							continue;
-						}
+                if (!is_file($file))
+                {
+                    continue;
+                }
+                try
+                {
+                    // Get installed language metadata from xml file and merge it with lang array
+                    if ($metadata = self::parseXMLLanguageFile($file))
+                    {
+                        $languages = array_replace($languages, array($dirPathParts['filename'] => $metadata));
+                    }
+                }
+                catch (RuntimeException $e)
+                {
+                }
+            }
+        }
 
-						try
-						{
-							// Get installed language metadata from xml file
-							$metadata = self::parseXMLLanguageFile($file);
-							if ($metadata)
-							{
-								$path_parts   = pathinfo($file);
-								$lang         = $path_parts['filename'];
-								$langs[$lang] = $metadata;
-							}
-
-							$languages = array_merge($languages, $langs);
-						}
-						catch (RuntimeException $e)
-						{
-						}
-					}
-				}
-			}
-		}
-
-		return $languages;
-	}
+        return $languages;
+    }
 
 	/**
 	 * Parse XML file for language information.
