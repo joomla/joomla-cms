@@ -102,7 +102,7 @@ class PlgSystemCache extends JPlugin
 	 *
 	 * @return   void
 	 *
-	 * @since   1.5
+	 * @since   3.6
 	 */
 	public function onAfterRoute()
 	{
@@ -124,7 +124,7 @@ class PlgSystemCache extends JPlugin
 	 *
 	 * @return   void
 	 *
-	 * @since   3.6
+	 * @since   1.5
 	 */
 	public function onAfterRespond()
 	{
