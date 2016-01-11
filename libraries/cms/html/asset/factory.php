@@ -20,7 +20,7 @@ class JHtmlAssetFactory
 {
 	/**
 	 * Files with assets infos. File path should be relative
-	 * @var array as filePath => (bool) isNew
+	 * @var array as filePath => DATAFILE_NEW/DATAFILE_PARSED
 	 *
 	 * @example of data file:
 	 *	{
@@ -84,6 +84,20 @@ class JHtmlAssetFactory
 	 * @var bool $jsDeferMode
 	 */
 	protected $jsDeferMode = null;
+
+	/**
+	 * Mark the new data file
+	 *
+	 * @var int
+	 */
+	const DATAFILE_NEW = 1;
+
+	/**
+	 * Mark already parsed data file
+	 *
+	 * @var int
+	 */
+	const DATAFILE_PARSED = 2;
 
 	/**
 	 * Class constructor
@@ -385,7 +399,7 @@ class JHtmlAssetFactory
 
 		if (!isset($this->dataFiles[$path]))
 		{
-			$this->dataFiles[$path] = true;
+			$this->dataFiles[$path] = static::DATAFILE_NEW;
 		}
 
 		return $this;
@@ -420,12 +434,16 @@ class JHtmlAssetFactory
 	protected function parseDataFiles()
 	{
 		// Filter new asset data files and parse each
-		foreach (array_keys(array_filter($this->dataFiles)) as $path)
+		$files = array_filter($this->dataFiles, function($state) {
+			return $state === static::DATAFILE_NEW;
+		});
+
+		foreach (array_keys($files) as $path)
 		{
 			$this->parseDataFile($path);
 
 			// Mark as parsed (not new)
-			$this->dataFiles[$path] = false;
+			$this->dataFiles[$path] = static::DATAFILE_PARSED;
 		}
 	}
 
