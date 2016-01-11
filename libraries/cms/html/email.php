@@ -32,6 +32,18 @@ abstract class JHtmlEmail
 	 */
 	public static function cloak($mail, $mailto = true, $text = '', $email = true)
 	{
+		// Handle IDN addresses: punycode for href but utf-8 for text displayed.
+		if ($mailto && (empty($text) || $email))
+		{
+			// Use dedicated $text whereas $mail is used as href and must be punycoded.
+			$text = JStringPunycode::emailToUTF8($text ? $text : $mail);
+		}
+		elseif (!$mailto)
+		{
+			// In that case we don't use link - so convert $mail back to utf-8.
+			$mail = JStringPunycode::emailToUTF8($mail);
+		}
+
 		// Convert mail
 		$mail = static::convertEncoding($mail);
 
