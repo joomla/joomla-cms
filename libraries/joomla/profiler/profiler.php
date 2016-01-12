@@ -200,7 +200,9 @@ class JProfiler
 	/**
 	 * Sets the start time.
 	 *
-	 * @return $this For chaining
+	 * @param   double  $startTime  Unix timestamp in microseconds for setting the Profiler start time.
+	 *
+	 * @return  $this   For chaining
 	 *
 	 * @since   12.1
 	 */
