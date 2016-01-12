@@ -38,7 +38,7 @@ if (!defined('_JDEFINES'))
 
 require_once JPATH_BASE . '/includes/framework.php';
 
-// Mark afterLoad in the profiler.
+// Set profiler start time and mark afterLoad in the profiler.
 JDEBUG ? $_PROFILER->setStart($startTime)->mark('afterLoad') : null;
 
 // Instantiate the application.
