@@ -187,16 +187,16 @@ class JHtmlAssetFactory
 	}
 
 	/**
-	 * Activate deactivate the asset by name
+	 * Change the asset State
 	 *
 	 * @param  string  $name   Asset name
-	 * @param  bool    $state  New state
+	 * @param  int     $state  New state
 	 * @param  bool    $force  Force weight calculation if the Asset alredy was enabled previously
 	 *
 	 * @return  JHtmlAssetFactory
 	 * @throws  RuntimeException if asset with given name does not exists
 	 */
-	public function makeActive($name, $state = true, $force = false)
+	public function setAssetState($name, $state = JHtmlAssetItem::ASSET_STATE_ACTIVE, $force = false)
 	{
 		$asset = $this->getAsset($name);
 
@@ -212,10 +212,10 @@ class JHtmlAssetFactory
 		}
 
 		// Change state
-		$asset->setState(JHtmlAssetItem::ASSET_STATE_ACTIVE);
+		$asset->setState($state);
 
 		// Calculate weight
-		if ($state)
+		if ($state !== JHtmlAssetItem::ASSET_STATE_INACTIVE)
 		{
 			$dependency = $asset->getDependency();
 			$this->lastItemWeight = $this->lastItemWeight + count($dependency) + 1;

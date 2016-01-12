@@ -16,14 +16,15 @@ class JHtmlAsset
 {
 	/**
 	 * Active AssetFactory instance
-	 * @var JHtmlAssetFactory
+	 *
+	 * @var  JHtmlAssetFactory
 	 */
 	protected static $instance;
 
 	/**
 	 * Set up and return AssetFactory instance
 	 *
-	 * @return JHtmlAssetFactory
+	 * @return  JHtmlAssetFactory
 	 *
 	 * @TODO Move to JFactory
 	 */
@@ -39,27 +40,43 @@ class JHtmlAsset
 
 	/**
 	 * Make the asset active
-	 * @param string $name assset name
+	 *
+	 * @param  string|JHtmlAssetItem  $asset  Asset instance or name
+	 *
 	 * @return void
 	 */
-	public static function load($name)
+	public static function load($asset)
 	{
-		static::instance()->makeActive($name, true);
+		$name = $asset;
+
+		if ($asset instanceof JHtmlAssetItem)
+		{
+			$name = $asset->getName();
+			static::instance()->addAsset($asset);
+		}
+
+		static::instance()->setAssetState($name, JHtmlAssetItem::ASSET_STATE_ACTIVE);
 	}
 
 	/**
 	 * Make the asset inactive
-	 * @param string $name assset name
+	 *
+	 * @param  string|JHtmlAssetItem  $asset  Asset instance or name
+	 *
 	 * @return void
 	 */
-	public static function unload($name)
+	public static function unload($asset)
 	{
-		static::instance()->makeActive($name, false);
+		$name = ($asset instanceof JHtmlAssetItem) ? $asset->getName() : $asset;
+
+		static::instance()->setAssetState($name, JHtmlAssetItem::ASSET_STATE_INACTIVE);
 	}
 
 	/**
-	 * Add asset to collection of known assets
-	 * @param JHtmlAssetItem $asset
+	 * Add asset to the collection of known assets
+	 *
+	 * @param  JHtmlAssetItem  $asset
+	 *
 	 * @return void
 	 */
 	public static function add(JHtmlAssetItem $asset)
