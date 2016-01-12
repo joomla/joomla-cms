@@ -196,4 +196,18 @@ class JProfiler
 	{
 		return $this->buffer;
 	}
+
+	/**
+	 * Sets the start time.
+	 *
+	 * @return $this For chaining
+	 *
+	 * @since   12.1
+	 */
+	public function setStart($startTime)
+	{
+		$this->start = (double) $startTime;
+
+		return $this;
+	}
 }
