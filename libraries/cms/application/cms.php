@@ -277,6 +277,16 @@ class JApplicationCms extends JApplicationWeb
 
 		// Trigger the onAfterRespond event.
 		$this->triggerEvent('onAfterRespond');
+
+		// Mark afterRespond event in the profiler.
+		JDEBUG ? JProfiler::getInstance('Application')->mark('afterRespond') : null;
+
+		// Trigger the onBeforeEnd event which can only used by the Debug System Plugin to dump debug information.
+		if (JDEBUG)
+		{
+			JEventDispatcher::getInstance()->trigger('onBeforeEnd');
+			$this->triggerEvent('onBeforeEnd');
+		}
 	}
 
 	/**
