@@ -181,7 +181,7 @@ class PlgSystemDebug extends JPlugin
 	}
 
 	/**
-	 * Show the debug info after the onAfterResponse events.
+	 * Show the debug info after the onAfterRespond events.
 	 *
 	 * @return  void
 	 *
