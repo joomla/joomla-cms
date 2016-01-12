@@ -29,7 +29,7 @@ extract($displayData);
 JText::script('JGLOBAL_KEEP_TYPING');
 JText::script('JGLOBAL_LOOKING_FOR');
 
-JHtml::_('asset.load', 'jquery.chosen.ajax');
+JHtml::_('asset.load', 'chosen.ajax');
 
 JFactory::getDocument()->addScriptDeclaration(
 	"

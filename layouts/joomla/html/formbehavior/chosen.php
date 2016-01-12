@@ -20,7 +20,7 @@ defined('JPATH_BASE') or die;
 
 extract($displayData);
 
-JHtml::_('asset.load', 'jquery.chosen');
+JHtml::_('asset.load', 'chosen');
 
 // Options array to json options string
 $options_str = json_encode($options, ($debug && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));

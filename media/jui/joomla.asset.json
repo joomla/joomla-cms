@@ -122,7 +122,7 @@
 			]
 		},
 		{
-			"name": "jquery.chosen",
+			"name": "chosen",
 			"version": "0.14.0",
 			"js": [
 				"jui/chosen.jquery.min.js"
@@ -135,16 +135,16 @@
 			]
 		},
 		{
-			"name": "jquery.chosen.ajax",
+			"name": "chosen.ajax",
 			"js": [
 				"jui/ajax-chosen.min.js"
 			],
 			"dependency": [
-				"jquery.chosen"
+				"chosen"
 			]
 		},
 		{
-			"name": "jquery.minicolors",
+			"name": "jquery-minicolors",
 			"js": [
 				"jui/jquery.minicolors.min.js"
 			],
@@ -168,7 +168,7 @@
 			]
 		},
 		{
-			"name": "jquery.simplecolors",
+			"name": "jquery-simplecolorpicker",
 			"js": [
 				"jui/jquery.simplecolors.min.js"
 			],

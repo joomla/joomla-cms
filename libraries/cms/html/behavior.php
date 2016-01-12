@@ -493,7 +493,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('asset.load', 'jquery.minicolors');
+		JHtml::_('asset.load', 'jquery-minicolors');
 
 		JFactory::getDocument()->addScriptDeclaration("
 				jQuery(document).ready(function (){
@@ -526,7 +526,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('asset.load', 'jquery.simplecolors');
+		JHtml::_('asset.load', 'jquery-simplecolorpicker');
 
 		JFactory::getDocument()->addScriptDeclaration("
 				jQuery(document).ready(function (){
