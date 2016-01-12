@@ -398,9 +398,10 @@ class JHtmlAssetItem
 	{
 		foreach ($this->getCss() as $path)
 		{
-			$file = $path;
+			$file       = $path;
+			$isExternal = $this->isPathExternal($path);
 
-			if (!$this->isPathExternal($path))
+			if (!$isExternal)
 			{
 				$file = JHtml::_('stylesheet', $path, array(), $this->isPathRelative($path), true);
 			}
@@ -413,7 +414,7 @@ class JHtmlAssetItem
 
 				unset($attribute['type'], $attribute['media']);
 
-				$version === false
+				($version === false || $isExternal)
 					? $doc->addStyleSheet($file, $type, $media, $attribute)
 					: $doc->addStyleSheetVersion($file, $version, $type, $media, $attribute);
 			}
@@ -434,9 +435,10 @@ class JHtmlAssetItem
 	{
 		foreach ($this->getJs() as $path)
 		{
-			$file = $path;
+			$file       = $path;
+			$isExternal = $this->isPathExternal($path);
 
-			if (!$this->isPathExternal($path))
+			if (!$isExternal)
 			{
 				$file = JHtml::_('script', $path, false, $this->isPathRelative($path), true);
 			}
@@ -450,7 +452,7 @@ class JHtmlAssetItem
 				unset($attribute['type'], $attribute['defer']);
 
 				// @TODO: Pass $attribute to addScript() when JDocument will support it
-				$version === false
+				($version === false || $isExternal)
 					? $doc->addScript($file, $type, $defer)
 					: $doc->addScriptVersion($file, $version, $type, $defer);
 			}
