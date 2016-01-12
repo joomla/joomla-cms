@@ -14,14 +14,32 @@ $doc             = JFactory::getDocument();
 $this->language  = $doc->language;
 $this->direction = $doc->direction;
 
-// Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
+// Define the template asset
+$css = array(
+	'template.css',
+	'user.css',
+);
+$js  = array('template.js');
+$dep = array('bootstrap.js');
 
-// Add Stylesheets
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+if ($this->params->get('googleFont'))
+{
+	array_unshift($css, '//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
+}
 
-// Load optional rtl Bootstrap css and Bootstrap bugfixes
-JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
+if($this->direction === 'rtl')
+{
+	$dep[] = 'bootstrap.css.' . $this->direction;
+}
+
+$assetTemplate = new JHtmlAssetItem('template.protostar');
+$assetTemplate->setCss($css);
+$assetTemplate->setJs($js);
+$assetTemplate->setDependency($dep);
+$assetTemplate->versionAttach(true);
+
+// Make the template asset active
+JHtml::_('asset.load', $assetTemplate);
 
 ?>
 <!DOCTYPE html>

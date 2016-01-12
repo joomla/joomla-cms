@@ -43,25 +43,27 @@ $css = array(
 	'template.css',
 	'user.css',
 );
+$js  = array('template.js');
+$dep = array('bootstrap.js');
 
 if ($this->params->get('googleFont'))
 {
 	array_unshift($css, '//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
 }
 
-$js = array('template.js');
-$dependency = array('bootstrap.js');
 if($this->direction === 'rtl')
 {
-	$dependency[] = 'bootstrap.css.' . $this->direction;
+	$dep[] = 'bootstrap.css.' . $this->direction;
 }
 
 $assetTemplate = new JHtmlAssetItem('template.protostar');
-$assetTemplate->setCss($css)->setJs($js)->setDependency($dependency);
-JHtml::_('asset.add', $assetTemplate);
+$assetTemplate->setCss($css);
+$assetTemplate->setJs($js);
+$assetTemplate->setDependency($dep);
+$assetTemplate->versionAttach(true);
 
-// Load the template assets
-JHtml::_('asset.load', 'template.protostar');
+// Make the template asset active
+JHtml::_('asset.load', $assetTemplate);
 
 // Adjusting content width
 if ($this->countModules('position-7') && $this->countModules('position-8'))

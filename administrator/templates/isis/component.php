@@ -15,32 +15,23 @@ $lang            = JFactory::getLanguage();
 $this->language  = $doc->language;
 $this->direction = $doc->direction;
 
-// Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
+// Define the template asset
+$css = array(
+	'template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css',
+	'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css',
+	'custom.css',
+);
+$js  = array('template.js');
+$dep = array('bootstrap.js');
 
-$doc->addScript($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+$assetTemplate = new JHtmlAssetItem('template.isis');
+$assetTemplate->setCss($css);
+$assetTemplate->setJs($js);
+$assetTemplate->setDependency($dep);
+$assetTemplate->versionAttach(true);
 
-// Add Stylesheets
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
-
-// Load optional RTL Bootstrap CSS
-JHtml::_('bootstrap.loadCss', false, $this->direction);
-
-// Load specific language related CSS
-$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-
-if (is_file($file))
-{
-	$doc->addStyleSheet($file);
-}
-
-// Load custom.css
-$file = 'templates/' . $this->template . '/css/custom.css';
-
-if (is_file($file))
-{
-	$doc->addStyleSheetVersion($file);
-}
+// Make the template asset active
+JHtml::_('asset.load', $assetTemplate);
 ?>
 
 <!DOCTYPE html>

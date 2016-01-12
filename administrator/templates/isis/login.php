@@ -17,31 +17,23 @@ $lang = JFactory::getLanguage();
 $background_color = $this->params->get('loginBackgroundColor') ? $this->params->get('loginBackgroundColor') : '';
 $color_is_light = ($background_color && colorIsLight($background_color));
 
-// Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
-JHtml::_('bootstrap.tooltip');
+// Define the template asset
+$css = array(
+		'template' . ($doc->direction == 'rtl' ? '-rtl' : '') . '.css',
+		'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css',
+		'custom.css',
+);
+$js  = array('template.js');
+$dep = array('bootstrap.js');
 
-// Add Stylesheets
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
+$assetTemplate = new JHtmlAssetItem('template.isis');
+$assetTemplate->setCss($css);
+$assetTemplate->setJs($js);
+$assetTemplate->setDependency($dep);
+$assetTemplate->versionAttach(true);
 
-// Load optional RTL Bootstrap CSS
-JHtml::_('bootstrap.loadCss', false, $this->direction);
-
-// Load specific language related CSS
-$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-
-if (is_file($file))
-{
-	$doc->addStyleSheet($file);
-}
-
-// Load custom.css
-$file = 'templates/' . $this->template . '/css/custom.css';
-
-if (is_file($file))
-{
-	$doc->addStyleSheetVersion($file);
-}
+// Make the template asset active
+JHtml::_('asset.load', $assetTemplate);
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');

@@ -27,11 +27,13 @@ $js  = array('template.js');
 $dep = array('bootstrap.js');
 
 $assetTemplate = new JHtmlAssetItem('template.isis');
-$assetTemplate->setCss($css)->setJs($js)->setDependency($dep)->versionAttach(true);
-JHtml::_('asset.add', $assetTemplate);
+$assetTemplate->setCss($css);
+$assetTemplate->setJs($js);
+$assetTemplate->setDependency($dep);
+$assetTemplate->versionAttach(true);
 
-// Load the template assets
-JHtml::_('asset.load', 'template.isis');
+// Make the template asset active
+JHtml::_('asset.load', $assetTemplate);
 
 // Detecting Active Variables
 $option   = $input->get('option', '');
