@@ -1744,25 +1744,33 @@ class PlgSystemDebug extends JPlugin
 			JLog::DEBUG => '<span class="badge">DEBUG</span>'
 		);
 
-		$deprecatedTotal = count(array_filter($this->logEntries, function($logEntry) { return $logEntry->category == 'deprecated'; }));
+		$logEntriesDeprecated = count(array_filter($this->logEntries, function($logEntry)
+		{
+			return $logEntry->category == 'deprecated';
+		}
+		));
 
-		$logsTotal = count($this->logEntries);
+		$logEntriesTotal = count($this->logEntries);
 
 		$showExecutedSQL = $this->params->get('log_executed_sql', 0);
 		if (!$showExecutedSQL)
 		{
-			$databasequeryTotal = count(array_filter($this->logEntries, function($logEntry) { return $logEntry->category == 'databasequery'; }));
-			$logsTotal = $logsTotal - $databasequeryTotal;
+			$logEntriesDatabasequery = count(array_filter($this->logEntries, function($logEntry)
+			{
+				return $logEntry->category == 'databasequery';
+			}
+			));
+			$logEntriesTotal = $logEntriesTotal - $logEntriesDatabasequery;
 		}
 
 		$out = '';
 
-		$out .= '<h4>' . JText::sprintf(JText::_('PLG_DEBUG_LOGS_LOGGED'), $logsTotal) . '</h4><br />';
-		if ($deprecatedTotal > 0)
+		$out .= '<h4>' . JText::sprintf(JText::_('PLG_DEBUG_LOGS_LOGGED'), $logEntriesTotal) . '</h4><br />';
+		if ($logEntriesDeprecated > 0)
 		{
 			$out .= '
 			<div class="alert alert-warning">
-				<h4>' . sprintf(JText::_('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TITLE'), $deprecatedTotal) . '</h4>
+				<h4>' . sprintf(JText::_('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TITLE'), $logEntriesDeprecated) . '</h4>
 				<div>' . JText::_('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TEXT') . '</div>
 			</div>
 			<br />';
