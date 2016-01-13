@@ -36,7 +36,7 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 	 * @var    boolean
 	 * @since  3.2
 	 */
-	public static $cachable = false;
+	public static $cacheable = false;
 
 	/**
 	 * Gets the methods of the JApplicationWeb object.
@@ -124,7 +124,7 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 		static::$headers = array();
 
 		// Reset the cache storage.
-		static::$cachable = false;
+		static::$cacheable = false;
 
 		return parent::addBehaviours($test, $mockObject, $options);
 	}
@@ -307,9 +307,9 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 	{
 		if ($allow !== null)
 		{
-			static::$cachable = (bool) $allow;
+			static::$cacheable = (bool) $allow;
 		}
 
-		return static::$cachable;
+		return static::$cacheable;
 	}
 }

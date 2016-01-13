@@ -34,7 +34,7 @@ class JResponse
 	 * @since  11.1
 	 * @deprecated  4.0
 	 */
-	protected static $cachable = false;
+	protected static $cacheable = false;
 
 	/**
 	 * @var    array  Headers
