@@ -1008,32 +1008,6 @@ class PlgSystemDebug extends JPlugin
 
 				$htmlProfile = ($info[$id]->profile ? $info[$id]->profile : JText::_('PLG_DEBUG_NO_PROFILE'));
 
-				// Backtrace and call stack.
-				$htmlCallStack = '';
-
-				if (isset($callStacks[$id]))
-				{
-					$htmlCallStackElements = array();
-
-					foreach ($callStacks[$id] as $functionCall)
-					{
-						if (isset($functionCall['file']) && isset($functionCall['line']) && (strpos($functionCall['file'], '/libraries/joomla/database/') === false))
-						{
-							$htmlFile = htmlspecialchars($functionCall['file']);
-							$htmlLine = htmlspecialchars($functionCall['line']);
-							$htmlCallStackElements[] = '<span class="dbg-log-called-from">' . $this->formatLink($htmlFile, $htmlLine) . '</span>';
-						}
-					}
-
-					$htmlCallStack = '<div class="dbg-query-table"><div>' . implode('</div><div>', $htmlCallStackElements) . '</div></div>';
-
-					if (!$this->linkFormat)
-					{
-						$htmlCallStack .= '<div>[<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">';
-						$htmlCallStack .= JText::_('PLG_DEBUG_LINK_FORMAT') . '</a>]</div>';
-					}
-				}
-
 				$htmlAccordions = JHtml::_(
 					'bootstrap.startAccordion', 'dbg_query_' . $id, array(
 						'active' => ($info[$id]->hasWarnings ? ('dbg_query_explain_' . $id) : '')
@@ -1048,10 +1022,11 @@ class PlgSystemDebug extends JPlugin
 					. $htmlProfile
 					. JHtml::_('bootstrap.endSlide');
 
-				if ($htmlCallStack)
+				// Call stack and back trace.
+				if (isset($callStacks[$id]))
 				{
 					$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $id, JText::_('PLG_DEBUG_CALL_STACK'), 'dbg_query_callstack_' . $id)
-						. $htmlCallStack
+						. $this->renderCallStack($callStacks[$id])
 						. JHtml::_('bootstrap.endSlide');
 				}
 
@@ -1759,24 +1734,157 @@ class PlgSystemDebug extends JPlugin
 	protected function displayLogs()
 	{
 		$priorities = array(
-			JLog::EMERGENCY => 'EMERGENCY',
-			JLog::ALERT => 'ALERT',
-			JLog::CRITICAL => 'CRITICAL',
-			JLog::ERROR => 'ERROR',
-			JLog::WARNING => 'WARNING',
-			JLog::NOTICE => 'NOTICE',
-			JLog::INFO => 'INFO',
-			JLog::DEBUG => 'DEBUG'
+			JLog::EMERGENCY => '<span class="badge badge-important">EMERGENCY</span>',
+			JLog::ALERT => '<span class="badge badge-important">ALERT</span>',
+			JLog::CRITICAL => '<span class="badge badge-important">CRITICAL</span>',
+			JLog::ERROR => '<span class="badge badge-important">ERROR</span>',
+			JLog::WARNING => '<span class="badge badge-warning">WARNING</span>',
+			JLog::NOTICE => '<span class="badge badge-info">NOTICE</span>',
+			JLog::INFO => '<span class="badge badge-info">INFO</span>',
+			JLog::DEBUG => '<span class="badge">DEBUG</span>'
 		);
 
-		$out = array();
+		$databasequeryTotal = count(array_filter($this->logEntries, function($logEntry) {
+			return $logEntry->category == 'databasequery';
+		}));
 
-		foreach ($this->logEntries as $entry)
+		$deprecatedTotal = count(array_filter($this->logEntries, function($logEntry) {
+			return $logEntry->category == 'deprecated';
+		}));
+
+		$logsTotal = count($this->logEntries);
+
+		$out = '';
+
+		$out .= '<h4>' . JText::sprintf(JText::_('PLG_DEBUG_LOGS_LOGGED'), $logsTotal - $databasequeryTotal) . '</h4><br />';
+		if ($deprecatedTotal > 0)
 		{
-			$out[] = '<h5>' . $priorities[$entry->priority] . ' - ' . $entry->category . ' </h5><code>' . $entry->message . '</code>';
+			$out .= '
+			<div class="alert alert-warning">
+				<h4>' . sprintf(JText::_('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TITLE'), $deprecatedTotal) . '</h4>
+				<div>' . JText::_('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TEXT') . '</div>
+			</div>
+			<br />';
 		}
 
-		return implode('<br /><br />', $out);
+		$out .= '<ol>';
+		$count = 1;
+		foreach ($this->logEntries as $entry)
+		{
+			// Don't show database queries since there is slider just for that.
+			if ($entry->category === 'databasequery')
+			{
+				continue;
+			}
+
+			$out .= '<li id="dbg_logs_' . $count . '">';
+			$out .= '<h5>' . $priorities[$entry->priority] . ' ' . $entry->category . '</h5><br />
+				<pre>' . $entry->message . '</pre>';
+
+			if ($entry->callStack)
+			{
+				$out .= JHtml::_('bootstrap.startAccordion', 'dbg_logs_' . $count, array('active' => ''));
+				$out .= JHtml::_('bootstrap.addSlide', 'dbg_logs_' . $count, JText::_('PLG_DEBUG_CALL_STACK'), 'dbg_logs_backtrace_' . $count);
+				$out .= $this->renderCallStack($entry->callStack);
+				$out .= JHtml::_('bootstrap.endSlide');
+				$out .= JHtml::_('bootstrap.endAccordion');	
+			}
+			$out .= '<hr /></li>';
+			$count++;
+		}
+		$out .= '</ol>';
+
+		return $out;
+	}
+
+	/**
+	 * Renders call stack and back trace in HTML.
+	 *
+	 * @param   string  $callStack  The call stack and back trace array.
+	 *
+	 * @return  string  The call stack and back trace in HMTL format.
+	 *
+	 * @since   3.6
+	 */
+	protected function renderCallStack(array $callStack = array())
+	{
+		$htmlCallStack = '';
+
+		if (isset($callStack))
+		{
+			$htmlCallStack = '<div>';
+			$htmlCallStack .= '<table class="table table-striped dbg-query-table">';
+			$htmlCallStack .= '<thead>';
+			$htmlCallStack .= '<th>#</th>';
+			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_CALLER') . '</th>';
+			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_FILE_AND_LINE') . '</th>';
+			$htmlCallStack .= '</tr>';
+			$htmlCallStack .= '</thead>';
+			$htmlCallStack .= '<tbody>';
+
+			$count = count($callStack);
+
+			foreach ($callStack as $call)
+			{
+				// Dont' back trace log classes.
+				if (isset($call['class']) && strpos($call['class'], 'JLog') !== false)
+				{
+					$count--;
+					continue;
+				}
+
+				$htmlCallStack .= '<tr>';
+
+				$htmlCallStack .= '<td>' . $count .'</td>';
+
+				$htmlCallStack .= '<td>';
+				if (isset($call['class']))
+				{
+					// If entry has Class/Method print it.
+					$htmlCallStack .= htmlspecialchars($call['class'] . $call['type'] . $call['function']) . '()';
+				}
+				else
+				{
+					if (isset($call['args']))
+					{
+						// If entry has args is a require/include.
+						$htmlCallStack .= htmlspecialchars($call['function']) . ' ' . $this->formatLink($call['args'][0]);
+					}
+					else
+					{
+						// It's a function.
+						$htmlCallStack .= htmlspecialchars($call['function']) . '()';
+					}
+				}
+				$htmlCallStack .= '</td>';
+
+				$htmlCallStack .= '<td>';
+				// If entry doesn't have line and number the next is a call_user_func.
+				if (!isset($call['file']) && !isset($call['line']))
+				{
+					$htmlCallStack .= JText::_('PLG_DEBUG_CALL_STACK_SAME_FILE');
+				}
+				// If entry has file and line print it.
+				else
+				{
+					$htmlCallStack .= $this->formatLink(htmlspecialchars($call['file']), htmlspecialchars($call['line']));
+				}
+				$htmlCallStack .= '</td>';
+
+				$htmlCallStack .= '</tr>';
+				$count--;
+			}
+			$htmlCallStack .= '</tbody>';
+			$htmlCallStack .= '</table>';
+			$htmlCallStack .= '</div>';
+
+			if (!$this->linkFormat)
+			{
+				$htmlCallStack .= '<div>[<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">' . JText::_('PLG_DEBUG_LINK_FORMAT') . '</a>]</div>';
+			}
+		}
+
+		return $htmlCallStack;
 	}
 
 	/**
