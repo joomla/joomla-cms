@@ -1744,22 +1744,28 @@ class PlgSystemDebug extends JPlugin
 			JLog::DEBUG => '<span class="badge">DEBUG</span>'
 		);
 
-		$logEntriesDeprecated = count(array_filter($this->logEntries, function($logEntry)
-		{
-			return $logEntry->category == 'deprecated';
-		}
-		));
+		$logEntriesDeprecated = count(
+			array_filter(
+				$this->logEntries, function($logEntry)
+				{
+					return $logEntry->category == 'deprecated';
+				}
+			)
+		);
 
 		$logEntriesTotal = count($this->logEntries);
 
 		$showExecutedSQL = $this->params->get('log_executed_sql', 0);
 		if (!$showExecutedSQL)
 		{
-			$logEntriesDatabasequery = count(array_filter($this->logEntries, function($logEntry)
-			{
-				return $logEntry->category == 'databasequery';
-			}
-			));
+			$logEntriesDatabasequery = count(
+				array_filter(
+					$this->logEntries, function($logEntry)
+					{
+						return $logEntry->category == 'databasequery';
+					}
+				)
+			);
 			$logEntriesTotal = $logEntriesTotal - $logEntriesDatabasequery;
 		}
 
