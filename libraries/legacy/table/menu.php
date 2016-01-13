@@ -213,7 +213,7 @@ class JTableMenu extends JTableNested
 					array(
 					'menutype' => $this->menutype,
 					'client_id' => (int) $this->client_id,
-					'home' => 1
+					'home' => '1'
 					)
 				)
 				&& ($table->language != $this->language))
