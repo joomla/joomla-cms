@@ -16,6 +16,6 @@ if ($params->def('prepare_content', 1))
 }
 
 // Replace 'images/' to '../images/' when using an image from /images in backend.
-$module->content = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $module->content);
+$module->content = preg_replace('*src\=\"(?!' . JADMINISTRATOR_DIR . '\/)images/*', 'src="../images/', $module->content);
 
 require JModuleHelper::getLayoutPath('mod_custom', $params->get('layout', 'default'));

@@ -298,7 +298,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 			}
 			else
 			{
-				$path = $isAdmin ? 'administrator/templates/' : 'templates/';
+				$path = $isAdmin ? JADMINISTRATOR_DIR . '/templates/' : 'templates/';
 			}
 
 			if (substr($component, 0, 7) == 'media:/')

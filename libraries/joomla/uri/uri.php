@@ -145,7 +145,7 @@ class JUri extends Uri
 				{
 					if (JPATH_BASE == JPATH_ADMINISTRATOR)
 					{
-						static::$base['path'] .= '/administrator';
+						static::$base['path'] .= '/' . JADMINISTRATOR_DIR;
 					}
 				}
 			}

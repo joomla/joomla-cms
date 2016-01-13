@@ -403,16 +403,6 @@ class JInstallerAdapterFile extends JInstallerAdapter
 			{
 				$target = (string) $eFiles->attributes()->target;
 
-				// Create folder path
-				if (empty($target))
-				{
-					$targetFolder = JPATH_ROOT;
-				}
-				else
-				{
-					$targetFolder = JPATH_ROOT . '/' . $target;
-				}
-
 				$folderList = array();
 
 				// Check if all children exists
@@ -421,13 +411,15 @@ class JInstallerAdapterFile extends JInstallerAdapter
 					// Loop through all filenames elements
 					foreach ($eFiles->children() as $eFileName)
 					{
+						// Resolve 'administrator' directory to the correct folder name
+						$fileName = JPATH_ROOT . '/' . preg_replace('|^([\\\/])?administrator|', JADMINISTRATOR_DIR, $target . '/' . $eFileName);
+
 						if ($eFileName->getName() == 'folder')
 						{
-							$folderList[] = $targetFolder . '/' . $eFileName;
+							$folderList[] = $fileName;
 						}
 						else
 						{
-							$fileName = $targetFolder . '/' . $eFileName;
 							JFile::delete($fileName);
 						}
 					}
@@ -538,8 +530,11 @@ class JInstallerAdapterFile extends JInstallerAdapter
 			$folder = (string) $eFiles->attributes()->folder;
 			$target = (string) $eFiles->attributes()->target;
 
+			// Resolve 'administrator' directory to configured name
+			$targetFolder = empty($target) ? '' : preg_replace('|^([\\\/])?administrator|', JADMINISTRATOR_DIR, $target);
+
 			// Split folder names into array to get folder names. This will help in creating folders
-			$arrList = preg_split("#/|\\/#", $target);
+			$arrList = preg_split("#/|\\/#", $targetFolder);
 
 			$folderName = $jRootPath;
 
@@ -561,7 +556,6 @@ class JInstallerAdapterFile extends JInstallerAdapter
 
 			// Create folder path
 			$sourceFolder = empty($folder) ? $packagePath : $packagePath . '/' . $folder;
-			$targetFolder = empty($target) ? $jRootPath : $jRootPath . '/' . $target;
 
 			// Check if source folder exists
 			if (!JFolder::exists($sourceFolder))
@@ -580,13 +574,15 @@ class JInstallerAdapterFile extends JInstallerAdapter
 				// Loop through all filenames elements
 				foreach ($eFiles->children() as $eFileName)
 				{
+					$fileName = $jRootPath . '/' . preg_replace('|^([\\\/])?administrator|', JADMINISTRATOR_DIR, $target . '/' . $eFileName);
+
 					$path['src'] = $sourceFolder . '/' . $eFileName;
-					$path['dest'] = $targetFolder . '/' . $eFileName;
+					$path['dest'] = $fileName;
 					$path['type'] = 'file';
 
 					if ($eFileName->getName() == 'folder')
 					{
-						$folderName = $targetFolder . '/' . $eFileName;
+						$folderName = $fileName;
 						array_push($this->folderList, $folderName);
 						$path['type'] = 'folder';
 					}
@@ -601,7 +597,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 				foreach ($files as $file)
 				{
 					$path['src'] = $sourceFolder . '/' . $file;
-					$path['dest'] = $targetFolder . '/' . $file;
+					$path['dest'] = $jRootPath . '/' . preg_replace('|^([\\\/])?administrator|', JADMINISTRATOR_DIR, $target . '/' . $file);
 
 					array_push($this->fileList, $path);
 				}

@@ -1881,6 +1881,8 @@ class JForm
 		// Add the field paths.
 		foreach ($paths as $path)
 		{
+			// We resolve '/administrator' to the correct backend directory, so that xml attribute works seamlessly.
+			$path = preg_replace('|^([\\\/])?administrator|', JADMINISTRATOR_DIR, $path);
 			$path = JPATH_ROOT . '/' . ltrim($path, '/\\');
 			self::addFieldPath($path);
 		}
@@ -1892,6 +1894,8 @@ class JForm
 		// Add the form paths.
 		foreach ($paths as $path)
 		{
+			// We resolve '/administrator' to the correct backend directory, so that xml attribute works seamlessly.
+			$path = preg_replace('|^([\\\/])?administrator|', JADMINISTRATOR_DIR, $path);
 			$path = JPATH_ROOT . '/' . ltrim($path, '/\\');
 			self::addFormPath($path);
 		}
@@ -1903,6 +1907,8 @@ class JForm
 		// Add the rule paths.
 		foreach ($paths as $path)
 		{
+			// We resolve '/administrator' to the correct backend directory, so that xml attribute works seamlessly.
+			$path = preg_replace('|^([\\\/])?administrator|', JADMINISTRATOR_DIR, $path);
 			$path = JPATH_ROOT . '/' . ltrim($path, '/\\');
 			self::addRulePath($path);
 		}

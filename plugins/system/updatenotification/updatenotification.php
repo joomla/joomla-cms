@@ -144,11 +144,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		}
 
 		// If we're here, we have updates. First, get a link to the Joomla! Update component.
-		$baseURL  = JUri::base();
-		$baseURL  = rtrim($baseURL, '/');
-		$baseURL .= (substr($baseURL, -13) != 'administrator') ? '/administrator/' : '/';
-		$baseURL .= 'index.php?option=com_joomlaupdate';
-		$uri      = new JUri($baseURL);
+		$uri = new JUri(JUri::root() . JADMINISTRATOR_DIR . '/index.php?option=com_joomlaupdate');
 
 		/**
 		 * Some third party security solutions require a secret query parameter to allow log in to the administrator
@@ -397,7 +393,7 @@ class PlgSystemUpdatenotification extends JPlugin
 				{
 					$options = array(
 						'defaultgroup' => $group,
-						'cachebase'    => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' :
+						'cachebase'    => ($client_id == 1) ? JPATH_ADMINISTRATOR . '/cache' :
 							$conf->get('cache_path', JPATH_SITE . '/cache')
 					);
 

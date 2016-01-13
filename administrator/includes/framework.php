@@ -91,6 +91,27 @@ switch ($config->error_reporting)
 
 define('JDEBUG', $config->debug);
 
+// Set backend directory name from config.
+$administrator_dir = empty($config->administrator_dir) ? 'administrator' : $config->administrator_dir;
+
+// If defined path is not a real directory fallback to default 'administrator' directory.
+if (!is_dir(JPATH_ROOT . DIRECTORY_SEPARATOR . $administrator_dir))
+{
+	$administrator_dir = 'administrator';
+}
+
+// If still not a real directory the we are into some trouble, let the user know.
+if (!is_dir(JPATH_ROOT . DIRECTORY_SEPARATOR . $administrator_dir))
+{
+	echo 'It looks like you have customised your administrator directory which is not configured correctly. Please fix it.';
+
+	exit;
+}
+
+define('JADMINISTRATOR_DIR', $administrator_dir);
+define('JPATH_ADMINISTRATOR', JPATH_ROOT . DIRECTORY_SEPARATOR . JADMINISTRATOR_DIR);
+define('JPATH_MANIFESTS', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'manifests');
+
 unset($config);
 
 // System profiler

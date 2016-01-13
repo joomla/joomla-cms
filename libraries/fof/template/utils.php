@@ -174,12 +174,7 @@ class FOFTemplateUtils
 		$lessCompiler->checkedCompile($localFile, $cachedPath);
 
 		// Add the compiled CSS to the page
-		$base_url = rtrim(FOFPlatform::getInstance()->URIbase(), '/');
-
-		if (substr($base_url, -14) == '/administrator')
-		{
-			$base_url = substr($base_url, 0, -14);
-		}
+		$base_url = rtrim(FOFPlatform::getInstance()->URIroot(), '/');
 
 		$url = $base_url . '/media/lib_fof/compiled/' . $id . '.css';
 
@@ -323,7 +318,7 @@ class FOFTemplateUtils
 
 			case 'admin':
 				$ret = array(
-					'normal' => 'administrator/' . $path
+					'normal' => JADMINISTRATOR_DIR . '/' . $path
 				);
 				break;
 

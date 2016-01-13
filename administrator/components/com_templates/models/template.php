@@ -1028,13 +1028,13 @@ class TemplatesModelTemplate extends JModelForm
 			$fileName = base64_decode($app->input->get('file'));
 			$path     = JPath::clean($client->path . '/templates/' . $template->element . '/');
 
-			if (stristr($client->path, 'administrator') == false)
+			if ($client->path != JPATH_ADMINISTRATOR)
 			{
 				$folder = '/templates/';
 			}
 			else
 			{
-				$folder = '/administrator/templates/';
+				$folder = '/' . JADMINISTRATOR_DIR . '/templates/';
 			}
 
 			$uri = JUri::root(true) . $folder . $template->element;
@@ -1188,13 +1188,13 @@ class TemplatesModelTemplate extends JModelForm
 			$fileName     = end($explodeArray);
 			$path         = JPath::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 
-			if (stristr($client->path, 'administrator') == false)
+			if ($client->path != JPATH_ADMINISTRATOR)
 			{
 				$folder = '/templates/';
 			}
 			else
 			{
-				$folder = '/administrator/templates/';
+				$folder = '/' . JADMINISTRATOR_DIR . '/templates/';
 			}
 
 			$uri = JUri::root(true) . $folder . $template->element;

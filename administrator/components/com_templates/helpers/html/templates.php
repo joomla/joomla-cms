@@ -38,7 +38,7 @@ class JHtmlTemplates
 		{
 			JHtml::_('bootstrap.tooltip');
 
-			$clientPath = ($clientId == 0) ? '' : 'administrator/';
+			$clientPath = ($clientId == 0) ? '' : JADMINISTRATOR_DIR . '/';
 			$thumb = $clientPath . 'templates/' . $template . '/template_thumbnail.png';
 			$html = JHtml::_('image', $thumb, JText::_('COM_TEMPLATES_PREVIEW'));
 
@@ -66,7 +66,7 @@ class JHtmlTemplates
 	{
 		$client = JApplicationHelper::getClientInfo($clientId);
 		$basePath = $client->path . '/templates/' . $template;
-		$baseUrl = ($clientId == 0) ? JUri::root(true) : JUri::root(true) . '/administrator';
+		$baseUrl = JUri::base(true);
 		$thumb = $basePath . '/template_thumbnail.png';
 		$preview = $basePath . '/template_preview.png';
 		$html = '';
