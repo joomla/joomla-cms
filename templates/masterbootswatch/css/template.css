@@ -1,0 +1,309 @@
+@charset "utf-8";
+/* CSS Document */
+/* CSS STYLE */
+html {overflow-y: scroll }
+body {
+    background-color: #FFFFFF;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+img {max-width: 100% }
+#top {
+    /*    background: none repeat scroll 0 0 #444444;*/
+    color: #ddd;
+    font-size: 12px;
+    /*margin-bottom: 16px;*/
+    padding-bottom: 4px;
+    padding-top: 4px;
+}
+#top .container .separator {
+    border-left: 1px solid #CCCCCC;
+    display: inline-block;
+    height: 10px;
+    margin: 0 20px;
+    width: 1px;
+}
+#navigation {
+    /*   border-bottom: 3px solid #ccc;;
+    margin-bottom: 20px;*/
+height:100px;
+}
+.navbar {border-radius: 0!important }
+.navbar-default {
+ /*   background-color: #2c3e50;
+    border-color: transparent;*/
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {outline: medium none }
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {outline: medium none }
+
+.dropdown-menu {
+    padding: 0px!important;
+    border-radius: 0!important;
+}
+#main-box {
+    border: 0px solid #E5E5E5; /* border 1, if you have front component*/
+    margin-bottom: 20px;
+}
+#breadcrumbs .moduletable {
+    border: 0;
+    padding: 0;
+}
+#fullwidth {
+    margin-top: -20px;
+    overflow: hidden;
+}
+#fullwidth .moduletable {
+    border: 0;
+    padding: 0;
+}
+.black .moduletable {
+    background: none repeat scroll 0 0 #222222;
+    border-color: #222222;
+    color: #AAAAAA;
+}
+.moduletable {
+    /*    background: none repeat scroll 0 0 #FFFFFF;;
+    border: 1px solid #E5E5E5;*/
+    margin-bottom: 20px;
+    padding: 10px;
+}
+.panel.moduletable {    padding: 0 }
+.panel .moduletable {
+    box-shadow: none;
+    margin: 0px 10px;
+    padding: 10px;
+}
+#brand {
+    float: left;
+    padding-left: 15px;
+    padding-top: 5px;
+}
+.splash {
+    background-attachment: fixed;
+    background-color: #141d27;
+    background-image: url("../images/bg.jpg");
+    background-size: cover;
+    color: #fff;
+    padding: 10em 0 6em;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.page-header {margin: 10px 0 20px }
+.hasTooltip {display: inline !important }
+.noMainbody {display: none !important }
+ul.unstyled,
+ol.unstyled {
+    list-style: outside none none;
+    margin-left: 0;
+    padding: 0;
+}
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+  /*  float: left;
+    position: relative !important;*/
+    margin-left: 0 !important;
+}
+.checkbox label, .radio label {
+    padding-left: 20px;
+    padding-right: 10px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+label,
+input,
+button,
+select,
+textarea {
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 18px;
+    font-family: arial;
+}
+label,
+select,
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+input[type="radio"],
+input[type="checkbox"] {cursor: pointer }
+.control-group input, .control-group textarea, .control-group .uneditable-input{/*width: 100% !important */}
+.contact-form .control-group input, .contact-form .control-group textarea, .contact-form .control-group .uneditable-input {
+    width: 100%;
+}
+.email-copy-input {float: left }
+#pop-print {
+    float: right;
+    margin: 10px;
+}
+div#jform_catid_chzn.chzn-container, div#jform_catid_chzn.chzn-container div.chzn-drop, div#jform_state_chzn.chzn-container, div#jform_state_chzn.chzn-container div.chzn-drop, div#jform_featured_chzn.chzn-container, div#jform_featured_chzn.chzn-container div.chzn- drop, div#jform_access_chzn.chzn-container, div#jform_access_chzn.chzn-container div.chzn-drop, div#jform_metadata_tags_chzn.chzn-container, div#jform_metadata_tags_chzn.chzn-container div.chzn-drop, div#jform_language_chzn.chzn- container, div#jform_language_chzn.chzn-container div.chzn-drop, div#jform_language_chzn.chzn-container, div#jform_tags_chzn.chzn-container {
+    width: 260px !important;
+}
+.control-group .control-label {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.chzn-container-single .chzn-single {
+    width: 140px;
+}
+.chzn-container .chzn-drop{
+    width: 100px;
+}
+.btn.modal {
+    bottom: auto;
+    display: inline;
+    left: auto;
+    position: relative;
+    top: auto;
+}
+html,
+body {
+    height: 100%;
+    /* The html and body elements cannot have any padding or margin. */
+}
+/* Wrapper for page content to push down footer */
+#wrap {
+    height: auto !important;
+    margin: 0 auto -60px;
+    min-height: 100%;
+    padding: 0 0 60px;
+}
+/* Set the fixed height of the footer here */
+#footer {
+    /*  height: 80px;;
+    background-color: #f5f5f5;*/
+}
+#copy.well {
+    border-radius: 0;
+    border: 0;
+    margin: 0;
+}
+#copy .moduletable {
+    background: transparent;
+    border: 0;
+    margin-bottom: 0;
+}
+#push {    height: 60px }
+/* LAYOUT */
+/* Floats */
+.float-left {float: left }
+.float-right {float: right }
+.group:before,
+.group:after {
+    content: "";
+    display: table;
+}
+.group:after {clear: both }
+.ie7 .group {zoom: 1 }
+/* JOOMLA */
+.form-horizontal .control-label {text-align: inherit!important;}
+i.icon-calendar:before {
+	content: "\1f4c5";
+	display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  position: relative;
+  top: 1px;
+}
+div.contact-form-field label,
+div.message-label label {
+display: inline !important;
+}
+div#jform_tags_chzn.chzn-container ul.chzn-choices li.search-field input.default {
+    padding: 0;
+}
+.control-group input[type="checkbox"] {
+    width: 10px!important;
+}
+.btn-toolbar {
+    margin-bottom: 10px;
+}
+.cols-1 {
+    display: block;
+    float: none !important;
+    margin: 0 !important;
+}
+.cols-2 .column-1 {
+    float: left;
+    width: 46%;
+}
+.cols-2 .column-2 {
+    float: right;
+    margin: 0;
+    width: 46%;
+}
+.cols-3 .column-1 {
+    float: left;
+    margin-right: 4%;
+    padding: 0 5px;
+    width: 29%;
+}
+.cols-3 .column-2 {
+    float: left;
+    margin-left: 0;
+    padding: 0 5px;
+    width: 29%;
+}
+.cols-3 .column-3 {
+    float: right;
+    padding: 0 5px;
+    width: 29%;
+}
+.items-row {
+    margin-bottom: 10px !important;
+    overflow: hidden;
+}
+.column-1,
+.column-2,
+.column-3 {padding: 10px 5px }
+.column-2 {
+    margin-left: 40%;
+    width: 55%;
+}
+.column-3 {width: 30% }
+.blog-more {padding: 10px 5px }
+/*TO TOP*/
+.back-to-top {
+    position: fixed;
+    bottom: 2em;
+    right: 0px;
+    text-decoration: none;
+    color: #000000;
+    background-color: rgba(235, 235, 235, 0.80);
+    font-size: 12px;
+    padding: 1em;
+    display: none;
+}
+.back-to-top:hover {background-color: rgba(135, 135, 135, 0.50) }
+/* Media Queries */
+/* Retina */
+@media screen and (-webkit-min-device-pixel-ratio: 2), screen and (max--moz-device-pixel-ratio: 2) { 
+}
+/* Landscape phones and down */
+@media (max-width: 480px) { 
+}
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) { 
+}
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) { 
+}
+/* Large desktop */
+@media (min-width: 1200px) { 
+}
+/* Fix disappearing tabs on editor page - Added by Waseem Sadiq 8th March 2015*/
+.icons .btn-group,
+.icons .btn-group a[data-toggle="tab"][aria-expanded="false"],
+ul.nav-tabs > li > a[data-toggle="tab"][aria-expanded="false"]
+{
+    display:block!important;
+}
