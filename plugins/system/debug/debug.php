@@ -1744,19 +1744,20 @@ class PlgSystemDebug extends JPlugin
 			JLog::DEBUG => '<span class="badge">DEBUG</span>'
 		);
 
-		$databasequeryTotal = count(array_filter($this->logEntries, function($logEntry) {
-			return $logEntry->category == 'databasequery';
-		}));
-
-		$deprecatedTotal = count(array_filter($this->logEntries, function($logEntry) {
-			return $logEntry->category == 'deprecated';
-		}));
+		$deprecatedTotal = count(array_filter($this->logEntries, function($logEntry) { return $logEntry->category == 'deprecated'; }));
 
 		$logsTotal = count($this->logEntries);
 
+		$showExecutedSQL = $this->params->get('log_executed_sql', 0);
+		if (!$showExecutedSQL)
+		{
+			$databasequeryTotal = count(array_filter($this->logEntries, function($logEntry) { return $logEntry->category == 'databasequery'; }));
+			$logsTotal = $logsTotal - $databasequeryTotal;
+		}
+
 		$out = '';
 
-		$out .= '<h4>' . JText::sprintf(JText::_('PLG_DEBUG_LOGS_LOGGED'), $logsTotal - $databasequeryTotal) . '</h4><br />';
+		$out .= '<h4>' . JText::sprintf(JText::_('PLG_DEBUG_LOGS_LOGGED'), $logsTotal) . '</h4><br />';
 		if ($deprecatedTotal > 0)
 		{
 			$out .= '
@@ -1771,8 +1772,8 @@ class PlgSystemDebug extends JPlugin
 		$count = 1;
 		foreach ($this->logEntries as $entry)
 		{
-			// Don't show database queries since there is slider just for that.
-			if ($entry->category === 'databasequery')
+			// Don't show database queries if not selected.
+			if (!$showExecutedSQL && $entry->category === 'databasequery')
 			{
 				continue;
 			}
@@ -1787,7 +1788,7 @@ class PlgSystemDebug extends JPlugin
 				$out .= JHtml::_('bootstrap.addSlide', 'dbg_logs_' . $count, JText::_('PLG_DEBUG_CALL_STACK'), 'dbg_logs_backtrace_' . $count);
 				$out .= $this->renderCallStack($entry->callStack);
 				$out .= JHtml::_('bootstrap.endSlide');
-				$out .= JHtml::_('bootstrap.endAccordion');	
+				$out .= JHtml::_('bootstrap.endAccordion');
 			}
 			$out .= '<hr /></li>';
 			$count++;
@@ -1812,7 +1813,7 @@ class PlgSystemDebug extends JPlugin
 
 		if (isset($callStack))
 		{
-			$htmlCallStack = '<div>';
+			$htmlCallStack .= '<div>';
 			$htmlCallStack .= '<table class="table table-striped dbg-query-table">';
 			$htmlCallStack .= '<thead>';
 			$htmlCallStack .= '<th>#</th>';
@@ -1835,7 +1836,7 @@ class PlgSystemDebug extends JPlugin
 
 				$htmlCallStack .= '<tr>';
 
-				$htmlCallStack .= '<td>' . $count .'</td>';
+				$htmlCallStack .= '<td>' . $count . '</td>';
 
 				$htmlCallStack .= '<td>';
 				if (isset($call['class']))
@@ -1859,6 +1860,7 @@ class PlgSystemDebug extends JPlugin
 				$htmlCallStack .= '</td>';
 
 				$htmlCallStack .= '<td>';
+
 				// If entry doesn't have line and number the next is a call_user_func.
 				if (!isset($call['file']) && !isset($call['line']))
 				{
@@ -1880,7 +1882,8 @@ class PlgSystemDebug extends JPlugin
 
 			if (!$this->linkFormat)
 			{
-				$htmlCallStack .= '<div>[<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">' . JText::_('PLG_DEBUG_LINK_FORMAT') . '</a>]</div>';
+				$htmlCallStack .= '<div>[<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">';
+				$htmlCallStack .= JText::_('PLG_DEBUG_LINK_FORMAT') . '</a>]</div>';
 			}
 		}
 

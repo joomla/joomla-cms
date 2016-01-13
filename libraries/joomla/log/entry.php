@@ -69,7 +69,7 @@ class JLogEntry
 	 * @var    string
 	 * @since  12.3
 	 */
-	public $callStack = [];
+	public $callStack = array();
 
 	/**
 	 * Constructor
