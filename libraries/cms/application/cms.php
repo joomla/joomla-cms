@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -602,15 +602,13 @@ class JApplicationCms extends JApplicationWeb
 		$cur_state = $this->getUserState($key, $default);
 		$new_state = $this->input->get($request, null, $type);
 
+		if ($new_state === null)
+		{
+			return $cur_state;
+		}
+
 		// Save the new value only if it was set in this request.
-		if ($new_state !== null)
-		{
-			$this->setUserState($key, $new_state);
-		}
-		else
-		{
-			$new_state = $cur_state;
-		}
+		$this->setUserState($key, $new_state);
 
 		return $new_state;
 	}

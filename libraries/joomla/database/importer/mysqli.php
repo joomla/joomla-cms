@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -39,6 +39,49 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Get the SQL syntax to add a table.
+	 *
+	 * @param   SimpleXMLElement  $table  The table information.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 * @throws  RuntimeException
+	 */
+	protected function xmlToCreate(SimpleXMLElement $table)
+	{
+		$existingTables = $this->db->getTableList();
+		$tableName = (string) $table['name'];
+
+		if (in_array($tableName, $existingTables))
+		{
+			throw new RuntimeException('The table you are trying to create already exists');
+		}
+
+		$createTableStatement = 'CREATE TABLE ' . $this->db->quoteName($tableName) . ' (';
+
+		foreach ($table->xpath('field') as $field)
+		{
+			$createTableStatement .= $this->getColumnSQL($field) . ', ';
+		}
+
+		$newLookup = $this->getKeyLookup($table->xpath('key'));
+
+		// Loop through each key in the new structure.
+		foreach ($newLookup as $key)
+		{
+			$createTableStatement .= $this->getKeySQL($key) . ', ';
+		}
+
+		// Remove the comma after the last key
+		$createTableStatement = rtrim($createTableStatement, ', ');
+
+		$createTableStatement .= ')';
+
+		return $createTableStatement;
 	}
 
 	/**

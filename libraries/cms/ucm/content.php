@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  UCM
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,11 +43,7 @@ class JUcmContent extends JUcmBase
 	 */
 	public function __construct(JTableInterface $table = null, $alias = null, JUcmType $type = null)
 	{
-		// Setup dependencies.
-		$input = JFactory::getApplication()->input;
-		$this->alias = isset($alias) ? $alias : $input->get('option') . '.' . $input->get('view');
-
-		$this->type = isset($type) ? $type : $this->getType();
+		parent::__construct($alias, $type);
 
 		if ($table)
 		{

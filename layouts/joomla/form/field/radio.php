@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,10 +52,8 @@ JHtml::_('script', 'system/html5fallback.js', false, true);
  *     %4 = any other attributes
  */
 $format = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s />';
-
-$alt     = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
+$alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 ?>
-
 <fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio'); ?>"
 	<?php echo $disabled ? 'disabled' : ''; ?>
 	<?php echo $required ? 'required aria-required="true"' : ''; ?>

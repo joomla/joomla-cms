@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -923,9 +923,9 @@ abstract class JFormField
 			$options['hiddenLabel'] = true;
 		}
 
-		if ($showon = $this->getAttribute('showon'))
+		if (($showon = $this->getAttribute('showon')))
 		{
-			$showon   = explode(':', $showon, 2);
+			$showon = explode(':', $showon, 2);
 			$options['class'] .= ' showon_' . implode(' showon_', explode(',', $showon[1]));
 			$id = $this->getName($showon[0]);
 			$id = $this->multiple ? str_replace('[]', '', $id) : $id;

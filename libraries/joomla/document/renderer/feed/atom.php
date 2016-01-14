@@ -173,7 +173,7 @@ class JDocumentRendererFeedAtom extends JDocumentRenderer
 			if (!empty($data->items[$i]->description))
 			{
 				$feed .= "		<summary type=\"html\">" . htmlspecialchars($this->_relToAbs($data->items[$i]->description), ENT_COMPAT, 'UTF-8') . "</summary>\n";
-				$feed .= "		<content type=\"html\">" . htmlspecialchars($data->items[$i]->description, ENT_COMPAT, 'UTF-8') . "</content>\n";
+				$feed .= "		<content type=\"html\">" . htmlspecialchars($this->_relToAbs($data->items[$i]->description), ENT_COMPAT, 'UTF-8') . "</content>\n";
 			}
 
 			if (!empty($data->items[$i]->category))

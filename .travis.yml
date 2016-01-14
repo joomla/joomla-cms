@@ -16,11 +16,11 @@ matrix:
     - php: 5.4
       env: INSTALL_APC="yes"
     - php: 5.5
-      env: INSTALL_APCU_STABLE="yes"
+      env: INSTALL_APCU="yes"
     - php: 5.6
-      env: RUN_PHPCS="yes" INSTALL_APCU_STABLE="yes"
+      env: RUN_PHPCS="yes" INSTALL_APCU="yes"
     - php: 7.0
-      env: INSTALL_APCU_BETA="yes" INSTALL_MEMCACHED="no" INSTALL_REDIS="no"
+      env: INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
 
 services:
   - memcached
@@ -39,8 +39,8 @@ before_script:
   # Enable additional PHP extensions
   - if [ "$INSTALL_MEMCACHED" == "yes" ]; then phpenv config-add build/travis/phpenv/memcached.ini; fi
   - if [ "$INSTALL_APC" == "yes" ]; then phpenv config-add build/travis/phpenv/apc-$TRAVIS_PHP_VERSION.ini; fi
-  - if [ "$INSTALL_APCU_STABLE" == "yes" ]; then printf "\n" | pecl install apcu; fi
-  - if [ "$INSTALL_APCU_BETA" == "yes" ]; then printf "\n" | pecl install apcu-beta; fi
+  - if [ "$INSTALL_APCU" == "yes" ]; then printf "\n" | pecl install apcu-4.0.10; fi
+  - if [ "$INSTALL_APCU_BC_BETA" == "yes" ]; then printf "\n" | pecl install apcu_bc-beta; fi
   - if [ "$INSTALL_REDIS" == "yes" ]; then phpenv config-add build/travis/phpenv/redis.ini; fi
 
 script:
