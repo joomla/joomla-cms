@@ -106,6 +106,8 @@ Desktop.ini
 /libraries/vendor/phpmailer/phpmailer/composer.json
 /libraries/vendor/phpmailer/phpmailer/README.md
 /libraries/vendor/phpmailer/phpmailer/travis.phpunit.xml.dist
+/libraries/vendor/phpmailer/phpmailer/extras/README.md
+/libraries/vendor/phpmailer/phpmailer/get_oauth_token.php
 /libraries/vendor/psr/log/Psr/Log/Test
 /libraries/vendor/psr/log/.gitignore
 /libraries/vendor/psr/log/composer.json
