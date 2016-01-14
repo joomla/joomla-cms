@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JLog::add('JDocumentRendererRSS is deprecated, use JDocumentRendererFeedRss instead.', JLog::WARNING, 'deprecated');
+
 /**
  * JDocumentRendererRSS is a feed that implements RSS 2.0 Specification
  *

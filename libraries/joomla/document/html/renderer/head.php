@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JLog::add('JDocumentRendererHead is deprecated, use JDocumentRendererHtmlHead instead.', JLog::WARNING, 'deprecated');
+
 /**
  * JDocument head renderer
  *

@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JLog::add('JDocumentRendererAtom is deprecated, use JDocumentRendererFeedAtom instead.', JLog::WARNING, 'deprecated');
+
 /**
  * JDocumentRendererAtom is a feed that implements the atom specification
  *
