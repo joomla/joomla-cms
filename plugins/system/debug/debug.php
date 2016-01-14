@@ -520,7 +520,7 @@ class PlgSystemDebug extends JPlugin
 			$totalTime += $mark->time;
 			$totalMem += $mark->memory;
 			$htmlMark = sprintf(
-				JText::_('PLG_DEBUG_TIME') . ': <span class="label label-time">%.1f&nbsp;ms</span> / <span class="label label-default">%.1f&nbsp;ms</span>'
+				JText::_('PLG_DEBUG_TIME') . ': <span class="label label-time">%.2f&nbsp;ms</span> / <span class="label label-default">%.2f&nbsp;ms</span>'
 				. ' ' . JText::_('PLG_DEBUG_MEMORY') . ': <span class="label label-memory">%0.3f MB</span> / <span class="label label-default">%0.2f MB</span>'
 				. ' %s: %s',
 				$mark->time,
@@ -582,7 +582,7 @@ class PlgSystemDebug extends JPlugin
 			$bars[] = (object) array(
 				'width' => round($mark->time / ($totalTime / 100), 4),
 				'class' => $barClass,
-				'tip' => $mark->tip . ' ' . round($mark->time, 1) . ' ms'
+				'tip' => $mark->tip . ' ' . round($mark->time, 2) . ' ms'
 			);
 
 			$barsMem[] = (object) array(
@@ -646,7 +646,7 @@ class PlgSystemDebug extends JPlugin
 
 				$html[] = '<br /><div>' . JText::sprintf(
 						'PLG_DEBUG_QUERIES_TIME',
-						sprintf('<span class="label ' . $labelClass . '">%.1f&nbsp;ms</span>', $totalQueryTime)
+						sprintf('<span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime)
 					) . '</div>';
 
 				if ($this->params->get('log-executed-sql', '0'))
@@ -1094,7 +1094,7 @@ class PlgSystemDebug extends JPlugin
 		$html = array();
 
 		$html[] = '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $this->totalQueries)
-			. sprintf(' <span class="label ' . $labelClass . '">%.1f&nbsp;ms</span>', ($totalQueryTime)) . '</h4><br />';
+			. sprintf(' <span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', ($totalQueryTime)) . '</h4><br />';
 
 		if ($total_duplicates)
 		{
@@ -1280,7 +1280,7 @@ class PlgSystemDebug extends JPlugin
 					}
 
 					// Display duration in milliseconds with the unit instead of seconds.
-					$html[] = sprintf('%.1f&nbsp;ms', $td * 1000);
+					$html[] = sprintf('%.2f&nbsp;ms', $td * 1000);
 				}
 				elseif ($k == 'Error')
 				{
