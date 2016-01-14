@@ -52,8 +52,8 @@ if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) : ?
 				<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
 					<a href="#category-<?php echo $child->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
 				<?php endif;?>
-			<?php endif;?>
 			</h3>
+			<?php endif;?>
 
 			<?php if ($this->params->get('show_subcat_desc') == 1) : ?>
 			<?php if ($child->description) : ?>
