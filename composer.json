@@ -24,7 +24,7 @@
         "ircmaxell/password-compat": "1.*",
         "leafo/lessphp": "0.3.9",
         "paragonie/random_compat": "~1.0",
-        "phpmailer/phpmailer": "5.2.9",
+        "phpmailer/phpmailer": "5.2.14",
         "symfony/polyfill-php56": "~1.0",
         "symfony/yaml": "2.*"
     },
