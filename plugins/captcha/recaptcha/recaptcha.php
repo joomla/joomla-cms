@@ -50,7 +50,6 @@ class PlgCaptchaRecaptcha extends JPlugin
 			JHtml::_('jquery.framework');
 
 			$theme	= $this->params->get('theme', 'clean');
-			$size	= $this->params->get('size', 'normal');
 			$file	= 'https://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
 
 			JFactory::getDocument()->addScriptDeclaration('jQuery( document ).ready(function()
