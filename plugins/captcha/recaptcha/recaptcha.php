@@ -54,7 +54,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 			$file	= 'https://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
 
 			JFactory::getDocument()->addScriptDeclaration('jQuery( document ).ready(function()
-				{Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '", size: "' . $size . '",' . $this->_getLanguage() . 'tabindex: 0});});');
+				{Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '",' . $this->_getLanguage() . 'tabindex: 0});});');
 		}
 		else
 		{
