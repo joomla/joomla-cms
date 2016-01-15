@@ -162,7 +162,7 @@ class JControllerAdmin extends JControllerLegacy
 	 * Display is not supported by this controller.
 	 *
 	 * @param   boolean  $cacheable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams   An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
