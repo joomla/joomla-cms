@@ -50,10 +50,11 @@ class PlgCaptchaRecaptcha extends JPlugin
 			JHtml::_('jquery.framework');
 
 			$theme	= $this->params->get('theme', 'clean');
+			$size	= $this->params->get('size', 'normal');
 			$file	= 'https://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
 
 			JFactory::getDocument()->addScriptDeclaration('jQuery( document ).ready(function()
-				{Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '",' . $this->_getLanguage() . 'tabindex: 0});});');
+				{Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '", size: "' . $size . '",' . $this->_getLanguage() . 'tabindex: 0});});');
 		}
 		else
 		{
@@ -86,7 +87,10 @@ class PlgCaptchaRecaptcha extends JPlugin
 		else
 		{
 			return '<div id="' . $id . '" ' . str_replace('class="', 'class="g-recaptcha ', $class) .
-					' data-sitekey="' . $this->params->get('public_key', '') . '" data-theme="' . $this->params->get('theme2', 'light') . '"></div>';
+					' data-sitekey="' . $this->params->get('public_key', '') .
+					'" data-theme="' . $this->params->get('theme2', 'light') .
+					'" data-size="' . $this->params->get('size', 'normal') .
+					'"></div>';
 		}
 	}
 
