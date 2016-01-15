@@ -7,16 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/document/json/json.php';
-
 /**
- * Test class for JDocumentJSON
+ * Test class for JDocumentJson
  */
-class JDocumentJSONTest extends TestCase
+class JDocumentJsonTest extends TestCase
 {
 	/**
-	 * @var  JDocumentJSON
-\	 */
+	 * @var  JDocumentJson
+	 */
 	protected $object;
 
 	/**
@@ -31,7 +29,7 @@ class JDocumentJSONTest extends TestCase
 
 		JFactory::$application = $this->getMockWeb();
 
-		$this->object = new JDocumentJSON;
+		$this->object = new JDocumentJson;
 	}
 
 	/**
