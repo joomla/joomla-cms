@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Joomla! Debug plugin.
  *
@@ -416,7 +418,7 @@ class PlgSystemDebug extends JPlugin
 
 				if (is_object($entries))
 				{
-					$o = JArrayHelper::fromObject($entries);
+					$o = ArrayHelper::fromObject($entries);
 
 					if ($o)
 					{
