@@ -86,7 +86,7 @@ class JHtmlAssetItem
 	const ASSET_STATE_INACTIVE = 0;
 
 	/**
-	 * Mark ative asset. Loaded but WITHOUT dependency
+	 * Mark ative asset. Just loaded, but WITHOUT dependency resolved
 	 *
 	 * @var int
 	 */

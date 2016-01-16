@@ -295,7 +295,6 @@ class JHtmlAssetFactory
 		// Attach an active assets do the document
 		$assets = $this->getActiveAssets();
 
-		// Backward compatibility hack. Part 1. @TODO: remove it someday.
 		// Presave existing Scripts, and attach them after requested assets.
 		$jsBackup = $doc->_scripts;
 		$doc->_scripts = array();
@@ -310,12 +309,12 @@ class JHtmlAssetFactory
 			$asset->attach($doc);
 		}
 
-		// Backward compatibility hack. Part 2. @TODO: remove it someday, and do not forget about Part 1.
+		// Add previously added scripts
 		$doc->_scripts = array_merge($doc->_scripts, $jsBackup);
 	}
 
 	/**
-	 * Resolve Dependency for active assets
+	 * Resolve Dependency for just added assets
 	 *
 	 * @return  JHtmlAssetFactory
 	 * @throws  RuntimeException When Dependency cannot be resolved
@@ -511,7 +510,7 @@ class JHtmlAssetFactory
 	/**
 	 * Prepare Asset instance
 	 *
-	 * @param  string  $name Asset name
+	 * @param  string  $name   Asset name
 	 * @param  array   $info
 	 * @param  array   $owner
 	 *
@@ -522,7 +521,7 @@ class JHtmlAssetFactory
 		$version = !empty($info['version']) ? $info['version'] : null;
 
 		// Check for specific class
-		// @TODO is it realy can be usefull ???
+		// @TODO whether it realy can be usefull ???
 		//$class = 'JHtmlAsset' . implode('', array_map('ucfirst', explode('.', $name)));
 		//$class = class_exists($class) ? $class : 'JHtmlAssetItem';
 		//$asset = new $class($name, $version, $owner);
