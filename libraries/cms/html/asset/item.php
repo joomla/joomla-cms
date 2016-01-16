@@ -374,12 +374,14 @@ class JHtmlAssetItem
 			throw new RuntimeException('Incative Asset cannot be attached');
 		}
 
-		$config  = JFactory::getConfig();
-		$version = $this->isVersionAttach() ? $this->getVersion() : false;
+		$version = false;
 
 		// Calculate the version hash based on the asset version,
-		// or allow JDocument to attach the default hash. Avoid md5(NULL) version.
-		$version = $version ? md5($version . $config->get('secret')) : $version;
+		if ($this->isVersionAttach())
+		{
+			$jversion = new JVersion;
+			$version  = $jversion->generateMediaVersion($this->getVersion(), false);
+		}
 
 		$this->attachCss($doc, $version)->attachJs($doc, $version);
 

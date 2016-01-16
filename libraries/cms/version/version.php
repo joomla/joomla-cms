@@ -237,16 +237,25 @@ final class JVersion
 	 * Generate a media version string for assets
 	 * Public to allow third party developers to use it
 	 *
+	 * @param  string  $version     Optinal version of the media
+	 * @param  bool    $attachDate  Whether attach current date while hash calculation
 	 * @return  string
 	 *
 	 * @since   3.2
 	 */
-	public function generateMediaVersion()
+	public function generateMediaVersion($version = null, $attachDate = true)
 	{
-		$date   = new JDate;
-		$config = JFactory::getConfig();
+		$config  = JFactory::getConfig();
+		$string  = $version ? $version : $this->getLongVersion();
+		$string .= $config->get('secret');
 
-		return md5($this->getLongVersion() . $config->get('secret') . $date->toSql());
+		if ($attachDate)
+		{
+			$date    = new JDate;
+			$string .= $date->toSql();
+		}
+
+		return md5($string);
 	}
 
 	/**
