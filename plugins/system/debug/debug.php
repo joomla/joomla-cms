@@ -1813,7 +1813,7 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Renders call stack and back trace in HTML.
 	 *
-	 * @param   string  $callStack  The call stack and back trace array.
+	 * @param   array  $callStack  The call stack and back trace array.
 	 *
 	 * @return  string  The call stack and back trace in HMTL format.
 	 *
