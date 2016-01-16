@@ -401,7 +401,7 @@ class PlgSystemDebug extends JPlugin
 
 		if (!is_array($session))
 		{
-			$html[] = $key . ' &rArr;' . $session . PHP_EOL;
+			$html[] = $key . '<pre>' . $this->prettyPrintJSON($session) . '</pre>' . PHP_EOL;
 		}
 		else
 		{
@@ -452,9 +452,7 @@ class PlgSystemDebug extends JPlugin
 
 				if (is_string($entries))
 				{
-					$html[] = '<code>';
-					$html[] = $sKey . ' &rArr; ' . $entries . '<br />';
-					$html[] = '</code>';
+					$html[] = $sKey . '<pre>' . $this->prettyPrintJSON($entries) . '</pre>' . PHP_EOL;
 				}
 			}
 		}
@@ -1902,6 +1900,31 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		return $htmlCallStack;
+	}
+
+	/**
+	 * Pretty print JSON with colors.
+	 *
+	 * @param   string  $json  The json raw string.
+	 *
+	 * @return  string  The json string pretty printed.
+	 *
+	 * @since   3.6
+	 */
+	protected function prettyPrintJSON($json = '')
+	{
+		// In PHP 5.4.0 or later we have pretty print option.
+		if (version_compare(PHP_VERSION, '5.4', '>='))
+		{
+			$json = json_encode($json, JSON_PRETTY_PRINT);
+		}
+
+		// Add some colors
+		$json = preg_replace('#"([^"]+)":#', '<span class=\'black\'>"</span><span class=\'green\'>$1</span><span class=\'black\'>"</span>:', $json);
+		$json = preg_replace('#"([^"]+)"#', '<span class=\'grey\'>"$1"</span>', $json);
+		$json = str_replace('null,', '<span class=\'blue\'>null</span>,', $json);
+
+		return $json;
 	}
 
 	/**
