@@ -541,6 +541,11 @@ fieldset.filters {
 	background: #f5f5f5
 }
 
+#login-form input[type="text"], input[type="password"], input[type="submit"] {
+	width: 100%;
+	box-sizing: border-box
+}
+
 form ul {
 	list-style-type: none;
 	margin: 0;
