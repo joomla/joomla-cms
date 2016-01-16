@@ -66,7 +66,7 @@ class JLogEntry
 
 	/**
 	 * Call stack and back trace of the logged call.
-	 * @var    string
+	 * @var    array
 	 * @since  12.3
 	 */
 	public $callStack = array();
