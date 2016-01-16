@@ -84,7 +84,7 @@ class JLayoutFile extends JLayoutBase
 	/**
 	 * Method to render the layout.
 	 *
-	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   array  $displayData  Array which properties are used inside the layout file to build displayed output
 	 *
 	 * @return  string  The necessary HTML to display the layout
 	 *
