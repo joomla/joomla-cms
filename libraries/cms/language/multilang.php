@@ -104,7 +104,7 @@ class JLanguageMultilang
 	{
 		// To avoid doing duplicate database queries.
 		static $multilangSiteHomePages = null;
-	
+
 		if (!isset($multilangSiteHomePages))
 		{
 			// Check for Home pages languages.
