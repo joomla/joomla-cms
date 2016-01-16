@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 $params = JComponentHelper::getParams('com_media');
 $path   = 'file_path';
 
+JHtml::_('jquery.framework');
+
 JFactory::getDocument()->addScriptDeclaration(
 	"
 		jQuery(document).ready(function($){
