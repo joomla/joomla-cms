@@ -131,7 +131,7 @@ class JLayoutBase implements JLayout
 	/**
 	 * Method to render the layout.
 	 *
-	 * @param   array  $displayData  Array which properties are used inside the layout file to build displayed output
+	 * @param   array  $displayData  Array of properties available for use inside the layout file to build the displayed output
 	 *
 	 * @return  string  The necessary HTML to display the layout
 	 *
