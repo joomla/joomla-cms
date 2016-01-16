@@ -79,11 +79,11 @@ abstract class MultilangstatusHelper
 	 *
 	 * @return  array of language extension objects.
 	 *
-	 * @deprecated  3.6  Use JLanguageMultilang::getSiteLangs() instead.
+	 * @deprecated  4.0  Use JLanguageMultilang::getSiteLangs() instead.
 	 */
 	public static function getSitelangs()
 	{
-		JLog::add(__CLASS__ . '::' . __METHOD__ . ' is deprecated, use JLanguageMultilang::getSiteLangs() instead.', JLog::WARNING, 'deprecated');
+		JLog::add(__METHOD__ . ' is deprecated, use JLanguageMultilang::getSiteLangs() instead.', JLog::WARNING, 'deprecated');
 
 		return JLanguageMultilang::getSiteLangs();
 	}
@@ -93,11 +93,11 @@ abstract class MultilangstatusHelper
 	 *
 	 * @return  array of menu objects.
 	 *
-	 * @deprecated  3.6  Use JLanguageMultilang::getSiteHomePages() instead.
+	 * @deprecated  4.0  Use JLanguageMultilang::getSiteHomePages() instead.
 	 */
 	public static function getHomepages()
 	{
-		JLog::add(__CLASS__ . '::' . __METHOD__ . ' is deprecated, use JLanguageMultilang::getSiteHomePages() instead.', JLog::WARNING, 'deprecated');
+		JLog::add(__METHOD__ . ' is deprecated, use JLanguageMultilang::getSiteHomePages() instead.', JLog::WARNING, 'deprecated');
 
 		return JLanguageMultilang::getSiteHomePages();
 	}
