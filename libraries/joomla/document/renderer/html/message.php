@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDocument system message renderer
  *
- * @since  3.6
+ * @since  3.5
  */
 class JDocumentRendererHtmlMessage extends JDocumentRenderer
 {
@@ -25,7 +25,7 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 	 *
 	 * @return  string  The output of the script
 	 *
-	 * @since   3.6
+	 * @since   3.5
 	 */
 	public function render($name, $params = array(), $content = null)
 	{
@@ -60,7 +60,7 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 	 *
 	 * @return  array  An array contains system message
 	 *
-	 * @since   3.6
+	 * @since   3.5
 	 */
 	private function getData()
 	{
