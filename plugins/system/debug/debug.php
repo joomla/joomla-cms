@@ -1923,7 +1923,7 @@ class PlgSystemDebug extends JPlugin
 
 		// Add some colors
 		$json = preg_replace('#"([^"]+)":#', '<span class=\'black\'>"</span><span class=\'green\'>$1</span><span class=\'black\'>"</span>:', $json);
-		$json = preg_replace('#"([^"]+)"#', '<span class=\'grey\'>"$1"</span>', $json);
+		$json = preg_replace('#"(|[^"]+)"#', '<span class=\'grey\'>"$1"</span>', $json);
 		$json = str_replace('null,', '<span class=\'blue\'>null</span>,', $json);
 
 		return $json;
