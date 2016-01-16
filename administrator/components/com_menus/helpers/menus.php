@@ -316,7 +316,7 @@ class MenusHelper
 	 */
 	public static function getAssociations($pk)
 	{
-		$langAssociations = JLanguageAssociations::getAssociations('', '#__menu', 'com_menus.item', $pk, 'id', '', '');
+		$langAssociations = JLanguageAssociations::getAssociations('com_menus', '#__menu', 'com_menus.item', $pk, 'id', '', '');
 		$associations = array();
 		foreach ($langAssociations as $langAssociation)
 		{
