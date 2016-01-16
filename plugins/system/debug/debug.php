@@ -1744,18 +1744,12 @@ class PlgSystemDebug extends JPlugin
 			JLog::DEBUG => '<span class="badge">DEBUG</span>'
 		);
 
-		$logEntriesDeprecated = count(
-			array_filter(
-				$this->logEntries, function($logEntry)
-				{
-					return $logEntry->category == 'deprecated';
-				}
-			)
-		);
+		$out = '';
 
 		$logEntriesTotal = count($this->logEntries);
 
-		$showExecutedSQL = $this->params->get('log_executed_sql', 0);
+		// SQL log entries
+		$showExecutedSQL = $this->params->get('log-executed-sql', 0);
 		if (!$showExecutedSQL)
 		{
 			$logEntriesDatabasequery = count(
@@ -1769,10 +1763,26 @@ class PlgSystemDebug extends JPlugin
 			$logEntriesTotal = $logEntriesTotal - $logEntriesDatabasequery;
 		}
 
-		$out = '';
+		// Deprecated log entries
+		$logEntriesDeprecated = count(
+			array_filter(
+				$this->logEntries, function($logEntry)
+				{
+					return $logEntry->category == 'deprecated';
+				}
+			)
+		);
+		$showDeprecated = $this->params->get('log-deprecated', 0);
+		if (!$showDeprecated)
+		{
+			$logEntriesTotal = $logEntriesTotal - $logEntriesDeprecated;
+		}
+
+		$showEverything = $this->params->get('log-everything', 0);
 
 		$out .= '<h4>' . JText::sprintf(JText::_('PLG_DEBUG_LOGS_LOGGED'), $logEntriesTotal) . '</h4><br />';
-		if ($logEntriesDeprecated > 0)
+
+		if ($showDeprecated && $logEntriesDeprecated > 0)
 		{
 			$out .= '
 			<div class="alert alert-warning">
@@ -1788,6 +1798,18 @@ class PlgSystemDebug extends JPlugin
 		{
 			// Don't show database queries if not selected.
 			if (!$showExecutedSQL && $entry->category === 'databasequery')
+			{
+				continue;
+			}
+
+			// Don't show deprecated logs if not selected.
+			if (!$showDeprecated && $entry->category === 'deprecated')
+			{
+				continue;
+			}
+
+			// Don't show everything logs if not selected.
+			if (!$showEverything && !in_array($entry->category, array('deprecated', 'databasequery')))
 			{
 				continue;
 			}
