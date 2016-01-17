@@ -9,11 +9,11 @@
 defined('_JEXEC') or die;
 
 JFactory::getDocument()->addScriptDeclaration(
-	<<<JS
-		jQuery(document).ready(function($) {
+<<<JS
+	jQuery(document).ready(function($) {
 		$(':input[type="activateMultilanguage"]').each(function(el){
-			el.addEvent('click', function(){Install.toggle('installLocalisedContent', 'activateMultilanguage', 1);});
-			el.addEvent('click', function(){Install.toggle('activatePluginLanguageCode', 'activateMultilanguage', 1);});
+			el.click(function(){Install.toggle('installLocalisedContent', 'activateMultilanguage', 1);});
+			el.click(function(){Install.toggle('activatePluginLanguageCode', 'activateMultilanguage', 1);});
 		});
 		Install.toggle('installLocalisedContent', 'activateMultilanguage', 1);
 		Install.toggle('activatePluginLanguageCode', 'activateMultilanguage', 1);
