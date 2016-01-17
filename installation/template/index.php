@@ -17,7 +17,6 @@ JHtml::_('stylesheet', 'installation/template/css/template.css');
 // Load the JavaScript behaviors
 JHtml::_('bootstrap.framework');
 JHtml::_('formbehavior.chosen', 'select');
-JHtml::_('behavior.framework', true);
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 JHtml::_('script', 'installation/template/js/installation.js');
