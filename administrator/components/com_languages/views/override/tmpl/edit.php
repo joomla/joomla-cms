@@ -17,6 +17,12 @@ JHtml::_('formbehavior.chosen', 'select');
 
 $expired = ($this->state->get("cache_expired") == 1 ) ? '1' : '';
 
+JHtml::_('stylesheet', 'overrider/overrider.css', array(), true);
+
+JHtml::_('behavior.core');
+JHtml::_('jquery.framework');
+JHtml::_('script', 'overrider/overrider.min.js', false, true, false, true);
+
 JFactory::getDocument()->addScriptDeclaration('
 	jQuery(document).ready(function($) {
 		$("#jform_searchstring").on("focus", function() {
@@ -29,7 +35,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					Joomla.overrider.states.refreshed = true;
 				}
 			}
-			this.removeClass("invalid");
+			$(this).removeClass("invalid");
 		});
 	});
 
