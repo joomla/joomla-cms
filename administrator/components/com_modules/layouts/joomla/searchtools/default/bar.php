@@ -12,12 +12,15 @@ defined('JPATH_BASE') or die;
 $data = $displayData;
 
 $clientIdField = $data['view']->filterForm->getField('client_id');
+JFactory::getDocument()->addScriptDeclaration(
+	"
+		jQuery.fn.clearPositionType = function(){
+			jQuery('#filter_position, #filter_module, #filter_language').val('');
+		};
+	"
+);
+
 ?>
-<script type="text/javascript">
-jQuery.fn.clearPositionType = function(){
-	jQuery("#filter_position, #filter_module, #filter_language").val("");
-};
-</script>
 <div class="js-stools-field-filter js-stools-client_id hidden-phone hidden-tablet">
 	<?php echo $clientIdField->input; ?>
 </div>
