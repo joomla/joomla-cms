@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * JDocument head renderer
  *
- * @since  3.6
+ * @since  3.5
  */
 class JDocumentRendererHtmlHead extends JDocumentRenderer
 {
@@ -27,7 +27,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 	 *
 	 * @return  string  The output of the script
 	 *
-	 * @since   3.6
+	 * @since   3.5
 	 */
 	public function render($head, $params = array(), $content = null)
 	{
@@ -41,7 +41,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 	 *
 	 * @return  string  The head hTML
 	 *
-	 * @since   3.6
+	 * @since   3.5
 	 * @deprecated  4.0  Method code will be moved into the render method
 	 */
 	public function fetchHead($document)

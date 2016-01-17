@@ -72,13 +72,15 @@ abstract class ModLanguagesHelper
 			}
 		}
 
-		$levels = $user->getAuthorisedViewLevels();
+		$levels    = $user->getAuthorisedViewLevels();
+		$sitelangs = JLanguageMultilang::getSiteLangs();
+		$multilang = JLanguageMultilang::isEnabled();
 
 		// Filter allowed languages
 		foreach ($languages as $i => &$language)
 		{
 			// Do not display language without frontend UI
-			if (!array_key_exists($language->lang_code, JLanguageMultilang::getSiteLangs()))
+			if (!array_key_exists($language->lang_code, $sitelangs))
 			{
 				unset($languages[$i]);
 			}
@@ -96,7 +98,20 @@ abstract class ModLanguagesHelper
 			{
 				$language->active = ($language->lang_code == $lang->getTag());
 
-				if (JLanguageMultilang::isEnabled())
+				// Fetch language rtl
+				// If loaded language get from current JLanguage metadata
+				if ($language->active)
+				{
+					$language->rtl = $lang->isRtl();
+				}
+				// If not loaded language fetch metadata directly for performance
+				else
+				{
+					$languageMetadata = JLanguage::getMetadata($language->lang_code);
+					$language->rtl    = $languageMetadata['rtl'];
+				}
+
+				if ($multilang)
 				{
 					if (isset($cassociations[$language->lang_code]))
 					{

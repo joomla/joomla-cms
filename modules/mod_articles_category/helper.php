@@ -163,8 +163,17 @@ abstract class ModArticlesCategoryHelper
 		}
 
 		// Ordering
-		$articles->setState('list.ordering', $params->get('article_ordering', 'a.ordering'));
-		$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+		$ordering = $params->get('article_ordering', 'a.ordering');
+
+		if (trim($ordering) == 'random')
+		{
+			$articles->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
+		}
+		else
+		{
+			$articles->setState('list.ordering', $params->get('article_ordering', 'a.ordering'));
+			$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+		}
 
 		// New Parameters
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));

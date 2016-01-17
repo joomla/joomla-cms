@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * JDocumentRendererRSS is a feed that implements RSS 2.0 Specification
  *
  * @see    http://www.rssboard.org/rss-specification
- * @since  3.6
+ * @since  3.5
  *
  * @property-read  JDocumentFeed  $_doc  Reference to the JDocument object that instantiated the renderer
  */
@@ -23,7 +23,7 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 	 * Renderer mime type
 	 *
 	 * @var    string
-	 * @since  3.6
+	 * @since  3.5
 	 */
 	protected $_mime = "application/rss+xml";
 
@@ -37,7 +37,7 @@ class JDocumentRendererFeedRss extends JDocumentRenderer
 	 * @return  string  The output of the script
 	 *
 	 * @see     JDocumentRenderer::render()
-	 * @since   3.6
+	 * @since   3.5
 	 */
 	public function render($name = '', $params = null, $content = null)
 	{

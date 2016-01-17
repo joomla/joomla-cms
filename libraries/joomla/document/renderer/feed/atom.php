@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * for the feed or an author for every single feed item.
  *
  * @see    http://www.atomenabled.org/developers/syndication/atom-format-spec.php
- * @since  3.6
+ * @since  3.5
  *
  * @property-read  JDocumentFeed  $_doc  Reference to the JDocument object that instantiated the renderer
  */
@@ -27,7 +27,7 @@ class JDocumentRendererFeedAtom extends JDocumentRenderer
 	 * Document mime type
 	 *
 	 * @var    string
-	 * @since  3.6
+	 * @since  3.5
 	 */
 	protected $_mime = "application/atom+xml";
 
@@ -41,7 +41,7 @@ class JDocumentRendererFeedAtom extends JDocumentRenderer
 	 * @return  string  The output of the script
 	 *
 	 * @see     JDocumentRenderer::render()
-	 * @since   3.6
+	 * @since   3.5
 	 */
 	public function render($name = '', $params = null, $content = null)
 	{

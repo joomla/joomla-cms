@@ -1387,7 +1387,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ParseException.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/RuntimeException.php',
 			'/administrator/components/com_tags/helpers/tags.php',
-			// Joomla 3.6.0
+			'/libraries/vendor/phpmailer/phpmailer/extras/class.html2text.php',
 			'/libraries/joomla/document/error/error.php',
 			'/libraries/joomla/document/feed/feed.php',
 			'/libraries/joomla/document/html/html.php',
@@ -1484,8 +1484,6 @@ class JoomlaInstallerScript
 			'/libraries/vendor/symfony/yaml/Symfony/Component',
 			'/libraries/vendor/symfony/yaml/Symfony',
 			'/administrator/components/com_tags/helpers',
-			'/libraries/vendor/phpmailer/phpmailer/extras/class.html2text.php',
-			// Joomla 3.6.0
 			'/libraries/joomla/document/error',
 			'/libraries/joomla/document/image',
 			'/libraries/joomla/document/json',

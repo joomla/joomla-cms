@@ -504,6 +504,12 @@ textarea,.contact-form input[type="text"],.contact-form input[type="email"],.con
 	border: 0
 }
 
+label#jform_captcha-lbl {
+	clear: both;
+  	position: relative;
+  	float: left;
+}
+
 .contact-form .button {
 	clear: left;
 	float: left;
