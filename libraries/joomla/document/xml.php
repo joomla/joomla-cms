@@ -3,54 +3,43 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JDocumentJSON class, provides an easy interface to parse and display JSON output
+ * DocumentXML class, provides an easy interface to parse and display XML output
  *
- * @see    http://www.json.org/
  * @since  11.1
  */
-class JDocumentJSON extends JDocument
+class JDocumentXml extends JDocument
 {
 	/**
 	 * Document name
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_name = 'joomla';
+	protected $name = 'joomla';
 
 	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @since  11.1
+	 * @since   11.1
 	 */
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
 
 		// Set mime type
-		if (isset($_SERVER['HTTP_ACCEPT'])
-			&& strpos($_SERVER['HTTP_ACCEPT'], 'application/json') === false
-			&& strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false)
-		{
-			// Internet Explorer < 10
-			$this->_mime = 'text/plain';
-		}
-		else
-		{
-			$this->_mime = 'application/json';
-		}
+		$this->_mime = 'application/xml';
 
 		// Set document type
-		$this->_type = 'json';
+		$this->_type = 'xml';
 	}
 
 	/**
@@ -65,17 +54,9 @@ class JDocumentJSON extends JDocument
 	 */
 	public function render($cache = false, $params = array())
 	{
-		$app = JFactory::getApplication();
-
-		$app->allowCache(false);
-
-		if ($this->_mime == 'application/json')
-		{
-			// Browser other than Internet Explorer < 10
-			$app->setHeader('Content-Disposition', 'attachment; filename="' . $this->getName() . '.json"', true);
-		}
-
 		parent::render();
+
+		JFactory::getApplication()->setHeader('Content-disposition', 'inline; filename="' . $this->getName() . '.xml"', true);
 
 		return $this->getBuffer();
 	}
@@ -89,7 +70,7 @@ class JDocumentJSON extends JDocument
 	 */
 	public function getName()
 	{
-		return $this->_name;
+		return $this->name;
 	}
 
 	/**
@@ -97,13 +78,13 @@ class JDocumentJSON extends JDocument
 	 *
 	 * @param   string  $name  Document name
 	 *
-	 * @return  JDocumentJSON instance of $this to allow chaining
+	 * @return  JDocumentXml instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
 	public function setName($name = 'joomla')
 	{
-		$this->_name = $name;
+		$this->name = $name;
 
 		return $this;
 	}

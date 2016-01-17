@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -160,7 +160,7 @@ $assoc      = JLanguageAssociations::isEnabled();
 									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
 								</span>
 								<div class="small">
-									<?php echo $this->escape($item->category_title); ?>
+									<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 								</div>
 							</div>
 						</td>

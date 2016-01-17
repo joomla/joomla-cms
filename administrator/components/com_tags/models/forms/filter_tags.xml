@@ -43,13 +43,13 @@
 			label="COM_TAGS_LIST_FULL_ORDERING"
 			description="COM_TAGS_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
-			default="a.id DESC"
+			default="a.lft ASC"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.lft ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="a.lft DESC">JGRID_HEADING_ORDERING_DESC</option>
-			<option value="a.state ASC">JSTATUS_ASC</option>
-			<option value="a.state DESC">JSTATUS_DESC</option>
+			<option value="a.published ASC">JSTATUS_ASC</option>
+			<option value="a.published DESC">JSTATUS_DESC</option>
 			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -114,7 +114,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			</tbody>
 		</table>
 		<?php else : ?>
-			<div class="alert alert-info">
+			<div class="alert alert-no-items">
 				<a class="close" data-dismiss="alert" href="#">&times;</a>
 				<?php echo JText::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?>
 			</div>

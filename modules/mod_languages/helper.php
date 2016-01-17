@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,13 +73,15 @@ abstract class ModLanguagesHelper
 			}
 		}
 
-		$levels = $user->getAuthorisedViewLevels();
+		$levels    = $user->getAuthorisedViewLevels();
+		$sitelangs = MultilangstatusHelper::getSitelangs();
+		$multilang = JLanguageMultilang::isEnabled();
 
 		// Filter allowed languages
 		foreach ($languages as $i => &$language)
 		{
 			// Do not display language without frontend UI
-			if (!array_key_exists($language->lang_code, MultilangstatusHelper::getSitelangs()))
+			if (!array_key_exists($language->lang_code, $sitelangs))
 			{
 				unset($languages[$i]);
 			}
@@ -97,7 +99,20 @@ abstract class ModLanguagesHelper
 			{
 				$language->active = ($language->lang_code == $lang->getTag());
 
-				if (JLanguageMultilang::isEnabled())
+				// Fetch language rtl
+				// If loaded language get from current JLanguage metadata
+				if ($language->active)
+				{
+					$language->rtl = $lang->isRtl();
+				}
+				// If not loaded language fetch metadata directly for performance
+				else
+				{
+					$languageMetadata = JLanguage::getMetadata($language->lang_code);
+					$language->rtl    = $languageMetadata['rtl'];
+				}
+
+				if ($multilang)
 				{
 					if (isset($cassociations[$language->lang_code]))
 					{
@@ -112,7 +127,7 @@ abstract class ModLanguagesHelper
 					{
 						if ($language->active)
 						{
-							$language->link = JUri::getInstance()->toString(array('scheme', 'host', 'port', 'path', 'query'));
+							$language->link = JUri::getInstance()->toString(array('path', 'query'));
 						}
 						else
 						{

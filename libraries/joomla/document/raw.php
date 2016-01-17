@@ -3,35 +3,35 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * DocumentImage class, provides an easy interface to output image data
+ * DocumentRAW class, provides an easy interface to parse and display raw output
  *
- * @since  12.1
+ * @since  11.1
  */
-class JDocumentImage extends JDocument
+class JDocumentRaw extends JDocument
 {
 	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 */
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
 
 		// Set mime type
-		$this->_mime = 'image/png';
+		$this->_mime = 'text/html';
 
 		// Set document type
-		$this->_type = 'image';
+		$this->_type = 'raw';
 	}
 
 	/**
@@ -42,30 +42,10 @@ class JDocumentImage extends JDocument
 	 *
 	 * @return  The rendered data
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 */
 	public function render($cache = false, $params = array())
 	{
-		// Get the image type
-		$type = JFactory::getApplication()->input->get('type', 'png');
-
-		switch ($type)
-		{
-			case 'jpg':
-			case 'jpeg':
-				$this->_mime = 'image/jpeg';
-				break;
-			case 'gif':
-				$this->_mime = 'image/gif';
-				break;
-			case 'png':
-			default:
-				$this->_mime = 'image/png';
-				break;
-		}
-
-		$this->_charset = null;
-
 		parent::render();
 
 		return $this->getBuffer();

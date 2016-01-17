@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -923,13 +923,21 @@ abstract class JFormField
 			$options['hiddenLabel'] = true;
 		}
 
-		if (($showon = $this->getAttribute('showon')))
+		if ($showonstring = $this->getAttribute('showon'))
 		{
-			$showon = explode(':', $showon, 2);
-			$options['class'] .= ' showon_' . implode(' showon_', explode(',', $showon[1]));
-			$id = $this->getName($showon[0]);
-			$id = $this->multiple ? str_replace('[]', '', $id) : $id;
-			$options['rel'] = ' rel="showon_' . $id . '"';
+			$showonarr = array();
+
+			foreach (preg_split('%\[AND\]|\[OR\]%', $showonstring) as $showonfield)
+			{
+				$showon   = explode(':', $showonfield, 2);
+				$showonarr[] = array(
+					'field'  => str_replace('[]', '', $this->getName($showon[0])),
+					'values' => explode(',', $showon[1]),
+					'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : ''
+				);
+			}
+
+			$options['rel'] = ' data-showon=\'' . json_encode($showonarr) . '\'';
 			$options['showonEnabled'] = true;
 		}
 
