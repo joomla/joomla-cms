@@ -18,8 +18,8 @@ JHtml::_('formbehavior.chosen', 'select');
 $expired = ($this->state->get("cache_expired") == 1 ) ? '1' : '';
 
 JFactory::getDocument()->addScriptDeclaration('
-	jQuery(document).ready(function() {
-		document.getElementById("jform_searchstring").addEvent("focus", function() {
+	jQuery(document).ready(function($) {
+		$("#jform_searchstring").on("focus", function() {
 			if (!Joomla.overrider.states.refreshed)
 			{
 				var expired = "' . $expired . '";
