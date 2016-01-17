@@ -11,8 +11,10 @@ defined('JPATH_PLATFORM') or die;
 
 /**
  * Asset factory class.
+ *
+ * @since  5.0
  */
-class JHtmlAssetFactory
+class JAssetFactory
 {
 	/**
 	 * Files with assets infos. File path should be relative
@@ -106,11 +108,11 @@ class JHtmlAssetFactory
 	/**
 	 * Add asset to collection of known assets
 	 *
-	 * @param  JHtmlAssetItem  $asset
+	 * @param  JAssetItem  $asset
 	 *
 	 * @return  JHtmlAssetFactory
 	 */
-	public function addAsset(JHtmlAssetItem $asset)
+	public function addAsset(JAssetItem $asset)
 	{
 		$name = $asset->getName();
 		$this->assets[$name] = $asset;
@@ -140,7 +142,7 @@ class JHtmlAssetFactory
 	 *
 	 * @param  string $name  Asset name
 	 *
-	 * @return  JHtmlAssetItem|bool Return asset object or false if asset doesnot exists
+	 * @return  JAssetItem|bool Return asset object or false if asset doesnot exists
 	 */
 	public function getAsset($name)
 	{
@@ -158,12 +160,12 @@ class JHtmlAssetFactory
 	/**
 	 * Return dependancy for Asset as array of AssetItem objects
 	 *
-	 * @param  JHtmlAssetItem  $asset
+	 * @param  JAssetItem  $asset
 	 *
-	 * @return  JHtmlAssetItem[]
+	 * @return  JAssetItem[]
 	 * @throws  RuntimeException When Dependency cannot be found
 	 */
-	public function getAssetDependancy(JHtmlAssetItem $asset)
+	public function getAssetDependancy(JAssetItem $asset)
 	{
 		$assets = array();
 
@@ -192,7 +194,7 @@ class JHtmlAssetFactory
 	 * @return  JHtmlAssetFactory
 	 * @throws  RuntimeException if asset with given name does not exists
 	 */
-	public function setAssetState($name, $state = JHtmlAssetItem::ASSET_STATE_ACTIVE, $force = false)
+	public function setAssetState($name, $state = JAssetItem::ASSET_STATE_ACTIVE, $force = false)
 	{
 		$asset = $this->getAsset($name);
 
@@ -211,7 +213,7 @@ class JHtmlAssetFactory
 		$asset->setState($state);
 
 		// Calculate weight
-		if ($state !== JHtmlAssetItem::ASSET_STATE_INACTIVE)
+		if ($state !== JAssetItem::ASSET_STATE_INACTIVE)
 		{
 			$dependency = $asset->getDependency();
 			$this->lastItemWeight = $this->lastItemWeight + count($dependency) + 1;
@@ -224,7 +226,7 @@ class JHtmlAssetFactory
 	/**
 	 * Search for all active assets.
 	 *
-	 * @return  JHtmlAssetItem[]  Array with active assets
+	 * @return  JAssetItem[]  Array with active assets
 	 */
 	public function getActiveAssets()
 	{
@@ -243,7 +245,7 @@ class JHtmlAssetFactory
 	 *
 	 * @param  int  $state
 	 *
-	 * @return  JHtmlAssetItem[]  Array with active assets
+	 * @return  JAssetItem[]  Array with active assets
 	 */
 	public function getAssetsByState($state)
 	{
@@ -317,12 +319,12 @@ class JHtmlAssetFactory
 	 */
 	protected function resolveDependency()
 	{
-		$assets = $this->getAssetsByState(JHtmlAssetItem::ASSET_STATE_ACTIVE);
+		$assets = $this->getAssetsByState(JAssetItem::ASSET_STATE_ACTIVE);
 
 		foreach ($assets as $asset)
 		{
 			$this->resolveItemDependency($asset);
-			$asset->setState(JHtmlAssetItem::ASSET_STATE_RESOLVED);
+			$asset->setState(JAssetItem::ASSET_STATE_RESOLVED);
 		}
 
 		return $this;
@@ -331,12 +333,12 @@ class JHtmlAssetFactory
 	/**
 	 * Resolve Dependency for given asset
 	 *
-	 * @param  JHtmlAssetItem  $asset
+	 * @param  JAssetItem  $asset
 	 *
 	 * @return  JHtmlAssetFactory
 	 * @throws  RuntimeException When Dependency cannot be resolved
 	 */
-	protected function resolveItemDependency(JHtmlAssetItem $asset)
+	protected function resolveItemDependency(JAssetItem $asset)
 	{
 		foreach ($this->getAssetDependancy($asset) as $depItem)
 		{
@@ -345,7 +347,7 @@ class JHtmlAssetFactory
 			// Make active
 			if (!$oldState)
 			{
-				$depItem->setState(JHtmlAssetItem::ASSET_STATE_DEPENDANCY);
+				$depItem->setState(JAssetItem::ASSET_STATE_DEPENDANCY);
 			}
 
 			// Calculate weight, make it a bit lighter
@@ -371,7 +373,7 @@ class JHtmlAssetFactory
 	/**
 	 * Sort assets by it`s weight
 	 *
-	 * @param  JHtmlAssetItem[]  $assets  Linked array
+	 * @param  JAssetItem[]  $assets  Linked array
 	 * @param  bool              $ask     Order direction: true for ASC and false for DESC
 	 *
 	 * @return  JHtmlAssetFactory
@@ -511,7 +513,7 @@ class JHtmlAssetFactory
 	 * @param  array   $info
 	 * @param  array   $owner
 	 *
-	 * @return  JHtmlAssetItem
+	 * @return  JAssetItem
 	 */
 	public function prepareAssetInstance($name, array $info = array(), array $owner = array())
 	{
@@ -519,11 +521,11 @@ class JHtmlAssetFactory
 
 		// Check for specific class
 		// @TODO whether it realy can be usefull ???
-		//$class = 'JHtmlAsset' . implode('', array_map('ucfirst', explode('.', $name)));
-		//$class = class_exists($class) ? $class : 'JHtmlAssetItem';
+		//$class = 'JAsset' . implode('', array_map('ucfirst', explode('.', $name)));
+		//$class = class_exists($class) ? $class : 'JAssetItem';
 		//$asset = new $class($name, $version, $owner);
 
-		$asset = new JHtmlAssetItem($name, $version, $owner);
+		$asset = new JAssetItem($name, $version, $owner);
 
 		if (!empty($info['js']))
 		{

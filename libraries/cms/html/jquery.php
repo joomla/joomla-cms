@@ -56,13 +56,13 @@ abstract class JHtmlJquery
 	 */
 	public static function ui(array $components = array('core'), $debug = null)
 	{
-		$assetFactory = JHtml::_('asset.instance');
+		$factory = JFactory::getAssetFactory();
 
 		// Load each of the requested components
 		foreach ($components as $component)
 		{
 			// Only attempt to load the component if it's supported in core
-			if ($assetFactory->getAsset('jquery.ui.' . $component))
+			if ($factory->getAsset('jquery.ui.' . $component))
 			{
 				JHtml::_('asset.load', 'jquery.ui.' . $component);
 			}

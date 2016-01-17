@@ -32,7 +32,7 @@ if($this->direction === 'rtl')
 	$dep[] = 'bootstrap.css.' . $this->direction;
 }
 
-$assetTemplate = new JHtmlAssetItem('template.protostar');
+$assetTemplate = new JAssetItem('template.protostar');
 $assetTemplate->setCss($css);
 $assetTemplate->setJs($js);
 $assetTemplate->setDependency($dep);

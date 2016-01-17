@@ -11,8 +11,10 @@ defined('JPATH_PLATFORM') or die;
 
 /**
  * Single Asset item class.
+ *
+ * @since  5.0
  */
-class JHtmlAssetItem
+class JAssetItem
 {
 	/**
 	 * Asset name
@@ -159,7 +161,7 @@ class JHtmlAssetItem
 	 *
 	 * @param  array  $js
 	 *
-	 * @return  JHtmlAssetItem
+	 * @return  JAssetItem
 	 */
 	public function setJs(array $js)
 	{
@@ -183,7 +185,7 @@ class JHtmlAssetItem
 	 *
 	 * @param  bool  $defer
 	 *
-	 * @return  JHtmlAssetItem
+	 * @return  JAssetItem
 	 */
 	public function deferJavaScript($defer = true)
 	{
@@ -197,7 +199,7 @@ class JHtmlAssetItem
 	 *
 	 * @param  array  $css
 	 *
-	 * @return  JHtmlAssetItem
+	 * @return  JAssetItem
 	 */
 	public function setCss(array $css)
 	{
@@ -221,7 +223,7 @@ class JHtmlAssetItem
 	 *
 	 * @param  array  $dependency
 	 *
-	 * @return  JHtmlAssetItem
+	 * @return  JAssetItem
 	 */
 	public function setDependency(array $dependency)
 	{
@@ -246,7 +248,7 @@ class JHtmlAssetItem
 	 * @param  string  $file        JavaScript/StyleSheet asset file
 	 * @param  array   $attributes
 	 *
-	 * @return  JHtmlAssetItem
+	 * @return  JAssetItem
 	 */
 	public function setAttributes($file, array $attributes = array())
 	{
@@ -282,7 +284,7 @@ class JHtmlAssetItem
 	 *
 	 * @param  float  $weight
 	 *
-	 * @return  JHtmlAssetItem
+	 * @return  JAssetItem
 	 */
 	public function setWeight($weight)
 	{
@@ -306,7 +308,7 @@ class JHtmlAssetItem
 	 *
 	 * @param  int  $state
 	 *
-	 * @return  JHtmlAssetItem
+	 * @return  JAssetItem
 	 */
 	public function setState($state)
 	{
@@ -340,7 +342,7 @@ class JHtmlAssetItem
 	 *
 	 * @param  bool  $value
 	 *
-	 * @return  JHtmlAssetItem
+	 * @return  JAssetItem
 	 */
 	public function versionAttach($value)
 	{
@@ -364,7 +366,7 @@ class JHtmlAssetItem
 	 *
 	 * @param  JDocument  $doc
 	 *
-	 * @return  JHtmlAssetItem
+	 * @return  JAssetItem
 	 * @throws  RuntimeException If try attach inactive asset
 	 */
 	public function attach(JDocument $doc)
@@ -394,7 +396,7 @@ class JHtmlAssetItem
 	 * @param  JDocument  $doc
 	 * @param  string     $version  Version to be attached, or false
 	 *
-	 * @return  JHtmlAssetItem
+	 * @return  JAssetItem
 	 */
 	protected function attachCss(JDocument $doc, $version = false)
 	{
@@ -431,7 +433,7 @@ class JHtmlAssetItem
 	 * @param  JDocument  $doc
 	 * @param  string     $version  Version to be attached, or false
 	 *
-	 * @return  JHtmlAssetItem
+	 * @return  JAssetItem
 	 */
 	protected function attachJs(JDocument $doc, $version = false)
 	{

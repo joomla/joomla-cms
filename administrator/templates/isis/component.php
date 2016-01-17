@@ -24,7 +24,7 @@ $css = array(
 $js  = array('template.js');
 $dep = array('bootstrap.js');
 
-$assetTemplate = new JHtmlAssetItem('template.isis');
+$assetTemplate = new JAssetItem('template.isis');
 $assetTemplate->setCss($css);
 $assetTemplate->setJs($js);
 $assetTemplate->setDependency($dep);

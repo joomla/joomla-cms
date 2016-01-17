@@ -11,76 +11,55 @@ defined('JPATH_PLATFORM') or die;
 
 /**
  * HTML Asset helper.
+ *
+ * @since  5.0
  */
 class JHtmlAsset
 {
 	/**
-	 * Active AssetFactory instance
-	 *
-	 * @var  JHtmlAssetFactory
-	 */
-	protected static $instance;
-
-	/**
-	 * Set up and return AssetFactory instance
-	 *
-	 * @return  JHtmlAssetFactory
-	 *
-	 * @TODO Move to JFactory
-	 */
-	public static function instance()
-	{
-		if (!static::$instance)
-		{
-			static::$instance = new JHtmlAssetFactory;
-		}
-
-		return static::$instance;
-	}
-
-	/**
 	 * Make the asset active
 	 *
-	 * @param  string|JHtmlAssetItem  $asset  Asset instance or name
+	 * @param  string|JAssetItem  $asset  Asset instance or name
 	 *
 	 * @return void
 	 */
 	public static function load($asset)
 	{
-		$name = $asset;
+		$name    = $asset;
+		$factory = JFactory::getAssetFactory();
 
-		if ($asset instanceof JHtmlAssetItem)
+		if ($asset instanceof JAssetItem)
 		{
 			$name = $asset->getName();
-			static::instance()->addAsset($asset);
+			$factory->addAsset($asset);
 		}
 
-		static::instance()->setAssetState($name, JHtmlAssetItem::ASSET_STATE_ACTIVE);
+		$factory->setAssetState($name, JAssetItem::ASSET_STATE_ACTIVE);
 	}
 
 	/**
 	 * Make the asset inactive
 	 *
-	 * @param  string|JHtmlAssetItem  $asset  Asset instance or name
+	 * @param  string|JAssetItem  $asset  Asset instance or name
 	 *
 	 * @return void
 	 */
 	public static function unload($asset)
 	{
-		$name = ($asset instanceof JHtmlAssetItem) ? $asset->getName() : $asset;
+		$name = ($asset instanceof JAssetItem) ? $asset->getName() : $asset;
 
-		static::instance()->setAssetState($name, JHtmlAssetItem::ASSET_STATE_INACTIVE);
+		JFactory::getAssetFactory()->setAssetState($name, JAssetItem::ASSET_STATE_INACTIVE);
 	}
 
 	/**
 	 * Add asset to the collection of known assets
 	 *
-	 * @param  JHtmlAssetItem  $asset
+	 * @param  JAssetItem  $asset
 	 *
 	 * @return void
 	 */
-	public static function add(JHtmlAssetItem $asset)
+	public static function add(JAssetItem $asset)
 	{
-		static::instance()->addAsset($asset);
+		JFactory::getAssetFactory()->addAsset($asset);
 	}
 }

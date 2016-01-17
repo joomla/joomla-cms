@@ -456,8 +456,8 @@ abstract class JHtmlBehavior
 		JHtml::_('asset.load', 'calendar');
 
 		$document = JFactory::getDocument();
-		$tag   = JFactory::getLanguage()->getTag();
-		$asset = JHtml::_('asset.instance')->getAsset('calendar');
+		$tag      = JFactory::getLanguage()->getTag();
+		$asset    = JFactory::getAssetFactory()->getAsset('calendar');
 
 		$asset->setAttributes('system/calendar-jos.css', array('title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN')));
 		$asset->setJs(array(
