@@ -122,7 +122,7 @@ class JHtmlUsers
 		}
 
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
-		$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+		$footer = '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
 			. JText::_('JTOOLBAR_CLOSE') . '</button>';
 
 		return JHtml::_(
