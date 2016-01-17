@@ -52,6 +52,12 @@ class MenusViewMenus extends JViewLegacy
 		$this->pagination = $this->get('Pagination');
 		$this->state      = $this->get('State');
 
+		if ($this->getLayout() == 'default')
+		{
+			$this->filterForm    = $this->get('FilterForm');
+			$this->activeFilters = $this->get('ActiveFilters');
+		}
+
 		MenusHelper::addSubmenu('menus');
 
 		// Check for errors.
