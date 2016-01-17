@@ -21,21 +21,27 @@ defined('JPATH_BASE') or die;
 	{
 		foreach ($displayData->form->getFieldset($fieldname) as $field)
 		{
-			$classnames = 'control-group';
-			$rel = '';
-			$showon = $displayData->form->getFieldAttribute($field->fieldname, 'showon');
-			if (!empty($showon))
+			$datashowon = '';
+			if ($showonstring = $displayData->form->getFieldAttribute($field->fieldname, 'showon'))
 			{
 				JHtml::_('jquery.framework');
 				JHtml::_('script', 'jui/cms.js', false, true);
 
-				$id = $displayData->form->getFormControl();
-				$showon = explode(':', $showon, 2);
-				$classnames .= ' showon_' . implode(' showon_', explode(',', $showon[1]));
-				$rel = ' rel="showon_' . $id . '['. $showon[0] . ']"';
+				$showonarr = array();
+				foreach (preg_split('%\[AND\]|\[OR\]%', $showonstring) as $showonfield)
+				{
+					$showon   = explode(':', $showonfield, 2);
+					$showonarr[] = array(
+						'field'  => $displayData->form->getFormControl() . '[' . $displayData->form->getFieldAttribute($showon[0], 'name') . ']',
+						'values' => explode(',', $showon[1]),
+						'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : ''
+					);
+				}
+
+				$datashowon = ' data-showon=\'' . json_encode($showonarr) . '\'';
 			}
 	?>
-		<div class="<?php echo $classnames; ?>"<?php echo $rel; ?>>
+		<div class="control-group"<?php echo $datashowon; ?>>
 			<?php if (!isset($displayData->showlabel) || $displayData->showlabel): ?>
 				<div class="control-label"><?php echo $field->label; ?></div>
 			<?php endif; ?>
