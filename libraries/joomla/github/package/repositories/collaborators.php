@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Repositories Collaborators class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/repos/collaborators
+ * @documentation https://developer.github.com/v3/repos/collaborators
  *
  * @since  11.3
  */

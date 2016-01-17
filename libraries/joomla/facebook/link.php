@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Facebook API Link class for the Joomla Platform.
  *
- * @see    http://developers.facebook.com/docs/reference/api/link/
+ * @see    https://developers.facebook.com/docs/graph-api/reference/link/
  * @since  13.1
  */
 class JFacebookLink extends JFacebookObject

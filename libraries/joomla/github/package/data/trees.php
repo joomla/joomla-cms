@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Data Trees class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/git/trees/
+ * @documentation https://developer.github.com/v3/git/trees/
  *
  * @since  11.3
  */

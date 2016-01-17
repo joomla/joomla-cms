@@ -14,9 +14,9 @@ defined('JPATH_PLATFORM') or die;
  *
  * The downloads API is for package downloads only.
  * If you want to get source tarballs you should use
- * http://developer.github.com/v3/repos/contents/#get-archive-link instead.
+ * https://developer.github.com/v3/repos/contents/#get-archive-link instead.
  *
- * @documentation http://developer.github.com/v3/repos/downloads
+ * @documentation https://developer.github.com/v3/repos/downloads
  *
  * @since  11.3
  */

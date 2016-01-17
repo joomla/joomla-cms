@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
 class JMicrodata
 {
 	/**
-	 * Array with all available Types and Properties from the http://schema.org vocabulary
+	 * Array with all available Types and Properties from the https://schema.org vocabulary
 	 *
 	 * @var    array
 	 * @since  3.2
@@ -103,7 +103,7 @@ class JMicrodata
 	}
 
 	/**
-	 * Load all available Types and Properties from the http://schema.org vocabulary contained in the types.json file
+	 * Load all available Types and Properties from the https://schema.org vocabulary contained in the types.json file
 	 *
 	 * @return  void
 	 *
@@ -164,7 +164,7 @@ class JMicrodata
 	}
 
 	/**
-	 * Set a new http://schema.org Type
+	 * Set a new https://schema.org Type
 	 *
 	 * @param   string  $type  The $Type to be setup
 	 *
@@ -620,7 +620,7 @@ class JMicrodata
 	}
 
 	/**
-	 * Return an array with all available Types and Properties from the http://schema.org vocabulary
+	 * Return an array with all available Types and Properties from the https://schema.org vocabulary
 	 *
 	 * @return  array
 	 *
@@ -634,7 +634,7 @@ class JMicrodata
 	}
 
 	/**
-	 * Return an array with all available Types from the http://schema.org vocabulary
+	 * Return an array with all available Types from the https://schema.org vocabulary
 	 *
 	 * @return  array
 	 *

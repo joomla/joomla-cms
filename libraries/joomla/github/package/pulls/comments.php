@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Pulls Comments class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/pulls/comments/
+ * @documentation https://developer.github.com/v3/pulls/comments/
  *
  * @since  3.3 (CMS)
  */

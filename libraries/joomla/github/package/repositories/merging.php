@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Repositories Merging class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/repos/merging
+ * @documentation https://developer.github.com/v3/repos/merging
  *
  * @since  11.3
  */

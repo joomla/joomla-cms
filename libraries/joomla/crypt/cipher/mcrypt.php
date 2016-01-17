@@ -143,8 +143,8 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	 *
 	 * @return  string  The derived key.
 	 *
-	 * @see     http://en.wikipedia.org/wiki/PBKDF2
-	 * @see     http://www.ietf.org/rfc/rfc2898.txt
+	 * @see     https://en.wikipedia.org/wiki/PBKDF2
+	 * @see     https://www.ietf.org/rfc/rfc2898
 	 * @since   12.1
 	 */
 	public function pbkdf2($p, $s, $kl, $c = 10000, $a = 'sha256')

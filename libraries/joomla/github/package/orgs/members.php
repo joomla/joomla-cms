@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Orgs Members class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/orgs/members/
+ * @documentation https://developer.github.com/v3/orgs/members/
  *
  * @since  12.3
  */

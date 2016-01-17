@@ -101,7 +101,7 @@ class JFormRuleUrlTest extends TestCase
 				array('http' => '0', 'http://mydomain.com', 'true'),
 				array('Upper case scheme' => '0', 'HTTP://mydomain.com', 'true'),
 				array('FTP' => '0', 'ftp://ftp.is.co.za/rfc/rfc1808.txt', 'true'),
-				array('Path with slash' => '0', 'http://www.ietf.org/rfc/rfc2396.txt', 'true'),
+				array('Path with slash' => '0', 'https://www.ietf.org/rfc/rfc2396', 'true'),
 				array('LDAP' => '0', 'ldap://[2001:db8::7]/c=GB?objectClass?one', 'true'),
 				array('Mailto' => '0', 'mailto:John.Doe@example.com', 'true'),
 				array('News' => '0', 'news:comp.infosystems.www.servers.unix', 'true'),

@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Authorization class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/oauth/
+ * @documentation https://developer.github.com/v3/oauth/
  *
  * @since  12.3
  */

@@ -77,7 +77,7 @@ class JApplicationWeb extends JApplicationBase
 	 *
 	 * @var    object
 	 * @since  3.4
-	 * @see    http://tools.ietf.org/pdf/rfc7231.pdf
+	 * @see    https://www.ietf.org/rfc/rfc7231
 	 */
 	private $responseMap = array(
 		300 => 'HTTP/1.1 300 Multiple Choices',

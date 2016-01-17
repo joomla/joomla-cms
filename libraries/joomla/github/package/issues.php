@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Issues class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/issues
+ * @documentation https://developer.github.com/v3/issues
  *
  * @since  11.3
  *

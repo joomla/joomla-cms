@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.3 (CMS)
  *
- * @documentation  http://developer.github.com/v3/activity/
+ * @documentation  https://developer.github.com/v3/activity/
  *
  * @property-read  JGithubPackageActivityEvents  $events  GitHub API object for markdown.
  */

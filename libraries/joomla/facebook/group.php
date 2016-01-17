@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Facebook API Group class for the Joomla Platform.
  *
- * @see    http://developers.facebook.com/docs/reference/api/group/
+ * @see    https://developers.facebook.com/docs/graph-api/reference/group/
  * @since  13.1
  */
 class JFacebookGroup extends JFacebookObject

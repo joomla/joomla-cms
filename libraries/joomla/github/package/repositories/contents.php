@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * These API methods let you retrieve the contents of files within a repository as Base64 encoded content.
  * See media types for requesting raw or other formats.
  *
- * @documentation http://developer.github.com/v3/repos/contents
+ * @documentation https://developer.github.com/v3/repos/contents
  *
  * @since  11.3
  */
