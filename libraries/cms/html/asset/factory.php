@@ -452,8 +452,9 @@ class JHtmlAssetFactory
 	protected function parseDataFiles()
 	{
 		// Filter new asset data files and parse each
-		$files = array_filter($this->dataFiles, function($state) {
-			return $state === static::DATAFILE_NEW;
+		$constantIsNew = static::DATAFILE_NEW;
+		$files = array_filter($this->dataFiles, function($state) use ($constantIsNew) {
+			return $state === $constantIsNew;
 		});
 
 		foreach (array_keys($files) as $path)
