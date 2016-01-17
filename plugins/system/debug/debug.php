@@ -187,7 +187,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * @since   3.6
 	 */
-	public function onBeforeEnd()
+	public function onAfterExecute()
 	{
 		// Do not render if debugging or language debug is not enabled.
 		if (!JDEBUG && !$this->debugLang)
