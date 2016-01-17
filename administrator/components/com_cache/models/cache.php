@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,6 +36,20 @@ class CacheModelCache extends JModelList
 	 * @var object
 	 */
 	protected $_pagination = null;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   3.5
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+
+		$this->filter_fields = array('group', 'count', 'size');
+	}
 
 	/**
 	 * Method to auto-populate the model state.

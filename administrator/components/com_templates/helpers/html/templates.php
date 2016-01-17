@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -76,7 +76,7 @@ class JHtmlTemplates
 			if (file_exists($preview))
 			{
 				$preview = $baseUrl . '/templates/' . $template . '/template_preview.png';
-				$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+				$footer = '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
 					. JText::_('JTOOLBAR_CLOSE') . '</a>';
 
 				$html .= JHtml::_(
