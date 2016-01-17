@@ -13,11 +13,11 @@ $data = $displayData;
 
 $clientIdField = $data['view']->filterForm->getField('client_id');
 JFactory::getDocument()->addScriptDeclaration(
-<<<JS
+	"
 		jQuery.fn.clearPositionType = function(){
 			jQuery('#filter_position, #filter_module, #filter_language').val('');
 		};
-JS
+	"
 );
 
 ?>
