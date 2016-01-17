@@ -41,19 +41,19 @@ class JLanguageAssociations
 		static $multilanguageAssociations = array();
 
 		// Multilanguage association array key. If the key is already in the array we don't need to run the query again, just return it.
-		$queryKey = $extension . '|' . $tablename . '|' . $context . '|' . $id . '|' . $pk . '|' . $aliasField . '|' . $catField;
+		$queryKey = implode('|', func_get_args());
 		if (!isset($multilanguageAssociations[$queryKey]))
 		{
-			$langAssociations[$queryKey] = array();
+			$multilanguageAssociations[$queryKey] = array();
 
 			$db = JFactory::getDbo();
+			$categoriesExtraSql = (($tablename === '#__categories') ? ' AND c2.extension = ' . $db->quote($extension) : '');
 			$query = $db->getQuery(true)
 				->select($db->quoteName('c2.language'))
 				->from($db->quoteName($tablename, 'c'))
 				->join('INNER', $db->quoteName('#__associations', 'a') . ' ON a.id = c.' . $db->quoteName($pk) . ' AND a.context=' . $db->quote($context))
 				->join('INNER', $db->quoteName('#__associations', 'a2') . ' ON a.key = a2.key')
-				->join('INNER', $db->quoteName($tablename, 'c2') . ' ON a2.id = c2.' . $db->quoteName($pk)
-					. (($tablename === '#__categories') ? ' AND c2.extension = ' . $db->quote($extension) : ''));
+				->join('INNER', $db->quoteName($tablename, 'c2') . ' ON a2.id = c2.' . $db->quoteName($pk) . $categoriesExtraSql);
 
 			// Use alias field ?
 			if (!empty($aliasField))
