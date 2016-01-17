@@ -101,7 +101,7 @@ abstract class JHtmlGrid
 
 		if ($order == $selected)
 		{
-			$html .= ' <span class="icon-' . $icon[$index] . '"></span>';
+			$html .= '<span class="icon-' . $icon[$index] . '"></span>';
 		}
 
 		$html .= '</a>';
