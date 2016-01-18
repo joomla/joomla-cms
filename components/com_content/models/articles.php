@@ -83,7 +83,7 @@ class ContentModelArticles extends JModelList
 		$value = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.start', $value);
 
-		$value = $app->input->get('filter_tag', null, 'uint');
+		$value = $app->input->get('filter_tag', 0, 'uint');
 		$this->setState('filter.tag', $value);
 
 		$orderCol = $app->input->get('filter_order', 'a.ordering');
@@ -524,7 +524,7 @@ class ContentModelArticles extends JModelList
 		// Filter by a single tag.
 		$tagId = $this->getState('filter.tag');
 
-		if (is_numeric($tagId))
+		if (!empty($tagId) && is_numeric($tagId))
 		{
 			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
 				->join(

@@ -52,7 +52,6 @@ if (!empty($this->items))
 					</label>
 					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>" />
 		        	<?php else :?>
-		          		<label class="selectlabel" for="filter_tag"><?php echo JText::_('JOPTION_SELECT_TAG'); ?></label>
 		    			<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();" >
 		    				<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
 		    				<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag')); ?>
