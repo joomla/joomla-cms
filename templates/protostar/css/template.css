@@ -3710,6 +3710,7 @@ input[type="submit"].btn.btn-mini {
 	*display: inline;
 	*zoom: 1;
 	text-shadow: 0 1px 0 #fff;
+	color: #999;
 }
 .breadcrumb > li > .divider {
 	padding: 0 5px;
