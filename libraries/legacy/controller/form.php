@@ -665,7 +665,7 @@ class JControllerForm extends JControllerLegacy
 			// Reset multilingual associations if necessary
 			if (isset($data['associations']) && array_sum($data['associations']) != 0)
 			{
-				$data['associations'] = '';
+				$data['associations'] = array();
 			}
 			$task = 'apply';
 		}
