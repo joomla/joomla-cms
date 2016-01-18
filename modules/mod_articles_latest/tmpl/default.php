@@ -9,11 +9,12 @@
 
 defined('_JEXEC') or die;
 ?>
+<?php $microdata = new JMicrodata('Article'); ?>
 <ul class="latestnews<?php echo $moduleclass_sfx; ?>">
 <?php foreach ($list as $item) :  ?>
-	<li itemscope itemtype="https://schema.org/Article">
-		<a href="<?php echo $item->link; ?>" itemprop="url">
-			<span itemprop="name">
+	<li <?php echo $microdata->displayScope();?>>
+		<a href="<?php echo $item->link; ?>" <?php echo $microdata->property('url')->display(); ?>>
+			<span <?php echo $microdata->content('')->property('name')->display();?>>
 				<?php echo $item->title; ?>
 			</span>
 		</a>
