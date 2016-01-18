@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -148,7 +148,17 @@ class MenusHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.alias, a.level, a.menutype, a.type, a.published, a.template_style_id, a.checked_out, a.language')
+			->select('a.id AS value, 
+					  a.title AS text, 
+					  a.alias, 
+					  a.level, 
+					  a.menutype, 
+					  a.type, 
+					  a.published, 
+					  a.template_style_id, 
+					  a.checked_out, 
+					  a.language, 
+					  a.lft')
 			->from('#__menu AS a')
 			->join('LEFT', $db->quoteName('#__menu') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
@@ -194,9 +204,42 @@ class MenusHelper
 			$query->where('a.published IN ' . $published);
 		}
 
-		$query->where('a.published != -2')
-			->group('a.id, a.title, a.alias, a.level, a.menutype, a.type, a.template_style_id, a.checked_out, a.lft')
-			->order('a.lft ASC');
+		$query->where('a.published != -2');
+
+		if (JLanguageMultilang::isEnabled())
+		{
+			$query->group(
+				'a.id , 
+				 a.title , 
+				 a.alias, 
+				 a.level, 
+				 a.menutype, 
+				 a.type, 
+				 a.published, 
+				 a.template_style_id, 
+				 a.checked_out, 
+				 a.language,
+				 a.lft,
+				 l.title , 
+				 l.image');
+		}
+		else
+		{
+			$query->group(
+				'a.id , 
+				 a.title , 
+				 a.alias, 
+				 a.level, 
+				 a.menutype, 
+				 a.type, 
+				 a.published, 
+				 a.template_style_id, 
+				 a.checked_out, 
+				 a.language,
+				 a.lft');
+		}
+
+		$query->order('a.lft ASC');
 
 		// Get the options.
 		$db->setQuery($query);

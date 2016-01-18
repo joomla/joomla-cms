@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,7 +63,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php endif; ?>
 					</span>
 
-					<p>
+					<div class="list-item">
 						<div class="list-title">
 							<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 								<?php echo $item->name; ?></a>
@@ -93,7 +93,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php if ($this->params->get('show_country_headings') AND !empty($item->country)) : ?>
 							<?php echo $item->country; ?><br />
 						<?php endif; ?>
-					</p>
+					</div>
 
 					<?php echo $item->event->afterDisplayContent; ?>
 				</li>

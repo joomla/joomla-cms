@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,6 +125,9 @@ class PostinstallModelMessages extends FOFModel
 	{
 		$unset_keys          = array();
 		$language_extensions = array();
+
+		// Order the results DESC so the newest is on the top.
+		$resultArray = array_reverse($resultArray);
 
 		foreach ($resultArray as $key => $item)
 		{

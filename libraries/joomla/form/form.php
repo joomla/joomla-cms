@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -126,40 +126,7 @@ class JForm
 			return false;
 		}
 
-		// Convert the input to an array.
-		if (is_object($data))
-		{
-			if ($data instanceof Registry)
-			{
-				// Handle a Registry.
-				$data = $data->toArray();
-			}
-			elseif ($data instanceof JObject)
-			{
-				// Handle a JObject. Getting just the properties won't work. We need to convert any nested JObject too.
-				$data = JArrayHelper::fromObject($data);
-			}
-			else
-			{
-				// Handle other types of objects.
-				$data = (array) $data;
-			}
-		}
-
-		// Process the input data.
-		foreach ($data as $k => $v)
-		{
-			if ($this->findField($k))
-			{
-				// If the field exists set the value.
-				$this->data->set($k, $v);
-			}
-			elseif (is_object($v) || JArrayHelper::isAssociative($v))
-			{
-				// If the value is an object or an associative array hand it off to the recursive bind level method.
-				$this->bindLevel($k, $v);
-			}
-		}
+		$this->bindLevel(null, $data);
 
 		return true;
 	}
@@ -177,20 +144,39 @@ class JForm
 	protected function bindLevel($group, $data)
 	{
 		// Ensure the input data is an array.
-		settype($data, 'array');
+		if (is_object($data))
+		{
+			if ($data instanceof Registry)
+			{
+				// Handle a Registry.
+				$data = $data->toArray();
+			}
+			elseif ($data instanceof JObject)
+			{
+				// Handle a JObject.
+				$data = $data->getProperties();
+			}
+			else
+			{
+				// Handle other types of objects.
+				$data = (array) $data;
+			}
+		}
 
 		// Process the input data.
 		foreach ($data as $k => $v)
 		{
+			$level = $group ? $group . '.' . $k : $k;
+
 			if ($this->findField($k, $group))
 			{
 				// If the field exists set the value.
-				$this->data->set($group . '.' . $k, $v);
+				$this->data->set($level, $v);
 			}
 			elseif (is_object($v) || JArrayHelper::isAssociative($v))
 			{
-				// If the value is an object or an associative array, hand it off to the recursive bind level method
-				$this->bindLevel($group . '.' . $k, $v);
+				// If the value is an object or an associative array, hand it off to the recursive bind level method.
+				$this->bindLevel($level, $v);
 			}
 		}
 	}

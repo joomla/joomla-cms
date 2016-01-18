@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -393,7 +393,7 @@ class PlgSystemDebug extends JPlugin
 	{
 		if (!$session)
 		{
-			$session = $_SESSION;
+			$session = JFactory::getSession()->getData();
 		}
 
 		$html = array();
@@ -582,13 +582,13 @@ class PlgSystemDebug extends JPlugin
 			$bars[] = (object) array(
 				'width' => round($mark->time / ($totalTime / 100), 4),
 				'class' => $barClass,
-				'tip' => $mark->tip
+				'tip' => $mark->tip . ' ' . round($mark->time, 1) . ' ms'
 			);
 
 			$barsMem[] = (object) array(
 				'width' => round($mark->memory / ($totalMem / 100), 4),
 				'class' => $barClassMem,
-				'tip' => $mark->tip
+				'tip' => $mark->tip . ' ' . round($mark->memory, 3) . '  MB',
 			);
 
 			$htmlMarks[] = '<div>' . str_replace('label-time', $labelClass, str_replace('label-memory', $labelClassMem, $mark->html)) . '</div>';
@@ -602,6 +602,9 @@ class PlgSystemDebug extends JPlugin
 		$html[] = '<div class="dbg-profile-list">' . implode('', $htmlMarks) . '</div>';
 
 		$db = JFactory::getDbo();
+
+		//  fix  for support custom shutdown function via register_shutdown_function().
+		$db->disconnect();
 
 		$log = $db->getLog();
 
@@ -919,7 +922,7 @@ class PlgSystemDebug extends JPlugin
 
 				// Timing
 				// Formats the output for the query time with EXPLAIN query results as tooltip:
-				$htmlTiming = '<div style="margin: 0px 0 5px;"><span class="dbg-query-time">';
+				$htmlTiming = '<div style="margin: 0 0 5px;"><span class="dbg-query-time">';
 				$htmlTiming .= JText::sprintf(
 						'PLG_DEBUG_QUERY_TIME',
 						sprintf(

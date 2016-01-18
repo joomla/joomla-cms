@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -555,8 +555,11 @@ class JModelList extends JModelLegacy
 								break;
 
 							case 'limit':
-							case 'start':
 								$limit = $inputFilter->clean($value, 'int');
+								break;
+
+							case 'start':
+								$value = $inputFilter->clean($value, 'int');
 								break;
 
 							case 'select':
@@ -698,7 +701,7 @@ class JModelList extends JModelLegacy
 			$name    = substr($request, 7);
 			$filters = $app->input->get('filter', array(), 'array');
 
-			if (!empty($filters[$name]))
+			if (isset($filters[$name]))
 			{
 				$new_state = $filters[$name];
 			}

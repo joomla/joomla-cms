@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Page
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use SeleniumClient\By;
@@ -118,7 +118,6 @@ abstract class AdminPage
 			'Joomla! Update'		=> 'administrator/index.php?option=com_joomlaupdate',
 			'Messaging'				=> 'administrator/index.php?option=com_messages',
 			'New Private Message'	=> 'administrator/index.php?option=com_messages&task=message.add',
-			'Read Private Messages'	=> 'administrator/index.php?option=com_messages',
 			'Newsfeeds'				=> 'administrator/index.php?option=com_newsfeeds',
 			'Feeds'					=> 'administrator/index.php?option=com_newsfeeds',
 			'Newsfeeds Categories'	=> 'administrator/index.php?option=com_categories&extension=com_newsfeeds',

@@ -1,7 +1,7 @@
 1- What is this?
 	* This is a Joomla! installation/upgrade package to version 3.x
 	* Joomla! Official site: https://www.joomla.org
-	* Joomla! 3.4 version history - https://docs.joomla.org/Joomla_3.4_version_history
+	* Joomla! 3.5 version history - https://docs.joomla.org/Joomla_3.5_version_history
 	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/master
 
 2- What is Joomla?
@@ -65,7 +65,7 @@
 	* Are you a Web designer? https://docs.joomla.org/Web_designers
 
 Copyright:
-	* Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+	* Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
 	* Special Thanks: https://docs.joomla.org/Joomla!_Credits_and_Thanks
 	* Distributed under the GNU General Public License version 2 or later
 	* See Licenses details at https://docs.joomla.org/Joomla_Licenses

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -133,7 +133,7 @@ $loggeduser = JFactory::getUser();
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					<?php endif; ?>
 				</td>
-				<td>
+				<td class="break-word">
 					<div class="fltrt">
 						<?php echo JHtml::_('users.filterNotes', $item->note_count, $item->id); ?>
 						<?php echo JHtml::_('users.notes', $item->note_count, $item->id); ?>
@@ -154,7 +154,7 @@ $loggeduser = JFactory::getUser();
 						<?php echo JText::_('COM_USERS_DEBUG_USER');?></a></div></div></div>
 					<?php endif; ?>
 				</td>
-				<td class="center">
+				<td class="center break-word">
 					<?php echo $this->escape($item->username); ?>
 				</td>
 				<td class="center">
@@ -178,7 +178,7 @@ $loggeduser = JFactory::getUser();
 						<?php echo nl2br($item->group_names); ?>
 					<?php endif; ?>
 				</td>
-				<td class="center">
+				<td class="center break-word">
 					<?php echo $this->escape($item->email); ?>
 				</td>
 				<td class="center">

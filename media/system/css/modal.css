@@ -155,9 +155,6 @@
     }
 }
 @media (max-width: 979px) {
-	#sbox-window {
-		overflow: none;
-	}
 	#sbox-btn-close {
 		right: -10px;
 		top: -10px;

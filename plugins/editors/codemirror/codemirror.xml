@@ -167,7 +167,6 @@
 				</field>
 
 				<field name="fullScreenMod" type="checkboxes"
-					   class="checkbox inline"
 					   filter="options"
 					   description="PLG_CODEMIRROR_FIELD_FULLSCREEN_MOD_DESC"
 					   label="PLG_CODEMIRROR_FIELD_FULLSCREEN_MOD_LABEL"
@@ -177,6 +176,9 @@
 					<option value="Ctrl">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_CTRL</option>
 					<option value="Alt">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_ALT</option>
 				</field>
+
+				<field name="basePath" type="hidden" default="media/editors/codemirror/" />
+				<field name="modePath" type="hidden" default="media/editors/codemirror/mode/%N/%N" />
 
 			</fieldset>
 

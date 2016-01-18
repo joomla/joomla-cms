@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset addfieldpath="/administrator/components/com_templates/models/fields" />
+
+    <fields name="filter">
+        <field
+                name="search"
+                type="text"
+                hint="JSEARCH_FILTER"
+                />
+
+        <field
+                name="client_id"
+                type="templatelocation"
+                onchange="this.form.submit();"
+                >
+            <option value="">JGLOBAL_FILTER_CLIENT</option>
+        </field>
+
+        <field
+                name="template"
+                type="templatename"
+                onchange="this.form.submit();"
+                >
+            <option value="">JOPTION_SELECT_TEMPLATE</option>
+        </field>
+
+    </fields>
+    <fields name="list">
+        <field
+                name="limit"
+                type="limitbox"
+                class="input-mini"
+                default="25"
+                onchange="this.form.submit();"
+                />
+    </fields>
+</form>

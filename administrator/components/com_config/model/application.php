@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -326,5 +326,108 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to store the permission values in the asset table.
+	 *
+	 * This method will get an array with permission key value pairs and transform it
+	 * into json and update the asset table in the database.
+	 *
+	 * @param   string  $permission  Need an array with Permissions (component, rule, value and title)
+	 *
+	 * @return  boolean  True on success, false on failure.
+	 *
+	 * @since   3.5
+	 */
+	public function storePermissions($permission)
+	{
+		try
+		{
+			// Load the current settings for this component
+			$query = $this->db->getQuery(true)
+				->select($this->db->quoteName(array('name', 'rules')))
+				->from($this->db->quoteName('#__assets'))
+				->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
+
+			$this->db->setQuery($query);
+
+			// Load the results as a list of stdClass objects (see later for more options on retrieving data).
+			$results = $this->db->loadAssocList();
+
+			if (empty($results))
+			{
+				$data = array();
+				$data[$permission['action']] = array();
+				$data[$permission['action']] = array($permission['rule'] => $permission['value']);
+
+				$rules = new JAccessRules($data);
+				$asset = JTable::getInstance('asset');
+				$asset->rules = (string) $rules;
+				$asset->name  = (string) $permission['component'];
+				$asset->title = (string) $permission['title'];
+
+				if (!$asset->check() || !$asset->store())
+				{
+					JFactory::getApplication()->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
+
+					return false;
+				}
+
+				return true;
+			}
+			else
+			{
+				// Decode the rule settings
+				$temp = json_decode($results[0]['rules'], true);
+
+				// Check if a new value is to be set
+				if (isset($permission['value']))
+				{
+					// Check if we already have an action entry
+					if (!isset($temp[$permission['action']]))
+					{
+						$temp[$permission['action']] = array();
+					}
+
+					// Check if we already have a rule entry
+					if (!isset($temp[$permission['action']][$permission['rule']]))
+					{
+						$temp[$permission['action']][$permission['rule']] = array();
+					}
+
+					// Set the new permission
+					$temp[$permission['action']][$permission['rule']] = intval($permission['value']);
+
+					// Check if we have an inherited setting
+					if (strlen($permission['value']) == 0)
+					{
+						unset($temp[$permission['action']][$permission['rule']]);
+					}
+				}
+				else
+				{
+					// There is no value so remove the action as it's not needed
+					unset($temp[$permission['action']]);
+				}
+
+				// Store the new permissions
+				$temp  = json_encode($temp);
+				$query = $this->db->getQuery(true)
+					->update($this->db->quoteName('#__assets'))
+					->set('rules = ' . $this->db->quote($temp))
+					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
+
+				$this->db->setQuery($query);
+
+				$result = $this->db->execute();
+
+				return (bool) $result;
+			}
+		}
+		catch (Exception $e)
+		{
+			return $e->getMessage();
+		}
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -2223,6 +2223,7 @@ class JInstaller extends JAdapter
 
 	/**
 	 * Fetches an adapter and adds it to the internal storage if an instance is not set
+	 * while also ensuring its a valid adapter name
 	 *
 	 * @param   string  $name     Name of adapter to return
 	 * @param   array   $options  Adapter options
@@ -2235,17 +2236,14 @@ class JInstaller extends JAdapter
 	 */
 	public function getAdapter($name, $options = array())
 	{
-		$adapter = $this->loadAdapter($name, $options);
+		$this->getAdapters($options);
 
-		if (!array_key_exists($name, $this->_adapters))
+		if (!$this->setAdapter($name, $this->_adapters[$name]))
 		{
-			if (!$this->setAdapter($name, $adapter))
-			{
-				return false;
-			}
+			return false;
 		}
 
-		return $adapter;
+		return $this->_adapters[$name];
 	}
 
 	/**

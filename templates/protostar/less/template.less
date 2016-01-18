@@ -410,7 +410,9 @@ figcaption {
 	}
 }
 @media (max-width: 768px) {
+  /* Fix ios scrolling inside boottrap modals */
 	body {
+		-webkit-overflow-scrolling: touch;
 		padding-top: 0;
 	}
 	.header {
@@ -622,4 +624,20 @@ body.modal-open {
 /* Align fields for the profile display */
 #users-profile-custom label {
 	display: inline;
+}
+
+/* Corrects the modals padding */
+.field-media-wrapper .modal .modal-body {
+	padding: 5px 10px;
+	overflow: hidden;
+}
+/* Getting rid of scroll bar in smartsearch Advanced search */
+#search-results {
+	clear: both;
+}
+#finder-filter-window {
+	overflow: visible;
+}
+#finder-search .in.collapse {
+	overflow: visible;
 }
