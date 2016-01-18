@@ -8,6 +8,7 @@
  */
 
 defined('JPATH_PLATFORM') or die;
+use Joomla\Utilities\ArrayHelper;
 
 use Joomla\Utilities\ArrayHelper;
 
@@ -21,6 +22,46 @@ use Joomla\Utilities\ArrayHelper;
  */
 abstract class JUserHelper
 {
+	/**
+	 * Array of cached groups by user.
+	 *
+	 * @var    array
+	 * @since  3.6
+	 */
+	protected static $groupsByUser = array();
+
+	/**
+	 * Array of user groups.
+	 *
+	 * @var    array
+	 * @since  3.6
+	 */
+	protected static $userGroups = array();
+
+
+	/**
+	 * Array of user group paths.
+	 *
+	 * @var    array
+	 * @since  3.6
+	 */
+	protected static $userGroupPaths = array();
+
+	/**
+	 * Method for clearing static caches.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 */
+	public static function clearStatics()
+	{
+		self::$userGroups = array();
+		self::$groupsByUser = array();
+		self::$userGroupPaths = array();
+	}
+
+
 	/**
 	 * Method to add a user to a group.
 	 *
@@ -95,6 +136,198 @@ abstract class JUserHelper
 		$user = JUser::getInstance((int) $userId);
 
 		return isset($user->groups) ? $user->groups : array();
+	}
+
+	/**
+	 * Method to return a list of user groups mapped to a user. The returned list can optionally hold
+	 * only the groups explicitly mapped to the user or all groups both explicitly mapped and inherited
+	 * by the user.
+	 *
+	 * @param   integer  $userId     Id of the user for which to get the list of groups.
+	 * @param   boolean  $recursive  True to include inherited user groups.
+	 *
+	 * @return  array    List of user group ids to which the user is mapped.
+	 *
+	 * @since   3.6
+	 */
+	public static function getGroupsByUser($userId, $recursive = true)
+	{
+		// Creates a simple unique string for each parameter combination:
+		$storeId = $userId . ':' . (int) $recursive;
+
+		if (!isset(self::$groupsByUser[$storeId]))
+		{
+			// TODO: Uncouple this from JComponentHelper and allow for a configuration setting or value injection.
+			if (class_exists('JComponentHelper'))
+			{
+				$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
+			}
+			else
+			{
+				$guestUsergroup = 1;
+			}
+
+			if (!$recursive)
+			{
+				// Guest user (if only the actually assigned group is requested)
+				if (empty($userId))
+				{
+					$result = array($guestUsergroup);
+				}
+				else
+				{
+					$result = self::getUserGroups($userId);
+				}
+			}
+			// Registered user and guest if all groups are requested
+			else
+			{
+				$db = JFactory::getDbo();
+
+				// Build the database query to get the rules for the asset.
+				$query = $db->getQuery(true)
+					->select('b.id');
+
+				if (empty($userId))
+				{
+					$query->from('#__usergroups AS a')
+						->where('a.id = ' . (int) $guestUsergroup);
+				}
+				else
+				{
+					$query->from('#__user_usergroup_map AS map')
+						->where('map.user_id = ' . (int) $userId)
+						->join('LEFT', '#__usergroups AS a ON a.id = map.group_id');
+				}
+
+				// If we want groups cascading up to the root we need a self-join.
+				$query->join('LEFT', '#__usergroups AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
+
+				// Execute the query and load the rules from the result.
+				$db->setQuery($query);
+				$result = $db->loadColumn();
+
+				// Clean up any NULL or duplicate values, just in case
+				ArrayHelper::toInteger($result);
+
+				if (empty($result))
+				{
+					$result = array('1');
+				}
+				else
+				{
+					$result = array_unique($result);
+				}
+			}
+
+			self::$groupsByUser[$storeId] = $result;
+		}
+
+		return self::$groupsByUser[$storeId];
+	}
+
+	/**
+	 * Gets the parent groups that a leaf group belongs to in its branch back to the root of the tree
+	 * (including the leaf group id).
+	 *
+	 * @param   mixed  $groupId  An integer or array of integers representing the identities to check.
+	 *
+	 * @return  mixed  True if allowed, false for an explicit deny, null for an implicit deny.
+	 *
+	 * @since   11.1
+	 */
+	public static function getGroupPath($groupId)
+	{
+		// Preload all groups
+		if (empty(self::$userGroups))
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('parent.id, parent.lft, parent.rgt')
+				->from('#__usergroups AS parent')
+				->order('parent.lft');
+			$db->setQuery($query);
+			self::$userGroups = $db->loadObjectList('id');
+		}
+
+		// Make sure groupId is valid
+		if (!array_key_exists($groupId, self::$userGroups))
+		{
+			return array();
+		}
+
+		// Get parent groups and leaf group
+		if (!isset(self::$userGroupPaths[$groupId]))
+		{
+			self::$userGroupPaths[$groupId] = array();
+
+			foreach (self::$userGroups as $group)
+			{
+				if ($group->lft <= self::$userGroups[$groupId]->lft && $group->rgt >= self::$userGroups[$groupId]->rgt)
+				{
+					self::$userGroupPaths[$groupId][] = $group->id;
+				}
+			}
+		}
+
+		return self::$userGroupPaths[$groupId];
+	}
+
+	/**
+	 * Method to return the title of a user group
+	 *
+	 * @param   integer  $groupId  Id of the group for which to get the title of.
+	 *
+	 * @return  string  Tthe title of the group
+	 *
+	 * @since   3.6
+	 */
+	public static function getGroupTitle($groupId)
+	{
+		// Fetch the group title from the database
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('title')
+			->from('#__usergroups')
+			->where('id = ' . $db->quote($groupId));
+		$db->setQuery($query);
+
+		return $db->loadResult();
+	}
+
+	/**
+	 * Method to return a list of user Ids contained in a Group
+	 *
+	 * @param   integer  $groupId    The group Id
+	 * @param   boolean  $recursive  Recursively include all child groups (optional)
+	 *
+	 * @return  array
+	 *
+	 * @since   3.6
+	 */
+	public static function getUsersByGroup($groupId, $recursive = false)
+	{
+		// Get a database object.
+		$db = JFactory::getDbo();
+
+		$test = $recursive ? '>=' : '=';
+
+		// First find the users contained in the group
+		$query = $db->getQuery(true)
+			->select('DISTINCT(user_id)')
+			->from('#__usergroups as ug1')
+			->join('INNER', '#__usergroups AS ug2 ON ug2.lft' . $test . 'ug1.lft AND ug1.rgt' . $test . 'ug2.rgt')
+			->join('INNER', '#__user_usergroup_map AS m ON ug2.id=m.group_id')
+			->where('ug1.id=' . $db->quote($groupId));
+
+		$db->setQuery($query);
+
+		$result = $db->loadColumn();
+
+		// Clean up any NULL values, just in case
+		ArrayHelper::toInteger($result);
+
+		return $result;
 	}
 
 	/**
