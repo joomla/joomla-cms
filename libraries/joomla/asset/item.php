@@ -125,9 +125,9 @@ class JAssetItem
 	/**
 	 * Class constructor
 	 *
-	 * @param  string  $name
-	 * @param  string  $version
-	 * @param  array   $owner
+	 * @param   string  $name     The asset name
+	 * @param   string  $version  The asset version
+	 * @param   array   $owner    Asset data file-owner info.
 	 */
 	public function __construct($name, $version = null, array $owner = array())
 	{
@@ -159,7 +159,7 @@ class JAssetItem
 	/**
 	 * Set JavaScript files
 	 *
-	 * @param  array  $js
+	 * @param   array  $js  Array of JavaScript files
 	 *
 	 * @return  JAssetItem
 	 */
@@ -183,7 +183,7 @@ class JAssetItem
 	/**
 	 * Allow to change default defer behaviour forJavaScript files
 	 *
-	 * @param  bool  $defer
+	 * @param   bool  $defer  Default "defer" mode for all javascrip files
 	 *
 	 * @return  JAssetItem
 	 */
@@ -197,7 +197,7 @@ class JAssetItem
 	/**
 	 * Set StyleSheet files
 	 *
-	 * @param  array  $css
+	 * @param   array  $css  Array of StyleSheet files
 	 *
 	 * @return  JAssetItem
 	 */
@@ -221,7 +221,7 @@ class JAssetItem
 	/**
 	 * Set dependency
 	 *
-	 * @param  array  $dependency
+	 * @param   array  $dependency  The array of the names of the asset dependency
 	 *
 	 * @return  JAssetItem
 	 */
@@ -245,8 +245,8 @@ class JAssetItem
 	/**
 	 * Set Attributes for asset file
 	 *
-	 * @param  string  $file        JavaScript/StyleSheet asset file
-	 * @param  array   $attributes
+	 * @param   string  $file        JavaScript/StyleSheet asset file
+	 * @param   array   $attributes  Attributes array
 	 *
 	 * @return  JAssetItem
 	 */
@@ -265,7 +265,7 @@ class JAssetItem
 	/**
 	 * Return Attributes for asset file
 	 *
-	 * @param  string  $file  JavaScript/StyleSheet asset file
+	 * @param   string  $file  JavaScript/StyleSheet asset file
 	 *
 	 * @return  array
 	 */
@@ -282,7 +282,7 @@ class JAssetItem
 	/**
 	 * Set asset Weight
 	 *
-	 * @param  float  $weight
+	 * @param   float  $weight  The asset weight
 	 *
 	 * @return  JAssetItem
 	 */
@@ -306,7 +306,7 @@ class JAssetItem
 	/**
 	 * Set asset State
 	 *
-	 * @param  int  $state
+	 * @param   int  $state  The asset state
 	 *
 	 * @return  JAssetItem
 	 */
@@ -340,7 +340,7 @@ class JAssetItem
 	/**
 	 * Set Version Attach property
 	 *
-	 * @param  bool  $value
+	 * @param   bool  $value  True for attach the version parameter to the file
 	 *
 	 * @return  JAssetItem
 	 */
@@ -364,9 +364,10 @@ class JAssetItem
 	/**
 	 * Attach active asset to the Document
 	 *
-	 * @param  JDocument  $doc
+	 * @param   JDocument  $doc  Document for attach StyleSheet/JavaScript
 	 *
 	 * @return  JAssetItem
+	 *
 	 * @throws  RuntimeException If try attach inactive asset
 	 */
 	public function attach(JDocument $doc)
@@ -393,8 +394,8 @@ class JAssetItem
 	/**
 	 * Attach StyleSheet files to the document
 	 *
-	 * @param  JDocument  $doc
-	 * @param  string     $version  Version to be attached, or false
+	 * @param   JDocument  $doc      Document for attach StyleSheet/JavaScript
+	 * @param   string     $version  Version to be attached, or false
 	 *
 	 * @return  JAssetItem
 	 */
@@ -430,8 +431,8 @@ class JAssetItem
 	/**
 	 * Attach JavaScript files to the document
 	 *
-	 * @param  JDocument  $doc
-	 * @param  string     $version  Version to be attached, or false
+	 * @param   JDocument  $doc      Document for attach StyleSheet/JavaScript
+	 * @param   string     $version  Version to be attached, or false
 	 *
 	 * @return  JAssetItem
 	 */
@@ -468,7 +469,7 @@ class JAssetItem
 	/**
 	 * Check if the Path is External
 	 *
-	 * @param  string $path Path to test
+	 * @param   string  $path  Path to test
 	 *
 	 * @return  bool
 	 */
@@ -480,7 +481,7 @@ class JAssetItem
 	/**
 	 * Check if the Path is relative to /media folder
 	 *
-	 * @param  string $path Path to test
+	 * @param   string  $path  Path to test
 	 *
 	 * @return  bool
 	 */

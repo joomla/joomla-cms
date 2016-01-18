@@ -460,10 +460,7 @@ abstract class JHtmlBehavior
 		$asset    = JFactory::getAssetFactory()->getAsset('calendar');
 
 		$asset->setAttributes('system/calendar-jos.css', array('title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN')));
-		$asset->setJs(array(
-			$tag . '/calendar.js',
-			$tag . '/calendar-setup.js',
-		));
+		$asset->setJs(array($tag . '/calendar.js', $tag . '/calendar-setup.js'));
 
 		$translation = static::calendartranslation();
 

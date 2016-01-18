@@ -237,8 +237,9 @@ final class JVersion
 	 * Generate a media version string for assets
 	 * Public to allow third party developers to use it
 	 *
-	 * @param  string  $version     Optinal version of the media
-	 * @param  bool    $attachDate  Whether attach current date while hash calculation
+	 * @param   string  $version     Optinal version of the media
+	 * @param   bool    $attachDate  Whether attach current date while hash calculation
+	 *
 	 * @return  string
 	 *
 	 * @since   3.2

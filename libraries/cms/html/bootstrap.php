@@ -865,7 +865,7 @@ abstract class JHtmlBootstrap
 		// Load Bootstrap RTL CSS
 		if ($direction === 'rtl')
 		{
-			JHtml::_('asset.load', 'bootstrap.rtl');
+			JHtml::_('asset.load', 'bootstrap.css.rtl');
 		}
 	}
 }

@@ -19,7 +19,7 @@ class JHtmlAsset
 	/**
 	 * Make the asset active
 	 *
-	 * @param  string|JAssetItem  $asset  Asset instance or name
+	 * @param   string|JAssetItem  $asset  Asset instance or name
 	 *
 	 * @return void
 	 */
@@ -40,7 +40,7 @@ class JHtmlAsset
 	/**
 	 * Make the asset inactive
 	 *
-	 * @param  string|JAssetItem  $asset  Asset instance or name
+	 * @param   string|JAssetItem  $asset  Asset instance or name
 	 *
 	 * @return void
 	 */
@@ -54,7 +54,7 @@ class JHtmlAsset
 	/**
 	 * Add asset to the collection of known assets
 	 *
-	 * @param  JAssetItem  $asset
+	 * @param   JAssetItem  $asset  Asset instance
 	 *
 	 * @return void
 	 */

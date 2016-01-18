@@ -18,6 +18,7 @@ class JAssetFactory
 {
 	/**
 	 * Files with assets infos. File path should be relative
+	 *
 	 * @var array as filePath => DATAFILE_NEW/DATAFILE_PARSED
 	 *
 	 * @example of data file:
@@ -108,7 +109,7 @@ class JAssetFactory
 	/**
 	 * Add asset to collection of known assets
 	 *
-	 * @param  JAssetItem  $asset
+	 * @param   JAssetItem  $asset  Asset instance
 	 *
 	 * @return  JHtmlAssetFactory
 	 */
@@ -123,7 +124,7 @@ class JAssetFactory
 	/**
 	 * Remove Asset by name
 	 *
-	 * @param  string  $name
+	 * @param   string  $name  Asset name
 	 *
 	 * @return  JHtmlAssetFactory
 	 */
@@ -140,7 +141,7 @@ class JAssetFactory
 	/**
 	 * Get asset by it's name
 	 *
-	 * @param  string $name  Asset name
+	 * @param   string  $name  Asset name
 	 *
 	 * @return  JAssetItem|bool Return asset object or false if asset doesnot exists
 	 */
@@ -160,9 +161,10 @@ class JAssetFactory
 	/**
 	 * Return dependancy for Asset as array of AssetItem objects
 	 *
-	 * @param  JAssetItem  $asset
+	 * @param   JAssetItem  $asset  Asset instance
 	 *
 	 * @return  JAssetItem[]
+	 *
 	 * @throws  RuntimeException When Dependency cannot be found
 	 */
 	public function getAssetDependancy(JAssetItem $asset)
@@ -187,11 +189,12 @@ class JAssetFactory
 	/**
 	 * Change the asset State
 	 *
-	 * @param  string  $name   Asset name
-	 * @param  int     $state  New state
-	 * @param  bool    $force  Force weight calculation if the Asset alredy was enabled previously
+	 * @param   string  $name   Asset name
+	 * @param   int     $state  New state
+	 * @param   bool    $force  Force weight calculation if the Asset alredy was enabled previously
 	 *
 	 * @return  JHtmlAssetFactory
+	 *
 	 * @throws  RuntimeException if asset with given name does not exists
 	 */
 	public function setAssetState($name, $state = JAssetItem::ASSET_STATE_ACTIVE, $force = false)
@@ -230,9 +233,13 @@ class JAssetFactory
 	 */
 	public function getActiveAssets()
 	{
-		$assets = array_filter($this->assets, function($asset){
-			return $asset->isActive();
-		});
+		$assets = array_filter(
+			$this->assets,
+			function($asset)
+			{
+				return $asset->isActive();
+			}
+		);
 
 		// Order them by weight
 		$this->sortByWeight($assets);
@@ -243,15 +250,19 @@ class JAssetFactory
 	/**
 	 * Search for assets with specific state.
 	 *
-	 * @param  int  $state
+	 * @param   int  $state  Asset state
 	 *
 	 * @return  JAssetItem[]  Array with active assets
 	 */
 	public function getAssetsByState($state)
 	{
-		$assets = array_filter($this->assets, function($asset) use ($state) {
-			return $asset->getState() === $state;
-		});
+		$assets = array_filter(
+			$this->assets,
+			function($asset) use ($state)
+			{
+				return $asset->getState() === $state;
+			}
+		);
 
 		// Order them by weight
 		$this->sortByWeight($assets);
@@ -262,7 +273,7 @@ class JAssetFactory
 	/**
 	 * Allow to change default defer behaviour forJavaScript files
 	 *
-	 * @param  bool  $defer
+	 * @param   bool  $defer  Default "defer" mode for all javascrip files
 	 *
 	 * @return  JHtmlAssetFactory
 	 */
@@ -276,7 +287,7 @@ class JAssetFactory
 	/**
 	 * Attach active assets to the Document
 	 *
-	 * @param  JDocument  $doc
+	 * @param   JDocument  $doc  Document for attach StyleSheet/JavaScript
 	 *
 	 * @return  void
 	 */
@@ -315,6 +326,7 @@ class JAssetFactory
 	 * Resolve Dependency for just added assets
 	 *
 	 * @return  JHtmlAssetFactory
+	 *
 	 * @throws  RuntimeException When Dependency cannot be resolved
 	 */
 	protected function resolveDependency()
@@ -333,9 +345,10 @@ class JAssetFactory
 	/**
 	 * Resolve Dependency for given asset
 	 *
-	 * @param  JAssetItem  $asset
+	 * @param   JAssetItem  $asset  Asset instance
 	 *
 	 * @return  JHtmlAssetFactory
+	 *
 	 * @throws  RuntimeException When Dependency cannot be resolved
 	 */
 	protected function resolveItemDependency(JAssetItem $asset)
@@ -373,29 +386,32 @@ class JAssetFactory
 	/**
 	 * Sort assets by it`s weight
 	 *
-	 * @param  JAssetItem[]  $assets  Linked array
-	 * @param  bool              $ask     Order direction: true for ASC and false for DESC
+	 * @param   JAssetItem[]  &$assets  Linked array of assets
+	 * @param   bool          $ask      Order direction: true for ASC and false for DESC
 	 *
 	 * @return  JHtmlAssetFactory
 	 */
 	protected function sortByWeight(array &$assets, $ask = true)
 	{
-		uasort($assets, function($a, $b) use ($ask) {
+		uasort(
+			$assets,
+			function($a, $b) use ($ask)
+			{
+				if ($a->getWeight() === $b->getWeight())
+				{
+					return 0;
+				}
 
-			if ($a->getWeight() === $b->getWeight())
-			{
-				return 0;
+				if ($ask)
+				{
+					return $a->getWeight() > $b->getWeight() ? 1 : -1;
+				}
+				else
+				{
+					return $a->getWeight() > $b->getWeight() ? -1 : 1;
+				}
 			}
-
-			if ($ask)
-			{
-				return $a->getWeight() > $b->getWeight() ? 1 : -1;
-			}
-			else
-			{
-				return $a->getWeight() > $b->getWeight() ? -1 : 1;
-			}
-		});
+		);
 
 		return $this;
 	}
@@ -403,9 +419,10 @@ class JAssetFactory
 	/**
 	 * Register new file with asset info
 	 *
-	 * @param  string  $path  Relative path
+	 * @param   string  $path  Relative path
 	 *
 	 * @return  JHtmlAssetFactory
+	 *
 	 * @throws  UnexpectedValueException If file does not exists
 	 */
 	public function registerDataFile($path)
@@ -455,9 +472,12 @@ class JAssetFactory
 	{
 		// Filter new asset data files and parse each
 		$constantIsNew = static::DATAFILE_NEW;
-		$files = array_filter($this->dataFiles, function($state) use ($constantIsNew) {
-			return $state === $constantIsNew;
-		});
+		$files = array_filter(
+			$this->dataFiles,
+			function($state) use ($constantIsNew) {
+				return $state === $constantIsNew;
+			}
+		);
 
 		foreach (array_keys($files) as $path)
 		{
@@ -471,7 +491,10 @@ class JAssetFactory
 	/**
 	 * Parse data file
 	 *
+	 * @param   string  $path  Relative path to the data file
+	 *
 	 * @return  void
+	 *
 	 * @throws  RuntimeException If file is empty or invalid
 	 */
 	protected function parseDataFile($path)
@@ -509,9 +532,9 @@ class JAssetFactory
 	/**
 	 * Prepare Asset instance
 	 *
-	 * @param  string  $name   Asset name
-	 * @param  array   $info
-	 * @param  array   $owner
+	 * @param   string  $name   Asset name
+	 * @param   array   $info   Asset information
+	 * @param   array   $owner  Asset data file-owner info
 	 *
 	 * @return  JAssetItem
 	 */
@@ -519,11 +542,14 @@ class JAssetFactory
 	{
 		$version = !empty($info['version']) ? $info['version'] : null;
 
-		// Check for specific class
-		// @TODO whether it realy can be usefull ???
-		//$class = 'JAsset' . implode('', array_map('ucfirst', explode('.', $name)));
-		//$class = class_exists($class) ? $class : 'JAssetItem';
-		//$asset = new $class($name, $version, $owner);
+		/*
+		Check for specific class
+		@TODO whether it realy can be usefull ???
+
+		$class = 'JAsset' . implode('', array_map('ucfirst', explode('.', $name)));
+		$class = class_exists($class) ? $class : 'JAssetItem';
+		$asset = new $class($name, $version, $owner);
+		*/
 
 		$asset = new JAssetItem($name, $version, $owner);
 
@@ -561,10 +587,10 @@ class JAssetFactory
 	/**
 	 * Helper method to build the joomla.asset.json data from files in the media folder
 	 *
-	 * @param  string  $pathBase  Relative path to Folder for scan for files
-	 * @param  string  $prefix    Media prefix. Example com_example for com_example/file.js
-	 * @param  string  $title
-	 * @param  string  $author
+	 * @param   string  $pathBase  Relative path to Folder for scan for files
+	 * @param   string  $prefix    Media prefix. Example com_example for com_example/file.js
+	 * @param   string  $title     The collection title
+	 * @param   string  $author    The collection author
 	 *
 	 * @return  string JSON data
 	 */
@@ -583,8 +609,8 @@ class JAssetFactory
 
 		if (!empty($js))
 		{
-			foreach ($js as $file){
-
+			foreach ($js as $file)
+			{
 				// Remove base path
 				$relative = preg_replace('#^' . $pathBase . '/#', '', $file);
 
@@ -620,8 +646,8 @@ class JAssetFactory
 
 		if (!empty($css))
 		{
-			foreach ($css as $file){
-
+			foreach ($css as $file)
+			{
 				// Remove base path
 				$relative = preg_replace('#^' . $pathBase . '/#', '', $file);
 
@@ -653,8 +679,8 @@ class JAssetFactory
 		}
 
 		// Remove asset "keys", and empty valuse
-		foreach ($assets as $name => $asset) {
-
+		foreach ($assets as $name => $asset)
+		{
 			if (empty($asset['js']))
 			{
 				unset($assets[$name]['js']);
