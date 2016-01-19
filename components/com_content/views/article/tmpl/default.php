@@ -20,8 +20,9 @@ $user    = JFactory::getUser();
 $info    = $params->get('info_block_position', 0);
 JHtml::_('behavior.caption');
 ?>
-<div class="item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
-	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? JFactory::getConfig()->get('language') : $this->item->language; ?>" />
+<?php $microdata = new JMicrodata('Article'); ?>
+<div class="item-page<?php echo $this->pageclass_sfx; ?>" <?php echo $microdata->displayScope();?>>
+	<meta <?php echo $microdata->property('inLanguage')->display(); ?> content="<?php echo ($this->item->language === '*') ? JFactory::getConfig()->get('language') : $this->item->language; ?>" />
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -45,11 +46,11 @@ JHtml::_('behavior.caption');
 	<?php endif; ?>
 	<?php if ($params->get('show_title') || $params->get('show_author')) : ?>
 	<div class="page-header">
-		<h2 itemprop="name">
-			<?php if ($params->get('show_title')) : ?>
+		<?php if ($params->get('show_title')) : ?>
+		<h2 <?php echo $microdata->property('name')->display(); ?>>
 				<?php echo $this->escape($this->item->title); ?>
-			<?php endif; ?>
 		</h2>
+		<?php endif; ?>
 		<?php if ($this->item->state == 0) : ?>
 			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
@@ -99,7 +100,7 @@ JHtml::_('behavior.caption');
 	<?php if ($images->image_fulltext_caption):
 		echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_fulltext_caption) . '"';
 	endif; ?>
-	src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>" itemprop="image"/> </div>
+	src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>" <?php echo $microdata->property('image')->display(); ?>/> </div>
 	<?php endif; ?>
 	<?php
 	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative):
@@ -109,7 +110,7 @@ JHtml::_('behavior.caption');
 	<?php if (isset ($this->item->toc)) :
 		echo $this->item->toc;
 	endif; ?>
-	<div itemprop="articleBody">
+	<div <?php echo $microdata->property('articleBody')->display(); ?>>
 		<?php echo $this->item->text; ?>
 	</div>
 
