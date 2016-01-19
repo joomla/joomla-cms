@@ -7126,6 +7126,9 @@ h6 {
 .breadcrumb {
 	margin: 10px 0;
 }
+.breadcrumb > li {
+	color: #999;
+}
 .img_caption .left {
 	float: left;
 	margin-right: 1em;
