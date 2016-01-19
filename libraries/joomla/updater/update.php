@@ -303,9 +303,9 @@ class JUpdate extends JObject
 				// Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
 				if (isset($this->currentUpdate->targetplatform->name)
 					&& $product == $this->currentUpdate->targetplatform->name
-					&& preg_match('/' . $this->currentUpdate->targetplatform->version . '/', $ver->RELEASE)
-					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $ver->DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
-					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $ver->DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
+					&& preg_match('/' . $this->currentUpdate->targetplatform->version . '/', $ver::RELEASE)
+					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $ver::DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
+					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $ver::DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
 					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
 					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum->_data, '>='))
