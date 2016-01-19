@@ -47,12 +47,18 @@ JFactory::getDocument()->addScriptDeclaration(
 		<div class="span10">
 			<ul class="nav nav-tabs" id="configTabs">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
+					<?php if ((isset($fieldSet->repeat) && $fieldSet->repeat == true)) : ?>
+						<?php continue; ?>
+					<?php endif; ?>
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
 					<li><a href="#<?php echo $name; ?>" data-toggle="tab"><?php echo JText::_($label); ?></a></li>
 				<?php endforeach; ?>
 			</ul>
 			<div class="tab-content">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
+					<?php if ((isset($fieldSet->repeat) && $fieldSet->repeat == true)) : ?>
+						<?php continue; ?>
+					<?php endif; ?>
 					<div class="tab-pane" id="<?php echo $name; ?>">
 						<?php
 						if (isset($fieldSet->description) && !empty($fieldSet->description))
