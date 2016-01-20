@@ -38,7 +38,7 @@ abstract class JAuthenticationHelper
 		{
 			if (isset($twoFactorMethod->params))
 			{
-				$params = (new Registry)->loadObject(json_decode($twoFactorMethod->params));
+				$params = new Registry(json_decode($twoFactorMethod->params));
 				if (!in_array((int) $params->get('section', 3), $appSections))
 				{
 					unset($twoFactorMethods[$twoFactorMethodKey]);
