@@ -16,7 +16,7 @@ $params->def('greeting', 1);
 
 $type	          = ModLoginHelper::getType();
 $return	          = ModLoginHelper::getReturnUrl($params, $type);
-$twofactormethods = ModLoginHelper::getTwoFactorMethods();
+$twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 $user	          = JFactory::getUser();
 $layout           = $params->get('layout', 'default');
 
