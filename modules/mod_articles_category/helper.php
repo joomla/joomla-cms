@@ -234,8 +234,7 @@ abstract class ModArticlesCategoryHelper
 		// Prepare data for display using display options
 		foreach ($items as &$item)
 		{
-			$item->slug    = $item->id . ':' . $item->alias;
-			$item->catslug = $item->catid . ':' . $item->category_alias;
+			$item->slug = $item->id . ':' . $item->alias;
 
 			if ($access || in_array($item->access, $authorised))
 			{
