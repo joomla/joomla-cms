@@ -27,29 +27,30 @@ abstract class JAuthenticationHelper
 	 */
 	public static function getTwoFactorMethods()
 	{
-		$app = JFactory::getApplication();
-
 		// Get all the Two Factor Authentication plugins.
-		$twoFactorMethods = JPluginHelper::getPlugin('twofactorauth');
-		$appSections      = $app->isSite() ? array(1, 3) : array(2, 3);
+		JPluginHelper::importPlugin('twofactorauth');
 
-		// Remove from array the ones that are not activated in current app section (site, admin, both) in the plugin params.
-		foreach($twoFactorMethods as $twoFactorMethodKey => $twoFactorMethod)
+		// Trigger onUserTwofactorIdentify event and return the two factor enabled plugins.
+		$identities = JEventDispatcher::getInstance()->trigger('onUserTwofactorIdentify', array());
+
+		// Generate array with two factor auth methods.
+		$options = array(
+			JHtml::_('select.option', 'none', JText::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),
+		);
+
+		if (!empty($identities))
 		{
-			if (isset($twoFactorMethod->params))
+			foreach ($identities as $identity)
 			{
-				$params = new Registry(json_decode($twoFactorMethod->params));
-				if (!in_array((int) $params->get('section', 3), $appSections))
+				if (!is_object($identity))
 				{
-					unset($twoFactorMethods[$twoFactorMethodKey]);
+					continue;
 				}
+
+				$options[] = JHtml::_('select.option', $identity->method, $identity->title, 'value', 'text');
 			}
 		}
 
-		// For backward compatibility add a empty entry to the array.
-		// We do this because in tmpl/default.php the two factor auth secret key only appear when two factor auth methods are more than 1.
-		$twoFactorMethods[] = new stdClass();
-
-		return $twoFactorMethods;
+		return $options;
 	}
 }
