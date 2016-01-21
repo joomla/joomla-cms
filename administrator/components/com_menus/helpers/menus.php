@@ -316,33 +316,11 @@ class MenusHelper
 	 */
 	public static function getAssociations($pk)
 	{
+		$langAssociations = JLanguageAssociations::getAssociations('com_menus', '#__menu', 'com_menus.item', $pk, 'id', '', '');
 		$associations = array();
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->from('#__menu as m')
-			->join('INNER', '#__associations as a ON a.id=m.id AND a.context=' . $db->quote('com_menus.item'))
-			->join('INNER', '#__associations as a2 ON a.key=a2.key')
-			->join('INNER', '#__menu as m2 ON a2.id=m2.id')
-			->where('m.id=' . (int) $pk)
-			->select('m2.language, m2.id');
-		$db->setQuery($query);
-
-		try
+		foreach ($langAssociations as $langAssociation)
 		{
-			$menuitems = $db->loadObjectList('language');
-		}
-		catch (RuntimeException $e)
-		{
-			throw new Exception($e->getMessage(), 500);
-		}
-
-		foreach ($menuitems as $tag => $item)
-		{
-			// Do not return itself as result
-			if ((int) $item->id != $pk)
-			{
-				$associations[$tag] = $item->id;
-			}
+			$associations[$langAssociation->language] = $langAssociation->id;
 		}
 
 		return $associations;
