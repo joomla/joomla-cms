@@ -330,7 +330,7 @@ class JApplicationAdministrator extends JApplicationCms
 		{
 			$lang = $this->input->getCmd('lang');
 
-			if (strlen($lang)>0)
+			if (strlen($lang) > 0)
 			{
 				$lang = preg_replace('/[^A-Z-]/i', '', $lang);
 				$this->setUserState('application.lang', $lang);
