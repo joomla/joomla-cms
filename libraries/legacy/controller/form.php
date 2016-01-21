@@ -659,14 +659,9 @@ class JControllerForm extends JControllerLegacy
 				return false;
 			}
 
-			// Reset the ID and then treat the request as for Apply.
+			// Reset the ID, the multilingual associations and then treat the request as for Apply.
 			$data[$key] = 0;
-
-			// Reset multilingual associations if necessary
-			if (isset($data['associations']) && array_sum($data['associations']) != 0)
-			{
-				$data['associations'] = array();
-			}
+			$data['associations'] = array();
 			$task = 'apply';
 		}
 
