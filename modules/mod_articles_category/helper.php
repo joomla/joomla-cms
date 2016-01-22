@@ -244,7 +244,6 @@ abstract class ModArticlesCategoryHelper
 			}
 			else
 			{
-				$app       = JFactory::getApplication();
 				$menu      = $app->getMenu();
 				$menuitems = $menu->getItems('link', 'index.php?option=com_users&view=login');
 
