@@ -170,7 +170,10 @@ abstract class ModRelatedItemsHelper
 			// Prepare data for display using display options
 			foreach ($related as &$item)
 			{
-				$item->slug  = $item->id . ':' . $item->alias;
+				$item->slug    = $item->id . ':' . $item->alias;
+				// catslug is depricated and will be removed in 4.0. Use catid instead.
+				$item->catslug = $item->catid . ':' . $item->category_alias;
+
 				$item->route = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 		}
