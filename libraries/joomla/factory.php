@@ -99,14 +99,6 @@ abstract class JFactory
 	public static $mailer = null;
 
 	/**
-	 * Global Asset Factory object
-	 *
-	 * @var    JAssetFactory
-	 * @since  5.0
-	 */
-	public static $assetFactory = null;
-
-	/**
 	 * Get a application object.
 	 *
 	 * Returns the global {@link JApplicationCms} object, only creating it if it doesn't already exist.
@@ -541,24 +533,6 @@ abstract class JFactory
 		$date = clone self::$dates[$classname][$key];
 
 		return $date;
-	}
-
-	/**
-	 * Return the {@link JAssetFactory} object
-	 *
-	 * @return  JAssetFactory object
-	 *
-	 * @see     JAssetFactory
-	 * @since   5.0
-	 */
-	public static function getAssetFactory()
-	{
-		if (!self::$assetFactory)
-		{
-			self::$assetFactory = new JAssetFactory;
-		}
-
-		return self::$assetFactory;
 	}
 
 	/**

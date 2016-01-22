@@ -56,7 +56,7 @@ abstract class JHtmlJquery
 	 */
 	public static function ui(array $components = array('core'), $debug = null)
 	{
-		$factory = JFactory::getAssetFactory();
+		$factory = JAssetFactory::getInstance();
 
 		// Load each of the requested components
 		foreach ($components as $component)

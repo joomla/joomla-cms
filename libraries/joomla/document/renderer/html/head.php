@@ -54,7 +54,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		}
 
 		// Attach the assets
-		JFactory::getAssetFactory()->attach($document);
+		JAssetFactory::getInstance()->attach($document);
 
 		// Trigger the onBeforeCompileHead event
 		$app = JFactory::getApplication();

@@ -99,11 +99,36 @@ class JAssetFactory
 	const DATAFILE_PARSED = 2;
 
 	/**
+	 * Global Asset Factory object
+	 *
+	 * @var    JAssetFactory
+	 * @since  5.0
+	 */
+	public static $instance = null;
+
+	/**
 	 * Class constructor
 	 */
 	public function __construct()
 	{
 		$this->searchForDataFiles();
+	}
+
+	/**
+	 * Return the JAssetFactory object
+	 *
+	 * @return  JAssetFactory object
+	 *
+	 * @since   5.0
+	 */
+	public static function getInstance()
+	{
+		if (!self::$instance)
+		{
+			self::$instance = new JAssetFactory;
+		}
+
+		return self::$instance;
 	}
 
 	/**

@@ -26,7 +26,7 @@ class JHtmlAsset
 	public static function load($asset)
 	{
 		$name    = $asset;
-		$factory = JFactory::getAssetFactory();
+		$factory = JAssetFactory::getInstance();
 
 		if ($asset instanceof JAssetItem)
 		{
@@ -48,7 +48,7 @@ class JHtmlAsset
 	{
 		$name = ($asset instanceof JAssetItem) ? $asset->getName() : $asset;
 
-		JFactory::getAssetFactory()->setAssetState($name, JAssetItem::ASSET_STATE_INACTIVE);
+		JAssetFactory::getInstance()->setAssetState($name, JAssetItem::ASSET_STATE_INACTIVE);
 	}
 
 	/**
@@ -60,6 +60,6 @@ class JHtmlAsset
 	 */
 	public static function add(JAssetItem $asset)
 	{
-		JFactory::getAssetFactory()->addAsset($asset);
+		JAssetFactory::getInstance()->addAsset($asset);
 	}
 }
