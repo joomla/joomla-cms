@@ -24,7 +24,7 @@
 		<field
 			name="version"
 			type="list"
-			default="1.0"
+			default="2.0"
 			label="PLG_RECAPTCHA_VERSION_LABEL"
 			description="PLG_RECAPTCHA_VERSION_DESC"
 			size="1">
