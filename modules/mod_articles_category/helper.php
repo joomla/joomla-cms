@@ -234,7 +234,10 @@ abstract class ModArticlesCategoryHelper
 		// Prepare data for display using display options
 		foreach ($items as &$item)
 		{
-			$item->slug = $item->id . ':' . $item->alias;
+			$item->slug    = $item->id . ':' . $item->alias;
+
+			// Catslug is depricated and will be removed in 4.0. Use catid instead.
+			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
 			{
