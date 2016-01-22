@@ -78,6 +78,7 @@ abstract class ModArticlesPopularHelper
 		foreach ($items as &$item)
 		{
 			$item->slug = $item->id . ':' . $item->alias;
+
 			// Catslug is depricated and will be removed in 4.0. Use catid instead.
 			$item->catslug = $item->catid . ':' . $item->category_alias;
 
