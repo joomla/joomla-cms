@@ -66,7 +66,7 @@ JFactory::getDocument()->addScriptDeclaration(
 	Joomla.submitbuttonInstallWebInstaller = function() {
 		var form = document.getElementById("adminForm");
 
-		form.install_url.value = "http://appscdn.joomla.org/webapps/jedapps/webinstaller.xml";
+		form.install_url.value = "https://appscdn.joomla.org/webapps/jedapps/webinstaller.xml";
 
 		Joomla.submitbutton4();
 	};
