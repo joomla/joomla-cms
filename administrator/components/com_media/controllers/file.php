@@ -229,6 +229,9 @@ class MediaControllerFile extends JControllerLegacy
 			return false;
 		}
 
+		// Need this to enqueue messages.
+		$app = JFactory::getApplication();
+
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
 
@@ -269,7 +272,7 @@ class MediaControllerFile extends JControllerLegacy
 
 				// Trigger the onContentAfterDelete event.
 				$dispatcher->trigger('onContentAfterDelete', array('com_media.file', &$object_file));
-				$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
+				$app->enqueueMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
 
 				continue;
 			}
@@ -303,7 +306,7 @@ class MediaControllerFile extends JControllerLegacy
 
 				// Trigger the onContentAfterDelete event.
 				$dispatcher->trigger('onContentAfterDelete', array('com_media.folder', &$object_file));
-				$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
+				$app->enqueueMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
 			}
 		}
 
