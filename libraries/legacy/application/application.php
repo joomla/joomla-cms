@@ -1156,7 +1156,7 @@ class JApplication extends JApplicationBase
 	{
 		$match = is_numeric($identifier) ? $this->getClientId() : $this->getName();
 
-		return $match == $identifier;
+		return isset($match) && $match == $identifier;
 	}
 
 	/**
