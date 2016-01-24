@@ -954,7 +954,9 @@ class JForm
 	 * @param   string   $group       The optional dot-separated form group path on which to set the field.
 	 * @param   boolean  $replace     True to replace an existing field if one already exists.
 	 *
-	 * @return $this
+	 * @return boolean  True on success.
+	 *
+	 * @throws  UnexpectedValueException
 	 */
 	public function addField($type, $name, $attributes = array(), $list = array(), $group = null, $replace = true)
 	{
@@ -962,7 +964,7 @@ class JForm
 		$element->addAttribute('type', $type);
 		$element->addAttribute('name', $name);
 
-		// Add any other attributes
+		// Add field attributes if it is provided
 		if (!empty($attributes))
 		{
 			foreach ($attributes as $key => $value)
@@ -981,9 +983,7 @@ class JForm
 			}
 		}
 
-		$this->setField($element, $group, $replace);
-
-		return $this;
+		return $this->setField($element, $group, $replace);
 	}
 
 	/**
