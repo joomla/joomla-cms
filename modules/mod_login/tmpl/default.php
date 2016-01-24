@@ -14,8 +14,14 @@ require_once JPATH_SITE . '/components/com_users/helpers/route.php';
 JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
 
+$uri = JUri::getInstance();
+
+if ($params->get('usesecure'))
+{
+	$uri->setScheme('https');
+}
 ?>
-<form action="<?php echo JRoute::_(htmlspecialchars(JUri::getInstance()->toString()), true, $params->get('usesecure')); ?>" method="post" id="login-form" class="form-inline">
+<form action="<?php echo htmlspecialchars($uri->toString()); ?>" method="post" id="login-form" class="form-inline">
 	<?php if ($params->get('pretext')) : ?>
 		<div class="pretext">
 			<p><?php echo $params->get('pretext'); ?></p>
