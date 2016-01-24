@@ -31,13 +31,14 @@ abstract class JHtmlJGrid
 	 * @param   boolean       $enabled         An optional setting for access control on the action.
 	 * @param   boolean       $translate       An optional setting for translation.
 	 * @param   string        $checkbox	       An optional prefix for checkboxes.
+	 * @param   boolean       $show_text       An optional setting for showing text inside the button.
 	 *
 	 * @return  string  The HTML markup
 	 *
 	 * @since   1.6
 	 */
 	public static function action($i, $task, $prefix = '', $text = '', $active_title = '', $inactive_title = '', $tip = false, $active_class = '',
-		$inactive_class = '', $enabled = true, $translate = true, $checkbox = 'cb')
+		$inactive_class = '', $enabled = true, $translate = true, $checkbox = 'cb', $show_text = false)
 	{
 		if (is_array($prefix))
 		{
@@ -51,6 +52,7 @@ abstract class JHtmlJGrid
 			$translate = array_key_exists('translate', $options) ? $options['translate'] : $translate;
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+			$text = array_key_exists('text', $options) ? $options['text'] : $text;
 		}
 
 		if ($tip)
@@ -62,28 +64,42 @@ abstract class JHtmlJGrid
 			$title = JHtml::tooltipText($title, '', 0);
 		}
 
+		if ($show_text)
+		{
+			$button_text = $text;
+			$button_class  = 'btn-mini';
+		}
+		else
+		{
+			$button_text = '';
+			$button_class  = 'btn-micro';
+		}
+
 		if ($enabled)
 		{
-			$html[] = '<a class="btn btn-micro' . ($active_class == 'publish' ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
-			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
+			$html[] = '<a class="';
+			$html[] = 'btn ' . $button_class . (in_array($active_class, array('publish', 'active')) ? ' active' : '') . ($tip ? ' hasTooltip' : '');
+			$html[] = '" href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
-			$html[] = '<span class="icon-' . $active_class . '"></span>';
+			$html[] = '<span' . (!in_array($active_class, array('', 'active')) ? ' class="icon-' . $active_class . '"' : '') . '>' . $button_text . '</span>';
 			$html[] = '</a>';
 		}
 		else
 		{
-			$html[] = '<a class="btn btn-micro disabled jgrid' . ($tip ? ' hasTooltip' : '') . '"';
+			$html[] = '<a class="btn ' . $button_class . ' disabled jgrid' . ($tip ? ' hasTooltip' : '') . '"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
 
 			if ($active_class == "protected")
 			{
-				$html[] = '<span class="icon-lock"></span>';
+				$html[] = '<span class="icon-lock">' . $button_text . '</span>';
 			}
 			else
 			{
-				$html[] = '<span class="icon-' . $inactive_class . '"></span>';
+				$html[] = '<span' . (!in_array($inactive_class, array('', 'active')) ? ' class="icon-' . $inactive_class . '"' : '') . '>';
+				$html[] = $button_text;
+				$html[] = '</span>';
 			}
 
 			$html[] = '</a>';
@@ -130,10 +146,11 @@ abstract class JHtmlJGrid
 		$tip = array_key_exists('tip', $state) ? $state['tip'] : (array_key_exists(4, $state) ? $state[4] : false);
 		$active_class = array_key_exists('active_class', $state) ? $state['active_class'] : (array_key_exists(5, $state) ? $state[5] : '');
 		$inactive_class = array_key_exists('inactive_class', $state) ? $state['inactive_class'] : (array_key_exists(6, $state) ? $state[6] : '');
+		$show_text = array_key_exists('show_text', $state) ? $state['show_text'] : (array_key_exists(7, $state) ? $state[7] : '');
 
 		return static::action(
 			$i, $task, $prefix, $text, $active_title, $inactive_title, $tip,
-			$active_class, $inactive_class, $enabled, $translate, $checkbox
+			$active_class, $inactive_class, $enabled, $translate, $checkbox, $show_text
 		);
 	}
 
@@ -234,33 +251,35 @@ abstract class JHtmlJGrid
 	/**
 	 * Returns a isDefault state on a grid
 	 *
-	 * @param   integer       $value     The state value.
-	 * @param   integer       $i         The row index
-	 * @param   string|array  $prefix    An optional task prefix or an array of options
-	 * @param   boolean       $enabled   An optional setting for access control on the action.
-	 * @param   string        $checkbox  An optional prefix for checkboxes.
+	 * @param   integer       $value      The state value.
+	 * @param   integer       $i          The row index
+	 * @param   string|array  $prefix     An optional task prefix or an array of options
+	 * @param   boolean       $enabled    An optional setting for access control on the action.
+	 * @param   boolean       $translate  An optional setting for translation.
+	 * @param   string        $checkbox   An optional prefix for checkboxes.
 	 *
 	 * @return  string  The HTML markup
 	 *
 	 * @see     JHtmlJGrid::state()
 	 * @since   1.6
 	 */
-	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb')
+	public static function isdefault($value, $i, $prefix = '', $enabled = true, $translate = true, $checkbox = 'cb')
 	{
+		$states = array(
+			0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', 1, 'unfeatured', 'unfeatured', 0),
+			1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', 1, 'featured', 'featured', 0),
+		);
+
 		if (is_array($prefix))
 		{
 			$options = $prefix;
 			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+			$states = array_key_exists('states', $options) ? $options['states'] : $states;
 		}
 
-		$states = array(
-			0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', 1, 'unfeatured', 'unfeatured'),
-			1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', 1, 'featured', 'featured'),
-		);
-
-		return static::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
+		return static::state($states, $value, $i, $prefix, $enabled, $translate, $checkbox);
 	}
 
 	/**

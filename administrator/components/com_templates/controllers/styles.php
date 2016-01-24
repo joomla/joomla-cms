@@ -116,7 +116,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 		// Check for request forgeries
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
-		$pks = $this->input->get->get('cid', array(), 'array');
+		$pks = $this->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($pks);
 
 		try
