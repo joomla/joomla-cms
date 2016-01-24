@@ -1789,23 +1789,11 @@ class PlgSystemDebug extends JPlugin
 	protected function writeToFile()
 	{
 		$app    = JFactory::getApplication();
-		$conf   = JFactory::getConfig();
-		$domain = str_replace(' ', '_', $conf->get('sitename', 'site'));
+		$domain = ($app->isSite()) ? 'site' : 'admin';
+		$input  = $app->input;
+		$file   = $app->get('log_path') . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
 
-		if ($app->isSite())
-		{
-			$alias = $app->getMenu()->getActive()->alias;
-			$id    = $app->getMenu()->getActive()->id;
-			$file  = $alias . $id . '.sql';
-			$file  = $app->get('log_path') . '/' . $domain . '_' . $file;
-		}
-		else
-		{
-			$input = $app->input;
-			$file  = $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
-			$file  = $app->get('log_path') . '/' . $domain . '_' . $file;
-		}
-
+		// Get the queries from log.
 		$current = '';
 		$db      = JFactory::getDbo();
 		$log     = $db->getLog();
