@@ -30,11 +30,6 @@ require_once JPATH_LIBRARIES . '/cms.php';
 // Load the configuration
 require_once JPATH_CONFIGURATION . '/configuration.php';
 
-use Joomla\DI\Container;
-use Joomla\Service\CommandBusProvider;
-use Joomla\Service\DispatcherProvider;
-use Joomla\Service\ServiceBase;
-
 // Fool the system into thinking we are running as JSite.
 $_SERVER['HTTP_HOST'] = 'domain.com';
 $app = JFactory::getApplication('site');
@@ -62,11 +57,6 @@ class RequestContact extends JApplicationCli
 	 */
 	public function doExecute()
 	{
-		// Configure the DI container.
-		$container = new Container;
-		$container->registerServiceProvider(new CommandBusProvider);
-		$container->registerServiceProvider(new DispatcherProvider);
-
 		// Set the context to be the contacts component.
 		define('JPATH_COMPONENT', JPATH_ROOT . '/components/com_contact');
 		JLoader::registerPrefix('Contact', JPATH_COMPONENT);
@@ -78,7 +68,7 @@ class RequestContact extends JApplicationCli
 			|| $lang->load('com_contact', JPATH_SITE, null, true);
 
 		// Get the command bus.
-		$service = new ServiceBase($container);
+		$service = new ContactServiceContact;
 
 		// Execute the command.
 		try
@@ -94,7 +84,7 @@ class RequestContact extends JApplicationCli
 			$_SERVER['HTTP_HOST'] = $this->input->getString('website', 'domain.com/');
 	
 			// Execute the command to process the contact request.
-			$service->execute((new ContactCommandRequestcontact($contactId, $data)));
+			$service->handle((new ContactCommandRequestcontact($contactId, $data)));
 		}
 		catch (Exception $e)
 		{

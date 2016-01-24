@@ -7,14 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\DI\Container;
-use Joomla\Service\EventBase;
-use Joomla\Service\ServiceBase;
-
 /**
  * Domain event listener for Contact Validated events.
  * 
- * @since  __DEPLOY__
+ * @since  __DEPLOY_VERSION__
  */
 final class ContactEventListenerContactvalidated
 {

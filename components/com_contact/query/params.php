@@ -7,14 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Service\QueryBase;
+use Joomla\Service\Query;
 
 /**
  * Contact parameters query.
  * 
  * @since  __DEPLOY__
  */
-final class ContactQueryParams extends QueryBase
+final class ContactQueryParams extends Query
 {
 	/**
 	 * Constructor.

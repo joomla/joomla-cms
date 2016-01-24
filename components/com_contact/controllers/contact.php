@@ -7,20 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\DI\Container;
-use Joomla\Service\Service;
-use Joomla\Service\ServiceBase;
-use Joomla\Service\Command;
-use Joomla\Service\CommandBase;
-use Joomla\Service\CommandBusProvider;
-use Joomla\Service\CommandHandlerBase;
-use Joomla\Service\DispatcherProvider;
-use Joomla\Service\EventBase;
-use Joomla\Service\Query;
-use Joomla\Service\QueryBase;
-use Joomla\Service\QueryHandlerBase;
-use Joomla\Service\QueryBusProvider;
-
 defined('_JEXEC') or die;
 
 /**
@@ -34,27 +20,6 @@ class ContactControllerContact extends JControllerForm
 	 * Flag to indicate if contact failed.
 	 */
 	private $contactSuccessful = true;
-
-	/**
-	 * Dependency injection container.
-	 */
-	private $container = null;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
-	 */
-	public function __construct($config = array())
-	{
-		// Configure the DI container.
-		$this->container = new Container;
-		$this->container->registerServiceProvider(new CommandBusProvider);
-		$this->container->registerServiceProvider(new QueryBusProvider);
-		$this->container->registerServiceProvider(new DispatcherProvider);
-
-		parent::__construct($config);
-	}
 
 	/**
 	 * Method to get a model object, loading it if required.
@@ -81,6 +46,8 @@ class ContactControllerContact extends JControllerForm
 	 * @param   ContactEventFormvalidationerroroccurred  $event  A domain event object.
 	 * 
 	 * @return  void
+	 * 
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function handleFormValidationError(ContactEventFormvalidationerroroccurred $event)
 	{
@@ -127,14 +94,14 @@ class ContactControllerContact extends JControllerForm
 		$data = $this->input->post->get('jform', array(), 'array');
 
 		// Register local event listeners.
-		$this->container->get('dispatcher')
-			->register('onContactEventFormvalidationerroroccurred', array($this, 'handleFormValidationError'));
+		$dispatcher = \JEventDispatcher::getInstance();
+		$dispatcher->register('onContactEventFormvalidationerroroccurred', array($this, 'handleFormValidationError'));
 
-		// Get the command bus.
-		$service = new ServiceBase($this->container);
+		// Get the service layer.
+		$service = new JService;
 
 		// Get contact parameters.
-		$params = $service->execute(new ContactQueryParams($contactId));
+		$params = $service->handle(new ContactQueryParams($contactId));
 
 		// Check for a valid session cookie.
 		if ($params->get('validate_session', 0)
@@ -152,7 +119,7 @@ class ContactControllerContact extends JControllerForm
 		}
 
 		// Execute the command to process the contact request.
-		$service->execute((new ContactCommandRequestcontact($contactId, $data)));
+		$service->handle(new ContactCommandRequestcontact($contactId, $data));
 
 		// If the contact request attempt failed, simply return.
 		if (!$this->contactSuccessful)

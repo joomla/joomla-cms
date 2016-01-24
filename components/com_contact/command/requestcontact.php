@@ -7,14 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Service\CommandBase;
+use Joomla\Service\Command;
 
 /**
  * Request contact command.
  * 
  * @since  __DEPLOY__
  */
-final class ContactCommandRequestcontact extends CommandBase
+final class ContactCommandRequestcontact extends Command
 {
 	/**
 	 * Constructor.

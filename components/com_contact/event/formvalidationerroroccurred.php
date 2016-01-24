@@ -7,14 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Service\EventBase;
+use Joomla\Service\DomainEvent;
 
 /**
  * Form validation error occurred domain event.
  * 
  * @since  __DEPLOY__
  */
-final class ContactEventFormvalidationerroroccurred extends EventBase
+final class ContactEventFormvalidationerroroccurred extends DomainEvent
 {
 	/**
 	 * Constructor.

@@ -7,14 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Service\EventBase;
+use Joomla\Service\DomainEvent;
 
 /**
  * Contact validated domain event.
  * 
  * @since  __DEPLOY__
  */
-final class ContactEventContactvalidated extends EventBase
+final class ContactEventContactvalidated extends DomainEvent
 {
 	/**
 	 * Constructor.
