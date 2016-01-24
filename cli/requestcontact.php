@@ -61,7 +61,7 @@ class RequestContact extends JApplicationCli
 		define('JPATH_COMPONENT', JPATH_ROOT . '/components/com_contact');
 		JLoader::registerPrefix('Contact', JPATH_COMPONENT);
 		JModelLegacy::addIncludePath(JPATH_COMPONENT . '/models');
-		
+
 		// Load the component language file, falling back to the default language.
 		$lang = JFactory::getApplication()->getLanguage();
 		$lang->load('com_contact', JPATH_SITE, null, false, false)
@@ -75,14 +75,14 @@ class RequestContact extends JApplicationCli
 		{
 			$contactId = new JValueContactid($this->input->getInt('id'));
 			$data = array(
-				'contact_name'		=> $this->input->getString('name'),
-				'contact_email'		=> $this->input->getString('email'),
-				'contact_subject'	=> $this->input->getString('subject'),
-				'contact_message'	=> $this->input->getString('message'),
-				'contact_email_copy'=> $this->input->getInt('email_copy', 0),
+				'contact_name'		 => $this->input->getString('name'),
+				'contact_email'		 => $this->input->getString('email'),
+				'contact_subject'	 => $this->input->getString('subject'),
+				'contact_message'	 => $this->input->getString('message'),
+				'contact_email_copy' => $this->input->getInt('email_copy', 0),
 			);
 			$_SERVER['HTTP_HOST'] = $this->input->getString('website', 'domain.com/');
-	
+
 			// Execute the command to process the contact request.
 			$service->handle((new ContactCommandRequestcontact($contactId, $data)));
 		}
