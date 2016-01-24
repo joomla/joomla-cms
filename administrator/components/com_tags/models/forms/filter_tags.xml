@@ -35,6 +35,22 @@
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
 		</field>
+		<field name="alias_type" type="list"
+			label="COM_TAGS_FILTER_ALIASTYPE_LABEL"
+			description="COM_TAGS_FIELD_ALIASTYPE_DESC"
+			default=""
+			onchange="this.form.submit();"
+		>
+			<option value="">COM_TAGS_SELECT_TAGTYPE</option>
+			<option value="com_content.article">COM_TAGS_CONTENTARTICLE</option>
+			<option value="com_content.category">COM_TAGS_CONTENTCATEGORY</option>
+			<option value="com_contact.contact">COM_TAGS_CONTACTCONTACT</option>
+			<option value="com_contact.category">COM_TAGS_CONTACTCATEGORY</option>
+			<option value="com_users.category">COM_TAGS_USERNOTECATEGORY</option>
+			<option value="com_banners.category">COM_TAGS_BANNERSCATEGORY</option>
+			<option value="com_newsfeeds.newsfeed">COM_TAGS_NEWSFEEDSFEED</option>
+			<option value="com_newsfeeds.category">COM_TAGS_NEWSFEEDSCATEGORY</option>
+		</field>
 	</fields>
 	<fields name="list">
 		<field
