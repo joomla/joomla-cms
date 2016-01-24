@@ -942,6 +942,51 @@ class JForm
 	}
 
 	/**
+	 * A helper method to help adding a field to the form definition easier (without having to build SimpleXmlElement
+	 * for field definition. If the replace flag is set then the field will be set whether it already exists or not.
+	 * If it isn't set, then the field will not be replaced if it already exists.
+	 *
+	 * @param   string   $type        Type of field, such as Text, Textarea...
+	 * @param   string   $name        Name of field
+	 * @param   array    $attributes  An array contains html attributes of the field
+	 * @param   array    $list        An key - value array which is used to build list of options. Only needed if this is a list
+	 *                                base field.
+	 * @param   string   $group       The optional dot-separated form group path on which to set the field.
+	 * @param   boolean  $replace     True to replace an existing field if one already exists.
+	 *
+	 * @return $this
+	 */
+	public function addField($type, $name, $attributes = array(), $list = array(), $group = null, $replace = true)
+	{
+		$element = new SimpleXMLElement('<field />');
+		$element->addAttribute('type', $type);
+		$element->addAttribute('name', $name);
+
+		// Add any other attributes
+		if (!empty($attributes))
+		{
+			foreach ($attributes as $key => $value)
+			{
+				$element->addAttribute($key, $value);
+			}
+		}
+
+		// Add options for list base field type if it is provided
+		if (!empty($list))
+		{
+			foreach ($list as $value => $text)
+			{
+				$node = $element->addChild('option', $text);
+				$node->addAttribute('value', $value);
+			}
+		}
+
+		$this->setField($element, $group, $replace);
+
+		return $this;
+	}
+
+	/**
 	 * Method to set a field XML element to the form definition.  If the replace flag is set then
 	 * the field will be set whether it already exists or not.  If it isn't set, then the field
 	 * will not be replaced if it already exists.
