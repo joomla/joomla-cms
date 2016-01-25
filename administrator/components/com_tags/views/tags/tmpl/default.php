@@ -56,7 +56,7 @@ switch ($this->state->get('filter.alias_type'))
 		break;
 	case 'com_weblinks.weblink':
 		$component = 'com_weblinks';
-		break;		
+		break;
 }
 
 if ($saveOrder)
