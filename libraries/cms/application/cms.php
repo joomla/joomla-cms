@@ -669,7 +669,7 @@ class JApplicationCms extends JApplicationWeb
 	 * @return  boolean  True if this application is administrator.
 	 *
 	 * @since   3.2
-	 * @deprecated  Use isClient('administrator') or isClient(1) instead.
+	 * @deprecated  Use isClient('administrator') instead.
 	 */
 	public function isAdmin()
 	{
@@ -682,7 +682,7 @@ class JApplicationCms extends JApplicationWeb
 	 * @return  boolean  True if this application is site.
 	 *
 	 * @since   3.2
-	 * @deprecated  Use isClient('site') or isClient(0) instead.
+	 * @deprecated  Use isClient('site') instead.
 	 */
 	public function isSite()
 	{
@@ -700,9 +700,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function isClient($identifier)
 	{
-		$match = is_numeric($identifier) ? $this->getClientId() : $this->getName();
-
-		return isset($match) && $match == $identifier;
+		return $this->getName() == $identifier;
 	}
 
 	/**

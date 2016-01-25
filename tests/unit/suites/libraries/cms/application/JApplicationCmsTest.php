@@ -373,10 +373,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	public function testIsClient()
 	{
 		$this->assertFalse($this->class->isClient('administrator'));
-		$this->assertFalse($this->class->isClient(1));
-
 		$this->assertFalse($this->class->isClient('site'));
-		$this->assertFalse($this->class->isClient(0));
 	}
 
 	/**

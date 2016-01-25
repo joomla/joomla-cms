@@ -280,10 +280,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	public function testIsClient()
 	{
 		$this->assertFalse($this->class->isClient('administrator'));
-		$this->assertFalse($this->class->isClient(1));
-
 		$this->assertTrue($this->class->isClient('site'));
-		$this->assertTrue($this->class->isClient(0));
 	}
 
 	/**
