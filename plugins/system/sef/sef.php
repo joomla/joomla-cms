@@ -17,33 +17,23 @@ defined('_JEXEC') or die;
 class PlgSystemSef extends JPlugin
 {
 	/**
-	 * Constructor.
+	 * Application object.
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *
-	 * @since   3.6
+	 * @var    JApplicationCms
+	 * @since  3.6
 	 */
-	public function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
-
-		if (!isset($this->app))
-		{
-			$this->app = JFactory::getApplication();
-		}
-	}
+	protected $app;
 
 	/**
 	 * Add the canonical uri to the head.
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   3.6
 	 */
-	public function onAfterRoute()
+	public function onBeforeRender()
 	{
-		$doc = JFactory::getDocument();
+		$doc = $this->app->getDocument();
 
 		if (!$this->app->isSite() || $doc->getType() !== 'html')
 		{
