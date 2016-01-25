@@ -965,7 +965,7 @@ class JForm
 		$element->addAttribute('name', $name);
 
 		// Add field attributes if it is provided
-		if (!empty($attributes))
+		if (is_array($attributes))
 		{
 			foreach ($attributes as $key => $value)
 			{
@@ -974,7 +974,7 @@ class JForm
 		}
 
 		// Add options for list base field type if it is provided
-		if (!empty($list))
+		if (is_array($list))
 		{
 			foreach ($list as $value => $text)
 			{
