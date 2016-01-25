@@ -943,7 +943,7 @@ class JForm
 
 	/**
 	 * A helper method to help adding a field to the form definition easier (without having to build SimpleXmlElement
-	 * for field definition. If the replace flag is set then the field will be set whether it already exists or not.
+	 * for field definition). If the replace flag is set then the field will be set whether it already exists or not.
 	 * If it isn't set, then the field will not be replaced if it already exists.
 	 *
 	 * @param   string   $type        Type of field, such as Text, Textarea...
@@ -958,29 +958,23 @@ class JForm
 	 *
 	 * @throws  UnexpectedValueException
 	 */
-	public function addField($type, $name, $attributes = array(), $list = array(), $group = null, $replace = true)
+	public function addField($type, $name, array $attributes = array(), array $list = array(), $group = null, $replace = true)
 	{
 		$element = new SimpleXMLElement('<field />');
 		$element->addAttribute('type', $type);
 		$element->addAttribute('name', $name);
 
 		// Add field attributes if it is provided
-		if (is_array($attributes))
+		foreach ($attributes as $key => $value)
 		{
-			foreach ($attributes as $key => $value)
-			{
-				$element->addAttribute($key, $value);
-			}
+			$element->addAttribute($key, $value);
 		}
 
 		// Add options for list base field type if it is provided
-		if (is_array($list))
+		foreach ($list as $value => $text)
 		{
-			foreach ($list as $value => $text)
-			{
-				$node = $element->addChild('option', $text);
-				$node->addAttribute('value', $value);
-			}
+			$node = $element->addChild('option', $text);
+			$node->addAttribute('value', $value);
 		}
 
 		return $this->setField($element, $group, $replace);
