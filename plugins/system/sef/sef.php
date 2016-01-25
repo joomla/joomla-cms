@@ -31,7 +31,7 @@ class PlgSystemSef extends JPlugin
 	 *
 	 * @since   3.6
 	 */
-	public function onBeforeRender()
+	public function onAfterDispatch()
 	{
 		$doc = $this->app->getDocument();
 
