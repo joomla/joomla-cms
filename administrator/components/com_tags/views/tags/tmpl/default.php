@@ -51,6 +51,12 @@ switch ($this->state->get('filter.alias_type'))
 	case 'com_newsfeeds.newsfeed':
 		$component = 'com_newsfeeds';
 		break;
+	case 'com_weblinks.category':
+		$component = 'com_categories&extension=com_weblinks';
+		break;
+	case 'com_weblinks.weblink':
+		$component = 'com_weblinks';
+		break;		
 }
 
 if ($saveOrder)
