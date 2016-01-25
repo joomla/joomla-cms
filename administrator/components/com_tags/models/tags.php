@@ -164,6 +164,20 @@ class TagsModelTags extends JModelList
 				$table = '#__newsfeeds';
 				$state  = 'c.published';
 				break;
+			case 'com_weblinks.category':
+				if (JComponentHelper::isEnabled('com_weblinks'))
+				{
+					$table = '#__categories';
+					$state  = 'c.published';
+				}
+				break;
+			case 'com_weblinks.weblink':
+				if (JComponentHelper::isEnabled('com_weblinks'))
+				{
+					$table = '#__weblinks';
+					$state  = 'c.state';
+				}
+				break;
 		}
 
 		if (isset($table))
