@@ -65,6 +65,13 @@ class JLogEntry
 	);
 
 	/**
+	 * Call stack and back trace of the logged call.
+	 * @var    array
+	 * @since  12.3
+	 */
+	public $callStack = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param   string  $message   The message to log.
@@ -91,6 +98,9 @@ class JLogEntry
 		{
 			$this->category = (string) strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $category));
 		}
+
+		// Get the current call stack and back trace (without args to save memory).
+		$this->callStack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
 		// Get the date as a JDate object.
 		$this->date = new JDate($date ? $date : 'now');
