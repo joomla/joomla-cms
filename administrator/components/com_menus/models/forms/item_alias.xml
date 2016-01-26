@@ -38,6 +38,18 @@
 			</field>
 
 		</fieldset>
+		
+		<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+			<field name="secure" type="list"
+				description="COM_MENUS_ITEM_FIELD_SECURE_DESC"
+				label="COM_MENUS_ITEM_FIELD_SECURE_LABEL"
+				default="0" filter="integer"
+			>
+				<option value="-1">JOFF</option>
+				<option value="1">JON</option>
+				<option value="0">COM_MENUS_FIELD_VALUE_IGNORE</option>
+			</field>
+		</fieldset>
 	</fields>
 	<help key="JHELP_MENUS_MENU_ITEM_MENU_ITEM_ALIAS" />
 </form>
