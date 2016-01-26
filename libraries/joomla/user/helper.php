@@ -496,7 +496,7 @@ abstract class JUserHelper
 			case 'sha256':
 				$encrypted = ($salt) ? hash('sha256', $plaintext . $salt) . ':' . $salt : hash('sha256', $plaintext);
 
-				return ($show_encrypt) ? '{SHA256}' . $encrypted : '{SHA256}' . $encrypted;
+				return ($show_encrypt) ? '{SHA256}' . $encrypted : $encrypted;
 
 			case 'md5-hex':
 			default:
