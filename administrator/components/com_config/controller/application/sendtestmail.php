@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Send Test Mail Controller from global configuration
  *
- * @since  3.6
+ * @since  3.5
  */
 class ConfigControllerApplicationSendtestmail extends JControllerBase
 {
@@ -20,7 +20,7 @@ class ConfigControllerApplicationSendtestmail extends JControllerBase
 	 *
 	 * @return  string
 	 *
-	 * @since   3.6
+	 * @since   3.5
 	 */
 	public function execute()
 	{
