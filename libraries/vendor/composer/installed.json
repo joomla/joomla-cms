@@ -79,49 +79,6 @@
         ]
     },
     {
-        "name": "leafo/lessphp",
-        "version": "v0.3.9",
-        "version_normalized": "0.3.9.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/leafo/lessphp.git",
-            "reference": "a11a6141b5715162b933c405379765d817891c5d"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/leafo/lessphp/zipball/a11a6141b5715162b933c405379765d817891c5d",
-            "reference": "a11a6141b5715162b933c405379765d817891c5d",
-            "shasum": ""
-        },
-        "time": "2013-03-02 16:13:31",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "0.3-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "lessc.inc.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT",
-            "GPL-3.0"
-        ],
-        "authors": [
-            {
-                "name": "Leaf Corcoran",
-                "email": "leafot@gmail.com",
-                "homepage": "http://leafo.net"
-            }
-        ],
-        "description": "lessphp is a compiler for LESS written in PHP.",
-        "homepage": "http://leafo.net/lessphp/"
-    },
-    {
         "name": "joomla/input",
         "version": "1.2.0",
         "version_normalized": "1.2.0.0",
@@ -933,5 +890,48 @@
             }
         ],
         "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+    },
+    {
+        "name": "leafo/lessphp",
+        "version": "v0.5.0",
+        "version_normalized": "0.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/leafo/lessphp.git",
+            "reference": "0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/leafo/lessphp/zipball/0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283",
+            "reference": "0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283",
+            "shasum": ""
+        },
+        "time": "2014-11-24 18:39:20",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.4.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "lessc.inc.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT",
+            "GPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Leaf Corcoran",
+                "email": "leafot@gmail.com",
+                "homepage": "http://leafo.net"
+            }
+        ],
+        "description": "lessphp is a compiler for LESS written in PHP.",
+        "homepage": "http://leafo.net/lessphp/"
     }
 ]
