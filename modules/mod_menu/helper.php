@@ -42,13 +42,13 @@ class ModMenuHelper
 
 		if (!($items = $cache->get($key)))
 		{
-			$path    = $base->tree;
-			$start   = (int) $params->get('startLevel');
-			$end     = (int) $params->get('endLevel');
-			$showAll = $params->get('showAllChildren');
-			$items   = $menu->getItems('menutype', $params->get('menutype'));
-
-			$lastitem = 0;
+			$path           = $base->tree;
+			$start          = (int) $params->get('startLevel');
+			$end            = (int) $params->get('endLevel');
+			$showAll        = $params->get('showAllChildren');
+			$items          = $menu->getItems('menutype', $params->get('menutype'));
+			$hidden_parents = array();
+			$lastitem       = 0;
 
 			if ($items)
 			{
@@ -59,6 +59,14 @@ class ModMenuHelper
 						|| (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))
 						|| ($start > 1 && !in_array($item->tree[$start - 2], $path)))
 					{
+						unset($items[$i]);
+						continue;
+					}
+
+					// Exclude item with menu item option set to exclude from menu modules
+					if (($item->params->get('menu_show', 1) == 0) || in_array($item->parent_id, $hidden_parents))
+					{
+						$hidden_parents[] = $item->id;
 						unset($items[$i]);
 						continue;
 					}
