@@ -1329,32 +1329,31 @@ class JLanguage
 	{
 		$languages = array();
 
-		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
-
-		foreach ($iterator as $file)
+		// Search main language directory for subdirectories
+		foreach (glob($dir . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $directory)
 		{
-			$langs    = array();
-			$fileName = $file->getFilename();
-
-			if (!$file->isFile() || !preg_match("/^([-_A-Za-z]*)\.xml$/", $fileName))
+			// But only directories with lang code format
+			if (preg_match('#/[a-z]{2,3}-[A-Z]{2}$#', $directory))
 			{
-				continue;
-			}
+				$dirPathParts = pathinfo($directory);
+				$file         = $directory . '/' . $dirPathParts['filename'] . '.xml';
 
-			try
-			{
-				$metadata = self::parseXMLLanguageFile($file->getRealPath());
-
-				if ($metadata)
+				if (!is_file($file))
 				{
-					$lang = str_replace('.xml', '', $fileName);
-					$langs[$lang] = $metadata;
+					continue;
 				}
 
-				$languages = array_merge($languages, $langs);
-			}
-			catch (RuntimeException $e)
-			{
+				try
+				{
+					// Get installed language metadata from xml file and merge it with lang array
+					if ($metadata = self::parseXMLLanguageFile($file))
+					{
+						$languages = array_replace($languages, array($dirPathParts['filename'] => $metadata));
+					}
+				}
+				catch (RuntimeException $e)
+				{
+				}
 			}
 		}
 
