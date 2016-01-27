@@ -86,7 +86,7 @@ class TemplatesViewStyles extends JViewLegacy
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'styles.delete');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'styles.delete', 'JTOOLBAR_DELETE');
 			JToolbarHelper::divider();
 		}
 
