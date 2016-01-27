@@ -84,6 +84,21 @@
 			<option
 				value="dark">PLG_RECAPTCHA_THEME_DARK</option>
 		</field>
+
+		<field
+			name="size"
+			type="list"
+			default="normal"
+			label="PLG_RECAPTCHA_SIZE_LABEL"
+			description="PLG_RECAPTCHA_SIZE_DESC"
+			required="false"
+			showon="version:2.0"
+			filter="">
+			<option
+				value="normal">PLG_RECAPTCHA_THEME_NORMAL</option>
+			<option
+				value="compact">PLG_RECAPTCHA_THEME_COMPACT</option>
+		</field>
 		</fieldset>
 	</fields>
 	</config>

@@ -31,7 +31,7 @@ class JDocumentFeed extends JDocument
 	 *
 	 * optional
 	 *
-	 * @var    object
+	 * @var    JFeedImage
 	 * @since  11.1
 	 */
 	public $image = null;
@@ -157,7 +157,7 @@ class JDocumentFeed extends JDocument
 	/**
 	 * The feed items collection
 	 *
-	 * @var    array
+	 * @var    JFeedItem[]
 	 * @since  11.1
 	 */
 	public $items = array();
@@ -185,9 +185,9 @@ class JDocumentFeed extends JDocument
 	 *
 	 * @return  The rendered data
 	 *
-	 * @since  11.1
-	 * @throws Exception
-	 * @todo   Make this cacheable
+	 * @since   11.1
+	 * @throws  Exception
+	 * @todo    Make this cacheable
 	 */
 	public function render($cache = false, $params = array())
 	{
@@ -197,7 +197,7 @@ class JDocumentFeed extends JDocument
 		// Instantiate feed renderer and set the mime encoding
 		$renderer = $this->loadRenderer(($type) ? $type : 'rss');
 
-		if (!is_a($renderer, 'JDocumentRenderer'))
+		if (!($renderer instanceof JDocumentRenderer))
 		{
 			throw new Exception(JText::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
 		}
@@ -321,7 +321,7 @@ class JFeedItem
 	/**
 	 * Enclosure element
 	 *
-	 * @var    object
+	 * @var    JFeedEnclosure
 	 * @since  11.1
 	 */
 	public $enclosure = null;

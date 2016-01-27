@@ -31,7 +31,7 @@ interface JLayout
 	/**
 	 * Method to render the layout.
 	 *
-	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   array  $displayData  Array of properties available for use inside the layout file to build the displayed output
 	 *
 	 * @return  string  The rendered layout.
 	 *
