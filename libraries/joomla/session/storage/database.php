@@ -46,15 +46,15 @@ class JSessionStorageDatabase extends JSessionStorage
 
 		if ($this->gcCalled)
 		{
-			$this->gcCalled   = false;
-			$this->gcLifetime = null;
-
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__session'))
 				->where($db->quoteName('time') . ' < ' . $db->quote((int) $this->gcLifetime));
 
 			// Remove expired sessions from the database.
 			$db->setQuery($query)->execute();
+
+			$this->gcCalled   = false;
+			$this->gcLifetime = null;
 		}
 
 		$db->disconnect();
