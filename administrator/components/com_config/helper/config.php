@@ -75,15 +75,13 @@ class ConfigHelperConfig extends JHelperContent
 			if (self::hasComponentConfig($component) && (!$authCheck || $user->authorise('core.manage', $component)))
 			{
 				self::loadLanguageForComponent($component);
-				$id = JApplication::stringURLSafe(JText::_($component)) . '_' . count($result);
-
-				$result[$id] = $component;
+				$result[$component] = JApplication::stringURLSafe(JText::_($component)) . '_' . $component;
 			}
 		}
 
-		ksort($result);
+		asort($result);
 
-		return array_values($result);
+		return array_keys($result);
 	}
 
 	/**
