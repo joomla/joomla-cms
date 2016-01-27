@@ -66,15 +66,15 @@ class ModMenuHelper
 					$item->deeper     = false;
 					$item->shallower  = false;
 					$item->level_diff = 0;
-					$item->parent     = false;
 
 					if (isset($items[$lastitem]))
 					{
 						$items[$lastitem]->deeper     = ($item->level > $items[$lastitem]->level);
 						$items[$lastitem]->shallower  = ($item->level < $items[$lastitem]->level);
 						$items[$lastitem]->level_diff = ($items[$lastitem]->level - $item->level);
-						$items[$lastitem]->parent     = ($items[$lastitem]->level_diff == -1);
 					}
+
+					$item->parent = (boolean) ($item->rgt > $item->lft + 1) && $menu->getItems('parent_id', (int) $item->id, true);
 
 					$lastitem     = $i;
 					$item->active = false;
