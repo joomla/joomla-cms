@@ -94,6 +94,8 @@ Desktop.ini
 /libraries/vendor/paragonie/random_compat/README.md
 /libraries/vendor/paragonie/random_compat/SECURITY.md
 /libraries/vendor/paragonie/random_compat/composer.json
+/libraries/vendor/paragonie/random_compat/phpunit.sh
+/libraries/vendor/paragonie/random_compat/phpunit.xml.dist
 /libraries/vendor/paragonie/random_compat/tests
 /libraries/vendor/phpmailer/phpmailer/docs
 /libraries/vendor/phpmailer/phpmailer/examples
