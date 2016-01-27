@@ -122,7 +122,7 @@ class RedirectViewLinks extends JViewLegacy
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolbarHelper::divider();
 		}
 		elseif ($canDo->get('core.edit.state'))

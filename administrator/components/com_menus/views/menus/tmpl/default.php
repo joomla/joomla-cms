@@ -23,16 +23,6 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $modMenuId = (int) $this->get('ModMenuId');
 
-JFactory::getDocument()->addScriptDeclaration("
-		Joomla.submitbutton = function(task)
-		{
-			if (task != 'menus.delete' || confirm('" . JText::_('COM_MENUS_MENU_CONFIRM_DELETE', true) . "'))
-			{
-				Joomla.submitform(task);
-			}
-		};
-");
-
 $script = array();
 $script[] = "jQuery(document).ready(function() {";
 

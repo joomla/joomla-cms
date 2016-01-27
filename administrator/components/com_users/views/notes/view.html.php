@@ -128,7 +128,7 @@ class UsersViewNotes extends JViewLegacy
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolbarHelper::divider();
 		}
 		elseif ($canDo->get('core.edit.state'))
