@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -142,31 +142,8 @@ class JCrypt
 	 */
 	public static function timingSafeCompare($known, $unknown)
 	{
-		// Prefer PHP's hash_equals function (PHP 5.6+) if available
-		if (function_exists('hash_equals'))
-		{
-			return hash_equals((string) $known, (string) $unknown);
-		}
-
-		// Prevent issues if string length is 0
-		$known .= chr(0);
-		$unknown .= chr(0);
-
-		$knownLength = static::safeStrlen($known);
-		$unknownLength = static::safeStrlen($unknown);
-
-		// Set the result to the difference between the lengths
-		$result = $knownLength - $unknownLength;
-
-		// Note that we ALWAYS iterate over the user-supplied length to prevent leaking length info.
-		for ($i = 0; $i < $unknownLength; $i++)
-		{
-			// Using % here is a trick to prevent notices. It's safe, since if the lengths are different, $result is already non-0
-			$result |= (ord($known[$i % $knownLength]) ^ ord($unknown[$i]));
-		}
-
-		// They are only identical strings if $result is exactly 0...
-		return $result === 0;
+		// This function is native in PHP as of 5.6 and backported via the symfony/polyfill-56 library
+		return hash_equals((string) $known, (string) $unknown);
 	}
 
 	/**

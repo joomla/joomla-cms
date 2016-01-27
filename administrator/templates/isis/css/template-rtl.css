@@ -4706,6 +4706,9 @@ a.badge:focus {
 .affix {
 	position: fixed;
 }
+@-ms-viewport {
+	width: device-width;
+}
 .hidden {
 	display: none;
 	visibility: hidden;
@@ -7029,7 +7032,7 @@ a:focus {
 	outline: none;
 }
 .view-login {
-	background-color: #224c8f;
+	background-color: #17568c;
 	padding-top: 0;
 }
 .view-login .container {
@@ -8150,7 +8153,7 @@ body.modal-open {
 	overflow: hidden;
 	-ms-overflow-style: none;
 }
-.modal-body {
+.field-media-wrapper .modal .modal-body {
 	padding: 5px 10px;
 	overflow: hidden;
 }
@@ -8566,7 +8569,14 @@ body {
 }
 .dl-horizontal dt {
 	float: right;
+	text-align: left;
+	clear: right;
 }
+.dl-horizontal dd {
+	margin-left: 0;
+	margin-right: 180px;
+}
+.dl-horizontal dt
 .profile> ul {
 	margin: 9px 25px 0 0;
 }

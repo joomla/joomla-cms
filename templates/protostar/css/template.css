@@ -4692,6 +4692,9 @@ a.badge:focus {
 .affix {
 	position: fixed;
 }
+@-ms-viewport {
+	width: device-width;
+}
 .hidden {
 	display: none;
 	visibility: hidden;
@@ -7126,6 +7129,9 @@ h6 {
 .breadcrumb {
 	margin: 10px 0;
 }
+.breadcrumb > li {
+	color: #999;
+}
 .img_caption .left {
 	float: left;
 	margin-right: 1em;
@@ -7498,7 +7504,16 @@ body.modal-open {
 #users-profile-custom label {
 	display: inline;
 }
-.modal-body {
+.field-media-wrapper .modal .modal-body {
 	padding: 5px 10px;
 	overflow: hidden;
+}
+#search-results {
+	clear: both;
+}
+#finder-filter-window {
+	overflow: visible;
+}
+#finder-search .in.collapse {
+	overflow: visible;
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -107,7 +107,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<td>
 						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
 					</td>
-					<td class="pull-left break-word">
+					<td class="break-word">
 						<label for="cb<?php echo $i ?>">
 							<strong>
 								<?php echo $this->escape($item->title); ?>

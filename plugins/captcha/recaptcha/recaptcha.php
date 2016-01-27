@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,7 +86,10 @@ class PlgCaptchaRecaptcha extends JPlugin
 		else
 		{
 			return '<div id="' . $id . '" ' . str_replace('class="', 'class="g-recaptcha ', $class) .
-					' data-sitekey="' . $this->params->get('public_key', '') . '" data-theme="' . $this->params->get('theme2', 'light') . '"></div>';
+					' data-sitekey="' . $this->params->get('public_key', '') .
+					'" data-theme="' . $this->params->get('theme2', 'light') .
+					'" data-size="' . $this->params->get('size', 'normal') .
+					'"></div>';
 		}
 	}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,7 +50,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
 					</th>
 					<th width="10%">
-						<?php echo JText::_('JVERSION'); ?>
+						<?php echo JText::_('COM_INSTALLER_CURRENT_VERSION'); ?>
+					</th>
+					<th width="10%">
+						<?php echo JText::_('COM_INSTALLER_NEW_VERSION'); ?>
 					</th>
 					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
@@ -71,10 +74,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</tr>
 			</tfoot>
 			<tbody>
-			<?php
-				foreach ($this->items as $i => $item) :
-				$client = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
-			?>
+			<?php foreach ($this->items as $i => $item) : ?>
+				<?php
+				$client          = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+				$manifest        = json_decode($item->manifest_cache);
+				$current_version = isset($manifest->version) ? $manifest->version : JText::_('JLIB_UNKNOWN');
+				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td>
 						<?php echo JHtml::_('grid.id', $i, $item->update_id); ?>
@@ -93,7 +98,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type) ?>
 					</td>
 					<td>
-						<?php echo $item->version ?>
+						<span class="label label-warning"><?php echo $current_version; ?></span>
+					</td>
+					<td>
+						<span class="label label-success"><?php echo $item->version; ?></span>
 					</td>
 					<td>
 						<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>

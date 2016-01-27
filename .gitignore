@@ -106,10 +106,17 @@ Desktop.ini
 /libraries/vendor/phpmailer/phpmailer/composer.json
 /libraries/vendor/phpmailer/phpmailer/README.md
 /libraries/vendor/phpmailer/phpmailer/travis.phpunit.xml.dist
+/libraries/vendor/phpmailer/phpmailer/extras/README.md
+/libraries/vendor/phpmailer/phpmailer/get_oauth_token.php
 /libraries/vendor/psr/log/Psr/Log/Test
 /libraries/vendor/psr/log/.gitignore
 /libraries/vendor/psr/log/composer.json
 /libraries/vendor/psr/log/README.md
+/libraries/vendor/symfony/polyfill-php56/composer.json
+/libraries/vendor/symfony/polyfill-php56/README.md
+/libraries/vendor/symfony/polyfill-util/composer.json
+/libraries/vendor/symfony/polyfill-util/README.md
+/libraries/vendor/symfony/polyfill-util/TestListener.php
 /libraries/vendor/symfony/yaml/Tests
 /libraries/vendor/symfony/yaml/.gitignore
 /libraries/vendor/symfony/yaml/CHANGELOG.md

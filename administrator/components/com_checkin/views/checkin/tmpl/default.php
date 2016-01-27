@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 			</thead>
 			<tbody>
 				<?php $i = 0; ?>
-				<?php foreach ($this->items as $table => $count): ?>
+				<?php foreach ($this->items as $table => $count) : ?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center"><?php echo JHtml::_('grid.id', $i, $table); ?></td>
 						<td>
@@ -51,7 +51,13 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<?php echo JText::sprintf('COM_CHECKIN_TABLE', $table); ?>
 							</label>
 						</td>
-						<td><span class="label label-info"><?php echo $count; ?></span></td>
+						<td>
+							<?php if ($count > 0) : ?>
+								<span class="label label-warning"><?php echo $count; ?></span>
+							<?php else : ?>
+								<span class="label label-info"><?php echo $count; ?></span>
+							<?php endif; ?>
+						</td>
 					</tr>
 					<?php $i++; ?>
 				<?php endforeach; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,41 +78,28 @@ abstract class MultilangstatusHelper
 	 * Method to return a list of published site languages.
 	 *
 	 * @return  array of language extension objects.
+	 *
+	 * @deprecated  4.0  Use JLanguageMultilang::getSiteLangs() instead.
 	 */
 	public static function getSitelangs()
 	{
-		// Check for published Site Languages.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('a.element AS element')
-			->from('#__extensions AS a')
-			->where('a.type = ' . $db->quote('language'))
-			->where('a.client_id = 0')
-			->where('a.enabled = 1');
-		$db->setQuery($query);
+		JLog::add(__METHOD__ . ' is deprecated, use JLanguageMultilang::getSiteLangs() instead.', JLog::WARNING, 'deprecated');
 
-		return $db->loadObjectList('element');
+		return JLanguageMultilang::getSiteLangs();
 	}
 
 	/**
 	 * Method to return a list of language home page menu items.
 	 *
 	 * @return  array of menu objects.
+	 *
+	 * @deprecated  4.0  Use JLanguageMultilang::getSiteHomePages() instead.
 	 */
 	public static function getHomepages()
 	{
-		// Check for Home pages languages.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('language')
-			->select('id')
-			->from($db->quoteName('#__menu'))
-			->where('home = 1')
-			->where('published = 1')
-			->where('client_id = 0');
-		$db->setQuery($query);
+		JLog::add(__METHOD__ . ' is deprecated, use JLanguageMultilang::getSiteHomePages() instead.', JLog::WARNING, 'deprecated');
 
-		return $db->loadObjectList('language');
+		return JLanguageMultilang::getSiteHomePages();
 	}
 
 	/**
