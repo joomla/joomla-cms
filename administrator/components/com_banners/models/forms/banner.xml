@@ -50,8 +50,8 @@
 			labelclass="control-label"
 		/>
 
-		<field name="description" type="textarea"
-			rows="3" cols="30" label="JGLOBAL_DESCRIPTION"
+		<field name="description" type="editor"
+               filter="JComponentHelper::filterText" buttons="true" hide="readmore,pagebreak" label="JGLOBAL_DESCRIPTION"
 			description="COM_BANNERS_FIELD_DESCRIPTION_DESC" />
 
 		<field name="type" type="list"

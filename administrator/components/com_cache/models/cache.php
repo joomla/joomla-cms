@@ -38,6 +38,20 @@ class CacheModelCache extends JModelList
 	protected $_pagination = null;
 
 	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   3.5
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+
+		$this->filter_fields = array('group', 'count', 'size');
+	}
+
+	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.

@@ -236,9 +236,17 @@ class JPath
 		$jtp = JPATH_SITE . '/tmp';
 
 		// Try to find a writable directory
-		$dir = is_writable('/tmp') ? '/tmp' : false;
-		$dir = (!$dir && is_writable($ssp)) ? $ssp : false;
-		$dir = (!$dir && is_writable($jtp)) ? $jtp : false;
+		$dir = false;
+
+		foreach (array($jtp, $ssp, '/tmp') as $currentDir)
+		{
+			if (is_writable($currentDir))
+			{
+				$dir = $currentDir;
+
+				break;
+			}
+		}
 
 		if ($dir)
 		{

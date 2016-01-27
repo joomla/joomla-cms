@@ -121,7 +121,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		if (preg_match($regex, $this->options['host'], $matches))
 		{
-			// It's an IPv4 address with ot without port
+			// It's an IPv4 address with or without port
 			$this->options['host'] = $matches['host'];
 
 			if (!empty($matches['port']))
@@ -141,7 +141,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		}
 		elseif (preg_match('/^(?P<host>(\w+:\/{2,3})?[a-z0-9\.\-]+)(:(?P<port>[^:]+))?$/i', $this->options['host'], $matches))
 		{
-			// Named host (e.g domain.com or localhost) with ot without port
+			// Named host (e.g example.com or localhost) with or without port
 			$this->options['host'] = $matches['host'];
 
 			if (!empty($matches['port']))
