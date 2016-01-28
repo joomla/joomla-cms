@@ -19,7 +19,7 @@ class SearchController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   bool  $cacheable   If true, the view output will be cached
+	 * @param   bool  $cacheable  If true, the view output will be cached
 	 * @param   bool  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JControllerLegacy This object to support chaining.
