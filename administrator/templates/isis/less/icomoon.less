@@ -10,14 +10,14 @@
 }
 @import "../../../../media/jui/less/icomoon.less";
 .icon-edit:before {
-	color: @btnInfoBackgroundHighlight;
+	color: @btnSuccessBackgroundHighlight;
 }
 .icon-publish:before,
 .icon-save:before,
 .icon-ok:before,
 .icon-save-new:before,
 .icon-save-copy:before,
-.btn-toolbar .icon-copy:before {
+.btn-toolbar .icon-copy:before  {
 	color: @btnSuccessBackgroundHighlight;
 }
 .icon-unpublish:before,
@@ -33,6 +33,28 @@
 .icon-expired:before,
 .icon-pending:before {
 	color: @btnWarningBackgroundHighlight;
+}
+
+.btn-small:hover > .icon-edit:before,
+.btn-small:hover > .icon-publish:before,
+.btn-small:hover > .icon-save:before,
+.btn-small:hover > .icon-ok:before,
+.btn-small:hover > .icon-save-new:before,
+.btn-small:hover > .icon-save-copy:before,
+.btn-small:hover > .icon-copy:before,
+.btn-small:hover > .btn-toolbar .icon-copy:before,
+.btn-small:hover > .icon-unpublish:before,
+.btn-small:hover > .icon-not-ok:before,
+.btn-small:hover > .icon-eye-close:before,
+.btn-small:hover > .icon-ban-circle:before,
+.btn-small:hover > .icon-minus-sign:before,
+.btn-small:hover > .btn-toolbar .icon-cancel:before,
+.btn-small:hover > .icon-featured:before,
+.btn-small:hover > .icon-default:before,
+.btn-small:hover > .icon-expired:before,
+.btn-small:hover > .icon-pending:before,
+.btn-small:hover > .icon-cancel:before{
+	color: white;
 }
 .icon-back:before {
 	content: "\e008";

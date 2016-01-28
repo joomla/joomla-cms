@@ -3,7 +3,7 @@
 // Core variables and mixins
 @import "variables.less";
 // Custom for this template
-@import "../../../../media/jui/less/mixins.less";
+@import "bootstrap/mixins.less";
 // Grid system and page structure
 @import "../../../../media/jui/less/scaffolding.less";
 @import "../../../../media/jui/less/grid.less";
@@ -16,12 +16,12 @@
 // Components: common
 // @import "../../../../media/jui/less/sprites.less";
 @import "../../../../media/jui/less/dropdowns.less";
-@import "../../../../media/jui/less/wells.less";
+@import "bootstrap/wells.less";
 @import "../../../../media/jui/less/component-animations.less";
 @import "../../../../media/jui/less/close.less";
 // Components: Buttons & Alerts
-@import "../../../../media/jui/less/buttons.less";
-@import "../../../../media/jui/less/button-groups.less";
+@import "bootstrap/buttons.less";
+@import "bootstrap/button-groups.less";
 @import "../../../../media/jui/less/alerts.less";
 // Note: alerts share common CSS with buttons and thus have styles in buttons.less
 // Components: Nav
@@ -90,12 +90,12 @@ a:focus {
 	padding-top: 0;
 
 	.container {
-		width: 300px;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		margin-top: -206px;
-		margin-left: -150px;
+	width: 300px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -206px;
+	margin-left: -150px;
 	}
 	.navbar-fixed-bottom {
 		padding-left: 20px;
@@ -197,15 +197,15 @@ body .navbar-fixed-top {
 		padding: 7px 12px 0px 15px;
 		font-size: 16px;
 		color: @gray;
+	&:hover {
+		color: @grayDark;
+	}
+	.navbar-inverse& {
+		color: #d9d9d9;
 		&:hover {
-			color: @grayDark;
+			color: #ffffff;
 		}
-		.navbar-inverse& {
-			color: #d9d9d9;
-			&:hover {
-				color: #ffffff;
-			}
-		}
+	}
 	}
 	.brand {
 		float: right;
@@ -214,10 +214,10 @@ body .navbar-fixed-top {
 		margin-left: -20px;
 		font-size: inherit;
 		font-weight: normal;
-		&:hover,
-		&:focus {
-			text-decoration: none;
-		}
+	&:hover,
+	&:focus {
+		text-decoration: none;
+	}
 	}
 	.nav > li > a {
 		padding: 6px 10px;
@@ -231,7 +231,7 @@ body .navbar-fixed-top {
 .navbar-fixed-top,
 .navbar-static-top {
 	.navbar-inner {
-		.box-shadow(none);
+	.box-shadow(none);
 	}
 }
 
@@ -246,7 +246,7 @@ body .navbar-fixed-top {
 /* Header */
 .header {
 	background-color: @headerBackground;
-	border-top: 1px solid rgba(255, 255, 255, 0.2);
+	border-top: 1px solid #F0F0F0;
 	padding: 5px 25px;
 }
 
@@ -283,7 +283,7 @@ body .navbar-fixed-top {
 
 /* Search Module */
 .navbar-search .search-query {
-	background: rgba(255, 255, 255, 0.3);
+	background: #F0F0F0;
 }
 
 /* Logo */
@@ -322,7 +322,7 @@ body .navbar-fixed-top {
 		[class^="icon-"],
 		[class*=" icon-"] {
 			margin-right: 10px;
-		}
+	}
 	}
 }
 
@@ -337,7 +337,7 @@ body .navbar-fixed-top {
 /* Subhead */
 .subhead {
 	background: @wellBackground;
-	border-bottom: 1px solid darken(@wellBackground, 7%);
+	border-bottom: 1px solid darken(@wellBackground, 8%);
 	color: #0C192E;
 	text-shadow: 0 1px 0 #FFF;
 	margin-bottom: 10px;
@@ -372,12 +372,12 @@ body .navbar-fixed-top {
 	body {
 		-webkit-overflow-scrolling: touch;
 	}
-	.subhead {
-		margin-left: -20px;
-		margin-right: -20px;
-		padding-left: 10px;
-		padding-right: 10px;
-	}
+  .subhead {
+	margin-left: -20px;
+	margin-right: -20px;
+	padding-left: 10px;
+	padding-right: 10px;
+  }
 }
 
 .subhead h1 {
@@ -517,8 +517,8 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 }
 /* Status Module */
 #status {
-	background: #ebebeb;
-	border-top: 1px solid #d4d4d4;
+	background: #F0F0F0;
+	border-top: 1px solid #F0F0F0;
 	padding: 2px 10px 4px 10px;
 	.box-shadow(~"0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6)");
 	color: #626262;
@@ -573,15 +573,6 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 /* Module Assignment Tab */
 #assignment.tab-pane {
 	min-height: 500px;
-}
-// Button color
-.btn-primary.active,
-.btn-warning.active,
-.btn-danger.active,
-.btn-success.active,
-.btn-info.active,
-.btn-inverse.active {
-	color: rgba(255, 255, 255, .95);
 }
 /* Chosen Max Width */
 .chzn-container,
@@ -656,7 +647,6 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	.navbar {
 		.brand {
 			font-size: 16px;
-
 		}
 	}
 }
@@ -667,7 +657,7 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 }
 @media (min-width: 481px) {
 	#filter-bar {
-		// Fix for Firefox
+	// Fix for Firefox
 		height: 29px;
 	}
 }
@@ -746,7 +736,7 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	}
 
 	.btn-toolbar .btn-wrapper .btn {
-	  width: 100% !important;
+		width: 100% !important;
 	}
 }
 // Navbar
@@ -969,7 +959,7 @@ ul.manager .height-50 .icon-folder-2 {
 }
 
 .admin .chzn-container .chzn-drop {
-	z-index: 1060;
+  z-index: 1060;
 }
 /* Tree Select */
 ul.treeselect,
@@ -1120,6 +1110,8 @@ input.input-large-text {
 .chzn-color-reverse.chzn-single[rel="value_0"],
 .chzn-color-state.chzn-single[rel="value_1"] {
 	.buttonBackground(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
+	border: 1px solid @btnSuccessBackground;
+	color: @white;
 }
 
 .chzn-color.chzn-single[rel="value_0"],
@@ -1128,6 +1120,8 @@ input.input-large-text {
 .chzn-color-state.chzn-single[rel="value_-1"],
 .chzn-color-state.chzn-single[rel="value_-2"] {
 	.buttonBackground(@btnDangerBackground, @btnDangerBackgroundHighlight);
+	border: 1px solid @btnDangerBackground;
+	color: @white;
 }
 /* Widen the drop downs for the Permissions Field */
 #permissions-sliders .input-small {
@@ -1292,8 +1286,8 @@ textarea.noResize {
 
 /* Prevent scrolling on the parent window of a modal */
 body.modal-open {
-  overflow: hidden;
-  -ms-overflow-style: none;
+	overflow: hidden;
+	-ms-overflow-style: none;
 }
 
 /*Corrects the modals padding*/
