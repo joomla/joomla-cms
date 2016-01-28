@@ -40,7 +40,7 @@ class FinderControllerSuggestions extends JControllerLegacy
 	/**
 	 * Method to find search query suggestions. Uses Mootools and autocompleter.js
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   boolean  $cacheable  If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  void
@@ -48,7 +48,7 @@ class FinderControllerSuggestions extends JControllerLegacy
 	 * @since   2.5
 	 * @deprecated 3.4
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cacheable = false, $urlparams = false)
 	{
 		$app = JFactory::getApplication();
 		$app->mimeType = 'application/json';

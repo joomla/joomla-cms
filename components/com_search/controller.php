@@ -19,19 +19,19 @@ class SearchController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   bool  $cachable   If true, the view output will be cached
+	 * @param   bool  $cacheable  If true, the view output will be cached
 	 * @param   bool  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JControllerLegacy This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cacheable = false, $urlparams = false)
 	{
 		// Force it to be the search view
 		$this->input->set('view', 'search');
 
-		return parent::display($cachable, $urlparams);
+		return parent::display($cacheable, $urlparams);
 	}
 
 	/**

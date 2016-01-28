@@ -996,13 +996,13 @@ class FOFController extends FOFUtilsObject
 	 * YOU MUST NOT USETHIS TASK DIRECTLY IN A URL. It is supposed to be
 	 * used ONLY inside your code. In the URL, use task=browse instead.
 	 *
-	 * @param   bool    $cachable   Is this view cacheable?
+	 * @param   bool    $cacheable   Is this view cacheable?
 	 * @param   bool    $urlparams  Add your safe URL parameters (see further down in the code)
 	 * @param   string  $tpl        The name of the template file to parse
 	 *
 	 * @return  bool
 	 */
-	public function display($cachable = false, $urlparams = false, $tpl = null)
+	public function display($cacheable = false, $urlparams = false, $tpl = null)
 	{
 		$document = FOFPlatform::getInstance()->getDocument();
 
@@ -1031,7 +1031,7 @@ class FOFController extends FOFUtilsObject
 		// Display the view
 		$conf = FOFPlatform::getInstance()->getConfig();
 
-		if (FOFPlatform::getInstance()->isFrontend() && $cachable && ($viewType != 'feed') && $conf->get('caching') >= 1)
+		if (FOFPlatform::getInstance()->isFrontend() && $cacheable && ($viewType != 'feed') && $conf->get('caching') >= 1)
 		{
 			// Get a JCache object
 			$option = $this->input->get('option', 'com_foobar', 'cmd');

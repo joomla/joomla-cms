@@ -47,16 +47,16 @@ class ContentController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached.
+	 * @param   boolean  $cacheable  If true, the view output will be cached.
 	 * @param   boolean  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController  This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cacheable = false, $urlparams = false)
 	{
-		$cachable = true;
+		$cacheable = true;
 
 		/**
 		 * Set the default view name and format from the Request.
@@ -73,7 +73,7 @@ class ContentController extends JControllerLegacy
 			|| ($this->input->getMethod() == 'POST'
 			&& (($vName == 'category' && $this->input->get('layout') != 'blog') || $vName == 'archive' )))
 		{
-			$cachable = false;
+			$cacheable = false;
 		}
 
 		$safeurlparams = array(
@@ -101,7 +101,7 @@ class ContentController extends JControllerLegacy
 			return JError::raiseError(403, JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 		}
 
-		if ($vName == 'article' && $cachable)
+		if ($vName == 'article' && $cacheable)
 		{
 			// Get/Create the model
 			if ($model = $this->getModel($vName))
@@ -109,8 +109,8 @@ class ContentController extends JControllerLegacy
 				$model->hit();
 			}
 		}
-
-		parent::display($cachable, $safeurlparams);
+		
+		parent::display($cacheable, $safeurlparams);
 
 		return $this;
 	}
