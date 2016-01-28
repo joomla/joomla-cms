@@ -212,11 +212,10 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 *
 	 * @see     session_write_close()
 	 * @since   3.5
-	 * @throws  RuntimeException  If the session is saved without being started, or if the session is already closed.
 	 */
 	public function save()
 	{
-		// If running PHP 5.4, try to use the native API
+		// Verify if the session is active
 		if ((version_compare(PHP_VERSION, '5.4', 'ge') && PHP_SESSION_ACTIVE === session_status())
 			|| (version_compare(PHP_VERSION, '5.4', 'lt') && $this->started && isset($_SESSION) && $this->getId()))
 		{
