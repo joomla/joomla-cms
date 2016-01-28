@@ -25,15 +25,16 @@ abstract class ModVersionHelper
 	 */
 	public static function getVersion(&$params)
 	{
-		$version = new JVersion;
+		$version     = new JVersion;
 		$versionText = $version->getShortVersion();
+		$product     = $params->get('product', 0);
 
 		if ($params->get('format', 'short') === 'long')
 		{
 			$versionText = str_replace($version::PRODUCT . ' ', '', $version->getLongVersion());
 		}
 
-		if (!empty($params->get('product', 0)))
+		if (!empty($product))
 		{
 			$versionText = $version::PRODUCT . ' ' . $versionText;
 		}
