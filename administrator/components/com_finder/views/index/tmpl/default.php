@@ -61,12 +61,6 @@ JFactory::getDocument()->addScriptDeclaration('
 	<div id="j-main-container">
 <?php endif;?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-		<?php if (!$this->pluginState['plg_content_finder']->enabled) : ?>
-			<div class="alert fade in">
-				<button class="close" data-dismiss="alert">×</button>
-				<?php echo JText::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED'); ?>
-			</div>
-		<?php endif; ?>
 		<table class="table table-striped">
 			<thead>
 				<tr>

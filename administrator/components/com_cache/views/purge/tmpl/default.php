@@ -15,14 +15,15 @@ defined('_JEXEC') or die;
 		<?php echo $this->sidebar; ?>
 	</div>
 	<div id="j-main-container" class="span10">
-	<fieldset>
-		<legend><?php echo JText::_('COM_CACHE_PURGE_EXPIRED_ITEMS'); ?></legend>
-		<p><?php echo JText::_('COM_CACHE_PURGE_INSTRUCTIONS'); ?></p>
-	</fieldset>
-	<div class="alert">
-		<p><?php echo JText::_('COM_CACHE_RESOURCE_INTENSIVE_WARNING'); ?></p>
-	</div>
-	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
+		<fieldset>
+			<legend><?php echo JText::_('COM_CACHE_PURGE_EXPIRED_ITEMS'); ?></legend>
+			<p><?php echo JText::_('COM_CACHE_PURGE_INSTRUCTIONS'); ?></p>
+		</fieldset>
+		<div class="alert">
+			<p><?php echo JText::_('COM_CACHE_RESOURCE_INTENSIVE_WARNING'); ?></p>
+		</div>
+
+		<input type="hidden" name="task" value="" />
+		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

@@ -46,17 +46,6 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 		</div>
 	</div>
 	<div class="clearfix"> </div>
-	<?php if ($this->enabled) : ?>
-	<div class="alert alert-info">
-		<a class="close" data-dismiss="alert">×</a>
-		<?php echo JText::_('COM_SEARCH_LOGGING_ENABLED'); ?>
-	</div>
-	<?php else : ?>
-	<div class="alert alert-error">
-		<a class="close" data-dismiss="alert">×</a>
-		<?php echo JText::_('COM_SEARCH_LOGGING_DISABLED'); ?>
-	</div>
-	<?php endif; ?>
 	<?php if (empty($this->items)) : ?>
 		<div class="alert alert-no-items">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
