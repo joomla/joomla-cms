@@ -1201,7 +1201,7 @@ abstract class JModelAdmin extends JModelForm
 
 		$this->setState($this->getName() . '.new', $isNew);
 
-		if ($this->associationsContext && JLanguageAssociations::isEnabled())
+		if ($this->associationsContext && JLanguageAssociations::isEnabled() && !empty($data['associations']))
 		{
 			$associations = $data['associations'];
 

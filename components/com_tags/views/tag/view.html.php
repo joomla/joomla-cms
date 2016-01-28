@@ -261,11 +261,6 @@ class TagsViewTag extends JViewLegacy
 			{
 				$this->document->setMetadata('robots', $this->params->get('robots'));
 			}
-
-			if ($app->get('MetaAuthor') == '1')
-			{
-				$this->document->setMetaData('author', $itemElement->created_user_id);
-			}
 		}
 
 		// @TODO: create tag feed document

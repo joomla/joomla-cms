@@ -98,7 +98,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							<td>
 								<?php echo $item->name; ?>
 								<div class="small">
-									<?php echo $item->category_title; ?>
+									<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 								</div>
 							</td>
 							<td>

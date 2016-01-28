@@ -95,7 +95,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				$ver = new JVersion;
 
 				// Lower case and remove the exclamation mark
-				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
+				$product = strtolower(JFilterInput::getInstance()->clean($ver::PRODUCT, 'cmd'));
 
 				/*
 				 * Check that the product matches and that the version matches (optionally a regexp)
@@ -107,8 +107,8 @@ class JUpdaterExtension extends JUpdateAdapter
 				 */
 				if ($product == $this->currentUpdate->targetplatform['NAME']
 					&& preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', JVERSION)
-					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $ver->DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
-					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $ver->DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
+					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $ver::DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
+					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $ver::DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
 					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
 					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>='))

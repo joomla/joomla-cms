@@ -70,7 +70,7 @@ class JForm
 	/**
 	 * Form instances.
 	 *
-	 * @var    array
+	 * @var    JForm[]
 	 * @since  11.1
 	 */
 	protected static $forms = array();
@@ -78,7 +78,7 @@ class JForm
 	/**
 	 * Alows extensions to implement repeating elements
 	 *
-	 * @var    mixed
+	 * @var    boolean
 	 * @since  3.2
 	 */
 	public $repeat = false;
@@ -252,7 +252,7 @@ class JForm
 	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
 	 * @param   mixed   $value  The optional value to use as the default for the field.
 	 *
-	 * @return  mixed  The JFormField object for the field or boolean false on error.
+	 * @return  JFormField|boolean  The JFormField object for the field or boolean false on error.
 	 *
 	 * @since   11.1
 	 */
@@ -1136,7 +1136,7 @@ class JForm
 	 * @param   string  $group  The optional dot-separated form group path on which to filter the
 	 *                          fields to be validated.
 	 *
-	 * @return  mixed  True on sucess.
+	 * @return  boolean  True on sucess.
 	 *
 	 * @since   11.1
 	 */
@@ -1478,7 +1478,7 @@ class JForm
 	 * @param   string  $name   The name of the form field.
 	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
 	 *
-	 * @return  mixed  The XML element object for the field or boolean false on error.
+	 * @return  SimpleXMLElement|boolean  The XML element object for the field or boolean false on error.
 	 *
 	 * @since   11.1
 	 */
@@ -1570,7 +1570,7 @@ class JForm
 	 *
 	 * @param   string  $name  The name of the fieldset.
 	 *
-	 * @return  mixed  Boolean false on error or array of SimpleXMLElement objects.
+	 * @return  SimpleXMLElement[]|boolean  Boolean false on error or array of SimpleXMLElement objects.
 	 *
 	 * @since   11.1
 	 */
@@ -1604,7 +1604,7 @@ class JForm
 	 * @param   boolean  $nested  True to also include fields in nested groups that are inside of the
 	 *                            group for which to find fields.
 	 *
-	 * @return  mixed  Boolean false on error or array of SimpleXMLElement objects.
+	 * @return  SimpleXMLElement[]|boolean  Boolean false on error or array of SimpleXMLElement objects.
 	 *
 	 * @since   11.1
 	 */
@@ -1677,7 +1677,7 @@ class JForm
 	 *
 	 * @param   string  $group  The dot-separated form group path on which to find the group.
 	 *
-	 * @return  mixed  An array of XML element objects for the group or boolean false on error.
+	 * @return  SimpleXMLElement[]|boolean  An array of XML element objects for the group or boolean false on error.
 	 *
 	 * @since   11.1
 	 */
@@ -1761,7 +1761,7 @@ class JForm
 	 * @param   string  $group    The optional dot-separated form group path on which to find the field.
 	 * @param   mixed   $value    The optional value to use as the default for the field.
 	 *
-	 * @return  mixed  The JFormField object for the field or boolean false on error.
+	 * @return  JFormField|boolean  The JFormField object for the field or boolean false on error.
 	 *
 	 * @since   11.1
 	 */
@@ -1833,7 +1833,7 @@ class JForm
 	 * @param   string   $type  The field type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  mixed  JFormField object on success, false otherwise.
+	 * @return  JFormField|boolean  JFormField object on success, false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -1848,7 +1848,7 @@ class JForm
 	 * @param   string   $type  The rule type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  mixed  JFormRule object on success, false otherwise.
+	 * @return  JFormRule|boolean  JFormRule object on success, false otherwise.
 	 *
 	 * @see     JFormHelper::loadRuleType()
 	 * @since   11.1
@@ -1919,7 +1919,7 @@ class JForm
 	 * @param   Registry          $input    An optional Registry object with the entire data set to validate
 	 *                                      against the entire form.
 	 *
-	 * @return  mixed  Boolean true if field value is valid, Exception on failure.
+	 * @return  boolean  Boolean true if field value is valid, Exception on failure.
 	 *
 	 * @since   11.1
 	 * @throws  InvalidArgumentException
@@ -2052,7 +2052,7 @@ class JForm
 	 *                                    already exists with the same group/name.
 	 * @param   string|boolean  $xpath    An optional xpath to search for the fields.
 	 *
-	 * @return  object  JForm instance.
+	 * @return  JForm  JForm instance.
 	 *
 	 * @since   11.1
 	 * @throws  InvalidArgumentException if no data provided.

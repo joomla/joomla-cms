@@ -569,15 +569,30 @@ class TemplatesModelTemplate extends JModelForm
 
 			foreach ($components as $component)
 			{
-				$viewPath = JPath::clean($componentPath . '/' . $component . '/views/');
+				if (file_exists($componentPath . '/' . $component . '/views/'))
+				{
+					$viewPath = JPath::clean($componentPath . '/' . $component . '/views/');
+				}
+				elseif (file_exists($componentPath . '/' . $component . '/view/'))
+				{
+					$viewPath = JPath::clean($componentPath . '/' . $component . '/view/');
+				}
+				else
+				{
+					$viewPath = '';
+				}
 
-				if (file_exists($viewPath))
+				if ($viewPath)
 				{
 					$views = JFolder::folders($viewPath);
 
 					foreach ($views as $view)
 					{
-						$result['components'][$component][] = $this->getOverridesFolder($view, $viewPath);
+						// Only show the view has layout inside it
+						if (file_exists($viewPath . $view . '/tmpl'))
+						{
+							$result['components'][$component][] = $this->getOverridesFolder($view, $viewPath);
+						}
 					}
 				}
 			}

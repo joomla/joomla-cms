@@ -86,7 +86,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th width="10%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="nowrap hidden-phone">
+					<th width="10%" class="nowrap hidden-phone">
 						<?php
 						echo JHtml::_(
 							'grid.sort',
@@ -146,7 +146,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php if ($item->language == '*'): ?>
 								<?php echo JText::alt('JALL', 'language'); ?>
 							<?php else: ?>
-								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 							<?php endif; ?>
 						</td>
 						<td class="center hidden-phone">
