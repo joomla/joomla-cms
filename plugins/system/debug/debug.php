@@ -1841,7 +1841,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * @return  string  The call stack and back trace in HMTL format.
 	 *
-	 * @since   3.6
+	 * @since   3.5
 	 */
 	protected function renderCallStack(array $callStack = array())
 	{
@@ -1933,7 +1933,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * @return  string  The json string pretty printed.
 	 *
-	 * @since   3.6
+	 * @since   3.5
 	 */
 	protected function prettyPrintJSON($json = '')
 	{
