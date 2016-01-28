@@ -216,11 +216,6 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 */
 	public function save()
 	{
-		if (!$this->isStarted())
-		{
-			throw new RuntimeException('The session is not started.');
-		}
-
 		$session = JFactory::getSession();
 		$data    = $session->getData();
 
