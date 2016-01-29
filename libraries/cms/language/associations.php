@@ -138,7 +138,7 @@ class JLanguageAssociations
 	/**
 	 * Get the associations links.
 	 *
-	 * @param   boolean  $addFallbackLinks  If we want the last resort to add the fallback language homepage link or global default homepage.
+	 * @param   boolean  $addFallbackLinks  If it should return, as last resort, the fallback language homepage link or, if doesn't exist, the global default homepage.
 	 *
 	 * @return  array  The associated items links.
 	 *

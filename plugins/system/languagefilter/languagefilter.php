@@ -610,7 +610,8 @@ class PlgSystemLanguageFilter extends JPlugin
 			// If there are at least 2 of them, add the rel="alternate" links to the <head>
 			if (count($assocLinks) > 1)
 			{
-				$server = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
+				$langTag = JFactory::getLanguage()->getTag();
+				$server  = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
 
 				// Remove the sef from the default language if "Remove URL Language Code" is on
 				if (isset($assocLinks[$this->default_lang]) && $this->params->get('remove_default_prefix', 0))
@@ -619,10 +620,13 @@ class PlgSystemLanguageFilter extends JPlugin
 					$assocLinks[$this->default_lang] = preg_replace('#^/index\.php$#', '/', $assocLinks[$this->default_lang], 1);
 				}
 
-				// Add the language alternate links meta tags to the head.
+				// Add the language alternate links meta tags to the head, but not for the current language.
 				foreach ($assocLinks as $langCode => $assocLink)
 				{
-					$doc->addHeadLink($server . $assocLink, 'alternate', 'rel', array('hreflang' => $langCode));
+					if ($langCode !== $langTag)
+					{
+						$doc->addHeadLink($server . $assocLink, 'alternate', 'rel', array('hreflang' => $langCode));
+					}
 				}
 
 				// Add x-default language tag.
