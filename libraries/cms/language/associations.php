@@ -36,7 +36,8 @@ class JLanguageAssociations
 	 *
 	 * @throws  Exception
 	 */
-	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid', $onlyIds = false)
+	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid',
+		$onlyIds = false)
 	{
 		// To avoid doing duplicate database queries.
 		static $multilanguageAssociations = array();
@@ -138,7 +139,8 @@ class JLanguageAssociations
 	/**
 	 * Get the associations links.
 	 *
-	 * @param   boolean  $addFallbackLinks  If it should return, as last resort, the fallback language homepage link or, if doesn't exist, the global default homepage.
+	 * @param   boolean  $addFallbackLinks  If it should return, as last resort, the fallback language homepage link
+	 *                                      or, if doesn't exist, the global default homepage.
 	 *
 	 * @return  array  The associated items links.
 	 *
@@ -232,7 +234,7 @@ class JLanguageAssociations
 									$item = $menu->getItem($homepages['*']->id);
 								}
 								$associationLinks[$i] = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
-								
+
 								// If not in home this is a fall back link for the language switcher.
 								if (!$isHome)
 								{
@@ -245,8 +247,8 @@ class JLanguageAssociations
 			}
 		}
 
-		// Final check in return array.
-		// If don't want the fallback assocaition links. remove then (we don't need it in language filter alternate meta tags, but we need it in the alanguage switcher).
+		// Remove the the fallback association links if needed (we don't need it in language filter alternate meta tags,
+		// but we need it for the language switcher).
 		$associations = array_merge($associationLinks);
 		if (count($associations) > 0)
 		{

@@ -140,8 +140,8 @@ class JLanguageMultilang
 		if (is_null($languages))
 		{
 			// Check what languages fullfill the requirements.
-			$homepages = JLanguageMultilang::getSiteHomePages();
-			$languages = array_intersect_key(JLanguageHelper::getLanguages('lang_code'), JLanguageMultilang::getSiteLangs(), $homepages);
+			$homepages = self::getSiteHomePages();
+			$languages = array_intersect_key(JLanguageHelper::getLanguages('lang_code'), self::getSiteLangs(), $homepages);
 			$levels    = JFactory::getUser()->getAuthorisedViewLevels();
 
 			foreach ($languages as $i => $language)
