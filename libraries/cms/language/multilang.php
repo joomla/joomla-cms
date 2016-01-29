@@ -163,7 +163,7 @@ class JLanguageMultilang
 				// Do not display languages without an ini file.
 				if (!is_file(JPATH_SITE . '/language/' . $language->lang_code . '/' . $language->lang_code . '.ini'))
 				{
-					unset($languages['lang_code'][$index]);
+					unset($languages[$i]);
 					continue;
 				}
 
