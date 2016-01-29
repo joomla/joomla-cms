@@ -175,4 +175,3 @@ class JLanguageMultilang
 		return $languages;
 	}
 }
-}
