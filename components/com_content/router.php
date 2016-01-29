@@ -41,7 +41,9 @@ class ContentRouter extends JComponentRouterView
 
 		$this->attachRule(new JComponentRouterRulesMenu($this));
 
-		if ($this->app->get('sef_advanced', 0))
+		$params = JComponentHelper::getParams('com_content');
+
+		if ($params->get('sef_advanced', 0))
 		{
 			$this->attachRule(new JComponentRouterRulesStandard($this));
 		}
