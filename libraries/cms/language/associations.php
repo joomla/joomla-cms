@@ -170,9 +170,6 @@ class JLanguageAssociations
 					$menu                 = $app->getMenu();
 					$activeMenu           = $menu->getActive();
 					$isHome               = (isset($activeMenu) && $languages[$langTag]->homeid == $activeMenu->id);
-					$languageFilterPlugin = JPluginHelper::getPlugin('system', 'languagefilter');
-					$languageFilterParams = new Registry($languageFilterPlugin->params);
-					$removeDefaultPrefix  = $languageFilterParams->get('remove_default_prefix', 0);
 
 					// If is not the homepage, multilanguage associations are enable and associations is enabled load the associations.
 					if (!$isHome && self::isEnabled())
@@ -235,14 +232,13 @@ class JLanguageAssociations
 									$item = $menu->getItem($homepages['*']->id);
 								}
 								$associationLinks[$i] = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
-								$languagesWithFallback[$i] = 1;
+								
+								// If not in home this is a fall back link for the language switcher.
+								if (!$isHome)
+								{
+									$languagesWithFallback[$i] = 1;
+								}
 								break;
-						}
-
-						// Removes the default prefix when enabled in the language filter.
-						if ($i === $langTag && $removeDefaultPrefix)
-						{
-							$associationLinks[$i] = preg_replace('#^/' . $language->sef . '/#', '/', $associationLinks[$i], 1);
 						}
 					}
 				}
@@ -256,7 +252,7 @@ class JLanguageAssociations
 		{
 			if (!$addFallbackLinks)
 			{
-				$associations = array_intersect_key($associationLinks, $languagesWithFallback);
+				$associations = array_diff_key($associationLinks, $languagesWithFallback);
 			}
 		}
 

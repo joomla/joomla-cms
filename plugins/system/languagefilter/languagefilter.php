@@ -614,6 +614,13 @@ class PlgSystemLanguageFilter extends JPlugin
 			{
 				$server = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
 
+				// Remove the sef from the default language if "Remove URL Language Code" is on
+				if (isset($assocLinks[$this->default_lang]) && $this->params->get('remove_default_prefix', 0))
+				{
+					$assocLinks[$this->default_lang] = preg_replace('#^/(|index\.php/)' . $this->lang_codes[$this->default_lang]->sef . '/#', '/$1', $assocLinks[$this->default_lang], 1);
+					$assocLinks[$this->default_lang] = preg_replace('#^/index\.php$#', '/', $assocLinks[$this->default_lang], 1);
+				}
+
 				// Add the language alternate links meta tags to the head.
 				foreach ($assocLinks as $langCode => $assocLink)
 				{
