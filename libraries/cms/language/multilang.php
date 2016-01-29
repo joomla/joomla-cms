@@ -152,12 +152,21 @@ class JLanguageMultilang
 					unset($languages[$i]);
 					continue;
 				}
+
 				// Do not display language without authorized access level in the home menu item id.
 				if (isset($homepages[$i]->level) && $homepages[$i]->level && !in_array($homepages[$i]->level, $levels))
 				{
 					unset($languages[$i]);
 					continue;
 				}
+
+				// Do not display languages without an ini file.
+				if (!is_file(JPATH_SITE . '/language/' . $language->lang_code . '/' . $language->lang_code . '.ini'))
+				{
+					unset($languages['lang_code'][$index]);
+					continue;
+				}
+
 				// Set the home id for the language.
 				$languages[$i]->homeid = $homepages[$i]->id;
 			}
