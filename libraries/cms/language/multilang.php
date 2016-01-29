@@ -112,7 +112,7 @@ class JLanguageMultilang
 			$query = $db->getQuery(true)
 				->select('language')
 				->select('id')
-				->select('level')
+				->select('access')
 				->from($db->quoteName('#__menu'))
 				->where('home = 1')
 				->where('published = 1')
@@ -154,7 +154,7 @@ class JLanguageMultilang
 				}
 
 				// Do not display language without authorized access level in the home menu item id.
-				if (isset($homepages[$i]->level) && $homepages[$i]->level && !in_array($homepages[$i]->level, $levels))
+				if (isset($homepages[$i]->access) && $homepages[$i]->access && !in_array($homepages[$i]->access, $levels))
 				{
 					unset($languages[$i]);
 					continue;
