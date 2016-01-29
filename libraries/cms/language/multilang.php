@@ -112,6 +112,7 @@ class JLanguageMultilang
 			$query = $db->getQuery(true)
 				->select('language')
 				->select('id')
+				->select('level')
 				->from($db->quoteName('#__menu'))
 				->where('home = 1')
 				->where('published = 1')
