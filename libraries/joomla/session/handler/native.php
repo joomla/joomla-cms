@@ -212,25 +212,24 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 *
 	 * @see     session_write_close()
 	 * @since   3.5
-	 * @throws  RuntimeException  If the session is saved without being started, or if the session is already closed.
 	 */
 	public function save()
 	{
-		if (!$this->isStarted())
+		// Verify if the session is active
+		if ((version_compare(PHP_VERSION, '5.4', 'ge') && PHP_SESSION_ACTIVE === session_status())
+			|| (version_compare(PHP_VERSION, '5.4', 'lt') && $this->started && isset($_SESSION) && $this->getId()))
 		{
-			throw new RuntimeException('The session is not started.');
+			$session = JFactory::getSession();
+			$data    = $session->getData();
+
+			// Before storing it, let's serialize and encode the JRegistry object
+			$_SESSION['joomla'] = base64_encode(serialize($data));
+
+			session_write_close();
+
+			$this->closed  = true;
+			$this->started = false;
 		}
-
-		$session = JFactory::getSession();
-		$data    = $session->getData();
-
-		// Before storing it, let's serialize and encode the JRegistry object
-		$_SESSION['joomla'] = base64_encode(serialize($data));
-
-		session_write_close();
-
-		$this->closed  = true;
-		$this->started = false;
 	}
 
 	/**
