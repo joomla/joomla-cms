@@ -7517,3 +7517,6 @@ body.modal-open {
 #finder-search .in.collapse {
 	overflow: visible;
 }
+select {
+	width: 100% !important;
+}
