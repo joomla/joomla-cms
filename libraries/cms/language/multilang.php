@@ -127,7 +127,7 @@ class JLanguageMultilang
 
 	/**
 	 * Get available languages. A available language is published, the language extension is enabled,
-	 * has a homepage menu item, the user can view the language and the homepage and the directory of the language exists.	 
+	 * has a homepage menu item, the user can view the language and the homepage, and the ini language file exists.	 
 	 *
 	 * @return  array  An array with all available languages.
 	 *
