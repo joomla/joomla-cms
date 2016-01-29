@@ -35,15 +35,20 @@ class JLanguageAssociations
 	 *
 	 * @throws  Exception
 	 */
-	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid')
+	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid', $onlyIds = false)
 	{
 		// To avoid doing duplicate database queries.
 		static $multilanguageAssociations = array();
 
-		// Multilanguage association array key. If the key is already in the array we don't need to run the query again, just return it.
-		$queryKey = implode('|', func_get_args());
+		// Multilanguage association memory cache key (ignore onlyIds parameter).
+		$argsToCache = func_get_args();
+		unset($argsToCache[count($argsToCache) - 1]);
+		$queryKey = md5(serialize($argsToCache));
+
+		// If fetched before, don't fetch again.
 		if (!isset($multilanguageAssociations[$queryKey]))
 		{
+			// Set it as an empty array by default.
 			$multilanguageAssociations[$queryKey] = array();
 
 			$db = JFactory::getDbo();
@@ -109,7 +114,7 @@ class JLanguageAssociations
 			{
 				foreach ($items as $tag => $item)
 				{
-					// Do not return itself as result
+					// Do not return itself as result.
 					if ((int) $item->{$pk} != $id)
 					{
 						$multilanguageAssociations[$queryKey][$tag] = $item;
@@ -118,7 +123,15 @@ class JLanguageAssociations
 			}
 		}
 
-		return $multilanguageAssociations[$queryKey];
+		// Checks if we want to return the menu item id or the object.
+		$associations = array();
+		foreach ($multilanguageAssociations[$queryKey] as $tag => $item)
+		{
+			// Do not return itself as result.
+			$associations[$tag] = ($onlyIds) ? $item->id : $item;
+		}
+
+		return $associations;
 	}
 
 	/**
@@ -131,26 +144,26 @@ class JLanguageAssociations
 	 */
 	public static function isEnabled()
 	{
-		// Flag to avoid doing multiple database queries.
-		static $tested = false;
+		static $enabled = null;
 
-		// Status of language filter parameter.
-		static $enabled = false;
+		// If already tested, don't test again. Return the previous result.
+		if (!is_null($enabled))
+		{
+			return $enabled;
+		}
 
+		// Set it as false by default.
+		$enabled = false;
+
+		// If multilanguage is enabled, languague filter plugin is enabled and item_association param is set, return true.
 		if (JLanguageMultilang::isEnabled())
 		{
-			// If already tested, don't test again.
-			if (!$tested)
+			$plugin = JPluginHelper::getPlugin('system', 'languagefilter');
+
+			if (!empty($plugin))
 			{
-				$plugin = JPluginHelper::getPlugin('system', 'languagefilter');
-
-				if (!empty($plugin))
-				{
-					$params = new Registry($plugin->params);
-					$enabled  = (boolean) $params->get('item_associations', true);
-				}
-
-				$tested = true;
+				$params = new Registry($plugin->params);
+				$enabled  = (boolean) $params->get('item_associations', true);
 			}
 		}
 
