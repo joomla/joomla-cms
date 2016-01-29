@@ -149,9 +149,6 @@ class JLanguageAssociations
 		// To avoid doing duplicate processing.
 		static $associationLinks = null;
 
-		$app  = JFactory::getApplication();
-		$menu = $app->getMenu();
-
 		// If not yet fetched, fetch the associations array.
 		if (is_null($associationLinks))
 		{
@@ -160,38 +157,18 @@ class JLanguageAssociations
 			// If multilanguage is enabled.
 			if (JLanguageMultilang::isEnabled())
 			{
+				
 				// Check what languages fullfill the requirements.
-				$homepages        = JLanguageMultilang::getSiteHomePages();
-				$languages        = array_intersect_key(JLanguageHelper::getLanguages('lang_code'), JLanguageMultilang::getSiteLangs(), $homepages);
-				$levels           = JFactory::getUser()->getAuthorisedViewLevels();
-
-				foreach ($languages as $i => $language)
-				{
-					// Do not display language without authorized access level in the language.
-					if (isset($language->access) && $language->access && !in_array($language->access, $levels))
-					{
-						unset($languages[$i]);
-						continue;
-					}
-					// Do not display language without authorized access level in the home menu item id.
-					if (isset($homepages[$i]->level) && $homepages[$i]->level && !in_array($homepages[$i]->level, $levels))
-					{
-						unset($languages[$i]);
-						continue;
-					}
-					// Set the home id for the language.
-					$languages[$i]->homeid = $homepages[$i]->id;
-				}
+				$languages = JLanguageMultilang::getAvailableLanguages();
 
 				// If any language left to process.
 				if (count($languages) > 0)
 				{
-					$lang             = JFactory::getLanguage();
-					$langTag          = $lang->getTag();
-					$activeMenu       = $menu->getActive();
-					$isHome           = (isset($activeMenu) && $languages[$langTag]->homeid == $activeMenu->id);
-					$cassociations    = array();
-					$associations     = array();
+					$langTag       = JFactory::getLanguage()->getTag();
+					$app           = JFactory::getApplication();
+					$menu          = $app->getMenu();
+					$activeMenu    = $menu->getActive();
+					$isHome        = (isset($activeMenu) && $languages[$langTag]->homeid == $activeMenu->id);
 
 					// If is not the homepage, multilanguage associations are enable and associations is enabled load the associations.
 					if (!$isHome && self::isEnabled())
@@ -206,7 +183,6 @@ class JLanguageAssociations
 						}
 					}
 
-					$internalUri = '';
 					// For each language get the association link.
 					foreach ($languages as $i => $language)
 					{
@@ -224,19 +200,19 @@ class JLanguageAssociations
 								break;
 
 							// If there is a menu item association for the current URI the association is that association in this language.
-							case (isset($activeMenu) && isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
+							case (isset($activeMenu) && isset($associations) && isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
 								$associationLinks[$i] = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
 								break;
 
 							// If there is a component association (ex: category) for the current URI the association is that association in this language.
-							case (isset($cassociations[$i])):
+							case (isset($cassociations) && isset($cassociations[$i])):
 								$associationLinks[$i] = JRoute::_($cassociations[$i] . '&lang=' . $language->sef);
 								break;
 
 							// If current URI is a component without menu item (no active menu, ex: /en/component/content/),
 							// associated URI for this language will be the version of the component in the language (ex: /fr/component/content/).
 							case (!isset($activeMenu)):
-								if (empty($internalUri))
+								if (!isset($internalUri))
 								{
 									$internalUri = http_build_query($app->getRouter()->getVars(array_diff_key($app->getRouter()->getVars(), array('lang' => ''))));
 								}
@@ -245,7 +221,18 @@ class JLanguageAssociations
 
 							// If no association ... set to this language home page menu item id or (if not exists) to the default global menu id to be treated after.
 							default:
-								$associationLinks[$i] = ($item = $menu->getItem($language->homeid)) ? $language->homeid : $homepages['*']->id;
+								if (($item = $menu->getItem($language->homeid)))
+								{
+									$associationLinks[$i] = $language->homeid;
+								}
+								else
+								{
+									if (!isset($homepages))
+									{
+										$homepages = JLanguageMultilang::getSiteHomePages();
+									}
+									$associationLinks[$i] = $homepages['*']->id;
+								}
 								break;
 						}
 					}
@@ -264,6 +251,10 @@ class JLanguageAssociations
 				// If we want as a last resort that the association link is the language homepage (used in language switcher module links).
 				if ($lastHome)
 				{
+					if (!isset($menu))
+					{
+						$menu = JFactory::getApplication()->getMenu();
+					}
 					$item = $menu->getItem($associationLink);
 					$associations[$i] = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $i);
 				}
