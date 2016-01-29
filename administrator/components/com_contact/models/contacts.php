@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -181,6 +181,7 @@ class ContactModelContacts extends JModelList
 
 		// Join over the language
 		$query->select($db->quoteName('l.title', 'language_title'))
+			->select($db->quoteName('l.image', 'language_image'))
 			->join(
 				'LEFT',
 				$db->quoteName('#__languages', 'l') . ' ON ' . $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language')
@@ -226,10 +227,26 @@ class ContactModelContacts extends JModelList
 					$db->quoteName(
 						array(
 							'a.id',
-							'ul.name',
-							'l.title',
-							'uc.name',
-							'ag.title',
+							'a.name',
+							'a.alias',
+							'a.checked_out',
+							'a.checked_out_time',
+							'a.catid',
+							'a.user_id',
+							'a.published',
+							'a.access',
+							'a.created',
+							'a.created_by',
+							'a.ordering',
+							'a.featured',
+							'a.language',
+							'a.publish_up',
+							'a.publish_down',
+							'ul.name' ,
+							'ul.email',
+							'l.title' ,
+							'uc.name' ,
+							'ag.title' ,
 							'c.title'
 						)
 					)

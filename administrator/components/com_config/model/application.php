@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -331,25 +331,24 @@ class ConfigModelApplication extends ConfigModelForm
 	/**
 	 * Method to store the permission values in the asset table.
 	 *
-	 * This method will get an arrray with permission key value paires and transform it
+	 * This method will get an array with permission key value pairs and transform it
 	 * into json and update the asset table in the database.
 	 *
-	 * @param   string  $array  Need an Array with Permissions (component, rule, value and title)
+	 * @param   string  $permission  Need an array with Permissions (component, rule, value and title)
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   3.5
 	 */
-	public function storePermissions($array)
+	public function storePermissions($permission)
 	{
-
 		try
 		{
-			// Create a new query object.
-			$query = $this->db->getQuery(true);
-			$query->select($this->db->quoteName(array('name', 'rules')))
-					->from($this->db->quoteName('#__assets'))
-					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($array['component']));
+			// Load the current settings for this component
+			$query = $this->db->getQuery(true)
+				->select($this->db->quoteName(array('name', 'rules')))
+				->from($this->db->quoteName('#__assets'))
+				->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
 
 			$this->db->setQuery($query);
 
@@ -359,14 +358,14 @@ class ConfigModelApplication extends ConfigModelForm
 			if (empty($results))
 			{
 				$data = array();
-				$data[$array['action']] = array();
-				$data[$array['action']] = array($array['rule'] => $array['value']);
+				$data[$permission['action']] = array();
+				$data[$permission['action']] = array($permission['rule'] => $permission['value']);
 
 				$rules = new JAccessRules($data);
 				$asset = JTable::getInstance('asset');
 				$asset->rules = (string) $rules;
-				$asset->name  = (string) $array['component'];
-				$asset->title = (string) $array['title'];
+				$asset->name  = (string) $permission['component'];
+				$asset->title = (string) $permission['title'];
 
 				if (!$asset->check() || !$asset->store())
 				{
@@ -379,44 +378,98 @@ class ConfigModelApplication extends ConfigModelForm
 			}
 			else
 			{
+				// Decode the rule settings
 				$temp = json_decode($results[0]['rules'], true);
 
-				if (isset($array['value']))
+				// Check if a new value is to be set
+				if (isset($permission['value']))
 				{
-					if (!isset($temp[$array['action']]))
+					// Check if we already have an action entry
+					if (!isset($temp[$permission['action']]))
 					{
-						$temp[$array['action']] = array();
+						$temp[$permission['action']] = array();
 					}
 
-					if (!isset($temp[$array['action']][$array['rule']]))
+					// Check if we already have a rule entry
+					if (!isset($temp[$permission['action']][$permission['rule']]))
 					{
-						$temp[$array['action']][$array['rule']] = array($array['rule'] => $array['value']);
+						$temp[$permission['action']][$permission['rule']] = array();
 					}
 
-					$temp[$array['action']][$array['rule']] = intval($array['value']);
+					// Set the new permission
+					$temp[$permission['action']][$permission['rule']] = intval($permission['value']);
+
+					// Check if we have an inherited setting
+					if (strlen($permission['value']) == 0)
+					{
+						unset($temp[$permission['action']][$permission['rule']]);
+					}
 				}
 				else
 				{
-					unset($temp[$array['action']]);
+					// There is no value so remove the action as it's not needed
+					unset($temp[$permission['action']]);
 				}
 
+				// Store the new permissions
 				$temp  = json_encode($temp);
-				$query = $this->db->getQuery(true);
-
-				$query->update($this->db->quoteName('#__assets'))
+				$query = $this->db->getQuery(true)
+					->update($this->db->quoteName('#__assets'))
 					->set('rules = ' . $this->db->quote($temp))
-					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($array['component']));
+					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
 
 				$this->db->setQuery($query);
 
 				$result = $this->db->execute();
 
-				return $result;
+				return (bool) $result;
 			}
 		}
 		catch (Exception $e)
 		{
 			return $e->getMessage();
 		}
+	}
+
+	/**
+	 * Method to send a test mail which is called via an AJAX request
+	 *
+	 * @return bool
+	 *
+	 * @since   3.5
+	 * @throws Exception
+	 */
+	public function sendTestMail()
+	{
+		// Set the new values to test with the current settings
+		$app = JFactory::getApplication();
+		$input = $app->input;
+
+		$app->set('smtpauth', $input->get('smtpauth'));
+		$app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
+		$app->set('smtppass', $input->get('smtppass', '', 'RAW'));
+		$app->set('smtphost', $input->get('smtphost'));
+		$app->set('smtpsecure', $input->get('smtpsecure'));
+		$app->set('smtpport', $input->get('smtpport'));
+		$app->set('mailfrom', $input->get('mailfrom', '', 'STRING'));
+		$app->set('fromname', $input->get('fromname', '', 'STRING'));
+		$app->set('mailer', $input->get('mailer'));
+		$app->set('mailonline', $input->get('mailonline'));
+
+		// Prepare email and send try to send it
+		$mailSubject = JText::sprintf('COM_CONFIG_SENDMAIL_SUBJECT', $app->get('sitename'));
+		$mailBody    = JText::sprintf('COM_CONFIG_SENDMAIL_BODY', JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($app->get('mailer'))));
+
+		if (JFactory::getMailer()->sendMail($app->get('mailfrom'), $app->get('fromname'), $app->get('mailfrom'), $mailSubject, $mailBody) === true)
+		{
+			$methodName = JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($app->get('mailer')));
+			$app->enqueueMessage(JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $app->get('mailfrom'), $methodName), 'success');
+
+			return true;
+		}
+
+		$app->enqueueMessage(JText::_('COM_CONFIG_SENDMAIL_ERROR'), 'error');
+
+		return false;
 	}
 }

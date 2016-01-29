@@ -98,7 +98,6 @@ INSERT INTO "#__menu" VALUES
 (9,'menu','com_contact_categories','Categories','','Contacts/Categories','index.php?option=com_categories&extension=com_contact','component',0,7,2,6,0,'1970-01-01 00:00:00',0,0,'class:contact-cat',0,'',36,37,0,'*',1),
 (10,'menu','com_messages','Messaging','','Messaging','index.php?option=com_messages','component',0,1,1,15,0,'1970-01-01 00:00:00',0,0,'class:messages',0,'',39,44,0,'*',1),
 (11,'menu','com_messages_add','New Private Message','','Messaging/New Private Message','index.php?option=com_messages&task=message.add','component',0,10,2,15,0,'1970-01-01 00:00:00',0,0,'class:messages-add',0,'',40,41,0,'*',1),
-(12,'menu','com_messages_read','Read Private Message','','Messaging/Read Private Message','index.php?option=com_messages','component',0,10,2,15,0,'1970-01-01 00:00:00',0,0,'class:messages-read',0,'',42,43,0,'*',1),
 (13,'menu','com_newsfeeds','News Feeds','','News Feeds','index.php?option=com_newsfeeds','component',0,1,1,17,0,'1970-01-01 00:00:00',0,0,'class:newsfeeds',0,'',45,50,0,'*',1),
 (14,'menu','com_newsfeeds_feeds','Feeds','','News Feeds/Feeds','index.php?option=com_newsfeeds','component',0,13,2,17,0,'1970-01-01 00:00:00',0,0,'class:newsfeeds',0,'',46,47,0,'*',1),
 (15,'menu','com_newsfeeds_categories','Categories','','News Feeds/Categories','index.php?option=com_categories&extension=com_newsfeeds','component',0,13,2,6,0,'1970-01-01 00:00:00',0,0,'class:newsfeeds-cat',0,'',48,49,0,'*',1),

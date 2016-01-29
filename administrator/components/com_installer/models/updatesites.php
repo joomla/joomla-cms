@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,6 +71,8 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		$group = $this->getUserStateFromRequest($this->context . '.filter.group', 'filter_group', '');
 		$this->setState('filter.group', $group);
+
+		$this->setState('list.ordering', 'name');
 
 		parent::populateState('name', 'asc');
 	}

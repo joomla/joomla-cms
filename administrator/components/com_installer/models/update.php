@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,6 +75,7 @@ class InstallerModelUpdate extends JModelList
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
+		$this->setState('list.ordering', 'name');
 
 		parent::populateState('name', 'asc');
 	}
@@ -95,35 +96,38 @@ class InstallerModelUpdate extends JModelList
 		$group = $this->getState('filter.group');
 
 		// Grab updates ignoring new installs
-		$query->select('*')
-			->from('#__updates')
-			->where('extension_id != 0')
-			->order($this->getState('list.ordering') . ' ' . $this->getState('list.direction'));
+		$query = $db->getQuery(true)
+			->select('u.*')
+			->select('e.manifest_cache')
+			->from($db->quoteName('#__updates', 'u'))
+			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('u.extension_id'))
+			->where($db->quoteName('u.extension_id') . ' != 0')
+			->order($db->quoteName('u.' . $this->getState('list.ordering')) . ' ' . $this->getState('list.direction'));
 
 		if ($type)
 		{
-			$query->where('type=' . $db->quote($type));
+			$query->where('u.type = ' . $db->quote($type));
 		}
 
 		if ($client != '')
 		{
-			$query->where('client_id = ' . intval($client));
+			$query->where('u.client_id = ' . intval($client));
 		}
 
 		if ($group != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where('folder=' . $db->quote($group == '*' ? '' : $group));
+			$query->where('u.folder = ' . $db->quote($group == '*' ? '' : $group));
 		}
 
 		// Filter by extension_id
 		if ($eid = $this->getState('filter.extension_id'))
 		{
-			$query->where($db->quoteName('extension_id') . ' = ' . $db->quote((int) $eid));
+			$query->where($db->quoteName('u.extension_id') . ' = ' . $db->quote((int) $eid));
 		}
 		else
 		{
-			$query->where($db->quoteName('extension_id') . ' != ' . $db->quote(0))
-				->where($db->quoteName('extension_id') . ' != ' . $db->quote(700));
+			$query->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(0))
+				->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(700));
 		}
 
 		// Filter by search
@@ -132,7 +136,7 @@ class InstallerModelUpdate extends JModelList
 		if (!empty($search))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('name LIKE ' . $search);
+			$query->where('u.name LIKE ' . $search);
 		}
 
 		return $query;

@@ -19,7 +19,7 @@ function sendPermissions(event) {
 
 	if (option == 'com_config' && component == false && extension == false)
 	{
-		asset = 'com_config';
+		asset = 'root.1';
 	}
 	else if (extension == false && view == 'component'){
 		asset = component;

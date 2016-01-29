@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset addfieldpath="/administrator/components/com_installer/models/fields"/>
+
+    <fields name="filter">
+        <field
+                name="search"
+                type="text"
+                hint="JSEARCH_FILTER"
+                />
+
+        <field
+                name="enabled"
+                type="list"
+                label="COM_PLUGINS_FILTER_PUBLISHED"
+                description="COM_PLUGINS_FILTER_PUBLISHED_DESC"
+                onchange="this.form.submit();"
+                >
+            <option value="">JOPTION_SELECT_PUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+            <option value="1">JPUBLISHED</option>
+        </field>
+
+        <field
+                name="client_id"
+                type="location"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_INSTALLER_VALUE_CLIENT_SELECT</option>
+        </field>
+    
+        <field
+                name="type"
+                type="type"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_INSTALLER_VALUE_TYPE_SELECT</option>
+        </field>
+
+        <field
+                name="group"
+                type="folder"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_INSTALLER_VALUE_FOLDER_SELECT</option>
+        </field>
+
+    </fields>
+    <fields name="list">
+        <field
+                name="limit"
+                type="limitbox"
+                class="input-mini"
+                default="25"
+                onchange="this.form.submit();"
+                />
+    </fields>
+</form>

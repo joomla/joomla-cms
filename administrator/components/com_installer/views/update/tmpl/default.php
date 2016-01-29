@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,20 +30,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<?php if ($this->ftp) : ?>
 		<?php echo $this->loadTemplate('ftp'); ?>
 	<?php endif; ?>
-	<div id="filter-bar" class="btn-toolbar">
-		<div class="btn-group pull-right hidden-phone">
-			<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
-			<?php echo $this->pagination->getLimitBox(); ?>
-		</div>
-		<div class="filter-search btn-group pull-left">
-			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_INSTALLER_FILTER_LABEL'); ?>" />
-		</div>
-		<div class="btn-group pull-left">
-			<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search"></span></button>
-			<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
-		</div>
-	</div>
-	<div class="clearfix"> </div>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 	<!-- Begin Content -->
 		<?php if (count($this->items)) : ?>
@@ -63,7 +50,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
 					</th>
 					<th width="10%">
-						<?php echo JText::_('JVERSION'); ?>
+						<?php echo JText::_('COM_INSTALLER_CURRENT_VERSION'); ?>
+					</th>
+					<th width="10%">
+						<?php echo JText::_('COM_INSTALLER_NEW_VERSION'); ?>
 					</th>
 					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
@@ -84,10 +74,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</tr>
 			</tfoot>
 			<tbody>
-			<?php
-				foreach ($this->items as $i => $item) :
-				$client = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
-			?>
+			<?php foreach ($this->items as $i => $item) : ?>
+				<?php
+				$client          = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+				$manifest        = json_decode($item->manifest_cache);
+				$current_version = isset($manifest->version) ? $manifest->version : JText::_('JLIB_UNKNOWN');
+				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td>
 						<?php echo JHtml::_('grid.id', $i, $item->update_id); ?>
@@ -106,7 +98,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type) ?>
 					</td>
 					<td>
-						<?php echo $item->version ?>
+						<span class="label label-warning"><?php echo $current_version; ?></span>
+					</td>
+					<td>
+						<span class="label label-success"><?php echo $item->version; ?></span>
 					</td>
 					<td>
 						<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
@@ -127,7 +122,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			</tbody>
 		</table>
 		<?php else : ?>
-			<div class="alert alert-info">
+			<div class="alert alert-no-items">
 				<a class="close" data-dismiss="alert" href="#">&times;</a>
 				<?php echo JText::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?>
 			</div>

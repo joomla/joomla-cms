@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +65,12 @@ class CategoriesModelCategories extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication();
-		$context = $this->context;
+
+		// Adjust the context to support modal layouts.
+		if ($layout = $app->input->get('layout'))
+		{
+			$this->context .= '.' . $layout;
+		}
 
 		$extension = $app->getUserStateFromRequest('com_categories.categories.filter.extension', 'extension', 'com_content', 'cmd');
 
@@ -78,19 +83,19 @@ class CategoriesModelCategories extends JModelList
 		// Extract the optional section name
 		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
 
-		$search = $this->getUserStateFromRequest($context . '.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$level = $this->getUserStateFromRequest($context . '.filter.level', 'filter_level');
+		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
-		$access = $this->getUserStateFromRequest($context . '.filter.access', 'filter_access');
+		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
 		$this->setState('filter.access', $access);
 
-		$published = $this->getUserStateFromRequest($context . '.filter.published', 'filter_published', '');
+		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
-		$language = $this->getUserStateFromRequest($context . '.filter.language', 'filter_language', '');
+		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
 		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
@@ -147,10 +152,6 @@ class CategoriesModelCategories extends JModelList
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
 
-		// Determine for which component the category manager retrieves its categories (for item count)
-		$jinput	= JFactory::getApplication()->input;
-		$countitemhelper = JPATH_ADMINISTRATOR . "/components/" . $jinput->get('extension') . '/helpers/countitems.php';
-
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
@@ -164,7 +165,7 @@ class CategoriesModelCategories extends JModelList
 		$query->from('#__categories AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title')
+		$query->select('l.title AS language_title, l.image AS language_image')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
@@ -304,6 +305,7 @@ class CategoriesModelCategories extends JModelList
 
 		// Load Helper file of the component for which com_categories displays the categories
 		$classname = ucfirst(substr($extension, 4)) . 'Helper';
+
 		if (class_exists($classname) && method_exists($classname, 'countItems'))
 		{
 			// Get the SQL to extend the com_category $query object with item count (published, unpublished, trashed)

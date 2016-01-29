@@ -87,7 +87,7 @@
 		<field name="email_to" type="email"
 			description="CONTACT_INFORMATION_EMAIL_DESC"
 			label="CONTACT_INFORMATION_EMAIL_LABEL"
-			size="30" validate="email" filter="string"
+			size="30" validate="email" filter="string" autocomplete="email"
 		/>
 
 		<field name="address" type="textarea"

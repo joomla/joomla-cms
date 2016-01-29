@@ -4692,6 +4692,9 @@ a.badge:focus {
 .affix {
 	position: fixed;
 }
+@-ms-viewport {
+	width: device-width;
+}
 .hidden {
 	display: none;
 	visibility: hidden;
@@ -7126,6 +7129,9 @@ h6 {
 .breadcrumb {
 	margin: 10px 0;
 }
+.breadcrumb > li {
+	color: #999;
+}
 .img_caption .left {
 	float: left;
 	margin-right: 1em;
@@ -7284,7 +7290,7 @@ figcaption {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0076b2', GradientType=0);
 }
 .categories-list .collapse {
-	margin-left: 20px;
+	margin: 0 0 0 20px;
 }
 @media (max-width: 480px) {
 	.item-info > span {
@@ -7300,6 +7306,7 @@ figcaption {
 }
 @media (max-width: 768px) {
 	body {
+		-webkit-overflow-scrolling: touch;
 		padding-top: 0;
 	}
 	.header {
@@ -7496,4 +7503,17 @@ body.modal-open {
 }
 #users-profile-custom label {
 	display: inline;
+}
+.field-media-wrapper .modal .modal-body {
+	padding: 5px 10px;
+	overflow: hidden;
+}
+#search-results {
+	clear: both;
+}
+#finder-filter-window {
+	overflow: visible;
+}
+#finder-search .in.collapse {
+	overflow: visible;
 }
