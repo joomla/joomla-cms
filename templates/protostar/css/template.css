@@ -1004,7 +1004,6 @@ input[type="file"] {
 	line-height: 28px;
 }
 select {
-	width: 220px;
 	border: 1px solid #ccc;
 	background-color: #fff;
 }
