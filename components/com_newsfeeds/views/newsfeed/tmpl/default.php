@@ -114,7 +114,7 @@ else
 					<a href="<?php echo $this->rssDoc[$i]->uri; ?>" target="_blank">
 					<?php  echo $this->rssDoc[$i]->title; ?></a>
 				<?php else : ?>
-					<h3><?php  echo '<a target="_blank" href="' . $this->rssDoc[$i]->uri . '">' . $this->rssDoc[$i]->title . '</a>'; ?></h3>
+					<h3><?php  echo '<a target="_blank" href="' . trim($this->rssDoc[$i]->uri) . '">' . $this->rssDoc[$i]->title . '</a>'; ?></h3>
 				<?php  endif; ?>
 				<?php if ($this->params->get('show_item_description') && !empty($text)) : ?>
 					<div class="feed-item-description">
