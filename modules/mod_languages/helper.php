@@ -28,9 +28,15 @@ abstract class ModLanguagesHelper
 	 */
 	public static function getList(&$params)
 	{
-		// If multilanguage is not active return an empty array.
-		// There can be no languages if language filter is published but no languages are available.
+		// If multilanguage is not active (language filter disabled) return an empty array.
 		if (!JLanguageMultilang::isEnabled())
+		{
+			return array();
+		}
+
+		// There can also be no languages if language filter is published but no languages are available.
+		$languages = JLanguageMultilang::getAvailableLanguages();
+		if (count($languages) == 0)
 		{
 			return array();
 		}
@@ -39,7 +45,6 @@ abstract class ModLanguagesHelper
 		$lang      = JFactory::getLanguage();
 		$langTag   = $lang->getTag();
 		$langRtl   = $lang->isRtl();
-		$languages = JLanguageMultilang::getAvailableLanguages();
 
 		// If there are languages, load the association links.
 		$associationLinks = JLanguageAssociations::getAssociationsLinks(true);
