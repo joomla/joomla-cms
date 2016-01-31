@@ -395,6 +395,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$this->assertEquals(
 			array(
+				array('Cache-Control: no-cache, no-store, must-revalidate', true, null),
+				array('Pragma: no-cache', true, null),
+				array('Expires: 0', true, null),
 				array('HTTP/1.1 303 See other', true, null),
 				array('Location: ' . $base . $url, true, null),
 				array('Content-Type: text/html; charset=utf-8', true, null),
