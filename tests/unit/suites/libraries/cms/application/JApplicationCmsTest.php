@@ -208,7 +208,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		// Register all the methods so that we can track if they have been fired.
 		$this->class->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
-			->registerEvent('onAfterRespond', 'JWebTestExecute-onAfterRespond');
+					->registerEvent('onAfterRespond', 'JWebTestExecute-onAfterRespond');
 
 		$this->class->execute();
 
@@ -237,9 +237,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		// Register all the methods so that we can track if they have been fired.
 		$this->class->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
-			->registerEvent('onBeforeRender', 'JWebTestExecute-onBeforeRender')
-			->registerEvent('onAfterRender', 'JWebTestExecute-onAfterRender')
-			->registerEvent('onAfterRespond', 'JWebTestExecute-onAfterRespond');
+					->registerEvent('onBeforeRender', 'JWebTestExecute-onBeforeRender')
+					->registerEvent('onAfterRender', 'JWebTestExecute-onAfterRender')
+					->registerEvent('onAfterRespond', 'JWebTestExecute-onAfterRespond');
 
 		// Buffer the execution.
 		ob_start();
@@ -389,6 +389,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', new \Joomla\Session\Session());
 
 		$this->class->redirect($url, false);
 
@@ -428,6 +429,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', new \Joomla\Session\Session());
 
 		$this->class->redirect($url, 'Test Message', 'message', false);
 
@@ -477,6 +479,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', new \Joomla\Session\Session());
 
 		$this->class->redirect($url, '', 'message');
 
@@ -516,6 +519,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', new \Joomla\Session\Session());
 
 		// Capture the output for this test.
 		ob_start();
@@ -545,6 +549,8 @@ class JApplicationCmsTest extends TestCaseDatabase
 				'engine' => JApplicationWebClient::TRIDENT,
 			)
 		);
+
+		TestReflection::setValue($this->class, 'session', new \Joomla\Session\Session());
 
 		// Capture the output for this test.
 		ob_start();
@@ -578,6 +584,8 @@ class JApplicationCmsTest extends TestCaseDatabase
 				'engine' => JApplicationWebClient::GECKO,
 			)
 		);
+
+		TestReflection::setValue($this->class, 'session', new \Joomla\Session\Session());
 
 		$this->class->redirect($url, true);
 
@@ -621,6 +629,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('uri.request', $request);
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', new \Joomla\Session\Session());
 
 		$this->class->redirect($url, false);
 
