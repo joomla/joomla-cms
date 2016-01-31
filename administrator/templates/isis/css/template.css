@@ -8153,3 +8153,9 @@ body.modal-open {
 	padding: 5px 10px;
 	overflow: hidden;
 }
+.js-pstats-data-details dd {
+	margin-left: 240px;
+}
+.js-pstats-data-details dt {
+	width: 220px;
+}
