@@ -66,7 +66,7 @@ JHtml::script('jui/fielduser.min.js', false, true, false, false, true);
 	<div class="input-append">
 		<input
 			type="text" id="<?php echo $id; ?>_name"
-			value="<?php echo  htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'); ?>"
+			placeholder="<?php echo  htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'); ?>"
 			readonly
 			class="field-user-input-name <?php echo $class ? (string) $class : ''?>"
 			<?php echo $size ? ' size="' . (int) $size . '"' : ''; ?>
