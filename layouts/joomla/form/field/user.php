@@ -63,7 +63,7 @@ JHtml::script('jui/fielduser.min.js', false, true, false, false, true);
 <?php // Create a dummy text field with the user name. ?>
 <div class="input-append">
 	<input
-		type="text" id="<?php echo $id; ?>_name"
+		type="text" id="<?php echo $id; ?>"
 		value="<?php echo  htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'); ?>"
 		placeholder="<?php echo JText::_('JLIB_FORM_SELECT_USER'); ?>"
 		readonly
