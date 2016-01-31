@@ -389,7 +389,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
-		TestReflection::setValue($this->class, 'session', new \Joomla\Session\Session());
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->class->redirect($url, false);
 
@@ -429,7 +429,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
-		TestReflection::setValue($this->class, 'session', new \Joomla\Session\Session());
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->class->redirect($url, 'Test Message', 'message', false);
 
@@ -479,7 +479,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
-		TestReflection::setValue($this->class, 'session', new \Joomla\Session\Session());
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->class->redirect($url, '', 'message');
 
@@ -519,7 +519,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
-		TestReflection::setValue($this->class, 'session', new \Joomla\Session\Session());
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		// Capture the output for this test.
 		ob_start();
@@ -550,7 +550,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 			)
 		);
 
-		TestReflection::setValue($this->class, 'session', new \Joomla\Session\Session());
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		// Capture the output for this test.
 		ob_start();
@@ -585,7 +585,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 			)
 		);
 
-		TestReflection::setValue($this->class, 'session', new \Joomla\Session\Session());
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->class->redirect($url, true);
 
@@ -629,7 +629,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('uri.request', $request);
 
 		TestReflection::setValue($this->class, 'config', $config);
-		TestReflection::setValue($this->class, 'session', new \Joomla\Session\Session());
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->class->redirect($url, false);
 

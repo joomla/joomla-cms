@@ -1045,6 +1045,7 @@ class JApplicationWebTest extends TestCase
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->class->redirect($url, false);
 
@@ -1078,6 +1079,7 @@ class JApplicationWebTest extends TestCase
 		$config->set('uri.base.full', $base);
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		// Capture the output for this test.
 		ob_start();
@@ -1106,6 +1108,8 @@ class JApplicationWebTest extends TestCase
 				'engine' => JApplicationWebClient::TRIDENT,
 			)
 		);
+
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		// Capture the output for this test.
 		ob_start();
@@ -1137,6 +1141,8 @@ class JApplicationWebTest extends TestCase
 				'engine' => JApplicationWebClient::GECKO,
 			)
 		);
+
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->class->redirect($url, true);
 
@@ -1180,6 +1186,7 @@ class JApplicationWebTest extends TestCase
 		$config->set('uri.request', $request);
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->class->redirect($url, false);
 
@@ -1265,6 +1272,7 @@ class JApplicationWebTest extends TestCase
 		$config = new Registry(array('foo' => 'bar'));
 
 		TestReflection::setValue($this->class, 'config', $config);
+		TestReflection::setValue($this->class, 'session', $this->getMockSession());
 
 		$this->assertEquals('bar', $this->class->set('foo', 'car'));
 
