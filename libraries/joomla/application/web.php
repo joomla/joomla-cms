@@ -560,8 +560,11 @@ class JApplicationWeb extends JApplicationBase
 			}
 		}
 
-		// Close the application after the redirect.
+		// Close the session after the redirect to prevent session issues on slow handlers
 		$this->session->close();
+
+		// Close the application after the redirect.
+		$this->close();
 	}
 
 	/**
