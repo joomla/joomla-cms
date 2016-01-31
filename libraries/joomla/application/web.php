@@ -539,7 +539,7 @@ class JApplicationWeb extends JApplicationBase
 			}
 			else
 			{
-				// Check if we have a boolean for the status variable for compatability with old $move parameter
+				// Check if we have a boolean for the status variable for compatibility with old $move parameter
 				// @deprecated 4.0
 				if (is_bool($status))
 				{
