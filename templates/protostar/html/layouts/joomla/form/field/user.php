@@ -47,7 +47,8 @@ extract($displayData);
  */
 
 // Set the link for the user selection page
-$link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;field={field-user-id}'
+$link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;required='
+	. ($required ? 1 : 0) . '&amp;field={field-user-id}'
 	. (isset($groups) ? ('&amp;groups=' . base64_encode(json_encode($groups))) : '')
 	. (isset($excluded) ? ('&amp;excluded=' . base64_encode(json_encode($excluded))) : '');
 
