@@ -51,6 +51,11 @@ $link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=com
 	. (isset($groups) ? ('&amp;groups=' . base64_encode(json_encode($groups))) : '')
 	. (isset($excluded) ? ('&amp;excluded=' . base64_encode(json_encode($excluded))) : '');
 
+if (JText::_('JLIB_FORM_SELECT_USER') == htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'))
+{
+	$userName = "";
+}
+
 JHtml::script('jui/fielduser.min.js', false, true, false, false, true);
 ?>
 <?php // Create a dummy text field with the user name. ?>
@@ -66,7 +71,8 @@ JHtml::script('jui/fielduser.min.js', false, true, false, false, true);
 	<div class="input-append">
 		<input
 			type="text" id="<?php echo $id; ?>_name"
-			placeholder="<?php echo  htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'); ?>"
+			value="<?php echo  htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'); ?>"
+			placeholder="<?php echo JText::_('JLIB_FORM_SELECT_USER'); ?>"
 			readonly
 			class="field-user-input-name <?php echo $class ? (string) $class : ''?>"
 			<?php echo $size ? ' size="' . (int) $size . '"' : ''; ?>
