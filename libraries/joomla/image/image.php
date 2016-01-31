@@ -102,7 +102,7 @@ class JImage
 		if (!extension_loaded('gd'))
 		{
 			// @codeCoverageIgnoreStart
-			JLog::add('The GD extension for PHP is not available.', JLog::ERROR);
+			JLog::add('The GD extension for PHP is not available.', JLog::ERROR, 'image');
 			throw new RuntimeException('The GD extension for PHP is not available.');
 
 			// @codeCoverageIgnoreEnd
@@ -599,7 +599,7 @@ class JImage
 				if (empty(self::$formats[IMAGETYPE_GIF]))
 				{
 					// @codeCoverageIgnoreStart
-					JLog::add('Attempting to load an image of unsupported type GIF.', JLog::ERROR);
+					JLog::add('Attempting to load an image of unsupported type GIF.', JLog::ERROR, 'image');
 					throw new RuntimeException('Attempting to load an image of unsupported type GIF.');
 
 					// @codeCoverageIgnoreEnd
@@ -624,7 +624,7 @@ class JImage
 				if (empty(self::$formats[IMAGETYPE_JPEG]))
 				{
 					// @codeCoverageIgnoreStart
-					JLog::add('Attempting to load an image of unsupported type JPG.', JLog::ERROR);
+					JLog::add('Attempting to load an image of unsupported type JPG.', JLog::ERROR, 'image');
 					throw new RuntimeException('Attempting to load an image of unsupported type JPG.');
 
 					// @codeCoverageIgnoreEnd
@@ -649,7 +649,7 @@ class JImage
 				if (empty(self::$formats[IMAGETYPE_PNG]))
 				{
 					// @codeCoverageIgnoreStart
-					JLog::add('Attempting to load an image of unsupported type PNG.', JLog::ERROR);
+					JLog::add('Attempting to load an image of unsupported type PNG.', JLog::ERROR, 'image');
 					throw new RuntimeException('Attempting to load an image of unsupported type PNG.');
 
 					// @codeCoverageIgnoreEnd
@@ -680,7 +680,7 @@ class JImage
 				break;
 
 			default:
-				JLog::add('Attempting to load an image of unsupported type: ' . $properties->mime, JLog::ERROR);
+				JLog::add('Attempting to load an image of unsupported type: ' . $properties->mime, JLog::ERROR, 'image');
 				throw new InvalidArgumentException('Attempting to load an image of unsupported type: ' . $properties->mime);
 				break;
 		}
@@ -1016,7 +1016,7 @@ class JImage
 
 		if (!class_exists($className))
 		{
-			JLog::add('The ' . ucfirst($type) . ' image filter is not available.', JLog::ERROR);
+			JLog::add('The ' . ucfirst($type) . ' image filter is not available.', JLog::ERROR, 'image');
 			throw new RuntimeException('The ' . ucfirst($type) . ' image filter is not available.');
 		}
 
@@ -1027,7 +1027,7 @@ class JImage
 		if (!($instance instanceof JImageFilter))
 		{
 			// @codeCoverageIgnoreStart
-			JLog::add('The ' . ucfirst($type) . ' image filter is not valid.', JLog::ERROR);
+			JLog::add('The ' . ucfirst($type) . ' image filter is not valid.', JLog::ERROR, 'image');
 			throw new RuntimeException('The ' . ucfirst($type) . ' image filter is not valid.');
 
 			// @codeCoverageIgnoreEnd
