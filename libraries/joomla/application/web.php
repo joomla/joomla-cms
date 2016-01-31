@@ -553,6 +553,18 @@ class JApplicationWeb extends JApplicationBase
 					$status = 303;
 				}
 
+				// Prevent browser / proxy caching for the case of 303 redirect
+				if ( $status==303 ) {
+					// HTTP 1.1
+					$this->header('Cache-Control: no-cache, no-store, must-revalidate');
+
+					// HTTP 1.0
+					$this->header('Pragma: no-cache');
+
+					// Proxies
+					$this->header('Expires: 0');
+				}
+
 				// All other cases use the more efficient HTTP header for redirection.
 				$this->header($this->responseMap[$status]);
 				$this->header('Location: ' . $url);
