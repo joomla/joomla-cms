@@ -183,11 +183,11 @@ class JLanguageHelper
 	}
 
 	/**
-	 * Gets the current language
+	 * Gets the current language.
 	 *
 	 * @param   boolean  $detectBrowser  Flag indicating whether to use the browser language as a fallback.
 	 *
-	 * @return  string  The language string
+	 * @return  string  The language code.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -204,7 +204,7 @@ class JLanguageHelper
 			{
 				if ($detectBrowser)
 				{
-					$currentLanguageCode[$detectBrowser] = JLanguageHelper::detectLanguage();
+					$currentLanguageCode[$detectBrowser] = self::detectLanguage();
 				}
 				else
 				{
