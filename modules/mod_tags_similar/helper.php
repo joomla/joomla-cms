@@ -105,7 +105,7 @@ abstract class ModTagssimilarHelper
 		{
 			if ($language == 'current_language')
 			{
-				$language = JHelperContent::getCurrentLanguage();
+				$language = JLanguageHelper::getCurrentLanguage();
 			}
 
 			$query->where($db->quoteName('cc.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');

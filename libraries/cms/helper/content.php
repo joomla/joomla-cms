@@ -131,28 +131,14 @@ class JHelperContent
 	 *
 	 * @return  string  The language string
 	 *
-	 * @since   3.1
-	 * @note    JHelper::getCurrentLanguage is the preferred method
+	 * @since       3.1
+	 * @deprecated  4.0 Use JLanguageHelper::getCurrentLanguage() instead.
 	 */
 	public static function getCurrentLanguage($detectBrowser = true)
 	{
-		$app = JFactory::getApplication();
-		$langCode = $app->input->cookie->getString(JApplicationHelper::getHash('language'));
+		JLog::add(__METHOD__ . '() is deprecated, use JLanguageHelper::getCurrentLanguage() instead.', JLog::WARNING, 'deprecated');
 
-		// No cookie - let's try to detect browser language or use site default
-		if (!$langCode)
-		{
-			if ($detectBrowser)
-			{
-				$langCode = JLanguageHelper::detectLanguage();
-			}
-			else
-			{
-				$langCode = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
-			}
-		}
-
-		return $langCode;
+		return JLanguageHelper::getCurrentLanguage($detectBrowser);
 	}
 
 	/**

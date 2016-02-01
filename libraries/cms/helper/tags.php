@@ -409,7 +409,7 @@ class JHelperTags extends JHelper
 		{
 			if ($language == 'current_language')
 			{
-				$language = $this->getCurrentLanguage();
+				$language = JLanguageHelper::getCurrentLanguage();
 			}
 
 			$query->where($db->quoteName('language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
@@ -587,7 +587,7 @@ class JHelperTags extends JHelper
 		{
 			if ($language == 'current_language')
 			{
-				$language = $this->getCurrentLanguage();
+				$language = JLanguageHelper::getCurrentLanguage();
 			}
 
 			$query->where($db->quoteName('c.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');

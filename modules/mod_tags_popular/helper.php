@@ -59,7 +59,7 @@ abstract class ModTagsPopularHelper
 		{
 			if ($language == 'current_language')
 			{
-				$language = JHelperContent::getCurrentLanguage();
+				$language = JLanguageHelper::getCurrentLanguage();
 			}
 
 			$query->where($db->quoteName('t.language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
