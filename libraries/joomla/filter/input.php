@@ -287,6 +287,20 @@ class JFilterInput
 				$result = (string) $this->_remove((string) $source);
 				break;
 
+			case 'IDNMAIL':
+				$pattern = '/(("mailto:)+[\w\.\-\+]+\@[^."?]+\.+[^."?]+("|\?))/';
+
+				if (preg_match_all($pattern, (string) $source, $matches))
+				{
+					foreach ($matches[0] as $match)
+					{
+						$match  = (string) str_replace('"', '', $match);
+						$match  = (string) str_replace('?', '', $match);
+						$result = (string) str_replace($match, JStringPunycode::emailToPunycode($match), $source);
+					}
+				}
+				break;
+
 			case 'ARRAY':
 				$result = (array) $source;
 				break;

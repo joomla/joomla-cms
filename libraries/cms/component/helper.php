@@ -299,6 +299,8 @@ class JComponentHelper
 			$text = $filter->clean($text, 'html');
 		}
 
+		$text = JFilterInput::getInstance()->clean($text, 'IDNMAIL');
+
 		return $text;
 	}
 
