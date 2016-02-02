@@ -8153,6 +8153,12 @@ body.modal-open {
 	padding: 5px 10px;
 	overflow: hidden;
 }
+.js-pstats-data-details dd {
+	margin-left: 240px;
+}
+.js-pstats-data-details dt {
+	width: 220px;
+}
 .pull-right {
 	float: left;
 }
@@ -8940,4 +8946,7 @@ a.grid_true {
 	.view-login select {
 		width: 229px;
 	}
+}
+.js-pstats-data-details dd {
+	margin-right: 240px;
 }
