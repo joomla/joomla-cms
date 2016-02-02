@@ -213,6 +213,7 @@ class JFilterInput
 	 *                           BASE64:    A string containing A-Z, 0-9, forward slashes, plus or equals (not case sensitive),
 	 *                           STRING:    A fully decoded and sanitised string (default),
 	 *                           HTML:      A sanitised string,
+	 *                           IDNMAIL    Punyencodes UTF8 email addresses
 	 *                           ARRAY:     An array,
 	 *                           PATH:      A sanitised file path,
 	 *                           TRIM:      A string trimmed from normal, non-breaking and multibyte spaces

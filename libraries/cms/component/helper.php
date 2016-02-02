@@ -299,6 +299,7 @@ class JComponentHelper
 			$text = $filter->clean($text, 'html');
 		}
 
+		// Punyencoding email addresses
 		$text = JFilterInput::getInstance()->clean($text, 'IDNMAIL');
 
 		return $text;
