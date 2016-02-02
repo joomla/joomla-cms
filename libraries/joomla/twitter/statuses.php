@@ -8,7 +8,6 @@
  */
 
 defined('JPATH_PLATFORM') or die();
-jimport('phputf8.utils.validation');
 
 /**
  * Twitter API Statuses class for the Joomla Platform.
