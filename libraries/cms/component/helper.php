@@ -300,7 +300,17 @@ class JComponentHelper
 		}
 
 		// Punyencoding email addresses
-		$text = JFilterInput::getInstance()->clean($text, 'IDNMAIL');
+		$pattern = '/(("mailto:)+[\w\.\-\+]+\@[^."?]+\.+[^."?]+("|\?))/';
+
+		if (preg_match_all($pattern, $text, $matches))
+		{
+			foreach ($matches[0] as $match)
+			{
+				$match  = str_replace('"', '', $match);
+				$match  = str_replace('?', '', $match);
+				$text   = str_replace($match, JStringPunycode::emailToPunycode($match), $text);
+			}
+		}
 
 		return $text;
 	}

@@ -213,7 +213,6 @@ class JFilterInput
 	 *                           BASE64:    A string containing A-Z, 0-9, forward slashes, plus or equals (not case sensitive),
 	 *                           STRING:    A fully decoded and sanitised string (default),
 	 *                           HTML:      A sanitised string,
-	 *                           IDNMAIL    Punyencodes UTF8 email addresses
 	 *                           ARRAY:     An array,
 	 *                           PATH:      A sanitised file path,
 	 *                           TRIM:      A string trimmed from normal, non-breaking and multibyte spaces
@@ -286,20 +285,6 @@ class JFilterInput
 
 			case 'HTML':
 				$result = (string) $this->_remove((string) $source);
-				break;
-
-			case 'IDNMAIL':
-				$pattern = '/(("mailto:)+[\w\.\-\+]+\@[^."?]+\.+[^."?]+("|\?))/';
-
-				if (preg_match_all($pattern, (string) $source, $matches))
-				{
-					foreach ($matches[0] as $match)
-					{
-						$match  = (string) str_replace('"', '', $match);
-						$match  = (string) str_replace('?', '', $match);
-						$result = (string) str_replace($match, JStringPunycode::emailToPunycode($match), $source);
-					}
-				}
 				break;
 
 			case 'ARRAY':
