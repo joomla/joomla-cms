@@ -92,16 +92,10 @@ class JFormFieldUser extends JFormField
 			$table->name = JText::_('JLIB_FORM_SELECT_USER');
 		}
 
-		// Initialize JavaScript field attributes.
-		$onchange = (string) $this->element['onchange'];
-
 		$extraData = array(
-				'onchange'  => $onchange,
 				'userName'  => $table->name,
 				'groups'    => $this->getGroups(),
-				'excluded'  => $this->getExcluded(),
-				'readOnly'  => $this->readonly,
-				'class'     => $this->class,
+				'excluded'  => $this->getExcluded()
 		);
 
 		return array_merge($data, $extraData);
