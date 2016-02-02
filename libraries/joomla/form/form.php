@@ -949,7 +949,7 @@ class JForm
 	 * @param   string   $type        Type of field, such as Text, Textarea...
 	 * @param   string   $name        Name of field
 	 * @param   array    $attributes  An array contains html attributes of the field
-	 * @param   array    $list        An key - value array which is used to build list of options. Only needed if this is a list
+	 * @param   array    $options     An key - value array which is used to build list of options. Only needed if this is a list
 	 *                                base field.
 	 * @param   string   $group       The optional dot-separated form group path on which to set the field.
 	 * @param   boolean  $replace     True to replace an existing field if one already exists.
@@ -958,7 +958,7 @@ class JForm
 	 *
 	 * @throws  UnexpectedValueException
 	 */
-	public function addField($type, $name, array $attributes = array(), array $list = array(), $group = null, $replace = true)
+	public function addField($type, $name, array $attributes = array(), array $options = array(), $group = null, $replace = true)
 	{
 		$element = new SimpleXMLElement('<field />');
 		$element->addAttribute('type', $type);
@@ -971,7 +971,7 @@ class JForm
 		}
 
 		// Add options for list base field type if it is provided
-		foreach ($list as $value => $text)
+		foreach ($options as $value => $text)
 		{
 			$node = $element->addChild('option', $text);
 			$node->addAttribute('value', $value);
