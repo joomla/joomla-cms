@@ -21,7 +21,7 @@ class FinderController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached. [optional]
+	 * @param   boolean  $cacheable  If true, the view output will be cached. [optional]
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types,
 	 *                               for valid values see {@link JFilterInput::clean()}. [optional]
 	 *
@@ -29,10 +29,10 @@ class FinderController extends JControllerLegacy
 	 *
 	 * @since   2.5
 	 */
-	public function display($cachable = false, $urlparams = array())
+	public function display($cacheable = false, $urlparams = array())
 	{
 		$input = JFactory::getApplication()->input;
-		$cachable = true;
+		$cacheable = true;
 
 		// Load plug-in language files.
 		FinderHelperLanguage::loadPluginLanguage();
@@ -44,7 +44,7 @@ class FinderController extends JControllerLegacy
 		// Don't cache view for search queries
 		if ($input->get('q', null, 'string') || $input->get('f', null, 'int') || $input->get('t', null, 'array'))
 		{
-			$cachable = false;
+			$cacheable = false;
 		}
 
 		$safeurlparams = array(
@@ -52,6 +52,6 @@ class FinderController extends JControllerLegacy
 			'lang' => 'CMD'
 		);
 
-		return parent::display($cachable, $safeurlparams);
+		return parent::display($cacheable, $safeurlparams);
 	}
 }
