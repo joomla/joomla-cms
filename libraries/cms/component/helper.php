@@ -300,7 +300,7 @@ class JComponentHelper
 		}
 
 		// Punyencoding email addresses
-		$pattern = '/(("mailto:)+[\w\.\-\+]+\@[^."?]+\.+[^."?]+("|\?))/';
+		$pattern = '/(("mailto:)+[\w\.\-\+]+\@[^"?]+\.+[^."?]+("|\?))/';
 
 		if (preg_match_all($pattern, $text, $matches))
 		{
