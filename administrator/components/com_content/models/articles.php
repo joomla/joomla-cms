@@ -74,7 +74,7 @@ class ContentModelArticles extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
 		$app = JFactory::getApplication();
 
@@ -109,7 +109,7 @@ class ContentModelArticles extends JModelList
 		$this->setState('filter.tag', $tag);
 
 		// List state information.
-		parent::populateState('a.id', 'desc');
+		parent::populateState($ordering, $direction);
 
 		// Force a language
 		$forcedLanguage = $app->input->get('forcedLanguage');
