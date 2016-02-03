@@ -81,7 +81,7 @@
 			statuses="*,0,1,-2"
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
-			default="ordering ASC"
+			default="position ASC"
 		>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
