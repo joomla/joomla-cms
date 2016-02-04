@@ -133,6 +133,9 @@ class JComponentHelper
 	 */
 	public static function filterText($text)
 	{
+		// Punyencoding utf8 email addresses
+		$text = JFilterInput::getInstance()->emailToPunycode($text);
+
 		// Filter settings
 		$config     = static::getParams('com_config');
 		$user       = JFactory::getUser();
@@ -297,19 +300,6 @@ class JComponentHelper
 			}
 
 			$text = $filter->clean($text, 'html');
-		}
-
-		// Punyencoding email addresses
-		$pattern = '/(("mailto:)+[\w\.\-\+]+\@[^"?]+\.+[^."?]+("|\?))/';
-
-		if (preg_match_all($pattern, $text, $matches))
-		{
-			foreach ($matches[0] as $match)
-			{
-				$match  = str_replace('"', '', $match);
-				$match  = str_replace('?', '', $match);
-				$text   = str_replace($match, JStringPunycode::emailToPunycode($match), $text);
-			}
 		}
 
 		return $text;
