@@ -19,14 +19,14 @@ class TagsController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean        $cachable   If true, the view output will be cached
+	 * @param   boolean        $cacheable  If true, the view output will be cached
 	 * @param   mixed|boolean  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController  This object to support chaining.
 	 *
 	 * @since   3.1
 	 */
-	public function display($cachable = true, $urlparams = false)
+	public function display($cacheable = true, $urlparams = false)
 	{
 		$user = JFactory::getUser();
 
@@ -36,7 +36,7 @@ class TagsController extends JControllerLegacy
 
 		if ($user->get('id') ||($this->input->getMethod() == 'POST' && $vName = 'tags'))
 		{
-			$cachable = false;
+			$cacheable = false;
 		}
 
 		$safeurlparams = array(
@@ -49,6 +49,6 @@ class TagsController extends JControllerLegacy
 			'lang'             => 'CMD'
 		);
 
-		return parent::display($cachable, $safeurlparams);
+		return parent::display($cacheable, $safeurlparams);
 	}
 }
