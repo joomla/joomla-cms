@@ -236,8 +236,8 @@ class JPathway implements Countable
 	 * 
 	 * @since 3.4
 	 */
-	 public function count()
-	 {
+	public function count()
+	{
 		return count($this->_pathway);
-	 }
+	}
 }
