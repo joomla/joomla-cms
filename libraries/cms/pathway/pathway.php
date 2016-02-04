@@ -228,7 +228,7 @@ class JPathway implements Countable
 
 		return $item;
 	}
-	
+
 	/**
 	 * Returns count of items
 	 *
