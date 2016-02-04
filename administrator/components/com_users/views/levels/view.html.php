@@ -94,7 +94,7 @@ class UsersViewLevels extends JViewLegacy
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'level.delete');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'level.delete', 'JTOOLBAR_DELETE');
 			JToolbarHelper::divider();
 		}
 

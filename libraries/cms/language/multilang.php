@@ -68,7 +68,7 @@ class JLanguageMultilang
 	 *
 	 * @return  array of language extension objects.
 	 *
-	 * @since   3.6
+	 * @since   3.5
 	 */
 	public static function getSiteLangs()
 	{
@@ -98,7 +98,7 @@ class JLanguageMultilang
 	 *
 	 * @return  array of menu objects.
 	 *
-	 * @since   3.6
+	 * @since   3.5
 	 */
 	public static function getSiteHomePages()
 	{

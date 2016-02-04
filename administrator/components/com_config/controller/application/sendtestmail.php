@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Send Test Mail Controller from global configuration
  *
- * @since  3.6
+ * @since  3.5
  */
 class ConfigControllerApplicationSendtestmail extends JControllerBase
 {
@@ -20,7 +20,7 @@ class ConfigControllerApplicationSendtestmail extends JControllerBase
 	 *
 	 * @return  string
 	 *
-	 * @since   3.6
+	 * @since   3.5
 	 */
 	public function execute()
 	{

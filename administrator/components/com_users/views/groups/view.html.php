@@ -94,7 +94,7 @@ class UsersViewGroups extends JViewLegacy
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'groups.delete');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'groups.delete', 'JTOOLBAR_DELETE');
 			JToolbarHelper::divider();
 		}
 

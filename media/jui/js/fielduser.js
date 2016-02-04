@@ -123,7 +123,7 @@ function jSelectUser(element) {
 		name  = $el.data('user-name'),
 		fieldId = $el.data('user-field'),
 		$inputValue = jQuery('#' + fieldId + '_id'),
-		$inputName  = jQuery('#' + fieldId + '_name');
+		$inputName  = jQuery('#' + fieldId);
 
 	if (!$inputValue.length) {
 		// The input not found
