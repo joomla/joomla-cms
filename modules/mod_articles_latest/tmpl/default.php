@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <?php foreach ($list as $item) :  ?>
 	<li <?php echo $microdata->displayScope();?>>
 		<a href="<?php echo $item->link; ?>" <?php echo $microdata->property('url')->display(); ?>>
-			<span <?php echo $microdata->content('')->property('name')->display();?>>
+			<span <?php echo $microdata->property('name')->display();?>>
 				<?php echo $item->title; ?>
 			</span>
 		</a>
