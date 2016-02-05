@@ -7520,3 +7520,17 @@ body.modal-open {
 select {
 	width: 100%;
 }
+.chzn-container {
+	width: 98% !important;
+}
+.chzn-container .chzn-search input[type='text'] {
+	padding: 2px 4% ! important;
+	width: 90% !important;
+	margin: 5px 2%;
+}
+.chzn-container .chzn-single {
+	padding: 10px 1%;
+}
+.chzn-container .chzn-drop {
+	width: 100% !important;
+}
