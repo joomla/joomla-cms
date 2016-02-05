@@ -79,7 +79,7 @@ abstract class ModArticlesPopularHelper
 		{
 			$item->slug = $item->id . ':' . $item->alias;
 
-			// Catslug is depricated and will be removed in 4.0. Use catid instead.
+			// Catslug is deprecated and will be removed in 4.0. Use catid instead.
 			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
