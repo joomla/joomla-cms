@@ -646,25 +646,9 @@ body.modal-open {
 }
 
 /* Fix for select element overflow on browser resizing */
-select {
-	width: 100%;
-}
-
-.chzn-container {
-    width:98% !important;
-    .chzn-search {
-        input[type='text'] {
-            padding:2px 4%! important;
-            width:90% !important;
-            margin:5px 2%;
-        }
-    }
-    .chzn-single {
-        padding:10px 1%;
-    }
-    .chzn-drop {
-        width:100% !important;
+.well {
+    select,
+    .chzn-container {
+        max-width: 100%;
     }
 }
-
-
