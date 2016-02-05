@@ -129,8 +129,9 @@ ul#finder-filter-select-list {
 }
 
 .finder-selects .inputbox {
-    width: 180px;
+	width: 180px;
 }
+
 div#finder-filter-window .filter-branch .finder-selects {
 	float: left;
 }
