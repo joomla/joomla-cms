@@ -213,7 +213,7 @@ class ContentModelFeatured extends ContentModelArticles
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   3.5
 	 */
 	protected function populateState($ordering = 'a.title', $direction = 'asc')
 	{
