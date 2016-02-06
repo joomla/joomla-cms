@@ -63,7 +63,7 @@
 			label="COM_NEWSFEEDS_LIST_FULL_ORDERING"
 			description="COM_NEWSFEEDS_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
-			default="a.id DESC"
+			default="a.name ASC"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
