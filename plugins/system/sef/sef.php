@@ -104,7 +104,7 @@ class PlgSystemSef extends JPlugin
 			$this->checkBuffer($buffer);
 		}
 
-		// Replace all unknown protocals in onmouseover and onmouseout attributes.
+		// Replace all unknown protocols in onmouseover and onmouseout attributes.
 		$attributes = array('onmouseover=', 'onmouseout=');
 		foreach ($attributes as $attribute)
 		{
@@ -124,7 +124,7 @@ class PlgSystemSef extends JPlugin
 			$this->checkBuffer($buffer);
 		}
 
-		// Replace all unknown protocals in OBJECT param tag.
+		// Replace all unknown protocols in OBJECT param tag.
 		if (strpos($buffer, '<param') !== false)
 		{
 			// OBJECT <param name="xx", value="yy"> -- fix it only inside the <param> tag.
@@ -138,7 +138,7 @@ class PlgSystemSef extends JPlugin
 			$this->checkBuffer($buffer);
 		}
 
-		// Replace all unknown protocals in OBJECT tag.
+		// Replace all unknown protocols in OBJECT tag.
 		if (strpos($buffer, '<object') !== false)
 		{
 			$regex  = '#(<object\s+[^>]*)data\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
