@@ -43,8 +43,8 @@
                 label="JGLOBAL_SORT_BY"
                 description="JGLOBAL_SORT_BY"
                 onchange="this.form.submit();"
-                default="folder DESC"
-                >
+                default="folder ASC"
+        >
             <option value="">JGLOBAL_SORT_BY</option>
             <option value="ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
             <option value="ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
