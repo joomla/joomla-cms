@@ -446,7 +446,7 @@ class JDocument
 	 * @param   string   $type   Type of script. Defaults to 'text/javascript'
 	 * @param   boolean  $defer  Adds the defer attribute.
 	 * @param   boolean  $async  Adds the async attribute.
-	 * @param   integer  $priority  The scripts priority 
+	 * @param   int  $priority  The scripts priority
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -471,7 +471,7 @@ class JDocument
 	 * @param   string   $type     Type of script. Defaults to 'text/javascript'
 	 * @param   boolean  $defer    Adds the defer attribute.
 	 * @param   boolean  $async    [description]
-	 * @param   integer  $priority  The scripts priority 
+	 * @param   int  $priority  The scripts priority 
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
