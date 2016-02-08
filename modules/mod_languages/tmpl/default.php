@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
+JHtml::_('formbehavior.chosen', 'select');
 ?>
 <div class="mod-languages<?php echo $moduleclass_sfx; ?>">
 <?php if ($headerText) : ?>
