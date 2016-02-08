@@ -180,12 +180,12 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$document->_scripts,
 			function ($a, $b)
 			{
-				if ($a['priority']  == $b['priority'])
+				if ($a['priority'] == $b['priority'])
 				{
 					return 1;
 				}
 
-				return ($a['priority']  < $b['priority']) ? -1 : 1;
+				return ($a['priority'] < $b['priority']) ? -1 : 1;
 			}
 		);
 

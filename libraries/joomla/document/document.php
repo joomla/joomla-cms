@@ -442,11 +442,11 @@ class JDocument
 	/**
 	 * Adds a linked script to the page
 	 *
-	 * @param   string   $url    URL to the linked script
-	 * @param   string   $type   Type of script. Defaults to 'text/javascript'
-	 * @param   boolean  $defer  Adds the defer attribute.
-	 * @param   boolean  $async  Adds the async attribute.
-	 * @param   int  $priority  The scripts priority
+	 * @param   string   $url       URL to the linked script
+	 * @param   string   $type      Type of script. Defaults to 'text/javascript'
+	 * @param   boolean  $defer     Adds the defer attribute.
+	 * @param   boolean  $async     Adds the async attribute.
+	 * @param   integer  $priority  The scripts priority
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -466,12 +466,12 @@ class JDocument
 	 * Adds a linked script to the page with a version to allow to flush it. Ex: myscript.js54771616b5bceae9df03c6173babf11d
 	 * If not specified Joomla! automatically handles versioning
 	 *
-	 * @param   string   $url      URL to the linked script
-	 * @param   string   $version  Version of the script
-	 * @param   string   $type     Type of script. Defaults to 'text/javascript'
-	 * @param   boolean  $defer    Adds the defer attribute.
-	 * @param   boolean  $async    [description]
-	 * @param   int  $priority  The scripts priority 
+	 * @param   string   $url       URL to the linked script
+	 * @param   string   $version   Version of the script
+	 * @param   string   $type      Type of script. Defaults to 'text/javascript'
+	 * @param   boolean  $defer     Adds the defer attribute.
+	 * @param   boolean  $async     [description]
+	 * @param   integer  $priority  The scripts priority 
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
