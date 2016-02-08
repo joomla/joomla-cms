@@ -58,6 +58,29 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
+				<field
+					name="dropdownimage"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_LANGUAGES_FIELD_DROPDOWN_IMAGE_LABEL"
+					description="MOD_LANGUAGES_FIELD_DROPDOWN_IMAGE_DESC" >
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="lineheight"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_LANGUAGES_FIELD_LINEHEIGHT_LABEL"
+					description="MOD_LANGUAGES_FIELD_LINEHEIGHT_DESC" >
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
 				<field name="spacer1" type="spacer" class="text"
 					label="MOD_LANGUAGES_SPACERDROP_LABEL"
 				/>
