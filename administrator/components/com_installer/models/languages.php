@@ -129,7 +129,7 @@ class InstallerModelLanguages extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering')) . ' ' . $db->escape($this->getState('list.direction')));
+		$query->order($db->escape($this->getState('list.ordering', 'name')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
