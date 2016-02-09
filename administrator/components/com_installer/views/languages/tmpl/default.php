@@ -29,21 +29,22 @@ $version = new JVersion;
 	<?php else : ?>
 		<div id="j-main-container">
 	<?php endif;?>
-	<?php if (count($this->items) || $this->escape($this->state->get('filter.search'))) : ?>
-		<?php echo $this->loadTemplate('filter'); ?>
-		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
-				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-			</div>
-		<?php else : ?>
+	<?php if (count($this->items) : ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
+		<div class="clearfix"></div>
+			<?php if (empty($this->items)) : ?>
+				<div class="alert alert-no-items">
+					<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+				</div>
+			<?php else : ?>
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="20" class="nowrap center">
+						<th width="1%" class="nowrap center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th class="nowrap">
-							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%">
 							<?php echo JText::_('JVERSION'); ?>
@@ -54,8 +55,8 @@ $version = new JVersion;
 						<th width="35%" class="nowrap hidden-phone">
 							<?php echo JText::_('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
 						</th>
-						<th width="30" class="nowrap hidden-phone">
-							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_ID', 'update_id', $listDirn, $listOrder); ?>
+						<th width="1%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'update_id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
@@ -75,22 +76,21 @@ $version = new JVersion;
 						<td>
 							<label for="cb<?php echo $i; ?>">
 								<?php echo $language->name; ?>
-
-								<?php // Display a Note if language pack version is not equal to Joomla version ?>
-								<?php if (substr($language->version, 0, 3) != $version::RELEASE
-									|| substr($language->version, 0, 5) != $version->getShortVersion()) : ?>
-									<div class="small"><?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?></div>
-								<?php endif; ?>
 							</label>
 						</td>
 						<td class="small">
-							<?php echo $language->version; ?>
+								<?php // Display a Note if language pack version is not equal to Joomla version ?>
+								<?php if (substr($language->version, 0, 3) != $version::RELEASE || substr($language->version, 0, 5) != $version->getShortVersion()) : ?>
+									<span class="label label-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
+								<?php else : ?>
+									<span class="label label-success"><?php echo $language->version; ?></span>
+								<?php endif; ?>
 						</td>
 						<td class="small hidden-phone">
 							<?php echo JText::_('COM_INSTALLER_TYPE_' . strtoupper($language->type)); ?>
 						</td>
 						<td class="small hidden-phone">
-							<?php echo $language->detailsurl; ?>
+							<a href="<?php echo $language->detailsurl; ?>" target="_blank"><?php echo $language->detailsurl; ?></a>
 						</td>
 						<td class="small hidden-phone">
 							<?php echo $language->update_id; ?>
@@ -99,15 +99,11 @@ $version = new JVersion;
 				<?php endforeach; ?>
 				</tbody>
 			</table>
+		<?php else : ?>
+			<div class="alert"><?php echo JText::_('COM_INSTALLER_MSG_LANGUAGES_NOLANGUAGES'); ?></div>
 		<?php endif; ?>
-	<?php else : ?>
-		<div class="alert"><?php echo JText::_('COM_INSTALLER_MSG_LANGUAGES_NOLANGUAGES'); ?></div>
-	<?php endif; ?>
-
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />
-			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
 	</form>

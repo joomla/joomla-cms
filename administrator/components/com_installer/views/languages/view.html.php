@@ -51,6 +51,12 @@ class InstallerViewLanguages extends InstallerViewDefault
 		$this->items      = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
 
+		if ($this->getLayout() == 'default')
+		{
+			$this->filterForm    = $this->get('FilterForm');
+			$this->activeFilters = $this->get('ActiveFilters');
+		}
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

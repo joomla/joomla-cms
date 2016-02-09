@@ -41,8 +41,8 @@ class InstallerModelLanguages extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'update_id', 'update_id',
-				'name', 'name',
+				'update_id',
+				'name',
 			);
 		}
 
@@ -122,17 +122,13 @@ class InstallerModelLanguages extends JModelList
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
-
 		if (!empty($search))
 		{
-			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(name LIKE ' . $search . ')');
+			$query->where('(name LIKE ' . $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%')) . ')');
 		}
 
 		// Add the list ordering clause.
-		$listOrder = $this->state->get('list.ordering');
-		$orderDirn = $this->state->get('list.direction');
-		$query->order($db->escape($listOrder) . ' ' . $db->escape($orderDirn));
+		$query->order($db->escape($this->getState('list.ordering')) . ' ' . $db->escape($this->getState('list.direction')));
 
 		return $query;
 	}
@@ -168,12 +164,9 @@ class InstallerModelLanguages extends JModelList
 	 */
 	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
-		$app = JFactory::getApplication();
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
 
-		$value = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $value);
-
-		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
+		$this->setState('extension_message', JFactory::getApplication()->getUserState('com_installer.extension_message'));
 
 		parent::populateState($ordering, $direction);
 	}
