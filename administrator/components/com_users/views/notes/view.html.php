@@ -62,11 +62,11 @@ class UsersViewNotes extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Initialise view variables.
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->state = $this->get('State');
-		$this->user = $this->get('User');
-		$this->filterForm = $this->get('FilterForm');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->user          = $this->get('User');
+		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		UsersHelper::addSubmenu('notes');
@@ -154,9 +154,13 @@ class UsersViewNotes extends JViewLegacy
 	 * @return  array  Array containing the field name to sort by as the key and display text as value
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated  4.0  No replacement.
 	 */
 	protected function getSortFields()
 	{
+		JLog::add(__METHOD__ . ' is deprecated, no replacement.', JLog::WARNING, 'deprecated');
+
 		return array(
 			'u.name' => JText::_('COM_USERS_USER_HEADING'),
 			'a.subject' => JText::_('COM_USERS_SUBJECT_HEADING'),

@@ -29,19 +29,14 @@ class UsersModelNotes extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id',
-				'a.id',
-				'user_id',
-				'a.user_id',
+				'id', 'a.id',
+				'user_id', 'a.user_id',
 				'u.name',
-				'subject',
-				'a.subject',
-				'catid',
-				'a.catid',
+				'subject', 'a.subject',
+				'catid', 'a.catid',
 				'state', 'a.state',
 				'c.title',
-				'review_time',
-				'a.review_time',
+				'review_time', 'a.review_time',
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
 			);
@@ -139,9 +134,7 @@ class UsersModelNotes extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'a.review_time');
-		$orderDirn = $this->state->get('list.direction');
-		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		$query->order($db->escape($this->getState('list.ordering', 'a.review_time')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -165,6 +158,7 @@ class UsersModelNotes extends JModelList
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.category_id');
+		$id .= ':' . $this->getState('filter.user_id');
 
 		return parent::getStoreId($id);
 	}
@@ -181,7 +175,7 @@ class UsersModelNotes extends JModelList
 		$user = new JUser;
 
 		// Filter by search in title
-		$search = JFactory::getApplication()->input->get('u_id', 0, 'int');
+		$search = (int) $this->getState('filter.user_id');
 
 		if ($search != 0)
 		{
@@ -203,7 +197,7 @@ class UsersModelNotes extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.review_time', $direction = 'desc')
 	{
 		$app = JFactory::getApplication();
 		$input = $app->input;
@@ -223,9 +217,9 @@ class UsersModelNotes extends JModelList
 		$section = $app->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
 		$this->setState('filter.category_id', $section);
 
-		$userId = $input->get('u_id', 0, 'int');
+		$userId = $app->getUserStateFromRequest($this->context . '.filter.user_id', 'filter_user_id');
 		$this->setState('filter.user_id', $userId);
 
-		parent::populateState('a.review_time', 'DESC');
+		parent::populateState($ordering, $direction);
 	}
 }
