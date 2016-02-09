@@ -29,7 +29,7 @@ $version = new JVersion;
 	<?php else : ?>
 		<div id="j-main-container">
 	<?php endif;?>
-	<?php if (count($this->items) : ?>
+	<?php if (count($this->items)) : ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 		<div class="clearfix"></div>
 			<?php if (empty($this->items)) : ?>
