@@ -16,8 +16,6 @@ JHtml::_('bootstrap.tooltip');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-$version = new JVersion;
-
 ?>
 <div id="installer-languages" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=languages');?>" method="post" name="adminForm" id="adminForm">
@@ -28,14 +26,14 @@ $version = new JVersion;
 		<div id="j-main-container" class="span10">
 	<?php else : ?>
 		<div id="j-main-container">
-	<?php endif;?>
-	<?php if (count($this->items)) : ?>
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
-		<div class="clearfix"></div>
+	<?php endif; ?>
+		<?php if (count($this->items)) : ?>
+			<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
+			<div class="clearfix"></div>
 			<?php if (empty($this->items)) : ?>
-				<div class="alert alert-no-items">
-					<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-				</div>
+			<div class="alert alert-no-items">
+				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
 			<?php else : ?>
 			<table class="table table-striped">
 				<thead>
@@ -49,10 +47,10 @@ $version = new JVersion;
 						<th width="10%">
 							<?php echo JText::_('JVERSION'); ?>
 						</th>
-						<th class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JText::_('COM_INSTALLER_HEADING_TYPE'); ?>
 						</th>
-						<th width="35%" class="nowrap hidden-phone">
+						<th width="40%" class="nowrap hidden-phone">
 							<?php echo JText::_('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
@@ -68,6 +66,7 @@ $version = new JVersion;
 					</tr>
 				</tfoot>
 				<tbody>
+				<?php $version = new JVersion; ?>
 				<?php foreach ($this->items as $i => $language) : ?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
@@ -99,6 +98,7 @@ $version = new JVersion;
 				<?php endforeach; ?>
 				</tbody>
 			</table>
+			<?php endif; ?>
 		<?php else : ?>
 			<div class="alert"><?php echo JText::_('COM_INSTALLER_MSG_LANGUAGES_NOLANGUAGES'); ?></div>
 		<?php endif; ?>
