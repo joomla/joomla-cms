@@ -195,11 +195,11 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 					$titleAlias = JText::sprintf('JGLOBAL_LIST_ALIAS', $db->escape($link->alias));
 					$levelPrefix = str_repeat('- ', $link->level - 1);
 					$groups[$menu->menutype][] = JHtml::_('select.option',
-								$link->value, $levelPrefix . $link->text . ' ' . $titleAlias,
-								'value',
-								'text',
-								in_array($link->type, $this->disable)
-							);
+															$link->value, $levelPrefix . $link->text . ' ' . $titleAlias,
+															'value',
+															'text',
+															in_array($link->type, $this->disable)
+														);
 				}
 			}
 		}
