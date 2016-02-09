@@ -130,7 +130,7 @@ class UsersModelNotes extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering')) . ' ' . $db->escape($this->getState('list.direction')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.review_time')) . ' ' . $db->escape($this->getState('list.direction', 'DESC')));
 
 		return $query;
 	}
