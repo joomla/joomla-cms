@@ -44,10 +44,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%">
+						<th width="1%" class="center">
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGECODE', 'element', $listDirn, $listOrder); ?>
+						</th>
+						<th width="5%" class="center">
 							<?php echo JText::_('JVERSION'); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="5%" class="center nowrap hidden-phone">
 							<?php echo JText::_('COM_INSTALLER_HEADING_TYPE'); ?>
 						</th>
 						<th width="40%" class="nowrap hidden-phone">
@@ -68,16 +71,25 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<tbody>
 				<?php $version = new JVersion; ?>
 				<?php foreach ($this->items as $i => $language) : ?>
+					<?php
+					// Get language code and language image.
+					preg_match('#^pkg_([a-z]{2,3}-[A-Z]{2})$#', $language->element, $element);
+					$language->code  = $element[1];
+					$language->image = strtolower(str_replace('-', '_', $language->code));
+					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $language->update_id, false, 'cid'); ?>
 						</td>
 						<td>
 							<label for="cb<?php echo $i; ?>">
-								<?php echo $language->name; ?>
+								<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->name, array('title' => $language->name), true). '&nbsp;' . $language->name; ?>
 							</label>
 						</td>
-						<td class="small">
+						<td class="center small hidden-phone">
+							<?php echo $language->code; ?>
+						</td>
+						<td class="center small">
 								<?php // Display a Note if language pack version is not equal to Joomla version ?>
 								<?php if (substr($language->version, 0, 3) != $version::RELEASE || substr($language->version, 0, 5) != $version->getShortVersion()) : ?>
 									<span class="label label-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
@@ -85,7 +97,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<span class="label label-success"><?php echo $language->version; ?></span>
 								<?php endif; ?>
 						</td>
-						<td class="small hidden-phone">
+						<td class="center small hidden-phone">
 							<?php echo JText::_('COM_INSTALLER_TYPE_' . strtoupper($language->type)); ?>
 						</td>
 						<td class="small hidden-phone">

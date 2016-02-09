@@ -43,6 +43,7 @@ class InstallerModelLanguages extends JModelList
 			$config['filter_fields'] = array(
 				'update_id',
 				'name',
+				'element',
 			);
 		}
 
@@ -99,7 +100,7 @@ class InstallerModelLanguages extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the updates table.
-		$query->select($db->quoteName(array('update_id', 'name', 'version', 'detailsurl', 'type')))
+		$query->select($db->quoteName(array('update_id', 'name', 'element', 'version', 'detailsurl', 'type')))
 			->from($db->quoteName('#__updates'));
 
 		/*
