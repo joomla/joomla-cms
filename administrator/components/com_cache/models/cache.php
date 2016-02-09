@@ -19,7 +19,7 @@ class CacheModelCache extends JModelList
 	/**
 	 * An Array of CacheItems indexed by cache group ID
 	 *
-	 * @var Array
+	 * @var array
 	 */
 	protected $_data = array();
 
@@ -97,8 +97,7 @@ class CacheModelCache extends JModelList
 					$ordering = $this->getState('list.ordering');
 					$direction = ($this->getState('list.direction') == 'asc') ? 1 : (-1);
 
-					jimport('joomla.utilities.arrayhelper');
-					$this->_data = JArrayHelper::sortObjects($data, $ordering, $direction);
+					$this->_data = Joomla\Utilities\ArrayHelper::sortObjects($data, $ordering, $direction);
 
 					// Apply custom pagination.
 					if ($this->_total > $this->getState('list.limit') && $this->getState('list.limit'))
