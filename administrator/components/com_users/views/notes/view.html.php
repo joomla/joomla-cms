@@ -154,20 +154,16 @@ class UsersViewNotes extends JViewLegacy
 	 * @return  array  Array containing the field name to sort by as the key and display text as value
 	 *
 	 * @since   3.0
-	 *
-	 * @deprecated  4.0  No replacement.
 	 */
 	protected function getSortFields()
 	{
-		JLog::add(__METHOD__ . ' is deprecated, no replacement.', JLog::WARNING, 'deprecated');
-
 		return array(
-			'u.name' => JText::_('COM_USERS_USER_HEADING'),
-			'a.subject' => JText::_('COM_USERS_SUBJECT_HEADING'),
-			'c.title' => JText::_('COM_USERS_CATEGORY_HEADING'),
-			'a.state' => JText::_('JSTATUS'),
+			'u.name'        => JText::_('COM_USERS_USER_HEADING'),
+			'a.subject'     => JText::_('COM_USERS_SUBJECT_HEADING'),
+			'c.title'       => JText::_('COM_USERS_CATEGORY_HEADING'),
+			'a.state'       => JText::_('JSTATUS'),
 			'a.review_time' => JText::_('COM_USERS_REVIEW_HEADING'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'a.id'          => JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

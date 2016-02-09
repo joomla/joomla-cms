@@ -20,6 +20,8 @@
 		<field
 			name="category_id"
 			type="category"
+			label="JOPTION_FILTER_CATEGORY"
+			description="JOPTION_FILTER_CATEGORY_DESC"
 			extension="com_users"
 			onchange="this.form.submit();"
 			>
