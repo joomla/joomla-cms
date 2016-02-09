@@ -27,7 +27,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<?php else : ?>
 		<div id="j-main-container">
 	<?php endif; ?>
-		<?php if (count($this->items)) : ?>
 			<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 			<div class="clearfix"></div>
 			<?php if (empty($this->items)) : ?>
@@ -111,9 +110,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</tbody>
 			</table>
 			<?php endif; ?>
-		<?php else : ?>
-			<div class="alert"><?php echo JText::_('COM_INSTALLER_MSG_LANGUAGES_NOLANGUAGES'); ?></div>
-		<?php endif; ?>
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />
 			<?php echo JHtml::_('form.token'); ?>
