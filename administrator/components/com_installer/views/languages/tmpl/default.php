@@ -83,7 +83,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</td>
 						<td>
 							<label for="cb<?php echo $i; ?>">
-								<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->name, array('title' => $language->name), true). '&nbsp;' . $language->name; ?>
+								<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->name, array('title' => $language->name), true) . '&nbsp;' . $language->name; ?>
 							</label>
 						</td>
 						<td class="center small hidden-phone">
