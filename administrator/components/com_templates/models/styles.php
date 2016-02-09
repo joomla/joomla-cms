@@ -52,7 +52,7 @@ class TemplatesModelStyles extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = 'a.element', $direction = 'asc')
+	protected function populateState($ordering = 'a.template', $direction = 'asc')
 	{
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
