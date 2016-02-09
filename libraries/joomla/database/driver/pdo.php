@@ -325,7 +325,8 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		}
 
 		$this->freeResult();
-		unset($this->connection);
+
+		$this->connection = null;
 	}
 
 	/**
