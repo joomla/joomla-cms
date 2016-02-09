@@ -155,7 +155,7 @@ class TemplatesModelTemplates extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.element', $direction = 'asc')
 	{
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
@@ -169,6 +169,6 @@ class TemplatesModelTemplates extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.element', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 }
