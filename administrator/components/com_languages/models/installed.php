@@ -214,7 +214,7 @@ class LanguagesModelInstalled extends JModelList
 				$clientPath = $lang->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
 
 				$info = JApplicationHelper::parseXMLLangMetaFile($clientPath . '/language/' . $lang->element . '/' . $lang->element . '.xml');
-				$row  = new StdClass();
+				$row  = new StdClass;
 
 				$row->language     = $lang->element;
 				$row->client_id    = (int) $lang->client_id;
@@ -264,7 +264,7 @@ class LanguagesModelInstalled extends JModelList
 			// Filter by client id.
 			if (in_array($clientId, array(0, 1)))
 			{
-				if ($installedLanguage->client_id  !== $clientId)
+				if ($installedLanguage->client_id  != $clientId)
 				{
 					unset($installedLanguages[$key]);
 					continue;
@@ -273,9 +273,9 @@ class LanguagesModelInstalled extends JModelList
 			// Filter by search term.
 			if (!empty($search))
 			{
-				if (stripos($installedLanguage->name, $search) === false &&
-					stripos($installedLanguage->description, $search) === false &&
-					stripos($installedLanguage->language, $search) === false)
+				if (stripos($installedLanguage->name, $search) === false
+					&& stripos($installedLanguage->description, $search) === false
+					&& stripos($installedLanguage->language, $search) === false)
 				{
 					unset($installedLanguages[$key]);
 					continue;
@@ -287,10 +287,10 @@ class LanguagesModelInstalled extends JModelList
 		$listOrder = $this->getState('list.ordering', 'name');
 
 		// Ordering alphanumeric fields.
-		usort($installedLanguages, function($a, $b) use ($listOrder)
-		{
+		usort($installedLanguages, function($a, $b) use ($listOrder) {
 			return strnatcmp($a->$listOrder, $b->$listOrder);
-		});
+		}
+		);
 
 		// Reverse array if order is descending.
 		$listDirn  = $this->getState('list.direction', 'ASC');
