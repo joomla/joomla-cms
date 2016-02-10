@@ -140,7 +140,7 @@ if ($saveOrder)
 							<?php echo $this->escape($item->sef); ?>
 						</td>
 						<td>
-							<?php echo $this->escape($item->image); ?>&nbsp;<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, array('title' => $item->image), true); ?>
+							<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, array('title' => $item->image), true); ?>&nbsp;<?php echo $this->escape($item->image); ?>
 						</td>
 						<td class="center">
 							<?php echo $this->escape($item->access_level); ?>
