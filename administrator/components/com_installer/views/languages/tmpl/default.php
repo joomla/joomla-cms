@@ -43,7 +43,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="center">
+						<th width="1%">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGECODE', 'element', $listDirn, $listOrder); ?>
 						</th>
 						<th width="5%" class="center">
@@ -85,7 +85,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php echo $language->name; ?>
 							</label>
 						</td>
-						<td class="center small hidden-phone">
+						<td class="small hidden-phone">
 							<?php echo $language->code; ?>
 						</td>
 						<td class="center small">
