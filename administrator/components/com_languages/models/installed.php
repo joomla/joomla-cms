@@ -264,7 +264,7 @@ class LanguagesModelInstalled extends JModelList
 			// Filter by client id.
 			if (in_array($clientId, array(0, 1)))
 			{
-				if ($installedLanguage->client_id  != $clientId)
+				if ($installedLanguage->client_id !== $clientId)
 				{
 					unset($installedLanguages[$key]);
 					continue;
@@ -286,10 +286,13 @@ class LanguagesModelInstalled extends JModelList
 		// Process ordering.
 		$listOrder = $this->getState('list.ordering', 'name');
 
-		// Ordering alphanumeric fields.
-		usort($installedLanguages, function($a, $b) use ($listOrder) {
-			return strnatcmp($a->$listOrder, $b->$listOrder);
-		}
+		// Ordering fields.
+		usort(
+			$installedLanguages,
+			function($a, $b) use ($listOrder)
+			{
+				return strnatcmp($a->$listOrder, $b->$listOrder);
+			}
 		);
 
 		// Reverse array if order is descending.

@@ -24,17 +24,17 @@ class LanguagesHelper
 	 *
 	 * @return  void
 	 */
-	public static function addSubmenu($vName, $client_id = 0)
+	public static function addSubmenu($vName, $client = 0)
 	{
 		JHtmlSidebar::addEntry(
 			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_SITE'),
 			'index.php?option=com_languages&view=installed&client_id=0',
-			$vName == 'installed' && $client_id === 0
+			$vName == 'installed' && $client === 0
 		);
 		JHtmlSidebar::addEntry(
 			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_ADMINISTRATOR'),
 			'index.php?option=com_languages&view=installed&client_id=1',
-			$vName == 'installed' && $client_id === 1
+			$vName == 'installed' && $client === 1
 		);
 		JHtmlSidebar::addEntry(
 			JText::_('COM_LANGUAGES_SUBMENU_CONTENT'),
