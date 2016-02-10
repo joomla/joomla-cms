@@ -74,7 +74,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					// Get language code and language image.
 					preg_match('#^pkg_([a-z]{2,3}-[A-Z]{2})$#', $language->element, $element);
 					$language->code  = $element[1];
-					$language->image = strtolower(str_replace('-', '_', $language->code));
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
@@ -82,7 +81,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</td>
 						<td>
 							<label for="cb<?php echo $i; ?>">
-								<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->name, array('title' => $language->name), true) . '&nbsp;' . $language->name; ?>
+								<?php echo $language->name; ?>
 							</label>
 						</td>
 						<td class="center small hidden-phone">
