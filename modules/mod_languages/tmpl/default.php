@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
+JHtml::_('formbehavior.chosen', 'select');
 ?>
 <div class="mod-languages<?php echo $moduleclass_sfx; ?>">
 <?php if ($headerText) : ?>
@@ -35,13 +36,13 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 				<a href="#" data-toggle="dropdown" class="btn dropdown-toggle"><span class="caret"></span><?php echo $flag; ?></a>
 			<?php endif; ?>
 		<?php endforeach;?>
-		<ul class="<?php echo $params->get('lineheight', 1) ? 'lang-block' : 'lang-inline'; ?> dropdown-menu">
+		<ul class="<?php echo $params->get('lineheight', 1) ? 'lang-block' : 'lang-inline'; ?> dropdown-menu" dir="<?php echo JFactory::getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 		<?php foreach ($list as $language) : ?>
 			<?php if ($params->get('show_active', 0) || !$language->active) : ?>
-				<li class="<?php echo $language->active ? 'lang-active' : ''; ?>" dir="<?php echo JLanguage::getInstance($language->lang_code)->isRtl() ? 'rtl' : 'ltr' ?>">
+				<li class="<?php echo $language->active ? 'lang-active' : ''; ?>" >
 				<a href="<?php echo $language->link;?>">
 					<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
-					<?php echo "&nbsp;" . $language->title_native; ?>
+					<?php echo $language->title_native; ?>
 				</a>
 				</li>
 			<?php endif; ?>
