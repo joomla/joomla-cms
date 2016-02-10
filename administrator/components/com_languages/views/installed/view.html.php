@@ -18,6 +18,7 @@ class LanguagesViewInstalled extends JViewLegacy
 {
 	/**
 	 * @var object client object.
+	 * @deprecated 4.0
 	 */
 	protected $client = null;
 
@@ -55,16 +56,26 @@ class LanguagesViewInstalled extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->ftp        = $this->get('Ftp');
-		$this->option     = $this->get('Option');
-		$this->pagination = $this->get('Pagination');
-		$this->rows       = $this->get('Data');
-		$this->state      = $this->get('State');
+		$this->ftp           = $this->get('Ftp');
+		$this->option        = $this->get('Option');
+		$this->pagination    = $this->get('Pagination');
+		$this->rows          = $this->get('Data');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
-		$client = (int) $this->state->get('filter.client_id', 0);
-		LanguagesHelper::addSubmenu('installed', $client);
+		LanguagesHelper::addSubmenu('installed');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			JError::raiseError(500, implode("\n", $errors));
+
+			return false;
+		}
 
 		$this->addToolbar();
+
 		parent::display($tpl);
 	}
 
