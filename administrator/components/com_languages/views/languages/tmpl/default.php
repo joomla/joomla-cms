@@ -60,7 +60,7 @@ if ($saveOrder)
 						<th class="title hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'a.title_native', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-phone">
+						<th width="5%" class="nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_TAG', 'a.lang_code', $listDirn, $listOrder); ?>
 						</th>
 						<th width="5%" class="nowrap">
@@ -75,7 +75,7 @@ if ($saveOrder)
 						<th width="5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_HOMEPAGE', 'l.home', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="1%" class="nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.lang_id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -107,9 +107,9 @@ if ($saveOrder)
 								<span class="sortable-handler hasTooltip <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
 									<span class="icon-menu"></span>
 								</span>
-								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
+								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
 							<?php else : ?>
-								<span class="sortable-handler inactive" >
+								<span class="sortable-handler inactive">
 									<span class="icon-menu"></span>
 								</span>
 							<?php endif; ?>
@@ -123,17 +123,16 @@ if ($saveOrder)
 						<td>
 							<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('JGLOBAL_EDIT_ITEM'), $item->title, 0); ?>">
 							<?php if ($canEdit) : ?>
-								<a href="<?php echo JRoute::_('index.php?option=com_languages&task=language.edit&lang_id=' . (int) $item->lang_id); ?>">
-									<?php echo $this->escape($item->title); ?></a>
+								<a href="<?php echo JRoute::_('index.php?option=com_languages&task=language.edit&lang_id=' . (int) $item->lang_id); ?>"><?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
-									<?php echo $this->escape($item->title); ?>
+								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
 							</span>
 						</td>
 						<td class="hidden-phone">
 							<?php echo $this->escape($item->title_native); ?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-phone hidden-tablet">
 							<?php echo $this->escape($item->lang_code); ?>
 						</td>
 						<td>
@@ -146,13 +145,9 @@ if ($saveOrder)
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<td class="hidden-phone">
-							<?php if ($item->home == '1') : ?>
-								<?php echo JText::_('JYES');?>
-							<?php else:?>
-								<?php echo JText::_('JNO');?>
-							<?php endif;?>
+							<?php echo ($item->home == '1') ? JText::_('JYES') : JText::_('JNO'); ?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-phone hidden-tablet">
 							<?php echo $this->escape($item->lang_id); ?>
 						</td>
 					</tr>

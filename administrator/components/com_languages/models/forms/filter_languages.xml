@@ -11,6 +11,7 @@
 		<field
 			name="published"
 			type="status"
+			filter="1,0,-2,*"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
