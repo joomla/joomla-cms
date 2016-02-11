@@ -80,6 +80,9 @@ class TagsModelTags extends JModelList
 		$language = $this->getUserStateFromRequest($context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
+		$aliast = $this->getUserStateFromRequest($context . '.filter.alias_type', 'filter_alias_type', '');
+		$this->setState('filter.alias_type', $aliast);
+
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_tags');
 		$this->setState('params', $params);
@@ -123,13 +126,108 @@ class TagsModelTags extends JModelList
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
+		$user  = JFactory::getUser();
+		$type  = $this->getState('filter.alias_type', '');
+
+		// Count queries;
+		switch ($type)
+		{
+			case 'com_content.article':
+				$table = '#__content';
+				$state = 'c.state';
+				break;
+			case 'com_content.category':
+				$table = '#__categories';
+				$state  = 'c.published';
+				break;
+			case 'com_contact.category':
+				$table = '#__categories';
+				$state  = 'c.published';
+				break;
+			case 'com_contact.contact':
+				$table = '#__contact_details';
+				$state  = 'c.published';
+				break;
+			case 'com_users.category':
+				$table = '#__categories';
+				$state  = 'c.published';
+				break;
+			case 'com_banners.category':
+				$table = '#__categories';
+				$state  = 'c.published';
+				break;
+			case 'com_newsfeeds.category':
+				$table = '#__categories';
+				$state  = 'c.published';
+				break;
+			case 'com_newsfeeds.newsfeed':
+				$table = '#__newsfeeds';
+				$state  = 'c.published';
+				break;
+			case 'com_weblinks.category':
+				if (JComponentHelper::isEnabled('com_weblinks'))
+				{
+					$table = '#__categories';
+					$state  = 'c.published';
+				}
+				break;
+			case 'com_weblinks.weblink':
+				if (JComponentHelper::isEnabled('com_weblinks'))
+				{
+					$table = '#__weblinks';
+					$state  = 'c.state';
+				}
+				break;
+		}
+
+		if (isset($table))
+		{
+			// Count the published aliastype with the tag
+			$queryp = $db->getQuery(true);
+			$queryp->select('COUNT(c.id)');
+			$queryp->from($db->quoteName('#__tags') . ' AS t');
+			$queryp->join('LEFT', $db->quoteName('#__contentitem_tag_map') . ' AS ct ON t.id=ct.tag_id');
+			$queryp->join('LEFT', $db->quoteName($table) . ' AS c ON ct.content_item_id=c.id AND ' . $state . ' = 1');
+			$queryp->where('t.id = a.id');
+			$queryp->where('ct.type_alias = ' . $db->quote($type));
+
+			// Count the unpublished aliastype with the tag
+			$queryu = $db->getQuery(true);
+			$queryu->select('COUNT(c.id)');
+			$queryu->from($db->quoteName('#__tags') . ' AS t');
+			$queryu->join('LEFT', $db->quoteName('#__contentitem_tag_map') . ' AS ct ON t.id=ct.tag_id');
+			$queryu->join('LEFT', $db->quoteName($table) . ' AS c ON ct.content_item_id=c.id AND ' . $state . ' = 0');
+			$queryu->where('t.id = a.id');
+			$queryu->where('ct.type_alias = ' . $db->quote($type));
+
+			// Count the archived aliastype with the tag
+			$querya = $db->getQuery(true);
+			$querya->select('COUNT(c.id)');
+			$querya->from($db->quoteName('#__tags') . ' AS t');
+			$querya->join('LEFT', $db->quoteName('#__contentitem_tag_map') . ' AS ct ON t.id=ct.tag_id');
+			$querya->join('LEFT', $db->quoteName($table) . ' AS c ON ct.content_item_id=c.id AND ' . $state . ' = 2');
+			$querya->where('t.id = a.id');
+			$querya->where('ct.type_alias = ' . $db->quote($type));
+
+			// Count the trashed aliastype with the tag
+			$queryt = $db->getQuery(true);
+			$queryt->select('COUNT(c.id)');
+			$queryt->from($db->quoteName('#__tags') . ' AS t');
+			$queryt->join('LEFT', $db->quoteName('#__contentitem_tag_map') . ' AS ct ON t.id=ct.tag_id');
+			$queryt->join('LEFT', $db->quoteName($table) . ' AS c ON ct.content_item_id=c.id AND ' . $state . ' = -2');
+			$queryt->where('t.id = a.id');
+			$queryt->where('ct.type_alias = ' . $db->quote($type));
+			$query->select('(' . $queryp . ') AS count_published');
+			$query->select('(' . $queryu . ') AS count_unpublished');
+			$query->select('(' . $querya . ') AS count_archived');
+			$query->select('(' . $queryt . ') AS count_trashed');
+		}
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.note, a.published, a.access' .
+					'a.id, a.title, a.alias, a.note, a.published, a.access' .
 					', a.checked_out, a.checked_out_time, a.created_user_id' .
 					', a.path, a.parent_id, a.level, a.lft, a.rgt' .
 					', a.language'
