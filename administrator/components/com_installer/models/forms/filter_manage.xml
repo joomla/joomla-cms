@@ -2,7 +2,7 @@
 <form>
 	<fieldset addfieldpath="/administrator/components/com_installer/models/fields" />
 
-    <fields name="filter">
+	<fields name="filter">
 		<field
 			name="search"
 			type="text"
@@ -41,7 +41,7 @@
 			<option value="">COM_INSTALLER_VALUE_FOLDER_SELECT</option>
 		</field>
 	</fields>
-    <fields name="list">
+	<fields name="list">
 		<field
 			name="fullordering"
 			type="list"
