@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fieldset addfieldpath="/administrator/components/com_installer/models/fields"/>
+	<fieldset addfieldpath="/administrator/components/com_installer/models/fields"/>
 
-    <fields name="filter">
+	<fields name="filter">
 		<field
 			name="search"
 			type="text"
@@ -28,7 +28,7 @@
 			>
 			<option value="">COM_INSTALLER_VALUE_CLIENT_SELECT</option>
 		</field>
-        <field
+		<field
 			name="type"
 			type="type"
 			onchange="this.form.submit();"
