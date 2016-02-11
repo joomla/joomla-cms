@@ -18,7 +18,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 ?>
 <div id="installer-languages" class="clearfix">
-	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=languages');?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=languages'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="span2">
 			<?php echo $this->sidebar; ?>
@@ -43,14 +43,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%">
+						<th width="1%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGECODE', 'element', $listDirn, $listOrder); ?>
 						</th>
 						<th width="5%" class="center">
 							<?php echo JText::_('JVERSION'); ?>
-						</th>
-						<th width="5%" class="center nowrap hidden-phone">
-							<?php echo JText::_('COM_INSTALLER_HEADING_TYPE'); ?>
 						</th>
 						<th width="40%" class="nowrap hidden-phone">
 							<?php echo JText::_('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
@@ -62,7 +59,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="6">
+						<td colspan="5">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -85,10 +82,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php echo $language->name; ?>
 							</label>
 						</td>
-						<td class="small hidden-phone">
+						<td>
 							<?php echo $language->code; ?>
 						</td>
-						<td class="center small">
+						<td class="center">
 								<?php // Display a Note if language pack version is not equal to Joomla version ?>
 								<?php if (substr($language->version, 0, 3) != $version::RELEASE || substr($language->version, 0, 5) != $currentShortVersion) : ?>
 									<span class="label label-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
@@ -96,13 +93,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<span class="label label-success"><?php echo $language->version; ?></span>
 								<?php endif; ?>
 						</td>
-						<td class="center small hidden-phone">
-							<?php echo JText::_('COM_INSTALLER_TYPE_' . strtoupper($language->type)); ?>
-						</td>
 						<td class="small hidden-phone">
 							<a href="<?php echo $language->detailsurl; ?>" target="_blank"><?php echo $language->detailsurl; ?></a>
 						</td>
-						<td class="small hidden-phone">
+						<td class="hidden-phone">
 							<?php echo $language->update_id; ?>
 						</td>
 					</tr>

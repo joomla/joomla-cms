@@ -165,7 +165,7 @@ class InstallerModelLanguages extends JModelList
 	 */
 	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 
 		$this->setState('extension_message', JFactory::getApplication()->getUserState('com_installer.extension_message'));
 
