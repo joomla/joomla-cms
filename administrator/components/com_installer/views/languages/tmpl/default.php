@@ -44,7 +44,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap">
-							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGECODE', 'element', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
 						</th>
 						<th width="5%" class="center">
 							<?php echo JText::_('JVERSION'); ?>
