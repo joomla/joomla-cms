@@ -43,15 +43,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						&#160;
 					</th>
 					<th width="25%">
-						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'name', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 					</th>
-					<th>
+					<th class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_TAG', 'language', $listDirn, $listOrder); ?>
 					</th>
-					<th class="center">
+					<th class="nowrap center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DEFAULT', 'published', $listDirn, $listOrder); ?>
 					</th>
-					<th class="center hidden-phone">
+					<th class="nowrap center hidden-phone">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_VERSION', 'version', $listDirn, $listOrder); ?>
 					</th>
 					<th class="hidden-phone">
@@ -60,10 +60,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th class="hidden-phone">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR', 'author', $listDirn, $listOrder); ?>
 					</th>
-					<th class="hidden-phone">
+					<th class="hidden-phone hidden-tablet">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR_EMAIL', 'authorEmail', $listDirn, $listOrder); ?>
 					</th>
-					<th class="hidden-phone">
+					<th class="nowrap hidden-phone">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -113,7 +113,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<td class="hidden-phone">
 						<?php echo $this->escape($row->author); ?>
 					</td>
-					<td class="hidden-phone">
+					<td class="hidden-phone hidden-tablet">
 						<?php echo JStringPunycode::emailToUTF8($this->escape($row->authorEmail)); ?>
 					</td>
 					<td class="hidden-phone">
