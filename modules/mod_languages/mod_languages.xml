@@ -112,7 +112,7 @@
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="1"
-					showon="image:1[OR]dropdownimage:1[OR]dropdown:0"
+					showon="dropdownimage:1[OR]dropdown:0"
 					label="MOD_LANGUAGES_FIELD_ACTIVE_LABEL"
 					description="MOD_LANGUAGES_FIELD_ACTIVE_DESC"
 				>
