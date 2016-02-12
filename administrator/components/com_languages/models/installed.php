@@ -102,8 +102,12 @@ class LanguagesModelInstalled extends JModelList
 	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
 		// Load the filter state.
-		$this->setState('client_id', $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', null, 'int'));
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+
+		// Special case for client id.
+		$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
+		$clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
+		$this->setState('client_id', $clientId);
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_languages');
