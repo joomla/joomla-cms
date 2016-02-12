@@ -52,15 +52,16 @@ class PlgCaptchaRecaptcha extends JPlugin
 			$theme	= $this->params->get('theme', 'clean');
 			$file	= 'https://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
 
+			JHtml::_('script', $file);
 			JFactory::getDocument()->addScriptDeclaration('jQuery( document ).ready(function()
 				{Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '",' . $this->_getLanguage() . 'tabindex: 0});});');
 		}
 		else
 		{
-			$file	= 'https://www.google.com/recaptcha/api.js?hl=' . JFactory::getLanguage()->getTag();
+			$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . JFactory::getLanguage()->getTag();
+			JHtml::_('script', $file);
+			JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.js', false, true);
 		}
-
-		JHtml::_('script', $file);
 
 		return true;
 	}
