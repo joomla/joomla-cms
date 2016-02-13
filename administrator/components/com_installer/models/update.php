@@ -60,7 +60,8 @@ class InstallerModelUpdate extends JModelList
 		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
 		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
-		// Extension id is a special filter case to check updates for extension id, also could use filter[search]=eid:XX 
+
+		// Extension id is a special filter case to check updates for extension id, also could use filter[search]=eid:XX
 		$this->setState('filter.extension_id', $this->getUserStateFromRequest($this->context . '.filter.extension_id', 'filter_extension_id', null, 'int'));
 
 		$app = JFactory::getApplication();
