@@ -89,7 +89,7 @@ class InstallerModelUpdate extends JModelList
 			->select($db->quoteName('e.manifest_cache'))
 			->from($db->quoteName('#__updates', 'u'))
 			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('u.extension_id'))
-			->where($db->quoteName('u.extension_id') . ' NOT IN (' . $db->quote(0) . ', ' . $db->quote(700) . ')');
+			->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(0));
 
 		// Process select filters.
 		$clientId    = $this->getState('filter.client_id');
@@ -126,9 +126,21 @@ class InstallerModelUpdate extends JModelList
 			{
 				$query->where($db->quoteName('u.extension_id') . ' = ' . (int) substr($search, 4));
 			}
-			elseif (stripos($search, 'id:') !== false)
+			else
 			{
-				$query->where($db->quoteName('u.update_id') . ' = ' . (int) substr($search, 3));
+				if (stripos($search, 'uid:') !== false)
+				{
+					$query->where($db->quoteName('u.update_site_id') . ' = ' . (int) substr($search, 4));
+				}
+				elseif (stripos($search, 'id:') !== false)
+				{
+					$query->where($db->quoteName('u.update_id') . ' = ' . (int) substr($search, 3));
+				}
+				else
+				{
+					$query->where($db->quoteName('u.name') . ' LIKE ' . $db->quote('%' . $search . '%'));
+				}
+				$query->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(700));
 			}
 		}
 
