@@ -31,13 +31,11 @@ class InstallerModelUpdate extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'name',
-				'client_id',
-				'type',
-				'folder',
-				'extension_id',
-				'update_id',
-				'update_site_id',
+				'name', 'u.name',
+				'client_id', 'u.client_id',
+				'type', 'u.type',
+				'folder', 'u.folder',
+				'extension_id', 'u.extension_id',
 			);
 		}
 
@@ -56,28 +54,22 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'u.name', $direction = 'asc')
 	{
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
+		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
+		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
+		// Extension id is a special filter case to check updates for extension id, also could use filter[search]=eid:XX 
+		$this->setState('filter.extension_id', $this->getUserStateFromRequest($this->context . '.filter.extension_id', 'filter_extension_id', null, 'int'));
+
 		$app = JFactory::getApplication();
-		$value = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $value);
-
-		$clientId = $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', '');
-		$this->setState('filter.client_id', $clientId);
-
-		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '');
-		$this->setState('filter.type', $categoryId);
-
-		$group = $this->getUserStateFromRequest($this->context . '.filter.group', 'filter_group', '');
-		$this->setState('filter.group', $group);
-
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
-		$this->setState('list.ordering', 'name');
 
-		parent::populateState('name', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -90,39 +82,39 @@ class InstallerModelUpdate extends JModelList
 	protected function getListQuery()
 	{
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$type = $this->getState('filter.type');
-		$client = $this->getState('filter.client_id');
-		$group = $this->getState('filter.group');
 
 		// Grab updates ignoring new installs
 		$query = $db->getQuery(true)
 			->select('u.*')
-			->select('e.manifest_cache')
+			->select($db->quoteName('e.manifest_cache'))
 			->from($db->quoteName('#__updates', 'u'))
 			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('u.extension_id'))
-			->where($db->quoteName('u.extension_id') . ' != 0')
-			->order($db->quoteName('u.' . $this->getState('list.ordering')) . ' ' . $this->getState('list.direction'));
+			->where($db->quoteName('u.extension_id') . ' != 0');
+
+		// Process select filters.
+		$clientId    = $this->getState('filter.client_id');
+		$type        = $this->getState('filter.type');
+		$folder      = $this->getState('filter.folder');
+		$extensionId = $this->getState('filter.extension_id');
 
 		if ($type)
 		{
-			$query->where('u.type = ' . $db->quote($type));
+			$query->where($db->quoteName('u.type') . ' = ' . $db->quote($type));
 		}
 
-		if ($client != '')
+		if ($clientId != '')
 		{
-			$query->where('u.client_id = ' . intval($client));
+			$query->where($db->quoteName('u.client_id') . ' = ' . (int) $clientId);
 		}
 
-		if ($group != '' && in_array($type, array('plugin', 'library', '')))
+		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where('u.folder = ' . $db->quote($group == '*' ? '' : $group));
+			$query->where($db->quoteName('u.folder') . ' = ' . $db->quote($folder == '*' ? '' : $folder));
 		}
 
-		// Filter by extension_id
-		if ($eid = $this->getState('filter.extension_id'))
+		if ($extensionId)
 		{
-			$query->where($db->quoteName('u.extension_id') . ' = ' . $db->quote((int) $eid));
+			$query->where($db->quoteName('u.extension_id') . ' = ' . $db->quote((int) $extensionId));
 		}
 		else
 		{
@@ -130,14 +122,20 @@ class InstallerModelUpdate extends JModelList
 				->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(700));
 		}
 
-		// Filter by search
+		// Process search filter.
 		$search = $this->getState('filter.search');
 
 		if (!empty($search))
 		{
-			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('u.name LIKE ' . $search);
+			if (stripos($search, 'eid:') !== false)
+			{
+				$query->where($db->quoteName('u.extension_id') . ' = ' . (int) substr($search, 4));
+			}
+
 		}
+
+		// Process ordering.
+		$query->order($db->quoteName($this->getState('list.ordering', 'u.name')) . ' ' . $this->getState('list.direction', 'asc'));
 
 		return $query;
 	}
@@ -154,7 +152,7 @@ class InstallerModelUpdate extends JModelList
 		$db = $this->getDbo();
 
 		$query = $db->getQuery(true)
-			->select('count(*)')
+			->select('COUNT(*)')
 			->from('#__update_sites')
 			->where('enabled = 0');
 
@@ -179,8 +177,7 @@ class InstallerModelUpdate extends JModelList
 		// Purge the updates list
 		$this->purge();
 
-		$updater = JUpdater::getInstance();
-		$updater->findUpdates($eid, $cache_timeout, $minimum_stability);
+		JUpdater::getInstance()->findUpdates($eid, $cache_timeout, $minimum_stability);
 
 		return true;
 	}
@@ -420,7 +417,7 @@ class InstallerModelUpdate extends JModelList
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState($this->context . '.data', array());
+		$data = JFactory::getApplication()->getUserState($this->context, array());
 
 		return $data;
 	}
