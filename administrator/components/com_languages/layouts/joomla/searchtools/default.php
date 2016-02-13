@@ -21,6 +21,7 @@ if ($data['view'] instanceof LanguagesViewInstalled)
 		.js-stools .js-stools-client_id {
 			float: left;
 			margin-right: 10px;
+			min-width: 220px;
 		}
 		html[dir=rtl] .js-stools .js-stools-client_id {
 			float: right;
@@ -29,8 +30,7 @@ if ($data['view'] instanceof LanguagesViewInstalled)
 		}
 		.js-stools .js-stools-container-bar .js-stools-field-filter .chzn-container {
 			padding: 3px 0;
-		}
-	");
+		}");
 
 	// Client id filter doesn't have to activate the filter bar
 	unset($data['view']->activeFilters['client_id']);
