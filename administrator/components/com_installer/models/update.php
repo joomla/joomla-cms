@@ -138,7 +138,7 @@ class InstallerModelUpdate extends JModelList
 				}
 				else
 				{
-					$query->where($db->quoteName('u.name') . ' LIKE ' . $db->quote('%' . $search . '%'));
+					$query->where($db->quoteName('u.name') . ' LIKE ' . $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true)) . '%'));
 				}
 				$query->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(700));
 			}
