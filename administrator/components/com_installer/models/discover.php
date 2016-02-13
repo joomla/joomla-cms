@@ -118,9 +118,8 @@ class InstallerModelDiscover extends InstallerModel
 			}
 			else
 			{
-				$query->where('(' . $db->quoteName('name') . ' LIKE ' . $db->quote('%' . $search . '%') . ')' .
-					' OR (' . $db->quoteName('manifest_cache') . ' LIKE ' . $db->quote('%' . $search . '%') . ')'
-				);
+				$query->where($db->quoteName('name') . ' LIKE ' . $db->quote('%' . $search . '%'));
+
 			}
 		}
 
