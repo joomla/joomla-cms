@@ -107,7 +107,7 @@ class InstallerModelDiscover extends InstallerModel
 			$query->where($db->quoteName('folder') . ' = ' . $db->quote($folder == '*' ? '' : $folder));
 		}
 
-		// Process search filter (extension id).
+		// Process search filter.
 		$search = $this->getState('filter.search');
 
 		if (!empty($search))
