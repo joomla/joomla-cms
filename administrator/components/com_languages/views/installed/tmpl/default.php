@@ -15,7 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
-$user     = JFactory::getUser();
+$user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
@@ -85,7 +85,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td>
-						<?php echo JHtml::_('languages.id', $i, $row->language);?>
+						<?php echo JHtml::_('languages.id', $i, $row->language); ?>
 					</td>
 					<td>
 						<label for="cb<?php echo $i; ?>">
@@ -119,7 +119,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo $this->escape($row->extension_id); ?>
 					</td>
 				</tr>
-			<?php endforeach;?>
+			<?php endforeach; ?>
 			</tbody>
 		</table>
 		<?php endif; ?>
