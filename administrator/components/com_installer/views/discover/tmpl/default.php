@@ -48,22 +48,22 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 						</th>
-						<th class="hidden-phone">
+						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?>
 						</th>
-						<th>
+						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%">
+						<th width="10%" class="hidden-phone">
 							<?php echo JText::_('JVERSION'); ?>
 						</th>
-						<th width="10%" class="hidden-phone">
+						<th width="10%" class="hidden-phone hidden-tablet">
 							<?php echo JText::_('JDATE'); ?>
 						</th>
-						<th width="15%" class="hidden-phone">
+						<th width="15%" class="hidden-phone hidden-tablet">
 							<?php echo JText::_('JAUTHOR'); ?>
 						</th>
-						<th class="hidden-phone">
+						<th class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
@@ -87,19 +87,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>"><?php echo $item->name; ?></span>
 							</label>
 						</td>
-						<td class="hidden-phone">
+						<td>
 							<?php echo $item->client; ?>
 						</td>
 						<td>
 							<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?>
 						</td>
-						<td>
+						<td class="hidden-phone">
 							<?php echo @$item->version != '' ? $item->version : '&#160;'; ?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-phone hidden-tablet">
 							<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-phone hidden-tablet">
 							<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
 								<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
 							</span>
