@@ -50,9 +50,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'u.name', $listDirn, $listOrder); ?>
 						</th>
-						<th class="nowrap">
-							<?php echo JText::_('COM_INSTALLER_HEADING_INSTALLTYPE'); ?>
-						</th>
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'u.client_id', $listDirn, $listOrder); ?>
 						</th>
@@ -67,6 +64,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</th>
 						<th class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'u.folder', $listDirn, $listOrder); ?>
+						</th>
+						<th class="nowrap">
+							<?php echo JText::_('COM_INSTALLER_HEADING_INSTALLTYPE'); ?>
 						</th>
 						<th width="40%" class="hidden-phone hidden-tablet">
 							<?php echo JText::_('COM_INSTALLER_HEADING_DETAILSURL'); ?>
@@ -99,9 +99,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</label>
 						</td>
 						<td>
-							<?php echo $item->extension_id ? JText::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : JText::_('COM_INSTALLER_NEW_INSTALL'); ?>
-						</td>
-						<td>
 							<?php echo $client; ?>
 						</td>
 						<td>
@@ -115,6 +112,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</td>
 						<td class="hidden-phone">
 							<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
+						</td>
+						<td>
+							<?php echo $item->extension_id ? JText::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : JText::_('COM_INSTALLER_NEW_INSTALL'); ?>
 						</td>
 						<td class="hidden-phone hidden-tablet">
 							<span class="break-word">
