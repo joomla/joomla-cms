@@ -89,7 +89,7 @@ class InstallerModelUpdate extends JModelList
 			->select($db->quoteName('e.manifest_cache'))
 			->from($db->quoteName('#__updates', 'u'))
 			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('u.extension_id'))
-			->where($db->quoteName('u.extension_id') . ' != 0');
+			->where($db->quoteName('u.extension_id') . ' NOT IN (' . $db->quote(0) . ', ' . $db->quote(700) . ')');
 
 		// Process select filters.
 		$clientId    = $this->getState('filter.client_id');
@@ -116,11 +116,6 @@ class InstallerModelUpdate extends JModelList
 		{
 			$query->where($db->quoteName('u.extension_id') . ' = ' . $db->quote((int) $extensionId));
 		}
-		else
-		{
-			$query->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(0))
-				->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(700));
-		}
 
 		// Process search filter.
 		$search = $this->getState('filter.search');
@@ -131,11 +126,14 @@ class InstallerModelUpdate extends JModelList
 			{
 				$query->where($db->quoteName('u.extension_id') . ' = ' . (int) substr($search, 4));
 			}
-
+			elseif (stripos($search, 'id:') !== false)
+			{
+				$query->where($db->quoteName('u.update_id') . ' = ' . (int) substr($search, 3));
+			}
 		}
 
 		// Process ordering.
-		$query->order($db->quoteName($this->getState('list.ordering', 'u.name')) . ' ' . $this->getState('list.direction', 'asc'));
+		$query->order($db->quoteName($this->getState('list.ordering', 'u.name')) . ' ' . $db->escape($this->getState('list.direction', 'asc')));
 
 		return $query;
 	}
@@ -153,8 +151,8 @@ class InstallerModelUpdate extends JModelList
 
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
-			->from('#__update_sites')
-			->where('enabled = 0');
+			->from($db->quoteName('#__update_sites'))
+			->where($db->quoteName('enabled') . ' = 0');
 
 		$db->setQuery($query);
 
@@ -226,9 +224,9 @@ class InstallerModelUpdate extends JModelList
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->update('#__update_sites')
-			->set('enabled = 1')
-			->where('enabled = 0');
+			->update($db->quoteName('#__update_sites'))
+			->set($db->quoteName('enabled') . ' = 1')
+			->where($db->quoteName('enabled') . ' = 0');
 		$db->setQuery($query);
 
 		if (!$db->execute())
