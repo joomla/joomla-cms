@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Languages Component Languages Model
  *
@@ -289,40 +291,22 @@ class LanguagesModelInstalled extends JModelList
 
 		// Process ordering.
 		$listOrder = $this->getState('list.ordering', 'name');
-
-		// Ordering fields.
-		usort(
-			$installedLanguages,
-			function($a, $b) use ($listOrder)
-			{
-				return strnatcmp($a->$listOrder, $b->$listOrder);
-			}
-		);
-
-		// Reverse array if order is descending.
 		$listDirn  = $this->getState('list.direction', 'ASC');
-		if (strtoupper($listDirn) === 'DESC')
-		{
-			$installedLanguages = array_reverse($installedLanguages);
-		}
+		$installedLanguages = ArrayHelper::sortObjects($installedLanguages, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
 
-		// Pagination.
+		// Process pagination.
 		$limit = (int) $this->getState('list.limit', 25);
-		$start = (int) $this->getState('list.start', 0);
 
 		// Sets the total for pagination.
 		$this->total = count($installedLanguages);
 
 		if ($limit !== 0)
 		{
-			$finalList = array_slice($installedLanguages, $start, $limit);
-		}
-		else
-		{
-			$finalList = array_merge($installedLanguages);
+			$start = (int) $this->getState('list.start', 0);
+			return array_slice($installedLanguages, $start, $limit);
 		}
 
-		return $finalList;
+		return $installedLanguages;
 	}
 
 	/**
