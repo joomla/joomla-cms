@@ -41,6 +41,7 @@ class InstallerModelDiscover extends InstallerModel
 
 		parent::__construct($config);
 	}
+
 	/**
 	 * Method to auto-populate the model state.
 	 *
