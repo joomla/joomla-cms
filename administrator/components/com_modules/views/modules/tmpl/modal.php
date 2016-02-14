@@ -46,19 +46,25 @@ JFactory::getDocument()->addScriptDeclaration('
 			Joomla.tableOrdering(order, dirn, "");
 		};
 
-		var extraVal;
-		if (jQuery("#extra_class").length && jQuery("#extra_class").val().length)
-		{
-			extraVal =  "," + jQuery("#extra_class").val();
-		} else {
-			extraVal =  "";
-		}
-
 	        moduleIns = function(type, name) {
+	            var extraVal;
+	            if (jQuery("#extra_class").length && jQuery("#extra_class").val().length)
+	            {
+	                extraVal =  "," + jQuery("#extra_class").val();
+	            } else {
+	                extraVal =  "";
+	            }
 	            parent.window.jInsertEditorText("{loadmodule " + type + "," + name + extraVal + "}", "' . $editor . '");
 	            parent.window.jModalClose();
 	        }
 	        modulePosIns = function(position) {
+	            var extraVal;
+	            if (jQuery("#extra_class").length && jQuery("#extra_class").val().length)
+	            {
+	                extraVal =  "," + jQuery("#extra_class").val();
+	            } else {
+	                extraVal =  "";
+	            }
 	            parent.window.jInsertEditorText("{loadposition " + position +  extraVal  + "}", "' . $editor . '");
 	            parent.window.jModalClose();
 	        }
