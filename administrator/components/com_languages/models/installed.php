@@ -414,4 +414,30 @@ class LanguagesModelInstalled extends JModelList
 	{
 		return strcmp($lang1->name, $lang2->name);
 	}
+
+	/**
+	 * Method to force loading the default administrator language.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.5
+	 */
+	public function force()
+	{
+		$language = JComponentHelper::getParams('com_languages')->get('administrator', 'en-GB');
+		$client = $this->getClient();
+
+		if ($client->name == 'administrator')
+		{
+			JFactory::getApplication()->setUserState('application.lang', $language);
+		}
+		else
+		{
+			$this->setError(JText::_('COM_LANGUAGES_ERR_DEFAULT_LANGUAGE_NOT_FORCED'));
+
+			return false;
+		}
+
+		return true;
+	}
 }
