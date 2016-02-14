@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Cache Model
  *
@@ -46,9 +48,17 @@ class CacheModelCache extends JModelList
 	 */
 	public function __construct($config = array())
 	{
-		parent::__construct($config);
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'group',
+				'count',
+				'size',
+				'cliend_id',
+			);
+		}
 
-		$this->filter_fields = array('group', 'count', 'size');
+		parent::__construct($config);
 	}
 
 	/**
@@ -63,15 +73,39 @@ class CacheModelCache extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'group', $direction = 'asc')
 	{
-		$clientId = $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', 0, 'int');
-		$this->setState('clientId', $clientId == 1 ? 1 : 0);
+		// Load the filter state.
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 
-		$client = JApplicationHelper::getClientInfo($clientId);
-		$this->setState('client', $client);
+		// Special case for client id.
+		$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
+		$clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
+		$this->setState('client_id', $clientId);
 
-		parent::populateState('group', 'asc');
+		parent::populateState($ordering, $direction);
+	}
+
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string  A store id.
+	 *
+	 * @since   __DEPLOT_VERSION_
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id	.= ':' . $this->getState('client_id');
+		$id	.= ':' . $this->getState('filter.search');
+
+		return parent::getStoreId($id);
 	}
 
 	/**
@@ -84,26 +118,29 @@ class CacheModelCache extends JModelList
 		if (empty($this->_data))
 		{
 			$cache = $this->getCache();
-			$data = $cache->getAll();
+			$data  = $cache->getAll();
 
 			if ($data != false)
 			{
-				$this->_data = $data;
+				$this->_data  = $data;
 				$this->_total = count($data);
 
 				if ($this->_total)
 				{
-					// Apply custom ordering.
-					$ordering = $this->getState('list.ordering');
-					$direction = ($this->getState('list.direction') == 'asc') ? 1 : (-1);
+					
+					// Process ordering.
+					$listOrder = $this->getState('list.ordering', 'group');
+					$listDirn  = $this->getState('list.direction', 'ASC');
 
-					jimport('joomla.utilities.arrayhelper');
-					$this->_data = JArrayHelper::sortObjects($data, $ordering, $direction);
+					$this->_data = ArrayHelper::sortObjects($data, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
 
-					// Apply custom pagination.
-					if ($this->_total > $this->getState('list.limit') && $this->getState('list.limit'))
+					// Process pagination.
+					$limit = (int) $this->getState('list.limit', 25);
+
+					if ($limit !== 0)
 					{
-						$this->_data = array_slice($this->_data, $this->getState('list.start'), $this->getState('list.limit'));
+						$start = (int) $this->getState('list.start', 0);
+						return array_slice($this->_data, $start, $limit);
 					}
 				}
 			}
@@ -129,7 +166,7 @@ class CacheModelCache extends JModelList
 			'defaultgroup' => '',
 			'storage'      => $conf->get('cache_handler', ''),
 			'caching'      => true,
-			'cachebase'    => ($this->getState('clientId') == 1) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
+			'cachebase'    => ($this->getState('client_id') === 1) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
 		);
 
 		$cache = JCache::getInstance('', $options);
@@ -144,7 +181,7 @@ class CacheModelCache extends JModelList
 	 */
 	public function getClient()
 	{
-		return $this->getState('client');
+		return JApplicationHelper::getClientInfo($this->getState('client_id', 0));
 	}
 
 	/**
