@@ -1631,13 +1631,13 @@ class JoomlaInstallerScript
 				case 'pdomysql':
 				case 'mysql':
 				case 'mysqli':
-					$db->truncateTable($db->qn('#__sessions'));
+					$db->truncateTable($db->qn('#__session'));
 					break;
 
 				// Non-MySQL databases, use a simple DELETE FROM query
 				default:
 					$query = $db->getQuery(true)
-						->delete($db->qn('#__sessions'));
+						->delete($db->qn('#__session'));
 					$db->setQuery($query)->execute();
 					break;
 			}
