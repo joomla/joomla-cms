@@ -61,7 +61,7 @@
 				
 				//Proceed nested list				
 				if (nestedList){
-					root.hideChidlrenNodes(ui.item.attr('item-id'));	
+					root.hideChildrenNodes(ui.item.attr('item-id'));	
 					root.hideSameLevelChildrenNodes(ui.item.attr('level'));
 					$(tableWrapper).sortable('refresh');
 				}
@@ -109,7 +109,7 @@
 			}
 		});
 		
-		this.hideChidlrenNodes = function (itemId) {
+		this.hideChildrenNodes = function (itemId) {
 			root.childrenNodes = root.getChildrenNodes(itemId);				
 			root.childrenNodes.hide();
 		}
