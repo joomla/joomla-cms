@@ -424,7 +424,7 @@ class LanguagesModelInstalled extends JModelList
 	 */
 	public function force()
 	{
-		$language = JComponentHelper::getParams('com_languages')->get('administrator','en-GB');
+		$language = JComponentHelper::getParams('com_languages')->get('administrator', 'en-GB');
 		$client = $this->getClient();
 
 		if ($client->name == 'administrator')
