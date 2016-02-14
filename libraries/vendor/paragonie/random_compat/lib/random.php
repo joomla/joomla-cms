@@ -50,7 +50,7 @@ if (PHP_VERSION_ID < 70000) {
          * In order of preference:
          *   1. Use libsodium if available.
          *   2. fread() /dev/urandom if available (never on Windows)
-         *   3. mcrypt_create_iv($bytes, MCRYPT_CREATE_IV)
+         *   3. mcrypt_create_iv($bytes, MCRYPT_DEV_URANDOM)
          *   4. COM('CAPICOM.Utilities.1')->GetRandom()
          *   5. openssl_random_pseudo_bytes() (absolute last resort)
          * 
@@ -58,25 +58,53 @@ if (PHP_VERSION_ID < 70000) {
          */
         if (extension_loaded('libsodium')) {
             // See random_bytes_libsodium.php
-            require_once $RandomCompatDIR.'/random_bytes_libsodium.php';
+            if (PHP_VERSION_ID >= 50300 && function_exists('\\Sodium\\randombytes_buf')) {
+                require_once $RandomCompatDIR.'/random_bytes_libsodium.php';
+            } elseif (method_exists('Sodium', 'randombytes_buf')) {
+                require_once $RandomCompatDIR.'/random_bytes_libsodium_legacy.php';
+            }
         }
-        if (
-            !function_exists('random_bytes') && 
-            DIRECTORY_SEPARATOR === '/' &&
-            @is_readable('/dev/urandom')
-        ) {
+        /**
+         * Reading directly from /dev/urandom:
+         */
+        if (DIRECTORY_SEPARATOR === '/') {
             // DIRECTORY_SEPARATOR === '/' on Unix-like OSes -- this is a fast
             // way to exclude Windows.
-            // 
-            // Error suppression on is_readable() in case of an open_basedir or 
-            // safe_mode failure. All we care about is whether or not we can 
-            // read it at this point. If the PHP environment is going to panic 
-            // over trying to see if the file can be read in the first place,
-            // that is not helpful to us here.
-            
-            // See random_bytes_dev_urandom.php
-            require_once $RandomCompatDIR.'/random_bytes_dev_urandom.php';
+            $RandomCompatUrandom = true;
+            $RandomCompat_basedir = ini_get('open_basedir');
+            if (!empty($RandomCompat_basedir)) {
+                $RandomCompat_open_basedir = explode(
+                    PATH_SEPARATOR,
+                    strtolower($RandomCompat_basedir)
+                );
+                $RandomCompatUrandom = in_array(
+                    '/dev',
+                    $RandomCompat_open_basedir
+                );
+                $RandomCompat_open_basedir = null;
+            }
+            if (
+                !function_exists('random_bytes') && 
+                $RandomCompatUrandom &&
+                @is_readable('/dev/urandom')
+            ) {
+                // Error suppression on is_readable() in case of an open_basedir
+                // or safe_mode failure. All we care about is whether or not we
+                // can read it at this point. If the PHP environment is going to 
+                // panic over trying to see if the file can be read in the first 
+                // place, that is not helpful to us here.
+
+                // See random_bytes_dev_urandom.php
+                require_once $RandomCompatDIR.'/random_bytes_dev_urandom.php';
+            }
+            // Unset variables after use
+            $RandomCompatUrandom = null;
+            $RandomCompat_basedir = null;
         }
+        
+        /**
+         * mcrypt_create_iv()
+         */
         if (
             !function_exists('random_bytes') &&
             PHP_VERSION_ID >= 50307 &&
@@ -90,17 +118,29 @@ if (PHP_VERSION_ID < 70000) {
             extension_loaded('com_dotnet') &&
             class_exists('COM')
         ) {
-            try {
-                $RandomCompatCOMtest = new COM('CAPICOM.Utilities.1');
-                if (method_exists($RandomCompatCOMtest, 'GetRandom')) {
-                    // See random_bytes_com_dotnet.php
-                    require_once $RandomCompatDIR.'/random_bytes_com_dotnet.php';
+            $RandomCompat_disabled_classes = preg_split(
+                '#\s*,\s*#', 
+                strtolower(ini_get('disable_classes'))
+            );
+            
+            if (!in_array('com', $RandomCompat_disabled_classes)) {
+                try {
+                    $RandomCompatCOMtest = new COM('CAPICOM.Utilities.1');
+                    if (method_exists($RandomCompatCOMtest, 'GetRandom')) {
+                        // See random_bytes_com_dotnet.php
+                        require_once $RandomCompatDIR.'/random_bytes_com_dotnet.php';
+                    }
+                } catch (com_exception $e) {
+                    // Don't try to use it.
                 }
-            } catch (com_exception $e) {
-                // Don't try to use it.
             }
+            $RandomCompat_disabled_classes = null;
             $RandomCompatCOMtest = null;
         }
+        
+        /**
+         * openssl_random_pseudo_bytes()
+         */
         if (
             !function_exists('random_bytes') && 
             extension_loaded('openssl') &&
@@ -110,19 +150,23 @@ if (PHP_VERSION_ID < 70000) {
                     DIRECTORY_SEPARATOR === '/' &&
                     PHP_VERSION_ID >= 50300
                 ) ||
-                // Windows with PHP >= 5.3.4
-                PHP_VERSION_ID >= 50304
+                // Windows with PHP >= 5.4.1
+                PHP_VERSION_ID >= 50401
             )
         ) {
             // See random_bytes_openssl.php
             require_once $RandomCompatDIR.'/random_bytes_openssl.php';
         }
+        
+        /**
+         * throw new Exception
+         */
         if (!function_exists('random_bytes')) {
             /**
              * We don't have any more options, so let's throw an exception right now
              * and hope the developer won't let it fail silently.
              */
-            function random_bytes()
+            function random_bytes($length)
             {
                 throw new Exception(
                     'There is no suitable CSPRNG installed on your system'
