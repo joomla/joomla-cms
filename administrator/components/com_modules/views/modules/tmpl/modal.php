@@ -47,7 +47,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		};
 
 		var extraVal;
-		if (jQuery("#extra_class").val().length)
+		if (jQuery("#extra_class").length && jQuery("#extra_class").val().length)
 		{
 			extraVal =  "," + jQuery("#extra_class").val();
 		} else {
