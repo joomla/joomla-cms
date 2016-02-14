@@ -54,6 +54,5 @@ foreach (JPluginHelper::getPlugin('captcha') as $plugin)
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
 		</div>
-		</fieldset>
 	</form>
 </div>
