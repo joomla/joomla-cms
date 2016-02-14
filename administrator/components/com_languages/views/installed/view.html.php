@@ -95,7 +95,7 @@ class LanguagesViewInstalled extends JViewLegacy
 			JToolbarHelper::divider();
 
 			// Force administrator language
-			$defaultLang = JComponentHelper::getParams('com_languages')->get('administrator','en-GB');
+			$defaultLang = JComponentHelper::getParams('com_languages')->get('administrator', 'en-GB');
 			$currentLang = JFactory::getLanguage()->getTag();
 
 			if ($defaultLang != $currentLang && $this->state->get('filter.client_id', 0) == 1)
