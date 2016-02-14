@@ -13,7 +13,9 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 JHtml::_('behavior.caption');
 ?>
-<div class="blog<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Blog">
+<?php $microdata = new JMicrodata('Blog'); ?>
+<?php $microdata2 = new JMicrodata('BlogPosting'); ?>
+<div class="blog<?php echo $this->pageclass_sfx; ?>" <?php echo $microdata->displayScope();?>>
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
 			<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -55,7 +57,7 @@ JHtml::_('behavior.caption');
 		<div class="items-leading clearfix">
 			<?php foreach ($this->lead_items as &$item) : ?>
 				<div class="leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>"
-					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+					<?php echo $microdata2->displayScope(); ?> <?php echo $microdata2->property('blogPost')->display(); ?>>
 					<?php
 					$this->item = & $item;
 					echo $this->loadTemplate('item');
@@ -80,7 +82,7 @@ JHtml::_('behavior.caption');
 			<?php endif; ?>
 			<div class="span<?php echo round((12 / $this->columns)); ?>">
 				<div class="item column-<?php echo $rowcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>"
-					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+					<?php echo $microdata2->displayScope(); ?> <?php echo $microdata2->property('blogPost')->display(); ?>>
 					<?php
 					$this->item = & $item;
 					echo $this->loadTemplate('item');
