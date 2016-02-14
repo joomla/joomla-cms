@@ -120,28 +120,34 @@ class CacheModelCache extends JModelList
 			$cache = $this->getCache();
 			$data  = $cache->getAll();
 
-			if ($data != false)
+			if ($data && count($data) > 0)
 			{
-				$this->_data  = $data;
-				$this->_total = count($data);
-
-				if ($this->_total)
+				// Process filter by search term.
+				if ($search = $this->getState('filter.search'))
 				{
-					
-					// Process ordering.
-					$listOrder = $this->getState('list.ordering', 'group');
-					$listDirn  = $this->getState('list.direction', 'ASC');
-
-					$this->_data = ArrayHelper::sortObjects($data, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
-
-					// Process pagination.
-					$limit = (int) $this->getState('list.limit', 25);
-
-					if ($limit !== 0)
+					foreach ($data as $key => $cacheItem)
 					{
-						$start = (int) $this->getState('list.start', 0);
-						return array_slice($this->_data, $start, $limit);
+						if (stripos($cacheItem->group, $search) === false)
+						{
+							unset($data[$key]);
+							continue;
+						}
 					}
+				}
+
+				// Process ordering.
+				$listOrder = $this->getState('list.ordering', 'group');
+				$listDirn  = $this->getState('list.direction', 'ASC');
+
+				$this->_data = ArrayHelper::sortObjects($data, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
+
+				// Process pagination.
+				$limit = (int) $this->getState('list.limit', 25);
+
+				if ($limit !== 0)
+				{
+					$start = (int) $this->getState('list.start', 0);
+					return array_slice($this->_data, $start, $limit);
 				}
 			}
 			else
