@@ -178,34 +178,57 @@ class JApplicationCms extends JApplicationWeb
 		// If the session record doesn't exist initialise it.
 		if (!$exists)
 		{
-			$query->clear();
+			// Get the session handler from the configuration.
+			$handler = $this->get('session_handler', 'none');
 
 			if ($session->isNew())
 			{
-				$query->insert($db->quoteName('#__session'))
-					->columns($db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('time'))
-					->values($db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $db->quote((int) time()));
-				$db->setQuery($query);
+				// Default column/value set
+				$columns = array($db->quoteName('session_id'), $db->quoteName('client_id'));
+				$values  = array($db->quote($session->getId()), (int) $this->getClientId());
+
+				// If the database session handler is not in use, append the time to the row
+				if ($handler != 'database')
+				{
+					$columns[] = $db->quoteName('time');
+					$values[]  = (int) time();
+				}
 			}
 			else
 			{
-				$query->insert($db->quoteName('#__session'))
-					->columns(
-						$db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('guest') . ', ' .
-						$db->quoteName('time') . ', ' . $db->quoteName('userid') . ', ' . $db->quoteName('username')
-					)
-					->values(
-						$db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
-						$db->quote((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $db->quote($user->get('username'))
-					);
+				// Default column/value set
+				$columns = array(
+					$db->quoteName('session_id'),
+					$db->quoteName('client_id'),
+					$db->quoteName('guest'),
+					$db->quoteName('userid'),
+					$db->quoteName('username')
+				);
+				$values = array(
+					$db->quote($session->getId()),
+					(int) $this->getClientId(),
+					(int) $user->guest,
+					(int) $user->id,
+					$db->quote($user->username)
+				);
 
-				$db->setQuery($query);
+				// If the database session handler is not in use, append the time to the row
+				if ($handler != 'database')
+				{
+					$columns[] = $db->quoteName('time');
+					$values[]  = (int) $session->get('session.timer.start');
+				}
 			}
 
 			// If the insert failed, exit the application.
 			try
 			{
-				$db->execute();
+				$db->setQuery(
+					$db->getQuery(true)
+						->insert($db->quoteName('#__session'))
+						->columns($columns)
+						->values(implode(', ', $values))
+				)->execute();
 			}
 			catch (RuntimeException $e)
 			{
@@ -748,28 +771,40 @@ class JApplicationCms extends JApplicationWeb
 		$session->start();
 
 		// TODO: At some point we need to get away from having session data always in the db.
-		$db = JFactory::getDbo();
-
-		// Remove expired sessions from the database.
+		$db   = JFactory::getDbo();
 		$time = time();
-
-		if ($time % 2)
-		{
-			// The modulus introduces a little entropy, making the flushing less accurate
-			// but fires the query less than half the time.
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
-
-			$db->setQuery($query);
-			$db->execute();
-		}
 
 		// Get the session handler from the configuration.
 		$handler = $this->get('session_handler', 'none');
 
-		if (($handler != 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler == 'database' && $session->isNew()))
+		// Purge expired session data if not using the database handler; the handler will run garbage collection as a native part of PHP's API
+		if ($handler != 'database' && $time % 2)
+		{
+			// The modulus introduces a little entropy, making the flushing less accurate but fires the query less than half the time.
+			try
+			{
+				$db->setQuery(
+					$db->getQuery(true)
+						->delete($db->quoteName('#__session'))
+						->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())))
+				)->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				/*
+				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
+				 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
+				 */
+			}
+		}
+
+		/*
+		 * Check for extra session metadata when:
+		 *
+		 * 1) The database handler is in use and the session is new
+		 * 2) The database handler is not in use and the time is an even numbered second or the session is new
+		 */
+		if (($handler != 'database' && ($time % 2 || $session->isNew())) || ($handler == 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}
