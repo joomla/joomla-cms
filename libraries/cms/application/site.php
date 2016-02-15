@@ -3,18 +3,18 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Joomla! Site Application class
  *
- * @package     Joomla.Libraries
- * @subpackage  Application
- * @since       3.2
+ * @since  3.2
  */
 final class JApplicationSite extends JApplicationCms
 {
@@ -39,19 +39,19 @@ final class JApplicationSite extends JApplicationCms
 	/**
 	 * Class constructor.
 	 *
-	 * @param   mixed  $input   An optional argument to provide dependency injection for the application's
-	 *                          input object.  If the argument is a JInput object that object will become
-	 *                          the application's input object, otherwise a default input object is created.
-	 * @param   mixed  $config  An optional argument to provide dependency injection for the application's
-	 *                          config object.  If the argument is a JRegistry object that object will become
-	 *                          the application's config object, otherwise a default config object is created.
-	 * @param   mixed  $client  An optional argument to provide dependency injection for the application's
-	 *                          client object.  If the argument is a JApplicationWebClient object that object will become
-	 *                          the application's client object, otherwise a default client object is created.
+	 * @param   JInput                 $input   An optional argument to provide dependency injection for the application's
+	 *                                          input object.  If the argument is a JInput object that object will become
+	 *                                          the application's input object, otherwise a default input object is created.
+	 * @param   Registry               $config  An optional argument to provide dependency injection for the application's
+	 *                                          config object.  If the argument is a Registry object that object will become
+	 *                                          the application's config object, otherwise a default config object is created.
+	 * @param   JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
+	 *                                          client object.  If the argument is a JApplicationWebClient object that object will become
+	 *                                          the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(JInput $input = null, JRegistry $config = null, JApplicationWebClient $client = null)
+	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
 	{
 		// Register the application name
 		$this->_name = 'site';
@@ -71,6 +71,8 @@ final class JApplicationSite extends JApplicationCms
 	 * @return  void
 	 *
 	 * @since   3.2
+	 *
+	 * @throws  Exception When you are not authorised to view the home page menu item
 	 */
 	protected function authorise($itemid)
 	{
@@ -91,7 +93,18 @@ final class JApplicationSite extends JApplicationCms
 			}
 			else
 			{
+				// Get the home page menu item
+				$home_item = $menus->getDefault($this->getLanguage()->getTag());
+
+				// If we are already in the homepage raise an exception
+				if ($menus->getActive()->id == $home_item->id)
+				{
+					throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+				}
+
+				// Otherwise redirect to the homepage and show an error
 				$this->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$this->redirect(JRoute::_('index.php?Itemid=' . $home_item->id, false));
 			}
 		}
 	}
@@ -204,6 +217,15 @@ final class JApplicationSite extends JApplicationCms
 		// Mark afterRoute in the profiler.
 		JDEBUG ? $this->profiler->mark('afterRoute') : null;
 
+		/*
+		 * Check if the user is required to reset their password
+		 *
+		 * Before $this->route(); "option" and "view" can't be safely read using:
+		 * $this->input->getCmd('option'); or $this->input->getCmd('view');
+		 * ex: due of the sef urls
+		 */
+		$this->checkUserRequireReset('com_users', 'profile', 'edit', 'com_users/profile.save,com_users/profile.apply,com_users/user.logout');
+
 		// Dispatch the application
 		$this->dispatch();
 
@@ -257,7 +279,7 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @param   string  $option  The component option
 	 *
-	 * @return  object  The parameters object
+	 * @return  Registry  The parameters object
 	 *
 	 * @since   3.2
 	 * @deprecated  4.0  Use getParams() instead
@@ -272,7 +294,7 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @param   string  $option  The component option
 	 *
-	 * @return  object  The parameters object
+	 * @return  Registry  The parameters object
 	 *
 	 * @since   3.2
 	 */
@@ -320,18 +342,23 @@ final class JApplicationSite extends JApplicationCms
 			$rights = $this->get('MetaRights');
 			$robots = $this->get('robots');
 
+			// Retrieve com_menu global settings
+			$temp = clone JComponentHelper::getParams('com_menus');
+
 			// Lets cascade the parameters if we have menu item parameters
 			if (is_object($menu))
 			{
-				$temp = new JRegistry;
+				// Get show_page_heading from com_menu global settings
+				$params[$hash]->def('show_page_heading', $temp->get('show_page_heading'));
+
+				$temp = new Registry;
 				$temp->loadString($menu->params);
 				$params[$hash]->merge($temp);
 				$title = $menu->title;
 			}
 			else
 			{
-				// Get com_menu global settings
-				$temp = clone JComponentHelper::getParams('com_menus');
+				// Merge com_menu global settings
 				$params[$hash]->merge($temp);
 
 				// If supplied, use page title
@@ -458,7 +485,7 @@ final class JApplicationSite extends JApplicationCms
 
 			foreach ($templates as &$template)
 			{
-				$registry = new JRegistry;
+				$registry = new Registry;
 				$registry->loadString($template->params);
 				$template->params = $registry;
 
@@ -482,7 +509,23 @@ final class JApplicationSite extends JApplicationCms
 		}
 
 		// Allows for overriding the active template from the request
-		$template->template = $this->input->getCmd('template', $template->template);
+		$template_override = $this->input->getCmd('template', '');
+
+		// Only set template override if it is a valid template (= it exists and is enabled)
+		if (!empty($template_override))
+		{
+			if (file_exists(JPATH_THEMES . '/' . $template_override . '/index.php'))
+			{
+				foreach ($templates as $tmpl)
+				{
+					if ($tmpl->template == $template_override)
+					{
+						$template->template = $template_override;
+						break;
+					}
+				}
+			}
+		}
 
 		// Need to filter the default value as well
 		$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd');
@@ -774,14 +817,18 @@ final class JApplicationSite extends JApplicationCms
 			$this->template = new stdClass;
 			$this->template->template = $template;
 
-			if ($styleParams instanceof JRegistry)
+			if ($styleParams instanceof Registry)
 			{
 				$this->template->params = $styleParams;
 			}
 			else
 			{
-				$this->template->params = new JRegistry($styleParams);
+				$this->template->params = new Registry($styleParams);
 			}
+
+			// Store the template and its params to the config
+			$this->set('theme', $this->template->template);
+			$this->set('themeParams', $this->template->params);
 		}
 	}
 }

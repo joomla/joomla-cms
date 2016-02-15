@@ -3,11 +3,11 @@
  * @package     Joomla.Libraries
  * @subpackage  UCM
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * UCM Class for handling content types
@@ -46,9 +46,7 @@ defined('JPATH_BASE') or die;
  * @property-read  string  $core_xreference
  * @property-read  string  $core_typeid
  *
- * @package     Joomla.Libraries
- * @subpackage  UCM
- * @since       3.1
+ * @since  3.1
  */
 class JUcmType implements JUcm
 {
@@ -71,7 +69,7 @@ class JUcmType implements JUcm
 	/**
 	 * The alias for the content type
 	 *
-	 * @var	  string
+	 * @var	   string
 	 * @since  3.1
 	 */
 	protected $alias;
@@ -111,7 +109,7 @@ class JUcmType implements JUcm
 			$pk = $this->getTypeId();
 		}
 
-		$query	= $this->db->getQuery(true);
+		$query = $this->db->getQuery(true);
 		$query->select('ct.*');
 		$query->from($this->db->quoteName('#__content_types', 'ct'));
 
@@ -134,11 +132,11 @@ class JUcmType implements JUcm
 	 */
 	public function getTypeByAlias($typeAlias = null)
 	{
-		$query	= $this->db->getQuery(true);
+		$query = $this->db->getQuery(true);
 		$query->select('ct.*');
 		$query->from($this->db->quoteName('#__content_types', 'ct'));
+		$query->where($this->db->quoteName('ct.type_alias') . ' = ' . $this->db->quote($typeAlias));
 
-		$query->where($this->db->quoteName('ct.type_alias') . ' = ' . (int) $typeAlias);
 		$this->db->setQuery($query);
 
 		$type = $this->db->loadObject();
@@ -157,7 +155,7 @@ class JUcmType implements JUcm
 	 */
 	public function getTypeByTable($tableName)
 	{
-		$query	= $this->db->getQuery(true);
+		$query = $this->db->getQuery(true);
 		$query->select('ct.*');
 		$query->from($this->db->quoteName('#__content_types', 'ct'));
 

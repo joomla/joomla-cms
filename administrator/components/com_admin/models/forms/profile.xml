@@ -2,7 +2,6 @@
 <form>
 	<fieldset name="user_details">
 		<field name="name" type="text"
-			class="inputbox"
 			description="COM_ADMIN_USER_FIELD_NAME_DESC"
 			label="COM_ADMIN_USER_HEADING_NAME"
 			required="true"
@@ -10,7 +9,6 @@
 		/>
 
 		<field name="username" type="text"
-			class="inputbox"
 			description="COM_ADMIN_USER_FIELD_USERNAME_DESC"
 			label="COM_ADMIN_USER_FIELD_USERNAME_LABEL"
 			required="true"
@@ -40,7 +38,7 @@
 		/>
 
 		<field name="email" type="email"
-			class="inputbox"
+			class="validate-email"
 			description="COM_ADMIN_USER_FIELD_EMAIL_DESC"
 			label="JGLOBAL_EMAIL"
 			required="true"

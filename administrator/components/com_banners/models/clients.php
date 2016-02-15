@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of banner records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersModelClients extends JModelList
 {
@@ -23,7 +21,7 @@ class BannersModelClients extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -57,21 +55,17 @@ class BannersModelClients extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.name', $direction = 'asc')
 	{
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
-		$this->setState('filter.state', $state);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
+		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string'));
 
 		// Load the parameters.
-		$params = JComponentHelper::getParams('com_banners');
-		$this->setState('params', $params);
+		$this->setState('params', JComponentHelper::getParams('com_banners'));
 
 		// List state information.
-		parent::populateState('a.name', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -106,21 +100,20 @@ class BannersModelClients extends JModelList
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$params = JComponentHelper::getParams('com_banners');
-		$defaultPurchase = $params->get('purchase_type', 3);
+		$defaultPurchase = JComponentHelper::getParams('com_banners')->get('purchase_type', 3);
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
 				'a.id AS id,' .
-					'a.name AS name,' .
-					'a.contact AS contact,' .
-					'a.checked_out AS checked_out,' .
-					'a.checked_out_time AS checked_out_time, ' .
-					'a.state AS state,' .
-					'a.metakey AS metakey,' .
-					'a.purchase_type as purchase_type'
+				'a.name AS name,' .
+				'a.contact AS contact,' .
+				'a.checked_out AS checked_out,' .
+				'a.checked_out_time AS checked_out_time, ' .
+				'a.state AS state,' .
+				'a.metakey AS metakey,' .
+				'a.purchase_type as purchase_type'
 			)
 		);
 
@@ -159,7 +152,7 @@ class BannersModelClients extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where('a.name LIKE ' . $search);
 			}
 		}

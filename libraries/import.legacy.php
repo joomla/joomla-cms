@@ -5,7 +5,7 @@
  *
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,6 +22,7 @@ if (!defined('IS_WIN'))
 {
 	define('IS_WIN', ($os === 'WIN') ? true : false);
 }
+
 if (!defined('IS_UNIX'))
 {
 	define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
@@ -47,10 +48,10 @@ if (!class_exists('JLoader'))
 	require_once JPATH_PLATFORM . '/loader.php';
 }
 
-// Make sure that the Joomla Platform has been successfully loaded.
+// Make sure that the Joomla Loader has been successfully loaded.
 if (!class_exists('JLoader'))
 {
-	throw new RuntimeException('Joomla Platform not loaded.');
+	throw new RuntimeException('Joomla Loader not loaded.');
 }
 
 // Setup the autoloaders.
@@ -65,10 +66,10 @@ JLoader::import('joomla.factory');
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 
-// Register classes for compatability with PHP 5.3
-if (version_compare(PHP_VERSION, '5.4.0', '<'))
+// Check if the JsonSerializable interface exists already
+if (!interface_exists('JsonSerializable'))
 {
-	JLoader::register('JsonSerializable', __DIR__ . '/compat/jsonserializable.php');
+	JLoader::register('JsonSerializable', JPATH_PLATFORM . '/vendor/joomla/compat/src/JsonSerializable.php');
 }
 
 // Add deprecated constants

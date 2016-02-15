@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
 
 $app = JFactory::getApplication();
 $form = $displayData->getForm();
@@ -25,11 +25,6 @@ $extraFields = $displayData->get('extra_fields') ? : array();
 
 if ($displayData->get('show_options', 1))
 {
-	if (isset($fieldSet->description) && trim($fieldSet->description))
-	{
-		echo '<p class="alert alert-info">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
-	}
-
 	if (isset($extraFields[$name]))
 	{
 		foreach ($extraFields[$name] as $f)
@@ -49,7 +44,7 @@ if ($displayData->get('show_options', 1))
 
 	foreach ($fieldSet as $field)
 	{
-		$html[] = $field->getControlGroup();
+		$html[] = $field->renderField();
 	}
 
 	echo implode('', $html);

@@ -1,21 +1,51 @@
+# Forces new Travis-CI Infrastructure
+sudo: false
+
 language: php
 
-php:
-  - 5.3
-  - 5.4
+env:
+  global:
+    - RUN_PHPCS="no"
+    - INSTALL_MEMCACHED="yes"
+    - INSTALL_REDIS="yes"
+
+matrix:
+  include:
+    - php: 5.3
+      env: INSTALL_APC="yes"
+    - php: 5.4
+      env: INSTALL_APC="yes"
+    - php: 5.5
+      env: INSTALL_APCU="yes"
+    - php: 5.6
+      env: RUN_PHPCS="yes" INSTALL_APCU="yes"
+    - php: 7.0
+      env: INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
+
+services:
+  - memcached
+  - redis-server
 
 before_script:
-  - composer self-update
-  - pyrus channel-discover pear.phpunit.de
-  - pyrus install --force phpunit/DbUnit
-  - phpenv rehash
+  # Make sure all dev dependencies are installed
+  - composer install
+  # Set up databases for testing
   - mysql -e 'create database joomla_ut;'
-  - mysql joomla_ut < tests/unit/suites/database/stubs/mysql.sql
+  - mysql joomla_ut < tests/unit/schema/mysql.sql
   - psql -c 'create database joomla_ut;' -U postgres
-  - psql -d joomla_ut -a -f tests/unit/suites/database/stubs/postgresql.sql
+  - psql -d joomla_ut -a -f tests/unit/schema/postgresql.sql
+  # Set up Apache
+  # - ./build/travis/php-apache.sh
+  # Enable additional PHP extensions
+  - if [ "$INSTALL_MEMCACHED" == "yes" ]; then phpenv config-add build/travis/phpenv/memcached.ini; fi
+  - if [ "$INSTALL_APC" == "yes" ]; then phpenv config-add build/travis/phpenv/apc-$TRAVIS_PHP_VERSION.ini; fi
+  - if [ "$INSTALL_APCU" == "yes" ]; then printf "\n" | pecl install apcu-4.0.10; fi
+  - if [ "$INSTALL_APCU_BC_BETA" == "yes" ]; then printf "\n" | pecl install apcu_bc-beta; fi
+  - if [ "$INSTALL_REDIS" == "yes" ]; then phpenv config-add build/travis/phpenv/redis.ini; fi
 
 script:
-  - phpunit --configuration travisci-phpunit.xml
+  - libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml
+  - if [ "$RUN_PHPCS" == "yes" ]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi
 
 branches:
   except:

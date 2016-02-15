@@ -3,18 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * This models supports retrieving lists of article categories.
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.6
+ * @since  1.6
  */
 class ContentModelCategories extends JModelList
 {
@@ -34,12 +34,15 @@ class ContentModelCategories extends JModelList
 
 	private $_parent = null;
 
-	private $_items = null;
-
 	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   The field to order on.
+	 * @param   string  $direction  The direction to order on.
+	 *
+	 * @return  void.
 	 *
 	 * @since   1.6
 	 */
@@ -66,17 +69,17 @@ class ContentModelCategories extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id	A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.extension');
-		$id	.= ':'.$this->getState('filter.published');
-		$id	.= ':'.$this->getState('filter.access');
-		$id	.= ':'.$this->getState('filter.parentId');
+		$id	.= ':' . $this->getState('filter.extension');
+		$id	.= ':' . $this->getState('filter.published');
+		$id	.= ':' . $this->getState('filter.access');
+		$id	.= ':' . $this->getState('filter.parentId');
 
 		return parent::getStoreId($id);
 	}
@@ -84,19 +87,22 @@ class ContentModelCategories extends JModelList
 	/**
 	 * Redefine the function an add some properties to make the styling more easy
 	 *
-	 * @param   bool	$recursive	True if you want to return children recursively.
+	 * @param   bool  $recursive  True if you want to return children recursively.
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function getItems($recursive = false)
 	{
-		if (!count($this->_items))
+		$store = $this->getStoreId();
+
+		if (!isset($this->cache[$store]))
 		{
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new JRegistry;
+			$params = new Registry;
 
 			if ($active)
 			{
@@ -110,16 +116,24 @@ class ContentModelCategories extends JModelList
 
 			if (is_object($this->_parent))
 			{
-				$this->_items = $this->_parent->getChildren($recursive);
+				$this->cache[$store] = $this->_parent->getChildren($recursive);
 			}
-			else {
-				$this->_items = false;
+			else
+			{
+				$this->cache[$store] = false;
 			}
 		}
 
-		return $this->_items;
+		return $this->cache[$store];
 	}
 
+	/**
+	 * Get the parent.
+	 *
+	 * @return  object  An array of data items on success, false on failure.
+	 *
+	 * @since   1.6
+	 */
 	public function getParent()
 	{
 		if (!is_object($this->_parent))

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,7 +42,7 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$document = $this->getMockDocument();
 
 		$this->backupServer = $_SERVER;
@@ -66,16 +66,6 @@ class JHtmlBootstrapTest extends TestCase
 		$this->restoreFactoryState();
 
 		parent::tearDown();
-	}
-
-	/**
-	 * @todo   Implement testAffix().
-	 */
-	public function testAffix()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
 	}
 
 	/**
@@ -131,16 +121,6 @@ class JHtmlBootstrapTest extends TestCase
 			$document->_script['text/javascript'],
 			"(function($){\n\t\t\t\t$('.button').button();\n\t\t\t\t})(jQuery);",
 			'Verify that the button script is initialised'
-		);
-	}
-
-	/**
-	 * @todo   Implement testCarousel().
-	 */
-	public function testCarousel()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
 		);
 	}
 
@@ -201,76 +181,6 @@ class JHtmlBootstrapTest extends TestCase
 	}
 
 	/**
-	 * @todo   Implement testModal().
-	 */
-	public function testModal()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo   Implement testRenderModal().
-	 */
-	public function testRenderModal()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo   Implement testPopover().
-	 */
-	public function testPopover()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo   Implement testScrollspy().
-	 */
-	public function testScrollspy()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo   Implement testTooltip().
-	 */
-	public function testTooltip()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo   Implement testTypeahead().
-	 */
-	public function testTypeahead()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo   Implement testStartAccordion().
-	 */
-	public function testStartAccordion()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * Tests the endAccordion method
 	 *
 	 * @return  void
@@ -282,16 +192,6 @@ class JHtmlBootstrapTest extends TestCase
 		$this->assertThat(
 			JHtml::_('bootstrap.endAccordion'),
 			$this->equalTo('</div>')
-		);
-	}
-
-	/**
-	 * @todo   Implement testAddSlide().
-	 */
-	public function testAddSlide()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
 		);
 	}
 
@@ -311,16 +211,6 @@ class JHtmlBootstrapTest extends TestCase
 	}
 
 	/**
-	 * @todo   Implement testStartTabSet().
-	 */
-	public function testStartTabSet()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * Tests the endTabSet method
 	 *
 	 * @return  void
@@ -329,19 +219,9 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndTabSet()
 	{
-		$this->assertThat(
+		$this->assertEquals(
 			JHtml::_('bootstrap.endTabSet'),
-			$this->equalTo("\n</div>")
-		);
-	}
-
-	/**
-	 * @todo   Implement testAddTab().
-	 */
-	public function testAddTab()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+			PHP_EOL . "</div>"
 		);
 	}
 
@@ -354,19 +234,9 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndTab()
 	{
-		$this->assertThat(
+		$this->assertEquals(
 			JHtml::_('bootstrap.endTab'),
-			$this->equalTo("\n</div>")
-		);
-	}
-
-	/**
-	 * @todo   Implement testStartPane().
-	 */
-	public function testStartPane()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+			PHP_EOL . "</div>"
 		);
 	}
 
@@ -379,19 +249,9 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndPane()
 	{
-		$this->assertThat(
+		$this->assertEquals(
 			JHtml::_('bootstrap.endTabSet'),
-			$this->equalTo("\n</div>")
-		);
-	}
-
-	/**
-	 * @todo   Implement testAddPanel().
-	 */
-	public function testAddPanel()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+			PHP_EOL . "</div>"
 		);
 	}
 
@@ -404,9 +264,9 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndPanel()
 	{
-		$this->assertThat(
+		$this->assertEquals(
 			JHtml::_('bootstrap.endTab'),
-			$this->equalTo("\n</div>")
+			PHP_EOL . "</div>"
 		);
 	}
 

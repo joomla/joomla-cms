@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of search terms.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_search
- * @since       1.5
+ * @since  1.5
  */
 class SearchViewSearches extends JViewLegacy
 {
@@ -27,19 +25,25 @@ class SearchViewSearches extends JViewLegacy
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Display the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-		$this->enabled		= $this->state->params->get('enabled');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
+		$this->enabled    = $this->state->params->get('enabled');
+		$this->canDo      = JHelperContent::getActions('com_search');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -50,11 +54,13 @@ class SearchViewSearches extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= SearchHelper::getActions();
+		$canDo = $this->canDo;
 
 		JToolbarHelper::title(JText::_('COM_SEARCH_MANAGER_SEARCHES'), 'search');
 
@@ -62,11 +68,14 @@ class SearchViewSearches extends JViewLegacy
 		{
 			JToolbarHelper::custom('searches.reset', 'refresh.png', 'refresh_f2.png', 'JSEARCH_RESET', false);
 		}
+
 		JToolbarHelper::divider();
-		if ($canDo->get('core.admin'))
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_search');
 		}
+
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_SEARCH');
 	}

@@ -35,13 +35,11 @@
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
-			class="inputbox"
 			size="1" />
 
 		<field
 			name="ordering"
 			type="Pluginordering"
-			class="inputbox"
 			label="JFIELD_ORDERING_LABEL"
 			description="JFIELD_ORDERING_DESC" />
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,9 +17,7 @@ require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus
 /**
  * Supports an HTML grouped select list of menu item grouped by menu
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldMenuitem extends JFormFieldGroupedList
 {
@@ -170,7 +168,13 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 			// Build the options array.
 			foreach ($items as $link)
 			{
-				$groups[$menuType][] = JHtml::_('select.option', $link->value, $link->text, 'value', 'text', in_array($link->type, $this->disable));
+				$levelPrefix = str_repeat('- ', max(0, $link->level - 1));
+				$groups[$menuType][] = JHtml::_('select.option',
+								$link->value, $levelPrefix . $link->text,
+								'value',
+								'text',
+								in_array($link->type, $this->disable)
+							);
 			}
 		}
 		// Build groups for all menu types.
@@ -185,8 +189,9 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 				// Build the options array.
 				foreach ($menu->links as $link)
 				{
+					$levelPrefix = str_repeat('- ', $link->level - 1);
 					$groups[$menu->menutype][] = JHtml::_(
-						'select.option', $link->value, $link->text, 'value', 'text',
+						'select.option', $link->value, $levelPrefix . $link->text, 'value', 'text',
 						in_array($link->type, $this->disable)
 					);
 				}

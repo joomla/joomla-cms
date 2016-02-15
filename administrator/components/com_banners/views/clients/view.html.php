@@ -3,25 +3,40 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
+
 /**
  * View class for a list of clients.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_banners
- * @since       1.6
+ * @since  1.6
  */
 class BannersViewClients extends JViewLegacy
 {
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
 	protected $state;
 
 	/**
@@ -29,7 +44,7 @@ class BannersViewClients extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise a Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -51,7 +66,8 @@ class BannersViewClients extends JViewLegacy
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -63,11 +79,9 @@ class BannersViewClients extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT . '/helpers/banners.php';
+		$canDo = JHelperContent::getActions('com_banners');
 
-		$canDo	= JHelperContent::getActions(0, 0, 'com_banners');
-
-		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'banners-clients.png');
+		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'bookmark banners-clients');
 
 		if ($canDo->get('core.create'))
 		{
@@ -89,14 +103,14 @@ class BannersViewClients extends JViewLegacy
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('clients.trash');
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_banners');
 		}

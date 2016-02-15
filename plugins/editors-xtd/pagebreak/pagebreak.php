@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.pagebreak
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Editor Pagebreak buton
  *
- * @package     Joomla.Plugin
- * @subpackage  Editors-xtd.pagebreak
- * @since       1.5
+ * @since  1.5
  */
 class PlgButtonPagebreak extends JPlugin
 {
@@ -35,7 +33,6 @@ class PlgButtonPagebreak extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-		JHtml::_('behavior.modal');
 
 		$link = 'index.php?option=com_content&amp;view=article&amp;layout=pagebreak&amp;tmpl=component&amp;e_name=' . $name;
 

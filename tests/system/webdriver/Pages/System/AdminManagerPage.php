@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -196,6 +202,18 @@ abstract class AdminManagerPage extends AdminPage
 
 	public function setFilter($idOrLabel, $value)
 	{
+		$el = $this->driver->findElements(By::xPath("//button"));
+		foreach($el as $element)
+		{
+			if ($element->getAttribute('data-original-title') == 'Filter the list items.')
+			{
+				$element->click();
+				if($value == 'Select Status')
+				{
+					$element->click();
+				}
+			}
+		}
 		$filters = array_change_key_case($this->filters, CASE_LOWER);
 		$idOrLabel = strtolower($idOrLabel);
 		$filterId = '';
@@ -226,9 +244,16 @@ abstract class AdminManagerPage extends AdminPage
 					while (!$el->isDisplayed())
 					{
 						$elements[0]->click();
+						sleep(2);
 					}
 				}
 			}
+
+			// Open and close the list to create the li elements on the page
+			$el = $this->driver->findElement(By::xPath("//div[@id='" . $filterId . "_chzn']/a/div/b"));
+			$test = $el->isDisplayed();
+			$el->click();
+			sleep(2);
 			$selectElementArray = $this->driver->findElements(By::xPath("//div[@id='" . $filterId . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"));
 			if (count($selectElementArray) == 1)
 			{
@@ -239,9 +264,6 @@ abstract class AdminManagerPage extends AdminPage
 				return false;
 			}
 
-			// Click container until element is selected
-			sleep(2);
-			$el->click();
 			while (!$selectElement->isDisplayed())
 			{
 				sleep(2);
@@ -272,6 +294,7 @@ abstract class AdminManagerPage extends AdminPage
 
 	public function setOrderDirection($value)
 	{
+		$this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']/a/div/b"))->click();
 		$el = $this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"));
 		$displayedBefore = $el->isDisplayed();
 		$container = $this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']/a"));

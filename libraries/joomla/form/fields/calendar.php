@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,9 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * Provides a pop up date picker linked to a button.
  * Optionally may be filtered to use user's or server's time zone.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @since  11.1
  */
 class JFormFieldCalendar extends JFormField
 {
@@ -91,7 +89,6 @@ class JFormFieldCalendar extends JFormField
 		{
 			case 'maxlength':
 				$value = (int) $value;
-
 			case 'format':
 			case 'filter':
 				$this->$name = (string) $value;
@@ -151,8 +148,8 @@ class JFormFieldCalendar extends JFormField
 		empty($this->size)      ? null : $attributes['size'] = $this->size;
 		empty($this->maxlength) ? null : $attributes['maxlength'] = $this->maxlength;
 		empty($this->class)     ? null : $attributes['class'] = $this->class;
-		!$this->readonly        ? null : $attributes['readonly'] = '';
-		!$this->disabled        ? null : $attributes['disabled'] = '';
+		!$this->readonly        ? null : $attributes['readonly'] = 'readonly';
+		!$this->disabled        ? null : $attributes['disabled'] = 'disabled';
 		empty($this->onchange)  ? null : $attributes['onchange'] = $this->onchange;
 		empty($hint)            ? null : $attributes['placeholder'] = $hint;
 		$this->autocomplete     ? null : $attributes['autocomplete'] = 'off';
@@ -167,7 +164,7 @@ class JFormFieldCalendar extends JFormField
 		// Handle the special case for "now".
 		if (strtoupper($this->value) == 'NOW')
 		{
-			$this->value = strftime($format);
+			$this->value = JFactory::getDate()->format('Y-m-d H:i:s');
 		}
 
 		// Get some system objects.
@@ -179,7 +176,7 @@ class JFormFieldCalendar extends JFormField
 		{
 			case 'SERVER_UTC':
 				// Convert a date to UTC based on the server timezone.
-				if ((int) $this->value)
+				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
 				{
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
@@ -193,7 +190,7 @@ class JFormFieldCalendar extends JFormField
 
 			case 'USER_UTC':
 				// Convert a date to UTC based on the user timezone.
-				if ((int) $this->value)
+				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
 				{
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');

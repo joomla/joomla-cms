@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Model class for handling lists of items.
  *
- * @package     Joomla.Legacy
- * @subpackage  Model
- * @since       12.2
+ * @since  12.2
  */
 class JModelList extends JModelLegacy
 {
@@ -65,6 +63,22 @@ class JModelList extends JModelLegacy
 	 * @var  string
 	 */
 	protected $htmlFormName = 'adminForm';
+
+	/**
+	 * A blacklist of filter variables to not merge into the model's state
+	 *
+	 * @var    array
+	 * @since  3.4.5
+	 */
+	protected $filterBlacklist = array();
+
+	/**
+	 * A blacklist of list variables to not merge into the model's state
+	 *
+	 * @var    array
+	 * @since  3.4.5
+	 */
+	protected $listBlacklist = array('select');
 
 	/**
 	 * Constructor.
@@ -467,14 +481,19 @@ class JModelList extends JModelLegacy
 		// If the context is set, assume that stateful lists are used.
 		if ($this->context)
 		{
-			$app = JFactory::getApplication();
+			$app         = JFactory::getApplication();
+			$inputFilter = JFilterInput::getInstance();
 
 			// Receive & set filters
 			if ($filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array'))
 			{
 				foreach ($filters as $name => $value)
 				{
-					$this->setState('filter.' . $name, $value);
+					// Exclude if blacklisted
+					if (!in_array($name, $this->filterBlacklist))
+					{
+						$this->setState('filter.' . $name, $value);
+					}
 				}
 			}
 
@@ -485,71 +504,82 @@ class JModelList extends JModelLegacy
 			{
 				foreach ($list as $name => $value)
 				{
-					// Extra validations
-					switch ($name)
+					// Exclude if blacklisted
+					if (!in_array($name, $this->listBlacklist))
 					{
-						case 'fullordering':
-							$orderingParts = explode(' ', $value);
+						// Extra validations
+						switch ($name)
+						{
+							case 'fullordering':
+								$orderingParts = explode(' ', $value);
 
-							if (count($orderingParts) >= 2)
-							{
-								// Latest part will be considered the direction
-								$fullDirection = end($orderingParts);
-
-								if (in_array(strtoupper($fullDirection), array('ASC', 'DESC', '')))
+								if (count($orderingParts) >= 2)
 								{
-									$this->setState('list.direction', $fullDirection);
+									// Latest part will be considered the direction
+									$fullDirection = end($orderingParts);
+
+									if (in_array(strtoupper($fullDirection), array('ASC', 'DESC', '')))
+									{
+										$this->setState('list.direction', $fullDirection);
+									}
+
+									unset($orderingParts[count($orderingParts) - 1]);
+
+									// The rest will be the ordering
+									$fullOrdering = implode(' ', $orderingParts);
+
+									if (in_array($fullOrdering, $this->filter_fields))
+									{
+										$this->setState('list.ordering', $fullOrdering);
+									}
+								}
+								else
+								{
+									$this->setState('list.ordering', $ordering);
+									$this->setState('list.direction', $direction);
+								}
+								break;
+
+							case 'ordering':
+								if (!in_array($value, $this->filter_fields))
+								{
+									$value = $ordering;
+								}
+								break;
+
+							case 'direction':
+								if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
+								{
+									$value = $direction;
+								}
+								break;
+
+							case 'limit':
+								$value = $inputFilter->clean($value, 'int');
+								$limit = $value;
+								break;
+
+							case 'select':
+								$explodedValue = explode(',', $value);
+
+								foreach ($explodedValue as &$field)
+								{
+									$field = $inputFilter->clean($field, 'cmd');
 								}
 
-								unset($orderingParts[count($orderingParts) - 1]);
+								$value = implode(',', $explodedValue);
+								break;
+						}
 
-								// The rest will be the ordering
-								$fullOrdering = implode(' ', $orderingParts);
-
-								if (in_array($fullOrdering, $this->filter_fields))
-								{
-									$this->setState('list.ordering', $fullOrdering);
-								}
-							}
-							else
-							{
-								$this->setState('list.ordering', $ordering);
-								$this->setState('list.direction', $direction);
-							}
-							break;
-
-						case 'ordering':
-							if (!in_array($value, $this->filter_fields))
-							{
-								$value = $ordering;
-							}
-							break;
-
-						case 'direction':
-							if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
-							{
-								$value = $direction;
-							}
-							break;
-
-						case 'limit':
-							$limit = $value;
-							break;
-
-						// Just to keep the default case
-						default:
-							$value = $value;
-							break;
+						$this->setState('list.' . $name, $value);
 					}
-
-					$this->setState('list.' . $name, $value);
 				}
 			}
 			else
 			// Keep B/C for components previous to jform forms for filters
 			{
 				// Pre-fill the limits
-				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
+				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
 				$this->setState('list.limit', $limit);
 
 				// Check if the ordering field is in the white list, otherwise use the incoming value.
@@ -578,7 +608,7 @@ class JModelList extends JModelLegacy
 			// Support old ordering field
 			$oldOrdering = $app->input->get('filter_order');
 
-			if (!empty($oldOrdering) && in_array($value, $this->filter_fields))
+			if (!empty($oldOrdering) && in_array($oldOrdering, $this->filter_fields))
 			{
 				$this->setState('list.ordering', $oldOrdering);
 			}
@@ -591,7 +621,7 @@ class JModelList extends JModelLegacy
 				$this->setState('list.direction', $oldDirection);
 			}
 
-			$value = $app->getUserStateFromRequest($this->context . '.limitstart', 'limitstart', 0);
+			$value = $app->getUserStateFromRequest($this->context . '.limitstart', 'limitstart', 0, 'int');
 			$limitstart = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
 			$this->setState('list.start', $limitstart);
 		}
@@ -656,11 +686,23 @@ class JModelList extends JModelLegacy
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
 	{
-		$app = JFactory::getApplication();
+		$app       = JFactory::getApplication();
 		$input     = $app->input;
 		$old_state = $app->getUserState($key);
 		$cur_state = (!is_null($old_state)) ? $old_state : $default;
 		$new_state = $input->get($request, null, $type);
+
+		// BC for Search Tools which uses different naming
+		if ($new_state === null && strpos($request, 'filter_') === 0)
+		{
+			$name    = substr($request, 7);
+			$filters = $app->input->get('filter', array(), 'array');
+
+			if (isset($filters[$name]))
+			{
+				$new_state = $filters[$name];
+			}
+		}
 
 		if (($cur_state != $new_state) && ($resetPage))
 		{
@@ -678,5 +720,30 @@ class JModelList extends JModelLegacy
 		}
 
 		return $new_state;
+	}
+
+	/**
+	 * Parse and transform the search string into a string fit for regex-ing arbitrary strings against
+	 *
+	 * @param   string  $search          The search string
+	 * @param   string  $regexDelimiter  The regex delimiter to use for the quoting
+	 *
+	 * @return string Search string escaped for regex
+	 */
+	protected function refineSearchStringToRegex($search, $regexDelimiter = '/')
+	{
+		$searchArr = explode('|', trim($search, ' |'));
+
+		foreach ($searchArr as $key => $searchString)
+		{
+			if (strlen(trim($searchString)) == 0)
+			{
+				unset($searchArr[$key]);
+				continue;
+			}
+			$searchArr[$key] = str_replace(' ', '.*', preg_quote(trim($searchString), $regexDelimiter));
+		}
+
+		return implode('|', $searchArr);
 	}
 }

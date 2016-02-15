@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQLite database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @see         http://php.net/pdo
- * @since       12.1
+ * @see    http://php.net/pdo
+ * @since  12.1
  */
 class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 {
@@ -26,6 +24,14 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 * @since  12.1
 	 */
 	public $name = 'sqlite';
+
+	/**
+	 * The type of the database server family supported by this driver.
+	 *
+	 * @var    string
+	 * @since  CMS 3.5.0
+	 */
+	public $serverType = 'sqlite';
 
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
@@ -121,6 +127,17 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	public function getConnectionCollation()
+	{
+		return $this->charset;
+	}
+
+	/**
 	 * Shows the table CREATE statement that creates the given tables.
 	 *
 	 * Note: Doesn't appear to have support in SQLite
@@ -189,7 +206,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 					'Type' => $field->TYPE,
 					'Null' => ($field->NOTNULL == '1' ? 'NO' : 'YES'),
 					'Default' => $field->DFLT_VALUE,
-					'Key' => ($field->PK == '1' ? 'PRI' : '')
+					'Key' => ($field->PK != '0' ? 'PRI' : '')
 				);
 			}
 		}
@@ -313,7 +330,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
 		$this->connect();
 

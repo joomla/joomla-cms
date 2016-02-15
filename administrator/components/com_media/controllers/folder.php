@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,9 +15,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Folder Media Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_media
- * @since       1.5
+ * @since  1.5
  */
 class MediaControllerFolder extends JControllerLegacy
 {
@@ -32,7 +30,7 @@ class MediaControllerFolder extends JControllerLegacy
 	{
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
-		$user	= JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Get some data from the request
 		$tmpl   = $this->input->get('tmpl');
@@ -52,6 +50,8 @@ class MediaControllerFolder extends JControllerLegacy
 		// Just return if there's nothing to do
 		if (empty($paths))
 		{
+			$this->setMessage(JText::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+
 			return true;
 		}
 
@@ -69,7 +69,7 @@ class MediaControllerFolder extends JControllerLegacy
 		$ret = true;
 
 		JPluginHelper::importPlugin('content');
-		$dispatcher	= JEventDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		if (count($paths))
 		{
@@ -93,7 +93,8 @@ class MediaControllerFolder extends JControllerLegacy
 					if (in_array(false, $result, true))
 					{
 						// There are some errors in the plugins
-						JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors = $object_file->getErrors()), implode('<br />', $errors)));
+						$errors = $object_file->getErrors();
+						JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
 						continue;
 					}
 
@@ -115,7 +116,8 @@ class MediaControllerFolder extends JControllerLegacy
 						if (in_array(false, $result, true))
 						{
 							// There are some errors in the plugins
-							JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors = $object_file->getErrors()), implode('<br />', $errors)));
+							$errors = $object_file->getErrors();
+							JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors), implode('<br />', $errors)));
 							continue;
 						}
 
@@ -128,7 +130,8 @@ class MediaControllerFolder extends JControllerLegacy
 					else
 					{
 						// This makes no sense...
-						JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_NOT_EMPTY', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
+						$folderPath = substr($object_file->filepath, strlen(COM_MEDIA_BASE));
+						JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_NOT_EMPTY', $folderPath));
 					}
 				}
 			}
@@ -162,7 +165,7 @@ class MediaControllerFolder extends JControllerLegacy
 			if (!$user->authorise('core.create', 'com_media'))
 			{
 				// User is not authorised to create
-				JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_CREATE_NOT_PERMITTED'));
+				JError::raiseWarning(403, JText::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'));
 
 				return false;
 			}
@@ -174,7 +177,8 @@ class MediaControllerFolder extends JControllerLegacy
 
 			if (($folderCheck !== null) && ($folder !== $folderCheck))
 			{
-				$this->setMessage(JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'));
+				$app = JFactory::getApplication();
+				$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'), 'warning');
 
 				return false;
 			}
@@ -186,8 +190,8 @@ class MediaControllerFolder extends JControllerLegacy
 				// Trigger the onContentBeforeSave event.
 				$object_file = new JObject(array('filepath' => $path));
 				JPluginHelper::importPlugin('content');
-				$dispatcher	= JEventDispatcher::getInstance();
-				$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.folder', &$object_file, true));
+				$dispatcher = JEventDispatcher::getInstance();
+				$result     = $dispatcher->trigger('onContentBeforeSave', array('com_media.folder', &$object_file, true));
 
 				if (in_array(false, $result, true))
 				{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ JLoader::register('InstallerModelInstall', JPATH_ADMINISTRATOR . '/components/co
 /**
  * Template style controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       1.6
+ * @since  1.6
  */
 class TemplatesControllerTemplate extends JControllerLegacy
 {
@@ -261,7 +259,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		if ($data === false)
 		{
 			// Get the validation messages.
-			$errors	= $model->getErrors();
+			$errors = $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
@@ -309,7 +307,10 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		default:
 
 			// Redirect to the list screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_templates&view=templates', false));
+			$file = base64_encode('home');
+			$id   = $app->input->get('id');
+			$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$this->setRedirect(JRoute::_($url, false));
 			break;
 		}
 	}
@@ -375,6 +376,9 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function delete()
 	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$app   = JFactory::getApplication();
 		$model = $this->getModel();
 		$id    = $app->input->get('id');
@@ -411,6 +415,9 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function createFile()
 	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
 		$id       = $app->input->get('id');
@@ -455,6 +462,9 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function uploadFile()
 	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
 		$id       = $app->input->get('id');
@@ -486,6 +496,9 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function createFolder()
 	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
 		$id       = $app->input->get('id');
@@ -522,6 +535,9 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function deleteFolder()
 	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
 		$id       = $app->input->get('id');
@@ -563,6 +579,9 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function renameFile()
 	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$app     = JFactory::getApplication();
 		$model   = $this->getModel();
 		$id      = $app->input->get('id');
@@ -672,6 +691,9 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function copyFile()
 	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$app      = JFactory::getApplication();
 		$id       = $app->input->get('id');
 		$file     = $app->input->get('file');
@@ -707,6 +729,9 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function extractArchive()
 	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$app   = JFactory::getApplication();
 		$id    = $app->input->get('id');
 		$file  = $app->input->get('file');

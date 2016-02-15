@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform PDO Database Driver Class
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @see         http://php.net/pdo
- * @since       12.1
+ * @see    http://php.net/pdo
+ * @since  12.1
  */
 abstract class JDatabaseDriverPdo extends JDatabaseDriver
 {
@@ -26,6 +24,12 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 * @since  12.1
 	 */
 	public $name = 'pdo';
+
+	/**
+	 * @var    PDO  The database connection resource.
+	 * @since  12.1
+	 */
+	protected $connection;
 
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
@@ -78,6 +82,14 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		$options['user'] = (isset($options['user'])) ? $options['user'] : '';
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['driverOptions'] = (isset($options['driverOptions'])) ? $options['driverOptions'] : array();
+
+		$hostParts = explode(':', $options['host']);
+
+		if (!empty($hostParts[1]))
+		{
+			$options['host'] = $hostParts[0];
+			$options['port'] = $hostParts[1];
+		}
 
 		// Finalize initialisation
 		parent::__construct($options);
@@ -201,13 +213,15 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 				break;
 
+			// The pdomysql case is a special case within the CMS environment
+			case 'pdomysql':
 			case 'mysql':
 				$this->options['port'] = (isset($this->options['port'])) ? $this->options['port'] : 3306;
 
-				$format = 'mysql:host=#HOST#;port=#PORT#;dbname=#DBNAME#';
+				$format = 'mysql:host=#HOST#;port=#PORT#;dbname=#DBNAME#;charset=#CHARSET#';
 
-				$replace = array('#HOST#', '#PORT#', '#DBNAME#');
-				$with = array($this->options['host'], $this->options['port'], $this->options['database']);
+				$replace = array('#HOST#', '#PORT#', '#DBNAME#', '#CHARSET#');
+				$with = array($this->options['host'], $this->options['port'], $this->options['database'], $this->options['charset']);
 
 				break;
 
@@ -253,7 +267,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				break;
 
 			case 'sqlite':
-
 				if (isset($this->options['version']) && $this->options['version'] == 2)
 				{
 					$format = 'sqlite2:#DBNAME#';
@@ -396,12 +409,14 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		// Execute the query.
 		$this->executed = false;
+
 		if ($this->prepared instanceof PDOStatement)
 		{
 			// Bind the variables:
 			if ($this->sql instanceof JDatabaseQueryPreparable)
 			{
-				$bounded =& $this->sql->getBounded();
+				$bounded = $this->sql->getBounded();
+
 				foreach ($bounded as $key => $obj)
 				{
 					$this->prepared->bindParam($key, $obj->value, $obj->dataType, $obj->length, $obj->driverOptions);
@@ -414,6 +429,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		if ($this->debug)
 		{
 			$this->timings[] = microtime(true);
+
 			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
 			{
 				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -428,8 +444,8 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		if (!$this->executed)
 		{
 			// Get the error number and message before we execute any more queries.
-			$errorNum = (int) $this->connection->errorCode();
-			$errorMsg = (string) 'SQL: ' . implode(", ", $this->connection->errorInfo());
+			$errorNum = $this->getErrorNumber();
+			$errorMsg = $this->getErrorMessage($query);
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -444,12 +460,13 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				catch (RuntimeException $e)
 				{
 					// Get the error number and message.
-					$this->errorNum = (int) $this->connection->errorCode();
-					$this->errorMsg = (string) 'SQL: ' . implode(", ", $this->connection->errorInfo());
+					$this->errorNum = $this->getErrorNumber();
+					$this->errorMsg = $this->getErrorMessage($query);
 
 					// Throw the normal query exception.
-					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-					throw new RuntimeException($this->errorMsg, $this->errorNum);
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
+					throw new RuntimeException($this->errorMsg, $this->errorNum, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -463,7 +480,8 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				$this->errorMsg = $errorMsg;
 
 				// Throw the normal query exception.
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}
 		}
@@ -611,6 +629,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
+	 * Only applicable for DELETE, INSERT, or UPDATE statements.
 	 *
 	 * @param   resource  $cursor  An optional database cursor resource to extract the row count from.
 	 *
@@ -674,7 +693,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 * @param   mixed    $query          The SQL statement to set either as a JDatabaseQuery object or a string.
 	 * @param   integer  $offset         The affected row offset to set.
 	 * @param   integer  $limit          The maximum affected rows to set.
-	 * @param   array    $driverOptions  The optional PDO driver options
+	 * @param   array    $driverOptions  The optional PDO driver options.
 	 *
 	 * @return  JDatabaseDriver  This object to support method chaining.
 	 *
@@ -694,14 +713,17 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 		if ($query instanceof JDatabaseQueryLimitable && !is_null($offset) && !is_null($limit))
 		{
-			$query->setLimit($limit, $offset);
+			$query = $query->processLimit($query, $limit, $offset);
 		}
 
-		$query = $this->replacePrefix((string) $query);
+		// Create a stringified version of the query (with prefixes replaced):
+		$sql = $this->replacePrefix((string) $query);
 
-		$this->prepared = $this->connection->prepare($query, $driverOptions);
+		// Use the stringified version in the prepare call:
+		$this->prepared = $this->connection->prepare($sql, $driverOptions);
 
-		// Store reference to the JDatabaseQuery instance:
+		// Store reference to the original JDatabaseQuery instance within the class.
+		// This is important since binding variables depends on it within execute():
 		parent::setQuery($query, $offset, $limit);
 
 		return $this;
@@ -714,7 +736,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
 		return false;
 	}
@@ -800,6 +822,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		{
 			return $cursor->fetch(PDO::FETCH_NUM);
 		}
+
 		if ($this->prepared instanceof PDOStatement)
 		{
 			return $this->prepared->fetch(PDO::FETCH_NUM);
@@ -821,6 +844,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		{
 			return $cursor->fetch(PDO::FETCH_ASSOC);
 		}
+
 		if ($this->prepared instanceof PDOStatement)
 		{
 			return $this->prepared->fetch(PDO::FETCH_ASSOC);
@@ -843,6 +867,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		{
 			return $cursor->fetchObject($class);
 		}
+
 		if ($this->prepared instanceof PDOStatement)
 		{
 			return $this->prepared->fetchObject($class);
@@ -867,6 +892,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			$cursor->closeCursor();
 			$cursor = null;
 		}
+
 		if ($this->prepared instanceof PDOStatement)
 		{
 			$this->prepared->closeCursor();
@@ -883,9 +909,11 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
+	 * @deprecated  4.0 (CMS)  Use getIterator() instead
 	 */
 	public function loadNextObject($class = 'stdClass')
 	{
+		JLog::add(__METHOD__ . '() is deprecated. Use JDatabaseDriver::getIterator() instead.', JLog::WARNING, 'deprecated');
 		$this->connect();
 
 		// Execute the query and get the result set cursor.
@@ -949,9 +977,11 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
+	 * @deprecated  4.0 (CMS)  Use getIterator() instead
 	 */
 	public function loadNextRow()
 	{
+		JLog::add(__METHOD__ . '() is deprecated. Use JDatabaseDriver::getIterator() instead.', JLog::WARNING, 'deprecated');
 		$this->connect();
 
 		// Execute the query and get the result set cursor.
@@ -1014,5 +1044,42 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	{
 		// Get connection back
 		$this->__construct($this->options);
+	}
+
+	/**
+	 * Return the actual SQL Error number
+	 *
+	 * @return  integer  The SQL Error number
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorNumber()
+	{
+		return (int) $this->connection->errorCode();
+	}
+
+	/**
+	 * Return the actual SQL Error message
+	 *
+	 * @param   string  $query  The SQL Query that fails
+	 *
+	 * @return  string  The SQL Error message
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorMessage($query)
+	{
+		// Note we ignoring $query here as it not used in the original code.
+
+		// The SQL Error Information
+		$errorInfo = implode(", ", $this->connection->errorInfo());
+
+		// Replace the Databaseprefix with `#__` if we are not in Debug
+		if (!$this->debug)
+		{
+			$errorInfo = str_replace($this->tablePrefix, '#__', $errorInfo);
+		}
+
+		return 'SQL: ' . $errorInfo;
 	}
 }

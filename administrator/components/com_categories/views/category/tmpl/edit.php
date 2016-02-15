@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -20,17 +20,25 @@ $app = JFactory::getApplication();
 $input = $app->input;
 
 $assoc = JLanguageAssociations::isEnabled();
-?>
+// Are associations implemented for this extension?
+$extensionassoc = array_key_exists('item_associations', $this->form->getFieldsets());
 
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
-			<?php echo $this->form->getField('description')->save(); ?>
-			Joomla.submitform(task, document.getElementById('item-form'));
+		if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
+		{
+			jQuery("#permissions-sliders select").attr("disabled", "disabled");
+			' . $this->form->getField("description")->save() . '
+			Joomla.submitform(task, document.getElementById("item-form"));
 		}
-	}
-</script>
+	};
+');
+
+// Fieldsets to not automatically render by /layouts/joomla/edit/params.php
+$this->ignore_fieldsets = array('jmetadata', 'item_associations');
+
+?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
@@ -62,15 +70,15 @@ $assoc = JLanguageAssociations::isEnabled();
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php if ($assoc) : ?>
+		<?php if ($assoc && $extensionassoc) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
-				<?php echo $this->loadTemplate('associations'); ?>
+			<?php echo $this->loadTemplate('associations'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'rules', JText::_('COM_CATEGORIES_FIELDSET_RULES', true)); ?>
-				<?php echo $this->form->getInput('rules'); ?>
+			<?php echo $this->form->getInput('rules'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 

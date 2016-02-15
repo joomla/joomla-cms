@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Methods supporting a list of template style records.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       1.6
+ * @since  1.6
  */
 class TemplatesModelStyles extends JModelList
 {
@@ -125,7 +123,7 @@ class TemplatesModelStyles extends JModelList
 
 		// Filter by extension enabled
 		$query->select('extension_id AS e_id')
-			->join('LEFT', '#__extensions AS e ON e.element = a.template')
+			->join('LEFT', '#__extensions AS e ON e.element = a.template AND e.client_id = a.client_id')
 			->where('e.enabled = 1')
 			->where('e.type=' . $db->quote('template'));
 
@@ -154,8 +152,8 @@ class TemplatesModelStyles extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				$query->where('a.template LIKE ' . $search . ' OR a.title LIKE ' . $search);
+				$search = $db->quote('%' . strtolower($search) . '%');
+				$query->where('(' . ' LOWER(a.template) LIKE ' . $search . ' OR LOWER(a.title) LIKE ' . $search . ')');
 			}
 		}
 

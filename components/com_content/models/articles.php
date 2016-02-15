@@ -3,18 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * This models supports retrieving lists of articles.
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.6
+ * @since  1.6
  */
 class ContentModelArticles extends JModelList
 {
@@ -76,7 +76,7 @@ class ContentModelArticles extends JModelList
 		$app = JFactory::getApplication();
 
 		// List state information
-		$value = $app->input->get('limit', $app->getCfg('list_limit', 0), 'uint');
+		$value = $app->input->get('limit', $app->get('list_limit', 0), 'uint');
 		$this->setState('list.limit', $value);
 
 		$value = $app->input->get('limitstart', 0, 'uint');
@@ -144,7 +144,7 @@ class ContentModelArticles extends JModelList
 		$id .= ':' . serialize($this->getState('filter.published'));
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.featured');
-		$id .= ':' . $this->getState('filter.article_id');
+		$id .= ':' . serialize($this->getState('filter.article_id'));
 		$id .= ':' . $this->getState('filter.article_id.include');
 		$id .= ':' . serialize($this->getState('filter.category_id'));
 		$id .= ':' . $this->getState('filter.category_id.include');
@@ -170,6 +170,9 @@ class ContentModelArticles extends JModelList
 	 */
 	protected function getListQuery()
 	{
+		// Get the current user for authorisation checks
+		$user = JFactory::getUser();
+
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -187,7 +190,7 @@ class ContentModelArticles extends JModelList
 					// Use created if publish_up is 0
 					'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
 					'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-					'a.hits, a.xreference, a.featured,' . ' ' . $query->length('a.fulltext') . ' AS readmore'
+					'a.hits, a.xreference, a.featured, a.language, ' . ' ' . $query->length('a.fulltext') . ' AS readmore'
 			)
 		);
 
@@ -265,7 +268,6 @@ class ContentModelArticles extends JModelList
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
-			$user = JFactory::getUser();
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')')
 				->where('c.access IN (' . $groups . ')');
@@ -439,12 +441,16 @@ class ContentModelArticles extends JModelList
 			$query->where($authorWhere . $authorAliasWhere);
 		}
 
-		// Filter by start and end dates.
+		// Define null and now dates
 		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(JFactory::getDate()->toSql());
+		$nowDate  = $db->quote(JFactory::getDate()->toSql());
 
-		$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-			->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+		// Filter by start and end dates.
+		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+		{
+			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+		}
 
 		// Filter by Date Range or Relative Date
 		$dateFiltering = $this->getState('filter.date_filtering', 'off');
@@ -541,7 +547,7 @@ class ContentModelArticles extends JModelList
 		// Convert the parameter fields into objects.
 		foreach ($items as &$item)
 		{
-			$articleParams = new JRegistry;
+			$articleParams = new Registry;
 			$articleParams->loadString($item->attribs);
 
 			// Unpack readmore and layout params
@@ -581,7 +587,7 @@ class ContentModelArticles extends JModelList
 				// Merge the selected article params
 				if (count($articleArray) > 0)
 				{
-					$articleParams = new JRegistry;
+					$articleParams = new Registry;
 					$articleParams->loadArray($articleArray);
 					$item->params->merge($articleParams);
 				}

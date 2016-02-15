@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,7 +18,7 @@ include_once 'JFormDataHelper.php';
  * @subpackage  Form
  * @since       11.1
  */
-class JFormFieldTest extends TestCase
+class JFormFieldTest extends TestCaseDatabase
 {
 	/**
 	 * Backup of the SERVER superglobal
@@ -159,8 +159,9 @@ class JFormFieldTest extends TestCase
 
 		// Standard usage.
 
-		$xml = $form->getXML();
-		$colours = array_pop($xml->xpath('fields/fields[@name="params"]/field[@name="colours"]'));
+		$xml = $form->getXml();
+		$data = $xml->xpath('fields/fields[@name="params"]/field[@name="colours"]');
+		$colours = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($colours, 'red', 'params'),
@@ -195,8 +196,9 @@ class JFormFieldTest extends TestCase
 
 		// Standard usage.
 
-		$xml = $form->getXML();
-		$title = array_pop($xml->xpath('fields/field[@name="title"]'));
+		$xml = $form->getXml();
+		$data = $xml->xpath('fields/field[@name="title"]');
+		$title = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($title, 'The title'),
@@ -204,18 +206,31 @@ class JFormFieldTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
-		$equals = '<label id="title_id-lbl" for="title_id" class="hasTooltip required" ' .
-			'title="<strong>Title</strong><br />The title.">Title<span class="star">&#160;*</span></label>';
+		$matcher = array(
+				'id'         => 'title_id-lbl',
+				'tag'        => 'label',
+				'attributes' => array(
+						'for'   => 'title_id',
+						'class' => 'hasTooltip required',
+						'title' => '<strong>Title</strong><br />The title.'
+					),
+				'content'    => 'regexp:/Title.*\*/',
+				'child'      => array(
+						'tag'        => 'span',
+						'attributes' => array('class' => 'star'),
+						'content'    => 'regexp:/\*/'
+					)
+			);
 
-		$this->assertThat(
+		$this->assertTag(
+			$matcher,
 			$field->getLabel(),
-			$this->equalTo($equals),
 			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		// Not required
-
-		$colours = array_pop($xml->xpath('fields/fields[@name="params"]/field[@name="colours"]'));
+		$data = $xml->xpath('fields/fields[@name="params"]/field[@name="colours"]');
+		$colours = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($colours, 'id'),
@@ -223,15 +238,25 @@ class JFormFieldTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
-		$this->assertThat(
+		$matcher = array(
+				'id'         => 'colours-lbl',
+				'tag'        => 'label',
+				'attributes' => array(
+						'for'   => 'colours',
+						'class' => ''
+					),
+				'content'    => 'colours'
+			);
+
+		$this->assertTag(
+			$matcher,
 			$field->getLabel(),
-			$this->equalTo('<label id="colours-lbl" for="colours" class="">colours</label>'),
 			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		// Hidden field
-
-		$id = array_pop($xml->xpath('fields/field[@name="id"]'));
+		$data = $xml->xpath('fields/field[@name="id"]');
+		$id = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($id, 'id'),
@@ -239,9 +264,8 @@ class JFormFieldTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
-		$this->assertThat(
+		$this->assertEmpty(
 			$field->getLabel(),
-			$this->equalTo(''),
 			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 	}
@@ -265,8 +289,9 @@ class JFormFieldTest extends TestCase
 
 		// Standard usage.
 
-		$xml = $form->getXML();
-		$title = array_pop($xml->xpath('fields/field[@name="title"]'));
+		$xml = $form->getXml();
+		$data = $xml->xpath('fields/field[@name="title"]');
+		$title = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($title, 'The title'),
@@ -281,8 +306,8 @@ class JFormFieldTest extends TestCase
 		);
 
 		// Hidden field
-
-		$id = array_pop($xml->xpath('fields/field[@name="id"]'));
+		$data = $xml->xpath('fields/field[@name="id"]');
+		$id = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($id, 'id'),
@@ -318,26 +343,6 @@ class JFormFieldTest extends TestCase
 	}
 
 	/**
-	 * Test an invalid argument for the JFormField::setup method
-	 *
-	 * @expectedException PHPUnit_Framework_Error
-	 *
-	 * @return void
-	 */
-	public function testSetupInvalidElement()
-	{
-		$form = new JFormInspector('form1');
-		$field = new JFormFieldInspector($form);
-
-		$wrong = 'wrong';
-		$this->assertThat(
-			$field->setup($wrong, 0),
-			$this->isFalse(),
-			'Line:' . __LINE__ . ' If not a form object, setup should return false.'
-		);
-	}
-
-	/**
 	 * Tests the name, value, id, title, lalbel property setup by JFormField::setup method
 	 *
 	 * @param   array   $expected  @todo
@@ -360,13 +365,37 @@ class JFormFieldTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
+		// Matcher for the 'label' attribute
+		$matcher = array(
+				'id'         => 'myId-lbl',
+				'tag'        => 'label',
+				'attributes' => array(
+						'for'   => 'myId',
+						'class' => 'hasTooltip',
+						'title' => '<strong>My Title</strong><br />The description.'
+					),
+				'content'    => 'regexp:/My Title/'
+			);
+
 		foreach ($expected as $attr => $value)
 		{
-			$this->assertThat(
-				$field->$attr,
-				$this->equalTo($value),
-				'Line:' . __LINE__ . ' The ' . $attr . ' property should be computed from the XML.'
-			);
+			// Label is html use assertTag()
+			if ($attr == 'label')
+			{
+				$this->assertTag(
+					$matcher,
+					$field->$attr,
+					'Line:' . __LINE__ . ' The ' . $attr . ' property should be computed from the XML.'
+				);
+			}
+			else
+			{
+				$this->assertThat(
+					$field->$attr,
+					$this->equalTo($value),
+					'Line:' . __LINE__ . ' The ' . $attr . ' property should be computed from the XML.'
+				);
+			}
 		}
 	}
 

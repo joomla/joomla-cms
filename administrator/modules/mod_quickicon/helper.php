@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_quickicon
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_quickicon
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_quickicon
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModQuickIconHelper
 {
@@ -192,6 +190,7 @@ abstract class ModQuickIconHelper
 		{
 			$groupedButtons[$button['group']][] = $button;
 		}
+
 		return $groupedButtons;
 	}
 
@@ -202,6 +201,8 @@ abstract class ModQuickIconHelper
 	 * @param   JObject  $module  The module.
 	 *
 	 * @return  string	The alternate title for the module.
+	 *
+	 * @deprecated  4.0 Unused. Title can be adjusted in module itself if needed.
 	 */
 	public static function getTitle($params, $module)
 	{

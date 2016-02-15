@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Controller class to e-mail the configuration info for the Joomla Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Controller
- * @since       3.1
+ * @since  3.1
  */
 class InstallationControllerInstallEmail extends JControllerBase
 {
@@ -30,7 +28,6 @@ class InstallationControllerInstallEmail extends JControllerBase
 		// Overrides application config and set the configuration.php file so the send function will work
 		JFactory::$config = null;
 		JFactory::getConfig(JPATH_SITE . '/configuration.php');
-		JFactory::$session = null;
 	}
 
 	/**

@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
 require_once 'JoomlaWebdriverTestCase.php';
 
@@ -9,18 +16,29 @@ use SeleniumClient\WebDriverWait;
 use SeleniumClient\DesiredCapabilities;
 
 /**
- * This class tests the User Manager: Add / Edit User Screen
- * @author Mark
+ * This class tests the  Control panel.
  *
+ * @package     Joomla.Tests
+ * @subpackage  Test
+ *
+ * @copyright   Copyright (c) 2005 - 2016 Open Source Matters, Inc.   All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @since       Joomla 3.3
  */
+
 class UserManager0001Test extends JoomlaWebdriverTestCase
 {
 	/**
 	 *
 	 * @var UserManagerPage
 	 */
-	protected $userManagerPage = null; // Global configuration page
+	protected $userManagerPage = null; /* Global configuration page*/
 
+	/**
+	 * Login to back end and navigate to menu Language Manager.
+	 *
+	 * @return void
+	 */
 	public function setUp()
 	{
 		parent::setUp();
@@ -28,6 +46,13 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 		$this->userManagerPage = $cpPage->clickMenu('User Manager', 'UserManagerPage');
 	}
 
+	/**
+	 * Logout and close test.
+	 *
+	 * @return void
+	 *
+	 * @since   3.0
+	 */
 	public function tearDown()
 	{
 		$this->doAdminLogout();
@@ -35,6 +60,10 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * open edit screen
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function constructor_OpenEditScreen_UserEditOpened()
@@ -46,6 +75,10 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check the available tab IDs
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getTabIds_ScreenDisplayed_EqualExpected()
@@ -59,6 +92,10 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * Gets the actual input fields and checks them against the $inputFields property.
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
@@ -74,6 +111,10 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add user with default values
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addUser_WithFieldDefaults_UserAdded()
@@ -88,6 +129,10 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add user with given values
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addUser_WithGivenFields_UserAdded()
@@ -113,6 +158,10 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * edit the values of the input fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function editUser_ChangeFields_FieldsChanged()
@@ -141,6 +190,10 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * change the state of the user
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function changeUserState_ChangeEnabledUsingToolbar_EnabledChanged()
@@ -157,5 +210,4 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 		$this->userManagerPage->delete($userName);
 		$this->assertFalse($this->userManagerPage->getRowNumber($userName) > 0, 'Test User should not be present');
 	}
-
 }

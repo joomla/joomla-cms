@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,13 +12,10 @@ defined('_JEXEC') or die;
 /**
  * Categories helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
- * @since       1.6
+ * @since  1.6
  */
 class CategoriesHelper
 {
-
 	/**
 	 * Configure the Submenu links.
 	 *
@@ -57,11 +54,11 @@ class CategoriesHelper
 
 			if (class_exists($cName))
 			{
-
 				if (is_callable(array($cName, 'addSubmenu')))
 				{
 					$lang = JFactory::getLanguage();
-					// loading language file from the administrator/language directory then
+
+					// Loading language file from the administrator/language directory then
 					// loading language file from the administrator/components/*extension*/language directory
 					$lang->load($component, JPATH_BASE, null, false, true)
 					|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
@@ -81,68 +78,32 @@ class CategoriesHelper
 	 * @return  JObject
 	 *
 	 * @since   1.6
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
 	public static function getActions($extension, $categoryId = 0)
 	{
-		$user = JFactory::getUser();
-		$result = new JObject;
-		$parts = explode('.', $extension);
-		$component = $parts[0];
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
-		if (empty($categoryId))
-		{
-			$assetName = $component;
-			$level = 'component';
-		}
-		else
-		{
-			$assetName = $component . '.category.' . (int) $categoryId;
-			$level = 'category';
-		}
-
-		$actions = JAccess::getActions($component, $level);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
-		}
-
-		return $result;
+		// Get list of actions
+		return JHelperContent::getActions($extension, 'category', $categoryId);
 	}
 
+	/**
+	 * Gets a list of associations for a given item.
+	 *
+	 * @param   integer  $pk         Content item key.
+	 * @param   string   $extension  Optional extension name.
+	 *
+	 * @return  array of associations.
+	 */
 	public static function getAssociations($pk, $extension = 'com_content')
 	{
+		$langAssociations = JLanguageAssociations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
 		$associations = array();
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->from('#__categories as c')
-			->join('INNER', '#__associations as a ON a.id = c.id AND a.context=' . $db->quote('com_categories.item'))
-			->join('INNER', '#__associations as a2 ON a.key = a2.key')
-			->join('INNER', '#__categories as c2 ON a2.id = c2.id AND c2.extension = ' . $db->quote($extension))
-			->where('c.id =' . (int) $pk)
-			->where('c.extension = ' . $db->quote($extension));
-		$select = array(
-			'c2.language',
-			$query->concatenate(array('c2.id', 'c2.alias'), ':') . ' AS id'
-		);
-		$query->select($select);
-		$db->setQuery($query);
-		$contentitems = $db->loadObjectList('language');
-
-		// Check for a database error.
-		if ($error = $db->getErrorMsg())
+		foreach ($langAssociations as $langAssociation)
 		{
-			JError::raiseWarning(500, $error);
-			return false;
-		}
-
-		foreach ($contentitems as $tag => $item)
-		{
-			// Do not return itself as result
-			if ((int) $item->id != $pk)
-			{
-				$associations[$tag] = $item->id;
-			}
+			$associations[$langAssociation->language] = $langAssociation->id;
 		}
 
 		return $associations;

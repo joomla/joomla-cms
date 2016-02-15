@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Users component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersHelper
 {
@@ -42,7 +40,7 @@ class UsersHelper
 		);
 
 		// Groups and Levels are restricted to core.admin
-		$canDo = self::getActions();
+		$canDo = JHelperContent::getActions('com_users');
 
 		if ($canDo->get('core.admin'))
 		{
@@ -76,25 +74,17 @@ class UsersHelper
 	 *
 	 * @return  JObject
 	 *
-	 * @since   1.6
-	 * @todo    Refactor to work with notes
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
 	public static function getActions()
 	{
-		if (empty(self::$actions))
-		{
-			$user = JFactory::getUser();
-			self::$actions = new JObject;
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
-			$actions = JAccess::getActions('com_users');
+		// Get list of actions
+		$result = JHelperContent::getActions('com_users');
 
-			foreach ($actions as $action)
-			{
-				self::$actions->set($action->name, $user->authorise($action->name, 'com_users'));
-			}
-		}
-
-		return self::$actions;
+		return $result;
 	}
 
 	/**
@@ -158,12 +148,13 @@ class UsersHelper
 		catch (RuntimeException $e)
 		{
 			JError::raiseNotice(500, $e->getMessage());
+
 			return null;
 		}
 
 		foreach ($options as &$option)
 		{
-			$option->text = str_repeat('- ', $option->level).$option->text;
+			$option->text = str_repeat('- ', $option->level) . $option->text;
 		}
 
 		return $options;
@@ -188,6 +179,7 @@ class UsersHelper
 			JHtml::_('select.option', 'past_year', JText::_('COM_USERS_OPTION_RANGE_PAST_YEAR')),
 			JHtml::_('select.option', 'post_year', JText::_('COM_USERS_OPTION_RANGE_POST_YEAR')),
 		);
+
 		return $options;
 	}
 

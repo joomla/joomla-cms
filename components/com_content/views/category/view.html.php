@@ -3,18 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * HTML View class for the Content component
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.5
+ * @since  1.5
  */
 class ContentViewCategory extends JViewCategory
 {
@@ -73,10 +73,10 @@ class ContentViewCategory extends JViewCategory
 
 		// Prepare the data
 		// Get the metrics for the structural page layout.
-		$params		= $this->params;
-		$numLeading	= $params->def('num_leading_articles', 1);
-		$numIntro	= $params->def('num_intro_articles', 4);
-		$numLinks	= $params->def('num_links', 4);
+		$params     = $this->params;
+		$numLeading = $params->def('num_leading_articles', 1);
+		$numIntro   = $params->def('num_intro_articles', 4);
+		$numLinks   = $params->def('num_links', 4);
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($this->items as $item)
@@ -91,7 +91,7 @@ class ContentViewCategory extends JViewCategory
 				$item->parent_slug = null;
 			}
 
-			$item->catslug = $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
+			$item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 			$item->event   = new stdClass;
 
 			$dispatcher = JEventDispatcher::getInstance();
@@ -120,8 +120,11 @@ class ContentViewCategory extends JViewCategory
 
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match
-		$app = JFactory::getApplication();
-		$active	= $app->getMenu()->getActive();
+		$app     = JFactory::getApplication();
+		$active  = $app->getMenu()->getActive();
+		$menus   = $app->getMenu();
+		$pathway = $app->getPathway();
+		$title   = null;
 
 		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
 		{
@@ -142,8 +145,6 @@ class ContentViewCategory extends JViewCategory
 		// This makes it much easier for the designer to just interrogate the arrays.
 		if (($params->get('layout_type') == 'blog') || ($this->getLayout() == 'blog'))
 		{
-			//$max = count($this->items);
-
 			foreach ($this->items as $i => $item)
 			{
 				if ($i < $numLeading)
@@ -168,7 +169,90 @@ class ContentViewCategory extends JViewCategory
 
 			$this->columns = max(1, $params->def('num_columns', 1));
 
-			$params->def('multi_column_order', 1);
+			$order = $params->def('multi_column_order', 1);
+
+			if ($order == 0 && $this->columns > 1)
+			{
+				// Call order down helper
+				$this->intro_items = ContentHelperQuery::orderDownColumns($this->intro_items, $this->columns);
+			}
+		}
+
+		// Because the application sets a default page title,
+		// we need to get it from the menu item itself
+		$menu = $menus->getActive();
+
+		if ($menu)
+		{
+			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+		}
+
+		$title = $this->params->get('page_title', '');
+
+		$id = (int) @$menu->query['id'];
+
+		// Check for empty title and add site name if param is set
+		if (empty($title))
+		{
+			$title = $app->get('sitename');
+		}
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
+		{
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+		}
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
+		{
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+		}
+
+		if (empty($title))
+		{
+			$title = $this->category->title;
+		}
+
+		$this->document->setTitle($title);
+
+		if ($this->category->metadesc)
+		{
+			$this->document->setDescription($this->category->metadesc);
+		}
+		elseif ($this->params->get('menu-meta_description'))
+		{
+			$this->document->setDescription($this->params->get('menu-meta_description'));
+		}
+
+		if ($this->category->metakey)
+		{
+			$this->document->setMetadata('keywords', $this->category->metakey);
+		}
+		elseif ($this->params->get('menu-meta_keywords'))
+		{
+			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+		}
+
+		if ($this->params->get('robots'))
+		{
+			$this->document->setMetadata('robots', $this->params->get('robots'));
+		}
+
+		if (!is_object($this->category->metadata))
+		{
+			$this->category->metadata = new Registry($this->category->metadata);
+		}
+
+		if (($app->get('MetaAuthor') == '1') && $this->category->get('author', ''))
+		{
+			$this->document->setMetaData('author', $this->category->get('author', ''));
+		}
+
+		$mdata = $this->category->metadata->toArray();
+
+		foreach ($mdata as $k => $v)
+		{
+			if ($v)
+			{
+				$this->document->setMetadata($k, $v);
+			}
 		}
 
 		return parent::display($tpl);

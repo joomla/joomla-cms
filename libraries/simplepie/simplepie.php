@@ -1,6 +1,6 @@
 <?php
 /**
- * This file will be removed in Joomla! CMS version 3.2. Developers should either supply their own copy
+ * This file will be removed in Joomla! CMS version 4.0. Developers should either supply their own copy
  * in their installation packages or switch to JFeed.
  */
 /**

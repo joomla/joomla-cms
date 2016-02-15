@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,11 +14,9 @@ defined('JPATH_PLATFORM') or die;
  * Single check box field.
  * This is a boolean field with null for false and the specified option for true
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @link        http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox
- * @see         JFormFieldCheckboxes
- * @since       11.1
+ * @link   http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox
+ * @see    JFormFieldCheckboxes
+ * @since  11.1
  */
 class JFormFieldCheckbox extends JFormField
 {
@@ -52,7 +50,7 @@ class JFormFieldCheckbox extends JFormField
 		switch ($name)
 		{
 			case 'checked':
-				return $this->$name;
+				return $this->checked;
 		}
 
 		return parent::__get($name);
@@ -74,7 +72,7 @@ class JFormFieldCheckbox extends JFormField
 		{
 			case 'checked':
 				$value = (string) $value;
-				$this->$name = ($value == 'true' || $value == $name || $value == '1');
+				$this->checked = ($value == 'true' || $value == $name || $value == '1');
 				break;
 
 			default:

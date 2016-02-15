@@ -3,21 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('_JEXEC') or die;
 
 /**
  * Prototype form model.
  *
- * @package     Joomla.Site
- * @subpackage  com_config
- * @see         JForm
- * @see         JFormField
- * @see         JFormRule
- * @since       3.2
+ * @see    JForm
+ * @see    JFormField
+ * @see    JFormRule
+ * @since  3.2
  */
 abstract class ConfigModelForm extends ConfigModelCms
 {
@@ -157,7 +155,7 @@ abstract class ConfigModelForm extends ConfigModelCms
 		$paths->insert(JPATH_COMPONENT . '/model/field', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/model/rule', 'normal');
 
-		//Legacy support to be removed in 4.0.  -- failing here
+		// Legacy support to be removed in 4.0.  -- failing here
 		$paths->insert(JPATH_COMPONENT . '/models/forms', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/models/fields', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/models/rules', 'normal');
@@ -188,7 +186,6 @@ abstract class ConfigModelForm extends ConfigModelCms
 
 			// Load the data into the form after the plugins have operated.
 			$form->bind($data);
-
 		}
 		catch (Exception $e)
 		{
@@ -311,6 +308,11 @@ abstract class ConfigModelForm extends ConfigModelCms
 			// Get the validation messages from the form.
 			foreach ($form->getErrors() as $message)
 			{
+				if ($message instanceof Exception)
+				{
+					$message = $message->getMessage();
+				}
+
 				JFactory::getApplication()->enqueueMessage($message, 'error');
 			}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Profiler
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Utility class to assist in the process of benchmarking the execution
  * of sections of code to understand where time is being spent.
  *
- * @package     Joomla.Platform
- * @subpackage  Profiler
- * @since       11.1
+ * @since  11.1
  */
 class JProfiler
 {
@@ -197,5 +195,23 @@ class JProfiler
 	public function getBuffer()
 	{
 		return $this->buffer;
+	}
+
+	/**
+	 * Sets the start time.
+	 *
+	 * @param   double  $startTime  Unix timestamp in microseconds for setting the Profiler start time.
+	 * @param   int     $startMem   Memory amount in bytes for setting the Profiler start memory.
+	 *
+	 * @return  $this   For chaining
+	 *
+	 * @since   12.1
+	 */
+	public function setStart($startTime = 0, $startMem = 0)
+	{
+		$this->start       = (double) $startTime;
+		$this->previousMem = (int) $startMem / 1048576;
+
+		return $this;
 	}
 }

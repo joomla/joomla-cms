@@ -3,18 +3,16 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field class for the Joomla Platform.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       3.2
+ * @since  3.2
  */
 class JFormFieldOrdering extends JFormField
 {
@@ -151,24 +149,23 @@ class JFormFieldOrdering extends JFormField
 	 */
 	protected function getQuery()
 	{
-		$categoryId	= (int) $this->form->getValue('catid');
-
-		$ucmType = new JUcmType;
-		$ucmRow = $ucmType->getType($ucmType->getTypeId($this->contentType));
+		$categoryId   = (int) $this->form->getValue('catid');
+		$ucmType      = new JUcmType;
+		$ucmRow       = $ucmType->getType($ucmType->getTypeId($this->contentType));
 		$ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
 
 		if (is_object($ucmMapCommon))
 		{
 			$ordering = $ucmMapCommon->core_ordering;
-			$title = $ucmMapCommon->core_title;
+			$title    = $ucmMapCommon->core_title;
 		}
 		elseif (is_array($ucmMapCommon))
 		{
 			$ordering = $ucmMapCommon[0]->core_ordering;
-			$title = $ucmMapCommon[0]->core_title;
+			$title    = $ucmMapCommon[0]->core_title;
 		}
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select(array($db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')))
 			->from($db->quoteName(json_decode($ucmRow->table)->special->dbtable))

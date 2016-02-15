@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Controller class to set the default application languages for the Joomla Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Controller
- * @since       3.1
+ * @since  3.1
  */
 class InstallationControllerSetdefaultlanguage extends JControllerBase
 {
@@ -30,7 +28,6 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 		// Overrides application config and set the configuration.php file so tokens and database works
 		JFactory::$config = null;
 		JFactory::getConfig(JPATH_SITE . '/configuration.php');
-		JFactory::$session = null;
 	}
 
 	/**
@@ -166,25 +163,30 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 					$error = true;
 				}
 
-				if (!$error)
-				{
-					$tableCategory = $model->addCategory($siteLang);
+				$installContent = (int) $data['installLocalisedContent'];
 
-					if ($tableCategory === false)
+				if ($installContent)
+				{
+					if (!$error)
 					{
-						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CATEGORY', $frontend_lang));
-						$error = true;
+						$tableCategory = $model->addCategory($siteLang);
+
+						if ($tableCategory === false)
+						{
+							$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CATEGORY', $frontend_lang));
+							$error = true;
+						}
 					}
-				}
 
-				if (!$error)
-				{
-					$categoryId = $tableCategory->id;
-
-					if (!$model->addArticle($siteLang, $categoryId))
+					if (!$error)
 					{
-						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_ARTICLE', $frontend_lang));
-						$error = true;
+						$categoryId = $tableCategory->id;
+
+						if (!$model->addArticle($siteLang, $categoryId))
+						{
+							$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_ARTICLE', $frontend_lang));
+							$error = true;
+						}
 					}
 				}
 			}

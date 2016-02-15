@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Supports a generic list of options.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @since  11.1
  */
 class JFormFieldList extends JFormField
 {
@@ -59,11 +57,28 @@ class JFormFieldList extends JFormField
 		// Get the field options.
 		$options = (array) $this->getOptions();
 
-		// Create a read-only list (no name) with a hidden input to store the value.
+		// Create a read-only list (no name) with hidden input(s) to store the value(s).
 		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
 		{
 			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
-			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
+
+			// E.g. form field type tag sends $this->value as array
+			if ($this->multiple && is_array($this->value))
+			{
+				if (!count($this->value))
+				{
+					$this->value[] = '';
+				}
+
+				foreach ($this->value as $value)
+				{
+					$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"/>';
+				}
+			}
+			else
+			{
+				$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"/>';
+			}
 		}
 		else
 		// Create a regular list.
@@ -83,16 +98,11 @@ class JFormFieldList extends JFormField
 	 */
 	protected function getOptions()
 	{
+		$fieldname = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 		$options = array();
 
-		foreach ($this->element->children() as $option)
+		foreach ($this->element->xpath('option') as $option)
 		{
-			// Only add <option /> elements.
-			if ($option->getName() != 'option')
-			{
-				continue;
-			}
-
 			// Filter requirements
 			if ($requires = explode(',', (string) $option['requires']))
 			{
@@ -110,27 +120,33 @@ class JFormFieldList extends JFormField
 			}
 
 			$value = (string) $option['value'];
+			$text = trim((string) $option) ? trim((string) $option) : $value;
 
 			$disabled = (string) $option['disabled'];
 			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
-
 			$disabled = $disabled || ($this->readonly && $value != $this->value);
 
-			// Create a new option object based on the <option /> element.
-			$tmp = JHtml::_(
-				'select.option', $value,
-				JText::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text',
-				$disabled
-			);
+			$checked = (string) $option['checked'];
+			$checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
 
-			// Set some option attributes.
-			$tmp->class = (string) $option['class'];
+			$selected = (string) $option['selected'];
+			$selected = ($selected == 'true' || $selected == 'selected' || $selected == '1');
 
-			// Set some JavaScript option attributes.
-			$tmp->onclick = (string) $option['onclick'];
+			$tmp = array(
+					'value'    => $value,
+					'text'     => JText::alt($text, $fieldname),
+					'disable'  => $disabled,
+					'class'    => (string) $option['class'],
+					'selected' => ($checked || $selected),
+					'checked'  => ($checked || $selected)
+				);
+
+			// Set some event handler attributes. But really, should be using unobtrusive js.
+			$tmp['onclick']  = (string) $option['onclick'];
+			$tmp['onchange']  = (string) $option['onchange'];
 
 			// Add the option object to the result set.
-			$options[] = $tmp;
+			$options[] = (object) $tmp;
 		}
 
 		reset($options);

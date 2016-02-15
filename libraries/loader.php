@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -49,6 +49,14 @@ abstract class JLoader
 	protected static $classAliases = array();
 
 	/**
+	 * Holds the inverse lookup for proxy classes and the class names the proxy.
+	 *
+	 * @var    array
+	 * @since  3.4
+	 */
+	protected static $classAliasesInverse = array();
+
+	/**
 	 * Container for namespace => path map.
 	 *
 	 * @var    array
@@ -84,13 +92,13 @@ abstract class JLoader
 				$iterator = new DirectoryIterator($parentPath);
 			}
 
+			/* @type  $file  DirectoryIterator */
 			foreach ($iterator as $file)
 			{
 				$fileName = $file->getFilename();
 
 				// Only load for php files.
-				// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-				if ($file->isFile() && substr($fileName, strrpos($fileName, '.') + 1) == 'php')
+				if ($file->isFile() && $file->getExtension() == 'php')
 				{
 					// Get the class name and full path for each file.
 					$class = strtolower($classPrefix . preg_replace('#\.php$#', '', $fileName));
@@ -280,6 +288,8 @@ abstract class JLoader
 		// Verify the library path exists.
 		if (!file_exists($path))
 		{
+			$path = (str_replace(JPATH_ROOT, '', $path) == $path) ? basename($path) : str_replace(JPATH_ROOT, '', $path);
+
 			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
 
@@ -319,6 +329,21 @@ abstract class JLoader
 		{
 			self::$classAliases[$alias] = $original;
 
+			// Remove the root backslash if present.
+			if ($original[0] == '\\')
+			{
+				$original = substr($original, 1);
+			}
+
+			if (!isset(self::$classAliasesInverse[$original]))
+			{
+				self::$classAliasesInverse[$original] = array($alias);
+			}
+			else
+			{
+				self::$classAliasesInverse[$original][] = $alias;
+			}
+
 			return true;
 		}
 
@@ -344,6 +369,8 @@ abstract class JLoader
 		// Verify the library path exists.
 		if (!file_exists($path))
 		{
+			$path = (str_replace(JPATH_ROOT, '', $path) == $path) ? basename($path) : str_replace(JPATH_ROOT, '', $path);
+
 			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
 
@@ -483,7 +510,41 @@ abstract class JLoader
 
 		if (isset(self::$classAliases[$class]))
 		{
-			class_alias(self::$classAliases[$class], $class);
+			// Force auto-load of the regular class
+			class_exists(self::$classAliases[$class], true);
+
+			// Normally this shouldn't execute as the autoloader will execute applyAliasFor when the regular class is
+			// auto-loaded above.
+			if (!class_exists($class, false) && !interface_exists($class, false))
+			{
+				class_alias(self::$classAliases[$class], $class);
+			}
+		}
+	}
+
+	/**
+	 * Applies a class alias for an already loaded class, if a class alias was created for it.
+	 *
+	 * @param   string  $class  We'll look for and register aliases for this (real) class name
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	public static function applyAliasFor($class)
+	{
+		// Remove the root backslash if present.
+		if ($class[0] == '\\')
+		{
+			$class = substr($class, 1);
+		}
+
+		if (isset(self::$classAliasesInverse[$class]))
+		{
+			foreach (self::$classAliasesInverse[$class] as $alias)
+			{
+				class_alias($class, $alias);
+			}
 		}
 	}
 
@@ -545,33 +606,38 @@ abstract class JLoader
 	}
 }
 
-/**
- * Global application exit.
- *
- * This function provides a single exit point for the platform.
- *
- * @param   mixed  $message  Exit code or string. Defaults to zero.
- *
- * @return  void
- *
- * @codeCoverageIgnore
- * @since   11.1
- */
-function jexit($message = 0)
+// Check if jexit is defined first (our unit tests mock this)
+if (!function_exists('jexit'))
 {
-	exit($message);
+	/**
+	 * Global application exit.
+	 *
+	 * This function provides a single exit point for the platform.
+	 *
+	 * @param   mixed  $message  Exit code or string. Defaults to zero.
+	 *
+	 * @return  void
+	 *
+	 * @codeCoverageIgnore
+	 * @since   11.1
+	 */
+	function jexit($message = 0)
+	{
+		exit($message);
+	}
 }
 
 /**
  * Intelligent file importer.
  *
  * @param   string  $path  A dot syntax path.
+ * @param   string  $base  Search this directory for the class.
  *
  * @return  boolean  True on success.
  *
  * @since   11.1
  */
-function jimport($path)
+function jimport($path, $base = null)
 {
-	return JLoader::import($path);
+	return JLoader::import($path, $base);
 }

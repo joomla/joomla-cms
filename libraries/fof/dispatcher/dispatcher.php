@@ -2,23 +2,23 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  dispatcher
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework dispatcher class
  *
- * FrameworkOnFramework is a set of classes whcih extend Joomla! 1.5 and later's
+ * FrameworkOnFramework is a set of classes which extend Joomla! 1.5 and later's
  * MVC framework with features making maintaining complex software much easier,
  * without tedious repetitive copying of the same code over and over again.
  *
  * @package  FrameworkOnFramework
  * @since    1.0
  */
-class FOFDispatcher extends JObject
+class FOFDispatcher extends FOFUtilsObject
 {
 	/** @var array Configuration variables */
 	protected $config = array();
@@ -131,10 +131,12 @@ class FOFDispatcher extends JObject
 			$input = new FOFInput;
 		}
 
-		$config['option'] = !is_null($option) ? $option : $input->getCmd('option', 'com_foobar');
-		$config['view'] = !is_null($view) ? $view : $input->getCmd('view', '');
+		$config['option']   = !is_null($option) ? $option : $input->getCmd('option', 'com_foobar');
+		$config['view']     = !is_null($view) ? $view : $input->getCmd('view', '');
+
 		$input->set('option', $config['option']);
 		$input->set('view', $config['view']);
+
 		$config['input'] = $input;
 
 		$className = ucfirst(str_replace('com_', '', $config['option'])) . 'Dispatcher';
@@ -155,9 +157,9 @@ class FOFDispatcher extends JObject
 				array_unshift($searchPaths, $config['searchpath']);
 			}
 
-			JLoader::import('joomla.filesystem.path');
+			$filesystem = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
 
-			$path = JPath::find(
+			$path = $filesystem->pathFind(
 					$searchPaths, 'dispatcher.php'
 			);
 
@@ -245,6 +247,11 @@ class FOFDispatcher extends JObject
 		$this->input->set('option', $this->component);
 		$this->input->set('view', $this->view);
 		$this->input->set('layout', $this->layout);
+
+		if (array_key_exists('authTimeStep', $config))
+		{
+			$this->fofAuth_timeStep = empty($config['authTimeStep']) ? 6 : $config['authTimeStep'];
+		}
 	}
 
     /**
@@ -253,30 +260,25 @@ class FOFDispatcher extends JObject
      *
      * @throws Exception
      *
-     * @return  null|JError
+     * @return  void|Exception
      */
 	public function dispatch()
 	{
-		if (!FOFPlatform::getInstance()->authorizeAdmin($this->input->getCmd('option', 'com_foobar')))
+        $platform = FOFPlatform::getInstance();
+
+		if (!$platform->authorizeAdmin($this->input->getCmd('option', 'com_foobar')))
 		{
-			if (version_compare(JVERSION, '3.0', 'ge'))
-			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
-			}
-			else
-			{
-				return JError::raiseError('403', JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
-			}
+            return $platform->raiseError(403, JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 		}
 
 		$this->transparentAuthentication();
 
 		// Merge English and local translations
-		FOFPlatform::getInstance()->loadTranslations($this->component);
+		$platform->loadTranslations($this->component);
 
 		$canDispatch = true;
 
-		if (FOFPlatform::getInstance()->isCli())
+		if ($platform->isCli())
 		{
 			$canDispatch = $canDispatch && $this->onBeforeDispatchCLI();
 		}
@@ -285,22 +287,19 @@ class FOFDispatcher extends JObject
 
 		if (!$canDispatch)
 		{
-			JResponse::setHeader('Status', '403 Forbidden', true);
+            // We can set header only if we're not in CLI
+            if(!$platform->isCli())
+            {
+                $platform->setHeader('Status', '403 Forbidden', true);
+            }
 
-			if (version_compare(JVERSION, '3.0', 'ge'))
-			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
-			}
-			else
-			{
-				return JError::raiseError('403', JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
-			}
+            return $platform->raiseError(403, JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 		}
 
 		// Get and execute the controller
 		$option = $this->input->getCmd('option', 'com_foobar');
-		$view = $this->input->getCmd('view', $this->defaultView);
-		$task = $this->input->getCmd('task', null);
+		$view   = $this->input->getCmd('view', $this->defaultView);
+		$task   = $this->input->getCmd('task', null);
 
 		if (empty($task))
 		{
@@ -308,7 +307,6 @@ class FOFDispatcher extends JObject
 		}
 
 		// Pluralise/sungularise the view name for typical tasks
-
 		if (in_array($task, array('edit', 'add', 'read')))
 		{
 			$view = FOFInflector::singularize($view);
@@ -329,37 +327,21 @@ class FOFDispatcher extends JObject
 
 		if (!$this->onAfterDispatch())
 		{
-			JResponse::setHeader('Status', '403 Forbidden', true);
+            // We can set header only if we're not in CLI
+            if(!$platform->isCli())
+            {
+                $platform->setHeader('Status', '403 Forbidden', true);
+            }
 
-			if (version_compare(JVERSION, '3.0', 'ge'))
-			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
-			}
-			else
-			{
-				return JError::raiseError('403', JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
-			}
+            return $platform->raiseError(403, JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 		}
 
 		$format = $this->input->get('format', 'html', 'cmd');
 		$format = empty($format) ? 'html' : $format;
 
-		if ($format == 'html')
+		if ($controller->hasRedirect())
 		{
-			// In HTML views perform a redirection
-			if ($controller->redirect())
-			{
-				return;
-			}
-		}
-		else
-		{
-			// In non-HTML views just exit the application with the proper HTTP headers
-			if ($controller->hasRedirect())
-			{
-				$headers = JResponse::sendHeaders();
-				jexit();
-			}
+			$controller->redirect();
 		}
 	}
 
@@ -493,7 +475,6 @@ class FOFDispatcher extends JObject
 	public function onAfterDispatch()
 	{
 		// If we have to log out the user, please do so now
-
 		if ($this->fofAuth_LogoutOnReturn && $this->_fofAuth_isLoggedIn)
 		{
 			FOFPlatform::getInstance()->logoutUser();
@@ -510,7 +491,6 @@ class FOFDispatcher extends JObject
 	public function transparentAuthentication()
 	{
 		// Only run when there is no logged in user
-
 		if (!FOFPlatform::getInstance()->getUser()->guest)
 		{
 			return;
@@ -527,7 +507,6 @@ class FOFDispatcher extends JObject
 		foreach ($this->fofAuth_AuthMethods as $method)
 		{
 			// If we're already logged in, don't bother
-
 			if ($this->_fofAuth_isLoggedIn)
 			{
 				continue;
@@ -647,6 +626,7 @@ class FOFDispatcher extends JObject
 	 *
 	 * @param   string  $encryptedData  The encrypted data
 	 *
+     * @codeCoverageIgnore
 	 * @return  array  The decrypted data
 	 */
 	private function _decryptWithTOTP($encryptedData)
@@ -704,6 +684,7 @@ class FOFDispatcher extends JObject
 	 *
 	 * @param   integer  $time  The timestamp used for TOTP calculation, leave empty to use current timestamp
 	 *
+     * @codeCoverageIgnore
 	 * @return  string  THe encryption key
 	 */
 	private function _createDecryptionKey($time = null)

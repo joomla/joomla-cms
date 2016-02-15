@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Filters model class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderModelFilters extends JModelList
 {
@@ -70,7 +68,8 @@ class FinderModelFilters extends JModelList
 		// Check for a search filter.
 		if ($this->getState('filter.search'))
 		{
-			$query->where('( a.title LIKE \'%' . $db->escape($this->getState('filter.search')) . '%\' )');
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
+			$query->where('( a.title LIKE ' . $search . ' )');
 		}
 
 		// If the model is set to check item state, add to the query.
@@ -80,7 +79,7 @@ class FinderModelFilters extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering') . ' ' . $db->escape($this->getState('list.direction'))));
+		$query->order($db->escape($this->getState('list.ordering', 'a.title') . ' ' . $db->escape($this->getState('list.direction'))));
 
 		return $query;
 	}

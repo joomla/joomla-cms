@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ require_once __DIR__ . '/extension.php';
 /**
  * Installer Discover Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       1.6
+ * @since  1.6
  */
 class InstallerModelDiscover extends InstallerModel
 {
@@ -53,6 +51,7 @@ class InstallerModelDiscover extends InstallerModel
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
+		$this->setState('list.ordering', 'name');
 
 		parent::populateState('name', 'asc');
 	}
@@ -70,7 +69,7 @@ class InstallerModelDiscover extends InstallerModel
 		$client = $this->getState('filter.client_id');
 		$group  = $this->getState('filter.group');
 
-		$query = JFactory::getDbo()->getQuery(true)
+		$query = $this->getDbo()->getQuery(true)
 			->select('*')
 			->from('#__extensions')
 			->where('state=-1');
@@ -115,11 +114,11 @@ class InstallerModelDiscover extends InstallerModel
 		// Purge the list of discovered extensions
 		$this->purge();
 
-		$installer	= JInstaller::getInstance();
-		$results	= $installer->discover();
+		$installer = JInstaller::getInstance();
+		$results   = $installer->discover();
 
 		// Get all templates, including discovered ones
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('extension_id, element, folder, client_id, type')
 			->from('#__extensions');
@@ -158,9 +157,9 @@ class InstallerModelDiscover extends InstallerModel
 	 */
 	public function discover_install()
 	{
-		$app       = JFactory::getApplication();
-		$installer = JInstaller::getInstance();
-		$eid       = JRequest::getVar('cid', 0);
+		$app   = JFactory::getApplication();
+		$input = $app->input;
+		$eid   = $input->get('cid', 0, 'array');
 
 		if (is_array($eid) || $eid)
 		{
@@ -174,6 +173,8 @@ class InstallerModelDiscover extends InstallerModel
 
 			foreach ($eid as $id)
 			{
+				$installer = new JInstaller;
+
 				$result = $installer->discover_install($id);
 
 				if (!$result)
@@ -183,6 +184,7 @@ class InstallerModelDiscover extends InstallerModel
 				}
 			}
 
+			// TODO - We are only receiving the message for the last JInstaller instance
 			$this->setState('action', 'remove');
 			$this->setState('name', $installer->get('name'));
 			$app->setUserState('com_installer.message', $installer->message);
@@ -208,23 +210,21 @@ class InstallerModelDiscover extends InstallerModel
 	 */
 	public function purge()
 	{
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
 			->delete('#__extensions')
 			->where('state = -1');
 		$db->setQuery($query);
 
-		if ($db->execute())
-		{
-			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
-
-			return true;
-		}
-		else
+		if (!$db->execute())
 		{
 			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_FAILEDTOPURGEEXTENSIONS');
 
 			return false;
 		}
+
+		$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
+
+		return true;
 	}
 }

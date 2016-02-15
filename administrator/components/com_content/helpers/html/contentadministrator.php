@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,10 +14,7 @@ JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_conten
 /**
  * Content HTML helper
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
- *
- * @since       3.0
+ * @since  3.0
  */
 abstract class JHtmlContentAdministrator
 {
@@ -79,7 +76,17 @@ abstract class JHtmlContentAdministrator
 						$item->title,
 						'(' . $item->category_title . ')'
 					);
-					$item->link = JHtml::_('tooltip', implode(' ', $tooltipParts), null, null, $text, $url, null, 'hasTooltip label label-association label-' . $item->lang_sef);
+
+					$item->link = JHtml::_(
+						'tooltip',
+						implode(' ', $tooltipParts),
+						null,
+						null,
+						$text,
+						$url,
+						null,
+						'hasTooltip label label-association label-' . $item->lang_sef
+					);
 				}
 			}
 
@@ -103,22 +110,22 @@ abstract class JHtmlContentAdministrator
 		JHtml::_('bootstrap.tooltip');
 
 		// Array of image, task, title, action
-		$states	= array(
-			0	=> array('unfeatured',	'articles.featured',	'COM_CONTENT_UNFEATURED',	'COM_CONTENT_TOGGLE_TO_FEATURE'),
-			1	=> array('featured',	'articles.unfeatured',	'COM_CONTENT_FEATURED',		'COM_CONTENT_TOGGLE_TO_UNFEATURE'),
+		$states = array(
+			0 => array('unfeatured', 'articles.featured', 'COM_CONTENT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
+			1 => array('featured', 'articles.unfeatured', 'COM_CONTENT_FEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
 		);
-		$state	= JArrayHelper::getValue($states, (int) $value, $states[1]);
-		$icon	= $state[0];
+		$state = JArrayHelper::getValue($states, (int) $value, $states[1]);
+		$icon  = $state[0];
 
 		if ($canChange)
 		{
-			$html	= '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-micro hasTooltip' . ($value == 1 ? ' active' : '') . '" title="' . JHtml::tooltipText($state[3]) . '"><i class="icon-'
-					. $icon . '"></i></a>';
+			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-micro hasTooltip'
+				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::tooltipText($state[3]) . '"><span class="icon-' . $icon . '"></span></a>';
 		}
 		else
 		{
-			$html	= '<a class="btn btn-micro hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="' . JHtml::tooltipText($state[2]) . '"><i class="icon-'
-					. $icon . '"></i></a>';
+			$html = '<a class="btn btn-micro hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'
+				. JHtml::tooltipText($state[2]) . '"><span class="icon-' . $icon . '"></span></a>';
 		}
 
 		return $html;

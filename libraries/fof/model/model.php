@@ -2,14 +2,14 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
- * FrameworkOnFramework Model class. The Model is the worhorse. It performs all
+ * FrameworkOnFramework Model class. The Model is the workhorse. It performs all
  * of the business logic based on its state and then returns the raw (processed)
  * data to the caller, or modifies its own state. It's important to note that
  * the model doesn't get data directly from the request (this is the
@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
  * @package  FrameworkOnFramework
  * @since    1.0
  */
-class FOFModel extends JObject
+class FOFModel extends FOFUtilsObject
 {
 	/**
 	 * Indicates if the internal state has been set
@@ -89,7 +89,7 @@ class FOFModel extends JObject
 
 	/**
 	 * Input variables, passed on from the controller, in an associative array
-	 * @var array
+	 * @var FOFInput
 	 */
 	protected $input = array();
 
@@ -197,6 +197,13 @@ class FOFModel extends JObject
 	protected $default_behaviors = array('filters');
 
 	/**
+	 * Behavior parameters
+	 *
+	 * @var    array
+	 */
+	protected $_behaviorParams = array();
+
+	/**
 	 * Returns a new model object. Unless overriden by the $config array, it will
 	 * try to automatically populate its state from the request variables.
 	 *
@@ -277,6 +284,7 @@ class FOFModel extends JObject
 
 		// Get the component directories
 		$componentPaths = FOFPlatform::getInstance()->getComponentBaseDirs($component);
+        $filesystem     = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
 
 		// Try to load the requested model class
 		if (!class_exists($modelClass))
@@ -291,9 +299,7 @@ class FOFModel extends JObject
 			$include_paths = array_merge($extra_paths, $include_paths);
 
 			// Try to load the model file
-			JLoader::import('joomla.filesystem.path');
-
-			$path = JPath::find(
+			$path = $filesystem->pathFind(
 					$include_paths, self::_createFileName('model', array('name' => $type))
 			);
 
@@ -320,9 +326,7 @@ class FOFModel extends JObject
 				$include_paths = array_merge($extra_paths, $include_paths);
 
 				// Try to load the model file
-				JLoader::import('joomla.filesystem.path');
-
-				$path = JPath::find(
+				$path = $filesystem->pathFind(
 						$include_paths, self::_createFileName('model', array('name' => 'default'))
 				);
 
@@ -425,7 +429,7 @@ class FOFModel extends JObject
 			$config = array();
 		}
 
-		if (!array_key_exists('savesate', $config))
+		if (!array_key_exists('savestate', $config))
 		{
 			$config['savestate'] = false;
 		}
@@ -474,16 +478,16 @@ class FOFModel extends JObject
 
 		if (!empty($path))
 		{
-			jimport('joomla.filesystem.path');
+            $filesystem = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
 
 			if (!in_array($path, $paths[$prefix]))
 			{
-				array_unshift($paths[$prefix], JPath::clean($path));
+				array_unshift($paths[$prefix], $filesystem->pathClean($path));
 			}
 
 			if (!in_array($path, $paths['']))
 			{
-				array_unshift($paths[''], JPath::clean($path));
+				array_unshift($paths[''], $filesystem->pathClean($path));
 			}
 		}
 
@@ -605,8 +609,16 @@ class FOFModel extends JObject
 		}
 		else
 		{
-			$eliminatePart = ucfirst($bareComponent) . 'Model';
-			$view = strtolower(str_replace($eliminatePart, '', $className));
+            if (array_key_exists('view', $config))
+            {
+                $view = $config['view'];
+            }
+
+            if (empty($view))
+            {
+                $eliminatePart = ucfirst($bareComponent) . 'Model';
+                $view = strtolower(str_replace($eliminatePart, '', $className));
+            }
 		}
 
 		if (array_key_exists('name', $config))
@@ -628,7 +640,7 @@ class FOFModel extends JObject
 		}
 		else
 		{
-			$this->state = new JObject;
+			$this->state = new FOFUtilsObject;
 		}
 
 		// Set the model dbo
@@ -638,7 +650,7 @@ class FOFModel extends JObject
 		}
 		else
 		{
-			$this->_db = JFactory::getDbo();
+			$this->_db = FOFPlatform::getInstance()->getDbo();
 		}
 
 		// Set the default view search path
@@ -1013,7 +1025,7 @@ class FOFModel extends JObject
 	 */
 	public function clearState()
 	{
-		$this->state = new JObject;
+		$this->state = new FOFUtilsObject;
 
 		return $this;
 	}
@@ -1066,6 +1078,58 @@ class FOFModel extends JObject
 		JFactory::getApplication()->setUserState(substr($this->getHash(), 0, -1), null);
 
 		return $this;
+	}
+
+	/**
+	 * Method to load a row for editing from the version history table.
+	 *
+	 * @param   integer    $version_id  Key to the version history table.
+	 * @param   FOFTable   &$table      Content table object being loaded.
+	 * @param   string     $alias       The type_alias in #__content_types
+	 *
+	 * @return  boolean  False on failure or error, true otherwise.
+	 *
+	 * @since   2.3
+	 */
+	public function loadhistory($version_id, FOFTable &$table, $alias)
+	{
+		// Only attempt to check the row in if it exists.
+		if ($version_id)
+		{
+			$user = JFactory::getUser();
+
+			// Get an instance of the row to checkout.
+			$historyTable = JTable::getInstance('Contenthistory');
+
+			if (!$historyTable->load($version_id))
+			{
+				$this->setError($historyTable->getError());
+
+				return false;
+			}
+
+			$rowArray = JArrayHelper::fromObject(json_decode($historyTable->version_data));
+
+			$typeId = JTable::getInstance('Contenttype')->getTypeId($alias);
+
+			if ($historyTable->ucm_type_id != $typeId)
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
+				$key = $table->getKeyName();
+
+				if (isset($rowArray[$key]))
+				{
+					$table->checkIn($rowArray[$key]);
+				}
+
+				return false;
+			}
+		}
+
+		$this->setState('save_date', $historyTable->save_date);
+		$this->setState('version_note', $historyTable->version_note);
+
+		return $table->bind($rowArray);
 	}
 
 	/**
@@ -1167,6 +1231,72 @@ class FOFModel extends JObject
 		}
 
 		return $this->list;
+	}
+
+	/**
+	 * Returns a FOFDatabaseIterator over a list of items.
+	 *
+	 * THERE BE DRAGONS. Unlike the getItemList() you have a few restrictions:
+	 * - The onProcessList event does not run when you get an iterator
+	 * - The Iterator returns FOFTable instances. By default, $this->table is used. If you have JOINs, GROUPs or a
+	 *   complex query in general you will need to create a custom FOFTable subclass and pass its type in $tableType.
+	 *
+	 * The getIterator() method is a great way to sift through a large amount of records which would otherwise not fit
+	 * in memory since it only keeps one record in PHP memory at a time. It works best with simple models, returning
+	 * all the contents of a single database table.
+	 *
+	 * @param   boolean  $overrideLimits  Should I ignore set limits?
+	 * @param   string   $tableClass      The table class for the iterator, e.g. FoobarTableBar. Leave empty to use
+	 *                                    the default Table class for this Model.
+	 *
+	 * @return  FOFDatabaseIterator
+	 */
+	public function &getIterator($overrideLimits = false, $tableClass = null)
+	{
+		// Get the table name (required by the Iterator)
+		if (empty($tableClass))
+		{
+			$name = $this->table;
+
+			if (empty($name))
+			{
+				$name = FOFInflector::singularize($this->getName());
+			}
+
+			$bareComponent = str_replace('com_', '', $this->option);
+			$prefix        = ucfirst($bareComponent) . 'Table';
+
+			$tableClass = $prefix . ucfirst($name);
+		}
+
+		// Get the query
+		$query = $this->buildQuery($overrideLimits);
+
+		// Apply limits
+		if ($overrideLimits)
+		{
+			$limitStart = 0;
+			$limit = 0;
+		}
+		else
+		{
+			$limitStart = $this->getState('limitstart');
+			$limit      = $this->getState('limit');
+		}
+
+		// This is required to prevent one relation from killing the db cursor used in a different relation...
+		$oldDb = $this->getDbo();
+		$oldDb->disconnect(); // YES, WE DO NEED TO DISCONNECT BEFORE WE CLONE THE DB OBJECT. ARGH!
+		$db = clone $oldDb;
+
+		// Execute the query, get a db cursor and return the iterator
+		$db->setQuery($query, $limitStart, $limit);
+
+		$cursor = $db->execute();
+
+		$iterator = FOFDatabaseIterator::getIterator($db->name, $cursor, null, $tableClass);
+
+		return $iterator;
 	}
 
 	/**
@@ -1278,12 +1408,26 @@ class FOFModel extends JObject
 
 			if ($validateResult === false)
 			{
+				if ($this->_savestate)
+				{
+					$session = JFactory::getSession();
+					$hash = $this->getHash() . 'savedata';
+					$session->set($hash, serialize($allData));
+				}
+
 				return false;
 			}
 		}
 
 		if (!$this->onBeforeSave($allData, $table))
 		{
+			if ($this->_savestate)
+			{
+				$session = JFactory::getSession();
+				$hash = $this->getHash() . 'savedata';
+				$session->set($hash, serialize($allData));
+			}
+
 			return false;
 		}
 		else
@@ -1458,14 +1602,16 @@ class FOFModel extends JObject
 			}
 			else
 			{
-				// Call our itnernal event
+				// Call our internal event
 				$this->onAfterPublish($table);
 
 				// Call the plugin events
 				FOFPlatform::getInstance()->importPlugin('content');
-				$name = $this->input->getCmd('view', 'cpanel');
+				$name = $this->name;
 				$context = $this->option . '.' . $name;
-				$result = FOFPlatform::getInstance()->runPlugins($this->event_change_state, array($context, $this->id_list, $publish));
+
+                // @TODO should we do anything with this return value?
+				$result  = FOFPlatform::getInstance()->runPlugins($this->event_change_state, array($context, $this->id_list, $publish));
 			}
 		}
 
@@ -1479,7 +1625,7 @@ class FOFModel extends JObject
 	 */
 	public function checkout()
 	{
-		$table = $this->getTable($this->table);
+		$table  = $this->getTable($this->table);
 		$status = $table->checkout(FOFPlatform::getInstance()->getUser()->id, $this->id);
 
 		if (!$status)
@@ -1497,7 +1643,7 @@ class FOFModel extends JObject
 	 */
 	public function checkin()
 	{
-		$table = $this->getTable($this->table);
+		$table  = $this->getTable($this->table);
 		$status = $table->checkin($this->id);
 
 		if (!$status)
@@ -1515,7 +1661,7 @@ class FOFModel extends JObject
 	 */
 	public function isCheckedOut()
 	{
-		$table = $this->getTable($this->table);
+		$table  = $this->getTable($this->table);
 		$status = $table->isCheckedOut($this->id);
 
 		if (!$status)
@@ -1850,14 +1996,7 @@ class FOFModel extends JObject
 			return $table;
 		}
 
-		if (version_compare(JVERSION, '3.0', 'ge'))
-		{
-			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
-		}
-		else
-		{
-			JError::raiseError(0, JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name));
-		}
+        FOFPlatform::getInstance()->raiseError(0, JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name));
 
 		return null;
 	}
@@ -1960,8 +2099,14 @@ class FOFModel extends JObject
 				$order = $db->qn($this->getTableAlias()) . '.' . $order;
 			}
 
-			$dir = $this->getState('filter_order_Dir', 'ASC', 'cmd');
-			$query->order($order . ' ' . $dir);
+			$dir = strtoupper($this->getState('filter_order_Dir', 'ASC', 'cmd'));
+			$dir = in_array($dir, array('DESC', 'ASC')) ? $dir : 'ASC';
+
+			// If the table cache is broken you may end up with an empty order by.
+			if (!empty($order) && ($order != $db->qn('')))
+			{
+				$query->order($order . ' ' . $dir);
+			}
 		}
 
 		// Call the behaviors
@@ -2154,9 +2299,6 @@ class FOFModel extends JObject
 	{
 		$this->_formData = $data;
 
-		$name = $this->input->getCmd('option', 'com_foobar') . '.'
-			. $this->input->getCmd('view', 'cpanels');
-
 		if (empty($source))
 		{
 			$source = $this->getState('form_name', null);
@@ -2164,8 +2306,10 @@ class FOFModel extends JObject
 
 		if (empty($source))
 		{
-			$source = 'form.' . $this->input->getCmd('view', 'cpanels');
+			$source = 'form.' . $this->name;
 		}
+
+		$name = $this->input->getCmd('option', 'com_foobar') . '.' . $this->name . '.' . $source;
 
 		$options = array(
 			'control'	 => false,
@@ -2187,27 +2331,28 @@ class FOFModel extends JObject
     /**
      * Method to get a form object.
      *
-     * @param   string          $name The name of the form.
-     * @param   string          $source The form source. Can be XML string if file flag is set to false.
-     * @param   array           $options Optional array of options for the form creation.
-     * @param   boolean         $clear Optional argument to force load a new form.
-     * @param   bool|string     $xpath An optional xpath to search for the fields.
+     * @param   string          $name       The name of the form.
+     * @param   string          $source     The form filename (e.g. form.browse)
+     * @param   array           $options    Optional array of options for the form creation.
+     * @param   boolean         $clear      Optional argument to force load a new form.
+     * @param   bool|string     $xpath      An optional xpath to search for the fields.
      *
      * @return  mixed  FOFForm object on success, False on error.
+	 *
+	 * @throws  Exception
      *
      * @see     FOFForm
      * @since   2.0
      */
-	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
+	protected function loadForm($name, $source, $options = array(), $clear = false, $xpath = false)
 	{
 		// Handle the optional arguments.
-		$options['control'] = JArrayHelper::getValue($options, 'control', false);
+		$options['control'] = isset($options['control']) ? $options['control'] : false;
 
 		// Create a signature hash.
 		$hash = md5($source . serialize($options));
 
 		// Check if we can use a previously loaded form.
-
 		if (isset($this->_forms[$hash]) && !$clear)
 		{
 			return $this->_forms[$hash];
@@ -2217,7 +2362,6 @@ class FOFModel extends JObject
 		$formFilename = $this->findFormFilename($source);
 
 		// No form found? Quit!
-
 		if ($formFilename === false)
 		{
 			return false;
@@ -2228,12 +2372,11 @@ class FOFModel extends JObject
 		FOFForm::addFormPath(dirname($formFilename));
 
 		// Set up field paths
-
-		$option = $this->input->getCmd('option', 'com_foobar');
+		$option         = $this->input->getCmd('option', 'com_foobar');
 		$componentPaths = FOFPlatform::getInstance()->getComponentBaseDirs($option);
-		$view = $this->input->getCmd('view', 'cpanels');
-		$file_root = $componentPaths['main'];
-		$alt_file_root = $componentPaths['alt'];
+		$view           = $this->name;
+		$file_root      = $componentPaths['main'];
+		$alt_file_root  = $componentPaths['alt'];
 
 		FOFForm::addFieldPath($file_root . '/fields');
 		FOFForm::addFieldPath($file_root . '/models/fields');
@@ -2275,9 +2418,17 @@ class FOFModel extends JObject
 		}
 		catch (Exception $e)
 		{
-			$this->setError($e->getMessage());
+            // The above try-catch statement will catch EVERYTHING, even PhpUnit exceptions while testing
+            if(stripos(get_class($e), 'phpunit') !== false)
+            {
+                throw $e;
+            }
+            else
+            {
+                $this->setError($e->getMessage());
 
-			return false;
+                return false;
+            }
 		}
 
 		// Store the form for later.
@@ -2298,17 +2449,20 @@ class FOFModel extends JObject
 	 */
 	public function findFormFilename($source, $paths = array())
 	{
+        // TODO Should we read from internal variables instead of the input? With a temp instance we have no input
 		$option = $this->input->getCmd('option', 'com_foobar');
-		$view 	= $this->input->getCmd('view', 'cpanels');
+		$view 	= $this->name;
 
 		$componentPaths = FOFPlatform::getInstance()->getComponentBaseDirs($option);
-		$file_root = $componentPaths['main'];
-		$alt_file_root = $componentPaths['alt'];
-		$template_root = FOFPlatform::getInstance()->getTemplateOverridePath($option);
+		$file_root      = $componentPaths['main'];
+		$alt_file_root  = $componentPaths['alt'];
+		$template_root  = FOFPlatform::getInstance()->getTemplateOverridePath($option);
 
 		if (empty($paths))
 		{
 			// Set up the paths to look into
+            // PLEASE NOTE: If you ever change this, please update Model Unit tests, too, since we have to
+            // copy these default folders (we have to add the protocol for the virtual filesystem)
 			$paths = array(
 				// In the template override
 				$template_root . '/' . $view,
@@ -2329,6 +2483,8 @@ class FOFModel extends JObject
 			);
 		}
 
+        $paths = array_unique($paths);
+
 		// Set up the suffixes to look into
 		$suffixes = array();
 		$temp_suffixes = FOFPlatform::getInstance()->getTemplateSuffixes();
@@ -2344,8 +2500,8 @@ class FOFModel extends JObject
 		$suffixes[] = '.xml';
 
 		// Look for all suffixes in all paths
-		JLoader::import('joomla.filesystem.file');
-		$result = false;
+		$result     = false;
+        $filesystem = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
 
 		foreach ($paths as $path)
 		{
@@ -2353,7 +2509,7 @@ class FOFModel extends JObject
 			{
 				$filename = $path . '/' . $source . $suffix;
 
-				if (JFile::exists($filename))
+				if ($filesystem->fileExists($filename))
 				{
 					$result = $filename;
 					break;
@@ -2401,10 +2557,9 @@ class FOFModel extends JObject
 	 * @since   2.0
 	 * @throws  Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(FOFForm $form, &$data, $group = 'content')
+	protected function preprocessForm(FOFForm &$form, &$data, $group = 'content')
 	{
 		// Import the appropriate plugin group.
-		JLoader::import('joomla.plugin.helper');
 		FOFPlatform::getInstance()->importPlugin($group);
 
 		// Trigger the form preparation event.
@@ -2414,7 +2569,7 @@ class FOFModel extends JObject
 		if (count($results) && in_array(false, $results, true))
 		{
 			// Get the last error.
-			$dispatcher = JDispatcher::getInstance();
+			$dispatcher = FOFUtilsObservableDispatcher::getInstance();
 			$error = $dispatcher->getError();
 
 			if (!($error instanceof Exception))
@@ -2440,7 +2595,7 @@ class FOFModel extends JObject
 	public function validateForm($form, $data, $group = null)
 	{
 		// Filter and validate the form data.
-		$data = $form->filter($data);
+		$data   = $form->filter($data);
 		$return = $form->validate($data, $group);
 
 		// Check for an error.
@@ -2479,7 +2634,8 @@ class FOFModel extends JObject
 	 * @param   string  &$name     The name of the form.
 	 * @param   string  &$source   The form source. Can be XML string if file flag is set to false.
 	 * @param   array   &$options  Optional array of options for the form creation.
-	 *
+	 * @codeCoverageIgnore
+     *
 	 * @return  void
 	 */
 	public function onBeforeLoadForm(&$name, &$source, &$options)
@@ -2493,10 +2649,11 @@ class FOFModel extends JObject
 	 * @param   string   &$name     The name of the form.
 	 * @param   string   &$source   The form source. Can be XML string if file flag is set to false.
 	 * @param   array    &$options  Optional array of options for the form creation.
-	 *
+	 * @codeCoverageIgnore
+     *
 	 * @return  void
 	 */
-	public function onAfterLoadForm(FOFForm $form, &$name, &$source, &$options)
+	public function onAfterLoadForm(FOFForm &$form, &$name, &$source, &$options)
 	{
 	}
 
@@ -2505,10 +2662,11 @@ class FOFModel extends JObject
 	 *
 	 * @param   FOFForm  $form    A FOFForm object.
 	 * @param   array    &$data   The data expected for the form.
-	 *
+	 * @codeCoverageIgnore
+     *
 	 * @return  void
 	 */
-	public function onBeforePreprocessForm(FOFForm $form, &$data)
+	public function onBeforePreprocessForm(FOFForm &$form, &$data)
 	{
 	}
 
@@ -2517,10 +2675,11 @@ class FOFModel extends JObject
 	 *
 	 * @param   FOFForm  $form    A FOFForm object.
 	 * @param   array    &$data   The data expected for the form.
-	 *
+	 * @codeCoverageIgnore
+     *
 	 * @return  void
 	 */
-	public function onAfterPreprocessForm(FOFForm $form, &$data)
+	public function onAfterPreprocessForm(FOFForm &$form, &$data)
 	{
 	}
 
@@ -2644,6 +2803,8 @@ class FOFModel extends JObject
 
 			$name = $this->name;
 			FOFPlatform::getInstance()->runPlugins($this->event_after_save, array($this->option . '.' . $name, &$table, $this->_isNewRecord));
+
+			return true;
 		}
 		catch (Exception $e)
 		{
@@ -2681,7 +2842,7 @@ class FOFModel extends JObject
 				return false;
 			}
 
-			$name = $this->input->getCmd('view', 'cpanel');
+			$name = $this->name;
 			$context = $this->option . '.' . $name;
 			$result = FOFPlatform::getInstance()->runPlugins($this->event_before_delete, array($context, $table));
 
@@ -2725,11 +2886,9 @@ class FOFModel extends JObject
 			return false;
 		}
 
-		$dispatcher = JDispatcher::getInstance();
-
 		try
 		{
-			$name = $this->input->getCmd('view', 'cpanel');
+			$name = $this->name;
 			$context = $this->option . '.' . $name;
 			$result = FOFPlatform::getInstance()->runPlugins($this->event_after_delete, array($context, $this->_recordForDeletion));
 			unset($this->_recordForDeletion);
@@ -3025,16 +3184,73 @@ class FOFModel extends JObject
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		$conf = JFactory::getConfig();
+		$conf         = JFactory::getConfig();
+        $platformDirs = FOFPlatform::getInstance()->getPlatformBaseDirs();
 
 		$options = array(
 			'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
-			'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
+			'cachebase'    => ($client_id) ? $platformDirs['admin'] . '/cache' : $conf->get('cache_path', $platformDirs['public'] . '/cache'));
 
 		$cache = JCache::getInstance('callback', $options);
 		$cache->clean();
 
 		// Trigger the onContentCleanCache event.
 		FOFPlatform::getInstance()->runPlugins($this->event_clean_cache, $options);
+	}
+
+	/**
+	 * Set a behavior param
+	 *
+	 * @param   string  $name     The name of the param
+	 * @param   mixed   $value    The param value to set
+	 *
+	 * @return  FOFModel
+	 */
+	public function setBehaviorParam($name, $value)
+	{
+		$this->_behaviorParams[$name] = $value;
+
+		return $this;
+	}
+
+	/**
+	 * Get a behavior param
+	 *
+	 * @param   string  $name     The name of the param
+	 * @param   mixed   $default  The default value returned if not set
+	 *
+	 * @return  mixed
+	 */
+	public function getBehaviorParam($name, $default = null)
+	{
+		return isset($this->_behaviorParams[$name]) ? $this->_behaviorParams[$name] : $default;
+	}
+
+	/**
+	 * Set or get the backlisted filters
+	 *
+	 * @param   mixed    $list    A filter or list of filters to backlist. If null return the list of backlisted filter
+	 * @param   boolean  $reset   Reset the blacklist if true
+	 *
+	 * @return  void|array  Return an array of value if $list is null
+	 */
+	public function blacklistFilters($list = null, $reset = false)
+	{
+		if (!isset($list))
+		{
+			return $this->getBehaviorParam('blacklistFilters', array());
+		}
+
+		if (is_string($list))
+		{
+			$list = (array) $list;
+		}
+
+		if (!$reset)
+		{
+			$list = array_unique(array_merge($this->getBehaviorParam('blacklistFilters', array()), $list));
+		}
+
+		$this->setBehaviorParam('blacklistFilters', $list);
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ jimport('joomla.utilities.arrayhelper');
 /**
  * Class that handles all access authorisation routines.
  *
- * @package     Joomla.Platform
- * @subpackage  Access
- * @since       11.1
+ * @since  11.1
  */
 class JAccess
 {
@@ -100,8 +98,7 @@ class JAccess
 		{
 			$db = JFactory::getDbo();
 			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
-			$rootId = $assets->getRootId();
-			$asset = $rootId;
+			$asset = $assets->getRootId();
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
@@ -141,10 +138,9 @@ class JAccess
 		// Default to the root asset node.
 		if (empty($asset))
 		{
-			// TODO: $rootId doesn't seem to be used!
 			$db = JFactory::getDbo();
 			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
-			$rootId = $assets->getRootId();
+			$asset = $assets->getRootId();
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
@@ -268,6 +264,28 @@ class JAccess
 		$rules->mergeCollection($result);
 
 		return $rules;
+	}
+
+	/**
+	 * Method to return the title of a user group
+	 *
+	 * @param   integer  $groupId  Id of the group for which to get the title of.
+	 *
+	 * @return  string  Tthe title of the group
+	 *
+	 * @since   3.5
+	 */
+	public static function getGroupTitle($groupId)
+	{
+		// Fetch the group title from the database
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('title')
+			->from('#__usergroups')
+			->where('id = ' . $db->quote($groupId));
+		$db->setQuery($query);
+
+		return $db->loadResult();
 	}
 
 	/**

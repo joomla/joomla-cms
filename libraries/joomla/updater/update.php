@@ -3,18 +3,17 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Update class.
+ * Update class. It is used by JUpdater::update() to install an update. Use JUpdater::findUpdates() to find updates for
+ * an extension.
  *
- * @package     Joomla.Platform
- * @subpackage  Updater
- * @since       11.1
+ * @since  11.1
  */
 class JUpdate extends JObject
 {
@@ -187,6 +186,21 @@ class JUpdate extends JObject
 	protected $latest;
 
 	/**
+	 * The minimum stability required for updates to be taken into account. The possible values are:
+	 * 0	dev			Development snapshots, nightly builds, pre-release versions and so on
+	 * 1	alpha		Alpha versions (work in progress, things are likely to be broken)
+	 * 2	beta		Beta versions (major functionality in place, show-stopper bugs are likely to be present)
+	 * 3	rc			Release Candidate versions (almost stable, minor bugs might be present)
+	 * 4	stable		Stable versions (production quality code)
+	 *
+	 * @var    int
+	 * @since  14.1
+	 *
+	 * @see    JUpdater
+	 */
+	protected $minimum_stability = JUpdater::STABILITY_STABLE;
+
+	/**
 	 * Gets the reference to the current direct parent
 	 *
 	 * @return  object
@@ -252,6 +266,7 @@ class JUpdate extends JObject
 				{
 					$this->currentUpdate->$name = new stdClass;
 				}
+
 				$this->currentUpdate->$name->_data = '';
 
 				foreach ($attrs as $key => $data)
@@ -277,30 +292,52 @@ class JUpdate extends JObject
 	public function _endElement($parser, $name)
 	{
 		array_pop($this->stack);
+
 		switch ($name)
 		{
 			// Closing update, find the latest version and check
 			case 'UPDATE':
 				$ver = new JVersion;
-				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
+				$product = strtolower(JFilterInput::getInstance()->clean($ver::PRODUCT, 'cmd'));
 
 				// Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
 				if (isset($this->currentUpdate->targetplatform->name)
 					&& $product == $this->currentUpdate->targetplatform->name
-					&& preg_match('/' . $this->currentUpdate->targetplatform->version . '/', $ver->RELEASE)
-					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $ver->DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
-					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $ver->DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
+					&& preg_match('/' . $this->currentUpdate->targetplatform->version . '/', $ver::RELEASE)
+					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $ver::DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
+					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $ver::DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
-					if (isset($this->latest))
+					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
+					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum->_data, '>='))
 					{
-						if (version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>') == 1)
-						{
-							$this->latest = $this->currentUpdate;
-						}
+						$phpMatch = true;
 					}
 					else
 					{
-						$this->latest = $this->currentUpdate;
+						$phpMatch = false;
+					}
+
+					// Check minimum stability
+					$stabilityMatch = true;
+
+					if (isset($this->currentUpdate->stability) && ($this->currentUpdate->stability < $this->minimum_stability))
+					{
+						$stabilityMatch = false;
+					}
+
+					if ($phpMatch && $stabilityMatch)
+					{
+						if (isset($this->latest))
+						{
+							if (version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>') == 1)
+							{
+								$this->latest = $this->currentUpdate;
+							}
+						}
+						else
+						{
+							$this->latest = $this->currentUpdate;
+						}
 					}
 				}
 				break;
@@ -312,6 +349,7 @@ class JUpdate extends JObject
 					{
 						$this->$key = $val;
 					}
+
 					unset($this->latest);
 					unset($this->currentUpdate);
 				}
@@ -344,6 +382,14 @@ class JUpdate extends JObject
 
 		// Throw the data for this item together
 		$tag = strtolower($tag);
+
+		if ($tag == 'tag')
+		{
+			$this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
+
+			return;
+		}
+
 		if (isset($this->currentUpdate->$tag))
 		{
 			$this->currentUpdate->$tag->_data .= $data;
@@ -353,22 +399,35 @@ class JUpdate extends JObject
 	/**
 	 * Loads an XML file from a URL.
 	 *
-	 * @param   string  $url  The URL.
+	 * @param   string  $url                The URL.
+	 * @param   int     $minimum_stability  The minimum stability required for updating the extension {@see JUpdater}
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
-	public function loadFromXML($url)
+	public function loadFromXml($url, $minimum_stability = JUpdater::STABILITY_STABLE)
 	{
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($url);
-		if (200 != $response->code)
+
+		try
+		{
+			$response = $http->get($url);
+		}
+		catch (RuntimeException $e)
+		{
+			$response = null;
+		}
+
+		if ($response === null || $response->code !== 200)
 		{
 			// TODO: Add a 'mark bad' setting here somehow
 			JLog::add(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), JLog::WARNING, 'jerror');
+
 			return false;
 		}
+
+		$this->minimum_stability = $minimum_stability;
 
 		$this->xmlParser = xml_parser_create('');
 		xml_set_object($this->xmlParser, $this);
@@ -377,14 +436,41 @@ class JUpdate extends JObject
 
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
-			die(
+			JLog::add(
 				sprintf(
 					"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xmlParser)),
 					xml_get_current_line_number($this->xmlParser)
-				)
+				),
+				JLog::WARNING, 'updater'
 			);
+
+			return false;
 		}
+
 		xml_parser_free($this->xmlParser);
+
 		return true;
+	}
+
+	/**
+	 * Converts a tag to numeric stability representation. If the tag doesn't represent a known stability level (one of
+	 * dev, alpha, beta, rc, stable) it is ignored.
+	 *
+	 * @param   string  $tag  The tag string, e.g. dev, alpha, beta, rc, stable
+	 *
+	 * @return  integer
+	 *
+	 * @since   3.4
+	 */
+	protected function stabilityTagToInteger($tag)
+	{
+		$constant = 'JUpdater::STABILITY_' . strtoupper($tag);
+
+		if (defined($constant))
+		{
+			return constant($constant);
+		}
+
+		return JUpdater::STABILITY_STABLE;
 	}
 }

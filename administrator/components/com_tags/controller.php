@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,13 +12,10 @@ defined('_JEXEC') or die;
 /**
  * Tags view class for the Tags package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_tags
- * @since       3.1
+ * @since  3.1
  */
 class TagsController extends JControllerLegacy
 {
-
 	/**
 	 * Method to display a view.
 	 *
@@ -31,8 +28,6 @@ class TagsController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT.'/helpers/tags.php';
-
 		$view   = $this->input->get('view', 'tags');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
@@ -47,9 +42,9 @@ class TagsController extends JControllerLegacy
 
 			return false;
 		}
+
 		parent::display();
 
 		return $this;
-
 	}
 }

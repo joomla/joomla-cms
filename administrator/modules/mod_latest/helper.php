@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_latest
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,16 +14,14 @@ JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/mode
 /**
  * Helper for mod_latest
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_latest
- * @since       1.5
+ * @since  1.5
  */
 abstract class ModLatestHelper
 {
 	/**
 	 * Get a list of articles.
 	 *
-	 * @param   JRegistry  &$params  The module parameters.
+	 * @param   \Joomla\Registry\Registry  &$params  The module parameters.
 	 *
 	 * @return  mixed  An array of articles, or false on error.
 	 */
@@ -108,7 +106,7 @@ abstract class ModLatestHelper
 	/**
 	 * Get the alternate title for the module.
 	 *
-	 * @param   JRegistry  $params  The module parameters.
+	 * @param   \Joomla\Registry\Registry  $params  The module parameters.
 	 *
 	 * @return  string  The alternate title for the module.
 	 */

@@ -3,18 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Model for the global configuration
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
  */
 class ConfigModelApplication extends ConfigModelForm
 {
@@ -55,14 +55,14 @@ class ConfigModelApplication extends ConfigModelForm
 	public function getData()
 	{
 		// Get the config data.
-		$config	= new JConfig;
-		$data	= JArrayHelper::fromObject($config);
+		$config = new JConfig;
+		$data   = JArrayHelper::fromObject($config);
 
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
 
 		// Get the text filter data
-		$params = JComponentHelper::getParams('com_config');
+		$params          = JComponentHelper::getParams('com_config');
 		$data['filters'] = JArrayHelper::fromObject($params->get('filters'));
 
 		// If no filter data found, get from com_content (update of 1.6/1.7 site)
@@ -97,15 +97,36 @@ class ConfigModelApplication extends ConfigModelForm
 	{
 		$app = JFactory::getApplication();
 
+		// Check that we aren't setting wrong database configuration
+		$options = array(
+			'driver'   => $data['dbtype'],
+			'host'     => $data['host'],
+			'user'     => $data['user'],
+			'password' => JFactory::getConfig()->get('password'),
+			'database' => $data['db'],
+			'prefix'   => $data['dbprefix']
+		);
+
+		try
+		{
+			$dbc = JDatabaseDriver::getInstance($options)->getVersion();
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'), 'error');
+
+			return false;
+		}
+
 		// Save the rules
 		if (isset($data['rules']))
 		{
-			$rules	= new JAccessRules($data['rules']);
+			$rules = new JAccessRules($data['rules']);
 
 			// Check that we aren't removing our Super User permission
 			// Need to get groups from database, since they might have changed
-			$myGroups = JAccess::getGroupsByUser(JFactory::getUser()->get('id'));
-			$myRules = $rules->getData();
+			$myGroups      = JAccess::getGroupsByUser(JFactory::getUser()->get('id'));
+			$myRules       = $rules->getData();
 			$hasSuperAdmin = $myRules['core.admin']->allow($myGroups);
 
 			if (!$hasSuperAdmin)
@@ -141,7 +162,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// Save the text filters
 		if (isset($data['filters']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray(array('filters' => $data['filters']));
 
 			$extension = JTable::getInstance('extension');
@@ -199,6 +220,15 @@ class ConfigModelApplication extends ConfigModelForm
 			$data['caching'] = 0;
 		}
 
+		$path = JPATH_SITE . '/cache';
+
+		// Give a warning if the cache-folder can not be opened
+		if ($data['caching'] > 0 && $data['cache_handler'] == 'file' && @opendir($path) == false)
+		{
+			JLog::add(JText::sprintf('COM_CONFIG_ERROR_CACHE_PATH_NOTWRITABLE', $path), JLog::WARNING, 'jerror');
+			$data['caching'] = 0;
+		}
+
 		// Clean the cache if disabled but previously enabled.
 		if (!$data['caching'] && $prev['caching'])
 		{
@@ -207,7 +237,7 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 
 		// Create the new configuration object.
-		$config = new JRegistry('config');
+		$config = new Registry('config');
 		$config->loadArray($data);
 
 		// Overwrite the old FTP credentials with the new ones.
@@ -244,7 +274,7 @@ class ConfigModelApplication extends ConfigModelForm
 		$prev = JArrayHelper::fromObject($prev);
 
 		// Create the new configuration object, and unset the root_user property
-		$config = new JRegistry('config');
+		$config = new Registry('config');
 		unset($prev['root_user']);
 		$config->loadArray($prev);
 
@@ -255,14 +285,14 @@ class ConfigModelApplication extends ConfigModelForm
 	/**
 	 * Method to write the configuration to a file.
 	 *
-	 * @param   JRegistry  $config  A JRegistry object containing all global config data.
+	 * @param   Registry  $config  A Registry object containing all global config data.
 	 *
 	 * @return	boolean  True on success, false on failure.
 	 *
 	 * @since	2.5.4
 	 * @throws  RuntimeException
 	 */
-	private function writeConfigFile(JRegistry $config)
+	private function writeConfigFile(Registry $config)
 	{
 		jimport('joomla.filesystem.path');
 		jimport('joomla.filesystem.file');
@@ -296,5 +326,150 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to store the permission values in the asset table.
+	 *
+	 * This method will get an array with permission key value pairs and transform it
+	 * into json and update the asset table in the database.
+	 *
+	 * @param   string  $permission  Need an array with Permissions (component, rule, value and title)
+	 *
+	 * @return  boolean  True on success, false on failure.
+	 *
+	 * @since   3.5
+	 */
+	public function storePermissions($permission)
+	{
+		try
+		{
+			// Load the current settings for this component
+			$query = $this->db->getQuery(true)
+				->select($this->db->quoteName(array('name', 'rules')))
+				->from($this->db->quoteName('#__assets'))
+				->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
+
+			$this->db->setQuery($query);
+
+			// Load the results as a list of stdClass objects (see later for more options on retrieving data).
+			$results = $this->db->loadAssocList();
+
+			if (empty($results))
+			{
+				$data = array();
+				$data[$permission['action']] = array();
+				$data[$permission['action']] = array($permission['rule'] => $permission['value']);
+
+				$rules = new JAccessRules($data);
+				$asset = JTable::getInstance('asset');
+				$asset->rules = (string) $rules;
+				$asset->name  = (string) $permission['component'];
+				$asset->title = (string) $permission['title'];
+
+				if (!$asset->check() || !$asset->store())
+				{
+					JFactory::getApplication()->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
+
+					return false;
+				}
+
+				return true;
+			}
+			else
+			{
+				// Decode the rule settings
+				$temp = json_decode($results[0]['rules'], true);
+
+				// Check if a new value is to be set
+				if (isset($permission['value']))
+				{
+					// Check if we already have an action entry
+					if (!isset($temp[$permission['action']]))
+					{
+						$temp[$permission['action']] = array();
+					}
+
+					// Check if we already have a rule entry
+					if (!isset($temp[$permission['action']][$permission['rule']]))
+					{
+						$temp[$permission['action']][$permission['rule']] = array();
+					}
+
+					// Set the new permission
+					$temp[$permission['action']][$permission['rule']] = intval($permission['value']);
+
+					// Check if we have an inherited setting
+					if (strlen($permission['value']) == 0)
+					{
+						unset($temp[$permission['action']][$permission['rule']]);
+					}
+				}
+				else
+				{
+					// There is no value so remove the action as it's not needed
+					unset($temp[$permission['action']]);
+				}
+
+				// Store the new permissions
+				$temp  = json_encode($temp);
+				$query = $this->db->getQuery(true)
+					->update($this->db->quoteName('#__assets'))
+					->set('rules = ' . $this->db->quote($temp))
+					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
+
+				$this->db->setQuery($query);
+
+				$result = $this->db->execute();
+
+				return (bool) $result;
+			}
+		}
+		catch (Exception $e)
+		{
+			return $e->getMessage();
+		}
+	}
+
+	/**
+	 * Method to send a test mail which is called via an AJAX request
+	 *
+	 * @return bool
+	 *
+	 * @since   3.5
+	 * @throws Exception
+	 */
+	public function sendTestMail()
+	{
+		// Set the new values to test with the current settings
+		$app = JFactory::getApplication();
+		$input = $app->input;
+
+		$app->set('smtpauth', $input->get('smtpauth'));
+		$app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
+		$app->set('smtppass', $input->get('smtppass', '', 'RAW'));
+		$app->set('smtphost', $input->get('smtphost'));
+		$app->set('smtpsecure', $input->get('smtpsecure'));
+		$app->set('smtpport', $input->get('smtpport'));
+		$app->set('mailfrom', $input->get('mailfrom', '', 'STRING'));
+		$app->set('fromname', $input->get('fromname', '', 'STRING'));
+		$app->set('mailer', $input->get('mailer'));
+		$app->set('mailonline', $input->get('mailonline'));
+
+		// Prepare email and send try to send it
+		$mailSubject = JText::sprintf('COM_CONFIG_SENDMAIL_SUBJECT', $app->get('sitename'));
+		$mailBody    = JText::sprintf('COM_CONFIG_SENDMAIL_BODY', JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($app->get('mailer'))));
+
+		if (JFactory::getMailer()->sendMail($app->get('mailfrom'), $app->get('fromname'), $app->get('mailfrom'), $mailSubject, $mailBody) === true)
+		{
+			$methodName = JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($app->get('mailer')));
+			$app->enqueueMessage(JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $app->get('mailfrom'), $methodName), 'success');
+
+			return true;
+		}
+
+		$app->enqueueMessage(JText::_('COM_CONFIG_SENDMAIL_ERROR'), 'error');
+
+		return false;
 	}
 }

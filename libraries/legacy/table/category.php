@@ -3,18 +3,18 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Category table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
- * @since       11.1
+ * @since  11.1
  */
 class JTableCategory extends JTableNested
 {
@@ -28,6 +28,9 @@ class JTableCategory extends JTableNested
 	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__categories', 'id', $db);
+
+		JTableObserverTags::createObserver($this, array('typeAlias' => '{extension}.category'));
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => '{extension}.category'));
 
 		$this->access = (int) JFactory::getConfig()->get('access');
 	}
@@ -145,7 +148,7 @@ class JTableCategory extends JTableNested
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
@@ -171,14 +174,14 @@ class JTableCategory extends JTableNested
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
@@ -207,10 +210,11 @@ class JTableCategory extends JTableNested
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
+		$this->modified_time = $date->toSql();
+
 		if ($this->id)
 		{
 			// Existing category
-			$this->modified_time = $date->toSql();
 			$this->modified_user_id = $user->get('id');
 		}
 		else
@@ -223,7 +227,7 @@ class JTableCategory extends JTableNested
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Category', 'JTable', array('dbo' => $this->getDbo()));
 
-		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'extension' => $this->extension))
+		if ($table->load(array('alias' => $this->alias, 'parent_id' => (int) $this->parent_id, 'extension' => $this->extension))
 			&& ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));

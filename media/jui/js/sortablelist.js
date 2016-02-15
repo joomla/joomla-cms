@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,7 +61,7 @@
 				
 				//Proceed nested list				
 				if (nestedList){
-					root.hideChidlrenNodes(ui.item.attr('item-id'));	
+					root.hideChildrenNodes(ui.item.attr('item-id'));	
 					root.hideSameLevelChildrenNodes(ui.item.attr('level'));
 					$(tableWrapper).sortable('refresh');
 				}
@@ -109,7 +109,7 @@
 			}
 		});
 		
-		this.hideChidlrenNodes = function (itemId) {
+		this.hideChildrenNodes = function (itemId) {
 			root.childrenNodes = root.getChildrenNodes(itemId);				
 			root.childrenNodes.hide();
 		}
@@ -217,36 +217,36 @@
 				if (ui.originalPosition.top > ui.position.top) //if item moved up
 				{						
 					if (ui.item.position().top != ui.originalPosition.top){
-						$('[type=text]', ui.item).attr('value', parseInt($('[type=text]', ui.item.next()).attr('value')));
+						$('[type=text]:hidden', ui.item).attr('value', parseInt($('[type=text]:hidden', ui.item.next()).attr('value')));
 					}
 					$(range).each(function () {
 						var _top = $(this).position().top;
 						if ( ui.item.get(0) !== $(this).get(0)){	
 							if (_top > ui.item.position().top && _top <= ui.originalPosition.top) {
 								if (sortDir == 'asc') {
-									var newValue = parseInt($('[type=text]', $(this)).attr('value')) + 1;
+									var newValue = parseInt($('[type=text]:hidden', $(this)).attr('value')) + 1;
 								} else {
-									var newValue = parseInt($('[type=text]', $(this)).attr('value')) - 1;
+									var newValue = parseInt($('[type=text]:hidden', $(this)).attr('value')) - 1;
 								}
 	
-								$('[type=text]', $(this)).attr('value', newValue);
+								$('[type=text]:hidden', $(this)).attr('value', newValue);
 							}
 						}
 					});
 				} else if (ui.originalPosition.top < ui.position.top) {
 					if (ui.item.position().top != ui.originalPosition.top){
-						$('[type=text]', ui.item).attr('value', parseInt($('[type=text]', ui.item.prev()).attr('value')));
+						$('[type=text]:hidden', ui.item).attr('value', parseInt($('[type=text]:hidden', ui.item.prev()).attr('value')));
 					}					
 					$(range).each(function () {												
 						var _top = $(this).position().top;
 						if ( ui.item.get(0) !== $(this).get(0)){						
 							if (_top < ui.item.position().top && _top >= ui.originalPosition.top) {
 								if (sortDir == 'asc') {
-									var newValue = parseInt($('[type=text]', $(this)).attr('value')) - 1;
+									var newValue = parseInt($('[type=text]:hidden', $(this)).attr('value')) - 1;
 								} else {
-									var newValue = parseInt($('[type=text]', $(this)).attr('value')) + 1;
+									var newValue = parseInt($('[type=text]:hidden', $(this)).attr('value')) + 1;
 								}
-								$('[type=text]', $(this)).attr('value', newValue);
+								$('[type=text]:hidden', $(this)).attr('value', newValue);
 							}
 						}
 						
@@ -272,7 +272,7 @@
 		}
 		
 		this.getChildrenNodes = function (parentId) {
-			return $('tr[parents*=" '+parentId+'"]');
+			return $('tr[parents~="'+parentId+'"]');
 		}
 		
 		this.getSameLevelNodes = function (level) {
