@@ -43,4 +43,32 @@ class LanguagesControllerInstalled extends JControllerLegacy
 		$clientId = $model->getState('filter.client_id');
 		$this->setredirect('index.php?option=com_languages&view=installed&client=' . $clientId, $msg, $type);
 	}
+
+	/**
+	 * Task to switch the administrator language.
+	 *
+	 * @return  void
+	 */
+	public function switchAdminLanguage()
+	{
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
+
+		$cid   = $this->input->get('cid', '');
+		$model = $this->getModel('installed');
+
+		if ($model->switchAdminLanguage($cid))
+		{
+			$msg = JText::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $cid);
+			$type = 'message';
+		}
+		else
+		{
+			$msg = $this->getError();
+			$type = 'error';
+		}
+
+		$clientId = $model->getState('filter.client_id');
+		$this->setredirect('index.php?option=com_languages&view=installed&client=' . $clientId, $msg, $type);
+	}
 }

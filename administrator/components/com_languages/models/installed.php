@@ -414,4 +414,32 @@ class LanguagesModelInstalled extends JModelList
 	{
 		return strcmp($lang1->name, $lang2->name);
 	}
+
+	/**
+	 * Method to switch the administrator language.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.5
+	 */
+	public function switchAdminLanguage($cid)
+	{
+		if ($cid)
+		{
+			$client = $this->getClient();
+
+			if ($client->name == 'administrator')
+			{
+				JFactory::getApplication()->setUserState('application.lang', $cid);
+			}
+		}
+		else
+		{
+			JError::raiseWarning(500, JText::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'));
+
+			return false;
+		}
+
+		return true;
+	}
 }
