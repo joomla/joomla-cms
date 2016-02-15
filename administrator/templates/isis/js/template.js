@@ -220,14 +220,5 @@
 				}
 			}
 		}
-
-		/**
-		 * Set the max-height of modal-body depending on the window viewport height.
-		 * Fix small screens scrolling inside bootstrap modals.
-		 */
-		$('div.modal').on('show', function() {
-			var windowHeight = $(window).height();
-			$(".modal-body").css("max-height", windowHeight-147);
-		});
 	});
 })(jQuery);
