@@ -270,114 +270,52 @@ class JUri extends Uri
 
 		if (empty($host))
 		{
-			$app = JFactory::getApplication();
+			$app    = JFactory::getApplication();
+			$router = clone $app->getRouter();
+			$vars   = $router->parse($uri);
 
-			// Decode URL to convert percent-encoding to unicode so that strings match when routing.
-			$path = urldecode($uri->getPath());
-
-			// Remove base path from url, in case site is in sub-folder
-			$basePath = static::base(true);
-			if ($basePath && JString::strpos($path, $basePath) === 0)
-			{
-				$path = str_replace($basePath, '', $path);
-			}
-
-			$path = trim($path, '/');
+			$path = JString::strtolower($uri->getPath());
 
 			if (empty($path) || JString::strpos($path, 'index.php') === 0)
 			{
 				return true;
 			}
 
-			if ($app->get('sef'))
+			$segments = explode('/', $path);
+			if (count($segments) > 1 && $segments[0] == 'component')
 			{
-				// Remove language code if it is available in URL
-				$languages = JLanguageHelper::getLanguages('sef');
-				$parts     = explode('/', $path);
-				$sef       = $parts[0];
-
-				if (isset($languages[$sef]))
+				$option = 'com_' . $segments[1];
+				if (JComponentHelper::isEnabled($option))
 				{
-					$path     = str_replace($sef . '/', '', $path);
-					$lang_tag = $languages[$sef]->lang_code;
+					return true;
 				}
+			}
 
-				// Remove the suffix
-				if ($app->get('sef_suffix'))
-				{
-					if ($suffix = pathinfo($path, PATHINFO_EXTENSION))
-					{
-						$path = str_replace('.' . $suffix, '', $path);
-					}
-				}
-
-				// Validate and remove index.php from URL in case "Use URL Rewriting" set to Yes
-				if (!$app->get('sef_rewrite'))
-				{
-					// Url needs to start with index.php to be considered as valid URL
-					if (strpos($path, 'index.php') === false)
-					{
-						return false;
-					}
-
-					if ($path == 'index.php')
-					{
-						$path = '';
-					}
-					else
-					{
-						$path = str_replace('index.php/', '', $path);
-					}
-				}
-
-				if (empty($path))
+			$Itemid = $uri->getVar('Itemid');
+			$item   = $app->getMenu()->getItem($Itemid);
+			if ($item && $item->route && JString::strpos($path . '/', $item->route . '/') === 0 && $item->type != 'menulink')
+			{
+				// Usual method for non-multilingual site.
+				if (!isset($vars['lang']))
 				{
 					return true;
 				}
 
-				$segments = explode('/', $path);
-
-				if (count($segments) > 1 && $segments[0] == 'component')
+				// Multilingual site.
+				if ($item->language == '*' || $item->language == $vars['lang'])
 				{
-					$option = 'com_' . $segments[1];
-					if (JComponentHelper::isEnabled($option))
-					{
-						return true;
-					}
-				}
-				else
-				{
-					$isMultilingual = JLanguageMultilang::isEnabled();
-
-					$items           = $app->getMenu()->getMenu();
-					$route = JString::strtolower($path);
-
-					foreach ($items as $item)
-					{
-						if ($item->route && JString::strpos($route . '/', $item->route . '/') === 0 && $item->type != 'menulink')
-						{
-							// Usual method for non-multilingual site.
-							if (!$isMultilingual)
-							{
-								return true;
-							}
-							// Multilingual site.
-							elseif ($item->language == '*' || $item->language == $lang_tag)
-							{
-								return true;
-							}
-						}
-					}
+					return true;
 				}
 			}
 		}
-
-		// @see JURITest
-		if (!empty($host) && preg_match('#' . preg_quote(static::base(), '#') . '#', $base)
-			|| !empty($host) && $host === static::getInstance(static::base())->host && strpos($uri->path, 'index.php') !== false
-			|| !empty($host) && $base === $host && preg_match('#' . preg_quote($base, '#') . '#', static::base()))
+		else
 		{
-			return true;
+			if (preg_match('#' . preg_quote(static::base(), '#') . '#', $base)
+				|| $host === static::getInstance(static::base())->host && strpos($uri->path, 'index.php') !== false
+				|| $base === $host && preg_match('#' . preg_quote($base, '#') . '#', static::base()))
+			{
+				return true;
+			}
 		}
 
 		return false;
