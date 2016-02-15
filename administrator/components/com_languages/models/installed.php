@@ -418,6 +418,8 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to switch the administrator language.
 	 *
+	 * @param   string  $cid  The language tag.
+	 *
 	 * @return  boolean
 	 *
 	 * @since   3.5
