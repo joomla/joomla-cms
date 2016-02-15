@@ -161,7 +161,7 @@ class JViewLegacy extends JObject
 			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		}
-		elseif (is_dir(JPATH_COMPONENT . '/view'))
+		elseif (is_dir($this->_basePath . '/view'))
 		{
 			$this->_setPath('template', $this->_basePath . '/view/' . $this->getName() . '/tmpl');
 		}
