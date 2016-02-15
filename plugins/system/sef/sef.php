@@ -79,34 +79,46 @@ class PlgSystemSef extends JPlugin
 		$buffer    = preg_replace($regex, " $1=\"$base\$2\"", $buffer);
 		$this->checkBuffer($buffer);
 
-		$regex  = '#(onclick="window.open\(\')(?!/|' . $protocols . '|\#)([^/]+[^\']*?\')#m';
-		$buffer = preg_replace($regex, '$1' . $base . '$2', $buffer);
-		$this->checkBuffer($buffer);
+		if ($this->params->get('fix_winopen', 1))
+		{
+			$regex  = '#(onclick="window.open\(\')(?!/|' . $protocols . '|\#)([^/]+[^\']*?\')#m';
+			$buffer = preg_replace($regex, '$1' . $base . '$2', $buffer);
+			$this->checkBuffer($buffer);
+		}
 
-		// ONMOUSEOVER / ONMOUSEOUT
-		$regex  = '#(onmouseover|onmouseout)="this.src=([\']+)(?!/|' . $protocols . '|\#|\')([^"]+)"#m';
-		$buffer = preg_replace($regex, '$1="this.src=$2' . $base . '$3$4"', $buffer);
-		$this->checkBuffer($buffer);
+		if ($this->params->get('fix_onmouse', 1))
+		{
+			// ONMOUSEOVER / ONMOUSEOUT
+			$regex  = '#(onmouseover|onmouseout)="this.src=([\']+)(?!/|' . $protocols . '|\#|\')([^"]+)"#m';
+			$buffer = preg_replace($regex, '$1="this.src=$2' . $base . '$3$4"', $buffer);
+			$this->checkBuffer($buffer);
+		}
 
-		// Background image.
-		$regex  = '#style\s*=\s*[\'\"](.*):\s*url\s*\([\'\"]?(?!/|' . $protocols . '|\#)([^\)\'\"]+)[\'\"]?\)#m';
-		$buffer = preg_replace($regex, 'style="$1: url(\'' . $base . '$2$3\')', $buffer);
-		$this->checkBuffer($buffer);
+		if ($this->params->get('fix_style_background', 1))
+		{
+			// Background image.
+			$regex  = '#style\s*=\s*[\'\"](.*):\s*url\s*\([\'\"]?(?!/|' . $protocols . '|\#)([^\)\'\"]+)[\'\"]?\)#m';
+			$buffer = preg_replace($regex, 'style="$1: url(\'' . $base . '$2$3\')', $buffer);
+			$this->checkBuffer($buffer);
+		}
 
-		// OBJECT <param name="xx", value="yy"> -- fix it only inside the <param> tag.
-		$regex  = '#(<param\s+)name\s*=\s*"(movie|src|url)"[^>]\s*value\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
-		$buffer = preg_replace($regex, '$1name="$2" value="' . $base . '$3"', $buffer);
-		$this->checkBuffer($buffer);
+		if ($this->params->get('fix_object', 1))
+		{
+			// OBJECT <param name="xx", value="yy"> -- fix it only inside the <param> tag.
+			$regex  = '#(<param\s+)name\s*=\s*"(movie|src|url)"[^>]\s*value\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
+			$buffer = preg_replace($regex, '$1name="$2" value="' . $base . '$3"', $buffer);
+			$this->checkBuffer($buffer);
 
-		// OBJECT <param value="xx", name="yy"> -- fix it only inside the <param> tag.
-		$regex  = '#(<param\s+[^>]*)value\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"\s*name\s*=\s*"(movie|src|url)"#m';
-		$buffer = preg_replace($regex, '<param value="' . $base . '$2" name="$3"', $buffer);
-		$this->checkBuffer($buffer);
+			// OBJECT <param value="xx", name="yy"> -- fix it only inside the <param> tag.
+			$regex  = '#(<param\s+[^>]*)value\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"\s*name\s*=\s*"(movie|src|url)"#m';
+			$buffer = preg_replace($regex, '<param value="' . $base . '$2" name="$3"', $buffer);
+			$this->checkBuffer($buffer);
 
-		// OBJECT data="xx" attribute -- fix it only in the object tag.
-		$regex  = '#(<object\s+[^>]*)data\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
-		$buffer = preg_replace($regex, '$1data="' . $base . '$2"$3', $buffer);
-		$this->checkBuffer($buffer);
+			// OBJECT data="xx" attribute -- fix it only in the object tag.
+			$regex  = '#(<object\s+[^>]*)data\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
+			$buffer = preg_replace($regex, '$1data="' . $base . '$2"$3', $buffer);
+			$this->checkBuffer($buffer);
+		}
 
 		$app->setBody($buffer);
 

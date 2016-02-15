@@ -25,6 +25,30 @@
 					filter="url"
 					validate="url"
 				/>
+				<field name="fix_winopen" type="radio" class="btn-group" default="1"
+					label="PLG_SEF_FIX_WINOPEN_LABEL"
+					description="PLG_SEF_FIX_WINOPEN_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="fix_onmouse" type="radio" class="btn-group" default="1"
+					label="PLG_SEF_FIX_ONMOUSE_LABEL"
+					description="PLG_SEF_FIX_ONMOUSE_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="fix_style_background" type="radio"  class="btn-group" default="1"
+					label="PLG_SEF_FIX_STYLE_BACKGROUND_LABEL"
+					description="PLG_SEF_FIX_STYLE_BACKGROUND_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="fix_object" type="radio" class="btn-group" default="1"
+					label="PLG_SEF_FIX_OBJECT_LABEL"
+					description="PLG_SEF_FIX_OBJECT_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
