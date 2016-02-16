@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
   `cid` int(11) NOT NULL DEFAULT 0,
   `type` int(11) NOT NULL DEFAULT 0,
   `name` varchar(255) NOT NULL DEFAULT '',
-  `alias` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `imptotal` int(11) NOT NULL DEFAULT 0,
   `impmade` int(11) NOT NULL DEFAULT 0,
   `clicks` int(11) NOT NULL DEFAULT 0,
@@ -205,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `#__categories` (
   `path` varchar(255) NOT NULL DEFAULT '',
   `extension` varchar(50) NOT NULL DEFAULT '',
   `title` varchar(255) NOT NULL,
-  `alias` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
   `description` mediumtext NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
@@ -254,7 +254,7 @@ INSERT INTO `#__categories` (`id`, `asset_id`, `parent_id`, `lft`, `rgt`, `level
 CREATE TABLE IF NOT EXISTS `#__contact_details` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
-  `alias` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `con_position` varchar(255) DEFAULT NULL,
   `address` text,
   `suburb` varchar(100) DEFAULT NULL,
@@ -316,7 +316,7 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
   `title` varchar(255) NOT NULL DEFAULT '',
-  `alias` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
   `state` tinyint(3) NOT NULL DEFAULT 0,
@@ -1216,7 +1216,7 @@ CREATE TABLE IF NOT EXISTS `#__menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to #__menu_types.menutype',
   `title` varchar(255) NOT NULL COMMENT 'The display title of the menu item.',
-  `alias` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'The SEF alias of the menu item.',
+  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'The SEF alias of the menu item.',
   `note` varchar(255) NOT NULL DEFAULT '',
   `path` varchar(1024) NOT NULL COMMENT 'The computed path of the menu item based on the alias field.',
   `link` varchar(1024) NOT NULL COMMENT 'The actually link the menu item refers to.',
@@ -1238,12 +1238,12 @@ CREATE TABLE IF NOT EXISTS `#__menu` (
   `language` char(7) NOT NULL DEFAULT '',
   `client_id` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`(191),`language`),
+  UNIQUE KEY `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`(100),`language`),
   KEY `idx_componentid` (`component_id`,`menutype`,`published`,`access`),
   KEY `idx_menutype` (`menutype`),
   KEY `idx_left_right` (`lft`,`rgt`),
   KEY `idx_alias` (`alias`),
-  KEY `idx_path` (`path`(191)),
+  KEY `idx_path` (`path`(100)),
   KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci AUTO_INCREMENT=102;
 
@@ -1426,7 +1426,7 @@ CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
   `catid` int(11) NOT NULL DEFAULT 0,
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
-  `alias` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `link` varchar(200) NOT NULL DEFAULT '',
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `numarticles` int(10) unsigned NOT NULL DEFAULT 1,
@@ -1528,7 +1528,7 @@ CREATE TABLE IF NOT EXISTS `#__redirect_links` (
   `modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `header` smallint(3) NOT NULL DEFAULT 301,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_link_old` (`old_url`(191)),
+  UNIQUE KEY `idx_link_old` (`old_url`(100)),
   KEY `idx_link_modifed` (`modified_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
 
@@ -1551,7 +1551,7 @@ CREATE TABLE IF NOT EXISTS `#__schemas` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__session` (
-  `session_id` varchar(191) NOT NULL DEFAULT '',
+  `session_id` varchar(400) NOT NULL DEFAULT '',
   `client_id` tinyint(3) unsigned NOT NULL DEFAULT 0,
   `guest` tinyint(4) unsigned DEFAULT 1,
   `time` varchar(14) DEFAULT '',
@@ -1577,7 +1577,7 @@ CREATE TABLE IF NOT EXISTS `#__tags` (
   `level` int(10) unsigned NOT NULL DEFAULT 0,
   `path` varchar(255) NOT NULL DEFAULT '',
   `title` varchar(255) NOT NULL,
-  `alias` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
   `description` mediumtext NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
@@ -1672,7 +1672,7 @@ CREATE TABLE IF NOT EXISTS `#__ucm_content` (
   `core_content_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `core_type_alias` varchar(255) NOT NULL DEFAULT '' COMMENT 'FK to the content types table',
   `core_title` varchar(255) NOT NULL,
-  `core_alias` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `core_alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `core_body` mediumtext NOT NULL,
   `core_state` tinyint(1) NOT NULL DEFAULT 0,
   `core_checked_out_time` varchar(255) NOT NULL DEFAULT '',
@@ -1885,7 +1885,7 @@ CREATE TABLE IF NOT EXISTS `#__user_keys` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
-  `series` varchar(191) NOT NULL,
+  `series` varchar(400) NOT NULL,
   `invalid` tinyint(4) NOT NULL,
   `time` varchar(200) NOT NULL,
   `uastring` varchar(255) NOT NULL,
