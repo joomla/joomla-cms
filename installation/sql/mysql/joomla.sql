@@ -1551,7 +1551,7 @@ CREATE TABLE IF NOT EXISTS `#__schemas` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__session` (
-  `session_id` varchar(400) NOT NULL DEFAULT '',
+  `session_id` varchar(191) NOT NULL DEFAULT '',
   `client_id` tinyint(3) unsigned NOT NULL DEFAULT 0,
   `guest` tinyint(4) unsigned DEFAULT 1,
   `time` varchar(14) DEFAULT '',
@@ -1885,7 +1885,7 @@ CREATE TABLE IF NOT EXISTS `#__user_keys` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
-  `series` varchar(400) NOT NULL,
+  `series` varchar(191) NOT NULL,
   `invalid` tinyint(4) NOT NULL,
   `time` varchar(200) NOT NULL,
   `uastring` varchar(255) NOT NULL,
