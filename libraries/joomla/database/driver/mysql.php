@@ -522,7 +522,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		{
 			if (strpos($client_version, 'mysqlnd') !== false)
 			{
-				$client_version = preg_replace('/^\D([\d.]).*/', '$1', $client_version);
+				$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
 
 				return version_compare($client_version, '5.0.9', '>=');
 			}
