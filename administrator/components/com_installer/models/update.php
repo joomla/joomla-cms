@@ -218,7 +218,7 @@ class InstallerModelUpdate extends JModelList
 			return $result;
 		}
 	}
-	
+
 	/**
 	 * Get the count of disabled update sites
 	 *
