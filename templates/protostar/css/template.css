@@ -7517,3 +7517,12 @@ body.modal-open {
 #finder-search .in.collapse {
 	overflow: visible;
 }
+@media (max-width: 767px) {
+	.field-media-wrapper .modal .modal-body {
+		padding: 5px 0;
+	}
+}
+.modal-body {
+	-webkit-overflow-scrolling: touch;
+	overflow-y: auto !important;
+}
