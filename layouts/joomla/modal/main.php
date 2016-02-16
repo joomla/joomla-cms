@@ -61,6 +61,11 @@ if (isset($params['keyboard']))
  */
 $script[] = "jQuery(document).ready(function($) {";
 $script[] = "   $('#" . $selector . "').on('show', function() {";
+
+// Fix small screens scrolling inside bootstrap modals.
+$script[] = "       var windowHeight = $(window).height();";
+$script[] = "       $('.modal-body').css('max-height', windowHeight-147);";
+
 $script[] = "       $('body').addClass('modal-open');";
 
 if (isset($params['url']))
