@@ -684,6 +684,13 @@ class UsersModelUser extends JModelAdmin
 		// Prune out the current user if they are in the supplied user ID array
 		$user_ids = array_diff($user_ids, array(JFactory::getUser()->id));
 
+		if (empty($user_ids))
+		{
+			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_REQUIRERESET_SELF'));
+
+			return false;
+		}
+
 		// Get the DB object
 		$db = $this->getDbo();
 
