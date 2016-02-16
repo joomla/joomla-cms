@@ -61,21 +61,23 @@ class TagsModelTags extends JModelList
 	 *
 	 * @since    3.1
 	 */
-	protected function populateState($ordering = 'a.lft', $direction = 'asc')
+	protected function populateState($ordering = null, $direction = null)
 	{
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$context = $this->context;
+
+		$search = $this->getUserStateFromRequest($context . '.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '');
+		$level = $this->getUserStateFromRequest($context . '.filter.level', 'filter_level', 0, 'int');
 		$this->setState('filter.level', $level);
 
-		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '');
+		$access = $this->getUserStateFromRequest($context . '.filter.access', 'filter_access', 0, 'int');
 		$this->setState('filter.access', $access);
 
-		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
+		$published = $this->getUserStateFromRequest($context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
-		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
+		$language = $this->getUserStateFromRequest($context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
 		// Load the parameters.
@@ -83,7 +85,7 @@ class TagsModelTags extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState($ordering, $direction);
+		parent::populateState('a.lft', 'asc');
 	}
 
 	/**
@@ -103,8 +105,6 @@ class TagsModelTags extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.level');
-		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.published');
 		$id .= ':' . $this->getState('filter.language');
 

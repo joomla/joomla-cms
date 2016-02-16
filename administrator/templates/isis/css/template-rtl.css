@@ -8159,15 +8159,6 @@ body.modal-open {
 .js-pstats-data-details dt {
 	width: 220px;
 }
-@media (max-width: 767px) {
-	.field-media-wrapper .modal .modal-body {
-		padding: 5px 0;
-	}
-}
-.modal-body {
-	-webkit-overflow-scrolling: touch;
-	overflow-y: auto !important;
-}
 .pull-right {
 	float: left;
 }
