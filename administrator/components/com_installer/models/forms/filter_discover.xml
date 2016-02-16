@@ -44,8 +44,8 @@
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="name ASC">COM_INSTALLER_HEADING_NAME_ASC</option>
 			<option value="name DESC">COM_INSTALLER_HEADING_NAME_DESC</option>
-			<option value="client ASC">COM_INSTALLER_HEADING_LOCATION_ASC</option>
-			<option value="client DESC">COM_INSTALLER_HEADING_LOCATION_DESC</option>
+			<option value="client_translated ASC">COM_INSTALLER_HEADING_LOCATION_ASC</option>
+			<option value="client_translated DESC">COM_INSTALLER_HEADING_LOCATION_DESC</option>
 			<option value="type_translated ASC">COM_INSTALLER_HEADING_TYPE_ASC</option>
 			<option value="type_translated DESC">COM_INSTALLER_HEADING_TYPE_DESC</option>
 			<option value="folder_translated ASC">COM_INSTALLER_HEADING_FOLDER_ASC</option>
