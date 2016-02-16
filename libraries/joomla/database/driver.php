@@ -380,7 +380,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 			if (($current == ';' && !$open) || $i == $end - 1)
 			{
-				$queries[] = substr($sql, $start, ($i - $start + 1));
+				$query = substr($sql, $start, ($i - $start + 1));
+				$queries[] = preg_replace('/#(?!__)[\s\S]+?[\n\r]/', '', $query);
 				$start = $i + 1;
 			}
 		}
