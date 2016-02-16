@@ -280,7 +280,6 @@ class LanguagesModelInstalled extends JModelList
 			if (!empty($search))
 			{
 				if (stripos($installedLanguage->name, $search) === false
-					&& stripos($installedLanguage->description, $search) === false
 					&& stripos($installedLanguage->language, $search) === false)
 				{
 					unset($installedLanguages[$key]);
