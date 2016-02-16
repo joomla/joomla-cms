@@ -51,10 +51,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'u.name', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap">
-							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'u.client_id', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap">
-							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'u.type', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap hidden-phone">
 							<?php echo JText::_('COM_INSTALLER_CURRENT_VERSION'); ?>
@@ -63,7 +63,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo JText::_('COM_INSTALLER_NEW_VERSION'); ?>
 						</th>
 						<th class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'u.folder', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap hidden-phone">
 							<?php echo JText::_('COM_INSTALLER_HEADING_INSTALLTYPE'); ?>
@@ -99,22 +99,22 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</label>
 						</td>
 						<td>
-							<?php echo $client; ?>
+							<?php echo $item->client_translated; ?>
 						</td>
 						<td>
-							<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?>
+							<?php echo $item->type_translated; ?>
 						</td>
 						<td class="hidden-phone">
-							<span class="label label-warning"><?php echo $current_version; ?></span>
+							<span class="label label-warning"><?php echo $item->current_version; ?></span>
 						</td>
 						<td>
 							<span class="label label-success"><?php echo $item->version; ?></span>
 						</td>
 						<td class="hidden-phone">
-							<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
+							<?php echo $item->folder_translated; ?>
 						</td>
 						<td class="hidden-phone">
-							<?php echo $item->extension_id ? JText::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : JText::_('COM_INSTALLER_NEW_INSTALL'); ?>
+							<?php echo $item->install_type; ?>
 						</td>
 						<td class="hidden-phone hidden-tablet">
 							<span class="break-word">

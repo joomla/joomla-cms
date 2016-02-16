@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 jimport('joomla.updater.update');
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Installer Update Model
  *
@@ -32,9 +34,9 @@ class InstallerModelUpdate extends JModelList
 		{
 			$config['filter_fields'] = array(
 				'name', 'u.name',
-				'client_id', 'u.client_id',
-				'type', 'u.type',
-				'folder', 'u.folder',
+				'client_id', 'u.client_id', 'client_translated',
+				'type', 'u.type', 'type_translated',
+				'folder', 'u.folder', 'folder_translated',
 				'extension_id', 'u.extension_id',
 			);
 		}
@@ -145,12 +147,78 @@ class InstallerModelUpdate extends JModelList
 			}
 		}
 
-		// Process ordering.
-		$query->order($db->quoteName($this->getState('list.ordering', 'u.name')) . ' ' . $db->escape($this->getState('list.direction', 'asc')));
-
 		return $query;
 	}
 
+	/**
+	 * Translate a list of objects
+	 *
+	 * @param   array  &$items  The array of objects
+	 *
+	 * @return  array The array of translated objects
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function translate(&$items)
+	{
+		foreach ($items as &$item)
+		{
+			$item->client_translated  = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+			$manifest                 = json_decode($item->manifest_cache);
+			$item->current_version    = isset($manifest->version) ? $manifest->version : JText::_('JLIB_UNKNOWN');
+			$item->type_translated    = JText::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
+			$item->folder_translated  = $item->folder ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
+			$item->install_type       = $item->extension_id ? JText::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : JText::_('COM_INSTALLER_NEW_INSTALL');
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Returns an object list
+	 *
+	 * @param   string  $query       The query
+	 * @param   int     $limitstart  Offset
+	 * @param   int     $limit       The number of records
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function _getList($query, $limitstart = 0, $limit = 0)
+	{
+		$db = $this->getDbo();
+		$listOrder = $this->getState('list.ordering', 'u.name');
+		$listDirn  = $this->getState('list.direction', 'asc');
+
+		// Process ordering.
+		if (in_array($listOrder, array('client_translated', 'folder_translated', 'type_translated')))
+		{
+			$db->setQuery($query);
+			$result = $db->loadObjectList();
+			$this->translate($result);
+			$result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
+			$total = count($result);
+
+			if ($total < $limitstart)
+			{
+				$limitstart = 0;
+				$this->setState('list.start', 0);
+			}
+
+			return array_slice($result, $limitstart, $limit ? $limit : null);
+		}
+		else
+		{
+			$query->order($db->quoteName($listOrder) . ' ' . $db->escape($listDirn));
+
+			$result = parent::_getList($query, $limitstart, $limit);
+			$this->translate($result);
+
+			return $result;
+		}
+	}
+	
 	/**
 	 * Get the count of disabled update sites
 	 *
