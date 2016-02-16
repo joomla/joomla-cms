@@ -33,8 +33,9 @@ class InstallerModelDiscover extends InstallerModel
 			$config['filter_fields'] = array(
 				'name',
 				'client_id',
-				'type',
-				'folder',
+				'client', 'client_translated',
+				'type', 'type_translated',
+				'folder', 'folder_translated',
 				'extension_id',
 			);
 		}
@@ -117,14 +118,9 @@ class InstallerModelDiscover extends InstallerModel
 			{
 				$query->where($db->quoteName('extension_id') . ' = ' . (int) substr($search, 3));
 			}
-			else
-			{
-				$query->where($db->quoteName('name') . ' LIKE ' . $db->quote('%' . $search . '%'));
-			}
 		}
 
-		// Process ordering.
-		$query->order($db->quoteName($this->getState('list.ordering', 'name')) . ' ' . $db->escape($this->getState('list.direction', 'asc')));
+		// Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).
 
 		return $query;
 	}
