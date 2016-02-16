@@ -79,6 +79,13 @@ abstract class JHtmlSearchtools
 			$options = static::optionsToRegistry($options);
 
 			$doc = JFactory::getDocument();
+
+			// Avoid flickering of searchtools if filters already selected.
+			if ($options->get('filterButton') === null && $options->get('filtersHidden') !== 1)
+			{
+				$doc->addStyleDeclaration('.js-stools-container-filters { display: block; }');
+			}
+
 			$script = "
 				(function($){
 					$(document).ready(function() {
