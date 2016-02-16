@@ -4,9 +4,11 @@
 	client="installation">
 	<name>English (Canada)</name>
 	<version>3.5.0</version>
-	<creationDate>2014-04-12</creationDate>
-	<author>Martin Lamothe</author>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>January 2016</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>en-CA.ini</filename>
