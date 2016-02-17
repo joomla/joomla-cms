@@ -52,17 +52,18 @@ class UsersModelGroups extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = 'a.lft', $direction = 'asc')
+	protected function populateState($ordering = null, $direction = null)
 	{
 		// Load the filter state.
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState($ordering, $direction);
+		parent::populateState('a.lft', 'asc');
 	}
 
 	/**
@@ -79,6 +80,7 @@ class UsersModelGroups extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
+		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.search');
 
 		return parent::getStoreId($id);

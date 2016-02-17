@@ -328,13 +328,9 @@ class JApplicationAdministrator extends JApplicationCms
 
 		if (!($result instanceof Exception))
 		{
-			$lang = $this->input->getCmd('lang');
+			$lang = $this->input->getCmd('lang', 'en-GB');
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
-
-			if ($lang)
-			{
-				$this->setUserState('application.lang', $lang);
-			}
+			$this->setUserState('application.lang', $lang);
 
 			static::purgeMessages();
 		}
