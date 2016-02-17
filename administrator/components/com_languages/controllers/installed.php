@@ -57,9 +57,14 @@ class LanguagesControllerInstalled extends JControllerLegacy
 		$cid   = $this->input->get('cid', '');
 		$model = $this->getModel('installed');
 
+		// Fetching the language name from the xx-XX.xml
+		$file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/' . $cid . '.xml';
+		$info = JInstaller::parseXMLInstallFile($file);
+		$languageName = $info['name'];
+
 		if ($model->switchAdminLanguage($cid))
 		{
-			$msg = JText::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $cid);
+			$msg = JText::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $languageName);
 			$type = 'message';
 		}
 		else
