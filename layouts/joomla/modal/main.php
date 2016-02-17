@@ -68,8 +68,8 @@ $script[] = "jQuery(document).ready(function($) {";
 $script[] = "   $('#" . $selector . "').on('show', function() {";
 
 // Set max-height on modal-body.
-$script[] = "       var windowHeight = $(window).height();";
-$script[] = "       $('.modal-body').css('max-height', windowHeight-147);";
+$script[] = "       var modalBodyHeight = $(window).height()-147;";
+$script[] = "       $('.modal-body').css('max-height', modalBodyHeight);";
 
 $script[] = "       $('body').addClass('modal-open');";
 
