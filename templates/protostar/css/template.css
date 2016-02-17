@@ -7517,3 +7517,7 @@ body.modal-open {
 #finder-search .in.collapse {
 	overflow: visible;
 }
+.well select,
+.well .chzn-container {
+	max-width: 100%;
+}
