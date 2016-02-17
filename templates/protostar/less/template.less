@@ -645,6 +645,14 @@ body.modal-open {
 	overflow: visible;
 }
 
+/* Fix for select element overflow on browser resizing */
+.well {
+	select,
+	.chzn-container {
+		max-width: 100%;
+	}
+}
+
 /* Corrects the media modal padding on small devices */
 @media (max-width: 767px) {
 	.field-media-wrapper .modal .modal-body {
