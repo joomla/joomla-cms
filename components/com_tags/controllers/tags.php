@@ -28,7 +28,7 @@ class TagsControllerTags extends JControllerLegacy
 
 		// Receive request data
 		$filters = array(
-			'like'      => trim($app->input->get('like', null)),
+			'like'      => trim($app->input->get('like', null, 'raw')),
 			'title'     => trim($app->input->get('title', null)),
 			'flanguage' => $app->input->get('flanguage', null),
 			'published' => $app->input->get('published', 1, 'integer'),
