@@ -193,7 +193,13 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 					{
 						$joinElem = $join->getElements();
 
-						$joinArray = preg_split('/\sON\s/i', $joinElem[0], 2);
+						$joinArray = preg_split('/\sON\s/i', $joinElem[0]);
+
+						if (count($joinArray) > 2)
+						{
+							$condition = array_pop($joinArray);
+							$joinArray = array(implode(' ON ', $joinArray), $condition);
+						}
 
 						$this->from($joinArray[0]);
 
