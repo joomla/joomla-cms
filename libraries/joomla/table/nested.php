@@ -498,8 +498,8 @@ class JTableNested extends JTable
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
 
 			// Determine that the trigger supports path_published for the table.
-			$triggerPublishedSupport = property_exists($this, 'path_published');
-			if ($triggerPublished && $triggerPublishedSupport) {
+			if ($triggerPublished && property_exists($this, 'path_published'))
+			{
 				$this->triggerPublished(array((int) $node->$k));
 			}
 		}
@@ -652,8 +652,8 @@ class JTableNested extends JTable
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
 
 			// Determine that the trigger supports path_published for the table.
-			$triggerPublishedSupport = property_exists($this, 'path_published');
-			if ($triggerPublishedSupport) {
+			if (property_exists($this, 'path_published'))
+			{
 				$this->triggerPublished(array((int) $node->parent_id), true);
 			}
 		}
@@ -884,8 +884,8 @@ class JTableNested extends JTable
 		}
 
 		// Determine that the trigger supports path_published for the table.
-		$triggerPublishedSupport = property_exists($this, 'path_published');
-		if ($triggerPublishedSupport) {
+		if (property_exists($this, 'path_published'))
+		{
 			$this->triggerPublished(array($this->$k));
 		}
 
@@ -1025,7 +1025,8 @@ class JTableNested extends JTable
 				->where('(lft > ' . (int) $node->lft . ' AND rgt < ' . (int) $node->rgt . ') OR ' . $k . ' = ' . (int) $pk);
 			$this->_db->setQuery($query)->execute();
 
-			if ($triggerPublishedSupport) {
+			if ($triggerPublishedSupport)
+			{
 				$this->triggerPublished(array($pk));
 			}
 
