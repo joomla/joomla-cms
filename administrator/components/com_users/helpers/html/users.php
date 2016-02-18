@@ -134,7 +134,7 @@ class JHtmlUsers
 				'keyboard' => true,
 				'closeButton' => true,
 				'footer' => $footer,
-				'url' => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId),
+				'url' => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&filter_search=uid:' . (int) $userId),
 				'height' => '300px',
 				'width' => '800px'
 			)
