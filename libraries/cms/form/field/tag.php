@@ -137,6 +137,18 @@ class JFormFieldTag extends JFormFieldList
 
 		$query->order('a.lft ASC');
 
+		if (empty($this->value))
+		{
+			$query->setLimit(10,0);
+		}
+		else
+		{
+			$value = implode(',', $this->value);
+			if (!empty($value)) {
+				$query->where("a.id IN ($value)");
+			}
+		}
+
 		// Get the options.
 		$db->setQuery($query);
 
