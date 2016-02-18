@@ -1,4 +1,5 @@
 ALTER TABLE `#__categories` ADD COLUMN `path_published` TINYINT NOT NULL DEFAULT 0 AFTER `level`;
+ALTER TABLE `#__categories` DROP INDEX `cat_idx`, ADD INDEX `cat_idx` (`extension`, `path_published`, `access`);
 
 UPDATE `#__categories` SET `path_published` = 1 WHERE id = 1;
 
