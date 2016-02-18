@@ -5,7 +5,7 @@
 		type="menu"
 		label="COM_MENUS_FILTER_CATEGORY"
 		description="JOPTION_FILTER_CATEGORY_DESC"
-		onchange="jQuery('#filter_search, select[id^=filter_], #list_fullordering').val('');jQuery('#list_limit').val('25');this.form.submit();"
+		onchange="this.form.submit();"
 	/>
 	<fields name="filter">
 		<field
