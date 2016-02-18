@@ -6,7 +6,7 @@
 		name="client_id"
 		type="list"
 		label=""
-		onchange="jQuery('#filter_search, select[id^=filter_], #list_fullordering').val('');jQuery('#list_limit').val('25');this.form.submit();"
+		onchange="jQuery('#filter_position, #filter_module, #filter_language').val('');this.form.submit();"
 		>
 		<option value="0">JSITE</option>
 		<option value="1">JADMINISTRATOR</option>
