@@ -88,9 +88,9 @@ class ContentModelArticle extends JModelItem
 					->select(
 						$this->getState(
 							'item.select', 'a.id, a.asset_id, a.title, a.alias, a.introtext, a.fulltext, ' .
-							// If badcats is not null, this means that the article is inside an unpublished category
-							// In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
-							'CASE WHEN badcats.id is null THEN a.state ELSE 0 END AS state, ' .
+							// If the article is inside an unpublished category
+							// the state is set to 0 to indicate Unpublished (even if the article state is Published)
+							'CASE WHEN c.path_published <= 0 THEN 0 ELSE a.state END as state, ' .
 							'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 							// Use created if modified is 0
 							'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
@@ -136,14 +136,6 @@ class ContentModelArticle extends JModelItem
 					$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
 						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 				}
-
-				// Join to check for category published state in parent categories up the tree
-				// If all categories are published, badcats.id will be null, and we just use the article state
-				$subquery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ';
-				$subquery .= 'ON cat.lft BETWEEN parent.lft AND parent.rgt ';
-				$subquery .= 'WHERE parent.extension = ' . $db->quote('com_content');
-				$subquery .= ' AND parent.published <= 0 GROUP BY cat.id)';
-				$query->join('LEFT OUTER', $subquery . ' AS badcats ON badcats.id = c.id');
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
