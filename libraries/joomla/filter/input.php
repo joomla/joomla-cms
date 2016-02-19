@@ -690,13 +690,10 @@ class JFilterInput
 	 */
 	protected function remove($source)
 	{
-		$loopCounter = 0;
-
 		// Iteration provides nested tag protection
-		while ($source != $this->_cleanTags($source))
+		while ($source != ($result = $this->cleanTags($source)))
 		{
-			$source = $this->_cleanTags($source);
-			$loopCounter++;
+			$source = $result;
 		}
 
 		return $source;
