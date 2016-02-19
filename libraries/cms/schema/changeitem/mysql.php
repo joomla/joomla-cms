@@ -78,13 +78,13 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 					$posIdx = 6;
 				}
 
-				if ($pos = strpos($wordArray[6], '('))
+				if ($pos = strpos($wordArray[$posIdx], '('))
 				{
-					$index = $this->fixQuote(substr($wordArray[6], 0, $pos));
+					$index = $this->fixQuote(substr($wordArray[$posIdx], 0, $pos));
 				}
 				else
 				{
-					$index = $this->fixQuote($wordArray[6]);
+					$index = $this->fixQuote($wordArray[$posIdx]);
 				}
 
 				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
