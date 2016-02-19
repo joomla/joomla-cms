@@ -69,15 +69,22 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				$this->queryType = 'ADD_COLUMN';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
 			}
-			elseif ($alterCommand == 'ADD INDEX' || $alterCommand == 'ADD UNIQUE')
+			elseif ($alterCommand == 'ADD INDEX' || $alterCommand == 'ADD KEY' || $alterCommand == 'ADD UNIQUE')
 			{
-				if ($pos = strpos($wordArray[5], '('))
+				$posIdx = 5;
+				
+				if (($alterCommand == 'ADD UNIQUE') && ($wordArray[5] == 'INDEX' || $wordArray[5] == 'KEY'))
 				{
-					$index = $this->fixQuote(substr($wordArray[5], 0, $pos));
+					$posIdx = 6;
+				}
+
+				if ($pos = strpos($wordArray[6], '('))
+				{
+					$index = $this->fixQuote(substr($wordArray[6], 0, $pos));
 				}
 				else
 				{
-					$index = $this->fixQuote($wordArray[5]);
+					$index = $this->fixQuote($wordArray[6]);
 				}
 
 				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
