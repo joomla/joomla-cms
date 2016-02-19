@@ -32,7 +32,7 @@ class LanguagesControllerInstalled extends JControllerLegacy
 		if ($model->publish($cid))
 		{
 			// Switching to the new administrator language for the message
-			if ($model->getState('filter.client_id') == 1)
+			if ($model->getState('client_id') == 1)
 			{
 				$language = JFactory::getLanguage();
 				$newLang = JLanguage::getInstance($cid);
@@ -50,7 +50,7 @@ class LanguagesControllerInstalled extends JControllerLegacy
 			$type = 'error';
 		}
 
-		$clientId = $model->getState('filter.client_id');
+		$clientId = $model->getState('client_id');
 		$this->setredirect('index.php?option=com_languages&view=installed&client=' . $clientId, $msg, $type);
 	}
 

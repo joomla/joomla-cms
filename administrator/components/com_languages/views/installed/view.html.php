@@ -104,7 +104,7 @@ class LanguagesViewInstalled extends JViewLegacy
 			$bar = JToolbar::getInstance('toolbar');
 
 			// Switch administrator language
-			if ($this->state->get('filter.client_id', 0) == 1)
+			if ($this->state->get('client_id', 0) == 1)
 			{
 				JToolbarHelper::custom('installed.switchadminlanguage', 'refresh', 'refresh', 'COM_LANGUAGES_SWITCH_ADMIN', false);
 				JToolbarHelper::divider();
