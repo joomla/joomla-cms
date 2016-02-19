@@ -303,6 +303,7 @@ CREATE TABLE [#__categories](
 	[lft] [int] NOT NULL DEFAULT 0,
 	[rgt] [int] NOT NULL DEFAULT 0,
 	[level] [bigint] NOT NULL DEFAULT 0,
+	[path_published] [smallint] NOT NULL DEFAULT 0,
 	[path] [nvarchar](255) NOT NULL DEFAULT '',
 	[extension] [nvarchar](50) NOT NULL DEFAULT '',
 	[title] [nvarchar](255) NOT NULL,
@@ -333,7 +334,7 @@ CREATE TABLE [#__categories](
 CREATE NONCLUSTERED INDEX [cat_idx] ON [#__categories]
 (
 	[extension] ASC,
-	[published] ASC,
+	[path_published] ASC,
 	[access] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
@@ -385,18 +386,18 @@ CREATE NONCLUSTERED INDEX [idx_asset_id] ON [#__categories]
 
 SET IDENTITY_INSERT [#__categories]  ON;
 
-INSERT INTO [#__categories] (id, asset_id, parent_id, lft, rgt, level, path, extension, title, alias, note, description, published, checked_out, checked_out_time, access, params, metadesc, metakey, metadata, created_user_id, created_time, modified_user_id, modified_time, hits, language, version)
-SELECT 1, 0, 0, 0, 11, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{}', '', '', '{}', 42, '2011-01-01 00:00:01', 0, '1900-01-01 00:00:00', 0, '*', 1
+INSERT INTO [#__categories] (id, asset_id, parent_id, lft, rgt, level, path_published, path, extension, title, alias, note, description, published, checked_out, checked_out_time, access, params, metadesc, metakey, metadata, created_user_id, created_time, modified_user_id, modified_time, hits, language, version)
+SELECT 1, 0, 0, 0, 11, 0, 1, '', 'system', 'ROOT', 'root', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{}', '', '', '{}', 42, '2011-01-01 00:00:01', 0, '1900-01-01 00:00:00', 0, '*', 1
 UNION ALL
-SELECT 2, 27, 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '1900-01-01 00:00:00', 0, '*', 1
+SELECT 2, 27, 1, 1, 2, 1, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '1900-01-01 00:00:00', 0, '*', 1
 UNION ALL
-SELECT 3, 28, 1, 3, 4, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '1900-01-01 00:00:00', 0, '*', 1
+SELECT 3, 28, 1, 3, 4, 1, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '1900-01-01 00:00:00', 0, '*', 1
 UNION ALL
-SELECT 4, 29, 1, 5, 6, 1, 'uncategorised', 'com_contact', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '1900-01-01 00:00:00', 0, '*', 1
+SELECT 4, 29, 1, 5, 6, 1, 1, 'uncategorised', 'com_contact', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '1900-01-01 00:00:00', 0, '*', 1
 UNION ALL
-SELECT 5, 30, 1, 7, 8, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '1900-01-01 00:00:00', 0, '*', 1
+SELECT 5, 30, 1, 7, 8, 1, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '1900-01-01 00:00:00', 0, '*', 1
 UNION ALL
-SELECT 7, 32, 1, 9, 10, 1, 'uncategorised', 'com_users', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '1900-01-01 00:00:00', 0, '*', 1;
+SELECT 7, 32, 1, 9, 10, 1, 1, 'uncategorised', 'com_users', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '1900-01-01 00:00:00', 0, '*', 1;
 
 SET IDENTITY_INSERT [#__categories]  OFF;
 
