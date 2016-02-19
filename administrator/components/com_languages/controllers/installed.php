@@ -31,6 +31,16 @@ class LanguagesControllerInstalled extends JControllerLegacy
 
 		if ($model->publish($cid))
 		{
+			// Switching to the new administrator language for the message
+			if ($model->getState('filter.client_id') == 1)
+			{
+				$language = JFactory::getLanguage();
+				$newLang = JLanguage::getInstance($cid);
+				JFactory::$language = $newLang;
+				JFactory::getApplication()->loadLanguage($language = $newLang);
+				$newLang->load('com_languages', JPATH_ADMINISTRATOR);
+			}
+
 			$msg = JText::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
 			$type = 'message';
 		}
@@ -64,6 +74,13 @@ class LanguagesControllerInstalled extends JControllerLegacy
 
 		if ($model->switchAdminLanguage($cid))
 		{
+			// Switching to the new language for the message
+			$language = JFactory::getLanguage();
+			$newLang = JLanguage::getInstance($cid);
+			JFactory::$language = $newLang;
+			JFactory::getApplication()->loadLanguage($language = $newLang);
+			$newLang->load('com_languages', JPATH_ADMINISTRATOR);
+
 			$msg = JText::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $languageName);
 			$type = 'message';
 		}
