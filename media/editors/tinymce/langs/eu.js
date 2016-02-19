@@ -1,4 +1,4 @@
-﻿tinymce.addI18n('eu',{
+tinymce.addI18n('eu',{
 "Cut": "Ebaki",
 "Heading 5": "5 Izenburua",
 "Header 2": "2 Goiburua",
