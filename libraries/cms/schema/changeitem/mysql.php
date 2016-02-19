@@ -74,7 +74,8 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				$posIdx = 5;
 				$optCmd = strtoupper($wordArray[5]);
 				
-				if (($alterCommand == 'ADD UNIQUE') && ($optCmd == 'INDEX' || $optCmd == 'KEY'))
+				if (($alterCommand == 'ADD UNIQUE') && (count($wordArray) > 6)
+					&& ($optCmd == 'INDEX' || $optCmd == 'KEY'))
 				{
 					$posIdx = 6;
 				}
