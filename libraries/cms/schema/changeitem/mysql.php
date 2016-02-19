@@ -72,7 +72,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 			elseif ($alterCommand == 'ADD INDEX' || $alterCommand == 'ADD KEY' || $alterCommand == 'ADD UNIQUE')
 			{
 				$posIdx = 5;
-				
+
 				if (($alterCommand == 'ADD UNIQUE') && (count($wordArray) > 6))
 				{
 					$optCmd = strtoupper($wordArray[5]);
@@ -106,7 +106,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 					if ($alterCommand2 == 'ADD INDEX' || $alterCommand2 == 'ADD KEY' || $alterCommand2 == 'ADD UNIQUE')
 					{
 						$posIdx = 9;
-						
+
 						if (($alterCommand2 == 'ADD UNIQUE') && (count($wordArray) > 10))
 						{
 							$optCmd = strtoupper($wordArray[9]);
