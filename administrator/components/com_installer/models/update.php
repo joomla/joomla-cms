@@ -157,7 +157,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  array The array of translated objects
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.5
 	 */
 	protected function translate(&$items)
 	{
@@ -183,7 +183,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.5
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{

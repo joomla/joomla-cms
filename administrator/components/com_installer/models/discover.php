@@ -24,7 +24,7 @@ class InstallerModelDiscover extends InstallerModel
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.5
 	 */
 	public function __construct($config = array())
 	{
