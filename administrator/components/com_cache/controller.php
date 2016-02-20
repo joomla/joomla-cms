@@ -78,7 +78,7 @@ class CacheController extends JControllerLegacy
 
 		if (empty($cid))
 		{
-			throw new Exception(JText::_('JERROR_NO_ITEMS_SELECTED'), 500);
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_NO_ITEMS_SELECTED'), 'warning');
 		}
 		else
 		{
