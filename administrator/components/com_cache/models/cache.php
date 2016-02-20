@@ -226,12 +226,11 @@ class CacheModelCache extends JModelList
 	 *
 	 * @param   string  $group  Cache group name.
 	 *
-	 * @return  void
+	 * @return  boolean  True on success, false otherwise
 	 */
 	public function clean($group = '')
 	{
-		$cache = $this->getCache();
-		$cache->clean($group);
+		return $this->getCache()->clean($group);
 	}
 
 	/**
@@ -239,14 +238,21 @@ class CacheModelCache extends JModelList
 	 *
 	 * @param   array  $array  Array of cache group names.
 	 *
-	 * @return  void
+	 * @return  array  Array with errors, if they exist.
 	 */
 	public function cleanlist($array)
 	{
+		$errors = array();
+
 		foreach ($array as $group)
 		{
-			$this->clean($group);
+			if (!$this->clean($group))
+			{
+				$errors[] = $group;
+			}
 		}
+
+		return $errors;
 	}
 
 	/**
@@ -256,8 +262,6 @@ class CacheModelCache extends JModelList
 	 */
 	public function purge()
 	{
-		$cache = JFactory::getCache('');
-
-		return $cache->gc();
+		return JFactory::getCache('')->gc();
 	}
 }
