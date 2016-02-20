@@ -111,9 +111,20 @@ abstract class JComponentRouterView extends JComponentRouterBase
 
 				$childkey = $view->parent_key;
 
-				if ($key && isset($query[$key]) && is_callable(array($this, 'get' . ucfirst($view->name) . 'Segment')))
+				if (($key || $view->key) && is_callable(array($this, 'get' . ucfirst($view->name) . 'Segment')))
 				{
-					$result[$view->name] = call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Segment'), array($query[$key], $query));
+					if (isset($query[$key]))
+					{
+						$result[$view->name] = call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Segment'), array($query[$key], $query));
+					}
+					elseif (isset($query[$view->key]))
+					{
+						$result[$view->name] = call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Segment'), array($query[$view->key], $query));
+					}
+					else
+					{
+						$result[$view->name] = array();
+					}
 				}
 				else
 				{
@@ -229,6 +240,7 @@ abstract class JComponentRouterView extends JComponentRouterBase
 		{
 			$rule->build($query, $segments);
 		}
+
 		return $segments;
 	}
 
