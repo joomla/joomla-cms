@@ -24,7 +24,7 @@ class LanguagesControllerInstalled extends JControllerLegacy
 	public function setDefault()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = $this->input->get('cid', '');
 		$model = $this->getModel('installed');
@@ -62,7 +62,7 @@ class LanguagesControllerInstalled extends JControllerLegacy
 	public function switchAdminLanguage()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid   = $this->input->get('cid', '');
 		$model = $this->getModel('installed');
