@@ -28,12 +28,12 @@ class LanguagesHelper
 	{
 		JHtmlSidebar::addEntry(
 			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_SITE'),
-			'index.php?option=com_languages&view=installed&client=0',
+			'index.php?option=com_languages&view=installed&client_id=0',
 			$vName == 'installed' && $client === 0
 		);
 		JHtmlSidebar::addEntry(
 			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_ADMINISTRATOR'),
-			'index.php?option=com_languages&view=installed&client=1',
+			'index.php?option=com_languages&view=installed&client_id=1',
 			$vName == 'installed' && $client === 1
 		);
 		JHtmlSidebar::addEntry(

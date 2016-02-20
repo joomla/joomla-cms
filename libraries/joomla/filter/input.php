@@ -347,6 +347,31 @@ class JFilterInput
 	}
 
 	/**
+	 * Function to punyencode utf8 mail when saving content
+	 *
+	 * @param   string  $text  The strings to encode
+	 *
+	 * @return  string  The punyencoded mail
+	 *
+	 * @since   3.5
+	 */
+	public function emailToPunycode($text)
+	{
+		$pattern = '/(("mailto:)+[\w\.\-\+]+\@[^"?]+\.+[^."?]+("|\?))/';
+
+		if (preg_match_all($pattern, $text, $matches))
+		{
+			foreach ($matches[0] as $match)
+			{
+				$match  = (string) str_replace(array('?', '"'), '', $match);
+				$text   = (string) str_replace($match, JStringPunycode::emailToPunycode($match), $text);
+			}
+		}
+
+		return $text;
+	}
+
+	/**
 	 * Function to determine if contents of an attribute are safe
 	 *
 	 * @param   array  $attrSubSet  A 2 element array for attribute's name, value
