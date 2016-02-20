@@ -118,17 +118,26 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 					}
 				}
 
-				$index = $this->fixQuote($wordArray[$posIdx]);
-				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
 				if ($posIdx > 5)
 				{
+					if ($pos = strpos($wordArray[$posIdx], '('))
+					{
+						$index = $this->fixQuote(substr($wordArray[$posIdx], 0, $pos));
+					}
+					else
+					{
+						$index = $this->fixQuote($wordArray[$posIdx]);
+					}
+
 					$this->queryType = 'ADD_INDEX';
 				}
 				else
 				{
+					$index = $this->fixQuote($wordArray[$posIdx]);
 					$this->queryType = 'DROP_INDEX';
 					$this->checkQueryExpected = 0;
 				}
+				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
 			elseif ($alterCommand == 'DROP COLUMN')
