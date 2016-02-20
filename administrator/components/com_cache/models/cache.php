@@ -97,7 +97,7 @@ class CacheModelCache extends JModelList
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   __DEPLOT_VERSION_
+	 * @since   3.5
 	 */
 	protected function getStoreId($id = '')
 	{
