@@ -102,6 +102,14 @@ class LanguagesViewInstalled extends JViewLegacy
 		{
 			// Add install languages link to the lang installer component.
 			$bar = JToolbar::getInstance('toolbar');
+
+			// Switch administrator language
+			if ($this->state->get('client_id', 0) == 1)
+			{
+				JToolbarHelper::custom('installed.switchadminlanguage', 'refresh', 'refresh', 'COM_LANGUAGES_SWITCH_ADMIN', false);
+				JToolbarHelper::divider();
+			}
+
 			$bar->appendButton('Link', 'upload', 'COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages');
 			JToolbarHelper::divider();
 

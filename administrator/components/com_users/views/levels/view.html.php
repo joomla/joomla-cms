@@ -49,9 +49,11 @@ class UsersViewLevels extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items      = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->state      = $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		UsersHelper::addSubmenu('levels');
 
