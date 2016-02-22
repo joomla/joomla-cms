@@ -14,8 +14,8 @@ JHtmlBehavior::core();
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 $user     = JFactory::getUser();
 $userId   = $user->get('id');
-$client   = $this->state->get('filter.client_id', 0) ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
-$clientId = $this->state->get('filter.client_id', 0);
+$client   = $this->state->get('client_id', 0) ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+$clientId = $this->state->get('client_id', 0);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed&client='.$clientId); ?>" method="post" id="adminForm" name="adminForm">
