@@ -2790,6 +2790,9 @@ input[type="submit"].btn.btn-mini {
 	color: #8a6d3b;
 }
 .alert h4 {
+	margin: 0 0 .5em;
+}
+.alert p {
 	margin: 0;
 }
 .alert .close {
