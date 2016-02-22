@@ -88,25 +88,43 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 			{
 				$posIdx = 5;
 
-				if ((count($wordArray) > 9) && ($wordArray[6] == ','))
+				if (count($wordArray) > 8)
 				{
-					$alterCommand2 = strtoupper($wordArray[7] . ' ' . $wordArray[8]);
-
-					if ($alterCommand2 == 'ADD INDEX' || $alterCommand2 == 'ADD KEY' || $alterCommand2 == 'ADD UNIQUE')
+					if (substr($wordArray[5], -1) == ',')
 					{
-						$posIdx = 9;
+						$alterCommand2 = strtoupper($wordArray[6] . ' ' . $wordArray[7]);
+						if ($alterCommand2 == 'ADD INDEX' || $alterCommand2 == 'ADD KEY' || $alterCommand2 == 'ADD UNIQUE')
+						{
+							$posIdx = 8;
+						}
+					}
+					elseif (substr($wordArray[6], 0, 1) == ',')
+					{
+						$alterCommand2 = strtoupper($wordArray[6] . ' ' . $wordArray[7]);
+						if ($alterCommand2 == ',ADD INDEX' || $alterCommand2 == ',ADD KEY' || $alterCommand2 == ',ADD UNIQUE')
+						{
+							$posIdx = 8;
+						}
+					}
+					elseif ((count($wordArray) > 9) && ($wordArray[6] == ','))
+					{
+						$alterCommand2 = strtoupper($wordArray[7] . ' ' . $wordArray[8]);
+						if ($alterCommand2 == 'ADD INDEX' || $alterCommand2 == 'ADD KEY' || $alterCommand2 == 'ADD UNIQUE')
+						{
+							$posIdx = 9;
+						}
 					}
 				}
 
-				if ($posIdx == 9)
+				if ($posIdx > 5)
 				{
-					if ($pos = strpos($wordArray[9], '('))
+					if ($pos = strpos($wordArray[$posIdx], '('))
 					{
-						$index = $this->fixQuote(substr($wordArray[9], 0, $pos));
+						$index = $this->fixQuote(substr($wordArray[$posIdx], 0, $pos));
 					}
 					else
 					{
-						$index = $this->fixQuote($wordArray[9]);
+						$index = $this->fixQuote($wordArray[$posIdx]);
 					}
 
 					$this->queryType = 'ADD_INDEX';
