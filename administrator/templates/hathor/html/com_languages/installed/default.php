@@ -18,7 +18,7 @@ $client   = $this->state->get('client_id', 0) ? JText::_('JADMINISTRATOR') : JTe
 $clientId = $this->state->get('client_id', 0);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed&client='.$clientId); ?>" method="post" id="adminForm" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed&client_id='.$clientId); ?>" method="post" id="adminForm" name="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
