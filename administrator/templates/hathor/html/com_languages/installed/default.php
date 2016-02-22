@@ -14,11 +14,9 @@ JHtmlBehavior::core();
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 $user     = JFactory::getUser();
 $userId   = $user->get('id');
-$client   = $this->state->get('client_id', 0) ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
-$clientId = $this->state->get('client_id', 0);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed&client_id='.$clientId); ?>" method="post" id="adminForm" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed'); ?>" method="post" id="adminForm" name="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -42,9 +40,6 @@ $clientId = $this->state->get('client_id', 0);
 				</th>
 				<th>
 					<?php echo JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
-				</th>
-				<th class="width-10">
-					<?php echo JText::_('JCLIENT'); ?>
 				</th>
 				<th class="width-5">
 					<?php echo JText::_('COM_LANGUAGES_HEADING_DEFAULT'); ?>
@@ -79,9 +74,6 @@ $clientId = $this->state->get('client_id', 0);
 				</td>
 				<td align="center">
 					<?php echo $this->escape($row->language); ?>
-				</td>
-				<td class="center">
-					<?php echo $client;?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.isdefault', $row->published, $i, 'installed.', !$row->published && $canChange);?>
