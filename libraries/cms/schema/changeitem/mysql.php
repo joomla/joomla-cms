@@ -146,6 +146,28 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				$this->checkQueryExpected = 0;
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
+			elseif ($alterCommand == 'CONVERT TO')
+			{
+				if (count($wordArray) > 9)
+				{
+					if ((strtoupper($wordArray[5] . $wordArray[6]) == 'CHARACTERSET')
+						&& ($wordArray[8] == 'COLLATE'))
+					{
+						$table = $wordArray[2];
+						$collat = $this->fixQuote(strtolower($wordArray[9]));
+
+						if (!$this->db->hasUTF8mb4Support())
+						{
+							$collat = str_replace('utf8mb4', 'utf8', $collat);
+						}
+
+						$result = 'SHOW TABLE STATUS WHERE Name = ' . $this->fixQuote($table)
+							. ' AND Collation = ' . $collat;
+						$this->queryType = 'CREATE_TABLE';
+						$this->msgElements = array($this->fixQuote($table) . ' (COLLATION ' . $collat . ')');
+					}
+				}
+			}
 			elseif (strtoupper($wordArray[3]) == 'MODIFY')
 			{
 				// Kludge to fix problem with "integer unsigned"
