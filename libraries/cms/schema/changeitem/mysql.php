@@ -71,24 +71,13 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 			}
 			elseif ($alterCommand == 'ADD INDEX' || $alterCommand == 'ADD KEY' || $alterCommand == 'ADD UNIQUE')
 			{
-				$posIdx = 5;
-
-				if (($alterCommand == 'ADD UNIQUE') && (count($wordArray) > 6))
+				if ($pos = strpos($wordArray[5], '('))
 				{
-					$optCmd = strtoupper($wordArray[5]);
-					if ($optCmd == 'INDEX' || $optCmd == 'KEY')
-					{
-						$posIdx = 6;
-					}
-				}
-
-				if ($pos = strpos($wordArray[$posIdx], '('))
-				{
-					$index = $this->fixQuote(substr($wordArray[$posIdx], 0, $pos));
+					$index = $this->fixQuote(substr($wordArray[5], 0, $pos));
 				}
 				else
 				{
-					$index = $this->fixQuote($wordArray[$posIdx]);
+					$index = $this->fixQuote($wordArray[5]);
 				}
 
 				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
@@ -106,34 +95,25 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 					if ($alterCommand2 == 'ADD INDEX' || $alterCommand2 == 'ADD KEY' || $alterCommand2 == 'ADD UNIQUE')
 					{
 						$posIdx = 9;
-
-						if (($alterCommand2 == 'ADD UNIQUE') && (count($wordArray) > 10))
-						{
-							$optCmd = strtoupper($wordArray[9]);
-							if ($optCmd == 'INDEX' || $optCmd == 'KEY')
-							{
-								$posIdx = 10;
-							}
-						}
 					}
 				}
 
-				if ($posIdx > 5)
+				if ($posIdx == 9)
 				{
-					if ($pos = strpos($wordArray[$posIdx], '('))
+					if ($pos = strpos($wordArray[9], '('))
 					{
-						$index = $this->fixQuote(substr($wordArray[$posIdx], 0, $pos));
+						$index = $this->fixQuote(substr($wordArray[9], 0, $pos));
 					}
 					else
 					{
-						$index = $this->fixQuote($wordArray[$posIdx]);
+						$index = $this->fixQuote($wordArray[9]);
 					}
 
 					$this->queryType = 'ADD_INDEX';
 				}
 				else
 				{
-					$index = $this->fixQuote($wordArray[$posIdx]);
+					$index = $this->fixQuote($wordArray[5]);
 					$this->queryType = 'DROP_INDEX';
 					$this->checkQueryExpected = 0;
 				}
