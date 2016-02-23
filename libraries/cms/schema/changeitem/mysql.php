@@ -90,7 +90,15 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 
 				if (count($wordArray) > 8)
 				{
-					if (substr($wordArray[5], -1) == ',')
+					if (substr($wordArray[5], -4) == ',ADD')
+					{
+						$alterCommand2 = strtoupper($wordArray[6]);
+						if ($alterCommand2 == 'INDEX' || $alterCommand2 == 'KEY' || $alterCommand2 == 'UNIQUE')
+						{
+							$posIdx = 7;
+						}
+					}
+					elseif (substr($wordArray[5], -1) == ',')
 					{
 						$alterCommand2 = strtoupper($wordArray[6] . ' ' . $wordArray[7]);
 						if ($alterCommand2 == 'ADD INDEX' || $alterCommand2 == 'ADD KEY' || $alterCommand2 == 'ADD UNIQUE')
