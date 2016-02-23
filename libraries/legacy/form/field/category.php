@@ -42,18 +42,31 @@ class JFormFieldCategory extends JFormFieldList
 		$options = array();
 		$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $this->element['scope'];
 		$published = (string) $this->element['published'];
+		$language  = (string) $this->element['language'];
 
 		// Load the category options for a given extension.
 		if (!empty($extension))
 		{
 			// Filter over published state or not depending upon if it is present.
+			$filters = array();
 			if ($published)
 			{
-				$options = JHtml::_('category.options', $extension, array('filter.published' => explode(',', $published)));
+				$filters['filter.published'] =  explode(',', $published);
+			}
+
+			// Filter over language depending upon if it is present.
+			if ($language)
+			{
+				$filters['filter.language'] =  explode(',', $language);
+			}
+
+			if ($filters === array())
+			{
+				$options = JHtml::_('category.options', $extension);
 			}
 			else
 			{
-				$options = JHtml::_('category.options', $extension);
+				$options = JHtml::_('category.options', $extension, $filters);
 			}
 
 			// Verify permissions.  If the action attribute is set, then we scan the options.
