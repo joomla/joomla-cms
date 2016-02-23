@@ -70,7 +70,7 @@ class JCacheStorageMainTest extends TestCase
 
 			foreach ($names as $name)
 			{
-				$ret[] = array($name);
+				$ret["$name adapter"] = array($name);
 			}
 		}
 
@@ -132,7 +132,7 @@ class JCacheStorageMainTest extends TestCase
 
 	/**
 	 * Test...
-	 * 
+	 *
 	 * @medium
 	 *
 	 * @dataProvider provider
