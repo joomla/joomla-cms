@@ -33,11 +33,11 @@ $userId   = $user->get('id');
 			</label>
 			<select name="client_id" id="client_id">
 			<?php
-				$options   = array();
-				$options[] = JHtml::_('select.option', '0', JText::_('JSITE'));
-				$options[] = JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
-				echo JHtml::_('select.options', $options, 'value', 'text', $this->state->get('client_id'));
-				?>
+			$options   = array();
+			$options[] = JHtml::_('select.option', '0', JText::_('JSITE'));
+			$options[] = JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
+			echo JHtml::_('select.options', $options, 'value', 'text', $this->state->get('client_id'));
+			?>
 			</select>
 
 			<button type="submit" id="filter-go">
