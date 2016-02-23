@@ -855,6 +855,8 @@ class JApplicationWeb extends JApplicationBase
 		 * properly detect the requested URI we need to adjust our algorithm based on whether or not we are getting
 		 * information from Apache or IIS.
 		 */
+		// Define variable to return
+		$uri = '';
 
 		// If PHP_SELF and REQUEST_URI are both populated then we will assume "Apache Mode".
 		if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
@@ -863,7 +865,7 @@ class JApplicationWeb extends JApplicationBase
 			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		}
 		// If not in "Apache Mode" we will assume that we are in an IIS environment and proceed.
-		else
+		else if (isset($_SERVER['HTTP_HOST']))
 		{
 			// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
 			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
