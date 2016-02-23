@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -749,6 +749,33 @@ class JCache
 		}
 
 		return md5(serialize($safeuriaddon));
+	}
+
+	/*** Set prefix cache key if device calls for separate caching
+	 *
+	 * @return  string   Platform specific prefix
+	 *
+	 * @since 3.5
+	 */
+	public static function getPlatformPrefix()
+	{
+		$conf = JFactory::getConfig();
+
+		// No prefix when Global Config is set to no platfom specific prefix
+		if (!$conf->get('cache_platformprefix', '0'))
+		{
+			return '';
+		}
+
+		jimport('joomla.application.web.client');
+		$webclient = new JApplicationWebClient();
+
+		if ($webclient->mobile)
+		{
+			return 'M-';
+		}
+
+		return '';
 	}
 
 	/**

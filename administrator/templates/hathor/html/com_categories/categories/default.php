@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,6 +22,8 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.lft');
 $saveOrder = ($listOrder == 'a.lft' && $listDirn == 'asc');
+$jinput    = JFactory::getApplication()->input;
+$component = $jinput->get('extension');
 ?>
 
 <div class="categories">
@@ -97,6 +99,26 @@ $saveOrder = ($listOrder == 'a.lft' && $listDirn == 'asc');
 								<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'categories.saveorder'); ?>
 							<?php endif; ?>
 						</th>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
+							<th width="1%" class="nowrap center hidden-phone">
+								<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>"></i>
+							</th>
+						<?php endif;?>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
+							<th width="1%" class="nowrap center hidden-phone">
+								<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>"></i>
+							</th>
+						<?php endif;?>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
+							<th width="1%" class="nowrap center hidden-phone">
+								<i class="icon-archive hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>"></i>
+							</th>
+						<?php endif;?>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
+							<th width="1%" class="nowrap center hidden-phone">
+								<i class="icon-trash hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>"></i>
+							</th>
+						<?php endif;?>
 						<th class="access-col">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
@@ -161,6 +183,30 @@ $saveOrder = ($listOrder == 'a.lft' && $listDirn == 'asc');
 									<?php echo $orderkey + 1; ?>
 								<?php endif; ?>
 							</td>
+							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
+								<td class="center">
+									<a title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1' . '&filter[level]=' . (int) $item->level);?>">
+										<?php echo $item->count_published; ?></a>
+								</td>
+							<?php endif;?>
+							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
+								<td class="center">
+									<a title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0' . '&filter[level]=' . (int) $item->level);?>">
+										<?php echo $item->count_unpublished; ?></a>
+								</td>
+							<?php endif;?>
+							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
+								<td class="center">
+									<a title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2' . '&filter[level]=' . (int) $item->level);?>">
+										<?php echo $item->count_archived; ?></a>
+								</td>
+							<?php endif;?>
+							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
+								<td class="center">
+									<a title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2' . '&filter[level]=' . (int) $item->level);?>">
+										<?php echo $item->count_trashed; ?></a>
+								</td>
+							<?php endif;?>
 							<td class="center">
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
@@ -175,7 +221,7 @@ $saveOrder = ($listOrder == 'a.lft' && $listDirn == 'asc');
 								<?php if ($item->language == '*'): ?>
 									<?php echo JText::alt('JALL', 'language'); ?>
 								<?php else: ?>
-									<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+									<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 								<?php endif; ?>
 							</td>
 							<td class="center">

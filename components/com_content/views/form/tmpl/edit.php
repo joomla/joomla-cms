@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,6 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.calendar');
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
-JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
@@ -59,7 +58,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<span class="icon-cancel"></span><?php echo JText::_('JCANCEL') ?>
 				</button>
 			</div>
-			<?php if ($params->get('save_history', 0)) : ?>
+			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>
 			<div class="btn-group">
 				<?php echo $this->form->getInput('contenthistory'); ?>
 			</div>

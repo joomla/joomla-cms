@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -279,7 +279,7 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @param   string  $option  The component option
 	 *
-	 * @return  object  The parameters object
+	 * @return  Registry  The parameters object
 	 *
 	 * @since   3.2
 	 * @deprecated  4.0  Use getParams() instead
@@ -294,7 +294,7 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @param   string  $option  The component option
 	 *
-	 * @return  object  The parameters object
+	 * @return  Registry  The parameters object
 	 *
 	 * @since   3.2
 	 */

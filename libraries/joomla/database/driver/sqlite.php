@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,6 +24,14 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 * @since  12.1
 	 */
 	public $name = 'sqlite';
+
+	/**
+	 * The type of the database server family supported by this driver.
+	 *
+	 * @var    string
+	 * @since  CMS 3.5.0
+	 */
+	public $serverType = 'sqlite';
 
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
@@ -114,6 +122,17 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 * @since   12.1
 	 */
 	public function getCollation()
+	{
+		return $this->charset;
+	}
+
+	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	public function getConnectionCollation()
 	{
 		return $this->charset;
 	}

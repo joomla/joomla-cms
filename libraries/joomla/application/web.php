@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -436,7 +436,7 @@ class JApplicationWeb extends JApplicationBase
 		if (!$this->response->cachable)
 		{
 			// Expires in the past.
-			$this->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
+			$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
 
 			// Always modified.
 			$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
@@ -957,6 +957,7 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	protected function header($string, $replace = true, $code = null)
 	{
+		$string = str_replace(chr(0), '', $string);
 		header($string, $replace, $code);
 	}
 

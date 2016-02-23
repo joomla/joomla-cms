@@ -193,5 +193,6 @@ tinymce.addI18n('da',{
 "Tools": "V\u00e6rkt\u00f8j",
 "View": "Vis",
 "Table": "Tabel",
+"Insert\/Edit code sample": "Inds\u00e6t\/rediger eksempelkode",
 "Format": "Format"
 });

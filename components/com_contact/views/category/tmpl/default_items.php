@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,9 +19,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 <?php else : ?>
 
 	<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if ($this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
+	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) :?>
 	<fieldset class="filters btn-toolbar">
-		<?php if ($this->params->get('filter_field') != 'hide') :?>
+		<?php if ($this->params->get('filter_field')) :?>
 			<div class="btn-group">
 				<label class="filter-search-lbl element-invisible" for="filter-search"><span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span><?php echo JText::_('COM_CONTACT_FILTER_LABEL') . '&#160;'; ?></label>
 				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>" />
@@ -63,7 +63,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php endif; ?>
 					</span>
 
-					<p>
+					<div class="list-item">
 						<div class="list-title">
 							<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 								<?php echo $item->name; ?></a>
@@ -71,6 +71,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 							<?php endif; ?>
 						</div>
+
+						<?php echo $item->event->afterDisplayTitle; ?>
+
+						<?php echo $item->event->beforeDisplayContent; ?>
+
 						<?php if ($this->params->get('show_position_headings')) : ?>
 								<?php echo $item->con_position; ?><br />
 						<?php endif; ?>
@@ -88,8 +93,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php if ($this->params->get('show_country_headings') AND !empty($item->country)) : ?>
 							<?php echo $item->country; ?><br />
 						<?php endif; ?>
-					</p>
-					</li>
+					</div>
+
+					<?php echo $item->event->afterDisplayContent; ?>
+				</li>
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>

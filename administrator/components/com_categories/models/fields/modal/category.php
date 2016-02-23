@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -156,20 +156,20 @@ class JFormFieldModal_Category extends JFormField
 				. ' title="' . JHtml::tooltipText('COM_CATEGORIES_EDIT_CATEGORY') . '" >'
 				. '<span class="icon-edit"></span>' . JText::_('JACTION_EDIT')
 				. '</a>';
-
-			$html[] = JHtml::_(
-				'bootstrap.renderModal',
-				'modalCategory-' . $this->id,
-				array(
-					'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
-					'title' => JText::_('COM_CATEGORIES_SELECT_A_CATEGORY'),
-					'width' => '800px',
-					'height' => '300px',
-					'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
-						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-				)
-			);
 		}
+
+		$html[] = JHtml::_(
+			'bootstrap.renderModal',
+			'modalCategory-' . $this->id,
+			array(
+				'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
+				'title' => JText::_('COM_CATEGORIES_SELECT_A_CATEGORY'),
+				'width' => '800px',
+				'height' => '300px',
+				'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+			)
+		);
 
 		// Clear category button
 		if ($allowClear)

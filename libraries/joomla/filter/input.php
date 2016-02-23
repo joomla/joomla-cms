@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -68,6 +68,14 @@ class JFilterInput
 	public $xssAuto;
 
 	/**
+	 * A flag for Unicode Supplementary Characters (4-byte Unicode character) stripping.
+	 *
+	 * @var    integer
+	 * @since  CMS 3.5.0
+	 */
+	public $stripUSC = 0;
+
+	/**
 	 * The list of the default blacklisted tags.
 	 *
 	 * @var    array
@@ -120,10 +128,11 @@ class JFilterInput
 	 * @param   integer  $tagsMethod  WhiteList method = 0, BlackList method = 1
 	 * @param   integer  $attrMethod  WhiteList method = 0, BlackList method = 1
 	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * @param   integer  $stripUSC    Strip 4-byte unicode characters = 1, no strip = 0, ask the database driver = -1
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
+	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = -1)
 	{
 		// Make sure user defined arrays are in lowercase
 		$tagsArray = array_map('strtolower', (array) $tagsArray);
@@ -135,6 +144,31 @@ class JFilterInput
 		$this->tagsMethod = $tagsMethod;
 		$this->attrMethod = $attrMethod;
 		$this->xssAuto = $xssAuto;
+		$this->stripUSC = $stripUSC;
+
+		/**
+		 * If Unicode Supplementary Characters stripping is not set we have to check with the database driver. If the
+		 * driver does not support USCs (i.e. there is no utf8mb4 support) we will enable USC stripping.
+		 */
+		if ($this->stripUSC == -1)
+		{
+			try
+			{
+				// Get the database driver
+				$db = JFactory::getDbo();
+
+				// This trick is required to let the driver determine the utf-8 multibyte support
+				$db->connect();
+
+				// And now we can decide if we should strip USCs
+				$this->stripUSC = $db->hasUTF8mb4Support() ? 0 : 1;
+			}
+			catch (Exception $e)
+			{
+				// Could not connect to MySQL. Strip USC to be on the safe side.
+				$this->stripUSC = 1;
+			}
+		}
 	}
 
 	/**
@@ -145,18 +179,19 @@ class JFilterInput
 	 * @param   integer  $tagsMethod  WhiteList method = 0, BlackList method = 1
 	 * @param   integer  $attrMethod  WhiteList method = 0, BlackList method = 1
 	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * @param   integer  $stripUSC    Strip 4-byte unicode characters = 1, no strip = 0, ask the database driver = -1
 	 *
 	 * @return  JFilterInput  The JFilterInput object.
 	 *
 	 * @since   11.1
 	 */
-	public static function &getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
+	public static function &getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = -1)
 	{
 		$sig = md5(serialize(array($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto)));
 
 		if (empty(self::$instances[$sig]))
 		{
-			self::$instances[$sig] = new JFilterInput($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto);
+			self::$instances[$sig] = new JFilterInput($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto, $stripUSC);
 		}
 
 		return self::$instances[$sig];
@@ -192,6 +227,13 @@ class JFilterInput
 	 */
 	public function clean($source, $type = 'string')
 	{
+		// Strip Unicode Supplementary Characters when requested to do so
+		if ($this->stripUSC)
+		{
+			// Alternatively: preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xE2\xAF\x91", $source) but it'd be slower.
+			$source = $this->stripUSC($source);
+		}
+
 		// Handle the type constraint
 		switch (strtoupper($type))
 		{
@@ -302,6 +344,31 @@ class JFilterInput
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Function to punyencode utf8 mail when saving content
+	 *
+	 * @param   string  $text  The strings to encode
+	 *
+	 * @return  string  The punyencoded mail
+	 *
+	 * @since   3.5
+	 */
+	public function emailToPunycode($text)
+	{
+		$pattern = '/(("mailto:)+[\w\.\-\+]+\@[^"?]+\.+[^."?]+("|\?))/';
+
+		if (preg_match_all($pattern, $text, $matches))
+		{
+			foreach ($matches[0] as $match)
+			{
+				$match  = (string) str_replace(array('?', '"'), '', $match);
+				$text   = (string) str_replace($match, JStringPunycode::emailToPunycode($match), $text);
+			}
+		}
+
+		return $text;
 	}
 
 	/**
@@ -439,9 +506,9 @@ class JFilterInput
 				if (!empty($options['forbidden_extensions']))
 				{
 					$explodedName = explode('.', $intendedName);
-					array_reverse($explodedName);
+					$explodedName =	array_reverse($explodedName);
 					array_pop($explodedName);
-					array_map('strtolower', $explodedName);
+					$explodedName = array_map('strtolower', $explodedName);
 
 					/*
 					 * DO NOT USE array_intersect HERE! array_intersect expects the two arrays to
@@ -468,10 +535,9 @@ class JFilterInput
 
 						while (!feof($fp))
 						{
-							$buffer = @fread($fp, 131072);
-							$data .= $buffer;
+							$data .= @fread($fp, 131072);
 
-							if ($options['php_tag_in_content'] && strstr($buffer, '<?php'))
+							if ($options['php_tag_in_content'] && stristr($data, '<?php'))
 							{
 								return false;
 							}
@@ -506,7 +572,7 @@ class JFilterInput
 								if ($collide)
 								{
 									// These are suspicious text files which may have the short tag (<?) in them
-									if (strstr($buffer, '<?'))
+									if (strstr($data, '<?'))
 									{
 										return false;
 									}
@@ -548,7 +614,7 @@ class JFilterInput
 									 */
 									foreach ($options['forbidden_extensions'] as $ext)
 									{
-										if (strstr($buffer, '.' . $ext))
+										if (strstr($data, '.' . $ext))
 										{
 											return false;
 										}
@@ -560,7 +626,7 @@ class JFilterInput
 							 * This makes sure that we don't accidentally skip a <?php tag if it's across
 							 * a read boundary, even on multibyte strings
 							 */
-							$data = substr($data, -8);
+							$data = substr($data, -10);
 						}
 
 						fclose($fp);
@@ -605,9 +671,24 @@ class JFilterInput
 	 *
 	 * @return  string  'Cleaned' version of input parameter
 	 *
-	 * @since   11.1
+	 * @since      11.1
+	 * @deprecated 4.0 Use JFilterInput::remove() instead
 	 */
 	protected function _remove($source)
+	{
+		return $this->remove($source);
+	}
+
+	/**
+	 * Internal method to iteratively remove all unwanted tags and attributes
+	 *
+	 * @param   string  $source  Input string to be 'cleaned'
+	 *
+	 * @return  string  'Cleaned' version of input parameter
+	 *
+	 * @since   3.5
+	 */
+	protected function remove($source)
 	{
 		$loopCounter = 0;
 
@@ -628,9 +709,24 @@ class JFilterInput
 	 *
 	 * @return  string  'Cleaned' version of input parameter
 	 *
-	 * @since   11.1
+	 * @since      11.1
+	 * @deprecated 4.0 Use JFilterInput::cleanTags() instead
 	 */
 	protected function _cleanTags($source)
+	{
+		return $this->cleanTags($source);
+	}
+
+	/**
+	 * Internal method to strip a string of certain tags
+	 *
+	 * @param   string  $source  Input string to be 'cleaned'
+	 *
+	 * @return  string  'Cleaned' version of input parameter
+	 *
+	 * @since   3.5
+	 */
+	protected function cleanTags($source)
 	{
 		// First, pre-process this for illegal characters inside attribute values
 		$source = $this->_escapeAttributeValues($source);
@@ -858,9 +954,24 @@ class JFilterInput
 	 *
 	 * @return  array  Filtered array of attribute pairs
 	 *
-	 * @since   11.1
+	 * @since      11.1
+	 * @deprecated 4.0 Use JFilterInput::cleanAttributes() instead
 	 */
 	protected function _cleanAttributes($attrSet)
+	{
+		return $this->cleanAttributes($attrSet);
+	}
+
+	/**
+	 * Internal method to strip a tag of certain attributes
+	 *
+	 * @param   array  $attrSet  Array of attribute pairs to filter
+	 *
+	 * @return  array  Filtered array of attribute pairs
+	 *
+	 * @since   3.5
+	 */
+	protected function cleanAttributes($attrSet)
 	{
 		$newSet = array();
 
@@ -961,9 +1072,24 @@ class JFilterInput
 	 *
 	 * @return  string  Plaintext string
 	 *
-	 * @since   11.1
+	 * @since      11.1
+	 * @deprecated 4.0 Use JFilterInput::decode() instead
 	 */
 	protected function _decode($source)
+	{
+		return $this->decode($source);
+	}
+
+	/**
+	 * Try to convert to plaintext
+	 *
+	 * @param   string  $source  The source string.
+	 *
+	 * @return  string  Plaintext string
+	 *
+	 * @since   3.5
+	 */
+	protected function decode($source)
 	{
 		static $ttr;
 
@@ -1004,9 +1130,24 @@ class JFilterInput
 	 *
 	 * @return  string  Filtered string
 	 *
-	 * @since    11.1
+	 * @since      11.1
+	 * @deprecated 4.0 Use JFilterInput::escapeAttributeValues() instead
 	 */
 	protected function _escapeAttributeValues($source)
+	{
+		return $this->escapeAttributeValues($source);
+	}
+
+	/**
+	 * Escape < > and " inside attribute values
+	 *
+	 * @param   string  $source  The source string.
+	 *
+	 * @return  string  Filtered string
+	 *
+	 * @since    3.5
+	 */
+	protected function escapeAttributeValues($source)
 	{
 		$alreadyFiltered = '';
 		$remainder = $source;
@@ -1059,9 +1200,24 @@ class JFilterInput
 	 *
 	 * @return  string  Filtered string
 	 *
-	 * @since   11.1
+	 * @since      11.1
+	 * @deprecated 4.0 Use JFilterInput::stripCSSExpressions() instead
 	 */
 	protected function _stripCSSExpressions($source)
+	{
+		return $this->stripCSSExpressions($source);
+	}
+
+	/**
+	 * Remove CSS Expressions in the form of <property>:expression(...)
+	 *
+	 * @param   string  $source  The source string.
+	 *
+	 * @return  string  Filtered string
+	 *
+	 * @since   3.5
+	 */
+	protected function stripCSSExpressions($source)
 	{
 		// Strip any comments out (in the form of /*...*/)
 		$test = preg_replace('#\/\*.*\*\/#U', '', $source);
@@ -1085,5 +1241,34 @@ class JFilterInput
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Recursively strip Unicode Supplementary Characters from the source. Not: objects cannot be filtered.
+	 *
+	 * @param   mixed  $source  The data to filter
+	 *
+	 * @return  mixed  The filtered result
+	 */
+	protected function stripUSC($source)
+	{
+		if (is_object($source))
+		{
+			return $source;
+		}
+
+		if (is_array($source))
+		{
+			$filteredArray = array();
+
+			foreach ($source as $k => $v)
+			{
+				$filteredArray[$k] = $this->stripUSC($v);
+			}
+
+			return $filteredArray;
+		}
+
+		return preg_replace('/[\xF0-\xF7].../s', "\xE2\xAF\x91", $source);
 	}
 }

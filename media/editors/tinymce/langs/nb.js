@@ -1,4 +1,4 @@
-tinymce.addI18n('nb_NO',{
+tinymce.addI18n('nb',{
 "Cut": "Klipp ut",
 "Header 2": "Overskrift 2",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Nettleseren din st\u00f8tter ikke direkte tilgang til utklippsboken. Bruk istedet tastatur-snarveiene Ctrl+X\/C\/V, eller Cmd+X\/C\/V p\u00e5 Mac.",

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -70,7 +70,7 @@ class JCacheStorageMainTest extends TestCase
 
 			foreach ($names as $name)
 			{
-				$ret[] = array($name);
+				$ret["$name adapter"] = array($name);
 			}
 		}
 
@@ -132,7 +132,7 @@ class JCacheStorageMainTest extends TestCase
 
 	/**
 	 * Test...
-	 * 
+	 *
 	 * @medium
 	 *
 	 * @dataProvider provider

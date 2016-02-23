@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -60,12 +60,12 @@ abstract class JUserHelper
 			$user->save();
 		}
 
-		if (session_id())
-		{
-			// Set the group data for any preloaded user objects.
-			$temp = JFactory::getUser((int) $userId);
-			$temp->groups = $user->groups;
+		// Set the group data for any preloaded user objects.
+		$temp         = JUser::getInstance((int) $userId);
+		$temp->groups = $user->groups;
 
+		if (JFactory::getSession()->getId())
+		{
 			// Set the group data for the user object in the session.
 			$temp = JFactory::getUser();
 

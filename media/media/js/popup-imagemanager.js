@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,257 +11,306 @@
  * @since		1.5
  */
 
-(function($) {
-var ImageManager = this.ImageManager = {
-	initialize: function()
-	{
-		o = this._getUriObject(window.self.location.href);
-		q = this._getQueryObject(o.query);
-		this.editor = decodeURIComponent(q['e_name']);
+(function ($, doc)
+{
+	'use strict';
 
-		// Setup image manager fields object
-		this.fields         = new Object();
-		this.fields.url     = document.getElementById("f_url");
-		this.fields.alt     = document.getElementById("f_alt");
-		this.fields.align   = document.getElementById("f_align");
-		this.fields.title   = document.getElementById("f_title");
-		this.fields.caption = document.getElementById("f_caption");
-		this.fields.c_class = document.getElementById("f_caption_class");
+	window.ImageManager = {
 
-		// Setup image listing objects
-		this.folderlist = document.getElementById('folderlist');
-
-		this.frame    = window.frames['imageframe'];
-		this.frameurl = this.frame.location.href;
-
-		// Setup imave listing frame
-		this.imageframe = document.getElementById('imageframe');
-		this.imageframe.manager = this;
-		$(this.imageframe).on('load', function(){ ImageManager.onloadimageview(); });
-
-		// Setup folder up button
-		this.upbutton = document.getElementById('upbutton');
-		$(this.upbutton).off('click');
-		$(this.upbutton).on('click', function(){ ImageManager.upFolder(); });
-	},
-
-	onloadimageview: function()
-	{
-		// Update the frame url
-		this.frameurl = this.frame.location.href;
-
-		var folder = this.getImageFolder();
-		for(var i = 0; i < this.folderlist.length; i++)
+		/**
+		 * Initialization
+		 *
+		 * @return  void
+		 */
+		initialize: function ()
 		{
-			if (folder == this.folderlist.options[i].value) {
-				this.folderlist.selectedIndex = i;
-				if (this.folderlist.className.test(/\bchzn-done\b/)) {
-					$(this.folderlist).trigger('liszt:updated');
-				}
-				break;
-			}
-		}
+			var o = this.getUriObject(window.self.location.href),
+				q = this.getQueryObject(o.query);
 
-		a = this._getUriObject($('#uploadForm').attr('action'));
-		q = this._getQueryObject(a.query);
-		q['folder'] = folder;
-		var query = [];
-		for (var k in q) {
-			var v = q[k];
-			if (q.hasOwnProperty(k) && v !== null) {
-				query.push(k+'='+v);
-			}
-		}
-		a.query = query.join('&');
-		var portString = '';
-		if (typeof(a.port) !== 'undefined' && a.port != 80) {
-			portString = ':'+a.port;
-		}
-		$('#uploadForm').attr('action', a.scheme+'://'+a.domain+portString+a.path+'?'+a.query);
-	},
+			this.editor = decodeURIComponent(q.e_name);
 
-	getImageFolder: function()
-	{
-		var url  = this.frame.location.search.substring(1);
-		var args = this.parseQuery(url);
+			// Setup image manager fields object
+			this.fields = {
+				'url': doc.getElementById("f_url"),
+				'alt': doc.getElementById("f_alt"),
+				'align': doc.getElementById("f_align"),
+				'title': doc.getElementById("f_title"),
+				'caption': doc.getElementById("f_caption"),
+				'c_class': doc.getElementById("f_caption_class")
+			};
 
-		return args['folder'];
-	},
+			// Setup image listing objects
+			this.folderlist = doc.getElementById('folderlist');
+			this.frame = window.frames.imageframe;
+			this.frameurl = this.frame.location.href;
 
-	onok: function()
-	{
-		var tag   = '';
-		var extra = '';
-
-		// Get the image tag field information
-		var url     = this.fields.url.value;
-		var alt     = this.fields.alt.value;
-		var align   = this.fields.align.value;
-		var title   = this.fields.title.value;
-		var caption = this.fields.caption.value;
-		var c_class = this.fields.c_class.value;
-
-		if (url != '') {
-			// Set alt attribute
-			if (alt != '') {
-				extra = extra + 'alt="'+alt+'" ';
-			} else {
-				extra = extra + 'alt="" ';
-			}
-			// Set align attribute
-			if (align != '' && caption == '') {
-				extra = extra + 'class="pull-'+align+'" ';
-			}
-			// Set title attribute
-			if (title != '') {
-				extra = extra + 'title="'+title+'" ';
-			}
-
-			tag = '<img src="'+url+'" '+extra+'/>';
-
-			// Process caption
-			if (caption != '') {
-				var figclass = '';
-				var captionclass = '';
-				if (align != '') {
-					figclass = ' class="pull-'+align+'"';
-				}
-				if (c_class != '') {
-					captionclass = ' class="'+c_class+'"';
-				}
-				tag = '<figure'+figclass+'>'+tag+'<figcaption'+captionclass+'>'+caption+'</figcaption></figure>';
-			}
-		}
-
-		window.parent.jInsertEditorText(tag, this.editor);
-		return false;
-	},
-
-	setFolder: function(folder,asset,author)
-	{
-		for(var i = 0; i < this.folderlist.length; i++)
-		{
-			if (folder == this.folderlist.options[i].value) {
-				this.folderlist.selectedIndex = i;
-				if (this.folderlist.className.test(/\bchzn-done\b/)) {
-					$(this.folderlist).trigger('liszt:updated');
-				}
-				break;
-			}
-		}
-		this.frame.location.href='index.php?option=com_media&view=imagesList&tmpl=component&folder=' + folder + '&asset=' + asset + '&author=' + author;
-	},
-
-	getFolder: function() {
-		return this.folderlist.value;
-	},
-
-	upFolder: function()
-	{
-		var currentFolder = this.getFolder();
-
-		if (currentFolder.length < 2) {
-			return false;
-		}
-
-		var folders = currentFolder.split('/');
-		var search = '';
-
-		for(var i = 0; i < folders.length - 1; i++) {
-			search += folders[i];
-			search += '/';
-		}
-
-		// remove the trailing slash
-		search = search.substring(0, search.length - 1);
-
-		for(var i = 0; i < this.folderlist.length; i++)
-		{
-			var thisFolder = this.folderlist.options[i].value;
-
-			if (thisFolder == search)
+			// Setup image listing frame
+			$('#imageframe').on('load', function ()
 			{
-				this.folderlist.selectedIndex = i;
-				var newFolder = this.folderlist.options[i].value;
-				this.setFolder(newFolder);
-				break;
-			}
-		}
-	},
+				ImageManager.onloadimageview();
+			});
 
-	populateFields: function(file)
-	{
-		$("#f_url").val(image_base_path+file);
-	},
+			// Setup folder up button
+			$('#upbutton').off('click').on('click', function ()
+			{
+				ImageManager.upFolder();
+			});
+		},
 
-	showMessage: function(text)
-	{
-		var message  = document.id('message');
-		var messages = document.id('messages');
-
-		if (message.firstChild)
-			message.removeChild(message.firstChild);
-
-		message.appendChild(document.createTextNode(text));
-		messages.style.display = "block";
-	},
-
-	parseQuery: function(query)
-	{
-		var params = new Object();
-		if (!query) {
-			return params;
-		}
-		var pairs = query.split(/[;&]/);
-		for ( var i = 0; i < pairs.length; i++ )
+		/**
+		 * Called when the iframe is reloaded.
+		 * Updates the form action with the correct folder.
+		 * This should really be a hidden input rather than part of the action, no?
+		 *
+		 * @return  void
+		 */
+		onloadimageview: function ()
 		{
-			var KeyVal = pairs[i].split('=');
-			if ( ! KeyVal || KeyVal.length != 2 ) {
-				continue;
+			var folder = this.getImageFolder(),
+				$form = $('#uploadForm'),
+				portString = '', a, q;
+
+			// Update the frame url
+			this.frameurl = this.frame.location.href;
+			this.setFolder(folder);
+
+			a = this.getUriObject($form.attr('action'));
+			q = this.getQueryObject(a.query);
+			q.folder = folder;
+			a.query = $.param(q);
+
+			if (typeof (a.port) !== 'undefined' && a.port != 80)
+			{
+				portString = ':' + a.port;
 			}
-			var key = unescape( KeyVal[0] );
-			var val = unescape( KeyVal[1] ).replace(/\+ /g, ' ');
-			params[key] = val;
-	   }
-	   return params;
-	},
 
-	refreshFrame: function()
-	{
-		this._setFrameUrl();
-	},
+			$form.attr('action', a.scheme + '://' + a.domain + portString + a.path + '?' + a.query);
+		},
 
-	_setFrameUrl: function(url)
-	{
-		if (url != null) {
-			this.frameurl = url;
+		/**
+		 * Get the current directory based on the query string of the iframe
+		 *
+		 * @return  string
+		 */
+		getImageFolder: function ()
+		{
+			return this.getQueryObject(this.frame.location.search.substring(1)).folder;
+		},
+
+		/**
+		 * Called from outside when the 'OK' button (maybe 'insert' or 'submit', whatever) is clicked.
+		 *
+		 * @return  boolean  Always true
+		 */
+		onok: function ()
+		{
+			var tag = '',
+				attr = [],
+				figclass = '',
+				captionclass = '',
+			// Get the image tag field information
+				url = this.fields.url.value,
+				alt = this.fields.alt.value,
+				align = this.fields.align.value,
+				title = this.fields.title.value,
+				caption = this.fields.caption.value,
+				c_class = this.fields.c_class.value;
+
+			if (url)
+			{
+				// Set alt attribute
+				attr.push('alt="' + alt + '"');
+
+				// Set align attribute
+				if (align && !caption)
+				{
+					attr.push('class="pull-' + align + '"');
+				}
+
+				// Set title attribute
+				if (title)
+				{
+					attr.push('title="' + title + '"');
+				}
+
+				tag = '<img src="' + url + '" ' + attr.join(' ') + '/>';
+
+				// Process caption
+				if (caption)
+				{
+					if (align)
+					{
+						figclass = ' class="pull-' + align + '"';
+					}
+
+					if (c_class)
+					{
+						captionclass = ' class="' + c_class + '"';
+					}
+
+					tag = '<figure' + figclass + '>' + tag + '<figcaption' + captionclass + '>' + caption + '</figcaption></figure>';
+				}
+			}
+
+			window.parent.jInsertEditorText(tag, this.editor);
+
+			return true;
+		},
+
+		/**
+		 * Called from outside when the directory selector is used.
+		 *
+		 * @param   string  folder  The folder to switch to
+		 * @param   mixed   asset   Probably an integer or undefined, optional
+		 * @param   mixed   author  Probably an integer or undefined, optional
+		 *
+		 * @return  void
+		 */
+		setFolder: function (folder, asset, author)
+		{
+			for (var i = 0, l = this.folderlist.length; i < l; i++)
+			{
+				if (folder == this.folderlist.options[i].value)
+				{
+					this.folderlist.selectedIndex = i;
+					$(this.folderlist)
+						.trigger('liszt:updated') // Mootools
+						.trigger('chosen:updated'); // jQuery
+
+					break;
+				}
+			}
+
+			if (!!asset || !!author)
+			{
+				this.setFrameUrl(folder, asset, author);
+			}
+		},
+
+		/**
+		 * Move up one directory
+		 *
+		 * @return  void
+		 */
+		upFolder: function ()
+		{
+			var path = this.folderlist.value.split('/'),
+				search;
+
+			path.pop();
+			search = path.join('/');
+
+			this.setFolder(search);
+			this.setFrameUrl(search);
+		},
+
+		/**
+		 * Called from outside when a file is selected
+		 *
+		 * @param   string  file  Relative path to the file.
+		 *
+		 * @return  void
+		 */
+		populateFields: function (file)
+		{
+			$("#f_url").val(image_base_path + file);
+		},
+
+		/**
+		 * Not used.
+		 * Should display messages. There are none.
+		 *
+		 * @param   string  text  The message text
+		 *
+		 * @return  void
+		 */
+		showMessage: function (text)
+		{
+			var $message = $('#message');
+
+			$message.find('>:first-child').remove();
+			$message.append(text);
+			$('#messages').css('display', 'block');
+		},
+
+		/**
+		 * Not used.
+		 * Refreshes the iframe
+		 *
+		 * @return  void
+		 */
+		refreshFrame: function ()
+		{
+			this.frame.location.href = this.frameurl;
+		},
+
+		/**
+		 * Sets the iframe url, loading a new page. Usually for changing directory.
+		 *
+		 * @param  string  folder  Relative path to directory
+		 * @param  mixed   asset   Probably an integer or undefined, optional
+		 * @param  mixed   author  Probably an integer or undefined, optional
+		 */
+		setFrameUrl: function (folder, asset, author)
+		{
+			var qs = {
+				option: 'com_media',
+				view: 'imagesList',
+				tmpl: 'component',
+				asset: asset,
+				author: author
+			};
+
+			// Don't run folder through params because / will end up double encoded.
+			this.frameurl = 'index.php?' + $.param(qs) + '&folder=' + folder;
+			this.frame.location.href = this.frameurl;
+		},
+
+		/**
+		 * Convert a query string to an object
+		 *
+		 * @param   string  q  A query string (no leading ?)
+		 *
+		 * @return  object
+		 */
+		getQueryObject: function (q)
+		{
+			var rs = {};
+
+			$.each((q || '').split(/[&;]/), function (key, val)
+			{
+				var keys = val.split('=');
+
+				rs[keys[0]] = keys.length == 2 ? keys[1] : null;
+			});
+
+			return rs;
+		},
+
+		/**
+		 * Break a url into its component parts
+		 *
+		 * @param   string  u  URL
+		 *
+		 * @return  object
+		 */
+		getUriObject: function (u)
+		{
+			var bitsAssociate = {},
+				bits = u.match(/^(?:([^:\/?#.]+):)?(?:\/\/)?(([^:\/?#]*)(?::(\d*))?)((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[\?#]|$)))*\/?)?([^?#\/]*))?(?:\?([^#]*))?(?:#(.*))?/);
+
+			$.each(['uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment'], function (key, index)
+			{
+				bitsAssociate[index] = (!!bits && !!bits[key]) ? bits[key] : '';
+			});
+
+			return bitsAssociate;
 		}
-		this.frame.location.href = this.frameurl;
-	},
+	};
 
-	_getQueryObject: function(q) {
-		var vars = q.split(/[&;]/);
-		var rs = {};
-		if (vars.length) vars.forEach(function(val) {
-			var keys = val.split('=');
-			if (keys.length && keys.length == 2) rs[encodeURIComponent(keys[0])] = encodeURIComponent(keys[1]);
-		});
-		return rs;
-	},
+	$(function ()
+	{
+		window.ImageManager.initialize();
+	});
 
-	_getUriObject: function(u){
-		var bitsAssociate = {}, bits = u.match(/^(?:([^:\/?#.]+):)?(?:\/\/)?(([^:\/?#]*)(?::(\d*))?)((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[\?#]|$)))*\/?)?([^?#\/]*))?(?:\?([^#]*))?(?:#(.*))?/);
-		['uri', 'scheme', 'authority', 'domain', 'port', 'path', 'directory', 'file', 'query', 'fragment'].forEach(function(key, index) {
-			bitsAssociate[key] = bits[index];
-		});
-
-		return (bits)
-			? bitsAssociate
-			: null;
-	}
-};
-})(jQuery);
-
-jQuery(function(){
-	ImageManager.initialize();
-});
+}(jQuery, document));

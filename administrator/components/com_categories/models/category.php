@@ -3,13 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Categories Component Category Model
@@ -19,7 +20,9 @@ use Joomla\Registry\Registry;
 class CategoriesModelCategory extends JModelAdmin
 {
 	/**
-	 * @var    string  The prefix to use with controller messages.
+	 * The prefix to use with controller messages.
+	 *
+	 * @var    string
 	 * @since  1.6
 	 */
 	protected $text_prefix = 'COM_CATEGORIES';
@@ -73,9 +76,7 @@ class CategoriesModelCategory extends JModelAdmin
 				return;
 			}
 
-			$user = JFactory::getUser();
-
-			return $user->authorise('core.delete', $record->extension . '.category.' . (int) $record->id);
+			return JFactory::getUser()->authorise('core.delete', $record->extension . '.category.' . (int) $record->id);
 		}
 	}
 
@@ -97,16 +98,15 @@ class CategoriesModelCategory extends JModelAdmin
 		{
 			return $user->authorise('core.edit.state', $record->extension . '.category.' . (int) $record->id);
 		}
+
 		// New category, so check against the parent.
-		elseif (!empty($record->parent_id))
+		if (!empty($record->parent_id))
 		{
 			return $user->authorise('core.edit.state', $record->extension . '.category.' . (int) $record->parent_id);
 		}
+
 		// Default to component settings if neither category nor parent known.
-		else
-		{
-			return $user->authorise('core.edit.state', $record->extension);
-		}
+		return $user->authorise('core.edit.state', $record->extension);
 	}
 
 	/**
@@ -223,8 +223,7 @@ class CategoriesModelCategory extends JModelAdmin
 		{
 			if ($result->id != null)
 			{
-				$result->associations = CategoriesHelper::getAssociations($result->id, $result->extension);
-				JArrayHelper::toInteger($result->associations);
+				$result->associations = ArrayHelper::toInteger(CategoriesHelper::getAssociations($result->id, $result->extension));
 			}
 			else
 			{
@@ -241,7 +240,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed    A JForm object on success, false on failure
+	 * @return  JForm|boolean  A JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -296,7 +295,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * A protected method to get the where clause for the reorder
 	 * This ensures that the row will be moved relative to a row with the same extension
 	 *
-	 * @param   JCategoryTable  $table  Current table instance
+	 * @param   JTableCategory  $table  Current table instance
 	 *
 	 * @return  array           An array of conditions to add to add to ordering queries.
 	 *
@@ -575,9 +574,12 @@ class CategoriesModelCategory extends JModelAdmin
 			// Adding self to the association
 			$associations = $data['associations'];
 
+			// Unset any invalid associations
+			$associations = Joomla\Utilities\ArrayHelper::toInteger($associations);
+
 			foreach ($associations as $tag => $id)
 			{
-				if (empty($id))
+				if (!$id)
 				{
 					unset($associations[$tag]);
 				}
@@ -600,11 +602,14 @@ class CategoriesModelCategory extends JModelAdmin
 				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
 				->where($db->quoteName('id') . ' IN (' . implode(',', $associations) . ')');
 			$db->setQuery($query);
-			$db->execute();
 
-			if ($error = $db->getErrorMsg())
+			try
 			{
-				$this->setError($error);
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 
 				return false;
 			}
@@ -618,15 +623,18 @@ class CategoriesModelCategory extends JModelAdmin
 
 				foreach ($associations as $id)
 				{
-					$query->values($id . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
+					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
 				}
 
 				$db->setQuery($query);
-				$db->execute();
 
-				if ($error = $db->getErrorMsg())
+				try
 				{
-					$this->setError($error);
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					$this->setError($e->getMessage());
 
 					return false;
 				}
@@ -765,9 +773,7 @@ class CategoriesModelCategory extends JModelAdmin
 				$table->load($pk);
 				$tags = array($value);
 
-				/**
-				 * @var  JTableObserverTags  $tagsObserver
-				 */
+				/** @var  JTableObserverTags  $tagsObserver */
 				$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
 				$result = $tagsObserver->setNewTags($tags, false);
 
@@ -810,7 +816,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 		// $value comes as {parent_id}.{extension}
 		$parts = explode('.', $value);
-		$parentId = (int) JArrayHelper::getValue($parts, 0, 1);
+		$parentId = (int) ArrayHelper::getValue($parts, 0, 1);
 
 		$db = $this->getDbo();
 		$extension = JFactory::getApplication()->input->get('extension', '', 'word');
@@ -966,7 +972,7 @@ class CategoriesModelCategory extends JModelAdmin
 			// Unpublish because we are making a copy
 			$this->table->published = 0;
 
-			parent::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+			$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
 
 			// Store the row.
 			if (!$this->table->store())
@@ -1128,7 +1134,7 @@ class CategoriesModelCategory extends JModelAdmin
 				}
 			}
 
-			parent::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+			$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
 
 			// Store the row.
 			if (!$this->table->store())
@@ -1152,7 +1158,7 @@ class CategoriesModelCategory extends JModelAdmin
 		{
 			// Remove any duplicates and sanitize ids.
 			$children = array_unique($children);
-			JArrayHelper::toInteger($children);
+			$children = ArrayHelper::toInteger($children);
 		}
 
 		return true;
@@ -1228,7 +1234,6 @@ class CategoriesModelCategory extends JModelAdmin
 			return $assoc;
 		}
 
-		$app = JFactory::getApplication();
 		$extension = $this->getState('category.extension');
 
 		$assoc = JLanguageAssociations::isEnabled();

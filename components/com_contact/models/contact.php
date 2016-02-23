@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -251,14 +251,133 @@ class ContactModelContact extends JModelForm
 
 		if ($this->_item[$pk])
 		{
-			if ($extendedData = $this->getContactQuery($pk))
-			{
-				$this->_item[$pk]->articles = $extendedData->articles;
-				$this->_item[$pk]->profile = $extendedData->profile;
-			}
+			$this->buildContactExtendedData($this->_item[$pk]);
 		}
 
 		return $this->_item[$pk];
+	}
+
+	/**
+	 * Load extended data (profile, articles) for a contact
+	 *
+	 * @param   object  $contact  The contact object
+	 *
+	 * @return  void
+	 */
+	protected function buildContactExtendedData($contact)
+	{
+		$db        = $this->getDbo();
+		$nullDate  = $db->quote($db->getNullDate());
+		$nowDate   = $db->quote(JFactory::getDate()->toSql());
+		$user      = JFactory::getUser();
+		$groups    = implode(',', $user->getAuthorisedViewLevels());
+		$published = $this->getState('filter.published');
+
+		$contactParams = new Registry;
+		$contactParams->loadString($contact->params);
+
+		// If we are showing a contact list, then the contact parameters take priority
+		// So merge the contact parameters with the merged parameters
+		if ($this->getState('params')->get('show_contact_list'))
+		{
+			$this->getState('params')->merge($contactParams);
+		}
+
+		// Get the com_content articles by the linked user
+		if ((int) $contact->user_id && $this->getState('params')->get('show_articles'))
+		{
+
+			$query = $db->getQuery(true)
+				->select('a.id')
+				->select('a.title')
+				->select('a.state')
+				->select('a.access')
+				->select('a.catid')
+				->select('a.created')
+				->select('a.language');
+
+			// SQL Server changes
+			$case_when = ' CASE WHEN ';
+			$case_when .= $query->charLength('a.alias', '!=', '0');
+			$case_when .= ' THEN ';
+			$a_id = $query->castAsChar('a.id');
+			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
+			$case_when .= ' ELSE ';
+			$case_when .= $a_id . ' END as slug';
+			$case_when1 = ' CASE WHEN ';
+			$case_when1 .= $query->charLength('c.alias', '!=', '0');
+			$case_when1 .= ' THEN ';
+			$c_id = $query->castAsChar('c.id');
+			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
+			$case_when1 .= ' ELSE ';
+			$case_when1 .= $c_id . ' END as catslug';
+			$query->select($case_when1 . ',' . $case_when)
+				->from('#__content as a')
+				->join('LEFT', '#__categories as c on a.catid=c.id')
+				->where('a.created_by = ' . (int) $contact->user_id)
+				->where('a.access IN (' . $groups . ')')
+				->order('a.state DESC, a.created DESC');
+
+			// Filter per language if plugin published
+			if (JLanguageMultilang::isEnabled())
+			{
+				$query->where(
+					('a.created_by = ' . (int) $contact->user_id) . ' AND ' .
+					('a.language=' . $db->quote(JFactory::getLanguage()->getTag()) . ' OR a.language=' . $db->quote('*'))
+				);
+			}
+
+			if (is_numeric($published))
+			{
+				$query->where('a.state IN (1,2)')
+					->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+					->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+			}
+
+			// Number of articles to display from config/menu params
+			$articles_display_num = $this->getState('params')->get('articles_display_num', 10);
+
+			// Use contact setting?
+			if ($articles_display_num === 'use_contact')
+			{
+				$articles_display_num = $contactParams->get('articles_display_num', 10);
+
+				// Use global?
+				if ((string) $articles_display_num === '')
+				{
+					$articles_display_num = JComponentHelper::getParams('com_contact')->get('articles_display_num', 10);
+				}
+			}
+
+			$db->setQuery($query, 0, (int) $articles_display_num);
+			$articles = $db->loadObjectList();
+			$contact->articles = $articles;
+		}
+		else
+		{
+			$contact->articles = null;
+		}
+
+		// Get the profile information for the linked user
+		require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+		$userModel = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
+		$data = $userModel->getItem((int) $contact->user_id);
+
+		JPluginHelper::importPlugin('user');
+		$form = new JForm('com_users.profile');
+
+		// Get the dispatcher.
+		$dispatcher = JEventDispatcher::getInstance();
+
+		// Trigger the form preparation event.
+		$dispatcher->trigger('onContentPrepareForm', array($form, $data));
+
+		// Trigger the data preparation event.
+		$dispatcher->trigger('onContentPrepareData', array('com_users.profile', $data));
+
+		// Load the data into the form after the plugins have operated.
+		$form->bind($data);
+		$contact->profile = $form;
 	}
 
 	/**
@@ -327,12 +446,12 @@ class ContactModelContact extends JModelForm
 
 				if (empty($result))
 				{
-					throw new Exception(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+					return false;
 				}
 			}
 			catch (Exception $e)
 			{
-				$this->setError($e);
+				$this->setError($e->getMessage());
 
 				return false;
 			}

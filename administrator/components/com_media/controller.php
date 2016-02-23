@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,9 @@ class MediaController extends JControllerLegacy
 	public function display($cachable = false, $urlparams = false)
 	{
 		JPluginHelper::importPlugin('content');
-		$vName = $this->input->get('view', 'media');
+
+		$vType    = JFactory::getDocument()->getType();
+		$vName    = $this->input->get('view', 'media');
 
 		switch ($vName)
 		{
@@ -61,12 +63,8 @@ class MediaController extends JControllerLegacy
 				break;
 		}
 
-		$document = JFactory::getDocument();
-		$vType    = $document->getType();
-
 		// Get/Create the view
-		$view = $this->getView($vName, $vType);
-		$view->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR . '/views/' . strtolower($vName) . '/tmpl');
+		$view = $this->getView($vName, $vType, '', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
 
 		// Get/Create the model
 		if ($model = $this->getModel($mName))

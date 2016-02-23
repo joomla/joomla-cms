@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,12 +28,12 @@ class LanguagesHelper
 	{
 		JHtmlSidebar::addEntry(
 			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_SITE'),
-			'index.php?option=com_languages&view=installed&client=0',
+			'index.php?option=com_languages&view=installed&client_id=0',
 			$vName == 'installed' && $client === 0
 		);
 		JHtmlSidebar::addEntry(
 			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_ADMINISTRATOR'),
-			'index.php?option=com_languages&view=installed&client=1',
+			'index.php?option=com_languages&view=installed&client_id=1',
 			$vName == 'installed' && $client === 1
 		);
 		JHtmlSidebar::addEntry(

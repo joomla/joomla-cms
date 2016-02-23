@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,7 +80,7 @@ class UsersModelUsers extends JModelList
 		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state');
 		$this->setState('filter.state', $state);
 
-		$groupId = $this->getUserStateFromRequest($this->context . '.filter.group', 'filter_group_id', null, 'int');
+		$groupId = $this->getUserStateFromRequest($this->context . '.filter.group_id', 'filter_group_id', null, 'int');
 		$this->setState('filter.group_id', $groupId);
 
 		$range = $this->getUserStateFromRequest($this->context . '.filter.range', 'filter_range');
@@ -340,19 +340,33 @@ class UsersModelUsers extends JModelList
 		}
 
 		// Filter the items over the search string if set.
-		if ($this->getState('filter.search') !== '' && $this->getState('filter.search') !== null)
+		$search = $this->getState('filter.search');
+
+		if (!empty($search))
 		{
-			// Escape the search token.
-			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where('a.id = ' . (int) substr($search, 3));
+			}
+			elseif (stripos($search, 'username:') === 0)
+			{
+				$search = $db->quote('%' . $db->escape(substr($search, 9), true) . '%');
+				$query->where('a.username LIKE ' . $search);
+			}
+			else
+			{
+				// Escape the search token.
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 
-			// Compile the different search clauses.
-			$searches   = array();
-			$searches[] = 'a.name LIKE ' . $search;
-			$searches[] = 'a.username LIKE ' . $search;
-			$searches[] = 'a.email LIKE ' . $search;
+				// Compile the different search clauses.
+				$searches   = array();
+				$searches[] = 'a.name LIKE ' . $search;
+				$searches[] = 'a.username LIKE ' . $search;
+				$searches[] = 'a.email LIKE ' . $search;
 
-			// Add the clauses to the query.
-			$query->where('(' . implode(' OR ', $searches) . ')');
+				// Add the clauses to the query.
+				$query->where('(' . implode(' OR ', $searches) . ')');
+			}
 		}
 
 		// Add filter for registration ranges select list
@@ -441,13 +455,21 @@ class UsersModelUsers extends JModelList
 	 */
 	protected function _getUserDisplayedGroups($user_id)
 	{
-		$db = $this->getDbo();
-		$query = "SELECT title FROM " . $db->quoteName('#__usergroups') . " ug left join " .
-			$db->quoteName('#__user_usergroup_map') . " map on (ug.id = map.group_id)" .
-			" WHERE map.user_id=" . (int) $user_id;
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('title'))
+			->from($db->qn('#__usergroups', 'ug'))
+			->join('LEFT', $db->qn('#__user_usergroup_map', 'map') . ' ON (ug.id = map.group_id)')
+			->where($db->qn('map.user_id') . ' = ' . (int) $user_id);
 
-		$db->setQuery($query);
-		$result = $db->loadColumn();
+		try
+		{
+			$result = $db->setQuery($query)->loadColumn();
+		}
+		catch (RunTimeException $e)
+		{
+			$result = array();
+		}
 
 		return implode("\n", $result);
 	}

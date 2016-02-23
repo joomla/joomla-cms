@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,8 +99,10 @@ class ContactViewContact extends JViewLegacy
 
 		if ((!in_array($item->access, $groups)) || (!in_array($item->category_access, $groups)))
 		{
-			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
-			return;
+			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->setHeader('status', 403, true);
+
+			return false;
 		}
 
 		$options['category_id'] = $item->catid;
@@ -111,6 +113,7 @@ class ContactViewContact extends JViewLegacy
 		{
 			$item->email_to = JHtml::_('email.cloak', $item->email_to);
 		}
+
 		if ($params->get('show_street_address') || $params->get('show_suburb') || $params->get('show_state')
 			|| $params->get('show_postcode') || $params->get('show_country'))
 		{
@@ -229,6 +232,31 @@ class ContactViewContact extends JViewLegacy
 			$item->link = JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid));
 		}
 
+		// Process the content plugins.
+		$dispatcher	= JEventDispatcher::getInstance();
+		JPluginHelper::importPlugin('content');
+		$offset = $state->get('list.offset');
+
+		// Fix for where some plugins require a text attribute
+		!empty($item->description)? $item->text = $item->description : $item->text = null;
+		$dispatcher->trigger('onContentPrepare', array ('com_contact.contact', &$item, &$this->params, $offset));
+
+		// Store the events for later
+		$item->event = new stdClass;
+		$results = $dispatcher->trigger('onContentAfterTitle', array('com_contact.contact', &$item, &$this->params, $offset));
+		$item->event->afterDisplayTitle = trim(implode("\n", $results));
+
+		$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_contact.contact', &$item, &$this->params, $offset));
+		$item->event->beforeDisplayContent = trim(implode("\n", $results));
+
+		$results = $dispatcher->trigger('onContentAfterDisplay', array('com_contact.contact', &$item, &$this->params, $offset));
+		$item->event->afterDisplayContent = trim(implode("\n", $results));
+
+		if ($item->text)
+		{
+			$item->description = $item->text;
+		}
+
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
@@ -271,6 +299,8 @@ class ContactViewContact extends JViewLegacy
 	 * Prepares the document
 	 *
 	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function _prepareDocument()
 	{
@@ -299,12 +329,12 @@ class ContactViewContact extends JViewLegacy
 		// If the menu item does not concern this contact
 		if ($menu && ($menu->query['option'] != 'com_contact' || $menu->query['view'] != 'contact' || $id != $this->item->id))
 		{
-
 			// If this is not a single contact menu item, set the page title to the contact title
 			if ($this->item->name)
 			{
 				$title = $this->item->name;
 			}
+
 			$path = array(array('title' => $this->contact->name, 'link' => ''));
 			$category = JCategories::getInstance('Contact')->get($this->contact->catid);
 
@@ -339,6 +369,7 @@ class ContactViewContact extends JViewLegacy
 		{
 			$title = $this->item->name;
 		}
+
 		$this->document->setTitle($title);
 
 		if ($this->item->metadesc)

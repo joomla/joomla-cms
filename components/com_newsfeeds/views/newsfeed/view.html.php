@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -151,7 +151,8 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 
 		if (!in_array($item->access, $levels) or ((in_array($item->access, $levels) and (!in_array($item->category_access, $levels)))))
 		{
-			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
+			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->setHeader('status', 403, true);
 
 			return;
 		}
@@ -188,7 +189,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 
 		if ($feed_display_order == 'asc')
 		{
-			$newsfeed->items = array_reverse($newsfeed->items);
+			$this->rssDoc->reverseItems();
 		}
 
 		// Escape strings for HTML output

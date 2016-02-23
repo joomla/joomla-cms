@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,9 +63,8 @@ class TagsViewTag extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$user   = JFactory::getUser();
-		$userId = $user->get('id');
-
+		$user       = JFactory::getUser();
+		$userId     = $user->get('id');
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
@@ -73,9 +72,6 @@ class TagsViewTag extends JViewLegacy
 		$lang = JFactory::getLanguage();
 		$lang->load('com_tags', JPATH_BASE, null, false, true)
 		|| $lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', null, false, true);
-
-		// Load the tags helper.
-		require_once JPATH_COMPONENT . '/helpers/tags.php';
 
 		// Get the results for each action.
 		$canDo = $this->canDo;

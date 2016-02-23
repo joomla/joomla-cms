@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,84 +13,78 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.framework', true);
 JHtml::_('bootstrap.tooltip');
 
-JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE');
-JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_DIRECTORY');
-JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
-?>
-<script type="text/javascript">
-	Joomla.submitbutton = function()
-	{
-		var form = document.getElementById('adminForm');
+JFactory::getDocument()->addScriptDeclaration(
+	'
+	Joomla.submitbutton = function() {
+		var form = document.getElementById("adminForm");
 
 		// do field validation
 		if (form.install_package.value == "") {
-			alert(Joomla.JText._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE'));
+			alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true) . '");
 		}
 		else
 		{
-			jQuery('#loading').css('display', 'block');
+			jQuery("#loading").css("display", "block");
 
-			form.installtype.value = 'upload';
+			form.installtype.value = "upload";
 			form.submit();
 		}
 	};
 
-	Joomla.submitbutton3 = function()
-	{
-		var form = document.getElementById('adminForm');
+	Joomla.submitbutton3 = function() {
+		var form = document.getElementById("adminForm");
 
 		// do field validation
 		if (form.install_directory.value == "") {
-			alert(Joomla.JText._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_DIRECTORY'));
+			alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_DIRECTORY', true) . '");
 		}
 		else
 		{
-			jQuery('#loading').css('display', 'block');
+			jQuery("#loading").css("display", "block");
 
-			form.installtype.value = 'folder';
+			form.installtype.value = "folder";
 			form.submit();
 		}
 	};
 
-	Joomla.submitbutton4 = function()
-	{
-		var form = document.getElementById('adminForm');
+	Joomla.submitbutton4 = function() {
+		var form = document.getElementById("adminForm");
 
 		// do field validation
 		if (form.install_url.value == "" || form.install_url.value == "http://") {
-			alert(Joomla.JText._('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'));
+			alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true) . '");
 		}
 		else
 		{
-			jQuery('#loading').css('display', 'block');
+			jQuery("#loading").css("display", "block");
 
-			form.installtype.value = 'url';
+			form.installtype.value = "url";
 			form.submit();
 		}
 	};
 
-	Joomla.submitbuttonInstallWebInstaller = function()
-	{
-		var form = document.getElementById('adminForm');
+	Joomla.submitbuttonInstallWebInstaller = function() {
+		var form = document.getElementById("adminForm");
 
-		form.install_url.value = 'http://appscdn.joomla.org/webapps/jedapps/webinstaller.xml';
+		form.install_url.value = "https://appscdn.joomla.org/webapps/jedapps/webinstaller.xml";
 
 		Joomla.submitbutton4();
 	};
 
 	// Add spindle-wheel for installations:
 	jQuery(document).ready(function($) {
-		var outerDiv = $('#installer-install');
+		var outerDiv = $("#installer-install");
 
-		$('#loading').css({
-			'top': 		outerDiv.position().top - $(window).scrollTop(),
-			'left': 	outerDiv.position().left - $(window).scrollLeft(),
-			'width': 	outerDiv.width(),
-			'height': 	outerDiv.height(),
-			'display':  'none'
-		});
+		$("#loading")
+		.css("top", outerDiv.position().top - $(window).scrollTop())
+		.css("left", outerDiv.position().left - $(window).scrollLeft())
+		.css("width", outerDiv.width())
+		.css("height", outerDiv.height())
+		.css("display", "none")
 	});
-</script>
+	'
+);
+?>
 <style type="text/css">
 	#loading {
 		background: rgba(255, 255, 255, .8) url('<?php echo JHtml::_('image', 'jui/ajax-loader.gif', '', null, true, true); ?>') 50% 15% no-repeat;
@@ -98,8 +92,10 @@ JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 		opacity: 0.8;
 		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
 		filter: alpha(opacity = 80);
+		margin: -10px -50px 0 -50px;
+		overflow: hidden;
 	}
-	
+
 	.j-jed-message {
 		margin-bottom: 40px;
 		line-height: 2em;

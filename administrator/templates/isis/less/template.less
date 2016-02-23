@@ -368,6 +368,10 @@ body .navbar-fixed-top {
 	z-index: 100;
 }
 @media (max-width: 767px) {
+	/* Fix ios scrolling inside bootstrap modals */
+	body {
+		-webkit-overflow-scrolling: touch;
+	}
 	.subhead {
 		margin-left: -20px;
 		margin-right: -20px;
@@ -1290,4 +1294,31 @@ textarea.noResize {
 body.modal-open {
   overflow: hidden;
   -ms-overflow-style: none;
+}
+
+/* Corrects the modals padding */
+.field-media-wrapper .modal .modal-body {
+	padding: 5px 10px;
+	overflow: hidden;
+}
+
+/* Stats plugin */
+.js-pstats-data-details dd {
+	margin-left: 240px;
+}
+.js-pstats-data-details dt {
+	width: 220px;
+}
+
+/* Corrects the media modal padding on small devices */
+@media (max-width: 767px) {
+	.field-media-wrapper .modal .modal-body {
+		padding: 5px 0;
+	}
+}
+
+/* Fix iOS scrolling inside bootstrap modals (using iframe) */
+.modal-body {
+	-webkit-overflow-scrolling: touch;
+	overflow-y: auto !important;
 }

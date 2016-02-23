@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -104,7 +104,7 @@ class JTableCorecontent extends JTable
 			$this->core_alias = $this->core_title;
 		}
 
-		$this->core_alias = JApplication::stringURLSafe($this->core_alias);
+		$this->core_alias = JApplicationHelper::stringURLSafe($this->core_alias);
 
 		if (trim(str_replace('-', '', $this->core_alias)) == '')
 		{

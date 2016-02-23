@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -607,7 +607,7 @@ class JHelperTags extends JHelper
 
 		$groups = '0,' . implode(',', array_unique($user->getAuthorisedViewLevels()));
 		$query->where('c.core_access IN (' . $groups . ')')
-			->group('m.type_alias, m.content_item_id, m.core_content_id');
+			->group('m.type_alias, m.content_item_id, m.core_content_id, core_modified_time, core_created_time, core_created_by_alias, name, author_email');
 
 		// Use HAVING if matching all tags and we are matching more than one tag.
 		if ($ntagsr > 1 && $anyOrAll != 1 && $includeChildren != 1)
@@ -953,13 +953,11 @@ class JHelperTags extends JHelper
 		}
 		catch (RuntimeException $e)
 		{
-			return false;
+			return array();
 		}
 
 		// We will replace path aliases with tag names
-		$results = self::convertPathsToNames($results);
-
-		return $results;
+		return self::convertPathsToNames($results);
 	}
 
 	/**

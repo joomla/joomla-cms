@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.4" client="administrator" type="language" method="upgrade">
+<extension version="3.5" client="administrator" type="language" method="upgrade">
 	<name>English (United Kingdom)</name>
 	<tag>en-GB</tag>
-	<version>3.4.2</version>
+	<version>3.5.0</version>
 	<creationDate>2013-03-07</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>en-GB administrator language</description>
 	<files>
@@ -141,6 +141,8 @@
 		<filename>en-GB.plg_editors-xtd_article.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_image.ini</filename>
 		<filename>en-GB.plg_editors-xtd_image.sys.ini</filename>
+		<filename>en-GB.plg_editors-xtd_module.ini</filename>
+		<filename>en-GB.plg_editors-xtd_module.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_pagebreak.ini</filename>
 		<filename>en-GB.plg_editors-xtd_pagebreak.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_readmore.ini</filename>
@@ -199,6 +201,10 @@
 		<filename>en-GB.plg_system_remember.sys.ini</filename>
 		<filename>en-GB.plg_system_sef.ini</filename>
 		<filename>en-GB.plg_system_sef.sys.ini</filename>
+		<filename>en-GB.plg_system_stats.ini</filename>
+		<filename>en-GB.plg_system_stats.sys.ini</filename>
+		<filename>en-GB.plg_system_updatenotification.ini</filename>
+		<filename>en-GB.plg_system_updatenotification.sys.ini</filename>
 		<filename>en-GB.plg_twofactorauth_totp.ini</filename>
 		<filename>en-GB.plg_twofactorauth_totp.sys.ini</filename>
 		<filename>en-GB.plg_twofactorauth_yubikey.ini</filename>

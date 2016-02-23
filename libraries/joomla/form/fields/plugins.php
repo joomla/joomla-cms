@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -48,7 +48,7 @@ class JFormFieldPlugins extends JFormFieldList
 		switch ($name)
 		{
 			case 'folder':
-				return $this->$name;
+				return $this->folder;
 		}
 
 		return parent::__get($name);
@@ -69,7 +69,7 @@ class JFormFieldPlugins extends JFormFieldList
 		switch ($name)
 		{
 			case 'folder':
-				$this->$name = (string) $value;
+				$this->folder = (string) $value;
 				break;
 
 			default:

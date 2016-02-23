@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -207,10 +207,19 @@ class JControllerAdmin extends JControllerLegacy
 			try
 			{
 				$model->publish($cid, $value);
+				$errors = $model->getErrors();
 
 				if ($value == 1)
 				{
-					$ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
+					if ($errors)
+					{
+						$app = JFactory::getApplication();
+						$app->enqueueMessage(JText::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
+					}
+					else
+					{
+						$ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
+					}
 				}
 				elseif ($value == 0)
 				{

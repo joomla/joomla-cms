@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -77,7 +77,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			{
 				if (strpos($e->getMessage(), 'Error code 412 received requesting data: Mismatch: etags') === 0)
 				{
-					throw new RuntimeException("Etag match failed: `$match`.");
+					throw new RuntimeException("Etag match failed: `$match`.", $e->getCode(), $e);
 				}
 
 				throw $e;
@@ -270,6 +270,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 * @return  mixed  Data from Google.
 	 *
 	 * @since   12.3
+	 * @throws  Exception
 	 */
 	public function save($match = '*')
 	{
@@ -292,7 +293,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			{
 				if (strpos($e->getMessage(), 'Error code 412 received requesting data: Mismatch: etags') === 0)
 				{
-					throw new RuntimeException("Etag match failed: `$match`.");
+					throw new RuntimeException("Etag match failed: `$match`.", $e->getCode(), $e);
 				}
 
 				throw $e;

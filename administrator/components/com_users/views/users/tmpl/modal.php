@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,6 @@ JHtml::_('behavior.multiselect');
 
 $input     = JFactory::getApplication()->input;
 $field     = $input->getCmd('field');
-$function  = 'jSelectUser_' . $field;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
@@ -31,7 +30,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<div class="btn-group pull-left">
 				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>" data-placement="bottom"><span class="icon-search"></span></button>
 				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" data-placement="bottom" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
-				<button type="button" class="btn" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('', '<?php echo JText::_('JLIB_FORM_SELECT_USER'); ?>');"><?php echo JText::_('JOPTION_NO_USER'); ?></button>
+				<?php if ($input->get('required', 0, 'int') != 1 ) : ?>
+					<button type="button" class="btn button-select" data-user-value="0" data-user-name="<?php echo $this->escape(JText::_('JLIB_FORM_SELECT_USER')); ?>"
+						data-user-field="<?php echo $this->escape($field);?>"><?php echo JText::_('JOPTION_NO_USER'); ?></button>
+				<?php endif; ?>
 			</div>
 			<div class="btn-group pull-right hidden-phone">
 				<label for="filter_group_id" class="element-invisible"><?php echo JText::_('COM_USERS_FILTER_USER_GROUP'); ?></label>
@@ -72,7 +74,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				foreach ($this->items as $item) : ?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td>
-							<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>');">
+							<a class="pointer button-select" href="#" data-user-value="<?php echo $item->id; ?>" data-user-name="<?php echo $this->escape($item->name); ?>"
+								data-user-field="<?php echo $this->escape($field);?>">
 								<?php echo $item->name; ?>
 							</a>
 						</td>

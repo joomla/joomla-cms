@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,7 +108,18 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							<li>
 								<div class="treeselect-item pull-left">
 									<input type="checkbox" class="pull-left" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; ?> />
-									<label for="<?php echo $id . $link->value; ?>" class="pull-left"><?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias));?></span></label>
+									<label for="<?php echo $id . $link->value; ?>" class="pull-left">
+										<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias));?></span>
+										<?php if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*')
+										{
+											echo JHtml::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, array('title' => $link->language_title), true);
+										}
+										if ($link->published == 0)
+										{
+											echo ' <span class="label">' . JText::_('JUNPUBLISHED') . '</span>';
+										}
+										?>
+									</label>
 								</div>
 						<?php
 

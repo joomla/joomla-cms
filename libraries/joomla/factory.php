@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -587,14 +587,15 @@ abstract class JFactory
 	 */
 	protected static function createSession(array $options = array())
 	{
-		// Get the editor configuration setting
-		$conf = self::getConfig();
+		// Get the Joomla configuration settings
+		$conf    = self::getConfig();
 		$handler = $conf->get('session_handler', 'none');
 
 		// Config time is in minutes
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
-		$session = JSession::getInstance($handler, $options);
+		$sessionHandler = new JSessionHandlerJoomla($options);
+		$session        = JSession::getInstance($handler, $options, $sessionHandler);
 
 		if ($session->getState() == 'expired')
 		{

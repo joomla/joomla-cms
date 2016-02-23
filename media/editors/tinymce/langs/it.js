@@ -186,6 +186,7 @@ tinymce.addI18n('it',{
 "Add to Dictionary": "Aggiungi al dizionario",
 "Insert Time": "Inserisci ora",
 "Insert nonbreaking space": "Inserisci uno spazio",
+"Insert\/Edit code sample": "Inserisci\/modifica un esempio di codice",
 "Toggle blockquote": "Testo quotato",
 "Border color": "Colore bordo",
 "Color": "Colore",
