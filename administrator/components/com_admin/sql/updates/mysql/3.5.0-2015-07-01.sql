@@ -93,11 +93,11 @@ ALTER TABLE `#__user_usergroup_map` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf
 ALTER TABLE `#__viewlevels` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- 5. Set collation of previously converted utf8_bin collated columns to utf8mb4_bin
-ALTER TABLE `#__banners` MODIFY `alias` varchar(400) COLLATE utf8mb4_bin NOT NULL DEFAULT '';
-ALTER TABLE `#__categories` MODIFY `alias` varchar(400) COLLATE utf8mb4_bin NOT NULL DEFAULT '';
-ALTER TABLE `#__contact_details` MODIFY `alias` varchar(400) COLLATE utf8mb4_bin NOT NULL DEFAULT '';
-ALTER TABLE `#__content` MODIFY `alias` varchar(400) COLLATE utf8mb4_bin NOT NULL DEFAULT '';
-ALTER TABLE `#__menu` MODIFY `alias` varchar(400) COLLATE utf8mb4_bin NOT NULL COMMENT 'The SEF alias of the menu item.';
-ALTER TABLE `#__newsfeeds` MODIFY `alias` varchar(400) COLLATE utf8mb4_bin NOT NULL DEFAULT '';
-ALTER TABLE `#__tags` MODIFY `alias` varchar(400) COLLATE utf8mb4_bin NOT NULL DEFAULT '';
-ALTER TABLE `#__ucm_content` MODIFY `core_alias` varchar(400) COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+ALTER TABLE `#__banners` MODIFY `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+ALTER TABLE `#__categories` MODIFY `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+ALTER TABLE `#__contact_details` MODIFY `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+ALTER TABLE `#__content` MODIFY `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+ALTER TABLE `#__menu` MODIFY `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'The SEF alias of the menu item.';
+ALTER TABLE `#__newsfeeds` MODIFY `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+ALTER TABLE `#__tags` MODIFY `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+ALTER TABLE `#__ucm_content` MODIFY `core_alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
