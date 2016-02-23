@@ -65,9 +65,11 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 
 			if ($alterCommand == 'ADD COLUMN')
 			{
-				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[5]);
+				$colName = $this->fixQuote($wordArray[5]);
+				$result = 'SHOW COLUMNS IN ' . $wordArray[2]
+					. ' WHERE ' . $this->db->quoteName('Field') . ' = ' . $colName;
 				$this->queryType = 'ADD_COLUMN';
-				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
+				$this->msgElements = array($this->fixQuote($wordArray[2]), $colName);
 			}
 			elseif ($alterCommand == 'ADD INDEX' || $alterCommand == 'ADD KEY' || $alterCommand == 'ADD UNIQUE')
 			{
@@ -80,7 +82,8 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 					$index = $this->fixQuote($wordArray[5]);
 				}
 
-				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
+				$result = 'SHOW INDEXES IN ' . $wordArray[2]
+					. ' WHERE ' . $this->db->quoteName('Key_name') . ' = ' . $index;
 				$this->queryType = 'ADD_INDEX';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
@@ -143,16 +146,18 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 					$this->queryType = 'DROP_INDEX';
 					$this->checkQueryExpected = 0;
 				}
-				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
+				$result = 'SHOW INDEXES IN ' . $wordArray[2]
+					. ' WHERE ' . $this->db->quoteName('Key_name') . ' = ' . $index;
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
 			elseif ($alterCommand == 'DROP COLUMN')
 			{
-				$index = $this->fixQuote($wordArray[5]);
-				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE Field = ' . $index;
+				$colName = $this->fixQuote($wordArray[5]);
+				$result = 'SHOW COLUMNS IN ' . $wordArray[2]
+					. ' WHERE ' . $this->db->quoteName('Field') . ' = ' . $colName;
 				$this->queryType = 'DROP_COLUMN';
 				$this->checkQueryExpected = 0;
-				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
+				$this->msgElements = array($this->fixQuote($wordArray[2]), $colName);
 			}
 			elseif (($alterCommand == 'CONVERT TO') && (count($wordArray) > 9))
 			{
@@ -167,8 +172,9 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 						$collat = str_replace('utf8mb4', 'utf8', $collat);
 					}
 
-					$result = 'SHOW TABLE STATUS WHERE Name = ' . $this->fixQuote($table)
-						. ' AND Collation = ' . $collat;
+					$result = 'SHOW TABLE STATUS WHERE ' . $this->db->quoteName('Name')
+						. ' = ' . $this->fixQuote($table)
+						. ' AND ' . $this->db->quoteName('Collation') . ' = ' . $collat;
 					$this->queryType = 'CREATE_TABLE';
 					$this->msgElements = array($this->fixQuote($table) . ' (COLLATION ' . $collat . ')');
 				}
