@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,12 +91,12 @@ $loggeduser = JFactory::getUser();
 				?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
-							<?php if ($canEdit) : ?>
+							<?php if ($canEdit || $canChange) : ?>
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							<?php endif; ?>
 						</td>
 						<td>
-							<div class="name">
+							<div class="name break-word">
 							<?php if ($canEdit) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::sprintf('COM_USERS_EDIT_USER', $this->escape($item->name)); ?>">
 									<?php echo $this->escape($item->name); ?></a>
@@ -118,7 +118,7 @@ $loggeduser = JFactory::getUser();
 								<?php echo JText::_('COM_USERS_DEBUG_USER');?></a></div>
 							<?php endif; ?>
 						</td>
-						<td>
+						<td class="break-word">
 							<?php echo $this->escape($item->username); ?>
 						</td>
 						<td class="center">
@@ -144,7 +144,7 @@ $loggeduser = JFactory::getUser();
 								<?php echo nl2br($item->group_names); ?>
 							<?php endif; ?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-phone break-word">
 							<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
 						</td>
 						<td class="hidden-phone">

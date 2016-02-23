@@ -265,7 +265,7 @@ var mobileMenu = function(){
 		$menuWrapper = $('<div>', {id : 'menuwrapper', role: 'menubar'});
 
 		// create the menu opener and assign events
-		$mobile = $('<div>', {id: 'mobile_select'}).html('<h2><a href=#" id="menuopener" onclick="return false;"><span>Openmenu</span></a></h2>').show();
+		$mobile = $('<div>', {id: 'mobile_select'}).html('<h2><a href="#" id="menuopener" onclick="return false;"><span>'+Openmenu+'</span></a></h2>').show();
 		$mobile.on('click', function(){
 			var state = $menuWrapper.css('display');
 			$menuWrapper.slideToggle();

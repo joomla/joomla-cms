@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,7 +21,41 @@ JFactory::getDocument()->addScriptDeclaration('
 			Joomla.submitform(task, document.getElementById("adminForm"));
 		}
 	};
+	
+	jQuery(document).ready(function($) {
+		$("#rightbtn").on("click", function() {
+			if($(this).text() == "' . JText::_('COM_FINDER_FILTER_SHOW_ALL') . '") {
+				$(".collapse:not(.in)").each(function (index) {
+					$(this).collapse("toggle");
+				});
+				$(this).text("' . JText::_('COM_FINDER_FILTER_HIDE_ALL') . '");
+			} else {
+				$(this).text("' . JText::_('COM_FINDER_FILTER_SHOW_ALL') . '");
+				$(".collapse.in").each(function (index) {
+				$(this).collapse("toggle");
+			});
+		}
+		return false;
+		});
+
+		$(".filter-node").change(function() {
+			$(\'input[id="jform_map_count"]\').val(document.querySelectorAll(\'input[type="checkbox"]:checked\').length);
+		});
+
+
+	});
 ');
+
+JFactory::getDocument()->addStyleDeclaration(
+	"
+	.accordion-inner .control-group .controls {
+		margin-left: 10px;
+	}
+	.accordion-inner > .control-group {
+		margin-bottom: 0;
+	}
+	"
+);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filter&layout=edit&filter_id=' . (int) $this->item->filter_id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
@@ -34,14 +68,18 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_FINDER_EDIT_FILTER', true)); ?>
 		<div class="row-fluid">
 			<div class="span9">
-				<div class="form-vertical">
-					<?php echo $this->form->getControlGroup('map_count'); ?>
-
-					<div id="finder-filter-window">
-
-						<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
+				<?php if ($this->total > 0) : ?>
+					<div class="well">
+						<?php echo $this->form->getControlGroup('map_count'); ?>
 					</div>
-				</div>
+					<button class="btn btn-default" type="button" class="jform-rightbtn" onclick="jQuery('.filter-node').each(function () { this.click(); });">
+						<span class="icon-checkbox-partial"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?></button>
+
+					<button class="btn btn-default pull-right" type="button" id="rightbtn" ><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
+					<hr>
+				<?php endif; ?>
+
+				<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
 			</div>
 			<div class="span3">
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>

@@ -3,36 +3,22 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JCacheStorage.
- *
- * @package     Joomla.UnitTest
- * @subpackage  Cache
- *
- * @since       11.1
  */
 class JCacheStorageTest extends TestCase
 {
 	/**
-	 * @var    JCacheStorage
-	 * @access protected
+	 * @var  JCacheStorage
 	 */
 	protected $object;
 
 	/**
-	 * @var errors
-	 * @access protected
-	 */
-	protected static $errors;
-
-	protected $savedErrorState;
-
-	/**
-	 * @var actualError
+	 * @var  array
 	 */
 	protected static $actualError;
 
@@ -59,11 +45,11 @@ class JCacheStorageTest extends TestCase
 	/**
 	 * Receives the callback from JError and logs the required error information for the test.
 	 *
-	 * @param   JException  &$error  The JException object from JError
+	 * @param   JException  $error  The JException object from JError
 	 *
-	 * @return    boolean   To not continue with JError processing
+	 * @return  boolean  To not continue with JError processing
 	 */
-	public static function errorCallback(&$error)
+	public static function errorCallback($error)
 	{
 		self::$actualError['code'] = $error->get('code');
 		self::$actualError['msg'] = $error->get('message');
@@ -79,9 +65,6 @@ class JCacheStorageTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		include_once JPATH_PLATFORM . '/joomla/cache/cache.php';
-		include_once JPATH_PLATFORM . '/joomla/cache/storage.php';
-
 		$this->saveErrorHandlers();
 		$this->setErrorCallback('JCacheStorageTest');
 		self::$actualError = array();

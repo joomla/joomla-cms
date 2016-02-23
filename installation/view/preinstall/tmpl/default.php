@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,12 +10,12 @@ defined('_JEXEC') or die;
 
 /* @var InstallationViewPreinstallHtml $this */
 ?>
-<div class="btn-toolbar">
-	<div class="btn-group pull-right">
-		<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCHECK_AGAIN'); ?>"><span class="icon-refresh icon-white"></span> <?php echo JText::_('JCHECK_AGAIN'); ?></a>
-	</div>
-</div>
 <form action="index.php" method="post" id="languageForm" class="form-horizontal">
+	<div class="btn-toolbar">
+		<div class="btn-group pull-right">
+			<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCHECK_AGAIN'); ?>"><span class="icon-refresh icon-white"></span> <?php echo JText::_('JCHECK_AGAIN'); ?></a>
+		</div>
+	</div>
 	<div class="control-group">
 		<label for="jform_language" class="control-label"><?php echo JText::_('INSTL_SELECT_LANGUAGE_TITLE'); ?></label>
 		<div class="controls">
@@ -104,6 +104,13 @@ defined('_JEXEC') or die;
 					</tr>
 				</tfoot>
 			</table>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="btn-toolbar">
+			<div class="btn-group pull-right">
+				<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCHECK_AGAIN'); ?>"><span class="icon-refresh icon-white"></span> <?php echo JText::_('JCHECK_AGAIN'); ?></a>
+			</div>
 		</div>
 	</div>
 

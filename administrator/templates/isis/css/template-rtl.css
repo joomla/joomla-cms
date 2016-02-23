@@ -4706,6 +4706,9 @@ a.badge:focus {
 .affix {
 	position: fixed;
 }
+@-ms-viewport {
+	width: device-width;
+}
 .hidden {
 	display: none;
 	visibility: hidden;
@@ -7029,7 +7032,7 @@ a:focus {
 	outline: none;
 }
 .view-login {
-	background-color: #10223e;
+	background-color: #17568c;
 	padding-top: 0;
 }
 .view-login .container {
@@ -7271,6 +7274,9 @@ body .navbar-fixed-top {
 	z-index: 100;
 }
 @media (max-width: 767px) {
+	body {
+		-webkit-overflow-scrolling: touch;
+	}
 	.subhead {
 		margin-left: -20px;
 		margin-right: -20px;
@@ -8143,6 +8149,25 @@ body.modal-open {
 	overflow: hidden;
 	-ms-overflow-style: none;
 }
+.field-media-wrapper .modal .modal-body {
+	padding: 5px 10px;
+	overflow: hidden;
+}
+.js-pstats-data-details dd {
+	margin-left: 240px;
+}
+.js-pstats-data-details dt {
+	width: 220px;
+}
+@media (max-width: 767px) {
+	.field-media-wrapper .modal .modal-body {
+		padding: 5px 0;
+	}
+}
+.modal-body {
+	-webkit-overflow-scrolling: touch;
+	overflow-y: auto !important;
+}
 .pull-right {
 	float: left;
 }
@@ -8555,7 +8580,14 @@ body {
 }
 .dl-horizontal dt {
 	float: right;
+	text-align: left;
+	clear: right;
 }
+.dl-horizontal dd {
+	margin-left: 0;
+	margin-right: 180px;
+}
+.dl-horizontal dt
 .profile> ul {
 	margin: 9px 25px 0 0;
 }
@@ -8923,4 +8955,7 @@ a.grid_true {
 	.view-login select {
 		width: 229px;
 	}
+}
+.js-pstats-data-details dd {
+	margin-right: 240px;
 }

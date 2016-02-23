@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -89,6 +89,15 @@ class JViewCategory extends JViewLegacy
 	protected $defaultPageTitle;
 
 	/**
+	 * Whether to run the standard Joomla plugin events.
+	 * Off by default for b/c
+	 *
+	 * @var    bool
+	 * @since  3.5
+	 */
+	protected $runPlugins = false;
+
+	/**
 	 * Method with common display elements used in category list displays
 	 *
 	 * @return  void
@@ -145,7 +154,38 @@ class JViewCategory extends JViewLegacy
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$maxLevel         = $params->get('maxLevel', -1);
+		if ($this->runPlugins)
+		{
+			foreach ($items as $itemElement)
+			{
+				$itemElement = (object) $itemElement;
+				$itemElement->event = new stdClass;
+
+				// For some plugins.
+				!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
+
+				$dispatcher = JEventDispatcher::getInstance();
+				JPluginHelper::importPlugin('content');
+
+				$dispatcher->trigger('onContentPrepare', array ($this->extension . '.category', &$itemElement, &$itemElement->params, 0));
+
+				$results = $dispatcher->trigger('onContentAfterTitle', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
+				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
+
+				$results = $dispatcher->trigger('onContentBeforeDisplay', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
+				$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
+
+				$results = $dispatcher->trigger('onContentAfterDisplay', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
+				$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
+
+				if ($itemElement->text)
+				{
+					$itemElement->description = $itemElement->text;
+				}
+			}
+		}
+
+		$maxLevel         = $params->get('maxLevel', -1) < 0 ? PHP_INT_MAX : $params->get('maxLevel', PHP_INT_MAX);
 		$this->maxLevel   = &$maxLevel;
 		$this->state      = &$state;
 		$this->items      = &$items;

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,8 +22,8 @@ $customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
 
 // Build field
 $attr = array(
-	'id'		=> 'batch-position-id',
-	'list.attr'	=> 'class="chzn-custom-value input-xlarge" '
+	'id'        => 'batch-position-id',
+	'list.attr' => 'class="chzn-custom-value input-xlarge" '
 		. 'data-custom_group_text="' . $customGroupText . '" '
 		. 'data-no_results_text="' . JText::_('COM_MODULES_ADD_CUSTOM_POSITION') . '" '
 		. 'data-placeholder="' . JText::_('COM_MODULES_TYPE_OR_SELECT_POSITION') . '" '

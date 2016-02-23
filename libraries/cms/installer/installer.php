@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -265,7 +265,7 @@ class JInstaller extends JAdapter
 	/**
 	 * Get the installation manifest object
 	 *
-	 * @return  object  Manifest object
+	 * @return  SimpleXMLElement  Manifest object
 	 *
 	 * @since   3.1
 	 */
@@ -945,6 +945,23 @@ class JInstaller extends JAdapter
 
 					if ($query != '' && $query{0} != '#')
 					{
+						/**
+						 * If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
+						 *
+						 * Note: the JDatabaseDriver::convertUtf8mb4QueryToUtf8 performs the conversion ONLY when
+						 * necessary, so there's no need to check the conditions in JInstaller.
+						 */
+						$query = $db->convertUtf8mb4QueryToUtf8($query);
+
+						/**
+						 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
+						 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.
+						 */
+						if (!$db->hasUTF8mb4Support() && stristr($query, 'CONVERT TO CHARACTER SET utf8 '))
+						{
+							continue;
+						}
+
 						$db->setQuery($query);
 
 						if (!$db->execute())
@@ -1933,7 +1950,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @param   string  $file  An xmlfile path to check
 	 *
-	 * @return  mixed  A SimpleXMLElement, or null if the file failed to parse
+	 * @return  SimpleXMLElement|null  A SimpleXMLElement, or null if the file failed to parse
 	 *
 	 * @since   3.1
 	 */
@@ -2206,6 +2223,7 @@ class JInstaller extends JAdapter
 
 	/**
 	 * Fetches an adapter and adds it to the internal storage if an instance is not set
+	 * while also ensuring its a valid adapter name
 	 *
 	 * @param   string  $name     Name of adapter to return
 	 * @param   array   $options  Adapter options
@@ -2218,17 +2236,14 @@ class JInstaller extends JAdapter
 	 */
 	public function getAdapter($name, $options = array())
 	{
-		$adapter = $this->loadAdapter($name, $options);
+		$this->getAdapters($options);
 
-		if (!array_key_exists($name, $this->_adapters))
+		if (!$this->setAdapter($name, $this->_adapters[$name]))
 		{
-			if (!$this->setAdapter($name, $adapter))
-			{
-				return false;
-			}
+			return false;
 		}
 
-		return $adapter;
+		return $this->_adapters[$name];
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,14 +38,15 @@ class JHtmlRedirect
 		}
 
 		// Array of image, task, title, action
-		$states	= array(
-			1	=> array('publish',		'links.unpublish',	'JENABLED',	'COM_REDIRECT_DISABLE_LINK'),
-			0	=> array('unpublish',	'links.publish',		'JDISABLED',	'COM_REDIRECT_ENABLE_LINK'),
-			2	=> array('archive',	'links.unpublish',	'JARCHIVED',	'JUNARCHIVE'),
-			-2	=> array('trash',		'links.publish',		'JTRASHED',	'COM_REDIRECT_ENABLE_LINK'),
+		$states = array(
+			1  => array('publish', 'links.unpublish', 'JENABLED', 'COM_REDIRECT_DISABLE_LINK'),
+			0  => array('unpublish', 'links.publish', 'JDISABLED', 'COM_REDIRECT_ENABLE_LINK'),
+			2  => array('archive', 'links.unpublish', 'JARCHIVED', 'JUNARCHIVE'),
+			-2 => array('trash', 'links.publish', 'JTRASHED', 'COM_REDIRECT_ENABLE_LINK'),
 		);
-		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$icon	= $state[0];
+
+		$state = JArrayHelper::getValue($states, (int) $value, $states[0]);
+		$icon  = $state[0];
 
 		if ($canChange)
 		{

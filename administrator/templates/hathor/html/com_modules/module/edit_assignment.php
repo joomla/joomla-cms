@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,8 +19,8 @@ JFactory::getDocument()->addScriptDeclaration("
 		document.getElements('select').addEvent('change', function(e){validate();});
 	});
 	function validate(){
-		var value	= document.id('jform_assignment').value;
-		var list	= document.id('menu-assignment');
+		var value = document.id('jform_assignment').value;
+		var list  = document.id('menu-assignment');
 		if (value == '-' || value == '0'){
 			$$('.jform-assignments-button').each(function(el) {el.setProperty('disabled', true); });
 			list.getElements('input').each(function(el){
@@ -91,19 +91,17 @@ JFactory::getDocument()->addScriptDeclaration("
 
 				<div class="clr"></div>
 
-				<?php
-				$count 	= count($type->links);
-				$i		= 0;
-				if ($count) :
-				?>
+				<?php $count = count($type->links); ?>
+				<?php $i     = 0; ?>
+				<?php if ($count) : ?>
 				<ul class="menu-links">
 					<?php
 					foreach ($type->links as $link) :
-						if (trim($this->item->assignment) == '-'):
+						if (trim($this->item->assignment) == '-') :
 							$checked = '';
-						elseif ($this->item->assignment == 0):
+						elseif ($this->item->assignment == 0) :
 							$checked = ' checked="checked"';
-						elseif ($this->item->assignment < 0):
+						elseif ($this->item->assignment < 0) :
 							$checked = in_array(-$link->value, $this->item->assigned) ? ' checked="checked"' : '';
 						elseif ($this->item->assignment > 0) :
 							$checked = in_array($link->value, $this->item->assigned) ? ' checked="checked"' : '';

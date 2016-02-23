@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filter Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -224,7 +224,7 @@ class InputFilter
 				break;
 
 			case 'PATH':
-				$pattern = '/^[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
+				$pattern = '/^[A-Za-z0-9_\/-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
 				preg_match($pattern, (string) $source, $matches);
 				$result = isset($matches[0]) ? (string) $matches[0] : '';
 				break;

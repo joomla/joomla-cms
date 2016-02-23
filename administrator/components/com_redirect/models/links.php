@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,6 +39,34 @@ class RedirectModelLinks extends JModelList
 		}
 
 		parent::__construct($config);
+	}
+	/**
+	 * Removes all of the unpublished redirects from the table.
+	 *
+	 * @return  boolean result of operation
+	 *
+	 * @since   3.5
+	 */
+	public function purge()
+	{
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true);
+
+		$query->delete('#__redirect_links')->where($db->qn('published') . '= 0');
+
+		$db->setQuery($query);
+
+		try
+		{
+			$db->execute();
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -140,9 +168,9 @@ class RedirectModelLinks extends JModelList
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where(
 					'(' . $db->quoteName('old_url') . ' LIKE ' . $search .
-						' OR ' . $db->quoteName('new_url') . ' LIKE ' . $search .
-						' OR ' . $db->quoteName('comment') . ' LIKE ' . $search .
-						' OR ' . $db->quoteName('referer') . ' LIKE ' . $search . ')'
+					' OR ' . $db->quoteName('new_url') . ' LIKE ' . $search .
+					' OR ' . $db->quoteName('comment') . ' LIKE ' . $search .
+					' OR ' . $db->quoteName('referer') . ' LIKE ' . $search . ')'
 				);
 			}
 		}

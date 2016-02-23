@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -173,7 +173,7 @@ $this->direction = $doc->direction;
 				<div id="footer">
 				<p>
 					<?php echo JText::_('TPL_BEEZ3_POWERED_BY'); ?>
-					<a href="http://www.joomla.org/">
+					<a href="https://www.joomla.org/">
 						Joomla!&#174;
 					</a>
 				</p>

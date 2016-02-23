@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -444,6 +444,12 @@ class ContentModelArticle extends JModelAdmin
 			}
 		}
 
+		// If there are params fieldsets in the form it will fail with a registry object
+		if (isset($data->params) && $data->params instanceof Registry)
+		{
+			$data->params = $data->params->toArray();
+		}
+
 		$this->preprocessData('com_content.article', $data);
 
 		return $data;
@@ -460,8 +466,8 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$input = JFactory::getApplication()->input;
-		$filter  = JFilterInput::getInstance();
+		$input  = JFactory::getApplication()->input;
+		$filter = JFilterInput::getInstance();
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
@@ -477,21 +483,34 @@ class ContentModelArticle extends JModelAdmin
 		{
 			$registry = new Registry;
 			$registry->loadArray($data['images']);
+
 			$data['images'] = (string) $registry;
 		}
 
 		if (isset($data['urls']) && is_array($data['urls']))
 		{
+			$check = $input->post->get('jform', array(), 'array');
+
 			foreach ($data['urls'] as $i => $url)
 			{
 				if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc'))
 				{
-					$data['urls'][$i] = JStringPunycode::urlToPunycode($url);
+					if (preg_match('~^#[a-zA-Z]{1}[a-zA-Z0-9-_:.]*$~', $check['urls'][$i]) == 1)
+					{
+						$data['urls'][$i] = $check['urls'][$i];
+					}
+					else
+					{
+						$data['urls'][$i] = JStringPunycode::urlToPunycode($url);
+					}
 				}
 			}
 
+			unset($check);
+
 			$registry = new Registry;
 			$registry->loadArray($data['urls']);
+
 			$data['urls'] = (string) $registry;
 		}
 

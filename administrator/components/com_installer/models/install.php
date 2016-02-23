@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -174,7 +174,7 @@ class InstallerModelInstall extends JModelLegacy
 		$dispatcher->trigger('onInstallerAfterInstaller', array($this, &$package, $installer, &$result, &$msg));
 
 		// Set some model state values.
-		$app	= JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$app->enqueueMessage($msg, $msgType);
 		$this->setState('name', $installer->get('name'));
 		$this->setState('result', $result);
@@ -262,9 +262,9 @@ class InstallerModelInstall extends JModelLegacy
 		}
 
 		// Build the appropriate paths.
-		$config		= JFactory::getConfig();
-		$tmp_dest	= $config->get('tmp_path') . '/' . $userfile['name'];
-		$tmp_src	= $userfile['tmp_name'];
+		$config   = JFactory::getConfig();
+		$tmp_dest = $config->get('tmp_path') . '/' . $userfile['name'];
+		$tmp_src  = $userfile['tmp_name'];
 
 		// Move uploaded file.
 		jimport('joomla.filesystem.file');

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,12 +43,12 @@ abstract class ContactHelperRoute
 
 		if ($catid > 1)
 		{
-			$categories	= JCategories::getInstance('Contact');
-			$category	= $categories->get($catid);
+			$categories = JCategories::getInstance('Contact');
+			$category   = $categories->get($catid);
 
 			if ($category)
 			{
-				$needles['category'] = array_reverse($category->getPath());
+				$needles['category']   = array_reverse($category->getPath());
 				$needles['categories'] = $needles['category'];
 				$link .= '&catid=' . $catid;
 			}
