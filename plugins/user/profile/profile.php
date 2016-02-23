@@ -263,7 +263,7 @@ class PlgUserProfile extends JPlugin
 
 		if ($app->isSite() || $name == 'com_users.user' || $name == 'com_admin.profile')
 		{
-			foreach($fields as $field)
+			foreach ($fields as $field)
 			{
 				$form->setFieldAttribute(
 					$field,
