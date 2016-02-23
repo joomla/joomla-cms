@@ -51,13 +51,13 @@ class JFormFieldCategory extends JFormFieldList
 			$filters = array();
 			if ($published)
 			{
-				$filters['filter.published'] =  explode(',', $published);
+				$filters['filter.published'] = explode(',', $published);
 			}
 
 			// Filter over language depending upon if it is present.
 			if ($language)
 			{
-				$filters['filter.language'] =  explode(',', $language);
+				$filters['filter.language'] = explode(',', $language);
 			}
 
 			if ($filters === array())
