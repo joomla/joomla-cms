@@ -865,7 +865,7 @@ class JApplicationWeb extends JApplicationBase
 			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		}
 		// If not in "Apache Mode" we will assume that we are in an IIS environment and proceed.
-		else if (isset($_SERVER['HTTP_HOST']))
+		elseif (isset($_SERVER['HTTP_HOST']))
 		{
 			// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
 			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
