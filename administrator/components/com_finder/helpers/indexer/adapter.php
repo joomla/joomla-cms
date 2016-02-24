@@ -119,7 +119,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * @since  2.5
 	 */
 	protected $state_field = 'state';
-	
+
 	/**
 	 * The field the identifier is stored in.
 	 *
