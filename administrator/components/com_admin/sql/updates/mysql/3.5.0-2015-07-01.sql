@@ -1,19 +1,25 @@
 -- WARNING: Do not rename this file with a different date. It MUST run before any other table updates when upgrading to Joomla! 3.5.0
 
 -- Index and field changes to cater for UTF-8 Multibyte (utf8mb4)
-ALTER TABLE `#__categories` DROP KEY `idx_alias`, ADD KEY `idx_alias` (`alias`(100));
+ALTER TABLE `#__categories` DROP INDEX `idx_alias`;
+ALTER TABLE `#__categories` ADD INDEX `idx_alias` (`alias`(100));
 
-ALTER TABLE `#__menu` DROP KEY `idx_alias`, ADD KEY `idx_alias` (`alias`(100));
+ALTER TABLE `#__menu` DROP INDEX `idx_alias`;
+ALTER TABLE `#__menu` ADD INDEX `idx_alias` (`alias`(100));
 
-ALTER TABLE `#__menu` DROP KEY `idx_client_id_parent_id_alias_language`, ADD UNIQUE KEY `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`(100),`language`);
+ALTER TABLE `#__menu` DROP INDEX `idx_client_id_parent_id_alias_language`;
+ALTER TABLE `#__menu` ADD UNIQUE `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`(100),`language`);
 
-ALTER TABLE `#__redirect_links` DROP KEY `idx_link_old`, ADD UNIQUE KEY `idx_link_old` (`old_url`(100));
+ALTER TABLE `#__redirect_links` DROP INDEX `idx_link_old`;
+ALTER TABLE `#__redirect_links` ADD UNIQUE `idx_link_old` (`old_url`(100));
 
 ALTER TABLE `#__session` MODIFY `session_id` varchar(191) NOT NULL DEFAULT '';
 
-ALTER TABLE `#__tags` DROP KEY `idx_alias`, ADD KEY `idx_alias` (`alias`(100));
+ALTER TABLE `#__tags` DROP INDEX `idx_alias`;
+ALTER TABLE `#__tags` ADD INDEX `idx_alias` (`alias`(100));
 
-ALTER TABLE `#__ucm_content` DROP KEY `idx_alias`, ADD KEY `idx_alias` (`core_alias`(100));
+ALTER TABLE `#__ucm_content` DROP INDEX `idx_alias`;
+ALTER TABLE `#__ucm_content` ADD INDEX `idx_alias` (`core_alias`(100));
 
 ALTER TABLE `#__user_keys` MODIFY `series` varchar(191) NOT NULL;
 
