@@ -71,17 +71,62 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 			}
 			elseif ($alterCommand == 'ADD INDEX' || $alterCommand == 'ADD UNIQUE')
 			{
-				if ($pos = strpos($wordArray[5], '('))
+				$this->queryType = 'ADD_INDEX';
+				$additionalQueryParams = '';
+
+				// Search for the index name and any column constraints
+				if (preg_match('/.*?`(.*?)`.*?\((.*)\)/m', $wordArray[5], $regs))
 				{
-					$index = $this->fixQuote(substr($wordArray[5], 0, $pos));
+					$index   = $regs[1];
+					$columns = explode(',', $regs[2]);
+
+					// If we have any columns specified now loop over them
+					foreach($columns as $column)
+					{
+						$indexColumn                 = null;
+						$indexColumnLengthConstraint = null;
+
+						/**
+						 * We might have a length constraint on the index. If we do then we need to find it and
+						 * add it into the query as we might be altering an existing index.
+						 */
+						if (preg_match('/`(.*?)`.*?(?:\((.*)\))?/m', $column, $columnResult))
+						{
+							$indexColumn = $this->fixQuote($columnResult[1]);
+
+							// Let's check if we have a length constraint on this column
+							if (isset($columnResult[2]))
+							{
+								$indexColumnLengthConstraint = $columnResult[2];
+							}
+						}
+
+						// If we have a column set with a length constraint then set it
+						if ($indexColumn && $indexColumnLengthConstraint)
+						{
+							// Search for the Column_name AND the Sub_part of that column name
+							$additionalQueryParams .= '';
+						}
+						// If we only have a column set
+						elseif($indexColumn)
+						{
+							// Search for the Column_name only
+							$additionalQueryParams .= '';
+						}
+					}
 				}
 				else
 				{
-					$index = $this->fixQuote($wordArray[5]);
+					/**
+					 * We have a add index query - but not in a format we recognize. Mark it as skipped
+					 * and end here
+					 */
+					$this->checkStatus = -1;
+
+					return;
 				}
 
-				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
-				$this->queryType = 'ADD_INDEX';
+				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $this->fixQuote($index) . $additionalQueryParams;
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
 			elseif ($alterCommand == 'DROP INDEX')
