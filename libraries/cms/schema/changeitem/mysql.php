@@ -361,8 +361,8 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 
 				if ($idxCollation < $idxEnd)
 				{
-					if ((strtoupper($wordArray[$idxCurr+1]) == 'SET')
-						&& (strtoupper($wordArray[$idxCurr+3]) == 'COLLATE'))
+					if ((strtoupper($wordArray[$idxCurr + 1]) == 'SET')
+						&& (strtoupper($wordArray[$idxCurr + 3]) == 'COLLATE'))
 					{
 						$coll = $this->fixQuote($wordArray[$idxCollation]);
 						if ($doUtf8mb4)
