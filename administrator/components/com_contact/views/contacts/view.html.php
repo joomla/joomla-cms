@@ -102,9 +102,6 @@ class ContactViewContacts extends JViewLegacy
 		}
 		else
 		{
-			// Remove some filters that are not needed in articles list modal view.
-			$this->filterForm->removeField('tag', 'filter');
-
 			// In article associations modal we need to remove language filter if forcing a language.
 			// We also need to change the category filter to show show categories with All or the forced language.
 			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
