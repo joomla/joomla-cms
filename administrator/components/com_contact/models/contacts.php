@@ -78,10 +78,18 @@ class ContactModelContacts extends JModelList
 	{
 		$app = JFactory::getApplication();
 
+		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
+
 		// Adjust the context to support modal layouts.
 		if ($layout = $app->input->get('layout'))
 		{
 			$this->context .= '.' . $layout;
+		}
+
+		// Adjust the context to support forced languages.
+		if ($forcedLanguage)
+		{
+			$this->context .= '.' . $forcedLanguage;
 		}
 
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
@@ -95,7 +103,7 @@ class ContactModelContacts extends JModelList
 		parent::populateState($ordering, $direction);
 
 		// Force a language.
-		if ($forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd'))
+		if (!empty($forcedLanguage))
 		{
 			$this->setState('filter.language', $forcedLanguage);
 		}
