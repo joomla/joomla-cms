@@ -76,11 +76,11 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 			}
 			elseif ($alterCommand == 'ADD INDEX' || $alterCommand == 'ADD KEY')
 			{
-				$checkArray = $this->getIndexDetails($wordArray, 5);
+				$checkArray = $this->getIndexDetails($wordArray, 5, false);
 
 				if (count($checkArray) == 2)
 				{
-					$result = 'SHOW INDEXES IN ' . $wordArray[2] . $checkArray[0];
+					$result = $checkArray[0];
 					$this->queryType = 'ADD_INDEX';
 					$this->msgElements = array($this->fixQuote($wordArray[2]), $checkArray[1]);
 				}
@@ -99,17 +99,18 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 					$idxKey = 5;
 				}
 
-				$checkArray = $this->getIndexDetails($wordArray, $idxKey);
+				$checkArray = $this->getIndexDetails($wordArray, $idxKey, false);
 
 				if (count($checkArray) == 2)
 				{
-					$result = 'SHOW INDEXES IN ' . $wordArray[2] . $checkArray[0];
+					$result = $checkArray[0];
 					$this->queryType = 'ADD_INDEX';
 					$this->msgElements = array($this->fixQuote($wordArray[2]), $checkArray[1]);
 				}
 			}
 			elseif ($alterCommand == 'DROP INDEX' || $alterCommand == 'DROP KEY')
 			{
+				$isDropOnly = true;
 				$posIdx = 5;
 				$posCheck = 0;
 
@@ -164,12 +165,14 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 
 						if ($testWord == 'INDEX' || $testWord == 'KEY')
 						{
+							$isDropOnly = false;
 							$posIdx = $posCheck + 1;
 						}
 						elseif ($testWord == 'UNIQUE')
 						{
 							$posCheck++;
 
+							$isDropOnly = false;
 							$posIdx = $posCheck;
 
 							if (isset($wordArray[$posCheck]))
@@ -185,21 +188,21 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 					}
 				}
 
-				$checkArray = $this->getIndexDetails($wordArray, $posIdx);
+				$checkArray = $this->getIndexDetails($wordArray, $posIdx, $isDropOnly);
 
 				if (count($checkArray) == 2)
 				{
-					$result = 'SHOW INDEXES IN ' . $wordArray[2] . $checkArray[0];
+					$result = $checkArray[0];
 					$this->msgElements = array($this->fixQuote($wordArray[2]), $checkArray[1]);
 
-					if ($posIdx > 5)
-					{
-						$this->queryType = 'ADD_INDEX';
-					}
-					else
+					if ($isDropOnly)
 					{
 						$this->queryType = 'DROP_INDEX';
 						$this->checkQueryExpected = 0;
+					}
+					else
+					{
+						$this->queryType = 'ADD_INDEX';
 					}
 				}
 			}
@@ -378,6 +381,25 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 					}
 				}
 			}
+			/* elseif (strtoupper($wordArray[$idxCurr]) == 'COMMENT')
+			{
+				$idxCurr++;
+
+				if (isset($wordArray[$idxCurr]))
+				{
+					$com = str_replace(';', '', $wordArray[$idxCurr]);
+
+					if ($com != '\'\'')
+					{
+						$com = $this->fixQuote($com);
+					}
+
+					$condition = $condition
+						. ' AND ' . $this->db->quoteName('comment') . ' = ' . $com;
+
+					$attrMessage = $attrMessage . ' COMMENT=' . $com;
+				}
+			}
 			elseif (strtoupper($wordArray[$idxCurr]) == 'DEFAULT')
 			{
 				$idxCurr++;
@@ -396,7 +418,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 
 					$attrMessage = $attrMessage . ' DEFAULT=' . $def;
 				}
-			}
+			} */
 			elseif (strtoupper($wordArray[$idxCurr]) == 'NOT')
 			{
 				$idxCurr++;
@@ -430,51 +452,130 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 
 		if ($attrMessage != '')
 		{
-			return array($condition, $type . ', ' . $attrMessage);
+			return array($condition, $type . ' ' . $attrMessage);
 		}
 
 		return array($condition, $type);
 	}
 
 	/**
-	 * Get check query conditions and msg elements for index details 
+	 * Get check query and msg elements for index details 
 	 * from the update query's words array.
 	 *
 	 * @param   array    $wordArray  Array with the update query's words
 	 * @param   integer  $idxStart   Index of $wordArray where to start
+	 * @param   boolean  $isDrop     Flag if drop index so no details
 	 *
 	 * @return  array    Array of strings with
-	 *                     [0] = condition appended to the check query,
+	 *                     [0] = check query,
 	 *                     [1] = parameter for the message text
 	 *
 	 * @since   3.5
 	 */
-	private function getIndexDetails(array $wordArray, $idxStart)
+	private function getIndexDetails(array $wordArray, $idxStart, $isDrop)
 	{
 		if (!isset($wordArray[$idxStart]))
 		{
 			return array();
 		}
 
-		$idxCurr = $idxStart + 1;
+		$firstBracketPos = 0;
+		$removeFirstBracket = false;
 
 		if ($pos = strpos($wordArray[$idxStart], '('))
 		{
 			$index = $this->fixQuote(substr($wordArray[$idxStart], 0, $pos));
+
+			if (!$isDrop)
+			{
+				if ($pos < (strlen($wordArray[$idxStart]) - 2))
+				{
+					$idxListStart = $idxStart;
+					$firstBracketPos = $pos;
+					$removeFirstBracket = true;
+				}
+				else
+				{
+					$idxListStart = $idxStart + 1;
+				}
+			}
 		}
 		else
 		{
 			$index = $this->fixQuote($wordArray[$idxStart]);
+
+			if (!$isDrop)
+			{
+				$idxListStart = $idxStart + 1;
+
+				if (isset($wordArray[$idxListStart]))
+				{
+					if ($wordArray[$idxListStart] == '(')
+					{
+						$idxListStart++;
+					}
+					elseif (substr($wordArray[$idxListStart], 0, 1) == '(')
+					{
+						$removeFirstBracket = true;
+					}
+				}
+			}
 		}
 
-		$condition = ' WHERE ' . $this->db->quoteName('key_name') . ' = ' . $index;
-
-		// If no optional index attributes all is done
-		if (!isset($wordArray[$idxCurr]))
+		// Drop statement: No column list to be checked
+		if ($isDrop)
 		{
-			return array($condition, $index);
+			return array('SHOW INDEXES IN ' . $wordArray[2]
+				. ' WHERE ' . $this->db->quoteName('key_name') . ' = ' . $index,
+				$index);
 		}
 
-		return array($condition, $index);
+		$tmpArray = array();
+
+		$tmpStr = $wordArray[$idxListStart];
+		if ($removeFirstBracket)
+		{
+			$tmpStr = substr($tmpStr, 0, $firstBracketPos + 1);
+		}
+		$tmpStr = str_replace(' ', '', $tmpStr);
+		$tmpStr = str_replace('`', '', $tmpStr);
+		$tmpArray[] = $tmpStr;
+
+		for ($i = $idxListStart + 1; $i < count($wordArray); $i++)
+		{
+			$tmpStr = $wordArray[$i];
+			$tmpStr = str_replace(' ', '', $tmpStr);
+			$tmpStr = str_replace('`', '', $tmpStr);
+			$tmpArray[] = $tmpStr;
+		}
+
+		$colList = implode($tmpArray);
+
+		if (substr($colList, -1) == ';')
+		{
+			$colList = substr($colList, 0, -1);
+		}
+
+		// Invalid column list, no closing bracket
+		if (substr($colList, -1) != ')')
+		{
+			return array();
+		}
+
+		$colList = substr($colList, 0, strlen($colList) - 1);
+
+		return array(
+			'SELECT s.`index_name` FROM ('
+				. 'SELECT `table_name`, `index_name`,'
+				. ' GROUP_CONCAT('
+					. 'LOWER(IFNULL(CONCAT(`column_name`, ' . $this->db->quote('(')
+						. ' ,`sub_part`, ' . $this->db->quote(')') . '), `column_name`))'
+					. ' ORDER BY seq_in_index) AS `col_list`'
+				. ' FROM information_schema.statistics'
+				. ' WHERE `table_name` = ' . $this->fixQuote($wordArray[2])
+				. ' AND `index_name` = ' . $index
+				. ' GROUP BY `table_name`,`index_name`) AS s'
+			. ' WHERE s.`col_list` = ' . $this->db->quote($colList),
+			$index . '(' . $colList . ')');
 	}
 }
