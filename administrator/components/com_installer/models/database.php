@@ -63,9 +63,6 @@ class InstallerModelDatabase extends InstallerModel
 		$installer = new JoomlaInstallerScript;
 		$installer->deleteUnexistingFiles();
 		$this->fixDefaultTextFilters();
-
-		// Finally, make sure the database is converted to utf8mb4 if supported by the server
-		$this->convertTablesToUtf8mb4();
 	}
 
 	/**
@@ -246,54 +243,6 @@ class InstallerModelDatabase extends InstallerModel
 				$table->store();
 
 				return true;
-			}
-		}
-	}
-
-	/**
-	 * Converts the site's database tables to support UTF-8 Multibyte
-	 *
-	 * @return  void
-	 *
-	 * @since   3.5
-	 */
-	public function convertTablesToUtf8mb4()
-	{
-		$db = JFactory::getDbo();
-
-		// If the database does not have UTF-8 Multibyte (utf8mb4) support we can't do much about it.
-		if (!$db->hasUTF8mb4Support())
-		{
-			return;
-		}
-
-		// Get the SQL file to convert the core tables. Yes, this is hardcoded because we have all sorts of index
-		// conversions and funky things we can't automate in core tables without an actual SQL file.
-		$serverType = $db->getServerType();
-		$fileName = JPATH_ADMINISTRATOR . "/components/com_admin/sql/updates/$serverType/3.5.0-2015-07-01.sql";
-
-		if (!is_file($fileName))
-		{
-			return;
-		}
-
-		$fileContents = @file_get_contents($fileName);
-		$queries = $db->splitSql($fileContents);
-
-		if (empty($queries))
-		{
-			return;
-		}
-
-		foreach ($queries as $query)
-		{
-			try
-			{
-				$db->setQuery($query)->execute();
-			}
-			catch (Exception $e)
-			{
-				// If the query fails we will go on. It probably means we've already done this conversion.
 			}
 		}
 	}
