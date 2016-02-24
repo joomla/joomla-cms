@@ -44,7 +44,6 @@ class CategoriesModelCategories extends JModelList
 				'level', 'a.level',
 				'path', 'a.path',
 				'tag',
-				'association'
 			);
 		}
 
