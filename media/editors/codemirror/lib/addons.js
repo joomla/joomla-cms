@@ -1650,6 +1650,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
   "use strict";
   var WRAP_CLASS = "CodeMirror-activeline";
   var BACK_CLASS = "CodeMirror-activeline-background";
+  var GUTT_CLASS = "CodeMirror-activeline-gutter";
 
   CodeMirror.defineOption("styleActiveLine", false, function(cm, val, old) {
     var prev = old && old != CodeMirror.Init;
@@ -1668,6 +1669,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     for (var i = 0; i < cm.state.activeLines.length; i++) {
       cm.removeLineClass(cm.state.activeLines[i], "wrap", WRAP_CLASS);
       cm.removeLineClass(cm.state.activeLines[i], "background", BACK_CLASS);
+      cm.removeLineClass(cm.state.activeLines[i], "gutter", GUTT_CLASS);
     }
   }
 
@@ -1692,6 +1694,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       for (var i = 0; i < active.length; i++) {
         cm.addLineClass(active[i], "wrap", WRAP_CLASS);
         cm.addLineClass(active[i], "background", BACK_CLASS);
+        cm.addLineClass(active[i], "gutter", GUTT_CLASS);
       }
       cm.state.activeLines = active;
     });
@@ -1868,6 +1871,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     { keys: 'v', type: 'action', action: 'toggleVisualMode' },
     { keys: 'V', type: 'action', action: 'toggleVisualMode', actionArgs: { linewise: true }},
     { keys: '<C-v>', type: 'action', action: 'toggleVisualMode', actionArgs: { blockwise: true }},
+    { keys: '<C-q>', type: 'action', action: 'toggleVisualMode', actionArgs: { blockwise: true }},
     { keys: 'gv', type: 'action', action: 'reselectLastSelection' },
     { keys: 'J', type: 'action', action: 'joinLines', isEdit: true },
     { keys: 'p', type: 'action', action: 'paste', isEdit: true, actionArgs: { after: true, isEdit: true }},
@@ -2384,6 +2388,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       map: function(lhs, rhs, ctx) {
         // Add user defined key bindings.
         exCommandDispatcher.map(lhs, rhs, ctx);
+      },
+      unmap: function(lhs, ctx) {
+        exCommandDispatcher.unmap(lhs, ctx);
       },
       // TODO: Expose setOption and getOption as instance methods. Need to decide how to namespace
       // them, or somehow make them work with the existing CodeMirror setOption/getOption API.

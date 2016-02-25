@@ -50,10 +50,11 @@ class JLogEntryTest extends PHPUnit_Framework_TestCase
 		);
 
 		// Date.
-		$this->assertThat(
-			$tmp->date->toISO8601(),
-			$this->equalTo($date->toISO8601()),
-			'Line: ' . __LINE__ . '.'
+		$this->assertEquals(
+			$tmp->date->getTimestamp(),
+			$date->getTimestamp(),
+			'Line: ' . __LINE__ . '.',
+			1
 		);
 	}
 
