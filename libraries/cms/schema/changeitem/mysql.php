@@ -574,7 +574,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 						. ' ,`sub_part`, ' . $this->db->quote(')') . '), `column_name`))'
 					. ' ORDER BY seq_in_index) AS `col_list`'
 				. ' FROM information_schema.statistics'
-				. ' WHERE `table_schema`= ' . $this->db->quote($dbname)
+				. ' WHERE `table_schema` = ' . $this->db->quote($dbname)
 				. ' AND `table_name` = ' . $this->fixQuote($wordArray[2])
 				. ' AND `index_name` = ' . $index
 				. ' GROUP BY `table_name`,`index_name`) AS s'
