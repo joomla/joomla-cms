@@ -33,9 +33,9 @@ if ($data['view'] instanceof ModulesViewModules && JFactory::getApplication()->i
 		}
 	");
 
-	// Menutype filter doesn't have to activate the filter bar
+	// Client selector doesn't have to activate the filter bar.
 	unset($data['view']->activeFilters['client_id']);
 }
 
-// Display the main joomla layout
+// Display the main joomla layout.
 echo JLayoutHelper::render('joomla.searchtools.default', $data, null, array('component' => 'none'));
