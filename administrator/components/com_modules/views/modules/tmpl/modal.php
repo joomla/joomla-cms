@@ -25,19 +25,18 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 
 JFactory::getDocument()->addScriptDeclaration('
-	        moduleIns = function(type, name) {
-	            var extraVal ,fieldExtra = jQuery("#extra_class");
-	            extraVal = (fieldExtra.length && fieldExtra.val().length) ? "," + fieldExtra.val() : "";
-	            parent.window.jInsertEditorText("{loadmodule " + type + "," + name + extraVal + "}", "' . $editor . '");
-	            parent.window.jModalClose();
-	        }
-	        modulePosIns = function(position) {
-	            var extraVal ,fieldExtra = jQuery("#extra_class");
-	            extraVal = (fieldExtra.length && fieldExtra.val().length) ? "," + fieldExtra.val() : "";
-	            parent.window.jInsertEditorText("{loadposition " + position +  extraVal  + "}", "' . $editor . '");
-	            parent.window.jModalClose();
-	        }
-');
+moduleIns = function(type, name) {
+	var extraVal ,fieldExtra = jQuery("#extra_class");
+	extraVal = (fieldExtra.length && fieldExtra.val().length) ? "," + fieldExtra.val() : "";
+	window.parent.jInsertEditorText("{loadmodule " + type + "," + name + extraVal + "}", "' . $editor . '");
+	window.parent.jModalClose();
+};
+modulePosIns = function(position) {
+	var extraVal ,fieldExtra = jQuery("#extra_class");
+	extraVal = (fieldExtra.length && fieldExtra.val().length) ? "," + fieldExtra.val() : "";
+	window.parent.jInsertEditorText("{loadposition " + position +  extraVal  + "}", "' . $editor . '");
+	window.parent.jModalClose();
+};');
 ?>
 <div style="padding-top: 25px;"></div>
 <form action="<?php echo JRoute::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">

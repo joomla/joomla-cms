@@ -49,6 +49,11 @@ class ModulesViewModules extends JViewLegacy
 		{
 			$this->addToolbar();
 		}
+		else
+		{
+			// If in modal layout client id selector should not exist.
+			$this->filterForm->removeField('client_id', '');
+		}
 
 		// Include the component HTML helpers.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');

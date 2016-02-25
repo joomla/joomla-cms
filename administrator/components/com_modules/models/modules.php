@@ -82,23 +82,28 @@ class ModulesModelModules extends JModelList
 		$this->setState('filter.module', $this->getUserStateFromRequest($this->context . '.filter.module', 'filter_module', '', 'string'));
 		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'string'));
 
-		// If in modal layout on the frontend, state, client and language are always forced.
+		// If in modal layout on the frontend, state and language are always forced.
 		if ($app->isSite() && $layout === 'modal')
 		{
 			$this->setState('filter.language', 'current');
 			$this->setState('filter.state', 1);
-			$this->setState('client_id', 0);
 		}
 		// If in backend (modal or not) we get the same fields from the user request.
 		else
 		{
 			$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'cmd'));
 			$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', null, 'int'));
+		}
 
-			// Special case for the client id.
+		// Special case for the client id.
+		if ($app->isSite() || $layout === 'modal')
+		{
+			$this->setState('client_id', 0);
+		}
+		else
+		{
 			$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
 			$clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
-			$clientId = ($layout === 'modal') ? 0 : $clientId;
 			$this->setState('client_id', $clientId);
 		}
 
@@ -175,14 +180,14 @@ class ModulesModelModules extends JModelList
 		}
 
 		// If ordering by fields that doesn't need translate just order the query.
-		if ($listOrder == 'a.ordering')
+		if ($listOrder === 'a.ordering')
 		{
 			$query->order($this->_db->quoteName('a.position') . ' ASC')
-				->order($this->_db->quoteName('a.ordering') . ' ' . $this->_db->escape($listDirn));
+				->order($this->_db->quoteName($listOrder) . ' ' . $this->_db->escape($listDirn));
 		}
-		elseif ($listOrder == 'a.position')
+		elseif ($listOrder === 'a.position')
 		{
-			$query->order($this->_db->quoteName('a.position') . ' ' . $this->_db->escape($listDirn))
+			$query->order($this->_db->quoteName($listOrder) . ' ' . $this->_db->escape($listDirn))
 				->order($this->_db->quoteName('a.ordering') . ' ASC');
 		}
 		else
@@ -292,10 +297,8 @@ class ModulesModelModules extends JModelList
 			);
 
 		// Filter by client.
-		if ($clientId = $this->getState('client_id'))
-		{
-			$query->where($db->quoteName('a.client_id') . ' = ' . (int) $clientId . ' AND ' . $db->quoteName('e.client_id') . ' = ' . (int) $clientId);
-		}
+		$clientId = $this->getState('client_id');
+		$query->where($db->quoteName('a.client_id') . ' = ' . (int) $clientId . ' AND ' . $db->quoteName('e.client_id') . ' = ' . (int) $clientId);
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
