@@ -49,10 +49,18 @@ class ModulesViewModules extends JViewLegacy
 		{
 			$this->addToolbar();
 		}
+		// If in modal layout.
 		else
 		{
-			// If in modal layout client id selector should not exist.
+			// Client id selector should not exist.
 			$this->filterForm->removeField('client_id', '');
+
+			// If in the frontend state and language should not activate the search tools..
+			if (JFactory::getApplication()->isSite())
+			{
+				unset($this->activeFilters['state']);
+				unset($this->activeFilters['language']);
+			}
 		}
 
 		// Include the component HTML helpers.
