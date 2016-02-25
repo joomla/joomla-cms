@@ -564,6 +564,8 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 
 		$colList = substr($colList, 0, strlen($colList) - 1);
 
+		$dbname = JFactory::getApplication()->get('db');
+
 		return array(
 			'SELECT s.`index_name` FROM ('
 				. 'SELECT `table_name`, `index_name`,'
@@ -572,7 +574,8 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 						. ' ,`sub_part`, ' . $this->db->quote(')') . '), `column_name`))'
 					. ' ORDER BY seq_in_index) AS `col_list`'
 				. ' FROM information_schema.statistics'
-				. ' WHERE `table_name` = ' . $this->fixQuote($wordArray[2])
+				. ' WHERE `table_schema`= ' . $this->db->quote($dbname)
+				. ' AND `table_name` = ' . $this->fixQuote($wordArray[2])
 				. ' AND `index_name` = ' . $index
 				. ' GROUP BY `table_name`,`index_name`) AS s'
 			. ' WHERE s.`col_list` = ' . $this->db->quote($colList),
