@@ -55,7 +55,7 @@ class ModulesViewModules extends JViewLegacy
 			// Client id selector should not exist.
 			$this->filterForm->removeField('client_id', '');
 
-			// If in the frontend state and language should not activate the search tools..
+			// If in the frontend state and language should not activate the search tools.
 			if (JFactory::getApplication()->isSite())
 			{
 				unset($this->activeFilters['state']);
