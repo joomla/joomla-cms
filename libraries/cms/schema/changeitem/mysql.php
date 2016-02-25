@@ -447,7 +447,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 			$condition = $condition . ' AND '
 				. $this->db->quoteName('null') . ' = ' . $strNullVal;
 
-			$attrMessage = $attrMessage . ' NULL=' . $strNullVal;
+			$attrMessage = $attrMessage . ' null=' . $strNullVal;
 		}
 
 		if ($attrMessage != '')
