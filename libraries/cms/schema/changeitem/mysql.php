@@ -579,6 +579,6 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				. ' AND `index_name` = ' . $index
 				. ' GROUP BY `table_name`,`index_name`) AS s'
 			. ' WHERE s.`col_list` = ' . $this->db->quote($colList),
-			$index . '(' . $colList . ')');
+			$index . ' (' . $colList . ')');
 	}
 }
