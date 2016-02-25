@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 
 $data = $displayData;
 
-if ($data['view'] instanceof ModulesViewModules)
+if ($data['view'] instanceof ModulesViewModules && JFactory::getApplication()->input->get('layout', '', 'cmd') !== 'modal')
 {
 	// We will get the client filter & remove it from the form filters
 	$clientIdField = $data['view']->filterForm->getField('client_id');
