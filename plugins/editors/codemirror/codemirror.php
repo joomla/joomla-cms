@@ -38,7 +38,7 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Initialises the Editor.
 	 *
-	 * @return	string	JavaScript Initialization string.
+	 * @return  void
 	 */
 	public function onInit()
 	{
@@ -47,7 +47,7 @@ class PlgEditorCodemirror extends JPlugin
 		// Do this only once.
 		if ($done)
 		{
-			return true;
+			return;
 		}
 
 		$done = true;
@@ -64,12 +64,7 @@ class PlgEditorCodemirror extends JPlugin
 
 		$displayData = (object) array('params'  => $this->params);
 
-		$initScript = JLayoutHelper::render('editors.codemirror.init', $displayData, __DIR__ . '/layouts');
-
-		if ($initScript)
-		{
-			$doc->addScriptDeclaration($initScript);
-		}
+		JLayoutHelper::render('editors.codemirror.init', $displayData, __DIR__ . '/layouts');
 
 		$font = $this->params->get('fontFamily', 0);
 		$fontInfo = $this->getFontInfo($font);
@@ -87,16 +82,11 @@ class PlgEditorCodemirror extends JPlugin
 			}
 		}
 
-		$styles = JLayoutHelper::render('editors.codemirror.styles', $displayData, __DIR__ . '/layouts');
-
-		if ($styles)
-		{
-			$doc->addStyleDeclaration($styles);
-		}
+		JLayoutHelper::render('editors.codemirror.styles', $displayData, __DIR__ . '/layouts');
 
 		$dispatcher->trigger('onCodeMirrorAfterInit', array(&$this->params));
 
-		return '';
+		return;
 	}
 
 	/**
@@ -141,7 +131,7 @@ class PlgEditorCodemirror extends JPlugin
 	 *
 	 * @return  boolean
 	 */
-	public function onGetInsertMethod()
+	public function onGetInsertMethod($id)
 	{
 		static $done = false;
 
@@ -153,8 +143,9 @@ class PlgEditorCodemirror extends JPlugin
 
 		$done = true;
 
-		$js = ";function jInsertEditorText(text, editor) { Joomla.editors.instances[editor].replaceSelection(text); }\n";
-		JFactory::getDocument()->addScriptDeclaration($js);
+		JFactory::getDocument()->addScriptDeclaration("
+		;function jInsertEditorText(text, editor) { Joomla.editors.instances[\"" . $id . "\"].replaceSelection(text); };
+		");
 
 		return true;
 	}
