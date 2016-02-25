@@ -121,6 +121,14 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected $state_field = 'state';
 
 	/**
+	 * The field the identifier is stored in.
+	 *
+	 * @var    string
+	 * @since  3.5
+	 */
+	protected $identifier_field = 'id';
+
+	/**
 	 * Method to instantiate the indexer adapter.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -485,8 +493,10 @@ abstract class FinderIndexerAdapter extends JPlugin
 	{
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName('access'))
-			->from($this->db->quoteName($this->table))
-			->where($this->db->quoteName('id') . ' = ' . (int) $row->id);
+			->from($this->db->quoteName($this->table));
+
+		$this->filterByIdentifier($query, $row->id);
+
 		$this->db->setQuery($query);
 
 		// Store the access level to determine if it changes
@@ -542,9 +552,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function getItem($id)
 	{
-		// Get the list query and add the extra WHERE clause.
+		// Get the list query and add the filter by identifier.
 		$query = $this->getListQuery();
-		$query->where('a.id = ' . (int) $id);
+		$this->filterByIdentifier($query, $id);
 
 		// Get the item to index.
 		$this->db->setQuery($query);
@@ -662,7 +672,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$query = $this->db->getQuery(true);
 
 		// Item ID
-		$query->select('a.id');
+		$query->select('a.' . $this->identifier_field);
 
 		// Item and category published state
 		$query->select('a.' . $this->state_field . ' AS state, c.published AS cat_state');
@@ -706,7 +716,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	{
 		// Build an SQL query based on the item ids.
 		$query = $this->db->getQuery(true)
-			->where('a.id IN(' . implode(',', $ids) . ')');
+			->where('a.' . $this->identifier_field . ' IN(' . implode(',', $ids) . ')');
 
 		return $query;
 	}
@@ -810,7 +820,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function itemAccessChange($row)
 	{
 		$query = clone $this->getStateQuery();
-		$query->where('a.id = ' . (int) $row->id);
+		$this->filterByIdentifier($query, $row->id);
 
 		// Get the access level.
 		$this->db->setQuery($query);
@@ -843,7 +853,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		foreach ($pks as $pk)
 		{
 			$query = clone $this->getStateQuery();
-			$query->where('a.id = ' . (int) $pk);
+			$this->filterByIdentifier($query, $pk);
 
 			// Get the published states.
 			$this->db->setQuery($query);
@@ -926,5 +936,22 @@ abstract class FinderIndexerAdapter extends JPlugin
 			case 0:
 				return 0;
 		}
+	}
+
+	/**
+	 * Method to add a filter by identifier to a specifc query.
+	 *
+	 * @param   integer  $item        The item state.
+	 * @param   integer  $id  	      The value of the identifier
+	 * @param   integer  $tableAlias  The alias used to identify the table
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	private function filterByIdentifier($query, $id, $tableAlias = 'a')
+	{
+		$tableAndIdentifier = $tableAlias . '.' . $this->identifier_field;
+		$query->where($tableAndIdentifier . ' = ' . (int) $id);
 	}
 }
