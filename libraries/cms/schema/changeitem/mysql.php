@@ -535,7 +535,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 		$tmpStr = $wordArray[$idxListStart];
 		if ($removeFirstBracket)
 		{
-			$tmpStr = substr($tmpStr, 0, $firstBracketPos + 1);
+			$tmpStr = substr($tmpStr, $firstBracketPos + 1, strlen($tmpStr));
 		}
 		$tmpStr = str_replace(' ', '', $tmpStr);
 		$tmpStr = str_replace('`', '', $tmpStr);
