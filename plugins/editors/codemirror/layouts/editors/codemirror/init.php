@@ -28,8 +28,8 @@ $fsCombo         = json_encode($fullScreenCombo);
 $modPath         = json_encode(JUri::root(true) . '/' . $modePath . $extJS);
 
 JFactory::getDocument()->addScriptDeclaration(
-	<<<JS
-			;(function (cm, $) {
+<<<JS
+		;(function (cm, $) {
 			cm.keyMap.default["Ctrl-Q"] = toggleFullScreen;
 			cm.keyMap.default[$fsCombo] = toggleFullScreen;
 			cm.keyMap.default["Esc"] = closeFullScreen;
