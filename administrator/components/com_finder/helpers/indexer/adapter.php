@@ -941,9 +941,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * Method to add a filter by identifier to a specifc query.
 	 *
-	 * @param   JDatabaseQuery  $query        The query object to add the filter.
-	 * @param   integer         $id           The value of the identifier.
-	 * @param   string          $tableAlias   The alias used to identify the table.
+	 * @param   JDatabaseQuery  $query       The query object to add the filter.
+	 * @param   integer         $id          The value of the identifier.
+	 * @param   string          $tableAlias  The alias used to identify the table.
 	 *
 	 * @return  void
 	 *
