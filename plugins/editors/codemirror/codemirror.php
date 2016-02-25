@@ -129,6 +129,8 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Adds the editor specific insert method.
 	 *
+	 * @param   string  $id  The id of the editor field.
+	 *
 	 * @return  boolean
 	 */
 	public function onGetInsertMethod($id)
