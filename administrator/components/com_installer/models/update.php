@@ -63,9 +63,6 @@ class InstallerModelUpdate extends JModelList
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
 		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
 
-		// Extension id is a special filter case to check updates for extension id, also could use filter[search]=eid:XX
-		$this->setState('filter.extension_id', $this->getUserStateFromRequest($this->context . '.filter.extension_id', 'filter_extension_id', null, 'int'));
-
 		$app = JFactory::getApplication();
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
@@ -119,6 +116,11 @@ class InstallerModelUpdate extends JModelList
 		{
 			$query->where($db->quoteName('u.extension_id') . ' = ' . $db->quote((int) $extensionId));
 		}
+		else
+		{
+			$query->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(0))
+				->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(700));
+		}
 
 		// Process search filter.
 		$search = $this->getState('filter.search');
@@ -143,7 +145,6 @@ class InstallerModelUpdate extends JModelList
 				{
 					$query->where($db->quoteName('u.name') . ' LIKE ' . $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true)) . '%'));
 				}
-				$query->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(700));
 			}
 		}
 
@@ -157,7 +158,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  array The array of translated objects
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.5
 	 */
 	protected function translate(&$items)
 	{
@@ -183,7 +184,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.5
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{

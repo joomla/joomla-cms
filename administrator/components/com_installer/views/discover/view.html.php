@@ -80,7 +80,7 @@ class InstallerViewDiscover extends InstallerViewDefault
 	 *
 	 * @return  boolean  True if there are discovered extensions on the database.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.5
 	 */
 	public function checkExtensions()
 	{
