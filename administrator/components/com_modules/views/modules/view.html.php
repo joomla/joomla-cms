@@ -81,7 +81,6 @@ class ModulesViewModules extends JViewLegacy
 		}
 		else
 		{
-
 			JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
 		}
 
