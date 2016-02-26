@@ -71,7 +71,8 @@ class JSchemaChangeset
 		if ($sqlFolder == 'mysqli' || $sqlFolder == 'pdomysql')
 		{
 			// Let the update query reset the flag if conversion performed
-			$tmpSchemaChangeItem = JSchemaChangeitem::getInstance($db,
+			$tmpSchemaChangeItem = JSchemaChangeitem::getInstance(
+				$db,
 				'utf8mb4-conversion.sql',
 				'UPDATE `#__mysql_utf8mb4_test` SET `converted` = 0;');
 
@@ -79,8 +80,7 @@ class JSchemaChangeset
 			$tmpSchemaChangeItem->checkStatus = 0;
 
 			// Set the check query
-			$tmpSchemaChangeItem->checkQuery
-				= 'SELECT `converted` FROM `#__mysql_utf8mb4_test` WHERE `converted` = 1;';
+			$tmpSchemaChangeItem->checkQuery = 'SELECT `converted` FROM `#__mysql_utf8mb4_test` WHERE `converted` = 1;';
 
 			// Set expected records from check query
 			$tmpSchemaChangeItem->checkQueryExpected = 1;
