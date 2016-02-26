@@ -292,9 +292,11 @@ class InstallerModelDatabase extends InstallerModel
 			}
 		}
 
-		// Set flag that the update is done.
-		// ToDo: Maybe do a check in database if successful, or if there was an
-		// exception before, and set flag only if OK?
+		/*
+		 Set flag that the update is done.
+		 ToDo: Maybe do a check in database if successful, or if there was an
+		 exception before, and set flag only if OK?
+		*/
 		$db->setQuery('UPDATE `#__mysql_utf8mb4_test` SET `converted` = 1;')->execute();
 	}
 }
