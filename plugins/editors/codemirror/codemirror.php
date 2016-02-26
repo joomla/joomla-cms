@@ -85,8 +85,6 @@ class PlgEditorCodemirror extends JPlugin
 		JLayoutHelper::render('editors.codemirror.styles', $displayData, __DIR__ . '/layouts');
 
 		$dispatcher->trigger('onCodeMirrorAfterInit', array(&$this->params));
-
-		return;
 	}
 
 	/**
