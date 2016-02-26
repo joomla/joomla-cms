@@ -9,8 +9,8 @@
 -- use charset utf8mb4 and collation utf8mb4_general_ci.
 --
 
-CREATE TABLE IF NOT EXISTS `#__mysql_utf8mb4_test` (
-  `converted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0=no; 1=yes'
+CREATE TABLE IF NOT EXISTS `#__mysql_utf8_mb4_test` (
+  `converted` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_general_ci;
 
-INSERT INTO `#__mysql_utf8mb4_test` (`converted`) VALUES (0);
+INSERT INTO `#__mysql_utf8_mb4_test` (`converted`) VALUES (0);

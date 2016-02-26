@@ -297,6 +297,7 @@ class InstallerModelDatabase extends InstallerModel
 		 ToDo: Maybe do a check in database if successful, or if there was an
 		 exception before, and set flag only if OK?
 		*/
-		$db->setQuery('UPDATE `#__mysql_utf8mb4_test` SET `converted` = 1;')->execute();
+		$db->setQuery('UPDATE ' . $db->quoteName('#__mysql_utf8_mb4_test')
+			. ' SET ' . $db->quoteName('converted') . ' = 1;')->execute();
 	}
 }
