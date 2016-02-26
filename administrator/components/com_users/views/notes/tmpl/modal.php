@@ -21,9 +21,9 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 		<li>
 			<div class="fltlft utitle">
 				<?php if ($item->subject) : ?>
-					<h4><?php echo JText::sprintf('COM_USERS_NOTE_N_SUBJECT', $this->escape($item->subject)); ?></h4>
+					<h4><?php echo JText::sprintf('COM_USERS_NOTE_N_SUBJECT', (int) $item->id, $this->escape($item->subject)); ?></h4>
 				<?php else : ?>
-					<h4><?php echo JText::sprintf('COM_USERS_NOTE_N_SUBJECT', JText::_('COM_USERS_EMPTY_SUBJECT')); ?></h4>
+					<h4><?php echo JText::sprintf('COM_USERS_NOTE_N_SUBJECT', (int) $item->id, JText::_('COM_USERS_EMPTY_SUBJECT')); ?></h4>
 				<?php endif; ?>
 			</div>
 
