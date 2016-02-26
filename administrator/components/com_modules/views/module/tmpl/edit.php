@@ -129,7 +129,7 @@ $script .= "
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
 						if (updStatus == -2) {
-							tmpStatus.html('<span class=\"label label-trashed\">" . JText::_("JTrashed") . "</span>');
+							tmpStatus.html('<span class=\"label label-default\">" . JText::_("JTrashed") . "</span>');
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
 							jQuery('#title-" . $this->item->id . "', parent.document).text(updTitle);
