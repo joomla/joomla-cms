@@ -261,12 +261,6 @@ class InstallerModelDatabase extends InstallerModel
 	{
 		$db = JFactory::getDbo();
 
-		// If the database does not have UTF-8 Multibyte (utf8mb4) support we can't do much about it.
-		if (!$db->hasUTF8mb4Support())
-		{
-			return;
-		}
-
 		// Get the SQL file to convert the core tables. Yes, this is hardcoded because we have all sorts of index
 		// conversions and funky things we can't automate in core tables without an actual SQL file.
 		$serverType = $db->getServerType();
@@ -289,7 +283,7 @@ class InstallerModelDatabase extends InstallerModel
 		{
 			try
 			{
-				$db->setQuery($query)->execute();
+				$db->setQuery($db->convertUtf8mb4QueryToUtf8($query))->execute();
 			}
 			catch (Exception $e)
 			{
