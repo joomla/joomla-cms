@@ -25,7 +25,8 @@ if ($params->get('dropdown', 1))
 	<select class="inputbox" onchange="document.location.replace(this.value);" >
 	<?php foreach ($list as $language) : ?>
 		<option dir=<?php echo $language->rtl ? '"rtl"' : '"ltr"'; ?> value="<?php echo $language->link; ?>" <?php echo $language->active ? 'selected="selected"' : ''; ?>>
-		<?php echo $language->title_native; ?></option>
+			<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
+		</option>
 	<?php endforeach; ?>
 	</select>
 	</form>
