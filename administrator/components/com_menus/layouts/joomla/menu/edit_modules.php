@@ -68,4 +68,3 @@ foreach ($fields as $field)
 $html[] = '</ul></fieldset>';
 
 echo implode('', $html);
-
