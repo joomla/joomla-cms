@@ -21,7 +21,7 @@ $alert = array('error' => 'alert-error', 'warning' => '', 'notice' => 'alert-inf
 				<h4 class="alert-heading"><?php echo JText::_($type); ?></h4>
 				<?php if ($msgs) : ?>
 					<?php foreach ($msgs as $msg) : ?>
-						<p class="alert-message"><?php echo $msg; ?></p>
+						<div class="alert-message"><?php echo $msg; ?></div>
 					<?php endforeach; ?>
 				<?php endif; ?>
 			</div>
