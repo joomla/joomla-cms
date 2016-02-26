@@ -64,7 +64,8 @@ class InstallerModelDatabase extends InstallerModel
 		$installer->deleteUnexistingFiles();
 		$this->fixDefaultTextFilters();
 
-		// Finally, make sure the database is converted to utf8mb4 if supported by the server
+		// Finally make sure the database is converted to utf8mb4 or, if not suported
+		// by the server, compatible to it
 		$this->convertTablesToUtf8mb4();
 	}
 
@@ -290,5 +291,10 @@ class InstallerModelDatabase extends InstallerModel
 				// If the query fails we will go on. It probably means we've already done this conversion.
 			}
 		}
+
+		// Set flag that the update is done.
+		// ToDo: Maybe do a check in database if successful, or if there was an
+		// exception before, and set flag only if OK?
+		$db->setQuery('UPDATE `#__mysql_utf8mb4_test` SET `converted` = 1;')->execute();
 	}
 }
