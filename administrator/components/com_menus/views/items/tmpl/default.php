@@ -24,15 +24,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.lft');
 $canOrder  = $user->authorise('core.edit.state',	'com_menus');
 $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$menuType  = (array) $app->getUserState('com_menus.items.menutype');
 
-if ($saveOrder)
+if ($saveOrder && !empty($menuType))
 {
 	$saveOrderingUrl = 'index.php?option=com_menus&task=items.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'itemList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
 
 $assoc = JLanguageAssociations::isEnabled();
-$menuType = (array) $app->getUserState('com_menus.items.menutype');
 ?>
 
 <?php // Set up the filter bar. ?>
