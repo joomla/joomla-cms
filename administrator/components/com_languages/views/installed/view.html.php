@@ -88,16 +88,11 @@ class LanguagesViewInstalled extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = JHelperContent::getActions('com_languages');
+		$clientText = ((int) $this->state->get('client_id') === 1) ) JText::_('JADMINISTRATOR') : JText::_('JSITE');
 
-		if ((int) $this->state->get('client_id') === 1)
-		{
-			JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_INSTALLED_ADMIN_TITLE'), 'comments-2 langmanager');
-		}
-		else
-		{
-			JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_INSTALLED_SITE_TITLE'), 'comments-2 langmanager');
-		}
+		JToolbarHelper::title(JText::sprintf('COM_LANGUAGES_VIEW_INSTALLED_TITLE', $clientText), 'comments-2 langmanager');
+
+		$canDo = JHelperContent::getActions('com_languages');
 
 		if ($canDo->get('core.edit.state'))
 		{
