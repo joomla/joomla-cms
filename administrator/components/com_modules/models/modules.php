@@ -80,7 +80,7 @@ class ModulesModelModules extends JModelList
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('filter.position', $this->getUserStateFromRequest($this->context . '.filter.position', 'filter_position', '', 'string'));
 		$this->setState('filter.module', $this->getUserStateFromRequest($this->context . '.filter.module', 'filter_module', '', 'string'));
-		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'string'));
+		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
 
 		// If in modal layout on the frontend, state and language are always forced.
 		if ($app->isSite() && $layout === 'modal')
@@ -92,7 +92,7 @@ class ModulesModelModules extends JModelList
 		else
 		{
 			$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'cmd'));
-			$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', null, 'int'));
+			$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
 		}
 
 		// Special case for the client id.
