@@ -64,7 +64,7 @@ class PlgEditorCodemirror extends JPlugin
 
 		$displayData = (object) array('params'  => $this->params);
 
-		// We need to do output buffering here because layouts may actually 'echo' things which we do not want. 
+		// We need to do output buffering here because layouts may actually 'echo' things which we do not want.
 		ob_start();
 		JLayoutHelper::render('editors.codemirror.init', $displayData, __DIR__ . '/layouts');
 		ob_end_clean();
@@ -85,7 +85,7 @@ class PlgEditorCodemirror extends JPlugin
 			}
 		}
 
-		// We need to do output buffering here because layouts may actually 'echo' things which we do not want. 
+		// We need to do output buffering here because layouts may actually 'echo' things which we do not want.
 		ob_start();
 		JLayoutHelper::render('editors.codemirror.styles', $displayData, __DIR__ . '/layouts');
 		ob_end_clean();
