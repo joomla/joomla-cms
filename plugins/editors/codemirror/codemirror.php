@@ -127,11 +127,9 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Adds the editor specific insert method.
 	 *
-	 * @param   string  $id  The id of the editor field.
-	 *
 	 * @return  boolean
 	 */
-	public function onGetInsertMethod($id)
+	public function onGetInsertMethod()
 	{
 		static $done = false;
 
@@ -144,7 +142,7 @@ class PlgEditorCodemirror extends JPlugin
 		$done = true;
 
 		JFactory::getDocument()->addScriptDeclaration("
-		;function jInsertEditorText(text, editor) { Joomla.editors.instances[\"" . $id . "\"].replaceSelection(text); };
+		;function jInsertEditorText(text, editor) { Joomla.editors.instances[editor].replaceSelection(text); };
 		");
 
 		return true;
