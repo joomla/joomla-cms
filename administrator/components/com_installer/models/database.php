@@ -52,6 +52,9 @@ class InstallerModelDatabase extends InstallerModel
 	 */
 	public function fix()
 	{
+		// Prepare the utf8mb4 conversion check table
+		$this->prepareUtf8mb4StatusTable();
+
 		if (!$changeSet = $this->getItems())
 		{
 			return false;
@@ -63,9 +66,6 @@ class InstallerModelDatabase extends InstallerModel
 		$installer = new JoomlaInstallerScript;
 		$installer->deleteUnexistingFiles();
 		$this->fixDefaultTextFilters();
-
-		// Fix the conversion check table
-		$this->fixConversionCheckTable();
 
 		// Finally make sure the database is converted to utf8mb4 or, if not suported
 		// by the server, compatible to it
@@ -274,51 +274,84 @@ class InstallerModelDatabase extends InstallerModel
 			return;
 		}
 
-		$fileName = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/$serverType/utf8mb4-conversion.sql";
+		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
+		$fileName1 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/$serverType/utf8mb4-conversion-01.sql";
 
-		if (!is_file($fileName))
+		if (is_file($fileName1))
 		{
-			return;
-		}
+			$fileContents1 = @file_get_contents($fileName1);
+			$queries1 = $db->splitSql($fileContents1);
 
-		$fileContents = @file_get_contents($fileName);
-		$queries = $db->splitSql($fileContents);
-
-		if (empty($queries))
-		{
-			return;
-		}
-
-		foreach ($queries as $query)
-		{
-			try
+			if (!empty($queries1))
 			{
-				$db->setQuery($db->convertUtf8mb4QueryToUtf8($query))->execute();
-			}
-			catch (Exception $e)
-			{
-				// If the query fails we will go on. It probably means we've already done this conversion.
+				foreach ($queries1 as $query1)
+				{
+					try
+					{
+						$db->setQuery($query1)->execute();
+					}
+					catch (Exception $e)
+					{
+						// If the query fails we will go on. It just means the index to be dropped does not exist.
+					}
+				}
 			}
 		}
 
-		/*
-		 Set flag that the update is done.
-		 ToDo: Maybe do a check in database if successful, or if there was an
-		 exception before, and set flag only if OK?
-		*/
-		$db->setQuery('UPDATE ' . $db->quoteName('#__mysql_utf8_mb4_test')
-			. ' SET ' . $db->quoteName('converted') . ' = 1;')->execute();
+		// Step 2: Perform the index modifications and conversions
+		$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/$serverType/utf8mb4-conversion-02.sql";
+
+		if ($db->hasUTF8mb4Support())
+		{
+			$converted = 2;
+		}
+		else
+		{
+			$converted = 1;
+		}
+
+		if (is_file($fileName2))
+		{
+			$fileContents2 = @file_get_contents($fileName2);
+			$queries2 = $db->splitSql($fileContents2);
+
+			if (!empty($queries2))
+			{
+				foreach ($queries2 as $query2)
+				{
+					if ($trimmedQuery = $this->trimQuery($query2))
+					{
+						try
+						{
+							$db->setQuery($db->convertUtf8mb4QueryToUtf8($trimmedQuery))->execute();
+						}
+						catch (Exception $e)
+						{
+							$converted = 0;
+
+							// Still render the error message from the Exception object
+							JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+						}
+					}
+				}
+			}
+		}
+
+		// Set flag in database if the update is done.
+		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
+			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
 	}
 
 	/**
-	 * Insert a record into the utf8mb4 conversion check table if
-	 * it contains no record
+	 * Prepare the table to save the status of utf8mb4 conversion
+	 * Make sure it contains 1 initialized record if there is not
+	 * already exactly 1 record.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 */
-	private function fixConversionCheckTable()
+	private function prepareUtf8mb4StatusTable()
 	{
 		$db = JFactory::getDbo();
 
@@ -329,27 +362,52 @@ class InstallerModelDatabase extends InstallerModel
 			return;
 		}
 
-		$db->setQuery('SELECT ' . $db->quoteName('converted')
-			. ' FROM ' . $db->quoteName('#__mysql_utf8_mb4_test') . ';');
+		$db->setQuery('SELECT COUNT(*) FROM ' . $db->quoteName('#__utf8_conversion') . ';');
 
 		$count = $db->loadResult();
 
 		if ($count > 1)
 		{
-			$db->setQuery('DELETE FROM ' . $db->quoteName('#__mysql_utf8_mb4_test')
+			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion')
 				. ';')->execute();
-			$db->setQuery('INSERT INTO ' . $db->quoteName('#__mysql_utf8_mb4_test')
+			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
 				. ' (' . $db->quoteName('converted') . ') ' . ' VALUES (0);')->execute();
 		}
-		elseif ($count == 1)
+		elseif ($count == 0)
 		{
-			$db->setQuery('UPDATE ' . $db->quoteName('#__mysql_utf8_mb4_test')
-				. ' SET ' . $db->quoteName('converted') . ' = 0;')->execute();
-		}
-		else
-		{
-			$db->setQuery('INSERT INTO ' . $db->quoteName('#__mysql_utf8_mb4_test')
+			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
 				. ' (' . $db->quoteName('converted') . ') ' . ' VALUES (0);')->execute();
 		}
+	}
+
+	/**
+	 * Trim comment and blank lines out of a query string
+	 *
+	 * @param   string  $query  query string to be trimmed
+	 *
+	 * @return  string  String with leading comment lines removed
+	 *
+	 * @since   3.5
+	 */
+	private function trimQuery($query)
+	{
+		$query = trim($query);
+
+		while (substr($query, 0, 1) == '#' || substr($query, 0, 2) == '--' || substr($query, 0, 2) == '/*')
+		{
+			$endChars = (substr($query, 0, 1) == '#' || substr($query, 0, 2) == '--') ? "\n" : "*/";
+
+			if ($position = strpos($query, $endChars))
+			{
+				$query = trim(substr($query, $position + strlen($endChars)));
+			}
+			else
+			{
+				// If no newline, the rest of the file is a comment, so return an empty string.
+				return '';
+			}
+		}
+
+		return trim($query);
 	}
 }

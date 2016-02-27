@@ -65,35 +65,42 @@ class JSchemaChangeset
 			$this->changeItems[] = JSchemaChangeitem::getInstance($db, $obj->file, $obj->updateQuery);
 		}
 
-		// If on mysql, add a query at the end to check for utf8mb4 conversion
-		$sqlFolder = $this->db->name;
+		// If on mysql, add a query at the end to check for utf8mb4 conversion status
+		$serverType = $this->db->getServerType();
 
-		if ($sqlFolder == 'mysqli' || $sqlFolder == 'pdomysql')
+		if ($serverType == 'mysql')
 		{
-			// Let the update query insert the record
+			// Let the update query be something harmless which should always succeed
 			$tmpSchemaChangeItem = JSchemaChangeitem::getInstance(
 				$db,
-				'utf8mb4-conversion.sql',
-				'INSERT INTO ' . $this->db->quoteName('#__mysql_utf8_mb4_test')
-				. ' (' . $this->db->quoteName('converted') . ') ' . ' VALUES (0);');
+				'database.php',
+				'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
+				. ' SET ' . $this->db->quoteName('converted') . ' = 0;');
 
-			// Set to no skipped
+			// Set to not skipped
 			$tmpSchemaChangeItem->checkStatus = 0;
 
 			// Set the check query
+			if ($this->db->hasUTF8mb4Support())
+			{
+				$converted = 2;
+				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8MB4';
+			}
+			else
+			{
+				$converted = 1;
+				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8';
+			}
+
 			$tmpSchemaChangeItem->checkQuery = 'SELECT '
 				. $this->db->quoteName('converted')
-				. ' FROM ' . $this->db->quoteName('#__mysql_utf8_mb4_test')
-				. ' WHERE ' . $this->db->quoteName('converted') . ' = 1;';
+				. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
+				. ' WHERE ' . $this->db->quoteName('converted') . ' = ' . $converted . ';';
 
 			// Set expected records from check query
 			$tmpSchemaChangeItem->checkQueryExpected = 1;
 
-			// ToDo: New query type for better output message
-			$tmpSchemaChangeItem->queryType = 'CREATE_TABLE';
-
-			// ToDo: Better output message
-			$tmpSchemaChangeItem->msgElements = array('utf8mb4 conversion');
+			$tmpSchemaChangeItem->msgElements = array();
 
 			$this->changeItems[] = $tmpSchemaChangeItem;
 		}

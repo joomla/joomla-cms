@@ -1,20 +1,29 @@
 --
--- UTF-8 Multibyte (utf8mb4) conversion for MySQL
+-- Step 2 of the UTF-8 Multibyte (utf8mb4) conversion for MySQL
+--
+-- Add back indexes previosly dropped with step 1, utf8mb4-conversion-01.sql,
+-- but with limited lenghts of columns, and then perform the conversions
+-- for utf8mb4.
+--
+-- Do not rename this file or any other of the utf8mb4-conversion-*.sql
+-- files unless you want to change PHP code, too.
+--
+-- This file here will the be processed with reporting exceptions.
 --
 
 --
--- Step 1: Limit indexes to first 100 so their max allowed lengths would not get exceeded with utf8mb4
+-- Step 2.1: Limit indexes to first 100 so their max allowed lengths would not get exceeded with utf8mb4
 --
 
-ALTER TABLE `#__categories` DROP KEY `idx_alias`, ADD KEY `idx_alias` (`alias`(100));
-ALTER TABLE `#__menu` DROP KEY `idx_alias`, ADD KEY `idx_alias` (`alias`(100));
-ALTER TABLE `#__menu` DROP KEY `idx_client_id_parent_id_alias_language`, ADD UNIQUE KEY `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`(100),`language`);
-ALTER TABLE `#__redirect_links` DROP KEY `idx_link_old`, ADD UNIQUE KEY `idx_link_old` (`old_url`(100));
-ALTER TABLE `#__tags` DROP KEY `idx_alias`, ADD KEY `idx_alias` (`alias`(100));
-ALTER TABLE `#__ucm_content` DROP KEY `idx_alias`, ADD KEY `idx_alias` (`core_alias`(100));
+ALTER TABLE `#__categories` ADD KEY `idx_alias` (`alias`(100));
+ALTER TABLE `#__menu` ADD KEY `idx_alias` (`alias`(100));
+ALTER TABLE `#__menu` ADD UNIQUE `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`(100),`language`);
+ALTER TABLE `#__redirect_links` ADD UNIQUE `idx_link_old` (`old_url`(100));
+ALTER TABLE `#__tags` ADD KEY `idx_alias` (`alias`(100));
+ALTER TABLE `#__ucm_content` ADD KEY `idx_alias` (`core_alias`(100));
 
 --
--- Step 2: Enlarge columns to avoid data loss on later conversion to utf8mb4
+-- Step 2.2: Enlarge columns to avoid data loss on later conversion to utf8mb4
 --
 
 ALTER TABLE `#__banners` MODIFY `alias` varchar(400) NOT NULL DEFAULT '';
@@ -27,7 +36,7 @@ ALTER TABLE `#__tags` MODIFY `alias` varchar(400) NOT NULL DEFAULT '';
 ALTER TABLE `#__ucm_content` MODIFY `core_alias` varchar(400) NOT NULL DEFAULT '';
 
 --
--- Step 3: Convert all tables to utf8mb4 chracter set with utf8mb4_general_ci collation
+-- Step 2.3: Convert all tables to utf8mb4 chracter set with utf8mb4_general_ci collation
 --
 
 ALTER TABLE `#__assets` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
@@ -76,7 +85,6 @@ ALTER TABLE `#__messages` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_gener
 ALTER TABLE `#__messages_cfg` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ALTER TABLE `#__modules` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ALTER TABLE `#__modules_menu` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-ALTER TABLE `#__mysql_utf8_mb4_test` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ALTER TABLE `#__newsfeeds` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ALTER TABLE `#__overrider` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ALTER TABLE `#__postinstall_messages` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
@@ -97,10 +105,11 @@ ALTER TABLE `#__user_keys` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_gene
 ALTER TABLE `#__user_notes` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ALTER TABLE `#__user_profiles` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ALTER TABLE `#__user_usergroup_map` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+ALTER TABLE `#__utf8_conversion` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ALTER TABLE `#__viewlevels` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 --
--- Step 4: Set collation to utf8mb4_bin for formerly utf8_bin collated columns
+-- Step 2.4: Set collation to utf8mb4_bin for formerly utf8_bin collated columns
 --
 
 ALTER TABLE `#__banners` MODIFY `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
