@@ -1613,7 +1613,12 @@ class JoomlaInstallerScript
 		 * The session may have not been started yet (e.g. CLI-based Joomla! update scripts). Let's make sure we do
 		 * have a valid session.
 		 */
-		JFactory::getSession()->restart();
+		$session = JFactory::getSession();
+
+		if (!$session->isActive())
+		{
+			$session->restart();
+		}
 
 		// If $_SESSION['__default'] is no longer set we do not have a migrated session, therefore we can quit.
 		if (!isset($_SESSION['__default']))
@@ -1631,7 +1636,7 @@ class JoomlaInstallerScript
 				case 'pdomysql':
 				case 'mysql':
 				case 'mysqli':
-					$db->truncateTable($db->qn('#__session'));
+					$db->truncateTable('#__session');
 					break;
 
 				// Non-MySQL databases, use a simple DELETE FROM query
