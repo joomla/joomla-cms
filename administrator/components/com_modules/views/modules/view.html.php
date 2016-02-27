@@ -77,7 +77,7 @@ class ModulesViewModules extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$clientText = ((int) $this->state->get('filter.client_id') === 1) ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+		$clientText = ((int) $this->state->get('client_id') === 1) ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
 
 		JToolbarHelper::title(JText::sprintf('COM_MODULES_MANAGER_MODULES_TITLE', $clientText), 'cube module');
 
