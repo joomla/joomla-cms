@@ -273,23 +273,23 @@ class ModulesModelModules extends JModelList
 		// Join over the language
 		$query->select($db->quoteName('l.title', 'language_title'))
 			->select($db->quoteName('l.image', 'language_image'))
-			->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON ' . $db->quoteName('l.lang_code') . ' = '. $db->quoteName('a.language'));
+			->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON ' . $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'));
 
 		// Join over the users for the checked out user.
 		$query->select($db->quoteName('uc.name', 'editor'))
-			->join('LEFT', $db->quoteName('#__users', 'uc') . ' ON ' . $db->quoteName('uc.id') . ' = '. $db->quoteName('a.checked_out'));
+			->join('LEFT', $db->quoteName('#__users', 'uc') . ' ON ' . $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'));
 
 		// Join over the asset groups.
 		$query->select($db->quoteName('ag.title', 'access_level'))
-			->join('LEFT', $db->quoteName('#__viewlevels', 'ag') . ' ON ' . $db->quoteName('ag.id') . ' = '. $db->quoteName('a.access'));
+			->join('LEFT', $db->quoteName('#__viewlevels', 'ag') . ' ON ' . $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'));
 
 		// Join over the module menus
 		$query->select('MIN(mm.menuid) AS pages')
-			->join('LEFT', $db->quoteName('#__modules_menu', 'mm') . ' ON ' . $db->quoteName('mm.moduleid') . ' = '. $db->quoteName('a.id'));
+			->join('LEFT', $db->quoteName('#__modules_menu', 'mm') . ' ON ' . $db->quoteName('mm.moduleid') . ' = ' . $db->quoteName('a.id'));
 
 		// Join over the extensions
 		$query->select($db->quoteName('e.name', 'name'))
-			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.element') . ' = '. $db->quoteName('a.module'));
+			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('a.module'));
 
 		// Group (careful with PostgreSQL)
 		$query->group(
