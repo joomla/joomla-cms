@@ -70,12 +70,12 @@ class JSchemaChangeset
 
 		if ($sqlFolder == 'mysqli' || $sqlFolder == 'pdomysql')
 		{
-			// Let the update query reset the flag if conversion performed
+			// Let the update query insert the record
 			$tmpSchemaChangeItem = JSchemaChangeitem::getInstance(
 				$db,
 				'utf8mb4-conversion.sql',
-				'UPDATE ' . $this->db->quoteName('#__mysql_utf8_mb4_test')
-				. ' SET ' . $this->db->quoteName('converted') . ' = 0;');
+				'INSERT INTO ' . $this->db->quoteName('#__mysql_utf8_mb4_test')
+				. ' (' . $this->db->quoteName('converted') . ') ' . ' VALUES (0);');
 
 			// Set to no skipped
 			$tmpSchemaChangeItem->checkStatus = 0;

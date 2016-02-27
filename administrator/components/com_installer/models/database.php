@@ -64,6 +64,9 @@ class InstallerModelDatabase extends InstallerModel
 		$installer->deleteUnexistingFiles();
 		$this->fixDefaultTextFilters();
 
+		// Fix the conversion check table
+		$this->fixConversionCheckTable();
+
 		// Finally make sure the database is converted to utf8mb4 or, if not suported
 		// by the server, compatible to it
 		$this->convertTablesToUtf8mb4();
@@ -265,6 +268,12 @@ class InstallerModelDatabase extends InstallerModel
 		// Get the SQL file to convert the core tables. Yes, this is hardcoded because we have all sorts of index
 		// conversions and funky things we can't automate in core tables without an actual SQL file.
 		$serverType = $db->getServerType();
+
+		if ($serverType != 'mysql')
+		{
+			return;
+		}
+
 		$fileName = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/$serverType/utf8mb4-conversion.sql";
 
 		if (!is_file($fileName))
@@ -299,5 +308,49 @@ class InstallerModelDatabase extends InstallerModel
 		*/
 		$db->setQuery('UPDATE ' . $db->quoteName('#__mysql_utf8_mb4_test')
 			. ' SET ' . $db->quoteName('converted') . ' = 1;')->execute();
+	}
+
+
+	/**
+	 * Insert a record into the utf8mb4 conversion check table if
+	 * it contains no record
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	private function fixConversionCheckTable()
+	{
+		$db = JFactory::getDbo();
+
+		$serverType = $db->getServerType();
+
+		if ($serverType != 'mysql')
+		{
+			return;
+		}
+
+		$db->setQuery('SELECT ' . $db->quoteName('converted')
+			. ' FROM ' . $db->quoteName('#__mysql_utf8_mb4_test') . ';');
+
+		$count = $db->loadResult();
+
+		if ($count > 1)
+		{
+			$db->setQuery('DELETE FROM ' . $db->quoteName('#__mysql_utf8_mb4_test')
+				. ';')->execute();
+			$db->setQuery('INSERT INTO ' . $db->quoteName('#__mysql_utf8_mb4_test')
+				. ' (' . $db->quoteName('converted') . ') ' . ' VALUES (0);')->execute();
+		}
+		elseif ($count == 1)
+		{
+			$db->setQuery('UPDATE ' . $db->quoteName('#__mysql_utf8_mb4_test')
+				. ' SET ' . $db->quoteName('converted') . ' = 0;')->execute();
+		}
+		else
+		{
+			$db->setQuery('INSERT INTO ' . $db->quoteName('#__mysql_utf8_mb4_test')
+				. ' (' . $db->quoteName('converted') . ') ' . ' VALUES (0);')->execute();
+		}
 	}
 }
