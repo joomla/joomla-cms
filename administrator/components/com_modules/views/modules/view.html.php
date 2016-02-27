@@ -84,7 +84,7 @@ class ModulesViewModules extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
 
-		if ($state->get('filter.client_id') == 1)
+		if ($state->get('client_id') == 1)
 		{
 			JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
 		}
