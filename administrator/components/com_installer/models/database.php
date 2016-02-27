@@ -310,7 +310,6 @@ class InstallerModelDatabase extends InstallerModel
 			. ' SET ' . $db->quoteName('converted') . ' = 1;')->execute();
 	}
 
-
 	/**
 	 * Insert a record into the utf8mb4 conversion check table if
 	 * it contains no record
