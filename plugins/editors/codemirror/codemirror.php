@@ -64,7 +64,10 @@ class PlgEditorCodemirror extends JPlugin
 
 		$displayData = (object) array('params'  => $this->params);
 
+		// We need to do output buffering here because layouts may actually 'echo' things which we do not want. 
+		ob_start();
 		JLayoutHelper::render('editors.codemirror.init', $displayData, __DIR__ . '/layouts');
+		ob_end_clean();
 
 		$font = $this->params->get('fontFamily', 0);
 		$fontInfo = $this->getFontInfo($font);
@@ -82,7 +85,10 @@ class PlgEditorCodemirror extends JPlugin
 			}
 		}
 
+		// We need to do output buffering here because layouts may actually 'echo' things which we do not want. 
+		ob_start();
 		JLayoutHelper::render('editors.codemirror.styles', $displayData, __DIR__ . '/layouts');
+		ob_end_clean();
 
 		$dispatcher->trigger('onCodeMirrorAfterInit', array(&$this->params));
 	}
@@ -259,7 +265,10 @@ class PlgEditorCodemirror extends JPlugin
 		// At this point, displayData can be modified by a plugin before going to the layout renderer.
 		$results = $dispatcher->trigger('onCodeMirrorBeforeDisplay', array(&$displayData));
 
+		// We need to do output buffering here because layouts may actually 'echo' things which we do not want. 
+		ob_start();
 		$results[] = JLayoutHelper::render('editors.codemirror.element', $displayData, __DIR__ . '/layouts', array('debug' => JDEBUG));
+		ob_end_clean();
 
 		foreach ($dispatcher->trigger('onCodeMirrorAfterDisplay', array(&$displayData)) as $result)
 		{
@@ -305,7 +314,10 @@ class PlgEditorCodemirror extends JPlugin
 		{
 			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
 
+			// We need to do output buffering here because layouts may actually 'echo' things which we do not want. 
+			ob_start();
 			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
+			ob_end_clean();
 		}
 
 		return $return;
