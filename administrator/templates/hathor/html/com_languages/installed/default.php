@@ -25,6 +25,25 @@ $userId   = $user->get('id');
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif;?>
+	<fieldset id="filter-bar">
+		<legend class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></legend>
+		<div class="filter-select fltrt">
+			<label class="selectlabel" for="client_id">
+				<?php echo JText::_('COM_CACHE_SELECT_CLIENT'); ?>
+			</label>
+			<select name="client_id" id="client_id">
+			<?php
+			$options   = array();
+			$options[] = JHtml::_('select.option', '0', JText::_('JSITE'));
+			$options[] = JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
+			echo JHtml::_('select.options', $options, 'value', 'text', $this->state->get('client_id'));
+			?>
+			</select>
+
+			<button type="submit" id="filter-go">
+				<?php echo JText::_('JSUBMIT'); ?></button>
+		</div>
+	</fieldset>
 	<?php if ($this->ftp) : ?>
 		<?php echo $this->loadTemplate('ftp');?>
 	<?php endif; ?>
