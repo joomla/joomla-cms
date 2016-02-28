@@ -60,6 +60,8 @@
 		 */
 		var navTop;
 		var isFixed = false;
+		var $subhead = $('.subhead');
+		var $navbar = $('nav.navbar');
 
 		if (window.isisStickyToolbar == 1) {
 			processScrollInit();
@@ -70,32 +72,32 @@
 		}
 
 		function processScrollInit() {
-			if ($('.subhead').length) {
-				navTop = $('.subhead').length && $('.subhead').offset().top - window.isisOffsetTop;
+			if ($subhead.length) {
+				navTop = $subhead.length && $subhead.offset().top - window.isisOffsetTop;
 
 				// Fix the container top
-				$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
+				$(".container-main").css("top", $subhead.height() + $navbar.height());
 
 				// Only apply the scrollspy when the toolbar is not collapsed
 				if (document.body.clientWidth > 480) {
-					$('.subhead-collapse').height($('.subhead').height());
-					$('.subhead').scrollspy({offset: {top: $('.subhead').offset().top - $('nav.navbar').height()}});
+					$('.subhead-collapse').height($subhead.height());
+					$subhead.scrollspy({offset: {top: $subhead.offset().top - $navbar.height()}});
 				}
 			}
 		}
 
 		function processScroll() {
-			if ($('.subhead').length) {
+			if ($subhead.length) {
 				var scrollTop = $(window).scrollTop();
 				if (scrollTop >= navTop && !isFixed) {
 					isFixed = true;
-					$('.subhead').addClass('subhead-fixed');
+					$subhead.addClass('subhead-fixed');
 
 					// Fix the container top
-					$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
+					$(".container-main").css("top", $subhead.height() + $navbar.height());
 				} else if (scrollTop <= navTop && isFixed) {
 					isFixed = false;
-					$('.subhead').removeClass('subhead-fixed');
+					$subhead.removeClass('subhead-fixed');
 				}
 			}
 		}
@@ -127,7 +129,8 @@
 				closedIcon = 'icon-arrow-left-2';
 			}
 
-			var isComponent = $('body').hasClass('component');
+			var $body = $('.body');
+			var isComponent = $body.hasClass('component');
 
 			$sidebar.removeClass('span2').addClass('j-sidebar-container');
 			$message.addClass('j-toggle-main');
@@ -138,7 +141,7 @@
 
 			var mainHeight = $main.outerHeight()+30,
 				sidebarHeight = $sidebar.outerHeight(),
-				bodyWidth = $('body').outerWidth(),
+				bodyWidth = $body.outerWidth(),
 				sidebarWidth = $sidebar.outerWidth(),
 				contentWidth = $('#content').outerWidth(),
 				contentWidthRelative = contentWidth / bodyWidth * 100,
