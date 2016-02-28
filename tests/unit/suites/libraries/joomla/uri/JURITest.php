@@ -15,7 +15,7 @@
  * @subpackage  Uri
  * @since       11.1
  */
-class JUriTest extends PHPUnit_Framework_TestCase
+class JUriTest extends TestCase
 {
 	/**
 	 * @var    JUri
@@ -862,6 +862,8 @@ class JUriTest extends PHPUnit_Framework_TestCase
 		$_SERVER['SCRIPT_NAME'] = '/joomla/index.php';
 		$_SERVER['PHP_SELF'] = '/joomla/index.php';
 		$_SERVER['REQUEST_URI'] = '/joomla/index.php?var=value 10';
+
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->object = new JUri;
 	}

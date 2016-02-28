@@ -258,23 +258,64 @@ class JUri extends Uri
 	 *
 	 * @param   string  $url  The URL to check.
 	 *
-	 * @return  boolean  True if Internal.
+	 * @return  boolean  True  if Internal.
 	 *
 	 * @since   11.1
 	 */
 	public static function isInternal($url)
 	{
-		$uri = static::getInstance($url);
+		$uri  = static::getInstance($url);
 		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host = $uri->toString(array('scheme', 'host', 'port'));
 
-		// @see JURITest
-		if (empty($host) && strpos($uri->path, 'index.php') === 0
-			|| !empty($host) && preg_match('#' . preg_quote(static::base(), '#') . '#', $base)
-			|| !empty($host) && $host === static::getInstance(static::base())->host && strpos($uri->path, 'index.php') !== false
-			|| !empty($host) && $base === $host && preg_match('#' . preg_quote($base, '#') . '#', static::base()))
+		if (empty($host))
 		{
-			return true;
+			$app    = JFactory::getApplication();
+			$router = clone $app->getRouter();
+			$vars   = $router->parse($uri);
+
+			$path = JString::strtolower($uri->getPath());
+
+			if (empty($path) || JString::strpos($path, 'index.php') === 0)
+			{
+				return true;
+			}
+
+			$segments = explode('/', $path);
+			if (count($segments) > 1 && $segments[0] == 'component')
+			{
+				$option = 'com_' . $segments[1];
+				if (JComponentHelper::isEnabled($option))
+				{
+					return true;
+				}
+			}
+
+			$Itemid = $uri->getVar('Itemid');
+			$item   = $app->getMenu()->getItem($Itemid);
+			if ($item && $item->route && JString::strpos($path . '/', $item->route . '/') === 0 && $item->type != 'menulink')
+			{
+				// Usual method for non-multilingual site.
+				if (!isset($vars['lang']))
+				{
+					return true;
+				}
+
+				// Multilingual site.
+				if ($item->language == '*' || $item->language == $vars['lang'])
+				{
+					return true;
+				}
+			}
+		}
+		else
+		{
+			if (preg_match('#' . preg_quote(static::base(), '#') . '#', $base)
+				|| $host === static::getInstance(static::base())->host && strpos($uri->path, 'index.php') !== false
+				|| $base === $host && preg_match('#' . preg_quote($base, '#') . '#', static::base()))
+			{
+				return true;
+			}
 		}
 
 		return false;
