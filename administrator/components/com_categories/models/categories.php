@@ -297,7 +297,8 @@ class CategoriesModelCategories extends JModelList
 				a.lft, 
 				a.rgt, 
 				a.language, 
-				l.title, 
+				l.title,
+				l.image,
 				uc.name, 
 				ag.title, 
 				ua.name'

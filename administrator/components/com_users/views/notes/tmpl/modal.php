@@ -16,7 +16,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 <?php if (empty($this->items)) : ?>
 	<?php echo JText::_('COM_USERS_NO_NOTES'); ?>
 <?php else : ?>
-	<ol class="alternating">
+	<ul class="alternating">
 	<?php foreach ($this->items as $item) : ?>
 		<li>
 			<div class="fltlft utitle">
@@ -49,6 +49,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 			</div>
 		</li>
 	<?php endforeach; ?>
-	</ol>
+	</ul>
 <?php endif; ?>
 </div>

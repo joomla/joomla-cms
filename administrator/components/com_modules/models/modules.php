@@ -296,7 +296,7 @@ class ModulesModelModules extends JModelList
 			->join('LEFT', '#__extensions AS e ON e.element = a.module')
 			->group(
 				'a.id, a.title, a.note, a.position, a.module, a.language,a.checked_out,' .
-					'a.checked_out_time, a.published, a.access, a.ordering,l.title, uc.name, ag.title, e.name,' .
+					'a.checked_out_time, a.published, a.access, a.ordering, l.title, l.image, uc.name, ag.title, e.name,' .
 					'l.lang_code, uc.id, ag.id, mm.moduleid, e.element, a.publish_up, a.publish_down,e.enabled'
 			);
 

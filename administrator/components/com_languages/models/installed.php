@@ -66,7 +66,7 @@ class LanguagesModelInstalled extends JModelList
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
-	 * @since   3.6
+	 * @since   3.5
 	 */
 	public function __construct($config = array())
 	{

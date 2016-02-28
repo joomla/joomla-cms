@@ -65,7 +65,10 @@ class CacheViewCache extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_CACHE_CLEAR_CACHE'), 'lightning clear');
+		$clientText = ((int) $this->state->get('client_id') === 1) ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+
+		JToolbarHelper::title(JText::sprintf('COM_CACHE_CLEAR_CACHE', $clientText), 'lightning clear');
+
 		JToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
 		JToolbarHelper::divider();
 

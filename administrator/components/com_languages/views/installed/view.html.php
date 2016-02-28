@@ -64,7 +64,7 @@ class LanguagesViewInstalled extends JViewLegacy
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		LanguagesHelper::addSubmenu('installed', $this->state->get('client_id', 0));
+		LanguagesHelper::addSubmenu('installed');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -88,9 +88,11 @@ class LanguagesViewInstalled extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = JHelperContent::getActions('com_languages');
+		$clientText = ((int) $this->state->get('client_id') === 1) ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
 
-		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_INSTALLED_TITLE'), 'comments-2 langmanager');
+		JToolbarHelper::title(JText::sprintf('COM_LANGUAGES_VIEW_INSTALLED_TITLE', $clientText), 'comments-2 langmanager');
+
+		$canDo = JHelperContent::getActions('com_languages');
 
 		if ($canDo->get('core.edit.state'))
 		{

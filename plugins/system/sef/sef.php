@@ -20,7 +20,7 @@ class PlgSystemSef extends JPlugin
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  3.6
+	 * @since  3.5
 	 */
 	protected $app;
 
@@ -29,7 +29,7 @@ class PlgSystemSef extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.6
+	 * @since   3.5
 	 */
 	public function onAfterDispatch()
 	{
