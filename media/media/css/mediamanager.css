@@ -164,9 +164,9 @@ div#media-noimages {
 }
 
 .spinner-img {
-	background: url(../../jui/images/ajax-loader.gif) no-repeat;
-	width: 24px;
-	height: 24px;
+	background: url(../../jui/images/ajax-loader.gif) center no-repeat;
+	width: 66px;
+	height: 66px;
 	margin: 0 auto;
 }
 
