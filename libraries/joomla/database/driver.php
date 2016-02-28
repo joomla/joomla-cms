@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -380,7 +380,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 			if (($current == ';' && !$open) || $i == $end - 1)
 			{
-				$queries[] = substr($sql, $start, ($i - $start + 1));
+				$query = substr($sql, $start, ($i - $start + 1));
+				$queries[] = preg_replace('/#(?!__)[\s\S]+?[\n\r]/', '', $query);
 				$start = $i + 1;
 			}
 		}

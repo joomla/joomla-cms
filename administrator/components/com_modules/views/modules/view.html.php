@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,14 +68,16 @@ class ModulesViewModules extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
+		$clientText = ((int) $this->state->get('filter.client_id') === 1) ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+
+		JToolbarHelper::title(JText::sprintf('COM_MODULES_MANAGER_MODULES_TITLE', $clientText), 'cube module');
+
 		$state = $this->get('State');
 		$canDo = JHelperContent::getActions('com_modules');
 		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
-
-		JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'cube module');
 
 		if ($canDo->get('core.create'))
 		{
@@ -118,7 +120,7 @@ class ModulesViewModules extends JViewLegacy
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{

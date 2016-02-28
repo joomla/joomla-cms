@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,7 +66,7 @@ JFactory::getDocument()->addScriptDeclaration(
 	Joomla.submitbuttonInstallWebInstaller = function() {
 		var form = document.getElementById("adminForm");
 
-		form.install_url.value = "http://appscdn.joomla.org/webapps/jedapps/webinstaller.xml";
+		form.install_url.value = "https://appscdn.joomla.org/webapps/jedapps/webinstaller.xml";
 
 		Joomla.submitbutton4();
 	};
@@ -75,18 +75,12 @@ JFactory::getDocument()->addScriptDeclaration(
 	jQuery(document).ready(function($) {
 		var outerDiv = $("#installer-install");
 
-		$(\'<div id="loading"></div>\')
-		.css("background", \'rgba(255, 255, 255, .8) url("../media/jui/img/ajax-loader.gif") 50% 15% no-repeat\')
+		$("#loading")
 		.css("top", outerDiv.position().top - $(window).scrollTop())
 		.css("left", outerDiv.position().left - $(window).scrollLeft())
 		.css("width", outerDiv.width())
 		.css("height", outerDiv.height())
-		.css("position", "fixed")
-		.css("opacity", "0.80")
-		.css("-ms-filter", "progid:DXImageTransform.Microsoft.Alpha(Opacity = 80)")
-		.css("filter", "alpha(opacity = 80)")
 		.css("display", "none")
-		.appendTo(outerDiv);
 	});
 	'
 );
@@ -98,6 +92,8 @@ JFactory::getDocument()->addScriptDeclaration(
 		opacity: 0.8;
 		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
 		filter: alpha(opacity = 80);
+		margin: -10px -50px 0 -50px;
+		overflow: hidden;
 	}
 
 	.j-jed-message {

@@ -227,6 +227,9 @@ h6 { font-size: 12px; line-height: 14px; }
 .breadcrumb {
 	margin: 10px 0;
 }
+.breadcrumb > li {
+   color: #999;
+}
 /* Caption fixes */
 .img_caption .left {
 	float: left;
@@ -640,4 +643,25 @@ body.modal-open {
 }
 #finder-search .in.collapse {
 	overflow: visible;
+}
+
+/* Fix for select element overflow on browser resizing */
+.well {
+	select,
+	.chzn-container {
+		max-width: 100%;
+	}
+}
+
+/* Corrects the media modal padding on small devices */
+@media (max-width: 767px) {
+	.field-media-wrapper .modal .modal-body {
+		padding: 5px 0;
+	}
+}
+
+/* Fix iOS scrolling inside bootstrap modals (using iframe) */
+.modal-body {
+	-webkit-overflow-scrolling: touch;
+	overflow-y: auto !important;
 }

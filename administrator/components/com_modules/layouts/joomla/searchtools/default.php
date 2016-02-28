@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,7 @@ $doc->addStyleDeclaration("
 	.js-stools .js-stools-client_id {
 		float: left;
 		margin-right: 10px;
+		min-width: 220px;
 	}
 	html[dir=rtl] .js-stools .js-stools-client_id {
 		float: right;

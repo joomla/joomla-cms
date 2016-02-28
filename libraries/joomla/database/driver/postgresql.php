@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -418,6 +418,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				{
 					$field->Default = "";
 				}
+
 				if (stristr(strtolower($field->type), "text"))
 				{
 					$field->Default = "";
@@ -697,6 +698,14 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			JLog::add($query, JLog::DEBUG, 'databasequery');
 
 			$this->timings[] = microtime(true);
+
+			if (is_object($this->cursor))
+			{
+				// Avoid warning if result already freed by third-party library
+				@$this->freeResult();
+			}
+
+			$memoryBefore = memory_get_usage();
 		}
 
 		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
@@ -714,6 +723,12 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			{
 				$this->callStacks[] = debug_backtrace();
 			}
+
+			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array(
+				$memoryBefore,
+				memory_get_usage(),
+				is_resource($this->cursor) ? $this->getNumRows($this->cursor) : null
+			);
 		}
 
 		// If an error occurred handle it.
