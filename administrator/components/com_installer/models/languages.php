@@ -126,7 +126,7 @@ class InstallerModelLanguages extends JModelList
 		if (!empty($search))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(name LIKE ' . $search . ')');
+			$query->where('(LOWER(name) LIKE ' . $search . ')');
 		}
 
 		// Add the list ordering clause.
