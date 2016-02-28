@@ -364,7 +364,7 @@ class InstallerModelDatabase extends InstallerModel
 
 		$db->setQuery('CREATE TABLE IF NOT EXISTS ' . $db->quoteName('#__utf8_conversion')
 			. ' (' . $db->quoteName('converted') . ' tinyint(4) NOT NULL DEFAULT 0'
-			. ') ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_general_ci;')->execute();
+			. ') ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_unicode_ci;')->execute();
 
 		$db->setQuery('SELECT COUNT(*) FROM ' . $db->quoteName('#__utf8_conversion') . ';');
 
