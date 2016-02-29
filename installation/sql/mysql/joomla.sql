@@ -1958,6 +1958,13 @@ CREATE TABLE IF NOT EXISTS `#__utf8_conversion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Dumping data for table `#__utf8_conversion`
+-- - the `converted`=3 means table just created with a new installation
+--
+
+INSERT INTO `#__utf8_conversion` (`converted`) VALUES (3);
+
+--
 -- Table structure for table `#__viewlevels`
 --
 

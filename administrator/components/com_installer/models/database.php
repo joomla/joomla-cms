@@ -368,11 +368,13 @@ class InstallerModelDatabase extends InstallerModel
 
 		if ($db->hasUTF8mb4Support())
 		{
+			$converted = 2;
 			$creaTabSql = $creaTabSql
 				. ' DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;';
 		}
 		else
 		{
+			$converted = 1;
 			$creaTabSql = $creaTabSql
 				. ' DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_unicode_ci;';
 		}
@@ -385,15 +387,25 @@ class InstallerModelDatabase extends InstallerModel
 
 		if ($count > 1)
 		{
+			// Table messed up somehow, clear it
 			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion')
 				. ';')->execute();
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') ' . ' VALUES (0);')->execute();
+				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
+		}
+		elseif ($count == 1)
+		{
+			// Set status after new installation to converted
+			$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
+				. ' SET ' . $db->quoteName('converted')
+				. ' = ' . $converted
+				. ' WHERE ' . $db->quoteName('converted') . ' = 3;')->execute();
 		}
 		elseif ($count == 0)
 		{
+			// Record missing somehow, fix this
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') ' . ' VALUES (0);')->execute();
+				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
 		}
 	}
 
