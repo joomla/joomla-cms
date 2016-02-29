@@ -362,9 +362,22 @@ class InstallerModelDatabase extends InstallerModel
 			return;
 		}
 
-		$db->setQuery('CREATE TABLE IF NOT EXISTS ' . $db->quoteName('#__utf8_conversion')
+		$creaTabSql = 'CREATE TABLE IF NOT EXISTS ' . $db->quoteName('#__utf8_conversion')
 			. ' (' . $db->quoteName('converted') . ' tinyint(4) NOT NULL DEFAULT 0'
-			. ') ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_unicode_ci;')->execute();
+			. ') ENGINE=InnoDB';
+
+		if ($db->hasUTF8mb4Support())
+		{
+			$creaTabSql = $creaTabSql
+				. ' DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;';
+		}
+		else
+		{
+			$creaTabSql = $creaTabSql
+				. ' DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_unicode_ci;';
+		}
+
+		$db->setQuery($creaTabSql)->execute();
 
 		$db->setQuery('SELECT COUNT(*) FROM ' . $db->quoteName('#__utf8_conversion') . ';');
 
