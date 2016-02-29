@@ -18,7 +18,7 @@
 ALTER TABLE `#__categories` ADD KEY `idx_alias` (`alias`(100));
 ALTER TABLE `#__menu` ADD KEY `idx_alias` (`alias`(100));
 ALTER TABLE `#__menu` ADD UNIQUE `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`(100),`language`);
-ALTER TABLE `#__redirect_links` ADD UNIQUE `idx_link_old` (`old_url`(100));
+ALTER TABLE `#__redirect_links` ADD UNIQUE `idx_link_old` (`old_url`(191));
 ALTER TABLE `#__tags` ADD KEY `idx_alias` (`alias`(100));
 ALTER TABLE `#__ucm_content` ADD KEY `idx_alias` (`core_alias`(100));
 

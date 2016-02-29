@@ -1528,7 +1528,7 @@ CREATE TABLE IF NOT EXISTS `#__redirect_links` (
   `modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `header` smallint(3) NOT NULL DEFAULT 301,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_link_old` (`old_url`(100)),
+  UNIQUE KEY `idx_link_old` (`old_url`(191)),
   KEY `idx_link_modifed` (`modified_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
