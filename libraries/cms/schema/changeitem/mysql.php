@@ -123,7 +123,11 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				 * When we made the UTF8MB4 conversion then text becomes medium text - so loosen the checks to these two types
 				 * otherwise (for example) the profile fields profile_value check fails - see https://github.com/joomla/joomla-cms/issues/9258
 				 */
-				if (strtoupper($type) === 'TEXT')
+				if (strtoupper($type) === 'TINYTEXT')
+				{
+					$typeCheck = 'type IN ("TEXT", "TINYTEXT")';
+				}
+				elseif (strtoupper($type) === 'TEXT')
 				{
 					$typeCheck = 'type IN ("TEXT", "MEDIUMTEXT")';
 				}
