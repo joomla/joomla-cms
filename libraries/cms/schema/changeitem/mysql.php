@@ -118,7 +118,25 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 			{
 				// Kludge to fix problem with "integer unsigned"
 				$type = $this->fixQuote($this->fixInteger($wordArray[6], $wordArray[7]));
-				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[5]) . ' AND type = ' . $type;
+
+				/**
+				 * When we made the UTF8MB4 conversion then text becomes medium text - so loosen the checks to these two types
+				 * otherwise (for example) the profile fields profile_value check fails - see https://github.com/joomla/joomla-cms/issues/9258
+				 */
+				if (strtoupper($type) === 'TEXT')
+				{
+					$typeCheck = 'type IN ("TEXT", "MEDIUMTEXT")';
+				}
+				elseif (strtoupper($type) === 'MEDIUMTEXT')
+				{
+					$typeCheck = 'type IN ("MEDIUMTEXT", "LONGTEXT")';
+				}
+				else
+				{
+					$typeCheck = 'type = ' . $type;
+				}
+
+				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[5]) . ' AND ' . $typeCheck;
 				$this->queryType = 'CHANGE_COLUMN_TYPE';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type);
 			}
