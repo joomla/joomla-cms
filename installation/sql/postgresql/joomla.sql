@@ -1456,9 +1456,9 @@ INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description
 --
 CREATE TABLE "#__redirect_links" (
   "id" serial NOT NULL,
-  "old_url" varchar(255) NOT NULL,
-  "new_url" varchar(255),
-  "referer" varchar(150) NOT NULL,
+  "old_url" varchar(2048) NOT NULL,
+  "new_url" varchar(2048),
+  "referer" varchar(2048) NOT NULL,
   "comment" varchar(255) NOT NULL,
   "hits" bigint DEFAULT 0 NOT NULL,
   "published" smallint NOT NULL,
