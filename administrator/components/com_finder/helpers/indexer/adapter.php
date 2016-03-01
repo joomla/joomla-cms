@@ -495,7 +495,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 			->select($this->db->quoteName('access'))
 			->from($this->db->quoteName($this->table));
 
-		$this->filterByIdentifier($query, $row->id);
+		$this->filterByIdentifier($query, $row->id, null);
 
 		$this->db->setQuery($query);
 
@@ -951,7 +951,15 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	private function filterByIdentifier($query, $id, $tableAlias = 'a')
 	{
-		$tableAndIdentifier = $tableAlias . '.' . $this->identifier_field;
+		if (empty($tableAlias))
+		{
+			$tableAndIdentifier = $this->identifier_field;
+		}
+		else
+		{
+			$tableAndIdentifier = $tableAlias . '.' . $this->identifier_field;
+		}
+
 		$query->where($tableAndIdentifier . ' = ' . (int) $id);
 	}
 }
