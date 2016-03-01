@@ -905,7 +905,7 @@ class JFilterInput
 		do
 		{
 			$temp = $source;
-			$source = $this->cleanTags($source);
+			$source = $this->_cleanTags($source);
 		}
 		while ($temp != $source);
 
