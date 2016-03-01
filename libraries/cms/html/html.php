@@ -979,8 +979,8 @@ abstract class JHtml
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
-                        $temp = DateTime::createFromFormat("Y-m-d H:i:s",$value);
-                        $inputvalue = $temp->format(str_replace('%','',$format));
+                       $temp = DateTime::createFromFormat("Y-m-d H:i:s",$value);
+                       $inputvalue = $temp->format(str_replace('%','',$format));
 			date_default_timezone_set($tz);
 		}
 		else
