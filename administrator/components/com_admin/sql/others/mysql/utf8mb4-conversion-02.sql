@@ -24,7 +24,7 @@ ALTER TABLE `#__ucm_content` ADD KEY `idx_alias` (`core_alias`(100));
 --
 -- Note that we remove the unique constraint here so that data truncation does not cause database errors
 --
-ALTER TABLE `#__redirect_links` ADD `idx_link_old` (`old_url`(100));
+ALTER TABLE `#__redirect_links` ADD KEY `idx_link_old` (`old_url`(100));
 
 --
 -- Step 2.2: Enlarge columns to avoid data loss on later conversion to utf8mb4
