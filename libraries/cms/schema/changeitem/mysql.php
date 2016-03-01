@@ -103,44 +103,42 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 			elseif (strtoupper($wordArray[3]) == 'MODIFY')
 			{
 				// Kludge to fix problem with "integer unsigned"
-				$type = $this->fixQuote($wordArray[5]);
+				$type = $wordArray[5];
 
 				if (isset($wordArray[6]))
 				{
-					$type = $this->fixQuote($this->fixInteger($wordArray[5], $wordArray[6]));
+					$type = $this->fixInteger($wordArray[5], $wordArray[6]);
 				}
 
-				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[4]) . ' AND type = ' . $type;
+				/**
+				 * When we made the UTF8MB4 conversion then text becomes medium text - so loosen the checks to these two types
+				 * otherwise (for example) the profile fields profile_value check fails - see https://github.com/joomla/joomla-cms/issues/9258
+				 */
+				$typeCheck = $this->fixUtf8mb4TypeChecks($type);
+
+				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[4])
+					. ' AND ' . $typeCheck;
 				$this->queryType = 'CHANGE_COLUMN_TYPE';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]), $type);
 			}
 			elseif (strtoupper($wordArray[3]) == 'CHANGE')
 			{
 				// Kludge to fix problem with "integer unsigned"
-				$type = $this->fixQuote($this->fixInteger($wordArray[6], $wordArray[7]));
+				$type = $wordArray[6];
+
+				if (isset($wordArray[7]))
+				{
+					$type = $this->fixInteger($wordArray[6], $wordArray[7]);
+				}
 
 				/**
 				 * When we made the UTF8MB4 conversion then text becomes medium text - so loosen the checks to these two types
 				 * otherwise (for example) the profile fields profile_value check fails - see https://github.com/joomla/joomla-cms/issues/9258
 				 */
-				if (strtoupper($type) === 'TINYTEXT')
-				{
-					$typeCheck = 'type IN ("TEXT", "TINYTEXT")';
-				}
-				elseif (strtoupper($type) === 'TEXT')
-				{
-					$typeCheck = 'type IN ("TEXT", "MEDIUMTEXT")';
-				}
-				elseif (strtoupper($type) === 'MEDIUMTEXT')
-				{
-					$typeCheck = 'type IN ("MEDIUMTEXT", "LONGTEXT")';
-				}
-				else
-				{
-					$typeCheck = 'type = ' . $type;
-				}
+				$typeCheck = $this->fixUtf8mb4TypeChecks($type);
 
-				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[5]) . ' AND ' . $typeCheck;
+				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[5])
+					. ' AND ' . $typeCheck;
 				$this->queryType = 'CHANGE_COLUMN_TYPE';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type);
 			}
@@ -217,5 +215,49 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 		$string = str_replace('#__', $this->db->getPrefix(), $string);
 
 		return $this->db->quote($string);
+	}
+
+	/**
+	 * Make check query for column changes/modifications tolerant
+	 * for automatic type changes of text columns, e.g. from TEXT
+	 * to MEDIUMTEXT, after comnversion from utf8 to utf8mb4
+	 *
+	 * @param   string  $type  The column type found in the update query
+	 *
+	 * @return  string  The condition for type check in the check query
+	 *
+	 * @since   3.5
+	 */
+	private function fixUtf8mb4TypeChecks($type)
+	{
+		$fixedType = str_replace(';', '', $type);
+
+		if ($this->db->hasUTF8mb4Support())
+		{
+			$uType = strtoupper($fixedType);
+
+			if ($uType === 'TINYTEXT')
+			{
+				$typeCheck = 'type IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')';
+			}
+			elseif ($uType === 'TEXT')
+			{
+				$typeCheck = 'type IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')';
+			}
+			elseif ($uType === 'MEDIUMTEXT')
+			{
+				$typeCheck = 'type IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')';
+			}
+			else
+			{
+				$typeCheck = 'type = ' . $this->db->quote($fixedType);
+			}
+		}
+		else
+		{
+			$typeCheck = 'type = ' . $this->db->quote($fixedType);
+		}
+
+		return $typeCheck;
 	}
 }
