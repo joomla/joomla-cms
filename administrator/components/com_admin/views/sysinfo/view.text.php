@@ -55,7 +55,7 @@ class AdminViewSysinfo extends JViewLegacy
 			}
 		}
 
-		echo implode("\n\n", $lines);
+		echo str_replace(JPATH_ROOT, '', implode("\n\n", $lines));
 
 		JFactory::getApplication()->close();
 	}
