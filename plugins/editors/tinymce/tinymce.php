@@ -1008,6 +1008,7 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * Get the XTD buttons and render them inside tinyMCE
 	 *
+	 * @param   string  $name      the id of the editor field
 	 * @param   string  $excluded  the buttons that should be hidden
 	 *
 	 * @return array
