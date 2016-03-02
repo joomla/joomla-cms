@@ -1397,7 +1397,6 @@ class JoomlaInstallerScript
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ExceptionInterface.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ParseException.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/RuntimeException.php',
-			'/administrator/components/com_tags/helpers/tags.php',
 			'/libraries/vendor/phpmailer/phpmailer/extras/class.html2text.php',
 			'/libraries/joomla/document/error/error.php',
 			'/libraries/joomla/document/feed/feed.php',
