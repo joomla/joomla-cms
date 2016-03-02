@@ -72,6 +72,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'Cookie',
 			'DOCUMENT_ROOT',
 			'extension_dir',
+			'error_log',
 			'Host',
 			'HTTP_COOKIE',
 			'HTTP_HOST',
@@ -99,6 +100,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'Server Root',
 			'session.name',
 			'session.save_path',
+			'upload_tmp_dir',
 			'User/Group',
 		),
 		'other' => array(

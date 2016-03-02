@@ -39,7 +39,7 @@ class AdminViewSysinfo extends JViewLegacy
 
 		$data = $this->getLayoutData();
 
-		echo json_encode($data);
+		echo str_replace(JPATH_ROOT, '', json_encode($data));
 
 		JFactory::getApplication()->close();
 	}
