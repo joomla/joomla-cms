@@ -72,6 +72,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'Cookie',
 			'DOCUMENT_ROOT',
 			'extension_dir',
+			'error_log',
 			'Host',
 			'HTTP_COOKIE',
 			'HTTP_HOST',
