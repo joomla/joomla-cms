@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
  * Tags helper.
  *
  * @since  3.1
+ * @deprecated  4.0
  */
 class TagsHelper extends JHelperContent
 {
