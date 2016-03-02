@@ -525,9 +525,9 @@ class JSession implements IteratorAggregate
 			return null;
 		}
 
-        $prev = $this->data->get($namespace . '.' . $name, null);
-        $this->data->set($namespace . '.' . $name, $value);
-        return $prev;
+        	$prev = $this->data->get($namespace . '.' . $name, null);
+        	$this->data->set($namespace . '.' . $name, $value);
+        	return $prev;
 	}
 
 	/**
