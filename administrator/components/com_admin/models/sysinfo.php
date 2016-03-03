@@ -102,6 +102,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'session.save_path',
 			'upload_tmp_dir',
 			'User/Group',
+			'open_basedir'
 		),
 		'other' => array(
 			'db',
@@ -124,7 +125,8 @@ class AdminModelSysInfo extends JModelLegacy
 			'session_memcached_server_host',
 			'sitename',
 			'smtphost',
-			'tmp_path'
+			'tmp_path',
+			'open_basedir'
 		)
 	);
 
@@ -330,8 +332,8 @@ class AdminModelSysInfo extends JModelLegacy
 	/**
 	 * Method to get filter data from the model
 	 *
-	 * @param  string $dataType Type of data to get safely
-	 * @param  bool $public passing to certain methods to strip sensitive data
+	 * @param  string  $dataType  Type of data to get safely
+	 * @param  bool  $public  passing to certain methods to strip sensitive data
 	 *
 	 * @return  array
 	 *
@@ -490,7 +492,7 @@ class AdminModelSysInfo extends JModelLegacy
 	/**
 	 * Method to get the directory states
 	 *
-	 * @param  $public - if true no information is going to be removed
+	 * @param   bool  if $public if true no information is going to be removed
 	 *
 	 * @return  array States of directories
 	 *
