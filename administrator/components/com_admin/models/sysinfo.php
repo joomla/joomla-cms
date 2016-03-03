@@ -333,7 +333,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 * Method to get filter data from the model
 	 *
 	 * @param  string  $dataType  Type of data to get safely
-	 * @param  bool  $public  passing to certain methods to strip sensitive data
+	 * @param  bool    $public    If true no sensitive information will be removed
 	 *
 	 * @return  array
 	 *
@@ -492,7 +492,7 @@ class AdminModelSysInfo extends JModelLegacy
 	/**
 	 * Method to get the directory states
 	 *
-	 * @param   bool $public  if $public if true no information is going to be removed
+	 * @param   bool  $public  If true no information is going to be removed
 	 *
 	 * @return  array States of directories
 	 *
