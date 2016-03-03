@@ -183,7 +183,14 @@ class AdminModelSysInfo extends JModelLegacy
 
 			if (in_array($section, $privateSettings, true))
 			{
-				$dataArray[$section] = $this->cleanSectionPrivateData($values);
+				if( strstr($values, JPATH_ROOT))
+				{
+					$dataArray[$section] = 'xxxxxx';
+				}
+				else
+				{
+					$dataArray[$section] = $this->cleanSectionPrivateData($values);
+				}
 			}
 		}
 
@@ -598,8 +605,8 @@ class AdminModelSysInfo extends JModelLegacy
 			$this->addDirectory('administrator/cache', JPATH_CACHE, 'COM_ADMIN_CACHE_DIRECTORY');
 		}
 
-		$this->addDirectory($registry->get('log_path', JPATH_ROOT . '/log'), $registry->get('log_path', JPATH_ROOT . '/log'), 'COM_ADMIN_LOG_DIRECTORY');
-		$this->addDirectory($registry->get('tmp_path', JPATH_ROOT . '/tmp'), $registry->get('tmp_path', JPATH_ROOT . '/tmp'), 'COM_ADMIN_TEMP_DIRECTORY');
+		$this->addDirectory('log', $registry->get('log_path', JPATH_ROOT . '/log'), 'COM_ADMIN_LOG_DIRECTORY');
+		$this->addDirectory('tmp', $registry->get('tmp_path', JPATH_ROOT . '/tmp'), 'COM_ADMIN_TEMP_DIRECTORY');
 
 		return $this->directories;
 	}
@@ -617,7 +624,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 */
 	private function addDirectory($name, $path, $message = '')
 	{
-		$this->directories[str_replace(JPATH_ROOT, '', $name)] = array('writable' => is_writable($path), 'message' => $message);
+		$this->directories[$name] = array('writable' => is_writable($path), 'message' => $message);
 	}
 
 	/**
