@@ -332,8 +332,8 @@ class AdminModelSysInfo extends JModelLegacy
 	/**
 	 * Method to get filter data from the model
 	 *
-	 * @param  string  $dataType  Type of data to get safely
-	 * @param  bool    $public    If true no sensitive information will be removed
+	 * @param   string  $dataType  Type of data to get safely
+	 * @param   bool    $public    If true no sensitive information will be removed
 	 *
 	 * @return  array
 	 *
