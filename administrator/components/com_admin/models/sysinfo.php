@@ -498,7 +498,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 *
 	 * @since   1.6
 	 */
-	public function getDirectory($public)
+	public function getDirectory($public = false)
 	{
 		if (!empty($this->directories))
 		{
