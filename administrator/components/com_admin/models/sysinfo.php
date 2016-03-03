@@ -492,7 +492,7 @@ class AdminModelSysInfo extends JModelLegacy
 	/**
 	 * Method to get the directory states
 	 *
-	 * @param   bool  if $public if true no information is going to be removed
+	 * @param   bool $public  if $public if true no information is going to be removed
 	 *
 	 * @return  array States of directories
 	 *
