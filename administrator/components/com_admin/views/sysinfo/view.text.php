@@ -86,7 +86,7 @@ class AdminViewSysinfo extends JViewLegacy
 			),
 			'directories' => array(
 				'title' => JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS', true),
-				'data'  => $model->getSafeData('directory')
+				'data'  => $model->getSafeData('directory', true)
 			),
 			'phpInfo' => array(
 				'title' => JText::_('COM_ADMIN_PHP_INFORMATION', true),
