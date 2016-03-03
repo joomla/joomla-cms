@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "871fd29fff6b6d203c23bf28b5c25f0e",
-    "content-hash": "49979472d61e44eba9b2d42a6ab04886",
+    "hash": "e4a0c44baa97f2acbd3ef1fe14f63200",
+    "content-hash": "800b07fe877fd7416bf7c046ad42a55a",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -383,17 +383,17 @@
         },
         {
             "name": "joomla/session",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "target-dir": "Joomla/Session",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/session.git",
-                "reference": "6b5d16661213ea41d3ef7dcb8c8d355e18e75d45"
+                "reference": "a91ea38b797f505c8ab20773604b901b567ed0ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/session/zipball/6b5d16661213ea41d3ef7dcb8c8d355e18e75d45",
-                "reference": "6b5d16661213ea41d3ef7dcb8c8d355e18e75d45",
+                "url": "https://api.github.com/repos/joomla-framework/session/zipball/a91ea38b797f505c8ab20773604b901b567ed0ab",
+                "reference": "a91ea38b797f505c8ab20773604b901b567ed0ab",
                 "shasum": ""
             },
             "require": {
@@ -428,7 +428,7 @@
                 "joomla",
                 "session"
             ],
-            "time": "2015-07-26 23:44:05"
+            "time": "2015-12-14 18:23:13"
         },
         {
             "name": "joomla/string",
@@ -666,7 +666,7 @@
             },
             "require-dev": {
                 "phpdocumentor/phpdocumentor": "*",
-                "phpunit/phpunit": "4.8.*"
+                "phpunit/phpunit": "4.7.*"
             },
             "suggest": {
                 "league/oauth2-client": "Needed for XOAUTH2 authentication",
