@@ -1712,8 +1712,11 @@ class JoomlaInstallerScript
 		// Step 2: Perform the index modifications and conversions
 		$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql";
 
+		$utf8mb4Support = false;
+
 		if ($this->serverClaimsUtf8mb4Support())
 		{
+			$utf8mb4Support = true;
 			$converted = 2;
 		}
 		else
@@ -1731,7 +1734,7 @@ class JoomlaInstallerScript
 				foreach ($queries2 as $query2)
 				{
 					// Downgrade the query if utf8mb4 isn't supported
-					if ($converted === 1)
+					if ($utf8mb4Support)
 					{
 						$query2 = $this->convertUtf8mb4QueryToUtf8($query2);
 					}
