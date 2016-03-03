@@ -330,8 +330,8 @@ class AdminModelSysInfo extends JModelLegacy
 	/**
 	 * Method to get filter data from the model
 	 *
-	 * @param   string $dataType Type of data to get safely
-	 * @param   bool $public
+	 * @param  string $dataType Type of data to get safely
+	 * @param  bool $public passing to certain methods to strip sensitive data
 	 *
 	 * @return  array
 	 *
@@ -490,7 +490,8 @@ class AdminModelSysInfo extends JModelLegacy
 	/**
 	 * Method to get the directory states
 	 *
-	 * @param   $public - if true no information is going to be removed
+	 * @param  $public - if true no information is going to be removed
+	 *
 	 * @return  array States of directories
 	 *
 	 * @since   1.6
@@ -604,7 +605,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$this->addDirectory('administrator/cache', JPATH_CACHE, 'COM_ADMIN_CACHE_DIRECTORY');
 		}
 
-		if($public)
+		if ($public)
 		{
 			$this->addDirectory('log', $registry->get('log_path', JPATH_ROOT . '/log'), 'COM_ADMIN_LOG_DIRECTORY');
 			$this->addDirectory('tmp', $registry->get('tmp_path', JPATH_ROOT . '/tmp'), 'COM_ADMIN_TEMP_DIRECTORY');
