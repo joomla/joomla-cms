@@ -188,7 +188,7 @@ class ModMenuHelper
 	{
 		$menu = JFactory::getApplication()->getMenu();
 
-		return $menu->getActive() ? $menu->getActive() : self::getDefault(&$params);
+		return $menu->getActive() ? $menu->getActive() : self::getDefault();
 	}
 
 	/**
