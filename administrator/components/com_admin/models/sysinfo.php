@@ -183,14 +183,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 			if (in_array($section, $privateSettings, true))
 			{
-				if(is_string($values) && strstr($values, JPATH_ROOT))
-				{
-					$dataArray[$section] = 'xxxxxx';
-				}
-				else
-				{
-					$dataArray[$section] = $this->cleanSectionPrivateData($values);
-				}
+				$dataArray[$section] = $this->cleanSectionPrivateData($values);
 			}
 		}
 
@@ -210,6 +203,10 @@ class AdminModelSysInfo extends JModelLegacy
 	{
 		if (!is_array($sectionValues))
 		{
+			if (strstr($sectionValues, JPATH_ROOT))
+			{
+				$sectionValues = 'xxxxxx';
+			}
 			return strlen($sectionValues) ? 'xxxxxx' : '';
 		}
 
@@ -334,7 +331,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 * Method to get filter data from the model
 	 *
 	 * @param   string $dataType Type of data to get safely
-	 * @param bool $public
+	 * @param   bool $public
 	 *
 	 * @return  array
 	 *
@@ -493,7 +490,7 @@ class AdminModelSysInfo extends JModelLegacy
 	/**
 	 * Method to get the directory states
 	 *
-	 * @param $public - if true no information is going to be removed
+	 * @param   $public - if true no information is going to be removed
 	 * @return  array States of directories
 	 *
 	 * @since   1.6
