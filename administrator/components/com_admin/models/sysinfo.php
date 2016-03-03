@@ -183,7 +183,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 			if (in_array($section, $privateSettings, true))
 			{
-				if( strstr($values, JPATH_ROOT))
+				if(strstr($values, JPATH_ROOT))
 				{
 					$dataArray[$section] = 'xxxxxx';
 				}
