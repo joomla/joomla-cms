@@ -120,6 +120,8 @@ class MenusControllerItems extends JControllerAdmin
 		// Check for request forgeries
 		JSession::checkToken('request') or die(JText::_('JINVALID_TOKEN'));
 
+		$app = JFactory::getApplication();
+
 		// Get items to publish from the request.
 		$cid   = $this->input->get('cid', array(), 'array');
 		$data  = array('setDefault' => 1, 'unsetDefault' => 0);
@@ -157,7 +159,11 @@ class MenusControllerItems extends JControllerAdmin
 				$this->setMessage(JText::plural($ntext, count($cid)));
 			}
 		}
-
-		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+		$this->setRedirect(
+				JRoute::_(
+						'index.php?option=' . $this->option . '&view=' . $this->view_list
+						. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
+						)
+				);
 	}
 }
