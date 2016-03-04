@@ -1733,22 +1733,25 @@ class JoomlaInstallerScript
 			{
 				foreach ($queries2 as $query2)
 				{
-					// Downgrade the query if utf8mb4 isn't supported
-					if ($utf8mb4Support)
+					if ($trimmedQuery = $this->trimQuery($query2))
 					{
-						$query2 = $this->convertUtf8mb4QueryToUtf8($query2);
-					}
+						// Downgrade the query if utf8mb4 isn't supported
+						if ($utf8mb4Support)
+						{
+							$trimmedQuery = $this->convertUtf8mb4QueryToUtf8($trimmedQuery);
+						}
 
-					try
-					{
-						$db->setQuery($query2)->execute();
-					}
-					catch (Exception $e)
-					{
-						$converted = 0;
+						try
+						{
+							$db->setQuery($trimmedQuery)->execute();
+						}
+						catch (Exception $e)
+						{
+							$converted = 0;
 
-						// Still render the error message from the Exception object
-						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+							// Still render the error message from the Exception object
+							JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+						}
 					}
 				}
 			}
