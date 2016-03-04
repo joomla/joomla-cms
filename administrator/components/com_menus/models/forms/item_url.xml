@@ -18,18 +18,18 @@
 				default=""
 			>
 				<option value="">JNONE</option>
-				<option value="alternate">COM_MENUS_FIELD_VALUE_ALTERNATE</option>
-				<option value="author">COM_MENUS_FIELD_VALUE_AUTHOR</option>
-				<option value="bookmark">COM_MENUS_FIELD_VALUE_BOOKMARK</option>
-				<option value="help">COM_MENUS_FIELD_VALUE_HELP</option>
-				<option value="license">COM_MENUS_FIELD_VALUE_LICENSE</option>
-				<option value="next">COM_MENUS_FIELD_VALUE_NEXT</option>
-				<option value="nofollow">COM_MENUS_FIELD_VALUE_NOFOLLOW</option>
-				<option value="noreferrer">COM_MENUS_FIELD_VALUE_NOREFERRER</option>
-				<option value="prefetch">COM_MENUS_FIELD_VALUE_PREFETCH</option>
-				<option value="prev">COM_MENUS_FIELD_VALUE_PREV</option>
-				<option value="search">COM_MENUS_FIELD_VALUE_SEARCH</option>
-				<option value="tag">COM_MENUS_FIELD_VALUE_TAG</option>
+				<option value="alternate"/>
+				<option value="author"/>
+				<option value="bookmark"/>
+				<option value="help"/>
+				<option value="license"/>
+				<option value="next"/>
+				<option value="nofollow"/>
+				<option value="noreferrer"/>
+				<option value="prefetch"/>
+				<option value="prev"/>
+				<option value="search"/>
+				<option value="tag"/>
 			</field>
 
 			<field name="menu_image" type="media"
