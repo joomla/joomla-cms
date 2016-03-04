@@ -69,7 +69,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				$this->queryType = 'ADD_COLUMN';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
 			}
-			elseif ($alterCommand == 'ADD INDEX' || $alterCommand == 'ADD UNIQUE')
+			elseif ($alterCommand == 'ADD INDEX' || $alterCommand == 'ADD KEY')
 			{
 				if ($pos = strpos($wordArray[5], '('))
 				{
@@ -84,7 +84,34 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				$this->queryType = 'ADD_INDEX';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
-			elseif ($alterCommand == 'DROP INDEX')
+			elseif ($alterCommand == 'ADD UNIQUE')
+			{
+				$idxIndexName = 5;
+
+				if (isset($wordArray[6]))
+				{
+					$addCmdCheck = strtoupper($wordArray[5]);
+
+					if ($addCmdCheck == 'INDEX' || $addCmdCheck == 'KEY')
+					{
+						$idxIndexName = 6;
+					}
+				}
+
+				if ($pos = strpos($wordArray[$idxIndexName], '('))
+				{
+					$index = $this->fixQuote(substr($wordArray[$idxIndexName], 0, $pos));
+				}
+				else
+				{
+					$index = $this->fixQuote($wordArray[$idxIndexName]);
+				}
+
+				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
+				$this->queryType = 'ADD_INDEX';
+				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
+			}
+			elseif ($alterCommand == 'DROP INDEX' || $alterCommand == 'DROP KEY')
 			{
 				$index = $this->fixQuote($wordArray[5]);
 				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
