@@ -197,7 +197,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 				$reCaptcha = new JReCaptcha($privatekey);
 				$response  = $reCaptcha->verifyResponse($remoteip, $response);
 
-				if ( is_array ( $response->errorCodes) && is_object ( $response) ){
+				if (is_array($response->errorCodes) && is_object($response)){
 
 					if ( !isset($response->success) || !$response->success)
 					{
