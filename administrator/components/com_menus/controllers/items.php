@@ -235,7 +235,8 @@ class MenusControllerItems extends JControllerAdmin
 		$this->setRedirect(
 				JRoute::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_list
-						. '&menutype=' . JFactory::getApplication()->getUserState('com_menus.items.menutype'), false));
+						. '&menutype=' . JFactory::getApplication()->getUserState('com_menus.items.menutype'), false)
+				);
 	}
 
 	/**
@@ -262,7 +263,8 @@ class MenusControllerItems extends JControllerAdmin
 			$this->setRedirect(
 					JRoute::_(
 							'index.php?option=' . $this->option . '&view=' . $this->view_list
-							. '&menutype=' . JFactory::getApplication()->getUserState('com_menus.items.menutype'), false), $message, 'error');
+							. '&menutype=' . JFactory::getApplication()->getUserState('com_menus.items.menutype'), false), $message, 'error'
+					);
 
 			return false;
 		}
@@ -273,7 +275,8 @@ class MenusControllerItems extends JControllerAdmin
 			$this->setRedirect(
 					JRoute::_(
 							'index.php?option=' . $this->option . '&view=' . $this->view_list
-							. '&menutype=' . JFactory::getApplication()->getUserState('com_menus.items.menutype'), false), $message);
+							. '&menutype=' . JFactory::getApplication()->getUserState('com_menus.items.menutype'), false), $message
+					);
 
 			return true;
 		}
