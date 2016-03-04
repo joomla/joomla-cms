@@ -105,6 +105,8 @@ JFactory::getDocument()->addStyleDeclaration(
 	'
 );
 
+?>
+
 <div id="installer-install" class="clearfix">
 	<?php if (!empty( $this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="span2">
