@@ -1714,7 +1714,7 @@ class JoomlaInstallerScript
 
 		$utf8mb4Support = false;
 
-		if ($this->serverClaimsUtf8mb4Support())
+		if ($this->serverClaimsUtf8mb4Support($name))
 		{
 			$utf8mb4Support = true;
 			$converted = 2;
