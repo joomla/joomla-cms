@@ -166,4 +166,75 @@ class MenusControllerItems extends JControllerAdmin
 						)
 				);
 	}
+
+	/**
+	 * Method to publish a list of items
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	public function publish()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+
+		// Get items to publish from the request.
+		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$data = array('publish' => 1, 'unpublish' => 0, 'trash' => -2, 'report' => -3);
+		$task = $this->getTask();
+		$value = JArrayHelper::getValue($data, $task, 0, 'int');
+
+		if (empty($cid))
+		{
+			JLog::add(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
+		}
+		else
+		{
+			// Get the model.
+			$model = $this->getModel();
+
+			// Make sure the item ids are integers
+			JArrayHelper::toInteger($cid);
+
+			// Publish the items.
+			try
+			{
+				$model->publish($cid, $value);
+				$errors = $model->getErrors();
+
+				if ($value == 1)
+				{
+					if ($errors)
+					{
+						$app = JFactory::getApplication();
+						$app->enqueueMessage(JText::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
+					}
+					else
+					{
+						$ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
+					}
+				}
+				elseif ($value == 0)
+				{
+					$ntext = $this->text_prefix . '_N_ITEMS_UNPUBLISHED';
+				}
+				else
+				{
+					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
+				}
+
+				$this->setMessage(JText::plural($ntext, count($cid)));
+			}
+			catch (Exception $e)
+			{
+				$this->setMessage($e->getMessage(), 'error');
+			}
+		}
+
+		$this->setRedirect(
+				JRoute::_(
+						'index.php?option=' . $this->option . '&view=' . $this->view_list
+						. '&menutype=' . JFactory::getApplication()->getUserState('com_menus.items.menutype'), false));
+	}
 }
