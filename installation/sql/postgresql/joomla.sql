@@ -1464,8 +1464,8 @@ CREATE TABLE "#__redirect_links" (
   "published" smallint NOT NULL,
   "created_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "modified_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "header" INTEGER DEFAULT 301 NOT NULL,
-  PRIMARY KEY ("id"),
+  "header" integer DEFAULT 301 NOT NULL,
+  PRIMARY KEY ("id")
 );
 CREATE INDEX "#__redirect_links_idx_old_url" ON "#__redirect_links" ("old_url");
 CREATE INDEX "#__redirect_links_idx_link_modifed" ON "#__redirect_links" ("modified_date");
