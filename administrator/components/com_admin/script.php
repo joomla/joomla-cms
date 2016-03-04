@@ -1842,4 +1842,35 @@ class JoomlaInstallerScript
 		// Replace utf8mb4 with utf8
 		return str_replace('utf8mb4', 'utf8', $query);
 	}
+
+	/**
+	 * Trim comment and blank lines out of a query string
+	 *
+	 * @param   string  $query  query string to be trimmed
+	 *
+	 * @return  string  String with leading comment lines removed
+	 *
+	 * @since   3.5
+	 */
+	private function trimQuery($query)
+	{
+		$query = trim($query);
+
+		while (substr($query, 0, 1) == '#' || substr($query, 0, 2) == '--' || substr($query, 0, 2) == '/*')
+		{
+			$endChars = (substr($query, 0, 1) == '#' || substr($query, 0, 2) == '--') ? "\n" : "*/";
+
+			if ($position = strpos($query, $endChars))
+			{
+				$query = trim(substr($query, $position + strlen($endChars)));
+			}
+			else
+			{
+				// If no newline, the rest of the file is a comment, so return an empty string.
+				return '';
+			}
+		}
+
+		return trim($query);
+	}
 }
