@@ -1959,10 +1959,9 @@ CREATE TABLE IF NOT EXISTS `#__utf8_conversion` (
 
 --
 -- Dumping data for table `#__utf8_conversion`
--- - the `converted`=3 means table just created with a new installation
 --
 
-INSERT INTO `#__utf8_conversion` (`converted`) VALUES (3);
+INSERT INTO `#__utf8_conversion` (`converted`) VALUES (0);
 
 --
 -- Table structure for table `#__viewlevels`
