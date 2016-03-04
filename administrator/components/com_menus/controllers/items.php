@@ -233,10 +233,12 @@ class MenusControllerItems extends JControllerAdmin
 		}
 
 		$this->setRedirect(
-				JRoute::_(
-						'index.php?option=' . $this->option . '&view=' . $this->view_list
-						. '&menutype=' . JFactory::getApplication()->getUserState('com_menus.items.menutype'), false)
-				);
+			JRoute::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_list . '&menutype=' .
+				JFactory::getApplication()->getUserState('com_menus.items.menutype'),
+				false
+			)
+		);
 	}
 
 	/**
@@ -261,10 +263,14 @@ class MenusControllerItems extends JControllerAdmin
 			// Checkin failed.
 			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
 			$this->setRedirect(
-					JRoute::_(
-							'index.php?option=' . $this->option . '&view=' . $this->view_list
-							. '&menutype=' . JFactory::getApplication()->getUserState('com_menus.items.menutype'), false), $message, 'error'
-					);
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. '&menutype=' . JFactory::getApplication()->getUserState('com_menus.items.menutype'),
+					false
+				),
+				$message,
+				'error'
+			);
 
 			return false;
 		}
@@ -273,10 +279,13 @@ class MenusControllerItems extends JControllerAdmin
 			// Checkin succeeded.
 			$message = JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
 			$this->setRedirect(
-					JRoute::_(
-							'index.php?option=' . $this->option . '&view=' . $this->view_list
-							. '&menutype=' . JFactory::getApplication()->getUserState('com_menus.items.menutype'), false), $message
-					);
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. '&menutype=' . JFactory::getApplication()->getUserState('com_menus.items.menutype'),
+					false
+				),
+				$message
+			);
 
 			return true;
 		}
