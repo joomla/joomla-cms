@@ -4,10 +4,7 @@
 -- message about database problem in the database schema view. 
 --
 -- The value of `converted` can be 0 (not converted yet after update),
--- 1 (converted to utf8), 2 (converted to utf8mb4) or 3 (value set on new
--- installation, will be later set to 1 or 2 by the database schema
--- manager according to utf8 support of the database before checking the
--- database)
+-- 1 (converted to utf8), or 2 (converted to utf8mb4).
 --
 
 CREATE TABLE IF NOT EXISTS `#__utf8_conversion` (
