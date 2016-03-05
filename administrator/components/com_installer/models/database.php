@@ -286,7 +286,8 @@ class InstallerModelDatabase extends InstallerModel
 
 		// Check conversion status in database
 		$db->setQuery('SELECT ' . $db->quoteName('converted')
-			. ' FROM ' . $db->quoteName('#__utf8_conversion'));
+			. ' FROM ' . $db->quoteName('#__utf8_conversion')
+			);
 
 		try
 		{
