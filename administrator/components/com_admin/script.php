@@ -1704,7 +1704,7 @@ class JoomlaInstallerScript
 
 		try
 		{
-			$db->execute();
+			$convertedDB = $db->loadResult();
 		}
 		catch (Exception $e)
 		{
@@ -1712,8 +1712,6 @@ class JoomlaInstallerScript
 
 			return;
 		}
-
-		$convertedDB = $db->loadResult();
 
 		// Nothing to do, saved conversion status from DB is equal to required
 		if ($convertedDB === $converted)
