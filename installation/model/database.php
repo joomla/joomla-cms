@@ -521,7 +521,9 @@ class InstallationModelDatabase extends JModelBase
 		$query = $db->getQuery(true);
 
 		// MySQL only: Attempt to update the table #__utf8_conversion.
-		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
+		$serverType = $db->getServerType();
+
+		if ($serverType === 'mysql')
 		{
 			$query->clear()
 				->update($db->quoteName('#__utf8_conversion'))
