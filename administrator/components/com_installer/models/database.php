@@ -274,6 +274,37 @@ class InstallerModelDatabase extends InstallerModel
 			return;
 		}
 
+		// Set required conversion status
+		if ($db->hasUTF8mb4Support())
+		{
+			$converted = 2;
+		}
+		else
+		{
+			$converted = 1;
+		}
+
+		// Check conversion status in database
+		$db->setQuery('SELECT ' . $db->quoteName('converted')
+			. ' FROM ' . $db->quoteName('#__utf8_conversion');
+
+		try
+		{
+			$convertedDB = $db->loadResult();
+		}
+		catch (Exception $e)
+		{
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return;
+		}
+
+		// Nothing to do, saved conversion status from DB is equal to required
+		if ($convertedDB === $converted)
+		{
+			return;
+		}
+
 		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
 		$fileName1 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/$serverType/utf8mb4-conversion-01.sql";
 
@@ -300,15 +331,6 @@ class InstallerModelDatabase extends InstallerModel
 
 		// Step 2: Perform the index modifications and conversions
 		$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/$serverType/utf8mb4-conversion-02.sql";
-
-		if ($db->hasUTF8mb4Support())
-		{
-			$converted = 2;
-		}
-		else
-		{
-			$converted = 1;
-		}
 
 		if (is_file($fileName2))
 		{
