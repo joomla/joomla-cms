@@ -1680,7 +1680,7 @@ class JoomlaInstallerScript
 		// This is only required for MySQL databases
 		$name = $db->getName();
 
-		if (stristr($name, 'mysql') !== false)
+		if (stristr($name, 'mysql') === false)
 		{
 			return;
 		}
