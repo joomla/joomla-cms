@@ -286,7 +286,7 @@ class InstallerModelDatabase extends InstallerModel
 
 		// Check conversion status in database
 		$db->setQuery('SELECT ' . $db->quoteName('converted')
-			. ' FROM ' . $db->quoteName('#__utf8_conversion');
+			. ' FROM ' . $db->quoteName('#__utf8_conversion'));
 
 		try
 		{
@@ -300,7 +300,7 @@ class InstallerModelDatabase extends InstallerModel
 		}
 
 		// Nothing to do, saved conversion status from DB is equal to required
-		if ($convertedDB === $converted)
+		if ($convertedDB == $converted)
 		{
 			return;
 		}
