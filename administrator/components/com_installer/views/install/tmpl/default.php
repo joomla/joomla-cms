@@ -84,10 +84,11 @@ JFactory::getDocument()->addScriptDeclaration(
 	});
 	'
 );
-?>
-<style type="text/css">
+
+JFactory::getDocument()->addStyleDeclaration(
+	'
 	#loading {
-		background: rgba(255, 255, 255, .8) url('<?php echo JHtml::_('image', 'jui/ajax-loader.gif', '', null, true, true); ?>') 50% 15% no-repeat;
+		background: rgba(255, 255, 255, .8) url(\'' . JHtml::_('image', 'jui/ajax-loader.gif', '', null, true, true) . '\') 50% 15% no-repeat;
 		position: fixed;
 		opacity: 0.8;
 		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
@@ -101,7 +102,10 @@ JFactory::getDocument()->addScriptDeclaration(
 		line-height: 2em;
 		color:#333333;
 	}
-</style>
+	'
+);
+
+?>
 
 <div id="installer-install" class="clearfix">
 	<?php if (!empty( $this->sidebar)) : ?>
