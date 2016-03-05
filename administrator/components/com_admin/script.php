@@ -1708,7 +1708,7 @@ class JoomlaInstallerScript
 		}
 		catch (Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 
 			return;
 		}
