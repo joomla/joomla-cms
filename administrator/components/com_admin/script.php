@@ -1714,7 +1714,7 @@ class JoomlaInstallerScript
 		}
 
 		// Nothing to do, saved conversion status from DB is equal to required
-		if ($convertedDB === $converted)
+		if ($convertedDB == $converted)
 		{
 			return;
 		}
