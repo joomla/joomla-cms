@@ -1759,7 +1759,7 @@ class JoomlaInstallerScript
 					if ($trimmedQuery = $this->trimQuery($query2))
 					{
 						// Downgrade the query if utf8mb4 isn't supported
-						if ($utf8mb4Support)
+						if (!$utf8mb4Support)
 						{
 							$trimmedQuery = $this->convertUtf8mb4QueryToUtf8($trimmedQuery);
 						}
