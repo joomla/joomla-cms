@@ -92,8 +92,7 @@
 		<!-- These exceptions are temporary for now -->
 		<exclude-pattern type="relative">installation/controller/install/database_*</exclude-pattern>
 	</rule>
-	<rule ref="PEAR.WhiteSpace.ObjectOperatorIndent"/>
-	
+
 	<!-- Include some additional sniffs from the Squiz standard -->
 	<rule ref="Squiz.CSS.ColonSpacing" />
 	<rule ref="Squiz.CSS.DuplicateClassDefinition" />
@@ -136,7 +135,7 @@
 	<!-- Remove the following when the folder limitations are dropped -->
 	
 	<rule ref="Joomla.Classes.MethodScope"/>
-	<rule ref="Joomla.WhiteSpace.MemberVarSpacing" />
+
 	<rule ref="Joomla.Commenting.FunctionComment">
 		<!-- We only want this for libraries, language and cli for now -->
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
@@ -151,12 +150,6 @@
 	</rule>
 
 	<rule ref="Joomla.Commenting.ClassComment"/>
-
-	<rule ref="Joomla.WhiteSpace.ConcatenationSpacing">
-		<!-- We only want this for libraries, language and cli for now -->
-		<exclude-pattern type="relative">templates/*</exclude-pattern>
-		<exclude-pattern type="relative">layouts/*</exclude-pattern>
-	</rule>
 
 	<rule ref="Joomla.ControlStructures.ControlSignature">
 		<!-- These exceptions are permanent -->
@@ -181,4 +174,12 @@
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
 		<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	</rule>
+
+	<rule ref="Joomla.WhiteSpace.ConcatenationSpacing">
+		<!-- We only want this for libraries, language and cli for now -->
+		<exclude-pattern type="relative">templates/*</exclude-pattern>
+		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+	</rule>
+	<rule ref="Joomla.WhiteSpace.MemberVarSpacing" />
+	<rule ref="Joomla.WhiteSpace.ObjectOperatorIndent"/>
 </ruleset>
