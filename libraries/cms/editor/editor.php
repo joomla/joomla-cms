@@ -479,6 +479,11 @@ class JEditor extends JObject
 
 			$button = $plugin->onDisplay($editor, $this->asset, $this->author);
 
+			if (empty($button))
+			{
+				continue;
+			}
+
 			if (is_array($button))
 			{
 				$result = array_merge($result, $button);
