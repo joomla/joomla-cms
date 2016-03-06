@@ -734,7 +734,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public function getAlterTableCharacterSet($tableName)
 	{
 		$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
-		$collation = $charset . '_general_ci';
+		$collation = $charset . '_unicode_ci';
 
 		$quotedTableName = $this->quoteName($tableName);
 
@@ -762,8 +762,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 					continue;
 				}
 
-				// Default new collation: utf8_general_ci or utf8mb4_general_ci
-				$newCollation = $charset . '_general_ci';
+				// Default new collation: utf8_unicode_ci or utf8mb4_unicode_ci
+				$newCollation = $charset . '_unicode_ci';
 				$collationParts = explode('_', $col->Collation);
 
 				/**
@@ -855,7 +855,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		{
 			$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
 
-			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `' . $charset . '`';
+			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `' . $charset . '` COLLATE `' . $collation . '`';
 		}
 
 		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
