@@ -34,7 +34,13 @@
 		<exclude-pattern type="relative">libraries/cms/*</exclude-pattern>
 		<exclude-pattern type="relative">libraries/joomla/*</exclude-pattern>
 	</rule>
-	<rule ref="Generic.Files.EndFileNewline" />
+	<rule ref="Generic.Files.EndFileNewline">
+		<!-- These exceptions are temporary for now, possibly permanent -->
+		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+		<exclude-pattern type="relative">templates/*</exclude-pattern>
+		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+		<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
+	</rule>
 
 	<!-- Use Unix newlines -->
 	<rule ref="Generic.Files.LineEndings">
