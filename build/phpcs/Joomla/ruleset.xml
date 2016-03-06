@@ -49,6 +49,11 @@
 			<property name="lineLimit" value="150"/>
 			<property name="absoluteLineLimit" value="0"/>
 		</properties>
+		<!-- These exceptions are temporary for now, possibly permanent -->
+		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+		<exclude-pattern type="relative">templates/*</exclude-pattern>
+		<exclude-pattern type="relative">layouts/*</exclude-pattern>
+		<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	</rule>
 
 	<rule ref="Generic.Formatting.DisallowMultipleStatements">
