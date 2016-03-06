@@ -118,7 +118,6 @@
 	</rule>
 
 	<rule ref="Squiz.WhiteSpace.CastSpacing"/>
-	<rule ref="Squiz.WhiteSpace.MemberVarSpacing"/>
 	<rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
 	
 	<!-- Include some additional sniffs from the PSR2 standard -->
@@ -137,7 +136,7 @@
 	<!-- Remove the following when the folder limitations are dropped -->
 	
 	<rule ref="Joomla.Classes.MethodScope"/>
-
+	<rule ref="Joomla.WhiteSpace.MemberVarSpacing" />
 	<rule ref="Joomla.Commenting.FunctionComment">
 		<!-- We only want this for libraries, language and cli for now -->
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
