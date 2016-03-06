@@ -381,7 +381,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 * @covers  JUserHelper::getCryptedPassword
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   3.5
 	 */
 	public function testGetCryptedPassword()
 	{
