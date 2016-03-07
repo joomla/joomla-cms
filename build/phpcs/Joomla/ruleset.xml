@@ -113,14 +113,6 @@
 	<rule ref="Squiz.CSS.SemicolonSpacing" />
 	<rule ref="Squiz.Classes.SelfMemberReference" />
 
-	<rule ref="Squiz.Commenting.DocCommentAlignment">
-		<!-- These exceptions are temporary for now, possibly permanent -->
-		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
-		<exclude-pattern type="relative">templates/*</exclude-pattern>
-		<exclude-pattern type="relative">layouts/*</exclude-pattern>
-		<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
-	</rule>
-
 	<rule ref="Squiz.Operators.IncrementDecrementUsage">
 		<exclude name="Squiz.Operators.IncrementDecrementUsage.processAssignment" />
 	</rule>
