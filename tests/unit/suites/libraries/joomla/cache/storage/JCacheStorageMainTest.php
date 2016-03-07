@@ -70,7 +70,11 @@ class JCacheStorageMainTest extends TestCase
 
 			foreach ($names as $name)
 			{
-				$ret["$name adapter"] = array($name);
+				// Make sure the adapter is not in our blacklist; this means the adapter cannot be tested or there is an internal failure
+				if (!in_array($name, array('redis')))
+				{
+					$ret["$name adapter"] = array($name);
+				}
 			}
 		}
 
@@ -88,8 +92,6 @@ class JCacheStorageMainTest extends TestCase
 	 */
 	public function testCacheHit($store)
 	{
-		$this->checkStore($store);
-
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
@@ -117,8 +119,6 @@ class JCacheStorageMainTest extends TestCase
 	 */
 	public function testCacheMiss($store)
 	{
-		$this->checkStore($store);
-
 		$id = 'randomTestID2423423';
 		$group = '_testing';
 		$data = 'testData';
@@ -143,8 +143,6 @@ class JCacheStorageMainTest extends TestCase
 	 */
 	public function testCacheTimeout($store)
 	{
-		$this->checkStore($store);
-
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
@@ -175,8 +173,6 @@ class JCacheStorageMainTest extends TestCase
 	 */
 	public function testCacheRemove($store)
 	{
-		$this->checkStore($store);
-
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
@@ -210,8 +206,6 @@ class JCacheStorageMainTest extends TestCase
 	 */
 	public function testCacheClearGroup($store)
 	{
-		$this->checkStore($store);
-
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
@@ -244,8 +238,6 @@ class JCacheStorageMainTest extends TestCase
 	 */
 	public function testCacheClearNotGroup($store)
 	{
-		$this->checkStore($store);
-
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
@@ -264,22 +256,5 @@ class JCacheStorageMainTest extends TestCase
 		$new = $cache->get($id, $group);
 		$this->assertSame($new, $data, 'Expected: ' . $data . ' Actual: ' . ((string) $new));
 		unset($cache);
-	}
-
-	/**
-	 * Checks if a store is supported for testing
-	 *
-	 * @param   string  $store  The store.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4
-	 */
-	private function checkStore($store)
-	{
-		if (in_array($store, array('apc', 'eaccelerator', 'memcached', 'redis', 'xcache')))
-		{
-			$this->markTestSkipped('This storage adapter does not test properly from CLI or is not yet configured for testing.');
-		}
 	}
 }
