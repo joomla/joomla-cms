@@ -18,7 +18,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<p> <?php echo JText::_('COM_CONTACT_NO_CONTACTS'); ?>	 </p>
 <?php else : ?>
 
-	<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="get" name="adminForm" id="adminForm">
 	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) :?>
 	<fieldset class="filters btn-toolbar">
 		<?php if ($this->params->get('filter_field')) :?>
