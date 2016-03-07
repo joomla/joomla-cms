@@ -158,7 +158,7 @@ final class JApplicationSite extends JApplicationCms
 
 				if ($router->getMode() == JROUTER_MODE_SEF)
 				{
-					$document->setBase(htmlspecialchars(JUri::current()));
+					$document->setBase(htmlspecialchars(JUri::getInstance()));
 				}
 
 				// Get the template
