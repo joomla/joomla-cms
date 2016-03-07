@@ -1541,7 +1541,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		return array();
 	}
 
-	
 	/**
 	 * Return the query string to create new Database.
 	 * Each database driver, other than MySQL, need to override this member to return correct string.
