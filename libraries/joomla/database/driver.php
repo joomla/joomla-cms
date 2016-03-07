@@ -854,6 +854,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		if ($utf)
 		{
 			$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
+			$collation = $charset . '_unicode_ci';
 
 			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `' . $charset . '` COLLATE `' . $collation . '`';
 		}
