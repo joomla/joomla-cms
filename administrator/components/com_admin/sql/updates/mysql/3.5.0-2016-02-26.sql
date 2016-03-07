@@ -9,6 +9,6 @@
 
 CREATE TABLE IF NOT EXISTS `#__utf8_conversion` (
   `converted` tinyint(4) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `#__utf8_conversion` (`converted`) VALUES (0);
