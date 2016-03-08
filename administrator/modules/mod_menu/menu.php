@@ -235,7 +235,7 @@ class JAdminCssMenu extends JObject
 			}
 			else
 			{
-				echo '<ul class="dropdown-menu">' . "\n";
+				echo '<ul class="dropdown-menu scroll-menu">' . "\n";
 			}
 
 			foreach ($this->_current->getChildren() as $child)
