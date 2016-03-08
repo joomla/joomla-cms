@@ -437,6 +437,14 @@ class JCategoryNode extends JObject
 	public $level = null;
 
 	/**
+	 * The publication status of the category parents and self
+	 *
+	 * @var    boolean
+	 * @since  3.5
+	 */
+	public $path_published = null;
+
+	/**
 	 * The extension this category is associated with
 	 *
 	 * @var    integer
