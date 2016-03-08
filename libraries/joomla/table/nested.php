@@ -1526,23 +1526,54 @@ class JTableNested extends JTable
 	{
 		$k = $this->_tbl_key;
 		$query = $this->_db->getQuery(true);
+		$table = $this->_db->quoteName($this->_tbl);
+
+		// Use subquery to hide path_published column to prevent ambiguous
+		$subquery = (string) $query->select($k)
+			->select($this->_db->quoteName('path_published', 'path_state'))
+			->from($table);
 
 		foreach ($pks as $pk)
 		{
 			$query->clear()
 				->select($k)
-				->from($this->_tbl)
+				->from($table)
 				->where('parent_id = ' . (int) $pk);
 			$this->_db->setQuery($query);
 			$sub_pks = $this->_db->loadColumn();
 
+			// We have to calculate c.path_published
+			// based on p.path_state and own published column,
+			// where (p) is parent category is and (c) current category
+			//
+			// p.path_state <=  c.published AND p.path_state > 0 THEN c.published
+			//            2 <=  2 THEN  2 (If archived in archived then archived)
+			//            1 <=  2 THEN  2 (If archived in published then archived)
+			//            1 <=  1 THEN  1 (If published in published then published)
+			//
+			// p.path_state >   c.published AND c.published > 0 THEN p.path_state
+			//            2 >   1 THEN  2 (If published in archived then archived)
+			//
+			// p.path_state >   c.published THEN c.published ELSE p.path_state
+			//            2 >  -2 THEN -2 (If trashed in archived then trashed)
+			//            2 >   0 THEN  0 (If unpublished in archived then unpublished)
+			//            1 >   0 THEN  0 (If unpublished in published then unpublished)
+			//            0 >  -2 THEN -2 (If trashed in unpublished then trashed)
+			// ELSE
+			//            0 <=  2 THEN  0 (If archived in unpublished then unpublished)
+			//            0 <=  1 THEN  0 (If published in unpublished then unpublished)
+			//            0 <=  0 THEN  0 (If unpublished in unpublished then unpublished)
+			//           -2 <= -2 THEN -2 (If trashed in trashed then trashed)
+			//           -2 <=  0 THEN -2 (If unpublished in trashed then trashed)
+			//           -2 <=  1 THEN -2 (If published in trashed then trashed)
+			//           -2 <=  2 THEN -2 (If archived in trashed then trashed)
 			$query->clear()
-				->update($this->_tbl . ' c')
-				->join('LEFT', $this->_tbl . ' p ON c.parent_id = p.' . $k)
-				->set('c.path_published = ' .
-					'CASE WHEN c.published >= p.path_published AND p.path_published > 0 THEN c.published' .
-					'     WHEN p.path_published > c.published AND c.published > 0 THEN p.path_published ' .
-					'     WHEN p.path_published > c.published THEN c.published ELSE p.path_published END');
+				->update($table . ' c')
+				->join('LEFT', '(' . $subquery . ') p ON c.parent_id = p.' . $k)
+				->set('path_published = ' .
+					'CASE WHEN p.path_state <= c.published AND p.path_state > 0 THEN c.published' .
+					'     WHEN p.path_state > c.published AND c.published > 0 THEN p.path_state' .
+					'     WHEN p.path_state > c.published THEN c.published ELSE p.path_state END');
 
 			// Update own column path_published
 			if (!$only_children)
