@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Extension Manager Abstract Extension Model.
@@ -31,9 +33,10 @@ class InstallerModel extends JModelList
 			$config['filter_fields'] = array(
 				'name',
 				'client_id',
+				'client', 'client_translated',
 				'enabled',
-				'type',
-				'folder',
+				'type', 'type_translated',
+				'folder', 'folder_translated',
 				'extension_id',
 			);
 		}
@@ -52,19 +55,23 @@ class InstallerModel extends JModelList
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
-		$ordering = $this->getState('list.ordering');
-		$search   = $this->getState('filter.search');
+		$listOrder = $this->getState('list.ordering', 'name');
+		$listDirn  = $this->getState('list.direction', 'asc');
 
 		// Replace slashes so preg_match will work
+		$search = $this->getState('filter.search');
 		$search = str_replace('/', ' ', $search);
 		$db     = $this->getDbo();
 
-		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
+		// Process ordering and pagination.
+		if (in_array($listOrder, array('name', 'client_translated', 'type_translated', 'folder_translated'))
+			|| (!empty($search) && stripos($search, 'id:') !== 0))
 		{
 			$db->setQuery($query);
 			$result = $db->loadObjectList();
 			$this->translate($result);
 
+			// Search in the name.
 			if (!empty($search))
 			{
 				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
@@ -78,7 +85,9 @@ class InstallerModel extends JModelList
 				}
 			}
 
-			JArrayHelper::sortObjects($result, $this->getState('list.ordering'), $this->getState('list.direction') == 'desc' ? -1 : 1, true, true);
+			// Sort array object by selected ordering and selected direction. Sort is case insensative and using locale sorting.
+			$result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, false, true);
+
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
 
@@ -91,7 +100,7 @@ class InstallerModel extends JModelList
 			return array_slice($result, $limitstart, $limit ? $limit : null);
 		}
 
-		$query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+		$query->order($db->quoteName($listOrder) . ' ' . $db->escape($listDirn));
 		$result = parent::_getList($query, $limitstart, $limit);
 		$this->translate($result);
 
@@ -125,8 +134,12 @@ class InstallerModel extends JModelList
 				}
 			}
 
-			$item->author_info = @$item->authorEmail . '<br />' . @$item->authorUrl;
-			$item->client = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+			$item->author_info       = @$item->authorEmail . '<br />' . @$item->authorUrl;
+			$item->client            = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+			$item->client_translated = $item->client;
+			$item->type_translated   = JText::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
+			$item->folder_translated = @$item->folder ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
+
 			$path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
 			switch ($item->type)

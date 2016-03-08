@@ -90,6 +90,9 @@ Desktop.ini
 /libraries/vendor/paragonie/random_compat/.gitignore
 /libraries/vendor/paragonie/random_compat/.scrutinizer.yml
 /libraries/vendor/paragonie/random_compat/.travis.yml
+/libraries/vendor/paragonie/random_compat/dist
+/libraries/vendor/paragonie/random_compat/other
+/libraries/vendor/paragonie/random_compat/CHANGELOG.md
 /libraries/vendor/paragonie/random_compat/ERRATA.md
 /libraries/vendor/paragonie/random_compat/README.md
 /libraries/vendor/paragonie/random_compat/SECURITY.md
@@ -106,6 +109,8 @@ Desktop.ini
 /libraries/vendor/phpmailer/phpmailer/composer.json
 /libraries/vendor/phpmailer/phpmailer/README.md
 /libraries/vendor/phpmailer/phpmailer/travis.phpunit.xml.dist
+/libraries/vendor/phpmailer/phpmailer/extras/README.md
+/libraries/vendor/phpmailer/phpmailer/get_oauth_token.php
 /libraries/vendor/psr/log/Psr/Log/Test
 /libraries/vendor/psr/log/.gitignore
 /libraries/vendor/psr/log/composer.json
