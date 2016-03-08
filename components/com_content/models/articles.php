@@ -240,20 +240,27 @@ class ContentModelArticles extends JModelList
 		{
 			// If article state is published or archived then all up-path categories have to be archived
 			// If article state is archived then all up-path categories have to be published or archived
-			$query->where('CASE WHEN c.path_published = 2 THEN a.state > 0' .
-			              '     WHEN c.path_published != 1 THEN 0 ELSE a.state = 2 END');
+			$query->where(
+				'CASE WHEN c.path_published = 2 THEN a.state > 0' .
+				'     WHEN c.path_published != 1 THEN 0 ELSE a.state = 2 END'
+			);
 		}
 		elseif (is_numeric($published))
 		{
 			// All up-path categories have to be published
-			$query->where('CASE WHEN c.path_published != 1 THEN 0 ELSE a.state = ' . (int) $published . ' END');
+			$query->where(
+				'CASE WHEN c.path_published != 1 THEN 0 ELSE a.state = ' . (int) $published . ' END'
+			);
 		}
 		elseif (is_array($published))
 		{
 			JArrayHelper::toInteger($published);
 			$published = implode(',', $published);
+
 			// All up-path categories have to be published
-			$query->where('CASE WHEN c.path_published != 1 THEN 0 ELSE a.state IN (' . $published . ') END');
+			$query->where(
+				'CASE WHEN c.path_published != 1 THEN 0 ELSE a.state IN (' . $published . ') END'
+			);
 		}
 
 		// Filter by featured state

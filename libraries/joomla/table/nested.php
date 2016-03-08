@@ -288,10 +288,10 @@ class JTableNested extends JTable
 	/**
 	 * Method to move a node and its children to a new location in the tree.
 	 *
-	 * @param   integer  $referenceId  The primary key of the node to reference new location by.
-	 * @param   string   $position     Location type string. ['before', 'after', 'first-child', 'last-child']
-	 * @param   integer  $pk           The primary key of the node to move.
-	 * @param   boolean  $triggerPublished  Flag indicate that method triggerPublished should be run
+	 * @param   integer  $referenceId       The primary key of the node to reference new location by.
+	 * @param   string   $position          Location type string. ['before', 'after', 'first-child', 'last-child']
+	 * @param   integer  $pk                The primary key of the node to move.
+	 * @param   boolean  $triggerPublished  Flag indicate that method triggerPublished should be run.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1514,12 +1514,12 @@ class JTableNested extends JTable
 	/**
 	 * Method to update path_published state for children rows with or without self
 	 *
-	 * @param   array    $pks   id numbers of rows which published column was changed.
-	 * @params  boolean  $only_children  if true then update only publih_path for subcategories of $pks
+	 * @param   array    $pks            Id numbers of rows which published column was changed.
+	 * @param   boolean  $only_children  If true then update only publih_path for subcategories of $pks.
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   12.1
+	 * @since   3.5
 	 * @throws  RuntimeException on database error.
 	 */
 	protected function triggerPublished($pks, $only_children=false)
@@ -1532,13 +1532,13 @@ class JTableNested extends JTable
 			$query->clear()
 				->select($k)
 				->from($this->_tbl)
-				->where('parent_id = '.(int) $pk);
+				->where('parent_id = ' . (int) $pk);
 			$this->_db->setQuery($query);
 			$sub_pks = $this->_db->loadColumn();
 
 			$query->clear()
-				->update($this->_tbl. ' c')
-				->join('LEFT', $this->_tbl.' p ON c.parent_id = p.'.$k)
+				->update($this->_tbl . ' c')
+				->join('LEFT', $this->_tbl . ' p ON c.parent_id = p.' . $k)
 				->set('c.path_published = ' .
 					'CASE WHEN c.published >= p.path_published AND p.path_published > 0 THEN c.published' .
 					'     WHEN p.path_published > c.published AND c.published > 0 THEN p.path_published ' .
@@ -1547,14 +1547,14 @@ class JTableNested extends JTable
 			// Update own column path_published
 			if (!$only_children)
 			{
-				$query->where('c.'.$k.' = '. (int) $pk);
+				$query->where('c.' . $k . ' = ' . (int) $pk);
 				$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
 			}
 
 			// Update children column path_published
 			if ($sub_pks)
 			{
-				$query->clear('where')->where('c.parent_id = '.(int) $pk);
+				$query->clear('where')->where('c.parent_id = ' . (int) $pk);
 				$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
 				$this->triggerPublished($sub_pks, true);
 			}
