@@ -858,7 +858,7 @@ class PlgEditorTinymce extends JPlugin
 				case 1:
 				default: /* Advanced mode*/
 					$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
-						. "| outdent indent | undo redo | link unlink anchor image | hr table | subscript superscript | charmap";
+						. "| outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap";
 
 					$script .= "
 			valid_elements : \"$valid_elements\",
