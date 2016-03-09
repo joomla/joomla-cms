@@ -39,6 +39,15 @@ class ContentHelper extends JHelperContent
 			'index.php?option=com_categories&extension=com_content',
 			$vName == 'categories');
 		JHtmlSidebar::addEntry(
+			JText::_('JGLOBAL_FIELDS'),
+			'index.php?option=com_fields&context=com_content.article',
+			$vName == 'fields.article'
+		);
+		JHtmlSidebar::addEntry(
+			JText::_('JGLOBAL_FIELD_CATEGORIES'),
+			'index.php?option=com_categories&extension=com_content.article.fields',
+			$vName == 'categories.article');
+		JHtmlSidebar::addEntry(
 			JText::_('COM_CONTENT_SUBMENU_FEATURED'),
 			'index.php?option=com_content&view=featured',
 			$vName == 'featured'
