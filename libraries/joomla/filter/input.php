@@ -192,7 +192,7 @@ class JFilterInput
 				}
 				else
 				{
-					$this->stripUSC = 1;
+					$this->stripUSC = ($db->$serverType == 'mysql') ? 1 : 0;
 				}
 			}
 			catch (Exception $e)
