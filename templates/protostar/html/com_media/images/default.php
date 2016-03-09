@@ -59,9 +59,9 @@ JFactory::getDocument()->addScriptDeclaration(
 							</div>
 						</div>
 						<div class="pull-right">
-							<button class="btn btn-success button-save-selected" type="button" <?php if (!$this->state->get('field.id')):?>onclick="ImageManager.onok();window.parent.jModalClose();"<?php endif;?> data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
-							<button class="btn button-cancel" type="button" <?php if (!$this->state->get('field.id')) :
-							// This is for Mootools compatibility ?>onclick="parent.jModalClose();"<?php endif;?> data-dismiss="modal"><?php echo JText::_('JCANCEL') ?></button>
+							<button class="btn btn-success button-save-selected" type="button" <?php if (!$this->state->get('field.id')):?>onclick="ImageManager.onok();window.parent.jModalClose();window.parent.jQuery('.modal.in').modal('hide');"<?php endif;?> data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
+							<button class="btn button-cancel" type="button" onclick="window.parent.jQuery('.modal.in').modal('hide');<?php if (!$this->state->get('field.id')) :
+								// This is for Mootools compatibility ?>parent.jModalClose();<?php endif ?>" data-dismiss="modal"><?php echo JText::_('JCANCEL') ?></button>
 						</div>
 					</div>
 				</div>
