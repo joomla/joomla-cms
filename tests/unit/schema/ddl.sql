@@ -36,6 +36,7 @@ CREATE TABLE `jos_categories` (
   `lft` INTEGER NOT NULL DEFAULT '0',
   `rgt` INTEGER NOT NULL DEFAULT '0',
   `level` INTEGER NOT NULL DEFAULT '0',
+  `path_published` INTEGER NOT NULL DEFAULT '0',
   `path` TEXT NOT NULL DEFAULT '',
   `extension` TEXT NOT NULL DEFAULT '',
   `title` TEXT NOT NULL DEFAULT '',
@@ -59,7 +60,7 @@ CREATE TABLE `jos_categories` (
 	`version` INTEGER NOT NULL DEFAULT '1'
 );
 
-CREATE INDEX `idx_categories_lookup` ON `jos_categories` (`extension`,`published`,`access`);
+CREATE INDEX `idx_categories_lookup` ON `jos_categories` (`extension`,`path_published`,`access`);
 CREATE INDEX `idx_categories_access` ON `jos_categories` (`access`);
 CREATE INDEX `idx_categories_checkout` ON `jos_categories` (`checked_out`);
 CREATE INDEX `idx_categories_path` ON `jos_categories` (`path`);

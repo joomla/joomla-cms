@@ -288,9 +288,10 @@ class JTableNested extends JTable
 	/**
 	 * Method to move a node and its children to a new location in the tree.
 	 *
-	 * @param   integer  $referenceId  The primary key of the node to reference new location by.
-	 * @param   string   $position     Location type string. ['before', 'after', 'first-child', 'last-child']
-	 * @param   integer  $pk           The primary key of the node to move.
+	 * @param   integer  $referenceId       The primary key of the node to reference new location by.
+	 * @param   string   $position          Location type string. ['before', 'after', 'first-child', 'last-child']
+	 * @param   integer  $pk                The primary key of the node to move.
+	 * @param   boolean  $triggerPublished  Flag indicate that method triggerPublished should be run.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -298,7 +299,7 @@ class JTableNested extends JTable
 	 * @since   11.1
 	 * @throws  RuntimeException on database error.
 	 */
-	public function moveByReference($referenceId, $position = 'after', $pk = null)
+	public function moveByReference($referenceId, $position = 'after', $pk = null, $triggerPublished = true)
 	{
 		// @codeCoverageIgnoreStart
 		if ($this->_debug)
@@ -495,6 +496,12 @@ class JTableNested extends JTable
 			$this->_db->setQuery($query);
 
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
+
+			// Determine that the trigger supports path_published for the table.
+			if ($triggerPublished && property_exists($this, 'path_published'))
+			{
+				$this->triggerPublished(array((int) $node->$k));
+			}
 		}
 
 		// Unlock the table for writing.
@@ -643,6 +650,12 @@ class JTableNested extends JTable
 				->set('rgt = rgt - 2')
 				->where('rgt > ' . (int) $node->rgt);
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
+
+			// Determine that the trigger supports path_published for the table.
+			if (property_exists($this, 'path_published'))
+			{
+				$this->triggerPublished(array((int) $node->parent_id), true);
+			}
 		}
 
 		// Unlock the table for writing.
@@ -827,7 +840,7 @@ class JTableNested extends JTable
 			// If the location has been set, move the node to its new location.
 			if ($this->_location_id > 0)
 			{
-				if (!$this->moveByReference($this->_location_id, $this->_location, $this->$k))
+				if (!$this->moveByReference($this->_location_id, $this->_location, $this->$k, false))
 				{
 					// Error message set in move method.
 					return false;
@@ -868,6 +881,12 @@ class JTableNested extends JTable
 				$this->_logtable();
 			}
 			// @codeCoverageIgnoreEnd
+		}
+
+		// Determine that the trigger supports path_published for the table.
+		if (property_exists($this, 'path_published'))
+		{
+			$this->triggerPublished(array($this->$k));
 		}
 
 		// Unlock the table for writing.
@@ -934,6 +953,9 @@ class JTableNested extends JTable
 
 		// Determine if there is checkout support for the table.
 		$checkoutSupport = (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'));
+
+		// Determine that the trigger supports path_published for the table.
+		$triggerPublishedSupport = property_exists($this, 'path_published');
 
 		// Iterate over the primary keys to execute the publish action if possible.
 		foreach ($pks as $pk)
@@ -1002,6 +1024,11 @@ class JTableNested extends JTable
 				->set('published = ' . (int) $state)
 				->where('(lft > ' . (int) $node->lft . ' AND rgt < ' . (int) $node->rgt . ') OR ' . $k . ' = ' . (int) $pk);
 			$this->_db->setQuery($query)->execute();
+
+			if ($triggerPublishedSupport)
+			{
+				$this->triggerPublished(array($pk));
+			}
 
 			// If checkout support exists for the object, check the row in.
 			if ($checkoutSupport)
@@ -1482,6 +1509,88 @@ class JTableNested extends JTable
 			$this->_unlock();
 			throw $e;
 		}
+	}
+
+	/**
+	 * Method to update path_published state for children rows with or without self
+	 *
+	 * @param   array    $pks            Id numbers of rows which published column was changed.
+	 * @param   boolean  $only_children  If true then update only publih_path for subcategories of $pks.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.5
+	 * @throws  RuntimeException on database error.
+	 */
+	protected function triggerPublished($pks, $only_children=false)
+	{
+		$k = $this->_tbl_key;
+		$query = $this->_db->getQuery(true);
+		$table = $this->_db->quoteName($this->_tbl);
+
+		// Use subquery to hide path_published column to prevent ambiguous
+		$subquery = (string) $query->select($k)
+			->select($this->_db->quoteName('path_published', 'path_state'))
+			->from($table);
+
+		foreach ($pks as $pk)
+		{
+			$query->clear()
+				->select($k)
+				->from($table)
+				->where('parent_id = ' . (int) $pk);
+			$this->_db->setQuery($query);
+			$sub_pks = $this->_db->loadColumn();
+
+			// We have to calculate c.path_published
+			// based on p.path_state and own published column,
+			// where (p) is parent category is and (c) current category
+			//
+			// p.path_state <=  c.published AND p.path_state > 0 THEN c.published
+			//            2 <=  2 THEN  2 (If archived in archived then archived)
+			//            1 <=  2 THEN  2 (If archived in published then archived)
+			//            1 <=  1 THEN  1 (If published in published then published)
+			//
+			// p.path_state >   c.published AND c.published > 0 THEN p.path_state
+			//            2 >   1 THEN  2 (If published in archived then archived)
+			//
+			// p.path_state >   c.published THEN c.published ELSE p.path_state
+			//            2 >  -2 THEN -2 (If trashed in archived then trashed)
+			//            2 >   0 THEN  0 (If unpublished in archived then unpublished)
+			//            1 >   0 THEN  0 (If unpublished in published then unpublished)
+			//            0 >  -2 THEN -2 (If trashed in unpublished then trashed)
+			// ELSE
+			//            0 <=  2 THEN  0 (If archived in unpublished then unpublished)
+			//            0 <=  1 THEN  0 (If published in unpublished then unpublished)
+			//            0 <=  0 THEN  0 (If unpublished in unpublished then unpublished)
+			//           -2 <= -2 THEN -2 (If trashed in trashed then trashed)
+			//           -2 <=  0 THEN -2 (If unpublished in trashed then trashed)
+			//           -2 <=  1 THEN -2 (If published in trashed then trashed)
+			//           -2 <=  2 THEN -2 (If archived in trashed then trashed)
+			$query->clear()
+				->update($table . ' c')
+				->join('LEFT', '(' . $subquery . ') p ON c.parent_id = p.' . $k)
+				->set('path_published = ' .
+					'CASE WHEN p.path_state <= c.published AND p.path_state > 0 THEN c.published' .
+					'     WHEN p.path_state > c.published AND c.published > 0 THEN p.path_state' .
+					'     WHEN p.path_state > c.published THEN c.published ELSE p.path_state END');
+
+			// Update own column path_published
+			if (!$only_children)
+			{
+				$query->where('c.' . $k . ' = ' . (int) $pk);
+				$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
+			}
+
+			// Update children column path_published
+			if ($sub_pks)
+			{
+				$query->clear('where')->where('c.parent_id = ' . (int) $pk);
+				$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
+				$this->triggerPublished($sub_pks, true);
+			}
+		}
+		return true;
 	}
 
 	/**

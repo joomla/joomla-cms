@@ -223,7 +223,7 @@ class JCategories
 		$query->select('c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
 			c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
 			c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
-			c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version');
+			c.path_published, c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version');
 		$case_when = ' CASE WHEN ';
 		$case_when .= $query->charLength('c.alias', '!=', '0');
 		$case_when .= ' THEN ';
@@ -242,13 +242,7 @@ class JCategories
 
 		if ($this->_options['published'] == 1)
 		{
-			$query->where('c.published = 1');
-
-			$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
-				'ON cat.lft BETWEEN parent.lft AND parent.rgt WHERE parent.extension = ' . $db->quote($extension) .
-				' AND parent.published != 1 GROUP BY cat.id) ';
-			$query->join('LEFT', $subQuery . 'AS badcats ON badcats.id = c.id')
-				->where('badcats.id is null');
+			$query->where('c.path_published = 1');
 		}
 
 		$query->order('c.lft');
@@ -301,7 +295,7 @@ class JCategories
 			'c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
 			 c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
 			 c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
-			 c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version'
+			 c.path_published, c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version'
 		);
 
 		// Get the results
@@ -441,6 +435,14 @@ class JCategoryNode extends JObject
 	 * @since  11.1
 	 */
 	public $level = null;
+
+	/**
+	 * The publication status of the category parents and self
+	 *
+	 * @var    boolean
+	 * @since  3.5
+	 */
+	public $path_published = null;
 
 	/**
 	 * The extension this category is associated with

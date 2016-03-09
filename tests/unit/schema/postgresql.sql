@@ -46,6 +46,7 @@ CREATE TABLE "jos_categories" (
   "lft" bigint DEFAULT 0 NOT NULL,
   "rgt" bigint DEFAULT 0 NOT NULL,
   "level" integer DEFAULT 0 NOT NULL,
+  "path_published" smallint DEFAULT 0 NOT NULL,
   "path" character varying(255) DEFAULT '' NOT NULL,
   "extension" character varying(50) DEFAULT '' NOT NULL,
   "title" character varying(255) NOT NULL,
@@ -71,7 +72,7 @@ CREATE TABLE "jos_categories" (
   "language" character(7) NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "jos_categories_cat_idx" on "jos_categories" ("extension", "published", "access");
+CREATE INDEX "jos_categories_cat_idx" on "jos_categories" ("extension", "path_published", "access");
 CREATE INDEX "jos_categories_idx_access" on "jos_categories" ("access");
 CREATE INDEX "jos_categories_idx_checkout" on "jos_categories" ("checked_out");
 CREATE INDEX "jos_categories_idx_path" on "jos_categories" ("path");
