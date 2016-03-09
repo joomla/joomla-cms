@@ -162,8 +162,38 @@ class JFilterInput
 				// This trick is required to let the driver determine the utf-8 multibyte support
 				$db->connect();
 
-				// And now we can decide if we should strip USCs
-				$this->stripUSC = $db->hasUTF8mb4Support() ? 0 : 1;
+				// If the server has Utf8mb4 support - check we have made the conversion of core tables
+				if ($db->hasUTF8mb4Support())
+				{
+					static $convertedDB = null;
+
+					if (is_null($convertedDB))
+					{
+						// Check conversion status in database
+						$query = $db->getQuery(true)
+							->select($db->quoteName('converted'))
+							->from($db->quoteName('#__utf8_conversion'));
+						$db->setQuery($query);
+
+						try
+						{
+							$convertedDB = $db->loadResult();
+						}
+						catch (Exception $e)
+						{
+							// If we can't get a result then we have to assume that we have no support
+							// and strip 4 byte characters
+							$convertedDB = false;
+						}
+					}
+
+					// If we haven't converted the core tables then still strip mb4 characters
+					$this->stripUSC = (int) ($convertedDB != 2);
+				}
+				else
+				{
+					$this->stripUSC = 1;
+				}
 			}
 			catch (Exception $e)
 			{
