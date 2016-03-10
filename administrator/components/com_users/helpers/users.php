@@ -67,6 +67,17 @@ class UsersHelper
 				$vName == 'categories' || $extension == 'com_users'
 			);
 		}
+
+		JHtmlSidebar::addEntry(
+			JText::_('JGLOBAL_FIELDS'),
+			'index.php?option=com_fields&context=com_users.user',
+			$vName == 'fields.user'
+		);
+		JHtmlSidebar::addEntry(
+			JText::_('JGLOBAL_FIELD_CATEGORIES'),
+			'index.php?option=com_categories&extension=com_users.user.fields',
+			$vName == 'categories.user'
+		);
 	}
 
 	/**
