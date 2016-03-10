@@ -360,8 +360,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			$testEnd = substr($sql, $i, $lenEndString);
 
 			if ($current == '"' || $current == "'" || $current2 == '--' || $current2 == '/*'
-			|| ($current == '#' && $current3 != '#__')
-			|| ($comment && $testEnd == $endString))
+				|| ($current == '#' && $current3 != '#__')
+				|| ($comment && $testEnd == $endString))
 			{
 				// Check if quoted with previous backslash
 				$n = 2;
