@@ -58,7 +58,11 @@ if (!empty($this->query->highlight)
 	<?php endif; ?>
 	<?php if ($this->params->get('show_url', 1)) : ?>
 		<div class="small result-url<?php echo $this->pageclass_sfx; ?>">
-			<?php echo $this->baseUrl, JRoute::_($this->result->route); ?>
+		<?php
+			$link = JRoute::_($this->result->route);
+			$title = $this->baseUrl . $link;
+			echo JHtml::_('link', $link, $title);
+		?>
 		</div>
 	<?php endif; ?>
 </li>
