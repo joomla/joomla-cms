@@ -112,6 +112,7 @@ class JLanguageMultilang
 			$query = $db->getQuery(true)
 				->select('language')
 				->select('id')
+				->select('access')
 				->from($db->quoteName('#__menu'))
 				->where('home = 1')
 				->where('published = 1')
@@ -122,5 +123,55 @@ class JLanguageMultilang
 		}
 
 		return $multilangSiteHomePages;
+	}
+
+	/**
+	 * Get available languages. A available language is published, the language extension is enabled,
+	 * has a homepage menu item, the user can view the language and the homepage, and the ini language file exists.	 
+	 *
+	 * @return  array  An array with all available languages.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getAvailableLanguages()
+	{
+		static $languages = null;
+
+		if (is_null($languages))
+		{
+			// Check what languages fullfill the requirements.
+			$homepages = self::getSiteHomePages();
+			$languages = array_intersect_key(JLanguageHelper::getLanguages('lang_code'), self::getSiteLangs(), $homepages);
+			$levels    = JFactory::getUser()->getAuthorisedViewLevels();
+
+			foreach ($languages as $i => $language)
+			{
+				// Do not display language without authorized access level in the language.
+				if (isset($language->access) && $language->access && !in_array($language->access, $levels))
+				{
+					unset($languages[$i]);
+					continue;
+				}
+
+				// Do not display language without authorized access level in the home menu item id.
+				if (isset($homepages[$i]->access) && $homepages[$i]->access && !in_array($homepages[$i]->access, $levels))
+				{
+					unset($languages[$i]);
+					continue;
+				}
+
+				// Do not display languages without an ini file.
+				if (!is_file(JPATH_SITE . '/language/' . $language->lang_code . '/' . $language->lang_code . '.ini'))
+				{
+					unset($languages[$i]);
+					continue;
+				}
+
+				// Set the home id for the language.
+				$languages[$i]->homeid = $homepages[$i]->id;
+			}
+		}
+
+		return $languages;
 	}
 }

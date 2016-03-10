@@ -1227,32 +1227,6 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	public function getAssoc()
 	{
-		static $assoc = null;
-
-		if (!is_null($assoc))
-		{
-			return $assoc;
-		}
-
-		$extension = $this->getState('category.extension');
-
-		$assoc = JLanguageAssociations::isEnabled();
-		$extension = explode('.', $extension);
-		$component = array_shift($extension);
-		$cname = str_replace('com_', '', $component);
-
-		if (!$assoc || !$component || !$cname)
-		{
-			$assoc = false;
-		}
-		else
-		{
-			$hname = $cname . 'HelperAssociation';
-			JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
-
-			$assoc = class_exists($hname) && !empty($hname::$category_association);
-		}
-
-		return $assoc;
+		return JLanguageAssociations::allowsAssociations($this->getState('category.extension'));
 	}
 }

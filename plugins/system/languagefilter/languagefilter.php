@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
-
 /**
  * Joomla! Language Filter Plugin.
  *
@@ -557,7 +555,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			{
 				if ($assoc)
 				{
-					$associations = MenusHelper::getAssociations($active->id);
+					$associations = JLanguageAssociations::getAssociations('com_menus', '#__menu', 'com_menus.item', $active->id, 'id', null, null, true);
 				}
 
 				if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
@@ -604,106 +602,44 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		$doc = JFactory::getDocument();
 
-		if ($this->app->isSite() && $this->params->get('alternate_meta') && $doc->getType() == 'html')
+		if ($this->app->isSite() && $this->params->get('item_associations', 0) && $this->params->get('alternate_meta', 0) && $doc->getType() == 'html')
 		{
-			$languages = $this->lang_codes;
-			$homes = JLanguageMultilang::getSiteHomePages();
-			$menu = $this->app->getMenu();
-			$active = $menu->getActive();
-			$levels = JFactory::getUser()->getAuthorisedViewLevels();
-			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
-			$server = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
-			$is_home = false;
-
-			if ($active)
-			{
-				$active_link = JRoute::_($active->link . '&Itemid=' . $active->id, false);
-				$current_link = JUri::getInstance()->toString(array('path', 'query'));
-
-				// Load menu associations
-				if ($active_link == $current_link)
-				{
-					$associations = MenusHelper::getAssociations($active->id);
-				}
-
-				// Check if we are on the homepage
-				$is_home = ($active->home
-					&& ($active_link == $current_link || $active_link == $current_link . 'index.php' || $active_link . '/' == $current_link));
-			}
-
-			// Load component associations.
-			$option = $this->app->input->get('option');
-			$cName = JString::ucfirst(JString::str_ireplace('com_', '', $option)) . 'HelperAssociation';
-			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
-
-			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
-			{
-				$cassociations = call_user_func(array($cName, 'getAssociations'));
-			}
-
-			// For each language...
-			foreach ($languages as $i => &$language)
-			{
-				switch (true)
-				{
-					// Language without frontend UI || Language without specific home menu || Language without authorized access level
-					case (!array_key_exists($i, JLanguageMultilang::getSiteLangs())):
-					case (!isset($homes[$i])):
-					case (isset($language->access) && $language->access && !in_array($language->access, $levels)):
-						unset($languages[$i]);
-						break;
-
-					// Home page
-					case ($is_home):
-						$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$i]->id);
-						break;
-
-					// Current language link
-					case ($i == $this->current_lang):
-						$language->link = JUri::getInstance()->toString(array('path', 'query'));
-						break;
-
-					// Component association
-					case (isset($cassociations[$i])):
-						$language->link = JRoute::_($cassociations[$i] . '&lang=' . $language->sef);
-						break;
-
-					// Menu items association
-					// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
-					case (isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
-						$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
-						break;
-
-					// Too bad...
-					default:
-						unset($languages[$i]);
-				}
-			}
+			// Load the association links.
+			$assocLinks = JLanguageAssociations::getAssociationsLinks(false);
 
 			// If there are at least 2 of them, add the rel="alternate" links to the <head>
-			if (count($languages) > 1)
+			if (count($assocLinks) > 1)
 			{
+				$langTag     = JFactory::getLanguage()->getTag();
+				$defaultLang = $this->default_lang;
+				$server      = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
+
 				// Remove the sef from the default language if "Remove URL Language Code" is on
-				if (isset($languages[$this->default_lang]) && $remove_default_prefix)
+				if (isset($assocLinks[$defaultLang]) && $this->params->get('remove_default_prefix', 0))
 				{
-					$languages[$this->default_lang]->link
-									= preg_replace('|/' . $languages[$this->default_lang]->sef . '/|', '/', $languages[$this->default_lang]->link, 1);
+					$assocLinks[$defaultLang] = preg_replace('#^/(|index\.php/)' . $this->lang_codes[$defaultLang]->sef . '/#', '/$1', $assocLinks[$defaultLang], 1);
+					$assocLinks[$defaultLang] = preg_replace('#^/index\.php(|/)$#', '/', $assocLinks[$defaultLang], 1);
 				}
 
-				foreach ($languages as $i => &$language)
+				// Add the language alternate links meta tags to the head, but not for the current language.
+				foreach ($assocLinks as $langCode => $assocLink)
 				{
-					$doc->addHeadLink($server . $language->link, 'alternate', 'rel', array('hreflang' => $i));
+					if ($langCode !== $langTag)
+					{
+						$doc->addHeadLink($server . $assocLink, 'alternate', 'rel', array('hreflang' => $langCode));
+					}
 				}
 
-				// Add x-default language tag
-				if ($this->params->get('xdefault', 1))
+				// Add x-default language tag.
+				if ((boolean) $this->params->get('xdefault', true))
 				{
 					$xdefault_language = $this->params->get('xdefault_language', $this->default_lang);
 					$xdefault_language = ( $xdefault_language == 'default' ) ? $this->default_lang : $xdefault_language;
-					if (isset($languages[$xdefault_language]))
+
+					if (!empty($assocLinks[$xdefault_language]))
 					{
 						// Use a custom tag because addHeadLink is limited to one URI per tag
-						$doc->addCustomTag('<link href="' . $server . $languages[$xdefault_language]->link . '" rel="alternate" hreflang="x-default" />');
+						$doc->addCustomTag('<link href="' . $server . $assocLinks[$xdefault_language] . '" rel="alternate" hreflang="x-default" />');
 					}
 				}
 			}
