@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Controller for a single contact
@@ -27,14 +29,13 @@ class ContactControllerContact extends JControllerForm
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = JFactory::getUser();
-		$categoryId = JArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
+		$categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
 		$allow = null;
 
 		if ($categoryId)
 		{
 			// If the category has been passed in the URL check it.
-			$allow = $user->authorise('core.create', $this->option . '.category.' . $categoryId);
+			$allow = JFactory::getUser()->authorise('core.create', $this->option . '.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -42,10 +43,8 @@ class ContactControllerContact extends JControllerForm
 			// In the absense of better information, revert to the component permissions.
 			return parent::allowAdd($data);
 		}
-		else
-		{
-			return $allow;
-		}
+
+		return $allow;
 	}
 
 	/**
@@ -73,11 +72,9 @@ class ContactControllerContact extends JControllerForm
 			// The category has been set. Check the category permissions.
 			return JFactory::getUser()->authorise('core.edit', $this->option . '.category.' . $categoryId);
 		}
-		else
-		{
-			// Since there is no asset tracking, revert to the component permissions.
-			return parent::allowEdit($data, $key);
-		}
+
+		// Since there is no asset tracking, revert to the component permissions.
+		return parent::allowEdit($data, $key);
 	}
 
 	/**
@@ -94,25 +91,12 @@ class ContactControllerContact extends JControllerForm
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Set the model
+		/** @var ContactModelContact $model */
 		$model = $this->getModel('Contact', '', array());
 
 		// Preset the redirect
 		$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contacts' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
-	}
-
-	/**
-	 * Function that allows child controller access to model data after the data has been saved.
-	 *
-	 * @param   JModelLegacy  $model      The data model object.
-	 * @param   array         $validData  The validated data.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function postSaveHook(JModelLegacy $model, $validData = array())
-	{
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,9 +16,10 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn = $this->escape($this->state->get('list.direction'));
 ?>
+
 <form action="<?php echo JRoute::_('index.php?option=com_search&view=searches'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="filter-bar" class="btn-toolbar">
 		<div class="filter-search btn-group pull-left">
@@ -67,10 +68,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<th class="title">
 						<?php echo JHtml::_('grid.sort', 'COM_SEARCH_HEADING_PHRASE', 'a.search_term', $listDirn, $listOrder); ?>
 					</th>
-					<th width="15%" class="center">
+					<th width="15%">
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
-					<th width="15%" class="center">
+					<th width="15%">
 						<?php echo JText::_('COM_SEARCH_HEADING_RESULTS'); ?>
 					</th>
 				</tr>
@@ -88,10 +89,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<td>
 						<?php echo $this->escape($item->search_term); ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo (int) $item->hits; ?>
 					</td>
-					<td class="center">
+					<td>
 					<?php if ($this->state->get('filter.results')) : ?>
 						<?php echo (int) $item->returns; ?>
 					<?php else: ?>

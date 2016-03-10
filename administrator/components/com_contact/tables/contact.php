@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,15 +60,15 @@ class ContactTableContact extends JTable
 			$this->params = (string) $registry;
 		}
 
-		$date	= JFactory::getDate();
-		$user	= JFactory::getUser();
+		$date   = JFactory::getDate()->toSql();
+		$userId = JFactory::getUser()->id;
 
-		$this->modified		= $date->toSql();
+		$this->modified = $date;
 
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified_by	= $user->get('id');
+			$this->modified_by = $userId;
 		}
 		else
 		{
@@ -76,12 +76,12 @@ class ContactTableContact extends JTable
 			// so we don't touch either of these if they are set.
 			if (!(int) $this->created)
 			{
-				$this->created = $date->toSql();
+				$this->created = $date;
 			}
 
 			if (empty($this->created_by))
 			{
-				$this->created_by = $user->get('id');
+				$this->created_by = $userId;
 			}
 		}
 
@@ -127,21 +127,21 @@ class ContactTableContact extends JTable
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see JTable::check
-	 * @since 1.5
+	 * @see     JTable::check
+	 * @since   1.5
 	 */
 	public function check()
 	{
 		$this->default_con = (int) $this->default_con;
 
-		if (JFilterInput::checkAttribute(array ('href', $this->webpage)))
+		if (JFilterInput::checkAttribute(array('href', $this->webpage)))
 		{
 			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
 
 			return false;
 		}
 
-		/** check for valid name */
+		// Check for valid name
 		if (trim($this->name) == '')
 		{
 			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
@@ -152,14 +152,15 @@ class ContactTableContact extends JTable
 		// Generate a valid alias
 		$this->generateAlias();
 
-		/** check for valid category */
+		// Check for valid category
 		if (trim($this->catid) == '')
 		{
 			$this->setError(JText::_('COM_CONTACT_WARNING_CATEGORY'));
 
 			return false;
 		}
-		/** sanity check for user_id */
+
+		// Sanity check for user_id
 		if (!($this->user_id))
 		{
 			$this->user_id = 0;
@@ -177,7 +178,7 @@ class ContactTableContact extends JTable
 		 * Clean up keywords -- eliminate extra spaces between phrases
 		 * and cr (\r) and lf (\n) characters from string.
 		 * Only process if not empty.
- 		 */
+		 */
 		if (!empty($this->metakey))
 		{
 			// Array of characters to remove.
@@ -227,7 +228,7 @@ class ContactTableContact extends JTable
 			$this->alias = $this->name;
 		}
 
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{

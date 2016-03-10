@@ -3,7 +3,7 @@
 	<name>mod_login</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -11,8 +11,8 @@
 	<description>MOD_LOGIN_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_login">mod_login.php</filename>
-		<filename>helper.php</filename>
 		<folder>tmpl</folder>
+		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_login.ini</language>

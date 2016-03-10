@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -256,36 +256,12 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.0
-	 * @deprecated  4.0  Unused, JS Not working
+	 * @deprecated  4.0  This method was used by the old renderModal() implementation.
+	 *                   Since the new implementation it is unneeded and the broken JS it was injecting could create issues
+	 *                   As a case, please see: https://github.com/joomla/joomla-cms/pull/6918
 	 */
 	public static function modal($selector = 'modal', $params = array())
 	{
-		$sig = md5(serialize(array($selector, $params)));
-
-		if (!isset(static::$loaded[__METHOD__][$sig]))
-		{
-			// Include Bootstrap framework
-			static::framework();
-
-			// Setup options object
-			$opt['backdrop'] = isset($params['backdrop']) ? (boolean) $params['backdrop'] : true;
-			$opt['keyboard'] = isset($params['keyboard']) ? (boolean) $params['keyboard'] : true;
-			$opt['show']     = isset($params['show']) ? (boolean) $params['show'] : true;
-			$opt['remote']   = isset($params['remote']) ?  $params['remote'] : '';
-
-			$options = JHtml::getJSObject($opt);
-
-			// Attach the modal to document
-			JFactory::getDocument()->addScriptDeclaration(
-				"(function($){
-					$('#$selector').modal($options);
-					})(jQuery);"
-			);
-
-			// Set static array
-			static::$loaded[__METHOD__][$sig] = true;
-		}
-
 		return;
 	}
 
@@ -465,13 +441,13 @@ abstract class JHtmlBootstrap
 			$opt['selector']  = isset($params['selector']) ? (string) $params['selector'] : null;
 			$opt['title']     = isset($params['title']) ? (string) $params['title'] : null;
 			$opt['trigger']   = isset($params['trigger']) ? (string) $params['trigger'] : null;
-			$opt['delay']     = isset($params['delay']) ? (int) $params['delay'] : null;
+			$opt['delay']     = isset($params['delay']) ? (is_array($params['delay']) ? $params['delay'] : (int) $params['delay']) : null;
 			$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
 			$opt['template']  = isset($params['template']) ? (string) $params['template'] : null;
-			$onShow = isset($params['onShow']) ? (string) $params['onShow'] : null;
-			$onShown = isset($params['onShown']) ? (string) $params['onShown'] : null;
-			$onHide = isset($params['onHide']) ? (string) $params['onHide'] : null;
-			$onHidden = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
+			$onShow           = isset($params['onShow']) ? (string) $params['onShow'] : null;
+			$onShown          = isset($params['onShown']) ? (string) $params['onShown'] : null;
+			$onHide           = isset($params['onHide']) ? (string) $params['onHide'] : null;
+			$onHidden         = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
 			$options = JHtml::getJSObject($opt);
 
@@ -492,7 +468,7 @@ abstract class JHtmlBootstrap
 
 			if ($onHide)
 			{
-				$script[] = "\tjQuery('" . $selector . "').on('hide.bs.tooltip', " . $onHide . ");";
+				$script[] = "\tjQuery('" . $selector . "').on('hideme.bs.tooltip', " . $onHide . ");";
 			}
 
 			if ($onHidden)

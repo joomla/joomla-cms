@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,10 +68,10 @@ class MessagesHelper
 	public static function getStateOptions()
 	{
 		// Build the filter options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option',	'1',	JText::_('COM_MESSAGES_OPTION_READ'));
-		$options[]	= JHtml::_('select.option',	'0',	JText::_('COM_MESSAGES_OPTION_UNREAD'));
-		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JTRASHED'));
+		$options   = array();
+		$options[] = JHtml::_('select.option', '1', JText::_('COM_MESSAGES_OPTION_READ'));
+		$options[] = JHtml::_('select.option', '0', JText::_('COM_MESSAGES_OPTION_UNREAD'));
+		$options[] = JHtml::_('select.option', '-2', JText::_('JTRASHED'));
 
 		return $options;
 	}

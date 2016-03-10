@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -114,7 +114,7 @@ $trashed    = $this->state->get('filter.state') == -2 ? true : false;
 							<td class="small hidden-phone">
 								<?php echo $item->contact; ?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="hidden-phone">
 								<?php echo $item->nbanners; ?>
 							</td>
 							<td class="small hidden-phone">
@@ -124,7 +124,7 @@ $trashed    = $this->state->get('filter.state') == -2 ? true : false;
 									<?php echo JText::_('COM_BANNERS_FIELD_VALUE_' . $item->purchase_type); ?>
 								<?php endif; ?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="hidden-phone">
 								<?php echo $item->id; ?>
 							</td>
 						</tr>
