@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,10 +57,10 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 						<th class="left hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
 						</th>
-						<th class="nowrap center hidden-phone">
+						<th class="nowrap hidden-phone">
 							<?php echo JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
 						</th>
-						<th class="center hidden-phone">
+						<th class="hidden-phone">
 							<?php echo JText::_('JCLIENT'); ?>
 						</th>
 					</tr>
@@ -90,10 +90,10 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 						<td class="hidden-phone">
 							<span id="string[<?php	echo $this->escape($key); ?>]"><?php echo $this->escape($text); ?></span>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo $language; ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo $client; ?>
 						</td>
 					</tr>

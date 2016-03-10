@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ class JSchemaChangeset
 	/**
 	 * Array of JSchemaChangeitem objects
 	 *
-	 * @var    array
+	 * @var    JSchemaChangeitem[]
 	 * @since  2.5
 	 */
 	protected $changeItems = array();
@@ -63,6 +63,46 @@ class JSchemaChangeset
 		foreach ($updateQueries as $obj)
 		{
 			$this->changeItems[] = JSchemaChangeitem::getInstance($db, $obj->file, $obj->updateQuery);
+		}
+
+		// If on mysql, add a query at the end to check for utf8mb4 conversion status
+		$serverType = $this->db->getServerType();
+
+		if ($serverType == 'mysql')
+		{
+			// Let the update query be something harmless which should always succeed
+			$tmpSchemaChangeItem = JSchemaChangeitem::getInstance(
+				$db,
+				'database.php',
+				'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
+				. ' SET ' . $this->db->quoteName('converted') . ' = 0;');
+
+			// Set to not skipped
+			$tmpSchemaChangeItem->checkStatus = 0;
+
+			// Set the check query
+			if ($this->db->hasUTF8mb4Support())
+			{
+				$converted = 2;
+				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8MB4';
+			}
+			else
+			{
+				$converted = 1;
+				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8';
+			}
+
+			$tmpSchemaChangeItem->checkQuery = 'SELECT '
+				. $this->db->quoteName('converted')
+				. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
+				. ' WHERE ' . $this->db->quoteName('converted') . ' = ' . $converted;
+
+			// Set expected records from check query
+			$tmpSchemaChangeItem->checkQueryExpected = 1;
+
+			$tmpSchemaChangeItem->msgElements = array();
+
+			$this->changeItems[] = $tmpSchemaChangeItem;
 		}
 	}
 

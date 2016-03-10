@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_tinymce</name>
-	<version>4.1.7</version>
-	<creationDate>2005-2014</creationDate>
-	<author>Moxiecode Systems AB</author>
+	<version>4.3.3</version>
+	<creationDate>2005-2016</creationDate>
+	<author>Ephox Corporation</author>
 	<authorEmail>N/A</authorEmail>
-	<authorUrl>tinymce.moxiecode.com</authorUrl>
-	<copyright>Moxiecode Systems AB</copyright>
+	<authorUrl>http://www.tinymce.com</authorUrl>
+	<copyright>Ephox Corporation</copyright>
 	<license>LGPL</license>
 	<description>PLG_TINY_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="tinymce">tinymce.php</filename>
 		<folder>fields</folder>
 	</files>
+	<media destination="editors" folder="media">
+		<folder>tinymce</folder>
+	</media>
 	<languages>
 		<language tag="en-GB">en-GB.plg_editors_tinymce.ini</language>
 		<language tag="en-GB">en-GB.plg_editors_tinymce.sys.ini</language>
@@ -36,7 +39,7 @@
 					label="PLG_TINY_FIELD_SKIN_ADMIN_LABEL"
 				>
 				</field>
-				
+
 				<field name="mode" type="list"
 					default="2"
 					description="PLG_TINY_FIELD_FUNCTIONALITY_DESC"
@@ -56,6 +59,22 @@
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
+				<field name="drag_drop" type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					description="PLG_TINY_FIELD_DRAG_DROP_DESC"
+					label="PLG_TINY_FIELD_DRAG_DROP_LABEL"
+				>
+					<option value="1">JON</option>
+					<option value="0">JOFF</option>
+				</field>
+
+				<field name="path" type="text"
+					size="30"
+					showon="drag_drop:1"
+					description="PLG_TINY_FIELD_CUSTOM_PATH_DESC"
+					label="PLG_TINY_FIELD_CUSTOM_PATH_LABEL"
+				/>
 
 				<field name="entity_encoding" type="list"
 					default="raw"
@@ -205,251 +224,209 @@
 					label="PLG_TINY_FIELD_NAME_EXTENDED_LABEL"
 				/>
 
-				<field name="fonts" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="fonts" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_FONTS_DESC"
 					label="PLG_TINY_FIELD_FONTS_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="paste" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="paste" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_PASTE_DESC"
 					label="PLG_TINY_FIELD_PASTE_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="searchreplace" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="searchreplace" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_SEARCH-REPLACE_DESC"
 					label="PLG_TINY_FIELD_SEARCH-REPLACE_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="insertdate" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="insertdate" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_DATE_DESC"
 					label="PLG_TINY_FIELD_DATE_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="colors" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="colors" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_COLORS_DESC"
 					label="PLG_TINY_FIELD_COLORS_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="table" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="table" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_TABLE_DESC"
 					label="PLG_TINY_FIELD_TABLE_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="smilies" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="smilies" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_SMILIES_DESC"
 					label="PLG_TINY_FIELD_SMILIES_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="hr" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="hr" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_HR_DESC"
 					label="PLG_TINY_FIELD_HR_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
-				
-				<field name="link" type="radio"
-					class="btn-group btn-group-yesno"
+
+				<field name="link" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_LINK_DESC"
 					label="PLG_TINY_FIELD_LINK_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
-				
-				<field name="media" type="radio"
-					class="btn-group btn-group-yesno"
+
+				<field name="media" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_MEDIA_DESC"
 					label="PLG_TINY_FIELD_MEDIA_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
-				
-				<field name="print" type="radio"
-					class="btn-group btn-group-yesno"
+
+				<field name="print" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_PRINT_DESC"
 					label="PLG_TINY_FIELD_PRINT_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="directionality" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="directionality" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_RTL_DESC"
 					label="PLG_TINY_FIELD_RTL_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="fullscreen" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="fullscreen" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_FULLSCREEN_DESC"
 					label="PLG_TINY_FIELD_FULLSCREEN_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="alignment" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="alignment" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_ALIGN_DESC"
 					label="PLG_TINY_FIELD_ALIGN_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="visualchars" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="visualchars" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_VISUALCHARS_DESC"
 					label="PLG_TINY_FIELD_VISUALCHARS_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="visualblocks" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="visualblocks" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_VISUALBLOCKS_DESC"
 					label="PLG_TINY_FIELD_VISUALBLOCKS_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="nonbreaking" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="nonbreaking" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_NONBREAKING_DESC"
 					label="PLG_TINY_FIELD_NONBREAKING_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="template" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="template" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_TEMPLATE_DESC"
 					label="PLG_TINY_FIELD_TEMPLATE_LABEL"
 				>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="blockquote" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="blockquote" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_BLOCKQUOTE_DESC"
 					label="PLG_TINY_FIELD_BLOCKQUOTE_LABEL"
 				>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="wordcount" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="wordcount" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_WORDCOUNT_DESC"
 					label="PLG_TINY_FIELD_WORDCOUNT_LABEL"
 				>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
-				
-				<field name="image_advtab" type="radio"
-					class="btn-group btn-group-yesno"
+
+				<field name="image_advtab" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_ADVIMAGE_DESC"
 					label="PLG_TINY_FIELD_ADVIMAGE_LABEL"
 				>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="advlist" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="code_sample" type="accesslevel"
+					default="1"
+					description="PLG_TINY_FIELD_CODESAMPLE_DESC"
+					label="PLG_TINY_FIELD_CODESAMPLE_LABEL"
+				>
+					<option value="0">JOFF</option>
+				</field>
+
+				<field name="advlist" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_ADVLIST_DESC"
 					label="PLG_TINY_FIELD_ADVLIST_LABEL"
 				>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="autosave" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="autosave" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_SAVEWARNING_DESC"
 					label="PLG_TINY_FIELD_SAVEWARNING_LABEL"
 				>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
-				<field name="contextmenu" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="contextmenu" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_CONTEXTMENU_DESC"
 					label="PLG_TINY_FIELD_CONTEXTMENU_LABEL"
 				>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
-				<field name="inlinepopups" type="radio"
-					class="btn-group btn-group-yesno"
+				<field name="inlinepopups" type="accesslevel"
 					default="1"
 					description="PLG_TINY_FIELD_INLINEPOPUPS_DESC"
 					label="PLG_TINY_FIELD_INLINEPOPUPS_LABEL"
 				>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 

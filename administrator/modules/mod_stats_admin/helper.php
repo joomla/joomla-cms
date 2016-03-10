@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,7 +60,7 @@ class ModStatsHelper
 			$i++;
 
 			$rows[$i]        = new stdClass;
-			$rows[$i]->title = JTEXT::_('MOD_STATS_TIME');
+			$rows[$i]->title = JText::_('MOD_STATS_TIME');
 			$rows[$i]->icon  = 'clock';
 			$rows[$i]->data  = JHtml::_('date', 'now', 'H:i');
 			$i++;

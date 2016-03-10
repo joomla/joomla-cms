@@ -1,0 +1,20 @@
+// Specific RTL. rtl class is added to body tag
+
+// Fix for sub menu alignment
+.rtl .navigation .nav-child {
+	left: auto;
+	right:0;
+}
+.rtl .navigation .nav > li > .nav-child:before {
+	left: auto;
+	right:12px;
+}
+.rtl .navigation .nav > li > .nav-child:after {
+	left: auto;
+	right:13px;
+}
+
+// Category collapse
+.rtl .categories-list .collapse {
+	margin: 0 20px 0 0;
+}

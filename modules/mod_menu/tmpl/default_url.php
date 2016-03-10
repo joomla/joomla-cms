@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 // Note. It is important to remove spaces between elements.
 $class = $item->anchor_css ? 'class="' . $item->anchor_css . '" ' : '';
 $title = $item->anchor_title ? 'title="' . $item->anchor_title . '" ' : '';
+$rel   = $item->anchor_rel ? 'rel="' . $item->anchor_rel . '" ' : '';
 
 if ($item->menu_image)
 {
@@ -30,11 +31,11 @@ $flink = JFilterOutput::ampReplace(htmlspecialchars($flink));
 switch ($item->browserNav) :
 	default:
 	case 0:
-?><a <?php echo $class; ?>href="<?php echo $flink; ?>" <?php echo $title; ?>><?php echo $linktype; ?></a><?php
+?><a <?php echo $class; ?>href="<?php echo $flink; ?>" <?php echo $title . $rel; ?>><?php echo $linktype; ?></a><?php
 		break;
 	case 1:
 		// _blank
-?><a <?php echo $class; ?>href="<?php echo $flink; ?>" target="_blank" <?php echo $title; ?>><?php echo $linktype; ?></a><?php
+?><a <?php echo $class; ?>href="<?php echo $flink; ?>" target="_blank" <?php echo $title . $rel; ?>><?php echo $linktype; ?></a><?php
 		break;
 	case 2:
 		// Use JavaScript "window.open"

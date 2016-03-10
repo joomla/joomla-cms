@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,6 +29,7 @@ $formSelector = !empty($data['options']['formSelector']) ? $data['options']['for
 // Load search tools
 JHtml::_('searchtools.form', $formSelector, $data['options']);
 
+$filtersClass = $data['view']->activeFilters ? ' js-stools-container-filters-visible' : '';
 ?>
 <div class="js-stools clearfix">
 	<div class="clearfix">
@@ -40,7 +41,7 @@ JHtml::_('searchtools.form', $formSelector, $data['options']);
 		</div>
 	</div>
 	<!-- Filters div -->
-	<div class="js-stools-container-filters hidden-phone clearfix">
+	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersClass; ?>">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default.filters', $data); ?>
 	</div>
 </div>

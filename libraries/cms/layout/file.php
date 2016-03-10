@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,19 +19,33 @@ defined('JPATH_PLATFORM') or die;
 class JLayoutFile extends JLayoutBase
 {
 	/**
-	 * @var    string  Dot separated path to the layout file, relative to base path
+	 * Cached layout paths
+	 *
+	 * @var    array
+	 * @since  3.5
+	 */
+	protected static $cache = array();
+
+	/**
+	 * Dot separated path to the layout file, relative to base path
+	 *
+	 * @var    string
 	 * @since  3.0
 	 */
 	protected $layoutId = '';
 
 	/**
-	 * @var    string  Base path to use when loading layout files
+	 * Base path to use when loading layout files
+	 *
+	 * @var    string
 	 * @since  3.0
 	 */
 	protected $basePath = null;
 
 	/**
-	 * @var    string  Full path to actual layout files, after possible template override check
+	 * Full path to actual layout files, after possible template override check
+	 *
+	 * @var    string
 	 * @since  3.0.3
 	 */
 	protected $fullPath = null;
@@ -70,32 +84,43 @@ class JLayoutFile extends JLayoutBase
 	/**
 	 * Method to render the layout.
 	 *
-	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   array  $displayData  Array of properties available for use inside the layout file to build the displayed output
 	 *
 	 * @return  string  The necessary HTML to display the layout
 	 *
 	 * @since   3.0
 	 */
-	public function render($displayData)
+	public function render($displayData = array())
 	{
+		$this->clearDebugMessages();
+
+		// Inherit base output from parent class
 		$layoutOutput = '';
+
+		// Automatically merge any previously data set if $displayData is an array
+		if (is_array($displayData))
+		{
+			$displayData = array_merge($this->data, $displayData);
+		}
 
 		// Check possible overrides, and build the full path to layout file
 		$path = $this->getPath();
 
-		if ($this->options->get('debug', false))
+		if ($this->isDebugEnabled())
 		{
 			echo "<pre>" . $this->renderDebugMessages() . "</pre>";
 		}
 
-		// If there exists such a layout file, include it and collect its output
-		if (!empty($path))
+		// Nothing to show
+		if (empty($path))
 		{
-			ob_start();
-			include $path;
-			$layoutOutput = ob_get_contents();
-			ob_end_clean();
+			return $layoutOutput;
 		}
+
+		ob_start();
+		include $path;
+		$layoutOutput .= ob_get_contents();
+		ob_end_clean();
 
 		return $layoutOutput;
 	}
@@ -111,49 +136,83 @@ class JLayoutFile extends JLayoutBase
 	{
 		JLoader::import('joomla.filesystem.path');
 
-		if (is_null($this->fullPath) && !empty($this->layoutId))
+		$layoutId     = $this->getLayoutId();
+		$includePaths = $this->getIncludePaths();
+		$suffixes     = $this->getSuffixes();
+
+		$this->addDebugMessage('<strong>Layout:</strong> ' . $this->layoutId);
+
+		if (!$layoutId)
 		{
-			$this->addDebugMessage('<strong>Layout:</strong> ' . $this->layoutId);
+			$this->addDebugMessage('<strong>There is no active layout</strong>');
 
-			// Refresh paths
-			$this->refreshIncludePaths();
+			return null;
+		}
 
-			$this->addDebugMessage('<strong>Include Paths:</strong> ' . print_r($this->includePaths, true));
+		if (!$includePaths)
+		{
+			$this->addDebugMessage('<strong>There are no folders to search for layouts:</strong> ' . $layoutId);
 
-			$suffixes = $this->options->get('suffixes', array());
+			return null;
+		}
 
-			// Search for suffixed versions. Example: tags.j31.php
-			if (!empty($suffixes))
+		$hash = md5(
+			json_encode(
+				array(
+					'paths'    => $includePaths,
+					'suffixes' => $suffixes
+				)
+			)
+		);
+
+		if (!empty(static::$cache[$layoutId][$hash]))
+		{
+			$this->addDebugMessage('<strong>Cached path:</strong> ' . static::$cache[$layoutId][$hash]);
+
+			return static::$cache[$layoutId][$hash];
+		}
+
+		$this->addDebugMessage('<strong>Include Paths:</strong> ' . print_r($includePaths, true));
+
+		// Search for suffixed versions. Example: tags.j31.php
+		if ($suffixes)
+		{
+			$this->addDebugMessage('<strong>Suffixes:</strong> ' . print_r($suffixes, true));
+
+			foreach ($suffixes as $suffix)
 			{
-				$this->addDebugMessage('<strong>Suffixes:</strong> ' . print_r($suffixes, true));
+				$rawPath  = str_replace('.', '/', $this->layoutId) . '.' . $suffix . '.php';
+				$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
-				foreach ($suffixes as $suffix)
+				if ($foundLayout = JPath::find($this->includePaths, $rawPath))
 				{
-					$rawPath  = str_replace('.', '/', $this->layoutId) . '.' . $suffix . '.php';
-					$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
+					$this->addDebugMessage('<strong>Found layout:</strong> ' . $this->fullPath);
 
-					if ($this->fullPath = JPath::find($this->includePaths, $rawPath))
-					{
-						$this->addDebugMessage('<strong>Found layout:</strong> ' . $this->fullPath);
+					static::$cache[$layoutId][$hash] = $foundLayout;
 
-						return $this->fullPath;
-					}
+					return static::$cache[$layoutId][$hash];
 				}
-			}
-
-			// Standard version
-			$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
-			$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
-
-			$this->fullPath = JPath::find($this->includePaths, $rawPath);
-
-			if ($this->fullPath)
-			{
-				$this->addDebugMessage('<strong>Found layout:</strong> ' . $this->fullPath);
 			}
 		}
 
-		return $this->fullPath;
+		// Standard version
+		$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
+		$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
+
+		$foundLayout = JPath::find($this->includePaths, $rawPath);
+
+		if (!$foundLayout)
+		{
+			$this->addDebugMessage('<strong>Unable to find layout: </strong> ' . $layoutId);
+
+			return null;
+		}
+
+		$this->addDebugMessage('<strong>Found layout:</strong> ' . $foundLayout);
+
+		static::$cache[$layoutId][$hash] = $foundLayout;
+
+		return static::$cache[$layoutId][$hash];
 	}
 
 	/**
@@ -161,13 +220,15 @@ class JLayoutFile extends JLayoutBase
 	 *
 	 * @param   string  $path  The path to search for layouts
 	 *
-	 * @return  void
+	 * @return  self
 	 *
 	 * @since   3.2
 	 */
 	public function addIncludePath($path)
 	{
 		$this->addIncludePaths($path);
+
+		return $this;
 	}
 
 	/**
@@ -175,23 +236,136 @@ class JLayoutFile extends JLayoutBase
 	 *
 	 * @param   string  $paths  The path or array of paths to search for layouts
 	 *
-	 * @return  void
+	 * @return  self
 	 *
 	 * @since   3.2
 	 */
 	public function addIncludePaths($paths)
 	{
-		if (!empty($paths))
+		if (empty($paths))
 		{
-			if (is_array($paths))
-			{
-				$this->includePaths = array_unique(array_merge($paths, $this->includePaths));
-			}
-			else
-			{
-				array_unshift($this->includePaths, $paths);
-			}
+			return $this;
 		}
+
+		$includePaths = $this->getIncludePaths();
+
+		if (is_array($paths))
+		{
+			$includePaths = array_unique(array_merge($paths, $includePaths));
+		}
+		else
+		{
+			array_unshift($includePaths, $paths);
+		}
+
+		$this->setIncludePaths($includePaths);
+
+		return $this;
+	}
+
+	/**
+	 * Clear the include paths
+	 *
+	 * @return  self
+	 *
+	 * @since   3.5
+	 */
+	public function clearIncludePaths()
+	{
+		$this->includePaths = array();
+
+		return $this;
+	}
+
+	/**
+	 * Get the active include paths
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function getIncludePaths()
+	{
+		if (empty($this->includePaths))
+		{
+			$this->includePaths = $this->getDefaultIncludePaths();
+		}
+
+		return $this->includePaths;
+	}
+
+	/**
+	 * Get the active layout id
+	 *
+	 * @return  string
+	 *
+	 * @since   3.5
+	 */
+	public function getLayoutId()
+	{
+		return $this->layoutId;
+	}
+
+	/**
+	 * Get the active suffixes
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function getSuffixes()
+	{
+		return $this->getOptions()->get('suffixes', array());
+	}
+
+	/**
+	 * Load the automatically generated language suffixes.
+	 * Example: array('es-ES', 'es', 'ltr')
+	 *
+	 * @return  self
+	 *
+	 * @since   3.5
+	 */
+	public function loadLanguageSuffixes()
+	{
+		$lang = JFactory::getLanguage();
+
+		$langTag = $lang->getTag();
+		$langParts = explode('-', $langTag);
+
+		$suffixes = array($langTag, $langParts[0]);
+		$suffixes[] = $lang->isRTL() ? 'rtl' : 'ltr';
+
+		$this->setSuffixes($suffixes);
+
+		return $this;
+	}
+
+	/**
+	 * Load the automatically generated version suffixes.
+	 * Example: array('j311', 'j31', 'j3')
+	 *
+	 * @return  self
+	 *
+	 * @since   3.5
+	 */
+	public function loadVersionSuffixes()
+	{
+		$cmsVersion = new JVersion;
+
+		// Example j311
+		$fullVersion = 'j' . str_replace('.', '', $cmsVersion->getShortVersion());
+
+		// Create suffixes like array('j311', 'j31', 'j3')
+		$suffixes = array(
+			$fullVersion,
+			substr($fullVersion, 0, 3),
+			substr($fullVersion, 0, 2),
+		);
+
+		$this->setSuffixes(array_unique($suffixes));
+
+		return $this;
 	}
 
 	/**
@@ -199,13 +373,15 @@ class JLayoutFile extends JLayoutBase
 	 *
 	 * @param   string  $path  The path to remove from the layout search
 	 *
-	 * @return  void
+	 * @return  self
 	 *
 	 * @since   3.2
 	 */
 	public function removeIncludePath($path)
 	{
 		$this->removeIncludePaths($path);
+
+		return $this;
 	}
 
 	/**
@@ -213,7 +389,7 @@ class JLayoutFile extends JLayoutBase
 	 *
 	 * @param   string  $paths  The path or array of paths to remove for the layout search
 	 *
-	 * @return  void
+	 * @return  self
 	 *
 	 * @since   3.2
 	 */
@@ -225,6 +401,8 @@ class JLayoutFile extends JLayoutBase
 
 			$this->includePaths = array_diff($this->includePaths, $paths);
 		}
+
+		return $this;
 	}
 
 	/**
@@ -241,14 +419,11 @@ class JLayoutFile extends JLayoutBase
 		// By default we will validate the active component
 		$component = ($option !== null) ? $option : $this->options->get('component', null);
 
-		if (!empty($component))
+		// Valid option format
+		if (!empty($component) && substr_count($component, 'com_'))
 		{
-			// Valid option format
-			if (substr_count($component, 'com_'))
-			{
-				// Latest check: component exists and is enabled
-				return JComponentHelper::isEnabled($component);
-			}
+			// Latest check: component exists and is enabled
+			return JComponentHelper::isEnabled($component);
 		}
 
 		return false;
@@ -274,12 +449,7 @@ class JLayoutFile extends JLayoutBase
 				break;
 
 			case 'auto':
-				if (defined('JPATH_COMPONENT'))
-				{
-					$parts = explode('/', JPATH_COMPONENT);
-					$component = end($parts);
-				}
-
+				$component = JApplicationHelper::getComponentName();
 				break;
 
 			default:
@@ -339,72 +509,132 @@ class JLayoutFile extends JLayoutBase
 	 *
 	 * @param   string  $layoutId  Layout to render
 	 *
-	 * @return  void
+	 * @return  self
 	 *
 	 * @since   3.2
+	 *
+	 * @deprecated  3.5  Use setLayoutId()
 	 */
 	public function setLayout($layoutId)
 	{
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated, use JLayoutFile::setLayoutId() instead.', JLog::WARNING, 'deprecated');
+
+		return $this->setLayoutId($layoutId);
+	}
+
+	/**
+	 * Set the active layout id
+	 *
+	 * @param   string  $layoutId  Layout identifier
+	 *
+	 * @return  self
+	 *
+	 * @since   3.5
+	 */
+	public function setLayoutId($layoutId)
+	{
 		$this->layoutId = $layoutId;
 		$this->fullPath = null;
+
+		return $this;
 	}
 
 	/**
 	 * Refresh the list of include paths
 	 *
-	 * @return  void
+	 * @return  self
 	 *
 	 * @since   3.2
+	 *
+	 * @deprecated  3.5  Use JLayoutFile::clearIncludePaths()
 	 */
 	protected function refreshIncludePaths()
 	{
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated, use JLayoutFile::clearIncludePaths() instead.', JLog::WARNING, 'deprecated');
+
+		$this->clearIncludePaths();
+
+		return $this;
+	}
+
+	/**
+	 * Get the default array of include paths
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function getDefaultIncludePaths()
+	{
 		// Reset includePaths
-		$this->includePaths = array();
+		$paths = array();
 
-		// (1 - lower priority) Frontend base layouts
-		$this->addIncludePaths(JPATH_ROOT . '/layouts');
-
-		// (2) Standard Joomla! layouts overriden
-		$this->addIncludePaths(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts');
+		// (1 - highest priority) Received a custom high priority path
+		if (!is_null($this->basePath))
+		{
+			$paths[] = rtrim($this->basePath, DIRECTORY_SEPARATOR);
+		}
 
 		// Component layouts & overrides if exist
 		$component = $this->options->get('component', null);
 
 		if (!empty($component))
 		{
+			// (2) Component template overrides path
+			$paths[] = JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/' . $component;
+
 			// (3) Component path
 			if ($this->options->get('client') == 0)
 			{
-				$this->addIncludePaths(JPATH_SITE . '/components/' . $component . '/layouts');
+				$paths[] = JPATH_SITE . '/components/' . $component . '/layouts';
 			}
 			else
 			{
-				$this->addIncludePaths(JPATH_ADMINISTRATOR . '/components/' . $component . '/layouts');
+				$paths[] = JPATH_ADMINISTRATOR . '/components/' . $component . '/layouts';
 			}
-
-			// (4) Component template overrides path
-			$this->addIncludePath(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/' . $component);
 		}
 
-		// (5 - highest priority) Received a custom high priority path ?
-		if (!is_null($this->basePath))
-		{
-			$this->addIncludePath(rtrim($this->basePath, DIRECTORY_SEPARATOR));
-		}
+		// (4) Standard Joomla! layouts overriden
+		$paths[] = JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts';
+
+		// (5 - lower priority) Frontend base layouts
+		$paths[] = JPATH_ROOT . '/layouts';
+
+		return $paths;
 	}
 
 	/**
-	 * Change the debug mode
+	 * Set the include paths to search for layouts
 	 *
-	 * @param   boolean  $debug  Enable / Disable debug
+	 * @param   array  $paths  Array with paths to search in
 	 *
-	 * @return  void
+	 * @return  self
 	 *
-	 * @since   3.2
+	 * @since   3.5
 	 */
-	public function setDebug($debug)
+	public function setIncludePaths($paths)
 	{
-		$this->options->set('debug', (boolean) $debug);
+		$this->includePaths = (array) $paths;
+
+		return $this;
+	}
+
+	/**
+	 * Set suffixes to search layouts
+	 *
+	 * @param   mixed  $suffixes  String with a single suffix or 'auto' | 'none' or array of suffixes
+	 *
+	 * @return  self
+	 *
+	 * @since   3.5
+	 */
+	public function setSuffixes(array $suffixes)
+	{
+		$this->options->set('suffixes', $suffixes);
+
+		return $this;
 	}
 
 	/**

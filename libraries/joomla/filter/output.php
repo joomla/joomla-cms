@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -166,13 +166,28 @@ class JFilterOutput
 	 *
 	 * @return  string  Replaced string
 	 *
-	 * @since   11.1
+	 * @since   3.5
 	 */
-	public static function _ampReplaceCallback($m)
+	public static function ampReplaceCallback($m)
 	{
 		$rx = '&(?!amp;)';
 
 		return preg_replace('#' . $rx . '#', '&amp;', $m[0]);
+	}
+
+	/**
+	 * Callback method for replacing & with &amp; in a string
+	 *
+	 * @param   string  $m  String to process
+	 *
+	 * @return  string  Replaced string
+	 *
+	 * @since       11.1
+	 * @deprecated  4.0 Use JFilterOutput::ampReplaceCallback() instead
+	 */
+	public static function _ampReplaceCallback($m)
+	{
+		return static::ampReplaceCallback($m);
 	}
 
 	/**

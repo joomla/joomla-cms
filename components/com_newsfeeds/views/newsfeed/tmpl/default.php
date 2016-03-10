@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,15 +19,15 @@ else
 	$myrtl     = $this->newsfeed->rtl;
 	$direction = " ";
 
-		if ($lang->isRTL() && $myrtl == 0)
+		if ($lang->isRtl() && $myrtl == 0)
 		{
 			$direction = " redirect-rtl";
 		}
-		elseif ($lang->isRTL() && $myrtl == 1)
+		elseif ($lang->isRtl() && $myrtl == 1)
 		{
 			$direction = " redirect-ltr";
 		}
-		elseif ($lang->isRTL() && $myrtl == 2)
+		elseif ($lang->isRtl() && $myrtl == 2)
 		{
 			$direction = " redirect-rtl";
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,26 +47,26 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 					switch ($target)
 					{
 						case 1:
-							// open in a new window
+							// Open in a new window
 							echo '<a href="' . htmlspecialchars($link) . '" target="_blank"  rel="nofollow">' .
 								htmlspecialchars($label) . '</a>';
 							break;
 
 						case 2:
-							// open in a popup window
+							// Open in a popup window
 							$attribs = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600';
 							echo "<a href=\"" . htmlspecialchars($link) . "\" onclick=\"window.open(this.href, 'targetWindow', '" . $attribs . "'); return false;\">" .
 								htmlspecialchars($label) . '</a>';
 							break;
 						case 3:
-							// open in a modal window
+							// Open in a modal window
 							JHtml::_('behavior.modal', 'a.modal');
 							echo '<a class="modal" href="' . htmlspecialchars($link) . '"  rel="{handler: \'iframe\', size: {x:600, y:600}}">' .
 								htmlspecialchars($label) . ' </a>';
 							break;
 
 						default:
-							// open in parent window
+							// Open in parent window
 							echo '<a href="' . htmlspecialchars($link) . '" rel="nofollow">' .
 								htmlspecialchars($label) . ' </a>';
 							break;

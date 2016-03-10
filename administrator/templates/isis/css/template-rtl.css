@@ -2790,7 +2790,7 @@ input[type="submit"].btn.btn-mini {
 	color: #8a6d3b;
 }
 .alert h4 {
-	margin: 0;
+	margin: 0 0 .5em;
 }
 .alert .close {
 	position: relative;
@@ -4706,6 +4706,9 @@ a.badge:focus {
 .affix {
 	position: fixed;
 }
+@-ms-viewport {
+	width: device-width;
+}
 .hidden {
 	display: none;
 	visibility: hidden;
@@ -6265,14 +6268,6 @@ div.modal.fade.in {
 	margin-right: .25em;
 	line-height: 14px;
 }
-dd > span[class^="icon-"] + time,
-dd > span[class*=" icon-"] + time {
-	margin-left: -0.25em;
-}
-dl.article-info dd.hits span[class^="icon-"],
-dl.article-info dd.hits span[class*=" icon-"] {
-	margin-right: 0;
-}
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
 	font-family: 'IcoMoon';
@@ -7037,7 +7032,7 @@ a:focus {
 	outline: none;
 }
 .view-login {
-	background-color: #10223e;
+	background-color: #17568c;
 	padding-top: 0;
 }
 .view-login .container {
@@ -7279,6 +7274,9 @@ body .navbar-fixed-top {
 	z-index: 100;
 }
 @media (max-width: 767px) {
+	body {
+		-webkit-overflow-scrolling: touch;
+	}
 	.subhead {
 		margin-left: -20px;
 		margin-right: -20px;
@@ -7343,12 +7341,19 @@ h6 {
 	font-size: 12px;
 	line-height: 14px;
 }
+.sidebar-nav .nav-list {
+	padding-left: 25px;
+	padding-right: 25px;
+}
 .sidebar-nav .nav-list > li > a {
 	color: #555;
+	padding: 3px 25px;
+	margin-left: -25px;
+	margin-right: -25px;
 }
 .sidebar-nav .nav-list > li.active > a {
 	color: #fff;
-	margin-right: -16px;
+	margin-right: -26px;
 }
 .quick-icons .nav li + .nav-header {
 	margin-top: 12px;
@@ -7778,7 +7783,7 @@ ul.manager .height-50 .icon-folder-2 {
 	z-index: 3;
 }
 .admin .chzn-container .chzn-drop {
-	z-index: 1040;
+	z-index: 1060;
 }
 ul.treeselect,
 ul.treeselect li {
@@ -8150,6 +8155,25 @@ textarea.noResize {
 body.modal-open {
 	overflow: hidden;
 	-ms-overflow-style: none;
+}
+.field-media-wrapper .modal .modal-body {
+	padding: 5px 10px;
+	overflow: hidden;
+}
+.js-pstats-data-details dd {
+	margin-left: 240px;
+}
+.js-pstats-data-details dt {
+	width: 220px;
+}
+@media (max-width: 767px) {
+	.field-media-wrapper .modal .modal-body {
+		padding: 5px 0;
+	}
+}
+.modal-body {
+	-webkit-overflow-scrolling: touch;
+	overflow-y: auto !important;
 }
 .pull-right {
 	float: left;
@@ -8563,7 +8587,14 @@ body {
 }
 .dl-horizontal dt {
 	float: right;
+	text-align: left;
+	clear: right;
 }
+.dl-horizontal dd {
+	margin-left: 0;
+	margin-right: 180px;
+}
+.dl-horizontal dt
 .profile> ul {
 	margin: 9px 25px 0 0;
 }
@@ -8742,14 +8773,6 @@ input[type="url"] {
 [class^="icon-"],
 [class*=" icon-"] {
 	margin-left: .25em;
-}
-dd > span[class^="icon-"] + time,
-dd > span[class*=" icon-"] + time {
-	margin-left: -0.25em;
-}
-dl.article-info dd.hits span[class^="icon-"],
-dl.article-info dd.hits span[class*=" icon-"] {
-	margin-right: 0;
 }
 .navbar .admin-logo {
 	float: right;
@@ -8939,4 +8962,7 @@ a.grid_true {
 	.view-login select {
 		width: 229px;
 	}
+}
+.js-pstats-data-details dd {
+	margin-right: 240px;
 }

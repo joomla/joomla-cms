@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,9 +107,9 @@ echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 						'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
 						'height' => '300px',
 						'width' => '800px',
-						'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+						'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
 							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-							. '<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#module' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+							. '<button type="button" class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#module' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
 							. JText::_("JSAVE") . '</button>'
 					)
 				); ?>
