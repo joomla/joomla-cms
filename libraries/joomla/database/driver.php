@@ -332,6 +332,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 	/**
 	 * Splits a string of multiple queries into an array of individual queries.
+	 * Single line or line end comments and multi line comments are stripped off.
 	 *
 	 * @param   string  $sql  Input SQL string with which to split into individual queries.
 	 *
@@ -341,18 +342,28 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public static function splitSql($sql)
 	{
-		$start = 0;
 		$open = false;
-		$char = '';
+		$comment = false;
+		$endComment = false;
+		$endString = '';
+		$eol = "\n";
 		$end = strlen($sql);
 		$queries = array();
+		$query = '';
 
 		for ($i = 0; $i < $end; $i++)
 		{
 			$current = substr($sql, $i, 1);
+			$current2 = substr($sql, $i, 2);
+			$current3 = substr($sql, $i, 3);
+			$lenEndString = strlen($endString);
+			$testEnd = substr($sql, $i, $lenEndString);
 
-			if (($current == '"' || $current == '\''))
+			if ($current == '"' || $current == "'" || $current2 == '--' || $current2 == '/*'
+			|| ($current == '#' && $current3 != '#__')
+			|| ($comment && $testEnd == $endString))
 			{
+				// Check if quoted with previous backslash
 				$n = 2;
 
 				while (substr($sql, $i - $n + 1, 1) == '\\' && $n < $i)
@@ -360,30 +371,75 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 					$n++;
 				}
 
+				// Not quoted
 				if ($n % 2 == 0)
 				{
 					if ($open)
 					{
-						if ($current == $char)
+						if ($testEnd == $endString)
 						{
+							if ($comment)
+							{
+								$comment = false;
+								$endComment = true;
+								if ($lenEndString > 1)
+								{
+									$i += ($lenEndString - 1);
+									$current = substr($sql, $i, 1);
+								}
+							}
 							$open = false;
-							$char = '';
+							$endString = '';
 						}
 					}
 					else
 					{
 						$open = true;
-						$char = $current;
+						if ($current2 == '--')
+						{
+							$endString = $eol;
+							$comment = true;
+						}
+						elseif ($current2 == '/*')
+						{
+							$endString = '*/';
+							$comment = true;
+						}
+						elseif ($current == '#')
+						{
+							$endString = $eol;
+							$comment = true;
+						}
+						else
+						{
+							$endString = $current;
+						}
 					}
 				}
 			}
 
-			if (($current == ';' && !$open) || $i == $end - 1)
+			if (!$comment && !$endComment)
 			{
-				$query = substr($sql, $start, ($i - $start + 1));
-				$queries[] = preg_replace('/^\s*#(?!__)[\s\S]+?[\n\r]/', '', $query);
-				$start = $i + 1;
+				$query = $query . $current;
 			}
+
+			if (!$open && !$endComment && ($current == ';' || $i == $end - 1))
+			{
+				$query = trim($query);
+
+				if ($query)
+				{
+					if (($i == $end - 1) && ($current != ';'))
+					{
+						$query = $query . ';';
+					}
+					$queries[] = $query;
+				}
+
+				$query = '';
+			}
+
+			$endComment = false;
 		}
 
 		return $queries;
