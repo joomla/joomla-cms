@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -227,7 +227,7 @@ class JImage
 	 * @param   mixed    $thumbSizes      String or array of strings. Example: $thumbSizes = array('150x75','250x150');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create croppping | 5 resize then crop
 	 *
-	 * @return  array
+	 * @return  array    returns the generated thumb in the results array
 	 *
 	 * @since   12.2
 	 * @throws  LogicException
@@ -298,7 +298,7 @@ class JImage
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create croppping
 	 * @param   string   $thumbsFolder    destination thumbs folder. null generates a thumbs folder in the image folder
 	 *
-	 * @return  array
+	 * @return  array    An array of JImage objects with thumb paths.
 	 *
 	 * @since   12.2
 	 * @throws  LogicException
@@ -905,6 +905,58 @@ class JImage
 
 			return $this;
 		}
+	}
+
+	/**
+	 * Method to flip the current image.
+	 *
+	 * @param   integer  $mode       The flip mode for flipping the image {@link http://php.net/imageflip#refsect1-function.imageflip-parameters}
+	 * @param   boolean  $createNew  If true the current image will be cloned, flipped and returned; else
+	 *                               the current image will be flipped and returned.
+	 *
+	 * @return  JImage
+	 *
+	 * @since   11.3
+	 * @throws  LogicException
+	 */
+	public function flip($mode, $createNew = true)
+	{
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
+		{
+			throw new LogicException('No valid image was loaded.');
+		}
+
+		// Create the new truecolor image handle.
+		$handle = imagecreatetruecolor($this->getWidth(), $this->getHeight());
+
+		// Copy the image
+		imagecopy($handle, $this->handle, 0, 0, 0, 0, $this->getWidth(), $this->getHeight());
+
+		// Flip the image
+		if (!imageflip($handle, $mode))
+		{
+			throw new LogicException('Unable to flip the image.');
+		}
+
+		// If we are resizing to a new image, create a new JImage object.
+		if ($createNew)
+		{
+			// @codeCoverageIgnoreStart
+			$new = new JImage($handle);
+
+			return $new;
+
+			// @codeCoverageIgnoreEnd
+		}
+
+		// Free the memory from the current handle
+		$this->destroy();
+
+		// Swap out the current handle for the new image handle.
+		$this->handle = $handle;
+
+		return $this;
 	}
 
 	/**

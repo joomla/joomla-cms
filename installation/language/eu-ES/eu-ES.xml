@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="3.5"
+	client="installation">
+	<name>Basque</name>
+	<version>3.5.0</version>
+	<creationDate>August 2015</creationDate>
+	<author>Miel Loinaz</author>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>Basque language installation language file for Joomla</description>
+	<files>
+		<filename>eu-ES.ini</filename>
+	</files>
+	<metadata>
+		<name>Basque</name>
+		<tag>eu-ES</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

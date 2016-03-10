@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ abstract class InstallationHelperDatabase
 	 *
 	 * @since   1.6
 	 */
-	public static function getDBO($driver, $host, $user, $password, $database, $prefix, $select = true)
+	public static function getDbo($driver, $host, $user, $password, $database, $prefix, $select = true)
 	{
 		static $db;
 

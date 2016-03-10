@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.yubikey
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -197,7 +197,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		}
 
 		// Validate the Yubikey OTP
-		$check = $this->validateYubikeyOTP($data['securitycode']);
+		$check = $this->validateYubikeyOtp($data['securitycode']);
 
 		if (!$check)
 		{
@@ -264,7 +264,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		if ($check)
 		{
-			$check = $this->validateYubikeyOTP($credentials['secretkey']);
+			$check = $this->validateYubikeyOtp($credentials['secretkey']);
 		}
 
 		return $check;
@@ -279,7 +279,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 	 *
 	 * @since   3.2
 	 */
-	public function validateYubikeyOTP($otp)
+	public function validateYubikeyOtp($otp)
 	{
 		$server_queue = array(
 			'api.yubico.com',

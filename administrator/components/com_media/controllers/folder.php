@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ class MediaControllerFolder extends JControllerLegacy
 	{
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
-		$user	= JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Get some data from the request
 		$tmpl   = $this->input->get('tmpl');
@@ -69,7 +69,7 @@ class MediaControllerFolder extends JControllerLegacy
 		$ret = true;
 
 		JPluginHelper::importPlugin('content');
-		$dispatcher	= JEventDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		if (count($paths))
 		{
@@ -165,7 +165,7 @@ class MediaControllerFolder extends JControllerLegacy
 			if (!$user->authorise('core.create', 'com_media'))
 			{
 				// User is not authorised to create
-				JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_CREATE_NOT_PERMITTED'));
+				JError::raiseWarning(403, JText::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'));
 
 				return false;
 			}
@@ -190,8 +190,8 @@ class MediaControllerFolder extends JControllerLegacy
 				// Trigger the onContentBeforeSave event.
 				$object_file = new JObject(array('filepath' => $path));
 				JPluginHelper::importPlugin('content');
-				$dispatcher	= JEventDispatcher::getInstance();
-				$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.folder', &$object_file, true));
+				$dispatcher = JEventDispatcher::getInstance();
+				$result     = $dispatcher->trigger('onContentBeforeSave', array('com_media.folder', &$object_file, true));
 
 				if (in_array(false, $result, true))
 				{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,6 @@ require_once JPATH_ROOT . '/components/com_newsfeeds/helpers/route.php';
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.framework', true);
 
 $input     = JFactory::getApplication()->input;
 $function  = JFactory::getApplication()->input->getCmd('function', 'jSelectNewsfeed');
@@ -89,7 +88,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th width="15%" class="nowrap center">
 						<?php echo JHtml::_('grid.sort', 'JCATEGORY', 'a.catid', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="nowrap center">
+					<th width="10%" class="nowrap center">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 					</th>
 					<th width="1%" class="nowrap center">
@@ -141,7 +140,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php if ($item->language == '*'):?>
 							<?php echo JText::alt('JALL', 'language'); ?>
 						<?php else:?>
-							<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+							<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 						<?php endif;?>
 					</td>
 					<td align="center">

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,10 +19,10 @@ defined('_JEXEC') or die;
 		<table class="table table-striped table-condensed">
 			<thead>
 				<tr>
-					<th class="center">
+					<th>
 						<?php echo JText::_('COM_FINDER_STATISTICS_LINK_TYPE_HEADING');?>
 					</th>
-					<th class="center">
+					<th>
 						<?php echo JText::_('COM_FINDER_STATISTICS_LINK_TYPE_COUNT');?>
 					</th>
 				</tr>

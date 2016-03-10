@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,17 +28,6 @@ class MediaViewImages extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$config = JComponentHelper::getParams('com_media');
-		$lang	= JFactory::getLanguage();
-
-		// Include jQuery
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'media/popup-imagemanager.js', true, true);
-		JHtml::_('stylesheet', 'media/popup-imagemanager.css', array(), true);
-
-		if ($lang->isRTL())
-		{
-			JHtml::_('stylesheet', 'media/popup-imagemanager_rtl.css', array(), true);
-		}
 
 		/*
 		 * Display form for FTP credentials?
@@ -46,10 +35,10 @@ class MediaViewImages extends JViewLegacy
 		 */
 		$ftp = !JClientHelper::hasCredentials('ftp');
 
-		$this->session = JFactory::getSession();
-		$this->config = $config;
-		$this->state = $this->get('state');
-		$this->folderList = $this->get('folderList');
+		$this->session     = JFactory::getSession();
+		$this->config      = $config;
+		$this->state       = $this->get('state');
+		$this->folderList  = $this->get('folderList');
 		$this->require_ftp = $ftp;
 
 		parent::display($tpl);

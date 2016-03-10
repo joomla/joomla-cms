@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
 
 // JLayout for standard handling of the edit modules:
 
@@ -26,7 +26,7 @@ if (preg_match('/<(?:div|span|nav|ul|ol|h\d) [^>]*class="[^"]* jmoddiv"/', $modu
 }
 
 // Add css class jmoddiv and data attributes for module-editing URL and for the tooltip:
-$editUrl = JURI::base() . 'administrator/index.php?option=com_modules&view=module&layout=edit&id=' . (int) $mod->id;
+$editUrl = JUri::base() . 'administrator/index.php?option=com_modules&view=module&layout=edit&id=' . (int) $mod->id;
 
 if ($parameters->get('redirect_edit', 'site') == 'site')
 {

@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,11 +59,11 @@ class NewsFeedEditPage extends AdminEditPage
 		array('label' => 'Alias', 'id' => 'jform_alias', 'type' => 'input', 'tab' => 'header'),
 		array('label' => 'Link', 'id' => 'jform_link', 'type' => 'input', 'tab' => 'details'),
 		array('label' => 'Description', 'id' => 'jform_description', 'type' => 'textarea', 'tab' => 'details'),
-		array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'details'),
-		array('label' => 'Tags', 'id' => 'jform_tags', 'type' => 'select', 'tab' => 'details'),
 		array('label' => 'Status', 'id' => 'jform_published', 'type' => 'select', 'tab' => 'details'),
+		array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'details'),
 		array('label' => 'Access', 'id' => 'jform_access', 'type' => 'select', 'tab' => 'details'),
 		array('label' => 'Language', 'id' => 'jform_language', 'type' => 'select', 'tab' => 'details'),
+		array('label' => 'Tags', 'id' => 'jform_tags', 'type' => 'select', 'tab' => 'details'),
 		array('label' => 'Version Note', 'id' => 'jform_version_note', 'type' => 'input', 'tab' => 'details'),
 		array('label' => 'First Image', 'id' => 'jform_images_image_first', 'type' => 'input', 'tab' => 'images'),
 		array('label' => 'Image Float', 'id' => 'jform_images_float_first', 'type' => 'select', 'tab' => 'images'),
