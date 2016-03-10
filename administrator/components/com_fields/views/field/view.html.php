@@ -112,7 +112,7 @@ class FieldsViewField extends JViewLegacy
 
 		// Prepare the toolbar.
 		JToolbarHelper::title($title,
-				'folder field-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-field-' .
+				'puzzle field-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-field-' .
 						 ($isNew ? 'add' : 'edit'));
 
 		// For new records, check the create permission.

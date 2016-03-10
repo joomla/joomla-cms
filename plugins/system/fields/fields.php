@@ -152,16 +152,6 @@ class PlgSystemFields extends JPlugin
 		return true;
 	}
 
-	public function onExtensionBeforeSave ($context, $item, $isNew)
-	{
-		return $this->onContentBeforeSave($context, $item, $isNew);
-	}
-
-	public function onExtensionAfterSave ($context, $item, $isNew)
-	{
-		return $this->onContentAfterSave($context, $item, $isNew);
-	}
-
 	public function onUserAfterSave ($userData, $isNew, $success, $msg)
 	{
 		// It is not possible to manipulate the user during save events
@@ -204,11 +194,6 @@ class PlgSystemFields extends JPlugin
 		));
 		$model->cleanupValues($context, $item->id);
 		return true;
-	}
-
-	public function onExtensionAfterDelete ($context, $item)
-	{
-		return $this->onContentAfterDelete($context, $item);
 	}
 
 	public function onUserAfterDelete ($user, $succes, $msg)
@@ -452,18 +437,6 @@ class PlgSystemFields extends JPlugin
 		return true;
 	}
 
-	public function onAfterCleanModuleList ($modules)
-	{
-		foreach ($modules as $module)
-		{
-			$module->text = $module->content;
-			$this->onContentPrepare('com_modules.module', $module);
-			$module->content = $module->text;
-			unset($module->text);
-		}
-		return true;
-	}
-
 	public function onPrepareFinderContent ($item)
 	{
 		$section = strtolower($item->layout);
@@ -520,14 +493,6 @@ class PlgSystemFields extends JPlugin
 		}
 
 		$component = $parts[0];
-
-		if ($component == 'com_config' && $parts[1] == 'modules')
-		{
-			// Modules on front end editing come with com_config
-			$component = 'com_modules';
-			$parts[0] = $component;
-			$parts[1] = 'module';
-		}
 
 		if ($parts[1] == 'form')
 		{

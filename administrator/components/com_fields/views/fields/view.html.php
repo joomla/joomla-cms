@@ -96,7 +96,7 @@ class FieldsViewFields extends JViewLegacy
 		JHtml::_('stylesheet', $component . '/administrator/fields.css', array(), true);
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'folder fields ' . substr($component, 4) . ($section ? "-$section" : '') . '-fields');
+		JToolbarHelper::title($title, 'puzzle fields ' . substr($component, 4) . ($section ? "-$section" : '') . '-fields');
 
 		if ($canDo->get('core.create'))
 		{
