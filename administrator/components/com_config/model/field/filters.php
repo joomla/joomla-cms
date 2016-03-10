@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -142,7 +142,7 @@ class JFormFieldFilters extends JFormField
 	protected function getUserGroups()
 	{
 		// Get a database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Get the user groups from the database.
 		$query = $db->getQuery(true);

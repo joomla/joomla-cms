@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -95,21 +95,17 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 			// Function parameters array($expected, $data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
 			// 						$translate = false)
 			array(
-				"<div class=\"controls\">
-	<label for=\"yesId\" id=\"yesId-lbl\" class=\"radio\">
-\t
-	<input type=\"radio\" name=\"myRadioListName\" id=\"yesId\" value=\"1\"  >Yes
-	</label>
-	<label for=\"myRadioListName0\" id=\"myRadioListName0-lbl\" class=\"radio\">
-\t
-	<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName0\" value=\"0\"  >No
-	</label>
-	<label for=\"myRadioListName-1\" id=\"myRadioListName-1-lbl\" class=\"radio\">
-\t
-	<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName-1\" value=\"-1\"  >Maybe
-	</label>
-</div>
-",
+				"<div class=\"controls\">\n\t" .
+				"<label for=\"yesId\" id=\"yesId-lbl\" class=\"radio\">\n\t\n\t" .
+				"<input type=\"radio\" name=\"myRadioListName\" id=\"yesId\" value=\"1\"  />Yes\n\t" .
+				"</label>\n\t" .
+				"<label for=\"myRadioListName0\" id=\"myRadioListName0-lbl\" class=\"radio\">\n\t\n\t" .
+				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName0\" value=\"0\"  />No\n\t" .
+				"</label>\n\t" .
+				"<label for=\"myRadioListName-1\" id=\"myRadioListName-1-lbl\" class=\"radio\">\n\t\n\t" .
+				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName-1\" value=\"-1\"  />Maybe\n\t" .
+				"</label>\n" .
+				"</div>\n",
 				array(
 					array(
 						'value' => '1',
@@ -128,17 +124,14 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 				"myRadioListName"
 			),
 			array(
-				"<div class=\"controls\">
-	<label for=\"fooId\" id=\"fooId-lbl\" class=\"radio\">
-\t
-	<input type=\"radio\" name=\"myFooBarListName\" id=\"fooId\" value=\"foo\" class=\"i am radio\" onchange=\"jsfunc();\" >FOO
-	</label>
-	<label for=\"myFooBarListNamebar\" id=\"myFooBarListNamebar-lbl\" class=\"radio\">
-\t
-	<input type=\"radio\" name=\"myFooBarListName\" id=\"myFooBarListNamebar\" value=\"bar\" class=\"i am radio\" onchange=\"jsfunc();\" >BAR
-	</label>
-</div>
-",
+				"<div class=\"controls\">\n\t" .
+				"<label for=\"fooId\" id=\"fooId-lbl\" class=\"radio\">\n\t\n\t" .
+				"<input type=\"radio\" name=\"myFooBarListName\" id=\"fooId\" value=\"foo\" class=\"i am radio\" onchange=\"jsfunc();\" />FOO\n\t" .
+				"</label>\n\t" .
+				"<label for=\"myFooBarListNamebar\" id=\"myFooBarListNamebar-lbl\" class=\"radio\">\n\t\n\t" .
+				"<input type=\"radio\" name=\"myFooBarListName\" id=\"myFooBarListNamebar\" value=\"bar\" class=\"i am radio\" onchange=\"jsfunc();\" />BAR\n\t" .
+				"</label>\n" .
+				"</div>\n",
 				array(
 					array(
 						'key' => 'foo',

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldpath="/administrator/components/com_installer/models/fields"/>
+
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			label="JSEARCH_FILTER"
+			description="JSEARCH_FILTER"
+			hint="JSEARCH_FILTER"
+		/>
+		<field
+			name="client_id"
+			type="location"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_INSTALLER_VALUE_CLIENT_SELECT</option>
+		</field>
+		<field
+			name="type"
+			type="type"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_INSTALLER_VALUE_TYPE_SELECT</option>
+		</field>
+		<field
+			name="folder"
+			type="folder"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_INSTALLER_VALUE_FOLDER_SELECT</option>
+		</field>
+	</fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			description="JGLOBAL_SORT_BY"
+			onchange="this.form.submit();"
+			default="name ASC"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="name ASC">COM_INSTALLER_HEADING_NAME_ASC</option>
+			<option value="name DESC">COM_INSTALLER_HEADING_NAME_DESC</option>
+			<option value="client_translated ASC">COM_INSTALLER_HEADING_LOCATION_ASC</option>
+			<option value="client_translated DESC">COM_INSTALLER_HEADING_LOCATION_DESC</option>
+			<option value="type_translated ASC">COM_INSTALLER_HEADING_TYPE_ASC</option>
+			<option value="type_translated DESC">COM_INSTALLER_HEADING_TYPE_DESC</option>
+			<option value="folder_translated ASC">COM_INSTALLER_HEADING_FOLDER_ASC</option>
+			<option value="folder_translated DESC">COM_INSTALLER_HEADING_FOLDER_DESC</option>
+			<option value="extension_id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="extension_id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIMIT"
+			description="JGLOBAL_LIMIT"
+			class="input-mini"
+			default="25"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

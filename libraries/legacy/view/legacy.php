@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -161,7 +161,7 @@ class JViewLegacy extends JObject
 			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		}
-		elseif (is_dir(JPATH_COMPONENT . '/view'))
+		elseif (is_dir($this->_basePath . '/view'))
 		{
 			$this->_setPath('template', $this->_basePath . '/view/' . $this->getName() . '/tmpl');
 		}

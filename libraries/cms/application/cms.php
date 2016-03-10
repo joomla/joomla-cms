@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ class JApplicationCms extends JApplicationWeb
 	/**
 	 * Application instances container.
 	 *
-	 * @var    array
+	 * @var    JApplicationCms[]
 	 * @since  3.2
 	 */
 	protected static $instances = array();
@@ -209,7 +209,7 @@ class JApplicationCms extends JApplicationWeb
 			}
 			catch (RuntimeException $e)
 			{
-				throw new RuntimeException(JText::_('JERROR_SESSION_STARTUP'));
+				throw new RuntimeException(JText::_('JERROR_SESSION_STARTUP'), $e->getCode(), $e);
 			}
 		}
 	}
@@ -233,10 +233,15 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// For empty queue, if messages exists in the session, enqueue them first.
-		$this->getMessageQueue();
+		$messages = $this->getMessageQueue();
 
-		// Enqueue the message.
-		$this->_messageQueue[] = array('message' => $msg, 'type' => strtolower($type));
+		$message = array('message' => $msg, 'type' => strtolower($type));
+
+		if (!in_array($message, $this->_messageQueue))
+		{
+			// Enqueue the message.
+			$this->_messageQueue[] = $message;
+		}
 	}
 
 	/**
@@ -408,7 +413,7 @@ class JApplicationCms extends JApplicationWeb
 	 * @param   string  $name     The name of the application/client.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JMenu
+	 * @return  JMenu|null
 	 *
 	 * @since   3.2
 	 */
@@ -417,6 +422,12 @@ class JApplicationCms extends JApplicationWeb
 		if (!isset($name))
 		{
 			$name = $this->getName();
+		}
+
+		// Inject this application object into the JMenu tree if one isn't already specified
+		if (!isset($options['app']))
+		{
+			$options['app'] = $this;
 		}
 
 		try
@@ -474,7 +485,7 @@ class JApplicationCms extends JApplicationWeb
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JPathway
+	 * @return  JPathway|null
 	 *
 	 * @since   3.2
 	 */
@@ -503,7 +514,7 @@ class JApplicationCms extends JApplicationWeb
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JRouter
+	 * @return  JRouter|null
 	 *
 	 * @since   3.2
 	 */
@@ -582,7 +593,7 @@ class JApplicationCms extends JApplicationWeb
 	 * @param   string  $default  The default value for the variable if not found. Optional.
 	 * @param   string  $type     Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
 	 *
-	 * @return  object  The request user state.
+	 * @return  mixed  The request user state.
 	 *
 	 * @since   3.2
 	 */
@@ -591,15 +602,13 @@ class JApplicationCms extends JApplicationWeb
 		$cur_state = $this->getUserState($key, $default);
 		$new_state = $this->input->get($request, null, $type);
 
+		if ($new_state === null)
+		{
+			return $cur_state;
+		}
+
 		// Save the new value only if it was set in this request.
-		if ($new_state !== null)
-		{
-			$this->setUserState($key, $new_state);
-		}
-		else
-		{
-			$new_state = $cur_state;
-		}
+		$this->setUserState($key, $new_state);
 
 		return $new_state;
 	}

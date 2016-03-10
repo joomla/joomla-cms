@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,10 +23,10 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
 
-$extension	= $this->escape($this->state->get('filter.extension'));
-$function  	= $app->input->getCmd('function', 'jSelectCategory');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$extension = $this->escape($this->state->get('filter.extension'));
+$function  = $app->input->getCmd('function', 'jSelectCategory');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories&layout=modal&tmpl=component&function=' . $function . '&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
@@ -86,7 +86,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<th width="10%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="nowrap hidden-phone">
+					<th width="10%" class="nowrap hidden-phone">
 						<?php
 						echo JHtml::_(
 							'grid.sort',
@@ -146,7 +146,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php if ($item->language == '*'): ?>
 								<?php echo JText::alt('JALL', 'language'); ?>
 							<?php else: ?>
-								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 							<?php endif; ?>
 						</td>
 						<td class="center hidden-phone">

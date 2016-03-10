@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ class TagsViewTag extends JViewLegacy
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');
 		$fromName         = $app->get('fromname');
-		$feedEmail        = $app->get('feed_email', 'author');
+		$feedEmail        = $app->get('feed_email', 'none');
 		$document->editor = $fromName;
 
 		if ($feedEmail != "none")

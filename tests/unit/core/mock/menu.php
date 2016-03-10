@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +19,7 @@ class TestMockMenu
 	/**
 	 * Creates an instance of the mock JMenu object.
 	 *
-	 * @param   object  $test  A test object.
+	 * @param   PHPUnit_Framework_TestCase  $test  A test object.
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
