@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -74,7 +74,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @since   12.3
 	 */
-	public function getMapID()
+	public function getMapId()
 	{
 		return $this->getOption('mapid') ? $this->getOption('mapid') : 'map_canvas';
 	}
@@ -88,7 +88,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @since   12.3
 	 */
-	public function setMapID($id)
+	public function setMapId($id)
 	{
 		$this->setOption('mapid', $id);
 
@@ -281,18 +281,29 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 * @param   mixed  $location       A latitude/longitude array or an address string
 	 * @param   mixed  $title          Title of marker or false for no marker
 	 * @param   array  $markeroptions  Options for marker
+	 * @param   array  $markerevents   Events for marker
+	 *
+	 * @example with events call:
+	 *		$map->setCenter(
+	 *			array(0, 0),
+	 *			'Map Center',
+	 *			array(),
+	 *			array(
+	 *				'click' => 'function() { // code goes here }
+	 *			)
+	 *		)
 	 *
 	 * @return  JGoogleEmbedMaps  The latitude/longitude of the center or false on failure
 	 *
 	 * @since   12.3
 	 */
-	public function setCenter($location, $title = true, $markeroptions = array())
+	public function setCenter($location, $title = true, $markeroptions = array(), $markerevents = array())
 	{
 		if ($title)
 		{
 			$title = is_string($title) ? $title : null;
 
-			if (!$marker = $this->addMarker($location, $title, $markeroptions))
+			if (!$marker = $this->addMarker($location, $title, $markeroptions, $markerevents))
 			{
 				return false;
 			}
@@ -318,17 +329,93 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	}
 
 	/**
+	 * Method to add an event handler to the map.
+	 * Event handlers must be passed in either as callback name or fully qualified function declaration
+	 *
+	 * @param   string  $type      The event name
+	 * @param   string  $function  The event handling function body
+	 *
+	 * @example to add an event call:
+	 *		$map->addEventHandler('click', 'function(){ alert("map click event"); }');
+	 *
+	 * @return  JGoogleEmbedMaps   The object for method chaining
+	 *
+	 * @since   12.3
+	 */
+	public function addEventHandler($type, $function)
+	{
+		$events = $this->listEventHandlers();
+
+		$events[$type] = $function;
+
+		$this->setOption('events', $events);
+
+		return $this;
+	}
+
+	/**
+	 * Method to remove an event handler from the map
+	 *
+	 * @param   string  $type  The event name
+	 *
+	 * @example to delete an event call:
+	 *		$map->deleteEventHandler('click');
+	 *
+	 * @return  string  The event handler content
+	 *
+	 * @since   12.3
+	 */
+	public function deleteEventHandler($type = null)
+	{
+		$events = $this->listEventHandlers();
+
+		if ($type === null || !isset($events[$type]))
+		{
+			return;
+		}
+
+		$event = $events[$type];
+		unset($events[$type]);
+		$this->setOption('events', $events);
+
+		return $event;
+	}
+
+	/**
+	 * List the events added to the map
+	 *
+	 * @return  array  A list of events
+	 *
+	 * @since   12.3
+	 */
+	public function listEventHandlers()
+	{
+		return $this->getOption('events') ? $this->getOption('events') : array();
+	}
+
+	/**
 	 * Add a marker to the map
 	 *
-	 * @param   mixed  $location  A latitude longitude array or an address string
+	 * @param   mixed  $location  A latitude/longitude array or an address string
 	 * @param   mixed  $title     The hover-text for the marker
 	 * @param   array  $options   Options for marker
+	 * @param   array  $events    Events for marker
+	 *
+	 * @example with events call:
+	 *		$map->addMarker(
+	 *			array(0, 0),
+	 *			'My Marker',
+	 *			array(),
+	 *			array(
+	 *				'click' => 'function() { // code goes here }
+	 *			)
+	 *		)
 	 *
 	 * @return  mixed  The marker or false on failure
 	 *
 	 * @since   12.3
 	 */
-	public function addMarker($location, $title = null, $options = array())
+	public function addMarker($location, $title = null, $options = array(), $events = array())
 	{
 		if (is_string($location))
 		{
@@ -352,7 +439,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 		}
 
 		$location = array_values($location);
-		$marker = array('loc' => $location, 'title' => $title, 'options' => $options);
+		$marker = array('loc' => $location, 'title' => $title, 'options' => $options, 'events' => $events);
 
 		$markers = $this->listMarkers();
 		$markers[] = $marker;
@@ -552,7 +639,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 		$zoom = $this->getZoom();
 		$center = $this->getCenter();
 		$maptype = $this->getMapType();
-		$id = $this->getMapID();
+		$id = $this->getMapId();
 		$scheme = $this->isSecure() ? 'https' : 'http';
 		$key = $this->getKey();
 		$sensor = $this->hasSensor() ? 'true' : 'false';
@@ -565,18 +652,43 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 		$setup .= '};';
 		$setup .= "var map = new google.maps.Map(document.getElementById('{$id}'), mapOptions);";
 
-		foreach ($this->listMarkers() as $marker)
-		{
-			$loc = $marker['loc'];
-			$title = $marker['title'];
-			$options = $marker['options'];
+		$events = $this->listEventHandlers();
 
-			$setup .= 'new google.maps.Marker({';
-			$setup .= "position: new google.maps.LatLng({$loc[0]},{$loc[1]}),";
-			$setup .= 'map: map,';
-			$setup .= "title:'{$title}',";
-			$setup .= substr(json_encode($options), 1, -1);
-			$setup .= '});';
+		if (isset($events) && count($events))
+		{
+			foreach ($events as $type => $handler)
+			{
+				$setup .= "google.maps.event.addListener(map, '{$type}', {$handler});";
+			}
+		}
+
+		$markers = $this->listMarkers();
+
+		if (isset($markers) && count($markers))
+		{
+			$setup .= "var marker;";
+
+			foreach ($markers as $marker)
+			{
+				$loc = $marker['loc'];
+				$title = $marker['title'];
+				$options = $marker['options'];
+
+				$setup .= 'marker = new google.maps.Marker({';
+				$setup .= "position: new google.maps.LatLng({$loc[0]},{$loc[1]}),";
+				$setup .= 'map: map,';
+				$setup .= "title:'{$title}',";
+				$setup .= substr(json_encode($options), 1, -1);
+				$setup .= '});';
+
+				if (isset($marker['events']) && is_array($marker['events']))
+				{
+					foreach ($marker['events'] as $type => $handler)
+					{
+						$setup .= 'google.maps.event.addListener(marker, "' . $type . '", ' . $handler . ');';
+					}
+				}
+			}
 		}
 
 		$setup .= $this->getAdditionalJavascript();
@@ -638,7 +750,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 */
 	public function getBody()
 	{
-		$id = $this->getMapID();
+		$id = $this->getMapId();
 		$class = $this->getMapClass();
 		$style = $this->getMapStyle();
 

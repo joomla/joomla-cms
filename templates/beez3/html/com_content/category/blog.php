@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,7 +101,7 @@ $cparams = JComponentHelper::getParams('com_media');
 
 	<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
 		<h3>
-			<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
+			<?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?>
 		</h3>
 	<?php endif; ?>
 	<?php echo $this->loadTemplate('children'); ?>

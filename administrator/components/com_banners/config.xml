@@ -12,15 +12,15 @@
 			default="0"
 			>
 			<option
-				value="1">COM_BANNERS_FIELD_VALUE_1</option>
+				value="1">COM_BANNERS_FIELD_VALUE_UNLIMITED</option>
 			<option
-				value="2">COM_BANNERS_FIELD_VALUE_2</option>
+				value="2">COM_BANNERS_FIELD_VALUE_YEARLY</option>
 			<option
-				value="3">COM_BANNERS_FIELD_VALUE_3</option>
+				value="3">COM_BANNERS_FIELD_VALUE_MONTHLY</option>
 			<option
-				value="4">COM_BANNERS_FIELD_VALUE_4</option>
+				value="4">COM_BANNERS_FIELD_VALUE_WEEKLY</option>
 			<option
-				value="5">COM_BANNERS_FIELD_VALUE_5</option>
+				value="5">COM_BANNERS_FIELD_VALUE_DAILY</option>
 		</field>
 
 		<field

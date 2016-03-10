@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,6 +23,7 @@ JFactory::getDocument()->addScriptDeclaration(
 	{
 		if (task === "config.cancel.component" || document.formvalidator.isValid(document.getElementById("component-form")))
 		{
+			jQuery("#permissions-sliders select").attr("disabled", "disabled");
 			Joomla.submitform(task, document.getElementById("component-form"));
 		}
 	};
@@ -61,19 +62,25 @@ JFactory::getDocument()->addScriptDeclaration(
 						?>
 						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 							<?php
-							$class = '';
-							$rel = '';
-							if ($showon = $field->getAttribute('showon'))
-							{
+							$datashowon = '';
+							if ($showonstring = $field->getAttribute('showon'))							{
 								JHtml::_('jquery.framework');
 								JHtml::_('script', 'jui/cms.js', false, true);
-								$id = $this->form->getFormControl();
-								$showon = explode(':', $showon, 2);
-								$class = ' showon_' . implode(' showon_', explode(',', $showon[1]));
-								$rel = ' rel="showon_' . $id . '[' . $showon[0] . ']"';
+								$showonarr = array();
+
+								foreach (preg_split('%\[AND\]|\[OR\]%', $showonstring) as $showonfield)
+								{
+									$showon   = explode(':', $showonfield, 2);
+									$showonarr[] = array(
+										'field'  => $this->form->getFormControl() . '[' . $this->form->getFieldAttribute($showon[0], 'name') . ']',
+										'values' => explode(',', $showon[1]),
+										'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : ''
+									);
+								}
+								$datashowon = ' data-showon=\'' . json_encode($showonarr) . '\'';
 							}
 							?>
-							<div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
+							<div class="control-group"<?php echo $datashowon; ?>>
 								<?php if (!$field->hidden && $name != "permissions") : ?>
 									<div class="control-label">
 										<?php echo $field->label; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -240,7 +240,8 @@ abstract class JSchemaChangeitem
 		if ($this->checkStatus === -2)
 		{
 			// At this point we have a failed query
-			$this->db->setQuery($this->updateQuery);
+			$query = $this->db->convertUtf8mb4QueryToUtf8($this->updateQuery);
+			$this->db->setQuery($query);
 
 			if ($this->db->execute())
 			{

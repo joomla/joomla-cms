@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -271,7 +271,7 @@ class FinderIndexerQuery
 	 *
 	 * @since   2.5
 	 */
-	public function toURI($base = null)
+	public function toUri($base = null)
 	{
 		// Set the base if not specified.
 		if (empty($base))
@@ -693,7 +693,7 @@ class FinderIndexerQuery
 		if ($date->toUnix() !== null)
 		{
 			// Set the date filter.
-			$this->date1 = $date->toSQL();
+			$this->date1 = $date->toSql();
 			$this->when1 = in_array($when1, $whens) ? $when1 : 'before';
 		}
 
@@ -711,7 +711,7 @@ class FinderIndexerQuery
 		if ($date->toUnix() !== null)
 		{
 			// Set the date filter.
-			$this->date2 = $date->toSQL();
+			$this->date2 = $date->toSql();
 			$this->when2 = in_array($when2, $whens) ? $when2 : 'before';
 		}
 
@@ -819,7 +819,7 @@ class FinderIndexerQuery
 						if ($date->toUnix() !== null)
 						{
 							// Set the date filter.
-							$this->date1 = $date->toSQL();
+							$this->date1 = $date->toSql();
 							$this->when1 = in_array($modifier, $whens) ? $modifier : 'before';
 						}
 

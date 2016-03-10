@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,7 +62,15 @@ class LoginController extends JControllerLegacy
 			// Only redirect to an internal URL.
 			if (JUri::isInternal($return))
 			{
-				$app->redirect($return);
+				// If &tmpl=component - redirect to index.php
+				if (strpos($return, "tmpl=component") === false)
+				{
+					$app->redirect($return);
+				}
+				else
+				{
+					$app->redirect('index.php');
+				}
 			}
 		}
 
@@ -76,7 +84,7 @@ class LoginController extends JControllerLegacy
 	 */
 	public function logout()
 	{
-		JSession::checkToken('request') or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app = JFactory::getApplication();
 

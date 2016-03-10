@@ -6,11 +6,12 @@
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_CAPTCHA_RECAPTCHA_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="recaptcha">recaptcha.php</filename>
+		<filename>recaptchalib.php</filename>
 	</files>
 	<config>
 	<fields name="params">
@@ -27,8 +28,8 @@
 			label="PLG_RECAPTCHA_VERSION_LABEL"
 			description="PLG_RECAPTCHA_VERSION_DESC"
 			size="1">
-			<option value="1.0">PLG_RECAPTCHA_VERSION_1</option>
-			<option value="2.0">PLG_RECAPTCHA_VERSION_2</option>
+			<option value="1.0">PLG_RECAPTCHA_VERSION_V1</option>
+			<option value="2.0">PLG_RECAPTCHA_VERSION_V2</option>
 		</field>
 		<field
 			name="public_key"
@@ -72,7 +73,7 @@
 		<field
 			name="theme2"
 			type="list"
-			default="dark"
+			default="light"
 			label="PLG_RECAPTCHA_THEME_LABEL"
 			description="PLG_RECAPTCHA_THEME_DESC"
 			required="false"
@@ -82,6 +83,21 @@
 				value="light">PLG_RECAPTCHA_THEME_LIGHT</option>
 			<option
 				value="dark">PLG_RECAPTCHA_THEME_DARK</option>
+		</field>
+
+		<field
+			name="size"
+			type="list"
+			default="normal"
+			label="PLG_RECAPTCHA_SIZE_LABEL"
+			description="PLG_RECAPTCHA_SIZE_DESC"
+			required="false"
+			showon="version:2.0"
+			filter="">
+			<option
+				value="normal">PLG_RECAPTCHA_THEME_NORMAL</option>
+			<option
+				value="compact">PLG_RECAPTCHA_THEME_COMPACT</option>
 		</field>
 		</fieldset>
 	</fields>

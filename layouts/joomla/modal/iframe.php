@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,6 +34,11 @@ $iframeAttributes = array(
 	'class' => 'iframe',
 	'src'   => $params['url']
 );
+
+if (isset($params['title']))
+{
+	$iframeAttributes['name'] = addslashes($params['title']);
+}
 
 if (isset($params['height']))
 {
