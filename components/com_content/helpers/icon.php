@@ -107,7 +107,7 @@ abstract class JHtmlIcon
 			$text = JText::_('JGLOBAL_EMAIL');
 		}
 
-		$attribs['title']   = JText::_('JGLOBAL_EMAIL');
+		$attribs['title']   = JText::_('JGLOBAL_EMAIL_TITLE');
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 		$attribs['rel']     = 'nofollow';
 
@@ -223,6 +223,7 @@ abstract class JHtmlIcon
 				. JText::_('JGLOBAL_EDIT');
 		}
 
+		$attribs['title']   = JText::_('JGLOBAL_EDIT_TITLE');
 		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
 
 		return $output;
@@ -266,7 +267,7 @@ abstract class JHtmlIcon
 			$text = JText::_('JGLOBAL_PRINT');
 		}
 
-		$attribs['title']   = JText::_('JGLOBAL_PRINT');
+		$attribs['title']   = JText::sprintf('JGLOBAL_PRINT_TITLE', htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8'));
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 		$attribs['rel']     = 'nofollow';
 
