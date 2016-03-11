@@ -7596,7 +7596,7 @@ ul.menu-component {
 	-o-overflow-scrolling: touch;
 	overflow-scrolling: touch;
 	height: auto;
-	max-height: 300px;
+	max-height: 500px;
 	margin: 0;
 }
 .empty-nav {
