@@ -248,7 +248,7 @@ $components = ModMenuHelper::getComponents(true);
 // Check if there are any components, otherwise, don't render the menu
 if ($components)
 {
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), '#'), true);
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), '#', 'components-menu'), true);
 
 	foreach ($components as &$component)
 	{

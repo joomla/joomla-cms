@@ -55,6 +55,53 @@
 
 		});
 
+		// Append submenu items to empty UL on hover allowing a scrollable dropdown
+		var menu      = $('#menu');
+		var menuComp  = menu.find('.menu-component');
+		var emptyMenu = $('#nav-empty');
+
+		menuComp.find('.dropdown-submenu > a').on('mouseenter', function() {
+
+			var $self    = $(this);
+			var dropdown = $self.next('.dropdown-menu');
+			var offset   = $self.offset();	
+
+			// Set the submenu position
+			if ($('html').attr('dir') == 'rtl')
+			{
+				emptyMenu.css({
+					top : offset.top,
+					left:  offset.left - (dropdown.width() + 27)
+				});
+			}
+			else
+			{
+				emptyMenu.css({
+					top : offset.top,
+					left: offset.left + (dropdown.width() + 27)
+				});
+			}
+
+			// Append items to empty <ul> and show it
+			emptyMenu.show().html(dropdown.html());
+
+		});
+		menuComp.find('a.no-dropdown').on('mouseenter', function() {
+
+			emptyMenu.empty().hide();
+
+		});
+		$(document).on('click', function() {
+
+			emptyMenu.empty().hide();
+
+		});
+		$('#menu > li').on('mouseenter', function() {
+
+			emptyMenu.empty().hide();
+
+		});
+
 		/**
 		 * USED IN: All list views to hide/show the sidebar
 		 */
