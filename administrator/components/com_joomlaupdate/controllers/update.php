@@ -33,6 +33,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		$this->_applyCredentials();
 
+		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel('Default');
 		$file = $model->download();
 
@@ -71,6 +72,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		$this->_applyCredentials();
 
+		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel('Default');
 
 		$file = JFactory::getApplication()->getUserState('com_joomlaupdate.file', null);
@@ -94,6 +96,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), JLog::INFO, 'Update');
 		$this->_applyCredentials();
 
+		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel('Default');
 
 		$model->finaliseUpgrade();
@@ -117,6 +120,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), JLog::INFO, 'Update');
 		$this->_applyCredentials();
 
+		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel('Default');
 
 		$model->cleanUp();
@@ -135,9 +139,11 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 */
 	public function purge()
 	{
-		// Purge updates
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Purge updates
+		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel('Default');
 		$model->purge();
 
@@ -169,6 +175,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		if ($view = $this->getView($vName, $vFormat))
 		{
 			// Get the model for the view.
+			/** @var JoomlaupdateModelDefault $model */
 			$model = $this->getModel('Default');
 
 			// Push the model into the view (as default).
