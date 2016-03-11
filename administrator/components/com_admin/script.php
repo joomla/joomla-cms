@@ -1770,8 +1770,8 @@ class JoomlaInstallerScript
 					{
 						$converted = 0;
 
-						// Still render the error message from the Exception object
-						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+						// Show an error message telling to check database problems
+						JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 					}
 				}
 			}
