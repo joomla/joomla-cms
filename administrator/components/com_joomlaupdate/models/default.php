@@ -120,7 +120,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 
 		$updater = JUpdater::getInstance();
-		$updater->findUpdates(700, $cache_timeout);
+		$updater->findUpdates(700, $cache_timeout, JUpdater::STABILITY_ALPHA, true);
 	}
 
 	/**
@@ -135,8 +135,9 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		// Initialise the return array.
 		$ret = array(
 			'installed' => JVERSION,
-			'latest' => null,
-			'object' => null
+			'latest'    => null,
+			'object'    => null,
+		    'hasUpdate' => false
 		);
 
 		// Fetch the update information from the database.
@@ -154,25 +155,16 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 			return $ret;
 		}
-		else
-		{
-			$ret['latest'] = $updateObject->version;
-		}
+
+		$ret['latest'] = $updateObject->version;
+		$ret['hasUpdate'] = $updateObject->version != JVERSION;
 
 		// Fetch the full update details from the update details URL.
 		jimport('joomla.updater.update');
 		$update = new JUpdate;
 		$update->loadFromXML($updateObject->detailsurl);
 
-		// Pass the update object.
-		if ($ret['latest'] == JVERSION)
-		{
-			$ret['object'] = null;
-		}
-		else
-		{
-			$ret['object'] = $update;
-		}
+		$ret['object'] = $update;
 
 		return $ret;
 	}
@@ -419,7 +411,8 @@ ENDDATA;
 				if (!is_dir($tempdir))
 				{
 					JFolder::create($tempdir, 511);
-					JFile::write($tempdir . '/.htaccess', "order deny,allow\ndeny from all\nallow from none\n");
+					$htaccessContents = "order deny,allow\ndeny from all\nallow from none\n";
+					JFile::write($tempdir . '/.htaccess', $htaccessContents);
 				}
 
 				// If it exists and it is unwritable, try creating a writable admintools subdirectory.
