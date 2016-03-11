@@ -36,10 +36,5 @@ $doc->addStyleDeclaration("
 // Menutype filter doesn't have to activate the filter bar
 unset($data['view']->activeFilters['client_id']);
 
-$layout = JFactory::getApplication()->input->getCmd('layout');
-
 // Display the main joomla layout
-if (($layout != 'edit'))
-{
-	echo JLayoutHelper::render('joomla.searchtools.default', $data, null, array('component' => 'none'));
-}
+echo JLayoutHelper::render('joomla.searchtools.default', $data, null, array('component' => 'none'));
