@@ -2790,7 +2790,7 @@ input[type="submit"].btn.btn-mini {
 	color: #8a6d3b;
 }
 .alert h4 {
-	margin: 0;
+	margin: 0 0 .5em;
 }
 .alert .close {
 	position: relative;
@@ -7341,12 +7341,19 @@ h6 {
 	font-size: 12px;
 	line-height: 14px;
 }
+.sidebar-nav .nav-list {
+	padding-left: 25px;
+	padding-right: 25px;
+}
 .sidebar-nav .nav-list > li > a {
 	color: #555;
+	padding: 3px 25px;
+	margin-left: -25px;
+	margin-right: -25px;
 }
 .sidebar-nav .nav-list > li.active > a {
 	color: #fff;
-	margin-right: -16px;
+	margin-right: -26px;
 }
 .quick-icons .nav li + .nav-header {
 	margin-top: 12px;

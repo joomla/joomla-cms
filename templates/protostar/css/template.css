@@ -2805,7 +2805,7 @@ input[type="submit"].btn.btn-mini {
 	color: #c09853;
 }
 .alert h4 {
-	margin: 0;
+  margin: 0 0 .5em;
 }
 .alert .close {
 	position: relative;
@@ -7520,4 +7520,13 @@ body.modal-open {
 .well select,
 .well .chzn-container {
 	max-width: 100%;
+}
+@media (max-width: 767px) {
+	.field-media-wrapper .modal .modal-body {
+		padding: 5px 0;
+	}
+}
+.modal-body {
+	-webkit-overflow-scrolling: touch;
+	overflow-y: auto !important;
 }

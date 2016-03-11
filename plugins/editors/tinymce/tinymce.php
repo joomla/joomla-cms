@@ -122,6 +122,11 @@ class PlgEditorTinymce extends JPlugin
 	{
 		static $declaredJs = false;
 
+		if (empty($id))
+		{
+			$id = $name;
+		}
+
 		if (!$declaredJs)
 		{
 			$app      = JFactory::getApplication();
@@ -705,7 +710,7 @@ class PlgEditorTinymce extends JPlugin
 			}
 
 			// We shall put the XTD button inside tinymce
-			$btns      = $this->tinyButtons($buttons);
+			$btns      = $this->tinyButtons($id, $buttons);
 			$btnsNames = $btns['names'];
 			$tinyBtns  = $btns['script'];
 
@@ -853,7 +858,7 @@ class PlgEditorTinymce extends JPlugin
 				case 1:
 				default: /* Advanced mode*/
 					$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
-						. "| outdent indent | undo redo | link unlink anchor image | hr table | subscript superscript | charmap";
+						. "| outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap";
 
 					$script .= "
 			valid_elements : \"$valid_elements\",
@@ -862,7 +867,7 @@ class PlgEditorTinymce extends JPlugin
 			// Plugins
 			plugins : \"table link image code hr charmap autolink lists importcss $dragDropPlg\",
 			// Toolbar
-			toolbar1: \"$toolbar1 | $toolbar5 | code\",
+			toolbar1: \"$toolbar1 | $toolbar5\",
 			removed_menuitems: \"newdocument\",
 			// Layout
 			importcss_append: true,
@@ -882,7 +887,7 @@ class PlgEditorTinymce extends JPlugin
 			// Plugins
 			plugins : \"$plugins $dragDropPlg\",
 			// Toolbar
-			toolbar1: \"$toolbar1 | code\",
+			toolbar1: \"$toolbar1\",
 			removed_menuitems: \"newdocument\",
 			// URL
 			rel_list : [
@@ -959,11 +964,6 @@ class PlgEditorTinymce extends JPlugin
 			$declaredJs = true;
 		}
 
-		if (empty($id))
-		{
-			$id = $name;
-		}
-
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric($width))
 		{
@@ -1008,14 +1008,15 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * Get the XTD buttons and render them inside tinyMCE
 	 *
+	 * @param   string  $name      the id of the editor field
 	 * @param   string  $excluded  the buttons that should be hidden
 	 *
 	 * @return array
 	 */
-	private function tinyButtons($excluded)
+	private function tinyButtons($name, $excluded)
 	{
 		// Get the available buttons
-		$buttons = $this->_subject->getButtons($this->_name, $excluded);
+		$buttons = $this->_subject->getButtons($name, $excluded);
 
 		// Init the arrays for the buttons
 		$tinyBtns  = array();

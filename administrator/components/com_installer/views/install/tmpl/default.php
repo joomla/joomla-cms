@@ -75,29 +75,26 @@ JFactory::getDocument()->addScriptDeclaration(
 	jQuery(document).ready(function($) {
 		var outerDiv = $("#installer-install");
 
-		$(\'<div id="loading"></div>\')
-		.css("background", \'rgba(255, 255, 255, .8) url("../media/jui/img/ajax-loader.gif") 50% 15% no-repeat\')
+		$("#loading")
 		.css("top", outerDiv.position().top - $(window).scrollTop())
 		.css("left", outerDiv.position().left - $(window).scrollLeft())
 		.css("width", outerDiv.width())
 		.css("height", outerDiv.height())
-		.css("position", "fixed")
-		.css("opacity", "0.80")
-		.css("-ms-filter", "progid:DXImageTransform.Microsoft.Alpha(Opacity = 80)")
-		.css("filter", "alpha(opacity = 80)")
 		.css("display", "none")
-		.appendTo(outerDiv);
 	});
 	'
 );
-?>
-<style type="text/css">
+
+JFactory::getDocument()->addStyleDeclaration(
+	'
 	#loading {
-		background: rgba(255, 255, 255, .8) url('<?php echo JHtml::_('image', 'jui/ajax-loader.gif', '', null, true, true); ?>') 50% 15% no-repeat;
+		background: rgba(255, 255, 255, .8) url(\'' . JHtml::_('image', 'jui/ajax-loader.gif', '', null, true, true) . '\') 50% 15% no-repeat;
 		position: fixed;
 		opacity: 0.8;
 		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
 		filter: alpha(opacity = 80);
+		margin: -10px -50px 0 -50px;
+		overflow: hidden;
 	}
 
 	.j-jed-message {
@@ -105,7 +102,10 @@ JFactory::getDocument()->addScriptDeclaration(
 		line-height: 2em;
 		color:#333333;
 	}
-</style>
+	'
+);
+
+?>
 
 <div id="installer-install" class="clearfix">
 	<?php if (!empty( $this->sidebar)) : ?>

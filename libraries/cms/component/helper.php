@@ -133,6 +133,9 @@ class JComponentHelper
 	 */
 	public static function filterText($text)
 	{
+		// Punyencoding utf8 email addresses
+		$text = JFilterInput::getInstance()->emailToPunycode($text);
+
 		// Filter settings
 		$config     = static::getParams('com_config');
 		$user       = JFactory::getUser();

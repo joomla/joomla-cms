@@ -21,6 +21,7 @@ $doc->addStyleDeclaration("
 	.js-stools .js-stools-client_id {
 		float: left;
 		margin-right: 10px;
+		min-width: 220px;
 	}
 	html[dir=rtl] .js-stools .js-stools-client_id {
 		float: right;
