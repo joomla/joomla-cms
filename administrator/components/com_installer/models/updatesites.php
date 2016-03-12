@@ -175,11 +175,6 @@ class InstallerModelUpdatesites extends InstallerModel
 			$query->where('client_id = ' . (int) $clientId);
 		}
 
-		if ($clientId != '')
-		{
-			$query->where('client_id = ' . (int) $clientId);
-		}
-
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
 			$query->where('folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
