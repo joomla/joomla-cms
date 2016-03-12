@@ -270,7 +270,7 @@ class JCacheStorageRedis extends JCacheStorage
 
 		$index[] = $tmparr;
 
-		static::$_redis->setex($cache_id, 3600, $data);
+		static::$_redis->setex($cache_id, $this->_lifetime, $data);
 
 		return true;
 	}
