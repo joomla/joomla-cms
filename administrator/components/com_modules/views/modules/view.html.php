@@ -49,10 +49,7 @@ class ModulesViewModules extends JViewLegacy
 			return false;
 		}
 
-		if ($this->getLayout() == 'default')
-		{
-			$this->addToolbar();
-		}
+		$this->addToolbar();
 
 		// Include the component HTML helpers.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
