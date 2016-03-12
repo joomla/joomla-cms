@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,42 +15,20 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$canOrder	= $user->authorise('core.edit.state', 'com_banners.category');
-$archived	= $this->state->get('filter.state') == 2 ? true : false;
-$trashed	= $this->state->get('filter.state') == -2 ? true : false;
-$params		= (isset($this->state->params)) ? $this->state->params : new JObject;
-$saveOrder	= $listOrder == 'a.ordering';
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$canOrder  = $user->authorise('core.edit.state', 'com_banners.category');
+$archived  = $this->state->get('filter.state') == 2 ? true : false;
+$trashed   = $this->state->get('filter.state') == -2 ? true : false;
+$saveOrder = $listOrder == 'a.ordering';
 
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_banners&task=banners.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
-
-$sortFields = $this->getSortFields();
-JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
-	Joomla.orderTable = function()
-	{
-		table = document.getElementById("sortTable");
-		direction = document.getElementById("directionTable");
-		order = table.options[table.selectedIndex].value;
-		if (order != "' . $listOrder . '")
-		{
-			dirn = "asc";
-		}
-		else
-		{
-			dirn = direction.options[direction.selectedIndex].value;
-		}
-		Joomla.tableOrdering(order, dirn, "");
-	}
-});
-');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=banners'); ?>" method="post" name="adminForm" id="adminForm">
@@ -73,7 +51,7 @@ jQuery(document).ready(function() {
 						<th width="1%" class="nowrap center hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%" class="hidden-phone">
+						<th width="1%" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="1%" class="nowrap center">
@@ -91,13 +69,13 @@ jQuery(document).ready(function() {
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_IMPRESSIONS', 'impmade', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap center hidden-phone">
+						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CLICKS', 'clicks', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap center hidden-phone">
+						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -132,14 +110,14 @@ jQuery(document).ready(function() {
 								}
 								?>
 								<span class="sortable-handler <?php echo $iconClass ?>">
-									<i class="icon-menu"></i>
+									<span class="icon-menu"></span>
 								</span>
 								<?php if ($canChange && $saveOrder) : ?>
 									<input type="text" style="display:none" name="order[]" size="5"
 										value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
 								<?php endif; ?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="center">
@@ -173,7 +151,7 @@ jQuery(document).ready(function() {
 										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 									</span>
 									<div class="small">
-										<?php echo $this->escape($item->category_title); ?>
+										<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 									</div>
 								</div>
 							</td>
@@ -186,7 +164,7 @@ jQuery(document).ready(function() {
 							<td class="small hidden-phone">
 								<?php echo JText::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ? $item->imptotal : JText::_('COM_BANNERS_UNLIMITED')); ?>
 							</td>
-							<td class="center small hidden-phone">
+							<td class="small hidden-phone">
 								<?php echo $item->clicks; ?> -
 								<?php echo sprintf('%.2f%%', $item->impmade ? 100 * $item->clicks / $item->impmade : 0); ?>
 							</td>
@@ -195,19 +173,31 @@ jQuery(document).ready(function() {
 								<?php if ($item->language == '*'): ?>
 									<?php echo JText::alt('JALL', 'language'); ?>
 								<?php else: ?>
-									<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+									<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 								<?php endif; ?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="hidden-phone">
 								<?php echo $item->id; ?>
 							</td>
 						</tr>
 					<?php endforeach; ?>
 				</tbody>
 			</table>
+			<?php // Load the batch processing form. ?>
+			<?php if ($user->authorise('core.create', 'com_banners')
+				&& $user->authorise('core.edit', 'com_banners')
+				&& $user->authorise('core.edit.state', 'com_banners')) : ?>
+				<?php echo JHtml::_(
+					'bootstrap.renderModal',
+					'collapseModal',
+					array(
+						'title' => JText::_('COM_BANNERS_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer')
+					),
+					$this->loadTemplate('batch_body')
+				); ?>
+			<?php endif; ?>
 		<?php endif; ?>
-		<?php //Load the batch processing form. ?>
-		<?php echo $this->loadTemplate('batch'); ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

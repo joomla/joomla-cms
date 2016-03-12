@@ -27,4 +27,5 @@
            </rules>
        </rewrite>
    </system.webServer>
+   </location>
 </configuration>

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -48,7 +48,7 @@ class JFormFieldFile extends JFormField
 		switch ($name)
 		{
 			case 'accept':
-				return $this->$name;
+				return $this->accept;
 		}
 
 		return parent::__get($name);
@@ -69,7 +69,7 @@ class JFormFieldFile extends JFormField
 		switch ($name)
 		{
 			case 'accept':
-				$this->$accept = (string) $value;
+				$this->accept = (string) $value;
 				break;
 
 			default:
@@ -132,7 +132,7 @@ class JFormFieldFile extends JFormField
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		return '<input type="file" name="' . $this->name . '" id="' . $this->id . '" value=""' . $accept
+		return '<input type="file" name="' . $this->name . '" id="' . $this->id . '"' . $accept
 			. $disabled . $class . $size . $onchange . $required . $autofocus . $multiple . ' />';
 	}
 }

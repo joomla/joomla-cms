@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -138,6 +138,14 @@ class JFormFieldRules extends JFormField
 	{
 		JHtml::_('bootstrap.tooltip');
 
+		// Add Javascript for permission change
+		JHtml::_('script', 'media/system/js/permissions.min.js', false, false, false, false, true);
+
+		// Add JText for error messages
+		JText::script('JLIB_RULES_REQUEST_FAILURE');
+		JText::script('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS');
+		JText::script('JLIB_RULES_REQUEST_FAILURE');
+
 		// Initialise some field attributes.
 		$section = $this->section;
 		$component = $this->component;
@@ -259,17 +267,17 @@ class JFormFieldRules extends JFormField
 				$html[] = '<tr>';
 				$html[] = '<td headers="actions-th' . $group->value . '">';
 				$html[] = '<label for="' . $this->id . '_' . $action->name . '_' . $group->value . '" class="hasTooltip" title="'
-					. htmlspecialchars(JText::_($action->title) . ' ' . JText::_($action->description), ENT_COMPAT, 'UTF-8') . '">';
+					. JHtml::_('tooltipText', JText::_($action->title), JText::_($action->description)) . '">';
 				$html[] = JText::_($action->title);
 				$html[] = '</label>';
 				$html[] = '</td>';
 
 				$html[] = '<td headers="settings-th' . $group->value . '">';
 
-				$html[] = '<select class="input-small" name="' . $this->name . '[' . $action->name . '][' . $group->value . ']" id="' . $this->id
-					. '_' . $action->name
-					. '_' . $group->value . '" title="'
-					. JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)) . '">';
+				$html[] = '<select onchange="sendPermissions.call(this, event)" data-chosen="true" class="input-small"'
+					. ' name="' . $this->name . '[' . $action->name . '][' . $group->value . ']"'
+					. ' id="' . $this->id . '_' . $action->name	. '_' . $group->value . '"'
+					. ' title="' . JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)) . '">';
 
 				$inheritedRule = JAccess::checkGroup($group->value, $action->name, $assetId);
 
@@ -294,6 +302,7 @@ class JFormFieldRules extends JFormField
 					$html[] = JText::_('JLIB_RULES_CONFLICT');
 				}
 
+				$html[] = '<span id="icon_' . $this->id . '_' . $action->name . '_' . $group->value . '"' . '></span>';
 				$html[] = '</td>';
 
 				// Build the Calculated Settings column.
@@ -323,14 +332,14 @@ class JFormFieldRules extends JFormField
 							}
 							else
 							{
-								$html[] = '<span class="label"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED')
+								$html[] = '<span class="label"><span class="icon-lock icon-white"></span> ' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED')
 									. '</span>';
 							}
 						}
 					}
 					elseif (!empty($component))
 					{
-						$html[] = '<span class="label label-success"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
+						$html[] = '<span class="label label-success"><span class="icon-lock icon-white"></span> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
 							. '</span>';
 					}
 					else
@@ -344,12 +353,12 @@ class JFormFieldRules extends JFormField
 						elseif ($inheritedRule === false)
 						{
 							// Other actions cannot be changed.
-							$html[] = '<span class="label label-important"><i class="icon-lock icon-white"></i> '
+							$html[] = '<span class="label label-important"><span class="icon-lock icon-white"></span> '
 								. JText::_('JLIB_RULES_NOT_ALLOWED_ADMIN_CONFLICT') . '</span>';
 						}
 						else
 						{
-							$html[] = '<span class="label label-success"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
+							$html[] = '<span class="label label-success"><span class="icon-lock icon-white"></span> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
 								. '</span>';
 						}
 					}

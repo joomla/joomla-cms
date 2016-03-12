@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -95,7 +95,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
 		$registry->set('ftp_pass', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_pass)) ? $options->ftp_pass : '');
 		$registry->set('ftp_root', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_root)) ? $options->ftp_root : '');
-		$registry->set('ftp_enable', isset($options->ftp_host) ? $options->ftp_enable : '');
+		$registry->set('ftp_enable', isset($options->ftp_host) ? $options->ftp_enable : 0);
 
 		// Locale settings.
 		$registry->set('offset', 'UTC');
@@ -117,6 +117,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('caching', 0);
 		$registry->set('cache_handler', 'file');
 		$registry->set('cachetime', 15);
+		$registry->set('cache_platformprefix', 0);
 
 		// Meta settings.
 		$registry->set('MetaDesc', $options->site_metadesc);
@@ -134,6 +135,8 @@ class InstallationModelConfiguration extends JModelBase
 
 		// Feed settings.
 		$registry->set('feed_limit', 10);
+		$registry->set('feed_email', 'none');
+
 		$registry->set('log_path', JPATH_ROOT . '/logs');
 		$registry->set('tmp_path', JPATH_ROOT . '/tmp');
 
@@ -236,7 +239,7 @@ class InstallationModelConfiguration extends JModelBase
 		// Get a database object.
 		try
 		{
-			$db = InstallationHelperDatabase::getDBO(
+			$db = InstallationHelperDatabase::getDbo(
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,

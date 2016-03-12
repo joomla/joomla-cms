@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldpath="/administrator/components/com_templates/models/fields" />
+
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			label="JSEARCH_FILTER"
+			description="JSEARCH_FILTER"
+			hint="JSEARCH_FILTER"
+		/>
+		<field
+			name="client_id"
+			type="templatelocation"
+			onchange="this.form.submit();"
+			>
+			<option value="">JGLOBAL_FILTER_CLIENT</option>
+		</field>
+		<field
+			name="template"
+			type="templatename"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_TEMPLATE</option>
+		</field>
+	</fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			description="JGLOBAL_SORT_BY"
+			onchange="this.form.submit();"
+			default="a.template ASC"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.title ASC">COM_TEMPLATES_HEADING_STYLE_ASC</option>
+			<option value="a.title DESC">COM_TEMPLATES_HEADING_STYLE_DESC</option>
+			<option value="a.home ASC">COM_TEMPLATES_HEADING_DEFAULT_ASC</option>
+			<option value="a.home DESC">COM_TEMPLATES_HEADING_DEFAULT_DESC</option>
+			<option value="a.client_id ASC">COM_TEMPLATES_HEADING_LOCATION_ASC</option>
+			<option value="a.client_id DESC">COM_TEMPLATES_HEADING_LOCATION_DESC</option>
+			<option value="a.template ASC">COM_TEMPLATES_HEADING_TEMPLATE_ASC</option>
+			<option value="a.template DESC">COM_TEMPLATES_HEADING_TEMPLATE_DESC</option>
+			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIMIT"
+			description="JGLOBAL_LIMIT"
+			class="input-mini"
+			default="25"
+			onchange="this.form.submit();"
+		/>
+    </fields>
+</form>

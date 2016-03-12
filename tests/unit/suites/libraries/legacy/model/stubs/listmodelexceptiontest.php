@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,11 +20,15 @@ class ListModelExceptionTest extends JModelList
 	/**
 	 * throws a Exception for testing purposes
 	 *
-	 * @throws RuntimeException
+	 * @param   string   $query       The query.
+	 * @param   integer  $limitstart  Offset.
+	 * @param   integer  $limit       The number of records.
 	 *
-	 * @return void
+	 * @return  array  An array of results.
+	 *
+	 * @throws  RuntimeException
 	 */
-	protected function _getList()
+	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
 		throw new RuntimeException;
 	}

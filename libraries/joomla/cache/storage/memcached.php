@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -80,7 +80,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		/*
 		 * This will be an array of loveliness
 		 * @todo: multiple servers
-		 * $servers	= (isset($params['servers'])) ? $params['servers'] : array();
+		 * $servers = (isset($params['servers'])) ? $params['servers'] : array();
 		 */
 		$server = array();
 		$server['host'] = $config->get('memcached_server_host', 'localhost');

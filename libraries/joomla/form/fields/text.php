@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -93,10 +93,11 @@ class JFormFieldText extends JFormField
 
 			case 'dirname':
 				$value = (string) $value;
-				$value = ($value == $name || $value == 'true' || $value == '1');
+				$this->dirname = ($value == $name || $value == 'true' || $value == '1');
+				break;
 
 			case 'inputmode':
-				$this->name = (string) $value;
+				$this->inputmode = (string) $value;
 				break;
 
 			default:

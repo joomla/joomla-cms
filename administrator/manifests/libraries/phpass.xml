@@ -13,6 +13,5 @@
 
 	<files folder="phpass">
 		<file>PasswordHash.php</file>
-		<file>index.html</file>
 	</files>
 </extension>

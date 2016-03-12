@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -182,7 +182,7 @@ class JTwitterTest extends TestCase
 	public function test__GetDirectMessages()
 	{
 		$this->assertThat(
-			$this->object->directMessages,
+			$this->object->directmessages,
 			$this->isInstanceOf('JTwitterDirectmessages')
 		);
 	}

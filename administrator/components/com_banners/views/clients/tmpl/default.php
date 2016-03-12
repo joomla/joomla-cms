@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,26 +22,6 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 $params     = (isset($this->state->params)) ? $this->state->params : new JObject;
 $archived   = $this->state->get('filter.state') == 2 ? true : false;
 $trashed    = $this->state->get('filter.state') == -2 ? true : false;
-$sortFields = $this->getSortFields();
-
-JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
-	Joomla.orderTable = function()
-	{
-		table = document.getElementById("sortTable");
-		direction = document.getElementById("directionTable");
-		order = table.options[table.selectedIndex].value;
-		if (order != "' . $listOrder . '")
-		{
-			dirn = "asc";
-		}
-		else
-		{
-			dirn = direction.options[direction.selectedIndex].value;
-		}
-		Joomla.tableOrdering(order, dirn, "");
-	}
-});');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=clients'); ?>" method="post" name="adminForm" id="adminForm">
@@ -61,7 +41,7 @@ jQuery(document).ready(function() {
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="1%" class="hidden-phone">
+						<th width="1%" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="5%" class="nowrap center">
@@ -93,14 +73,13 @@ jQuery(document).ready(function() {
 				</tfoot>
 				<tbody>
 					<?php foreach ($this->items as $i => $item) :
-						$ordering   = ($listOrder == 'ordering');
 						$canCreate  = $user->authorise('core.create',     'com_banners');
 						$canEdit    = $user->authorise('core.edit',       'com_banners');
 						$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
 						$canChange  = $user->authorise('core.edit.state', 'com_banners') && $canCheckin;
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
-							<td class="center hidden-phone">
+							<td class="center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="center">
@@ -135,7 +114,7 @@ jQuery(document).ready(function() {
 							<td class="small hidden-phone">
 								<?php echo $item->contact; ?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="hidden-phone">
 								<?php echo $item->nbanners; ?>
 							</td>
 							<td class="small hidden-phone">
@@ -145,7 +124,7 @@ jQuery(document).ready(function() {
 									<?php echo JText::_('COM_BANNERS_FIELD_VALUE_' . $item->purchase_type); ?>
 								<?php endif; ?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="hidden-phone">
 								<?php echo $item->id; ?>
 							</td>
 						</tr>

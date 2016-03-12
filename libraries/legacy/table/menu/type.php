@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,7 +38,7 @@ class JTableMenuType extends JTable
 	 */
 	public function check()
 	{
-		$this->menutype = JApplication::stringURLSafe($this->menutype);
+		$this->menutype = JApplicationHelper::stringURLSafe($this->menutype);
 
 		if (empty($this->menutype))
 		{
@@ -82,7 +82,7 @@ class JTableMenuType extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/store
+	 * @link    https://docs.joomla.org/JTable/store
 	 * @since   11.1
 	 */
 	public function store($updateNulls = false)
@@ -93,7 +93,7 @@ class JTableMenuType extends JTable
 			$userId = JFactory::getUser()->id;
 
 			// Get the old value of the table
-			$table = JTable::getInstance('Menutype', 'JTable');
+			$table = JTable::getInstance('Menutype', 'JTable', array('dbo', $this->getDbo()));
 			$table->load($this->id);
 
 			// Verify that no items are checked out
@@ -164,7 +164,7 @@ class JTableMenuType extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/delete
+	 * @link    https://docs.joomla.org/JTable/delete
 	 * @since   11.1
 	 */
 	public function delete($pk = null)
@@ -179,7 +179,7 @@ class JTableMenuType extends JTable
 			$userId = JFactory::getUser()->id;
 
 			// Get the old value of the table
-			$table = JTable::getInstance('Menutype', 'JTable');
+			$table = JTable::getInstance('Menutype', 'JTable', array('dbo', $this->getDbo()));
 			$table->load($pk);
 
 			// Verify that no items are checked out

@@ -56,9 +56,13 @@
 
     var inp = dialog.getElementsByTagName("input")[0], button;
     if (inp) {
+      inp.focus();
+
       if (options.value) {
         inp.value = options.value;
-        inp.select();
+        if (options.selectValueOnOpen !== false) {
+          inp.select();
+        }
       }
 
       if (options.onInput)
@@ -73,12 +77,10 @@
           CodeMirror.e_stop(e);
           close();
         }
-        if (e.keyCode == 13) callback(inp.value);
+        if (e.keyCode == 13) callback(inp.value, e);
       });
 
       if (options.closeOnBlur !== false) CodeMirror.on(inp, "blur", close);
-
-      inp.focus();
     } else if (button = dialog.getElementsByTagName("button")[0]) {
       CodeMirror.on(button, "click", function() {
         close();

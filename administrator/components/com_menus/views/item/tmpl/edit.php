@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,12 +82,6 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 <form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
-	<?php
-	if ($this->item->type == 'url')
-	{
-		$this->form->setFieldAttribute('alias', 'type', 'hidden');
-	}
-	?>
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div class="form-horizontal">
@@ -150,7 +144,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 		<?php
 		$this->fieldsets = array();
-		$this->ignore_fieldsets = array('aliasoptions', 'request');
+		$this->ignore_fieldsets = array('aliasoptions', 'request', 'item_associations');
 		echo JLayoutHelper::render('joomla.edit.params', $this);
 		?>
 

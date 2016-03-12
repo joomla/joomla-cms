@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -136,7 +136,7 @@ class TagsModelTag extends JModelList
 		$language = $this->getState('tag.language');
 		$stateFilter = $this->getState('tag.state');
 
-	// Optionally filter on language
+		// Optionally filter on language
 		if (empty($language))
 		{
 			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
@@ -167,10 +167,11 @@ class TagsModelTag extends JModelList
 	 */
 	protected function populateState($ordering = 'c.core_title', $direction = 'ASC')
 	{
-		$app = JFactory::getApplication('site');
+		$app = JFactory::getApplication();
 
 		// Load the parameters.
-		$params = $app->getParams();
+		$params = $app->isAdmin() ? JComponentHelper::getParams('com_tags') : $app->getParams();
+
 		$this->setState('params', $params);
 
 		// Load state from the request.
@@ -209,14 +210,8 @@ class TagsModelTag extends JModelList
 		}
 		else
 		{
-			if ($this->state->params->get('show_pagination_limit'))
-			{
-				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
-			}
-			else
-			{
-				$limit = $this->state->params->get('maximum', 20);
-			}
+			$limit = $params->get('display_num', $app->get('list_limit', 20));
+			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $limit, 'uint');
 		}
 
 		$this->setState('list.limit', $limit);
@@ -329,6 +324,11 @@ class TagsModelTag extends JModelList
 			$table = JTable::getInstance('Tag', 'TagsTable');
 			$table->load($pk);
 			$table->hit($pk);
+
+			if (!$table->hasPrimaryKey())
+			{
+				JError::raiseError(404, JText::_('COM_TAGS_TAG_NOT_FOUND'));
+			}
 		}
 
 		return true;

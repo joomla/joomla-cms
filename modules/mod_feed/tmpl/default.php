@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,18 +21,18 @@ else
 	$myrtl = $params->get('rssrtl');
 	$direction = " ";
 
-	if ($lang->isRTL() && $myrtl == 0)
+	if ($lang->isRtl() && $myrtl == 0)
 	{
 		$direction = " redirect-rtl";
 	}
 
 	// Feed description
-	elseif ($lang->isRTL() && $myrtl == 1)
+	elseif ($lang->isRtl() && $myrtl == 1)
 	{
 		$direction = " redirect-ltr";
 	}
 
-	elseif ($lang->isRTL() && $myrtl == 2)
+	elseif ($lang->isRtl() && $myrtl == 2)
 	{
 		$direction = " redirect-rtl";
 	}
@@ -53,7 +53,7 @@ else
 	if ($feed != false)
 	{
 		// Image handling
-		$iUrl	= isset($feed->image) ? $feed->image : null;
+		$iUrl   = isset($feed->image) ? $feed->image : null;
 		$iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null;
 		?>
 		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important"  class="feed<?php echo $moduleclass_sfx; ?>">
@@ -100,11 +100,11 @@ else
 			?>
 				<li>
 					<?php if (!empty($uri)) : ?>
-						<h5 class="feed-link">
+						<span class="feed-link">
 						<a href="<?php echo htmlspecialchars($uri); ?>" target="_blank">
-						<?php echo $feed[$i]->title; ?></a></h5>
+						<?php echo $feed[$i]->title; ?></a></span>
 					<?php else : ?>
-						<h5 class="feed-link"><?php  echo $feed[$i]->title; ?></h5>
+						<span class="feed-link"><?php  echo $feed[$i]->title; ?></span>
 					<?php  endif; ?>
 
 					<?php if ($params->get('rssitemdesc') && !empty($text)) : ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -271,7 +271,7 @@ class JMail extends PHPMailer
 	 *
 	 * @since   11.1
 	 */
-	public function addCC($cc, $name = '')
+	public function addCc($cc, $name = '')
 	{
 		// If the carbon copy recipient is an array, add each recipient... otherwise just add the one
 		if (isset($cc))
@@ -292,7 +292,7 @@ class JMail extends PHPMailer
 	 *
 	 * @since   11.1
 	 */
-	public function addBCC($bcc, $name = '')
+	public function addBcc($bcc, $name = '')
 	{
 		// If the blind carbon copy recipient is an array, add each recipient... otherwise just add the one
 		if (isset($bcc))
@@ -457,7 +457,7 @@ class JMail extends PHPMailer
 	 *
 	 * @since   11.1
 	 */
-	public function useSMTP($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25)
+	public function useSmtp($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25)
 	{
 		$this->SMTPAuth = $auth;
 		$this->Host = $host;
@@ -511,14 +511,11 @@ class JMail extends PHPMailer
 		$this->setBody($body);
 
 		// Are we sending the email as HTML?
-		if ($mode)
-		{
-			$this->isHTML(true);
-		}
+		$this->isHtml($mode);
 
 		$this->addRecipient($recipient);
-		$this->addCC($cc);
-		$this->addBCC($bcc);
+		$this->addCc($cc);
+		$this->addBcc($bcc);
 		$this->addAttachment($attachment);
 
 		// Take care of reply email addresses

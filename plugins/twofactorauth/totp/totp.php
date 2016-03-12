@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.totp
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,7 +125,7 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		// These are used by Google Authenticator to tell accounts apart
 		$username = JFactory::getUser($user_id)->username;
-		$hostname = JFactory::getURI()->getHost();
+		$hostname = JFactory::getUri()->getHost();
 
 		// This is the URL to the QR code for Google Authenticator
 		$url = $totp->getUrl($username, $hostname, $secret);
@@ -141,9 +141,9 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		JLoader::import('joomla.filesystem.file');
 
-		if (JFile::exists($path . 'form.php'))
+		if (JFile::exists($path . '/form.php'))
 		{
-			include_once $path . 'form.php';
+			include_once $path . '/form.php';
 		}
 		else
 		{
@@ -183,6 +183,12 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		// Load raw data
 		$rawData = $input->get('jform', array(), 'array');
+
+		if (!isset($rawData['twofactor']['totp']))
+		{
+			return false;
+		}
+
 		$data = $rawData['twofactor']['totp'];
 
 		// Warn if the securitycode is empty

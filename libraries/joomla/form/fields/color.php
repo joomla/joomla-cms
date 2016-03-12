@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -223,7 +223,7 @@ class JFormFieldColor extends JFormField
 			$split = $split ? $split : 3;
 
 			$html = array();
-			$html[] = '<select name="' . $this->name . '" id="' . $this->id . '"' . $disabled . $required
+			$html[] = '<select data-chosen="true" name="' . $this->name . '" id="' . $this->id . '"' . $disabled . $required
 				. $class . $position . $onchange . $autofocus . ' style="visibility:hidden;width:22px;height:1px">';
 
 			foreach ($colors as $i => $c)

@@ -3,13 +3,11 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-require_once JPATH_SITE . '/components/com_content/router.php';
 
 /**
  * Content search plugin.
@@ -180,7 +178,7 @@ class PlgSearchContent extends JPlugin
 						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
 				)
-				->group('a.id, a.title, a.metadesc, a.metakey, a.created, a.introtext, a.fulltext, c.title, a.alias, c.alias, c.id')
+				->group('a.id, a.title, a.metadesc, a.metakey, a.created, a.language, a.catid, a.introtext, a.fulltext, c.title, a.alias, c.alias, c.id')
 				->order($order);
 
 			// Filter by language.
@@ -191,7 +189,15 @@ class PlgSearchContent extends JPlugin
 			}
 
 			$db->setQuery($query, 0, $limit);
-			$list = $db->loadObjectList();
+			try
+			{
+				$list = $db->loadObjectList();
+			}
+			catch (RuntimeException $e)
+			{
+				$list = array();
+				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			}
 			$limit -= count($list);
 
 			if (isset($list))
@@ -253,7 +259,15 @@ class PlgSearchContent extends JPlugin
 			}
 
 			$db->setQuery($query, 0, $limit);
-			$list3 = $db->loadObjectList();
+			try
+			{
+				$list3 = $db->loadObjectList();
+			}
+			catch (RuntimeException $e)
+			{
+				$list3 = array();
+				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			}
 
 			// Find an itemid for archived to use if there isn't another one.
 			$item = $app->getMenu()->getItems('link', 'index.php?option=com_content&view=archive', true);
@@ -285,7 +299,7 @@ class PlgSearchContent extends JPlugin
 
 				foreach ($row as $article)
 				{
-					if (SearchHelper::checkNoHTML($article, $searchText, array('text', 'title', 'metadesc', 'metakey')))
+					if (SearchHelper::checkNoHtml($article, $searchText, array('text', 'title', 'metadesc', 'metakey')))
 					{
 						$new_row[] = $article;
 					}

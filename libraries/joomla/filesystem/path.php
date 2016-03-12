@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -236,23 +236,32 @@ class JPath
 		$jtp = JPATH_SITE . '/tmp';
 
 		// Try to find a writable directory
-		$dir = is_writable('/tmp') ? '/tmp' : false;
-		$dir = (!$dir && is_writable($ssp)) ? $ssp : false;
-		$dir = (!$dir && is_writable($jtp)) ? $jtp : false;
+		$dir = false;
+
+		foreach (array($jtp, $ssp, '/tmp') as $currentDir)
+		{
+			if (is_writable($currentDir))
+			{
+				$dir = $currentDir;
+
+				break;
+			}
+		}
 
 		if ($dir)
 		{
-			$test = $dir . '/' . $tmp;
+			$fileObject = new JFilesystemWrapperFile;
+			$test       = $dir . '/' . $tmp;
 
 			// Create the test file
 			$blank = '';
-			JFile::write($test, $blank, false);
+			$fileObject->write($test, $blank, false);
 
 			// Test ownership
 			$return = (fileowner($test) == fileowner($path));
 
 			// Delete the test file
-			JFile::delete($test);
+			$fileObject->delete($test);
 
 			return $return;
 		}

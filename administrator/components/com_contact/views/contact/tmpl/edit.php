@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,6 @@ $app = JFactory::getApplication();
 $assoc = JLanguageAssociations::isEnabled();
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		if (task == "contact.cancel" || document.formvalidator.isValid(document.getElementById("contact-form")))
@@ -27,8 +26,11 @@ jQuery(document).ready(function() {
 			' . $this->form->getField("misc")->save() . '
 			Joomla.submitform(task, document.getElementById("contact-form"));
 		}
-	}
-});');
+	};
+');
+
+// Fieldsets to not automatically render by /layouts/joomla/edit/params.php
+$this->ignore_fieldsets = array('details', 'item_associations', 'jmetadata');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_contact&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="form-validate">

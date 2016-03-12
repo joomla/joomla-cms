@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -50,7 +50,7 @@ class JFormFieldCheckbox extends JFormField
 		switch ($name)
 		{
 			case 'checked':
-				return $this->$name;
+				return $this->checked;
 		}
 
 		return parent::__get($name);
@@ -72,7 +72,7 @@ class JFormFieldCheckbox extends JFormField
 		{
 			case 'checked':
 				$value = (string) $value;
-				$this->$name = ($value == 'true' || $value == $name || $value == '1');
+				$this->checked = ($value == 'true' || $value == $name || $value == '1');
 				break;
 
 			default:

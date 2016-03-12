@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,14 +110,13 @@ class TemplatesModelTemplates extends JModelList
 			}
 			else
 			{
-				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
-				$search = $db->quote($escapedSearchString);
-				$query->where('(' . 'a.element REGEXP ' . $search . ' OR a.name REGEXP ' . $search . ')');
+				$search = $db->quote('%' . strtolower($search) . '%');
+				$query->where('(' . ' LOWER(a.element) LIKE ' . $search . ' OR LOWER(a.name) LIKE ' . $search . ')');
 			}
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.folder')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.element')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -156,7 +155,7 @@ class TemplatesModelTemplates extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.element', $direction = 'asc')
 	{
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
@@ -170,6 +169,6 @@ class TemplatesModelTemplates extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.element', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 }

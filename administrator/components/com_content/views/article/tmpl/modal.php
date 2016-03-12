@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,10 +17,9 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
-$this->hiddenFieldsets = array();
-$this->hiddenFieldsets[0] = 'basic-limited';
-$this->configFieldsets = array();
-$this->configFieldsets[0] = 'editorConfig';
+$this->configFieldsets  = array('editorConfig');
+$this->hiddenFieldsets  = array('basic-limited');
+$this->ignore_fieldsets = array('jmetadata', 'item_associations');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
@@ -63,7 +62,6 @@ if (isset($this->item->attribs['show_urls_images_backend']) && $this->item->attr
 }
 
 JFactory::getDocument()->addScriptDeclaration('
-jQuery(document).ready(function() {
 	Joomla.submitbutton = function(task)
 	{
 		if (task == "article.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
@@ -77,8 +75,8 @@ jQuery(document).ready(function() {
 
 		Joomla.submitform(task, document.getElementById("item-form"));
 		}
-	}
-});');
+	};
+');
 
 ?>
 

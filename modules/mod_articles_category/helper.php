@@ -3,14 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 $com_path = JPATH_SITE . '/components/com_content/';
-require_once $com_path . 'router.php';
 require_once $com_path . 'helpers/route.php';
 
 JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
@@ -164,8 +163,17 @@ abstract class ModArticlesCategoryHelper
 		}
 
 		// Ordering
-		$articles->setState('list.ordering', $params->get('article_ordering', 'a.ordering'));
-		$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+		$ordering = $params->get('article_ordering', 'a.ordering');
+
+		if (trim($ordering) == 'random')
+		{
+			$articles->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
+		}
+		else
+		{
+			$articles->setState('list.ordering', $params->get('article_ordering', 'a.ordering'));
+			$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+		}
 
 		// New Parameters
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
@@ -236,7 +244,6 @@ abstract class ModArticlesCategoryHelper
 			}
 			else
 			{
-				$app       = JFactory::getApplication();
 				$menu      = $app->getMenu();
 				$menuitems = $menu->getItems('link', 'index.php?option=com_users&view=login');
 
@@ -259,7 +266,7 @@ abstract class ModArticlesCategoryHelper
 
 			if ($show_date)
 			{
-				$item->displayDate = JHTML::_('date', $item->$show_date_field, $show_date_format);
+				$item->displayDate = JHtml::_('date', $item->$show_date_field, $show_date_format);
 			}
 
 			if ($item->catid)
