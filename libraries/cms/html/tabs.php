@@ -86,7 +86,7 @@ abstract class JHtmlTabs
 			$opt['titleSelector']       = "dt.tabs";
 			$opt['descriptionSelector'] = "dd.tabs";
 
-			$options = JHtml::getJSObject($opt);
+			$options = json_encode(array_filter((array) $opt, function ($item) { return !is_null($item); }));
 
 			$js = '	window.addEvent(\'domready\', function(){
 						$$(\'dl#' . $group . '.tabs\').each(function(tabs){
