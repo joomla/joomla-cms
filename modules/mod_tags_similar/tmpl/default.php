@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 <?php JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php'); ?>
 <div class="tagssimilar<?php echo $moduleclass_sfx; ?>">
 <?php if ($list) : ?>
+
 	<ul class="tagspopular<?php echo $moduleclass_sfx; ?>">
 	<?php foreach ($list as $i => $item) : ?>
 		<li>
