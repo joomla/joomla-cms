@@ -52,7 +52,7 @@ JHtml::script('com_joomlaupdate/default.js', false, true, false);
 
 <form action="index.php" method="post" id="adminForm">
 
-<?php if (is_null($this->updateInfo['object'])) : ?>
+<?php if (is_null($this->updateInfo['object']) || is_null($this->updateInfo['object']->get('downloadurl'))) : ?>
 
 <fieldset>
 	<legend>
