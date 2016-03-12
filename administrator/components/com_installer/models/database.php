@@ -274,6 +274,38 @@ class InstallerModelDatabase extends InstallerModel
 			return;
 		}
 
+		// Set required conversion status
+		if ($db->hasUTF8mb4Support())
+		{
+			$converted = 2;
+		}
+		else
+		{
+			$converted = 1;
+		}
+
+		// Check conversion status in database
+		$db->setQuery('SELECT ' . $db->quoteName('converted')
+			. ' FROM ' . $db->quoteName('#__utf8_conversion')
+			);
+
+		try
+		{
+			$convertedDB = $db->loadResult();
+		}
+		catch (Exception $e)
+		{
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return;
+		}
+
+		// Nothing to do, saved conversion status from DB is equal to required
+		if ($convertedDB == $converted)
+		{
+			return;
+		}
+
 		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
 		$fileName1 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/$serverType/utf8mb4-conversion-01.sql";
 
@@ -300,15 +332,6 @@ class InstallerModelDatabase extends InstallerModel
 
 		// Step 2: Perform the index modifications and conversions
 		$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/$serverType/utf8mb4-conversion-02.sql";
-
-		if ($db->hasUTF8mb4Support())
-		{
-			$converted = 2;
-		}
-		else
-		{
-			$converted = 1;
-		}
 
 		if (is_file($fileName2))
 		{
@@ -362,9 +385,22 @@ class InstallerModelDatabase extends InstallerModel
 			return;
 		}
 
-		$db->setQuery('CREATE TABLE IF NOT EXISTS ' . $db->quoteName('#__utf8_conversion')
+		$creaTabSql = 'CREATE TABLE IF NOT EXISTS ' . $db->quoteName('#__utf8_conversion')
 			. ' (' . $db->quoteName('converted') . ' tinyint(4) NOT NULL DEFAULT 0'
-			. ') ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_general_ci;')->execute();
+			. ') ENGINE=InnoDB';
+
+		if ($db->hasUTF8mb4Support())
+		{
+			$creaTabSql = $creaTabSql
+				. ' DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;';
+		}
+		else
+		{
+			$creaTabSql = $creaTabSql
+				. ' DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_unicode_ci;';
+		}
+
+		$db->setQuery($creaTabSql)->execute();
 
 		$db->setQuery('SELECT COUNT(*) FROM ' . $db->quoteName('#__utf8_conversion') . ';');
 
@@ -372,15 +408,17 @@ class InstallerModelDatabase extends InstallerModel
 
 		if ($count > 1)
 		{
+			// Table messed up somehow, clear it
 			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion')
 				. ';')->execute();
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') ' . ' VALUES (0);')->execute();
+				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
 		}
 		elseif ($count == 0)
 		{
+			// Record missing somehow, fix this
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') ' . ' VALUES (0);')->execute();
+				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
 		}
 	}
 

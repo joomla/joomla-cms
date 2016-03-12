@@ -217,7 +217,7 @@ class LanguagesModelInstalled extends JModelList
 			foreach ($langlist as $lang)
 			{
 				$client     = JApplicationHelper::getClientInfo($lang->client_id);
-				$clientPath = $lang->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
+				$clientPath = (int) $lang->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
 
 				$info = JApplicationHelper::parseXMLLangMetaFile($clientPath . '/language/' . $lang->element . '/' . $lang->element . '.xml');
 				$row  = new StdClass;

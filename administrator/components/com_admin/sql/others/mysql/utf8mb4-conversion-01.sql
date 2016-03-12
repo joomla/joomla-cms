@@ -16,6 +16,6 @@
 ALTER TABLE `#__categories` DROP KEY `idx_alias`;
 ALTER TABLE `#__menu` DROP KEY `idx_alias`;
 ALTER TABLE `#__menu` DROP KEY `idx_client_id_parent_id_alias_language`;
-ALTER TABLE `#__redirect_links` DROP KEY `idx_link_old`;
+ALTER TABLE `#__redirect_links` DROP KEY `idx_old_url`;
 ALTER TABLE `#__tags` DROP KEY `idx_alias`;
 ALTER TABLE `#__ucm_content` DROP KEY `idx_alias`;

@@ -216,5 +216,6 @@ tinymce.addI18n('fr',{
 "Tools": "Outils",
 "View": "Voir",
 "Table": "Tableau",
+"Language": "Langue",
 "Format": "Format"
 });

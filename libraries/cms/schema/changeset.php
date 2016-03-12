@@ -95,7 +95,7 @@ class JSchemaChangeset
 			$tmpSchemaChangeItem->checkQuery = 'SELECT '
 				. $this->db->quoteName('converted')
 				. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
-				. ' WHERE ' . $this->db->quoteName('converted') . ' = ' . $converted . ';';
+				. ' WHERE ' . $this->db->quoteName('converted') . ' = ' . $converted;
 
 			// Set expected records from check query
 			$tmpSchemaChangeItem->checkQueryExpected = 1;
