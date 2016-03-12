@@ -968,7 +968,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_taxonomy_map` (
 
 CREATE TABLE IF NOT EXISTS `#__finder_terms` (
   `term_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `term` varchar(75) NOT NULL,
+  `term` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `stem` varchar(75) NOT NULL,
   `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,

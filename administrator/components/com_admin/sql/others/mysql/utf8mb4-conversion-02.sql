@@ -110,7 +110,8 @@ ALTER TABLE `#__utf8_conversion` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb
 ALTER TABLE `#__viewlevels` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 --
--- Step 2.4: Set collation to utf8mb4_bin for formerly utf8_bin collated columns
+-- Step 2.4: Set collation to utf8mb4_bin for formerly utf8_bin collated columns and to general collation for finder terms
+-- and add back the unique index on finder terms
 --
 
 ALTER TABLE `#__banners` MODIFY `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
@@ -121,6 +122,9 @@ ALTER TABLE `#__menu` MODIFY `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE 
 ALTER TABLE `#__newsfeeds` MODIFY `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
 ALTER TABLE `#__tags` MODIFY `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
 ALTER TABLE `#__ucm_content` MODIFY `core_alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+
+ALTER TABLE `#__finder_terms` MODIFY `term` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
+ALTER TABLE `#__finder_terms` ADD UNIQUE `idx_term` (`term`);
 
 --
 -- Step 2.5: Set default character set and collation for all tables
