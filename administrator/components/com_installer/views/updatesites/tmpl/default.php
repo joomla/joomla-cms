@@ -48,6 +48,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 						</th>
+						<th width="1%" class="nowrap center">
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_SECURE', 'secure_translated', $listDirn, $listOrder); ?>
+						</th>
 						<th class="hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?>
 						</th>
@@ -64,7 +67,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="8">
+						<td colspan="9">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -95,6 +98,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>">
 								<?php echo $item->name; ?>
 							</span>
+						</td>
+						<td class="center">
+							<?php // Display a Note if update channel is not secure ?>
+							<?php if ($item->secure === 0) : ?>
+								<span class="label label-warning hasTooltip" title="<?php echo JText::_('COM_INSTALLER_UPDATESITE_INSECURE'); ?>"><?php echo $item->secure_translated; ?></span>
+							<?php else : ?>
+								<span class="label label-success"><?php echo $item->secure_translated; ?></span>
+							<?php endif; ?>
 						</td>
 						<td class="hidden-phone hidden-tablet">
 							<?php echo $item->client; ?>

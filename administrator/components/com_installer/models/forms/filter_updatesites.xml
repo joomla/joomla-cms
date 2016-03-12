@@ -59,6 +59,8 @@
 			<option value="update_site_name DESC">COM_INSTALLER_HEADING_UPDATESITE_NAME_DESC</option>
 			<option value="name ASC">COM_INSTALLER_HEADING_NAME_ASC</option>
 			<option value="name DESC">COM_INSTALLER_HEADING_NAME_DESC</option>
+			<option value="secure_translated ASC">COM_INSTALLER_HEADING_SECURE_ASC</option>
+			<option value="secure_translated DESC">COM_INSTALLER_HEADING_SECURE_DESC</option>
 			<option value="client_id ASC">COM_INSTALLER_HEADING_LOCATION_ASC</option>
 			<option value="client_id DESC">COM_INSTALLER_HEADING_LOCATION_DESC</option>
 			<option value="type ASC">COM_INSTALLER_HEADING_TYPE_ASC</option>

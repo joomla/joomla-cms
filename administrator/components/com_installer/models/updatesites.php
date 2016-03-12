@@ -37,6 +37,7 @@ class InstallerModelUpdatesites extends InstallerModel
 			$config['filter_fields'] = array(
 				'update_site_name',
 				'name',
+				'secure', 'secure_translated',
 				'client_id',
 				'status',
 				'type',
@@ -174,6 +175,11 @@ class InstallerModelUpdatesites extends InstallerModel
 			$query->where('client_id = ' . (int) $clientId);
 		}
 
+		if ($clientId != '')
+		{
+			$query->where('client_id = ' . (int) $clientId);
+		}
+
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
 			$query->where('folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
@@ -211,7 +217,7 @@ class InstallerModelUpdatesites extends InstallerModel
 		$search = str_replace('/', ' ', $search);
 		$db     = $this->getDbo();
 
-		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
+		if ($ordering == 'name' || $ordering == 'secure_translated' || (!empty($search) && stripos($search, 'id:') !== 0))
 		{
 			$db->setQuery($query);
 			$result = $db->loadObjectList();
@@ -247,5 +253,25 @@ class InstallerModelUpdatesites extends InstallerModel
 		$this->translate($result);
 
 		return $result;
+	}
+
+	/**
+	 * Translate a list of objects
+	 *
+	 * @param   array  &$items  The array of objects
+	 *
+	 * @return  void
+	 * 
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function translate(&$items)
+	{
+		foreach ($items as &$item)
+		{
+			$item->secure            = (stripos($item->location, 'https://') === false) ? 0 : 1;
+			$item->secure_translated = ($item->secure === 0) ? JText::_('JNO') : JText::_('JYES');
+		}
+
+		parent::translate($items);
 	}
 }
