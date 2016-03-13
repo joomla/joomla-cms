@@ -364,7 +364,6 @@ class PlgUserProfile extends JPlugin
 			}
 		}
 		// Check that the tos are valid.
-		
 		if (!($data['profile']['tos']))
 		{
 			throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
