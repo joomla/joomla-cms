@@ -95,52 +95,6 @@
 			size="5" />
 
 		<field
-			name="memcached_persist"
-			type="radio"
-			class="btn-group"
-			default="1"
-			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
-			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
-			showon="cache_handler:memcached"
-			filter="integer">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
-		</field>
-
-		<field
-			name="memcached_compress"
-			type="radio"
-			class="btn-group"
-			default="0"
-			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
-			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
-			showon="cache_handler:memcached"
-			filter="integer">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
-		</field>
-
-		<field
-			name="memcached_server_host"
-			type="text"
-			default="localhost"
-			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
-			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
-			showon="cache_handler:memcached"
-			filter="string"
-			size="25" />
-
-		<field
-			name="memcached_server_port"
-			type="text"
-			default="11211"
-			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
-			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
-			showon="cache_handler:memcached"
-			filter="integer"
-			size="5" />
-
-		<field
 			name="redis_persist"
 			type="radio"
 			class="btn-group btn-group-yesno"
