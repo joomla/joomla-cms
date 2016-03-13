@@ -13,7 +13,6 @@
 --
 
 ALTER TABLE `#__categories` DROP KEY `idx_alias`;
-ALTER TABLE `#__finder_terms` DROP KEY `idx_term`;
 ALTER TABLE `#__menu` DROP KEY `idx_alias`;
 ALTER TABLE `#__menu` DROP KEY `idx_client_id_parent_id_alias_language`;
 ALTER TABLE `#__redirect_links` DROP KEY `idx_old_url`;
