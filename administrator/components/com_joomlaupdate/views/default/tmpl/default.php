@@ -67,7 +67,18 @@ JHtml::script('com_joomlaupdate/default.js', false, true, false);
 
 </fieldset>
 
-<?php else: ?>
+<?php elseif (!isset($this->updateInfo['object']->downloadurl->_data)) : ?>
+
+<fieldset>
+	<legend>
+		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_DOWNLOAD_URL') ?>
+	</legend>
+	<p>
+		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT__NO_DOWNLOAD_URL_DESC', $this->updateInfo['latest']); ?>
+	</p>
+</fieldset>
+
+<?php else : ?>
 
 <fieldset>
 	<legend>
@@ -105,16 +116,19 @@ JHtml::script('com_joomlaupdate/default.js', false, true, false);
 					</a>
 				</td>
 			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'); ?>
-				</td>
-				<td>
-					<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>">
-						<?php echo $this->updateInfo['object']->get('infourl')->title; ?>
-					</a>
-				</td>
-			</tr>
+			<?php if (isset($this->updateInfo['object']->get('infourl')->_data) 
+				&& isset($this->updateInfo['object']->get('infourl')->title)) : ?>
+				<tr>
+					<td>
+						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'); ?>
+					</td>
+					<td>
+						<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>">
+							<?php echo $this->updateInfo['object']->get('infourl')->title; ?>
+						</a>
+					</td>
+				</tr>
+			<?php endif; ?>
 			<tr>
 				<td>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD'); ?>
