@@ -97,16 +97,18 @@ abstract class ModTagsPopularHelper
 				$query->setLimit($maximum);
 				$query->order('count DESC');
 				$equery = $db->getQuery(true)
-				->select(
-					array(
-						'a.tag_id',
-						'a.count',
-						'a.title',
-						'a.access',
-						'a.alias')
+					->select(
+						array(
+							'a.tag_id',
+							'a.count',
+							'a.title',
+							'a.access',
+							'a.alias',
 						)
-				->from('(' . (string) $query . ') AS a')
-				->order('a.title' . ' ' . $order_direction);
+					)
+					->from('(' . (string) $query . ') AS a')
+					->order('a.title' . ' ' . $order_direction);
+
 				$query = $equery;
 			}
 			else
