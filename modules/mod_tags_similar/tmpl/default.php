@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <div class="tagssimilar<?php echo $moduleclass_sfx; ?>">
 <?php if ($list) : ?>
 
-	<ul class="tagspopular<?php echo $moduleclass_sfx; ?>">
+	<ul class="tagssimilar<?php echo $moduleclass_sfx; ?>">
 	<?php foreach ($list as $i => $item) : ?>
 		<li>
 			<?php $item->route = new JHelperRoute; ?>
