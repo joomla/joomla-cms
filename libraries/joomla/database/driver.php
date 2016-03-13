@@ -332,7 +332,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 	/**
 	 * Splits a string of multiple queries into an array of individual queries.
-	 * Single line or line end comments and multi line comments are stripped off.
+	 * Comments after "--" or "#" are stripped off if not within quoted text.
 	 *
 	 * @param   string  $sql  Input SQL string with which to split into individual queries.
 	 *
@@ -345,8 +345,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		$open = false;
 		$comment = false;
 		$endComment = false;
-		$endString = '';
-		$eol = "\n";
+		$char = '';
 		$end = strlen($sql);
 		$queries = array();
 		$query = '';
@@ -356,12 +355,10 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			$current = substr($sql, $i, 1);
 			$current2 = substr($sql, $i, 2);
 			$current3 = substr($sql, $i, 3);
-			$lenEndString = strlen($endString);
-			$testEnd = substr($sql, $i, $lenEndString);
 
-			if ($current == '"' || $current == "'" || $current2 == '--' || $current2 == '/*'
+			if ($current == '"' || $current == "'" || $current2 == '--'
 				|| ($current == '#' && $current3 != '#__')
-				|| ($comment && $testEnd == $endString))
+				|| ($comment && $current == $char))
 			{
 				// Check if quoted with previous backslash
 				$n = 2;
@@ -376,20 +373,15 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 				{
 					if ($open)
 					{
-						if ($testEnd == $endString)
+						if ($current == $char)
 						{
 							if ($comment)
 							{
 								$comment = false;
 								$endComment = true;
-								if ($lenEndString > 1)
-								{
-									$i += ($lenEndString - 1);
-									$current = substr($sql, $i, 1);
-								}
 							}
 							$open = false;
-							$endString = '';
+							$char = '';
 						}
 					}
 					else
@@ -397,22 +389,17 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 						$open = true;
 						if ($current2 == '--')
 						{
-							$endString = $eol;
-							$comment = true;
-						}
-						elseif ($current2 == '/*')
-						{
-							$endString = '*/';
+							$char = "\n";
 							$comment = true;
 						}
 						elseif ($current == '#')
 						{
-							$endString = $eol;
+							$char = "\n";
 							$comment = true;
 						}
 						else
 						{
-							$endString = $current;
+							$char = $current;
 						}
 					}
 				}
