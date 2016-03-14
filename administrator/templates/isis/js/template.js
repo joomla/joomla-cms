@@ -58,29 +58,24 @@
 		/**
 		 * Append submenu items to empty UL on hover allowing a scrollable dropdown
 		 */
-		var menu      = $('#menu');
-		var menuComp  = menu.find('.menu-component');
-		var emptyMenu = $('#nav-empty');
+		var menuScroll = $('#menu > li > ul')
+		var emptyMenu  = $('#nav-empty');
+		var menuWidth;
 
-		// Clone and get the width of the dropdown before it's visible
-		function getWidth(elm)
-		{
-			var clone = elm.clone();
-			clone.css('visibility', 'hidden');
-			$('body').append(clone);
-			var width = clone.outerWidth() + 25;
-			clone.remove();
+		$('#menu > li > a').on('click mouseenter', function() {
 
-			return width;
-		}
+			menuWidth = $(this).next('ul').width() - 10;
+			emptyMenu.empty().hide();
 
-		menuComp.find('.dropdown-submenu > a').on('mouseenter', function() {
+		});
+
+		menuScroll.find('.dropdown-submenu > a').on('mouseenter', function() {
 
 			var $self    = $(this);
 			var dropdown = $self.next('.dropdown-menu');
 			var offset   = $self.offset();
 			var scroll   = $(window).scrollTop();
-			var width    = getWidth(menuComp);
+			var width    = menuWidth;
 
 			// Set the submenu position
 			if ($('html').attr('dir') == 'rtl')
@@ -102,17 +97,12 @@
 			emptyMenu.show().html(dropdown.html());
 
 		});
-		menuComp.find('a.no-dropdown').on('mouseenter', function() {
+		menuScroll.find('a.no-dropdown').on('mouseenter', function() {
 
 			emptyMenu.empty().hide();
 
 		});
 		$(document).on('click', function() {
-
-			emptyMenu.empty().hide();
-
-		});
-		$('#menu > li').on('mouseenter', function() {
 
 			emptyMenu.empty().hide();
 

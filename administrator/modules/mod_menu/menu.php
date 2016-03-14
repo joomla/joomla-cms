@@ -165,9 +165,9 @@ class JAdminCssMenu extends JObject
 		{
 			$class = ' class="dropdown-submenu"';
 
-			if ($this->_current->class == 'components-menu')
+			if ($this->_current->class == 'scrollable-menu')
 			{
-				$class = ' class="dropdown component-menu"';
+				$class = ' class="dropdown scrollable-menu"';
 			}
 		}
 
@@ -242,7 +242,7 @@ class JAdminCssMenu extends JObject
 					$id = ' id="menu-' . strtolower($this->_current->id) . '"';
 				}
 
-				echo '<ul' . $id . ' class="dropdown-menu menu-component">' . "\n";
+				echo '<ul' . $id . ' class="dropdown-menu menu-scrollable">' . "\n";
 			}
 			else
 			{
