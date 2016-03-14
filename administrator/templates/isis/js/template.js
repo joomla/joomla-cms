@@ -55,10 +55,24 @@
 
 		});
 
-		// Append submenu items to empty UL on hover allowing a scrollable dropdown
+		/**
+		 * Append submenu items to empty UL on hover allowing a scrollable dropdown
+		 */
 		var menu      = $('#menu');
 		var menuComp  = menu.find('.menu-component');
 		var emptyMenu = $('#nav-empty');
+
+		// Clone and get the width of the dropdown before it's visible
+		function getWidth(elm)
+		{
+			var clone = elm.clone();
+			clone.css('visibility', 'hidden');
+			$('body').append(clone);
+			var width = clone.outerWidth() + 25;
+			clone.remove();
+
+			return width;
+		}
 
 		menuComp.find('.dropdown-submenu > a').on('mouseenter', function() {
 
@@ -66,20 +80,21 @@
 			var dropdown = $self.next('.dropdown-menu');
 			var offset   = $self.offset();
 			var scroll   = $(window).scrollTop();
+			var width    = getWidth(menuComp);
 
 			// Set the submenu position
 			if ($('html').attr('dir') == 'rtl')
 			{
 				emptyMenu.css({
 					top : offset.top - scroll,
-					left:  offset.left - 190
+					left:  offset.left - width
 				});
 			}
 			else
 			{
 				emptyMenu.css({
 					top : offset.top - scroll,
-					left: offset.left + 190
+					left: offset.left + width
 				});
 			}
 
