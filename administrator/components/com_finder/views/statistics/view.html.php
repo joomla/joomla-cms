@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,7 +28,7 @@ class FinderViewStatistics extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Load the view data.
-		$this->data		= $this->get('Data');
+		$this->data = $this->get('Data');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,25 +52,46 @@ if (isset($params['keyboard']))
 	$modalAttributes['data-keyboard'] = (is_bool($params['keyboard']) ? ($params['keyboard'] ? 'true' : 'false') : 'true');
 }
 
+/**
+ * These lines below are for disabling scrolling of parent window.
+ * $('body').addClass('modal-open');
+ * $('body').removeClass('modal-open')
+ *
+ * Scrolling inside bootstrap modals on small screens (adapt to window viewport and avoid modal off screen).
+ * - max-height on .modal-body  if param height is set but too high for the window viewport height.
+ *                              (147 = modal-header height + modal-footer height + 20px padding top and bottom)
+ * - max-height on .iframe      max-height of the modal-body (deducting the 1% of the padding of the modal-body class)
+ *
+ * Specific hack for Bootstrap 2.3.x
+ */
+$script[] = "jQuery(document).ready(function($) {";
+$script[] = "   $('#" . $selector . "').on('show', function() {";
+
+// Set max-height on modal-body.
+$script[] = "       var modalBodyHeight = $(window).height()-147;";
+$script[] = "       $('.modal-body').css('max-height', modalBodyHeight);";
+
+$script[] = "       $('body').addClass('modal-open');";
+
 if (isset($params['url']))
 {
 	$iframeHtml = JLayoutHelper::render('joomla.modal.iframe', $displayData);
 
-	JFactory::getDocument()->addScriptDeclaration("
-		jQuery(document).ready(function($) {
-			$('#" . $selector . "').on('show', function() {
-				var modalBody = $(this).find('.modal-body');
+	// Script for destroying and reloading the iframe
+	$script[] = "       var modalBody = $(this).find('.modal-body');";
+	$script[] = "       modalBody.find('iframe').remove();";
+	$script[] = "       modalBody.prepend('" . trim($iframeHtml) . "');";
 
-				// Destroy previous iframe if loaded
-				modalBody.find('iframe').remove();
-
-				// Load iframe
-				modalBody.prepend('" . trim($iframeHtml) . "');
-
-			});
-		});
-	");
+	// Set max-height for iframe.
+	$script[] = "       $('.iframe').css('max-height', modalBodyHeight*0.98);";
 }
+
+$script[] = "   }).on('hide', function () {";
+$script[] = "       $('body').removeClass('modal-open');";
+$script[] = "   });";
+$script[] = "});";
+
+JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 ?>
 <div id="<?php echo $selector; ?>" <?php echo JArrayHelper::toString($modalAttributes); ?>>
 	<?php

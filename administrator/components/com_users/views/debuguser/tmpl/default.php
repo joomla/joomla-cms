@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,8 +32,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_USERS_SEARCH_ASSETS'); ?>" />
 			</div>
 			<div class="btn-group pull-left">
-				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_RESET'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search"></span></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_RESET'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
 			</div>
 		</div>
 		<div class="clearfix"> </div>
@@ -71,9 +71,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<td colspan="15">
 						<div>
 							<?php echo JText::_('COM_USERS_DEBUG_LEGEND'); ?>
-							<span class="btn disabled btn-micro btn-warning"><i class="icon-white icon-ban-circle"></i></span> <?php echo JText::_('COM_USERS_DEBUG_IMPLICIT_DENY');?>
-							<span class="btn disabled btn-micro btn-success"><i class="icon-white icon-ok"></i></span> <?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');?>
-							<span class="btn disabled btn-micro btn-danger"><i class="icon-white icon-remove"></i></span> <?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_DENY');?>
+							<span class="icon-white icon-ban-circle"></span> <?php echo JText::_('COM_USERS_DEBUG_IMPLICIT_DENY');?>
+							<span class="icon-white icon-ok"></span> <?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');?>
+							<span class="icon-white icon-remove"></span> <?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_DENY');?>
 						</div>
 					</td>
 				</tr>
@@ -105,9 +105,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							endif;
 							?>
 						<td class="center">
-							<span class="btn disabled btn-micro <?php echo $button; ?>">
-								<i class="icon-white <?php echo $class; ?>"></i>
-							</span>
+							<span class="icon-white <?php echo $class; ?>"></span>
 						</td>
 						<?php endforeach; ?>
 						<td class="center">

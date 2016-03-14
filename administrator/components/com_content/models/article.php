@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,6 +33,14 @@ class ContentModelArticle extends JModelAdmin
 	 * @since    3.2
 	 */
 	public $typeAlias = 'com_content.article';
+
+	/**
+	 * The context used for the associations table
+	 *
+	 * @var      string
+	 * @since    3.4.4
+	 */
+	protected $associationsContext = 'com_content.item';
 
 	/**
 	 * Batch copy items to a new category or current.
@@ -109,6 +117,7 @@ class ContentModelArticle extends JModelAdmin
 			if (!$this->table->check())
 			{
 				$this->setError($this->table->getError());
+
 				return false;
 			}
 
@@ -118,6 +127,7 @@ class ContentModelArticle extends JModelAdmin
 			if (!$this->table->store())
 			{
 				$this->setError($this->table->getError());
+
 				return false;
 			}
 
@@ -162,6 +172,7 @@ class ContentModelArticle extends JModelAdmin
 			{
 				return false;
 			}
+
 			$user = JFactory::getUser();
 
 			return $user->authorise('core.delete', 'com_content.article.' . (int) $record->id);
@@ -324,10 +335,12 @@ class ContentModelArticle extends JModelAdmin
 	{
 		// Get the form.
 		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
 		}
+
 		$jinput = JFactory::getApplication()->input;
 
 		// The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
@@ -340,6 +353,7 @@ class ContentModelArticle extends JModelAdmin
 		{
 			$id = $jinput->get('id', 0);
 		}
+
 		// Determine correct permissions to check.
 		if ($this->getState('article.id'))
 		{
@@ -390,7 +404,7 @@ class ContentModelArticle extends JModelAdmin
 			$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
 
 			// Make fields read only
-			if ($associations)
+			if (!empty($associations))
 			{
 				$form->setFieldAttribute('language', 'readonly', 'true');
 				$form->setFieldAttribute('catid', 'readonly', 'true');
@@ -419,14 +433,27 @@ class ContentModelArticle extends JModelAdmin
 		{
 			$data = $this->getItem();
 
-			// Prime some default values.
+			// Pre-select some filters (Status, Category, Language, Access) in edit form if those have been selected in Article Manager: Articles
 			if ($this->getState('article.id') == 0)
 			{
 				$filters = (array) $app->getUserState('com_content.articles.filter');
-				$filterCatId = isset($filters['category_id']) ? $filters['category_id'] : null;
-
-				$data->set('catid', $app->input->getInt('catid', $filterCatId));
+				$data->set(
+					'state',
+					$app->input->getInt(
+						'state',
+						((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
+					)
+				);
+				$data->set('catid', $app->input->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
+				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'))));
 			}
+		}
+
+		// If there are params fieldsets in the form it will fail with a registry object
+		if (isset($data->params) && $data->params instanceof Registry)
+		{
+			$data->params = $data->params->toArray();
 		}
 
 		$this->preprocessData('com_content.article', $data);
@@ -445,8 +472,8 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$input = JFactory::getApplication()->input;
-		$filter  = JFilterInput::getInstance();
+		$input  = JFactory::getApplication()->input;
+		$filter = JFilterInput::getInstance();
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
@@ -462,21 +489,34 @@ class ContentModelArticle extends JModelAdmin
 		{
 			$registry = new Registry;
 			$registry->loadArray($data['images']);
+
 			$data['images'] = (string) $registry;
 		}
 
 		if (isset($data['urls']) && is_array($data['urls']))
 		{
+			$check = $input->post->get('jform', array(), 'array');
+
 			foreach ($data['urls'] as $i => $url)
 			{
 				if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc'))
 				{
-					$data['urls'][$i] = JStringPunycode::urlToPunycode($url);
+					if (preg_match('~^#[a-zA-Z]{1}[a-zA-Z0-9-_:.]*$~', $check['urls'][$i]) == 1)
+					{
+						$data['urls'][$i] = $check['urls'][$i];
+					}
+					else
+					{
+						$data['urls'][$i] = JStringPunycode::urlToPunycode($url);
+					}
 				}
 			}
 
+			unset($check);
+
 			$registry = new Registry;
 			$registry->loadArray($data['urls']);
+
 			$data['urls'] = (string) $registry;
 		}
 
@@ -504,7 +544,7 @@ class ContentModelArticle extends JModelAdmin
 		}
 
 		// Automatic handling of alias for empty fields
-		if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (int) $input->get('id') == 0)
+		if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (!isset($data['id']) || (int) $data['id'] == 0))
 		{
 			if ($data['alias'] == null)
 			{
@@ -540,72 +580,6 @@ class ContentModelArticle extends JModelAdmin
 			if (isset($data['featured']))
 			{
 				$this->featured($this->getState($this->getName() . '.id'), $data['featured']);
-			}
-
-			$assoc = JLanguageAssociations::isEnabled();
-			if ($assoc)
-			{
-				$id = (int) $this->getState($this->getName() . '.id');
-				$item = $this->getItem($id);
-
-				// Adding self to the association
-				$associations = $data['associations'];
-
-				foreach ($associations as $tag => $id)
-				{
-					if (empty($id))
-					{
-						unset($associations[$tag]);
-					}
-				}
-
-				// Detecting all item menus
-				$all_language = $item->language == '*';
-
-				if ($all_language && !empty($associations))
-				{
-					JError::raiseNotice(403, JText::_('COM_CONTENT_ERROR_ALL_LANGUAGE_ASSOCIATED'));
-				}
-
-				$associations[$item->language] = $item->id;
-
-				// Deleting old association for these items
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true)
-					->delete('#__associations')
-					->where('context=' . $db->quote('com_content.item'))
-					->where('id IN (' . implode(',', $associations) . ')');
-				$db->setQuery($query);
-				$db->execute();
-
-				if ($error = $db->getErrorMsg())
-				{
-					$this->setError($error);
-
-					return false;
-				}
-
-				if (!$all_language && count($associations))
-				{
-					// Adding new association for these items
-					$key = md5(json_encode($associations));
-					$query->clear()
-						->insert('#__associations');
-
-					foreach ($associations as $id)
-					{
-						$query->values($id . ',' . $db->quote('com_content.item') . ',' . $db->quote($key));
-					}
-
-					$db->setQuery($query);
-					$db->execute();
-
-					if ($error = $db->getErrorMsg())
-					{
-						$this->setError($error);
-						return false;
-					}
-				}
 			}
 
 			return true;
@@ -695,6 +669,7 @@ class ContentModelArticle extends JModelAdmin
 		catch (Exception $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -767,6 +742,7 @@ class ContentModelArticle extends JModelAdmin
 					$field->addAttribute('clear', 'true');
 				}
 			}
+
 			if ($add)
 			{
 				$form->load($addform, false);

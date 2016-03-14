@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -162,7 +162,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
 					JText::_('JLIB_INSTALLER_' . $this->route),
 					$e->getMessage()
-				)
+				),
+				$e->getCode(),
+				$e
 			);
 		}
 	}
@@ -432,7 +434,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 						JText::sprintf(
 							'JLIB_INSTALLER_ABORT_SQL_ERROR',
 							JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
-							$this->parent->getDBO()->stderr(true)
+							$this->parent->getDbo()->stderr(true)
 						)
 					);
 				}
@@ -502,7 +504,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	/**
 	 * Get the manifest object.
 	 *
-	 * @return  object  Manifest object
+	 * @return  SimpleXMLElement  Manifest object
 	 *
 	 * @since   3.4
 	 */
@@ -977,6 +979,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 					{
 						if ($method != 'postflight')
 						{
+							// Clean and close the output buffer
+							ob_end_clean();
+
 							// The script failed, rollback changes
 							throw new RuntimeException(
 								JText::sprintf(
@@ -996,6 +1001,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 					{
 						if ($method != 'uninstall')
 						{
+							// Clean and close the output buffer
+							ob_end_clean();
+
 							// The script failed, rollback changes
 							throw new RuntimeException(
 								JText::sprintf(

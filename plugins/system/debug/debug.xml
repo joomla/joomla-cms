@@ -3,7 +3,7 @@
 	<name>plg_system_debug</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -181,6 +181,16 @@
 					default="0"
 					description="PLG_DEBUG_FIELD_LOG_EVERYTHING_DESC"
 					label="PLG_DEBUG_FIELD_LOG_EVERYTHING_LABEL"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				
+				<field name="log-executed-sql" type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					description="PLG_DEBUG_FIELD_EXECUTEDSQL_DESC"
+					label="PLG_DEBUG_FIELD_EXECUTEDSQL_LABEL"
 				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>

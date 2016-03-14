@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,7 +96,7 @@ class TagsTableTag extends JTableNested
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
@@ -144,6 +144,63 @@ class TagsTableTag extends JTableNested
 			$bad_characters = array("\"", "<", ">");
 			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
 		}
+		// Not Null sanity check
+		$date = JFactory::getDate();
+
+		if (empty($this->params))
+		{
+			$this->params = '{}';
+		}
+
+		if (empty($this->metadesc))
+		{
+			$this->metadesc = '';
+		}
+
+		if (empty($this->metakey))
+		{
+			$this->metakey = '';
+		}
+
+		if (empty($this->metadata))
+		{
+			$this->metadata = '{}';
+		}
+
+		if (empty($this->urls))
+		{
+			$this->urls = '{}';
+		}
+
+		if (empty($this->images))
+		{
+			$this->images = '{}';
+		}
+
+		if (!(int) $this->checked_out_time)
+		{
+			$this->checked_out_time = $date->toSql();
+		}
+
+		if (!(int) $this->modified_time)
+		{
+			$this->modified_time = $date->toSql();
+		}
+
+		if (!(int) $this->modified_time)
+		{
+			$this->modified_time = $date->toSql();
+		}
+
+		if (!(int) $this->publish_up)
+		{
+			$this->publish_up = $date->toSql();
+		}
+
+		if (!(int) $this->publish_down)
+		{
+			$this->publish_down = $date->toSql();
+		}
 
 		return true;
 	}
@@ -159,15 +216,15 @@ class TagsTableTag extends JTableNested
 	 */
 	public function store($updateNulls = false)
 	{
-		$date	= JFactory::getDate();
-		$user	= JFactory::getUser();
+		$date = JFactory::getDate();
+		$user = JFactory::getUser();
 
-		$this->modified_time		= $date->toSql();
+		$this->modified_time = $date->toSql();
 
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified_user_id	= $user->get('id');
+			$this->modified_user_id = $user->get('id');
 		}
 		else
 		{

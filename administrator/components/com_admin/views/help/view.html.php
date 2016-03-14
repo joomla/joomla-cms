@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,32 +17,50 @@ defined('_JEXEC') or die;
 class AdminViewHelp extends JViewLegacy
 {
 	/**
-	 * @var string the search string
+	 * The search string
+	 *
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $help_search = null;
 
 	/**
-	 * @var string the page to be viewed
+	 * The page to be viewed
+	 *
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $page = null;
 
 	/**
-	 * @var string the iso language tag
+	 * The iso language tag
+	 *
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $lang_tag = null;
 
 	/**
-	 * @var array Table of contents
+	 * Table of contents
+	 *
+	 * @var    array
+	 * @since  1.6
 	 */
-	protected $toc = null;
+	protected $toc = array();
 
 	/**
-	 * @var string url for the latest version check
+	 * URL for the latest version check
+	 *
+	 * @var    string
+	 * @since  1.6
 	 */
-	protected $latest_version_check = 'http://www.joomla.org/download.html';
+	protected $latest_version_check = 'https://www.joomla.org/download.html';
 
 	/**
-	 * @var string url for the start here link.
+	 * URL for the start here link
+	 *
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $start_here = null;
 
@@ -52,17 +70,20 @@ class AdminViewHelp extends JViewLegacy
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
-		$this->help_search			= $this->get('HelpSearch');
-		$this->page					= $this->get('Page');
-		$this->toc					= $this->get('Toc');
-		$this->lang_tag				= $this->get('LangTag');
-		$this->latest_version_check	= $this->get('LatestVersionCheck');
+		$this->help_search          = $this->get('HelpSearch');
+		$this->page                 = $this->get('Page');
+		$this->toc                  = $this->get('Toc');
+		$this->lang_tag             = $this->get('LangTag');
+		$this->latest_version_check = $this->get('LatestVersionCheck');
 
 		$this->addToolbar();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**

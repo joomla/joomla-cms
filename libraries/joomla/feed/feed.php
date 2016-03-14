@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -324,6 +324,19 @@ class JFeed implements ArrayAccess
 
 		$this->properties['author'] = $author;
 
+		return $this;
+	}
+
+	/** Method to reverse the items if display is set to 'oldest first'
+	 *
+	 * @return JFeed
+	 */
+	public function reverseItems()
+	{
+		if (is_array($this->entries) && !empty($this->entries))
+		{
+			$this->entries = array_reverse($this->entries);
+		}
 		return $this;
 	}
 }

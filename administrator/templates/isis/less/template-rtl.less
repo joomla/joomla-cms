@@ -93,14 +93,32 @@ a.grid_true {
 }
 
 /* Login */
-.view-login .login-joomla {
-	position: absolute;
-	right: 50%;
-	height: 24px;
-	width: 24px;
-	text-indent: -9999px;
-	background: url('../images/login-joomla.png') no-repeat;
-	margin-right: -12px;
+.view-login {
+	.login-joomla {
+		position: absolute;
+		right: 50%;
+		height: 24px;
+		width: 24px;
+		margin-right: -12px;
+		font-size: 22px;
+	}
+	.input-medium {
+		width: 169px;
+	}
+}
+.login {
+	.chzn-single {
+		width: 219px !important;
+	}
+	.chzn-container,
+	.chzn-drop {
+		width: 227px !important;
+		max-width: 227px !important;
+	}
+	.input-prepend .chzn-container-single .chzn-single {
+		.border-radius(3px 0 0 3px);
+		border-right:0px;
+	}
 }
 
 /* For collapsible sidebar */
@@ -174,6 +192,13 @@ a.grid_true {
 		margin-left: auto;
 		margin-right: 0;
 	}
+
+	/* login */
+	.view-login {
+		select {
+			width: 229px
+		}
+	}
 }
 
 #j-main-container.expanded {
@@ -205,4 +230,24 @@ a.grid_true {
 	.btn-toolbar .btn-wrapper {
 		margin:0 10px 5px 10px;
 	}
+}
+
+@media (max-width: 420px) {
+	.j-sidebar-container {
+		margin: 0;
+	}
+	/* login */
+	.view-login {
+		.input-medium {
+			width: 173px;
+		}
+		select {
+			width: 229px
+		}
+	}
+}
+
+/* Stats plugin */
+.js-pstats-data-details dd {
+	margin-right: 240px;
 }

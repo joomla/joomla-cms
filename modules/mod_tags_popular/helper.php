@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_popular
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,24 +27,14 @@ abstract class ModTagsPopularHelper
 	 */
 	public static function getList(&$params)
 	{
-		$db				= JFactory::getDbo();
-		$user     		= JFactory::getUser();
-		$groups 		= implode(',', $user->getAuthorisedViewLevels());
-		$timeframe		= $params->get('timeframe', 'alltime');
-		$maximum		= $params->get('maximum', 5);
-		$order_value	= $params->get('order_value', 'title');
-		$nowDate		= JFactory::getDate()->toSql();
-		$nullDate		= $db->quote($db->getNullDate());
-
-		if ($order_value == 'rand()')
-		{
-			$order_direction	= '';
-		}
-		else
-		{
-			$order_value		= $db->quoteName($order_value);
-			$order_direction	= $params->get('order_direction', 1) ? 'DESC' : 'ASC';
-		}
+		$db          = JFactory::getDbo();
+		$user        = JFactory::getUser();
+		$groups      = implode(',', $user->getAuthorisedViewLevels());
+		$timeframe   = $params->get('timeframe', 'alltime');
+		$maximum     = $params->get('maximum', 5);
+		$order_value = $params->get('order_value', 'title');
+		$nowDate     = JFactory::getDate()->toSql();
+		$nullDate    = $db->quote($db->getNullDate());
 
 		$query = $db->getQuery(true)
 			->select(
@@ -81,8 +71,18 @@ abstract class ModTagsPopularHelper
 		}
 
 		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = t.id')
-			->join('INNER', $db->quoteName('#__ucm_content', 'c') . ' ON ' . $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id'))
-			->order($order_value . ' ' . $order_direction);
+		->join('INNER', $db->qn('#__ucm_content', 'c') . ' ON ' . $db->qn('m.core_content_id') . ' = ' . $db->qn('c.core_content_id'));
+
+		if ($order_value == 'rand()')
+		{
+			$query->order($query->Rand());
+		}
+		else
+		{
+			$order_value     = $db->quoteName($order_value);
+			$order_direction = $params->get('order_direction', 1) ? 'DESC' : 'ASC';
+			$query->order($order_value . ' ' . $order_direction);
+		}
 
 		$query->where($db->quoteName('m.type_alias') . ' = ' . $db->quoteName('c.core_type_alias'));
 
@@ -93,7 +93,16 @@ abstract class ModTagsPopularHelper
 			->where('(' . $db->quoteName('c.core_publish_down') . ' = ' . $nullDate
 				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $db->quote($nowDate) . ')');
 		$db->setQuery($query, 0, $maximum);
-		$results = $db->loadObjectList();
+
+		try
+		{
+			$results = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$results = array();
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
 
 		return $results;
 	}

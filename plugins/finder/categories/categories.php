@@ -3,11 +3,11 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
@@ -130,10 +130,10 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			{
 				// Process the change.
 				$this->itemAccessChange($row);
-
-				// Reindex the category item.
-				$this->reindex($row->id);
 			}
+
+			// Reindex the category item.
+			$this->reindex($row->id);
 
 			// Check if the parent access level is different.
 			if (!$isNew && $this->old_cataccess != $row->access)
@@ -291,7 +291,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);
 
 		// Build the necessary route and path information.
-		$item->url = $this->getURL($item->id, $item->extension, $this->layout);
+		$item->url = $this->getUrl($item->id, $item->extension, $this->layout);
 
 		$class = $extension . 'HelperRoute';
 

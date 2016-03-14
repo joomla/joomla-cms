@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -219,9 +219,9 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndTabSet()
 	{
-		$this->assertThat(
+		$this->assertEquals(
 			JHtml::_('bootstrap.endTabSet'),
-			$this->equalTo("\n</div>")
+			PHP_EOL . "</div>"
 		);
 	}
 
@@ -234,9 +234,9 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndTab()
 	{
-		$this->assertThat(
+		$this->assertEquals(
 			JHtml::_('bootstrap.endTab'),
-			$this->equalTo("\n</div>")
+			PHP_EOL . "</div>"
 		);
 	}
 
@@ -249,9 +249,9 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndPane()
 	{
-		$this->assertThat(
+		$this->assertEquals(
 			JHtml::_('bootstrap.endTabSet'),
-			$this->equalTo("\n</div>")
+			PHP_EOL . "</div>"
 		);
 	}
 
@@ -264,9 +264,9 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndPanel()
 	{
-		$this->assertThat(
+		$this->assertEquals(
 			JHtml::_('bootstrap.endTab'),
-			$this->equalTo("\n</div>")
+			PHP_EOL . "</div>"
 		);
 	}
 

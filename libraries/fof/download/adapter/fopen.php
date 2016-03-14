@@ -81,7 +81,7 @@ class FOFDownloadAdapterFopen extends FOFDownloadAdapterAbstract implements FOFD
 				),
 				'ssl' => array(
 					'verify_peer'   => true,
-					'cafile'        => __DIR__ . '/cacert.pem',
+					'cafile'        => JPATH_LIBRARIES . 'joomla/http/transport/cacert.pem',
 					'verify_depth'  => 5,
 				)
 			);
@@ -99,7 +99,7 @@ class FOFDownloadAdapterFopen extends FOFDownloadAdapterAbstract implements FOFD
 				),
 				'ssl' => array(
 					'verify_peer'   => true,
-					'cafile'        => __DIR__ . '/cacert.pem',
+					'cafile'        => JPATH_LIBRARIES . 'joomla/http/transport/cacert.pem',
 					'verify_depth'  => 5,
 				)
 			);

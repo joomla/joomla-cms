@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -206,7 +206,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   3.1
 	 */
-	public function getRedirectURL()
+	public function getRedirectUrl()
 	{
 		return $this->redirect_url;
 	}
@@ -220,7 +220,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   3.1
 	 */
-	public function setRedirectURL($newurl)
+	public function setRedirectUrl($newurl)
 	{
 		$this->redirect_url = $newurl;
 	}
@@ -265,7 +265,7 @@ class JInstaller extends JAdapter
 	/**
 	 * Get the installation manifest object
 	 *
-	 * @return  object  Manifest object
+	 * @return  SimpleXMLElement  Manifest object
 	 *
 	 * @since   3.1
 	 */
@@ -366,7 +366,7 @@ class JInstaller extends JAdapter
 
 				case 'extension':
 					// Get database connector object
-					$db = $this->getDBO();
+					$db = $this->getDbo();
 					$query = $db->getQuery(true);
 
 					// Remove the entry from the #__extensions table
@@ -854,20 +854,44 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
+		$dbDriver = strtolower($db->name);
+
+		if ($dbDriver == 'mysql' || $dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
+		{
+			$doUtf8mb4ToUtf8 = !$this->serverClaimsUtf8mb4Support($dbDriver);
+		}
+		else
+		{
+			$doUtf8mb4ToUtf8 = false;
+		}
+
+		$update_count = 0;
+
 		// Process each query in the $queries array (children of $tagName).
 		foreach ($queries as $query)
 		{
-			$db->setQuery($query->data());
-
-			if (!$db->execute())
+			if ($trimmedQuery = $this->trimQuery($query->data()))
 			{
-				JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
+				// If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
+				if ($doUtf8mb4ToUtf8)
+				{
+					$trimmedQuery = $this->convertUtf8mb4QueryToUtf8($trimmedQuery);
+				}
 
-				return false;
+				$db->setQuery($trimmedQuery);
+
+				if (!$db->execute())
+				{
+					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
+
+					return false;
+				}
+
+				$update_count++;
 			}
 		}
 
-		return (int) count($queries);
+		return $update_count;
 	}
 
 	/**
@@ -891,10 +915,19 @@ class JInstaller extends JAdapter
 		$db = & $this->_db;
 		$dbDriver = strtolower($db->name);
 
+		$doUtf8mb4ToUtf8 = !$this->serverClaimsUtf8mb4Support($dbDriver);
+
 		if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 		{
 			$dbDriver = 'mysql';
 		}
+
+		if ($dbDriver != 'mysql')
+		{
+			$doUtf8mb4ToUtf8 = false;
+		}
+
+		$update_count = 0;
 
 		// Get the name of the sql file to process
 		foreach ($element->children() as $file)
@@ -914,7 +947,7 @@ class JInstaller extends JAdapter
 				// Check that sql files exists before reading. Otherwise raise error for rollback
 				if (!file_exists($sqlfile))
 				{
-					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
+					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_FILENOTFOUND', $sqlfile), JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -941,11 +974,15 @@ class JInstaller extends JAdapter
 				// Process each query in the $queries array (split out of sql file).
 				foreach ($queries as $query)
 				{
-					$query = trim($query);
-
-					if ($query != '' && $query{0} != '#')
+					if ($trimmedQuery = $this->trimQuery($query))
 					{
-						$db->setQuery($query);
+						// If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
+						if ($doUtf8mb4ToUtf8)
+						{
+							$trimmedQuery = $this->convertUtf8mb4QueryToUtf8($trimmedQuery);
+						}
+
+						$db->setQuery($trimmedQuery);
 
 						if (!$db->execute())
 						{
@@ -953,12 +990,14 @@ class JInstaller extends JAdapter
 
 							return false;
 						}
+
+						$update_count++;
 					}
 				}
 			}
 		}
 
-		return (int) count($queries);
+		return $update_count;
 	}
 
 	/**
@@ -1054,9 +1093,16 @@ class JInstaller extends JAdapter
 			{
 				$dbDriver = strtolower($db->name);
 
+				$doUtf8mb4ToUtf8 = !$this->serverClaimsUtf8mb4Support($dbDriver);
+
 				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 				{
 					$dbDriver = 'mysql';
+				}
+
+				if ($dbDriver != 'mysql')
+				{
+					$doUtf8mb4ToUtf8 = false;
 				}
 
 				$schemapath = '';
@@ -1129,11 +1175,15 @@ class JInstaller extends JAdapter
 							// Process each query in the $queries array (split out of sql file).
 							foreach ($queries as $query)
 							{
-								$query = trim($query);
-
-								if ($query != '' && $query{0} != '#')
+								if ($trimmedQuery = $this->trimQuery($query))
 								{
-									$db->setQuery($query);
+									// If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
+									if ($doUtf8mb4ToUtf8)
+									{
+										$trimmedQuery = $this->convertUtf8mb4QueryToUtf8($trimmedQuery);
+									}
+
+									$db->setQuery($trimmedQuery);
 
 									if (!$db->execute())
 									{
@@ -1143,7 +1193,7 @@ class JInstaller extends JAdapter
 									}
 									else
 									{
-										$queryString = (string) $query;
+										$queryString = (string) $trimmedQuery;
 										$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
 										JLog::add(JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), JLog::INFO, 'Update');
 									}
@@ -1865,6 +1915,12 @@ class JInstaller extends JAdapter
 	 */
 	public function findManifest()
 	{
+		// Do nothing if folder does not exist for some reason
+		if (!JFolder::exists($this->getPath('source')))
+		{
+			return false;
+		}
+
 		// Main folder manifests (higher priority)
 		$parentXmlfiles = JFolder::files($this->getPath('source'), '.xml$', false, true);
 
@@ -1927,7 +1983,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @param   string  $file  An xmlfile path to check
 	 *
-	 * @return  mixed  A SimpleXMLElement, or null if the file failed to parse
+	 * @return  SimpleXMLElement|null  A SimpleXMLElement, or null if the file failed to parse
 	 *
 	 * @since   3.1
 	 */
@@ -2200,6 +2256,7 @@ class JInstaller extends JAdapter
 
 	/**
 	 * Fetches an adapter and adds it to the internal storage if an instance is not set
+	 * while also ensuring its a valid adapter name
 	 *
 	 * @param   string  $name     Name of adapter to return
 	 * @param   array   $options  Adapter options
@@ -2212,17 +2269,14 @@ class JInstaller extends JAdapter
 	 */
 	public function getAdapter($name, $options = array())
 	{
-		$adapter = $this->loadAdapter($name, $options);
+		$this->getAdapters($options);
 
-		if (!array_key_exists($name, $this->_adapters))
+		if (!$this->setAdapter($name, $this->_adapters[$name]))
 		{
-			if (!$this->setAdapter($name, $adapter))
-			{
-				return false;
-			}
+			return false;
 		}
 
-		return $adapter;
+		return $this->_adapters[$name];
 	}
 
 	/**
@@ -2332,7 +2386,7 @@ class JInstaller extends JAdapter
 		// Ensure the adapter type is part of the options array
 		$options['type'] = $adapter;
 
-		return new $class($this, $this->getDBO(), $options);
+		return new $class($this, $this->getDbo(), $options);
 	}
 
 	/**
@@ -2349,5 +2403,117 @@ class JInstaller extends JAdapter
 	public function loadAllAdapters($options = array())
 	{
 		$this->getAdapters($options);
+	}
+
+	/**
+	 * Does the database server claim to have support for UTF-8 Multibyte (utf8mb4) collation?
+	 * 
+	 * This is a modified version of the function in JDatabase::serverClaimsUtf8mb4Support() - it is
+	 * duplicated here for people upgrading from a version lower than 3.5.0 through extension manager
+	 * which will still have the old database driver loaded at this point.
+	 *
+	 * @param   string  $format  The type of database connection.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.5.0
+	 */
+	private function serverClaimsUtf8mb4Support($format)
+	{
+		$db = JFactory::getDbo();
+
+		switch ($format)
+		{
+			case 'mysql':
+				$client_version = mysql_get_client_info();
+				$server_version = $db->getVersion();
+				break;
+			case 'mysqli':
+				$client_version = mysqli_get_client_info();
+				$server_version = $db->getVersion();
+				break;
+			case 'pdomysql':
+				$client_version = $db->getOption(PDO::ATTR_CLIENT_VERSION);
+				$server_version = $db->getOption(PDO::ATTR_SERVER_VERSION);
+				break;
+			default:
+				$client_version = false;
+				$server_version = false;
+		}
+
+		if ($client_version && version_compare($server_version, '5.5.3', '>='))
+		{
+			if (strpos($client_version, 'mysqlnd') !== false)
+			{
+				$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
+
+				return version_compare($client_version, '5.0.9', '>=');
+			}
+			else
+			{
+				return version_compare($client_version, '5.5.3', '>=');
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Downgrade a CREATE TABLE or ALTER TABLE query from utf8mb4 (UTF-8 Multibyte) to plain utf8. Used when the server
+	 * doesn't support UTF-8 Multibyte.
+	 *
+	 * This is a modified version of the function in JDatabase::convertUtf8mb4QueryToUtf8() - it is duplicated here for
+	 * people upgrading from a version lower than 3.5.0 through installer which will still have the old database
+	 * driver loaded at this point. This is missing the check for utf8mb4 in JDatabaseDriver we make this check in the
+	 * updater elsewhere.
+	 *
+	 * @param   string  $query  The query to convert
+	 *
+	 * @return  string  The converted query
+	 */
+	private function convertUtf8mb4QueryToUtf8($query)
+	{
+		// If it's not an ALTER TABLE or CREATE TABLE command there's nothing to convert
+		$beginningOfQuery = substr($query, 0, 12);
+		$beginningOfQuery = strtoupper($beginningOfQuery);
+
+		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE')))
+		{
+			return $query;
+		}
+
+		// Replace utf8mb4 with utf8
+		return str_replace('utf8mb4', 'utf8', $query);
+	}
+
+	/**
+	 * Trim comment and blank lines out of a query string
+	 *
+	 * @param   string  $query  query string to be trimmed
+	 *
+	 * @return  string  String with leading comment lines removed
+	 *
+	 * @since   3.5
+	 */
+	private function trimQuery($query)
+	{
+		$query = trim($query);
+
+		while (substr($query, 0, 1) == '#' || substr($query, 0, 2) == '--' || substr($query, 0, 2) == '/*')
+		{
+			$endChars = (substr($query, 0, 1) == '#' || substr($query, 0, 2) == '--') ? "\n" : "*/";
+
+			if ($position = strpos($query, $endChars))
+			{
+				$query = trim(substr($query, $position + strlen($endChars)));
+			}
+			else
+			{
+				// If no newline, the rest of the file is a comment, so return an empty string.
+				return '';
+			}
+		}
+
+		return trim($query);
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,7 +22,7 @@ abstract class JHtmlSelect
 	 * @var     array
 	 * @since   1.5
 	 */
-	static protected $optionDefaults = array(
+	protected static $optionDefaults = array(
 		'option' => array('option.attr' => null, 'option.disable' => 'disable', 'option.id' => null, 'option.key' => 'value',
 			'option.key.toHtml' => true, 'option.label' => null, 'option.label.toHtml' => true, 'option.text' => 'text',
 			'option.text.toHtml' => true, 'option.class' => 'class', 'option.onclick' => 'onclick'));
@@ -283,17 +283,17 @@ abstract class JHtmlSelect
 			elseif (is_object($group))
 			{
 				// Sub-list is in a property of an object
-				$subList = $group->$options['group.items'];
+				$subList = $group->{$options['group.items']};
 
-				if (isset($group->$options['group.label']))
+				if (isset($group->{$options['group.label']}))
 				{
-					$label = $group->$options['group.label'];
+					$label = $group->{$options['group.label']};
 					$noGroup = false;
 				}
 
-				if (isset($options['group.id']) && isset($group->$options['group.id']))
+				if (isset($options['group.id']) && isset($group->{$options['group.id']}))
 				{
-					$id = $group->$options['group.id'];
+					$id = $group->{$options['group.id']};
 					$noGroup = false;
 				}
 			}
@@ -381,7 +381,7 @@ abstract class JHtmlSelect
 	 * @param   string  $optKey   The returned object property name for the value
 	 * @param   string  $optText  The returned object property name for the text
 	 *
-	 * @return  object
+	 * @return  stdClass
 	 *
 	 * @deprecated  4.0  Use JHtmlSelect::groupedList()
 	 * @see     JHtmlSelect::groupedList()
@@ -441,7 +441,7 @@ abstract class JHtmlSelect
 	 *                             parameter is ignored if an options array is passed.
 	 * @param   boolean  $disable  Not used.
 	 *
-	 * @return  object
+	 * @return  stdClass
 	 *
 	 * @since   1.5
 	 */
@@ -696,7 +696,7 @@ abstract class JHtmlSelect
 				{
 					foreach ($options['list.select'] as $val)
 					{
-						$key2 = is_object($val) ? $val->$options['option.key'] : $val;
+						$key2 = is_object($val) ? $val->{$options['option.key']} : $val;
 
 						if ($key == $key2)
 						{
@@ -784,7 +784,7 @@ abstract class JHtmlSelect
 
 			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="radio">';
 			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id . '" value="' . $k . '" ' . $extra
-				. $attribs . ' >' . $t;
+				. $attribs . ' />' . $t;
 			$html .= "\n\t" . '</label>';
 		}
 

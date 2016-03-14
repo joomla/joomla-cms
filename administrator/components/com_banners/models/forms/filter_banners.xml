@@ -5,27 +5,18 @@
 			name="search"
 			type="text"
 			label="COM_BANNERS_SEARCH_IN_TITLE"
+			description="COM_BANNERS_SEARCH_IN_TITLE"
 			hint="JSEARCH_FILTER"
 			class="js-stools-search-string"
 		/>
 		<field
-			name="state"
+			name="published"
 			type="status"
 			label="JOPTION_SELECT_PUBLISHED"
 			description="JOPTION_SELECT_PUBLISHED_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
-		</field>
-		<field
-			name="client_id"
-			type="bannerclient"
-			label="COM_BANNERS_FILTER_CLIENT"
-			extension="com_content"
-			description="COM_BANNERS_FILTER_CLIENT_DESC"
-			onchange="this.form.submit();"
-			>
-			<option value="">COM_BANNERS_SELECT_CLIENT</option>
 		</field>
 		<field
 			name="category_id"
@@ -47,6 +38,16 @@
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
 		</field>
+        <field
+                name="client_id"
+                type="bannerclient"
+                label="COM_BANNERS_FILTER_CLIENT"
+                extension="com_content"
+                description="COM_BANNERS_FILTER_CLIENT_DESC"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_BANNERS_SELECT_CLIENT</option>
+        </field>
 	</fields>
 	<fields name="list">
 		<field
@@ -65,6 +66,8 @@
 			<option value="a.state DESC">JSTATUS_DESC</option>
 			<option value="a.name ASC">COM_BANNERS_HEADING_NAME_ASC</option>
 			<option value="a.name DESC">COM_BANNERS_HEADING_NAME_DESC</option>
+			<option value="category_title ASC">JCATEGORY_ASC</option>
+			<option value="category_title DESC">JCATEGORY_DESC</option>
 			<option value="a.sticky ASC">COM_BANNERS_HEADING_STICKY_ASC</option>
 			<option value="a.sticky DESC">COM_BANNERS_HEADING_STICKY_DESC</option>
 			<option value="client_name ASC">COM_BANNERS_HEADING_CLIENT_ASC</option>

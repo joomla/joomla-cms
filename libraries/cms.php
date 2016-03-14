@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,11 +29,15 @@ if (!class_exists('JLoader'))
 // Register the library base path for CMS libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
-// Add the Composer autoloader
-require_once JPATH_LIBRARIES . '/composer_autoload.php';
+// Create the Composer autoloader
+$loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
+$loader->unregister();
+
+// Decorate Composer autoloader
+spl_autoload_register(array(new JClassLoader($loader), 'loadClass'), true, true);
 
 // Register the class aliases for Framework classes that have replaced their Platform equivilents
-require_once __DIR__ . '/classmap.php';
+require_once JPATH_LIBRARIES . '/classmap.php';
 
 // Ensure FOF autoloader included - needed for things like content versioning where we need to get an FOFTable Instance
 if (!class_exists('FOFAutoloaderFof'))
@@ -59,6 +63,9 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER))
 
 // Register JArrayHelper due to JRegistry moved to composer's vendor folder
 JLoader::register('JArrayHelper', JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php');
+
+// Register the Crypto lib
+JLoader::register('Crypto', JPATH_PLATFORM . '/php-encryption/Crypto.php');
 
 // Register classes where the names have been changed to fit the autoloader rules
 // @deprecated  4.0

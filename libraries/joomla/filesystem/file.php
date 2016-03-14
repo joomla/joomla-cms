@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -249,7 +249,9 @@ class JFile
 		// Check src path
 		if (!is_readable($src))
 		{
-			return JText::_('JLIB_FILESYSTEM_CANNOT_FIND_SOURCE_FILE');
+			JLog::add(JText::_('JLIB_FILESYSTEM_CANNOT_FIND_SOURCE_FILE'), JLog::WARNING, 'jerror');
+
+			return false;
 		}
 
 		if ($use_streams)

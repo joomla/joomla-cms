@@ -1,7 +1,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.0
  */
@@ -117,6 +117,51 @@
 			emptyMenu.empty().hide();
 
 		});
+		
+		/**
+		 * USED IN: All views with toolbar and sticky bar enabled
+		 */
+		var navTop;
+		var isFixed = false;
+
+		if (window.isisStickyToolbar == 1) {
+			processScrollInit();
+			processScroll();
+
+			$(window).on('resize', processScrollInit);
+			$(window).on('scroll', processScroll);
+		}
+
+		function processScrollInit() {
+			if ($('.subhead').length) {
+				navTop = $('.subhead').length && $('.subhead').offset().top - window.isisOffsetTop;
+
+				// Fix the container top
+				$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
+
+				// Only apply the scrollspy when the toolbar is not collapsed
+				if (document.body.clientWidth > 480) {
+					$('.subhead-collapse').height($('.subhead').height());
+					$('.subhead').scrollspy({offset: {top: $('.subhead').offset().top - $('nav.navbar').height()}});
+				}
+			}
+		}
+
+		function processScroll() {
+			if ($('.subhead').length) {
+				var scrollTop = $(window).scrollTop();
+				if (scrollTop >= navTop && !isFixed) {
+					isFixed = true;
+					$('.subhead').addClass('subhead-fixed');
+
+					// Fix the container top
+					$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
+				} else if (scrollTop <= navTop && isFixed) {
+					isFixed = false;
+					$('.subhead').removeClass('subhead-fixed');
+				}
+			}
+		}
 
 		/**
 		 * USED IN: All list views to hide/show the sidebar
@@ -194,6 +239,10 @@
 				$main.removeClass('span10').addClass('span12 expanded');
 				$toggleSidebarIcon.removeClass(openIcon).addClass(closedIcon);
 				$toggleButton.attr( 'data-original-title', Joomla.JText._('JTOGGLE_SHOW_SIDEBAR') );
+				$sidebar.attr('aria-hidden', true);
+				$sidebar.find('a').attr('tabindex', '-1');
+				$sidebar.find(':input').attr('tabindex', '-1');
+
 				if (!isComponent) {
 					$debug.css( 'width', contentWidthRelative + '%' );
 				}
@@ -214,6 +263,9 @@
 				$main.removeClass('span12 expanded').addClass('span10');
 				$toggleSidebarIcon.removeClass(closedIcon).addClass(openIcon);
 				$toggleButton.attr( 'data-original-title', Joomla.JText._('JTOGGLE_HIDE_SIDEBAR') );
+				$sidebar.removeAttr('aria-hidden');
+				$sidebar.find('a').removeAttr('tabindex');
+				$sidebar.find(':input').removeAttr('tabindex');
 
 				if (!isComponent && bodyWidth > 768 && mainHeight < sidebarHeight)
 				{

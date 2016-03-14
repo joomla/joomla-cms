@@ -42,7 +42,7 @@ class JReCaptchaResponse
 class JReCaptcha
 {
 	private static $_signupUrl = "https://www.google.com/recaptcha/admin";
-	private static $_siteVerifyUrl = "https://www.google.com/recaptcha/api/siteverify?";
+	private static $_siteVerifyUrl = "https://www.google.com/recaptcha/api/siteverify";
 	private $_secret;
 	private static $_version = "php_1.0";
 
@@ -93,7 +93,8 @@ class JReCaptcha
 	private function _submitHTTPGet($path, $data)
 	{
 		$req = $this->_encodeQS($data);
-		$response = file_get_contents($path . $req);
+		$http = JHttpFactory::getHttp();
+		$response = $http->get($path . '?' . $req)->body;
 
 		return $response;
 	}

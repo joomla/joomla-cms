@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.4" client="site" type="language" method="upgrade">
+<extension version="3.5" client="site" type="language" method="upgrade">
 	<name>English (United Kingdom)</name>
 	<tag>en-GB</tag>
-	<version>3.4.1</version>
+	<version>3.5.0</version>
 	<creationDate>2013-03-07</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>en-GB site language</description>
 	<files>
@@ -28,6 +28,7 @@
 		<filename>en-GB.files_joomla.sys.ini</filename>
 		<filename>en-GB.finder_cli.ini</filename>
 		<filename>en-GB.ini</filename>
+		<filename>en-GB.lib_fof.ini</filename>
 		<filename>en-GB.lib_fof.sys.ini</filename>
 		<filename>en-GB.lib_idna_convert.sys.ini</filename>
 		<filename>en-GB.lib_joomla.ini</filename>
@@ -92,7 +93,6 @@
 		<filename>en-GB.tpl_beez3.sys.ini</filename>
 		<filename>en-GB.tpl_protostar.ini</filename>
 		<filename>en-GB.tpl_protostar.sys.ini</filename>
-		<filename>index.html</filename>
 		<filename file="meta">install.xml</filename>
 		<filename file="meta">en-GB.xml</filename>
 	</files>

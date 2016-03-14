@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 $app  = JFactory::getApplication();
 $lang = JFactory::getLanguage();
 $doc  = JFactory::getDocument();
+
+// jQuery needed by template.js
+JHtml::_('jquery.framework');
 
 JHtml::_('behavior.noframes');
 
@@ -128,13 +131,13 @@ else
 		<p class="copyright">
 			<?php
 			// Fix wrong display of Joomla!® in RTL language
-			if (JFactory::getLanguage()->isRTL())
+			if (JFactory::getLanguage()->isRtl())
 			{
-				$joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>';
+				$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>';
 			}
 			else
 			{
-				$joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>';
+				$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>';
 			}
 			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla);
 			?>

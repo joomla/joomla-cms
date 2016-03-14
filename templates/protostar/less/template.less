@@ -3,6 +3,7 @@
 
 // Core variables and mixins
 @import "variables.less"; // Custom for this template
+@import "template_rtl.less"; // Specific for rtl
 @import "../../../media/jui/less/mixins.less";
 
 // Grid system and page structure
@@ -226,6 +227,9 @@ h6 { font-size: 12px; line-height: 14px; }
 .breadcrumb {
 	margin: 10px 0;
 }
+.breadcrumb > li {
+   color: #999;
+}
 /* Caption fixes */
 .img_caption .left {
 	float: left;
@@ -392,6 +396,10 @@ figcaption {
   #gradient > .vertical(@dropdownLinkBackgroundHover, darken(@dropdownLinkBackgroundHover, 5%));
 }
 
+// Category collapse
+.categories-list .collapse {
+	margin: 0 0 0 20px;
+}
 @media (max-width: 480px) {
 	.item-info > span {
 		display:block;
@@ -405,7 +413,9 @@ figcaption {
 	}
 }
 @media (max-width: 768px) {
+  /* Fix ios scrolling inside boottrap modals */
 	body {
+		-webkit-overflow-scrolling: touch;
 		padding-top: 0;
 	}
 	.header {
@@ -517,6 +527,13 @@ figcaption {
 		padding: 10px;
 	}
 }
+@media (max-width: 979px) {
+	.nav-collapse.in.collapse {
+		overflow: visible;
+		height: 0;
+		z-index: 100;
+	}
+}
 @media (min-width: 768px) and (max-width: 979px) {
 	#login-form .input-small {
 		width: 62px;
@@ -599,4 +616,52 @@ code {
 	background-color:#FFFFCC;
 	font-weight:bold;
 	padding:1px 4px;
+}
+
+/* Prevent scrolling on the parent window of a modal */
+body.modal-open {
+  overflow: hidden;
+  -ms-overflow-style: none;
+}
+
+/* Align fields for the profile display */
+#users-profile-custom label {
+	display: inline;
+}
+
+/* Corrects the modals padding */
+.field-media-wrapper .modal .modal-body {
+	padding: 5px 10px;
+	overflow: hidden;
+}
+/* Getting rid of scroll bar in smartsearch Advanced search */
+#search-results {
+	clear: both;
+}
+#finder-filter-window {
+	overflow: visible;
+}
+#finder-search .in.collapse {
+	overflow: visible;
+}
+
+/* Fix for select element overflow on browser resizing */
+.well {
+	select,
+	.chzn-container {
+		max-width: 100%;
+	}
+}
+
+/* Corrects the media modal padding on small devices */
+@media (max-width: 767px) {
+	.field-media-wrapper .modal .modal-body {
+		padding: 5px 0;
+	}
+}
+
+/* Fix iOS scrolling inside bootstrap modals (using iframe) */
+.modal-body {
+	-webkit-overflow-scrolling: touch;
+	overflow-y: auto !important;
 }

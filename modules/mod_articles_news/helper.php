@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,24 +34,18 @@ abstract class ModArticlesNewsHelper
 	 */
 	public static function getList(&$params)
 	{
-		$app = JFactory::getApplication();
-
 		// Get an instance of the generic articles model
 		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		// Set application parameters in model
-		$appParams = JFactory::getApplication()->getParams();
+		$app       = JFactory::getApplication();
+		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
 		// Set the filters based on the module params
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', (int) $params->get('count', 5));
-
 		$model->setState('filter.published', 1);
-
-		$model->setState('list.select', 'a.fulltext, a.id, a.title, a.alias, a.introtext, a.state, a.catid, a.created, a.created_by, a.created_by_alias,' .
-			' a.modified, a.modified_by, a.publish_up, a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access,' .
-			' a.hits, a.featured, a.language');
 
 		// Access filter
 		$access     = !JComponentHelper::getParams('com_content')->get('show_noauth');
@@ -70,12 +64,13 @@ abstract class ModArticlesNewsHelper
 
 		if (trim($ordering) == 'rand()')
 		{
-			$model->setState('list.direction', '');
+			$model->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
 		}
 		else
 		{
 			$direction = $params->get('direction', 1) ? 'DESC' : 'ASC';
 			$model->setState('list.direction', $direction);
+			$model->setState('list.ordering', $ordering);
 		}
 
 		// Retrieve Content
@@ -95,13 +90,13 @@ abstract class ModArticlesNewsHelper
 			}
 			else
 			{
-				$item->link     = JRoute::_('index.php?option=com_users&view=login');
+				$item->link = new JUri(JRoute::_('index.php?option=com_users&view=login', false));
+				$item->link->setVar('return', base64_encode(JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language), false)));
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}
 
 			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
 
-			// New
 			if (!$params->get('image'))
 			{
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -54,7 +54,9 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
 					JText::_('JLIB_INSTALLER_' . $this->route),
 					$e->getMessage()
-				)
+				),
+				$e->getCode(),
+				$e
 			);
 		}
 	}
@@ -188,10 +190,11 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			$client = 'ADMINISTRATOR';
 		}
 
+		$base = constant('JPATH_' . strtoupper($client));
 		$extension = 'tpl_' . $this->getName();
-		$source    = $path ? $path : ($client) . '/templates/' . $this->getName();
+		$source    = $path ? $path : $base . '/templates/' . $this->getName();
 
-		$this->doLoadLanguage($extension, $source, constant('JPATH_' . strtoupper($client)));
+		$this->doLoadLanguage($extension, $source, $base);
 	}
 
 	/**

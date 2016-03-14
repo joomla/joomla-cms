@@ -187,7 +187,7 @@ class FOFFormFieldModel extends FOFFormFieldList implements FOFFormField
 
 		if (!empty($nonePlaceholder))
 		{
-			$options[] = JHtml::_('select.option', JText::_($nonePlaceholder), null);
+			$options[] = JHtml::_('select.option', null, JText::_($nonePlaceholder));
 		}
 
 		// Process field atrtibutes
