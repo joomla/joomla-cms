@@ -74,7 +74,7 @@ class ContentHelper extends JHelperContent
 	{
 		$db = JFactory::getDbo();
 
-		foreach ($items as $i => $item)
+		foreach ($items as $item)
 		{
 			$item->count_trashed = 0;
 			$item->count_archived = 0;
@@ -86,28 +86,28 @@ class ContentHelper extends JHelperContent
 				->where('catid = ' . (int) $item->id)
 				->group('state');
 			$db->setQuery($query);
-			$arts = $db->loadObjectList();
+			$articles = $db->loadObjectList();
 
-			foreach ($arts as $i => $art)
+			foreach ($articles as $article)
 			{
-				if ($art->state == 1)
+				if ($article->state == 1)
 				{
-					$item->count_published = $art->count;
+					$item->count_published = $article->count;
 				}
 
-				if ($art->state == 0)
+				if ($article->state == 0)
 				{
-					$item->count_unpublished = $art->count;
+					$item->count_unpublished = $article->count;
 				}
 
-				if ($art->state == 2)
+				if ($article->state == 2)
 				{
-					$item->count_archived = $art->count;
+					$item->count_archived = $article->count;
 				}
 
-				if ($art->state == -2)
+				if ($article->state == -2)
 				{
-					$item->count_trashed = $art->count;
+					$item->count_trashed = $article->count;
 				}
 			}
 		}

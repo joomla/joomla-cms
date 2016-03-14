@@ -344,4 +344,32 @@ class CategoriesModelCategories extends JModelList
 
 		return $assoc;
 	}
+
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   12.2
+	 */
+	public function getItems()
+	{
+		$items = parent::getItems();
+
+		if ($items != false)
+		{
+			$extension = $this->getState('filter.extension');
+
+			// Load Helper file of the component for which com_categories displays the categories
+			$classname = ucfirst(substr($extension, 4)) . 'Helper';
+
+			if (class_exists($classname) && method_exists($classname, 'countItems'))
+			{
+				// Get the SQL to extend the com_category $query object with item count (published, unpublished, trashed)
+				$classname::countItems($items);
+			}
+		}
+
+		return $items;
+	}
 }
