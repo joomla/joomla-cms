@@ -94,6 +94,7 @@
 			}
 
 			// Append items to empty <ul> and show it
+			dropdown.hide();
 			emptyMenu.show().html(dropdown.html());
 
 		});
