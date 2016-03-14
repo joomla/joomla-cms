@@ -188,11 +188,11 @@ class BannersHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   JDatabaseQuery  &$items  The item object of com_categories
+	 * @param   stdClass[]  &$items  The banner category objects
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  stdClass[]
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
 	public static function countItems(&$items)
 	{
