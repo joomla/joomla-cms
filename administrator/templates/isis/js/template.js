@@ -64,21 +64,22 @@
 
 			var $self    = $(this);
 			var dropdown = $self.next('.dropdown-menu');
-			var offset   = $self.offset();	
+			var offset   = $self.offset();
+			var scroll   = $(window).scrollTop();
 
 			// Set the submenu position
 			if ($('html').attr('dir') == 'rtl')
 			{
 				emptyMenu.css({
-					top : offset.top,
-					left:  offset.left - (dropdown.width() + 27)
+					top : offset.top - scroll,
+					left:  offset.left - 190
 				});
 			}
 			else
 			{
 				emptyMenu.css({
-					top : offset.top,
-					left: offset.left + (dropdown.width() + 27)
+					top : offset.top - scroll,
+					left: offset.left + 190
 				});
 			}
 

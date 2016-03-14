@@ -2026,6 +2026,21 @@ table th[class*="span"],
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 	cursor: default;
 }
+ul.menu-component {
+	overflow-y: auto;
+	overflow-x: hidden;
+	-webkit-overflow-scrolling: touch;
+	-moz-overflow-scrolling: touch;
+	-ms-overflow-scrolling: touch;
+	-o-overflow-scrolling: touch;
+	overflow-scrolling: touch;
+	height: auto;
+	max-height: 500px;
+	margin: 0;
+}
+.empty-nav {
+	display: none;
+}
 .open {
 	*z-index: 1000;
 }
