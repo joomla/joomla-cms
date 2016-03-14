@@ -342,19 +342,16 @@ class InstallerModelDatabase extends InstallerModel
 			{
 				foreach ($queries2 as $query2)
 				{
-					if ($trimmedQuery = $this->trimQuery($query2))
+					try
 					{
-						try
-						{
-							$db->setQuery($db->convertUtf8mb4QueryToUtf8($trimmedQuery))->execute();
-						}
-						catch (Exception $e)
-						{
-							$converted = 0;
+						$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
+					}
+					catch (Exception $e)
+					{
+						$converted = 0;
 
-							// Still render the error message from the Exception object
-							JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-						}
+						// Still render the error message from the Exception object
+						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 					}
 				}
 			}
@@ -420,36 +417,5 @@ class InstallerModelDatabase extends InstallerModel
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
 				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
 		}
-	}
-
-	/**
-	 * Trim comment and blank lines out of a query string
-	 *
-	 * @param   string  $query  query string to be trimmed
-	 *
-	 * @return  string  String with leading comment lines removed
-	 *
-	 * @since   3.5
-	 */
-	private function trimQuery($query)
-	{
-		$query = trim($query);
-
-		while (substr($query, 0, 1) == '#' || substr($query, 0, 2) == '--' || substr($query, 0, 2) == '/*')
-		{
-			$endChars = (substr($query, 0, 1) == '#' || substr($query, 0, 2) == '--') ? "\n" : "*/";
-
-			if ($position = strpos($query, $endChars))
-			{
-				$query = trim(substr($query, $position + strlen($endChars)));
-			}
-			else
-			{
-				// If no newline, the rest of the file is a comment, so return an empty string.
-				return '';
-			}
-		}
-
-		return trim($query);
 	}
 }
