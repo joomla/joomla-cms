@@ -53,7 +53,7 @@ class ContentHelper extends JHelperContent
 	 * @return  string  The filtered string
 	 *
 	 * @deprecated  4.0  Use JComponentHelper::filterText() instead.
-	*/
+	 */
 	public static function filterText($text)
 	{
 		JLog::add('ContentHelper::filterText() is deprecated. Use JComponentHelper::filterText() instead.', JLog::WARNING, 'deprecated');
@@ -64,7 +64,7 @@ class ContentHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   JDatabaseQuery  &$query  The query object of com_categories
+	 * @param   JDatabaseQuery  &$items  The item object of com_categories
 	 *
 	 * @return  JDatabaseQuery
 	 *
@@ -74,7 +74,6 @@ class ContentHelper extends JHelperContent
 	{
 		$db = JFactory::getDbo();
 
-		//var_dump($this->items);
 		foreach ($items as $i => $item)
 		{
 			$item->count_trashed = 0;
@@ -83,33 +82,36 @@ class ContentHelper extends JHelperContent
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
 			$query->select('state, count(*) AS count')
-				  ->from($db->qn('#__content'))
-				  ->where('catid = ' . (int) $item->id)
-				  ->group('state');
+				->from($db->qn('#__content'))
+				->where('catid = ' . (int) $item->id)
+				->group('state');
 			$db->setQuery($query);
-			$arts=$db->loadObjectList();
+			$arts = $db->loadObjectList();
 
 			foreach ($arts as $i => $art)
 			{
-				if($art->state == 1)
+				if ($art->state == 1)
 				{
-					$item->count_published=$art->count;
+					$item->count_published = $art->count;
 				}
-				if($art->state == 0)
+
+				if ($art->state == 0)
 				{
-					$item->count_unpublished=$art->count;
+					$item->count_unpublished = $art->count;
 				}
-				if($art->state == 2)
+
+				if ($art->state == 2)
 				{
-					$item->count_archived=$art->count;
+					$item->count_archived = $art->count;
 				}
-				if($art->state == -2)
+
+				if ($art->state == -2)
 				{
-					$item->count_trashed=$art->count;
+					$item->count_trashed = $art->count;
 				}
 			}
 		}
+
 		return $items;
 	}
-
 }
