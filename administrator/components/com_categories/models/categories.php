@@ -304,15 +304,6 @@ class CategoriesModelCategories extends JModelList
 				ua.name'
 			);
 
-		// Load Helper file of the component for which com_categories displays the categories
-		$classname = ucfirst(substr($extension, 4)) . 'Helper';
-
-		if (class_exists($classname) && method_exists($classname, 'countItems'))
-		{
-			// Get the SQL to extend the com_category $query object with item count (published, unpublished, trashed)
-			$classname::countItems($query);
-		}
-
 		return $query;
 	}
 
