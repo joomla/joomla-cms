@@ -53,7 +53,7 @@ class ContentHelper extends JHelperContent
 	 * @return  string  The filtered string
 	 *
 	 * @deprecated  4.0  Use JComponentHelper::filterText() instead.
-	*/
+	 */
 	public static function filterText($text)
 	{
 		JLog::add('ContentHelper::filterText() is deprecated. Use JComponentHelper::filterText() instead.', JLog::WARNING, 'deprecated');
@@ -64,31 +64,54 @@ class ContentHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   JDatabaseQuery  &$query  The query object of com_categories
+	 * @param   JDatabaseQuery  &$items  The item object of com_categories
 	 *
 	 * @return  JDatabaseQuery
 	 *
 	 * @since   3.4
 	 */
-	public static function countItems(&$query)
+	public static function countItems(&$items)
 	{
-		// Join articles to categories and count published items
-		$query->select('COUNT(DISTINCT cp.id) AS count_published');
-		$query->join('LEFT', '#__content AS cp ON cp.catid = a.id AND cp.state = 1');
+		$db = JFactory::getDbo();
 
-		// Count unpublished items
-		$query->select('COUNT(DISTINCT cu.id) AS count_unpublished');
-		$query->join('LEFT', '#__content AS cu ON cu.catid = a.id AND cu.state = 0');
+		foreach ($items as $i => $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('state, count(*) AS count')
+				->from($db->qn('#__content'))
+				->where('catid = ' . (int) $item->id)
+				->group('state');
+			$db->setQuery($query);
+			$arts = $db->loadObjectList();
 
-		// Count archived items
-		$query->select('COUNT(DISTINCT ca.id) AS count_archived');
-		$query->join('LEFT', '#__content AS ca ON ca.catid = a.id AND ca.state = 2');
+			foreach ($arts as $i => $art)
+			{
+				if ($art->state == 1)
+				{
+					$item->count_published = $art->count;
+				}
 
-		// Count trashed items
-		$query->select('COUNT(DISTINCT ct.id) AS count_trashed');
-		$query->join('LEFT', '#__content AS ct ON ct.catid = a.id AND ct.state = -2');
+				if ($art->state == 0)
+				{
+					$item->count_unpublished = $art->count;
+				}
 
-		return $query;
+				if ($art->state == 2)
+				{
+					$item->count_archived = $art->count;
+				}
+
+				if ($art->state == -2)
+				{
+					$item->count_trashed = $art->count;
+				}
+			}
+		}
+
+		return $items;
 	}
-
 }
