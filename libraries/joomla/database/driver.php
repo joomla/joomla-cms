@@ -342,9 +342,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public static function splitSql($sql)
 	{
+		$start = 0;
 		$open = false;
 		$comment = false;
-		$endComment = false;
 		$endString = '';
 		$end = strlen($sql);
 		$queries = array();
@@ -381,12 +381,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 							if ($comment)
 							{
 								$comment = false;
-								$endComment = true;
 								if ($lenEndString > 1)
 								{
 									$i += ($lenEndString - 1);
 									$current = substr($sql, $i, 1);
 								}
+								$start = $i + 1;
 							}
 							$open = false;
 							$endString = '';
@@ -414,17 +414,25 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 						{
 							$endString = $current;
 						}
+						if ($comment && $start < $i)
+						{
+							$query = $query . substr($sql, $start, ($i - $start));
+						}
 					}
 				}
 			}
 
-			if (!$comment && !$endComment)
+			if ($comment)
 			{
-				$query = $query . $current;
+				$start = $i + 1;
 			}
 
-			if (!$open && !$endComment && ($current == ';' || $i == $end - 1))
+			if (($current == ';' && !$open) || $i == $end - 1)
 			{
+				if ($start <= $i)
+				{
+					$query = $query . substr($sql, $start, ($i - $start + 1));
+				}
 				$query = trim($query);
 
 				if ($query)
@@ -437,6 +445,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 				}
 
 				$query = '';
+				$start = $i + 1;
 			}
 
 			$endComment = false;
