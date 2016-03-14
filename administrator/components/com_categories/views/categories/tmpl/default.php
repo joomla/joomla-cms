@@ -26,6 +26,14 @@ $ordering 	= ($listOrder == 'a.lft');
 $saveOrder 	= ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 $component	= $app->input->get('extension');
 $columns	= 7;
+// Load Helper file of the component for which com_categories displays the categories
+$classname = ucfirst(substr($extension, 4)) . 'Helper';
+
+if (class_exists($classname) && method_exists($classname, 'countItems'))
+{
+	// Get the SQL to extend the com_category $query object with item count (published, unpublished, trashed)
+	$classname::countItems($this->items);
+}
 
 if ($saveOrder)
 {
