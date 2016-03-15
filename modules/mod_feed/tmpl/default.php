@@ -18,15 +18,15 @@ if (!empty($feed) && is_string($feed))
 else
 {
 	$lang 		= JFactory::getLanguage();
-	$myrtl 		= $params->get('rssrtl');
+	$rssrtl 	= $params->get('rssrtl');
 	$direction 	= "";
 
 	// Set feed to RTL if parameter is set
-	if ($lang->isRtl() && $myrtl == 0)
+	if ($lang->isRtl() && $rssrtl == 0)
 	{
 		$direction = " redirect-rtl";
 	}
-	elseif ($myrtl == 1)
+	elseif ($rssrtl == 1)
 	{
 		$direction = " redirect-ltr";
 	}
@@ -90,10 +90,10 @@ else
 							<div class="feed-item-description">
 								<?php
 								// Strip the images.
-								$text = JFilterOutput::stripImages($text);
-								$text = JHtml::_('string.truncate', strip_tags($text), $params->get('word_count'));
+								$text = strip_tags(JFilterOutput::stripImages($text));
+								$text = JHtml::_('string.truncate', $text, $params->get('word_count'));
 
-								echo str_replace('&apos;', "'", $text);
+								echo $text;
 								?>
 							</div>
 						<?php endif; ?>
