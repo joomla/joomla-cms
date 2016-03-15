@@ -1,0 +1,2 @@
+INSERT INTO `#__postinstall_messages` (`extension_id`, `title_key`, `description_key`, `action_key`, `language_extension`, `language_client_id`, `type`, `action_file`, `action`, `condition_file`, `condition_method`, `version_introduced`, `enabled`) VALUES
+(700, 'COM_CPANEL_MSG_NOTMYSQL_TITLE', 'COM_CPANEL_MSG_NOTMYSQL_BODY', '', 'com_cpanel', 1, 'message', '', '', 'admin://components/com_admin/postinstall/notmysql.php', 'admin_postinstall_notmysql_condition', '3.5.0', 1);

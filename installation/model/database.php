@@ -227,11 +227,10 @@ class InstallationModelDatabase extends JModelBase
 		{
 			/*
 			 * We may get here if the database doesn't exist, if so then explain that to users instead of showing the database connector's error
-			 * This only supports PostgreSQL and the PDO MySQL drivers presently
+			 * This only supports the PDO MySQL driver presently
 			 *
 			 * Error Messages:
 			 * PDO MySQL: [1049] Unknown database 'database_name'
-			 * PostgreSQL: Error connecting to PGSQL database
 			 */
 			if ($type == 'pdomysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42)
 			{
@@ -276,12 +275,6 @@ class InstallationModelDatabase extends JModelBase
 					return false;
 				}
 			}
-			elseif ($type == 'postgresql' && strpos($e->getMessage(), 'Error connecting to PGSQL database') === 42)
-			{
-				$app->enqueueMessage(JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 'notice');
-
-				return false;
-			}
 			// Anything getting into this part of the conditional either doesn't support manually creating the database or isn't that type of error
 			else
 			{
@@ -298,15 +291,12 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
+		// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL.
+		if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>=')))
 		{
-			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL.
-			if ((preg_match('#[\\\/\.\0]#', $options->db_name)) && (!version_compare($db_version, '5.1.6', '>=')))
-			{
-				$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version), 'notice');
+			$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version), 'notice');
 
-				return false;
-			}
+			return false;
 		}
 
 		// @internal Check for spaces in beginning or end of name.
@@ -323,41 +313,6 @@ class InstallationModelDatabase extends JModelBase
 			$app->enqueueMessage(JText::_('INSTL_DATABASE_NAME_INVALID_CHAR'), 'notice');
 
 			return false;
-		}
-
-		// PostgreSQL database older than version 9.0.0 needs to run 'CREATE LANGUAGE' to create function.
-		if (($options->db_type == 'postgresql') && (!version_compare($db_version, '9.0.0', '>=')))
-		{
-			$db->setQuery("select lanpltrusted from pg_language where lanname='plpgsql'");
-
-			try
-			{
-				$db->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_QUERY'), 'notice');
-
-				return false;
-			}
-
-			$column = $db->loadResult();
-
-			if ($column != 't')
-			{
-				$db->setQuery("CREATE LANGUAGE plpgsql");
-
-				try
-				{
-					$db->execute();
-				}
-				catch (RuntimeException $e)
-				{
-					$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_QUERY'), 'notice');
-
-					return false;
-				}
-			}
 		}
 
 		// Get database's UTF support.
@@ -494,10 +449,6 @@ class InstallationModelDatabase extends JModelBase
 		{
 			$schema = 'sql/mysql/joomla.sql';
 		}
-		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
-		{
-			$schema = 'sql/sqlazure/joomla.sql';
-		}
 		else
 		{
 			$schema = 'sql/' . $type . '/joomla.sql';
@@ -548,10 +499,6 @@ class InstallationModelDatabase extends JModelBase
 		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
 		{
 			$pathPart .= 'mysql/';
-		}
-		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
-		{
-			$pathPart .= 'sqlazure/';
 		}
 		else
 		{
@@ -634,10 +581,6 @@ class InstallationModelDatabase extends JModelBase
 		if (($type == 'mysql') || ($type == 'mysqli') || ($type == 'pdomysql'))
 		{
 			$dblocalise = 'sql/mysql/localise.sql';
-		}
-		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
-		{
-			$dblocalise = 'sql/sqlazure/localise.sql';
 		}
 		else
 		{
@@ -732,10 +675,6 @@ class InstallationModelDatabase extends JModelBase
 		if ($type == 'mysqli' || $type == 'pdomysql')
 		{
 			$type = 'mysql';
-		}
-		elseif ($type == 'sqlsrv')
-		{
-			$type = 'sqlazure';
 		}
 
 		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $options->sample_file;
@@ -956,7 +895,7 @@ class InstallationModelDatabase extends JModelBase
 			// Trim any whitespace.
 			$query = trim($query);
 
-			// If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
+			// If the query isn't empty and is not a MySQL comment, execute it.
 			if (!empty($query) && ($query{0} != '#') && ($query{0} != '-'))
 			{
 				/**
