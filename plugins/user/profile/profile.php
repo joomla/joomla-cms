@@ -364,7 +364,7 @@ class PlgUserProfile extends JPlugin
 			}
 		}
 		// Check that the tos are valid if required and not in backend.
-	if ((!($data['profile']['tos'])) && ($this->params->get('register-require_tos', 0) == 2) && (!JFactory::getApplication()->isAdmin()))
+		if ((!($data['profile']['tos'])) && ($this->params->get('register-require_tos', 0) == 2) && (!JFactory::getApplication()->isAdmin()))
 		{
 			throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
 		}
