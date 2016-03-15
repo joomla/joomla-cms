@@ -1494,7 +1494,6 @@ class JoomlaInstallerScript
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml',
 			'/libraries/vendor/symfony/yaml/Symfony/Component',
 			'/libraries/vendor/symfony/yaml/Symfony',
-			'/administrator/components/com_tags/helpers',
 			'/libraries/joomla/document/error',
 			'/libraries/joomla/document/image',
 			'/libraries/joomla/document/json',
