@@ -72,6 +72,14 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected $old_cataccess;
 
+ 	/**
++	 * The state of a category before save.
++	 *
++	 * @var    integer
++	 * @since  3.5
++	 */
++	protected $old_catstate;
+
 	/**
 	 * The type of content the adapter indexes.
 	 *
@@ -472,6 +480,27 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$this->old_cataccess = $this->db->loadResult();
 	}
 
+ 	/**
++	 * Method to check the existing state for categories
++	 *
++	 * @param   JTable  $row  A JTable object
++	 *
++	 * @return  void
++	 *
++	 * @since   3.5
++	 */
++	protected function checkCategoryState($row)
++	{
++		$query = $this->db->getQuery(true)
++			->select($this->db->quoteName('published'))
++			->from($this->db->quoteName('#__categories'))
++			->where($this->db->quoteName('id') . ' = ' . (int) $row->id);
++		$this->db->setQuery($query);
++
++		// Store the state to determine if it changes
++		$this->old_catstate = $this->db->loadResult();
++	}
++
 	/**
 	 * Method to check the existing access level for items
 	 *
