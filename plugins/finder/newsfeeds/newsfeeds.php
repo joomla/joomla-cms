@@ -167,6 +167,11 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 			{
 				$this->categoryAccessChange($row);
 			}
+			// Check if the state are different.
+			if (!$isNew && $this->old_catstate != $row->state)
+			{
+				$this->categoryStateChange($row);
+			}
 		}
 
 		return true;
@@ -197,13 +202,14 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 			}
 		}
 
-		// Check for access levels from the category.
+		// Check for access levels and state from the category.
 		if ($context == 'com_categories.category')
 		{
-			// Query the database for the old access level if the item isn't new.
+			// Query the database for the old access level and old state if the item isn't new.
 			if (!$isNew)
 			{
 				$this->checkCategoryAccess($row);
+				$this->checkCategoryState($row);
 			}
 		}
 
@@ -288,6 +294,9 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metaauthor');
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'author');
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
+
+		// Translate the state. News feeds should only be published if the category is published.
+		$item->state = $this->translateState($item->state, $item->cat_state);
 
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'News Feed');
