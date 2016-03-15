@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $trashed   = $this->state->get('filter.state') == -2 ? true : false;
 $canOrder  = $user->authorise('core.edit.state', 'com_modules');
 $saveOrder = $listOrder == 'ordering';
+$editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 
 if ($saveOrder)
 {
@@ -45,15 +46,18 @@ JFactory::getDocument()->addScriptDeclaration('
 			Joomla.tableOrdering(order, dirn, "");
 		};
 
-		moduleIns = function(type, name) {
-			parent.window.jInsertEditorText("{loadmodule " + type + "," + name + "," + jQuery("#extra_class").val() + "}");
-			parent.window.jModalClose();
-		}
-
-		modulePosIns = function(position) {
-			parent.window.jInsertEditorText("{loadposition " + position + "," + jQuery("#extra_class").val() + "}");
-			parent.window.jModalClose();
-		}
+	        moduleIns = function(type, name) {
+	            var extraVal ,fieldExtra = jQuery("#extra_class");
+	            extraVal = (fieldExtra.length && fieldExtra.val().length) ? "," + fieldExtra.val() : "";
+	            parent.window.jInsertEditorText("{loadmodule " + type + "," + name + extraVal + "}", "' . $editor . '");
+	            parent.window.jModalClose();
+	        }
+	        modulePosIns = function(position) {
+	            var extraVal ,fieldExtra = jQuery("#extra_class");
+	            extraVal = (fieldExtra.length && fieldExtra.val().length) ? "," + fieldExtra.val() : "";
+	            parent.window.jInsertEditorText("{loadposition " + position +  extraVal  + "}", "' . $editor . '");
+	            parent.window.jModalClose();
+	        }
 ');
 ?>
 <div style="padding-top: 25px;"></div>
@@ -71,7 +75,6 @@ JFactory::getDocument()->addScriptDeclaration('
 </div>
 <form action="<?php echo JRoute::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1');?>"
 	method="post" name="adminForm" id="adminForm">
-<form action="<?php echo JRoute::_('index.php?option=com_modules&layout=modal'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container">
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
@@ -126,7 +129,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<th width="10%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="nowrap hidden-phone">
+					<th width="10%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 					</th>
 					<th width="1%" class="nowrap hidden-phone">
@@ -177,7 +180,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php elseif ($item->language == '*'):?>
 								<?php echo JText::alt('JALL', 'language'); ?>
 							<?php else:?>
-								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 							<?php endif;?>
 						</td>
 						<td class="hidden-phone">

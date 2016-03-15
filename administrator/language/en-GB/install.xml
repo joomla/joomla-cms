@@ -7,7 +7,7 @@
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>en-GB administrator language</description>
 	<files>
@@ -201,6 +201,8 @@
 		<filename>en-GB.plg_system_remember.sys.ini</filename>
 		<filename>en-GB.plg_system_sef.ini</filename>
 		<filename>en-GB.plg_system_sef.sys.ini</filename>
+		<filename>en-GB.plg_system_stats.ini</filename>
+		<filename>en-GB.plg_system_stats.sys.ini</filename>
 		<filename>en-GB.plg_system_updatenotification.ini</filename>
 		<filename>en-GB.plg_system_updatenotification.sys.ini</filename>
 		<filename>en-GB.plg_twofactorauth_totp.ini</filename>

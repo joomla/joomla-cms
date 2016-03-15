@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,6 +32,8 @@ class FinderViewFilters extends JViewLegacy
 		$this->pagination = $this->get('Pagination');
 		$this->total = $this->get('Total');
 		$this->state = $this->get('State');
+		$this->filterForm = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		FinderHelper::addSubmenu('filters');
 
@@ -94,13 +96,5 @@ class FinderViewFilters extends JViewLegacy
 			JToolbarHelper::deleteList('', 'filters.delete');
 			JToolbarHelper::divider();
 		}
-
-		JHtmlSidebar::setAction('index.php?option=com_finder&view=filters');
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'),
-			'filter_state',
-			JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'))
-		);
 	}
 }

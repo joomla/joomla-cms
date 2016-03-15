@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -242,7 +242,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	}
 
 	/**
-	 * Get the number of affected rows for the previous executed SQL statement.
+	 * Get the number of affected rows by the last INSERT, UPDATE, REPLACE or DELETE for the previous executed SQL statement.
 	 *
 	 * @return  integer  The number of affected rows in the previous operation
 	 *
@@ -286,6 +286,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
+	 * This command is only valid for statements like SELECT or SHOW that return an actual result set.
+	 * To retrieve the number of rows affected by a INSERT, UPDATE, REPLACE or DELETE query, use getAffectedRows().
 	 *
 	 * @param   resource  $cur  An optional database cursor resource to extract the row count from.
 	 *
@@ -416,6 +418,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				{
 					$field->Default = "";
 				}
+
 				if (stristr(strtolower($field->type), "text"))
 				{
 					$field->Default = "";
@@ -695,6 +698,14 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			JLog::add($query, JLog::DEBUG, 'databasequery');
 
 			$this->timings[] = microtime(true);
+
+			if (is_object($this->cursor))
+			{
+				// Avoid warning if result already freed by third-party library
+				@$this->freeResult();
+			}
+
+			$memoryBefore = memory_get_usage();
 		}
 
 		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
@@ -712,6 +723,12 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			{
 				$this->callStacks[] = debug_backtrace();
 			}
+
+			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array(
+				$memoryBefore,
+				memory_get_usage(),
+				is_resource($this->cursor) ? $this->getNumRows($this->cursor) : null
+			);
 		}
 
 		// If an error occurred handle it.
@@ -1108,7 +1125,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			}
 
 			// Ignore any internal fields or primary keys with value 0.
-			if (($k[0] == "_") || ($k == $key && $v === 0))
+			if (($k[0] == "_") || ($k == $key && (($v === 0) || ($v === '0'))))
 			{
 				continue;
 			}
@@ -1508,5 +1525,36 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		}
 
 		return $errorMessage . "SQL=" . $query;
+	}
+
+	/**
+	 * Get the query strings to alter the character set and collation of a table.
+	 *
+	 * @param   string  $tableName  The name of the table
+	 *
+	 * @return  string[]  The queries required to alter the table's character set and collation
+	 *
+	 * @since   CMS 3.5.0
+	 */
+	public function getAlterTableCharacterSet($tableName)
+	{
+		return array();
+	}
+
+	/**
+	 * Return the query string to create new Database.
+	 * Each database driver, other than MySQL, need to override this member to return correct string.
+	 *
+	 * @param   stdClass  $options  Object used to pass user and database name to database driver.
+	 *                   This object must have "db_name" and "db_user" set.
+	 * @param   boolean   $utf      True if the database supports the UTF-8 character set.
+	 *
+	 * @return  string  The query that creates database
+	 *
+	 * @since   12.2
+	 */
+	protected function getCreateDatabaseQuery($options, $utf)
+	{
+		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
 	}
 }

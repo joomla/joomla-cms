@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,7 +80,7 @@ class UsersModelUsers extends JModelList
 		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state');
 		$this->setState('filter.state', $state);
 
-		$groupId = $this->getUserStateFromRequest($this->context . '.filter.group', 'filter_group_id', null, 'int');
+		$groupId = $this->getUserStateFromRequest($this->context . '.filter.group_id', 'filter_group_id', null, 'int');
 		$this->setState('filter.group_id', $groupId);
 
 		$range = $this->getUserStateFromRequest($this->context . '.filter.range', 'filter_range');

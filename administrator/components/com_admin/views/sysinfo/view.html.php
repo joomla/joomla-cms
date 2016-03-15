@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,6 +116,8 @@ class AdminViewSysinfo extends JViewLegacy
 	protected function addToolbar()
 	{
 		JToolbarHelper::title(JText::_('COM_ADMIN_SYSTEM_INFORMATION'), 'info-2 systeminfo');
+		JToolbarHelper::link(JRoute::_('index.php?option=com_admin&view=sysinfo&format=text'), 'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_TEXT', 'download');
+		JToolbarHelper::link(JRoute::_('index.php?option=com_admin&view=sysinfo&format=json'), 'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_JSON', 'download');
 		JToolbarHelper::help('JHELP_SITE_SYSTEM_INFORMATION');
 	}
 }

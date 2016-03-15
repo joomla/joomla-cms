@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -185,18 +185,18 @@ class JUpdater extends JAdapter
 						$uid = $update
 							->find(
 							array(
-								'element' => strtolower($current_update->get('element')), 'type' => strtolower($current_update->get('type')),
-								'client_id' => strtolower($current_update->get('client_id')),
-								'folder' => strtolower($current_update->get('folder'))
+								'element' => $current_update->get('element'), 'type' => $current_update->get('type'),
+								'client_id' => $current_update->get('client_id'),
+								'folder' => $current_update->get('folder')
 							)
 						);
 
 						$eid = $extension
 							->find(
 							array(
-								'element' => strtolower($current_update->get('element')), 'type' => strtolower($current_update->get('type')),
-								'client_id' => strtolower($current_update->get('client_id')),
-								'folder' => strtolower($current_update->get('folder'))
+								'element' => $current_update->get('element'), 'type' => $current_update->get('type'),
+								'client_id' => $current_update->get('client_id'),
+								'folder' => $current_update->get('folder')
 							)
 						);
 

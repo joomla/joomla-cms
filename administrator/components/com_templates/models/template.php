@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -439,7 +439,16 @@ class TemplatesModelTemplate extends JModelForm
 			$input    = JFactory::getApplication()->input;
 			$fileName = base64_decode($input->get('file'));
 			$client   = JApplicationHelper::getClientInfo($this->template->client_id);
-			$filePath = JPath::clean($client->path . '/templates/' . $this->template->element . '/' . $fileName);
+
+			try
+			{
+				$filePath = JPath::check($client->path . '/templates/' . $this->template->element . '/' . $fileName);
+			}
+			catch (Exception $e)
+			{
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
+				return;
+			}
 
 			if (file_exists($filePath))
 			{
@@ -560,15 +569,30 @@ class TemplatesModelTemplate extends JModelForm
 
 			foreach ($components as $component)
 			{
-				$viewPath = JPath::clean($componentPath . '/' . $component . '/views/');
+				if (file_exists($componentPath . '/' . $component . '/views/'))
+				{
+					$viewPath = JPath::clean($componentPath . '/' . $component . '/views/');
+				}
+				elseif (file_exists($componentPath . '/' . $component . '/view/'))
+				{
+					$viewPath = JPath::clean($componentPath . '/' . $component . '/view/');
+				}
+				else
+				{
+					$viewPath = '';
+				}
 
-				if (file_exists($viewPath))
+				if ($viewPath)
 				{
 					$views = JFolder::folders($viewPath);
 
 					foreach ($views as $view)
 					{
-						$result['components'][$component][] = $this->getOverridesFolder($view, $viewPath);
+						// Only show the view has layout inside it
+						if (file_exists($viewPath . $view . '/tmpl'))
+						{
+							$result['components'][$component][] = $this->getOverridesFolder($view, $viewPath);
+						}
 					}
 				}
 			}

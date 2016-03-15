@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,12 +20,15 @@ $app = JFactory::getApplication();
 $input = $app->input;
 
 $assoc = JLanguageAssociations::isEnabled();
+// Are associations implemented for this extension?
+$extensionassoc = array_key_exists('item_associations', $this->form->getFieldsets());
 
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
 	{
 		if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
 		{
+			jQuery("#permissions-sliders select").attr("disabled", "disabled");
 			' . $this->form->getField("description")->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
 		}
@@ -67,7 +70,7 @@ $this->ignore_fieldsets = array('jmetadata', 'item_associations');
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php if ($assoc) : ?>
+		<?php if ($assoc && $extensionassoc) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
 			<?php echo $this->loadTemplate('associations'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>

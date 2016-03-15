@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,19 +47,8 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 			return true;
 		}
 
-		/**
-		 * Write and Close handlers are called after destructing objects since PHP 5.0.5.
-		 * Thus destructors can use sessions but session handler can't use objects.
-		 * So we are moving session closure before destructing objects.
-		 */
-		if (version_compare(PHP_VERSION, '5.4', 'ge'))
-		{
-			session_register_shutdown();
-		}
-		else
-		{
-			register_shutdown_function('session_write_close');
-		}
+		// Register our function as shutdown method, so we can manipulate it
+		register_shutdown_function(array($this, 'save'));
 
 		// Disable the cache limiter
 		session_cache_limiter('none');
@@ -91,6 +80,9 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 		{
 			throw new RuntimeException('Failed to start the session');
 		}
+
+		// Mark ourselves as started
+		$this->started = true;
 
 		return true;
 	}
@@ -220,19 +212,24 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 *
 	 * @see     session_write_close()
 	 * @since   3.5
-	 * @throws  RuntimeException  If the session is saved without being started, or if the session is already closed.
 	 */
 	public function save()
 	{
-		if (!$this->isStarted())
+		// Verify if the session is active
+		if ((version_compare(PHP_VERSION, '5.4', 'ge') && PHP_SESSION_ACTIVE === session_status())
+			|| (version_compare(PHP_VERSION, '5.4', 'lt') && $this->started && isset($_SESSION) && $this->getId()))
 		{
-			throw new RuntimeException('The session is not started.');
+			$session = JFactory::getSession();
+			$data    = $session->getData();
+
+			// Before storing it, let's serialize and encode the JRegistry object
+			$_SESSION['joomla'] = base64_encode(serialize($data));
+
+			session_write_close();
+
+			$this->closed  = true;
+			$this->started = false;
 		}
-
-		session_write_close();
-
-		$this->closed  = true;
-		$this->started = false;
 	}
 
 	/**

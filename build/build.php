@@ -17,7 +17,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -70,9 +70,6 @@ system('mkdir diffdocs');
 system('mkdir diffconvert');
 system('mkdir packages' . $version);
 
-echo "Copy manifest file to root directory for install packages.\n";
-system('cp ' . $fullpath . '/administrator/manifests/files/joomla.xml ' . $fullpath);
-
 echo "Create list of changed files from git repository.\n";
 
 /*
@@ -112,9 +109,9 @@ $filesArray = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPackage = array(
+	'.github',
 	'.gitignore',
 	'.travis.yml',
-	'CONTRIBUTING.md',
 	'README.md',
 	'build',
 	'build.xml',
