@@ -165,11 +165,11 @@ class PlgFinderContacts extends FinderIndexerAdapter
 			{
 				$this->categoryAccessChange($row);
 			}
-+			// Check if the state are different.
-+			if (!$isNew && $this->old_catstate != $row->state)
-+			{
-+				$this->categoryStateChange($row);
-+			}
+			// Check if the state are different.
+			if (!$isNew && $this->old_catstate != $row->state)
+			{
+				$this->categoryStateChange($row);
+			}
 		}
 
 		return true;
