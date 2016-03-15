@@ -133,8 +133,10 @@ class PlgContentLoadmodule extends JPlugin
 	{
 		self::$modules[$position] = '';
 		$document = JFactory::getDocument();
+		$defaultType = $document->_type;
 		$document->_type = 'html';
 		$renderer = $document->loadRenderer('module');
+		$document->_type = $defaultType;
 		$modules  = JModuleHelper::getModules($position);
 		$params   = array('style' => $style);
 		ob_start();
