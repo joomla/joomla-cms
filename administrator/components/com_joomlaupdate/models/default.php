@@ -371,7 +371,7 @@ ENDDATA;
 			$ftp_host = $app->input->get('ftp_host', '');
 			$ftp_port = $app->input->get('ftp_port', '21');
 			$ftp_user = $app->input->get('ftp_user', '');
-			$ftp_pass = $app->input->get('ftp_pass', '', 'default', 'none', 2);
+			$ftp_pass = $app->input->get('ftp_pass', '', 'raw');
 			$ftp_root = $app->input->get('ftp_root', '');
 
 			// Is the tempdir really writable?
@@ -569,8 +569,6 @@ ENDDATA;
 		$installer->setPath('manifest', JPATH_MANIFESTS . '/files/joomla.xml');
 		$installer->setPath('source', JPATH_MANIFESTS . '/files');
 		$installer->setPath('extension_root', JPATH_ROOT);
-
-		$manifestPath = JPath::clean($installer->getPath('manifest'));
 
 		// Run the script file.
 		JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
@@ -784,5 +782,88 @@ ENDDATA;
 
 		// Unset the update filename from the session.
 		JFactory::getApplication()->setUserState('com_joomlaupdate.file', null);
+	}
+
+	/**
+	 * Uploads what is presumably an update ZIP file under a mangled name in the temporary directory.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5.0
+	 */
+	public function upload()
+	{
+		// Get the uploaded file information.
+		$input    = JFactory::getApplication()->input;
+
+		// Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See JInputFiles::get.
+		$userfile = $input->files->get('install_package', null, 'raw');
+
+		// Make sure that file uploads are enabled in php.
+		if (!(bool) ini_get('file_uploads'))
+		{
+			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 500);
+		}
+
+		// Make sure that zlib is loaded so that the package can be unpacked.
+		if (!extension_loaded('zlib'))
+		{
+			throw new RuntimeException(('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 500);
+		}
+
+		// If there is no uploaded file, we have a problem...
+		if (!is_array($userfile))
+		{
+			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'), 500);
+		}
+
+		// Is the PHP tmp directory missing?
+		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR))
+		{
+			throw new RuntimeException(
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' .
+				JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
+				500);
+		}
+
+		// Is the max upload size too small in php.ini?
+		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE))
+		{
+			throw new RuntimeException(
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
+				500
+			);
+		}
+
+		// Check if there was a different problem uploading the file.
+		if ($userfile['error'] || $userfile['size'] < 1)
+		{
+			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
+		}
+
+		// Build the appropriate paths.
+		$config   = JFactory::getConfig();
+		$tmp_dest = tempnam($config->get('tmp_path'), 'ju');
+		$tmp_src  = $userfile['tmp_name'];
+
+		// Move uploaded file.
+		jimport('joomla.filesystem.file');
+
+		if (version_compare(JVERSION, '3.4.0', 'ge'))
+		{
+			$result = JFile::upload($tmp_src, $tmp_dest, false, true);
+		}
+		else
+		{
+			// Old Joomla! versions didn't have UploadShield and don't need the fourth parameter to accept uploads
+			$result = JFile::upload($tmp_src, $tmp_dest);
+		}
+
+		if (!$result)
+		{
+			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
+		}
+
+		$session = JFactory::getSession();
 	}
 }

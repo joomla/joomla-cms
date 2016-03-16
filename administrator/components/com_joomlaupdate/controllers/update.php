@@ -152,6 +152,66 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	}
 
 	/**
+	 * Uploads an update package to the temporary directory, under a random name
+	 *
+	 * @return  void
+	 *
+	 * @since	3.5
+	 */
+	public function upload()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
+		JFactory::getUser()->authorise('core.admin') or jexit(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
+
+		/** @var JoomlaupdateModelDefault $model */
+		$model = $this->getModel('Default');
+
+		try
+		{
+			$model->upload();
+		}
+		catch (RuntimeException $e)
+		{
+			$url = 'index.php?option=com_joomlaupdate';
+			$this->setRedirect($url, $e->getMessage(), 'error');
+		}
+
+		$token = JSession::getFormToken();
+		$url = 'index.php?option=com_joomlaupdate&task=update.captive&' . $token . '=1';
+		$this->setRedirect($url);
+	}
+
+	public function captive()
+	{
+		// Check for request forgeries
+		JSession::checkToken('get') or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
+		if (!JFactory::getUser()->authorise('core.admin'))
+		{
+			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+		}
+
+		// Do I really have an update package?
+		$session = JFactory::getSession();
+		$file = $session->get('temp_file', null, 'com_joomlaupdate');
+
+		JLoader::import('joomla.filesystem.file');
+		if (empty($file) || !JFile::exists($file))
+		{
+			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+		}
+
+		$this->input->set('view', 'upload');
+		$this->input->set('layout', 'captive');
+
+		$this->display();
+	}
+
+	/**
 	 * Method to display a view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
