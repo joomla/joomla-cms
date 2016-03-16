@@ -12,44 +12,55 @@ defined('_JEXEC') or die;
 /** @var JoomlaupdateViewDefault $this */
 
 JHtml::_('jquery.framework');
+JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::script('com_joomlaupdate/default.js', false, true, false);
 ?>
 
-<form action="index.php" method="post" id="adminForm">
+<div id="joomlaupdate-wrapper">
+	<form enctype="multipart/form-data" action="index.php" method="post" id="adminForm" class="form-horizontal">
 
-<?php
-	echo JHtml::_('bootstrap.startTabSet', 'joomlaupdate-tabs', array('active' => 'online-update'));
-	echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'online-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_ONLINE'));
+	<?php
+		if ($this->showUploadAndUpdate)
+		{
+			echo JHtml::_('bootstrap.startTabSet', 'joomlaupdate-tabs', array('active' => 'online-update'));
+			echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'online-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_ONLINE'));
+		}
 
-	if (!$this->updateInfo['hasUpdate'])
-	{
-		echo $this->loadTemplate('reinstall');
+		if (!$this->updateInfo['hasUpdate'])
+		{
+			echo $this->loadTemplate('reinstall');
 
-	}
-	else
-	{
-		echo $this->loadTemplate('update');
-	}
+		}
+		else
+		{
+			echo $this->loadTemplate('update');
+		}
 
-	echo JHtml::_('bootstrap.endTab');
-	echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'upload-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD'));
+		// Only Super Users have access to the Update & Install for obvious security reasons
+		if ($this->showUploadAndUpdate)
+		{
+			echo JHtml::_('bootstrap.endTab');
+			echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'upload-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD'));
 
-	echo $this->loadTemplate('upload');
-	echo JHtml::_('bootstrap.endTab');
-	echo JHtml::_('bootstrap.endTabSet');
+			echo $this->loadTemplate('upload');
+			echo JHtml::_('bootstrap.endTab');
+			echo JHtml::_('bootstrap.endTabSet');
+		}
 
-	echo JHtml::_('form.token');
-?>
+		echo JHtml::_('form.token');
+	?>
 
-<input type="hidden" name="task" value="update.download" />
-<input type="hidden" name="option" value="com_joomlaupdate" />
-</form>
+	<input type="hidden" name="task" value="update.download" />
+	<input type="hidden" name="option" value="com_joomlaupdate" />
+	</form>
 
-<div class="download_message" style="display: none">
-	<p></p>
-	<p class="nowarning">
-		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DOWNLOAD_IN_PROGRESS'); ?>
-	</p>
-	<div class="joomlaupdate_spinner"></div>
+	<div class="download_message" style="display: none">
+		<p></p>
+		<p class="nowarning">
+			<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DOWNLOAD_IN_PROGRESS'); ?>
+		</p>
+		<div class="joomlaupdate_spinner"></div>
+	</div>
+	<div id="loading"></div>
 </div>

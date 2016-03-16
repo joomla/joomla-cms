@@ -96,6 +96,22 @@ class JoomlaupdateViewDefault extends JViewLegacy
 				$this->updateSourceKey = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');
 		}
 
+		$this->warnings = array();
+		/** @var InstallerModelWarnings $warningsModel */
+		$warningsModel = $this->getModel('warnings');
+
+		if (is_object($warningsModel) && $warningsModel instanceof JModelLegacy)
+		{
+			$language = JFactory::getLanguage();
+			$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
+			$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
+
+			$this->warnings = $warningsModel->getItems();
+		}
+
+		// Only Super Users have access to the Update & Install for obvious security reasons
+		$this->showUploadAndUpdate = JFactory::getUser()->authorise('core.admin');
+
 		// Render the view.
 		parent::display($tpl);
 	}
