@@ -380,7 +380,7 @@ class JUpdater extends JAdapter
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select('DISTINCT jdev_update_sites')
+			->select('DISTINCT update_site_id')
 			->from('#__updates');
 
 		if ($timestamp)
