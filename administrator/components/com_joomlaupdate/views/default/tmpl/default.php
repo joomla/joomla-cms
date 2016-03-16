@@ -9,41 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
-$params           = JComponentHelper::getParams('com_joomlaupdate');
-
-switch ($params->get('updatesource', 'default'))
-{
-	// "Minor & Patch Release for Current version AND Next Major Release".
-	case 'sts':
-	case 'next':
-		$langKey          = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_NEXT';
-		$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT');
-		break;
-
-	// "Testing"
-	case 'testing':
-		$langKey          = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_TESTING';
-		$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_TESTING');
-		break;
-
-	// "Custom"
-	case 'custom':
-		$langKey          = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_CUSTOM';
-		$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM');
-		break;
-
-	/**
-	 * "Minor & Patch Release for Current version (recommended and default)".
-	 * The commented "case" below are for documenting where 'default' and legacy options falls
-	 * case 'default':
-	 * case 'lts':
-	 * case 'nochange':
-	 */
-	default:
-		$langKey          = 'COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATES_INFO_DEFAULT';
-		$updateSourceKey  = JText::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');
-}
+/** @var JoomlaupdateViewDefault $this */
 
 JHtml::_('jquery.framework');
 JHtml::_('formbehavior.chosen', 'select');
@@ -52,224 +18,30 @@ JHtml::script('com_joomlaupdate/default.js', false, true, false);
 
 <form action="index.php" method="post" id="adminForm">
 
-<?php if (!$this->updateInfo['hasUpdate']) : ?>
+<?php
+	echo JHtml::_('bootstrap.startTabSet', 'joomlaupdate-tabs', array('active' => 'online-update'));
+	echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'online-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_ONLINE'));
 
-<fieldset>
-	<legend>
-		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATES'); ?>
-	</legend>
-	<p>
-		<?php echo JText::sprintf($langKey, $updateSourceKey); ?>
-	</p>
+	if (!$this->updateInfo['hasUpdate'])
+	{
+		echo $this->loadTemplate('reinstall');
 
-	<div class="alert alert-success">
-			<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JVERSION); ?>
-	</div>
+	}
+	else
+	{
+		echo $this->loadTemplate('update');
+	}
 
-	<?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof JUpdate)): ?>
-	<table class="table table-striped">
-		<tbody>
-		<tr>
-			<td>
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE'); ?>
-			</td>
-			<td>
-				<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>">
-					<?php echo $this->updateInfo['object']->downloadurl->_data; ?>
-				</a>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'); ?>
-			</td>
-			<td>
-				<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>">
-					<?php echo $this->updateInfo['object']->get('infourl')->title; ?>
-				</a>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD'); ?>
-			</td>
-			<td>
-				<?php echo $this->methodSelect; ?>
-			</td>
-		</tr>
-		<tr id="row_ftp_hostname" <?php echo $ftpFieldsDisplay; ?>>
-			<td>
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_HOSTNAME'); ?>
-			</td>
-			<td>
-				<input type="text" name="ftp_host" value="<?php echo $this->ftp['host']; ?>" />
-			</td>
-		</tr>
-		<tr id="row_ftp_port" <?php echo $ftpFieldsDisplay; ?>>
-			<td>
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PORT'); ?>
-			</td>
-			<td>
-				<input type="text" name="ftp_port" value="<?php echo $this->ftp['port']; ?>" />
-			</td>
-		</tr>
-		<tr id="row_ftp_username" <?php echo $ftpFieldsDisplay; ?>>
-			<td>
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_USERNAME'); ?>
-			</td>
-			<td>
-				<input type="text" name="ftp_user" value="<?php echo $this->ftp['username']; ?>" />
-			</td>
-		</tr>
-		<tr id="row_ftp_password" <?php echo $ftpFieldsDisplay; ?>>
-			<td>
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PASSWORD'); ?>
-			</td>
-			<td>
-				<input type="password" name="ftp_pass" value="<?php echo $this->ftp['password']; ?>" />
-			</td>
-		</tr>
-		<tr id="row_ftp_directory" <?php echo $ftpFieldsDisplay; ?>>
-			<td>
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_DIRECTORY'); ?>
-			</td>
-			<td>
-				<input type="text" name="ftp_root" value="<?php echo $this->ftp['directory']; ?>" />
-			</td>
-		</tr>
-		</tbody>
-		<tfoot>
-		<tr>
-			<td>
-				&nbsp;
-			</td>
-			<td>
-				<button class="btn btn-warning" type="submit">
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLAGAIN'); ?>
-				</button>
-			</td>
-		</tr>
-		</tfoot>
-	</table>
-	<?php endif; ?>
+	echo JHtml::_('bootstrap.endTab');
+	echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'upload-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD'));
 
-</fieldset>
+	echo $this->loadTemplate('upload');
+	echo JHtml::_('bootstrap.endTab');
+	echo JHtml::_('bootstrap.endTabSet');
 
-<?php else: ?>
+	echo JHtml::_('form.token');
+?>
 
-<fieldset>
-	<legend>
-		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATEFOUND'); ?>
-	</legend>
-	<p>
-		<?php echo JText::sprintf($langKey, $updateSourceKey); ?>
-	</p>
-
-	<table class="table table-striped">
-		<tbody>
-			<tr>
-				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLED'); ?>
-				</td>
-				<td>
-					<?php echo $this->updateInfo['installed']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_LATEST'); ?>
-				</td>
-				<td>
-					<?php echo $this->updateInfo['latest']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE'); ?>
-				</td>
-				<td>
-					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>">
-						<?php echo $this->updateInfo['object']->downloadurl->_data; ?>
-					</a>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'); ?>
-				</td>
-				<td>
-					<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>">
-						<?php echo $this->updateInfo['object']->get('infourl')->title; ?>
-					</a>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD'); ?>
-				</td>
-				<td>
-					<?php echo $this->methodSelect; ?>
-				</td>
-			</tr>
-			<tr id="row_ftp_hostname" <?php echo $ftpFieldsDisplay; ?>>
-				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_HOSTNAME'); ?>
-				</td>
-				<td>
-					<input type="text" name="ftp_host" value="<?php echo $this->ftp['host']; ?>" />
-				</td>
-			</tr>
-			<tr id="row_ftp_port" <?php echo $ftpFieldsDisplay; ?>>
-				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PORT'); ?>
-				</td>
-				<td>
-					<input type="text" name="ftp_port" value="<?php echo $this->ftp['port']; ?>" />
-				</td>
-			</tr>
-			<tr id="row_ftp_username" <?php echo $ftpFieldsDisplay; ?>>
-				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_USERNAME'); ?>
-				</td>
-				<td>
-					<input type="text" name="ftp_user" value="<?php echo $this->ftp['username']; ?>" />
-				</td>
-			</tr>
-			<tr id="row_ftp_password" <?php echo $ftpFieldsDisplay; ?>>
-				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PASSWORD'); ?>
-				</td>
-				<td>
-					<input type="password" name="ftp_pass" value="<?php echo $this->ftp['password']; ?>" />
-				</td>
-			</tr>
-			<tr id="row_ftp_directory" <?php echo $ftpFieldsDisplay; ?>>
-				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_DIRECTORY'); ?>
-				</td>
-				<td>
-					<input type="text" name="ftp_root" value="<?php echo $this->ftp['directory']; ?>" />
-				</td>
-			</tr>
-		</tbody>
-		<tfoot>
-			<tr>
-				<td>
-					&nbsp;
-				</td>
-				<td>
-					<button class="btn btn-primary" type="submit">
-						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE'); ?>
-					</button>
-				</td>
-			</tr>
-		</tfoot>
-	</table>
-</fieldset>
-
-<?php endif; ?>
-
-<?php echo JHtml::_('form.token'); ?>
 <input type="hidden" name="task" value="update.download" />
 <input type="hidden" name="option" value="com_joomlaupdate" />
 </form>
