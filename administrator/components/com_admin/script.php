@@ -1494,7 +1494,6 @@ class JoomlaInstallerScript
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml',
 			'/libraries/vendor/symfony/yaml/Symfony/Component',
 			'/libraries/vendor/symfony/yaml/Symfony',
-			'/administrator/components/com_tags/helpers',
 			'/libraries/joomla/document/error',
 			'/libraries/joomla/document/image',
 			'/libraries/joomla/document/json',
@@ -1756,28 +1755,32 @@ class JoomlaInstallerScript
 			{
 				foreach ($queries2 as $query2)
 				{
-					if ($trimmedQuery = $this->trimQuery($query2))
+					// Downgrade the query if utf8mb4 isn't supported
+					if (!$utf8mb4Support)
 					{
-						// Downgrade the query if utf8mb4 isn't supported
-						if (!$utf8mb4Support)
-						{
-							$trimmedQuery = $this->convertUtf8mb4QueryToUtf8($trimmedQuery);
-						}
+						$query2 = $this->convertUtf8mb4QueryToUtf8($query2);
+					}
 
-						try
-						{
-							$db->setQuery($trimmedQuery)->execute();
-						}
-						catch (Exception $e)
-						{
-							$converted = 0;
+					try
+					{
+						$db->setQuery($query2)->execute();
+					}
+					catch (Exception $e)
+					{
+						$converted = 0;
 
-							// Still render the error message from the Exception object
-							JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-						}
+						// Still render the error message from the Exception object
+						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 					}
 				}
 			}
+		}
+
+		// Show if there was some error
+		if ($converted == 0)
+		{
+			// Show an error message telling to check database problems
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 		}
 
 		// Set flag in database if the update is done.
@@ -1864,36 +1867,5 @@ class JoomlaInstallerScript
 
 		// Replace utf8mb4 with utf8
 		return str_replace('utf8mb4', 'utf8', $query);
-	}
-
-	/**
-	 * Trim comment and blank lines out of a query string
-	 *
-	 * @param   string  $query  query string to be trimmed
-	 *
-	 * @return  string  String with leading comment lines removed
-	 *
-	 * @since   3.5
-	 */
-	private function trimQuery($query)
-	{
-		$query = trim($query);
-
-		while (substr($query, 0, 1) == '#' || substr($query, 0, 2) == '--' || substr($query, 0, 2) == '/*')
-		{
-			$endChars = (substr($query, 0, 1) == '#' || substr($query, 0, 2) == '--') ? "\n" : "*/";
-
-			if ($position = strpos($query, $endChars))
-			{
-				$query = trim(substr($query, $position + strlen($endChars)));
-			}
-			else
-			{
-				// If no newline, the rest of the file is a comment, so return an empty string.
-				return '';
-			}
-		}
-
-		return trim($query);
 	}
 }
