@@ -24,7 +24,7 @@ JFactory::getDocument()->addScriptDeclaration( <<< JS
 		{
 			jQuery("#loading").css("display", "block");
 
-			form.installtype.task = "update.upload";
+			form.task.value = "update.upload";
 			form.submit();
 		}
 	};
