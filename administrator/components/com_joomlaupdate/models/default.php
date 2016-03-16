@@ -120,7 +120,20 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 
 		$updater = JUpdater::getInstance();
-		$updater->findUpdates(700, $cache_timeout, JUpdater::STABILITY_ALPHA, true);
+
+		$reflection = new ReflectionObject($updater);
+		$reflectionMethod = $reflection->getMethod('findUpdates');
+		$methodParameters = $reflectionMethod->getParameters();
+
+		if (count($methodParameters) >= 4)
+		{
+			// Reinstall support is available in JUpdater
+			$updater->findUpdates(700, $cache_timeout, JUpdater::STABILITY_ALPHA, true);
+		}
+		else
+		{
+			$updater->findUpdates(700, $cache_timeout, JUpdater::STABILITY_ALPHA);
+		}
 	}
 
 	/**
