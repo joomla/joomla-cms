@@ -363,10 +363,13 @@ class PlgUserProfile extends JPlugin
 				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
 			}
 		}
-		// Check that the tos are valid if required and not in backend.
-		if ((!($data['profile']['tos'])) && ($this->params->get('register-require_tos', 0) == 2) && (!JFactory::getApplication()->isAdmin()))
-		{
-			throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
+		// Check that the tos is valid.
+		if (!empty($data['profile']['tos']))
+			// Check that the tos are valid if required and not in backend.
+			if ((!($data['profile']['tos'])) && ($this->params->get('register-require_tos', 0) == 2) && (!JFactory::getApplication()->isAdmin()))
+			{
+				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
+			}
 		}
 
 		return true;
