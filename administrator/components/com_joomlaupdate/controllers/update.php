@@ -166,6 +166,8 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
 		JFactory::getUser()->authorise('core.admin') or jexit(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 
+		$this->_applyCredentials();
+
 		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel('Default');
 
@@ -307,6 +309,8 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 */
 	protected function _applyCredentials()
 	{
+		JFactory::getApplication()->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
+
 		if (!JClientHelper::hasCredentials('ftp'))
 		{
 			$user = JFactory::getApplication()->getUserStateFromRequest('com_joomlaupdate.ftp_user', 'ftp_user', null, 'raw');

@@ -37,8 +37,10 @@ class JoomlaupdateViewDefault extends JViewLegacy
 
 		// Assign view variables.
 		$ftp = $model->getFTPOptions();
-		$this->assign('updateInfo', $model->getUpdateInformation());
-		$this->assign('methodSelect', JoomlaupdateHelperSelect::getMethods($ftp['enabled']));
+		$defaultMethod = $ftp['enabled'] ? 'hybrid' : 'direct';
+		$this->updateInfo = $model->getUpdateInformation();
+		$this->methodSelect = JoomlaupdateHelperSelect::getMethods($defaultMethod);
+		$this->methodSelectUpload = JoomlaupdateHelperSelect::getMethods($defaultMethod, 'method', 'upload_method');
 
 		// Set the toolbar information.
 		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');

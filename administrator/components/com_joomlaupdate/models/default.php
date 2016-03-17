@@ -324,7 +324,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$app->setUserState('com_joomlaupdate.password', $password);
 
 		// Do we have to use FTP?
-		$method = $app->input->get('method', 'direct');
+		$method = JFactory::getApplication()->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
 
 		// Get the absolute path to site's root.
 		$siteroot = JPATH_SITE;
@@ -361,7 +361,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	'kickstart.setup.dryrun' => '0'
 ENDDATA;
 
-		if ($method == 'ftp')
+		if ($method != 'direct')
 		{
 			/*
 			 * Fetch the FTP parameters from the request. Note: The password should be

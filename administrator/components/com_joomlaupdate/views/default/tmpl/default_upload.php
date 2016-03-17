@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 $errSelectPackage = JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 JFactory::getDocument()->addScriptDeclaration( <<< JS
 	Joomla.submitbuttonUpload = function() {
-		var form = document.getElementById("adminForm");
+		var form = document.getElementById("uploadForm");
 
 		// do field validation
 		if (form.install_package.value == "") {
@@ -24,7 +24,6 @@ JFactory::getDocument()->addScriptDeclaration( <<< JS
 		{
 			jQuery("#loading").css("display", "block");
 
-			form.task.value = "update.upload";
 			form.submit();
 		}
 	};
@@ -86,15 +85,82 @@ CSS
 </fieldset>
 <?php endif;?>
 
-<fieldset class="uploadform">
-	<legend><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD'); ?></legend>
-	<div class="control-group">
-		<label for="install_package" class="control-label"><?php echo JText::_('COM_INSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
-		<div class="controls">
-			<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
-		</div>
-	</div>
-	<div class="form-actions">
-		<button class="btn btn-primary" type="button" onclick="Joomla.submitbuttonUpload()"><?php echo JText::_('COM_INSTALLER_UPLOAD_AND_INSTALL'); ?></button>
-	</div>
-</fieldset>
+<form enctype="multipart/form-data" action="index.php" method="post" id="uploadForm" class="form-horizontal">
+	<fieldset class="uploadform">
+		<legend><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD'); ?></legend>
+		<table class="table table-striped">
+			<tbody>
+			<tr>
+				<td>
+					<?php echo JText::_('COM_INSTALLER_EXTENSION_PACKAGE_FILE'); ?>
+				</td>
+				<td>
+					<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD'); ?>
+				</td>
+				<td>
+					<?php echo $this->methodSelectUpload; ?>
+				</td>
+			</tr>
+			<tr id="upload_ftp_hostname" <?php echo $this->ftpFieldsDisplay; ?>>
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_HOSTNAME'); ?>
+				</td>
+				<td>
+					<input type="text" name="ftp_host" value="<?php echo $this->ftp['host']; ?>" />
+				</td>
+			</tr>
+			<tr id="upload_ftp_port" <?php echo $this->ftpFieldsDisplay; ?>>
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PORT'); ?>
+				</td>
+				<td>
+					<input type="text" name="ftp_port" value="<?php echo $this->ftp['port']; ?>" />
+				</td>
+			</tr>
+			<tr id="upload_ftp_username" <?php echo $this->ftpFieldsDisplay; ?>>
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_USERNAME'); ?>
+				</td>
+				<td>
+					<input type="text" name="ftp_user" value="<?php echo $this->ftp['username']; ?>" />
+				</td>
+			</tr>
+			<tr id="upload_ftp_password" <?php echo $this->ftpFieldsDisplay; ?>>
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PASSWORD'); ?>
+				</td>
+				<td>
+					<input type="password" name="ftp_pass" value="<?php echo $this->ftp['password']; ?>" />
+				</td>
+			</tr>
+			<tr id="upload_ftp_directory" <?php echo $this->ftpFieldsDisplay; ?>>
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_DIRECTORY'); ?>
+				</td>
+				<td>
+					<input type="text" name="ftp_root" value="<?php echo $this->ftp['directory']; ?>" />
+				</td>
+			</tr>
+			</tbody>
+			<tfoot>
+			<tr>
+				<td>
+					&nbsp;
+				</td>
+				<td>
+					<button class="btn btn-primary" type="button" onclick="Joomla.submitbuttonUpload()"><?php echo JText::_('COM_INSTALLER_UPLOAD_AND_INSTALL'); ?></button>
+				</td>
+			</tr>
+			</tfoot>
+		</table>
+	</fieldset>
+
+	<input type="hidden" name="task" value="update.upload" />
+	<input type="hidden" name="option" value="com_joomlaupdate" />
+
+</form>

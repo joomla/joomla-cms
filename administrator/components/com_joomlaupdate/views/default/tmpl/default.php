@@ -15,6 +15,23 @@ JHtml::_('jquery.framework');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::script('com_joomlaupdate/default.js', false, true, false);
+
+JFactory::getDocument()->addScriptDeclaration(<<< JS
+jQuery(document).ready(function($) {
+	$('#extraction_method').change(function(e){
+		extractionMethodHandler('#extraction_method', 'row_ftp');
+	});
+	$('#upload_method').change(function(e){
+		extractionMethodHandler('#upload_method', 'upload_ftp');
+	});
+
+	$('button.submit').on('click', function() {
+		$('div.download_message').show();
+	});
+});
+
+JS
+)
 ?>
 
 <div id="joomlaupdate-wrapper">
@@ -37,6 +54,12 @@ JHtml::script('com_joomlaupdate/default.js', false, true, false);
 			echo $this->loadTemplate('update');
 		}
 
+	?>
+		<input type="hidden" name="task" value="update.download" />
+		<input type="hidden" name="option" value="com_joomlaupdate" />
+	</form>
+
+	<?php
 		// Only Super Users have access to the Update & Install for obvious security reasons
 		if ($this->showUploadAndUpdate)
 		{
@@ -44,16 +67,13 @@ JHtml::script('com_joomlaupdate/default.js', false, true, false);
 			echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'upload-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD'));
 
 			echo $this->loadTemplate('upload');
+
 			echo JHtml::_('bootstrap.endTab');
 			echo JHtml::_('bootstrap.endTabSet');
 		}
 
 		echo JHtml::_('form.token');
 	?>
-
-	<input type="hidden" name="task" value="update.download" />
-	<input type="hidden" name="option" value="com_joomlaupdate" />
-	</form>
 
 	<div class="download_message" style="display: none">
 		<p></p>
