@@ -83,6 +83,11 @@ Do you want to improve Joomla?
 * Documentation for [Developers](https://docs.joomla.org/Developers).
 * Documentation for [Web designers](https://docs.joomla.org/Web_designers).
 
+Testing Joomla CMS
+--------------------
+For testing detail check [__tests__](https://github.com/joomla/joomla-cms/tree/staging/tests) folder in this repository.
+
+
 Copyright
 ---------------------
 * Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
