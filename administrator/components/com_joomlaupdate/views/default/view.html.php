@@ -31,6 +31,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->state = $this->get('State');
 
 		// Load useful classes.
+		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel();
 		$this->loadHelper('select');
 
@@ -111,6 +112,9 @@ class JoomlaupdateViewDefault extends JViewLegacy
 
 		// Only Super Users have access to the Update & Install for obvious security reasons
 		$this->showUploadAndUpdate = JFactory::getUser()->authorise('core.admin');
+
+		// Remove temporary files
+		$model->removePackageFiles();
 
 		// Render the view.
 		parent::display($tpl);

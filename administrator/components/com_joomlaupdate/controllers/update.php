@@ -196,11 +196,10 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		}
 
 		// Do I really have an update package?
-		$session = JFactory::getSession();
-		$file = $session->get('temp_file', null, 'com_joomlaupdate');
+		$tempFile = JFactory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
 
-		JLoader::import('joomla.filesystem.file');
-		if (empty($file) || !JFile::exists($file))
+		JLoader::import('joomla.filesystem.tempFile');
+		if (empty($tempFile) || !JFile::exists($tempFile))
 		{
 			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}
@@ -209,6 +208,55 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$this->input->set('layout', 'captive');
 
 		$this->display();
+	}
+
+	public function confirm()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
+		if (!JFactory::getUser()->authorise('core.admin'))
+		{
+			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+		}
+
+		// Get the model
+		/** @var JoomlaupdateModelDefault $model */
+		$model = $this->getModel('default');
+
+		// Get the captive file before the session resets
+		$tempFile = JFactory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
+
+		// Do I really have an update package?
+		if (!$model->captiveFileExists())
+		{
+			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+		}
+
+		// Try to log in
+		$credentials = array(
+			'username'  => $this->input->post->get('username', '', 'username'),
+			'password'  => $this->input->post->get('passwd', '', 'raw'),
+			'secretkey' => $this->input->post->get('secretkey', '', 'RAW'),
+		);
+		$result = $model->captiveLogin($credentials);
+
+		if (!$result)
+		{
+			$model->removePackageFiles();
+
+			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+		}
+
+		// Set the update source in the session
+		JFactory::getApplication()->setUserState('com_joomlaupdate.file', $tempFile);
+
+		// Redirect to the actual update page
+		$url = 'index.php?option=com_joomlaupdate&task=update.install';
+		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $tempFile), JLog::INFO, 'Update');
+
+		$this->setRedirect($url);
 	}
 
 	/**

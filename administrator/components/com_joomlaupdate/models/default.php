@@ -864,6 +864,82 @@ ENDDATA;
 			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
 		}
 
-		$session = JFactory::getSession();
+		JFactory::getApplication()->setUserState('com_joomlaupdate.temp_file', $tmp_dest);
+	}
+
+	public function captiveLogin($credentials)
+	{
+		// Make sure the username matches
+		$username = isset($credentials['username']) ? $credentials['username'] : null;
+		$user = JFactory::getUser();
+
+		if ($user->username != $username)
+		{
+			return false;
+		}
+
+		// Make sure the user we're authorising is a Super User
+		if (!$user->authorise('core.admin'))
+		{
+			return false;
+		}
+
+		// Get the global JAuthentication object.
+		jimport('joomla.user.authentication');
+
+		$authenticate = JAuthentication::getInstance();
+		$response = $authenticate->authenticate($credentials);
+
+		if ($response->status !== JAuthentication::STATUS_SUCCESS)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Does the captive (temporary) file we uploaded before still exist?
+	 *
+	 * @return  bool
+	 */
+	public function captiveFileExists()
+	{
+		$file = JFactory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
+
+		JLoader::import('joomla.filesystem.file');
+
+		if (empty($file) || !JFile::exists($file))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Remove the captive (temporary) file we uploaded before and the .
+	 *
+	 * @return  void
+	 */
+	public function removePackageFiles()
+	{
+		$files = array(
+			JFactory::getApplication()->getUserState('com_joomlaupdate.temp_file', null),
+			JFactory::getApplication()->getUserState('com_joomlaupdate.file', null),
+		);
+
+		JLoader::import('joomla.filesystem.file');
+
+		foreach ($files as $file)
+		{
+			if (JFile::exists($file))
+			{
+				if (!@unlink($file))
+				{
+					JFile::delete($file);
+				}
+			}
+		}
 	}
 }
