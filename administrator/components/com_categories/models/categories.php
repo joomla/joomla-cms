@@ -361,7 +361,7 @@ class CategoriesModelCategories extends JModelList
 			$extension = $this->getState('filter.extension');
 
 			// Load Helper file of the component for which com_categories displays the categories
-			$classname = ucfirst(substr($extension, 4)) . 'Helper';
+			$classname = ucfirst(str_replace('.', '', substr($extension, 4))) . 'Helper';
 
 			if (class_exists($classname) && method_exists($classname, 'countItems'))
 			{
