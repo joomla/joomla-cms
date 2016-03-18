@@ -948,11 +948,11 @@ class JInstaller extends JAdapter
 
 					if ($fCharset == 'utf8mb4')
 					{
-						utf8mb4Found = true;
+						$utf8mb4Found = true;
 					}
 					elseif ($fCharset == 'utf8')
 					{
-						utf8Found = true;
+						$utf8Found = true;
 					}
 				}
 			}
@@ -1170,11 +1170,11 @@ class JInstaller extends JAdapter
 
 							if ($uCharset == 'utf8mb4')
 							{
-								utf8mb4Found = true;
+								$utf8mb4Found = true;
 							}
 							elseif ($uCharset == 'utf8')
 							{
-								utf8Found = true;
+								$utf8Found = true;
 							}
 						}
 					}
