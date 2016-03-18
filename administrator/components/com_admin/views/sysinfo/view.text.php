@@ -33,7 +33,7 @@ class AdminViewSysinfo extends JViewLegacy
 			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
-		header("Content-Type: text/html; charset=utf-8");
+		header("Content-Type: text/plain; charset=utf-8");
 		header('Content-Description: File Transfer');
 		header('Content-Disposition: attachment; filename="systeminfo-' . date("c") . '.txt"');
 		header('Cache-Control: must-revalidate');
