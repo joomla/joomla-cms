@@ -957,15 +957,20 @@ class JInstaller extends JAdapter
 				}
 			}
 
-			if ($useCharset == 'utf8' && !$utf8Found && $utf8mb4Found)
+			if ($useCharset == 'utf8mb4')
 			{
-				$useCharset == 'utf8mb4';
+				if (!$utf8mb4Found && $utf8Found)
+				{
+					$useCharset == 'utf8';
+				}
 			}
-			elseif ($useCharset == 'utf8mb4' && !$utf8mb4Found && $utf8Found)
+			else
 			{
-				$useCharset == 'utf8';
+				if (!$utf8Found && $utf8mb4Found)
+				{
+					$useCharset == 'utf8mb4';
+				}
 			}
-
 		}
 
 		$update_count = 0;
@@ -1178,15 +1183,20 @@ class JInstaller extends JAdapter
 						}
 					}
 
-					if ($useCharset == 'utf8' && !$utf8Found && $utf8mb4Found)
+					if ($useCharset == 'utf8mb4')
 					{
-						$useCharset == 'utf8mb4';
+						if (!$utf8mb4Found && $utf8Found)
+						{
+							$useCharset == 'utf8';
+						}
 					}
-					elseif ($useCharset == 'utf8mb4' && !$utf8mb4Found && $utf8Found)
+					else
 					{
-						$useCharset == 'utf8';
+						if (!$utf8Found && $utf8mb4Found)
+						{
+							$useCharset == 'utf8mb4';
+						}
 					}
-
 				}
 
 				$schemapath = '';
