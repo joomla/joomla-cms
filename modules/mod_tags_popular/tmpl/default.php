@@ -15,7 +15,6 @@ defined('_JEXEC') or die;
 <?php if (!count($list)) : ?>
 	<div class="alert alert-no-items"><?php echo JText::_('MOD_TAGS_POPULAR_NO_ITEMS_FOUND'); ?></div>
 <?php else : ?>
-
 	<ul class="tagspopular<?php echo $moduleclass_sfx; ?>">
 	<?php foreach ($list as $item) : ?>
 	<li><?php $route = new TagsHelperRoute; ?>
