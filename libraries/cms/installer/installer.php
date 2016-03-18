@@ -961,14 +961,14 @@ class JInstaller extends JAdapter
 			{
 				if (!$utf8mb4Found && $utf8Found)
 				{
-					$useCharset == 'utf8';
+					$useCharset = 'utf8';
 				}
 			}
 			else
 			{
 				if (!$utf8Found && $utf8mb4Found)
 				{
-					$useCharset == 'utf8mb4';
+					$useCharset = 'utf8mb4';
 				}
 			}
 		}
@@ -1187,14 +1187,14 @@ class JInstaller extends JAdapter
 					{
 						if (!$utf8mb4Found && $utf8Found)
 						{
-							$useCharset == 'utf8';
+							$useCharset = 'utf8';
 						}
 					}
 					else
 					{
 						if (!$utf8Found && $utf8mb4Found)
 						{
-							$useCharset == 'utf8mb4';
+							$useCharset = 'utf8mb4';
 						}
 					}
 				}
