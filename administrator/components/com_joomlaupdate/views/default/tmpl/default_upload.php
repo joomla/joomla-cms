@@ -162,5 +162,6 @@ CSS
 
 	<input type="hidden" name="task" value="update.upload" />
 	<input type="hidden" name="option" value="com_joomlaupdate" />
+	<?php echo JHtml::_('form.token'); ?>
 
 </form>

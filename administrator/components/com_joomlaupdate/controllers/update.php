@@ -200,7 +200,8 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		// Do I really have an update package?
 		$tempFile = JFactory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
 
-		JLoader::import('joomla.filesystem.tempFile');
+		JLoader::import('joomla.filesystem.file');
+
 		if (empty($tempFile) || !JFile::exists($tempFile))
 		{
 			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
@@ -252,7 +253,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		}
 
 		// Set the update source in the session
-		JFactory::getApplication()->setUserState('com_joomlaupdate.file', $tempFile);
+		JFactory::getApplication()->setUserState('com_joomlaupdate.file', basename($tempFile));
 
 		// Redirect to the actual update page
 		$url = 'index.php?option=com_joomlaupdate&task=update.install';
