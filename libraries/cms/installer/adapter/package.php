@@ -363,6 +363,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 
 			// Custom data
 			$this->extension->custom_data = '';
+			$this->extension->system_data = '';
 			$this->extension->params = $this->parent->getParams();
 		}
 
