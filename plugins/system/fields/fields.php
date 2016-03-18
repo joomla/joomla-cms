@@ -1,10 +1,12 @@
 <?php
 /**
- * @package    Fields
- * @author     Digital Peak http://www.digital-peak.com
- * @copyright  Copyright (C) 2015 - 2016 Digital Peak. All rights reserved.
- * @license    http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * @package     Joomla.Plugin
+ * @subpackage  System.Fields
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('_JEXEC') or die();
 
 use Joomla\Registry\Registry;
