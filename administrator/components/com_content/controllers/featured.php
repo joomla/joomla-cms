@@ -91,6 +91,7 @@ class ContentControllerFeatured extends ContentControllerArticles
 	public function getModel($name = 'Feature', $prefix = 'ContentModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 }
