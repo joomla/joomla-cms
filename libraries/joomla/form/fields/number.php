@@ -157,7 +157,7 @@ class JFormFieldNumber extends JFormField
 
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 
-		if(is_numeric($this->value))
+		if (is_numeric($this->value))
 		{
 			$value = (float) $this->value;
 		}
