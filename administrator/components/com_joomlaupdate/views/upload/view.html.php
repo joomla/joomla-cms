@@ -16,6 +16,13 @@ defined('_JEXEC') or die;
  */
 class JoomlaupdateViewUpload extends JViewLegacy
 {
+	/**
+	 * Renders the view.
+	 *
+	 * @param   string  $tpl  Template name.
+	 *
+	 * @return void
+	 */
 	public function display($tpl=null)
 	{
 		// Set the toolbar information.

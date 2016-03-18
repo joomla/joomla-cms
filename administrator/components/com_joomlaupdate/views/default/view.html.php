@@ -17,6 +17,27 @@ defined('_JEXEC') or die;
 class JoomlaupdateViewDefault extends JViewLegacy
 {
 	/**
+	 * An array with the Joomla! update information.
+	 *
+	 * @var  array
+	 */
+	protected $updateInfo = null;
+
+	/**
+	 * The form field for the extraction select
+	 *
+	 * @var  string
+	 */
+	protected $methodSelect = null;
+
+	/**
+	 * The form field for the upload select
+	 *
+	 * @var  string
+	 */
+	protected $methodSelectUpload = null;
+
+	/**
 	 * Renders the view
 	 *
 	 * @param   string  $tpl  Template name
@@ -54,8 +75,8 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			JToolbarHelper::preferences('com_joomlaupdate');
 		}
 
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
 		if (!is_null($this->updateInfo['object']))
 		{

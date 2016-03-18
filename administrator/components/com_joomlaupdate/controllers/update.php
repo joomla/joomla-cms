@@ -186,6 +186,13 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$this->setRedirect($url);
 	}
 
+	/**
+	 * Checks there is a valid update package and redirects to the captive view for super admin authentication.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
 	public function captive()
 	{
 		// Check for request forgeries
@@ -213,6 +220,13 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$this->display();
 	}
 
+	/**
+	 * Checks the admin has super administrator privileges and then proceeds with the update.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
 	public function confirm()
 	{
 		// Check for request forgeries
