@@ -979,6 +979,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 					{
 						if ($method != 'postflight')
 						{
+							// Clean and close the output buffer
+							ob_end_clean();
+
 							// The script failed, rollback changes
 							throw new RuntimeException(
 								JText::sprintf(
@@ -998,6 +1001,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 					{
 						if ($method != 'uninstall')
 						{
+							// Clean and close the output buffer
+							ob_end_clean();
+
 							// The script failed, rollback changes
 							throw new RuntimeException(
 								JText::sprintf(

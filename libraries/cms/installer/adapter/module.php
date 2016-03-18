@@ -374,6 +374,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 
 			// Custom data
 			$this->extension->custom_data    = '';
+			$this->extension->system_data    = '';
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();
 
 			if (!$this->extension->store())

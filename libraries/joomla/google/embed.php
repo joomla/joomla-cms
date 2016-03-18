@@ -43,7 +43,7 @@ abstract class JGoogleEmbed
 	public function __construct(Registry $options = null, JUri $uri = null)
 	{
 		$this->options = $options ? $options : new Registry;
-		$this->uri = $uri ? $uri : new JUri;
+		$this->uri = $uri ? $uri : JUri::getInstance();
 	}
 
 	/**

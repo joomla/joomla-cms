@@ -297,15 +297,29 @@ class JUpdate extends JObject
 		{
 			// Closing update, find the latest version and check
 			case 'UPDATE':
-				$ver = new JVersion;
-				$product = strtolower(JFilterInput::getInstance()->clean($ver::PRODUCT, 'cmd'));
+				$product = strtolower(JFilterInput::getInstance()->clean(JVersion::PRODUCT, 'cmd'));
 
-				// Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
+				// Support for the min_dev_level and max_dev_level attributes is deprecated, a regexp should be used instead
+				if (isset($this->currentUpdate->targetplatform->min_dev_level) || isset($this->currentUpdate->targetplatform->max_dev_level))
+				{
+					JLog::add(
+						'Support for the min_dev_level and max_dev_level attributes of an update\'s <targetplatform> tag is deprecated and'
+						. ' will be removed in 4.0. The full version should be specified in the version attribute and may optionally be a regexp.',
+						JLog::WARNING,
+						'deprecated'
+					);
+				}
+
+				/*
+				 * Check that the product matches and that the version matches (optionally a regexp)
+				 *
+				 * Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
+				 */
 				if (isset($this->currentUpdate->targetplatform->name)
 					&& $product == $this->currentUpdate->targetplatform->name
-					&& preg_match('/' . $this->currentUpdate->targetplatform->version . '/', $ver::RELEASE)
-					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $ver::DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
-					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $ver::DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
+					&& preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', JVERSION)
+					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || JVersion::DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
+					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || JVersion::DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
 					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
 					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum->_data, '>='))
