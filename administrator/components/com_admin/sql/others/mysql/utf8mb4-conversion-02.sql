@@ -15,24 +15,39 @@
 -- Step 2.1: Limit indexes to first 100 so their max allowed lengths would not get exceeded with utf8mb4
 --
 
+ALTER TABLE `#__banners` ADD KEY `idx_metakey_prefix` (`metakey_prefix`(100));
+ALTER TABLE `#__banner_clients` ADD KEY `idx_metakey_prefix` (`metakey_prefix`(100));
+ALTER TABLE `#__categories` ADD KEY `idx_path` (`path`(100));
 ALTER TABLE `#__categories` ADD KEY `idx_alias` (`alias`(100));
+ALTER TABLE `#__content_types` ADD KEY `idx_alias` (`type_alias`(100));
+ALTER TABLE `#__finder_links` ADD KEY `idx_title` (`title`(100));
 ALTER TABLE `#__menu` ADD KEY `idx_alias` (`alias`(100));
 ALTER TABLE `#__menu` ADD UNIQUE `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`(100),`language`);
 ALTER TABLE `#__redirect_links` ADD KEY `idx_old_url` (`old_url`(100));
+ALTER TABLE `#__tags` ADD KEY `idx_path` (`path`(100));
 ALTER TABLE `#__tags` ADD KEY `idx_alias` (`alias`(100));
 ALTER TABLE `#__ucm_content` ADD KEY `idx_alias` (`core_alias`(100));
+ALTER TABLE `#__ucm_content` ADD KEY `idx_title` (`core_title`(100));
+ALTER TABLE `#__ucm_content` ADD KEY `idx_content_type` (`core_type_alias`(100));
 
 --
 -- Step 2.2: Enlarge columns to avoid data loss on later conversion to utf8mb4
 --
 
 ALTER TABLE `#__banners` MODIFY `alias` varchar(400) NOT NULL DEFAULT '';
+ALTER TABLE `#__banners` MODIFY `metakey_prefix` varchar(400) NOT NULL DEFAULT '';
+ALTER TABLE `#__categories` MODIFY `path` varchar(400) NOT NULL DEFAULT '';
 ALTER TABLE `#__categories` MODIFY `alias` varchar(400) NOT NULL DEFAULT '';
+ALTER TABLE `#__content_types` MODIFY `type_alias` varchar(400) NOT NULL DEFAULT '';
+ALTER TABLE `#__finder_links` MODIFY `title` varchar(400) DEFAULT NULL;
 ALTER TABLE `#__contact_details` MODIFY `alias` varchar(400) NOT NULL DEFAULT '';
 ALTER TABLE `#__content` MODIFY `alias` varchar(400) NOT NULL DEFAULT '';
 ALTER TABLE `#__menu` MODIFY `alias` varchar(400) NOT NULL COMMENT 'The SEF alias of the menu item.';
 ALTER TABLE `#__newsfeeds` MODIFY `alias` varchar(400) NOT NULL DEFAULT '';
+ALTER TABLE `#__tags` MODIFY `path` varchar(400) NOT NULL DEFAULT '';
 ALTER TABLE `#__tags` MODIFY `alias` varchar(400) NOT NULL DEFAULT '';
+ALTER TABLE `#__ucm_content` MODIFY `core_type_alias` varchar(400) NOT NULL DEFAULT '' COMMENT 'FK to the content types table';
+ALTER TABLE `#__ucm_content` MODIFY `core_title` varchar(400) NOT NULL;
 ALTER TABLE `#__ucm_content` MODIFY `core_alias` varchar(400) NOT NULL DEFAULT '';
 
 --
