@@ -974,7 +974,6 @@ class JInstaller extends JAdapter
 		foreach ($element->children() as $file)
 		{
 			$fCharset = strtolower($file->attributes()->charset);
-			$fCharset = (strtolower($file->attributes()->charset) == 'utf8') ? 'utf8' : '';
 			$fDriver = strtolower($file->attributes()->driver);
 
 			if ($fDriver == 'mysqli' || $fDriver == 'pdomysql')
