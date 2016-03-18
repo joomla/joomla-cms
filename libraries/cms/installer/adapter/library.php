@@ -266,6 +266,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 
 		// Custom data
 		$this->extension->custom_data = '';
+		$this->extension->system_data = '';
 
 		// Update the manifest cache for the entry
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();
