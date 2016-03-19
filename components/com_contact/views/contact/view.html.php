@@ -111,7 +111,18 @@ class ContactViewContact extends JViewLegacy
 		// Handle email cloaking
 		if ($item->email_to && $params->get('show_email'))
 		{
-			$item->email_to = JHtml::_('email.cloak', $item->email_to);
+			$mailto = true;
+
+			if (JPluginHelper::isEnabled('content', 'emailcloak'))
+			{
+				$plugin = JPluginHelper::getPlugin('content', 'emailcloak');
+
+				$pluginParams = new Joomla\Registry\Registry($plugin->params);
+
+				$mailto = (bool) $pluginParams->get('mode', true);
+			}
+
+			$item->email_to = JHtml::_('email.cloak', $item->email_to, $mailto);
 		}
 
 		if ($params->get('show_street_address') || $params->get('show_suburb') || $params->get('show_state')
