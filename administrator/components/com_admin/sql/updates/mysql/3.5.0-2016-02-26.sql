@@ -8,7 +8,9 @@
 --
 
 CREATE TABLE IF NOT EXISTS `#__utf8_conversion` (
-  `converted` tinyint(4) NOT NULL DEFAULT 0
+  `extension_id` int(11) NOT NULL,
+  `converted` tinyint(4) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`extension_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `#__utf8_conversion` (`converted`) VALUES (0);
+INSERT INTO `#__utf8_conversion` (`extension_id`, `converted`) VALUES (700, 0);

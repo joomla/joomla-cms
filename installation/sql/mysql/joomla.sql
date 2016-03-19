@@ -1961,7 +1961,7 @@ CREATE TABLE IF NOT EXISTS `#__utf8_conversion` (
 -- Dumping data for table `#__utf8_conversion`
 --
 
-INSERT INTO `#__utf8_conversion` (`converted`) VALUES (0);
+INSERT INTO `#__utf8_conversion` (`extension_id`, `converted`) VALUES (700, 0);
 
 --
 -- Table structure for table `#__viewlevels`

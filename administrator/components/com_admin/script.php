@@ -1700,6 +1700,7 @@ class JoomlaInstallerScript
 		// Check conversion status in database
 		$db->setQuery('SELECT ' . $db->quoteName('converted')
 			. ' FROM ' . $db->quoteName('#__utf8_conversion')
+			. ' WHERE ' . $db->quoteName('extension_id') . ' = 700'
 			);
 
 		try
@@ -1785,7 +1786,8 @@ class JoomlaInstallerScript
 
 		// Set flag in database if the update is done.
 		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
-			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
+			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted
+			. ' WHERE ' . $db->quoteName('extension_id') . ' = 700')->execute();
 	}
 
 	/**
