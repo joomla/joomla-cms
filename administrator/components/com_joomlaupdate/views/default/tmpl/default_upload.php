@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /** @var JoomlaupdateViewDefault $this */
 
 $errSelectPackage = JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
-JFactory::getDocument()->addScriptDeclaration( <<< JS
+JFactory::getDocument()->addScriptDeclaration(<<< JS
 	Joomla.submitbuttonUpload = function() {
 		var form = document.getElementById("uploadForm");
 
@@ -44,7 +44,7 @@ JS
 );
 
 $ajaxLoaderImage = JHtml::_('image', 'jui/ajax-loader.gif', '', null, true, true);
-JFactory::getDocument()->addStyleDeclaration( <<< CSS
+JFactory::getDocument()->addStyleDeclaration(<<< CSS
 	#loading {
 		background: rgba(255, 255, 255, .8) url('$ajaxLoaderImage') 50% 15% no-repeat;
 		position: fixed;

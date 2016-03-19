@@ -20,6 +20,8 @@ class JoomlaupdateHelperSelect
 	 * Returns an HTML select element with the different extraction modes
 	 *
 	 * @param   string  $default  The default value of the select element
+	 * @param   string  $name     The name of the form field
+	 * @param   string  $id       The id of the select field
 	 *
 	 * @return  string
 	 *

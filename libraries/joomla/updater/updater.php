@@ -108,7 +108,6 @@ class JUpdater extends JAdapter
 	 *                                         4=stable
 	 * @param   boolean    $includeCurrent     Should I include the current version in the results?
 	 *
-	 *
 	 * @return  boolean True if there are updates
 	 *
 	 * @since   11.1
@@ -140,11 +139,9 @@ class JUpdater extends JAdapter
 			 * only if there are update records matching this update site. Then we skip processing of the update site
 			 * since it's already processed within the cache timeout period.
 			 */
-			if (
-				($cacheTimeout > 0)
+			if (($cacheTimeout > 0)
 				&& isset($result['last_check_timestamp'])
-				&& ($result['last_check_timestamp'] >= $earliestTime)
-			)
+				&& ($result['last_check_timestamp'] >= $earliestTime))
 			{
 				$retval = $retval || in_array($result['update_site_id'], $sitesWithUpdates);
 
@@ -208,8 +205,8 @@ class JUpdater extends JAdapter
 		$query  = $db->getQuery(true);
 
 		$query->select('DISTINCT a.update_site_id, a.type, a.location, a.last_check_timestamp, a.extra_query')
-		      ->from('#__update_sites AS a')
-		      ->where('a.enabled = 1');
+			->from($db->quoteName('#__update_sites', 'a'))
+			->where('a.enabled = 1');
 
 		if ($eid)
 		{
@@ -299,7 +296,7 @@ class JUpdater extends JAdapter
 			if (array_key_exists('updates', $update_result) && count($update_result['updates']))
 			{
 				/** @var JUpdate $current_update */
-				foreach($update_result['updates'] as $current_update)
+				foreach ($update_result['updates'] as $current_update)
 				{
 					$current_update->extra_query = $updateSite['extra_query'];
 
@@ -370,8 +367,8 @@ class JUpdater extends JAdapter
 	/**
 	 * Returns the IDs of the update sites with cached updates
 	 *
-	 * @param   int $timestamp Optional. If set, only update sites checked before $timestamp will be taken into
-	 *                         account.
+	 * @param   int  $timestamp  Optional. If set, only update sites checked before $timestamp will be taken into
+	 *                           account.
 	 *
 	 * @return  array  The IDs of the update sites with cached updates
 	 */
@@ -417,9 +414,9 @@ class JUpdater extends JAdapter
 		$db        = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-		            ->update($db->quoteName('#__update_sites'))
-		            ->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote($timestamp))
-		            ->where($db->quoteName('update_site_id') . ' = ' . $db->quote($updateSiteId));
+					->update($db->quoteName('#__update_sites'))
+					->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote($timestamp))
+					->where($db->quoteName('update_site_id') . ' = ' . $db->quote($updateSiteId));
 		$db->setQuery($query);
 		$db->execute();
 	}

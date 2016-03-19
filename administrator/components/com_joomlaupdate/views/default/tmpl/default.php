@@ -31,7 +31,7 @@ jQuery(document).ready(function($) {
 });
 
 JS
-)
+);
 ?>
 
 <div id="joomlaupdate-wrapper">

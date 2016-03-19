@@ -150,7 +150,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			'installed' => JVERSION,
 			'latest'    => null,
 			'object'    => null,
-		    'hasUpdate' => false
+			'hasUpdate' => false
 		);
 
 		// Fetch the update information from the database.
@@ -823,7 +823,8 @@ ENDDATA;
 			throw new RuntimeException(
 				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' .
 				JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
-				500);
+				500
+			);
 		}
 
 		// Is the max upload size too small in php.ini?
@@ -867,6 +868,13 @@ ENDDATA;
 		JFactory::getApplication()->setUserState('com_joomlaupdate.temp_file', $tmp_dest);
 	}
 
+	/**
+	 * Checks the super admin credentials are valid for the currently logged in users
+	 *
+	 * @param   array  $credentials  The credentials to authenticate the user with
+	 *
+	 * @return  bool
+	 */
 	public function captiveLogin($credentials)
 	{
 		// Make sure the username matches
