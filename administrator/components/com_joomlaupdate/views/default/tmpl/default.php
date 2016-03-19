@@ -57,6 +57,8 @@ JS
 	?>
 		<input type="hidden" name="task" value="update.download" />
 		<input type="hidden" name="option" value="com_joomlaupdate" />
+
+		echo JHtml::_('form.token');
 	</form>
 
 	<?php
@@ -71,8 +73,6 @@ JS
 			echo JHtml::_('bootstrap.endTab');
 			echo JHtml::_('bootstrap.endTabSet');
 		}
-
-		echo JHtml::_('form.token');
 	?>
 
 	<div class="download_message" style="display: none">
