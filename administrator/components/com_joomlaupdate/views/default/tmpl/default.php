@@ -16,7 +16,7 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::script('com_joomlaupdate/default.js', false, true, false);
 
-JFactory::getDocument()->addScriptDeclaration(<<< JS
+$js = <<< JS
 jQuery(document).ready(function($) {
 	$('#extraction_method').change(function(e){
 		extractionMethodHandler('#extraction_method', 'row_ftp');
@@ -30,8 +30,9 @@ jQuery(document).ready(function($) {
 	});
 });
 
-JS
-);
+JS;
+
+JFactory::getDocument()->addScriptDeclaration($js);
 ?>
 
 <div id="joomlaupdate-wrapper">
