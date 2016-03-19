@@ -147,6 +147,9 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+
+		// Set sql_mode to non_strict mode
+		$this->connection->query("SET @@SESSION.sql_mode = '';");
 	}
 
 	/**
