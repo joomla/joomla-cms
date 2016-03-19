@@ -33,6 +33,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		$this->_applyCredentials();
 
+		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel('Default');
 		$file = $model->download();
 
@@ -71,6 +72,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		$this->_applyCredentials();
 
+		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel('Default');
 
 		$file = JFactory::getApplication()->getUserState('com_joomlaupdate.file', null);
@@ -94,6 +96,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), JLog::INFO, 'Update');
 		$this->_applyCredentials();
 
+		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel('Default');
 
 		$model->finaliseUpgrade();
@@ -117,6 +120,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), JLog::INFO, 'Update');
 		$this->_applyCredentials();
 
+		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel('Default');
 
 		$model->cleanUp();
@@ -135,14 +139,141 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 */
 	public function purge()
 	{
-		// Purge updates
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Purge updates
+		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel('Default');
 		$model->purge();
 
 		$url = 'index.php?option=com_joomlaupdate';
 		$this->setRedirect($url, $model->_message);
+	}
+
+	/**
+	 * Uploads an update package to the temporary directory, under a random name
+	 *
+	 * @return  void
+	 *
+	 * @since	3.5
+	 */
+	public function upload()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
+		JFactory::getUser()->authorise('core.admin') or jexit(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
+
+		$this->_applyCredentials();
+
+		/** @var JoomlaupdateModelDefault $model */
+		$model = $this->getModel('Default');
+
+		try
+		{
+			$model->upload();
+		}
+		catch (RuntimeException $e)
+		{
+			$url = 'index.php?option=com_joomlaupdate';
+			$this->setRedirect($url, $e->getMessage(), 'error');
+		}
+
+		$token = JSession::getFormToken();
+		$url = 'index.php?option=com_joomlaupdate&task=update.captive&' . $token . '=1';
+		$this->setRedirect($url);
+	}
+
+	/**
+	 * Checks there is a valid update package and redirects to the captive view for super admin authentication.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function captive()
+	{
+		// Check for request forgeries
+		JSession::checkToken('get') or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
+		if (!JFactory::getUser()->authorise('core.admin'))
+		{
+			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+		}
+
+		// Do I really have an update package?
+		$tempFile = JFactory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
+
+		JLoader::import('joomla.filesystem.file');
+
+		if (empty($tempFile) || !JFile::exists($tempFile))
+		{
+			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+		}
+
+		$this->input->set('view', 'upload');
+		$this->input->set('layout', 'captive');
+
+		$this->display();
+	}
+
+	/**
+	 * Checks the admin has super administrator privileges and then proceeds with the update.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function confirm()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
+		if (!JFactory::getUser()->authorise('core.admin'))
+		{
+			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+		}
+
+		// Get the model
+		/** @var JoomlaupdateModelDefault $model */
+		$model = $this->getModel('default');
+
+		// Get the captive file before the session resets
+		$tempFile = JFactory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
+
+		// Do I really have an update package?
+		if (!$model->captiveFileExists())
+		{
+			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+		}
+
+		// Try to log in
+		$credentials = array(
+			'username'  => $this->input->post->get('username', '', 'username'),
+			'password'  => $this->input->post->get('passwd', '', 'raw'),
+			'secretkey' => $this->input->post->get('secretkey', '', 'RAW'),
+		);
+		$result = $model->captiveLogin($credentials);
+
+		if (!$result)
+		{
+			$model->removePackageFiles();
+
+			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+		}
+
+		// Set the update source in the session
+		JFactory::getApplication()->setUserState('com_joomlaupdate.file', basename($tempFile));
+
+		// Redirect to the actual update page
+		$url = 'index.php?option=com_joomlaupdate&task=update.install';
+		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $tempFile), JLog::INFO, 'Update');
+
+		$this->setRedirect($url);
 	}
 
 	/**
@@ -169,6 +300,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		if ($view = $this->getView($vName, $vFormat))
 		{
 			// Get the model for the view.
+			/** @var JoomlaupdateModelDefault $model */
 			$model = $this->getModel('Default');
 
 			// Push the model into the view (as default).
@@ -192,6 +324,8 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 */
 	protected function _applyCredentials()
 	{
+		JFactory::getApplication()->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
+
 		if (!JClientHelper::hasCredentials('ftp'))
 		{
 			$user = JFactory::getApplication()->getUserStateFromRequest('com_joomlaupdate.ftp_user', 'ftp_user', null, 'raw');
