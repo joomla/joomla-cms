@@ -42,7 +42,7 @@ class JCacheStorageRedisTest extends TestCase
 
 		JFactory::$application = $this->getMockCmsApp();
 
-		$this->extensionAvailable = class_exists('Redis');
+		$this->extensionAvailable = JCacheStorageRedis::isSupported();
 
 		if ($this->extensionAvailable)
 		{
