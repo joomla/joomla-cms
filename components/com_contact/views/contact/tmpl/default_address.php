@@ -71,7 +71,7 @@ defined('_JEXEC') or die;
 	</dt>
 	<dd>
 		<span class="contact-emailto">
-			<?php echo $this->contact->email_to; ?>
+			<?php echo JHtml::_('email.cloak', $this->contact->email_to, (bool) $this->params->get('add_mailto_link', true)); ?>
 		</span>
 	</dd>
 <?php endif; ?>
