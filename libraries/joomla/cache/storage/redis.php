@@ -90,6 +90,7 @@ class JCacheStorageRedis extends JCacheStorage
 			}
 			catch (Exception $e)
 			{
+				JLog::add($e->getMessage(), JLog::DEBUG);
 			}
 		}
 		else
@@ -101,6 +102,7 @@ class JCacheStorageRedis extends JCacheStorage
 			}
 			catch (Exception $e)
 			{
+				JLog::add($e->getMessage(), JLog::DEBUG);
 			}
 		}
 
