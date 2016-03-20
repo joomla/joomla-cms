@@ -71,7 +71,7 @@ class JCacheStorageMainTest extends TestCase
 			foreach ($names as $name)
 			{
 				// Memcached tests as supported on the Jenkins server but data processing fails, temporarily block it only in this environment
-				if ($name === 'memcached' && isset($_ENV['BUILD_TAG']) && strpos($_ENV['BUILD_TAG'], 'jenkins-cms-') === 0)
+				if (in_array($name, array('memcached', 'redis')) && isset($_ENV['BUILD_TAG']) && strpos($_ENV['BUILD_TAG'], 'jenkins-cms-') === 0)
 				{
 					continue;
 				}
