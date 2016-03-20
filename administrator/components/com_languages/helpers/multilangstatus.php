@@ -141,7 +141,7 @@ abstract class MultilangstatusHelper
 	 * @return  array of contact objects.
 	 */
 	public static function getContacts()
-{
+	{
 		$db = JFactory::getDbo();
 		$languages = count(JLanguageHelper::getLanguages());
 
