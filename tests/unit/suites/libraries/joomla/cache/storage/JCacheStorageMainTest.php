@@ -70,12 +70,6 @@ class JCacheStorageMainTest extends TestCase
 
 			foreach ($names as $name)
 			{
-				// Make sure the adapter is not in our blacklist; this means the adapter cannot be tested or there is an internal failure
-				if (in_array($name, array('redis')))
-				{
-					continue;
-				}
-
 				// Memcached tests as supported on the Jenkins server but data processing fails, temporarily block it only in this environment
 				if ($name === 'memcached' && isset($_ENV['BUILD_TAG']) && strpos($_ENV['BUILD_TAG'], 'jenkins-cms-') === 0)
 				{
