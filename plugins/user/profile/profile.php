@@ -362,7 +362,7 @@ class PlgUserProfile extends JPlugin
 				// Throw an exception if date is not valid.
 				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
 			}
-			if (new JDate(JFactory::getDate('now')) < $date)
+			if (JDate::getInstance('now') < $date)
 			{
 				// Throw an exception if dob is greather than now.
 				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
