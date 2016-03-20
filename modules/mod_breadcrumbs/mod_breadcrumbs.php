@@ -17,7 +17,7 @@ $list  = ModBreadCrumbsHelper::getList($params);
 $count = count($list);
 
 // Set the default separator
-$separator = ModBreadCrumbsHelper::setSeparator($params->get('separator'));
+$separator = ModBreadCrumbsHelper::setSeparator($params->get('separator', ' / '));
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
 require JModuleHelper::getLayoutPath('mod_breadcrumbs', $params->get('layout', 'default'));
