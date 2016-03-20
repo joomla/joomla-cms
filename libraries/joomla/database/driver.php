@@ -890,13 +890,13 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		}
 
 		// If it's not an ALTER TABLE or CREATE TABLE command there's nothing to convert
-		if (!preg_match('/^(ALTER|CREATE)\s+TABLE/i',$query))
+		if (!preg_match('/^(ALTER|CREATE)\s+TABLE\s+/i',$query))
 		{
 			return $query;
 		}
 
 		// Replace utf8mb4 with utf8 if not within single or double quotes or name quotes
-		return preg_replace('/(([\'"`]).*?[^\\]\2)|utf8mb4/', '$1', $query);
+		return preg_replace('/[`"\'][^`"\']*[`"\'](*SKIP)(*FAIL)|utf8mb4/i', 'utf8', $query);
 	}
 
 	/**
