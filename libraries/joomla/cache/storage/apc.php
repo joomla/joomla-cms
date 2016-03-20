@@ -190,7 +190,7 @@ class JCacheStorageApc extends JCacheStorage
 			$supported = ini_get('apc.enable_cli');
 		}
 
-		return $supported;
+		return (bool) $supported;
 	}
 
 	/**

@@ -77,7 +77,7 @@ class JCacheStorageMainTest extends TestCase
 				}
 
 				// Memcached tests as supported on the Jenkins server but data processing fails, temporarily block it only in this environment
-				if ($name === 'memcached' && isset($_ENV['HOSTNAME']) && $_ENV['HOSTNAME'] === 'mvs020-002.directrouter.com')
+				if ($name === 'memcached' && isset($_ENV['BUILD_TAG']) && strpos($_ENV['BUILD_TAG'], 'jenkins-cms-') === 0)
 				{
 					continue;
 				}
