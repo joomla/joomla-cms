@@ -108,12 +108,6 @@ class ContactViewContact extends JViewLegacy
 		$options['category_id'] = $item->catid;
 		$options['order by']    = 'a.default_con DESC, a.ordering ASC';
 
-		// Handle email cloaking
-		if ($item->email_to && $params->get('show_email'))
-		{
-			$item->email_to = JHtml::_('email.cloak', $item->email_to, (bool) $params->get('add_mailto_link', true));
-		}
-
 		if ($params->get('show_street_address') || $params->get('show_suburb') || $params->get('show_state')
 			|| $params->get('show_postcode') || $params->get('show_country'))
 		{
