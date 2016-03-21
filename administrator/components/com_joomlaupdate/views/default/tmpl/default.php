@@ -38,43 +38,31 @@ JFactory::getDocument()->addScriptDeclaration($js);
 <div id="joomlaupdate-wrapper">
 	<form enctype="multipart/form-data" action="index.php" method="post" id="adminForm" class="form-horizontal">
 
-	<?php
-		if ($this->showUploadAndUpdate)
-		{
-			echo JHtml::_('bootstrap.startTabSet', 'joomlaupdate-tabs', array('active' => 'online-update'));
-			echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'online-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_ONLINE'));
-		}
+		<?php if ($this->showUploadAndUpdate) : ?>
+			<?php echo JHtml::_('bootstrap.startTabSet', 'joomlaupdate-tabs', array('active' => 'online-update')); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'online-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_ONLINE')); ?>
+		<?php endif; ?>
 
-		if (!$this->updateInfo['hasUpdate'])
-		{
-			echo $this->loadTemplate('reinstall');
+		<?php if (!$this->updateInfo['hasUpdate']) : ?>
+			<?php echo $this->loadTemplate('reinstall'); ?>
+		<?php else : ?>
+			<?php echo $this->loadTemplate('update'); ?>
+		<?php endif; ?>
 
-		}
-		else
-		{
-			echo $this->loadTemplate('update');
-		}
-
-	?>
 		<input type="hidden" name="task" value="update.download" />
 		<input type="hidden" name="option" value="com_joomlaupdate" />
 
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
 
-	<?php
-		// Only Super Users have access to the Update & Install for obvious security reasons
-		if ($this->showUploadAndUpdate)
-		{
-			echo JHtml::_('bootstrap.endTab');
-			echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'upload-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD'));
-
-			echo $this->loadTemplate('upload');
-
-			echo JHtml::_('bootstrap.endTab');
-			echo JHtml::_('bootstrap.endTabSet');
-		}
-	?>
+		<?php // Only Super Users have access to the Update & Install for obvious security reasons ?>
+		<?php if ($this->showUploadAndUpdate) : ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'upload-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD')); ?>
+			<?php echo $this->loadTemplate('upload'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+		<?php endif; ?>
 
 	<div class="download_message" style="display: none">
 		<p></p>
