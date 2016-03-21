@@ -175,7 +175,7 @@ class JUpdater extends JAdapter
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   3.5.1
 	 */
 	public function update($id)
 	{
@@ -198,11 +198,13 @@ class JUpdater extends JAdapter
 	 * @param   int  $eid  The extension ID to fetch.
 	 *
 	 * @return  array
+	 *
+	 * @since   3.5.1
 	 */
 	private function getUpdateSites($eid = 0)
 	{
-		$db     = $this->getDbo();
-		$query  = $db->getQuery(true);
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		$query->select('DISTINCT a.update_site_id, a.type, a.location, a.last_check_timestamp, a.extra_query')
 			->from($db->quoteName('#__update_sites', 'a'))
@@ -242,6 +244,8 @@ class JUpdater extends JAdapter
 	 * @param   bool   $includeCurrent     Should I also include the current version?
 	 *
 	 * @return  array  The update records. Empty array if no updates are found.
+	 *
+	 * @since   3.5.1
 	 */
 	private function getUpdateObjectsForSite($updateSite, $minimum_stability = self::STABILITY_STABLE, $includeCurrent = false)
 	{
@@ -371,6 +375,8 @@ class JUpdater extends JAdapter
 	 *                           account.
 	 *
 	 * @return  array  The IDs of the update sites with cached updates
+	 *
+	 * @since   3.5.1
 	 */
 	private function getSitesWithUpdates($timestamp = 0)
 	{
@@ -407,6 +413,8 @@ class JUpdater extends JAdapter
 	 * @param   int  $updateSiteId  The update site ID to mark as just checked
 	 *
 	 * @return  void
+	 *
+	 * @since   3.5.1
 	 */
 	private function updateLastCheckTimestamp($updateSiteId)
 	{
@@ -414,9 +422,9 @@ class JUpdater extends JAdapter
 		$db        = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-					->update($db->quoteName('#__update_sites'))
-					->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote($timestamp))
-					->where($db->quoteName('update_site_id') . ' = ' . $db->quote($updateSiteId));
+			->update($db->quoteName('#__update_sites'))
+			->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote($timestamp))
+			->where($db->quoteName('update_site_id') . ' = ' . $db->quote($updateSiteId));
 		$db->setQuery($query);
 		$db->execute();
 	}
