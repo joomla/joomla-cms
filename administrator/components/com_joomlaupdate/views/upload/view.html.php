@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Update's Update View
  *
- * @since  3.5.0
+ * @since  3.5.1
  */
 class JoomlaupdateViewUpload extends JViewLegacy
 {
@@ -21,9 +21,11 @@ class JoomlaupdateViewUpload extends JViewLegacy
 	 *
 	 * @param   string  $tpl  Template name.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   3.5.1
 	 */
-	public function display($tpl=null)
+	public function display($tpl = null)
 	{
 		// Set the toolbar information.
 		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
