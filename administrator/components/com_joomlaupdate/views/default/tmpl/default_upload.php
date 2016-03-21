@@ -66,7 +66,7 @@ JFactory::getDocument()->addStyleDeclaration($css);
 	</p>
 </div>
 
-<?php if (count($this->warnings)): ?>
+<?php if (count($this->warnings)) : ?>
 <fieldset>
 	<legend>
 		<?php echo JText::_('COM_INSTALLER_SUBMENU_WARNINGS') ?>
@@ -84,7 +84,7 @@ JFactory::getDocument()->addStyleDeclaration($css);
 	<?php echo JHtml::_('bootstrap.endSlide'); ?>
 	<?php echo JHtml::_('bootstrap.endAccordion'); ?>
 </fieldset>
-<?php endif;?>
+<?php endif; ?>
 
 <form enctype="multipart/form-data" action="index.php" method="post" id="uploadForm" class="form-horizontal">
 	<fieldset class="uploadform">
