@@ -19,21 +19,27 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	/**
 	 * An array with the Joomla! update information.
 	 *
-	 * @var  array
+	 * @var    array
+	 *
+	 * @since  3.5.1
 	 */
 	protected $updateInfo = null;
 
 	/**
 	 * The form field for the extraction select
 	 *
-	 * @var  string
+	 * @var    string
+	 *
+	 * @since  3.5.1
 	 */
 	protected $methodSelect = null;
 
 	/**
 	 * The form field for the upload select
 	 *
-	 * @var  string
+	 * @var   string
+	 *
+	 * @since  3.5.1
 	 */
 	protected $methodSelectUpload = null;
 
@@ -57,10 +63,11 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->loadHelper('select');
 
 		// Assign view variables.
-		$ftp = $model->getFTPOptions();
+		$ftp           = $model->getFTPOptions();
 		$defaultMethod = $ftp['enabled'] ? 'hybrid' : 'direct';
-		$this->updateInfo = $model->getUpdateInformation();
-		$this->methodSelect = JoomlaupdateHelperSelect::getMethods($defaultMethod);
+
+		$this->updateInfo         = $model->getUpdateInformation();
+		$this->methodSelect       = JoomlaupdateHelperSelect::getMethods($defaultMethod);
 		$this->methodSelectUpload = JoomlaupdateHelperSelect::getMethods($defaultMethod, 'method', 'upload_method');
 
 		// Set the toolbar information.
