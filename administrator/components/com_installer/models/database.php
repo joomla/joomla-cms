@@ -426,14 +426,14 @@ class InstallerModelDatabase extends InstallerModel
 			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion')
 				. ' WHERE ' . $db->quoteName('extension_id') . ' = 700')->execute();
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ', ' . $db->quoteName('extension_id')
+				. ' (' . $db->quoteName('extension_id') . ', ' . $db->quoteName('converted')
 				. ') VALUES (700, 0);')->execute();
 		}
 		elseif ($count == 0)
 		{
 			// Record missing somehow, fix this
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ', ' . $db->quoteName('extension_id')
+				. ' (' . $db->quoteName('extension_id') . ', ' . $db->quoteName('converted')
 				. ') VALUES (700, 0);')->execute();
 		}
 	}
