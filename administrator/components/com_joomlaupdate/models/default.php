@@ -128,11 +128,11 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		if (count($methodParameters) >= 4)
 		{
 			// Reinstall support is available in JUpdater
-			$updater->findUpdates(700, $cache_timeout, JUpdater::STABILITY_ALPHA, true);
+			$updater->findUpdates(700, $cache_timeout, JUpdater::STABILITY_STABLE, true);
 		}
 		else
 		{
-			$updater->findUpdates(700, $cache_timeout, JUpdater::STABILITY_ALPHA);
+			$updater->findUpdates(700, $cache_timeout, JUpdater::STABILITY_STABLE);
 		}
 	}
 
@@ -169,7 +169,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			return $ret;
 		}
 
-		$ret['latest'] = $updateObject->version;
+		$ret['latest']    = $updateObject->version;
 		$ret['hasUpdate'] = $updateObject->version != JVERSION;
 
 		// Fetch the full update details from the update details URL.
@@ -194,12 +194,12 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$config = JFactory::getConfig();
 
 		return array(
-			'host' => $config->get('ftp_host'),
-			'port' => $config->get('ftp_port'),
-			'username' => $config->get('ftp_user'),
-			'password' => $config->get('ftp_pass'),
+			'host'      => $config->get('ftp_host'),
+			'port'      => $config->get('ftp_port'),
+			'username'  => $config->get('ftp_user'),
+			'password'  => $config->get('ftp_pass'),
 			'directory' => $config->get('ftp_root'),
-			'enabled' => $config->get('ftp_enable'),
+			'enabled'   => $config->get('ftp_enable'),
 		);
 	}
 
@@ -251,12 +251,12 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	{
 		$updateInfo = $this->getUpdateInformation();
 		$packageURL = $updateInfo['object']->downloadurl->_data;
-		$basename = basename($packageURL);
+		$basename   = basename($packageURL);
 
 		// Find the path to the temp directory and the local package.
-		$config = JFactory::getConfig();
+		$config  = JFactory::getConfig();
 		$tempdir = $config->get('tmp_path');
-		$target = $tempdir . '/' . $basename;
+		$target  = $tempdir . '/' . $basename;
 
 		// Do we have a cached file?
 		$exists = JFile::exists($target);
@@ -338,9 +338,9 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 
 		// Get the package name.
-		$config = JFactory::getConfig();
+		$config  = JFactory::getConfig();
 		$tempdir = $config->get('tmp_path');
-		$file = $tempdir . '/' . $basename;
+		$file    = $tempdir . '/' . $basename;
 
 		$filesize = @filesize($file);
 		$app->setUserState('com_joomlaupdate.password', $password);
