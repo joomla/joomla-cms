@@ -15,7 +15,7 @@ JHtml::_('bootstrap.tooltip');
 require_once JPATH_ADMINISTRATOR . '/modules/mod_login/helper.php';
 
 $twofactormethods = ModLoginHelper::getTwoFactorMethods();
-$language = JFactory::getLanguage();
+$language         = JFactory::getLanguage();
 
 ?>
 <div class="alert alert-warning">
@@ -29,17 +29,17 @@ $language = JFactory::getLanguage();
 
 <hr/>
 
-<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login" class="form-inline">
+<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login" class="form-inline center">
 	<fieldset class="loginform">
 		<div class="control-group">
 			<div class="controls">
 				<div class="input-prepend input-append">
-		<span class="add-on">
-			<span class="icon-user hasTooltip" title="<?php echo JText::_('JGLOBAL_USERNAME'); ?>"></span>
-			<label for="mod-login-username" class="element-invisible">
-				<?php echo JText::_('JGLOBAL_USERNAME'); ?>
-			</label>
-		</span>
+					<span class="add-on">
+						<span class="icon-user hasTooltip" title="<?php echo JText::_('JGLOBAL_USERNAME'); ?>"></span>
+						<label for="mod-login-username" class="element-invisible">
+							<?php echo JText::_('JGLOBAL_USERNAME'); ?>
+						</label>
+					</span>
 					<input name="username" tabindex="1" id="mod-login-username" type="text" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true" />
 					<a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=remind" class="btn width-auto hasTooltip" title="<?php echo JText::_('MOD_LOGIN_REMIND'); ?>">
 						<span class="icon-help"></span>
@@ -50,12 +50,12 @@ $language = JFactory::getLanguage();
 		<div class="control-group">
 			<div class="controls">
 				<div class="input-prepend input-append">
-		<span class="add-on">
-			<span class="icon-lock hasTooltip" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>"></span>
-			<label for="mod-login-password" class="element-invisible">
-				<?php echo JText::_('JGLOBAL_PASSWORD'); ?>
-			</label>
-		</span>
+					<span class="add-on">
+						<span class="icon-lock hasTooltip" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>"></span>
+						<label for="mod-login-password" class="element-invisible">
+							<?php echo JText::_('JGLOBAL_PASSWORD'); ?>
+						</label>
+					</span>
 					<input name="passwd" tabindex="2" id="mod-login-password" type="password" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" size="15"/>
 					<a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=reset" class="btn width-auto hasTooltip" title="<?php echo JText::_('MOD_LOGIN_RESET'); ?>">
 						<span class="icon-help"></span>
@@ -63,20 +63,20 @@ $language = JFactory::getLanguage();
 				</div>
 			</div>
 		</div>
-		<?php if (count($twofactormethods) > 1): ?>
+		<?php if (count($twofactormethods) > 1) : ?>
 			<div class="control-group">
 				<div class="controls">
 					<div class="input-prepend input-append">
-		<span class="add-on">
-			<span class="icon-star hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>"></span>
-			<label for="mod-login-secretkey" class="element-invisible">
-				<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
-			</label>
-		</span>
+						<span class="add-on">
+							<span class="icon-star hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>"></span>
+							<label for="mod-login-secretkey" class="element-invisible">
+								<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
+							</label>
+						</span>
 						<input name="secretkey" autocomplete="off" tabindex="3" id="mod-login-secretkey" type="text" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" size="15"/>
-		<span class="btn width-auto hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-			<span class="icon-help"></span>
-		</span>
+						<span class="btn width-auto hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY_HELP'); ?>">
+							<span class="icon-help"></span>
+						</span>
 					</div>
 				</div>
 			</div>
