@@ -1860,7 +1860,7 @@ class JoomlaInstallerScript
 	private function convertUtf8mb4QueryToUtf8($query)
 	{
 		// If it's not an ALTER TABLE or CREATE TABLE command there's nothing to convert
-		if (!preg_match('/^(ALTER|CREATE)\s+TABLE\s+/i',$query))
+		if (!preg_match('/^(ALTER|CREATE)\s+TABLE\s+/i', $query))
 		{
 			return $query;
 		}

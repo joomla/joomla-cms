@@ -890,7 +890,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		}
 
 		// If it's not an ALTER TABLE or CREATE TABLE command there's nothing to convert
-		if (!preg_match('/^(ALTER|CREATE)\s+TABLE\s+/i',$query))
+		if (!preg_match('/^(ALTER|CREATE)\s+TABLE\s+/i', $query))
 		{
 			return $query;
 		}
