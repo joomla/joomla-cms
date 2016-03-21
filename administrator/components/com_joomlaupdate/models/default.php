@@ -789,12 +789,12 @@ ENDDATA;
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5.0
+	 * @since   3.5.1
 	 */
 	public function upload()
 	{
 		// Get the uploaded file information.
-		$input    = JFactory::getApplication()->input;
+		$input = JFactory::getApplication()->input;
 
 		// Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See JInputFiles::get.
 		$userfile = $input->files->get('install_package', null, 'raw');
@@ -874,12 +874,14 @@ ENDDATA;
 	 * @param   array  $credentials  The credentials to authenticate the user with
 	 *
 	 * @return  bool
+	 *
+	 * @since   3.5.1
 	 */
 	public function captiveLogin($credentials)
 	{
 		// Make sure the username matches
 		$username = isset($credentials['username']) ? $credentials['username'] : null;
-		$user = JFactory::getUser();
+		$user     = JFactory::getUser();
 
 		if ($user->username != $username)
 		{
@@ -896,7 +898,7 @@ ENDDATA;
 		jimport('joomla.user.authentication');
 
 		$authenticate = JAuthentication::getInstance();
-		$response = $authenticate->authenticate($credentials);
+		$response     = $authenticate->authenticate($credentials);
 
 		if ($response->status !== JAuthentication::STATUS_SUCCESS)
 		{
@@ -910,6 +912,8 @@ ENDDATA;
 	 * Does the captive (temporary) file we uploaded before still exist?
 	 *
 	 * @return  bool
+	 *
+	 * @since   3.5.1
 	 */
 	public function captiveFileExists()
 	{
@@ -929,6 +933,8 @@ ENDDATA;
 	 * Remove the captive (temporary) file we uploaded before and the .
 	 *
 	 * @return  void
+	 *
+	 * @since   3.5.1
 	 */
 	public function removePackageFiles()
 	{
