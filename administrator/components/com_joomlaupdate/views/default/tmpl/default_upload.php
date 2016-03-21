@@ -93,7 +93,7 @@ JFactory::getDocument()->addStyleDeclaration($css);
 			<tbody>
 			<tr>
 				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_JOOMLA_PACKAGE_FILE'); ?>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_PACKAGE_FILE'); ?>
 				</td>
 				<td>
 					<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
