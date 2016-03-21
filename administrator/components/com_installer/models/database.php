@@ -402,6 +402,19 @@ class InstallerModelDatabase extends InstallerModel
 		$db->setQuery($creaTabSql)->execute();
 
 		$db->setQuery('SELECT COUNT(*) FROM ' . $db->quoteName('#__utf8_conversion')
+			. ' WHERE ' . $db->quoteName('extension_id') . ' = 0'
+			);
+
+		$count = $db->loadResult();
+
+		if ($count > 1)
+		{
+			// Table messed up somehow, clear it
+			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion')
+				. ' WHERE ' . $db->quoteName('extension_id') . ' = 0')->execute();
+		}
+
+		$db->setQuery('SELECT COUNT(*) FROM ' . $db->quoteName('#__utf8_conversion')
 			. ' WHERE ' . $db->quoteName('extension_id') . ' = 700'
 			);
 
