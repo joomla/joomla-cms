@@ -135,7 +135,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since	3.0
+	 * @since   3.0
 	 */
 	public function purge()
 	{
@@ -156,7 +156,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since	3.5
+	 * @since   3.5.1
 	 */
 	public function upload()
 	{
@@ -191,7 +191,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  array
 	 *
-	 * @since   3.5
+	 * @since   3.5.1
 	 */
 	public function captive()
 	{
@@ -225,7 +225,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  array
 	 *
-	 * @since   3.5
+	 * @since   3.5.1
 	 */
 	public function confirm()
 	{
@@ -257,6 +257,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 			'password'  => $this->input->post->get('passwd', '', 'raw'),
 			'secretkey' => $this->input->post->get('secretkey', '', 'RAW'),
 		);
+
 		$result = $model->captiveLogin($credentials);
 
 		if (!$result)
@@ -269,10 +270,10 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		// Set the update source in the session
 		JFactory::getApplication()->setUserState('com_joomlaupdate.file', basename($tempFile));
 
-		// Redirect to the actual update page
-		$url = 'index.php?option=com_joomlaupdate&task=update.install';
 		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $tempFile), JLog::INFO, 'Update');
 
+		// Redirect to the actual update page
+		$url = 'index.php?option=com_joomlaupdate&task=update.install';
 		$this->setRedirect($url);
 	}
 
@@ -284,7 +285,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  JoomlaupdateControllerUpdate  This object to support chaining.
 	 *
-	 * @since	2.5.4
+	 * @since   2.5.4
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
@@ -320,7 +321,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since	2.5.4
+	 * @since   2.5.4
 	 */
 	protected function _applyCredentials()
 	{
