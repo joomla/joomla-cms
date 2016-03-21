@@ -391,7 +391,7 @@ class JUpdater extends JAdapter
 			$subQuery = $db->getQuery(true)
 				->select('update_site_id')
 				->from('#__update_sites')
-				->where($db->qn('last_check_timestamp') . ' = ' . $db->q(''), 'OR')
+				->where($db->qn('last_check_timestamp') . ' IS NULL', 'OR')
 				->where($db->qn('last_check_timestamp') . ' <= ' . $db->q($timestamp), 'OR');
 
 			$query->where($db->qn('update_site_id') . ' IN (' . $subQuery . ')');
