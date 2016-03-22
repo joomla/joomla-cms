@@ -95,7 +95,7 @@ class JMail extends PHPMailer
 				$result = parent::send();
 
 			}
-			catch (Exception $e)
+			catch (phpmailerException $e)
 			{
 				/**
 				 * PHPMailer has an issue with servers with invalid certificates
@@ -109,7 +109,7 @@ class JMail extends PHPMailer
 					// Try it again with TLS turned off
 					$result = parent::send();
 				}
-				catch (Exception $e)
+				catch (phpmailerException $e)
 				{
 					// Keep false for B/C compatibility
 					$result = false;
