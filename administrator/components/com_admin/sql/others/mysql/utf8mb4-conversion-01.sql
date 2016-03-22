@@ -28,4 +28,3 @@ ALTER TABLE `#__ucm_content` DROP KEY `idx_alias`;
 ALTER TABLE `#__ucm_content` DROP KEY `idx_title`;
 ALTER TABLE `#__ucm_content` DROP KEY `idx_content_type`;
 ALTER TABLE `#__users` DROP KEY `idx_name`;
-ALTER TABLE `#__user_keys` DROP KEY `user_id`;

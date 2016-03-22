@@ -31,7 +31,6 @@ ALTER TABLE `#__ucm_content` ADD KEY `idx_alias` (`core_alias`(100));
 ALTER TABLE `#__ucm_content` ADD KEY `idx_title` (`core_title`(100));
 ALTER TABLE `#__ucm_content` ADD KEY `idx_content_type` (`core_type_alias`(100));
 ALTER TABLE `#__users` ADD KEY `idx_name` (`name`(100));
-ALTER TABLE `#__user_keys` ADD KEY `user_id` (`user_id`(100));
 
 --
 -- Step 2.2: Enlarge columns to avoid data loss on later conversion to utf8mb4
@@ -53,7 +52,6 @@ ALTER TABLE `#__ucm_content` MODIFY `core_type_alias` varchar(400) NOT NULL DEFA
 ALTER TABLE `#__ucm_content` MODIFY `core_title` varchar(400) NOT NULL;
 ALTER TABLE `#__ucm_content` MODIFY `core_alias` varchar(400) NOT NULL DEFAULT '';
 ALTER TABLE `#__users` MODIFY `name` varchar(400) NOT NULL DEFAULT '';
-ALTER TABLE `#__user_keys` MODIFY `user_id` varchar(400) NOT NULL;
 
 --
 -- Step 2.3: Convert all tables to utf8mb4 chracter set with utf8mb4_unicode_ci collation
