@@ -37,6 +37,13 @@ class JMail extends PHPMailer
 	{
 		// PHPMailer has an issue using the relative path for its language files
 		$this->setLanguage('joomla', __DIR__ . '/language');
+
+		/**
+		 * PHPMailer has an issue with servers with invalid certificates
+		 *
+		 * See: https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting#opportunistic-tls
+		 */
+		$this->SMTPAutoTLS = false;
 	}
 
 	/**
