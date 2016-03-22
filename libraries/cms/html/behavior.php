@@ -708,7 +708,10 @@ abstract class JHtmlBehavior
 
 		JHtml::_('script', 'system/highlighter.js', false, true);
 
-		$terms = str_replace('"', '\"', $terms);
+		foreach ($terms as $i => $term)
+		{
+			$terms[$i] = JFilterOutput::stringJSSafe($term);
+		}
 
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("
