@@ -97,22 +97,27 @@ class JMail extends PHPMailer
 			}
 			catch (phpmailerException $e)
 			{
-				/**
-				 * PHPMailer has an issue with servers with invalid certificates
-				 *
-				 * See: https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting#opportunistic-tls
-				 */
-				$this->SMTPAutoTLS = false;
+				$result = false;
 
-				try
+				if ($this->SMTPAutoTLS)
 				{
-					// Try it again with TLS turned off
-					$result = parent::send();
-				}
-				catch (phpmailerException $e)
-				{
-					// Keep false for B/C compatibility
-					$result = false;
+					/**
+					 * PHPMailer has an issue with servers with invalid certificates
+					 *
+					 * See: https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting#opportunistic-tls
+					 */
+					$this->SMTPAutoTLS = false;
+
+					try
+					{
+						// Try it again with TLS turned off
+						$result = parent::send();
+					}
+					catch (phpmailerException $e)
+					{
+						// Keep false for B/C compatibility
+						$result = false;
+					}
 				}
 			}
 
