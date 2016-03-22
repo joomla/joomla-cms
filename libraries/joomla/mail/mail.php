@@ -39,7 +39,7 @@ class JMail extends PHPMailer
 		$this->setLanguage('joomla', __DIR__ . '/language');
 
 		// Turn on the exception handler of PHPMailer
-		$this->exceptions = true;
+		parent::__construct(true);
 	}
 
 	/**
