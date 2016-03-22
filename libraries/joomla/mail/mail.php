@@ -37,13 +37,6 @@ class JMail extends PHPMailer
 	{
 		// PHPMailer has an issue using the relative path for its language files
 		$this->setLanguage('joomla', __DIR__ . '/language');
-
-		/**
-		 * PHPMailer has an issue with servers with invalid certificates
-		 *
-		 * See: https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting#opportunistic-tls
-		 */
-		$this->SMTPAutoTLS = false;
 	}
 
 	/**
@@ -93,7 +86,32 @@ class JMail extends PHPMailer
 				}
 			}
 
-			$result = parent::send();
+			try
+			{
+				// Try sending with default settings
+				$result = parent::send();
+
+			}
+			catch (Exception $e)
+			{
+				/**
+				 * PHPMailer has an issue with servers with invalid certificates
+				 *
+				 * See: https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting#opportunistic-tls
+				 */
+				$this->SMTPAutoTLS = false;
+
+				try
+				{
+					// Try it again with TLS turned off
+					$result = parent::send();
+				}
+				catch (Exception $e)
+				{
+					// Keep false for B/C compatibility
+					$result = false;
+				}
+			}
 
 			if ($result == false)
 			{
