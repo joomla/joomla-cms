@@ -75,7 +75,7 @@ class JFilterOutput
 	/**
 	 * This method processes a string and escapes it for use in JavaScript
 	 *
-	 * @param   string  $string   String to process
+	 * @param   string  $string  String to process
 	 *
 	 * @return  string  Processed text
 	 */
