@@ -148,8 +148,8 @@ $fieldsets = $this->form->getFieldsets();
 		<?php else : ?>
 		<div id="system-message-container">
 			<button type="button" class="close" data-dismiss="alert">×</button>
-			<div class="alert">
-				<h4 class="alert-heading"><?php echo JText::_('WARNING') ?></h4>
+			<div class="alert alert-error">
+				<h4 class="alert-heading"><?php echo JText::_('ERROR') ?></h4>
 				<div class="alert-message"><?php echo JText::_('COM_USERS_WARNING_MCRYPT_NEEDED') ?></div>
 			</div>
 		</div>
