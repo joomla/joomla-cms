@@ -23,12 +23,14 @@ ALTER TABLE `#__content_types` ADD KEY `idx_alias` (`type_alias`(100));
 ALTER TABLE `#__finder_links` ADD KEY `idx_title` (`title`(100));
 ALTER TABLE `#__menu` ADD KEY `idx_alias` (`alias`(100));
 ALTER TABLE `#__menu` ADD UNIQUE `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`(100),`language`);
+ALTER TABLE `#__menu` ADD KEY `idx_path` (`path`(100));
 ALTER TABLE `#__redirect_links` ADD KEY `idx_old_url` (`old_url`(100));
 ALTER TABLE `#__tags` ADD KEY `idx_path` (`path`(100));
 ALTER TABLE `#__tags` ADD KEY `idx_alias` (`alias`(100));
 ALTER TABLE `#__ucm_content` ADD KEY `idx_alias` (`core_alias`(100));
 ALTER TABLE `#__ucm_content` ADD KEY `idx_title` (`core_title`(100));
 ALTER TABLE `#__ucm_content` ADD KEY `idx_content_type` (`core_type_alias`(100));
+ALTER TABLE `#__users` ADD KEY `idx_name` (`name`(100));
 
 --
 -- Step 2.2: Enlarge columns to avoid data loss on later conversion to utf8mb4
@@ -49,6 +51,7 @@ ALTER TABLE `#__tags` MODIFY `alias` varchar(400) NOT NULL DEFAULT '';
 ALTER TABLE `#__ucm_content` MODIFY `core_type_alias` varchar(400) NOT NULL DEFAULT '' COMMENT 'FK to the content types table';
 ALTER TABLE `#__ucm_content` MODIFY `core_title` varchar(400) NOT NULL;
 ALTER TABLE `#__ucm_content` MODIFY `core_alias` varchar(400) NOT NULL DEFAULT '';
+ALTER TABLE `#__users` MODIFY `name` varchar(400) NOT NULL DEFAULT '';
 
 --
 -- Step 2.3: Convert all tables to utf8mb4 chracter set with utf8mb4_unicode_ci collation
