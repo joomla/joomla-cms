@@ -602,8 +602,8 @@ abstract class JLoader
 			// Backwards compatibility patch
 
 			// If there is only one part we want to duplicate that part for generating the path.
-			if($partsCount === 1){
-
+			if($partsCount === 1)
+			{
 				// Generate the path based on the class name parts.
 				$path = $base . '/' . implode('/', array_map('strtolower', array($parts[0], $parts[0]))) . '.php';
 
