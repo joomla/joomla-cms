@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,33 +36,7 @@ class JCacheStorageXcacheTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$xcachetest = false;
-
-		if (extension_loaded('xcache'))
-		{
-			// XCache Admin must be disabled for Joomla to use XCache
-			$xcache_admin_enable_auth = ini_get('xcache.admin.enable_auth');
-
-			// Some extensions ini variables are reported as strings
-			if ($xcache_admin_enable_auth == 'Off')
-			{
-				$xcachetest = true;
-			}
-
-			// We require a string with contents 0, not a null value because it is not set since that then defaults to On/True
-			if ($xcache_admin_enable_auth === '0')
-			{
-				$xcachetest = true;
-			}
-
-			// In some enviorments empty is equivalent to Off; See JC: #34044 && Github: #4083
-			if ($xcache_admin_enable_auth === '')
-			{
-				$xcachetest = true;
-			}
-		}
-
-		$this->extensionAvailable = $xcachetest;
+		$this->extensionAvailable = JCacheStorageXcache::isSupported();
 
 		if ($this->extensionAvailable)
 		{

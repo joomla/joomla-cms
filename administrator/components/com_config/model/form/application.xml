@@ -948,7 +948,9 @@
 			name="helpurl"
 			type="helpsite"
 			label="COM_CONFIG_FIELD_HELP_SERVER_LABEL"
-			description="COM_CONFIG_FIELD_HELP_SERVER_DESC" />
+			description="COM_CONFIG_FIELD_HELP_SERVER_DESC"
+			showDefault="false"
+		/>
 	</fieldset>
 
 	<fieldset

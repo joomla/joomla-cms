@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -322,11 +322,16 @@ class JCacheStorageMemcached extends JCacheStorage
 	 */
 	public static function isSupported()
 	{
-		if ((extension_loaded('memcached') && class_exists('Memcached')) != true)
+		/*
+		 * GAE and HHVM have both had instances where Memcached the class was defined but no extension was loaded.
+		 * If the class is there, we can assume support.
+		 */
+		if (!class_exists('Memcached'))
 		{
 			return false;
 		}
 
+		// Now check if we can connect to the specified Memcached server
 		$config = JFactory::getConfig();
 		$host = $config->get('memcached_server_host', 'localhost');
 		$port = $config->get('memcached_server_port', 11211);
@@ -334,14 +339,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		$memcached = new Memcached;
 		$memcachedtest = @$memcached->addServer($host, $port);
 
-		if (!$memcachedtest)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		return $memcachedtest;
 	}
 
 	/**

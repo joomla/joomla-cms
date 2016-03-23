@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -70,6 +70,22 @@ class JFilterOutput
 		$regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
 
 		return preg_replace_callback("#$regex#i", array('JFilterOutput', '_ampReplaceCallback'), $input);
+	}
+
+	/**
+	 * This method processes a string and escapes it for use in JavaScript
+	 *
+	 * @param   string  $string  String to process
+	 *
+	 * @return  string  Processed text
+	 */
+	public static function stringJSSafe($string)
+	{
+		for ($i = 0, $l = strlen($string), $new_str = ''; $i < $l; $i++)
+		{
+			$new_str .= (ord(substr($string, $i, 1)) < 16 ? '\\x0' : '\\x') . dechex(ord(substr($string, $i, 1)));
+		}
+		return $new_str;
 	}
 
 	/**

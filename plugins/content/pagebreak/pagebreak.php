@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagebreak
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -126,6 +126,11 @@ class PlgContentPagebreak extends JPlugin
 
 		// Split the text around the plugin.
 		$text = preg_split($regex, $row->text);
+
+		if (!isset($text[$page]))
+		{
+			throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
+		}
 
 		// Count the number of pages.
 		$n = count($text);

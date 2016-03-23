@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Languages Component Languages Model
@@ -18,6 +20,7 @@ class LanguagesModelInstalled extends JModelList
 {
 	/**
 	 * @var object client object
+	 * @deprecated 4.0
 	 */
 	protected $client = null;
 
@@ -48,6 +51,7 @@ class LanguagesModelInstalled extends JModelList
 
 	/**
 	 * @var int total number pf languages installed
+	 * @deprecated 4.0
 	 */
 	protected $langlist = null;
 
@@ -55,6 +59,35 @@ class LanguagesModelInstalled extends JModelList
 	 * @var string language path
 	 */
 	protected $path = null;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JController
+	 * @since   3.5
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'name',
+				'language',
+				'author',
+				'published',
+				'version',
+				'creationDate',
+				'author',
+				'authorEmail',
+				'extension_id',
+				'cliend_id',
+			);
+		}
+
+		parent::__construct($config);
+	}
 
 	/**
 	 * Method to auto-populate the model state.
@@ -68,20 +101,22 @@ class LanguagesModelInstalled extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
-		$app = JFactory::getApplication('administrator');
-
 		// Load the filter state.
-		$clientId = $app->input->getInt('client');
-		$this->setState('filter.client_id', $clientId);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+
+		// Special case for client id.
+		$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
+		$clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
+		$this->setState('client_id', $clientId);
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_languages');
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.name', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -100,7 +135,8 @@ class LanguagesModelInstalled extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':' . $this->getState('filter.client_id');
+		$id	.= ':' . $this->getState('client_id');
+		$id	.= ':' . $this->getState('filter.search');
 
 		return parent::getStoreId($id);
 	}
@@ -114,12 +150,7 @@ class LanguagesModelInstalled extends JModelList
 	 */
 	public function getClient()
 	{
-		if (is_null($this->client))
-		{
-			$this->client = JApplicationHelper::getClientInfo($this->getState('filter.client_id', 0));
-		}
-
-		return $this->client;
+		return JApplicationHelper::getClientInfo($this->getState('client_id', 0));
 	}
 
 	/**
@@ -162,22 +193,38 @@ class LanguagesModelInstalled extends JModelList
 	 */
 	public function getData()
 	{
+		// Fetch language data if not fetched yet.
 		if (is_null($this->data))
 		{
+			$this->data = array();
+
 			// Get information.
-			$path     = $this->getPath();
-			$client   = $this->getClient();
-			$langlist = $this->getLanguageList();
+			$db = $this->getDbo();
+			$query = $db->getQuery(true);
+
+			// Select languages installed from the extensions table.
+			$query->select($db->quoteName(array('a.element', 'a.client_id', 'a.extension_id')))
+				->from($db->quoteName('#__extensions', 'a'))
+				->where($db->quoteName('a.type') . ' = ' . $db->quote('language'))
+				->where($db->quoteName('state') . ' = 0')
+				->where($db->quoteName('enabled') . ' = 1');
+
+			// For client_id = 1 do we need to check language table also?
+			$db->setQuery($query);
+			$langlist = $db->loadObjectList();
 
 			// Compute all the languages.
-			$data = array ();
-
 			foreach ($langlist as $lang)
 			{
-				$file = $path . '/' . $lang . '/' . $lang . '.xml';
-				$info = JApplicationHelper::parseXMLLangMetaFile($file);
-				$row = new JObject;
-				$row->language = $lang;
+				$client     = JApplicationHelper::getClientInfo($lang->client_id);
+				$clientPath = (int) $lang->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
+
+				$info = JApplicationHelper::parseXMLLangMetaFile($clientPath . '/language/' . $lang->element . '/' . $lang->element . '.xml');
+				$row  = new StdClass;
+
+				$row->language     = $lang->element;
+				$row->client_id    = (int) $lang->client_id;
+				$row->extension_id = (int) $lang->extension_id;
 
 				if (!is_array($info))
 				{
@@ -208,46 +255,57 @@ class LanguagesModelInstalled extends JModelList
 				}
 
 				$row->checked_out = 0;
-				$data[] = $row;
-			}
-
-			usort($data, array($this, 'compareLanguages'));
-
-			// Prepare data.
-			$limit = $this->getState('list.limit');
-			$start = $this->getState('list.start');
-			$total = $this->getTotal();
-
-			if ($limit == 0)
-			{
-				$start = 0;
-				$end = $total;
-			}
-			else
-			{
-				if ($start > $total)
-				{
-					$start = $total - $total % $limit;
-				}
-
-				$end = $start + $limit;
-
-				if ($end > $total)
-				{
-					$end = $total;
-				}
-			}
-
-			// Compute the displayed languages.
-			$this->data = array();
-
-			for ($i = $start; $i < $end; $i++)
-			{
-				$this->data[] = & $data[$i];
+				$this->data[] = $row;
 			}
 		}
 
-		return $this->data;
+		$installedLanguages = array_merge($this->data);
+
+		// Process filters.
+		$clientId = (int) $this->getState('client_id');
+		$search   = $this->getState('filter.search');
+
+		foreach ($installedLanguages as $key => $installedLanguage)
+		{
+			// Filter by client id.
+			if (in_array($clientId, array(0, 1)))
+			{
+				if ($installedLanguage->client_id !== $clientId)
+				{
+					unset($installedLanguages[$key]);
+					continue;
+				}
+			}
+			// Filter by search term.
+			if (!empty($search))
+			{
+				if (stripos($installedLanguage->name, $search) === false
+					&& stripos($installedLanguage->language, $search) === false)
+				{
+					unset($installedLanguages[$key]);
+					continue;
+				}
+			}
+		}
+
+		// Process ordering.
+		$listOrder = $this->getState('list.ordering', 'name');
+		$listDirn  = $this->getState('list.direction', 'ASC');
+		$installedLanguages = ArrayHelper::sortObjects($installedLanguages, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
+
+		// Process pagination.
+		$limit = (int) $this->getState('list.limit', 25);
+
+		// Sets the total for pagination.
+		$this->total = count($installedLanguages);
+
+		if ($limit !== 0)
+		{
+			$start = (int) $this->getState('list.start', 0);
+			return array_slice($installedLanguages, $start, $limit);
+		}
+
+		return $installedLanguages;
 	}
 
 	/**
@@ -256,6 +314,8 @@ class LanguagesModelInstalled extends JModelList
 	 * @return  string	An SQL query.
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated   4.0
 	 */
 	protected function getLanguageList()
 	{
@@ -294,8 +354,7 @@ class LanguagesModelInstalled extends JModelList
 	{
 		if (is_null($this->total))
 		{
-			$langlist = $this->getLanguageList();
-			$this->total = count($langlist);
+			$this->getData();
 		}
 
 		return $this->total;
@@ -409,9 +468,41 @@ class LanguagesModelInstalled extends JModelList
 	 * @return  integer
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated   4.0
 	 */
 	protected function compareLanguages($lang1, $lang2)
 	{
 		return strcmp($lang1->name, $lang2->name);
+	}
+
+	/**
+	 * Method to switch the administrator language.
+	 *
+	 * @param   string  $cid  The language tag.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.5
+	 */
+	public function switchAdminLanguage($cid)
+	{
+		if ($cid)
+		{
+			$client = $this->getClient();
+
+			if ($client->name == 'administrator')
+			{
+				JFactory::getApplication()->setUserState('application.lang', $cid);
+			}
+		}
+		else
+		{
+			JError::raiseWarning(500, JText::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'));
+
+			return false;
+		}
+
+		return true;
 	}
 }

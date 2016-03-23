@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagefilter
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
-JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/multilangstatus.php');
 
 /**
  * Joomla! Language Filter Plugin.
@@ -70,7 +69,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				// @todo: In Joomla 2.5.4 and earlier access wasn't set. Non modified Content Languages got 0 as access value
 				// we also check if frontend language exists and is enabled
 				if (($language->access && !in_array($language->access, $levels))
-					|| (!array_key_exists($language->lang_code, MultilangstatusHelper::getSitelangs())))
+					|| (!array_key_exists($language->lang_code, JLanguageMultilang::getSiteLangs())))
 				{
 					unset($this->lang_codes[$language->lang_code]);
 					unset($this->sefs[$language->sef]);
@@ -544,7 +543,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			// The language has been deleted/disabled or the related content language does not exist/has been unpublished
 			// or the related home page does not exist/has been unpublished
 			if (!array_key_exists($lang_code, $this->lang_codes)
-				|| !array_key_exists($lang_code, MultilangstatusHelper::getHomepages())
+				|| !array_key_exists($lang_code, JLanguageMultilang::getSiteHomePages())
 				|| !JFolder::exists(JPATH_SITE . '/language/' . $lang_code))
 			{
 				$lang_code = $this->current_lang;
@@ -608,7 +607,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		if ($this->app->isSite() && $this->params->get('alternate_meta') && $doc->getType() == 'html')
 		{
 			$languages = $this->lang_codes;
-			$homes = MultilangstatusHelper::getHomepages();
+			$homes = JLanguageMultilang::getSiteHomePages();
 			$menu = $this->app->getMenu();
 			$active = $menu->getActive();
 			$levels = JFactory::getUser()->getAuthorisedViewLevels();
@@ -648,7 +647,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				switch (true)
 				{
 					// Language without frontend UI || Language without specific home menu || Language without authorized access level
-					case (!array_key_exists($i, MultilangstatusHelper::getSitelangs())):
+					case (!array_key_exists($i, JLanguageMultilang::getSiteLangs())):
 					case (!isset($homes[$i])):
 					case (isset($language->access) && $language->access && !in_array($language->access, $levels)):
 						unset($languages[$i]);
@@ -694,6 +693,18 @@ class PlgSystemLanguageFilter extends JPlugin
 				foreach ($languages as $i => &$language)
 				{
 					$doc->addHeadLink($server . $language->link, 'alternate', 'rel', array('hreflang' => $i));
+				}
+
+				// Add x-default language tag
+				if ($this->params->get('xdefault', 1))
+				{
+					$xdefault_language = $this->params->get('xdefault_language', $this->default_lang);
+					$xdefault_language = ( $xdefault_language == 'default' ) ? $this->default_lang : $xdefault_language;
+					if (isset($languages[$xdefault_language]))
+					{
+						// Use a custom tag because addHeadLink is limited to one URI per tag
+						$doc->addCustomTag('<link href="' . $server . $languages[$xdefault_language]->link . '" rel="alternate" hreflang="x-default" />');
+					}
 				}
 			}
 		}
