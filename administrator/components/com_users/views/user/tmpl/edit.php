@@ -102,8 +102,9 @@ $fieldsets = $this->form->getFieldsets();
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endforeach; ?>
 
-		<?php if (!empty($this->tfaform) && $this->item->id): ?>
+		<?php if (!empty($this->tfaform) && $this->item->id) : ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'twofactorauth', JText::_('COM_USERS_USER_TWO_FACTOR_AUTH', true)); ?>
+		<?php if (extension_loaded('mcrypt')) : ?>
 		<div class="control-group">
 			<div class="control-label">
 				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
@@ -144,7 +145,15 @@ $fieldsets = $this->form->getFieldsets();
 			<div class="clearfix"></div>
 			<?php endif; ?>
 		</fieldset>
-
+		<?php else : ?>
+		<div id="system-message-container">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+			<div class="alert">
+				<h4 class="alert-heading"><?php echo JText::_('WARNING') ?></h4>
+				<div class="alert-message"><?php echo JText::_('COM_USERS_MCRYPT_NEEDED') ?></div>
+			</div>
+		</div>
+		<?php endif; ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
