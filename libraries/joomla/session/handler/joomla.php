@@ -65,11 +65,11 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 		$session_name = $this->getName();
 
 		// Get the JInputCookie object
-		$cookie = JFactory::getApplication()->input->cookie;
+		$cookie = $this->input->cookie;
 
 		if (is_null($cookie->get($session_name)))
 		{
-			$session_clean = JFactory::getApplication()->input->get($session_name, false, 'string');
+			$session_clean = $this->input->get($session_name, false, 'string');
 
 			if ($session_clean)
 			{
