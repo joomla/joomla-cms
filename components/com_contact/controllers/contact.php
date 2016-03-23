@@ -17,6 +17,11 @@ defined('_JEXEC') or die;
 class ContactControllerContact extends JControllerForm
 {
 	/**
+	 * Flag to indicate if contact failed.
+	 */
+	private $contactSuccessful = true;
+
+	/**
 	 * Method to get a model object, loading it if required.
 	 *
 	 * @param   string  $name    The model name. Optional.
@@ -33,6 +38,44 @@ class ContactControllerContact extends JControllerForm
 	}
 
 	/**
+	 * Handle a form validation domain event.
+	 * 
+	 * Up to three error/warning messages are queued to show to the user on redirect.
+	 * User data is saved in the session so form fields may be preloaded.
+	 * 
+	 * @param   ContactEventFormvalidationerroroccurred  $event  A domain event object.
+	 * 
+	 * @return  void
+	 * 
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function handleFormValidationError(ContactEventFormvalidationerroroccurred $event)
+	{
+		$app = JFactory::getApplication();
+		$errors = $event->errors;
+		$this->contactSuccessful = false;
+
+		// Push up to three validation messages out to the user.
+		for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+		{
+			if ($errors[$i] instanceof Exception)
+			{
+				$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+			}
+			else
+			{
+				$app->enqueueMessage($errors[$i], 'warning');
+			}
+		}
+
+		// Save the data in the session.
+		$app->setUserState('com_contact.contact.data', $event->data);
+
+		// Redirect back to the contact form.
+		$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $event->contactId->id, false));
+	}
+
+	/**
 	 * Method to submit the contact form and send an email.
 	 *
 	 * @return  boolean  True on success sending the email. False on failure.
@@ -44,186 +87,63 @@ class ContactControllerContact extends JControllerForm
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app    = JFactory::getApplication();
-		$model  = $this->getModel('contact');
-		$params = JComponentHelper::getParams('com_contact');
-		$stub   = $this->input->getString('id');
-		$id     = (int) $stub;
+		$app = JFactory::getApplication();
 
 		// Get the data from POST
-		$data    = $this->input->post->get('jform', array(), 'array');
-		$contact = $model->getItem($id);
+		$contactId = new JValueContactid((int) $this->input->getInt('id'));
+		$data = $this->input->post->get('jform', array(), 'array');
 
-		$params->merge($contact->params);
+		// Register local event listeners.
+		$dispatcher = \JEventDispatcher::getInstance();
+		$dispatcher->register('onContactEventFormvalidationerroroccurred', array($this, 'handleFormValidationError'));
 
-		// Check for a valid session cookie
-		if ($params->get('validate_session', 0))
+		// Get the service layer.
+		$service = new JService;
+
+		// Get contact parameters.
+		$params = $service->handle(new ContactQueryParams($contactId));
+
+		// Check for a valid session cookie.
+		if ($params->get('validate_session', 0)
+			&& JFactory::getSession()->getState() != 'active')
 		{
-			if (JFactory::getSession()->getState() != 'active')
-			{
-				JError::raiseWarning(403, JText::_('COM_CONTACT_SESSION_INVALID'));
-
-				// Save the data in the session.
-				$app->setUserState('com_contact.contact.data', $data);
-
-				// Redirect back to the contact form.
-				$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
-
-				return false;
-			}
-		}
-
-		// Contact plugins
-		JPluginHelper::importPlugin('contact');
-		$dispatcher = JEventDispatcher::getInstance();
-
-		// Validate the posted data.
-		$form = $model->getForm();
-
-		if (!$form)
-		{
-			JError::raiseError(500, $model->getError());
-
-			return false;
-		}
-
-		$validate = $model->validate($form, $data);
-
-		if ($validate === false)
-		{
-			// Get the validation messages.
-			$errors = $model->getErrors();
-
-			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
-			{
-				if ($errors[$i] instanceof Exception)
-				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				}
-				else
-				{
-					$app->enqueueMessage($errors[$i], 'warning');
-				}
-			}
+			JError::raiseWarning(403, JText::_('COM_CONTACT_SESSION_INVALID'));
 
 			// Save the data in the session.
 			$app->setUserState('com_contact.contact.data', $data);
 
 			// Redirect back to the contact form.
-			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
+			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $contactId->id, false));
 
 			return false;
 		}
 
-		// Validation succeeded, continue with custom handlers
-		$results = $dispatcher->trigger('onValidateContact', array(&$contact, &$data));
+		// Execute the command to process the contact request.
+		$service->handle(new ContactCommandRequestcontact($contactId, $data));
 
-		foreach ($results as $result)
+		// If the contact request attempt failed, simply return.
+		if (!$this->contactSuccessful)
 		{
-			if ($result instanceof Exception)
-			{
-				return false;
-			}
+			return false;
 		}
 
-		// Passed Validation: Process the contact plugins to integrate with other applications
-		$dispatcher->trigger('onSubmitContact', array(&$contact, &$data));
-
-		// Send the email
-		$sent = false;
-
-		if (!$params->get('custom_reply'))
-		{
-			$sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy'));
-		}
-
-		// Set the success message if it was a success
-		if (!($sent instanceof Exception))
-		{
-			$msg = JText::_('COM_CONTACT_EMAIL_THANKS');
-		}
-		else
-		{
-			$msg = '';
-		}
-
-		// Flush the data from the session
+		// Flush the data from the session.
 		$app->setUserState('com_contact.contact.data', null);
 
-		// Redirect if it is set in the parameters, otherwise redirect back to where we came from
-		if ($contact->params->get('redirect'))
+		// Set the message.
+		$msg = JText::_('COM_CONTACT_EMAIL_THANKS');
+
+		// If set, use the redirect from the parameters.
+		if ($params->get('redirect'))
 		{
-			$this->setRedirect($contact->params->get('redirect'), $msg);
+			$this->setRedirect($params->get('redirect'), $msg);
+
+			return true;
 		}
-		else
-		{
-			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $stub, false), $msg);
-		}
+
+		// Otherwise redirect back to where we came from.
+		$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $contactId->id, false), $msg);
 
 		return true;
-	}
-
-	/**
-	 * Method to get a model object, loading it if required.
-	 *
-	 * @param   array     $data                  The data to send in the email.
-	 * @param   stdClass  $contact               The user information to send the email to
-	 * @param   boolean   $copy_email_activated  True to send a copy of the email to the user.
-	 *
-	 * @return  boolean  True on success sending the email, false on failure.
-	 *
-	 * @since   1.6.4
-	 */
-	private function _sendEmail($data, $contact, $copy_email_activated)
-	{
-			$app = JFactory::getApplication();
-
-			if ($contact->email_to == '' && $contact->user_id != 0)
-			{
-				$contact_user      = JUser::getInstance($contact->user_id);
-				$contact->email_to = $contact_user->get('email');
-			}
-
-			$mailfrom = $app->get('mailfrom');
-			$fromname = $app->get('fromname');
-			$sitename = $app->get('sitename');
-
-			$name    = $data['contact_name'];
-			$email   = JStringPunycode::emailToPunycode($data['contact_email']);
-			$subject = $data['contact_subject'];
-			$body    = $data['contact_message'];
-
-			// Prepare email body
-			$prefix = JText::sprintf('COM_CONTACT_ENQUIRY_TEXT', JUri::base());
-			$body   = $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
-
-			$mail = JFactory::getMailer();
-			$mail->addRecipient($contact->email_to);
-			$mail->addReplyTo($email, $name);
-			$mail->setSender(array($mailfrom, $fromname));
-			$mail->setSubject($sitename . ': ' . $subject);
-			$mail->setBody($body);
-			$sent = $mail->Send();
-
-			// If we are supposed to copy the sender, do so.
-
-			// Check whether email copy function activated
-			if ($copy_email_activated == true && !empty($data['contact_email_copy']))
-			{
-				$copytext    = JText::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
-				$copytext    .= "\r\n\r\n" . $body;
-				$copysubject = JText::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
-
-				$mail = JFactory::getMailer();
-				$mail->addRecipient($email);
-				$mail->addReplyTo(array($email, $name));
-				$mail->setSender(array($mailfrom, $fromname));
-				$mail->setSubject($copysubject);
-				$mail->setBody($copytext);
-				$sent = $mail->Send();
-			}
-
-			return $sent;
 	}
 }
