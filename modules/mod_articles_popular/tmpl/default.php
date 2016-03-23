@@ -9,11 +9,15 @@
 
 defined('_JEXEC') or die;
 ?>
+<?php $microdata = new JMicrodata('Article'); ?>
 <ul class="mostread<?php echo $moduleclass_sfx; ?>">
 <?php foreach ($list as $item) : ?>
-	<li>
-		<a href="<?php echo $item->link; ?>">
-			<?php echo $item->title; ?></a>
+	<li <?php echo $microdata->displayScope();?>>
+		<a href="<?php echo $item->link; ?>" <?php echo $microdata->property('url')->display(); ?>>
+			<span <?php echo $microdata->property('name')->display();?>>
+				<?php echo $item->title; ?>
+			</span>
+		</a>
 	</li>
 <?php endforeach; ?>
 </ul>
