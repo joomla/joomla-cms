@@ -10,7 +10,17 @@
 -- Do not rename this file or any other of the utf8mb4-conversion-*.sql
 -- files unless you want to change PHP code, too.
 --
--- This file here will the be processed with reporting exceptions.
+-- IMPORTANT: When adding an index modification to this file for limiting the
+-- length by which one or more columns go into that index,
+--
+-- 1. remember to add the statement to drop the index to the file for step 1,
+--    utf8mb4-conversion-01.sql, and
+--
+-- 2. check if the index is created in some old schema update sql and limit the
+--    column length there, too.
+--
+-- This file here will the be processed with reporting exceptions, in opposite
+-- to the file for step 1.
 --
 
 --
