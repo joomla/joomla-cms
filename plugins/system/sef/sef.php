@@ -41,9 +41,9 @@ class PlgSystemSef extends JPlugin
 		}
 
 		$uri     = JUri::getInstance();
-		$domain  = $this->params->get('domain');
+		$domain  = $this->params->get('domain', false);
 
-		if ($domain === false || $domain === '')
+		if (!$domain)
 		{
 			$domain = $uri->toString(array('scheme', 'host', 'port'));
 		}
