@@ -51,8 +51,6 @@ class PlgSystemSef extends JPlugin
 			}
 		}
 
-		$domain = $this->params->get('domain', '');
-
 		// If a canonical html tag already exists, don't do anything.
 		if ($exists)
 		{
@@ -60,6 +58,7 @@ class PlgSystemSef extends JPlugin
 		}
 
 		// Add the canonical link if it's different from the current URI.
+		$domain    = $this->params->get('domain', '');
 		$uri       = JUri::getInstance();
 		$domain    = (empty($domain)) ? $uri->toString(array('scheme', 'host', 'port')) : $domain;
 		$canonical = $domain . JRoute::_('index.php?' . http_build_query($this->app->getRouter()->getVars()), false);
