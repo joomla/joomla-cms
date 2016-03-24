@@ -8,7 +8,7 @@
  */
 
 defined('JPATH_PLATFORM') or die;
-use Joomla\Application\Web;
+use Joomla\Application\Web\WebClient;
 
 /**
  * Class to model a Web Client.
