@@ -31,28 +31,26 @@ class PlgSystemSef extends JPlugin
 	 *
 	 * @since   3.5
 	 */
-	public function onAfterDispatch()
+	public function onAfterRoute()
 	{
-		$doc = $this->app->getDocument();
+		$doc = JFactory::getDocument();
 
 		if (!$this->app->isSite() || $doc->getType() !== 'html')
 		{
 			return;
 		}
 
-		$uri     = JUri::getInstance();
-		$domain  = $this->params->get('domain');
+		$domain  = $this->params->get('domain', '');
 
-		if ($domain === false || $domain === '')
+		if ($domain !== '')
 		{
-			$domain = $uri->toString(array('scheme', 'host', 'port'));
-		}
+			$uri    = JUri::getInstance();
+			$link   = $domain . JRoute::_('index.php?' . http_build_query($this->app->getRouter()->getVars()), false);
 
-		$link = $domain . JRoute::_('index.php?' . http_build_query($this->app->getRouter()->getVars()), false);
-
-		if (rawurldecode($uri->toString()) !== $link)
-		{
-			$doc->addHeadLink(htmlspecialchars($link), 'canonical');
+			if (rawurldecode($uri->toString()) !== $link)
+			{
+				$doc->addHeadLink(htmlspecialchars($link), 'canonical');
+			}
 		}
 	}
 
