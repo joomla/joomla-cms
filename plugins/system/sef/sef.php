@@ -31,26 +31,42 @@ class PlgSystemSef extends JPlugin
 	 *
 	 * @since   3.5
 	 */
-	public function onAfterRoute()
+	public function onAfterDispatch()
 	{
-		$doc = JFactory::getDocument();
+		$doc = $this->app->getDocument();
 
 		if (!$this->app->isSite() || $doc->getType() !== 'html')
 		{
 			return;
 		}
 
-		$domain  = $this->params->get('domain', '');
-
-		if ($domain !== '')
+		// Check if canonical already exists (for instance, added by a component) so we don't override it.
+		$exists = false;
+		foreach ($doc->_links as $link)
 		{
-			$uri    = JUri::getInstance();
-			$link   = $domain . JRoute::_('index.php?' . http_build_query($this->app->getRouter()->getVars()), false);
-
-			if (rawurldecode($uri->toString()) !== $link)
+			if (isset($link['relation']) && $link['relation'] === 'canonical')
 			{
-				$doc->addHeadLink(htmlspecialchars($link), 'canonical');
+				$exists = true;
+				break;
 			}
+		}
+
+		$domain = $this->params->get('domain', '');
+
+		// If a canonical html tag already exists, don't do anything.
+		if ($exists)
+		{
+			return;
+		}
+
+		// Add the canonical link if it's different from the current URI.
+		$uri       = JUri::getInstance();
+		$domain    = (empty($domain)) ? $uri->toString(array('scheme', 'host', 'port')) : $domain;
+		$canonical = $domain . JRoute::_('index.php?' . http_build_query($this->app->getRouter()->getVars()), false);
+
+		if (rawurldecode($uri->toString()) !== $canonical)
+		{
+			$doc->addHeadLink(htmlspecialchars($canonical), 'canonical');
 		}
 	}
 
