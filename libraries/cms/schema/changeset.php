@@ -48,8 +48,8 @@ class JSchemaChangeset
 	 * Constructor: builds array of $changeItems by processing the .sql files in a folder.
 	 * The folder for the Joomla core updates is `administrator/components/com_admin/sql/updates/<database>`.
 	 *
-	 * @param   JDatabaseDriver  $db      The current database object
-	 * @param   string           $folder  The full path to the folder containing the update queries
+	 * @param   JDatabaseDriver  $db            The current database object
+	 * @param   string           $folder        The full path to the folder containing the update queries
 	 * @param   string           $utf8mb4check  The check query for utf8mb4 conversionto be appened as last item (since 3.5.1)
 	 *
 	 * @since   2.5
