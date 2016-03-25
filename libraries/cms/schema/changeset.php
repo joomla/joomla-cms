@@ -164,7 +164,7 @@ class JSchemaChangeset
 	{
 		static $instance;
 
-		(!is_object($instance))
+		if (!is_object($instance))
 		{
 			$instance = new JSchemaChangeset($db, $folder);
 		}
