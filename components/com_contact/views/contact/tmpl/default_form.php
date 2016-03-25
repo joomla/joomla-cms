@@ -16,7 +16,7 @@ $captchaEnabled = false;
 
 foreach (JPluginHelper::getPlugin('captcha') as $plugin)
 {
-	if (JFactory::getApplication()->get('captcha', '0') === $plugin->name)
+	if ($this->params->get('captcha', JFactory::getApplication()->get('captcha', '0')) === $plugin->name)
 	{
 		$captchaEnabled = true;
 		break;
