@@ -398,7 +398,7 @@ class InstallerModelDatabase extends InstallerModel
 			{
 				try
 				{
-					$db->setQuery($query2)->execute();
+					$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
 				}
 				catch (Exception $e)
 				{
@@ -475,7 +475,7 @@ class InstallerModelDatabase extends InstallerModel
 			$rows = false;
 		}
 
-		if ($rows === false)
+		if (!$rows)
 		{
 			$db->setQuery('ALTER TABLE ' . $table
 				. ' ADD COLUMN ' . $colExtId
@@ -494,7 +494,7 @@ class InstallerModelDatabase extends InstallerModel
 			$rows = false;
 		}
 
-		if ($rows === false)
+		if (!$rows)
 		{
 			$db->setQuery('ALTER TABLE ' . $table . ' ADD COLUMN ' . $colMd5File1 . ' varchar(32) CHARACTER SET '
 				. ($db->hasUTF8mb4Support() ? 'utf8mb4 COLLATE utf8mb4_bin' : 'utf8 COLLATE utf8_bin')
@@ -513,7 +513,7 @@ class InstallerModelDatabase extends InstallerModel
 			$rows = false;
 		}
 
-		if ($rows === false)
+		if (!$rows)
 		{
 			$db->setQuery('ALTER TABLE ' . $table . ' ADD COLUMN ' . $colMd5File2 . ' varchar(32) CHARACTER SET '
 				. ($db->hasUTF8mb4Support() ? 'utf8mb4 COLLATE utf8mb4_bin' : 'utf8 COLLATE utf8_bin')

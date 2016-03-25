@@ -1798,6 +1798,11 @@ class JoomlaInstallerScript
 		{
 			foreach ($queries2 as $query2)
 			{
+				if (!$utf8mb4Support)
+				{
+					$query2 = $this->convertUtf8mb4QueryToUtf8($query2);
+				}
+
 				try
 				{
 					$db->setQuery($query2)->execute();
