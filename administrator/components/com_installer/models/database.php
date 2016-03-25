@@ -287,6 +287,7 @@ class InstallerModelDatabase extends InstallerModel
 		// Check conversion status in database
 		$db->setQuery('SELECT ' . $db->quoteName('converted')
 			. ' FROM ' . $db->quoteName('#__utf8_conversion')
+			. ' WHERE ' . $db->quoteName('extension_id') . ' = 700'
 			);
 
 		try
@@ -359,7 +360,8 @@ class InstallerModelDatabase extends InstallerModel
 
 		// Set flag in database if the update is done.
 		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
-			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
+			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted
+			. ' WHERE ' . $db->quoteName('extension_id') . ' = 700')->execute();
 	}
 
 	/**
@@ -399,7 +401,9 @@ class InstallerModelDatabase extends InstallerModel
 
 		$db->setQuery($creaTabSql)->execute();
 
-		$db->setQuery('SELECT COUNT(*) FROM ' . $db->quoteName('#__utf8_conversion') . ';');
+		$db->setQuery('SELECT COUNT(*) FROM ' . $db->quoteName('#__utf8_conversion')
+			. ' WHERE ' . $db->quoteName('extension_id') . ' = 0'
+			);
 
 		$count = $db->loadResult();
 
@@ -407,15 +411,30 @@ class InstallerModelDatabase extends InstallerModel
 		{
 			// Table messed up somehow, clear it
 			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion')
-				. ';')->execute();
+				. ' WHERE ' . $db->quoteName('extension_id') . ' = 0')->execute();
+		}
+
+		$db->setQuery('SELECT COUNT(*) FROM ' . $db->quoteName('#__utf8_conversion')
+			. ' WHERE ' . $db->quoteName('extension_id') . ' = 700'
+			);
+
+		$count = $db->loadResult();
+
+		if ($count > 1)
+		{
+			// Table messed up somehow, clear it
+			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion')
+				. ' WHERE ' . $db->quoteName('extension_id') . ' = 700')->execute();
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
+				. ' (' . $db->quoteName('extension_id') . ', ' . $db->quoteName('converted')
+				. ') VALUES (700, 0);')->execute();
 		}
 		elseif ($count == 0)
 		{
 			// Record missing somehow, fix this
 			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
+				. ' (' . $db->quoteName('extension_id') . ', ' . $db->quoteName('converted')
+				. ') VALUES (700, 0);')->execute();
 		}
 	}
 }

@@ -75,7 +75,8 @@ class JSchemaChangeset
 				$db,
 				'database.php',
 				'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
-				. ' SET ' . $this->db->quoteName('converted') . ' = 0;');
+				. ' SET ' . $this->db->quoteName('converted')
+				. ' = 0 WHERE ' . $db->quoteName('extension_id') . ' = 700');
 
 			// Set to not skipped
 			$tmpSchemaChangeItem->checkStatus = 0;
@@ -95,7 +96,8 @@ class JSchemaChangeset
 			$tmpSchemaChangeItem->checkQuery = 'SELECT '
 				. $this->db->quoteName('converted')
 				. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
-				. ' WHERE ' . $this->db->quoteName('converted') . ' = ' . $converted;
+				. ' WHERE ' . $this->db->quoteName('converted') . ' = ' . $converted
+				. ' AND ' . $db->quoteName('extension_id') . ' = 700';
 
 			// Set expected records from check query
 			$tmpSchemaChangeItem->checkQueryExpected = 1;
