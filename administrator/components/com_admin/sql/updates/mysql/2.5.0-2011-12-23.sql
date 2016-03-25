@@ -16,6 +16,11 @@ CREATE TABLE IF NOT EXISTS `#__finder_filters` (
   PRIMARY KEY  (`filter_id`)
 ) DEFAULT CHARSET=utf8;
 
+--
+-- The following statment had to be modified for utf8mb4, changing
+-- KEY `idx_title` (`title`) to `idx_title` (`title`(100))
+--
+
 CREATE TABLE IF NOT EXISTS `#__finder_links` (
   `link_id` int(10) unsigned NOT NULL auto_increment,
   `url` varchar(255) NOT NULL,
@@ -38,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links` (
   `object` mediumblob NOT NULL,
   PRIMARY KEY  (`link_id`),
   KEY `idx_type` (`type_id`),
-  KEY `idx_title` (`title`),
+  KEY `idx_title` (`title`(100)),
   KEY `idx_md5` (`md5sum`),
   KEY `idx_url` (`url`(75)),
   KEY `idx_published_list` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`list_price`),

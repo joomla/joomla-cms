@@ -2,6 +2,11 @@
 -- Table structure for table `#__content_types`
 --
 
+--
+-- The following statment had to be modified for utf8mb4, changing
+-- KEY `idx_alias` (`type_alias`) to `idx_alias` (`type_alias`(100))
+--
+
 CREATE TABLE IF NOT EXISTS `#__content_types` (
   `type_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `type_title` varchar(255) NOT NULL DEFAULT '',
@@ -11,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `#__content_types` (
    `field_mappings` text NOT NULL,
    `router` varchar(255) NOT NULL  DEFAULT '',
   PRIMARY KEY (`type_id`),
-  KEY `idx_alias` (`type_alias`)
+  KEY `idx_alias` (`type_alias`(100))
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10000;
 
 --
@@ -42,6 +47,12 @@ CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
   KEY `idx_type` (`type_id`),
   KEY `idx_core_content_id` (`core_content_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Maps items from content tables to tags';
+
+--
+-- The following statment had to be modified for utf8mb4, changing
+-- KEY `idx_path` (`path`) to `idx_path` (`path`(100)), and
+-- KEY `idx_alias` (`alias`) to `idx_alias` (`alias`(100))
+--
 
 CREATE TABLE IF NOT EXISTS `#__tags` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -78,9 +89,9 @@ CREATE TABLE IF NOT EXISTS `#__tags` (
   KEY `tag_idx` (`published`,`access`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
-  KEY `idx_path` (`path`),
+  KEY `idx_path` (`path`(100)),
   KEY `idx_left_right` (`lft`,`rgt`),
-  KEY `idx_alias` (`alias`),
+  KEY `idx_alias` (`alias`(100)),
   KEY `idx_language` (`language`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
@@ -106,6 +117,12 @@ CREATE TABLE IF NOT EXISTS `#__ucm_base` (
   KEY `idx_ucm_language_id` (`ucm_language_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- The following statment had to be modified for utf8mb4, changing
+-- KEY `idx_alias` (`core_alias`) to `idx_alias` (`core_alias`(100)),
+-- KEY `idx_title` (`core_title`) to `idx_title` (`core_title`(100)), and 
+-- KEY `idx_content_type` (`core_type_alias`) to (`core_type_alias`(100))
+--
 
 CREATE TABLE IF NOT EXISTS `#__ucm_content` (
   `core_content_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -143,12 +160,12 @@ CREATE TABLE IF NOT EXISTS `#__ucm_content` (
   PRIMARY KEY (`core_content_id`),
   KEY `tag_idx` (`core_state`,`core_access`),
   KEY `idx_access` (`core_access`),
-  KEY `idx_alias` (`core_alias`),
+  KEY `idx_alias` (`core_alias`(100)),
   KEY `idx_language` (`core_language`),
-  KEY `idx_title` (`core_title`),
+  KEY `idx_title` (`core_title`(100)),
   KEY `idx_modified_time` (`core_modified_time`),
   KEY `idx_created_time` (`core_created_time`),
-  KEY `idx_content_type` (`core_type_alias`),
+  KEY `idx_content_type` (`core_type_alias`(100)),
   KEY `idx_core_modified_user_id` (`core_modified_user_id`),
   KEY `idx_core_checked_out_user_id` (`core_checked_out_user_id`),
   KEY `idx_core_created_user_id` (`core_created_user_id`),
