@@ -48,13 +48,12 @@ class JSchemaChangeset
 	 * Constructor: builds array of $changeItems by processing the .sql files in a folder.
 	 * The folder for the Joomla core updates is `administrator/components/com_admin/sql/updates/<database>`.
 	 *
-	 * @param   JDatabaseDriver  $db            The current database object
-	 * @param   string           $folder        The full path to the folder containing the update queries
-	 * @param   string           $utf8mb4check  The check query for utf8mb4 conversionto be appened as last item (since 3.5.1)
+	 * @param   JDatabaseDriver  $db      The current database object
+	 * @param   string           $folder  The full path to the folder containing the update queries
 	 *
 	 * @since   2.5
 	 */
-	public function __construct($db, $folder = null, $utf8mb4check = '')
+	public function __construct($db, $folder = null)
 	{
 		$this->db = $db;
 		$this->folder = $folder;
@@ -71,7 +70,7 @@ class JSchemaChangeset
 		// If on mysql, add a query at the end to check for utf8mb4 conversion status
 		$serverType = $this->db->getServerType();
 
-		if ($serverType == 'mysql' && $utf8mb4check)
+		if ($serverType == 'mysql')
 		{
 			// Let the update query be something harmless which should always succeed
 			$tmpSchemaChangeItem = JSchemaChangeitem::getInstance(
@@ -88,15 +87,59 @@ class JSchemaChangeset
 			// Set the query type
 			if ($this->db->hasUTF8mb4Support())
 			{
+				$converted = 2;
 				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8MB4';
 			}
 			else
 			{
+				$converted = 1;
 				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8';
 			}
 
-			// Set the check query
-			$tmpSchemaChangeItem->checkQuery = $utf8mb4check;
+			$md5NewFile1 = '';
+			$md5NewFile2 = '';
+
+			$fileName1 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql";
+			$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql";
+
+			if (is_file($fileName1))
+			{
+				$fileContents1 = @file_get_contents($fileName1);
+
+				if ($fileContents1)
+				{
+					$queries1 = $this->db->splitSql($fileContents1);
+
+					if (!empty($queries1))
+					{
+						$md5NewFile1 = md5(serialize($queries1));
+					}
+				}
+			}
+
+			if (is_file($fileName2))
+			{
+				$fileContents2 = @file_get_contents($fileName2);
+
+				if ($fileContents2)
+				{
+					$queries2 = $this->db->splitSql($fileContents2);
+
+					if (!empty($queries2))
+					{
+						$md5NewFile2 = md5(serialize($queries2));
+					}
+				}
+			}
+
+			$tmpSchemaChangeItem->checkQuery = 'SELECT '
+				. $this->db->quoteName('converted')
+				. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
+				. ' WHERE ' . $this->db->quoteName('extension_id')
+				. ' = 700 AND ' . $this->db->quoteName('converted') . ' = ' . $converted
+				. ' AND ' . $this->db->quoteName('md5_file1') . ' = ' . $this->db->quote($md5NewFile1)
+				. ' AND ' . $this->db->quoteName('md5_file2') . ' = ' . $this->db->quote($md5NewFile2)
+				. ';';
 
 			// Set expected records from check query
 			$tmpSchemaChangeItem->checkQueryExpected = 1;
@@ -110,19 +153,33 @@ class JSchemaChangeset
 	/**
 	 * Returns a reference to the JSchemaChangeset object, only creating it if it doesn't already exist.
 	 *
-	 * @param   JDatabaseDriver  $db            The current database object
-	 * @param   string           $folder        The full path to the folder containing the update queries
-	 * @param   string           $utf8mb4check  The check query for utf8mb4 conversionto be appened as last item (since 3.5.1)
+	 * @param   JDatabaseDriver  $db      The current database object
+	 * @param   string           $folder  The full path to the folder containing the update queries
 	 *
 	 * @return  JSchemaChangeset
 	 *
 	 * @since   2.5
 	 */
-	public static function getInstance($db, $folder, $utf8mb4check = '')
+	public static function getInstance($db, $folder)
 	{
 		static $instance;
 
-		if (!is_object($instance))
+		if (is_object($instance))
+		{
+			// Update the utf8mb4 conversion check query
+			if ($utf8mb4check)
+			{
+				foreach ($this->changeItems as $item)
+				{
+					if (substr($item->queryType, 0, 20) == 'UTF8_CONVERSION_UTF8')
+					{
+						$item->checkQuery = $utf8mb4check;
+						break;
+					}
+				}
+			}
+		}
+		else
 		{
 			$instance = new JSchemaChangeset($db, $folder, $utf8mb4check = '');
 		}

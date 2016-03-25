@@ -90,70 +90,11 @@ class InstallerModelDatabase extends InstallerModel
 	 */
 	public function getItems()
 	{
-		$db = $this->getDbo();
-
-		// Prepare the check query for utf8mb4 or utf8 conversion check
-		$utf8mb4CheckSQL = '';
-
-		if ($db->hasUTF8mb4Support())
-		{
-			$converted = 2;
-		}
-		else
-		{
-			$converted = 1;
-		}
-
-		$md5NewFile1 = '';
-		$md5NewFile2 = '';
-
-		$fileName1 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql";
-		$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql";
-
-		if (is_file($fileName1))
-		{
-			$fileContents1 = @file_get_contents($fileName1);
-
-			if ($fileContents1)
-			{
-				$queries1 = $db->splitSql($fileContents1);
-
-				if (!empty($queries1))
-				{
-					$md5NewFile1 = md5(serialize($queries1));
-				}
-			}
-		}
-
-		if (is_file($fileName2))
-		{
-			$fileContents2 = @file_get_contents($fileName2);
-
-			if ($fileContents2)
-			{
-				$queries2 = $db->splitSql($fileContents2);
-
-				if (!empty($queries2))
-				{
-					$md5NewFile2 = md5(serialize($queries2));
-				}
-			}
-		}
-
-		$utf8mb4CheckSQL = 'SELECT '
-			. $db->quoteName('converted')
-			. ' FROM ' . $db->quoteName('#__utf8_conversion')
-			. ' WHERE ' . $db->quoteName('extension_id')
-			. ' = 700 AND ' . $db->quoteName('converted') . ' = ' . $converted
-			. ' AND ' . $db->quoteName('md5_file1') . ' = ' . $db->quote($md5NewFile1)
-			. ' AND ' . $db->quoteName('md5_file2') . ' = ' . $db->quote($md5NewFile2)
-			. ';';
-
 		$folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
 
 		try
 		{
-			$changeSet = JSchemaChangeset::getInstance($db, $folder, $utf8mb4CheckSQL);
+			$changeSet = JSchemaChangeset::getInstance(JFactory::getDbo(), $folder);
 		}
 		catch (RuntimeException $e)
 		{
