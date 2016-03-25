@@ -42,13 +42,13 @@ class PlgSystemSef extends JPlugin
 
 		$sefDomain = $this->params->get('domain', '');
 
-		// Don't add a canonical id no alternative domain has added in SEF plugin domain field.
+		// Don't add a canonical html tag if no alternative domain has added in SEF plugin domain field.
 		if (empty($sefDomain))
 		{
 			return;
 		}
 
-		// Check if canonical already exists (for instance, added by a component).
+		// Check if a canonical html tag already exists (for instance, added by a component).
 		$canonical = '';
 		foreach ($doc->_links as $linkUrl => $link)
 		{
@@ -68,7 +68,7 @@ class PlgSystemSef extends JPlugin
 			// Set the current canonical link but use the SEF system plugin domain field.
 			$canonical = $sefDomain . JUri::getInstance($canonical)->toString(array('path', 'query', 'fragment'));
 		}
-		// If a canonical html doesn't exists already add a canonical using the SEF plugin domain field.
+		// If a canonical html doesn't exists already add a canonical html tag using the SEF plugin domain field.
 		else
 		{
 			$canonical = $sefDomain . JRoute::_('index.php?' . http_build_query($this->app->getRouter()->getVars()), false);
