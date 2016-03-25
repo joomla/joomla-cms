@@ -33,9 +33,9 @@ $section	= null;
 if (count($parts) > 1)
 {
 	$section = $parts[1];
-	
+
 	$inflector = Inflector::getInstance();
-	
+
 	if (!$inflector->isPlural($section))
 	{
 		$section = $inflector->toPlural($section);
