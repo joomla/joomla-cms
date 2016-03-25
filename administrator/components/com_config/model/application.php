@@ -135,6 +135,9 @@ class ConfigModelApplication extends ConfigModelForm
 
 				// Also update the user state
 				$app->setUserState('com_config.config.global.data.force_ssl', 0);
+				
+				// Inform the user
+				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE'), 'notice');
 			}
 		}
 
