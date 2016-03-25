@@ -50,6 +50,7 @@ class JSchemaChangeset
 	 *
 	 * @param   JDatabaseDriver  $db      The current database object
 	 * @param   string           $folder  The full path to the folder containing the update queries
+	 * @param   string           $utf8mb4check  The check query for utf8mb4 conversionto be appened as last item (since 3.5.1)
 	 *
 	 * @since   2.5
 	 */

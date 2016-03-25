@@ -420,8 +420,8 @@ class InstallerModelDatabase extends InstallerModel
 
 		// Nothing to do if already converted to desired status and no change in SQL statements
 		if ($dbRecord->converted == $converted
-		&& $dbRecord->md5_file1 == $md5NewFile1
-		&& $dbRecord->md5_file2 == $md5NewFile2)
+			&& $dbRecord->md5_file1 == $md5NewFile1
+			&& $dbRecord->md5_file2 == $md5NewFile2)
 		{
 			return;
 		}
@@ -537,7 +537,7 @@ class InstallerModelDatabase extends InstallerModel
 		if ($rows === false)
 		{
 			$db->setQuery('ALTER TABLE ' . $table
-				. ' ADD COLUMN ' . $colExtId 
+				. ' ADD COLUMN ' . $colExtId
 				. ' int(11) NOT NULL DEFAULT 0, ADD PRIMARY KEY(' . $colExtId . ')')->execute();
 		}
 
@@ -593,7 +593,7 @@ class InstallerModelDatabase extends InstallerModel
 		elseif ($count == 1)
 		{
 			// One record only: Must be the one for core
-			$db->setQuery('UPDATE ' .  $table
+			$db->setQuery('UPDATE ' . $table
 				. ' SET ' . $colExtId . ' = 700 WHERE ' . $colExtId . ' = 0')->execute();
 		}
 

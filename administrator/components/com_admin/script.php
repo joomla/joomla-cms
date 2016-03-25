@@ -1763,8 +1763,8 @@ class JoomlaInstallerScript
 
 		// Nothing to do if already converted to desired status and no change in SQL statements
 		if ($dbRecord->converted == $converted
-		&& $dbRecord->md5_file1 == $md5NewFile1
-		&& $dbRecord->md5_file2 == $md5NewFile2)
+			&& $dbRecord->md5_file1 == $md5NewFile1
+			&& $dbRecord->md5_file2 == $md5NewFile2)
 		{
 			return;
 		}
