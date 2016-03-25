@@ -94,8 +94,6 @@ class JSchemaChangeset
 				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8';
 			}
 
-			$queries1    = array();
-			$queries2    = array();
 			$md5NewFile1 = '';
 			$md5NewFile2 = '';
 
