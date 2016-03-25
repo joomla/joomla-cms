@@ -666,8 +666,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	{
 		$this->connect();
 
-		// Error suppress this to prevent PDO warning us that the driver doesn't support this operation.
-		return @$this->connection->lastInsertId();
+		return $this->setQuery('SELECT LAST_INSERT_ID() AS id')->execute()->fetchObject()->id;
 	}
 
 	/**
