@@ -71,7 +71,7 @@ class PlgSystemSef extends JPlugin
 		// If a canonical html doesn't exists already add a canonical html tag using the SEF plugin domain field.
 		else
 		{
-			$canonical = $sefDomain . JRoute::_('index.php?' . http_build_query($this->app->getRouter()->getVars()), false);
+			$canonical = $sefDomain . JUri::getInstance()->toString(array('path', 'query', 'fragment'));
 		}
 
 		// Add the canonical link.
