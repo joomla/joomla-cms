@@ -525,8 +525,6 @@ class InstallationModelDatabase extends JModelBase
 
 		if ($serverType === 'mysql')
 		{
-			$queries1    = array();
-			$queries2    = array();
 			$md5NewFile1 = '';
 			$md5NewFile2 = '';
 
@@ -536,22 +534,30 @@ class InstallationModelDatabase extends JModelBase
 			if (is_file($fileName1))
 			{
 				$fileContents1 = @file_get_contents($fileName1);
-				$queries1 = $db->splitSql($fileContents1);
 
-				if (!empty($queries1))
+				if ($fileContents1)
 				{
-					$md5NewFile1 = md5(serialize($queries1));
+					$queries1 = $db->splitSql($fileContents1);
+
+					if (!empty($queries1))
+					{
+						$md5NewFile1 = md5(serialize($queries1));
+					}
 				}
 			}
 
 			if (is_file($fileName2))
 			{
 				$fileContents2 = @file_get_contents($fileName2);
-				$queries2 = $db->splitSql($fileContents2);
 
-				if (!empty($queries2))
+				if ($fileContents2)
 				{
-					$md5NewFile2 = md5(serialize($queries2));
+					$queries2 = $db->splitSql($fileContents2);
+
+					if (!empty($queries2))
+					{
+						$md5NewFile2 = md5(serialize($queries2));
+					}
 				}
 			}
 
