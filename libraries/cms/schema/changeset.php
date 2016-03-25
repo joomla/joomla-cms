@@ -166,7 +166,7 @@ class JSchemaChangeset
 
 		(!is_object($instance))
 		{
-			$instance = new JSchemaChangeset($db, $folder, $utf8mb4check = '');
+			$instance = new JSchemaChangeset($db, $folder);
 		}
 
 		return $instance;
