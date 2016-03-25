@@ -164,22 +164,7 @@ class JSchemaChangeset
 	{
 		static $instance;
 
-		if (is_object($instance))
-		{
-			// Update the utf8mb4 conversion check query
-			if ($utf8mb4check)
-			{
-				foreach ($this->changeItems as $item)
-				{
-					if (substr($item->queryType, 0, 20) == 'UTF8_CONVERSION_UTF8')
-					{
-						$item->checkQuery = $utf8mb4check;
-						break;
-					}
-				}
-			}
-		}
-		else
+		(!is_object($instance))
 		{
 			$instance = new JSchemaChangeset($db, $folder, $utf8mb4check = '');
 		}
