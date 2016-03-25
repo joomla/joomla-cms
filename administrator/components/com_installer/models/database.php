@@ -94,7 +94,7 @@ class InstallerModelDatabase extends InstallerModel
 
 		try
 		{
-			$changeSet = JSchemaChangeset::getInstance(JFactory::getDbo(), $folder);
+			$changeSet = JSchemaChangeset::getInstance($this->getDbo(), $folder);
 		}
 		catch (RuntimeException $e)
 		{
