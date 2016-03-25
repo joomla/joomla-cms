@@ -71,9 +71,16 @@ class InstallerModelDatabase extends InstallerModel
 		$installer->deleteUnexistingFiles();
 		$this->fixDefaultTextFilters();
 
-		// Finally make sure the database is converted to utf8mb4 or, if not suported
-		// by the server, compatible to it
-		$this->convertTablesToUtf8mb4();
+		/*
+		 * Finally, if the schema updates succeeded, make sure the database is
+		 * converted to utf8mb4 or, if not suported by the server, compatible to it.
+		 */
+		$statusArray = $changeSet->getStatus();
+
+		if (count($statusArray['error']) == 0)
+		{
+			$this->convertTablesToUtf8mb4();
+		}
 	}
 
 	/**
