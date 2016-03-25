@@ -911,8 +911,10 @@ class JInstaller extends JAdapter
 		$queries = array();
 		$db = & $this->_db;
 		$dbDriver = strtolower($db->name);
+		$dbUtf8mb4Support = $this->serverClaimsUtf8mb4Support($dbDriver);
+		$useCharset = $dbUtf8mb4Support ? 'utf8mb4' : 'utf8';
 
-		$doUtf8mb4ToUtf8 = !$this->serverClaimsUtf8mb4Support($dbDriver);
+		$doUtf8mb4ToUtf8 = !$dbUtf8mb4Support;
 
 		if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 		{
@@ -922,6 +924,53 @@ class JInstaller extends JAdapter
 		if ($dbDriver != 'mysql')
 		{
 			$doUtf8mb4ToUtf8 = false;
+			$useCharset = 'utf8';
+		}
+
+		/*
+		 * For mysql related drivers check first for which of the character sets
+		 * utf8mb4 or utf8 a file is avalibale. If for both, use the appropriate one
+		 * but do query downgrade if neccesary just to be on the safer side, and if
+		 * only one of the 2 is specified, use that one, also with query downgrade.
+		 */
+		if ($dbDriver == 'mysql')
+		{
+			$utf8mb4Found = false;
+			$utf8Found = false;
+
+			foreach ($element->children() as $file1)
+			{
+				$fDriver = strtolower($file1->attributes()->driver);
+
+				if ($fDriver == 'mysql' || $fDriver == 'mysqli' || $fDriver == 'pdomysql')
+				{
+					$fCharset = strtolower($file1->attributes()->charset);
+
+					if ($fCharset == 'utf8mb4')
+					{
+						$utf8mb4Found = true;
+					}
+					elseif ($fCharset == 'utf8')
+					{
+						$utf8Found = true;
+					}
+				}
+			}
+
+			if ($useCharset == 'utf8mb4')
+			{
+				if (!$utf8mb4Found && $utf8Found)
+				{
+					$useCharset = 'utf8';
+				}
+			}
+			else
+			{
+				if (!$utf8Found && $utf8mb4Found)
+				{
+					$useCharset = 'utf8mb4';
+				}
+			}
 		}
 
 		$update_count = 0;
@@ -929,7 +978,7 @@ class JInstaller extends JAdapter
 		// Get the name of the sql file to process
 		foreach ($element->children() as $file)
 		{
-			$fCharset = (strtolower($file->attributes()->charset) == 'utf8') ? 'utf8' : '';
+			$fCharset = strtolower($file->attributes()->charset);
 			$fDriver = strtolower($file->attributes()->driver);
 
 			if ($fDriver == 'mysqli' || $fDriver == 'pdomysql')
@@ -937,7 +986,7 @@ class JInstaller extends JAdapter
 				$fDriver = 'mysql';
 			}
 
-			if ($fCharset == 'utf8' && $fDriver == $dbDriver)
+			if ($fCharset == $useCharset && $fDriver == $dbDriver)
 			{
 				$sqlfile = $this->getPath('extension_root') . '/' . trim($file);
 
@@ -1086,8 +1135,10 @@ class JInstaller extends JAdapter
 			if (count($schemapaths))
 			{
 				$dbDriver = strtolower($db->name);
+				$dbUtf8mb4Support = $this->serverClaimsUtf8mb4Support($dbDriver);
+				$useCharset = $dbUtf8mb4Support ? 'utf8mb4' : 'utf8';
 
-				$doUtf8mb4ToUtf8 = !$this->serverClaimsUtf8mb4Support($dbDriver);
+				$doUtf8mb4ToUtf8 = !$dbUtf8mb4Support;
 
 				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 				{
@@ -1097,6 +1148,55 @@ class JInstaller extends JAdapter
 				if ($dbDriver != 'mysql')
 				{
 					$doUtf8mb4ToUtf8 = false;
+					$useCharset = 'utf8';
+				}
+
+				/*
+				 * For mysql related drivers check first for which of the character sets
+				 * utf8mb4 or utf8 a file is avalibale. If for both, use the appropriate one
+				 * but do query downgrade if neccesary just to be on the safer side, and if
+				 * only one of the 2 is specified, use that one, also with query downgrade.
+				 */
+				if ($dbDriver == 'mysql')
+				{
+					$utf8mb4Found = false;
+					$utf8Found = false;
+
+					foreach ($schemapaths as $entry1)
+					{
+						$attrs = $entry1->attributes();
+
+						$uDriver = strtolower($attrs['type']);
+
+						if ($uDriver == 'mysql' || $uDriver == 'mysqli' || $uDriver == 'pdomysql')
+						{
+							$uCharset = isset($attrs['charset']) ? strtolower($attrs['charset']) : 'utf8';
+
+							if ($uCharset == 'utf8mb4')
+							{
+								$utf8mb4Found = true;
+							}
+							elseif ($uCharset == 'utf8')
+							{
+								$utf8Found = true;
+							}
+						}
+					}
+
+					if ($useCharset == 'utf8mb4')
+					{
+						if (!$utf8mb4Found && $utf8Found)
+						{
+							$useCharset = 'utf8';
+						}
+					}
+					else
+					{
+						if (!$utf8Found && $utf8mb4Found)
+						{
+							$useCharset = 'utf8mb4';
+						}
+					}
 				}
 
 				$schemapath = '';
@@ -1113,7 +1213,9 @@ class JInstaller extends JAdapter
 						$uDriver = 'mysql';
 					}
 
-					if ($uDriver == $dbDriver)
+					$uCharset = isset($attrs['charset']) ? strtolower($attrs['charset']) : 'utf8';
+
+					if ($uCharset == $useCharset && $uDriver == $dbDriver)
 					{
 						$schemapath = $entry;
 						break;
