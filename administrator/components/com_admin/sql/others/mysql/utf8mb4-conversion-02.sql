@@ -16,8 +16,9 @@
 -- 1. remember to add the statement to drop the index to the file for step 1,
 --    utf8mb4-conversion-01.sql, and
 --
--- 2. check if the index is created in some old schema update sql and limit the
---    column length there, too.
+-- 2. check if the index is created created or modified in some old schema
+--    update sql in an "ALTER TABLE" statement and limit the column length
+--    there, too ("CREATE TABLE" is ok, no need to modify those).
 --
 -- This file here will the be processed with reporting exceptions, in opposite
 -- to the file for step 1.
