@@ -335,7 +335,7 @@ class InstallerModelDatabase extends InstallerModel
 			}
 		}
 
-		// Nothing to do if none of the files did not contain any query
+		// Nothing to do if none of the files contained any query
 		if (!$md5NewFile1 && !$md5NewFile2)
 		{
 			return;
