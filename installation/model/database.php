@@ -525,10 +525,41 @@ class InstallationModelDatabase extends JModelBase
 
 		if ($serverType === 'mysql')
 		{
-			$query->clear()
-				->update($db->quoteName('#__utf8_conversion'))
-				->set($db->quoteName('converted') . ' = ' . ($db->hasUTF8mb4Support() ? 2 : 1));
-			$db->setQuery($query);
+			$queries1    = array();
+			$queries2    = array();
+			$md5NewFile1 = '';
+			$md5NewFile2 = '';
+
+			$fileName1 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql";
+			$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql";
+
+			if (is_file($fileName1))
+			{
+				$fileContents1 = @file_get_contents($fileName1);
+				$queries1 = $db->splitSql($fileContents1);
+
+				if (!empty($queries1))
+				{
+					$md5NewFile1 = md5(serialize($queries1));
+				}
+			}
+
+			if (is_file($fileName2))
+			{
+				$fileContents2 = @file_get_contents($fileName2);
+				$queries2 = $db->splitSql($fileContents2);
+
+				if (!empty($queries2))
+				{
+					$md5NewFile2 = md5(serialize($queries2));
+				}
+			}
+
+			$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
+				. ' SET ' . $db->quoteName('converted') . ' = ' . ($db->hasUTF8mb4Support() ? 2 : 1)
+				. ', ' . $db->quoteName('md5_file1') . ' = ' . $db->quote($md5NewFile1)
+				. ', ' . $db->quoteName('md5_file2') . ' = ' . $db->quote($md5NewFile2)
+				. ' WHERE ' . $db->quoteName('extension_id') . ' = 700');
 
 			try
 			{

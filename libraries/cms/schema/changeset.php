@@ -75,7 +75,9 @@ class JSchemaChangeset
 				$db,
 				'database.php',
 				'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
-				. ' SET ' . $this->db->quoteName('converted') . ' = 0;');
+				. ' SET ' . $this->db->quoteName('converted')
+				. ' = 0 WHERE ' . $this->db->quoteName('extension_id')
+				. ' = 700;');
 
 			// Set to not skipped
 			$tmpSchemaChangeItem->checkStatus = 0;
@@ -92,10 +94,44 @@ class JSchemaChangeset
 				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8';
 			}
 
+			$queries1    = array();
+			$queries2    = array();
+			$md5NewFile1 = '';
+			$md5NewFile2 = '';
+
+			$fileName1 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql";
+			$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql";
+
+			if (is_file($fileName1))
+			{
+				$fileContents1 = @file_get_contents($fileName1);
+				$queries1 = $this->db->splitSql($fileContents1);
+
+				if (!empty($queries1))
+				{
+					$md5NewFile1 = md5(serialize($queries1));
+				}
+			}
+
+			if (is_file($fileName2))
+			{
+				$fileContents2 = @file_get_contents($fileName2);
+				$queries2 = $this->db->splitSql($fileContents2);
+
+				if (!empty($queries2))
+				{
+					$md5NewFile2 = md5(serialize($queries2));
+				}
+			}
+
 			$tmpSchemaChangeItem->checkQuery = 'SELECT '
 				. $this->db->quoteName('converted')
 				. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
-				. ' WHERE ' . $this->db->quoteName('converted') . ' = ' . $converted;
+				. ' WHERE ' . $this->db->quoteName('extension_id')
+				. ' = 700 AND ' . $this->db->quoteName('converted') . ' = ' . $converted
+				. ' AND ' . $this->db->quoteName('md5_file1') . ' = ' . $this->db->quote($md5NewFile1)
+				. ' AND ' . $this->db->quoteName('md5_file2') . ' = ' . $this->db->quote($md5NewFile2)
+				. ';';
 
 			// Set expected records from check query
 			$tmpSchemaChangeItem->checkQueryExpected = 1;

@@ -42,6 +42,10 @@ class InstallerModelDatabase extends InstallerModel
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
+
+		// Prepare the utf8mb4 conversion check table
+		$this->prepareUtf8mb4StatusTable();
+
 		parent::populateState('name', 'asc');
 	}
 
@@ -274,7 +278,63 @@ class InstallerModelDatabase extends InstallerModel
 			return;
 		}
 
-		// Set required conversion status
+		// Get conversion status and last md5 sums of SQL statements from database
+		$db->setQuery('SELECT ' . $db->quoteName('converted')
+			. ', ' . $db->quoteName('md5_file1')
+			. ', ' . $db->quoteName('md5_file2')
+			. ' FROM ' . $db->quoteName('#__utf8_conversion')
+			. ' WHERE ' . $db->quoteName('extension_id') . ' = 700'
+			);
+
+		try
+		{
+			$dbRecord = $db->loadObject();
+		}
+		catch (Exception $e)
+		{
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return;
+		}
+
+		// Get the SQL statements (without comments) and md5sums from the 2 conversion scripts
+		$queries1    = array();
+		$queries2    = array();
+		$md5NewFile1 = '';
+		$md5NewFile2 = '';
+
+		$fileName1 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql";
+		$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql";
+
+		if (is_file($fileName1))
+		{
+			$fileContents1 = @file_get_contents($fileName1);
+			$queries1 = $db->splitSql($fileContents1);
+
+			if (!empty($queries1))
+			{
+				$md5NewFile1 = md5(serialize($queries1));
+			}
+		}
+
+		if (is_file($fileName2))
+		{
+			$fileContents2 = @file_get_contents($fileName2);
+			$queries2 = $db->splitSql($fileContents2);
+
+			if (!empty($queries2))
+			{
+				$md5NewFile2 = md5(serialize($queries2));
+			}
+		}
+
+		// Nothing to do if none of the files did not contain any query
+		if (!$md5NewFile1 && !$md5NewFile2)
+		{
+			return;
+		}
+
+		// Check if utf8mb4 is supported and set required conversion status
 		if ($db->hasUTF8mb4Support())
 		{
 			$converted = 2;
@@ -284,88 +344,71 @@ class InstallerModelDatabase extends InstallerModel
 			$converted = 1;
 		}
 
-		// Check conversion status in database
-		$db->setQuery('SELECT ' . $db->quoteName('converted')
-			. ' FROM ' . $db->quoteName('#__utf8_conversion')
-			);
-
-		try
-		{
-			$convertedDB = $db->loadResult();
-		}
-		catch (Exception $e)
-		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-			return;
-		}
-
-		// Nothing to do, saved conversion status from DB is equal to required
-		if ($convertedDB == $converted)
+		// Nothing to do if already converted to desired status and no change in SQL statements
+		if ($dbRecord->converted == $converted
+		&& $dbRecord->md5_file1 == $md5NewFile1
+		&& $dbRecord->md5_file2 == $md5NewFile2)
 		{
 			return;
 		}
 
-		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
-		$fileName1 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/$serverType/utf8mb4-conversion-01.sql";
-
-		if (is_file($fileName1))
+		/*
+		 * Step 1: Execute the first conversion script (if used) without error reporting.
+		 * This is normally only dropping of indexes to be added back in step 2 but with
+		 * lengths limitations for particular columns
+		 */
+		if ($md5NewFile1)
 		{
-			$fileContents1 = @file_get_contents($fileName1);
-			$queries1 = $db->splitSql($fileContents1);
-
-			if (!empty($queries1))
+			foreach ($queries1 as $query1)
 			{
-				foreach ($queries1 as $query1)
+				try
 				{
-					try
-					{
-						$db->setQuery($query1)->execute();
-					}
-					catch (Exception $e)
-					{
-						// If the query fails we will go on. It just means the index to be dropped does not exist.
-					}
+					$db->setQuery($query1)->execute();
+				}
+				catch (Exception $e)
+				{
+					// If the query fails we will go on. It just means the index to be dropped does not exist.
 				}
 			}
 		}
 
-		// Step 2: Perform the index modifications and conversions
-		$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/$serverType/utf8mb4-conversion-02.sql";
-
-		if (is_file($fileName2))
+		/*
+		 * Step 2: Execute the second conversion script (if used) with error reporting.
+		 * If some error, the conversion status will be reset, and the old md5 sums
+		 * will be kept.
+		 */
+		if ($md5NewFile2)
 		{
-			$fileContents2 = @file_get_contents($fileName2);
-			$queries2 = $db->splitSql($fileContents2);
-
-			if (!empty($queries2))
+			foreach ($queries2 as $query2)
 			{
-				foreach ($queries2 as $query2)
+				try
 				{
-					try
-					{
-						$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
-					}
-					catch (Exception $e)
-					{
-						$converted = 0;
+					$db->setQuery($query2)->execute();
+				}
+				catch (Exception $e)
+				{
+					$converted = 0;
+					$md5NewFile1 = $dbRecord->md5_file1;
+					$md5NewFile2 = $dbRecord->md5_file2;
 
-						// Still render the error message from the Exception object
-						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-					}
+					// Still render the error message from the Exception object
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				}
 			}
 		}
 
-		// Set flag in database if the update is done.
+		// Set flag in database if the update is done, and update md5 sums.
 		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
-			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
+			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted
+			. ', ' . $db->quoteName('md5_file1') . ' = ' . $db->quote($md5NewFile1)
+			. ', ' . $db->quoteName('md5_file2') . ' = ' . $db->quote($md5NewFile2)
+			. ' WHERE ' . $db->quoteName('extension_id') . ' = 700')->execute();
 	}
 
 	/**
 	 * Prepare the table to save the status of utf8mb4 conversion
-	 * Make sure it contains 1 initialized record if there is not
-	 * already exactly 1 record.
+	 * Make sure it has the latest structure and contains 1 initialized
+	 * record.
 	 *
 	 * @return  void
 	 *
@@ -382,40 +425,124 @@ class InstallerModelDatabase extends InstallerModel
 			return;
 		}
 
-		$creaTabSql = 'CREATE TABLE IF NOT EXISTS ' . $db->quoteName('#__utf8_conversion')
-			. ' (' . $db->quoteName('converted') . ' tinyint(4) NOT NULL DEFAULT 0'
-			. ') ENGINE=InnoDB';
+		$table = $db->quoteName('#__utf8_conversion');
+		$colExtId = $db->quoteName('extension_id');
+		$colConverted = $db->quoteName('converted');
+		$colMd5File1 = $db->quoteName('md5_file1');
+		$colMd5File2 = $db->quoteName('md5_file2');
 
-		if ($db->hasUTF8mb4Support())
+		// If the table does not exist, create it
+		$creaTabSql = 'CREATE TABLE IF NOT EXISTS ' . $table
+			. ' ('
+			. $colExtId . ' int(11) NOT NULL DEFAULT 0,'
+			. $colConverted . ' tinyint(4) NOT NULL DEFAULT 0,'
+			. $colMd5File1 . ' varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT \'\','
+			. $colMd5File2 . ' varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT \'\','
+			. 'PRIMARY KEY (' . $colExtId
+			. ')) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci';
+
+		if (!$db->hasUTF8mb4Support())
 		{
-			$creaTabSql = $creaTabSql
-				. ' DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;';
-		}
-		else
-		{
-			$creaTabSql = $creaTabSql
-				. ' DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_unicode_ci;';
+			$creaTabSql = $db->convertUtf8mb4QueryToUtf8($creaTabSql);
 		}
 
 		$db->setQuery($creaTabSql)->execute();
 
-		$db->setQuery('SELECT COUNT(*) FROM ' . $db->quoteName('#__utf8_conversion') . ';');
+		// Check for missing extension_id column, i.e. table has old structure
+		$db->setQuery('SHOW COLUMNS IN ' . $table . ' WHERE field = ' . $db->quote('extension_id'));
+
+		try
+		{
+			$rows = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			$rows = false;
+		}
+
+		if ($rows === false)
+		{
+			$db->setQuery('ALTER TABLE ' . $table
+				. ' ADD COLUMN ' . $colExtId 
+				. ' int(11) NOT NULL DEFAULT 0, ADD PRIMARY KEY(' . $colExtId . ')')->execute();
+		}
+
+		// Check for missing md5_file1 column, i.e. table has old structure
+		$db->setQuery('SHOW COLUMNS IN ' . $table . ' WHERE field = ' . $db->quote('md5_file1'));
+
+		try
+		{
+			$rows = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			$rows = false;
+		}
+
+		if ($rows === false)
+		{
+			$db->setQuery('ALTER TABLE ' . $table . ' ADD COLUMN ' . $colMd5File1 . ' varchar(32) CHARACTER SET '
+				. ($db->hasUTF8mb4Support() ? 'utf8mb4 COLLATE utf8mb4_bin' : 'utf8 COLLATE utf8_bin')
+				. ' NOT NULL DEFAULT \'\'')->execute();
+		}
+
+		// Check for missing md5_file2 column, i.e. table has old structure
+		$db->setQuery('SHOW COLUMNS IN ' . $table . ' WHERE field = ' . $db->quote('md5_file2'));
+
+		try
+		{
+			$rows = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			$rows = false;
+		}
+
+		if ($rows === false)
+		{
+			$db->setQuery('ALTER TABLE ' . $table . ' ADD COLUMN ' . $colMd5File2 . ' varchar(32) CHARACTER SET '
+				. ($db->hasUTF8mb4Support() ? 'utf8mb4 COLLATE utf8mb4_bin' : 'utf8 COLLATE utf8_bin')
+				. ' NOT NULL DEFAULT \'\'')->execute();
+		}
+
+		// Check for inappropriate number of records with extension_id = 0
+		$db->setQuery('SELECT COUNT(*) FROM ' . $table
+			. ' WHERE ' . $colExtId . ' = 0');
 
 		$count = $db->loadResult();
 
 		if ($count > 1)
 		{
 			// Table messed up somehow, clear it
-			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion')
-				. ';')->execute();
-			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
+			$db->setQuery('DELETE FROM ' . $table . ' WHERE ' . $colExtId . ' = 0')->execute();
+		}
+		elseif ($count == 1)
+		{
+			// One record only: Must be the one for core
+			$db->setQuery('UPDATE ' .  $table
+				. ' SET ' . $colExtId . ' = 700 WHERE ' . $colExtId . ' = 0')->execute();
+		}
+
+		// Check for inappropriate number of records with extension_id = 700
+		$db->setQuery('SELECT COUNT(*) FROM ' . $table
+			. ' WHERE ' . $colExtId . ' = 700');
+
+		$count = $db->loadResult();
+
+		if ($count > 1)
+		{
+			// Table messed up somehow, clear it
+			$db->setQuery('DELETE FROM ' . $table . ' WHERE ' . $colExtId . ' = 700')->execute();
+			$db->setQuery('INSERT INTO ' . $table
+				. ' (' . $colExtId . ', ' . $colConverted . ', ' . $colMd5File1 . ', ' . $colMd5File2
+				. ') VALUES (700, 0, \'\', \'\')')->execute();
 		}
 		elseif ($count == 0)
 		{
 			// Record missing somehow, fix this
-			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
+			$db->setQuery('INSERT INTO ' . $table
+				. ' (' . $colExtId . ', ' . $colConverted . ', ' . $colMd5File1 . ', ' . $colMd5File2
+				. ') VALUES (700, 0, \'\', \'\')')->execute();
 		}
 	}
 }

@@ -1684,6 +1684,62 @@ class JoomlaInstallerScript
 			return;
 		}
 
+		// Get conversion status and last md5 sums of SQL statements from database
+		$db->setQuery('SELECT ' . $db->quoteName('converted')
+			. ', ' . $db->quoteName('md5_file1')
+			. ', ' . $db->quoteName('md5_file2')
+			. ' FROM ' . $db->quoteName('#__utf8_conversion')
+			. ' WHERE ' . $db->quoteName('extension_id') . ' = 700'
+			);
+
+		try
+		{
+			$dbRecord = $db->loadObject();
+		}
+		catch (Exception $e)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+
+			return;
+		}
+
+		// Get the SQL statements (without comments) and md5sums from the 2 conversion scripts
+		$queries1    = array();
+		$queries2    = array();
+		$md5NewFile1 = '';
+		$md5NewFile2 = '';
+
+		$fileName1 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql";
+		$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql";
+
+		if (is_file($fileName1))
+		{
+			$fileContents1 = @file_get_contents($fileName1);
+			$queries1 = $db->splitSql($fileContents1);
+
+			if (!empty($queries1))
+			{
+				$md5NewFile1 = md5(serialize($queries1));
+			}
+		}
+
+		if (is_file($fileName2))
+		{
+			$fileContents2 = @file_get_contents($fileName2);
+			$queries2 = $db->splitSql($fileContents2);
+
+			if (!empty($queries2))
+			{
+				$md5NewFile2 = md5(serialize($queries2));
+			}
+		}
+
+		// Nothing to do if none of the files did not contain any query
+		if (!$md5NewFile1 && !$md5NewFile2)
+		{
+			return;
+		}
+
 		// Check if utf8mb4 is supported and set required conversion status
 		$utf8mb4Support = false;
 
@@ -1697,81 +1753,55 @@ class JoomlaInstallerScript
 			$converted = 1;
 		}
 
-		// Check conversion status in database
-		$db->setQuery('SELECT ' . $db->quoteName('converted')
-			. ' FROM ' . $db->quoteName('#__utf8_conversion')
-			);
-
-		try
-		{
-			$convertedDB = $db->loadResult();
-		}
-		catch (Exception $e)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
-
-			return;
-		}
-
-		// Nothing to do, saved conversion status from DB is equal to required
-		if ($convertedDB == $converted)
+		// Nothing to do if already converted to desired status and no change in SQL statements
+		if ($dbRecord->converted == $converted
+		&& $dbRecord->md5_file1 == $md5NewFile1
+		&& $dbRecord->md5_file2 == $md5NewFile2)
 		{
 			return;
 		}
 
-		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
-		$fileName1 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql";
-
-		if (is_file($fileName1))
+		/*
+		 * Step 1: Execute the first conversion script (if used) without error reporting.
+		 * This is normally only dropping of indexes to be added back in step 2 but with
+		 * lengths limitations for particular columns
+		 */
+		if ($md5NewFile1)
 		{
-			$fileContents1 = @file_get_contents($fileName1);
-			$queries1 = $db->splitSql($fileContents1);
-
-			if (!empty($queries1))
+			foreach ($queries1 as $query1)
 			{
-				foreach ($queries1 as $query1)
+				try
 				{
-					try
-					{
-						$db->setQuery($query1)->execute();
-					}
-					catch (Exception $e)
-					{
-						// If the query fails we will go on. It just means the index to be dropped does not exist.
-					}
+					$db->setQuery($query1)->execute();
+				}
+				catch (Exception $e)
+				{
+					// If the query fails we will go on. It just means the index to be dropped does not exist.
 				}
 			}
 		}
 
-		// Step 2: Perform the index modifications and conversions
-		$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql";
-
-		if (is_file($fileName2))
+		/*
+		 * Step 2: Execute the second conversion script (if used) with error reporting.
+		 * If some error, the conversion status will be reset, and the old md5 sums
+		 * will be kept.
+		 */
+		if ($md5NewFile2)
 		{
-			$fileContents2 = @file_get_contents($fileName2);
-			$queries2 = $db->splitSql($fileContents2);
-
-			if (!empty($queries2))
+			foreach ($queries2 as $query2)
 			{
-				foreach ($queries2 as $query2)
+				try
 				{
-					// Downgrade the query if utf8mb4 isn't supported
-					if (!$utf8mb4Support)
-					{
-						$query2 = $this->convertUtf8mb4QueryToUtf8($query2);
-					}
+					$db->setQuery($query2)->execute();
+				}
+				catch (Exception $e)
+				{
+					$converted = 0;
+					$md5NewFile1 = $dbRecord->md5_file1;
+					$md5NewFile2 = $dbRecord->md5_file2;
 
-					try
-					{
-						$db->setQuery($query2)->execute();
-					}
-					catch (Exception $e)
-					{
-						$converted = 0;
-
-						// Still render the error message from the Exception object
-						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-					}
+					// Still render the error message from the Exception object
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				}
 			}
 		}
@@ -1783,9 +1813,12 @@ class JoomlaInstallerScript
 			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 		}
 
-		// Set flag in database if the update is done.
+		// Set flag in database if the update is done, and update md5 sums.
 		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
-			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
+			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted
+			. ', ' . $db->quoteName('md5_file1') . ' = ' . $db->quote($md5NewFile1)
+			. ', ' . $db->quoteName('md5_file2') . ' = ' . $db->quote($md5NewFile2)
+			. ' WHERE ' . $db->quoteName('extension_id') . ' = 700')->execute();
 	}
 
 	/**

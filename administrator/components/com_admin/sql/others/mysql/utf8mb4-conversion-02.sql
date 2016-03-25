@@ -139,6 +139,8 @@ ALTER TABLE `#__menu` MODIFY `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE 
 ALTER TABLE `#__newsfeeds` MODIFY `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
 ALTER TABLE `#__tags` MODIFY `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
 ALTER TABLE `#__ucm_content` MODIFY `core_alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+ALTER TABLE `#__utf8_conversion` MODIFY `md5_file1` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
+ALTER TABLE `#__utf8_conversion` MODIFY `md5_file2` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
 
 --
 -- Step 2.5: Set default character set and collation for all tables
