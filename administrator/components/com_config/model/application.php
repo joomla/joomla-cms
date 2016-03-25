@@ -132,6 +132,9 @@ class ConfigModelApplication extends ConfigModelForm
 			if (!$result)
 			{
 				$data['force_ssl'] = 0;
+
+				// Also update the user state
+				JFactory::getApplication()->setUserState('com_config.config.global.data.force_ssl', 0);
 			}
 		}
 
