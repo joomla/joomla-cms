@@ -1684,12 +1684,58 @@ class JoomlaInstallerScript
 			return;
 		}
 
+		$table = $db->quoteName('#__utf8_conversion');
+		$colExtId = $db->quoteName('extension_id');
+		$colConverted = $db->quoteName('converted');
+		$colMd5File1 = $db->quoteName('md5_file1');
+		$colMd5File2 = $db->quoteName('md5_file2');
+
+		// Check for inappropriate number of records with extension_id = 0
+		$db->setQuery('SELECT COUNT(*) FROM ' . $table
+			. ' WHERE ' . $colExtId . ' = 0');
+
+		$count = $db->loadResult();
+
+		if ($count > 1)
+		{
+			// Table messed up somehow, clear it
+			$db->setQuery('DELETE FROM ' . $table . ' WHERE ' . $colExtId . ' = 0')->execute();
+		}
+		elseif ($count == 1)
+		{
+			// One record only: Must be the one for core
+			$db->setQuery('UPDATE ' . $table
+				. ' SET ' . $colExtId . ' = 700 WHERE ' . $colExtId . ' = 0')->execute();
+		}
+
+		// Check for inappropriate number of records with extension_id = 700
+		$db->setQuery('SELECT COUNT(*) FROM ' . $table
+			. ' WHERE ' . $colExtId . ' = 700');
+
+		$count = $db->loadResult();
+
+		if ($count > 1)
+		{
+			// Table messed up somehow, clear it
+			$db->setQuery('DELETE FROM ' . $table . ' WHERE ' . $colExtId . ' = 700')->execute();
+			$db->setQuery('INSERT INTO ' . $table
+				. ' (' . $colExtId . ', ' . $colConverted . ', ' . $colMd5File1 . ', ' . $colMd5File2
+				. ') VALUES (700, 0, \'\', \'\')')->execute();
+		}
+		elseif ($count == 0)
+		{
+			// Record missing somehow, fix this
+			$db->setQuery('INSERT INTO ' . $table
+				. ' (' . $colExtId . ', ' . $colConverted . ', ' . $colMd5File1 . ', ' . $colMd5File2
+				. ') VALUES (700, 0, \'\', \'\')')->execute();
+		}
+
 		// Get conversion status and last md5 sums of SQL statements from database
-		$db->setQuery('SELECT ' . $db->quoteName('converted')
-			. ', ' . $db->quoteName('md5_file1')
-			. ', ' . $db->quoteName('md5_file2')
-			. ' FROM ' . $db->quoteName('#__utf8_conversion')
-			. ' WHERE ' . $db->quoteName('extension_id') . ' = 700'
+		$db->setQuery('SELECT ' . $colConverted
+			. ', ' . $colMd5File1
+			. ', ' . $colMd5File2
+			. ' FROM ' . $table
+			. ' WHERE ' . $colExtId . ' = 700'
 			);
 
 		try
@@ -1827,11 +1873,11 @@ class JoomlaInstallerScript
 		}
 
 		// Set flag in database if the update is done, and update md5 sums.
-		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
-			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted
-			. ', ' . $db->quoteName('md5_file1') . ' = ' . $db->quote($md5NewFile1)
-			. ', ' . $db->quoteName('md5_file2') . ' = ' . $db->quote($md5NewFile2)
-			. ' WHERE ' . $db->quoteName('extension_id') . ' = 700')->execute();
+		$db->setQuery('UPDATE ' . $table
+			. ' SET ' . $colConverted . ' = ' . $converted
+			. ', ' . $colMd5File1 . ' = ' . $db->quote($md5NewFile1)
+			. ', ' . $colMd5File2 . ' = ' . $db->quote($md5NewFile2)
+			. ' WHERE ' . $colExtId . ' = 700')->execute();
 	}
 
 	/**
