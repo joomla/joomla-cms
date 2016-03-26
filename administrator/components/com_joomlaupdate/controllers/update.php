@@ -255,7 +255,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$credentials = array(
 			'username'  => $this->input->post->get('username', '', 'username'),
 			'password'  => $this->input->post->get('passwd', '', 'raw'),
-			'secretkey' => $this->input->post->get('secretkey', '', 'RAW'),
+			'secretkey' => $this->input->post->get('secretkey', '', 'raw'),
 		);
 
 		$result = $model->captiveLogin($credentials);
