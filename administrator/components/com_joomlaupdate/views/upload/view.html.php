@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Update's Update View
  *
- * @since  3.5.1
+ * @since  3.5.2
  */
 class JoomlaupdateViewUpload extends JViewLegacy
 {
@@ -23,14 +23,14 @@ class JoomlaupdateViewUpload extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5.1
+	 * @since   3.5.2
 	 */
 	public function display($tpl = null)
 	{
 		// Set the toolbar information.
 		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
 		// Load com_installer's language
 		$language = JFactory::getLanguage();
