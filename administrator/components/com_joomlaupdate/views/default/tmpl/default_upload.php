@@ -66,15 +66,15 @@ JFactory::getDocument()->addStyleDeclaration($css);
 	</p>
 </div>
 
-<?php if (count($this->warnings)) : ?>
+<?php if (count($this->warnings != 0)) : ?>
 <fieldset>
 	<legend>
 		<?php echo JText::_('COM_INSTALLER_SUBMENU_WARNINGS') ?>
 	</legend>
 
-	<?php echo JHtml::_('bootstrap.startAccordion', 'warnings', array('active' => 'warning0')); ?>
 	<?php $i = 0; ?>
-	<?php foreach($this->warnings as $message) : ?>
+	<?php echo JHtml::_('bootstrap.startAccordion', 'warnings', array('active' => 'warning' . $i)); ?>
+	<?php foreach ($this->warnings as $message) : ?>
 		<?php echo JHtml::_('bootstrap.addSlide', 'warnings', $message['message'], 'warning' . ($i++)); ?>
 		<?php echo $message['description']; ?>
 		<?php echo JHtml::_('bootstrap.endSlide'); ?>
