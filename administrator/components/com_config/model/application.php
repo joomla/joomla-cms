@@ -119,28 +119,24 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 
 		// Check if we need to verify the SSL certificate
-		if (0 !== $data['force_ssl'])
+		if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) JFactory::getConfig()->get('force_ssl', '0'))
 		{
-			// Connection details
-			$host = JUri::getInstance()->getHost();
-
-			// Check if TLS is available
-			$get = stream_context_create(array('tls' => array('capture_peer_cert' => true)));
-			$read = stream_socket_client('tls://' . $host . ':443', $errorNumber, $errorMessage, 30, STREAM_CLIENT_CONNECT, $get);
-			$cert = stream_context_get_params($read);
-			$result = array_key_exists('peer_certificate', $cert['options']['tls']);
-
-			if (!$result)
+			try
 			{
-				// Check if SSL is available
-				$get = stream_context_create(array('ssl' => array('capture_peer_cert' => true)));
-				$read = stream_socket_client('ssl://' . $host . ':443', $errorNumber, $errorMessage, 30, STREAM_CLIENT_CONNECT, $get);
-				$cert = stream_context_get_params($read);
-				$result = array_key_exists('peer_certificate', $cert['options']['ssl']);
-			}
+				// Make an HTTPS request to check if the site is available in HTTPS.
+				$host    = JUri::getInstance()->getHost();
+				$options = new \Joomla\Registry\Registry;
+				$options->set('userAgent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
+				$options->set('transport.curl', array(CURLOPT_SSL_VERIFYPEER => false));
+				$response = JHttpFactory::getHttp($options)->get('https://' . $host . JUri::root(true) . '/', array('Host' => $host), 10);
 
-			// There is no SSL certificate, do not enable SSL
-			if (!$result)
+				// If available in HTTPS check also the status code.
+				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310), true))
+				{
+					throw new RuntimeException('HTTPS version of the site returned an invalid HTTP status code.');
+				}
+			}
+			catch (RuntimeException $e)
 			{
 				$data['force_ssl'] = 0;
 
@@ -148,7 +144,7 @@ class ConfigModelApplication extends ConfigModelForm
 				$app->setUserState('com_config.config.global.data.force_ssl', 0);
 
 				// Inform the user
-				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE'), 'notice');
+				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE'), 'warning');
 			}
 		}
 
