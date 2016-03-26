@@ -39,12 +39,14 @@ jQuery(document).ready(function($) {
 			<?php echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'online-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_ONLINE')); ?>
 		<?php endif; ?>
 
-		<?php // I we have no download URL we can't reinstall or update ?>
 		<?php if (!isset($this->updateInfo['object']->downloadurl->_data)) : ?>
+			<?php // If we have no download URL we can't reinstall or update ?>
 			<?php echo $this->loadTemplate('noupdate'); ?>
 		<?php elseif (!$this->updateInfo['hasUpdate']) : ?>
+			<?php // If we have no update we can reinstall the core ?>
 			<?php echo $this->loadTemplate('reinstall'); ?>
 		<?php else : ?>
+			<?php // Ok let's show the update template ?>
 			<?php echo $this->loadTemplate('update'); ?>
 		<?php endif; ?>
 
