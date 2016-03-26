@@ -11,6 +11,7 @@
 	<description>COM_JOOMLAUPDATE_XML_DESCRIPTION</description>
 	<administration>
 		<files folder="admin">
+			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
 			<filename>joomlaupdate.php</filename>
