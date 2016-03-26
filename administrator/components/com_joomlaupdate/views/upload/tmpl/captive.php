@@ -15,7 +15,6 @@ JHtml::_('bootstrap.tooltip');
 require_once JPATH_ADMINISTRATOR . '/modules/mod_login/helper.php';
 
 $twofactormethods = ModLoginHelper::getTwoFactorMethods();
-$language         = JFactory::getLanguage();
 
 ?>
 <div class="alert alert-warning">
