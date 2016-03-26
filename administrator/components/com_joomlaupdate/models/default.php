@@ -789,7 +789,7 @@ ENDDATA;
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5.1
+	 * @since   3.5.2
 	 */
 	public function upload()
 	{
@@ -875,7 +875,7 @@ ENDDATA;
 	 *
 	 * @return  bool
 	 *
-	 * @since   3.5.1
+	 * @since   3.5.2
 	 */
 	public function captiveLogin($credentials)
 	{
@@ -913,7 +913,7 @@ ENDDATA;
 	 *
 	 * @return  bool
 	 *
-	 * @since   3.5.1
+	 * @since   3.5.2
 	 */
 	public function captiveFileExists()
 	{
@@ -934,7 +934,7 @@ ENDDATA;
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5.1
+	 * @since   3.5.2
 	 */
 	public function removePackageFiles()
 	{
