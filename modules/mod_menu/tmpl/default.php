@@ -67,7 +67,7 @@ if (($tagId = $params->get('tag_id', '')))
 		case 'separator':
 		case 'component':
 		case 'heading':
-		case 'url':			
+		case 'url':
 			require JModuleHelper::getLayoutPath('mod_menu', 'default_' . $item->type);
 			break;
 
