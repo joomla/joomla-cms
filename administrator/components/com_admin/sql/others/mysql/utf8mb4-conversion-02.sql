@@ -49,6 +49,7 @@ ALTER TABLE `#__tags` MODIFY `alias` varchar(400) NOT NULL DEFAULT '';
 ALTER TABLE `#__ucm_content` MODIFY `core_type_alias` varchar(400) NOT NULL DEFAULT '' COMMENT 'FK to the content types table';
 ALTER TABLE `#__ucm_content` MODIFY `core_title` varchar(400) NOT NULL;
 ALTER TABLE `#__ucm_content` MODIFY `core_alias` varchar(400) NOT NULL DEFAULT '';
+ALTER TABLE `#__users` MODIFY `name` varchar(400) NOT NULL DEFAULT '';
 
 --
 -- Step 2.3: Convert all tables to utf8mb4 chracter set with utf8mb4_unicode_ci collation
