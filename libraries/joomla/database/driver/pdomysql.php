@@ -191,6 +191,20 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Method to get the auto-incremented value from the last INSERT statement.
+	 *
+	 * @return  string  The value of the auto-increment field from the last inserted row.
+	 *
+	 * @since   12.1
+	 */
+	public function insertid()
+	{
+		$this->connect();
+
+		return $this->setQuery('SELECT LAST_INSERT_ID() AS id')->execute()->fetchObject()->id;
+	}
+
+	/**
 	 * Select a database for use.
 	 *
 	 * @param   string  $database  The name of the database to select for use.
