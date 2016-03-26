@@ -42,7 +42,7 @@ if ($item->browserNav == 1)
 {
 	$attributes['target'] = '_blank';
 }
-else if ($item->browserNav == 2)
+elseif ($item->browserNav == 2)
 {
 	$options = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes';
 
