@@ -21,7 +21,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 *
 	 * @var    array
 	 *
-	 * @since  3.5.1
+	 * @since  3.5.2
 	 */
 	protected $updateInfo = null;
 
@@ -30,7 +30,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 *
 	 * @var    string
 	 *
-	 * @since  3.5.1
+	 * @since  3.5.2
 	 */
 	protected $methodSelect = null;
 
@@ -39,7 +39,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 *
 	 * @var   string
 	 *
-	 * @since  3.5.1
+	 * @since  3.5.2
 	 */
 	protected $methodSelectUpload = null;
 
