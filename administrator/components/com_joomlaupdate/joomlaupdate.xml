@@ -10,6 +10,7 @@
 	<version>3.5.2</version>
 	<description>COM_JOOMLAUPDATE_XML_DESCRIPTION</description>
 	<administration>
+		<menu>com_joomlaupdate</menu>
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
