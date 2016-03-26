@@ -48,7 +48,7 @@ defined('_JEXEC') or die;
 			</td>
 		</tr>
 		<?php if (isset($this->updateInfo['object']->get('infourl')->_data)
-			&& isset($this->updateInfo['object']->get('infourl')->title) : ?>
+			&& isset($this->updateInfo['object']->get('infourl')->title)) : ?>
 			<tr>
 				<td>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'); ?>
