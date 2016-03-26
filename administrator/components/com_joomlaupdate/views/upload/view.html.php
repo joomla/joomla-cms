@@ -37,9 +37,6 @@ class JoomlaupdateViewUpload extends JViewLegacy
 		$language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
 		$language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
 
-		$language->load('mod_login', JPATH_ADMINISTRATOR, 'en-GB', false, true);
-		$language->load('mod_login', JPATH_ADMINISTRATOR, null, true);
-
 		// Import com_login's model
 		if (!class_exists('LoginModelLogin'))
 		{
