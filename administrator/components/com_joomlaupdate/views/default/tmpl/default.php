@@ -41,7 +41,7 @@ jQuery(document).ready(function($) {
 
 		<?php if (!isset($this->updateInfo['object']->downloadurl->_data)) : ?>
 			<?php // If we have no download URL we can't reinstall or update ?>
-			<?php echo $this->loadTemplate('noupdate'); ?>
+			<?php echo $this->loadTemplate('nodownload'); ?>
 		<?php elseif (!$this->updateInfo['hasUpdate']) : ?>
 			<?php // If we have no update we can reinstall the core ?>
 			<?php echo $this->loadTemplate('reinstall'); ?>
