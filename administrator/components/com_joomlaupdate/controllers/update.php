@@ -156,7 +156,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5.1
+	 * @since   3.5.2
 	 */
 	public function upload()
 	{
@@ -191,7 +191,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  array
 	 *
-	 * @since   3.5.1
+	 * @since   3.5.2
 	 */
 	public function captive()
 	{
@@ -225,7 +225,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  array
 	 *
-	 * @since   3.5.1
+	 * @since   3.5.2
 	 */
 	public function confirm()
 	{
