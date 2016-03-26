@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
 		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JVERSION); ?>
 	</div>
 
-	<?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof JUpdate)): ?>
+	<?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof JUpdate)) : ?>
 		<table class="table table-striped">
 			<tbody>
 			<tr>
@@ -37,7 +37,7 @@ defined('_JEXEC') or die;
 				</td>
 			</tr>
 			<?php if (isset($this->updateInfo['object']->get('infourl')->_data)
-				&& isset($this->updateInfo['object']->get('infourl')->title) : ?>
+				&& isset($this->updateInfo['object']->get('infourl')->title)) : ?>
 				<tr>
 					<td>
 						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'); ?>
