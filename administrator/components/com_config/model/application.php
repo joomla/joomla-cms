@@ -118,7 +118,7 @@ class ConfigModelApplication extends ConfigModelForm
 			return false;
 		}
 
-		// Check if we need to verify the SSL certificate
+		// Check if we can set the Force SSL option
 		if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) JFactory::getConfig()->get('force_ssl', '0'))
 		{
 			try
