@@ -66,7 +66,7 @@ JFactory::getDocument()->addStyleDeclaration($css);
 	</p>
 </div>
 
-<?php if (count($this->warnings != 0)) : ?>
+<?php if (count($this->warnings)) : ?>
 <fieldset>
 	<legend>
 		<?php echo JText::_('COM_INSTALLER_SUBMENU_WARNINGS') ?>
