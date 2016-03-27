@@ -513,7 +513,7 @@ class TemplatesModelTemplate extends JModelForm
 		}
 
 		// Make sure EOL is Unix
-		$data['source'] = str_replace(array("\r\n", "\n", "\r"), "\n", $data['source']);
+		$data['source'] = str_replace(array("\r\n", "\r"), "\n", $data['source']);
 
 		$return = JFile::write($filePath, $data['source']);
 
