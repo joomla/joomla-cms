@@ -732,8 +732,8 @@ class JSession implements IteratorAggregate
 		$this->_state = 'restart';
 
 		// Regenerate session id
-		$this->_handler->regenerate(true, null);
 		$this->_start();
+		$this->_handler->regenerate(true, null);
 		$this->_state = 'active';
 
 		if (!$this->_validate())
