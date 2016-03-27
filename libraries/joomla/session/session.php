@@ -738,7 +738,10 @@ class JSession implements IteratorAggregate
 
 		if (!$this->_validate())
 		{
-			// Destroy the session if it's not valid
+			/**
+			 * Destroy the session if it's not valid - we can't restart the session here unlike in the start method
+			 * else we risk recursion.
+			 */
 			$this->destroy();
 		}
 
