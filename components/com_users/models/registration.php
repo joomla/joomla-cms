@@ -181,7 +181,7 @@ class UsersModelRegistration extends JModelForm
 				$data['siteurl'],
 				$data['username']
 			);
-			
+
 			$is_html = $config->get('send_as_html', 0);
 
 			// Convert new lines to break tags, to prevent non-html messages appearing on one line.
