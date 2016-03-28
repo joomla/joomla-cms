@@ -1023,12 +1023,12 @@ class PlgEditorTinymce extends JPlugin
 		$btnsNames = array();
 
 		// Build the script
-		foreach ($buttons as $button)
+		foreach ($buttons as $i => $button)
 		{
 			if ($button->get('name'))
 			{
 				// Set some vars
-				$name    = str_replace(" ", "", $button->get('text'));
+				$name    = 'button-' . $i . str_replace(" ", "", $button->get('text'));
 				$title   = $button->get('text');
 				$onclick = ($button->get('onclick')) ? $button->get('onclick') : null;
 				$options = $button->get('options');
