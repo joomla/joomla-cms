@@ -121,14 +121,14 @@ if (!class_exists('JText'))
 	 */
 	abstract class JText
 	{
-        /**
-         * No need for translations in a non-interactive script, so always return an empty string here
-         *
-         * @param   string  $text  A language constant
-         *
-         * @return  string
+		/**
+		 * No need for translations in a non-interactive script, so always return an empty string here
+		 *
+		 * @param   string  $text  A language constant
+		 *
+		 * @return  string
 		 * @since   3.5.1
-         */
+		 */
 		public static function sprintf($text)
 		{
 			return '';
