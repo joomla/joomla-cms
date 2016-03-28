@@ -1881,7 +1881,7 @@ class JoomlaInstallerScript
 	 */
 	private function cleanJoomlaCache()
 	{
-		JLoader::import('cache', JPATH_ADMINISTRATOR . '/components/com_cache/models');
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_cache/models');
 		$model = JModelLegacy::getInstance('cache', 'CacheModel');
 		$model->clean();
 	}
