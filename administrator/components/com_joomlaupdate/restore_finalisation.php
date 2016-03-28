@@ -18,17 +18,17 @@ if (!defined('_JEXEC'))
 
 if (!function_exists('jimport'))
 {
-    /**
-     * We don't use it but the post-update script is using it anyway, so LET'S FAKE IT!
-     *
-     * @param   string  $path  A dot syntax path.
-     * @param   string  $base  Search this directory for the class.
-     *
-     * @return  boolean  True on success.
-     *
-     * @since   11.1
-     */
-    function jimport($path, $base = null)
+	/**
+	 * We don't use it but the post-update script is using it anyway, so LET'S FAKE IT!
+	 *
+	 * @param   string  $path  A dot syntax path.
+	 * @param   string  $base  Search this directory for the class.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
+	 */
+	function jimport($path, $base = null)
 	{
 		// Do nothing
 	}
@@ -50,6 +50,7 @@ if (!class_exists('JFile'))
 		 * @param   string  $fileName  The path to the file to be checked
 		 *
 		 * @return  bool
+		 *
 		 * @since   3.5.1
 		 */
 		public static function exists($fileName)
@@ -63,6 +64,7 @@ if (!class_exists('JFile'))
 		 * @param   string  $fileName  The path to the file to be deleted
 		 *
 		 * @return  bool
+		 *
 		 * @since   3.5.1
 		 */
 		public static function delete($fileName)
@@ -89,6 +91,7 @@ if (!class_exists('JFolder'))
 		 * @param   string  $folderName  The path to the folder to be checked
 		 *
 		 * @return  bool
+		 *
 		 * @since   3.5.1
 		 */
 		public static function exists($folderName)
@@ -102,6 +105,7 @@ if (!class_exists('JFolder'))
 		 * @param   string  $folderName  The path to the folder to be deleted
 		 *
 		 * @return  void
+		 *
 		 * @since   3.5.1
 		 */
 		public static function delete($folderName)
@@ -127,6 +131,7 @@ if (!class_exists('JText'))
 		 * @param   string  $text  A language constant
 		 *
 		 * @return  string
+		 *
 		 * @since   3.5.1
 		 */
 		public static function sprintf($text)
@@ -143,6 +148,10 @@ if (!function_exists('finalizeRestore'))
 	 *
 	 * @param   string  $siteRoot     The root to the Joomla! site
 	 * @param   string  $restorePath  The base path to restore.php
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5.1
 	 */
 	function finalizeRestore($siteRoot, $restorePath)
 	{
