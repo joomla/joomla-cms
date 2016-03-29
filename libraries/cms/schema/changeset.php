@@ -41,8 +41,17 @@ class JSchemaChangeset
 	 * Folder where SQL update files will be found
 	 *
 	 * @var    string
+	 * @since  2.5
 	 */
 	protected $folder = null;
+
+	/**
+	 * The singleton instance of this object
+	 *
+	 * @var    JSchemaChangeset
+	 * @since  3.5.1
+	 */
+	protected static $instance;
 
 	/**
 	 * Constructor: builds array of $changeItems by processing the .sql files in a folder.
@@ -59,10 +68,12 @@ class JSchemaChangeset
 		$this->folder = $folder;
 		$updateFiles = $this->getUpdateFiles();
 		$updateQueries = $this->getUpdateQueries($updateFiles);
+		$lastFile = '';
 
 		foreach ($updateQueries as $obj)
 		{
 			$this->changeItems[] = JSchemaChangeitem::getInstance($db, $obj->file, $obj->updateQuery);
+			$lastFile = $obj->file;
 		}
 
 		// If on mysql, add a query at the end to check for utf8mb4 conversion status
@@ -73,14 +84,16 @@ class JSchemaChangeset
 			// Let the update query be something harmless which should always succeed
 			$tmpSchemaChangeItem = JSchemaChangeitem::getInstance(
 				$db,
-				'database.php',
+				$lastFile,
 				'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
-				. ' SET ' . $this->db->quoteName('converted') . ' = 0;');
+				. ' SET ' . $this->db->quoteName('converted')
+				. ' = 0 WHERE ' . $this->db->quoteName('extension_id')
+				. ' = 700;');
 
 			// Set to not skipped
 			$tmpSchemaChangeItem->checkStatus = 0;
 
-			// Set the check query
+			// Set the query type
 			if ($this->db->hasUTF8mb4Support())
 			{
 				$converted = 2;
@@ -92,10 +105,50 @@ class JSchemaChangeset
 				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8';
 			}
 
+			$md5NewFile1 = '';
+			$md5NewFile2 = '';
+
+			$fileName1 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql";
+			$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql";
+
+			if (is_file($fileName1))
+			{
+				$fileContents1 = @file_get_contents($fileName1);
+
+				if ($fileContents1)
+				{
+					$queries1 = $this->db->splitSql($fileContents1);
+
+					if (!empty($queries1))
+					{
+						$md5NewFile1 = md5(serialize($queries1));
+					}
+				}
+			}
+
+			if (is_file($fileName2))
+			{
+				$fileContents2 = @file_get_contents($fileName2);
+
+				if ($fileContents2)
+				{
+					$queries2 = $this->db->splitSql($fileContents2);
+
+					if (!empty($queries2))
+					{
+						$md5NewFile2 = md5(serialize($queries2));
+					}
+				}
+			}
+
 			$tmpSchemaChangeItem->checkQuery = 'SELECT '
 				. $this->db->quoteName('converted')
 				. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
-				. ' WHERE ' . $this->db->quoteName('converted') . ' = ' . $converted;
+				. ' WHERE ' . $this->db->quoteName('extension_id')
+				. ' = 700 AND ' . $this->db->quoteName('converted') . ' = ' . $converted
+				. ' AND ' . $this->db->quoteName('md5_file1') . ' = ' . $this->db->quote($md5NewFile1)
+				. ' AND ' . $this->db->quoteName('md5_file2') . ' = ' . $this->db->quote($md5NewFile2)
+				. ';';
 
 			// Set expected records from check query
 			$tmpSchemaChangeItem->checkQueryExpected = 1;
@@ -116,16 +169,14 @@ class JSchemaChangeset
 	 *
 	 * @since   2.5
 	 */
-	public static function getInstance($db, $folder)
+	public static function getInstance($db, $folder = null)
 	{
-		static $instance;
-
-		if (!is_object($instance))
+		if (!is_object(static::$instance))
 		{
-			$instance = new JSchemaChangeset($db, $folder);
+			static::$instance = new JSchemaChangeset($db, $folder);
 		}
 
-		return $instance;
+		return static::$instance;
 	}
 
 	/**
