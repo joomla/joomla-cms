@@ -94,6 +94,7 @@ class MediaControllerFile extends JControllerLegacy
 		foreach ($files as &$file)
 		{
 			$file['name']     = JFile::makeSafe($file['name']);
+			$file['name']     = str_replace(' ', '-', $file['name']);
 			$file['filepath'] = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $file['name'])));
 
 			if (($file['error'] == 1)
