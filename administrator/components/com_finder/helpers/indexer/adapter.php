@@ -437,27 +437,39 @@ abstract class FinderIndexerAdapter extends JPlugin
 		 */
 		foreach ($pks as $pk)
 		{
-			$query = clone $this->getStateQuery();
-			$query->where('c.id = ' . (int) $pk);
-
-			// Get the published states.
-			$this->db->setQuery($query);
-			$items = $this->db->loadObjectList();
-
-			// Adjust the state for each item within the category.
-			foreach ($items as $item)
-			{
-				// Translate the state.
-				$temp = $this->translateState($item->state, $value);
-
-				// Update the item.
-				$this->change($item->id, 'state', $temp);
-
-				// Reindex the item
-				$this->reindex($item->id);
-			}
+			$this->updateStateByCategoryId($pk);
 		}
 	}
+
+	/**
+	 * Method to update the state of all the items in a category.
+	 *
+	 * @param   int  $id     The category primary key
+	 * @param   int  $state  The state of the category
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	protected function updateStateByCategoryId($id)
+	{
+		$query = clone $this->getStateQuery();
+		$query->where('c.id = ' . (int) $id);
+
+		// Get the state for the category.
+		$this->db->setQuery($query);
+		$items = $this->db->loadObjectList();
+		
+		// Adjust the state for each item within the category.
+		foreach ($items as $item)
+		{
+			// Translate the state.
+			$temp = $this->translateState($item->state, $item->cat_state);
+			
+			// Update the item.
+			$this->change($item->id, 'state', $temp);
+		}
+ 	}
 
 	/**
 	 * Method to check the existing access level for categories
@@ -936,7 +948,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// If category is present, factor in its states as well
 		if ($category !== null)
 		{
-			if ($category == 0)
+			if ($category <= 0)
 			{
 				$item = 0;
 			}
@@ -951,7 +963,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 				return 1;
 
 			// All other states should return a unpublished state
-			default:
+			default;
 			case 0:
 				return 0;
 		}
