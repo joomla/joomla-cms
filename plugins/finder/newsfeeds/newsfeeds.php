@@ -168,9 +168,9 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 				$this->categoryAccessChange($row);
 			}
 			// Check if the state are different.
-			if (!$isNew && $this->old_catstate != $row->state)
+			if (!$isNew && $this->old_catstate != $row->published)
 			{
-				$this->categoryStateChange($row);
+				$this->updateStateByCategoryId($row->id);
 			}
 		}
 
