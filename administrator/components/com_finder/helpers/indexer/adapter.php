@@ -444,7 +444,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * Method to update the state of all the items in a category.
 	 *
-	 * @param   int  $id     The category primary key
+	 * @param   int  $id  The category primary key
 	 *
 	 * @return  void
 	 *
