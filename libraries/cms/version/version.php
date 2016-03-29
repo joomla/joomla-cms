@@ -38,7 +38,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_LEVEL = '1-rc';
+	const DEV_LEVEL = '1-rc2';
 
 	/**
 	 * Development status.
@@ -70,7 +70,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '28-March-2016';
+	const RELDATE = '29-March-2016';
 
 	/**
 	 * Release time.
