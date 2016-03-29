@@ -445,7 +445,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * Method to update the state of all the items in a category.
 	 *
 	 * @param   int  $id     The category primary key
-	 * @param   int  $state  The state of the category
 	 *
 	 * @return  void
 	 *
@@ -459,17 +458,17 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// Get the state for the category.
 		$this->db->setQuery($query);
 		$items = $this->db->loadObjectList();
-		
+
 		// Adjust the state for each item within the category.
 		foreach ($items as $item)
 		{
 			// Translate the state.
 			$temp = $this->translateState($item->state, $item->cat_state);
-			
+
 			// Update the item.
 			$this->change($item->id, 'state', $temp);
 		}
- 	}
+	}
 
 	/**
 	 * Method to check the existing access level for categories
