@@ -54,7 +54,8 @@ class JCacheStorageApcu extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			$name = $key['info'];
+			// The internal key name changed with APCu 4.0.7 from key to info
+			$name = isset($key['info']) ? $key['info'] : $key['key'];
 			$namearr = explode('-', $name);
 
 			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
@@ -141,9 +142,12 @@ class JCacheStorageApcu extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			if (strpos($key['info'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
+			// The internal key name changed with APCu 4.0.7 from key to info
+			$internalKey = isset($key['info']) ? $key['info'] : $key['key'];
+
+			if (strpos($internalKey, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
 			{
-				apcu_delete($key['info']);
+				apcu_delete($internalKey);
 			}
 		}
 
@@ -165,9 +169,12 @@ class JCacheStorageApcu extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			if (strpos($key['info'], $secret . '-cache-'))
+			// The internal key name changed with APCu 4.0.7 from key to info
+			$internalKey = isset($key['info']) ? $key['info'] : $key['key'];
+
+			if (strpos($internalKey, $secret . '-cache-'))
 			{
-				apcu_fetch($key['info']);
+				apcu_fetch($internalKey);
 			}
 		}
 
@@ -183,7 +190,15 @@ class JCacheStorageApcu extends JCacheStorage
 	 */
 	public static function isSupported()
 	{
-		return extension_loaded('apcu') && ini_get('apc.enabled');
+		$supported = extension_loaded('apcu') && ini_get('apc.enabled');
+
+		// If on the CLI interface, the `apc.enable_cli` option must also be enabled
+		if ($supported && php_sapi_name() === 'cli')
+		{
+			$supported = ini_get('apc.enable_cli');
+		}
+
+		return (bool) $supported;
 	}
 
 	/**

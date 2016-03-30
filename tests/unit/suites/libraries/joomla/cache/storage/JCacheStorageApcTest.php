@@ -37,7 +37,7 @@ class JCacheStorageApcTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$this->extensionAvailable = extension_loaded('apc');
+		$this->extensionAvailable = JCacheStorageApc::isSupported();
 
 		if ($this->extensionAvailable)
 		{

@@ -2807,9 +2807,6 @@ input[type="submit"].btn.btn-mini {
 .alert h4 {
   margin: 0 0 .5em;
 }
-.alert p {
-  margin: 0;
-}
 .alert .close {
 	position: relative;
 	top: -2px;

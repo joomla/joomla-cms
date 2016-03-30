@@ -24,6 +24,8 @@ tinymce.addI18n('da',{
 "Blocks": "Blokke",
 "Undo": "Fortryd",
 "Strikethrough": "Gennemstreg",
+"Preformatted": "Preformateret",
+"Language": "Sprog",
 "Bullet list": "Punkt tegn",
 "Header 1": "Overskrift 1",
 "Superscript": "H\u00e6vet",
