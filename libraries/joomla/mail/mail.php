@@ -513,6 +513,10 @@ class JMail extends PHPMailer
 		{
 			$this->SMTPSecure = $secure;
 		}
+		elseif ($secure == 'none')
+		{
+			$this->SMTPAutoTLS = false;
+		}
 
 		if (($this->SMTPAuth !== null && $this->Host !== null && $this->Username !== null && $this->Password !== null)
 			|| ($this->SMTPAuth === null && $this->Host !== null))
