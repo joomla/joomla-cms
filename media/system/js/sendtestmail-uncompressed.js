@@ -26,7 +26,30 @@ jQuery(document).ready(function ($)
 
 		$.ajax({
 				url: sendtestmail_url,
-				data: email_data
+				data: email_data,
+				dataFilter: function(data, type)
+				{
+					if ((typeof type === 'undefined' || type.indexOf('json') !== -1) 
+						&& typeof data === 'string' && (data.indexOf('{') !== 0 || data[data.length-1] !== '}'))
+					{
+						var json = data.match(/{"success":(true|false),"message":.+,"messages":.+,"data":.+}/i);
+						if (json)
+						{
+							if (typeof JSON.stringify === 'function')
+							{
+								var response = $.parseJSON(json[0]);
+								if (typeof response.messages !== 'object') 
+									response.messages = {};
+								if (typeof response.messages.error === 'undefined') 
+									response.messages.error = [];
+								response.messages.error.push(data.replace(json[0], ' '));
+								data = JSON.stringify(response);
+							}
+							else data = json[0];
+						}
+					}
+					return data;
+				}
 			})
 
 		.done(function (response)
