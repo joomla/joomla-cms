@@ -615,13 +615,14 @@ abstract class JHtml
 	 *                                       <tr><td>Firefox</td>                    <td>mozilla</td>	<td>5.0</td></tr>
 	 *                                    </table>
 	 * @param   boolean  $detect_debug    detect debug to search for compressed files if debug is on
+	 * @param   string   $version         add version to stylesheet. empty for no version, null to auto, other for custom (see JDocument::addStyleSheetVersion)
 	 *
 	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific css browser files were detected
 	 *
 	 * @see     JBrowser
 	 * @since   1.5
 	 */
-	public static function stylesheet($file, $attribs = array(), $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
+	public static function stylesheet($file, $attribs = array(), $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true, $version = '')
 	{
 		$includes = static::includeRelativeFiles('css', $file, $relative, $detect_browser, $detect_debug);
 
@@ -648,7 +649,15 @@ abstract class JHtml
 
 			foreach ($includes as $include)
 			{
-				$document->addStylesheet($include, 'text/css', null, $attribs);
+				if ($version === '')
+				{
+					$document->addStylesheet($include, 'text/css', null, $attribs);
+				}
+				else
+				{
+					$document->addStyleSheetVersion($include, $version, 'text/css', null, $attribs);
+				}
+				
 			}
 		}
 	}
@@ -662,13 +671,14 @@ abstract class JHtml
 	 * @param   boolean  $path_only       return the path to the file only.
 	 * @param   boolean  $detect_browser  detect browser to include specific browser js files.
 	 * @param   boolean  $detect_debug    detect debug to search for compressed files if debug is on.
+	 * @param   string   $version         add version to script. empty for no version, null to auto, other for custom (see JDocument::addScriptVersion)
 	 *
 	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific js browser files were detected.
 	 *
 	 * @see     JHtml::stylesheet()
 	 * @since   1.5
 	 */
-	public static function script($file, $framework = false, $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
+	public static function script($file, $framework = false, $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true, $version = '')
 	{
 		// Include MooTools framework
 		if ($framework)
@@ -701,7 +711,14 @@ abstract class JHtml
 
 			foreach ($includes as $include)
 			{
-				$document->addScript($include);
+				if ($version === '')
+				{
+					$document->addScript($include);
+				}
+				else
+				{
+					$document->addScriptVersion($include, $version);
+				}
 			}
 		}
 	}
