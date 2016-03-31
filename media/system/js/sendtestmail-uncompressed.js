@@ -32,7 +32,26 @@ jQuery(document).ready(function ($)
 		})
 		.fail(function (jqXHR, textStatus, error) {
 			var msg = {};
-			msg.error = ['An error as occured while reading the JSON response data: ' + error];
+			if (textStatus == 'parsererror')
+			{
+				msg.error = ['A parse error as occured while processing the following JSON data:<br/><code style="color:inherit;white-space:pre;padding:0;margin:0;border:0;background:inherit;">' + jqXHR.responseText.trim() + '</code>'];
+			}
+			else if (textStatus == 'nocontent')
+			{
+				msg.error = ['No content has returned.'];
+			}
+			else if (textStatus == 'timeout')
+			{
+				msg.error = ['A timeout as occured while fetching the JSON data.'];
+			}
+			else if (textStatus == 'abort')
+			{
+				msg.error = ['A connection abort as occured while fetching the JSON data.'];
+			}
+			else
+			{
+				msg.error = ['An error as occured while fetching the JSON data: ' + jqXHR.status + ' HTTP status code.'];
+			}
 			Joomla.renderMessages(msg);
 		})
 		.done(function (response) {
