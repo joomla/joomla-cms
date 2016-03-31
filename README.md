@@ -8,80 +8,44 @@ Jenkins: [![Build Status](http://build.joomla.org/job/cms/badge/icon)](http://bu
 
 What is this?
 ---------------------
-* This is a Joomla! 3.x installation/upgrade package.
-* Joomla's [Official website](https://www.joomla.org).
-* Joomla! 3.5 [version history](https://docs.joomla.org/Joomla_3.5_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/master).
+This is the official custom fields repository for the Joomla 3.6 version. Please open here issues and pull requests for feedback.
 
-What is Joomla?
----------------------
-* Joomla is a **Content Management System** (CMS) which enables you to build websites and powerful online applications.
-* It is a simple and powerful web server application which requires a server with PHP and either MySQL, PostgreSQL or SQL Server to run. You can find more [details here](https://www.joomla.org/about-joomla.html).
-* Joomla is **free and OpenSource software** distributed under the GNU General Public License version 2 or later.
+This repository adds custom fields functionality to the Joomla CMS, based on the code of [DPFields](https://github.com/Digital-Peak/DPFields). It will be integrated as a horizontal component. This means, loading of fields into JForm and displaying them on the front is controlled trough the _Fields_ system plugin. Field management is done trough the com_fields component and will be integrated similar to com_categories as a new _Fields_ menu item in the articles manager.
 
-Is Joomla! for you?
----------------------
-* Joomla is [the right solution for most content web projects](https://docs.joomla.org/Joomla_Is_it_for_me%3F).
-* View Joomla's core [features here](https://www.joomla.org/core-features.html).
-* Try it out for yourself in our [online demo](https://demo.joomla.org).
+#### Testing Instructions
+Please keep in mind that this repository adds two new tables and new entries to the extension table. The following test instruction acts more as a getting started guide. How to get more information can be found at the end of this file.
 
-How to find a Joomla! translation?
----------------------
-* Repository of [accredited language packs](http://community.joomla.org/translations.html).
-* You can also add languages directly to your website via your Joomla! administration panel.
+##### Create a custom field
+1. Log in on the back end.
+2. Navigate to Content -> Articles.
+3. Click on the left sidebar on Fields.
+4. Click on the New button on the top.
+5. Define a title and label.
+6. Click the Save & Close button on the top.
 
-Learn Joomla!
----------------------
-* Read ['Getting Started with Joomla!'](https://docs.joomla.org/J3.x:Getting_Started_with_Joomla!) to learn the basics.
-* Before installing, read the ['Beginners' Guide'](https://docs.joomla.org/Beginners).
+##### Create an article
+1. Log in on the back end.
+2. Navigate to Content -> Articles.
+3. Click on the New button on the top.
+4. Define a title.
+5. Open the Fields tab.
+6. Add some text on the custom field.
+7. Click the Save & Close button on the top.
 
-What are the benefits of Joomla?
----------------------
-* The functionality of a Joomla website can be extended by installing extensions that you can create (or download) to suit your needs.
-* There are many ready-made extensions that you can download and install.
-* Check out the [Joomla! Extensions Directory (JED)](http://extensions.joomla.org).
+##### View it on the front
+1. Log in on the back end.
+2. Create an article menu item in the menu manager and select the new article.
+3. Go to the front site of your Joomla installation.
+4. Open the article.
+5. Check if the custom field is displayed.
 
-Is it easy to change the layout display?
----------------------
-* The layout is controlled by templates that you can edit.
-* There are a lot of ready-made professional templates that you can download.
-* Template management information is [available here](https://docs.joomla.org/Portal:Administrators#Template_Management).
+A more detailed test instruction article with screenshots can be found on our [blog](https://joomla.digital-peak.com/blog/198-custom-fields-in-joomla-3-6). We scratched here only on the surface of com_fields. If you want to check out what is all possible with this PR should have a look on the [full documentation of DPFields](https://joomla.digital-peak.com/documentation/162-dpfields). There are many options like layout overrides, inline field rendering in the article description, categories per fields, permissions. What works for DPFields will also work for com_fields.
 
-Ready to install Joomla?
----------------------
-* Check the [minimum requirements](https://www.joomla.org/technical-requirements.html). 
-* How do you [install Joomla](https://docs.joomla.org/Installing_Joomla!)?
-* You could start your Joomla! experience by [building your site on a local test server](https://docs.joomla.org/Installing_Joomla_locally).
-When ready, it can be moved to an on-line hosting account of your choice.
+#### Things to clear
+As the current code is more or less a one to one copy of DPFields the following approaches do need clarification:
+- Is the system plugin approach right? Or should it be integrated as Observer on JTable and JModelForm?
+- com_fields uses a new permission, who can edit the value of a field? Should that be made as a new permission in core too, as at the moment a field can't inherit from the categories or even the global configuration?
 
-Updates are free!
----------------------
-* Always use the [latest version](https://www.joomla.org/download.html).
-
-Where can you get support and help?
----------------------
-* [The Joomla! Documentation](https://docs.joomla.org/Main_Page);
-* [Frequently Asked Questions](https://docs.joomla.org/Category:FAQ) (FAQ);
-* Find the [information you need](https://docs.joomla.org/Start_here);
-* Find [help and other users](https://www.joomla.org/about-joomla/create-and-share.html);
-* Post questions at [our forums](http://forum.joomla.org);
-* [Joomla Resources Directory](http://resources.joomla.org/) (JRD).
-
-Do you already have a Joomla site that isn't built with Joomla 3.x?
----------------------
-* What's [new in Joomla! 3.x](https://www.joomla.org/3)?
-* What are the [main differences between 2.5 and 3.x](https://docs.joomla.org/What_are_the_major_differences_between_Joomla!_2.5_and_3.x%3F)?
-* How to [migrate from 2.5.x to 3.x](https://docs.joomla.org/Joomla_2.5_to_3.x_Step_by_Step_Migration).
-* How to [migrate from 1.5.x to 3.x](https://docs.joomla.org/Joomla_1.5_to_3.x_Step_by_Step_Migration).
-* How to [convert an existing website to Joomla](https://docs.joomla.org/How_to_Convert_an_existing_Web_site_to_a_Joomla!_Web_site).
-
-Do you want to improve Joomla?
---------------------
-* How do you [request a feature](https://docs.joomla.org/How_do_you_request_a_feature%3F)?
-* How do you [report a bug](https://docs.joomla.org/Filing_bugs_and_issues)?
-* Get Involved: Joomla! is community developed software. [Join the community](https://volunteers.joomla.org/).
-* Documentation for [Developers](https://docs.joomla.org/Developers).
-* Documentation for [Web designers](https://docs.joomla.org/Web_designers).
 
 Copyright
 ---------------------
