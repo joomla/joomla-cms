@@ -24,14 +24,18 @@ jQuery(document).ready(function ($)
 			mailonline: $('input[name="jform[mailonline]"]:checked').val()
 		};
 
-		$.ajax({
+		$.ajax( {
 				method: "POST",
 				url: sendtestmail_url,
 				data: email_data,
 				dataType: "json"
-			})
-		.done(function (response)
-		{
+		})
+		.fail(function (jqXHR, textStatus, error) {
+			var msg = {};
+			msg.error = ['An error as occured while reading the JSON response data: ' + error];
+			Joomla.renderMessages(msg);
+		})
+		.done(function (response) {
 			var msg = {};
 
 			if (response.data)
@@ -43,7 +47,6 @@ jQuery(document).ready(function ($)
 						msg.success = [response.messages.success];
 					}
 				}
-
 			}
 			else
 			{
