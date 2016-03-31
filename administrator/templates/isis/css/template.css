@@ -2790,7 +2790,7 @@ input[type="submit"].btn.btn-mini {
 	color: #8a6d3b;
 }
 .alert h4 {
-  margin: 0 0 .5em;
+	margin: 0 0 .5em;
 }
 .alert .close {
 	position: relative;
@@ -8170,8 +8170,8 @@ body.modal-open {
 	.field-media-wrapper .modal .modal-body {
 		padding: 5px 0;
 	}
-}
-.modal-body {
-	-webkit-overflow-scrolling: touch;
-	overflow-y: auto !important;
+	.modal-body {
+		-webkit-overflow-scrolling: touch;
+		overflow-y: auto !important;
+	}
 }
