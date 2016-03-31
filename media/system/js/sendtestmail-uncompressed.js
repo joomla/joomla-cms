@@ -25,43 +25,43 @@ jQuery(document).ready(function ($)
 		};
 
 		$.ajax({
+				method: "POST",
 				url: sendtestmail_url,
-				data: email_data
+				data: email_data,
+				dataType: "json"
 			})
-
 		.done(function (response)
 		{
-			var data_response = $.parseJSON(response);
 			var msg = {};
 
-			if (data_response.data)
+			if (response.data)
 			{
-				if (typeof data_response.messages == 'object')
+				if (typeof response.messages == 'object')
 				{
-					if (typeof data_response.messages.success != 'undefined' && data_response.messages.success.length > 0)
+					if (typeof response.messages.success != 'undefined' && response.messages.success.length > 0)
 					{
-						msg.success = [data_response.messages.success];
+						msg.success = [response.messages.success];
 					}
 				}
 
 			}
 			else
 			{
-				if (typeof data_response.messages == 'object')
+				if (typeof response.messages == 'object')
 				{
-					if (typeof data_response.messages.error != 'undefined' && data_response.messages.error.length > 0)
+					if (typeof response.messages.error != 'undefined' && response.messages.error.length > 0)
 					{
-						msg.error = [data_response.messages.error];
+						msg.error = [response.messages.error];
 					}
 
-					if (typeof data_response.messages.notice != 'undefined' && data_response.messages.notice.length > 0)
+					if (typeof response.messages.notice != 'undefined' && response.messages.notice.length > 0)
 					{
-						msg.notice = [data_response.messages.notice];
+						msg.notice = [response.messages.notice];
 					}
 
-					if (typeof data_response.messages.message != 'undefined' && data_response.messages.message.length > 0)
+					if (typeof response.messages.message != 'undefined' && response.messages.message.length > 0)
 					{
-						msg.message = [data_response.messages.message];
+						msg.message = [response.messages.message];
 					}
 				}
 			}
