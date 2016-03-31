@@ -58,7 +58,7 @@ if (($tagId = $params->get('tag_id', '')))
 
 	if ($item->parent)
 	{
-		$class .= ' parent dropdown-submenu';
+		$class .= ' parent';
 	}
 
 	echo '<li class="' . $class . '">';
