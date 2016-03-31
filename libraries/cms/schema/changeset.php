@@ -95,7 +95,7 @@ class JSchemaChangeset
 			$tmpSchemaChangeItem->checkQuery = 'SELECT '
 				. $this->db->quoteName('converted')
 				. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
-				. ' WHERE ' . $this->db->quoteName('converted') . ' = ' . $converted . ';';
+				. ' WHERE ' . $this->db->quoteName('converted') . ' = ' . $converted;
 
 			// Set expected records from check query
 			$tmpSchemaChangeItem->checkQueryExpected = 1;
@@ -278,47 +278,13 @@ class JSchemaChangeset
 
 			foreach ($queries as $query)
 			{
-				if ($trimmedQuery = $this->trimQuery($query))
-				{
-					$fileQueries = new stdClass;
-					$fileQueries->file = $file;
-					$fileQueries->updateQuery = $trimmedQuery;
-					$result[] = $fileQueries;
-				}
+				$fileQueries = new stdClass;
+				$fileQueries->file = $file;
+				$fileQueries->updateQuery = $query;
+				$result[] = $fileQueries;
 			}
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Trim comment and blank lines out of a query string
-	 *
-	 * @param   string  $query  query string to be trimmed
-	 *
-	 * @return  string  String with leading comment lines removed
-	 *
-	 * @since   3.1
-	 */
-	private function trimQuery($query)
-	{
-		$query = trim($query);
-
-		while (substr($query, 0, 1) == '#' || substr($query, 0, 2) == '--' || substr($query, 0, 2) == '/*')
-		{
-			$endChars = (substr($query, 0, 1) == '#' || substr($query, 0, 2) == '--') ? "\n" : "*/";
-
-			if ($position = strpos($query, $endChars))
-			{
-				$query = trim(substr($query, $position + strlen($endChars)));
-			}
-			else
-			{
-				// If no newline, the rest of the file is a comment, so return an empty string.
-				return '';
-			}
-		}
-
-		return trim($query);
 	}
 }
