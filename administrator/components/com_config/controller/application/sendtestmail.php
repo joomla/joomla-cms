@@ -36,6 +36,9 @@ class ConfigControllerApplicationSendtestmail extends JControllerBase
 			$this->app->redirect('index.php');
 		}
 
+		header('Content-Disposition: inline; filename="sendmailtest.json"');
+		header('Content-Type: application/json; charset=utf-8');
+
 		$model = new ConfigModelApplication;
 		echo new JResponseJson($model->sendTestMail());
 		JFactory::getApplication()->close();
