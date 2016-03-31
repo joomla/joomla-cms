@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 JLoader::register('FinderIndexerParser', dirname(__DIR__) . '/parser.php');
 
 /**
@@ -33,10 +35,24 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 	public function parse($input)
 	{
 		// Strip invalid UTF-8 characters.
-		$input = iconv("utf-8", "utf-8//IGNORE", $input);
+		if (!StringHelper::valid($input))
+		{
+			if (function_exists('iconv'))
+			{
+				iconv("utf-8", "utf-8//IGNORE", $input);
+			}
+			else
+			{
+				if (!function_exists('utf8_bad_strip'))
+				{
+					require_once JPATH_LIBRARIES . '/vendor/joomla/string/src/phputf8/utils/bad.php';
+				}
 
-		// Convert <style>, <noscript> and <head> tags to <script> tags
-		// so we can remove them efficiently.
+				$input = utf8_bad_strip($input);
+			}
+		}
+
+		// Convert <style>, <noscript> and <head> tags to <script> tags so we can remove them efficiently.
 		$search = array(
 			'<style', '</style',
 			'<noscript', '</noscript',
@@ -58,8 +74,7 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 		// Convert entities equivalent to spaces to actual spaces.
 		$input = str_replace(array('&nbsp;', '&#160;'), ' ', $input);
 
-		// This fixes issues such as '<h1>Title</h1><p>Paragraph</p>'
-		// being transformed into 'TitleParagraph' with no space.
+		// This fixes issues such as '<h1>Title</h1><p>Paragraph</p>' being transformed into 'TitleParagraph' with no space.
 		$input = str_replace('>', '> ', $input);
 
 		// Strip HTML tags.
