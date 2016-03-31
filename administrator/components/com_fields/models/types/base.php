@@ -45,7 +45,7 @@ class FieldsTypeBase
 
 		// Set the disabled state based on the parameter and the permission
 		$authorizedToEdit = JFactory::getUser()->authorise('edit.value', $field->context . '.field.' . (int) $field->id);
-		if ($field->params->get('disabled', 0) || ! $authorizedToEdit)
+		if ($field->params->get('disabled', 0) || !$authorizedToEdit)
 		{
 			$node->setAttribute('disabled', 'true');
 		}

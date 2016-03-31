@@ -54,7 +54,7 @@ class JFormFieldModal_Field extends JFormField
 		// Clear button script
 		static $scriptClear;
 
-		if ($allowClear && ! $scriptClear)
+		if ($allowClear && !$scriptClear)
 		{
 			$scriptClear = true;
 

@@ -369,7 +369,7 @@ class FieldsHelper
 				}
 			}
 
-			if (! $label || ! $description)
+			if (! $label || !$description)
 			{
 				$lang = JFactory::getLanguage();
 
@@ -432,7 +432,7 @@ class FieldsHelper
 				'ignore_request' => true
 		));
 
-		if ((! isset($data->id) || ! $data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules' && JFactory::getApplication()->isSite())
+		if ((! isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules' && JFactory::getApplication()->isSite())
 		{
 			// Modules on front end editing don't have data and an id set
 			$data->id = $input->getInt('id');
