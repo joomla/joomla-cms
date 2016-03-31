@@ -24,11 +24,11 @@ jQuery(document).ready(function ($)
 			mailonline: $('input[name="jform[mailonline]"]:checked').val()
 		};
 
-		$.ajax( {
-				method: "POST",
-				url: sendtestmail_url,
-				data: email_data,
-				dataType: "json"
+		$.ajax({
+			method: "POST",
+			url: sendtestmail_url,
+			data: email_data,
+			dataType: "json"
 		})
 		.fail(function (jqXHR, textStatus, error) {
 			var msg = {};
