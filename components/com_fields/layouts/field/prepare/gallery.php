@@ -6,16 +6,17 @@
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
-if (! key_exists('field', $displayData))
+if (!key_exists('field', $displayData))
 {
 	return;
 }
 
 $field = $displayData['field'];
 $value = $field->value;
-if (! $value)
+
+if (!$value)
 {
 	return;
 }
@@ -33,50 +34,50 @@ $doc->addStyleSheet('media/com_fields/css/fotorama.min.css');
 
 $value = (array) $value;
 
-$thumbWidth = $field->fieldparams->get('thumbnail_width', '64');
+$thumbWidth    = $field->fieldparams->get('thumbnail_width', '64');
 $maxImageWidth = $field->fieldparams->get('max_width');
 
 // Main container
 $buffer = '<div class="fotorama" data-nav="thumbs" data-width="100%">';
+
 foreach ($value as $path)
 {
 	// Only process valid paths
-	if (! $path)
+	if (!$path)
 	{
 		continue;
 	}
 
 	// The root folder
 	$root = $field->fieldparams->get('directory', 'images');
+
 	foreach (JFolder::files(JPATH_ROOT . '/' . $root . '/' . $path, '.', $field->fieldparams->get('recursive', '1'), true) as $file)
 	{
 		// Skip none image files
-		if (! in_array(strtolower(JFile::getExt($file)), array(
-				'jpg',
-				'png',
-				'bmp',
-				'gif'
-		)))
+		if (!in_array(strtolower(JFile::getExt($file)), array('jpg','png','bmp','gif')))
 		{
 			continue;
 		}
 
 		// Relative path
-		$localPath = str_replace(JPATH_ROOT . '/' . $root . '/', '', $file);
+		$localPath    = str_replace(JPATH_ROOT . '/' . $root . '/', '', $file);
 		$webImagePath = $root . '/' . $localPath;
 
 		if ($maxImageWidth)
 		{
 			$resize = JPATH_CACHE . '/com_fields/gallery/' . $field->id . '/' . $maxImageWidth . '/' . $localPath;
-			if (! JFile::exists($resize))
+
+			if (!JFile::exists($resize))
 			{
 				// Creating the folder structure for the max sized image
-				if (! JFolder::exists(dirname($resize)))
+				if (!JFolder::exists(dirname($resize)))
 				{
 					JFolder::create(dirname($resize));
 				}
+
 				// Getting the properties of the image
 				$properties = JImage::getImageFileProperties($file);
+
 				if ($properties->width > $maxImageWidth)
 				{
 					// Creating the max sized image for the image
@@ -85,6 +86,7 @@ foreach ($value as $path)
 					$imgObject->toFile($resize);
 				}
 			}
+
 			if (JFile::exists($resize))
 			{
 				$webImagePath = JUri::base(true) . str_replace(JPATH_ROOT, '', $resize);
@@ -94,18 +96,19 @@ foreach ($value as $path)
 		// Thumbnail path for the image
 		$thumb = JPATH_CACHE . '/com_fields/gallery/' . $field->id . '/' . $thumbWidth . '/' . $localPath;
 
-		if (! JFile::exists($thumb))
+		if (!JFile::exists($thumb))
 		{
 			try
 			{
 				// Creating the folder structure for the thumbnail
-				if (! JFolder::exists(dirname($thumb)))
+				if (!JFolder::exists(dirname($thumb)))
 				{
 					JFolder::create(dirname($thumb));
 				}
 
 				// Getting the properties of the image
 				$properties = JImage::getImageFileProperties($file);
+
 				if ($properties->width > $thumbWidth)
 				{
 					// Creating the thumbnail for the image
@@ -132,6 +135,7 @@ foreach ($value as $path)
 		}
 	}
 }
+
 $buffer .= '</div>';
 
 echo $buffer;
