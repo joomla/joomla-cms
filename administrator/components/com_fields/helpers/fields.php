@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 class FieldsHelper
 {
@@ -369,7 +369,7 @@ class FieldsHelper
 				}
 			}
 
-			if (! $label || ! $description)
+			if (! $label || !$description)
 			{
 				$lang = JFactory::getLanguage();
 
@@ -432,7 +432,7 @@ class FieldsHelper
 				'ignore_request' => true
 		));
 
-		if ((! isset($data->id) || ! $data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules' && JFactory::getApplication()->isSite())
+		if ((! isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules' && JFactory::getApplication()->isSite())
 		{
 			// Modules on front end editing don't have data and an id set
 			$data->id = $input->getInt('id');

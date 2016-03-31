@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 class FieldsController extends JControllerLegacy
 {
@@ -36,7 +36,7 @@ class FieldsController extends JControllerLegacy
 		$id = $this->input->getInt('id');
 
 		// Check for edit form.
-		if ($vName == 'field' && $lName == 'edit' && ! $this->checkEditId('com_fields.edit.field', $id))
+		if ($vName == 'field' && $lName == 'edit' && !$this->checkEditId('com_fields.edit.field', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));

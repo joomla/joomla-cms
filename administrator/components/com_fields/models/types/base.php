@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 class FieldsTypeBase
 {
@@ -45,7 +45,7 @@ class FieldsTypeBase
 
 		// Set the disabled state based on the parameter and the permission
 		$authorizedToEdit = JFactory::getUser()->authorise('edit.value', $field->context . '.field.' . (int) $field->id);
-		if ($field->params->get('disabled', 0) || ! $authorizedToEdit)
+		if ($field->params->get('disabled', 0) || !$authorizedToEdit)
 		{
 			$node->setAttribute('disabled', 'true');
 		}
