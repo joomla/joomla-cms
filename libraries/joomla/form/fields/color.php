@@ -35,6 +35,22 @@ class JFormFieldColor extends JFormField
 	protected $control = 'hue';
 
 	/**
+	 * The format.
+	 *
+	 * @var    string
+	 * @since  3.5
+	 */
+	protected $format = 'hex';
+
+	/**
+	 * The opacity.
+	 *
+	 * @var    float
+	 * @since  3.5
+	 */
+	protected $opacity = 0.5;
+
+	/**
 	 * The position.
 	 *
 	 * @var    mixed
@@ -75,6 +91,8 @@ class JFormFieldColor extends JFormField
 			case 'exclude':
 			case 'colors':
 			case 'split':
+			case 'format':
+			case 'opacity':
 				return $this->$name;
 		}
 
@@ -97,9 +115,12 @@ class JFormFieldColor extends JFormField
 		{
 			case 'split':
 				$value = (int) $value;
+			case 'opacity':
+				$value = (float) $value;
 			case 'control':
 			case 'exclude':
 			case 'colors':
+			case 'format':
 				$this->$name = (string) $value;
 				break;
 
@@ -132,6 +153,8 @@ class JFormFieldColor extends JFormField
 			$this->position = isset($this->element['position']) ? (string) $this->element['position'] : 'right';
 			$this->colors   = (string) $this->element['colors'];
 			$this->split    = isset($this->element['split']) ? (int) $this->element['split'] : 3;
+			$this->format   = isset($this->element['format']) ? (string) $this->element['format'] : 'hex';
+			$this->opacity  = isset($this->element['opacity']) ? (float) $this->element['opacity'] : 0.5;
 		}
 
 		return $return;
@@ -242,10 +265,18 @@ class JFormFieldColor extends JFormField
 		}
 		else
 		{
+		    // Valid options are hex and rgb.
+		    $format  = $this->format;
+
+		    // Set to from 0.0 to 1 to enable the opacity slider.
+		    $opacity = $this->opacity;
+
 			$class        = ' class="' . trim('minicolors ' . $class) . '"';
 			$control      = $control ? ' data-control="' . $control . '"' : '';
+		    $format       = $format ? ' data-format="' . $format . '"' : '';
+		    $opacity      = $opacity ? ' data-opacity="' . $opacity . '"' : '';
 			$readonly     = $this->readonly ? ' readonly' : '';
-			$hint         = $hint ? ' placeholder="' . $hint . '"' : ' placeholder="#rrggbb"';
+			$hint         = $hint ? ' placeholder="' . $hint . '"' : ' placeholder="'.($this->format === 'rgb' ? 'rgba(0, 0, 0, 0.5)' : '#rrggbb').'"';
 			$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : '';
 
 			// Including fallback code for HTML5 non supported browsers.
@@ -256,7 +287,7 @@ class JFormFieldColor extends JFormField
 
 			return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
 				. htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '"' . $hint . $class . $position . $control
-				. $readonly . $disabled . $required . $onchange . $autocomplete . $autofocus . '/>';
+				. $format . $opacity . $readonly . $disabled . $required . $onchange . $autocomplete . $autofocus . '/>';
 		}
 	}
 }
