@@ -6197,6 +6197,7 @@ div.modal {
 	z-index: 1050;
 	width: 80%;
 	margin-left: -40%;
+	height: 90%;
 	background-color: #fff;
 	border: 1px solid #999;
 	border: 1px solid rgba(0,0,0,0.3);
