@@ -36,7 +36,7 @@ class JCacheStorageWincacheTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$this->extensionAvailable = extension_loaded('wincache') && function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), '1');
+		$this->extensionAvailable = JCacheStorageWincache::isSupported();
 
 		if ($this->extensionAvailable)
 		{
