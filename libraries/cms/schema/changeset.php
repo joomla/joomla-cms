@@ -41,8 +41,17 @@ class JSchemaChangeset
 	 * Folder where SQL update files will be found
 	 *
 	 * @var    string
+	 * @since  2.5
 	 */
 	protected $folder = null;
+
+	/**
+	 * The singleton instance of this object
+	 *
+	 * @var    JSchemaChangeset
+	 * @since  3.5.1
+	 */
+	protected static $instance;
 
 	/**
 	 * Constructor: builds array of $changeItems by processing the .sql files in a folder.
@@ -116,16 +125,14 @@ class JSchemaChangeset
 	 *
 	 * @since   2.5
 	 */
-	public static function getInstance($db, $folder)
+	public static function getInstance($db, $folder = null)
 	{
-		static $instance;
-
-		if (!is_object($instance))
+		if (!is_object(static::$instance))
 		{
-			$instance = new JSchemaChangeset($db, $folder);
+			static::$instance = new JSchemaChangeset($db, $folder);
 		}
 
-		return $instance;
+		return static::$instance;
 	}
 
 	/**
