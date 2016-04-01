@@ -22,6 +22,14 @@ function modChrome_none($module, &$params, &$attribs)
  */
 function modChrome_html5($module, &$params, &$attribs)
 {
+	
+	$menu = JFactory::getApplication()->getMenu();
+	$parent = $menu->getItem( $menu->getActive()->parent_id );
+	$parentname = $parent->title;
+	$parentlink = JRoute::_( $parent->link . '&Itemid=' . $parent->id );
+	$useParentMenuItemAsTitle = $params->get('useParentMenuItemAsTitle');
+	$modulname = $useParentMenuItemAsTitle ? $parentname :$module->title;
+	
 	$moduleTag      = $params->get('module_tag', 'div');
 	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'));
 	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
@@ -35,7 +43,7 @@ function modChrome_html5($module, &$params, &$attribs)
 		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass; ?>">
 
 		<?php if ((bool) $module->showtitle) :?>
-			<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
+			<<?php echo $headerTag . $headerClass . '>' . $modulname; ?></<?php echo $headerTag; ?>>
 		<?php endif; ?>
 
 			<?php echo $module->content; ?>
