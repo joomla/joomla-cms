@@ -271,9 +271,10 @@ class JFormFieldColor extends JFormField
 			// Set to from 0.0 to 1 to enable the opacity slider.
 			$opacity = $this->opacity;
 
-			if ($format === 'rgb') 
+			if ($format === 'rgb')
 			{
-				if ($opacity) {
+				if ($opacity)
+				{
 					$placeholder = 'rgba(0, 0, 0, 0.5)';
 				}
 				else
