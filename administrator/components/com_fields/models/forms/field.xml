@@ -38,12 +38,6 @@
 	<field name="default_value" type="textarea" filter="raw"
 		label="COM_FIELDS_FIELD_FIELD_DEFAULT_VALUE_LABEL" description="COM_FIELDS_FIELD_FIELD_DEFAULT_VALUE_DESC"
 		class="input-xxlarge" size="40" />
-	<field name="render_class" type="textarea"
-		label="COM_FIELDS_FIELD_FIELD_RENDER_CLASS_LABEL" description="COM_FIELDS_FIELD_FIELD_RENDER_CLASS_DESC"
-		class="input-xxlarge" size="40" />
-	<field name="class" type="textarea" label="COM_FIELDS_FIELD_FIELD_CLASS_LABEL"
-		description="COM_FIELDS_FIELD_FIELD_CLASS_DESC" class="input-xxlarge"
-		size="40" />
 
 	<field name="state" type="list" class="chzn-color-state" default="1"
 		size="1" label="JSTATUS" description="JFIELD_PUBLISHED_DESC">
@@ -97,14 +91,17 @@
 
 	<fields name="params" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="basic">
-			<field name="field_layout" type="componentlayout" label="JFIELD_ALT_LAYOUT_LABEL"
-				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC" view="field"
-				useglobal="true" />
 			<field name="image" type="media" label="COM_FIELDS_FIELD_FIELD_IMAGE_LABEL"
 				description="COM_FIELDS_FIELD_FIELD_IMAGE_DESC" />
 			<field name="image_alt" type="text"
 				label="COM_FIELDS_FIELD_FIELD_IMAGE_ALT_LABEL" description="COM_FIELDS_FIELD_FIELD_IMAGE_ALT_DESC"
 				size="20" />
+			<field name="render_class" type="textarea"
+				label="COM_FIELDS_FIELD_FIELD_RENDER_CLASS_LABEL" description="COM_FIELDS_FIELD_FIELD_RENDER_CLASS_DESC"
+				class="input-xxlarge" size="40" />
+			<field name="class" type="textarea" label="COM_FIELDS_FIELD_FIELD_CLASS_LABEL"
+				description="COM_FIELDS_FIELD_FIELD_CLASS_DESC" class="input-xxlarge"
+				size="40" />
 			<field name="disabled" type="radio" class="btn-group" default="0"
 				label="COM_FIELDS_FIELD_FIELD_DISABLED_LABEL" description="COM_FIELDS_FIELD_FIELD_DISABLED_DESC">
 				<option value="1">JYES</option>
