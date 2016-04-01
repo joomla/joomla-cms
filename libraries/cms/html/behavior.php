@@ -580,7 +580,7 @@ abstract class JHtmlBehavior
 							control: jQuery(this).attr('data-control') || 'hue',
 							position: jQuery(this).attr('data-position') || 'right',
 							format: jQuery(this).attr('data-format') || 'hex',
-							opacity: (typeof jQuery(this).attr('data-opacity') !== undefined),
+							opacity: (typeof jQuery(this).attr('data-opacity') !== 'undefined'),
 							theme: 'bootstrap'
 						});
 					});
