@@ -120,7 +120,6 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
 	{
-
 		if (empty($id))
 		{
 			$id = $name;
@@ -808,7 +807,7 @@ class PlgEditorTinymce extends JPlugin
 		// General
 		$script .= "
 		directionality: \"$text_direction\",
-		selector: \"textarea.mce_editable\",
+		selector: \"textarea#$id\",
 		language : \"$langPrefix\",
 		mode : \"specific_textareas\",
 		autosave_restore_when_empty: false,
