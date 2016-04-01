@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Site
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -72,17 +72,7 @@ foreach ($fields as $field)
 
 	echo FieldsHelper::render($context, 'field.render',
 			array(
-					'field' => $field,
-
-					// @deprecated use $field->label directly in the render
-					// layout of the field
-					'label' => $field->label,
-					// @deprecated use $field->value directly in the render
-					// layout of the field
-					'value' => $field->value,
-					// @deprecated use $field->render_class directly in the
-					// render layout of the field
-					'class' => $field->render_class
+					'field' => $field
 			));
 }
 
