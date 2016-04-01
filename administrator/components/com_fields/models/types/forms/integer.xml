@@ -14,7 +14,7 @@
 				label="COM_FIELDS_FIELD_FIELD_INTEGER_LAST_LABEL" description="COM_FIELDS_FIELD_FIELD_INTEGER_LAST_DESC"
 				size="5" required="true" />
 			<field name="step" type="text" default="1" class="input-xxlarge"
-				label="COM_FIELDS_FIELD_FIELD_INTEGER_STEP_LABEL" description="COM_FIELDS_FIELD_FIELD_INTEGER_STEP	_DESC"
+				label="COM_FIELDS_FIELD_FIELD_INTEGER_STEP_LABEL" description="COM_FIELDS_FIELD_FIELD_INTEGER_STEP_DESC"
 				size="5" required="true" />
 		</fieldset>
 	</fields>
