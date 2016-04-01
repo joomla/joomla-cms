@@ -276,7 +276,7 @@ class JFormFieldColor extends JFormField
 			$format       = $format ? ' data-format="' . $format . '"' : '';
 			$opacity      = $opacity ? ' data-opacity="' . $opacity . '"' : '';
 			$readonly     = $this->readonly ? ' readonly' : '';
-			$hint         = $hint ? ' placeholder="' . $hint . '"' : ' placeholder="'.($this->format === 'rgb' ? 'rgba(0, 0, 0, 0.5)' : '#rrggbb').'"';
+			$hint         = $hint ? ' placeholder="' . $hint . '"' : ' placeholder="' . ($this->format === 'rgb' ? 'rgba(0, 0, 0, 0.5)' : '#rrggbb') . '"';
 			$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : '';
 
 			// Including fallback code for HTML5 non supported browsers.
