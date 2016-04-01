@@ -265,16 +265,16 @@ class JFormFieldColor extends JFormField
 		}
 		else
 		{
-		    // Valid options are hex and rgb.
-		    $format  = $this->format;
+			// Valid options are hex and rgb.
+			$format  = $this->format;
 
-		    // Set to from 0.0 to 1 to enable the opacity slider.
-		    $opacity = $this->opacity;
+			// Set to from 0.0 to 1 to enable the opacity slider.
+			$opacity = $this->opacity;
 
 			$class        = ' class="' . trim('minicolors ' . $class) . '"';
 			$control      = $control ? ' data-control="' . $control . '"' : '';
-		    $format       = $format ? ' data-format="' . $format . '"' : '';
-		    $opacity      = $opacity ? ' data-opacity="' . $opacity . '"' : '';
+			$format       = $format ? ' data-format="' . $format . '"' : '';
+			$opacity      = $opacity ? ' data-opacity="' . $opacity . '"' : '';
 			$readonly     = $this->readonly ? ' readonly' : '';
 			$hint         = $hint ? ' placeholder="' . $hint . '"' : ' placeholder="'.($this->format === 'rgb' ? 'rgba(0, 0, 0, 0.5)' : '#rrggbb').'"';
 			$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : '';
