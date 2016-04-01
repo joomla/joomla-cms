@@ -84,6 +84,16 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+				<field
+					name="useParentMenuItemAsTitle"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_MENU_FIELD_PARENT_MENU_AS_TITLE_LABEL"
+					description="MOD_MENU_FIELD_PARENT_MENU_AS_TITLE_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 			</fieldset>
 
 			<fieldset
