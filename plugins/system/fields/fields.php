@@ -463,10 +463,6 @@ class PlgSystemFields extends JPlugin
 
 			try
 			{
-				// Load the mustache engine
-				JLoader::import('components.com_fields.libraries.Mustache.Autoloader', JPATH_ADMINISTRATOR);
-				Mustache_Autoloader::register();
-
 				$m = new Mustache_Engine();
 				$output = $m->render('{{#fields}}' . substr($item->text, $start, $end - $start) . '{{/fields}}',
 						array(
