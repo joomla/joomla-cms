@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -100,7 +100,7 @@ class JFormFieldRules extends JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
@@ -137,6 +137,14 @@ class JFormFieldRules extends JFormField
 	protected function getInput()
 	{
 		JHtml::_('bootstrap.tooltip');
+
+		// Add Javascript for permission change
+		JHtml::_('script', 'media/system/js/permissions.min.js', false, false, false, false, true);
+
+		// Add JText for error messages
+		JText::script('JLIB_RULES_REQUEST_FAILURE');
+		JText::script('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS');
+		JText::script('JLIB_RULES_REQUEST_FAILURE');
 
 		// Initialise some field attributes.
 		$section = $this->section;
@@ -259,14 +267,14 @@ class JFormFieldRules extends JFormField
 				$html[] = '<tr>';
 				$html[] = '<td headers="actions-th' . $group->value . '">';
 				$html[] = '<label for="' . $this->id . '_' . $action->name . '_' . $group->value . '" class="hasTooltip" title="'
-					. htmlspecialchars(JText::_($action->title) . ' ' . JText::_($action->description), ENT_COMPAT, 'UTF-8') . '">';
+					. JHtml::_('tooltipText', JText::_($action->title), JText::_($action->description)) . '">';
 				$html[] = JText::_($action->title);
 				$html[] = '</label>';
 				$html[] = '</td>';
 
 				$html[] = '<td headers="settings-th' . $group->value . '">';
 
-				$html[] = '<select data-chosen="true" class="input-small"'
+				$html[] = '<select onchange="sendPermissions.call(this, event)" data-chosen="true" class="input-small"'
 					. ' name="' . $this->name . '[' . $action->name . '][' . $group->value . ']"'
 					. ' id="' . $this->id . '_' . $action->name	. '_' . $group->value . '"'
 					. ' title="' . JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)) . '">';
@@ -294,6 +302,7 @@ class JFormFieldRules extends JFormField
 					$html[] = JText::_('JLIB_RULES_CONFLICT');
 				}
 
+				$html[] = '<span id="icon_' . $this->id . '_' . $action->name . '_' . $group->value . '"' . '></span>';
 				$html[] = '</td>';
 
 				// Build the Calculated Settings column.

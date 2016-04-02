@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -86,7 +86,7 @@ abstract class JGoogleData
 		}
 		catch (Exception $e)
 		{
-			throw new UnexpectedValueException("Unexpected data received from Google: `$data`.");
+			throw new UnexpectedValueException("Unexpected data received from Google: `$data`.", $e->getCode(), $e);
 		}
 	}
 

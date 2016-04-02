@@ -25,11 +25,11 @@
 			onchange="this.form.submit();"
 		>
 			<option value="">COM_BANNERS_SELECT_TYPE</option>
-			<option value="1">COM_BANNERS_FIELD_VALUE_1</option>
-			<option value="2">COM_BANNERS_FIELD_VALUE_2</option>
-			<option value="3">COM_BANNERS_FIELD_VALUE_3</option>
-			<option value="4">COM_BANNERS_FIELD_VALUE_4</option>
-			<option value="5">COM_BANNERS_FIELD_VALUE_5</option>
+			<option value="1">COM_BANNERS_FIELD_VALUE_UNLIMITED</option>
+			<option value="2">COM_BANNERS_FIELD_VALUE_YEARLY</option>
+			<option value="3">COM_BANNERS_FIELD_VALUE_MONTHLY</option>
+			<option value="4">COM_BANNERS_FIELD_VALUE_WEEKLY</option>
+			<option value="5">COM_BANNERS_FIELD_VALUE_DAILY</option>
 		</field>
 	</fields>
 	<fields name="list">
@@ -45,12 +45,10 @@
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.state ASC">JSTATUS_ASC</option>
 			<option value="a.state DESC">JSTATUS_DESC</option>
-			<option value="a.name ASC">COM_BANNERS_HEADING_NAME_ASC</option>
-			<option value="a.name DESC">COM_BANNERS_HEADING_NAME_DESC</option>
+			<option value="a.name ASC">COM_BANNERS_HEADING_CLIENT_ASC</option>
+			<option value="a.name DESC">COM_BANNERS_HEADING_CLIENT_DESC</option>
 			<option value="contact ASC">COM_BANNERS_HEADING_CONTACT_ASC</option>
 			<option value="contact DESC">COM_BANNERS_HEADING_CONTACT_DESC</option>
-			<option value="client_name ASC">COM_BANNERS_HEADING_CLIENT_ASC</option>
-			<option value="client_name DESC">COM_BANNERS_HEADING_CLIENT_DESC</option>
 			<option value="nbanners ASC">COM_BANNERS_HEADING_BANNERS_ASC</option>
 			<option value="nbanners DESC">COM_BANNERS_HEADING_BANNERS_DESC</option>
 			<option value="purchase_type ASC">COM_BANNERS_HEADING_PURCHASETYPE_ASC</option>

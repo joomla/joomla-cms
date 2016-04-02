@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.0
  */
@@ -19,25 +19,26 @@ $user            = JFactory::getUser();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
+
 $doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
 $doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
 
-// Load custom.css
-$file = 'templates/' . $this->template . '/css/custom.css';
+// Load specific language related CSS
+$languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 
-if (is_file($file))
+if (file_exists($languageCss) && filesize($languageCss) > 0)
 {
-	$doc->addStyleSheetVersion($file);
+	$doc->addStyleSheetVersion($languageCss);
 }
 
-// Load specific language related CSS
-$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+// Load custom.css
+$customCss = 'templates/' . $this->template . '/css/custom.css';
 
-if (is_file($file))
+if (file_exists($customCss) && filesize($customCss) > 0)
 {
-	$doc->addStyleSheetVersion($file);
+	$doc->addStyleSheetVersion($customCss);
 }
 
 // Detecting Active Variables
@@ -71,8 +72,10 @@ $statusFixed   = $this->params->get('statusFixed', '1');
 $stickyToolbar = $this->params->get('stickyToolbar', '1');
 
 // Header classes
-$template_is_light = ($this->params->get('templateColor') && colorIsLight($this->params->get('templateColor')));
-$header_is_light = ($displayHeader && $this->params->get('headerColor') && colorIsLight($this->params->get('headerColor')));
+$navbar_color = $this->params->get('templateColor') ? $this->params->get('templateColor') : '';
+$header_color = ($displayHeader && $this->params->get('headerColor')) ? $this->params->get('headerColor') : '';
+$navbar_is_light = ($navbar_color && colorIsLight($navbar_color));
+$header_is_light = ($header_color && colorIsLight($header_color));
 
 if ($displayHeader)
 {
@@ -96,6 +99,28 @@ function colorIsLight($color)
 
 	return $yiq >= 200;
 }
+
+// Pass some values to javascript
+$offset = 20;
+
+if ($displayHeader || !$statusFixed)
+{
+	$offset = 30;
+}
+
+$stickyBar = 0;
+
+if ($stickyToolbar)
+{
+	$stickyBar = 1;
+}
+
+$doc->addScriptDeclaration(
+	"
+	window.isisStickyToolbar = $stickyBar;
+	window.isisOffsetTop = $offset;
+	"
+);
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -105,18 +130,18 @@ function colorIsLight($color)
 	<jdoc:include type="head" />
 
 	<!-- Template color -->
-	<?php if ($this->params->get('templateColor')) : ?>
+	<?php if ($navbar_color) : ?>
 		<style type="text/css">
 			.navbar-inner, .navbar-inverse .navbar-inner, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle, #status.status-top {
-				background: <?php echo $this->params->get('templateColor'); ?>;
+				background: <?php echo $navbar_color; ?>;
 			}
 		</style>
 	<?php endif; ?>
 	<!-- Template header color -->
-	<?php if ($displayHeader && $this->params->get('headerColor')) : ?>
+	<?php if ($header_color) : ?>
 		<style type="text/css">
 			.header {
-				background: <?php echo $this->params->get('headerColor'); ?>;
+				background: <?php echo $header_color; ?>;
 			}
 		</style>
 	<?php endif; ?>
@@ -147,7 +172,7 @@ function colorIsLight($color)
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
 <!-- Top Navigation -->
-<nav class="navbar<?php echo $template_is_light ? '' : ' navbar-inverse'; ?> navbar-fixed-top">
+<nav class="navbar<?php echo $navbar_is_light ? '' : ' navbar-inverse'; ?> navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container-fluid">
 			<?php if ($this->params->get('admin_menus') != '0') : ?>
@@ -158,7 +183,7 @@ function colorIsLight($color)
 				</a>
 			<?php endif; ?>
 
-			<a class="admin-logo <?php echo ($hidden ? 'disabled' : ''); ?>" <?php echo ($hidden ? '' : 'href="' . $this->baseurl . '"'); ?>><span class="icon-joomla"></span></a>
+			<a class="admin-logo <?php echo ($hidden ? 'disabled' : ''); ?>" <?php echo ($hidden ? '' : 'href="' . $this->baseurl . '/index.php"'); ?>><span class="icon-joomla"></span></a>
 
 			<a class="brand hidden-desktop hidden-tablet" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
 				<span class="icon-out-2 small"></span></a>
@@ -290,55 +315,5 @@ function colorIsLight($color)
 	<!-- End Status Module -->
 <?php endif; ?>
 <jdoc:include type="modules" name="debug" style="none" />
-<?php if ($stickyToolbar) : ?>
-	<script>
-		jQuery(function($)
-		{
-
-			var navTop;
-			var isFixed = false;
-
-			processScrollInit();
-			processScroll();
-
-			$(window).on('resize', processScrollInit);
-			$(window).on('scroll', processScroll);
-
-			function processScrollInit()
-			{
-				if ($('.subhead').length) {
-					navTop = $('.subhead').length && $('.subhead').offset().top - <?php echo ($displayHeader || !$statusFixed) ? 30 : 20;?>;
-
-					// Fix the container top
-					$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
-
-					// Only apply the scrollspy when the toolbar is not collapsed
-					if (document.body.clientWidth > 480)
-					{
-						$('.subhead-collapse').height($('.subhead').height());
-						$('.subhead').scrollspy({offset: {top: $('.subhead').offset().top - $('nav.navbar').height()}});
-					}
-				}
-			}
-
-			function processScroll()
-			{
-				if ($('.subhead').length) {
-					var scrollTop = $(window).scrollTop();
-					if (scrollTop >= navTop && !isFixed) {
-						isFixed = true;
-						$('.subhead').addClass('subhead-fixed');
-
-						// Fix the container top
-						$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
-					} else if (scrollTop <= navTop && isFixed) {
-						isFixed = false;
-						$('.subhead').removeClass('subhead-fixed');
-					}
-				}
-			}
-		});
-	</script>
-<?php endif; ?>
 </body>
 </html>

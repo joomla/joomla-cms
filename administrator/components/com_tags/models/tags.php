@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,23 +61,21 @@ class TagsModelTags extends JModelList
 	 *
 	 * @since    3.1
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
-		$context = $this->context;
-
-		$search = $this->getUserStateFromRequest($context . '.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$level = $this->getUserStateFromRequest($context . '.filter.level', 'filter_level', 0, 'int');
+		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '');
 		$this->setState('filter.level', $level);
 
-		$access = $this->getUserStateFromRequest($context . '.filter.access', 'filter_access', 0, 'int');
+		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '');
 		$this->setState('filter.access', $access);
 
-		$published = $this->getUserStateFromRequest($context . '.filter.published', 'filter_published', '');
+		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
-		$language = $this->getUserStateFromRequest($context . '.filter.language', 'filter_language', '');
+		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
 		// Load the parameters.
@@ -85,7 +83,7 @@ class TagsModelTags extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.lft', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -105,6 +103,8 @@ class TagsModelTags extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.level');
+		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.published');
 		$id .= ':' . $this->getState('filter.language');
 
@@ -139,7 +139,7 @@ class TagsModelTags extends JModelList
 			->where('a.alias <> ' . $db->quote('root'));
 
 		// Join over the language
-		$query->select('l.title AS language_title')
+		$query->select('l.title AS language_title, l.image AS language_image')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.

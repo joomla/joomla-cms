@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -761,37 +761,6 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 			TestReflection::invoke($instance, 'getRealTableName', '#__test'),
 			$this->equalTo('jos_test'),
 			'getRealTableName should return the name of the table with #__ converted to the database prefix.'
-		);
-	}
-
-	/**
-	 * Tests the setDbo method with the wrong type of class.
-	 *
-	 * @return void
-	 *
-	 * @since  3.4
-	 */
-	public function testSetDboWithBadInput()
-	{
-		if (PHP_MAJOR_VERSION >= 7)
-		{
-			$this->markTestSkipped('A fatal error is thrown on PHP 7 due to the typehinting of the method.');
-		}
-
-		$instance = new JDatabaseImporterPdomysql;
-
-		try
-		{
-			$instance->setDbo(new stdClass);
-		}
-		catch (PHPUnit_Framework_Error $e)
-		{
-			// Expecting the error, so just ignore it.
-			return;
-		}
-
-		$this->fail(
-			'setDbo requires a JDatabaseDriverPdomysql object and should throw an exception.'
 		);
 	}
 

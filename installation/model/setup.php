@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -123,7 +123,7 @@ class InstallationModelSetup extends JModelBase
 
 		// Get the posted values from the request and validate them.
 		$data   = $app->input->post->get('jform', array(), 'array');
-		$return	= $this->validate($data, $page);
+		$return = $this->validate($data, $page);
 
 		// Attempt to save the data before validation.
 		$form = $this->getForm();

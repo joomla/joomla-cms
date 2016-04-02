@@ -2790,7 +2790,7 @@ input[type="submit"].btn.btn-mini {
 	color: #8a6d3b;
 }
 .alert h4 {
-	margin: 0;
+	margin: 0 0 .5em;
 }
 .alert .close {
 	position: relative;
@@ -4705,6 +4705,9 @@ a.badge:focus {
 }
 .affix {
 	position: fixed;
+}
+@-ms-viewport {
+	width: device-width;
 }
 .hidden {
 	display: none;
@@ -7029,7 +7032,7 @@ a:focus {
 	outline: none;
 }
 .view-login {
-	background-color: #10223e;
+	background-color: #17568c;
 	padding-top: 0;
 }
 .view-login .container {
@@ -7271,6 +7274,9 @@ body .navbar-fixed-top {
 	z-index: 100;
 }
 @media (max-width: 767px) {
+	body {
+		-webkit-overflow-scrolling: touch;
+	}
 	.subhead {
 		margin-left: -20px;
 		margin-right: -20px;
@@ -7335,12 +7341,19 @@ h6 {
 	font-size: 12px;
 	line-height: 14px;
 }
+.sidebar-nav .nav-list {
+	padding-left: 25px;
+	padding-right: 25px;
+}
 .sidebar-nav .nav-list > li > a {
 	color: #555;
+	padding: 3px 25px;
+	margin-left: -25px;
+	margin-right: -25px;
 }
 .sidebar-nav .nav-list > li.active > a {
 	color: #fff;
-	margin-right: -16px;
+	margin-right: -26px;
 }
 .quick-icons .nav li + .nav-header {
 	margin-top: 12px;
@@ -8143,6 +8156,25 @@ body.modal-open {
 	overflow: hidden;
 	-ms-overflow-style: none;
 }
+.field-media-wrapper .modal .modal-body {
+	padding: 5px 10px;
+	overflow: hidden;
+}
+.js-pstats-data-details dd {
+	margin-left: 240px;
+}
+.js-pstats-data-details dt {
+	width: 220px;
+}
+@media (max-width: 767px) {
+	.field-media-wrapper .modal .modal-body {
+		padding: 5px 0;
+	}
+}
+.modal-body {
+	-webkit-overflow-scrolling: touch;
+	overflow-y: auto !important;
+}
 .pull-right {
 	float: left;
 }
@@ -8555,7 +8587,14 @@ body {
 }
 .dl-horizontal dt {
 	float: right;
+	text-align: left;
+	clear: right;
 }
+.dl-horizontal dd {
+	margin-left: 0;
+	margin-right: 180px;
+}
+.dl-horizontal dt
 .profile> ul {
 	margin: 9px 25px 0 0;
 }
@@ -8923,4 +8962,7 @@ a.grid_true {
 	.view-login select {
 		width: 229px;
 	}
+}
+.js-pstats-data-details dd {
+	margin-right: 240px;
 }

@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 require_once __DIR__ . '/extension.php';
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Installer Update Sites Model
@@ -23,7 +25,7 @@ class InstallerModelUpdatesites extends InstallerModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array $config An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
 	 * @since   3.4
@@ -33,9 +35,14 @@ class InstallerModelUpdatesites extends InstallerModel
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'update_site_name', 'name', 'client_id',
-				'status', 'type', 'folder', 'update_site_id',
-				'enabled'
+				'update_site_name',
+				'name',
+				'client_id',
+				'status',
+				'type',
+				'folder',
+				'update_site_id',
+				'enabled',
 			);
 		}
 
@@ -47,39 +54,30 @@ class InstallerModelUpdatesites extends InstallerModel
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string $ordering  An optional ordering field.
-	 * @param   string $direction An optional direction (asc|desc).
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
 	 * @since   3.4
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
+		$this->setState('filter.enabled', $this->getUserStateFromRequest($this->context . '.filter.enabled', 'filter_enabled', '', 'string'));
+		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
+		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
 
-		$clientId = $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', '');
-		$this->setState('filter.client_id', $clientId);
-
-		$status = $this->getUserStateFromRequest($this->context . '.filter.enabled', 'filter_enabled', '');
-		$this->setState('filter.enabled', $status);
-
-		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '');
-		$this->setState('filter.type', $categoryId);
-
-		$group = $this->getUserStateFromRequest($this->context . '.filter.group', 'filter_group', '');
-		$this->setState('filter.group', $group);
-
-		parent::populateState('name', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
 	 * Enable/Disable an extension.
 	 *
-	 * @param   array &$eid  Extension ids to un/publish
-	 * @param   int   $value Publish value
+	 * @param   array  &$eid   Extension ids to un/publish
+	 * @param   int    $value  Publish value
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -132,17 +130,12 @@ class InstallerModelUpdatesites extends InstallerModel
 	 */
 	protected function getListQuery()
 	{
-		$enabled = $this->getState('filter.enabled');
-		$type    = $this->getState('filter.type');
-		$client  = $this->getState('filter.client_id');
-		$group   = $this->getState('filter.group');
-
 		$query = JFactory::getDbo()->getQuery(true)
 			->select(
 				array(
 					's.update_site_id',
-					's.name as update_site_name',
-					's.type as update_site_type',
+					's.name AS update_site_name',
+					's.type AS update_site_type',
 					's.location',
 					's.enabled',
 					'e.extension_id',
@@ -156,31 +149,37 @@ class InstallerModelUpdatesites extends InstallerModel
 				)
 			)
 			->from('#__update_sites AS s')
-			->innerJoin('#__update_sites_extensions AS se on(se.update_site_id = s.update_site_id)')
-			->innerJoin('#__extensions AS e ON(e.extension_id = se.extension_id)')
-			->where('state=0');
+			->innerJoin('#__update_sites_extensions AS se ON (se.update_site_id = s.update_site_id)')
+			->innerJoin('#__extensions AS e ON (e.extension_id = se.extension_id)')
+			->where('state = 0');
+
+		// Process select filters.
+		$enabled  = $this->getState('filter.enabled');
+		$type     = $this->getState('filter.type');
+		$clientId = $this->getState('filter.client_id');
+		$folder   = $this->getState('filter.folder');
 
 		if ($enabled != '')
 		{
-			$query->where('s.enabled=' . (int) $enabled);
+			$query->where('s.enabled = ' . (int) $enabled);
 		}
 
 		if ($type)
 		{
-			$query->where('e.type=' . $this->_db->quote($type));
+			$query->where('e.type = ' . $this->_db->quote($type));
 		}
 
-		if ($client != '')
+		if ($clientId != '')
 		{
-			$query->where('client_id=' . (int) $client);
+			$query->where('client_id = ' . (int) $clientId);
 		}
 
-		if ($group != '' && in_array($type, array('plugin', 'library', '')))
+		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where('folder=' . $this->_db->quote($group == '*' ? '' : $group));
+			$query->where('folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
 		}
 
-		// Filter by search in id
+		// Process search filter (update site id).
 		$search = $this->getState('filter.search');
 
 		if (!empty($search) && stripos($search, 'id:') === 0)
@@ -194,9 +193,9 @@ class InstallerModelUpdatesites extends InstallerModel
 	/**
 	 * Returns an object list
 	 *
-	 * @param   string $query      The query
-	 * @param   int    $limitstart Offset
-	 * @param   int    $limit      The number of records
+	 * @param   string  $query       The query
+	 * @param   int     $limitstart  Offset
+	 * @param   int     $limit       The number of records
 	 *
 	 * @return  array
 	 *
@@ -204,8 +203,9 @@ class InstallerModelUpdatesites extends InstallerModel
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
-		$ordering = $this->getState('list.ordering');
-		$search   = $this->getState('filter.search');
+		$ordering  = $this->getState('list.ordering', 'name');
+		$direction = $this->getState('list.direction', 'asc');
+		$search    = $this->getState('filter.search');
 
 		// Replace slashes so preg_match will work
 		$search = str_replace('/', ' ', $search);
@@ -228,7 +228,7 @@ class InstallerModelUpdatesites extends InstallerModel
 				}
 			}
 
-			JArrayHelper::sortObjects($result, $this->getState('list.ordering'), $this->getState('list.direction') == 'desc' ? -1 : 1, true, true);
+			$result = ArrayHelper::sortObjects($result, $ordering, strtolower($direction) === 'desc' ? -1 : 1, true, true);
 
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
@@ -242,7 +242,7 @@ class InstallerModelUpdatesites extends InstallerModel
 			return array_slice($result, $limitstart, $limit ? $limit : null);
 		}
 
-		$query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+		$query->order($db->quoteName($ordering) . ' ' . $direction);
 		$result = parent::_getList($query, $limitstart, $limit);
 		$this->translate($result);
 

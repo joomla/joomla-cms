@@ -218,7 +218,7 @@
     }
     for (var i = ranges.length - 1; i >= 0; i--) {
       var cur = ranges[i].head;
-      cm.replaceRange("", Pos(cur.line, cur.ch - 1), Pos(cur.line, cur.ch + 1));
+      cm.replaceRange("", Pos(cur.line, cur.ch - 1), Pos(cur.line, cur.ch + 1), "+delete");
     }
   }
 
@@ -243,6 +243,12 @@
         cm.indentLine(line + 1, null, true);
       }
     });
+  }
+
+  function contractSelection(sel) {
+    var inverted = CodeMirror.cmpPos(sel.anchor, sel.head) > 0;
+    return {anchor: new Pos(sel.anchor.line, sel.anchor.ch + (inverted ? -1 : 1)),
+            head: new Pos(sel.head.line, sel.head.ch + (inverted ? 1 : -1))};
   }
 
   function handleChar(cm, ch) {
@@ -300,6 +306,10 @@
         for (var i = 0; i < sels.length; i++)
           sels[i] = left + sels[i] + right;
         cm.replaceSelections(sels, "around");
+        sels = cm.listSelections().slice();
+        for (var i = 0; i < sels.length; i++)
+          sels[i] = contractSelection(sels[i]);
+        cm.setSelections(sels);
       } else if (type == "both") {
         cm.replaceSelection(left + right, null);
         cm.triggerElectric(left + right);
@@ -449,19 +459,22 @@
       // when completing in JS/CSS snippet in htmlmixed mode. Does not
       // work for other XML embedded languages (there is no general
       // way to go from a mixed mode to its current XML state).
+      var replacement;
       if (inner.mode.name != "xml") {
         if (cm.getMode().name == "htmlmixed" && inner.mode.name == "javascript")
-          replacements[i] = head + "script>";
+          replacement = head + "script";
         else if (cm.getMode().name == "htmlmixed" && inner.mode.name == "css")
-          replacements[i] = head + "style>";
+          replacement = head + "style";
         else
           return CodeMirror.Pass;
       } else {
         if (!state.context || !state.context.tagName ||
             closingTagExists(cm, state.context.tagName, pos, state))
           return CodeMirror.Pass;
-        replacements[i] = head + state.context.tagName + ">";
+        replacement = head + state.context.tagName;
       }
+      if (cm.getLine(pos.line).charAt(tok.end) != ">") replacement += ">";
+      replacements[i] = replacement;
     }
     cm.replaceSelections(replacements);
     ranges = cm.listSelections();
@@ -972,7 +985,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       cm.off("viewportChange", onViewportChange);
       cm.off("fold", onFold);
       cm.off("unfold", onFold);
-      cm.off("swapDoc", updateInViewport);
+      cm.off("swapDoc", onChange);
     }
     if (val) {
       cm.state.foldGutter = new State(parseOptions(val));
@@ -982,7 +995,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       cm.on("viewportChange", onViewportChange);
       cm.on("fold", onFold);
       cm.on("unfold", onFold);
-      cm.on("swapDoc", updateInViewport);
+      cm.on("swapDoc", onChange);
     }
   });
 
@@ -1398,7 +1411,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
             if (!other.parseDelimiters) stream.match(other.open);
             state.innerActive = other;
             state.inner = CodeMirror.startState(other.mode, outer.indent ? outer.indent(state.outer, "") : 0);
-            return other.delimStyle;
+            return other.delimStyle && (other.delimStyle + " " + other.delimStyle + "-open");
           } else if (found != -1 && found < cutOff) {
             cutOff = found;
           }
@@ -1417,7 +1430,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         if (found == stream.pos && !curInner.parseDelimiters) {
           stream.match(curInner.close);
           state.innerActive = state.inner = null;
-          return curInner.delimStyle;
+          return curInner.delimStyle && (curInner.delimStyle + " " + curInner.delimStyle + "-close");
         }
         if (found > -1) stream.string = oldContent.slice(0, found);
         var innerToken = curInner.mode.token(stream, state.inner);
@@ -1427,7 +1440,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           state.innerActive = state.inner = null;
 
         if (curInner.innerStyle) {
-          if (innerToken) innerToken = innerToken + ' ' + curInner.innerStyle;
+          if (innerToken) innerToken = innerToken + " " + curInner.innerStyle;
           else innerToken = curInner.innerStyle;
         }
 
@@ -1637,6 +1650,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
   "use strict";
   var WRAP_CLASS = "CodeMirror-activeline";
   var BACK_CLASS = "CodeMirror-activeline-background";
+  var GUTT_CLASS = "CodeMirror-activeline-gutter";
 
   CodeMirror.defineOption("styleActiveLine", false, function(cm, val, old) {
     var prev = old && old != CodeMirror.Init;
@@ -1655,6 +1669,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     for (var i = 0; i < cm.state.activeLines.length; i++) {
       cm.removeLineClass(cm.state.activeLines[i], "wrap", WRAP_CLASS);
       cm.removeLineClass(cm.state.activeLines[i], "background", BACK_CLASS);
+      cm.removeLineClass(cm.state.activeLines[i], "gutter", GUTT_CLASS);
     }
   }
 
@@ -1679,6 +1694,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       for (var i = 0; i < active.length; i++) {
         cm.addLineClass(active[i], "wrap", WRAP_CLASS);
         cm.addLineClass(active[i], "background", BACK_CLASS);
+        cm.addLineClass(active[i], "gutter", GUTT_CLASS);
       }
       cm.state.activeLines = active;
     });
@@ -1855,6 +1871,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     { keys: 'v', type: 'action', action: 'toggleVisualMode' },
     { keys: 'V', type: 'action', action: 'toggleVisualMode', actionArgs: { linewise: true }},
     { keys: '<C-v>', type: 'action', action: 'toggleVisualMode', actionArgs: { blockwise: true }},
+    { keys: '<C-q>', type: 'action', action: 'toggleVisualMode', actionArgs: { blockwise: true }},
     { keys: 'gv', type: 'action', action: 'reselectLastSelection' },
     { keys: 'J', type: 'action', action: 'joinLines', isEdit: true },
     { keys: 'p', type: 'action', action: 'paste', isEdit: true, actionArgs: { after: true, isEdit: true }},
@@ -1983,12 +2000,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         // Keypress character binding of format "'a'"
         return key.charAt(1);
       }
-      var pieces = key.split('-');
-      if (/-$/.test(key)) {
-        // If the - key was typed, split will result in 2 extra empty strings
-        // in the array. Replace them with 1 '-'.
-        pieces.splice(-2, 2, '-');
-      }
+      var pieces = key.split(/-(?!$)/);
       var lastPiece = pieces[pieces.length - 1];
       if (pieces.length == 1 && pieces[0].length == 1) {
         // No-modifier bindings use literal character bindings above. Skip.
@@ -2377,6 +2389,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         // Add user defined key bindings.
         exCommandDispatcher.map(lhs, rhs, ctx);
       },
+      unmap: function(lhs, ctx) {
+        exCommandDispatcher.unmap(lhs, ctx);
+      },
       // TODO: Expose setOption and getOption as instance methods. Need to decide how to namespace
       // them, or somehow make them work with the existing CodeMirror setOption/getOption API.
       setOption: setOption,
@@ -2542,6 +2557,8 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       mapCommand: mapCommand,
       _mapCommand: _mapCommand,
 
+      defineRegister: defineRegister,
+
       exitVisualMode: exitVisualMode,
       exitInsertMode: exitInsertMode
     };
@@ -2630,6 +2647,25 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         return this.keyBuffer.join('');
       }
     };
+
+    /**
+     * Defines an external register.
+     *
+     * The name should be a single character that will be used to reference the register.
+     * The register should support setText, pushText, clear, and toString(). See Register
+     * for a reference implementation.
+     */
+    function defineRegister(name, register) {
+      var registers = vimGlobalState.registerController.registers[name];
+      if (!name || name.length != 1) {
+        throw Error('Register name must be 1 character');
+      }
+      if (registers[name]) {
+        throw Error('Register already defined ' + name);
+      }
+      registers[name] = register;
+      validRegisters.push(name);
+    }
 
     /*
      * vim registers allow you to keep many independent copy and paste buffers.
@@ -3629,13 +3665,21 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
               text = text.slice(0, - match[0].length);
             }
           }
-          var wasLastLine = head.line - 1 == cm.lastLine();
-          cm.replaceRange('', anchor, head);
-          if (args.linewise && !wasLastLine) {
+          var prevLineEnd = new Pos(anchor.line - 1, Number.MAX_VALUE);
+          var wasLastLine = cm.firstLine() == cm.lastLine();
+          if (head.line > cm.lastLine() && args.linewise && !wasLastLine) {
+            cm.replaceRange('', prevLineEnd, head);
+          } else {
+            cm.replaceRange('', anchor, head);
+          }
+          if (args.linewise) {
             // Push the next line back down, if there is a next line.
-            CodeMirror.commands.newlineAndIndent(cm);
-            // null ch so setCursor moves to end of line.
-            anchor.ch = null;
+            if (!wasLastLine) {
+              cm.setCursor(prevLineEnd);
+              CodeMirror.commands.newlineAndIndent(cm);
+            }
+            // make sure cursor ends up at the end of the line.
+            anchor.ch = Number.MAX_VALUE;
           }
           finalHead = anchor;
         } else {
@@ -3814,9 +3858,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         switch (actionArgs.position) {
           case 'center': y = y - (height / 2) + lineHeight;
             break;
-          case 'bottom': y = y - height + lineHeight*1.4;
-            break;
-          case 'top': y = y + lineHeight*0.4;
+          case 'bottom': y = y - height + lineHeight;
             break;
         }
         cm.scrollTo(null, y);
@@ -4878,7 +4920,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       return cur;
     }
 
-    /*
+    /**
      * Returns the boundaries of the next word. If the cursor in the middle of
      * the word, then returns the boundaries of the current word, starting at
      * the cursor. If the cursor is at the start/end of a word, and we are going
@@ -5978,7 +6020,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
               if (decimal + hex + octal > 1) { return 'Invalid arguments'; }
               number = decimal && 'decimal' || hex && 'hex' || octal && 'octal';
             }
-            if (args.eatSpace() && args.match(/\/.*\//)) { 'patterns not supported'; }
+            if (args.match(/\/.*\//)) { return 'patterns not supported'; }
           }
         }
         var err = parseArgs();
@@ -6417,7 +6459,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     }
 
     function _mapCommand(command) {
-      defaultKeymap.push(command);
+      defaultKeymap.unshift(command);
     }
 
     function mapCommand(keys, type, name, args, extra) {
@@ -6506,7 +6548,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       if (macroModeState.isPlaying) { return; }
       var registerName = macroModeState.latestRegister;
       var register = vimGlobalState.registerController.getRegister(registerName);
-      if (register) {
+      if (register && register.pushInsertModeChanges) {
         register.pushInsertModeChanges(macroModeState.lastInsertModeChanges);
       }
     }
@@ -6515,7 +6557,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       if (macroModeState.isPlaying) { return; }
       var registerName = macroModeState.latestRegister;
       var register = vimGlobalState.registerController.getRegister(registerName);
-      if (register) {
+      if (register && register.pushSearchQuery) {
         register.pushSearchQuery(query);
       }
     }

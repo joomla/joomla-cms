@@ -128,6 +128,7 @@
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 			class="inputbox"
+			maxlength="255"
 			size="45"
 			labelclass="control-label" />
 

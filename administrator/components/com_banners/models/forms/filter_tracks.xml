@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field
+                name="search"
+                type="text"
+                hint="JSEARCH_FILTER"
+                class="js-stools-search-string"
+                />
+        <field
+                name="client_id"
+                type="bannerclient"
+                extension="com_content"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_BANNERS_SELECT_CLIENT</option>
+        </field>
+        <field
+                name="category_id"
+                type="category"
+                extension="com_banners"
+                onchange="this.form.submit();"
+                >
+            <option value="">JOPTION_SELECT_CATEGORY</option>
+        </field>
+        <field
+                name="type"
+                type="list"
+                default="0"
+                onchange="this.form.submit();"
+                >
+            <option value="">COM_BANNERS_SELECT_TYPE</option>
+            <option value="1">COM_BANNERS_TYPE1</option>
+            <option value="2">COM_BANNERS_TYPE2</option>
+        </field>
+
+    </fields>
+
+    <fields name="list">
+        <field
+                name="sortTable"
+                type="list"
+                label="JGLOBAL_SORT_BY"
+                description="JFIELD_ORDERING_DESC"
+                onchange="Joomla.orderTable();"
+                default="a.id DESC"
+                >
+            <option value="">JGLOBAL_SORT_BY</option>
+            <option value="b.name">COM_BANNERS_HEADING_NAME</option>
+            <option value="cl.name">COM_BANNERS_HEADING_CLIENT</option>
+            <option value="track_type">COM_BANNERS_HEADING_TYPE</option>
+            <option value="count">COM_BANNERS_HEADING_COUNT</option>
+            <option value="track_date">JDATE</option>
+        </field>
+
+        <field
+                name="directionTable"
+                type="list"
+                label="JGLOBAL_ORDER_DIRECTION_LABEL"
+                description="JGLOBAL_ORDER_DIRECTION_DESC"
+                onchange="Joomla.orderTable();"
+                >
+            <option value="">JFIELD_ORDERING_DESC</option>
+            <option value="asc">JGLOBAL_ORDER_ASCENDING</option>
+            <option value="desc">JGLOBAL_ORDER_DESCENDING</option>
+        </field>
+
+        <field
+                name="limit"
+                type="limitbox"
+                class="input-mini"
+                default="25"
+                onchange="this.form.submit();"
+                />
+    </fields>
+</form>

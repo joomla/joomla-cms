@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -80,7 +80,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		/*
 		 * This will be an array of loveliness
 		 * @todo: multiple servers
-		 * $servers	= (isset($params['servers'])) ? $params['servers'] : array();
+		 * $servers = (isset($params['servers'])) ? $params['servers'] : array();
 		 */
 		$server = array();
 		$server['host'] = $config->get('memcache_server_host', 'localhost');
@@ -322,11 +322,15 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public static function isSupported()
 	{
-		if ((extension_loaded('memcache') && class_exists('Memcache')) != true)
+		// First check if the PHP requirements are met
+		$supported = extension_loaded('memcache') && class_exists('Memcache');
+
+		if (!$supported)
 		{
 			return false;
 		}
 
+		// Now check if we can connect to the specified Memcache server
 		$config = JFactory::getConfig();
 		$host = $config->get('memcache_server_host', 'localhost');
 		$port = $config->get('memcache_server_port', 11211);
@@ -334,14 +338,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		$memcache = new Memcache;
 		$memcachetest = @$memcache->connect($host, $port);
 
-		if (!$memcachetest)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		return $memcachetest;
 	}
 
 	/**

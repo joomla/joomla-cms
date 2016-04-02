@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Methods supporting a list of contact records.
@@ -21,7 +23,7 @@ class ContactModelContacts extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -71,7 +73,7 @@ class ContactModelContacts extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.name', $direction = 'asc')
 	{
 		$app = JFactory::getApplication();
 
@@ -109,7 +111,7 @@ class ContactModelContacts extends JModelList
 		$this->setState('filter.tag', $tag);
 
 		// List state information.
-		parent::populateState('a.name', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -173,36 +175,37 @@ class ContactModelContacts extends JModelList
 				)
 			)
 			->join(
-				'LEFT', $db->quoteName('#__users', 'ul')
-				. ' ON ' . $db->quoteName('ul.id') . ' = ' . $db->quoteName('a.user_id')
+				'LEFT',
+				$db->quoteName('#__users', 'ul') . ' ON ' . $db->quoteName('ul.id') . ' = ' . $db->quoteName('a.user_id')
 			);
 
 		// Join over the language
 		$query->select($db->quoteName('l.title', 'language_title'))
+			->select($db->quoteName('l.image', 'language_image'))
 			->join(
-				'LEFT', $db->quoteName('#__languages', 'l')
-				. ' ON ' . $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language')
+				'LEFT',
+				$db->quoteName('#__languages', 'l') . ' ON ' . $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language')
 			);
 
 		// Join over the users for the checked out user.
 		$query->select($db->quoteName('uc.name', 'editor'))
 			->join(
-				'LEFT', $db->quoteName('#__users', 'uc')
-				. ' ON ' . $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out')
+				'LEFT',
+				$db->quoteName('#__users', 'uc') . ' ON ' . $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out')
 			);
 
 		// Join over the asset groups.
 		$query->select($db->quoteName('ag.title', 'access_level'))
 			->join(
-				'LEFT', $db->quoteName('#__viewlevels', 'ag')
-				. ' ON ' . $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access')
+				'LEFT',
+				$db->quoteName('#__viewlevels', 'ag') . ' ON ' . $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access')
 			);
 
 		// Join over the categories.
 		$query->select($db->quoteName('c.title', 'category_title'))
 			->join(
-				'LEFT', $db->quoteName('#__categories', 'c')
-				. ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid')
+				'LEFT',
+				$db->quoteName('#__categories', 'c') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid')
 			);
 
 		// Join over the associations.
@@ -212,22 +215,39 @@ class ContactModelContacts extends JModelList
 		{
 			$query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 as ' . $db->quoteName('association'))
 				->join(
-					'LEFT', $db->quoteName('#__associations', 'asso')
-					. ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName('a.id')
+					'LEFT',
+					$db->quoteName('#__associations', 'asso') . ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName('a.id')
 					. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote('com_contact.item')
 				)
 				->join(
-					'LEFT', $db->quoteName('#__associations', 'asso2')
-					. ' ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key')
+					'LEFT',
+					$db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key')
 				)
 				->group(
 					$db->quoteName(
 						array(
 							'a.id',
-							'ul.name',
-							'l.title',
-							'uc.name',
-							'ag.title',
+							'a.name',
+							'a.alias',
+							'a.checked_out',
+							'a.checked_out_time',
+							'a.catid',
+							'a.user_id',
+							'a.published',
+							'a.access',
+							'a.created',
+							'a.created_by',
+							'a.ordering',
+							'a.featured',
+							'a.language',
+							'a.publish_up',
+							'a.publish_down',
+							'ul.name' ,
+							'ul.email',
+							'l.title' ,
+							'l.image' ,
+							'uc.name' ,
+							'ag.title' ,
 							'c.title'
 						)
 					)
@@ -268,9 +288,7 @@ class ContactModelContacts extends JModelList
 		}
 		elseif (is_array($categoryId))
 		{
-			Joomla\Utilities\ArrayHelper::toInteger($categoryId);
-			$categoryId = implode(',', $categoryId);
-			$query->where($db->quoteName('a.catid') . ' IN (' . $categoryId . ')');
+			$query->where($db->quoteName('a.catid') . ' IN (' . implode(',', ArrayHelper::toInteger($categoryId)) . ')');
 		}
 
 		// Filter by search in name.
@@ -311,7 +329,8 @@ class ContactModelContacts extends JModelList
 		{
 			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
 				->join(
-					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+					'LEFT',
+					$db->quoteName('#__contentitem_tag_map', 'tagmap')
 					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_contact.contact')
 				);
