@@ -7607,6 +7607,9 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	display: block;
 	padding: 3px 20px;
 }
+.nav-collapse .dropdown-menu > li img {
+	max-width: none;
+}
 @media (max-width: 767px) {
 	.navbar-fixed-top .navbar-inner,
 	.navbar-fixed-top .navbar-inner .container-fluid {
