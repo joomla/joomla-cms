@@ -3916,8 +3916,8 @@ input[type="submit"].btn.btn-mini {
 }
 .modal-body iframe {
 	width: 100%;
-	height: 100%;
-	max-height: none;
+	height: 100% !important;
+	max-height: 100% !important;
 	border: 0 !important;
 }
 .modal-form {
