@@ -3898,8 +3898,9 @@ input[type="submit"].btn.btn-mini {
 	filter: alpha(opacity=80);
 }
 .modal-header {
-	padding: 9px 15px;
+	padding: 1% 1.5%;
 	border-bottom: 1px solid #eee;
+	height: 5%;
 }
 .modal-header .close {
 	margin-top: 2px;
@@ -3911,7 +3912,6 @@ input[type="submit"].btn.btn-mini {
 .modal-body {
 	width: 98%;
 	position: relative;
-	max-height: 400px;
 	padding: 1%;
 }
 .modal-body iframe {
@@ -3924,8 +3924,9 @@ input[type="submit"].btn.btn-mini {
 	margin-bottom: 0;
 }
 .modal-footer {
-	padding: 14px 15px 15px;
+	padding: 1.5% 3% 3%;
 	margin-bottom: 0;
+	height: 5%;
 	text-align: right;
 	background-color: #f5f5f5;
 	border-top: 1px solid #ddd;
