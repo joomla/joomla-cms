@@ -13,6 +13,11 @@ $app  = JFactory::getApplication();
 $lang = JFactory::getLanguage();
 $doc  = JFactory::getDocument();
 
+// Gets the FrontEnd Main page Uri
+$frontEndUri = JUri::getInstance(JUri::root());
+$frontEndUri->setScheme(((int) JFactory::getApplication()->get('force_ssl', 0) === 2) ? 'https' : 'http');
+$mainPageUri = $frontEndUri->toString();
+
 // jQuery needed by template.js
 JHtml::_('jquery.framework');
 
@@ -112,7 +117,7 @@ else
 					<div class="login-inst">
 					<p><?php echo JText::_('COM_LOGIN_VALID') ?></p>
 					<div id="lock"></div>
-					<a href="<?php echo JUri::root(); ?>" target="_blank"><?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
+					<a href="<?php echo $mainPageUri; ?>" target="_blank"><?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
 					</div>
 					<!-- Login Component -->
 					<div class="login-box">
