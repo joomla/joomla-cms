@@ -148,12 +148,6 @@ class FieldsViewField extends JViewLegacy
 		}
 		else
 		{
-			if ($componentParams->get('save_history', 0) && $user->authorise('core.edit'))
-			{
-				$typeAlias = $context . '.field';
-				JToolbarHelper::versions($typeAlias, $this->item->id);
-			}
-
 			JToolbarHelper::cancel('field.cancel', 'JTOOLBAR_CLOSE');
 		}
 
