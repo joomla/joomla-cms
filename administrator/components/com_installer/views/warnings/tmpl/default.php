@@ -25,7 +25,7 @@ defined('_JEXEC') or die;
 				<?php echo JText::_('COM_INSTALLER_MSG_WARNINGS_NONE'); ?>
 			</div>
 		<?php else : ?>
-			<div class="alert alert-warning">
+			<div class="alert">
 				<a class="close" data-dismiss="alert" href="#">&times;</a>
 				<?php echo JText::_('COM_INSTALLER_MSG_WARNINGS_NOTICE'); ?>
 			</div>
