@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,7 +42,7 @@ class JCacheStorageRedisTest extends TestCase
 
 		JFactory::$application = $this->getMockCmsApp();
 
-		$this->extensionAvailable = class_exists('Redis');
+		$this->extensionAvailable = JCacheStorageRedis::isSupported();
 
 		if ($this->extensionAvailable)
 		{

@@ -20,7 +20,7 @@
 		<field name="note" type="text"
 			description="COM_MODULES_FIELD_NOTE_DESC"
 			label="COM_MODULES_FIELD_NOTE_LABEL"
-			maxlength="100"
+			maxlength="255"
 			size="40"
 			class="span12"
 		/>
@@ -101,7 +101,7 @@
 			description="COM_MODULES_FIELD_CONTENT_DESC"
 			filter="JComponentHelper::filterText"
 			label="COM_MODULES_FIELD_CONTENT_LABEL"
-			hide="readmore,pagebreak"
+			hide="readmore,pagebreak,module"
 		/>
 
 		<field name="language" type="contentlanguage"

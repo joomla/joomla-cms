@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -65,7 +65,12 @@ class CategoriesModelCategories extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication();
-		$context = $this->context;
+
+		// Adjust the context to support modal layouts.
+		if ($layout = $app->input->get('layout'))
+		{
+			$this->context .= '.' . $layout;
+		}
 
 		$extension = $app->getUserStateFromRequest('com_categories.categories.filter.extension', 'extension', 'com_content', 'cmd');
 
@@ -78,19 +83,19 @@ class CategoriesModelCategories extends JModelList
 		// Extract the optional section name
 		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
 
-		$search = $this->getUserStateFromRequest($context . '.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$level = $this->getUserStateFromRequest($context . '.filter.level', 'filter_level');
+		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
-		$access = $this->getUserStateFromRequest($context . '.filter.access', 'filter_access');
+		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
 		$this->setState('filter.access', $access);
 
-		$published = $this->getUserStateFromRequest($context . '.filter.published', 'filter_published', '');
+		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
-		$language = $this->getUserStateFromRequest($context . '.filter.language', 'filter_language', '');
+		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
 		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
@@ -160,7 +165,7 @@ class CategoriesModelCategories extends JModelList
 		$query->from('#__categories AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title')
+		$query->select('l.title AS language_title, l.image AS language_image')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
@@ -276,6 +281,29 @@ class CategoriesModelCategories extends JModelList
 			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 		}
 
+		// Group by on Categories for JOIN with component tables to count items
+		$query->group('a.id, 
+				a.title, 
+				a.alias, 
+				a.note, 
+				a.published, 
+				a.access, 
+				a.checked_out, 
+				a.checked_out_time, 
+				a.created_user_id, 
+				a.path, 
+				a.parent_id, 
+				a.level, 
+				a.lft, 
+				a.rgt, 
+				a.language, 
+				l.title,
+				l.image,
+				uc.name, 
+				ag.title, 
+				ua.name'
+			);
+
 		return $query;
 	}
 
@@ -284,9 +312,8 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * @return  boolean  True if the association exists
 	 *
-	 * @since  3.0
+	 * @since   3.0
 	 */
-
 	public function getAssoc()
 	{
 		static $assoc = null;
@@ -296,7 +323,6 @@ class CategoriesModelCategories extends JModelList
 			return $assoc;
 		}
 
-		$app = JFactory::getApplication();
 		$extension = $this->getState('filter.extension');
 
 		$assoc = JLanguageAssociations::isEnabled();
@@ -317,5 +343,65 @@ class CategoriesModelCategories extends JModelList
 		}
 
 		return $assoc;
+	}
+
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   12.2
+	 */
+	public function getItems()
+	{
+		$items = parent::getItems();
+
+		if ($items != false)
+		{
+			$extension = $this->getState('filter.extension');
+
+			$this->countItems($items, $extension);
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Method to load the countItems method from the extensions
+	 * 
+	 * @param   stdClass[]  &$items     The category items
+	 * @param   string      $extension  The category extension
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function countItems(&$items, $extension)
+	{
+		$parts = explode('.', $extension);
+		$component = $parts[0];
+		$section = null;
+
+		if (count($parts) > 1)
+		{
+			$section = $parts[1];
+		}
+
+		// Try to find the component helper.
+		$eName = str_replace('com_', '', $component);
+		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+
+		if (file_exists($file))
+		{
+			require_once $file;
+
+			$prefix = ucfirst(str_replace('com_', '', $component));
+			$cName = $prefix . 'Helper';
+
+			if (class_exists($cName) && is_callable(array($cName, 'countItems')))
+			{
+				call_user_func(array($cName, 'countItems'), $items, $section);
+			}
+		}
 	}
 }

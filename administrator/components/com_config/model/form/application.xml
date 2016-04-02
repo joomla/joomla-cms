@@ -9,7 +9,6 @@
 			default="2"
 			label="COM_CONFIG_FIELD_CACHE_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_DESC"
-			required="true"
 			filter="integer">
 			<option value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
@@ -25,13 +24,28 @@
 		</field>
 
 		<field
+			name="cache_platformprefix"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
+			description="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_DESC"
+			filter="integer"
+			showon="caching:1,2">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="cachetime"
-			type="text"
+			type="number"
+			min="1"
 			default="15"
 			label="COM_CONFIG_FIELD_CACHE_TIME_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_TIME_DESC"
 			required="true"
 			filter="integer"
+			validate="number"
 			size="6" />
 
 		<field
@@ -201,6 +215,7 @@
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_HOST_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_HOST_DESC"
+			required="true"
 			filter="string"
 			size="30" />
 
@@ -209,6 +224,7 @@
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_USERNAME_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_USERNAME_DESC"
+			required="true"
 			filter="string"
 			size="30" />
 
@@ -217,6 +233,7 @@
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_NAME_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_NAME_DESC"
+			required="true"
 			filter="string"
 			size="30" />
 
@@ -384,8 +401,7 @@
 			type="timezone"
 			default="UTC"
 			label="COM_CONFIG_FIELD_SERVER_TIMEZONE_LABEL"
-			description="COM_CONFIG_FIELD_SERVER_TIMEZONE_DESC"
-			required="true">
+			description="COM_CONFIG_FIELD_SERVER_TIMEZONE_DESC">
 			<option value="UTC">JLIB_FORM_VALUE_TIMEZONE_UTC</option>
 		</field>
 	</fieldset>
@@ -413,7 +429,6 @@
 			default="mail"
 			label="COM_CONFIG_FIELD_MAIL_MAILER_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_MAILER_DESC"
-			required="true"
 			filter="word">
 			<option value="mail">COM_CONFIG_FIELD_VALUE_PHP_MAIL</option>
 			<option value="sendmail">COM_CONFIG_FIELD_VALUE_SENDMAIL</option>
@@ -716,12 +731,14 @@
 		label="CONFIG_SESSION_SETTINGS_LABEL">
 		<field
 			name="lifetime"
-			type="text"
+			type="number"
+			min="1"
 			default="15"
 			label="COM_CONFIG_FIELD_SESSION_TIME_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_TIME_DESC"
 			required="true"
 			filter="integer"
+			validate="number"
 			size="6" />
 
 		<field
@@ -730,7 +747,6 @@
 			default="none"
 			label="COM_CONFIG_FIELD_SESSION_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_HANDLER_DESC"
-			required="true"
 			filter="word" />
 
 		<field
@@ -846,7 +862,6 @@
 			default="tinymce"
 			label="COM_CONFIG_FIELD_DEFAULT_EDITOR_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_EDITOR_DESC"
-			required="true"
 			filter="cmd" />
 
 		<field
@@ -856,7 +871,6 @@
 			default="0"
 			label="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_DESC"
-			required="true"
 			filter="cmd">
 			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
@@ -867,7 +881,6 @@
 			default="1"
 			label="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_DESC"
-			required="true"
 			filter="integer" />
 
 		<field
@@ -907,7 +920,7 @@
 		<field
 			name="feed_email"
 			type="list"
-			default="author"
+			default="none"
 			label="COM_CONFIG_FIELD_FEED_EMAIL_LABEL"
 			description="COM_CONFIG_FIELD_FEED_EMAIL_DESC"
 			filter="word">
@@ -936,7 +949,8 @@
 			type="helpsite"
 			label="COM_CONFIG_FIELD_HELP_SERVER_LABEL"
 			description="COM_CONFIG_FIELD_HELP_SERVER_DESC"
-			required="true" />
+			showDefault="false"
+		/>
 	</fieldset>
 
 	<fieldset
@@ -947,7 +961,6 @@
 			type="text"
 			label="COM_CONFIG_FIELD_COOKIE_DOMAIN_LABEL"
 			description="COM_CONFIG_FIELD_COOKIE_DOMAIN_DESC"
-			required="false"
 			filter="string"
 			size="40" />
 
@@ -956,7 +969,6 @@
 			type="text"
 			label="COM_CONFIG_FIELD_COOKIE_PATH_LABEL"
 			description="COM_CONFIG_FIELD_COOKIE_PATH_DESC"
-			required="false"
 			filter="string"
 			size="40" />
 	</fieldset>

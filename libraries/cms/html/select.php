@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,7 +31,7 @@ abstract class JHtmlSelect
 	 * Generates a yes/no radio list.
 	 *
 	 * @param   string  $name      The value of the HTML name attribute
-	 * @param   array   $attribs   Additional HTML attributes for the <select> tag
+	 * @param   array   $attribs   Additional HTML attributes for the `<select>` tag
 	 * @param   string  $selected  The key that is selected
 	 * @param   string  $yes       Language key for Yes
 	 * @param   string  $no        Language key for no
@@ -54,7 +54,7 @@ abstract class JHtmlSelect
 	 *
 	 * @param   array    $data       An array of objects, arrays, or scalars.
 	 * @param   string   $name       The value of the HTML name attribute.
-	 * @param   mixed    $attribs    Additional HTML attributes for the <select> tag. This
+	 * @param   mixed    $attribs    Additional HTML attributes for the `<select>` tag. This
 	 *                               can be an array of attributes, or an array of options. Treated as options
 	 *                               if it is the last argument passed. Valid options are:
 	 *                               Format options, see {@see JHtml::$formatOptions}.
@@ -140,7 +140,7 @@ abstract class JHtmlSelect
 	 * @return  string  HTML for the select list
 	 *
 	 * @since       3.2
-	 * @deprecated  4.0  Just create the <datalist> directly instead
+	 * @deprecated  4.0  Just create the `<datalist>` directly instead
 	 */
 	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag = null, $translate = false)
 	{
@@ -283,17 +283,17 @@ abstract class JHtmlSelect
 			elseif (is_object($group))
 			{
 				// Sub-list is in a property of an object
-				$subList = $group->$options['group.items'];
+				$subList = $group->{$options['group.items']};
 
-				if (isset($group->$options['group.label']))
+				if (isset($group->{$options['group.label']}))
 				{
-					$label = $group->$options['group.label'];
+					$label = $group->{$options['group.label']};
 					$noGroup = false;
 				}
 
-				if (isset($options['group.id']) && isset($group->$options['group.id']))
+				if (isset($options['group.id']) && isset($group->{$options['group.id']}))
 				{
-					$id = $group->$options['group.id'];
+					$id = $group->{$options['group.id']};
 					$noGroup = false;
 				}
 			}
@@ -326,7 +326,7 @@ abstract class JHtmlSelect
 	 * @param   integer  $end       The end integer
 	 * @param   integer  $inc       The increment
 	 * @param   string   $name      The value of the HTML name attribute
-	 * @param   mixed    $attribs   Additional HTML attributes for the <select> tag, an array of
+	 * @param   mixed    $attribs   Additional HTML attributes for the `<select>` tag, an array of
 	 *                              attributes, or an array of options. Treated as options if it is the last
 	 *                              argument passed.
 	 * @param   mixed    $selected  The key that is selected
@@ -381,7 +381,7 @@ abstract class JHtmlSelect
 	 * @param   string  $optKey   The returned object property name for the value
 	 * @param   string  $optText  The returned object property name for the text
 	 *
-	 * @return  object
+	 * @return  stdClass
 	 *
 	 * @deprecated  4.0  Use JHtmlSelect::groupedList()
 	 * @see     JHtmlSelect::groupedList()
@@ -441,7 +441,7 @@ abstract class JHtmlSelect
 	 *                             parameter is ignored if an options array is passed.
 	 * @param   boolean  $disable  Not used.
 	 *
-	 * @return  object
+	 * @return  stdClass
 	 *
 	 * @since   1.5
 	 */
@@ -696,7 +696,7 @@ abstract class JHtmlSelect
 				{
 					foreach ($options['list.select'] as $val)
 					{
-						$key2 = is_object($val) ? $val->$options['option.key'] : $val;
+						$key2 = is_object($val) ? $val->{$options['option.key']} : $val;
 
 						if ($key == $key2)
 						{
@@ -731,7 +731,7 @@ abstract class JHtmlSelect
 	 *
 	 * @param   array    $data       An array of objects
 	 * @param   string   $name       The value of the HTML name attribute
-	 * @param   string   $attribs    Additional HTML attributes for the <select> tag
+	 * @param   string   $attribs    Additional HTML attributes for the `<select>` tag
 	 * @param   mixed    $optKey     The key that is selected
 	 * @param   string   $optText    The name of the object variable for the option value
 	 * @param   string   $selected   The name of the object variable for the option text
@@ -784,7 +784,7 @@ abstract class JHtmlSelect
 
 			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="radio">';
 			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id . '" value="' . $k . '" ' . $extra
-				. $attribs . ' >' . $t;
+				. $attribs . ' />' . $t;
 			$html .= "\n\t" . '</label>';
 		}
 

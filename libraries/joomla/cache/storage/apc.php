@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -54,7 +54,8 @@ class JCacheStorageApc extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			$name = $key['info'];
+			// If APCu is being used for this adapter, the internal key name changed with APCu 4.0.7 from key to info
+			$name = isset($key['info']) ? $key['info'] : $key['key'];
 			$namearr = explode('-', $name);
 
 			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
@@ -135,9 +136,12 @@ class JCacheStorageApc extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			if (strpos($key['info'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
+			// If APCu is being used for this adapter, the internal key name changed with APCu 4.0.7 from key to info
+			$internalKey = isset($key['info']) ? $key['info'] : $key['key'];
+
+			if (strpos($internalKey, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
 			{
-				apc_delete($key['info']);
+				apc_delete($internalKey);
 			}
 		}
 
@@ -159,9 +163,12 @@ class JCacheStorageApc extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			if (strpos($key['info'], $secret . '-cache-'))
+			// If APCu is being used for this adapter, the internal key name changed with APCu 4.0.7 from key to info
+			$internalKey = isset($key['info']) ? $key['info'] : $key['key'];
+
+			if (strpos($internalKey, $secret . '-cache-'))
 			{
-				apc_fetch($key['info']);
+				apc_fetch($internalKey);
 			}
 		}
 	}
@@ -175,7 +182,15 @@ class JCacheStorageApc extends JCacheStorage
 	 */
 	public static function isSupported()
 	{
-		return extension_loaded('apc');
+		$supported = extension_loaded('apc') && ini_get('apc.enabled');
+
+		// If on the CLI interface, the `apc.enable_cli` option must also be enabled
+		if ($supported && php_sapi_name() === 'cli')
+		{
+			$supported = ini_get('apc.enable_cli');
+		}
+
+		return (bool) $supported;
 	}
 
 	/**

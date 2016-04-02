@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -292,7 +292,6 @@ abstract class JFolder
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
 	 */
 	public static function delete($path)
 	{
@@ -310,15 +309,8 @@ abstract class JFolder
 
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
-		try
-		{
-			// Check to make sure the path valid and clean
-			$path = $pathObject->clean($path);
-		}
-		catch (UnexpectedValueException $e)
-		{
-			throw $e;
-		}
+		// Check to make sure the path valid and clean
+		$path = $pathObject->clean($path);
 
 		// Is this really a folder?
 		if (!is_dir($path))

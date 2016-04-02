@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Uri
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -268,12 +268,16 @@ class JUri extends Uri
 		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host = $uri->toString(array('scheme', 'host', 'port'));
 
-		if (stripos($base, static::base()) !== 0 && !empty($host))
+		// @see JURITest
+		if (empty($host) && strpos($uri->path, 'index.php') === 0
+			|| !empty($host) && preg_match('#' . preg_quote(static::base(), '#') . '#', $base)
+			|| !empty($host) && $host === static::getInstance(static::base())->host && strpos($uri->path, 'index.php') !== false
+			|| !empty($host) && $base === $host && preg_match('#' . preg_quote($base, '#') . '#', static::base()))
 		{
-			return false;
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -311,7 +315,7 @@ class JUri extends Uri
 	 * Resolves //, ../ and ./ from a path and returns
 	 * the result. Eg:
 	 *
-	 * /foo/bar/../boo.php	=> /foo/boo.php
+	 * /foo/bar/../boo.php    => /foo/boo.php
 	 * /foo/bar/../../boo.php => /boo.php
 	 * /foo/bar/.././/boo.php => /foo/boo.php
 	 *

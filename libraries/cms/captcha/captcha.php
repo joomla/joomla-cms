@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,7 +56,7 @@ class JCaptcha extends JObject
 	/**
 	 * Editor Plugin name
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  2.5
 	 */
 	private $_name;
@@ -64,7 +64,8 @@ class JCaptcha extends JObject
 	/**
 	 * Array of instances of this class.
 	 *
-	 * @var	array
+	 * @var	   JCaptcha[]
+	 * @since  2.5
 	 */
 	private static $_instances = array();
 
@@ -74,7 +75,7 @@ class JCaptcha extends JObject
 	 * @param   string  $captcha  The editor to use.
 	 * @param   array   $options  Associative array of options.
 	 *
-	 * @since 2.5
+	 * @since   2.5
 	 */
 	public function __construct($captcha, $options)
 	{
@@ -89,9 +90,9 @@ class JCaptcha extends JObject
 	 * @param   string  $captcha  The plugin to use.
 	 * @param   array   $options  Associative array of options.
 	 *
-	 * @return  JCaptcha  Instance of this class.
+	 * @return  JCaptcha|null  Instance of this class.
 	 *
-	 * @since 2.5
+	 * @since   2.5
 	 */
 	public static function getInstance($captcha, array $options = array())
 	{
@@ -230,8 +231,12 @@ class JCaptcha extends JObject
 			throw new RuntimeException(JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
 
-		$params = new Registry($plugin->params);
-		$plugin->params = $params;
+		// Check for already loaded params
+		if (!($plugin->params instanceof Registry))
+		{
+			$params = new Registry($plugin->params);
+			$plugin->params = $params;
+		}
 
 		// Build captcha plugin classname
 		$name = 'PlgCaptcha' . $this->_name;

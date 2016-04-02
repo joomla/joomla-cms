@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -156,6 +156,16 @@ class InstallationModelDatabase extends JModelBase
 			$app->enqueueMessage(JText::_('INSTL_DATABASE_NAME_TOO_LONG'), 'notice');
 
 			return false;
+		}
+
+		// Workaround for UPPERCASE table prefix for postgresql
+		if ($options->db_type == 'postgresql')
+		{
+			if (strtolower($options->db_prefix) != $options->db_prefix)
+			{
+				$app->enqueueMessage(JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'notice');
+				return false;
+			}
 		}
 
 		// Get a database object.
@@ -507,6 +517,31 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
+		// Get query object for later database access
+		$query = $db->getQuery(true);
+
+		// MySQL only: Attempt to update the table #__utf8_conversion.
+		$serverType = $db->getServerType();
+
+		if ($serverType === 'mysql')
+		{
+			$query->clear()
+				->update($db->quoteName('#__utf8_conversion'))
+				->set($db->quoteName('converted') . ' = ' . ($db->hasUTF8mb4Support() ? 2 : 1));
+			$db->setQuery($query);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$app->enqueueMessage($e->getMessage(), 'notice');
+
+				return false;
+			}
+		}
+
 		// Attempt to update the table #__schema.
 		$pathPart = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
 
@@ -542,7 +577,7 @@ class InstallationModelDatabase extends JModelBase
 			}
 		}
 
-		$query = $db->getQuery(true)
+		$query->clear()
 			->insert($db->quoteName('#__schemas'))
 			->columns(
 				array(
@@ -924,6 +959,23 @@ class InstallationModelDatabase extends JModelBase
 			// If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
 			if (!empty($query) && ($query{0} != '#') && ($query{0} != '-'))
 			{
+				/**
+				 * If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
+				 *
+				 * Note: the JDatabaseDriver::convertUtf8mb4QueryToUtf8 performs the conversion ONLY when
+				 * necessary, so there's no need to check the conditions in JInstaller.
+				 */
+				$query = $db->convertUtf8mb4QueryToUtf8($query);
+
+				/**
+				 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
+				 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.
+				 */
+				if (!$db->hasUTF8mb4Support() && stristr($query, 'CONVERT TO CHARACTER SET utf8 '))
+				{
+					continue;
+				}
+
 				// Execute the query.
 				$db->setQuery($query);
 

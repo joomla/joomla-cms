@@ -2,13 +2,13 @@
 /**
  * Part of the Joomla Framework Utilities Package
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Utilities;
 
-use Joomla\String\String;
+use Joomla\String\StringHelper;
 
 /**
  * ArrayHelper is an array utility class for doing all sorts of odds and ends with arrays.
@@ -139,7 +139,7 @@ final class ArrayHelper
 	 */
 	public static function fromObject($p_obj, $recurse = true, $regex = null)
 	{
-		if (is_object($p_obj))
+		if (is_object($p_obj) || is_array($p_obj))
 		{
 			return self::arrayFromObject($p_obj, $recurse, $regex);
 		}
@@ -201,26 +201,38 @@ final class ArrayHelper
 	/**
 	 * Extracts a column from an array of arrays or objects
 	 *
-	 * @param   array   $array  The source array
-	 * @param   string  $index  The index of the column or name of object property
+	 * @param   array   $array     The source array
+	 * @param   string  $valueCol  The index of the column or name of object property to be used as value
+	 * @param   string  $keyCol    The index of the column or name of object property to be used as key
 	 *
 	 * @return  array  Column of values from the source array
 	 *
 	 * @since   1.0
+	 * @see     http://php.net/manual/en/language.types.array.php
 	 */
-	public static function getColumn(array $array, $index)
+	public static function getColumn(array $array, $valueCol, $keyCol = null)
 	{
 		$result = array();
 
 		foreach ($array as $item)
 		{
-			if (is_array($item) && isset($item[$index]))
+			// Convert object to array
+			$subject = is_object($item) ? static::fromObject($item) : $item;
+
+			// We process array (and object already converted to array) only.
+			// Only if the value column exists in this item
+			if (is_array($subject) && isset($subject[$valueCol]))
 			{
-				$result[] = $item[$index];
-			}
-			elseif (is_object($item) && isset($item->$index))
-			{
-				$result[] = $item->$index;
+				// Array keys can only be integer or string. Casting will occur as per the PHP Manual.
+				if (isset($keyCol) && isset($subject[$keyCol]) && is_scalar($subject[$keyCol]))
+				{
+					$key          = $subject[$keyCol];
+					$result[$key] = $subject[$valueCol];
+				}
+				else
+				{
+					$result[] = $subject[$valueCol];
+				}
 			}
 		}
 
@@ -237,7 +249,7 @@ final class ArrayHelper
 	 *
 	 * @return  mixed  The value from the source array
 	 *
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 *
 	 * @since   1.0
 	 */
@@ -512,11 +524,11 @@ final class ArrayHelper
 					}
 					elseif ($caseSensitive)
 					{
-						$cmp = String::strcmp($va, $vb, $locale);
+						$cmp = StringHelper::strcmp($va, $vb, $locale);
 					}
 					else
 					{
-						$cmp = String::strcasecmp($va, $vb, $locale);
+						$cmp = StringHelper::strcasecmp($va, $vb, $locale);
 					}
 
 					if ($cmp > 0)

@@ -2,14 +2,14 @@
 /**
  * Part of the Joomla Framework Registry Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Registry\Format;
 
 use Joomla\Registry\AbstractRegistryFormat;
-use Joomla\String\String;
+use Joomla\String\StringHelper;
 
 /**
  * JSON format handler for Registry.
@@ -30,7 +30,7 @@ class Json extends AbstractRegistryFormat
 	 */
 	public function objectToString($object, $options = array())
 	{
-		return String::unicode_to_utf8(json_encode($object));
+		return StringHelper::unicode_to_utf8(json_encode($object));
 	}
 
 	/**

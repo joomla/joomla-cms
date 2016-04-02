@@ -562,7 +562,7 @@
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			>
 				<option value="1">JSHOW</option>
-				<option value="hide">JHIDE</option>		
+				<option value="0">JHIDE</option>		
 		</field>
 
 		<field name="show_pagination_limit" type="radio"
