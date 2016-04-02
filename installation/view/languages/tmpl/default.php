@@ -88,7 +88,7 @@ $version = new JVersion;
 				<?php
 				$version = new JVersion;
 				$currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion());
-				foreach ($this->items as $i => $language) : 
+				foreach ($this->items as $i => $language) :
 					// Get language code and language image.
 					preg_match('#^pkg_([a-z]{2,3}-[A-Z]{2})$#', $language->element, $element);
 					$language->code = $element[1];
