@@ -19,10 +19,7 @@ defined('_JEXEC') or die;
 	<?php else : ?>
 		<div id="j-main-container">
 	<?php endif;?>
-		<?php if (!count($this->messages)) : ?>
-			<?php JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNINGS_NONE'), 'notice'); ?>
-		<?php else : ?>
-			<?php JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNINGS_NOTICE'), ''); ?>
+		<?php if (count($this->messages)) : ?>
 			<?php echo JHtml::_('bootstrap.startAccordion', 'warnings', array('active' => 'warning0')); ?>
 				<?php $i = 0; ?>
 				<?php foreach($this->messages as $message) : ?>
