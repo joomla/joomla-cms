@@ -52,6 +52,11 @@ class JFormFieldType extends JFormFieldList
 			}
 		}
 
+		// Sorting the fields based on the text which is displayed
+		usort($options, function  ($a, $b) {
+			return strcmp($a->text, $b->text);
+		});
+
 		return $options;
 	}
 }
