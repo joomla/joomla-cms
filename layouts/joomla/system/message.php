@@ -9,22 +9,31 @@
 
 defined('JPATH_BASE') or die;
 
-$msgList = $displayData['msgList'];
-
+$msgList = $displayData['msgQueue'];
+print_r($msgList);
 ?>
 <div id="system-message-container">
 	<?php if (is_array($msgList) && !empty($msgList)) : ?>
 		<div id="system-message">
-			<?php foreach ($msgList as $type => $msgs) : ?>
+			<?php foreach ($msgList as $groupIdentifier => $msgs) : ?>
+				<?php $options = unserialize($groupIdentifier); ?>
+				<?php $type    = $options['type']; ?>
 				<div class="alert alert-<?php echo $type; ?>">
 					<?php // This requires JS so we should add it trough JS. Progressive enhancement and stuff. ?>
 					<a class="close" data-dismiss="alert">×</a>
 
 					<?php if (!empty($msgs)) : ?>
-						<h4 class="alert-heading"><?php echo JText::_($type); ?></h4>
+						<?php if ($options['showTitle']) : ?>
+							<?php if ($options['customTitle'] !== '') : ?>
+								<?php $title = $options['customTitle']; ?>
+							<?php else : ?>
+								<?php $title = $type; ?>
+							<?php endif; ?>
+							<h4 class="alert-heading"><?php echo JText::_($title); ?></h4>
+						<?php endif; ?>
 						<div>
 							<?php foreach ($msgs as $msg) : ?>
-								<div class="alert-message"><?php echo $msg; ?></div>
+								<div class="alert-message"><?php echo $msg['message']; ?></div>
 							<?php endforeach; ?>
 						</div>
 					<?php endif; ?>
