@@ -134,7 +134,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * @var    bool
 	 * @since  3.5
 	 */
-	protected $hierarchy_categories = false;	
+	protected $hierarchy_categories = false;
 
 	/**
 	 * Method to instantiate the indexer adapter.
@@ -491,7 +491,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		}
 	}
 
- 	/**
+	/**
 	 * Method to get the state for a category taking into account is hierarchy.
 	 *
 	 * @param   int  $state  The state of the category
