@@ -139,8 +139,43 @@ class UsersControllerUser extends UsersController
 		// Get the ItemID of the page to redirect after logout
 		$itemid = JFactory::getApplication()->getMenu()->getActive()->params->get('logout');
 
+		// Get the language of the page when multilang is on
+		if (JLanguageMultilang::isEnabled())
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('language')
+				->from($db->quoteName('#__menu'))
+				->where('client_id = 0')
+				->where('id =' . $itemid);
+
+			$db->setQuery($query);
+
+			try
+			{
+				$language = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				return;
+			}
+
+			if ($language !== '*')
+			{
+				$lang = '&lang=' . $language;
+			}
+			else
+			{
+				$lang = '';
+			}
+		}
+		else
+		{
+			$lang = '';
+		}
+
 		// URL to redirect after logout, default page if no ItemID is set
-		$url = $itemid ? 'index.php?Itemid=' . $itemid : JURI::root();
+		$url = $itemid ? 'index.php?Itemid=' . $itemid . $lang : JURI::root();
 
 		// Logout and redirect
 		$this->setRedirect('index.php?option=com_users&task=user.logout&' . JSession::getFormToken() . '=1&return=' . base64_encode($url));
