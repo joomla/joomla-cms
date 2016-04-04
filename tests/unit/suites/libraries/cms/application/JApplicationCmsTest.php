@@ -436,6 +436,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 				array(
 					'message' => 'Test Message',
 					'type' => 'message'
+					'options' => array(),
 				)
 			),
 			$this->class->getMessageQueue()
