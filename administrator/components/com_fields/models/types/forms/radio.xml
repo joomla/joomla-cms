@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<field name="class" type="textarea" label="COM_FIELDS_FIELD_CLASS_LABEL"
-		class="input-xxlarge" description="COM_FIELDS_FIELD_CLASS_DESC"
-		default="btn-group" size="40" />
 	<fields name="fieldparams" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="fieldparams">
 			<field name="options" type="Repeatable" icon="list"
@@ -19,4 +16,7 @@
 			</field>
 		</fieldset>
 	</fields>
+	<field name="class" type="textarea" label="COM_FIELDS_FIELD_CLASS_LABEL"
+		class="input-xxlarge" description="COM_FIELDS_FIELD_CLASS_DESC"
+		default="btn-group" size="40" />
 </form>
