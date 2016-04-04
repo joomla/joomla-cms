@@ -2,12 +2,6 @@
 <form>
 	<fields name="fieldparams" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="fieldparams">
-			<field name="multiple" type="radio" class="btn-group" default="0"
-				label="COM_FIELDS_FIELD_LIST_MULTIPLE_LABEL" description="COM_FIELDS_FIELD_LIST_MULTIPLE_DESC">
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>
-
 			<field name="options" type="Repeatable" icon="list"
 				description="COM_FIELDS_FIELD_LIST_MULTIPLE_OPTIONS_DESC"
 				label="COM_FIELDS_FIELD_LIST_MULTIPLE_OPTIONS_LABEL">
@@ -19,6 +13,11 @@
 						label="COM_FIELDS_FIELD_LIST_MULTIPLE_OPTIONS_VALUE_LABEL"
 						size="30" type="text" />
 				</fieldset>
+			</field>
+			<field name="multiple" type="radio" class="btn-group" default="0"
+				label="COM_FIELDS_FIELD_LIST_MULTIPLE_LABEL" description="COM_FIELDS_FIELD_LIST_MULTIPLE_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 		</fieldset>
 	</fields>
