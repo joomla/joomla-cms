@@ -10,7 +10,6 @@
 defined('JPATH_BASE') or die;
 
 $msgList = $displayData['msgQueue'];
-print_r($msgList);
 ?>
 <div id="system-message-container">
 	<?php if (is_array($msgList) && !empty($msgList)) : ?>
