@@ -359,7 +359,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 			->select('a.metakey, a.metadesc, a.metadata, a.language')
 			->select('a.created_by, a.created_by_alias, a.modified, a.modified_by')
 			->select('c.title AS category, c.published AS cat_state, c.access AS cat_access')
-			->select('c.lft AS cat_lft, c.rgt AS cat_rgt');			
+			->select('c.lft AS cat_lft, c.rgt AS cat_rgt');
 
 		// Handle the alias CASE WHEN portion of the query.
 		$case_when_item_alias = ' CASE WHEN ';
