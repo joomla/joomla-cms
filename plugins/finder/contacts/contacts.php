@@ -77,6 +77,14 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Indicate if the content categories are defined using hierarchies.
+	 *
+	 * @var    bool
+	 * @since  3.5
+	 */
+	protected $hierarchy_categories = true;
+
+	/**
 	 * Method to update the item link information when the item category is
 	 * changed. This is fired when the item category is published or unpublished
 	 * from the list view.
@@ -354,7 +362,8 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		}
 
 		// Translate the state. Contacts should only be published if the category is published.
-		$item->state = $this->translateState($item->state, $item->cat_state);
+		$cat_state = $this->getCategoryState($item->cat_state, $item->cat_lft, $item->cat_rgt);
+		$item->state = $this->translateState($item->state, $cat_state);
 
 		// Handle the contact user name.
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'user');
@@ -428,7 +437,8 @@ class PlgFinderContacts extends FinderIndexerAdapter
 			->select('a.suburb AS city, a.state AS region, a.country, a.postcode AS zip')
 			->select('a.telephone, a.fax, a.misc AS summary, a.email_to AS email, a.mobile')
 			->select('a.webpage, a.access, a.published AS state, a.ordering, a.params, a.catid')
-			->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
+			->select('c.title AS category, c.published AS cat_state, c.access AS cat_access')
+			->select('c.lft AS cat_lft, c.rgt AS cat_rgt');
 
 		// Handle the alias CASE WHEN portion of the query
 		$case_when_item_alias = ' CASE WHEN ';
