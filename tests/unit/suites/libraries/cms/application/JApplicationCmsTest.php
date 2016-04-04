@@ -435,7 +435,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 			array(
 				array(
 					'message' => 'Test Message',
-					'type' => 'message'
+					'type' => 'message',
 					'options' => array(),
 				)
 			),
