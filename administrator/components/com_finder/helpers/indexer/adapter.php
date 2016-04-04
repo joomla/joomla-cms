@@ -129,6 +129,14 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected $state_field = 'state';
 
 	/**
+	 * Indicate if the content categories are defined using hierarchies.
+	 *
+	 * @var    bool
+	 * @since  3.5
+	 */
+	protected $hierarchy_categories = false;	
+
+	/**
 	 * Method to instantiate the indexer adapter.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -444,16 +452,26 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * Method to update the state of all the items in a category.
 	 *
-	 * @param   int  $id  The category primary key
+	 * @param   int  $id     The category primary key
+	 * @param   int  $state  The state for the category
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 */
-	protected function updateStateByCategoryId($id)
+	protected function updateStateByCategoryId($id, $state)
 	{
 		$query = clone $this->getStateQuery();
-		$query->where('c.id = ' . (int) $id);
+		if ($this->hierarchy_categories)
+		{
+			$hierarchyValues = $this->getCategoryHierarchyValues($id);
+			$query->where('c.lft >= ' . (int) $hierarchyValues->lft);
+			$query->where('c.rgt <= ' . (int) $hierarchyValues->rgt);
+		}
+		else
+		{
+			$query->where('c.id = ' . (int) $id);
+		}
 
 		// Get the state for the category.
 		$this->db->setQuery($query);
@@ -462,12 +480,66 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// Adjust the state for each item within the category.
 		foreach ($items as $item)
 		{
+			// Get the state for the category.
+			$cat_state = $this->getCategoryState($item->cat_state, $item->cat_lft, $item->cat_rgt);
+
 			// Translate the state.
-			$temp = $this->translateState($item->state, $item->cat_state);
+			$temp = $this->translateState($item->state, $cat_state);
 
 			// Update the item.
 			$this->change($item->id, 'state', $temp);
 		}
+	}
+
+ 	/**
+	 * Method to get the state for a category taking into account is hierarchy.
+	 *
+	 * @param   int  $state  The state of the category
+	 * @param   int  $lft    The lft property value of the category
+	 * @param   int  $rgt    The rgt property value of the category
+	 *
+	 * @return  int  The value of the state obtained
+	 *
+	 * @since   3.5
+	 */
+	protected function getCategoryState($state, $lft = 0, $rgt = 0)
+	{
+		if (!$this->hierarchy_categories)
+		{
+			return $state;
+		}
+
+		$query = $this->db->getQuery(true)
+			->select('MIN(' . $this->db->quoteName('published') . ')')
+			->from($this->db->quoteName('#__categories'))
+			->where($this->db->quoteName('lft') . ' <= ' . (int) $lft)
+			->where($this->db->quoteName('rgt') . ' >= ' . (int) $rgt);
+
+		$this->db->setQuery($query);
+
+		return $this->db->loadResult();
+	}
+
+	/**
+	 * Method to get the lft and rgt properties of a category.
+	 *
+	 * @param   int  $id  The category primary key.
+	 *
+	 * @return  object  An object that contains the lft and rgt properties of the category
+	 *
+	 * @since   3.5
+	 */
+	protected function getCategoryHierarchyValues($id)
+	{
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('lft'))
+			->select($this->db->quoteName('rgt'))
+			->from($this->db->quoteName('#__categories'))
+			->where($this->db->quoteName('id') . ' = ' . (int) $id);
+
+		$this->db->setQuery($query);
+
+		return $this->db->loadObject();
 	}
 
 	/**
@@ -701,8 +773,18 @@ abstract class FinderIndexerAdapter extends JPlugin
 	{
 		$query = $this->db->getQuery(true);
 
-		// Item ID
-		$query->select('a.id');
+		// Item and category IDs
+		$query->select('a.' . $this->identifier_field . ' AS id, c.id AS cat_id');
+
+		// Category hierarchy values
+		if ($this->hierarchy_categories)
+		{
+			$query->select('c.lft AS cat_lft, c.rgt AS cat_rgt');
+		}
+		else
+		{
+			$query->select('0 AS cat_lft, 0 AS cat_rgt');
+		}
 
 		// Item and category published state
 		$query->select('a.' . $this->state_field . ' AS state, c.published AS cat_state');
@@ -889,14 +971,14 @@ abstract class FinderIndexerAdapter extends JPlugin
 			$this->db->setQuery($query);
 			$item = $this->db->loadObject();
 
+			// Get the state for the category
+			$cat_state = $this->getCategoryState($item->cat_state, $item->cat_lft, $item->cat_rgt);
+
 			// Translate the state.
-			$temp = $this->translateState($value, $item->cat_state);
+			$temp = $this->translateState($value, $cat_state);
 
 			// Update the item.
 			$this->change($pk, 'state', $temp);
-
-			// Reindex the item
-			$this->reindex($pk);
 		}
 	}
 
