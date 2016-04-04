@@ -2191,6 +2191,12 @@ class JInstaller extends JAdapter
 	 */
 	public static function parseXMLInstallFile($path)
 	{
+		// Check if xml file exists.
+		if (!file_exists($path))
+		{
+			return false;
+		}
+
 		// Read the file to see if it's a valid component XML file
 		$xml = simplexml_load_file($path);
 
