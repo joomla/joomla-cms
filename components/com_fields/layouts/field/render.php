@@ -25,7 +25,7 @@ if (!$value)
 
 ?>
 
-<dd class="dpfield-entry <?php echo $class; ?>" id="dpfield-entry-<?php echo $field->id; ?>">
-	<span class="dpfield-label"><?php echo htmlentities($label); ?>: </span>
-	<span class="dpfield-value"><?php echo $value; ?></span>
+<dd class="field-entry <?php echo $class; ?>" id="field-entry-<?php echo $field->id; ?>">
+	<span class="field-label"><?php echo htmlentities($label); ?>: </span>
+	<span class="field-value"><?php echo $value; ?></span>
 </dd>
