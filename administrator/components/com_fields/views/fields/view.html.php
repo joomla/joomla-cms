@@ -187,7 +187,7 @@ class FieldsViewFields extends JViewLegacy
 				'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
 				'a.published' => JText::_('JSTATUS'),
 				'a.title' => JText::_('JGLOBAL_TITLE'),
-				'a.type' => JText::_('COM_FIELDS_FIELD_FIELD_TYPE_LABEL'),
+				'a.type' => JText::_('COM_FIELDS_FIELD_TYPE_LABEL'),
 				'a.access' => JText::_('JGRID_HEADING_ACCESS'),
 				'language' => JText::_('JGRID_HEADING_LANGUAGE'),
 				'a.id' => JText::_('JGRID_HEADING_ID')

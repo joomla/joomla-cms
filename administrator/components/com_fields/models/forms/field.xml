@@ -7,8 +7,8 @@
 	<field name="context" type="hidden" />
 
 	<field name="catid" type="category"
-		label="COM_FIELDS_FIELD_FIELD_CATEGORY_LABEL" extension="com_fields"
-		description="COM_FIELDS_FIELD_FIELD_CATEGORY_DESC" class="">
+		label="COM_FIELDS_FIELD_CATEGORY_LABEL" extension="com_fields"
+		description="COM_FIELDS_FIELD_CATEGORY_DESC" class="">
 		<option value=""></option>
 	</field>
 	<field name="assigned_cat_ids" type="category" label="JCATEGORY"
@@ -22,21 +22,21 @@
 	<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
 		description="JFIELD_ALIAS_DESC" hint="JFIELD_ALIAS_PLACEHOLDER" size="45" />
 
-	<field name="type" type="type" label="COM_FIELDS_FIELD_FIELD_TYPE_LABEL"
+	<field name="type" type="type" label="COM_FIELDS_FIELD_TYPE_LABEL"
 		onchange="window.location.href = window.location.href + &#39;&amp;type=&#39; + jQuery(this).val();"
-		default="text" description="COM_FIELDS_FIELD_FIELD_TYPE_DESC" class=""
+		default="text" description="COM_FIELDS_FIELD_TYPE_DESC" class=""
 		required="true">
 	</field>
-	<field name="label" type="text" label="COM_FIELDS_FIELD_FIELD_LABEL_LABEL"
-		description="COM_FIELDS_FIELD_FIELD_LABEL_DESC" class="input-xxlarge"
+	<field name="label" type="text" label="COM_FIELDS_FIELD_LABEL_LABEL"
+		description="COM_FIELDS_FIELD_LABEL_DESC" class="input-xxlarge"
 		size="40" required="true" />
 	<field name="required" type="radio" class="btn-group" default="0"
-		label="COM_FIELDS_FIELD_FIELD_REQUIRED_LABEL" description="COM_FIELDS_FIELD_FIELD_REQUIRED_DESC">
+		label="COM_FIELDS_FIELD_REQUIRED_LABEL" description="COM_FIELDS_FIELD_REQUIRED_DESC">
 		<option value="1">JYES</option>
 		<option value="0">JNO</option>
 	</field>
 	<field name="default_value" type="textarea" filter="raw"
-		label="COM_FIELDS_FIELD_FIELD_DEFAULT_VALUE_LABEL" description="COM_FIELDS_FIELD_FIELD_DEFAULT_VALUE_DESC"
+		label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL" description="COM_FIELDS_FIELD_DEFAULT_VALUE_DESC"
 		class="input-xxlarge" size="40" />
 
 	<field name="state" type="list" class="chzn-color-state" default="1"
@@ -65,7 +65,7 @@
 	<field name="hits" type="text" default="0" label="JGLOBAL_HITS"
 		description="COM_FIELDS_FIELD_HITS_DESC" class="readonly" readonly="true" />
 	<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-		description="COM_FIELDS_FIELD_FIELD_LANGUAGE_DESC">
+		description="COM_FIELDS_FIELD_LANGUAGE_DESC">
 		<option value="*">JALL</option>
 	</field>
 	<field name="tags" type="tag" label="JTAG" description="JTAG_DESC"
@@ -74,10 +74,10 @@
 	<field name="version_note" type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL" description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 		class="span12" size="45" />
-	<field name="note" type="text" label="COM_FIELDS_FIELD_FIELD_NOTE_LABEL"
-		description="COM_FIELDS_FIELD_FIELD_NOTE_DESC" class="span12" size="40" />
+	<field name="note" type="text" label="COM_FIELDS_FIELD_NOTE_LABEL"
+		description="COM_FIELDS_FIELD_NOTE_DESC" class="span12" size="40" />
 	<field name="description" type="editor" label="JGLOBAL_DESCRIPTION"
-		description="COM_FIELDS_FIELD_FIELD_DESCRIPTION_DESC" filter="JComponentHelper::filterText"
+		description="COM_FIELDS_FIELD_DESCRIPTION_DESC" filter="JComponentHelper::filterText"
 		buttons="true" hide="readmore,pagebreak" height="10" />
 
 	<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
@@ -91,44 +91,44 @@
 
 	<fields name="params" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="basic">
-			<field name="image" type="media" label="COM_FIELDS_FIELD_FIELD_IMAGE_LABEL"
-				description="COM_FIELDS_FIELD_FIELD_IMAGE_DESC" />
+			<field name="image" type="media" label="COM_FIELDS_FIELD_IMAGE_LABEL"
+				description="COM_FIELDS_FIELD_IMAGE_DESC" />
 			<field name="image_alt" type="text"
-				label="COM_FIELDS_FIELD_FIELD_IMAGE_ALT_LABEL" description="COM_FIELDS_FIELD_FIELD_IMAGE_ALT_DESC"
+				label="COM_FIELDS_FIELD_IMAGE_ALT_LABEL" description="COM_FIELDS_FIELD_IMAGE_ALT_DESC"
 				size="20" />
 			<field name="render_class" type="textarea"
-				label="COM_FIELDS_FIELD_FIELD_RENDER_CLASS_LABEL" description="COM_FIELDS_FIELD_FIELD_RENDER_CLASS_DESC"
+				label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL" description="COM_FIELDS_FIELD_RENDER_CLASS_DESC"
 				class="input-xxlarge" size="40" />
-			<field name="class" type="textarea" label="COM_FIELDS_FIELD_FIELD_CLASS_LABEL"
-				description="COM_FIELDS_FIELD_FIELD_CLASS_DESC" class="input-xxlarge"
+			<field name="class" type="textarea" label="COM_FIELDS_FIELD_CLASS_LABEL"
+				description="COM_FIELDS_FIELD_CLASS_DESC" class="input-xxlarge"
 				size="40" />
 			<field name="disabled" type="radio" class="btn-group" default="0"
-				label="COM_FIELDS_FIELD_FIELD_DISABLED_LABEL" description="COM_FIELDS_FIELD_FIELD_DISABLED_DESC">
+				label="COM_FIELDS_FIELD_DISABLED_LABEL" description="COM_FIELDS_FIELD_DISABLED_DESC">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
 			<field name="readonly" type="radio" class="btn-group" default="0"
-				label="COM_FIELDS_FIELD_FIELD_READONLY_LABEL" description="COM_FIELDS_FIELD_FIELD_READONLY_DESC">
+				label="COM_FIELDS_FIELD_READONLY_LABEL" description="COM_FIELDS_FIELD_READONLY_DESC">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
 			<field name="show_on" type="radio" class="btn-group" default=""
-				label="COM_FIELDS_FIELD_FIELD_SHOW_ON_LABEL" description="COM_FIELDS_FIELD_FIELD_SHOW_ON_LABEL">
-				<option value="1">COM_FIELDS_FIELD_FIELD_SHOW_ON_SITE</option>
-				<option value="2">COM_FIELDS_FIELD_FIELD_SHOW_ON_ADMIN</option>
-				<option value="">COM_FIELDS_FIELD_FIELD_SHOW_ON_BOTH</option>
+				label="COM_FIELDS_FIELD_SHOW_ON_LABEL" description="COM_FIELDS_FIELD_SHOW_ON_LABEL">
+				<option value="1">COM_FIELDS_FIELD_SHOW_ON_SITE</option>
+				<option value="2">COM_FIELDS_FIELD_SHOW_ON_ADMIN</option>
+				<option value="">COM_FIELDS_FIELD_SHOW_ON_BOTH</option>
 			</field>
 			<field name="display" type="list"
-				label="COM_FIELDS_FIELD_FIELD_DISPLAY_LABEL" description="COM_FIELDS_FIELD_FIELD_DISPLAY_DESC"
+				label="COM_FIELDS_FIELD_DISPLAY_LABEL" description="COM_FIELDS_FIELD_DISPLAY_DESC"
 				default="-1">
-				<option value="1">COM_FIELDS_FIELD_FIELD_DISPLAY_AFTER_TITLE</option>
-				<option value="2">COM_FIELDS_FIELD_FIELD_DISPLAY_BEFORE_DISPLAY</option>
-				<option value="3">COM_FIELDS_FIELD_FIELD_DISPLAY_AFTER_DISPLAY</option>
+				<option value="1">COM_FIELDS_FIELD_DISPLAY_AFTER_TITLE</option>
+				<option value="2">COM_FIELDS_FIELD_DISPLAY_BEFORE_DISPLAY</option>
+				<option value="3">COM_FIELDS_FIELD_DISPLAY_AFTER_DISPLAY</option>
 				<option value="0">JNO</option>
 				<option value="-1">JGLOBAL_USE_GLOBAL</option>
 			</field>
 			<field name="output" type="editor"
-				label="COM_FIELDS_FIELD_FIELD_OUTPUT_LABEL" description="COM_FIELDS_FIELD_FIELD_OUTPUT_DESC" />
+				label="COM_FIELDS_FIELD_OUTPUT_LABEL" description="COM_FIELDS_FIELD_OUTPUT_DESC" />
 		</fieldset>
 	</fields>
 </form>

@@ -3,13 +3,13 @@
 	<fields name="fieldparams" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="fieldparams">
 			<field name="multiple" type="radio" class="btn-group" default="0"
-				label="COM_FIELDS_FIELD_FIELD_LIST_MULTIPLE_LABEL" description="COM_FIELDS_FIELD_FIELD_LIST_MULTIPLE_DESC">
+				label="COM_FIELDS_FIELD_LIST_MULTIPLE_LABEL" description="COM_FIELDS_FIELD_LIST_MULTIPLE_DESC">
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
 			<field name="query" type="textarea" filter="raw"
-				default="select id as value, name as text from #__users" label="COM_FIELDS_FIELD_FIELD_SQL_QUERY_LABEL"
-				description="COM_FIELDS_FIELD_FIELD_SQL_QUERY_DESC" class="input-xxlarge"
+				default="select id as value, name as text from #__users" label="COM_FIELDS_FIELD_SQL_QUERY_LABEL"
+				description="COM_FIELDS_FIELD_SQL_QUERY_DESC" class="input-xxlarge"
 				rows="10" />
 		</fieldset>
 	</fields>
