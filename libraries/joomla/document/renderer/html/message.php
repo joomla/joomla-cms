@@ -59,6 +59,8 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 	/**
 	 * Get and prepare system message data for output
 	 *
+	 * @param   integer  version   Type of returned array. 1 for B/C mode.
+	 * 
 	 * @return  array  An array contains system message
 	 *
 	 * @since   3.5
