@@ -38,7 +38,7 @@ class JCacheStorageCacheliteTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$this->extensionAvailable = class_exists('Cache_Lite');
+		$this->extensionAvailable = JCacheStorageCachelite::isSupported();
 
 		if ($this->extensionAvailable)
 		{

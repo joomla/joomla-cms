@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -29,12 +29,12 @@ $context = $this->escape($this->state->get('filter.context'));
 <div class="row-fluid">
 	<div class="control-group span6">
 		<div class="controls">
-			<?php echo JHtml::_('batch.tag'); ?>
+			<?php echo JHtml::_('batch.item', $context . '.fields');?>
 		</div>
 	</div>
 	<div class="control-group span6">
 		<div class="controls">
-			<?php echo JHtml::_('batch.item', $context . '.fields');?>
+			<?php echo JHtml::_('batch.tag'); ?>
 		</div>
 	</div>
 </div>

@@ -2,7 +2,7 @@
 <extension type="plugin" version="3.6" group="system" method="upgrade">
 	<name>plg_system_fields</name>
 	<author>Joomla! Project</author>
-	<creationDate>November 2011</creationDate>
+	<creationDate>March 2016</creationDate>
 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -19,18 +19,21 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="display" type="list"
-					label="PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_LABEL" description="PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_DESC"
+				<field
+					name="display"
+					type="list"
+					label="PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_LABEL"
+					description="PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_DESC"
 					default="2">
-					<option value="1">PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_AFTER_TITLE
-					</option>
-					<option value="2">PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_BEFORE_DISPLAY
-					</option>
-					<option value="3">PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_AFTER_DISPLAY
-					</option>
+					<option value="1">PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_AFTER_TITLE</option>
+					<option value="2">PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_BEFORE_DISPLAY</option>
+					<option value="3">PLG_SYSTEM_FIELDS_CONFIG_DISPLAY_AFTER_DISPLAY</option>
 					<option value="0">JNO</option>
 				</field>
-				<field name="prepare_content" type="radio" class="btn-group"
+				<field
+					name="prepare_content"
+					type="radio"
+					class="btn-group btn-group-yesno"
 					label="PLG_SYSTEM_FIELDS_CONFIG_PREPARE_CONTENT_LABEL"
 					description="PLG_SYSTEM_FIELDS_CONFIG_PREPARE_CONTENT_DESC"
 					default="1">

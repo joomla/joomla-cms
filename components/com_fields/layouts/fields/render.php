@@ -2,36 +2,39 @@
 /**
  * @package     Joomla.Site
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 // Check if we have all data
-if (! key_exists('item', $displayData) || ! key_exists('context', $displayData))
+if (!key_exists('item', $displayData) || !key_exists('context', $displayData))
 {
 	return;
 }
 
 // Setting up for display
 $item = $displayData['item'];
-if (! $item)
+
+if (!$item)
 {
 	return;
 }
+
 $context = $displayData['context'];
-if (! $context)
+
+if (!$context)
 {
 	return;
 }
 
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
-$parts = explode('.', $context);
+$parts     = explode('.', $context);
 $component = $parts[0];
+$fields    = null;
 
-$fields = null;
 if (key_exists('fields', $displayData))
 {
 	$fields = $displayData['fields'];
@@ -41,18 +44,21 @@ else
 	$fields = $item->fields ? $item->fields : FieldsHelper::getFields($context, $item, true);
 }
 
-if (! $fields)
+if (!$fields)
 {
 	return;
 }
 
 // Load some output definitions
 $container = 'dl';
+
 if (key_exists('container', $displayData) && $displayData['container'])
 {
 	$container = $displayData['container'];
 }
+
 $class = 'article-info muted';
+
 if (key_exists('container-class', $displayData) && $displayData['container-class'])
 {
 	$class = $displayData['container-class'];
@@ -65,25 +71,16 @@ echo '<' . $container . ' class="fields-container ' . $class . '">';
 foreach ($fields as $field)
 {
 	// If the value is empty dp nothing
-	if (! isset($field->value) || ! $field->value)
+	if (!isset($field->value) || !$field->value)
 	{
 		continue;
 	}
 
 	echo FieldsHelper::render($context, 'field.render',
-			array(
-					'field' => $field,
-
-					// @deprecated use $field->label directly in the render
-					// layout of the field
-					'label' => $field->label,
-					// @deprecated use $field->value directly in the render
-					// layout of the field
-					'value' => $field->value,
-					// @deprecated use $field->render_class directly in the
-					// render layout of the field
-					'class' => $field->render_class
-			));
+		array(
+				'field' => $field
+		)
+	);
 }
 
 // Close the container

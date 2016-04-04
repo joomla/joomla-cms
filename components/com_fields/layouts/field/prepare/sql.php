@@ -6,30 +6,32 @@
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
-if (! key_exists('field', $displayData))
+if (!key_exists('field', $displayData))
 {
 	return;
 }
 
 $field = $displayData['field'];
 $value = $field->value;
-if (! $value)
+
+if (!$value)
 {
 	return;
 }
 
-$db = JFactory::getDbo();
-$value = (array) $value;
-
+$db        = JFactory::getDbo();
+$value     = (array) $value;
 $condition = '';
+
 foreach ($value as $v)
 {
-	if (! $v)
+	if (!$v)
 	{
 		continue;
 	}
+
 	$condition .= ', ' . $db->q($v);
 }
 
@@ -38,7 +40,6 @@ $query = $field->fieldparams->get('query', 'select id as value, name as text fro
 // Run the query with a having condition because it support aliases
 $db->setQuery($query . ' having value in (' . trim($condition, ',') . ')');
 
-$items = array();
 try
 {
 	$items = $db->loadObjectlist();
@@ -51,6 +52,7 @@ catch (Exception $e)
 }
 
 $texts = array();
+
 foreach ($items as $item)
 {
 	if (in_array($item->value, $value))

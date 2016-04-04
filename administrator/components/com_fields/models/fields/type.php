@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 JFormHelper::loadFieldClass('list');
 JLoader::import('joomla.filesystem.folder');
@@ -51,6 +51,11 @@ class JFormFieldType extends JFormFieldList
 				$options[] = JHtml::_('select.option', $name, JText::_($label));
 			}
 		}
+
+		// Sorting the fields based on the text which is displayed
+		usort($options, function  ($a, $b) {
+			return strcmp($a->text, $b->text);
+		});
 
 		return $options;
 	}

@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
@@ -122,7 +122,7 @@ class FieldsModelFields extends JModelList
 		$query->from('#__fields AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title')->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+		$query->select('l.title AS language_title, l.image AS language_image')->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor')->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');

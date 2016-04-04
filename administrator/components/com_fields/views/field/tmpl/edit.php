@@ -2,11 +2,11 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -57,8 +57,6 @@ JFactory::getDocument()->addScriptDeclaration('
 				echo $this->form->renderField('label');
 				echo $this->form->renderField('required');
 				echo $this->form->renderField('default_value');
-				echo $this->form->renderField('render_class');
-				echo $this->form->renderField('class');
 
 				// rendering additional fields
 				foreach ($this->form->getFieldsets('fieldparams') as $name => $fieldSet)
@@ -102,15 +100,15 @@ JFactory::getDocument()->addScriptDeclaration('
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
+		<?php
+		$this->set('ignore_fieldsets', array('fieldparams'));
+		echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'rules', JText::_('COM_FIELDS_VIEW_FIELD_FIELDSET_RULES', true)); ?>
 			<?php echo $this->form->getInput('rules'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
-
-		<?php
-		$this->set('ignore_fieldsets', array('fieldparams'));
-		echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 

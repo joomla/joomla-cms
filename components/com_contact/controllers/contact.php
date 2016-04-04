@@ -217,7 +217,7 @@ class ContactControllerContact extends JControllerForm
 
 				$mail = JFactory::getMailer();
 				$mail->addRecipient($email);
-				$mail->addReplyTo(array($email, $name));
+				$mail->addReplyTo($email, $name);
 				$mail->setSender(array($mailfrom, $fromname));
 				$mail->setSubject($copysubject);
 				$mail->setBody($copytext);

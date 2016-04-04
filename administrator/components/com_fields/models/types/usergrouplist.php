@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -12,10 +12,4 @@ JLoader::import('components.com_fields.models.types.base', JPATH_ADMINISTRATOR);
 
 class FieldsTypeUsergrouplist extends FieldsTypeBase
 {
-
-	public function prepareValueForDisplay ($value, $field)
-	{
-
-		return parent::prepareValueForDisplay($texts, $field);
-	}
 }

@@ -2,11 +2,11 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
@@ -19,26 +19,22 @@ class FieldsTableField extends JTable
 
 		$this->setColumnAlias('published', 'state');
 
-		JObserverMapper::addObserverClassToClass('JTableObserverTags', 'FieldsTableField', array(
-				'typeAlias' => 'com_fields.field'
-		));
-		JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'FieldsTableField',
-				array(
-						'typeAlias' => 'com_fields.field'
-				));
+		JObserverMapper::addObserverClassToClass('JTableObserverTags', 'FieldsTableField', array('typeAlias' => 'com_fields.field'));
+		JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'FieldsTableField', array('typeAlias' => 'com_fields.field'));
 	}
 
 	public function bind ($array, $ignore = '')
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry();
+			$registry = new Registry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
+
 		if (isset($array['fieldparams']) && is_array($array['fieldparams']))
 		{
-			$registry = new Registry();
+			$registry = new Registry;
 			$registry->loadArray($array['fieldparams']);
 			$array['fieldparams'] = (string) $registry;
 		}
@@ -59,6 +55,7 @@ class FieldsTableField extends JTable
 		if (trim($this->title) == '')
 		{
 			$this->setError(JText::_('COM_FIELDS_LOCATION_ERR_TABLES_TITLE'));
+
 			return false;
 		}
 
@@ -66,7 +63,9 @@ class FieldsTableField extends JTable
 		{
 			$this->alias = $this->title;
 		}
+
 		$this->alias = JApplication::stringURLSafe($this->alias);
+
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
 			$this->alias = JString::increment($alias, 'dash');
@@ -83,8 +82,10 @@ class FieldsTableField extends JTable
 		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
 		{
 			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+
 			return false;
 		}
+
 		if (is_array($this->assigned_cat_ids))
 		{
 			$this->assigned_cat_ids = implode(',', $this->assigned_cat_ids);
@@ -92,6 +93,7 @@ class FieldsTableField extends JTable
 
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
+
 		if ($this->id)
 		{
 			// Existing item
@@ -117,6 +119,7 @@ class FieldsTableField extends JTable
 	protected function _getAssetName ()
 	{
 		$k = $this->_tbl_key;
+
 		return $this->context . '.field.' . (int) $this->$k;
 	}
 
@@ -142,9 +145,11 @@ class FieldsTableField extends JTable
 			$this->_db->setQuery($query);
 
 			$assetId = null;
+
 			if ($result = $this->_db->loadResult())
 			{
 				$assetId = (int) $result;
+
 				if ($assetId)
 				{
 					return $assetId;
