@@ -80,7 +80,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	 * Indicate if the content categories are defined using hierarchies.
 	 *
 	 * @var    bool
-	 * @since  3.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $hierarchy_categories = true;
 
