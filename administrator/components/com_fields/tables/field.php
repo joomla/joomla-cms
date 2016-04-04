@@ -78,14 +78,6 @@ class FieldsTableField extends JTable
 			$this->type = 'text';
 		}
 
-		// Check the publish down date is not earlier than publish up.
-		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
-		{
-			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
-
-			return false;
-		}
-
 		if (is_array($this->assigned_cat_ids))
 		{
 			$this->assigned_cat_ids = implode(',', $this->assigned_cat_ids);
