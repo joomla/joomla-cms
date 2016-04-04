@@ -26,7 +26,8 @@
         "paragonie/random_compat": "~1.0",
         "phpmailer/phpmailer": "5.2.14",
         "symfony/polyfill-php56": "~1.0",
-        "symfony/yaml": "2.*"
+        "symfony/yaml": "2.*",
+        "mustache/mustache": "2.8.0"
     },
     "require-dev": {
         "phpunit/phpunit": "4.*",

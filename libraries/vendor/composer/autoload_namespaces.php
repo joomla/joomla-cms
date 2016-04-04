@@ -7,5 +7,6 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
+    'Mustache' => array($vendorDir . '/mustache/mustache/src'),
     'Joomla\\Session' => array($vendorDir . '/joomla/session'),
 );

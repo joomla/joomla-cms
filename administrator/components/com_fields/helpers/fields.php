@@ -150,10 +150,6 @@ class FieldsHelper
 					{
 						try
 						{
-							// Load the mustache engine
-							JLoader::import('components.com_fields.libraries.Mustache.Autoloader', JPATH_ADMINISTRATOR);
-							Mustache_Autoloader::register();
-
 							$m = new Mustache_Engine();
 							$value = $m->render($output, $field);
 						}
