@@ -231,7 +231,7 @@ class JApplicationHelper
 		JLog::add('JApplicationHelper::parseXMLLangMetaFile is deprecated. Use JInstaller::parseXMLInstallFile instead.', JLog::WARNING, 'deprecated');
 
 		// Read the file to see if it's a valid component XML file
-		$xml = simplexml_load_file($path);
+		$xml = @simplexml_load_file($path);
 
 		if (!$xml)
 		{
