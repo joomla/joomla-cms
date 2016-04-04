@@ -35,7 +35,7 @@ class InstallerViewWarnings extends InstallerViewDefault
 
 		if (count($items) > 0)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNINGS_NOTICE'), '');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNINGS_NOTICE'), 'warning');
 		}
 		else
 		{
