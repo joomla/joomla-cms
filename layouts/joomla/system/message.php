@@ -32,7 +32,7 @@ $msgList = $displayData['msgQueue'];
 						<?php endif; ?>
 						<div>
 							<?php foreach ($msgs as $msg) : ?>
-								<div class="alert-message"><?php echo $msg['message']; ?></div>
+								<div class="alert-message"><?php echo $msg; ?></div>
 							<?php endforeach; ?>
 						</div>
 					<?php endif; ?>
