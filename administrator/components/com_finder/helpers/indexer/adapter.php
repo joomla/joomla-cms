@@ -76,7 +76,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * The state of a category before save.
 	 *
 	 * @var    integer
-	 * @since  3.5
+	 * @since  __DEPLOY_VERSION__
 	*/
 	protected $old_catstate;
 
@@ -132,7 +132,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * Indicate if the content categories are defined using hierarchies.
 	 *
 	 * @var    bool
-	 * @since  3.5
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $hierarchy_categories = false;
 
@@ -457,7 +457,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function updateStateByCategoryId($id, $state)
 	{
@@ -500,7 +500,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @return  int  The value of the state obtained
 	 *
-	 * @since   3.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getCategoryState($state, $lft = 0, $rgt = 0)
 	{
@@ -527,7 +527,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @return  object  An object that contains the lft and rgt properties of the category
 	 *
-	 * @since   3.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getCategoryHierarchyValues($id)
 	{
@@ -570,7 +570,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5
+	 * @since   __DEPLOY_VERSION__
 	*/
 	protected function checkCategoryState($row)
 	{
