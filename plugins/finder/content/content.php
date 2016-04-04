@@ -69,6 +69,14 @@ class PlgFinderContent extends FinderIndexerAdapter
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Indicate if the content categories are defined using hierarchies.
+	 *
+	 * @var    bool
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $hierarchy_categories = true;
+
+	/**
 	 * Method to update the item link information when the item category is
 	 * changed. This is fired when the item category is published or unpublished
 	 * from the list view.
@@ -296,7 +304,8 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
 
 		// Translate the state. Articles should only be published if the category is published.
-		$item->state = $this->translateState($item->state, $item->cat_state);
+		$cat_state = $this->getCategoryState($item->cat_state, $item->cat_lft, $item->cat_rgt);
+		$item->state = $this->translateState($item->state, $cat_state);
 
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Article');
@@ -355,7 +364,8 @@ class PlgFinderContent extends FinderIndexerAdapter
 			->select('a.created_by_alias, a.modified, a.modified_by, a.attribs AS params')
 			->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.version, a.ordering')
 			->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')
-			->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
+			->select('c.title AS category, c.published AS cat_state, c.access AS cat_access')
+			->select('c.lft AS cat_lft, c.rgt AS cat_rgt');
 
 		// Handle the alias CASE WHEN portion of the query
 		$case_when_item_alias = ' CASE WHEN ';
