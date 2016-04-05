@@ -177,7 +177,8 @@ abstract class JHtmlIcon
 			return $output;
 		}
 
-		$url = 'index.php?option=com_content&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
+		$contentUrl = ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
+		$url        = $contentUrl . '&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
 
 		if ($article->state == 0)
 		{
