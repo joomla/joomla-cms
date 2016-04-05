@@ -258,7 +258,6 @@ class FieldsModelFields extends JModelList
 			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 		}
 
-		// Echo nl2br(str_replace('#__', 'j_', $query)); //die();
 		return $query;
 	}
 
