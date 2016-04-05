@@ -141,11 +141,13 @@ class JFormFieldCategoryEdit extends JFormFieldList
 
 			if ($options[$i]->published == 1)
 			{
-				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
+				$options[$i]->text = str_repeat('- ', $options[$i]->level)  .$options[$i]->text. ' (' . $options[$i]->value. ') ';
+		
 			}
 			else
 			{
-				$options[$i]->text = str_repeat('- ', $options[$i]->level) . '[' . $options[$i]->text . ']';
+				$options[$i]->text = str_repeat('- ', $options[$i]->level) . '[' . $options[$i]->text . ' (' . $options[$i]->value. ')]';
+	
 			}
 		}
 
