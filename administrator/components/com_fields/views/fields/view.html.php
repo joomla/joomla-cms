@@ -72,8 +72,7 @@ class FieldsViewFields extends JViewLegacy
 			return;
 		}
 
-		// Need to load the menu language file as mod_menu hasn't been loaded
-		// yet.
+		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = JFactory::getLanguage();
 		$lang->load($component, JPATH_BASE, null, false, true) ||
 				 $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
@@ -93,7 +92,7 @@ class FieldsViewFields extends JViewLegacy
 			$title = JText::_('COM_FIELDS_VIEW_FIELDS_BASE_TITLE');
 		}
 
-		// Load specific css component
+		// Load specific component css
 		JHtml::_('stylesheet', $component . '/administrator/fields.css', array(), true);
 
 		// Prepare the toolbar.
@@ -127,8 +126,7 @@ class FieldsViewFields extends JViewLegacy
 		{
 			$title = JText::_('JTOOLBAR_BATCH');
 
-			// Instantiate a new JLayoutFile instance and render the batch
-			// button
+			// Instantiate a new JLayoutFile instance and render the batch button
 			$layout = new JLayoutFile('joomla.toolbar.batch');
 
 			$dhtml = $layout->render(array(
