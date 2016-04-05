@@ -2,6 +2,10 @@
 <form>
 	<fields name="fieldparams" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="fieldparams">
+			<field name="directory" type="text" default="images" class="input-xxlarge"
+				required="true"
+				label="COM_FIELDS_FIELD_IMAGELIST_DIRECTORY_LABEL"
+				description="COM_FIELDS_FIELD_IMAGELIST_DIRECTORY_DESC" />
 			<field name="thumbnail_width" type="text" default="64" class=""
 				label="COM_FIELDS_FIELD_GALLERY_THUMBNAIL_WIDTH_LABEL"
 				description="COM_FIELDS_FIELD_GALLERY_THUMBNAIL_WIDTH_DESC"
@@ -20,9 +24,6 @@
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
-			<field name="directory" type="text" default="images" class="input-xxlarge"
-				label="COM_FIELDS_FIELD_IMAGELIST_DIRECTORY_LABEL"
-				description="COM_FIELDS_FIELD_IMAGELIST_DIRECTORY_DESC" />
 		</fieldset>
 	</fields>
 </form>
