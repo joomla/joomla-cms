@@ -2,7 +2,7 @@
 <form>
 	<fields name="fieldparams" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="fieldparams">
-			<field name="directory" type="text" default="images" class="input-xxlarge"
+			<field name="directory" type="folderlist" default="images" directory="images" class=""
 				required="true"
 				label="COM_FIELDS_FIELD_IMAGELIST_DIRECTORY_LABEL"
 				description="COM_FIELDS_FIELD_IMAGELIST_DIRECTORY_DESC" />
