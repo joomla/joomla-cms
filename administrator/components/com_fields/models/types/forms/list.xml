@@ -8,7 +8,7 @@
 				<option value="0">JNO</option>
 			</field>
 
-			<field name="options" type="Repeatable" icon="list"
+			<field name="options" type="Repeatable" icon="list" required="true"
 				description="COM_FIELDS_FIELD_LIST_MULTIPLE_OPTIONS_DESC"
 				label="COM_FIELDS_FIELD_LIST_MULTIPLE_OPTIONS_LABEL">
 				<fieldset hidden="true" name="list_templates_modal" repeat="true">
