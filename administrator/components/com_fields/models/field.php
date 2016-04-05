@@ -409,12 +409,12 @@ class FieldsModelField extends JModelAdmin
 			}
 			else if (count($value) == 1 && count((array) $oldValue) == 1)
 			{
-				// Only a one row value, update can be done
+				// Only a single row value update can be done
 				$needsUpdate = true;
 			}
 			else
 			{
-				// Multiple values, we need to purge the data and doing a new
+				// Multiple values, we need to purge the data and do a new
 				// insert
 				$needsDelete = true;
 				$needsInsert = true;
