@@ -115,8 +115,6 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$db = JFactory::getDbo();
-
 		// Rebuild the update sites.
 		$this->getModel('Updatesites')->rebuild();
 
