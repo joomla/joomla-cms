@@ -124,7 +124,7 @@ class InstallerModelUpdatesites extends InstallerModel
 	/**
 	 * Deletes an update site.
 	 *
-	 * @param   array  $ids   Extension ids to delete.
+	 * @param   array  $ids  Extension ids to delete.
 	 *
 	 * @return  void
 	 *
@@ -214,6 +214,8 @@ class InstallerModelUpdatesites extends InstallerModel
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @throws  Exception on ACL error
 	 */
 	public function rebuild()
 	{
