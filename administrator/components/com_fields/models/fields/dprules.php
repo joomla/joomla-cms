@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 /**
- * We need to handle the edit.value rule specially as it is not  acore rule.
+ * We need to handle the edit.value rule specially as it is not a core rule.
  */
 class JFormFieldDPRules extends JFormField
 {
@@ -48,7 +48,7 @@ class JFormFieldDPRules extends JFormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -70,7 +70,7 @@ class JFormFieldDPRules extends JFormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -335,7 +335,7 @@ class JFormFieldDPRules extends JFormField
 					}
 					else
 					{
-						// Special handling for  groups that have global admin because they can't  be denied.
+						// Special handling for groups that have global admin because they can't be denied.
 						// The admin rights can be changed.
 						if ($action->name === 'core.admin')
 						{
