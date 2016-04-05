@@ -82,7 +82,7 @@ class FieldsHelper
 	 * "value" which represents the value for the given item. If the item has a
 	 * assigned_cat_ids field, then additionally fields which belong to that
 	 * category will be returned.
-	 * Should the value being prepared to be shown in a HTML context
+	 * Should the value being prepared to be shown in an HTML context
 	 * prepareValue must be set to true. Then no further escaping needs to be
 	 * don.
 	 *
