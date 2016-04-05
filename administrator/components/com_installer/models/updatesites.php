@@ -327,7 +327,7 @@ class InstallerModelUpdatesites extends InstallerModel
 
 								// Fire the onExtensionAfterUpdate
 								JEventDispatcher::getInstance()->trigger('onExtensionAfterUpdate', array('installer' => $tmpInstaller, 'eid' => $eid));
-								
+
 								$count++;
 							}
 						}
