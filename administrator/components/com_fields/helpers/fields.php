@@ -17,7 +17,7 @@ class FieldsHelper
 
 	/**
 	 * Extracts the component and section from the context string which has to
-	 * be in format component.context.
+	 * be in the format component.context.
 	 *
 	 * @param string $contextString
 	 * @return array|null
@@ -79,12 +79,12 @@ class FieldsHelper
 	/**
 	 * Returns the fields for the given context.
 	 * If the item is an object the returned fields do have an additional field
-	 * "value" which represents the value for the given item. If the item has a
+	 * "value" which represents the value for the given item. If the item has an
 	 * assigned_cat_ids field, then additionally fields which belong to that
 	 * category will be returned.
-	 * Should the value being prepared to be shown in a HTML context
+	 * Should the value being prepared be shown in a HTML context then
 	 * prepareValue must be set to true. Then no further escaping needs to be
-	 * don.
+	 * done.
 	 *
 	 * @param string $context
 	 * @param stdClass $item
@@ -133,7 +133,7 @@ class FieldsHelper
 			foreach ($fields as $key => $original)
 			{
 				// Doing a clone, otherwise fields for different items will
-				// always reference to the same object
+				// always reference the same object
 				$field = clone $original;
 				$field->value = self::$fieldCache->getFieldValue($field->id, $field->context, $item->id);
 				if (! $field->value)
@@ -211,8 +211,7 @@ class FieldsHelper
 		 * called, so there is no way to load the layout overrides in the order
 		 * template -> context -> fields.
 		 * If there is no override in the context then we need to call the
-		 * layout
-		 * from Fields.
+		 * layout from Fields.
 		 */
 		if ($parts = self::extract($context))
 		{
@@ -406,10 +405,9 @@ class FieldsHelper
 					// Rendering the type
 					$node = $type->appendXMLFieldTag($field, $fieldset, $form);
 
-					// If the field belongs to a assigned_cat_ids but the
+					// If the field belongs to an assigned_cat_ids but the
 					// assigned_cat_ids in the data is not known, set the
-					// required
-					// flag to false on any circumstance
+					// required flag to false on any circumstance.
 					if (! $assignedCatids && $field->assigned_cat_ids)
 					{
 						$node->setAttribute('required', 'false');
