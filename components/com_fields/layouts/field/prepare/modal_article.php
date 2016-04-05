@@ -25,7 +25,7 @@ JLoader::import('joomla.application.component.model');
 JModelLegacy::addIncludePath(JPATH_BASE . '/components/com_content/models', 'ContentModel');
 $model = JModelLegacy::getInstance('Article', 'ContentModel');
 
-// If the article is not found an error is thrown we need to hold the
+// If the article is not found an error is thrown so we need to hold the
 // old error handler
 $errorHandler = JError::getErrorHandling(E_ERROR);
 
@@ -35,7 +35,7 @@ JError::setErrorHandling(E_ERROR, 'ignore');
 // Fetching the article
 $article = $model->getItem($value);
 
-// Restoreing the old error handler
+// Restoring the old error handler
 JError::setErrorHandling(E_ERROR, $errorHandler['mode'], $errorHandler['options']);
 
 if ($article instanceof JException)
