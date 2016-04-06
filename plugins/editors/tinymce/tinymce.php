@@ -733,10 +733,70 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar4_add[] = $custom_button;
 		}
 
-		// We shall put the XTD button inside tinymce
-		$btns      = $this->tinyButtons($id, $buttons);
-		$btnsNames = $btns['names'];
-		$tinyBtns  = $btns['script'];
+/// LANGS
+		// Get the available languages
+		$langs = JFactory::getLanguage()->getKnownLanguages();
+
+		$ltempConstructor =
+			<<<JS
+			  setup: function(ed) {
+				ed.addButton('langs', {
+				    type: 'menubutton',
+					text: 'Languages',
+					icon: false,
+					menu: [
+JS;
+
+		// Build the script
+		foreach ($langs as $lang)
+		{
+			if ($lang['name'])
+			{
+				// Set some vars
+				$name    = $lang['name'];
+				$title   = $lang['tag'];
+
+				$ltempConstructor .=
+<<<JS
+						{ text: "$name",
+						onclick: function () {
+							ed.onNodeChange.add(function(ed, cm, n, co) {
+								n = ed.dom.getParent(n, 'SPAN');
+			
+								cm.setDisabled('span', co);
+								cm.setDisabled('attribs', n && n.nodeName == 'BODY');
+								cm.setActive('span', 0);
+			
+								if (n) {
+									do {
+										cm.setDisabled(n.nodeName.toLowerCase(), 0);
+										cm.setActive(n.nodeName.toLowerCase(), 1);
+									} while (n = n.parentNode);
+								}
+							});
+					} },
+JS;
+			}
+
+
+		}
+		$ltempConstructor .=
+			<<<JS
+					]
+
+		// ed.onPreInit.add(function() {
+		// 	ed.dom.create('span');
+		// });
+	// });
+	});
+	}
+
+JS;
+/////
+			// We shall put the XTD button inside tinymce
+			$btns      = $this->tinyButtons($id, $buttons);
+			$btnsNames = $btns['names'];
+			$tinyBtns  = $btns['script'];
 
 		// Drag and drop Images
 		$allowImgPaste = "false";
@@ -832,17 +892,17 @@ class PlgEditorTinymce extends JPlugin
 		tinymce.init({
 		";
 
-		// General
-		$script .= "
-		directionality: \"$text_direction\",
-		selector: \"textarea#$id\",
-		language : \"$langPrefix\",
-		mode : \"specific_textareas\",
-		autosave_restore_when_empty: false,
-		$skin
-		theme : \"$theme\",
-		schema: \"html5\",
-		";
+			// General
+			$script .= "
+			directionality: \"$text_direction\",
+			selector: \"textarea#$id\",
+			language : \"$langPrefix\",
+			mode : \"specific_textareas\",
+			autosave_restore_when_empty: false,
+			$skin
+			theme : \"$theme\",
+			schema: \"html5\",
+			";
 
 		// Cleanup/Output
 		$script .= "
@@ -881,10 +941,10 @@ class PlgEditorTinymce extends JPlugin
 		";
 				break;
 
-			case 1:
-			default: /* Advanced mode*/
-				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
-					. "| outdent indent | undo redo | link unlink anchor code | hr table | subscript superscript | charmap";
+				case 1:
+				default: /* Advanced mode*/
+					$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
+						. "| outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap";
 
 				$script .= "
 			valid_elements : \"$valid_elements\",
@@ -913,7 +973,7 @@ class PlgEditorTinymce extends JPlugin
 			// Plugins
 			plugins : \"$plugins $dragDropPlg\",
 			// Toolbar
-			toolbar1: \"$toolbar1\",
+			toolbar1: \"$toolbar1 langs\",
 			removed_menuitems: \"newdocument\",
 			// URL
 			rel_list : [
@@ -940,6 +1000,7 @@ class PlgEditorTinymce extends JPlugin
 			image_advtab: $image_advtab,
 			height : \"$html_height\",
 			width : \"$html_width\",
+			$ltempConstructor
 		});
 		";
 				break;
@@ -960,6 +1021,8 @@ class PlgEditorTinymce extends JPlugin
 
 		JFactory::getDocument()->addScriptDeclaration($script);
 		JFactory::getDocument()->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
+
+
 
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric($width))
