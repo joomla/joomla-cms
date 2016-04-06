@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 /**
- * The article controller
+ * The Field controller
  *
  * @package     Joomla.Administrator
  * @subpackage  com_fields
