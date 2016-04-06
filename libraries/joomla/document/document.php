@@ -991,17 +991,21 @@ class JDocument
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	public function loadRenderer($type)
+	public function loadRenderer($type, $useDeprecatedMethod = true)
 	{
+		if ($useDeprecatedMethod) {
+			JLog::add('JDocument::loadRenderer is being run in a deprecated manner.', JLog::WARNING, 'deprecated');
+		}
+		
 		// New class name format adds the format type to the class name
 		$class = 'JDocumentRenderer' . ucfirst($this->getType()) . ucfirst($type);
 
-		if (!class_exists($class))
+		if (!class_exists($class) || $useDeprecatedMethod)
 		{
 			// "Legacy" class name structure
 			$class = 'JDocumentRenderer' . $type;
 
-			if (!class_exists($class))
+			if (!class_exists($class) || $useDeprecatedMethod)
 			{
 				// @deprecated 4.0 - Non-autoloadable class support is deprecated, only log a message though if a file is found
 				$path = __DIR__ . '/' . $this->getType() . '/renderer/' . $type . '.php';
