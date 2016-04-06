@@ -80,17 +80,31 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 */
 	public function onDisplay($name = null, $id = 'dynamic_recaptcha_1', $class = '')
 	{
+		// Normalize class attribute.
+		// Strip class attribute.
+		$class = strpos($class, 'class=') !== false ? preg_replace('#class="([^"]*)"#', '$1', $class) : $class;
+
+		// Add g-recaptcha class (needed for recaptcha 2.0).
+		$class = strpos($class, 'g-recaptcha') !== false ? $class : $class . ' g-recaptcha';
+
+		// Add class attribute.
+		$class = trim($class) !== '' ? ' class="' . trim($class) . '"' : '';
+
+		// Normalize ID attribute.
+		$id = trim($id) !== '' ? ' id="' . trim($id) . '"' : '';
+
 		if ($this->params->get('version', '1.0') == '1.0')
 		{
-			return '<div id="' . $id . '" ' . $class . '></div>';
+			return '<div' . $id . $class . '></div>';
 		}
 		else
 		{
-			return '<div id="' . $id . '" ' . str_replace('class="', 'class="g-recaptcha ', $class) .
-					' data-sitekey="' . $this->params->get('public_key', '') .
-					'" data-theme="' . $this->params->get('theme2', 'light') .
-					'" data-size="' . $this->params->get('size', 'normal') .
-					'"></div>';
+
+			return '<div' . $id . $class .	
+					' data-sitekey="' . $this->params->get('public_key', '') . '"' .
+					' data-theme="' . $this->params->get('theme2', 'light') . '"' .
+					' data-size="' . $this->params->get('size', 'normal') .	'"' .
+					'></div>';
 		}
 	}
 
