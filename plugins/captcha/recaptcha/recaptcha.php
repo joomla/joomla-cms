@@ -100,11 +100,11 @@ class PlgCaptchaRecaptcha extends JPlugin
 		else
 		{
 
-			return '<div' . $id . $class .	
-					' data-sitekey="' . $this->params->get('public_key', '') . '"' .
-					' data-theme="' . $this->params->get('theme2', 'light') . '"' .
-					' data-size="' . $this->params->get('size', 'normal') .	'"' .
-					'></div>';
+			return '<div' . $id . $class .
+				' data-sitekey="' . $this->params->get('public_key', '') . '"' .
+				' data-theme="' . $this->params->get('theme2', 'light') . '"' .
+				' data-size="' . $this->params->get('size', 'normal') .	'"' .
+				'></div>';
 		}
 	}
 
