@@ -299,13 +299,26 @@ class PlgContentJoomla extends JPlugin
 		return true;
 	}
 
-	public function onContentAfterDisplay($context, &$row, &$params, $page=0)
+	/**
+	 * Count the hit of an content article after it was displayed.
+	 *
+	 * @param   string   $context  The context for the content passed to the plugin.
+	 * @param   object   $row      The row relating to the content that was displayed.
+	 * @param   object   $params   The params of the article
+	 * @param   integer  $page     The page value
+	 * 
+	 * @return  void
+	 *
+	 * @since   3.5.2
+	 */
+	public function onContentAfterDisplay($context, $row, $params, $page = 0)
 	{
 		if ($context == 'com_content.article')
 		{
 			$table = JTable::getInstance('Content', 'JTable');
 			$table->hit($row->id);
 		}
-		return null;
+
+		return;
 	}
 }
