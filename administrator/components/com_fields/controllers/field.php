@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -10,13 +10,26 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
+/**
+ * The article controller
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_fields
+ * @since       3.6
+ */
 class FieldsControllerField extends JControllerForm
 {
-
 	private $internalContext;
 
 	private $component;
 
+	/**
+	 * Class constructor.
+	 *
+	 * @param   array  $config  A named array of configuration variables.
+	 *
+	 * @since   1.6
+	 */
 	public function __construct ($config = array())
 	{
 		parent::__construct($config);
@@ -34,19 +47,40 @@ class FieldsControllerField extends JControllerForm
 		$data = $this->input->get($this->input->get('formcontrol', 'jform'), array(), 'array');
 
 		$parts = FieldsHelper::extract($this->input->getCmd('context'));
+
 		if ($parts)
 		{
 			$app->setUserState($parts[0] . '.edit.' . $parts[1] . '.data', $data);
 		}
+
 		$app->redirect(base64_decode($this->input->get->getBase64('return')));
 		$app->close();
 	}
 
+	/**
+	 * Method override to check if you can add a new record.
+	 *
+	 * @param   array  $data  An array of input data.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.6
+	 */
 	protected function allowAdd ($data = array())
 	{
 		return JFactory::getUser()->authorise('core.create', $this->component);
 	}
 
+	/**
+	 * Method override to check if you can edit an existing record.
+	 *
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.6
+	 */
 	protected function allowEdit ($data = array(), $key = 'parent_id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
@@ -95,6 +129,15 @@ class FieldsControllerField extends JControllerForm
 		return false;
 	}
 
+	/**
+	 * Method to run batch operations.
+	 *
+	 * @param   object  $model  The model.
+	 *
+	 * @return  boolean   True if successful, false otherwise and internal error is set.
+	 *
+	 * @since   1.6
+	 */
 	public function batch ($model = null)
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -108,6 +151,16 @@ class FieldsControllerField extends JControllerForm
 		return parent::batch($model);
 	}
 
+	/**
+	 * Gets the URL arguments to append to an item redirect.
+	 *
+	 * @param   integer  $recordId  The primary key id for the item.
+	 * @param   string   $urlVar    The name of the URL variable for the id.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since   1.6
+	 */
 	protected function getRedirectToItemAppend ($recordId = null, $urlVar = 'id')
 	{
 		$append = parent::getRedirectToItemAppend($recordId);
@@ -116,6 +169,13 @@ class FieldsControllerField extends JControllerForm
 		return $append;
 	}
 
+	/**
+	 * Gets the URL arguments to append to a list redirect.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since   1.6
+	 */
 	protected function getRedirectToListAppend ()
 	{
 		$append = parent::getRedirectToListAppend();
@@ -124,13 +184,23 @@ class FieldsControllerField extends JControllerForm
 		return $append;
 	}
 
+	/**
+	 * Function that allows child controller access to model data after the data has been saved.
+	 *
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
+	 *
+	 * @return	void
+	 *
+	 * @since	3.1
+	 */
 	protected function postSaveHook (JModelLegacy $model, $validData = array())
 	{
 		$item = $model->getItem();
 
 		if (isset($item->params) && is_array($item->params))
 		{
-			$registry = new Registry();
+			$registry = new Registry;
 			$registry->loadArray($item->params);
 			$item->params = (string) $registry;
 		}
