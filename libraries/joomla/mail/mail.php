@@ -17,13 +17,17 @@ defined('JPATH_PLATFORM') or die;
 class JMail extends PHPMailer
 {
 	/**
-	 * @var    array  JMail instances container.
+	 * JMail instances container.
+	 *
+	 * @var    JMail[]
 	 * @since  11.3
 	 */
 	protected static $instances = array();
 
 	/**
-	 * @var    string  Charset of the message.
+	 * Charset of the message.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $CharSet = 'utf-8';
@@ -31,32 +35,42 @@ class JMail extends PHPMailer
 	/**
 	 * Constructor
 	 *
+	 * @param   boolean  $exceptions  Flag if Exceptions should be thrown
+	 *
 	 * @since   11.1
 	 */
-	public function __construct()
+	public function __construct($exceptions = true)
 	{
+		parent::__construct($exceptions);
+
 		// PHPMailer has an issue using the relative path for its language files
 		$this->setLanguage('joomla', __DIR__ . '/language');
+
+		// Configure a callback function to handle errors when $this->edebug() is called
+		$this->Debugoutput = function ($message, $level)
+		{
+			JLog::add(sprintf('Error in JMail API: %s', $message), JLog::ERROR, 'mail');
+		};
 	}
 
 	/**
-	 * Returns the global email object, only creating it
-	 * if it doesn't already exist.
+	 * Returns the global email object, only creating it if it doesn't already exist.
 	 *
 	 * NOTE: If you need an instance to use that does not have the global configuration
 	 * values, use an id string that is not 'Joomla'.
 	 *
-	 * @param   string  $id  The id string for the JMail instance [optional]
+	 * @param   string   $id          The id string for the JMail instance [optional]
+	 * @param   boolean  $exceptions  Flag if Exceptions should be thrown [optional]
 	 *
 	 * @return  JMail  The global JMail object
 	 *
 	 * @since   11.1
 	 */
-	public static function getInstance($id = 'Joomla')
+	public static function getInstance($id = 'Joomla', $exceptions = true)
 	{
 		if (empty(self::$instances[$id]))
 		{
-			self::$instances[$id] = new JMail;
+			self::$instances[$id] = new JMail($exceptions);
 		}
 
 		return self::$instances[$id];
@@ -86,7 +100,37 @@ class JMail extends PHPMailer
 				}
 			}
 
-			$result = parent::send();
+			try
+			{
+				// Try sending with default settings
+				$result = parent::send();
+
+			}
+			catch (phpmailerException $e)
+			{
+				$result = false;
+
+				if ($this->SMTPAutoTLS)
+				{
+					/**
+					 * PHPMailer has an issue with servers with invalid certificates
+					 *
+					 * See: https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting#opportunistic-tls
+					 */
+					$this->SMTPAutoTLS = false;
+
+					try
+					{
+						// Try it again with TLS turned off
+						$result = parent::send();
+					}
+					catch (phpmailerException $e)
+					{
+						// Keep false for B/C compatibility
+						$result = false;
+					}
+				}
+			}
 
 			if ($result == false)
 			{
