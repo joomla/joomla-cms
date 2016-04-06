@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,40 +99,12 @@ class CategoriesHelper
 	 */
 	public static function getAssociations($pk, $extension = 'com_content')
 	{
+		$langAssociations = JLanguageAssociations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
 		$associations = array();
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->from('#__categories as c')
-			->join('INNER', '#__associations as a ON a.id = c.id AND a.context=' . $db->quote('com_categories.item'))
-			->join('INNER', '#__associations as a2 ON a.key = a2.key')
-			->join('INNER', '#__categories as c2 ON a2.id = c2.id AND c2.extension = ' . $db->quote($extension))
-			->where('c.id =' . (int) $pk)
-			->where('c.extension = ' . $db->quote($extension));
-		$select = array(
-			'c2.language',
-			$query->concatenate(array('c2.id', 'c2.alias'), ':') . ' AS id'
-		);
-		$query->select($select);
-		$db->setQuery($query);
 
-		try
+		foreach ($langAssociations as $langAssociation)
 		{
-			$contentitems = $db->loadObjectList('language');
-		}
-		catch (RuntimeException $exception)
-		{
-			JError::raiseWarning(500, $exception->getMessage());
-
-			return array();
-		}
-
-		foreach ($contentitems as $tag => $item)
-		{
-			// Do not return itself as result
-			if ((int) $item->id != $pk)
-			{
-				$associations[$tag] = $item->id;
-			}
+			$associations[$langAssociation->language] = $langAssociation->id;
 		}
 
 		return $associations;

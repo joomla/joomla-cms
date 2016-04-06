@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1201,14 +1201,17 @@ abstract class JModelAdmin extends JModelForm
 
 		$this->setState($this->getName() . '.new', $isNew);
 
-		if ($this->associationsContext && JLanguageAssociations::isEnabled())
+		if ($this->associationsContext && JLanguageAssociations::isEnabled() && !empty($data['associations']))
 		{
 			$associations = $data['associations'];
 
 			// Unset any invalid associations
+			$associations = Joomla\Utilities\ArrayHelper::toInteger($associations);
+
+			// Unset any invalid associations
 			foreach ($associations as $tag => $id)
 			{
-				if (!(int) $id)
+				if (!$id)
 				{
 					unset($associations[$tag]);
 				}
@@ -1244,7 +1247,7 @@ abstract class JModelAdmin extends JModelForm
 
 				foreach ($associations as $id)
 				{
-					$query->values($id . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
+					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
 				}
 
 				$db->setQuery($query);

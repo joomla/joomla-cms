@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ class AdminViewSysinfo extends JViewLegacy
 			}
 		}
 
-		echo implode("\n\n", $lines);
+		echo str_replace(JPATH_ROOT, 'xxxxxx', implode("\n\n", $lines));
 
 		JFactory::getApplication()->close();
 	}
@@ -86,7 +86,7 @@ class AdminViewSysinfo extends JViewLegacy
 			),
 			'directories' => array(
 				'title' => JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS', true),
-				'data'  => $model->getSafeData('directory')
+				'data'  => $model->getSafeData('directory', true)
 			),
 			'phpInfo' => array(
 				'title' => JText::_('COM_ADMIN_PHP_INFORMATION', true),

@@ -63,7 +63,7 @@
 			label="COM_NEWSFEEDS_LIST_FULL_ORDERING"
 			description="COM_NEWSFEEDS_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
-			default="a.id DESC"
+			default="a.name ASC"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
@@ -78,10 +78,10 @@
 			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
 			<option value="numarticles ASC">COM_NEWSFEEDS_NUM_ARTICLES_HEADING_ASC</option>
 			<option value="numarticles DESC">COM_NEWSFEEDS_NUM_ARTICLES_HEADING_DESC</option>
-            <option value="a.cache_time ASC">COM_NEWSFEEDS_CACHE_TIME_HEADING_ASC</option>
-            <option value="a.cache_time DESC">COM_NEWSFEEDS_CACHE_TIME_HEADING_DESC</option>
-			<option value="language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
-			<option value="language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="a.cache_time ASC">COM_NEWSFEEDS_CACHE_TIME_HEADING_ASC</option>
+			<option value="a.cache_time DESC">COM_NEWSFEEDS_CACHE_TIME_HEADING_DESC</option>
+			<option value="a.language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="a.language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

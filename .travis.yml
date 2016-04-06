@@ -6,6 +6,7 @@ language: php
 env:
   global:
     - RUN_PHPCS="no"
+    - INSTALL_MEMCACHE="yes"
     - INSTALL_MEMCACHED="yes"
     - INSTALL_REDIS="yes"
 
@@ -16,13 +17,14 @@ matrix:
     - php: 5.4
       env: INSTALL_APC="yes"
     - php: 5.5
-      env: INSTALL_APCU_STABLE="yes"
+      env: INSTALL_APCU="yes"
     - php: 5.6
-      env: RUN_PHPCS="yes" INSTALL_APCU_STABLE="yes"
+      env: RUN_PHPCS="yes" INSTALL_APCU="yes"
     - php: 7.0
-      env: INSTALL_APCU_BETA="yes" INSTALL_MEMCACHED="no" INSTALL_REDIS="no"
+      env: INSTALL_APCU="yes" INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
 
 services:
+  - memcache
   - memcached
   - redis-server
 
@@ -37,15 +39,17 @@ before_script:
   # Set up Apache
   # - ./build/travis/php-apache.sh
   # Enable additional PHP extensions
-  - if [ "$INSTALL_MEMCACHED" == "yes" ]; then phpenv config-add build/travis/phpenv/memcached.ini; fi
-  - if [ "$INSTALL_APC" == "yes" ]; then phpenv config-add build/travis/phpenv/apc-$TRAVIS_PHP_VERSION.ini; fi
-  - if [ "$INSTALL_APCU_STABLE" == "yes" ]; then printf "\n" | pecl install apcu; fi
-  - if [ "$INSTALL_APCU_BETA" == "yes" ]; then printf "\n" | pecl install apcu-beta; fi
-  - if [ "$INSTALL_REDIS" == "yes" ]; then phpenv config-add build/travis/phpenv/redis.ini; fi
+  - if [[ $INSTALL_MEMCACHE == "yes" ]]; then phpenv config-add build/travis/phpenv/memcached.ini; fi
+  - if [[ $INSTALL_MEMCACHED == "yes" ]]; then phpenv config-add build/travis/phpenv/memcached.ini; fi
+  - if [[ $INSTALL_APC == "yes" ]]; then phpenv config-add build/travis/phpenv/apc-$TRAVIS_PHP_VERSION.ini; fi
+  - if [[ $INSTALL_APCU == "yes" && $TRAVIS_PHP_VERSION = 5.* ]]; then printf "\n" | pecl install apcu-4.0.10 && phpenv config-add build/travis/phpenv/apcu-$TRAVIS_PHP_VERSION.ini; fi
+  - if [[ $INSTALL_APCU == "yes" && $TRAVIS_PHP_VERSION = 7.* ]]; then printf "\n" | pecl install apcu-beta && phpenv config-add build/travis/phpenv/apcu-$TRAVIS_PHP_VERSION.ini; fi
+  - if [[ $INSTALL_APCU_BC_BETA == "yes" ]]; then printf "\n" | pecl install apcu_bc-beta; fi
+  - if [[ $INSTALL_REDIS == "yes" ]]; then phpenv config-add build/travis/phpenv/redis.ini; fi
 
 script:
   - libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml
-  - if [ "$RUN_PHPCS" == "yes" ]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi
+  - if [[ $RUN_PHPCS == "yes" ]]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi
 
 branches:
   except:
