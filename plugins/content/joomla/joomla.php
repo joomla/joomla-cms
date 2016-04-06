@@ -300,7 +300,7 @@ class PlgContentJoomla extends JPlugin
 	}
 
 	/**
-	 * Change the state in core_content if the state in a table is changed
+	 * Count the hit of an content article after it was displayed.
 	 *
 	 * @param   string   $context  The context for the content passed to the plugin.
 	 * @param   object   $row      The row relating to the content that was displayed.
