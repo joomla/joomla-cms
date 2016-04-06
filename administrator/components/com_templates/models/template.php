@@ -512,7 +512,11 @@ class TemplatesModelTemplate extends JModelForm
 			return false;
 		}
 
+		// Make sure EOL is Unix
+		$data['source'] = str_replace(array("\r\n", "\r"), "\n", $data['source']);
+
 		$return = JFile::write($filePath, $data['source']);
+
 		if (!$return)
 		{
 			$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName), 'error');

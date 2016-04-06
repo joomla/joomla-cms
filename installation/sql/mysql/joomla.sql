@@ -1883,7 +1883,7 @@ CREATE TABLE IF NOT EXISTS `#__users` (
 
 CREATE TABLE IF NOT EXISTS `#__user_keys` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(400) NOT NULL,
+  `user_id` varchar(150) NOT NULL,
   `token` varchar(255) NOT NULL,
   `series` varchar(191) NOT NULL,
   `invalid` tinyint(4) NOT NULL,
@@ -1893,7 +1893,7 @@ CREATE TABLE IF NOT EXISTS `#__user_keys` (
   UNIQUE KEY `series` (`series`),
   UNIQUE KEY `series_2` (`series`),
   UNIQUE KEY `series_3` (`series`),
-  KEY `user_id` (`user_id`(100))
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
