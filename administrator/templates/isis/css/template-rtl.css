@@ -7156,6 +7156,30 @@ body .navbar-fixed-top {
 .navbar .nav-user {
 	font-size: 13px;
 }
+.navbar .nav > li ul {
+	overflow-y: auto;
+	overflow-x: hidden;
+	-webkit-overflow-scrolling: touch;
+	-moz-overflow-scrolling: touch;
+	-ms-overflow-scrolling: touch;
+	-o-overflow-scrolling: touch;
+	overflow-scrolling: touch;
+	height: auto;
+	max-height: 500px;
+	margin: 0;
+}
+.navbar .nav > li ul::-webkit-scrollbar {
+	-webkit-appearance: none;
+	width: 7px;
+}
+.navbar .nav > li ul::-webkit-scrollbar-thumb {
+	border-radius: 4px;
+	background-color: rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 0 1px rgba(255,255,255,0.5);
+}
+.navbar .empty-nav {
+	display: none;
+}
 .navbar-fixed-top .navbar-inner,
 .navbar-static-top .navbar-inner {
 	-webkit-box-shadow: none;

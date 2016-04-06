@@ -100,8 +100,7 @@ $filesArray = array(
 	"LICENSE.txt\n" => true,
 	"README.txt\n" => true,
 	"robots.txt.dist\n" => true,
-	"web.config.txt\n" => true,
-	"joomla.xml\n" => true
+	"web.config.txt\n" => true
 );
 
 /*

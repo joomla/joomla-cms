@@ -604,8 +604,16 @@ class JSession implements IteratorAggregate
 		// Perform security checks
 		if (!$this->_validate())
 		{
-			// Destroy the session if it's not valid
-			$this->destroy();
+			// If the session isn't valid because it expired try to restart it
+			// else destroy it.
+			if ($this->_state === 'expired')
+			{
+				$this->restart();
+			}
+			else
+			{
+				$this->destroy();
+			}
 		}
 
 		if ($this->_dispatcher instanceof JEventDispatcher)
@@ -724,13 +732,16 @@ class JSession implements IteratorAggregate
 		$this->_state = 'restart';
 
 		// Regenerate session id
-		$this->_handler->regenerate(true, null);
 		$this->_start();
+		$this->_handler->regenerate(true, null);
 		$this->_state = 'active';
 
 		if (!$this->_validate())
 		{
-			// Destroy the session if it's not valid
+			/**
+			 * Destroy the session if it's not valid - we can't restart the session here unlike in the start method
+			 * else we risk recursion.
+			 */
 			$this->destroy();
 		}
 

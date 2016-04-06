@@ -41,8 +41,17 @@ class JSchemaChangeset
 	 * Folder where SQL update files will be found
 	 *
 	 * @var    string
+	 * @since  2.5
 	 */
 	protected $folder = null;
+
+	/**
+	 * The singleton instance of this object
+	 *
+	 * @var    JSchemaChangeset
+	 * @since  3.5.1
+	 */
+	protected static $instance;
 
 	/**
 	 * Constructor: builds array of $changeItems by processing the .sql files in a folder.
@@ -62,7 +71,25 @@ class JSchemaChangeset
 
 		foreach ($updateQueries as $obj)
 		{
-			$this->changeItems[] = JSchemaChangeitem::getInstance($db, $obj->file, $obj->updateQuery);
+			$changeItem = JSchemaChangeitem::getInstance($db, $obj->file, $obj->updateQuery);
+
+			if ($changeItem->queryType === 'UTF8CNV')
+			{
+				// Execute the special update query for utf8mb4 conversion status reset
+				try
+				{
+					$this->db->setQuery($changeItem->updateQuery)->execute();
+				}
+				catch (Exception $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
+			}
+			else
+			{
+				// Normal change item
+				$this->changeItems[] = $changeItem;
+			}
 		}
 
 		// If on mysql, add a query at the end to check for utf8mb4 conversion status
@@ -116,16 +143,14 @@ class JSchemaChangeset
 	 *
 	 * @since   2.5
 	 */
-	public static function getInstance($db, $folder)
+	public static function getInstance($db, $folder = null)
 	{
-		static $instance;
-
-		if (!is_object($instance))
+		if (!is_object(static::$instance))
 		{
-			$instance = new JSchemaChangeset($db, $folder);
+			static::$instance = new JSchemaChangeset($db, $folder);
 		}
 
-		return $instance;
+		return static::$instance;
 	}
 
 	/**

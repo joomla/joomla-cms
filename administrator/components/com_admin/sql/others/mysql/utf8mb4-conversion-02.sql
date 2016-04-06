@@ -1,37 +1,31 @@
 --
 -- Step 2 of the UTF-8 Multibyte (utf8mb4) conversion for MySQL
 --
--- Add back indexes previosly dropped with step 1, utf8mb4-conversion-01.sql,
--- but with limited lenghts of columns, and then perform the conversions
--- for utf8mb4.
+-- Enlarge some database columns to avoid data losses, then convert all tables
+-- to utf8mb4 or utf8, then set default character sets and collations for all
+-- tables, then add back indexes previosly dropped with step 1,
+-- utf8mb4-conversion-01.sql, but addd them back with limited lenghts of
+-- columns.
 --
 -- Do not rename this file or any other of the utf8mb4-conversion-*.sql
 -- files unless you want to change PHP code, too.
 --
--- This file here will the be processed with reporting exceptions.
+-- IMPORTANT: When adding an index modification to this file for limiting the
+-- length by which one or more columns go into that index,
+--
+-- 1. remember to add the statement to drop the index to the file for step 1,
+--    utf8mb4-conversion-01.sql, and
+--
+-- 2. check if the index is created created or modified in some old schema
+--    update sql in an "ALTER TABLE" statement and limit the column length
+--    there, too ("CREATE TABLE" is ok, no need to modify those).
+--
+-- This file here will the be processed with reporting exceptions, in opposite
+-- to the file for step 1.
 --
 
 --
--- Step 2.1: Limit indexes to first 100 so their max allowed lengths would not get exceeded with utf8mb4
---
-
-ALTER TABLE `#__banners` ADD KEY `idx_metakey_prefix` (`metakey_prefix`(100));
-ALTER TABLE `#__banner_clients` ADD KEY `idx_metakey_prefix` (`metakey_prefix`(100));
-ALTER TABLE `#__categories` ADD KEY `idx_path` (`path`(100));
-ALTER TABLE `#__categories` ADD KEY `idx_alias` (`alias`(100));
-ALTER TABLE `#__content_types` ADD KEY `idx_alias` (`type_alias`(100));
-ALTER TABLE `#__finder_links` ADD KEY `idx_title` (`title`(100));
-ALTER TABLE `#__menu` ADD KEY `idx_alias` (`alias`(100));
-ALTER TABLE `#__menu` ADD UNIQUE `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`(100),`language`);
-ALTER TABLE `#__redirect_links` ADD KEY `idx_old_url` (`old_url`(100));
-ALTER TABLE `#__tags` ADD KEY `idx_path` (`path`(100));
-ALTER TABLE `#__tags` ADD KEY `idx_alias` (`alias`(100));
-ALTER TABLE `#__ucm_content` ADD KEY `idx_alias` (`core_alias`(100));
-ALTER TABLE `#__ucm_content` ADD KEY `idx_title` (`core_title`(100));
-ALTER TABLE `#__ucm_content` ADD KEY `idx_content_type` (`core_type_alias`(100));
-
---
--- Step 2.2: Enlarge columns to avoid data loss on later conversion to utf8mb4
+-- Step 2.1: Enlarge columns to avoid data loss on later conversion to utf8mb4
 --
 
 ALTER TABLE `#__banners` MODIFY `alias` varchar(400) NOT NULL DEFAULT '';
@@ -49,9 +43,10 @@ ALTER TABLE `#__tags` MODIFY `alias` varchar(400) NOT NULL DEFAULT '';
 ALTER TABLE `#__ucm_content` MODIFY `core_type_alias` varchar(400) NOT NULL DEFAULT '' COMMENT 'FK to the content types table';
 ALTER TABLE `#__ucm_content` MODIFY `core_title` varchar(400) NOT NULL;
 ALTER TABLE `#__ucm_content` MODIFY `core_alias` varchar(400) NOT NULL DEFAULT '';
+ALTER TABLE `#__users` MODIFY `name` varchar(400) NOT NULL DEFAULT '';
 
 --
--- Step 2.3: Convert all tables to utf8mb4 chracter set with utf8mb4_unicode_ci collation
+-- Step 2.2: Convert all tables to utf8mb4 chracter set with utf8mb4_unicode_ci collation
 -- except #__finder_xxx tables, those will have utf8mb4_general_ci collation.
 -- Note: The database driver for mysql will change utf8mb4 to utf8 if utf8mb4 is not supported     
 --
@@ -126,7 +121,7 @@ ALTER TABLE `#__utf8_conversion` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb
 ALTER TABLE `#__viewlevels` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 --
--- Step 2.4: Set collation to utf8mb4_bin for formerly utf8_bin collated columns
+-- Step 2.3: Set collation to utf8mb4_bin for formerly utf8_bin collated columns
 -- and for the lang_code column of the languages table
 --
 
@@ -141,7 +136,7 @@ ALTER TABLE `#__tags` MODIFY `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE 
 ALTER TABLE `#__ucm_content` MODIFY `core_alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '';
 
 --
--- Step 2.5: Set default character set and collation for all tables
+-- Step 2.4: Set default character set and collation for all tables
 --
 
 ALTER TABLE `#__assets` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -212,3 +207,24 @@ ALTER TABLE `#__user_profiles` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_uni
 ALTER TABLE `#__user_usergroup_map` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__utf8_conversion` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__viewlevels` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+--
+-- Step 2.5: Limit indexes to first 100 so their max allowed lengths would not get exceeded with utf8mb4
+--
+
+ALTER TABLE `#__banners` ADD KEY `idx_metakey_prefix` (`metakey_prefix`(100));
+ALTER TABLE `#__banner_clients` ADD KEY `idx_metakey_prefix` (`metakey_prefix`(100));
+ALTER TABLE `#__categories` ADD KEY `idx_path` (`path`(100));
+ALTER TABLE `#__categories` ADD KEY `idx_alias` (`alias`(100));
+ALTER TABLE `#__content_types` ADD KEY `idx_alias` (`type_alias`(100));
+ALTER TABLE `#__finder_links` ADD KEY `idx_title` (`title`(100));
+ALTER TABLE `#__menu` ADD KEY `idx_alias` (`alias`(100));
+ALTER TABLE `#__menu` ADD UNIQUE `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`(100),`language`);
+ALTER TABLE `#__menu` ADD KEY `idx_path` (`path`(100));
+ALTER TABLE `#__redirect_links` ADD KEY `idx_old_url` (`old_url`(100));
+ALTER TABLE `#__tags` ADD KEY `idx_path` (`path`(100));
+ALTER TABLE `#__tags` ADD KEY `idx_alias` (`alias`(100));
+ALTER TABLE `#__ucm_content` ADD KEY `idx_alias` (`core_alias`(100));
+ALTER TABLE `#__ucm_content` ADD KEY `idx_title` (`core_title`(100));
+ALTER TABLE `#__ucm_content` ADD KEY `idx_content_type` (`core_type_alias`(100));
+ALTER TABLE `#__users` ADD KEY `idx_name` (`name`(100));
