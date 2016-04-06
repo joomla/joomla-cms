@@ -69,12 +69,6 @@ class JCacheStorageRedis extends JCacheStorage
 
 		$config  = JFactory::getConfig();
 		$app     = JFactory::getApplication();
-		$caching = (bool) $config->get('caching');
-
-		if ($caching == false)
-		{
-			return false;
-		}
 
 		$this->_persistent = $config->get('redis_persist', true);
 
@@ -96,6 +90,7 @@ class JCacheStorageRedis extends JCacheStorage
 			}
 			catch (Exception $e)
 			{
+				JLog::add($e->getMessage(), JLog::DEBUG);
 			}
 		}
 		else
@@ -107,6 +102,7 @@ class JCacheStorageRedis extends JCacheStorage
 			}
 			catch (Exception $e)
 			{
+				JLog::add($e->getMessage(), JLog::DEBUG);
 			}
 		}
 
@@ -294,7 +290,7 @@ class JCacheStorageRedis extends JCacheStorage
 
 		$cache_id = $this->_getCacheId($id, $group);
 
-		return static::$_redis->delete($cache_id);
+		return (bool) static::$_redis->delete($cache_id);
 	}
 
 	/**

@@ -158,7 +158,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$query->from($db->quoteName('#__newsfeeds') . ' AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title')
+		$query->select('l.title AS language_title, l.image AS language_image')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
@@ -181,7 +181,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_newsfeeds.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id, l.title, uc.name, ag.title, c.title');
+				->group('a.id, l.title, l.image, uc.name, ag.title, c.title');
 		}
 
 		// Filter by access level.

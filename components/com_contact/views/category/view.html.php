@@ -37,6 +37,14 @@ class ContactViewCategory extends JViewCategory
 	protected $viewName = 'contact';
 
 	/**
+	 * Run the standard Joomla plugins
+	 *
+	 * @var    bool
+	 * @since  3.5
+	 */
+	protected $runPlugins = true;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.

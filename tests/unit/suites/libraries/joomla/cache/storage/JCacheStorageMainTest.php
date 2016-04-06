@@ -70,7 +70,13 @@ class JCacheStorageMainTest extends TestCase
 
 			foreach ($names as $name)
 			{
-				$ret[] = array($name);
+				// Memcached tests as supported on the Jenkins server but data processing fails, temporarily block it only in this environment
+				if (in_array($name, array('memcached', 'redis')) && isset($_ENV['BUILD_TAG']) && strpos($_ENV['BUILD_TAG'], 'jenkins-cms-') === 0)
+				{
+					continue;
+				}
+
+				$ret["$name adapter"] = array($name);
 			}
 		}
 
@@ -88,8 +94,6 @@ class JCacheStorageMainTest extends TestCase
 	 */
 	public function testCacheHit($store)
 	{
-		$this->checkStore($store);
-
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
@@ -117,8 +121,6 @@ class JCacheStorageMainTest extends TestCase
 	 */
 	public function testCacheMiss($store)
 	{
-		$this->checkStore($store);
-
 		$id = 'randomTestID2423423';
 		$group = '_testing';
 		$data = 'testData';
@@ -132,7 +134,7 @@ class JCacheStorageMainTest extends TestCase
 
 	/**
 	 * Test...
-	 * 
+	 *
 	 * @medium
 	 *
 	 * @dataProvider provider
@@ -143,8 +145,6 @@ class JCacheStorageMainTest extends TestCase
 	 */
 	public function testCacheTimeout($store)
 	{
-		$this->checkStore($store);
-
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
@@ -175,8 +175,6 @@ class JCacheStorageMainTest extends TestCase
 	 */
 	public function testCacheRemove($store)
 	{
-		$this->checkStore($store);
-
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
@@ -210,8 +208,6 @@ class JCacheStorageMainTest extends TestCase
 	 */
 	public function testCacheClearGroup($store)
 	{
-		$this->checkStore($store);
-
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
@@ -244,8 +240,6 @@ class JCacheStorageMainTest extends TestCase
 	 */
 	public function testCacheClearNotGroup($store)
 	{
-		$this->checkStore($store);
-
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
@@ -264,22 +258,5 @@ class JCacheStorageMainTest extends TestCase
 		$new = $cache->get($id, $group);
 		$this->assertSame($new, $data, 'Expected: ' . $data . ' Actual: ' . ((string) $new));
 		unset($cache);
-	}
-
-	/**
-	 * Checks if a store is supported for testing
-	 *
-	 * @param   string  $store  The store.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.4
-	 */
-	private function checkStore($store)
-	{
-		if (in_array($store, array('apc', 'eaccelerator', 'memcached', 'redis', 'xcache')))
-		{
-			$this->markTestSkipped('This storage adapter does not test properly from CLI or is not yet configured for testing.');
-		}
 	}
 }

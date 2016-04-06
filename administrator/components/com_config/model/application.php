@@ -436,7 +436,7 @@ class ConfigModelApplication extends ConfigModelForm
 	 *
 	 * @return bool
 	 *
-	 * @since   3.6
+	 * @since   3.5
 	 * @throws Exception
 	 */
 	public function sendTestMail()

@@ -95,7 +95,7 @@ class JLayoutFile extends JLayoutBase
 		$this->clearDebugMessages();
 
 		// Inherit base output from parent class
-		$layoutOutput = parent::render($displayData);
+		$layoutOutput = '';
 
 		// Automatically merge any previously data set if $displayData is an array
 		if (is_array($displayData))

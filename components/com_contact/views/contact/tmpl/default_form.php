@@ -14,9 +14,11 @@ JHtml::_('behavior.formvalidator');
 
 $captchaEnabled = false;
 
+$captchaSet = $this->params->get('captcha', JFactory::getApplication()->get('captcha', '0'));
+
 foreach (JPluginHelper::getPlugin('captcha') as $plugin)
 {
-	if (JFactory::getApplication()->get('captcha', '0') === $plugin->name)
+	if ($captchaSet === $plugin->name)
 	{
 		$captchaEnabled = true;
 		break;
@@ -54,6 +56,5 @@ foreach (JPluginHelper::getPlugin('captcha') as $plugin)
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
 		</div>
-		</fieldset>
 	</form>
 </div>
