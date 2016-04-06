@@ -298,4 +298,14 @@ class PlgContentJoomla extends JPlugin
 
 		return true;
 	}
+
+	public function onContentAfterDisplay($context, &$row, &$params, $page=0)
+	{
+		if ($context == 'com_content.article')
+		{
+			$table = JTable::getInstance('Content', 'JTable');
+			$table->hit($row->id);
+		}
+		return null;
+	}
 }
