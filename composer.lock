@@ -413,7 +413,7 @@
             "require-dev": {
                 "joomla/database": "~1.0",
                 "joomla/test": "~1.0",
-                "phpunit/dbunit": "~1.2",
+                "phpunit/dbunit": "~1.4",
                 "phpunit/phpunit": "4.*",
                 "squizlabs/php_codesniffer": "1.*"
             },
