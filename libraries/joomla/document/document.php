@@ -1003,9 +1003,13 @@ class JDocument
 		if (!class_exists($class) || $useDeprecatedMethod)
 		{
 			// "Legacy" class name structure
-			$class = 'JDocumentRenderer' . $type;
+			$genericClass = 'JDocumentRenderer' . ucfirst($type);
 
-			if (!class_exists($class) || $useDeprecatedMethod)
+			if (class_exists($genericClass))
+			{
+				$class = $genericClass;
+			}
+			else
 			{
 				// @deprecated 4.0 - Non-autoloadable class support is deprecated, only log a message though if a file is found
 				$path = __DIR__ . '/' . $this->getType() . '/renderer/' . $type . '.php';
