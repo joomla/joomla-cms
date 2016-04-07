@@ -556,10 +556,22 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	 * @covers   JDocument::loadRenderer
 	 * @uses     JDocument::setType
 	 */
+	public function testEnsureLoadRendererReturnsCorrectDeprecatedObject()
+	{
+		$this->object->setType('html');
+		$this->assertInstanceOf('JDocumentRendererHead', $this->object->loadRenderer('head'));
+	}
+	
+	/**
+	 * @testdox  Test that loadRenderer returns the intended object for new logic
+	 *
+	 * @covers   JDocument::loadRenderer
+	 * @uses     JDocument::setType
+	 */
 	public function testEnsureLoadRendererReturnsCorrectObject()
 	{
 		$this->object->setType('html');
-		$this->assertInstanceOf('JDocumentRendererHtmlHead', $this->object->loadRenderer('head'));
+		$this->assertInstanceOf('JDocumentRendererHtmlHead', $this->object->loadRenderer('head', false));
 	}
 
 	/**
