@@ -293,9 +293,9 @@ class InstallerModelInstall extends JModelLegacy
 		}
 
 		// Build the appropriate paths.
-		$config	 = JFactory::getConfig();
+		$config   = JFactory::getConfig();
 		$tmp_dest = $config->get('tmp_path') . '/' . $userfile['name'];
-		$tmp_src	= $userfile['tmp_name'];
+		$tmp_src  = $userfile['tmp_name'];
 
 		// Move uploaded file.
 		jimport('joomla.filesystem.file');
@@ -440,7 +440,7 @@ class InstallerModelInstall extends JModelLegacy
 			return false;
 		}
 
-		$config	 = JFactory::getConfig();
+		$config   = JFactory::getConfig();
 		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file.
