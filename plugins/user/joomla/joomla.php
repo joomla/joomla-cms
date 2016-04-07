@@ -148,7 +148,7 @@ class PlgUserJoomla extends JPlugin
 						$lang->setLanguage($defaultLocale);
 					}
 
-					if (!$mail->Send())
+					if ($mail->Send() !== true)
 					{
 						$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
 					}
