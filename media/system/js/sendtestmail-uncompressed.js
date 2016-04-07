@@ -32,26 +32,38 @@ jQuery(document).ready(function ($)
 		})
 		.fail(function (jqXHR, textStatus, error) {
 			var msg = {};
+
 			if (textStatus == 'parsererror')
 			{
-				msg.error = ['A parse error as occured while processing the following JSON data:<br/><code style="color:inherit;white-space:pre;padding:0;margin:0;border:0;background:inherit;">' + jqXHR.responseText.trim() + '</code>'];
+				// Html entity encode.
+				var encodedJson = jqXHR.responseText.trim();
+
+				var buf = [];
+				for (var i = encodedJson.length-1; i >= 0; i--) {
+					buf.unshift( [ '&#', encodedJson[i].charCodeAt(), ';' ].join('') );
+				}
+
+				encodedJson = buf.join('');
+
+				msg.error = [ Joomla.JText._('COM_CONFIG_SENDMAIL_JS_ERROR_PARSE').replace('%s', encodedJson) ];
 			}
 			else if (textStatus == 'nocontent')
 			{
-				msg.error = ['No content has returned.'];
+				msg.error = [ Joomla.JText._('COM_CONFIG_SENDMAIL_JS_ERROR_NO_CONTENT') ];
 			}
 			else if (textStatus == 'timeout')
 			{
-				msg.error = ['A timeout as occured while fetching the JSON data.'];
+				msg.error = [ Joomla.JText._('COM_CONFIG_SENDMAIL_JS_ERROR_TIMEOUT') ];
 			}
 			else if (textStatus == 'abort')
 			{
-				msg.error = ['A connection abort as occured while fetching the JSON data.'];
+				msg.error = [ Joomla.JText._('COM_CONFIG_SENDMAIL_JS_ERROR_CONNECTION_ABORT') ];
 			}
 			else
 			{
-				msg.error = ['An error as occured while fetching the JSON data: ' + jqXHR.status + ' HTTP status code.'];
+				msg.error = [ Joomla.JText._('COM_CONFIG_SENDMAIL_JS_ERROR_OTHER').replace('%s', jqXHR.status) ];
 			}
+
 			Joomla.renderMessages(msg);
 		})
 		.done(function (response) {
