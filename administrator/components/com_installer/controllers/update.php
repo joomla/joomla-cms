@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_installer
+ * @package		 Joomla.Administrator
+ * @subpackage	com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright	 Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license		 GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,16 +12,16 @@ defined('_JEXEC') or die;
 /**
  * Installer Update Controller
  *
- * @since  1.6
+ * @since	1.6
  */
 class InstallerControllerUpdate extends JControllerLegacy
 {
 	/**
 	 * Update a set of extensions.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   1.6
+	 * @since	 1.6
 	 */
 	public function update()
 	{
@@ -30,21 +30,21 @@ class InstallerControllerUpdate extends JControllerLegacy
 
 		/** @var InstallerModelUpdate $model */
 		$model = $this->getModel('update');
-		$uid   = $this->input->get('cid', array(), 'array');
+		$uid	 = $this->input->get('cid', array(), 'array');
 
 		JArrayHelper::toInteger($uid, array());
 
 		// Get the minimum stability.
-		$component     = JComponentHelper::getComponent('com_installer');
-		$params        = $component->params;
+		$component = JComponentHelper::getComponent('com_installer');
+		$params = $component->params;
 		$minimum_stability = $params->get('minimum_stability', JUpdater::STABILITY_STABLE, 'int');
 
 		// Redirect to installer.batchInstall
 		$this->setRedirect(JRoute::_('index.php?' . http_build_query(array(
-			'option'                 => 'com_installer',
-			'task'                   => 'installer.batchInstall',
-			'uid'                    => $uid,
-			'minimum_stability'      => $minimum_stability,
+			'option' => 'com_installer',
+			'task' => 'installer.batchInstall',
+			'uid' => $uid,
+			'minimum_stability' => $minimum_stability,
 			JSession::getFormToken() => '1'
 			)), false));
 	}
@@ -52,17 +52,17 @@ class InstallerControllerUpdate extends JControllerLegacy
 	/**
 	 * Find new updates.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   1.6
+	 * @since	 1.6
 	 */
 	public function find()
 	{
 		(JSession::checkToken() or JSession::checkToken('get')) or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the caching duration.
-		$component     = JComponentHelper::getComponent('com_installer');
-		$params        = $component->params;
+		$component		 = JComponentHelper::getComponent('com_installer');
+		$params				= $component->params;
 		$cache_timeout = $params->get('cachetimeout', 6, 'int');
 		$cache_timeout = 3600 * $cache_timeout;
 
@@ -88,9 +88,9 @@ class InstallerControllerUpdate extends JControllerLegacy
 	/**
 	 * Purges updates.
 	 *
-	 * @return  void
+	 * @return	void
 	 *
-	 * @since   1.6
+	 * @since	 1.6
 	 */
 	public function purge()
 	{
@@ -128,13 +128,13 @@ class InstallerControllerUpdate extends JControllerLegacy
 			$app->close();
 		}
 
-		$eid               = $this->input->getInt('eid', 0);
-		$skip              = $this->input->get('skip', array(), 'array');
-		$cache_timeout     = $this->input->getInt('cache_timeout', 0);
+		$eid							 = $this->input->getInt('eid', 0);
+		$skip							= $this->input->get('skip', array(), 'array');
+		$cache_timeout		 = $this->input->getInt('cache_timeout', 0);
 		$minimum_stability = $this->input->getInt('minimum_stability', -1);
 
-		$component     = JComponentHelper::getComponent('com_installer');
-		$params        = $component->params;
+		$component		 = JComponentHelper::getComponent('com_installer');
+		$params				= $component->params;
 
 		if ($cache_timeout == 0)
 		{
@@ -164,7 +164,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 		if (!empty($skip))
 		{
 			$unfiltered_updates = $updates;
-			$updates            = array();
+			$updates						= array();
 
 			foreach ($unfiltered_updates as $update)
 			{

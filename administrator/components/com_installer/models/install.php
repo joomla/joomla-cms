@@ -71,10 +71,10 @@ class InstallerModelInstall extends JModelLegacy
 			JClientHelper::setCredentialsFromRequest('ftp');
 
 		// Stage
-			$app				 = JFactory::getApplication();
-			$input       = $input instanceof JInput ? $input : $app->input;
-			$dispatcher	 = JEventDispatcher::getInstance();
-			$package		 = null;
+			$app = JFactory::getApplication();
+			$input = $input instanceof JInput ? $input : $app->input;
+			$dispatcher = JEventDispatcher::getInstance();
+			$package = null;
 			$installType = $input->getWord('installtype');
 
 		// Mark State
@@ -174,10 +174,12 @@ class InstallerModelInstall extends JModelLegacy
 
 		// Stage Package
 			$package = $package ?: $this->getState('package');
-			if( empty($package) || empty($package['type']) ){
+			if (empty($package) || empty($package['type']))
+			{
 				$this->initialize();
 				$package = $this->getState('package');
-				if( empty($package) || empty($package['type']) ){
+				if (empty($package) || empty($package['type']))
+				{
 					return false;
 				}
 			}
@@ -211,7 +213,8 @@ class InstallerModelInstall extends JModelLegacy
 			$app->setUserState('com_installer.redirect_url', $installer->get('redirect_url'));
 
 		// Cleanup the install files.
-			if( !is_file($package['packagefile']) ){
+			if( !is_file($package['packagefile']) )
+			{
 				$config = JFactory::getConfig();
 				$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 			}
