@@ -138,7 +138,7 @@ class InstallerControllerInstaller extends JControllerLegacy
 
 		// Validate Batch
 			if (!$uid)
-      {
+			{
 				$app->enqueueMessage(JText::_('COM_INSTALLER_UNABLE_TO_INITIALIZE_INSTALLER'), 'error');
 				$this->setRedirect(JRoute::_('index.php?option=com_installer', false));
 				return false;
@@ -177,7 +177,7 @@ class InstallerControllerInstaller extends JControllerLegacy
 	 * @return [type] [description]
 	 */
 	public function finalize()
-  {
+	{
 
 		// Stage
 			$app		 = JFactory::getApplication();
