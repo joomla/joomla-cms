@@ -24,7 +24,7 @@ class FieldsHelperInternal
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   3.6
 	 */
 	public static function addSubmenu ($context)
 	{
@@ -68,13 +68,5 @@ class FieldsHelperInternal
 				}
 			}
 		}
-	}
-
-	public static function where ()
-	{
-		$e     = new Exception;
-		$trace = '<pre>' . $e->getTraceAsString() . '</pre>';
-
-		echo $trace;
 	}
 }

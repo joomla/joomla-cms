@@ -8,6 +8,11 @@
  */
 defined('_JEXEC') or die;
 
+/**
+ * FieldsHelper
+ *
+ * @since  3.6
+ */
 class FieldsHelper
 {
 	private static $fieldsCache = null;
@@ -18,7 +23,8 @@ class FieldsHelper
 	 * Extracts the component and section from the context string which has to
 	 * be in format component.context.
 	 *
-	 * @param string $contextString
+	 * @param   string  $contextString  contextString
+	 *
 	 * @return array|null
 	 */
 	public static function extract ($contextString)
@@ -36,8 +42,8 @@ class FieldsHelper
 	/**
 	 * Creates an object of the given type.
 	 *
-	 * @param string $type
-	 * @param string $context
+	 * @param   string  $type     type
+	 * @param   string  $context  The context of the content passed to the helper
 	 *
 	 * @return FieldsTypeBase
 	 */
@@ -90,9 +96,10 @@ class FieldsHelper
 	 * prepareValue must be set to true. Then no further escaping needs to be
 	 * don.
 	 *
-	 * @param string $context
-	 * @param stdClass $item
-	 * @param boolean $prepareValue
+	 * @param   string    $context       The context of the content passed to the helper
+	 * @param   stdClass  $item          item
+	 * @param   boolean   $prepareValue  prepareValue
+	 *
 	 * @return array
 	 */
 	public static function getFields ($context, $item = null, $prepareValue = false)
@@ -207,9 +214,10 @@ class FieldsHelper
 	 * Renders the layout file and data on the context and does a fall back to
 	 * Fields afterwards.
 	 *
-	 * @param string $context
-	 * @param string $layoutFile
-	 * @param array $displayData
+	 * @param   string  $context      The context of the content passed to the helper
+	 * @param   string  $layoutFile   layoutFile
+	 * @param   array   $displayData  displayData
+	 *
 	 * @return NULL|string
 	 */
 	public static function render ($context, $layoutFile, $displayData)
@@ -239,6 +247,15 @@ class FieldsHelper
 		return $value;
 	}
 
+	/**
+	 * PrepareForm
+	 *
+	 * @param   string  $context  The context of the content passed to the helper
+	 * @param   JForm   $form     form
+	 * @param   object  $data     data.
+	 *
+	 * @return  boolean
+	 */
 	public static function prepareForm ($context, JForm $form, $data)
 	{
 		// Extracting the component and section
