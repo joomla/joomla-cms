@@ -49,6 +49,7 @@ class InstallerControllerInstall extends JControllerLegacy
 					'task' => 'installer.install',
 					JSession::getFormToken() => '1'
 					)), false));
+				return;
 
 			}
 			else

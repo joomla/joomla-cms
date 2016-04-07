@@ -161,14 +161,14 @@ class InstallerModelInstaller extends JModelLegacy
 	public function stageSessionState(){
 
 		// Stage
-			$installer = JFactory::getApplication()->getUserState('com_installer');
+			$installer = JFactory::getApplication()->getUserState('com_installer.installer');
 
 		// Pull from Session
 			if ($installer)
 			{
 				foreach ($installer AS $key => $val)
 				{
-					$this->setState( $key, $installer->{$key} );
+					$this->setState( $key, (is_array($installer) ? $installer[$key] : $installer->{$key}) );
 				}
 			}
 

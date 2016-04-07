@@ -56,8 +56,8 @@
       }
 
     // Store Message
-      $app->setUserState('com_installer.messages', $installer->message);
-      $app->setUserState('com_installer.extension_messages', $installer->get('extension_message'));
+      $app->setUserState('com_installer.message', $installer->message);
+      $app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
 
   }
 

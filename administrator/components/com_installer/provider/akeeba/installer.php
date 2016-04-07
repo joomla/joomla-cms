@@ -7137,13 +7137,15 @@ class AKFactory {
     }
 
     // Idenfify Package Type
-      if( empty($class_name) ) {
+    if (empty($class_name))
+    {
       $filetype = self::get('kickstart.setup.filetype', null);
-        if(empty($filetype)) {
+      if (empty($filetype))
+      {
         $filename = self::get('kickstart.setup.sourcefile', null);
         $basename = basename($filename);
         $baseextension = strtoupper(substr($basename,-3));
-          switch($baseextension) {
+        switch($baseextension) {
           case 'JPA':
             $filetype = 'JPA';
             break;
@@ -7154,7 +7156,7 @@ class AKFactory {
             $filetype = 'ZIP';
             break;
           case 'FOLDER':
-              $filetype = 'FOLDER';
+            $filetype = 'FOLDER';
             break;
           default:
             die('Invalid archive type or extension in file '.$filename);

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Installer controller for Joomla! installer class.
  *
- * @since	1.5
+ * @since  1.5
  */
 class InstallerControllerInstaller extends JControllerLegacy
 {
@@ -26,7 +26,9 @@ class InstallerControllerInstaller extends JControllerLegacy
 	 * We are going to create a standalone installer, then load a dialog
 	 * to monitor that installer.
 	 *
-	 * @return [type] [description]
+	 * @return  boolean Status of Operation
+	 *
+	 * @since   3.5.1
 	 */
 	public function install()
 	{
@@ -39,7 +41,7 @@ class InstallerControllerInstaller extends JControllerLegacy
 			$model = $this->getModel('installer');
 			$view = $this->getView('installer', 'html');
 			$queue = $app->getUserState('com_installer.queue');
-			$package = $app->getUserState('com_installer.installer.package');
+			$package = $app->getUserState('com_installer.package');
 
 		// If Queue, let's get a pending package
 			if ($queue)
@@ -93,6 +95,7 @@ class InstallerControllerInstaller extends JControllerLegacy
 		// Verify Package
 			if (empty($package) || empty($package['type']))
 			{
+				$this->reset();
 				$app->enqueueMessage(JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
 				$this->setRedirect(JRoute::_('index.php?option=com_installer', false));
 				return false;
@@ -101,6 +104,7 @@ class InstallerControllerInstaller extends JControllerLegacy
 		// Initialize Installer
 			if (!$model->initialize( array('package' => $package) ))
 			{
+				$this->reset();
 				$app->enqueueMessage(JText::_('COM_INSTALLER_UNABLE_TO_INITIALIZE_INSTALLER'), 'error');
 				$this->setRedirect(JRoute::_('index.php?option=com_installer', false));
 				return false;
@@ -118,7 +122,9 @@ class InstallerControllerInstaller extends JControllerLegacy
 	 * We are going to create a queue for the batch install request, then forward
 	 * to the queue installer.
 	 *
-	 * @return [type] [description]
+	 * @return  boolean Status of Operation
+	 *
+	 * @since   3.5.1
 	 */
 	public function batchInstall()
 	{
@@ -174,7 +180,9 @@ class InstallerControllerInstaller extends JControllerLegacy
 	 * This operation requires a successful return to the previous session,
 	 * which could be broken by the update.
 	 *
-	 * @return [type] [description]
+	 * @return  boolean Status of operation
+	 *
+	 * @since   3.5.1
 	 */
 	public function finalize()
 	{
@@ -186,6 +194,20 @@ class InstallerControllerInstaller extends JControllerLegacy
 			$message = $app->input->getVar('message');
 			$queue	 = $app->getUserState('com_installer.queue');
 			$package = $app->getUserState('com_installer.installer.package');
+
+		// Push Single Result
+			$new_messages = array($app->getUserState('com_installer.message'));
+			if ($new_messages)
+			{
+				$messages = (array)$app->getUserState('com_installer.messages', array());
+				$app->setUserState('com_installer.messages', $messages ? array_merge($messages, $new_messages) : $new_messages);
+			}
+			$new_extension_messages = array($app->getUserState('com_installer.extension_message'));
+			if ($new_extension_messages)
+			{
+				$extension_messages = (array)$app->getUserState('com_installer.extension_messages', array());
+				$app->setUserState('com_installer.extension_messages', $extension_messages ? array_merge($extension_messages, $new_extension_messages) : $new_extension_messages);
+			}
 
 		// Finalize Model
 			$model->finalize( array(
@@ -241,10 +263,34 @@ class InstallerControllerInstaller extends JControllerLegacy
 				return true;
 			}
 
+		// Reset Procedure Session
+			$this->reset();
+
 		// Success, Complete
 			$app->enqueueMessage(sprintf(JText::_('COM_INSTALLER_INSTALL_SUCCESS'), $package_name), 'message');
 			$this->setRedirect(JRoute::_('index.php?option=com_installer', false));
 			return true;
+
+	}
+
+	/**
+	 * Reset Controller Specific Data
+	 *
+	 * @return  null
+	 *
+	 * @since   3.5.1
+	 */
+	public function reset()
+	{
+
+		// Stage
+			$app = JFactory::getApplication();
+
+		// Reset Controller Specific Session
+			foreach( array('queue', 'package') AS $key )
+			{
+				$app->setUserState('com_installer.'.$key, null);
+			}
 
 	}
 
