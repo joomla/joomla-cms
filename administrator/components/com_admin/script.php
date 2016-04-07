@@ -1408,6 +1408,8 @@ class JoomlaInstallerScript
 			'/libraries/joomla/document/opensearch/opensearch.php',
 			'/libraries/joomla/document/raw/raw.php',
 			'/libraries/joomla/document/xml/xml.php',
+			'/administrator/templates/isis/html/media/images/default.php',
+			'/templates/protostar/html/media/images/default.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1501,6 +1503,10 @@ class JoomlaInstallerScript
 			'/libraries/joomla/document/opensearch',
 			'/libraries/joomla/document/raw',
 			'/libraries/joomla/document/xml',
+			'/administrator/templates/isis/html/media/images',
+			'/templates/protostar/html/media/images',
+			'/administrator/templates/isis/html/media',
+			'/templates/protostar/html/media',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -1791,7 +1797,7 @@ class JoomlaInstallerScript
 
 	/**
 	 * Does the database server claim to have support for UTF-8 Multibyte (utf8mb4) collation?
-	 * 
+	 *
 	 * This is a modified version of the function in JDatabase::serverClaimsUtf8mb4Support() - it is
 	 * duplicated here for people upgrading from a version lower than 3.5.0 through extension manager
 	 * which will still have the old database driver loaded at this point.
