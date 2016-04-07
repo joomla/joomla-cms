@@ -59,6 +59,19 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 		// We can only make check queries for alter table and create table queries
 		$command = strtoupper($wordArray[0] . ' ' . $wordArray[1]);
 
+		// Check for special update statement to reset utf8mb4 conversion status
+		if (($command == 'UPDATE `#__UTF8_CONVERSION`'
+			|| $command == 'UPDATE #__UTF8_CONVERSION')
+			&& strtoupper($wordArray[2]) == 'SET'
+			&& strtolower(substr(str_replace('`', '', $wordArray[3]), 0, 9)) == 'converted')
+		{
+			// Statement is special statement to reset conversion status
+			$this->queryType = 'UTF8CNV';
+
+			// Done with method
+			return;
+		}
+
 		if ($command === 'ALTER TABLE')
 		{
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);

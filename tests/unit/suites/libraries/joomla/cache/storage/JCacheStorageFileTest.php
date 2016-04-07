@@ -37,7 +37,7 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$this->extensionAvailable = is_writable(JPATH_BASE . '/cache');
+		$this->extensionAvailable = JCacheStorageFile::isSupported();
 
 		if ($this->extensionAvailable)
 		{
