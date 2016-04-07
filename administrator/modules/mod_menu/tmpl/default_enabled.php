@@ -103,7 +103,7 @@ if ($user->authorise('core.manage', 'com_users'))
 	{
 		$menu->addChild(
 			new JMenuNode(
-				JText::_('MOD_MENU_COM_CONTENT_NEW_CATEGORY'), 'index.php?option=com_categories&task=category.add&extension=com_users',
+				JText::_('MOD_MENU_COM_USERS_NOTE_NEW_CATEGORY'), 'index.php?option=com_categories&task=category.add&extension=com_users',
 				'class:newarticle'
 			)
 		);
