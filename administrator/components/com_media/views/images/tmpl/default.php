@@ -108,7 +108,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			<div class="row">
 				<div class="span6 control-group">
 					<div class="control-label">
-						<label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION') ?></label>
+						<label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION'); ?></label>
 					</div>
 					<div class="controls">
 						<input type="text" id="f_caption" value="" />
@@ -120,7 +120,7 @@ JFactory::getDocument()->addScriptDeclaration(
 					</div>
 					<div class="controls">
 						<select id="f_caption_class">
-							<option value="" selected="selected"><?php echo JText::_('COM_MEDIA_NOT_SET') ?></option>
+							<option value="" selected="selected"><?php echo JText::_('COM_MEDIA_NOT_SET'); ?></option>
 							<option value="text-left">text-left</option>
 							<option value="text-center">text-center</option>
 							<option value="text-right">text-right</option>
