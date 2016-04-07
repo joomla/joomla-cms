@@ -1,10 +1,10 @@
 <?php
 /**
- * @package		 Joomla.Administrator
- * @subpackage	com_installer
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
  *
- * @copyright	 Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license		 GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,16 +12,16 @@ defined('_JEXEC') or die;
 /**
  * Installer Update Controller
  *
- * @since	1.6
+ * @since  1.6
  */
 class InstallerControllerUpdate extends JControllerLegacy
 {
 	/**
 	 * Update a set of extensions.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
-	 * @since	 1.6
+	 * @since   1.6
 	 */
 	public function update()
 	{
@@ -52,9 +52,9 @@ class InstallerControllerUpdate extends JControllerLegacy
 	/**
 	 * Find new updates.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
-	 * @since	 1.6
+	 * @since   1.6
 	 */
 	public function find()
 	{
@@ -88,9 +88,9 @@ class InstallerControllerUpdate extends JControllerLegacy
 	/**
 	 * Purges updates.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
-	 * @since	 1.6
+	 * @since   1.6
 	 */
 	public function purge()
 	{
@@ -112,9 +112,9 @@ class InstallerControllerUpdate extends JControllerLegacy
 	/**
 	 * Fetch and report updates in JSON format, for AJAX requests
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 2.5
+	 * @since   2.5
 	 */
 	public function ajax()
 	{

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package		 Joomla.Administrator
- * @subpackage	com_installer
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
  *
- * @copyright	 Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license		 GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Extension Manager Install Model
  *
- * @since	1.5
+ * @since  1.5
  */
 class InstallerModelInstall extends JModelLegacy
 {
@@ -38,9 +38,9 @@ class InstallerModelInstall extends JModelLegacy
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
-	 * @since	 1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -60,9 +60,9 @@ class InstallerModelInstall extends JModelLegacy
 	/**
 	 * Initialize the model state for install
 	 *
-	 * @return	boolean result of install.
+	 * @return  boolean result of install.
 	 *
-	 * @since	 1.5
+	 * @since   1.5
 	 */
 	public function initialize( $input = null )
 	{
@@ -158,9 +158,9 @@ class InstallerModelInstall extends JModelLegacy
 	/**
 	 * Install an extension from either folder, url or upload.
 	 *
-	 * @return	boolean result of install.
+	 * @return  boolean result of install.
 	 *
-	 * @since	 1.5
+	 * @since   1.5
 	 */
 	public function install( $package = null )
 	{
@@ -228,7 +228,7 @@ class InstallerModelInstall extends JModelLegacy
 	/**
 	 * Works out an installation package from a HTTP upload.
 	 *
-	 * @return package definition or false on failure.
+	 * @return  package  definition or false on failure.
 	 */
 	protected function _getPackageFromUpload()
 	{
@@ -310,9 +310,9 @@ class InstallerModelInstall extends JModelLegacy
 	/**
 	 * Install an extension from an upgrade record
 	 *
-	 * @return	array	Package details or false on failure
+	 * @return  array  Package details or false on failure
 	 *
-	 * @since	 1.5
+	 * @since   1.5
 	 */
 	protected function _getPackageFromUpdate()
 	{
@@ -354,9 +354,9 @@ class InstallerModelInstall extends JModelLegacy
 	/**
 	 * Install an extension from a directory
 	 *
-	 * @return	array	Package details or false on failure
+	 * @return  array  Package details or false on failure
 	 *
-	 * @since	 1.5
+	 * @since   1.5
 	 */
 	protected function _getPackageFromFolder()
 	{
@@ -394,9 +394,9 @@ class InstallerModelInstall extends JModelLegacy
 	/**
 	 * Install an extension from a URL.
 	 *
-	 * @return	Package details or false on failure.
+	 * @return  Package details or false on failure.
 	 *
-	 * @since	 1.5
+	 * @since   1.5
 	 */
 	protected function _getPackageFromUrl()
 	{
