@@ -48,18 +48,18 @@ class InstallerControllerInstaller extends JControllerLegacy
 				// We loop the queue looking for pending items
 					$package = null;
 					for ($i=0; $i<count($queue); $i++)
-          {
+					{
 						$queueItem =& $queue[$i];
 						if (in_array($queueItem['status'], array('pending', 'active')))
-            {
+						{
 							if (empty($queueItem['package']))
-              {
+							{
 								$installModel = $this->getModel('install');
 								$modelInput = new JInput();
 								$modelInput->set('installtype', 'update');
 								$modelInput->set('update_id', $queueItem['update_id']);
 								if (!$installModel->initialize( $input ))
-                {
+								{
 									$app->enqueueMessage(JText::_('COM_INSTALLER_UNABLE_TO_INITIALIZE_INSTALLER'), 'error');
 									$this->setRedirect(JRoute::_('index.php?option=com_installer', false));
 									return false;
@@ -67,12 +67,12 @@ class InstallerControllerInstaller extends JControllerLegacy
 								$queueItem['package'] = $installModel->getState('package');
 							}
 							if (!empty($queueItem['package']))
-              {
+							{
 								$package = $queueItem['package'];
 								$queueItem['status'] = 'active';
 							}
 							if ($package)
-              {
+							{
 								break;
 							}
 						}
@@ -83,7 +83,7 @@ class InstallerControllerInstaller extends JControllerLegacy
 
 				// No Packages? We must be finished
 					if (empty($package))
-          {
+					{
 						$this->setRedirect(JRoute::_('index.php?option=com_installer&task=installer.finalize', false));
 						return false;
 					}
@@ -92,7 +92,7 @@ class InstallerControllerInstaller extends JControllerLegacy
 
 		// Verify Package
 			if (empty($package) || empty($package['type']))
-      {
+			{
 				$app->enqueueMessage(JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
 				$this->setRedirect(JRoute::_('index.php?option=com_installer', false));
 				return false;
@@ -100,7 +100,7 @@ class InstallerControllerInstaller extends JControllerLegacy
 
 		// Initialize Installer
 			if (!$model->initialize( array('package' => $package) ))
-      {
+			{
 				$app->enqueueMessage(JText::_('COM_INSTALLER_UNABLE_TO_INITIALIZE_INSTALLER'), 'error');
 				$this->setRedirect(JRoute::_('index.php?option=com_installer', false));
 				return false;
@@ -147,7 +147,7 @@ class InstallerControllerInstaller extends JControllerLegacy
 		// Prepare Batch Queue
 			$queue = array();
 			foreach ($uid AS $id)
-      {
+			{
 				$queue[] = array(
 					'update_id' => $id,
 					'status'		=> 'pending',
@@ -196,20 +196,20 @@ class InstallerControllerInstaller extends JControllerLegacy
 		// Update Queue
 			$queue_pending = 0;
 			if ($queue)
-      {
+			{
 
 				// Find Active Queue
 					for ($i=0; $i<count($queue); $i++)
-          {
+					{
 						$queueItem =& $queue[$i];
 						if ($queueItem['status'] == 'active')
-            {
+						{
 							$queueItem['status']	= 'complete';
 							$queueItem['result']	= ($success ? 'success' : 'error');
 							$queueItem['message'] = $message;
 						}
 						if ($queueItem['status'] == 'pending')
-            {
+						{
 							$queue_pending++;
 						}
 					}
@@ -221,7 +221,7 @@ class InstallerControllerInstaller extends JControllerLegacy
 
 		// Failed
 			if (!$success)
-      {
+			{
 				$app->enqueueMessage(sprintf(JText::_('COM_INSTALLER_INSTALL_ERROR'), $message), 'error');
 				$this->setRedirect(JRoute::_('index.php?option=com_installer', false));
 				return false;
@@ -232,7 +232,7 @@ class InstallerControllerInstaller extends JControllerLegacy
 
 		// Success, Queue Pending
 			if ($queue_pending)
-      {
+			{
 				$this->setRedirect(JRoute::_('index.php?' . http_build_query(array(
 					'option'								 => 'com_installer',
 					'task'									 => 'installer.install',
