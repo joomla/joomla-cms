@@ -342,4 +342,70 @@ class MenuItemsManager0002Test extends JoomlaWebdriverTestCase
 		$this->menuItemsManagerPage->trashAndDelete($title);
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($title), 'Test menu should not be present');
 	}
+	
+	/**
+	 * create menu item of type Archived Articles and verifying its existence on front end.
+	 *
+	 * @return void
+	 *
+	 * @test
+	 */
+	public function addMenu_ArchivedArticles_MenuAdded()
+	{
+		$cfg = new SeleniumConfig;
+		$articleManager = 'administrator/index.php?option=com_content';
+		$this->driver->get($cfg->host . $cfg->path . $articleManager);
+		$salt = rand();
+		$articleName1 = 'article_ABC_1' . $salt;
+		$articleName2 = 'article_ABC_2' . $salt;
+
+		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
+		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName1), 'Test Article should not be present');
+		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName2), 'Test Article should not be present');
+		
+		$this->articleManagerPage->addArticle($articleName1);
+		$message = $this->articleManagerPage->getAlertMessage();
+		$this->assertTrue(strpos($message, 'Article successfully saved') >= 0, 'Article save should return success');
+		$this->articleManagerPage->changeArticleState($articleName1, 'Archived');
+		
+		$this->articleManagerPage->addArticle($articleName2);
+		$message = $this->articleManagerPage->getAlertMessage();
+		$this->assertTrue(strpos($message, 'Article successfully saved') >= 0, 'Article save should return success');
+		$this->articleManagerPage->changeArticleState($articleName2, 'Archived');
+		
+		$MenuItemManager = 'administrator/index.php?option=com_menus&view=items';
+		$this->driver->get($cfg->host . $cfg->path . $MenuItemManager);
+		$title = 'Menu Item' . $salt;
+		$menuType = 'Archived Articles';
+		$menuLocation = 'Main Menu';
+		$this->menuItemsManagerPage = $this->getPageObject('MenuItemsManagerPage');
+		$this->menuItemsManagerPage->setFilter('Menu', $menuLocation);
+		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($title), 'Test menu should not be present');
+		$this->menuItemsManagerPage->addMenuItem($title, $menuType, $menuLocation);
+		$message = $this->menuItemsManagerPage->getAlertMessage();
+		$this->assertContains('Menu item successfully saved', $message, 'Menu save should return success', true);
+		$homePageUrl = 'index.php';
+		$d = $this->driver;
+		$d->get($cfg->host . $cfg->path . $homePageUrl);
+		$this->siteHomePage = $this->getPageObject('SiteContentFeaturedPage');
+		$this->assertTrue($this->siteHomePage->itemExist($title, 'a'));
+		$this->siteHomePage->itemClick($title);
+		$this->assertTrue($this->siteHomePage->itemExist($articleName1, 'h2//a'));
+		$this->assertTrue($this->siteHomePage->itemExist($articleName2, 'h2//a'));
+
+		$this->doAdminLogin();
+		$this->driver->get($cfg->host . $cfg->path . $articleManager);
+		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
+		$this->articleManagerPage->trashAndDelete($articleName1);
+		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName1), 'Test article should not be present');
+		$this->articleManagerPage->trashAndDelete($articleName2);
+		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName2), 'Test article should not be present');
+		
+		$this->driver->get($cfg->host . $cfg->path . $MenuItemManager);
+		$this->menuItemsManagerPage = $this->getPageObject('MenuItemsManagerPage');
+		$this->menuItemsManagerPage->setFilter('Menu', 'Main Menu');
+		$this->menuItemsManagerPage->trashAndDelete($title);
+		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($title), 'Test menu should not be present');
+	}
+ }		 
 }
