@@ -321,8 +321,12 @@ class InstallerModelUpdatesites extends InstallerModel
 
 						if ($eid && $manifest->updateservers)
 						{
+							// Set the manifest object and path
+							$tmpInstaller->manifest = $manifest;
+							$tmpInstaller->setPath('manifest', $file);
+
 							// Load the extension plugin (if not loaded yet).
-							$plugin = JPluginHelper::importPlugin('extension', 'joomla');
+							JPluginHelper::importPlugin('extension', 'joomla');
 
 							// Fire the onExtensionAfterUpdate
 							JEventDispatcher::getInstance()->trigger('onExtensionAfterUpdate', array('installer' => $tmpInstaller, 'eid' => $eid));
