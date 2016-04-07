@@ -28,17 +28,39 @@ class InstallerControllerInstall extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
+		$app = JFactory::getApplication();
 		$model = $this->getModel('install');
 
-		if ($model->install())
-		{
-			$cache = JFactory::getCache('mod_menu');
-			$cache->clean();
+		// Initialize (download / prepare package)
+		if( $model->initialize() ){
 
-			// TODO: Reset the users acl here as well to kill off any missing bits.
+			// Review Package
+			$package = $model->getState('package');
+
+			// Verify Requirements
+			foreach( array('dir', 'type') AS $key ){
+				if( empty($package[$key]) ){
+					return false;
+				}
+			}
+
+			// Check if Standalone Required
+			$fork_installer = $this->get('fork', in_array($package['type'], array('file')));
+			if( $fork_installer ){
+				$app->setUserState('com_installer.package', $package);
+				$this->setRedirect(JRoute::_('index.php?option=com_installer&task=installer.install&'.JSession::getFormToken().'=1', false));
+				return true;
+			}
+
+			// Install now
+			else if( $model->install() ){
+				$cache = JFactory::getCache('mod_menu');
+				$cache->clean();
+				// TODO: Reset the users acl here as well to kill off any missing bits.
+			}
+
 		}
 
-		$app = JFactory::getApplication();
 		$redirect_url = $app->getUserState('com_installer.redirect_url');
 
 		// Don't redirect to an external URL.
