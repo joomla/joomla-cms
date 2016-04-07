@@ -315,7 +315,8 @@ class InstallerModelUpdatesites extends InstallerModel
 							->select($db->qn('extension_id'))
 							->from($db->qn('#__extensions'))
 							->where($db->qn('name') . ' = ' . $db->q($manifest->name))
-							->where($db->qn('type') . ' = ' . $db->q($manifest['type']));
+							->where($db->qn('type') . ' = ' . $db->q($manifest['type']))
+							->where($db->qn('state') . ' != -1');
 						$db->setQuery($query);
 						$eid = (int) $db->loadResult();
 
