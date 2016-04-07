@@ -55,6 +55,10 @@
         $result['percent_complete'] = 100;
       }
 
+    // Store Message
+      $app->setUserState('com_installer.messages', $installer->message);
+      $app->setUserState('com_installer.extension_messages', $installer->get('extension_message'));
+
   }
 
 // Complete

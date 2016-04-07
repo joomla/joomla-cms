@@ -38,49 +38,27 @@ class InstallerControllerInstall extends JControllerLegacy
 			$package = $model->getState('package');
 
 			// Verify Requirements
-			foreach( array('dir', 'type') AS $key ){
-				if( empty($package[$key]) ){
-					return false;
-				}
-			}
+			if( !empty($package['dir']) && !empty($package['type']) ){
 
-			// Check if Standalone Required
-			$fork_installer = $this->get('fork', in_array($package['type'], array('file')));
-			if( $fork_installer ){
-				$app->setUserState('com_installer.package', $package);
-				$this->setRedirect(JRoute::_('index.php?option=com_installer&task=installer.install&'.JSession::getFormToken().'=1', false));
-				return true;
-			}
+        // Redirect to installer.install
+        $app->setUserState('com_installer.package', $package);
+        $this->setRedirect(JRoute::_('index.php?' . http_build_query(array(
+          'option'                 => 'com_installer',
+          'task'                   => 'installer.install',
+          JSession::getFormToken() => '1'
+          )), false));
 
-			// Install now
-			else if( $model->install() ){
-				$cache = JFactory::getCache('mod_menu');
-				$cache->clean();
-				// TODO: Reset the users acl here as well to kill off any missing bits.
-			}
+      }
+      else {
+        $this->setMessage(JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
+      }
 
 		}
+    else {
+      $this->setMessage(JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
+    }
 
-		$redirect_url = $app->getUserState('com_installer.redirect_url');
-
-		// Don't redirect to an external URL.
-		if (!JUri::isInternal($redirect_url))
-		{
-			$redirect_url = '';
-		}
-
-		if (empty($redirect_url))
-		{
-			$redirect_url = JRoute::_('index.php?option=com_installer&view=install', false);
-		}
-		else
-		{
-			// Wipe out the user state when we're going to redirect.
-			$app->setUserState('com_installer.redirect_url', '');
-			$app->setUserState('com_installer.message', '');
-			$app->setUserState('com_installer.extension_message', '');
-		}
-
-		$this->setRedirect($redirect_url);
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=install', false));
 	}
+
 }
