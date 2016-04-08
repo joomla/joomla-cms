@@ -108,17 +108,17 @@ else
 $versionSubParts = explode('.', $versionParts[0]);
 
 $version = array(
-				'main'       => $versionSubParts[0] . '.' . $versionSubParts[1],
-				'release'    => $versionSubParts[0] . '.' . $versionSubParts[1] . '.' . $versionSubParts[2],
-				'dev'        => $versionParts[1],
-				'dev_devel'  => $versionSubParts[2] . (!empty($versionParts[1]) ? '-' . $versionParts[1] : ''),
-				'dev_status' => $dev_status,
-				'build'      => '',
-				'reldate'    => date('j-F-Y'),
-				'reltime'    => date('H:i'),
-				'reltz'      => 'GMT',
-				'credate'    => date('F Y'),
-				);
+		'main'       => $versionSubParts[0] . '.' . $versionSubParts[1],
+		'release'    => $versionSubParts[0] . '.' . $versionSubParts[1] . '.' . $versionSubParts[2],
+		'dev'        => $versionParts[1],
+		'dev_devel'  => $versionSubParts[2] . (!empty($versionParts[1]) ? '-' . $versionParts[1] : ''),
+		'dev_status' => $dev_status,
+		'build'      => '',
+		'reldate'    => date('j-F-Y'),
+		'reltime'    => date('H:i'),
+		'reltz'      => 'GMT',
+		'credate'    => date('F Y'),
+		);
 
 // Prints version information.
 echo PHP_EOL;
