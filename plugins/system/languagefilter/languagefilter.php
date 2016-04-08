@@ -563,9 +563,27 @@ class PlgSystemLanguageFilter extends JPlugin
 						$associations = MenusHelper::getAssociations($active->id);
 					}
 
+					// The login menu item contains a redirection.
+					// This will override the automatic change to the user preferred language
 					if ($active->params['login_redirect_url'])
 					{
 						$this->app->setUserState('users.login.form.return', JRoute::_($this->app->getUserState('users.login.form.return'), false));
+					}
+					elseif ($this->app->getUserState('users.login.form.return'))
+					{
+						// The login module contains a menu item redirection. Try to get association from that menu item.
+						$itemid = preg_replace('/\D+/', '', $this->app->getUserState('users.login.form.return'));
+
+						if ($assoc)
+						{
+							$associations = MenusHelper::getAssociations($itemid);
+						}
+						if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
+						{
+							$associationItemid = $associations[$lang_code];
+							$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
+							$foundAssociation = true;
+						}
 					}
 					elseif (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
 					{
@@ -770,5 +788,4 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		return $lang_code;
 	}
-
 }
