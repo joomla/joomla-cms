@@ -95,6 +95,9 @@ class ContentViewArticle extends JViewLegacy
 					$this->setLayout($layout);
 				}
 
+				// Get MENU parameters from state 'parameters.menu' and NOT 'params' (where they have already been merged with the COMPONENT DEFAULT ones).
+				$temp = $this->state->get('parameters.menu');
+
 				// $item->params are the article params, $temp are the menu item params
 				// Merge so that the menu item params take priority
 				$item->params->merge($temp);
