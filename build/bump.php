@@ -13,6 +13,8 @@
  * - php build/bump.php -v 3.6.0-beta2
  * - php build/bump.php -v 3.6.0-rc1
  * - php build/bump.php -v 3.6.0
+ * - php build/bump.php -v 3.6.0 -c Unicorn
+ * - php build/bump.php -v 3.6.0 -c "Custom Codename"
  * - /usr/bin/php /path/to/joomla-cms/build/bump.php -v 3.7.0
  *
  * @package    Joomla.Build
@@ -26,7 +28,8 @@ function usage($command)
 	echo PHP_EOL;
 	echo 'Usage: php ' . $command . ' [options]' . PHP_EOL;
 	echo PHP_TAB . '[options]:'.PHP_EOL;
-	echo PHP_TAB . PHP_TAB . '-v <version>:' . PHP_TAB . 'ex: 3.6.0-dev, 3.6.0-beta1, 3.6.0-beta1-dev, 3.6.0-rc1, 3.6.0' . PHP_EOL;
+	echo PHP_TAB . PHP_TAB . '-v <version>:' . PHP_TAB . 'Version (ex: 3.6.0-dev, 3.6.0-beta1, 3.6.0-beta1-dev, 3.6.0-rc1, 3.6.0)' . PHP_EOL;
+	echo PHP_TAB . PHP_TAB . '-c <codename>:' . PHP_TAB . 'Codename [optional] (ex: Unicorn)' . PHP_EOL;
 	echo PHP_EOL;
 }
 
@@ -50,7 +53,7 @@ $languageXmlFiles = array(
 			);
 
 // Check arguments (exit if incorrect cli arguments).
-$opts = getopt("v:");
+$opts = getopt("v:c:");
 
 if (empty($opts['v']))
 {
@@ -137,6 +140,12 @@ $version = array(
 		'credate'    => date('F Y'),
 		);
 
+// Version Codename.
+if (!empty($opts['c']))
+{
+	$version['codename'] = trim($opts['c']);
+}
+
 // Prints version information.
 echo PHP_EOL;
 echo 'Version data:'. PHP_EOL;
@@ -150,6 +159,10 @@ echo '- Release date:' . PHP_TAB . PHP_TAB . $version['reldate'] . PHP_EOL;
 echo '- Release time:' . PHP_TAB . PHP_TAB . $version['reltime'] . PHP_EOL;
 echo '- Release timezone:'  . PHP_TAB . $version['reltz'] . PHP_EOL;
 echo '- Creation date:' . PHP_TAB . $version['credate'] . PHP_EOL;
+if (!empty($version['codename']))
+{
+	echo '- Codename:' . PHP_TAB . PHP_TAB . $version['codename'] . PHP_EOL;
+}
 echo PHP_EOL;
 
 $rootPath = dirname(__DIR__);
@@ -165,6 +178,10 @@ if (file_exists($rootPath . $versionFile))
 	$fileContents = preg_replace("#RELDATE\s*=\s*'[^\']*'#", "RELDATE = '" . $version['reldate'] . "'", $fileContents);
 	$fileContents = preg_replace("#RELTIME\s*=\s*'[^\']*'#", "RELTIME = '" . $version['reltime'] . "'", $fileContents);
 	$fileContents = preg_replace("#RELTZ\s*=\s*'[^\']*'#", "RELTZ = '" . $version['reltz'] . "'", $fileContents);
+	if (!empty($version['codename']))
+	{
+		$fileContents = preg_replace("#CODENAME\s*=\s*'[^\']*'#", "CODENAME = '" . $version['codename'] . "'", $fileContents);
+	}
 	file_put_contents($rootPath . $versionFile, $fileContents);
 }
 
