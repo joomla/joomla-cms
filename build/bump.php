@@ -202,7 +202,7 @@ foreach ($languageXmlFiles as $languageXmlFile)
 	if (file_exists($rootPath . $languageXmlFile))
 	{
 		$fileContents = file_get_contents($rootPath . $languageXmlFile);
-		$fileContents = preg_replace('#<version>[^<]*</version>#', '<version>' . $version['release'] . '.0</version>', $fileContents);
+		$fileContents = preg_replace('#<version>[^<]*</version>#', '<version>' . $version['release'] . '</version>', $fileContents);
 		$fileContents = preg_replace('#<creationDate>[^<]*</creationDate>#', '<creationDate>' . $version['credate'] . '</creationDate>', $fileContents);
 		file_put_contents($rootPath . $languageXmlFile, $fileContents);
 	}
