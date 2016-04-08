@@ -43,13 +43,14 @@ $coreXmlFiles     = array(
 			);
 
 $languageXmlFiles = array(
-			'/administrator/manifests/packages/pkg_en-GB.xml',
 			'/language/en-GB/en-GB.xml',
 			'/language/en-GB/install.xml',
 			'/administrator/language/en-GB/en-GB.xml',
 			'/administrator/language/en-GB/install.xml',
 			'/installation/language/en-GB/en-GB.xml',
 			);
+
+$languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';
 
 // Check arguments (exit if incorrect cli arguments).
 $opts = getopt("v:c:");
@@ -206,6 +207,15 @@ foreach ($languageXmlFiles as $languageXmlFile)
 		$fileContents = preg_replace('#<creationDate>[^<]*</creationDate>#', '<creationDate>' . $version['credate'] . '</creationDate>', $fileContents);
 		file_put_contents($rootPath . $languageXmlFile, $fileContents);
 	}
+}
+
+// Updates the version and creation date in language package xml file.
+if (file_exists($rootPath . $languagePackXmlFile))
+{
+	$fileContents = file_get_contents($rootPath . $languagePackXmlFile);
+	$fileContents = preg_replace('#<version>[^<]*</version>#', '<version>' . $version['release'] . '.1</version>', $fileContents);
+	$fileContents = preg_replace('#<creationDate>[^<]*</creationDate>#', '<creationDate>' . $version['credate'] . '</creationDate>', $fileContents);
+	file_put_contents($rootPath . $languagePackXmlFile, $fileContents);
 }
 
 echo 'Version bump complete!' . PHP_EOL;
