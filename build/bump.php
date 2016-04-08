@@ -9,6 +9,7 @@
  * Examples:
  * - php build/bump.php -v 3.6.0-dev
  * - php build/bump.php -v 3.6.0-beta1
+ * - php build/bump.php -v 3.6.0-beta1-dev
  * - php build/bump.php -v 3.6.0-beta2
  * - php build/bump.php -v 3.6.0-rc1
  * - php build/bump.php -v 3.6.0
@@ -25,7 +26,7 @@ function usage($command)
 	echo PHP_EOL;
 	echo 'Usage: php ' . $command . ' [options]' . PHP_EOL;
 	echo PHP_TAB . '[options]:'.PHP_EOL;
-	echo PHP_TAB . PHP_TAB . '-v <version>:' . PHP_TAB . 'ex: 3.6.0-dev, 3.6.0-beta1, 3.6.0-rc1, 3.6.0' . PHP_EOL;
+	echo PHP_TAB . PHP_TAB . '-v <version>:' . PHP_TAB . 'ex: 3.6.0-dev, 3.6.0-beta1, 3.6.0-beta1-dev, 3.6.0-rc1, 3.6.0' . PHP_EOL;
 	echo PHP_EOL;
 }
 
@@ -72,6 +73,12 @@ if (isset($versionParts[1]) && !preg_match('#(dev|alpha|beta|rc)[0-9]*#', $versi
 	die();
 }
 
+if (isset($versionParts[2]) && $versionParts[2] !== 'dev')
+{
+	usage($argv[0]);
+	die();
+}
+
 // Make sure we use the correct language and timezone.
 setlocale(LC_ALL, 'en_GB');
 date_default_timezone_set('Europe/London');
@@ -106,14 +113,22 @@ else
 	}
 }
 
+if (!isset($versionParts[2]))
+{
+	$versionParts[2] = '';
+}
+else
+{
+	$dev_status = 'Development';
+}
+
 // Set version properties.
 $versionSubParts = explode('.', $versionParts[0]);
 
 $version = array(
 		'main'       => $versionSubParts[0] . '.' . $versionSubParts[1],
 		'release'    => $versionSubParts[0] . '.' . $versionSubParts[1] . '.' . $versionSubParts[2],
-		'dev'        => $versionParts[1],
-		'dev_devel'  => $versionSubParts[2] . (!empty($versionParts[1]) ? '-' . $versionParts[1] : ''),
+		'dev_devel'  => $versionSubParts[2] . (!empty($versionParts[1]) ? '-' . $versionParts[1] : '') . (!empty($versionParts[2]) ? '-' . $versionParts[2] : ''),
 		'dev_status' => $dev_status,
 		'build'      => '',
 		'reldate'    => date('j-F-Y'),
