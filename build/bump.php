@@ -4,7 +4,7 @@
  * Updates all versions xmls and version.php
  *
  * Usage:
- * 1. php build/bump.php <version>
+ * 1. php build/bump.php -v <version>
  *
  * Examples:
  * - php build/bump.php -v 3.6.0-dev
@@ -12,7 +12,7 @@
  * - php build/bump.php -v 3.6.0-beta2
  * - php build/bump.php -v 3.6.0-rc1
  * - php build/bump.php -v 3.6.0
- * - /usr/bin/php /path/to/joomla-cms/build/bump.php 3.7.0
+ * - /usr/bin/php /path/to/joomla-cms/build/bump.php -v 3.7.0
  *
  * @package    Joomla.Build
  * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
@@ -36,20 +36,21 @@ const PHP_TAB = "\t";
 $versionFile      = '/libraries/cms/version/version.php';
 
 $coreXmlFiles     = array(
-						'/administrator/manifests/files/joomla.xml',
-						);
+			'/administrator/manifests/files/joomla.xml',
+			);
 
 $languageXmlFiles = array(
-					'/administrator/manifests/packages/pkg_en-GB.xml',
-					'/language/en-GB/en-GB.xml',
-					'/language/en-GB/install.xml',
-					'/administrator/language/en-GB/en-GB.xml',
-					'/administrator/language/en-GB/install.xml',
-					'/installation/language/en-GB/en-GB.xml',
-						);
+			'/administrator/manifests/packages/pkg_en-GB.xml',
+			'/language/en-GB/en-GB.xml',
+			'/language/en-GB/install.xml',
+			'/administrator/language/en-GB/en-GB.xml',
+			'/administrator/language/en-GB/install.xml',
+			'/installation/language/en-GB/en-GB.xml',
+			);
 
 // Check arguments (exit if incorrect cli arguments).
 $opts = getopt("v:");
+
 if (empty($opts['v']))
 {
 	usage($argv[0]);
@@ -124,7 +125,7 @@ echo PHP_EOL;
 echo 'Version data:'. PHP_EOL;
 echo '- Main:' . PHP_TAB . PHP_TAB . PHP_TAB . $version['main'] . PHP_EOL;
 echo '- Release:' . PHP_TAB . PHP_TAB . $version['release'] . PHP_EOL;
-echo '- Full:'  . PHP_TAB . PHP_TAB . PHP_TAB . $version['main'] . '.' . $version['dev_devel']. PHP_EOL;
+echo '- Full:'  . PHP_TAB . PHP_TAB . PHP_TAB . $version['main'] . '.' . $version['dev_devel'] . PHP_EOL;
 echo '- Build:' . PHP_TAB . PHP_TAB . $version['build'] . PHP_EOL;
 echo '- Dev Level:' . PHP_TAB . PHP_TAB . $version['dev_devel'] . PHP_EOL;
 echo '- Dev Status:' . PHP_TAB . PHP_TAB . $version['dev_status'] . PHP_EOL;
@@ -174,4 +175,4 @@ foreach ($languageXmlFiles as $languageXmlFile)
 	}
 }
 
-echo "Version bump complete!\n";
+echo 'Version bump complete!' . PHP_EOL;
