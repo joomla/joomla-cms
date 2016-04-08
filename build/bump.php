@@ -76,8 +76,10 @@ if (isset($versionParts[1]) && !preg_match('#(dev|alpha|beta|rc)[0-9]*#', $versi
 setlocale(LC_ALL, 'en_GB');
 date_default_timezone_set('Europe/London');
 
-// Make sure file and folder permissions are set correctly
+// Make sure file and folder permissions are set correctly.
 umask(022);
+
+// Get version dev status.
 $dev_status = 'Stable';
 
 if (!isset($versionParts[1]))
