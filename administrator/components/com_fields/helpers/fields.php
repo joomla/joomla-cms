@@ -439,10 +439,12 @@ class FieldsHelper
 					// Rendering the type
 					$node = $type->appendXMLFieldTag($field, $fieldset, $form);
 
-					/*If the field belongs to a assigned_cat_ids but the
-					assigned_cat_ids in the data is not known, set the
-					required
-					flag to false on any circumstance*/
+					/*
+					 *If the field belongs to a assigned_cat_ids but the
+					 * assigned_cat_ids in the data is not known, set the
+					 * required
+					 * flag to false on any circumstance
+					 */
 					if (! $assignedCatids && $field->assigned_cat_ids)
 					{
 						$node->setAttribute('required', 'false');
