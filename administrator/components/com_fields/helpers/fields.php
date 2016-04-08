@@ -124,8 +124,10 @@ class FieldsHelper
 			$item = (object) $item;
 		}
 
-		// If item has assigned_cat_ids parameter display only fields which
-		// belong to the category
+		/*
+		 *If item has assigned_cat_ids parameter display only fields which
+		 * belong to the category
+ 		 */
 		if ($item && (isset($item->catid) || isset($item->fieldscatid)))
 		{
 			$assignedCatIds = isset($item->catid) ? $item->catid : $item->fieldscatid;
@@ -147,8 +149,10 @@ class FieldsHelper
 
 			foreach ($fields as $key => $original)
 			{
-				// Doing a clone, otherwise fields for different items will
-				// always reference to the same object
+				/*
+				 * Doing a clone, otherwise fields for different items will
+				 * always reference to the same object
+				 */
 				$field = clone $original;
 				$field->value = self::$fieldCache->getFieldValue($field->id, $field->context, $item->id);
 
@@ -293,15 +297,19 @@ class FieldsHelper
 			}
 		}
 
-		// If there is a catid field we need to reload the page when the catid
-		// is changed
+		/*
+		 * If there is a catid field we need to reload the page when the catid
+		 * is changed
+		 */
 		if ($form->getField('catid') && $parts[0] != 'com_fields')
 		{
 			// The uri to submit to
 			$uri = clone JUri::getInstance('index.php');
 
-			// Removing the catid parameter from the actual url and set it as
-			// return
+			/*
+			 * Removing the catid parameter from the actual url and set it as
+			 * return
+			*/
 			$returnUri = clone JUri::getInstance();
 			$returnUri->setVar('catid', null);
 			$uri->setVar('return', base64_encode($returnUri->toString()));
@@ -314,8 +322,10 @@ class FieldsHelper
 			$uri->setVar('view', null);
 			$uri->setVar('layout', null);
 
-			// Setting the onchange event to reload the page when the category
-			// has changed
+			/*
+			 * Setting the onchange event to reload the page when the category
+			 * has changed
+			*/
 			$form->setFieldAttribute('catid', 'onchange', "categoryHasChanged(this);");
 			JFactory::getDocument()->addScriptDeclaration(
 					"function categoryHasChanged(element){
@@ -381,8 +391,10 @@ class FieldsHelper
 
 			if ($catid > 0)
 			{
-				// JCategories can't handle com_content with a section, going
-				// directly to the table
+				/*
+				 * JCategories can't handle com_content with a section, going
+				 * directly to the table
+				 */
 				$category = JTable::getInstance('Category');
 				$category->load($catid);
 
