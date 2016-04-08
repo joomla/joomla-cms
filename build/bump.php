@@ -3,8 +3,7 @@
  * Script used to make a version bump
  * Updates all versions xmls and version.php
  *
- * Usage:
- * 1. php build/bump.php -v <version>
+ * Usage: php build/bump.php -v <version> -c <codename>
  *
  * Examples:
  * - php build/bump.php -v 3.6.0-dev
