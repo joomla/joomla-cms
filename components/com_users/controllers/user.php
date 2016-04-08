@@ -138,44 +138,59 @@ class UsersControllerUser extends UsersController
 	{
 		// Get the ItemID of the page to redirect after logout
 		$itemid = JFactory::getApplication()->getMenu()->getActive()->params->get('logout');
+		$app = JFactory::getApplication();
 
 		// Get the language of the page when multilang is on
 		if (JLanguageMultilang::isEnabled())
 		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('language')
-				->from($db->quoteName('#__menu'))
-				->where('client_id = 0')
-				->where('id =' . $itemid);
-
-			$db->setQuery($query);
-
-			try
+			if ($itemid)
 			{
-				$language = $db->loadResult();
-			}
-			catch (RuntimeException $e)
-			{
-				return;
-			}
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true)
+					->select('language')
+					->from($db->quoteName('#__menu'))
+					->where('client_id = 0')
+					->where('id =' . $itemid);
 
-			if ($language !== '*')
-			{
-				$lang = '&lang=' . $language;
+				$db->setQuery($query);
+
+				try
+				{
+					$language = $db->loadResult();
+				}
+				catch (RuntimeException $e)
+				{
+					return;
+				}
+
+				if ($language !== '*')
+				{
+					$lang = '&lang=' . $language;
+				}
+				else
+				{
+					$lang = '';
+				}
+
+				// URL to redirect after logout
+				$url = 'index.php?Itemid=' . $itemid . $lang;
 			}
 			else
 			{
-				$lang = '';
+				// Logout is set to default. Get the home page ItemID
+				$lang_code = $app->input->cookie->getString(JApplicationHelper::getHash('language'));
+				$item      = $app->getMenu()->getDefault($lang_code);
+				$itemid    = $item->id;
+
+				// Redirect to Home page after logout
+				$url = 'index.php?Itemid=' . $itemid;
 			}
 		}
 		else
 		{
-			$lang = '';
+			// URL to redirect after logout, default page if no ItemID is set
+			$url = $itemid ? 'index.php?Itemid=' . $itemid : JURI::root();
 		}
-
-		// URL to redirect after logout, default page if no ItemID is set
-		$url = $itemid ? 'index.php?Itemid=' . $itemid . $lang : JURI::root();
 
 		// Logout and redirect
 		$this->setRedirect('index.php?option=com_users&task=user.logout&' . JSession::getFormToken() . '=1&return=' . base64_encode($url));
