@@ -146,7 +146,7 @@ if (file_exists($rootPath . $versionFile))
 	$fileContents = preg_replace("#RELEASE\s*=\s*'[^\']*'#", "RELEASE = '" . $version['main'] . "'", $fileContents);
 	$fileContents = preg_replace("#DEV_LEVEL\s*=\s*'[^\']*'#", "DEV_LEVEL = '" . $version['dev_devel'] . "'", $fileContents);
 	$fileContents = preg_replace("#DEV_STATUS\s*=\s*'[^\']*'#", "DEV_STATUS = '" . $version['dev_status'] . "'", $fileContents);
-	$fileContents = preg_replace("#BUILD\s*=\s*'[^\']*'#", "BUILD = ''", $fileContents);
+	$fileContents = preg_replace("#BUILD\s*=\s*'[^\']*'#", "BUILD = '" . $version['build'] . "'", $fileContents);
 	$fileContents = preg_replace("#RELDATE\s*=\s*'[^\']*'#", "RELDATE = '" . $version['reldate'] . "'", $fileContents);
 	$fileContents = preg_replace("#RELTIME\s*=\s*'[^\']*'#", "RELTIME = '" . $version['reltime'] . "'", $fileContents);
 	$fileContents = preg_replace("#RELTZ\s*=\s*'[^\']*'#", "RELTZ = '" . $version['reltz'] . "'", $fileContents);
