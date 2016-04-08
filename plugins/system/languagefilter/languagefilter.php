@@ -578,6 +578,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						{
 							$associations = MenusHelper::getAssociations($itemid);
 						}
+
 						if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
 						{
 							$associationItemid = $associations[$lang_code];
