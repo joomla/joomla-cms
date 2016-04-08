@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,7 @@ class TemplatesModelStyles extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.template', $direction = 'asc')
 	{
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
@@ -69,7 +69,7 @@ class TemplatesModelStyles extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.template', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -123,7 +123,7 @@ class TemplatesModelStyles extends JModelList
 
 		// Filter by extension enabled
 		$query->select('extension_id AS e_id')
-			->join('LEFT', '#__extensions AS e ON e.element = a.template')
+			->join('LEFT', '#__extensions AS e ON e.element = a.template AND e.client_id = a.client_id')
 			->where('e.enabled = 1')
 			->where('e.type=' . $db->quote('template'));
 
@@ -152,14 +152,13 @@ class TemplatesModelStyles extends JModelList
 			}
 			else
 			{
-				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
-				$search = $db->quote($escapedSearchString);
-				$query->where('(' . 'a.template REGEXP ' . $search . ' OR a.title REGEXP ' . $search . ')');
+				$search = $db->quote('%' . strtolower($search) . '%');
+				$query->where('(' . ' LOWER(a.template) LIKE ' . $search . ' OR LOWER(a.title) LIKE ' . $search . ')');
 			}
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.title')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.template')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}

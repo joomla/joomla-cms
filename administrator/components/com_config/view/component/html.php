@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,14 +66,12 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 		$this->component = &$component;
 
 		$this->components = ConfigHelperConfig::getComponentsWithConfig();
-		ConfigHelperConfig::loadLanguageForComponents($this->components);
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 		$this->currentComponent = JFactory::getApplication()->input->get('component');
 		$this->return = JFactory::getApplication()->input->get('return', '', 'base64');
 
 		$this->addToolbar();
-		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		return parent::render();
 	}

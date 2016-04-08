@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,7 +37,7 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$this->extensionAvailable = is_writable(JPATH_BASE . '/cache');
+		$this->extensionAvailable = JCacheStorageFile::isSupported();
 
 		if ($this->extensionAvailable)
 		{

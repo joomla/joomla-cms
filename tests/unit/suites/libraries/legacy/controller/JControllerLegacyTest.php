@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -65,11 +65,9 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JController::addModelPath
+	 * @testdox  Ensure addModelPath() adds a model path to the internal array
 	 *
-	 * @since 11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::addModelPath
 	 */
 	public function testAddModelPath()
 	{
@@ -79,19 +77,16 @@ class JControllerLegacyTest extends TestCase
 		// The default path is the class file folder/forms
 		$valid = JPATH_PLATFORM . '/joomla/form/fields';
 
-		$this->assertThat(
+		$this->assertTrue(
 			in_array($path, JModelLegacy::addIncludePath()),
-			$this->isTrue(),
 			'Line:' . __LINE__ . ' The path should be added to the JModel paths.'
 		);
 	}
 
 	/**
-	 * Test JController::createFileName().
+	 * @testdox  Ensure createFileName() correctly returns the file name for a controller
 	 *
-	 * @since   11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::createFileName
 	 */
 	public function testCreateFileName()
 	{
@@ -125,31 +120,46 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JControllerLegacy::__construct
+	 * @testdox  Ensure the constructor correctly initialises the class variables
 	 *
-	 * @since 11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::__construct
 	 */
-	public function test__construct()
+	public function testConstructer()
 	{
 		$controller = new TestTestController;
-		$this->assertThat(
+		$this->assertEquals(
 			$controller->getTasks(),
-			$this->equalTo(array('task5', 'task1', 'task2', 'display')),
+			array('task5', 'task1', 'task2', 'display'),
 			'The available tasks should be the public tasks in _all_ the derived classes after controller plus "display".'
 		);
 	}
 
 	/**
-	 * Test JControllerLegacy::addPath().
+	 * @testdox  Ensure the constructor correctly sets the name of the controller when injected via the config
 	 *
-	 * Note that addPath call JPath::check which will exit if the path is out of bounds.
-	 * If execution halts for some reason, a bad path could be the culprit.
+	 * @covers   JControllerLegacy::__construct
+	 */
+	public function testConstructerWithInjectedName()
+	{
+		$name = 'foobar';
+		$config = array(
+			'name' => $name
+		);
+
+		$controller = new TestTestController($config);
+
+		$this->assertEquals(
+			TestReflection::getValue($controller, 'name'),
+			$name
+		);
+	}
+
+	/**
+	 * @testdox  Ensure the addPath() correctly adds a path
 	 *
-	 * @since 11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::addPath
+	 * @note     addPath call JPath::check which will exit if the path is out of bounds.
+	 *           If execution halts for some reason, a bad path could be the culprit.
 	 */
 	public function testAddPath()
 	{
@@ -161,19 +171,19 @@ class JControllerLegacyTest extends TestCase
 
 		$this->assertTrue(is_array($paths['test']), 'The path type should be an array.');
 
-		$this->assertThat(
+		$this->assertEquals(
 			str_replace(DIRECTORY_SEPARATOR, '/', $paths['test'][0]),
-			$this->equalTo(str_replace(DIRECTORY_SEPARATOR, '/', JPATH_ROOT . '/foobar/')),
+			str_replace(DIRECTORY_SEPARATOR, '/', JPATH_ROOT . '/foobar/'),
 			'Line:' . __LINE__ . ' The path type should be present, clean and with a trailing slash.'
 		);
 	}
 
 	/**
-	 * Test JControllerLegacy::addViewPath
+	 * @testdox  Ensure the addViewPath() correctly adds a path when initialising views
 	 *
-	 * @since   11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::addViewPath
+	 * @note     addPath call JPath::check which will exit if the path is out of bounds.
+	 *           If execution halts for some reason, a bad path could be the culprit.
 	 */
 	public function testAddViewPath()
 	{
@@ -183,35 +193,31 @@ class JControllerLegacyTest extends TestCase
 
 		$this->assertTrue(is_array($paths['view']), 'The path type should be an array.');
 
-		$this->assertThat(
+		$this->assertEquals(
 			str_replace(DIRECTORY_SEPARATOR, '/', $paths['view'][0]),
-			$this->equalTo(str_replace(DIRECTORY_SEPARATOR, '/', JPATH_ROOT . '/views/')),
+			str_replace(DIRECTORY_SEPARATOR, '/', JPATH_ROOT . '/views/'),
 			'Line:' . __LINE__ . ' The path type should be present, clean and with a trailing slash.'
 		);
 	}
 
 	/**
-	 * Test JControllerLegacy::getName
+	 * @testdox  Ensure the getName() correctly returns the name of the controller
 	 *
-	 * @since   11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::getName
 	 */
 	public function testGetName()
 	{
-		$this->assertThat($this->class->getName(), $this->equalTo('j'));
+		$this->assertEquals($this->class->getName(), 'j');
 
 		TestReflection::setValue($this->class, 'name', 'inspector');
 
-		$this->assertThat($this->class->getName(), $this->equalTo('inspector'));
+		$this->assertEquals($this->class->getName(), 'inspector');
 	}
 
 	/**
-	 * Test JControllerLegacy::getTask().
+	 * @testdox  Ensure the getTask() correctly returns the name of the task variable
 	 *
-	 * @since   11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::getTask
 	 */
 	public function testGetTask()
 	{
@@ -221,26 +227,21 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JControllerLegacy::getTasks
+	 * @testdox  The available tasks should be the public tasks in the derived controller plus "display".
 	 *
-	 * @since   11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::getTasks
 	 */
 	public function testGetTasks()
 	{
 		$class = new TestController;
 
-		// The available tasks should be the public tasks in the derived controller plus "display".
 		$this->assertEquals(array('task1', 'task2', 'display'), $class->getTasks());
 	}
 
 	/**
-	 * Test JControllerLegacy::setMessage
+	 * @testdox  Tests setting an error message in the controller
 	 *
-	 * @since   11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::setMessage
 	 */
 	public function testSetMessage()
 	{
@@ -256,99 +257,166 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JControllerLegacy::setRedirect
+	 * @testdox  Tests setting a redirect in the controller with only a URL
 	 *
-	 * @since   11.3
-	 *
-	 * @return  void
+	 * @covers   JControllerLegacy::setRedirect
 	 */
-	public function testSetRedirect()
+	public function testSetRedirectWithUrlOnly()
 	{
-		// Set the URL only
 		$this->class->setRedirect('index.php?option=com_foobar');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect.');
-		$this->assertAttributeEquals(null, 'message', $this->class, 'Checks the message.');
-		$this->assertAttributeEquals('message', 'messageType', $this->class, 'Checks the message type.');
+		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
+		$this->assertAttributeEquals(null, 'message', $this->class);
+		$this->assertAttributeEquals('message', 'messageType', $this->class);
+	}
 
-		// Set the URL and message
+	/**
+	 * @testdox  Tests setting a redirect in the controller with a URL and message
+	 *
+	 * @covers   JControllerLegacy::setRedirect
+	 */
+	public function testSetRedirectWithUrlAndMessageWithoutType()
+	{
 		$this->class->setRedirect('index.php?option=com_foobar', 'Hello World');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (2).');
-		$this->assertAttributeEquals('Hello World', 'message', $this->class, 'Checks the message (2).');
-		$this->assertAttributeEquals('message', 'messageType', $this->class, 'Checks the message type (2).');
+		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
+		$this->assertAttributeEquals('Hello World', 'message', $this->class);
+		$this->assertAttributeEquals('message', 'messageType', $this->class);
+	}
 
-		// URL, message and message type
+	/**
+	 * @testdox  Tests setting a redirect in the controller with a URL, message and message type
+	 *
+	 * @covers   JControllerLegacy::setRedirect
+	 */
+	public function testSetRedirectWithUrlAndMessageWithType()
+	{
 		$this->class->setRedirect('index.php?option=com_foobar', 'Morning Universe', 'notice');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (3).');
-		$this->assertAttributeEquals('Morning Universe', 'message', $this->class, 'Checks the message (3).');
-		$this->assertAttributeEquals('notice', 'messageType', $this->class, 'Checks the message type (3).');
+		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
+		$this->assertAttributeEquals('Morning Universe', 'message', $this->class);
+		$this->assertAttributeEquals('notice', 'messageType', $this->class);
+	}
 
-		// With previously set message
-		// URL
+	/**
+	 * @testdox  Tests setting a redirect in the controller with a URL and message in separate functions
+	 *
+	 * @covers   JControllerLegacy::setRedirect
+	 * @uses     JControllerLegacy::setMessage
+	 */
+	public function testSetRedirectWithUrlAndMessageWithoutTypeWithPreviouslySetMessage()
+	{
 		$this->class->setMessage('Hi all');
 		$this->class->setRedirect('index.php?option=com_foobar');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (4).');
-		$this->assertAttributeEquals('Hi all', 'message', $this->class, 'Checks the message (4).');
-		$this->assertAttributeEquals('message', 'messageType', $this->class, 'Checks the message type (4).');
+		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
+		$this->assertAttributeEquals('Hi all', 'message', $this->class);
+		$this->assertAttributeEquals('message', 'messageType', $this->class);
+	}
 
-		// URL and message
+	/**
+	 * @testdox  Tests setRedirect() with a message overwrites a message that was set with setMessage()
+	 *
+	 * @covers   JControllerLegacy::setRedirect
+	 * @uses     JControllerLegacy::setMessage
+	 */
+	public function testSetRedirectWithMessageOverwritesPreviousMessage()
+	{
 		$this->class->setMessage('Hi all');
 		$this->class->setRedirect('index.php?option=com_foobar', 'Bye all');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (5).');
-		$this->assertAttributeEquals('Bye all', 'message', $this->class, 'Checks the message (5).');
-		$this->assertAttributeEquals('message', 'messageType', $this->class, 'Checks the message type (5).');
+		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
+		$this->assertAttributeEquals('Bye all', 'message', $this->class);
+		$this->assertAttributeEquals('message', 'messageType', $this->class);
+	}
 
-		// URL, message and message type
-		$this->class->setMessage('Hi all');
-		$this->class->setRedirect('index.php?option=com_foobar', 'Bye all', 'notice');
-
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (6).');
-		$this->assertAttributeEquals('Bye all', 'message', $this->class, 'Checks the message (6).');
-		$this->assertAttributeEquals('notice', 'messageType', $this->class, 'Checks the message type (6).');
-
-		// URL and message type
-		$this->class->setMessage('Hi all');
-		$this->class->setRedirect('index.php?option=com_foobar', null, 'notice');
-
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (7).');
-		$this->assertAttributeEquals('Hi all', 'message', $this->class, 'Checks the message (7).');
-		$this->assertAttributeEquals('notice', 'messageType', $this->class, 'Checks the message type (7).');
-
-		// With previously set message and message type
-		// URL
-		$this->class->setMessage('Hello folks', 'notice');
-		$this->class->setRedirect('index.php?option=com_foobar');
-
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (8).');
-		$this->assertAttributeEquals('Hello folks', 'message', $this->class, 'Checks the message (8).');
-		$this->assertAttributeEquals('notice', 'messageType', $this->class, 'Checks the message type (8).');
-
-		// URL and message
+	/**
+	 * @testdox  Tests setRedirect() works when message and message type are set in setMessage() and the message is overriden by setRedirect()
+	 *
+	 * @covers   JControllerLegacy::setRedirect
+	 */
+	public function testSetRedirectWithUrlMessageAndMessageTypeOverwritesPreviouslySetMessageAndMessageType()
+	{
 		$this->class->setMessage('Hello folks', 'notice');
 		$this->class->setRedirect('index.php?option=com_foobar', 'Bye, Folks');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (9).');
-		$this->assertAttributeEquals('Bye, Folks', 'message', $this->class, 'Checks the message (9).');
-		$this->assertAttributeEquals('notice', 'messageType', $this->class, 'Checks the message type (9).');
+		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
+		$this->assertAttributeEquals('Bye, Folks', 'message', $this->class);
+		$this->assertAttributeEquals('notice', 'messageType', $this->class);
+	}
 
-		// URL, message and message type
+	/**
+	 * @testdox  Tests setRedirect() with a message and message type overwrites a message that was set with setMessage()
+	 *
+	 * @covers   JControllerLegacy::setRedirect
+	 */
+	public function testSetRedirectWithUrlMessageAndMessageTypeOverwritesPreviouslySetMessage()
+	{
+		$this->class->setMessage('Hi all');
+		$this->class->setRedirect('index.php?option=com_foobar', 'Bye all', 'notice');
+
+		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
+		$this->assertAttributeEquals('Bye all', 'message', $this->class);
+		$this->assertAttributeEquals('notice', 'messageType', $this->class);
+	}
+
+	/**
+	 * @testdox  Tests setRedirect() with a message type set but with the message set using setMessage()
+	 *
+	 * @covers   JControllerLegacy::setRedirect
+	 */
+	public function testSetRedirectWithUrlWithoutMessgeAndWithMessageType()
+	{
+		$this->class->setMessage('Hi all');
+		$this->class->setRedirect('index.php?option=com_foobar', null, 'notice');
+
+		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
+		$this->assertAttributeEquals('Hi all', 'message', $this->class);
+		$this->assertAttributeEquals('notice', 'messageType', $this->class);
+	}
+
+	/**
+	 * @testdox  Checks that setRedirect() works when a message and message type is previously set with setMessage()
+	 *
+	 * @covers   JControllerLegacy::setRedirect
+	 */
+	public function testSetRedirectWithPreviouslySetMessageAndMessageType()
+	{
+		$this->class->setMessage('Hello folks', 'notice');
+		$this->class->setRedirect('index.php?option=com_foobar');
+
+		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
+		$this->assertAttributeEquals('Hello folks', 'message', $this->class);
+		$this->assertAttributeEquals('notice', 'messageType', $this->class);
+	}
+
+	/**
+	 * @testdox  Tests that message and message type set in setMessage() are overwritten by setRedirect()
+	 *
+	 * @covers   JControllerLegacy::setRedirect
+	 */
+	public function testSetRedirectWithUrlMessageAndMessageTypeOverwritesPreviouslySetMessageAndType()
+	{
 		$this->class->setMessage('Hello folks', 'notice');
 		$this->class->setRedirect('index.php?option=com_foobar', 'Bye, folks', 'notice');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (10).');
-		$this->assertAttributeEquals('Bye, folks', 'message', $this->class, 'Checks the message (10).');
-		$this->assertAttributeEquals('notice', 'messageType', $this->class, 'Checks the message type (10).');
+		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
+		$this->assertAttributeEquals('Bye, folks', 'message', $this->class);
+		$this->assertAttributeEquals('notice', 'messageType', $this->class);
+	}
 
-		// URL and message type
+	/**
+	 * @testdox  Tests that message and message type set in setMessage() are overriden by setRedirect()
+	 *
+	 * @covers   JControllerLegacy::setRedirect
+	 */
+	public function testSetRedirectWithUrlNoMessageAndMessageTypeWithPreviouslySetMessage()
+	{
 		$this->class->setMessage('Folks?', 'notice');
 		$this->class->setRedirect('index.php?option=com_foobar', null, 'question');
 
-		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class, 'Checks the redirect (10).');
-		$this->assertAttributeEquals('Folks?', 'message', $this->class, 'Checks the message (10).');
-		$this->assertAttributeEquals('question', 'messageType', $this->class, 'Checks the message type (10).');
+		$this->assertAttributeEquals('index.php?option=com_foobar', 'redirect', $this->class);
+		$this->assertAttributeEquals('Folks?', 'message', $this->class);
+		$this->assertAttributeEquals('question', 'messageType', $this->class);
 	}
 }

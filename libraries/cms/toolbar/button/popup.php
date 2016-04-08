@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,13 +36,14 @@ class JToolbarButtonPopup extends JToolbarButton
 	 * @param   integer  $left     Left attribute. [@deprecated  Unused, will be removed in 4.0]
 	 * @param   string   $onClose  JavaScript for the onClose event.
 	 * @param   string   $title    The title text
+	 * @param   string   $footer   The footer html
 	 *
 	 * @return  string  HTML string for the button
 	 *
 	 * @since   3.0
 	 */
 	public function fetchButton($type = 'Modal', $name = '', $text = '', $url = '', $width = 640, $height = 480, $top = 0, $left = 0,
-		$onClose = '', $title = '')
+		$onClose = '', $title = '', $footer = null)
 	{
 		// If no $title is set, use the $text element
 		if (strlen($title) == 0)
@@ -73,6 +74,12 @@ class JToolbarButtonPopup extends JToolbarButton
 		$params['url']    = $options['doTask'];
 		$params['height'] = $height;
 		$params['width']  = $width;
+
+		if (isset($footer))
+		{
+			$params['footer'] = $footer;
+		}
+
 		$html[] = JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
 
 		// If an $onClose event is passed, add it to the modal JS object

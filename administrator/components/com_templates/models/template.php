@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,7 +64,7 @@ class TemplatesModelTemplate extends JModelForm
 	 */
 	public function getFiles()
 	{
-		$result	= array();
+		$result = array();
 
 		if ($template = $this->getTemplate())
 		{
@@ -372,7 +372,7 @@ class TemplatesModelTemplate extends JModelForm
 		$app = JFactory::getApplication();
 
 		// Codemirror or Editor None should be enabled
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from('#__extensions as a')
@@ -439,7 +439,16 @@ class TemplatesModelTemplate extends JModelForm
 			$input    = JFactory::getApplication()->input;
 			$fileName = base64_decode($input->get('file'));
 			$client   = JApplicationHelper::getClientInfo($this->template->client_id);
-			$filePath = JPath::clean($client->path . '/templates/' . $this->template->element . '/' . $fileName);
+
+			try
+			{
+				$filePath = JPath::check($client->path . '/templates/' . $this->template->element . '/' . $fileName);
+			}
+			catch (Exception $e)
+			{
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
+				return;
+			}
 
 			if (file_exists($filePath))
 			{
@@ -503,16 +512,12 @@ class TemplatesModelTemplate extends JModelForm
 			return false;
 		}
 
+		// Make sure EOL is Unix
+		$data['source'] = str_replace(array("\r\n", "\r"), "\n", $data['source']);
+
 		$return = JFile::write($filePath, $data['source']);
 
-		// Try to make the template file unwritable.
-		if (JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0444'))
-		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_UNWRITABLE'), 'error');
-
-			return false;
-		}
-		elseif (!$return)
+		if (!$return)
 		{
 			$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName), 'error');
 
@@ -560,23 +565,38 @@ class TemplatesModelTemplate extends JModelForm
 	{
 		if ($template = $this->getTemplate())
 		{
-			$client 	        = JApplicationHelper::getClientInfo($template->client_id);
-			$componentPath		= JPath::clean($client->path . '/components/');
-			$modulePath		    = JPath::clean($client->path . '/modules/');
-			$layoutPath		    = JPath::clean(JPATH_ROOT . '/layouts/joomla/');
-			$components         = JFolder::folders($componentPath);
+			$client        = JApplicationHelper::getClientInfo($template->client_id);
+			$componentPath = JPath::clean($client->path . '/components/');
+			$modulePath    = JPath::clean($client->path . '/modules/');
+			$layoutPath    = JPath::clean(JPATH_ROOT . '/layouts/joomla/');
+			$components    = JFolder::folders($componentPath);
 
 			foreach ($components as $component)
 			{
-				$viewPath	= JPath::clean($componentPath . '/' . $component . '/views/');
-
-				if (file_exists($viewPath))
+				if (file_exists($componentPath . '/' . $component . '/views/'))
 				{
-					$views	= JFolder::folders($viewPath);
+					$viewPath = JPath::clean($componentPath . '/' . $component . '/views/');
+				}
+				elseif (file_exists($componentPath . '/' . $component . '/view/'))
+				{
+					$viewPath = JPath::clean($componentPath . '/' . $component . '/view/');
+				}
+				else
+				{
+					$viewPath = '';
+				}
+
+				if ($viewPath)
+				{
+					$views = JFolder::folders($viewPath);
 
 					foreach ($views as $view)
 					{
-						$result['components'][$component][] = $this->getOverridesFolder($view, $viewPath);
+						// Only show the view has layout inside it
+						if (file_exists($viewPath . $view . '/tmpl'))
+						{
+							$result['components'][$component][] = $this->getOverridesFolder($view, $viewPath);
+						}
 					}
 				}
 			}
@@ -653,11 +673,11 @@ class TemplatesModelTemplate extends JModelForm
 
 			if (stristr($name, 'mod_') != false)
 			{
-				$return = $this->createTemplateOverride($override . '/tmpl', $htmlPath);
+				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
 			}
 			elseif (stristr($override, 'com_') != false)
 			{
-				$return = $this->createTemplateOverride($override . '/tmpl', $htmlPath);
+				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
 			}
 			else
 			{
@@ -1041,10 +1061,10 @@ class TemplatesModelTemplate extends JModelForm
 			if (file_exists(JPath::clean($path . $fileName)))
 			{
 				$JImage = new JImage(JPath::clean($path . $fileName));
-				$image['address'] 	= $uri . $fileName;
-				$image['path']		= $fileName;
-				$image['height'] 	= $JImage->getHeight();
-				$image['width']  	= $JImage->getWidth();
+				$image['address'] = $uri . $fileName;
+				$image['path']    = $fileName;
+				$image['height']  = $JImage->getHeight();
+				$image['width']   = $JImage->getWidth();
 			}
 
 			else
@@ -1146,7 +1166,7 @@ class TemplatesModelTemplate extends JModelForm
 
 		$query->select('id, client_id');
 		$query->from('#__template_styles');
-		$query->where($db->quoteName('template') . ' = ' . $db->quote($this->template->name));
+		$query->where($db->quoteName('template') . ' = ' . $db->quote($this->template->element));
 
 		$db->setQuery($query);
 

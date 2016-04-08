@@ -1,0 +1,1 @@
+function iFrameHeight(){var e=0;if(!document.all){e=document.getElementById("blockrandom").height;document.getElementById("blockrandom").style.height=parseInt(e)+60+"px"}else if(document.all){e=document.frames("blockrandom").document.body.scrollHeight;document.all.blockrandom.style.height=parseInt(e)+20+"px"}}

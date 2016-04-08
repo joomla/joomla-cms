@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -35,9 +35,13 @@ class FOFModelBehaviorFilters extends FOFModelBehavior
 		$filterzero = $model->getState('_emptynonzero', null);
 
 		$fields = $model->getTableFields();
+		$backlist = $model->blacklistFilters();
 
 		foreach ($fields as $fieldname => $fieldtype)
 		{
+			if (in_array($fieldname, $backlist)) {
+				continue;
+			}
 			$field = new stdClass;
 			$field->name = $fieldname;
 			$field->type = $fieldtype;

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,7 +58,14 @@ class PlgUserJoomla extends JPlugin
 			->delete($this->db->quoteName('#__session'))
 			->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
 
-		$this->db->setQuery($query)->execute();
+		try
+		{
+			$this->db->setQuery($query)->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
 
 		return true;
 	}
@@ -215,7 +222,14 @@ class PlgUserJoomla extends JPlugin
 			->set($this->db->quoteName('username') . ' = ' . $this->db->quote($instance->username))
 			->set($this->db->quoteName('userid') . ' = ' . (int) $instance->id)
 			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($session->getId()));
-		$this->db->setQuery($query)->execute();
+		try
+		{
+			$this->db->setQuery($query)->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
 
 		// Hit the user last visit field
 		$instance->setLastVisit();
@@ -263,9 +277,15 @@ class PlgUserJoomla extends JPlugin
 				->delete($this->db->quoteName('#__session'))
 				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
 				->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
-			$this->db->setQuery($query)->execute();
+			try
+			{
+				$this->db->setQuery($query)->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				return false;
+			}
 		}
-
 		return true;
 	}
 

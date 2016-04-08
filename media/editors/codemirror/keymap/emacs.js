@@ -377,7 +377,7 @@
 
       getInput(cm, "Goto line", function(str) {
         var num;
-        if (str && !isNaN(num = Number(str)) && num == num|0 && num > 0)
+        if (str && !isNaN(num = Number(str)) && num == (num|0) && num > 0)
           cm.setCursor(num - 1);
       });
     },
@@ -395,6 +395,7 @@
     "Ctrl-X U": repeated("undo"),
     "Ctrl-X K": "close",
     "Ctrl-X Delete": function(cm) { kill(cm, cm.getCursor(), bySentence(cm, cm.getCursor(), 1), true); },
+    "Ctrl-X H": "selectAll",
 
     "Ctrl-Q Tab": repeated("insertTab"),
     "Ctrl-U": addPrefixMap

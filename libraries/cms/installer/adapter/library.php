@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,6 +36,13 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 				// We can upgrade, so uninstall the old one
 				$installer = new JInstaller; // we don't want to compromise this instance!
 				$installer->uninstall('library', $this->currentExtensionId);
+
+				// Clear the cached data
+				$this->currentExtensionId = null;
+				$this->extension = JTable::getInstance('Extension', 'JTable', array('dbo' => $this->db));
+
+				// From this point we'll consider this an update
+				$this->setRoute('update');
 			}
 			else
 			{
@@ -46,7 +53,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 	}
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -187,11 +194,12 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 	 *
 	 * @since   3.4
 	 */
-	protected function prepareDiscoverInstall()
+	public function prepareDiscoverInstall()
 	{
 		$manifestPath = JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
+		$this->setManifest($this->parent->getManifest());
 	}
 
 	/**
@@ -258,6 +266,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 
 		// Custom data
 		$this->extension->custom_data = '';
+		$this->extension->system_data = '';
 
 		// Update the manifest cache for the entry
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();
@@ -289,7 +298,14 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 	{
 		// Since this is just files, an update removes old files
 		// Get the extension manifest object
-		$this->manifest = $this->parent->getManifest();
+		$this->setManifest($this->parent->getManifest());
+
+		// Set the overwrite setting
+		$this->parent->setOverwrite(true);
+		$this->parent->setUpgrade(true);
+
+		// And make sure the route is set correctly
+		$this->setRoute('update');
 
 		/*
 		 * ---------------------------------------------------------------------------------------------
@@ -298,7 +314,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		 */
 
 		// Set the extensions name
-		$name = (string) $this->manifest->name;
+		$name = (string) $this->getManifest()->name;
 		$name = JFilterInput::getInstance()->clean($name, 'string');
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
 		$this->set('name', $name);
@@ -319,7 +335,12 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		{
 			// Already installed, which would make sense
 			$installer->uninstall('library', $result);
+
+			// Clear the cached data
+			$this->currentExtensionId = null;
+			$this->extension = JTable::getInstance('Extension', 'JTable', array('dbo' => $this->db));
 		}
+
 		// Now create the new files
 		return $this->install();
 	}

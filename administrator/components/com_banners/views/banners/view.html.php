@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,12 +16,32 @@ defined('_JEXEC') or die;
  */
 class BannersViewBanners extends JViewLegacy
 {
+	/**
+	 * Category data
+	 *
+	 * @var  array
+	 */
 	protected $categories;
 
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
 	protected $state;
 
 	/**
@@ -59,7 +79,8 @@ class BannersViewBanners extends JViewLegacy
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -74,10 +95,7 @@ class BannersViewBanners extends JViewLegacy
 		require_once JPATH_COMPONENT . '/helpers/banners.php';
 
 		$canDo = JHelperContent::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
-		$user = JFactory::getUser();
-
-		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+		$user  = JFactory::getUser();
 
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_BANNERS'), 'bookmark banners');
 
@@ -93,19 +111,19 @@ class BannersViewBanners extends JViewLegacy
 
 		if ($canDo->get('core.edit.state'))
 		{
-			if ($this->state->get('filter.state') != 2)
+			if ($this->state->get('filter.published') != 2)
 			{
 				JToolbarHelper::publish('banners.publish', 'JTOOLBAR_PUBLISH', true);
 				JToolbarHelper::unpublish('banners.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			}
 
-			if ($this->state->get('filter.state') != -1)
+			if ($this->state->get('filter.published') != -1)
 			{
-				if ($this->state->get('filter.state') != 2)
+				if ($this->state->get('filter.published') != 2)
 				{
 					JToolbarHelper::archiveList('banners.archive');
 				}
-				elseif ($this->state->get('filter.state') == 2)
+				elseif ($this->state->get('filter.published') == 2)
 				{
 					JToolbarHelper::unarchiveList('banners.publish');
 				}
@@ -122,26 +140,25 @@ class BannersViewBanners extends JViewLegacy
 			&& $user->authorise('core.edit', 'com_banners')
 			&& $user->authorise('core.edit.state', 'com_banners'))
 		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
 			$layout = new JLayoutFile('joomla.toolbar.batch');
 
 			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
+			JToolbar::getInstance('toolbar')->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('banners.trash');
 		}
 
-		if ($user->authorise('core.admin', 'com_banners'))
+		if ($user->authorise('core.admin', 'com_banners') || $user->authorise('core.options', 'com_banners'))
 		{
 			JToolbarHelper::preferences('com_banners');
 		}

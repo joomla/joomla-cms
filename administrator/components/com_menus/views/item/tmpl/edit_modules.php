@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,10 +21,10 @@ JFactory::getDocument()->addScriptDeclaration('
 
 	jQuery(document).ready(function() {
 		jQuery(document).on("click", "input:radio[id^=\'jform_toggle_modules1\']", function (event) {
-		    jQuery(".table tr.no").hide();
+			jQuery(".table tr.no").hide();
 		});
 		jQuery(document).on("click", "input:radio[id^=\'jform_toggle_modules0\']", function (event) {
-		    jQuery(".table tr.no").show();
+			jQuery(".table tr.no").show();
 		});
 	});
 ');
@@ -65,7 +65,7 @@ echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			<?php endif; ?>
 				<td id="<?php echo $module->id; ?>">
 					<?php $link = 'index.php?option=com_modules&amp;client_id=0&amp;task=module.edit&amp;id=' . $module->id . '&amp;tmpl=component&amp;view=module&amp;layout=modal'; ?>
-					<a class="modal" href="<?php echo $link;?>" rel="{handler: 'iframe', size: {x: 900, y: 550}}" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>" id="title-<?php echo $module->id; ?>">
+					<a href="#module<?php echo $module->id; ?>Modal" role="button" class="btn btn-link" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>" id="title-<?php echo $module->id; ?>">
 						<?php echo $this->escape($module->title); ?></a>
 				</td>
 				<td id="access-<?php echo $module->id; ?>">
@@ -99,6 +99,20 @@ echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 						</span>
 					<?php endif; ?>
 				</td>
+			<?php echo JHtml::_(
+					'bootstrap.renderModal',
+					'module' . $module->id . 'Modal',
+					array(
+						'url' => $link,
+						'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+						'height' => '300px',
+						'width' => '800px',
+						'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+							. '<button type="button" class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#module' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+							. JText::_("JSAVE") . '</button>'
+					)
+				); ?>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>

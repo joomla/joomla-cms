@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.combobox');
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('formbehavior.chosen', 'select', null, array('disable_search_threshold' => 0));
 
 $hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
 $hasContentFieldName = "content";
@@ -38,6 +38,9 @@ if ($hasContent)
 }
 $script .= "
 			Joomla.submitform(task, document.getElementById('module-form'));
+
+				jQuery('#permissions-sliders select').attr('disabled', 'disabled');
+
 				if (self != top)
 				{
 					if (parent.viewLevels)
@@ -73,7 +76,7 @@ $script .= "
 						}
 						if (updMenus == '-') {
 							tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
-							if (!tmpRow.hasClass('no')) { tmpRow.addClass('no '); }
+							if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no '); }
 						}
 						if (updMenus > 0) {
 							if (window.parent.inMenus.indexOf(parent.menuId) >= 0)
@@ -81,18 +84,18 @@ $script .= "
 								if (window.parent.numMenus == window.parent.inMenus.length)
 								{
 									tmpMenu.html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
-									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
+									if (tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.removeClass('no'); }
 								}
 								else
 								{
 									tmpMenu.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
-									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
+									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 							}
 							if (window.parent.inMenus.indexOf(parent.menuId) < 0)
 							{
 								tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
-								if (!tmpRow.hasClass('no')) { tmpRow.addClass('no '); }
+								if (!tmpRow.hasClass('no')) { tmpRow.addClass('no'); }
 							}
 						}
 						if (updMenus < 0) {
@@ -101,18 +104,18 @@ $script .= "
 								if (window.parent.numMenus == window.parent.inMenus.length)
 								{
 									tmpMenu.html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
-									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
+									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 								else
 								{
 									tmpMenu.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
-									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
+									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 							}
 							if (window.parent.inMenus.indexOf(parent.menuId) < 0)
 							{
 								tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
-								if (!tmpRow.hasClass('no')) { tmpRow.addClass('no '); }
+								if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no'); }
 							}
 						}
 
@@ -120,7 +123,7 @@ $script .= "
 							jQuery('#position-" . $this->item->id . "', parent.document).text(updPosition);
 							jQuery('#access-" . $this->item->id . "', parent.document).html(parent.viewLevels[updAccess]);
 					}
-					window.top.setTimeout('window.parent.jModalClose()', 1000);
+					window.parent.jQuery('#module" . $this->item->id . "Modal').modal('hide');
 				}
 			}
 	};";

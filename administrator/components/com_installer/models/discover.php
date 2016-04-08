@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,31 @@ require_once __DIR__ . '/extension.php';
 class InstallerModelDiscover extends InstallerModel
 {
 	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JController
+	 * @since   3.5
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'name',
+				'client_id',
+				'client', 'client_translated',
+				'type', 'type_translated',
+				'folder', 'folder_translated',
+				'extension_id',
+			);
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
@@ -30,29 +55,23 @@ class InstallerModelDiscover extends InstallerModel
 	 *
 	 * @since   3.1
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
 		$app = JFactory::getApplication();
 
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$clientId = $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', '');
-		$this->setState('filter.client_id', $clientId);
-
-		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '');
-		$this->setState('filter.type', $categoryId);
-
-		$group = $this->getUserStateFromRequest($this->context . '.filter.group', 'filter_group', '');
-		$this->setState('filter.group', $group);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
+		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
+		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
 
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
+
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
 
-		parent::populateState('name', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -64,37 +83,44 @@ class InstallerModelDiscover extends InstallerModel
 	 */
 	protected function getListQuery()
 	{
-		$type   = $this->getState('filter.type');
-		$client = $this->getState('filter.client_id');
-		$group  = $this->getState('filter.group');
-
-		$query = JFactory::getDbo()->getQuery(true)
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
 			->select('*')
-			->from('#__extensions')
-			->where('state=-1');
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('state') . ' = -1');
+
+		// Process select filters.
+		$type     = $this->getState('filter.type');
+		$clientId = $this->getState('filter.client_id');
+		$folder   = $this->getState('filter.folder');
 
 		if ($type)
 		{
-			$query->where('type=' . $this->_db->quote($type));
+			$query->where($db->quoteName('type') . ' = ' . $db->quote($type));
 		}
 
-		if ($client != '')
+		if ($clientId != '')
 		{
-			$query->where('client_id=' . (int) $client);
+			$query->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
 		}
 
-		if ($group != '' && in_array($type, array('plugin', 'library', '')))
+		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where('folder=' . $this->_db->quote($group == '*' ? '' : $group));
+			$query->where($db->quoteName('folder') . ' = ' . $db->quote($folder == '*' ? '' : $folder));
 		}
 
-		// Filter by search in id
+		// Process search filter.
 		$search = $this->getState('filter.search');
 
-		if (!empty($search) && stripos($search, 'id:') === 0)
+		if (!empty($search))
 		{
-			$query->where('extension_id = ' . (int) substr($search, 3));
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where($db->quoteName('extension_id') . ' = ' . (int) substr($search, 3));
+			}
 		}
+
+		// Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).
 
 		return $query;
 	}
@@ -110,20 +136,17 @@ class InstallerModelDiscover extends InstallerModel
 	 */
 	public function discover()
 	{
-		// Purge the list of discovered extensions
-		$this->purge();
-
-		$installer	= JInstaller::getInstance();
-		$results	= $installer->discover();
+		// Purge the list of discovered extensions and fetch them again.
+		$results = JInstaller::getInstance()->discover();
 
 		// Get all templates, including discovered ones
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('extension_id, element, folder, client_id, type')
-			->from('#__extensions');
-
+			->select($db->quoteName(array('extension_id', 'element', 'folder', 'client_id', 'type')))
+			->from($db->quoteName('#__extensions'));
 		$db->setQuery($query);
 		$installedtmp = $db->loadObjectList();
+
 		$extensions = array();
 
 		foreach ($installedtmp as $install)
@@ -131,8 +154,6 @@ class InstallerModelDiscover extends InstallerModel
 			$key = implode(':', array($install->type, $install->element, $install->folder, $install->client_id));
 			$extensions[$key] = $install;
 		}
-
-		unset($installedtmp);
 
 		foreach ($results as $result)
 		{
@@ -209,23 +230,21 @@ class InstallerModelDiscover extends InstallerModel
 	 */
 	public function purge()
 	{
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
-			->delete('#__extensions')
-			->where('state = -1');
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__extensions'))
+			->where($db->quoteName('state') . ' = -1');
 		$db->setQuery($query);
 
-		if ($db->execute())
-		{
-			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
-
-			return true;
-		}
-		else
+		if (!$db->execute())
 		{
 			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_FAILEDTOPURGEEXTENSIONS');
 
 			return false;
 		}
+
+		$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
+
+		return true;
 	}
 }

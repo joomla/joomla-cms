@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,8 @@ class NewsfeedsModelNewsfeeds extends JModelList
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
 				'cache_time', 'a.cache_time',
-				'numarticles',
+				'numarticles', 'category_id',
+				'tag'
 			);
 
 			$app = JFactory::getApplication();
@@ -157,7 +158,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$query->from($db->quoteName('#__newsfeeds') . ' AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title')
+		$query->select('l.title AS language_title, l.image AS language_image')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
@@ -180,7 +181,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_newsfeeds.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id, l.title, uc.name, ag.title, c.title');
+				->group('a.id, l.title, l.image, uc.name, ag.title, c.title');
 		}
 
 		// Filter by access level.

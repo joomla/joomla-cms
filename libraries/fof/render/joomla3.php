@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  render
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('FOF_INCLUDED') or die;
@@ -54,6 +54,9 @@ class FOFRenderJoomla3 extends FOFRenderStrapper
 		{
 			return;
 		}
+
+		JHtml::_('behavior.core');
+		JHtml::_('jquery.framework');
 
 		if ($platform->isBackend())
 		{

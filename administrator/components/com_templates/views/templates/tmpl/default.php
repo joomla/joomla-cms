@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,13 +13,12 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
-JHtml::_('behavior.modal');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$user      = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
@@ -27,17 +26,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<?php echo $this->sidebar; ?>
 	</div>
 	<div id="j-main-container" class="span10">
-
-	<div id="filter-bar" class="btn-toolbar">
-		<div class="filter-search btn-group pull-left">
-			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" />
-		</div>
-		<div class="btn-group pull-left">
-			<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-			<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
-		</div>
-	</div>
-	<div class="clearfix"> </div>
+	<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<div class="clearfix"> </div>
 	<?php if (empty($this->items)) : ?>
 		<div class="alert alert-no-items">
 			<?php echo JText::_('COM_TEMPLATES_MSG_MANAGE_NO_TEMPLATES'); ?>
@@ -50,18 +40,18 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						&#160;
 					</th>
 					<th>
-						<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="center">
-						<?php echo JHtml::_('grid.sort', 'JCLIENT', 'a.client_id', $listDirn, $listOrder); ?>
+					<th width="10%">
+						<?php echo JHtml::_('searchtools.sort', 'JCLIENT', 'a.client_id', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="center hidden-phone">
+					<th width="10%" class="hidden-phone">
 						<?php echo JText::_('JVERSION'); ?>
 					</th>
-					<th width="15%" class="center hidden-phone">
+					<th width="15%" class="hidden-phone">
 						<?php echo JText::_('JDATE'); ?>
 					</th>
-					<th width="25%" class="center hidden-phone" >
+					<th width="25%" class="hidden-phone" >
 						<?php echo JText::_('JAUTHOR'); ?>
 					</th>
 				</tr>
@@ -94,13 +84,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php endif; ?>
 						</p>
 					</td>
-					<td class="small center">
+					<td class="small">
 						<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 					</td>
-					<td class="small center hidden-phone">
+					<td class="small hidden-phone">
 						<?php echo $this->escape($item->xmldata->get('version')); ?>
 					</td>
-					<td class="small center hidden-phone">
+					<td class="small hidden-phone">
 						<?php echo $this->escape($item->xmldata->get('creationDate')); ?>
 					</td>
 					<td class="hidden-phone">
@@ -117,6 +107,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 								<?php echo $this->escape($url); ?></a></p>
 						<?php endif; ?>
 					</td>
+					<?php echo JHtml::_('templates.thumbModal', $item->element, $item->client_id); ?>
 				</tr>
 				<?php endforeach; ?>
 			</tbody>
@@ -125,8 +116,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

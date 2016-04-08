@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ jimport('joomla.filesystem.file');
 /**
  * Joomla! update overview Model
  *
- * @since       2.5.4
+ * @since  2.5.4
  */
 class JoomlaupdateModelDefault extends JModelLegacy
 {
@@ -58,11 +58,13 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				}
 				break;
 
-			// "Minor & Patch Release for Current version (recommended and default)".
-			// The commented "case" below are for documenting where 'default' and legacy options falls
-			// case 'default':
-			// case 'lts':
-			// case 'nochange':
+			/**
+			 * "Minor & Patch Release for Current version (recommended and default)".
+			 * The commented "case" below are for documenting where 'default' and legacy options falls
+			 * case 'default':
+			 * case 'lts':
+			 * case 'nochange':
+			 */
 			default:
 				$updateURL = 'http://update.joomla.org/core/list.xml';
 		}
@@ -205,7 +207,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 */
 	public function purge()
 	{
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 
 		// Modify the database record
 		$update_site = new stdClass;
@@ -539,52 +541,42 @@ ENDDATA;
 	{
 		$installer = JInstaller::getInstance();
 
-		$installer->setPath('source', JPATH_ROOT);
-		$installer->setPath('extension_root', JPATH_ROOT);
+		$manifest = $installer->isManifest(JPATH_MANIFESTS . '/files/joomla.xml');
 
-		if (!$installer->setupInstall())
+		if ($manifest === false)
 		{
 			$installer->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
 
 			return false;
 		}
 
+		$installer->manifest = $manifest;
+
+		$installer->setUpgrade(true);
+		$installer->setOverwrite(true);
+
 		$installer->extension = JTable::getInstance('extension');
 		$installer->extension->load(700);
+
 		$installer->setAdapter($installer->extension->type);
 
-		$manifest = $installer->getManifest();
+		$installer->setPath('manifest', JPATH_MANIFESTS . '/files/joomla.xml');
+		$installer->setPath('source', JPATH_MANIFESTS . '/files');
+		$installer->setPath('extension_root', JPATH_ROOT);
 
 		$manifestPath = JPath::clean($installer->getPath('manifest'));
-		$element = preg_replace('/\.xml/', '', basename($manifestPath));
 
 		// Run the script file.
-		$manifestScript = (string) $manifest->scriptfile;
+		JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
-		if ($manifestScript)
-		{
-			$manifestScriptFile = JPATH_ROOT . '/' . $manifestScript;
-
-			if (is_file($manifestScriptFile))
-			{
-				// Load the file.
-				include_once $manifestScriptFile;
-			}
-
-			$classname = 'JoomlaInstallerScript';
-
-			if (class_exists($classname))
-			{
-				$manifestClass = new $classname($this);
-			}
-		}
+		$manifestClass = new JoomlaInstallerScript;
 
 		ob_start();
 		ob_implicit_flush(false);
 
 		if ($manifestClass && method_exists($manifestClass, 'preflight'))
 		{
-			if ($manifestClass->preflight('update', $this) === false)
+			if ($manifestClass->preflight('update', $installer) === false)
 			{
 				$installer->abort(JText::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_CUSTOM_INSTALL_FAILURE'));
 
@@ -597,7 +589,7 @@ ENDDATA;
 		ob_end_clean();
 
 		// Get a database connector object.
-		$db = JFactory::getDbo();
+		$db = $this->getDbo();
 
 		/*
 		 * Check to see if a file extension by the same name is already installed.
@@ -620,7 +612,7 @@ ENDDATA;
 		{
 			// Install failed, roll back changes.
 			$installer->abort(
-				JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', JText::_('JLIB_INSTALLER_UPDATE'), $db->stderr(true))
+				JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', JText::_('JLIB_INSTALLER_UPDATE'), $e->getMessage())
 			);
 
 			return false;
@@ -644,7 +636,7 @@ ENDDATA;
 			{
 				// Install failed, roll back changes.
 				$installer->abort(
-					JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', JText::_('JLIB_INSTALLER_UPDATE'), $db->stderr(true))
+					JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', JText::_('JLIB_INSTALLER_UPDATE'), $row->getError())
 				);
 
 				return false;
@@ -670,7 +662,7 @@ ENDDATA;
 			if (!$row->store())
 			{
 				// Install failed, roll back changes.
-				$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_ROLLBACK', $db->stderr(true)));
+				$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_ROLLBACK', $row->getError()));
 
 				return false;
 			}
@@ -683,20 +675,14 @@ ENDDATA;
 			$installer->pushStep(array('type' => 'extension', 'extension_id' => $row->extension_id));
 		}
 
-		/*
-		 * Let's run the queries for the file.
-		 */
-		if ($manifest->update)
+		$result = $installer->parseSchemaUpdates($manifest->update->schemas, $row->extension_id);
+
+		if ($result === false)
 		{
-			$result = $installer->parseSchemaUpdates($manifest->update->schemas, $row->extension_id);
+			// Install failed, rollback changes.
+			$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_UPDATE_SQL_ERROR', $db->stderr(true)));
 
-			if ($result === false)
-			{
-				// Install failed, rollback changes.
-				$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_UPDATE_SQL_ERROR', $db->stderr(true)));
-
-				return false;
-			}
+			return false;
 		}
 
 		// Start Joomla! 1.6.
@@ -718,23 +704,10 @@ ENDDATA;
 		$msg .= ob_get_contents();
 		ob_end_clean();
 
-		// Lastly, we will copy the manifest file to its appropriate place.
-		$manifest = array();
-		$manifest['src'] = $installer->getPath('manifest');
-		$manifest['dest'] = JPATH_MANIFESTS . '/files/' . basename($installer->getPath('manifest'));
-
-		if (!$installer->copyFiles(array($manifest), true))
-		{
-			// Install failed, rollback changes.
-			$installer->abort(JText::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_COPY_SETUP'));
-
-			return false;
-		}
-
 		// Clobber any possible pending updates.
 		$update = JTable::getInstance('update');
 		$uid = $update->find(
-			array('element' => $element, 'type' => 'file', 'client_id' => '0', 'folder' => '')
+			array('element' => 'joomla', 'type' => 'file', 'client_id' => '0', 'folder' => '')
 		);
 
 		if ($uid)
@@ -748,7 +721,7 @@ ENDDATA;
 
 		if ($manifestClass && method_exists($manifestClass, 'postflight'))
 		{
-			$manifestClass->postflight('update', $this);
+			$manifestClass->postflight('update', $installer);
 		}
 
 		// Append messages.
