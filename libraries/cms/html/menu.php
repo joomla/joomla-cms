@@ -119,8 +119,6 @@ abstract class JHtmlMenu
 
 			foreach ($menus as &$menu)
 			{
-
-
 				if ($aclcheck)
 				{
 					$action = $aclcheck == $menu->id ? 'edit' : 'create';
