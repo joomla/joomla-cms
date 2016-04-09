@@ -19,7 +19,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstallerFile  $installer  The class calling this method
+	 * @param   JInstallerAdapterFile  $installer  The class calling this method
 	 *
 	 * @return  void
 	 */
@@ -31,7 +31,6 @@ class JoomlaInstallerScript
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
 		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
 
-		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 		$this->clearRadCache();
