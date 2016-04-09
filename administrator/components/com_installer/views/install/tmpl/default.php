@@ -96,12 +96,6 @@ JFactory::getDocument()->addStyleDeclaration(
 		margin: -10px -50px 0 -50px;
 		overflow: hidden;
 	}
-
-	.j-jed-message {
-		margin-bottom: 40px;
-		line-height: 2em;
-		color:#333333;
-	}
 	'
 );
 

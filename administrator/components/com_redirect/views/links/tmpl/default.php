@@ -24,24 +24,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 <form action="<?php echo JRoute::_('index.php?option=com_redirect&view=links'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-		<br/>
-		<div class="clearfix"> </div>
-			<?php if ($this->enabled) : ?>
-		<div class="alert alert-info">
-			<a class="close" data-dismiss="alert">&#215;</a>
-			<?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?>
-			<?php if ($this->collect_urls_enabled) : ?>
-				<?php echo JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'); ?>
-			<?php else : ?>
-				<?php echo JText::_('COM_REDIRECT_COLLECT_URLS_DISABLED'); ?>
-			<?php endif; ?>
-		</div>
-			<?php else : ?>
-		<div class="alert alert-error">
-			<a class="close" data-dismiss="alert">&#215;</a>
-			<?php echo JText::_('COM_REDIRECT_PLUGIN_DISABLED'); ?>
-		</div>
-		<?php endif; ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
