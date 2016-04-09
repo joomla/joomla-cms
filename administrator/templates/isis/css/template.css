@@ -8198,5 +8198,4 @@ body.modal-open {
 }
 .modal-body {
 	-webkit-overflow-scrolling: touch;
-	overflow-y: auto !important;
 }
