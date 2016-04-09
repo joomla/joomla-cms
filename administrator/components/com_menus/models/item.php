@@ -191,7 +191,9 @@ class MenusModelItem extends JModelAdmin
 		// Check that user has create permission for menus
 		$user = JFactory::getUser();
 
-		if (!$user->authorise('core.create', 'com_menus'))
+		$menuTypeId = (int) $this->getMenuTypeId($menuType);
+
+		if (!$user->authorise('core.create', 'com_menus.menu.' . $menuTypeId))
 		{
 			$this->setError(JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
 
@@ -382,14 +384,16 @@ class MenusModelItem extends JModelAdmin
 		// Check that user has create and edit permission for menus
 		$user = JFactory::getUser();
 
-		if (!$user->authorise('core.create', 'com_menus'))
+		$menuTypeId = (int) $this->getMenuTypeId($menuType);
+
+		if (!$user->authorise('core.create', 'com_menus.menu.' . $menuTypeId))
 		{
 			$this->setError(JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
 
 			return false;
 		}
 
-		if (!$user->authorise('core.edit', 'com_menus'))
+		if (!$user->authorise('core.edit', 'com_menus.menu.' . $menuTypeId))
 		{
 			$this->setError(JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_EDIT'));
 
@@ -942,9 +946,16 @@ class MenusModelItem extends JModelAdmin
 		$this->setState('params', $params);
 	}
 
+	/**
+	 * Loads the menutype ID by a given menutype string
+	 *
+	 * @param   string  $menutype  The given menutype
+	 *
+	 * @return integer
+	 */
 	protected function getMenuTypeId($menutype)
 	{
-		$table = $this->getTable('MenuType','JTable');
+		$table = $this->getTable('MenuType', 'JTable');
 
 		$table->load(array('menutype' => $menutype));
 

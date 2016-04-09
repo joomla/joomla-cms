@@ -113,8 +113,24 @@ abstract class JHtmlMenu
 
 			static::$items = array();
 
+			$user = JFactory::getUser();
+
+			$aclcheck = !empty($config['checkacl']) ? (int) $config['checkacl'] : 0;
+
 			foreach ($menus as &$menu)
 			{
+
+
+				if ($aclcheck)
+				{
+					$action = $aclcheck == $menu->id ? 'edit' : 'create';
+
+					if (!$user->authorise('core.' . $action, 'com_menus.menu.' . $menu->id))
+					{
+						continue;
+					}
+				}
+
 				// Start group:
 				static::$items[] = JHtml::_('select.optgroup', $menu->text);
 

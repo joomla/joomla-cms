@@ -76,10 +76,17 @@ class MenusControllerItem extends JControllerForm
 		return $user->authorise('core.edit', 'com_menus.menu.' . (int) $menutypeID);
 	}
 
+	/**
+	 * Loads the menutype ID by a given menutype string
+	 *
+	 * @param   string  $menutype  The given menutype
+	 *
+	 * @return integer
+	 */
 	protected function getMenuTypeId($menutype)
 	{
 		$model = $this->getModel();
-		$table = $model->getTable('MenuType','JTable');
+		$table = $model->getTable('MenuType', 'JTable');
 
 		$table->load(array('menutype' => $menutype));
 

@@ -36,7 +36,7 @@ $published = $this->state->get('filter.published');
 			<div class="controls">
 				<select name="batch[menu_id]" id="batch-menu-id">
 					<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY') ?></option>
-					<?php echo JHtml::_('select.options', JHtml::_('menu.menuitems', array('published' => $published))); ?>
+					<?php echo JHtml::_('select.options', JHtml::_('menu.menuitems', array('published' => $published, 'checkacl' => (int) $this->state->get('menutypeid')))); ?>
 				</select>
 			</div>
 		</div>
