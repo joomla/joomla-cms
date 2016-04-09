@@ -8196,6 +8196,3 @@ body.modal-open {
 		padding: 5px 0;
 	}
 }
-.modal-body {
-	-webkit-overflow-scrolling: touch;
-}
