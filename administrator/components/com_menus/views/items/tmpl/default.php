@@ -16,14 +16,15 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user      = JFactory::getUser();
-$app       = JFactory::getApplication();
-$userId    = $user->get('id');
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
-$ordering  = ($listOrder == 'a.lft');
-$canOrder  = $user->authorise('core.edit.state',	'com_menus');
-$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$user		= JFactory::getUser();
+$app		= JFactory::getApplication();
+$userId		= $user->get('id');
+$listOrder	= $this->escape($this->state->get('list.ordering'));
+$listDirn	= $this->escape($this->state->get('list.direction'));
+$ordering	= ($listOrder == 'a.lft');
+$canOrder	= $user->authorise('core.edit.state',	'com_menus');
+$saveOrder	= ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$menutypeid	= (int) $this->state->get('menutypeid');
 
 if ($saveOrder)
 {
@@ -99,10 +100,10 @@ $assoc = JLanguageAssociations::isEnabled();
 				<?php
 				foreach ($this->items as $i => $item) :
 					$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
-					$canCreate  = $user->authorise('core.create',     'com_menus');
-					$canEdit    = $user->authorise('core.edit',       'com_menus');
+					$canCreate  = $user->authorise('core.create',     'com_menus.menu.' . $menutypeid);
+					$canEdit    = $user->authorise('core.edit',       'com_menus.menu.' . $menutypeid);
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
-					$canChange  = $user->authorise('core.edit.state', 'com_menus') && $canCheckin;
+					$canChange  = $user->authorise('core.edit.state', 'com_menus.menu.' . $menutypeid) && $canCheckin;
 
 					// Get the parents of item for sorting
 					if ($item->level > 1)

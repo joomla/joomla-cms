@@ -94,6 +94,7 @@ class MenusModelItems extends JModelList
 		$this->setState('filter.level', $level);
 
 		$menuType = $app->input->getString('menutype', null);
+		$menuId = 0;
 
 		if ($menuType)
 		{
@@ -115,15 +116,19 @@ class MenusModelItems extends JModelList
 
 		$this->setState('filter.menutype', $menuType);
 
-		// Get menutype title
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('title')
-			->from($db->quoteName('#__menu_types'))
-			->where($db->quoteName('menutype') . " = " . $db->quote($menuType));
-		$db->setQuery($query);
-		$menuTypeTitle = $db->loadResult();
-		$this->setState('menutypetitle', $menuTypeTitle);
+		if ($menuType)
+		{
+			// Get menutype title + ID
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->qn(array('id', 'title')))
+				->from($db->quoteName('#__menu_types'))
+				->where($db->quoteName('menutype') . " = " . $db->quote($menuType));
+			$db->setQuery($query);
+			$menuTypeItem = $db->LoadObject();
+			$this->setState('menutypetitle', $menuTypeItem->title);
+			$this->setState('menutypeid', $menuTypeItem->id);
+		}
 
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
@@ -173,16 +178,25 @@ class MenusModelItems extends JModelList
 	 */
 	protected function getDefaultMenuType()
 	{
+		$user = JFactory::getUser();
+
 		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select('menutype')
+		$query = $this->getDbo()->getQuery(true)
+			->select($this->getDbo()->qn(array('id', 'menutype')))
 			->from('#__menu_types')
 			->order('title');
-		$db->setQuery($query, 0, 1);
-		$menuType = $db->loadResult();
 
-		return $menuType;
+		$menuTypes = $this->getDbo()->setQuery($query)->loadObjectList();
+
+		foreach ($menuTypes as $type)
+		{
+			if ($user->authorise('core.manage', 'com_menus.menu.' . $type->id))
+			{
+				return $type->menutype;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -316,6 +330,11 @@ class MenusModelItems extends JModelList
 		if (!empty($menuType))
 		{
 			$query->where('a.menutype = ' . $db->quote($menuType));
+		}
+		// Don't show menus if no menutype is available
+		else
+		{
+			$query->where('1!=1');
 		}
 
 		// Filter on the access level.

@@ -90,6 +90,8 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
+		$user = JFactory::getUser();
+
 		if (!empty($record->id))
 		{
 			if ($record->published != -2)
@@ -97,8 +99,38 @@ class MenusModelItem extends JModelAdmin
 				return;
 			}
 
-			return parent::canDelete($record);
+			$menuTypeId = 0;
+
+			if (!empty($record->menutype))
+			{
+				$menuTypeId = $this->getMenuTypeId($record->menutype);
+			}
+
+			return $user->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
 		}
+	}
+
+	/**
+	 * Method to test whether a record can be deleted.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission for the component.
+	 *
+	 * @since   3.5
+	 */
+	protected function canEditState($record)
+	{
+		$user = JFactory::getUser();
+
+		$menuTypeId = 0;
+
+		if (!empty($record->menutype))
+		{
+			$menuTypeId = $this->getMenuTypeId($record->menutype);
+		}
+
+		return $user->authorise('core.edit.state', 'com_menus.menu.' . (int) $menuTypeId);
 	}
 
 	/**
@@ -512,6 +544,11 @@ class MenusModelItem extends JModelAdmin
 			return false;
 		}
 
+		if ($loadData)
+		{
+			$data = $this->loadFormData();
+		}
+
 		// Modify the form based on access controls.
 		if (!$this->canEditState((object) $data))
 		{
@@ -524,6 +561,11 @@ class MenusModelItem extends JModelAdmin
 			$form->setFieldAttribute('menuordering', 'filter', 'unset');
 			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
+
+		// Filter available menues
+		$action = $this->getState('item.id') > 0 ? 'edit' : 'create';
+
+		$form->setFieldAttribute('menutype', 'accesstype', $action);
 
 		return $form;
 	}
@@ -548,6 +590,13 @@ class MenusModelItem extends JModelAdmin
 			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
 			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
 			$data['access'] = (isset($filters['access']) ? $filters['access'] : null);
+		}
+
+		if (isset($data['menutype']) && !$this->getState('item.menutypeid'))
+		{
+			$menuTypeId = (int) $this->getMenuTypeId($data['menutype']);
+
+			$this->setState('item.menutypeid', $menuTypeId);
 		}
 
 		$this->preprocessData('com_menus.item', $data);
@@ -862,6 +911,15 @@ class MenusModelItem extends JModelAdmin
 
 		$this->setState('item.menutype', $menuType);
 
+		$menuTypeId = 0;
+
+		if ($menuType)
+		{
+			$menuTypeId = $this->getMenuTypeId($menuType);
+		}
+
+		$this->setState('item.menutypeid', $menuTypeId);
+
 		if (!($type = $app->getUserState('com_menus.edit.item.type')))
 		{
 			$type = $app->input->get('type');
@@ -882,6 +940,15 @@ class MenusModelItem extends JModelAdmin
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
+	}
+
+	protected function getMenuTypeId($menutype)
+	{
+		$table = $this->getTable('MenuType','JTable');
+
+		$table->load(array('menutype' => $menutype));
+
+		return (int) $table->id;
 	}
 
 	/**

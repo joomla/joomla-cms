@@ -41,15 +41,16 @@ abstract class JHtmlMenu
 	 */
 	public static function menus()
 	{
-		if (empty(static::$menus))
+		if (is_null(static::$menus))
 		{
 			$db = JFactory::getDbo();
+
 			$query = $db->getQuery(true)
-				->select('menutype AS value, title AS text')
+				->select($db->qn(array('id', 'menutype', 'title'), array('id', 'value', 'text')))
 				->from($db->quoteName('#__menu_types'))
 				->order('title');
-			$db->setQuery($query);
-			static::$menus = $db->loadObjectList();
+
+			static::$menus = $db->setQuery($query)->loadObjectList();
 		}
 
 		return static::$menus;
