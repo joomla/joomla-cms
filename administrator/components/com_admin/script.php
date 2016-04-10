@@ -1666,10 +1666,6 @@ class JoomlaInstallerScript
 	/**
 	 * Converts the site's database tables to support UTF-8 Multibyte.
 	 *
-	 * Note that this is a modified of InstallerModelDatabase::convertTablesToUtf8mb4()
-	 * that doesn't use JDatabase functions introduced in 3.5.0 which would cause errors
-	 * when upgrading from a version before 3.5.0
-	 *
 	 * @return  void
 	 *
 	 * @since   3.5
@@ -1679,19 +1675,16 @@ class JoomlaInstallerScript
 		$db = JFactory::getDbo();
 
 		// This is only required for MySQL databases
-		$name = $db->getName();
+		$serverType = $db->getServerType();
 
-		if (stristr($name, 'mysql') === false)
+		if ($serverType != 'mysql')
 		{
 			return;
 		}
 
-		// Check if utf8mb4 is supported and set required conversion status
-		$utf8mb4Support = false;
-
-		if ($this->serverClaimsUtf8mb4Support($name))
+		// Set required conversion status
+		if ($db->hasUTF8mb4Support())
 		{
-			$utf8mb4Support = true;
 			$converted = 2;
 		}
 		else
@@ -1757,15 +1750,9 @@ class JoomlaInstallerScript
 			{
 				foreach ($queries2 as $query2)
 				{
-					// Downgrade the query if utf8mb4 isn't supported
-					if (!$utf8mb4Support)
-					{
-						$query2 = $this->convertUtf8mb4QueryToUtf8($query2);
-					}
-
 					try
 					{
-						$db->setQuery($query2)->execute();
+						$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
 					}
 					catch (Exception $e)
 					{
@@ -1788,89 +1775,6 @@ class JoomlaInstallerScript
 		// Set flag in database if the update is done.
 		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
 			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
-	}
-
-	/**
-	 * Does the database server claim to have support for UTF-8 Multibyte (utf8mb4) collation?
-	 * 
-	 * This is a modified version of the function in JDatabase::serverClaimsUtf8mb4Support() - it is
-	 * duplicated here for people upgrading from a version lower than 3.5.0 through extension manager
-	 * which will still have the old database driver loaded at this point.
-	 *
-	 * @param   string  $format  The type of database connection.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.5.0
-	 */
-	private function serverClaimsUtf8mb4Support($format)
-	{
-		$db = JFactory::getDbo();
-
-		switch ($format)
-		{
-			case 'mysql':
-				$client_version = mysql_get_client_info();
-				$server_version = $db->getVersion();
-				break;
-			case 'mysqli':
-				$client_version = mysqli_get_client_info();
-				$server_version = $db->getVersion();
-				break;
-			case 'pdomysql':
-				$client_version = $db->getOption(PDO::ATTR_CLIENT_VERSION);
-				$server_version = $db->getOption(PDO::ATTR_SERVER_VERSION);
-				break;
-			default:
-				$client_version = false;
-				$server_version = false;
-		}
-
-		if ($client_version && version_compare($server_version, '5.5.3', '>='))
-		{
-			if (strpos($client_version, 'mysqlnd') !== false)
-			{
-				$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
-
-				return version_compare($client_version, '5.0.9', '>=');
-			}
-			else
-			{
-				return version_compare($client_version, '5.5.3', '>=');
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Downgrade a CREATE TABLE or ALTER TABLE query from utf8mb4 (UTF-8 Multibyte) to plain utf8. Used when the server
-	 * doesn't support UTF-8 Multibyte.
-	 *
-	 * This is a modified version of the function in JDatabase::convertUtf8mb4QueryToUtf8() - it is duplicated here for
-	 * people upgrading from a version lower than 3.5.0 through extension manager which will still have the old database
-	 * driver loaded at this point. This is missing the check for utf8mb4 in JDatabaseDriver we make this check in the
-	 * updater elsewhere.
-	 *
-	 * @param   string  $query  The query to convert
-	 *
-	 * @return  string  The converted query
-	 *
-	 * @since   3.5
-	 */
-	private function convertUtf8mb4QueryToUtf8($query)
-	{
-		// If it's not an ALTER TABLE or CREATE TABLE command there's nothing to convert
-		$beginningOfQuery = substr($query, 0, 12);
-		$beginningOfQuery = strtoupper($beginningOfQuery);
-
-		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE')))
-		{
-			return $query;
-		}
-
-		// Replace utf8mb4 with utf8
-		return str_replace('utf8mb4', 'utf8', $query);
 	}
 
 	/**
