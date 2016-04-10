@@ -64,6 +64,8 @@ Desktop.ini
 /libraries/vendor/ircmaxell/password-compat/phpunit.xml.dist
 /libraries/vendor/ircmaxell/password-compat/README.md
 /libraries/vendor/ircmaxell/password-compat/version-test.php
+/libraries/vendor/joomla/*/.gitignore
+/libraries/vendor/joomla/*/.gitmodules
 /libraries/vendor/joomla/*/docs
 /libraries/vendor/joomla/*/Tests
 /libraries/vendor/joomla/*/vendor
@@ -90,6 +92,9 @@ Desktop.ini
 /libraries/vendor/paragonie/random_compat/.gitignore
 /libraries/vendor/paragonie/random_compat/.scrutinizer.yml
 /libraries/vendor/paragonie/random_compat/.travis.yml
+/libraries/vendor/paragonie/random_compat/dist
+/libraries/vendor/paragonie/random_compat/other
+/libraries/vendor/paragonie/random_compat/CHANGELOG.md
 /libraries/vendor/paragonie/random_compat/ERRATA.md
 /libraries/vendor/paragonie/random_compat/README.md
 /libraries/vendor/paragonie/random_compat/SECURITY.md

@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Component renderer
  *
- * @since  3.6
+ * @since  3.5
  */
 class JDocumentRendererHtmlComponent extends JDocumentRenderer
 {
@@ -25,7 +25,7 @@ class JDocumentRendererHtmlComponent extends JDocumentRenderer
 	 *
 	 * @return  string  The output of the script
 	 *
-	 * @since   3.6
+	 * @since   3.5
 	 */
 	public function render($component = null, $params = array(), $content = null)
 	{

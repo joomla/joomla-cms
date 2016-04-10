@@ -131,7 +131,7 @@ class JLayoutBase implements JLayout
 	/**
 	 * Method to render the layout.
 	 *
-	 * @param   mixed  $displayData  Data to be used inside the layout file to build displayed output
+	 * @param   array  $displayData  Array of properties available for use inside the layout file to build the displayed output
 	 *
 	 * @return  string  The necessary HTML to display the layout
 	 *
@@ -287,12 +287,14 @@ class JLayoutBase implements JLayout
 	 *
 	 * @param   boolean  $debug  Enable / Disable debug
 	 *
-	 * @return  void
+	 * @return  self
 	 *
 	 * @since   3.5
 	 */
 	public function setDebug($debug)
 	{
 		$this->options->set('debug', (boolean) $debug);
+
+		return $this;
 	}
 }

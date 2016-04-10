@@ -73,6 +73,22 @@ class JFilterOutput
 	}
 
 	/**
+	 * This method processes a string and escapes it for use in JavaScript
+	 *
+	 * @param   string  $string  String to process
+	 *
+	 * @return  string  Processed text
+	 */
+	public static function stringJSSafe($string)
+	{
+		for ($i = 0, $l = strlen($string), $new_str = ''; $i < $l; $i++)
+		{
+			$new_str .= (ord(substr($string, $i, 1)) < 16 ? '\\x0' : '\\x') . dechex(ord(substr($string, $i, 1)));
+		}
+		return $new_str;
+	}
+
+	/**
 	 * This method processes a string and replaces all accented UTF-8 characters by unaccented
 	 * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercase.
 	 *

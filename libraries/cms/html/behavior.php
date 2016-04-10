@@ -615,7 +615,10 @@ abstract class JHtmlBehavior
 
 		JHtml::_('asset.load', 'highlighter');
 
-		$terms = str_replace('"', '\"', $terms);
+		foreach ($terms as $i => $term)
+		{
+			$terms[$i] = JFilterOutput::stringJSSafe($term);
+		}
 
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("
@@ -790,11 +793,14 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive JavaScript support to keep a tab state.
 	 *
-	 * Note that keeping tab state only works for inner tabs if in accordance with the following example
+	 * Note that keeping tab state only works for inner tabs if in accordance with the following example:
+	 *
+	 * ```
 	 * parent tab = permissions
 	 * child tab = permission-<identifier>
+	 * ```
 	 *
-	 * Each tab header "a" tag also should have a unique href attribute
+	 * Each tab header `<a>` tag also should have a unique href attribute
 	 *
 	 * @return  void
 	 *

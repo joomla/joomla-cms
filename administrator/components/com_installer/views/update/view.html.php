@@ -50,13 +50,11 @@ class InstallerViewUpdate extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-
 		// Get data from the model.
-		$this->state = $this->get('State');
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->filterForm = $this->get('FilterForm');
+		$this->state         = $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		$paths = new stdClass;
@@ -66,7 +64,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 
 		if (count($this->items) > 0)
 		{
-			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'notice');
 		}
 
 		parent::display($tpl);

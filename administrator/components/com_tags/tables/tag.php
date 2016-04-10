@@ -154,12 +154,12 @@ class TagsTableTag extends JTableNested
 
 		if (empty($this->metadesc))
 		{
-			$this->metadesc = ' ';
+			$this->metadesc = '';
 		}
 
 		if (empty($this->metakey))
 		{
-			$this->metakey = ' ';
+			$this->metakey = '';
 		}
 
 		if (empty($this->metadata))

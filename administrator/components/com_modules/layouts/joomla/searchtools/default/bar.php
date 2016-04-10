@@ -11,16 +11,16 @@ defined('JPATH_BASE') or die;
 
 $data = $displayData;
 
-$clientIdField = $data['view']->filterForm->getField('client_id');
+if ($data['view'] instanceof ModulesViewModules)
+{
+	// We will get the client filter & remove it from the form filters
+	$clientIdField = $data['view']->filterForm->getField('client_id');
 ?>
-<script type="text/javascript">
-jQuery.fn.clearPositionType = function(){
-	jQuery("#filter_position, #filter_module, #filter_language").val("");
-};
-</script>
-<div class="js-stools-field-filter js-stools-client_id hidden-phone hidden-tablet">
-	<?php echo $clientIdField->input; ?>
-</div>
+	<div class="js-stools-field-filter js-stools-client_id">
+		<?php echo $clientIdField->input; ?>
+	</div>
 <?php
+}
+
 // Display the main joomla layout
 echo JLayoutHelper::render('joomla.searchtools.default.bar', $data, null, array('component' => 'none'));

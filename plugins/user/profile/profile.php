@@ -362,6 +362,24 @@ class PlgUserProfile extends JPlugin
 				// Throw an exception if date is not valid.
 				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
 			}
+			if (JDate::getInstance('now') < $date)
+			{
+				// Throw an exception if dob is greather than now.
+				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
+			}
+		}
+		// Check that the tos is checked if required ie only in registration from frontend.
+		$task       = JFactory::getApplication()->input->getCmd('task');
+		$option     = JFactory::getApplication()->input->getCmd('option');
+		$tosarticle = $this->params->get('register_tos_article');
+		$tosenabled = ($this->params->get('register-require_tos', 0) == 2) ? true : false;
+		if (($task == 'register') && ($tosenabled) && ($tosarticle) && ($option == 'com_users'))
+		{
+			// Check that the tos is checked.
+			if ((!($data['profile']['tos'])))
+			{
+				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
+			}
 		}
 
 		return true;
