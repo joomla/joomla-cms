@@ -76,7 +76,7 @@ class InstallerModelDatabase extends InstallerModel
 
 		if (count($statusArray['error']) == 0)
 		{
-			$installer->convertTablesToUtf8mb4();
+			$installer->convertTablesToUtf8mb4(false);
 		}
 	}
 

@@ -36,7 +36,7 @@ class JoomlaInstallerScript
 		$this->clearRadCache();
 		$this->updateAssets();
 		$this->clearStatsCache();
-		$this->convertTablesToUtf8mb4();
+		$this->convertTablesToUtf8mb4(true);
 		$this->cleanJoomlaCache();
 
 		// VERY IMPORTANT! THIS METHOD SHOULD BE CALLED LAST, SINCE IT COULD
@@ -1666,11 +1666,13 @@ class JoomlaInstallerScript
 	/**
 	 * Converts the site's database tables to support UTF-8 Multibyte.
 	 *
+	 * @param   boolean  $doDbFixMsg  Flag if message to be shown to check db fix
+	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 */
-	public function convertTablesToUtf8mb4()
+	public function convertTablesToUtf8mb4($doDbFixMsg = false)
 	{
 		$db = JFactory::getDbo();
 
@@ -1703,7 +1705,14 @@ class JoomlaInstallerScript
 		}
 		catch (Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+			// Render the error message from the Exception object
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			if ($doDbFixMsg)
+			{
+				// Show an error message telling to check database problems
+				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+			}
 
 			return;
 		}
@@ -1765,8 +1774,7 @@ class JoomlaInstallerScript
 			}
 		}
 
-		// Show if there was some error
-		if ($converted == 0)
+		if ($doDbFixMsg && $converted == 0)
 		{
 			// Show an error message telling to check database problems
 			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
