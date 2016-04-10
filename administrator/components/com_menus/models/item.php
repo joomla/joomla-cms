@@ -111,7 +111,7 @@ class MenusModelItem extends JModelAdmin
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether the state of a record can be edited.
 	 *
 	 * @param   object  $record  A record object.
 	 *
