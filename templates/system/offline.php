@@ -11,6 +11,9 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 
+// Output as HTML5
+JFactory::getDocument()->setHtml5(true);
+
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 

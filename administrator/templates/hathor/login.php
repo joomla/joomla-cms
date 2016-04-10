@@ -13,6 +13,9 @@ $app  = JFactory::getApplication();
 $lang = JFactory::getLanguage();
 $doc  = JFactory::getDocument();
 
+// Output as HTML5
+$doc->setHtml5(true);
+
 // jQuery needed by template.js
 JHtml::_('jquery.framework');
 

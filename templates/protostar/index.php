@@ -15,6 +15,9 @@ $user            = JFactory::getUser();
 $this->language  = $doc->language;
 $this->direction = $doc->direction;
 
+// Output as HTML5
+$doc->setHtml5(true);
+
 // Getting params from template
 $params = $app->getTemplate(true)->params;
 
@@ -25,9 +28,6 @@ $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
-
-// Output as HTML5
-$doc->setHtml5(true);
 
 if($task == "edit" || $layout == "form" )
 {

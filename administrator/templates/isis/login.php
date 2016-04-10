@@ -13,6 +13,9 @@ $app  = JFactory::getApplication();
 $doc  = JFactory::getDocument();
 $lang = JFactory::getLanguage();
 
+// Output as HTML5
+$doc->setHtml5(true);
+
 // Color Params
 $background_color = $this->params->get('loginBackgroundColor') ? $this->params->get('loginBackgroundColor') : '';
 $color_is_light = ($background_color && colorIsLight($background_color));

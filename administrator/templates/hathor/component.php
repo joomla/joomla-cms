@@ -18,6 +18,9 @@ $lang->load('tpl_hathor', JPATH_ADMINISTRATOR)
 $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
 
+// Output as HTML5
+$doc->setHtml5(true);
+
 // jQuery needed by template.js
 JHtml::_('jquery.framework');
 

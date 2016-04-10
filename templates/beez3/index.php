@@ -37,6 +37,9 @@ $bootstrap      = explode(',', $templateparams->get('bootstrap'));
 $jinput         = JFactory::getApplication()->input;
 $option         = $jinput->get('option', '', 'cmd');
 
+// Output as HTML5
+$doc->setHtml5(true);
+
 if (in_array($option, $bootstrap))
 {
 	// Load optional rtl Bootstrap css and Bootstrap bugfixes
@@ -72,9 +75,7 @@ if (file_exists($userCss) && filesize($userCss) > 0)
 {
 	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/user.css');
 }
-
 ?>
-
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 	<head>

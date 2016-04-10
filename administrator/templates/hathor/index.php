@@ -15,6 +15,9 @@ $lang  = JFactory::getLanguage();
 $input = $app->input;
 $user  = JFactory::getUser();
 
+// Output as HTML5
+$doc->setHtml5(true);
+
 // jQuery needed by template.js
 JHtml::_('jquery.framework');
 

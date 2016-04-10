@@ -15,6 +15,9 @@ $lang  = JFactory::getLanguage();
 $input = $app->input;
 $user  = JFactory::getUser();
 
+// Output as HTML5
+$doc->setHtml5(true);
+
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 

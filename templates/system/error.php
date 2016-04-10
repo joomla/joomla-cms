@@ -20,6 +20,9 @@ $doc             = JFactory::getDocument();
 $app             = JFactory::getApplication();
 $this->language  = $doc->language;
 $this->direction = $doc->direction;
+
+// Output as HTML5
+$doc->setHtml5(true);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

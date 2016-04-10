@@ -17,6 +17,9 @@ $this->direction = $doc->direction;
 $input           = $app->input;
 $user            = JFactory::getUser();
 
+// Output as HTML5
+$doc->setHtml5(true);
+
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 

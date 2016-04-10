@@ -10,6 +10,10 @@
 defined('_JEXEC') or die;
 
 $doc   = JFactory::getDocument();
+
+// Output as HTML5
+$doc->setHtml5(true);
+
 $color = $this->params->get('templatecolor');
 
 $doc->addStyleSheet($this->baseurl . '/templates/system/css/system.css');
