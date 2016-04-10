@@ -194,8 +194,8 @@
 			</field>
 			
 			<field name="article_layout" type="componentlayout"
-				label="JFIELD_ALT_LAYOUT_LABEL"
-				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+				label="JFIELD_ALT_LAYOUT_ARTICLE_LABEL"
+				description="JFIELD_ALT_COMPONENT_LAYOUT_ARTICLE_DESC"
 				useglobal="true"
 				extension="com_content" view="article"
 			/>
