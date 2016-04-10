@@ -627,31 +627,31 @@ class JApplicationWeb extends JApplicationBase
 
 		// Create an array of names to search for duplicates
 		$key = false;
-		if(count($this->response->headers))
+		if (count($this->response->headers))
 		{
 			$names = array();
-			foreach($this->response->headers as $key => $header)
+			foreach ($this->response->headers as $key => $header)
 			{
 				$names[$key] = $header['name'];
 			}
-			
+
 			// Find existing headers by name
-			$key = array_search($name,$names); 
+			$key = array_search($name, $names);
 		}
-		
+
 		// Found & replace or not found
-		if($key !== false && $replace || $key === false)
+		if ($key !== false && $replace || $key === false)
 		{
-			
-			// remove before insert when header is found
-			if($key !== false)
-			{ 
+
+			// Remove before insert when header is found
+			if ($key !== false)
+			{
 				unset($this->response->headers[$key]);
-				
+
 				// Clean up the array as unsetting nested arrays leaves some junk.
 				$this->response->headers = array_values($this->response->headers);
 			}
-			
+
 			// Add the header to the internal array.
 			$this->response->headers[] = array('name' => $name, 'value' => $value);
 		}
@@ -664,6 +664,7 @@ class JApplicationWeb extends JApplicationBase
 	 * to the client.
 	 *
 	 * @return  array	 *
+	 * 
 	 * @since   11.3
 	 */
 	public function getHeaders()
