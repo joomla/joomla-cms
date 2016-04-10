@@ -14,33 +14,16 @@ $doc             = JFactory::getDocument();
 $this->language  = $doc->language;
 $this->direction = $doc->direction;
 
-// Define the template asset
-$css = array(
-	'template.css',
-	'user.css',
-);
-$js  = array('template.js');
-$dep = array('bootstrap.js');
+// Load the template asset
+$asset = JHtml::_('asset.load', $doc->direction == 'rtl' ? 'template.protostar.rtl' : 'template.protostar.ltr');
 
+// Check for GoogleFont
 if ($this->params->get('googleFont'))
 {
+	$css = $asset->getCss();
 	array_unshift($css, '//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
+	$asset->setCss($css);
 }
-
-if($this->direction === 'rtl')
-{
-	$dep[] = 'bootstrap.css.' . $this->direction;
-}
-
-$assetTemplate = new JAssetItem('template.protostar');
-$assetTemplate->setCss($css);
-$assetTemplate->setJs($js);
-$assetTemplate->setDependency($dep);
-$assetTemplate->versionAttach(true);
-
-// Make the template asset active
-JHtml::_('asset.load', $assetTemplate);
-
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

@@ -474,7 +474,10 @@ class JAssetFactory
 	 */
 	protected function searchForDataFiles()
 	{
-		$files = glob(JPATH_ROOT . '/media/*/joomla.asset.json');
+		$files = array_merge(
+			glob(JPATH_ROOT . '/media/*/joomla.asset.json'), // Search extension assets, in /media
+			glob(JPATH_BASE . '/templates/*/joomla.asset.json') // Search the template assets
+		);
 
 		if (empty($files))
 		{

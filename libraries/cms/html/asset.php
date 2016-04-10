@@ -21,7 +21,7 @@ class JHtmlAsset
 	 *
 	 * @param   string|JAssetItem  $asset  Asset instance or name
 	 *
-	 * @return void
+	 * @return JAssetItem
 	 */
 	public static function load($asset)
 	{
@@ -35,6 +35,8 @@ class JHtmlAsset
 		}
 
 		$factory->setAssetState($name, JAssetItem::ASSET_STATE_ACTIVE);
+
+		return $factory->getAsset($name);
 	}
 
 	/**
@@ -42,13 +44,16 @@ class JHtmlAsset
 	 *
 	 * @param   string|JAssetItem  $asset  Asset instance or name
 	 *
-	 * @return void
+	 * @return JAssetItem
 	 */
 	public static function unload($asset)
 	{
-		$name = ($asset instanceof JAssetItem) ? $asset->getName() : $asset;
+		$name    = ($asset instanceof JAssetItem) ? $asset->getName() : $asset;
+		$factory = JAssetFactory::getInstance();
 
-		JAssetFactory::getInstance()->setAssetState($name, JAssetItem::ASSET_STATE_INACTIVE);
+		$factory->setAssetState($name, JAssetItem::ASSET_STATE_INACTIVE);
+
+		return $factory->getAsset($name);
 	}
 
 	/**

@@ -15,23 +15,8 @@ $lang            = JFactory::getLanguage();
 $this->language  = $doc->language;
 $this->direction = $doc->direction;
 
-// Define the template asset
-$css = array(
-	'template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css',
-	'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css',
-	'custom.css',
-);
-$js  = array('template.js');
-$dep = array('bootstrap.js');
-
-$assetTemplate = new JAssetItem('template.isis');
-$assetTemplate->setCss($css);
-$assetTemplate->setJs($js);
-$assetTemplate->setDependency($dep);
-$assetTemplate->versionAttach(true);
-
-// Make the template asset active
-JHtml::_('asset.load', $assetTemplate);
+// Load the template asset
+JHtml::_('asset.load', $doc->direction == 'rtl' ? 'template.isis.rtl' : 'template.isis.ltr');
 ?>
 
 <!DOCTYPE html>
