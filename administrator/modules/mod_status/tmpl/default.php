@@ -60,7 +60,7 @@ if ($params->get('show_messages', 1))
 	$output[] = '<div class="btn-group hasTooltip ' . $inboxClass . '"'
 		. ' title="' . JText::plural('MOD_STATUS_MESSAGES', $unread) . '">'
 		. ($hideLinks ? '' : '<a href="' . $inboxLink . '">')
-		. '<span class="icon-envelope"></span> '
+		. '<span class="icon-envelope"></span>'
 		. '<span class="badge' . $active . '">' . $unread . '</span>'
 		. ($hideLinks ? '' : '</a>')
 		. '<div class="btn-group divider"></div>'
