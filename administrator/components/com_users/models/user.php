@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -684,6 +684,13 @@ class UsersModelUser extends JModelAdmin
 		// Prune out the current user if they are in the supplied user ID array
 		$user_ids = array_diff($user_ids, array(JFactory::getUser()->id));
 
+		if (empty($user_ids))
+		{
+			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_REQUIRERESET_SELF'));
+
+			return false;
+		}
+
 		// Get the DB object
 		$db = $this->getDbo();
 
@@ -877,9 +884,14 @@ class UsersModelUser extends JModelAdmin
 
 		if (empty($userId))
 		{
-			$result = array();
+			$result   = array();
+			$form     = $this->getForm();
+			$groupIDs = array();
 
-			$groupsIDs = $this->getForm()->getValue('groups');
+			if ($form)
+			{
+				$groupsIDs = $form->getValue('groups');
+			}
 
 			if (!empty($groupsIDs))
 			{

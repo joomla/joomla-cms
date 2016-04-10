@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_status
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ if ($params->get('show_viewsite', 1))
 if ($params->get('show_viewadmin', 0))
 {
 	$output[] = '<div class="btn-group viewsite">'
-		. '<a href="' . JURI::base() . '" target="_blank">'
+		. '<a href="' . JURI::base() . 'index.php" target="_blank">'
 		. '<span class="icon-out-2"></span> ' . JText::_('MOD_STATUS_FIELD_LINK_VIEWADMIN_LABEL')
 		. '</a>'
 		. '</div>'

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,19 +34,7 @@ class JCacheStorageMemcachedTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		$memcachedtest = false;
-
-		if (extension_loaded('memcached') || class_exists('Memcached'))
-		{
-			$config = JFactory::getConfig();
-			$host = $config->get('memcached_server_host', 'localhost');
-			$port = $config->get('memcached_server_port', 11211);
-
-			$memcached = new Memcached;
-			$memcachedtest = @$memcached->addServer($host, $port);
-		}
-
-		$this->extensionAvailable = $memcachedtest;
+		$this->extensionAvailable = JCacheStorageMemcached::isSupported();
 
 		$this->saveFactoryState();
 
