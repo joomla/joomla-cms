@@ -109,7 +109,7 @@ if ($stickyToolbar)
 	$stickyBar = 1;
 }
 
-$doc->addScriptDeclaration(
+JHtml::_('asset.scriptDeclaration',
 	"
 	window.isisStickyToolbar = $stickyBar;
 	window.isisOffsetTop = $offset;
