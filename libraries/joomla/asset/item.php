@@ -408,6 +408,10 @@ class JAssetItem
 
 			if (!$isExternal)
 			{
+				// Check for Placeholders
+				$path = $this->replacePlaceholders($path);
+
+				// Get the file path
 				$file = JHtml::_('stylesheet', $path, array(), $this->isPathRelative($path), true);
 			}
 
@@ -445,6 +449,10 @@ class JAssetItem
 
 			if (!$isExternal)
 			{
+				// Check for Placeholders
+				$path = $this->replacePlaceholders($path);
+
+				// Get the file path
 				$file = JHtml::_('script', $path, false, $this->isPathRelative($path), true);
 			}
 
@@ -464,6 +472,34 @@ class JAssetItem
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Replace Placeholders to the real values.
+	 * Supported placeholders:
+	 * 	[LANGUAGE_TAG]  Will be replaced to current language tag, eg: en-GB
+	 *
+	 * @param   string  $string  String to check for the placeholders
+	 *
+	 * @return string
+	 */
+	protected function replacePlaceholders($string)
+	{
+		if (strpos($string, '[') === false)
+		{
+			// Nothing here
+			return $string;
+		}
+
+		// Replace known placeholders
+		// @TODO: Is it a good idea to allow to register custom placeholders, in the future ???
+		$string = str_replace(array(
+			'[LANGUAGE_TAG]'
+		), array(
+			JFactory::getLanguage()->getTag()
+		), $string);
+
+		return $string;
 	}
 
 	/**
