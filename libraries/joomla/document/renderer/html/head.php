@@ -212,7 +212,6 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		// Generate script declarations
 		foreach ($document->_script as $type => $content)
 		{
-		
 			$buffer .= $tab . '<script';
 
 			if (!is_null($type) && (!$document->isHtml5() || !in_array($type, $defaultJsMimes)))
