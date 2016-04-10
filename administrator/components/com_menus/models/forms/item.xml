@@ -51,6 +51,15 @@
 			size="50"/>
 
 		<field
+			name="shortlink"
+			type="shortlink"
+			label="COM_MENUS_ITEM_FIELD_SHORTLINK_LABEL"
+			description="COM_MENUS_ITEM_FIELD_SHORTLINK_DESC"
+			readonly="true"
+			class="input-xlarge"
+			size="50"/>
+
+		<field
 			name="menutype"
 			type="menu"
 			label="COM_MENUS_ITEM_FIELD_ASSIGNED_LABEL"
