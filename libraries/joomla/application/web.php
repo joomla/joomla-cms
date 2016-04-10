@@ -626,11 +626,14 @@ class JApplicationWeb extends JApplicationBase
 		$value = (string) $value;
 		
 		// create an array of names to search for duplicates
-                $names = array();
-                foreach($this->response->headers as $key=>$header) {
-                    $names[$key]=$header['name'];
+                $key = false;
+                if(count($this->response->headers)) {
+                	$names = array();
+	                foreach($this->response->headers as $key=>$header) {
+	                    $names[$key]=$header['name'];
+	                }
+                	$key = array_search($name,$names); // find existing headers by name
                 }
-                $key = array_search($name,$names); // find existing headers by name
                 if($key !== false && $replace || $key === false) { // found & replace or not found
                     if($key !== false) { // remove before insert when header is found
                         unset($this->response->headers[$key]);
