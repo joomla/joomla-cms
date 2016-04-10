@@ -624,24 +624,22 @@ class JApplicationWeb extends JApplicationBase
 		// Sanitize the input values.
 		$name = (string) $name;
 		$value = (string) $value;
-
-		// If the replace flag is set, unset all known headers with the given name.
-		if ($replace)
-		{
-			foreach ($this->response->headers as $key => $header)
-			{
-				if ($name == $header['name'])
-				{
-					unset($this->response->headers[$key]);
-				}
-			}
-
-			// Clean up the array as unsetting nested arrays leaves some junk.
-			$this->response->headers = array_values($this->response->headers);
-		}
-
-		// Add the header to the internal array.
-		$this->response->headers[] = array('name' => $name, 'value' => $value);
+		
+		// create an array of names to search for duplicates
+                $names = array();
+                foreach($this->response->headers as $key=>$header) {
+                    $names[$key]=$header['name'];
+                }
+                $key = array_search($name,$names); // find existing headers by name
+                if($key !== false && $replace || $key === false) { // found & replace or not found
+                    if($key !== false) { // remove before insert when header is found
+                        unset($this->response->headers[$key]);
+                        // Clean up the array as unsetting nested arrays leaves some junk.
+                        $this->response->headers = array_values($this->response->headers);
+                    }
+                    // Add the header to the internal array.
+                    $this->response->headers[] = array('name' => $name, 'value' => $value);
+                }
 
 		return $this;
 	}
