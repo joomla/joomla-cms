@@ -34,8 +34,8 @@
 		{
 			"name": "calendar",
 			"js": [
-				"system/calendar.js",
-				"system/calendar-setup.js"
+				"[LANGUAGE_TAG]/calendar.js",
+				"[LANGUAGE_TAG]/calendar-setup.js"
 			],
 			"css": [
 				"system/calendar-jos.css"

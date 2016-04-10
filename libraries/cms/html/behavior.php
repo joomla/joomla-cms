@@ -453,20 +453,14 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('asset.load', 'calendar');
-
-		$document = JFactory::getDocument();
-		$tag      = JFactory::getLanguage()->getTag();
-		$asset    = JAssetFactory::getInstance()->getAsset('calendar');
-
+		$asset = JHtml::_('asset.load', 'calendar');
 		$asset->setAttributes('system/calendar-jos.css', array('title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN')));
-		$asset->setJs(array($tag . '/calendar.js', $tag . '/calendar-setup.js'));
 
 		$translation = static::calendartranslation();
 
 		if ($translation)
 		{
-			$document->addScriptDeclaration($translation);
+			JHtml::_('asset.scriptDeclaration', $translation);
 		}
 
 		static::$loaded[__METHOD__] = true;
