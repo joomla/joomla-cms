@@ -56,9 +56,6 @@ class InstallerModelDatabase extends InstallerModel
 	 */
 	public function fix()
 	{
-		// Prepare the utf8mb4 conversion check table
-		$this->prepareUtf8mb4StatusTable();
-
 		if (!$changeSet = $this->getItems())
 		{
 			return false;
