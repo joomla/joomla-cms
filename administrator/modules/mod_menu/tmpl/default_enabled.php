@@ -308,7 +308,9 @@ if ($im || $mm || $pm || $tm || $lm)
 
 	if ($mm)
 	{
-		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_MODULE_MANAGER'), 'index.php?option=com_modules', 'class:module'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_MODULE_MANAGER'), 'index.php?option=com_modules', 'class:module'),$mm);
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_NEW_MODULE'), 'index.php?option=com_modules&view=select', 'class:module'));
+                $menu->getParent();
 	}
 
 	if ($pm)
