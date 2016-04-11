@@ -1018,8 +1018,8 @@ abstract class JModelAdmin extends JModelForm
 					// Prune items that you can't change.
 					unset($pks[$i]);
 
- 					return false;
- 				}
+					return false;
+				}
 			}
 		}
 
