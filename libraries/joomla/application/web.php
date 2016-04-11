@@ -666,7 +666,7 @@ class JApplicationWeb extends JApplicationBase
 		}
 
 		// Remove existing values if they exist and replace is true
-		if ($keys && $replace)
+		if ($replace && $keys)
 		{
 			foreach ($keys as $key)
 			{
