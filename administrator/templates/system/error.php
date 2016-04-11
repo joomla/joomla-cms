@@ -18,6 +18,7 @@ JFactory::getDocument()->setHtml5(true);
 	<meta charset="utf-8" />
 	<title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
 	<link rel="stylesheet" href="templates/system/css/error.css" type="text/css" />
+	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body>
 	<table style="text-align: center; width: 550px;" class="outline">
