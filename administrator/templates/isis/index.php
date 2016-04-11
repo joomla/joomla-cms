@@ -294,7 +294,7 @@ $doc->addScriptDeclaration(
 
 	<?php if (!$this->countModules('status') || (!$statusFixed && $this->countModules('status'))) : ?>
 		<footer class="footer">
-			<p align="center">
+			<p class="text-center">
 				<jdoc:include type="modules" name="footer" style="no" />
 				&copy; <?php echo $sitename; ?> <?php echo date('Y'); ?></p>
 		</footer>
