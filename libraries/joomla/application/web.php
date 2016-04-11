@@ -730,9 +730,9 @@ class JApplicationWeb extends JApplicationBase
 			{
 				if (array_key_exists($header['name'], $headers))
 				{
-					$headers[$header['name']] = implode(', ',array($headers[$header['name']], $header['value']));
+					$headers[$header['name']] = implode(', ', array($headers[$header['name']], $header['value']));
 				}
-				else 
+				else
 				{
 					$headers[$header['name']] = $header['value'];
 				}
