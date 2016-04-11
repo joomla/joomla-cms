@@ -748,7 +748,7 @@ class JApplicationWeb extends JApplicationBase
 				if ('status' == strtolower($name))
 				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
-					$this->header('HTTP/1.1 ' . $value, null, (int) $value);
+					$this->header('HTTP/1.1 ' . $value, null, (int) $value[0]);
 				}
 				else
 				{
