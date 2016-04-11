@@ -28,7 +28,7 @@ JFactory::getDocument()->setHtml5(true);
 	<?php if ($this->direction == 'rtl') : ?>
 		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
 	<?php endif; ?>
-
+	<!--[if lt IE 9]><script src="<?php echo $this->baseurl; ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body class="errors">
 	<div>
