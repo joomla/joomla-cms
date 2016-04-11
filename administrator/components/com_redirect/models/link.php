@@ -174,12 +174,15 @@ class RedirectModelLink extends JModelAdmin
 
 		if (!empty($pks))
 		{
+			$date = JFactory::getDate()->toSql();
+			
 			// Update the link rows.
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__redirect_links'))
 				->set($db->quoteName('new_url') . ' = ' . $db->quote($url))
 				->set($db->quoteName('published') . ' = ' . (int) 1)
 				->set($db->quoteName('comment') . ' = ' . $db->quote($comment))
+				->set($db->quoteName('modified_date') . ' = ' . $db->quote($date))
 				->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
 			$db->setQuery($query);
 
