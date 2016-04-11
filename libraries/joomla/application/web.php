@@ -737,23 +737,26 @@ class JApplicationWeb extends JApplicationBase
                         $headers = array();
 			foreach ($this->response->headers as $header)
 			{
-                            if(!array_key_exists($header['name'],$headers))
+                            if(array_key_exists($header['name'],$headers))
                             {
-                                $headers[$header['name']] = array();
+                                $headers[$header['name']] = implode(', ',array($headers[$header['name']],$header['value']));
                             }
-                            $headers[$header['name']][] = $header['value'];
+                            else 
+                            {
+                                $headers[$header['name']] = $header['value'];
+                            }
 			}
                         foreach($headers as $name => $value)
                         {
 				if ('status' == strtolower($name))
 				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
-					$this->header('HTTP/1.1 ' . $value, null, (int) $value[0]);
+					$this->header('HTTP/1.1 ' . $value, null, (int) $value);
 				}
 				else
 				{
-					$this->header($name . ': ' . implode(', ', $value), true);
-				}                      
+					$this->header($name . ': ' . $value, true);
+				}                            
                         }
 		}
 
