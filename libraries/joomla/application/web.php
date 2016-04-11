@@ -667,21 +667,21 @@ class JApplicationWeb extends JApplicationBase
 
 		// Remove existing values if they exist and replace is true
 		if ($keys && $replace)
-                {
+		{
 			foreach ($keys as $key)
 			{
 				unset($this->response->headers[$key]);
 			}
 			// Clean up the array as unsetting nested arrays leaves some junk.
 			$this->response->headers = array_values($this->response->headers);
-                }
+		}
 
-                // If no keys found, safe to insert
-                if (!$keys || ($keys && ($replace || (!in_array($name, $this->singleValueResponseHeaders)))))
-                {
-                    // Add the header to the internal array.
-                    $this->response->headers[] = array('name' => $name, 'value' => $value);
-                }
+		// If no keys found, safe to insert
+		if (!$keys || ($keys && ($replace || (!in_array($name, $this->singleValueResponseHeaders)))))
+		{
+			// Add the header to the internal array.
+			$this->response->headers[] = array('name' => $name, 'value' => $value);
+		}
 
 		return $this;
 	}
@@ -724,21 +724,21 @@ class JApplicationWeb extends JApplicationBase
 	{
 		if (!$this->checkHeadersSent())
 		{
-                        // Creating an array of headers, making arrays of headers with multiple values
-                        $headers = array();
+			// Creating an array of headers, making arrays of headers with multiple values
+			$headers = array();
 			foreach ($this->response->headers as $header)
 			{
-                            if(array_key_exists($header['name'],$headers))
-                            {
-                                $headers[$header['name']] = implode(', ',array($headers[$header['name']],$header['value']));
-                            }
-                            else 
-                            {
-                                $headers[$header['name']] = $header['value'];
-                            }
+				if (array_key_exists($header['name'], $headers))
+				{
+					$headers[$header['name']] = implode(', ',array($headers[$header['name']], $header['value']));
+				}
+				else 
+				{
+					$headers[$header['name']] = $header['value'];
+				}
 			}
-                        foreach($headers as $name => $value)
-                        {
+			foreach ($headers as $name => $value)
+			{
 				if ('status' == strtolower($name))
 				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
@@ -747,8 +747,8 @@ class JApplicationWeb extends JApplicationBase
 				else
 				{
 					$this->header($name . ': ' . $value, true);
-				}                            
-                        }
+				}
+			}
 		}
 
 		return $this;
