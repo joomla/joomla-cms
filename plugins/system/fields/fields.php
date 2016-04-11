@@ -262,7 +262,11 @@ class PlgSystemFields extends JPlugin
 
 		if ((!isset($data->catid) || !$data->catid) && JFactory::getApplication()->isSite() && $component = 'com_content')
 		{
-			$data->catid = JFactory::getApplication()->getMenu()->getActive()->params->get('catid');
+			$activeMenu = JFactory::getApplication()->getMenu()->getActive();
+			if ($activeMenu && $activeMenu->params)
+			{
+				$data->catid = $activeMenu->params->get('catid');
+			}
 		}
 
 		FieldsHelper::prepareForm($parts[0] . '.' . $parts[1], $form, $data);
