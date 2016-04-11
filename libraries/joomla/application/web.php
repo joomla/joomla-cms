@@ -677,7 +677,7 @@ class JApplicationWeb extends JApplicationBase
 		}
 
 		// If no keys found, safe to insert
-		if (!$keys || ($keys && ($replace || (!in_array($name, $this->singleValueResponseHeaders)))))
+		if (!$keys || ($keys && ($replace || !in_array($name, $this->singleValueResponseHeaders))))
 		{
 			// Add the header to the internal array.
 			$this->response->headers[] = array('name' => $name, 'value' => $value);
