@@ -43,7 +43,7 @@ class UsersRouter extends JComponentRouterBase
 		if (empty($items))
 		{
 			// Get all relevant menu items.
-			$items = $this->menu->getItems('component', 'com_users');
+			$items = $this->menu->getItems(array('component', 'access'), array('com_users', null));
 
 			// Build an array of serialized query strings to menu item id mappings.
 			for ($i = 0, $n = count($items); $i < $n; $i++)
@@ -161,13 +161,6 @@ class UsersRouter extends JComponentRouterBase
 
 				default:
 				case 'profile':
-					if (!empty($query['view']))
-					{
-						$segments[] = $query['view'];
-					}
-
-					unset ($query['view']);
-
 					if ($query['Itemid'] = $profile)
 					{
 						unset ($query['view']);
