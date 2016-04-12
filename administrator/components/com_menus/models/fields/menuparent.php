@@ -39,7 +39,7 @@ class JFormFieldMenuParent extends JFormFieldList
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.level')
+			->select('a.id AS value, a.title AS text, a.alias, a.level')
 			->from('#__menu AS a')
 			->join('LEFT', $db->quoteName('#__menu') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
@@ -78,7 +78,8 @@ class JFormFieldMenuParent extends JFormFieldList
 		// Pad the option text with spaces using depth level as a multiplier.
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
-			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
+			$titleAlias = '(' . JText::_('JFIELD_ALIAS_LABEL') . ': ' . $db->escape($options[$i]->alias) . ')';
+			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text . ' ' . $titleAlias;
 		}
 
 		// Merge any additional options in the XML definition.
