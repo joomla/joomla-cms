@@ -148,7 +148,7 @@ class MenusHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, 
+			->select('DISTINCT(a.id) AS value, 
 					  a.title AS text, 
 					  a.alias, 
 					  a.level, 
@@ -205,40 +205,6 @@ class MenusHelper
 		}
 
 		$query->where('a.published != -2');
-
-		if (JLanguageMultilang::isEnabled())
-		{
-			$query->group(
-				'a.id , 
-				 a.title , 
-				 a.alias, 
-				 a.level, 
-				 a.menutype, 
-				 a.type, 
-				 a.published, 
-				 a.template_style_id, 
-				 a.checked_out, 
-				 a.language,
-				 a.lft,
-				 l.title , 
-				 l.image');
-		}
-		else
-		{
-			$query->group(
-				'a.id , 
-				 a.title , 
-				 a.alias, 
-				 a.level, 
-				 a.menutype, 
-				 a.type, 
-				 a.published, 
-				 a.template_style_id, 
-				 a.checked_out, 
-				 a.language,
-				 a.lft');
-		}
-
 		$query->order('a.lft ASC');
 
 		// Get the options.

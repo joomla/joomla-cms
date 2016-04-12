@@ -772,4 +772,16 @@ class ContentModelArticle extends JModelAdmin
 		parent::cleanCache('mod_articles_news');
 		parent::cleanCache('mod_articles_popular');
 	}
+
+	/**
+	 * Void hit function for pagebreak when editing content from frontend
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5.2
+	 */
+	public function hit()
+	{
+		return;
+	}
 }

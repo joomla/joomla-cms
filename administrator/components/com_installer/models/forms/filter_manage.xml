@@ -11,13 +11,6 @@
 			hint="JSEARCH_FILTER"
 		/>
 		<field
-			name="client_id"
-			type="location"
-			onchange="this.form.submit();"
-			>
-			<option value="">COM_INSTALLER_VALUE_CLIENT_SELECT</option>
-		</field>
-		<field
 			name="status"
 			type="extensionstatus"
 			label="COM_PLUGINS_FILTER_PUBLISHED"
@@ -25,6 +18,13 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+		<field
+			name="client_id"
+			type="location"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_INSTALLER_VALUE_CLIENT_SELECT</option>
 		</field>
 		<field
 			name="type"

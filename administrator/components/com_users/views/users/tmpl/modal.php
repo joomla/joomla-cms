@@ -75,7 +75,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<tr class="row<?php echo $i % 2; ?>">
 						<td>
 							<a class="pointer button-select" href="#" data-user-value="<?php echo $item->id; ?>" data-user-name="<?php echo $this->escape($item->name); ?>"
-								data-user-field="<?php echo $this->escape($field);?>">
+								data-user-field="<?php echo $this->escape($field);?>" onclick="if (window.parent) window.parent.jSelectUser(this);">
 								<?php echo $item->name; ?>
 							</a>
 						</td>
