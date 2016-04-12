@@ -242,7 +242,7 @@ class JTableMenuType extends JTable
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   3.6
 	 */
 	protected function _getAssetName()
 	{
@@ -254,7 +254,7 @@ class JTableMenuType extends JTable
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   3.6
 	 */
 	protected function _getAssetTitle()
 	{
@@ -273,7 +273,7 @@ class JTableMenuType extends JTable
 	 *
 	 * @return  integer
 	 *
-	 * @since   11.1
+	 * @since   3.6
 	 */
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{

@@ -25,7 +25,7 @@ class MenusControllerItem extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	protected function allowAdd($data = array())
 	{
@@ -54,7 +54,7 @@ class MenusControllerItem extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
@@ -82,6 +82,8 @@ class MenusControllerItem extends JControllerForm
 	 * @param   string  $menutype  The given menutype
 	 *
 	 * @return integer
+	 *
+	 * @since  3.6
 	 */
 	protected function getMenuTypeId($menutype)
 	{

@@ -117,7 +117,7 @@ class MenusModelItem extends JModelAdmin
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission for the component.
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	protected function canEditState($record)
 	{
@@ -952,6 +952,8 @@ class MenusModelItem extends JModelAdmin
 	 * @param   string  $menutype  The given menutype
 	 *
 	 * @return integer
+	 *
+	 * @since  3.6
 	 */
 	protected function getMenuTypeId($menutype)
 	{
