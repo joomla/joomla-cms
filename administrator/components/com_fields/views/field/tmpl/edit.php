@@ -31,8 +31,8 @@ JFactory::getDocument()->addScriptDeclaration('
 	jQuery(document).ready(function() {
 		jQuery("#jform_title").data("dp-old-value", jQuery("#jform_title").val());
 		jQuery("#jform_title").change(function(data, handler) {
-			if(jQuery("#jform_title").data("dp-old-value") == jQuery("#jform_label").val()) {
-				jQuery("#jform_label").val(jQuery("#jform_title").val());
+			if(jQuery("#jform_title").data("dp-old-value") == jQuery("#jform_params_label").val()) {
+				jQuery("#jform_params_label").val(jQuery("#jform_title").val());
 			}
 
 			jQuery("#jform_title").data("dp-old-value", jQuery("#jform_title").val());
@@ -54,7 +54,6 @@ JFactory::getDocument()->addScriptDeclaration('
 			<div class="span9">
 				<?php
 				echo $this->form->renderField('type');
-				echo $this->form->renderField('label');
 				echo $this->form->renderField('required');
 				echo $this->form->renderField('default_value');
 
