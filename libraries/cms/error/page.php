@@ -79,6 +79,9 @@ class JErrorPage
 
 				echo $app->toString();
 
+				$app->close(0);
+
+				// This return is needed to ensure the test suite does not trigger the non-Exception handling below
 				return;
 			}
 			catch (Exception $e)
@@ -97,7 +100,14 @@ class JErrorPage
 
 		if ($isException)
 		{
-			$message .= ': ' . $e->getMessage() . ': ' . $error->getMessage();
+			$message .= ': ';
+
+			if (isset($e))
+			{
+				$message .= $e->getMessage() . ': ';
+			}
+
+			$message .= $error->getMessage();
 		}
 
 		echo $message;

@@ -40,10 +40,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						&#160;
 					</th>
 					<th>
-						<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 					</th>
 					<th width="10%">
-						<?php echo JHtml::_('grid.sort', 'JCLIENT', 'a.client_id', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('searchtools.sort', 'JCLIENT', 'a.client_id', $listDirn, $listOrder); ?>
 					</th>
 					<th width="10%" class="hidden-phone">
 						<?php echo JText::_('JVERSION'); ?>
@@ -116,8 +116,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

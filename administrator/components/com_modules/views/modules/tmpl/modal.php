@@ -9,6 +9,11 @@
 
 defined('_JEXEC') or die;
 
+if (JFactory::getApplication()->isSite())
+{
+	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
+}
+
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -46,15 +51,18 @@ JFactory::getDocument()->addScriptDeclaration('
 			Joomla.tableOrdering(order, dirn, "");
 		};
 
-		moduleIns = function(type, name) {
-			parent.window.jInsertEditorText("{loadmodule " + type + "," + name + "," + jQuery("#extra_class").val() + "}", "' . $editor . '");
-			parent.window.jModalClose();
-		}
-
-		modulePosIns = function(position) {
-			parent.window.jInsertEditorText("{loadposition " + position + "," + jQuery("#extra_class").val() + "}", "' . $editor . '");
-			parent.window.jModalClose();
-		}
+	        moduleIns = function(type, name) {
+	            var extraVal ,fieldExtra = jQuery("#extra_class");
+	            extraVal = (fieldExtra.length && fieldExtra.val().length) ? "," + fieldExtra.val() : "";
+	            parent.window.jInsertEditorText("{loadmodule " + type + "," + name + extraVal + "}", "' . $editor . '");
+	            parent.window.jModalClose();
+	        }
+	        modulePosIns = function(position) {
+	            var extraVal ,fieldExtra = jQuery("#extra_class");
+	            extraVal = (fieldExtra.length && fieldExtra.val().length) ? "," + fieldExtra.val() : "";
+	            parent.window.jInsertEditorText("{loadposition " + position +  extraVal  + "}", "' . $editor . '");
+	            parent.window.jModalClose();
+	        }
 ');
 ?>
 <div style="padding-top: 25px;"></div>

@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * JFilterInput is a class for filtering input from any data source
  *
@@ -103,7 +105,7 @@ class JFilterInput
 		'script',
 		'style',
 		'title',
-		'xml'
+		'xml',
 	);
 
 	/**
@@ -117,7 +119,7 @@ class JFilterInput
 		'background',
 		'codebase',
 		'dynsrc',
-		'lowsrc'
+		'lowsrc',
 	);
 
 	/**
@@ -203,9 +205,9 @@ class JFilterInput
 	 *
 	 * @param   mixed   $source  Input string/array-of-string to be 'cleaned'
 	 * @param   string  $type    The return type for the variable:
-	 *                           INT:       An integer,
-	 *                           UINT:      An unsigned integer,
-	 *                           FLOAT:     A floating point number,
+	 *                           INT:       An integer, or an array of integers,
+	 *                           UINT:      An unsigned integer, or an array of unsigned integers,
+	 *                           FLOAT:     A floating point number, or an array of floating point numbers,
 	 *                           BOOLEAN:   A boolean value,
 	 *                           WORD:      A string containing A-Z or underscores only (not case sensitive),
 	 *                           ALNUM:     A string containing A-Z or 0-9 only (not case sensitive),
@@ -214,7 +216,7 @@ class JFilterInput
 	 *                           STRING:    A fully decoded and sanitised string (default),
 	 *                           HTML:      A sanitised string,
 	 *                           ARRAY:     An array,
-	 *                           PATH:      A sanitised file path,
+	 *                           PATH:      A sanitised file path, or an array of sanitised file paths,
 	 *                           TRIM:      A string trimmed from normal, non-breaking and multibyte spaces
 	 *                           USERNAME:  Do not use (use an application specific filter),
 	 *                           RAW:       The raw string is returned with no filtering,
@@ -234,57 +236,214 @@ class JFilterInput
 			$source = $this->stripUSC($source);
 		}
 
-		// Handle the type constraint
+		// Handle the type constraint cases
 		switch (strtoupper($type))
 		{
 			case 'INT':
 			case 'INTEGER':
-				// Only use the first integer value
-				preg_match('/-?[0-9]+/', (string) $source, $matches);
-				$result = @ (int) $matches[0];
+				$pattern = '/[-+]?[0-9]+/';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Itterate through the array
+					foreach ($source as $eachString)
+					{
+						preg_match($pattern, (string) $eachString, $matches);
+						$result[] = isset($matches[0]) ? (int) $matches[0] : 0;
+					}
+				}
+				else
+				{
+					preg_match($pattern, (string) $source, $matches);
+					$result = isset($matches[0]) ? (int) $matches[0] : 0;
+				}
+
 				break;
 
 			case 'UINT':
-				// Only use the first integer value
-				preg_match('/-?[0-9]+/', (string) $source, $matches);
-				$result = @ abs((int) $matches[0]);
+				$pattern = '/[-+]?[0-9]+/';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Itterate through the array
+					foreach ($source as $eachString)
+					{
+						preg_match($pattern, (string) $eachString, $matches);
+						$result[] = isset($matches[0]) ? abs((int) $matches[0]) : 0;
+					}
+				}
+				else
+				{
+					preg_match($pattern, (string) $source, $matches);
+					$result = isset($matches[0]) ? abs((int) $matches[0]) : 0;
+				}
+
 				break;
 
 			case 'FLOAT':
 			case 'DOUBLE':
-				// Only use the first floating point value
-				preg_match('/-?[0-9]+(\.[0-9]+)?/', (string) $source, $matches);
-				$result = @ (float) $matches[0];
+				$pattern = '/[-+]?[0-9]+(\.[0-9]+)?([eE][-+]?[0-9]+)?/';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Itterate through the array
+					foreach ($source as $eachString)
+					{
+						preg_match($pattern, (string) $eachString, $matches);
+						$result[] = isset($matches[0]) ? (float) $matches[0] : 0;
+					}
+				}
+				else
+				{
+					preg_match($pattern, (string) $source, $matches);
+					$result = isset($matches[0]) ? (float) $matches[0] : 0;
+				}
+
 				break;
 
 			case 'BOOL':
 			case 'BOOLEAN':
-				$result = (bool) $source;
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (bool) $eachString;
+					}
+				}
+				else
+				{
+					$result = (bool) $source;
+				}
+
 				break;
 
 			case 'WORD':
-				$result = (string) preg_replace('/[^A-Z_]/i', '', $source);
+				$pattern = '/[^A-Z_]/i';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) preg_replace($pattern, '', $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+				}
+
 				break;
 
 			case 'ALNUM':
-				$result = (string) preg_replace('/[^A-Z0-9]/i', '', $source);
+				$pattern = '/[^A-Z0-9]/i';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) preg_replace($pattern, '', $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+				}
+
 				break;
 
 			case 'CMD':
-				$result = (string) preg_replace('/[^A-Z0-9_\.-]/i', '', $source);
-				$result = ltrim($result, '.');
+				$pattern = '/[^A-Z0-9_\.-]/i';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$cleaned  = (string) preg_replace($pattern, '', $eachString);
+						$result[] = ltrim($cleaned, '.');
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+					$result = ltrim($result, '.');
+				}
+
 				break;
 
 			case 'BASE64':
-				$result = (string) preg_replace('/[^A-Z0-9\/+=]/i', '', $source);
+				$pattern = '/[^A-Z0-9\/+=]/i';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) preg_replace($pattern, '', $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+				}
+
 				break;
 
 			case 'STRING':
-				$result = (string) $this->_remove($this->_decode((string) $source));
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) $this->remove($this->decode((string) $eachString));
+					}
+				}
+				else
+				{
+					$result = (string) $this->remove($this->decode((string) $source));
+				}
+
 				break;
 
 			case 'HTML':
-				$result = (string) $this->_remove((string) $source);
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) $this->remove((string) $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) $this->remove((string) $source);
+				}
+
 				break;
 
 			case 'ARRAY':
@@ -293,18 +452,67 @@ class JFilterInput
 
 			case 'PATH':
 				$pattern = '/^[A-Za-z0-9_\/-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
-				preg_match($pattern, (string) $source, $matches);
-				$result = @ (string) $matches[0];
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Itterate through the array
+					foreach ($source as $eachString)
+					{
+						preg_match($pattern, (string) $eachString, $matches);
+						$result[] = isset($matches[0]) ? (string) $matches[0] : '';
+					}
+				}
+				else
+				{
+					preg_match($pattern, $source, $matches);
+					$result = isset($matches[0]) ? (string) $matches[0] : '';
+				}
+
 				break;
 
 			case 'TRIM':
-				$result = (string) trim($source);
-				$result = JString::trim($result, chr(0xE3) . chr(0x80) . chr(0x80));
-				$result = JString::trim($result, chr(0xC2) . chr(0xA0));
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$cleaned  = (string) trim($eachString);
+						$cleaned  = StringHelper::trim($cleaned, chr(0xE3) . chr(0x80) . chr(0x80));
+						$result[] = StringHelper::trim($cleaned, chr(0xC2) . chr(0xA0));
+					}
+				}
+				else
+				{
+					$result = (string) trim($source);
+					$result = StringHelper::trim($result, chr(0xE3) . chr(0x80) . chr(0x80));
+					$result = StringHelper::trim($result, chr(0xC2) . chr(0xA0));
+				}
+
 				break;
 
 			case 'USERNAME':
-				$result = (string) preg_replace('/[\x00-\x1F\x7F<>"\'%&]/', '', $source);
+				$pattern = '/[\x00-\x1F\x7F<>"\'%&]/';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) preg_replace($pattern, '', $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+				}
+
 				break;
 
 			case 'RAW':
@@ -336,7 +544,7 @@ class JFilterInput
 					}
 					else
 					{
-						// Not an array or string.. return the passed parameter
+						// Not an array or string... return the passed parameter
 						$result = $source;
 					}
 				}
@@ -344,6 +552,31 @@ class JFilterInput
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Function to punyencode utf8 mail when saving content
+	 *
+	 * @param   string  $text  The strings to encode
+	 *
+	 * @return  string  The punyencoded mail
+	 *
+	 * @since   3.5
+	 */
+	public function emailToPunycode($text)
+	{
+		$pattern = '/(("mailto:)+[\w\.\-\+]+\@[^"?]+\.+[^."?]+("|\?))/';
+
+		if (preg_match_all($pattern, $text, $matches))
+		{
+			foreach ($matches[0] as $match)
+			{
+				$match  = (string) str_replace(array('?', '"'), '', $match);
+				$text   = (string) str_replace($match, JStringPunycode::emailToPunycode($match), $text);
+			}
+		}
+
+		return $text;
 	}
 
 	/**
@@ -360,9 +593,12 @@ class JFilterInput
 		$attrSubSet[0] = strtolower($attrSubSet[0]);
 		$attrSubSet[1] = strtolower($attrSubSet[1]);
 
-		return (((strpos($attrSubSet[1], 'expression') !== false) && ($attrSubSet[0]) == 'style') || (strpos($attrSubSet[1], 'javascript:') !== false) ||
-			(strpos($attrSubSet[1], 'behaviour:') !== false) || (strpos($attrSubSet[1], 'vbscript:') !== false) ||
-			(strpos($attrSubSet[1], 'mocha:') !== false) || (strpos($attrSubSet[1], 'livescript:') !== false));
+		return (((strpos($attrSubSet[1], 'expression') !== false) && ($attrSubSet[0]) == 'style')
+			|| (strpos($attrSubSet[1], 'javascript:') !== false)
+			|| (strpos($attrSubSet[1], 'behaviour:') !== false)
+			|| (strpos($attrSubSet[1], 'vbscript:') !== false)
+			|| (strpos($attrSubSet[1], 'mocha:') !== false)
+			|| (strpos($attrSubSet[1], 'livescript:') !== false));
 	}
 
 	/**
@@ -371,8 +607,8 @@ class JFilterInput
 	 * The options you can define are:
 	 * null_byte                   Prevent files with a null byte in their name (buffer overflow attack)
 	 * forbidden_extensions        Do not allow these strings anywhere in the file's extension
-	 * php_tag_in_content          Do not allow <?php tag in content
-	 * shorttag_in_content         Do not allow short tag <? in content
+	 * php_tag_in_content          Do not allow `<?php` tag in content
+	 * shorttag_in_content         Do not allow short tag `<?` in content
 	 * shorttag_extensions         Which file extensions to scan for short tags in content
 	 * fobidden_ext_in_content     Do not allow forbidden_extensions anywhere in content
 	 * php_ext_content_extensions  Which file extensions to scan for .php in content
@@ -665,14 +901,13 @@ class JFilterInput
 	 */
 	protected function remove($source)
 	{
-		$loopCounter = 0;
-
 		// Iteration provides nested tag protection
-		while ($source != $this->_cleanTags($source))
+		do
 		{
+			$temp = $source;
 			$source = $this->_cleanTags($source);
-			$loopCounter++;
 		}
+		while ($temp != $source);
 
 		return $source;
 	}
@@ -1169,14 +1404,14 @@ class JFilterInput
 	}
 
 	/**
-	 * Remove CSS Expressions in the form of <property>:expression(...)
+	 * Remove CSS Expressions in the form of `<property>:expression(...)`
 	 *
 	 * @param   string  $source  The source string.
 	 *
 	 * @return  string  Filtered string
 	 *
-	 * @since      11.1
-	 * @deprecated 4.0 Use JFilterInput::stripCSSExpressions() instead
+	 * @since       11.1
+	 * @deprecated  4.0 Use JFilterInput::stripCSSExpressions() instead
 	 */
 	protected function _stripCSSExpressions($source)
 	{
@@ -1224,6 +1459,8 @@ class JFilterInput
 	 * @param   mixed  $source  The data to filter
 	 *
 	 * @return  mixed  The filtered result
+	 *
+	 * @since   3.5
 	 */
 	protected function stripUSC($source)
 	{
