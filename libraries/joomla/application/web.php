@@ -668,7 +668,7 @@ class JApplicationWeb extends JApplicationBase
                 // Remove if $replace is true and there are duplicate names
                 if($replace && $keys)
                 {
-			$this->response->headers = array_diff_key($this->response->headers, array_flip($keys));                  
+			$this->response->headers = array_diff_key($this->response->headers, array_flip($keys));
                 }
 
                 /**
