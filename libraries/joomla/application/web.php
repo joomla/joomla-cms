@@ -734,7 +734,7 @@ class JApplicationWeb extends JApplicationBase
 				}
 				else
 				{
-                                        $values[$header['name']] = !array_key_exists($header['name'],$values)?$header['value']:implode(', ',array($values[$header['name']],$header['value']));
+					$values[$header['name']] = !array_key_exists($header['name'],$values)?$header['value']:implode(', ',array($values[$header['name']],$header['value']));
 					$this->header($header['name'] . ': ' . $values[$header['name']], true);
 				}                            
                         }
