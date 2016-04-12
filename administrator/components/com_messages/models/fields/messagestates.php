@@ -15,7 +15,7 @@ JLoader::register('MessagesHelper', JPATH_ADMINISTRATOR . '/components/com_messa
 /**
  * Form Field class for the Joomla Framework.
  *
- * @since  1.6
+ * @since  3.5.2
  */
 class JFormFieldMessageStates extends JFormFieldList
 {
@@ -36,11 +36,7 @@ class JFormFieldMessageStates extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$options = MessagesHelper::getStateOptions();
-
-		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
+		// Merge state options with any additional options in the XML definition.
+		return array_merge(parent::getOptions(), MessagesHelper::getStateOptions());
 	}
 }
