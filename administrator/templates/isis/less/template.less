@@ -792,6 +792,12 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	padding: 3px 20px;
 }
 
+.nav-collapse .dropdown-menu > li {
+	img {
+		max-width: none;
+	}
+}
+
 @media (max-width: @navbarCollapseWidth) {
 	.navbar-fixed-top .navbar-inner,
 	.navbar-fixed-top .navbar-inner .container-fluid {
@@ -1341,17 +1347,4 @@ body.modal-open {
 }
 .js-pstats-data-details dt {
 	width: 220px;
-}
-
-/* Corrects the media modal padding on small devices */
-@media (max-width: 767px) {
-	.field-media-wrapper .modal .modal-body {
-		padding: 5px 0;
-	}
-}
-
-/* Fix iOS scrolling inside bootstrap modals (using iframe) */
-.modal-body {
-	-webkit-overflow-scrolling: touch;
-	overflow-y: auto !important;
 }
