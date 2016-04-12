@@ -116,14 +116,14 @@ else
 				<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
 					<fieldset>
 						<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
-						<input name="username" id="username" type="text" alt="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" />
+						<input name="username" id="username" type="text" title="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" />
 
-						<label for="passwd"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-						<input type="password" name="password" alt="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" />
+						<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
+						<input type="password" name="password" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" />
 
 						<?php if (count($twofactormethods) > 1) : ?>
 						<label for="secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
-						<input type="text" name="secretkey" alt="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" />
+						<input type="text" name="secretkey" title="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" />
 						<?php endif; ?>
 
 						<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo JText::_('JLOGIN'); ?>" />
