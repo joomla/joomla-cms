@@ -652,7 +652,7 @@ class JApplicationWeb extends JApplicationBase
 		$name = (string) $name;
 		$value = (string) $value;
 
-		// Create an array of names to search for duplicates
+		// Create an array of duplicate header names
 		$keys = false;
 		if ($this->response->headers)
 		{
@@ -665,23 +665,22 @@ class JApplicationWeb extends JApplicationBase
 			$keys = array_keys($names, $name);
 		}
 
-		// Remove existing values if they exist and replace is true
-		if ($replace && $keys)
-		{
-			foreach ($keys as $key)
-			{
-				unset($this->response->headers[$key]);
-			}
-			// Clean up the array as unsetting nested arrays leaves some junk.
-			$this->response->headers = array_values($this->response->headers);
-		}
+                // Remove if $replace is true and there are duplicate names
+                if($replace && $keys)
+                {
+			$this->response->headers = array_diff_key($this->response->headers, array_flip($keys));                  
+                }
 
-		// If no keys found, safe to insert
-		if (!$keys || ($keys && ($replace || !in_array($name, $this->singleValueResponseHeaders))))
-		{
+                /**
+                 * If no keys found, safe to insert (!$keys)
+                 * If ($keys && $replace) it's a replacement and previous have been deleted
+                 * if($keys && !in_array...) it's a multiple value header
+                 */
+                if(!$keys || ($keys && ($replace || !in_array($name, $this->singleValueResponseHeaders))))
+                {
 			// Add the header to the internal array.
 			$this->response->headers[] = array('name' => $name, 'value' => $value);
-		}
+                }
 
 		return $this;
 	}
@@ -724,31 +723,21 @@ class JApplicationWeb extends JApplicationBase
 	{
 		if (!$this->checkHeadersSent())
 		{
-			// Creating an array of headers, making arrays of headers with multiple values
-			$headers = array();
-			foreach ($this->response->headers as $header)
-			{
-				if (array_key_exists($header['name'], $headers))
-				{
-					$headers[$header['name']] = implode(', ', array($headers[$header['name']], $header['value']));
-				}
-				else
-				{
-					$headers[$header['name']] = $header['value'];
-				}
-			}
-			foreach ($headers as $name => $value)
-			{
-				if ('status' == strtolower($name))
+                        // Creating an array of headers, making arrays of headers with multiple values
+                        $values = array();
+                        foreach($this->response->headers as $header)
+                        {
+				if ('status' == strtolower($header['name']))
 				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
-					$this->header('HTTP/1.1 ' . $value, null, (int) $value);
+					$this->header('HTTP/1.1 ' . $value, null, (int) $header['value']);
 				}
 				else
 				{
-					$this->header($name . ': ' . $value, true);
-				}
-			}
+                                        $values[$header['name']] = !array_key_exists($header['name'],$values)?$header['value']:implode(', ',array($values[$header['name']],$header['value']));
+					$this->header($header['name'] . ': ' . $values[$header['name']], true);
+				}                            
+                        }
 		}
 
 		return $this;
