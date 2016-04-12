@@ -42,6 +42,7 @@ JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Logo file or site title param
 $sitename = $app->get('sitename');
+
 if ($this->params->get('logoFile'))
 {
 	$logo = '<img src="' . JUri::root() . $this->params->get('logoFile') . '" alt="' . $sitename . '" />';
