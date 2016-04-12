@@ -19,7 +19,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstallerFile  $installer  The class calling this method
+	 * @param   JInstallerAdapterFile  $installer  The class calling this method
 	 *
 	 * @return  void
 	 */
@@ -31,13 +31,13 @@ class JoomlaInstallerScript
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
 		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
 
-		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 		$this->clearRadCache();
 		$this->updateAssets();
 		$this->clearStatsCache();
 		$this->convertTablesToUtf8mb4();
+		$this->cleanJoomlaCache();
 
 		// VERY IMPORTANT! THIS METHOD SHOULD BE CALLED LAST, SINCE IT COULD
 		// LOGOUT ALL THE USERS
@@ -1853,6 +1853,8 @@ class JoomlaInstallerScript
 	 * @param   string  $query  The query to convert
 	 *
 	 * @return  string  The converted query
+	 *
+	 * @since   3.5
 	 */
 	private function convertUtf8mb4QueryToUtf8($query)
 	{
@@ -1867,5 +1869,19 @@ class JoomlaInstallerScript
 
 		// Replace utf8mb4 with utf8
 		return str_replace('utf8mb4', 'utf8', $query);
+	}
+
+	/**
+	 * This method clean the Joomla Cache using the method `clean` from the com_cache model
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5.1
+	 */
+	private function cleanJoomlaCache()
+	{
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_cache/models');
+		$model = JModelLegacy::getInstance('cache', 'CacheModel');
+		$model->clean();
 	}
 }

@@ -9,6 +9,11 @@
 
 defined('_JEXEC') or die;
 
+if (JFactory::getApplication()->isSite())
+{
+	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
+}
+
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
 

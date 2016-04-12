@@ -360,16 +360,48 @@ class CategoriesModelCategories extends JModelList
 		{
 			$extension = $this->getState('filter.extension');
 
-			// Load Helper file of the component for which com_categories displays the categories
-			$classname = ucfirst(substr($extension, 4)) . 'Helper';
-
-			if (class_exists($classname) && method_exists($classname, 'countItems'))
-			{
-				// Get the SQL to extend the com_category $query object with item count (published, unpublished, trashed)
-				$classname::countItems($items);
-			}
+			$this->countItems($items, $extension);
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Method to load the countItems method from the extensions
+	 * 
+	 * @param   stdClass[]  &$items     The category items
+	 * @param   string      $extension  The category extension
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function countItems(&$items, $extension)
+	{
+		$parts = explode('.', $extension);
+		$component = $parts[0];
+		$section = null;
+
+		if (count($parts) > 1)
+		{
+			$section = $parts[1];
+		}
+
+		// Try to find the component helper.
+		$eName = str_replace('com_', '', $component);
+		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+
+		if (file_exists($file))
+		{
+			require_once $file;
+
+			$prefix = ucfirst(str_replace('com_', '', $component));
+			$cName = $prefix . 'Helper';
+
+			if (class_exists($cName) && is_callable(array($cName, 'countItems')))
+			{
+				call_user_func(array($cName, 'countItems'), $items, $section);
+			}
+		}
 	}
 }
