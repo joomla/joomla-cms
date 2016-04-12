@@ -520,13 +520,12 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
-	 * Get the filtered component admin menu link option from the manifest
+	 * Get the filtered option from the component manifest administrator menu link
 	 *
 	 * @return  string  The filtered option
 	 *
 	 * @since   3.5
 	 */
-
 	public function getMenuLinkOption()
 	{
 		// Ensure the link is a string
