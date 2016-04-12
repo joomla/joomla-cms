@@ -531,14 +531,17 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		// Ensure the link is a string
 		$link = (string) $this->getManifest()->administration->menu->attributes()->link;
 
-		// Sets 'option=' as the delimiter
 		$delimiter = 'option=';
 
-		// Gets the option from the link attribute
-		$option = substr($link, strpos($link, $delimiter) + strlen($delimiter));
+		// Checks delimiter is in the link string
+		if (strpos($link, $delimiter) !== false)
+		{
+			// Gets the option from the link attribute
+			$option = substr($link, strpos($link, $delimiter) + strlen($delimiter));
 
-		// Filter the option for illegal characters
-		$option = JFilterInput::getInstance()->clean($option, 'string');
+			// Filter the option for illegal characters
+			$option = JFilterInput::getInstance()->clean($option, 'string');
+		}
 
 		return $option;
 	}
