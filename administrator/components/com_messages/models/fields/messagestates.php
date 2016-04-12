@@ -12,6 +12,7 @@ defined('JPATH_BASE') or die;
 JFormHelper::loadFieldClass('list');
 
 JLoader::register('MessagesHelper', JPATH_ADMINISTRATOR . '/components/com_messages/helpers/messages.php');
+
 /**
  * Form Field class for the Joomla Framework.
  *
@@ -22,7 +23,7 @@ class JFormFieldMessageStates extends JFormFieldList
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
+	 * @var     string
 	 * @since   3.5.2
 	 */
 	protected $type = 'MessageStates';
