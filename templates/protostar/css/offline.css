@@ -3,23 +3,28 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+body.site {
+	margin: 0;
+	padding: 0;
+}
+
 .outer {
-    display: table;
-    position: absolute;
-    height: 100%;
-    width: 100%;
+	display: table;
+	position: absolute;
+	height: 100%;
+	width: 100%;
 }
 
 .middle {
-    display: table-cell;
-    vertical-align: middle;
+	display: table-cell;
+	vertical-align: middle;
 }
 
 .inner {
-    margin-left: auto;
-    margin-right: auto; 
-    width: 30em;
-    background-color: #ffffff;
+	margin-left: auto;
+	margin-right: auto; 
+	max-width: 30em;
+	background-color: #ffffff;
 }
 
 .header {
