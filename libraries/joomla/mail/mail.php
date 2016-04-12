@@ -161,6 +161,35 @@ class JMail extends PHPMailer
 	}
 
 	/**
+	 * Set the From and FromName properties.
+	 *
+	 * @param   string   $address  The sender email address
+	 * @param   string   $name     The sender name
+	 * @param   boolean  $auto     Whether to also set the Sender address, defaults to true
+	 *
+	 * @return  boolean
+	 *
+	 * @since   11.1
+	 */
+	public function setFrom($address, $name = '', $auto = true)
+	{
+		try
+		{
+			if (parent::setFrom($address, $name, $auto) === false)
+			{
+				return false;
+			}
+		}
+		catch (phpmailerException $e)
+		{
+			// The parent method will have already called the logging callback, just log our deprecated error handling message
+			JLog::add(__METHOD__ . '() will not catch phpmailerException objects as of 4.0.', JLog::WARNING, 'deprecated');
+
+			return false;
+		}
+	}
+
+	/**
 	 * Set the email sender
 	 *
 	 * @param   mixed  $from  email address and Name of sender
