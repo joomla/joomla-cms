@@ -463,6 +463,7 @@ if($this->type == 'font')
 						<option value="ini">ini</option>
 						<option value="less">less</option>
 						<option value="txt">txt</option>
+						<option value="sass">sass</option>
 					</select>
 					<label><?php echo JText::_('COM_TEMPLATES_FILE_NAME');?></label>
 					<input type="text" name="name" required />
