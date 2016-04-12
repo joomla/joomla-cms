@@ -949,6 +949,16 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 
 
 			// My changes here
+			// Set the menu link
+			if ((string) $menuElement->attributes()->link)
+			{
+				if (preg_match('/^index\.php\?/', $menuElement->attributes()->link))
+				{
+					$goot = 'flob';
+				}
+				$menuLink = $menuElement->attributes()->link;
+				$data['link'] = 'index.php?' . $menuElement->attributes()->link;
+			}
 
 
 			// Original code:
