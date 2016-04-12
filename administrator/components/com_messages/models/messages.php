@@ -126,7 +126,7 @@ class MessagesModelMessages extends JModelList
 		{
 			$query->where('a.state = ' . (int) $state);
 		}
-		else if ($state !== '*')
+		elseif ($state !== '*')
 		{
 			$query->where('(a.state IN (0, 1))');
 		}
