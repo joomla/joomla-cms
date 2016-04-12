@@ -238,7 +238,7 @@ class RedirectModelLink extends JModelAdmin
 				->set($db->quoteName('modified_date') . ' = ' . $db->quote($date))
 				->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
 
-			if(!empty($comment))
+			if (!empty($comment))
 			{
 				$query->set($db->quoteName('comment') . ' = ' . $db->quote($comment));
 			}
