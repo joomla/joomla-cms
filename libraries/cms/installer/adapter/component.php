@@ -951,7 +951,6 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			// My changes here
 
 
-
 			// Original code:
 			//$data['link'] = 'index.php?option=' . $option;
 
