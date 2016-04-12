@@ -946,26 +946,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['client_id'] = 1;
 			$data['title'] = (string) trim($menuElement);
 			$data['alias'] = (string) $menuElement;
-
-			// Set the menu link
-			if ((string) $menuElement->attributes()->link)
-			{
-				// Checks if link attribute begins with 'index.php?'
-				// Allows compatibility with components made by following the MVC Component tutorial
-				// even though core component menu links simply begin with 'option='
-				if (preg_match('/^index\.php\?/', (string) $menuElement->attributes()->link))
-				{
-					$data['link'] = (string) $menuElement->attributes()->link;
-				}
-				else
-				{
-					$data['link'] = 'index.php?' . (string) $menuElement->attributes()->link;
-				}
-			}
-			else
-			{
-				$data['link'] = 'index.php?option=' . $option;
-			}
+			$data['link'] = 'index.php?option=' . $option;
 			$data['type'] = 'component';
 			$data['published'] = 0;
 			$data['parent_id'] = 1;
