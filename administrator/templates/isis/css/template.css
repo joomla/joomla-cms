@@ -2790,7 +2790,7 @@ input[type="submit"].btn.btn-mini {
 	color: #8a6d3b;
 }
 .alert h4 {
-  margin: 0 0 .5em;
+	margin: 0 0 .5em;
 }
 .alert .close {
 	position: relative;
@@ -7630,6 +7630,9 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 .nav-collapse .dropdown-menu > li > span {
 	display: block;
 	padding: 3px 20px;
+}
+.nav-collapse .dropdown-menu > li img {
+	max-width: none;
 }
 @media (max-width: 767px) {
 	.navbar-fixed-top .navbar-inner,
