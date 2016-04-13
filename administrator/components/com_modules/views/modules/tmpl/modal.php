@@ -70,7 +70,7 @@ modulePosIns = function(position) {
 					<th width="15%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_POSITION', 'a.position', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="nowrap hidden-phone hidden-tablet">
+					<th width="10%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_MODULE', 'name', $listDirn, $listOrder); ?>
 					</th>
 					<th width="10%" class="nowrap hidden-phone hidden-tablet">
@@ -118,7 +118,7 @@ modulePosIns = function(position) {
 						<span class="label"><?php echo JText::_('JNONE'); ?></span>
 						<?php endif; ?>
 					</td>
-					<td class="small hidden-phone hidden-tablet">
+					<td class="small hidden-phone">
 						<?php echo $item->name; ?>
 					</td>
 					<td class="small hidden-phone hidden-tablet">
