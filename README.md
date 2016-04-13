@@ -79,7 +79,7 @@ Do you want to improve Joomla?
 --------------------
 * How do you [request a feature](https://docs.joomla.org/How_do_you_request_a_feature%3F)?
 * How do you [report a bug](https://docs.joomla.org/Filing_bugs_and_issues)?
-* Get Involved: Joomla! is community developed software. [Join the community](http://volunteers.joomla.org/).
+* Get Involved: Joomla! is community developed software. [Join the community](https://volunteers.joomla.org/).
 * Documentation for [Developers](https://docs.joomla.org/Developers).
 * Documentation for [Web designers](https://docs.joomla.org/Web_designers).
 

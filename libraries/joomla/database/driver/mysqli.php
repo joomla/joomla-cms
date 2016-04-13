@@ -121,7 +121,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		if (preg_match($regex, $this->options['host'], $matches))
 		{
-			// It's an IPv4 address with ot without port
+			// It's an IPv4 address with or without port
 			$this->options['host'] = $matches['host'];
 
 			if (!empty($matches['port']))
@@ -141,7 +141,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		}
 		elseif (preg_match('/^(?P<host>(\w+:\/{2,3})?[a-z0-9\.\-]+)(:(?P<port>[^:]+))?$/i', $this->options['host'], $matches))
 		{
-			// Named host (e.g domain.com or localhost) with ot without port
+			// Named host (e.g example.com or localhost) with or without port
 			$this->options['host'] = $matches['host'];
 
 			if (!empty($matches['port']))
@@ -954,16 +954,24 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	private function serverClaimsUtf8mb4Support()
 	{
 		$client_version = mysqli_get_client_info();
+		$server_version = $this->getVersion();
 
-		if (strpos($client_version, 'mysqlnd') !== false)
+		if (version_compare($server_version, '5.5.3', '<'))
 		{
-			$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
-
-			return version_compare($client_version, '5.0.9', '>=');
+			return false;
 		}
 		else
 		{
-			return version_compare($client_version, '5.5.3', '>=');
+			if (strpos($client_version, 'mysqlnd') !== false)
+			{
+				$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
+
+				return version_compare($client_version, '5.0.9', '>=');
+			}
+			else
+			{
+				return version_compare($client_version, '5.5.3', '>=');
+			}
 		}
 	}
 

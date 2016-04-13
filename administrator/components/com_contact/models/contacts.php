@@ -181,6 +181,7 @@ class ContactModelContacts extends JModelList
 
 		// Join over the language
 		$query->select($db->quoteName('l.title', 'language_title'))
+			->select($db->quoteName('l.image', 'language_image'))
 			->join(
 				'LEFT',
 				$db->quoteName('#__languages', 'l') . ' ON ' . $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language')
@@ -244,6 +245,7 @@ class ContactModelContacts extends JModelList
 							'ul.name' ,
 							'ul.email',
 							'l.title' ,
+							'l.image' ,
 							'uc.name' ,
 							'ag.title' ,
 							'c.title'

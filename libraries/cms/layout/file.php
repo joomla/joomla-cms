@@ -73,7 +73,7 @@ class JLayoutFile extends JLayoutBase
 		$this->setOptions($options);
 
 		// Main properties
-		$this->setLayout($layoutId);
+		$this->setLayoutId($layoutId);
 		$this->basePath = $basePath;
 
 		// Init Enviroment
@@ -95,7 +95,7 @@ class JLayoutFile extends JLayoutBase
 		$this->clearDebugMessages();
 
 		// Inherit base output from parent class
-		$layoutOutput = parent::render($displayData);
+		$layoutOutput = '';
 
 		// Automatically merge any previously data set if $displayData is an array
 		if (is_array($displayData))
@@ -466,7 +466,7 @@ class JLayoutFile extends JLayoutBase
 		$this->options->set('component', $component);
 
 		// Refresh include paths
-		$this->refreshIncludePaths();
+		$this->clearIncludePaths();
 	}
 
 	/**
@@ -501,7 +501,7 @@ class JLayoutFile extends JLayoutBase
 		$this->options->set('client', $client);
 
 		// Refresh include paths
-		$this->refreshIncludePaths();
+		$this->clearIncludePaths();
 	}
 
 	/**

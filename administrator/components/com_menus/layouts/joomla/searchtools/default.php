@@ -23,6 +23,7 @@ if ($data['view'] instanceof MenusViewItems)
 		.js-stools .js-stools-menutype {
 			float: left;
 			margin-right: 10px;
+			min-width: 220px;
 		}
 		html[dir=rtl] .js-stools .js-stools-menutype {
 			float: right;

@@ -116,9 +116,12 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		{
 			$buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
 
-			if ($temp = ArrayHelper::toString($linkAtrr['attribs']))
+			if (is_array($linkAtrr['attribs']))
 			{
-				$buffer .= ' ' . $temp;
+				if ($temp = ArrayHelper::toString($linkAtrr['attribs']))
+				{
+					$buffer .= ' ' . $temp;
+				}
 			}
 
 			$buffer .= ' />' . $lnEnd;

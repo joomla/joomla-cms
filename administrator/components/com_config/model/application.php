@@ -118,6 +118,36 @@ class ConfigModelApplication extends ConfigModelForm
 			return false;
 		}
 
+		// Check if we can set the Force SSL option
+		if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) JFactory::getConfig()->get('force_ssl', '0'))
+		{
+			try
+			{
+				// Make an HTTPS request to check if the site is available in HTTPS.
+				$host    = JUri::getInstance()->getHost();
+				$options = new \Joomla\Registry\Registry;
+				$options->set('userAgent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
+				$options->set('transport.curl', array(CURLOPT_SSL_VERIFYPEER => false));
+				$response = JHttpFactory::getHttp($options)->get('https://' . $host . JUri::root(true) . '/', array('Host' => $host), 10);
+
+				// If available in HTTPS check also the status code.
+				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310), true))
+				{
+					throw new RuntimeException('HTTPS version of the site returned an invalid HTTP status code.');
+				}
+			}
+			catch (RuntimeException $e)
+			{
+				$data['force_ssl'] = 0;
+
+				// Also update the user state
+				$app->setUserState('com_config.config.global.data.force_ssl', 0);
+
+				// Inform the user
+				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE'), 'warning');
+			}
+		}
+
 		// Save the rules
 		if (isset($data['rules']))
 		{
@@ -429,5 +459,47 @@ class ConfigModelApplication extends ConfigModelForm
 		{
 			return $e->getMessage();
 		}
+	}
+
+	/**
+	 * Method to send a test mail which is called via an AJAX request
+	 *
+	 * @return bool
+	 *
+	 * @since   3.5
+	 * @throws Exception
+	 */
+	public function sendTestMail()
+	{
+		// Set the new values to test with the current settings
+		$app = JFactory::getApplication();
+		$input = $app->input;
+
+		$app->set('smtpauth', $input->get('smtpauth'));
+		$app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
+		$app->set('smtppass', $input->get('smtppass', '', 'RAW'));
+		$app->set('smtphost', $input->get('smtphost'));
+		$app->set('smtpsecure', $input->get('smtpsecure'));
+		$app->set('smtpport', $input->get('smtpport'));
+		$app->set('mailfrom', $input->get('mailfrom', '', 'STRING'));
+		$app->set('fromname', $input->get('fromname', '', 'STRING'));
+		$app->set('mailer', $input->get('mailer'));
+		$app->set('mailonline', $input->get('mailonline'));
+
+		// Prepare email and send try to send it
+		$mailSubject = JText::sprintf('COM_CONFIG_SENDMAIL_SUBJECT', $app->get('sitename'));
+		$mailBody    = JText::sprintf('COM_CONFIG_SENDMAIL_BODY', JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($app->get('mailer'))));
+
+		if (JFactory::getMailer()->sendMail($app->get('mailfrom'), $app->get('fromname'), $app->get('mailfrom'), $mailSubject, $mailBody) === true)
+		{
+			$methodName = JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($app->get('mailer')));
+			$app->enqueueMessage(JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $app->get('mailfrom'), $methodName), 'success');
+
+			return true;
+		}
+
+		$app->enqueueMessage(JText::_('COM_CONFIG_SENDMAIL_ERROR'), 'error');
+
+		return false;
 	}
 }
