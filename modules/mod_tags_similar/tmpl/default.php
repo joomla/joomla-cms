@@ -16,12 +16,18 @@ defined('_JEXEC') or die;
 	<ul>
 	<?php foreach ($list as $i => $item) : ?>
 		<li>
-			<?php $item->route = new JHelperRoute; ?>
-			<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
+			<?php if (($item->type_alias == 'com_users.category') || ($item->type_alias == 'com_banners.category')) : ?>
 				<?php if (!empty($item->core_title)) :
 					echo htmlspecialchars($item->core_title);
 				endif; ?>
-			</a>
+			<?php else: ?>	
+				<?php $item->route = new JHelperRoute; ?>
+				<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
+					<?php if (!empty($item->core_title)) :
+						echo htmlspecialchars($item->core_title);
+					endif; ?>
+				</a>
+			<?php endif; ?>
 		</li>
 	<?php endforeach; ?>
 	</ul>

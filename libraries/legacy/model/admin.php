@@ -1004,7 +1004,19 @@ abstract class JModelAdmin extends JModelForm
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
+
 					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+
+					return false;
+				}
+
+				// If the table is checked out by another user, drop it and report to the user trying to change its state.
+				if (property_exists($table, 'checked_out') && $table->checked_out && ($table->checked_out != $user->id))
+				{
+					JLog::add(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), JLog::WARNING, 'jerror');
+
+					// Prune items that you can't change.
+					unset($pks[$i]);
 
 					return false;
 				}
