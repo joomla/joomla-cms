@@ -78,7 +78,7 @@
 				<field
 					name="cache"
 					type="list"
-					default="1"
+					default="0"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option
@@ -89,7 +89,7 @@
 				<field
 					name="cache_time"
 					type="text"
-					default="900"
+					default="0"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
 				<field

@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 require_once __DIR__ . '/extension.php';
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Installer Update Sites Model
  *
@@ -38,9 +36,10 @@ class InstallerModelUpdatesites extends InstallerModel
 				'update_site_name',
 				'name',
 				'client_id',
+				'client', 'client_translated',
 				'status',
-				'type',
-				'folder',
+				'type', 'type_translated',
+				'folder', 'folder_translated',
 				'update_site_id',
 				'enabled',
 			);
@@ -171,12 +170,12 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		if ($clientId != '')
 		{
-			$query->where('client_id = ' . (int) $clientId);
+			$query->where('e.client_id = ' . (int) $clientId);
 		}
 
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where('folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
+			$query->where('e.folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
 		}
 
 		// Process search filter (update site id).
@@ -187,65 +186,8 @@ class InstallerModelUpdatesites extends InstallerModel
 			$query->where('s.update_site_id = ' . (int) substr($search, 3));
 		}
 
+		// Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).
+
 		return $query;
-	}
-
-	/**
-	 * Returns an object list
-	 *
-	 * @param   string  $query       The query
-	 * @param   int     $limitstart  Offset
-	 * @param   int     $limit       The number of records
-	 *
-	 * @return  array
-	 *
-	 * @since   3.4
-	 */
-	protected function _getList($query, $limitstart = 0, $limit = 0)
-	{
-		$ordering  = $this->getState('list.ordering', 'name');
-		$direction = $this->getState('list.direction', 'asc');
-		$search    = $this->getState('filter.search');
-
-		// Replace slashes so preg_match will work
-		$search = str_replace('/', ' ', $search);
-		$db     = $this->getDbo();
-
-		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
-		{
-			$db->setQuery($query);
-			$result = $db->loadObjectList();
-			$this->translate($result);
-
-			if (!empty($search) && (stripos($search, 'id:') !== 0))
-			{
-				foreach ($result as $i => $item)
-				{
-					if (!preg_match("/$search/i", $item->name) && !preg_match("/$search/i", $item->update_site_name))
-					{
-						unset($result[$i]);
-					}
-				}
-			}
-
-			$result = ArrayHelper::sortObjects($result, $ordering, strtolower($direction) === 'desc' ? -1 : 1, true, true);
-
-			$total = count($result);
-			$this->cache[$this->getStoreId('getTotal')] = $total;
-
-			if ($total < $limitstart)
-			{
-				$limitstart = 0;
-				$this->setState('list.start', 0);
-			}
-
-			return array_slice($result, $limitstart, $limit ? $limit : null);
-		}
-
-		$query->order($db->quoteName($ordering) . ' ' . $direction);
-		$result = parent::_getList($query, $limitstart, $limit);
-		$this->translate($result);
-
-		return $result;
 	}
 }
