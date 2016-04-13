@@ -177,7 +177,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 			// Add messages to the message box
 			for ( i = typeMessages.length - 1; i >= 0; i-- ) {
-				messageWrapper = document.createElement( 'p' );
+				messageWrapper = document.createElement( 'div' );
 				messageWrapper.innerHTML = typeMessages[ i ];
 				messagesBox.appendChild( messageWrapper );
 			}

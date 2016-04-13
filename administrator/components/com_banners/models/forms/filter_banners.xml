@@ -29,6 +29,16 @@
 			<option value="">JOPTION_SELECT_CATEGORY</option>
 		</field>
 		<field
+         		name="client_id"
+                	type="bannerclient"
+                	label="COM_BANNERS_FILTER_CLIENT"
+                	extension="com_content"
+                	description="COM_BANNERS_FILTER_CLIENT_DESC"
+                	onchange="this.form.submit();"
+                	>
+            		<option value="">COM_BANNERS_SELECT_CLIENT</option>
+        	</field>
+		<field
 			name="language"
 			type="contentlanguage"
 			label="JOPTION_FILTER_LANGUAGE"
@@ -38,16 +48,6 @@
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
 		</field>
-        <field
-                name="client_id"
-                type="bannerclient"
-                label="COM_BANNERS_FILTER_CLIENT"
-                extension="com_content"
-                description="COM_BANNERS_FILTER_CLIENT_DESC"
-                onchange="this.form.submit();"
-                >
-            <option value="">COM_BANNERS_SELECT_CLIENT</option>
-        </field>
 	</fields>
 	<fields name="list">
 		<field

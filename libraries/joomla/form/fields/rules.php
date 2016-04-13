@@ -374,7 +374,7 @@ class JFormFieldRules extends JFormField
 		}
 
 		$html[] = '</div></div>';
-
+		$html[] = '<div class="clr"></div>';
 		$html[] = '<div class="alert">';
 
 		if ($section == 'component' || $section == null)

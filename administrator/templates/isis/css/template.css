@@ -2790,7 +2790,7 @@ input[type="submit"].btn.btn-mini {
 	color: #8a6d3b;
 }
 .alert h4 {
-  margin: 0 0 .5em;
+	margin: 0 0 .5em;
 }
 .alert .close {
 	position: relative;
@@ -7631,6 +7631,9 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	display: block;
 	padding: 3px 20px;
 }
+.nav-collapse .dropdown-menu > li img {
+	max-width: none;
+}
 @media (max-width: 767px) {
 	.navbar-fixed-top .navbar-inner,
 	.navbar-fixed-top .navbar-inner .container-fluid {
@@ -8068,6 +8071,7 @@ a.grid_true {
 	margin: -10px 0 0 -1px;
 	padding-top: 28px;
 	padding-bottom: 10px;
+	clear: both;
 	background-color: #f5f5f5;
 	border-bottom: 1px solid #e3e3e3;
 	border-right: 1px solid #e3e3e3;
@@ -8189,13 +8193,4 @@ body.modal-open {
 }
 .js-pstats-data-details dt {
 	width: 220px;
-}
-@media (max-width: 767px) {
-	.field-media-wrapper .modal .modal-body {
-		padding: 5px 0;
-	}
-}
-.modal-body {
-	-webkit-overflow-scrolling: touch;
-	overflow-y: auto !important;
 }
