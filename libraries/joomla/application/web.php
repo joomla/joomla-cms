@@ -667,11 +667,11 @@ class JApplicationWeb extends JApplicationBase
 
 		// Remove if $replace is true and there are duplicate names
 		if ($replace && $keys)
-                {
+		{
 			$this->response->headers = array_diff_key($this->response->headers, array_flip($keys));
 		}
 
-		 /**
+		/**
                  * If no keys found, safe to insert (!$keys)
                  * If ($keys && $replace) it's a replacement and previous have been deleted
                  * if($keys && !in_array...) it's a multiple value header
@@ -724,7 +724,7 @@ class JApplicationWeb extends JApplicationBase
 		if (!$this->checkHeadersSent())
 		{
 			// Creating an array of headers, making arrays of headers with multiple values
-			$vals = array();
+			$val = array();
 			foreach ($this->response->headers as $header)
 			{
 				if ('status' == strtolower($header['name']))
@@ -734,8 +734,8 @@ class JApplicationWeb extends JApplicationBase
 				}
 				else
 				{
-					$vals[$header['name']] = !array_key_exists($header['name'], $vals)?$header['value']:implode(', ', array($vals[$header['name']], $header['value']));
-					$this->header($header['name'] . ': ' . $vals[$header['name']], true);
+					$val[$header['name']] = !isset($val[$header['name']])?$header['value']:implode(', ', array($val[$header['name']], $header['value']));
+					$this->header($header['name'] . ': ' . $val[$header['name']], true);
 				}
 			}
 		}
