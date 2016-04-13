@@ -665,22 +665,22 @@ class JApplicationWeb extends JApplicationBase
 			$keys = array_keys($names, $name);
 		}
 
-                // Remove if $replace is true and there are duplicate names
-                if($replace && $keys)
+		// Remove if $replace is true and there are duplicate names
+		if ($replace && $keys)
                 {
 			$this->response->headers = array_diff_key($this->response->headers, array_flip($keys));
-                }
+		}
 
-                /**
+		 /**
                  * If no keys found, safe to insert (!$keys)
                  * If ($keys && $replace) it's a replacement and previous have been deleted
                  * if($keys && !in_array...) it's a multiple value header
                  */
-                if(!$keys || ($keys && ($replace || !in_array($name, $this->singleValueResponseHeaders))))
-                {
+		if (!$keys || ($keys && ($replace || !in_array($name, $this->singleValueResponseHeaders))))
+		{
 			// Add the header to the internal array.
 			$this->response->headers[] = array('name' => $name, 'value' => $value);
-                }
+		}
 
 		return $this;
 	}
@@ -723,10 +723,10 @@ class JApplicationWeb extends JApplicationBase
 	{
 		if (!$this->checkHeadersSent())
 		{
-                        // Creating an array of headers, making arrays of headers with multiple values
-                        $values = array();
-                        foreach($this->response->headers as $header)
-                        {
+			// Creating an array of headers, making arrays of headers with multiple values
+			$vals = array();
+			foreach ($this->response->headers as $header)
+			{
 				if ('status' == strtolower($header['name']))
 				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
@@ -734,10 +734,10 @@ class JApplicationWeb extends JApplicationBase
 				}
 				else
 				{
-					$values[$header['name']] = !array_key_exists($header['name'],$values)?$header['value']:implode(', ',array($values[$header['name']],$header['value']));
-					$this->header($header['name'] . ': ' . $values[$header['name']], true);
-				}                            
-                        }
+					$vals[$header['name']] = !array_key_exists($header['name'], $vals)?$header['value']:implode(', ', array($vals[$header['name']], $header['value']));
+					$this->header($header['name'] . ': ' . $vals[$header['name']], true);
+				}
+			}
 		}
 
 		return $this;
