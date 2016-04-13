@@ -531,23 +531,25 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		// Get the component root menu element
 		$menuElement = $this->getManifest()->administration->menu[0];
 
-		// Ensure the link is a string
-		$link = (string) $menuElement['link'];
-
-		if ($link)
+		if ($menuElement)
 		{
-			$delimiter = 'option=';
-
-			// Checks delimiter is in the link string
-			if (strpos($link, $delimiter) !== false)
+			if ((string) $menuElement->attributes()->link)
 			{
-				// Gets the option from the link attribute
-				$option = substr($link, strpos($link, $delimiter) + strlen($delimiter));
+				$link = (string) $menuElement->attributes()->link;
 
-				// Filter the option for illegal characters
-				$option = JFilterInput::getInstance()->clean($option, 'string');
+				$delimiter = 'option=';
 
-				return $option;
+				// Checks delimiter is in the link string
+				if (strpos($link, $delimiter) !== false)
+				{
+					// Gets the option from the link attribute
+					$option = substr($link, strpos($link, $delimiter) + strlen($delimiter));
+
+					// Filter the option for illegal characters
+					$option = JFilterInput::getInstance()->clean($option, 'string');
+
+					return $option;
+				}
 			}
 		}
 
