@@ -529,11 +529,13 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	public function getMenuLinkOption()
 	{
 		// Check if the link attribute is set
-		if ($this->getManifest()->administration->menu->attributes()->link)
-		{
-			// Ensure the link is a string
-			$link = (string)$this->getManifest()->administration->menu->attributes()->link;
+		$menuAttributes = $this->getManifest()->administration->menu->attributes();
 
+		// Ensure the link is a string
+		$link = (string) $menuAttributes['link'];
+
+		if ($link)
+		{
 			$delimiter = 'option=';
 
 			// Checks delimiter is in the link string
