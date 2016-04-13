@@ -533,10 +533,11 @@ abstract class JInstallerAdapter extends JAdapterInstance
 
 		if ($menuElement)
 		{
-			if ((string) $menuElement->attributes()->link)
-			{
-				$link = (string) $menuElement->attributes()->link;
+			// Check link attribute exists and ensure it is a string
+			$link = (string) $menuElement->attributes()->link;
 
+			if ($link)
+			{
 				$delimiter = 'option=';
 
 				// Checks delimiter is in the link string
