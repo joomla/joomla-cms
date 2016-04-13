@@ -8194,3 +8194,6 @@ body.modal-open {
 .js-pstats-data-details dt {
 	width: 220px;
 }
+.modal-body {
+	overflow: hidden;
+}
