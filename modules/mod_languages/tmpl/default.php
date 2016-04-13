@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 if ($params->get('dropdown', 1))
 {
-	JHtml::_('formbehavior.chosen', 'select');
+	JHtml::_('formbehavior.chosen');
 }
 ?>
 <div class="mod-languages<?php echo $moduleclass_sfx; ?>">
@@ -22,7 +22,7 @@ if ($params->get('dropdown', 1))
 
 <?php if ($params->get('dropdown', 1)) : ?>
 	<form name="lang" method="post" action="<?php echo htmlspecialchars(JUri::current()); ?>">
-	<select class="inputbox" onchange="document.location.replace(this.value);" >
+	<select class="inputbox advancedSelect" onchange="document.location.replace(this.value);" >
 	<?php foreach ($list as $language) : ?>
 		<option dir=<?php echo $language->rtl ? '"rtl"' : '"ltr"'; ?> value="<?php echo $language->link; ?>" <?php echo $language->active ? 'selected="selected"' : ''; ?>>
 		<?php echo $language->title_native; ?></option>

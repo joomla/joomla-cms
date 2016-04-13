@@ -25,8 +25,11 @@ class CacheViewPurge extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		JFactory::getApplication()->enqueueMessage(JText::_('COM_CACHE_RESOURCE_INTENSIVE_WARNING'), 'warning');
+
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
+
 		parent::display($tpl);
 	}
 
