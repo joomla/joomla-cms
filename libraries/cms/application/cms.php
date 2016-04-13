@@ -227,7 +227,7 @@ class JApplicationCms extends JApplicationWeb
 	public function enqueueMessage($msg, $type = 'message')
 	{
 		// Don't add empty messages.
-		if (!strlen($msg))
+		if (!strlen(trim($msg)))
 		{
 			return;
 		}
