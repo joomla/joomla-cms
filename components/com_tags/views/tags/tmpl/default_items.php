@@ -39,13 +39,12 @@ if ($bsspans < 1)
 
 $bscolumns = min($columns, floor(12 / $bsspans));
 $n = count($this->items);
-?>
-
-<script type="text/javascript">
-	var resetFilter = function() {
+JFactory::getDocument()->addScriptDeclaration("
+		var resetFilter = function() {
 		document.getElementById('filter-search').value = '';
 	}
-</script>
+");
+?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>

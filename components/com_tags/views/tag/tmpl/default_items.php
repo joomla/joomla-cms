@@ -24,15 +24,12 @@ $canCreate = $user->authorise('core.create', 'com_tags');
 $canEditState = $user->authorise('core.edit.state', 'com_tags');
 $items = $this->items;
 $n = count($this->items);
-
-?>
-
-<script type="text/javascript">
-	var resetFilter = function() {
+JFactory::getDocument()->addScriptDeclaration("
+		var resetFilter = function() {
 		document.getElementById('filter-search').value = '';
 	}
-</script>
-
+");
+?>
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
 	<fieldset class="filters btn-toolbar">
