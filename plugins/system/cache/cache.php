@@ -33,10 +33,12 @@ class PlgSystemCache extends JPlugin
 		parent::__construct($subject, $config);
 
 		// Set the language in the class.
+		$app = JFactory::getApplication();
 		$options = array(
 			'defaultgroup' => 'page',
 			'browsercache' => $this->params->get('browsercache', false),
 			'caching'      => false,
+			'cachebase'    => $app->get('cache_path', JPATH_SITE . '/cache')
 		);
 
 		$this->_cache     = JCache::getInstance('page', $options);
@@ -59,6 +61,13 @@ class PlgSystemCache extends JPlugin
 
 		if ($app->isAdmin())
 		{
+			// Clear cache when user is performing a task different from login and logout
+			$task = $app->input->get('task');
+			if (!in_array($task, array('login', 'logout', null))) 
+			{
+				$this->_cache->clean();
+			}
+			
 			return;
 		}
 
