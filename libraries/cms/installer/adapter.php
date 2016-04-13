@@ -540,7 +540,8 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			$delimiter = 'option=';
 
 			// Checks delimiter is in the link string
-			if (strpos($link, $delimiter) !== false) {
+			if (strpos($link, $delimiter) !== false)
+			{
 
 				// Gets the option from the link attribute
 				$option = substr($link, strpos($link, $delimiter) + strlen($delimiter));
@@ -553,7 +554,6 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		}
 
 		return false;
-
 	}
 
 	/**
