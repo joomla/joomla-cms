@@ -354,7 +354,25 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	 */
 	public function getElement($element = null)
 	{
-		$element = parent::getElement($element);
+		if (!$element)
+		{
+			// Ensure the element is a string
+			$element = (string) $this->getManifest()->element;
+		}
+
+		if (!$element)
+		{
+			// Creates element from option in admin menu link
+			$element = $this->getMenuLinkOption();
+		}
+
+		if (!$element)
+		{
+			$element = $this->getName();
+		}
+
+		// Filter the name for illegal characters
+		$element =  strtolower(JFilterInput::getInstance()->clean($element, 'cmd'));
 
 		if (substr($element, 0, 4) != 'com_')
 		{
@@ -362,6 +380,44 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		}
 
 		return $element;
+	}
+
+	/**
+	 * Get the filtered administrator menu link option from the manifest
+	 *
+	 * @return  string  The filtered option
+	 *
+	 * @since   3.5
+	 */
+	public function getMenuLinkOption()
+	{
+		// Get the component root menu element
+		$menuElement = $this->getManifest()->administration->menu;
+
+		if ($menuElement)
+		{
+			// Check link attribute exists and is a string
+			$link = (string) $menuElement->attributes()->link;
+
+			if ($link)
+			{
+				$delimiter = 'option=';
+
+				// Checks delimiter is in the link string
+				if (strpos($link, $delimiter) !== false)
+				{
+					// Gets the option from the link attribute
+					$option = substr($link, strpos($link, $delimiter) + strlen($delimiter));
+
+					// Filter the option for illegal characters
+					$option = JFilterInput::getInstance()->clean($option, 'string');
+
+					return $option;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -946,16 +1002,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['client_id'] = 1;
 			$data['title'] = (string) trim($menuElement);
 			$data['alias'] = (string) $menuElement;
-
-
-			// My changes here
-
-
-
-			// Original code:
-			//$data['link'] = 'index.php?option=' . $option;
-
-
+			$data['link'] = 'index.php?option=' . $option;
 			$data['type'] = 'component';
 			$data['published'] = 0;
 			$data['parent_id'] = 1;
