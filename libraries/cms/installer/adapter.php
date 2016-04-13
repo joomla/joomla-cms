@@ -547,10 +547,13 @@ abstract class JInstallerAdapter extends JAdapterInstance
 
 				// Filter the option for illegal characters
 				$option = JFilterInput::getInstance()->clean($option, 'string');
+
+				return $option;
 			}
 		}
 
-		return $option;
+		return false;
+
 	}
 
 	/**
