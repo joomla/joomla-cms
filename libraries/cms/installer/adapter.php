@@ -529,7 +529,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	public function getMenuLinkOption()
 	{
 		// Get the component root menu element
-		$menuElement = $this->getManifest()->administration->menu[0];
+		$menuElement = $this->getManifest()->administration->menu;
 
 		if ($menuElement)
 		{
