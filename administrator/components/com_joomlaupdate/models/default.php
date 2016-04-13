@@ -295,16 +295,34 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	{
 		JLoader::import('helpers.download', JPATH_COMPONENT_ADMINISTRATOR);
 		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), JLog::INFO, 'Update');
-		$result = AdmintoolsHelperDownload::download($url, $target);
 
-		if (!$result)
+		// Get the handler to download the package
+		try
+		{
+			$http = JHttpFactory::getHttp(null, array('curl', 'stream'));
+		}
+		catch (RuntimeException $e)
 		{
 			return false;
 		}
-		else
+
+		jimport('joomla.filesystem.file');
+
+		// Make sure the target does not exist.
+		JFile::delete($target);
+
+		// Download the package
+		$result = $http->get($url);
+
+		if (!$result || ($result->code != 200 && $result->code != 310))
 		{
-			return basename($target);
+			return false;
 		}
+
+		// Write the file to disk
+		JFile::write($target, $result->body);
+
+		return basename($target);
 	}
 
 	/**

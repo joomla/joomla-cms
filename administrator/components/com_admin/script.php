@@ -1408,6 +1408,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/document/raw/raw.php',
 			'/libraries/joomla/document/xml/xml.php',
 			'/administrator/components/com_installer/views/languages/tmpl/default_filter.php',
+			'/administrator/components/com_joomlaupdate/helpers/download.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
