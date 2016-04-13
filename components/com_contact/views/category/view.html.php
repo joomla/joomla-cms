@@ -65,7 +65,7 @@ class ContactViewCategory extends JViewCategory
 			$item->params = clone($this->params);
 			$item->params->merge($temp);
 
-			if ($item->params->get('show_email', 0) == 1)
+			if ($item->params->get('show_email_headings', 0) == 1)
 			{
 				$item->email_to = trim($item->email_to);
 

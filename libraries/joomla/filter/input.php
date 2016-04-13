@@ -607,8 +607,8 @@ class JFilterInput
 	 * The options you can define are:
 	 * null_byte                   Prevent files with a null byte in their name (buffer overflow attack)
 	 * forbidden_extensions        Do not allow these strings anywhere in the file's extension
-	 * php_tag_in_content          Do not allow <?php tag in content
-	 * shorttag_in_content         Do not allow short tag <? in content
+	 * php_tag_in_content          Do not allow `<?php` tag in content
+	 * shorttag_in_content         Do not allow short tag `<?` in content
 	 * shorttag_extensions         Which file extensions to scan for short tags in content
 	 * fobidden_ext_in_content     Do not allow forbidden_extensions anywhere in content
 	 * php_ext_content_extensions  Which file extensions to scan for .php in content
@@ -901,14 +901,13 @@ class JFilterInput
 	 */
 	protected function remove($source)
 	{
-		$loopCounter = 0;
-
 		// Iteration provides nested tag protection
-		while ($source != $this->_cleanTags($source))
+		do
 		{
+			$temp = $source;
 			$source = $this->_cleanTags($source);
-			$loopCounter++;
 		}
+		while ($temp != $source);
 
 		return $source;
 	}
@@ -1405,14 +1404,14 @@ class JFilterInput
 	}
 
 	/**
-	 * Remove CSS Expressions in the form of <property>:expression(...)
+	 * Remove CSS Expressions in the form of `<property>:expression(...)`
 	 *
 	 * @param   string  $source  The source string.
 	 *
 	 * @return  string  Filtered string
 	 *
-	 * @since      11.1
-	 * @deprecated 4.0 Use JFilterInput::stripCSSExpressions() instead
+	 * @since       11.1
+	 * @deprecated  4.0 Use JFilterInput::stripCSSExpressions() instead
 	 */
 	protected function _stripCSSExpressions($source)
 	{
@@ -1460,6 +1459,8 @@ class JFilterInput
 	 * @param   mixed  $source  The data to filter
 	 *
 	 * @return  mixed  The filtered result
+	 *
+	 * @since   3.5
 	 */
 	protected function stripUSC($source)
 	{

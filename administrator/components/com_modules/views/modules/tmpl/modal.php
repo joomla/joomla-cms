@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$app = JFactory::getApplication();
-
-if ($app->isSite())
+if (JFactory::getApplication()->isSite())
 {
 	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 }

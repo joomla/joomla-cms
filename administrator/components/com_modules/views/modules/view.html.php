@@ -27,7 +27,9 @@ class ModulesViewModules extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -45,6 +47,7 @@ class ModulesViewModules extends JViewLegacy
 			return false;
 		}
 
+		// We don't need the toolbar in the modal window.
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
@@ -65,7 +68,8 @@ class ModulesViewModules extends JViewLegacy
 
 		// Include the component HTML helpers.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**

@@ -217,6 +217,12 @@ class JTableUser extends JTable
 			$this->lastvisitDate = $this->_db->getNullDate();
 		}
 
+		// Set the lastResetTime timestamp
+		if (empty($this->lastResetTime))
+		{
+			$this->lastResetTime = $this->_db->getNullDate();
+		}
+
 		// Check for existing username
 		$query = $this->_db->getQuery(true)
 			->select($this->_db->quoteName('id'))

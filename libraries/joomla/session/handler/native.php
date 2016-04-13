@@ -38,7 +38,6 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 * @return  boolean  True if started
 	 *
 	 * @since   3.5
-	 * @throws  RuntimeException If something goes wrong starting the session.
 	 */
 	public function start()
 	{
@@ -47,42 +46,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 			return true;
 		}
 
-		// Register our function as shutdown method, so we can manipulate it
-		register_shutdown_function(array($this, 'save'));
-
-		// Disable the cache limiter
-		session_cache_limiter('none');
-
-		/*
-		 * Extended checks to determine if the session has already been started
-		 */
-
-		// If running PHP 5.4, try to use the native API
-		if (version_compare(PHP_VERSION, '5.4', 'ge') && PHP_SESSION_ACTIVE === session_status())
-		{
-			throw new RuntimeException('Failed to start the session: already started by PHP.');
-		}
-
-		// Fallback check for PHP 5.3
-		if (version_compare(PHP_VERSION, '5.4', 'lt') && !$this->closed && isset($_SESSION) && $this->getId())
-		{
-			throw new RuntimeException('Failed to start the session: already started by PHP ($_SESSION is set).');
-		}
-
-		// If we are using cookies (default true) and headers have already been started (early output),
-		if (ini_get('session.use_cookies') && headers_sent($file, $line))
-		{
-			throw new RuntimeException(sprintf('Failed to start the session because headers have already been sent by "%s" at line %d.', $file, $line));
-		}
-
-		// Ok to try and start the session
-		if (!session_start())
-		{
-			throw new RuntimeException('Failed to start the session');
-		}
-
-		// Mark ourselves as started
-		$this->started = true;
+		$this->doSessionStart();
 
 		return true;
 	}
@@ -191,12 +155,12 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 		if (isset($_SESSION))
 		{
 			$backup = $_SESSION;
-			session_start();
+			$this->doSessionStart();
 			$_SESSION = $backup;
 		}
 		else
 		{
-			session_start();
+			$this->doSessionStart();
 		}
 
 		return $return;
@@ -250,5 +214,53 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 
 		$this->closed  = true;
 		$this->started = false;
+	}
+
+	/**
+	 * Performs the session start mechanism
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5.1
+	 * @throws  RuntimeException If something goes wrong starting the session.
+	 */
+	private function doSessionStart()
+	{
+		// Register our function as shutdown method, so we can manipulate it
+		register_shutdown_function(array($this, 'save'));
+
+		// Disable the cache limiter
+		session_cache_limiter('none');
+
+		/*
+		 * Extended checks to determine if the session has already been started
+		 */
+
+		// If running PHP 5.4, try to use the native API
+		if (version_compare(PHP_VERSION, '5.4', 'ge') && PHP_SESSION_ACTIVE === session_status())
+		{
+			throw new RuntimeException('Failed to start the session: already started by PHP.');
+		}
+
+		// Fallback check for PHP 5.3
+		if (version_compare(PHP_VERSION, '5.4', 'lt') && !$this->closed && isset($_SESSION) && $this->getId())
+		{
+			throw new RuntimeException('Failed to start the session: already started by PHP ($_SESSION is set).');
+		}
+
+		// If we are using cookies (default true) and headers have already been started (early output),
+		if (ini_get('session.use_cookies') && headers_sent($file, $line))
+		{
+			throw new RuntimeException(sprintf('Failed to start the session because headers have already been sent by "%s" at line %d.', $file, $line));
+		}
+
+		// Ok to try and start the session
+		if (!session_start())
+		{
+			throw new RuntimeException('Failed to start the session');
+		}
+
+		// Mark ourselves as started
+		$this->started = true;
 	}
 }
