@@ -946,15 +946,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['client_id'] = 1;
 			$data['title'] = (string) trim($menuElement);
 			$data['alias'] = (string) $menuElement;
-
-
-			// My changes here
-
-
-			// Original code:
-			//$data['link'] = 'index.php?option=' . $option;
-
-
+			$data['link'] = 'index.php?option=' . $option;
 			$data['type'] = 'component';
 			$data['published'] = 0;
 			$data['parent_id'] = 1;
