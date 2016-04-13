@@ -518,6 +518,10 @@ class TemplatesModelTemplate extends JModelForm
 			return false;
 		}
 
+		// Get the extension of the changed file.
+		$explodeArray = explode('.', $fileName);
+		$ext          = end($explodeArray);
+
 		if ($ext == 'less')
 		{
 			$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_COMPILE_LESS', $fileName));
