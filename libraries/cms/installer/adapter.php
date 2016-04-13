@@ -533,7 +533,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		$menuElement = $this->getManifest()->administration->menu[0];
 
 		// Ensure the link is a string
-		$link = (string) $menuElement->attributes()->link;
+		$link = (string) $menuElement['link'];
 
 		if ($link)
 		{
