@@ -528,7 +528,6 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 */
 	public function getMenuLinkOption()
 	{
-
 		// Get the component root menu element
 		$menuElement = $this->getManifest()->administration->menu[0];
 
@@ -542,7 +541,6 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			// Checks delimiter is in the link string
 			if (strpos($link, $delimiter) !== false)
 			{
-
 				// Gets the option from the link attribute
 				$option = substr($link, strpos($link, $delimiter) + strlen($delimiter));
 
