@@ -49,28 +49,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<li class="row cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
 
-					<?php 
-						$imgcol = 0;
-						$desccol = 9;
-						$extracol = 3;
-						if ($this->params->get('show_image_heading'))
-						{
-							if ($this->params->get('list_cols_width') == 1)
-							{
-								$imgcol = 3;
-								$desccol = 6;
-								$extracol = 3;
-							}
-							elseif ($this->params->get('list_cols_width') == 0)
-							{
-								$imgcol = 2;
-								$desccol = 7;
-								$extracol = 3;
-							}
-						}
-					?>
 					<?php if ($this->params->get('show_image_heading')) : ?>
-						<div class="span<?php echo $imgcol; ?> col-md-<?php echo $imgcol; ?>">
+						<div class="span3 col-md-3">
 							<?php if ($this->items[$i]->image) : ?>
 								<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 									<?php echo JHtml::_('image', $this->items[$i]->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('class' => 'contact-thumbnail img-thumbnail')); ?></a>
@@ -79,7 +59,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 
 					<div class="list-item">
-						<div class="list-title span<?php echo $desccol; ?> col-md-<?php echo $desccol; ?>">
+						<div class="list-title span9 col-md-9">
 							<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 								<?php echo $item->name; ?></a>
 							<?php if ($this->items[$i]->published == 0) : ?>

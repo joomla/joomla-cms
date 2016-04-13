@@ -148,15 +148,6 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="list_cols_width" type="list"
-				description="COM_CONTACT_FIELD_SHOW_LIST_COLS_DESC"
-				label="COM_CONTACT_FIELD_SHOW_LIST_COLS_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">COM_CONTACT_FIELD_SHOW_LIST_COLS_SMALL</option>
-				<option value="1">COM_CONTACT_FIELD_SHOW_LIST_COLS_WIDE</option>
-			</field>
-
 		<field name="show_position_headings" type="list"
 			label="COM_CONTACT_FIELD_CONFIG_POSITION_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_POSITION_DESC"
