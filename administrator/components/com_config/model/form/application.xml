@@ -462,7 +462,8 @@
 			label="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_DESC"
 			filter="integer"
-			showon="mailonline:1">
+			showon="mailonline:1"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
