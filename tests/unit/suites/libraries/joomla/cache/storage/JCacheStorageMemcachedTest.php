@@ -9,23 +9,9 @@
 
 /**
  * Test class for JCacheStorageMemcached.
- *
- * @package     Joomla.UnitTest
- * @subpackage  Cache
- * @since       11.1
  */
-class JCacheStorageMemcachedTest extends TestCase
+class JCacheStorageMemcachedTest extends TestCaseCache
 {
-	/**
-	 * @var    JCacheStorageMemcached
-	 */
-	protected $object;
-
-	/**
-	 * @var    boolean
-	 */
-	protected $extensionAvailable;
-
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
@@ -34,56 +20,16 @@ class JCacheStorageMemcachedTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		$this->extensionAvailable = JCacheStorageMemcached::isSupported();
-
-		$this->saveFactoryState();
-
-		if ($this->extensionAvailable)
+		if (!JCacheStorageMemcached::isSupported() || $this->isBlacklisted('memcached'))
 		{
-			JFactory::$session = $this->getMockSession();
-			$this->object = JCacheStorage::getInstance('memcached');
+			$this->markTestSkipped('The Memcached cache handler is not supported on this system.');
 		}
-		else
-		{
-			$this->markTestSkipped('This caching method is not supported on this system.');
-		}
-	}
 
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return  void
-	 */
-	protected function tearDown()
-	{
-		$this->restoreFactoryState();
-	}
+		parent::setUp();
 
-	/**
-	 * Testing gc().
-	 *
-	 * @return  void
-	 */
-	public function testGc()
-	{
-		$this->assertTrue(
-			$this->object->gc(),
-			'Should return default true'
-		);
-	}
+		$this->handler = new JCacheStorageMemcached;
 
-	/**
-	 * Testing isSupported().
-	 *
-	 * @return  void
-	 */
-	public function testIsSupported()
-	{
-		$this->assertEquals(
-			$this->extensionAvailable,
-			$this->object->isSupported(),
-			'Claims Memcache is not loaded.'
-		);
+		// Override the lifetime because the JCacheStorage API multiplies it by 60 (converts minutes to seconds)
+		$this->handler->_lifetime = 2;
 	}
 }

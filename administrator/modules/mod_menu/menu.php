@@ -128,6 +128,8 @@ class JAdminCssMenu extends JObject
 			}
 
 			echo "</ul>\n";
+
+			echo '<ul id="nav-empty" class="dropdown-menu nav-empty hidden-phone"></ul>';
 		}
 
 		if ($this->_css)
@@ -162,6 +164,11 @@ class JAdminCssMenu extends JObject
 		if ($this->_current->hasChildren() && $this->_current->class)
 		{
 			$class = ' class="dropdown-submenu"';
+
+			if ($this->_current->class == 'scrollable-menu')
+			{
+				$class = ' class="dropdown scrollable-menu"';
+			}
 		}
 
 		if ($this->_current->class == 'disabled')
@@ -186,6 +193,10 @@ class JAdminCssMenu extends JObject
 			{
 				$dropdownCaret = ' <span class="caret"></span>';
 			}
+		}
+		else
+		{
+			$linkClass[] = 'no-dropdown';
 		}
 
 		if ($this->_current->link != null && $this->_current->getParent()->title != 'ROOT')
@@ -231,11 +242,11 @@ class JAdminCssMenu extends JObject
 					$id = ' id="menu-' . strtolower($this->_current->id) . '"';
 				}
 
-				echo '<ul' . $id . ' class="dropdown-menu menu-component">' . "\n";
+				echo '<ul' . $id . ' class="dropdown-menu menu-scrollable">' . "\n";
 			}
 			else
 			{
-				echo '<ul class="dropdown-menu">' . "\n";
+				echo '<ul class="dropdown-menu scroll-menu">' . "\n";
 			}
 
 			foreach ($this->_current->getChildren() as $child)
