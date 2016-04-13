@@ -372,7 +372,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		}
 
 		// Filter the name for illegal characters
-		$element =  strtolower(JFilterInput::getInstance()->clean($element, 'cmd'));
+		$element = strtolower(JFilterInput::getInstance()->clean($element, 'cmd'));
 
 		if (substr($element, 0, 4) != 'com_')
 		{
