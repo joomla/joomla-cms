@@ -106,7 +106,7 @@ class InstallationModelLanguages extends JModelBase
 			$query = $db->getQuery(true);
 
 			// Select the required fields from the updates table.
-			$query->select($db->qn(array('update_id', 'name', 'version')))
+			$query->select($db->qn(array('update_id', 'name', 'element', 'version')))
 				->from($db->qn('#__updates'))
 				->order($db->qn('name'));
 
