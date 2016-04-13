@@ -528,19 +528,22 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 */
 	public function getMenuLinkOption()
 	{
-		// Ensure the link is a string
-		$link = (string) $this->getManifest()->administration->menu->attributes()->link;
-
-		$delimiter = 'option=';
-
-		// Checks delimiter is in the link string
-		if (strpos($link, $delimiter) !== false)
+		// Check if the link attribute is set
+		if (isset ($this->getManifest()->administration->menu->attributes()->link))
 		{
-			// Gets the option from the link attribute
-			$option = substr($link, strpos($link, $delimiter) + strlen($delimiter));
+			// Esnure the link is a string
+			$link = (string)$this->getManifest()->administration->menu->attributes()->link;
 
-			// Filter the option for illegal characters
-			$option = JFilterInput::getInstance()->clean($option, 'string');
+			$delimiter = 'option=';
+
+			// Checks delimiter is in the link string
+			if (strpos($link, $delimiter) !== false) {
+				// Gets the option from the link attribute
+				$option = substr($link, strpos($link, $delimiter) + strlen($delimiter));
+
+				// Filter the option for illegal characters
+				$option = JFilterInput::getInstance()->clean($option, 'string');
+			}
 		}
 
 		return $option;
