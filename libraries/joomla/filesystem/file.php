@@ -109,47 +109,41 @@ class JFile
 
 			return true;
 		}
-		else
+
+		$FTPOptions = JClientHelper::getCredentials('ftp');
+
+		if ($FTPOptions['enabled'] == 1)
 		{
-			$FTPOptions = JClientHelper::getCredentials('ftp');
+			// Connect the FTP client
+			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
-			if ($FTPOptions['enabled'] == 1)
+			// If the parent folder doesn't exist we must create it
+			if (!file_exists(dirname($dest)))
 			{
-				// Connect the FTP client
-				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
-
-				// If the parent folder doesn't exist we must create it
-				if (!file_exists(dirname($dest)))
-				{
-					$folderObject = new JFilesystemWrapperFolder;
-					$folderObject->create(dirname($dest));
-				}
-
-				// Translate the destination path for the FTP account
-				$dest = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
-
-				if (!$ftp->store($src, $dest))
-				{
-					// FTP connector throws an error
-					return false;
-				}
-
-				$ret = true;
-			}
-			else
-			{
-				if (!@ copy($src, $dest))
-				{
-					JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED'), JLog::WARNING, 'jerror');
-
-					return false;
-				}
-
-				$ret = true;
+				$folderObject = new JFilesystemWrapperFolder;
+				$folderObject->create(dirname($dest));
 			}
 
-			return $ret;
+			// Translate the destination path for the FTP account
+			$dest = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+
+			if (!$ftp->store($src, $dest))
+			{
+				// FTP connector throws an error
+				return false;
+			}
+
+			return true;
 		}
+
+		if (!@ copy($src, $dest))
+		{
+			JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED'), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -166,14 +160,12 @@ class JFile
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 		$pathObject = new JFilesystemWrapperPath;
 
-		if (is_array($file))
+		if (!is_array($file))
 		{
-			$files = $file;
+			$file = array($file);
 		}
-		else
-		{
-			$files[] = $file;
-		}
+
+		$files = $file;
 
 		// Do NOT use ftp if it is not enabled
 		if ($FTPOptions['enabled'] == 1)
@@ -199,23 +191,22 @@ class JFile
 			// as long as the owner is either the webserver or the ftp
 			if (@unlink($file))
 			{
-				// Do nothing
+				return true;
 			}
-			elseif ($FTPOptions['enabled'] == 1)
-			{
-				$file = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
 
-				if (!$ftp->delete($file))
-				{
-					// FTP connector throws an error
-
-					return false;
-				}
-			}
-			else
+			if ($FTPOptions['enabled'] != 1)
 			{
 				$filename = basename($file);
 				JLog::add(JText::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', $filename), JLog::WARNING, 'jerror');
+
+				return false;
+			}
+
+			$file = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
+
+			if (!$ftp->delete($file))
+			{
+				// FTP connector throws an error
 
 				return false;
 			}
@@ -267,39 +258,37 @@ class JFile
 
 			return true;
 		}
+
+		$FTPOptions = JClientHelper::getCredentials('ftp');
+
+		if ($FTPOptions['enabled'] == 1)
+		{
+			// Connect the FTP client
+			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+
+			// Translate path for the FTP account
+			$src = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
+			$dest = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+
+			// Use FTP rename to simulate move
+			if (!$ftp->rename($src, $dest))
+			{
+				JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'), JLog::WARNING, 'jerror');
+
+				return false;
+			}
+		}
 		else
 		{
-			$FTPOptions = JClientHelper::getCredentials('ftp');
-
-			if ($FTPOptions['enabled'] == 1)
+			if (!@ rename($src, $dest))
 			{
-				// Connect the FTP client
-				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+				JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'), JLog::WARNING, 'jerror');
 
-				// Translate path for the FTP account
-				$src = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
-				$dest = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
-
-				// Use FTP rename to simulate move
-				if (!$ftp->rename($src, $dest))
-				{
-					JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'), JLog::WARNING, 'jerror');
-
-					return false;
-				}
+				return false;
 			}
-			else
-			{
-				if (!@ rename($src, $dest))
-				{
-					JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'), JLog::WARNING, 'jerror');
-
-					return false;
-				}
-			}
-
-			return true;
 		}
+
+		return true;
 	}
 
 	/**
@@ -415,28 +404,24 @@ class JFile
 
 			return true;
 		}
-		else
+
+		$FTPOptions = JClientHelper::getCredentials('ftp');
+		$pathObject = new JFilesystemWrapperPath;
+
+		if ($FTPOptions['enabled'] != 1)
 		{
-			$FTPOptions = JClientHelper::getCredentials('ftp');
-			$pathObject = new JFilesystemWrapperPath;
-
-			if ($FTPOptions['enabled'] == 1)
-			{
-				// Connect the FTP client
-				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
-
-				// Translate path for the FTP account and use FTP write buffer to file
-				$file = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
-				$ret = $ftp->write($file, $buffer);
-			}
-			else
-			{
-				$file = $pathObject->clean($file);
-				$ret = is_int(file_put_contents($file, $buffer)) ? true : false;
-			}
+			$file = $pathObject->clean($file);
+			$ret = is_int(file_put_contents($file, $buffer)) ? true : false;
 
 			return $ret;
 		}
+
+		// Connect the FTP client
+		$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+
+		// Translate path for the FTP account and use FTP write buffer to file
+		$file = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
+		return $ftp->write($file, $buffer);
 	}
 
 	/**
@@ -500,52 +485,44 @@ class JFile
 
 			return true;
 		}
-		else
+
+		$FTPOptions = JClientHelper::getCredentials('ftp');
+
+		if ($FTPOptions['enabled'] != 1)
 		{
-			$FTPOptions = JClientHelper::getCredentials('ftp');
-			$ret = false;
-
-			if ($FTPOptions['enabled'] == 1)
+			if (!is_writeable($baseDir) || !move_uploaded_file($src, $dest))
 			{
-				// Connect the FTP client
-				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+				JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR02'), JLog::WARNING, 'jerror');
 
-				// Translate path for the FTP account
-				$dest = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
-
-				// Copy the file to the destination directory
-				if (is_uploaded_file($src) && $ftp->store($src, $dest))
-				{
-					unlink($src);
-					$ret = true;
-				}
-				else
-				{
-					JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR02'), JLog::WARNING, 'jerror');
-				}
-			}
-			else
-			{
-				if (is_writeable($baseDir) && move_uploaded_file($src, $dest))
-				{
-					// Short circuit to prevent file permission errors
-					if ($pathObject->setPermissions($dest))
-					{
-						$ret = true;
-					}
-					else
-					{
-						JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR01'), JLog::WARNING, 'jerror');
-					}
-				}
-				else
-				{
-					JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR02'), JLog::WARNING, 'jerror');
-				}
+				return false;
 			}
 
-			return $ret;
+			// Short circuit to prevent file permission errors
+			if (!$pathObject->setPermissions($dest))
+			{
+				JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR01'), JLog::WARNING, 'jerror');
+
+				return false;
+			}
+
+			return true;
 		}
+
+		// Connect the FTP client
+		$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+
+		// Translate path for the FTP account
+		$dest = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+
+		// Copy the file to the destination directory
+		if (!is_uploaded_file($src) || !$ftp->store($src, $dest))
+		{
+			JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR02'), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		return unlink($src);
 	}
 
 	/**
@@ -586,9 +563,7 @@ class JFile
 		{
 			return substr($file, $slash + 1);
 		}
-		else
-		{
-			return $file;
-		}
+
+		return $file;
 	}
 }
