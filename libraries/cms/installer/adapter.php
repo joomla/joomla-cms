@@ -529,15 +529,16 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	public function getMenuLinkOption()
 	{
 		// Check if the link attribute is set
-		$menu = $this->getManifest()->administration->menu;
-
-		$test = $menu->attributes();
-		echo $test;
-		// Ensure the link is a string
-		$link = false;
-
-		if ($link)
+		if ($this->getManifest()->administration->menu)
 		{
+			$menu = $this->getManifest()->administration->menu;
+			var_dump($menu[0]->attributes());
+			/*
+
+
+			// Ensure the link is a string
+			$link = (string)$this->getManifest()->administration->menu->attributes('link');
+
 			$delimiter = 'option=';
 
 			// Checks delimiter is in the link string
@@ -548,8 +549,10 @@ abstract class JInstallerAdapter extends JAdapterInstance
 
 				// Filter the option for illegal characters
 				$option = JFilterInput::getInstance()->clean($option, 'string');
-			}
+			}*/
 		}
+
+		$option = null;
 
 		return $option;
 	}
