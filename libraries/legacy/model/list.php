@@ -179,6 +179,8 @@ class JModelList extends JModelLegacy
 
 		// Load the list items.
 		$query = $this->_getListQuery();
+		
+		$this->preprocessListQuery($query);
 
 		try
 		{
@@ -654,6 +656,29 @@ class JModelList extends JModelLegacy
 
 		// Trigger the form preparation event.
 		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
+
+		// Check for errors encountered while preparing the form.
+		if (count($results) && in_array(false, $results, true))
+		{
+			// Get the last error.
+			$error = $dispatcher->getError();
+
+			if (!($error instanceof Exception))
+			{
+				throw new Exception($error);
+			}
+		}
+	}
+	
+
+	protected function preprocessListQuery($query, $group = 'content')
+	{
+
+        JPluginHelper::importPlugin($group);
+
+        $dispatcher = JEventDispatcher::getInstance();
+
+        $results = $dispatcher->trigger('onContentListQuery', array($query));
 
 		// Check for errors encountered while preparing the form.
 		if (count($results) && in_array(false, $results, true))
