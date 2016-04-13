@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -151,7 +151,7 @@ if ($saveOrder)
 										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 									</span>
 									<div class="small">
-										<?php echo $this->escape($item->category_title); ?>
+										<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 									</div>
 								</div>
 							</td>
@@ -173,7 +173,7 @@ if ($saveOrder)
 								<?php if ($item->language == '*'): ?>
 									<?php echo JText::alt('JALL', 'language'); ?>
 								<?php else: ?>
-									<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+									<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 								<?php endif; ?>
 							</td>
 							<td class="hidden-phone">

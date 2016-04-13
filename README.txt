@@ -60,12 +60,12 @@
 12- Do you want to improve Joomla?
 	* How do you request a feature? https://docs.joomla.org/How_do_you_request_a_feature%3F
 	* How do you report a bug? https://docs.joomla.org/Filing_bugs_and_issues
-	* Get Involved: Joomla! is a community developed software. Join the community at http://volunteers.joomla.org/
+	* Get Involved: Joomla! is a community developed software. Join the community at https://volunteers.joomla.org/
 	* Are you a Developer? https://docs.joomla.org/Developers
 	* Are you a Web designer? https://docs.joomla.org/Web_designers
 
 Copyright:
-	* Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+	* Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
 	* Special Thanks: https://docs.joomla.org/Joomla!_Credits_and_Thanks
 	* Distributed under the GNU General Public License version 2 or later
 	* See Licenses details at https://docs.joomla.org/Joomla_Licenses

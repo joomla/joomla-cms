@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -229,6 +229,12 @@ class JApplicationHelper
 	public static function parseXMLLangMetaFile($path)
 	{
 		JLog::add('JApplicationHelper::parseXMLLangMetaFile is deprecated. Use JInstaller::parseXMLInstallFile instead.', JLog::WARNING, 'deprecated');
+
+		// Check if meta file exists.
+		if (!file_exists($path))
+		{
+			return false;
+		}
 
 		// Read the file to see if it's a valid component XML file
 		$xml = simplexml_load_file($path);

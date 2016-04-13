@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -139,6 +139,16 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				}
 			}
 
+			// Displays language code if not set to All
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName('language'))
+				->where($db->quoteName('id') . '=' . (int) $options[$i]->value)
+				->from($db->quoteName('#__categories'));
+
+			$db->setQuery($query);
+			$language = $db->loadResult();
+
 			if ($options[$i]->published == 1)
 			{
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
@@ -146,6 +156,11 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			else
 			{
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . '[' . $options[$i]->text . ']';
+			}
+
+			if ($language !== '*')
+			{
+				$options[$i]->text = $options[$i]->text . ' (' . $language . ')';
 			}
 		}
 

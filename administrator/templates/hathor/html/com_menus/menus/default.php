@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,16 +21,6 @@ $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $modMenuId = (int) $this->get('ModMenuId');
-
-JFactory::getDocument()->addScriptDeclaration("
-		Joomla.submitbutton = function(task)
-		{
-			if (task != 'menus.delete' || confirm('" . JText::_('COM_MENUS_MENU_CONFIRM_DELETE', true) . "'))
-			{
-				Joomla.submitform(task);
-			}
-		};
-");
 
 $script = array();
 $script[] = "jQuery(document).ready(function() {";
@@ -166,7 +156,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 										'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
 										'height' => '300px',
 										'width' => '800px',
-										'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+										'footer' => '<button class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
 											. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 											. '<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#module'
 											. $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
@@ -176,9 +166,9 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 						<?php endif; ?>
 					<?php endforeach; ?>
 					<?php elseif ($modMenuId) : ?>
-					<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]='.$item->menutype); ?>">
-						<?php echo JText::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
-					<?php echo JHtml::_(
+						<?php $link = JRoute::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype); ?>
+						<a href="<?php echo $link; ?>"><?php echo JText::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
+						<?php echo JHtml::_(
 							'bootstrap.renderModal',
 							'moduleModal',
 							array(
@@ -186,7 +176,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 								'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
 								'height' => '500px',
 								'width' => '800px',
-								'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+								'footer' => '<button class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
 									. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 								)
 						); ?>

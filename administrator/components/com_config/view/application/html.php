@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,6 +72,13 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 		ConfigHelperConfig::loadLanguageForComponents($this->components);
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
+
+		// Add strings for translations in Javascript.
+		JText::script('COM_CONFIG_SENDMAIL_JS_ERROR_CONNECTION_ABORT');
+		JText::script('COM_CONFIG_SENDMAIL_JS_ERROR_NO_CONTENT');
+		JText::script('COM_CONFIG_SENDMAIL_JS_ERROR_OTHER');
+		JText::script('COM_CONFIG_SENDMAIL_JS_ERROR_PARSE');
+		JText::script('COM_CONFIG_SENDMAIL_JS_ERROR_TIMEOUT');
 
 		$this->addToolbar();
 

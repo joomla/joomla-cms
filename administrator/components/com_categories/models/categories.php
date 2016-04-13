@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -165,7 +165,7 @@ class CategoriesModelCategories extends JModelList
 		$query->from('#__categories AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title')
+		$query->select('l.title AS language_title, l.image AS language_image')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
@@ -297,20 +297,12 @@ class CategoriesModelCategories extends JModelList
 				a.lft, 
 				a.rgt, 
 				a.language, 
-				l.title, 
+				l.title,
+				l.image,
 				uc.name, 
 				ag.title, 
 				ua.name'
 			);
-
-		// Load Helper file of the component for which com_categories displays the categories
-		$classname = ucfirst(substr($extension, 4)) . 'Helper';
-
-		if (class_exists($classname) && method_exists($classname, 'countItems'))
-		{
-			// Get the SQL to extend the com_category $query object with item count (published, unpublished, trashed)
-			$classname::countItems($query);
-		}
 
 		return $query;
 	}
@@ -351,5 +343,65 @@ class CategoriesModelCategories extends JModelList
 		}
 
 		return $assoc;
+	}
+
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   12.2
+	 */
+	public function getItems()
+	{
+		$items = parent::getItems();
+
+		if ($items != false)
+		{
+			$extension = $this->getState('filter.extension');
+
+			$this->countItems($items, $extension);
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Method to load the countItems method from the extensions
+	 * 
+	 * @param   stdClass[]  &$items     The category items
+	 * @param   string      $extension  The category extension
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function countItems(&$items, $extension)
+	{
+		$parts = explode('.', $extension);
+		$component = $parts[0];
+		$section = null;
+
+		if (count($parts) > 1)
+		{
+			$section = $parts[1];
+		}
+
+		// Try to find the component helper.
+		$eName = str_replace('com_', '', $component);
+		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+
+		if (file_exists($file))
+		{
+			require_once $file;
+
+			$prefix = ucfirst(str_replace('com_', '', $component));
+			$cName = $prefix . 'Helper';
+
+			if (class_exists($cName) && is_callable(array($cName, 'countItems')))
+			{
+				call_user_func(array($cName, 'countItems'), $items, $section);
+			}
+		}
 	}
 }
