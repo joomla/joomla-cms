@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="3.5"
+	client="installation">
+	<name>Persian (پارسی)</name>
+	<version>3.5.0</version>
+	<creationDate>2016-01-30</creationDate>
+	<author>JoomlaFarsi.Com Team</author>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<files>
+		<filename>fa-IR.ini</filename>
+	</files>
+	<metadata>
+		<name>Persian (پارسی)</name>
+		<tag>fa-IR</tag>
+		<rtl>1</rtl>
+	</metadata>
+	<params />
+</metafile>

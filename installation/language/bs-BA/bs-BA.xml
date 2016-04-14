@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="3.5"
+	client="installation">
+	<name>Bosanski (BA)</name>
+	<version>3.5.0</version>
+	<creationDate>January 2016</creationDate>
+	<author>Bosnian Translation Team</author>
+ 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<files>
+		<filename>bs-BA.ini</filename>
+	</files>
+	<metadata>
+		<name>Bosanski (Bosnia)</name>
+		<tag>bs-BA</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>
