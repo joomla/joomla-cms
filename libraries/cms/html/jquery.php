@@ -84,7 +84,7 @@ abstract class JHtmlJquery
 	public static function ui(array $components = array('core'), $debug = null)
 	{
 		// Set an array containing the supported jQuery UI components handled by this method
-		$supported = array('core', 'sortable');
+		$supported = array('core', 'sortable', 'draggable');
 
 		// Include jQuery
 		static::framework();
