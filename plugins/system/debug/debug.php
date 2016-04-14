@@ -196,7 +196,12 @@ class PlgSystemDebug extends JPlugin
 					jQuery("#system-debug-container").css("display", displayMode);
 					if (displayMode == "none")
 					{
-						jQuery(".dbg-container").css("display", "none");
+						jQuery(".dbg-container").css("display", displayMode);
+						jQuery("#system-debug").removeClass("large").addClass("short");
+					}
+					else
+					{
+						jQuery("#system-debug").addClass("large").removeClass("short");
 					}
 				});
 
@@ -258,7 +263,7 @@ class PlgSystemDebug extends JPlugin
 
 		$html = array();
 
-		$html[] = '<div id="system-debug" class="profiler">';
+		$html[] = '<div id="system-debug" class="short profiler">';
 
 		$html[] = '<div class="header"><h1>' . JText::_('PLG_DEBUG_TITLE') . '</h1><div class="drag icon-move"></div></div>';
 
@@ -1353,7 +1358,7 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '</table>';
 
-		return implode('', $html);
+		return str_replace('&nbsp;', ' ', implode('', $html));
 	}
 
 	/**
@@ -1864,9 +1869,9 @@ class PlgSystemDebug extends JPlugin
 		if (isset($callStack))
 		{
 			$htmlCallStack .= '<div>';
-			$htmlCallStack .= '<table class="table table-striped dbg-query-table">';
+			$htmlCallStack .= '<table class="table table-striped table-fixed dbg-query-table">';
 			$htmlCallStack .= '<thead>';
-			$htmlCallStack .= '<th>#</th>';
+			$htmlCallStack .= '<th style="width: 15px">#</th>';
 			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_CALLER') . '</th>';
 			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_FILE_AND_LINE') . '</th>';
 			$htmlCallStack .= '</tr>';
