@@ -68,6 +68,7 @@ div#system-debug {
 	padding: 10px;
 	overflow-y: scroll;
 	max-height: 350px;
+	min-width: 80em;
 	display: none;
 }
 
