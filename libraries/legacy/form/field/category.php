@@ -105,4 +105,3 @@ class JFormFieldCategory extends JFormFieldList
 		return $options;
 	}
 }
-
