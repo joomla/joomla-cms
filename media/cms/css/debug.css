@@ -18,7 +18,7 @@ div#system-debug {
 	right: 1em;
 	min-width: 20em;
 	max-width: 20em;
-	z-index: 1049;
+	z-index: 1039;
 }
 
 #system-debug-container {
@@ -243,4 +243,30 @@ div#system-debug {
 #dbg_container_session pre .grey
 {
 	color:grey;
+}
+
+
+@media (max-height: 680px) {
+	#system-debug {
+		position: relative;
+		top: auto;
+		right: auto;
+		min-width: none;
+		max-width: none;
+	}
+
+	#system-debug .header .drag {
+		display: none;
+	}
+
+	#system-debug-container {
+		display: block;
+	}
+
+	#system-debug div.dbg-container {
+		overflow-y: hidden;
+		max-height: none;
+		min-width: none;
+		display: none;
+	}
 }
