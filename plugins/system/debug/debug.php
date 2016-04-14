@@ -182,13 +182,18 @@ class PlgSystemDebug extends JPlugin
 			JHtml::_('jquery.ui', array('core', 'draggable'));
 		}
 
-		// Allow drag of the system debug div container.
+		// Allow drag of the system debug div container and dispaly accordion.
 		JFactory::getDocument()->addScriptDeclaration('jQuery(function () {
 			jQuery("#system-debug").draggable({
 				handle: "h1",
 				start: function( event, ui ) {
-					jQuery("#system-debug").css("top", "auto");
+					jQuery("#system-debug").css("left", "auto").css("right", "auto").css("top", "auto").css("bottom", "auto");
 					}
+				});
+			jQuery(".dbg-header").on("click", function() {
+				var displayMode = jQuery(this).next().css("display") == "block" ? "none" : "block";
+				jQuery(".dbg-container").css("display", "none");
+				jQuery(this).next().css("display", displayMode);
 				});
 			});');
 	}
@@ -242,14 +247,7 @@ class PlgSystemDebug extends JPlugin
 
 		$html = array();
 
-		// Some "mousewheel protecting" JS.
-		$html[] = "<script>function toggleContainer(name)
-		{
-			var e = document.getElementById(name);// MooTools might not be available ;)
-			e.style.display = (e.style.display == 'none') ? 'block' : 'none';
-		}</script>";
-
-		$html[] = '<div id="system-debug" draggable="true" class="profiler">';
+		$html[] = '<div id="system-debug" class="profiler">';
 
 		$html[] = '<h1>' . JText::_('PLG_DEBUG_TITLE') . '</h1>';
 
@@ -371,22 +369,12 @@ class PlgSystemDebug extends JPlugin
 			return __METHOD__ . ' -- Unknown method: ' . $fncName . '<br />';
 		}
 
-		$html = '';
-
-		$js = "toggleContainer('dbg_container_" . $item . "');";
-
 		$class = 'dbg-header' . $status;
 
-		$html[] = '<div class="' . $class . '" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
+		$html = '<div class="dbg-header' . $status . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
+		$html .= '<div class="dbg-container" id="dbg_container_' . $item . '">' . $this->$fncName() . '</div>';
 
-		// @todo set with js.. ?
-		$style = ' style="display: none;"';
-
-		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $item . '">';
-		$html[] = $this->$fncName();
-		$html[] = '</div>';
-
-		return implode('', $html);
+		return $html;
 	}
 
 	/**
