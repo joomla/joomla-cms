@@ -20,6 +20,14 @@ div#system-debug {
 	z-index: 1030;
 }
 
+#system-debug.short {
+	max-width: 20em;
+}
+
+#system-debug.large {
+	max-width: 80em;
+}
+
 #system-debug-container {
 	display: none;
 }
@@ -60,8 +68,6 @@ div#system-debug {
 	padding: 10px;
 	overflow-y: scroll;
 	max-height: 350px;
-	min-width: 90em;
-	max-width: 90em;
 	display: none;
 }
 
@@ -205,9 +211,13 @@ div#system-debug {
 #system-debug table.dbg-query-table {
 	margin: 0px 0px 6px;
 }
+#system-debug table.table-fixed {
+	table-layout: fixed;
+}
 #system-debug table.dbg-query-table th,
 #system-debug table.dbg-query-table td {
 	padding: 3px 8px;
+	word-wrap: break-word;
 }
 
 #system-debug .dbg-profile-list .label {
@@ -252,11 +262,20 @@ div#system-debug {
 		top: auto;
 		right: auto;
 		min-width: none;
+		width: 100% !important;
+		margin: 15px;
+	}
+
+	#system-debug.short {
 		max-width: none;
 	}
 
 	#system-debug .header .drag {
 		display: none;
+	}
+
+	#system-debug .header h1 {
+		cursor: initial;
 	}
 
 	#system-debug-container {
@@ -266,7 +285,5 @@ div#system-debug {
 	#system-debug div.dbg-container {
 		overflow-y: hidden;
 		max-height: none;
-		min-width: none;
-		display: none;
 	}
 }
