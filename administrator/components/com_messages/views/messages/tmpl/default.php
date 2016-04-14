@@ -71,7 +71,7 @@ JFactory::getDocument()->addStyleDeclaration(
 						<th class="title">
 							<?php echo JHtml::_('grid.sort', 'COM_MESSAGES_HEADING_SUBJECT', 'a.subject', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%">
+						<th width="5%" class="center">
 							<?php echo JHtml::_('grid.sort', 'COM_MESSAGES_HEADING_READ', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th width="15%">
@@ -94,7 +94,7 @@ JFactory::getDocument()->addStyleDeclaration(
 					$canChange = $user->authorise('core.edit.state', 'com_messages');
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td>
+						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->message_id); ?>
 						</td>
 						<td>

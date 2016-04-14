@@ -15,7 +15,7 @@ defined('JPATH_BASE') or die;
  * None
  */
 
-JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '.modal-body'));
+JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '.modal'));
 
 JFactory::getDocument()->addScriptDeclaration(
 	'

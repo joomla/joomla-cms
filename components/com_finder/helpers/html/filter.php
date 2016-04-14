@@ -109,7 +109,8 @@ abstract class JHtmlFilter
 			return null;
 		}
 
-		$html .= JHtml::_('bootstrap.startAccordion', 'accordion', array('parent' => true, 'active' => 'accordion-' . array_keys($branches)[0])
+		$branch_keys = array_keys($branches);
+		$html .= JHtml::_('bootstrap.startAccordion', 'accordion', array('parent' => true, 'active' => 'accordion-' . $branch_keys[0])
 		);
 
 		// Load plug-in language files.
@@ -382,7 +383,8 @@ abstract class JHtmlFilter
 			$html .= '</label>';
 			$html .= '<br />';
 			$html .= JHtml::_(
-				'select.genericlist', $branches[$bk]->nodes, 't[]', 'class="inputbox"', 'id', 'title', $active,
+				'select.genericlist',
+				$branches[$bk]->nodes, 't[]', 'class="inputbox advancedSelect"', 'id', 'title', $active,
 				'tax-' . JFilterOutput::stringUrlSafe($bv->title)
 			);
 			$html .= '</div>';
@@ -437,7 +439,8 @@ abstract class JHtmlFilter
 			$html .= '</label>';
 			$html .= '<br />';
 			$html .= JHtml::_(
-				'select.genericlist', $operators, 'w1', 'class="inputbox filter-date-operator"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
+				'select.genericlist',
+				$operators, 'w1', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
 			);
 			$html .= JHtml::calendar($idxQuery->date1, 'd1', 'filter_date1', '%Y-%m-%d', $attribs);
 			$html .= '</li>';
@@ -449,7 +452,8 @@ abstract class JHtmlFilter
 			$html .= '</label>';
 			$html .= '<br />';
 			$html .= JHtml::_(
-				'select.genericlist', $operators, 'w2', 'class="inputbox filter-date-operator"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'
+				'select.genericlist',
+				$operators, 'w2', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'
 			);
 			$html .= JHtml::calendar($idxQuery->date2, 'd2', 'filter_date2', '%Y-%m-%d', $attribs);
 			$html .= '</li>';

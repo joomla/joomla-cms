@@ -58,20 +58,36 @@ if (isset($params['keyboard']))
  * $('body').removeClass('modal-open')
  *
  * Scrolling inside bootstrap modals on small screens (adapt to window viewport and avoid modal off screen).
- * - max-height on .modal-body  if param height is set but too high for the window viewport height.
- *                              (147 = modal-header height + modal-footer height + 20px padding top and bottom)
- * - max-height on .iframe      max-height of the modal-body (deducting the 1% of the padding of the modal-body class)
+ *      - max-height    .modal-body     Max-height for the modal body
+ *                                      When height of the modal is too high for the window viewport height.
+ *      - max-height    .iframe         Max-height for the iframe (Deducting the padding of the modal-body)
+ *                                      When url option is set and height of the iframe is higher than max-height of the modal body.
+ *
+ * Fix iOS scrolling inside bootstrap modals
+ *      - overflow-y    .modal-body     When max-height is set for modal-body
  *
  * Specific hack for Bootstrap 2.3.x
  */
 $script[] = "jQuery(document).ready(function($) {";
-$script[] = "   $('#" . $selector . "').on('show', function() {";
-
-// Set max-height on modal-body.
-$script[] = "       var modalBodyHeight = $(window).height()-147;";
-$script[] = "       $('.modal-body').css('max-height', modalBodyHeight);";
+$script[] = "   $('#" . $selector . "').on('shown.bs.modal', function() {";
 
 $script[] = "       $('body').addClass('modal-open');";
+
+// Get height of the modal elements.
+$script[] = "       var modalHeaderHeight = $('div.modal-header:visible').outerHeight(true);";
+$script[] = "       var modalBodyHeightOuter = $('div.modal-body:visible').outerHeight(true);";
+$script[] = "       var modalBodyHeight = $('div.modal-body:visible').height();";
+$script[] = "       var modalFooterHeight = $('div.modal-footer:visible').outerHeight(true);";
+
+// Get padding top (jQuery position().top not working on iOS devices and webkit browsers, so use of Javascript instead)
+$script[] = "       var padding = document.getElementById('" . $selector . "').offsetTop;";
+
+// Calculate max-height of the modal, adapted to window viewport height.
+$script[] = "       var maxModalHeight = ($(window).height()-(padding*2));";
+
+// Calculate max-height for modal-body.
+$script[] = "       var modalBodyPadding = (modalBodyHeightOuter-modalBodyHeight);";
+$script[] = "       var maxModalBodyHeight = maxModalHeight-(modalHeaderHeight+modalFooterHeight+modalBodyPadding);";
 
 if (isset($params['url']))
 {
@@ -82,12 +98,24 @@ if (isset($params['url']))
 	$script[] = "       modalBody.find('iframe').remove();";
 	$script[] = "       modalBody.prepend('" . trim($iframeHtml) . "');";
 
-	// Set max-height for iframe.
-	$script[] = "       $('.iframe').css('max-height', modalBodyHeight*0.98);";
+	// Set max-height for iframe if needed, to adapt to viewport height.
+	$script[] = "       var iframeHeight = $('.iframe').height();";
+	$script[] = "       if (iframeHeight > maxModalBodyHeight){;";
+	$script[] = "           $('.modal-body').css({'max-height': maxModalBodyHeight, 'overflow-y': 'auto'});";
+	$script[] = "           $('.iframe').css('max-height', maxModalBodyHeight-modalBodyPadding);";
+	$script[] = "       }";
+}
+else
+{
+	// Set max-height for modal-body if needed, to adapt to viewport height.
+	$script[] = "       if (modalBodyHeight > maxModalBodyHeight){;";
+	$script[] = "           $('.modal-body').css({'max-height': maxModalBodyHeight, 'overflow-y': 'auto'});";
+	$script[] = "       }";
 }
 
-$script[] = "   }).on('hide', function () {";
+$script[] = "   }).on('hide.bs.modal', function () {";
 $script[] = "       $('body').removeClass('modal-open');";
+$script[] = "       $('.modal-body').css({'max-height': 'initial', 'overflow-y': 'initial'});";
 $script[] = "   });";
 $script[] = "});";
 

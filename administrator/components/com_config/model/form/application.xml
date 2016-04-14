@@ -97,7 +97,7 @@
 		<field
 			name="memcached_persist"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
@@ -110,7 +110,7 @@
 		<field
 			name="memcached_compress"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
@@ -245,7 +245,6 @@
 			description="COM_CONFIG_FIELD_DATABASE_PREFIX_DESC"
 			filter="string"
 			size="10" />
-
 	</fieldset>
 
 	<fieldset
@@ -410,17 +409,15 @@
 		name="mail"
 		label="CONFIG_MAIL_SETTINGS_LABEL">
 		<field
-				name="mailonline"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				label="COM_CONFIG_FIELD_MAIL_MAILONLINE_LABEL"
-				description="COM_CONFIG_FIELD_MAIL_MAILONLINE_DESC"
-				filter="integer">
-			<option
-					value="1">JYES</option>
-			<option
-					value="0">JNO</option>
+			name="mailonline"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="COM_CONFIG_FIELD_MAIL_MAILONLINE_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_MAILONLINE_DESC"
+			filter="integer">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -453,17 +450,15 @@
 			size="30" />
 
 		<field
-				name="massmailoff"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_LABEL"
-				description="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_DESC"
-				filter="integer">
-			<option
-					value="1">JYES</option>
-			<option
-					value="0">JNO</option>
+			name="massmailoff"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_DESC"
+			filter="integer">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -569,8 +564,7 @@
 			type="list"
 			label="JFIELD_METADATA_ROBOTS_LABEL"
 			description="JFIELD_METADATA_ROBOTS_DESC"
-			default=""
-			>
+			default="">
 			<option value="">JGLOBAL_INDEX_FOLLOW</option>
 			<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
 			<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
@@ -849,7 +843,6 @@
 			label="COM_CONFIG_FRONTEDITING_LABEL"
 			description="COM_CONFIG_FRONTEDITING_DESC"
 			filter="integer">
-			<!-- <option value="3">COM_CONFIG_FRONTEDITING_MENUSANDMODULES_ADMIN_TOO</option> -->
 			<option value="2">COM_CONFIG_FRONTEDITING_MENUSANDMODULES</option>
 			<option value="1">COM_CONFIG_FRONTEDITING_MODULES</option>
 			<option value="0">JNONE</option>
@@ -949,8 +942,7 @@
 			type="helpsite"
 			label="COM_CONFIG_FIELD_HELP_SERVER_LABEL"
 			description="COM_CONFIG_FIELD_HELP_SERVER_DESC"
-			showDefault="false"
-		/>
+			showDefault="false" />
 	</fieldset>
 
 	<fieldset
@@ -1031,8 +1023,7 @@
 	<fieldset
 		name="filters"
 		label="COM_CONFIG_TEXT_FILTERS"
-		description="COM_CONFIG_TEXT_FILTERS_DESC"
-		>
+		description="COM_CONFIG_TEXT_FILTERS_DESC">
 
 		<field
 			name="filters"

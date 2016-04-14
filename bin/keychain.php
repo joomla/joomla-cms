@@ -321,7 +321,7 @@ class KeychainManager extends JApplicationCli
 		}
 
 		$this->updated = true;
-		$this->keychain->deleteValue($this->input->args[1], null);
+		$this->keychain->deleteValue($this->input->args[1]);
 	}
 
 	/**
