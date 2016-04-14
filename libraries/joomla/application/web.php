@@ -676,7 +676,8 @@ class JApplicationWeb extends JApplicationBase
                  * If ($keys && $replace) it's a replacement and previous have been deleted
                  * if($keys && !in_array...) it's a multiple value header
                  */
-		if (!$keys || ($keys && ($replace || !in_array($name, $this->singleValueResponseHeaders))))
+                $single = in_array($name, $this->singleValueResponseHeaders);
+		if ($value && (!$keys || ($keys && ($replace || !$single))))
 		{
 			// Add the header to the internal array.
 			$this->response->headers[] = array('name' => $name, 'value' => $value);
