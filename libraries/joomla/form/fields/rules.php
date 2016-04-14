@@ -267,7 +267,7 @@ class JFormFieldRules extends JFormField
 				$html[] = '<tr>';
 				$html[] = '<td headers="actions-th' . $group->value . '">';
 				$html[] = '<label for="' . $this->id . '_' . $action->name . '_' . $group->value . '" class="hasTooltip" title="'
-					. JHtml::_('tooltipText', JText::_($action->title), JText::_($action->description)) . '">';
+					. JHtml::_('tooltipText', $action->title, $action->description) . '">';
 				$html[] = JText::_($action->title);
 				$html[] = '</label>';
 				$html[] = '</td>';
