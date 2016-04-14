@@ -62,7 +62,7 @@ class RedirectControllerLinks extends JControllerAdmin
 	 *
 	 * @return  void.
 	 *
-	 * @since   3.5
+	 * @since   3.5.2
 	 */
 	public function duplicateUrls()
 	{
