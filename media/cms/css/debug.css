@@ -15,7 +15,7 @@ div#system-debug {
 	padding: 0 !important;
 	position: fixed;
 	top: 0;
-	right: 0;
+	right: 1em;
 	min-width: 20em;
 	max-width: 20em;
 	z-index: 1049;
@@ -60,7 +60,7 @@ div#system-debug {
 #system-debug div.dbg-container {
 	padding: 10px;
 	overflow-y: scroll;
-	max-height: 50em;
+	max-height: 350px;
 	min-width: 80em;
 	display: none;
 }
