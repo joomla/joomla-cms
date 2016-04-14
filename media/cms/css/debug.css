@@ -15,13 +15,15 @@ div#system-debug {
 	padding: 0 !important;
 	position: fixed;
 	top: 0;
-	right: 0;
+	left: 0;
 	min-width: 20em;
 	max-width: 80em;
 	z-index: 1049;
 }
 
-
+#system-debug-container {
+	display: none;
+}
 
 #system-debug div.dbg-header {
 	background-color: #ddd;
@@ -78,27 +80,39 @@ div#system-debug {
 	font-weight: bold;
 }
 
-#system-debug h1 {
+#system-debug .header {
 	background-color: #2c2c2c;
 	color: #fff;
 	padding: 10px;
 	margin: 0;
-	font-size: 16px;
-	line-height: 1em;
+	clear: both;
+	height: 1em;
 }
 
-#system-debug h1:hover {
+#system-debug .header .drag {
+	float: right;
+}
+
+#system-debug .header .drag:hover {
 	cursor: -webkit-grab;
 	cursor: -moz-grab;
 	cursor: grab;
 }
 
-#system-debug h1:active {
+#system-debug .header .drag:active {
 	cursor: -webkit-grabbing;
 	cursor: -moz-grabbing;
 	cursor: grabbing;
 }
-	  
+
+#system-debug .header h1 {
+	margin: 0;
+	font-size: 16px;
+	line-height: 1em;
+	float: left;
+	cursor: pointer;
+}
+
 #system-debug h4 {
 	font-size: 14px;
 	font-weight: bold;
