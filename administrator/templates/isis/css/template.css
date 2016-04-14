@@ -1671,6 +1671,7 @@ legend + .control-group {
 .form-horizontal .form-actions {
 	padding-left: 180px;
 }
+.control-label .hasPopover,
 .control-label .hasTooltip {
 	display: inline-block;
 }
