@@ -241,6 +241,7 @@ class ContactModelContacts extends JModelList
 							'ul.name' ,
 							'ul.email',
 							'l.title' ,
+							'l.image' ,
 							'uc.name' ,
 							'ag.title' ,
 							'c.title'

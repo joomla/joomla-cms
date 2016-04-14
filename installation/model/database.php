@@ -517,6 +517,31 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
+		// Get query object for later database access
+		$query = $db->getQuery(true);
+
+		// MySQL only: Attempt to update the table #__utf8_conversion.
+		$serverType = $db->getServerType();
+
+		if ($serverType === 'mysql')
+		{
+			$query->clear()
+				->update($db->quoteName('#__utf8_conversion'))
+				->set($db->quoteName('converted') . ' = ' . ($db->hasUTF8mb4Support() ? 2 : 1));
+			$db->setQuery($query);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$app->enqueueMessage($e->getMessage(), 'notice');
+
+				return false;
+			}
+		}
+
 		// Attempt to update the table #__schema.
 		$pathPart = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
 
@@ -552,7 +577,7 @@ class InstallationModelDatabase extends JModelBase
 			}
 		}
 
-		$query = $db->getQuery(true)
+		$query->clear()
 			->insert($db->quoteName('#__schemas'))
 			->columns(
 				array(

@@ -183,7 +183,7 @@ $doc->addScriptDeclaration(
 				</a>
 			<?php endif; ?>
 
-			<a class="admin-logo <?php echo ($hidden ? 'disabled' : ''); ?>" <?php echo ($hidden ? '' : 'href="' . $this->baseurl . '"'); ?>><span class="icon-joomla"></span></a>
+			<a class="admin-logo <?php echo ($hidden ? 'disabled' : ''); ?>" <?php echo ($hidden ? '' : 'href="' . $this->baseurl . '/index.php"'); ?>><span class="icon-joomla"></span></a>
 
 			<a class="brand hidden-desktop hidden-tablet" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
 				<span class="icon-out-2 small"></span></a>

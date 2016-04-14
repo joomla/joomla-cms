@@ -243,7 +243,7 @@ abstract class JUpdateAdapter extends JAdapterInstance
 		try
 		{
 			$http = JHttpFactory::getHttp();
-			$response = $http->get($url);
+			$response = $http->get($url, array(), 20);
 		}
 		catch (RuntimeException $e)
 		{

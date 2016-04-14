@@ -111,19 +111,19 @@ class BannersViewBanners extends JViewLegacy
 
 		if ($canDo->get('core.edit.state'))
 		{
-			if ($this->state->get('filter.state') != 2)
+			if ($this->state->get('filter.published') != 2)
 			{
 				JToolbarHelper::publish('banners.publish', 'JTOOLBAR_PUBLISH', true);
 				JToolbarHelper::unpublish('banners.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			}
 
-			if ($this->state->get('filter.state') != -1)
+			if ($this->state->get('filter.published') != -1)
 			{
-				if ($this->state->get('filter.state') != 2)
+				if ($this->state->get('filter.published') != 2)
 				{
 					JToolbarHelper::archiveList('banners.archive');
 				}
-				elseif ($this->state->get('filter.state') == 2)
+				elseif ($this->state->get('filter.published') == 2)
 				{
 					JToolbarHelper::unarchiveList('banners.publish');
 				}
@@ -149,7 +149,7 @@ class BannersViewBanners extends JViewLegacy
 			JToolbar::getInstance('toolbar')->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}

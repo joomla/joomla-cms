@@ -19,8 +19,7 @@ $footer = '<button class="btn" type="button" data-dismiss="modal" aria-hidden="t
 ?>
 <div class="btn-group multilanguage">
 	<a href="#multiLangModal" role="button" class="btn btn-link" data-toggle="modal" title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>">
-		<span class="icon-comment"></span>
-		<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>
+		<span class="icon-comment"></span><?php echo JText::_('MOD_MULTILANGSTATUS'); ?>
 	</a>
 </div>
 

@@ -790,7 +790,8 @@ abstract class JModelAdmin extends JModelForm
 							->from($db->quoteName('#__associations') . ' AS as1')
 							->join('LEFT', $db->quoteName('#__associations') . ' AS as2 ON ' . $db->quoteName('as1.key') . ' =  ' . $db->quoteName('as2.key'))
 							->where($db->quoteName('as1.context') . ' = ' . $db->quote($this->associationsContext))
-							->where($db->quoteName('as1.id') . ' = ' . (int) $pk);
+							->where($db->quoteName('as1.id') . ' = ' . (int) $pk)
+							->group($db->quoteName('as1.key'));
 
 						$db->setQuery($query);
 						$row = $db->loadAssoc();
@@ -1003,7 +1004,19 @@ abstract class JModelAdmin extends JModelForm
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
+
 					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+
+					return false;
+				}
+
+				// If the table is checked out by another user, drop it and report to the user trying to change its state.
+				if (property_exists($table, 'checked_out') && $table->checked_out && ($table->checked_out != $user->id))
+				{
+					JLog::add(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), JLog::WARNING, 'jerror');
+
+					// Prune items that you can't change.
+					unset($pks[$i]);
 
 					return false;
 				}

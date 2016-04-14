@@ -70,9 +70,6 @@ system('mkdir diffdocs');
 system('mkdir diffconvert');
 system('mkdir packages' . $version);
 
-echo "Copy manifest file to root directory for install packages.\n";
-system('cp ' . $fullpath . '/administrator/manifests/files/joomla.xml ' . $fullpath);
-
 echo "Create list of changed files from git repository.\n";
 
 /*
@@ -103,8 +100,7 @@ $filesArray = array(
 	"LICENSE.txt\n" => true,
 	"README.txt\n" => true,
 	"robots.txt.dist\n" => true,
-	"web.config.txt\n" => true,
-	"joomla.xml\n" => true
+	"web.config.txt\n" => true
 );
 
 /*

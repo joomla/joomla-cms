@@ -101,6 +101,7 @@ class CategoriesHelper
 	{
 		$langAssociations = JLanguageAssociations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
 		$associations = array();
+
 		foreach ($langAssociations as $langAssociation)
 		{
 			$associations[$langAssociation->language] = $langAssociation->id;

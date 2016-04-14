@@ -72,6 +72,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'Cookie',
 			'DOCUMENT_ROOT',
 			'extension_dir',
+			'error_log',
 			'Host',
 			'HTTP_COOKIE',
 			'HTTP_HOST',
@@ -99,7 +100,9 @@ class AdminModelSysInfo extends JModelLegacy
 			'Server Root',
 			'session.name',
 			'session.save_path',
+			'upload_tmp_dir',
 			'User/Group',
+			'open_basedir'
 		),
 		'other' => array(
 			'db',
@@ -122,7 +125,8 @@ class AdminModelSysInfo extends JModelLegacy
 			'session_memcached_server_host',
 			'sitename',
 			'smtphost',
-			'tmp_path'
+			'tmp_path',
+			'open_basedir'
 		)
 	);
 
@@ -201,6 +205,10 @@ class AdminModelSysInfo extends JModelLegacy
 	{
 		if (!is_array($sectionValues))
 		{
+			if (strstr($sectionValues, JPATH_ROOT))
+			{
+				$sectionValues = 'xxxxxx';
+			}
 			return strlen($sectionValues) ? 'xxxxxx' : '';
 		}
 
@@ -243,6 +251,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'zip'                => function_exists('zip_open') && function_exists('zip_read'),
 			'mbstring'           => extension_loaded('mbstring'),
 			'iconv'              => function_exists('iconv'),
+			'mcrypt'             => extension_loaded('mcrypt'),
 			'max_input_vars'     => ini_get('max_input_vars'),
 		);
 
@@ -325,12 +334,13 @@ class AdminModelSysInfo extends JModelLegacy
 	 * Method to get filter data from the model
 	 *
 	 * @param   string  $dataType  Type of data to get safely
+	 * @param   bool    $public    If true no sensitive information will be removed
 	 *
 	 * @return  array
 	 *
 	 * @since   3.5
 	 */
-	public function getSafeData($dataType)
+	public function getSafeData($dataType, $public = true)
 	{
 		if (isset($this->safeData[$dataType]))
 		{
@@ -344,7 +354,7 @@ class AdminModelSysInfo extends JModelLegacy
 			return array();
 		}
 
-		$data = $this->$methodName();
+		$data = $this->$methodName($public);
 
 		$this->safeData[$dataType] = $this->cleanPrivateData($data, $dataType);
 
@@ -483,11 +493,13 @@ class AdminModelSysInfo extends JModelLegacy
 	/**
 	 * Method to get the directory states
 	 *
+	 * @param   bool  $public  If true no information is going to be removed
+	 *
 	 * @return  array States of directories
 	 *
 	 * @since   1.6
 	 */
-	public function getDirectory()
+	public function getDirectory($public = false)
 	{
 		if (!empty($this->directories))
 		{
@@ -596,8 +608,16 @@ class AdminModelSysInfo extends JModelLegacy
 			$this->addDirectory('administrator/cache', JPATH_CACHE, 'COM_ADMIN_CACHE_DIRECTORY');
 		}
 
-		$this->addDirectory($registry->get('log_path', JPATH_ROOT . '/log'), $registry->get('log_path', JPATH_ROOT . '/log'), 'COM_ADMIN_LOG_DIRECTORY');
-		$this->addDirectory($registry->get('tmp_path', JPATH_ROOT . '/tmp'), $registry->get('tmp_path', JPATH_ROOT . '/tmp'), 'COM_ADMIN_TEMP_DIRECTORY');
+		if ($public)
+		{
+			$this->addDirectory('log', $registry->get('log_path', JPATH_ROOT . '/log'), 'COM_ADMIN_LOG_DIRECTORY');
+			$this->addDirectory('tmp', $registry->get('tmp_path', JPATH_ROOT . '/tmp'), 'COM_ADMIN_TEMP_DIRECTORY');
+		}
+		else
+		{
+			$this->addDirectory($registry->get('log_path', JPATH_ROOT . '/log'), $registry->get('log_path', JPATH_ROOT . '/log'), 'COM_ADMIN_LOG_DIRECTORY');
+			$this->addDirectory($registry->get('tmp_path', JPATH_ROOT . '/tmp'), $registry->get('tmp_path', JPATH_ROOT . '/tmp'), 'COM_ADMIN_TEMP_DIRECTORY');
+		}
 
 		return $this->directories;
 	}

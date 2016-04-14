@@ -88,8 +88,8 @@ class TemplatesModelTemplates extends JModelList
 		);
 		$query->from($db->quoteName('#__extensions') . ' AS a');
 
-		// Filter by extension type.
-		$query->where($db->quoteName('type') . ' = ' . $db->quote('template'));
+		// Filter by extension enabled and extension type.
+		$query->where('a.enabled = 1')->where('a.type = ' . $db->quote('template'));
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
