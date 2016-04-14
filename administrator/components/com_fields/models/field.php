@@ -68,6 +68,12 @@ class FieldsModelField extends JModelAdmin
 		{
 			$data['assigned_cat_ids'] = [];
 		}
+
+		if(!isset($data['label']) && isset($data['params']['label']))
+		{
+			$data['label'] = $data['params']['label'];
+			unset($data['params']['label']);
+		}
 		$success = parent::save($data);
 
 		// If the options have changed delete the values
@@ -279,6 +285,11 @@ class FieldsModelField extends JModelAdmin
 
 				// Set the type if available from the request
 				$data->set('type', $app->input->getWord('type', $data->get('type')));
+			}
+
+			if ($data->label && !isset($data->params['label']))
+			{
+				$data->params['label'] = $data->label;
 			}
 		}
 
