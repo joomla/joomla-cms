@@ -185,15 +185,26 @@ class PlgSystemDebug extends JPlugin
 		// Allow drag of the system debug div container and dispaly accordion.
 		JFactory::getDocument()->addScriptDeclaration('jQuery(function () {
 			jQuery("#system-debug").draggable({
-				handle: "h1",
+				handle: ".header .drag",
 				start: function( event, ui ) {
-					jQuery("#system-debug").css("left", "auto").css("right", "auto").css("top", "auto").css("bottom", "auto");
+						jQuery("#system-debug").css("left", "auto").css("right", "auto").css("top", "auto").css("bottom", "auto");
 					}
 				});
+
+			jQuery("#system-debug h1").on("click", function() {
+					var displayMode = jQuery("#system-debug-container").css("display") == "block" ? "none" : "block";
+					jQuery("#system-debug-container").css("display", displayMode);
+					if (displayMode == "none")
+					{
+						jQuery(".dbg-container").css("display", "none");
+					}
+				});
+
 			jQuery(".dbg-header").on("click", function() {
 				var displayMode = jQuery(this).next().css("display") == "block" ? "none" : "block";
 				jQuery(".dbg-container").css("display", "none");
 				jQuery(this).next().css("display", displayMode);
+				return false;
 				});
 			});');
 	}
@@ -249,7 +260,9 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '<div id="system-debug" class="profiler">';
 
-		$html[] = '<h1>' . JText::_('PLG_DEBUG_TITLE') . '</h1>';
+		$html[] = '<div class="header"><h1>' . JText::_('PLG_DEBUG_TITLE') . '</h1><div class="drag icon-move"></div></div>';
+
+		$html[] = '<div id="system-debug-container">';
 
 		if (JDEBUG)
 		{
@@ -299,6 +312,8 @@ class PlgSystemDebug extends JPlugin
 				$html[] = $this->display('untranslated_strings');
 			}
 		}
+
+		$html[] = '</div>';
 
 		$html[] = '</div>';
 
