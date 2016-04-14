@@ -203,13 +203,16 @@ class PlgSystemDebug extends JPlugin
 			jQuery(".dbg-header").on("click", function() {
 				var displayMode = jQuery(this).next().css("display") == "block" ? "none" : "block";
 				jQuery(".dbg-container").css("display", "none");
-				if (displayMode == "block")
+				if (jQuery("#system-debug").css("max-width") != "none")
 				{
-					jQuery("#system-debug").css("max-width", "80em");
-				}
-				else
-				{
-					jQuery("#system-debug").css("max-width", "20em");
+					if (displayMode == "block")
+					{
+						jQuery("#system-debug").css("max-width", "80em");
+					}
+					else
+					{
+						jQuery("#system-debug").css("max-width", "20em");
+					}
 				}
 				jQuery(this).next().css("display", displayMode);
 				return false;
