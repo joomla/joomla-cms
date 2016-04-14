@@ -585,6 +585,16 @@
 			<option value="0">JHIDE</option>
 		</field>
 
+		<field name="show_image_heading" type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_LABEL" 
+			description="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_DESC"
+		>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+
 		<field name="show_position_headings" type="radio"
 			default="1"
 			class="btn-group btn-group-yesno"
