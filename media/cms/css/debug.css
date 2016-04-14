@@ -12,12 +12,16 @@ div#system-debug {
 	background-color: #fff;
 	color: #000;
 	border: 1px solid silver;
-	padding: 0;
+	padding: 0 !important;
 	position: fixed;
-	top: 1em;
-	left: 0;
+	top: 0;
+	right: 0;
 	min-width: 20em;
+	max-width: 80em;
+	z-index: 1049;
 }
+
+
 
 #system-debug div.dbg-header {
 	background-color: #ddd;
@@ -54,8 +58,9 @@ div#system-debug {
 #system-debug div.dbg-container {
 	padding: 10px;
 	overflow-y: scroll;
-	max-height: 30em;
-	width: 60em;
+	max-height: 50em;
+	min-width: 80em;
+	display: none;
 }
 
 #system-debug span.dbg-command {
