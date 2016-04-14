@@ -1871,6 +1871,7 @@ class PlgSystemDebug extends JPlugin
 			$htmlCallStack .= '<div>';
 			$htmlCallStack .= '<table class="table table-striped table-fixed dbg-query-table">';
 			$htmlCallStack .= '<thead>';
+			$htmlCallStack .= '<tr>';
 			$htmlCallStack .= '<th style="width: 15px">#</th>';
 			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_CALLER') . '</th>';
 			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_FILE_AND_LINE') . '</th>';
