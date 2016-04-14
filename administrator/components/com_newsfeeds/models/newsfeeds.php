@@ -33,21 +33,20 @@ class NewsfeedsModelNewsfeeds extends JModelList
 				'alias', 'a.alias',
 				'checked_out', 'a.checked_out',
 				'checked_out_time', 'a.checked_out_time',
-				'catid', 'a.catid', 'category_title',
+				'catid', 'a.catid', 'category_id', 'category_title',
 				'published', 'a.published',
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'created_by', 'a.created_by',
 				'ordering', 'a.ordering',
-				'language', 'a.language',
+				'language', 'a.language', 'language_title',
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
 				'cache_time', 'a.cache_time',
-				'numarticles', 'category_id',
-				'tag'
+				'numarticles',
+				'tag',
 			);
 
-			$app = JFactory::getApplication();
 			$assoc = JLanguageAssociations::isEnabled();
 			if ($assoc)
 			{
@@ -70,44 +69,44 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.name', $direction = 'asc')
 	{
-		$app = JFactory::getApplication('administrator');
+		$app = JFactory::getApplication();
 
-		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
+		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
-		$accessId = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', null, 'int');
-		$this->setState('filter.access', $accessId);
-
-		$state = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '', 'string');
-		$this->setState('filter.published', $state);
-
-		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', null);
-		$this->setState('filter.category_id', $categoryId);
-
-		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
-		$this->setState('filter.language', $language);
-
-		// Force a language
-		$forcedLanguage = $app->input->get('forcedLanguage');
-
-		if (!empty($forcedLanguage))
+		// Adjust the context to support modal layouts.
+		if ($layout = $app->input->get('layout'))
 		{
-			$this->setState('filter.language', $forcedLanguage);
-			$this->setState('filter.forcedLanguage', $forcedLanguage);
+			$this->context .= '.' . $layout;
 		}
 
-		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
-		$this->setState('filter.tag', $tag);
+		// Adjust the context to support forced languages.
+		if ($forcedLanguage)
+		{
+			$this->context .= '.' . $forcedLanguage;
+		}
+
+		// Load the filter state.
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.published', $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '', 'string'));
+		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', null, 'int'));
+		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', null, 'int'));
+		$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'cmd'));
+		$this->setState('filter.tag', $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '', 'string'));
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_newsfeeds');
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.name', 'asc');
+		parent::populateState($ordering, $direction);
+
+		// Force a language.
+		if (!empty($forcedLanguage))
+		{
+			$this->setState('filter.language', $forcedLanguage);
+		}
 	}
 
 	/**
@@ -125,10 +124,11 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.published');
 		$id .= ':' . $this->getState('filter.category_id');
+		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . $this->getState('filter.tag');
 
 		return parent::getStoreId($id);
 	}
