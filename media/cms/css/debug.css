@@ -11,8 +11,12 @@ div#system-debug {
 #system-debug {
 	background-color: #fff;
 	color: #000;
-	border: 1px dashed silver;
-	padding: 10px;
+	border: 1px solid silver;
+	padding: 0;
+	position: fixed;
+	top: 1em;
+	left: 0;
+	min-width: 20em;
 }
 
 #system-debug div.dbg-header {
@@ -31,7 +35,7 @@ div#system-debug {
 	font-size: 14px;
 	padding: 5px;
 	text-decoration: none;
-	margin: 0px;
+	margin: 0;
 }
 
 #system-debug .dbg-error a h3 {
@@ -49,6 +53,9 @@ div#system-debug {
 
 #system-debug div.dbg-container {
 	padding: 10px;
+	overflow-y: scroll;
+	max-height: 30em;
+	width: 60em;
 }
 
 #system-debug span.dbg-command {
@@ -75,6 +82,18 @@ div#system-debug {
 	line-height: 1em;
 }
 
+#system-debug h1:hover {
+	cursor: -webkit-grab;
+	cursor: -moz-grab;
+	cursor: grab;
+}
+
+#system-debug h1:active {
+	cursor: -webkit-grabbing;
+	cursor: -moz-grabbing;
+	cursor: grabbing;
+}
+	  
 #system-debug h4 {
 	font-size: 14px;
 	font-weight: bold;
