@@ -260,15 +260,14 @@ div#system-debug {
 @media (max-height: 650px), (max-width: 1260px) {
 	#system-debug {
 		position: relative;
-		top: auto;
-		right: auto;
-		min-width: none;
+		top: initial;
+		right: initial;
+		min-width: initial;
 		width: 100% !important;
-		margin: 15px;
 	}
 
 	#system-debug.short {
-		max-width: none;
+		max-width: initial;
 	}
 
 	#system-debug .header .drag {
@@ -284,7 +283,8 @@ div#system-debug {
 	}
 
 	#system-debug div.dbg-container {
-		overflow-y: hidden;
-		max-height: none;
+		overflow-y: initial;
+		max-height: initial;
+		min-width: initial;
 	}
 }
