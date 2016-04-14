@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 // Include jQuery
 JHtml::_('jquery.framework');
 
-JFactory::getDocument()->addStyleDeclaration('.navbar-fixed-bottom {z-index:1050;}');
-
 $link = JRoute::_('index.php?option=com_languages&view=multilangstatus&tmpl=component');
 $footer = '<button class="btn" type="button" data-dismiss="modal" aria-hidden="true">' . JText::_('JTOOLBAR_CLOSE') . '</button>';
 ?>
