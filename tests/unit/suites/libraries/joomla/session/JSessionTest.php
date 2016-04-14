@@ -14,6 +14,9 @@ include_once __DIR__ . '/handler/array.php';
  * @package     Joomla.UnitTest
  * @subpackage  Session
  * @since       3.4
+ *
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  */
 class JSessionTest extends TestCase
 {

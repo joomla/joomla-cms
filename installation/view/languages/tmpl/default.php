@@ -70,35 +70,46 @@ $version = new JVersion;
 		<table class="table table-striped table-condensed">
 			<thead>
 					<tr>
+						<th width="1%" class="center">
+							&nbsp;
+						</th>
 						<th>
 							<?php echo JText::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE'); ?>
 						</th>
-						<th>
+						<th width="15%">
+							<?php echo JText::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_TAG'); ?>
+						</th>
+						<th width="5%" class="center">
 							<?php echo JText::_('INSTL_LANGUAGES_COLUMN_HEADER_VERSION'); ?>
 						</th>
 					</tr>
 			</thead>
 			<tbody>
-				<?php foreach ($this->items as $i => $language) : ?>
+				<?php
+				$version = new JVersion;
+				$currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion());
+				foreach ($this->items as $i => $language) :
+					// Get language code and language image.
+					preg_match('#^pkg_([a-z]{2,3}-[A-Z]{2})$#', $language->element, $element);
+					$language->code = $element[1];
+				?>
 					<tr>
 						<td>
-							<label class="checkbox">
-								<input
-									type="checkbox"
-									id="cb<?php echo $i; ?>"
-									name="cid[]"
-									value="<?php echo $language->update_id; ?>"
-									/> <?php echo $language->name; ?>
-
-									<?php // Display a Note if language pack version is not equal to Joomla version ?>
-									<?php if (substr($language->version, 0, 3) != $version::RELEASE
-											|| substr($language->version, 0, 5) != $version->getShortVersion()) : ?>
-										<div class="small"><?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?></div>
-									<?php endif; ?>
-							</label>
+							<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $language->update_id; ?>" />
 						</td>
 						<td>
-							<span class="badge"><?php echo $language->version; ?></span>
+							<label for="cb<?php echo $i; ?>"><?php echo $language->name; ?></label>
+						</td>
+						<td>
+							<?php echo $language->code; ?>
+  						</td>
+						<td class="center">
+						<?php // Display a Note if language pack version is not equal to Joomla version ?>
+						<?php if (substr($language->version, 0, 3) != $version::RELEASE || substr($language->version, 0, 5) != $currentShortVersion) : ?>
+							<span class="label label-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
+						<?php else : ?>
+							<span class="label label-success"><?php echo $language->version; ?></span>
+						<?php endif; ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>

@@ -64,9 +64,9 @@
     { keys: '<C-[>', type: 'keyToKey', toKeys: '<Esc>', context: 'insert' },
     { keys: '<C-c>', type: 'keyToKey', toKeys: '<Esc>', context: 'insert' },
     { keys: 's', type: 'keyToKey', toKeys: 'cl', context: 'normal' },
-    { keys: 's', type: 'keyToKey', toKeys: 'xi', context: 'visual'},
+    { keys: 's', type: 'keyToKey', toKeys: 'c', context: 'visual'},
     { keys: 'S', type: 'keyToKey', toKeys: 'cc', context: 'normal' },
-    { keys: 'S', type: 'keyToKey', toKeys: 'dcc', context: 'visual' },
+    { keys: 'S', type: 'keyToKey', toKeys: 'VdO', context: 'visual' },
     { keys: '<Home>', type: 'keyToKey', toKeys: '0' },
     { keys: '<End>', type: 'keyToKey', toKeys: '$' },
     { keys: '<PageUp>', type: 'keyToKey', toKeys: '<C-b>' },
@@ -164,6 +164,7 @@
     { keys: 'v', type: 'action', action: 'toggleVisualMode' },
     { keys: 'V', type: 'action', action: 'toggleVisualMode', actionArgs: { linewise: true }},
     { keys: '<C-v>', type: 'action', action: 'toggleVisualMode', actionArgs: { blockwise: true }},
+    { keys: '<C-q>', type: 'action', action: 'toggleVisualMode', actionArgs: { blockwise: true }},
     { keys: 'gv', type: 'action', action: 'reselectLastSelection' },
     { keys: 'J', type: 'action', action: 'joinLines', isEdit: true },
     { keys: 'p', type: 'action', action: 'paste', isEdit: true, actionArgs: { after: true, isEdit: true }},
@@ -680,6 +681,9 @@
       map: function(lhs, rhs, ctx) {
         // Add user defined key bindings.
         exCommandDispatcher.map(lhs, rhs, ctx);
+      },
+      unmap: function(lhs, ctx) {
+        exCommandDispatcher.unmap(lhs, ctx);
       },
       // TODO: Expose setOption and getOption as instance methods. Need to decide how to namespace
       // them, or somehow make them work with the existing CodeMirror setOption/getOption API.
@@ -1692,11 +1696,12 @@
         var line = motionArgs.forward ? cur.line + repeat : cur.line - repeat;
         var first = cm.firstLine();
         var last = cm.lastLine();
-        // Vim cancels linewise motions that start on an edge and move beyond
-        // that edge. It does not cancel motions that do not start on an edge.
-        if ((line < first && cur.line == first) ||
-            (line > last && cur.line == last)) {
-          return;
+        // Vim go to line begin or line end when cursor at first/last line and
+        // move to previous/next line is triggered.
+        if (line < first && cur.line == first){
+          return this.moveToStartOfLine(cm, head, motionArgs, vim);
+        }else if (line > last && cur.line == last){
+            return this.moveToEol(cm, head, motionArgs, vim);
         }
         if (motionArgs.toFirstChar){
           endCh=findFirstNonWhiteSpaceCharacter(cm.getLine(line));

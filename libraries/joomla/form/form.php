@@ -470,9 +470,9 @@ class JForm
 	/**
 	 * Method to get the form control. This string serves as a container for all form fields. For
 	 * example, if there is a field named 'foo' and a field named 'bar' and the form control is
-	 * empty the fields will be rendered like: <input name="foo" /> and <input name="bar" />.  If
+	 * empty the fields will be rendered like: `<input name="foo" />` and `<input name="bar" />`.  If
 	 * the form control is set to 'joomla' however, the fields would be rendered like:
-	 * <input name="joomla[foo]" /> and <input name="joomla[bar]" />.
+	 * `<input name="joomla[foo]" />` and `<input name="joomla[bar]" />`.
 	 *
 	 * @return  string  The form control string.
 	 *
@@ -1565,8 +1565,7 @@ class JForm
 	}
 
 	/**
-	 * Method to get an array of <field /> elements from the form XML document which are
-	 * in a specified fieldset by name.
+	 * Method to get an array of `<field>` elements from the form XML document which are in a specified fieldset by name.
 	 *
 	 * @param   string  $name  The name of the fieldset.
 	 *
@@ -1596,8 +1595,7 @@ class JForm
 	}
 
 	/**
-	 * Method to get an array of <field /> elements from the form XML document which are
-	 * in a control group by name.
+	 * Method to get an array of `<field>` elements from the form XML document which are in a control group by name.
 	 *
 	 * @param   mixed    $group   The optional dot-separated form group path on which to find the fields.
 	 *                            Null will return all fields. False will return fields not in a group.
@@ -2077,7 +2075,7 @@ class JForm
 			$forms[$name] = new JForm($name, $options);
 
 			// Load the data.
-			if (substr(trim($data), 0, 1) == '<')
+			if (substr($data, 0, 1) == '<')
 			{
 				if ($forms[$name]->load($data, $replace, $xpath) == false)
 				{
@@ -2151,7 +2149,7 @@ class JForm
 	}
 
 	/**
-	 * Merges new elements into a source <fields> element.
+	 * Merges new elements into a source `<fields>` element.
 	 *
 	 * @param   SimpleXMLElement  $source  The source element.
 	 * @param   SimpleXMLElement  $new     The new element to merge.

@@ -51,7 +51,7 @@ JFactory::getDocument()->addScriptDeclaration(
 		var form = document.getElementById("adminForm");
 
 		// do field validation
-		if (form.install_url.value == "" || form.install_url.value == "http://") {
+		if (form.install_url.value == "" || form.install_url.value == "http://" || form.install_url.value == "https://") {
 			alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true) . '");
 		}
 		else
@@ -84,10 +84,11 @@ JFactory::getDocument()->addScriptDeclaration(
 	});
 	'
 );
-?>
-<style type="text/css">
+
+JFactory::getDocument()->addStyleDeclaration(
+	'
 	#loading {
-		background: rgba(255, 255, 255, .8) url('<?php echo JHtml::_('image', 'jui/ajax-loader.gif', '', null, true, true); ?>') 50% 15% no-repeat;
+		background: rgba(255, 255, 255, .8) url(\'' . JHtml::_('image', 'jui/ajax-loader.gif', '', null, true, true) . '\') 50% 15% no-repeat;
 		position: fixed;
 		opacity: 0.8;
 		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
@@ -101,7 +102,10 @@ JFactory::getDocument()->addScriptDeclaration(
 		line-height: 2em;
 		color:#333333;
 	}
-</style>
+	'
+);
+
+?>
 
 <div id="installer-install" class="clearfix">
 	<?php if (!empty( $this->sidebar)) : ?>
@@ -165,7 +169,7 @@ JFactory::getDocument()->addScriptDeclaration(
 					<div class="control-group">
 						<label for="install_url" class="control-label"><?php echo JText::_('COM_INSTALLER_INSTALL_URL'); ?></label>
 						<div class="controls">
-							<input type="text" id="install_url" name="install_url" class="span5 input_box" size="70" value="http://" />
+							<input type="text" id="install_url" name="install_url" class="span5 input_box" size="70" value="https://" />
 						</div>
 					</div>
 					<div class="form-actions">
