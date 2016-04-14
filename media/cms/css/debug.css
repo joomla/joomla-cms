@@ -15,9 +15,9 @@ div#system-debug {
 	padding: 0 !important;
 	position: fixed;
 	top: 0;
-	left: 0;
+	right: 0;
 	min-width: 20em;
-	max-width: 80em;
+	max-width: 20em;
 	z-index: 1049;
 }
 
