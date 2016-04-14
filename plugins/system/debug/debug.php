@@ -179,7 +179,18 @@ class PlgSystemDebug extends JPlugin
 		{
 			JHtml::_('bootstrap.tooltip');
 			JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'top'));
+			JHtml::_('jquery.ui', array('core', 'draggable'));
 		}
+
+		// Allow drag of the system debug div container.
+		JFactory::getDocument()->addScriptDeclaration('jQuery(function () {
+			jQuery("#system-debug").draggable({
+				handle: "h1",
+				start: function( event, ui ) {
+					jQuery("#system-debug").css("top", "auto");
+					}
+				});
+			});');
 	}
 
 	/**
@@ -238,7 +249,7 @@ class PlgSystemDebug extends JPlugin
 			e.style.display = (e.style.display == 'none') ? 'block' : 'none';
 		}</script>";
 
-		$html[] = '<div id="system-debug" class="profiler">';
+		$html[] = '<div id="system-debug" draggable="true" class="profiler">';
 
 		$html[] = '<h1>' . JText::_('PLG_DEBUG_TITLE') . '</h1>';
 
