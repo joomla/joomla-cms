@@ -91,7 +91,7 @@ class ModBreadCrumbsHelper
 			}
 			else
 			{
-				$_separator = JHtml::_('image', 'system/arrow.png',null, array('width' => '9px', 'height' => '9px'), true);
+				$_separator = JHtml::_('image', 'system/arrow.png', null, array('width' => '9px', 'height' => '9px'), true);
 			}
 		}
 		else
