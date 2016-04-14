@@ -14,11 +14,10 @@ div#system-debug {
 	border: 1px solid silver;
 	padding: 0 !important;
 	position: fixed;
-	top: 0;
+	top: 2em;
 	right: 1em;
 	min-width: 20em;
-	max-width: 20em;
-	z-index: 1039;
+	z-index: 1030;
 }
 
 #system-debug-container {
@@ -61,7 +60,8 @@ div#system-debug {
 	padding: 10px;
 	overflow-y: scroll;
 	max-height: 350px;
-	min-width: 80em;
+	min-width: 90em;
+	max-width: 90em;
 	display: none;
 }
 
@@ -246,7 +246,7 @@ div#system-debug {
 }
 
 
-@media (max-height: 680px) {
+@media (max-height: 650px), (max-width: 1260px) {
 	#system-debug {
 		position: relative;
 		top: auto;
