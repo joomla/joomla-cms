@@ -19,7 +19,7 @@
 	</files>
 	<updateservers>
 		<server type="collection" priority="1" name="Accredited Joomla! Translations">
-			http://update.joomla.org/language/translationlist_3.xml
+			https://update.joomla.org/language/translationlist_3.xml
 		</server>
 	</updateservers>
 </extension>
