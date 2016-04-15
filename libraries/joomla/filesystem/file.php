@@ -440,6 +440,68 @@ class JFile
 	}
 
 	/**
+	 * Append contents to a file
+	 *
+	 * @param   string   $file         The full file path
+	 * @param   string   &$buffer      The buffer to write
+	 * @param   boolean  $use_streams  Use streams
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.4
+	 */
+	public static function append($file, &$buffer, $use_streams = false)
+	{
+		@set_time_limit(ini_get('max_execution_time'));
+
+		// If the file doesn't exist, just write instead of append
+		if (!file_exists($file))
+		{
+			return self::write($file, $buffer, $use_streams);
+		}
+
+		if ($use_streams)
+		{
+			$stream = JFactory::getStream();
+
+			// Beef up the chunk size to a meg
+			$stream->set('chunksize', (1024 * 1024));
+
+			if ($stream->open($file, 'ab') && $stream->write($buffer) && $stream->close())
+			{
+				return true;
+			}
+
+			JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_WRITE_STREAMS', $file, $stream->getError()), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+		else
+		{
+			// Initialise variables.
+			$FTPOptions = JClientHelper::getCredentials('ftp');
+
+			if ($FTPOptions['enabled'] == 1)
+			{
+				// Connect the FTP client
+				jimport('joomla.client.ftp');
+				$ftp = JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+
+				// Translate path for the FTP account and use FTP write buffer to file
+				$file = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
+				$ret = $ftp->append($file, $buffer);
+			}
+			else
+			{
+				$file = JPath::clean($file);
+				$ret = is_int(file_put_contents($file, $buffer, FILE_APPEND));
+			}
+
+			return $ret;
+		}
+	}
+
+	/**
 	 * Moves an uploaded file to a destination folder
 	 *
 	 * @param   string   $src              The name of the php (temporary) uploaded file
