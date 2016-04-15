@@ -74,20 +74,21 @@ $script[] = "   $('#" . $selector . "').on('shown.bs.modal', function() {";
 $script[] = "       $('body').addClass('modal-open');";
 
 // Get height of the modal elements.
-$script[] = "       var modalHeaderHeight = $('div.modal-header:visible').outerHeight(true);";
-$script[] = "       var modalBodyHeightOuter = $('div.modal-body:visible').outerHeight(true);";
-$script[] = "       var modalBodyHeight = $('div.modal-body:visible').height();";
-$script[] = "       var modalFooterHeight = $('div.modal-footer:visible').outerHeight(true);";
+$script[] = "       var modalHeight = $('div.modal:visible').outerHeight(true),";
+$script[] = "           modalHeaderHeight = $('div.modal-header:visible').outerHeight(true),";
+$script[] = "           modalBodyHeightOuter = $('div.modal-body:visible').outerHeight(true),";
+$script[] = "           modalBodyHeight = $('div.modal-body:visible').height(),";
+$script[] = "           modalFooterHeight = $('div.modal-footer:visible').outerHeight(true),";
 
 // Get padding top (jQuery position().top not working on iOS devices and webkit browsers, so use of Javascript instead)
-$script[] = "       var padding = document.getElementById('" . $selector . "').offsetTop;";
+$script[] = "           padding = document.getElementById('" . $selector . "').offsetTop,";
 
 // Calculate max-height of the modal, adapted to window viewport height.
-$script[] = "       var maxModalHeight = ($(window).height()-(padding*2));";
+$script[] = "           maxModalHeight = ($(window).height()-(padding*2)),";
 
 // Calculate max-height for modal-body.
-$script[] = "       var modalBodyPadding = (modalBodyHeightOuter-modalBodyHeight);";
-$script[] = "       var maxModalBodyHeight = maxModalHeight-(modalHeaderHeight+modalFooterHeight+modalBodyPadding);";
+$script[] = "           modalBodyPadding = (modalBodyHeightOuter-modalBodyHeight),";
+$script[] = "           maxModalBodyHeight = maxModalHeight-(modalHeaderHeight+modalFooterHeight+modalBodyPadding);";
 
 if (isset($params['url']))
 {
@@ -108,7 +109,7 @@ if (isset($params['url']))
 else
 {
 	// Set max-height for modal-body if needed, to adapt to viewport height.
-	$script[] = "       if (modalBodyHeight > maxModalBodyHeight){;";
+	$script[] = "       if (modalHeight > maxModalHeight){;";
 	$script[] = "           $('.modal-body').css({'max-height': maxModalBodyHeight, 'overflow-y': 'auto'});";
 	$script[] = "       }";
 }
