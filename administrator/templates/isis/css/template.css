@@ -1632,7 +1632,6 @@ legend + .control-group {
 .form-horizontal .control-group {
 	margin-bottom: 18px;
 	*zoom: 1;
-        padding-top: 12px;
 }
 .form-horizontal .control-group:before,
 .form-horizontal .control-group:after {
