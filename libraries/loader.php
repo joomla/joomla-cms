@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -606,33 +606,38 @@ abstract class JLoader
 	}
 }
 
-/**
- * Global application exit.
- *
- * This function provides a single exit point for the platform.
- *
- * @param   mixed  $message  Exit code or string. Defaults to zero.
- *
- * @return  void
- *
- * @codeCoverageIgnore
- * @since   11.1
- */
-function jexit($message = 0)
+// Check if jexit is defined first (our unit tests mock this)
+if (!function_exists('jexit'))
 {
-	exit($message);
+	/**
+	 * Global application exit.
+	 *
+	 * This function provides a single exit point for the platform.
+	 *
+	 * @param   mixed  $message  Exit code or string. Defaults to zero.
+	 *
+	 * @return  void
+	 *
+	 * @codeCoverageIgnore
+	 * @since   11.1
+	 */
+	function jexit($message = 0)
+	{
+		exit($message);
+	}
 }
 
 /**
  * Intelligent file importer.
  *
  * @param   string  $path  A dot syntax path.
+ * @param   string  $base  Search this directory for the class.
  *
  * @return  boolean  True on success.
  *
  * @since   11.1
  */
-function jimport($path)
+function jimport($path, $base = null)
 {
-	return JLoader::import($path);
+	return JLoader::import($path, $base);
 }

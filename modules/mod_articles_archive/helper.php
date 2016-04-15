@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_archive
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,8 +72,8 @@ class ModArchiveHelper
 			$created_month = $date->format('n');
 			$created_year  = $date->format('Y');
 
-			$created_year_cal = JHTML::_('date', $row->created, 'Y');
-			$month_name_cal   = JHTML::_('date', $row->created, 'F');
+			$created_year_cal = JHtml::_('date', $row->created, 'Y');
+			$month_name_cal   = JHtml::_('date', $row->created, 'F');
 
 			$lists[$i] = new stdClass;
 

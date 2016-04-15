@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,7 +58,13 @@ class InstallationModelLanguages extends JModelBase
 		// Overrides application config and set the configuration.php file so tokens and database works.
 		JFactory::$config = null;
 		JFactory::getConfig(JPATH_SITE . '/configuration.php');
-		JFactory::$session = null;
+
+		/*
+		 * JFactory::getDbo() gets called during app bootup, and because of the "uniqueness" of the install app, the config doesn't get read
+		 * correctly at that point.  So, we have to reset the factory database object here so that we can get a valid database configuration.
+		 * The day we have proper dependency injection will be a glorious one.
+		 */
+		JFactory::$database = null;
 
 		parent::__construct();
 	}
@@ -100,7 +106,7 @@ class InstallationModelLanguages extends JModelBase
 			$query = $db->getQuery(true);
 
 			// Select the required fields from the updates table.
-			$query->select($db->qn(array('update_id', 'name', 'version')))
+			$query->select($db->qn(array('update_id', 'name', 'element', 'version')))
 				->from($db->qn('#__updates'))
 				->order($db->qn('name'));
 
@@ -224,7 +230,7 @@ class InstallationModelLanguages extends JModelBase
 	protected function getPackageUrl($remote_manifest)
 	{
 		$update = new JUpdate;
-		$update->loadFromXML($remote_manifest);
+		$update->loadFromXml($remote_manifest);
 		$package_url = trim($update->get('downloadurl', false)->_data);
 
 		return $package_url;

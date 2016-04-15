@@ -13,11 +13,20 @@ use Joomla\Session\Storage;
 /**
  * Memcache session storage handler for PHP
  *
- * @since  1.0
- * @deprecated  The joomla/session package is deprecated
+ * @since       1.0
+ * @deprecated  2.0  The Storage class chain will be removed
  */
 class Memcache extends Storage
 {
+	/**
+	 * Container for server data
+	 *
+	 * @var    array
+	 * @since  1.0
+	 * @deprecated  2.0
+	 */
+	protected $_servers = array();
+
 	/**
 	 * Constructor
 	 *
@@ -25,6 +34,7 @@ class Memcache extends Storage
 	 *
 	 * @since   1.0
 	 * @throws  \RuntimeException
+	 * @deprecated  2.0
 	 */
 	public function __construct($options = array())
 	{
@@ -32,8 +42,6 @@ class Memcache extends Storage
 		{
 			throw new \RuntimeException('Memcache Extension is not available', 404);
 		}
-
-		parent::__construct($options);
 
 		// This will be an array of loveliness
 		// @todo: multiple servers
@@ -43,6 +51,8 @@ class Memcache extends Storage
 				'port' => isset($options['memcache_server_port']) ? $options['memcache_server_port'] : 11211
 			)
 		);
+
+		parent::__construct($options);
 	}
 
 	/**
@@ -51,6 +61,7 @@ class Memcache extends Storage
 	 * @return  void
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0
 	 */
 	public function register()
 	{
@@ -61,9 +72,10 @@ class Memcache extends Storage
 	/**
 	 * Test to see if the SessionHandler is available.
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0
 	 */
 	static public function isSupported()
 	{

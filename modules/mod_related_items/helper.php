@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  mod_related_items
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_content/helpers/route.php';
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Helper for mod_related_items
@@ -25,7 +25,7 @@ abstract class ModRelatedItemsHelper
 	 *
 	 * @param   \Joomla\Registry\Registry  &$params  module parameters
 	 *
-	 * @return array
+	 * @return  array
 	 */
 	public static function getList(&$params)
 	{
@@ -35,6 +35,21 @@ abstract class ModRelatedItemsHelper
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$date = JFactory::getDate();
 		$maximum = (int) $params->get('maximum', 5);
+
+		// Get an instance of the generic articles model
+		JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models');
+		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+
+		if ($articles === false)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+
+			return array();
+		}
+
+		// Set application parameters in model
+		$appParams = $app->getParams();
+		$articles->setState('params', $appParams);
 
 		$option = $app->input->get('option');
 		$view = $app->input->get('view');
@@ -64,7 +79,7 @@ abstract class ModRelatedItemsHelper
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-				return;
+				return array();
 			}
 
 			// Explode the meta keys on a comma
@@ -137,6 +152,7 @@ abstract class ModRelatedItemsHelper
 				}
 
 				$db->setQuery($query, 0, $maximum);
+
 				try
 				{
 					$temp = $db->loadObjectList();
@@ -145,22 +161,36 @@ abstract class ModRelatedItemsHelper
 				{
 					JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-					return;
+					return array();
 				}
 
 				if (count($temp))
 				{
+					$articles_ids = array();
+
 					foreach ($temp as $row)
 					{
-						if ($row->cat_state == 1)
-						{
-							$row->route = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
-							$related[] = $row;
-						}
+						$articles_ids[] = $row->id;
 					}
+
+					$articles->setState('filter.article_id', $articles_ids);
+					$articles->setState('filter.published', 1);
+					$related = $articles->getItems();
 				}
 
 				unset ($temp);
+			}
+		}
+
+		if (count($related))
+		{
+			// Prepare data for display using display options
+			foreach ($related as &$item)
+			{
+				$item->slug    = $item->id . ':' . $item->alias;
+				$item->catslug = $item->catid . ':' . $item->category_alias;
+
+				$item->route = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 		}
 

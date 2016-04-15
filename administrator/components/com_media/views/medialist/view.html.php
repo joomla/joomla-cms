@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,31 +37,16 @@ class MediaViewMediaList extends JViewLegacy
 		// Do not allow cache
 		$app->allowCache(false);
 
-		JHtml::_('behavior.framework', true);
-
-		JFactory::getDocument()->addScriptDeclaration("
-		window.addEvent('domready', function()
-		{
-			window.parent.document.updateUploader();
-			$$('a.img-preview').each(function(el)
-			{
-				el.addEvent('click', function(e)
-				{
-					window.top.document.preview.fromElement(el);
-					return false;
-				});
-			});
-		});");
-
-		$images = $this->get('images');
+		$images    = $this->get('images');
 		$documents = $this->get('documents');
-		$folders = $this->get('folders');
-		$state = $this->get('state');
+		$folders   = $this->get('folders');
+		$videos    = $this->get('videos');
+		$state     = $this->get('state');
 
 		// Check for invalid folder name
 		if (empty($state->folder))
 		{
-			$dirname = JRequest::getVar('folder', '', '', 'string');
+			$dirname = JFactory::getApplication()->input->getPath('folder', '');
 
 			if (!empty($dirname))
 			{
@@ -70,11 +55,12 @@ class MediaViewMediaList extends JViewLegacy
 			}
 		}
 
-		$this->baseURL = JUri::root();
-		$this->images = &$images;
+		$this->baseURL   = JUri::root();
+		$this->images    = &$images;
 		$this->documents = &$documents;
-		$this->folders = &$folders;
-		$this->state = &$state;
+		$this->folders   = &$folders;
+		$this->state     = &$state;
+		$this->videos    = &$videos;
 
 		parent::display($tpl);
 	}
@@ -139,6 +125,27 @@ class MediaViewMediaList extends JViewLegacy
 		else
 		{
 			$this->_tmp_doc = new JObject;
+		}
+	}
+
+	/**
+	 * Set the active video
+	 *
+	 * @param   integer  $index  Doc position
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function setVideo($index = 0)
+	{
+		if (isset($this->videos[$index]))
+		{
+			$this->_tmp_video = &$this->videos[$index];
+		}
+		else
+		{
+			$this->_tmp_video = new JObject;
 		}
 	}
 }

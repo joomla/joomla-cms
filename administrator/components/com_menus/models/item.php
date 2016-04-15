@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,6 +28,14 @@ class MenusModelItem extends JModelAdmin
 	 * @since    3.4
 	 */
 	public $typeAlias = 'com_menus.item';
+
+	/**
+	 * The context used for the associations table
+	 *
+	 * @var      string
+	 * @since    3.4.4
+	 */
+	protected $associationsContext = 'com_menus.item';
 
 	/**
 	 * @var        string    The prefix to use with controller messages.
@@ -237,11 +245,11 @@ class MenusModelItem extends JModelAdmin
 			$table->setLocation($table->parent_id, 'last-child');
 
 			// TODO: Deal with ordering?
-			// $table->ordering	= 1;
+			// $table->ordering = 1;
 			$table->level = null;
-			$table->lft = null;
-			$table->rgt = null;
-			$table->home = 0;
+			$table->lft   = null;
+			$table->rgt   = null;
+			$table->home  = 0;
 
 			// Alter the title & alias
 			list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
@@ -310,12 +318,12 @@ class MenusModelItem extends JModelAdmin
 	protected function batchMove($value, $pks, $contexts)
 	{
 		// $value comes as {menutype}.{parent_id}
-		$parts = explode('.', $value);
+		$parts    = explode('.', $value);
 		$menuType = $parts[0];
 		$parentId = (int) JArrayHelper::getValue($parts, 1, 0);
 
 		$table = $this->getTable();
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Check that the parent exists.
@@ -945,7 +953,7 @@ class MenusModelItem extends JModelAdmin
 				if (!$formFile && (strpos($layout, ':') > 0))
 				{
 					$temp = explode(':', $layout);
-					$templatePath = JPATH::clean(JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $option . '/' . $view . '/' . $temp[1] . '.xml');
+					$templatePath = JPath::clean(JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $option . '/' . $view . '/' . $temp[1] . '.xml');
 
 					if (is_file($templatePath))
 					{
@@ -1269,7 +1277,6 @@ class MenusModelItem extends JModelAdmin
 		$this->setState('item.menutype', $table->menutype);
 
 		// Load associated menu items
-		$app = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
 
 		if ($assoc)
@@ -1277,9 +1284,12 @@ class MenusModelItem extends JModelAdmin
 			// Adding self to the association
 			$associations = $data['associations'];
 
+			// Unset any invalid associations
+			$associations = Joomla\Utilities\ArrayHelper::toInteger($associations);
+
 			foreach ($associations as $tag => $id)
 			{
-				if (empty($id))
+				if (!$id)
 				{
 					unset($associations[$tag]);
 				}
@@ -1299,7 +1309,7 @@ class MenusModelItem extends JModelAdmin
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->delete('#__associations')
-				->where('context=' . $db->quote('com_menus.item'))
+				->where('context=' . $db->quote($this->associationsContext))
 				->where('id IN (' . implode(',', $associations) . ')');
 			$db->setQuery($query);
 
@@ -1323,7 +1333,7 @@ class MenusModelItem extends JModelAdmin
 
 				foreach ($associations as $id)
 				{
-					$query->values($id . ',' . $db->quote('com_menus.item') . ',' . $db->quote($key));
+					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
 				}
 
 				$db->setQuery($query);

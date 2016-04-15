@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,7 +36,7 @@ class JFormFieldRepeatable extends JFormField
 	{
 		// Initialize variables.
 		$subForm = new JForm($this->name, array('control' => 'jform'));
-		$xml = $this->element->children()->asXML();
+		$xml = $this->element->children()->asXml();
 		$subForm->load($xml);
 
 		// Needed for repeating modals in gmaps
