@@ -4,16 +4,12 @@
 		<field
 			name="search"
 			type="text"
-			label="COM_CONTENT_FILTER_SEARCH_DESC"
-			description="COM_CONTENT_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 			class="js-stools-search-string"
 		/>
 		<field
 			name="published"
 			type="status"
-			label="COM_CONTENT_FILTER_PUBLISHED"
-			description="COM_CONTENT_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -21,9 +17,7 @@
 		<field
 			name="category_id"
 			type="category"
-			label="JOPTION_FILTER_CATEGORY"
 			extension="com_content"
-			description="JOPTION_FILTER_CATEGORY_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
@@ -31,8 +25,6 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_FILTER_ACCESS"
-			description="JOPTION_FILTER_ACCESS_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -40,8 +32,6 @@
 		<field
                 	name="author_id"
                 	type="author"
-                	label="COM_CONTENT_FILTER_AUTHOR"
-                	description="COM_CONTENT_FILTER_AUTHOR_DESC"
                 	onchange="this.form.submit();"
                 	>
         		<option value="">JOPTION_SELECT_AUTHOR</option>
@@ -49,8 +39,6 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_FILTER_LANGUAGE"
-			description="JOPTION_FILTER_LANGUAGE_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -60,8 +48,6 @@
 			name="tag"
 			type="tag"
 			mode="nested"
-			label="JOPTION_FILTER_TAG"
-			description="JOPTION_FILTER_TAG_DESC"
 			onchange="this.form.submit();"
 		>
 			<option value="">JOPTION_SELECT_TAG</option>
@@ -72,9 +58,7 @@
                 	first="1"
                 	last="10"
                 	step="1"
-                	label="JOPTION_FILTER_LEVEL"
                 	languages="*"
-                	description="JOPTION_FILTER_LEVEL_DESC"
                 	onchange="this.form.submit();"
                 	>
         		<option value="">JOPTION_SELECT_MAX_LEVELS</option>
@@ -84,8 +68,6 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="COM_CONTENT_LIST_FULL_ORDERING"
-			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
 			default="a.title ASC"
 			>
@@ -116,8 +98,6 @@
 			type="limitbox"
 			class="input-mini"
 			default="25"
-			label="COM_CONTENT_LIST_LIMIT"
-			description="COM_CONTENT_LIST_LIMIT_DESC"
 			onchange="this.form.submit();"
 		/>
 	</fields>
