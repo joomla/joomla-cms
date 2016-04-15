@@ -4,11 +4,15 @@
 		<field
 			name="search"
 			type="text"
+			label="COM_CONTACT_FILTER_SEARCH_DESC"
+			description="COM_CONTACT_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 		<field
 			name="published"
 			type="status"
+			label="JOPTION_SELECT_PUBLISHED"
+			description="JOPTION_SELECT_PUBLISHED_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -16,6 +20,8 @@
 		<field
 			name="category_id"
 			type="category"
+			label="JOPTION_FILTER_CATEGORY"
+			description="JOPTION_FILTER_CATEGORY_DESC"
 			extension="com_contact"
 			published="0,1,2"
 			onchange="this.form.submit();"
@@ -25,6 +31,8 @@
 		<field
 			name="access"
 			type="accesslevel"
+			label="JOPTION_FILTER_ACCESS"
+			description="JOPTION_FILTER_ACCESS_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -32,6 +40,8 @@
 		<field
 			name="language"
 			type="contentlanguage"
+			label="JOPTION_FILTER_LANGUAGE"
+			description="JOPTION_FILTER_LANGUAGE_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -40,6 +50,8 @@
 		<field
 			name="tag"
 			type="tag"
+			label="JOPTION_FILTER_TAG"
+			description="JOPTION_FILTER_TAG_DESC"
 			mode="nested"
 			onchange="this.form.submit();"
 			>
@@ -50,6 +62,8 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="COM_CONTACT_LIST_FULL_ORDERING"
+			description="COM_CONTACT_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
 			default="a.name ASC"
 			>
@@ -78,6 +92,8 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="COM_CONTACT_LIST_LIMIT"
+			description="COM_CONTACT_LIST_LIMIT_DESC"
 			class="input-mini"
 			default="25"
 			onchange="this.form.submit();"

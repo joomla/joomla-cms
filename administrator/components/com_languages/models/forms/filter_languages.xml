@@ -26,11 +26,13 @@
 	</fields>
 	<fields name="list">
 		<field
-				name="sortTable"
-				type="list"
-				onchange="Joomla.orderTable();"
-				default="a.id DESC"
-				>
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			description="JGLOBAL_SORT_BY"
+			onchange="this.form.submit();"
+			default="a.ordering ASC"
+			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
@@ -53,17 +55,6 @@
 			<option value="a.lang_id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.lang_id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
-
-		<field
-				name="directionTable"
-				type="list"
-				onchange="Joomla.tableOrdering();"
-				>
-			<option value="">JGLOBAL_ORDER_DIRECTION_LABEL</option>
-			<option value="asc">JGLOBAL_ORDER_ASCENDING</option>
-			<option value="desc">JGLOBAL_ORDER_DESCENDING</option>
-		</field>
-
 		<field
 			name="limit"
 			type="limitbox"
