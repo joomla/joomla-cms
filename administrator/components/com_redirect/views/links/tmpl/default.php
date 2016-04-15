@@ -123,7 +123,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endforeach; ?>
 				</tbody>
 			</table>
-			<?php // Load the batch processing form if user is allowed ?>
+		<?php endif; ?>
+
+		<?php if (!empty($this->items)) : ?>
+			<?php echo $this->loadTemplate('addform'); ?>
+		<?php endif; ?>
+		<?php // Load the batch processing form if user is allowed ?>
 			<?php if ($user->authorise('core.create', 'com_redirect')
 				&& $user->authorise('core.edit', 'com_redirect')
 				&& $user->authorise('core.edit.state', 'com_redirect')) : ?>
@@ -137,11 +142,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					$this->loadTemplate('batch_body')
 				); ?>
 			<?php endif;?>
-		<?php endif; ?>
-
-		<?php if (!empty($this->items)) : ?>
-			<?php echo $this->loadTemplate('addform'); ?>
-		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
