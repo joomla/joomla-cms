@@ -107,31 +107,12 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$plugin = JPluginHelper::getPlugin('user', 'joomla');
-		$pluginParams = new Registry($plugin->params);
-
 		// Get the form.
 		$form = $this->loadForm('com_users.user', 'user', array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form))
 		{
 			return false;
-		}
-
-		// Passwords fields are required when mail to user is set to No in joomla user plugin
-		$userId = $form->getValue('id');
-
-		if ($userId === 0 && $pluginParams->get('mail_to_user') === "0")
-		{
-			$form->setFieldAttribute('password', 'required', 'true');
-			$form->setFieldAttribute('password2', 'required', 'true');
-		}
-
-		// If the user needs to change their password, mark the password fields as required
-		if (JFactory::getUser()->requireReset)
-		{
-			$form->setFieldAttribute('password', 'required', 'true');
-			$form->setFieldAttribute('password2', 'required', 'true');
 		}
 
 		// When multilanguage is set, a user's default site language should also be a Content Language
@@ -141,6 +122,8 @@ class UsersModelUser extends JModelAdmin
 		}
 
 		// The user should not be able to set the requireReset value on their own account
+		$userId = $form->getValue('id');
+
 		if ((int) $userId === (int) JFactory::getUser()->id)
 		{
 			$form->removeField('requireReset');
@@ -187,6 +170,24 @@ class UsersModelUser extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'user')
 	{
+		// Passwords fields are required when mail to user is set to No in joomla user plugin
+		$userId = $form->getValue('id');
+		$plugin = JPluginHelper::getPlugin('user', 'joomla');
+		$pluginParams = new Registry($plugin->params);
+
+		if ($userId === 0 && $pluginParams->get('mail_to_user') === "0")
+		{
+			$form->setFieldAttribute('password', 'required', 'true');
+			$form->setFieldAttribute('password2', 'required', 'true');
+		}
+
+		// If the user needs to change their password, mark the password fields as required
+		if (JFactory::getUser()->requireReset)
+		{
+			$form->setFieldAttribute('password', 'required', 'true');
+			$form->setFieldAttribute('password2', 'required', 'true');
+		}
+
 		parent::preprocessForm($form, $data, $group);
 	}
 
