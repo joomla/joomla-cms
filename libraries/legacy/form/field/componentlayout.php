@@ -231,9 +231,15 @@ class JFormFieldComponentlayout extends JFormField
 				}
 			}
 
+			// Default to the class "advancedSelect" to support Chosen.
+			if (empty($this->class))
+			{
+				$this->class = 'advancedSelect';
+			}
+
 			// Compute attributes for the grouped list
 			$attr = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-			$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+			$attr .= $this->class ? ' class="' . $this->class . '"' : '';
 
 			// Prepare HTML code
 			$html = array();
