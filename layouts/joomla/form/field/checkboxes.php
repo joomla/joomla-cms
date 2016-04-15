@@ -84,6 +84,6 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
 		<label for="<?php echo $oid; ?>" class="checkbox">
 			<?php echo sprintf($format, $oid, $name, $value, implode(' ', $attributes)); ?>
-		<?php echo JText::alt($option->text, $alt); ?></label>
+		<?php echo $option->text; ?></label>
 	<?php endforeach; ?>
 </fieldset>
