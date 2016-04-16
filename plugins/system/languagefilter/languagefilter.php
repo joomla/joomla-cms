@@ -396,12 +396,12 @@ class PlgSystemLanguageFilter extends JPlugin
 				{
 					$uri->setPath('index.php/' . $uri->getPath());
 				}
-				$this->app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')));
+				$this->app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')), 301);
 			}
 			else
 			{
 				$uri->setVar('lang', $this->lang_codes[$lang_code]->sef);
-				$this->app->redirect($uri->base() . 'index.php?' . $uri->getQuery());
+				$this->app->redirect($uri->base() . 'index.php?' . $uri->getQuery(), 301);
 			}
 		}
 
