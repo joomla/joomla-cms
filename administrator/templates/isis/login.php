@@ -84,18 +84,6 @@ function colorIsLight($color)
 				padding: 4px 10px 4px;
 			}
 		}
-		<?php // Check if debug is on ?>
-		<?php if ($app->get('debug_lang', 1) || $app->get('debug', 1)) : ?>
-		.view-login .container {
-			position: static;
-			margin-top: 20px;
-			margin-left: auto;
-			margin-right: auto;
-		}
-		.view-login .navbar-fixed-bottom {
-			display: none;
-		}
-		<?php endif; ?>
 	</style>
 	<!--[if lt IE 9]>
 		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>

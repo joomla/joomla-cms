@@ -259,11 +259,11 @@ div#system-debug {
 
 @media (max-height: 650px), (max-width: 1260px) {
 	#system-debug {
-		position: relative;
+		position: initial;
 		top: initial;
 		right: initial;
 		min-width: initial;
-		width: 100% !important;
+		width: initial;
 	}
 
 	#system-debug.short {
@@ -286,5 +286,19 @@ div#system-debug {
 		overflow-y: initial;
 		max-height: initial;
 		min-width: initial;
+	}
+
+	/* Vertical top align the login screen in admin login pages */
+	.view-login .container {
+		position: relative !important;
+		margin-top: 20px !important;
+		margin-left: auto !important;
+		margin-right: auto !important;
+		top: initial !important;
+		left: initial !important;
+	}
+
+	.view-login .navbar-fixed-bottom {
+		display: none;
 	}
 }
