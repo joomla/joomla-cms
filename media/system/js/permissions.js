@@ -8,7 +8,6 @@ function sendPermissions(event) {
 	icon.setAttribute('style', 'background: url(../media/system/images/modal/spinner.gif); display: inline-block; width: 16px; height: 16px');
 
 	//get values and prepare GET-Parameter
-	var id = this.id.split('_');
 	var asset = 'not';
 	var component = getUrlParam('component');
 	var extension = getUrlParam('extension');
@@ -33,7 +32,11 @@ function sendPermissions(event) {
 		title = document.getElementById('jform_title').value;
 	}
 
-	var data = '&comp=' + asset + '&action=' + id[2] + '&rule=' + id[3] + '&value=' + value + '&title=' + title;
+	var id = this.id.replace('jform_rules_', '');
+	var lastUnderscoreIndex = id.lastIndexOf('_');
+	var action = id.substring(0, lastUnderscoreIndex);
+	var rule = id.substring(lastUnderscoreIndex + 1);
+	var data = '&comp=' + asset + '&action=' + action + '&rule=' + rule + '&value=' + value + '&title=' + title;
 	var url = 'index.php?option=com_config&task=config.store&format=raw' + data;
 
 	// doing ajax request

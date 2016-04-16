@@ -36,7 +36,7 @@ class ContactModelContacts extends JModelList
 				'alias', 'a.alias',
 				'checked_out', 'a.checked_out',
 				'checked_out_time', 'a.checked_out_time',
-				'catid', 'a.catid', 'category_title',
+				'catid', 'a.catid', 'category_id', 'category_title',
 				'user_id', 'a.user_id',
 				'published', 'a.published',
 				'access', 'a.access', 'access_level',
@@ -44,10 +44,11 @@ class ContactModelContacts extends JModelList
 				'created_by', 'a.created_by',
 				'ordering', 'a.ordering',
 				'featured', 'a.featured',
-				'language', 'a.language',
+				'language', 'a.language', 'language_title',
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
 				'ul.name', 'linked_user',
+				'tag',
 			);
 
 			$assoc = JLanguageAssociations::isEnabled();
@@ -77,41 +78,35 @@ class ContactModelContacts extends JModelList
 	{
 		$app = JFactory::getApplication();
 
+		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
+
 		// Adjust the context to support modal layouts.
 		if ($layout = $app->input->get('layout'))
 		{
 			$this->context .= '.' . $layout;
 		}
 
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', 0, 'int');
-		$this->setState('filter.access', $access);
-
-		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
-		$this->setState('filter.published', $published);
-
-		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
-		$this->setState('filter.category_id', $categoryId);
-
-		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
-		$this->setState('filter.language', $language);
-
-		// Force a language.
-		$forcedLanguage = $app->input->get('forcedLanguage');
-
-		if (!empty($forcedLanguage))
+		// Adjust the context to support forced languages.
+		if ($forcedLanguage)
 		{
-			$this->setState('filter.language', $forcedLanguage);
-			$this->setState('filter.forcedLanguage', $forcedLanguage);
+			$this->context .= '.' . $forcedLanguage;
 		}
 
-		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
-		$this->setState('filter.tag', $tag);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.published', $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '', 'string'));
+		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '', 'string'));
+		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', null, 'int'));
+		$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'cmd'));
+		$this->setState('filter.tag', $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '', 'string'));
 
 		// List state information.
 		parent::populateState($ordering, $direction);
+
+		// Force a language.
+		if (!empty($forcedLanguage))
+		{
+			$this->setState('filter.language', $forcedLanguage);
+		}
 	}
 
 	/**
@@ -131,10 +126,11 @@ class ContactModelContacts extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.published');
 		$id .= ':' . $this->getState('filter.category_id');
+		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . $this->getState('filter.tag');
 
 		return parent::getStoreId($id);
 	}
