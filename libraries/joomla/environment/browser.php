@@ -246,7 +246,7 @@ class JBrowser
 				}
 			}
 
-			 // Opera 15+
+			// Opera 15+
 			elseif (preg_match('|OPR[/ ]([0-9.]+)|', $this->agent, $version))
 			{
 				$this->setBrowser('opera');
