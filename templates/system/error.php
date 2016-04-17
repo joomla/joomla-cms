@@ -21,20 +21,23 @@ $app             = JFactory::getApplication();
 $this->language  = $doc->language;
 $this->direction = $doc->direction;
 
-// Output as HTML5
-$doc->setHtml5(true);
+// Output document as HTML5.
+if (is_callable(array($doc, 'setHtml5')))
+{
+	$doc->setHtml5(true);
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta charset="utf-8" />
 	<title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error.css" />
 	<?php if ($this->direction == 'rtl') : ?>
-		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error_rtl.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error_rtl.css" />
 	<?php endif; ?>
 	<?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>
-		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/cms/css/debug.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/cms/css/debug.css" />
 	<?php endif; ?>
 	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>

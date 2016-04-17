@@ -22,8 +22,11 @@ $this->direction = $doc->direction;
 $input           = $app->input;
 $user            = JFactory::getUser();
 
-// Output as HTML5
-$doc->setHtml5(true);
+// Output document as HTML5.
+if (is_callable(array($doc, 'setHtml5')))
+{
+	$doc->setHtml5(true);
+}
 
 // Detecting Active Variables
 $option   = $input->get('option', '');
@@ -71,22 +74,22 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
 	<?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>
 		<!-- Load additional CSS styles for debug mode-->
-		<link rel="stylesheet" href="<?php echo JUri::root(); ?>/media/cms/css/debug.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo JUri::root(); ?>/media/cms/css/debug.css" />
 	<?php endif; ?>
 	<?php // If Right-to-Left ?>
 	<?php if ($this->direction == 'rtl') : ?>
-		<link rel="stylesheet" href="<?php echo JUri::root(); ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo JUri::root(); ?>/media/jui/css/bootstrap-rtl.css" />
 	<?php endif; ?>
 	<?php // Load specific language related CSS ?>
 	<?php $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css'; ?>
 	<?php if (is_file($file)) : ?>
-		<link rel="stylesheet" href="<?php echo $file; ?>" type="text/css" />
+		<link rel="stylesheet" href="<?php echo $file; ?>" />
 	<?php endif; ?>
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template<?php echo ($this->direction == 'rtl' ? '-rtl' : ''); ?>.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template<?php echo ($this->direction == 'rtl' ? '-rtl' : ''); ?>.css" />
 	<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 	<?php // Template color ?>
 	<?php if ($params->get('templateColor')) : ?>
-	<style type="text/css">
+	<style>
 		.navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle
 		{
 			background: <?php echo $params->get('templateColor');?>;
@@ -100,7 +103,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<?php endif; ?>
 	<?php // Template header color ?>
 	<?php if ($params->get('headerColor')) : ?>
-	<style type="text/css">
+	<style>
 		.header
 		{
 			background: <?php echo $params->get('headerColor');?>;
@@ -109,16 +112,16 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<?php endif; ?>
 	<?php // Sidebar background color ?>
 	<?php if ($params->get('sidebarColor')) : ?>
-		<style type="text/css">
+		<style>
 			.nav-list > .active > a, .nav-list > .active > a:hover {
 				background: <?php echo $params->get('sidebarColor'); ?>;
 			}
 		</style>
 	<?php endif; ?>
-	<script src="<?php echo JUri::root(true); ?>/media/jui/js/jquery.js" type="text/javascript"></script>
-	<script src="<?php echo JUri::root(true); ?>/media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
-	<script src="<?php echo JUri::root(true); ?>/media/jui/js/bootstrap.js" type="text/javascript"></script>
-	<script src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/js/template.js" type="text/javascript"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/jquery.js"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/jquery-noconflict.js"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/bootstrap.js"></script>
+	<script src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/js/template.js"></script>
 	<!--[if lt IE 9]>
 		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
 	<![endif]-->

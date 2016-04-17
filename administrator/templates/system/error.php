@@ -9,15 +9,21 @@
 
 defined('_JEXEC') or die;
 
-// Output as HTML5
-JFactory::getDocument()->setHtml5(true);
+$app = JFactory::getApplication();
+$doc = JFactory::getDocument();
+
+// Output document as HTML5.
+if (is_callable(array($doc, 'setHtml5')))
+{
+	$doc->setHtml5(true);
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 <head>
 	<meta charset="utf-8" />
 	<title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
-	<link rel="stylesheet" href="templates/system/css/error.css" type="text/css" />
+	<link rel="stylesheet" href="templates/system/css/error.css" />
 	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body>

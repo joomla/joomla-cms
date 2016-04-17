@@ -15,61 +15,63 @@ $showbottom      = 0;
 
 // Get params
 $app         = JFactory::getApplication();
+$doc         = JFactory::getDocument();
 $params      = $app->getTemplate(true)->params;
 $logo        = $params->get('logo');
 $color       = $params->get('templatecolor');
 $navposition = $params->get('navposition');
 
 // Get language and direction
-$doc             = JFactory::getDocument();
 $this->language  = $doc->language;
 $this->direction = $doc->direction;
 
-// Output as HTML5
-$doc->setHtml5(true);
+// Output document as HTML5.
+if (is_callable(array($doc, 'setHtml5')))
+{
+	$doc->setHtml5(true);
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta charset="utf-8" />
 	<title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/system.css" type="text/css" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error.css" type="text/css" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/position.css" type="text/css" media="screen" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/layout.css" type="text/css" media="screen" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/print.css" type="text/css" media="Print" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color); ?>.css" type="text/css" />
-
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/system.css" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error.css" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/position.css" media="screen" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/layout.css" media="screen" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/print.css" media="Print" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color); ?>.css" />
 	<?php $files = JHtml::_('stylesheet', 'templates/' . $this->template . '/css/general.css', null, false, true); ?>
 	<?php if ($files) : ?>
 		<?php if (!is_array($files)) : ?>
 			<?php $files = array($files); ?>
 		<?php endif; ?>
 	<?php foreach ($files as $file) : ?>
-		<link rel="stylesheet" href="<?php echo $file; ?>" type="text/css" />
+		<link rel="stylesheet" href="<?php echo $file; ?>" />
 	<?php endforeach; ?>
 	<?php endif; ?>
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color); ?>.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color); ?>.css" />
 	<?php if ($this->direction == 'rtl') : ?>
-		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template_rtl.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template_rtl.css" />
 		<?php if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css')) : ?>
-			<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo $color ?>_rtl.css" type="text/css" />
+			<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo $color ?>_rtl.css" />
 		<?php endif; ?>
 	<?php endif; ?>
 	<?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>
-		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/cms/css/debug.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/media/cms/css/debug.css" />
 	<?php endif; ?>
 	<!--[if lte IE 6]>
-		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ieonly.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ieonly.css" rel="stylesheet" />
 	<![endif]-->
 	<!--[if IE 7]>
-		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" rel="stylesheet" type="text/css" />
+		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" rel="stylesheet" />
 	<![endif]-->
 	<!--[if lt IE 9]>
 		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
 
-	<style type="text/css">
+	<style>
 	<!--
 		#errorboxbody
 		{margin:30px}
