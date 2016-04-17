@@ -25,16 +25,13 @@ $doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/tem
 
 // Load optional rtl Bootstrap css and Bootstrap bugfixes
 JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<jdoc:include type="head" />
-<!--[if lt IE 9]>
-	<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
-<![endif]-->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<jdoc:include type="head" />
+	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body class="contentpane modal">
 	<jdoc:include type="message" />

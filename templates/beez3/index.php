@@ -47,11 +47,11 @@ if (in_array($option, $bootstrap))
 }
 
 $doc->addStyleSheet($this->baseurl . '/templates/system/css/system.css');
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/position.css', $type = 'text/css', $media = 'screen');
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/layout.css', $type = 'text/css', $media = 'screen');
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/print.css', $type = 'text/css', $media = 'print');
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/general.css', $type = 'text/css', $media = 'screen');
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/' . htmlspecialchars($color) . '.css', $type = 'text/css', $media = 'screen');
+$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/position.css', 'text/css', 'screen');
+$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/layout.css', 'text/css', 'screen');
+$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/print.css', 'text/css', 'print');
+$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/general.css', 'text/css', 'screen');
+$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/' . htmlspecialchars($color) . '.css', 'text/css', 'screen');
 
 if ($this->direction == 'rtl')
 {
@@ -63,10 +63,10 @@ if ($this->direction == 'rtl')
 }
 
 JHtml::_('bootstrap.framework');
-$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/md_stylechanger.js', 'text/javascript');
-$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/hide.js', 'text/javascript');
-$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/respond.src.js', 'text/javascript');
-$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/template.js', 'text/javascript');
+$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/md_stylechanger.js');
+$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/hide.js');
+$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/respond.src.js');
+$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/template.js');
 
 // Check for a custom CSS file
 $userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
@@ -84,14 +84,12 @@ if (file_exists($userCss) && filesize($userCss) > 0)
 		<meta name="HandheldFriendly" content="true" />
 		<meta name="apple-mobile-web-app-capable" content="YES" />
 		<jdoc:include type="head" />
-		<!--[if IE 7]>
-		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" rel="stylesheet" type="text/css" />
-		<![endif]-->
+		<!--[if IE 7]><link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" /><![endif]-->
 		<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 	</head>
 	<body id="shadow">
 		<?php if ($color == 'image'):?>
-			<style type="text/css">
+			<style>
 				.logoheader {
 					background:url('<?php echo $this->baseurl . '/' . htmlspecialchars($headerImage); ?>') no-repeat right;
 				}
