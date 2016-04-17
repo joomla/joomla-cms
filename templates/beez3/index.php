@@ -75,6 +75,16 @@ if (file_exists($userCss) && filesize($userCss) > 0)
 {
 	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/user.css');
 }
+
+if ($color == 'image')
+{
+	$doc->addStyleDeclaration('.logoheader {
+					background:url(\'' . $this->baseurl . '/' . htmlspecialchars($headerImage) . '\') no-repeat right;
+				}
+				body {
+					background: ' . $templateparams->get('backgroundcolor') . ';
+				}');
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
@@ -88,17 +98,6 @@ if (file_exists($userCss) && filesize($userCss) > 0)
 		<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 	</head>
 	<body id="shadow">
-		<?php if ($color == 'image'):?>
-			<style>
-				.logoheader {
-					background:url('<?php echo $this->baseurl . '/' . htmlspecialchars($headerImage); ?>') no-repeat right;
-				}
-				body {
-					background: <?php echo $templateparams->get('backgroundcolor'); ?>;
-				}
-			</style>
-		<?php endif; ?>
-
 		<div id="all">
 			<div id="back">
 				<header id="header">

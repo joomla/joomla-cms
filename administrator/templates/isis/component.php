@@ -44,20 +44,18 @@ if (is_file($file))
 {
 	$doc->addStyleSheetVersion($file);
 }
+
+// Link color
+if ($this->params->get('linkColor'))
+{
+	$doc->addStyleDeclaration('a { color: ' . $this->params->get('linkColor') . '; }');
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<jdoc:include type="head" />
 	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
-	<!-- Link color -->
-	<?php if ($this->params->get('linkColor')) : ?>
-		<style>
-			a {
-				color: <?php echo $this->params->get('linkColor'); ?>;
-			}
-		</style>
-	<?php endif; ?>
 </head>
 <body class="contentpane component">
 	<jdoc:include type="message" />
